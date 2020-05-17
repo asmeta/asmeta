@@ -1,0 +1,4 @@
+  public boolean getIsDynamic()
+  {
+  	return this.isDynamic();
+  }

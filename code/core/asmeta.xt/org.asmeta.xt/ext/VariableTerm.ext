@@ -1,0 +1,3 @@
+  void setKind(org.asmeta.xt.validation.utility.VariableKind d);
+  
+  org.asmeta.xt.validation.utility.VariableKind getKind();

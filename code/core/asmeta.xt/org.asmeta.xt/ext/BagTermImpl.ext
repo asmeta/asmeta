@@ -1,0 +1,75 @@
+  public java.util.Collection<org.asmeta.xt.asmetal.Term> getTerm()
+  {
+  	java.util.List<org.asmeta.xt.asmetal.Term> termList = new java.util.ArrayList<org.asmeta.xt.asmetal.Term>();
+  	float stepVal = 0;
+  	float startTerm = 0;
+  	float endTerm = 0;
+	
+	if (this.start_term == null && this.end_term == null && (this.other_terms == null || this.other_terms.size() == 0))
+  		return termList;
+	
+	if (this.other_terms != null && this.other_terms.size()>0 && this.start_term != null) {
+		// All the terms are specified
+		termList.add(this.start_term);
+		if (this.end_term != null)
+			termList.add(this.end_term);
+		termList.addAll(other_terms);
+		return termList;
+  	}
+	
+	if (this.start_term != null && this.other_terms != null && this.other_terms.size() == 1 && this.end_term == null) {
+		// All the terms are specified
+		termList.add(this.start_term);
+		termList.addAll(other_terms);
+		return termList;
+  	}
+  	
+  	if (this.start_term != null && (this.other_terms == null || this.other_terms.size() == 0) && this.end_term == null) {
+		// Only the start term is specified
+		termList.add(this.start_term);
+		return termList;
+	}
+		
+	// A range is specified, so only Natural, Integer and Real can be used
+	if (!(this.start_term instanceof org.asmeta.xt.asmetal.NaturalTerm || this.start_term instanceof org.asmeta.xt.asmetal.NumberTerm))
+		throw new RuntimeException("The start term in a bag term used as a range can only be Integer, Natural or Real");
+	if (!(this.end_term instanceof org.asmeta.xt.asmetal.NaturalTerm || this.end_term instanceof org.asmeta.xt.asmetal.NumberTerm))
+		throw new RuntimeException("The start term in a bag term used as a range can only be Integer, Natural or Real");
+	
+	if (this.step != null) {
+		// The step has been specified
+		if (this.step instanceof org.asmeta.xt.asmetal.NaturalTerm || this.step instanceof org.asmeta.xt.asmetal.NumberTerm)
+			stepVal = Float.parseFloat(this.step.getSymbol().replace("n", ""));
+		else 
+			throw new RuntimeException("The step in a bag term can only be Integer, Natural or Real");
+	} else {
+		// Use step = 1
+		stepVal = 1;
+	}
+	
+	startTerm = Float.parseFloat(((org.asmeta.xt.asmetal.impl.ConstantTermImpl)this.start_term).getSymbol().replace("n", ""));
+	endTerm = Float.parseFloat(((org.asmeta.xt.asmetal.impl.ConstantTermImpl)this.end_term).getSymbol().replace("n", ""));		
+	
+	for (float i=startTerm; i<=endTerm; i+=stepVal) {
+		org.asmeta.xt.asmetal.Term newTerm;
+		if (this.start_term instanceof org.asmeta.xt.asmetal.NaturalTerm) {
+			newTerm = org.asmeta.xt.asmetal.AsmetalFactory.eINSTANCE.createNaturalTerm();
+			((org.asmeta.xt.asmetal.impl.NaturalTermImpl)newTerm).symbol = (int)i + "n";
+			termList.add(newTerm);
+		}
+		
+		if (this.start_term instanceof org.asmeta.xt.asmetal.IntegerTerm) {
+			newTerm = org.asmeta.xt.asmetal.AsmetalFactory.eINSTANCE.createIntegerTerm();
+			((org.asmeta.xt.asmetal.impl.IntegerTermImpl)newTerm).symbol = String.valueOf((int)i);
+			termList.add(newTerm);
+		}
+		
+		if (this.start_term instanceof org.asmeta.xt.asmetal.RealTerm) {
+			newTerm = org.asmeta.xt.asmetal.AsmetalFactory.eINSTANCE.createRealTerm();
+			((org.asmeta.xt.asmetal.impl.RealTermImpl)newTerm).symbol = String.valueOf(i);
+			termList.add(newTerm);
+		}
+	}
+	
+  	return termList;
+  }

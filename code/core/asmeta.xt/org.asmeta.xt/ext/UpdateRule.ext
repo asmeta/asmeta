@@ -1,0 +1,1 @@
+  void setLocation(org.asmeta.xt.asmetal.Term term);

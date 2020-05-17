@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/emf/src_gen"
+    editDirectory="/emf.edit/src_gen" modelPluginID="emf" modelName="AsmM" modelPluginClass=""
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>AsmM.ecore</foreignModel>
+  <foreignModel>AsmM1.ecore</foreignModel>
+  <genPackages prefix="Asmeta" disposableProviderFactory="true" ecorePackage="AsmM.ecore#/">
+    <nestedGenPackages prefix="Terms" basePackage="asmeta" disposableProviderFactory="true"
+        ecorePackage="AsmM.ecore#//terms">
+      <nestedGenPackages prefix="Furtherterms" basePackage="asmeta.terms" disposableProviderFactory="true"
+          ecorePackage="AsmM.ecore#//terms/furtherterms">
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/IntegerTerm"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/NaturalTerm"/>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//terms/furtherterms/VariableBindingTerm"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/StringTerm"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/SetCt"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/SequenceTerm">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//terms/furtherterms/SequenceTerm/terms"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/SequenceCt"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/RealTerm"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/MapTerm">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/MapTerm/pair"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/MapCt"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/LetTerm">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/LetTerm/variable"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/LetTerm/assignmentTerm"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/LetTerm/body"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/ForallTerm"/>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//terms/furtherterms/FiniteQuantificationTerm">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/FiniteQuantificationTerm/variable"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/FiniteQuantificationTerm/guard"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//terms/furtherterms/FiniteQuantificationTerm/ranges"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/ExistUniqueTerm"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/ExistTerm"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/EnumTerm"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/ConditionalTerm">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/ConditionalTerm/elseTerm"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/ConditionalTerm/guard"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/ConditionalTerm/thenTerm"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//terms/furtherterms/ComprehensionTerm">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/ComprehensionTerm/variable"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/ComprehensionTerm/guard"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/ComprehensionTerm/term"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//terms/furtherterms/ComprehensionTerm/ranges"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/ComplexTerm"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/CharTerm"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/CaseTerm">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/CaseTerm/comparingTerm"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/CaseTerm/comparedTerm"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/CaseTerm/otherwiseTerm"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//terms/furtherterms/CaseTerm/resultTerms"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/BagTerm">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/furtherterms/BagTerm/term"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//terms/furtherterms/BagCt"/>
+      </nestedGenPackages>
+      <nestedGenPackages prefix="Basicterms" basePackage="asmeta.terms" disposableProviderFactory="true"
+          ecorePackage="AsmM.ecore#//terms/basicterms">
+        <genEnums typeSafeEnumCompatible="false" ecoreEnum="AsmM.ecore#//terms/basicterms/VariableKind">
+          <genEnumLiterals ecoreEnumLiteral="AsmM.ecore#//terms/basicterms/VariableKind/logicalVar"/>
+          <genEnumLiterals ecoreEnumLiteral="AsmM.ecore#//terms/basicterms/VariableKind/locationVar"/>
+          <genEnumLiterals ecoreEnumLiteral="AsmM.ecore#//terms/basicterms/VariableKind/ruleVar"/>
+        </genEnums>
+        <genDataTypes ecoreDataType="AsmM.ecore#//terms/basicterms/TermDT"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/basicterms/VariableTerm">
+          <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference AsmM.ecore#//terms/basicterms/VariableTerm/finiteQuantificationTerm"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//terms/basicterms/VariableTerm/name"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//terms/basicterms/VariableTerm/kind"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//terms/basicterms/UndefTerm"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/basicterms/TupleTerm">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//terms/basicterms/TupleTerm/arity"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//terms/basicterms/TupleTerm/terms"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//terms/basicterms/SetTerm">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/basicterms/SetTerm/term"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//terms/basicterms/RuleAsTerm">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/basicterms/RuleAsTerm/rule"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//terms/basicterms/LocationTerm"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/basicterms/FunctionTerm">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//terms/basicterms/FunctionTerm/arguments"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/basicterms/FunctionTerm/function"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//terms/basicterms/ExtendedTerm"/>
+        <genClasses ecoreClass="AsmM.ecore#//terms/basicterms/DomainTerm"/>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//terms/basicterms/ConstantTerm">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//terms/basicterms/ConstantTerm/symbol"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//terms/basicterms/CollectionTerm">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//terms/basicterms/CollectionTerm/size"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//terms/basicterms/BooleanTerm"/>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//terms/basicterms/BasicTerm"/>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//terms/basicterms/Term">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/basicterms/Term/domain"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//terms/basicterms/Term/termAsRule"/>
+          <genOperations ecoreOperation="AsmM.ecore#//terms/basicterms/Term/compatible"/>
+        </genClasses>
+      </nestedGenPackages>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Structure" basePackage="asmeta" disposableProviderFactory="true"
+        ecorePackage="AsmM.ecore#//structure">
+      <genClasses image="false" ecoreClass="AsmM.ecore#//structure/NamedElement">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//structure/NamedElement/name"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//structure/AgentInitialization">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/AgentInitialization/program"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/AgentInitialization/domain"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference AsmM.ecore#//structure/AgentInitialization/initialState"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//structure/Body">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Body/functionDefinition"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Body/property"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Body/domainDefinition"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Body/ruleDeclaration"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Body/asm"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//structure/FunctionInitialization">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference AsmM.ecore#//structure/FunctionInitialization/initialState"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/FunctionInitialization/body"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/FunctionInitialization/initializedFunction"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/FunctionInitialization/variable"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//structure/DomainInitialization">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/DomainInitialization/initializedDomain"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/DomainInitialization/body"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference AsmM.ecore#//structure/DomainInitialization/initialState"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//structure/Signature">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Signature/domain"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Signature/function"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Signature/headerSection"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Signature/structuredDomain"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//structure/ExportClause">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/ExportClause/exportedFunction"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/ExportClause/exportedDomain"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/ExportClause/exportedRule"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//structure/ImportClause">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/ImportClause/importedDomain"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/ImportClause/importedFunction"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/ImportClause/importedRule"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//structure/ImportClause/moduleName"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//structure/FunctionDefinition">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/FunctionDefinition/body"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/FunctionDefinition/variable"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/FunctionDefinition/definedFunction"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//structure/DomainDefinition">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/DomainDefinition/body"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/DomainDefinition/definedDomain"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//structure/Initialization">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Initialization/domainInitialization"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Initialization/functionInitialization"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Initialization/agentInitialization"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/Initialization/asm"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//structure/Header">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Header/importClause"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Header/signature"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Header/exportClause"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Header/asm"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//structure/Asm">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Asm/initialState"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//structure/Asm/defaultInitialState"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Asm/bodySection"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Asm/headerSection"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//structure/Asm/mainrule"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//structure/Asm/isAsynchr"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Transitionrules" basePackage="asmeta" disposableProviderFactory="true"
+        ecorePackage="AsmM.ecore#//transitionrules">
+      <nestedGenPackages prefix="Turbotransitionrules" basePackage="asmeta.transitionrules"
+          disposableProviderFactory="true" ecorePackage="AsmM.ecore#//transitionrules/turbotransitionrules">
+        <genClasses image="false" ecoreClass="AsmM.ecore#//transitionrules/turbotransitionrules/TurboRule"/>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/turbotransitionrules/TurboDeclaration">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/turbotransitionrules/TurboDeclaration/resultType"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/turbotransitionrules/SeqRule">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//transitionrules/turbotransitionrules/SeqRule/rules"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/turbotransitionrules/TurboLocalStateRule">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/turbotransitionrules/TurboLocalStateRule/init"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/turbotransitionrules/TurboLocalStateRule/body"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/turbotransitionrules/TurboLocalStateRule/localFunction"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/turbotransitionrules/TurboCallRule">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/turbotransitionrules/TurboCallRule/calledRule"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//transitionrules/turbotransitionrules/TurboCallRule/parameters"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/turbotransitionrules/TurboReturnRule">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/turbotransitionrules/TurboReturnRule/location"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/turbotransitionrules/TurboReturnRule/updateRule"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/turbotransitionrules/TryCatchRule">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/turbotransitionrules/TryCatchRule/location"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/turbotransitionrules/TryCatchRule/catchRule"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/turbotransitionrules/TryCatchRule/tryRule"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/turbotransitionrules/IterateRule">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/turbotransitionrules/IterateRule/rule"/>
+        </genClasses>
+      </nestedGenPackages>
+      <nestedGenPackages prefix="Derivedtransitionrules" basePackage="asmeta.transitionrules"
+          disposableProviderFactory="true" ecorePackage="AsmM.ecore#//transitionrules/derivedtransitionrules">
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/derivedtransitionrules/RecursiveWhileRule">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/derivedtransitionrules/RecursiveWhileRule/rule"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/derivedtransitionrules/RecursiveWhileRule/guard"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/derivedtransitionrules/IterativeWhileRule">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/derivedtransitionrules/IterativeWhileRule/guard"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/derivedtransitionrules/IterativeWhileRule/rule"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//transitionrules/derivedtransitionrules/DerivedRule"/>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/derivedtransitionrules/CaseRule">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/derivedtransitionrules/CaseRule/term"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/derivedtransitionrules/CaseRule/caseTerm"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/derivedtransitionrules/CaseRule/otherwiseBranch"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//transitionrules/derivedtransitionrules/CaseRule/caseBranches"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//transitionrules/derivedtransitionrules/BasicDerivedRule"/>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//transitionrules/derivedtransitionrules/TurboDerivedRule"/>
+      </nestedGenPackages>
+      <nestedGenPackages prefix="Basictransitionrules" basePackage="asmeta.transitionrules"
+          disposableProviderFactory="true" ecorePackage="AsmM.ecore#//transitionrules/basictransitionrules">
+        <genDataTypes ecoreDataType="AsmM.ecore#//transitionrules/basictransitionrules/RuleDT"/>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/TermAsRule">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/TermAsRule/term"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//transitionrules/basictransitionrules/TermAsRule/parameters"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/BasicRule"/>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/Rule"/>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/ChooseRule">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ChooseRule/ifnone"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ChooseRule/doRule"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ChooseRule/guard"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ChooseRule/variable"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//transitionrules/basictransitionrules/ChooseRule/ranges"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/MacroCallRule">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/MacroCallRule/calledMacro"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//transitionrules/basictransitionrules/MacroCallRule/parameters"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/BlockRule">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//transitionrules/basictransitionrules/BlockRule/rules"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/ConditionalRule">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ConditionalRule/guard"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ConditionalRule/elseRule"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ConditionalRule/thenRule"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/ForallRule">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ForallRule/variable"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ForallRule/guard"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ForallRule/doRule"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//transitionrules/basictransitionrules/ForallRule/ranges"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/LetRule">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/LetRule/inRule"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/LetRule/initExpression"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/LetRule/variable"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/ExtendRule">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ExtendRule/extendedDomain"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ExtendRule/boundVar"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/ExtendRule/doRule"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/UpdateRule">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/UpdateRule/updatingTerm"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//transitionrules/basictransitionrules/UpdateRule/location"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/SkipRule"/>
+        <genClasses ecoreClass="AsmM.ecore#//transitionrules/basictransitionrules/MacroDeclaration"/>
+      </nestedGenPackages>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Definitions" basePackage="asmeta" disposableProviderFactory="true"
+        ecorePackage="AsmM.ecore#//definitions">
+      <genClasses image="false" ecoreClass="AsmM.ecore#//definitions/RuleDeclaration">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//definitions/RuleDeclaration/variable"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//definitions/RuleDeclaration/constraint"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//definitions/RuleDeclaration/ruleBody"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference AsmM.ecore#//definitions/RuleDeclaration/asmBody"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//definitions/RuleDeclaration/arity"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//definitions/LocalFunction"/>
+      <genClasses ecoreClass="AsmM.ecore#//definitions/ControlledFunction"/>
+      <genClasses ecoreClass="AsmM.ecore#//definitions/SharedFunction"/>
+      <genClasses ecoreClass="AsmM.ecore#//definitions/MonitoredFunction"/>
+      <genClasses ecoreClass="AsmM.ecore#//definitions/OutFunction"/>
+      <genClasses image="false" ecoreClass="AsmM.ecore#//definitions/DynamicFunction">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//definitions/DynamicFunction/initialization"/>
+      </genClasses>
+      <genClasses ecoreClass="AsmM.ecore#//definitions/StaticFunction"/>
+      <genClasses ecoreClass="AsmM.ecore#//definitions/DerivedFunction"/>
+      <genClasses image="false" ecoreClass="AsmM.ecore#//definitions/BasicFunction"/>
+      <genClasses ecoreClass="AsmM.ecore#//definitions/Invariant">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//definitions/Invariant/constrainedDomain"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//definitions/Invariant/body"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//definitions/Invariant/constrainedRule"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//definitions/Invariant/constrainedFunction"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="AsmM.ecore#//definitions/Function">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//definitions/Function/domain"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//definitions/Function/codomain"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//definitions/Function/definition"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference AsmM.ecore#//definitions/Function/constraint"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//definitions/Function/arity"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference AsmM.ecore#//definitions/Function/signature"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="AsmM.ecore#//definitions/Classifier"/>
+      <genClasses ecoreClass="AsmM.ecore#//definitions/Property"/>
+      <nestedGenPackages prefix="Domains" basePackage="asmeta.definitions" disposableProviderFactory="true"
+          ecorePackage="AsmM.ecore#//definitions/domains">
+        <genDataTypes ecoreDataType="AsmM.ecore#//definitions/domains/DomainDT"/>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/NaturalDomain"/>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/UndefDomain"/>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//definitions/domains/TypeDomain"/>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//definitions/domains/StructuredTd"/>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/StringDomain"/>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/SequenceDomain">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//definitions/domains/SequenceDomain/domain"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/RuleDomain">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//definitions/domains/RuleDomain/domains"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/ReserveDomain"/>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/RealDomain"/>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/ProductDomain">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//definitions/domains/ProductDomain/domains"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/PowersetDomain">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//definitions/domains/PowersetDomain/baseDomain"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/MapDomain">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//definitions/domains/MapDomain/sourceDomain"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//definitions/domains/MapDomain/targetDomain"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/IntegerDomain"/>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/EnumTd">
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmM.ecore#//definitions/domains/EnumTd/element"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/EnumElement">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//definitions/domains/EnumElement/symbol"/>
+        </genClasses>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//definitions/domains/Domain">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//definitions/domains/Domain/constraint"/>
+          <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference AsmM.ecore#//definitions/domains/Domain/signature"/>
+          <genOperations ecoreOperation="AsmM.ecore#//definitions/domains/Domain/compatible"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/ConcreteDomain">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//definitions/domains/ConcreteDomain/initialization"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//definitions/domains/ConcreteDomain/definition"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//definitions/domains/ConcreteDomain/typeDomain"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//definitions/domains/ConcreteDomain/isDynamic"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/ComplexDomain"/>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/CharDomain"/>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/BooleanDomain"/>
+        <genClasses image="false" ecoreClass="AsmM.ecore#//definitions/domains/BasicTd"/>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/BagDomain">
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference AsmM.ecore#//definitions/domains/BagDomain/domain"/>
+        </genClasses>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/AnyDomain"/>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/AgentDomain"/>
+        <genClasses ecoreClass="AsmM.ecore#//definitions/domains/AbstractTd">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM.ecore#//definitions/domains/AbstractTd/isDynamic"/>
+        </genClasses>
+      </nestedGenPackages>
+    </nestedGenPackages>
+  </genPackages>
+  <genPackages prefix="Primitivetypes" disposableProviderFactory="true" ecorePackage="AsmM1.ecore#/">
+    <genDataTypes ecoreDataType="AsmM1.ecore#//Integer"/>
+    <genDataTypes ecoreDataType="AsmM1.ecore#//Long"/>
+    <genDataTypes ecoreDataType="AsmM1.ecore#//Float"/>
+    <genDataTypes ecoreDataType="AsmM1.ecore#//Double"/>
+    <genDataTypes ecoreDataType="AsmM1.ecore#//Boolean"/>
+    <genDataTypes ecoreDataType="AsmM1.ecore#//String"/>
+  </genPackages>
+</genmodel:GenModel>

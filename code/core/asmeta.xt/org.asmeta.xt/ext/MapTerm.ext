@@ -1,0 +1,1 @@
+  public org.eclipse.emf.common.util.EList<org.asmeta.xt.asmetal.TupleTerm> getPair();

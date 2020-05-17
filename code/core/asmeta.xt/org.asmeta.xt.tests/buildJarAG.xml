@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project org.asmeta.xt.tests with libraries in sub-folder">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="C:/Users/garganti/eclipse-workspaces/research/asmetaxtext"/>
+    <property name="dir.jarfile" value="${dir.buildfile}"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/testASM.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.asmeta.xt.tests.parsing.positive.MainRunner"/>
+                <attribute name="Class-Path" value=". testASM_lib/org.eclipse.xtext_2.13.0.v20171020-0708.jar testASM_lib/org.eclipse.emf.ecore.xmi_2.13.0.v20170609-0707.jar testASM_lib/org.eclipse.emf.ecore_2.13.0.v20170609-0707.jar testASM_lib/org.eclipse.emf.common_2.13.0.v20170609-0707.jar testASM_lib/org.antlr.runtime_3.2.0.v201101311130.jar testASM_lib/com.google.inject_3.0.0.v201605172100.jar testASM_lib/com.google.inject.multibindings_3.0.0.v201605172100.jar testASM_lib/org.eclipse.emf.mwe.core_1.3.21.201705291011.jar testASM_lib/org.apache.commons.cli_1.2.0.v201404270220.jar testASM_lib/org.eclipse.emf.mwe2.runtime_2.9.1.201705291011.jar testASM_lib/org.eclipse.emf.mwe.utils_1.3.21.201705291011.jar testASM_lib/org.eclipse.xtext.util_2.13.0.v20171020-0708.jar testASM_lib/com.google.guava_21.0.0.v20170206-1425.jar testASM_lib/javax.inject_1.0.0.v20091030.jar testASM_lib/org.eclipse.xtext.xbase_2.13.0.v20171020-0717.jar testASM_lib/org.eclipse.xtext.common.types_2.13.0.v20171020-0717.jar testASM_lib/org.eclipse.xtend.lib_2.13.0.v20171020-0659.jar testASM_lib/org.eclipse.xtext.xbase.lib_2.13.0.v20171020-0659.jar testASM_lib/org.eclipse.xtend.lib.macro_2.13.0.v20171020-0659.jar testASM_lib/org.eclipse.equinox.common_3.9.0.v20170207-1454.jar testASM_lib/org.eclipse.core.resources_3.12.0.v20170417-1558.jar testASM_lib/org.eclipse.xtext.xtext.generator_2.13.0.v20171020-0708.jar testASM_lib/org.eclipse.emf.codegen.ecore_2.13.0.v20170609-0928.jar testASM_lib/org.eclipse.emf.codegen_2.12.0.v20170609-0928.jar testASM_lib/org.eclipse.emf.mwe2.launch_2.9.1.201705291011.jar testASM_lib/org.eclipse.emf.mwe2.language_2.9.1.201705291011.jar testASM_lib/org.eclipse.emf.mwe2.lib_2.9.1.201705291011.jar testASM_lib/org.objectweb.asm_6.0.0.v20180116-1719.jar testASM_lib/org.apache.commons.logging_1.1.1.v201101211721.jar testASM_lib/org.apache.log4j_1.2.15.v201012070815.jar testASM_lib/com.ibm.icu_58.2.0.v20170418-1837.jar testASM_lib/junit.jar testASM_lib/org.hamcrest.core_1.3.0.v201303031735.jar testASM_lib/org.eclipse.xtext.testing_2.13.0.v20171020-0708.jar testASM_lib/org.eclipse.xtext.ide_2.13.0.v20171020-0708.jar testASM_lib/org.eclipse.xtext.xbase.testing_2.13.0.v20171020-0717.jar testASM_lib/org.eclipse.core.runtime_3.13.0.v20170207-1030.jar testASM_lib/org.eclipse.osgi_3.12.100.v20180210-1608.jar testASM_lib/org.eclipse.osgi.compatibility.state_1.1.0.v20170516-1513.jar testASM_lib/org.eclipse.core.jobs_3.9.3.v20180115-1757.jar testASM_lib/org.eclipse.equinox.registry_3.7.0.v20170222-1344.jar testASM_lib/org.eclipse.equinox.preferences_3.7.0.v20170126-2132.jar testASM_lib/org.eclipse.core.contenttype_3.6.0.v20170207-1037.jar testASM_lib/org.eclipse.equinox.app_1.3.400.v20150715-1528.jar"/>
+            </manifest>
+            <fileset dir="${dir.jarfile}/bin"/>
+            <fileset dir="C:/Users/garganti/GoogleDrive/codice/research/asmeta/code/experimental/asmetaxtext/org.asmeta.xt/bin"/>
+        </jar>
+        <delete dir="${dir.jarfile}/testASM_lib"/>
+        <mkdir dir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.xtext_2.13.0.v20171020-0708.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.emf.ecore.xmi_2.13.0.v20170609-0707.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.emf.ecore_2.13.0.v20170609-0707.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.emf.common_2.13.0.v20170609-0707.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.antlr.runtime_3.2.0.v201101311130.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/com.google.inject_3.0.0.v201605172100.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/com.google.inject.multibindings_3.0.0.v201605172100.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.emf.mwe.core_1.3.21.201705291011.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.apache.commons.cli_1.2.0.v201404270220.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.emf.mwe2.runtime_2.9.1.201705291011.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.emf.mwe.utils_1.3.21.201705291011.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.xtext.util_2.13.0.v20171020-0708.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/com.google.guava_21.0.0.v20170206-1425.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/javax.inject_1.0.0.v20091030.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.xtext.xbase_2.13.0.v20171020-0717.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.xtext.common.types_2.13.0.v20171020-0717.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.xtend.lib_2.13.0.v20171020-0659.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.xtext.xbase.lib_2.13.0.v20171020-0659.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.xtend.lib.macro_2.13.0.v20171020-0659.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.equinox.common_3.9.0.v20170207-1454.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.core.resources_3.12.0.v20170417-1558.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.xtext.xtext.generator_2.13.0.v20171020-0708.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.emf.codegen.ecore_2.13.0.v20170609-0928.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.emf.codegen_2.12.0.v20170609-0928.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.emf.mwe2.launch_2.9.1.201705291011.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.emf.mwe2.language_2.9.1.201705291011.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.emf.mwe2.lib_2.9.1.201705291011.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.objectweb.asm_6.0.0.v20180116-1719.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.apache.commons.logging_1.1.1.v201101211721.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.apache.log4j_1.2.15.v201012070815.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/com.ibm.icu_58.2.0.v20170418-1837.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.junit_4.12.0.v201504281640/junit.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.hamcrest.core_1.3.0.v201303031735.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.xtext.testing_2.13.0.v20171020-0708.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.xtext.ide_2.13.0.v20171020-0708.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.xtext.xbase.testing_2.13.0.v20171020-0717.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.core.runtime_3.13.0.v20170207-1030.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.osgi_3.12.100.v20180210-1608.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.osgi.compatibility.state_1.1.0.v20170516-1513.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.core.jobs_3.9.3.v20180115-1757.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.equinox.registry_3.7.0.v20170222-1344.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.equinox.preferences_3.7.0.v20170126-2132.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.core.contenttype_3.6.0.v20170207-1037.jar" todir="${dir.jarfile}/testASM_lib"/>
+        <copy file="C:/Users/garganti/programmi/eclipse/plugins/org.eclipse.equinox.app_1.3.400.v20150715-1528.jar" todir="${dir.jarfile}/testASM_lib"/>
+    </target>
+</project>

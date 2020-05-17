@@ -1,0 +1,9 @@
+  protected org.asmeta.xt.validation.utility.VariableKind kind;
+  
+  public void setKind(org.asmeta.xt.validation.utility.VariableKind d) {
+  	this.kind = d;
+  }
+  
+  public org.asmeta.xt.validation.utility.VariableKind getKind() {
+  	return kind;
+  }

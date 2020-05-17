@@ -1,0 +1,7 @@
+  public org.asmeta.xt.asmetal.DynamicFunction getInitializedFunction()
+  {
+  	org.asmeta.xt.asmetal.Function f = org.asmeta.xt.validation.utility.Utility.getFunctionByName(this.name);
+	if (f instanceof org.asmeta.xt.asmetal.DynamicFunction)
+		return (org.asmeta.xt.asmetal.DynamicFunction)f;
+	return null;
+  }

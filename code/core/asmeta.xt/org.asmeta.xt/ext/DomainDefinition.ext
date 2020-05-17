@@ -1,0 +1,1 @@
+  public org.asmeta.xt.asmetal.ConcreteDomain getDefinedDomain();

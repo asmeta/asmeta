@@ -1,0 +1,5 @@
+  public org.asmeta.xt.asmetal.Asm getAsm()
+  {
+  	// Return the container of the Body, i.e. the ASM
+  	return (org.asmeta.xt.asmetal.Asm) this.eContainer;
+  }

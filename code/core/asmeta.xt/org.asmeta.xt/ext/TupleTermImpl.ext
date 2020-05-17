@@ -1,0 +1,6 @@
+  public Integer getArity()
+  {
+  	return this.terms.size();
+  }
+  
+  public void setArity(Integer value) { }

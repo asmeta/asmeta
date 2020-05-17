@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="temporalProp"
+    nsURI="http://org.asmeta/asmm#Definitions" nsPrefix="AsmM">
+  <eClassifiers xsi:type="ecore:EClass" name="TemporalProperty" abstract="true" eSuperTypes="AsmM.ecore#//definitions/Property"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CtlSpec" eSuperTypes="#//TemporalProperty">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false" lowerBound="1"
+        eType="ecore:EClass AsmM.ecore#//terms/basicterms/Term" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LtlSpec" eSuperTypes="#//TemporalProperty">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false" lowerBound="1"
+        eType="ecore:EClass AsmM.ecore#//terms/basicterms/Term" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

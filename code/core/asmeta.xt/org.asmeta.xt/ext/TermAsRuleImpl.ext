@@ -1,0 +1,6 @@
+  public void setTerm(org.asmeta.xt.asmetal.Term t) {
+  	if (t instanceof org.asmeta.xt.asmetal.BasicTerm)
+  		this.term = (org.asmeta.xt.asmetal.BasicTerm) t;
+  	else
+  		throw new RuntimeException("Only BasicTerms can be used as term") ; 	
+  }

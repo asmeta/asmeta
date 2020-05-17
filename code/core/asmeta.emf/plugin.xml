@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://org.asmeta/asmm#FurtherTerms" 
+       class = "asmeta.terms.furtherterms.FurthertermsPackage"
+       genModel = "model/AsmM.genmodel" /> 
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://org.asmeta/asmm#BasicTerms" 
+       class = "asmeta.terms.basicterms.BasictermsPackage"
+       genModel = "model/AsmM.genmodel" /> 
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://org.asmeta/asmm#Structure" 
+       class = "asmeta.structure.StructurePackage"
+       genModel = "model/AsmM.genmodel" /> 
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://org.asmeta/asmm#TurboTransitionRules" 
+       class = "asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage"
+       genModel = "model/AsmM.genmodel" /> 
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://org.asmeta/asmm#DerivedTransitionRules" 
+       class = "asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage"
+       genModel = "model/AsmM.genmodel" /> 
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://org.asmeta/asmm#BasicTransitionRules" 
+       class = "asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage"
+       genModel = "model/AsmM.genmodel" /> 
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://org.asmeta/asmm#Definitions" 
+       class = "asmeta.definitions.DefinitionsPackage"
+       genModel = "model/AsmM.genmodel" /> 
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://org.asmeta/asmm#Domains" 
+       class = "asmeta.definitions.domains.DomainsPackage"
+       genModel = "model/AsmM.genmodel" /> 
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://org.asmeta/asmm#PrimitiveTypes" 
+       class = "primitivetypes.PrimitivetypesPackage"
+       genModel = "model/AsmM.genmodel" /> 
+  </extension>
+</plugin>

@@ -1,0 +1,2 @@
+  void setTerm(org.asmeta.xt.asmetal.Term t);
+  

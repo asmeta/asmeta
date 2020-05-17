@@ -1,0 +1,14 @@
+  public java.util.List<org.asmeta.xt.asmetal.RuleDeclaration> getConstrainedRule() {
+  	// TODO
+  	return null;
+  }
+  
+  public java.util.List<org.asmeta.xt.asmetal.Function> getConstrainedFunction() {
+  	// TODO
+  	return null;
+  }
+  
+  public java.util.List<org.asmeta.xt.asmetal.Domain> getConstrainedDomain() {
+  	// TODO
+  	return null;
+  }

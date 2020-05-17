@@ -1,0 +1,4 @@
+  public org.asmeta.xt.asmetal.Domain getDomain()
+  {
+  	return org.asmeta.xt.validation.utility.Utility.getDomain(this.domainName);
+  }

@@ -1,0 +1,3 @@
+  public org.asmeta.xt.asmetal.Signature getSignature();
+  
+  public boolean getIsDynamic();

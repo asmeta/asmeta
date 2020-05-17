@@ -1,0 +1,38 @@
+<ExternalFunctions>
+
+	<Function>
+		<FileName>ext\Function.ext</FileName>
+		<ClassFile>src-gen\org\asmeta\xt\asmetaxtext\Function.java</ClassFile>
+	</Function>
+	
+	<Function>
+		<FileName>ext\FunctionImpl.ext</FileName>
+		<ClassFile>src-gen\org\asmeta\xt\asmetaxtext\impl\FunctionImpl.java</ClassFile>
+	</Function>
+	
+	<Function>
+		<FileName>ext\TupleTerm.ext</FileName>
+		<ClassFile>src-gen\org\asmeta\xt\asmetaxtext\TupleTerm.java</ClassFile>
+	</Function>
+	
+	<Function>
+		<FileName>ext\TupleTermImpl.ext</FileName>
+		<ClassFile>src-gen\org\asmeta\xt\asmetaxtext\impl\TupleTermImpl.java</ClassFile>
+	</Function>
+	
+	<Function>
+		<FileName>ext\Term.ext</FileName>
+		<ClassFile>src-gen\org\asmeta\xt\asmetaxtext\Term.java</ClassFile>
+	</Function>
+	
+	<Function>
+		<FileName>ext\TermImpl.ext</FileName>
+		<ClassFile>src-gen\org\asmeta\xt\asmetaxtext\impl\TermImpl.java</ClassFile>
+	</Function>
+	
+	<Function>
+		<FileName>ext\DomainImpl.ext</FileName>
+		<ClassFile>src-gen\org\asmeta\xt\asmetaxtext\impl\DomainImpl.java</ClassFile>
+	</Function>
+	
+</ExternalFunctions>

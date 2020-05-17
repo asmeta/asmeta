@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="asmeta" nsURI="http://org.asmeta/asmm#ASMETA" nsPrefix="AsmM">
+  <eSubpackages name="terms" nsURI="http://org.asmeta/asmm#Terms" nsPrefix="AsmM">
+    <eSubpackages name="furtherterms" nsURI="http://org.asmeta/asmm#FurtherTerms"
+        nsPrefix="AsmM">
+      <eClassifiers xsi:type="ecore:EClass" name="IntegerTerm" eSuperTypes="#//terms/basicterms/ConstantTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="NaturalTerm" eSuperTypes="#//terms/basicterms/ConstantTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="VariableBindingTerm" abstract="true"
+          eSuperTypes="#//terms/basicterms/ExtendedTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="StringTerm" eSuperTypes="#//terms/basicterms/ConstantTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="SetCt" eSuperTypes="#//terms/furtherterms/ComprehensionTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="SequenceTerm" eSuperTypes="#//terms/basicterms/CollectionTerm">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="terms" unique="false"
+            upperBound="-1" eType="#//terms/basicterms/TermDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SequenceCt" eSuperTypes="#//terms/furtherterms/ComprehensionTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="RealTerm" eSuperTypes="#//terms/basicterms/ConstantTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="MapTerm" eSuperTypes="#//terms/basicterms/CollectionTerm">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="pair" ordered="false"
+            upperBound="-1" eType="#//terms/basicterms/TupleTerm"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="MapCt" eSuperTypes="#//terms/furtherterms/ComprehensionTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="LetTerm" eSuperTypes="#//terms/furtherterms/VariableBindingTerm">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+            upperBound="-1" eType="#//terms/basicterms/VariableTerm" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="assignmentTerm" lowerBound="1"
+            upperBound="-1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ForallTerm" eSuperTypes="#//terms/furtherterms/FiniteQuantificationTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="FiniteQuantificationTerm" abstract="true"
+          eSuperTypes="#//terms/furtherterms/VariableBindingTerm">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+            upperBound="-1" eType="#//terms/basicterms/VariableTerm" containment="true"
+            eOpposite="#//terms/basicterms/VariableTerm/finiteQuantificationTerm"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="guard" ordered="false"
+            eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="ranges" unique="false"
+            lowerBound="1" upperBound="-1" eType="#//terms/basicterms/TermDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ExistUniqueTerm" eSuperTypes="#//terms/furtherterms/FiniteQuantificationTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ExistTerm" eSuperTypes="#//terms/furtherterms/FiniteQuantificationTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="EnumTerm" eSuperTypes="#//terms/basicterms/ConstantTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ConditionalTerm" eSuperTypes="#//terms/basicterms/ExtendedTerm">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="elseTerm" ordered="false"
+            eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="guard" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="thenTerm" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ComprehensionTerm" abstract="true"
+          eSuperTypes="#//terms/furtherterms/VariableBindingTerm">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+            upperBound="-1" eType="#//terms/basicterms/VariableTerm" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="guard" ordered="false"
+            eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="term" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="ranges" unique="false"
+            lowerBound="1" upperBound="-1" eType="#//terms/basicterms/TermDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ComplexTerm" eSuperTypes="#//terms/basicterms/ConstantTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="CharTerm" eSuperTypes="#//terms/basicterms/ConstantTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="CaseTerm" eSuperTypes="#//terms/basicterms/ExtendedTerm">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="comparingTerm" lowerBound="1"
+            upperBound="-1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="comparedTerm" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="otherwiseTerm" ordered="false"
+            eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="resultTerms" unique="false"
+            lowerBound="1" upperBound="-1" eType="#//terms/basicterms/TermDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BagTerm" eSuperTypes="#//terms/basicterms/CollectionTerm">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="term" ordered="false"
+            upperBound="-1" eType="#//terms/basicterms/Term"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BagCt" eSuperTypes="#//terms/furtherterms/ComprehensionTerm"/>
+    </eSubpackages>
+    <eSubpackages name="basicterms" nsURI="http://org.asmeta/asmm#BasicTerms" nsPrefix="AsmM">
+      <eClassifiers xsi:type="ecore:EEnum" name="VariableKind">
+        <eLiterals name="logicalVar" value="1"/>
+        <eLiterals name="locationVar" value="2"/>
+        <eLiterals name="ruleVar" value="3"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="VariableTerm" eSuperTypes="#//terms/basicterms/BasicTerm">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="finiteQuantificationTerm"
+            ordered="false" eType="#//terms/furtherterms/FiniteQuantificationTerm"
+            eOpposite="#//terms/furtherterms/FiniteQuantificationTerm/variable"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+            unique="false" lowerBound="1" eType="ecore:EDataType AsmM1.ecore#//String"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" ordered="false"
+            unique="false" lowerBound="1" eType="#//terms/basicterms/VariableKind"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="UndefTerm" eSuperTypes="#//terms/basicterms/ConstantTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="TupleTerm" eSuperTypes="#//terms/basicterms/ExtendedTerm">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="arity" ordered="false"
+            unique="false" lowerBound="1" eType="ecore:EDataType AsmM1.ecore#//Integer"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="terms" unique="false"
+            lowerBound="2" upperBound="-1" eType="#//terms/basicterms/TermDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SetTerm" eSuperTypes="#//terms/basicterms/CollectionTerm">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="term" ordered="false"
+            upperBound="-1" eType="#//terms/basicterms/Term"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="RuleAsTerm" eSuperTypes="#//terms/basicterms/ExtendedTerm">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="rule" ordered="false"
+            lowerBound="1" eType="#//definitions/RuleDeclaration"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="LocationTerm" eSuperTypes="#//terms/basicterms/FunctionTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="FunctionTerm" eSuperTypes="#//terms/basicterms/BasicTerm">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" ordered="false"
+            eType="#//terms/basicterms/TupleTerm" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="function" ordered="false"
+            lowerBound="1" eType="#//definitions/Function"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ExtendedTerm" abstract="true" eSuperTypes="#//terms/basicterms/Term"/>
+      <eClassifiers xsi:type="ecore:EClass" name="DomainTerm" eSuperTypes="#//terms/basicterms/ExtendedTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ConstantTerm" abstract="true" eSuperTypes="#//terms/basicterms/BasicTerm">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="symbol" ordered="false"
+            unique="false" lowerBound="1" eType="ecore:EDataType AsmM1.ecore#//String"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="CollectionTerm" abstract="true"
+          eSuperTypes="#//terms/basicterms/ExtendedTerm">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" ordered="false"
+            unique="false" lowerBound="1" eType="ecore:EDataType AsmM1.ecore#//Integer"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BooleanTerm" eSuperTypes="#//terms/basicterms/ConstantTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="BasicTerm" abstract="true" eSuperTypes="#//terms/basicterms/Term"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Term" abstract="true">
+        <eOperations name="compatible"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="domain" ordered="false"
+            lowerBound="1" eType="#//definitions/domains/Domain"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="termAsRule" ordered="false"
+            upperBound="-1" eType="#//transitionrules/basictransitionrules/TermAsRule"
+            eOpposite="#//transitionrules/basictransitionrules/TermAsRule/term"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EDataType" name="TermDT" instanceClassName="asmeta.terms.basicterms.Term"/>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="structure" nsURI="http://org.asmeta/asmm#Structure" nsPrefix="AsmM">
+    <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="ecore:EDataType AsmM1.ecore#//String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AgentInitialization">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="program" ordered="false"
+          lowerBound="1" eType="#//transitionrules/basictransitionrules/MacroCallRule"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="domain" ordered="false"
+          lowerBound="1" eType="#//definitions/domains/Domain"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" ordered="false"
+          lowerBound="1" eType="#//structure/Initialization" eOpposite="#//structure/Initialization/agentInitialization"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Body">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="functionDefinition" ordered="false"
+          upperBound="-1" eType="#//structure/FunctionDefinition" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="property" ordered="false"
+          upperBound="-1" eType="#//definitions/Property" derived="true" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="domainDefinition" ordered="false"
+          upperBound="-1" eType="#//structure/DomainDefinition" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ruleDeclaration" ordered="false"
+          upperBound="-1" eType="#//definitions/RuleDeclaration" containment="true"
+          eOpposite="#//definitions/RuleDeclaration/asmBody"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="asm" eType="#//structure/Asm"
+          eOpposite="#//structure/Asm/bodySection"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FunctionInitialization">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" ordered="false"
+          lowerBound="1" eType="#//structure/Initialization" eOpposite="#//structure/Initialization/functionInitialization"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false"
+          lowerBound="1" eType="#//terms/basicterms/Term"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initializedFunction"
+          ordered="false" lowerBound="1" eType="#//definitions/DynamicFunction" eOpposite="#//definitions/DynamicFunction/initialization"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variable" upperBound="-1"
+          eType="#//terms/basicterms/VariableTerm" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DomainInitialization">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initializedDomain" ordered="false"
+          lowerBound="1" eType="#//definitions/domains/ConcreteDomain" eOpposite="#//definitions/domains/ConcreteDomain/initialization"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false"
+          lowerBound="1" eType="#//terms/basicterms/Term" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" ordered="false"
+          lowerBound="1" eType="#//structure/Initialization" eOpposite="#//structure/Initialization/domainInitialization"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Signature">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="domain" ordered="false"
+          upperBound="-1" eType="#//definitions/domains/Domain" containment="true"
+          eOpposite="#//definitions/domains/Domain/signature"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="function" ordered="false"
+          upperBound="-1" eType="#//definitions/Function" containment="true" eOpposite="#//definitions/Function/signature"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="headerSection" lowerBound="1"
+          eType="#//structure/Header" eOpposite="#//structure/Header/signature"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="structuredDomain" ordered="false"
+          upperBound="-1" eType="#//definitions/domains/StructuredTd" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ExportClause">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exportedFunction" ordered="false"
+          upperBound="-1" eType="#//definitions/Function"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exportedDomain" ordered="false"
+          upperBound="-1" eType="#//definitions/domains/Domain"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exportedRule" ordered="false"
+          upperBound="-1" eType="#//definitions/RuleDeclaration"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ImportClause">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="importedDomain" ordered="false"
+          upperBound="-1" eType="#//definitions/domains/Domain"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="importedFunction" ordered="false"
+          upperBound="-1" eType="#//definitions/Function"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="importedRule" ordered="false"
+          upperBound="-1" eType="#//definitions/RuleDeclaration"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="moduleName" ordered="false"
+          unique="false" lowerBound="1" eType="ecore:EDataType AsmM1.ecore#//String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FunctionDefinition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false"
+          lowerBound="1" eType="#//terms/basicterms/Term"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variable" upperBound="-1"
+          eType="#//terms/basicterms/VariableTerm"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="definedFunction" ordered="false"
+          lowerBound="1" eType="#//definitions/Function" eOpposite="#//definitions/Function/definition"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DomainDefinition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false"
+          lowerBound="1" eType="#//terms/basicterms/Term" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="definedDomain" ordered="false"
+          lowerBound="1" eType="#//definitions/domains/ConcreteDomain" eOpposite="#//definitions/domains/ConcreteDomain/definition"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Initialization" eSuperTypes="#//structure/NamedElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="domainInitialization"
+          ordered="false" upperBound="-1" eType="#//structure/DomainInitialization"
+          containment="true" eOpposite="#//structure/DomainInitialization/initialState"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="functionInitialization"
+          ordered="false" upperBound="-1" eType="#//structure/FunctionInitialization"
+          containment="true" eOpposite="#//structure/FunctionInitialization/initialState"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="agentInitialization"
+          ordered="false" upperBound="-1" eType="#//structure/AgentInitialization"
+          containment="true" eOpposite="#//structure/AgentInitialization/initialState"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="asm" ordered="false"
+          lowerBound="1" eType="#//structure/Asm" eOpposite="#//structure/Asm/defaultInitialState"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Header">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="importClause" ordered="false"
+          upperBound="-1" eType="#//structure/ImportClause" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="signature" ordered="false"
+          lowerBound="1" eType="#//structure/Signature" containment="true" eOpposite="#//structure/Signature/headerSection"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exportClause" ordered="false"
+          eType="#//structure/ExportClause" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="asm" eType="#//structure/Asm"
+          eOpposite="#//structure/Asm/headerSection"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Asm" eSuperTypes="#//structure/NamedElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" ordered="false"
+          upperBound="-1" eType="#//structure/Initialization" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="defaultInitialState"
+          ordered="false" eType="#//structure/Initialization" eOpposite="#//structure/Initialization/asm"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bodySection" ordered="false"
+          lowerBound="1" eType="#//structure/Body" containment="true" eOpposite="#//structure/Body/asm"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="headerSection" ordered="false"
+          lowerBound="1" eType="#//structure/Header" containment="true" eOpposite="#//structure/Header/asm"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="mainrule" ordered="false"
+          eType="#//transitionrules/basictransitionrules/MacroDeclaration"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isAsynchr" ordered="false"
+          unique="false" lowerBound="1" eType="ecore:EDataType AsmM1.ecore#//Boolean"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="transitionrules" nsURI="http://org.asmeta/asmm#TransitionRules"
+      nsPrefix="AsmM">
+    <eSubpackages name="turbotransitionrules" nsURI="http://org.asmeta/asmm#TurboTransitionRules"
+        nsPrefix="AsmM">
+      <eClassifiers xsi:type="ecore:EClass" name="TurboRule" abstract="true" eSuperTypes="#//transitionrules/basictransitionrules/Rule"/>
+      <eClassifiers xsi:type="ecore:EClass" name="TurboDeclaration" eSuperTypes="#//definitions/RuleDeclaration">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="resultType" ordered="false"
+            eType="#//definitions/domains/Domain"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SeqRule" eSuperTypes="#//transitionrules/turbotransitionrules/TurboRule">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="rules" unique="false"
+            lowerBound="2" upperBound="-1" eType="#//transitionrules/basictransitionrules/RuleDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TurboLocalStateRule" eSuperTypes="#//transitionrules/turbotransitionrules/TurboRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="init" lowerBound="1"
+            upperBound="-1" eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false"
+            lowerBound="1" eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="localFunction" lowerBound="1"
+            upperBound="-1" eType="#//definitions/LocalFunction" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TurboCallRule" eSuperTypes="#//transitionrules/turbotransitionrules/TurboRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="calledRule" ordered="false"
+            lowerBound="1" eType="#//transitionrules/turbotransitionrules/TurboDeclaration"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameters" unique="false"
+            upperBound="-1" eType="#//terms/basicterms/TermDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TurboReturnRule" eSuperTypes="#//transitionrules/turbotransitionrules/TurboRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="location" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="updateRule" ordered="false"
+            lowerBound="1" eType="#//transitionrules/turbotransitionrules/TurboCallRule"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TryCatchRule" eSuperTypes="#//transitionrules/turbotransitionrules/TurboRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="location" ordered="false"
+            lowerBound="1" upperBound="-1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="catchRule" ordered="false"
+            lowerBound="1" eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="tryRule" ordered="false"
+            lowerBound="1" eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="IterateRule" eSuperTypes="#//transitionrules/turbotransitionrules/TurboRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="rule" ordered="false"
+            lowerBound="1" eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="derivedtransitionrules" nsURI="http://org.asmeta/asmm#DerivedTransitionRules"
+        nsPrefix="AsmM">
+      <eClassifiers xsi:type="ecore:EClass" name="RecursiveWhileRule" eSuperTypes="#//transitionrules/derivedtransitionrules/TurboDerivedRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="rule" ordered="false"
+            lowerBound="1" eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="guard" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="IterativeWhileRule" eSuperTypes="#//transitionrules/derivedtransitionrules/TurboDerivedRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="guard" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="rule" ordered="false"
+            lowerBound="1" eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="DerivedRule" abstract="true" eSuperTypes="#//transitionrules/basictransitionrules/Rule"/>
+      <eClassifiers xsi:type="ecore:EClass" name="CaseRule" eSuperTypes="#//transitionrules/derivedtransitionrules/BasicDerivedRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="term" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="caseTerm" lowerBound="1"
+            upperBound="-1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="otherwiseBranch" ordered="false"
+            eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="caseBranches" unique="false"
+            lowerBound="1" upperBound="-1" eType="#//transitionrules/basictransitionrules/RuleDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BasicDerivedRule" abstract="true"
+          eSuperTypes="#//transitionrules/derivedtransitionrules/DerivedRule"/>
+      <eClassifiers xsi:type="ecore:EClass" name="TurboDerivedRule" abstract="true"
+          eSuperTypes="#//transitionrules/derivedtransitionrules/DerivedRule"/>
+    </eSubpackages>
+    <eSubpackages name="basictransitionrules" nsURI="http://org.asmeta/asmm#BasicTransitionRules"
+        nsPrefix="AsmM">
+      <eClassifiers xsi:type="ecore:EClass" name="TermAsRule" eSuperTypes="#//transitionrules/basictransitionrules/Rule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="term" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term" eOpposite="#//terms/basicterms/Term/termAsRule"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameters" unique="false"
+            upperBound="-1" eType="#//terms/basicterms/TermDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BasicRule" abstract="true" eSuperTypes="#//transitionrules/basictransitionrules/Rule"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Rule" abstract="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ChooseRule" eSuperTypes="#//transitionrules/basictransitionrules/BasicRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="ifnone" ordered="false"
+            eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="doRule" ordered="false"
+            lowerBound="1" eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="guard" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+            upperBound="-1" eType="#//terms/basicterms/VariableTerm"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="ranges" unique="false"
+            lowerBound="1" upperBound="-1" eType="#//terms/basicterms/TermDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="MacroCallRule" eSuperTypes="#//transitionrules/basictransitionrules/BasicRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="calledMacro" ordered="false"
+            lowerBound="1" eType="#//transitionrules/basictransitionrules/MacroDeclaration"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameters" unique="false"
+            upperBound="-1" eType="#//terms/basicterms/TermDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BlockRule" eSuperTypes="#//transitionrules/basictransitionrules/BasicRule">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="rules" unique="false"
+            lowerBound="2" upperBound="-1" eType="#//transitionrules/basictransitionrules/RuleDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ConditionalRule" eSuperTypes="#//transitionrules/basictransitionrules/BasicRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="guard" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="elseRule" ordered="false"
+            eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="thenRule" ordered="false"
+            lowerBound="1" eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ForallRule" eSuperTypes="#//transitionrules/basictransitionrules/BasicRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+            upperBound="-1" eType="#//terms/basicterms/VariableTerm"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="guard" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="doRule" ordered="false"
+            lowerBound="1" eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="ranges" unique="false"
+            lowerBound="1" upperBound="-1" eType="#//terms/basicterms/TermDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="LetRule" eSuperTypes="#//transitionrules/basictransitionrules/BasicRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="inRule" ordered="false"
+            lowerBound="1" eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="initExpression" lowerBound="1"
+            upperBound="-1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+            upperBound="-1" eType="#//terms/basicterms/VariableTerm"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ExtendRule" eSuperTypes="#//transitionrules/basictransitionrules/BasicRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="extendedDomain" ordered="false"
+            lowerBound="1" eType="#//definitions/domains/Domain"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="boundVar" ordered="false"
+            lowerBound="1" upperBound="-1" eType="#//terms/basicterms/VariableTerm"
+            containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="doRule" ordered="false"
+            lowerBound="1" eType="#//transitionrules/basictransitionrules/Rule" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="UpdateRule" eSuperTypes="#//transitionrules/basictransitionrules/BasicRule">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="updatingTerm" ordered="false"
+            lowerBound="1" eType="#//terms/basicterms/Term"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="location" ordered="false"
+            eType="#//terms/basicterms/Term"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SkipRule" eSuperTypes="#//transitionrules/basictransitionrules/BasicRule"/>
+      <eClassifiers xsi:type="ecore:EClass" name="MacroDeclaration" eSuperTypes="#//definitions/RuleDeclaration"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="RuleDT" instanceClassName="asmeta.transitionrules.basictransitionrules.Rule"/>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="definitions" nsURI="http://org.asmeta/asmm#Definitions" nsPrefix="AsmM">
+    <eClassifiers xsi:type="ecore:EClass" name="RuleDeclaration" abstract="true" eSuperTypes="#//definitions/Classifier">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variable" upperBound="-1"
+          eType="#//terms/basicterms/VariableTerm"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constraint" ordered="false"
+          upperBound="-1" eType="#//definitions/Invariant" eOpposite="#//definitions/Invariant/constrainedRule"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBody" ordered="false"
+          lowerBound="1" eType="#//transitionrules/basictransitionrules/Rule"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="asmBody" ordered="false"
+          lowerBound="1" eType="#//structure/Body" eOpposite="#//structure/Body/ruleDeclaration"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="arity" ordered="false"
+          unique="false" lowerBound="1" eType="ecore:EDataType AsmM1.ecore#//Integer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LocalFunction" eSuperTypes="#//definitions/DynamicFunction"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ControlledFunction" eSuperTypes="#//definitions/DynamicFunction"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SharedFunction" eSuperTypes="#//definitions/DynamicFunction"/>
+    <eClassifiers xsi:type="ecore:EClass" name="MonitoredFunction" eSuperTypes="#//definitions/DynamicFunction"/>
+    <eClassifiers xsi:type="ecore:EClass" name="OutFunction" eSuperTypes="#//definitions/DynamicFunction"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DynamicFunction" abstract="true" eSuperTypes="#//definitions/BasicFunction">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initialization" ordered="false"
+          upperBound="-1" eType="#//structure/FunctionInitialization" eOpposite="#//structure/FunctionInitialization/initializedFunction"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StaticFunction" eSuperTypes="#//definitions/BasicFunction"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DerivedFunction" eSuperTypes="#//definitions/Function"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BasicFunction" abstract="true" eSuperTypes="#//definitions/Function"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Invariant" eSuperTypes="#//definitions/Property">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constrainedDomain" ordered="false"
+          upperBound="-1" eType="#//definitions/domains/Domain" eOpposite="#//definitions/domains/Domain/constraint"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false"
+          lowerBound="1" eType="#//terms/basicterms/Term" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constrainedRule" ordered="false"
+          upperBound="-1" eType="#//definitions/RuleDeclaration" eOpposite="#//definitions/RuleDeclaration/constraint"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constrainedFunction"
+          ordered="false" upperBound="-1" eType="#//definitions/Function" eOpposite="#//definitions/Function/constraint"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Function" abstract="true" eSuperTypes="#//definitions/Classifier">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="domain" ordered="false"
+          eType="#//definitions/domains/Domain"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="codomain" ordered="false"
+          lowerBound="1" eType="#//definitions/domains/Domain"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="definition" ordered="false"
+          eType="#//structure/FunctionDefinition" eOpposite="#//structure/FunctionDefinition/definedFunction"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constraint" ordered="false"
+          upperBound="-1" eType="#//definitions/Invariant" eOpposite="#//definitions/Invariant/constrainedFunction"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="arity" ordered="false"
+          unique="false" lowerBound="1" eType="ecore:EDataType AsmM1.ecore#//Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="signature" eType="#//structure/Signature"
+          eOpposite="#//structure/Signature/function"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Classifier" abstract="true" eSuperTypes="#//structure/NamedElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Property" eSuperTypes="#//definitions/Classifier"/>
+    <eSubpackages name="domains" nsURI="http://org.asmeta/asmm#Domains" nsPrefix="AsmM">
+      <eClassifiers xsi:type="ecore:EClass" name="NaturalDomain" eSuperTypes="#//definitions/domains/IntegerDomain"/>
+      <eClassifiers xsi:type="ecore:EClass" name="UndefDomain" eSuperTypes="#//definitions/domains/BasicTd"/>
+      <eClassifiers xsi:type="ecore:EClass" name="TypeDomain" abstract="true" eSuperTypes="#//definitions/domains/Domain"/>
+      <eClassifiers xsi:type="ecore:EClass" name="StructuredTd" abstract="true" eSuperTypes="#//definitions/domains/TypeDomain"/>
+      <eClassifiers xsi:type="ecore:EClass" name="StringDomain" eSuperTypes="#//definitions/domains/BasicTd"/>
+      <eClassifiers xsi:type="ecore:EClass" name="SequenceDomain" eSuperTypes="#//definitions/domains/StructuredTd">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="domain" ordered="false"
+            lowerBound="1" eType="#//definitions/domains/Domain"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="RuleDomain" eSuperTypes="#//definitions/domains/StructuredTd">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="domains" unique="false"
+            upperBound="-1" eType="#//definitions/domains/DomainDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ReserveDomain" eSuperTypes="#//definitions/domains/AbstractTd"/>
+      <eClassifiers xsi:type="ecore:EClass" name="RealDomain" eSuperTypes="#//definitions/domains/ComplexDomain"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ProductDomain" eSuperTypes="#//definitions/domains/StructuredTd">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="domains" unique="false"
+            upperBound="-1" eType="#//definitions/domains/DomainDT"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="PowersetDomain" eSuperTypes="#//definitions/domains/StructuredTd">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="baseDomain" ordered="false"
+            lowerBound="1" eType="#//definitions/domains/Domain"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="MapDomain" eSuperTypes="#//definitions/domains/StructuredTd">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="sourceDomain" ordered="false"
+            lowerBound="1" eType="#//definitions/domains/Domain"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="targetDomain" ordered="false"
+            lowerBound="1" eType="#//definitions/domains/Domain"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="IntegerDomain" eSuperTypes="#//definitions/domains/RealDomain"/>
+      <eClassifiers xsi:type="ecore:EClass" name="EnumTd" eSuperTypes="#//definitions/domains/TypeDomain">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="element" ordered="false"
+            lowerBound="1" upperBound="-1" eType="#//definitions/domains/EnumElement"
+            containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="EnumElement">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="symbol" ordered="false"
+            unique="false" lowerBound="1" eType="ecore:EDataType AsmM1.ecore#//String"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Domain" abstract="true" eSuperTypes="#//definitions/Classifier">
+        <eOperations name="compatible"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="constraint" ordered="false"
+            upperBound="-1" eType="#//definitions/Invariant" eOpposite="#//definitions/Invariant/constrainedDomain"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="signature" eType="#//structure/Signature"
+            eOpposite="#//structure/Signature/domain"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ConcreteDomain" eSuperTypes="#//definitions/domains/Domain">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="initialization" ordered="false"
+            upperBound="-1" eType="#//structure/DomainInitialization" eOpposite="#//structure/DomainInitialization/initializedDomain"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="definition" ordered="false"
+            eType="#//structure/DomainDefinition" eOpposite="#//structure/DomainDefinition/definedDomain"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="typeDomain" ordered="false"
+            lowerBound="1" eType="#//definitions/domains/TypeDomain"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDynamic" ordered="false"
+            unique="false" lowerBound="1" eType="ecore:EDataType AsmM1.ecore#//Boolean"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ComplexDomain" eSuperTypes="#//definitions/domains/BasicTd"/>
+      <eClassifiers xsi:type="ecore:EClass" name="CharDomain" eSuperTypes="#//definitions/domains/BasicTd"/>
+      <eClassifiers xsi:type="ecore:EClass" name="BooleanDomain" eSuperTypes="#//definitions/domains/BasicTd"/>
+      <eClassifiers xsi:type="ecore:EClass" name="BasicTd" abstract="true" eSuperTypes="#//definitions/domains/TypeDomain"/>
+      <eClassifiers xsi:type="ecore:EClass" name="BagDomain" eSuperTypes="#//definitions/domains/StructuredTd">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="domain" ordered="false"
+            lowerBound="1" eType="#//definitions/domains/Domain"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="AnyDomain" eSuperTypes="#//definitions/domains/TypeDomain"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AgentDomain" eSuperTypes="#//definitions/domains/AbstractTd"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AbstractTd" eSuperTypes="#//definitions/domains/TypeDomain">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDynamic" ordered="false"
+            unique="false" lowerBound="1" eType="ecore:EDataType AsmM1.ecore#//Boolean"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EDataType" name="DomainDT" instanceClassName="asmeta.definitions.domains.Domain"/>
+    </eSubpackages>
+  </eSubpackages>
+</ecore:EPackage>

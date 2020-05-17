@@ -1,0 +1,3 @@
+  org.asmeta.xt.asmetal.Body getAsmBody();
+  
+  org.eclipse.emf.common.util.EList<org.asmeta.xt.asmetal.VariableTerm> getVariable();

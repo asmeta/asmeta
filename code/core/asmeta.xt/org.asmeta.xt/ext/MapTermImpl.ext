@@ -1,0 +1,21 @@
+  public org.eclipse.emf.common.util.EList<org.asmeta.xt.asmetal.TupleTerm> getPair() 
+  {
+	org.eclipse.emf.common.util.EList<org.asmeta.xt.asmetal.TupleTerm> termList = new org.eclipse.emf.common.util.BasicEList<org.asmeta.xt.asmetal.TupleTerm>();
+	int i = 0;
+	org.asmeta.xt.asmetal.TupleTerm tuple = org.asmeta.xt.asmetal.AsmetalFactory.eINSTANCE.createTupleTerm();
+	
+	for (Object t : term.toArray()) {
+		if (i%2 == 0) {
+			tuple = org.asmeta.xt.asmetal.AsmetalFactory.eINSTANCE.createTupleTerm();
+		}
+		
+		tuple.getTerms().add((Term) t);
+				
+		if (i%2 != 0) {
+			termList.add(tuple);
+		}
+		i++;
+	}
+	
+	return termList;
+  }

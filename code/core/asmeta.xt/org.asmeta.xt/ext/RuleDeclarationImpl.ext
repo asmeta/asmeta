@@ -1,0 +1,19 @@
+  public org.asmeta.xt.asmetal.Body getAsmBody()
+  {
+  	// Return the container of the Rule Declaration, i.e. the Body
+  	return (org.asmeta.xt.asmetal.Body) this.eContainer;
+  }
+  
+  public org.eclipse.emf.common.util.EList<org.asmeta.xt.asmetal.VariableTerm> getVariable()
+  {
+  	org.eclipse.emf.common.util.EList<org.asmeta.xt.asmetal.VariableTerm> variableList = new org.eclipse.emf.common.util.BasicEList<org.asmeta.xt.asmetal.VariableTerm>();
+	  
+	for (String s : this.getVariables()) {
+		org.asmeta.xt.asmetal.VariableTerm vt = org.asmeta.xt.asmetal.AsmetalFactory.eINSTANCE.createVariableTerm();
+		vt.setDomain(org.asmeta.xt.validation.utility.Utility.getDomainFromVariable(s));
+		vt.setName(s);
+		variableList.add(vt);
+	}
+
+  	return variableList;
+  }

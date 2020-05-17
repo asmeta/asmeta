@@ -1,0 +1,19 @@
+  public org.asmeta.xt.asmetal.ConcreteDomain getDefinedDomain()
+  {
+  	org.asmeta.xt.asmetal.ConcreteDomain d = (org.asmeta.xt.asmetal.ConcreteDomain) org.asmeta.xt.validation.utility.Utility.imported_all_domain_map.get(this.definedDomainName);
+    if (d != null) return d;
+  
+    d = (org.asmeta.xt.asmetal.ConcreteDomain) org.asmeta.xt.validation.utility.Utility.imported_domain_map.get(this.definedDomainName);
+    if (d != null) return d;
+  
+    d = (org.asmeta.xt.asmetal.ConcreteDomain) org.asmeta.xt.validation.utility.Utility.signature_domain_map.get(this.definedDomainName);
+    if (d != null) return d;
+  
+    d = (org.asmeta.xt.asmetal.ConcreteDomain) org.asmeta.xt.validation.utility.Utility.signature_enum_domain_map.get(this.definedDomainName);
+    if (d != null) return d;
+  
+    d = (org.asmeta.xt.asmetal.ConcreteDomain) org.asmeta.xt.validation.utility.Utility.signature_function_domain_map.get(this.definedDomainName);
+    if (d != null) return d;
+  	
+    return null;
+  }

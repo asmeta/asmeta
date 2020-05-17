@@ -1,0 +1,17 @@
+  public org.asmeta.xt.asmetal.Function getDefinedFunction()
+  {
+  	return org.asmeta.xt.validation.utility.Utility.getFunctionByName(this.definedFunctionName);
+  }
+  
+  public java.util.List<org.asmeta.xt.asmetal.VariableTerm> getVariable() {
+  	java.util.List<org.asmeta.xt.asmetal.VariableTerm> variableList = new java.util.ArrayList<org.asmeta.xt.asmetal.VariableTerm>();
+	
+	for (String s : variables) {
+		org.asmeta.xt.asmetal.VariableTerm var = org.asmeta.xt.asmetal.AsmetalFactory.eINSTANCE.createVariableTerm();
+		var.setName(s);
+		var.setDomain(org.asmeta.xt.validation.utility.Utility.getDomain(s));
+		variableList.add(var);
+	}
+	
+	return variableList;
+  }

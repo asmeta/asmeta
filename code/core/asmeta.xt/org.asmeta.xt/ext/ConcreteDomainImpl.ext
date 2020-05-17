@@ -1,0 +1,9 @@
+  public boolean getIsDynamic()
+  {
+  	return this.isDynamic();
+  }
+  
+  public org.asmeta.xt.asmetal.DomainDefinition getDefinition()
+  {
+  	return org.asmeta.xt.validation.utility.Utility.domain_declarations_map.get(this);
+  }

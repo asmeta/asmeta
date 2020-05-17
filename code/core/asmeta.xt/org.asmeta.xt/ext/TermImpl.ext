@@ -1,0 +1,8 @@
+ public org.asmeta.xt.asmetal.Domain getDomain()
+ {
+  	return (org.asmeta.xt.asmetal.Domain) org.asmeta.xt.validation.utility.Utility.imported_all_domain_map.get(org.asmeta.xt.validation.utility.DomainCalculator.getDomainTerm(this).getCodeFromTree());
+ }
+  
+ public  void setDomain(org.asmeta.xt.asmetal.Domain d){
+ 
+ }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.asmeta.simulator.feature"
+      label="Asmeta simulator"
+      version="0.9.11"
+      provider-name="fmse.di.unimi.it">
+
+   <description>
+      See http://asmeta.sourceforge.net/
+   </description>
+
+   <copyright>
+      See http://asmeta.sourceforge.net/
+   </copyright>
+
+   <license url="">
+      Eclipse Public License
+See http://asmeta.sourceforge.net/
+   </license>
+
+   <url>
+      <update label="Asmeta" url="http://svn.code.sf.net/p/asmeta/code/code/stable/asmeta_update"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.console"/>
+      <import plugin="org.apache.log4j"/>
+   </requires>
+
+   <plugin
+         id="asmeta.emf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="asmeta.parser"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="asmeta.simulator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.asmeta.simulator.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

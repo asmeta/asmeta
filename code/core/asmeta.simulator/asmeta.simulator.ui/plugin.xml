@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.asmeta.eclipse.editor.preferences.AsmetaPreferencePage"
+            id="asmeta.plugin.preferences"
+            name="Asmeta">
+      </page>
+      <page
+      		category="asmeta.plugin.preferences"
+            class="org.asmeta.eclipse.editor.preferences.SimulatorPreferencePage"
+            id="asmee.editor.preferences.AsmEEPreference"
+            name="Simulator"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.asmeta.eclipse.editor.actionSet"
+            label="AsmetaL editor actions"
+            visible="true">
+         <menu
+               id="asmee"
+               label="Asm&amp;EE">
+            <separator name="parseGroup"/>
+         </menu>
+         <action
+               class="org.asmeta.eclipse.editor.actions.ParseAction"
+               icon="icons/check.gif"
+               id="org.asmeta.eclipse.editor.actions.Parse"
+               label="&amp;Parse"
+               menubarPath="Asmee/parseGroup"
+               toolbarPath="AsmeeToolBar"
+               tooltip="Parse this asm"/>
+      </actionSet>
+      <actionSet
+            id="org.asmeta.eclipse.simulator.actionSet"
+            label="Asm Simulator Run action"
+            visible="true">
+         <menu
+               id="asmee"
+               label="Asm&amp;EE">
+            <separator
+                  name="runGroup">
+            </separator>
+         </menu>
+         <action
+               class="org.asmeta.eclipse.simulator.actions.RunRndAction"
+               icon="icons/run_rnd.gif"
+               id="org.asmeta.eclipse.simulator.actions.RunRnd"
+               label="&amp;Run rnd"
+               menubarPath="Asmee/runGroup"
+               toolbarPath="AsmeeToolBar"
+               tooltip="Run this asm randomly">
+         </action>
+         <action
+               class="org.asmeta.eclipse.simulator.actions.RunStepAction"
+               icon="icons/run_asm_tool.gif"
+               id="org.asmeta.eclipse.simulator.actions.Run"
+               label="&amp;Run"
+               menubarPath="Asmee/runGroup"
+               toolbarPath="AsmeeToolBar"
+               tooltip="Run this asm interactively">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer class="org.asmeta.eclipse.editor.preferences.PreferenceInitializer"/>
+   </extension>
+   <extension
+      point="org.eclipse.ui.console.consolePageParticipants">
+      <consolePageParticipant
+		      id="org.asmeta.eclipse.AsmeePageParticipant"
+      			class="org.asmeta.eclipse.AsmeeConsoleParticipant">
+      			<enablement>
+			<instanceof value="org.asmeta.eclipse.AsmeeConsole"/>
+			</enablement>
+   		</consolePageParticipant>            
+	</extension>
+</plugin>

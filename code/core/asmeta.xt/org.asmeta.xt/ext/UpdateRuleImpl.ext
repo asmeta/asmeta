@@ -1,0 +1,6 @@
+  public void setLocation(org.asmeta.xt.asmetal.Term term)
+  {
+  	// Set the location. Only BasicTerms are allowed
+  	if (term instanceof BasicTerm)
+		this.location = (BasicTerm) term;
+  }

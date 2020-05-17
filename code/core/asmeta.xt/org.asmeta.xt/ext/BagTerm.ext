@@ -1,0 +1,1 @@
+  java.util.Collection<org.asmeta.xt.asmetal.Term> getTerm();

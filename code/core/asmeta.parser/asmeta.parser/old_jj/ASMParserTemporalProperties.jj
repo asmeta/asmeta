@@ -1,0 +1,128 @@
+/*
+* AsmM2_0_0.jj (NO TryCatchRule)
+* This file is released under the GNU General Public License (GPL) http://www.gnu.org/copyleft/gpl.html
+*
+* ----------------------------------------------------------------------------------------------------
+*               JavaCC (TM) grammar for Abstract State Machine Metamodel (AsmM)
+*
+* Version       : 2.0.0
+* Last update  : 28/08/07
+* Authors        : Patrizia Scandurra
+* e-mail address : scandurra@dti.unimi.it
+*
+* This is the implementation of a parser for AsmM-CS (AsmM concrete syntax),
+* an EBNF (extended Backus-Naur Form) grammar derived from the AsmM as a textual
+* notation to be used by modelers to effectively write ASM models complaint with AsmM.
+*
+* This parser use:
+*   - JMI classes that represent the ASM metamodel(in the directory Asm)
+*   - MDRConnector.java file. A class that manages the connection to the NetBeans Metadata Repository (MDR).
+*     This is the main link between the AsmM-CS parser and the JMI classes.
+*   - OCL_Checker.java file. A class that checks OCL constraints defined for the AsmM.
+*
+*
+*
+* It uses the JavaCC compiler-compiler, which can be found at
+* http://www.suntest.com
+*
+* Notes:
+* Any bugs, unwanted features, suggestions for improvements are
+* welcome at the authors email address.
+*/
+
+//PA 12 feb 2011: it contains just the temporal properties
+
+options {
+  DEBUG_PARSER = false;
+  DEBUG_LOOKAHEAD = false;
+  DEBUG_TOKEN_MANAGER = false;
+  ERROR_REPORTING = true;
+  JAVA_UNICODE_ESCAPE = true;
+  STATIC = false; // "false" istanzia un nuovo parser
+}
+
+/***************************************************************
+-------------------------   TOKENS   ---------------------------
+***************************************************************/
+TOKEN :
+{
+   <   CTLSPEC     :"CTLSPEC"    >
+|   <   LTLSPEC     :"LTLSPEC"    >
+}
+
+Property Property(Asm m):
+{  Property p;   }
+{
+   (  p = Invariant(m) | p = TemporalProperty(m) )
+      {  return p;   }
+}
+
+TemporalProperty TemporalProperty(Asm m):
+{  TemporalProperty tp;   }
+{
+   (  tp = CtlSpec(m) | tp = LtlSpec(m) )
+      {  return tp;   }
+}
+
+CtlSpec CtlSpec(Asm m):
+{
+   Term exp;
+   HashMap localVar = new HashMap();
+}
+{
+    <CTLSPEC>
+
+        {  Logger.logDebug("CTLSPEC");
+
+            CtlSpec ctlSpec = defPack.createCtlSpec();
+        }
+
+     //":" //without the colon it's exactly like the NuSMV syntax
+
+         {   Logger.logDebug("body:");  }
+
+   exp = Term(localVar,false,null)
+
+        {   ctlSpec.setBody(exp);
+	        //PA 30/12/2010 qui bisognerebbe anche controllare che all'interno
+	        //di exp non sia stata utilizzata una funzione della LTLlibrary
+            if(!OCL_Checker.isBoolean(exp))
+           {  Logger.logErr("Error: The expression specifying a CTL propery must be a term whose associated type-domain is Boolean.");
+              throw new ParseException("Error: The expression specifying a CTL propery must be a term whose associated type-domain is Boolean.");
+            }
+        }
+
+        {    return ctlSpec;  }
+
+}
+
+LtlSpec LtlSpec(Asm m):
+{
+   Term exp;
+   HashMap localVar = new HashMap();
+}
+{
+    <LTLSPEC>
+        {
+          Logger.logDebug("LTLSPEC");
+          LtlSpec ltlSpec = defPack.createLtlSpec();
+        }
+
+     //":" //without the colon it's exactly like the NuSMV syntax
+
+         {   Logger.logDebug("body:");  }
+
+   exp = Term(localVar,false,null)
+
+        {   ltlSpec.setBody(exp);
+	        //PA 30/12/2010 qui bisognerebbe anche controllare che all'interno
+	        //di exp non sia stata utilizzata una funzione della CTLlibrary
+            if(!OCL_Checker.isBoolean(exp))
+           {  Logger.logErr("Error: The expression specifying an LTL property must be a term whose associated type-domain is Boolean.");
+              throw new ParseException("Error: The expression specifying an LTL property must be a term whose associated type-domain is Boolean.");
+            }
+        }
+
+        {    return ltlSpec;  }
+}
+

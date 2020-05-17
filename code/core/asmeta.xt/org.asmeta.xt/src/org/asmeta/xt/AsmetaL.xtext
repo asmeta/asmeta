@@ -1,0 +1,409 @@
+grammar org.asmeta.xt.AsmetaL hidden(WS, ML_COMMENT, SL_COMMENT) 
+
+generate asmetal "http://www.asmeta.org/xt/asmetal"
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+// RULES
+Asm : 
+	(isAsynchr?=('asyncr')? type=( 'asm' | 'module' ) name=(extendedNameForAsm | STRING) 
+	headerSection=Header bodySection=Body ( 'main' mainrule=MacroDeclaration )? 
+	( ( initialState+=Initialization )* 'default' defaultInitialState=Initialization ( initialState+=Initialization )* )?)?
+;
+
+//	HEADER
+
+Header : importClause+=( ImportClause )* exportClause=( ExportClause )? signature=Signature;
+
+ImportClause : 'import' moduleName=(MOD_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
+importData : name=extendedName;
+
+ExportClause : 'export' ( ( exportedList+=extendedName ( "," exportedList+=extendedName )* ) | exportAll?="*" );
+
+Signature : {Signature} 'signature' ":" domain+=(Domain)* function+=(Function)*;
+
+// INIZIALIZATION
+
+Initialization			: 'init' name=extendedName ":" ( domainInitialization+=DomainInitialization )* ( functionInitialization+=FunctionInitialization )* 
+							( agentInitialization+=AgentInitialization )*
+;
+
+DomainInitialization 	: 'domain' initializedDomain=ID "=" body=Term;
+
+FunctionInitialization	: 'function' inizializedFunctionName=extendedNameForFunction 
+							( "(" variables+=ID_VARIABLE 'in' domain+=getDomainByID ( "," variables+=ID_VARIABLE 'in' domain+=getDomainByID )* ")")? 
+							"=" body=Term;
+
+AgentInitialization		: 'agent' domainName=(ID | 'Agent') ":" program=MacroCallRule;
+
+//	BODY
+Body : {Body} 'definitions' ":" 
+	( domainDefinition+=DomainDefinition )* ( functionDefinition+=FunctionDefinition )* ( ruleDeclaration+=RuleDeclaration )*
+	( invariantConstraint+=InvariantConstraint )* fairnessConstraint+=(FairnessConstraint)* property+=(Property)*
+;
+
+DomainDefinition : 'domain' definedDomainName=ID "=" body=Term;
+
+FunctionDefinition : 'function' definedFunctionName=ID ( "(" variables+=ID_VARIABLE 'in' domain+=getDomainByID ( "," variables+=ID_VARIABLE 'in' domain+=getDomainByID )* ")")?  "=" body=Term;
+
+RuleDeclaration: MacroDeclaration | TurboDeclaration;
+
+MacroDeclaration : ('macro')? 	'rule' name=(RULE_ID) 
+	( "(" variables+=ID_VARIABLE 'in' domain+=getDomainByID ( "," variables+=ID_VARIABLE 'in' domain+=getDomainByID )* ")")? ('in' returnedDomain = getDomainByID) ?  "=" ruleBody=Rule;
+	
+TurboDeclaration : 'turbo' 	'rule' name=RULE_ID 
+	( "(" variables+=ID_VARIABLE 'in' domain+=getDomainByID ( "," variables+=ID_VARIABLE 'in' domain+=getDomainByID )* ")")? ('in' returnedDomain = getDomainByID) ? "=" ruleBody=Rule;
+
+Property : Invariant | TemporalProperty ;
+
+TemporalProperty : CtlSpec | LtlSpec;
+
+/*Invariant :	'invariant' name=(ID)? 'over' 
+ 	( 	constrainedDomain += nameofDomain | 
+		constrainedFunction+= nameofFunction ( "(" ( domain_list+=getDomainByID )? ")" )? | 
+		constrainedRule += nameofRule
+	)
+	( ","
+		( 	constrainedDomain += nameofDomain | 
+			constrainedFunction+= nameofFunction ( "(" ( domain_list+=getDomainByID )? ")" )? | 
+			constrainedRule += nameofRule
+		)
+	)* 
+	":" body=Term
+;*/
+
+Invariant :	'invariant' name=(ID)? 'over' invar_list+=InvariantElement ( "," invar_list+=InvariantElement )*
+			":" body=Term;
+
+InvariantElement :  constrainedName=ID ( "(" ( domainList+=getDomainByID )? ")" )?;
+
+
+CtlSpec : ('CTL' | 'CTLSPEC') (name=ID ':')? body=Term;
+
+LtlSpec : ('LTL' | 'LTLSPEC' ) (name=ID ':')? body=Term;
+
+FairnessConstraint : JusticeConstraint | CompassionConstraint;
+JusticeConstraint 		: 'JUSTICE' 		body=Term;
+CompassionConstraint		: 'COMPASSION' '(' 	p=Term "," q=Term ')' ;
+
+InvariantConstraint		: 'INVAR' 			body=Term;
+
+Domain : ConcreteDomain | TypeDomain ;
+
+ConcreteDomain : dynamic?=('dynamic')? 'domain' name=ID 'subsetof' typeDomain=getDomainByID;
+
+TypeDomain: AnyDomain | StructuredTD | EnumTD | AbstractTD | BasicTD /* | AgentDomain */;
+
+AnyDomain : 'anydomain' name=ID;
+
+BasicTD : 'basic' 'domain' (name = ID | StandardDomain) ;
+
+StandardDomain : IntegerDomain | RealDomain | StringDomain | NaturalDomain | CharDomain | ComplexDomain | BooleanDomain | UndefDomain;
+
+IntegerDomain: name='Integer';
+RealDomain: name='Real';
+StringDomain: name='String';
+NaturalDomain: name='Natural';
+CharDomain: name='Char';
+ComplexDomain: name='Complex';
+BooleanDomain: name='Boolean';
+UndefDomain: name='Undef';
+
+//AbstractTD : dynamic?=('dynamic')? 'abstract' 'domain' name=ID;
+
+// Abstract domain can be an AgentDomain, a ReserveDomain or a generic abstract domain with a name
+AbstractTD : GenericAbstractTD  | AgentDomain | ReserveDomain ;
+GenericAbstractTD returns AbstractTD: dynamic?=('dynamic')? 'abstract' 'domain' name=ID ;
+AgentDomain: dynamic?=('dynamic')? 'abstract' 'domain' name = 'Agent';
+ReserveDomain: dynamic?=('dynamic')? 'abstract' 'domain' name = 'Reserve';
+
+//Andrea: add the "," as a separator for enum elements
+//EnumTD : 'enum' 'domain' name=ID "=" "{" element+=EnumElement ( "|" element+=EnumElement )* "}";
+EnumTD : 'enum' 'domain' name=ID "=" "{" element+=EnumElement ( ("|" | ",") element+=EnumElement )* "}";
+
+EnumElement : symbol=ENUM_ID;
+
+StructuredTD : RuleDomain | ProductDomain | SequenceDomain | PowersetDomain | BagDomain | MapDomain ;
+
+RuleDomain : 		{RuleDomain} name='Rule' 		( "(" domains+=getDomainByID ( "," domains+=getDomainByID )* ")" )?;
+ProductDomain:	 	name='Prod'		"(" domains+=getDomainByID ( "," domains+=getDomainByID )+ ")";
+SequenceDomain:		name='Seq' 		"(" domain=getDomainByID ")";
+PowersetDomain:		name='Powerset' "(" baseDomain=getDomainByID ")";
+BagDomain:			name='Bag' 		"(" domain=getDomainByID ")";
+MapDomain:			name='Map' 		"(" sourceDomain=getDomainByID "," targetDomain=getDomainByID ")";
+										
+getDomainByID 		returns Domain		: StructuredTD | nameofDomain | StandardDomain | AbstractTD | name='Agent' | name='Reserve';
+
+//   HEADER		SIGNATURE	FUNCTION
+Function 			:  BasicFunction | DerivedFunction;
+
+BasicFunction 		:  StaticFunction | DynamicFunction ;
+
+DerivedFunction 		: 'derived' name=ID ":" ( domain=getDomainByID "->" )? codomain=getDomainByID;
+
+StaticFunction  		: 'static'	name=extendedNameForFunction ":" ( domain=getDomainByID "->" )? codomain=getDomainByID;
+
+DynamicFunction  	:   OutFunction | MonitoredFunction | SharedFunction | ControlledFunction | LocalFunction;
+
+LocalFunction 		: dynamic?=('dynamic')? 	'local' 		name=extendedName ":" ( domain=getDomainByID "->" )? codomain=getDomainByID;
+ControlledFunction  	: dynamic?=('dynamic')?	'controlled' 	name=extendedName ":" ( domain=getDomainByID "->" )? codomain=getDomainByID;
+SharedFunction 		: dynamic?=('dynamic')? 	'shared' 		name=extendedName ":" ( domain=getDomainByID "->" )? codomain=getDomainByID;
+MonitoredFunction  	: dynamic?=('dynamic')? 	'monitored' 	name=extendedName ":" ( domain=getDomainByID "->" )? codomain=getDomainByID;
+OutFunction  		: dynamic?=('dynamic')? 	'out' 			name=extendedName ":" ( domain=getDomainByID "->" )? codomain=getDomainByID;
+
+extendedNameForFunction : ID | 'and' | 'or' | 'not' | 'xor' | 'mod' | 'iff' | 'implies';
+extendedNameForAsm : ID | ENUM_ID | 'while' | 'for' | 'main' ;
+extendedName : RULE_ID | ID | ENUM_ID;
+
+//	TERM	EXPRESSIONS
+//Term  				: Expression | ExtendedTerm ;
+Term  				: Expression | DomainTerm | ExtendedTerm  ;
+DomainTerm returns DomainTerm: getDomainByID;
+
+/*
+ * Ordine delle espressioni (dalla meno prioritaria alla più prioritaria
+ * /////////////// BINARI
+ * ~ = (assegnazione)		OK
+ * ~ or, xor				OK
+ * ~ and					OK
+ * ~ == !=					OK
+ * ~ > < <= >= 				OK			
+ * ~ + - (somma, diff)		OK
+ * ~ * / mod				OK
+ * ~ in !in					??
+ * /////////////// UNARI
+ * ~ + - Not (segno)		OK
+ * ~ parentesi				
+ * ~ basicExpression
+ */
+
+// versione vecchia (VC)
+//Expression : OrExpression;
+
+//OrExpression 				returns Expression: 
+//	AndExpression	(=> ({BinaryOperation.left=current} op=( 'or' | 'xor' | 'iff' | 'implies' ) ) 	right=AndExpression)*;
+
+
+// versione nuova da AS - con giusta gerachia degli operatori or e xor rispetto implies e iff
+
+Expression : ImpliesIffExpression;
+
+ImpliesIffExpression 				returns Expression: 
+	XorOrExpression	(=> ({BinaryOperation.left=current} op=( 'implies' | 'iff' ) ) 	right=XorOrExpression)*;
+
+XorOrExpression 				returns Expression: 
+	AndExpression	(=> ({BinaryOperation.left=current} op=( 'xor' | 'or') ) 	right=AndExpression)*;
+
+AndExpression 				returns Expression: 
+	EqualityExpression 	(=> ({BinaryOperation.left=current} op='and' ) 			right=EqualityExpression)*;
+
+EqualityExpression 			returns Expression: 
+	CompareExpression 	(=> ({BinaryOperation.left=current} op=( '=' | '!=' ) ) right=CompareExpression)*;
+
+CompareExpression  			returns Expression: 	
+	AdditiveExpression 			(=> ({BinaryOperation.left=current} op=( '>' | '<' | '>=' | '<=' ) ) 			right=AdditiveExpression)*;
+	
+AdditiveExpression 			returns Expression: 
+	MultiplicativeExpression 	(=> ({BinaryOperation.left=current} op=( '+' | '-' ) ) 							right=MultiplicativeExpression)*;
+	
+MultiplicativeExpression	returns Expression: 	
+	PowerExpression 			(=> ({BinaryOperation.left=current} op=( '*' | '/' | 'mod' ) ) 								right=PowerExpression)*;
+	
+PowerExpression				returns Expression: 
+	UnaryOperation 				(=> ({BinaryOperation.left=current}  op=( '^' )) 					right=UnaryOperation)*;
+
+UnaryOperation 				returns Expression:
+	op=( 'not' | '+' | '-' ) operand=UnaryOperation | basicExpr | ParenthesizedExpression ;
+	
+ParenthesizedExpression returns Expression:	'(' Expression ')';
+
+basicExpr 	:  BasicTerm | /* DomainTerm | */ FiniteQuantificationTerm ;
+
+BasicTerm	:  FunctionTerm | ConstantTerm | VariableTerm | LocationTerm ;
+
+FunctionTerm:  (agent=extendedName "." )? functionName=extendedNameForFunction ( arguments=TupleTerm )?;
+LocationTerm : (agent=extendedName "." )? functionName=extendedNameForFunction ( arguments=TupleTerm )?;
+
+//LocationTerm : ( agent=ID "." )? function=nameofFunction ( arguments=TupleTerm )?;
+
+VariableTerm : name=ID_VARIABLE;
+
+// TERM		EXPRESSION		BASIC TERM	
+
+/*ConstantTerm : IntegerTerm | ComplexTerm | RealTerm | NaturalTerm | CharTerm | StringTerm | BooleanTerm | UndefTerm | EnumTerm ;
+BooleanTerm	:	symbol=('true' | 'false');
+UndefTerm	:	symbol='undef';
+ComplexTerm	:	symbol=COMPLEX_NUMBER;
+//RealTerm		:	symbol=REAL_NUMBER;
+RealTerm		:	symbol=ActualRealTerm;
+NaturalTerm	:	symbol=NATNUMBER;
+//IntegerTerm	:	symbol=NUMBER_TOKEN
+IntegerTerm	:	symbol=(NUMBER_TOKEN | NumberWithSign);
+CharTerm		:	symbol=CHAR_LITERAL;
+StringTerm	:	symbol=STRING_LITERAL;
+EnumTerm		:	symbol=ENUM_ID;*/
+
+ConstantTerm : NumberTerm | ComplexTerm | NaturalTerm | CharTerm | StringTerm | BooleanTerm | UndefTerm | EnumTerm ;
+NumberTerm	: IntegerTerm | RealTerm;
+
+BooleanTerm	:	symbol=('true' | 'false');
+UndefTerm	:	symbol='undef';
+ComplexTerm	:	symbol=COMPLEX_NUMBER;
+NaturalTerm	:	symbol=NATNUMBER;
+CharTerm		:	symbol=CHAR_LITERAL;
+StringTerm	:	symbol=STRING_LITERAL;
+EnumTerm		:	symbol=ENUM_ID;
+RealTerm		:	symbol=/*(REAL_NUMBER | */RealNumberWithSign/*)*/;
+IntegerTerm	:	symbol=(NUMBER_TOKEN | NumberWithSign);
+
+RealNumberWithSign	:
+	//('+' | '-')? NUMBER_TOKEN REAL_NUMBER?
+	('+' | '-')? REAL_NUMBER
+;
+
+NumberWithSign	:
+	('+' | '-')? NUMBER_TOKEN
+;
+
+// TERM		EXTENDED TERM
+
+//ExtendedTerm 	: ConditionalTerm | CaseTerm | TupleTerm | VariableBindingTerm | CollectionTerm | RuleAsTerm | DomainTerm ;
+ExtendedTerm 	: ConditionalTerm | CaseTerm | TupleTerm | VariableBindingTerm | CollectionTerm | RuleAsTerm ;
+
+
+ConditionalTerm 	: 'if' guard=Term 'then' thenTerm=Term ( 'else' elseTerm=Term )? 'endif';
+
+CaseTerm 		: 'switch' comparedTerm=Term ( 'case' comparingTerm+=Term ":" resultTerms+=Term )+ ( 'otherwise' otherwiseTerm=Term )? 'endswitch';
+
+TupleTerm 		: "(" terms+=Term ( "," terms+=Term )* ")";
+
+CollectionTerm 	:  SequenceTerm | MapTerm | SetTerm | BagTerm;
+
+// TERM		EXTENDED TERM	COLLECTION TERM
+
+//SequenceTerm 	: {SequenceTerm} "[" ( start_term=BasicTerm ( ( "," other_terms+=BasicTerm )+ | ( => DP end_term=ConstantTerm ( "," ( step=ConstantTerm ) )? ) )? )? "]";
+SequenceTerm 	: {SequenceTerm} "[" ( start_term=Term ( ( "," other_terms+=Term )+ | ( => ":" end_term=Term ( "," ( step=ConstantTerm ) )? ) )? )? "]";
+MapTerm 			: {MapTerm} "{" ( "->" | ( term+=Term "->" term+=Term ( "," term+=Term "->" term+=Term )* ) ) "}";
+//SetTerm 			: {SetTerm} "{" ( start_term=BasicTerm ( ( "," other_terms+=BasicTerm )+ | ( => DP end_term=ConstantTerm ( "," ( step=ConstantTerm ) )? ) )? )? "}";
+SetTerm 			: {SetTerm} "{" ( start_term=Term ( ( "," other_terms+=Term )+ | ( => ":" end_term=Term ( "," ( step=ConstantTerm ) )? ) )? )? "}";
+BagTerm 			: {BagTerm} "<" ( start_term=BasicTerm ( ( "," other_terms+=BasicTerm )+ | ( => ":" end_term=ConstantTerm ( "," ( step=ConstantTerm ) )? ) )? )? ">";
+
+VariableBindingTerm : LetTerm | FiniteQuantificationTerm | ComprehensionTerm;
+
+FiniteQuantificationTerm :  ForallTerm | ExistUniqueTerm | ExistTerm;
+ExistUniqueTerm 	: "(" 'exist' 'unique' 	variable+=VariableTerm 	'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
+ExistTerm 		: "(" 'exist' 			variable+=VariableTerm 	'in' ranges+=Term  ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
+ForallTerm 		: "(" 'forall' 			variable+=VariableTerm 	'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
+
+// TODO mettere variable in ...
+LetTerm 			: 'let' "(" variable+=VariableTerm "=" assignmentTerm+=Term ( "," variable+=VariableTerm "=" assignmentTerm+=Term )* ")" 'in' body=Term 'endlet';
+
+ComprehensionTerm :  SetCT | MapCT | SequenceCT | BagCT;	
+
+// TODO vedere se MapCT va bene anche così
+SetCT			:	"{" variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( "|" guard=Term )? ":" term=Term "}";
+MapCT			:	"{" variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( "|" guard=Term )? ":" term=Term "}";
+SequenceCT		:	"[" variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( "|" guard=Term )? ":" term=Term "]";
+BagCT			:	"<" variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( "|" guard=Term )? ":" term=Term ">";	
+
+//PairForMap : source=Term "->" target=Term "|";
+
+//DomainTerm returns Domain: getDomainByID /*nameofDomain*/;
+RuleAsTerm : "<<"  name=extendedName ( "(" domains+=getDomainByID ( "," domains+=getDomainByID )* ")" )? ">>";
+
+// RULE
+
+Rule : UpdateRule | TurboReturnRule | BasicRule | TermAsRule | TurboRule  | DerivedRule;
+
+TermAsRule : term=( FunctionTerm | VariableTerm ) ( "[" parameters+=Term ( "," parameters+=Term )* "]")?;
+
+BasicRule :  SkipRule | MacroCallRule | BlockRule | ConditionalRule | ChooseRule | ForallRule | LetRule | ExtendRule ;
+
+SkipRule 		: {SkipRule} 'skip';
+
+// TODO fare i controlli su location term
+UpdateRule		: location=( LocationTerm | VariableTerm ) ":=" updatingTerm=Term;
+
+BlockRule 		: 'par' rules+=Rule ( rules+=Rule )+ 'endpar';
+
+ConditionalRule :  'if' guard=Term 'then' thenRule=Rule ( 'else' elseRule=Rule )? 'endif';
+
+ChooseRule 		: 'choose' variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* 
+									'with' guard=Term 'do' doRule=Rule ( 'ifnone' ifnone=Rule )?;
+
+ForallRule		: 'forall' variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? 'do' doRule=Rule;
+
+LetRule 			: 'let' "(" variable+=VariableTerm "=" initExpression+=Term ( "," variable+=VariableTerm "=" initExpression+=Term )* ")" 'in' inRule=Rule 'endlet';
+
+MacroCallRule 	: name=extendedName "[" ( parameters+=Term ( "," parameters+=Term )* )? "]";
+
+ExtendRule 		: 'extend' extendedDomain=getDomainByID 'with' boundVar+=VariableTerm ( "," boundVar+=VariableTerm )* 'do' doRule=Rule;
+
+TurboRule		:  SeqRule | IterateRule | TurboCallRule | TurboLocalStateRule ;
+
+SeqRule 			:  'seq' rules+=Rule ( rules+=Rule )+ 'endseq';
+
+IterateRule 		: 'iterate' rule=Rule 'enditerate';
+
+TurboCallRule 	: calledRuleName=RULE_ID "(" ( parameters+=Term ( "," parameters+=Term )* )? ")";
+
+TurboReturnRule 	: location=( FunctionTerm | VariableTerm ) "<-" updateRule=TurboCallRule;
+
+TurboLocalStateRule : localFunction+=LocalFunction "[" init+=Rule "]" (localFunction+=LocalFunction "[" init+=Rule "]" )* body=Rule;
+	
+DerivedRule			:	BasicDerivedRule | TurboDerivedRule;									
+
+BasicDerivedRule		:	CaseRule;
+
+CaseRule 			: 'switch' term=Term ( 'case' caseTerm+=Term ":" caseBranch+=Rule )+ ( 'otherwise' otherwiseBranch=Rule )? 'endswitch';
+
+TurboDerivedRule		:	RecursiveWhileRule | IterativeWhileRule;
+
+RecursiveWhileRule	:	'whilerec'	guard=Term 'do' rule=Rule;
+IterativeWhileRule 	: 	'while' 	guard=Term 'do' rule=Rule;
+
+nameofDomain 				returns Domain					: name=ID;
+
+//nameofFunction				returns Function 				: name=extendedNameForFunction;
+//nameofFunctionWithAgent		returns Function					: ( agent=ID "." )? name=ID;
+//nameofFunctionLocation 		returns Function					: ( parent=ID "." )? name=ID;
+
+//nameofRule 					returns Rule 					: name=ID;
+//nameOfTurboDeclaration 		returns TurboDeclaration 		: name=ID;
+
+//nameofVariable 				returns VariableTerm 			: name=ID_VARIABLE 'in' domain=getDomainByID;
+
+// NUMERI
+terminal DIGIT			: ('0'..'9');
+terminal NUMBER_TOKEN	: (DIGIT)+;
+terminal NATNUMBER		: NUMBER_TOKEN 'n';
+/*terminal REAL_NUMBER	: "." NUMBER_TOKEN;*/
+terminal REAL_NUMBER	: NUMBER_TOKEN "." NUMBER_TOKEN;
+
+// STRINGHE
+terminal MAIUSC_ID		: ('A'..'Z');
+terminal MIN_ID			: ('a'..'z');
+terminal ACCENT_CHR		: ('à'|'è'|'é'|'ò'|'ì'|'ù'|'Ã');
+terminal ENUM_ID		: '^'?( MAIUSC_ID ) (MAIUSC_ID) ( MAIUSC_ID | DIGIT | '_' )*;
+terminal SPECIAL_CHAR	: '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '¨' | '@' | '>' | '<' | '|' | '\\' | '/';
+terminal RULE_ID		: 'r_' ( MAIUSC_ID | MIN_ID | DIGIT | '_' )*;
+terminal ID				: '^'?( MAIUSC_ID | MIN_ID | '_' ) ( MAIUSC_ID | MIN_ID | DIGIT | '_' )*;
+terminal CHAR_LITERAL	: "'" (MAIUSC_ID | MIN_ID | DIGIT | SPECIAL_CHAR | ACCENT_CHR)? "'"; 
+terminal STRING_LITERAL	: '"' ( MAIUSC_ID | MIN_ID | DIGIT | WS | "'" | SPECIAL_CHAR | ACCENT_CHR)* '"';
+terminal STRING			: '"' (!('"'))* '"';
+
+// IDENTIFICATIVI
+MOD_ID 		returns ecore::EString	: (((ENUM_ID | ID) | ('../')* | ('./')*))? ((ENUM_ID | ID) '/')* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
+ID_VARIABLE returns ecore::EString	: '$' (ID | 'rule' | 'agent' | 'seq' );
+
+// COMPLEX NUMBER
+terminal COMPLEX_NUMBER	: /*REAL_NUMBER? ('+' | '-')?*/ IMMAGINARY_NUMBER;
+terminal IMMAGINARY_NUMBER	: 'i'  ( (DIGIT)+ ('.' (DIGIT)+)? ) ;
+
+// COMMENTS
+terminal ML_COMMENT	: '/*' -> '*/';
+terminal SL_COMMENT 	: '//' !('\n'|'\r')* ('\r'* '\n')?;
+
+// CHARACTER TO BE IGNORED
+terminal WS			: (' '|'\t'|'\r'|'\n')+;
+	

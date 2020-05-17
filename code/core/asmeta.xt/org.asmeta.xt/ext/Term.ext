@@ -1,0 +1,4 @@
+  org.asmeta.xt.asmetal.Domain getDomain();
+  
+  void setDomain(org.asmeta.xt.asmetal.Domain d);
+  

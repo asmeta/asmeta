@@ -1,0 +1,5 @@
+  public org.asmeta.xt.asmetal.Header getHeaderSection()
+  {
+  	// Return the container of the Signature, i.e. the Header
+  	return (org.asmeta.xt.asmetal.Header) this.eContainer;
+  }

@@ -1,0 +1,20 @@
+  public org.asmeta.xt.asmetal.DynamicFunction getInitializedFunction()
+  {
+  	if (org.asmeta.xt.validation.utility.Utility.getFunctionByName(this.inizializedFunctionName) instanceof org.asmeta.xt.asmetal.DynamicFunction)
+    	return (org.asmeta.xt.asmetal.DynamicFunction) org.asmeta.xt.validation.utility.Utility.getFunctionByName(this.inizializedFunctionName); 
+    
+    return null; 
+  }
+  
+  public java.util.List<org.asmeta.xt.asmetal.VariableTerm> getVariable() {
+  	org.eclipse.emf.common.util.EList<org.asmeta.xt.asmetal.VariableTerm> variableList = new org.eclipse.emf.common.util.BasicEList<org.asmeta.xt.asmetal.VariableTerm>();
+	  
+	for (String s : this.getVariables()) {
+		org.asmeta.xt.asmetal.VariableTerm vt = org.asmeta.xt.asmetal.AsmetalFactory.eINSTANCE.createVariableTerm();
+		vt.setDomain(org.asmeta.xt.validation.utility.Utility.getDomainFromVariable(s));
+		vt.setName(s);
+		variableList.add(vt);
+	}
+
+	return variableList;
+  }

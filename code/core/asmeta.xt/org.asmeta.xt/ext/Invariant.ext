@@ -1,0 +1,5 @@
+  java.util.List<org.asmeta.xt.asmetal.RuleDeclaration> getConstrainedRule();
+  
+  java.util.List<org.asmeta.xt.asmetal.Function> getConstrainedFunction();
+  
+  java.util.List<org.asmeta.xt.asmetal.Domain> getConstrainedDomain();

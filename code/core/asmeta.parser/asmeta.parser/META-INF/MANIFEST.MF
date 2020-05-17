@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Asmeta parser
+Bundle-SymbolicName: asmeta.parser;singleton:=true
+Bundle-Version: 1.0.5
+Bundle-ClassPath: .
+Require-Bundle: asmeta.emf,
+ org.apache.log4j,
+ org.eclipse.emf.common
+Export-Package: org.asmeta.parser,
+ org.asmeta.parser.util
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: fmse.di.unimi.it
+Automatic-Module-Name: asmeta.parser

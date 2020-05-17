@@ -1,0 +1,5 @@
+  Integer getArity();
+  
+  org.asmeta.xt.asmetal.Signature getSignature();
+  
+  org.asmeta.xt.asmetal.FunctionDefinition getDefinition();

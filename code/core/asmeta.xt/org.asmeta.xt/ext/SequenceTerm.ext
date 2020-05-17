@@ -1,0 +1,5 @@
+  Integer getSize();
+  
+  java.util.List<org.asmeta.xt.asmetal.Term> getTerms();
+  
+  public void setSize(Integer size);

@@ -1,0 +1,4 @@
+  @Override
+  public void setRanges(EList<Term> list) {
+    ranges = list;
+  }

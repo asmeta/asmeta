@@ -1,0 +1,3 @@
+  org.asmeta.xt.asmetal.DynamicFunction getInitializedFunction();
+  
+  java.util.List<org.asmeta.xt.asmetal.VariableTerm> getVariable();

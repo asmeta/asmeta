@@ -1,0 +1,10 @@
+  public java.util.List<org.asmeta.xt.asmetal.Rule> getCaseBranches()
+  {
+  	java.util.List<org.asmeta.xt.asmetal.Rule> ruleList = new java.util.ArrayList<org.asmeta.xt.asmetal.Rule>();
+	
+	for (org.asmeta.xt.asmetal.Rule r : this.caseBranch) {
+		ruleList.add(r);
+	}
+	
+  	return ruleList;
+  }

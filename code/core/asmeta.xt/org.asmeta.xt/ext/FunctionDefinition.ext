@@ -1,0 +1,3 @@
+  org.asmeta.xt.asmetal.Function getDefinedFunction();
+  
+  java.util.List<org.asmeta.xt.asmetal.VariableTerm> getVariable();

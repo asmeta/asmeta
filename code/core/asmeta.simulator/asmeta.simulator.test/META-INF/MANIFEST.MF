@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Asmeta simulator test
+Bundle-SymbolicName: asmeta.simulator.test
+Bundle-Version: 1.0.3
+Bundle-ClassPath: org.eclipse.emf.common.jar,
+ org.eclipse.emf.ecore.jar,
+ log4j.jar
+Require-Bundle: asmeta.simulator,
+ asmeta.emf,
+ asmeta.parser,
+ asmeta.parser.test,
+ org.eclipse.emf.common
+Bundle-Vendor: fmse.di.unimi.it
+Automatic-Module-Name: asmeta.simulator.test
