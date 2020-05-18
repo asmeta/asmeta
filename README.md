@@ -1,2 +1,2 @@
 # asmeta
-amseta main repository with code and examples
+asmeta main repository with code and examples
