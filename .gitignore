@@ -32,7 +32,8 @@ build
 .externalToolBuilders
 .codepro
 
-bin
+bin/
+test-bin/
 
 
 .DS_Store
