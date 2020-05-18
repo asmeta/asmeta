@@ -1,0 +1,28 @@
+scenario exit
+
+
+load ../../../../../../../asm_examples/stereoacuity/certifierRaff2.asm
+
+
+check levelTest = 6;
+check levelCertificate =7;
+set getAnswer := RIGHT;
+
+step
+check levelTest = 5;
+check levelCertificate = 6;
+set getAnswer := RIGHT;
+
+step
+check levelTest = 4;
+check levelCertificate = 5;
+set getAnswer := EXIT;
+
+step
+check test=false;
+
+step
+check outMessage=NOTCERTIFICATE;
+
+
+//scenario exit: l’utente esce

@@ -1,0 +1,107 @@
+scenario errorBlocks
+
+
+load ../../../../../../asm_examples/ABZ2016/Hemodialysis05.asm
+
+
+begin errPatientConn1
+
+//Error reset immediatly
+check blood_flow_conn_contr = blood_flow_conn;
+check error(CONN_VP_UP) = true;
+check alarm(CONN_VP_UP) = true;
+check bp_status_der = STOP;
+set reset_alarm := true;
+set blood_flow_conn := 200;
+set current_vp := 100;
+
+end
+
+
+begin errPatientConn2
+//blood flow for error reset wrong and then correct
+
+check blood_flow_conn_contr = blood_flow_conn;
+check error(CONN_VP_UP) = true;
+check alarm(CONN_VP_UP) = true;
+check bp_status_der = STOP;
+set reset_alarm := true;
+set blood_flow_conn := 700;
+set current_vp := 100;
+
+step
+
+check error(CONN_VP_UP) = true;
+check alarm(CONN_VP_UP) = false;
+check bp_status_der = STOP;
+set blood_flow_conn := 200;
+
+end
+
+
+begin errTemperature
+
+
+set current_temp := 44;
+
+
+step
+
+check machine_status_der = BYPASS;
+check error (TEMP_HIGHT) = true;
+check alarm (TEMP_HIGHT) = true;
+set reset_alarm := true;
+
+check therapyPhase = THERAPY_EXEC;
+check heparin_running = true;
+set passedMin(time_heparin) := false;
+check ap_limits_set = false;
+check vp_limits_set = false;
+set passedSec(10) := true;
+set current_ap := 100;
+set vp_limit_low := 50;
+set vp_limit_up := 150;
+set treatment_min_uf_rate := false;
+set interrupt_dialysis := false;
+set passedMin(time_therapy) := false;
+set start_arterial_bolus := false;
+set current_UF_rate := 1000;  
+set uf_dir_backwards := false;
+set current_UF_volume := 1000;
+set start_arterial_bolus := true;
+
+step
+
+check error (TEMP_HIGHT) = true;
+check alarm (TEMP_HIGHT) = false;
+check heparin_running = true;
+	check ap_limits_set = true;
+	check vp_limits_set = true;
+	check ap_limit_low_contr = current_ap - delta_ap_contr;
+	check ap_limit_up_contr = current_ap + delta_ap_contr;
+	check vp_limit_low_contr = vp_limit_low;
+	check vp_limit_up_contr = vp_limit_up;
+	check arterialBolusPhase = SET_ARTERIAL_BOLUS_VOLUME;
+	
+	set current_ap := 100;
+	set current_vp := 100;
+	set passedMin(5) := false;
+	set update_blood_flow := false;
+	set update_th_time := false;
+	set art_bolus_volume := 100;
+	set current_temp := 38;
+	
+step
+
+check machine_status_der = MAIN_FLOW;
+check error (TEMP_HIGHT) = false;
+check alarm (TEMP_HIGHT) = false;
+	check heparin_running = true;
+	check ap_limit_low_contr = current_ap - delta_ap_contr;
+	check ap_limit_up_contr = current_ap + delta_ap_contr;
+	check arterialBolusPhase = CONNECT_SOLUTION;
+	check bp_status = STOP;
+	check art_bolus_volume_contr = art_bolus_volume;
+	set saline_solution_conn := true;
+
+end

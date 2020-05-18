@@ -1,0 +1,74 @@
+scenario errorPatientConnBPLessFlow
+
+
+load ../../../../../../asm_examples/ABZ2016/Hemodialysis05.asm
+
+execblock completetherapy.initiationCheck;
+
+step
+
+execblock completetherapy.preparationPhase;
+
+
+step
+
+execblock completetherapy.patientConn;
+
+step
+
+check therapyPhase = THERAPY_EXEC;
+	check heparin_running = true;
+	set passedMin((therapy_time_mins_contr + therapy_time_hrs_contr *60)-(stop_time_mins_h_contr + stop_time_hrs_h_contr*60)) := false;
+	check ap_limits_set = false;
+	check vp_limits_set = false;
+	set passedSec(10) := true;
+	set current_ap := 100;
+	set vp_limit_low := 50;
+	set vp_limit_up := 150;
+	set treatment_min_uf_rate := false;
+	set interrupt_dialysis := false;
+	set passedMin(therapy_time_mins_contr + therapy_time_hrs_contr *60) := false;
+	set start_arterial_bolus := false;
+	set current_UF_rate := 1000;  
+	set uf_dir_backwards := false;
+	set current_UF_volume := 1000;
+	set start_arterial_bolus := false;
+	set current_bp_flow := 10;
+	
+	step
+	
+	check alarm(BP_LESS_FLOW) = true;
+	check error(BP_LESS_FLOW) = true;
+	check th_time_error_bf_less = true;
+	check blood_flow_error_bf_less = true;
+	set reset_alarm := true;
+	set current_bp_flow := 320;
+	
+	step
+	
+	check alarm(BP_LESS_FLOW) = false;
+	check error(BP_LESS_FLOW) = true;
+	check th_time_error_bf_less = true;
+	check blood_flow_error_bf_less = true;
+	set blood_flow_conn := 350;
+	set therapy_time_hrs := 3;
+	set therapy_time_mins := 15;
+	
+	step
+	step
+		
+	check alarm(BP_LESS_FLOW) = false;
+	check error(BP_LESS_FLOW) = false;
+	check th_time_error_bf_less = false;
+	check blood_flow_error_bf_less = false;
+	set start_arterial_bolus := true;
+	
+	
+	
+step
+
+execblock completetherapy.therapyExecErr;
+
+step
+
+execblock completetherapy.therapyEnd;

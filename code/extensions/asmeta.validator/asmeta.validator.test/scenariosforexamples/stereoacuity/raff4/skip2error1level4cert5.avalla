@@ -1,0 +1,72 @@
+scenario skip2error1level4cert5
+
+
+load ../../../../../../../asm_examples/stereoacuity/certifierRaff4.asm
+
+
+check levelTest = 6;
+check levelCertificate =7;
+
+step
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerSkip = false;
+set getAnswer := SKIP;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerSkip = true;
+check answerError = false;
+exec
+	choose $x in Answers with $x!=EXIT and $x!=SKIP and $x!=currentAnswer do
+		getAnswer := $x;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerSkip = true;
+check answerError = true;
+set getAnswer := SKIP;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+check answerSkip = false;
+check answerError = false;
+check rightAnswer = 0;
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 5;
+check test = true;
+check rightAnswer = 1;
+check levelCertificate =6;
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 5;
+check test = true;
+check rightAnswer = 2;
+check levelCertificate =6;
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 5;
+check rightAnswer = 2;
+check levelCertificate =5;
+check test=false;
+
+step
+check outMessage=CERTIFICATE;
+
+
+//scenario 2 skip 1 error: l’utente fa due skip a livello 4 e un errore, certifica il 5

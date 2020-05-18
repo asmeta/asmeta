@@ -1,0 +1,63 @@
+scenario lgsWithCylValvesAndSensors1
+
+load ../../../../../../asm_examples/examples/landingGearSystem/LGS_SE.asm
+
+check doors = CLOSED and gears = EXTENDED;
+
+set handle := UP;
+step
+check doors = OPENING and gears = EXTENDED and openDoorsElectroValve and generalElectroValve;
+
+set handle := UP;
+set doorsOpen := true;
+step
+check doors = OPEN and gears = EXTENDED and not(openDoorsElectroValve) and generalElectroValve;
+
+set handle := UP;
+set gearsShockAbsorber := true;
+step
+check doors = OPEN and gears = RETRACTING and retractGearsElectroValve and generalElectroValve;
+
+set handle := UP;
+set gearsRetracted := true;
+step
+check doors = OPEN and gears = RETRACTED and not(retractGearsElectroValve) and generalElectroValve;
+
+set handle := UP;
+step
+check doors = CLOSING and gears = RETRACTED and closeDoorsElectroValve and generalElectroValve;
+
+set handle := UP;
+set doorsClosed := true;
+step
+check doors = CLOSED and gears = RETRACTED and not(closeDoorsElectroValve) and not(generalElectroValve);
+
+
+
+
+set handle := DOWN;
+step
+check doors = OPENING and gears = RETRACTED and openDoorsElectroValve and generalElectroValve;
+
+set handle := DOWN;
+set doorsOpen := true;
+step
+check doors = OPEN and gears = RETRACTED and not(openDoorsElectroValve) and generalElectroValve;
+
+set handle := DOWN;
+step
+check doors = OPEN and gears = EXTENDING and extendGearsElectroValve and generalElectroValve;
+
+set handle := DOWN;
+set gearsExtended := true;
+step
+check doors = OPEN and gears = EXTENDED and not(extendGearsElectroValve) and generalElectroValve;
+
+set handle := DOWN;
+step
+check doors = CLOSING and gears = EXTENDED and closeDoorsElectroValve and generalElectroValve;
+
+set handle := DOWN;
+set doorsClosed := true;
+step
+check doors = CLOSED and gears = EXTENDED and not(closeDoorsElectroValve) and not(generalElectroValve);

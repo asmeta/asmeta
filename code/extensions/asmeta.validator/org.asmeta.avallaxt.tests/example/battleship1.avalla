@@ -1,0 +1,9 @@
+scenario battleship_basic
+
+load battleship.asm
+
+check  turnPlayerA = PLAYERA;
+
+step
+
+check turnPlayerA = PLAYERB;

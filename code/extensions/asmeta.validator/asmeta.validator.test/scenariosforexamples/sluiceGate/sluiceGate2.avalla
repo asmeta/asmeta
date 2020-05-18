@@ -1,0 +1,40 @@
+//Ciclo completo dello sluice gate: controlla che le funzioni siano aggiornate correttamente.
+//Inoltre controlla che lo stato rimanga invariato se non sono verificate le condizioni
+//che permettono l'esecuzione delle update rule.
+scenario sluiceGate1
+
+load ../../../../../../asm_examples/examples/sluicegate/sluiceGateMotorCtl.asm
+
+check phase = FULLYCLOSED and motor = OFF and dir = ANTICLOCKWISE;
+
+set passed(closedPeriod) := false;
+step
+check phase = FULLYCLOSED and motor = OFF and dir = ANTICLOCKWISE;
+
+set passed(closedPeriod) := true;
+step
+check phase = OPENING and motor = ON and dir = CLOCKWISE;
+
+set event(top) := false;
+step
+check phase = OPENING and motor = ON and dir = CLOCKWISE;
+
+set event(top) := true;
+step
+check phase = FULLYOPEN and motor = OFF and dir = CLOCKWISE;
+
+set passed(openPeriod) := false;
+step
+check phase = FULLYOPEN and motor = OFF and dir = CLOCKWISE;
+
+set passed(openPeriod) := true;
+step
+check phase = CLOSING and motor = ON and dir = ANTICLOCKWISE;
+
+set event(bottom) := false;
+step
+check phase = CLOSING and motor = ON and dir = ANTICLOCKWISE;
+
+set event(bottom) := true;
+step
+check phase = FULLYCLOSED and motor = OFF and dir = ANTICLOCKWISE;

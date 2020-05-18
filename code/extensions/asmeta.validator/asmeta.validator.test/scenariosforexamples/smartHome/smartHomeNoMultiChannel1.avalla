@@ -1,0 +1,21 @@
+scenario smartHomeNoMultiChannel1
+
+load ../../../../../../asm_examples/examples/smartHome/smartHomeNoMultiChannel.asm
+
+set roomTemp := 15;
+set badAir := false;
+set timePassed := false;
+step
+check time=EARLY_MORN and sgnHeaterFAIRLY_HOT and sgnWaterHeaterON;
+
+step
+check time=EARLY_MORN and heaterStatus=FAIRLY_HOT and waterHeaterStatus=WE_ON;
+
+set roomTemp := 20;
+set badAir := true;
+set timePassed := true;
+step
+check time=MORN_AFT and sgnOpenWindow;
+
+step
+check time=MORN_AFT and windowStatus=OPEN;

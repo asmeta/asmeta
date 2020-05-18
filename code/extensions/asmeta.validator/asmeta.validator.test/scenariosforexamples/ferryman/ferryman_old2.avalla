@@ -1,0 +1,29 @@
+scenario ferryman_old2
+
+//All'inizio posiziona il ferryman, la goat e il wolf sulla sponda destra.
+//Poi esegue i passi che restano per portare tutti sulla sponda destra.
+
+load ../../../../../../asm_examples/examples/ferryman/ferrymanSimulator_old.asm
+
+exec
+	par
+		position(FERRYMAN) := RIGHT
+		position(GO) := RIGHT
+		position(WO) := RIGHT
+	endpar;
+
+set carry := GOAT;
+step
+check position(FERRYMAN) = LEFT and position(GO) = LEFT and position(CA) = LEFT and position(WO) = RIGHT;
+
+set carry := CABBAGE;
+step
+check position(FERRYMAN) = RIGHT and position(GO) = LEFT and position(CA) = RIGHT and position(WO) = RIGHT;
+
+set carry := NONE;
+step
+check position(FERRYMAN) = LEFT and position(GO) = LEFT and position(CA) = RIGHT and position(WO) = RIGHT;
+
+set carry := GOAT;
+step
+check position(FERRYMAN) = RIGHT and position(GO) = RIGHT and position(CA) = RIGHT and position(WO) = RIGHT;

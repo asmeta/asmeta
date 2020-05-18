@@ -1,0 +1,22 @@
+scenario lift2_s3
+// contiene gli invarianti e la regola exec. 
+// a tutti i piani voglio salire e scendere
+// l'ascensore sale fino all'ultimo piano senza mai scendere
+// alla fine tutti i bottoni per la salita sono spenti
+// quelli pe rla discesa sono ancora accesi
+
+//  ALLA EXTERNAL BUTTON PUSHED
+
+load ./lift2.asm
+
+invariant neverDown: dir(lift1) != DOWN;
+
+// init floors
+
+// the lift goes up to floor 4, then goes down to complete existsCallFromTo(0, DOWN)
+step until ctlState(lift1) = HALTING and  floor(lift1) = 4; 
+check (forall $i2 in {0..4} with existsCallFromTo($i2, DOWN) = true);
+check not existsCallFromTo(0, UP);
+check (forall $i3 in {0..4} with existsCallFromTo($i3, UP) = false);
+step
+

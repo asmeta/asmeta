@@ -1,0 +1,11 @@
+scenario cc1
+
+load ../../../asm_examples/examples/counter/counter.asm
+
+step
+
+begin blocco1
+
+	step
+	
+end // blocco1

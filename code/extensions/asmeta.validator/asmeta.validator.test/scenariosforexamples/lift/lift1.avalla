@@ -1,0 +1,16 @@
+scenario lift1
+
+load ../../../../../../asm_examples/examples/models/LIFT.asm
+
+invariant neverDown: direction(lift1) != DOWN;
+exec //set floor requests (all external buttons UP and DOWN have been pushed)
+forall $i in {0..4} do
+par
+hasToDeliverAt(lift1, $i) := false
+if $i != top then existsCallFromTo($i, UP) := true endif
+if $i != ground then existsCallFromTo($i, DOWN) := true endif
+endpar;
+//the lift goes up to floor 4, then goes down to complete existsCallFromTo(0, DOWN)
+step until ctlState(lift1) = HALTING and floor(lift1) = 4;
+check (forall $k in {0..4} with existsCallFromTo($k, DOWN) = true);
+check (forall $j in {0..4} with existsCallFromTo($j, UP) = false);

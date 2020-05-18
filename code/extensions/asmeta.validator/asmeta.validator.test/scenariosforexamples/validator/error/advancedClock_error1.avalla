@@ -1,0 +1,18 @@
+scenario advancedClock1
+
+load ../../../../../../../asm_examples/examples/simple_example/AdvancedClock.asm
+
+//controllo che nello stato inziale siano le 00:00:00
+check hours = 0 and minutes = 0 and seconds = 0;
+
+//passo di macchina (trascorre un secondo)
+step
+
+//controllo che siano le 00:00:01
+check hours = 0 and minutes = 0 and seconds = 1;
+
+//passo di macchina (trascorre un secondo)
+step
+
+//controllo che siano le 00:00:02
+check hours = 0 and minutes = 0 and seconds = 2;

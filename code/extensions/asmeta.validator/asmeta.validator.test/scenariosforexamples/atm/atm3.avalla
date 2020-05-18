@@ -1,0 +1,37 @@
+scenario atm3
+
+//Scenario in cui l'utente non ha puo' prelevare la somma richiesta perche'
+//non e' presente sul conto.
+
+load ../../../../../../asm_examples/examples/simple_example/ATM3.asm
+
+exec balance(card1) := 10;
+
+set insertedCard := card1;
+step
+check atmState = AWAITPIN;
+
+set insertedPin := 1;
+step
+check atmState = CHOOSE;
+
+set selectedService := WITHDRAWAL;
+step
+check atmState = CHOOSEAMOUNT;
+
+set standardOrOther := STANDARD;
+step
+check atmState = STANDARDAMOUNTSELECTION;
+
+//non puo' ritirare 50 euro perche' non sono disponibili sul conto
+check moneyLeft = 1000 and balance(card1) = 10;
+set insertMoneySizeStandard := 50;
+step
+check moneyLeft = 1000 and balance(card1) = 10;
+check atmState = STANDARDAMOUNTSELECTION;
+
+
+set insertMoneySizeStandard := 10;
+step
+check moneyLeft = 990 and balance(card1) = 0;
+check atmState = AWAITCARD;

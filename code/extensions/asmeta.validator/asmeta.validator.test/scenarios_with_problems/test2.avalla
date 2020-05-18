@@ -1,0 +1,8 @@
+scenario test
+
+load pippo.asm
+
+
+check -(pippo() +  1 )* 2 < 2;
+
+check -pippo + 1 - 2 < 3;

@@ -1,0 +1,5 @@
+scenario counterexecblock2
+
+load ../../../asm_examples/examples/counter/counter.asm
+
+set c1:=0;

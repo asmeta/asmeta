@@ -1,0 +1,18 @@
+scenario ciao
+
+load ../../../../../asm_examples/examples/landingGearSystem/LGS_SE.asm
+
+
+check --pippo + 1 < 5;
+
+check not(openDoorsElectroValve);
+
+
+check not(openDoorsElectroValve);
+
+
+check (forall $j in {-1..4} with existsCallFromTo($j, UP) = false);
+
+check (forall $t in AlarmErrorType with error($t) = false);
+
+check 1 + pippo - 1 < 4;

@@ -1,0 +1,83 @@
+scenario error1level4cert1
+
+
+load ../../../../../../../asm_examples/stereoacuity/certifierRaff5.asm
+
+
+invariant inv1: loop = false;
+
+
+check levelTest = 6;
+check levelCertificate =7;
+set choosenShape := AAA;
+set getAnswer := AA;
+
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+set getAnswer := AA;
+set choosenShape := AAA;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerError = false;
+set getAnswer := CC;
+set choosenShape := DDD;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerError = true;
+set getAnswer := DD;
+set choosenShape := DDD;
+
+step
+check levelTest = 3;
+check levelCertificate =4;
+check answerError = false;
+set getAnswer := CC;
+set choosenShape := CCC;
+
+step
+check levelTest = 2;
+check levelCertificate =3;
+set getAnswer := CC;
+set choosenShape := CCC;
+
+step
+check levelTest = 1;
+check test = true;
+check rightAnswer = 0;
+check levelCertificate =2;
+set getAnswer := CC;
+set choosenShape := CCC;
+
+step
+check levelTest = 1;
+check test = true;
+check rightAnswer = 1;
+check levelCertificate =2;
+set getAnswer := DD;
+set choosenShape := DDD;
+
+step
+check levelTest = 1;
+check test = true;
+check rightAnswer = 2;
+check levelCertificate =2;
+set getAnswer := AA;
+set choosenShape := AAA;
+
+step
+check levelTest = 1;
+check rightAnswer = 2;
+check levelCertificate =1;
+check test=false;
+
+step
+check outMessage=CERTIFICATE;
+
+
+//scenario 1 errore: l’utente fa un errore a livello 4, ma certifica fino all'1

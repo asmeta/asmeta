@@ -1,0 +1,310 @@
+scenario completetherapy
+
+
+load ../../../../../../../../asm_examples/examples/hemodialysisDevice/ABZ2016/Hemodialysis_ref2_par.asm
+
+
+
+begin initiationCheck
+
+	check phaseTherapy = PREPARATION;
+	check mode = AUTO_TEST;
+	check rinsingParam = FILLING_BP_RATE;
+	check tubingPhase = CONNECT_AV_TUBES;
+	check treatmentParam = BLOOD_CONDUCTIVITY;
+	check rinsePhase = CONNECT_DIALYZER;
+	check bp_status = STOP;
+	check signal_lamp = YELLOW;
+	check machine_state = BYPASS;
+	
+	set auto_test_end := true;
+
+end //end initiationCheck
+
+step
+
+begin preparationPhase
+
+	check mode = CONNECT_CONCENTRATE;
+	set conn_concentrate := true;
+	
+	step
+	
+	check mode = SET_RINSING_PARAM;
+	check rinsingParam = FILLING_BP_RATE;
+	set fill_bp_rate := 450;
+	
+	step
+	
+	check rinsingParam = FILLING_BP_VOLUME;
+	check fill_bp_rate_contr = fill_bp_rate;
+	set fill_bp_volume := 2000;
+	
+	step
+	
+	check rinsingParam = BP_RATE_RINSING;
+	check fill_bp_volume_contr = fill_bp_volume;
+	set bp_rate_rinsing := 150;
+	
+	step
+	
+	check rinsingParam = DF_FLOW_RINSING;
+	check bp_rate_rinsing_contr = bp_rate_rinsing;
+	set df_flow_rinsing := 150;
+	
+	step
+	
+	check rinsingParam = TIME_RINSING;
+	check df_flow_rinsing_contr = df_flow_rinsing;
+	set time_rinsing := 30;
+	
+	step
+	
+	check rinsingParam = UF_RATE_RINSING;
+	check time_rinsing_contr = time_rinsing;
+	set uf_rate_rinsing := 1500;
+	
+	step
+	
+	check rinsingParam = UF_VOLUME_RINSING;
+	check uf_rate_rinsing_contr = uf_rate_rinsing;
+	set uf_volume_rinsing := 1500;
+	
+	step
+	
+	check uf_volume_rinsing_contr = uf_volume_rinsing;
+	check mode = TUBING_SYSTEM;
+	check tubingPhase = CONNECT_AV_TUBES;
+	set av_tubes_conn := true;
+	
+	step
+	
+	check tubingPhase = CONNECT_ALL_COMP;
+	set all_comp_conn := true;
+	
+	step
+	
+	check tubingPhase = SET_SALINE_LEVELS;
+	set saline_levels_set := true;
+	
+	step
+	
+	check tubingPhase = INSERT_BLOODLINES;
+	set blood_line_insert := true;
+	
+	step
+		
+	check bp_status = STOP;
+	
+	step
+		
+	check bp_status = START;
+	set bp_fill_fluid := true;
+	
+	step
+		
+	check bp_rate_rinsing_contr = 150;
+	set bp_fill_fluid := true;
+	
+	step
+		
+	check bp_status = STOP;
+	check tubingPhase = CONNECT_AV_ENDS;
+	set av_ends_conn := true;
+		
+	step
+		
+	check mode = PREPARE_HEPARIN;
+		
+	step
+	
+	check mode = PREPARE_HEPARIN;
+	set heparin_prepared := true;
+	
+	step
+	
+	check mode = SET_TREAT_PARAM;
+	check treatmentParam = BLOOD_CONDUCTIVITY;
+	set blood_conductivity := 15000;
+	
+	step
+	
+	check treatmentParam = BIC_AC;
+	check blood_conductivity_contr = blood_conductivity;
+	set bic_ac := BICARBONATE;
+	
+	step
+	
+	check treatmentParam = BIC_CONDUCTIVITY;
+	check bic_ac_contr = bic_ac;
+	set bic_conductivity := 3;
+	
+	step
+	
+	check treatmentParam = DF_TEMP;
+	check bic_conductivity_contr = bic_conductivity;
+	set df_temp := 37;
+	
+	step
+	
+	check treatmentParam = DF_FLOW;
+	check df_temp_contr = df_temp;
+	set df_flow := 500;
+	
+	step
+	
+	check treatmentParam = UF_VOLUME;
+	check df_flow_contr = df_flow;
+	set uf_volume := 10000;
+	
+	step
+	
+	check treatmentParam = THERAPY_TIME;
+	check uf_volume_contr = uf_volume;
+	set therapy_time_hrs := 2;
+	set therapy_time_mins := 0;
+	
+	step
+	
+	check treatmentParam = MIN_UF_RATE;
+	check therapy_time_hrs_contr = therapy_time_hrs;
+	check therapy_time_mins_contr = therapy_time_mins;
+	set min_uf_rate := 200;
+	
+	step
+	
+	check treatmentParam = MAX_UF_RATE;
+	check min_uf_rate_contr = min_uf_rate;
+	set max_uf_rate := 3000;
+	
+	step
+	
+	check treatmentParam = MIN_AP;
+	check max_uf_rate_contr = max_uf_rate;
+	set min_ap := -200;
+	
+	step
+	
+	check treatmentParam = MAX_AP;
+	check min_ap_contr = min_ap;
+	set max_ap := 200;
+	
+	step
+	
+	check treatmentParam = MIN_VP;
+	check max_ap_contr = max_ap;
+	set min_vp := -50;
+	
+	step
+	
+	check treatmentParam = MAX_VP;
+	check min_vp_contr = min_vp;
+	set max_vp := 200;
+	
+	step
+	
+	check treatmentParam = DELTA_AP;
+	check max_vp_contr = max_vp;
+	set delta_ap := 10;
+	
+	step
+	
+	check treatmentParam = PERC_DELTA_TMP;
+	check delta_ap_contr = delta_ap;
+	set perc_delta_tmp := 5;
+	
+	step
+	
+	check treatmentParam = LIMITS_TMP;
+	check perc_delta_tmp_contr = perc_delta_tmp;
+	set limits_tmp := true;
+	
+	step
+	
+	check treatmentParam = MAX_TMP;
+	check limits_tmp_contr = limits_tmp;
+	set max_tmp := 400;
+	
+	step
+	
+	check treatmentParam = EXTENDED_TMP;
+	check max_tmp_contr = max_tmp;
+	set extended_tmp_limit := false;
+	
+	step
+	
+	check treatmentParam = MAX_BEP;
+	check extended_tmp_limit_contr = extended_tmp_limit;
+	set max_bep := 400;
+	
+	step
+	
+	check treatmentParam = STOP_TIME_H;
+	check max_bep_contr = max_bep;
+	set stop_time_hrs_h := 0;
+	set stop_time_mins_h := 30;
+	
+	step
+	
+	check treatmentParam = BOLUS_VOLUME_H;
+	check stop_time_hrs_h_contr = stop_time_hrs_h;
+	check stop_time_mins_h_contr = stop_time_mins_h;
+	set bolus_volume_h := 2000;
+	
+	step
+	
+	check treatmentParam = RATE_H;
+	check bolus_volume_h_contr = bolus_volume_h;
+	set rate_h := 1000;
+	
+	step
+	
+	check treatmentParam = ACTIVATION_H;
+	check rate_h_contr = rate_h;
+	set activation_h := true;
+	
+	
+	step
+	
+	check treatmentParam = SYRINGE_TYPE;
+	check activation_h_contr = activation_h;
+	set syringe_type := ST10;
+	
+	step
+	
+	
+	check mode = RINSE_DIALYZER;
+	check syringe_type_contr = syringe_type;
+	check rinsePhase = CONNECT_DIALYZER;
+	set dialyzer_connected := true;
+	
+	step
+	
+	check rinsePhase = FILL_ART_CHAMBER;
+	check bp_status = STOP;
+	
+	step
+	
+	check rinsePhase = FILL_ART_CHAMBER;
+	check bp_status = START;
+	set arterial_chamber_filled := true;
+	
+	step
+	
+	check rinsePhase = FILL_VEN_CHAMBER;
+	set venous_chamber_fill := true;
+	
+	step
+	
+	check rinsePhase = FILL_DIALYZER;
+	set dialyzer_filled := true;
+
+end //end preparationPhase
+
+step
+
+	check  phaseTherapy = INITIATION;
+	
+	step
+	
+	check phaseTherapy = ENDING;

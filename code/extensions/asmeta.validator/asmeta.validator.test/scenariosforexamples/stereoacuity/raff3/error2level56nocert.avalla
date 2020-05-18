@@ -1,0 +1,45 @@
+scenario error2level56nocert
+
+
+load ../../../../../../../asm_examples/stereoacuity/certifierRaff3.asm
+
+
+check levelTest = 6;
+check levelCertificate =7;
+set getAnswer := RIGHT;
+
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+check answerError = false;
+set getAnswer := WRONG;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+check answerError = true;
+set getAnswer := WRONG;
+
+step  
+check levelTest = 6;
+check levelCertificate =7;
+check answerError = false;
+set getAnswer := WRONG;
+
+step
+check levelTest = 6;
+check levelCertificate =7;
+check answerError = true;
+set getAnswer := WRONG;
+
+step
+check levelTest = 6;
+check levelCertificate =7;
+check test=false;
+
+step
+check outMessage=NOTCERTIFICATE;
+
+
+//scenario 2 errori: l’utente fa due errori a livello 5 e 6 , non certifica

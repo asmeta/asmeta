@@ -1,0 +1,9 @@
+scenario test3
+
+load pippo.asm
+
+
+check ----1 ---- 1 ---- 1 + ----2 > 2;
+
+
+check pippo - --1 - -1 > 2;

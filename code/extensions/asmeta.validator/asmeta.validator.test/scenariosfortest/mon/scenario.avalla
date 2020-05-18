@@ -1,0 +1,7 @@
+scenario example
+
+load spec.asm
+
+set a:= 1;
+
+step

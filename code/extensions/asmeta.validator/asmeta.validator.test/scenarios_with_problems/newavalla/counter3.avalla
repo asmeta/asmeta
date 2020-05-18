@@ -1,0 +1,22 @@
+scenario cc3
+
+load ../../../asm_examples/examples/counter/counter.asm
+
+check c1 = 0;
+
+begin blocco1
+
+	step
+	check c2 = 110;
+	
+	begin blocco2
+	
+		step
+		check c3 = 1100;
+	
+	end //blocco2
+	
+	step
+	check c3 = 1300;
+	
+end //blocco1

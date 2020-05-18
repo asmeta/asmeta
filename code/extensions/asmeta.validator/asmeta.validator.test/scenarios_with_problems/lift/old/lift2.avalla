@@ -1,0 +1,34 @@
+scenario lift2
+
+load ../../../../../../asm_examples/examples/models/LIFT.asm
+
+// init shared functions
+set hasToDeliverAt(lift1, 0) := false;
+set hasToDeliverAt(lift1, 1) := false;
+set hasToDeliverAt(lift1, 2) := false;
+set hasToDeliverAt(lift1, 3) := true;
+set hasToDeliverAt(lift1, 4) := false;
+set existsCallFromTo(0, UP)   := false;
+set existsCallFromTo(0, DOWN) := false;
+set existsCallFromTo(1, UP)   := false;
+set existsCallFromTo(1, DOWN) := false;
+set existsCallFromTo(2, UP)   := true;
+set existsCallFromTo(2, DOWN) := true;
+set existsCallFromTo(3, UP)   := false;
+set existsCallFromTo(3, DOWN) := false;
+set existsCallFromTo(4, UP)   := false;
+set existsCallFromTo(4, DOWN) := false;
+step until ctlState(lift1) = HALTING and floor(lift1) = 3;
+//check dir(lift1) = UP;
+//check floor(lift1) = 3;
+check not hasToDeliverAt(lift1, 3) 
+	and not existsCallFromTo(2, UP) 
+	and existsCallFromTo(2, DOWN);
+	
+set existsCallFromTo(3, UP) := true;
+set hasToDeliverAt(lift1, 4) := true;
+step until ctlState(lift1) = HALTING and floor(lift1) = 4;
+check not hasToDeliverAt(lift1, 4);
+// must fail!
+check not existsCallFromTo(3, UP);
+

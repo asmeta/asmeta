@@ -1,0 +1,111 @@
+scenario errorPatientConnSAD
+
+
+load ../../../../../../asm_examples/ABZ2016/Hemodialysis05.asm
+
+execblock completetherapy.initiationCheck;
+
+step
+
+execblock completetherapy.preparationPhase;
+
+step
+
+//patientConn
+
+check bp_status = STOP;
+check mode = CONNECT_PATIENT;
+check phaseTherapy = INITIATION;
+check patientPhase = CONN_ART;
+set art_connected := true;
+set current_temp := 37;
+
+step
+
+check patientPhase = START_BP;
+
+step
+
+check patientPhase = BLOOD_FLOW;
+check bp_status = START;
+check ven_connected_contr = false;
+set blood_flow_conn := 400;
+//VP error
+set current_vp := 150;
+set current_ap := 150;
+set current_fill_blood_vol := 500;
+set passedMsec(1) := true;
+set currentSAD := 150;
+set current_air_vol := 350;
+set bp_rotates_back := false;
+set detected_blood_flow := true;
+set current_temp := 37;
+
+step
+
+check error(SAD_ERR) = true;
+check alarm(SAD_ERR) = true;
+check bp_status_der = STOP;
+set reset_alarm := true;
+
+
+step
+
+check alarm(SAD_ERR) = false;
+check error(SAD_ERR) = true;
+check bp_status_der = STOP;
+set error_SAD_resolved := true;
+
+step
+
+check alarm(SAD_ERR) = false;
+check error(SAD_ERR) = false;
+check bp_status_der = START;
+check blood_flow_conn_contr = blood_flow_conn;
+check patientPhase = FILL_TUBING;
+set current_air_vol := 150;
+set blood_on_VRD := false;
+
+step
+
+check patientPhase = FILL_TUBING;
+set blood_on_VRD := true;
+
+step
+
+check patientPhase = CONN_VEN;
+check bp_status_der = STOP;
+set ven_connected := true;
+
+step
+
+check patientPhase = START_BP;
+check ven_connected_contr = true;
+
+step
+
+check patientPhase = BLOOD_FLOW;
+check bp_status_der = START;
+set blood_flow_conn := 400;
+
+step
+
+check patientPhase = END_CONN;
+check blood_flow_conn_contr = blood_flow_conn;
+
+step
+
+check machine_state = MAIN_FLOW;
+check bicarbonate_status = true;
+check signal_lamp = GREEN;
+check mode = THERAPY_RUNNING;
+check therapyPhase = START_HEPARIN;
+set current_bp_flow := 380;
+
+step
+
+execblock completetherapy.therapyExec;
+
+step
+
+execblock completetherapy.therapyEnd;

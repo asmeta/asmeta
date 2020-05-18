@@ -1,0 +1,173 @@
+scenario errorPressureTherapy
+
+
+load ../../../../../../asm_examples/ABZ2016/Hemodialysis05.asm
+
+execblock completetherapy.initiationCheck;
+
+step
+
+execblock completetherapy.preparationPhase;
+
+
+step
+
+execblock completetherapy.patientConn;
+
+
+step
+
+
+	check therapyPhase = THERAPY_EXEC;
+	check heparin_running = true;
+	set passedMin((therapy_time_mins_contr + therapy_time_hrs_contr *60)-(stop_time_mins_h_contr + stop_time_hrs_h_contr*60)) := false;
+	check ap_limits_set = false;
+	check vp_limits_set = false;
+	set passedSec(10) := true;
+	set current_ap := 100;
+	set vp_limit_low := 50;
+	set vp_limit_up := 150;
+	set treatment_min_uf_rate := false;
+	set interrupt_dialysis := false;
+	set passedMin(therapy_time_mins_contr + therapy_time_hrs_contr *60) := false;
+	set start_arterial_bolus := false;
+	set current_UF_rate := 1000;  
+	set uf_dir_backwards := false;
+	set current_UF_volume := 1000;
+	set start_arterial_bolus := true;
+	
+	step
+	
+
+	check heparin_running = true;
+	check ap_limits_set = true;
+	check vp_limits_set = true;
+	check ap_limit_low_contr = current_ap - delta_ap_contr;
+	check ap_limit_up_contr = current_ap + delta_ap_contr;
+	check vp_limit_low_contr = vp_limit_low;
+	check vp_limit_up_contr = vp_limit_up;
+	check arterialBolusPhase = SET_ARTERIAL_BOLUS_VOLUME;
+	set current_ap := 100;
+	set current_vp := 100;
+	set passedMin(5) := false;
+	set update_blood_flow := false;
+	set update_th_time := false;
+	set art_bolus_volume := 100;
+	//set update_blood_flow := true;
+	//set update_th_time := true;
+	//set blood_flow_conn := 300;
+	//set therapy_time_hrs := 2;
+	//set therapy_time_mins := 30;
+	
+	//step 
+	
+	//check heparin_running = true;
+	//check ap_limit_low_contr = current_ap - delta_ap_contr;
+	//check ap_limit_up_contr = current_ap + delta_ap_contr;
+	//check arterialBolusPhase = SET_ARTERIAL_BOLUS_VOLUME;
+	//check blood_flow_conn_contr = blood_flow_conn;
+	//check therapy_time_hrs_contr = therapy_time_hrs;
+	//check therapy_time_mins_contr = therapy_time_mins;
+	//set art_bolus_volume := 200;
+	//set update_blood_flow := false;
+	//set update_th_time := false;
+	
+	step 
+	
+	check heparin_running = true;
+	check ap_limit_low_contr = current_ap - delta_ap_contr;
+	check ap_limit_up_contr = current_ap + delta_ap_contr;
+	check arterialBolusPhase = CONNECT_SOLUTION;
+	check bp_status = STOP;
+	check art_bolus_volume_contr = art_bolus_volume;
+	set saline_solution_conn := true;
+	
+	step 
+	
+	check heparin_running = true;
+	check arterialBolusPhase = RUNNING_SOLUTION;
+	check bp_status = START;
+	check ap_limits_set = false;
+	check vp_limits_set = false;
+	set passedSec(10) := true;
+	set current_ap := 100;
+	set vp_limit_low := 50;
+	set vp_limit_up := 150;
+	set passedMin(5) := false;
+	set current_art_bolus_volume := art_bolus_volume_contr;
+	
+	step
+	
+	check arterialBolusPhase = WAIT_SOLUTION;
+	check alarm(ARTERIAL_BOLUS_END) = true;
+	check heparin_running = true;
+	check ap_limit_low_contr = current_ap - delta_ap_contr;
+	check ap_limit_up_contr = current_ap + delta_ap_contr;
+	check vp_limit_low_contr = vp_limit_low;
+	check vp_limit_up_contr = vp_limit_up;
+	check ap_limits_set = true;
+	check vp_limits_set = true;
+	set current_ap := 100;
+	set current_vp := 100;
+	set passedMin(5) := false;
+	set passedMin(therapy_time_mins_contr + therapy_time_hrs_contr *60) := false;
+	set reset_alarm := true;
+	set start_arterial_bolus := false;
+	
+	step
+	
+	check alarm(ARTERIAL_BOLUS_END) = false;
+	check arterialBolusPhase = WAIT_SOLUTION;
+	check heparin_running = true;
+	check ap_limit_low_contr = current_ap - delta_ap_contr;
+	check ap_limit_up_contr = current_ap + delta_ap_contr;
+	set current_vp := -300;
+	
+	step
+	
+	check error(INIT_VP_LOW) = true;
+	check alarm(INIT_VP_LOW) = true;
+	check bp_status_der = STOP;
+	check bf_err_vp_low = true;
+	check reset_err_pres_vp_low = true;
+	set reset_alarm := true;
+	
+	step
+	
+	check error(INIT_VP_LOW) = true;
+	check alarm(INIT_VP_LOW) = false;
+	check bp_status_der = STOP;
+	set blood_flow_conn := 200;
+	set min_vp := -50;
+	set max_vp := 200;
+	set current_vp := 100;
+	
+	step
+	
+	check bf_err_vp_low = false;
+	check reset_err_pres_vp_low = false;
+	
+	step
+	
+	check error(INIT_VP_LOW) = false;
+	set passedMin((therapy_time_mins_contr + therapy_time_hrs_contr *60)-(stop_time_mins_h_contr + stop_time_hrs_h_contr*60)) := true;
+	set passedMin(5) := true;
+	check bf_err_vp_low = false;
+	check reset_err_pres_vp_low = false;
+	
+	step
+	
+	check heparin_running = false;
+	set current_ap := 100;
+	set current_vp := 100;
+	set passedMin(5) := false;
+	set passedMin(therapy_time_mins_contr + therapy_time_hrs_contr *60) := true;
+	
+	step
+	
+	check therapyPhase = THERAPY_END;
+
+
+step
+
+execblock completetherapy.therapyEnd;

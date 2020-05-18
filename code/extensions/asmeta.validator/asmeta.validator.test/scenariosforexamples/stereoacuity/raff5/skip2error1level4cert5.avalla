@@ -1,0 +1,76 @@
+scenario skip2error1level4cert5
+
+
+load ../../../../../../../asm_examples/stereoacuity/certifierRaff5.asm
+
+
+check levelTest = 6;
+check levelCertificate =7;
+set choosenShape := CCC;
+set getAnswer := CC;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+set getAnswer := DD;
+set choosenShape := DDD;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerSkip = false;
+set getAnswer := SKIP;
+set choosenShape := CCC;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerSkip = true;
+check answerError = false;
+set getAnswer := DD;
+set choosenShape := BBB;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerSkip = true;
+check answerError = true;
+set getAnswer := SKIP;
+set choosenShape := BBB;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+check answerSkip = false;
+check answerError = false;
+check rightAnswer = 0;
+set getAnswer := DD;
+set choosenShape := DDD;
+
+step
+check levelTest = 5;
+check test = true;
+check rightAnswer = 1;
+check levelCertificate =6;
+set getAnswer := AA;
+set choosenShape := AAA;
+
+step
+check levelTest = 5;
+check test = true;
+check rightAnswer = 2;
+check levelCertificate =6;
+set getAnswer := CC;
+set choosenShape := CCC;
+
+step
+check levelTest = 5;
+check rightAnswer = 2;
+check levelCertificate =5;
+check test=false;
+
+step
+check outMessage=CERTIFICATE;
+
+
+//scenario 2 skip 1 error: l’utente fa due skip a livello 4 e un errore, certifica il 5

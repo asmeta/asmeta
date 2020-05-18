@@ -1,0 +1,153 @@
+scenario rushHourMon1
+
+load ../../../../../../asm_examples/examples/RushHour/RushHourMon.asm
+
+set carMon := 2;
+set dirMon := NORTH;
+step
+
+set carMon := 2;
+set dirMon := NORTH;
+step
+
+set carMon := 4;
+set dirMon := NORTH;
+step
+
+set carMon := 4;
+set dirMon := NORTH;
+step
+
+set carMon := 4;
+set dirMon := NORTH;
+step
+
+set carMon := 6;
+set dirMon := EAST;
+step
+
+set carMon := 6;
+set dirMon := EAST;
+step
+
+set carMon := 3;
+set dirMon := EAST;
+step
+
+set carMon := 3;
+set dirMon := EAST;
+step
+
+set carMon := 3;
+set dirMon := EAST;
+step
+
+set carMon := 2;
+set dirMon := SOUTH;
+step
+
+set carMon := 2;
+set dirMon := SOUTH;
+step
+
+set carMon := 2;
+set dirMon := SOUTH;
+step
+
+set carMon := 1;
+set dirMon := EAST;
+step
+
+set carMon := 5;
+set dirMon := NORTH;
+step
+
+set carMon := 5;
+set dirMon := NORTH;
+step
+
+set carMon := 5;
+set dirMon := NORTH;
+step
+
+set carMon := 5;
+set dirMon := NORTH;
+step
+
+set carMon := 1;
+set dirMon := WEST;
+step
+
+set carMon := 2;
+set dirMon := NORTH;
+step
+
+set carMon := 6;
+set dirMon := WEST;
+step
+
+set carMon := 6;
+set dirMon := WEST;
+step
+
+set carMon := 6;
+set dirMon := WEST;
+step
+
+set carMon := 2;
+set dirMon := NORTH;
+step
+
+set carMon := 2;
+set dirMon := NORTH;
+step
+
+set carMon := 3;
+set dirMon := WEST;
+step
+
+set carMon := 3;
+set dirMon := WEST;
+step
+
+set carMon := 3;
+set dirMon := WEST;
+step
+
+set carMon := 2;
+set dirMon := SOUTH;
+step
+
+set carMon := 2;
+set dirMon := SOUTH;
+step
+
+set carMon := 2;
+set dirMon := SOUTH;
+step
+
+set carMon := 4;
+set dirMon := SOUTH;
+step
+
+set carMon := 4;
+set dirMon := SOUTH;
+step
+
+set carMon := 4;
+set dirMon := SOUTH;
+step
+
+set carMon := 1;
+set dirMon := EAST;
+step
+
+set carMon := 1;
+set dirMon := EAST;
+step
+
+set carMon := 1;
+set dirMon := EAST;
+step
+
+check board(2,4)=redCar and board(2,5)=redCar;

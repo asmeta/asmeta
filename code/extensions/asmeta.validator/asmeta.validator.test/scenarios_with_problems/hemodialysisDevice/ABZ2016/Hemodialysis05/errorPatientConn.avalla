@@ -1,0 +1,103 @@
+scenario errorPatientConn
+
+
+load ../../../../../../asm_examples/ABZ2016/Hemodialysis05.asm
+
+execblock completetherapy.initiationCheck;
+
+step
+
+execblock completetherapy.preparationPhase;
+
+step
+
+//patientConn
+
+check bp_status = STOP;
+check mode = CONNECT_PATIENT;
+check phaseTherapy = INITIATION;
+check patientPhase = CONN_ART;
+set art_connected := true;
+set current_temp := 37;
+
+step
+
+check patientPhase = START_BP;
+
+step
+
+check patientPhase = BLOOD_FLOW;
+check bp_status = START;
+check ven_connected_contr = false;
+set blood_flow_conn := 400;
+//VP error
+set current_vp := 420;
+set passedSec(3) := true;
+set current_ap := 150;
+set current_fill_blood_vol := 500;
+set currentSAD := 150;
+set current_air_vol := 50;
+set bp_rotates_back := false;
+set detected_blood_flow := true;
+set current_temp := 37;
+
+step
+
+//error resolved immediatly
+//execblock errorBlocks.errPatientConn1;
+
+//error resolved after one step
+execblock errorBlocks.errPatientConn2;
+
+step
+
+check alarm(CONN_VP_UP) = false;
+check error(CONN_VP_UP) = false;
+check bp_status_der = START;
+check blood_flow_conn_contr = blood_flow_conn;
+check patientPhase = FILL_TUBING;
+set blood_on_VRD := false;
+
+step
+
+check patientPhase = FILL_TUBING;
+set blood_on_VRD := true;
+
+step
+
+check patientPhase = CONN_VEN;
+check bp_status_der = STOP;
+set ven_connected := true;
+
+step
+
+check patientPhase = START_BP;
+check ven_connected_contr = true;
+
+step
+
+check patientPhase = BLOOD_FLOW;
+check bp_status_der = START;
+set blood_flow_conn := 400;
+
+step
+
+check patientPhase = END_CONN;
+check blood_flow_conn_contr = blood_flow_conn;
+
+step
+
+check machine_state = MAIN_FLOW;
+check bicarbonate_status = true;
+check signal_lamp = GREEN;
+check mode = THERAPY_RUNNING;
+check therapyPhase = START_HEPARIN;
+set current_bp_flow := 380;
+
+step
+
+execblock completetherapy.therapyExec;
+
+step
+
+execblock completetherapy.therapyEnd;

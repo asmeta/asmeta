@@ -1,0 +1,5 @@
+// a block that does not exit in another scenario
+scenario lift
+load Lift.asm
+
+execblock block1:blocco5;

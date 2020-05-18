@@ -1,0 +1,55 @@
+scenario installTubingTempHigh
+
+load ../../../../../../../asm_examples/examples/hemodialysisDevice/HemodialysisRef3_MC.asm
+
+execblock completeTherapyMCRef3.initStateEnd;
+
+execblock completeTherapyMCRef1.automaticTest;
+execblock completeTherapyMCRef1.connectConcentrate;
+execblock completeTherapyMCRef1.setRinsingParam;
+execblock completeTherapyMCRef1.installTubingSystem;
+execblock completeTherapyMCRef1.prepareHeparin;
+execblock completeTherapyMCRef1.setTreatmentParam;
+
+check prepPhase = RINSE_DIALYZER;
+check syringe_type_contr = syringe_type;
+check rinsePhase = CONNECT_DIALYZER;
+check preparing_DF = true;
+set stop_DF_preparation := true;
+step
+check preparing_DF = false;
+set dialyzer_connected := true;
+step
+check rinsePhase = FILL_ART_CHAMBER;
+check bp_status_der = STOP;
+check dialyzer_connected_status = true;
+set current_temp := HIGH;
+set reset_alarm := false;
+step
+check rinsePhase = FILL_ART_CHAMBER;
+check bp_status_der = START;
+check dialyzer_connected_status = false;
+set arterial_chamber_filled := false;
+step
+check rinsePhase = FILL_ART_CHAMBER;
+check bp_status_der = START;
+check dialyzer_connected_status = false;
+set arterial_chamber_filled := true;
+step
+set reset_alarm := true;
+step
+set current_temp := PERMITTED;//
+step
+check dialyzer_connected_status = true;//
+check error(TEMP_HIGH) = false;
+step
+check rinsePhase = FILL_VEN_CHAMBER;
+set venous_chamber_fill := true;
+step
+check rinsePhase = FILL_DIALYZER;
+set dialyzer_filled := true;
+step
+
+execblock completeTherapyMCRef2.initiationPhase;
+
+execblock completeTherapyMCRef3.endingPhase;

@@ -1,0 +1,139 @@
+scenario completeTherapyMCRef2
+
+load ../../../../../../../asm_examples/examples/hemodialysisDevice/HemodialysisRef2_MC.asm
+
+begin initStateInit
+	execblock completeTherapyMCRef1.initStatePrep;
+
+	check patientPhase = CONN_ART;
+	check arterialBolusPhase = WAIT_SOLUTION;
+	check therapyPhase = START_HEPARIN;
+	check ven_connected_contr = false;
+	check art_connected_contr = false;
+	check initPhase = CONNECT_PATIENT;
+	check bicarbonate_status = false;
+	check heparin_running = false;
+	check ap_limits_set = false;
+	check vp_limits_set = false;
+	check treatment_min_uf_rate_contr = false;
+	check blood_flow_error_bf_less = false;
+	check th_time_error_bf_less = false;
+	check update_th_time = false;
+	check bf_err_ap_low = false;
+	check reset_err_pres_ap_low = false;
+	check bf_err_ap_low_conn = false;
+	check reset_err_pres_ap_low_conn = false;
+end //initStateInit
+
+execblock completeTherapyMCRef1.preparationPhase;
+
+
+//Begin initiation phase
+begin initiationPhase
+	begin patientConnection
+		check phase = INITIATION;
+		check initPhase = CONNECT_PATIENT;
+		check patientPhase = CONN_ART;
+		check bp_status = STOP;
+		check bp_status_der = STOP;
+		set art_connected := true;
+
+		step
+
+		check patientPhase = START_BP;
+		check art_connected_contr = true;
+		set start_stop_button := true;
+		check bp_status_der = STOP;
+
+		step
+
+		check patientPhase = BLOOD_FLOW;
+		check bp_status = START;
+		check bp_status_der = START;
+		set current_vp := PERMITTED;
+		set current_ap := PERMITTED;
+		set current_fill_blood_vol := PERMITTED;
+		set passed3Sec := false;
+		set passed1Sec := false;
+		set blood_flow_conn := PERMITTED;
+		set bp_rotates_back := false;
+		set current_bp_flow := PERMITTED;
+		set detected_blood_flow := true;
+		set passed120Sec := false;
+
+
+		step
+
+		check patientPhase = FILL_TUBING;
+		set blood_on_VRD := true;
+
+		step
+
+		check patientPhase = CONN_VEN;
+		check bp_status = STOP;
+		set ven_connected := true;
+
+		step
+
+		check patientPhase = START_BP;
+		check ven_connected_contr = true;
+		set start_stop_button := true;
+
+		step
+
+		check patientPhase = BLOOD_FLOW;
+		check bp_status = START;
+		check bp_status_der = START;
+		set blood_flow_conn := PERMITTED;
+
+		step
+		check patientPhase = END_CONN;
+		step
+	end //patientConnection
+	begin therapyRunning
+		check machine_state = MAIN_FLOW;
+		check bicarbonate_status = true;
+		check signal_lamp = GREEN;
+		check initPhase = THERAPY_RUNNING;
+		check therapyPhase = START_HEPARIN;
+
+		step
+
+		check therapyPhase = THERAPY_EXEC;
+		check heparin_running = true;
+		set interrupt_dialysis := false;
+		set time_heparin := false;
+		set reverse_dir_heparin := false;
+		set passed10Sec := false;
+		set ap_limit_low := PERMITTED;
+		set vp_limit_low := PERMITTED;
+		set current_ap := PERMITTED;
+		set current_vp := PERMITTED;
+		set ap_limit_up := PERMITTED;
+		set vp_limit_up := PERMITTED;
+		set treatment_min_uf_rate := false;
+		set start_arterial_bolus := false;
+		set update_blood_flow := false;
+		set update_th_time := false;
+		set current_UF_rate := PERMITTED;
+		set uf_dir_backwards := false;
+		set current_UF_volume := PERMITTED;
+		set time_therapy := false;
+
+		step
+
+		set time_therapy := true;
+
+		step
+
+		check therapyPhase = THERAPY_END;
+
+		step
+	end //therapy running
+end //initiation phase
+
+//ending phase
+begin endingPhase
+	check phase = ENDING;
+	step
+end

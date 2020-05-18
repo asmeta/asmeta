@@ -1,0 +1,49 @@
+scenario completeTherapyMCRef3
+
+load ../../../../../../../asm_examples/examples/hemodialysisDevice/HemodialysisRef3_MC.asm
+
+begin initStateEnd
+	execblock completeTherapyMCRef2.initStateInit;
+
+	check endingPhase = REINFUSION;
+	check reinfusionPhase = REMOVE_ART;
+	check empty_dialyzer = false; 
+end //initStateEnd
+
+execblock completeTherapyMCRef1.preparationPhase;
+
+execblock completeTherapyMCRef2.initiationPhase;
+
+//Begin ending phase
+begin endingPhase
+	check phase = ENDING;
+	set art_removed := true;
+	step
+	check reinfusionPhase = CONN_SALINE;
+	check art_connected_contr = false;
+	set saline_conn := true;
+	step
+	check reinfusionPhase = START_SALINE_INF;
+	step
+	check bp_status = START;
+	check reinfusionPhase = RUN_SALINE_INF;
+	set saline_on_VRD := true;
+	step
+	check reinfusionPhase = CHOOSE_NEXT_REINF_STEP;
+	check bp_status = STOP;
+	set new_saline_reinfusion := false;
+	step
+	check reinfusionPhase = REMOVE_VEN;
+	set ven_removed := true;
+	step
+	check endingPhase = DRAIN_DIALYZER;
+	check ven_connected_contr = false;
+	set dialyzer_drained := true;
+	step
+	check endingPhase = EMPTY_CARTRIDGE;
+	check empty_dialyzer = true;
+	set cartridge_emtpy := true;
+	step
+	check endingPhase = THERAPY_OVERVIEW;
+	step
+end //ending phase

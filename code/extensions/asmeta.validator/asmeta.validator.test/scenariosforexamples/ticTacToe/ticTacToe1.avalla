@@ -1,0 +1,33 @@
+//for ESF Strategic Workshop on Correct Software in Web Applications - Hagenberg (Austria), 26-28 September 2011
+scenario ticTacToe1
+
+load ../../../../../../asm_examples/examples/ticTacToe/ticTacToe_simulator_with_inv.asm
+
+set userChoiceR := 1;
+set userChoiceC := 1;
+step
+check board(1, 1) = CROSS and not(winner(CROSS)) and not(winner(NOUGHT));
+
+exec
+	par
+		board(1,3) := NOUGHT
+		status := TURN_USER
+	endpar ;
+check not(winner(CROSS)) and not(winner(NOUGHT));
+
+set userChoiceR := 3;
+set userChoiceC := 1;
+step
+check board(3, 1) = CROSS and not(winner(CROSS)) and not(winner(NOUGHT));
+
+exec
+	par
+		board(2,2) := NOUGHT
+		status := TURN_USER
+	endpar ;
+check not(winner(CROSS)) and not(winner(NOUGHT));
+
+set userChoiceR := 2;
+set userChoiceC := 1;
+step
+check board(2, 1) = CROSS and winner(CROSS) and not(winner(NOUGHT)) and endOfGame;

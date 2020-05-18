@@ -1,0 +1,13 @@
+scenario lift
+// the spec is in teh same directory 
+load Lift.asm
+
+set insideCall(1):= true;
+set insideCall(2):= false;
+//outsideCall: Prod(Integer, Dir) -> Boolean
+set outsideCall(2,UP):= false;
+step
+
+check direction = UP;
+
+step

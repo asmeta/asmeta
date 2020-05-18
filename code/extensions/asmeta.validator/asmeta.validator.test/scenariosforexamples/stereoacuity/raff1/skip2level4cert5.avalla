@@ -1,0 +1,41 @@
+scenario skip2level4cert5
+
+
+load ../../../../../../../asm_examples/stereoacuity/certifierRaff1.asm
+
+
+check levelTest = 6;
+check levelCertificate =7;
+set getAnswer := RIGHT;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+set getAnswer := RIGHT;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerSkip = false;
+set getAnswer := SKIP;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerSkip = true;
+set getAnswer := SKIP;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+check answerSkip = false;
+set getAnswer := RIGHT;
+
+step
+check test = false;
+
+step
+check outMessage=CERTIFICATE;
+
+
+//scenario 2 skip: l’utente fa due skip a livello 4, certifica il 5

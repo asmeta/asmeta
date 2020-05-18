@@ -1,0 +1,14 @@
+scenario atm2
+
+//Scenario in cui l'utente inserisce una password sbagliata:
+//gli viene negato l'accesso
+
+load ../../../../../../asm_examples/examples/simple_example/ATM3.asm
+
+set insertedCard := card1;
+step
+check atmState = AWAITPIN;
+
+set insertedPin := 2;
+step
+check atmState = AWAITCARD;

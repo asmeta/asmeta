@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+		 <category
+			description="Validator commands"
+			id="validator.plugin.commands.category"
+			name="Validator">
+		</category>
+      <command
+            name="Run AsmetaV"
+            categoryId="validator.plugin.commands.category"
+            id="validator.plugin.commands.runValidatorCommand">
+      </command>
+      <command
+            name="Run AsmetaV and compute coverage"
+            categoryId="validator.plugin.commands.category"
+            id="validator.plugin.commands.runValidatorCoverageCommand">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="validator.plugin.commands.runValidatorCommand"
+            class="validator.plugin.handlers.ValidatorNoCoverageHandler">
+      </handler>
+      <handler
+            commandId="validator.plugin.commands.runValidatorCoverageCommand"
+            class="validator.plugin.handlers.ValidatorCoverageHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="Asmeta"
+               id="asmeta.plugin.menus.Asmeta">
+         <menu
+               label="AsmetaV"
+               mnemonic="M"
+               id="validator.plugin.menus.AsmetaVMenu">
+            <command
+                  commandId="validator.plugin.commands.runValidatorCommand"
+                  icon="icons/runValidator.gif"
+                  id="validator.plugin.menus.runValidatorCommand"
+                  label="Run AsmetaV"
+                  tooltip="Run AsmetaV">
+            </command>
+            <command
+                  commandId="validator.plugin.commands.runValidatorCoverageCommand"
+                  icon="icons/runValidatorAndCoverage.gif"
+                  id="validator.plugin.menus.runValidatorCoverageCommand"
+                  label="Run AsmetaV and compute coverage"
+                  tooltip="Run AsmetaV and compute coverage">
+            </command>
+         </menu>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="validator.plugin.toolbars.asmetavToolbar"
+               label="AsmetaV">
+            <command
+                  commandId="validator.plugin.commands.runValidatorCommand"
+                  icon="icons/runValidator.gif"
+                  id="validator.plugin.toolbars.runValidatorCommand"
+                  label="Run AsmetaV"
+                  tooltip="Run AsmetaV">
+            </command>
+            <command
+                  commandId="validator.plugin.commands.runValidatorCoverageCommand"
+                  icon="icons/runValidatorAndCoverage.gif"
+                  id="validator.plugin.toolbars.runValidatorCoverageCommand"
+                  label="Run AsmetaV and compute coverage"
+                  tooltip="Run AsmetaV and compute coverage">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+</plugin>

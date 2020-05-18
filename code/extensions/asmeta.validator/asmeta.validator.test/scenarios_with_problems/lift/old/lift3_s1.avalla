@@ -1,0 +1,36 @@
+scenario lift3_s1
+
+//  EXTERNAL REQUEST at GROUND FLOOR
+load ./lift3.asm
+
+// init shared functions
+// lift is halted at floor 0
+set hasToDeliverAt(lift1, 0) := false;
+set hasToDeliverAt(lift1, 1) := false;
+set hasToDeliverAt(lift1, 2) := false;
+set hasToDeliverAt(lift1, 3) := false;
+set hasToDeliverAt(lift1, 4) := false;
+set existsCallFromTo(0, UP)   := false;
+set existsCallFromTo(0, DOWN) := false;
+set existsCallFromTo(1, UP)   := false;
+set existsCallFromTo(1, DOWN) := false;
+set existsCallFromTo(2, UP)   := false;
+set existsCallFromTo(2, DOWN) := false;
+set existsCallFromTo(3, UP)   := false;
+set existsCallFromTo(3, DOWN) := false;
+set existsCallFromTo(4, UP)   := false;
+set existsCallFromTo(4, DOWN)   := false;
+
+// ------------
+check floor(lift1) = 0;
+set existsCallFromTo(0, UP) := true;
+step
+check floor(lift1) = 0;
+// receives a request to floor 4
+set hasToDeliverAt(lift1, 4) := true;
+// start
+step
+check ctlState(lift1) = MOVING;
+check dir(lift1) = UP;
+check existsCallFromTo(0, UP) = false;
+step

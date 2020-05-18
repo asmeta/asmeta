@@ -1,0 +1,5 @@
+scenario testcounter1
+
+load ../../../asm_examples/examples/counter/counter1.asm
+
+check c = 1;

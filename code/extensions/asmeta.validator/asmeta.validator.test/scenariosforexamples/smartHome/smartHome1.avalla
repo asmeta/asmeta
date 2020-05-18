@@ -1,0 +1,27 @@
+scenario smartHome1
+
+load ../../../../../../asm_examples/examples/smartHome/smartHome.asm
+
+set roomTemp := 15;
+set badAir := false;
+set timePassed := false;
+step
+check time=EARLY_MORN and sgnHeaterFAIRLY_HOT_CH and sgnWaterHeaterON_MWH;
+
+step
+check time=EARLY_MORN and setHeaterStatus=FAIRLY_HOT and setWaterHeaterStatus=WE_ON;
+
+step
+check time=EARLY_MORN and heaterStatus=FAIRLY_HOT and waterHeaterStatus=WE_ON;
+
+set roomTemp := 20;
+set badAir := true;
+set timePassed := true;
+step
+check time=MORN_AFT and sgnOpenWindow_AQ;
+
+step
+check time=MORN_AFT and setWindowStatus=OPEN;
+
+step
+check time=MORN_AFT and windowStatus=OPEN;

@@ -1,0 +1,49 @@
+scenario error2level45cert6
+
+
+load ../../../../../../../asm_examples/stereoacuity/certifierRaff5.asm
+
+
+check levelTest = 6;
+check levelCertificate =7;
+set choosenShape := CCC;
+set getAnswer := CC;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+check answerError = false;
+set getAnswer := DD;
+set choosenShape := AAA;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+check answerError = true;
+set getAnswer := CC;
+set choosenShape := CCC;
+
+step
+check levelTest = 6;
+check levelCertificate =7;
+check answerError = false;
+set getAnswer := BB;
+set choosenShape := AAA;
+
+step
+check levelTest = 6;
+check levelCertificate =7;
+check answerError = true;
+set getAnswer := DD;
+set choosenShape := AAA;
+
+step
+check levelTest = 6;
+check levelCertificate =7;
+check test=false;
+
+step
+check outMessage=NOTCERTIFICATE;
+
+
+//scenario 2 errori: l’utente fa due errori a livello 5 e 6 , non certifica

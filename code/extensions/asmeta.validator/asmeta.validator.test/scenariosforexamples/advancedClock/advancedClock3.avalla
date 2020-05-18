@@ -1,0 +1,36 @@
+scenario advancedClock3
+
+load ../../../../../../asm_examples/examples/simple_example/AdvancedClock.asm
+
+//invariante di scenario che afferma che l'ora e' sempre minore di tre
+invariant inv_1: hours < 3;
+
+//l'orario viene impostato alle 02:01:59
+exec
+	par
+		hours := 2
+		minutes := 1
+		seconds := 59
+	endpar
+;
+
+//passo di macchina
+step
+
+//controllo che siano le 02:02:00
+check hours = 2 and minutes = 2 and seconds = 0; 
+
+//l'orario viene impostato alle 00:00:00
+exec
+	par
+		hours := 0
+		minutes := 0
+		seconds := 0
+	endpar
+;
+
+//Viola l'invariante di scenario
+exec hours := 16;
+
+//Viola l'invariante di scenario
+//step until hours = 3;

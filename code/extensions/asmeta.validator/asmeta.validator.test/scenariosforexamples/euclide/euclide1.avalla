@@ -1,0 +1,6 @@
+scenario euclide1
+
+load ../../../../../../asm_examples/examples/simple_example/euclideMCD.asm
+
+step until numA = numB;
+check numA = 13;

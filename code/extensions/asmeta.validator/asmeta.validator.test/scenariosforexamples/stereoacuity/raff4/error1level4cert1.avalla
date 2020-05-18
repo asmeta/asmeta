@@ -1,0 +1,76 @@
+scenario error1level4cert1
+
+
+load ../../../../../../../asm_examples/stereoacuity/certifierRaff4.asm
+
+
+invariant inv1: loop = false;
+
+
+check levelTest = 6;
+check levelCertificate =7;
+step
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerError = false;
+exec
+	choose $x in Answers with $x!=EXIT and $x!=SKIP and $x!=currentAnswer do
+		getAnswer := $x;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerError = true;
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 3;
+check levelCertificate =4;
+check answerError = false;
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 2;
+check levelCertificate =3;
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 1;
+check test = true;
+check rightAnswer = 0;
+check levelCertificate =2;
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 1;
+check test = true;
+check rightAnswer = 1;
+check levelCertificate =2;
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 1;
+check test = true;
+check rightAnswer = 2;
+check levelCertificate =2;
+set getAnswer := currentAnswer;
+
+step
+check levelTest = 1;
+check rightAnswer = 2;
+check levelCertificate =1;
+check test=false;
+
+step
+check outMessage=CERTIFICATE;
+
+
+//scenario 1 errore: l’utente fa un errore a livello 4, ma certifica fino all'1

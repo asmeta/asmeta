@@ -1,0 +1,54 @@
+scenario atm4
+
+//Scenario in cui i soldi presenti nel bancomat non sono mai meno di 900.
+
+load ../../../../../../asm_examples/examples/simple_example/ATM3.asm
+
+//Invariante di scenario che afferma che i soldi presenti nel bancomat non sono
+//mai inferiori a 900 euro.
+invariant inv1: moneyLeft >= 900;
+
+set insertedCard := card1;
+step
+
+set insertedPin := 1;
+step
+
+set selectedService := WITHDRAWAL;
+step
+
+set standardOrOther := STANDARD;
+step
+
+set insertMoneySizeStandard := 50;
+step
+
+set insertedCard := card2;
+step
+
+set insertedPin := 2;
+step
+
+set selectedService := WITHDRAWAL;
+step
+
+set standardOrOther := STANDARD;
+step
+
+set insertMoneySizeStandard := 20;
+step
+
+set insertedCard := card3;
+step
+
+set insertedPin := 3;
+step
+
+set selectedService := WITHDRAWAL;
+step
+
+set standardOrOther := STANDARD;
+step
+
+set insertMoneySizeStandard := 20;
+step

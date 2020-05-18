@@ -1,0 +1,27 @@
+scenario errorTemp
+
+
+load ../../../../../../asm_examples/ABZ2016/Hemodialysis05.asm
+
+execblock completetherapy.initiationCheck;
+
+step
+
+execblock completetherapy.preparationPhase;
+
+
+step
+
+execblock completetherapy.patientConn;
+
+
+execblock errorBlocks.errTemperature;
+
+step
+
+execblock completetherapy.therapyExecErrTemp;
+
+step
+
+execblock completetherapy.therapyEnd;
+

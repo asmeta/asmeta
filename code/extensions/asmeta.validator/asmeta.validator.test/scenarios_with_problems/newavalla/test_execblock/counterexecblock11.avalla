@@ -1,0 +1,12 @@
+scenario counterexecblock
+
+load ../../../../asm_examples/examples/counter/counter.asm
+
+execblock c1111.blocco2;
+
+execblock cc2.bl3;
+
+
+execblock cc2.bl1;
+
+set cc(0) := ------o +l;

@@ -1,0 +1,81 @@
+scenario error2level45cert6
+
+
+load ../../../../../../../asm_examples/stereoacuity/certifierRaff5.asm
+
+
+check levelTest = 6;
+check levelCertificate =7;
+set choosenShape := CCC;
+set getAnswer := CC;
+
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+set getAnswer := AA;
+set choosenShape := AAA;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerError = false;
+set getAnswer := CC;
+set choosenShape := DDD;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerError = true;
+set	getAnswer := BB;
+set choosenShape := AAA;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+check answerError = false;
+set getAnswer := CC;
+set choosenShape := BBB;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+check answerError = true;
+set getAnswer := CC;
+set choosenShape := AAA;
+
+step
+check levelTest = 6;
+check levelCertificate =7;
+check answerError = false;
+check rightAnswer = 0;
+set getAnswer := CC;
+set choosenShape := CCC;
+
+step
+check levelTest = 6;
+check test = true;
+check rightAnswer = 1;
+check levelCertificate =7;
+set getAnswer := DD;
+set choosenShape := DDD;
+
+step
+check levelTest = 6;
+check test = true;
+check rightAnswer = 2;
+check levelCertificate =7;
+set getAnswer := BB;
+set choosenShape := BBB;
+
+step
+check levelTest = 6;
+check rightAnswer = 2;
+check levelCertificate =6;
+check test=false;
+
+step
+check outMessage=CERTIFICATE;
+
+
+//scenario 2 errori: l’utente fa due errori a livello 4 e 5 , certifica il 6

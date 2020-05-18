@@ -1,0 +1,42 @@
+scenario lgsGround2
+
+load ../../../../../../asm_examples/examples/landingGearSystem/LGS_GM.asm
+
+check doors = CLOSED and gears = EXTENDED;
+
+set handle := UP;
+step
+check doors = OPENING and gears = EXTENDED;
+
+set handle := DOWN;
+step
+check doors = CLOSING and gears = EXTENDED;
+
+set handle := DOWN;
+step
+check doors = CLOSED and gears = EXTENDED;
+
+
+set handle := UP;
+step
+check doors = OPENING and gears = EXTENDED;
+
+set handle := UP;
+step
+check doors = OPEN and gears = EXTENDED;
+
+set handle := UP;
+step
+check doors = OPEN and gears = RETRACTING;
+
+set handle := DOWN;
+step
+check doors = OPEN and gears = EXTENDING;
+
+set handle := DOWN;
+step
+check doors = OPEN and gears = EXTENDED;
+
+set handle := UP;
+step
+check doors = OPEN and gears = RETRACTING;

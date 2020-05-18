@@ -1,0 +1,31 @@
+scenario exit
+
+
+load ../../../../../../../asm_examples/stereoacuity/certifierRaff5.asm
+
+
+check levelTest = 6;
+check levelCertificate =7;
+set choosenShape := CCC;
+set getAnswer := CC;
+
+step
+check levelTest = 5;
+check levelCertificate = 6;
+set getAnswer := DD;
+set choosenShape := BBB;
+
+step
+check levelTest = 4;
+check levelCertificate = 5;
+set getAnswer := EXIT;
+set choosenShape := AAA;
+
+step
+check test=false;
+
+step
+check outMessage=NOTCERTIFICATE;
+
+
+//scenario exit: l’utente esce

@@ -1,0 +1,1 @@
+-- scenario in which a monitored variable is set both in the scenario and in the spec

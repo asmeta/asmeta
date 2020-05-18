@@ -1,0 +1,31 @@
+scenario lift2_s0
+
+// sta fermo, se non c'è richiesta
+load ../../../../../../../asm_examples/examples/models/lift2.asm
+
+// init shared functions
+// lift is halted at floor 0
+set hasToDeliverAt(lift1, 0) := false;
+set hasToDeliverAt(lift1, 1) := false;
+set hasToDeliverAt(lift1, 2) := false;
+set hasToDeliverAt(lift1, 3) := false;
+set hasToDeliverAt(lift1, 4) := false;
+set existsCallFromTo(0, UP)   := false;
+set existsCallFromTo(0, DOWN) := false;
+set existsCallFromTo(1, UP)   := false;
+set existsCallFromTo(1, DOWN) := false;
+set existsCallFromTo(2, UP)   := false;
+set existsCallFromTo(2, DOWN) := false;
+set existsCallFromTo(3, UP)   := false;
+set existsCallFromTo(3, DOWN) := false;
+set existsCallFromTo(4, UP)   := false;
+set existsCallFromTo(4, DOWN)   := false;
+
+// ------------
+check floor(lift1) = 0;
+step
+check floor(lift1) = 0;
+check ctlState(lift1) = HALTING;
+check dir(lift1) = UP;
+step
+step

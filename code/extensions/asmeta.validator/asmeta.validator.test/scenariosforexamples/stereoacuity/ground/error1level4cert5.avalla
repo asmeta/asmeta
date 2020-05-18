@@ -1,0 +1,37 @@
+scenario error1level4cert5
+
+
+load ../../../../../../../asm_examples/stereoacuity/certifierGround.asm
+
+
+check levelTest = 6;
+check levelCertificate =7;
+set getAnswer := RIGHT;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+set getAnswer := RIGHT;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+set getAnswer := WRONG;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+set getAnswer := RIGHT;
+
+step
+check levelTest = 5;
+check levelCertificate =5;
+
+step
+check test=false;
+
+step
+check outMessage=CERTIFICATE;
+
+
+//scenario un errore livello 4, certifica livello 5

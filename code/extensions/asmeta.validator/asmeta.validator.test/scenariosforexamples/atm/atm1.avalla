@@ -1,0 +1,30 @@
+scenario atm1
+
+//Scenario di prelievo corretto:
+//- l'utente card1 inserisce la carta ed il pin corretto
+//- preleva 50 euro
+//- viene disconesso
+
+load ../../../../../../asm_examples/examples/simple_example/ATM3.asm
+
+set insertedCard := card1;
+step
+check atmState = AWAITPIN;
+
+set insertedPin := 1;
+step
+check atmState = CHOOSE;
+
+set selectedService := WITHDRAWAL;
+step
+check atmState = CHOOSEAMOUNT;
+
+set standardOrOther := STANDARD;
+step
+check atmState = STANDARDAMOUNTSELECTION;
+
+check moneyLeft = 1000 and balance(card1) = 3000;
+set insertMoneySizeStandard := 50;
+step
+check moneyLeft = 950 and balance(card1) = 2950;
+check atmState = AWAITCARD;

@@ -1,0 +1,60 @@
+scenario completetherapy
+
+
+//load ../../../../../../asm_examples/ABZ2016/Hemodialysis04.asm
+load ../../../../../../../../asm_examples/examples/hemodialysisDevice/ABZ2016/old_completedModels/Hemodialysis04.asm
+
+
+
+check phaseTherapy = PREPARATION;
+check mode = AUTO_TEST;
+check rinsingParam = FILLING_BP_RATE;
+check tubingPhase = CONNECT_AV_TUBES;
+check treatmentParam = BLOOD_CONDUCTIVITY;
+check rinsePhase = CONNECT_DIALYZER;
+check patientPhase = CONN_ART;
+check patient_conn_venously = false;
+check therapyPhase = START_HEPARIN;
+check reinfusionPhase = REMOVE_ART;
+
+step until therapyPhase = THERAPY_END;
+
+set end_therapy := true;
+
+step
+
+check mode = REINFUSION;
+check phaseTherapy = ENDING;
+
+step until reinfusionPhase = CHOOSE_NEXT_REINF_STEP;
+
+set new_saline_reinfusion := true;
+
+step until reinfusionPhase = CHOOSE_NEXT_REINF_STEP;
+
+set new_saline_reinfusion := false;
+
+step until mode = THERAPY_OVERVIEW;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

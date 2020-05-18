@@ -1,0 +1,35 @@
+scenario ferryman1
+
+//Mostra tutti i passi necessari per trasportare tutti gli attori
+//sulla sponda destra.
+//Dopo ogni passo controlla che le posizioni degli attori siano quelle attese.
+
+load ../../../../../../asm_examples/examples/ferryman/ferrymanSimulator.asm
+
+set carry := GOAT;
+step
+check position(FERRYMAN) = RIGHT and position(GOAT) = RIGHT and position(CABBAGE) = LEFT and position(WOLF) = LEFT;
+
+set carry := FERRYMAN;
+step
+check position(FERRYMAN) = LEFT and position(GOAT) = RIGHT and position(CABBAGE) = LEFT and position(WOLF) = LEFT;
+
+set carry := WOLF;
+step
+check position(FERRYMAN) = RIGHT and position(GOAT) = RIGHT and position(CABBAGE) = LEFT and position(WOLF) = RIGHT;
+
+set carry := GOAT;
+step
+check position(FERRYMAN) = LEFT and position(GOAT) = LEFT and position(CABBAGE) = LEFT and position(WOLF) = RIGHT;
+
+set carry := CABBAGE;
+step
+check position(FERRYMAN) = RIGHT and position(GOAT) = LEFT and position(CABBAGE) = RIGHT and position(WOLF) = RIGHT;
+
+set carry := FERRYMAN;
+step
+check position(FERRYMAN) = LEFT and position(GOAT) = LEFT and position(CABBAGE) = RIGHT and position(WOLF) = RIGHT;
+
+set carry := GOAT;
+step
+check position(FERRYMAN) = RIGHT and position(GOAT) = RIGHT and position(CABBAGE) = RIGHT and position(WOLF) = RIGHT;
