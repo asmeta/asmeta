@@ -31,3 +31,8 @@ build
 .settings
 .externalToolBuilders
 .codepro
+
+bin
+
+
+.DS_Store
