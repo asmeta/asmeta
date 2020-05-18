@@ -1,0 +1,31 @@
+;;refinement from ClientDisplayOutputNoMessageArrived to ClientDisplayOutput
+(define-type Device(scalar device1 device2 device3 DeviceUNDEF))
+(define-type State(scalar WAITING_FOR_MESSAGE EXECUTE_CLIENT_TESTS CHECKING_FOR_EXTRA_RESOURCES DISPLAYING_THE_MESSAGE StateUNDEF))
+;; functions - state 0
+(define state0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) State))
+(define extraResources0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool))
+(define clientTestsAvailable0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool))
+;; initial state
+(assert (and (= (state0 device1) WAITING_FOR_MESSAGE) (= (state0 device2) WAITING_FOR_MESSAGE) (= (state0 device3) WAITING_FOR_MESSAGE)))
+(check)
+;; functions - state 0
+(define stater0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) State))
+(define extraResourcesr0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool))
+(define messageArrivedr0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool))
+(define clientTestsAvailabler0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool))
+;; initial state
+(assert (and (= (stater0 device1) WAITING_FOR_MESSAGE) (= (stater0 device2) WAITING_FOR_MESSAGE) (= (stater0 device3) WAITING_FOR_MESSAGE)))
+(check)
+;; sat
+;; Initial state proof
+(assert (not
+			(and
+				(= (state0 device1) (stater0 device1))
+				(= (state0 device2) (stater0 device2))
+				(= (state0 device3) (stater0 device3))
+			)
+		)
+)
+(check)
+;; unsat
+;; Initial states are conformant.

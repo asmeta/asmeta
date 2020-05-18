@@ -1,0 +1,66 @@
+scenario error2level4cert5
+
+//load ../../../StereoacuityRaff5.asm
+load ../../../flattenedModels/StereoacuityRaff5_flat.asm
+
+
+check levelTest = 6;
+check levelCertificate =7;
+set choosenShape := DDD;
+set getAnswer := DD;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+set getAnswer := AA;
+set choosenShape := AAA;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerError = false;
+set getAnswer := CC;
+set choosenShape := DDD;
+
+step
+check levelTest = 4;
+check levelCertificate =5;
+check answerError = true;
+set getAnswer := AA;
+set choosenShape := DDD;
+
+step
+check levelTest = 5;
+check levelCertificate =6;
+check answerError = false;
+check rightAnswer = 0;
+set getAnswer := CC;
+set choosenShape := CCC;
+
+step
+check levelTest = 5;
+check test = true;
+check rightAnswer = 1;
+check levelCertificate =6;
+set getAnswer := CC;
+set choosenShape := CCC;
+
+step
+check levelTest = 5;
+check test = true;
+check rightAnswer = 2;
+check levelCertificate =6;
+set getAnswer := BB;
+set choosenShape := BBB;
+
+step
+check levelTest = 5;
+check rightAnswer = 2;
+check levelCertificate =5;
+check test=false;
+
+step
+check outMessage=CERTIFICATE;
+
+
+//scenario 2 errori: l�utente fa due errori a livello 4, certifica il 5

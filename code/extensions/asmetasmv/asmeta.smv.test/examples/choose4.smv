@@ -1,0 +1,86 @@
+--file examples\choose4.smv
+MODULE main
+	VAR
+		var_a_1_1: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_1_2: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_1_3: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_1_4: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_2_1: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_2_2: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_2_3: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_2_4: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_3_1: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_3_2: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_3_3: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_3_4: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_4_1: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_4_2: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_4_3: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_a_4_4: {-2147483647, 1, 2, 3, 4}; --controlled
+		--declaration of choose variables
+		var_$x_0: 1..4;
+		var_$x_1: 1..4;
+		var_$x_2: 1..4;
+		var_$x_3: 1..4;
+	ASSIGN
+		init(var_a_1_1) := -2147483647;
+		init(var_a_1_2) := -2147483647;
+		init(var_a_1_3) := -2147483647;
+		init(var_a_1_4) := -2147483647;
+		init(var_a_2_1) := -2147483647;
+		init(var_a_2_2) := -2147483647;
+		init(var_a_2_3) := -2147483647;
+		init(var_a_2_4) := -2147483647;
+		init(var_a_3_1) := -2147483647;
+		init(var_a_3_2) := -2147483647;
+		init(var_a_3_3) := -2147483647;
+		init(var_a_3_4) := -2147483647;
+		init(var_a_4_1) := -2147483647;
+		init(var_a_4_2) := -2147483647;
+		init(var_a_4_3) := -2147483647;
+		init(var_a_4_4) := -2147483647;
+		next(var_a_1_1) := var_a_1_1;
+		next(var_a_1_2) :=
+			case
+				(var_$x_1 = 1) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: var_a_1_2;
+			esac;
+		next(var_a_1_3) :=
+			case
+				(var_$x_2 = 1) & 2 in {-2147483647, 1, 2, 3, 4}: 2;
+				TRUE: var_a_1_3;
+			esac;
+		next(var_a_1_4) :=
+			case
+				(var_$x_3 = 1) & 3 in {-2147483647, 1, 2, 3, 4}: 3;
+				TRUE: var_a_1_4;
+			esac;
+		next(var_a_2_1) := var_a_2_1;
+		next(var_a_2_2) := var_a_2_2;
+		next(var_a_2_3) :=
+			case
+				(var_$x_2 = 2) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: var_a_2_3;
+			esac;
+		next(var_a_2_4) :=
+			case
+				(var_$x_3 = 2) & 2 in {-2147483647, 1, 2, 3, 4}: 2;
+				TRUE: var_a_2_4;
+			esac;
+		next(var_a_3_1) := var_a_3_1;
+		next(var_a_3_2) := var_a_3_2;
+		next(var_a_3_3) := var_a_3_3;
+		next(var_a_3_4) :=
+			case
+				(var_$x_3 = 3) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: var_a_3_4;
+			esac;
+		next(var_a_4_1) := var_a_4_1;
+		next(var_a_4_2) := var_a_4_2;
+		next(var_a_4_3) := var_a_4_3;
+		next(var_a_4_4) := var_a_4_4;
+	INVAR	(var_$x_1 = 1);
+	INVAR	((var_$x_2 = 2) | (var_$x_2 = 1));
+	INVAR	((var_$x_3 = 1) | (var_$x_3 = 2) | (var_$x_3 = 3));
+--CTL properties
+CTLSPEC NAME ctl0 := AG((((var_a_3_4 = 1) & ((var_a_2_4 = 2) & (((var_a_1_4 = 3) & ((var_a_1_2 = 1) & (var_a_1_3 = 2))) & (var_a_2_3 = 1)))) <-> AG(((var_a_3_4 = 1) & ((var_a_2_4 = 2) & (((var_a_1_4 = 3) & ((var_a_1_2 = 1) & (var_a_1_3 = 2))) & (var_a_2_3 = 1)))))));

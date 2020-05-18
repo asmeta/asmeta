@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Asmeta visualizer
+Bundle-SymbolicName: asmeta.visualizer;singleton:=true
+Bundle-Version: 1.0.7
+Require-Bundle: org.eclipse.zest.core,
+ org.eclipse.zest.layouts,
+ org.eclipse.ui,
+ org.junit,
+ asmeta.emf,
+ asmeta.simulator,
+ asmeta.parser
+Export-Package: org.asmeta.visualizer.graphViewer
+Bundle-Vendor: fmse.di.unimi.it
+Automatic-Module-Name: asmeta.visualizer

@@ -1,0 +1,24 @@
+MODULE main
+	VAR
+		var_$x_0: 1..4;
+		var_a_1: 1..4;
+		var_a_2: 1..4;
+		var_a_3: 1..4;
+		var_a_4: 1..4;
+	ASSIGN
+		init(var_a_1) := 4;
+		init(var_a_2) := 4;
+		init(var_a_3) := 4;
+		init(var_a_4) := 4;
+		next(var_a_1):=
+			case
+				var_$x_0 = 1 & 4 in 1..4: 4;
+				TRUE: var_a_1;
+			esac;
+		next(var_a_2):= var_a_2;
+		next(var_a_3):= var_a_3;
+		next(var_a_4):= var_a_4;
+	INVAR	var_$x_0 = 1;
+SPEC	AG(var_a_1 = 4);
+SPEC	AG(((var_a_2 = 4) & (var_a_3 = 4)) & (var_a_4 = 4));
+SPEC	AG(var_$x_0 = 1 <-> AX(var_a_1=4))

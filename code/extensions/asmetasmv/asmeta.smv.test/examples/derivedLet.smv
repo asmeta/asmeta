@@ -1,0 +1,116 @@
+--file examples\derivedLet.smv
+MODULE main
+	VAR
+		east_1_1: boolean; --controlled
+		east_1_2: boolean; --controlled
+		east_2_1: boolean; --controlled
+		east_2_2: boolean; --controlled
+		move: {EAST, NONE, NORTH, SOUTH, WEST}; --monitored
+		north_1_1: boolean; --controlled
+		north_1_2: boolean; --controlled
+		north_2_1: boolean; --controlled
+		north_2_2: boolean; --controlled
+		playerPosX: {-2147483647, 1, 2}; --controlled
+		playerPosY: {-2147483647, 1, 2}; --controlled
+		south_1_1: boolean; --controlled
+		south_1_2: boolean; --controlled
+		south_2_1: boolean; --controlled
+		south_2_2: boolean; --controlled
+		west_1_1: boolean; --controlled
+		west_1_2: boolean; --controlled
+		west_2_1: boolean; --controlled
+		west_2_2: boolean; --controlled
+		--declaration of choose variables
+		var_$x_0: 1..2;
+		var_$y_0: 1..2;
+	DEFINE
+		moveExists_EAST :=
+			case
+				((1 = playerPosX) & (1 = playerPosY)): east_1_1;
+				((2 = playerPosX) & (1 = playerPosY)): east_2_1;
+				((2 = playerPosX) & (2 = playerPosY)): east_2_2;
+				((2 = playerPosY) & (1 = playerPosX)): east_1_2;
+				TRUE: FALSE;
+			esac;
+		moveExists_NONE :=
+			case
+				((1 = playerPosX) & (1 = playerPosY)): FALSE;
+				((2 = playerPosX) & (1 = playerPosY)): FALSE;
+				((2 = playerPosX) & (2 = playerPosY)): FALSE;
+				((2 = playerPosY) & (1 = playerPosX)): FALSE;
+				TRUE: FALSE;
+			esac;
+		moveExists_NORTH :=
+			case
+				((1 = playerPosX) & (1 = playerPosY)): north_1_1;
+				((2 = playerPosX) & (1 = playerPosY)): north_2_1;
+				((2 = playerPosX) & (2 = playerPosY)): north_2_2;
+				((2 = playerPosY) & (1 = playerPosX)): north_1_2;
+				TRUE: FALSE;
+			esac;
+		moveExists_SOUTH :=
+			case
+				((1 = playerPosX) & (1 = playerPosY)): south_1_1;
+				((2 = playerPosX) & (1 = playerPosY)): south_2_1;
+				((2 = playerPosX) & (2 = playerPosY)): south_2_2;
+				((2 = playerPosY) & (1 = playerPosX)): south_1_2;
+				TRUE: FALSE;
+			esac;
+		moveExists_WEST :=
+			case
+				((1 = playerPosX) & (1 = playerPosY)): west_1_1;
+				((2 = playerPosX) & (1 = playerPosY)): west_2_1;
+				((2 = playerPosX) & (2 = playerPosY)): west_2_2;
+				((2 = playerPosY) & (1 = playerPosX)): west_1_2;
+				TRUE: FALSE;
+			esac;
+	CONSTANTS MOVES_UNDEF, EAST, NONE, NORTH, SOUTH, WEST;
+	ASSIGN
+		init(east_1_1) := TRUE;
+		init(east_1_2) := FALSE;
+		init(east_2_1) := FALSE;
+		init(north_1_1) := TRUE;
+		init(north_1_2) := FALSE;
+		init(north_2_1) := FALSE;
+		init(playerPosX) := 1;
+		init(playerPosY) := 1;
+		init(south_1_1) := TRUE;
+		init(south_1_2) := TRUE;
+		init(south_2_1) := TRUE;
+		init(west_1_1) := FALSE;
+		init(west_1_2) := TRUE;
+		init(west_2_1) := FALSE;
+		next(east_1_1) := east_1_1;
+		next(east_1_2) := east_1_2;
+		next(east_2_1) := east_2_1;
+		next(east_2_2) := east_2_2;
+		next(north_1_1) := north_1_1;
+		next(north_1_2) := north_1_2;
+		next(north_2_1) := north_2_1;
+		next(north_2_2) := north_2_2;
+		next(playerPosX) :=
+			case
+				((moveExists_move & (var_$x_0 = 1) & (var_$y_0 = 1)) | (moveExists_move & (var_$y_0 = 2) & (var_$x_0 = 1))) & 1 in {-2147483647, 1, 2}: 1;
+				((moveExists_move & (var_$x_0 = 2) & (var_$y_0 = 2)) | (moveExists_move & (var_$x_0 = 2) & (var_$y_0 = 1))) & 2 in {-2147483647, 1, 2}: 2;
+				TRUE: playerPosX;
+			esac;
+		next(playerPosY) :=
+			case
+				((moveExists_move & (var_$x_0 = 2) & (var_$y_0 = 1)) | (moveExists_move & (var_$x_0 = 1) & (var_$y_0 = 1))) & 1 in {-2147483647, 1, 2}: 1;
+				((moveExists_move & (var_$x_0 = 2) & (var_$y_0 = 2)) | (moveExists_move & (var_$y_0 = 2) & (var_$x_0 = 1))) & 2 in {-2147483647, 1, 2}: 2;
+				TRUE: playerPosY;
+			esac;
+		next(south_1_1) := south_1_1;
+		next(south_1_2) := south_1_2;
+		next(south_2_1) := south_2_1;
+		next(south_2_2) := south_2_2;
+		next(west_1_1) := west_1_1;
+		next(west_1_2) := west_1_2;
+		next(west_2_1) := west_2_1;
+		next(west_2_2) := west_2_2;
+	INVAR	(((var_$x_0 = 1) & (var_$y_0 = 1)) | ((var_$y_0 = 2) & (var_$x_0 = 1)) | ((var_$x_0 = 2) & (var_$y_0 = 2)) | ((var_$x_0 = 2) & (var_$y_0 = 1)));
+--CTL properties
+CTLSPEC NAME ctl0 := (AG((((playerPosY = 2) & (playerPosX = 2)) -> (moveExists_NORTH <-> north_2_2))) & AG((((playerPosY = 2) & (playerPosX = 1)) -> (moveExists_NORTH <-> north_1_2))) & AG((((playerPosY = 1) & (playerPosX = 2)) -> (moveExists_NORTH <-> north_2_1))) & AG((((playerPosY = 1) & (playerPosX = 1)) -> (moveExists_NORTH <-> north_1_1))));
+CTLSPEC NAME ctl1 := (AG((((playerPosY = 1) & (playerPosX = 2)) -> (moveExists_SOUTH <-> south_2_1))) & AG((((playerPosY = 2) & (playerPosX = 1)) -> (moveExists_SOUTH <-> south_1_2))) & AG((((playerPosY = 1) & (playerPosX = 1)) -> (moveExists_SOUTH <-> south_1_1))) & AG((((playerPosY = 2) & (playerPosX = 2)) -> (moveExists_SOUTH <-> south_2_2))));
+CTLSPEC NAME ctl2 := (AG((((playerPosY = 2) & (playerPosX = 1)) -> (moveExists_WEST <-> west_1_2))) & AG((((playerPosY = 1) & (playerPosX = 1)) -> (moveExists_WEST <-> west_1_1))) & AG((((playerPosY = 1) & (playerPosX = 2)) -> (moveExists_WEST <-> west_2_1))) & AG((((playerPosY = 2) & (playerPosX = 2)) -> (moveExists_WEST <-> west_2_2))));
+CTLSPEC NAME ctl3 := (AG((((playerPosY = 1) & (playerPosX = 1)) -> (moveExists_EAST <-> east_1_1))) & AG((((playerPosY = 1) & (playerPosX = 2)) -> (moveExists_EAST <-> east_2_1))) & AG((((playerPosY = 2) & (playerPosX = 2)) -> (moveExists_EAST <-> east_2_2))) & AG((((playerPosY = 2) & (playerPosX = 1)) -> (moveExists_EAST <-> east_1_2))));

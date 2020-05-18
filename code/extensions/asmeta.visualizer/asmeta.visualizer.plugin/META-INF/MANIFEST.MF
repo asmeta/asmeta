@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Asmeta visualizer plugin
+Bundle-SymbolicName: asmeta.visualizer.plugin;singleton:=true
+Bundle-Version: 1.0.7
+Bundle-Activator: asmeta.visualizer.plugin.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide,
+ org.eclipse.e4.ui.workbench.addons.swt,
+ org.eclipse.equinox.event,
+ org.eclipse.platform,
+ org.eclipse.ui.forms,
+ org.eclipse.ui.intro,
+ asmeta.visualizer
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: fmse.di.unimi.it
+Automatic-Module-Name: asmeta.visualizer.plugin

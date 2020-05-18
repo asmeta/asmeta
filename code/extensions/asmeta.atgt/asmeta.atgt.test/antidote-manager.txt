@@ -1,0 +1,54 @@
+Finite State Machine :
+unassociated,	req_assoc_rel,	unassociated,	no response	
+unassociated,	req_assoc_abort,	unassociated,	no response
+unassociated,	rx_aarq_acceptable_and_known_configuration,	operating,	rx_aare
+unassociated,	rx_aarq_acceptable_and_unknown_configuration,	waiting_for_config,	rx_aare
+unassociated,	rx_aarq_unacceptable_configuration,	unassociated,	rx_aare
+unassociated,	rx_aare,	unassociated,	rx_abrt
+unassociated,	rx_rlrq,	unassociated,	rx_abrt
+unassociated,	rx_rlre,	unassociated,	no response
+unassociated,	rx_abrt,	unassociated,	no response
+unassociated,	rx_roiv_confirmed_event_report,	unassociated,	rx_abrt
+waiting_for_config,	req_assoc_rel,	disassociating,	rx_rlrq
+waiting_for_config,	req_assoc_abort,	unassociated,	rx_abrt
+waiting_for_config,	rx_aarq,	unassociated,	rx_abrt
+waiting_for_config,	rx_aare,	unassociated,	rx_abrt
+waiting_for_config,	rx_rlrq,	unassociated,	rx_rlre
+waiting_for_config,	rx_rlre,	unassociated,	rx_abrt
+waiting_for_config,	rx_abrt,	unassociated,	no response
+waiting_for_config,	rx_roiv_confirmed_event_report,	checking_config,	no response
+waiting_for_config,	rx_roiv,	waiting_for_config,	rx_prst
+waiting_for_config,	rx_roer,	waiting_for_config,	no response
+waiting_for_config,	rx_rorj,	waiting_for_config,	no response
+checking_config,	req_assoc_rel,	disassociating,	rx_rlrq
+checking_config,	req_assoc_abort,	unassociated,	rx_abrt
+checking_config,	rx_aarq,	unassociated,	rx_abrt
+checking_config,	rx_aare,	unassociated,	rx_abrt
+checking_config,	rx_rlrq,	unassociated,	rx_rlre
+checking_config,	rx_rlre,	unassociated,	rx_abrt
+checking_config,	rx_abrt,	unassociated,	no response
+checking_config,	rx_roiv_confirmed_event_report,	checking_config,	rx_abrt
+checking_config,	rx_roiv,	unassociated,	rx_prst
+checking_config,	rx_roer,	checking_config,	no response
+checking_config,	rx_rorj,	checking_config,	no response
+checking_config,	req_agent_supplied_unknown_configuration,	waiting_for_config,	rx_prst
+checking_config,	req_agent_supplied_known_configuration,	operating,	rx_prst
+operating,	req_assoc_rel,	disassociating,	rx_rlrq
+operating,	req_assoc_abort,	unassociated,	rx_abrt
+operating,	rx_aarq,	unassociated,	rx_abrt
+operating,	rx_aare,	unassociated,	rx_abrt
+operating,	rx_rlrq,	unassociated,	rx_rlre
+operating,	rx_rlre,	unassociated,	rx_abrt
+operating,	rx_abrt,	unassociated,	no response
+operating,	rx_roer,	operating,	no response
+operating,	rx_rorj,	operating,	no response
+disassociating,	req_assoc_rel,	disassociating,	no response
+disassociating,	req_assoc_abort,	unassociated,	rx_abrt
+disassociating,	rx_aarq,	unassociated,	rx_abrt
+disassociating,	rx_aare,	unassociated,	rx_abrt
+disassociating,	rx_rlrq,	disassociating,	rx_rlre
+disassociating,	rx_rlre,	unassociated,	no response
+disassociating,	rx_abrt,	unassociated,	no response
+disassociating,	rx_roiv,	disassociating,	no response
+disassociating,	rx_roer,	unassociated,	rx_abrt
+disassociating,	rx_rorj,	unassociated,	rx_abrt

@@ -1,0 +1,15 @@
+--file examples\agentsAsyncr2.smv
+MODULE main
+	VAR
+		foo1: boolean; --controlled
+		foo2: boolean; --controlled
+	CONSTANTS AGENT1, SUBAGENT1_UNDEF, AGENT1, AGENT2, SUBAGENT2_UNDEF, AGENT2;
+	ASSIGN
+		init(foo1) := TRUE;
+		init(foo2) := TRUE;
+		next(foo1) := !(foo1);
+		next(foo2) := !(foo2);
+--CTL properties
+CTLSPEC NAME ctl0 := AG((foo1 = foo2));
+--AsmetaL invariants
+CTLSPEC	AG((foo1 = foo2));

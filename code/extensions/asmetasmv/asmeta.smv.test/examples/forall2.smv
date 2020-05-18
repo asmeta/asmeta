@@ -1,0 +1,342 @@
+--file examples\forall2.smv
+MODULE main
+	VAR
+		var_a_10_1: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_10_10: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_10_2: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_10_3: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_10_4: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_10_5: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_10_6: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_10_7: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_10_8: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_10_9: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_1_1: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_1_10: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_1_2: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_1_3: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_1_4: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_1_5: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_1_6: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_1_7: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_1_8: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_1_9: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_2_1: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_2_10: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_2_2: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_2_3: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_2_4: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_2_5: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_2_6: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_2_7: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_2_8: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_2_9: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_3_1: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_3_10: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_3_2: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_3_3: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_3_4: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_3_5: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_3_6: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_3_7: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_3_8: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_3_9: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_4_1: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_4_10: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_4_2: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_4_3: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_4_4: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_4_5: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_4_6: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_4_7: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_4_8: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_4_9: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_5_1: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_5_10: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_5_2: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_5_3: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_5_4: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_5_5: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_5_6: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_5_7: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_5_8: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_5_9: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_6_1: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_6_10: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_6_2: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_6_3: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_6_4: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_6_5: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_6_6: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_6_7: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_6_8: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_6_9: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_7_1: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_7_10: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_7_2: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_7_3: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_7_4: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_7_5: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_7_6: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_7_7: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_7_8: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_7_9: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_8_1: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_8_10: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_8_2: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_8_3: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_8_4: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_8_5: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_8_6: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_8_7: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_8_8: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_8_9: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_9_1: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_9_10: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_9_2: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_9_3: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_9_4: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_9_5: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_9_6: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_9_7: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_9_8: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		var_a_9_9: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+	ASSIGN
+		init(var_a_10_1) := 10;
+		init(var_a_10_10) := 10;
+		init(var_a_10_2) := 10;
+		init(var_a_10_3) := 10;
+		init(var_a_10_4) := 10;
+		init(var_a_10_5) := 10;
+		init(var_a_10_6) := 10;
+		init(var_a_10_7) := 10;
+		init(var_a_10_8) := 10;
+		init(var_a_10_9) := 10;
+		init(var_a_1_1) := 1;
+		init(var_a_1_10) := 1;
+		init(var_a_1_2) := 1;
+		init(var_a_1_3) := 1;
+		init(var_a_1_4) := 1;
+		init(var_a_1_5) := 1;
+		init(var_a_1_6) := 1;
+		init(var_a_1_7) := 1;
+		init(var_a_1_8) := 1;
+		init(var_a_1_9) := 1;
+		init(var_a_2_1) := 2;
+		init(var_a_2_10) := 2;
+		init(var_a_2_2) := 2;
+		init(var_a_2_3) := 2;
+		init(var_a_2_4) := 2;
+		init(var_a_2_5) := 2;
+		init(var_a_2_6) := 2;
+		init(var_a_2_7) := 2;
+		init(var_a_2_8) := 2;
+		init(var_a_2_9) := 2;
+		init(var_a_3_1) := 3;
+		init(var_a_3_10) := 3;
+		init(var_a_3_2) := 3;
+		init(var_a_3_3) := 3;
+		init(var_a_3_4) := 3;
+		init(var_a_3_5) := 3;
+		init(var_a_3_6) := 3;
+		init(var_a_3_7) := 3;
+		init(var_a_3_8) := 3;
+		init(var_a_3_9) := 3;
+		init(var_a_4_1) := 4;
+		init(var_a_4_10) := 4;
+		init(var_a_4_2) := 4;
+		init(var_a_4_3) := 4;
+		init(var_a_4_4) := 4;
+		init(var_a_4_5) := 4;
+		init(var_a_4_6) := 4;
+		init(var_a_4_7) := 4;
+		init(var_a_4_8) := 4;
+		init(var_a_4_9) := 4;
+		init(var_a_5_1) := 5;
+		init(var_a_5_10) := 5;
+		init(var_a_5_2) := 5;
+		init(var_a_5_3) := 5;
+		init(var_a_5_4) := 5;
+		init(var_a_5_5) := 5;
+		init(var_a_5_6) := 5;
+		init(var_a_5_7) := 5;
+		init(var_a_5_8) := 5;
+		init(var_a_5_9) := 5;
+		init(var_a_6_1) := 6;
+		init(var_a_6_10) := 6;
+		init(var_a_6_2) := 6;
+		init(var_a_6_3) := 6;
+		init(var_a_6_4) := 6;
+		init(var_a_6_5) := 6;
+		init(var_a_6_6) := 6;
+		init(var_a_6_7) := 6;
+		init(var_a_6_8) := 6;
+		init(var_a_6_9) := 6;
+		init(var_a_7_1) := 7;
+		init(var_a_7_10) := 7;
+		init(var_a_7_2) := 7;
+		init(var_a_7_3) := 7;
+		init(var_a_7_4) := 7;
+		init(var_a_7_5) := 7;
+		init(var_a_7_6) := 7;
+		init(var_a_7_7) := 7;
+		init(var_a_7_8) := 7;
+		init(var_a_7_9) := 7;
+		init(var_a_8_1) := 8;
+		init(var_a_8_10) := 8;
+		init(var_a_8_2) := 8;
+		init(var_a_8_3) := 8;
+		init(var_a_8_4) := 8;
+		init(var_a_8_5) := 8;
+		init(var_a_8_6) := 8;
+		init(var_a_8_7) := 8;
+		init(var_a_8_8) := 8;
+		init(var_a_8_9) := 8;
+		init(var_a_9_1) := 9;
+		init(var_a_9_10) := 9;
+		init(var_a_9_2) := 9;
+		init(var_a_9_3) := 9;
+		init(var_a_9_4) := 9;
+		init(var_a_9_5) := 9;
+		init(var_a_9_6) := 9;
+		init(var_a_9_7) := 9;
+		init(var_a_9_8) := 9;
+		init(var_a_9_9) := 9;
+		next(var_a_10_1) := var_a_10_1;
+		next(var_a_10_10) := var_a_10_10;
+		next(var_a_10_2) := var_a_10_2;
+		next(var_a_10_3) := var_a_10_3;
+		next(var_a_10_4) := var_a_10_4;
+		next(var_a_10_5) := var_a_10_5;
+		next(var_a_10_6) := var_a_10_6;
+		next(var_a_10_7) := var_a_10_7;
+		next(var_a_10_8) := var_a_10_8;
+		next(var_a_10_9) := var_a_10_9;
+		next(var_a_1_1) := var_a_1_1;
+		next(var_a_1_10) :=
+			case
+				9 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 9;
+				TRUE: var_a_1_10;
+			esac;
+		next(var_a_1_2) := var_a_1_2;
+		next(var_a_1_3) := var_a_1_3;
+		next(var_a_1_4) := var_a_1_4;
+		next(var_a_1_5) := var_a_1_5;
+		next(var_a_1_6) := var_a_1_6;
+		next(var_a_1_7) := var_a_1_7;
+		next(var_a_1_8) :=
+			case
+				7 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 7;
+				TRUE: var_a_1_8;
+			esac;
+		next(var_a_1_9) :=
+			case
+				8 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 8;
+				TRUE: var_a_1_9;
+			esac;
+		next(var_a_2_1) := var_a_2_1;
+		next(var_a_2_10) :=
+			case
+				8 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 8;
+				TRUE: var_a_2_10;
+			esac;
+		next(var_a_2_2) := var_a_2_2;
+		next(var_a_2_3) := var_a_2_3;
+		next(var_a_2_4) := var_a_2_4;
+		next(var_a_2_5) := var_a_2_5;
+		next(var_a_2_6) := var_a_2_6;
+		next(var_a_2_7) := var_a_2_7;
+		next(var_a_2_8) :=
+			case
+				6 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 6;
+				TRUE: var_a_2_8;
+			esac;
+		next(var_a_2_9) :=
+			case
+				7 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 7;
+				TRUE: var_a_2_9;
+			esac;
+		next(var_a_3_1) := var_a_3_1;
+		next(var_a_3_10) :=
+			case
+				7 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 7;
+				TRUE: var_a_3_10;
+			esac;
+		next(var_a_3_2) := var_a_3_2;
+		next(var_a_3_3) := var_a_3_3;
+		next(var_a_3_4) := var_a_3_4;
+		next(var_a_3_5) := var_a_3_5;
+		next(var_a_3_6) := var_a_3_6;
+		next(var_a_3_7) := var_a_3_7;
+		next(var_a_3_8) :=
+			case
+				5 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 5;
+				TRUE: var_a_3_8;
+			esac;
+		next(var_a_3_9) :=
+			case
+				6 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 6;
+				TRUE: var_a_3_9;
+			esac;
+		next(var_a_4_1) := var_a_4_1;
+		next(var_a_4_10) := var_a_4_10;
+		next(var_a_4_2) := var_a_4_2;
+		next(var_a_4_3) := var_a_4_3;
+		next(var_a_4_4) := var_a_4_4;
+		next(var_a_4_5) := var_a_4_5;
+		next(var_a_4_6) := var_a_4_6;
+		next(var_a_4_7) := var_a_4_7;
+		next(var_a_4_8) := var_a_4_8;
+		next(var_a_4_9) := var_a_4_9;
+		next(var_a_5_1) := var_a_5_1;
+		next(var_a_5_10) := var_a_5_10;
+		next(var_a_5_2) := var_a_5_2;
+		next(var_a_5_3) := var_a_5_3;
+		next(var_a_5_4) := var_a_5_4;
+		next(var_a_5_5) := var_a_5_5;
+		next(var_a_5_6) := var_a_5_6;
+		next(var_a_5_7) := var_a_5_7;
+		next(var_a_5_8) := var_a_5_8;
+		next(var_a_5_9) := var_a_5_9;
+		next(var_a_6_1) := var_a_6_1;
+		next(var_a_6_10) := var_a_6_10;
+		next(var_a_6_2) := var_a_6_2;
+		next(var_a_6_3) := var_a_6_3;
+		next(var_a_6_4) := var_a_6_4;
+		next(var_a_6_5) := var_a_6_5;
+		next(var_a_6_6) := var_a_6_6;
+		next(var_a_6_7) := var_a_6_7;
+		next(var_a_6_8) := var_a_6_8;
+		next(var_a_6_9) := var_a_6_9;
+		next(var_a_7_1) := var_a_7_1;
+		next(var_a_7_10) := var_a_7_10;
+		next(var_a_7_2) := var_a_7_2;
+		next(var_a_7_3) := var_a_7_3;
+		next(var_a_7_4) := var_a_7_4;
+		next(var_a_7_5) := var_a_7_5;
+		next(var_a_7_6) := var_a_7_6;
+		next(var_a_7_7) := var_a_7_7;
+		next(var_a_7_8) := var_a_7_8;
+		next(var_a_7_9) := var_a_7_9;
+		next(var_a_8_1) := var_a_8_1;
+		next(var_a_8_10) := var_a_8_10;
+		next(var_a_8_2) := var_a_8_2;
+		next(var_a_8_3) := var_a_8_3;
+		next(var_a_8_4) := var_a_8_4;
+		next(var_a_8_5) := var_a_8_5;
+		next(var_a_8_6) := var_a_8_6;
+		next(var_a_8_7) := var_a_8_7;
+		next(var_a_8_8) := var_a_8_8;
+		next(var_a_8_9) := var_a_8_9;
+		next(var_a_9_1) := var_a_9_1;
+		next(var_a_9_10) := var_a_9_10;
+		next(var_a_9_2) := var_a_9_2;
+		next(var_a_9_3) := var_a_9_3;
+		next(var_a_9_4) := var_a_9_4;
+		next(var_a_9_5) := var_a_9_5;
+		next(var_a_9_6) := var_a_9_6;
+		next(var_a_9_7) := var_a_9_7;
+		next(var_a_9_8) := var_a_9_8;
+		next(var_a_9_9) := var_a_9_9;
+--CTL properties
+CTLSPEC NAME ctl0 := AG((var_a_1_1 < var_a_2_2));

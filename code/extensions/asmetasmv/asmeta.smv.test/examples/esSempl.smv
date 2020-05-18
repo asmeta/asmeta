@@ -1,0 +1,12 @@
+MODULE main
+	VAR
+		foo: {1, 2, 3, 4, -2147483647}; --controlled
+		mon: boolean; --monitored
+	ASSIGN
+		init(foo) := -2147483647;
+		next(foo) :=
+			case
+				(mon) & 2 in {1, 2, 3, 4, -2147483647}: 2;
+				(!(mon)) & 3 in {1, 2, 3, 4, -2147483647}: 3;
+				TRUE: foo;
+			esac;

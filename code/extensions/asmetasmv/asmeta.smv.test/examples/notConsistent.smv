@@ -1,0 +1,15 @@
+--file examples\notConsistent.smv
+MODULE main
+	VAR
+		foo: {AA, BB, CC, ENUMDOM_UNDEF}; --controlled
+		mon: boolean; --monitored
+		mon2: boolean; --monitored
+	CONSTANTS ENUMDOM_UNDEF, AA, BB, CC;
+	ASSIGN
+		init(foo) := ENUMDOM_UNDEF;
+		next(foo) :=
+			case
+				(mon2 != mon): BB;
+				(mon != mon2): AA;
+				TRUE: foo;
+			esac;

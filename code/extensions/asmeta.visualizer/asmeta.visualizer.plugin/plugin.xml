@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="Visualization category"
+            id="asmeta.visualizer.plugin.commands.category">
+      </category>
+      <command
+            categoryId="asmeta.visualizer.plugin.commands.category"
+            id="asmeta.visualizer.plugin.commands.basicVisualizationCommand"
+            name="Basic visualization">
+      </command>
+      <command
+            categoryId="asmeta.visualizer.plugin.commands.category"
+            id="asmeta.visualizer.plugin.commands.semanticVisualizationCommand"
+            name="Semantic visualization">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="asmeta.visualizer.plugin.commands.basicVisualizationCommand"
+            class="asmeta.visualizer.plugin.handlers.BasicVisualizerHandler">
+      </handler>
+      <handler
+            commandId="asmeta.visualizer.plugin.commands.semanticVisualizationCommand"
+            class="asmeta.visualizer.plugin.handlers.SemanticVisualizerHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+         <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="Asmeta"
+               id="asmeta.plugin.menus.Asmeta">
+         <menu
+               label="AsmetaVis"
+               mnemonic="M"
+               id="asmeta.visualizer.plugin.menus.sampleMenu">
+            <command
+                  commandId="asmeta.visualizer.plugin.commands.basicVisualizationCommand"
+                  icon="icons/basicVisualizer.gif"
+                  id="asmeta.visualizer.plugin.menus.basicVisualizationCommand"
+                  mnemonic="B"
+                  tooltip="Basic visualization">
+            </command>
+            <command
+                  commandId="asmeta.visualizer.plugin.commands.semanticVisualizationCommand"
+                  icon="icons/semanticVisualizer.gif"
+                  id="asmeta.visualizer.plugin.menus.semanticVisualizationCommand"
+                  mnemonic="S"
+                  tooltip="Semantic visualization">
+            </command>
+         </menu>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="asmeta.visualizer.plugin.toolbar">
+            <command
+                  commandId="asmeta.visualizer.plugin.commands.basicVisualizationCommand"
+                  icon="icons/basicVisualizer.gif"
+                  tooltip="Basic visualization"
+                  id="asmeta.visualizer.plugin.toolbar.basicVisualizationCommand">
+            </command>
+            <command
+                  commandId="asmeta.visualizer.plugin.commands.semanticVisualizationCommand"
+                  icon="icons/semanticVisualizer.gif"
+                  tooltip="Semantic visualization"
+                  id="asmeta.visualizer.plugin.toolbar.semanticVisualizationCommand">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+</plugin>

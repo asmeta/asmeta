@@ -1,0 +1,86 @@
+--file examples\oneWayTrafficLight_refined.smv
+MODULE main
+	VAR
+		gPulse_LIGHTUNIT1: boolean; --controlled
+		gPulse_LIGHTUNIT2: boolean; --controlled
+		goLight_LIGHTUNIT1: boolean; --controlled
+		goLight_LIGHTUNIT2: boolean; --controlled
+		passed_120: boolean; --monitored
+		passed_50: boolean; --monitored
+		phase: {GO1STOP2, GO1STOP2CHANGING, GO2STOP1, GO2STOP1CHANGING, PHASEDOMAIN_UNDEF, STOP1STOP2, STOP1STOP2CHANGING, STOP2STOP1, STOP2STOP1CHANGING}; --controlled
+		rPulse_LIGHTUNIT1: boolean; --controlled
+		rPulse_LIGHTUNIT2: boolean; --controlled
+		stopLight_LIGHTUNIT1: boolean; --controlled
+		stopLight_LIGHTUNIT2: boolean; --controlled
+	CONSTANTS LIGHTUNIT_UNDEF, LIGHTUNIT1, LIGHTUNIT2, PHASEDOMAIN_UNDEF, GO1STOP2, GO1STOP2CHANGING, GO2STOP1, GO2STOP1CHANGING, STOP1STOP2, STOP1STOP2CHANGING, STOP2STOP1, STOP2STOP1CHANGING;
+	ASSIGN
+		init(gPulse_LIGHTUNIT1) := FALSE;
+		init(gPulse_LIGHTUNIT2) := FALSE;
+		init(goLight_LIGHTUNIT1) := FALSE;
+		init(goLight_LIGHTUNIT2) := FALSE;
+		init(phase) := STOP1STOP2;
+		init(rPulse_LIGHTUNIT1) := FALSE;
+		init(rPulse_LIGHTUNIT2) := FALSE;
+		init(stopLight_LIGHTUNIT1) := TRUE;
+		init(stopLight_LIGHTUNIT2) := TRUE;
+		next(gPulse_LIGHTUNIT1) :=
+			case
+				(gPulse_LIGHTUNIT1): FALSE;
+				((passed_50 & (phase = STOP2STOP1)) | ((phase = GO1STOP2) & passed_120)): TRUE;
+				TRUE: gPulse_LIGHTUNIT1;
+			esac;
+		next(gPulse_LIGHTUNIT2) :=
+			case
+				(gPulse_LIGHTUNIT2): FALSE;
+				((passed_50 & (phase = STOP1STOP2)) | ((phase = GO2STOP1) & passed_120)): TRUE;
+				TRUE: gPulse_LIGHTUNIT2;
+			esac;
+		next(goLight_LIGHTUNIT1) :=
+			case
+				(gPulse_LIGHTUNIT1): !(goLight_LIGHTUNIT1);
+				TRUE: goLight_LIGHTUNIT1;
+			esac;
+		next(goLight_LIGHTUNIT2) :=
+			case
+				(gPulse_LIGHTUNIT2): !(goLight_LIGHTUNIT2);
+				TRUE: goLight_LIGHTUNIT2;
+			esac;
+		next(phase) :=
+			case
+				(phase = STOP2STOP1CHANGING): GO1STOP2;
+				(passed_50 & (phase = STOP2STOP1)): STOP2STOP1CHANGING;
+				(phase = GO2STOP1CHANGING): STOP2STOP1;
+				((phase = GO1STOP2) & passed_120): GO1STOP2CHANGING;
+				(phase = STOP1STOP2CHANGING): GO2STOP1;
+				(passed_50 & (phase = STOP1STOP2)): STOP1STOP2CHANGING;
+				(phase = GO1STOP2CHANGING): STOP1STOP2;
+				((phase = GO2STOP1) & passed_120): GO2STOP1CHANGING;
+				TRUE: phase;
+			esac;
+		next(rPulse_LIGHTUNIT1) :=
+			case
+				((passed_50 & (phase = STOP2STOP1)) | ((phase = GO1STOP2) & passed_120)): TRUE;
+				(rPulse_LIGHTUNIT1): FALSE;
+				TRUE: rPulse_LIGHTUNIT1;
+			esac;
+		next(rPulse_LIGHTUNIT2) :=
+			case
+				(rPulse_LIGHTUNIT2): FALSE;
+				((passed_50 & (phase = STOP1STOP2)) | ((phase = GO2STOP1) & passed_120)): TRUE;
+				TRUE: rPulse_LIGHTUNIT2;
+			esac;
+		next(stopLight_LIGHTUNIT1) :=
+			case
+				(rPulse_LIGHTUNIT1): !(stopLight_LIGHTUNIT1);
+				TRUE: stopLight_LIGHTUNIT1;
+			esac;
+		next(stopLight_LIGHTUNIT2) :=
+			case
+				(rPulse_LIGHTUNIT2): !(stopLight_LIGHTUNIT2);
+				TRUE: stopLight_LIGHTUNIT2;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG((rPulse_LIGHTUNIT1 -> AX(!(rPulse_LIGHTUNIT1))));
+CTLSPEC NAME ctl1 := AG((rPulse_LIGHTUNIT2 -> AX(!(rPulse_LIGHTUNIT2))));
+CTLSPEC NAME ctl2 := AG((gPulse_LIGHTUNIT1 -> AX(!(gPulse_LIGHTUNIT1))));
+CTLSPEC NAME ctl3 := AG((gPulse_LIGHTUNIT2 -> AX(!(gPulse_LIGHTUNIT2))));

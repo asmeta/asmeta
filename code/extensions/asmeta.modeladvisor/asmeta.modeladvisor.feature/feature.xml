@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.asmeta.asmetama.feature"
+      label="Asmeta model advisor"
+      version="0.0.14"
+      provider-name="fmse.di.unimi.it">
+
+   <description>
+      See http://asmeta.sourceforge.net/
+   </description>
+
+   <copyright>
+      See http://asmeta.sourceforge.net/
+   </copyright>
+
+   <license url="">
+      Eclipse Public License
+See http://asmeta.sourceforge.net/
+   </license>
+
+   <url>
+      <update label="Asmeta" url="http://svn.code.sf.net/p/asmeta/code/code/stable/asmeta_update"/>
+   </url>
+
+   <plugin
+         id="asmeta.modeladvisor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="asmeta.modeladvisor.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

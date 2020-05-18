@@ -1,0 +1,17 @@
+--file examples\agents1.smv
+MODULE main
+	VAR
+		fooA: boolean; --controlled
+		fooAB: boolean; --controlled
+		fooB: boolean; --controlled
+	CONSTANTS AGENTA, SUBAGENTA_UNDEF, AGENTA, AGENTB, SUBAGENTB_UNDEF, AGENTB;
+	ASSIGN
+		init(fooA) := FALSE;
+		init(fooAB) := TRUE;
+		init(fooB) := TRUE;
+		next(fooA) := !(fooA);
+		next(fooAB) := !(fooAB);
+		next(fooB) := !(fooB);
+--CTL properties
+CTLSPEC NAME ctl0 := AG((fooA != fooB));
+CTLSPEC NAME ctl1 := AG((fooAB = fooB));

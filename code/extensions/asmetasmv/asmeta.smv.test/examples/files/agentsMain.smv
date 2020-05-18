@@ -1,0 +1,26 @@
+--file examples\files\agentsMain.smv
+MODULE main
+	VAR
+		agentsA_fooA: boolean; --controlled
+		agentsA_fooABA_DD: boolean; --controlled
+		agentsB_fooABB: {AA, AGENTSB_MYDOMAINB_UNDEF, BB, FF}; --controlled
+		agentsB_fooB: boolean; --controlled
+		fooMain: {AGENTSA_MYDOMAIN_UNDEF, CC, DD}; --controlled
+	CONSTANTS AGENTSA_AGENTA, AGENTSA_SUBAGENTA_UNDEF, AGENTSA_AGENTA, AGENTSB_AGENTB, AGENTSB_SUBAGENTB_UNDEF, AGENTSB_AGENTB, AGENTSA_MYDOMAIN_UNDEF, CC, DD, AGENTSB_MYDOMAINB_UNDEF, AA, BB, FF;
+	ASSIGN
+		init(agentsA_fooA) := FALSE;
+		init(agentsA_fooABA_DD) := TRUE;
+		init(agentsB_fooABB) := AGENTSB_MYDOMAINB_UNDEF;
+		init(agentsB_fooB) := TRUE;
+		init(fooMain) := DD;
+		next(agentsA_fooA) := !(agentsA_fooA);
+		next(agentsA_fooABA_DD) := TRUE;
+		next(agentsB_fooABB) := AA;
+		next(agentsB_fooB) := !(agentsB_fooB);
+		next(fooMain) := DD;
+--CTL properties
+CTLSPEC NAME ctl0 := AG((agentsA_fooA != agentsB_fooB));
+CTLSPEC NAME ctl1 := AG((fooMain = DD));
+CTLSPEC NAME ctl2 := AG(agentsA_fooABA_DD);
+--AsmetaL invariants
+CTLSPEC	AG((agentsA_fooA != agentsB_fooB));

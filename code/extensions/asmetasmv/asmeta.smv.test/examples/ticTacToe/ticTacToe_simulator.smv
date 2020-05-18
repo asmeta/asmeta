@@ -1,0 +1,101 @@
+--file examples\ticTacToe\ticTacToe_simulator.smv
+MODULE main
+	VAR
+		board_1_1: {CROSS, NOUGHT, SIGN_UNDEF}; --controlled
+		board_1_2: {CROSS, NOUGHT, SIGN_UNDEF}; --controlled
+		board_1_3: {CROSS, NOUGHT, SIGN_UNDEF}; --controlled
+		board_2_1: {CROSS, NOUGHT, SIGN_UNDEF}; --controlled
+		board_2_2: {CROSS, NOUGHT, SIGN_UNDEF}; --controlled
+		board_2_3: {CROSS, NOUGHT, SIGN_UNDEF}; --controlled
+		board_3_1: {CROSS, NOUGHT, SIGN_UNDEF}; --controlled
+		board_3_2: {CROSS, NOUGHT, SIGN_UNDEF}; --controlled
+		board_3_3: {CROSS, NOUGHT, SIGN_UNDEF}; --controlled
+		status: {STATUS_UNDEF, TURN_PC, TURN_USER}; --controlled
+		userChoiceX: 1..3; --monitored
+		userChoiceY: 1..3; --monitored
+		--declaration of choose variables
+		var_$x_0: 1..3;
+		var_$y_0: 1..3;
+	DEFINE
+		endOfGame := (((((board_2_2 = CROSS) & (board_1_3 = CROSS) & (board_3_1 = CROSS)) | (((((board_1_2 = CROSS) & (board_1_1 = CROSS) & (board_1_3 = CROSS)) | ((board_2_2 = CROSS) & (board_2_1 = CROSS) & (board_2_3 = CROSS)) | ((board_3_2 = CROSS) & (board_3_1 = CROSS) & (board_3_3 = CROSS))) | (((board_1_2 = CROSS) & (board_2_2 = CROSS) & (board_3_2 = CROSS)) | ((board_1_1 = CROSS) & (board_2_1 = CROSS) & (board_3_1 = CROSS)) | ((board_1_3 = CROSS) & (board_2_3 = CROSS) & (board_3_3 = CROSS)))) | ((board_2_2 = CROSS) & (board_1_1 = CROSS) & (board_3_3 = CROSS)))) | ((((board_2_2 = NOUGHT) & (board_3_3 = NOUGHT) & (board_1_1 = NOUGHT)) | ((((board_3_1 = NOUGHT) & (board_3_3 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_2_2 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_1_3 = NOUGHT) & (board_1_1 = NOUGHT))) | (((board_1_3 = NOUGHT) & (board_3_3 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_3_1 = NOUGHT) & (board_1_1 = NOUGHT))))) | ((board_1_3 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_1 = NOUGHT)))) | ((board_1_1 != SIGN_UNDEF) & (board_1_2 != SIGN_UNDEF) & (board_2_1 != SIGN_UNDEF) & (board_3_3 != SIGN_UNDEF) & (board_2_3 != SIGN_UNDEF) & (board_3_2 != SIGN_UNDEF) & (board_1_3 != SIGN_UNDEF) & (board_2_2 != SIGN_UNDEF) & (board_3_1 != SIGN_UNDEF)));
+	CONSTANTS STATUS_UNDEF, TURN_PC, TURN_USER, SIGN_UNDEF, CROSS, NOUGHT;
+	ASSIGN
+		init(board_1_1) := SIGN_UNDEF;
+		init(board_1_2) := SIGN_UNDEF;
+		init(board_1_3) := SIGN_UNDEF;
+		init(board_2_1) := SIGN_UNDEF;
+		init(board_2_2) := SIGN_UNDEF;
+		init(board_2_3) := SIGN_UNDEF;
+		init(board_3_1) := SIGN_UNDEF;
+		init(board_3_2) := SIGN_UNDEF;
+		init(board_3_3) := SIGN_UNDEF;
+		init(status) := TURN_USER;
+		next(board_1_1) :=
+			case
+				((board_1_1 = SIGN_UNDEF) & !(endOfGame) & !(status = TURN_USER) & (var_$x_0 = 1) & (var_$y_0 = 1)): NOUGHT;
+				((1 = userChoiceY) & (1 = userChoiceX) & (board_1_1 = SIGN_UNDEF) & (status = TURN_USER) & !(endOfGame)): CROSS;
+				TRUE: board_1_1;
+			esac;
+		next(board_1_2) :=
+			case
+				((1 = userChoiceX) & (2 = userChoiceY) & (status = TURN_USER) & !(endOfGame) & (board_1_2 = SIGN_UNDEF)): CROSS;
+				(!(endOfGame) & (board_1_2 = SIGN_UNDEF) & (var_$y_0 = 2) & !(status = TURN_USER) & (var_$x_0 = 1)): NOUGHT;
+				TRUE: board_1_2;
+			esac;
+		next(board_1_3) :=
+			case
+				((1 = userChoiceX) & (3 = userChoiceY) & (status = TURN_USER) & (board_1_3 = SIGN_UNDEF) & !(endOfGame)): CROSS;
+				((board_1_3 = SIGN_UNDEF) & !(endOfGame) & (var_$y_0 = 3) & !(status = TURN_USER) & (var_$x_0 = 1)): NOUGHT;
+				TRUE: board_1_3;
+			esac;
+		next(board_2_1) :=
+			case
+				(!(endOfGame) & (board_2_1 = SIGN_UNDEF) & (var_$x_0 = 2) & !(status = TURN_USER) & (var_$y_0 = 1)): NOUGHT;
+				((2 = userChoiceX) & (1 = userChoiceY) & (status = TURN_USER) & !(endOfGame) & (board_2_1 = SIGN_UNDEF)): CROSS;
+				TRUE: board_2_1;
+			esac;
+		next(board_2_2) :=
+			case
+				((board_2_2 = SIGN_UNDEF) & !(endOfGame) & (var_$x_0 = 2) & (var_$y_0 = 2) & !(status = TURN_USER)): NOUGHT;
+				((2 = userChoiceX) & (2 = userChoiceY) & (board_2_2 = SIGN_UNDEF) & (status = TURN_USER) & !(endOfGame)): CROSS;
+				TRUE: board_2_2;
+			esac;
+		next(board_2_3) :=
+			case
+				((2 = userChoiceX) & (3 = userChoiceY) & (status = TURN_USER) & !(endOfGame) & (board_2_3 = SIGN_UNDEF)): CROSS;
+				(!(endOfGame) & (var_$y_0 = 3) & (var_$x_0 = 2) & !(status = TURN_USER) & (board_2_3 = SIGN_UNDEF)): NOUGHT;
+				TRUE: board_2_3;
+			esac;
+		next(board_3_1) :=
+			case
+				((board_3_1 = SIGN_UNDEF) & (3 = userChoiceX) & (1 = userChoiceY) & (status = TURN_USER) & !(endOfGame)): CROSS;
+				((board_3_1 = SIGN_UNDEF) & !(endOfGame) & (var_$x_0 = 3) & !(status = TURN_USER) & (var_$y_0 = 1)): NOUGHT;
+				TRUE: board_3_1;
+			esac;
+		next(board_3_2) :=
+			case
+				(!(endOfGame) & (var_$x_0 = 3) & (board_3_2 = SIGN_UNDEF) & (var_$y_0 = 2) & !(status = TURN_USER)): NOUGHT;
+				((3 = userChoiceX) & (2 = userChoiceY) & (status = TURN_USER) & !(endOfGame) & (board_3_2 = SIGN_UNDEF)): CROSS;
+				TRUE: board_3_2;
+			esac;
+		next(board_3_3) :=
+			case
+				(!(endOfGame) & (var_$y_0 = 3) & (board_3_3 = SIGN_UNDEF) & (var_$x_0 = 3) & !(status = TURN_USER)): NOUGHT;
+				((3 = userChoiceX) & (3 = userChoiceY) & (status = TURN_USER) & !(endOfGame) & (board_3_3 = SIGN_UNDEF)): CROSS;
+				TRUE: board_3_3;
+			esac;
+		next(status) :=
+			case
+				(!(endOfGame) & !(status = TURN_USER)): TURN_USER;
+				(((((((2 = userChoiceX) & (2 = userChoiceY) & (board_2_2 = SIGN_UNDEF) & (status = TURN_USER) & !(endOfGame)) | ((((1 = userChoiceX) & (3 = userChoiceY) & (status = TURN_USER) & (board_1_3 = SIGN_UNDEF) & !(endOfGame)) | (((1 = userChoiceX) & (2 = userChoiceY) & (status = TURN_USER) & !(endOfGame) & (board_1_2 = SIGN_UNDEF)) | ((1 = userChoiceY) & (1 = userChoiceX) & (board_1_1 = SIGN_UNDEF) & (status = TURN_USER) & !(endOfGame)))) | ((2 = userChoiceX) & (1 = userChoiceY) & (status = TURN_USER) & !(endOfGame) & (board_2_1 = SIGN_UNDEF)))) | ((2 = userChoiceX) & (3 = userChoiceY) & (status = TURN_USER) & !(endOfGame) & (board_2_3 = SIGN_UNDEF))) | ((board_3_1 = SIGN_UNDEF) & (3 = userChoiceX) & (1 = userChoiceY) & (status = TURN_USER) & !(endOfGame))) | ((3 = userChoiceX) & (2 = userChoiceY) & (status = TURN_USER) & !(endOfGame) & (board_3_2 = SIGN_UNDEF))) | ((3 = userChoiceX) & (3 = userChoiceY) & (status = TURN_USER) & !(endOfGame) & (board_3_3 = SIGN_UNDEF))): TURN_PC;
+				TRUE: status;
+			esac;
+	INVAR	((!(board_2_1 = SIGN_UNDEF) & !(board_3_3 = SIGN_UNDEF) & !(board_1_2 = SIGN_UNDEF) & !(board_3_2 = SIGN_UNDEF) & !(board_1_1 = SIGN_UNDEF) & !(board_2_3 = SIGN_UNDEF) & !(board_3_1 = SIGN_UNDEF) & !(board_2_2 = SIGN_UNDEF) & !(board_1_3 = SIGN_UNDEF)) | ((var_$y_0 = 3) & (var_$x_0 = 2) & (board_2_3 = SIGN_UNDEF)) | ((board_2_1 = SIGN_UNDEF) & (var_$x_0 = 2) & (var_$y_0 = 1)) | ((board_1_2 = SIGN_UNDEF) & (var_$y_0 = 2) & (var_$x_0 = 1)) | ((board_1_3 = SIGN_UNDEF) & (var_$y_0 = 3) & (var_$x_0 = 1)) | ((board_1_1 = SIGN_UNDEF) & (var_$x_0 = 1) & (var_$y_0 = 1)) | ((board_3_1 = SIGN_UNDEF) & (var_$x_0 = 3) & (var_$y_0 = 1)) | ((var_$x_0 = 3) & (board_3_2 = SIGN_UNDEF) & (var_$y_0 = 2)) | ((var_$y_0 = 3) & (board_3_3 = SIGN_UNDEF) & (var_$x_0 = 3)) | ((board_2_2 = SIGN_UNDEF) & (var_$x_0 = 2) & (var_$y_0 = 2)));
+--CTL properties
+CTLSPEC NAME ctl0 := !(EF((((board_2_2 = CROSS) & (board_1_3 = CROSS) & (board_3_1 = CROSS)) | (((((board_1_2 = CROSS) & (board_1_1 = CROSS) & (board_1_3 = CROSS)) | ((board_2_2 = CROSS) & (board_2_1 = CROSS) & (board_2_3 = CROSS)) | ((board_3_2 = CROSS) & (board_3_1 = CROSS) & (board_3_3 = CROSS))) | (((board_1_2 = CROSS) & (board_2_2 = CROSS) & (board_3_2 = CROSS)) | ((board_1_1 = CROSS) & (board_2_1 = CROSS) & (board_3_1 = CROSS)) | ((board_1_3 = CROSS) & (board_2_3 = CROSS) & (board_3_3 = CROSS)))) | ((board_2_2 = CROSS) & (board_1_1 = CROSS) & (board_3_3 = CROSS))))));
+CTLSPEC NAME ctl1 := EF(((((board_2_2 = NOUGHT) & (board_3_3 = NOUGHT) & (board_1_1 = NOUGHT)) | ((((board_3_1 = NOUGHT) & (board_3_3 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_2_2 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_1_3 = NOUGHT) & (board_1_1 = NOUGHT))) | (((board_1_3 = NOUGHT) & (board_3_3 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_3_1 = NOUGHT) & (board_1_1 = NOUGHT))))) | ((board_1_3 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_1 = NOUGHT))));
+CTLSPEC NAME ctl2 := EF(((!((((board_2_2 = NOUGHT) & (board_3_3 = NOUGHT) & (board_1_1 = NOUGHT)) | ((((board_3_1 = NOUGHT) & (board_3_3 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_2_2 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_1_3 = NOUGHT) & (board_1_1 = NOUGHT))) | (((board_1_3 = NOUGHT) & (board_3_3 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_3_1 = NOUGHT) & (board_1_1 = NOUGHT))))) | ((board_1_3 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_1 = NOUGHT))) & !(((board_2_2 = CROSS) & (board_1_3 = CROSS) & (board_3_1 = CROSS)) | (((((board_1_2 = CROSS) & (board_1_1 = CROSS) & (board_1_3 = CROSS)) | ((board_2_2 = CROSS) & (board_2_1 = CROSS) & (board_2_3 = CROSS)) | ((board_3_2 = CROSS) & (board_3_1 = CROSS) & (board_3_3 = CROSS))) | (((board_1_2 = CROSS) & (board_2_2 = CROSS) & (board_3_2 = CROSS)) | ((board_1_1 = CROSS) & (board_2_1 = CROSS) & (board_3_1 = CROSS)) | ((board_1_3 = CROSS) & (board_2_3 = CROSS) & (board_3_3 = CROSS)))) | ((board_2_2 = CROSS) & (board_1_1 = CROSS) & (board_3_3 = CROSS))))) & endOfGame));
+CTLSPEC NAME ctl3 := AG(!((((board_2_2 = CROSS) & (board_1_3 = CROSS) & (board_3_1 = CROSS)) | (((((board_1_2 = CROSS) & (board_1_1 = CROSS) & (board_1_3 = CROSS)) | ((board_2_2 = CROSS) & (board_2_1 = CROSS) & (board_2_3 = CROSS)) | ((board_3_2 = CROSS) & (board_3_1 = CROSS) & (board_3_3 = CROSS))) | (((board_1_2 = CROSS) & (board_2_2 = CROSS) & (board_3_2 = CROSS)) | ((board_1_1 = CROSS) & (board_2_1 = CROSS) & (board_3_1 = CROSS)) | ((board_1_3 = CROSS) & (board_2_3 = CROSS) & (board_3_3 = CROSS)))) | ((board_2_2 = CROSS) & (board_1_1 = CROSS) & (board_3_3 = CROSS)))) & ((((board_2_2 = NOUGHT) & (board_3_3 = NOUGHT) & (board_1_1 = NOUGHT)) | ((((board_3_1 = NOUGHT) & (board_3_3 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_2_2 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_1_3 = NOUGHT) & (board_1_1 = NOUGHT))) | (((board_1_3 = NOUGHT) & (board_3_3 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_3_1 = NOUGHT) & (board_1_1 = NOUGHT))))) | ((board_1_3 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_1 = NOUGHT)))));
+CTLSPEC NAME ctl4 := E[(!((((board_2_2 = NOUGHT) & (board_3_3 = NOUGHT) & (board_1_1 = NOUGHT)) | ((((board_3_1 = NOUGHT) & (board_3_3 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_2_2 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_1_3 = NOUGHT) & (board_1_1 = NOUGHT))) | (((board_1_3 = NOUGHT) & (board_3_3 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_3_1 = NOUGHT) & (board_1_1 = NOUGHT))))) | ((board_1_3 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_1 = NOUGHT))) & !(((board_2_2 = CROSS) & (board_1_3 = CROSS) & (board_3_1 = CROSS)) | (((((board_1_2 = CROSS) & (board_1_1 = CROSS) & (board_1_3 = CROSS)) | ((board_2_2 = CROSS) & (board_2_1 = CROSS) & (board_2_3 = CROSS)) | ((board_3_2 = CROSS) & (board_3_1 = CROSS) & (board_3_3 = CROSS))) | (((board_1_2 = CROSS) & (board_2_2 = CROSS) & (board_3_2 = CROSS)) | ((board_1_1 = CROSS) & (board_2_1 = CROSS) & (board_3_1 = CROSS)) | ((board_1_3 = CROSS) & (board_2_3 = CROSS) & (board_3_3 = CROSS)))) | ((board_2_2 = CROSS) & (board_1_1 = CROSS) & (board_3_3 = CROSS))))) U ((((board_2_2 = CROSS) & (board_1_3 = CROSS) & (board_3_1 = CROSS)) | (((((board_1_2 = CROSS) & (board_1_1 = CROSS) & (board_1_3 = CROSS)) | ((board_2_2 = CROSS) & (board_2_1 = CROSS) & (board_2_3 = CROSS)) | ((board_3_2 = CROSS) & (board_3_1 = CROSS) & (board_3_3 = CROSS))) | (((board_1_2 = CROSS) & (board_2_2 = CROSS) & (board_3_2 = CROSS)) | ((board_1_1 = CROSS) & (board_2_1 = CROSS) & (board_3_1 = CROSS)) | ((board_1_3 = CROSS) & (board_2_3 = CROSS) & (board_3_3 = CROSS)))) | ((board_2_2 = CROSS) & (board_1_1 = CROSS) & (board_3_3 = CROSS)))) xor ((((board_2_2 = NOUGHT) & (board_3_3 = NOUGHT) & (board_1_1 = NOUGHT)) | ((((board_3_1 = NOUGHT) & (board_3_3 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_2_2 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_1_3 = NOUGHT) & (board_1_1 = NOUGHT))) | (((board_1_3 = NOUGHT) & (board_3_3 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_3_1 = NOUGHT) & (board_1_1 = NOUGHT))))) | ((board_1_3 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_1 = NOUGHT))))];
+CTLSPEC NAME ctl5 := AG(((!((((board_2_2 = NOUGHT) & (board_3_3 = NOUGHT) & (board_1_1 = NOUGHT)) | ((((board_3_1 = NOUGHT) & (board_3_3 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_2_2 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_1_3 = NOUGHT) & (board_1_1 = NOUGHT))) | (((board_1_3 = NOUGHT) & (board_3_3 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_3_1 = NOUGHT) & (board_1_1 = NOUGHT))))) | ((board_1_3 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_1 = NOUGHT))) & (((board_2_2 = CROSS) & (board_1_3 = CROSS) & (board_3_1 = CROSS)) | (((((board_1_2 = CROSS) & (board_1_1 = CROSS) & (board_1_3 = CROSS)) | ((board_2_2 = CROSS) & (board_2_1 = CROSS) & (board_2_3 = CROSS)) | ((board_3_2 = CROSS) & (board_3_1 = CROSS) & (board_3_3 = CROSS))) | (((board_1_2 = CROSS) & (board_2_2 = CROSS) & (board_3_2 = CROSS)) | ((board_1_1 = CROSS) & (board_2_1 = CROSS) & (board_3_1 = CROSS)) | ((board_1_3 = CROSS) & (board_2_3 = CROSS) & (board_3_3 = CROSS)))) | ((board_2_2 = CROSS) & (board_1_1 = CROSS) & (board_3_3 = CROSS))))) -> AG((!((((board_2_2 = NOUGHT) & (board_3_3 = NOUGHT) & (board_1_1 = NOUGHT)) | ((((board_3_1 = NOUGHT) & (board_3_3 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_2_2 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_1_3 = NOUGHT) & (board_1_1 = NOUGHT))) | (((board_1_3 = NOUGHT) & (board_3_3 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_3_1 = NOUGHT) & (board_1_1 = NOUGHT))))) | ((board_1_3 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_1 = NOUGHT))) & (((board_2_2 = CROSS) & (board_1_3 = CROSS) & (board_3_1 = CROSS)) | (((((board_1_2 = CROSS) & (board_1_1 = CROSS) & (board_1_3 = CROSS)) | ((board_2_2 = CROSS) & (board_2_1 = CROSS) & (board_2_3 = CROSS)) | ((board_3_2 = CROSS) & (board_3_1 = CROSS) & (board_3_3 = CROSS))) | (((board_1_2 = CROSS) & (board_2_2 = CROSS) & (board_3_2 = CROSS)) | ((board_1_1 = CROSS) & (board_2_1 = CROSS) & (board_3_1 = CROSS)) | ((board_1_3 = CROSS) & (board_2_3 = CROSS) & (board_3_3 = CROSS)))) | ((board_2_2 = CROSS) & (board_1_1 = CROSS) & (board_3_3 = CROSS))))))));
+CTLSPEC NAME ctl6 := AG(((!(((board_2_2 = CROSS) & (board_1_3 = CROSS) & (board_3_1 = CROSS)) | (((((board_1_2 = CROSS) & (board_1_1 = CROSS) & (board_1_3 = CROSS)) | ((board_2_2 = CROSS) & (board_2_1 = CROSS) & (board_2_3 = CROSS)) | ((board_3_2 = CROSS) & (board_3_1 = CROSS) & (board_3_3 = CROSS))) | (((board_1_2 = CROSS) & (board_2_2 = CROSS) & (board_3_2 = CROSS)) | ((board_1_1 = CROSS) & (board_2_1 = CROSS) & (board_3_1 = CROSS)) | ((board_1_3 = CROSS) & (board_2_3 = CROSS) & (board_3_3 = CROSS)))) | ((board_2_2 = CROSS) & (board_1_1 = CROSS) & (board_3_3 = CROSS)))) & ((((board_2_2 = NOUGHT) & (board_3_3 = NOUGHT) & (board_1_1 = NOUGHT)) | ((((board_3_1 = NOUGHT) & (board_3_3 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_2_2 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_1_3 = NOUGHT) & (board_1_1 = NOUGHT))) | (((board_1_3 = NOUGHT) & (board_3_3 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_3_1 = NOUGHT) & (board_1_1 = NOUGHT))))) | ((board_1_3 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_1 = NOUGHT)))) -> AG((!(((board_2_2 = CROSS) & (board_1_3 = CROSS) & (board_3_1 = CROSS)) | (((((board_1_2 = CROSS) & (board_1_1 = CROSS) & (board_1_3 = CROSS)) | ((board_2_2 = CROSS) & (board_2_1 = CROSS) & (board_2_3 = CROSS)) | ((board_3_2 = CROSS) & (board_3_1 = CROSS) & (board_3_3 = CROSS))) | (((board_1_2 = CROSS) & (board_2_2 = CROSS) & (board_3_2 = CROSS)) | ((board_1_1 = CROSS) & (board_2_1 = CROSS) & (board_3_1 = CROSS)) | ((board_1_3 = CROSS) & (board_2_3 = CROSS) & (board_3_3 = CROSS)))) | ((board_2_2 = CROSS) & (board_1_1 = CROSS) & (board_3_3 = CROSS)))) & ((((board_2_2 = NOUGHT) & (board_3_3 = NOUGHT) & (board_1_1 = NOUGHT)) | ((((board_3_1 = NOUGHT) & (board_3_3 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_2_2 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_1_3 = NOUGHT) & (board_1_1 = NOUGHT))) | (((board_1_3 = NOUGHT) & (board_3_3 = NOUGHT) & (board_2_3 = NOUGHT)) | ((board_1_2 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_2 = NOUGHT)) | ((board_2_1 = NOUGHT) & (board_3_1 = NOUGHT) & (board_1_1 = NOUGHT))))) | ((board_1_3 = NOUGHT) & (board_2_2 = NOUGHT) & (board_3_1 = NOUGHT)))))));

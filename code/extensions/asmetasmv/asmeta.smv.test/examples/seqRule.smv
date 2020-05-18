@@ -1,0 +1,13 @@
+--file examples\seqRule.smv
+MODULE main
+	VAR
+		foo: {-2147483647, 1, 2, 3, 4}; --controlled
+	ASSIGN
+		init(foo) := -2147483647;
+		next(foo) :=
+			case
+				3 in {-2147483647, 1, 2, 3, 4}: 3;
+				TRUE: foo;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := (AX(AG((foo = 3))) & (foo = -2147483647));

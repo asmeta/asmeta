@@ -1,0 +1,6 @@
+--file examples\staticDerived.smv
+MODULE main
+	VAR
+		mon1: boolean; --monitored
+		mon2: boolean; --monitored
+	DEFINE

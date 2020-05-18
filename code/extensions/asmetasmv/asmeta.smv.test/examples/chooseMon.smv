@@ -1,0 +1,68 @@
+--file examples\chooseMon.smv
+MODULE main
+	VAR
+		fooB: boolean; --controlled
+		fooB2: boolean; --controlled
+		fooE: {AA, BB, CC, ENUMDOM_UNDEF}; --controlled
+		fooI: {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		monB: boolean; --monitored
+		monB2: boolean; --monitored
+		monE: {AA, BB, CC}; --monitored
+		monI: 1..10; --monitored
+		--declaration of choose variables
+		var_$e_2: {AA, BB, CC};
+		var_$i_3: 1..10;
+		var_$x_0: boolean;
+		var_$y_1: boolean;
+	CONSTANTS ENUMDOM_UNDEF, AA, BB, CC;
+	ASSIGN
+		init(fooB) := monB;
+		init(fooB2) := !(monB2);
+		init(fooE) := monE;
+		init(fooI) := monI;
+		next(fooB) :=
+			case
+				(var_$x_0 & monB): TRUE;
+				(!(var_$x_0) & !(monB)): FALSE;
+				TRUE: fooB;
+			esac;
+		next(fooB2) :=
+			case
+				(var_$y_1 & monB2): FALSE;
+				(!(var_$y_1) & !(monB2)): TRUE;
+				TRUE: fooB2;
+			esac;
+		next(fooE) :=
+			case
+				((AA = monE) & (var_$e_2 = AA)): AA;
+				((BB = monE) & (var_$e_2 = BB)): BB;
+				((CC = monE) & (var_$e_2 = CC)): CC;
+				TRUE: fooE;
+			esac;
+		next(fooI) :=
+			case
+				((var_$i_3 = 10) & (10 != monI)) & 10 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 10;
+				((var_$i_3 = 4) & (4 != monI)) & 4 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 4;
+				((6 != monI) & (var_$i_3 = 6)) & 6 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 6;
+				((3 != monI) & (var_$i_3 = 3)) & 3 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 3;
+				((var_$i_3 = 2) & (2 != monI)) & 2 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 2;
+				((var_$i_3 = 7) & (7 != monI)) & 7 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 7;
+				((8 != monI) & (var_$i_3 = 8)) & 8 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 8;
+				((var_$i_3 = 5) & (5 != monI)) & 5 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 5;
+				((9 != monI) & (var_$i_3 = 9)) & 9 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 9;
+				((var_$i_3 = 1) & (1 != monI)) & 1 in {-2147483647, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: 1;
+				TRUE: fooI;
+			esac;
+	INVAR	((var_$x_0 & monB) | (!(var_$x_0) & !(monB)));
+	INVAR	((var_$y_1 & monB2) | (!(var_$y_1) & !(monB2)));
+	INVAR	((!(CC = monE) & !(BB = monE) & !(AA = monE)) | ((AA = monE) & (var_$e_2 = AA)) | ((BB = monE) & (var_$e_2 = BB)) | ((CC = monE) & (var_$e_2 = CC)));
+	INVAR	(((var_$i_3 = 10) & (10 != monI)) | ((var_$i_3 = 4) & (4 != monI)) | ((6 != monI) & (var_$i_3 = 6)) | ((3 != monI) & (var_$i_3 = 3)) | (!(7 != monI) & !(10 != monI) & !(8 != monI) & !(4 != monI) & !(2 != monI) & !(6 != monI) & !(9 != monI) & !(5 != monI) & !(1 != monI) & !(3 != monI)) | ((var_$i_3 = 2) & (2 != monI)) | ((var_$i_3 = 7) & (7 != monI)) | ((8 != monI) & (var_$i_3 = 8)) | ((var_$i_3 = 5) & (5 != monI)) | ((9 != monI) & (var_$i_3 = 9)) | ((var_$i_3 = 1) & (1 != monI)));
+--CTL properties
+CTLSPEC NAME ctl0 := AG((monB -> AX(fooB)));
+CTLSPEC NAME ctl1 := AG((!(monB) -> AX(!(fooB))));
+CTLSPEC NAME ctl2 := (AG((monB -> AX(fooB))) & AG((!(monB) -> AX(!(fooB)))));
+CTLSPEC NAME ctl3 := AG((monB2 -> AX(!(fooB2))));
+CTLSPEC NAME ctl4 := AG((!(monB2) -> AX(fooB2)));
+CTLSPEC NAME ctl5 := (AG((monB2 -> AX(!(fooB2)))) & AG((!(monB2) -> AX(fooB2))));
+CTLSPEC NAME ctl6 := (AG(((monE = AA) -> AX((fooE = AA)))) & AG(((monE = CC) -> AX((fooE = CC)))) & AG(((monE = BB) -> AX((fooE = BB)))));
+CTLSPEC NAME ctl7 := (AG(((monI = 6) -> AX((fooI != 6)))) & AG(((monI = 5) -> AX((fooI != 5)))) & AG(((monI = 8) -> AX((fooI != 8)))) & AG(((monI = 10) -> AX((fooI != 10)))) & AG(((monI = 7) -> AX((fooI != 7)))) & AG(((monI = 3) -> AX((fooI != 3)))) & AG(((monI = 4) -> AX((fooI != 4)))) & AG(((monI = 9) -> AX((fooI != 9)))) & AG(((monI = 1) -> AX((fooI != 1)))) & AG(((monI = 2) -> AX((fooI != 2)))));

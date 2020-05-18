@@ -1,0 +1,31 @@
+--file examples\forallTerm.smv
+MODULE main
+	VAR
+		foo_1: {-2147483647, 1, 2, 3}; --controlled
+		foo_2: {-2147483647, 1, 2, 3}; --controlled
+		foo_3: {-2147483647, 1, 2, 3}; --controlled
+		result1: boolean; --controlled
+		result2: boolean; --controlled
+		result3: boolean; --controlled
+	ASSIGN
+		init(foo_1) := 1;
+		init(foo_2) := 2;
+		init(foo_3) := 3;
+		init(result1) := TRUE;
+		init(result2) := TRUE;
+		init(result3) := FALSE;
+		next(foo_1) := foo_1;
+		next(foo_2) := foo_2;
+		next(foo_3) := foo_3;
+		next(result1) :=
+			case
+				(!((foo_1 = 1) & (foo_3 = 3) & (foo_2 = 2))): FALSE;
+				((foo_1 = 1) & (foo_3 = 3) & (foo_2 = 2)): TRUE;
+				TRUE: result1;
+			esac;
+		next(result2) := ((foo_1 = 1) & (foo_3 = 3) & (foo_2 = 2));
+		next(result3) := ((foo_1 = 2) & (foo_2 = 2) & (foo_3 = 2));
+--CTL properties
+CTLSPEC NAME ctl0 := AG(((result2 & result1) & !(result3)));
+--AsmetaL invariants
+CTLSPEC	AG(((result2 & result1) & !(result3)));

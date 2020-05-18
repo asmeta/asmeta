@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Asmeta Flattener
+Bundle-SymbolicName: asmeta.flattener
+Bundle-Version: 1.0.5
+Bundle-ClassPath: args4j.jar,
+ .
+Require-Bundle: asmeta.emf,
+ asmeta.parser,
+ asmeta.simulator,
+ org.apache.log4j
+Export-Package: org.asmeta.flattener,
+ org.asmeta.flattener.args,
+ org.asmeta.flattener.nesting,
+ org.asmeta.flattener.rule,
+ org.asmeta.flattener.statistics,
+ org.asmeta.flattener.term,
+ org.asmeta.flattener.undef,
+ org.asmeta.flattener.util
+Import-Package: org.asmeta.parser,
+ org.eclipse.osgi.service.datalocation
+Bundle-Vendor: fmse.di.unimi.it
+Automatic-Module-Name: asmeta.flattener

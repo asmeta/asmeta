@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> TermSubstitution test </TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+</HEAD>
+
+<BODY>
+<TABLE>
+<TR>
+	<TD>org.asmeta.interpreter.TermSubstFixture</TD>
+	<TD></TD>
+</TR>
+<TR>
+	<TD>asmPath</TD>
+	<TD>term()</TD>
+</TR>
+<TR>
+	<TD>rps_test/term_subst/termsubst01.asm</TD>
+	<TD>plus($x,$y)</TD>
+</TR>
+<TR>
+	<TD>rps_test/term_subst/termsubst02.asm</TD>
+	<TD>g(plus($x,$y),0)</TD>
+</TR>
+<TR>
+	<TD>rps_test/term_subst/termsubst03.asm</TD>
+	<TD>if eq($z,7) then mult(2,$z) else 77 endif</TD>
+</TR>
+<TR>
+	<TD>rps_test/term_subst/termsubst04.asm</TD>
+	<TD>switch $y case $z:0 case $x:1 otherwise 2 endswitch</TD>
+</TR>
+<TR>
+	<TD>rps_test/term_subst/termsubst05.asm</TD>
+	<TD>let($x!1=$x,$y!2=$y,$z!3=$z)in plus($x!1,$z) endlet</TD>
+</TR>
+<TR>
+	<TD>rps_test/term_subst/termsubst06.asm</TD>
+	<TD>(exist $x in Powerset(Natural) with eq($x,plus($y,$z)))</TD>
+</TR>
+<TR>
+	<TD>rps_test/term_subst/termsubst07.asm</TD>
+	<TD>{mult($x!1,$d)|$x!1 in {2,1},$d in {4,3} with neq($x!1,$d)}</TD>
+</TR>
+<TR>
+	<TD>rps_test/term_subst/termsubst08.asm</TD>
+	<TD>let($x!1=$y,$y!2=plus($x,$y))in {$z!3|$z!3 in Powerset(Integer) with iff(eq($x!1,$z!3),eq(plus($x,$y),$z))} endlet</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

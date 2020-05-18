@@ -1,0 +1,40 @@
+scenario lift2_s2
+load ./lift2.asm
+
+// s3: chiama da fuori al 4, entra , chiede 2
+
+// init shared functions
+// lift is halted at floor 0
+set hasToDeliverAt(lift1, 0) := false;
+set hasToDeliverAt(lift1, 1) := false;
+set hasToDeliverAt(lift1, 2) := false;
+set hasToDeliverAt(lift1, 3) := false;
+set hasToDeliverAt(lift1, 4) := false;
+set existsCallFromTo(0, UP)   := false;
+set existsCallFromTo(0, DOWN) := false;
+set existsCallFromTo(1, UP)   := false;
+set existsCallFromTo(1, DOWN) := false;
+set existsCallFromTo(2, UP)   := false;
+set existsCallFromTo(2, DOWN) := false;
+set existsCallFromTo(3, UP)   := false;
+set existsCallFromTo(3, DOWN) := false;
+set existsCallFromTo(4, UP)   := false;
+// receives an external request to floor 4
+set existsCallFromTo(4, DOWN) := true;
+
+// goes to floor 4
+step until ctlState(lift1) = HALTING and floor(lift1) = 4;
+
+// receives a request to floor 2
+set hasToDeliverAt(lift1, 2) := true;
+step
+// must go down to floor 2, changes direction
+check dir(lift1) = DOWN;
+// request to floor 4 now is canceled
+check not existsCallFromTo(4, DOWN);
+
+// goes to floor 2
+step until ctlState(lift1) = HALTING and floor(lift1) = 2;
+// request to floor 2 now is canceled
+check not hasToDeliverAt(lift1, 2);
+

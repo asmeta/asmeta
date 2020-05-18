@@ -1,0 +1,93 @@
+--file examples\taxiSingAgents.smv
+MODULE main
+	VAR
+		clientDestX_CLIENT: {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}; --controlled
+		clientDestY_CLIENT: {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}; --controlled
+		clientNumViaggi_CLIENT: {-2147483647, 0, 1, 2}; --controlled
+		clientPosX_CLIENT: {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}; --controlled
+		clientPosY_CLIENT: {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}; --controlled
+		clientState_CLIENT: {CALLTAXI, CLIENTSTATE_UNDEF, ENDTRAVELS, IDLECL, TRAVELLING, WAITING}; --controlled
+		decideToTravel: boolean; --monitored
+		destX: 1..8; --monitored
+		destY: 1..8; --monitored
+		stepX: -1..1; --monitored
+		stepY: -1..1; --monitored
+		taxiPosX_TAXI: {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}; --controlled
+		taxiPosY_TAXI: {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}; --controlled
+		taxiState_TAXI: {IDLETX, TAXISTATE_UNDEF, TOCLIENT, WITHCLIENT}; --controlled
+	CONSTANTS TAXI, TAXIAGENT_UNDEF, TAXI, TAXISTATE_UNDEF, IDLETX, TOCLIENT, WITHCLIENT, CLIENT, CLIENTAGENT_UNDEF, CLIENT, CLIENTSTATE_UNDEF, CALLTAXI, ENDTRAVELS, IDLECL, TRAVELLING, WAITING;
+	ASSIGN
+		init(clientDestX_CLIENT) := -2147483647;
+		init(clientDestY_CLIENT) := -2147483647;
+		init(clientNumViaggi_CLIENT) := 2;
+		init(clientPosX_CLIENT) := 2;
+		init(clientPosY_CLIENT) := 2;
+		init(clientState_CLIENT) := IDLECL;
+		init(taxiPosX_TAXI) := 3;
+		init(taxiPosY_TAXI) := 3;
+		init(taxiState_TAXI) := IDLETX;
+		next(clientDestX_CLIENT) :=
+			case
+				((clientNumViaggi_CLIENT > 0) & (clientState_CLIENT = IDLECL) & decideToTravel) & destX in {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}: destX;
+				TRUE: clientDestX_CLIENT;
+			esac;
+		next(clientDestY_CLIENT) :=
+			case
+				((clientNumViaggi_CLIENT > 0) & (clientState_CLIENT = IDLECL) & decideToTravel) & destY in {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}: destY;
+				TRUE: clientDestY_CLIENT;
+			esac;
+		next(clientNumViaggi_CLIENT) :=
+			case
+				((taxiState_TAXI = WITHCLIENT) & ((taxiPosY_TAXI = clientDestY_CLIENT) & (taxiPosX_TAXI = clientDestX_CLIENT))) & (clientNumViaggi_CLIENT - 1) in {-2147483647, 0, 1, 2}: (clientNumViaggi_CLIENT - 1);
+				TRUE: clientNumViaggi_CLIENT;
+			esac;
+		next(clientPosX_CLIENT) :=
+			case
+				(!((taxiPosY_TAXI = clientDestY_CLIENT) & (taxiPosX_TAXI = clientDestX_CLIENT)) & (clientPosX_CLIENT > clientDestX_CLIENT) & (taxiState_TAXI = WITHCLIENT)) & (clientPosX_CLIENT - 1) in {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}: (clientPosX_CLIENT - 1);
+				(!((taxiPosY_TAXI = clientDestY_CLIENT) & (taxiPosX_TAXI = clientDestX_CLIENT)) & (clientPosX_CLIENT < clientDestX_CLIENT) & (taxiState_TAXI = WITHCLIENT)) & (clientPosX_CLIENT + 1) in {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}: (clientPosX_CLIENT + 1);
+				((clientNumViaggi_CLIENT > 0) & !(decideToTravel) & (clientState_CLIENT = IDLECL) & ((clientPosX_CLIENT < 8) & (clientPosX_CLIENT > 1))) & (clientPosX_CLIENT + stepX) in {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}: (clientPosX_CLIENT + stepX);
+				TRUE: clientPosX_CLIENT;
+			esac;
+		next(clientPosY_CLIENT) :=
+			case
+				(!((taxiPosY_TAXI = clientDestY_CLIENT) & (taxiPosX_TAXI = clientDestX_CLIENT)) & (clientPosY_CLIENT > clientDestY_CLIENT) & (taxiState_TAXI = WITHCLIENT)) & (clientPosY_CLIENT - 1) in {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}: (clientPosY_CLIENT - 1);
+				((clientNumViaggi_CLIENT > 0) & !(decideToTravel) & (clientState_CLIENT = IDLECL) & ((clientPosY_CLIENT > 1) & (clientPosY_CLIENT < 8))) & (clientPosY_CLIENT + stepY) in {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}: (clientPosY_CLIENT + stepY);
+				(!((taxiPosY_TAXI = clientDestY_CLIENT) & (taxiPosX_TAXI = clientDestX_CLIENT)) & (clientPosY_CLIENT < clientDestY_CLIENT) & (taxiState_TAXI = WITHCLIENT)) & (clientPosY_CLIENT + 1) in {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}: (clientPosY_CLIENT + 1);
+				TRUE: clientPosY_CLIENT;
+			esac;
+		next(clientState_CLIENT) :=
+			case
+				((taxiState_TAXI = WITHCLIENT) & ((taxiPosY_TAXI = clientDestY_CLIENT) & (taxiPosX_TAXI = clientDestX_CLIENT))): IDLECL;
+				((clientNumViaggi_CLIENT > 0) & (clientState_CLIENT = IDLECL) & decideToTravel): CALLTAXI;
+				((taxiState_TAXI = TOCLIENT) & ((taxiPosY_TAXI = clientPosY_CLIENT) & (taxiPosX_TAXI = clientPosX_CLIENT))): TRAVELLING;
+				(clientState_CLIENT = CALLTAXI): WAITING;
+				((clientState_CLIENT = IDLECL) & !(clientNumViaggi_CLIENT > 0)): ENDTRAVELS;
+				TRUE: clientState_CLIENT;
+			esac;
+		next(taxiPosX_TAXI) :=
+			case
+				(((taxiState_TAXI = TOCLIENT) & !((taxiPosY_TAXI = clientPosY_CLIENT) & (taxiPosX_TAXI = clientPosX_CLIENT)) & (taxiPosX_TAXI > clientPosX_CLIENT)) | (!((taxiPosY_TAXI = clientDestY_CLIENT) & (taxiPosX_TAXI = clientDestX_CLIENT)) & (taxiPosX_TAXI > clientDestX_CLIENT) & (taxiState_TAXI = WITHCLIENT))) & (taxiPosX_TAXI - 1) in {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}: (taxiPosX_TAXI - 1);
+				(((taxiPosX_TAXI < clientPosX_CLIENT) & (taxiState_TAXI = TOCLIENT) & !((taxiPosY_TAXI = clientPosY_CLIENT) & (taxiPosX_TAXI = clientPosX_CLIENT))) | ((taxiPosX_TAXI < clientDestX_CLIENT) & !((taxiPosY_TAXI = clientDestY_CLIENT) & (taxiPosX_TAXI = clientDestX_CLIENT)) & (taxiState_TAXI = WITHCLIENT))) & (taxiPosX_TAXI + 1) in {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}: (taxiPosX_TAXI + 1);
+				TRUE: taxiPosX_TAXI;
+			esac;
+		next(taxiPosY_TAXI) :=
+			case
+				((!((taxiPosY_TAXI = clientDestY_CLIENT) & (taxiPosX_TAXI = clientDestX_CLIENT)) & (taxiPosY_TAXI > clientDestY_CLIENT) & (taxiState_TAXI = WITHCLIENT)) | ((taxiState_TAXI = TOCLIENT) & !((taxiPosY_TAXI = clientPosY_CLIENT) & (taxiPosX_TAXI = clientPosX_CLIENT)) & (taxiPosY_TAXI > clientPosY_CLIENT))) & (taxiPosY_TAXI - 1) in {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}: (taxiPosY_TAXI - 1);
+				((!((taxiPosY_TAXI = clientDestY_CLIENT) & (taxiPosX_TAXI = clientDestX_CLIENT)) & (taxiPosY_TAXI < clientDestY_CLIENT) & (taxiState_TAXI = WITHCLIENT)) | ((taxiState_TAXI = TOCLIENT) & (taxiPosY_TAXI < clientPosY_CLIENT) & !((taxiPosY_TAXI = clientPosY_CLIENT) & (taxiPosX_TAXI = clientPosX_CLIENT)))) & (taxiPosY_TAXI + 1) in {-2147483647, 1, 2, 3, 4, 5, 6, 7, 8}: (taxiPosY_TAXI + 1);
+				TRUE: taxiPosY_TAXI;
+			esac;
+		next(taxiState_TAXI) :=
+			case
+				((taxiState_TAXI = WITHCLIENT) & ((taxiPosY_TAXI = clientDestY_CLIENT) & (taxiPosX_TAXI = clientDestX_CLIENT))): IDLETX;
+				((taxiState_TAXI = TOCLIENT) & ((taxiPosY_TAXI = clientPosY_CLIENT) & (taxiPosX_TAXI = clientPosX_CLIENT))): WITHCLIENT;
+				(clientState_CLIENT = CALLTAXI): TOCLIENT;
+				TRUE: taxiState_TAXI;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG(((taxiState_TAXI = WITHCLIENT) -> ((taxiPosY_TAXI = clientPosY_CLIENT) & (taxiPosX_TAXI = clientPosX_CLIENT))));
+CTLSPEC NAME ctl1 := AG(((clientState_CLIENT = ENDTRAVELS) -> AG((clientState_CLIENT = ENDTRAVELS))));
+CTLSPEC NAME ctl2 := AG(((clientState_CLIENT = WAITING) -> AF((clientState_CLIENT = TRAVELLING))));
+CTLSPEC NAME ctl3 := AG(((clientState_CLIENT = TRAVELLING) <-> (taxiState_TAXI = WITHCLIENT)));
+CTLSPEC NAME ctl4 := AG(((clientState_CLIENT = WAITING) <-> (taxiState_TAXI = TOCLIENT)));
+CTLSPEC NAME ctl5 := EF((((clientPosX_CLIENT = taxiPosX_TAXI) & (clientState_CLIENT = CALLTAXI)) & (clientPosY_CLIENT = taxiPosY_TAXI)));
+CTLSPEC NAME ctl6 := AG(EX(TRUE));

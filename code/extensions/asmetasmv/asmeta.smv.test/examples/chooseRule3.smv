@@ -1,0 +1,38 @@
+--file examples\chooseRule3.smv
+MODULE main
+	VAR
+		fooA: {-2147483647, 1, 2, 3, 4}; --controlled
+		fooB: {-2147483647, 1, 2, 3, 4}; --controlled
+		--declaration of choose variables
+		var_$x_0: 1..4;
+		var_$x_1: 1..4;
+	ASSIGN
+		init(fooA) := 4;
+		init(fooB) := 4;
+		next(fooA) :=
+			case
+				((4 = (fooA - 1)) & (var_$x_0 = 4)) & 4 in {-2147483647, 1, 2, 3, 4}: 4;
+				((2 = (fooA - 1)) & (var_$x_0 = 2)) & 2 in {-2147483647, 1, 2, 3, 4}: 2;
+				((3 = (fooA - 1)) & (var_$x_0 = 3)) & 3 in {-2147483647, 1, 2, 3, 4}: 3;
+				((1 = (fooA - 1)) & (var_$x_0 = 1)) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: fooA;
+			esac;
+		next(fooB) :=
+			case
+				((var_$x_1 = 3) & (3 = (fooB - 1))) & 3 in {-2147483647, 1, 2, 3, 4}: 3;
+				((4 = (fooB - 1)) & (var_$x_1 = 4)) & 4 in {-2147483647, 1, 2, 3, 4}: 4;
+				((1 = (fooB - 1)) & (var_$x_1 = 1)) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				((2 = (fooB - 1)) & (var_$x_1 = 2)) & 2 in {-2147483647, 1, 2, 3, 4}: 2;
+				TRUE: fooB;
+			esac;
+	INVAR	(((4 = (fooA - 1)) & (var_$x_0 = 4)) | ((2 = (fooA - 1)) & (var_$x_0 = 2)) | ((3 = (fooA - 1)) & (var_$x_0 = 3)) | (!(2 = (fooA - 1)) & !(4 = (fooA - 1)) & !(1 = (fooA - 1)) & !(3 = (fooA - 1))) | ((1 = (fooA - 1)) & (var_$x_0 = 1)));
+	INVAR	(((var_$x_1 = 3) & (3 = (fooB - 1))) | (!(3 = (fooB - 1)) & !(2 = (fooB - 1)) & !(4 = (fooB - 1)) & !(1 = (fooB - 1))) | ((4 = (fooB - 1)) & (var_$x_1 = 4)) | ((1 = (fooB - 1)) & (var_$x_1 = 1)) | ((2 = (fooB - 1)) & (var_$x_1 = 2)));
+--CTL properties
+CTLSPEC NAME ctl0 := AG(((fooA = 4) <-> AX((fooA = 3))));
+CTLSPEC NAME ctl1 := AG(((fooA = 3) <-> AX((fooA = 2))));
+CTLSPEC NAME ctl2 := AG(((fooA = 2) -> AX((fooA = 1))));
+CTLSPEC NAME ctl3 := AG(((fooA = 1) <-> AG((fooA = 1))));
+CTLSPEC NAME ctl4 := AG(((fooB = 4) <-> AX((fooB = 3))));
+CTLSPEC NAME ctl5 := AG(((fooB = 3) <-> AX((fooB = 2))));
+CTLSPEC NAME ctl6 := AG(((fooB = 2) -> AX((fooB = 1))));
+CTLSPEC NAME ctl7 := AG(((fooB = 1) <-> AG((fooB = 1))));

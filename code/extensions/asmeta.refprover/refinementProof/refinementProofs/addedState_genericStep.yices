@@ -1,0 +1,109 @@
+(echo "version with monitored functions not duplicated\n")
+(define-type PhaseDomain(scalar FULLYCLOSED FULLYOPEN PhaseDomainUNDEF))
+(define-type PhaseDomainRef(scalar FULLYCLOSED_REF OPENING FULLYOPEN_REF PhaseDomainRefUNDEF))
+;; functions - state 0
+(define phaseRefined00::PhaseDomainRef)
+(define timePassed00::bool)
+(define phase00::PhaseDomain)
+;; derived functions definitions - state 0
+(assert (= phase00 (if (or (= phaseRefined00 FULLYCLOSED_REF) (= phaseRefined00 OPENING)) FULLYCLOSED FULLYOPEN)))
+(define phaseRefined01::PhaseDomainRef)
+(define phase01::PhaseDomain)
+(define timePassed01::bool)
+;; derived functions definitions - state 1
+(assert (= phase01 (if (or (= phaseRefined01 FULLYCLOSED_REF) (= phaseRefined01 OPENING)) FULLYCLOSED FULLYOPEN)))
+;; Generic step proof
+(assert
+	(not
+		(=>
+			(and
+				(and
+					(=>
+						(= phaseRefined00 FULLYCLOSED_REF)
+						(=> timePassed00
+							(= phaseRefined01 OPENING)
+						)
+					)
+					(=>
+						(= phaseRefined00 OPENING)
+						(= phaseRefined01 FULLYOPEN_REF)
+					)
+				)
+				(=>
+					(not
+						(or
+							(and
+								(= phaseRefined00 FULLYCLOSED_REF)
+								timePassed00
+							)
+							(= phaseRefined00 OPENING)
+						)
+					)
+					(= phaseRefined00 phaseRefined01)
+				)
+			)
+			(or
+				(and (=> (= phase00 FULLYCLOSED) (=> timePassed00 (= phase01 FULLYOPEN))) (=> (not (and (= phase00 FULLYCLOSED) timePassed00)) (= phase00 phase01)))
+				(= phase00 phase01)
+			)
+		)
+	)
+)
+(set-evidence! true)
+(check)
+;; sat
+;; Generic step is not conformant.
+
+(reset)
+(echo "version with monitored functions duplicated\n")
+(define-type PhaseDomainRef(scalar FULLYCLOSED_REF OPENING FULLYOPEN_REF PhaseDomainRefUNDEF))
+(define-type PhaseDomain(scalar FULLYCLOSED FULLYOPEN PhaseDomainUNDEF))
+;; functions - state 0
+(define timePassed0_abs0::bool)
+(define phase00::PhaseDomain)
+(define timePassed00::bool)
+(define phaseRefined00::PhaseDomainRef)
+;; derived functions definitions - state 0
+(assert (= phase00 (if (or (= phaseRefined00 FULLYCLOSED_REF) (= phaseRefined00 OPENING)) FULLYCLOSED FULLYOPEN)))
+(define phaseRefined01::PhaseDomainRef)
+(define timePassed0_abs1::bool)
+(define timePassed01::bool)
+(define phase01::PhaseDomain)
+;; derived functions definitions - state 1
+(assert (= phase01 (if (or (= phaseRefined01 FULLYCLOSED_REF) (= phaseRefined01 OPENING)) FULLYCLOSED FULLYOPEN)))
+;; Generic step proof
+(assert
+	(not
+		(=>
+			(and
+				(and
+					(=>
+						(= phaseRefined00 FULLYCLOSED_REF)
+						(=> timePassed00 (= phaseRefined01 OPENING))
+					)
+					(=>
+						(= phaseRefined00 OPENING)
+						(= phaseRefined01 FULLYOPEN_REF)
+					)
+				)
+				(=>
+					(not
+						(or
+							(and (= phaseRefined00 FULLYCLOSED_REF) timePassed00)
+							(= phaseRefined00 OPENING)
+						)
+					)
+					(= phaseRefined00 phaseRefined01)
+				)
+			)
+			(or
+				(and (=> (= phase00 FULLYCLOSED) (=> timePassed0_abs0 (= phase01 FULLYOPEN))) (=> (not (and (= phase00 FULLYCLOSED) timePassed0_abs0)) (= phase00 phase01)))
+				(= phase00 phase01)
+			)
+		)
+	)
+)
+(set-evidence! true)
+(check)
+;; sat
+;; Generic step is not conformant.

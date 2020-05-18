@@ -1,0 +1,44 @@
+;;refinement from ClientDisplayOutputNoMessageArrived to ClientDisplayOutput
+(define-type Device(scalar device1 DeviceUNDEF))
+(define-type State(scalar WAITING_FOR_MESSAGE EXECUTE_CLIENT_TESTS CHECKING_FOR_EXTRA_RESOURCES DISPLAYING_THE_MESSAGE StateUNDEF))
+;; functions - state 0
+(define state0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) State))
+(define extraResources0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool))
+(define clientTestsAvailable0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool))
+(define messageArrived0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool)) ;; only refined machine
+;; functions state 1
+;; new controlled functions for next state - step 0
+(define state1::(-> (subtype (v::Device) (/= v DeviceUNDEF)) State))
+;; refined behaviour
+(assert (and
+			;;transition rules
+			(and
+			(and (=> (= (state0 device1) WAITING_FOR_MESSAGE) (=> (= (messageArrived0 device1) true) (if (= (clientTestsAvailable0 device1) true) (= (state1 device1) EXECUTE_CLIENT_TESTS) (= (state1 device1) CHECKING_FOR_EXTRA_RESOURCES)))) (=> (= (state0 device1) EXECUTE_CLIENT_TESTS) (= (state1 device1) CHECKING_FOR_EXTRA_RESOURCES)) (=> (= (state0 device1) CHECKING_FOR_EXTRA_RESOURCES) (and (=> (extraResources0 device1) true) (= (state1 device1) DISPLAYING_THE_MESSAGE))) (=> (= (state0 device1) DISPLAYING_THE_MESSAGE) true))
+			)
+			;; unchanged functions
+			(=> (not (or (and (= (state0 device1) WAITING_FOR_MESSAGE) (= (messageArrived0 device1) true) (= (clientTestsAvailable0 device1) true)) (and (= (state0 device1) WAITING_FOR_MESSAGE) (= (messageArrived0 device1) true) (not (= (clientTestsAvailable0 device1) true))) (= (state0 device1) EXECUTE_CLIENT_TESTS) (= (state0 device1) CHECKING_FOR_EXTRA_RESOURCES))) (= (state0 device1) (state1 device1)))
+		)
+)
+(check);;we simply check whether the step is allowed
+(set-evidence! true)
+(assert
+	(not
+		;;either the abstract step is allowed or the new state
+		;;is conformant with the previous one
+		(or
+			;; abstract behaviour
+			(and
+				(and
+					(=> (= (state0 device1) WAITING_FOR_MESSAGE) (if (= (clientTestsAvailable0 device1) true) (= (state1 device1) EXECUTE_CLIENT_TESTS) (= (state1 device1) CHECKING_FOR_EXTRA_RESOURCES))) (=> (= (state0 device1) EXECUTE_CLIENT_TESTS) (= (state1 device1) CHECKING_FOR_EXTRA_RESOURCES)) (=> (= (state0 device1) CHECKING_FOR_EXTRA_RESOURCES) (and (=> (extraResources0 device1) true) (= (state1 device1) DISPLAYING_THE_MESSAGE))) (=> (= (state0 device1) DISPLAYING_THE_MESSAGE) true))
+				)
+				;; unchanged functions - state 0
+				(=> (not (or (and (= (state0 device1) WAITING_FOR_MESSAGE) (= (clientTestsAvailable0 device1) true)) (and (= (state0 device1) WAITING_FOR_MESSAGE) (not (= (clientTestsAvailable0 device1) true))) (= (state0 device1) EXECUTE_CLIENT_TESTS) (= (state0 device1) CHECKING_FOR_EXTRA_RESOURCES))) (= (state0 device1) (state1 device1))
+			)
+			;;the state is conformant with the previous one
+			(= (state0 device1) (state1 device1))
+		)
+	)
+)
+(check)
+;; sat
+;; Generic step is not conformant.

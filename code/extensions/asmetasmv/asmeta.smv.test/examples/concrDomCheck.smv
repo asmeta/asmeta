@@ -1,0 +1,23 @@
+MODULE main
+	VAR
+		cond: boolean;
+		foo: 1..4;
+		foo2: 1..4;
+	ASSIGN
+		init(cond) := TRUE;
+		init(foo) := 1;
+		init(foo2) := 1;
+		next(cond):= !(cond);
+		next(foo):=
+			case
+				!(cond) & foo - 1 in 1..4: foo - 1;
+				cond & foo + 1 in 1..4: foo + 1;
+				TRUE: foo;
+			esac;
+		next(foo2):=
+			case
+				foo2 + 1 in 1..4: foo2 + 1;
+				TRUE: foo2;
+			esac;
+SPEC	AG((foo = 1) | (foo = 2));
+SPEC	AF(foo2 = 4 <-> AG(foo2 = 4));

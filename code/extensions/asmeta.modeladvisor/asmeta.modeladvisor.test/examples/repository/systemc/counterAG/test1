@@ -1,0 +1,16 @@
+scenario test1
+// set the counter to 10
+
+load ./main_user.asm
+
+set load_cmd(u_count_stim) = true;
+set din_value(u_count_stim) = 10;
+ 
+step until time = 30 and phase = TIMED_NOTIFICATION;
+check readInt(dOUT) = 10;
+
+
+set load_cmd(u_count_stim) = false;
+
+step until time = 50 and phase = TIMED_NOTIFICATION;
+check readInt(dOUT) = 11;

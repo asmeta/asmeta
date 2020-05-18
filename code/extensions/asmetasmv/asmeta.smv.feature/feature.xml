@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.asmeta.asmetasmv.feature"
+      label="Asmeta model checker"
+      version="1.0.6"
+      provider-name="fmse.di.unimi.it">
+
+   <description>
+      See http://asmeta.sourceforge.net/
+   </description>
+
+   <copyright>
+      Eclipse Public License
+See http://asmeta.sourceforge.net/
+   </copyright>
+
+   <license url="">
+      Eclipse Public License
+See http://asmeta.sourceforge.net/
+   </license>
+
+   <url>
+      <update label="Asmeta" url="http://svn.code.sf.net/p/asmeta/code/code/stable/asmeta_update"/>
+   </url>
+
+   <plugin
+         id="asmeta.asmetasmv.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="asmeta.smv"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="asmeta.flattener"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="asmeta.parser"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="asmeta.emf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="asmeta.simulator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+</feature>

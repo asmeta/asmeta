@@ -1,0 +1,38 @@
+--file examples\monitored.smv
+MODULE main
+	VAR
+		foo: boolean; --controlled
+		foo2: boolean; --controlled
+		foo3: boolean; --controlled
+		foo45: boolean; --controlled
+		mon: boolean; --monitored
+		mon3: boolean; --monitored
+		mon4: boolean; --monitored
+		mon5: boolean; --monitored
+	ASSIGN
+		init(foo) := mon;
+		init(foo2) := mon;
+		init(foo3) := !(mon3);
+		next(foo) := mon;
+		next(foo2) :=
+			case
+				(!(mon)): FALSE;
+				(mon): TRUE;
+				TRUE: foo2;
+			esac;
+		next(foo3) :=
+			case
+				(mon3): !(mon3);
+				(!(mon3)): TRUE;
+				TRUE: foo3;
+			esac;
+		next(foo45) :=
+			case
+				(!(mon5) & mon4): FALSE;
+				(mon5 & mon4): TRUE;
+				TRUE: foo45;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := ((foo = mon) & (AG((!(mon) -> AX(!(foo)))) & AG((mon -> AX(foo)))));
+CTLSPEC NAME ctl1 := ((foo2 = mon) & (AG((!(mon) -> AX(!(foo2)))) & AG((mon -> AX(foo2)))));
+CTLSPEC NAME ctl2 := ((AG((mon3 -> AX(!(foo3)))) & AG((!(mon3) -> AX(foo3)))) & (foo3 = !(mon3)));

@@ -1,0 +1,1 @@
+The models in this folder have been flattened with the choose rule in order to support the mapping to AsmetaSMV.

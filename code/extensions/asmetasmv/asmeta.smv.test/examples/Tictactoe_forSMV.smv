@@ -1,0 +1,116 @@
+--file examples\Tictactoe_forSMV.smv
+MODULE main
+	VAR
+		playerX: 1..9; --monitored
+		status: {CHECKPC, CHECKX, GAMEOVER, STATUS_UNDEF, TURNPC, TURNX}; --controlled
+		symbol_1: {CROSS, EMPTY, NOUGHT, SKIND_UNDEF}; --controlled
+		symbol_2: {CROSS, EMPTY, NOUGHT, SKIND_UNDEF}; --controlled
+		symbol_3: {CROSS, EMPTY, NOUGHT, SKIND_UNDEF}; --controlled
+		symbol_4: {CROSS, EMPTY, NOUGHT, SKIND_UNDEF}; --controlled
+		symbol_5: {CROSS, EMPTY, NOUGHT, SKIND_UNDEF}; --controlled
+		symbol_6: {CROSS, EMPTY, NOUGHT, SKIND_UNDEF}; --controlled
+		symbol_7: {CROSS, EMPTY, NOUGHT, SKIND_UNDEF}; --controlled
+		symbol_8: {CROSS, EMPTY, NOUGHT, SKIND_UNDEF}; --controlled
+		symbol_9: {CROSS, EMPTY, NOUGHT, SKIND_UNDEF}; --controlled
+		whoWon: {FINALRES_UNDEF, PC, PLAYER, RUN, TIE}; --controlled
+		--declaration of choose variables
+		var_$s_0: 1..9;
+	DEFINE
+	CONSTANTS FINALRES_UNDEF, PC, PLAYER, RUN, TIE, STATUS_UNDEF, CHECKPC, CHECKX, GAMEOVER, TURNPC, TURNX, SKIND_UNDEF, CROSS, EMPTY, NOUGHT;
+	ASSIGN
+		init(status) := TURNX;
+		init(symbol_1) := EMPTY;
+		init(symbol_2) := EMPTY;
+		init(symbol_3) := EMPTY;
+		init(symbol_4) := EMPTY;
+		init(symbol_5) := EMPTY;
+		init(symbol_6) := EMPTY;
+		init(symbol_7) := EMPTY;
+		init(symbol_8) := EMPTY;
+		init(symbol_9) := EMPTY;
+		init(whoWon) := RUN;
+		next(status) :=
+			case
+				(!(status = TURNX) & (symbol_4 = EMPTY) | (symbol_9 = EMPTY) | (symbol_6 = EMPTY) | (symbol_7 = EMPTY) | (symbol_3 = EMPTY) | (symbol_1 = EMPTY) | (symbol_5 = EMPTY) | (symbol_8 = EMPTY) | (symbol_2 = EMPTY) & !(((symbol_7 = CROSS) & ((symbol_3 = CROSS) & (symbol_5 = CROSS))) | (((symbol_9 = CROSS) & ((symbol_1 = CROSS) & (symbol_5 = CROSS))) | (((((symbol_7 = CROSS) & ((symbol_1 = CROSS) & (symbol_4 = CROSS))) | (((symbol_9 = CROSS) & ((symbol_7 = CROSS) & (symbol_8 = CROSS))) | (((symbol_3 = CROSS) & ((symbol_1 = CROSS) & (symbol_2 = CROSS))) | ((symbol_6 = CROSS) & ((symbol_4 = CROSS) & (symbol_5 = CROSS)))))) | (((symbol_2 = CROSS) & (symbol_5 = CROSS)) & (symbol_8 = CROSS))) | ((symbol_9 = CROSS) & ((symbol_6 = CROSS) & (symbol_3 = CROSS)))))) & (status = CHECKX)): TURNPC;
+				(((symbol_9 = EMPTY) & (9 = playerX) & (status = TURNX)) | (((symbol_8 = EMPTY) & (8 = playerX) & (status = TURNX)) | ((((symbol_6 = EMPTY) & (status = TURNX) & (6 = playerX)) | (((symbol_5 = EMPTY) & (status = TURNX) & (5 = playerX)) | (((symbol_4 = EMPTY) & (status = TURNX) & (4 = playerX)) | (((symbol_3 = EMPTY) & (status = TURNX) & (3 = playerX)) | (((symbol_1 = EMPTY) & (status = TURNX) & (1 = playerX)) | ((2 = playerX) & (symbol_2 = EMPTY) & (status = TURNX))))))) | ((symbol_7 = EMPTY) & (status = TURNX) & (7 = playerX))))): CHECKX;
+				(((!(symbol_9 = EMPTY) & (9 = playerX) & (status = TURNX)) | ((((!(symbol_6 = EMPTY) & (status = TURNX) & (6 = playerX)) | ((!(symbol_5 = EMPTY) & (status = TURNX) & (5 = playerX)) | (((!(symbol_3 = EMPTY) & (status = TURNX) & (3 = playerX)) | ((!(symbol_2 = EMPTY) & (2 = playerX) & (status = TURNX)) | (!(symbol_1 = EMPTY) & (status = TURNX) & (1 = playerX)))) | (!(symbol_4 = EMPTY) & (status = TURNX) & (4 = playerX))))) | (!(symbol_7 = EMPTY) & (status = TURNX) & (7 = playerX))) | (!(symbol_8 = EMPTY) & (8 = playerX) & (status = TURNX)))) | (!(status = CHECKX) & !(status = TURNX) & !((((((symbol_6 = NOUGHT) & (symbol_3 = NOUGHT)) & (symbol_9 = NOUGHT)) | (((symbol_8 = NOUGHT) & ((symbol_2 = NOUGHT) & (symbol_5 = NOUGHT))) | (((((symbol_8 = NOUGHT) & (symbol_7 = NOUGHT)) & (symbol_9 = NOUGHT)) | (((symbol_6 = NOUGHT) & ((symbol_5 = NOUGHT) & (symbol_4 = NOUGHT))) | ((symbol_3 = NOUGHT) & ((symbol_2 = NOUGHT) & (symbol_1 = NOUGHT))))) | (((symbol_4 = NOUGHT) & (symbol_1 = NOUGHT)) & (symbol_7 = NOUGHT))))) | (((symbol_5 = NOUGHT) & (symbol_1 = NOUGHT)) & (symbol_9 = NOUGHT))) | (((symbol_3 = NOUGHT) & (symbol_5 = NOUGHT)) & (symbol_7 = NOUGHT))) & (symbol_4 = EMPTY) | (symbol_9 = EMPTY) | (symbol_6 = EMPTY) | (symbol_7 = EMPTY) | (symbol_3 = EMPTY) | (symbol_1 = EMPTY) | (symbol_5 = EMPTY) | (symbol_8 = EMPTY) | (symbol_2 = EMPTY) & !(status = TURNPC) & (status = CHECKPC))): TURNX;
+				((((!(status = CHECKX) & (symbol_7 = EMPTY) & (status = TURNPC) & (var_$s_0 = 7) & !(status = TURNX)) | ((!(status = CHECKX) & (symbol_6 = EMPTY) & (status = TURNPC) & (var_$s_0 = 6) & !(status = TURNX)) | ((!(status = CHECKX) & (status = TURNPC) & (var_$s_0 = 5) & !(status = TURNX) & (symbol_5 = EMPTY)) | ((((!(status = CHECKX) & (status = TURNPC) & !(status = TURNX) & (var_$s_0 = 2) & (symbol_2 = EMPTY)) | (!(status = CHECKX) & (status = TURNPC) & (symbol_1 = EMPTY) & !(status = TURNX) & (var_$s_0 = 1))) | (!(status = CHECKX) & (status = TURNPC) & (symbol_3 = EMPTY) & !(status = TURNX) & (var_$s_0 = 3))) | (!(status = CHECKX) & (symbol_4 = EMPTY) & (status = TURNPC) & !(status = TURNX) & (var_$s_0 = 4)))))) | (!(status = CHECKX) & (status = TURNPC) & (var_$s_0 = 8) & !(status = TURNX) & (symbol_8 = EMPTY))) | ((var_$s_0 = 9) & !(status = CHECKX) & (symbol_9 = EMPTY) & (status = TURNPC) & !(status = TURNX))): CHECKPC;
+				((!((symbol_4 = EMPTY) | (symbol_9 = EMPTY) | (symbol_6 = EMPTY) | (symbol_7 = EMPTY) | (symbol_3 = EMPTY) | (symbol_1 = EMPTY) | (symbol_5 = EMPTY) | (symbol_8 = EMPTY) | (symbol_2 = EMPTY)) & !(status = CHECKX) & !(status = TURNX) & !((((((symbol_6 = NOUGHT) & (symbol_3 = NOUGHT)) & (symbol_9 = NOUGHT)) | (((symbol_8 = NOUGHT) & ((symbol_2 = NOUGHT) & (symbol_5 = NOUGHT))) | (((((symbol_8 = NOUGHT) & (symbol_7 = NOUGHT)) & (symbol_9 = NOUGHT)) | (((symbol_6 = NOUGHT) & ((symbol_5 = NOUGHT) & (symbol_4 = NOUGHT))) | ((symbol_3 = NOUGHT) & ((symbol_2 = NOUGHT) & (symbol_1 = NOUGHT))))) | (((symbol_4 = NOUGHT) & (symbol_1 = NOUGHT)) & (symbol_7 = NOUGHT))))) | (((symbol_5 = NOUGHT) & (symbol_1 = NOUGHT)) & (symbol_9 = NOUGHT))) | (((symbol_3 = NOUGHT) & (symbol_5 = NOUGHT)) & (symbol_7 = NOUGHT))) & !(status = TURNPC) & (status = CHECKPC)) | ((!(status = CHECKX) & !(status = TURNX) & ((((((symbol_6 = NOUGHT) & (symbol_3 = NOUGHT)) & (symbol_9 = NOUGHT)) | (((symbol_8 = NOUGHT) & ((symbol_2 = NOUGHT) & (symbol_5 = NOUGHT))) | (((((symbol_8 = NOUGHT) & (symbol_7 = NOUGHT)) & (symbol_9 = NOUGHT)) | (((symbol_6 = NOUGHT) & ((symbol_5 = NOUGHT) & (symbol_4 = NOUGHT))) | ((symbol_3 = NOUGHT) & ((symbol_2 = NOUGHT) & (symbol_1 = NOUGHT))))) | (((symbol_4 = NOUGHT) & (symbol_1 = NOUGHT)) & (symbol_7 = NOUGHT))))) | (((symbol_5 = NOUGHT) & (symbol_1 = NOUGHT)) & (symbol_9 = NOUGHT))) | (((symbol_3 = NOUGHT) & (symbol_5 = NOUGHT)) & (symbol_7 = NOUGHT))) & !(status = TURNPC) & (status = CHECKPC)) | ((!((symbol_4 = EMPTY) | (symbol_9 = EMPTY) | (symbol_6 = EMPTY) | (symbol_7 = EMPTY) | (symbol_3 = EMPTY) | (symbol_1 = EMPTY) | (symbol_5 = EMPTY) | (symbol_8 = EMPTY) | (symbol_2 = EMPTY)) & !(status = TURNX) & !(((symbol_7 = CROSS) & ((symbol_3 = CROSS) & (symbol_5 = CROSS))) | (((symbol_9 = CROSS) & ((symbol_1 = CROSS) & (symbol_5 = CROSS))) | (((((symbol_7 = CROSS) & ((symbol_1 = CROSS) & (symbol_4 = CROSS))) | (((symbol_9 = CROSS) & ((symbol_7 = CROSS) & (symbol_8 = CROSS))) | (((symbol_3 = CROSS) & ((symbol_1 = CROSS) & (symbol_2 = CROSS))) | ((symbol_6 = CROSS) & ((symbol_4 = CROSS) & (symbol_5 = CROSS)))))) | (((symbol_2 = CROSS) & (symbol_5 = CROSS)) & (symbol_8 = CROSS))) | ((symbol_9 = CROSS) & ((symbol_6 = CROSS) & (symbol_3 = CROSS)))))) & (status = CHECKX)) | ((((symbol_7 = CROSS) & ((symbol_3 = CROSS) & (symbol_5 = CROSS))) | (((symbol_9 = CROSS) & ((symbol_1 = CROSS) & (symbol_5 = CROSS))) | (((((symbol_7 = CROSS) & ((symbol_1 = CROSS) & (symbol_4 = CROSS))) | (((symbol_9 = CROSS) & ((symbol_7 = CROSS) & (symbol_8 = CROSS))) | (((symbol_3 = CROSS) & ((symbol_1 = CROSS) & (symbol_2 = CROSS))) | ((symbol_6 = CROSS) & ((symbol_4 = CROSS) & (symbol_5 = CROSS)))))) | (((symbol_2 = CROSS) & (symbol_5 = CROSS)) & (symbol_8 = CROSS))) | ((symbol_9 = CROSS) & ((symbol_6 = CROSS) & (symbol_3 = CROSS)))))) & !(status = TURNX) & (status = CHECKX))))): GAMEOVER;
+				TRUE: status;
+			esac;
+		next(symbol_1) :=
+			case
+				(!(status = CHECKX) & (status = TURNPC) & (symbol_1 = EMPTY) & !(status = TURNX) & (var_$s_0 = 1)): NOUGHT;
+				((symbol_1 = EMPTY) & (status = TURNX) & (1 = playerX)): CROSS;
+				TRUE: symbol_1;
+			esac;
+		next(symbol_2) :=
+			case
+				(!(status = CHECKX) & (status = TURNPC) & !(status = TURNX) & (var_$s_0 = 2) & (symbol_2 = EMPTY)): NOUGHT;
+				((2 = playerX) & (symbol_2 = EMPTY) & (status = TURNX)): CROSS;
+				TRUE: symbol_2;
+			esac;
+		next(symbol_3) :=
+			case
+				((symbol_3 = EMPTY) & (status = TURNX) & (3 = playerX)): CROSS;
+				(!(status = CHECKX) & (status = TURNPC) & (symbol_3 = EMPTY) & !(status = TURNX) & (var_$s_0 = 3)): NOUGHT;
+				TRUE: symbol_3;
+			esac;
+		next(symbol_4) :=
+			case
+				((symbol_4 = EMPTY) & (status = TURNX) & (4 = playerX)): CROSS;
+				(!(status = CHECKX) & (symbol_4 = EMPTY) & (status = TURNPC) & !(status = TURNX) & (var_$s_0 = 4)): NOUGHT;
+				TRUE: symbol_4;
+			esac;
+		next(symbol_5) :=
+			case
+				(!(status = CHECKX) & (status = TURNPC) & (var_$s_0 = 5) & !(status = TURNX) & (symbol_5 = EMPTY)): NOUGHT;
+				((symbol_5 = EMPTY) & (status = TURNX) & (5 = playerX)): CROSS;
+				TRUE: symbol_5;
+			esac;
+		next(symbol_6) :=
+			case
+				((symbol_6 = EMPTY) & (status = TURNX) & (6 = playerX)): CROSS;
+				(!(status = CHECKX) & (symbol_6 = EMPTY) & (status = TURNPC) & (var_$s_0 = 6) & !(status = TURNX)): NOUGHT;
+				TRUE: symbol_6;
+			esac;
+		next(symbol_7) :=
+			case
+				(!(status = CHECKX) & (symbol_7 = EMPTY) & (status = TURNPC) & (var_$s_0 = 7) & !(status = TURNX)): NOUGHT;
+				((symbol_7 = EMPTY) & (status = TURNX) & (7 = playerX)): CROSS;
+				TRUE: symbol_7;
+			esac;
+		next(symbol_8) :=
+			case
+				(!(status = CHECKX) & (status = TURNPC) & (var_$s_0 = 8) & !(status = TURNX) & (symbol_8 = EMPTY)): NOUGHT;
+				((symbol_8 = EMPTY) & (8 = playerX) & (status = TURNX)): CROSS;
+				TRUE: symbol_8;
+			esac;
+		next(symbol_9) :=
+			case
+				((var_$s_0 = 9) & !(status = CHECKX) & (symbol_9 = EMPTY) & (status = TURNPC) & !(status = TURNX)): NOUGHT;
+				((symbol_9 = EMPTY) & (9 = playerX) & (status = TURNX)): CROSS;
+				TRUE: symbol_9;
+			esac;
+		next(whoWon) :=
+			case
+				(!(status = CHECKX) & !(status = TURNX) & ((((((symbol_6 = NOUGHT) & (symbol_3 = NOUGHT)) & (symbol_9 = NOUGHT)) | (((symbol_8 = NOUGHT) & ((symbol_2 = NOUGHT) & (symbol_5 = NOUGHT))) | (((((symbol_8 = NOUGHT) & (symbol_7 = NOUGHT)) & (symbol_9 = NOUGHT)) | (((symbol_6 = NOUGHT) & ((symbol_5 = NOUGHT) & (symbol_4 = NOUGHT))) | ((symbol_3 = NOUGHT) & ((symbol_2 = NOUGHT) & (symbol_1 = NOUGHT))))) | (((symbol_4 = NOUGHT) & (symbol_1 = NOUGHT)) & (symbol_7 = NOUGHT))))) | (((symbol_5 = NOUGHT) & (symbol_1 = NOUGHT)) & (symbol_9 = NOUGHT))) | (((symbol_3 = NOUGHT) & (symbol_5 = NOUGHT)) & (symbol_7 = NOUGHT))) & !(status = TURNPC) & (status = CHECKPC)): PC;
+				((((symbol_7 = CROSS) & ((symbol_3 = CROSS) & (symbol_5 = CROSS))) | (((symbol_9 = CROSS) & ((symbol_1 = CROSS) & (symbol_5 = CROSS))) | (((((symbol_7 = CROSS) & ((symbol_1 = CROSS) & (symbol_4 = CROSS))) | (((symbol_9 = CROSS) & ((symbol_7 = CROSS) & (symbol_8 = CROSS))) | (((symbol_3 = CROSS) & ((symbol_1 = CROSS) & (symbol_2 = CROSS))) | ((symbol_6 = CROSS) & ((symbol_4 = CROSS) & (symbol_5 = CROSS)))))) | (((symbol_2 = CROSS) & (symbol_5 = CROSS)) & (symbol_8 = CROSS))) | ((symbol_9 = CROSS) & ((symbol_6 = CROSS) & (symbol_3 = CROSS)))))) & !(status = TURNX) & (status = CHECKX)): PLAYER;
+				((!((symbol_4 = EMPTY) | (symbol_9 = EMPTY) | (symbol_6 = EMPTY) | (symbol_7 = EMPTY) | (symbol_3 = EMPTY) | (symbol_1 = EMPTY) | (symbol_5 = EMPTY) | (symbol_8 = EMPTY) | (symbol_2 = EMPTY)) & !(status = TURNX) & !(((symbol_7 = CROSS) & ((symbol_3 = CROSS) & (symbol_5 = CROSS))) | (((symbol_9 = CROSS) & ((symbol_1 = CROSS) & (symbol_5 = CROSS))) | (((((symbol_7 = CROSS) & ((symbol_1 = CROSS) & (symbol_4 = CROSS))) | (((symbol_9 = CROSS) & ((symbol_7 = CROSS) & (symbol_8 = CROSS))) | (((symbol_3 = CROSS) & ((symbol_1 = CROSS) & (symbol_2 = CROSS))) | ((symbol_6 = CROSS) & ((symbol_4 = CROSS) & (symbol_5 = CROSS)))))) | (((symbol_2 = CROSS) & (symbol_5 = CROSS)) & (symbol_8 = CROSS))) | ((symbol_9 = CROSS) & ((symbol_6 = CROSS) & (symbol_3 = CROSS)))))) & (status = CHECKX)) | (!((symbol_4 = EMPTY) | (symbol_9 = EMPTY) | (symbol_6 = EMPTY) | (symbol_7 = EMPTY) | (symbol_3 = EMPTY) | (symbol_1 = EMPTY) | (symbol_5 = EMPTY) | (symbol_8 = EMPTY) | (symbol_2 = EMPTY)) & !(status = CHECKX) & !(status = TURNX) & !((((((symbol_6 = NOUGHT) & (symbol_3 = NOUGHT)) & (symbol_9 = NOUGHT)) | (((symbol_8 = NOUGHT) & ((symbol_2 = NOUGHT) & (symbol_5 = NOUGHT))) | (((((symbol_8 = NOUGHT) & (symbol_7 = NOUGHT)) & (symbol_9 = NOUGHT)) | (((symbol_6 = NOUGHT) & ((symbol_5 = NOUGHT) & (symbol_4 = NOUGHT))) | ((symbol_3 = NOUGHT) & ((symbol_2 = NOUGHT) & (symbol_1 = NOUGHT))))) | (((symbol_4 = NOUGHT) & (symbol_1 = NOUGHT)) & (symbol_7 = NOUGHT))))) | (((symbol_5 = NOUGHT) & (symbol_1 = NOUGHT)) & (symbol_9 = NOUGHT))) | (((symbol_3 = NOUGHT) & (symbol_5 = NOUGHT)) & (symbol_7 = NOUGHT))) & !(status = TURNPC) & (status = CHECKPC))): TIE;
+				TRUE: whoWon;
+			esac;
+	INVAR	(((symbol_4 = EMPTY) & (var_$s_0 = 4)) | ((symbol_3 = EMPTY) & (var_$s_0 = 3)) | ((symbol_6 = EMPTY) & (var_$s_0 = 6)) | ((symbol_7 = EMPTY) & (var_$s_0 = 7)) | ((var_$s_0 = 8) & (symbol_8 = EMPTY)) | ((var_$s_0 = 2) & (symbol_2 = EMPTY)) | ((var_$s_0 = 5) & (symbol_5 = EMPTY)) | ((var_$s_0 = 9) & (symbol_9 = EMPTY)) | (!(symbol_2 = EMPTY) & !(symbol_5 = EMPTY) & !(symbol_7 = EMPTY) & !(symbol_8 = EMPTY) & !(symbol_4 = EMPTY) & !(symbol_6 = EMPTY) & !(symbol_9 = EMPTY) & !(symbol_3 = EMPTY) & !(symbol_1 = EMPTY)) | ((symbol_1 = EMPTY) & (var_$s_0 = 1)));
+--CTL properties
+CTLSPEC NAME ctl0 := EF((symbol_1 != EMPTY));
+CTLSPEC NAME ctl1 := EF((symbol_2 != EMPTY));
+CTLSPEC NAME ctl2 := EF((symbol_3 != EMPTY));
+CTLSPEC NAME ctl3 := EF((symbol_4 != EMPTY));
+CTLSPEC NAME ctl4 := EF((symbol_5 != EMPTY));
+CTLSPEC NAME ctl5 := EF((symbol_6 != EMPTY));
+CTLSPEC NAME ctl6 := EF((symbol_7 != EMPTY));
+CTLSPEC NAME ctl7 := EF((symbol_8 != EMPTY));
+CTLSPEC NAME ctl8 := EF((symbol_9 != EMPTY));
+CTLSPEC NAME ctl9 := EF((whoWon = PC));
+CTLSPEC NAME ctl10 := EF((whoWon = PLAYER));
+CTLSPEC NAME ctl11 := EF((whoWon = TIE));
+CTLSPEC NAME ctl12 := AG(((((((symbol_5 = NOUGHT) & (symbol_1 = NOUGHT)) & (symbol_9 = NOUGHT)) | ((((symbol_6 = NOUGHT) & (symbol_3 = NOUGHT)) & (symbol_9 = NOUGHT)) | ((((((symbol_8 = NOUGHT) & (symbol_7 = NOUGHT)) & (symbol_9 = NOUGHT)) | (((symbol_6 = NOUGHT) & ((symbol_5 = NOUGHT) & (symbol_4 = NOUGHT))) | ((((symbol_7 = CROSS) & ((symbol_3 = CROSS) & (symbol_5 = CROSS))) | (((symbol_9 = CROSS) & ((symbol_1 = CROSS) & (symbol_5 = CROSS))) | (((((symbol_7 = CROSS) & ((symbol_1 = CROSS) & (symbol_4 = CROSS))) | (((symbol_9 = CROSS) & ((symbol_7 = CROSS) & (symbol_8 = CROSS))) | (((symbol_3 = CROSS) & ((symbol_1 = CROSS) & (symbol_2 = CROSS))) | ((symbol_6 = CROSS) & ((symbol_4 = CROSS) & (symbol_5 = CROSS)))))) | (((symbol_2 = CROSS) & (symbol_5 = CROSS)) & (symbol_8 = CROSS))) | ((symbol_9 = CROSS) & ((symbol_6 = CROSS) & (symbol_3 = CROSS)))))) | ((symbol_3 = NOUGHT) & ((symbol_2 = NOUGHT) & (symbol_1 = NOUGHT)))))) | (((symbol_4 = NOUGHT) & (symbol_1 = NOUGHT)) & (symbol_7 = NOUGHT))) | ((symbol_8 = NOUGHT) & ((symbol_2 = NOUGHT) & (symbol_5 = NOUGHT)))))) | (((symbol_3 = NOUGHT) & (symbol_5 = NOUGHT)) & (symbol_7 = NOUGHT))) -> AX(AG((status = GAMEOVER)))));

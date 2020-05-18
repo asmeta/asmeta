@@ -1,0 +1,24 @@
+--file examples\derivedExhaustive.smv
+MODULE main
+	VAR
+		foo: {-2147483647, 1, 2, 3, 4}; --controlled
+		mon1: boolean; --monitored
+		mon2: boolean; --monitored
+	DEFINE
+		der_func :=
+			case
+				!(mon1): TRUE;
+				(mon1 & !(mon2)): FALSE;
+				(mon2 & mon1): TRUE;
+				TRUE: FALSE;
+			esac;
+	ASSIGN
+		init(foo) := -2147483647;
+		next(foo) :=
+			case
+				(der_func) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: foo;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG((((mon2 & mon1) | !(mon1)) <-> der_func));
+CTLSPEC NAME ctl1 := AG(((mon1 & !(mon2)) <-> !(der_func)));

@@ -1,0 +1,54 @@
+--file examples\functionAsArgSupported.smv
+MODULE main
+	VAR
+		contrArg: {AA, BB, CC, ENUMDOM_UNDEF}; --controlled
+		foo2_AA: boolean; --controlled
+		foo2_BB: boolean; --controlled
+		foo2_CC: boolean; --controlled
+		foo_AA: boolean; --controlled
+		foo_BB: boolean; --controlled
+		foo_CC: boolean; --controlled
+		monArg: {AA, BB, CC}; --monitored
+	CONSTANTS ENUMDOM_UNDEF, AA, BB, CC;
+	ASSIGN
+		init(contrArg) := BB;
+		init(foo2_AA) := FALSE;
+		init(foo2_BB) := FALSE;
+		init(foo2_CC) := FALSE;
+		init(foo_AA) := FALSE;
+		init(foo_BB) := FALSE;
+		init(foo_CC) := FALSE;
+		next(contrArg) := AA;
+		next(foo2_AA) :=
+			case
+				((((AA = monArg) & (AA = contrArg)) | ((AA = contrArg) & (BB = monArg))) | ((AA = contrArg) & (CC = monArg))): TRUE;
+				TRUE: foo2_AA;
+			esac;
+		next(foo2_BB) :=
+			case
+				(((CC = monArg) & (BB = contrArg)) | (((AA = monArg) & (BB = contrArg)) | ((BB = contrArg) & (BB = monArg)))): TRUE;
+				TRUE: foo2_BB;
+			esac;
+		next(foo2_CC) :=
+			case
+				(((CC = monArg) & (CC = contrArg)) | (((CC = contrArg) & (BB = monArg)) | ((AA = monArg) & (CC = contrArg)))): TRUE;
+				TRUE: foo2_CC;
+			esac;
+		next(foo_AA) :=
+			case
+				((((AA = monArg) & (BB = contrArg)) | ((AA = monArg) & (AA = contrArg))) | ((AA = monArg) & (CC = contrArg))): TRUE;
+				TRUE: foo_AA;
+			esac;
+		next(foo_BB) :=
+			case
+				(((CC = contrArg) & (BB = monArg)) | (((BB = contrArg) & (BB = monArg)) | ((AA = contrArg) & (BB = monArg)))): TRUE;
+				TRUE: foo_BB;
+			esac;
+		next(foo_CC) :=
+			case
+				((((CC = monArg) & (BB = contrArg)) | ((AA = contrArg) & (CC = monArg))) | ((CC = monArg) & (CC = contrArg))): TRUE;
+				TRUE: foo_CC;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := (AG(((monArg = BB) -> AX(foo_BB))) & AG(((monArg = AA) -> AX(foo_AA))) & AG(((monArg = CC) -> AX(foo_CC))));
+CTLSPEC NAME ctl1 := (AG(((contrArg = CC) -> AX(foo2_CC))) & AG(((contrArg = BB) -> AX(foo2_BB))) & AG(((contrArg = AA) -> AX(foo2_AA))));

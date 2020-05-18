@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Asmeta model checker
+Bundle-SymbolicName: asmeta.smv
+Bundle-Version: 1.0.5
+Bundle-ClassPath: args4j.jar,
+ .
+Require-Bundle: asmeta.emf,
+ asmeta.parser,
+ asmeta.simulator,
+ asmeta.flattener,
+ org.apache.log4j
+Bundle-Vendor: fmse.di.unimi.it
+Export-Package: org.asmeta.nusmv,
+ org.asmeta.nusmv.util
+Automatic-Module-Name: asmeta.smv

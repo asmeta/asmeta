@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+			description="AsmetaMA commands"
+			id="asmetama.plugin.commands.category"
+			name="AsmetaMA">
+		</category>
+      <command
+            name="Execute model advisor"
+            categoryId="asmetama.plugin.commands.category"
+            id="asmetama.plugin.commands.runAsmetaMAcommand">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="asmetama.plugin.commands.runAsmetaMAcommand"
+            class="org.asmeta.modeladvisor.plugin.handlers.AsmetaMAHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="Asmeta"
+               id="asmeta.plugin.menus.Asmeta">
+	         <command
+	                  commandId="asmetama.plugin.commands.runAsmetaMAcommand"
+	                  icon="icons/runAsmetaMA.gif"
+	                  id="asmetama.plugin.menus.runAsmetaMACommand"
+	                  label="Run the model advisor"
+	                  tooltip="Run the model advisor">
+	            </command>
+          </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="asmetama.plugin.toolbars.asmetamaToolbar"
+               label="AsmetaMA">
+            <command
+                  commandId="asmetama.plugin.commands.runAsmetaMAcommand"
+                  icon="icons/runAsmetaMA.gif"
+                  id="asmetama.plugin.toolbars.runAsmetaMAcommand"
+                  label="Run the model advisor"
+                  tooltip="Run the model advisor">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="asmeta.plugin.preferences"
+            class="org.asmeta.modeladvisor.plugin.AsmetaMAPreferencePage"
+            id="asmetama.plugin.preferences"
+            name="AsmetaMA">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer class="org.asmeta.modeladvisor.plugin.PreferenceInitializer"/>
+   </extension>
+</plugin>

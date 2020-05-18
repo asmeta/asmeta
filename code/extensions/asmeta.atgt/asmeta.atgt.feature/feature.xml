@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.asmeta.atgt.feature"
+      label="Asmeta test generator"
+      version="0.0.3">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://fmse.di.unimi.it/asmeta/copyright">
+      See http://asmeta.sourceforge.net/
+   </copyright>
+
+   <license url="http://fmse.di.unimi.it/asmeta/license">
+      Eclipse Public License
+See http://asmeta.sourceforge.net/
+   </license>
+
+   <url>
+      <update label="Asmeta" url="http://svn.code.sf.net/p/asmeta/code/code/stable/asmeta_update"/>
+   </url>
+
+   <requires>
+      <import plugin="asmeta.atgt" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.equinox.registry"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.ui.workbench"/>
+      <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="org.eclipse.core.jobs"/>
+      <import plugin="org.eclipse.swt"/>
+      <import plugin="javax.inject"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.junit"/>
+      <import plugin="asmeta.smv"/>
+      <import plugin="org.apache.log4j"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.console"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="asmeta.emf"/>
+      <import plugin="asmeta.parser"/>
+      <import plugin="asmeta.simulator"/>
+      <import plugin="org.eclipse.core.resources"/>
+   </requires>
+
+   <plugin
+         id="asmeta.atgt.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="asmeta.atgt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

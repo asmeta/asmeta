@@ -1,0 +1,50 @@
+;; original version. wrong since too strict
+(echo "original version. wrong since too strict\n")
+(define x0::int)
+(define xr0::int)
+(check)
+;; sat
+(assert
+	(not
+		(= x0 xr0)
+	)
+)
+(check)
+;; sat ==> WRONG
+(reset)
+
+;; alternative version with only one signature
+(echo "\nalternative version with only one signature\n")
+;; functions - state 0
+(define x0::int)
+(check)
+;; sat
+;; Initial state proof
+(assert
+	(not
+		(=>
+			(and (>= x0 1) (<= x0 2))
+			(and (>= x0 0) (<= x0 2))
+		)
+	)
+)
+(check)
+;; unsat
+
+;; alternative version with both signatures
+(echo "\nalternative version with both signatures\n")
+(reset)
+(define x0::int)
+(define xr0::int)
+(check)
+;; sat
+(assert
+	(not
+		(=>
+			(and (>= x0 1) (<= x0 2) (= x0 xr0))
+			(and (>= xr0 0) (<= xr0 2))
+		)
+	)
+)
+(check)
+;; unsat

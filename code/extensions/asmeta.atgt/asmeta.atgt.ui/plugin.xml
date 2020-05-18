@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+<extension point = "org.eclipse.debug.core.launchConfigurationTypes">
+   <launchConfigurationType
+   	   id="org.asmeta.atgt.asmSpec"
+   	   name="ATGT Asmeta"
+	   delegate="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchConfiguration"
+	   modes="run">
+   </launchConfigurationType>
+</extension>
+<extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+    <launchConfigurationTabGroup
+        type="org.asmeta.atgt.asmSpec"
+        class="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchTabGroup"
+        id="org.eclipse.jdt.debug.ui.launchConfigurationTabGroup.AsmTSGeneratorTab">
+    </launchConfigurationTabGroup>
+</extension>
+<extension
+    point="org.eclipse.debug.ui.launchShortcuts">
+    <shortcut
+        class="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchShortcut"
+        icon="icons/gears.png"
+        id="org.asmeta.atgt.shortcut"
+        label="ATGT test generator"
+        modes="run">
+        <contextualLaunch>
+            <enablement>
+                <with
+                    variable="selection">
+                    <count
+                        value="+">
+                    </count>
+                    <iterate operator="and">
+			            <adapt type="org.eclipse.core.resources.IFile">
+			              <test property="org.eclipse.core.resources.extension"
+			                    value="asm">
+			              </test>
+			            </adapt>
+			          </iterate>
+                </with>
+            </enablement>
+        </contextualLaunch>
+    </shortcut>
+</extension>
+
+
+</plugin>

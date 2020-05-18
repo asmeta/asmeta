@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Asmeta model advisor Plugin
+Bundle-SymbolicName: asmeta.modeladvisor.ui;singleton:=true
+Bundle-Version: 0.0.13
+Bundle-Activator: org.asmeta.modeladvisor.plugin.AsmetaMAActivator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.console,
+ asmeta.modeladvisor,
+ asmeta.smv,
+ org.eclipse.swt
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: fmse.di.unimi.it
+Bundle-ClassPath: .
+Automatic-Module-Name: asmeta.asmetama.plugin

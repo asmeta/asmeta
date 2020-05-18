@@ -1,0 +1,52 @@
+(echo "correct refinement from chooseRefined.asm to chooseRefinedRefined.asm\n")
+(echo "version with only one choose variable and formulae representing the different intervals added to the steps\nit does not work in this case\n")
+;; functions - state 0
+(define x00::(subrange 1 2))
+(define x01::(subrange 1 2))
+(define x0State0::(subrange 1 2))
+;; Generic step proof
+(assert
+	(not
+		(=>
+			(= x01 1)
+			(or
+				(and
+					(= x01 x0State0)
+					(or (= x0State0 1) (= x0State0 2))
+				)
+				(= x00 x01)
+			)
+		)
+	)
+)
+(set-evidence! true)
+(check)
+;; sat
+;; Generic step is not conformant.
+
+(reset)
+(echo "Version with explicit representation of the exists (in the proof) over the abstract step\n\n")
+;; functions - state 0
+(define x00::(subrange 1 2))
+(define x01::(subrange 1 2))
+
+(assert
+		(not
+			(=>
+				;;refined
+				(= x01 1)
+				;;abstract
+				(or
+					(and
+						(= x01 1)
+						(or (= 1 1) (= 1 2))
+					)
+					(and
+						(= x01 2)
+						(or (= 2 1) (= 2 2))
+					)
+				)
+			)
+		)
+)
+(check)

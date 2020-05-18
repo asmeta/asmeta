@@ -1,0 +1,38 @@
+MODULE main
+	VAR
+		mon: 1..4;
+--verificano che la variabile mon si comporta come una locazione monitorata
+SPEC	EF( mon=1 & EX(mon=1) );
+SPEC	EF( mon=2 & EX(mon=1) );
+SPEC	EF( mon=3 & EX(mon=1) );
+SPEC	EF( mon=4 & EX(mon=1) );
+SPEC	EF( mon=1 & EX(mon=2) );
+SPEC	EF( mon=2 & EX(mon=2) );
+SPEC	EF( mon=3 & EX(mon=2) );
+SPEC	EF( mon=4 & EX(mon=2) );
+SPEC	EF( mon=1 & EX(mon=2) );
+SPEC	EF( mon=2 & EX(mon=3) );
+SPEC	EF( mon=3 & EX(mon=3) );
+SPEC	EF( mon=4 & EX(mon=3) );
+SPEC	EF( mon=1 & EX(mon=4) );
+SPEC	EF( mon=2 & EX(mon=4) );
+SPEC	EF( mon=3 & EX(mon=4) );
+SPEC	EF( mon=4 & EX(mon=4) );
+
+--per ottenere i controesempi
+--SPEC	!EF( mon=1 & EX(mon=1) );
+--SPEC	!EF( mon=2 & EX(mon=1) );
+--SPEC	!EF( mon=3 & EX(mon=1) );
+--SPEC	!EF( mon=4 & EX(mon=1) );
+--SPEC	!EF( mon=1 & EX(mon=2) );
+--SPEC	!EF( mon=2 & EX(mon=2) );
+--SPEC	!EF( mon=3 & EX(mon=2) );
+--SPEC	!EF( mon=4 & EX(mon=2) );
+--SPEC	!EF( mon=1 & EX(mon=2) );
+--SPEC	!EF( mon=2 & EX(mon=3) );
+--SPEC	!EF( mon=3 & EX(mon=3) );
+--SPEC	!EF( mon=4 & EX(mon=3) );
+--SPEC	!EF( mon=1 & EX(mon=4) );
+--SPEC	!EF( mon=2 & EX(mon=4) );
+--SPEC	!EF( mon=3 & EX(mon=4) );
+--SPEC	!EF( mon=4 & EX(mon=4) );

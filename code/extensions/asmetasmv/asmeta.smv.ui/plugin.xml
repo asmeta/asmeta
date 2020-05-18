@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+			description="AsmetaSMV commands"
+			id="asmetasmv.plugin.commands.category"
+			name="AsmetaSMV">
+		</category>
+      <command
+            name="Translate in NuSMV"
+            categoryId="asmetasmv.plugin.commands.category"
+            id="asmetasmv.plugin.commands.runAsmetaSMVtranslationCommand">
+      </command>
+      <command
+            name="Translate in NuSMV and execute"
+            categoryId="asmetasmv.plugin.commands.category"
+            id="asmetasmv.plugin.commands.runAsmetaSMVtranslationAndExecCommand">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="asmetasmv.plugin.commands.runAsmetaSMVtranslationCommand"
+            class="org.asmeta.nusmv.plugin.handlers.AsmetaSMVtranslateHandler">
+      </handler>
+      <handler
+            commandId="asmetasmv.plugin.commands.runAsmetaSMVtranslationAndExecCommand"
+            class="org.asmeta.nusmv.plugin.handlers.AsmetaSMVtranslateAndExecHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="Asmeta"
+               id="asmeta.plugin.menus.Asmeta">
+	         <menu
+	               label="AsmetaSMV"
+	               mnemonic="M"
+	               id="asmetasmv.plugin.menus.sampleMenu">
+	            <command
+	                  commandId="asmetasmv.plugin.commands.runAsmetaSMVtranslationCommand"
+	                  icon="icons/runAsmetaSMVtranslate.gif"
+	                  id="asmetasmv.plugin.menus.runAsmetaSMVtranslationCommand"
+	                  label="Translate in NuSMV"
+	                  tooltip="Translate in NuSMV">
+	            </command>
+	            <command
+	                  commandId="asmetasmv.plugin.commands.runAsmetaSMVtranslationAndExecCommand"
+	                  icon="icons/runAsmetaSMVtranslateAndExec.gif"
+	                  id="asmetasmv.plugin.menus.runAsmetaSMVtranslationAndExecCommand"
+	                  label="Translate in NuSMV and execute"
+	                  tooltip="Translate in NuSMV and execute">
+	            </command>
+	         </menu>
+          </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="asmetasmv.plugin.toolbars.asmetasmvToolbar"
+               label="AsmetaSMV">
+            <command
+                  commandId="asmetasmv.plugin.commands.runAsmetaSMVtranslationCommand"
+                  icon="icons/runAsmetaSMVtranslate.gif"
+                  id="asmetasmv.plugin.toolbars.runAsmetaSMVtranslationCommand"
+                  label="Translate in NuSMV"
+                  tooltip="Translate in NuSMV">
+            </command>
+            <command
+                  commandId="asmetasmv.plugin.commands.runAsmetaSMVtranslationAndExecCommand"
+                  icon="icons/runAsmetaSMVtranslateAndExec.gif"
+                  id="asmetasmv.plugin.toolbars.runAsmetaSMVtranslationAndExecCommand"
+                  label="Translate in NuSMV and execute"
+                  tooltip="Translate in NuSMV and execute">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="asmeta.plugin.preferences"
+            class="org.asmeta.nusmv.plugin.AsmetaSMVPreferencePage"
+            id="asmetasmv.plugin.preferences"
+            name="AsmetaSMV">
+      </page>
+   </extension>
+</plugin>

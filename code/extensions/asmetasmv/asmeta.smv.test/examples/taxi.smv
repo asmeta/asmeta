@@ -1,0 +1,162 @@
+--file examples\taxi.smv
+MODULE main
+	VAR
+		calltaxi_CL1: boolean; --monitored
+		calltaxi_CL2: boolean; --monitored
+		calltaxi_CL3: boolean; --monitored
+		calltaxi_GR2: boolean; --monitored
+		calltaxi_GR3: boolean; --monitored
+		chooseLength: 1..3; --monitored
+		keepTaxi_CL1: {-2147483647, 0, 1, 2, 3}; --controlled
+		keepTaxi_CL2: {-2147483647, 0, 1, 2, 3}; --controlled
+		keepTaxi_CL3: {-2147483647, 0, 1, 2, 3}; --controlled
+		keepTaxi_GR2: {-2147483647, 0, 1, 2, 3}; --controlled
+		keepTaxi_GR3: {-2147483647, 0, 1, 2, 3}; --controlled
+		state_CL1: {CALLTAXI, IDLE, STATE_UNDEF, TRAVELLING, WAITING}; --controlled
+		state_CL2: {CALLTAXI, IDLE, STATE_UNDEF, TRAVELLING, WAITING}; --controlled
+		state_CL3: {CALLTAXI, IDLE, STATE_UNDEF, TRAVELLING, WAITING}; --controlled
+		state_GR2: {CALLTAXI, IDLE, STATE_UNDEF, TRAVELLING, WAITING}; --controlled
+		state_GR3: {CALLTAXI, IDLE, STATE_UNDEF, TRAVELLING, WAITING}; --controlled
+		travelLength_CL1: {-2147483647, 1, 2, 3}; --controlled
+		travelLength_CL2: {-2147483647, 1, 2, 3}; --controlled
+		travelLength_CL3: {-2147483647, 1, 2, 3}; --controlled
+		travelLength_GR2: {-2147483647, 1, 2, 3}; --controlled
+		travelLength_GR3: {-2147483647, 1, 2, 3}; --controlled
+		--declaration of choose variables
+		var_$c_0: {CL1, CL2, CL3, GR2, GR3};
+	DEFINE
+		neededTaxi_CL1 := 1;
+		neededTaxi_CL2 := 1;
+		neededTaxi_CL3 := 1;
+		neededTaxi_GR2 := 2;
+		neededTaxi_GR3 := 3;
+	CONSTANTS STATE_UNDEF, CALLTAXI, IDLE, TRAVELLING, WAITING, CLIENT_UNDEF, CL1, CL2, CL3, GR2, GR3;
+	ASSIGN
+		init(keepTaxi_CL1) := 0;
+		init(keepTaxi_CL2) := 0;
+		init(keepTaxi_CL3) := 0;
+		init(keepTaxi_GR2) := 0;
+		init(keepTaxi_GR3) := 0;
+		init(state_CL1) := IDLE;
+		init(state_CL2) := IDLE;
+		init(state_CL3) := IDLE;
+		init(state_GR2) := IDLE;
+		init(state_GR3) := IDLE;
+		init(travelLength_CL1) := -2147483647;
+		init(travelLength_CL2) := -2147483647;
+		init(travelLength_CL3) := -2147483647;
+		init(travelLength_GR2) := -2147483647;
+		init(travelLength_GR3) := -2147483647;
+		next(keepTaxi_CL1) :=
+			case
+				(((state_CL1 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1)) & (var_$c_0 = CL1)) & 1 in {-2147483647, 0, 1, 2, 3}: 1;
+				((travelLength_CL1 = 1) & (state_CL1 = TRAVELLING)) & 0 in {-2147483647, 0, 1, 2, 3}: 0;
+				TRUE: keepTaxi_CL1;
+			esac;
+		next(keepTaxi_CL2) :=
+			case
+				((var_$c_0 = CL2) & ((state_CL2 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1))) & 1 in {-2147483647, 0, 1, 2, 3}: 1;
+				((state_CL2 = TRAVELLING) & (travelLength_CL2 = 1)) & 0 in {-2147483647, 0, 1, 2, 3}: 0;
+				TRUE: keepTaxi_CL2;
+			esac;
+		next(keepTaxi_CL3) :=
+			case
+				((var_$c_0 = CL3) & ((state_CL3 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1))) & 1 in {-2147483647, 0, 1, 2, 3}: 1;
+				((state_CL3 = TRAVELLING) & (travelLength_CL3 = 1)) & 0 in {-2147483647, 0, 1, 2, 3}: 0;
+				TRUE: keepTaxi_CL3;
+			esac;
+		next(keepTaxi_GR2) :=
+			case
+				((var_$c_0 = GR2) & (((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 2) & (state_GR2 = WAITING))) & 2 in {-2147483647, 0, 1, 2, 3}: 2;
+				((travelLength_GR2 = 1) & (state_GR2 = TRAVELLING)) & 0 in {-2147483647, 0, 1, 2, 3}: 0;
+				TRUE: keepTaxi_GR2;
+			esac;
+		next(keepTaxi_GR3) :=
+			case
+				((((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 3) & (state_GR3 = WAITING)) & (var_$c_0 = GR3)) & 3 in {-2147483647, 0, 1, 2, 3}: 3;
+				((state_GR3 = TRAVELLING) & (travelLength_GR3 = 1)) & 0 in {-2147483647, 0, 1, 2, 3}: 0;
+				TRUE: keepTaxi_GR3;
+			esac;
+		next(state_CL1) :=
+			case
+				(state_CL1 = CALLTAXI): WAITING;
+				(((state_CL1 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1)) & (var_$c_0 = CL1)): TRAVELLING;
+				((travelLength_CL1 = 1) & (state_CL1 = TRAVELLING)): IDLE;
+				((state_CL1 = IDLE) & calltaxi_CL1): CALLTAXI;
+				TRUE: state_CL1;
+			esac;
+		next(state_CL2) :=
+			case
+				((var_$c_0 = CL2) & ((state_CL2 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1))): TRAVELLING;
+				(state_CL2 = CALLTAXI): WAITING;
+				((state_CL2 = TRAVELLING) & (travelLength_CL2 = 1)): IDLE;
+				(calltaxi_CL2 & (state_CL2 = IDLE)): CALLTAXI;
+				TRUE: state_CL2;
+			esac;
+		next(state_CL3) :=
+			case
+				(state_CL3 = CALLTAXI): WAITING;
+				((var_$c_0 = CL3) & ((state_CL3 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1))): TRAVELLING;
+				(calltaxi_CL3 & (state_CL3 = IDLE)): CALLTAXI;
+				((state_CL3 = TRAVELLING) & (travelLength_CL3 = 1)): IDLE;
+				TRUE: state_CL3;
+			esac;
+		next(state_GR2) :=
+			case
+				(state_GR2 = CALLTAXI): WAITING;
+				((var_$c_0 = GR2) & (((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 2) & (state_GR2 = WAITING))): TRAVELLING;
+				((state_GR2 = IDLE) & calltaxi_GR2): CALLTAXI;
+				((travelLength_GR2 = 1) & (state_GR2 = TRAVELLING)): IDLE;
+				TRUE: state_GR2;
+			esac;
+		next(state_GR3) :=
+			case
+				(state_GR3 = CALLTAXI): WAITING;
+				((((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 3) & (state_GR3 = WAITING)) & (var_$c_0 = GR3)): TRAVELLING;
+				((state_GR3 = TRAVELLING) & (travelLength_GR3 = 1)): IDLE;
+				(calltaxi_GR3 & (state_GR3 = IDLE)): CALLTAXI;
+				TRUE: state_GR3;
+			esac;
+		next(travelLength_CL1) :=
+			case
+				(((state_CL1 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1)) & (var_$c_0 = CL1)) & chooseLength in {-2147483647, 1, 2, 3}: chooseLength;
+				((state_CL1 = TRAVELLING) & !(travelLength_CL1 = 1)) & (travelLength_CL1 - 1) in {-2147483647, 1, 2, 3}: (travelLength_CL1 - 1);
+				TRUE: travelLength_CL1;
+			esac;
+		next(travelLength_CL2) :=
+			case
+				((var_$c_0 = CL2) & ((state_CL2 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1))) & chooseLength in {-2147483647, 1, 2, 3}: chooseLength;
+				((state_CL2 = TRAVELLING) & !(travelLength_CL2 = 1)) & (travelLength_CL2 - 1) in {-2147483647, 1, 2, 3}: (travelLength_CL2 - 1);
+				TRUE: travelLength_CL2;
+			esac;
+		next(travelLength_CL3) :=
+			case
+				((var_$c_0 = CL3) & ((state_CL3 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1))) & chooseLength in {-2147483647, 1, 2, 3}: chooseLength;
+				(!(travelLength_CL3 = 1) & (state_CL3 = TRAVELLING)) & (travelLength_CL3 - 1) in {-2147483647, 1, 2, 3}: (travelLength_CL3 - 1);
+				TRUE: travelLength_CL3;
+			esac;
+		next(travelLength_GR2) :=
+			case
+				((var_$c_0 = GR2) & (((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 2) & (state_GR2 = WAITING))) & chooseLength in {-2147483647, 1, 2, 3}: chooseLength;
+				((state_GR2 = TRAVELLING) & !(travelLength_GR2 = 1)) & (travelLength_GR2 - 1) in {-2147483647, 1, 2, 3}: (travelLength_GR2 - 1);
+				TRUE: travelLength_GR2;
+			esac;
+		next(travelLength_GR3) :=
+			case
+				((((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 3) & (state_GR3 = WAITING)) & (var_$c_0 = GR3)) & chooseLength in {-2147483647, 1, 2, 3}: chooseLength;
+				((state_GR3 = TRAVELLING) & !(travelLength_GR3 = 1)) & (travelLength_GR3 - 1) in {-2147483647, 1, 2, 3}: (travelLength_GR3 - 1);
+				TRUE: travelLength_GR3;
+			esac;
+	INVAR	(((var_$c_0 = GR2) & (((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 2) & (state_GR2 = WAITING))) | (!((state_CL3 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1)) & !(((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 2) & (state_GR2 = WAITING)) & !((state_CL1 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1)) & !((state_CL2 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1)) & !(((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 3) & (state_GR3 = WAITING))) | ((((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 3) & (state_GR3 = WAITING)) & (var_$c_0 = GR3)) | (((state_CL1 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1)) & (var_$c_0 = CL1)) | ((var_$c_0 = CL2) & ((state_CL2 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1))) | ((var_$c_0 = CL3) & ((state_CL3 = WAITING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) >= 1))));
+--CTL properties
+CTLSPEC NAME ctl0 := EF((EX((EX(((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) = 0)) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) = 0))) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) = 0)));
+CTLSPEC NAME ctl1 := !(EF((EG(((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) = 0)) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) = 0))));
+CTLSPEC NAME ctl2 := AG((((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) = 0) -> AF(((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) > 0))));
+CTLSPEC NAME ctl3 := EF((EX(((state_GR3 = TRAVELLING) & ((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) = 0))) & (((((((3 - keepTaxi_CL1) - keepTaxi_CL2) - keepTaxi_CL3) - keepTaxi_GR2) - keepTaxi_GR3) = 3) & (state_GR3 = WAITING))));
+CTLSPEC NAME ctl4 := AG(((state_CL1 = WAITING) -> EF((state_CL1 = TRAVELLING))));
+CTLSPEC NAME ctl5 := AG(((state_CL2 = WAITING) -> EF((state_CL2 = TRAVELLING))));
+CTLSPEC NAME ctl6 := AG(((state_CL3 = WAITING) -> EF((state_CL3 = TRAVELLING))));
+CTLSPEC NAME ctl7 := AG(((state_GR2 = WAITING) -> EF((state_GR2 = TRAVELLING))));
+CTLSPEC NAME ctl8 := AG(((state_GR3 = WAITING) -> EF((state_GR3 = TRAVELLING))));
+CTLSPEC NAME ctl9 := !(EF(((state_GR2 = WAITING) & ((state_CL3 = WAITING) & ((state_CL2 = WAITING) & (state_CL1 = WAITING))))));
+CTLSPEC NAME ctl10 := AG(EX(TRUE));

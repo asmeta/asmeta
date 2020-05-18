@@ -1,0 +1,15 @@
+#!/bin/sh
+
+LIBS='../../../asmeta_libs'
+CLASS='../../../../workspace'
+CP="${CLASS}/jmi/bin;${CLASS}/parser/bin;${CLASS}/interpreter/bin;${CLASS}/validator/bin;\
+${LIBS}/jmi.jar;${LIBS}/log4j-1.2.14.jar;${LIBS}/nbmdr.jar;\
+${LIBS}/mdrapi.jar;${LIBS}/openide-util.jar;${LIBS}/jmiutils.jar;\
+${LIBS}/mof.jar"
+
+DIR=$(dirname ${1})
+BASE=$(basename ${1})
+cd ${DIR}
+java -cp "${LIBS}/emf_ecore.jar;${LIBS}/emf_common.jar;${CP}" org.asmeta.validator.asm.TestScript ${BASE}
+rm mdr.* __*
+

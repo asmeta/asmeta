@@ -1,0 +1,27 @@
+scenario ferryman2
+
+//load ../../../ferrymanSimulator_raff1.asm
+load ../../../flattenedModels/ferrymanSimulator_raff1_flat.asm
+
+exec
+	par
+		position(FERRYMAN) := RIGHT
+		position(GOAT) := RIGHT
+		position(WOLF) := RIGHT
+	endpar;
+
+set carry := GOAT;
+step
+check position(FERRYMAN) = LEFT and position(GOAT) = LEFT and position(CABBAGE) = LEFT and position(WOLF) = RIGHT;
+
+set carry := CABBAGE;
+step
+check position(FERRYMAN) = RIGHT and position(GOAT) = LEFT and position(CABBAGE) = RIGHT and position(WOLF) = RIGHT;
+
+set carry := FERRYMAN;
+step
+check position(FERRYMAN) = LEFT and position(GOAT) = LEFT and position(CABBAGE) = RIGHT and position(WOLF) = RIGHT;
+
+set carry := GOAT;
+step
+check position(FERRYMAN) = RIGHT and position(GOAT) = RIGHT and position(CABBAGE) = RIGHT and position(WOLF) = RIGHT;

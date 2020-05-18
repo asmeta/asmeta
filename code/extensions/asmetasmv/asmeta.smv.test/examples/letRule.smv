@@ -1,0 +1,62 @@
+--file examples\letRule.smv
+MODULE main
+	VAR
+		foo: boolean; --controlled
+		fooA: boolean; --controlled
+		fooB: boolean; --controlled
+		fooC_FALSE: boolean; --controlled
+		fooC_TRUE: boolean; --controlled
+		fooD: boolean; --controlled
+		fooE_FALSE: boolean; --controlled
+		fooE_TRUE: boolean; --controlled
+		mon: boolean; --monitored
+		--declaration of choose variables
+		var_$t_0: boolean;
+	ASSIGN
+		init(foo) := FALSE;
+		init(fooA) := FALSE;
+		init(fooB) := TRUE;
+		init(fooC_FALSE) := FALSE;
+		init(fooC_TRUE) := TRUE;
+		init(fooD) := mon;
+		init(fooE_FALSE) := TRUE;
+		init(fooE_TRUE) := TRUE;
+		next(foo) := TRUE;
+		next(fooA) :=
+			case
+				(!(mon)): TRUE;
+				(mon): FALSE;
+				TRUE: fooA;
+			esac;
+		next(fooB) :=
+			case
+				(!(fooB)): TRUE;
+				(fooB): FALSE;
+				TRUE: fooB;
+			esac;
+		next(fooC_FALSE) := TRUE;
+		next(fooC_TRUE) := FALSE;
+		next(fooD) :=
+			case
+				(var_$t_0 & mon): FALSE;
+				(!(mon) & !(var_$t_0)): TRUE;
+				TRUE: fooD;
+			esac;
+		next(fooE_FALSE) :=
+			case
+				(!(fooD)): !(fooE_FALSE);
+				TRUE: fooE_FALSE;
+			esac;
+		next(fooE_TRUE) :=
+			case
+				(fooD): !(fooE_TRUE);
+				TRUE: fooE_TRUE;
+			esac;
+	INVAR	((var_$t_0 & mon) | (!(mon) & !(var_$t_0)));
+--CTL properties
+CTLSPEC NAME ctl0 := (!(foo) & AX(AG(foo)));
+CTLSPEC NAME ctl1 := AG(((!(fooB) <-> AX(fooB)) & (fooB <-> AX(!(fooB)))));
+CTLSPEC NAME ctl2 := ((fooC_TRUE & !(fooC_FALSE)) & AX(AG((!(fooC_TRUE) & fooC_FALSE))));
+CTLSPEC NAME ctl3 := (AG((mon -> AX(!(fooA)))) & AG((!(mon) -> AX(fooA))));
+CTLSPEC NAME ctl4 := (AG((mon -> AX(!(fooD)))) & AG((!(mon) -> AX(fooD))));
+CTLSPEC NAME ctl5 := (AG(((!(fooD) & fooE_FALSE) -> AX(!(fooE_FALSE)))) & AG(((!(fooE_TRUE) & fooD) -> AX(fooE_TRUE))) & AG(((!(fooD) & !(fooE_FALSE)) -> AX(fooE_FALSE))) & AG(((fooE_TRUE & fooD) -> AX(!(fooE_TRUE)))));

@@ -1,0 +1,36 @@
+;;Proof of refinement from freeMonitoredAbstract to freeMonitoredRefined
+;; functions - state 0
+(define x00::int)
+;; Initial state proof
+(define refinedInitState::bool (= x00 0))
+(define existsAbstractInitState::bool (= x00 0))
+(assert (not (=> refinedInitState existsAbstractInitState)))
+(set-evidence! true)
+(check)
+;; unsat
+;; Initial states are conformant.
+
+
+(reset)
+(set-evidence! false)
+;; functions - state 0
+(define x00::int)
+(define x01::int)
+
+(define refinedStep::bool (= x01 (+ x00 1)))
+
+;;versione con variabili monitorate non linkate dentro l'exists (funziona) 
+(define abstractStep::(-> bool bool) (lambda (mon0ABSTRACTLambda::bool) (and (=> mon0ABSTRACTLambda (= x01 (+ x00 1))) (=> (not mon0ABSTRACTLambda) (= x00 x01)))))
+(define existsAbstractStep::bool (or (abstractStep false) (abstractStep true)))
+
+;;versione con variabili monitorate non linkate fuori dall'exists (non funziona) 
+;;(define mon0ABSTRACTLambda::bool)
+;;(define existsAbstractStep::bool (and (=> mon0ABSTRACTLambda (= x01 (+ x00 1))) (=> (not mon0ABSTRACTLambda) (= x00 x01))))
+
+
+(define stutteringState::bool (= x00 x01))
+(assert (not (=> refinedStep (or existsAbstractStep stutteringState))))
+(set-evidence! true)
+(check)
+;; unsat
+;; Generic step is conformant.

@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Asmeta model checker plugin
+Bundle-SymbolicName: asmeta.asmetasmv.ui;singleton:=true
+Bundle-Version: 1.0.6
+Bundle-Activator: org.asmeta.nusmv.plugin.AsmetaSMVActivator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.console,
+ asmeta.smv,
+ asmeta.flattener,
+ org.asmeta.simulator.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: fmse.di.unimi.it
+Bundle-ClassPath: .
+Automatic-Module-Name: asmeta.asmetasmv.ui

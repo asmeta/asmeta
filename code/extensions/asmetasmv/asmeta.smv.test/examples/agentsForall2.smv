@@ -1,0 +1,28 @@
+--file examples\agentsForall2.smv
+MODULE main
+	VAR
+		foo_AGENT1: {-2147483647, 1, 2, 3}; --controlled
+		foo_AGENT2: {-2147483647, 1, 2, 3}; --controlled
+		foo_AGENT3: {-2147483647, 1, 2, 3}; --controlled
+	CONSTANTS AGENT1, AGENT2, AGENT3, SUBAGENT_UNDEF, AGENT1, AGENT2, AGENT3;
+	ASSIGN
+		init(foo_AGENT1) := 1;
+		init(foo_AGENT2) := 2;
+		init(foo_AGENT3) := 1;
+		next(foo_AGENT1) :=
+			case
+				((foo_AGENT1 mod 2) = 0) & 1 in {-2147483647, 1, 2, 3}: 1;
+				TRUE: foo_AGENT1;
+			esac;
+		next(foo_AGENT2) :=
+			case
+				((foo_AGENT2 mod 2) = 0) & 1 in {-2147483647, 1, 2, 3}: 1;
+				TRUE: foo_AGENT2;
+			esac;
+		next(foo_AGENT3) :=
+			case
+				((foo_AGENT3 mod 2) = 0) & 1 in {-2147483647, 1, 2, 3}: 1;
+				TRUE: foo_AGENT3;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AF(((foo_AGENT3 = 1) & ((foo_AGENT2 = 1) & (foo_AGENT1 = 1))));

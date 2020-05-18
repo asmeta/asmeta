@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Asmeta Animator
+Bundle-SymbolicName: asmeta.animator.test
+Bundle-Version: 0.0.5
+Export-Package: org.asmeta.animator
+Require-Bundle: org.eclipse.emf.mwe.utils,
+ org.eclipse.emf.mwe2.launch,
+ org.eclipse.emf.mwe2.runtime,
+ org.apache.log4j,
+ org.eclipse.equinox.common,
+ org.eclipse.swt,
+ asmeta.emf,
+ asmeta.parser,
+ asmeta.simulator,
+ asmeta.animator
+Import-Package: org.asmeta.animator,
+ org.eclipse.jface.dialogs,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui,
+ org.junit
+Bundle-ClassPath: .
+Automatic-Module-Name: asmeta.animator.test
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: fmse.di.unimi.it

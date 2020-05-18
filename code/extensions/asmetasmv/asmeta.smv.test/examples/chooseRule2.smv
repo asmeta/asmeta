@@ -1,0 +1,22 @@
+--file examples\chooseRule2.smv
+MODULE main
+	VAR
+		foo: {-2147483647, 1, 2, 3, 4}; --controlled
+		--declaration of choose variables
+		var_$x_0: 1..4;
+	ASSIGN
+		init(foo) := 4;
+		next(foo) :=
+			case
+				((var_$x_0 = 4) & (4 = (foo - 1))) & 4 in {-2147483647, 1, 2, 3, 4}: 4;
+				((1 = (foo - 1)) & (var_$x_0 = 1)) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				((2 = (foo - 1)) & (var_$x_0 = 2)) & 2 in {-2147483647, 1, 2, 3, 4}: 2;
+				((var_$x_0 = 3) & (3 = (foo - 1))) & 3 in {-2147483647, 1, 2, 3, 4}: 3;
+				TRUE: foo;
+			esac;
+	INVAR	((!(4 = (foo - 1)) & !(1 = (foo - 1)) & !(3 = (foo - 1)) & !(2 = (foo - 1))) | ((var_$x_0 = 4) & (4 = (foo - 1))) | ((1 = (foo - 1)) & (var_$x_0 = 1)) | ((2 = (foo - 1)) & (var_$x_0 = 2)) | ((var_$x_0 = 3) & (3 = (foo - 1))));
+--CTL properties
+CTLSPEC NAME ctl0 := AG(((foo = 4) <-> AX((foo = 3))));
+CTLSPEC NAME ctl1 := AG(((foo = 3) <-> AX((foo = 2))));
+CTLSPEC NAME ctl2 := AG(((foo = 2) -> AX((foo = 1))));
+CTLSPEC NAME ctl3 := AG(((foo = 1) <-> AG((foo = 1))));

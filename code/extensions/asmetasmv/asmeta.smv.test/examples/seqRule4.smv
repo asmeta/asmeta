@@ -1,0 +1,50 @@
+--file examples\seqRule4.smv
+MODULE main
+	VAR
+		fooA: {-2147483647, 1, 2, 3, 4}; --controlled
+		fooB: {-2147483647, 1, 2, 3, 4}; --controlled
+		fooC: {-2147483647, 1, 2, 3, 4}; --controlled
+		fooD: {-2147483647, 1, 2, 3, 4}; --controlled
+		fooE: {-2147483647, 1, 2, 3, 4}; --controlled
+		fooF: {-2147483647, 1, 2, 3, 4}; --controlled
+	ASSIGN
+		init(fooA) := 1;
+		init(fooB) := 1;
+		init(fooC) := 2;
+		init(fooD) := 2;
+		init(fooE) := 2;
+		init(fooF) := 2;
+		next(fooA) :=
+			case
+				3 in {-2147483647, 1, 2, 3, 4}: 3;
+				TRUE: fooA;
+			esac;
+		next(fooB) :=
+			case
+				fooA in {-2147483647, 1, 2, 3, 4}: fooA;
+				TRUE: fooB;
+			esac;
+		next(fooC) :=
+			case
+				((fooD + 1) + 1) in {-2147483647, 1, 2, 3, 4}: ((fooD + 1) + 1);
+				TRUE: fooC;
+			esac;
+		next(fooD) :=
+			case
+				1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: fooD;
+			esac;
+		next(fooE) :=
+			case
+				((fooF + 1) + 1) in {-2147483647, 1, 2, 3, 4}: ((fooF + 1) + 1);
+				TRUE: fooE;
+			esac;
+		next(fooF) :=
+			case
+				1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: fooF;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := (AX((AX(AG((fooB = 3))) & (fooB = 1))) & (fooB = 1));
+CTLSPEC NAME ctl1 := ((fooC = 2) & AX(((fooC = 4) & AX(AG((fooC = 3))))));
+CTLSPEC NAME ctl2 := ((fooE = 2) & AX(((fooE = 4) & AX(AG((fooE = 3))))));

@@ -1,0 +1,20 @@
+--file examples\justiceConstraint.smv
+MODULE main
+	VAR
+		foo: {-2147483647, 1, 2, 3}; --controlled
+		--declaration of choose variables
+		var_$x_0: 1..3;
+	ASSIGN
+		init(foo) := 1;
+		next(foo) :=
+			case
+				(var_$x_0 = 2) & 2 in {-2147483647, 1, 2, 3}: 2;
+				(var_$x_0 = 3) & 3 in {-2147483647, 1, 2, 3}: 3;
+				(var_$x_0 = 1) & 1 in {-2147483647, 1, 2, 3}: 1;
+				TRUE: foo;
+			esac;
+	INVAR	((var_$x_0 = 2) | (var_$x_0 = 3) | (var_$x_0 = 1));
+--JUSTICE constraints
+JUSTICE (foo = 2);
+--CTL properties
+CTLSPEC NAME ctl0 := AG(AF((foo = 2)));

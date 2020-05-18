@@ -1,0 +1,62 @@
+(define-type HandleStatus(scalar UP DOWN HandleStatusUNDEF))
+(define-type DoorStatus(scalar CLOSED OPENING OPEN CLOSING DoorStatusUNDEF))
+(define-type GearStatus(scalar RETRACTED EXTENDING EXTENDED RETRACTING GearStatusUNDEF))
+(define-type CylinderStatus(scalar CYLINDER_RETRACTED CYLINDER_EXTENDING CYLINDER_EXTENDED CYLINDER_RETRACTING CylinderStatusUNDEF))
+;; functions - state 0
+(define handle0::HandleStatus)
+(define doors0::DoorStatus)
+(define gears0::GearStatus)
+(define cylindersDoors0::CylinderStatus)
+(define cylindersGears0::CylinderStatus)
+(define generalElectroValve0::bool)
+(define openDoorsElectroValve0::bool)
+(define closeDoorsElectroValve0::bool)
+(define retractGearsElectroValve0::bool)
+(define extendGearsElectroValve0::bool)
+;; initial state
+(assert (= doors0 CLOSED))
+(assert (= gears0 EXTENDED))
+(assert (= generalElectroValve0 false))
+(assert (= extendGearsElectroValve0 false))
+(assert (= retractGearsElectroValve0 false))
+(assert (= openDoorsElectroValve0 false))
+(assert (= closeDoorsElectroValve0 false))
+;; derived functions definitions - state 0
+(assert (= cylindersDoors0 (if (= doors0 OPEN) CYLINDER_EXTENDED (if (= doors0 OPENING) CYLINDER_EXTENDING (if (= doors0 CLOSING) CYLINDER_RETRACTING (if (= doors0 CLOSED) CYLINDER_RETRACTED CYLINDER_RETRACTED))))))
+(assert (= cylindersGears0 (if (= gears0 RETRACTED) CYLINDER_RETRACTED (if (= gears0 EXTENDING) CYLINDER_EXTENDING (if (= gears0 EXTENDED) CYLINDER_EXTENDED (if (= gears0 RETRACTING) CYLINDER_RETRACTING CYLINDER_RETRACTING))))))
+(check)
+;; sat
+;; functions - state 0
+(define handler0::HandleStatus)
+(define doorsr0::DoorStatus)
+(define gearsr0::GearStatus)
+(define cylindersDoorsr0::CylinderStatus)
+(define cylindersGearsr0::CylinderStatus)
+(define generalElectroValver0::bool)
+(define openDoorsElectroValver0::bool)
+(define closeDoorsElectroValver0::bool)
+(define retractGearsElectroValver0::bool)
+(define extendGearsElectroValver0::bool)
+(define gearsExtendedr0::bool)
+(define gearsRetractedr0::bool)
+(define doorsClosedr0::bool)
+(define doorsOpenr0::bool)
+(define gearsShockAbsorberr0::bool)
+;; initial state
+(assert (= doorsr0 CLOSED))
+(assert (= gearsr0 EXTENDED))
+(assert (= generalElectroValver0 false))
+(assert (= extendGearsElectroValver0 false))
+(assert (= retractGearsElectroValver0 false))
+(assert (= openDoorsElectroValver0 false))
+(assert (= closeDoorsElectroValver0 false))
+;; derived functions definitions - state 0
+(assert (= cylindersDoorsr0 (if (= doorsr0 OPEN) CYLINDER_EXTENDED (if (= doorsr0 OPENING) CYLINDER_EXTENDING (if (= doorsr0 CLOSING) CYLINDER_RETRACTING (if (= doorsr0 CLOSED) CYLINDER_RETRACTED CYLINDER_RETRACTED))))))
+(assert (= cylindersGearsr0 (if (= gearsr0 RETRACTED) CYLINDER_RETRACTED (if (= gearsr0 EXTENDING) CYLINDER_EXTENDING (if (= gearsr0 EXTENDED) CYLINDER_EXTENDED (if (= gearsr0 RETRACTING) CYLINDER_RETRACTING CYLINDER_RETRACTING))))))
+(check)
+;; sat
+;; Initial state proof
+(assert (not (and (= gears0 gearsr0) (= doors0 doorsr0))))
+(check)
+;; unsat
+;; Initial states are conformant.

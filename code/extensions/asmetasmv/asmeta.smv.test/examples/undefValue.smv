@@ -1,0 +1,79 @@
+--file examples\undefValue.smv
+MODULE main
+	VAR
+		fooA: {AA, BB, CC, ENUMDOM_UNDEF}; --controlled
+		fooB: {AA, BB, CC, ENUMDOM_UNDEF}; --controlled
+		fooC: {AA, BB, CC, ENUMDOM_UNDEF}; --controlled
+		fooD: {AA, BB, CC, ENUMDOM_UNDEF}; --controlled
+		fooE: {AA, BB, CC, ENUMDOM_UNDEF}; --controlled
+		fooF: {AA, BB, CC, ENUMDOM_UNDEF}; --controlled
+		fooG: {-2147483647, 1, 2}; --controlled
+		fooH: {-2147483647, 1, 2}; --controlled
+		fooI: {-2147483647, 1, 2}; --controlled
+		fooK: {-2147483647, 1, 2}; --controlled
+		fooL: {-2147483647, 1, 2}; --controlled
+		fooM: {-2147483647, 1, 2}; --controlled
+	CONSTANTS ENUMDOM_UNDEF, AA, BB, CC;
+	ASSIGN
+		init(fooA) := AA;
+		init(fooB) := CC;
+		init(fooC) := ENUMDOM_UNDEF;
+		init(fooD) := ENUMDOM_UNDEF;
+		init(fooE) := ENUMDOM_UNDEF;
+		init(fooF) := ENUMDOM_UNDEF;
+		init(fooG) := 1;
+		init(fooH) := 2;
+		init(fooI) := -2147483647;
+		init(fooK) := -2147483647;
+		init(fooL) := -2147483647;
+		init(fooM) := -2147483647;
+		next(fooA) := BB;
+		next(fooB) := ENUMDOM_UNDEF;
+		next(fooC) := AA;
+		next(fooD) := fooD;
+		next(fooE) := BB;
+		next(fooF) := ENUMDOM_UNDEF;
+		next(fooG) :=
+			case
+				2 in {-2147483647, 1, 2}: 2;
+				TRUE: fooG;
+			esac;
+		next(fooH) :=
+			case
+				-2147483647 in {-2147483647, 1, 2}: -2147483647;
+				TRUE: fooH;
+			esac;
+		next(fooI) :=
+			case
+				1 in {-2147483647, 1, 2}: 1;
+				TRUE: fooI;
+			esac;
+		next(fooK) :=
+			case
+				2 in {-2147483647, 1, 2}: 2;
+				TRUE: fooK;
+			esac;
+		next(fooL) :=
+			case
+				-2147483647 in {-2147483647, 1, 2}: -2147483647;
+				TRUE: fooL;
+			esac;
+		next(fooM) :=
+			case
+				(!(fooG = -2147483647)) & 2 in {-2147483647, 1, 2}: 2;
+				(fooG = -2147483647) & 1 in {-2147483647, 1, 2}: 1;
+				TRUE: fooM;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := (AX(AG((fooB = ENUMDOM_UNDEF))) & (fooB != ENUMDOM_UNDEF));
+CTLSPEC NAME ctl1 := ((fooC = ENUMDOM_UNDEF) & AX(AG((fooC != ENUMDOM_UNDEF))));
+CTLSPEC NAME ctl2 := AG((fooD = ENUMDOM_UNDEF));
+CTLSPEC NAME ctl3 := (AX(AG((fooE != ENUMDOM_UNDEF))) & (fooE = ENUMDOM_UNDEF));
+CTLSPEC NAME ctl4 := AG((fooF = ENUMDOM_UNDEF));
+CTLSPEC NAME ctl5 := AG((fooG != -2147483647));
+CTLSPEC NAME ctl6 := ((fooH != -2147483647) & AX(AG((fooH = -2147483647))));
+CTLSPEC NAME ctl7 := (AX(AG((fooI != -2147483647))) & (fooI = -2147483647));
+CTLSPEC NAME ctl8 := (AX(AG((fooK != -2147483647))) & (fooK = -2147483647));
+CTLSPEC NAME ctl9 := AG((fooL = -2147483647));
+CTLSPEC NAME ctl10 := ((fooM = -2147483647) & AX(AG((fooM = 2))));
+CTLSPEC NAME ctl11 := AG((fooA != ENUMDOM_UNDEF));

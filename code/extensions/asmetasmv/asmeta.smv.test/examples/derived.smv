@@ -1,0 +1,56 @@
+--file examples\derived.smv
+MODULE main
+	VAR
+		foo: boolean; --controlled
+		fooA: boolean; --controlled
+		fooC: boolean; --controlled
+		fooH: boolean; --controlled
+		fooL: boolean; --monitored
+		fooM: boolean; --controlled
+		fooW: {-2147483647, 1, 2, 3, 4}; --controlled
+		fooWW: {-2147483647, 1, 2, 3, 4}; --controlled
+	DEFINE
+		fooZ :=
+			case
+				!(fooW = 4) & (fooW + 1) in {-2147483647, 1, 2, 3, 4}: (fooW + 1);
+				(fooW = 4) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: -2147483647;
+			esac;
+	ASSIGN
+		init(foo) := fooH;
+		init(fooA) := TRUE;
+		init(fooH) := FALSE;
+		init(fooM) := fooL;
+		init(fooW) := 1;
+		init(fooWW) := 1;
+		next(foo) := fooH;
+		next(fooA) := fooC;
+		next(fooC) := !(fooC);
+		next(fooH) := !(fooH);
+		next(fooM) := fooL;
+		next(fooW) :=
+			case
+				(!(fooW < 4)) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				(fooW < 4) & (fooW + 1) in {-2147483647, 1, 2, 3, 4}: (fooW + 1);
+				TRUE: fooW;
+			esac;
+		next(fooWW) :=
+			case
+				(fooWW < 3) & (fooWW + 1) in {-2147483647, 1, 2, 3, 4}: (fooWW + 1);
+				(!(fooWW < 3)) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: fooWW;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG(TRUE);
+CTLSPEC NAME ctl1 := AG(TRUE);
+CTLSPEC NAME ctl2 := AG(TRUE);
+CTLSPEC NAME ctl3 := AG((fooC <-> AX(!(fooC))));
+CTLSPEC NAME ctl4 := AG((!(fooC) <-> AX(fooC)));
+CTLSPEC NAME ctl5 := AG((fooH <-> AX(!(fooH))));
+CTLSPEC NAME ctl6 := AG((!(fooH) <-> AX(fooH)));
+CTLSPEC NAME ctl7 := AG(((fooH <-> AX(foo)) & (!(fooH) <-> AX(!(foo)))));
+CTLSPEC NAME ctl8 := AG(((fooL <-> AX(fooM)) & (!(fooL) <-> AX(!(fooM)))));
+--AsmetaL invariants
+CTLSPEC	AG(TRUE);
+CTLSPEC	AG(TRUE);
+CTLSPEC	AG(TRUE);

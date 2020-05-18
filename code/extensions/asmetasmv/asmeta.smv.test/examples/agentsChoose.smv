@@ -1,0 +1,38 @@
+--file examples\agentsChoose.smv
+MODULE main
+	VAR
+		foo_AGENT1: boolean; --controlled
+		foo_AGENT2: boolean; --controlled
+		foo_AGENT3: boolean; --controlled
+		--declaration of choose variables
+		var_$a_0: {AGENT1, AGENT2, AGENT3};
+	CONSTANTS AGENT1, AGENT2, AGENT3, SUBAGENT_UNDEF, AGENT1, AGENT2, AGENT3;
+	ASSIGN
+		init(foo_AGENT1) := TRUE;
+		init(foo_AGENT2) := TRUE;
+		init(foo_AGENT3) := TRUE;
+		next(foo_AGENT1) :=
+			case
+				(var_$a_0 = AGENT1): !(foo_AGENT1);
+				TRUE: foo_AGENT1;
+			esac;
+		next(foo_AGENT2) :=
+			case
+				(var_$a_0 = AGENT2): !(foo_AGENT2);
+				TRUE: foo_AGENT2;
+			esac;
+		next(foo_AGENT3) :=
+			case
+				(var_$a_0 = AGENT3): !(foo_AGENT3);
+				TRUE: foo_AGENT3;
+			esac;
+	INVAR	((var_$a_0 = AGENT1) | (var_$a_0 = AGENT2) | (var_$a_0 = AGENT3));
+--CTL properties
+CTLSPEC NAME ctl0 := AG((foo_AGENT1 = foo_AGENT2));
+CTLSPEC NAME ctl1 := AG((foo_AGENT2 = foo_AGENT3));
+CTLSPEC NAME ctl2 := EF(foo_AGENT1);
+CTLSPEC NAME ctl3 := EF(!(foo_AGENT1));
+CTLSPEC NAME ctl4 := EF(foo_AGENT2);
+CTLSPEC NAME ctl5 := EF(!(foo_AGENT2));
+CTLSPEC NAME ctl6 := EF(foo_AGENT3);
+CTLSPEC NAME ctl7 := EF(!(foo_AGENT3));

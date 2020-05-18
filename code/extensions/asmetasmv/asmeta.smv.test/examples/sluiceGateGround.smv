@@ -1,0 +1,18 @@
+--file examples\sluiceGateGround.smv
+MODULE main
+	VAR
+		passed_10: boolean; --monitored
+		passed_170: boolean; --monitored
+		phase: {FULLYCLOSED, FULLYOPENED, PHASEDOMAIN_UNDEF}; --controlled
+	CONSTANTS PHASEDOMAIN_UNDEF, FULLYCLOSED, FULLYOPENED;
+	ASSIGN
+		init(phase) := FULLYCLOSED;
+		next(phase) :=
+			case
+				(passed_10 & (phase = FULLYOPENED)): FULLYCLOSED;
+				(passed_170 & (phase = FULLYCLOSED)): FULLYOPENED;
+				TRUE: phase;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG(((passed_170 & (phase = FULLYCLOSED)) -> AX((phase = FULLYOPENED))));
+CTLSPEC NAME ctl1 := AG(((passed_10 & (phase = FULLYOPENED)) -> AX((phase = FULLYCLOSED))));

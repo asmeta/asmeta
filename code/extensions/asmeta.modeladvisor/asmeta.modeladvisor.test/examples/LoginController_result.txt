@@ -1,0 +1,60 @@
+MP: Controlled location is updated.
+Location audio is never updated.
+Location camera is never updated.
+Location displaytouch is never updated.
+Location keyboard is never updated.
+Location keyboardbacklight is never updated.
+
+MP: Inconsistent update.
+NONE.
+
+MP: Controlled location could be static.
+NONE.
+
+MP: location could be removed.
+Controlled location audio is initialized but then it's used only in unreachable code fragment(s).
+Controlled location camera is initialized but then it's used only in unreachable code fragment(s).
+Controlled location displaytouch is initialized but then it's used only in unreachable code fragment(s).
+Controlled location keyboard is initialized but then it's used only in unreachable code fragment(s).
+Controlled location keyboardbacklight is initialized but then it's used only in unreachable code fragment(s).
+
+MP: Trivial update.
+NONE.
+
+MP: Conditional rule eval to true
+ConditionalRule "if eq(current_state,CANCELLED) then endif" never executes the then branch
+ConditionalRule "if eq(current_state,ERROR) then endif" never executes the then branch
+ConditionalRule "if eq(current_state,LOGINERROR) then endif" never executes the then branch
+ConditionalRule "if eq(event,INTENT_CONTINUE) then endif" never executes the then branch
+
+MP: Domain all used.
+Domain States could be reduced in size. Elements {CANCELLED, ERROR, LOGINERROR} could be removed.
+
+MP: Controlled location takes all values.
+Function audio should be removed, because it's never used.
+Function camera should be removed, because it's never used.
+Function displaytouch should be removed, because it's never used.
+Function keyboard should be removed, because it's never used.
+Function keyboardbacklight should be removed, because it's never used.
+Function current_state does not take the values {CANCELLED, ERROR, LOGINERROR} of its domain. It could be defined over the smaller domain {ACTIVE, IDLE, LOGGEDIN, LOGINTIMEOUT, TRYING_TO_LOGIN}.
+
+MP: Conditional rule is complete
+ConditionalRule if (eq(event,INTENT_CONTINUE)) is not complete.
+ConditionalRule if (eq(current_state,ACTIVE)) is not complete.
+ConditionalRule if (eq(event,INTENT_LOGIN)) is not complete.
+ConditionalRule if (eq(current_state,TRYING_TO_LOGIN)) is not complete.
+ConditionalRule if (eq(event,INTENT_LOGOUT)) is not complete.
+ConditionalRule if (eq(current_state,LOGGEDIN)) is not complete.
+ConditionalRule if (eq(current_state,LOGINTIMEOUT)) is not complete.
+ConditionalRule if (eq(current_state,CANCELLED)) is not complete.
+ConditionalRule if (eq(current_state,ERROR)) is not complete.
+ConditionalRule if (eq(current_state,IDLE)) is not complete.
+ConditionalRule if (eq(current_state,LOGINERROR)) is not complete.
+
+Case rule switch (event) is not complete.
+MP: Choose rule is always not empty.
+NONE.
+
+MP: Forall rule is always not empty.
+NONE.
+

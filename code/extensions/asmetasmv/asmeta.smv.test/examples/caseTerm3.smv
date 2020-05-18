@@ -1,0 +1,9 @@
+--file examples\caseTerm3.smv
+MODULE main
+	VAR
+		fooC: {AA, BB, CC, DD, ENUMDOM_UNDEF}; --controlled
+		fooM: {AA, BB, CC, DD}; --monitored
+	CONSTANTS ENUMDOM_UNDEF, AA, BB, CC, DD;
+	ASSIGN
+		init(fooC) := ENUMDOM_UNDEF;
+		next(fooC) := DD;

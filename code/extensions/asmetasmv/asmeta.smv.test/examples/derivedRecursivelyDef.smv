@@ -1,0 +1,17 @@
+--file examples\derivedRecursivelyDef.smv
+MODULE main
+	VAR
+		fooH: boolean; --controlled
+	DEFINE
+	ASSIGN
+		init(fooH) := TRUE;
+		next(fooH) :=
+			case
+				(!(fooH)): TRUE;
+				(fooH): FALSE;
+				TRUE: fooH;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG(TRUE);
+--AsmetaL invariants
+CTLSPEC	AG(TRUE);

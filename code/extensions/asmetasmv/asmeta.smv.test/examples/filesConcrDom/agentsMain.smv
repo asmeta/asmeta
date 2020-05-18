@@ -1,0 +1,152 @@
+--file examples\filesConcrDom\agentsMain.smv
+MODULE main
+	VAR
+		agentsA_fooA: {-2147483647, 1, 2, 3, 4}; --controlled
+		agentsB_fooB: {-2147483647, 1, 2, 3, 4, 5}; --controlled
+		agentsB_fooBimp_1: {-2147483647, 1, 2, 3}; --controlled
+		agentsB_fooBimp_2: {-2147483647, 1, 2, 3}; --controlled
+		agentsB_fooBimp_3: {-2147483647, 1, 2, 3}; --controlled
+		fooMainProd_1_1: boolean; --controlled
+		fooMainProd_1_2: boolean; --controlled
+		fooMainProd_1_3: boolean; --controlled
+		fooMainProd_2_1: boolean; --controlled
+		fooMainProd_2_2: boolean; --controlled
+		fooMainProd_2_3: boolean; --controlled
+		fooMainProd_3_1: boolean; --controlled
+		fooMainProd_3_2: boolean; --controlled
+		fooMainProd_3_3: boolean; --controlled
+		fooMain_1: boolean; --controlled
+		fooMain_2: boolean; --controlled
+		fooMain_3: boolean; --controlled
+		moduloC_fooEnum_RR: boolean; --controlled
+		moduloC_fooEnum_ZZ: boolean; --controlled
+		--declaration of choose variables
+		var_$b_2: boolean;
+		var_$g_0: 1..3;
+		var_$h_0: 1..3;
+		var_$t_3: boolean;
+		var_$t_4: boolean;
+		var_$x_1: 1..3;
+	CONSTANTS MODULOC_ENUMDOMAIN_UNDEF, RR, ZZ, AGENTSB_AGENTB, AGENTSB_SUBAGENTB_UNDEF, AGENTSB_AGENTB, AGENTSA_AGENTA, AGENTSA_SUBAGENTA_UNDEF, AGENTSA_AGENTA;
+	ASSIGN
+		init(agentsA_fooA) := 1;
+		init(agentsB_fooB) := 1;
+		init(agentsB_fooBimp_1) := 1;
+		init(agentsB_fooBimp_2) := 2;
+		init(agentsB_fooBimp_3) := 3;
+		init(fooMain_1) := TRUE;
+		init(fooMain_2) := TRUE;
+		init(fooMain_3) := TRUE;
+		init(moduloC_fooEnum_RR) := TRUE;
+		init(moduloC_fooEnum_ZZ) := TRUE;
+		next(agentsA_fooA) :=
+			case
+				2 in {-2147483647, 1, 2, 3, 4}: 2;
+				TRUE: agentsA_fooA;
+			esac;
+		next(agentsB_fooB) :=
+			case
+				2 in {-2147483647, 1, 2, 3, 4, 5}: 2;
+				TRUE: agentsB_fooB;
+			esac;
+		next(agentsB_fooBimp_1) :=
+			case
+				1 in {-2147483647, 1, 2, 3}: 1;
+				TRUE: agentsB_fooBimp_1;
+			esac;
+		next(agentsB_fooBimp_2) :=
+			case
+				2 in {-2147483647, 1, 2, 3}: 2;
+				TRUE: agentsB_fooBimp_2;
+			esac;
+		next(agentsB_fooBimp_3) :=
+			case
+				3 in {-2147483647, 1, 2, 3}: 3;
+				TRUE: agentsB_fooBimp_3;
+			esac;
+		next(fooMainProd_1_1) :=
+			case
+				(var_$x_1 = 1): TRUE;
+				TRUE: fooMainProd_1_1;
+			esac;
+		next(fooMainProd_1_2) :=
+			case
+				((var_$g_0 = 1) & (var_$h_0 = 2)): FALSE;
+				TRUE: fooMainProd_1_2;
+			esac;
+		next(fooMainProd_1_3) :=
+			case
+				((var_$g_0 = 1) & (var_$h_0 = 3)): FALSE;
+				TRUE: fooMainProd_1_3;
+			esac;
+		next(fooMainProd_2_1) :=
+			case
+				((var_$h_0 = 1) & (var_$g_0 = 2)): FALSE;
+				TRUE: fooMainProd_2_1;
+			esac;
+		next(fooMainProd_2_2) :=
+			case
+				(var_$x_1 = 2): TRUE;
+				TRUE: fooMainProd_2_2;
+			esac;
+		next(fooMainProd_2_3) :=
+			case
+				((var_$h_0 = 3) & (var_$g_0 = 2)): FALSE;
+				TRUE: fooMainProd_2_3;
+			esac;
+		next(fooMainProd_3_1) :=
+			case
+				((var_$g_0 = 3) & (var_$h_0 = 1)): FALSE;
+				TRUE: fooMainProd_3_1;
+			esac;
+		next(fooMainProd_3_2) :=
+			case
+				((var_$g_0 = 3) & (var_$h_0 = 2)): FALSE;
+				TRUE: fooMainProd_3_2;
+			esac;
+		next(fooMainProd_3_3) :=
+			case
+				(var_$x_1 = 3): TRUE;
+				TRUE: fooMainProd_3_3;
+			esac;
+		next(fooMain_1) :=
+			case
+				(!(var_$b_2) & (var_$x_1 = 1)): FALSE;
+				(var_$b_2 & (var_$x_1 = 1)): TRUE;
+				TRUE: fooMain_1;
+			esac;
+		next(fooMain_2) :=
+			case
+				(var_$b_2 & (var_$x_1 = 2)): TRUE;
+				(!(var_$b_2) & (var_$x_1 = 2)): FALSE;
+				TRUE: fooMain_2;
+			esac;
+		next(fooMain_3) :=
+			case
+				(!(var_$b_2) & (var_$x_1 = 3)): FALSE;
+				(var_$b_2 & (var_$x_1 = 3)): TRUE;
+				TRUE: fooMain_3;
+			esac;
+		next(moduloC_fooEnum_RR) :=
+			case
+				(var_$t_3): TRUE;
+				(!(var_$t_3)): FALSE;
+				TRUE: moduloC_fooEnum_RR;
+			esac;
+		next(moduloC_fooEnum_ZZ) :=
+			case
+				(var_$t_4): TRUE;
+				(!(var_$t_4)): FALSE;
+				TRUE: moduloC_fooEnum_ZZ;
+			esac;
+	INVAR	(((var_$h_0 = 1) & (var_$g_0 = 2)) | ((var_$g_0 = 3) & (var_$h_0 = 1)) | ((var_$g_0 = 3) & (var_$h_0 = 2)) | ((var_$g_0 = 1) & (var_$h_0 = 3)) | ((var_$g_0 = 1) & (var_$h_0 = 2)) | ((var_$h_0 = 3) & (var_$g_0 = 2)));
+	INVAR	((var_$x_1 = 1) | (var_$x_1 = 2) | (var_$x_1 = 3));
+	INVAR	((((!(var_$b_2) & (var_$x_1 = 1)) | (var_$b_2 & (var_$x_1 = 1))) | ((var_$b_2 & (var_$x_1 = 2)) | (!(var_$b_2) & (var_$x_1 = 2)))) | ((!(var_$b_2) & (var_$x_1 = 3)) | (var_$b_2 & (var_$x_1 = 3))));
+--CTL properties
+CTLSPEC NAME ctl0 := EF(((fooMain_1 & !(fooMain_2)) & !(fooMain_3)));
+CTLSPEC NAME ctl1 := EF((!(moduloC_fooEnum_RR) & moduloC_fooEnum_ZZ));
+CTLSPEC NAME ctl2 := AG((fooMainProd_1_1 <-> AG(fooMainProd_1_1)));
+CTLSPEC NAME ctl3 := AG((fooMainProd_2_2 <-> AG(fooMainProd_2_2)));
+CTLSPEC NAME ctl4 := AG((fooMainProd_3_3 <-> AG(fooMainProd_3_3)));
+CTLSPEC NAME ctl5 := EF(((((!(fooMainProd_2_1) & (!(fooMainProd_1_3) & !(fooMainProd_1_2))) & !(fooMainProd_2_3)) & !(fooMainProd_3_1)) & !(fooMainProd_3_2)));
+CTLSPEC NAME ctl6 := AG(((agentsB_fooBimp_2 <= 2) & (agentsB_fooBimp_1 <= 1)));

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.asmeta.animator.feature"
+      label="Asmeta Animator"
+      version="0.0.10"
+      provider-name="fmse.di.unimi.it">
+
+   <description url="fmse.di.unimi.it/asmetaanimator/description">
+      See http://asmeta.sourceforge.net/
+   </description>
+
+   <copyright url="http://fmse.di.unimi.it/asmetaanimator/copyright">
+      See http://asmeta.sourceforge.net/
+   </copyright>
+
+   <license url="http://fmse.di.unimi.it/asmetaanimator/license">
+      Eclipse Public License
+See http://asmeta.sourceforge.net/
+   </license>
+
+   <url>
+      <update label="Asmeta" url="http://svn.code.sf.net/p/asmeta/code/code/stable/asmeta_update"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.ui" version="3.107.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore" version="2.11.1" match="greaterOrEqual"/>
+      <import plugin="org.junit"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.xtext.xbase.lib"/>
+      <import plugin="org.eclipse.xtend.lib"/>
+      <import plugin="org.eclipse.xtend.lib.macro"/>
+      <import plugin="org.eclipse.swt"/>
+   </requires>
+
+   <plugin
+         id="asmeta.animator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="asmeta.animator.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

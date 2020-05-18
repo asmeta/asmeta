@@ -1,0 +1,51 @@
+--file examples\implies.smv
+MODULE main
+	VAR
+		foo: boolean; --controlled
+		fooA: boolean; --controlled
+		fooB: boolean; --controlled
+		fooC: boolean; --controlled
+		fooD: boolean; --controlled
+		fooE: boolean; --controlled
+		fooF: boolean; --controlled
+		fooG: boolean; --controlled
+		fooH: boolean; --controlled
+		monA: boolean; --monitored
+		monB: boolean; --monitored
+	DEFINE
+	ASSIGN
+		init(foo) := (monA -> monB);
+		init(fooA) := TRUE;
+		init(fooB) := TRUE;
+		init(fooC) := FALSE;
+		init(fooD) := TRUE;
+		init(fooE) := TRUE;
+		init(fooF) := TRUE;
+		init(fooG) := !(monB);
+		init(fooH) := monA;
+		next(foo) := (monA -> monB);
+		next(fooA) := TRUE;
+		next(fooB) := TRUE;
+		next(fooC) := FALSE;
+		next(fooD) := TRUE;
+		next(fooE) := TRUE;
+		next(fooF) := TRUE;
+		next(fooG) := !(monB);
+		next(fooH) := monA;
+--CTL properties
+CTLSPEC NAME ctl0 := AG(TRUE);
+CTLSPEC NAME ctl1 := AG(TRUE);
+CTLSPEC NAME ctl2 := AG(TRUE);
+CTLSPEC NAME ctl3 := AG(TRUE);
+CTLSPEC NAME ctl4 := AG(((monA -> monB) = (monB | !(monA))));
+CTLSPEC NAME ctl5 := AG(fooA);
+CTLSPEC NAME ctl6 := AG(fooB);
+CTLSPEC NAME ctl7 := AG(!(fooC));
+CTLSPEC NAME ctl8 := AG(fooD);
+CTLSPEC NAME ctl9 := AG(fooE);
+CTLSPEC NAME ctl10 := AG(fooF);
+CTLSPEC NAME ctl11 := AG(EF(fooG));
+CTLSPEC NAME ctl12 := AG(EF(!(fooG)));
+CTLSPEC NAME ctl13 := AG(EF(fooH));
+CTLSPEC NAME ctl14 := AG(EF(!(fooH)));
+CTLSPEC NAME ctl15 := AG((!(monA & !(monB)) <-> AX(foo)));

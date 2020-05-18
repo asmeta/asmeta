@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: AsmetaTGT Ui
+Bundle-SymbolicName: asmeta.atgt.ui;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: asmeta.atgt.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: asmeta.atgt;bundle-version="1.0.0",
+ org.eclipse.equinox.registry,
+ org.eclipse.debug.core,
+ org.eclipse.ui.workbench,
+ org.eclipse.jface,
+ org.eclipse.debug.ui,
+ org.eclipse.core.jobs,
+ org.eclipse.swt,
+ javax.inject,
+ org.eclipse.ui.ide,
+ org.junit
+Export-Package: org.asmeta.atgt.generator.ui

@@ -1,0 +1,47 @@
+;;Proof of refinement from incrementNonRefinementAbstract to incrementNonRefinementRefinement
+;; functions - state 0
+(define x00::int)
+(define refinedInitState::bool (= x00 0))
+
+;;versione con controllate non linkate dentro all'exists
+(define initState::(-> bool bool) (lambda (stop00::bool) (and (= x00 0) stop00)))
+(define existsAbstractInitState::bool (or (initState false) (initState true)))
+
+;;versione con controllate non linkate fuori dall'exists
+;;(define stop00::bool)
+;;(define existsAbstractInitState::bool (and (= x00 0) stop00))
+
+(assert (not (=> refinedInitState existsAbstractInitState)))
+(set-evidence! true)
+(check)
+;; Initial states are conformant.
+
+
+
+(reset)
+(set-evidence! false)
+;; functions - state 0
+(define x00::int)
+(define x01::int)
+(define refinedStep::bool (= x01 (+ x00 1)))
+
+;;versione con controllate non linkate fuori dall'exists (segnala correttamente che il raffinamento non vale)
+;;(define stop00::bool)
+;;(define stop01::bool)
+;;(define existsAbstractStep::bool (and (if stop00 (not stop01) (and (= x01 (+ x00 1)) stop01)) (=> (not (not stop00)) (= x00 x01))))
+
+;;versione con controllate non linkate (stato corrente e successivo) dentro l'exists (segnala in modo errato che il raffinamento vale)
+;;(define abstractStep::(-> bool bool bool) (lambda (stop00::bool stop01::bool) (and (if stop00 (not stop01) (and (= x01 (+ x00 1)) stop01)) (=> (not (not stop00)) (= x00 x01)))))
+;;(define existsAbstractStep::bool (or (abstractStep false false) (abstractStep false true) (abstractStep true false) (abstractStep true true)))
+
+;;VERSIONE USATA NELL'ARTICOLO
+;;versione con controllate non linkate (solo stato successivo) dentro l'exists (segnala in modo corretto che il raffinamento non vale)
+(define stop00::bool)
+(define abstractStep::(-> bool bool) (lambda (stop01::bool) (and (if stop00 (not stop01) (and (= x01 (+ x00 1)) stop01)) (=> (not (not stop00)) (= x00 x01)))))
+(define existsAbstractStep::bool (or (abstractStep false) (abstractStep true)))
+
+(define stutteringState::bool (= x00 x01))
+(assert (not (=> refinedStep (or existsAbstractStep stutteringState))))
+(set-evidence! true)
+(check)
+;; Generic step is not conformant.

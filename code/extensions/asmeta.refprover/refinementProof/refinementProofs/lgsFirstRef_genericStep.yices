@@ -1,0 +1,65 @@
+(define-type HandleStatus(scalar UP DOWN HandleStatusUNDEF))
+(define-type DoorStatus(scalar CLOSED OPENING OPEN CLOSING DoorStatusUNDEF))
+(define-type GearStatus(scalar RETRACTED EXTENDING EXTENDED RETRACTING GearStatusUNDEF))
+;; functions - state 0
+(define handle0::HandleStatus)
+(define doors0::DoorStatus)
+(define gears0::GearStatus)
+(check)
+;; sat
+;; functions state 1
+;; new controlled functions for next state - step 0
+(define gears1::GearStatus)
+(define doors1::DoorStatus)
+;; logic variables - step 0
+;; rules state 0
+(assert (if (= handle0 UP) (if (/= gears0 RETRACTED) (and (=> (= doors0 CLOSED) (= doors1 OPENING)) (=> (= doors0 CLOSING) (= doors1 OPENING)) (=> (= doors0 OPENING) (= doors1 OPEN)) (=> (= doors0 OPEN) (and (=> (= gears0 EXTENDED) (= gears1 RETRACTING)) (=> (= gears0 RETRACTING) (= gears1 RETRACTED)) (=> (= gears0 EXTENDING) (= gears1 RETRACTING))))) (and (=> (= doors0 OPEN) (= doors1 CLOSING)) (=> (= doors0 CLOSING) (= doors1 CLOSED)) (=> (= doors0 OPENING) (= doors1 CLOSING)))) (if (/= gears0 EXTENDED) (and (=> (= doors0 CLOSED) (= doors1 OPENING)) (=> (= doors0 OPENING) (= doors1 OPEN)) (=> (= doors0 CLOSING) (= doors1 OPENING)) (=> (= doors0 OPEN) (and (=> (= gears0 RETRACTED) (= gears1 EXTENDING)) (=> (= gears0 EXTENDING) (= gears1 EXTENDED)) (=> (= gears0 RETRACTING) (= gears1 EXTENDING))))) (and (=> (= doors0 OPEN) (= doors1 CLOSING)) (=> (= doors0 CLOSING) (= doors1 CLOSED)) (=> (= doors0 OPENING) (= doors1 CLOSING))))))
+;; unchanged functions - state 0
+(assert (=> (not (or (and (= handle0 UP) (/= gears0 RETRACTED) (= doors0 CLOSED)) (and (= handle0 UP) (/= gears0 RETRACTED) (= doors0 CLOSING)) (and (= handle0 UP) (/= gears0 RETRACTED) (= doors0 OPENING)) (and (= handle0 UP) (not (/= gears0 RETRACTED)) (= doors0 OPEN)) (and (= handle0 UP) (not (/= gears0 RETRACTED)) (= doors0 CLOSING)) (and (= handle0 UP) (not (/= gears0 RETRACTED)) (= doors0 OPENING)) (and (not (= handle0 UP)) (/= gears0 EXTENDED) (= doors0 CLOSED)) (and (not (= handle0 UP)) (/= gears0 EXTENDED) (= doors0 OPENING)) (and (not (= handle0 UP)) (/= gears0 EXTENDED) (= doors0 CLOSING)) (and (not (= handle0 UP)) (not (/= gears0 EXTENDED)) (= doors0 OPEN)) (and (not (= handle0 UP)) (not (/= gears0 EXTENDED)) (= doors0 CLOSING)) (and (not (= handle0 UP)) (not (/= gears0 EXTENDED)) (= doors0 OPENING)))) (= doors0 doors1)))
+(assert (=> (not (or (and (= handle0 UP) (/= gears0 RETRACTED) (= doors0 OPEN) (= gears0 EXTENDED)) (and (= handle0 UP) (/= gears0 RETRACTED) (= doors0 OPEN) (= gears0 RETRACTING)) (and (= handle0 UP) (/= gears0 RETRACTED) (= doors0 OPEN) (= gears0 EXTENDING)) (and (not (= handle0 UP)) (/= gears0 EXTENDED) (= doors0 OPEN) (= gears0 RETRACTED)) (and (not (= handle0 UP)) (/= gears0 EXTENDED) (= doors0 OPEN) (= gears0 EXTENDING)) (and (not (= handle0 UP)) (/= gears0 EXTENDED) (= doors0 OPEN) (= gears0 RETRACTING)))) (= gears0 gears1)))
+(check)
+;; sat
+(define-type CylinderStatus(scalar CYLINDER_RETRACTED CYLINDER_EXTENDING CYLINDER_EXTENDED CYLINDER_RETRACTING CylinderStatusUNDEF))
+;; functions - state 0
+(define handler0::HandleStatus)
+(define doorsr0::DoorStatus)
+(define gearsr0::GearStatus)
+(define cylindersDoorsr0::CylinderStatus)
+(define cylindersGearsr0::CylinderStatus)
+(define generalElectroValver0::bool)
+(define openDoorsElectroValver0::bool)
+(define closeDoorsElectroValver0::bool)
+(define retractGearsElectroValver0::bool)
+(define extendGearsElectroValver0::bool)
+;; derived functions definitions - state 0
+(assert (= cylindersDoorsr0 (if (= doorsr0 OPEN) CYLINDER_EXTENDED (if (= doorsr0 OPENING) CYLINDER_EXTENDING (if (= doorsr0 CLOSING) CYLINDER_RETRACTING (if (= doorsr0 CLOSED) CYLINDER_RETRACTED CYLINDER_RETRACTED))))))
+(assert (= cylindersGearsr0 (if (= gearsr0 RETRACTED) CYLINDER_RETRACTED (if (= gearsr0 EXTENDING) CYLINDER_EXTENDING (if (= gearsr0 EXTENDED) CYLINDER_EXTENDED (if (= gearsr0 RETRACTING) CYLINDER_RETRACTING CYLINDER_RETRACTING))))))
+(check)
+;; sat
+;; functions state 1
+;; new controlled functions for next state - step 0
+(define gearsr1::GearStatus)
+(define doorsr1::DoorStatus)
+(define retractGearsElectroValver1::bool)
+(define extendGearsElectroValver1::bool)
+(define openDoorsElectroValver1::bool)
+(define closeDoorsElectroValver1::bool)
+(define generalElectroValver1::bool)
+;; logic variables - step 0
+;; rules state 0
+(assert (if (= handler0 UP) (if (/= gearsr0 RETRACTED) (and (=> (= doorsr0 CLOSED) (and (= generalElectroValver1 true) (= openDoorsElectroValver1 true) (= doorsr1 OPENING))) (=> (= doorsr0 CLOSING) (and (= closeDoorsElectroValver1 false) (= openDoorsElectroValver1 true) (= doorsr1 OPENING))) (=> (= doorsr0 OPENING) (and (= openDoorsElectroValver1 false) (= doorsr1 OPEN))) (=> (= doorsr0 OPEN) (and (=> (= gearsr0 EXTENDED) (and (= retractGearsElectroValver1 true) (= gearsr1 RETRACTING))) (=> (= gearsr0 RETRACTING) (and (= retractGearsElectroValver1 false) (= gearsr1 RETRACTED))) (=> (= gearsr0 EXTENDING) (and (= extendGearsElectroValver1 false) (= retractGearsElectroValver1 true) (= gearsr1 RETRACTING)))))) (and (=> (= doorsr0 OPEN) (and (= closeDoorsElectroValver1 true) (= doorsr1 CLOSING))) (=> (= doorsr0 CLOSING) (and (= generalElectroValver1 false) (= closeDoorsElectroValver1 false) (= doorsr1 CLOSED))) (=> (= doorsr0 OPENING) (and (= closeDoorsElectroValver1 true) (= openDoorsElectroValver1 false) (= doorsr1 CLOSING))))) (if (/= gearsr0 EXTENDED) (and (=> (= doorsr0 CLOSED) (and (= generalElectroValver1 true) (= openDoorsElectroValver1 true) (= doorsr1 OPENING))) (=> (= doorsr0 OPENING) (and (= openDoorsElectroValver1 false) (= doorsr1 OPEN))) (=> (= doorsr0 CLOSING) (and (= closeDoorsElectroValver1 false) (= openDoorsElectroValver1 true) (= doorsr1 OPENING))) (=> (= doorsr0 OPEN) (and (=> (= gearsr0 RETRACTED) (and (= extendGearsElectroValver1 true) (= gearsr1 EXTENDING))) (=> (= gearsr0 EXTENDING) (and (= extendGearsElectroValver1 false) (= gearsr1 EXTENDED))) (=> (= gearsr0 RETRACTING) (and (= extendGearsElectroValver1 true) (= retractGearsElectroValver1 false) (= gearsr1 EXTENDING)))))) (and (=> (= doorsr0 OPEN) (and (= closeDoorsElectroValver1 true) (= doorsr1 CLOSING))) (=> (= doorsr0 CLOSING) (and (= generalElectroValver1 false) (= closeDoorsElectroValver1 false) (= doorsr1 CLOSED))) (=> (= doorsr0 OPENING) (and (= closeDoorsElectroValver1 true) (= openDoorsElectroValver1 false) (= doorsr1 CLOSING)))))))
+;; unchanged functions - state 0
+(assert (=> (not (or (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 CLOSING)) (and (= handler0 UP) (not (/= gearsr0 RETRACTED)) (= doorsr0 OPEN)) (and (= handler0 UP) (not (/= gearsr0 RETRACTED)) (= doorsr0 CLOSING)) (and (= handler0 UP) (not (/= gearsr0 RETRACTED)) (= doorsr0 OPENING)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 CLOSING)) (and (not (= handler0 UP)) (not (/= gearsr0 EXTENDED)) (= doorsr0 OPEN)) (and (not (= handler0 UP)) (not (/= gearsr0 EXTENDED)) (= doorsr0 CLOSING)) (and (not (= handler0 UP)) (not (/= gearsr0 EXTENDED)) (= doorsr0 OPENING)))) (= closeDoorsElectroValver0 closeDoorsElectroValver1)))
+(assert (=> (not (or (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 OPEN) (= gearsr0 EXTENDED)) (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 OPEN) (= gearsr0 RETRACTING)) (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 OPEN) (= gearsr0 EXTENDING)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 OPEN) (= gearsr0 RETRACTING)))) (= retractGearsElectroValver0 retractGearsElectroValver1)))
+(assert (=> (not (or (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 OPEN) (= gearsr0 EXTENDED)) (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 OPEN) (= gearsr0 RETRACTING)) (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 OPEN) (= gearsr0 EXTENDING)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 OPEN) (= gearsr0 RETRACTED)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 OPEN) (= gearsr0 EXTENDING)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 OPEN) (= gearsr0 RETRACTING)))) (= gearsr0 gearsr1)))
+(assert (=> (not (or (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 CLOSED)) (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 CLOSING)) (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 OPENING)) (and (= handler0 UP) (not (/= gearsr0 RETRACTED)) (= doorsr0 OPENING)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 CLOSED)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 OPENING)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 CLOSING)) (and (not (= handler0 UP)) (not (/= gearsr0 EXTENDED)) (= doorsr0 OPENING)))) (= openDoorsElectroValver0 openDoorsElectroValver1)))
+(assert (=> (not (or (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 OPEN) (= gearsr0 EXTENDING)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 OPEN) (= gearsr0 RETRACTED)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 OPEN) (= gearsr0 EXTENDING)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 OPEN) (= gearsr0 RETRACTING)))) (= extendGearsElectroValver0 extendGearsElectroValver1)))
+(assert (=> (not (or (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 CLOSED)) (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 CLOSING)) (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 OPENING)) (and (= handler0 UP) (not (/= gearsr0 RETRACTED)) (= doorsr0 OPEN)) (and (= handler0 UP) (not (/= gearsr0 RETRACTED)) (= doorsr0 CLOSING)) (and (= handler0 UP) (not (/= gearsr0 RETRACTED)) (= doorsr0 OPENING)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 CLOSED)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 OPENING)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 CLOSING)) (and (not (= handler0 UP)) (not (/= gearsr0 EXTENDED)) (= doorsr0 OPEN)) (and (not (= handler0 UP)) (not (/= gearsr0 EXTENDED)) (= doorsr0 CLOSING)) (and (not (= handler0 UP)) (not (/= gearsr0 EXTENDED)) (= doorsr0 OPENING)))) (= doorsr0 doorsr1)))
+(assert (=> (not (or (and (= handler0 UP) (/= gearsr0 RETRACTED) (= doorsr0 CLOSED)) (and (= handler0 UP) (not (/= gearsr0 RETRACTED)) (= doorsr0 CLOSING)) (and (not (= handler0 UP)) (/= gearsr0 EXTENDED) (= doorsr0 CLOSED)) (and (not (= handler0 UP)) (not (/= gearsr0 EXTENDED)) (= doorsr0 CLOSING)))) (= generalElectroValver0 generalElectroValver1)))
+(check)
+;; sat
+;; Generic step proof
+(assert (not (=> (and (= gears0 gearsr0) (= doors0 doorsr0) (= handle0 handler0)) (or (and (= gears0 gearsr1) (= doors0 doorsr1)) (and (= gears1 gearsr1) (= doors1 doorsr1))))))
+(check)
+;; unsat
+;; Generic step is conformant.

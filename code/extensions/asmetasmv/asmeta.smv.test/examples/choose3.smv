@@ -1,0 +1,36 @@
+--file examples\choose3.smv
+MODULE main
+	VAR
+		var_a: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_b: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_c: {-2147483647, 1, 2, 3, 4}; --controlled
+		--declaration of choose variables
+		var_$k_1: 1..4;
+		var_$m_5: 1..4;
+		var_$n_4: 1..4;
+		var_$x_2: 1..4;
+		var_$y_3: 1..4;
+		var_$z_0: 1..4;
+	ASSIGN
+		init(var_a) := 1;
+		init(var_b) := 3;
+		init(var_c) := 2;
+		next(var_a) :=
+			case
+				1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: var_a;
+			esac;
+		next(var_b) :=
+			case
+				(var_$x_2 = 1) & 3 in {-2147483647, 1, 2, 3, 4}: 3;
+				TRUE: var_b;
+			esac;
+		next(var_c) :=
+			case
+				((var_$n_4 = 1) & (var_$m_5 = 4)) & 2 in {-2147483647, 1, 2, 3, 4}: 2;
+				TRUE: var_c;
+			esac;
+	INVAR	(var_$x_2 = 1);
+	INVAR	(var_$n_4 = 1);
+--CTL properties
+CTLSPEC NAME ctl0 := AG((((var_b = 3) & (var_a = 1)) & (var_c = 2)));

@@ -25,5 +25,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.emf"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.parser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.simulator"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

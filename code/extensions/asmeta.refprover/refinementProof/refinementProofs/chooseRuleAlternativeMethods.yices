@@ -1,0 +1,51 @@
+(echo "correct refinement from chooseAbstract.asm to chooseRefined.asm\n")
+(echo "version with two choose variables and equality of the variables in the abstract step\n")
+;; functions - state 0
+(define x00::(subrange 1 3))
+(define x01::(subrange 1 3))
+(define x0State0::(subrange 1 2))
+(define abs_x0State0::(subrange 1 3))
+;; Generic step proof
+(assert (not (=> (= x01 x0State0) (or (and (= x01 abs_x0State0) (= x0State0 abs_x0State0)) (= x00 x01)))))
+(check)
+;; sat
+;; Generic step is not conformant.
+
+(reset)
+(echo "version with only one choose variable and formulae representing the different intervals added to the steps\n")
+;; functions - state 0
+(define x00::(subrange 1 3))
+(define x01::(subrange 1 3))
+(define x0State0::(subrange 1 3))
+;; Generic step proof
+(assert (not (=> (and (= x01 x0State0) (<= x0State0 2) (<= 1 x0State0)) (or (and (= x01 x0State0) (<= x0State0 3) (<= 1 x0State0)) (= x00 x01)))))
+(check)
+;; unsat
+;; Generic step is conformant.
+
+
+(reset)
+(echo "\nnon-correct refinement from chooseAbstractNoCorrectRef.asm to chooseRefinedNoCorrectRef.asm\n")
+(echo "version with two choose variables and equality of the variables in the abstract step\n")
+;; functions - state 0
+(define x00::(subrange 1 3))
+(define x01::(subrange 1 3))
+(define x0State0::(subrange 1 3))
+(define abs_x0State0::(subrange 1 2))
+;; Generic step proof
+(assert (not (=> (= x01 x0State0) (or (and (= x01 abs_x0State0) (= x0State0 abs_x0State0)) (= x00 x01)))))
+(check)
+;; sat
+;; Generic step is not conformant.
+
+(reset)
+(echo "version with only one choose variable and formulae representing the different intervals added to the steps\n")
+;; functions - state 0
+(define x00::(subrange 1 3))
+(define x01::(subrange 1 3))
+(define x0State0::(subrange 1 3))
+;; Generic step proof
+(assert (not (=> (and (= x01 x0State0) (<= x0State0 3) (<= 1 x0State0)) (or (and (= x01 x0State0) (<= x0State0 2) (<= 1 x0State0)) (= x00 x01)))))
+(check)
+;; sat
+;; Generic step is not conformant.

@@ -1,0 +1,91 @@
+--file examples\derivedCtlCheck.smv
+MODULE main
+	VAR
+		foo: {-2147483647, 1, 2, 3, 4}; --controlled
+		mon1: boolean; --monitored
+		mon2: boolean; --monitored
+	DEFINE
+		der_NotEx :=
+			case
+				mon1 & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: -2147483647;
+			esac;
+		der_NotExEnumDom_FALSE :=
+			case
+				!(mon1): CC;
+				mon1: BB;
+				TRUE: ENUMDOM_UNDEF;
+			esac;
+		der_NotExEnumDom_TRUE :=
+			case
+				mon1: AA;
+				TRUE: ENUMDOM_UNDEF;
+			esac;
+		der_Switch :=
+			case
+				!(mon1): TRUE;
+				mon1: FALSE;
+				TRUE: FALSE;
+			esac;
+		der_der := der_func;
+		der_doubleif :=
+			case
+				(!(mon1) & !(mon2)): FALSE;
+				(mon1 & !(mon2)): TRUE;
+				(mon2 & !(mon1)): TRUE;
+				(mon2 & mon1): FALSE;
+				TRUE: FALSE;
+			esac;
+		der_doubleswitch :=
+			case
+				(!(mon1) & !(mon2)): FALSE;
+				(mon1 & !(mon2)): TRUE;
+				(mon2 & !(mon1)): TRUE;
+				(mon2 & mon1): FALSE;
+				TRUE: FALSE;
+			esac;
+		der_func :=
+			case
+				!(mon1): FALSE;
+				mon1: TRUE;
+				TRUE: FALSE;
+			esac;
+		der_ifswitch :=
+			case
+				(!(mon1) & !(mon2)): FALSE;
+				(mon1 & !(mon2)): TRUE;
+				(mon2 & !(mon1)): TRUE;
+				(mon2 & mon1): FALSE;
+				TRUE: FALSE;
+			esac;
+		der_switchif :=
+			case
+				(!(mon1) & !(mon2)): FALSE;
+				(mon1 & !(mon2)): TRUE;
+				(mon2 & !(mon1)): TRUE;
+				(mon2 & mon1): FALSE;
+				TRUE: FALSE;
+			esac;
+	CONSTANTS ENUMDOM_UNDEF, AA, BB, CC;
+	ASSIGN
+		init(foo) := -2147483647;
+		next(foo) :=
+			case
+				(der_func) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: foo;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG((der_func = mon1));
+CTLSPEC NAME ctl1 := AG(TRUE);
+CTLSPEC NAME ctl2 := AG((der_Switch = !(mon1)));
+CTLSPEC NAME ctl3 := AG(((der_doubleif = mon1) xor mon2));
+CTLSPEC NAME ctl4 := AG(((der_ifswitch = mon1) xor mon2));
+CTLSPEC NAME ctl5 := AG(((der_switchif = mon1) xor mon2));
+CTLSPEC NAME ctl6 := AG(((der_doubleswitch = mon1) xor mon2));
+CTLSPEC NAME ctl7 := AG((der_der = der_func));
+CTLSPEC NAME ctl8 := AG(((der_NotEx = 1) <-> mon1));
+CTLSPEC NAME ctl9 := AG(((der_NotEx = -2147483647) <-> !(mon1)));
+CTLSPEC NAME ctl10 := AG(((der_NotExEnumDom_TRUE = AA) <-> mon1));
+CTLSPEC NAME ctl11 := AG(((der_NotExEnumDom_TRUE = ENUMDOM_UNDEF) <-> !(mon1)));
+CTLSPEC NAME ctl12 := AG(((der_NotExEnumDom_FALSE = BB) <-> mon1));
+CTLSPEC NAME ctl13 := AG(((der_NotExEnumDom_FALSE = CC) <-> !(mon1)));

@@ -1,0 +1,13 @@
+--file examples\condUpdate.smv
+MODULE main
+	VAR
+		foo: {AA, BB, CC, ENUMDOM_UNDEF}; --controlled
+		mon: boolean; --monitored
+	CONSTANTS ENUMDOM_UNDEF, AA, BB, CC;
+	ASSIGN
+		init(foo) := BB;
+		next(foo) :=
+			case
+				(mon): AA;
+				TRUE: foo;
+			esac;

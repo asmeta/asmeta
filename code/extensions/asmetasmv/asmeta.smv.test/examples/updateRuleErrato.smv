@@ -1,0 +1,6 @@
+MODULE main
+	VAR
+		foo: 1..4;
+	ASSIGN
+		init(foo) := 1;
+		next(foo):= foo + 1;

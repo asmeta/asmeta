@@ -1,0 +1,30 @@
+--La teoria della CTL dice che
+--AG(not(phi)) <-> not(EF(phi))
+--Quindi mi aspetto che, se AG(not(phi)) e' false, EF(phi)
+--sia true (perche' not(EF(phi)) e' false).
+--In NuSMV, pero', le proprieta' per essere verificate devono
+--essere vere in tutti gli stati iniziali.
+--Il modello qui sotto ha due stati iniziali: quello in cui cond
+--vale true e quello in cui cond vale false.
+--Cond mantiene sempre il valore assunto nello stato iniziale.
+--La variabile foo incrementa il valore solo se cond e' vera.
+MODULE main
+	VAR
+		foo: 1..4;
+		cond: boolean;
+	ASSIGN
+		init(foo) := 1;
+		next(foo):=
+			case
+				cond & foo < 4: foo + 1;
+				TRUE: 1;
+			esac;
+		next(cond) := cond;
+SPEC	AG(foo != 1); --false: ovvio, foo vale 1 almeno in uno stato iniziale (in realta' in tutti)
+SPEC	AG(foo != 2); --false: se cond e' true, foo puo' diventare 2
+SPEC	AG(foo != 3); --false: se cond e' true, foo puo' diventare 3
+SPEC	AG(foo != 4); --false: se cond e' true, foo puo' diventare 4
+SPEC	EF(foo = 1); --true: ovvio, foo vale 1 almeno in tutti gli stati iniziali
+SPEC	EF(foo = 2); --false: se cond e' false foo non diventa mai 2. C'e' uno stato iniziale (cond = false) a partire dal quale la proprieta' e' falsa
+SPEC	EF(foo = 3); --false: se cond e' false foo non diventa mai 3. Come sopra.
+SPEC	EF(foo = 4); --false: se cond e' false foo non diventa mai 4. Come sopra.

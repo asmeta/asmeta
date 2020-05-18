@@ -1,0 +1,10 @@
+MODULE main
+	VAR
+		foo: {1, 2, 3, 4, -2147483647}; --controlled
+	ASSIGN
+		init(foo) := 1;
+		next(foo) :=
+			case
+				foo + 1 in {1, 2, 3, 4, -2147483647}: foo + 1;
+				TRUE: foo;
+			esac;

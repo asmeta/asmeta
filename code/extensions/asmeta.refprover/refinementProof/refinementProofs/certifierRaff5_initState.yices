@@ -1,0 +1,35 @@
+;;Proof of refinement from certifierRaff4 to certifierRaff5ForSMTproof
+(define-type Shapes(scalar AAA BBB CCC DDD ShapesUNDEF))
+(define-type AnswersRaff5(scalar UNDEFA SKIP_RAFF5 EXIT_RAFF5 AA_RAFF5 BB_RAFF5 CC_RAFF5 DD_RAFF5 AnswersRaff5UNDEF))
+(define-type OutMessageRaff5(scalar UNDEFM CERTIFICATERAFF5 NOTCERTIFICATERAFF5 OutMessageRaff5UNDEF))
+(define-type Answers(scalar SKIP EXIT AA BB CC DD AnswersUNDEF))
+(define-type OutMessage(scalar CERTIFICATE NOTCERTIFICATE OutMessageUNDEF))
+;; functions - state 0
+(define levelCertificate00::(subrange 1 7))
+(define outMessageRaff500::OutMessageRaff5)
+(define currentAnswerRaff500::AnswersRaff5)
+(define test00::bool)
+(define levelTest00::(subrange 1 6))
+(define getAnswer00::AnswersRaff5)
+(define rightAnswer00::(subrange 0 2))
+(define answerError00::bool)
+(define answerSkip00::bool)
+(define loop00::bool)
+;; Initial state proof
+(define refinedInitState::bool (and test00 (= levelTest00 6) (= levelCertificate00 7) (= rightAnswer00 0) (not answerError00) (not answerSkip00) (not loop00) (= currentAnswerRaff500 UNDEFA) (= outMessageRaff500 UNDEFM)))
+;;(define existsAbstractInitState::bool
+;;	(exists
+;;		(outMessage00::OutMessage currentAnswer00::Answers)
+;;		(and
+;;			test00 (= levelTest00 6) (= levelCertificate00 7) (= rightAnswer00 0) (not answerError00) (not answerSkip00) (not loop00)
+;;			(= outMessage00 OutMessageUNDEF) (= currentAnswer00 AnswersUNDEF)
+;;		)
+;;	)
+;;)
+(define abstractInit::(-> OutMessage Answers bool) (lambda (outMessage00::OutMessage currentAnswer00::Answers) (and (= outMessage00 OutMessageUNDEF) (= currentAnswer00 AnswersUNDEF))))
+(define existsAbstractInitState::bool (or (abstractInit CERTIFICATE SKIP) (abstractInit CERTIFICATE EXIT) (abstractInit CERTIFICATE AA) (abstractInit CERTIFICATE BB) (abstractInit CERTIFICATE CC) (abstractInit CERTIFICATE DD) (abstractInit CERTIFICATE AnswersUNDEF) (abstractInit NOTCERTIFICATE SKIP) (abstractInit NOTCERTIFICATE EXIT) (abstractInit NOTCERTIFICATE AA) (abstractInit NOTCERTIFICATE BB) (abstractInit NOTCERTIFICATE CC) (abstractInit NOTCERTIFICATE DD) (abstractInit NOTCERTIFICATE AnswersUNDEF) (abstractInit OutMessageUNDEF SKIP) (abstractInit OutMessageUNDEF EXIT) (abstractInit OutMessageUNDEF AA) (abstractInit OutMessageUNDEF BB) (abstractInit OutMessageUNDEF CC) (abstractInit OutMessageUNDEF DD) (abstractInit OutMessageUNDEF AnswersUNDEF)))
+(assert (not (=> refinedInitState existsAbstractInitState)))
+(set-evidence! true)
+(check)
+;; unsat
+;; Initial states are conformant.

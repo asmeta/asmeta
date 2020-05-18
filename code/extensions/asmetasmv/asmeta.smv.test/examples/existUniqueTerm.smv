@@ -1,0 +1,47 @@
+--file examples\existUniqueTerm.smv
+MODULE main
+	VAR
+		fooA: boolean; --controlled
+		fooB: boolean; --controlled
+		foo_1: boolean; --controlled
+		foo_2: boolean; --controlled
+		foo_3: boolean; --controlled
+		var_a: {-2147483647, 1, 2, 3}; --controlled
+		--declaration of choose variables
+		var_$y_0: 1..3;
+	ASSIGN
+		init(fooA) := FALSE;
+		init(fooB) := FALSE;
+		init(foo_1) := FALSE;
+		init(foo_2) := FALSE;
+		init(foo_3) := FALSE;
+		init(var_a) := 2;
+		next(fooA) := (foo_1 xor foo_2 xor foo_3);
+		next(fooB) := (!(foo_1) xor !(foo_2) xor !(foo_3));
+		next(foo_1) :=
+			case
+				(var_$y_0 = 1): !(foo_1);
+				TRUE: foo_1;
+			esac;
+		next(foo_2) :=
+			case
+				(var_$y_0 = 2): !(foo_2);
+				TRUE: foo_2;
+			esac;
+		next(foo_3) :=
+			case
+				(var_$y_0 = 3): !(foo_3);
+				TRUE: foo_3;
+			esac;
+		next(var_a) :=
+			case
+				3 in {-2147483647, 1, 2, 3}: 3;
+				TRUE: var_a;
+			esac;
+	INVAR	((var_$y_0 = 3) | (var_$y_0 = 2) | (var_$y_0 = 1));
+--CTL properties
+CTLSPEC NAME ctl0 := (AX(AG((var_a = 3))) & (var_a = 2));
+CTLSPEC NAME ctl1 := EF(fooA);
+CTLSPEC NAME ctl2 := EF(fooB);
+CTLSPEC NAME ctl3 := EF(!(fooA));
+CTLSPEC NAME ctl4 := EF(!(fooB));

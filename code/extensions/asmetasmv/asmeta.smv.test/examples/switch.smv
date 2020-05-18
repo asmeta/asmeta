@@ -1,0 +1,26 @@
+--file examples\switch.smv
+MODULE main
+	VAR
+		var_a: {-2147483647, 1, 2, 3, 4}; --controlled
+		var_b: {-2147483647, 1, 2, 3, 4}; --controlled
+	ASSIGN
+		init(var_a) := 1;
+		init(var_b) := 1;
+		next(var_a) :=
+			case
+				(var_a = 1) & 2 in {-2147483647, 1, 2, 3, 4}: 2;
+				(var_a = 2) & 3 in {-2147483647, 1, 2, 3, 4}: 3;
+				(var_a = 3) & 4 in {-2147483647, 1, 2, 3, 4}: 4;
+				(var_a = 4) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: var_a;
+			esac;
+		next(var_b) :=
+			case
+				((var_a = 3) | ((var_a = 1) | (var_a = 2))) & 1 in {-2147483647, 1, 2, 3, 4}: 1;
+				((var_a != 1) & (var_a != 2) & (var_a != 3)) & 4 in {-2147483647, 1, 2, 3, 4}: 4;
+				TRUE: var_b;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG((((var_a = 4) <-> AX((var_a = 1))) & ((((var_a = 1) <-> AX((var_a = 2))) & ((var_a = 2) <-> AX((var_a = 3)))) & ((var_a = 3) <-> AX((var_a = 4))))));
+CTLSPEC NAME ctl1 := (AX((AX((AX((AX((var_b = 4)) & (var_b = 1))) & (var_b = 1))) & (var_b = 1))) & (var_b = 1));
+CTLSPEC NAME ctl2 := AG(((var_a != 4) <-> AX((var_b = 1))));

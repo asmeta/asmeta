@@ -1,0 +1,62 @@
+--file examples\map.smv
+MODULE main
+	VAR
+		aa_1: {-2147483647, 1, 2, 3, 4}; --controlled
+		aa_2: {-2147483647, 1, 2, 3, 4}; --controlled
+		aa_3: {-2147483647, 1, 2, 3, 4}; --controlled
+		aa_4: {-2147483647, 1, 2, 3, 4}; --controlled
+		cc_1: {-2147483647, 1, 2, 3, 4}; --controlled
+		cc_2: {-2147483647, 1, 2, 3, 4}; --controlled
+		cc_3: {-2147483647, 1, 2, 3, 4}; --controlled
+		cc_4: {-2147483647, 1, 2, 3, 4}; --controlled
+	ASSIGN
+		init(aa_1) := 4;
+		init(aa_2) := 3;
+		init(aa_3) := 2;
+		init(aa_4) := 1;
+		init(cc_1) := 4;
+		init(cc_2) := -2147483647;
+		init(cc_3) := -2147483647;
+		init(cc_4) := 1;
+		next(aa_1) :=
+			case
+				1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: aa_1;
+			esac;
+		next(aa_2) :=
+			case
+				2 in {-2147483647, 1, 2, 3, 4}: 2;
+				TRUE: aa_2;
+			esac;
+		next(aa_3) :=
+			case
+				3 in {-2147483647, 1, 2, 3, 4}: 3;
+				TRUE: aa_3;
+			esac;
+		next(aa_4) :=
+			case
+				4 in {-2147483647, 1, 2, 3, 4}: 4;
+				TRUE: aa_4;
+			esac;
+		next(cc_1) :=
+			case
+				1 in {-2147483647, 1, 2, 3, 4}: 1;
+				TRUE: cc_1;
+			esac;
+		next(cc_2) :=
+			case
+				2 in {-2147483647, 1, 2, 3, 4}: 2;
+				TRUE: cc_2;
+			esac;
+		next(cc_3) :=
+			case
+				3 in {-2147483647, 1, 2, 3, 4}: 3;
+				TRUE: cc_3;
+			esac;
+		next(cc_4) :=
+			case
+				4 in {-2147483647, 1, 2, 3, 4}: 4;
+				TRUE: cc_4;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := (((((aa_2 = 3) & (aa_1 = 4)) & (aa_3 = 2)) & (aa_4 = 1)) & AX(AG(((((aa_2 = 2) & (aa_1 = 1)) & (aa_3 = 3)) & (aa_4 = 4)))));

@@ -1,0 +1,52 @@
+(define-type EnumDom(scalar AA BB EnumDomUNDEF))
+;; functions - state 0
+(define foo0::(-> bool EnumDom))
+;; initial state
+(assert (and (= (foo0 false) AA) (= (foo0 true) AA)))
+(check)
+;; sat
+;; functions state 1
+;; new controlled functions for next state - step 0
+(define foo1::(-> bool EnumDom))
+;; logic variables - step 0
+;; rules state 0
+(assert
+	(=>
+		(or (= (foo0 false) AA) (= (foo0 true) AA))
+		(or
+			(and
+				(and
+					(= (foo0 false) AA)
+					(= (foo1 false) BB)
+				)
+				(not
+					(and
+						(= (foo0 true) AA)
+						(= (foo1 true) BB)
+					)
+				)
+			)
+			(and
+				(and
+					(= (foo0 true) AA)
+					(= (foo1 true) BB)
+				)
+				(not
+					(and
+						(= (foo0 false) AA)
+						(= (foo1 false) BB)
+					)
+				)
+			)
+		)
+	)
+)
+;; unchanged functions - state 0
+(assert (=> (not (= (foo0 true) AA)) (= (foo0 true) (foo1 true))))
+(assert (=> (not (= (foo0 false) AA)) (= (foo0 false) (foo1 false))))
+(check)
+;; sat
+
+(assert (not (or (and (= (foo1 false) BB) (= (foo1 true) AA)) (and (= (foo1 false) AA) (= (foo1 true) BB)))))
+(set-evidence! true)
+(check)

@@ -1,0 +1,38 @@
+--file examples\agentsChoose3.smv
+MODULE main
+	VAR
+		foo_AGENT1: {-2147483647, 1, 2, 3}; --controlled
+		foo_AGENT2: {-2147483647, 1, 2, 3}; --controlled
+		foo_AGENT3: {-2147483647, 1, 2, 3}; --controlled
+		--declaration of choose variables
+		var_$a_0: {AGENT1, AGENT2, AGENT3};
+	DEFINE
+	CONSTANTS AGENT1, AGENT2, AGENT3, SUBAGENT_UNDEF, AGENT1, AGENT2, AGENT3;
+	ASSIGN
+		init(foo_AGENT1) := 1;
+		init(foo_AGENT2) := 2;
+		init(foo_AGENT3) := 3;
+		next(foo_AGENT1) :=
+			case
+				((var_$a_0 = AGENT2) & (foo_AGENT2 = 2)) & foo_AGENT3 in {-2147483647, 1, 2, 3}: foo_AGENT3;
+				TRUE: foo_AGENT1;
+			esac;
+		next(foo_AGENT2) := foo_AGENT2;
+		next(foo_AGENT3) :=
+			case
+				((var_$a_0 = AGENT2) & (foo_AGENT2 = 2)) & foo_AGENT1 in {-2147483647, 1, 2, 3}: foo_AGENT1;
+				TRUE: foo_AGENT3;
+			esac;
+	INVAR	(((var_$a_0 = AGENT1) & (foo_AGENT1 = 2)) | (!(foo_AGENT2 = 2) & !(foo_AGENT1 = 2) & !(foo_AGENT3 = 2)) | ((foo_AGENT3 = 2) & (var_$a_0 = AGENT3)) | ((var_$a_0 = AGENT2) & (foo_AGENT2 = 2)));
+--CTL properties
+CTLSPEC NAME ctl0 := AG((foo_AGENT1 != foo_AGENT3));
+CTLSPEC NAME ctl1 := AG((foo_AGENT1 != 2));
+CTLSPEC NAME ctl2 := AG((foo_AGENT3 != 2));
+CTLSPEC NAME ctl3 := AG(((foo_AGENT1 = 1) <-> AX((foo_AGENT1 = 3))));
+CTLSPEC NAME ctl4 := AG(((foo_AGENT1 = 3) <-> AX((foo_AGENT1 = 1))));
+CTLSPEC NAME ctl5 := AG(((foo_AGENT3 = 1) <-> AX((foo_AGENT3 = 3))));
+CTLSPEC NAME ctl6 := AG(((foo_AGENT3 = 3) <-> AX((foo_AGENT3 = 1))));
+CTLSPEC NAME ctl7 := AG(((foo_AGENT1 = 1) <-> AX((foo_AGENT3 = 1))));
+CTLSPEC NAME ctl8 := AG(((foo_AGENT1 = 3) <-> AX((foo_AGENT3 = 3))));
+CTLSPEC NAME ctl9 := AG(((foo_AGENT3 = 1) <-> AX((foo_AGENT1 = 1))));
+CTLSPEC NAME ctl10 := AG(((foo_AGENT3 = 3) <-> AX((foo_AGENT1 = 3))));

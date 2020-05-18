@@ -1,0 +1,12 @@
+#!/bin/sh
+
+LIBS='../../asmeta_libs'
+CLASS='../../../workspace'
+CP="${CLASS}/jmi/bin;${CLASS}/parser/bin;${CLASS}/interpreter/bin;${CLASS}/validator/bin;\
+${LIBS}/jmi.jar;${LIBS}/log4j-1.2.14.jar;${LIBS}/nbmdr.jar;\
+${LIBS}/mdrapi.jar;${LIBS}/openide-util.jar;${LIBS}/jmiutils.jar;\
+${LIBS}/mof.jar"
+
+java -cp ${CP} org.asmeta.interpreter.AsmetaS -ne ${1} ${2} ${3} ${4} ${5}
+rm mdr.*
+

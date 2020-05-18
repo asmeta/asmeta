@@ -1,0 +1,406 @@
+scenario completeTherapyMCRef3
+
+//load ../../../HemodialysisRef3.asm
+load ../../../flattenedModels/HemodialysisRef3_flat.asm
+
+begin initStateEnd
+	check phase = PREPARATION;
+	check prepPhase = AUTO_TEST;
+	check rinsingParam = FILLING_BP_RATE;
+	check treatmentParam = BLOOD_CONDUCTIVITY;
+	check rinsePhase = CONNECT_DIALYZER;
+	check tubingSystemPhase = CONNECT_AV_TUBES;
+	check bp_status = STOP;
+	check dialyzer_connected_contr = false;
+	check machine_state = BYPASS;
+	check preparing_DF = false;
+	check bic_ac_contr = BICARBONATE;
+	check (forall $t in AlarmErrorType with error($t) = false);
+	check (forall $x in AlarmErrorType with alarm($x) = false);
+	check signal_lamp= YELLOW;
+	check limits_tmp_contr = false;
+	check extended_tmp_limit_contr = false;
+	check activation_h_contr = false;
+	check syringe_type_contr = ST10;
+
+	check patientPhase = CONN_ART;
+	check arterialBolusPhase = WAIT_SOLUTION;
+	check therapyPhase = START_HEPARIN;
+	check ven_connected_contr = false;
+	check art_connected_contr = false;
+	check initPhase = CONNECT_PATIENT;
+	check bicarbonate_status = false;
+	check heparin_running = false;
+	check ap_limits_set = false;
+	check vp_limits_set = false;
+	check treatment_min_uf_rate_contr = false;
+	check blood_flow_error_bf_less = false;
+	check th_time_error_bf_less = false;
+	check update_th_time = false;
+	check bf_err_ap_low = false;
+	check reset_err_pres_ap_low = false;
+	check bf_err_ap_low_conn = false;
+	check reset_err_pres_ap_low_conn = false;
+
+	check endingPhase = REINFUSION;
+	check reinfusionPhase = REMOVE_ART;
+	check empty_dialyzer = false; 
+end //initStateEnd
+
+begin automaticTest
+	set auto_test_end := true;
+	step
+end //automaticTest
+begin connectConcentrate
+	check prepPhase = CONNECT_CONCENTRATE;
+	check signal_lamp = GREEN;
+	set conn_concentrate := true;
+	step
+end //connectConcentrate
+begin setRinsingParam
+	check prepPhase = SET_RINSING_PARAM;
+	check rinsingParam = FILLING_BP_RATE;
+	set fill_bp_rate := PERMITTED;
+	check preparing_DF = true;
+	set detect_bicarbonate := true;
+	step
+	check rinsingParam = FILLING_BP_VOLUME;
+	set fill_bp_volume:= PERMITTED;
+	step
+	check rinsingParam = BP_RATE_RINSING;
+	set bp_rate_rinsing := PERMITTED;
+	step
+	check rinsingParam = DF_FLOW_RINSING;
+	set df_flow_rinsing := PERMITTED;
+	step
+	check rinsingParam = TIME_RINSING;
+	set time_rinsing := PERMITTED;
+	step
+	check rinsingParam = UF_RATE_RINSING;
+	set uf_rate_rinsing := PERMITTED;
+	step
+	check rinsingParam = UF_VOLUME_RINSING;
+	set uf_volume_rinsing := PERMITTED;
+	step
+end //setRinsingParam
+begin installTubingSystem
+	check prepPhase = TUBING_SYSTEM;
+	check tubingSystemPhase = CONNECT_AV_TUBES;
+	set av_tubes_connected := true;
+	set passed1Msec := true;
+	set currentSAD := PERMITTED;
+	set current_air_vol := PERMITTED;
+	set current_temp := PERMITTED;
+	step
+	check tubingSystemPhase = CONNECT_ALL_COMP;
+	set all_components_connected := true;
+	step
+	check tubingSystemPhase = SET_SALINE_LEVELS;
+	set saline_levels_set := true;
+	step
+	check tubingSystemPhase = INSERT_BLOODLINES;
+	set blood_line_insert := true;
+	step
+	check tubingSystemPhase = PRIMING;
+	check bp_status_der = STOP;
+	step
+	check tubingSystemPhase = PRIMING;
+	check bp_status_der = START;
+	set bp_fill_fluid := false;
+	set bp_rate_rinsing_150 := false;
+	step
+	check tubingSystemPhase = PRIMING;
+	check bp_status_der = START;
+	set bp_fill_fluid := true;
+	set bp_rate_rinsing_150 := true;
+	step
+	check tubingSystemPhase = CONNECT_AV_ENDS;
+	check bp_status_der = STOP;
+	set av_ends_connected := true;
+	step
+end //installTubingSystem
+
+begin prepareHeparin
+	check prepPhase = PREPARE_HEPARIN;
+	set heparin_prepared := true;
+	step
+end //prepareHeparin
+
+begin setTreatmentParam
+	check prepPhase = SET_TREAT_PARAM;
+	check treatmentParam = BLOOD_CONDUCTIVITY;
+	set blood_conductivity := PERMITTED;
+	step
+	check treatmentParam = BIC_AC;
+	set bic_ac := BICARBONATE;
+	step
+	check treatmentParam = BIC_CONDUCTIVITY;
+	check bic_ac_contr = bic_ac;
+	set bic_conductivity := PERMITTED;
+	step
+	check treatmentParam = DF_TEMP;
+	set df_temp := PERMITTED;
+	step
+	check treatmentParam = DF_FLOW;
+	set df_flow := PERMITTED;
+	step
+	check treatmentParam = UF_VOLUME;
+	set uf_volume := PERMITTED;
+	step
+	check treatmentParam = THERAPY_TIME;
+	set therapy_time_hrs := PERMITTED;
+	set therapy_time_mins := PERMITTED;
+	step
+	check treatmentParam = MIN_UF_RATE;
+	set min_uf_rate := PERMITTED;
+
+	step
+
+	check treatmentParam = MAX_UF_RATE;
+	set max_uf_rate := PERMITTED;
+
+	step
+
+	check treatmentParam = MAX_AP;
+	set max_ap := PERMITTED;
+
+	step
+
+	check treatmentParam = DELTA_AP;
+	set delta_ap := PERMITTED;
+
+	step
+
+	check treatmentParam = PERC_DELTA_TMP;
+	set perc_delta_tmp := PERMITTED;
+
+	step
+
+	check treatmentParam = LIMITS_TMP;
+	set limits_tmp := false;
+
+	step
+
+	check treatmentParam = MAX_TMP;
+	check limits_tmp_contr = limits_tmp;
+	set max_tmp := PERMITTED;
+
+	step
+
+	check treatmentParam = EXTENDED_TMP;
+	set extended_tmp_limit := false;
+
+	step
+
+	check treatmentParam = MAX_BEP;
+	check extended_tmp_limit_contr = extended_tmp_limit;
+	set max_bep := PERMITTED;
+
+	step
+
+	check treatmentParam = STOP_TIME_H;
+	set stop_time_hrs_h := PERMITTED;
+	set stop_time_mins_h := PERMITTED;
+
+	step
+
+	check treatmentParam = BOLUS_VOLUME_H;
+	set bolus_volume_h := PERMITTED;
+
+	step
+
+	check treatmentParam = RATE_H;
+	set rate_h := PERMITTED;
+
+	step
+
+	check treatmentParam = ACTIVATION_H;
+	set activation_h := true;
+
+	step
+
+	check treatmentParam = SYRINGE_TYPE;
+	check activation_h_contr = activation_h;
+	set syringe_type := ST10;
+
+	step
+end //setTreatmentParam
+
+begin rinseDialyzer
+	check prepPhase = RINSE_DIALYZER;
+	check syringe_type_contr = syringe_type;
+	check rinsePhase = CONNECT_DIALYZER;
+	check preparing_DF = true;
+	set stop_DF_preparation := true;
+
+	step
+
+	check preparing_DF = false;
+	set dialyzer_connected := true;
+
+	step
+
+	check rinsePhase = FILL_ART_CHAMBER;
+	check dialyzer_connected_status = true;
+	check bp_status_der = STOP;
+
+	step
+
+	check rinsePhase = FILL_ART_CHAMBER;
+	check dialyzer_connected_status = true;
+	check bp_status_der = START;
+	set arterial_chamber_filled := false;
+
+	step
+
+	check rinsePhase = FILL_ART_CHAMBER;
+	check dialyzer_connected_status = true;
+	set arterial_chamber_filled := true;
+
+	step
+
+	check rinsePhase = FILL_VEN_CHAMBER;
+	set venous_chamber_fill := true;
+
+	step
+
+	check rinsePhase = FILL_DIALYZER;
+	set dialyzer_filled := true;
+
+	step
+end //rinseDialyzer
+
+begin patientConnection
+	check phase = INITIATION;
+	check initPhase = CONNECT_PATIENT;
+	check patientPhase = CONN_ART;
+	check bp_status = STOP;
+	check bp_status_der = STOP;
+	set art_connected := true;
+
+	step
+
+	check patientPhase = START_BP;
+	check art_connected_contr = true;
+	set start_stop_button := true;
+	check bp_status_der = STOP;
+
+	step
+
+	check patientPhase = BLOOD_FLOW;
+	check bp_status = START;
+	check bp_status_der = START;
+	set current_vp := PERMITTED;
+	set current_ap := PERMITTED;
+	set current_fill_blood_vol := PERMITTED;
+	set passed3Sec := false;
+	set passed1Sec := false;
+	set blood_flow_conn := PERMITTED;
+	set bp_rotates_back := false;
+	set current_bp_flow := PERMITTED;
+	set detected_blood_flow := true;
+	set passed120Sec := false;
+
+
+	step
+
+	check patientPhase = FILL_TUBING;
+	set blood_on_VRD := true;
+
+	step
+
+	check patientPhase = CONN_VEN;
+	check bp_status = STOP;
+	set ven_connected := true;
+
+	step
+
+	check patientPhase = START_BP;
+	check ven_connected_contr = true;
+	set start_stop_button := true;
+
+	step
+
+	check patientPhase = BLOOD_FLOW;
+	check bp_status = START;
+	check bp_status_der = START;
+	set blood_flow_conn := PERMITTED;
+
+	step
+	check patientPhase = END_CONN;
+	step
+end //patientConnection
+begin therapyRunning
+	check machine_state = MAIN_FLOW;
+	check bicarbonate_status = true;
+	check signal_lamp = GREEN;
+	check initPhase = THERAPY_RUNNING;
+	check therapyPhase = START_HEPARIN;
+
+	step
+
+	check therapyPhase = THERAPY_EXEC;
+	check heparin_running = true;
+	set interrupt_dialysis := false;
+	set time_heparin := false;
+	set reverse_dir_heparin := false;
+	set passed10Sec := false;
+	set ap_limit_low := PERMITTED;
+	set vp_limit_low := PERMITTED;
+	set current_ap := PERMITTED;
+	set current_vp := PERMITTED;
+	set ap_limit_up := PERMITTED;
+	set vp_limit_up := PERMITTED;
+	set treatment_min_uf_rate := false;
+	set start_arterial_bolus := false;
+	set update_blood_flow := false;
+	set update_th_time := false;
+	set current_UF_rate := PERMITTED;
+	set uf_dir_backwards := false;
+	set current_UF_volume := PERMITTED;
+	set time_therapy := false;
+
+	step
+
+	set time_therapy := true;
+
+	step
+
+	check therapyPhase = THERAPY_END;
+
+	step
+end //therapy running
+
+//Begin ending phase
+begin endingPhase
+	check phase = ENDING;
+	set art_removed := true;
+	step
+	check reinfusionPhase = CONN_SALINE;
+	check art_connected_contr = false;
+	set saline_conn := true;
+	step
+	check reinfusionPhase = START_SALINE_INF;
+	step
+	check bp_status = START;
+	check reinfusionPhase = RUN_SALINE_INF;
+	set saline_on_VRD := true;
+	step
+	check reinfusionPhase = CHOOSE_NEXT_REINF_STEP;
+	check bp_status = STOP;
+	set new_saline_reinfusion := false;
+	step
+	check reinfusionPhase = REMOVE_VEN;
+	set ven_removed := true;
+	step
+	check endingPhase = DRAIN_DIALYZER;
+	check ven_connected_contr = false;
+	set dialyzer_drained := true;
+	step
+	check endingPhase = EMPTY_CARTRIDGE;
+	check empty_dialyzer = true;
+	set cartridge_emtpy := true;
+	step
+	check endingPhase = THERAPY_OVERVIEW;
+	step
+end //ending phase

@@ -1,0 +1,97 @@
+--file examples\oneWayTrafficLightAgents\owtl_main.smv
+MODULE main
+	VAR
+		owtl_ctl_gPulse_LIGHTUNIT1: boolean; --controlled
+		owtl_ctl_gPulse_LIGHTUNIT2: boolean; --controlled
+		owtl_ctl_goLight_LIGHTUNIT1: boolean; --controlled
+		owtl_ctl_goLight_LIGHTUNIT2: boolean; --controlled
+		owtl_ctl_passed_120: boolean; --monitored
+		owtl_ctl_passed_50: boolean; --monitored
+		owtl_ctl_phase: {GO1STOP2, GO1STOP2CHANGING, GO2STOP1, GO2STOP1CHANGING, OWTL_CTL_PHASEDOMAIN_UNDEF, STOP1STOP2, STOP1STOP2CHANGING, STOP2STOP1, STOP2STOP1CHANGING}; --controlled
+		owtl_ctl_rPulse_LIGHTUNIT1: boolean; --controlled
+		owtl_ctl_rPulse_LIGHTUNIT2: boolean; --controlled
+		owtl_ctl_stopLight_LIGHTUNIT1: boolean; --controlled
+		owtl_ctl_stopLight_LIGHTUNIT2: boolean; --controlled
+	CONSTANTS OWTL_CTL_ONEWAYTRAFLIGHTCTL, OWTL_CTL_ONEWAYTRAFLIGHTCTL, OWTL_CTL_ONEWAYTRAFLIGHTCTLTAGENT_UNDEF, OWTL_CTL_ONEWAYTRAFLIGHTCTL, OWTL_PULSES_PULSES, OWTL_PULSES_PULSESAGENT_UNDEF, OWTL_PULSES_PULSES, OWTL_CTL_LIGHTUNIT_UNDEF, LIGHTUNIT1, LIGHTUNIT2, OWTL_CTL_ONEWAYTRAFLIGHTCTL, OWTL_CTL_ONEWAYTRAFLIGHTCTL, OWTL_CTL_ONEWAYTRAFLIGHTCTLTAGENT_UNDEF, OWTL_CTL_ONEWAYTRAFLIGHTCTL, OWTL_CTL_PHASEDOMAIN_UNDEF, GO1STOP2, GO1STOP2CHANGING, GO2STOP1, GO2STOP1CHANGING, STOP1STOP2, STOP1STOP2CHANGING, STOP2STOP1, STOP2STOP1CHANGING, OWTL_CTL_LIGHTUNIT_UNDEF, LIGHTUNIT1, LIGHTUNIT2, OWTL_CTL_PHASEDOMAIN_UNDEF, GO1STOP2, GO1STOP2CHANGING, GO2STOP1, GO2STOP1CHANGING, STOP1STOP2, STOP1STOP2CHANGING, STOP2STOP1, STOP2STOP1CHANGING;
+	ASSIGN
+		init(owtl_ctl_gPulse_LIGHTUNIT1) := FALSE;
+		init(owtl_ctl_gPulse_LIGHTUNIT2) := FALSE;
+		init(owtl_ctl_goLight_LIGHTUNIT1) := FALSE;
+		init(owtl_ctl_goLight_LIGHTUNIT2) := FALSE;
+		init(owtl_ctl_phase) := STOP1STOP2;
+		init(owtl_ctl_rPulse_LIGHTUNIT1) := FALSE;
+		init(owtl_ctl_rPulse_LIGHTUNIT2) := FALSE;
+		init(owtl_ctl_stopLight_LIGHTUNIT1) := TRUE;
+		init(owtl_ctl_stopLight_LIGHTUNIT2) := TRUE;
+		next(owtl_ctl_gPulse_LIGHTUNIT1) :=
+			case
+				(owtl_ctl_gPulse_LIGHTUNIT1): FALSE;
+				(((owtl_ctl_phase = GO1STOP2) & owtl_ctl_passed_120) | (owtl_ctl_passed_50 & (owtl_ctl_phase = STOP2STOP1))): TRUE;
+				TRUE: owtl_ctl_gPulse_LIGHTUNIT1;
+			esac;
+		next(owtl_ctl_gPulse_LIGHTUNIT2) :=
+			case
+				(owtl_ctl_gPulse_LIGHTUNIT2): FALSE;
+				(((owtl_ctl_phase = STOP1STOP2) & owtl_ctl_passed_50) | ((owtl_ctl_phase = GO2STOP1) & owtl_ctl_passed_120)): TRUE;
+				TRUE: owtl_ctl_gPulse_LIGHTUNIT2;
+			esac;
+		next(owtl_ctl_goLight_LIGHTUNIT1) :=
+			case
+				(owtl_ctl_gPulse_LIGHTUNIT1): !(owtl_ctl_goLight_LIGHTUNIT1);
+				TRUE: owtl_ctl_goLight_LIGHTUNIT1;
+			esac;
+		next(owtl_ctl_goLight_LIGHTUNIT2) :=
+			case
+				(owtl_ctl_gPulse_LIGHTUNIT2): !(owtl_ctl_goLight_LIGHTUNIT2);
+				TRUE: owtl_ctl_goLight_LIGHTUNIT2;
+			esac;
+		next(owtl_ctl_phase) :=
+			case
+				(owtl_ctl_phase = GO1STOP2CHANGING): STOP1STOP2;
+				((owtl_ctl_phase = STOP1STOP2) & owtl_ctl_passed_50): STOP1STOP2CHANGING;
+				(owtl_ctl_phase = GO2STOP1CHANGING): STOP2STOP1;
+				(owtl_ctl_phase = STOP2STOP1CHANGING): GO1STOP2;
+				(owtl_ctl_phase = STOP1STOP2CHANGING): GO2STOP1;
+				((owtl_ctl_phase = GO1STOP2) & owtl_ctl_passed_120): GO1STOP2CHANGING;
+				((owtl_ctl_phase = GO2STOP1) & owtl_ctl_passed_120): GO2STOP1CHANGING;
+				(owtl_ctl_passed_50 & (owtl_ctl_phase = STOP2STOP1)): STOP2STOP1CHANGING;
+				TRUE: owtl_ctl_phase;
+			esac;
+		next(owtl_ctl_rPulse_LIGHTUNIT1) :=
+			case
+				(((owtl_ctl_phase = GO1STOP2) & owtl_ctl_passed_120) | (owtl_ctl_passed_50 & (owtl_ctl_phase = STOP2STOP1))): TRUE;
+				(owtl_ctl_rPulse_LIGHTUNIT1): FALSE;
+				TRUE: owtl_ctl_rPulse_LIGHTUNIT1;
+			esac;
+		next(owtl_ctl_rPulse_LIGHTUNIT2) :=
+			case
+				(((owtl_ctl_phase = STOP1STOP2) & owtl_ctl_passed_50) | ((owtl_ctl_phase = GO2STOP1) & owtl_ctl_passed_120)): TRUE;
+				(owtl_ctl_rPulse_LIGHTUNIT2): FALSE;
+				TRUE: owtl_ctl_rPulse_LIGHTUNIT2;
+			esac;
+		next(owtl_ctl_stopLight_LIGHTUNIT1) :=
+			case
+				(owtl_ctl_rPulse_LIGHTUNIT1): !(owtl_ctl_stopLight_LIGHTUNIT1);
+				TRUE: owtl_ctl_stopLight_LIGHTUNIT1;
+			esac;
+		next(owtl_ctl_stopLight_LIGHTUNIT2) :=
+			case
+				(owtl_ctl_rPulse_LIGHTUNIT2): !(owtl_ctl_stopLight_LIGHTUNIT2);
+				TRUE: owtl_ctl_stopLight_LIGHTUNIT2;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG((((owtl_ctl_phase = GO1STOP2CHANGING) | ((owtl_ctl_phase = STOP2STOP1CHANGING) | ((owtl_ctl_phase = GO2STOP1CHANGING) | (owtl_ctl_phase = STOP1STOP2CHANGING)))) | ((!(owtl_ctl_goLight_LIGHTUNIT2) & (owtl_ctl_stopLight_LIGHTUNIT2 & (owtl_ctl_goLight_LIGHTUNIT1 & ((owtl_ctl_phase = GO1STOP2) & !(owtl_ctl_stopLight_LIGHTUNIT1))))) | ((!(owtl_ctl_goLight_LIGHTUNIT1) & ((owtl_ctl_goLight_LIGHTUNIT2 & (!(owtl_ctl_stopLight_LIGHTUNIT2) & (owtl_ctl_phase = GO2STOP1))) & owtl_ctl_stopLight_LIGHTUNIT1)) | (!(owtl_ctl_goLight_LIGHTUNIT2) & ((!(owtl_ctl_goLight_LIGHTUNIT1) & (((owtl_ctl_phase = STOP1STOP2) | (owtl_ctl_phase = STOP2STOP1)) & owtl_ctl_stopLight_LIGHTUNIT1)) & owtl_ctl_stopLight_LIGHTUNIT2))))));
+CTLSPEC NAME ctl1 := AG((owtl_ctl_rPulse_LIGHTUNIT1 -> AX(!(owtl_ctl_rPulse_LIGHTUNIT1))));
+CTLSPEC NAME ctl2 := AG((owtl_ctl_rPulse_LIGHTUNIT2 -> AX(!(owtl_ctl_rPulse_LIGHTUNIT2))));
+CTLSPEC NAME ctl3 := AG((owtl_ctl_gPulse_LIGHTUNIT1 -> AX(!(owtl_ctl_gPulse_LIGHTUNIT1))));
+CTLSPEC NAME ctl4 := AG((owtl_ctl_gPulse_LIGHTUNIT2 -> AX(!(owtl_ctl_gPulse_LIGHTUNIT2))));
+CTLSPEC NAME ctl5 := AG((owtl_ctl_goLight_LIGHTUNIT1 xor owtl_ctl_stopLight_LIGHTUNIT1));
+CTLSPEC NAME ctl6 := AG((owtl_ctl_goLight_LIGHTUNIT2 xor owtl_ctl_stopLight_LIGHTUNIT2));
+CTLSPEC NAME ctl7 := AG((((owtl_ctl_goLight_LIGHTUNIT2 & owtl_ctl_stopLight_LIGHTUNIT1) xor (owtl_ctl_goLight_LIGHTUNIT1 & owtl_ctl_stopLight_LIGHTUNIT2)) xor (owtl_ctl_stopLight_LIGHTUNIT1 & owtl_ctl_stopLight_LIGHTUNIT2)));
+CTLSPEC NAME ctl8 := AG(!(owtl_ctl_goLight_LIGHTUNIT2 & owtl_ctl_goLight_LIGHTUNIT1));
+CTLSPEC NAME ctl9 := AG(((owtl_ctl_phase = STOP1STOP2) -> AX(((owtl_ctl_phase = STOP1STOP2) | (owtl_ctl_phase = STOP1STOP2CHANGING)))));
+CTLSPEC NAME ctl10 := AG(((owtl_ctl_phase = GO2STOP1) -> AX(((owtl_ctl_phase = GO2STOP1CHANGING) | (owtl_ctl_phase = GO2STOP1)))));
+CTLSPEC NAME ctl11 := AG(((owtl_ctl_phase = STOP2STOP1) -> AX(((owtl_ctl_phase = STOP2STOP1CHANGING) | (owtl_ctl_phase = STOP2STOP1)))));
+CTLSPEC NAME ctl12 := AG(((owtl_ctl_phase = GO1STOP2) -> AX(((owtl_ctl_phase = GO1STOP2CHANGING) | (owtl_ctl_phase = GO1STOP2)))));
+CTLSPEC NAME ctl13 := AG((owtl_ctl_stopLight_LIGHTUNIT1 -> EF(owtl_ctl_goLight_LIGHTUNIT1)));
+CTLSPEC NAME ctl14 := AG((owtl_ctl_stopLight_LIGHTUNIT2 -> EF(owtl_ctl_goLight_LIGHTUNIT2)));

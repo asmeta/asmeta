@@ -1,0 +1,50 @@
+;;Proof of refinement from incrementUnnecessaryFunction to increment
+;; functions - state 0
+(define x00::int)
+(define refinedInitState::bool (= x00 0))
+
+;;versione con controllate non linkate dentro all'exists (funziona)
+;;(define initState::(-> bool bool) (lambda (y00::int) (and (= x00 0) (= y00 0))))
+;;(define existsAbstractInitState::bool (exists (a::int) (initState a)))
+;;oppure senza lambda
+(define existsAbstractInitState::bool (exists (y00::int) (and (= x00 y00) (= y00 0))))
+
+;;versione con controllate non linkate fuori dall'exists (non funziona)
+;;(define y00::int)
+;;(define existsAbstractInitState::bool (and (= x00 y00) (= y00 0)))
+
+(assert (not (=> refinedInitState existsAbstractInitState)))
+(set-evidence! true)
+(check)
+;; Initial states are conformant.
+
+
+(reset)
+(set-evidence! false)
+;; functions - state 0
+(define x00::int)
+(define x01::int)
+(define refinedStep::bool (= x01 (+ x00 1)))
+
+;;versione con controllate non linkate fuori dall'exists (segnala erroneamente che il raffinamento non vale)
+;;(define y00::int)
+;;(define y01::int)
+;;(define existsAbstractStep::bool (and (= x01 (+ x00 1)) (= y01 x00)))
+
+;;VERSIONE USATA NELL'ARTICOLO
+;;versione con controllate non linkate (solo stato successivo) dentro l'exists (segnala in modo corretto che il raffinamento vale)
+(define y00::int)
+;;(define abstractStep::(-> int bool) (lambda (y01::int) (and (= x01 (+ x00 1)) (= y01 x00))))
+;;(define existsAbstractStep::bool (exists (a::int) (abstractStep a)))
+;;oppure senza lambda
+(define existsAbstractStep::bool (exists (y01::int) (and (= x01 (+ x00 1)) (= y01 x00))))
+
+;;versione con controllate non linkate (stato corrente e successivo) dentro l'exists (segnala in modo corretto che il raffinamento vale)
+;;(define abstractStep::(-> int bool) (lambda (y00::int y01::int) (and (= x01 (+ x00 1)) (= y01 x00))))
+;;(define existsAbstractStep::bool (exists (a::int b::int) (abstractStep a b)))
+
+(define stutteringState::bool (= x00 x01))
+(assert (not (=> refinedStep (or existsAbstractStep stutteringState))))
+(set-evidence! true)
+(check)
+;; Generic step is conformant.

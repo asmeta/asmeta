@@ -1,0 +1,79 @@
+(set-evidence! true)
+
+;;refinement from ClientDisplayOutputNoMessageArrived to ClientDisplayOutput
+(define-type Device(scalar device1 device2 device3 DeviceUNDEF))
+(define-type State(scalar WAITING_FOR_MESSAGE EXECUTE_CLIENT_TESTS CHECKING_FOR_EXTRA_RESOURCES DISPLAYING_THE_MESSAGE StateUNDEF))
+;; functions - state 0
+(define state0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) State))
+(define extraResources0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool))
+(define clientTestsAvailable0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool))
+;; initial state
+;;(assert (and (= (state0 device1) WAITING_FOR_MESSAGE) (= (state0 device2) WAITING_FOR_MESSAGE) (= (state0 device3) WAITING_FOR_MESSAGE)))
+;;(check)
+;; sat
+;; functions state 1
+;; new controlled functions for next state - step 0
+(define state1::(-> (subtype (v::Device) (/= v DeviceUNDEF)) State))
+;; logic variables - step 0
+;; rules state 0
+(assert (and (and (=> (= (state0 device1) WAITING_FOR_MESSAGE) (if (= (clientTestsAvailable0 device1) true) (= (state1 device1) EXECUTE_CLIENT_TESTS) (= (state1 device1) CHECKING_FOR_EXTRA_RESOURCES))) (=> (= (state0 device1) EXECUTE_CLIENT_TESTS) (= (state1 device1) CHECKING_FOR_EXTRA_RESOURCES)) (=> (= (state0 device1) CHECKING_FOR_EXTRA_RESOURCES) (and (=> (extraResources0 device1) true) (= (state1 device1) DISPLAYING_THE_MESSAGE))) (=> (= (state0 device1) DISPLAYING_THE_MESSAGE) true)) (and (=> (= (state0 device2) WAITING_FOR_MESSAGE) (if (= (clientTestsAvailable0 device2) true) (= (state1 device2) EXECUTE_CLIENT_TESTS) (= (state1 device2) CHECKING_FOR_EXTRA_RESOURCES))) (=> (= (state0 device2) EXECUTE_CLIENT_TESTS) (= (state1 device2) CHECKING_FOR_EXTRA_RESOURCES)) (=> (= (state0 device2) CHECKING_FOR_EXTRA_RESOURCES) (and (=> (extraResources0 device2) true) (= (state1 device2) DISPLAYING_THE_MESSAGE))) (=> (= (state0 device2) DISPLAYING_THE_MESSAGE) true)) (and (=> (= (state0 device3) WAITING_FOR_MESSAGE) (if (= (clientTestsAvailable0 device3) true) (= (state1 device3) EXECUTE_CLIENT_TESTS) (= (state1 device3) CHECKING_FOR_EXTRA_RESOURCES))) (=> (= (state0 device3) EXECUTE_CLIENT_TESTS) (= (state1 device3) CHECKING_FOR_EXTRA_RESOURCES)) (=> (= (state0 device3) CHECKING_FOR_EXTRA_RESOURCES) (and (=> (extraResources0 device3) true) (= (state1 device3) DISPLAYING_THE_MESSAGE))) (=> (= (state0 device3) DISPLAYING_THE_MESSAGE) true))))
+;; unchanged functions - state 0
+(assert (=> (not (or (and (= (state0 device1) WAITING_FOR_MESSAGE) (= (clientTestsAvailable0 device1) true)) (and (= (state0 device1) WAITING_FOR_MESSAGE) (not (= (clientTestsAvailable0 device1) true))) (= (state0 device1) EXECUTE_CLIENT_TESTS) (= (state0 device1) CHECKING_FOR_EXTRA_RESOURCES))) (= (state0 device1) (state1 device1))))
+(assert (=> (not (or (and (= (state0 device3) WAITING_FOR_MESSAGE) (= (clientTestsAvailable0 device3) true)) (and (= (state0 device3) WAITING_FOR_MESSAGE) (not (= (clientTestsAvailable0 device3) true))) (= (state0 device3) EXECUTE_CLIENT_TESTS) (= (state0 device3) CHECKING_FOR_EXTRA_RESOURCES))) (= (state0 device3) (state1 device3))))
+(assert (=> (not (or (and (= (state0 device2) WAITING_FOR_MESSAGE) (= (clientTestsAvailable0 device2) true)) (and (= (state0 device2) WAITING_FOR_MESSAGE) (not (= (clientTestsAvailable0 device2) true))) (= (state0 device2) EXECUTE_CLIENT_TESTS) (= (state0 device2) CHECKING_FOR_EXTRA_RESOURCES))) (= (state0 device2) (state1 device2))))
+(check)
+;; sat
+;; functions - state 0
+(define stater0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) State))
+(define extraResourcesr0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool))
+(define messageArrivedr0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool))
+(define clientTestsAvailabler0::(-> (subtype (v::Device) (/= v DeviceUNDEF)) bool))
+;; initial state
+;;(assert (and (= (stater0 device1) WAITING_FOR_MESSAGE) (= (stater0 device2) WAITING_FOR_MESSAGE) (= (stater0 device3) WAITING_FOR_MESSAGE)))
+;;(check)
+;; sat
+;; functions state 1
+;; new controlled functions for next state - step 0
+(define stater1::(-> (subtype (v::Device) (/= v DeviceUNDEF)) State))
+;; logic variables - step 0
+;; rules state 0
+(assert (and (and (=> (= (stater0 device1) WAITING_FOR_MESSAGE) (=> (= (messageArrivedr0 device1) true) (if (= (clientTestsAvailabler0 device1) true) (= (stater1 device1) EXECUTE_CLIENT_TESTS) (= (stater1 device1) CHECKING_FOR_EXTRA_RESOURCES)))) (=> (= (stater0 device1) EXECUTE_CLIENT_TESTS) (= (stater1 device1) CHECKING_FOR_EXTRA_RESOURCES)) (=> (= (stater0 device1) CHECKING_FOR_EXTRA_RESOURCES) (and (=> (extraResourcesr0 device1) true) (= (stater1 device1) DISPLAYING_THE_MESSAGE))) (=> (= (stater0 device1) DISPLAYING_THE_MESSAGE) true)) (and (=> (= (stater0 device2) WAITING_FOR_MESSAGE) (=> (= (messageArrivedr0 device2) true) (if (= (clientTestsAvailabler0 device2) true) (= (stater1 device2) EXECUTE_CLIENT_TESTS) (= (stater1 device2) CHECKING_FOR_EXTRA_RESOURCES)))) (=> (= (stater0 device2) EXECUTE_CLIENT_TESTS) (= (stater1 device2) CHECKING_FOR_EXTRA_RESOURCES)) (=> (= (stater0 device2) CHECKING_FOR_EXTRA_RESOURCES) (and (=> (extraResourcesr0 device2) true) (= (stater1 device2) DISPLAYING_THE_MESSAGE))) (=> (= (stater0 device2) DISPLAYING_THE_MESSAGE) true)) (and (=> (= (stater0 device3) WAITING_FOR_MESSAGE) (=> (= (messageArrivedr0 device3) true) (if (= (clientTestsAvailabler0 device3) true) (= (stater1 device3) EXECUTE_CLIENT_TESTS) (= (stater1 device3) CHECKING_FOR_EXTRA_RESOURCES)))) (=> (= (stater0 device3) EXECUTE_CLIENT_TESTS) (= (stater1 device3) CHECKING_FOR_EXTRA_RESOURCES)) (=> (= (stater0 device3) CHECKING_FOR_EXTRA_RESOURCES) (and (=> (extraResourcesr0 device3) true) (= (stater1 device3) DISPLAYING_THE_MESSAGE))) (=> (= (stater0 device3) DISPLAYING_THE_MESSAGE) true))))
+;; unchanged functions - state 0
+(assert (=> (not (or (and (= (stater0 device1) WAITING_FOR_MESSAGE) (= (messageArrivedr0 device1) true) (= (clientTestsAvailabler0 device1) true)) (and (= (stater0 device1) WAITING_FOR_MESSAGE) (= (messageArrivedr0 device1) true) (not (= (clientTestsAvailabler0 device1) true))) (= (stater0 device1) EXECUTE_CLIENT_TESTS) (= (stater0 device1) CHECKING_FOR_EXTRA_RESOURCES))) (= (stater0 device1) (stater1 device1))))
+(assert (=> (not (or (and (= (stater0 device3) WAITING_FOR_MESSAGE) (= (messageArrivedr0 device3) true) (= (clientTestsAvailabler0 device3) true)) (and (= (stater0 device3) WAITING_FOR_MESSAGE) (= (messageArrivedr0 device3) true) (not (= (clientTestsAvailabler0 device3) true))) (= (stater0 device3) EXECUTE_CLIENT_TESTS) (= (stater0 device3) CHECKING_FOR_EXTRA_RESOURCES))) (= (stater0 device3) (stater1 device3))))
+(assert (=> (not (or (and (= (stater0 device2) WAITING_FOR_MESSAGE) (= (messageArrivedr0 device2) true) (= (clientTestsAvailabler0 device2) true)) (and (= (stater0 device2) WAITING_FOR_MESSAGE) (= (messageArrivedr0 device2) true) (not (= (clientTestsAvailabler0 device2) true))) (= (stater0 device2) EXECUTE_CLIENT_TESTS) (= (stater0 device2) CHECKING_FOR_EXTRA_RESOURCES))) (= (stater0 device2) (stater1 device2))))
+(check)
+;; sat
+;; Generic step proof
+(assert
+	(not
+		(=>
+			(and
+				(= (state0 device1) (stater0 device1))
+				(= (state0 device2) (stater0 device2))
+				(= (state0 device3) (stater0 device3))
+				(= (extraResources0 device1) (extraResourcesr0 device1))
+				(= (extraResources0 device2) (extraResourcesr0 device2))
+				(= (extraResources0 device3) (extraResourcesr0 device3))
+				(= (clientTestsAvailable0 device1) (clientTestsAvailabler0 device1))
+				(= (clientTestsAvailable0 device2) (clientTestsAvailabler0 device2))
+				(= (clientTestsAvailable0 device3) (clientTestsAvailabler0 device3))
+			)
+			(or
+				(and
+					(= (state1 device1) (stater1 device1))
+					(= (state1 device2) (stater1 device2))
+					(= (state1 device3) (stater1 device3))
+				)
+				(and
+					(= (state0 device1) (stater1 device1))
+					(= (state0 device2) (stater1 device2))
+					(= (state0 device3) (stater1 device3))
+				)
+			)
+		)
+	)
+)
+(check)
+;; sat
+;; Generic step is not conformant.

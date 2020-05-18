@@ -1,0 +1,28 @@
+--file examples\derivedBehaviour.smv
+MODULE main
+	VAR
+		fooA: boolean; --controlled
+		fooB: boolean; --controlled
+		fooC: boolean; --controlled
+		fooD: boolean; --controlled
+		mon: boolean; --monitored
+	DEFINE
+	ASSIGN
+		init(fooA) := TRUE;
+		init(fooB) := fooA;
+		init(fooC) := mon;
+		init(fooD) := (fooA & mon);
+		next(fooA) := !(fooA);
+		next(fooB) := fooA;
+		next(fooC) := mon;
+		next(fooD) := (fooA & mon);
+--CTL properties
+CTLSPEC NAME ctl0 := AG(TRUE);
+CTLSPEC NAME ctl1 := (AG((fooA -> AX(fooB))) & AG((!(fooA) -> AX(!(fooB)))));
+CTLSPEC NAME ctl2 := (AG((fooA -> AX(fooB))) & AG((!(fooA) -> AX(!(fooB)))));
+CTLSPEC NAME ctl3 := AG(TRUE);
+CTLSPEC NAME ctl4 := (AG((!(mon) -> AX(!(fooC)))) & AG((mon -> AX(fooC))));
+CTLSPEC NAME ctl5 := (AG((!(mon) -> AX(!(fooC)))) & AG((mon -> AX(fooC))));
+CTLSPEC NAME ctl6 := AG(TRUE);
+CTLSPEC NAME ctl7 := (AG((!(fooA & mon) -> AX(!(fooD)))) & AG(((fooA & mon) -> AX(fooD))));
+CTLSPEC NAME ctl8 := (AG((!(fooA & mon) -> AX(!(fooD)))) & AG(((fooA & mon) -> AX(fooD))));
