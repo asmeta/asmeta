@@ -165,6 +165,20 @@ public class Simulator {
 		controlledInvariants = new ArrayList<Invariant>();
 		monitoredInvariants = new ArrayList<Invariant>();
 	}
+	
+	public Simulator(String modelName, AsmCollection asmp, Environment env, State s) 
+			throws AsmModelNotFoundException, MainRuleNotFoundException {
+		assert env != null;
+		asmetaPackage = asmp;
+		initAsmModel(modelName);
+		environment = env;
+		currentState = s;
+		initEvaluator(currentState);
+		numOfState = 0;//PA: 10 giugno 2010
+		currentState.previousLocationValues.putAll(currentState.locationMap);//PA: 10 giugno 2010
+		controlledInvariants = new ArrayList<Invariant>();
+		monitoredInvariants = new ArrayList<Invariant>();
+	}
 
 	/**
 	 * Returns a simulator ready to execute the given model. The environment is
@@ -315,6 +329,18 @@ public class Simulator {
 		}
 		logger.debug("</Run>");
 		return updateSet;
+	}
+	
+	public void checkinvariantrestart() {
+		logger.debug("<Run>");
+		UpdateSet updateSet = new UpdateSet();
+		getContrMonInvariants();
+		Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);
+		//System.out.println("Controllo invariants controllati nello stato iniziale.");
+		if (invariant != null) {
+			System.out.println("Invariant violation!");
+		}
+		logger.debug("</Run>");
 	}
 
 	/**

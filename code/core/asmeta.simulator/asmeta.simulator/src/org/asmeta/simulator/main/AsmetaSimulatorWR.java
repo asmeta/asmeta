@@ -27,6 +27,11 @@ public class AsmetaSimulatorWR extends Simulator {
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		super(modelName, asmp, env);
 	}
+	
+	public AsmetaSimulatorWR(String modelName, AsmCollection asmp, Environment env, State s)
+			throws AsmModelNotFoundException, MainRuleNotFoundException {
+		super(modelName, asmp, env, s);
+	}
 
 	@Override
 	public UpdateSet doOneStep() {
@@ -60,6 +65,16 @@ public class AsmetaSimulatorWR extends Simulator {
 		currentState = cloneState;
 		clearMon();
 		ruleEvaluator = new RuleEvaluator(currentState, environment, new RuleFactory());
+	}
+	
+	public void rollbackfirstState() {
+		while(states.size()!=1) {
+			currentState = states.pop();}
+			clearMon();
+			ruleEvaluator = new RuleEvaluator(currentState, environment, new RuleFactory());	
+			System.out.println("Numero stati dentro: "+states.size());
+		
+		
 	}
 
 }
