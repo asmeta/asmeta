@@ -7,8 +7,9 @@ Bundle-Activator: org.asmeta.eclipse.AsmeeActivator
 Bundle-ClassPath: .
 Bundle-Vendor: fmse.di.unimi.it
 Bundle-ActivationPolicy: lazy
-Require-Bundle: asmeta.simulator,
- asmeta.emf,
+Require-Bundle: asmeta.emf,
+ asmeta.parser,
+ asmeta.simulator,
  org.apache.log4j,
  org.eclipse.ui.console,
  org.eclipse.ui.ide,
@@ -17,8 +18,10 @@ Require-Bundle: asmeta.simulator,
  org.eclipse.ui,
  org.eclipse.ui.editors,
  org.eclipse.jface.text,
- asmeta.parser,
  org.eclipse.ui.workbench,
- org.asmeta.xt.ui;bundle-version="0.0.5"
+ org.asmeta.xt,
+ org.asmeta.xt.ui,
+ org.asmeta.xt.ide
 Automatic-Module-Name: org.asmeta.asmee
 Export-Package: org.asmeta.eclipse
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
