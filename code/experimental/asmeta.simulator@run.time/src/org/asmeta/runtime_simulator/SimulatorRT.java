@@ -1,5 +1,7 @@
 package org.asmeta.runtime_simulator;
 
+import java.util.List;
+
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.LocationSet;
@@ -36,6 +38,12 @@ public class SimulatorRT extends AsmetaSimulatorWR{
 		// TODO Auto-generated constructor stub
 	}
 	
+	public SimulatorRT(String modelName, AsmCollection asmp, Environment env, State s)
+			throws AsmModelNotFoundException, MainRuleNotFoundException {
+		super(modelName, asmp, env, s);
+		// TODO Auto-generated constructor stub
+	}
+	
 	/**
 	 * Return an InvalidInvariantException or UpdateClashException if it occurs
 	 */
@@ -48,6 +56,9 @@ public class SimulatorRT extends AsmetaSimulatorWR{
 		
 		return updateSet;
 	}
+
+
+	
 	
 	@Override
 	public LocationSet runUntilEmpty() {
@@ -87,5 +98,6 @@ public class SimulatorRT extends AsmetaSimulatorWR{
 	public int getCurrentStep() {
 		return currentStep;
 	}
+
 }
  

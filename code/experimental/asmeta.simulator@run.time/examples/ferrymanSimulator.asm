@@ -1,4 +1,4 @@
-asm ferrymanSimulator_raff1
+asm ferrymanSimulator
 
 //Problema: un ferryman deve portare sull'altra sponda di un fiume un wolf, una
 //goat ed un cabbage. Puo' trasportarne solo uno alla volta.
@@ -11,7 +11,7 @@ asm ferrymanSimulator_raff1
 //sull'altra sponda dal FERRYMAN: la GOAT, il CABBAGE, il WOLF oppure fare
 //attraversare il fiume con nessuno a bordo (NONE).
 
-import StandardLibrary
+import ../../STDL/StandardLibrary
 
 signature:
 	enum domain Actors = {FERRYMAN | GOAT | CABBAGE | WOLF}
@@ -20,11 +20,8 @@ signature:
 	dynamic monitored carry: Actors
 	dynamic controlled outMess: String
 	derived oppositeSide: Side -> Side
-	derived allOnRightSide: Boolean
 
 definitions:
-	function allOnRightSide =
-		(forall $a in Actors with position($a) = RIGHT)
 
 	function oppositeSide($s in Side) =
 		if($s = LEFT) then
@@ -51,20 +48,13 @@ definitions:
 
 	//AsmetaL invariants
 	//Se la capra (GOAT) e il cavolo (CABBAGE) sono sulla stessa sponda, allora deve essere presente anche il FERRYMAN
+	invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)
 	//Se il lupo (WOLF) e la capra (GOAT) sono sulla stessa sponda, allora deve essere presente anche il FERRYMAN
 	invariant over position: position(WOLF)=position(GOAT) implies position(WOLF)=position(FERRYMAN)
-	
-
-
-	invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)
 
 
 	main rule r_Main =
-		if(not(allOnRightSide)) then
-			r_carry[carry]
-		else
-			outMess := "All on right side"
-		endif
+		r_carry[carry]
 
 default init s0:
 	function position($a in Actors) = LEFT

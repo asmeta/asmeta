@@ -81,6 +81,32 @@ public class AsmetaSservice implements IAsmetaSservice{
 		return id;
 	}
 	
+	public int restart(String modelPath, State s) throws Exception{
+		File asmFile = new File(modelPath);
+		
+		if (!asmFile.exists()) {
+			throw new AsmModelNotFoundException(modelPath);
+		}
+	
+		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
+		String modelName = asm.getMain().getName();
+		Environment env = new Environment(new AsmetaSserviceRun());
+		SimulatorRT sim = new SimulatorRT(modelName, asm, env, s);
+		
+		sim.checkinvariantrestart();
+		
+		int id = getFirstFreeId();
+		
+		if(id != -1) {
+			simulatorMap.put(id, new InfoAsmetaService(sim));
+			simulatorMap.get(id).setModelPath(modelPath);
+		}
+		
+		
+		return id;
+	}
+	
+	
 	/**
 	 * Execute a simulator step.
 	 * @param id
