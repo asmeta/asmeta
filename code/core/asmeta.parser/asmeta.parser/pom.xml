@@ -17,6 +17,27 @@
 		</resources>
 		<plugins>
 			<plugin>
+				<groupId>com.helger.maven</groupId>
+				<artifactId>ph-javacc-maven-plugin</artifactId>
+				<version>4.1.4</version>
+				<executions>
+					<execution>
+						<id>jjc1</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>javacc</goal>
+						</goals>
+						<configuration>
+							<jdkVersion>1.8</jdkVersion>
+							<javadocFriendlyComments>true</javadocFriendlyComments>
+							<packageName>org.asmeta.parser</packageName>
+							<sourceDirectory>src/org/asmeta/parser</sourceDirectory>
+							<outputDirectory>src</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
