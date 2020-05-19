@@ -1,0 +1,7 @@
+scenario scenario1
+load coffeeVendingMachine.asm
+
+set insertedCoin :=10;
+
+
+

@@ -1,0 +1,445 @@
+var boolean adaptation_required_a_aq
+var boolean adaptation_required_a_hc
+var boolean adaptation_required_a_h
+
+rule "StartLoop_MySmartHomeAQ_HC"
+when
+	System started
+then
+	start_m_aq.sendCommand(ON)
+	start_a_aq.sendCommand(OFF)
+	start_p_aq.sendCommand(OFF)
+	start_e_aq.sendCommand(OFF)
+	start_m_hc.sendCommand(ON)
+	start_a_hc.sendCommand(OFF)
+	start_p_hc.sendCommand(OFF)
+	start_e_hc.sendCommand(OFF)
+	start_m_hc.sendCommand(ON)
+	start_e_hc.sendCommand(OFF)
+	start_m_hc.sendCommand(ON)
+	start_e_hc.sendCommand(OFF)
+	start_m_h.sendCommand(ON)
+	start_a_h.sendCommand(OFF)
+	start_p_h.sendCommand(OFF)
+	start_e_h.sendCommand(OFF)
+	adaptation_required_a_aq = true
+	adaptation_required_a_hc = true
+	adaptation_required_a_h = true
+end
+
+rule "Monitor_m_aq"
+when
+	Item start_m_aq received command ON
+then
+	sendCommand(start_m_aq, OFF)
+	sendCommand(start_a_aq, ON)
+end
+
+rule "Analyze_a_aq"
+when
+	Item start_a_aq received command ON
+then
+	sendCommand(start_a_aq, OFF)
+	if(((Math::random * 100.0).intValue + 1) <= 50 ){
+		adaptation_required_a_aq = true
+	}
+	else {
+		adaptation_required_a_aq = false
+	}
+	if(adaptation_required_a_aq){
+		sendCommand(start_p_aq, ON)
+	}
+	else{
+		sendCommand(start_m_aq, ON)
+	}
+end
+
+rule "Plan_p_aq"
+when
+	Item start_p_aq received command ON
+then
+	sendCommand(start_p_aq, OFF)
+	sendCommand(start_e_aq, ON)
+end
+
+rule "Monitor_m_aq"
+when
+	Item start_m_aq received command ON
+then
+	sendCommand(start_m_aq, OFF)
+	sendCommand(start_a_aq, ON)
+end
+
+rule "Analyze_a_aq"
+when
+	Item start_a_aq received command ON
+then
+	sendCommand(start_a_aq, OFF)
+	if(((Math::random * 100.0).intValue + 1) <= 50 ){
+		adaptation_required_a_aq = true
+	}
+	else {
+		adaptation_required_a_aq = false
+	}
+	if(adaptation_required_a_aq){
+		sendCommand(start_p_aq, ON)
+	}
+	else{
+		sendCommand(start_m_aq, ON)
+	}
+end
+
+rule "Plan_p_aq"
+when
+	Item start_p_aq received command ON
+then
+	sendCommand(start_p_aq, OFF)
+	sendCommand(start_e_aq, ON)
+end
+
+rule "Analyze_a_aq"
+when
+	Item start_a_aq received command ON
+then
+	sendCommand(start_a_aq, OFF)
+	if(((Math::random * 100.0).intValue + 1) <= 50 ){
+		adaptation_required_a_aq = true
+	}
+	else {
+		adaptation_required_a_aq = false
+	}
+	if(adaptation_required_a_aq){
+		sendCommand(start_e_aq, ON)
+	}
+	else{
+		sendCommand(start_m_aq, ON)
+	}
+end
+
+rule "Exec_e_main_aq"
+when
+	Item start_e_main_aq received command ON
+then
+	sendCommand(start_e_main_aq, OFF)
+	sendCommand(start_m_main_aq, ON)
+end
+
+rule "Monitor_m_hc"
+when
+	Item start_m_hc received command ON
+then
+	sendCommand(start_m_hc, OFF)
+	sendCommand(start_a_hc, ON)
+end
+
+rule "Analyze_a_hc"
+when
+	Item start_a_hc received command ON
+then
+	sendCommand(start_a_hc, OFF)
+	if(((Math::random * 100.0).intValue + 1) <= 50 ){
+		adaptation_required_a_hc = true
+	}
+	else {
+		adaptation_required_a_hc = false
+	}
+	if(adaptation_required_a_hc){
+		sendCommand(start_p_hc, ON)
+	}
+	else{
+		sendCommand(start_m_hc, ON)
+		sendCommand(start_m_hc, ON)
+	}
+end
+
+rule "Plan_p_hc"
+when
+	Item start_p_hc received command ON
+then
+	sendCommand(start_p_hc, OFF)
+	sendCommand(start_e_hc, ON)
+end
+
+rule "Analyze_a_hc"
+when
+	Item start_a_hc received command ON
+then
+	sendCommand(start_a_hc, OFF)
+	if(((Math::random * 100.0).intValue + 1) <= 50 ){
+		adaptation_required_a_hc = true
+	}
+	else {
+		adaptation_required_a_hc = false
+	}
+	if(adaptation_required_a_hc){
+		sendCommand(start_e_hc, ON)
+	}
+	else{
+		sendCommand(start_m_hc, ON)
+		sendCommand(start_m_hc, ON)
+	}
+end
+
+rule "Exec_e_main_hc"
+when
+	Item start_e_main_hc received command ON
+then
+	sendCommand(start_e_main_hc, OFF)
+	sendCommand(start_m_main_hc, ON)
+end
+
+rule "Monitor_m_hc"
+when
+	Item start_m_hc received command ON
+then
+	sendCommand(start_m_hc, OFF)
+	sendCommand(start_, ON)
+end
+
+rule "Analyze_"
+when
+	Item start_ received command ON
+then
+	sendCommand(start_, OFF)
+	if(((Math::random * 100.0).intValue + 1) <= 50 ){
+		adaptation_required_ = true
+	}
+	else {
+		adaptation_required_ = false
+	}
+	if(adaptation_required_){
+		sendCommand(start_, ON)
+	}
+	else{
+		sendCommand(start_m_hc, ON)
+	}
+end
+
+rule "Plan_"
+when
+	Item start_ received command ON
+then
+	sendCommand(start_, OFF)
+	sendCommand(start_e_hc, ON)
+end
+
+rule "Monitor_m_hc"
+when
+	Item start_m_hc received command ON
+then
+	sendCommand(start_m_hc, OFF)
+	sendCommand(start_, ON)
+end
+
+rule "Analyze_"
+when
+	Item start_ received command ON
+then
+	sendCommand(start_, OFF)
+	if(((Math::random * 100.0).intValue + 1) <= 50 ){
+		adaptation_required_ = true
+	}
+	else {
+		adaptation_required_ = false
+	}
+	if(adaptation_required_){
+		sendCommand(start_, ON)
+	}
+	else{
+		sendCommand(start_m_hc, ON)
+	}
+end
+
+rule "Plan_"
+when
+	Item start_ received command ON
+then
+	sendCommand(start_, OFF)
+	sendCommand(start_e_hc, ON)
+end
+
+rule "Analyze_"
+when
+	Item start_ received command ON
+then
+	sendCommand(start_, OFF)
+	if(((Math::random * 100.0).intValue + 1) <= 50 ){
+		adaptation_required_ = true
+	}
+	else {
+		adaptation_required_ = false
+	}
+	if(adaptation_required_){
+		sendCommand(start_e_hc, ON)
+	}
+	else{
+		sendCommand(start_m_hc, ON)
+	}
+end
+
+rule "Exec_e_int_hc_gf"
+when
+	Item start_e_int_hc_gf received command ON
+then
+	sendCommand(start_e_int_hc_gf, OFF)
+	sendCommand(start_m_int_hc_gf, ON)
+end
+
+rule "Monitor_m_hc"
+when
+	Item start_m_hc received command ON
+then
+	sendCommand(start_m_hc, OFF)
+	sendCommand(start_, ON)
+end
+
+rule "Analyze_"
+when
+	Item start_ received command ON
+then
+	sendCommand(start_, OFF)
+	if(((Math::random * 100.0).intValue + 1) <= 50 ){
+		adaptation_required_ = true
+	}
+	else {
+		adaptation_required_ = false
+	}
+	if(adaptation_required_){
+		sendCommand(start_, ON)
+	}
+	else{
+		sendCommand(start_m_hc, ON)
+	}
+end
+
+rule "Plan_"
+when
+	Item start_ received command ON
+then
+	sendCommand(start_, OFF)
+	sendCommand(start_e_hc, ON)
+end
+
+rule "Monitor_m_hc"
+when
+	Item start_m_hc received command ON
+then
+	sendCommand(start_m_hc, OFF)
+	sendCommand(start_, ON)
+end
+
+rule "Analyze_"
+when
+	Item start_ received command ON
+then
+	sendCommand(start_, OFF)
+	if(((Math::random * 100.0).intValue + 1) <= 50 ){
+		adaptation_required_ = true
+	}
+	else {
+		adaptation_required_ = false
+	}
+	if(adaptation_required_){
+		sendCommand(start_, ON)
+	}
+	else{
+		sendCommand(start_m_hc, ON)
+	}
+end
+
+rule "Plan_"
+when
+	Item start_ received command ON
+then
+	sendCommand(start_, OFF)
+	sendCommand(start_e_hc, ON)
+end
+
+rule "Analyze_"
+when
+	Item start_ received command ON
+then
+	sendCommand(start_, OFF)
+	if(((Math::random * 100.0).intValue + 1) <= 50 ){
+		adaptation_required_ = true
+	}
+	else {
+		adaptation_required_ = false
+	}
+	if(adaptation_required_){
+		sendCommand(start_e_hc, ON)
+	}
+	else{
+		sendCommand(start_m_hc, ON)
+	}
+end
+
+rule "Exec_e_int_hc_ff"
+when
+	Item start_e_int_hc_ff received command ON
+then
+	sendCommand(start_e_int_hc_ff, OFF)
+	sendCommand(start_m_int_hc_ff, ON)
+end
+
+rule "Analyze_a_h"
+when
+	Item start_a_h received command ON
+then
+	sendCommand(start_a_h, OFF)
+	if(((Math::random * 100.0).intValue + 1) <= 50 ){
+		adaptation_required_a_h = true
+	}
+	else {
+		adaptation_required_a_h = false
+	}
+	if(adaptation_required_a_h){
+		sendCommand(start_e_h, ON)
+	}
+	else{
+		sendCommand(start_m_h, ON)
+	}
+end
+
+rule "Exec_e_high_aq_hs"
+when
+	Item start_e_high_aq_hs received command ON
+then
+	sendCommand(start_e_high_aq_hs, OFF)
+	sendCommand(start_m_high_aq_hs, ON)
+end
+
+rule "Monitor_m_hc"
+when
+	Item start_m_hc received command ON
+then
+	sendCommand(start_m_hc, OFF)
+	sendCommand(int_hc_gf_to_main_hc, ON)
+end
+
+rule "Monitor_m_hc"
+when
+	Item start_m_hc received command ON
+then
+	sendCommand(start_m_hc, OFF)
+	sendCommand(int_hc_ff_to_main_hc, ON)
+end
+
+rule "Aggregator_m_hc_m_hc_m_hc"
+when
+	Item int_hc_gfint_hc_ff_to_main_hc received update ON
+then
+	sendCommand(int_hc_gf_to_main_hc, OFF)
+	sendCommand(int_hc_ff_to_main_hc, OFF)
+	sendCommand(start_m_hc, ON)
+end
+
+rule "Exec_e_hc"
+when
+	Item start_e_hc received command ON
+then
+	sendCommand(start_e_hc, OFF)
+	sendCommand(start_e_hc, ON)
+	sendCommand(start_e_hc, ON)
+end
+

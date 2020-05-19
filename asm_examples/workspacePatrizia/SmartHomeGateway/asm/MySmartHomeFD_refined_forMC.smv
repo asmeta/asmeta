@@ -1,0 +1,158 @@
+--file /Users/parcaini/Desktop/Asmeta/asm_examples/workspacePatrizia/SmartHomeGateway/asm/MySmartHomeFD_refined_forMC.smv
+MODULE main
+	VAR
+		desiredFireAlarmSetting_FF_SLAVE: {ALARMSTATUS_UNDEF, OFF, ON}; --controlled
+		desiredFireAlarmSetting_GF_SLAVE: {ALARMSTATUS_UNDEF, OFF, ON}; --controlled
+		fireAlarm_FD_FF: {ALARMSTATUS_UNDEF, OFF, ON}; --controlled
+		fireAlarm_FD_GF: {ALARMSTATUS_UNDEF, OFF, ON}; --controlled
+		firedetectionManagedBySlaveFD_FF_SLAVE: {FD_FF, FD_GF, FIREDETECTIONMDA_UNDEF}; --controlled
+		firedetectionManagedBySlaveFD_GF_SLAVE: {FD_FF, FD_GF, FIREDETECTIONMDA_UNDEF}; --controlled
+		fromSlaveFDEtoMasterFDP_FF_SLAVE: {FD_MASTER, MASTERFDMGA_UNDEF}; --controlled
+		fromSlaveFDEtoMasterFDP_GF_SLAVE: {FD_MASTER, MASTERFDMGA_UNDEF}; --controlled
+		fromSlaveFDMtoMasterFDA_FF_SLAVE: {FD_MASTER, MASTERFDMGA_UNDEF}; --controlled
+		fromSlaveFDMtoMasterFDA_GF_SLAVE: {FD_MASTER, MASTERFDMGA_UNDEF}; --controlled
+		gsmokeSaved_FF_SLAVE: {ALARMSTATUS_UNDEF, OFF, ON}; --controlled
+		gsmokeSaved_GF_SLAVE: {ALARMSTATUS_UNDEF, OFF, ON}; --controlled
+		gsmoke_FD_FF: {OFF, ON}; --monitored
+		gsmoke_FD_GF: {OFF, ON}; --monitored
+		loopFDCompleted_FF_SLAVE: boolean; --controlled
+		loopFDCompleted_GF_SLAVE: boolean; --controlled
+		maxTemperatureSaved_FF_SLAVE: {-2147483647, 0, 1, 2, 3, 4, 5}; --controlled
+		maxTemperatureSaved_GF_SLAVE: {-2147483647, 0, 1, 2, 3, 4, 5}; --controlled
+		maxTemperature_FD_FF: 0..5; --monitored
+		maxTemperature_FD_GF: 0..5; --monitored
+		sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE: boolean; --controlled
+		sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE: boolean; --controlled
+		sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER: boolean; --controlled
+		sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER: boolean; --controlled
+	DEFINE
+		detectFire_FF_SLAVE :=
+			case
+				(!(gsmokeSaved_FF_SLAVE = ON) & !(maxTemperatureSaved_FF_SLAVE != -2147483647)): OFF;
+				((maxTemperatureSaved_FF_SLAVE != -2147483647) & !(gsmokeSaved_FF_SLAVE = ON) & !(maxTemperatureSaved_FF_SLAVE >= 4)): OFF;
+				((maxTemperatureSaved_FF_SLAVE >= 4) & (maxTemperatureSaved_FF_SLAVE != -2147483647) & !(gsmokeSaved_FF_SLAVE = ON)): ON;
+				(gsmokeSaved_FF_SLAVE = ON): ON;
+				TRUE: ALARMSTATUS_UNDEF;
+			esac;
+		detectFire_GF_SLAVE :=
+			case
+				(!(maxTemperatureSaved_GF_SLAVE != -2147483647) & !(gsmokeSaved_GF_SLAVE = ON)): OFF;
+				((maxTemperatureSaved_GF_SLAVE != -2147483647) & !(maxTemperatureSaved_GF_SLAVE >= 4) & !(gsmokeSaved_GF_SLAVE = ON)): OFF;
+				((maxTemperatureSaved_GF_SLAVE != -2147483647) & (maxTemperatureSaved_GF_SLAVE >= 4) & !(gsmokeSaved_GF_SLAVE = ON)): ON;
+				(gsmokeSaved_GF_SLAVE = ON): ON;
+				TRUE: ALARMSTATUS_UNDEF;
+			esac;
+		startMasterFDA_FD_MASTER := ((sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER & (detectFire_FF_SLAVE = ON)) | (sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER & (detectFire_GF_SLAVE = ON)));
+	CONSTANTS FD_FF, FD_GF, FIREDETECTIONMDA_UNDEF, FD_FF, FD_GF, GF_SLAVE, FF_SLAVE, SLAVEFDMGA_UNDEF, FF_SLAVE, GF_SLAVE, ALARMSTATUS_UNDEF, OFF, ON, FD_MASTER, MASTERFDMGA_UNDEF, FD_MASTER;
+	ASSIGN
+		init(desiredFireAlarmSetting_FF_SLAVE) := ALARMSTATUS_UNDEF;
+		init(desiredFireAlarmSetting_GF_SLAVE) := ALARMSTATUS_UNDEF;
+		init(fireAlarm_FD_FF) := ALARMSTATUS_UNDEF;
+		init(fireAlarm_FD_GF) := ALARMSTATUS_UNDEF;
+		init(firedetectionManagedBySlaveFD_FF_SLAVE) := FD_FF;
+		init(firedetectionManagedBySlaveFD_GF_SLAVE) := FD_GF;
+		init(fromSlaveFDEtoMasterFDP_FF_SLAVE) := FD_MASTER;
+		init(fromSlaveFDEtoMasterFDP_GF_SLAVE) := FD_MASTER;
+		init(fromSlaveFDMtoMasterFDA_FF_SLAVE) := FD_MASTER;
+		init(fromSlaveFDMtoMasterFDA_GF_SLAVE) := FD_MASTER;
+		init(gsmokeSaved_FF_SLAVE) := ALARMSTATUS_UNDEF;
+		init(gsmokeSaved_GF_SLAVE) := ALARMSTATUS_UNDEF;
+		init(loopFDCompleted_FF_SLAVE) := TRUE;
+		init(loopFDCompleted_GF_SLAVE) := TRUE;
+		init(maxTemperatureSaved_FF_SLAVE) := -2147483647;
+		init(maxTemperatureSaved_GF_SLAVE) := -2147483647;
+		init(sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE) := FALSE;
+		init(sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE) := FALSE;
+		init(sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER) := FALSE;
+		init(sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER) := FALSE;
+		next(desiredFireAlarmSetting_FF_SLAVE) :=
+			case
+				(sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER & startMasterFDA_FD_MASTER): detectFire_FF_SLAVE;
+				TRUE: desiredFireAlarmSetting_FF_SLAVE;
+			esac;
+		next(desiredFireAlarmSetting_GF_SLAVE) :=
+			case
+				(sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER & startMasterFDA_FD_MASTER): detectFire_GF_SLAVE;
+				TRUE: desiredFireAlarmSetting_GF_SLAVE;
+			esac;
+		next(fireAlarm_FD_FF) :=
+			case
+				((firedetectionManagedBySlaveFD_GF_SLAVE = FD_FF) & sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE): desiredFireAlarmSetting_GF_SLAVE;
+				((firedetectionManagedBySlaveFD_FF_SLAVE = FD_FF) & sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE): desiredFireAlarmSetting_FF_SLAVE;
+				TRUE: fireAlarm_FD_FF;
+			esac;
+		next(fireAlarm_FD_GF) :=
+			case
+				((firedetectionManagedBySlaveFD_FF_SLAVE = FD_GF) & sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE): desiredFireAlarmSetting_FF_SLAVE;
+				((firedetectionManagedBySlaveFD_GF_SLAVE = FD_GF) & sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE): desiredFireAlarmSetting_GF_SLAVE;
+				TRUE: fireAlarm_FD_GF;
+			esac;
+		next(firedetectionManagedBySlaveFD_FF_SLAVE) := firedetectionManagedBySlaveFD_FF_SLAVE;
+		next(firedetectionManagedBySlaveFD_GF_SLAVE) := firedetectionManagedBySlaveFD_GF_SLAVE;
+		next(fromSlaveFDEtoMasterFDP_FF_SLAVE) := fromSlaveFDEtoMasterFDP_FF_SLAVE;
+		next(fromSlaveFDEtoMasterFDP_GF_SLAVE) := fromSlaveFDEtoMasterFDP_GF_SLAVE;
+		next(fromSlaveFDMtoMasterFDA_FF_SLAVE) := fromSlaveFDMtoMasterFDA_FF_SLAVE;
+		next(fromSlaveFDMtoMasterFDA_GF_SLAVE) := fromSlaveFDMtoMasterFDA_GF_SLAVE;
+		next(gsmokeSaved_FF_SLAVE) :=
+			case
+				(loopFDCompleted_FF_SLAVE & (firedetectionManagedBySlaveFD_FF_SLAVE = FD_FF)): gsmoke_FD_FF;
+				(loopFDCompleted_FF_SLAVE & (firedetectionManagedBySlaveFD_FF_SLAVE = FD_GF)): gsmoke_FD_GF;
+				TRUE: gsmokeSaved_FF_SLAVE;
+			esac;
+		next(gsmokeSaved_GF_SLAVE) :=
+			case
+				(loopFDCompleted_GF_SLAVE & (firedetectionManagedBySlaveFD_GF_SLAVE = FD_FF)): gsmoke_FD_FF;
+				(loopFDCompleted_GF_SLAVE & (firedetectionManagedBySlaveFD_GF_SLAVE = FD_GF)): gsmoke_FD_GF;
+				TRUE: gsmokeSaved_GF_SLAVE;
+			esac;
+		next(loopFDCompleted_FF_SLAVE) :=
+			case
+				(loopFDCompleted_FF_SLAVE): FALSE;
+				(sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE): TRUE;
+				TRUE: loopFDCompleted_FF_SLAVE;
+			esac;
+		next(loopFDCompleted_GF_SLAVE) :=
+			case
+				(loopFDCompleted_GF_SLAVE): FALSE;
+				((!(loopFDCompleted_GF_SLAVE) & !(startMasterFDA_FD_MASTER)) | sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE): TRUE;
+				TRUE: loopFDCompleted_GF_SLAVE;
+			esac;
+		next(maxTemperatureSaved_FF_SLAVE) :=
+			case
+				(loopFDCompleted_FF_SLAVE & (firedetectionManagedBySlaveFD_FF_SLAVE = FD_FF)) & maxTemperature_FD_FF in {-2147483647, 0, 1, 2, 3, 4, 5}: maxTemperature_FD_FF;
+				(loopFDCompleted_FF_SLAVE & (firedetectionManagedBySlaveFD_FF_SLAVE = FD_GF)) & maxTemperature_FD_GF in {-2147483647, 0, 1, 2, 3, 4, 5}: maxTemperature_FD_GF;
+				TRUE: maxTemperatureSaved_FF_SLAVE;
+			esac;
+		next(maxTemperatureSaved_GF_SLAVE) :=
+			case
+				(loopFDCompleted_GF_SLAVE & (firedetectionManagedBySlaveFD_GF_SLAVE = FD_FF)) & maxTemperature_FD_FF in {-2147483647, 0, 1, 2, 3, 4, 5}: maxTemperature_FD_FF;
+				(loopFDCompleted_GF_SLAVE & (firedetectionManagedBySlaveFD_GF_SLAVE = FD_GF)) & maxTemperature_FD_GF in {-2147483647, 0, 1, 2, 3, 4, 5}: maxTemperature_FD_GF;
+				TRUE: maxTemperatureSaved_GF_SLAVE;
+			esac;
+		next(sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE) :=
+			case
+				(sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE & (fromSlaveFDEtoMasterFDP_FF_SLAVE = FD_MASTER)): FALSE;
+				(sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER & startMasterFDA_FD_MASTER): TRUE;
+				TRUE: sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE;
+			esac;
+		next(sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE) :=
+			case
+				((fromSlaveFDEtoMasterFDP_GF_SLAVE = FD_MASTER) & sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE): FALSE;
+				(sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER & startMasterFDA_FD_MASTER): TRUE;
+				TRUE: sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE;
+			esac;
+		next(sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER) :=
+			case
+				(startMasterFDA_FD_MASTER): FALSE;
+				((fromSlaveFDMtoMasterFDA_FF_SLAVE = FD_MASTER) & (!(sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER) & ((fromSlaveFDMtoMasterFDA_FF_SLAVE = FD_MASTER) & loopFDCompleted_FF_SLAVE))): TRUE;
+				TRUE: sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER;
+			esac;
+		next(sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER) :=
+			case
+				(((loopFDCompleted_GF_SLAVE & (fromSlaveFDMtoMasterFDA_GF_SLAVE = FD_MASTER)) & !(sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER)) & (fromSlaveFDMtoMasterFDA_GF_SLAVE = FD_MASTER)): TRUE;
+				(startMasterFDA_FD_MASTER): FALSE;
+				TRUE: sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER;
+			esac;
+--LTL properties
+LTLSPEC NAME ltl0 := G(((maxTemperatureSaved_GF_SLAVE >= 4) -> F((desiredFireAlarmSetting_GF_SLAVE = ON))));
+LTLSPEC NAME ltl1 := G(((maxTemperatureSaved_FF_SLAVE >= 4) -> F((desiredFireAlarmSetting_FF_SLAVE = ON))));

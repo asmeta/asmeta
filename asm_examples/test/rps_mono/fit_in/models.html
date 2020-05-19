@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Examples test </TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+</HEAD>
+
+<BODY>
+<TABLE>
+<TR>
+	<TD>org.asmeta.interpreter.AsmFixture</TD>
+	<TD></TD>
+	<TD></TD>
+	<TD></TD>
+</TR>
+<TR>
+	<TD>asmPath</TD>
+	<TD>nTimes</TD>
+	<TD>envPath</TD>
+	<TD>state()</TD>
+</TR>
+<TR>
+	<TD>rps_mono/models/FlipFlop.asm</TD>
+	<TD>2</TD>
+	<TD>rps_mono/fit_in/FLIP_FLOP_macro01.env</TD>
+	<TD>Agent={self},ctl_state=0</TD>
+</TR>
+<TR>
+	<TD>rps_mono/models/ordersystem.asm</TD>
+	<TD>3</TD>
+	<TD>rps_mono/fit_in/ordersystem01.env</TD>
+	<TD>{Agent(self)=true,Orders(o1)=true,Orders(o2)=true,Orders(o3)=true,Products(p1)=true,Products(p2)=true,Products(p3)=true,orderState(o1)=INVOICED,orderState(o2)=INVOICED,orderState(o3)=PENDING,stockQuantity(p1)=56,stockQuantity(p2)=100}</TD>
+</TR>
+<TR>
+	<TD>rps_mono/models/OrderSystem2.asm</TD>
+	<TD>3</TD>
+	<TD>rps_mono/fit_in/ordersystem201.env</TD>
+	<TD>Agent={self},Orders={Orders!1,Orders!2,Orders!3,Orders!4},Products={p1,p2,p3},orderQuantity(Orders!1)=33,orderQuantity(Orders!2)=101,orderQuantity(Orders!3)=11,orderQuantity(Orders!4)=88,orderState(Orders!1)=INVOICED,orderState(Orders!2)=CANCELLED,orderState(Orders!3)=PENDING,orderState(Orders!4)=CANCELLED,referencedProduct(Orders!1)=p1,referencedProduct(Orders!2)=p2,referencedProduct(Orders!3)=p1,referencedProduct(Orders!4)=p3,stockQuantity(p1)=56,stockQuantity(p2)=100,stockQuantity(p3)=67</TD>
+</TR>
+<TR>
+	<TD>rps_mono/models/LIFTDC.asm</TD>
+	<TD>4</TD>
+	<TD>rps_mono/fit_in/lift01.env</TD>
+	<TD>Agent={self},Lift={lift1},ctlState(lift1)=HALTING,direction(lift1)=DOWN,floor(lift1)=2</TD>
+</TR>
+<TR>
+	<TD>rps_mono/models/SIS.asm</TD>
+	<TD>2</TD>
+	<TD>rps_mono/fit_in/SIS2.env</TD>
+	<TD>Agent={self},overridden=true,pressure=NORMAL,safetyInjection=ON,waterpressure=10</TD>
+</TR>
+<TR>
+	<TD>rps_mono/models/ATM.asm</TD>
+	<TD>6</TD>
+	<TD>rps_mono/fit_in/atm1.env</TD>
+	<TD>Agent={self},NumCard={card1,card2,card3},accessible(card1)=true,atmState=AWAITCARD,balance(card1)=2960,currCard=card1,moneyLeft=960,outMess="Goodbye"</TD>
+</TR>
+<TR>
+	<TD>rps_mono/models/ATM.asm</TD>
+	<TD>7</TD>
+	<TD>rps_mono/fit_in/atm2.env</TD>
+	<TD>Agent={self},NumCard={card1,card2,card3},accessible(card2)=true,atmState=AWAITCARD,balance(card2)=1622,currCard=card2,moneyLeft=970,outMess="Goodbye"</TD>
+</TR>
+<TR>
+	<TD>rps_mono/models/ATM.asm</TD>
+	<TD>9</TD>
+	<TD>rps_mono/fit_in/atm3.env</TD>
+	<TD>Agent={self},NumCard={card1,card2,card3},accessible(card2)=true,atmState=AWAITCARD,balance(card2)=1612,currCard=card2,moneyLeft=960,outMess="Goodbye"</TD>
+</TR>
+<TR>
+	<TD>rps_mono/models/LIFT.asm</TD>
+	<TD>7</TD>
+	<TD>rps_mono/fit_in/lift1.env</TD>
+	<TD>Agent={self},Lift={lift1},ctlState(lift1)=HALTING,existsCallFromTo(0,DOWN)=false,existsCallFromTo(2,UP)=false,floor(lift1)=2,hasToDeliverAt(lift1,2)=false</TD>
+</TR>
+<TR>
+	<TD>rps_mono/models/LIFT.asm</TD>
+	<TD>4</TD>
+	<TD>rps_mono/fit_in/lift2.env</TD>
+	<TD>Agent={self},Lift={lift1},ctlState(lift1)=HALTING,existsCallFromTo(1,UP)=false,floor(lift1)=1,hasToDeliverAt(lift1,0)=false,hasToDeliverAt(lift1,1)=false</TD>
+</TR>
+<TR>
+	<TD>rps_mono/models/LIFT.asm</TD>
+	<TD>6</TD>
+	<TD>rps_mono/fit_in/lift3.env</TD>
+	<TD>Agent={self},Lift={lift1},ctlState(lift1)=HALTING,existsCallFromTo(0,DOWN)=false,existsCallFromTo(1,DOWN)=false,existsCallFromTo(1,UP)=false,floor(lift1)=1,hasToDeliverAt(lift1,1)=false</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

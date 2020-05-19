@@ -1,0 +1,28 @@
+scenario test
+
+load ./main.asm
+
+step until time = 0 and phase = TIMED_NOTIFICATION;
+check read(clockOutput(clock_top)) = false;
+
+step until time = 30 and phase = TIMED_NOTIFICATION;
+check read(clockOutput(clock_top)) = true;
+
+step until time = 45 and phase = TIMED_NOTIFICATION;
+check read(clockOutput(clock_top)) = false;
+
+step until time = 50 and phase = TIMED_NOTIFICATION;
+check read(clockOutput(clock_top)) = true;
+
+step until time = 65 and phase = TIMED_NOTIFICATION;
+check read(clockOutput(clock_top)) = false;
+
+step until time = 70 and phase = TIMED_NOTIFICATION;
+check read(clockOutput(clock_top)) = true;
+
+step until time = 85 and phase = TIMED_NOTIFICATION;
+check read(clockOutput(clock_top)) = false;
+
+step until time = 90 and phase = TIMED_NOTIFICATION;
+check read(clockOutput(clock_top)) = true;
+

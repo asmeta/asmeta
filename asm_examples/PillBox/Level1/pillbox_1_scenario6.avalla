@@ -1,0 +1,27 @@
+scenario scenario6
+load pillbox_1.asm
+
+//******************************************************
+// Setting-up the initial state, where we consider to have the drawer already opened
+//******************************************************
+execblock pillbox_1_scenario5:takePillDrawerOpened;
+
+//******************************************************
+// Close the drawer within 10 minutes
+//******************************************************
+step until systemTime = 3;
+
+begin closeDrawer
+
+	set openSwitch := false;
+	
+	step
+	
+	check redLed = OFF;
+	check opened = false;
+	check outMess = NONE;
+	check logMess = NONE;
+	
+end
+
+

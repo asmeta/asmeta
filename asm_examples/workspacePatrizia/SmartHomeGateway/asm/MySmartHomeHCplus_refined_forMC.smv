@@ -1,0 +1,378 @@
+--file /Users/parcaini/Desktop/Asmeta/asm_examples/workspacePatrizia/SmartHomeGateway/asm/MySmartHomeHC2_refined_forMC.smv
+MODULE main
+	VAR
+		airManagedByIntHC_INT_HC_FF: {AIRMDA_UNDEF, WS_FF, WS_GF}; --controlled
+		airManagedByIntHC_INT_HC_GF: {AIRMDA_UNDEF, WS_FF, WS_GF}; --controlled
+		desiredHeatingSetting_INT_HC_FF: {FAIRLY_HOT, HEATINGSETTING_UNDEF, STOPPED, VERY_HOT}; --controlled
+		desiredHeatingSetting_INT_HC_GF: {FAIRLY_HOT, HEATINGSETTING_UNDEF, STOPPED, VERY_HOT}; --controlled
+		desiredWindowsStatus_INT_HC_FF: {CLOSED, OPEN, WINDOWSTATUS_UNDEF}; --controlled
+		desiredWindowsStatus_INT_HC_GF: {CLOSED, OPEN, WINDOWSTATUS_UNDEF}; --controlled
+		fromIntHCEtoMainHCE_INT_HC_FF: {MAINHCMGA_UNDEF, MAIN_HC}; --controlled
+		fromIntHCEtoMainHCE_INT_HC_GF: {MAINHCMGA_UNDEF, MAIN_HC}; --controlled
+		fromIntHCMtoMainHCM_INT_HC_FF: {MAINHCMGA_UNDEF, MAIN_HC}; --controlled
+		fromIntHCMtoMainHCM_INT_HC_GF: {MAINHCMGA_UNDEF, MAIN_HC}; --controlled
+		heatingManagedByIntHC_INT_HC_FF: {HEATINGMDA_UNDEF, HS_FF, HS_GF}; --controlled
+		heatingManagedByIntHC_INT_HC_GF: {HEATINGMDA_UNDEF, HS_FF, HS_GF}; --controlled
+		heatingStatusSaved_INT_HC_FF: {HEATINGSTATUS_UNDEF, OFF, ON}; --controlled
+		heatingStatusSaved_INT_HC_GF: {HEATINGSTATUS_UNDEF, OFF, ON}; --controlled
+		heatingStatus_HS_FF: {OFF, ON}; --monitored
+		heatingStatus_HS_GF: {OFF, ON}; --monitored
+		heating_Setting_HS_FF: {FAIRLY_HOT, HEATINGSETTING_UNDEF, STOPPED, VERY_HOT}; --controlled
+		heating_Setting_HS_GF: {FAIRLY_HOT, HEATINGSETTING_UNDEF, STOPPED, VERY_HOT}; --controlled
+		loopHCCompleted_INT_HC_FF: boolean; --controlled
+		loopHCCompleted_INT_HC_GF: boolean; --controlled
+		mgaTurn: boolean; --controlled
+		sgnIntHCMMainHCM_INT_HC_FF_MAIN_HC: boolean; --controlled
+		sgnIntHCMMainHCM_INT_HC_GF_MAIN_HC: boolean; --controlled
+		sgnMainHCEIntHCE_MAIN_HC_INT_HC_FF: boolean; --controlled
+		sgnMainHCEIntHCE_MAIN_HC_INT_HC_GF: boolean; --controlled
+		temperatureSaved_INT_HC_FF: {-2147483647, 0, 1, 2, 3, 4, 5}; --controlled
+		temperatureSaved_INT_HC_GF: {-2147483647, 0, 1, 2, 3, 4, 5}; --controlled
+		temperature_HS_FF: 0..5; --monitored
+		temperature_HS_GF: 0..5; --monitored
+		temperature_MidpointSaved_INT_HC_FF: {-2147483647, 0, 1, 2, 3, 4, 5}; --controlled
+		temperature_MidpointSaved_INT_HC_GF: {-2147483647, 0, 1, 2, 3, 4, 5}; --controlled
+		temperature_Midpoint_HS_FF: 0..5; --monitored
+		temperature_Midpoint_HS_GF: 0..5; --monitored
+		temperature_SetpointSaved_INT_HC_FF: {-2147483647, 0, 1, 2, 3, 4, 5}; --controlled
+		temperature_SetpointSaved_INT_HC_GF: {-2147483647, 0, 1, 2, 3, 4, 5}; --controlled
+		temperature_Setpoint_HS_FF: 0..5; --monitored
+		temperature_Setpoint_HS_GF: 0..5; --monitored
+		windowsStatusSaved_INT_HC_FF: {CLOSED, OPEN, WINDOWSTATUS_UNDEF}; --controlled
+		windowsStatusSaved_INT_HC_GF: {CLOSED, OPEN, WINDOWSTATUS_UNDEF}; --controlled
+		windowsStatus_WS_FF: {CLOSED, OPEN}; --monitored
+		windowsStatus_WS_GF: {CLOSED, OPEN}; --monitored
+		windows_Setting_WS_FF: {CLOSED, OPEN, WINDOWSTATUS_UNDEF}; --controlled
+		windows_Setting_WS_GF: {CLOSED, OPEN, WINDOWSTATUS_UNDEF}; --controlled
+	DEFINE
+		allSubloopsHCCompleted := (loopHCCompleted_INT_HC_FF & loopHCCompleted_INT_HC_GF);
+		computeHeatingSetting_INT_HC_FF :=
+			case
+				((0 = temperatureSaved_INT_HC_FF) & !(0 < temperature_MidpointSaved_INT_HC_FF) & !(0 < temperature_SetpointSaved_INT_HC_FF)): STOPPED;
+				((0 = temperatureSaved_INT_HC_FF) & !(0 < temperature_MidpointSaved_INT_HC_FF) & (0 < temperature_SetpointSaved_INT_HC_FF)): FAIRLY_HOT;
+				((0 = temperatureSaved_INT_HC_FF) & (0 < temperature_MidpointSaved_INT_HC_FF)): VERY_HOT;
+				((1 = temperatureSaved_INT_HC_FF) & !(1 < temperature_MidpointSaved_INT_HC_FF) & !(1 < temperature_SetpointSaved_INT_HC_FF)): STOPPED;
+				((1 = temperatureSaved_INT_HC_FF) & !(1 < temperature_MidpointSaved_INT_HC_FF) & (1 < temperature_SetpointSaved_INT_HC_FF)): FAIRLY_HOT;
+				((1 = temperatureSaved_INT_HC_FF) & (1 < temperature_MidpointSaved_INT_HC_FF)): VERY_HOT;
+				((2 = temperatureSaved_INT_HC_FF) & !(2 < temperature_MidpointSaved_INT_HC_FF) & !(2 < temperature_SetpointSaved_INT_HC_FF)): STOPPED;
+				((2 = temperatureSaved_INT_HC_FF) & !(2 < temperature_MidpointSaved_INT_HC_FF) & (2 < temperature_SetpointSaved_INT_HC_FF)): FAIRLY_HOT;
+				((2 = temperatureSaved_INT_HC_FF) & (2 < temperature_MidpointSaved_INT_HC_FF)): VERY_HOT;
+				((3 = temperatureSaved_INT_HC_FF) & !(3 < temperature_MidpointSaved_INT_HC_FF) & !(3 < temperature_SetpointSaved_INT_HC_FF)): STOPPED;
+				((3 = temperatureSaved_INT_HC_FF) & !(3 < temperature_MidpointSaved_INT_HC_FF) & (3 < temperature_SetpointSaved_INT_HC_FF)): FAIRLY_HOT;
+				((3 = temperatureSaved_INT_HC_FF) & (3 < temperature_MidpointSaved_INT_HC_FF)): VERY_HOT;
+				((4 = temperatureSaved_INT_HC_FF) & !(4 < temperature_MidpointSaved_INT_HC_FF) & !(4 < temperature_SetpointSaved_INT_HC_FF)): STOPPED;
+				((4 = temperatureSaved_INT_HC_FF) & !(4 < temperature_MidpointSaved_INT_HC_FF) & (4 < temperature_SetpointSaved_INT_HC_FF)): FAIRLY_HOT;
+				((4 = temperatureSaved_INT_HC_FF) & (4 < temperature_MidpointSaved_INT_HC_FF)): VERY_HOT;
+				((5 = temperatureSaved_INT_HC_FF) & !(5 < temperature_MidpointSaved_INT_HC_FF) & !(5 < temperature_SetpointSaved_INT_HC_FF)): STOPPED;
+				((5 = temperatureSaved_INT_HC_FF) & !(5 < temperature_MidpointSaved_INT_HC_FF) & (5 < temperature_SetpointSaved_INT_HC_FF)): FAIRLY_HOT;
+				((5 = temperatureSaved_INT_HC_FF) & (5 < temperature_MidpointSaved_INT_HC_FF)): VERY_HOT;
+				TRUE: HEATINGSETTING_UNDEF;
+			esac;
+		computeHeatingSetting_INT_HC_GF :=
+			case
+				((0 = temperatureSaved_INT_HC_GF) & !(0 < temperature_MidpointSaved_INT_HC_GF) & !(0 < temperature_SetpointSaved_INT_HC_GF)): STOPPED;
+				((0 = temperatureSaved_INT_HC_GF) & !(0 < temperature_MidpointSaved_INT_HC_GF) & (0 < temperature_SetpointSaved_INT_HC_GF)): FAIRLY_HOT;
+				((0 = temperatureSaved_INT_HC_GF) & (0 < temperature_MidpointSaved_INT_HC_GF)): VERY_HOT;
+				((1 = temperatureSaved_INT_HC_GF) & !(1 < temperature_MidpointSaved_INT_HC_GF) & !(1 < temperature_SetpointSaved_INT_HC_GF)): STOPPED;
+				((1 = temperatureSaved_INT_HC_GF) & !(1 < temperature_MidpointSaved_INT_HC_GF) & (1 < temperature_SetpointSaved_INT_HC_GF)): FAIRLY_HOT;
+				((1 = temperatureSaved_INT_HC_GF) & (1 < temperature_MidpointSaved_INT_HC_GF)): VERY_HOT;
+				((2 = temperatureSaved_INT_HC_GF) & !(2 < temperature_MidpointSaved_INT_HC_GF) & !(2 < temperature_SetpointSaved_INT_HC_GF)): STOPPED;
+				((2 = temperatureSaved_INT_HC_GF) & !(2 < temperature_MidpointSaved_INT_HC_GF) & (2 < temperature_SetpointSaved_INT_HC_GF)): FAIRLY_HOT;
+				((2 = temperatureSaved_INT_HC_GF) & (2 < temperature_MidpointSaved_INT_HC_GF)): VERY_HOT;
+				((3 = temperatureSaved_INT_HC_GF) & !(3 < temperature_MidpointSaved_INT_HC_GF) & !(3 < temperature_SetpointSaved_INT_HC_GF)): STOPPED;
+				((3 = temperatureSaved_INT_HC_GF) & !(3 < temperature_MidpointSaved_INT_HC_GF) & (3 < temperature_SetpointSaved_INT_HC_GF)): FAIRLY_HOT;
+				((3 = temperatureSaved_INT_HC_GF) & (3 < temperature_MidpointSaved_INT_HC_GF)): VERY_HOT;
+				((4 = temperatureSaved_INT_HC_GF) & !(4 < temperature_MidpointSaved_INT_HC_GF) & !(4 < temperature_SetpointSaved_INT_HC_GF)): STOPPED;
+				((4 = temperatureSaved_INT_HC_GF) & !(4 < temperature_MidpointSaved_INT_HC_GF) & (4 < temperature_SetpointSaved_INT_HC_GF)): FAIRLY_HOT;
+				((4 = temperatureSaved_INT_HC_GF) & (4 < temperature_MidpointSaved_INT_HC_GF)): VERY_HOT;
+				((5 = temperatureSaved_INT_HC_GF) & !(5 < temperature_MidpointSaved_INT_HC_GF) & !(5 < temperature_SetpointSaved_INT_HC_GF)): STOPPED;
+				((5 = temperatureSaved_INT_HC_GF) & !(5 < temperature_MidpointSaved_INT_HC_GF) & (5 < temperature_SetpointSaved_INT_HC_GF)): FAIRLY_HOT;
+				((5 = temperatureSaved_INT_HC_GF) & (5 < temperature_MidpointSaved_INT_HC_GF)): VERY_HOT;
+				TRUE: HEATINGSETTING_UNDEF;
+			esac;
+		heatingsON := ((heatingStatusSaved_INT_HC_FF = ON) | (heatingStatusSaved_INT_HC_GF = ON));
+		startIntHCE_INT_HC_FF :=
+			case
+				(MAIN_HC = fromIntHCEtoMainHCE_INT_HC_FF): sgnMainHCEIntHCE_MAIN_HC_INT_HC_FF;
+				TRUE: FALSE;
+			esac;
+		startIntHCE_INT_HC_GF :=
+			case
+				(MAIN_HC = fromIntHCEtoMainHCE_INT_HC_GF): sgnMainHCEIntHCE_MAIN_HC_INT_HC_GF;
+				TRUE: FALSE;
+			esac;
+		startIntHCM_INT_HC_FF := loopHCCompleted_INT_HC_FF;
+		startIntHCM_INT_HC_GF := loopHCCompleted_INT_HC_GF;
+		startMainHCA_MAIN_HC :=
+			case
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_FF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_FF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_FF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_FF = OPEN))));
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (heatingsON & (((desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF) | (desiredHeatingSetting_INT_HC_GF != computeHeatingSetting_INT_HC_GF)) | ((windowsStatusSaved_INT_HC_GF = OPEN) | (windowsStatusSaved_INT_HC_GF = OPEN))));
+				TRUE: FALSE;
+			esac;
+		startMainHCE_MAIN_HC := (MAIN_HC = MAIN_HC);
+		startMainHCM_MAIN_HC :=
+			case
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (sgnIntHCMMainHCM_INT_HC_FF_MAIN_HC | sgnIntHCMMainHCM_INT_HC_FF_MAIN_HC);
+				((INT_HC_FF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (sgnIntHCMMainHCM_INT_HC_FF_MAIN_HC | sgnIntHCMMainHCM_INT_HC_GF_MAIN_HC);
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_FF = INT_HC_FF)): (sgnIntHCMMainHCM_INT_HC_GF_MAIN_HC | sgnIntHCMMainHCM_INT_HC_FF_MAIN_HC);
+				((INT_HC_GF = INT_HC_GF) & (INT_HC_GF = INT_HC_FF)): (sgnIntHCMMainHCM_INT_HC_GF_MAIN_HC | sgnIntHCMMainHCM_INT_HC_GF_MAIN_HC);
+				TRUE: FALSE;
+			esac;
+		startMainHCP_MAIN_HC := (MAIN_HC = MAIN_HC);
+	CONSTANTS WS_GF, WS_FF, AIRMDA_UNDEF, WS_FF, WS_GF, HEATINGSETTING_UNDEF, FAIRLY_HOT, STOPPED, VERY_HOT, HEATINGSTATUS_UNDEF, OFF, ON, WINDOWSTATUS_UNDEF, CLOSED, OPEN, HS_FF, HS_GF, HEATINGMDA_UNDEF, HS_FF, HS_GF, INT_HC_GF, INT_HC_FF, INTHCMGA_UNDEF, INT_HC_FF, INT_HC_GF, MAIN_HC, MAINHCMGA_UNDEF, MAIN_HC;
+	ASSIGN
+		init(airManagedByIntHC_INT_HC_FF) := (INT_HC_FF = INT_HC_GF) ? WS_GF : WS_FF;
+		init(airManagedByIntHC_INT_HC_GF) := (INT_HC_GF = INT_HC_GF) ? WS_GF : WS_FF;
+		init(desiredHeatingSetting_INT_HC_FF) := STOPPED;
+		init(desiredHeatingSetting_INT_HC_GF) := STOPPED;
+		init(desiredWindowsStatus_INT_HC_FF) := WINDOWSTATUS_UNDEF;
+		init(desiredWindowsStatus_INT_HC_GF) := WINDOWSTATUS_UNDEF;
+		init(fromIntHCEtoMainHCE_INT_HC_FF) := MAIN_HC;
+		init(fromIntHCEtoMainHCE_INT_HC_GF) := MAIN_HC;
+		init(fromIntHCMtoMainHCM_INT_HC_FF) := MAIN_HC;
+		init(fromIntHCMtoMainHCM_INT_HC_GF) := MAIN_HC;
+		init(heatingManagedByIntHC_INT_HC_FF) := (INT_HC_FF = INT_HC_GF) ? HS_GF : HS_FF;
+		init(heatingManagedByIntHC_INT_HC_GF) := (INT_HC_GF = INT_HC_GF) ? HS_GF : HS_FF;
+		init(heatingStatusSaved_INT_HC_FF) := HEATINGSTATUS_UNDEF;
+		init(heatingStatusSaved_INT_HC_GF) := HEATINGSTATUS_UNDEF;
+		init(heating_Setting_HS_FF) := HEATINGSETTING_UNDEF;
+		init(heating_Setting_HS_GF) := HEATINGSETTING_UNDEF;
+		init(loopHCCompleted_INT_HC_FF) := TRUE;
+		init(loopHCCompleted_INT_HC_GF) := TRUE;
+		init(mgaTurn) := TRUE;
+		init(sgnIntHCMMainHCM_INT_HC_FF_MAIN_HC) := FALSE;
+		init(sgnIntHCMMainHCM_INT_HC_GF_MAIN_HC) := FALSE;
+		init(sgnMainHCEIntHCE_MAIN_HC_INT_HC_FF) := FALSE;
+		init(sgnMainHCEIntHCE_MAIN_HC_INT_HC_GF) := FALSE;
+		init(temperatureSaved_INT_HC_FF) := -2147483647;
+		init(temperatureSaved_INT_HC_GF) := -2147483647;
+		init(temperature_MidpointSaved_INT_HC_FF) := -2147483647;
+		init(temperature_MidpointSaved_INT_HC_GF) := -2147483647;
+		init(temperature_SetpointSaved_INT_HC_FF) := -2147483647;
+		init(temperature_SetpointSaved_INT_HC_GF) := -2147483647;
+		init(windowsStatusSaved_INT_HC_FF) := WINDOWSTATUS_UNDEF;
+		init(windowsStatusSaved_INT_HC_GF) := WINDOWSTATUS_UNDEF;
+		init(windows_Setting_WS_FF) := WINDOWSTATUS_UNDEF;
+		init(windows_Setting_WS_GF) := WINDOWSTATUS_UNDEF;
+		next(airManagedByIntHC_INT_HC_FF) := airManagedByIntHC_INT_HC_FF;
+		next(airManagedByIntHC_INT_HC_GF) := airManagedByIntHC_INT_HC_GF;
+		next(desiredHeatingSetting_INT_HC_FF) :=
+			case
+				((TRUE & ((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & (INT_HC_FF = INT_HC_GF))) | (TRUE & ((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & (INT_HC_GF = INT_HC_FF)))): computeHeatingSetting_INT_HC_GF;
+				((TRUE & (((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC)) | (TRUE & ((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & ((INT_HC_GF = INT_HC_FF) & (INT_HC_GF = INT_HC_FF))))): computeHeatingSetting_INT_HC_FF;
+				TRUE: desiredHeatingSetting_INT_HC_FF;
+			esac;
+		next(desiredHeatingSetting_INT_HC_GF) :=
+			case
+				((TRUE & (((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC)) | (TRUE & ((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & ((INT_HC_FF = INT_HC_GF) & (INT_HC_FF = INT_HC_GF))))): computeHeatingSetting_INT_HC_GF;
+				((TRUE & ((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & (INT_HC_GF = INT_HC_FF))) | (TRUE & ((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & (INT_HC_FF = INT_HC_GF)))): computeHeatingSetting_INT_HC_FF;
+				TRUE: desiredHeatingSetting_INT_HC_GF;
+			esac;
+		next(desiredWindowsStatus_INT_HC_FF) :=
+			case
+				((((TRUE & (((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & (INT_HC_FF = INT_HC_GF)) & (heatingsON & (windowsStatusSaved_INT_HC_GF = OPEN)))) | (TRUE & ((((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & (INT_HC_GF = INT_HC_FF)) & (heatingsON & (windowsStatusSaved_INT_HC_FF = OPEN))) & (INT_HC_GF = INT_HC_FF)))) | (TRUE & ((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & (heatingsON & (windowsStatusSaved_INT_HC_FF = OPEN))))) | (TRUE & (((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & (heatingsON & (windowsStatusSaved_INT_HC_GF = OPEN))) & (INT_HC_GF = INT_HC_FF)))): CLOSED;
+				TRUE: desiredWindowsStatus_INT_HC_FF;
+			esac;
+		next(desiredWindowsStatus_INT_HC_GF) :=
+			case
+				((((TRUE & ((((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & (INT_HC_FF = INT_HC_GF)) & (heatingsON & (windowsStatusSaved_INT_HC_GF = OPEN))) & (INT_HC_FF = INT_HC_GF))) | (TRUE & ((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & (heatingsON & (windowsStatusSaved_INT_HC_GF = OPEN))))) | (TRUE & (((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & (INT_HC_GF = INT_HC_FF)) & (heatingsON & (windowsStatusSaved_INT_HC_FF = OPEN))))) | (TRUE & (((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & (heatingsON & (windowsStatusSaved_INT_HC_FF = OPEN))) & (INT_HC_FF = INT_HC_GF)))): CLOSED;
+				TRUE: desiredWindowsStatus_INT_HC_GF;
+			esac;
+		next(fromIntHCEtoMainHCE_INT_HC_FF) := fromIntHCEtoMainHCE_INT_HC_FF;
+		next(fromIntHCEtoMainHCE_INT_HC_GF) := fromIntHCEtoMainHCE_INT_HC_GF;
+		next(fromIntHCMtoMainHCM_INT_HC_FF) := fromIntHCMtoMainHCM_INT_HC_FF;
+		next(fromIntHCMtoMainHCM_INT_HC_GF) := fromIntHCMtoMainHCM_INT_HC_GF;
+		next(heatingManagedByIntHC_INT_HC_FF) := heatingManagedByIntHC_INT_HC_FF;
+		next(heatingManagedByIntHC_INT_HC_GF) := heatingManagedByIntHC_INT_HC_GF;
+		next(heatingStatusSaved_INT_HC_FF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_FF) & (heatingManagedByIntHC_INT_HC_FF = HS_GF))): heatingStatus_HS_GF;
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_FF) & (heatingManagedByIntHC_INT_HC_FF = HS_FF))): heatingStatus_HS_FF;
+				TRUE: heatingStatusSaved_INT_HC_FF;
+			esac;
+		next(heatingStatusSaved_INT_HC_GF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_GF) & (heatingManagedByIntHC_INT_HC_GF = HS_FF))): heatingStatus_HS_FF;
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_GF) & (heatingManagedByIntHC_INT_HC_GF = HS_GF))): heatingStatus_HS_GF;
+				TRUE: heatingStatusSaved_INT_HC_GF;
+			esac;
+		next(heating_Setting_HS_FF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCE_INT_HC_FF) & (heatingManagedByIntHC_INT_HC_FF = HS_FF))): desiredHeatingSetting_INT_HC_FF;
+				(TRUE & ((mgaTurn & startIntHCE_INT_HC_GF) & (heatingManagedByIntHC_INT_HC_GF = HS_FF))): desiredHeatingSetting_INT_HC_GF;
+				(TRUE & !(mgaTurn)): HEATINGSETTING_UNDEF;
+				TRUE: heating_Setting_HS_FF;
+			esac;
+		next(heating_Setting_HS_GF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCE_INT_HC_FF) & (heatingManagedByIntHC_INT_HC_FF = HS_GF))): desiredHeatingSetting_INT_HC_FF;
+				(TRUE & !(mgaTurn)): HEATINGSETTING_UNDEF;
+				(TRUE & ((mgaTurn & startIntHCE_INT_HC_GF) & (heatingManagedByIntHC_INT_HC_GF = HS_GF))): desiredHeatingSetting_INT_HC_GF;
+				TRUE: heating_Setting_HS_GF;
+			esac;
+		next(loopHCCompleted_INT_HC_FF) :=
+			case
+				(TRUE & (mgaTurn & startIntHCM_INT_HC_FF)): FALSE;
+				(((TRUE & ((mgaTurn & startMainHCM_MAIN_HC) & !(startMainHCA_MAIN_HC))) | (TRUE & (mgaTurn & startIntHCE_INT_HC_FF))) | (TRUE & (((mgaTurn & startMainHCM_MAIN_HC) & !(startMainHCA_MAIN_HC)) & (INT_HC_GF = INT_HC_FF)))): TRUE;
+				TRUE: loopHCCompleted_INT_HC_FF;
+			esac;
+		next(loopHCCompleted_INT_HC_GF) :=
+			case
+				(((TRUE & (((mgaTurn & startMainHCM_MAIN_HC) & !(startMainHCA_MAIN_HC)) & (INT_HC_FF = INT_HC_GF))) | (TRUE & ((mgaTurn & startMainHCM_MAIN_HC) & !(startMainHCA_MAIN_HC)))) | (TRUE & (mgaTurn & startIntHCE_INT_HC_GF))): TRUE;
+				(TRUE & (mgaTurn & startIntHCM_INT_HC_GF)): FALSE;
+				TRUE: loopHCCompleted_INT_HC_GF;
+			esac;
+		next(mgaTurn) := mgaTurn;
+		next(sgnIntHCMMainHCM_INT_HC_FF_MAIN_HC) :=
+			case
+				((TRUE & (mgaTurn & startMainHCM_MAIN_HC)) | (TRUE & ((mgaTurn & startMainHCM_MAIN_HC) & (INT_HC_GF = INT_HC_FF)))): FALSE;
+				(TRUE & ((((mgaTurn & startIntHCM_INT_HC_FF) & (fromIntHCMtoMainHCM_INT_HC_FF = MAIN_HC)) & !(sgnIntHCMMainHCM_INT_HC_FF_MAIN_HC)) & (fromIntHCMtoMainHCM_INT_HC_FF = MAIN_HC))): TRUE;
+				TRUE: sgnIntHCMMainHCM_INT_HC_FF_MAIN_HC;
+			esac;
+		next(sgnIntHCMMainHCM_INT_HC_GF_MAIN_HC) :=
+			case
+				(TRUE & ((((mgaTurn & startIntHCM_INT_HC_GF) & (fromIntHCMtoMainHCM_INT_HC_GF = MAIN_HC)) & !(sgnIntHCMMainHCM_INT_HC_GF_MAIN_HC)) & (fromIntHCMtoMainHCM_INT_HC_GF = MAIN_HC))): TRUE;
+				((TRUE & ((mgaTurn & startMainHCM_MAIN_HC) & (INT_HC_FF = INT_HC_GF))) | (TRUE & (mgaTurn & startMainHCM_MAIN_HC))): FALSE;
+				TRUE: sgnIntHCMMainHCM_INT_HC_GF_MAIN_HC;
+			esac;
+		next(sgnMainHCEIntHCE_MAIN_HC_INT_HC_FF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCE_INT_HC_FF) & (fromIntHCEtoMainHCE_INT_HC_FF = MAIN_HC))): FALSE;
+				((TRUE & (((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & startMainHCE_MAIN_HC) & (INT_HC_GF = INT_HC_FF))) | (TRUE & ((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & startMainHCE_MAIN_HC))): TRUE;
+				TRUE: sgnMainHCEIntHCE_MAIN_HC_INT_HC_FF;
+			esac;
+		next(sgnMainHCEIntHCE_MAIN_HC_INT_HC_GF) :=
+			case
+				((TRUE & (((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & startMainHCE_MAIN_HC) & (INT_HC_FF = INT_HC_GF))) | (TRUE & ((((mgaTurn & startMainHCM_MAIN_HC) & startMainHCA_MAIN_HC) & startMainHCP_MAIN_HC) & startMainHCE_MAIN_HC))): TRUE;
+				(TRUE & ((mgaTurn & startIntHCE_INT_HC_GF) & (fromIntHCEtoMainHCE_INT_HC_GF = MAIN_HC))): FALSE;
+				TRUE: sgnMainHCEIntHCE_MAIN_HC_INT_HC_GF;
+			esac;
+		next(temperatureSaved_INT_HC_FF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_FF) & (heatingManagedByIntHC_INT_HC_FF = HS_GF))) & temperature_HS_GF in {-2147483647, 0, 1, 2, 3, 4, 5}: temperature_HS_GF;
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_FF) & (heatingManagedByIntHC_INT_HC_FF = HS_FF))) & temperature_HS_FF in {-2147483647, 0, 1, 2, 3, 4, 5}: temperature_HS_FF;
+				TRUE: temperatureSaved_INT_HC_FF;
+			esac;
+		next(temperatureSaved_INT_HC_GF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_GF) & (heatingManagedByIntHC_INT_HC_GF = HS_FF))) & temperature_HS_FF in {-2147483647, 0, 1, 2, 3, 4, 5}: temperature_HS_FF;
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_GF) & (heatingManagedByIntHC_INT_HC_GF = HS_GF))) & temperature_HS_GF in {-2147483647, 0, 1, 2, 3, 4, 5}: temperature_HS_GF;
+				TRUE: temperatureSaved_INT_HC_GF;
+			esac;
+		next(temperature_MidpointSaved_INT_HC_FF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_FF) & (heatingManagedByIntHC_INT_HC_FF = HS_GF))) & temperature_Midpoint_HS_GF in {-2147483647, 0, 1, 2, 3, 4, 5}: temperature_Midpoint_HS_GF;
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_FF) & (heatingManagedByIntHC_INT_HC_FF = HS_FF))) & temperature_Midpoint_HS_FF in {-2147483647, 0, 1, 2, 3, 4, 5}: temperature_Midpoint_HS_FF;
+				TRUE: temperature_MidpointSaved_INT_HC_FF;
+			esac;
+		next(temperature_MidpointSaved_INT_HC_GF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_GF) & (heatingManagedByIntHC_INT_HC_GF = HS_FF))) & temperature_Midpoint_HS_FF in {-2147483647, 0, 1, 2, 3, 4, 5}: temperature_Midpoint_HS_FF;
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_GF) & (heatingManagedByIntHC_INT_HC_GF = HS_GF))) & temperature_Midpoint_HS_GF in {-2147483647, 0, 1, 2, 3, 4, 5}: temperature_Midpoint_HS_GF;
+				TRUE: temperature_MidpointSaved_INT_HC_GF;
+			esac;
+		next(temperature_SetpointSaved_INT_HC_FF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_FF) & (heatingManagedByIntHC_INT_HC_FF = HS_GF))) & temperature_Setpoint_HS_GF in {-2147483647, 0, 1, 2, 3, 4, 5}: temperature_Setpoint_HS_GF;
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_FF) & (heatingManagedByIntHC_INT_HC_FF = HS_FF))) & temperature_Setpoint_HS_FF in {-2147483647, 0, 1, 2, 3, 4, 5}: temperature_Setpoint_HS_FF;
+				TRUE: temperature_SetpointSaved_INT_HC_FF;
+			esac;
+		next(temperature_SetpointSaved_INT_HC_GF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_GF) & (heatingManagedByIntHC_INT_HC_GF = HS_FF))) & temperature_Setpoint_HS_FF in {-2147483647, 0, 1, 2, 3, 4, 5}: temperature_Setpoint_HS_FF;
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_GF) & (heatingManagedByIntHC_INT_HC_GF = HS_GF))) & temperature_Setpoint_HS_GF in {-2147483647, 0, 1, 2, 3, 4, 5}: temperature_Setpoint_HS_GF;
+				TRUE: temperature_SetpointSaved_INT_HC_GF;
+			esac;
+		next(windowsStatusSaved_INT_HC_FF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_FF) & (airManagedByIntHC_INT_HC_FF = WS_GF))): windowsStatus_WS_GF;
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_FF) & (airManagedByIntHC_INT_HC_FF = WS_FF))): windowsStatus_WS_FF;
+				TRUE: windowsStatusSaved_INT_HC_FF;
+			esac;
+		next(windowsStatusSaved_INT_HC_GF) :=
+			case
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_GF) & (airManagedByIntHC_INT_HC_GF = WS_FF))): windowsStatus_WS_FF;
+				(TRUE & ((mgaTurn & startIntHCM_INT_HC_GF) & (airManagedByIntHC_INT_HC_GF = WS_GF))): windowsStatus_WS_GF;
+				TRUE: windowsStatusSaved_INT_HC_GF;
+			esac;
+		next(windows_Setting_WS_FF) :=
+			case
+				(TRUE & (!(mgaTurn) & (windows_Setting_WS_FF != WINDOWSTATUS_UNDEF))): WINDOWSTATUS_UNDEF;
+				(TRUE & ((mgaTurn & startIntHCE_INT_HC_GF) & (airManagedByIntHC_INT_HC_GF = WS_FF))): desiredWindowsStatus_INT_HC_GF;
+				(TRUE & ((mgaTurn & startIntHCE_INT_HC_FF) & (airManagedByIntHC_INT_HC_FF = WS_FF))): desiredWindowsStatus_INT_HC_FF;
+				TRUE: windows_Setting_WS_FF;
+			esac;
+		next(windows_Setting_WS_GF) :=
+			case
+				(TRUE & (!(mgaTurn) & (windows_Setting_WS_GF != WINDOWSTATUS_UNDEF))): WINDOWSTATUS_UNDEF;
+				(TRUE & ((mgaTurn & startIntHCE_INT_HC_GF) & (airManagedByIntHC_INT_HC_GF = WS_GF))): desiredWindowsStatus_INT_HC_GF;
+				(TRUE & ((mgaTurn & startIntHCE_INT_HC_FF) & (airManagedByIntHC_INT_HC_FF = WS_GF))): desiredWindowsStatus_INT_HC_FF;
+				TRUE: windows_Setting_WS_GF;
+			esac;
+--LTL properties
+LTLSPEC NAME ltl0 := G(((heatingsON & (temperatureSaved_INT_HC_GF < temperature_MidpointSaved_INT_HC_GF)) -> F((heating_Setting_HS_GF = VERY_HOT))));
+LTLSPEC NAME ltl1 := G(((heatingsON & (temperatureSaved_INT_HC_FF < temperature_MidpointSaved_INT_HC_FF)) -> F((heating_Setting_HS_FF = VERY_HOT))));
+LTLSPEC NAME ltl2 := G(((heatingsON & (windowsStatusSaved_INT_HC_GF = OPEN)) -> F((windows_Setting_WS_GF = CLOSED))));
+LTLSPEC NAME ltl3 := G(((heatingsON & (windowsStatusSaved_INT_HC_FF = OPEN)) -> F((windows_Setting_WS_FF = CLOSED))));

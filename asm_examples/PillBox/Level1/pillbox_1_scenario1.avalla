@@ -1,0 +1,60 @@
+scenario scenario1
+load pillbox_1.asm
+
+begin takePill
+
+	//******************************************************
+	// Setting-up the initial state, where everything is OFF
+	//******************************************************
+	set openSwitch := false;
+	
+	step
+	
+	check redLed = OFF;
+	check outMess = NONE;
+	check logMess = NONE;
+	
+	//******************************************************
+	// Time to take the pill: Overpass the time_consumption
+	//******************************************************
+	step until systemTime = 2;
+	
+	check redLed = ON;
+	check outMess = TAKE_PILL;
+	check logMess = NONE;
+
+end
+
+begin openDrawerIn10Min
+
+	//******************************************************
+	// Open the drawer within 10 minutes
+	//******************************************************
+	step until systemTime = 3;
+	
+	set openSwitch := true;
+	
+	step
+	
+	check redLed = BLINKING;
+	check outMess = CLOSE_DRAWER_IN_10_MIN;
+	check logMess = NONE;
+	
+end
+
+begin closeDrawerIn10Min
+	
+	//******************************************************
+	// Close the drawer within 10 minutes
+	//******************************************************
+	step until systemTime = 4;
+	
+	set openSwitch := false;
+	
+	step
+	
+	check redLed = OFF;
+	check outMess = NONE;
+	check logMess = NONE;
+	
+end

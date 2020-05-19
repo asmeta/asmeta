@@ -1,0 +1,1146 @@
+INFO - parsing file /Users/paolo/Documents/workspace/ERMTS-HL3/ertms_hl3_scenario9.asm
+INFO - file successfully parsed for asm ertms_hl3_scenario9
+Running interactively ertms_hl3_scenario9.asm
+INITIAL STATE:Rbc={rbc_supervisor}
+TrackController={trackcontroller1}
+Trains={train1,train2}
+Ttd={ttd_10,ttd_20,ttd_30}
+Vss={vss_11,vss_12,vss_21,vss_22,vss_23,vss_31,vss_32,vss_33}
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train2):
+(5,60)
+Insert a boolean constant for rbc_conn(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_position(train2):
+10
+Insert a boolean constant for lost_integrity(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_length(train2):
+5
+Insert a constant in Train_Speed of type Integer for train_speed(train2):
+50
+Insert a boolean constant for rbc_conn(train1):
+true
+Insert a constant in Vss_Units of type Integer for train_position(train1):
+45
+Insert a boolean constant for disconnect_propagation_timer(vss_11):
+false
+Insert a boolean constant for length_changed(train2):
+false
+Insert a boolean constant for wait_integrity_timer(train2):
+false
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train1):
+(40,80)
+Insert a boolean constant for lost_integrity(train1):
+false
+Insert a constant in Vss_Units of type Integer for train_length(train1):
+5
+Insert a constant in Train_Speed of type Integer for train_speed(train1):
+100
+Insert a boolean constant for wait_integrity_timer(train1):
+false
+Insert a boolean constant for length_changed(train1):
+false
+Insert a boolean constant for ghost_timer:
+true
+<State 0 (monitored)>
+disconnect_propagation_timer(vss_11)=false
+ghost_timer=true
+length_changed(train1)=false
+length_changed(train2)=false
+lost_integrity(train1)=false
+lost_integrity(train2)=false
+ma(train1)=(40,80)
+ma(train2)=(5,60)
+rbc_conn(train1)=true
+rbc_conn(train2)=false
+train_length(train1)=5
+train_length(train2)=5
+train_position(train1)=45
+train_position(train2)=10
+train_speed(train1)=100
+train_speed(train2)=50
+wait_integrity_timer(train1)=false
+wait_integrity_timer(train2)=false
+</State 0 (monitored)>
+<UpdateSet - 0>
+collect_trains_data(train1)=(45,5,100,40,80)
+collect_trains_data(train2)=(10,5,50,5,60)
+collect_trains_predata(train1)=(0,0,0,0,0)
+collect_trains_predata(train2)=(0,0,0,0,0)
+confirmed_safe_rear_end(train1)=35
+ghost_propagation_timer(ttd_10)=true
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+mute_timer(train1)=false
+mute_timer(train2)=true
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=false
+trains_shadow(train1)=true
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_20)=TTD_FREE
+ttd_states(ttd_10)=TTD_OCCUPIED
+ttd_states(ttd_20)=TTD_OCCUPIED
+vss_prestates(vss_11)=FREE
+vss_prestates(vss_12)=FREE
+vss_prestates(vss_23)=FREE
+vss_states(vss_11)=UNKNOWN
+vss_states(vss_12)=UNKNOWN
+vss_states(vss_23)=OCCUPIED
+</UpdateSet>
+<State 1 (controlled)>
+Rbc={rbc_supervisor}
+TrackController={trackcontroller1}
+Trains={train1,train2}
+Ttd={ttd_10,ttd_20,ttd_30}
+Vss={vss_11,vss_12,vss_21,vss_22,vss_23,vss_31,vss_32,vss_33}
+brake_factor=4.0
+collect_trains_data(train1)=(45,5,100,40,80)
+collect_trains_data(train2)=(10,5,50,5,60)
+collect_trains_predata(train1)=(0,0,0,0,0)
+collect_trains_predata(train2)=(0,0,0,0,0)
+confirmed_safe_rear_end(train1)=35
+ghost_propagation_timer(ttd_10)=true
+ghost_propagation_timer(ttd_20)=false
+ghost_propagation_timer(ttd_30)=false
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+mute_timer(train1)=false
+mute_timer(train2)=true
+self=trackcontroller1
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chased(train2)=false
+trains_chasing(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=false
+trains_shadow(train1)=true
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_20)=TTD_FREE
+ttd_states(ttd_10)=TTD_OCCUPIED
+ttd_states(ttd_20)=TTD_OCCUPIED
+ttd_states(ttd_30)=TTD_FREE
+vss_prestates(vss_11)=FREE
+vss_prestates(vss_12)=FREE
+vss_prestates(vss_23)=FREE
+vss_presweeping(vss_11)=false
+vss_presweeping(vss_12)=false
+vss_presweeping(vss_21)=false
+vss_presweeping(vss_22)=false
+vss_presweeping(vss_23)=false
+vss_presweeping(vss_31)=false
+vss_presweeping(vss_32)=false
+vss_presweeping(vss_33)=false
+vss_states(vss_11)=UNKNOWN
+vss_states(vss_12)=UNKNOWN
+vss_states(vss_21)=FREE
+vss_states(vss_22)=FREE
+vss_states(vss_23)=OCCUPIED
+vss_states(vss_31)=FREE
+vss_states(vss_32)=FREE
+vss_states(vss_33)=FREE
+</State 1 (controlled)>
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train2):
+(5,60)
+Insert a boolean constant for rbc_conn(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_position(train2):
+18
+Insert a boolean constant for lost_integrity(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_length(train2):
+5
+Insert a constant in Train_Speed of type Integer for train_speed(train2):
+50
+Insert a boolean constant for rbc_conn(train1):
+true
+Insert a constant in Vss_Units of type Integer for train_position(train1):
+45
+Insert a boolean constant for disconnect_propagation_timer(vss_11):
+false
+Insert a boolean constant for length_changed(train2):
+false
+Insert a boolean constant for wait_integrity_timer(train2):
+false
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train1):
+(40,80)
+Insert a boolean constant for lost_integrity(train1):
+false
+Insert a constant in Vss_Units of type Integer for train_length(train1):
+5
+Insert a constant in Train_Speed of type Integer for train_speed(train1):
+100
+Insert a boolean constant for length_changed(train1):
+false
+Insert a boolean constant for wait_integrity_timer(train1):
+false
+Insert a boolean constant for ghost_timer:
+false
+<State 1 (monitored)>
+disconnect_propagation_timer(vss_11)=false
+ghost_timer=false
+length_changed(train1)=false
+length_changed(train2)=false
+lost_integrity(train1)=false
+lost_integrity(train2)=false
+ma(train1)=(40,80)
+ma(train2)=(5,60)
+rbc_conn(train1)=true
+rbc_conn(train2)=false
+train_length(train1)=5
+train_length(train2)=5
+train_position(train1)=45
+train_position(train2)=18
+train_speed(train1)=100
+train_speed(train2)=50
+wait_integrity_timer(train1)=false
+wait_integrity_timer(train2)=false
+</State 1 (monitored)>
+<UpdateSet - 1>
+collect_trains_data(train1)=(45,5,100,40,80)
+collect_trains_data(train2)=(18,5,50,5,60)
+collect_trains_predata(train1)=(45,5,100,40,80)
+collect_trains_predata(train2)=(10,5,50,5,60)
+confirmed_safe_rear_end(train1)=35
+ghost_propagation_timer(ttd_10)=false
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+mute_timer(train1)=false
+mute_timer(train2)=true
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=false
+trains_shadow(train1)=true
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_20)=TTD_OCCUPIED
+ttd_states(ttd_10)=TTD_OCCUPIED
+ttd_states(ttd_20)=TTD_OCCUPIED
+vss_prestates(vss_11)=UNKNOWN
+vss_prestates(vss_12)=UNKNOWN
+vss_prestates(vss_21)=FREE
+vss_prestates(vss_22)=FREE
+vss_prestates(vss_23)=OCCUPIED
+vss_states(vss_11)=UNKNOWN
+vss_states(vss_12)=UNKNOWN
+vss_states(vss_21)=UNKNOWN
+vss_states(vss_22)=UNKNOWN
+vss_states(vss_23)=AMBIGUOUS
+</UpdateSet>
+<State 2 (controlled)>
+Rbc={rbc_supervisor}
+TrackController={trackcontroller1}
+Trains={train1,train2}
+Ttd={ttd_10,ttd_20,ttd_30}
+Vss={vss_11,vss_12,vss_21,vss_22,vss_23,vss_31,vss_32,vss_33}
+brake_factor=4.0
+collect_trains_data(train1)=(45,5,100,40,80)
+collect_trains_data(train2)=(18,5,50,5,60)
+collect_trains_predata(train1)=(45,5,100,40,80)
+collect_trains_predata(train2)=(10,5,50,5,60)
+confirmed_safe_rear_end(train1)=35
+ghost_propagation_timer(ttd_10)=false
+ghost_propagation_timer(ttd_20)=false
+ghost_propagation_timer(ttd_30)=false
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+mute_timer(train1)=false
+mute_timer(train2)=true
+self=trackcontroller1
+shadow_train_timerA(ttd_10)=false
+shadow_train_timerB(ttd_10)=false
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chased(train2)=false
+trains_chasing(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=false
+trains_shadow(train1)=true
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_20)=TTD_OCCUPIED
+ttd_states(ttd_10)=TTD_OCCUPIED
+ttd_states(ttd_20)=TTD_OCCUPIED
+ttd_states(ttd_30)=TTD_FREE
+vss_prestates(vss_11)=UNKNOWN
+vss_prestates(vss_12)=UNKNOWN
+vss_prestates(vss_21)=FREE
+vss_prestates(vss_22)=FREE
+vss_prestates(vss_23)=OCCUPIED
+vss_presweeping(vss_11)=false
+vss_presweeping(vss_12)=false
+vss_presweeping(vss_21)=false
+vss_presweeping(vss_22)=false
+vss_presweeping(vss_23)=false
+vss_presweeping(vss_31)=false
+vss_presweeping(vss_32)=false
+vss_presweeping(vss_33)=false
+vss_states(vss_11)=UNKNOWN
+vss_states(vss_12)=UNKNOWN
+vss_states(vss_21)=UNKNOWN
+vss_states(vss_22)=UNKNOWN
+vss_states(vss_23)=AMBIGUOUS
+vss_states(vss_31)=FREE
+vss_states(vss_32)=FREE
+vss_states(vss_33)=FREE
+</State 2 (controlled)>
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train2):
+(5,60)
+Insert a boolean constant for rbc_conn(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_position(train2):
+20
+Insert a boolean constant for lost_integrity(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_length(train2):
+5
+Insert a constant in Train_Speed of type Integer for train_speed(train2):
+50
+Insert a boolean constant for rbc_conn(train1):
+true
+Insert a constant in Vss_Units of type Integer for train_position(train1):
+55
+Insert a boolean constant for disconnect_propagation_timer(vss_11):
+false
+Insert a boolean constant for length_changed(train2):
+false
+Insert a boolean constant for wait_integrity_timer(train2):
+false
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train1):
+(40,80)
+Insert a boolean constant for lost_integrity(train1):
+false
+Insert a constant in Vss_Units of type Integer for train_length(train1):
+5
+Insert a constant in Train_Speed of type Integer for train_speed(train1):
+100
+Insert a boolean constant for length_changed(train1):
+false
+Insert a boolean constant for wait_integrity_timer(train1):
+false
+Insert a boolean constant for ghost_timer:
+false
+<State 2 (monitored)>
+disconnect_propagation_timer(vss_11)=false
+ghost_timer=false
+length_changed(train1)=false
+length_changed(train2)=false
+lost_integrity(train1)=false
+lost_integrity(train2)=false
+ma(train1)=(40,80)
+ma(train2)=(5,60)
+rbc_conn(train1)=true
+rbc_conn(train2)=false
+train_length(train1)=5
+train_length(train2)=5
+train_position(train1)=55
+train_position(train2)=20
+train_speed(train1)=100
+train_speed(train2)=50
+wait_integrity_timer(train1)=false
+wait_integrity_timer(train2)=false
+</State 2 (monitored)>
+<UpdateSet - 2>
+collect_trains_data(train1)=(55,5,100,40,80)
+collect_trains_data(train2)=(20,5,50,5,60)
+collect_trains_predata(train1)=(45,5,100,40,80)
+collect_trains_predata(train2)=(18,5,50,5,60)
+confirmed_safe_rear_end(train1)=45
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+mute_timer(train1)=false
+mute_timer(train2)=true
+shadow_train_timerA(ttd_20)=true
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=false
+trains_shadow(train1)=true
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_20)=TTD_OCCUPIED
+ttd_prestates(ttd_30)=TTD_FREE
+ttd_states(ttd_10)=TTD_OCCUPIED
+ttd_states(ttd_20)=TTD_FREE
+ttd_states(ttd_30)=TTD_OCCUPIED
+vss_prestates(vss_12)=UNKNOWN
+vss_prestates(vss_21)=UNKNOWN
+vss_prestates(vss_22)=UNKNOWN
+vss_prestates(vss_23)=AMBIGUOUS
+vss_prestates(vss_31)=FREE
+vss_states(vss_12)=UNKNOWN
+vss_states(vss_21)=FREE
+vss_states(vss_22)=FREE
+vss_states(vss_23)=FREE
+vss_states(vss_31)=AMBIGUOUS
+</UpdateSet>
+<State 3 (controlled)>
+Rbc={rbc_supervisor}
+TrackController={trackcontroller1}
+Trains={train1,train2}
+Ttd={ttd_10,ttd_20,ttd_30}
+Vss={vss_11,vss_12,vss_21,vss_22,vss_23,vss_31,vss_32,vss_33}
+brake_factor=4.0
+collect_trains_data(train1)=(55,5,100,40,80)
+collect_trains_data(train2)=(20,5,50,5,60)
+collect_trains_predata(train1)=(45,5,100,40,80)
+collect_trains_predata(train2)=(18,5,50,5,60)
+confirmed_safe_rear_end(train1)=45
+ghost_propagation_timer(ttd_10)=false
+ghost_propagation_timer(ttd_20)=false
+ghost_propagation_timer(ttd_30)=false
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+mute_timer(train1)=false
+mute_timer(train2)=true
+self=trackcontroller1
+shadow_train_timerA(ttd_10)=false
+shadow_train_timerA(ttd_20)=true
+shadow_train_timerB(ttd_10)=false
+shadow_train_timerB(ttd_20)=false
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chased(train2)=false
+trains_chasing(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=false
+trains_shadow(train1)=true
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_20)=TTD_OCCUPIED
+ttd_prestates(ttd_30)=TTD_FREE
+ttd_states(ttd_10)=TTD_OCCUPIED
+ttd_states(ttd_20)=TTD_FREE
+ttd_states(ttd_30)=TTD_OCCUPIED
+vss_prestates(vss_11)=UNKNOWN
+vss_prestates(vss_12)=UNKNOWN
+vss_prestates(vss_21)=UNKNOWN
+vss_prestates(vss_22)=UNKNOWN
+vss_prestates(vss_23)=AMBIGUOUS
+vss_prestates(vss_31)=FREE
+vss_presweeping(vss_11)=false
+vss_presweeping(vss_12)=false
+vss_presweeping(vss_21)=false
+vss_presweeping(vss_22)=false
+vss_presweeping(vss_23)=false
+vss_presweeping(vss_31)=false
+vss_presweeping(vss_32)=false
+vss_presweeping(vss_33)=false
+vss_states(vss_11)=UNKNOWN
+vss_states(vss_12)=UNKNOWN
+vss_states(vss_21)=FREE
+vss_states(vss_22)=FREE
+vss_states(vss_23)=FREE
+vss_states(vss_31)=AMBIGUOUS
+vss_states(vss_32)=FREE
+vss_states(vss_33)=FREE
+</State 3 (controlled)>
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train2):
+(5,60)
+Insert a boolean constant for rbc_conn(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_position(train2):
+20
+Insert a boolean constant for lost_integrity(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_length(train2):
+5
+Insert a constant in Train_Speed of type Integer for train_speed(train2):
+50
+Insert a boolean constant for rbc_conn(train1):
+true
+Insert a constant in Vss_Units of type Integer for train_position(train1):
+65
+Insert a boolean constant for disconnect_propagation_timer(vss_11):
+false
+Insert a boolean constant for length_changed(train2):
+false
+Insert a boolean constant for wait_integrity_timer(train2):
+false
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train1):
+(40,80)
+Insert a boolean constant for lost_integrity(train1):
+false
+Insert a constant in Vss_Units of type Integer for train_length(train1):
+5
+Insert a constant in Train_Speed of type Integer for train_speed(train1):
+100
+Insert a boolean constant for length_changed(train1):
+false
+Insert a boolean constant for wait_integrity_timer(train1):
+false
+Insert a boolean constant for ghost_timer:
+false
+<State 3 (monitored)>
+disconnect_propagation_timer(vss_11)=false
+ghost_timer=false
+length_changed(train1)=false
+length_changed(train2)=false
+lost_integrity(train1)=false
+lost_integrity(train2)=false
+ma(train1)=(40,80)
+ma(train2)=(5,60)
+rbc_conn(train1)=true
+rbc_conn(train2)=false
+train_length(train1)=5
+train_length(train2)=5
+train_position(train1)=65
+train_position(train2)=20
+train_speed(train1)=100
+train_speed(train2)=50
+wait_integrity_timer(train1)=false
+wait_integrity_timer(train2)=false
+</State 3 (monitored)>
+<UpdateSet - 3>
+collect_trains_data(train1)=(65,5,100,40,80)
+collect_trains_data(train2)=(20,5,50,5,60)
+collect_trains_predata(train1)=(55,5,100,40,80)
+collect_trains_predata(train2)=(20,5,50,5,60)
+confirmed_safe_rear_end(train1)=55
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+integrityloss_propagation_timer(vss_31)=false
+mute_timer(train1)=false
+mute_timer(train2)=true
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=false
+trains_shadow(train1)=true
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_30)=TTD_OCCUPIED
+ttd_states(ttd_10)=TTD_OCCUPIED
+ttd_states(ttd_30)=TTD_OCCUPIED
+vss_prestates(vss_11)=UNKNOWN
+vss_prestates(vss_12)=UNKNOWN
+vss_prestates(vss_32)=FREE
+vss_states(vss_11)=UNKNOWN
+vss_states(vss_12)=UNKNOWN
+vss_states(vss_32)=AMBIGUOUS
+</UpdateSet>
+<State 4 (controlled)>
+Rbc={rbc_supervisor}
+TrackController={trackcontroller1}
+Trains={train1,train2}
+Ttd={ttd_10,ttd_20,ttd_30}
+Vss={vss_11,vss_12,vss_21,vss_22,vss_23,vss_31,vss_32,vss_33}
+brake_factor=4.0
+collect_trains_data(train1)=(65,5,100,40,80)
+collect_trains_data(train2)=(20,5,50,5,60)
+collect_trains_predata(train1)=(55,5,100,40,80)
+collect_trains_predata(train2)=(20,5,50,5,60)
+confirmed_safe_rear_end(train1)=55
+ghost_propagation_timer(ttd_10)=false
+ghost_propagation_timer(ttd_20)=false
+ghost_propagation_timer(ttd_30)=false
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+integrityloss_propagation_timer(vss_31)=false
+mute_timer(train1)=false
+mute_timer(train2)=true
+self=trackcontroller1
+shadow_train_timerA(ttd_10)=false
+shadow_train_timerA(ttd_20)=true
+shadow_train_timerB(ttd_10)=false
+shadow_train_timerB(ttd_20)=false
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chased(train2)=false
+trains_chasing(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=false
+trains_shadow(train1)=true
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_20)=TTD_OCCUPIED
+ttd_prestates(ttd_30)=TTD_OCCUPIED
+ttd_states(ttd_10)=TTD_OCCUPIED
+ttd_states(ttd_20)=TTD_FREE
+ttd_states(ttd_30)=TTD_OCCUPIED
+vss_prestates(vss_11)=UNKNOWN
+vss_prestates(vss_12)=UNKNOWN
+vss_prestates(vss_21)=UNKNOWN
+vss_prestates(vss_22)=UNKNOWN
+vss_prestates(vss_23)=AMBIGUOUS
+vss_prestates(vss_31)=FREE
+vss_prestates(vss_32)=FREE
+vss_presweeping(vss_11)=false
+vss_presweeping(vss_12)=false
+vss_presweeping(vss_21)=false
+vss_presweeping(vss_22)=false
+vss_presweeping(vss_23)=false
+vss_presweeping(vss_31)=false
+vss_presweeping(vss_32)=false
+vss_presweeping(vss_33)=false
+vss_states(vss_11)=UNKNOWN
+vss_states(vss_12)=UNKNOWN
+vss_states(vss_21)=FREE
+vss_states(vss_22)=FREE
+vss_states(vss_23)=FREE
+vss_states(vss_31)=AMBIGUOUS
+vss_states(vss_32)=AMBIGUOUS
+vss_states(vss_33)=FREE
+</State 4 (controlled)>
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train2):
+(5,60)
+Insert a boolean constant for rbc_conn(train2):
+true
+Insert a constant in Vss_Units of type Integer for train_position(train2):
+20
+Insert a boolean constant for lost_integrity(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_length(train2):
+5
+Insert a constant in Train_Speed of type Integer for train_speed(train2):
+50
+Insert a boolean constant for rbc_conn(train1):
+true
+Insert a constant in Vss_Units of type Integer for train_position(train1):
+75
+Insert a boolean constant for length_changed(train2):
+false
+Insert a boolean constant for wait_integrity_timer(train2):
+false
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train1):
+(40,80)
+Insert a boolean constant for lost_integrity(train1):
+false
+Insert a constant in Vss_Units of type Integer for train_length(train1):
+5
+Insert a constant in Train_Speed of type Integer for train_speed(train1):
+100
+Insert a boolean constant for length_changed(train1):
+false
+Insert a boolean constant for wait_integrity_timer(train1):
+false
+Insert a boolean constant for ghost_timer:
+false
+<State 4 (monitored)>
+ghost_timer=false
+length_changed(train1)=false
+length_changed(train2)=false
+lost_integrity(train1)=false
+lost_integrity(train2)=false
+ma(train1)=(40,80)
+ma(train2)=(5,60)
+rbc_conn(train1)=true
+rbc_conn(train2)=true
+train_length(train1)=5
+train_length(train2)=5
+train_position(train1)=75
+train_position(train2)=20
+train_speed(train1)=100
+train_speed(train2)=50
+wait_integrity_timer(train1)=false
+wait_integrity_timer(train2)=false
+</State 4 (monitored)>
+<UpdateSet - 4>
+collect_trains_data(train1)=(75,5,100,40,80)
+collect_trains_data(train2)=(20,5,50,5,60)
+collect_trains_predata(train1)=(65,5,100,40,80)
+collect_trains_predata(train2)=(20,5,50,5,60)
+confirmed_safe_rear_end(train1)=65
+confirmed_safe_rear_end(train2)=13
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+integrityloss_propagation_timer(vss_31)=false
+integrityloss_propagation_timer(vss_32)=false
+mute_timer(train1)=false
+mute_timer(train2)=false
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=true
+trains_shadow(train1)=false
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_30)=TTD_OCCUPIED
+ttd_states(ttd_10)=TTD_OCCUPIED
+ttd_states(ttd_30)=TTD_OCCUPIED
+vss_prestates(vss_12)=UNKNOWN
+vss_prestates(vss_21)=FREE
+vss_prestates(vss_33)=FREE
+vss_states(vss_12)=AMBIGUOUS
+vss_states(vss_21)=FREE
+vss_states(vss_33)=AMBIGUOUS
+</UpdateSet>
+<State 5 (controlled)>
+Rbc={rbc_supervisor}
+TrackController={trackcontroller1}
+Trains={train1,train2}
+Ttd={ttd_10,ttd_20,ttd_30}
+Vss={vss_11,vss_12,vss_21,vss_22,vss_23,vss_31,vss_32,vss_33}
+brake_factor=4.0
+collect_trains_data(train1)=(75,5,100,40,80)
+collect_trains_data(train2)=(20,5,50,5,60)
+collect_trains_predata(train1)=(65,5,100,40,80)
+collect_trains_predata(train2)=(20,5,50,5,60)
+confirmed_safe_rear_end(train1)=65
+confirmed_safe_rear_end(train2)=13
+ghost_propagation_timer(ttd_10)=false
+ghost_propagation_timer(ttd_20)=false
+ghost_propagation_timer(ttd_30)=false
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+integrityloss_propagation_timer(vss_31)=false
+integrityloss_propagation_timer(vss_32)=false
+mute_timer(train1)=false
+mute_timer(train2)=false
+self=trackcontroller1
+shadow_train_timerA(ttd_10)=false
+shadow_train_timerA(ttd_20)=true
+shadow_train_timerB(ttd_10)=false
+shadow_train_timerB(ttd_20)=false
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,NOTCONNECTED,NOTSHADOWTRAIN,NOTINTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chased(train2)=false
+trains_chasing(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=true
+trains_shadow(train1)=false
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_20)=TTD_OCCUPIED
+ttd_prestates(ttd_30)=TTD_OCCUPIED
+ttd_states(ttd_10)=TTD_OCCUPIED
+ttd_states(ttd_20)=TTD_FREE
+ttd_states(ttd_30)=TTD_OCCUPIED
+vss_prestates(vss_11)=UNKNOWN
+vss_prestates(vss_12)=UNKNOWN
+vss_prestates(vss_21)=FREE
+vss_prestates(vss_22)=UNKNOWN
+vss_prestates(vss_23)=AMBIGUOUS
+vss_prestates(vss_31)=FREE
+vss_prestates(vss_32)=FREE
+vss_prestates(vss_33)=FREE
+vss_presweeping(vss_11)=false
+vss_presweeping(vss_12)=false
+vss_presweeping(vss_21)=false
+vss_presweeping(vss_22)=false
+vss_presweeping(vss_23)=false
+vss_presweeping(vss_31)=false
+vss_presweeping(vss_32)=false
+vss_presweeping(vss_33)=false
+vss_states(vss_11)=UNKNOWN
+vss_states(vss_12)=AMBIGUOUS
+vss_states(vss_21)=FREE
+vss_states(vss_22)=FREE
+vss_states(vss_23)=FREE
+vss_states(vss_31)=AMBIGUOUS
+vss_states(vss_32)=AMBIGUOUS
+vss_states(vss_33)=AMBIGUOUS
+</State 5 (controlled)>
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train2):
+(5,60)
+Insert a boolean constant for rbc_conn(train2):
+true
+Insert a constant in Vss_Units of type Integer for train_position(train2):
+30
+Insert a boolean constant for lost_integrity(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_length(train2):
+5
+Insert a constant in Train_Speed of type Integer for train_speed(train2):
+50
+Insert a boolean constant for wait_integrity_timer(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_position(train1):
+75
+Insert a constant in Vss_Units of type Integer for train_length(train1):
+5
+Insert a boolean constant for rbc_conn(train1):
+true
+Insert a boolean constant for length_changed(train2):
+false
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train1):
+(40,80)
+Insert a boolean constant for lost_integrity(train1):
+false
+Insert a constant in Train_Speed of type Integer for train_speed(train1):
+100
+Insert a boolean constant for wait_integrity_timer(train1):
+false
+Insert a boolean constant for length_changed(train1):
+false
+Insert a boolean constant for ghost_timer:
+false
+<State 5 (monitored)>
+ghost_timer=false
+length_changed(train1)=false
+length_changed(train2)=false
+lost_integrity(train1)=false
+lost_integrity(train2)=false
+ma(train1)=(40,80)
+ma(train2)=(5,60)
+rbc_conn(train1)=true
+rbc_conn(train2)=true
+train_length(train1)=5
+train_length(train2)=5
+train_position(train1)=75
+train_position(train2)=30
+train_speed(train1)=100
+train_speed(train2)=50
+wait_integrity_timer(train1)=false
+wait_integrity_timer(train2)=false
+</State 5 (monitored)>
+<UpdateSet - 5>
+collect_trains_data(train1)=(75,5,100,40,80)
+collect_trains_data(train2)=(30,5,50,5,60)
+collect_trains_predata(train1)=(75,5,100,40,80)
+collect_trains_predata(train2)=(20,5,50,5,60)
+confirmed_safe_rear_end(train1)=65
+confirmed_safe_rear_end(train2)=23
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+integrityloss_propagation_timer(vss_31)=false
+integrityloss_propagation_timer(vss_32)=false
+integrityloss_propagation_timer(vss_33)=false
+mute_timer(train1)=false
+mute_timer(train2)=false
+shadow_train_timerA(ttd_10)=true
+shadow_train_timerA(ttd_30)=true
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=true
+trains_shadow(train1)=false
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_20)=TTD_FREE
+ttd_prestates(ttd_30)=TTD_OCCUPIED
+ttd_states(ttd_10)=TTD_FREE
+ttd_states(ttd_20)=TTD_OCCUPIED
+ttd_states(ttd_30)=TTD_OCCUPIED
+vss_prestates(vss_11)=UNKNOWN
+vss_prestates(vss_12)=AMBIGUOUS
+vss_prestates(vss_21)=FREE
+vss_prestates(vss_33)=AMBIGUOUS
+vss_states(vss_11)=FREE
+vss_states(vss_12)=FREE
+vss_states(vss_21)=OCCUPIED
+vss_states(vss_33)=OCCUPIED
+</UpdateSet>
+<State 6 (controlled)>
+Rbc={rbc_supervisor}
+TrackController={trackcontroller1}
+Trains={train1,train2}
+Ttd={ttd_10,ttd_20,ttd_30}
+Vss={vss_11,vss_12,vss_21,vss_22,vss_23,vss_31,vss_32,vss_33}
+brake_factor=4.0
+collect_trains_data(train1)=(75,5,100,40,80)
+collect_trains_data(train2)=(30,5,50,5,60)
+collect_trains_predata(train1)=(75,5,100,40,80)
+collect_trains_predata(train2)=(20,5,50,5,60)
+confirmed_safe_rear_end(train1)=65
+confirmed_safe_rear_end(train2)=23
+ghost_propagation_timer(ttd_10)=false
+ghost_propagation_timer(ttd_20)=false
+ghost_propagation_timer(ttd_30)=false
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+integrityloss_propagation_timer(vss_31)=false
+integrityloss_propagation_timer(vss_32)=false
+integrityloss_propagation_timer(vss_33)=false
+mute_timer(train1)=false
+mute_timer(train2)=false
+self=trackcontroller1
+shadow_train_timerA(ttd_10)=true
+shadow_train_timerA(ttd_20)=true
+shadow_train_timerA(ttd_30)=true
+shadow_train_timerB(ttd_10)=false
+shadow_train_timerB(ttd_20)=false
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,SHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chased(train2)=false
+trains_chasing(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=true
+trains_shadow(train1)=false
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_20)=TTD_FREE
+ttd_prestates(ttd_30)=TTD_OCCUPIED
+ttd_states(ttd_10)=TTD_FREE
+ttd_states(ttd_20)=TTD_OCCUPIED
+ttd_states(ttd_30)=TTD_OCCUPIED
+vss_prestates(vss_11)=UNKNOWN
+vss_prestates(vss_12)=AMBIGUOUS
+vss_prestates(vss_21)=FREE
+vss_prestates(vss_22)=UNKNOWN
+vss_prestates(vss_23)=AMBIGUOUS
+vss_prestates(vss_31)=FREE
+vss_prestates(vss_32)=FREE
+vss_prestates(vss_33)=AMBIGUOUS
+vss_presweeping(vss_11)=false
+vss_presweeping(vss_12)=false
+vss_presweeping(vss_21)=false
+vss_presweeping(vss_22)=false
+vss_presweeping(vss_23)=false
+vss_presweeping(vss_31)=false
+vss_presweeping(vss_32)=false
+vss_presweeping(vss_33)=false
+vss_states(vss_11)=FREE
+vss_states(vss_12)=FREE
+vss_states(vss_21)=OCCUPIED
+vss_states(vss_22)=FREE
+vss_states(vss_23)=FREE
+vss_states(vss_31)=AMBIGUOUS
+vss_states(vss_32)=AMBIGUOUS
+vss_states(vss_33)=OCCUPIED
+</State 6 (controlled)>
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train2):
+(5,60)
+Insert a boolean constant for rbc_conn(train2):
+true
+Insert a constant in Vss_Units of type Integer for train_position(train2):
+40
+Insert a boolean constant for lost_integrity(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_length(train2):
+5
+Insert a constant in Train_Speed of type Integer for train_speed(train2):
+50
+Insert a boolean constant for wait_integrity_timer(train2):
+false
+Insert a constant in Vss_Units of type Integer for train_position(train1):
+75
+Insert a constant in Vss_Units of type Integer for train_length(train1):
+5
+Insert a boolean constant for rbc_conn(train1):
+true
+Insert a boolean constant for length_changed(train2):
+false
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train1):
+(40,80)
+Insert a boolean constant for lost_integrity(train1):
+false
+Insert a constant in Train_Speed of type Integer for train_speed(train1):
+100
+Insert a boolean constant for wait_integrity_timer(train1):
+false
+Insert a boolean constant for length_changed(train1):
+false
+Insert a boolean constant for ghost_timer:
+false
+<State 6 (monitored)>
+ghost_timer=false
+length_changed(train1)=false
+length_changed(train2)=false
+lost_integrity(train1)=false
+lost_integrity(train2)=false
+ma(train1)=(40,80)
+ma(train2)=(5,60)
+rbc_conn(train1)=true
+rbc_conn(train2)=true
+train_length(train1)=5
+train_length(train2)=5
+train_position(train1)=75
+train_position(train2)=40
+train_speed(train1)=100
+train_speed(train2)=50
+wait_integrity_timer(train1)=false
+wait_integrity_timer(train2)=false
+</State 6 (monitored)>
+<UpdateSet - 6>
+collect_trains_data(train1)=(75,5,100,40,80)
+collect_trains_data(train2)=(40,5,50,5,60)
+collect_trains_predata(train1)=(75,5,100,40,80)
+collect_trains_predata(train2)=(30,5,50,5,60)
+confirmed_safe_rear_end(train1)=65
+confirmed_safe_rear_end(train2)=33
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+integrityloss_propagation_timer(vss_31)=false
+integrityloss_propagation_timer(vss_32)=false
+integrityloss_propagation_timer(vss_33)=false
+mute_timer(train1)=false
+mute_timer(train2)=false
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=true
+trains_shadow(train1)=false
+trains_shadow(train2)=false
+ttd_prestates(ttd_20)=TTD_OCCUPIED
+ttd_prestates(ttd_30)=TTD_OCCUPIED
+ttd_states(ttd_20)=TTD_OCCUPIED
+ttd_states(ttd_30)=TTD_OCCUPIED
+vss_prestates(vss_21)=OCCUPIED
+vss_prestates(vss_22)=FREE
+vss_prestates(vss_33)=OCCUPIED
+vss_states(vss_21)=FREE
+vss_states(vss_22)=OCCUPIED
+vss_states(vss_33)=OCCUPIED
+</UpdateSet>
+<State 7 (controlled)>
+Rbc={rbc_supervisor}
+TrackController={trackcontroller1}
+Trains={train1,train2}
+Ttd={ttd_10,ttd_20,ttd_30}
+Vss={vss_11,vss_12,vss_21,vss_22,vss_23,vss_31,vss_32,vss_33}
+brake_factor=4.0
+collect_trains_data(train1)=(75,5,100,40,80)
+collect_trains_data(train2)=(40,5,50,5,60)
+collect_trains_predata(train1)=(75,5,100,40,80)
+collect_trains_predata(train2)=(30,5,50,5,60)
+confirmed_safe_rear_end(train1)=65
+confirmed_safe_rear_end(train2)=33
+ghost_propagation_timer(ttd_10)=false
+ghost_propagation_timer(ttd_20)=false
+ghost_propagation_timer(ttd_30)=false
+integrityloss_propagation_timer(vss_11)=false
+integrityloss_propagation_timer(vss_12)=false
+integrityloss_propagation_timer(vss_21)=false
+integrityloss_propagation_timer(vss_22)=false
+integrityloss_propagation_timer(vss_23)=false
+integrityloss_propagation_timer(vss_31)=false
+integrityloss_propagation_timer(vss_32)=false
+integrityloss_propagation_timer(vss_33)=false
+mute_timer(train1)=false
+mute_timer(train2)=false
+self=trackcontroller1
+shadow_train_timerA(ttd_10)=true
+shadow_train_timerA(ttd_20)=true
+shadow_train_timerA(ttd_30)=true
+shadow_train_timerB(ttd_10)=false
+shadow_train_timerB(ttd_20)=false
+train_prestate(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_prestate(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train1)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+train_state(train2)=[NOTLOSTINTEGRITY,NOTLENGTHCHANGED,CONNECTED,NOTSHADOWTRAIN,INTEGRITYCONFIRMED,NOTWAITINTEGRITYTIMER]
+trains_chased(train1)=false
+trains_chased(train2)=false
+trains_chasing(train1)=false
+trains_chasing(train2)=false
+trains_confirmed_integrity(train1)=true
+trains_confirmed_integrity(train2)=true
+trains_shadow(train1)=false
+trains_shadow(train2)=false
+ttd_prestates(ttd_10)=TTD_OCCUPIED
+ttd_prestates(ttd_20)=TTD_OCCUPIED
+ttd_prestates(ttd_30)=TTD_OCCUPIED
+ttd_states(ttd_10)=TTD_FREE
+ttd_states(ttd_20)=TTD_OCCUPIED
+ttd_states(ttd_30)=TTD_OCCUPIED
+vss_prestates(vss_11)=UNKNOWN
+vss_prestates(vss_12)=AMBIGUOUS
+vss_prestates(vss_21)=OCCUPIED
+vss_prestates(vss_22)=FREE
+vss_prestates(vss_23)=AMBIGUOUS
+vss_prestates(vss_31)=FREE
+vss_prestates(vss_32)=FREE
+vss_prestates(vss_33)=OCCUPIED
+vss_presweeping(vss_11)=false
+vss_presweeping(vss_12)=false
+vss_presweeping(vss_21)=false
+vss_presweeping(vss_22)=false
+vss_presweeping(vss_23)=false
+vss_presweeping(vss_31)=false
+vss_presweeping(vss_32)=false
+vss_presweeping(vss_33)=false
+vss_states(vss_11)=FREE
+vss_states(vss_12)=FREE
+vss_states(vss_21)=FREE
+vss_states(vss_22)=OCCUPIED
+vss_states(vss_23)=FREE
+vss_states(vss_31)=AMBIGUOUS
+vss_states(vss_32)=AMBIGUOUS
+vss_states(vss_33)=OCCUPIED
+</State 7 (controlled)>
+Insert a tuple of (constant in Vss_Units of type Integer,constant in Vss_Units of type Integer) for ma(train2):
+

@@ -1,0 +1,199 @@
+Risultati con la sola proprieta'
+LTLSPEC g(not( (ccState(a1, 1) = EXCLUSIVE) and (ccState(a2, 1)=EXCLUSIVE) ))
+
+
+
+file flashProtocol_N2_L1_Q1_C.asm
+//N=2, L=1, Q=1
+[user@localhost flashProtocol]$ NuSMV -v 2 flashProtocol_N2_L1_Q1_C.smv 
+*** This is NuSMV 2.4.1 (compiled on Thu Jul  9 15:48:18 UTC 2009)
+*** For more information on NuSMV see <http://nusmv.irst.itc.it>
+*** or email to <nusmv-users@irst.itc.it>.
+*** Please report bugs to <nusmv@irst.itc.it>.
+
+Starting the batch interaction.
+Parsing file "flashProtocol_N2_L1_Q1_C.smv" ..... done.
+Flattening hierarchy...
+checking for multiple assignments...
+Done
+checking for circular assignments...
+Done
+TraceManager: registered layer 'model'
+...done
+Building variables...
+Initializing global boolean encoding...
+Global boolean encoding initialized.
+
+Initializing global BDD encoding...
+Global BDD encoding initialized.
+...done
+
+Creating the scalar FSM...
+Reading the trans variable ordering from the BDD encoder
+Successfully created the scalar FSM
+
+The sexp model has been built from file flashProtocol_N2_L1_Q1_C.smv.
+
+Creating the BDD FSM...
+Successfully created the BDD FSM
+
+The model has been built from file flashProtocol_N2_L1_Q1_C.smv.
+evaluating LTL specification  G !(ccState_A1_1 = EXCLUSIVE & ccState_A2_1 = EXCLUSIVE) 
+....done
+Flattening the generated tableau........ done
+Creating LTL tableau variables...
+
+computing reachable state space
+done
+Computing the set of fair <state>x<input> pairs
+done
+-- specification  G !(ccState_A1_1 = EXCLUSIVE & ccState_A2_1 = EXCLUSIVE)  is true
+######################################################################
+Runtime Statistics
+------------------
+Machine name: localhost.localdomain
+User time    0.234 seconds
+System time  0.046 seconds
+
+Average resident text size       =     0K
+Average resident data+stack size =     0K
+Maximum resident size            =     0K
+
+Virtual text size                = 263347K
+Virtual data size                =  2437K
+    data size initialized        =   271K
+    data size uninitialized      =   175K
+    data size sbrk               =  1991K
+Virtual memory limit             = 4194304K (4194304K)
+
+Major page faults = 17
+Minor page faults = 2435
+Swaps = 0
+Input blocks = 2928
+Output blocks = 0
+Context switch (voluntary) = 20
+Context switch (involuntary) = 127
+######################################################################
+BDD statistics
+--------------------
+BDD nodes allocated: 62773
+--------------------
+Statistics on BDD FSM machine.
+BDD nodes representing init set of states: 46
+BDD nodes representing state constraints: 1
+BDD nodes representing input constraints: 1
+Forward Partitioning Schedule BDD cluster size (#nodes):
+cluster 1	:	size 4131
+cluster 2	:	size 1056
+cluster 3	:	size 1056
+cluster 4	:	size 19142
+cluster 5	:	size 659
+Backward Partitioning Schedule BDD cluster size (#nodes):
+cluster 1	:	size 4131
+cluster 2	:	size 1056
+cluster 3	:	size 1056
+cluster 4	:	size 19142
+cluster 5	:	size 659
+Quitting the BMC package... 
+Resetting the SBMC module...
+Done 
+Done 
+
+
+
+
+file flashProtocol_N2_L2_Q1_C.asm
+//N=2, L=2, Q=1
+[user@localhost flashProtocol]$ NuSMV -v 2 flashProtocol_N2_L2_Q1_C.smv 
+*** This is NuSMV 2.4.1 (compiled on Thu Jul  9 15:48:18 UTC 2009)
+*** For more information on NuSMV see <http://nusmv.irst.itc.it>
+*** or email to <nusmv-users@irst.itc.it>.
+*** Please report bugs to <nusmv@irst.itc.it>.
+
+Starting the batch interaction.
+Parsing file "flashProtocol_N2_L2_Q1_C.smv" ..... done.
+Flattening hierarchy...
+checking for multiple assignments...
+Done
+checking for circular assignments...
+Done
+TraceManager: registered layer 'model'
+...done
+Building variables...
+Initializing global boolean encoding...
+Global boolean encoding initialized.
+
+Initializing global BDD encoding...
+Global BDD encoding initialized.
+...done
+
+Creating the scalar FSM...
+Reading the trans variable ordering from the BDD encoder
+Successfully created the scalar FSM
+
+The sexp model has been built from file flashProtocol_N2_L2_Q1_C.smv.
+
+Creating the BDD FSM...
+Successfully created the BDD FSM
+
+The model has been built from file flashProtocol_N2_L2_Q1_C.smv.
+evaluating LTL specification  G !(ccState_A1_1 = EXCLUSIVE & ccState_A2_1 = EXCLUSIVE) 
+....done
+Flattening the generated tableau........ done
+Creating LTL tableau variables...
+
+computing reachable state space
+done
+Computing the set of fair <state>x<input> pairs
+done
+-- specification  G !(ccState_A1_1 = EXCLUSIVE & ccState_A2_1 = EXCLUSIVE)  is true
+######################################################################
+Runtime Statistics
+------------------
+Machine name: localhost.localdomain
+User time    0.384 seconds
+System time  0.053 seconds
+
+Average resident text size       =     0K
+Average resident data+stack size =     0K
+Maximum resident size            =     0K
+
+Virtual text size                = 263347K
+Virtual data size                =  2693K
+    data size initialized        =   271K
+    data size uninitialized      =   175K
+    data size sbrk               =  2247K
+Virtual memory limit             = 4194304K (4194304K)
+
+Major page faults = 0
+Minor page faults = 2496
+Swaps = 0
+Input blocks = 0
+Output blocks = 0
+Context switch (voluntary) = 1
+Context switch (involuntary) = 133
+######################################################################
+BDD statistics
+--------------------
+BDD nodes allocated: 70829
+--------------------
+Statistics on BDD FSM machine.
+BDD nodes representing init set of states: 55
+BDD nodes representing state constraints: 1
+BDD nodes representing input constraints: 1
+Forward Partitioning Schedule BDD cluster size (#nodes):
+cluster 1	:	size 4131
+cluster 2	:	size 1056
+cluster 3	:	size 1056
+cluster 4	:	size 19142
+cluster 5	:	size 1004
+Backward Partitioning Schedule BDD cluster size (#nodes):
+cluster 1	:	size 4131
+cluster 2	:	size 1056
+cluster 3	:	size 1056
+cluster 4	:	size 19142
+cluster 5	:	size 1004
+Quitting the BMC package... 
+Resetting the SBMC module...
+Done 
+Done 

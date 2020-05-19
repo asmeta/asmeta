@@ -1,0 +1,738 @@
+Insert a boolean constant for stopCam(c2):
+false
+Insert a boolean constant for startCam(c2):
+false
+Insert a boolean constant for congestion(c2):
+false
+Insert a boolean constant for stopCam(c1):
+false
+Insert a boolean constant for startCam(c1):
+false
+Insert a boolean constant for congestion(c1):
+false
+Insert a boolean constant for stopCam(c4):
+false
+Insert a boolean constant for startCam(c4):
+false
+Insert a boolean constant for congestion(c4):
+true
+Insert a boolean constant for stopCam(c3):
+false
+Insert a boolean constant for startCam(c3):
+false
+Insert a boolean constant for congestion(c3):
+true
+<State 1 (controlled)>
+Camera={c1,c2,c3,c4}
+OrganizationController={organizationController1,organizationController2,organizationController3,organizationController4}
+SelfHealingController={selfHealingController1,selfHealingController2,selfHealingController3,selfHealingController4}
+TrafficMonitor={trafficMonitor1,trafficMonitor2,trafficMonitor3,trafficMonitor4}
+cong(c3)=false
+cong(c4)=false
+congested(organizationController3)=true
+congested(organizationController4)=true
+s_offer(c4)=true
+self=trafficMonitor3
+state(c1)=MASTER
+state(c2)=MASTER
+state(c3)=MASTER
+state(c4)=MASTER
+</State 1 (controlled)>
+Insert a boolean constant for stopCam(c2):
+false
+Insert a boolean constant for startCam(c2):
+false
+Insert a boolean constant for congestion(c2):
+false
+Insert a boolean constant for stopCam(c1):
+false
+Insert a boolean constant for startCam(c1):
+false
+Insert a boolean constant for congestion(c1):
+false
+Insert a boolean constant for stopCam(c4):
+false
+Insert a boolean constant for startCam(c4):
+false
+Insert a boolean constant for congestion(c4):
+true
+Insert a boolean constant for stopCam(c3):
+false
+Insert a boolean constant for startCam(c3):
+false
+Insert a boolean constant for congestion(c3):
+true
+<State 2 (controlled)>
+Camera={c1,c2,c3,c4}
+OrganizationController={organizationController1,organizationController2,organizationController3,organizationController4}
+SelfHealingController={selfHealingController1,selfHealingController2,selfHealingController3,selfHealingController4}
+TrafficMonitor={trafficMonitor1,trafficMonitor2,trafficMonitor3,trafficMonitor4}
+cong(c3)=false
+cong(c4)=false
+congested(organizationController3)=true
+congested(organizationController4)=true
+getMaster(c4)=c3
+newSlave(c3,c4)=true
+s_offer(c4)=true
+self=trafficMonitor3
+state(c1)=MASTER
+state(c2)=MASTER
+state(c3)=MASTER
+state(c4)=SLAVE
+</State 2 (controlled)>
+Insert a boolean constant for stopCam(c2):
+false
+Insert a boolean constant for startCam(c2):
+false
+Insert a boolean constant for congestion(c2):
+true
+Insert a boolean constant for stopCam(c1):
+false
+Insert a boolean constant for startCam(c1):
+false
+Insert a boolean constant for congestion(c1):
+false
+Insert a boolean constant for stopCam(c4):
+false
+Insert a boolean constant for startCam(c4):
+false
+Insert a boolean constant for congestion(c4):
+true
+Insert a boolean constant for stopCam(c3):
+false
+Insert a boolean constant for startCam(c3):
+false
+Insert a boolean constant for congestion(c3):
+true
+Insert a boolean constant for elapsed_wait_time_plus_delta(selfHealingController4):
+false
+<State 2 (monitored)>
+elapsed_wait_time_plus_delta(selfHealingController4)=false
+</State 2 (monitored)>
+<State 3 (controlled)>
+Camera={c1,c2,c3,c4}
+OrganizationController={organizationController1,organizationController2,organizationController3,organizationController4}
+SelfHealingController={selfHealingController1,selfHealingController2,selfHealingController3,selfHealingController4}
+TrafficMonitor={trafficMonitor1,trafficMonitor2,trafficMonitor3,trafficMonitor4}
+cong(c2)=false
+cong(c3)=false
+cong(c4)=false
+congested(organizationController2)=true
+congested(organizationController3)=true
+congested(organizationController4)=true
+getMaster(c4)=c3
+isAlive(c4)=false
+newSlave(c3,c4)=false
+s_offer(c3)=true
+s_offer(c4)=false
+self=trafficMonitor3
+slaves(c3)=[c4]
+state(c1)=MASTER
+state(c2)=MASTER
+state(c3)=MASTERWITHSLAVES
+state(c4)=SLAVE
+state(selfHealingController4)=START
+</State 3 (controlled)>
+Insert a boolean constant for stopCam(c2):
+false
+Insert a boolean constant for startCam(c2):
+false
+Insert a boolean constant for congestion(c2):
+true
+Insert a boolean constant for stopCam(c1):
+false
+Insert a boolean constant for startCam(c1):
+false
+Insert a boolean constant for congestion(c1):
+false
+Insert a boolean constant for stopCam(c4):
+false
+Insert a boolean constant for startCam(c4):
+false
+Insert a boolean constant for congestion(c4):
+true
+Insert a boolean constant for stopCam(c3):
+false
+Insert a boolean constant for startCam(c3):
+false
+Insert a boolean constant for congestion(c3):
+true
+Insert a boolean constant for elapsed_wait_time_plus_delta(selfHealingController4):
+false
+Insert a boolean constant for elapsed_wait_time(selfHealingController3):
+false
+<State 3 (monitored)>
+elapsed_wait_time(selfHealingController3)=false
+elapsed_wait_time_plus_delta(selfHealingController4)=false
+</State 3 (monitored)>
+<State 4 (controlled)>
+Camera={c1,c2,c3,c4}
+OrganizationController={organizationController1,organizationController2,organizationController3,organizationController4}
+SelfHealingController={selfHealingController1,selfHealingController2,selfHealingController3,selfHealingController4}
+TrafficMonitor={trafficMonitor1,trafficMonitor2,trafficMonitor3,trafficMonitor4}
+change_master(c4)=true
+cong(c2)=false
+cong(c3)=false
+cong(c4)=false
+congested(organizationController2)=true
+congested(organizationController3)=true
+congested(organizationController4)=true
+getMaster(c3)=c2
+getMaster(c4)=c3
+isAlive(c4)=false
+newSlave(c2,c3)=true
+newSlave(c3,c4)=false
+s_offer(c3)=true
+s_offer(c4)=false
+self=trafficMonitor3
+slaves(c3)=[]
+state(c1)=MASTER
+state(c2)=MASTER
+state(c3)=SLAVE
+state(c4)=SLAVE
+state(selfHealingController3)=START
+state(selfHealingController4)=START
+</State 4 (controlled)>
+Insert a boolean constant for stopCam(c2):
+false
+Insert a boolean constant for startCam(c2):
+false
+Insert a boolean constant for congestion(c2):
+true
+Insert a boolean constant for stopCam(c1):
+false
+Insert a boolean constant for startCam(c1):
+false
+Insert a boolean constant for congestion(c1):
+false
+Insert a boolean constant for stopCam(c4):
+false
+Insert a boolean constant for startCam(c4):
+false
+Insert a boolean constant for congestion(c4):
+true
+Insert a boolean constant for stopCam(c3):
+false
+Insert a boolean constant for startCam(c3):
+false
+Insert a boolean constant for congestion(c3):
+true
+Insert a boolean constant for elapsed_wait_time_plus_delta(selfHealingController4):
+false
+Insert a boolean constant for elapsed_wait_time_plus_delta(selfHealingController3):
+false
+<State 4 (monitored)>
+elapsed_wait_time_plus_delta(selfHealingController3)=false
+elapsed_wait_time_plus_delta(selfHealingController4)=false
+</State 4 (monitored)>
+<State 5 (controlled)>
+Camera={c1,c2,c3,c4}
+OrganizationController={organizationController1,organizationController2,organizationController3,organizationController4}
+SelfHealingController={selfHealingController1,selfHealingController2,selfHealingController3,selfHealingController4}
+TrafficMonitor={trafficMonitor1,trafficMonitor2,trafficMonitor3,trafficMonitor4}
+change_master(c4)=false
+cong(c2)=false
+cong(c3)=false
+cong(c4)=false
+congested(organizationController2)=true
+congested(organizationController3)=true
+congested(organizationController4)=true
+getMaster(c3)=c2
+getMaster(c4)=c2
+isAlive(c3)=false
+isAlive(c4)=false
+newSlave(c2,c3)=false
+newSlave(c2,c4)=true
+newSlave(c3,c4)=false
+s_offer(c3)=false
+s_offer(c4)=false
+self=trafficMonitor3
+slaves(c2)=[c3]
+slaves(c3)=[]
+state(c1)=MASTER
+state(c2)=MASTERWITHSLAVES
+state(c3)=SLAVE
+state(c4)=SLAVE
+state(selfHealingController3)=START
+state(selfHealingController4)=START
+</State 5 (controlled)>
+Insert a boolean constant for stopCam(c2):
+false
+Insert a boolean constant for startCam(c2):
+false
+Insert a boolean constant for congestion(c2):
+true
+Insert a boolean constant for stopCam(c1):
+false
+Insert a boolean constant for startCam(c1):
+false
+Insert a boolean constant for congestion(c1):
+false
+Insert a boolean constant for stopCam(c4):
+false
+Insert a boolean constant for startCam(c4):
+false
+Insert a boolean constant for congestion(c4):
+true
+Insert a boolean constant for stopCam(c3):
+false
+Insert a boolean constant for startCam(c3):
+false
+Insert a boolean constant for congestion(c3):
+true
+Insert a boolean constant for elapsed_wait_time_plus_delta(selfHealingController4):
+false
+Insert a boolean constant for elapsed_wait_time(selfHealingController2):
+false
+Insert a boolean constant for elapsed_wait_time_plus_delta(selfHealingController3):
+false
+<State 5 (monitored)>
+elapsed_wait_time(selfHealingController2)=false
+elapsed_wait_time_plus_delta(selfHealingController3)=false
+elapsed_wait_time_plus_delta(selfHealingController4)=false
+</State 5 (monitored)>
+<State 6 (controlled)>
+Camera={c1,c2,c3,c4}
+OrganizationController={organizationController1,organizationController2,organizationController3,organizationController4}
+SelfHealingController={selfHealingController1,selfHealingController2,selfHealingController3,selfHealingController4}
+TrafficMonitor={trafficMonitor1,trafficMonitor2,trafficMonitor3,trafficMonitor4}
+change_master(c4)=false
+cong(c2)=false
+cong(c3)=false
+cong(c4)=false
+congested(organizationController2)=true
+congested(organizationController3)=true
+congested(organizationController4)=true
+getMaster(c3)=c2
+getMaster(c4)=c2
+isAlive(c3)=false
+isAlive(c4)=false
+newSlave(c2,c3)=false
+newSlave(c2,c4)=false
+newSlave(c3,c4)=false
+s_offer(c3)=false
+s_offer(c4)=false
+self=trafficMonitor3
+slaves(c2)=[c3,c4]
+slaves(c3)=[]
+state(c1)=MASTER
+state(c2)=MASTERWITHSLAVES
+state(c3)=SLAVE
+state(c4)=SLAVE
+state(selfHealingController2)=START
+state(selfHealingController3)=START
+state(selfHealingController4)=START
+</State 6 (controlled)>
+Insert a boolean constant for stopCam(c2):
+true
+Insert a boolean constant for startCam(c2):
+false
+Insert a boolean constant for stopCam(c1):
+false
+Insert a boolean constant for startCam(c1):
+false
+Insert a boolean constant for congestion(c1):
+false
+Insert a boolean constant for stopCam(c4):
+false
+Insert a boolean constant for startCam(c4):
+false
+Insert a boolean constant for congestion(c4):
+true
+Insert a boolean constant for stopCam(c3):
+false
+Insert a boolean constant for startCam(c3):
+false
+Insert a boolean constant for congestion(c3):
+true
+Insert a boolean constant for elapsed_wait_time_plus_delta(selfHealingController4):
+false
+Insert a boolean constant for elapsed_wait_time(selfHealingController2):
+false
+Insert a boolean constant for elapsed_wait_time_plus_delta(selfHealingController3):
+true
+<State 6 (monitored)>
+elapsed_wait_time(selfHealingController2)=false
+elapsed_wait_time_plus_delta(selfHealingController3)=true
+elapsed_wait_time_plus_delta(selfHealingController4)=false
+</State 6 (monitored)>
+<State 7 (controlled)>
+Camera={c1,c2,c3,c4}
+OrganizationController={organizationController1,organizationController2,organizationController3,organizationController4}
+SelfHealingController={selfHealingController1,selfHealingController2,selfHealingController3,selfHealingController4}
+TrafficMonitor={trafficMonitor1,trafficMonitor2,trafficMonitor3,trafficMonitor4}
+change_master(c4)=false
+cong(c2)=false
+cong(c3)=false
+cong(c4)=false
+congested(organizationController2)=true
+congested(organizationController3)=true
+congested(organizationController4)=true
+getMaster(c3)=c2
+getMaster(c4)=c2
+isAlive(c3)=false
+isAlive(c4)=false
+masterGone(c3)=true
+newSlave(c2,c3)=false
+newSlave(c2,c4)=false
+newSlave(c3,c4)=false
+s_offer(c3)=false
+s_offer(c4)=false
+self=trafficMonitor3
+slaves(c2)=[c3,c4]
+slaves(c3)=[]
+state(c1)=MASTER
+state(c2)=FAILED
+state(c3)=SLAVE
+state(c4)=SLAVE
+state(selfHealingController2)=START
+state(selfHealingController3)=START
+state(selfHealingController4)=START
+</State 7 (controlled)>
+Insert a boolean constant for stopCam(c2):
+true
+Insert a boolean constant for startCam(c2):
+false
+Insert a boolean constant for stopCam(c1):
+false
+Insert a boolean constant for startCam(c1):
+false
+Insert a boolean constant for congestion(c1):
+false
+Insert a boolean constant for stopCam(c4):
+false
+Insert a boolean constant for startCam(c4):
+false
+Insert a boolean constant for congestion(c4):
+true
+Insert a boolean constant for stopCam(c3):
+false
+Insert a boolean constant for startCam(c3):
+false
+Insert a boolean constant for congestion(c3):
+true
+Insert a boolean constant for elapsed_wait_time_plus_delta(selfHealingController4):
+true
+Insert a boolean constant for elapsed_wait_time_plus_delta(selfHealingController3):
+true
+<State 7 (monitored)>
+elapsed_wait_time_plus_delta(selfHealingController3)=true
+elapsed_wait_time_plus_delta(selfHealingController4)=true
+</State 7 (monitored)>
+<State 8 (controlled)>
+Camera={c1,c2,c3,c4}
+OrganizationController={organizationController1,organizationController2,organizationController3,organizationController4}
+SelfHealingController={selfHealingController1,selfHealingController2,selfHealingController3,selfHealingController4}
+TrafficMonitor={trafficMonitor1,trafficMonitor2,trafficMonitor3,trafficMonitor4}
+change_master(c3)=false
+change_master(c4)=false
+cong(c2)=false
+cong(c3)=false
+cong(c4)=false
+congested(organizationController2)=true
+congested(organizationController3)=true
+congested(organizationController4)=true
+getMaster(c3)=c3
+getMaster(c4)=c2
+imAlive(c1,c3)=false
+imAlive(c2,c3)=false
+imAlive(c3,c1)=false
+imAlive(c3,c2)=false
+imAlive(c3,c3)=false
+imAlive(c3,c4)=false
+imAlive(c4,c3)=false
+isAlive(c3)=false
+isAlive(c4)=false
+masterGone(c3)=true
+masterGone(c4)=true
+newSlave(c2,c3)=false
+newSlave(c2,c4)=false
+newSlave(c3,c1)=false
+newSlave(c3,c2)=false
+newSlave(c3,c3)=false
+newSlave(c3,c4)=false
+no_cong(c3)=false
+s_offer(c3)=false
+s_offer(c4)=true
+self=trafficMonitor3
+slaveGone(c3,c1)=false
+slaveGone(c3,c2)=false
+slaveGone(c3,c3)=false
+slaveGone(c3,c4)=false
+slaves(c2)=[c3,c4]
+slaves(c3)=[]
+state(c1)=MASTER
+state(c2)=FAILED
+state(c3)=MASTER
+state(c4)=SLAVE
+state(selfHealingController2)=START
+state(selfHealingController3)=START
+state(selfHealingController4)=START
+</State 8 (controlled)>
+Insert a boolean constant for stopCam(c2):
+true
+Insert a boolean constant for startCam(c2):
+false
+Insert a boolean constant for stopCam(c1):
+false
+Insert a boolean constant for startCam(c1):
+false
+Insert a boolean constant for congestion(c1):
+false
+Insert a boolean constant for stopCam(c4):
+false
+Insert a boolean constant for startCam(c4):
+false
+Insert a boolean constant for congestion(c4):
+true
+Insert a boolean constant for stopCam(c3):
+false
+Insert a boolean constant for startCam(c3):
+false
+Insert a boolean constant for congestion(c3):
+true
+Insert a boolean constant for elapsed_wait_time_plus_delta(selfHealingController4):
+true
+<State 8 (monitored)>
+elapsed_wait_time_plus_delta(selfHealingController4)=true
+</State 8 (monitored)>
+<State 9 (controlled)>
+Camera={c1,c2,c3,c4}
+OrganizationController={organizationController1,organizationController2,organizationController3,organizationController4}
+SelfHealingController={selfHealingController1,selfHealingController2,selfHealingController3,selfHealingController4}
+TrafficMonitor={trafficMonitor1,trafficMonitor2,trafficMonitor3,trafficMonitor4}
+change_master(c3)=false
+change_master(c4)=false
+cong(c2)=false
+cong(c3)=false
+cong(c4)=false
+congested(organizationController2)=true
+congested(organizationController3)=true
+congested(organizationController4)=true
+getMaster(c3)=c3
+getMaster(c4)=c4
+imAlive(c1,c3)=false
+imAlive(c1,c4)=false
+imAlive(c2,c3)=false
+imAlive(c2,c4)=false
+imAlive(c3,c1)=false
+imAlive(c3,c2)=false
+imAlive(c3,c3)=false
+imAlive(c3,c4)=false
+imAlive(c4,c1)=false
+imAlive(c4,c2)=false
+imAlive(c4,c3)=false
+imAlive(c4,c4)=false
+isAlive(c3)=false
+isAlive(c4)=false
+masterGone(c3)=true
+masterGone(c4)=true
+newSlave(c2,c3)=false
+newSlave(c2,c4)=false
+newSlave(c3,c1)=false
+newSlave(c3,c2)=false
+newSlave(c3,c3)=false
+newSlave(c3,c4)=false
+newSlave(c4,c1)=false
+newSlave(c4,c2)=false
+newSlave(c4,c3)=false
+newSlave(c4,c4)=false
+no_cong(c3)=false
+no_cong(c4)=false
+s_offer(c3)=false
+s_offer(c4)=false
+self=trafficMonitor3
+slaveGone(c3,c1)=false
+slaveGone(c3,c2)=false
+slaveGone(c3,c3)=false
+slaveGone(c3,c4)=false
+slaveGone(c4,c1)=false
+slaveGone(c4,c2)=false
+slaveGone(c4,c3)=false
+slaveGone(c4,c4)=false
+slaves(c2)=[c3,c4]
+slaves(c3)=[]
+slaves(c4)=[]
+state(c1)=MASTER
+state(c2)=FAILED
+state(c3)=MASTER
+state(c4)=MASTER
+state(selfHealingController2)=START
+state(selfHealingController3)=START
+state(selfHealingController4)=START
+</State 9 (controlled)>
+Insert a boolean constant for stopCam(c2):
+true
+Insert a boolean constant for startCam(c2):
+false
+Insert a boolean constant for stopCam(c1):
+false
+Insert a boolean constant for startCam(c1):
+false
+Insert a boolean constant for congestion(c1):
+false
+Insert a boolean constant for stopCam(c4):
+false
+Insert a boolean constant for startCam(c4):
+false
+Insert a boolean constant for congestion(c4):
+true
+Insert a boolean constant for stopCam(c3):
+false
+Insert a boolean constant for startCam(c3):
+false
+Insert a boolean constant for congestion(c3):
+true
+<State 10 (controlled)>
+Camera={c1,c2,c3,c4}
+OrganizationController={organizationController1,organizationController2,organizationController3,organizationController4}
+SelfHealingController={selfHealingController1,selfHealingController2,selfHealingController3,selfHealingController4}
+TrafficMonitor={trafficMonitor1,trafficMonitor2,trafficMonitor3,trafficMonitor4}
+change_master(c3)=false
+change_master(c4)=false
+cong(c2)=false
+cong(c3)=false
+cong(c4)=false
+congested(organizationController2)=true
+congested(organizationController3)=true
+congested(organizationController4)=true
+getMaster(c3)=c3
+getMaster(c4)=c4
+imAlive(c1,c3)=false
+imAlive(c1,c4)=false
+imAlive(c2,c3)=false
+imAlive(c2,c4)=false
+imAlive(c3,c1)=false
+imAlive(c3,c2)=false
+imAlive(c3,c3)=false
+imAlive(c3,c4)=false
+imAlive(c4,c1)=false
+imAlive(c4,c2)=false
+imAlive(c4,c3)=false
+imAlive(c4,c4)=false
+isAlive(c3)=false
+isAlive(c4)=false
+masterGone(c3)=true
+masterGone(c4)=true
+newSlave(c2,c3)=false
+newSlave(c2,c4)=false
+newSlave(c3,c1)=false
+newSlave(c3,c2)=false
+newSlave(c3,c3)=false
+newSlave(c3,c4)=false
+newSlave(c4,c1)=false
+newSlave(c4,c2)=false
+newSlave(c4,c3)=false
+newSlave(c4,c4)=false
+no_cong(c3)=false
+no_cong(c4)=false
+s_offer(c3)=false
+s_offer(c4)=false
+self=trafficMonitor3
+slaveGone(c3,c1)=false
+slaveGone(c3,c2)=false
+slaveGone(c3,c3)=false
+slaveGone(c3,c4)=false
+slaveGone(c4,c1)=false
+slaveGone(c4,c2)=false
+slaveGone(c4,c3)=false
+slaveGone(c4,c4)=false
+slaves(c2)=[c3,c4]
+slaves(c3)=[]
+slaves(c4)=[]
+state(c1)=MASTER
+state(c2)=FAILED
+state(c3)=MASTER
+state(c4)=MASTER
+state(selfHealingController2)=START
+state(selfHealingController3)=START
+state(selfHealingController4)=START
+</State 10 (controlled)>
+Insert a boolean constant for stopCam(c2):
+true
+Insert a boolean constant for startCam(c2):
+false
+Insert a boolean constant for stopCam(c1):
+false
+Insert a boolean constant for startCam(c1):
+false
+Insert a boolean constant for congestion(c1):
+false
+Insert a boolean constant for stopCam(c4):
+false
+Insert a boolean constant for startCam(c4):
+false
+Insert a boolean constant for congestion(c4):
+true
+Insert a boolean constant for stopCam(c3):
+false
+Insert a boolean constant for startCam(c3):
+false
+Insert a boolean constant for congestion(c3):
+true
+<State 11 (controlled)>
+Camera={c1,c2,c3,c4}
+OrganizationController={organizationController1,organizationController2,organizationController3,organizationController4}
+SelfHealingController={selfHealingController1,selfHealingController2,selfHealingController3,selfHealingController4}
+TrafficMonitor={trafficMonitor1,trafficMonitor2,trafficMonitor3,trafficMonitor4}
+change_master(c3)=false
+change_master(c4)=false
+cong(c2)=false
+cong(c3)=false
+cong(c4)=false
+congested(organizationController2)=true
+congested(organizationController3)=true
+congested(organizationController4)=true
+getMaster(c3)=c3
+getMaster(c4)=c4
+imAlive(c1,c3)=false
+imAlive(c1,c4)=false
+imAlive(c2,c3)=false
+imAlive(c2,c4)=false
+imAlive(c3,c1)=false
+imAlive(c3,c2)=false
+imAlive(c3,c3)=false
+imAlive(c3,c4)=false
+imAlive(c4,c1)=false
+imAlive(c4,c2)=false
+imAlive(c4,c3)=false
+imAlive(c4,c4)=false
+isAlive(c3)=false
+isAlive(c4)=false
+masterGone(c3)=true
+masterGone(c4)=true
+newSlave(c2,c3)=false
+newSlave(c2,c4)=false
+newSlave(c3,c1)=false
+newSlave(c3,c2)=false
+newSlave(c3,c3)=false
+newSlave(c3,c4)=false
+newSlave(c4,c1)=false
+newSlave(c4,c2)=false
+newSlave(c4,c3)=false
+newSlave(c4,c4)=false
+no_cong(c3)=false
+no_cong(c4)=false
+s_offer(c3)=false
+s_offer(c4)=false
+self=trafficMonitor3
+slaveGone(c3,c1)=false
+slaveGone(c3,c2)=false
+slaveGone(c3,c3)=false
+slaveGone(c3,c4)=false
+slaveGone(c4,c1)=false
+slaveGone(c4,c2)=false
+slaveGone(c4,c3)=false
+slaveGone(c4,c4)=false
+slaves(c2)=[c3,c4]
+slaves(c3)=[]
+slaves(c4)=[]
+state(c1)=MASTER
+state(c2)=FAILED
+state(c3)=MASTER
+state(c4)=MASTER
+state(selfHealingController2)=START
+state(selfHealingController3)=START
+state(selfHealingController4)=START
+</State 11 (controlled)>
+Insert a boolean constant for stopCam(c2):

@@ -1,0 +1,27 @@
+Livello1: LGS_GM.asm
+nessuna gestione degli errori, dei sensori, delle valvole, dei cilindri
+gestisce le operazioni di apertura/chiusura.
+Permette di invertire la marcia
+Simula scenario Fig. 13
+Reqs:R11_bis, R12_bis, R21, R22
+
+Livello2: estende LGS_GM.asm (LGS_EV.asm)
+I cilindri sono derivate (rispetto a gear e doors)
+Mettere attuatori (valvole) come controllate. Mettere anche valvola generale.
+Reqs:R3, R4, R5
+
+Livello3: estende Livello2 (LGS_SE.asm)
+Con sensori: monitorate come guardie.
+
+Livello4: estende Livello3 (LGS_3L.asm)
+Introduciamo i tre landing set.
+Monitorate triplicate, ma stato delle porte e gears singolo.
+Le monitorate usate nelle guardie al livello 3 diventano derivate (doorsClosed = doorClosed(FRONT) and doorClosed(LEFT) and ...)
+
+Livello5: estende Livello4 (LGS_HM.asm)
+Introduzione dell'health monitoring:
+- voting dei sensori modellato a parte (non incluso in questo modello)
+- solo anomalie sul timeout
+if openDoorValve and timeout then
+   if doorClosed(FRONT) or doorClosed(LEFT) or ... then
+   		anomaly := true

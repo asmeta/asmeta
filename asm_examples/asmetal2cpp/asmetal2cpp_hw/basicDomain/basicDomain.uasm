@@ -1,0 +1,17 @@
+asm basicDomain
+
+monitored boolin -> BOOLEAN
+out boolout -> BOOLEAN
+
+monitored intfunctin -> INTEGER
+out intfunctout -> INTEGER
+
+monitored doublefunctin -> NUMBER
+out doublefunctout -> NUMBER
+
+
+
+rule r_Main =
+skip
+
+exec r_Main

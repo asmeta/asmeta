@@ -1,0 +1,13 @@
+abstract pattern InformationSharingMAPE {
+	system Sys
+
+	group Interface {
+		managedSyS Sys
+		components M, A, P, E
+	}
+
+	interaction Interface.M -> Interface.A [1,1]
+	interaction Interface.A -> Interface.P [1,1]
+	interaction Interface.P -> Interface.E [1,1]
+	interaction Interface.M -> Interface.M [*-ALL,*-ALL]
+}

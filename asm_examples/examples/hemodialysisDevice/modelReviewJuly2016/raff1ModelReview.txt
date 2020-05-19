@@ -1,0 +1,123 @@
+MP1: No inconsistent update is ever performed
+NONE
+
+MP2: Every conditional rule must be complete
+ConditionalRule if (eq(rinsingParam,TIME_RINSING)) is not complete.
+ConditionalRule if (alarmExist) is not complete.
+ConditionalRule if (conn_concentrate) is not complete.
+ConditionalRule if (eq(prepPhase,AUTO_TEST)) is not complete.
+ConditionalRule if (dialyzer_filled) is not complete.
+ConditionalRule if (eq(tubingSystemPhase,SET_SALINE_LEVELS)) is not complete.
+ConditionalRule if (eq(prepPhase,SET_TREAT_PARAM)) is not complete.
+ConditionalRule if (eq(tubingSystemPhase,CONNECT_ALL_COMP)) is not complete.
+ConditionalRule if (all_components_connected) is not complete.
+ConditionalRule if (auto_test_end) is not complete.
+ConditionalRule if (eq($mon,PERMITTED)) is not complete.
+ConditionalRule if (av_ends_connected) is not complete.
+ConditionalRule if (eq(treatmentParam,RATE_H)) is not complete.
+ConditionalRule if (eq(prepPhase,CONNECT_CONCENTRATE)) is not complete.
+ConditionalRule if (dialyzer_connected) is not complete.
+ConditionalRule if (error_SAD_resolved) is not complete.
+ConditionalRule if (errorExist) is not complete.
+ConditionalRule if (eq(prepPhase,TUBING_SYSTEM)) is not complete.
+ConditionalRule if (eq(treatmentParam,ACTIVATION_H)) is not complete.
+ConditionalRule if (heparin_prepared) is not complete.
+ConditionalRule if (eq(tubingSystemPhase,CONNECT_AV_ENDS)) is not complete.
+ConditionalRule if (eq(treatmentParam,LIMITS_TMP)) is not complete.
+ConditionalRule if (eq(rinsePhase,FILL_VEN_CHAMBER)) is not complete.
+ConditionalRule if (eq(treatmentParam,DF_TEMP)) is not complete.
+ConditionalRule if (eq(treatmentParam,SYRINGE_TYPE)) is not complete.
+ConditionalRule if (eq(rinsePhase,FILL_DIALYZER)) is not complete.
+ConditionalRule if (eq($mon,PERMITTED)) is not complete.
+ConditionalRule if (eq(tubingSystemPhase,CONNECT_AV_TUBES)) is not complete.
+ConditionalRule if (eq(phase,INITIATION)) is not complete.
+ConditionalRule if (and(error(SAD_ERR),eq(alarm(SAD_ERR),false))) is not complete.
+ConditionalRule if (av_tubes_connected) is not complete.
+ConditionalRule if (eq($mon,PERMITTED)) is not complete.
+ConditionalRule if (detect_bicarbonate) is not complete.
+ConditionalRule if (eq(treatmentParam,MAX_UF_RATE)) is not complete.
+ConditionalRule if (eq(rinsingParam,FILLING_BP_VOLUME)) is not complete.
+ConditionalRule if (saline_levels_set) is not complete.
+ConditionalRule if (and(eq(error(DF_PREP),false),preparing_DF)) is not complete.
+ConditionalRule if (dialyzer_connected_contr) is not complete.
+ConditionalRule if (eq(treatmentParam,EXTENDED_TMP)) is not complete.
+ConditionalRule if (and(bp_fill_fluid,bp_rate_rinsing_150)) is not complete.
+ConditionalRule if (eq(treatmentParam,BIC_AC)) is not complete.
+ConditionalRule if (eq(detect_bicarbonate,false)) is not complete.
+ConditionalRule if (eq(tubingSystemPhase,INSERT_BLOODLINES)) is not complete.
+ConditionalRule if (eq(treatmentParam,MAX_BEP)) is not complete.
+ConditionalRule if (eq(prepPhase,TUBING_SYSTEM)) is not complete.
+ConditionalRule if (and(neq(currentSAD,PERMITTED),neq(current_air_vol,PERMITTED))) is not complete.
+ConditionalRule if (eq(rinsePhase,CONNECT_DIALYZER)) is not complete.
+ConditionalRule if (eq(treatmentParam,BOLUS_VOLUME_H)) is not complete.
+ConditionalRule if (eq(rinsingParam,UF_VOLUME_RINSING)) is not complete.
+ConditionalRule if (arterial_chamber_filled) is not complete.
+ConditionalRule if (eq(error(TEMP_HIGH),false)) is not complete.
+ConditionalRule if (reset_alarm) is not complete.
+ConditionalRule if (eq(prepPhase,SET_RINSING_PARAM)) is not complete.
+ConditionalRule if (eq(error(DF_PREP),false)) is not complete.
+ConditionalRule if (eq(phase,PREPARATION)) is not complete.
+ConditionalRule if (stop_DF_preparation) is not complete.
+ConditionalRule if (eq(treatmentParam,BIC_CONDUCTIVITY)) is not complete.
+ConditionalRule if (eq(rinsingParam,FILLING_BP_RATE)) is not complete.
+ConditionalRule if (eq(rinsingParam,UF_RATE_RINSING)) is not complete.
+ConditionalRule if (eq(treatmentParam,THERAPY_TIME)) is not complete.
+ConditionalRule if (eq(error(TEMP_HIGH),false)) is not complete.
+ConditionalRule if (eq(treatmentParam,UF_VOLUME)) is not complete.
+ConditionalRule if (blood_line_insert) is not complete.
+ConditionalRule if (eq(treatmentParam,MIN_UF_RATE)) is not complete.
+ConditionalRule if (eq(treatmentParam,PERC_DELTA_TMP)) is not complete.
+ConditionalRule if (eq(treatmentParam,BLOOD_CONDUCTIVITY)) is not complete.
+ConditionalRule if (eq(rinsingParam,DF_FLOW_RINSING)) is not complete.
+ConditionalRule if (eq(treatmentParam,STOP_TIME_H)) is not complete.
+ConditionalRule if (eq(treatmentParam,DF_FLOW)) is not complete.
+ConditionalRule if (eq(treatmentParam,DELTA_AP)) is not complete.
+ConditionalRule if (eq(rinsePhase,FILL_ART_CHAMBER)) is not complete.
+ConditionalRule if (eq(current_temp,PERMITTED)) is not complete.
+ConditionalRule if (and(eq($mon1,PERMITTED),eq($mon2,PERMITTED))) is not complete.
+ConditionalRule if (passed1Msec) is not complete.
+ConditionalRule if (and(error(DF_PREP),eq(alarm(DF_PREP),false))) is not complete.
+ConditionalRule if (eq(phase,ENDING)) is not complete.
+ConditionalRule if (venous_chamber_fill) is not complete.
+ConditionalRule if (eq(current_temp,HIGH)) is not complete.
+ConditionalRule if (eq(error(SAD_ERR),false)) is not complete.
+ConditionalRule if (eq(rinsingParam,BP_RATE_RINSING)) is not complete.
+ConditionalRule if (eq(treatmentParam,MAX_TMP)) is not complete.
+ConditionalRule if (eq(prepPhase,PREPARE_HEPARIN)) is not complete.
+ConditionalRule if (and(error(TEMP_HIGH),eq(alarm(TEMP_HIGH),false))) is not complete.
+ConditionalRule if (eq(treatmentParam,MAX_AP)) is not complete.
+ConditionalRule if (eq(prepPhase,RINSE_DIALYZER)) is not complete.
+ConditionalRule if (eq(tubingSystemPhase,PRIMING)) is not complete.
+
+MP2: Every case rule without otherwise must be complete
+NONE
+
+MP3: Choose rule is always/sometimes/never not empty
+NONE
+
+MP3: Forall rule is always/sometimes/never not empty
+forall $alarmon in ErrorAlarmType with alarm($alarmon) is sometimes empty (but not always).
+
+MP3: Conditional rule eval to true
+NONE
+
+MP4: No assignment is always trivial
+NONE
+
+MP5: For every domain element e, there exists a location which has value e
+Domain MachineState could be reduced in size. Elements {MAIN_FLOW} could be removed.
+Domain SignalLamps could be reduced in size. Elements {RED} could be removed.
+
+MP6: Every controlled location can take any value in its codomain
+Function machine_state does not take the values {MAIN_FLOW} of its domain. It could be defined over the smaller domain {BYPASS}.
+Function signal_lamp does not take the values {RED} of its domain. It could be defined over the smaller domain {GREEN, YELLOW}.
+
+MP7: a location could be removed
+NONE
+
+MP7: a controlled location is never updated
+Location machine_state is never updated.
+
+MP7: a controlled location could be static
+Controlled location machine_state could be defined static. It's initialized to BYPASS and never changes its value.
+Controlled function machine_state could be defined static. All its locations are initialized and never change their values.

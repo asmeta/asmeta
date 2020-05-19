@@ -1,0 +1,33 @@
+{
+    "arduinoVersion": "ZERO",
+    "stepTime": 200,
+    "bindings": [
+        {
+			"mode": "DIGITAL",
+        	"function":"digitalin",
+            "pin": "D2"
+        },
+        {
+			"mode" : "DIGITALINVERTED",
+			"function":"digitalout",
+            "pin": "D3"
+			
+        },
+        {
+			"mode" : "ANALOGLINEARIN",
+			"function":"analogin",
+            "pin": "A1"
+		},
+        {
+			"mode": "ANALOGLINEAROUT",
+        	"function":"analogout",
+            "pin": "A0"
+        },
+        {
+			"mode" : "PWM",
+			"function":"analogPWM",
+            "pin": "D4"
+			
+        }
+        ]
+}

@@ -1,0 +1,24 @@
+scenario railroadGate
+
+load ./railroadGate.asm
+
+//invariant inv: light = OFF implies gate = OPENED;
+
+set event := LIGHT;
+set lightMon := FLASHING;
+step
+set event := GATE;
+set gateMon := CLOSING;
+step
+set event := GATE;
+set gateMon := CLOSED;
+step
+set event := GATE;
+set gateMon := OPENING;
+step
+set event := GATE;
+set gateMon := OPENED;
+step
+set event := LIGHT;
+set lightMon := OFF;
+step

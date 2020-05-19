@@ -1,0 +1,33 @@
+scenario petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix1
+
+//The Petri net can execute just three steps.
+//In each step just one transition can be fired (is enabled).
+//Then no transition can be fired: the marking of the places does not change anymore. 
+
+load ../petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm
+
+//we check that the initial state is as that declare in the initialization (trivial check)
+check tokens(p1)=1 and tokens(p2)=1 and tokens(p3)=2 and tokens(p4)=1;
+
+//We execute a step and we check that the marking has been updated correctly:
+//we know that just the transition "t1" can be fired and, so, we know how the
+//marking must be updated
+step
+check tokens(p1)=0 and tokens(p2)=2 and tokens(p3)=5 and tokens(p4)=1;
+
+//We execute a step and we check that the marking has been updated correctly:
+//we know that just the transition "t2" can be fired and, so, we know how the
+//marking must be updated
+step
+check tokens(p1)=1 and tokens(p2)=0 and tokens(p3)=1 and tokens(p4)=2;
+
+//We execute a step and we check that the marking has been updated correctly:
+//we know that just the transition "t2" can be fired and, so, we know how the
+//marking must be updated
+step
+check tokens(p1)=0 and tokens(p2)=1 and tokens(p3)=4 and tokens(p4)=2;
+
+//If we execute another step of ASM we see that the state of the Petri net is unchanged
+//(because no transition is enabled to fire)
+step
+check tokens(p1)=0 and tokens(p2)=1 and tokens(p3)=4 and tokens(p4)=2;

@@ -1,0 +1,21 @@
+scenario petriNetEdgeWeightPlaceCapacity_NoSeq_Matrix2
+
+//We modify the initial state of the ASM (the initial marking of the Petri net)
+//so that the Petri net can not execute any step: both transitions "t1" and "t2"
+//can not fire
+
+load ../petriNetEdgeWeightPlaceCapacity_NoSeq_Matrix.asm
+
+exec
+	par
+		tokens(p1) := 1 
+		tokens(p2) := 2
+		tokens(p3) := 3
+		tokens(p4) := 0
+	endpar
+;
+
+//We execute an ASM step and we check that the the state of the Petri net is unchanged
+//(because no transition is enabled to fire)
+step
+check tokens(p1)=1 and tokens(p2)=2 and tokens(p3)=3 and tokens(p4)=0;

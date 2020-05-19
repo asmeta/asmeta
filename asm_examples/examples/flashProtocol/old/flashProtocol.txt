@@ -1,0 +1,614 @@
+CoreASM flashProtoco1
+use Standardplugins
+use MapSetPlugin
+use PropertyPlugin
+universe Agents          al, a2, e )
+                    = (
+ function program : Agents -> RULE
+ initially (al->@behavior,      a2->@behavior,e->@env)
+ enum TYPE        noMess, get, getx, inv, wb, rpl, fwdack, swb,
+             = (
+                        invack, nack, nackc, fwdget, fwdgetx, put, putx,
+                       nackc2, putUswb, putxufwdack )
+ enum CCTYPE        ccget, ccgetx, ccrpl, ccwb )
+                = (
+ enum LINE        11 )
+             = {
+ enum PHASE        ready, wait, invalidphase )
+              = {
+ enum STATE = { exclusive, shared, invalid )
+APPENDIX A. CO REASM SPECIFICATIONS FROM CASE STUDIES
+f u n c t i o n s t a t i c Home : LINE -> Agents
+    i n i t i a l l y { 1 1 -> a1 )
+f u n c t i o n MessInTr : Agents -> TYPE
+    i n i t i a l l y { a 1 -> noMess, a2 -> noMess )
+f u n c t i o n SenderInTr : Agents -> Agents
+    i n i t i a l l y { a 1 -> a l , a2 -> a1 )
+f u n c t i o n SourceInTr : Agents -> Agents
+                               -> a l , a2 -> a 1
+                         { a1
+    initially                                     )
+f u n c t i o n s t a t i c LineInTr : Agents -> LINE
+    i n i t i a l l y { a 1 -> 1 1 , a2 -> 1 1 )
+f u n c t i o n SenderInTrR : Agents -> Agents
+     i n i t i a l l y { a 1 -> a 2 , a2 -> a2)
+f u n c t i o n SourceInTrR : Agents -> Agents
+     i n i t i a l l y { a1 -> a l , a2 -> a 1 )
+f u n c t i o n MessInTrR : Agents -> TYPE
+     i n i t i a l l y { a1 -> noMess, a2 -> noMess)
+ f u n c t i o n s t a t i c LineInTrR : Agents -> LINE
+     i n i t i a l l y { a1 -> 1 1 , a2 -> 1 1 )
+ f u n c t i o n InSender : Agents -> Agents
+     i n i t i a l l y { a 1 -> a 2 , a2 -> a2 )
+ f u n c t i o n InSource : Agents -> Agents
+     i n i t i a l l y { a 1 -> a2, a2 -> a2 )
+ f u n c t i o n InMess : Agents -> TYPE
+      i n i t i a l l y { a 1 -> noMess, a2 -> noMess )
+APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
+function static InLine : Agents -> LINE
+   initially ( a1 -> 11, a2 -> 11 )
+                                 *  LINE -> PHASE
+function CurPhase : Agents
+                                                         3
+   initially ( (al,ll) -> ready, (a2,ll) -> ready
+                               *   LINE -> STATE
+function CCState : Agents
+   initially ( (a1,ll) -> invalid, (a2,11) -> invalid 3
+function Pending : LINE -> BOOLEAN
+   initially ( 11 -> false
+function Owner : LINE -> Agents
+                           *  Agents -> BOOLEAN
+function Sharer : LINE
+   initially { (11,al) -> false, (ll,a2) -> false 3
+function monitored produceCCType : Agents -> CCTYPE
+           Ghat ((CCState(a1,ll)       = exclusive) and
+property
+                                          exclusive) ) )
+                   (CCState(a2,11)     =
+property (G(((CurPhase(al,ll)=wait)         implies F(CurPhase(al,ll)=ready))))     and
+                                                                                 1)
+                                            implies F(CurPhase(a2,11)=ready))
+           (G(((CurPhase(a2,11)=wait)
+property G ((CCState(al,ll)=shared) implies X(Sharer(ll,al)=true))
+            (                                                                 or
+                                                                                  and
+                ((Sharer(ll,al)=true)      implies X(CCState(al,ll)=shared))   )
+           G ((CCState (a2,11)=shared) implies X(Sharer(l1, a2)=true)
+            (                                                                 or
+                ((Sharer(ll,a2)=true)      implies X(CCState(a2,11)=shared))
+ init Skip
+rule AppendToTransit(agentU, senderU, messU, sourceU, lineU)          =
+    if MessInTr(agentU)=noMess then
+      Par
+        SenderInTr(agentU1 := senderU
+        MessInTr(agentU1         messU
+                             :=
+        SourceInTr(agentU):= sourceU
+      endpar
+APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
+rule AppendRequestToTransit(agentU, senderU, messU, sourceU, lineU)  =
+  if MessInTrR(agentU)=noMess then
+    Par
+       SenderInTrR(agentU1 : = senderU
+       MessInTrR(agentU1        messU
+                             :=
+       SourceInTrR(agentU):= sourceU
+    endpar
+  endif
+rule RlUR2UR3UR4     =
+  if MessInTrR(a1)       noMess then
+                       =
+  Par
+     if (produceCCType(self)=ccget) and (CurPhase(self,ll)=ready) then
+       AppendRequestToTransit (Home(l1) ,self,get,  self, 11)
+     endif
+     if (produceCCType(self)=ccgetx) and (CurPhase(self,ll)=ready) then
+        ~ppendRequestToTransit(Home(l1),self,getx,self,l1)
+     endif
+     if (produceCCType(self)=ccrpl) and
+          (CurPhase (self,11)=ready) and
+          (CCState(self,11)=shared) then
+        AppendRequestToTransit (Home(l1) ,self,rpl,  self,11)
+     endif
+     if (produceCCType(self)=ccwb) and
+          (CurPhase(self,ll)=ready) and
+          e state (self,ll)=exclusive)   then
+        AppendRequestToTransit(Home(11) ,self,wb,  self,11)
+     endif
+   endpar
+   endif
+ rule R5 =
+   if (InMess(self)=get) and (Home(InLine(self))=self) then
+      if Pending(InLine(se1f)) then
+         if Mess~n~r(~nSource(self))=noMess   then
+APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
+         Par
+            Append~o~ransit(1n~ource(se1f),se1f1nack1
+                                     InSource(self) ,InLine(self))
+            InMess(self):=noMess
+         endpar
+      endif
+    else
+      if Owner (In~ine(se1f)) ! = undef then
+                                                                       then
+         if ~ess~n~r(~wner(~n~ine(self)))=noMess
+            Par
+               ~ppend~o~ransit(~wner(InLine(self)),self,fwdget,
+                                         InSource (self) ,InLine(self))
+               ~endin~(InLine(se1f)) := true
+               InMess(self):=noMess
+            endpar
+endif
+       else
+          if ~essInTr(In~ource(self))=noMessthen
+             Par
+               ~ppend~o~ransit(~nSource(self),self,put,
+                                         InSource(self) ,InLine(self))
+                InMess(self):=noMess
+                ~harer(~nLine(self),InSource(self)) := true
+             endpar
+          endif
+       endif
+     endif
+   endif
+ rule R6  =
+   if InMess(se1f)          fwdget then
+                         =
+     if ~~~tate(self,InLine(self)) exclusive then   =
+        if ~ome(InLine(self))=InSource(self) then
+           if ~ e s s I n T r ( ~ o r n e ( ~ n ~ i n e ( s e =f ) ) )
+                                                              l noMess then
+              Par
+                ~ppendToTransit(~orne(InLine(self)),self,putUswb,
+                                          InSource(self) ,InLine(self 11
+APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
+              ~ ~ ~ t (self,InLine(self1) :=shared
+                       a t e
+              InMess(self):=noMess
+           endpar
+        endif
+     else
+                                            noMess) and
+        if (MessInTr(InSource(self))     =
+                                                 no~ess)then
+             (~essIn~r(Home(InLine(self)))    =
+           Par
+              ~~~end~oTransit(InSource(self),self,put,
+                                InSource(self) ,InLine(self 1)
+              ~~~end~o~ransit(Horne(InLine(self)),self,swb,
+                                InSource(self) ,InLine(self1)
+              CCState (self,InLine(self)) :=shared
+               InMess(self):=noMess
+           endpar
+        endif
+     endif
+   else
+      if Home (InLine (self)) =Insource (self) then
+                                                noMess then
+         if ~ess~nTr(Home(InLine(self)))      =
+            Par
+               ~~~end~oTransit(Horne(InLine(self)),self,nackc2,
+                                 InSource(self) ,InLine(self
+               In~ess(self):=noMess
+            endpar
+         endif
+      else
+         if (~essInTr(InSource(self))        noMess) and
+                                          =
+              (~ess~n~r(Horne(InLine(self)))= noMess) then
+            Par
+               ~~~end~oTransit(InSource(self),self,nack,
+                                 InSource(self) ,InLine(self1)
+                AppendToTransit (Home(1nLine (self) ) ,self,nackc,
+                                 ~n~ource(self),InLine(self))
+                InMess(self):=noMess
+             endpar
+          endif
+APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
+       endif
+    endif
+  endif
+rule R7   =
+  if InMess(se1f)       put then
+                     =
+     Par
+       if CurPhase(self,InLine(self))      ! = invalidphase then
+          ~CState(self,InLine(self)) := shared
+       endif
+       ~urPhase(self,InLine(self)) := ready
+       InMess(self 1 := noMess
+     endpar
+  endif
+rule R8   =
+   if ((InMess (self)      sub) and (Home(1nLine (self))     self) ) then
+                         =                                 =
+     Par
+        ~harer(~n~ine(self),InSource(self)) := true
+        if Owner (InLine(self) ) ! = undef then
+           ~harer(~n~ine(self),Owner(InLine(self))) := true
+        endif
+        Owner(InLine(se1f))     := undef
+                                     false
+        Pending(InLine(se1f))     :=
+        InMess(se1f)       noMess
+                        :=
+      endpar
+   endif
+ rule R7UR8   =
+   if InMess(se1f)       putUswb then
+                      =
+   Par
+      if CurPhase(self,InLine(self))          invalidphase
+                                         !=
+                                              := shared
+        then CCState(self,InLine(self))
+      endif
+      ~ur~hase(self,InLine(self)) := ready
+                                                   true
+      Sharer(InLine(self),InSource(self))       :=
+      if Owner (InLine(self1) ! = undef
+APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
+        then Sharer(InLine(self),Owner(InLine(self)))          true
+                                                           :=
+     endif
+     owner (InLine (self) ) := undef
+     Pending(1nLine (self) ) := false
+     ~nMess(self) := noMess
+  endpar
+  endif
+rule R9 =
+   if InMess(se1f)       nack then
+                      =
+  Par
+      CurPhase (self,InLine (self)) := ready
+      ~nMess(self) := noMess
+   endpar
+   endif
+rule R10    =
+   if ((InMess(se1f)        nackc) and (~ome(InLine(se1f))      self)) then
+                         =                                   =
+   Par
+      Pending(1nLine (self) ) := false
+      InMess(se1f) := noMess
+   endpar
+   endif
+ rule R9UR10    =
+    if InMess(se1f)       nackc2 then
+                       =
+    Par
+                       InLine(self) ) := ready
+       CurPhase (self,
+                                    false
+       Pending(InLine(se1f))     :=
+       InMess(self) := noMess
+    endpar
+    endif
+ rule R11 =
+    if ((InMess(se1f)        getx) and (Home(InLine(se1f))     self)) then
+                          =                                 =
+       if Pending(InLine(se1f))       true then
+                                    =
+          if MessInTr(InSource(se1f))      noMess then
+                                         =
+APPENDIX A. COREAS M SPECIFICATIONS F R O M CASE STUDIES
+     Par
+       ~~~end~o~ransit(~n~ource(self),self,nack,
+                          InSource(self),InLine(self))
+       InMess(self):=noMess
+     endpar
+     endif
+   else
+     if Owner (InLine (self)) ! = undef then
+       if MessInTr(Owner(InLine(se1f)))          noMess then
+                                               =
+       Par
+          AppendToTransit (Owner(InLine(self) ) ,self, wdgetx,
+                                                         f
+                            InSource(self) ,InLine (self))
+          Pending(InLine(self))         true
+                                   :=
+          InMess(self):=noMess
+        endpar
+        endif
+     else
+        if (forall agentU in {a1 ,a21
+             holds (not(~harer(InLine(self),agentU))) ) then
+          if Mess~n~r(InSource(self)) = noMess then
+          Par
+             ~~~end~o~ransit(InSource(self),self,putx,
+                               InSource (self) ,InLine(se1f))
+             ~wner(~nLine(self))        InSource(se1f)
+                                    :=
+             InMess(self):=noMess
+           endpar
+           endif
+        else
+           if (forall agentU in {al,a2) holds
+                (not (sharer(InLine(self) ,agentU) ) or
+                (MessInTr(agentU1      noMess)))   then
+                                   =
+           Par
+             forall agentU in {a1 ,a2)      with (Sharer(InLine(self) ,agentU)) do
+             Par
+                ~~~end~oTransit(agentU,self,inv,InSource~self~,~n~~ne~se~f~~
+                Pending(InLine(self)):=true
+              endpar
+APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
+               InMess(self):=noMess
+            endpar
+            endif
+         endif
+      endif
+    endif
+  endif
+rule R12   =
+  if InMess(se1f)       fwdgetx then
+                      =
+    if ~~~tate(self,InLine(self)) exclusive then
+                                       =
+      if (~ome(InLine(self))=InSource(self))       then
+         if ~ess~n~r(Home(InLine(self))) = noMess then
+         Par
+             ~~~end~o~ransit(~ome(InLine(self)),self,~utxUfwdack,
+                               InSource(self) ,InLine(self) )
+             ~~~tate(self,InLine(self)):=invalid
+             InMess(self):=noMess
+          endpar
+          endif
+       else
+                                          = noMess) and
+          if (~ess~n~r(In~ource(self))
+               (~ess~n~r(Home(InLine(self)))= noMess) then
+          Par
+             AppendToTransit (InSource(self) ,self,  putx,
+                               InSource(self) ,InLine(self))
+             AppendToTransit(Home(InLine(self)),self,fwdack,
+                               InSource(self) ,InLine(self) )
+             ~~~tate(self,InLine(self)):=invalid
+              InMess(self):=noMess
+          endpar
+          endif
+       endif
+     else
+        if (~ome(~n~ine(self))=InSource(self))then
+                                                 noMess then
+           if MessInTr(Home(InLine(self)))     =
+           Par
+APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
+            AppendToTransit(InSource(self),self,nackc2,
+                               InSource(self) ,InLine(self) )
+            InMess(self):=noMess
+          endpar
+          endif
+       else
+          if (~essInTr(In~ource(self))= noMess) and
+                                                  noMess) then
+              (~ess1nTr  (Hone(InLine(self)) )  =
+          Par
+            ~~~end~oTransit(~n~ource(self),self,nack,
+                               InSource(self) ,InLine(self))
+            ~~~end~o~ransit(Home(~nLine(self)),self,nackc,
+                                InSource(self) ,InLine(self) )
+             InMess(self):=noMess
+          endpar
+          endif
+        endif
+     endif
+   endif
+rule R13   =
+   if InMess(se1f)       putx then
+                      =
+   Par
+                                         exclusive
+     CCState(self,InLine(self))       :=
+                                          ready
+     CurPhase(self,InLine(self))       :=
+     InMess(se1f) := noMess
+   endpar
+   endif
+ rule R14 =
+   if (InMess (self)      fwdack) and (Home(InLine(self) )      self) then
+                        =                                     =
+   Par
+     Owner(InLine(se1f))          InSource(se1f)
+                              :=
+     Pending(1nLine (self) ) := false
+      InMess(se1f) := noMess
+   endpar
+   endif
+APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
+rule R13UR14     =
+  if InMess(se1f)       putxufwdack then
+                      =
+  Par
+                                        exclusive
+     CCState(self,InLine(self))     :=
+                                      := ready
+     CurPhase(self,InLine(self))
+     Owner(InLine(se1f))     := InSource(se1f)
+     Pending(InLine(se1f))        false
+                               :=
+      InMess(se1f) := noMess
+   endpar
+   endif
+rule R15    =
+   if InMess(se1f)       inv then
+                      =
+                                            noMess then
+      if MessInTr(Home(InLine(self)))     =
+      Par
+         ~~~end~o~ransit(Home(InLine(self)),self,invack,
+                           InSource(self) ,InLine(self) )
+         InMess(self):=noMess
+         if ~~~tate(self,~nLine(self))shared then
+                                          =
+           CC~tate(self,InLine(self)) := invalid
+         else
+                                                wait then
+           if CurPhase(self,InLine(self))     =
+                                                invalidphase
+              CurPhase(self,InLine(self))    :=
+           endif
+         endif
+      endpar
+      endif
+   endif
+ rule R16    =
+    if (InMess (self)     invack) and (Home(InLine(self))     self) then
+                        =                                   =
+       forall agentU in Cal,a2) do
+         if InSender(self)=agentU then
+         Par
+                                           := false
+           Sharer(InLine(self),agentU)
+            if ( forall otherUagentU in Cal,a2) holds
+APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
+              (otherUagentU      agentU or
+                              =
+               ~harer(~n~ine(self),otherUagentU)=false)) then
+           if MessInTr(InSource(se1f))       noMess then
+                                           =
+           Par
+             AppendToTransit(InSource(self),self,putx,
+                                InSource(self),InLine(self))
+             Pending(1nLine (self) ) :=false
+             InMess(self):=noMess
+           endpar
+           endif
+         else
+           InMess(self):=noMess
+         endif
+       endpar
+       endif
+  endif
+rule R17  =
+  if (InMess(se1f)      rpl) and (Home(InLine(se1f))       self) then
+                     =                                  =
+  Par
+                        (self) ,InSender(self))
+    if (sharer(1n~ini                              true) and
+                                                 =
+        (Pending(InLine(se1f))     = false) then
+    Par
+       Sharer(InLine(self),InSender(self)) : = false
+       CCState(self,InLine(self)) := invalid
+    endpar
+    endif
+    InMess(self1 := noMess
+  endpar
+  endif
+rule R18  =
+  if (InMess(se1f)      wb) and (Home(InLine(se1f))       self) then
+                      =                                =
+  Par
+                                != undef then
+     if Owner(InLine(se1f))
+    Par
+       Owner(InLine(se1f))    :=undef
+APPENDIX A. CO REASM SPECIFICATIONS FROM CASE STUDIES
+       CCState (self,InLine (self)) := invalid
+     endpar
+     endif
+     InMess(se1f) := noMess
+  endpar
+  endif
+rule behavior =
+  Par
+     RlUR2UR3UR4
+     R5
+     R6
+     R7
+     R8
+     R7UR8
+     R9
+     R10
+     R9UR10
+     R11
+     R12
+     R13
+     R14
+     R13UR14
+     R15
+     R16
+     R17
+     R18
+   endpar
+rule ClearMessInTr(agentU) =
+   Par
+      MessInTr(agentU):=noMess
+   endpar
+ rule SendMess(agentU1   =
+   Par
+      InSender(agentU):= SenderInTr(agentU1
+APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
+    InMess(agentU) := MessInTr(agentU)
+    InSource(agentU):= SourceInTr(agentU)
+    ClearMessInTr(agentU)
+  endpar
+rule SendR(agentU1       =
+  Par
+    InSender(agentU) := SenderInTrR(agentU1
+    InMess(agentU) := MessInTrR(agentU)
+    InSource(agentU) := SourceInTrR(agentU)
+    MessInTrR(agentU) : = noMess
+  endpar
+rule SendRequest(agentU)          =
+  if (MessInTrR(agentU)             get) and
+                                 =
+      (~urPhase(SenderInTr~(agentU),LineIn~r~(agentU ready) and                =
+      (CCState(SenderInTrR(agentU) ,~ineInTrR a g e n t       (                  invalid) then
+                                                                             =
+    Par
+    SendR(agentU1
+    ~ur~hase(SenderInTrR(agentU),LineInTrR(agentU := wait
+    endpar
+  else
+     if (~ess~n~rR(agentU) getx) and=
+        (Cur~hase(~enderInTrR(agentU),LineIn~r~(agentU ready) then                 =
+       Par
+       SendR(agentU1
+       CurPhase(~ender~n~rR(agentU),LineInTrR(agentU:= wait
+       endpar
+     else
+       if (MessInTrR (agentU) = rpl) and
+                                                       ,LineInTrR(agentU)
+           (Curphase(~ender~n~r~(agentU)                                                ready) and
+                                                                                   ) =
+                                         (agentU) ,LineInTrR ( a g e n t
+           (CCState(Sender~nTrR                                                        shared) then
+                                                                                     =
+         Par
+         SendR(agentU1
+         C ~ ~ t a t e ( ~ e n d e r I n ~ r ~ ( a g e n t ~ ) , ~ i n e ~ n ~ r ~ ( ainvalid
+                                                                                  := g e n t U
+          endpar
+       else
+APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
+         if (MessInTrR (agentU)       wb) and
+                                    =
+              (CurPhase(SenderInTrR(agentU),LineInTrR(agentU)) = ready) and
+                                                                         then
+              (CCState(SenderInTrR(agentU),LineInTrR(agentU))=exclusive)
+            Par
+            SendR(agentU)
+                                                                 invalid
+            CCState(SenderInTrR(agentU),LineInTrR(agentU      :=
+            endpar
+         endif
+       endif
+     endif
+  endif
+rule env   =
+  forall a in (al,a2) do
+       if InMess(a)=noMess then
+                           ! = noMess then
+         if MessInTr(a)
+             SendMess(a)
+         else
+             if (MessInTrR(a) ! = noMess) and (InMess(a)=noMess)  then
+               SendRequest (a)
+             endif
+         endif
+       endif
+rule Skip =
+   skip

@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Location variables test </TITLE>
+</HEAD>
+
+<BODY>
+<TABLE>
+<TR>
+	<TD>org.asmeta.interpreter.AsmFixture</TD>
+	<TD></TD>
+	<TD></TD>
+	<TD></TD>
+</TR>
+<TR>
+	<TD>asmPath</TD>
+	<TD>nTimes</TD>
+	<TD>envPath</TD>
+	<TD>state()</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/Num.asm</TD>
+	<TD>0</TD>
+	<TD></TD>
+	<TD>Agent={self}</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/Num.asm</TD>
+	<TD>1</TD>
+	<TD></TD>
+	<TD>Agent={self},numbers={10,20,5}</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/Num.asm</TD>
+	<TD>2</TD>
+	<TD></TD>
+	<TD>Agent={self},numbers={10,20,20}</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/Num.asm</TD>
+	<TD>3</TD>
+	<TD></TD>
+	<TD>Agent={self},numbers={20,20,20}</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/Num.asm</TD>
+	<TD>4</TD>
+	<TD></TD>
+	<TD>Agent={self},numbers={20,20,20}</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/Num2.asm</TD>
+	<TD>1</TD>
+	<TD></TD>
+	<TD>org.asmeta.interpreter.UpdateValueException</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/NumSets.asm</TD>
+	<TD>1</TD>
+	<TD></TD>
+	<TD>Agent={self},setofnumbers={{1,2,3},{3,4}}</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/NumSets2.asm</TD>
+	<TD>1</TD>
+	<TD></TD>
+	<TD>Agent={self},setofnumbers={{3,4},{0}}</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/NumSets2.asm</TD>
+	<TD>2</TD>
+	<TD></TD>
+	<TD>Agent={self},setofnumbers={{0,3,4},{0}}</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/Functions.asm</TD>
+	<TD>1</TD>
+	<TD></TD>
+	<TD>Agent={self},f(0)=3,f(1)=5,set={1}
+	</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/Functions2.asm</TD>
+	<TD>1</TD>
+	<TD></TD>
+	<TD>UpdateClash</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/LocVarSeq.asm</TD>
+	<TD>1</TD>
+	<TD></TD>
+	<TD>set={6}</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/LocVarSeq2.asm</TD>
+	<TD>1</TD>
+	<TD></TD>
+	<TD>set={7}</TD>
+</TR>
+<TR>
+	<TD>rps_test/locationVars/logicalvar_macro.asm</TD>
+	<TD>1</TD>
+	<TD></TD>
+	<TD>set={0,0,0}</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

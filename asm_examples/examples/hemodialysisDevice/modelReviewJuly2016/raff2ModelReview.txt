@@ -1,0 +1,236 @@
+MP1: No inconsistent update is ever performed
+NONE
+
+MP2: Every conditional rule must be complete
+ConditionalRule if (stop_DF_preparation) is not complete.
+ConditionalRule if (uf_dir_backwards) is not complete.
+ConditionalRule if (update_blood_flow) is not complete.
+ConditionalRule if (eq(rinsingParam,DF_FLOW_RINSING)) is not complete.
+ConditionalRule if (eq(tubingSystemPhase,CONNECT_AV_TUBES)) is not complete.
+ConditionalRule if (eq(current_UF_volume,HIGH)) is not complete.
+ConditionalRule if (eq($mon,PERMITTED)) is not complete.
+ConditionalRule if (eq($mon,PERMITTED)) is not complete.
+ConditionalRule if (eq(error(ARTERIAL_BOLUS),false)) is not complete.
+ConditionalRule if (and(eq(error(DF_PREP),false),preparing_DF)) is not complete.
+ConditionalRule if (eq(blood_flow_conn,PERMITTED)) is not complete.
+ConditionalRule if (eq(tubingSystemPhase,SET_SALINE_LEVELS)) is not complete.
+ConditionalRule if (heparin_running) is not complete.
+ConditionalRule if (eq(treatmentParam,STOP_TIME_H)) is not complete.
+ConditionalRule if (reset_alarm) is not complete.
+ConditionalRule if (error_SAD_resolved) is not complete.
+ConditionalRule if (and(error(TEMP_HIGH),eq(alarm(TEMP_HIGH),false))) is not complete.
+ConditionalRule if (eq(error(SAD_ERR),false)) is not complete.
+ConditionalRule if (and(error($err),eq(alarm($err),false))) is not complete.
+ConditionalRule if (heparin_prepared) is not complete.
+ConditionalRule if (eq(therapyPhase,START_HEPARIN)) is not complete.
+ConditionalRule if (alarmExist) is not complete.
+ConditionalRule if (eq(current_UF_rate,HIGH)) is not complete.
+ConditionalRule if (eq(error_bp,false)) is not complete.
+ConditionalRule if (and(eq(therapy_time_hrs,PERMITTED),eq(therapy_time_mins,PERMITTED))) is not complete.
+ConditionalRule if (and(error(UF_DIR),eq(alarm(UF_DIR),false))) is not complete.
+ConditionalRule if (eq($mon,PERMITTED)) is not complete.
+ConditionalRule if (eq(patientPhase,END_CONN)) is not complete.
+ConditionalRule if (and(error(DF_PREP),eq(alarm(DF_PREP),false))) is not complete.
+ConditionalRule if (and(error($err),eq(alarm($err),false))) is not complete.
+ConditionalRule if (eq(treatmentParam,DF_FLOW)) is not complete.
+ConditionalRule if (and(ap_limits_set,vp_limits_set)) is not complete.
+ConditionalRule if (eq(prepPhase,CONNECT_CONCENTRATE)) is not complete.
+ConditionalRule if (all_components_connected) is not complete.
+ConditionalRule if (eq(alarm(ARTERIAL_BOLUS_END),false)) is not complete.
+ConditionalRule if (eq(error(DF_PREP),false)) is not complete.
+ConditionalRule if (eq(patientPhase,START_BP)) is not complete.
+ConditionalRule if (eq(current_vp,PERMITTED)) is not complete.
+ConditionalRule if (eq(art_bolus_volume,PERMITTED)) is not complete.
+ConditionalRule if (and(eq($currentP,TOOLOW),$passedSec)) is not complete.
+ConditionalRule if (eq(arterialBolusPhase,CONNECT_SOLUTION)) is not complete.
+ConditionalRule if (eq(current_art_bolus_volume,PERMITTED)) is not complete.
+ConditionalRule if (and(eq($mon1,PERMITTED),eq($mon2,PERMITTED))) is not complete.
+ConditionalRule if (neq(arterialBolusPhase,CONNECT_SOLUTION)) is not complete.
+ConditionalRule if (treatment_min_uf_rate) is not complete.
+ConditionalRule if (eq(error(TEMP_HIGH),false)) is not complete.
+ConditionalRule if (eq(error(TEMP_HIGH),false)) is not complete.
+ConditionalRule if (bicarbonate_status_der) is not complete.
+ConditionalRule if (eq(prepPhase,PREPARE_HEPARIN)) is not complete.
+ConditionalRule if (interrupt_dialysis) is not complete.
+ConditionalRule if (eq(current_ap,PERMITTED)) is not complete.
+ConditionalRule if (and(error(ARTERIAL_BOLUS),eq(alarm(ARTERIAL_BOLUS),false))) is not complete.
+ConditionalRule if (venous_chamber_fill) is not complete.
+ConditionalRule if (eq(bp_status_der,START)) is not complete.
+ConditionalRule if (eq(initPhase,CONNECT_PATIENT)) is not complete.
+ConditionalRule if (and(error($err),eq(alarm($err),false))) is not complete.
+ConditionalRule if (saline_levels_set) is not complete.
+ConditionalRule if (and(error(SAD_ERR),eq(alarm(SAD_ERR),false))) is not complete.
+ConditionalRule if (and(eq(therapy_time_hrs,PERMITTED),eq(therapy_time_mins,PERMITTED))) is not complete.
+ConditionalRule if (eq(blood_flow_conn,PERMITTED)) is not complete.
+ConditionalRule if (eq(machine_status_der,MAIN_FLOW)) is not complete.
+ConditionalRule if (and(eq($currentP,TOOLOW),$passedSec)) is not complete.
+ConditionalRule if (eq(current_temp,PERMITTED)) is not complete.
+ConditionalRule if (av_ends_connected) is not complete.
+ConditionalRule if (and(eq($errTime,false),eq($errTime,false))) is not complete.
+ConditionalRule if (eq(error_bp,false)) is not complete.
+ConditionalRule if (and(error(BP_ROTATION_DIR),eq(alarm(BP_ROTATION_DIR),false))) is not complete.
+ConditionalRule if (eq(rinsePhase,CONNECT_DIALYZER)) is not complete.
+ConditionalRule if (ven_connected) is not complete.
+ConditionalRule if (passed10Sec) is not complete.
+ConditionalRule if (eq(prepPhase,SET_RINSING_PARAM)) is not complete.
+ConditionalRule if (eq(tubingSystemPhase,PRIMING)) is not complete.
+ConditionalRule if (eq(current_temp,TOOLOW)) is not complete.
+ConditionalRule if (and(neq(currentSAD,PERMITTED),neq(current_air_vol,PERMITTED))) is not complete.
+ConditionalRule if (eq(tubingSystemPhase,CONNECT_ALL_COMP)) is not complete.
+ConditionalRule if (eq(blood_flow_conn,PERMITTED)) is not complete.
+ConditionalRule if (bp_rotates_back) is not complete.
+ConditionalRule if (reset_error_bp_no_flow) is not complete.
+ConditionalRule if ($errTime) is not complete.
+ConditionalRule if (eq(ap_limits_set,false)) is not complete.
+ConditionalRule if (eq(patientPhase,CONN_ART)) is not complete.
+ConditionalRule if (eq($curr,HIGH)) is not complete.
+ConditionalRule if (eq(prepPhase,SET_TREAT_PARAM)) is not complete.
+ConditionalRule if (and(eq(vp_limit_low,PERMITTED),eq(vp_limit_up,PERMITTED))) is not complete.
+ConditionalRule if (eq(treatment_min_uf_rate_contr,false)) is not complete.
+ConditionalRule if (eq(rinsingParam,FILLING_BP_RATE)) is not complete.
+ConditionalRule if (eq(treatmentParam,MAX_UF_RATE)) is not complete.
+ConditionalRule if (eq(current_bp_flow,TOOLOW)) is not complete.
+ConditionalRule if (eq(therapyPhase,THERAPY_EXEC)) is not complete.
+ConditionalRule if (eq(patientPhase,FILL_TUBING)) is not complete.
+ConditionalRule if (passed1Msec) is not complete.
+ConditionalRule if (av_tubes_connected) is not complete.
+ConditionalRule if (eq(prepPhase,TUBING_SYSTEM)) is not complete.
+ConditionalRule if ($errBPFlow) is not complete.
+ConditionalRule if (eq(bp_status_der,START)) is not complete.
+ConditionalRule if (dialyzer_connected_contr) is not complete.
+ConditionalRule if (and(error(BP_NO_FLOW),eq(alarm(BP_NO_FLOW),false))) is not complete.
+ConditionalRule if (errorExist) is not complete.
+ConditionalRule if (eq($curr,PERMITTED)) is not complete.
+ConditionalRule if (error_UF_dir_resolved) is not complete.
+ConditionalRule if (and(bp_fill_fluid,bp_rate_rinsing_150)) is not complete.
+ConditionalRule if (eq(treatmentParam,RATE_H)) is not complete.
+ConditionalRule if (eq(rinsingParam,BP_RATE_RINSING)) is not complete.
+ConditionalRule if (eq(bp_status_der,START)) is not complete.
+ConditionalRule if (eq(treatmentParam,UF_VOLUME)) is not complete.
+ConditionalRule if (or(blood_on_VRD,eq(conn_infuse_set_volume,PERMITTED))) is not complete.
+ConditionalRule if (eq(vp_limits_set,false)) is not complete.
+ConditionalRule if (start_arterial_bolus) is not complete.
+ConditionalRule if (and(error(HEPARIN_DIR),eq(alarm(HEPARIN_DIR),false))) is not complete.
+ConditionalRule if (eq(arterialBolusPhase,SET_ARTERIAL_BOLUS_VOLUME)) is not complete.
+ConditionalRule if (and(update_th_time,eq(update_blood_flow,false))) is not complete.
+ConditionalRule if (eq(rinsePhase,FILL_VEN_CHAMBER)) is not complete.
+ConditionalRule if (eq(prepPhase,TUBING_SYSTEM)) is not complete.
+ConditionalRule if (eq(rinsingParam,UF_RATE_RINSING)) is not complete.
+ConditionalRule if (and(eq(ap_limit_low,PERMITTED),eq(ap_limit_up,PERMITTED))) is not complete.
+ConditionalRule if (time_heparin) is not complete.
+ConditionalRule if (eq(treatmentParam,PERC_DELTA_TMP)) is not complete.
+ConditionalRule if (eq(error_therapy,false)) is not complete.
+ConditionalRule if (reverse_dir_heparin) is not complete.
+ConditionalRule if (blood_line_insert) is not complete.
+ConditionalRule if (art_connected) is not complete.
+ConditionalRule if (eq(patientPhase,BLOOD_FLOW)) is not complete.
+ConditionalRule if (dialyzer_connected) is not complete.
+ConditionalRule if (eq(treatmentParam,MAX_AP)) is not complete.
+ConditionalRule if (eq(treatmentParam,MAX_TMP)) is not complete.
+ConditionalRule if (eq(treatmentParam,SYRINGE_TYPE)) is not complete.
+ConditionalRule if (eq(error_bp,false)) is not complete.
+ConditionalRule if (conn_concentrate) is not complete.
+ConditionalRule if (dialyzer_filled) is not complete.
+ConditionalRule if (error_heparin_resolve) is not complete.
+ConditionalRule if (reset_error_bp_rot_dir) is not complete.
+ConditionalRule if (eq(error(TEMP_LOW),false)) is not complete.
+ConditionalRule if (reset_error_arterial_bolus) is not complete.
+ConditionalRule if (eq(detect_bicarbonate,false)) is not complete.
+ConditionalRule if (eq(error(UF_DIR),false)) is not complete.
+ConditionalRule if (eq(rinsingParam,UF_VOLUME_RINSING)) is not complete.
+ConditionalRule if (eq(treatmentParam,DELTA_AP)) is not complete.
+ConditionalRule if (eq(current_fill_blood_vol,HIGH)) is not complete.
+ConditionalRule if (eq(prepPhase,RINSE_DIALYZER)) is not complete.
+ConditionalRule if (eq(phase,INITIATION)) is not complete.
+ConditionalRule if (eq(patientPhase,CONN_VEN)) is not complete.
+ConditionalRule if (eq(treatmentParam,BOLUS_VOLUME_H)) is not complete.
+ConditionalRule if (eq(rinsingParam,TIME_RINSING)) is not complete.
+ConditionalRule if (and(eq(detected_blood_flow,false),passed120Sec)) is not complete.
+ConditionalRule if (eq(phase,PREPARATION)) is not complete.
+ConditionalRule if (saline_solution_conn) is not complete.
+ConditionalRule if (eq(arterialBolusPhase,RUNNING_SOLUTION)) is not complete.
+ConditionalRule if (eq(treatmentParam,BLOOD_CONDUCTIVITY)) is not complete.
+ConditionalRule if (eq(rinsePhase,FILL_DIALYZER)) is not complete.
+ConditionalRule if (eq(current_art_bolus_volume,HIGH)) is not complete.
+ConditionalRule if (eq(current_temp,TOOLOW)) is not complete.
+ConditionalRule if (and(error(TEMP_LOW),eq(alarm(TEMP_LOW),false))) is not complete.
+ConditionalRule if (eq(phase,ENDING)) is not complete.
+ConditionalRule if (eq(treatmentParam,BIC_AC)) is not complete.
+ConditionalRule if (activation_h_contr) is not complete.
+ConditionalRule if (eq(treatmentParam,ACTIVATION_H)) is not complete.
+ConditionalRule if (eq(treatmentParam,MIN_UF_RATE)) is not complete.
+ConditionalRule if (eq(tubingSystemPhase,INSERT_BLOODLINES)) is not complete.
+ConditionalRule if (eq($mon,PERMITTED)) is not complete.
+ConditionalRule if (and(eq($currentP,HIGH),$passedSec)) is not complete.
+ConditionalRule if (detect_bicarbonate) is not complete.
+ConditionalRule if (auto_test_end) is not complete.
+ConditionalRule if (eq(alarm(UF_VOLUME_ERR),false)) is not complete.
+ConditionalRule if (eq($curr,TOOLOW)) is not complete.
+ConditionalRule if (eq(tubingSystemPhase,CONNECT_AV_ENDS)) is not complete.
+ConditionalRule if (eq(therapyPhase,THERAPY_END)) is not complete.
+ConditionalRule if (and(error(UF_RATE),eq(alarm(UF_RATE),false))) is not complete.
+ConditionalRule if (eq(treatmentParam,MAX_BEP)) is not complete.
+ConditionalRule if (eq(arterialBolusPhase,WAIT_SOLUTION)) is not complete.
+ConditionalRule if (eq(current_temp,HIGH)) is not complete.
+ConditionalRule if (eq(treatmentParam,DF_TEMP)) is not complete.
+ConditionalRule if (eq(prepPhase,AUTO_TEST)) is not complete.
+ConditionalRule if (time_therapy) is not complete.
+ConditionalRule if (error_UF_rate_resolved) is not complete.
+ConditionalRule if (eq(treatmentParam,BIC_CONDUCTIVITY)) is not complete.
+ConditionalRule if (eq(treatmentParam,THERAPY_TIME)) is not complete.
+ConditionalRule if (start_stop_button) is not complete.
+ConditionalRule if (arterial_chamber_filled) is not complete.
+ConditionalRule if (eq(error(BP_LESS_FLOW),false)) is not complete.
+ConditionalRule if (eq(rinsingParam,FILLING_BP_VOLUME)) is not complete.
+ConditionalRule if (eq(rinsePhase,FILL_ART_CHAMBER)) is not complete.
+ConditionalRule if (eq(treatmentParam,EXTENDED_TMP)) is not complete.
+ConditionalRule if (eq(initPhase,THERAPY_RUNNING)) is not complete.
+ConditionalRule if (eq(treatmentParam,LIMITS_TMP)) is not complete.
+ConditionalRule if (eq(machine_status_der,BYPASS)) is not complete.
+
+MP2: Every case rule without otherwise must be complete
+NONE
+
+MP3: Choose rule is always/sometimes/never not empty
+NONE
+
+MP3: Forall rule is always/sometimes/never not empty
+forall $alarmon in ErrorAlarmType with alarm($alarmon) is sometimes empty (but not always).
+
+MP3: Conditional rule eval to true
+NONE
+
+MP4: No assignment is always trivial
+Trivial update of location signal_lamp. When the condition is (TRUE & (phase = INITIATION) & (initPhase = CONNECT_PATIENT) & (patientPhase = END_CONN)) its value is always the same of the term GREEN.
+Trivial update of location error(UF_DIR). When the condition is (TRUE & errorExist & (error(UF_DIR) & (alarm(UF_DIR) = FALSE)) & error_UF_dir_resolved) its value is always the same of the term TRUE.
+Trivial update of location error(UF_RATE). When the condition is (TRUE & errorExist & (error(UF_RATE) & (alarm(UF_RATE) = FALSE)) & error_UF_rate_resolved) its value is always the same of the term TRUE.
+
+MP5: For every domain element e, there exists a location which has value e
+Domain SignalLamps could be reduced in size. Elements {RED} could be removed.
+
+MP6: Every controlled location can take any value in its codomain
+Function bf_err_ap_low does not take the values {TRUE} of its domain. It could be defined over the smaller domain {FALSE}.
+Function reset_err_pres_ap_low does not take the values {TRUE} of its domain. It could be defined over the smaller domain {FALSE}.
+Function signal_lamp does not take the values {RED} of its domain. It could be defined over the smaller domain {GREEN, YELLOW}.
+Location error(ARTERIAL_BOLUS_END) does not take the values {TRUE} of its domain. It could be defined over the smaller domain {FALSE}.
+Location error(UF_BYPASS) does not take the values {TRUE} of its domain. It could be defined over the smaller domain {FALSE}.
+Location error(UF_VOLUME_ERR) does not take the values {TRUE} of its domain. It could be defined over the smaller domain {FALSE}.
+
+MP7: a location could be removed
+Monitored location reset_error_pression is never used. It could be removed.
+
+MP7: a controlled location is never updated
+Location bf_err_ap_low is never updated.
+Location error(ARTERIAL_BOLUS_END) is never updated.
+Location error(UF_BYPASS) is never updated.
+Location error(UF_VOLUME_ERR) is never updated.
+Location reset_err_pres_ap_low is never updated.
+
+MP7: a controlled location could be static
+Controlled location bf_err_ap_low could be defined static. It's initialized to FALSE and never changes its value.
+Controlled location error_ARTERIAL_BOLUS_END could be defined static. It's initialized to FALSE and never changes its value.
+Controlled location error_UF_BYPASS could be defined static. It's initialized to FALSE and never changes its value.
+Controlled location error_UF_VOLUME_ERR could be defined static. It's initialized to FALSE and never changes its value.
+Controlled location reset_err_pres_ap_low could be defined static. It's initialized to FALSE and never changes its value.
+Controlled function bf_err_ap_low could be defined static. All its locations are initialized and never change their values.
+Controlled function reset_err_pres_ap_low could be defined static. All its locations are initialized and never change their values.

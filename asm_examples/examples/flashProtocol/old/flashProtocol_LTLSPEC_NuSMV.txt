@@ -1,0 +1,3 @@
+LTLSPEC G(!( (ccState_A1_1 = EXCLUSIVE) & (ccState_A2_1=EXCLUSIVE) ));
+LTLSPEC (G(((curPhase_A1_1 =WAIT) -> F(curPhase_A1_1=READY)))) & (G(((curPhase_A2_1 =WAIT) -> F(curPhase_A2_1=READY))))
+LTLSPEC G( ((ccState_A1_1=SHARED) -> X(sharer_1_A1=TRUE)) | ((sharer_1_A1=TRUE) -> X(ccState_A1_1=SHARED)) ) & G( ((ccState_A2_1=SHARED) -> X(sharer_1_A2=TRUE)) | ((sharer_1_A2=TRUE) -> X(ccState_A2_1=SHARED)) )

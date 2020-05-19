@@ -1,0 +1,135 @@
+scenario Flexibility_T0_T1
+
+//It brings the system in T0 and then adapts to T1
+
+load ./mainForModelChecking.asm
+
+//state 0 (monitored)
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := false;
+set congestion(c3) := true;
+set congestion(c4) := true;
+step
+//state 1 (controlled)
+check congested(organizationController3) = true;
+check congested(organizationController4) = true;
+check s_offer(c4) = true;
+check stateC(c1) = MASTER;
+check stateC(c2) = MASTER;
+check stateC(c3) = MASTER;
+check stateC(c4) = MASTER;
+
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := false;
+set congestion(c3) := true;
+set congestion(c4) := true;
+step
+//State 2 (controlled)
+check getMaster(c4) = c3;
+check newSlave(c3,c4) = true;
+check stateC(c1) = MASTER;
+check stateC(c2) = MASTER;
+check stateC(c3) = MASTER;
+check stateC(c4) = SLAVE;
+
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := true;
+set congestion(c3) := true;
+set congestion(c4) := true;
+step
+//State 3 (controlled)
+check getMaster(c4) = c3;
+check s_offer(c3) = true;
+check s_offer(c4) = false;
+check slaves(c3,c4) = true;
+check stateC(c1) = MASTER;
+check stateC(c2) = MASTER;
+check stateC(c3) = MASTERWITHSLAVES;
+check stateC(c4) = SLAVE;
+
+//FROM T0
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := true;
+set congestion(c3) := true;
+set congestion(c4) := true;
+set elapsed_wait_time(selfHealingController3) := false;
+set elapsed_wait_time_plus_delta(selfHealingController4) := false;
+step
+//State 4 (controlled)
+check getMaster(c3) = c2;
+check getMaster(c4) = c3;
+check s_offer(c2) = false;
+check s_offer(c3) = false;
+check s_offer(c4) = false;
+check congested(organizationController2) = true;
+check congested(organizationController3) = true;
+check congested(organizationController4) = true;
+check slaves(c3,c4) = false;
+check stateC(c1) = MASTER;
+check stateC(c2) = MASTER;
+check stateC(c3) = SLAVE;
+check stateC(c4) = SLAVE;
+
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := true;
+set congestion(c3) := true;
+set congestion(c4) := true;
+step
+//State 5 (controlled)
+check isAlive(c4) = false;
+check getMaster(c3) = c2;
+check getMaster(c4) = c2;
+check s_offer(c2) = false;
+check s_offer(c3) = false;
+check s_offer(c4) = false;
+check slaves(c2,c3) = true;
+check slaves(c3,c4) = false;
+check stateC(c1) = MASTER;
+check stateC(c2) = MASTERWITHSLAVES;
+check stateC(c3) = SLAVE;
+check stateC(c4) = SLAVE;
+
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := true;
+set congestion(c3) := true;
+set congestion(c4) := true;
+set elapsed_wait_time(selfHealingController2) := false;
+set elapsed_wait_time_plus_delta(selfHealingController3) := false;
+step
+//State 6 (controlled)
+check isAlive(c4) = false;
+check getMaster(c3) = c2;
+check getMaster(c4) = c2;
+check s_offer(c2) = false;
+check s_offer(c3) = false;
+check s_offer(c4) = false;
+check slaves(c2,c3) = true;
+check slaves(c2,c4) = true;
+check stateC(c1) = MASTER;
+check stateC(c2) = MASTERWITHSLAVES;
+check stateC(c3) = SLAVE;
+check stateC(c4) = SLAVE;

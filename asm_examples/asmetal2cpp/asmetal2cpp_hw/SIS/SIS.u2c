@@ -1,0 +1,45 @@
+{
+    "modelPath": "SIS.uasm",
+    "arduinoCodePath": "SIS.ino",
+    "arduinoVersion": "UNO",
+    "stepTime": 200,
+    
+    "lcd" : {
+      "name" = "outlcd",
+      "function" = "safetyInjection",
+      "pin0" = "D7",
+      "pin1" = "D8",
+      "pin2" = "D9",
+      "pin3" = "D10",
+      "pin4" = "D11",
+      "pin5" = "D12",
+      "numberofrows" = 2,
+      "numberofcolumns" = 16
+    },
+    
+    "bindings": [
+        {
+			"mode": "DIGITAL",
+        	"function":"reset",
+            "pin": "D2"
+        },
+        {
+			"mode" : "DIGITAL",
+			"function":"block",
+            "pin": "D3"
+			
+        },
+		{
+			"mode" : "ANALOGLINEARIN",
+			"function" : "delta",
+			"pin" : "A0",
+			"minval" : "-15",
+			"maxval" : "15"
+		},
+		{
+			"mode": "DIGITAL",
+        	"function":"safetyInjection",
+            "pin": "D13"
+    }
+    ]
+}

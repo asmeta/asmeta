@@ -1,0 +1,1 @@
+java -jar C:\Users\Patrizia\Documents\Ricerca\newASMETA\code\experimental\validator\AsmetaV.jar C:\Users\Patrizia\Documents\Ricerca\newASMETA\asm_examples\DAS\TrafficMonitoringSystem\scenario1.test > main_output_validator.txt 2>&1

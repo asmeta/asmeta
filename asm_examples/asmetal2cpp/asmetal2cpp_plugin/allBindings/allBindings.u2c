@@ -1,0 +1,58 @@
+{
+    "modelPath": "allBindings.uasm",
+    "arduinoCodePath": "allBindings.ino",
+    "arduinoVersion": "ZERO",
+    "stepTime": 200,
+    "bindings": [
+        {
+			"mode": "DIGITAL",
+        	"function":"enumin",
+            "pin": "D2"
+        },
+        {
+			"mode" : "DIGITAL",
+			"function":"enumout",
+            "pin": "D3"
+			
+        },
+        {
+			"mode": "DIGITALINVERTED",
+        	"function":"boolin",
+            "pin": "D4"
+        },
+        {
+			"mode" : "DIGITALINVERTED",
+			"function":"boolout",
+            "pin": "D5"
+			
+        },
+		{
+			"mode" : "ANALOGLINEAROUT",
+			"function" : "intfunctout",
+			"pin" : "A0",
+			"minval" : "0",
+			"maxval" : "9"
+		},
+		{
+			"mode" : "ANALOGLINEARIN",
+			"function" : "intfunctin",
+			"pin" : "A1",
+			"minval" : "0",
+			"maxval" : "9"
+		},
+		{
+			"mode" : "ANALOGLINEARIN",
+			"function" : "doublefunctin",
+			"pin" : "A2",
+			"minval" : "0",
+			"maxval" : "9"
+		},
+		{
+			"mode" : "PWM",
+			"function" : "doublefunctout",
+			"pin" : "D6",
+			"minval" : "0",
+			"maxval" : "9"
+		}
+        ]
+}

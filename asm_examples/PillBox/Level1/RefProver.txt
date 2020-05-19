@@ -1,0 +1,74 @@
+;;Proof of refinement from pillbox_0 to pillbox_1_for_RefProv
+(define-type OutMessages(scalar TAKE_PILL NONE PILL_MISSED DRAWER_NOT_CLOSED CLOSE_DRAWER_IN_10_MIN TAKE_PILL_IN_10_MIN OutMessagesUNDEF))
+(define-type LedLights(scalar OFF ON BLINKING LedLightsUNDEF))
+;; functions - state 0
+(define openSwitch00::bool)
+(define takeThePill00::bool)
+(define redLed00::LedLights)
+(define logMess00::OutMessages)
+(define drawerTimer00::(subrange 0 23))
+(define opened00::bool)
+(define systemTime00::(subrange 0 23))
+(define openSwitch0ABSTRACT0::bool)
+(define timeDiffOver60000::bool)
+(define time_consumption00::(subrange 0 23))
+(define outMess00::OutMessages)
+(define requestSatisfied00::bool)
+;; derived functions definitions - state 0
+(assert (= takeThePill00 (<= time_consumption00 systemTime00)))
+(assert (= timeDiffOver60000 (> (- systemTime00 drawerTimer00) 1)))
+;; Initial state proof
+(define refinedInitState::bool (and (not opened00) (= outMess00 NONE) (= logMess00 NONE) (= redLed00 OFF) (= drawerTimer00 0) (= time_consumption00 1) (= systemTime00 0) (not requestSatisfied00)))
+(define existsAbstractInitState::bool (and (not opened00) (= outMess00 NONE) (= logMess00 NONE) (= redLed00 OFF) (not takeThePill00) (not timeDiffOver60000)))
+(assert (not (=> refinedInitState existsAbstractInitState)))
+(set-evidence! true)
+(check)
+;; unsat
+;; Initial states are conformant.
+
+
+(reset)
+(set-evidence! false)
+(define-type OutMessages(scalar TAKE_PILL NONE PILL_MISSED DRAWER_NOT_CLOSED CLOSE_DRAWER_IN_10_MIN TAKE_PILL_IN_10_MIN OutMessagesUNDEF))
+(define-type LedLights(scalar OFF ON BLINKING LedLightsUNDEF))
+;; functions - state 0
+(define openSwitch00::bool)
+(define takeThePill00::bool)
+(define redLed00::LedLights)
+(define logMess00::OutMessages)
+(define drawerTimer00::(subrange 0 23))
+(define opened00::bool)
+(define systemTime00::(subrange 0 23))
+(define openSwitch0ABSTRACT0::bool)
+(define timeDiffOver60000::bool)
+(define time_consumption00::(subrange 0 23))
+(define outMess00::OutMessages)
+(define requestSatisfied00::bool)
+(define opened01::bool)
+(define outMess01::OutMessages)
+(define logMess01::OutMessages)
+(define time_consumption01::(subrange 0 23))
+(define redLed01::LedLights)
+(define drawerTimer01::(subrange 0 23))
+(define systemTime01::(subrange 0 23))
+(define requestSatisfied01::bool)
+(define openSwitch01::bool)
+(define takeThePill01::bool)
+(define timeDiffOver60001::bool)
+(define openSwitch0ABSTRACT1::bool)
+;; derived functions definitions - state 0
+(assert (= takeThePill00 (<= time_consumption00 systemTime00)))
+(assert (= timeDiffOver60000 (> (- systemTime00 drawerTimer00) 1)))
+;; derived functions definitions - state 1
+(assert (= takeThePill01 (<= time_consumption01 systemTime01)))
+(assert (= timeDiffOver60001 (> (- systemTime01 drawerTimer01) 1)))
+(define abstractStep::(-> bool bool) (lambda (openSwitch0ABSTRACTLambda::bool) (and (and (=> (and (not opened00) openSwitch0ABSTRACTLambda) opened01) (=> (and opened00 (not openSwitch0ABSTRACTLambda)) (not opened01)) (=> (= redLed00 OFF) (=> takeThePill00 (and (= redLed01 ON) (= outMess01 TAKE_PILL)))) (=> (and (and (and (= redLed00 ON) (not timeDiffOver60000)) opened00) (not openSwitch0ABSTRACTLambda)) (and (= redLed01 OFF) (= outMess01 NONE))) (=> (and (and (= redLed00 ON) (not opened00)) openSwitch0ABSTRACTLambda) (and (= redLed01 BLINKING) (= outMess01 CLOSE_DRAWER_IN_10_MIN))) (=> (= redLed00 ON) (=> timeDiffOver60000 (if opened00 (and (= redLed01 BLINKING) (= outMess01 CLOSE_DRAWER_IN_10_MIN)) (=> (not openSwitch0ABSTRACTLambda) (and (= redLed01 BLINKING) (= outMess01 TAKE_PILL_IN_10_MIN)))))) (=> (= redLed00 BLINKING) (if (and (not openSwitch0ABSTRACTLambda) opened00) (and (= redLed01 OFF) (= outMess01 NONE)) (if timeDiffOver60000 (if openSwitch0ABSTRACTLambda (and (= redLed01 OFF) (= outMess01 NONE) (= logMess01 DRAWER_NOT_CLOSED)) (and (= redLed01 OFF) (= outMess01 NONE) (= logMess01 PILL_MISSED))) (=> openSwitch0ABSTRACTLambda (and (= redLed01 BLINKING) (= outMess01 CLOSE_DRAWER_IN_10_MIN))))))) (=> (not (or (and (= redLed00 BLINKING) (not (and (not openSwitch0ABSTRACTLambda) opened00)) timeDiffOver60000 openSwitch0ABSTRACTLambda) (and (= redLed00 BLINKING) (not (and (not openSwitch0ABSTRACTLambda) opened00)) timeDiffOver60000 (not openSwitch0ABSTRACTLambda)))) (= logMess00 logMess01)) (=> (not (or (and (= redLed00 OFF) takeThePill00) (and (and (and (= redLed00 ON) (not timeDiffOver60000)) opened00) (not openSwitch0ABSTRACTLambda)) (and (and (= redLed00 ON) (not opened00)) openSwitch0ABSTRACTLambda) (and (= redLed00 ON) timeDiffOver60000 opened00) (and (= redLed00 ON) timeDiffOver60000 (not opened00) (not openSwitch0ABSTRACTLambda)) (and (= redLed00 BLINKING) (and (not openSwitch0ABSTRACTLambda) opened00)) (and (= redLed00 BLINKING) (not (and (not openSwitch0ABSTRACTLambda) opened00)) timeDiffOver60000 openSwitch0ABSTRACTLambda) (and (= redLed00 BLINKING) (not (and (not openSwitch0ABSTRACTLambda) opened00)) timeDiffOver60000 (not openSwitch0ABSTRACTLambda)) (and (= redLed00 BLINKING) (not (and (not openSwitch0ABSTRACTLambda) opened00)) (not timeDiffOver60000) openSwitch0ABSTRACTLambda))) (= redLed00 redLed01)) (=> (not (or (and (= redLed00 OFF) takeThePill00) (and (and (and (= redLed00 ON) (not timeDiffOver60000)) opened00) (not openSwitch0ABSTRACTLambda)) (and (and (= redLed00 ON) (not opened00)) openSwitch0ABSTRACTLambda) (and (= redLed00 ON) timeDiffOver60000 opened00) (and (= redLed00 ON) timeDiffOver60000 (not opened00) (not openSwitch0ABSTRACTLambda)) (and (= redLed00 BLINKING) (and (not openSwitch0ABSTRACTLambda) opened00)) (and (= redLed00 BLINKING) (not (and (not openSwitch0ABSTRACTLambda) opened00)) timeDiffOver60000 openSwitch0ABSTRACTLambda) (and (= redLed00 BLINKING) (not (and (not openSwitch0ABSTRACTLambda) opened00)) timeDiffOver60000 (not openSwitch0ABSTRACTLambda)) (and (= redLed00 BLINKING) (not (and (not openSwitch0ABSTRACTLambda) opened00)) (not timeDiffOver60000) openSwitch0ABSTRACTLambda))) (= outMess00 outMess01)) (=> (not (or (and (not opened00) openSwitch0ABSTRACTLambda) (and opened00 (not openSwitch0ABSTRACTLambda)))) (= opened00 opened01)))))
+;; Generic step proof
+(define refinedStep::bool (and (=> (and (not requestSatisfied00) (< systemTime00 24)) (and (= systemTime01 (mod (+ systemTime00 1) 24)) (=> (and (not opened00) openSwitch00) opened01) (=> (and opened00 (not openSwitch00)) (not opened01)) (=> (= redLed00 OFF) (=> (and takeThePill00 (not requestSatisfied00)) (and (=> (/= redLed00 ON) (= drawerTimer01 systemTime00)) (= redLed01 ON) (= outMess01 TAKE_PILL)))) (=> (and (and (and (= redLed00 ON) (not timeDiffOver60000)) opened00) (not openSwitch00)) (and (= redLed01 OFF) (= outMess01 NONE) (= drawerTimer01 systemTime00) requestSatisfied01)) (=> (and (and (= redLed00 ON) (not opened00)) openSwitch00) (and (=> (and (/= redLed00 BLINKING) (/= outMess00 CLOSE_DRAWER_IN_10_MIN)) (= drawerTimer01 systemTime00)) (= redLed01 BLINKING) (= outMess01 CLOSE_DRAWER_IN_10_MIN))) (=> (= redLed00 ON) (=> timeDiffOver60000 (if opened00 (and (=> (and (/= redLed00 BLINKING) (/= outMess00 CLOSE_DRAWER_IN_10_MIN)) (= drawerTimer01 systemTime00)) (= redLed01 BLINKING) (= outMess01 CLOSE_DRAWER_IN_10_MIN)) (=> (not openSwitch00) (and (=> (and (/= redLed00 BLINKING) (/= outMess00 TAKE_PILL_IN_10_MIN)) (= drawerTimer01 systemTime00)) (= redLed01 BLINKING) (= outMess01 TAKE_PILL_IN_10_MIN)))))) (=> (= redLed00 BLINKING) (if (and (not openSwitch00) opened00) (and (= redLed01 OFF) (= outMess01 NONE) (= drawerTimer01 systemTime00) requestSatisfied01) (if timeDiffOver60000 (if openSwitch00 (and (= redLed01 OFF) (= outMess01 NONE) (= logMess01 DRAWER_NOT_CLOSED) (= drawerTimer01 systemTime00) requestSatisfied01) (and (= redLed01 OFF) (= outMess01 NONE) (= logMess01 PILL_MISSED) (= drawerTimer01 systemTime00) requestSatisfied01)) (=> openSwitch00 (and (=> (and (/= redLed00 BLINKING) (/= outMess00 CLOSE_DRAWER_IN_10_MIN)) (= drawerTimer01 systemTime00)) (= redLed01 BLINKING) (= outMess01 CLOSE_DRAWER_IN_10_MIN)))))))) (=> (not (or (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) timeDiffOver60000 openSwitch00) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) timeDiffOver60000 (not openSwitch00)))) (= logMess00 logMess01)) (=> (not (or (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 OFF) (and takeThePill00 (not requestSatisfied00))) (and (and (not requestSatisfied00) (< systemTime00 24)) (and (and (and (= redLed00 ON) (not timeDiffOver60000)) opened00) (not openSwitch00))) (and (and (not requestSatisfied00) (< systemTime00 24)) (and (and (= redLed00 ON) (not opened00)) openSwitch00)) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 ON) timeDiffOver60000 opened00) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 ON) timeDiffOver60000 (not opened00) (not openSwitch00)) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (and (not openSwitch00) opened00)) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) timeDiffOver60000 openSwitch00) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) timeDiffOver60000 (not openSwitch00)) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) (not timeDiffOver60000) openSwitch00))) (= redLed00 redLed01)) (=> (not (or (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 OFF) (and takeThePill00 (not requestSatisfied00)) (/= redLed00 ON)) (and (and (not requestSatisfied00) (< systemTime00 24)) (and (and (and (= redLed00 ON) (not timeDiffOver60000)) opened00) (not openSwitch00))) (and (and (not requestSatisfied00) (< systemTime00 24)) (and (and (= redLed00 ON) (not opened00)) openSwitch00) (and (/= redLed00 BLINKING) (/= outMess00 CLOSE_DRAWER_IN_10_MIN))) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 ON) timeDiffOver60000 opened00 (and (/= redLed00 BLINKING) (/= outMess00 CLOSE_DRAWER_IN_10_MIN))) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 ON) timeDiffOver60000 (not opened00) (not openSwitch00) (and (/= redLed00 BLINKING) (/= outMess00 TAKE_PILL_IN_10_MIN))) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (and (not openSwitch00) opened00)) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) timeDiffOver60000 openSwitch00) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) timeDiffOver60000 (not openSwitch00)) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) (not timeDiffOver60000) openSwitch00 (and (/= redLed00 BLINKING) (/= outMess00 CLOSE_DRAWER_IN_10_MIN))))) (= drawerTimer00 drawerTimer01)) (=> (not (and (not requestSatisfied00) (< systemTime00 24))) (= systemTime00 systemTime01)) (=> (not (or (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 OFF) (and takeThePill00 (not requestSatisfied00))) (and (and (not requestSatisfied00) (< systemTime00 24)) (and (and (and (= redLed00 ON) (not timeDiffOver60000)) opened00) (not openSwitch00))) (and (and (not requestSatisfied00) (< systemTime00 24)) (and (and (= redLed00 ON) (not opened00)) openSwitch00)) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 ON) timeDiffOver60000 opened00) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 ON) timeDiffOver60000 (not opened00) (not openSwitch00)) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (and (not openSwitch00) opened00)) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) timeDiffOver60000 openSwitch00) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) timeDiffOver60000 (not openSwitch00)) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) (not timeDiffOver60000) openSwitch00))) (= outMess00 outMess01)) (=> (not (or (and (and (not requestSatisfied00) (< systemTime00 24)) (and (and (and (= redLed00 ON) (not timeDiffOver60000)) opened00) (not openSwitch00))) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (and (not openSwitch00) opened00)) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) timeDiffOver60000 openSwitch00) (and (and (not requestSatisfied00) (< systemTime00 24)) (= redLed00 BLINKING) (not (and (not openSwitch00) opened00)) timeDiffOver60000 (not openSwitch00)))) (= requestSatisfied00 requestSatisfied01)) (=> (not (or (and (and (not requestSatisfied00) (< systemTime00 24)) (and (not opened00) openSwitch00)) (and (and (not requestSatisfied00) (< systemTime00 24)) (and opened00 (not openSwitch00))))) (= opened00 opened01))))
+(define existsAbstractStep::bool (or (abstractStep false) (abstractStep true)))
+(define stutteringState::bool true)
+(assert (not (=> refinedStep (or existsAbstractStep stutteringState))))
+(set-evidence! true)
+(check)
+;; unsat
+;; Generic step is conformant.

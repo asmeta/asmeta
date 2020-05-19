@@ -1,0 +1,5 @@
+scenario trace_scenario1 
+
+load ertms_hl3_scenario1.asm
+
+step

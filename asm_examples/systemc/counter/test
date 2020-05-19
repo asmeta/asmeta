@@ -1,0 +1,37 @@
+scenario test
+
+load ./main.asm
+
+step until time = 30 and phase = TIMED_NOTIFICATION;
+check readInt(out_top) = 0;
+
+step until time = 50 and phase = TIMED_NOTIFICATION;
+check readInt(out_top) = 1;
+
+step until time = 70 and phase = TIMED_NOTIFICATION;
+check readInt(out_top) = 2;
+
+step until time = 90 and phase = TIMED_NOTIFICATION;
+check readInt(out_top) = 3;
+
+step until time = 110 and phase = TIMED_NOTIFICATION;
+check readInt(out_top) = 4;
+
+step until time = 130 and phase = TIMED_NOTIFICATION;
+check readInt(out_top) = 5;
+
+step until time = 150 and phase = TIMED_NOTIFICATION;
+check readInt(out_top) = 6;
+
+step until time = 170 and phase = TIMED_NOTIFICATION;
+check readInt(out_top) = 7;
+
+step until time = 190 and phase = TIMED_NOTIFICATION;
+check readInt(out_top) = 8;
+
+step until time = 210 and phase = TIMED_NOTIFICATION;
+check readInt(out_top) = 0;
+
+step until time = 990 and phase = TIMED_NOTIFICATION;
+check readInt(out_top) = 3;
+

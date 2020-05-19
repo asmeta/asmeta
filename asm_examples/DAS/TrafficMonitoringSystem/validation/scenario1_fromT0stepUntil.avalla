@@ -1,0 +1,40 @@
+scenario Flexibility_T0_T1
+load ./mainForModelChecking.asm
+
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set startCam(c1) := false;
+set startCam(c2) := false;
+set startCam(c3) := false;
+set startCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := false;
+set congestion(c3) := true;
+set congestion(c4) := true;
+set elapsed_wait_time(selfHealingController3) := false;
+set elapsed_wait_time_plus_delta(selfHealingController4) := false;
+
+exec
+    par
+        stateC(c3) := MASTERWITHSLAVES
+        stateC(c4) := SLAVE
+        slaves(c3, c4) := true
+        getMaster(c4) := c3
+        congested(organizationController3) := true
+		congested(organizationController4) := true
+    endpar;
+step until stateC(c1) = MASTER and stateC(c2) = MASTERWITHSLAVES and stateC(c3) = SLAVE and stateC(c4) = SLAVE;
+
+check isAlive(c4) = false;
+check newSlave(c2,c3) = false;
+check getMaster(c4) = c3;
+check s_offer(c3) = true;
+check s_offer(c4) = false;
+check slaves(c2,c3) = true;
+check slaves(c2,c4) = true;
+check stateC(c1) = MASTER;
+check stateC(c2) = MASTERWITHSLAVES;
+check stateC(c3) = SLAVE;
+check stateC(c4) = SLAVE;

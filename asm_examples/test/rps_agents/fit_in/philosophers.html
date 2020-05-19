@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Test of Philophers</TITLE>
+</HEAD>
+
+<BODY>
+<TABLE>
+<TR>
+	<TD>org.asmeta.interpreter.AsmFixture</TD>
+	<TD></TD>
+	<TD></TD>
+	<TD></TD>
+</TR>
+<TR>
+	<TD>asmPath</TD>
+	<TD>nTimes</TD>
+	<TD>envPath</TD>
+	<TD>state()</TD>
+	<TD></TD>
+</TR>
+<TR>
+	<TD>rps_agents/philosophers1.asm</TD>
+	<TD>1</TD>
+	<TD>rps_agents/philo01.env</TD>
+	<TD>Agent={self},Fork={fork_1,fork_2,fork_3,fork_4,fork_5},Philosophers={phil_1,phil_2,phil_3,phil_4,phil_5},eating(phil_4)=true,owner(fork_4)=phil_4,owner(fork_5)=phil_4</TD>
+	<TD>1 -(choose) agent 4 starts eating</TD>
+</TR>
+<TR>
+	<TD>rps_agents/philosophers2.asm</TD>
+	<TD>2</TD>
+	<TD>rps_agents/philo02.env</TD>
+	<TD>Agent={self},Fork={fork_1,fork_2,fork_3,fork_4,fork_5},Philosophers={phil_1,phil_2,phil_3,phil_4,phil_5},eating(phil_1)=false,eating(phil_2)=false,eating(phil_3)=false,eating(phil_4)=false,eating(phil_5)=true,owner(fork_1)=phil_5,owner(fork_2)=undef,owner(fork_3)=undef,owner(fork_4)=undef,owner(fork_5)=phil_5</TD>
+	<TD>2 - (forall) agent 5 starts eating. Then philo 1 would like to eat but it cannot</TD>
+</TR>
+<TR>
+	<TD>rps_agents/philosophers2.asm</TD>
+	<TD>2</TD>
+	<TD>rps_agents/philo03.env</TD>
+	<TD>Agent={self},Fork={fork_1,fork_2,fork_3,fork_4,fork_5},Philosophers={phil_1,phil_2,phil_3,phil_4,phil_5},eating(phil_1)=false,eating(phil_2)=true,eating(phil_3)=false,eating(phil_4)=false,eating(phil_5)=true,owner(fork_1)=phil_5,owner(fork_2)=phil_2,owner(fork_3)=phil_2,owner(fork_4)=undef,owner(fork_5)=phil_5</TD>
+	<TD>3 - (forall) agent 5 starts eating. Then philo 2 would like to eat and it can</TD>
+</TR>
+<TR>
+	<TD>rps_agents/philosophers2.asm</TD>
+	<TD>3</TD>
+	<TD>rps_agents/philo03.env</TD>
+	<TD>Agent={self},Fork={fork_1,fork_2,fork_3,fork_4,fork_5},Philosophers={phil_1,phil_2,phil_3,phil_4,phil_5},eating(phil_1)=false,eating(phil_2)=true,eating(phil_3)=false,eating(phil_4)=false,eating(phil_5)=false,owner(fork_1)=undef,owner(fork_2)=phil_2,owner(fork_3)=phil_2,owner(fork_4)=undef,owner(fork_5)=undef</TD>
+	<TD>4 - (forall) agent 5 and then 2 start eating. Then philo 2 stop eating</TD>
+</TR>
+<TR>
+	<TD>rps_agents/philosophers2.asm</TD>
+	<TD>3</TD>
+	<TD>rps_agents/philo04.env</TD>
+	<TD>error</TD>
+	<TD>5 - (forall) agent 4 and 5 want to start eating together: UpdateClash </TD>
+</TR>
+<TR>
+	<TD>rps_agents/philosophers3.asm</TD>
+	<TD>1</TD>
+	<TD>rps_agents/philo05.env</TD>
+	<TD>Agent={self},Fork={fork_1,fork_2,fork_3,fork_4,fork_5},Philosophers={phil_1,phil_2,phil_3,phil_4,phil_5},eating(phil_2)=true,eating(phil_4)=true,owner(fork_2)=phil_2,owner(fork_3)=phil_2,owner(fork_4)=phil_4,owner(fork_5)=phil_4</TD>
+	<TD>6 - choose 2 agents not near and run them</TD>	
+</TR>
+</TABLE>
+</BODY>
+</HTML>

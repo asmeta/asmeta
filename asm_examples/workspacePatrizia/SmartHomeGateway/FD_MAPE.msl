@@ -1,0 +1,59 @@
+abstract pattern MasterSlaveMAPE {
+	system Sys
+
+	group Master {
+		components A, P
+	}
+
+	group Slave {
+		managedSyS Sys
+		components M, E
+	}
+
+	interaction Slave.M -> Master.A [*-SOME,1]
+	interaction Master.P -> Slave.E [1,*-SOME]
+	interaction Master.A -> Master.P [1,1]
+}
+
+//Aggregate MAPE loop for the concern Fire Detection
+concrete pattern FD_MAPE concretizationOf MasterSlaveMAPE {
+	system FireDetection: MasterSlaveMAPE.Sys
+    group MasterFD: MasterSlaveMAPE.Master
+    group SlaveFD: MasterSlaveMAPE.Slave
+}
+
+//My smart home fire detection subsystem: being a domestic building, fire detection takes the form of a fire 
+//alarm system, incorporating three smoke devices in two zones: one in the Corridor (First Floor), and two in the
+//kitchen and LivingRoom (Ground floor) 
+//Managed items: group switch gSmokeFF, gSmokeGF, Number MaxTemperatureGF, MaxTemperatureFF, Switch  Fire_Alarm
+
+configuration MySmartHomeFD instanceOf FD_MAPE {
+    
+    fd_ff: FD_MAPE.FireDetection //fire detection system for First Floor
+    fd_gf: FD_MAPE.FireDetection //fire detection system for Ground Floor
+    
+    //master
+	fd_master: FD_MAPE.MasterFD {
+		components a_fd:A, p_fd:P
+	}
+    
+    //ground floor slave
+	gf_slave: FD_MAPE.SlaveFD {
+		managedSyS fd_gf
+		components m_gf:M, e_gf:E
+	}
+
+    //first floor slave
+    ff_slave: FD_MAPE.SlaveFD {
+		managedSyS fd_ff
+		components m_ff:M, e_ff:E
+	}
+
+	//interactions
+	fd_master.a_fd -> fd_master.p_fd
+	gf_slave.m_gf -> fd_master.a_fd
+	ff_slave.m_ff -> fd_master.a_fd
+	fd_master.p_fd -> gf_slave.e_gf
+	fd_master.p_fd -> ff_slave.e_ff
+}
+

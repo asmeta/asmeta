@@ -1,0 +1,10 @@
+MP1: No inconsistent update is ever performed
+Location windows_Setting(AQS_FF) is updated to values desiredWindowsStatus(main_aq) and desiredWindowsStatus(int_hc_ff) when are satisfied simultaneously the conditions
+	(TRUE & startMainAQE(main_aq))
+	and
+	(TRUE & ((startIntHCE(int_hc_ff) & (desiredWindowsStatus(int_hc_ff) != WINDOWSTATUS_UNDEF)) & (sysaManagedByIntHC(int_hc_ff) = aqs_ff))).
+Location windows_Setting(AQS_GF) is updated to values desiredWindowsStatus(main_aq) and desiredWindowsStatus(int_hc_gf) when are satisfied simultaneously the conditions
+	(TRUE & startMainAQE(main_aq))
+	and
+	(TRUE & ((startIntHCE(int_hc_gf) & (desiredWindowsStatus(int_hc_gf) != WINDOWSTATUS_UNDEF)) & (sysaManagedByIntHC(int_hc_gf) = aqs_gf))).
+

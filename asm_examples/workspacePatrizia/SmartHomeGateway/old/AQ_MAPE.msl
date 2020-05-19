@@ -1,0 +1,36 @@
+abstract pattern SimpleMAPE {
+	system Sys
+
+	group Main {
+		managedSyS Sys
+		components M, A, P, E
+	}
+
+	interaction Main.M -> Main.A 
+	interaction Main.A -> Main.P
+	interaction Main.P -> Main.E 
+}
+
+//A simple MAPE loop for the concern Air Quality
+concrete pattern AQ_MAPE concretizationOf SimpleMAPE {
+	system Air: SimpleMAPE.Sys
+    group MainAQ: SimpleMAPE.Main
+}
+
+//My smart home air quality subsystem: inside air sensors (CO2), and outside air quality (an external web service)
+//Managed items: Number   OutsideAqi,  group Number AQInsideCO2 (average value), group Contact WindowsStatus (all windows)
+
+configuration MySmartHomeAQ instanceOf AQ_MAPE {
+    
+    aqs: AQ_MAPE.Air //inside air quality system 
+    
+	aq_main: AQ_MAPE.MainAQ {
+		managedSyS aqs
+		components m_aq:M, a_aq:A, p_aq:P, e_aq:E
+	}
+    
+	//interactions
+	aq_main.m_aq -> aq_main.a_aq
+	aq_main.a_aq -> aq_main.p_aq
+	aq_main.p_aq -> aq_main.e_aq
+}

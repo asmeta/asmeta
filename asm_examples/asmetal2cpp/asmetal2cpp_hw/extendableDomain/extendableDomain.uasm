@@ -1,0 +1,19 @@
+asm extendableDomain
+
+domain D1 of BOOLEAN
+domain D2 of INTEGER
+domain D3 of NUMBER
+
+monitored boolin -> D1
+out boolout -> D1
+
+monitored intfunctin -> D2
+out intfunctout -> D2
+
+monitored doublefunctin -> D3
+out doublefunctout -> D3
+
+rule r_Main =
+skip
+
+exec r_Main

@@ -1,0 +1,16 @@
+scenario lift
+load lift3.asm
+
+set existsCallFromTo(0,UP) := true;
+set existsCallFromTo(1,UP) := true;
+set existsCallFromTo(2,UP) := true;
+set existsCallFromTo(3,UP) := true;
+set existsCallFromTo(4,UP) := true;
+
+set existsCallFromTo(0,DOWN) := true;
+set existsCallFromTo(1,DOWN) := true;
+set existsCallFromTo(2,DOWN) := true;
+set existsCallFromTo(3,DOWN) := true;
+set existsCallFromTo(4,DOWN) := true;
+
+step

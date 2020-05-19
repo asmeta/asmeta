@@ -1,0 +1,36 @@
+scenario scenario3
+load pillbox_0.asm
+
+//******************************************************
+// Initialization and need to take the pill
+//******************************************************
+execblock pillbox_0_scenario1:takePill;
+
+begin doNotOpenDrawerIn10Min
+
+	//******************************************************
+	// Do not open the drawer within 10 minutes, and overpass the timeout
+	//******************************************************
+	set openSwitch := false;
+	set timeDiffOver600 := true;
+	
+	step
+	
+	check redLed = BLINKING;
+	check outMess = TAKE_PILL_IN_10_MIN;
+	check logMess = NONE;
+
+end
+
+//******************************************************
+// Do not open the drawer within 10 minutes, and overpass the timeout
+//******************************************************
+set timeDiffOver600 := true;
+set openSwitch := false;
+
+step
+
+check redLed = OFF;
+check opened = false;
+check outMess = NONE;
+check logMess = PILL_MISSED;

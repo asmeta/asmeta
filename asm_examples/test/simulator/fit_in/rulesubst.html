@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> RuleSubstitution test </TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+</HEAD>
+
+<BODY>
+<TABLE>
+<TR>
+	<TD>org.asmeta.interpreter.RuleSubstFixture</TD>
+	<TD></TD>
+</TR>
+<TR>
+	<TD>asmPath</TD>
+	<TD>rule()</TD>
+</TR>
+<TR>
+	<TD>rps_test/rule_subst/rulesubst01.asm</TD>
+	<TD>f:=$y</TD>
+</TR>
+<TR>
+	<TD>rps_test/rule_subst/rulesubst02.asm</TD>
+	<TD>g($x):=plus(f,$z)</TD>
+</TR>
+<TR>
+	<TD>rps_test/rule_subst/rulesubst03.asm</TD>
+	<TD>par g($x):=plus(f,$z) skip endpar</TD>
+</TR>
+<TR>
+	<TD>rps_test/rule_subst/rulesubst04.asm</TD>
+	<TD>seq g($x):=plus(f,$z) f:=f endseq</TD>
+</TR>
+<TR>
+	<TD>rps_test/rule_subst/rulesubst05.asm</TD>
+	<TD>if eq(0,0) then f:=$z else skip endif</TD>
+</TR>
+<TR>
+	<TD>rps_test/rule_subst/rulesubst06.asm</TD>
+	<TD>switch $x case f:skip otherwise skip endswitch</TD>
+</TR>
+<TR>
+	<TD>rps_test/rule_subst/rulesubst07.asm</TD>
+	<TD>let($x!1=$x,$l=77)in par g(0):=plus($x!1,$x) skip endpar endlet</TD>
+</TR>
+<TR>
+	<TD>rps_test/rule_subst/rulesubst08.asm</TD>
+	<TD>forall $z!1 in Powerset(Integer) with true do f:=$y</TD>
+</TR>
+<TR>
+	<TD>rps_test/rule_subst/rulesubst09.asm</TD>
+	<TD>choose $z!1 in Powerset(Integer) with eq(g(0),$z) do f:=$y ifnone skip</TD>
+</TR>
+<TR>
+	<TD>rps_test/rule_subst/rulesubst10.asm</TD>
+	<TD>r_wer[$x,$y]</TD>
+</TR>
+<TR>
+	<TD>rps_test/rule_subst/rulesubst11.asm</TD>
+	<TD>extend A with $l do extend A with $z!1 do skip</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

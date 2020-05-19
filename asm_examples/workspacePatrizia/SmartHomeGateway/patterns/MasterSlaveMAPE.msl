@@ -1,0 +1,23 @@
+//This pattern organizes the adaptation logic by creating a hierarchical
+//relationship between one (centralized) master component that is responsible
+//for the analysis and planning of adaptations (A and P activities) and multiple
+//slave components that are responsible for monitoring and execution (M and E
+//activities)
+
+abstract pattern MasterSlaveMAPE {
+	system Sys
+
+	group Master {
+		components A, P
+	}
+
+	group Slave {
+		managedSyS Sys
+		components M, E
+	}
+
+	interaction Slave.M -> Master.A [*-ALL,1]
+	interaction Master.P -> Slave.E [1,*-ALL]
+	interaction Master.A -> Master.P [1,1]
+}
+

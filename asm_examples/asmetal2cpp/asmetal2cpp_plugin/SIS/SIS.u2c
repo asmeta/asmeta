@@ -1,0 +1,29 @@
+{
+    "arduinoVersion": "UNO",
+    "stepTime": 200,
+    "bindings": [
+        {
+			"mode": "DIGITAL",
+        	"function":"reset",
+            "pin": "D2"
+        },
+        {
+			"mode" : "DIGITAL",
+			"function":"block",
+            "pin": "D3"
+			
+        },
+		{
+			"mode" : "ANALOGLINEARIN",
+			"function" : "delta",
+			"pin" : "A0",
+			"minval" : "-15",
+			"maxval" : "15"
+		},
+		{
+			"mode": "DIGITAL",
+        	"function":"safetyInjection",
+            "pin": "D13"
+        }
+        ]
+}

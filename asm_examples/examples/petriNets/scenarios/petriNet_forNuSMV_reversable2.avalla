@@ -1,0 +1,14 @@
+scenario petriNet_forNuSMV_reversable2
+
+load ../forAsmetaSMV/petriNet_forNuSMV_reversable.asm
+
+//A single token is always present in p2 and p3, but never in both. 
+//A single token is always present in p4 and p5, but never in both.
+invariant tokensInv1: (tokens(p2)=1 xor tokens(p3)=1) and (tokens(p4)=1 xor tokens(p5)=1);
+invariant tokensInv2: (tokens(p2) + tokens(p3) = 1) and (tokens(p4) + tokens(p5) = 1);
+
+//We execute the machine until the place p1 is saturated
+step until tokens(p1) = 10;
+
+//Then we execute the machine until the initial marking is reached again
+step until tokens(p1) = 0 and tokens(p2) = 0 and tokens(p3) = 1 and tokens(p4) = 1 and tokens(p5) = 0;

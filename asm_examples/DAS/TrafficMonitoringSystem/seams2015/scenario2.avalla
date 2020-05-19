@@ -1,0 +1,86 @@
+scenario Flexibility_T2_T3
+load ./trafficMonitoringSystem.asm
+
+//state 0 (monitored)
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false; 
+set startCam(c1) := false;
+set startCam(c2) := false;
+set startCam(c3) := false;
+set startCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := false;
+set congestion(c3) := true;
+set congestion(c4) := true;
+step
+//state 1 (controlled)
+check congested(organizationController3) = true;
+check congested(organizationController4) = true;
+check s_offer(c4) = true;
+check stateC(c1) = MASTER;
+check stateC(c2) = MASTER;
+check stateC(c3) = MASTER;
+check stateC(c4) = MASTER;
+
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set startCam(c1) := false;
+set startCam(c2) := false;
+set startCam(c3) := false;
+set startCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := false;
+set congestion(c3) := true;
+set congestion(c4) := true;
+step
+//State 2 (controlled)
+check getMaster(c4)=c3;
+check newSlave(c3,c4)=true;
+check stateC(c1)=MASTER;
+check stateC(c2) = MASTER;
+check stateC(c3) = MASTER;
+check stateC(c4)=SLAVE;
+
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set startCam(c1) := false;
+set startCam(c2) := false;
+set startCam(c3) := false;
+set startCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := true;
+set congestion(c3) := true;
+set congestion(c4) := true;
+set elapsed_wait_time_plus_delta(selfHealingController4) := false;
+step
+//State 3 (controlled)
+check getMaster(c4)=c3;
+check s_offer(c3)=true;
+check s_offer(c4)=false;
+check slaves(c3,c4)=true;
+check stateC(c1)=MASTER;
+check stateC(c2) = MASTER;
+check stateC(c3) = MASTERWITHSLAVES;
+check stateC(c4)=SLAVE;
+
+set stopCam(c1) := false;
+set stopCam(c2) := true;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set startCam(c1) := false;
+set startCam(c2) := false;
+set startCam(c3) := false;
+set startCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := true;
+set congestion(c3) := true;
+set congestion(c4) := true;
+set elapsed_wait_time(selfHealingController3) := false;
+set elapsed_wait_time_plus_delta(selfHealingController4) := false;
+step

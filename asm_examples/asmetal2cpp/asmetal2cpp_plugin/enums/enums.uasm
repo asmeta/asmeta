@@ -1,0 +1,16 @@
+asm enums
+
+enum Switch = { OFF , ON }
+enum Pressure = { P_TOOLOW , P_NORMAL , P_HIGH }
+
+monitored digitalin -> Switch
+out digitalout -> Switch
+
+monitored analogin -> Pressure
+out analogout -> Pressure
+out analogPWM -> Pressure
+
+rule r_Main =
+skip
+
+exec r_Main

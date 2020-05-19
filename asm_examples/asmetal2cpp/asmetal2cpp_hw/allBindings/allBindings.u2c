@@ -1,0 +1,30 @@
+{
+  "arduinoVersion": "UNO",
+  "stepTime": 0,
+  "bindings": [
+    {
+      "mode": "USERDEFINED",
+      "function": "enumout",
+      "minval": 0.0,
+      "maxval": 0.0
+    },
+    {
+      "mode": "USERDEFINED",
+      "function": "boolout",
+      "minval": 0.0,
+      "maxval": 0.0
+    },
+    {
+      "mode": "USERDEFINED",
+      "function": "intfunctout",
+      "minval": 0.0,
+      "maxval": 0.0
+    },
+    {
+      "mode": "USERDEFINED",
+      "function": "doublefunctout",
+      "minval": 0.0,
+      "maxval": 0.0
+    }
+  ]
+}

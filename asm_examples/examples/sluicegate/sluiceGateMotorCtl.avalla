@@ -1,0 +1,11 @@
+scenario sluice_gate   
+
+
+load sluiceGateMotorCtl.asm
+check phase = FULLYCLOSED and motor = OFF and dir = ANTICLOCKWISE  ;
+set passed(closedPeriod) := true;
+step
+check phase = OPENING and motor = ON and dir = CLOCKWISE;
+set event(top) := true;
+step
+check phase = OPENING and motor = ON and dir = CLOCKWISE;

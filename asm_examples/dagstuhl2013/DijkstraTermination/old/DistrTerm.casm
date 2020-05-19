@@ -1,0 +1,78 @@
+/* CoreASM specification */
+
+CoreASM DistributedTermination
+
+use Standard
+use TabBlocks
+
+enum colors = { black, white }
+enum states = { active, passive }
+
+init InitialState
+
+/* 
+ Problems with state(.): can become active and passive in the same step.
+ Problems with hasMessage(.): if we don't consume messages, they will
+ stay forever. If we DO consume messages (say in E), we might receive
+ another message in the same step (in C, from the same or another machine),
+ hence inconsistent update.
+*/
+
+rule MACHINE =
+	if hasMessage(self) then						// E: could clear msg
+		state(self):=active							// A: clash with B
+	choose spontaneous in { true, false } do
+		if state(self)=active and spontaneous then
+			state(self):=passive					// B: clash with A
+	if isMaster(self) and tokenIndicatesFinished then
+		done:=true
+	if hasToken(self) then
+		if state(self)=active then
+			skip
+		else
+			PASSTOKEN
+	choose spontaneous in { true, false } do
+		if state(self)=active and spontaneous then
+			choose dest in machines do
+				SENDMESSAGE(dest)				// C: clash with D
+	if isMaster(self) and unsuccessful then
+		colorM(self):=white
+		colorT:=white
+		PASSTOKEN								// D: clash with C
+
+rule PASSTOKEN =
+	hasToken(self):=false
+	hasToken(pred(self)):=true
+	if colorM(self)=black then
+		colorT:=black
+	colorM(self):=white
+
+rule SENDMESSAGE(dest) =
+	hasMessage(dest):=true
+	if (gt(dest,self)) then
+		colorM(self):=black
+
+derived tokenIndicatesFinished = (colorT=white)
+derived unsuccesfull = (isMaster(self) and hasToken(self) and (colorT=black or colorM(self)=black))
+derived N=4
+derived machines = {a | a in Agents with index(a)!=undef}
+derived pred(m) = pick p in machines with index(m)=(index(p)+1)%N
+derived gt(a,b) = index(a)>index(b)
+derived isMaster(m) = (index(m)=0)
+
+rule InitialState =
+	forall i in [0..(N-1)] do
+		extend Agents with m do
+			program(m):=@MACHINE
+			index(m):=i
+			choose s in { active, passive } do					
+				state(m):=s
+			if i=0 then
+				hasToken(m):=true
+				colorM(m):=white
+			else
+				hasToken(m):=false
+				colorM(m):=black
+	colorT:=white
+	program(self):=undef
+

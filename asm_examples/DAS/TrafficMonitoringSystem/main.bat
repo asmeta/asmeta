@@ -1,0 +1,1 @@
+java -jar C:\Users\Patrizia\Documents\Ricerca\newASMETA\code\stable\interpreter_cli\AsmetaS.jar -env "C:\Users\Patrizia\Documents\Ricerca\newASMETA\asm_examples\DAS\TrafficMonitoringSystem\main.env" "C:\Users\Patrizia\Documents\Ricerca\newASMETA\asm_examples\DAS\TrafficMonitoringSystem\main.asm" > main_output.txt 2>&1

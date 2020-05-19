@@ -1,0 +1,35 @@
+Types of pattern compositions:
+--------------------------------------
+Type 0- A pattern is instantiated two or more times in the same design 
+independently, i.e. there are no roles overlapping among entities (a MAPE group or a system) of the instances of the pattern.
+Type 1- A pattern is instantiated two or more times in the same design with roles overlapping, i.e.  
+an entity can play the same role in different instances of the same pattern. 
+Type 2- Different patterns are instantiated in the same design, possibly many times. 
+There may be roles overlapping among instances of the same pattern, 
+but none among instances of different patterns. 
+Type 3- Different patterns are instantiated once in the same designs, and
+roles overlapping among entities of instances of different patterns are possible.
+This means that the same entity may play different roles.
+Type 4- Combination of all types; i.e. different patterns are 
+instantiated many times in the same design, and roles overlapping among 
+instances of the same pattern and of different patterns are possible.
+
+Concrete syntax (for all types):
+--------------------------------------
+First, for all types of compositions, the concrete patterns are defined 
+separately and then composed at configuration level (i.e., into the model)
+by reporting their names in a comma-separated list following the name of the 
+configuration. 
+
+For all types of compositions, the concrete patterns are defined 
+separately and then composed at configuration level by reporting their names in a comma-separated list following the name of the model. 
+ Moreover, when an entity plays roles for different patterns instances (the same role for instances of the same pattern or different 
+ roles for different patterns) the name of these pattern instances are reported in a comma-separated list when the entity is introduced.
+
+Examples:
+-------------------------
+Type 1: see file composition/AggregateMAPE_ES_CH.msl
+Type 2: see file composition/AggrMS.msl 
+Type 3: see files composition/AggrMS_overlap  composition/AggregateMAPE_ES_CH2.msl
+Type 4: none (straightforward)
+

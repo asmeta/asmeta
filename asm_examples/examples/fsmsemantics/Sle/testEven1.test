@@ -1,0 +1,8 @@
+scenario zero
+
+load ./ASM_even.asm
+
+check name(currentState(evenFsm)) = "even";
+set currentInput(evenFsm) := "0" ;
+step
+check name(currentState(evenFsm)) = "odd";

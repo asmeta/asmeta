@@ -1,0 +1,29 @@
+scenario petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix2
+
+//We modify the initial state of the ASM (the initial marking of the Petri net)
+//so that it's possible that both transitions "t1" and "t2" can fire
+
+load ../petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm
+
+exec
+	par
+		tokens(p1) := 1
+		tokens(p2) := 3
+		tokens(p3) := 4
+		tokens(p4) := 1
+	endpar
+;
+
+//We execute a step and we check that the marking has been updated correctly:
+//since we know that both transitions "t1" and "t2" can fire, we check that one
+//of the two possible markings has been obtained.
+step
+check (tokens(p1)=0 and tokens(p2)=4 and tokens(p3)=7 and tokens(p4)=1) or
+      (tokens(p1)=2 and tokens(p2)=1 and tokens(p3)=0 and tokens(p4)=2);
+      
+//We know that:
+//- if in the previous step the transition "t1" fired, now just transition "t2" can fire
+//- if in the previous step the transition "t2" fired, now just transition "t1" can fire 
+//The obtained marking is the same.
+step
+check tokens(p1)=1 and tokens(p2)=2 and tokens(p3)=3 and tokens(p4)=2;

@@ -1,0 +1,7 @@
+Group ch "ch"
+
+Switch start_m_ch "m_ch" (ch)
+Switch start_a_ch "a_ch" (ch)
+Switch start_p_ch "p_ch" (ch)
+Switch start_e_ch "e_ch" (ch)
+

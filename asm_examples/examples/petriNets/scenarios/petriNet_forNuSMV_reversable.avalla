@@ -1,0 +1,19 @@
+scenario petriNet_forNuSMV_reversable
+
+load ../forAsmetaSMV/petriNet_forNuSMV_reversable.asm
+
+//trivial check
+check tokens(p1)=0 and tokens(p2)=0 and tokens(p3)=1 and tokens(p4)=1 and tokens(p5)=0;
+
+step
+check tokens(p1)=1 and tokens(p2)=1 and tokens(p3)=0 and tokens(p4)=1 and tokens(p5)=0;
+
+step
+check (tokens(p1)=1 and tokens(p2)=0 and tokens(p3)=1 and tokens(p4)=1 and tokens(p5)=0) or
+      (tokens(p1)=0 and tokens(p2)=1 and tokens(p3)=0 and tokens(p4)=0 and tokens(p5)=1);
+      
+step
+check (tokens(p1)=2 and tokens(p2)=1 and tokens(p3)=0 and tokens(p4)=1 and tokens(p5)=0) or
+      (tokens(p1)=0 and tokens(p2)=0 and tokens(p3)=1 and tokens(p4)=0 and tokens(p5)=1) or
+      (tokens(p1)=0 and tokens(p2)=0 and tokens(p3)=1 and tokens(p4)=0 and tokens(p5)=1) or
+      (tokens(p1)=0 and tokens(p2)=1 and tokens(p3)=0 and tokens(p4)=1 and tokens(p5)=0);

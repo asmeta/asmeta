@@ -1,0 +1,22 @@
+scenario advancedClock1
+
+load ./MySmartHomeHC_refined.asm
+
+set temperature(hs_gf) := 18;
+set temperature_Setpoint(hs_gf) := 20;
+set temperature_Midpoint(hs_gf) := 15;
+set windowsStatus(hs_gf) := OPEN;
+set heatingStatus(hs_gf) := ON;
+set temperature(hs_ff) := 18;
+set temperature_Setpoint(hs_ff) := 20;
+set temperature_Midpoint(hs_ff) := 15;
+set windowsStatus(hs_ff) := CLOSED;
+set heatingStatus(hs_ff) := ON;
+
+step
+step
+step
+
+check desiredWindowsStatus(int_hc_gf) = CLOSED;
+check desiredHeatingSetting(int_hc_ff) =FAIRLY_HOT;
+check desiredHeatingSetting(int_hc_gf) = FAIRLY_HOT;

@@ -1,0 +1,18 @@
+abstract pattern AggregateMAPE {
+	system Sys
+
+	group Main {
+		components M, A, P, E
+	} 
+	
+	group Interface {
+		managedSyS Sys
+		components M, E
+	}
+
+	interaction Interface.M -> Main.M [*-ALL,1]
+	interaction Main.E -> Interface.E [1,*-ALL]
+	interaction Main.M -> Main.A [1,1]
+	interaction Main.A -> Main.P [1,1]
+	interaction Main.P -> Main.E [1,1]
+}

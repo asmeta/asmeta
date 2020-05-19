@@ -1,0 +1,24 @@
+asm allBindings
+
+domain D1 of INTEGER initially {[0 .. 9]}
+domain D2 of NUMBER initially {[0 .. 9]}
+
+enum Switch = { OFF , ON }
+enum Pressure = { P_TOOLOW , P_NORMAL , P_HIGH }
+
+monitored enumin -> Switch
+out enumout -> Switch
+
+monitored boolin -> BOOLEAN
+out boolout -> BOOLEAN
+
+monitored intfunctin -> D1
+out intfunctout -> D1
+
+monitored doublefunctin -> D2
+out doublefunctout -> D2
+
+rule r_Main =
+skip
+
+exec r_Main

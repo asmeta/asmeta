@@ -1,0 +1,56 @@
+scenario scenario1
+load pillbox_2.asm
+
+// For a easier scenario-testing, we use the specification with three drawers but we check the values of only one of them
+//    We can use this approach because the same code is executed in parallel on each drawer, with the FORALL Rule, and because
+//    the status of the single drawer does not affect the status of other drawers
+
+begin takePill
+
+	//******************************************************
+	// Setting-up the initial state, where everything is OFF
+	//******************************************************
+	set openSwitch(drawer1) := false;
+	set openSwitch(drawer2) := false;
+	set openSwitch(drawer3) := false;
+	
+	step
+	
+	check redLed(drawer1) = OFF;
+	check outMess(drawer1) = NONE;
+	check logMess(drawer1) = NONE;
+	
+	//******************************************************
+	// Time to take the pill: Overpass the time_consumption for drawer1
+	//******************************************************
+	step until systemTime = 2;
+	
+	check redLed(drawer1) = ON;
+	check outMess(drawer1) = TAKE_TYLENOL;
+	check logMess(drawer1) = NONE;
+	
+end
+
+//******************************************************
+// Open the drawer1 within 10 minutes
+//******************************************************
+step until systemTime = 3;
+
+begin openDrawer1
+
+	set openSwitch(drawer1) := true;
+	
+	step
+	
+	check outMess(drawer1) = CLOSE_TYLENOL_DRAWER_IN_10_MIN;
+	check logMess(drawer1) = NONE;
+	check redLed(drawer1) = BLINKING;
+	
+end
+
+//******************************************************
+// Close the drawer1 within 10 minutes
+//******************************************************
+step until systemTime = 4;
+
+execblock pillbox_2_scenario6:closeDrawer1;

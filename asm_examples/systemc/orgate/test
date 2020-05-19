@@ -1,0 +1,24 @@
+scenario test
+
+load ./main.asm
+
+step until time = 0 and phase = TIMED_NOTIFICATION;
+check read(in1_top) = true 
+	and read(in2_top) = true
+	and read(out_top) = true;
+
+step until time = 5 and phase = TIMED_NOTIFICATION;
+check read(in1_top) = true 
+	and read(in2_top) = false
+	and read(out_top) = true;
+
+step until time = 10 and phase = TIMED_NOTIFICATION;
+check read(in1_top) = false 
+	and read(in2_top) = false
+	and read(out_top) = false;
+
+step until time = 15 and phase = TIMED_NOTIFICATION;
+check read(in1_top) = false 
+	and read(in2_top) = true
+	and read(out_top) = true;
+

@@ -1,0 +1,71 @@
+// TEST WITH ERRORS !!!
+scenario Flexibility_T0_T1
+load ./main.asm
+
+//state 0 (monitored)
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set startCam(c1) := false;
+set startCam(c2) := false;
+set startCam(c3) := false;
+set startCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := false;
+set congestion(c3) := true;
+set congestion(c4) := true;
+step
+//state 1 (controlled)
+check congested(organizationController3) = true;
+check congested(organizationController4) = true;
+check s_offer(c4) = true;
+check state(c1) = MASTER;
+check state(c2) = MASTER;
+check state(c3) = MASTER;
+check state(c4) = MASTER;
+
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set startCam(c1) := false;
+set startCam(c2) := false;
+set startCam(c3) := false;
+set startCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := false;
+set congestion(c3) := true;
+set congestion(c4) := true;
+step
+//State 2 (controlled)
+check getMaster(c4)=c3;
+check newSlave(c3,c4)=true;
+check state(c1)=MASTER;
+check state(c2) = MASTER;
+check state(c3) = MASTER;
+check state(c4)=SLAVE;
+
+set stopCam(c1) := false;
+set stopCam(c2) := false;
+set stopCam(c3) := false;
+set stopCam(c4) := false;
+set startCam(c1) := false;
+set startCam(c2) := false;
+set startCam(c3) := false;
+set startCam(c4) := false;
+set congestion(c1) := false;
+set congestion(c2) := true;
+set congestion(c3) := true;
+set congestion(c4) := true;
+set elapsed_wait_time_plus_delta(selfHealingController4) := false;
+step
+//State 3 (controlled)
+check getMaster(c4)=c3;
+check s_offer(c3)=true;
+check s_offer(c4)=false;
+check slaves(c3)=[c4];
+check state(c1)=MASTER;
+check state(c2) = MASTER;
+check state(c3) = MASTERWITHSLAVES;
+check state(c4)=SLAVE;

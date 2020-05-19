@@ -1,0 +1,59 @@
+--file /Users/parcaini/Desktop/Asmeta/asm_examples/workspacePatrizia/SmartHomeGateway/modelsForValidation/MySmartHomeFD_forTranslatorValidator.smv
+MODULE main
+	VAR
+		fromSlaveFDEtoMasterFDP_FF_SLAVE: {FD_MASTER, MASTERFDMGA_UNDEF}; --controlled
+		fromSlaveFDEtoMasterFDP_GF_SLAVE: {FD_MASTER, MASTERFDMGA_UNDEF}; --controlled
+		fromSlaveFDMtoMasterFDA_FF_SLAVE: {FD_MASTER, MASTERFDMGA_UNDEF}; --controlled
+		fromSlaveFDMtoMasterFDA_GF_SLAVE: {FD_MASTER, MASTERFDMGA_UNDEF}; --controlled
+		selectSlave_FF_SLAVE: boolean; --monitored
+		selectSlave_GF_SLAVE: boolean; --monitored
+		sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE: boolean; --controlled
+		sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE: boolean; --controlled
+		sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER: boolean; --controlled
+		sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER: boolean; --controlled
+		--declaration of choose variables
+		var_$a0246_0: {FF_SLAVE, GF_SLAVE};
+	DEFINE
+	CONSTANTS GF_SLAVE, FF_SLAVE, SLAVEFDMGA_UNDEF, FF_SLAVE, GF_SLAVE, FD_FF, FD_GF, FIREDETECTIONMDA_UNDEF, FD_FF, FD_GF, FD_MASTER, MASTERFDMGA_UNDEF, FD_MASTER;
+	ASSIGN
+		init(fromSlaveFDEtoMasterFDP_FF_SLAVE) := FD_MASTER;
+		init(fromSlaveFDEtoMasterFDP_GF_SLAVE) := FD_MASTER;
+		init(fromSlaveFDMtoMasterFDA_FF_SLAVE) := FD_MASTER;
+		init(fromSlaveFDMtoMasterFDA_GF_SLAVE) := FD_MASTER;
+		init(sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE) := FALSE;
+		init(sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE) := FALSE;
+		init(sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER) := FALSE;
+		init(sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER) := FALSE;
+		next(fromSlaveFDEtoMasterFDP_FF_SLAVE) := fromSlaveFDEtoMasterFDP_FF_SLAVE;
+		next(fromSlaveFDEtoMasterFDP_GF_SLAVE) := fromSlaveFDEtoMasterFDP_GF_SLAVE;
+		next(fromSlaveFDMtoMasterFDA_FF_SLAVE) := fromSlaveFDMtoMasterFDA_FF_SLAVE;
+		next(fromSlaveFDMtoMasterFDA_GF_SLAVE) := fromSlaveFDMtoMasterFDA_GF_SLAVE;
+		next(sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE) :=
+			case
+				(sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE & (fromSlaveFDEtoMasterFDP_FF_SLAVE = FD_MASTER)): FALSE;
+				(((var_$a0246_0 = FF_SLAVE) & (sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER | sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER)) | (selectSlave_FF_SLAVE & (sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER | sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER))): TRUE;
+				TRUE: sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE;
+			esac;
+		next(sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE) :=
+			case
+				((fromSlaveFDEtoMasterFDP_GF_SLAVE = FD_MASTER) & sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE): FALSE;
+				(((sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER | sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER) & (var_$a0246_0 = GF_SLAVE)) | (selectSlave_GF_SLAVE & (sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER | sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER))): TRUE;
+				TRUE: sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE;
+			esac;
+		next(sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER) :=
+			case
+				((fromSlaveFDMtoMasterFDA_FF_SLAVE = FD_MASTER) & ((fromSlaveFDMtoMasterFDA_FF_SLAVE = FD_MASTER) & !(sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER))): TRUE;
+				(sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER | sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER): FALSE;
+				TRUE: sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER;
+			esac;
+		next(sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER) :=
+			case
+				((!(sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER) & (fromSlaveFDMtoMasterFDA_GF_SLAVE = FD_MASTER)) & (fromSlaveFDMtoMasterFDA_GF_SLAVE = FD_MASTER)): TRUE;
+				(sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER | sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER): FALSE;
+				TRUE: sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER;
+			esac;
+	INVAR	((var_$a0246_0 = FF_SLAVE) | (var_$a0246_0 = GF_SLAVE));
+--LTL properties
+LTLSPEC NAME ltl0 := G(((sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER | sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER) -> O((!(sgnSlaveFDMMasterFDA_GF_SLAVE_FD_MASTER) | !(sgnSlaveFDMMasterFDA_FF_SLAVE_FD_MASTER)))));
+LTLSPEC NAME ltl1 := G((sgnMasterFDPSlaveFDE_FD_MASTER_GF_SLAVE -> O(TRUE)));
+LTLSPEC NAME ltl2 := G((sgnMasterFDPSlaveFDE_FD_MASTER_FF_SLAVE -> O(TRUE)));
