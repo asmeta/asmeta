@@ -280,10 +280,12 @@ class RuleChecker {
 		// If the term is a function Term, check the codomain
 		if (term_as_Rule.term instanceof FunctionTerm) {
 			var FunctionTerm ft = term_as_Rule.term as FunctionTerm
-			if (ft.function.codomain instanceof RuleDomain)
-				return null
-			else
-				return new ErrorType( "Error in TermAsRule term: only Rule can be used as Codomain", feature, ErrorCode.TERM_AS_RULE_CODOMAIN_NOT_RULE )
+			if (ft.function !== null && ft.function.codomain !== null) {
+				if (ft.function.codomain instanceof RuleDomain)
+					return null
+				else
+					return new ErrorType( "Error in TermAsRule term: only Rule can be used as Codomain", feature, ErrorCode.TERM_AS_RULE_CODOMAIN_NOT_RULE )
+			}
 		}
 		
 		return null	

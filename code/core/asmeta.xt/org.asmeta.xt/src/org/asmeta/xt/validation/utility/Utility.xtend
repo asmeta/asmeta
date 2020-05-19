@@ -1643,7 +1643,7 @@ class Utility {
 					}
 				}
 
-				if (toBeSplitted) {
+				if (toBeSplitted && tree.model !== null && tree.model.root !== null) {
 
 					var treeModel = tree.model.root
 
