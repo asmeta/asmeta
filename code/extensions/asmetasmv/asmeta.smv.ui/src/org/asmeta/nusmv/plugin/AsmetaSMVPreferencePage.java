@@ -26,7 +26,6 @@ public class AsmetaSMVPreferencePage extends FieldEditorPreferencePage implement
 	public static final String P_NC = "P_NC";
 	public static final String P_NS = "P_NS";
 	public static final String P_KF = "P_KF";
-	//public static final String P_F = "P_F";
 	public static final String P_DONOTF = "P_DONOTF";
 
 	public AsmetaSMVPreferencePage() {
@@ -46,9 +45,7 @@ public class AsmetaSMVPreferencePage extends FieldEditorPreferencePage implement
 		// addField(new BooleanFieldEditor(P_DEBUG, "set level to DEBUG",
 		// fieldEditorParent));
 		addField(new BooleanFieldEditor(P_NC, "do not add the check on integer enum", fieldEditorParent));
-		addField(new BooleanFieldEditor(P_NS, "do not simplify the boolean conditions in NuSMV code",
-				fieldEditorParent));
-		//addField(new BooleanFieldEditor(P_F, "flatten the ASM model before translation (unstable)", fieldEditorParent));
+		addField(new BooleanFieldEditor(P_NS, "do not simplify the boolean conditions in NuSMV code",fieldEditorParent));
 		addField(new BooleanFieldEditor(P_DONOTF, "do not flatten the ASM model before translation", fieldEditorParent));
 		addField(new BooleanFieldEditor(P_KF, "keep the NuSMV file", fieldEditorParent));
 		addField(new BooleanFieldEditor(P_DCX, "do not show counterexamples", fieldEditorParent));

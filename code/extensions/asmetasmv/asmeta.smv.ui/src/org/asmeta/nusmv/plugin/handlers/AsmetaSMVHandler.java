@@ -62,6 +62,7 @@ abstract class AsmetaSMVHandler extends AbstractHandler {
 			Util.setCheckConcrete(!store.getBoolean(AsmetaSMVPreferencePage.P_NC));
 			Util.simplify = !store.getBoolean(AsmetaSMVPreferencePage.P_NS);
 			Util.setPrintCounterExample(!store.getBoolean(AsmetaSMVPreferencePage.P_DCX));
+			Util.
 			String nusmvPath = store.getString(AsmetaSMVPreferencePage.P_NUSMV_PROGRAM);
 			if(!nusmvPath.equals("") && new File(nusmvPath).exists()) {
 				Util.setSolverPath(nusmvPath);
