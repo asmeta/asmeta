@@ -11,7 +11,7 @@ import org.osgi.framework.BundleContext;
 public class AsmeeActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.asmeta.eclipse";
+	public final String PLUGIN_ID = getBundle().getSymbolicName();
 
 	// The shared instance
 	private static AsmeeActivator plugin;
@@ -59,7 +59,6 @@ public class AsmeeActivator extends AbstractUIPlugin {
 	 * Returns image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("org.asmeta.asmee",
-				"icons/" + path);
+		return AbstractUIPlugin.imageDescriptorFromPlugin(plugin.PLUGIN_ID,"icons/" + path);
 	}
 }

@@ -7,6 +7,8 @@ import org.eclipse.ui.console.IConsolePageParticipant;
 import org.eclipse.ui.part.IPageBookViewPage;
 
 public class AsmeeConsoleParticipant implements IConsolePageParticipant {
+	
+	
 	public boolean firstStop = false;
 	public static RunJob runJob;
 

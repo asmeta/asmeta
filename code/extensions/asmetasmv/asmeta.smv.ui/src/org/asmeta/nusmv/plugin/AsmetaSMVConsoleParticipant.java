@@ -36,12 +36,12 @@ public class AsmetaSMVConsoleParticipant implements IConsolePageParticipant {
 			}
     	};
     	stop.setToolTipText("Stop model checking");
-    	stop.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin("asmeta.asmetasmv.plugin", "icons/terminate.gif"));
+    	stop.setImageDescriptor(AsmetaSMVActivator.getImageDescriptor("icons/terminate.gif"));
     	page.getSite().getActionBars().getToolBarManager().add(stop);
 	}
 
 	@Override
 	public Object getAdapter(Class adapter) {
-		return null;
+		throw new RuntimeException("not implemented");
 	}
 }

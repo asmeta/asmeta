@@ -10,7 +10,7 @@ import org.osgi.framework.BundleContext;
 public class AsmetaSMVActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "asmetasmv.plugin"; //$NON-NLS-1$
+	public final String PLUGIN_ID = getBundle().getSymbolicName();
 
 	// The shared instance
 	private static AsmetaSMVActivator plugin;
@@ -58,6 +58,6 @@ public class AsmetaSMVActivator extends AbstractUIPlugin {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+		return imageDescriptorFromPlugin(plugin.PLUGIN_ID, path);
 	}
 }
