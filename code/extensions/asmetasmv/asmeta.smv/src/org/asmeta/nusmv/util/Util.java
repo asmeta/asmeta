@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.parser.Defs;
 import org.asmeta.simulator.value.Value;
 
@@ -23,23 +24,16 @@ public class Util {
 	public static final String trueString = "TRUE";
 	public static final String falseString = "FALSE";
 	public final static String notUsedMess = " has not been exported in NuSMV since it is never used.";
-	public static boolean simplify;
-	private static boolean checkConcrete;
 	private static boolean printNuSMVoutput;
-	public static boolean keepNuSMVfile;
 	private static Boolean isAsynchr;
 	private static String path;
 	private static String mainAsmName;
 	private static boolean runNuSMV;
 	private static boolean useNuXmv;
-	private static boolean printCounterExample;
 	private static String dir;
 	static boolean disableCounterExampleComputation;
 	private static String solverPath;
 	
-	/**use cone of influence ? */
-	public static boolean useCoi = true; 
-
 	/**
 	 * Gets the name of the Asm module to which the function belongs.
 	 * 
@@ -563,7 +557,7 @@ public class Util {
 	 *             the exception
 	 */
 	public static String not(String cond) {
-		if (simplify) {
+		if (AsmetaSMVOptions.simplify) {
 			if (cond.equals(trueString)) {
 				return falseString;
 			}
@@ -629,7 +623,7 @@ public class Util {
 	 * 
 	 */
 	public static String and(Collection<String> conds) {
-		if (simplify) {
+		if (AsmetaSMVOptions.simplify) {
 			//un false rende false tutto l'and
 			if (conds.contains(falseString)) {
 				return falseString;
@@ -671,7 +665,7 @@ public class Util {
 	 * @throws Exception
 	 */
 	public static String or(Collection<String> conds) {
-		if (simplify) {
+		if (AsmetaSMVOptions.simplify) {
 			// se un elemento dell'or e' true, allora l'or e' true
 			if (conds.contains(trueString)) {
 				return trueString;
@@ -820,7 +814,7 @@ public class Util {
 	 * @return
 	 */
 	public static String implies(String left, String right) {
-		if (simplify) {
+		if (AsmetaSMVOptions.simplify) {
 			//se sono uguali e' comunque vero
 			//false -> false
 			//true -> true
@@ -858,7 +852,7 @@ public class Util {
 	}
 
 	public static String iff(String left, String right) {
-		if (simplify) {
+		if (AsmetaSMVOptions.simplify) {
 			//Se sono uguali vuol dire che sono lo stesso termine o che sono
 			//tutti e due true o tutti e due false. In tutti questi tre casi
 			//il risultato dell'iff e' true.
@@ -978,7 +972,7 @@ public class Util {
 	 * @return the string
 	 */
 	public static String equals(String left, String right) {
-		if (simplify) {
+		if (AsmetaSMVOptions.simplify) {
 			// Se le due stringhe sono uguali, qualsiasi cosa siano (termini,
 			// numeri, enum, boolean) ritorna true.
 			if (left.equals(right)) {
@@ -1022,7 +1016,7 @@ public class Util {
 	 * @return the string
 	 */
 	public static String notEquals(String left, String right) {
-		if (simplify) {
+		if (AsmetaSMVOptions.simplify) {
 			// Se le due stringhe sono uguali, qualsiasi cosa siano (termini,
 			// numeri, enum, boolean) ritorna false.
 			if (left.equals(right)) {
@@ -1102,14 +1096,6 @@ public class Util {
 	public static String replaceExtension(String fileName, String newExtension) {
 		return fileName.substring(0, fileName.lastIndexOf(".")).concat(
 				"." + newExtension);
-	}
-
-	public static boolean isCheckConcrete() {
-		return checkConcrete;
-	}
-
-	public static void setCheckConcrete(boolean checkConcrete) {
-		Util.checkConcrete = checkConcrete;
 	}
 
 	/**
@@ -1301,14 +1287,6 @@ public class Util {
 
 	public static void setPrintNuSMVoutput(boolean printNuSMVoutput) {
 		Util.printNuSMVoutput = printNuSMVoutput;
-	}
-
-	public static boolean isPrintCounterExample() {
-		return printCounterExample;
-	}
-
-	public static void setPrintCounterExample(boolean printCounterExample) {
-		Util.printCounterExample = printCounterExample;
 	}
 
 	public static String getSolverPath() {

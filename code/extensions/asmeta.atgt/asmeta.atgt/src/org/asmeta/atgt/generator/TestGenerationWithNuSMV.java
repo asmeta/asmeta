@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.Util;
 
 import tgtlib.definitions.expression.Expression;
@@ -36,7 +37,7 @@ public class TestGenerationWithNuSMV {
 	public TestGenerationWithNuSMV(String asmPath, Expression expression) throws Exception {
 		this.asmPath = asmPath;
 		this.tp = expression;
-		org.asmeta.nusmv.util.Util.useCoi = false;
+		org.asmeta.nusmv.AsmetaSMVOptions.useCoi = false;
 	}
 
 	public Map<String, String> getVariablesMap() {
@@ -46,9 +47,9 @@ public class TestGenerationWithNuSMV {
 	private void buildNuSMV() throws Exception {
 		logger.debug("building the asmetasmv");
 		asmetaSMV = new AsmetaSMV(asmPath);
-		Util.keepNuSMVfile = true;
+		AsmetaSMVOptions.keepNuSMVfile = true;
 		Util.simplifyDerived = false;
-		Util.setPrintCounterExample(true);
+		AsmetaSMVOptions.setPrintCounterExample(true);
 		logger.debug("translate the maps");
 		asmetaSMV.translation();
 		logger.debug("add cex");

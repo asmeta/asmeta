@@ -78,8 +78,8 @@ public class AsmetaSMV {
 		if (asmFile.exists()) {
 			try {
 				asm = ASMParser.setUpReadAsm(asmFile).getMain();
-				Util.setCheckConcrete(options.checkInteger);
-				Util.simplify = options.simplify;
+				AsmetaSMVOptions.setCheckConcrete(options.checkInteger);
+				AsmetaSMVOptions.simplify = options.simplify;
 				Util.setRunNuSMV(options.execute);
 				Util.setUseNuXmv(options.useNuXmv);
 				// relative path including the file name
@@ -222,11 +222,11 @@ public class AsmetaSMV {
 			solverName = "/Applications/NuSMV/bin/NuSMV";
 		}
 		commands.add(solverName);
-		if (!Util.isPrintCounterExample()) {
+		if (!AsmetaSMVOptions.isPrintCounterExample()) {
 			commands.add("-dcx");
 		}
 		commands.add("-dynamic");
-		if (Util.useCoi) {
+		if (AsmetaSMVOptions.useCoi) {
 			commands.add("-coi");
 		}
 		commands.add("-quiet");
@@ -296,11 +296,11 @@ public class AsmetaSMV {
 		} else {
 			sb.append("NuSMV");
 		}
-		if (!Util.isPrintCounterExample()) {
+		if (!AsmetaSMVOptions.isPrintCounterExample()) {
 			sb.append(" -dcx");
 		}
 		sb.append(" -dynamic");
-		if (Util.useCoi) {
+		if (AsmetaSMVOptions.useCoi) {
 			sb.append(" -coi");
 		}
 		sb.append(" -quiet ").append(smvFileName).append("\n");

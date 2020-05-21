@@ -17,7 +17,7 @@ public class AsmetaSMVtest {
 		AsmetaSMV as = null;
 		try {
 			as = new AsmetaSMV(file);
-			Util.keepNuSMVfile = true;//per non cancellare il file NuSMV prodotto
+			AsmetaSMVOptions.keepNuSMVfile = true;//per non cancellare il file NuSMV prodotto
 			as.translation();
 			as.createNuSMVfile();
 			Util.setPrintNuSMVoutput(false);

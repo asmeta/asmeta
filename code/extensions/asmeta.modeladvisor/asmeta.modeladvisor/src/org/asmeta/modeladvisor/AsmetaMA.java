@@ -32,9 +32,9 @@ import org.asmeta.modeladvisor.metaproperties.StatDerIsUsed;
 import org.asmeta.modeladvisor.metaproperties.TrivialUpdate;
 import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.nusmv.Environment;
 import org.asmeta.nusmv.MapVisitor;
-import org.asmeta.nusmv.util.Util;
 
 /**
  * La classe AsmetaMA. Contiene tutti i metodi per la costruzione e
@@ -134,7 +134,7 @@ public class AsmetaMA {
 		execStatDerIsUsed = false;
 		execChooseRuleEmpty = false;
 		execForallRuleEmpty = false;
-		MapVisitor.doAsmetaMA = true;
+		AsmetaSMVOptions.doAsmetaMA = true;
 	}
 
 	private AsmetaMA(String asmFile, Set<String> funcNamesForMP1) throws Exception {
@@ -326,9 +326,9 @@ public class AsmetaMA {
 	public AsmetaSMV loadAsmetaSMV() throws Exception {
 		AsmetaSMV asmetaSMV = null;
 		asmetaSMV = new AsmetaSMV(asmFile);
-		Util.simplify = USE_ASMETASMV_SIMPL;
-		Util.setPrintCounterExample(true);
-		Util.keepNuSMVfile = true;
+		AsmetaSMVOptions.simplify = USE_ASMETASMV_SIMPL;
+		AsmetaSMVOptions.setPrintCounterExample(true);
+		AsmetaSMVOptions.keepNuSMVfile = true;
 		asmetaSMV.translation();
 		mv = asmetaSMV.mv;
 		env = asmetaSMV.mv.env;

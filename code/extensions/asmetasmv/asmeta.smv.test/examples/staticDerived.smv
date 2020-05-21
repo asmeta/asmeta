@@ -1,7 +1,0 @@
---file examples\staticDerived.smv
--- options: flatten? false
-MODULE main
-	VAR
-		mon1: boolean; --monitored
-		mon2: boolean; --monitored
-	DEFINE

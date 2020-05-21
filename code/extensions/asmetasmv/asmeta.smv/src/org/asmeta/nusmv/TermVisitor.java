@@ -5,7 +5,6 @@ import static org.asmeta.nusmv.util.Util.falseString;
 import static org.asmeta.nusmv.util.Util.getDomainName;
 import static org.asmeta.nusmv.util.Util.getFunctionName;
 import static org.asmeta.nusmv.util.Util.or;
-import static org.asmeta.nusmv.util.Util.simplify;
 import static org.asmeta.nusmv.util.Util.trueString;
 import static org.asmeta.nusmv.util.Util.xor;
 
@@ -141,7 +140,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 			//System.err.println("derived/static location name = " + name);
 			if(Defs.isDerived(func) || Defs.isStatic(func)) {
 				//crea problemi al model review, perche' sostituisce una locazione derivata con un valore 
-				if(simplify) {
+				if(AsmetaSMVOptions.simplify) {
 					if(Util.simplifyDerived) {
 						//PA 2013/08/14
 						if(env.inLineFunctions != null && env.inLineFunctions.containsKey(name)) {
@@ -206,7 +205,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 			if(Defs.isDerived(func) || Defs.isStatic(func))
 				mv.smv4Val.statDerLocAddReachabilityCond(name);*/
 
-		if(MapVisitor.doAsmetaMA) {
+		if(AsmetaSMVOptions.doAsmetaMA) {
 			if(env.inMainRule && (Defs.isDerived(func) || Defs.isStatic(func)) && !func.getName().equals("program")) {
 				String cond = and(mv.getConditions());
 				//System.out.println("name = " + name);
@@ -306,7 +305,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 		if(mv.env.inMainRule) {
 			String cond = and(mv.getConditions());
 			
-			if(MapVisitor.doAsmetaMA) {
+			if(AsmetaSMVOptions.doAsmetaMA) {
 				if (mv.locationReachabilityConds.containsKey(name)) {
 					mv.locationReachabilityConds.get(name).add(cond);
 				}
@@ -359,7 +358,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 			return env.srv.getLocationValue(locationName);
 		}
 
-		if(Util.simplify) {
+		if(AsmetaSMVOptions.simplify) {
 			if(Util.simplifyDerived) {
 				//PA 2013/08/14
 				if(env.inLineFunctions.containsKey(locationName)) {

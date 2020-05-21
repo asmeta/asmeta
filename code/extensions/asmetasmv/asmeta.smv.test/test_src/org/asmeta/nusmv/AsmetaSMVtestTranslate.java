@@ -11,7 +11,6 @@ import java.util.Collection;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.flattener.nesting.RemoveNestingFlattener;
-import org.asmeta.nusmv.util.Util;
 import org.asmeta.parser.ASMFileFilter;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.junit.Test;
@@ -29,7 +28,7 @@ public class AsmetaSMVtestTranslate {
 		System.out.println(args[0]);
 		try {
 			AsmetaSMV a = new AsmetaSMV(args[0]);
-			Util.keepNuSMVfile = true;// per non cancellare il file NuSMV prodotto
+			AsmetaSMVOptions.keepNuSMVfile = true;// per non cancellare il file NuSMV prodotto
 			a.translation();
 			a.createNuSMVfile();
 			// the file exists

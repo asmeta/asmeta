@@ -3,6 +3,7 @@ package org.asmeta.nusmv.cli;
 import java.io.File;
 
 import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.Util;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
@@ -61,11 +62,11 @@ public class AsmetaSMVcli extends AsmetaCLI {
 		}
 		else {
 			this.asmFile = asmFile;
-			Util.simplify = !doNotSimplify;
-			Util.setCheckConcrete(!doNotCheckConcrete);
+			AsmetaSMVOptions.simplify = !doNotSimplify;
+			AsmetaSMVOptions.setCheckConcrete(!doNotCheckConcrete);
 			Util.setRunNuSMV(executeNuSMVmodel); //execute the NuSMV model after the mapping
-			Util.setPrintCounterExample(!disableCounterExampleComputation);
-			Util.keepNuSMVfile = !executeNuSMVmodel || keepFile;
+			AsmetaSMVOptions.setPrintCounterExample(!disableCounterExampleComputation);
+			AsmetaSMVOptions.keepNuSMVfile = !executeNuSMVmodel || keepFile;
 			Util.setPrintNuSMVoutput(Util.isRunNuSMV()); //stampa l'ouput solo se il modello viene eseguito (ovviamente)
 			Util.setPath(asmFile.getPath());//percorso relativo del file asm comprensivo del nome del file
 			Util.setDir(asmFile.getParent());//percorso relativo del file senza il nome del file	

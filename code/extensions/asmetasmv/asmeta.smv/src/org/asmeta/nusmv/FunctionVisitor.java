@@ -497,7 +497,7 @@ public class FunctionVisitor {
 	private String lt(List<Term> argsTerm) {
 		String left = env.tv.visit(argsTerm.get(0));
 		String right = env.tv.visit(argsTerm.get(1));
-		if(Util.simplify) {
+		if(AsmetaSMVOptions.simplify) {
 			try {
 				int leftNumber = Integer.parseInt(left);
 				int rightNumber = Integer.parseInt(right);
@@ -523,7 +523,7 @@ public class FunctionVisitor {
 	private String le(List<Term> argsTerm) {
 		String left = env.tv.visit(argsTerm.get(0));
 		String right = env.tv.visit(argsTerm.get(1));
-		if(Util.simplify) {
+		if(AsmetaSMVOptions.simplify) {
 			try {
 				int leftNumber = Integer.parseInt(left);
 				int rightNumber = Integer.parseInt(right);
@@ -549,7 +549,7 @@ public class FunctionVisitor {
 	private String gt(List<Term> argsTerm) {
 		String left = env.tv.visit(argsTerm.get(0));
 		String right = env.tv.visit(argsTerm.get(1));
-		if(Util.simplify) {
+		if(AsmetaSMVOptions.simplify) {
 			try {
 				int leftNumber = Integer.parseInt(left);
 				int rightNumber = Integer.parseInt(right);
@@ -575,7 +575,7 @@ public class FunctionVisitor {
 	private String ge(List<Term> argsTerm) {
 		String left = env.tv.visit(argsTerm.get(0));
 		String right = env.tv.visit(argsTerm.get(1));
-		if(Util.simplify) {
+		if(AsmetaSMVOptions.simplify) {
 			try {
 				int leftNumber = Integer.parseInt(left);
 				int rightNumber = Integer.parseInt(right);
@@ -629,7 +629,7 @@ public class FunctionVisitor {
 	private String mod(List<Term> argsTerm) {
 		String left = env.tv.visit(argsTerm.get(0));
 		String right = env.tv.visit(argsTerm.get(1));
-		if(Util.simplify) {
+		if(AsmetaSMVOptions.simplify) {
 			try {
 				int leftNumber = Integer.parseInt(left);
 				int rightNumber = Integer.parseInt(right);
@@ -683,7 +683,7 @@ public class FunctionVisitor {
 	String minusBinary(List<Term> argsTerm) {
 		String left = env.tv.visit(argsTerm.get(0));
 		String right = env.tv.visit(argsTerm.get(1));
-		if(Util.simplify) {
+		if(AsmetaSMVOptions.simplify) {
 			try {
 				int leftNumber = Integer.parseInt(left);
 				int rightNumber = Integer.parseInt(right);
@@ -715,7 +715,7 @@ public class FunctionVisitor {
 	String sum(List<Term> argsTerm){
 		String left = env.tv.visit(argsTerm.get(0));
 		String right = env.tv.visit(argsTerm.get(1));
-		if(Util.simplify) {
+		if(AsmetaSMVOptions.simplify) {
 			try{
 				int leftNumber = Integer.parseInt(left);
 				int rightNumber = Integer.parseInt(right);
@@ -736,7 +736,7 @@ public class FunctionVisitor {
 	String mult(List<Term> argsTerm) {
 		String left = env.tv.visit(argsTerm.get(0));
 		String right = env.tv.visit(argsTerm.get(1));
-		if(Util.simplify) {
+		if(AsmetaSMVOptions.simplify) {
 			try {
 				int leftNumber = Integer.parseInt(left);
 				int rightNumber = Integer.parseInt(right);

@@ -20,7 +20,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class AsmetaSMVPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
-	public static final String P_DEBUG = "P_DEBUG";
 	public static final String P_NUSMV_PROGRAM = "P_NUSMV_PROGRAM";
 	public static final String P_DCX = "P_DCX";
 	public static final String P_NC = "P_NC";

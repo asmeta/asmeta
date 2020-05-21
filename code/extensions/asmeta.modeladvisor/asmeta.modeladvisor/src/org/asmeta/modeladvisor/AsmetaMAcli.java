@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.asmeta.nusmv.util.Util;
+import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -106,7 +106,7 @@ public class AsmetaMAcli {
 		if (execMpAll) {
 			execMp1 = execMp2 = execMp3 = execMp4 = execMp5 = execMp6 = execMp7 = true;
 		}
-		Util.keepNuSMVfile = keepFile;
+		AsmetaSMVOptions.keepNuSMVfile = keepFile;
 		AsmetaMA.LOG_COUNTEREXAMPLES = logCex;
 		AsmetaMA.USE_ASMETASMV_SIMPL = useAsmetaSMVsimpl;
 		asmetaMA.setMetapropertiesExecution(execMp1, execMp2, execMp3, execMp4,

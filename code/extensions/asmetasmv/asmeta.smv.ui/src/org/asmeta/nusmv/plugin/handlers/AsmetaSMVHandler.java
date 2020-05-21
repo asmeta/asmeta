@@ -6,6 +6,7 @@ import java.io.PrintStream;
 
 import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.nusmv.plugin.AsmetaSMVActivator;
 import org.asmeta.nusmv.plugin.AsmetaSMVConsole;
 import org.asmeta.nusmv.plugin.AsmetaSMVPreferencePage;
@@ -58,14 +59,16 @@ abstract class AsmetaSMVHandler extends AbstractHandler {
 		try {
 			AsmetaSMV asmetaSMV = new AsmetaSMV(path);
 			IPreferenceStore store = AsmetaSMVActivator.getDefault().getPreferenceStore();
-			Util.keepNuSMVfile =  store.getBoolean(AsmetaSMVPreferencePage.P_KF);
-			Util.setCheckConcrete(!store.getBoolean(AsmetaSMVPreferencePage.P_NC));
-			Util.simplify = !store.getBoolean(AsmetaSMVPreferencePage.P_NS);
-			Util.setPrintCounterExample(!store.getBoolean(AsmetaSMVPreferencePage.P_DCX));
+			AsmetaSMVOptions.keepNuSMVfile =  store.getBoolean(AsmetaSMVPreferencePage.P_KF);
+			AsmetaSMVOptions.setCheckConcrete(!store.getBoolean(AsmetaSMVPreferencePage.P_NC));
+			AsmetaSMVOptions.simplify = !store.getBoolean(AsmetaSMVPreferencePage.P_NS);
+			AsmetaSMVOptions.setPrintCounterExample(!store.getBoolean(AsmetaSMVPreferencePage.P_DCX));
 			String nusmvPath = store.getString(AsmetaSMVPreferencePage.P_NUSMV_PROGRAM);
 			if(!nusmvPath.equals("") && new File(nusmvPath).exists()) {
 				Util.setSolverPath(nusmvPath);
 			}
+			//
+			AsmetaSMVOptions.FLATTEN = !store.getBoolean(AsmetaSMVPreferencePage.P_DONOTF);
 			asmetaSMV.translation();
 			asmetaSMV.createNuSMVfile();
 			exec(asmetaSMV);

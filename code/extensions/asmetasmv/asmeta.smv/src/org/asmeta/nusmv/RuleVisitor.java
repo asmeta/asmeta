@@ -119,7 +119,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 			conds.add(cond);
 		}
 
-		if(MapVisitor.doAsmetaMA) {
+		if(AsmetaSMVOptions.doAsmetaMA) {
 			//AsmetaMA: Every forall set is not always empty
 			//AsmetaMA: Every forall set is always not empty
 			if (mv.forallRuleSetIsEmpty.containsKey(forallRule)) {
@@ -212,7 +212,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 			}
 		}
 
-		if(MapVisitor.doAsmetaMA) {
+		if(AsmetaSMVOptions.doAsmetaMA) {
 			//AsmetaMA: Every choose set is not always empty
 			//AsmetaMA: Every choose set is always not empty
 			if (!mv.chooseRuleSetIsEmpty.containsKey(chooseRule)) {
@@ -253,7 +253,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 		}
 		visit(calledMacro.getRuleBody());
 
-		if(MapVisitor.doAsmetaMA) {
+		if(AsmetaSMVOptions.doAsmetaMA) {
 			//AsmetaMA
 			//dovrebbe essere questo
 			//macroRuleCalled.put(calledMacro, macroRuleCalled.get(calledMacro) + 1);
@@ -286,7 +286,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 			updateVisitRestore(not(condStr), elseRule);
 		}
 
-		if(MapVisitor.doAsmetaMA) {
+		if(AsmetaSMVOptions.doAsmetaMA) {
 			if (elseRule != null) {
 				//AsmetaMA: se c'e' il ramo else la conditional rule e' di sicuro completa
 				List<String> conds = new ArrayList<String>();
@@ -359,7 +359,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 			updateVisitRestore(condsOther, otherRule);
 		}
 
-		if(MapVisitor.doAsmetaMA) {
+		if(AsmetaSMVOptions.doAsmetaMA) {
 			if (otherRule != null) {
 				//AsmetaMA: caseRule is complete
 				List<String> newConds = new ArrayList<String>();
@@ -487,7 +487,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 		//System.out.println("visit "+rule);
 		invokeMethod(rule, "visit");
 
-		if(MapVisitor.doAsmetaMA) {
+		if(AsmetaSMVOptions.doAsmetaMA) {
 			//AsmetaMA model advisor: Every rule can eventually fire
 			String cond = and(mv.getConditions());
 			if(mv.ruleCond.containsKey(rule)) {

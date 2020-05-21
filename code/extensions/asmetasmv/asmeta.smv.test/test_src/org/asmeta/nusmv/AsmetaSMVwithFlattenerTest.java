@@ -211,7 +211,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 		AsmetaSMV as = null;
 		try {
 			as = new AsmetaSMV("examples/chooseChoose.asm");
-			Util.simplify = true;
+			AsmetaSMVOptions.simplify = true;
 			as.translation();
 			as.createNuSMVfile();
 			Util.setPrintNuSMVoutput(false);

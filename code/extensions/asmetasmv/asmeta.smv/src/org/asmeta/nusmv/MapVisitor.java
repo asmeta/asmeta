@@ -8,9 +8,6 @@ import static org.asmeta.nusmv.util.Util.getDir;
 import static org.asmeta.nusmv.util.Util.getDomainName;
 import static org.asmeta.nusmv.util.Util.getFunctionName;
 import static org.asmeta.nusmv.util.Util.isAgentDomain;
-import static org.asmeta.nusmv.util.Util.isCheckConcrete;
-import static org.asmeta.nusmv.util.Util.isPrintCounterExample;
-import static org.asmeta.nusmv.util.Util.keepNuSMVfile;
 import static org.asmeta.nusmv.util.Util.notUsedMess;
 import static org.asmeta.nusmv.util.Util.setPars;
 import static org.asmeta.nusmv.util.Util.trueString;
@@ -168,8 +165,6 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	private HashMap<Integer, String> propertiesCounterExample;
 	private HashMap<Integer, String> propertiesForPrinting;
 
-	// for AsmetaMA
-	public static boolean doAsmetaMA = false;
 	public TreeSet<String> controlledLocationInitialized;
 	public Map<ConditionalRule, List<String>> condRuleEvalToTrueThen, condRuleEvalToTrueElse;
 	public Map<MacroDeclaration, Integer> macroRuleCalled;
@@ -191,7 +186,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		setMapPropResult(new HashMap<String, Boolean>());
 		setRv(new RuleVisitor(this));
 
-		if (doAsmetaMA) {
+		if (AsmetaSMVOptions.doAsmetaMA) {
 			locationReachabilityConds = new HashMap<String, List<String>>();
 			controlledLocationInitialized = new TreeSet<String>();
 			condRuleEvalToTrueThen = new HashMap<ConditionalRule, List<String>>();
@@ -226,7 +221,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	 * @return true, if successful
 	 */
 	protected boolean needCheckOnDomain(String domName) {
-		return !(isEnumDomain(domName) || domName.equals("Boolean") || domName.equals("boolean") || !isCheckConcrete());
+		return !(isEnumDomain(domName) || domName.equals("Boolean") || domName.equals("boolean") || !AsmetaSMVOptions.isCheckConcrete());
 	}
 
 	/**
@@ -245,7 +240,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 			e.printStackTrace();
 		}
 		printSmv(smvFileName, smv);
-		if (!keepNuSMVfile) {
+		if (!AsmetaSMVOptions.keepNuSMVfile) {
 			// System.out.println("destroy");
 			smvFile.deleteOnExit();// it should be "delete" (but not here). "delete" here is too early
 		}
@@ -294,7 +289,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 				// we do not define the derived function and we substitute each occurrence of
 				// the location
 				// with its body
-				if (Util.simplify) {
+				if (AsmetaSMVOptions.simplify) {
 					if (Util.simplifyDerived) {
 						if (env.inLineFunctions.containsKey(var)) {
 							continue;
@@ -601,7 +596,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		visitDerivedFunctions();
 		visitDefault(defaultInit);
 		// AsmetaMA
-		if (doAsmetaMA) {
+		if (AsmetaSMVOptions.doAsmetaMA) {
 			// Before visiting the ASM starting from the main rule,
 			// we initialize the counter of the visited macro call rules.
 			for (RuleDeclaration r : asm.getBodySection().getRuleDeclaration()) {
@@ -706,7 +701,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	 *             the exception
 	 */
 	protected void visitDerivedFunctions() throws Exception {
-		if (Util.simplify) {
+		if (AsmetaSMVOptions.simplify) {
 			visitInLineFunctions();
 		}
 
@@ -718,7 +713,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		usedContrMonInDer = new HashMap<String, Set<String>>();
 		for (Location location : locationName.keySet()) {
 			locName = locationName.get(location);
-			if (Util.simplify) {
+			if (AsmetaSMVOptions.simplify) {
 				if (Util.simplifyDerived) {
 					if (env.inLineFunctions.containsKey(locName)) {
 						continue;
@@ -1240,7 +1235,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 				initMap.put(locStr, termStr);
 
 				// AsmetaMA: segnala che la locazione locStr viene inizializzata
-				if (doAsmetaMA) {
+				if (AsmetaSMVOptions.doAsmetaMA) {
 					controlledLocationInitialized.add(locStr);
 				}
 			}
@@ -1409,7 +1404,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 			} else {
 				assert strRes[1].equals("false") : strRes[1];
 				result = false;
-				if (isPrintCounterExample()) {
+				if (AsmetaSMVOptions.isPrintCounterExample()) {
 					String counterExample = results[i].substring(results[i].indexOf("-> State:"));
 					propertiesCounterExample.put(index, counterExample);
 				}
