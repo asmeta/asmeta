@@ -1,4 +1,5 @@
 --file examples\forallTerm.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		foo_1: {-2147483647, 1, 2, 3}; --controlled

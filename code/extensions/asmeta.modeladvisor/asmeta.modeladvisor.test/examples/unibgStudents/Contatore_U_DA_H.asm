@@ -21,10 +21,10 @@ signature:  //definizione del vocabolario
   
 /*Definizioni di domini*/
 definitions:    
-	domain Unita = {0..10}    
-	domain Decine = {0..10}    
-	domain Centinaia = {0..10}
-	domain Migliaia = {0..10}
+	domain Unita = {0:10}    
+	domain Decine = {0:10}    
+	domain Centinaia = {0:10}
+	domain Migliaia = {0:10}
 
 /*Definizione delle regole*/
 //regola che incrementa le migliaia

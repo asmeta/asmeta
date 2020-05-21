@@ -1,4 +1,5 @@
 --file examples\agentsChoose.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		foo_AGENT1: boolean; --controlled

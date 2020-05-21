@@ -13,7 +13,7 @@ signature:
 	static agentB: SubAgentB
 	
 definitions:
-	domain MyDomain = {1..5}
+	domain MyDomain = {1:5}
 	
 	rule r_b = 
 		par

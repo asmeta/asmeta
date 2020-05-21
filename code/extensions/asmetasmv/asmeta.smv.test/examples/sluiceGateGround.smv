@@ -1,4 +1,5 @@
 --file examples\sluiceGateGround.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		passed_10: boolean; --monitored

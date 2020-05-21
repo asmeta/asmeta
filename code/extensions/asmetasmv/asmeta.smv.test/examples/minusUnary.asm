@@ -12,8 +12,8 @@ signature:
 
 definitions:
 	domain ConcrDom = {-2, -1, 0, 1, 2}
-	domain ConcrDomA = {-2 .. 2}
-	domain ConcrDomB = {-10 .. 10, 2}
+	domain ConcrDomA = {-2 : 2}
+	domain ConcrDomB = {-10 : 10, 2}
 
 	CTLSPEC foo = -2 and ax(foo=-1 and ax(foo=0 and ax(foo=1 and ax(foo=2))))
 	CTLSPEC fooA = -2 and ax(fooA=-1 and ax(fooA=0 and ax(fooA=1 and ax(fooA=2))))

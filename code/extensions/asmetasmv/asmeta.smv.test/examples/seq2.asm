@@ -9,7 +9,7 @@ signature:
 	dynamic controlled var_b: MyDomain
 	dynamic monitored mon: MyDomain
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	//proprieta' CTL con la vecchia interpretazione delle monitorate: le monitorate
 	//appartengono al nuovo updateSet

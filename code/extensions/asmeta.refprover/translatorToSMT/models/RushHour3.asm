@@ -13,8 +13,8 @@ signature:
 	static redCarAtExit: Boolean
 
 definitions:
-	domain Coord = {0..1}
-	domain Car = {0..1}
+	domain Coord = {0:1}
+	domain Car = {0:1}
 
 	function isDirMachine($car in Car, $dir in Dir) =
 		if $dir = NORTH or $dir = SOUTH then

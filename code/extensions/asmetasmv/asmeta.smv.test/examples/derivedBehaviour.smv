@@ -1,4 +1,5 @@
 --file examples\derivedBehaviour.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		fooA: boolean; --controlled

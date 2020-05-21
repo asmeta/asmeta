@@ -18,9 +18,9 @@ signature:
 	static redCarAtExit: Boolean
 
 definitions:
-	domain Coord = {0..1}
+	domain Coord = {0:1}
 	domain Num = {1, 0}
-	domain Car = {0..2}
+	domain Car = {0:2}
 
 	function rMove($d in Dir) =
 		if($d = NORTH) then

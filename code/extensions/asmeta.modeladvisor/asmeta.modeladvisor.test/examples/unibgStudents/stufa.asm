@@ -26,11 +26,11 @@ signature:
 	dynamic controlled exec: ExecDomain
 		
 definitions:
-	domain ExecDomain = {0..3}
-	domain Pellet = {0..50}
+	domain ExecDomain = {0:3}
+	domain Pellet = {0:50}
 	domain Potenza = {1..3}
-	domain Timer = {0..10}
-	domain Fuliggine = {0..100}
+	domain Timer = {0:10}
+	domain Fuliggine = {0:100}
 
 	macro rule r_inizio_accensione =
     	if((stato_stufa=STANBY) and (tasto_on_off=ON)) then

@@ -8,7 +8,7 @@ signature:
 	static agents: MyDomain -> SubAgent
 	
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	rule r_rule =
 		skip

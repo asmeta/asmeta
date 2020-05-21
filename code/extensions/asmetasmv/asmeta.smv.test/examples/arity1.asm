@@ -9,7 +9,7 @@ signature:
 	dynamic controlled fooS: SubDom -> Boolean
 
 definitions:
-	domain SubDom = {1..2}
+	domain SubDom = {1:2}
 	
 	main  rule r_Main =
 		skip

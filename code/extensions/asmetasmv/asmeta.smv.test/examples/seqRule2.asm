@@ -9,7 +9,7 @@ signature:
 	dynamic monitored mon: Boolean
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 	
 	CTLSPEC ag(foo=1)
 	

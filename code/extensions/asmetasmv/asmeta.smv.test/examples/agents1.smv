@@ -1,10 +1,11 @@
 --file examples\agents1.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		fooA: boolean; --controlled
 		fooAB: boolean; --controlled
 		fooB: boolean; --controlled
-	CONSTANTS AGENTA, SUBAGENTA_UNDEF, AGENTA, AGENTB, SUBAGENTB_UNDEF, AGENTB;
+	CONSTANTS AGENTB, SUBAGENTB_UNDEF, AGENTB, AGENTA, SUBAGENTA_UNDEF, AGENTA;
 	ASSIGN
 		init(fooA) := FALSE;
 		init(fooAB) := TRUE;

@@ -23,7 +23,7 @@ signature:
 	dynamic controlled balance: Account -> Natural //this belongs to the database
 	static cardAccount: Card -> Account
 	
-	controlled accountCards: Account -> Powerset(Card) //for multiplicity 0..n 
+	controlled accountCards: Account -> Powerset(Card) //for multiplicity 0:n 
 
 	dynamic monitored insertedCard: Till -> Card //inserted card
 	dynamic monitored insertedPin: Till -> Natural //inserted pin

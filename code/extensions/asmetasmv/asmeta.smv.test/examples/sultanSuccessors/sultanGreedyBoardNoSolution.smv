@@ -1,4 +1,5 @@
 --file examples\sultanSuccessors\sultanGreedyBoardNoSolution.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		matriceRegine_1_1: boolean; --controlled

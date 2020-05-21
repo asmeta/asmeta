@@ -47,7 +47,7 @@ signature:
 definitions:
 	domain MoneySize = {10, 20, 40, 50, 100, 150, 200} //tagli prestabiliti per il prelievo
 	
-	domain Money = {0..6200}
+	domain Money = {0:6200}
 	
 	function minMoney = 200 //quantita' minima di soldi necessaria per il funzionamento del bancomat
 	function maxPrelievo = 1000

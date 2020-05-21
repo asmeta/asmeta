@@ -19,7 +19,7 @@ signature:
 
 definitions:
 	// DOMAIN DEFINITIONS
-	domain Camera = {1..4}
+	domain Camera = {1:4}
 
 	// FUNCTION DEFINITIONS
 	function precedente($c in Camera) = 

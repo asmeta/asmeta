@@ -20,7 +20,7 @@ signature:
 
 definitions:
 	domain Index = {1..12}
-	domain QuartetIndex = {0..2}
+	domain QuartetIndex = {0:2}
 	domain InQuartetIndex = {1..4}
 
 	rule r_moveCard($i1 in Index, $i2 in Index) =

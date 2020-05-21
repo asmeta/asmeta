@@ -1,4 +1,5 @@
 --file examples\chooseChoose.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		fooA: boolean; --controlled

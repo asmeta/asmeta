@@ -18,7 +18,7 @@ signature:
 	//dynamic monitored var_i : Boolean -> State
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	rule r_a($x in MyDomain) =
 		var_a := $x + 2

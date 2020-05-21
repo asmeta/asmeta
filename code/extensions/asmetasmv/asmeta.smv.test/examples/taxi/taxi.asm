@@ -13,7 +13,7 @@ signature:
 	static taxi: TaxiAgent
 
 definitions:
-	domain Taxi = {0..3}
+	domain Taxi = {0:3}
 
 	function neededTaxi($c in ClientAgent) =
 		if($c=cl1 or $c=cl2 or $c=cl3) then

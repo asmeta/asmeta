@@ -1,4 +1,5 @@
 //in una derived non ci puo' essere una choose rule?
+// NOOOO
 asm derivedChoose
 
 import ../../../../../asm_examples/STDL/StandardLibrary
@@ -9,9 +10,9 @@ signature:
 	derived der_func: MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
-	function der_func =
+	function der_func = 
 		choose $x in MyDomain with $x<3
 			$x
 	

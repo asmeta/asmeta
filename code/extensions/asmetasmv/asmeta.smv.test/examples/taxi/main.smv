@@ -1,4 +1,5 @@
 --file examples\taxi\main.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		client_calltaxi_CLIENT_CL1: boolean; --monitored

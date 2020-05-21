@@ -19,9 +19,9 @@ signature:
 	static redCarAtExit: Boolean
 
 definitions:
-	domain Coord = {0..5}
+	domain Coord = {0:5}
 	domain Num = {1, 5, 0}
-	domain Car = {0..
+	domain Car = {0:
 						 6 //puzzle 3
 						// 7 //puzzles 4, 21
 						// 8 //puzzles 1, 11, 12, 19

@@ -1,4 +1,5 @@
 --file examples\agentsAsyncr2.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		foo1: boolean; --controlled

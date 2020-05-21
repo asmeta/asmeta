@@ -26,9 +26,9 @@ signature:
 
 definitions:
 	// DOMAIN DEFINITIONS
-	domain NumSegmenti = {0..3}
+	domain NumSegmenti = {0:3}
 	// metto 2
-	domain NumTreniSegmento = {0..2}
+	domain NumTreniSegmento = {0:2}
 	
 	function tuttiOccupati = numTreni(0) >0 and numTreni(1) >0 and numTreni(2) >0 and numTreni(3) >0 
 

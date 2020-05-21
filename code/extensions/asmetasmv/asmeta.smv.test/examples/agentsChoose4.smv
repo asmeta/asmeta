@@ -1,4 +1,5 @@
 --file examples\agentsChoose4.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		chosenId: 1..3; --monitored

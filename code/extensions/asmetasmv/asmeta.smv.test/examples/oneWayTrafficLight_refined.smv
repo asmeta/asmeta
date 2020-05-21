@@ -1,4 +1,5 @@
 --file examples\oneWayTrafficLight_refined.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		gPulse_LIGHTUNIT1: boolean; --controlled

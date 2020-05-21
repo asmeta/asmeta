@@ -1,4 +1,5 @@
 --file examples\seq4.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		mon: boolean; --monitored

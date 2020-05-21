@@ -1,7 +1,7 @@
 asm SMV_GiocoDelCento_modifichePaolo
 
-import ../../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../asm_examples/STDL/CTLlibrary
 
 signature:
 	//DICHIARAZIONI DOMINI
@@ -28,7 +28,7 @@ signature:
 
 definitions:
 	
-	domain Giocata = {0..100}
+	domain Giocata = {0:100}
 	domain Obiettivo = {100}
 	domain Distanza = {10}	
 	

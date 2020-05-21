@@ -17,7 +17,7 @@ signature:
 
 definitions:
 
-	domain Floor = {0..+2} // e.g. for m=2
+	domain Floor = {0:+2} // e.g. for m=2
 
 
 	// main rule

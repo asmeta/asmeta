@@ -1,7 +1,7 @@
 asm GiocoDelCento_raff3
 
-import ../../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../asm_examples/STDL/CTLlibrary
 
 signature:
 	
@@ -30,7 +30,7 @@ signature:
 	
 
 definitions:
-	domain Giocata = {1..100}
+	domain Giocata = {1:100}
 	
 	//la funzione derivata "opponent" assegna ad un giocatore il suo avversario
 	function opponent($p in Players) =
@@ -83,7 +83,7 @@ definitions:
 	//con questa regola faccio scegliere in modo NON deterministico al player che NON può implementare la strategia
 	//vincente un numero casuale che soddisfi i vincoli imposti nella funzione "giocataBuona"
 	rule r_sceltaNumero =
-		choose $g in {1 .. 100} with (giocataBuona($g, ultimaGiocataPc(opponent(turno))) = true) do
+		choose $g in {1 : 100} with (giocataBuona($g, ultimaGiocataPc(opponent(turno))) = true) do
 			par
 				ultimaGiocataPc(turno) := $g
 				turno := opponent(turno)

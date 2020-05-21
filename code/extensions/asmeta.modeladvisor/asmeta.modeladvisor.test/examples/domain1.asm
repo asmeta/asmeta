@@ -12,7 +12,7 @@ controlled seconds:Second
 
 definitions:    
 //bip
-domain Second = {0..60}    
+domain Second = {0:60}    
 
 main rule r_Main = 
 	//par

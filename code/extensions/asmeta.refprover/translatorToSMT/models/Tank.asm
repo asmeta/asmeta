@@ -9,7 +9,7 @@ signature:
 	derived full: Boolean
 
 definitions:
-	domain Level = {0..50}
+	domain Level = {0:50}
 	domain IncrDom = {-5..5}
 
 	function full =

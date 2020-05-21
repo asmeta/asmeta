@@ -1,6 +1,6 @@
 asm prova
 
-import ../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	enum domain Players = { PLAYER1 | PLAYER2 }

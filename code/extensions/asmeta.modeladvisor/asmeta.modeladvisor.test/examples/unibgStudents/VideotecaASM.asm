@@ -45,7 +45,7 @@ signature:
 	static film4: Film
 
 definitions:
-	domain DispDom = {0..3}
+	domain DispDom = {0:3}
 
 //Funzione che si occupa di verificare l'effettiva disponibilit� di un film
 	function dispOk($f in Film) =

@@ -1,4 +1,5 @@
 --file examples\agents.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		example: boolean; --controlled
@@ -39,7 +40,7 @@ MODULE main
 		var_$w_4: 1..4;
 		var_$x_0: 1..4;
 		var_$y_0: 1..4;
-	CONSTANTS AGENTD, AGENTC, SUBAGENT2_UNDEF, AGENTC, ENUMDOM_UNDEF, AA, BB, AGENTA, AGENTB, SUBAGENT1_UNDEF, AGENTA, AGENTB;
+	CONSTANTS AGENTD, AGENTA, AGENTB, SUBAGENT1_UNDEF, AGENTA, AGENTB, AGENTC, SUBAGENT2_UNDEF, AGENTC, ENUMDOM_UNDEF, AA, BB;
 	ASSIGN
 		init(fooAB_AGENTA) := TRUE;
 		init(fooAB_AGENTB) := FALSE;

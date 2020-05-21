@@ -13,7 +13,7 @@ signature:
 	derived der: Boolean
 
 definitions:
-	domain MyDomain = {0..3}
+	domain MyDomain = {0:3}
 
 	function der = fooA
 	

@@ -118,7 +118,7 @@ signature:
 	
 definitions:
 // DOMAIN DEFINITIONS
-	domain LMHlimit = {0..2} //L low 0 limit M into limit 1 H hight limit 2
+	domain LMHlimit = {0:2} //L low 0 limit M into limit 1 H hight limit 2
 	
 // FUNCTION DEFINITIONS
 	

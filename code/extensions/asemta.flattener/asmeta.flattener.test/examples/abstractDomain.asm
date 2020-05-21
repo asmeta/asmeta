@@ -16,7 +16,7 @@ signature:
  	
 	
 definitions:
-	domain MyDomain = {0..10}
+	domain MyDomain = {0:10}
 	
 	main rule r_Main =
 		forall $p in Place with true do

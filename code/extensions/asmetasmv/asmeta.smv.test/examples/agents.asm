@@ -22,7 +22,7 @@ signature:
 	dynamic controlled fooChoose: MyDomain -> MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4} 
 	
 	rule r_rule1 =
 		fooAB(self) := not(fooAB(self))

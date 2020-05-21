@@ -20,7 +20,7 @@ signature:
 	derived noSquareLeft: Boolean
 
 definitions:
-	domain Coord = {1..3}
+	domain Coord = {1:3}
  
  	//indica se tutte le caselle sono occupate
 	function noSquareLeft =

@@ -14,9 +14,9 @@ signature:
 	static redCarAtExit: Boolean
 
 definitions:
-	domain Coord = {0..5}
+	domain Coord = {0:5}
 	domain Num = {1, 5, 0}
-	domain Car = {0..
+	domain Car = {0:
 						 6 //puzzle 3
 						// 7 //puzzles 4, 21
 						// 8 //puzzles 1, 11, 12, 19
@@ -30,9 +30,9 @@ definitions:
 
 	function isDirMachine($car in Car, $dir in Dir) =
 		if $dir = NORTH or $dir = SOUTH then
-			(exist $r in {0..4}, $c in Coord with board($r, $c) = $car and board($r + 1, $c) = $car)
+			(exist $r in {0:4}, $c in Coord with board($r, $c) = $car and board($r + 1, $c) = $car)
 		else
-			(exist $r2 in Coord, $c2 in {0..4} with board($r2, $c2) = $car and board($r2, $c2 + 1) = $car)
+			(exist $r2 in Coord, $c2 in {0:4} with board($r2, $c2) = $car and board($r2, $c2 + 1) = $car)
 		endif
 
 	function isNextCellFree($car in Car, $dir in Dir) =
@@ -40,11 +40,11 @@ definitions:
 			case NORTH:
 				(exist $r in {1..5}, $c in Coord with board($r,$c) = $car and board($r - 1, $c) = 0)
 			case SOUTH:
-				(exist $r1 in {0..4}, $c1 in Coord with board($r1, $c1) = $car and board($r1 + 1, $c1) = 0)
+				(exist $r1 in {0:4}, $c1 in Coord with board($r1, $c1) = $car and board($r1 + 1, $c1) = 0)
 			case WEST:
 				(exist $r3 in Coord, $c3 in {1..5} with board($r3, $c3) = $car and board($r3, $c3 - 1) = 0)
 			case EAST:
-				(exist $r2 in Coord, $c2 in {0..4} with board($r2, $c2) = $car and board($r2, $c2 + 1) = 0)
+				(exist $r2 in Coord, $c2 in {0:4} with board($r2, $c2) = $car and board($r2, $c2 + 1) = 0)
 		endswitch
 
 	function isMovePermitted($car in Car, $dir in Dir) =

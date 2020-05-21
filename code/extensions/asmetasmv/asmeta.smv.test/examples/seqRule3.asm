@@ -14,7 +14,7 @@ signature:
 	dynamic monitored mon: Boolean
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	CTLSPEC (fooA = 1) and (mon implies ax(ag(fooA = 3)))
 	CTLSPEC ag(mon implies ax(ag(fooA = 3)))

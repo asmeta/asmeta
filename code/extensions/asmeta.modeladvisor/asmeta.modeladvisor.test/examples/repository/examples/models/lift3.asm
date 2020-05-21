@@ -31,7 +31,7 @@ signature:
 	
 definitions:
 
-	domain Floor = {0..4}
+	domain Floor = {0:4}
 	function ground = 0
 	function top = 4
 	

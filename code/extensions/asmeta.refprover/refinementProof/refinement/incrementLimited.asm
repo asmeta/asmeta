@@ -7,7 +7,7 @@ signature:
 	controlled x: ConcrDom
 	
 definitions:
-	domain ConcrDom = {0..10}
+	domain ConcrDom = {0:10}
 
 	main rule r_Main =
 		if x != 10 then

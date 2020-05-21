@@ -21,7 +21,7 @@ signature:
 	static noSquareLeft : Boolean
 
 definitions:
-	domain Square = {1..9}
+	domain Square = {1:9}
  
 	function noSquareLeft =  not (exist $s in Square with symbol($s) = EMPTY)
  

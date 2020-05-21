@@ -1,4 +1,5 @@
 --file examples\choose3.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		var_a: {-2147483647, 1, 2, 3, 4}; --controlled

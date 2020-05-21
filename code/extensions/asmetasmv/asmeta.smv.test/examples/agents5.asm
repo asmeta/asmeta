@@ -13,7 +13,7 @@ signature:
 	static agent2: SubAgent2
 	
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	rule r_rule1 =
 		foo := 3

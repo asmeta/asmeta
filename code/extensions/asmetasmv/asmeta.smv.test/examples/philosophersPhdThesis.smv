@@ -1,4 +1,5 @@
 --file examples\philosophersPhdThesis.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		eating_PHIL_1: boolean; --controlled
@@ -29,7 +30,7 @@ MODULE main
 		right_fork_PHIL_3 := FORK_4;
 		right_fork_PHIL_4 := FORK_5;
 		right_fork_PHIL_5 := FORK_1;
-	CONSTANTS FORK_1, FORK_2, FORK_3, FORK_4, FORK_5, FORK_UNDEF, PHIL_1, PHIL_2, PHIL_3, PHIL_4, PHIL_5, PHILOSOPHERS_UNDEF, PHIL_1, PHIL_2, PHIL_3, PHIL_4, PHIL_5;
+	CONSTANTS PHIL_1, PHIL_2, PHIL_3, PHIL_4, PHIL_5, PHILOSOPHERS_UNDEF, PHIL_1, PHIL_2, PHIL_3, PHIL_4, PHIL_5, FORK_1, FORK_2, FORK_3, FORK_4, FORK_5, FORK_UNDEF;
 	ASSIGN
 		init(eating_PHIL_1) := FALSE;
 		init(eating_PHIL_2) := FALSE;

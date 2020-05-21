@@ -1,4 +1,5 @@
 --file examples\Tictactoe_forSMV.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		playerX: 1..9; --monitored
@@ -16,7 +17,7 @@ MODULE main
 		--declaration of choose variables
 		var_$s_0: 1..9;
 	DEFINE
-	CONSTANTS FINALRES_UNDEF, PC, PLAYER, RUN, TIE, STATUS_UNDEF, CHECKPC, CHECKX, GAMEOVER, TURNPC, TURNX, SKIND_UNDEF, CROSS, EMPTY, NOUGHT;
+	CONSTANTS FINALRES_UNDEF, PC, PLAYER, RUN, TIE, SKIND_UNDEF, CROSS, EMPTY, NOUGHT, STATUS_UNDEF, CHECKPC, CHECKX, GAMEOVER, TURNPC, TURNX;
 	ASSIGN
 		init(status) := TURNX;
 		init(symbol_1) := EMPTY;

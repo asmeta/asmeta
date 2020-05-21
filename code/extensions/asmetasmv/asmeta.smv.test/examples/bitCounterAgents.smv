@@ -1,4 +1,5 @@
 --file examples\bitCounterAgents.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		value_BIT0: boolean; --controlled

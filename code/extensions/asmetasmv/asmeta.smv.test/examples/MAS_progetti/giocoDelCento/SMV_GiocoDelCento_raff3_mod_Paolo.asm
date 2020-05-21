@@ -1,7 +1,7 @@
 asm SMV_GiocoDelCento_raff3_mod_Paolo
 
-import ../../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../asm_examples/STDL/CTLlibrary
 
 signature:
 	
@@ -33,7 +33,7 @@ signature:
 
 definitions:
 	
-	domain Giocata = {0..100}
+	domain Giocata = {0:100}
 	domain Obiettivo = {100}
 	domain Distanza = {10}
 	

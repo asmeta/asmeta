@@ -10,7 +10,7 @@ signature:
 	dynamic monitored b: Boolean
 	
 definitions:
-	domain MyDomain = {1..10}
+	domain MyDomain = {1:10}
 	
 	//per la vecchia interpretazione delle monitorate: le monitorate
 	//appartengono al nuovo updateSet

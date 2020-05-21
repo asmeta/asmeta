@@ -19,7 +19,7 @@ signature:
 //	monitored quantity: Products -> Integer
 
 definitions:
-	domain QuantityDomain = {0..100}
+	domain QuantityDomain = {0:100}
 	domain ChooseQuantityDomain = {0 .. 20}
 	invariant inv_stockgt0 over stockQuantity: 
 		(forall $p in Products with stockQuantity($p) >= 0)

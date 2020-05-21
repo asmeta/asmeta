@@ -1,4 +1,5 @@
 --file examples\ticTacToe\ticTacToe_simulator.smv
+-- options: flatten? false
 MODULE main
 	VAR
 		board_1_1: {CROSS, NOUGHT, SIGN_UNDEF}; --controlled

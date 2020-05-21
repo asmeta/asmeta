@@ -14,9 +14,9 @@ signature:
 	static redCarAtExit: Boolean
 
 definitions:
-	domain Coord = {0..1}
+	domain Coord = {0:1}
 	domain Num = {1, 0}
-	domain Car = {0..2}
+	domain Car = {0:2}
 
 	function isNextCellFree($car in Car, $dir in Dir) =
 		switch($dir)

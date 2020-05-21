@@ -17,9 +17,9 @@ controlled hours:Hour
 
 definitions:    
 
-domain Second={0..3}    
-domain Minute={0..3}    
-domain Hour={0..3}
+domain Second={0:3}    
+domain Minute={0:3}    
+domain Hour={0:3}
 
 macro rule r_IncMinHours =  par
                         if minutes=2 then

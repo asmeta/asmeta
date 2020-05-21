@@ -23,7 +23,7 @@ macro rule r_swap($x in Integer, $y in Integer) =
 	endpar
 
 macro rule r_swapSort =
-	choose $i in {0..9}, $j in {0..9} with $i < $j and vect($i) > vect($j) do
+	choose $i in {0:9}, $j in {0:9} with $i < $j and vect($i) > vect($j) do
 		r_swap[vect($i), vect($j)]
 	
 main rule r_main =
