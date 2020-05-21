@@ -38,7 +38,10 @@ public class AsmetaSMV {
 	private File asmFile;
 	private Asm asm;
 	String smvFileName;
+	
+	AsmetaSMVOptions asmetaOptions;
 
+	
 	public AsmetaSMV(String file) throws Exception {
 		this(new File(file));
 	}
@@ -55,6 +58,11 @@ public class AsmetaSMV {
 		this(file, simplify, false, true, false);
 	}
 
+	public AsmetaSMV(File file, boolean simplify, boolean execute, boolean checkInteger, boolean useNuXmv) throws Exception {
+		this(file,new AsmetaSMVOptions(simplify, execute, checkInteger, useNuXmv));
+	}
+
+	
 	/**
 	 * 
 	 * @param file
@@ -64,16 +72,16 @@ public class AsmetaSMV {
 	 * @param useNuXmv
 	 * @throws Exception
 	 */
-	public AsmetaSMV(File file, boolean simplify, boolean execute, boolean checkInteger, boolean useNuXmv)
+	public AsmetaSMV(File file, AsmetaSMVOptions options)
 			throws Exception {
 		asmFile = file;
 		if (asmFile.exists()) {
 			try {
 				asm = ASMParser.setUpReadAsm(asmFile).getMain();
-				Util.setCheckConcrete(checkInteger);
-				Util.simplify = simplify;
-				Util.setRunNuSMV(execute);
-				Util.setUseNuXmv(useNuXmv);
+				Util.setCheckConcrete(options.checkInteger);
+				Util.simplify = options.simplify;
+				Util.setRunNuSMV(options.execute);
+				Util.setUseNuXmv(options.useNuXmv);
 				// relative path including the file name
 				Util.setPath(asmFile.getPath());
 				// relative path without file name

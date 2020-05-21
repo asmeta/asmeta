@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.asmeta.parser.util.AsmPrinter;
-import org.asmeta.parser.util.TermPrinter;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 
 import asmeta.definitions.Function;
 import asmeta.structure.Asm;
@@ -36,7 +36,7 @@ public class Utils {
 	}
 
 	public static String print(Term term) {
-		TermPrinter tp = new TermPrinter(false);
+		AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
 		return tp.visit(term);
 	}
 

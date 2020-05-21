@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.asmeta.nusmv.AsmTermPrinter;
 import org.asmeta.nusmv.Environment;
 import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
@@ -53,19 +53,18 @@ import asmeta.transitionrules.basictransitionrules.UpdateRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
-//class AsmPrinter extends ReflectiveVisitor {
+//class AsmetaToSMV extends ReflectiveVisitor {
 class AsmPrinter extends org.asmeta.parser.util.ReflectiveVisitor {
 
-	//TermPrinter tp;
-	AsmTermPrinter tp;
+	AsmetaTermPrinter tp;
 	String tabWidth = "    ";
 	int indentation = 0;
 	Asm model;
 	boolean expand = true;
 	
 	public AsmPrinter(Environment env) {
-		//tp = new TermPrinter(env);
-		tp = new AsmTermPrinter(false);
+		//tp = new AsmetaTermPrinter(env);
+		tp = new AsmetaTermPrinter(false);
 	}
 
 	public void visitUnknown(Object object) {

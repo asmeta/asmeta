@@ -13,7 +13,7 @@ package org.asmeta.simulator.main;
 import static org.junit.Assert.assertEquals;
 
 import org.asmeta.parser.AsmParserTest;
-import org.asmeta.parser.util.TermPrinter;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.TermAssignment;
 import org.asmeta.simulator.TermSubstitution;
 import org.asmeta.simulator.wrapper.RuleFactory;
@@ -48,7 +48,7 @@ public class TermSubstTest {
 		TermSubstitution.varSuffix = 0;
 		TermSubstitution.ruleFactory = new RuleFactory();
 		Term newTerm = subst.visit(term);
-		return new TermPrinter(false).visit(newTerm);
+		return new AsmetaTermPrinter(false).visit(newTerm);
 	}
 	
 	@Test

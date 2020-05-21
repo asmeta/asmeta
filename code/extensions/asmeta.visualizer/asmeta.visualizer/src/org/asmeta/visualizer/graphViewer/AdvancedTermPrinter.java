@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.asmeta.parser.util.TermPrinter;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
 
-public class AdvancedTermPrinter extends TermPrinter {
+public class AdvancedTermPrinter extends AsmetaTermPrinter {
 	public Map<VariableTerm, Term> mapVarTerm;
 
 	public AdvancedTermPrinter(boolean showAsmName) {

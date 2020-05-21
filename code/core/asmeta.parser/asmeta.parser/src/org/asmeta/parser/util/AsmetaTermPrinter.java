@@ -22,7 +22,7 @@
  *******************************************************************************/
 
 /*
- * TermPrinter.java
+ * AsmetaTermPrinter.java
  *
  * Created on 26 giugno 2006, 10.47
  *
@@ -72,7 +72,7 @@ import asmeta.terms.furtherterms.SetCt;
  * A term printer.
  * 
  */
-public class TermPrinter extends ReflectiveVisitor<String> {
+public class AsmetaTermPrinter extends ReflectiveVisitor<String> {
 
 	/**
 	 * Fully qualified name flag.
@@ -86,7 +86,7 @@ public class TermPrinter extends ReflectiveVisitor<String> {
 	 * @param showAsmName
 	 *            if true show the fully qualified name
 	 */
-	public TermPrinter(boolean showAsmName) {
+	public AsmetaTermPrinter(boolean showAsmName) {
 		this.showAsmName = showAsmName;
 	}
 
@@ -453,9 +453,10 @@ public class TermPrinter extends ReflectiveVisitor<String> {
 	 * @return a string
 	 */
 	public String visit(BooleanTerm bool) {
-		return bool.getSymbol();
-	}
-
+        return bool.getSymbol();
+    }
+	
+	
 	/**
 	 * Converts a string term into string.
 	 * 

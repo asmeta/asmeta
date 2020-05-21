@@ -42,7 +42,7 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.Defs;
-import org.asmeta.parser.util.TermPrinter;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.CollectionValue;
@@ -96,7 +96,7 @@ public class RuleEvaluatorAllUpdateSets extends RuleVisitor<SetUpdateSet> {
 	 * Returns a string representation of a term.
 	 * 
 	 */
-	private static TermPrinter printer = new TermPrinter(true);
+	private static AsmetaTermPrinter printer = new AsmetaTermPrinter(true);
 	
 	/**
 	 * Caches the macro substitutions.

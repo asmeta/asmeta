@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.util.List;
 
-import org.asmeta.parser.util.TermPrinter;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.junit.Test;
 
 import asmeta.AsmCollection;
@@ -54,7 +54,7 @@ public class GetDomainTest {
 		SetTerm domain6 = (SetTerm)domsDef.get(6).getBody();
 		SetTerm domain7 = (SetTerm)domsDef.get(7).getBody();
 		SetTerm domain8 = (SetTerm)domsDef.get(8).getBody();
-		TermPrinter tp = new TermPrinter(false);
+		AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
 		String str0 = tp.visit(domain0);
 		String str1 = tp.visit(domain1);
 		String str2 = tp.visit(domain2);

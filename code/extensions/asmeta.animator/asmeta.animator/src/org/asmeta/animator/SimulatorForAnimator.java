@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.asmeta.parser.util.TermPrinter;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
@@ -49,7 +49,7 @@ public class SimulatorForAnimator extends Simulator{
 			t.setInitValues(locationsPrevNotSet);
 		}catch (InvalidInvariantException e) {
 			//System.out.println("<Invariant violation>");
-			TermPrinter tp = new TermPrinter(false);
+			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
 			t.setInvalidIvariantText(tp.visit(e.getInvariant().getBody()));
 			//System.out.println(s);
 			//System.out.println("</Invariant violation>");

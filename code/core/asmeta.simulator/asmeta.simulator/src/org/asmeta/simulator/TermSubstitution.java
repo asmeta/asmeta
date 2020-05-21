@@ -38,7 +38,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.util.ReflectiveVisitor;
-import org.asmeta.parser.util.TermPrinter;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.terms.basicterms.ConstantTerm;
@@ -74,7 +74,7 @@ public class TermSubstitution extends ReflectiveVisitor<Term> {
 	 * Prints a string representation of terms.
 	 * 
 	 */
-	protected TermPrinter printer = new TermPrinter(true);
+	protected AsmetaTermPrinter printer = new AsmetaTermPrinter(true);
 	
 	/**
 	 * Creates new terms and rules.

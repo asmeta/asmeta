@@ -94,8 +94,6 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule;
  */
 public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	
-	// use flattener (default true, for test cases it can be also false)
-	public static boolean FLATTEN = true;
 	// list of flatteners
 	public static Class<? extends AsmetaFlattener>[] ALL_SMV_FLATTENERS = new Class[] {
 			MacroCallRuleFlattener.class, ForallRuleFlattener.class, RemoveArgumentsFlattener.class, LetRuleFlattener.class, CaseRuleFlattener.class, RemoveNestingFlattener.class
@@ -262,6 +260,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	 */
 	public void printSmv(String smvFileName, PrintWriter smv) throws Exception {
 		smv.println("--file " + smvFileName);
+		smv.println("-- options: flatten? " + AsmetaSMVOptions.FLATTEN);
 		smv.println("MODULE main");
 		smv.println("\tVAR");
 		for (String var : varsDecl.keySet()) {
@@ -571,7 +570,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	 *             the exception
 	 */
 	void visit(Asm asm) throws Exception {
-		if (FLATTEN) {
+		if (AsmetaSMVOptions.FLATTEN) {
 			asm = new RemoveArgumentsFlattener(asm).flattenASM();
 			FlattenerSetting.simplify = true;
 			String name = asm.getName();

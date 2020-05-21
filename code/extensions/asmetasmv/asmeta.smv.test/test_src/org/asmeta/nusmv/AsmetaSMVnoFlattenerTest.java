@@ -19,7 +19,7 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 
 	@Before
 	public void setFlattener() {
-		MapVisitor.FLATTEN = false;
+		AsmetaSMVOptions.FLATTEN = false;
 	}
 
 	@Test

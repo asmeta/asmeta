@@ -1,1 +1,3 @@
 /target/
+# do not commit smv files
+*.smv

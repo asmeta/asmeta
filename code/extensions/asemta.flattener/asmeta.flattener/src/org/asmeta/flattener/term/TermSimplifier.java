@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import org.asmeta.flattener.statistics.Statistics;
 import org.asmeta.flattener.util.StdlFunction;
 import org.asmeta.parser.util.ReflectiveVisitor;
-import org.asmeta.parser.util.TermPrinter;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.definitions.Function;
@@ -44,7 +44,7 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 	private static RuleFactory ruleFact;
 	public static BooleanTerm falseT;
 	public static BooleanTerm trueT;
-	private TermPrinter tp;
+	private AsmetaTermPrinter tp;
 	//public final static TermSimplifier TS = new TermSimplifier();
 	private DomainVisitor dv;
 	private StdlFunction sl;
@@ -58,7 +58,7 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 	}
 
 	public TermSimplifier(DomainVisitor dv, StdlFunction sl) {
-		tp = new TermPrinter(false);
+		tp = new AsmetaTermPrinter(false);
 		this.dv = dv;
 		this.sl = sl;
 	}

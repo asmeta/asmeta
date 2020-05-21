@@ -22,7 +22,7 @@
  *******************************************************************************/
 
 /*
- * TermPrinter.java
+ * AsmetaTermPrinter.java
  *
  * Created on 26 giugno 2006, 10.47
  *

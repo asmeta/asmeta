@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.asmeta.parser.util.TermPrinter;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.RuleVisitor;
 import org.eclipse.emf.common.util.EList;
 
@@ -47,7 +47,7 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
  * connected to
  */
 public class GraphEdgesAdder extends RuleVisitor<Node> {
-	static TermPrinter tp = new AdvancedTermPrinter(false);
+	static AsmetaTermPrinter tp = new AdvancedTermPrinter(false);
 	// static TermDecod tp = new TermDecod(false);
 	public static boolean detectSemanticPatterns = false;
 

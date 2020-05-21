@@ -59,7 +59,7 @@ import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
  * A rule printer.
  * 
  */
-public class RulePrinter extends TermPrinter {
+public class RulePrinter extends AsmetaTermPrinter {
         	
 	/** 
 	 * Creates a rule printer.

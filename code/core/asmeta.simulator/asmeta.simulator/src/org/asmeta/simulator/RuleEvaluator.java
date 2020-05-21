@@ -45,7 +45,7 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.Defs;
-import org.asmeta.parser.util.TermPrinter;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.util.RandomIterator;
 import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.BooleanValue;
@@ -114,7 +114,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * Returns a string representation of a term.
 	 * 
 	 */
-	private static TermPrinter printer = new TermPrinter(true);
+	private static AsmetaTermPrinter printer = new AsmetaTermPrinter(true);
 
 	/**
 	 * Caches the macro substitutions.
@@ -239,9 +239,9 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		UpdateSet updateSet;
 		logger.debug("<Guard>");
 		Value value = visitTerm(condRule.getGuard());
-		assert value instanceof BooleanValue : value + "\n" + new TermPrinter(false).visit(condRule.getGuard());
+		assert value instanceof BooleanValue : value + "\n" + new AsmetaTermPrinter(false).visit(condRule.getGuard());
 		// if undef launch an execption
-		if (value instanceof UndefValue) throw new RuntimeException(new TermPrinter(false).visit(condRule.getGuard()) + " is undef");
+		if (value instanceof UndefValue) throw new RuntimeException(new AsmetaTermPrinter(false).visit(condRule.getGuard()) + " is undef");
 		BooleanValue guardValue = (BooleanValue) value;
 		logger.debug("</Guard>");
 		if (guardValue.getValue()) {

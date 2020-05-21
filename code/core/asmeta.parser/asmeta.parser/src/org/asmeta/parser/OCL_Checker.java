@@ -30,7 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.asmeta.parser.util.TermPrinter;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.DynamicFunction;
@@ -1216,8 +1216,8 @@ public class OCL_Checker {
 		Term location = r.getLocation();
 		Term updatingTerm = r.getUpdatingTerm();
 		if (!(compatible(location, updatingTerm))) {
-			MSG_ERR = "Error: In an update rule, the term on the right-hand side ("+ new TermPrinter(false).visit(updatingTerm) + ") must be compatible "
-					+ "with the one on the left-hand side (" + new TermPrinter(false).visit(location) + ").";
+			MSG_ERR = "Error: In an update rule, the term on the right-hand side ("+ new AsmetaTermPrinter(false).visit(updatingTerm) + ") must be compatible "
+					+ "with the one on the left-hand side (" + new AsmetaTermPrinter(false).visit(location) + ").";
 			return false;
 		}
 		return true;
@@ -1743,7 +1743,7 @@ public class OCL_Checker {
 		return true;
 		*/
 		if (!(r.getTerm().getDomain() instanceof RuleDomain)) {
-			MSG_ERR = "Expected a rule for term " + new TermPrinter(true).visit(r.getTerm()) + " domain " + r.getTerm().getDomain();
+			MSG_ERR = "Expected a rule for term " + new AsmetaTermPrinter(true).visit(r.getTerm()) + " domain " + r.getTerm().getDomain();
 			return false;
 		}
 		RuleDomain domain = (RuleDomain) r.getTerm().getDomain();
