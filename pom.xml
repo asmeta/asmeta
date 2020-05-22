@@ -8,6 +8,9 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
+		<module>code/core/asmeta.cli</module>
+		<module>code/core/asmeta.parser/asmeta.parser</module>
+		<module>code/core/asmeta.emf</module>
 	</modules>	
 	<dependencies>
 		<dependency>
