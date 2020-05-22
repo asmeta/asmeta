@@ -38,3 +38,9 @@ test-bin/
 
 .DS_Store
 *.smv
+/target/
+*.dumpstream
+
+#maven stuff
+surefire-reports
+maven-status
