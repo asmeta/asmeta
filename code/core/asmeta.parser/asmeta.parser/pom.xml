@@ -16,7 +16,6 @@
 			</resource>
 		</resources>
 		<plugins>
-			<!-- 
 			<plugin>
 				<groupId>com.helger.maven</groupId>
 				<artifactId>ph-javacc-maven-plugin</artifactId>
@@ -38,7 +37,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			 -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
@@ -61,5 +59,10 @@
 			<version>2.18.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.emf</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

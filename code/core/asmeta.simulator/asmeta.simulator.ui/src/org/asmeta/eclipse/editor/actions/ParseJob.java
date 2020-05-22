@@ -11,7 +11,7 @@ import org.asmeta.eclipse.AsmeeActivator;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParserResultLogger;
-import org.asmeta.parser.TokenMgrError;
+import org.asmeta.parser.TokenMgrException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -86,12 +86,6 @@ public class ParseJob extends Job {
 		} catch (Exception t) {
 			parseResult = ASMParser.getResultLogger();
 			t.printStackTrace(new PrintStream(out));
-			// TODO metti lo status con errore
-			asm = null;
-			return Status.CANCEL_STATUS;
-		} catch (TokenMgrError err) {
-			parseResult = ASMParser.getResultLogger();
-			err.printStackTrace(new PrintStream(out));
 			// TODO metti lo status con errore
 			asm = null;
 			return Status.CANCEL_STATUS;
