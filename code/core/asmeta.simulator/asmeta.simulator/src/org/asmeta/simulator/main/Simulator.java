@@ -166,6 +166,16 @@ public class Simulator {
 		monitoredInvariants = new ArrayList<Invariant>();
 	}
 	
+	/**
+	 * Instantiates a new simulator.
+	 *
+	 * @param modelName the model name
+	 * @param asmp the asmp
+	 * @param env the env
+	 * @param s the intial state
+	 * @throws AsmModelNotFoundException the asm model not found exception
+	 * @throws MainRuleNotFoundException the main rule not found exception
+	 */
 	public Simulator(String modelName, AsmCollection asmp, Environment env, State s) 
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		assert env != null;
