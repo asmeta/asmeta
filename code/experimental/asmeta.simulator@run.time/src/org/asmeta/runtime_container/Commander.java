@@ -11,7 +11,7 @@ public class Commander {
 	static int DEFVALUE=-10;	//default value to check if user has inserted integer values
 								
 	
-	private static int parseNumber(Matcher m, boolean debugMode,String mod) {
+	private static int parseNumber(Matcher m, boolean debugMode, String mod) {
 		int number=DEFVALUE;
 		if (m.find())	{
 			try {
@@ -29,6 +29,19 @@ public class Commander {
 		return number;
 	}
 	
+	private static String parseText(Matcher m, boolean debugMode, String mod) {
+		String str=null;
+		if (m.find())	{
+			str=m.group(1).substring(m.group(1).indexOf('"')+1,m.group(1).length()-1);
+			//System.out.println(m.group(1)); 
+			if (debugMode)
+				System.out.println("found "+mod+" parameter with value: "+str);
+		}else
+			if (debugMode)
+				System.out.println(mod+" parameter not found.");
+		return str;
+	}
+	
 	public void parseInput(ContainerRT crt, String input) {	//using default no debug mode
 		parseInput(crt, input, false);
 	}
@@ -38,7 +51,7 @@ public class Commander {
 		Matcher m;
 		String f="";
 		boolean parseok=true;
-		CommanderOutput out = new CommanderOutput(CommanderStatus.FAILURE, 0, null);
+		CommanderOutput out = new CommanderOutput(CommanderStatus.FAILURE, "Nothing initialized");
 		//function parameters
 		int idp=DEFVALUE;	
 		int np=DEFVALUE;
@@ -46,6 +59,8 @@ public class Commander {
 		int timeoutp=DEFVALUE;
 		String modelpathp=null;
 		Map<String, String> locationvaluep=null;
+		String invariantp=null;
+		String invariant2p=null;
 		//
 		
 		//reset parameters
@@ -63,11 +78,12 @@ public class Commander {
 		if (scan.hasNext())
 		{
 			f=scan.next();
+			scan.close();
 			//parsing ID
 			p = Pattern.compile("(-id\\s+\\d+)");
 			m = p.matcher(input);
 			idp=parseNumber(m,debugMode,"id");
-			//parsing N (for init)
+			//parsing N (for the init command)
 			p = Pattern.compile("(-n\\s+\\d+)");
 			m = p.matcher(input);
 			np=parseNumber(m,debugMode,"n");
@@ -82,14 +98,7 @@ public class Commander {
 			//parsing MODELPATH
 			p = Pattern.compile("(-modelpath\\s+\"[^\"\\n]+\")");
 			m = p.matcher(input);
-			if (m.find())	{
-				modelpathp=m.group(1).substring(m.group(1).indexOf('"')+1,m.group(1).length()-1);
-				//System.out.println(m.group(1)); 
-				if (debugMode)
-					System.out.println("found modelpath parameter with value: "+modelpathp);
-			}else
-				if (debugMode)
-					System.out.println("modelpath parameter not found.");
+			modelpathp = parseText(m, debugMode, "modelpath");
 			//parsing LOCATIONVALUE 	//(-locationvalue\s+\\{([^\n\\}]+,)*[^\n}]+})
 			p = Pattern.compile("(-locationvalue\\s+\\{[^\\n\\}]+})");
 			m = p.matcher(input);
@@ -104,13 +113,15 @@ public class Commander {
 					count++;
 					String[] supp=scan.next().split("=");
 					if (supp.length>2) {
-						System.out.println("wrong input format found inside locationvalue subparameter: "+String.join("=", supp));
+						out = new CommanderOutput(CommanderStatus.FAILURE, "wrong input format found inside locationvalue subparameter: "+String.join("=", supp));
+						//System.out.println("wrong input format found inside locationvalue subparameter: "+String.join("=", supp));
 						parseok=false;	//nothing executes if something is wrong inside the input data
 					}
 					else if (supp.length==2)
 						locationvaluep.put(supp[0].trim(),supp[1].trim());
 					else {
-						System.out.println("nothing found inside locationvalue subparameter number "+count);
+						out = new CommanderOutput(CommanderStatus.FAILURE, "nothing found inside locationvalue subparameter number "+count);
+						//System.out.println("nothing found inside locationvalue subparameter number "+count);
 						parseok=false;	//nothing executes if something is wrong inside the input data
 					}
 				}
@@ -120,6 +131,16 @@ public class Commander {
 			}else
 				if (debugMode)
 					System.out.println("locationvalue parameter not found.");
+			//parsing INVARIANT1
+			p = Pattern.compile("(-inv\\s+\"[^\"\\n]+\")");
+			m = p.matcher(input);
+			invariantp = parseText(m, debugMode, "invariant");
+			//parsing INVARIANT2
+			p = Pattern.compile("(-inv2\\s+\"[^\"\\n]+\")");
+			m = p.matcher(input);
+			invariant2p = parseText(m, debugMode, "invariant2");
+			scan.close();
+			
 			//
 			
 			//test parameters
@@ -131,7 +152,9 @@ public class Commander {
 				System.out.println("\tTIMEOUT: "+timeoutp);
 				System.out.println("\tN: "+np);
 				System.out.println("\tMODELPATH: \""+modelpathp+"\"");
-				System.out.println("\tLOCATIONVALUE: "+locationvaluep+"\n");
+				System.out.println("\tLOCATIONVALUE: "+locationvaluep);
+				System.out.println("\tINVARIANT: \""+invariantp+"\"");
+				System.out.println("\tINVARIANT2: \""+invariant2p+"\"\n");
 			}
 			//
 			
@@ -141,48 +164,54 @@ public class Commander {
 				case "init":
 					if (np!=DEFVALUE)
 						//System.out.println("init ok");
-						out=new CommanderOutput(CommanderStatus.INSTANCES, crt.init(np), null);
+						out=new CommanderOutput(CommanderStatus.INSTANCES, crt.init(np));
 					else
-						System.out.println("Couldn't launch command, required parameter n missing.");
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter n ");
+						//System.out.println("Couldn't launch command, required parameter n missing.");
 				break;
 				case "startexecution":
 					if (modelpathp!=null)
 						//System.out.println("startexec ok");
-						out=new CommanderOutput(CommanderStatus.SIM_ID, crt.startExecution(modelpathp), null);
+						out=new CommanderOutput(CommanderStatus.SIM_ID, crt.startExecution(modelpathp));
 					else 
-						System.out.println("Couldn't launch command, required parameter modelpath missing.");
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter modelpath");
+						//System.out.println("Couldn't launch command, required parameter modelpath missing.");
 				break;
 				case "stopexecution":
 					if (idp!=DEFVALUE)
 						//System.out.println("stopexec ok");
-						out=new CommanderOutput(CommanderStatus.STOP, crt.stopExecution(idp), null);
+						out=new CommanderOutput(CommanderStatus.STOP, crt.stopExecution(idp));
 					else 
-						System.out.println("Couldn't launch command, required parameter id missing.");
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
+						//System.out.println("Couldn't launch command, required parameter id missing.");
 				break;
 				case "runstep":
 					if (idp!=DEFVALUE)
 						if (locationvaluep!=null && modelpathp!=null)
 							//System.out.println("runstep ok long");
-							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, 0, crt.runStep(idp, locationvaluep, modelpathp));
+							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runStep(idp, locationvaluep, modelpathp));
 						else
 							//System.out.println("runstep ok short");
-							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, 0, crt.runStep(idp));
+							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runStep(idp));
 					else 
-						System.out.println("Couldn't launch command, required parameter id missing.");
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
+						//System.out.println("Couldn't launch command, required parameter id missing.");
 				break;
 				case "runsteptimeout":
 					if (idp!=DEFVALUE && timeoutp!=DEFVALUE)
 						if (locationvaluep!=null && modelpathp!=null)
 							//System.out.println("runstep ok long to");
-							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, 0, crt.runStepTimeout(idp, locationvaluep, modelpathp,timeoutp));
+							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runStepTimeout(idp, locationvaluep, modelpathp,timeoutp));
 						else
 							//System.out.println("runstep ok short to");
-							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, 0, crt.runStepTimeout(idp,timeoutp));
+							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runStepTimeout(idp,timeoutp));
 					else { 
 						if (idp==DEFVALUE) 
-							System.out.println("Couldn't launch command, required parameter id missing.");
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
+							//System.out.println("Couldn't launch command, required parameter id missing.");
 						if (timeoutp==DEFVALUE) 
-							System.out.println("Couldn't launch command, required parameter timeout missing.");
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter timeout");
+							//System.out.println("Couldn't launch command, required parameter timeout missing.");
 					}
 				break;
 				case "rununtilempty":
@@ -190,58 +219,113 @@ public class Commander {
 						if (maxp!=DEFVALUE)
 							if (modelpathp!=null && locationvaluep!=null)
 								//System.out.println("rununtilempty ok 3");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, 0, crt.runUntilEmpty(idp, locationvaluep, modelpathp, maxp));
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmpty(idp, locationvaluep, modelpathp, maxp));
 							else if (modelpathp==null && locationvaluep==null)
 								//System.out.println("rununtilempty ok 1");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, 0, crt.runUntilEmpty(idp, maxp));
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmpty(idp, maxp));
 							else
-								System.out.println("Couldn't launch command, no combination with given parameters found.");
+								out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, no combination with given parameters found");
+								//System.out.println("Couldn't launch command, no combination with given parameters found.");
 						else if (modelpathp!=null)
 							if (locationvaluep!=null)
 								//System.out.println("rununtilempty ok 2");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, 0, crt.runUntilEmpty(idp, locationvaluep, modelpathp));
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmpty(idp, locationvaluep, modelpathp));
 							else
 								//System.out.println("rununtilempty ok 4");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, 0, crt.runUntilEmpty(idp, modelpathp));
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmpty(idp, modelpathp));
 						else 
-							System.out.println("Couldn't launch command, no combination with given parameters found.");
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, no combination with given parameters found");
+							//System.out.println("Couldn't launch command, no combination with given parameters found.");
 					else 
-						System.out.println("Couldn't launch command, required parameter id missing.");
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
+						//System.out.println("Couldn't launch command, required parameter id missing.");
 				break;
 				case "rununtilemptytimeout":
 					if (idp!=DEFVALUE && timeoutp!=DEFVALUE)
 						if (maxp!=DEFVALUE)
 							if (modelpathp!=null && locationvaluep!=null)
 								//System.out.println("rununtilemptytimeout ok 3");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, 0, crt.runUntilEmptyTimeout(idp, locationvaluep, modelpathp, maxp, timeoutp));
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmptyTimeout(idp, locationvaluep, modelpathp, maxp, timeoutp));
 							else if (modelpathp==null && locationvaluep==null)
 								//System.out.println("rununtilemptytimeout ok 1");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, 0, crt.runUntilEmptyTimeout(idp, maxp, timeoutp));
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmptyTimeout(idp, maxp, timeoutp));
 							else 
-								System.out.println("Couldn't launch command, no combination with given parameters found.");
+								out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, no combination with given parameters found");
+								//System.out.println("Couldn't launch command, no combination with given parameters found.");
 						else if (modelpathp!=null)
 							if (locationvaluep!=null)
 								//System.out.println("rununtilemptytimeout ok 2");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, 0, crt.runUntilEmptyTimeout(idp, locationvaluep, modelpathp, timeoutp));
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmptyTimeout(idp, locationvaluep, modelpathp, timeoutp));
 							else
 								//System.out.println("rununtilemptytimeout ok 4");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, 0, crt.runUntilEmptyTimeout(idp, modelpathp, timeoutp));
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmptyTimeout(idp, modelpathp, timeoutp));
 						else 
-							System.out.println("Couldn't launch command, no combination with given parameters found.");
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, no combination with given parameters found");
+							//System.out.println("Couldn't launch command, no combination with given parameters found.");
 					else { 
 						if (idp==DEFVALUE)
-							System.out.println("Couldn't launch command, required parameter id missing.");
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
+							//System.out.println("Couldn't launch command, required parameter id missing.");
 						if (timeoutp==DEFVALUE) 
-							System.out.println("Couldn't launch command, required parameter timeout missing.");
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter timeout");
+							//System.out.println("Couldn't launch command, required parameter timeout missing.");
 					}
 					break;
+				case "viewlistinvariant":
+					if (idp!=DEFVALUE) {
+						out=new CommanderOutput(CommanderStatus.VIEWINV, crt.viewListInvariant(idp));
+					}else 
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
+						//System.out.println("Couldn't launch command, required parameter id missing.");
+					break;
+				case "addinvariant":
+					if (idp!=DEFVALUE && invariantp!=null) 
+						out=new CommanderOutput(CommanderStatus.BOOLRES, crt.addInvariant(idp, invariantp));
+					else if (invariantp!=null)
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
+						//System.out.println("Couldn't launch command, required parameter id missing.");
+					else if (idp!=DEFVALUE)
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter invariant");
+						//System.out.println("Couldn't launch command, required parameter invariant missing.");
+					else
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing multiple required parameters");
+						//System.out.println("Couldn't launch command, multiple required parameters missing.");
+					break;
+				case "removeinvariant":
+					if (idp!=DEFVALUE && invariantp!=null) 
+						out=new CommanderOutput(CommanderStatus.BOOLRES, crt.removeInvariant(idp, invariantp));
+					else if (invariantp!=null)
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
+						//System.out.println("Couldn't launch command, required parameter id missing.");
+					else if (idp!=DEFVALUE)
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter invariant");
+						//System.out.println("Couldn't launch command, required parameter invariant missing.");
+					else
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing multiple required parameters");
+						//System.out.println("Couldn't launch command, multiple required parameters missing.");
+					break;
+				case "updateinvariant":
+					if (idp!=DEFVALUE && invariantp!=null && invariantp!=null) 
+						out=new CommanderOutput(CommanderStatus.BOOLRES, crt.updateInvariant(idp, invariantp, invariant2p));
+					else if (invariantp!=null && invariant2p!=null)
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
+						//System.out.println("Couldn't launch command, required parameter id missing.");
+					else if (idp!=DEFVALUE)
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter invariant");
+						//System.out.println("Couldn't launch command, required parameter invariant missing.");
+					else
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing multiple required parameters");
+						//System.out.println("Couldn't launch command, multiple required parameters missing.");
+					break;
 				default:
-					System.out.println("Function \""+f+"\" is not a correct command.");
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Function \""+f+"\" is not a correct command");
+					//System.out.println("Function \""+f+"\" is not a correct command.");
 				}
 			}
 		}
 		else 
-			System.out.println("No function found");
+			out = new CommanderOutput(CommanderStatus.FAILURE, "No function found");
+			//System.out.println("No function found");
 		return out;
 	}
 }

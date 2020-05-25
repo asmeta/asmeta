@@ -5,5 +5,7 @@ public enum CommanderStatus {
 	SIM_ID,
 	INSTANCES,
 	STOP,
-	RUNOUTPUT;
+	RUNOUTPUT,
+	VIEWINV,
+	BOOLRES;
 }
