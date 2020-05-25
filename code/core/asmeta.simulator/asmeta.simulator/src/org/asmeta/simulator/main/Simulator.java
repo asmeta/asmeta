@@ -43,7 +43,7 @@ import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
-import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.parser.util.TermPrinter;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
@@ -305,7 +305,7 @@ public class Simulator {
 		}
 		catch (InvalidInvariantException e) {
 			logger.info("<Invariant violation>");
-			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
+			TermPrinter tp = new TermPrinter(false);
 			logger.info(tp.visit(e.getInvariant().getBody()));
 			logger.info("</Invariant violation>");
 		}
@@ -331,7 +331,7 @@ public class Simulator {
 		return updateSet;
 	}
 	
-	public void checkinvariantrestart() {
+	protected void checkInvariantRestart() {
 		logger.debug("<Run>");
 		UpdateSet updateSet = new UpdateSet();
 		getContrMonInvariants();
@@ -339,6 +339,7 @@ public class Simulator {
 		//System.out.println("Controllo invariants controllati nello stato iniziale.");
 		if (invariant != null) {
 			System.out.println("Invariant violation!");
+			throw new InvalidInvariantException(invariant, updateSet);
 		}
 		logger.debug("</Run>");
 	}
@@ -444,7 +445,7 @@ public class Simulator {
 		}
 		catch (InvalidInvariantException e) {
 			logger.info("<Invariant violation>");
-			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
+			TermPrinter tp = new TermPrinter(false);
 			logger.info(tp.visit(e.getInvariant().getBody()));
 			logger.info("</Invariant violation>");
 		}
@@ -477,7 +478,7 @@ public class Simulator {
 		}
 		catch (InvalidInvariantException e) {
 			logger.info("<Invariant violation>");
-			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
+			TermPrinter tp = new TermPrinter(false);
 			logger.info(tp.visit(e.getInvariant().getBody()));
 			logger.info("</Invariant violation>");
 		}
