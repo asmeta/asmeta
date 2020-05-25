@@ -10,8 +10,12 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+
+import javax.swing.JLabel;
+import javax.swing.JTextPane;
 
 import org.asmeta.runtime_container.Commander;
 import org.asmeta.runtime_container.CommanderException;
@@ -862,17 +866,22 @@ public class TestRuntimeModelContainer {
 		
 //=========================Fine Transaction Test===============================================================	
 		
-<<<<<<< HEAD
 //=========================Inizio Asm Test===============================================================
 			
 		@Test
 		public void testPrintInvariant() throws Exception
 		{
 			String model = "examples/ferrymanSimulator_raff1.asm";
+			List<String> final_list = new ArrayList<String>();
 			ContainerRT imp = ContainerRT.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
-			imp.viewListInvariant(id);
+			final_list = imp.viewListInvariant(id);
+			int i=0;
+			while(i<final_list.size()) {
+				System.out.println(final_list.get(i));
+				i++;
+			}
 		}
 		
 		@Test
@@ -945,80 +954,4 @@ public class TestRuntimeModelContainer {
 		
 		}
 		
-=======
-//=========================Inizio Model Adaptation Test========================================================
-		//VIEW	
-		@Test
-			public void ModelAdaptTest1() {
-				String model = "examples/ferrymanSimulator_raff1.asm";
-				//String model = "examples/Invariants.asm";
-				ContainerRT imp = ContainerRT.getInstance();
-				imp.init(1);
-				Map<String, String> monitored = new HashMap<String, String>();
-				int id = imp.startExecution(model);
-				imp.viewListInvariant(id);
-			}
-			//DELETE
-			@Test
-			public void ModelAdaptTest2() {
-				String model = "examples/ferrymanSimulator_raff1.asm";
-				//String invariant="invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)";
-				String invariant="invariant over position: position(WOLF)=position(GOAT) implies position(WOLF)=position(FERRYMAN)";
-				ContainerRT imp = ContainerRT.getInstance();
-				imp.init(1);
-				Map<String, String> monitored = new HashMap<String, String>();
-				int id = imp.startExecution(model);
-				imp.removeInvariant(id, invariant);
-			}
-			//ADD
-			@Test
-			public void ModelAdaptTest3() {
-				String model = "examples/ferrymanSimulator_raff1.asm";
-				String invariant="invariant over position: position(WOLF)=position(GOAT) implies position(WOLF)=position(FERRYMAN)";
-				ContainerRT imp = ContainerRT.getInstance();
-				imp.init(1);
-				Map<String, String> monitored = new HashMap<String, String>();
-				int id = imp.startExecution(model);
-				monitored.put("carry", "CABBAGE"); 
-				imp.runStep(id, monitored, model);
-				monitored.clear();monitored.put("carry", "CABBAGE"); 
-				imp.runStep(id, monitored, model);
-				imp.addInvariant(id, invariant);
-				monitored.clear();monitored.put("carry", "CABBAGE"); 
-				imp.runStep(id, monitored, model);
-			}
-			//add
-			@Test
-			public void testAddInvariantSimulation() {
-				boolean result;
-				Map<String, String> monitored = new HashMap<String, String>();
-				String model = "examples/ferrymanSimulator_raff1.asm";
-				ContainerRT imp = ContainerRT.getInstance();
-				imp.init(1);
-				int id = imp.startExecution(model);
-				//imp.removeInvariant(id,"invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
-				monitored.clear();monitored.put("carry", "GOAT"); 
-				imp.runStep(id, monitored, model);
-				//imp.addInvariant(id, "invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
-				monitored.clear();monitored.put("carry", "FERRYMAN"); 
-				imp.runStep(id, monitored, model);
-				monitored.clear();monitored.put("carry", "CABBAGE"); 
-				imp.runStep(id, monitored, model);
-				monitored.clear();monitored.put("carry", "FERRYMAN"); 
-				imp.runStep(id, monitored, model);
-				imp.addInvariant(id, "invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
-				monitored.clear();monitored.put("carry", "FERRYMAN"); 
-			//	imp.runStep(id, monitored, model);
-			}
-			@Test
-			public void stampainvariant()
-			{
-				String model = "examples/ferrymanSimulator_raff1.asm";
-				ContainerRT imp = ContainerRT.getInstance();
-				imp.init(1);
-				int id = imp.startExecution(model);
-				imp.viewListInvariant(id);
-			}
-//=========================Fine Model Adaptation Test==========================================================		
->>>>>>> 4f40b122ae5f56bf467047ab1eccb5b12b9dc5f2
 }
