@@ -7,6 +7,7 @@ public class AsmetaSMVOptions {
 	// e.g. x = e --> CASE e in Dom(x) : e ; TRUE: x ESAC
 	static boolean checkConcrete;
 	boolean execute, useNuXmv;
+	public static boolean simplifyDerived = true;
 	// for AsmetaMA
 	public static boolean doAsmetaMA = false;
 	//

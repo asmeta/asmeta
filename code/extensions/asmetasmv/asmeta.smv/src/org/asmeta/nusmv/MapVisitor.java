@@ -290,7 +290,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 				// the location
 				// with its body
 				if (AsmetaSMVOptions.simplify) {
-					if (Util.simplifyDerived) {
+					if (AsmetaSMVOptions.simplifyDerived) {
 						if (env.inLineFunctions.containsKey(var)) {
 							continue;
 						}
@@ -714,7 +714,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		for (Location location : locationName.keySet()) {
 			locName = locationName.get(location);
 			if (AsmetaSMVOptions.simplify) {
-				if (Util.simplifyDerived) {
+				if (AsmetaSMVOptions.simplifyDerived) {
 					if (env.inLineFunctions.containsKey(locName)) {
 						continue;
 					}

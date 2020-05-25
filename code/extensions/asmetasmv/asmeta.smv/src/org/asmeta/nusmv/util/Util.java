@@ -1296,6 +1296,4 @@ public class Util {
 	public static void setSolverPath(String solverPath) {
 		Util.solverPath = solverPath;
 	}
-
-	public static boolean simplifyDerived = true;
 }

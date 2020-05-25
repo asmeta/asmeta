@@ -10,7 +10,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.asmeta.nusmv.AsmetaSMV;
 import org.asmeta.nusmv.AsmetaSMVOptions;
-import org.asmeta.nusmv.util.Util;
 
 import tgtlib.definitions.expression.Expression;
 
@@ -48,7 +47,7 @@ public class TestGenerationWithNuSMV {
 		logger.debug("building the asmetasmv");
 		asmetaSMV = new AsmetaSMV(asmPath);
 		AsmetaSMVOptions.keepNuSMVfile = true;
-		Util.simplifyDerived = false;
+		AsmetaSMVOptions.simplifyDerived = false;
 		AsmetaSMVOptions.setPrintCounterExample(true);
 		logger.debug("translate the maps");
 		asmetaSMV.translation();

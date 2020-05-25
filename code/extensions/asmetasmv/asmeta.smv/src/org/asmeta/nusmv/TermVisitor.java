@@ -141,7 +141,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 			if(Defs.isDerived(func) || Defs.isStatic(func)) {
 				//crea problemi al model review, perche' sostituisce una locazione derivata con un valore 
 				if(AsmetaSMVOptions.simplify) {
-					if(Util.simplifyDerived) {
+					if(AsmetaSMVOptions.simplifyDerived) {
 						//PA 2013/08/14
 						if(env.inLineFunctions != null && env.inLineFunctions.containsKey(name)) {
 							//System.err.println("derived/static inLineFunctions = " + env.inLineFunctions.get(name));
@@ -359,7 +359,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 		}
 
 		if(AsmetaSMVOptions.simplify) {
-			if(Util.simplifyDerived) {
+			if(AsmetaSMVOptions.simplifyDerived) {
 				//PA 2013/08/14
 				if(env.inLineFunctions.containsKey(locationName)) {
 					return env.inLineFunctions.get(locationName);

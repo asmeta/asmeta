@@ -78,7 +78,6 @@ public class AsmetaSMV {
 		if (asmFile.exists()) {
 			try {
 				asm = ASMParser.setUpReadAsm(asmFile).getMain();
-				AsmetaSMVOptions.simplify = options.simplify;
 				Util.setRunNuSMV(options.execute);
 				Util.setUseNuXmv(options.useNuXmv);
 				// relative path including the file name

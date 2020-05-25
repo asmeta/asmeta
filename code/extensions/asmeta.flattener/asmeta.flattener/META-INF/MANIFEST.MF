@@ -7,8 +7,8 @@ Bundle-ClassPath: args4j.jar,
  .
 Require-Bundle: asmeta.emf,
  asmeta.parser,
- asmeta.simulator,
- org.apache.log4j
+ org.apache.log4j,
+ asmeta.simulator
 Export-Package: org.asmeta.flattener,
  org.asmeta.flattener.args,
  org.asmeta.flattener.nesting,
