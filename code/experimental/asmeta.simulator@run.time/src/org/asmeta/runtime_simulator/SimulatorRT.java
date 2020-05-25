@@ -41,6 +41,7 @@ public class SimulatorRT extends AsmetaSimulatorWR{
 	public SimulatorRT(String modelName, AsmCollection asmp, Environment env, State s)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		super(modelName, asmp, env, s);
+		checkInvariantRestart();
 		// TODO Auto-generated constructor stub
 	}
 	

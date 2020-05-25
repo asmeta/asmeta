@@ -93,7 +93,6 @@ public class AsmetaSservice implements IAsmetaSservice{
 		Environment env = new Environment(new AsmetaSserviceRun());
 		SimulatorRT sim = new SimulatorRT(modelName, asm, env, s);
 		
-		sim.checkinvariantrestart();
 		
 		int id = getFirstFreeId();
 		
