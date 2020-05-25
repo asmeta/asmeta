@@ -3,16 +3,14 @@ package org.asmeta.nusmv;
 // all the options regarding translating and running AsmetaSMV
 public class AsmetaSMVOptions {
 	
-	boolean execute, checkInteger, useNuXmv;
-
-
+	// add the case construct when modifying an integer
+	// e.g. x = e --> CASE e in Dom(x) : e ; TRUE: x ESAC
+	static boolean checkConcrete;
+	boolean execute, useNuXmv;
 	// for AsmetaMA
 	public static boolean doAsmetaMA = false;
-
-
+	//
 	public static boolean keepNuSMVfile;
-
-
 	private static boolean printCounterExample;
 
 	
@@ -22,11 +20,9 @@ public class AsmetaSMVOptions {
 	public static boolean useCoi = true;
 	// use flattener (default true, for test cases it can be also false)
 	public static boolean FLATTEN = true;
-	// 
-	private static boolean checkConcrete;
 	
-	public AsmetaSMVOptions(boolean s, boolean execute, boolean checkInteger, boolean useNuXmv) {
-		simplify= s; this.execute = execute; this.checkInteger = checkInteger; this.useNuXmv = useNuXmv;
+	public AsmetaSMVOptions(boolean s, boolean execute, boolean checkConcrete, boolean useNuXmv) {
+		simplify= s; this.execute = execute; AsmetaSMVOptions.checkConcrete = checkConcrete; this.useNuXmv = useNuXmv;
 	}
 
 	public static boolean isCheckConcrete() {
