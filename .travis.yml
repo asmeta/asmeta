@@ -5,7 +5,11 @@ jdk: openjdk8
 # some problems with oracle- oraclejdk8
 
 # see https://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure
-sudo: false
+#sudo: false
+
+before_install:
+  - curl -L "http://nusmv.fbk.eu/distrib/NuSMV-2.6.0-zchaff-linux64.tar.gz" | tar --extract --gzip --strip-components=2 -C $HOME/bin "NuSMV-2.6.0-Linux/bin/NuSMV"
+
 
 # cache the build tool's caches
 cache:
