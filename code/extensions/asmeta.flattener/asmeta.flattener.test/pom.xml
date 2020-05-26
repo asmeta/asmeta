@@ -6,7 +6,7 @@
 	<artifactId>asmeta.flattener.test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
-		<sourceDirectory>test_src</sourceDirectory>
+		<testSourceDirectory>test_src</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
