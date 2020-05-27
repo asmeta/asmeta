@@ -13,7 +13,7 @@ signature:
 	dynamic controlled fooBis: Boolean //undef in the initial state
 
 definitions:
-	domain ConcrDomain = {1..3}
+	domain ConcrDomain = {1:3}
 
 	main rule r_Main =
 		par

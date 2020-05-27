@@ -7,7 +7,7 @@ signature:
 	dynamic controlled foo: MyDomain -> MyDomain
 	
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 	
 	rule r_b($y in MyDomain) =
 		foo($y) := $y

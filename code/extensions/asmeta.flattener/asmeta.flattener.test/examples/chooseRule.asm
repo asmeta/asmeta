@@ -7,7 +7,7 @@ signature:
 	dynamic controlled foo: ConcrDom -> ConcrDom
 	
 definitions:
-	domain ConcrDom = {1 .. 5}
+	domain ConcrDom = {1 : 5}
 
 	main rule r_Main = 
 		choose $a in ConcrDom with $a < foo($a) do

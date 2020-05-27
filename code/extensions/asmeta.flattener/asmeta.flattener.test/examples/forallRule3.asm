@@ -12,7 +12,7 @@ signature:
 	dynamic controlled foo3: EnumDom
 	
 definitions:
-	domain ConcrDom = {1..4}
+	domain ConcrDom = {1:4}
 	
 	main rule r_Main = 
 		par

@@ -19,8 +19,8 @@ signature:
 	dynamic controlled fooI2a: ConcrDomain2 -> Boolean
 
 definitions:
-	domain ConcrDomain = {1..3}
-	domain ConcrDomain2 = {1..3}
+	domain ConcrDomain = {1:3}
+	domain ConcrDomain2 = {1:3}
 
 	main rule r_Main =
 		par

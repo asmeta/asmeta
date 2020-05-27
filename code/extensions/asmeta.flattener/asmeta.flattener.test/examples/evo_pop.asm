@@ -21,9 +21,9 @@ signature:
 	dynamic controlled ee: Integer
 	
 definitions:
-	domain Eta = {0n..100n}
-	domain EtaFertDonna = {13n..50n}
-	domain EtaFertUomo = {13n..100n}
+	domain Eta = {0n:100n}
+	domain EtaFertDonna = {13n:50n}
+	domain EtaFertUomo = {13n:100n}
 	
 	
 rule r_genera ($figlio in Persona, $madre in Persona, $padre in Persona) =
@@ -39,7 +39,7 @@ rule r_genera ($figlio in Persona, $madre in Persona, $padre in Persona) =
 rule r_riproduci ($madre in Persona) =
 //if eta($madre) < 50n and eta($madre) >= 13n and sesso($madre) = FEM then
 			if (exist $etamadre in EtaFertDonna with $etamadre = eta($madre)) and sesso($madre) = FEM then
-				choose $volonta in {1..5} with $volonta = 1 do //20%
+				choose $volonta in {1:5} with $volonta = 1 do //20%
 //choose $padre in Persona with eta($padre) >=13n and sesso($padre) = MAS and vivo($padre) do
 					choose $padre in Persona with (exist $a in EtaFertUomo with $a = eta($padre)) and sesso($padre) = MAS and vivo($padre) do
 						extend Persona with $figlio do
@@ -47,7 +47,7 @@ rule r_riproduci ($madre in Persona) =
 			endif
 			
 rule r_muori ($persona in Persona) =
-	choose $prob in {1..10} with true do //10%
+	choose $prob in {1:10} with true do //10%
 		if $prob = 1 then
 			par
 			vivo($persona) := false

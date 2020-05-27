@@ -61,7 +61,7 @@ signature:
 	derived availableCapacity: Place -> TokenDomain
 
 definitions:
-	domain TokenDomain = {0 .. 5}
+	domain TokenDomain = {0 : 5}
 
 	function inArcWeight($p in Place, $t in Transition) =  
 		switch($p) 

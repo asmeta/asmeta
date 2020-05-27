@@ -23,7 +23,7 @@ signature:
 	controlled firstRound: Boolean
 
 definitions:
-	domain Machine = {0 .. 5}
+	domain Machine = {0 : 5}
 
 	function master = 0
 	function pred($m in Machine) = (($m + 1) mod 6)

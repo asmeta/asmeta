@@ -8,7 +8,7 @@ signature:
 	dynamic controlled foo2: ConcrDom
 	// par con forall e altro
 definitions:
-	domain ConcrDom = {1..4}
+	domain ConcrDom = {1:4}
 	
 	main rule r_Main = 
 		par

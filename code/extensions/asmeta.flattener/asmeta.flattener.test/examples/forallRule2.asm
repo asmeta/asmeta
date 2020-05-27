@@ -7,7 +7,7 @@ signature:
 	dynamic controlled foo: ConcrDom -> ConcrDom
 	
 definitions:
-	domain ConcrDom = {1..4}
+	domain ConcrDom = {1:4}
 	
 	main rule r_Main = 
 		par

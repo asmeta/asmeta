@@ -26,8 +26,8 @@ signature:
 	derived currentAnswer: Answers
  
 definitions:
-	domain Level={1..6}
-	domain Certificate={1..7}
+	domain Level={1:6}
+	domain Certificate={1:7}
 	domain RightAnswer={0:2}
 
     function currentAnswer =

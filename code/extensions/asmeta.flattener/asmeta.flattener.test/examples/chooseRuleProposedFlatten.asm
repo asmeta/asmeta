@@ -8,7 +8,7 @@ signature:
 	derived chooseVar: ConcrDom//to generate
 
 definitions:
-	domain ConcrDom = {1 .. 5}
+	domain ConcrDom = {1 : 5}
 	
 	//to generate
 	function chooseVar =

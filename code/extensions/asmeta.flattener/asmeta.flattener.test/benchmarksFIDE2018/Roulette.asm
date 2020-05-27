@@ -14,8 +14,8 @@ signature:
 	derived color: Number -> Color
 
 definitions:
-	domain Money = {0 .. 10}
-	domain Number = {0 .. 36}
+	domain Money = {0 : 10}
+	domain Number = {0 : 36}
 
 	function color($n in Number) =
 		if($n = 0) then

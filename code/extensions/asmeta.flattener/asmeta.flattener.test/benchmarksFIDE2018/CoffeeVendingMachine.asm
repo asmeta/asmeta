@@ -13,8 +13,8 @@ signature:
 	monitored insertedCoin: CoinType
 
 definitions:
-	domain QuantityDomain = {0 .. 10}
-	domain CoinDomain = {0 .. 25}
+	domain QuantityDomain = {0 : 10}
+	domain CoinDomain = {0 : 25}
 
 	rule r_serveProduct($p in Product) =
 		par

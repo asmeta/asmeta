@@ -19,9 +19,9 @@ signature:
 	dynamic controlled free: Index
 
 definitions:
-	domain Index = {1..12}
+	domain Index = {1:12}
 	domain QuartetIndex = {0:2}
-	domain InQuartetIndex = {1..4}
+	domain InQuartetIndex = {1:4}
 
 	rule r_moveCard($i1 in Index, $i2 in Index) =
 		cardSuit($i2) := cardSuit($i1)

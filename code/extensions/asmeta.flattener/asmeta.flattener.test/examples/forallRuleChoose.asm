@@ -7,7 +7,7 @@ signature:
 	dynamic controlled foo: ConcrDom -> ConcrDom
 	
 definitions:
-	domain ConcrDom = {1 .. 10}
+	domain ConcrDom = {1 : 10}
 	
 	rule r_rule($a in ConcrDom, $x in ConcrDom) =
 		foo($a) := $x

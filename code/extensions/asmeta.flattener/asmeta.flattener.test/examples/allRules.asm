@@ -19,7 +19,7 @@ signature:
 	dynamic monitored bm3: Boolean
 	
 definitions:
-domain MyDomain = {1..50}
+domain MyDomain = {1:50}
 	
 	main rule r_Main = 
 		par
