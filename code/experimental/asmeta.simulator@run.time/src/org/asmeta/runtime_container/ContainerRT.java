@@ -900,11 +900,11 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 	}
 
 
-	////// return 0 = everything ok, return 1 = variable already taken, return 2 = failed to rename
 	@Override
 	public int updateInvariant(int id, String new_invariant, String old_invariant) {
 		boolean success = false;
 		boolean endinvariant=true;
+		int result =0;
 		String modelfile=asmS.getSimulatorTable().get(id).getModelPath();
 		State state = asmS.getSimulatorTable().get(id).getSim().getCurrentState(); 
 		BufferedReader reader;
@@ -918,15 +918,27 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 			String line = reader.readLine();
 			String reading_invariant;
 			int j=0;
+			String new_invariant_name = "";
+			String old_invariant_name = "";
 			if(new_invariant.contains("inv_"))
 			{
+				new_invariant_name = new_invariant.substring(new_invariant.indexOf("inv_")+4,new_invariant.indexOf("over")).trim();
+				if(old_invariant.contains("inv_"))
+					old_invariant_name = old_invariant.substring(old_invariant.indexOf("inv_")+4,old_invariant.indexOf("over")).trim();
 				while(j<invarNames.size())
 				{
-					if(invarNames.get(j).trim().equals(new_invariant.substring(new_invariant.indexOf("inv_")+4,new_invariant.indexOf("over")).trim()))
-						return 1;
+					if(invarNames.get(j).trim().equals(new_invariant_name)
+							&& new_invariant_name.equals(old_invariant_name)==false)
+					{
+						result=-8;
+						reader.close();
+						writer.close();
+					}
 					j++;
 				}
 			}
+		    if(result!=-8)
+			{
 			while (line!=null)
 			{
 				if (line.trim().startsWith("invariant")){
@@ -962,12 +974,15 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 			file.delete();
 			File file2 = new File(modelfile+"_to_overwrite");
 			success = file2.renameTo(file);	
-			if (restartSim(id, state)<0) { // TODO sistemare controllo restartsim come in add
+			result=restartSim(id, state);
+			}
+			if (result<0) {
 				Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
 				restartExecution(modelfile,state);
 			}
 		}
 		catch (IOException e) {
+			// TODO Auto-generated catch block
 			System.out.println("Couldn't open and read the given model");
 		}  catch (IdNotFoundException e) {
 			System.out.println("Couldn't find simulation of given id: "+e.getLocalizedMessage());
@@ -976,11 +991,10 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 				Files.deleteIfExists(Paths.get(modelfile+"_old"));
 			} catch (IOException e) {}
 		}
-	if(success)
-		return 0;
-	else
-		return 2;
+
+	return result;
 	}
+	
 
 	@Override
 	public boolean removeInvariant(int id, String remove_invariant) {

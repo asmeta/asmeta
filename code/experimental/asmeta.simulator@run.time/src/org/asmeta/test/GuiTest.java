@@ -74,24 +74,30 @@ public class GuiTest {
 		return add_result;
 	}
 	
-	public static int updateInvariant(String new_invariant, String old_invariant) throws Exception {
+	public static boolean updateInvariant(String new_invariant, String old_invariant) throws Exception {
 		   int result;
 		   ContainerRT imp = ContainerRT.getInstance();
 		   imp.init(1);
 		   int id = imp.startExecution(model);
 		   result = imp.updateInvariant(id,new_invariant,old_invariant);
-		   if(result == 0)
+		   boolean check;
+		   if(result > 0)
 			{
+			   check=true;
 				Frame.showInvariants();
 				Frame.setAllEnabled(1);
 			}
 			else {
-				if(result == 1)
+				check=false;
+				if(result == -8)
 					JOptionPane.showMessageDialog(null, "Variable is already taken");
 				else
-					JOptionPane.showMessageDialog(null, "An error has occurred - failed to rename");
+					if(result==-5)
+						JOptionPane.showMessageDialog(null, "Invalid Invariant");
+					else
+					 JOptionPane.showMessageDialog(null, "An error has occurred - failed to rename");
 			}
-		   return result;
+		   return check;
 		  }
 	
 	
