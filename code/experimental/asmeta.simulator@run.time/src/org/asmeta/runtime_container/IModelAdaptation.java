@@ -2,15 +2,18 @@ package org.asmeta.runtime_container;
 
 import java.util.List;
 
+import javax.swing.JLabel;
+import javax.swing.JTextPane;
+
 import asmeta.definitions.Invariant;
 
 public interface IModelAdaptation {
 	//add
-	boolean addInvariant(int id,String invariant_to_add);
+	int addInvariant(int id,String invariant_to_add);
 	//view list
-	void viewListInvariant(int id);
+	List<String> viewListInvariant(int id);
 	//update
-	boolean updateInvariant(int id, String new_invariant, String old_invariant);
+	int updateInvariant(int id, String new_invariant, String old_invariant);
 	//remove
 	boolean removeInvariant(int id, String remove_invariant);
 }

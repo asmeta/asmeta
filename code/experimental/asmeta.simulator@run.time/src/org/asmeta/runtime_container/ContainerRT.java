@@ -75,6 +75,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 	private long startRun = 0L;
 	private long endRun = 0L;
 	private long duration = 0L;
+	List<String> invarNames;
 	
 	private RunOutput routTO=null;	//support variable for the timeout methods
 	//private RunOutput routTR=null;  //support variable for the transaction methods
@@ -801,23 +802,43 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 
 	
 	@Override
-	public boolean addInvariant(int id, String invariant_to_add) {
+	public int addInvariant(int id, String invariant_to_add) {
 		boolean success = false;
+		boolean success2 = true;
+		int id2 = 0;
 		String modelfile=asmS.getSimulatorTable().get(id).getModelPath();
 		State state = asmS.getSimulatorTable().get(id).getSim().getCurrentState(); 
+		String variable = "";
+		String appoggio;
 		BufferedReader reader;
         
 		try {
+			//asmS.checkId(id);
 			reader = Files.newBufferedReader(Paths.get(modelfile));
-			BufferedWriter writer = Files.newBufferedWriter(Paths.get(modelfile+"to_overwrite.asm"));
+			BufferedWriter writer = Files.newBufferedWriter(Paths.get(modelfile+"_to_overwrite"));
 			String line = reader.readLine();
 			
 			Files.copy(Paths.get(modelfile), Paths.get(modelfile+"_old"), StandardCopyOption.REPLACE_EXISTING);
-
+			if(invariant_to_add.contains("inv_"))
+			{
+				variable=invariant_to_add.substring(invariant_to_add.indexOf("inv_")+4,invariant_to_add.indexOf("over"));
+			}
 			while (line != null)
 			{
-				if (line.trim().startsWith("main rule")){
-					writer.write("\t"+invariant_to_add+"\n");
+				appoggio=line.trim();
+				if(appoggio.contains("inv_"))
+				{
+					if(appoggio.substring(appoggio.indexOf("inv_")+4,appoggio.indexOf("over")).equals(variable))
+					{
+						System.out.println("UGUALI");
+						success2=false;
+					}
+				}
+				if (success2)
+				{
+					if (line.trim().startsWith("main rule")){
+						writer.write("\t"+invariant_to_add+"\n");
+					}
 				}
 				writer.write(line+"\n");
 				line = reader.readLine();
@@ -827,25 +848,50 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 			
 			File file = new File(modelfile);
 			file.delete();
-			File file2 = new File(modelfile+"to_overwrite.asm");
+			File file2 = new File(modelfile+"_to_overwrite");
 			success = file2.renameTo(file);
 			
-			if (!restartSim(id, state)) {
-				Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
-				restartExecution(modelfile, state);
+		   /* File f = new File(modelfile);		CONTROLLO SE FILE APERTO
+		    File sameFileName = new File(modelfile);
+		    if(f.renameTo(sameFileName)){
+		        System.out.println("file is closed");    
+		    }else{
+		        System.out.println("file is opened");
+		    }*/
+		    
+			if (success2)
+				id2=restartSim(id, state);
+			if(id2>0 && !success2)
+				id2=-8;
+			if (id2<0) {
+				
+			    /*f = new File(modelfile);		CONTROLLO SE FILE APERTO
+			    sameFileName = new File(modelfile);
+			    if(f.renameTo(sameFileName)){
+			        System.out.println("file is closed");    
+			    }else{
+			        System.out.println("file is opened");
+			    }*/
+			    
+				overwrite(modelfile);
+			    //Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
+				if (success2)
+					restartExecution(modelfile, state);
 			}
 		} catch (IOException e) {
 			System.out.println("Couldn't open or write the model file");
 			success=false;
-		}
-		finally {
+		}  catch (IdNotFoundException e) {
+			System.out.println("Couldn't find simulation of given id: "+e.getLocalizedMessage());
+		} finally {
 			try {
 				Files.deleteIfExists(Paths.get(modelfile+"_old"));
 			} catch (IOException e) {}
 		}
 			
-	    return success;
+	    return id2;
 	}
+
 
 
 
@@ -853,6 +899,7 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 	public List<String> viewListInvariant(int id) {
 		String invar;
 		List<String> invarList = new ArrayList<String>();
+		invarNames = new ArrayList<String>();
 		boolean endinvariant = true;
 		BufferedReader reader;
 		try {
@@ -872,6 +919,8 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 						if (line==null || line.startsWith("main rule"))
 							endinvariant=false;
 					}while(endinvariant && !line.startsWith("invariant"));
+					if(invar.contains("inv_"))
+						invarNames.add(invar.substring(invar.indexOf("inv_")+4,invar.indexOf("over")-1));
 					invarList.add(invar);
 					
 				}else {
@@ -888,9 +937,9 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 	}
 
 
-
+	////// return 0 = everything ok, return 1 = variable already taken, return 2 = failed to rename
 	@Override
-	public boolean updateInvariant(int id, String new_invariant, String old_invariant) {
+	public int updateInvariant(int id, String new_invariant, String old_invariant) {
 		boolean success = false;
 		boolean endinvariant=true;
 		String modelfile=asmS.getSimulatorTable().get(id).getModelPath();
@@ -904,6 +953,16 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 			
 			String line = reader.readLine();
 			String reading_invariant;
+			int j=0;
+			if(new_invariant.contains("inv_"))
+			{
+				while(j<invarNames.size())
+				{
+					if(invarNames.get(j).trim().equals(new_invariant.substring(new_invariant.indexOf("inv_")+4,new_invariant.indexOf("over")).trim()))
+						return 1;
+					j++;
+				}
+			}
 			while (line!=null)
 			{
 				if (line.trim().startsWith("invariant")){
@@ -939,7 +998,7 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 			file.delete();
 			File file2 = new File(modelfile+"to_overwrite.asm");
 			success = file2.renameTo(file);	
-			if (!restartSim(id, state)) {
+			if (restartSim(id, state)<0) {
 				Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
 				restartExecution(modelfile,state);
 			}
@@ -948,8 +1007,15 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 			// TODO Auto-generated catch block
 			System.out.println("Couldn't open and read the given model");
 		}
-		
-	return success;
+		finally {
+			try {
+				Files.deleteIfExists(Paths.get(modelfile+"_old"));
+			} catch (IOException e) {}
+		}
+	if(success)
+		return 0;
+	else
+		return 2;
 	}
 	
 
@@ -1001,29 +1067,45 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 				file.delete();
 				File file2 = new File(modelfile+"to_overwrite.asm");
 				success = file2.renameTo(file);	
-				if (!restartSim(id, state)) {
+				if (restartSim(id, state)<0) {
 					Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
 					restartExecution(modelfile,state);
 				}
 			}
 			catch (IOException e) {
-				// TODO Auto-generated catch block
-				System.out.println("Couldn't open and read the given model");
+				System.out.println("Couldn't open, read or write the model file");
+			} catch (IdNotFoundException e) {
+				System.out.println("Couldn't find simulation of given id: "+e.getLocalizedMessage());
+			} finally {
+				try {
+					Files.deleteIfExists(Paths.get(modelfile+"_old"));
+				} catch (IOException e) {}
 			}
-			
 		return success;
 	}
 	
-	private boolean restartSim(int id, State state) {
-		boolean success = true;
+	private int restartSim(int id, State state) {
 		String modelPath = asmS.getSimulatorTable().get(id).getModelPath();
 		if (state==null)
 			state = asmS.getSimulatorTable().get(id).getSim().getCurrentState();
 		stopExecution(id);
 		int res = restartExecution(modelPath, state);
-		if (res<0)
-			success=false;
-		return success;
+		return res;
+	}
+	
+	private void overwrite(String model) {
+		File fnew=new File(model);
+		String source = "";
+		FileWriter f2;
+		try {
+			Files.readAllLines(Paths.get(model+"_old"));
+		    f2 = new FileWriter(fnew,false);
+		    f2.write(String.join("\n",Files.readAllLines(Paths.get(model+"_old"))));
+		    f2.close();
+		 } catch (IOException e) {
+		       // TODO Auto-generated catch block
+		       e.printStackTrace();
+		 } 
 	}
 	
 	

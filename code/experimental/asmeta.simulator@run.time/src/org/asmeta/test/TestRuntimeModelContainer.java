@@ -886,30 +886,31 @@ public class TestRuntimeModelContainer {
 		
 		@Test
 		public void testAddInvariant() throws Exception {
-			boolean result;
+			int result;
 			String model = "examples/ferrymanSimulator_raff1.asm";
 			ContainerRT imp = ContainerRT.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
 			result = imp.addInvariant(id,"invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
-			if(result)
+			if(result > 0)
 				System.out.println("Everything goes well");
-			else
+			else 
 				System.out.println("An error has occurred");
 		}
-		
 		@Test
 		public void testUpdateInvariant() throws Exception {
-			boolean result;
+			int result;
 			String model = "examples/ferrymanSimulator_raff1.asm";
 			ContainerRT imp = ContainerRT.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
 			result = imp.updateInvariant(id,"invariant over position: position(GOAT)=position(CABBAGE) implies position(WOLF)=position(FERRYMAN)","invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
-			if(result)
+			if(result == 0)
 				System.out.println("Everything goes well");
+			else if(result == 1)
+				System.out.println("Variable already taken");
 			else
-				System.out.println("An error has occurred");
+				System.out.println("Failed to rename");
 		}
 		
 		@Test
@@ -945,8 +946,8 @@ public class TestRuntimeModelContainer {
 			monitored.put("carry", "FERRYMAN"); 
 			imp.runStep(id, monitored, model);
 			imp.addInvariant(id, "invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
-			monitored.put("carry", "WOLF"); 
-			imp.runStep(id, monitored, model);
+			/*monitored.put("carry", "WOLF"); 
+			imp.runStep(id, monitored, model);*/
 			/*monitored.put("carry", "CABBAGE"); 
 			imp.runStep(id, monitored, model);
 			monitored.put("carry", "FERRYMAN"); 

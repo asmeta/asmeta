@@ -52,36 +52,46 @@ public class GuiTest {
 		return sb.toString();
 	}
 	
-	public static void addInvariant(String s) throws Exception {
-		boolean result;
+	public static boolean addInvariant(String s) throws Exception {
+		boolean add_result=true;
+		int check=0;
 		ContainerRT imp = ContainerRT.getInstance();
 		imp.init(1);
 		int id = imp.startExecution(model);
-		result = imp.addInvariant(id,s);
-		if(result)
+		check = imp.addInvariant(id,s);
+		if(check>0)
 		{
 			Frame.showInvariants();
 			Frame.setAllEnabled(1);
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "An error has occurred");
+				if(check==-8)
+					JOptionPane.showMessageDialog(null, "Variable is already taken");
+				else if(check==-5)
+					JOptionPane.showMessageDialog(null, "Invalid Invariant");
+				add_result=false;
 		}
+		return add_result;
 	}
 	
-	public static void updateInvariant(String new_invariant, String old_invariant) throws Exception {
-		   boolean result;
+	public static int updateInvariant(String new_invariant, String old_invariant) throws Exception {
+		   int result;
 		   ContainerRT imp = ContainerRT.getInstance();
 		   imp.init(1);
 		   int id = imp.startExecution(model);
 		   result = imp.updateInvariant(id,new_invariant,old_invariant);
-		   if(result)
+		   if(result == 0)
 			{
 				Frame.showInvariants();
 				Frame.setAllEnabled(1);
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "An error has occurred");
+				if(result == 1)
+					JOptionPane.showMessageDialog(null, "Variable is already taken");
+				else
+					JOptionPane.showMessageDialog(null, "An error has occurred - failed to rename");
 			}
+		   return result;
 		  }
 	
 	
