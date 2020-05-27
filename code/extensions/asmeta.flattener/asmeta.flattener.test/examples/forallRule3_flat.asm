@@ -20,24 +20,24 @@ definitions:
             if true then
                 par
                     par
-                        foo(1) := 3
-                        foo2(3) := BB
-                    endpar
-                    par
-                        foo(2) := 3
-                        foo2(3) := BB
+                        foo(1) := 4
+                        foo2(4) := BB
                     endpar
                     par
                         foo(3) := 4
                         foo2(4) := BB
                     endpar
                     par
-                        foo(1) := 4
+                        foo(2) := 4
                         foo2(4) := BB
                     endpar
                     par
-                        foo(2) := 4
-                        foo2(4) := BB
+                        foo(1) := 3
+                        foo2(3) := BB
+                    endpar
+                    par
+                        foo(2) := 3
+                        foo2(3) := BB
                     endpar
                     par
                         foo(1) := 2

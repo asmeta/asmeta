@@ -21,28 +21,28 @@ definitions:
 
     macro rule r_a =
         par
-            if and(c,d) then
-                z := 3
-            endif
             if and(c,not(d)) then
                 z := 2
+            endif
+            if and(c,d) then
+                z := 3
             endif
         endpar
 
 
     main rule r_Main =
         par
-            if not(a) then
-                r_a[]
-            endif
-            if and(a,b) then
-                y := 4
-            endif
             if a then
                 par
                     k := 2
                     x := 3
                 endpar
+            endif
+            if and(a,b) then
+                y := 4
+            endif
+            if not(a) then
+                r_a[]
             endif
         endpar
 

@@ -21,17 +21,7 @@ definitions:
 
     main rule r_Main =
         par
-            switch p1
-                case p1:
-                    tokens(p1) := 1
-                case p2:
-                    tokens(p2) := 2
-                case p3:
-                    tokens(p3) := 4
-                case p4:
-                    tokens(p4) := 6
-            endswitch
-            switch p3
+            switch p4
                 case p1:
                     tokens(p1) := 1
                 case p2:
@@ -51,7 +41,17 @@ definitions:
                 case p4:
                     tokens(p4) := 6
             endswitch
-            switch p4
+            switch p3
+                case p1:
+                    tokens(p1) := 1
+                case p2:
+                    tokens(p2) := 2
+                case p3:
+                    tokens(p3) := 4
+                case p4:
+                    tokens(p4) := 6
+            endswitch
+            switch p1
                 case p1:
                     tokens(p1) := 1
                 case p2:
