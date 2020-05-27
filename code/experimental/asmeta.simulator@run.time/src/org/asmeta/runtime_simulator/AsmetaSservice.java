@@ -80,8 +80,8 @@ public class AsmetaSservice implements IAsmetaSservice{
 		
 		return id;
 	}
-	
 	public int restart(String modelPath, State s) throws Exception{
+		
 		File asmFile = new File(modelPath);
 		
 		if (!asmFile.exists()) {
@@ -93,7 +93,6 @@ public class AsmetaSservice implements IAsmetaSservice{
 		Environment env = new Environment(new AsmetaSserviceRun());
 		SimulatorRT sim = new SimulatorRT(modelName, asm, env, s);
 		
-		
 		int id = getFirstFreeId();
 		
 		if(id != -1) {
@@ -104,7 +103,6 @@ public class AsmetaSservice implements IAsmetaSservice{
 		
 		return id;
 	}
-	
 	
 	/**
 	 * Execute a simulator step.
@@ -275,7 +273,7 @@ public class AsmetaSservice implements IAsmetaSservice{
 	 * @param id
 	 * return an exception if id is not available
 	 */
-	private void checkId(int id) {
+	public void checkId(int id) {
 		if(id < 1 || id > maxSimInstance)
 			throw new IdNotFoundException("The id must be between 1 and " + maxSimInstance + ".");
 		

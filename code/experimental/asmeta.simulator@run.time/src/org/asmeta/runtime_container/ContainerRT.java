@@ -1,17 +1,18 @@
 package org.asmeta.runtime_container;
 
-import org.asmeta.assertion_catalog.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -24,14 +25,13 @@ import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JLabel;
-import javax.swing.JTextPane;
-
 import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
+import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.runtime_simulator.AsmetaSservice;
 import org.asmeta.runtime_simulator.IdNotFoundException;
+import org.asmeta.runtime_simulator.InfoAsmetaService;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -39,11 +39,16 @@ import org.asmeta.simulator.UpdateClashException;
 
 import org.asmeta.simulator.main.*;
 import org.asmeta.simulator.util.InputMismatchException;
+import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Invariant;
+import asmeta.definitions.Property;
 import asmeta.definitions.impl.MonitoredFunctionImpl;
+import asmeta.structure.Asm;
+import asmeta.structure.Body;
+import asmeta.terms.basicterms.Term;
 
 
 /**
@@ -67,7 +72,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 	/** The ms. */
 	MyState ms;
 	
-	SimStatus ss = SimStatus.EMPTY;
+	SimStatus simulationRunning = SimStatus.PAUSE;
 	rollbackStatus rollbStatus = rollbackStatus.NOTROLLED;
 	
 	private static int stepRun = 0;
@@ -78,7 +83,6 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 	List<String> invarNames;
 	
 	private RunOutput routTO=null;	//support variable for the timeout methods
-	//private RunOutput routTR=null;  //support variable for the transaction methods
 
 
 
@@ -108,7 +112,6 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 			ids = checkStartId(id);
 
 			sout = new StartOutput(ids, "The id " + ids + " is successfully created");
-			ss = SimStatus.PAUSE;
 			System.out.println(sout.toString());
 
 		} catch (Exception e) {
@@ -139,16 +142,14 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 
 		}
 		return sout.getId();
-
 	}
-	
 	public int restartExecution(String modelPath, State s) {
 		StartOutput sout = null;
 		try {
 			id = asmS.restart(modelPath, s);
 			ids = checkStartId(id);
 			sout = new StartOutput(ids, "The id " + ids + " is successfully created");
-			ss = SimStatus.PAUSE;
+			simulationRunning = SimStatus.PAUSE;
 			System.out.println(sout.toString());
 		} catch (Exception e) {
 			if (e instanceof MainRuleNotFoundException) {
@@ -181,12 +182,44 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 		}
 		return sout.getId();
 	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see asmeta.safetyawaremodeleexecute.client.IModelExecute#stopExecution(int)
+	 * stop of giusso remove a simulator(model) by an id
+	 */
+	// @Override
+	public int stopExecution(int id) {
+		try {
+			System.out.println("the model " + asmS.getModelName(id) + " is successfully stop");
+			asmS.stop(id);
+			id = 1;
+		} catch (RuntimeException e) {
+			if (e instanceof IdNotFoundException) {
+				System.out.println("the " + id + " is not found");
+				id = -1;
+			}
+		}
+		return id;
+	}
 	
+	@Override
+	public int init(int maxSimInstance) {
+		while (maxSimInstance <= 0) {
+			System.out.print("Insert a positive number for the simulator table: ");
+			Scanner scan = new Scanner(System.in);
+			maxSimInstance = scan.nextInt();
+			scan.close();
+		}
+		System.out.printf("max number of simulators %d" + " successfully instantiated:\n", maxSimInstance);
+		asmS.init(maxSimInstance);
+		return maxSimInstance;
 
+	}
 
 	@Override
 	public RunOutput runStep(int id, Map<String, String> locationValue, String modelPath) {
-		ss=SimStatus.RUNNING;
+		simulationRunning=SimStatus.RUNNING;
 		rollbStatus = rollbackStatus.NOTROLLED;
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
 		try {
@@ -255,7 +288,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 				}
 			}
 		}
-		ss = SimStatus.PAUSE;
+		simulationRunning = SimStatus.PAUSE;
 		return rout; // can be use for Json
 
 	}
@@ -401,48 +434,10 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 //	        
 //	 	return timerTask.rout;
 //	}
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see asmeta.safetyawaremodeleexecute.client.IModelExecute#stopExecution(int)
-	 * stop of giusso remove a simulator(model) by an id
-	 */
-	// @Override
-	public int stopExecution(int id) {
-		try {
-			System.out.println("the model " + asmS.getModelName(id) + " is successfully stop");
-			asmS.stop(id);
-			id = 1;
-			ss=SimStatus.EMPTY;
-		} catch (RuntimeException e) {
-			if (e instanceof IdNotFoundException) {
-				System.out.println("the " + id + " is not found");
-				id = -1;
-			}
-
-		}
-
-		return id;
-	}
-
-	
-	@Override
-	public int init(int maxSimInstance) {
-		while (maxSimInstance <= 0) {
-			System.out.print("Insert a positive number for the simulator table: ");
-			Scanner scan = new Scanner(System.in);
-			maxSimInstance = scan.nextInt();
-		}
-		System.out.printf("max number of simulators %d" + " successfully instantiated:\n", maxSimInstance);
-		asmS.init(maxSimInstance);
-		return maxSimInstance;
-
-	}
-
 	
 	@Override
 	public RunOutput runUntilEmpty(int id, Map<String, String> locationValue, String modelPath, int max) {
-		ss = SimStatus.RUNNING;
+		simulationRunning = SimStatus.RUNNING;
 		rollbStatus = rollbackStatus.NOTROLLED;
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");		
 		try {
@@ -509,7 +504,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 
 			}
 		}
-		ss=SimStatus.PAUSE;
+		simulationRunning=SimStatus.PAUSE;
 		return rout;
 
 	}
@@ -527,6 +522,90 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 	@Override
 	public RunOutput runUntilEmpty(int id, int max) {
 		return runUntilEmpty(id, null, null, max);
+	}
+	
+	public RunOutput runUntilEmptyTimeout(int id, int max, int timeout) {
+	 	 
+	 	return runUntilEmptyTimeout(id, null, null, max, timeout);
+	}
+	
+	
+public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, String modelPath, int max, int timeout) {
+		routTO = new RunOutput(Esit.UNSAFE, "rout not intialized");
+        TimerTask timeoutTask = new TimerTask() {
+        	@Override  
+            public void run() {  
+            	 System.out.println("Timer task started at:"+new Date());
+            	 routTO = runUntilEmpty(id, locationValue, modelPath, max);
+            	 routTO.setResult(true);
+                 System.out.println("Timer task finished at:"+new Date());
+            }; 
+        };  
+        
+        Timer timer = new Timer(true);
+        //running timer task as daemon thread (no start delay, no period) but with timeout (thanks to Thread.sleep(timeout))
+        timer.schedule(timeoutTask, 1);
+        System.out.println("TimerTask started");
+        //cancel after timeout if the task has not terminated
+        try {
+            Thread.sleep(timeout);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        /*if (! taskTerminated.getResult()) { 
+        	timer.cancel();
+        	System.out.println("TimerTask cancelled"+" -- flag TaskTerminated: "+taskTerminated.getResult());
+        }
+        else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
+        if (!routTO.getResult()) { 
+        	
+        	{
+        		while (rollbStatus==rollbackStatus.ROLLINGBACK) {
+        			try {
+        				Thread.sleep(10);	//how often the program check for the rollback to finish before killing the thread
+	        		} catch (InterruptedException e) {
+	                    e.printStackTrace();}
+        		}
+        		timer.cancel();
+        		routTO = new RunOutput(Esit.UNSAFE, "Run timed out");
+    			System.err.println(routTO.toString());
+    			if (rollbStatus!=rollbackStatus.ROLLOK)
+    			{
+    				try {
+    					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollbackToState(id));
+    				} catch (NullPointerException e1) {
+    					System.out.println("no previous state");
+    				}/* catch (EmptyStackException e1) {
+    					System.out.println("empty stack exception dal simulator");
+    				}*/
+    			}
+    				
+        	}
+        	
+        	/*timer.cancel();
+        	routTO = new RunOutput(Esit.UNSAFE, "Run timed out");
+			System.err.println(routTO.toString());
+			try {
+				printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
+			} catch (NullPointerException e1) {
+				System.out.println("no previous state");
+			}/* catch (EmptyStackException e1) {
+				System.out.println("empty stack exception dal simulator");
+			}*/
+        }
+        
+        else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+routTO.getResult());	  
+	 	return routTO;
+	}
+	
+
+	public RunOutput runUntilEmptyTimeout(int id, String modelPath, int timeout) {
+		return runUntilEmptyTimeout(id, null, modelPath, 0, timeout);
+	}
+
+
+	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, String modelPath, int timeout) {
+		return runUntilEmptyTimeout(id, locationValue, modelPath, 0, timeout);
 	}
 
 	private static void printState(int step, RunOutput r1, long time, int id) {
@@ -634,123 +713,6 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 	}
 	
 	
-	public RunOutput runUntilEmptyTimeout(int id, int max, int timeout) {
-	 	 
-	 	return runUntilEmptyTimeout(id, null, null, max, timeout);
-	}
-	
-//	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, String modelPath, int max, int timeout) {
-//		
-//        MyTimerTask timerTask = new MyTimerTask(id, max, locationValue, modelPath, TypeMyTimerTask.RUNUNTILEMPTY);
-//	 	
-//        Timer timer = new Timer(true);
-//        //running timer task as daemon thread (no start delay, no period) but with timeout (thanks to Thread.sleep(timeout))
-//        timer.schedule(timerTask, 1);
-//        System.out.println("TimerTask started");
-//        //cancel after timeout if the task has not terminated
-//        try {
-//            Thread.sleep(timeout);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        /*if (! taskTerminated.getResult()) { 
-//        	timer.cancel();
-//        	System.out.println("TimerTask cancelled"+" -- flag TaskTerminated: "+taskTerminated.getResult());
-//        }
-//        else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
-//        if (timerTask.rout==null || !timerTask.rout.getResult()) { 
-//        	timer.cancel();
-//        	timerTask.rout = new RunOutput(Esit.UNSAFE, "Run timed out");
-//			System.err.println(timerTask.rout.toString());
-//			/*try {
-//				printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-//			} catch (NullPointerException e1) {
-//				System.out.println("no previous state");
-//			}*/
-//        }
-//        else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+timerTask.rout.getResult());	
-//	        
-//	 	return timerTask.rout;
-//	}
-	
-public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, String modelPath, int max, int timeout) {
-		routTO = new RunOutput(Esit.UNSAFE, "rout not intialized");
-        TimerTask timeoutTask = new TimerTask() {
-        	@Override  
-            public void run() {  
-            	 System.out.println("Timer task started at:"+new Date());
-            	 routTO = runUntilEmpty(id, locationValue, modelPath, max);
-            	 routTO.setResult(true);
-                 System.out.println("Timer task finished at:"+new Date());
-            }; 
-        };  
-        
-        Timer timer = new Timer(true);
-        //running timer task as daemon thread (no start delay, no period) but with timeout (thanks to Thread.sleep(timeout))
-        timer.schedule(timeoutTask, 1);
-        System.out.println("TimerTask started");
-        //cancel after timeout if the task has not terminated
-        try {
-            Thread.sleep(timeout);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        /*if (! taskTerminated.getResult()) { 
-        	timer.cancel();
-        	System.out.println("TimerTask cancelled"+" -- flag TaskTerminated: "+taskTerminated.getResult());
-        }
-        else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
-        if (!routTO.getResult()) { 
-        	
-        	{
-        		while (rollbStatus==rollbackStatus.ROLLINGBACK) {
-        			try {
-        				Thread.sleep(10);	//how often the program check for the rollback to finish before killing the thread
-	        		} catch (InterruptedException e) {
-	                    e.printStackTrace();}
-        		}
-        		timer.cancel();
-        		routTO = new RunOutput(Esit.UNSAFE, "Run timed out");
-    			System.err.println(routTO.toString());
-    			if (rollbStatus!=rollbackStatus.ROLLOK)
-    			{
-    				try {
-    					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollbackToState(id));
-    				} catch (NullPointerException e1) {
-    					System.out.println("no previous state");
-    				}/* catch (EmptyStackException e1) {
-    					System.out.println("empty stack exception dal simulator");
-    				}*/
-    			}
-    				
-        	}
-        	
-        	/*timer.cancel();
-        	routTO = new RunOutput(Esit.UNSAFE, "Run timed out");
-			System.err.println(routTO.toString());
-			try {
-				printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-			} catch (NullPointerException e1) {
-				System.out.println("no previous state");
-			}/* catch (EmptyStackException e1) {
-				System.out.println("empty stack exception dal simulator");
-			}*/
-        }
-        
-        else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+routTO.getResult());	  
-	 	return routTO;
-	}
-	
-
-	public RunOutput runUntilEmptyTimeout(int id, String modelPath, int timeout) {
-		return runUntilEmptyTimeout(id, null, modelPath, 0, timeout);
-	}
-
-
-	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, String modelPath, int timeout) {
-		return runUntilEmptyTimeout(id, locationValue, modelPath, 0, timeout);
-	}
-	
 	public RunOutput runStepTransaction(int id,Queue<Map<String, String>> locationValue, String modelPath) { 
 		boolean unsafe = false;
 		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not intialized");
@@ -799,7 +761,6 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 		return rout;	
 		
 	}
-
 	
 	@Override
 	public int addInvariant(int id, String invariant_to_add) {
@@ -813,7 +774,7 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 		BufferedReader reader;
         
 		try {
-			//asmS.checkId(id);
+			asmS.checkId(id);
 			reader = Files.newBufferedReader(Paths.get(modelfile));
 			BufferedWriter writer = Files.newBufferedWriter(Paths.get(modelfile+"_to_overwrite"));
 			String line = reader.readLine();
@@ -861,11 +822,11 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 		    
 			if (success2)
 				id2=restartSim(id, state);
-			if(id2>0 && !success2)
+			else
 				id2=-8;
 			if (id2<0) {
 				
-			    /*f = new File(modelfile);		CONTROLLO SE FILE APERTO
+			    /*f = new File(modelfile);		//CONTROLLO SE FILE APERTO
 			    sameFileName = new File(modelfile);
 			    if(f.renameTo(sameFileName)){
 			        System.out.println("file is closed");    
@@ -876,7 +837,7 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 				overwrite(modelfile);
 			    //Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
 				if (success2)
-					restartExecution(modelfile, state);
+					restartExecution(modelfile, state); 
 			}
 		} catch (IOException e) {
 			System.out.println("Couldn't open or write the model file");
@@ -894,7 +855,6 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 
 
 
-
 	@Override
 	public List<String> viewListInvariant(int id) {
 		String invar;
@@ -903,6 +863,7 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 		boolean endinvariant = true;
 		BufferedReader reader;
 		try {
+			asmS.checkId(id);
 			reader = Files.newBufferedReader(Paths.get(asmS.getSimulatorTable().get(id).getModelPath()));
 			String line = reader.readLine().trim();
 			if (line==null)
@@ -921,8 +882,8 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 					}while(endinvariant && !line.startsWith("invariant"));
 					if(invar.contains("inv_"))
 						invarNames.add(invar.substring(invar.indexOf("inv_")+4,invar.indexOf("over")-1));
+					//System.out.println(invar);
 					invarList.add(invar);
-					
 				}else {
 					if(line.startsWith("main rule"))
 						endinvariant=false;
@@ -932,6 +893,8 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 			reader.close();	
 		} catch (IOException e) {
 			System.out.println("Couldn't open and read the given model");
+		} catch (IdNotFoundException e) {
+			System.out.println("Couldn't find simulation of given id: "+e.getLocalizedMessage());
 		}
 		return invarList;
 	}
@@ -946,8 +909,9 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 		State state = asmS.getSimulatorTable().get(id).getSim().getCurrentState(); 
 		BufferedReader reader;
 		try {
+			asmS.checkId(id);
 			reader = Files.newBufferedReader(Paths.get(modelfile));
-			BufferedWriter writer = Files.newBufferedWriter(Paths.get(modelfile+"to_overwrite.asm"));
+			BufferedWriter writer = Files.newBufferedWriter(Paths.get(modelfile+"_to_overwrite"));
 			
 			Files.copy(Paths.get(modelfile), Paths.get(modelfile+"_old"), StandardCopyOption.REPLACE_EXISTING);
 			
@@ -996,18 +960,18 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 			
 			File file = new File(modelfile);
 			file.delete();
-			File file2 = new File(modelfile+"to_overwrite.asm");
+			File file2 = new File(modelfile+"_to_overwrite");
 			success = file2.renameTo(file);	
-			if (restartSim(id, state)<0) {
+			if (restartSim(id, state)<0) { // TODO sistemare controllo restartsim come in add
 				Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
 				restartExecution(modelfile,state);
 			}
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Couldn't open and read the given model");
-		}
-		finally {
+		}  catch (IdNotFoundException e) {
+			System.out.println("Couldn't find simulation of given id: "+e.getLocalizedMessage());
+		} finally {
 			try {
 				Files.deleteIfExists(Paths.get(modelfile+"_old"));
 			} catch (IOException e) {}
@@ -1017,7 +981,6 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 	else
 		return 2;
 	}
-	
 
 	@Override
 	public boolean removeInvariant(int id, String remove_invariant) {
@@ -1027,8 +990,9 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 			State state = asmS.getSimulatorTable().get(id).getSim().getCurrentState(); 
 			BufferedReader reader;
 			try {
-				reader = Files.newBufferedReader(Paths.get(asmS.getSimulatorTable().get(id).getModelPath()));
-				BufferedWriter writer = Files.newBufferedWriter(Paths.get(modelfile+"to_overwrite.asm"));
+				asmS.checkId(id);
+				reader = Files.newBufferedReader(Paths.get(modelfile));
+				BufferedWriter writer = Files.newBufferedWriter(Paths.get(modelfile+"_to_overwrite"));
 				
 				Files.copy(Paths.get(modelfile), Paths.get(modelfile+"_old"), StandardCopyOption.REPLACE_EXISTING);
 				
@@ -1063,11 +1027,11 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 				reader.close();
 				writer.close();
 				
-				File file = new File(asmS.getSimulatorTable().get(id).getModelPath());
+				File file = new File(modelfile);
 				file.delete();
-				File file2 = new File(modelfile+"to_overwrite.asm");
+				File file2 = new File(modelfile+"_to_overwrite");
 				success = file2.renameTo(file);	
-				if (restartSim(id, state)<0) {
+				if (restartSim(id, state)<0) { // TODO sistemare controllo restartsim come in add
 					Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
 					restartExecution(modelfile,state);
 				}
@@ -1081,14 +1045,24 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 					Files.deleteIfExists(Paths.get(modelfile+"_old"));
 				} catch (IOException e) {}
 			}
+			
 		return success;
 	}
-	
+
 	private int restartSim(int id, State state) {
+		//boolean success = true;
+		while (simulationRunning == SimStatus.RUNNING) {
+			try {
+				Thread.sleep(100);	//how often the program check for the simulation to finish its execution
+    		} catch (InterruptedException e) {
+                e.printStackTrace();}
+		}
 		String modelPath = asmS.getSimulatorTable().get(id).getModelPath();
 		if (state==null)
 			state = asmS.getSimulatorTable().get(id).getSim().getCurrentState();
-		stopExecution(id);
+		if (state.previousLocationValues==null)
+			state.previousLocationValues = new HashMap<Location, Value>();
+		stopExecution(id);		
 		int res = restartExecution(modelPath, state);
 		return res;
 	}
@@ -1108,7 +1082,27 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 		 } 
 	}
 	
-	
+	/*@Override	 //INVARIANTS CON ASMCOLLECTION DINAMICO
+	public List<Invariant> viewListInvariant(int id) {
+		
+		//System.out.println(asmS.getSimulatorTable().get(id).getSim().);
+		//System.out.println(asmS.getSimulatorTable().get(id).getSim().getAsmCollection().getMain().getBodySection().getInvariantConstraint());
+		System.out.println( asmS.getSimulatorTable().get(id).getModelPath());
+		for (Iterator<Asm> i = asmS.getSimulatorTable().get(id).getSim().getAsmCollection().iterator(); i.hasNext();) {
+			Asm asm_i = i.next();
+			Body b = asm_i.getBodySection();
+			Collection<Property> propertiesList = b.getProperty();
+			if (propertiesList != null) {
+				for (Property property: propertiesList) {
+					if(property instanceof Invariant) {
+						//Term body = ((Invariant)property).getBody();
+						System.out.println(((Invariant)property).toString());
+					}
+				}
+			}
+		}
+		return null;
+	}*/
 }
 
 
