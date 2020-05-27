@@ -13,9 +13,9 @@
 		<module>code/core/asmeta.simulator/asmeta.simulator</module>
 		<module>code/core/asmeta.cli</module>
 		<module>code/extensions/asmetasmv/asmeta.smv</module>
-		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
+		<!--<module>code/extensions/asmetasmv/asmeta.smv.test</module> -->
 		<module>code/extensions/asmeta.flattener/asmeta.flattener</module>
-		<module>code/extensions/asmeta.flattener/asmeta.flattener.test</module>
+		<!-- <module>code/extensions/asmeta.flattener/asmeta.flattener.test</module> -->
 	</modules>
 	<dependencies>
 		<dependency>
