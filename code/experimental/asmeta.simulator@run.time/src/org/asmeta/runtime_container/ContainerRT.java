@@ -784,6 +784,7 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 			{
 				variable=invariant_to_add.substring(invariant_to_add.indexOf("inv_")+4,invariant_to_add.indexOf("over"));
 			}
+			
 			while (line != null)
 			{
 				appoggio=line.trim();
@@ -807,10 +808,11 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 			reader.close();	
 			writer.close();
 			
-			File file = new File(modelfile);
+			/*File file = new File(modelfile);
 			file.delete();
 			File file2 = new File(modelfile+"_to_overwrite");
-			success = file2.renameTo(file);
+			success = file2.renameTo(file);*/
+			overwrite2(modelfile);
 			
 		   /* File f = new File(modelfile);		CONTROLLO SE FILE APERTO
 		    File sameFileName = new File(modelfile);
@@ -970,14 +972,16 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 			reader.close();
 			writer.close();
 			
-			File file = new File(modelfile);
+			/*File file = new File(modelfile);
 			file.delete();
 			File file2 = new File(modelfile+"_to_overwrite");
-			success = file2.renameTo(file);	
+			success = file2.renameTo(file);	*/
+			overwrite2(modelfile);
 			result=restartSim(id, state);
 			}
 			if (result<0) {
-				Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
+				overwrite(modelfile);
+				//Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
 				restartExecution(modelfile,state);
 			}
 		}
@@ -1026,6 +1030,8 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 							line=reader.readLine().trim();
 							if (line==null || line.startsWith("main rule"))
 								endinvariant=false;
+							if(reading_invariant.contains(": "))
+								reading_invariant = reading_invariant.replace(": ", ":");
 						}while(endinvariant && !line.startsWith("invariant"));
 						if(!reading_invariant.trim().equals(remove_invariant))
 							writer.write("\t"+reading_invariant.trim()+"\n");
@@ -1041,13 +1047,17 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 				reader.close();
 				writer.close();
 				
-				File file = new File(modelfile);
+				/*File file = new File(modelfile);
 				file.delete();
 				File file2 = new File(modelfile+"_to_overwrite");
-				success = file2.renameTo(file);	
+				success = file2.renameTo(file);*/
+				overwrite2(modelfile);
 				if (restartSim(id, state)<0) { // TODO sistemare controllo restartsim come in add
-					Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
+					//Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
+					overwrite(modelfile);
 					restartExecution(modelfile,state);
+				}else {
+					success=true;
 				}
 			}
 			catch (IOException e) {
@@ -1086,7 +1096,7 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 		String source = "";
 		FileWriter f2;
 		try {
-			Files.readAllLines(Paths.get(model+"_old"));
+			//Files.readAllLines(Paths.get(model+"_old"));
 		    f2 = new FileWriter(fnew,false);
 		    f2.write(String.join("\n",Files.readAllLines(Paths.get(model+"_old"))));
 		    f2.close();
@@ -1094,6 +1104,25 @@ public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue,
 		       // TODO Auto-generated catch block
 		       e.printStackTrace();
 		 } 
+	}
+	
+	private void overwrite2(String model) {
+		File fnew=new File(model);
+		String source = "";
+		FileWriter f2;
+		try {
+			//Files.readAllLines(Paths.get(model+"_to_overwrite"));
+		    f2 = new FileWriter(fnew,false);
+		    f2.write(String.join("\n",Files.readAllLines(Paths.get(model+"_to_overwrite"))));
+		    f2.close();
+		 } catch (IOException e) {
+		       // TODO Auto-generated catch block
+		       e.printStackTrace();
+		 } finally {
+			 try {
+					Files.deleteIfExists(Paths.get(model+"_to_overwrite"));
+				} catch (IOException e) {}
+		 }
 	}
 	
 	/*@Override	 //INVARIANTS CON ASMCOLLECTION DINAMICO
