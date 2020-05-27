@@ -17,34 +17,16 @@ definitions:
 
     main rule r_main =
         par
-            if and(eq(foo,false),eq(fooA,2)) then
-                par
-                    fooB := false
-                    fooC := 2
-                endpar
-            endif
-            if and(eq(foo,false),eq(fooA,3)) then
-                par
-                    fooB := false
-                    fooC := 3
-                endpar
-            endif
-            if and(eq(foo,false),eq(fooA,4)) then
-                par
-                    fooB := false
-                    fooC := 4
-                endpar
-            endif
-            if and(eq(foo,false),eq(fooA,1)) then
-                par
-                    fooB := false
-                    fooC := 1
-                endpar
-            endif
             if and(foo,eq(fooA,2)) then
                 par
                     fooB := true
                     fooC := 2
+                endpar
+            endif
+            if and(foo,eq(fooA,1)) then
+                par
+                    fooB := true
+                    fooC := 1
                 endpar
             endif
             if and(foo,eq(fooA,3)) then
@@ -59,10 +41,28 @@ definitions:
                     fooC := 4
                 endpar
             endif
-            if and(foo,eq(fooA,1)) then
+            if and(eq(foo,false),eq(fooA,2)) then
                 par
-                    fooB := true
+                    fooB := false
+                    fooC := 2
+                endpar
+            endif
+            if and(eq(foo,false),eq(fooA,1)) then
+                par
+                    fooB := false
                     fooC := 1
+                endpar
+            endif
+            if and(eq(foo,false),eq(fooA,3)) then
+                par
+                    fooB := false
+                    fooC := 3
+                endpar
+            endif
+            if and(eq(foo,false),eq(fooA,4)) then
+                par
+                    fooB := false
+                    fooC := 4
                 endpar
             endif
         endpar

@@ -32,22 +32,22 @@ definitions:
 
     main rule r_Main =
         par
+            r_conway[2n,4n]
             r_conway[2n,1n]
             r_conway[2n,2n]
             r_conway[2n,3n]
-            r_conway[2n,4n]
-            r_conway[3n,1n]
-            r_conway[3n,2n]
-            r_conway[3n,3n]
-            r_conway[3n,4n]
+            r_conway[4n,4n]
             r_conway[4n,1n]
             r_conway[4n,2n]
             r_conway[4n,3n]
-            r_conway[4n,4n]
+            r_conway[3n,4n]
+            r_conway[3n,1n]
+            r_conway[3n,2n]
+            r_conway[3n,3n]
+            r_conway[1n,4n]
             r_conway[1n,1n]
             r_conway[1n,2n]
             r_conway[1n,3n]
-            r_conway[1n,4n]
         endpar
 
 default init s0:
