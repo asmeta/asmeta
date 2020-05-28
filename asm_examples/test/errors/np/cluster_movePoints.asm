@@ -1,6 +1,6 @@
 asm cluster_movePoints
 
-import ../../../../STDL/StandardLibrary
+import ../../../STDL/StandardLibrary
 import cluster
 
 signature:

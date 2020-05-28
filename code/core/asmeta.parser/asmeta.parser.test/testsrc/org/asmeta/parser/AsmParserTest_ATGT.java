@@ -24,7 +24,7 @@ public class AsmParserTest_ATGT extends AsmParserTest{
 		testDir("../../prj_root/atgt/source/atgt_examples/");
 	}
 
-	@Test
+	// @Test
 	public void testCC(){
 		//testDir("examples/agents/");
 		AsmCollection asms = testOneSpec("../../prj_root/atgt/source/atgt_examples/cruiseControl.asm");

@@ -1,6 +1,6 @@
 asm cluster_test2
 
-import ../../../../STDL/StandardLibrary
+import ../../../STDL/StandardLibrary
 import cluster
 
 signature:

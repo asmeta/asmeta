@@ -3,7 +3,7 @@
 
 asm cluster_test
 
-import ../../../../STDL/StandardLibrary
+import ../../../STDL/StandardLibrary
 import cluster
 
 signature:

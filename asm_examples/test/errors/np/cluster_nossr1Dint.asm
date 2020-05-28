@@ -2,7 +2,7 @@
 
 asm cluster_nossr1Dint
 
-import ../../../../STDL/StandardLibrary
+import ../../../STDL/StandardLibrary
 		
 signature:
 

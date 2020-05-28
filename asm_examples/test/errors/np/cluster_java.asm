@@ -5,7 +5,7 @@
 
 asm cluster_java
 
-import ../../../../STDL/StandardLibrary
+import ../../../STDL/StandardLibrary
 
 export Cluster,center,r_setMean,sumPoints,r_move
 		

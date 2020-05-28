@@ -147,7 +147,7 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 
 	@Test(expected=AssertionError.class)
 	public void testOneSpec5() {
-		String file = "test/simulator/macro/macro06.asm";
+		String file = "test/errors/np/macro06.asm";
 		// the parser must fail
 		testOneSpec(file);
 	}
@@ -212,12 +212,6 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 	public void testonlyComments() {
 		testOneSpec("test/parser/null/comment.asm");
 	}
-
-	@Test
-	public void test3() {
-		testOneSpec("test\\simulator\\ArithmeticExpr02.asm");
-	}
-
 	
 	@Test
 	public void testSetTerm() {
@@ -229,8 +223,6 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 		assertTrue(body instanceof SetTerm);
 		assertEquals(1,((SetTerm) body).getTerm().size());
 	}
-
-
 
 	@Test
 	public void testPhilo1() {

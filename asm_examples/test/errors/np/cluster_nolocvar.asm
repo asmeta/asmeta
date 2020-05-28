@@ -4,7 +4,7 @@
 
 asm cluster_nolocvar
 
-import ../../../../STDL/StandardLibrary
+import ../../../STDL/StandardLibrary
 		
 signature:
 

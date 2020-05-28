@@ -1,5 +1,5 @@
 asm ArithmeticExpr02
-import ../../STDL/StandardLibrary
+import ../../../STDL/StandardLibrary
 	
 signature:
 controlled f: Natural
