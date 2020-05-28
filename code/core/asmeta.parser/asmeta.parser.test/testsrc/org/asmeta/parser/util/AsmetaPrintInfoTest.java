@@ -44,18 +44,20 @@ public class AsmetaPrintInfoTest {
 		System.out.println(info.infoMap);
 	}
 
+	/*
+	
 	@Test
 	public void testKDSfestschrift() throws Exception {
 		// atgt/code/code_asm/asm_mbtJunit/models/LandingGearSystemWithCylValvesSensorsHealthMon3LandSets.asm
 		// atgt/code/code_asm/asm_mbtJunit/models/SensorVotingFuncFlat.asm
 		// atgt/code/code_asm/hemodialysis_mbt_abzsi16/SCP2017/HemodialysisRef3.asm
 		// atgt/code/code_asm/asm_mbtJunit/asm_mbtJunit/models/certifierRaff5_eurospi2016.asm
-		statsASM("specsKDS/LandingGearSystemWithCylValvesSensorsHealthMon3LandSets.asm");
+		statsASM(AsmParserTest.FILE_BASE +"/examples/landingGearSystem/LandingGearSystemWithCylValvesSensorsHealthMon3LandSets.asm");
 		statsASM("specsKDS/SensorVotingFuncFlat.asm");
-		statsASM("specsKDS/HemodialysisRef3.asm");
+		statsASM(AsmParserTest.FILE_BASE +"/ezamples/hemodialysisDevice/SCP2017/HemodialysisRef3.asm");
 		statsASM("specsKDS/certifierRaff5_eurospi2016.asm");
 	}
-
+	
 	//private static final String ABZ2020I_CASESTUDY = "D:\\AgHome\\Dropbox\\Documenti\\ricerca\\asm\\";
 	private static final String ABZ2020I_CASESTUDY = "D:\\AgDocuments\\Dropbox\\Documenti\\ricerca\\asm\\";
 	@Test
@@ -74,7 +76,10 @@ public class AsmetaPrintInfoTest {
 		statsASM(ABZ2020I_CASESTUDY + "ABZ2020_casestudy\\Casestudy\\ASM model\\Car System\\CarSystem008.asm");
 		statsASM(ABZ2020I_CASESTUDY + "ABZ2020_casestudy\\Casestudy\\ASM model\\Car System\\CarSystem009.asm");
 	}
+	
+	
 	private static final String PHD_CASESTUDY = "C:\\Users\\garganti\\Documents\\Rate4PHD\\ASM\\newPHD\\";
+	 
 
 	@Test
 	public void testPHD() throws Exception {
@@ -88,5 +93,6 @@ public class AsmetaPrintInfoTest {
 		statsASM(PHD_CASESTUDY + "phd_master_flat2_v5.asm");	
 		statsASM(PHD_CASESTUDY + "phd_master_flat2_v6.asm");	
 	}
+	*/
 
 }

@@ -20,7 +20,7 @@ public class GetDomainTest {
 	
 	@Test
 	public void getDomainTest(){
-		File f = new File("../../../asm_examples/test/parser/GetDomainTest.asm");
+		File f = new File("../../../../asm_examples/test/parser/GetDomainTest.asm");
 		AsmCollection asms = null;
 		try {
 			asms = ASMParser.setUpReadAsm(f);
@@ -37,7 +37,7 @@ public class GetDomainTest {
 
 	@Test
 	public void getConcrDomDefTest(){
-		File f = new File("../../../asm_examples/test/parser/concrDomDef.asm");
+		File f = new File("../../../../asm_examples/test/parser/concrDomDef.asm");
 		Asm asm = null;
 		try {
 			asm = ASMParser.setUpReadAsm(f).getMain();

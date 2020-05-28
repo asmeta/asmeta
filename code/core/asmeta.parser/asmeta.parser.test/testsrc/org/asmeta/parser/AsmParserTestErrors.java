@@ -13,12 +13,12 @@ public class AsmParserTestErrors extends AsmParserTest{
 	
 	@Test
 	public void testRPNS(){
-		testDir("errors/rpns");
+		testDir("test/errors/rpns");
 	}
 	
 	@Test
 	public void testRPWS(){
-		testDir("errors/rpws");
+		testDir("test/errors/rpws");
 	}
 
 }
