@@ -47,13 +47,6 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 	}
 
 	@Test
-	public void testOneSpec1() {
-		AsmParserTest.setUpLogger();
-		String file = "test\\parser\\overloading\\m5.asm";
-		testOneSpec(file);
-	}
-
-	@Test
 	public void testOneSpec2() {
 		String file = "test/simulator/domains/enumDomain.asm";
 		testOneSpec(file);
