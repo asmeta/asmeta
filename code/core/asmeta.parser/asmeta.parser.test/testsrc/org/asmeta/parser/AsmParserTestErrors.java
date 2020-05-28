@@ -15,6 +15,7 @@ public class AsmParserTestErrors extends AsmParserTest{
 	public void testRPNS(){
 		testDir("errors/rpns");
 	}
+	
 	@Test
 	public void testRPWS(){
 		testDir("errors/rpws");

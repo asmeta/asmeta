@@ -31,7 +31,7 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 	@Test
 	public void testSpec() {
 		AsmParserTest.setUpLogger();
-		testOneSpec("examples/simple_ex/SwapSort.asm");
+		testOneSpec("examples/simple_example/SwapSort.asm");
 		testOneSpec("examples/models/SwapSortMon.asm");
 	}
 
@@ -129,7 +129,7 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 
 	@Test
 	public void testOneSpecDom() {
-		String file = "errors/rnp/prod.asm";
+		String file = "test/errors/rnp/prod.asm";
 		testOneSpec(file);
 	}
 
@@ -178,7 +178,7 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 
 	@Test
 	public void testOneSpec_parBoolean() {
-		testOneSpec("errors/rpns/parBoolean.asm");
+		testOneSpec("test/errors/rpns/parBoolean.asm");
 	}
 
 	@Test
@@ -195,20 +195,10 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 
 	@Test
 	public void testSwapSortOnSeq() {
-		String file = "examples/simple_ex/swapSortOnSeq.asm";
+		String file = "examples/simple_example/swapSortOnSeq.asm";
 		testOneSpec(file);
 	}
 
-	@Test
-	public void testATM4() {
-		testOneSpec("examples/simple_ex/ATM4.asm");
-	}
-
-	@Test
-	public void testWithNotEqual() {
-		testOneSpec("examples/simple_ex/");
-	}
-	
 	@Test
 	public void test2() {
 		testOneSpec("examples\\NeedhamSchroeder\\oldVersion\\NeedhamSchroederWithSpy.asm");

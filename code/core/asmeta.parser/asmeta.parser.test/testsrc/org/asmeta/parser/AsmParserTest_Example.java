@@ -38,7 +38,7 @@ public class AsmParserTest_Example extends AsmParserTest{
 
 	@Test
 	public void testSimpleEx(){
-		testDir("examples/simple_ex/");
+		testDir("examples/simple_example/");
 	}
 	@Test
 	public void testExamplesSG(){
