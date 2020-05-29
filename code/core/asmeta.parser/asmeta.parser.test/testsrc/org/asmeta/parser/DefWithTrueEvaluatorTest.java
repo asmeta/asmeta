@@ -33,13 +33,13 @@ import asmeta.transitionrules.basictransitionrules.Rule;
  */
 public class DefWithTrueEvaluatorTest extends AsmParserTest{
 	
-	@BeforeClass
+	//@BeforeClass
 	public static void setUpLogger() {
-		Logger log = Logger.getLogger("org.asmeta.parser");
+		/*Logger log = Logger.getLogger("org.asmeta.parser");
 		if (!log.getAllAppenders().hasMoreElements())
 		log.addAppender(new ConsoleAppender(new SimpleLayout()));
 		log.setLevel(Level.ALL);
-		Logger.getLogger(Utility.class).setLevel(Level.ALL);
+		Logger.getLogger(Utility.class).setLevel(Level.ALL);*/
 	}
 
 	@Test

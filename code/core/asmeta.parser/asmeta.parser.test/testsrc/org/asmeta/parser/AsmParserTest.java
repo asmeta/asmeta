@@ -18,6 +18,7 @@ import java.util.Collections;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.util.AsmPrinter;
 import org.junit.BeforeClass;
@@ -32,13 +33,14 @@ import asmeta.AsmCollection;
 public class AsmParserTest {
 	private static final boolean CHECK_EQUALITY = false;
 
-	@BeforeClass
+	//@BeforeClass
 	public static void setUpLogger() {
-		Logger log = Logger.getLogger("org.asmeta.parser");
+		/*Logger log = Logger.getLogger("org.asmeta.parser");
 		if (!log.getAllAppenders().hasMoreElements())
 		log.addAppender(new ConsoleAppender(new SimpleLayout()));
 		log.setLevel(Level.ALL);
 		Logger.getLogger(Utility.class).setLevel(Level.ALL);
+		PropertyConfigurator.configure("log4j.properties");*/
 	}
 
 	public static final String FILE_BASE = "../../../../asm_examples/";

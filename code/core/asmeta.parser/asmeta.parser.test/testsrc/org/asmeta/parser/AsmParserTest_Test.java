@@ -9,8 +9,6 @@ import org.junit.Test;
  */
 public class AsmParserTest_Test extends AsmParserTest {
 	
-
-
 	@Test
 	public void testParserTests(){
 		testDir("test/parser/");
@@ -25,4 +23,5 @@ public class AsmParserTest_Test extends AsmParserTest {
 	public void testParserNeqAndNot(){
 		testOneSpec("test/parser/neqAndNot.asm");
 	}
+	
 }

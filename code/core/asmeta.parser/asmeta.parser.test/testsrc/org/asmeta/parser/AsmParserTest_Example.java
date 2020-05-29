@@ -9,7 +9,7 @@ import org.junit.Test;
  */
 public class AsmParserTest_Example extends AsmParserTest{
 
-	@BeforeClass
+	//@BeforeClass
 	public static void setUpLogger(){
 		AsmParserTest.setUpLogger();
 	}

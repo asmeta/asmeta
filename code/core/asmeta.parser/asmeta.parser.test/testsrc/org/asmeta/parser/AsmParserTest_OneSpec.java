@@ -2,10 +2,14 @@ package org.asmeta.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.File;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.apache.log4j.SimpleLayout;
 import org.eclipse.emf.common.util.EList;
 import org.junit.BeforeClass;
@@ -23,9 +27,9 @@ import asmeta.terms.basicterms.Term;
  */
 public class AsmParserTest_OneSpec extends AsmParserTest {
 
-	@BeforeClass
+	//@BeforeClass
 	public static void setUpLogger() {
-		AsmParserTest.setUpLogger();
+		//AsmParserTest.setUpLogger();
 	}
 
 	@Test
@@ -39,13 +43,12 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 	public void testOneSpecBagCT() {
 		String file = "test/parser/bagCT.asm";
 		AsmCollection asm = testOneSpec(file);
+		
+		System.out.println(Logger.getLogger(OCL_Checker.class).getRootLogger().getLevel());
+		
+		Logger.getLogger(OCL_Checker.class).log(Priority.DEBUG,"PROVA");
 	}
-	@Test
-	public void testOneSpec() {
-		String file = "systemc\\simple_bus\\simple_bus.asm";
-		testOneSpec(file);
-	}
-
+	
 	@Test
 	public void testOneSpec2() {
 		String file = "test/simulator/domains/enumDomain.asm";
@@ -138,13 +141,6 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 		testOneSpec(file);
 	}
 
-	@Test(expected=AssertionError.class)
-	public void testOneSpec5() {
-		String file = "test/errors/np/macro06.asm";
-		// the parser must fail
-		testOneSpec(file);
-	}
-
 	@Test
 	public void testOneNot() {
 		String file = "test/simulator/RelationalExpr01.asm";
@@ -155,12 +151,6 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 	public void testOneSpec6() {
 		String file = "test/simulator/macro/macro07.asm";
 		// the parser must fail
-		testOneSpec(file);
-	}
-
-	@Test
-	public void testOneSpecsimpelbus() {
-		String file = "systemc/simple_bus/simple_bus.asm";
 		testOneSpec(file);
 	}
 
