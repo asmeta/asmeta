@@ -29,282 +29,282 @@ definitions:
     CTLSPEC ag(not(and(winner(CROSS),winner(NOUGHT))))
     main rule r_Main =
         par
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
-                board(1,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
-                board(2,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
-                board(2,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
-                board(2,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
-                board(2,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
-                board(3,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
-                board(2,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
-                board(3,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
-                board(2,1) := CROSS
-            endif
             if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
                 board(2,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
-                board(1,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
-                board(2,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
-                board(3,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
-                board(2,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
-                board(2,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
-                board(3,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
-                board(1,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
-                board(3,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
-                board(3,2) := CROSS
-            endif
-            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))) then
-                status := TURN_PC
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
-                board(1,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
-                board(3,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
-                board(2,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
-                board(3,2) := CROSS
             endif
             if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
                 board(2,3) := CROSS
             endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
-                board(1,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
-                board(3,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
-                board(1,1) := CROSS
-            endif
             if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
                 board(3,2) := CROSS
             endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
+                board(2,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
                 board(3,2) := CROSS
             endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
-                board(1,1) := CROSS
-            endif
-            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))) then
-                status := TURN_PC
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
-                board(1,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
-                board(3,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
-                board(3,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
-                board(1,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
                 board(3,1) := CROSS
             endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
+            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))) then
+                status := TURN_PC
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
+                board(2,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
+                board(3,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
+                board(3,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
+                board(3,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
+                board(1,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
+                board(3,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
                 board(1,1) := CROSS
             endif
             if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
                 board(3,1) := CROSS
             endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
-                board(1,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
-                board(1,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
-                board(3,3) := CROSS
-            endif
-            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))) then
-                status := TURN_PC
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
-                board(2,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
-                board(1,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
-                board(1,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
-                board(1,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
-                board(2,2) := CROSS
-            endif
-            if and(not(endOfGame),not(eq(status,TURN_USER))) then
-                choose $r63 in Coord, $c64 in Coord with isUndef(board($r63,$c64)) do
-                    par
-                        board($r63,$c64) := NOUGHT
-                        status := TURN_USER
-                    endpar
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
-                board(1,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
-                board(1,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
-                board(2,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
-                board(2,2) := CROSS
-            endif
-            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))) then
-                status := TURN_PC
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
-                board(1,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
                 board(3,2) := CROSS
             endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
-                board(3,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
-                board(2,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
-                board(1,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
-                board(1,3) := CROSS
-            endif
-            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))) then
-                status := TURN_PC
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
-                board(2,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
-                board(2,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
-                board(2,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
-                board(3,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
-                board(3,1) := CROSS
+            if and(not(endOfGame),not(eq(status,TURN_USER))) then
+                choose $r483 in Coord, $c484 in Coord with isUndef(board($r483,$c484)) do
+                    par
+                        board($r483,$c484) := NOUGHT
+                        status := TURN_USER
+                    endpar
             endif
             if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
                 board(3,3) := CROSS
             endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
-                board(3,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
-                board(1,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
-                board(1,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
-                board(2,3) := CROSS
-            endif
-            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))) then
-                status := TURN_PC
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
-                board(3,1) := CROSS
-            endif
-            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))) then
-                status := TURN_PC
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
-                board(1,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
-                board(1,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
-                board(1,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
                 board(3,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
-                board(2,3) := CROSS
-            endif
-            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))) then
-                status := TURN_PC
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
-                board(1,3) := CROSS
-            endif
-            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))) then
-                status := TURN_PC
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
-                board(2,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
-                board(3,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
-                board(2,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
-                board(1,2) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
-                board(2,3) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
-                board(2,1) := CROSS
-            endif
-            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
-                board(3,2) := CROSS
             endif
             if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
                 board(3,1) := CROSS
             endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
+                board(2,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
+                board(2,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
+                board(1,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
+                board(1,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
+                board(1,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
+                board(1,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
+                board(2,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
+                board(2,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
+                board(1,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
+                board(1,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
+                board(1,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
+                board(2,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
+                board(3,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
+                board(2,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
+                board(3,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
+                board(2,2) := CROSS
+            endif
+            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))) then
+                status := TURN_PC
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
+                board(2,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
+                board(2,1) := CROSS
+            endif
+            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))) then
+                status := TURN_PC
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
+                board(1,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
+                board(3,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
+                board(1,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
+                board(3,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
+                board(3,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
+                board(1,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
+                board(3,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
+                board(2,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
+                board(1,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
+                board(2,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
+                board(2,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
+                board(3,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
+                board(3,1) := CROSS
+            endif
             if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
                 board(2,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
+                board(1,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
+                board(1,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
+                board(2,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
+                board(3,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
+                board(1,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
+                board(3,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
+                board(1,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
+                board(1,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
+                board(3,2) := CROSS
+            endif
+            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))) then
+                status := TURN_PC
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
+                board(1,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,3),eq(userChoiceC,1))) then
+                board(3,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
+                board(3,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
+                board(1,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
+                board(2,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
+                board(1,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
+                board(2,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
+                board(2,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
+                board(1,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
+                board(1,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,3))),isUndef(board(1,3))),and(eq(userChoiceR,1),eq(userChoiceC,2))) then
+                board(1,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,1))),isUndef(board(3,1))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
+                board(2,3) := CROSS
+            endif
+            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))) then
+                status := TURN_PC
+            endif
+            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))) then
+                status := TURN_PC
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,3),eq(userChoiceC,3))) then
+                board(3,3) := CROSS
+            endif
+            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,1))),isUndef(board(1,1))) then
+                status := TURN_PC
+            endif
+            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))) then
+                status := TURN_PC
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
+                board(2,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,2),eq(userChoiceC,1))) then
+                board(2,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,2))),isUndef(board(2,2))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
+                board(2,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,2))),isUndef(board(3,2))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
+                board(1,3) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,3),eq(userChoiceC,2))) then
+                board(3,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,1),eq(userChoiceC,1))) then
+                board(1,1) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,1))),isUndef(board(2,1))),and(eq(userChoiceR,2),eq(userChoiceC,2))) then
+                board(2,2) := CROSS
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,3),eq(userChoiceC,3))),isUndef(board(3,3))),and(eq(userChoiceR,2),eq(userChoiceC,3))) then
+                board(2,3) := CROSS
+            endif
+            if and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,1),eq(userChoiceC,2))),isUndef(board(1,2))) then
+                status := TURN_PC
+            endif
+            if and(and(and(and(not(endOfGame),eq(status,TURN_USER)),and(eq(userChoiceR,2),eq(userChoiceC,3))),isUndef(board(2,3))),and(eq(userChoiceR,1),eq(userChoiceC,3))) then
+                board(1,3) := CROSS
             endif
         endpar
 

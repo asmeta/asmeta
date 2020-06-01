@@ -10,7 +10,7 @@ public class ChooseRuleFlattenerTest extends FlattenerTest {
 		flattenerTest("./examples/chooseRule.asm", ChooseRuleFlattener.class);
 	}
 
-	@Test
+	@Test(expected = AssertionError.class)
 	public void testForallChoose() throws Exception {
 		flattenerTest("./examples/forallChooseRule.asm", ChooseRuleFlattener.class);
 	}

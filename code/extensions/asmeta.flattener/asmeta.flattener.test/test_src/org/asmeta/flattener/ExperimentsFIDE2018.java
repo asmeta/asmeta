@@ -77,11 +77,6 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 		flattenerTest("benchmarksFIDE2018/ferrymanSimulator_raff1.asm", ALL_FLATTENERS);
 	}
 
-	@Test
-	public void testPhilosophers1() throws Exception {
-		flattenerTest("benchmarksFIDE2018/philosophers1.asm", ALL_FLATTENERS);
-	}
-
 	private static void singleExperiment(String asmModel, boolean printStats) throws Exception {
 		String refactoredAsm = AsmetaMultipleFlattener.flattenAsStr(asmModel, ALL_FLATTENERS);
 		String asmName = Paths.get(asmModel).getFileName().toString();

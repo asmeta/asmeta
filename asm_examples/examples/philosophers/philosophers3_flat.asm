@@ -33,3305 +33,3305 @@ definitions:
     main rule r_choose_philo =
         choose $p1 in Philosophers, $p2 in Philosophers with and(neq($p1,$p2),not(near($p1,$p2))) do
             par
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))) then
-                    eating($p2) := true
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))) then
-                    eating($p1) := true
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
                 if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))) then
-                    eating($p2) := true
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_2)) then
                     owner(fork_2) := undef
                 endif
                 if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))) then
                     eating($p2) := false
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_5)) then
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_5)) then
                     owner(fork_5) := undef
                 endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_2)) then
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_2)) then
                     owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
                 endif
                 if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))) then
                     eating($p2) := false
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_5)) then
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_5)) then
                     owner(fork_5) := $p2
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
                 endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_2)) then
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_2)) then
                     owner(fork_2) := $p1
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))) then
-                    eating($p1) := true
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
                 endif
                 if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_3)) then
                     owner(fork_3) := undef
                 endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_2)) then
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_2)) then
                     owner(fork_2) := undef
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_1)) then
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_1)) then
                     owner(fork_1) := $p1
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_4)) then
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_4)) then
                     owner(fork_4) := $p1
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
                 endif
                 if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_3)) then
                     owner(fork_3) := $p2
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_2)) then
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_2)) then
                     owner(fork_2) := $p2
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_4)) then
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_4)) then
                     owner(fork_4) := undef
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_1)) then
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_1)) then
                     owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
                 endif
                 if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_3)) then
                     owner(fork_3) := undef
                 endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
                 endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_1)) then
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_1)) then
                     owner(fork_1) := undef
                 endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_3)) then
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_3)) then
                     owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))) then
-                    eating($p2) := true
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
                 endif
                 if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_5)) then
                     owner(fork_5) := $p2
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_3)) then
-                    owner(fork_3) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))) then
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))) then
                     eating($p1) := true
                 endif
-                if and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))) then
-                    eating($p2) := true
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_3)) then
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_3)) then
                     owner(fork_3) := $p2
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_3)) then
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_3)) then
                     owner(fork_3) := undef
                 endif
                 if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_5)) then
                     owner(fork_5) := undef
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_5)) then
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_5)) then
                     owner(fork_5) := $p1
-                endif
-                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))) then
-                    eating($p2) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
                 endif
                 if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_4)) then
                     owner(fork_4) := $p2
                 endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_4)) then
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_4)) then
                     owner(fork_4) := undef
                 endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))) then
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))) then
                     eating($p1) := true
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_2)) then
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_2)) then
                     owner(fork_2) := $p2
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))) then
-                    eating($p1) := true
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_3)) then
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_3)) then
                     owner(fork_3) := undef
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))) then
+                    eating($p2) := true
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_4)) then
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_4)) then
                     owner(fork_4) := undef
                 endif
                 if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_4)) then
                     owner(fork_4) := $p1
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_4)) then
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_4)) then
                     owner(fork_4) := $p2
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))) then
+                    eating($p2) := false
                 endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_5)) then
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_5)) then
                     owner(fork_5) := undef
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_5)) then
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_5)) then
                     owner(fork_5) := undef
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_1)) then
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_1)) then
                     owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
                 endif
                 if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_4)) then
                     owner(fork_4) := undef
                 endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))) then
+                    eating($p1) := true
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
                 if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_4)) then
                     owner(fork_4) := undef
                 endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))) then
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))) then
+                    eating($p2) := true
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))) then
+                    eating($p2) := true
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))) then
                     eating($p1) := true
                 endif
                 if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_3)) then
                     owner(fork_3) := undef
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_2)) then
-                    owner(fork_2) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := $p1
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))) then
-                    eating($p1) := false
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_3)) then
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_3)) then
                     owner(fork_3) := undef
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_1)) then
-                    owner(fork_1) := $p1
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_2)) then
-                    owner(fork_2) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_5)) then
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_5)) then
                     owner(fork_5) := $p1
                 endif
                 if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_4)) then
                     owner(fork_4) := $p2
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_5)) then
-                    owner(fork_5) := $p1
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_1)) then
-                    owner(fork_1) := undef
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))) then
+                    eating($p2) := true
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_3)) then
-                    owner(fork_3) := $p1
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_5)) then
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))) then
+                    eating($p2) := true
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_5)) then
                     owner(fork_5) := undef
                 endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))) then
-                    eating($p1) := false
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
                 endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_3)) then
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_3)) then
                     owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
                 endif
                 if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_4)) then
                     owner(fork_4) := undef
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_3)) then
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_3)) then
                     owner(fork_3) := $p1
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_4)) then
-                    owner(fork_4) := $p2
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))) then
-                    eating($p1) := true
-                endif
-                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))) then
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))) then
                     eating($p1) := false
                 endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_5)) then
-                    owner(fork_5) := $p2
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_4)) then
-                    owner(fork_4) := undef
-                endif
-                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_5)) then
-                    owner(fork_5) := undef
-                endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_1)) then
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_1)) then
                     owner(fork_1) := $p2
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_2)) then
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_2)) then
                     owner(fork_2) := $p2
                 endif
                 if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_1)) then
                     owner(fork_1) := undef
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_2)) then
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_2)) then
                     owner(fork_2) := $p2
                 endif
-                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_2)) then
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_2)) then
                     owner(fork_2) := $p2
                 endif
-                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_2)) then
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_2)) then
                     owner(fork_2) := undef
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))) then
+                    eating($p2) := true
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
                 endif
                 if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_4)) then
                     owner(fork_4) := undef
                 endif
-                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_1)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_2)) then
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_1),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_3)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_5)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_2),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))) then
+                    eating($p2) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_4),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_3)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_2)) then
                     owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_1),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_4)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_2)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_5)),isUndef(owner(fork_5)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_3)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_5),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_1)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_4)),isUndef(owner(fork_3)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_2),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_5),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_2)),isUndef(owner(fork_4)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_2))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_2),$p1))),eq(right_fork($p1),fork_5)) then
+                    owner(fork_5) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_3)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_5),$p1))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_5)),isUndef(owner(fork_4)))),eq(left_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_1),$p1)),eq(owner(fork_1),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_5))),and(isUndef(owner(fork_2)),isUndef(owner(fork_5)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_4))),and(isUndef(owner(fork_1)),isUndef(owner(fork_4)))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(right_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_1),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(isUndef(owner(fork_4)),isUndef(owner(fork_5)))),eq(left_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_2)),isUndef(owner(fork_2)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_5)),isUndef(owner(fork_2)))),eq(right_fork($p2),fork_3)) then
+                    owner(fork_3) := $p2
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_1))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_1),$p1))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_3))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_3),$p2))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_5)),isUndef(owner(fork_3)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_2),$p2)),eq(owner(fork_4),$p2))),eq(right_fork($p2),fork_2)) then
+                    owner(fork_2) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_2),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_2),$p1)),eq(owner(fork_5),$p1))) then
+                    eating($p1) := false
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_5))),and(and(eating($p1),eq(owner(fork_4),$p1)),eq(owner(fork_5),$p1))),eq(right_fork($p1),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))) then
+                    eating($p1) := true
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_3),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_5),eq(right_fork($p1),fork_4))),and(and(eating($p1),eq(owner(fork_5),$p1)),eq(owner(fork_4),$p1))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p1)),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_3))),and(and(eating($p1),eq(owner(fork_3),$p1)),eq(owner(fork_3),$p1))),eq(right_fork($p1),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(left_fork($p2),fork_2)) then
+                    owner(fork_2) := $p2
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(and(eating($p2),eq(owner(fork_4),$p2)),eq(owner(fork_1),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_5))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_5),$p2))),eq(left_fork($p2),fork_3)) then
+                    owner(fork_3) := undef
+                endif
+                if and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_5),eq(right_fork($p2),fork_4))),and(and(eating($p2),eq(owner(fork_5),$p2)),eq(owner(fork_4),$p2))) then
+                    eating($p2) := false
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_4),eq(right_fork($p2),fork_4))),and(isUndef(owner(fork_4)),isUndef(owner(fork_4)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_3),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_3),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := undef
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(right_fork($p1),fork_2)) then
+                    owner(fork_2) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_1),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_1)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_5)) then
+                    owner(fork_5) := $p1
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_3))),and(isUndef(owner(fork_1)),isUndef(owner(fork_3)))),eq(left_fork($p2),fork_5)) then
+                    owner(fork_5) := $p2
+                endif
+                if and(and(and(not(hungry($p2)),and(eq(left_fork($p2),fork_1),eq(right_fork($p2),fork_2))),and(and(eating($p2),eq(owner(fork_1),$p2)),eq(owner(fork_2),$p2))),eq(left_fork($p2),fork_4)) then
+                    owner(fork_4) := undef
+                endif
+                if and(and(and(hungry($p2),and(eq(left_fork($p2),fork_2),eq(right_fork($p2),fork_1))),and(isUndef(owner(fork_2)),isUndef(owner(fork_1)))),eq(left_fork($p2),fork_1)) then
+                    owner(fork_1) := $p2
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_3),eq(right_fork($p1),fork_2))),and(isUndef(owner(fork_3)),isUndef(owner(fork_2)))),eq(right_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
+                endif
+                if and(and(and(hungry($p1),and(eq(left_fork($p1),fork_4),eq(right_fork($p1),fork_1))),and(isUndef(owner(fork_4)),isUndef(owner(fork_1)))),eq(left_fork($p1),fork_3)) then
+                    owner(fork_3) := $p1
                 endif
             endpar
 

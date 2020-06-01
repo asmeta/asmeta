@@ -23,14 +23,14 @@ definitions:
             if and(isDef(chooseVar0),eq(chooseVar0,5)) then
                 foo(5) := chooseVar0
             endif
-            if and(isDef(chooseVar0),eq(chooseVar0,4)) then
-                foo(4) := chooseVar0
-            endif
             if and(isDef(chooseVar0),eq(chooseVar0,2)) then
                 foo(2) := chooseVar0
             endif
             if and(isDef(chooseVar0),eq(chooseVar0,3)) then
                 foo(3) := chooseVar0
+            endif
+            if and(isDef(chooseVar0),eq(chooseVar0,4)) then
+                foo(4) := chooseVar0
             endif
         endpar
 

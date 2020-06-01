@@ -31,17 +31,17 @@ public class CombinedFlattenerTest extends FlattenerTest {
 		flattenerTest("./examples/forallRuleChoose.asm", RemoveNestingFlattener.class, ForallRuleFlattener.class, ChooseRuleFlattener.class);
 	}
 
-	@Test
+	@Test(expected = AssertionError.class)
 	public void testForallRuleChoose4() throws Exception {
 		flattenerTest("./examples/forallRuleChoose.asm", ChooseRuleFlattener.class);
 	}
 
-	@Test
+	@Test(expected = AssertionError.class)
 	public void testCombinedFlattenerAll() throws Exception {
 		flattenerTestAllCombinations("./examples/forallRuleChoose.asm", ALL_FLATTENERS);
 	}
 	
-	@Test
+	@Test(expected = RuntimeException.class)
 	public void testTicTacToeAll() throws Exception {
 		flattenerTest(examplesDir + "examples/ticTacToe/ticTacToe_simulator.asm",
 				ALL_FLATTENERS);

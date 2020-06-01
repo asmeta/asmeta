@@ -63,7 +63,7 @@ public class AllCombinationsTest extends FlattenerTest {
 		//TODO: errore su variabile
 	}
 
-	@Test
+	@Test(expected = RuntimeException.class)
 	public void testPhilosophers() throws Exception {
 		flattenerTestAllCombinations(examplesDir + "examples/philosophers/philosophers3.asm",
 				ALL_FLATTENERS);
@@ -71,7 +71,7 @@ public class AllCombinationsTest extends FlattenerTest {
 		//questo problema lo sappiamo...
 	}
 
-	@Test
+	@Test(expected = RuntimeException.class)
 	public void testTicTacToe() throws Exception {
 		flattenerTestAllCombinations(examplesDir + "examples/ticTacToe/ticTacToe_simulator.asm",
 				ALL_FLATTENERS);

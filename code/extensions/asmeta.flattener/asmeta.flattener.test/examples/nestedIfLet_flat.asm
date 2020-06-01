@@ -23,11 +23,8 @@ definitions:
 
     main rule r_Main =
         par
-            if a then
-                par
-                    k := 2
-                    x := 3
-                endpar
+            if and(and(not(a),c),d) then
+                z := 3
             endif
             if and(a,b) then
                 par
@@ -35,21 +32,24 @@ definitions:
                     let ($x = 2) in
                         par
                             foo($x) := $x
-                            if and(c,d) then
-                                z := 3
-                            endif
                             if and(c,not(d)) then
                                 z := 2
+                            endif
+                            if and(c,d) then
+                                z := 3
                             endif
                         endpar
                     endlet
                 endpar
             endif
+            if a then
+                par
+                    k := 2
+                    x := 3
+                endpar
+            endif
             if and(and(not(a),c),not(d)) then
                 z := 2
-            endif
-            if and(and(not(a),c),d) then
-                z := 3
             endif
         endpar
 

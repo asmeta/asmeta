@@ -1,7 +1,7 @@
-//applied flatteners: CaR AR LR FR ChR NR MCR 
-asm petriNet_forNuSMV_flat
-import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+//applied flatteners: MCR FR ChR AR LR CaR NR 
+asm PetriNet_flat
+import ./STDL/StandardLibrary
+import ./STDL/CTLlibrary
 
 signature:
     abstract domain Place
@@ -47,29 +47,29 @@ definitions:
     CTLSPEC ag(ef(and(and(and(eq(tokens(p1),1),eq(tokens(p2),1)),eq(tokens(p3),2)),eq(tokens(p4),1))))
     main rule r_Main =
         par
+            if and(isDef(chooseVar0),eq(chooseVar0,t1)) then
+                tokens(p3) := plus(tokens(p3),incidenceMatrix(p3,t1))
+            endif
             if and(isDef(chooseVar0),eq(chooseVar0,t2)) then
                 tokens(p1) := plus(tokens(p1),incidenceMatrix(p1,t2))
+            endif
+            if and(isDef(chooseVar0),eq(chooseVar0,t1)) then
+                tokens(p4) := plus(tokens(p4),incidenceMatrix(p4,t1))
             endif
             if and(isDef(chooseVar0),eq(chooseVar0,t2)) then
                 tokens(p3) := plus(tokens(p3),incidenceMatrix(p3,t2))
             endif
-            if and(isDef(chooseVar0),eq(chooseVar0,t2)) then
-                tokens(p2) := plus(tokens(p2),incidenceMatrix(p2,t2))
+            if and(isDef(chooseVar0),eq(chooseVar0,t1)) then
+                tokens(p2) := plus(tokens(p2),incidenceMatrix(p2,t1))
             endif
             if and(isDef(chooseVar0),eq(chooseVar0,t2)) then
                 tokens(p4) := plus(tokens(p4),incidenceMatrix(p4,t2))
             endif
             if and(isDef(chooseVar0),eq(chooseVar0,t1)) then
-                tokens(p4) := plus(tokens(p4),incidenceMatrix(p4,t1))
-            endif
-            if and(isDef(chooseVar0),eq(chooseVar0,t1)) then
-                tokens(p3) := plus(tokens(p3),incidenceMatrix(p3,t1))
-            endif
-            if and(isDef(chooseVar0),eq(chooseVar0,t1)) then
-                tokens(p2) := plus(tokens(p2),incidenceMatrix(p2,t1))
-            endif
-            if and(isDef(chooseVar0),eq(chooseVar0,t1)) then
                 tokens(p1) := plus(tokens(p1),incidenceMatrix(p1,t1))
+            endif
+            if and(isDef(chooseVar0),eq(chooseVar0,t2)) then
+                tokens(p2) := plus(tokens(p2),incidenceMatrix(p2,t2))
             endif
         endpar
 

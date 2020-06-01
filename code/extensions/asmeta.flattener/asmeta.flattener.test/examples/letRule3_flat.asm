@@ -29,16 +29,16 @@ definitions:
                     fooC := 1
                 endpar
             endif
-            if and(foo,eq(fooA,3)) then
-                par
-                    fooB := true
-                    fooC := 3
-                endpar
-            endif
             if and(foo,eq(fooA,4)) then
                 par
                     fooB := true
                     fooC := 4
+                endpar
+            endif
+            if and(foo,eq(fooA,3)) then
+                par
+                    fooB := true
+                    fooC := 3
                 endpar
             endif
             if and(eq(foo,false),eq(fooA,2)) then
@@ -53,16 +53,16 @@ definitions:
                     fooC := 1
                 endpar
             endif
-            if and(eq(foo,false),eq(fooA,3)) then
-                par
-                    fooB := false
-                    fooC := 3
-                endpar
-            endif
             if and(eq(foo,false),eq(fooA,4)) then
                 par
                     fooB := false
                     fooC := 4
+                endpar
+            endif
+            if and(eq(foo,false),eq(fooA,3)) then
+                par
+                    fooB := false
+                    fooC := 3
                 endpar
             endif
         endpar

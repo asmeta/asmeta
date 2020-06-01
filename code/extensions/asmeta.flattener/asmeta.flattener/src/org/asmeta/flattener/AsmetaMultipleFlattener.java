@@ -75,7 +75,7 @@ public class AsmetaMultipleFlattener {
 			//System.out.println(printASM(asm));
 		}
 		if (flats.contains(ChooseRuleFlattener.class)) {
-			assert flats.contains(ForallRuleFlattener.class) : flats;
+			//assert flats.contains(ForallRuleFlattener.class) : flats;
 			asm = new ChooseRuleFlattener(asm).flattenASM();
 			if (FlattenerSetting.simplify) {
 				asm = new RuleSimplifier(asm).flattenASM();

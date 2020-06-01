@@ -38,15 +38,15 @@ definitions:
     macro rule r_move($car in Car, $dir in Dir) =
         forall $r in Coord, $c in Coord with eq(board($r,$c),$car) do
             par
-                let ($var_275 = rMove($dir), $var_276 = cMove($dir)) in
-                    if eq(board(mod(plus($r,$var_275),6),mod(plus($c,$var_276),6)),undef) then
-                        let ($var_277 = rMove($dir), $var_278 = cMove($dir)) in
-                            board(mod(plus($r,$var_277),6),mod(plus($c,$var_278),6)) := $car
+                let ($var_982 = rMove($dir), $var_983 = cMove($dir)) in
+                    if eq(board(mod(plus($r,$var_982),6),mod(plus($c,$var_983),6)),undef) then
+                        let ($var_984 = rMove($dir), $var_985 = cMove($dir)) in
+                            board(mod(plus($r,$var_984),6),mod(plus($c,$var_985),6)) := $car
                         endlet
                     endif
                 endlet
-                let ($var_279 = rMoveP($dir), $var_280 = cMoveP($dir)) in
-                    if neq(board(mod(plus($r,$var_279),6),mod(plus($c,$var_280),6)),$car) then
+                let ($var_986 = rMoveP($dir), $var_987 = cMoveP($dir)) in
+                    if neq(board(mod(plus($r,$var_986),6),mod(plus($c,$var_987),6)),$car) then
                         board($r,$c) := undef
                     endif
                 endlet
