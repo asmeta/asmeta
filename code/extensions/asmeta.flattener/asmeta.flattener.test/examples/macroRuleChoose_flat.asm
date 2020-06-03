@@ -11,7 +11,7 @@ signature:
 
 definitions:
 
-    function chooseVar0 = chooseone({$s482 in Side| eq($s482,choice) : $s482})
+    function chooseVar0 = chooseone({$s478 in Side| eq($s478,choice) : $s478})
 
 
     main rule r_Main =

@@ -1,4 +1,4 @@
-//applied flatteners: CaR AR LR FR ChR NR MCR 
+//applied flatteners: NR MCR AR 
 asm petriNet_forNuSMV_flat
 import ../../../STDL/StandardLibrary
 import ../../../STDL/CTLlibrary
@@ -23,7 +23,6 @@ signature:
     static t2: Transition
     derived isEnabled: Transition -> Boolean
     derived availableCapacity: Place -> TokenDomain
-    derived chooseVar0: Transition
 
 definitions:
 
@@ -37,7 +36,6 @@ definitions:
     function capacity($p in Place) = switch $p case p1:1 case p2:3 case p3:5 case p4:1 endswitch
     function availableCapacity($p in Place) = minus(capacity($p),tokens($p))
     function isEnabled($t in Transition) = (forall $p in Place with and(implies(isInputPlace($p,$t),ge(tokens($p),inArcWeight($p,$t))),implies(isOutputPlace($p,$t),ge(availableCapacity($p),incidenceMatrix($p,$t)))))
-    function chooseVar0 = chooseone({$t in Transition| isEnabled($t) : $t})
 
 
     invariant over tokens: (forall $p in Place with ge(tokens($p),0))
@@ -46,32 +44,9 @@ definitions:
     CTLSPEC not(ef(eq(tokens(p2),2)))
     CTLSPEC ag(ef(and(and(and(eq(tokens(p1),1),eq(tokens(p2),1)),eq(tokens(p3),2)),eq(tokens(p4),1))))
     main rule r_Main =
-        par
-            if and(isDef(chooseVar0),eq(chooseVar0,t2)) then
-                tokens(p1) := plus(tokens(p1),incidenceMatrix(p1,t2))
-            endif
-            if and(isDef(chooseVar0),eq(chooseVar0,t2)) then
-                tokens(p3) := plus(tokens(p3),incidenceMatrix(p3,t2))
-            endif
-            if and(isDef(chooseVar0),eq(chooseVar0,t2)) then
-                tokens(p2) := plus(tokens(p2),incidenceMatrix(p2,t2))
-            endif
-            if and(isDef(chooseVar0),eq(chooseVar0,t2)) then
-                tokens(p4) := plus(tokens(p4),incidenceMatrix(p4,t2))
-            endif
-            if and(isDef(chooseVar0),eq(chooseVar0,t1)) then
-                tokens(p4) := plus(tokens(p4),incidenceMatrix(p4,t1))
-            endif
-            if and(isDef(chooseVar0),eq(chooseVar0,t1)) then
-                tokens(p3) := plus(tokens(p3),incidenceMatrix(p3,t1))
-            endif
-            if and(isDef(chooseVar0),eq(chooseVar0,t1)) then
-                tokens(p2) := plus(tokens(p2),incidenceMatrix(p2,t1))
-            endif
-            if and(isDef(chooseVar0),eq(chooseVar0,t1)) then
-                tokens(p1) := plus(tokens(p1),incidenceMatrix(p1,t1))
-            endif
-        endpar
+        choose $t in Transition with isEnabled($t) do
+            forall $p127 in Place with true do
+                tokens($p127) := plus(tokens($p127),incidenceMatrix($p127,$t))
 
 default init s0:
     function tokens($p in Place) = at({p1->1,p2->1,p3->2,p4->1},$p)

@@ -19,45 +19,45 @@ definitions:
         par
             foo := true
             par
-                if eq(mon,false) then
-                    fooA := true
-                endif
                 if mon then
                     fooA := false
                 endif
+                if eq(mon,false) then
+                    fooA := true
+                endif
             endpar
             par
-                if eq(fooB,false) then
-                    fooB := true
-                endif
                 if fooB then
                     fooB := false
+                endif
+                if eq(fooB,false) then
+                    fooB := true
                 endif
             endpar
             forall $b in Boolean with true do
                 par
-                    if eq($b,false) then
-                        fooC(false) := not($b)
-                    endif
                     if $b then
                         fooC(true) := not($b)
+                    endif
+                    if eq($b,false) then
+                        fooC(false) := not($b)
                     endif
                 endpar
             choose $t in Boolean with eq($t,mon) do
                 par
-                    if eq($t,false) then
-                        fooD := true
-                    endif
                     if $t then
                         fooD := false
                     endif
+                    if eq($t,false) then
+                        fooD := true
+                    endif
                 endpar
             par
-                if eq(fooD,false) then
-                    fooE(false) := not(fooE(false))
-                endif
                 if fooD then
                     fooE(true) := not(fooE(true))
+                endif
+                if eq(fooD,false) then
+                    fooE(false) := not(fooE(false))
                 endif
             endpar
         endpar

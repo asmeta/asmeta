@@ -25,6 +25,12 @@ definitions:
 
     main rule r_Main =
         par
+            if a then
+                par
+                    k := 2
+                    x := 3
+                endpar
+            endif
             if and(a,b) then
                 par
                     x := 2
@@ -38,11 +44,11 @@ definitions:
                                         if and(d,d) then
                                             k := 3
                                         endif
-                                        if and(d,not(d)) then
-                                            k := 2
-                                        endif
                                         if not(d) then
                                             z := 2
+                                        endif
+                                        if and(d,not(d)) then
+                                            k := 2
                                         endif
                                     endpar
                                 case CC:
@@ -59,17 +65,11 @@ definitions:
                     endswitch
                 endpar
             endif
-            if and(and(not(a),c),d) then
-                z := 3
-            endif
             if and(and(not(a),c),not(d)) then
                 z := 2
             endif
-            if a then
-                par
-                    k := 2
-                    x := 3
-                endpar
+            if and(and(not(a),c),d) then
+                z := 3
             endif
         endpar
 

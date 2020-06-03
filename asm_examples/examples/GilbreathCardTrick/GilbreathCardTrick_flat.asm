@@ -46,27 +46,27 @@ definitions:
                     par
                         choose $reverseFirst in Boolean with true do
                             if $reverseFirst then
-                                forall $i528 in Index with and(ge($i528,1),le($i528,plus(1,idiv(minus($cut,1),2)))) do
+                                forall $i524 in Index with and(ge($i524,1),le($i524,plus(1,idiv(minus($cut,1),2)))) do
                                     par
                                         par
-                                            cardNumber(minus($cut,minus($i528,1))) := cardNumber($i528)
-                                            cardSuit(minus($cut,minus($i528,1))) := cardSuit($i528)
+                                            cardNumber(minus($cut,minus($i524,1))) := cardNumber($i524)
+                                            cardSuit(minus($cut,minus($i524,1))) := cardSuit($i524)
                                         endpar
                                         par
-                                            cardNumber($i528) := cardNumber(minus($cut,minus($i528,1)))
-                                            cardSuit($i528) := cardSuit(minus($cut,minus($i528,1)))
+                                            cardNumber($i524) := cardNumber(minus($cut,minus($i524,1)))
+                                            cardSuit($i524) := cardSuit(minus($cut,minus($i524,1)))
                                         endpar
                                     endpar
                             else 
-                                forall $i529 in Index with and(ge($i529,plus($cut,1)),le($i529,plus(plus($cut,1),idiv(minus(12,plus($cut,1)),2)))) do
+                                forall $i525 in Index with and(ge($i525,plus($cut,1)),le($i525,plus(plus($cut,1),idiv(minus(12,plus($cut,1)),2)))) do
                                     par
                                         par
-                                            cardNumber(minus(12,minus($i529,plus($cut,1)))) := cardNumber($i529)
-                                            cardSuit(minus(12,minus($i529,plus($cut,1)))) := cardSuit($i529)
+                                            cardNumber(minus(12,minus($i525,plus($cut,1)))) := cardNumber($i525)
+                                            cardSuit(minus(12,minus($i525,plus($cut,1)))) := cardSuit($i525)
                                         endpar
                                         par
-                                            cardNumber($i529) := cardNumber(minus(12,minus($i529,plus($cut,1))))
-                                            cardSuit($i529) := cardSuit(minus(12,minus($i529,plus($cut,1))))
+                                            cardNumber($i525) := cardNumber(minus(12,minus($i525,plus($cut,1))))
+                                            cardSuit($i525) := cardSuit(minus(12,minus($i525,plus($cut,1))))
                                         endpar
                                     endpar
                             endif
@@ -88,10 +88,10 @@ definitions:
                                     cardNumber(free) := cardNumber(indexFirstDeck)
                                     cardSuit(free) := cardSuit(indexFirstDeck)
                                 endpar
-                                forall $i530 in Index with and(ge($i530,free),le($i530,minus(indexFirstDeck,1))) do
+                                forall $i526 in Index with and(ge($i526,free),le($i526,minus(indexFirstDeck,1))) do
                                     par
-                                        cardSuit(plus($i530,1)) := cardSuit($i530)
-                                        cardNumber(plus($i530,1)) := cardNumber($i530)
+                                        cardSuit(plus($i526,1)) := cardSuit($i526)
+                                        cardNumber(plus($i526,1)) := cardNumber($i526)
                                     endpar
                                 if lt(indexFirstDeck,cut) then
                                     indexFirstDeck := plus(indexFirstDeck,1)
@@ -105,10 +105,10 @@ definitions:
                                     cardNumber(free) := cardNumber(indexSecondDeck)
                                     cardSuit(free) := cardSuit(indexSecondDeck)
                                 endpar
-                                forall $i531 in Index with and(ge($i531,free),le($i531,minus(indexSecondDeck,1))) do
+                                forall $i527 in Index with and(ge($i527,free),le($i527,minus(indexSecondDeck,1))) do
                                     par
-                                        cardSuit(plus($i531,1)) := cardSuit($i531)
-                                        cardNumber(plus($i531,1)) := cardNumber($i531)
+                                        cardSuit(plus($i527,1)) := cardSuit($i527)
+                                        cardNumber(plus($i527,1)) := cardNumber($i527)
                                     endpar
                                 if lt(indexSecondDeck,12) then
                                     indexSecondDeck := plus(indexSecondDeck,1)

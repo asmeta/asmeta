@@ -32,17 +32,17 @@ definitions:
 
     main rule r_Main =
         par
-            if a then
-                par
-                    k := 2
-                    x := 3
-                endpar
-            endif
             if and(a,b) then
                 y := 4
             endif
             if not(a) then
                 r_a[]
+            endif
+            if a then
+                par
+                    k := 2
+                    x := 3
+                endpar
             endif
         endpar
 

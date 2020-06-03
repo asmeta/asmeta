@@ -34,16 +34,16 @@ definitions:
                     par
                         choose $reverseFirst in Boolean with true do
                             if $reverseFirst then
-                                forall $i524 in Index with and(ge($i524,1),le($i524,plus(1,idiv(minus($cut,1),2)))) do
+                                forall $i520 in Index with and(ge($i520,1),le($i520,plus(1,idiv(minus($cut,1),2)))) do
                                     par
-                                        cardSuit(minus($cut,minus($i524,1))) := cardSuit($i524)
-                                        cardSuit($i524) := cardSuit(minus($cut,minus($i524,1)))
+                                        cardSuit(minus($cut,minus($i520,1))) := cardSuit($i520)
+                                        cardSuit($i520) := cardSuit(minus($cut,minus($i520,1)))
                                     endpar
                             else 
-                                forall $i525 in Index with and(ge($i525,plus($cut,1)),le($i525,plus(plus($cut,1),idiv(minus(12,plus($cut,1)),2)))) do
+                                forall $i521 in Index with and(ge($i521,plus($cut,1)),le($i521,plus(plus($cut,1),idiv(minus(12,plus($cut,1)),2)))) do
                                     par
-                                        cardSuit(minus(12,minus($i525,plus($cut,1)))) := cardSuit($i525)
-                                        cardSuit($i525) := cardSuit(minus(12,minus($i525,plus($cut,1))))
+                                        cardSuit(minus(12,minus($i521,plus($cut,1)))) := cardSuit($i521)
+                                        cardSuit($i521) := cardSuit(minus(12,minus($i521,plus($cut,1))))
                                     endpar
                             endif
                         step := SHUFFLE
@@ -61,8 +61,8 @@ definitions:
                         if $pickFirst then
                             par
                                 cardSuit(free) := cardSuit(indexFirstDeck)
-                                forall $i526 in Index with and(ge($i526,free),le($i526,minus(indexFirstDeck,1))) do
-                                    cardSuit(plus($i526,1)) := cardSuit($i526)
+                                forall $i522 in Index with and(ge($i522,free),le($i522,minus(indexFirstDeck,1))) do
+                                    cardSuit(plus($i522,1)) := cardSuit($i522)
                                 if lt(indexFirstDeck,cut) then
                                     indexFirstDeck := plus(indexFirstDeck,1)
                                 else 
@@ -72,8 +72,8 @@ definitions:
                         else 
                             par
                                 cardSuit(free) := cardSuit(indexSecondDeck)
-                                forall $i527 in Index with and(ge($i527,free),le($i527,minus(indexSecondDeck,1))) do
-                                    cardSuit(plus($i527,1)) := cardSuit($i527)
+                                forall $i523 in Index with and(ge($i523,free),le($i523,minus(indexSecondDeck,1))) do
+                                    cardSuit(plus($i523,1)) := cardSuit($i523)
                                 if lt(indexSecondDeck,12) then
                                     indexSecondDeck := plus(indexSecondDeck,1)
                                 else 
