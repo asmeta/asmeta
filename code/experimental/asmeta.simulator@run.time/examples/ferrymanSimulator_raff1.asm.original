@@ -1,4 +1,4 @@
-asm ferrymanSimulator
+asm ferrymanSimulator_raff1
 
 //Problema: un ferryman deve portare sull'altra sponda di un fiume un wolf, una
 //goat ed un cabbage. Puo' trasportarne solo uno alla volta.
@@ -20,8 +20,11 @@ signature:
 	dynamic monitored carry: Actors
 	dynamic controlled outMess: String
 	derived oppositeSide: Side -> Side
+	derived allOnRightSide: Boolean
 
 definitions:
+	function allOnRightSide =
+		(forall $a in Actors with position($a) = RIGHT)
 
 	function oppositeSide($s in Side) =
 		if($s = LEFT) then
@@ -54,7 +57,11 @@ definitions:
 
 
 	main rule r_Main =
-		r_carry[carry]
+		if(not(allOnRightSide)) then
+			r_carry[carry]
+		else
+			outMess := "All on right side"
+		endif
 
 default init s0:
 	function position($a in Actors) = LEFT

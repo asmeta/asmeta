@@ -7,6 +7,10 @@ package org.asmeta.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.awt.EventQueue;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,12 +21,14 @@ import java.util.Queue;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
-import org.asmeta.runtime_container.Commander;
-import org.asmeta.runtime_container.CommanderException;
-import org.asmeta.runtime_container.CommanderOutput;
-import org.asmeta.runtime_container.CommanderStatus;
+import org.asmeta.assertion_catalog.InvariantGraphicsInterface;
+import org.asmeta.runtime_commander.Commander;
+import org.asmeta.runtime_commander.CommanderException;
+import org.asmeta.runtime_commander.CommanderOutput;
+import org.asmeta.runtime_commander.CommanderStatus;
 import org.asmeta.runtime_container.ContainerRT;
 import org.asmeta.runtime_container.Esit;
+import org.asmeta.runtime_container.InvariantData;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_simulator.AsmetaSservice;
 import org.junit.Test;
@@ -44,7 +50,7 @@ public class TestRuntimeModelContainer {
 	 *
 	 * @throws Exception the exception
 	 */
-	@Test
+	/*@Test
 	public void CheckID1() throws Exception {
 		
 		System.out.println("CHECKID for Nonfullmap");
@@ -55,7 +61,7 @@ public class TestRuntimeModelContainer {
 	    int idc = i.checkStartId(id);
 		assertTrue(idc == id );
 		System.out.println("===========================================");
-	}
+	}*/
 	
 //===================================START OF STARTEXE=============================================
 	
@@ -120,8 +126,8 @@ public class TestRuntimeModelContainer {
 		int id2 = i.startExecution(model);
 		int id3 = i.startExecution(model);
 		int id4 = i.startExecution(model);
-		int idc = i.checkStartId(id4);
-	    assertTrue(idc== -4);
+		//int idc = i.checkStartId(id4);
+	    assertTrue(id4== -4);
 	}
 	  
 		
@@ -136,7 +142,7 @@ public class TestRuntimeModelContainer {
 		 *
 		 * @throws Exception the exception
 		 */
-		@Test
+/*		@Test
 		public void CheckSafety1() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST SAFETY1 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
@@ -160,7 +166,7 @@ public class TestRuntimeModelContainer {
 			ArrayList<String> test = new ArrayList<String>();
 			test.add("operation");
 			assertTrue(imp.checkSafety( model, monitored).equals(test) );
-	}
+	}*/
 //===================================END START EXE  =============================================
 		
 		
@@ -872,34 +878,48 @@ public class TestRuntimeModelContainer {
 		public void testPrintInvariant() throws Exception
 		{
 			String model = "examples/ferrymanSimulator_raff1.asm";
-			List<String> final_list = new ArrayList<String>();
+			InvariantData final_list = new InvariantData();
 			ContainerRT imp = ContainerRT.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
 			final_list = imp.viewListInvariant(id);
 			int i=0;
-			while(i<final_list.size()) {
-				System.out.println(final_list.get(i));
-				i++;
-			}
+			System.out.println(final_list);
+		}
+		
+		public void rigenera() throws Exception {
+			String model = "examples/ferrymanSimulator_raff1.asm";
+			Files.copy(Paths.get(model+".original"), Paths.get(model), StandardCopyOption.REPLACE_EXISTING);
 		}
 		
 		@Test
 		public void testAddInvariant() throws Exception {
-			int result;
+			int result=0;
+			Map<String,String> m=new HashMap<String, String>();
+			m.put("carry", "WOLF");
 			String model = "examples/ferrymanSimulator_raff1.asm";
+			Files.copy(Paths.get(model+".original"), Paths.get(model), StandardCopyOption.REPLACE_EXISTING);
 			ContainerRT imp = ContainerRT.getInstance();
-			imp.init(1);
+			imp.init(2);
 			int id = imp.startExecution(model);
-			result = imp.addInvariant(id,"invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
-			if(result > 0)
+			imp.removeInvariant(id,"invariant over position:position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
+			System.out.println(imp.viewListInvariant(id));
+			//imp.runStep(id,m, model);
+			result=imp.addInvariant(id,"invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
+			//result=imp.addInvariant(id,"invariant che da parser error");
+			System.out.println(imp.viewListInvariant(id));
+			//result = imp.addInvariant(id,"invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
+			//imp.removeInvariant(id,"invariant over position:position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
+			/*if(result > 0)
 				System.out.println("Everything goes well");
 			else 
-				System.out.println("An error has occurred");
+				System.out.println("An error has occurred");*/
+			assertTrue(result>0);
 		}
 		@Test
 		public void testUpdateInvariant() throws Exception {
 			int result;
+			rigenera();
 			String model = "examples/ferrymanSimulator_raff1.asm";
 			ContainerRT imp = ContainerRT.getInstance();
 			imp.init(1);
@@ -915,19 +935,14 @@ public class TestRuntimeModelContainer {
 		
 		@Test
 		public void testRemoveInvariant() throws Exception {
-			boolean result;
+			rigenera();
 			String model = "examples/ferrymanSimulator_raff1.asm";
 			ContainerRT imp = ContainerRT.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
-			result = imp.removeInvariant(id,"invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
-			if(result)
-				System.out.println("Everything goes well");
-			else
-				System.out.println("An error has occurred");
+			imp.removeInvariant(id,"invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
+			System.out.println(imp.viewListInvariant(id));
 		}
-
-//=========================Fine Asm Test===============================================================
 		
 		@Test
 		public void testAddInvariantSimulation() throws Exception {
@@ -935,8 +950,11 @@ public class TestRuntimeModelContainer {
 			Map<String, String> monitored = new HashMap<String, String>();
 			String model = "examples/ferrymanSimulator_raff1.asm";
 			ContainerRT imp = ContainerRT.getInstance();
-			imp.init(1);
+			imp.init(3);
 			int id = imp.startExecution(model);
+			imp.startExecution(model);
+			imp.startExecution(model);
+			//imp.stopExecution(2);
 			monitored.put("carry", "GOAT"); 
 			imp.runStep(id, monitored, model);
 			monitored.put("carry", "FERRYMAN"); 
@@ -946,6 +964,7 @@ public class TestRuntimeModelContainer {
 			monitored.put("carry", "FERRYMAN"); 
 			imp.runStep(id, monitored, model);
 			imp.addInvariant(id, "invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
+			System.out.println(imp.getLoadedIDs());
 			/*monitored.put("carry", "WOLF"); 
 			imp.runStep(id, monitored, model);*/
 			/*monitored.put("carry", "CABBAGE"); 
@@ -954,5 +973,11 @@ public class TestRuntimeModelContainer {
 			imp.runStep(id, monitored, model);*/
 		
 		}
-		
+		//=========================Fine Asm Test===============================================================
+		//=========================Inizio GUI Test===============================================================
+	@Test
+	public void testGUI() {
+		InvariantGraphicsInterface.main(null);
+	}
+
 }

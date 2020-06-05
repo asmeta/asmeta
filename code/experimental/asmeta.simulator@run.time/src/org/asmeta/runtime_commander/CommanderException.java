@@ -1,4 +1,4 @@
-package org.asmeta.runtime_container;
+package org.asmeta.runtime_commander;
 
 public class CommanderException extends Exception{
 	/**

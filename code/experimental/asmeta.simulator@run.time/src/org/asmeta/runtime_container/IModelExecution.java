@@ -24,13 +24,37 @@ public interface IModelExecution {
 	 /**
  	 * Run step.
  	 *
+ 	 * @param ids the simulation id
  	 * @param locationValue the location value
  	 * @param modelPath the model path
  	 * @return the run output
  	 */
  	RunOutput runStep(int ids,Map<String, String> locationValue, String modelPath);
+	 /**
+	 * Run step.
+	 *
+	 * @param id the simulation id
+	 * @return the run output
+	 */
  	RunOutput runStep(int id);
-	 
+	 /**
+	 * Run step with timeout.
+	 *
+	 * @param ids the simulation id
+	 * @param locationValue the location value
+	 * @param modelPath the model path
+	 * @param timeout the timeout in milliseconds before interrupting
+	 * @return the run output
+	 */
+ 	RunOutput runStepTimeout(int ids,Map<String, String> locationValue, String modelPath,int timeout);
+	 /**
+	 * Run step with timeout.
+	 *
+	 * @param id the simulation id
+	 * @param timeout the timeout in milliseconds before interrupting
+	 * @return the run output
+	 */
+ 	RunOutput runStepTimeout(int id, int timeout);
 	 
 	 /**
  	 * Stop execution.
@@ -43,7 +67,7 @@ public interface IModelExecution {
 	 //String getInfo();
 	 
 	 /**
- 	 * Inits the.
+ 	 * Inits the max sim instance.
  	 *
  	 * @param maxSimInstance the max sim instance
  	 * @return the int
@@ -51,22 +75,78 @@ public interface IModelExecution {
  	int init(int maxSimInstance);
 	
 	 /**
- 	 * Run until empty.
- 	 *
- 	 * @param locationValue the location value
- 	 * @param modelPath the model path
- 	 * @return the run output
- 	 */
- 	RunOutput runStepTimeout(int ids,Map<String, String> locationValue, String modelPath,int timeout);
- 	RunOutput runStepTimeout(int id, int timeout);
- 	
+	 * Run until empty.
+	 *
+	 * @param id the simulation id
+	 * @param locationValue the location value
+	 * @param modelPath the model path
+	 * @param max the maximum amount of steps before interrupting
+	 * @return the run output
+	 */
  	RunOutput runUntilEmpty(int id, Map<String, String> locationValue, String modelPath, int max);
+	 /**
+	 * Run until empty.
+	 *
+	 * @param id the simulation id
+	 * @param max the maximum amount of steps before interrupting
+	 * @return the run output
+	 */
  	RunOutput runUntilEmpty(int id, int max);
+	 /**
+	 * Run until empty.
+	 *
+	 * @param id the simulation id
+	 * @param modelPath the model path
+	 * @return the run output
+	 */
  	RunOutput runUntilEmpty(int id, String modelPath);
+	 /**
+	 * Run until empty.
+	 *
+	 * @param id the simulation id
+	 * @param locationValue the location value
+	 * @param modelPath the model path
+	 * @return the run output
+	 */
  	RunOutput runUntilEmpty(int id,  Map<String, String> locationValue, String modelPath);
+	 /**
+	 * Run until empty with timeout.
+	 *
+	 * @param id the simulation id
+	 * @param max the maximum amount of steps before interrupting
+	 * @param timeout the timeout in milliseconds before interrupting
+	 * @return the run output
+	 */
  	RunOutput runUntilEmptyTimeout(int id, int max, int timeout);
+	 /**
+	 * Run until empty with timeout.
+	 *
+	 * @param id the simulation id
+	 * @param locationValue the location value
+	 * @param modelPath the model path
+	 * @param max the maximum amount of steps before interrupting
+	 * @param timeout the timeout in milliseconds before interrupting
+	 * @return the run output
+	 */
  	RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, String modelPath, int max, int timeout);
+	 /**
+	 * Run until empty with timeout.
+	 *
+	 * @param id the simulation id
+	 * @param modelPath the model path
+	 * @param timeout the timeout in milliseconds before interrupting
+	 * @return the run output
+	 */
  	RunOutput runUntilEmptyTimeout(int id, String modelPath, int timeout);
+	 /**
+	 * Run until empty with timeout.
+	 *
+	 * @param id the simulation id
+	 * @param locationValue the location value
+	 * @param modelPath the model path
+	 * @param timeout the timeout in milliseconds before interrupting
+	 * @return the run output
+	 */
  	RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, String modelPath, int timeout);
  	
 	  

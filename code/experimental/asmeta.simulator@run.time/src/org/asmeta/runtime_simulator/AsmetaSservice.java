@@ -80,6 +80,14 @@ public class AsmetaSservice implements IAsmetaSservice{
 		
 		return id;
 	}
+	/**
+	 * tries to start a simulation that begins already on the given state, behaves the same as start.
+	 *
+	 * @param modelPath the model path
+	 * @param state the state to load as initial one
+	 * @return the id of the simulator generate, -1 if simulator map is full
+	 * @throws AsmModelNotFoundException, MainRuleNotFoundException
+	 */
 	public int restart(String modelPath, State s) throws Exception{
 		
 		File asmFile = new File(modelPath);
@@ -273,7 +281,7 @@ public class AsmetaSservice implements IAsmetaSservice{
 	 * @param id
 	 * return an exception if id is not available
 	 */
-	public void checkId(int id) {
+	private void checkId(int id) {
 		if(id < 1 || id > maxSimInstance)
 			throw new IdNotFoundException("The id must be between 1 and " + maxSimInstance + ".");
 		
@@ -291,6 +299,25 @@ public class AsmetaSservice implements IAsmetaSservice{
 				throw new IdNotFoundException("This id is not used. Valid id are: " + validId + ".");
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * returns true if given id is a correct simulation
+	 */
+	public boolean checkValidId(int id) {
+		if(id < 1 || id > maxSimInstance)
+			return false;
+		return !this.id[id-1];
+	}
+	
+	/**
+	 *
+	 * returns maxSimInstance parameter
+	 */
+	public int getMaxInstances() {
+		return maxSimInstance;
 	}
 	
 

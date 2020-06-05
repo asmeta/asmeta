@@ -1,127 +1,44 @@
 package org.asmeta.test;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-
-import org.asmeta.assertion_catalog.Frame;
+import org.asmeta.assertion_catalog.InvariantGraphicsInterface;
 import org.asmeta.runtime_container.ContainerRT;
 
-public class GuiTest {
-	
-	JFileChooser fileChooser = new JFileChooser();
-	StringBuilder sb = new StringBuilder();
-	static String model = "";
-	File file;
-	Scanner input;
-	
-	public List<String> refreshInvariants() throws Exception
-	{
-		List<String> final_list = new ArrayList<String>();
+public class GUITest {
+
+	public static void main(String[] args) {
 		ContainerRT imp = ContainerRT.getInstance();
-		imp.init(1);
-		int id = imp.startExecution(model);
-		if(id>0)
-			return final_list = imp.viewListInvariant(id);
-		else {
-			return null;
+		imp.init(20);
+		//String model = "examples/ferrymanSimulator_raff1.asm";
+		//String model = "examples/LGS_GM.asm";
+		String model = "examples/lift3.asm";
+		try {
+			Files.copy(Paths.get(model+".original"), Paths.get(model), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			System.out.println("java files good");
 		}
+		imp.startExecution(model);
+		imp.startExecution("examples/LGS_GM.asm");
+		imp.startExecution("examples/ferrymanSimulator_raff1.asm");
+		imp.startExecution("examples/Lavatrice.asm");
+
+		//imp.stopExecution(2);
+		InvariantGraphicsInterface.main(imp);
+		/*Map<String,String> m=new HashMap<String, String>(); //prova per invalid invariant su aggiunta
+		m.put("carry", "CABBAGE");
+		imp.runStep(1,m, model);*/
+		/*try { //prova per simulazione stoppata nella gui
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		imp.stopExecution(3);*/
 	}
-	
-	public String chooseModel() throws Exception {
-		if(fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
-		{
-			file = fileChooser.getSelectedFile();
-			input = new Scanner(file);
-			
-			while(input.hasNext()) {
-				sb.append(input.nextLine());
-				sb.append("\n");
-			}
-			model = file.getAbsolutePath();
-			input.close();
-		}
-		else
-		{
-			sb.append("");
-		}
-		return sb.toString();
-	}
-	
-	public static boolean addInvariant(String s) throws Exception {
-		boolean add_result=true;
-		int check=0;
-		ContainerRT imp = ContainerRT.getInstance();
-		imp.init(1);
-		int id = imp.startExecution(model);
-		check = imp.addInvariant(id,s);
-		if(check>0)
-		{
-			Frame.showInvariants();
-			Frame.setAllEnabled(1);
-		}
-		else {
-				if(check==-8)
-					JOptionPane.showMessageDialog(null, "Variable is already taken");
-				else if(check==-5)
-					JOptionPane.showMessageDialog(null, "Invalid Invariant");
-				add_result=false;
-		}
-		return add_result;
-	}
-	
-	public static boolean updateInvariant(String new_invariant, String old_invariant) throws Exception {
-		   int result;
-		   ContainerRT imp = ContainerRT.getInstance();
-		   imp.init(1);
-		   int id = imp.startExecution(model);
-		   result = imp.updateInvariant(id,new_invariant,old_invariant);
-		   boolean check;
-		   if(result > 0)
-			{
-			   check=true;
-				Frame.showInvariants();
-				Frame.setAllEnabled(1);
-			}
-			else {
-				check=false;
-				if(result == -8)
-					JOptionPane.showMessageDialog(null, "Variable is already taken");
-				else
-					if(result==-5)
-						JOptionPane.showMessageDialog(null, "Invalid Invariant");
-					else
-					 JOptionPane.showMessageDialog(null, "An error has occurred - failed to rename");
-			}
-		   return check;
-		  }
-	
-	
-	
-	public static void removeInvariant(String s) throws Exception {
-		boolean result;
-		ContainerRT imp = ContainerRT.getInstance();
-		imp.init(1);
-		int id = imp.startExecution(model);
-		result = imp.removeInvariant(id,s);
-		if(result)
-		{
-			Frame.showInvariants();
-			Frame.setAllEnabled(1);
-		}
-		else {
-			JOptionPane.showMessageDialog(null, "An error has occurred");
-		}
-	}
-	
-	public String getModel() 
-	{
-		return model.toString();
-	}
-	
-	
+
 }

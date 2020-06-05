@@ -1,41 +1,51 @@
-package org.asmeta.runtime_container;
+package org.asmeta.runtime_commander;
 
 import java.util.List;
+import java.util.Map;
+
+import org.asmeta.runtime_container.InvariantData;
+import org.asmeta.runtime_container.RunOutput;
 
 public class CommanderOutput {
 	private CommanderStatus status; // gives out how this result should be interpreted
 	private int num; // integer result
 	private RunOutput ro; // run output result
-	private List<String> invl; // list of strings result
+	private InvariantData invl; // invariant data result
 	private boolean success; // result of add/update/remove operations on invariants
 	private String errorMessage;
+	private Map<Integer, String> loadids;
 	
 	public CommanderOutput(CommanderStatus status, int num) {
-		this(status,num,null,null,false,null);
+		this(status,num,null,null,false,null,null);
 	}
 	
-	public CommanderOutput(CommanderStatus status, List<String> invl) {
-		this(status,0,null,invl,false,null);
+	public CommanderOutput(CommanderStatus status, Map<Integer, String> loadids) {
+		this(status,0,null,null,false,null,loadids);
+	}
+	
+	public CommanderOutput(CommanderStatus status, InvariantData invl) {
+		this(status,0,null,invl,false,null,null);
 	}
 	
 	public CommanderOutput(CommanderStatus status, RunOutput ro) {
-		this(status,0,ro,null,false,null);
+		this(status,0,ro,null,false,null,null);
 	}
 	public CommanderOutput(CommanderStatus status, String errorMessage) {
-		this(status,0,null,null,false,errorMessage);
+		this(status,0,null,null,false,errorMessage,null);
 	}
 	
 	public CommanderOutput(CommanderStatus status, boolean success) {
-		this(status,0,null,null,success,null);
+		this(status,0,null,null,success,null,null);
 	}
 	
-	public CommanderOutput(CommanderStatus status, int num, RunOutput ro, List<String> invl, boolean success, String errorMessage) {
+	public CommanderOutput(CommanderStatus status, int num, RunOutput ro, InvariantData invl, boolean success, String errorMessage, Map<Integer, String> loadids) {
 		this.ro=ro;
 		this.num=num;
 		this.status=status;
 		this.invl=invl;
 		this.success=success;
 		this.errorMessage=errorMessage;
+		this.loadids=loadids;
 	}
 	
 	public RunOutput getRunOutput() throws CommanderException{
@@ -58,7 +68,7 @@ public class CommanderOutput {
 			throw new CommanderException("Parser output type not correct", status);
 		return num;
 	}
-	public List<String> getInvList() throws CommanderException{
+	public InvariantData getInvList() throws CommanderException{
 		if (status!=CommanderStatus.VIEWINV)
 			throw new CommanderException("Parser output type not correct", status);
 		return invl;
@@ -72,6 +82,11 @@ public class CommanderOutput {
 		if (status!=CommanderStatus.FAILURE)
 			throw new CommanderException("Parser output type not correct", status);
 		return errorMessage;
+	}
+	public Map<Integer, String> getLoadedIDs() throws CommanderException{
+		if (status!=CommanderStatus.LOADED_IDS)
+			throw new CommanderException("Parser output type not correct", status);
+		return loadids;
 	}
 	public CommanderStatus getStatus() {
 		return status;
