@@ -29,7 +29,7 @@ public interface IModelExecution {
  	 * @param modelPath the model path
  	 * @return the run output
  	 */
- 	RunOutput runStep(int ids,Map<String, String> locationValue, String modelPath);
+ 	RunOutput runStep(int ids,Map<String, String> locationValue);
 	 /**
 	 * Run step.
 	 *
@@ -46,7 +46,7 @@ public interface IModelExecution {
 	 * @param timeout the timeout in milliseconds before interrupting
 	 * @return the run output
 	 */
- 	RunOutput runStepTimeout(int ids,Map<String, String> locationValue, String modelPath,int timeout);
+ 	RunOutput runStepTimeout(int ids,Map<String, String> locationValue,int timeout);
 	 /**
 	 * Run step with timeout.
 	 *
@@ -83,7 +83,7 @@ public interface IModelExecution {
 	 * @param max the maximum amount of steps before interrupting
 	 * @return the run output
 	 */
- 	RunOutput runUntilEmpty(int id, Map<String, String> locationValue, String modelPath, int max);
+ 	RunOutput runUntilEmpty(int id, Map<String, String> locationValue, int max);
 	 /**
 	 * Run until empty.
 	 *
@@ -99,7 +99,7 @@ public interface IModelExecution {
 	 * @param modelPath the model path
 	 * @return the run output
 	 */
- 	RunOutput runUntilEmpty(int id, String modelPath);
+ 	RunOutput runUntilEmpty(int id);
 	 /**
 	 * Run until empty.
 	 *
@@ -108,7 +108,7 @@ public interface IModelExecution {
 	 * @param modelPath the model path
 	 * @return the run output
 	 */
- 	RunOutput runUntilEmpty(int id,  Map<String, String> locationValue, String modelPath);
+ 	RunOutput runUntilEmpty(int id,  Map<String, String> locationValue);
 	 /**
 	 * Run until empty with timeout.
 	 *
@@ -128,7 +128,7 @@ public interface IModelExecution {
 	 * @param timeout the timeout in milliseconds before interrupting
 	 * @return the run output
 	 */
- 	RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, String modelPath, int max, int timeout);
+ 	RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout);
 	 /**
 	 * Run until empty with timeout.
 	 *
@@ -137,7 +137,7 @@ public interface IModelExecution {
 	 * @param timeout the timeout in milliseconds before interrupting
 	 * @return the run output
 	 */
- 	RunOutput runUntilEmptyTimeout(int id, String modelPath, int timeout);
+ 	RunOutput runUntilEmptyTimeout(int id, int timeout);
 	 /**
 	 * Run until empty with timeout.
 	 *
@@ -147,7 +147,7 @@ public interface IModelExecution {
 	 * @param timeout the timeout in milliseconds before interrupting
 	 * @return the run output
 	 */
- 	RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, String modelPath, int timeout);
+ 	RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int timeout);
  	
 	  
 }

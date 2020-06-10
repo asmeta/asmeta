@@ -95,6 +95,10 @@ public class InvariantGraphicsInterface {
 		});
 	}
 	
+	public void setVisible() {
+		frame.setVisible(true);
+	}
+	
 
 	/**
 	 * Create the application.
@@ -104,6 +108,15 @@ public class InvariantGraphicsInterface {
 		containerInstance=contInstanc;
 		currentLoadedID=-99;
 		currentLoadedModel="";
+	}
+	InvariantGraphicsInterface(IModelAdaptation containerInstance, int currentLoadedID, String currentLoadedModel){
+		initialize();
+		InvariantGraphicsInterface.containerInstance=containerInstance;
+		InvariantGraphicsInterface.currentLoadedID=currentLoadedID;
+		InvariantGraphicsInterface.currentLoadedModel=currentLoadedModel;
+		showInvariants();
+		modelpath.setText(currentLoadedModel);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	/**
@@ -115,7 +128,7 @@ public class InvariantGraphicsInterface {
 		frame.setBounds(100, 100, 752, 490);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		frame.setTitle("Invariant GUI");
+		frame.setTitle("Assertion Catalog");
 		
 		/////////SET VISIBILITY OF BUTTONS
 		setAllEnabled(0);
@@ -176,7 +189,7 @@ public class InvariantGraphicsInterface {
 	    		ComboItem ci=null;
 	    		if (!ids.isEmpty()) {
 	    			setAllEnabled(1);
-	    			ci = new LoadDialog(ids).showDialog();
+	    			ci = new LoadSelectedSimulation(ids).showDialog();
 	    			//JOptionPane.showMessageDialog(null, ci.getStr());
 	    		}
 	    		if (ci!=null) {

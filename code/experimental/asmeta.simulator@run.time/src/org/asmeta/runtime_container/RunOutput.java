@@ -86,7 +86,8 @@ public class RunOutput implements Serializable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("The Esit of the running is: " + esit + "\n");
-		sb.append("Reason: " + message + "\n");
+		if (!message.equals(""))
+			sb.append("Reason: " + message + "\n");
 		return sb.toString();
 	}
 	
@@ -95,8 +96,12 @@ public class RunOutput implements Serializable {
 	public String MytoString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("The esit of the running is: " + esit + "\n");
-		sb.append("The monitored is: " + locationValue + "\n");
-		sb.append("The new state is: " + ms.getControlledValues());
+		if (!message.equals(""))
+			sb.append("Reason: " + message + "\n");
+		if (locationValue!=null)
+			sb.append("The monitored is: " + locationValue + "\n");
+		if (ms!=null)
+			sb.append("The new state is: " + ms.getControlledValues());
 		return sb.toString();
 	}
 

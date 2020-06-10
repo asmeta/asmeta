@@ -171,7 +171,7 @@ public class Commander {
 			
 			//executing function
 			if (parseok) {
-				switch (f) {
+				switch (f.toUpperCase()) {
 				case "INIT":
 					if (np!=DEFVALUE)
 						//System.out.println("init ok");
@@ -198,9 +198,9 @@ public class Commander {
 				break;
 				case "RUNSTEP":
 					if (idp!=DEFVALUE)
-						if (locationvaluep!=null && modelpathp!=null)
+						if (locationvaluep!=null)
 							//System.out.println("runstep ok long");
-							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runStep(idp, locationvaluep, modelpathp));
+							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runStep(idp, locationvaluep));
 						else
 							//System.out.println("runstep ok short");
 							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runStep(idp));
@@ -210,12 +210,12 @@ public class Commander {
 				break;
 				case "RUNSTEPTIMEOUT":
 					if (idp!=DEFVALUE && timeoutp!=DEFVALUE)
-						if (locationvaluep!=null && modelpathp!=null)
+						if (locationvaluep!=null)
 							//System.out.println("runstep ok long to");
-							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runStepTimeout(idp, locationvaluep, modelpathp,timeoutp));
+							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runStepTimeout(idp, locationvaluep, timeoutp));
 						else
 							//System.out.println("runstep ok short to");
-							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runStepTimeout(idp,timeoutp));
+							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runStepTimeout(idp, timeoutp));
 					else { 
 						if (idp==DEFVALUE) 
 							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
@@ -228,24 +228,22 @@ public class Commander {
 				case "RUNUNTILEMPTY":
 					if (idp!=DEFVALUE)
 						if (maxp!=DEFVALUE)
-							if (modelpathp!=null && locationvaluep!=null)
+							if (locationvaluep!=null)
 								//System.out.println("rununtilempty ok 3");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmpty(idp, locationvaluep, modelpathp, maxp));
-							else if (modelpathp==null && locationvaluep==null)
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmpty(idp, locationvaluep, maxp));
+							else
 								//System.out.println("rununtilempty ok 1");
 								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmpty(idp, maxp));
-							else
-								out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, no combination with given parameters found");
 								//System.out.println("Couldn't launch command, no combination with given parameters found.");
-						else if (modelpathp!=null)
+						else
 							if (locationvaluep!=null)
 								//System.out.println("rununtilempty ok 2");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmpty(idp, locationvaluep, modelpathp));
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmpty(idp, locationvaluep));
 							else
 								//System.out.println("rununtilempty ok 4");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmpty(idp, modelpathp));
-						else 
-							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, no combination with given parameters found");
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmpty(idp));
+						//else 
+							//out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, no combination with given parameters found");
 							//System.out.println("Couldn't launch command, no combination with given parameters found.");
 					else 
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
@@ -254,24 +252,24 @@ public class Commander {
 				case "RUNUNTILEMPTYTIMEOUT":
 					if (idp!=DEFVALUE && timeoutp!=DEFVALUE)
 						if (maxp!=DEFVALUE)
-							if (modelpathp!=null && locationvaluep!=null)
+							if (locationvaluep!=null)
 								//System.out.println("rununtilemptytimeout ok 3");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmptyTimeout(idp, locationvaluep, modelpathp, maxp, timeoutp));
-							else if (modelpathp==null && locationvaluep==null)
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmptyTimeout(idp, locationvaluep, maxp, timeoutp));
+							else
 								//System.out.println("rununtilemptytimeout ok 1");
 								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmptyTimeout(idp, maxp, timeoutp));
-							else 
-								out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, no combination with given parameters found");
+							//else 
+								//out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, no combination with given parameters found");
 								//System.out.println("Couldn't launch command, no combination with given parameters found.");
-						else if (modelpathp!=null)
+						else
 							if (locationvaluep!=null)
 								//System.out.println("rununtilemptytimeout ok 2");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmptyTimeout(idp, locationvaluep, modelpathp, timeoutp));
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmptyTimeout(idp, locationvaluep, timeoutp));
 							else
 								//System.out.println("rununtilemptytimeout ok 4");
-								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmptyTimeout(idp, modelpathp, timeoutp));
-						else 
-							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, no combination with given parameters found");
+								out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runUntilEmptyTimeout(idp, timeoutp));
+						//else 
+							//out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, no combination with given parameters found");
 							//System.out.println("Couldn't launch command, no combination with given parameters found.");
 					else { 
 						if (idp==DEFVALUE)
@@ -330,6 +328,10 @@ public class Commander {
 					break;
 				case "GETLOADEDIDS":
 					out = new CommanderOutput(CommanderStatus.LOADED_IDS, crt.getLoadedIDs());
+					break;
+				case "HELP":
+					CommanderHelp.help();
+					out = new CommanderOutput(CommanderStatus.FAILURE, "");
 					break;
 				default:
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Function \""+f+"\" is not a correct command");

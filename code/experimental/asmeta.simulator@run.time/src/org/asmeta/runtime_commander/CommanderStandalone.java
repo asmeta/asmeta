@@ -17,7 +17,7 @@ public class CommanderStandalone {
 			System.out.print('>');
 			in = keyboard.nextLine();
 			if (!in.equals("qqq")) {
-				CO = Commander.parseInput(imp, in, true);
+				CO = Commander.parseInput(imp, in, false);
 				try {
 				switch (CO.getStatus()) {
 				case SIM_ID:

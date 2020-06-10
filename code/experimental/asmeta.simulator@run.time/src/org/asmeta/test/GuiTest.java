@@ -8,13 +8,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.asmeta.assertion_catalog.InvariantGraphicsInterface;
+import org.asmeta.runtime_commander.CommanderStandalone;
 import org.asmeta.runtime_container.ContainerRT;
+import org.asmeta.runtime_container.IModelAdaptation;
+import org.asmeta.runtime_container.IModelExecution;
 
 public class GUITest {
 
 	public static void main(String[] args) {
 		ContainerRT imp = ContainerRT.getInstance();
-		imp.init(20);
+		//imp.init(20);
 		//String model = "examples/ferrymanSimulator_raff1.asm";
 		//String model = "examples/LGS_GM.asm";
 		String model = "examples/lift3.asm";
@@ -23,13 +26,14 @@ public class GUITest {
 		} catch (IOException e) {
 			System.out.println("java files good");
 		}
-		imp.startExecution(model);
+		/*imp.startExecution(model);
 		imp.startExecution("examples/LGS_GM.asm");
 		imp.startExecution("examples/ferrymanSimulator_raff1.asm");
-		imp.startExecution("examples/Lavatrice.asm");
-
+		imp.startExecution("examples/Lavatrice.asm");*/
+		
 		//imp.stopExecution(2);
 		InvariantGraphicsInterface.main(imp);
+		CommanderStandalone.main(args);
 		/*Map<String,String> m=new HashMap<String, String>(); //prova per invalid invariant su aggiunta
 		m.put("carry", "CABBAGE");
 		imp.runStep(1,m, model);*/

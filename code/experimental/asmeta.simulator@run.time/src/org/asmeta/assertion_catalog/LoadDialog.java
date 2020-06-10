@@ -1,11 +1,17 @@
 package org.asmeta.assertion_catalog;
 
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.asmeta.runtime_container.ContainerRT;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
@@ -13,10 +19,12 @@ import java.awt.Font;
 import java.util.Map;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class LoadDialog extends JDialog {
-
+	static InvariantManager StartGui = new InvariantManager();
 	private JPanel contentPane;
+	static JButton btnLoad = new JButton("Load");
 	/**
 	 * Create the frame.
 	 */
@@ -25,8 +33,8 @@ public class LoadDialog extends JDialog {
 		setVisible(true);
 		return ret;
 	}
-	
-	public LoadDialog(Map<Integer, String> ids) {
+
+	public LoadDialog(ContainerRT containerInstance,Map<Integer, String> ids) {
 		setModal(true);
 		setTitle("Load simulation");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -40,8 +48,8 @@ public class LoadDialog extends JDialog {
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox.setBounds(36, 56, 360, 30);
 		for(Map.Entry<Integer, String> i : ids.entrySet()) {
-			comboBox.addItem(new ComboItem(i.getKey(),i.getValue()));
-		}
+		   comboBox.addItem(new ComboItem(i.getKey(),i.getValue()));
+	    }
 		contentPane.add(comboBox);
 		
 		JButton btnCancel = new JButton("Cancel");
@@ -51,10 +59,10 @@ public class LoadDialog extends JDialog {
 				dispose();
 			}
 		});
-		btnCancel.setBounds(299, 127, 97, 25);
+		btnCancel.setBounds(182, 127, 97, 25);
 		contentPane.add(btnCancel);
 		
-		JButton btnLoad = new JButton("Load");
+
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ret=(ComboItem)comboBox.getSelectedItem();
@@ -62,7 +70,7 @@ public class LoadDialog extends JDialog {
 				dispose();
 			}
 		});
-		btnLoad.setBounds(190, 127, 97, 25);
+		btnLoad.setBounds(56, 127, 97, 25);
 		contentPane.add(btnLoad);
 		
 		JLabel lblLabel = new JLabel("Loaded simulations:");
@@ -70,37 +78,51 @@ public class LoadDialog extends JDialog {
 		lblLabel.setBounds(36, 26, 153, 16);
 		contentPane.add(lblLabel);
 		
+		JButton upload = new JButton("Upload");
+		upload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					StartGui.chooseModel();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			    String checkmodel = StartGui.getModel();
+			    if(!checkmodel.isEmpty() && checkmodel.indexOf(".asm")!=-1)
+			     {
+			    	int id=containerInstance.startExecution(checkmodel);
+			    	if(id>0){
+			    		comboBox.addItem(new ComboItem(id,checkmodel));
+			    		btnLoad.setEnabled(true);
+			    	}else if (id==-2)
+			    			//TODO GESTIONE ERRORI
+			    		JOptionPane.showMessageDialog(null, "Error: Main rule not found"); 
+			    	else if (id==-3)
+			    		JOptionPane.showMessageDialog(null, "Error: The model doesn't exist"); 
+			    	else if (id==-4)
+			    		JOptionPane.showMessageDialog(null, "Error: The simulator map is full"); 
+			    	else if (id==-5)
+			    		JOptionPane.showMessageDialog(null, "Error: The model contains errors");
+			    	else
+			    		JOptionPane.showMessageDialog(null, "Error"); 
+			    	
+			    	//JOptionPane.showMessageDialog(null, checkmodel);
+			     }
+			     if(checkmodel.indexOf(".asm")==-1 && !checkmodel.isEmpty()) {
+			    	JOptionPane.showMessageDialog(null, "Error: Wrong extension");
+			    }
+			     
+			    
+			}
+		});
+		upload.setBounds(317, 128, 89, 23);
+		contentPane.add(upload);
+		
 	}
+	public void disablebutton() {
+		btnLoad.setEnabled(false);
+	}
+	
 }
 
-class ComboItem
-{
-    private int i;
-    private String s;
 
-    public ComboItem(int id, String model)
-    {
-        this.i = id;
-        this.s = model;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "ID: "+i+" Model: "+showName();
-    }
-    
-    private String showName() {
-    	return s.substring(s.lastIndexOf('/')+1, s.length());
-    }
-    
-    public int getInt()
-    {
-        return i;
-    }
-
-    public String getStr()
-    {
-        return s;
-    }
-}

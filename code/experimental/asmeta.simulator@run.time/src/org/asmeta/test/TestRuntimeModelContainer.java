@@ -197,7 +197,7 @@ public class TestRuntimeModelContainer {
 			Map<String, String> monitored = new HashMap<String, String>();
 			int id = imp.startExecution(model);
 			monitored.put("operation", "ALLUMER"); 
-			assertTrue( new RunOutput(Esit.SAFE, "ALLUMER").equals(imp.runStep(id, monitored, model)));
+			assertTrue( new RunOutput(Esit.SAFE, "ALLUMER").equals(imp.runStep(id, monitored)));
 		}
 		@Test //names mismatch 
 		public void run2() throws Exception {
@@ -211,7 +211,7 @@ public class TestRuntimeModelContainer {
 			int id = imp.startExecution(model);
 			RunOutput r1 = new RunOutput(Esit.UNSAFE, "ALLUMER");
 			//imp.runStep(id, monitored, model);
-			assertTrue(r1.equals(imp.runStep(id, monitored, model)));
+			assertTrue(r1.equals(imp.runStep(id, monitored)));
 		}
 		
 		@Test //id not found
@@ -223,7 +223,7 @@ public class TestRuntimeModelContainer {
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
 			monitored.put("operation", "ALLUMER"); 
-			assertTrue(new RunOutput(Esit.UNSAFE, "ALLUMER").equals(imp.runStep(-1, monitored, model)));
+			assertTrue(new RunOutput(Esit.UNSAFE, "ALLUMER").equals(imp.runStep(-1, monitored)));
 		}
 		
 		@Test //input mismatch ====> TOF FIX
@@ -238,7 +238,7 @@ public class TestRuntimeModelContainer {
 			int id = imp.startExecution(model);
 			
 		    RunOutput r1 = new RunOutput(Esit.UNSAFE, "Input Mismatchs");
-			assertTrue(r1.equals(imp.runStep(id, monitored, model)));
+			assertTrue(r1.equals(imp.runStep(id, monitored)));
 		}
 		
 		@Test //invalid  invariant
@@ -253,7 +253,7 @@ public class TestRuntimeModelContainer {
 			monitored.put("monA", "false");
 			monitored.put("monB", "true");
 			RunOutput r1 = new RunOutput(Esit.UNSAFE, "Invalid Invariant");
-			assertTrue(r1.equals(imp.runStep(id, monitored, model2)));;
+			assertTrue(r1.equals(imp.runStep(id, monitored)));;
 			
 		}
 		
@@ -266,12 +266,12 @@ public class TestRuntimeModelContainer {
 			
 			imp.init(1);
 			int id = imp.startExecution(model2);
-			imp.runStep(id, monitored, model2);
-			imp.runStep(id, monitored, model2);
-			imp.runStep(id, monitored, model2);
+			imp.runStep(id, monitored);
+			imp.runStep(id, monitored);
+			imp.runStep(id, monitored);
 			
 			RunOutput r1 = new RunOutput(Esit.UNSAFE, "Inconsistent Update");
-			assertTrue(r1.equals(imp.runStep(id, monitored, model2)));;
+			assertTrue(r1.equals(imp.runStep(id, monitored)));;
 		}
 //===================================END RUN WITH MONITORING=============================================
 		
@@ -292,7 +292,7 @@ public class TestRuntimeModelContainer {
 					Map<String, String> monitored = new HashMap<String, String>();
 					int id = imp.startExecution(model);
 					monitored.put("operation", "ALLUMER"); 
-					assertTrue( new RunOutput(Esit.SAFE, "ALLUMER").equals(imp.runUntilEmptyTimeout(id, monitored, model, max,1000)));
+					assertTrue( new RunOutput(Esit.SAFE, "ALLUMER").equals(imp.runUntilEmptyTimeout(id, monitored, max,1000)));
 				}	
 				
 				@Test //names mismatch 
@@ -315,7 +315,7 @@ public class TestRuntimeModelContainer {
 					int id = imp.startExecution(model);
 					RunOutput r1 = new RunOutput(Esit.UNSAFE, "ALLUMER");
 					//imp.runUntilEmpty(id, monitored, model, max);
-					assertTrue(r1.equals(imp.runUntilEmptyTimeout(id, monitored, model, max, 1000)));
+					assertTrue(r1.equals(imp.runUntilEmptyTimeout(id, monitored, max, 1000)));
 				}
 				
 				@Test //id not found
@@ -327,7 +327,7 @@ public class TestRuntimeModelContainer {
 					imp.init(3);
 					Map<String, String> monitored = new HashMap<String, String>();
 					monitored.put("operation", "ALLUMER"); 
-					assertTrue(new RunOutput(Esit.UNSAFE, "ALLUMER").equals(imp.runUntilEmptyTimeout(-1, monitored, model, max,1000)));
+					assertTrue(new RunOutput(Esit.UNSAFE, "ALLUMER").equals(imp.runUntilEmptyTimeout(-1, monitored, max,1000)));
 				}
 				
 				@Test //input mismatch 
@@ -342,8 +342,8 @@ public class TestRuntimeModelContainer {
 					int id = imp.startExecution(model);
 					
 				    RunOutput r1 = new RunOutput(Esit.UNSAFE, "Input Mismatchs");
-				    imp.runStep(id,monitored, model);
-					assertTrue(r1.equals(imp.runUntilEmptyTimeout(id, monitored, model, max,1000)));
+				    imp.runStep(id,monitored);
+					assertTrue(r1.equals(imp.runUntilEmptyTimeout(id, monitored, max,1000)));
 				}
 				
 				@Test //invalid  invariant
@@ -356,7 +356,7 @@ public class TestRuntimeModelContainer {
 					System.out.println(id);
 					Map<String, String> monitored = new HashMap<String, String>();
 					RunOutput r1 = new RunOutput(Esit.UNSAFE, "Invalid Invariant");
-					assertTrue(r1.equals(imp.runUntilEmptyTimeout(id, monitored, model2, max,1000)));;
+					assertTrue(r1.equals(imp.runUntilEmptyTimeout(id, monitored, max,1000)));;
 					
 				}
 				
@@ -369,10 +369,10 @@ public class TestRuntimeModelContainer {
 					
 					imp.init(1);
 					int id = imp.startExecution(model2);
-					imp.runStep(id, monitored, model2);
+					imp.runStep(id, monitored);
 					
 					RunOutput r1 = new RunOutput(Esit.UNSAFE, "Inconsistent Update");
-					assertTrue(r1.equals(imp.runUntilEmptyTimeout(id, monitored, model2, max,1000)));;
+					assertTrue(r1.equals(imp.runUntilEmptyTimeout(id, monitored, max,1000)));;
 				}
 				
 //===================================END RUN UNTIL EMPTY TIMEOUT WITH MONITORING=============================================
@@ -397,7 +397,7 @@ public class TestRuntimeModelContainer {
 			Map<String, String> monitored = new HashMap<String, String>();
 			int id = imp.startExecution(model);
 			monitored.put("operation", "ALLUMER"); 
-			assertTrue( new RunOutput(Esit.SAFE, "ALLUMER").equals(imp.runUntilEmpty(id, monitored, model, max)));
+			assertTrue( new RunOutput(Esit.SAFE, "ALLUMER").equals(imp.runUntilEmpty(id, monitored, max)));
 		}	
 		
 		@Test //names mismatch 
@@ -411,8 +411,8 @@ public class TestRuntimeModelContainer {
 			monitored.put("operaion", "ALLUMER"); 
 			int id = imp.startExecution(model);
 			RunOutput r1 = new RunOutput(Esit.UNSAFE, "ALLUMER");
-			imp.runUntilEmpty(id, monitored, model, max);
-			assertTrue(r1.equals(imp.runUntilEmpty(id, monitored, model, max)));
+			imp.runUntilEmpty(id, monitored, max);
+			assertTrue(r1.equals(imp.runUntilEmpty(id, monitored, max)));
 		}
 		
 		@Test //id not found
@@ -424,7 +424,7 @@ public class TestRuntimeModelContainer {
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
 			monitored.put("operation", "ALLUMER"); 
-			assertTrue(new RunOutput(Esit.UNSAFE, "ALLUMER").equals(imp.runUntilEmpty(-1, monitored, model, max)));
+			assertTrue(new RunOutput(Esit.UNSAFE, "ALLUMER").equals(imp.runUntilEmpty(-1, monitored, max)));
 		}
 		
 		@Test //input mismatch 
@@ -439,8 +439,8 @@ public class TestRuntimeModelContainer {
 			int id = imp.startExecution(model);
 			
 		    RunOutput r1 = new RunOutput(Esit.UNSAFE, "Input Mismatchs");
-		    imp.runStep(id,monitored, model);
-			assertTrue(r1.equals(imp.runUntilEmpty(id, monitored, model, max)));
+		    imp.runStep(id,monitored);
+			assertTrue(r1.equals(imp.runUntilEmpty(id, monitored, max)));
 		}
 		
 		@Test //invalid  invariant
@@ -453,7 +453,7 @@ public class TestRuntimeModelContainer {
 			System.out.println(id);
 			Map<String, String> monitored = new HashMap<String, String>();
 			RunOutput r1 = new RunOutput(Esit.UNSAFE, "Invalid Invariant");
-			assertTrue(r1.equals(imp.runUntilEmpty(id, monitored, model2, max)));;
+			assertTrue(r1.equals(imp.runUntilEmpty(id, monitored, max)));;
 			
 		}
 		
@@ -466,10 +466,10 @@ public class TestRuntimeModelContainer {
 			
 			imp.init(1);
 			int id = imp.startExecution(model2);
-			imp.runStep(id, monitored, model2);
+			imp.runStep(id, monitored);
 			
 			RunOutput r1 = new RunOutput(Esit.UNSAFE, "Inconsistent Update");
-			assertTrue(r1.equals(imp.runUntilEmpty(id, monitored, model2, max)));;
+			assertTrue(r1.equals(imp.runUntilEmpty(id, monitored, max)));;
 		}
 		
 //===================================END RUN UNTIL EMPTY WITH MONITORING=============================================
@@ -512,9 +512,9 @@ public class TestRuntimeModelContainer {
 			
 			imp.init(1);
 			int id = imp.startExecution(model2);
-			imp.runStep(id, monitored, model2);
-			imp.runStep(id, monitored, model2);
-			imp.runStep(id, monitored, model2);
+			imp.runStep(id, monitored);
+			imp.runStep(id, monitored);
+			imp.runStep(id, monitored);
 			RunOutput r1 = new RunOutput(Esit.UNSAFE, "Inconsistent Update");
 			
 			assertTrue(r1.equals(imp.runStep(id)));
@@ -554,7 +554,7 @@ public class TestRuntimeModelContainer {
 					
 					imp.init(1);
 					int id = imp.startExecution(model2);
-					imp.runUntilEmpty(id, model2);
+					imp.runUntilEmpty(id);
 					
 					RunOutput r1 = new RunOutput(Esit.UNSAFE, "Inconsistent Update");
 					assertTrue(r1.equals(imp.runUntilEmpty(id, max)));;
@@ -592,7 +592,7 @@ public class TestRuntimeModelContainer {
 					
 					imp.init(1);
 					int id = imp.startExecution(model2);
-					imp.runUntilEmpty(id, model2);
+					imp.runUntilEmpty(id);
 					
 					RunOutput r1 = new RunOutput(Esit.UNSAFE, "Inconsistent Update");
 					assertTrue(r1.equals(imp.runUntilEmptyTimeout(id, max,1000)));;
@@ -642,7 +642,7 @@ public class TestRuntimeModelContainer {
 					int id = imp.startExecution(model);
 					Map<String, String> monitored = new HashMap<String, String>();
 					monitored.put("operation", "ALLUMER");
-					imp.runStep(id, monitored, model);
+					imp.runStep(id, monitored);
 					int stop = imp.stopExecution(id);
 					assertTrue(stop == 1);
 				}
@@ -655,7 +655,7 @@ public class TestRuntimeModelContainer {
 				    imp.init(1);
 					Map<String, String> monitored = new HashMap<String, String>();
 					monitored.put("operation", "ALLUMER");
-					imp.runStep(-1, monitored, model);
+					imp.runStep(-1, monitored);
 					int stop = imp.stopExecution(-1);
 					assertTrue(stop == -1);
 				}
@@ -757,19 +757,19 @@ public class TestRuntimeModelContainer {
 			Map<String, String> monitored = new HashMap<String, String>();
 			int id = imp.startExecution(model);
 			monitored.put("carry", "GOAT");
-			imp.runUntilEmpty(id, monitored, model);
+			imp.runUntilEmpty(id, monitored);
 			monitored.clear();monitored.put("carry", "FERRYMAN"); 
-			imp.runUntilEmpty(id, monitored, model);
+			imp.runUntilEmpty(id, monitored);
 			monitored.clear();monitored.put("carry", "CABBAGE");
-			imp.runUntilEmpty(id, monitored, model);
+			imp.runUntilEmpty(id, monitored);
 			monitored.clear();monitored.put("carry", "GOAT");
-			imp.runUntilEmpty(id, monitored, model);
+			imp.runUntilEmpty(id, monitored);
 			monitored.clear();monitored.put("carry", "WOLF");
-			imp.runUntilEmpty(id, monitored, model);
+			imp.runUntilEmpty(id, monitored);
 			monitored.clear();monitored.put("carry", "FERRYMAN");
-			imp.runUntilEmpty(id, monitored, model);
+			imp.runUntilEmpty(id, monitored);
 			monitored.clear();monitored.put("carry", "GOAT");
-			assertTrue( new RunOutput(Esit.SAFE, "").equals(imp.runUntilEmpty(id, monitored, model)));
+			assertTrue( new RunOutput(Esit.SAFE, "").equals(imp.runUntilEmpty(id, monitored)));
 			
 		}
 		//ferryman ciclo funzionante
@@ -782,19 +782,19 @@ public class TestRuntimeModelContainer {
 			Map<String, String> monitored = new HashMap<String, String>();
 			int id = imp.startExecution(model);
 			monitored.put("carry", "GOAT"); 
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.clear();monitored.put("carry", "FERRYMAN"); 
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.clear();monitored.put("carry", "CABBAGE");
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.clear();monitored.put("carry", "GOAT");
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.clear();monitored.put("carry", "WOLF");
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.clear();monitored.put("carry", "FERRYMAN");
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.clear();monitored.put("carry", "GOAT");
-			assertTrue( new RunOutput(Esit.SAFE, "").equals(imp.runStep(id, monitored, model)));
+			assertTrue( new RunOutput(Esit.SAFE, "").equals(imp.runStep(id, monitored)));
 		}
 		//ferryman transazione runstep
 		@Test
@@ -821,7 +821,7 @@ public class TestRuntimeModelContainer {
 			imp.init(1);
 			Map<String, String> monitored = new HashMap<String, String>();
 			int id = imp.startExecution(model);
-			assertTrue( new RunOutput(Esit.UNSAFE, "Invalid Invariant").equalsMessage(imp.runTransaction(id, tail, model)));
+			assertTrue( new RunOutput(Esit.UNSAFE, "Invalid Invariant").equalsMessage(imp.runTransaction(id, tail)));
 		}
 		//ciclo lavatrice funzionante
 		@Test
@@ -833,17 +833,17 @@ public class TestRuntimeModelContainer {
 			Map<String, String> monitored = new HashMap<String, String>();
 			int id = imp.startExecution(model);
 			monitored.put("operation", "OUVRIR"); 
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.clear();monitored.put("operation", "FERMER"); 
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.clear();monitored.put("operation", "ALLUMER");
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.clear();monitored.put("operation", "PLUS"); 
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.clear();monitored.put("operation", "LANCER"); 
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.clear();monitored.put("operation", "TERMINER");
-			assertTrue( new RunOutput(Esit.SAFE, "").equals(imp.runStep(id, monitored, model)));
+			assertTrue( new RunOutput(Esit.SAFE, "").equals(imp.runStep(id, monitored)));
 		}
 		//lavatrice transazione rununtilempty
 		@Test
@@ -867,7 +867,7 @@ public class TestRuntimeModelContainer {
 			ContainerRT imp = ContainerRT.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
-			assertTrue( new RunOutput(Esit.SAFE, "").equals(imp.runTransaction(id, tail, model)));
+			assertTrue( new RunOutput(Esit.SAFE, "").equals(imp.runTransaction(id, tail)));
 		}
 		
 //=========================Fine Transaction Test===============================================================	
@@ -945,6 +945,22 @@ public class TestRuntimeModelContainer {
 		}
 		
 		@Test
+		public void testruntimeout() {
+			String model = "examples/ferrymanSimulator_raff1.asm";
+			ContainerRT imp = new ContainerRT();
+			imp.init(3);
+			Map<String, String> monitored = new HashMap<String, String>();
+			monitored.put("carry", "GOAT"); 
+			int id = imp.startExecution(model);
+			imp.runStepTimeout(id, monitored,1000);
+			System.out.println(imp.runStepTimeout(id, monitored,10));
+			imp.runStepTimeout(id,monitored,1000);
+			//imp.runStepTimeout(id, monitored,1000);
+		    //RunOutput r1 = new RunOutput(Esit.UNSAFE, "Run timed out");
+			//assertFalse(r1.equals(imp.runStepTimeout(id, monitored,300)));
+		}
+		
+		@Test
 		public void testAddInvariantSimulation() throws Exception {
 			boolean result;
 			Map<String, String> monitored = new HashMap<String, String>();
@@ -954,16 +970,16 @@ public class TestRuntimeModelContainer {
 			int id = imp.startExecution(model);
 			imp.startExecution(model);
 			imp.startExecution(model);
-			//imp.stopExecution(2);
+			imp.stopExecution(2);
 			monitored.put("carry", "GOAT"); 
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.put("carry", "FERRYMAN"); 
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.put("carry", "CABBAGE"); 
-			imp.runStep(id, monitored, model);
+			imp.runStep(id, monitored);
 			monitored.put("carry", "FERRYMAN"); 
-			imp.runStep(id, monitored, model);
-			imp.addInvariant(id, "invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
+			imp.runStep(id, monitored);
+			imp.addInvariant(3, "invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
 			System.out.println(imp.getLoadedIDs());
 			/*monitored.put("carry", "WOLF"); 
 			imp.runStep(id, monitored, model);*/

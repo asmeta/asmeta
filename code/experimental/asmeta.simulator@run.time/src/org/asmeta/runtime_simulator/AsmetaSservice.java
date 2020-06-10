@@ -88,7 +88,7 @@ public class AsmetaSservice implements IAsmetaSservice{
 	 * @return the id of the simulator generate, -1 if simulator map is full
 	 * @throws AsmModelNotFoundException, MainRuleNotFoundException
 	 */
-	public int restart(String modelPath, State s) throws Exception{
+	public int restart(String modelPath,int oldId, State s) throws Exception{
 		
 		File asmFile = new File(modelPath);
 		
@@ -101,7 +101,11 @@ public class AsmetaSservice implements IAsmetaSservice{
 		Environment env = new Environment(new AsmetaSserviceRun());
 		SimulatorRT sim = new SimulatorRT(modelName, asm, env, s);
 		
-		int id = getFirstFreeId();
+		int id = oldId;;
+		if (this.id[id-1]) 			//use again the same id if it's free 
+			this.id[id-1]=false;	//lock it again 
+		else 
+			id=getFirstFreeId();
 		
 		if(id != -1) {
 			simulatorMap.put(id, new InfoAsmetaService(sim));

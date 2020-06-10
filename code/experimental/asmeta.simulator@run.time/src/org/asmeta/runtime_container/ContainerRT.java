@@ -149,10 +149,10 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 	}
 	
 	//tries to start a simulation that begins already on the given state, behaves same as startexecution.
-	private int restartExecution(String modelPath, State state) {
+	private int restartExecution(String modelPath,int oldId, State state) {
 		StartOutput sout = null;
 		try {
-			id = asmS.restart(modelPath, state);
+			id = asmS.restart(modelPath,oldId, state);
 			ids = checkStartId(id);
 			sout = new StartOutput(ids, "The id " + ids + " is successfully created");
 			simulationRunning = SimStatus.PAUSE;
@@ -224,18 +224,28 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 	}
 
 	@Override
-	public RunOutput runStep(int id, Map<String, String> locationValue, String modelPath) {
+	public RunOutput runStep(int id, Map<String, String> locationValue) {
 		simulationRunning=SimStatus.RUNNING;
 		rollbStatus = rollbackStatus.NOTROLLED;
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		String modelPath=null;
 		try {
-			rout = checkSafety(modelPath, locationValue);
+			try {
+				modelPath=asmS.getSimulatorTable().get(id).getModelPath();
+			} catch (NullPointerException e) {
+				throw new IdNotFoundException("Id not valid");
+			}
+			if (locationValue!=null) 
+				rout = checkSafety(modelPath, locationValue);
 			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not intialized"))) {
 				startRun = System.nanoTime();
 				ms = asmS.run(id, locationValue);
 				endRun = System.nanoTime();
 				duration = (endRun - startRun);
-				rout = new RunOutput(Esit.SAFE, asmS.getCurrentState(id).getMonitoredValues(), ms);
+				if (locationValue!=null) 
+					rout = new RunOutput(Esit.SAFE, asmS.getCurrentState(id).getMonitoredValues(), ms);
+				else
+					rout = new RunOutput(Esit.SAFE, ms);
 				printState(asmS.getSimulatorTable().get(id).getSim().getCurrentStep(), rout, duration, id);
 			}
 		} catch (Exception e) {
@@ -301,7 +311,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 	
 	@Override
 	public RunOutput runStep(int id) {
-		return runStep(id, null, null);
+		return runStep(id, null);
 	}
 	
 	/*@Override
@@ -338,25 +348,38 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 	}*/
 	
 	public RunOutput runStepTimeout(int id,int timeout) {
-		return runStepTimeout(id,null,null,timeout);
+		return runStepTimeout(id,null,timeout);
 	}
 	
-	public RunOutput runStepTimeout(int id,Map<String, String> locationValue, String modelPath,int timeout) {
-		Timer timer = new Timer(true);
-	    routTO = new RunOutput(Esit.UNSAFE, "rout not intialized");
+	public RunOutput runStepTimeout(int id,Map<String, String> locationValue,int timeout) {	
+		Timer timer = new Timer(false);
+		
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+	    routTO = rout;
+	    
+	    MyState pre = asmS.getCurrentState(id);
+	    
         TimerTask timeoutTask = new TimerTask() {
         	@Override  
             public void run() {  
             	 //System.out.println("Timer task started at:"+new Date());
-            	 routTO = runStep(id, locationValue, modelPath);
-            	 routTO.setResult(true);
+        		try {
+               		routTO = runStep(id, locationValue);
+        		}catch (Exception e) {}
+        		finally {
+               		routTO.setResult(true);
+        			timer.cancel();
+        		}
+
                  //System.out.println("Timer task finished at:"+new Date());
             }; 
         };  
 	    //running timer task as daemon thread (no start delay, no period) but with timeout (thanks to Thread.sleep(timeout))
-	    timer.schedule(timeoutTask, 1);
+	    timer.schedule(timeoutTask, 0);
 	    //System.out.println("TimerTask started");
 	    //cancel after timeout if the task has not terminated
+	    if (timeout<0)
+	    	timeout=1;
 	    try {
 	        Thread.sleep(timeout);
 	    } catch (InterruptedException e) {
@@ -368,31 +391,35 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 	    }
 	    else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
 	    
+	    if (!routTO.getResult()) {	//if the thread is still going after time runs out  
+    		while (rollbStatus==rollbackStatus.ROLLINGBACK) {	//cannot stop the timertask while it's doing a rollback
+    			try {
+    				Thread.sleep(10);	//how often the program check for the rollback to finish before killing the thread
+        		} catch (InterruptedException e) {
+                    e.printStackTrace();}
+    		}
+    		while (!routTO.getResult()) {
+    			try {
+    				Thread.sleep(10);	
+        		} catch (InterruptedException e) {
+                    e.printStackTrace();}
+    		}
+    		timer.cancel();
+	    	rout = new RunOutput(Esit.UNSAFE, "Run timed out");	//returns that the operation couldn't be finished in time
+	    	System.err.println(rout.toString());
 
-	    if (!routTO.getResult()) {	//if the thread is still going after time runs out   
+	    	MyState after = asmS.getCurrentState(id);
 	    	
-	    	{
-        		while (rollbStatus==rollbackStatus.ROLLINGBACK) {	//cannot stop the timertask while it's doing a rollback
-        			try {
-        				Thread.sleep(10);	//how often the program check for the rollback to finish before killing the thread
-	        		} catch (InterruptedException e) {
-	                    e.printStackTrace();}
-        		}
-        		timer.cancel();
-    	    	routTO = new RunOutput(Esit.UNSAFE, "Run timed out");	//returns that the operation couldn't be finished in time
-    	    	System.err.println(routTO.toString());
-    			if (rollbStatus!=rollbackStatus.ROLLOK)	//do a rollback if it has not already been done 
-    			{
-    				try {
-    					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-    				} catch (NullPointerException e1) {
-    					System.out.println("no previous state");
-    				}/* catch (EmptyStackException e1) {
-    					System.out.println("empty stack exception dal simulator");
-    				}*/
-    			}
-    				
-        	}
+			if (rollbStatus!=rollbackStatus.ROLLOK && after!=null && !after.equals(pre))	//do a rollback if it has not already been done 
+			{
+				try {
+					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
+				} catch (NullPointerException e1) {
+					System.out.println("no previous state");
+				}/* catch (EmptyStackException e1) {
+					System.out.println("empty stack exception dal simulator");
+				}*/
+			}
 	    	
 	    	/*timer.cancel();
 	    	routTO = new RunOutput(Esit.UNSAFE, "Run timed out");
@@ -402,52 +429,31 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 			} catch (NullPointerException e1) {
 				System.out.println("no previous state");
 			}*/
-	    }
+	    }else
+	    	rout=routTO;
 	    //else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+routTO.getResult());	
 	        
-	 	return routTO;
+	 	return rout;
 	}
 	
-//	public RunOutput runStepTimeout(int id,Map<String, String> locationValue, String modelPath,int timeout) {
-//		
-//		MyTimerTask timerTask = new MyTimerTask(id,0,null,null,TypeMyTimerTask.RUNSTEP);	 	
-//	    Timer timer = new Timer(true);
-//	    //running timer task as daemon thread (no start delay, no period) but with timeout (thanks to Thread.sleep(timeout))
-//	    timer.schedule(timerTask, 1);
-//	    System.out.println("TimerTask started");
-//	    //cancel after timeout if the task has not terminated
-//	    try {
-//	        Thread.sleep(timeout);
-//	    } catch (InterruptedException e) {
-//	        e.printStackTrace();
-//	    }
-//	    /*if (! taskTerminated.getResult()) { 
-//	    	timer.cancel();
-//	    	System.out.println("TimerTask cancelled"+" -- flag TaskTerminated: "+taskTerminated.getResult());
-//	    }
-//	    else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
-//	    if (timerTask.rout==null || !timerTask.rout.getResult()) { 
-//	    	timer.cancel();
-//	    	timerTask.rout = new RunOutput(Esit.UNSAFE, "Run timed out");
-//			System.err.println(timerTask.rout.toString());
-//			/*try {
-//				printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-//			} catch (NullPointerException e1) {
-//				System.out.println("no previous state");
-//			}*/
-//	    }
-//	    else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+timerTask.rout.getResult());	
-//	        
-//	 	return timerTask.rout;
-//	}
+
+
 	
 	@Override
-	public RunOutput runUntilEmpty(int id, Map<String, String> locationValue, String modelPath, int max) {
+	public RunOutput runUntilEmpty(int id, Map<String, String> locationValue, int max) {
 		simulationRunning = SimStatus.RUNNING;
 		rollbStatus = rollbackStatus.NOTROLLED;
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");		
+		String modelPath=null;
 		try {
-			rout = checkSafety(modelPath, locationValue);
+			try {
+				modelPath=asmS.getSimulatorTable().get(id).getModelPath();
+			} catch (NullPointerException e) {
+				throw new IdNotFoundException("Id not valid");
+			}
+			if (locationValue!=null)
+				rout = checkSafety(modelPath, locationValue);
+			
 			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not intialized"))) {
 				startRun = System.nanoTime();
 				ms = asmS.runUntilEmpty(id, locationValue, max);
@@ -516,33 +522,33 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 	}
 	
 	@Override
-	public RunOutput runUntilEmpty(int id, String modelPath) {
-		return runUntilEmpty(id, null, modelPath, 0);
+	public RunOutput runUntilEmpty(int id) {
+		return runUntilEmpty(id, null, 0);
 	}
 
 	@Override
-	public RunOutput runUntilEmpty(int id, Map<String, String> locationValue, String modelPath) {
-		return runUntilEmpty(id, locationValue, modelPath, 0);
+	public RunOutput runUntilEmpty(int id, Map<String, String> locationValue) {
+		return runUntilEmpty(id, locationValue, 0);
 	}
 
 	@Override
 	public RunOutput runUntilEmpty(int id, int max) {
-		return runUntilEmpty(id, null, null, max);
+		return runUntilEmpty(id, null, max);
 	}
 	
 	public RunOutput runUntilEmptyTimeout(int id, int max, int timeout) {
 	 	 
-	 	return runUntilEmptyTimeout(id, null, null, max, timeout);
+	 	return runUntilEmptyTimeout(id, null, max, timeout);
 	}
 	
 	//same logic as the one with runstep but using runUntilEmpty and rollbacktostate instead
-	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, String modelPath, int max, int timeout) {
+	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) {
 		routTO = new RunOutput(Esit.UNSAFE, "rout not intialized");
         TimerTask timeoutTask = new TimerTask() {
         	@Override  
             public void run() {  
             	 //System.out.println("Timer task started at:"+new Date());
-            	 routTO = runUntilEmpty(id, locationValue, modelPath, max);
+            	 routTO = runUntilEmpty(id, locationValue, max);
             	 routTO.setResult(true);
                  //System.out.println("Timer task finished at:"+new Date());
             }; 
@@ -553,6 +559,8 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
         timer.schedule(timeoutTask, 1);
         //System.out.println("TimerTask started");
         //cancel after timeout if the task has not terminated
+	    if (timeout<0)
+	    	timeout=1;
         try {
             Thread.sleep(timeout);
         } catch (InterruptedException e) {
@@ -605,13 +613,13 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 	}
 	
 
-	public RunOutput runUntilEmptyTimeout(int id, String modelPath, int timeout) {
-		return runUntilEmptyTimeout(id, null, modelPath, 0, timeout);
+	public RunOutput runUntilEmptyTimeout(int id, int timeout) {
+		return runUntilEmptyTimeout(id, null, 0, timeout);
 	}
 
 
-	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, String modelPath, int timeout) {
-		return runUntilEmptyTimeout(id, locationValue, modelPath, 0, timeout);
+	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int timeout) {
+		return runUntilEmptyTimeout(id, locationValue, 0, timeout);
 	}
 
 	private static void printState(int step, RunOutput r1, long time, int id) {
@@ -727,7 +735,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 		int statecount=0;
 		while (!locationValue.isEmpty() && unsafe == false) {
 			element=locationValue.poll();
-			rout = runStep(id,element,modelPath);
+			rout = runStep(id,element);
 			statecount++;
 			if(routTR.equals(rout)) {
 				unsafe = true;
@@ -743,7 +751,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 		return rout;	
 		
 	}
-	public RunOutput runTransaction(int id,Queue<Map<String, String>> locationValue, String modelPath) { //TODO da finalizzare?
+	public RunOutput runTransaction(int id,Queue<Map<String, String>> locationValue) { //TODO da finalizzare?
 		boolean unsafe = false;
 		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not intialized");
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
@@ -751,7 +759,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 		int statecount=0;
 		while (!locationValue.isEmpty() && unsafe == false) {
 			element=locationValue.poll();
-			rout = runUntilEmpty(id,element,modelPath);
+			rout = runUntilEmpty(id,element);
 			statecount++;
 			if(routTR.equals(rout)) {
 				unsafe = true;
@@ -844,7 +852,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 				overwrite(modelfile,"_old");
 			    //Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
 				if (success)
-					restartExecution(modelfile, state); 
+					restartExecution(modelfile,id, state); 
 			}
 
 		} catch (IOException e) {
@@ -1023,7 +1031,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 		    if (start_output<0) {
 				overwrite(modelfile,"_old");
 				//Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
-				restartExecution(modelfile,state);
+				restartExecution(modelfile,id,state);
 			}
 		}
 		catch (IOException e) {
@@ -1097,7 +1105,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 				if (restartSim(id, state)<0) { // TODO sistemare controllo restartsim come in add
 					//Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
 					overwrite(modelfile,"_old");
-					restartExecution(modelfile,state);
+					restartExecution(modelfile,id,state);
 				}else {
 					success=true;
 				}
@@ -1128,7 +1136,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 		if (state.previousLocationValues==null)
 			state.previousLocationValues = new HashMap<Location, Value>();
 		stopExecution(id);		
-		int res = restartExecution(modelPath, state);
+		int res = restartExecution(modelPath,id, state);
 		return res;
 	}
 	
@@ -1168,7 +1176,6 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 		    f2.write(String.join("\n",Files.readAllLines(Paths.get(model+"_old"))));
 		    f2.close();
 		 } catch (IOException e) {
-		       // TODO Auto-generated catch block
 		       e.printStackTrace();
 		 } 
 	}*/
@@ -1183,7 +1190,6 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 		    f2.write(String.join("\n",Files.readAllLines(Paths.get(model+"_to_overwrite"))));
 		    f2.close();
 		 } catch (IOException e) {
-		       // TODO Auto-generated catch block
 		       e.printStackTrace();
 		 } finally {
 			 try {
@@ -1216,6 +1222,7 @@ public class ContainerRT implements IModelExecution, IModelAdaptation {
 		}
 		return null;
 	}*/
+	
 }
 
 
