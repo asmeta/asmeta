@@ -1,0 +1,11 @@
+problema di mondexConcreteCap3ForNuSMVoutboxSing
+--CTLSPEC ag(inbox(AA, REQ, BB, 0n, 1n) implies ef(inbox(BB, VAL, AA, 0n, 1n)))
+--Il problema nasce con il seguente scenario.
+--All'inizio le outbox di AA e BB sono vuote (isNone = true).
+--AA esegue StartTo verso BB (richiede soldi a BB); in questo modo scrive sulla inbox di BB
+--e sulla sua outbox (isNone(AA) diventa false).
+--Poi BB esegue anche lui startTo: chiede soldi ad AA. Scrive sulla inbox di AA e sulla sua 
+--outbox (isNone(BB) diventa false).
+--Ora sia BB che AA non possono soddisfare alla richiesta dell'altra carta con la regola r_req
+--perche' per poter eseguire r_req bisogna avere la outbox vuota (isNone = true) e nessuna
+--delle due e' vuota perche' entrambe le carte hanno fatto una richiesta
