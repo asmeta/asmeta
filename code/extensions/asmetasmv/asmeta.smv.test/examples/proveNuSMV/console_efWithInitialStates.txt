@@ -1,0 +1,77 @@
+*** This is NuSMV 2.4.3 (compiled on Tue May 22 14:08:54 UTC 2007)
+*** For more information on NuSMV see <http://nusmv.irst.itc.it>
+*** or email to <nusmv-users@irst.itc.it>.
+*** Please report bugs to <nusmv@irst.itc.it>.
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://www.cs.chalmers.se/Cs/Research/FormalMethods/MiniSat
+*** Copyright (c) 2003-2005, Niklas Een, Niklas Sorensson 
+
+-- specification AG foo != 1  is false
+-- as demonstrated by the following execution sequence
+Trace Description: CTL Counterexample 
+Trace Type: Counterexample 
+-> State: 1.1 <-
+  foo = 1
+  cond = 0
+-- specification AG foo != 2  is false
+-- as demonstrated by the following execution sequence
+Trace Description: CTL Counterexample 
+Trace Type: Counterexample 
+-> State: 2.1 <-
+  foo = 1
+  cond = 1
+-> Input: 2.2 <-
+-> State: 2.2 <-
+  foo = 2
+-- specification AG foo != 3  is false
+-- as demonstrated by the following execution sequence
+Trace Description: CTL Counterexample 
+Trace Type: Counterexample 
+-> State: 3.1 <-
+  foo = 1
+  cond = 1
+-> Input: 3.2 <-
+-> State: 3.2 <-
+  foo = 2
+-> Input: 3.3 <-
+-> State: 3.3 <-
+  foo = 3
+-- specification AG foo != 4  is false
+-- as demonstrated by the following execution sequence
+Trace Description: CTL Counterexample 
+Trace Type: Counterexample 
+-> State: 4.1 <-
+  foo = 1
+  cond = 1
+-> Input: 4.2 <-
+-> State: 4.2 <-
+  foo = 2
+-> Input: 4.3 <-
+-> State: 4.3 <-
+  foo = 3
+-> Input: 4.4 <-
+-> State: 4.4 <-
+  foo = 4
+-- specification EF foo = 1  is true
+-- specification EF foo = 2  is false
+-- as demonstrated by the following execution sequence
+Trace Description: CTL Counterexample 
+Trace Type: Counterexample 
+-> State: 5.1 <-
+  foo = 1
+  cond = 0
+-- specification EF foo = 3  is false
+-- as demonstrated by the following execution sequence
+Trace Description: CTL Counterexample 
+Trace Type: Counterexample 
+-> State: 6.1 <-
+  foo = 1
+  cond = 0
+-- specification EF foo = 4  is false
+-- as demonstrated by the following execution sequence
+Trace Description: CTL Counterexample 
+Trace Type: Counterexample 
+-> State: 7.1 <-
+  foo = 1
+  cond = 0

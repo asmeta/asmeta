@@ -1,0 +1,50 @@
+C:\Users\mm\Desktop\Asmeta\code\experimental\tosmv\examples\mondex\conceptDriven\no_abort_no_loose\2cards>NuSMV
+-dynamic mondexConcreteCap3ForNuSMVoutboxSing.smv
+*** This is NuSMV 2.4.3 (compiled on Tue May 22 14:08:54 UTC 2007)
+*** For more information on NuSMV see <http://nusmv.irst.itc.it>
+*** or email to <nusmv-users@irst.itc.it>.
+*** Please report bugs to <nusmv@irst.itc.it>.
+
+*** This version of NuSMV is linked to the MiniSat SAT solver.
+*** See http://www.cs.chalmers.se/Cs/Research/FormalMethods/MiniSat
+*** Copyright (c) 2003-2005, Niklas Een, Niklas Sorensson
+
+-- specification AG useOfTid  is true
+-- specification AG noSelfMessage  is true
+-- specification AG noSelfOutMessage  is true
+-- specification AG (inbox_AA_VAL_BB_0_1 -> EF inbox_BB_ACK_AA_0_1)  is true
+-- specification AG (inbox_BB_VAL_AA_0_1 -> EF inbox_AA_ACK_BB_0_1)  is true
+-- specification AG (inbox_AA_VAL_BB_0_2 -> EF inbox_BB_ACK_AA_0_2)  is true
+-- specification AG (inbox_BB_VAL_AA_0_2 -> EF inbox_AA_ACK_BB_0_2)  is true
+-- specification AG (inbox_AA_VAL_BB_5_1 -> EF inbox_BB_ACK_AA_5_1)  is true
+-- specification AG (inbox_BB_VAL_AA_5_1 -> EF inbox_AA_ACK_BB_5_1)  is true
+-- specification AG (inbox_AA_VAL_BB_5_2 -> EF inbox_BB_ACK_AA_5_2)  is true
+-- specification AG (inbox_BB_VAL_AA_5_2 -> EF inbox_AA_ACK_BB_5_2)  is true
+-- specification AG (inbox_AA_VAL_BB_10_1 -> EF inbox_BB_ACK_AA_10_1)  is true
+-- specification AG (inbox_BB_VAL_AA_10_1 -> EF inbox_AA_ACK_BB_10_1)  is true
+-- specification AG (inbox_AA_VAL_BB_10_2 -> EF inbox_BB_ACK_AA_10_2)  is true
+-- specification AG (inbox_BB_VAL_AA_10_2 -> EF inbox_AA_ACK_BB_10_2)  is true
+-- specification AG (inbox_AA_VAL_BB_0_1 -> EF (AG !inbox_AA_VAL_BB_0_1))  is true
+-- specification AG (inbox_BB_VAL_AA_0_1 -> EF (AG !inbox_BB_VAL_AA_0_1))  is true
+-- specification AG (inbox_AA_VAL_BB_0_2 -> EF (AG !inbox_AA_VAL_BB_0_2))  is true
+-- specification AG (inbox_BB_VAL_AA_0_2 -> EF (AG !inbox_BB_VAL_AA_0_2))  is true
+-- specification AG (inbox_AA_VAL_BB_5_1 -> EF (AG !inbox_AA_VAL_BB_5_1))  is true
+-- specification AG (inbox_BB_VAL_AA_5_1 -> EF (AG !inbox_BB_VAL_AA_5_1))  is true
+-- specification AG (inbox_AA_VAL_BB_5_2 -> EF (AG !inbox_AA_VAL_BB_5_2))  is true
+-- specification AG (inbox_BB_VAL_AA_5_2 -> EF (AG !inbox_BB_VAL_AA_5_2))  is true
+-- specification AG (inbox_AA_ACK_BB_0_1 -> EF (AG !inbox_AA_ACK_BB_0_1))  is true
+-- specification AG (inbox_BB_ACK_AA_0_1 -> EF (AG !inbox_BB_ACK_AA_0_1))  is true
+-- specification AG (inbox_AA_ACK_BB_0_2 -> EF (AG !inbox_AA_ACK_BB_0_2))  is true
+-- specification AG (inbox_BB_ACK_AA_0_2 -> EF (AG !inbox_BB_ACK_AA_0_2))  is true
+-- specification AG (inbox_AA_ACK_BB_5_1 -> EF (AG !inbox_AA_ACK_BB_5_1))  is true
+-- specification AG (inbox_BB_ACK_AA_5_1 -> EF (AG !inbox_BB_ACK_AA_5_1))  is true
+-- specification AG (inbox_AA_ACK_BB_5_2 -> EF (AG !inbox_AA_ACK_BB_5_2))  is true
+-- specification AG (inbox_BB_ACK_AA_5_2 -> EF (AG !inbox_BB_ACK_AA_5_2))  is true
+-- specification AG (inbox_AA_ACK_BB_10_1 -> EF (AG !inbox_AA_ACK_BB_10_1))  is true
+-- specification AG (inbox_BB_ACK_AA_10_1 -> EF (AG !inbox_BB_ACK_AA_10_1))  is true
+-- specification AG (inbox_AA_ACK_BB_10_2 -> EF (AG !inbox_AA_ACK_BB_10_2))  is true
+-- specification AG (inbox_BB_ACK_AA_10_2 -> EF (AG !inbox_BB_ACK_AA_10_2))  is true
+-- specification EF balance_AA = 5  is true
+-- specification EF balance_BB = 5  is true
+
+C:\Users\mm\Desktop\paoloAr\Asmeta\code\experimental\tosmv\examples\mondex\conceptDriven\no_abort_no_loose\2cards>
