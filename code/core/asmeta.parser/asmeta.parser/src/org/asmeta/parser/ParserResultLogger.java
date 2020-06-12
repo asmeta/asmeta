@@ -41,6 +41,7 @@ public class ParserResultLogger { // DO NOT EXTEND LOGGER !!! USE COMPOSITION TO
 	public ParserResultLogger() {
 		// get the logger for the parser
 		log = Logger.getLogger("org.asmeta.parser");
+		log.setLevel(Level.OFF);
 		// if there are no appenders, a warning will be printed
 //		if (!log.getAllAppenders().hasMoreElements())
 //			log.addAppender(new ConsoleAppender(new SimpleLayout()));

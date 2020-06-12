@@ -87,7 +87,7 @@ public class Utility {
 	// By default, "selectFirstBestRanking" is true.
 	public static boolean selectFirstBestRanking = true;
 
-	static Logger logger = Logger.getLogger(Utility.class);
+	private static Logger logger = Logger.getLogger(Utility.class);
 
 	// ================================================= appendInKey
 	/*
@@ -1258,6 +1258,7 @@ public class Utility {
 		// try predefined abstract Domain
 		if (d == null) {
 			logger.debug("Trying predifined abstract domain");
+			logger.debug("level" + logger.getLevel() + "nome "  + logger.getName());
 			d = getPredefinedAbstractDomain(domFactory, name);
 		}
 		// try any domains

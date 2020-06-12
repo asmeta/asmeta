@@ -27,9 +27,10 @@ import asmeta.terms.basicterms.Term;
  */
 public class AsmParserTest_OneSpec extends AsmParserTest {
 
-	//@BeforeClass
+	@BeforeClass
 	public static void setUpLogger() {
 		//AsmParserTest.setUpLogger();
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.ALL);
 	}
 
 	@Test
@@ -42,11 +43,7 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 	@Test
 	public void testOneSpecBagCT() {
 		String file = "test/parser/bagCT.asm";
-		AsmCollection asm = testOneSpec(file);
-		
-		System.out.println(Logger.getLogger(OCL_Checker.class).getRootLogger().getLevel());
-		
-		Logger.getLogger(OCL_Checker.class).log(Priority.DEBUG,"PROVA");
+		testOneSpec(file);
 	}
 	
 	@Test
