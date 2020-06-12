@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-
-import org.asmeta.parser.AsmParserTest;
 import org.asmeta.simulator.UpdateSet;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,7 +18,7 @@ public class ChooseTest {
 	
 	@BeforeClass
 	public static void setUpLogger(){
-		AsmParserTest.setUpLogger();
+		//AsmParserTest.setUpLogger();
 		//
 //		Logger log = Logger.getLogger("org.asmeta.simulator");
 //		if (!log.getAllAppenders().hasMoreElements())
