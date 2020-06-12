@@ -51,7 +51,7 @@ public class AsmetaSMV {
 	}
 
 	public AsmetaSMV(File file) throws Exception {
-		this(file, true, false, true, false);
+		this(file, new AsmetaSMVOptions()); //true, false, true, false);
 	}
 
 	public AsmetaSMV(File file, boolean simplify) throws Exception {
@@ -78,8 +78,7 @@ public class AsmetaSMV {
 		if (asmFile.exists()) {
 			try {
 				asm = ASMParser.setUpReadAsm(asmFile).getMain();
-				Util.setRunNuSMV(options.execute);
-				Util.setUseNuXmv(options.useNuXmv);
+				options.setRunNuSMV(options.execute);
 				// relative path including the file name
 				Util.setPath(asmFile.getPath());
 				// relative path without file name
@@ -135,7 +134,7 @@ public class AsmetaSMV {
 		 * Counter c = null; Thread t = null; if (Util.isPrintNuSMVoutput()) { c = new
 		 * Counter(); t = new Thread(c); t.start(); }
 		 */
-		if (Util.isPrintNuSMVoutput()) {
+		if (AsmetaSMVOptions.isPrintNuSMVoutput()) {
 			out.print("Execution of NuSMV code ...");
 		}
 		// System.out.println(smvFileName);
@@ -148,7 +147,7 @@ public class AsmetaSMV {
 		// System.out.println(outputRunNuSMV);
 		outputRunNuSMVreplace = replaceVarsWithLocations(outputRunNuSMV);
 		mv.getPropertiesResults(outputRunNuSMV);
-		if (Util.isPrintNuSMVoutput()) {
+		if (AsmetaSMVOptions.isPrintNuSMVoutput()) {
 			out.println(
 					"\n-------------------------------" + "-----------------------------\n" + outputRunNuSMVreplace);
 		}
@@ -202,14 +201,14 @@ public class AsmetaSMV {
 	private void runNuSMV(String smvFileName) throws Exception {
 		String solverName;
 		// nuXmv also accepts standard NuSMV files
-		if (Util.getSolverPath() == null) {
-			if (Util.isUseNuXmv()) {
+		if (AsmetaSMVOptions.getSolverPath() == null) {
+			if (AsmetaSMVOptions.isUseNuXmv()) {
 				solverName = "nuXmv";
 			} else {
 				solverName = "NuSMV";
 			}
 		} else {
-			solverName = Util.getSolverPath();
+			solverName = AsmetaSMVOptions.getSolverPath();
 		}
 		List<String> commands = new ArrayList<>();
 		// to run NuSMV also on MacOS X
@@ -289,7 +288,7 @@ public class AsmetaSMV {
 	 */
 	public String getOutput() throws Exception {
 		StringBuilder sb = new StringBuilder("> ");
-		if (Util.isUseNuXmv()) {
+		if (AsmetaSMVOptions.isUseNuXmv()) {
 			sb.append("nuXmv");
 		} else {
 			sb.append("NuSMV");

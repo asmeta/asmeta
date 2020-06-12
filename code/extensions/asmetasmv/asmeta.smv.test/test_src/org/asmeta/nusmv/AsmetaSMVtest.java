@@ -5,22 +5,22 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.asmeta.nusmv.util.Util;
 
 public class AsmetaSMVtest {
 
 	protected AsmetaSMV execNuSMV(String file) {
 		AsmetaSMV as = null;
+		AsmetaSMVOptions asmetaOptions = new AsmetaSMVOptions();
+		AsmetaSMVOptions.keepNuSMVfile = true;
 		try {
-			as = new AsmetaSMV(file);
-			Util.keepNuSMVfile = true;//per non cancellare il file NuSMV prodotto
+			as = new AsmetaSMV(new File(file),asmetaOptions);
 			as.translation();
 			as.createNuSMVfile();
-			Util.setPrintNuSMVoutput(false);
+			AsmetaSMVOptions.setPrintNuSMVoutput(false);
 			as.executeNuSMV();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -35,7 +35,7 @@ public class AsmetaSMVtest {
 			as = new AsmetaSMV(file, simplify);
 			as.translation();
 			as.createNuSMVfile(nusmvFileName);
-			Util.setPrintNuSMVoutput(false);
+			AsmetaSMVOptions.setPrintNuSMVoutput(false);
 			as.executeNuSMV();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -12,7 +12,6 @@ package org.asmeta.simulator.main;
 
 import static org.junit.Assert.assertEquals;
 
-import org.asmeta.parser.AsmParserTest;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.TermAssignment;
 import org.asmeta.simulator.TermSubstitution;
@@ -33,7 +32,7 @@ public class TermSubstTest {
 	
 	@BeforeClass
 	public static void setupLogger() throws Exception{
-		AsmParserTest.setUpLogger();
+		//AsmParserTest.setUpLogger();
 	}
 
 	private String subst(String filePath) throws Exception {

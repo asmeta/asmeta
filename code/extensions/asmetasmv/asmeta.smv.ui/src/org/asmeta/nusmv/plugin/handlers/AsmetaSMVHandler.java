@@ -10,7 +10,6 @@ import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.nusmv.plugin.AsmetaSMVActivator;
 import org.asmeta.nusmv.plugin.AsmetaSMVConsole;
 import org.asmeta.nusmv.plugin.AsmetaSMVPreferencePage;
-import org.asmeta.nusmv.util.Util;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -65,7 +64,7 @@ abstract class AsmetaSMVHandler extends AbstractHandler {
 			AsmetaSMVOptions.setPrintCounterExample(!store.getBoolean(AsmetaSMVPreferencePage.P_DCX));
 			String nusmvPath = store.getString(AsmetaSMVPreferencePage.P_NUSMV_PROGRAM);
 			if(!nusmvPath.equals("") && new File(nusmvPath).exists()) {
-				Util.setSolverPath(nusmvPath);
+				AsmetaSMVOptions.setSolverPath(nusmvPath);
 			}
 			//
 			AsmetaSMVOptions.FLATTEN = !store.getBoolean(AsmetaSMVPreferencePage.P_DONOTF);

@@ -16,7 +16,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.asmeta.parser.ASMParser;
-import org.asmeta.parser.AsmParserTest;
 import org.asmeta.parser.Defs;
 import org.asmeta.simulator.value.TupleValue;
 import org.junit.BeforeClass;
@@ -32,7 +31,7 @@ public class ParserTest {
 
 	@BeforeClass
 	public static void setupLogger() throws Exception {
-		AsmParserTest.setUpLogger();
+		//AsmParserTest.setUpLogger();
 		// Scrivi caso di test per la library
 		File libraryF = new File("../../../asm_examples/examples/library/Library.asm");
 		assertTrue(libraryF.exists());

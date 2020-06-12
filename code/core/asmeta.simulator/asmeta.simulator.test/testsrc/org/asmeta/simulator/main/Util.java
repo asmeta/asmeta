@@ -15,7 +15,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import org.asmeta.parser.AsmParserTest;
 
 /** some utilities
  * 
@@ -36,7 +35,7 @@ public class Util {
 	}
 
 	private static String checkPath(String filepath) {
-		String completPath = AsmParserTest.FILE_BASE + filepath;
+		String completPath = TestOneSpec.FILE_BASE + filepath;
 		File f = new File(completPath);
 		assertTrue("file " + f.getAbsolutePath()
 				+ " does not exist, current dir: "

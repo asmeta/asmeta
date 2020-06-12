@@ -3,7 +3,6 @@ package org.asmeta.simulator.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.asmeta.parser.AsmParserTest;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
@@ -19,7 +18,7 @@ public class StandardLibraryTest extends BaseTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		AsmParserTest.setUpLogger();
+		//AsmParserTest.setUpLogger();
 	}
 
 	@Test

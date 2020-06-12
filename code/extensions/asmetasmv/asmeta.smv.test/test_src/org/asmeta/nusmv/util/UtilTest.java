@@ -12,7 +12,6 @@ import static org.asmeta.nusmv.util.Util.notEquals;
 import static org.asmeta.nusmv.util.Util.or;
 import static org.asmeta.nusmv.util.Util.printFormatted;
 import static org.asmeta.nusmv.util.Util.setPars;
-import static org.asmeta.nusmv.util.Util.simplify;
 import static org.asmeta.nusmv.util.Util.trueString;
 import static org.asmeta.nusmv.util.Util.xor;
 import static org.junit.Assert.assertEquals;
@@ -22,13 +21,14 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.junit.Test;
 
 public class UtilTest {
 
 	@Test
 	public void orTest() {
-		Util.simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		List<String> conds = new ArrayList<String>();
 		conds.add(Util.falseString);
 		conds.add("b");
@@ -40,7 +40,7 @@ public class UtilTest {
 
 	@Test
 	public void orTest1() {
-		Util.simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		List<String> conds = new ArrayList<String>();
 		conds.add(trueString);
 		conds.add("b");
@@ -50,7 +50,7 @@ public class UtilTest {
 
 	@Test
 	public void orTest2() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		List<String> conds = new ArrayList<String>();
 		conds.add(falseString);
 		conds.add(falseString);
@@ -60,7 +60,7 @@ public class UtilTest {
 
 	@Test
 	public void orTest3() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		List<String> conds = new ArrayList<String>();
 		conds.add("b");
 		conds.add(falseString);
@@ -70,7 +70,7 @@ public class UtilTest {
 
 	@Test
 	public void orTest4() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		List<String> conds = new ArrayList<String>();
 		conds.add("b");
 		conds.add(falseString);
@@ -81,7 +81,7 @@ public class UtilTest {
 
 	@Test
 	public void orTest5() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		assertEquals(falseString, or(falseString, falseString));
 		assertEquals(trueString, or(trueString, falseString));
 		assertEquals(trueString, or(falseString, trueString));
@@ -96,7 +96,7 @@ public class UtilTest {
 
 	@Test
 	public void xorTest() throws Exception {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		assertEquals(falseString, xor(falseString, falseString));
 		assertEquals(trueString, xor(trueString, falseString));
 		assertEquals(trueString, xor(falseString, trueString));
@@ -287,7 +287,7 @@ public class UtilTest {
 
 	@Test
 	public void andTest1() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		List<String> conds = new ArrayList<String>();
 		conds.add(trueString);
 		conds.add(falseString);
@@ -296,7 +296,7 @@ public class UtilTest {
 
 	@Test
 	public void andTest2() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		List<String> conds = new ArrayList<String>();
 		conds.add(trueString);
 		conds.add(trueString);
@@ -306,7 +306,7 @@ public class UtilTest {
 
 	@Test
 	public void andTest3() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		List<String> conds = new ArrayList<String>();
 		conds.add("b");
 		conds.add(falseString);
@@ -316,7 +316,7 @@ public class UtilTest {
 
 	@Test
 	public void andTest4() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		assertEquals(falseString, and(falseString, falseString));
 		assertEquals(falseString, and(trueString, falseString));
 		assertEquals(falseString, and(falseString, trueString));
@@ -331,7 +331,7 @@ public class UtilTest {
 
 	@Test
 	public void notTest() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		assertEquals(falseString, not(trueString));
 		assertEquals(trueString, not(falseString));
 		assertEquals(trueString, not(not(trueString)));
@@ -377,7 +377,7 @@ public class UtilTest {
 	
 	@Test
 	public void equalsTest() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		assertEquals("(a = b)", Util.equals("a", "b"));
 		assertEquals(trueString, Util.equals("a", "a"));
 		assertEquals(trueString, Util.equals("AA", "AA"));
@@ -390,7 +390,7 @@ public class UtilTest {
 
 	@Test
 	public void notEqualsTest() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		assertEquals("(a != b)", notEquals("a", "b"));
 		assertEquals(falseString, notEquals("a", "a"));
 		assertEquals(falseString, notEquals("AA", "AA"));
@@ -423,7 +423,7 @@ public class UtilTest {
 
 	@Test
 	public void impliesTest() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		assertEquals(trueString, implies(falseString, falseString));
 		assertEquals(trueString, implies(falseString, trueString));
 		assertEquals(falseString, implies(trueString, falseString));
@@ -438,7 +438,7 @@ public class UtilTest {
 
 	@Test
 	public void iffTest() {
-		simplify = true;
+		AsmetaSMVOptions.simplify = true;
 		assertEquals(trueString, iff(falseString, falseString));
 		assertEquals(falseString, iff(falseString, trueString));
 		assertEquals(falseString, iff(trueString, falseString));

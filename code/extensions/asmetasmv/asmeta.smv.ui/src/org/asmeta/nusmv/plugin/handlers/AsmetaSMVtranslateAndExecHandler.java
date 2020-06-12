@@ -1,7 +1,7 @@
 package org.asmeta.nusmv.plugin.handlers;
 
 import org.asmeta.nusmv.AsmetaSMV;
-import org.asmeta.nusmv.util.Util;
+import org.asmeta.nusmv.AsmetaSMVOptions;
 
 /**
  * @see org.eclipse.core.commands.IHandler
@@ -11,7 +11,7 @@ public class AsmetaSMVtranslateAndExecHandler extends AsmetaSMVHandler {
 
 	@Override
 	void exec(AsmetaSMV asmetaSMV) throws Exception {
-		Util.setPrintNuSMVoutput(true);
+		AsmetaSMVOptions.setPrintNuSMVoutput(true);
 		asmetaSMV.executeNuSMV();		
 	}
 }

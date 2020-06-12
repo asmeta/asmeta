@@ -10,7 +10,7 @@ import org.asmeta.modeladvisor.AsmetaMA;
 import org.asmeta.modeladvisor.plugin.AsmetaMAActivator;
 import org.asmeta.modeladvisor.plugin.AsmetaMAConsole;
 import org.asmeta.modeladvisor.plugin.AsmetaMAPreferencePage;
-import org.asmeta.nusmv.util.Util;
+import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -72,7 +72,7 @@ public class AsmetaMAHandler extends AbstractHandler {
 					store.getBoolean(AsmetaMAPreferencePage.MP2), store.getBoolean(AsmetaMAPreferencePage.MP3),
 					store.getBoolean(AsmetaMAPreferencePage.MP4), store.getBoolean(AsmetaMAPreferencePage.MP5),
 					store.getBoolean(AsmetaMAPreferencePage.MP6), store.getBoolean(AsmetaMAPreferencePage.MP7));
-			Util.setPrintNuSMVoutput(store.getBoolean(AsmetaMAPreferencePage.SHOW_SMV_OUTPUT));
+			AsmetaSMVOptions.setPrintNuSMVoutput(store.getBoolean(AsmetaMAPreferencePage.SHOW_SMV_OUTPUT));
 		} catch (Exception e) {
 			Display d = Display.getDefault();
 			Shell shell = new Shell(d);

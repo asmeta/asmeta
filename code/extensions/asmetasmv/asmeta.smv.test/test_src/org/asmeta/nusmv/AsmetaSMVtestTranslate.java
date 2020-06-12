@@ -27,9 +27,10 @@ public class AsmetaSMVtestTranslate {
 	protected boolean testOneSpec(String spec) {
 		String[] args = { spec };
 		System.out.println(args[0]);
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		AsmetaSMVOptions.keepNuSMVfile = true;
 		try {
-			AsmetaSMV a = new AsmetaSMV(args[0]);
-			Util.keepNuSMVfile = true;// per non cancellare il file NuSMV prodotto
+			AsmetaSMV a = new AsmetaSMV(new File(args[0]),options);
 			a.translation();
 			a.createNuSMVfile();
 			// the file exists

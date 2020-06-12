@@ -24,16 +24,11 @@ public class Util {
 	public static final String trueString = "TRUE";
 	public static final String falseString = "FALSE";
 	public final static String notUsedMess = " has not been exported in NuSMV since it is never used.";
-	private static boolean printNuSMVoutput;
 	private static Boolean isAsynchr;
 	private static String path;
 	private static String mainAsmName;
-	private static boolean runNuSMV;
-	private static boolean useNuXmv;
 	private static String dir;
 	static boolean disableCounterExampleComputation;
-	private static String solverPath;
-	
 	/**
 	 * Gets the name of the Asm module to which the function belongs.
 	 * 
@@ -1233,21 +1228,6 @@ public class Util {
 		return sb.toString();
 	}
 
-	public static boolean isRunNuSMV() {
-		return runNuSMV;
-	}
-
-	public static void setRunNuSMV(boolean runNuSMV) {
-		Util.runNuSMV = runNuSMV;
-	}
-
-	public static boolean isUseNuXmv() {
-		return useNuXmv;
-	}
-
-	public static void setUseNuXmv(boolean useNuXmv) {
-		Util.useNuXmv = useNuXmv;
-	}
 
 	public static String getPath() {
 		return path;
@@ -1279,21 +1259,5 @@ public class Util {
 
 	public static void setIsAsynchr(Boolean isAsynchr) {
 		Util.isAsynchr = isAsynchr;
-	}
-
-	public static boolean isPrintNuSMVoutput() {
-		return printNuSMVoutput;
-	}
-
-	public static void setPrintNuSMVoutput(boolean printNuSMVoutput) {
-		Util.printNuSMVoutput = printNuSMVoutput;
-	}
-
-	public static String getSolverPath() {
-		return solverPath;
-	}
-
-	public static void setSolverPath(String solverPath) {
-		Util.solverPath = solverPath;
 	}
 }

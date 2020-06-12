@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import org.asmeta.parser.AsmParserTest;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.UpdateClashException;
@@ -19,6 +18,8 @@ import org.asmeta.simulator.readers.RandomMFReader;
 
 public class TestOneSpec {
 
+	public static final String FILE_BASE = "../../../../asm_examples/";
+	
 	public static void main(String[] a) throws Exception {
 		new TestOneSpec().testOneSpec();
 	}
@@ -42,7 +43,7 @@ public class TestOneSpec {
 		// sim = AsmetaSUtil.xxxx(AsmetaSFitTest.BASE +
 		// "rpns/r/cluster_test.asm");
 
-		sim = Simulator.createSimulator(AsmParserTest.FILE_BASE +
+		sim = Simulator.createSimulator(FILE_BASE +
 				"test/simulator/MapDomain.asm",
 //				"erinda/FMS_IO.asm",
 //				"examples/Tictactoe_senzaSEQ.asm",

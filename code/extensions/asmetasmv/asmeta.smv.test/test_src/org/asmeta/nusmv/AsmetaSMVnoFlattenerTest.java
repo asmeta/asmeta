@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 
 	@Before
 	public void setFlattener() {
-		MapVisitor.FLATTEN = false;
+		AsmetaSMVOptions.FLATTEN = false;
 	}
 
 	@Test
@@ -210,11 +211,12 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 		//per controllare che funzioni sia con la semplificazione, sia senza.
 		AsmetaSMV as = null;
 		try {
-			as = new AsmetaSMV("examples/chooseChoose.asm");
-			Util.simplify = true;
+			AsmetaSMVOptions opt = new AsmetaSMVOptions();
+			opt.setPrintNuSMVoutput(false);
+			opt.simplify = true;
+			as = new AsmetaSMV(new File("examples/chooseChoose.asm"), opt);
 			as.translation();
 			as.createNuSMVfile();
-			Util.setPrintNuSMVoutput(false);
 			as.executeNuSMV();
 		} catch (Exception e) {
 			e.printStackTrace();

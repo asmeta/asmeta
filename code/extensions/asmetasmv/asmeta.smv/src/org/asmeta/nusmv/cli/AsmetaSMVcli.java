@@ -64,10 +64,10 @@ public class AsmetaSMVcli extends AsmetaCLI {
 			this.asmFile = asmFile;
 			AsmetaSMVOptions.simplify = !doNotSimplify;
 			AsmetaSMVOptions.setCheckConcrete(!doNotCheckConcrete);
-			Util.setRunNuSMV(executeNuSMVmodel); //execute the NuSMV model after the mapping
+			AsmetaSMVOptions.setRunNuSMV(executeNuSMVmodel); //execute the NuSMV model after the mapping
 			AsmetaSMVOptions.setPrintCounterExample(!disableCounterExampleComputation);
 			AsmetaSMVOptions.keepNuSMVfile = !executeNuSMVmodel || keepFile;
-			Util.setPrintNuSMVoutput(Util.isRunNuSMV()); //stampa l'ouput solo se il modello viene eseguito (ovviamente)
+			AsmetaSMVOptions.setPrintNuSMVoutput(AsmetaSMVOptions.isRunNuSMV()); //stampa l'ouput solo se il modello viene eseguito (ovviamente)
 			Util.setPath(asmFile.getPath());//percorso relativo del file asm comprensivo del nome del file
 			Util.setDir(asmFile.getParent());//percorso relativo del file senza il nome del file	
 		}
