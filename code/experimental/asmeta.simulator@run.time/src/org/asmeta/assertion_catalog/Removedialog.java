@@ -37,11 +37,11 @@ public class RemoveDialog extends JDialog {
 		contentPane.add(sure_message);
 		this.setTitle("Remove Invariant");
 		
-		JButton yes = new JButton("Yes",new ImageIcon(InvariantGraphicsInterface.class.getResource("/org/asmeta/animator/yes.png")));
+		JButton yes = new JButton("Yes",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/yes.png")));
 		yes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					InvariantManager.removeInvariant(s,InvariantGraphicsInterface.containerInstance,InvariantGraphicsInterface.currentLoadedID);
+					InvariantManager.removeInvariant(s,InvariantGUI.containerInstance,InvariantGUI.currentLoadedID);
 					dispose();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -52,10 +52,10 @@ public class RemoveDialog extends JDialog {
 		yes.setBounds(66, 61, 114, 37);
 		contentPane.add(yes);
 		
-		JButton no = new JButton("No",new ImageIcon(InvariantGraphicsInterface.class.getResource("/org/asmeta/animator/cancel.png")));
+		JButton no = new JButton("No",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/cancel.png")));
 		no.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InvariantGraphicsInterface.setAddRefreshEnabled();
+				InvariantGUI.setAddRefreshEnabled();
 				dispose();
 			}
 		});

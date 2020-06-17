@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.asmeta.runtime_commander.CommanderStandalone;
+import org.asmeta.simulationUI.SimShell;
 
 
 public class TestRuntimeParser {
@@ -20,7 +20,7 @@ public class TestRuntimeParser {
 		} catch (IOException e) {
 			
 		}
-		CommanderStandalone.main(args);
+		SimShell.main(args);
 	}
 
 }

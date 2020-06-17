@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import org.asmeta.runtime_container.ContainerRT;
+import org.asmeta.runtime_container.SimulationContainer;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -28,13 +28,13 @@ public class LoadDialog extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	private ComboItem ret=null;
-	public ComboItem showDialog() {
+	private LoadComboItem ret=null;
+	public LoadComboItem showDialog() {
 		setVisible(true);
 		return ret;
 	}
 
-	public LoadDialog(ContainerRT containerInstance,Map<Integer, String> ids) {
+	public LoadDialog(SimulationContainer containerInstance,Map<Integer, String> ids) {
 		setModal(true);
 		setTitle("Load simulation");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -48,7 +48,7 @@ public class LoadDialog extends JDialog {
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox.setBounds(36, 56, 360, 30);
 		for(Map.Entry<Integer, String> i : ids.entrySet()) {
-		   comboBox.addItem(new ComboItem(i.getKey(),i.getValue()));
+		   comboBox.addItem(new LoadComboItem(i.getKey(),i.getValue()));
 	    }
 		contentPane.add(comboBox);
 		
@@ -65,7 +65,7 @@ public class LoadDialog extends JDialog {
 
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ret=(ComboItem)comboBox.getSelectedItem();
+				ret=(LoadComboItem)comboBox.getSelectedItem();
 				setVisible(false);
 				dispose();
 			}
@@ -92,7 +92,7 @@ public class LoadDialog extends JDialog {
 			     {
 			    	int id=containerInstance.startExecution(checkmodel);
 			    	if(id>0){
-			    		comboBox.addItem(new ComboItem(id,checkmodel));
+			    		comboBox.addItem(new LoadComboItem(id,checkmodel));
 			    		btnLoad.setEnabled(true);
 			    	}else if (id==-2)
 			    			//TODO GESTIONE ERRORI

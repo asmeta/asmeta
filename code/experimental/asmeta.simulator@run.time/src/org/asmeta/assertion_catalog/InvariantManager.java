@@ -22,12 +22,12 @@ public class InvariantManager {
 	public InvariantData refreshInvariants(IModelAdaptation instance, int id) throws Exception
 	{
 		//List<String> final_list = new ArrayList<String>();
-		/*ContainerRT imp = ContainerRT.getInstance();
+		/*SimulationContainer imp = SimulationContainer.getInstance();
 		imp.init(1);
 		int id = imp.startExecution(model);*/
 		if(id>0)
 		{
-			InvariantGraphicsInterface.setAddRefreshEnabled();
+			InvariantGUI.setAddRefreshEnabled();
 			return /*final_list = */instance.viewListInvariant(id);
 		}
 		else {
@@ -58,15 +58,15 @@ public class InvariantManager {
 	public static int addInvariant(String s, IModelAdaptation instance, int id) throws Exception {
 		//boolean add_result=true;
 		int check=0;
-		/*ContainerRT imp = ContainerRT.getInstance();
+		/*SimulationContainer imp = SimulationContainer.getInstance();
 		imp.init(1);
 		int id = imp.startExecution(model);*/
 		check = instance.addInvariant(id,s);
 		if(check>0)
 		{
-			InvariantGraphicsInterface.showInvariants();
+			InvariantGUI.showInvariants();
 			//InvariantGraphicsInterface.setAllEnabled(1);
-			InvariantGraphicsInterface.setAddRefreshEnabled();
+			InvariantGUI.setAddRefreshEnabled();
 		}
 		else {
 				if(check==-8)
@@ -84,7 +84,7 @@ public class InvariantManager {
 	
 	public static int updateInvariant(String new_invariant, String old_invariant, IModelAdaptation instance, int id) throws Exception {
 		   int result;
-		   /*ContainerRT imp = ContainerRT.getInstance();
+		   /*SimulationContainer imp = SimulationContainer.getInstance();
 		   imp.init(1);
 		   int id = imp.startExecution(model);*/
 		   result = instance.updateInvariant(id,new_invariant,old_invariant);
@@ -92,8 +92,8 @@ public class InvariantManager {
 		   if(result > 0)
 			{
 			  // check=true;
-				InvariantGraphicsInterface.showInvariants();
-				InvariantGraphicsInterface.setAllEnabled(1);
+				InvariantGUI.showInvariants();
+				InvariantGUI.setAllEnabled(1);
 			}
 			else {
 				//check=false;
@@ -115,18 +115,18 @@ public class InvariantManager {
 	
 	public static void removeInvariant(String s,IModelAdaptation instance,int id) throws Exception {
 		boolean result;
-		/*ContainerRT imp = ContainerRT.getInstance();
+		/*SimulationContainer imp = SimulationContainer.getInstance();
 		imp.init(1);
 		int id = imp.startExecution(model);*/
 		result = instance.removeInvariant(id,s);
 		if(result)
 		{
-			InvariantGraphicsInterface.showInvariants();
-			InvariantGraphicsInterface.setAllEnabled(1);
+			InvariantGUI.showInvariants();
+			InvariantGUI.setAllEnabled(1);
 		}
 		else {
 			JOptionPane.showMessageDialog(null, "Simulation was previously terminated");
-			InvariantGraphicsInterface.showInvariants();
+			InvariantGUI.showInvariants();
 		}
 	}
 	

@@ -21,8 +21,8 @@ public class LoadSelectedSimulation extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	private ComboItem ret=null;
-	public ComboItem showDialog() {
+	private LoadComboItem ret=null;
+	public LoadComboItem showDialog() {
 		setVisible(true);
 		return ret;
 	}
@@ -41,7 +41,7 @@ public class LoadSelectedSimulation extends JDialog {
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox.setBounds(36, 56, 360, 30);
 		for(Map.Entry<Integer, String> i : ids.entrySet()) {
-			comboBox.addItem(new ComboItem(i.getKey(),i.getValue()));
+			comboBox.addItem(new LoadComboItem(i.getKey(),i.getValue()));
 		}
 		contentPane.add(comboBox);
 		
@@ -58,7 +58,7 @@ public class LoadSelectedSimulation extends JDialog {
 		JButton btnLoad = new JButton("Load");
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ret=(ComboItem)comboBox.getSelectedItem();
+				ret=(LoadComboItem)comboBox.getSelectedItem();
 				setVisible(false);
 				dispose();
 			}
@@ -72,36 +72,4 @@ public class LoadSelectedSimulation extends JDialog {
 		contentPane.add(lblLabel);
 		
 	}
-}
-
-class ComboItem
-{
-    private int i;
-    private String s;
-
-    public ComboItem(int id, String model)
-    {
-        this.i = id;
-        this.s = model;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "ID: "+i+" Model: "+showName();
-    }
-    
-    private String showName() {
-    	return s.substring(s.lastIndexOf('/')+1, s.length());
-    }
-    
-    public int getInt()
-    {
-        return i;
-    }
-
-    public String getStr()
-    {
-        return s;
-    }
 }

@@ -7,16 +7,16 @@ import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.asmeta.assertion_catalog.InvariantGraphicsInterface;
-import org.asmeta.runtime_commander.CommanderStandalone;
-import org.asmeta.runtime_container.ContainerRT;
+import org.asmeta.assertion_catalog.InvariantGUI;
+import org.asmeta.runtime_container.SimulationContainer;
 import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.IModelExecution;
+import org.asmeta.simulationUI.SimShell;
 
 public class GUITest {
 
 	public static void main(String[] args) {
-		ContainerRT imp = ContainerRT.getInstance();
+		SimulationContainer imp = SimulationContainer.getInstance();
 		//imp.init(20);
 		//String model = "examples/ferrymanSimulator_raff1.asm";
 		//String model = "examples/LGS_GM.asm";
@@ -32,8 +32,8 @@ public class GUITest {
 		imp.startExecution("examples/Lavatrice.asm");*/
 		
 		//imp.stopExecution(2);
-		InvariantGraphicsInterface.main(imp);
-		CommanderStandalone.main(args);
+		InvariantGUI.main(imp);
+		SimShell.main(args);
 		/*Map<String,String> m=new HashMap<String, String>(); //prova per invalid invariant su aggiunta
 		m.put("carry", "CABBAGE");
 		imp.runStep(1,m, model);*/

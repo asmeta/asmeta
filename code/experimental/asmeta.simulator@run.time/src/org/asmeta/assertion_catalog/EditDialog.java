@@ -291,12 +291,12 @@ public class EditDialog extends JDialog {
 					{
 					    new_invariant = new_invariant.replaceAll("\\s+", " ");
 					    old_invariant = old_invariant.replaceAll("\\s+", " ");
-					    successCode = InvariantManager.updateInvariant(new_invariant,old_invariant,InvariantGraphicsInterface.containerInstance,InvariantGraphicsInterface.currentLoadedID);
+					    successCode = InvariantManager.updateInvariant(new_invariant,old_invariant,InvariantGUI.containerInstance,InvariantGUI.currentLoadedID);
 					}
 					if(successCode>0&& problem==false)
 						dispose();
 					else if (successCode==-1&& problem==false) {
-						InvariantGraphicsInterface.showInvariants();
+						InvariantGUI.showInvariants();
 						dispose();
 				   }
 				} catch (Exception e1) {
@@ -307,10 +307,10 @@ public class EditDialog extends JDialog {
 		save.setBounds(49, 200, 134, 40);
 		contentPane.add(save);
 		
-		JButton cancel = new JButton("Cancel",new ImageIcon(InvariantGraphicsInterface.class.getResource("/org/asmeta/animator/cancel.png")));
+		JButton cancel = new JButton("Cancel",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/cancel.png")));
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InvariantGraphicsInterface.setAddRefreshEnabled();
+				InvariantGUI.setAddRefreshEnabled();
 				dispose();
 			}
 		});

@@ -27,7 +27,7 @@ import javax.swing.InputMap;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class InvariantGraphicsInterface {
+public class InvariantGUI {
 
 	private JFrame frame;
 	static List<String> list_invariant = new ArrayList<String>();
@@ -41,12 +41,12 @@ public class InvariantGraphicsInterface {
 	
 	//////////////COMPONENTS//////////////////////
 	//static JList<String> list = new JList<>();
-	static JButton edit = new JButton("EDIT",new ImageIcon(InvariantGraphicsInterface.class.getResource("/org/asmeta/animator/edit.png")));
-	static JButton refresh = new JButton("REFRESH",new ImageIcon(InvariantGraphicsInterface.class.getResource("/org/asmeta/animator/refresh.png")));
+	static JButton edit = new JButton("EDIT",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/edit.png")));
+	static JButton refresh = new JButton("REFRESH",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/refresh.png")));
 	static JTextPane modelpath = new JTextPane();
-	static JButton remove = new JButton("REMOVE",new ImageIcon(InvariantGraphicsInterface.class.getResource("/org/asmeta/animator/remove.png")));
-	static JButton add = new JButton("ADD",new ImageIcon(InvariantGraphicsInterface.class.getResource("/org/asmeta/animator/add.png")));
-	static JButton upload = new JButton("UPLOAD MODEL",new ImageIcon(InvariantGraphicsInterface.class.getResource("/org/asmeta/animator/upload.png")));
+	static JButton remove = new JButton("REMOVE",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/remove.png")));
+	static JButton add = new JButton("ADD",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/add.png")));
+	static JButton upload = new JButton("UPLOAD MODEL",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/upload.png")));
 	static JScrollPane scrollPane = new JScrollPane();
 	private static JTable table;
 	static DefaultTableModel mod = new DefaultTableModel();
@@ -85,7 +85,7 @@ public class InvariantGraphicsInterface {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InvariantGraphicsInterface window = new InvariantGraphicsInterface(contInstanc);
+					InvariantGUI window = new InvariantGUI(contInstanc);
 					window.frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -103,17 +103,17 @@ public class InvariantGraphicsInterface {
 	/**
 	 * Create the application.
 	 */
-	public InvariantGraphicsInterface(IModelAdaptation contInstanc) {
+	public InvariantGUI(IModelAdaptation contInstanc) {
 		initialize();
 		containerInstance=contInstanc;
 		currentLoadedID=-99;
 		currentLoadedModel="";
 	}
-	InvariantGraphicsInterface(IModelAdaptation containerInstance, int currentLoadedID, String currentLoadedModel){
+	public InvariantGUI(IModelAdaptation containerInstance, int currentLoadedID, String currentLoadedModel){
 		initialize();
-		InvariantGraphicsInterface.containerInstance=containerInstance;
-		InvariantGraphicsInterface.currentLoadedID=currentLoadedID;
-		InvariantGraphicsInterface.currentLoadedModel=currentLoadedModel;
+		InvariantGUI.containerInstance=containerInstance;
+		InvariantGUI.currentLoadedID=currentLoadedID;
+		InvariantGUI.currentLoadedModel=currentLoadedModel;
 		showInvariants();
 		modelpath.setText(currentLoadedModel);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -186,7 +186,7 @@ public class InvariantGraphicsInterface {
 			   public void actionPerformed(ActionEvent e) {
 			    try {	
 	    		Map<Integer, String> ids = containerInstance.getLoadedIDs();
-	    		ComboItem ci=null;
+	    		LoadComboItem ci=null;
 	    		if (!ids.isEmpty()) {
 	    			setAllEnabled(1);
 	    			ci = new LoadSelectedSimulation(ids).showDialog();

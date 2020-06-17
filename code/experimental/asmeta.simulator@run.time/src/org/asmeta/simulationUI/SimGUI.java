@@ -1,4 +1,4 @@
-package org.asmeta.assertion_catalog;
+package org.asmeta.simulationUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -18,8 +18,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.Caret;
 import javax.swing.text.DefaultCaret;
 
+import org.asmeta.assertion_catalog.InvariantGUI;
+import org.asmeta.assertion_catalog.LoadComboItem;
+import org.asmeta.assertion_catalog.LoadDialog;
 import org.asmeta.parser.ASMParser;
-import org.asmeta.runtime_container.ContainerRT;
+import org.asmeta.runtime_container.SimulationContainer;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 
@@ -35,7 +38,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 
-public class SimulatorManager extends JFrame {
+public class SimGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextPane textPaneID;
@@ -44,7 +47,7 @@ public class SimulatorManager extends JFrame {
 	private JButton btnRunstep;
 	private JButton btnRunstepTimeout;
 	private JButton btnRununtilempty;
-	static ContainerRT containerInstance;
+	static SimulationContainer containerInstance;
 	static int currentLoadedID;
 	static int currentMaxInstances;
 	static String currentLoadedModel;
@@ -52,11 +55,11 @@ public class SimulatorManager extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		ContainerRT contInstance = ContainerRT.getInstance();
+		SimulationContainer contInstance = SimulationContainer.getInstance();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SimulatorManager frame = new SimulatorManager(contInstance);
+					SimGUI frame = new SimGUI(contInstance);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -68,7 +71,7 @@ public class SimulatorManager extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SimulatorManager(ContainerRT contInstance) {
+	public SimGUI(SimulationContainer contInstance) {
 		initialize();
 		enableLoadSimButtons(false);
 		containerInstance=contInstance;
@@ -199,7 +202,7 @@ public class SimulatorManager extends JFrame {
 				{
 					Map<Integer, String> ids = containerInstance.getLoadedIDs();
 				
-		    		ComboItem ci=null;
+		    		LoadComboItem ci=null;
 		    		if (!ids.isEmpty()) {
 		    			// setAllEnabled(1);
 		    			ci = new LoadDialog(containerInstance,ids).showDialog();
@@ -250,7 +253,7 @@ public class SimulatorManager extends JFrame {
 				if(currentLoadedID<1)
 					JOptionPane.showMessageDialog(null, "Error: no simulation selected");
 				else
-				    new InvariantGraphicsInterface(containerInstance,currentLoadedID,currentLoadedModel).setVisible();
+				    new InvariantGUI(containerInstance,currentLoadedID,currentLoadedModel).setVisible();
 			}
 		});
 		

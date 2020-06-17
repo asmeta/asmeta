@@ -1,14 +1,17 @@
-package org.asmeta.runtime_commander;
+package org.asmeta.simulationUI;
 
 import java.util.Scanner;
 
-import org.asmeta.runtime_container.ContainerRT;
+import org.asmeta.runtime_commander.Commander;
+import org.asmeta.runtime_commander.CommanderException;
+import org.asmeta.runtime_commander.CommanderOutput;
+import org.asmeta.runtime_container.SimulationContainer;
 
-public class CommanderStandalone {
+public class SimShell {
 
 	public static void main(String[] args) {
 		String in=String.join(" ", args);
-		ContainerRT imp = ContainerRT.getInstance();
+		SimulationContainer imp = SimulationContainer.getInstance();
 		Commander.parseInput(imp, in, true);
 		CommanderOutput CO;
 		Scanner keyboard = new Scanner(System.in);

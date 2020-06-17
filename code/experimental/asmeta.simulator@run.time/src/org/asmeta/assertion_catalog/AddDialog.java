@@ -98,7 +98,7 @@ public class AddDialog extends JDialog {
 			
 			this.setTitle("Add Invariant");
 			
-			JButton save = new JButton("Save",new ImageIcon(InvariantGraphicsInterface.class.getResource("/org/asmeta/animator/save.png")));
+			JButton save = new JButton("Save",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/save.png")));
 			save.addActionListener(new ActionListener() {
 				   public void actionPerformed(ActionEvent e) {
 					   problem = false;
@@ -143,11 +143,11 @@ public class AddDialog extends JDialog {
 								//invariant_add = invariant_add.replaceAll(" = ", "=");
 								//invariant_add = invariant_add.replaceAll("( ", "(");
 								//invariant_add = invariant_add.replaceAll(" )", ")");
-								int successCode = InvariantManager.addInvariant(invariant_add,InvariantGraphicsInterface.containerInstance,InvariantGraphicsInterface.currentLoadedID);
+								int successCode = InvariantManager.addInvariant(invariant_add,InvariantGUI.containerInstance,InvariantGUI.currentLoadedID);
 								if(successCode>0)
 									dispose();
 								else if(successCode==-1) {
-									InvariantGraphicsInterface.showInvariants();
+									InvariantGUI.showInvariants();
 									dispose();
 								}
 						    } catch (Exception e1) {
@@ -160,10 +160,10 @@ public class AddDialog extends JDialog {
 			save.setBounds(135, 108, 134, 40);
 			contentPane.add(save);
 			
-			JButton cancel = new JButton("Cancel",new ImageIcon(InvariantGraphicsInterface.class.getResource("/org/asmeta/animator/cancel.png")));
+			JButton cancel = new JButton("Cancel",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/cancel.png")));
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					InvariantGraphicsInterface.setAddRefreshEnabled();
+					InvariantGUI.setAddRefreshEnabled();
 					dispose();
 				}
 			});
