@@ -47,6 +47,7 @@ public class SimGUI extends JFrame {
 	private JButton btnRunstep;
 	private JButton btnRunstepTimeout;
 	private JButton btnRununtilempty;
+	private JButton rununtilemptytimeout;
 	static SimulationContainer containerInstance;
 	static int currentLoadedID;
 	static int currentMaxInstances;
@@ -178,6 +179,12 @@ public class SimGUI extends JFrame {
 		this.btnRunstepTimeout=runStepTimeout;
 		contentPane.add(runStepTimeout);
 		
+		JButton rununtilemptytimeout = new JButton("RunUntilEmpty timeout");	
+		rununtilemptytimeout.setEnabled(false);
+		rununtilemptytimeout.setBounds(213, 416, 154, 40);
+		this.rununtilemptytimeout=rununtilemptytimeout;
+		contentPane.add(rununtilemptytimeout);
+		
 		
 		
 		
@@ -257,6 +264,49 @@ public class SimGUI extends JFrame {
 			}
 		});
 		
+		btnRununtilempty.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				List<String> monitored = getMonitored();
+				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
+				if (monitored.size()<1)
+					out=containerInstance.runUntilEmpty(currentLoadedID);
+				else {
+					Map<String, String> input = getInput(monitored);
+					out=containerInstance.runUntilEmpty(currentLoadedID, input);
+				}
+				//JOptionPane.showMessageDialog(null, out.toString());	
+				textAreaLog.append("Runstep executed with current result:\n"+out.MytoString()+"\n");
+			}
+		});
+		
+		rununtilemptytimeout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				List<String> monitored = getMonitored();
+				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
+				int timeout=-1;
+				String num=JOptionPane.showInputDialog("Insert timeout (milliseconds):");
+				if(num!=null)
+				{
+					try {
+						timeout=Integer.parseInt(num);
+					} catch (NumberFormatException e1) {
+						JOptionPane.showMessageDialog(null, "Not a valid number.");
+					}
+				}
+				if (timeout!=-1) {
+					if (monitored.size()<1)
+						out=containerInstance.runUntilEmptyTimeout(currentLoadedID,timeout);
+					else {
+						Map<String, String> input = getInput(monitored);
+						out=containerInstance.runUntilEmptyTimeout(currentLoadedID, input,timeout);
+					}
+					//JOptionPane.showMessageDialog(null, out.toString());	
+					textAreaLog.append("Runstep with timeout executed with current result:\n"+out.MytoString()+"\n");
+				} else
+					textAreaLog.append("Couldn't execute operation.\n");
+			}
+		});
+		
 		runstep.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				List<String> monitored = getMonitored();
@@ -305,6 +355,7 @@ public class SimGUI extends JFrame {
 		btnRunstep.setEnabled(enable);
 		btnRununtilempty.setEnabled(enable);
 		btnRunstepTimeout.setEnabled(enable);
+		rununtilemptytimeout.setEnabled(enable);
 		/*contentPane.getComponent(2).setEnabled(enable);
 		contentPane.getComponent(3).setEnabled(enable);
 		contentPane.getComponent(9).setEnabled(enable);*/
