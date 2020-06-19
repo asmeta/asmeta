@@ -225,7 +225,7 @@ public class SimGUI extends JFrame {
 		    			currentLoadedID = ci.getInt();
 		    			currentLoadedModel = ci.getStr();
 		    			textPaneID.setText(""+currentLoadedID);
-		    			textPaneModel.setText(currentLoadedModel);
+		    			textPaneModel.setText(currentLoadedModel.substring(currentLoadedModel.lastIndexOf("\\")+1));
 		    			enableLoadSimButtons(true);
 		    			textAreaLog.setText("Simulation ready.\n");
 		    			/*JTextPane jj=(JTextPane)contentPane.getComponent(1);
