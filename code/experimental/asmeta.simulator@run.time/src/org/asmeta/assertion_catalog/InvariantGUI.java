@@ -41,15 +41,15 @@ public class InvariantGUI {
 	
 	//////////////COMPONENTS//////////////////////
 	//static JList<String> list = new JList<>();
-	static JButton edit = new JButton("EDIT",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/edit.png")));
-	static JButton refresh = new JButton("REFRESH",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/refresh.png")));
-	static JTextPane modelpath = new JTextPane();
-	static JButton remove = new JButton("REMOVE",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/remove.png")));
-	static JButton add = new JButton("ADD",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/add.png")));
-	static JButton upload = new JButton("UPLOAD MODEL",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/upload.png")));
-	static JScrollPane scrollPane = new JScrollPane();
+	static JButton edit;
+	static JButton refresh;
+	static JTextPane modelpath;
+	static JButton remove;
+	static JButton add;
+	static JButton upload;
+	static JScrollPane scrollPane;
 	private static JTable table;
-	static DefaultTableModel mod = new DefaultTableModel();
+	static DefaultTableModel mod;
 	//static JTable table;
 	
 	static JTable jTable = new JTable();
@@ -115,7 +115,11 @@ public class InvariantGUI {
 		InvariantGUI.currentLoadedID=currentLoadedID;
 		InvariantGUI.currentLoadedModel=currentLoadedModel;
 		showInvariants();
-		modelpath.setText(currentLoadedModel);
+		//modelpath.setText(currentLoadedModel);
+		if (currentLoadedModel.indexOf("\\")>=0)
+			modelpath.setText(currentLoadedModel.substring(currentLoadedModel.lastIndexOf("\\")+1));
+		else
+			modelpath.setText(currentLoadedModel);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
@@ -135,35 +139,41 @@ public class InvariantGUI {
 		
 		
 		/////////SET COMPONENTS ON THE FRAME
+		modelpath = new JTextPane();
 		modelpath.setEditable(false);
 		modelpath.setBounds(35, 26, 476, 28);
 		modelpath.setFont(font);
 		frame.getContentPane().add(modelpath);
+		refresh = new JButton("REFRESH",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/refresh.png")));
 		refresh.setEnabled(false);
 		refresh.setBounds(543, 352, 134, 40);
 		frame.getContentPane().add(refresh);
+		remove = new JButton("REMOVE",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/remove.png")));
 		remove.setBounds(221, 352, 134, 40);
 		frame.getContentPane().add(remove);
 		
-		
+		add = new JButton("ADD",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/add.png")));
 		add.setBounds(60, 352, 134, 40);
 		
 		frame.getContentPane().add(add);
 		
 		
-		
+		edit = new JButton("EDIT",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/edit.png")));
 		edit.setBounds(383, 352, 134, 40);
 		frame.getContentPane().add(edit);
 		//list.setToolTipText("");
 		//list.setBounds(557, 80, 144, 247);
 		//frame.getContentPane().add(list);
+		upload = new JButton("UPLOAD MODEL",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/upload.png")));
 		upload.setBounds(523, 13, 186, 54);
 		frame.getContentPane().add(upload);
 		
-		
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(35, 80, 674, 247);
 		frame.getContentPane().add(scrollPane);
 		
+		mod = new DefaultTableModel();
+		jTable = new JTable();
 		table = new JTable(mod);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
@@ -197,9 +207,13 @@ public class InvariantGUI {
 	    			currentLoadedModel = ci.getStr();
 	    			if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(".asm")!=-1 && showInvariants())
 				     {
-				      add.setEnabled(true);
-				      refresh.setEnabled(true);
-				      modelpath.setText(currentLoadedModel);
+	    				add.setEnabled(true);
+	    				refresh.setEnabled(true);
+				      //modelpath.setText(currentLoadedModel);
+	    				if (currentLoadedModel.indexOf("\\")>=0)
+							modelpath.setText(currentLoadedModel.substring(currentLoadedModel.lastIndexOf("\\")+1));
+						else
+							modelpath.setText(currentLoadedModel);
 				     }
 	    			else if(currentLoadedModel.indexOf(".asm")==-1 && !currentLoadedModel.isEmpty())
 				    	JOptionPane.showMessageDialog(null, "WRONG EXTENSION");
