@@ -33,7 +33,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import java.awt.event.WindowFocusListener;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 import java.awt.event.WindowEvent;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -84,6 +86,12 @@ public class SimGUI extends JFrame {
 	
 	private void initialize()
 	{
+		PrintStream previousConsole = System.out;
+		 
+        // Set the standard output to use newConsole.
+        ByteArrayOutputStream newConsole = new ByteArrayOutputStream();
+		
+		
 		setTitle("Simulator Manager");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 862, 545);
@@ -120,16 +128,16 @@ public class SimGUI extends JFrame {
 		contentPane.add(choose);
 		
 		JButton invmanager = new JButton("Show assertion catalog");
-		invmanager.setBounds(649, 154, 170, 71);
+		invmanager.setBounds(649, 142, 170, 71);
 		contentPane.add(invmanager);
 		
 		JButton runstep = new JButton("RunStep");
-		runstep.setBounds(47, 365, 154, 40);
+		runstep.setBounds(97, 365, 188, 40);
 		btnRunstep=runstep;
 		contentPane.add(runstep);
 		
 		JButton rununtilempty = new JButton("RunUntilEmpty");
-		rununtilempty.setBounds(213, 365, 154, 40);
+		rununtilempty.setBounds(375, 365, 188, 40);
 		btnRununtilempty=rununtilempty;
 		contentPane.add(rununtilempty);
 		
@@ -158,7 +166,7 @@ public class SimGUI extends JFrame {
 		contentPane.add(textPaneID);
 		
 		JButton btnStop = new JButton("Stop simulation");
-		btnStop.setBounds(649, 295, 170, 57);
+		btnStop.setBounds(649, 251, 170, 71);
 		btnStop.setEnabled(false);
 		this.btnStop=btnStop;
 		contentPane.add(btnStop);
@@ -175,13 +183,13 @@ public class SimGUI extends JFrame {
 		
 		JButton runStepTimeout = new JButton("RunStep timeout");
 		runStepTimeout.setEnabled(false);
-		runStepTimeout.setBounds(47, 418, 154, 40);
+		runStepTimeout.setBounds(97, 418, 188, 40);
 		this.btnRunstepTimeout=runStepTimeout;
 		contentPane.add(runStepTimeout);
 		
 		JButton rununtilemptytimeout = new JButton("RunUntilEmpty timeout");	
 		rununtilemptytimeout.setEnabled(false);
-		rununtilemptytimeout.setBounds(213, 416, 154, 40);
+		rununtilemptytimeout.setBounds(375, 418, 188, 40);
 		this.rununtilemptytimeout=rununtilemptytimeout;
 		contentPane.add(rununtilemptytimeout);
 		
@@ -270,6 +278,8 @@ public class SimGUI extends JFrame {
 		
 		btnRununtilempty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				System.setErr(new PrintStream(newConsole));
+				System.setOut(new PrintStream(newConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				if (monitored.size()<1)
@@ -279,12 +289,21 @@ public class SimGUI extends JFrame {
 					out=containerInstance.runUntilEmpty(currentLoadedID, input);
 				}
 				//JOptionPane.showMessageDialog(null, out.toString());	
-				textAreaLog.append("Runstep executed with current result:\n"+out.MytoString()+"\n");
+				//textAreaLog.append("Runstep executed with current result:\n"+out.MytoString()+"\n");
+				previousConsole.println(newConsole.toString()); // Display output of newConsole.
+				 
+		        // Restore back the standard console output.
+		        System.setOut(previousConsole);
+		        System.setErr(previousConsole);
+		        textAreaLog.append("");
+		        textAreaLog.append(newConsole.toString());
 			}
 		});
 		
 		rununtilemptytimeout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.setErr(new PrintStream(newConsole));
+				System.setOut(new PrintStream(newConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				int timeout=-1;
@@ -305,14 +324,23 @@ public class SimGUI extends JFrame {
 						out=containerInstance.runUntilEmptyTimeout(currentLoadedID, input,timeout);
 					}
 					//JOptionPane.showMessageDialog(null, out.toString());	
-					textAreaLog.append("Runstep with timeout executed with current result:\n"+out.MytoString()+"\n");
+					//textAreaLog.append("Runstep with timeout executed with current result:\n"+out.MytoString()+"\n");
 				} else
 					textAreaLog.append("Couldn't execute operation.\n");
+				previousConsole.println(newConsole.toString()); // Display output of newConsole.
+				 
+		        // Restore back the standard console output.
+		        System.setOut(previousConsole);
+		        System.setErr(previousConsole);
+		        textAreaLog.append("");
+		        textAreaLog.append(newConsole.toString());
 			}
 		});
 		
 		runstep.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				System.setErr(new PrintStream(newConsole));
+				System.setOut(new PrintStream(newConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				if (monitored.size()<1)
@@ -322,12 +350,22 @@ public class SimGUI extends JFrame {
 					out=containerInstance.runStep(currentLoadedID, input);
 				}
 				//JOptionPane.showMessageDialog(null, out.toString());	
-				textAreaLog.append("Runstep executed with current result:\n"+out.MytoString()+"\n");
+				//textAreaLog.append("Runstep executed with current result:\n"+out.MytoString()+"\n");
+				 
+		        previousConsole.println(newConsole.toString()); // Display output of newConsole.
+		 
+		        // Restore back the standard console output.
+		        System.setOut(previousConsole);
+		        System.setErr(previousConsole);
+		        textAreaLog.append("");
+		        textAreaLog.append(newConsole.toString());
 			}
 		});
 		
 		runStepTimeout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				System.setErr(new PrintStream(newConsole));
+				System.setOut(new PrintStream(newConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				int timeout=-1;
@@ -348,9 +386,16 @@ public class SimGUI extends JFrame {
 						out=containerInstance.runStepTimeout(currentLoadedID, input,timeout);
 					}
 					//JOptionPane.showMessageDialog(null, out.toString());	
-					textAreaLog.append("Runstep with timeout executed with current result:\n"+out.MytoString()+"\n");
+					//textAreaLog.append("Runstep with timeout executed with current result:\n"+out.MytoString()+"\n");
 				} else
 					textAreaLog.append("Couldn't execute operation.\n");
+				previousConsole.println(newConsole.toString()); // Display output of newConsole.
+				 
+		        // Restore back the standard console output.
+		        System.setOut(previousConsole);
+		        System.setErr(previousConsole);
+		        textAreaLog.append("");
+		        textAreaLog.append(newConsole.toString());
 			}
 		});
 	}

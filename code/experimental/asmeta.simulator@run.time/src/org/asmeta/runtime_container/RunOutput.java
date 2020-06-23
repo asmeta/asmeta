@@ -1,5 +1,6 @@
 package org.asmeta.runtime_container;
 
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -101,10 +102,12 @@ public class RunOutput implements Serializable {
 		if (locationValue!=null)
 			sb.append("The monitored is: " + locationValue + "\n");
 		if (ms!=null)
-			sb.append("The new state is: " + ms.getControlledValues());
+			sb.append("The new state is: " + ms.getControlledValues() + "\n");
+		sb.append("-----------------------------------\n");
 		return sb.toString();
 	}
 
+	
 
 	@Override
 	public boolean equals(Object obj) {

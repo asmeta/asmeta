@@ -135,7 +135,7 @@ public class InvariantGUI {
 		frame.setTitle("Assertion Catalog");
 		
 		/////////SET VISIBILITY OF BUTTONS
-		setAllEnabled(0);
+		//setAllEnabled(0);
 		
 		
 		/////////SET COMPONENTS ON THE FRAME
