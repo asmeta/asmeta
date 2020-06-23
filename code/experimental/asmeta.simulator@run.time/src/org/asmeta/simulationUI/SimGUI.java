@@ -297,6 +297,7 @@ public class SimGUI extends JFrame {
 		        System.setErr(previousConsole);
 		        textAreaLog.append("");
 		        textAreaLog.append(newConsole.toString());
+		        newConsole.reset();
 			}
 		});
 		
@@ -334,6 +335,7 @@ public class SimGUI extends JFrame {
 		        System.setErr(previousConsole);
 		        textAreaLog.append("");
 		        textAreaLog.append(newConsole.toString());
+		        newConsole.reset();
 			}
 		});
 		
@@ -359,6 +361,7 @@ public class SimGUI extends JFrame {
 		        System.setErr(previousConsole);
 		        textAreaLog.append("");
 		        textAreaLog.append(newConsole.toString());
+		        newConsole.reset();
 			}
 		});
 		
@@ -396,6 +399,7 @@ public class SimGUI extends JFrame {
 		        System.setErr(previousConsole);
 		        textAreaLog.append("");
 		        textAreaLog.append(newConsole.toString());
+		        newConsole.reset();
 			}
 		});
 	}
