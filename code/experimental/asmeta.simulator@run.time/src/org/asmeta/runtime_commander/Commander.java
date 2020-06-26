@@ -147,7 +147,7 @@ public class Commander {
 			m = p.matcher(input);
 			invariantp = parseText(m, debugMode, "invariant");
 			//parsing INVARIANT2
-			p = Pattern.compile("(-inv2\\s+\"[^\"\\n]+\")");
+			p = Pattern.compile("(-invold\\s+\"[^\"\\n]+\")");
 			m = p.matcher(input);
 			invariant2p = parseText(m, debugMode, "invariant2");
 			scan.close();

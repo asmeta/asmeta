@@ -20,7 +20,7 @@ public class SimShell {
 			System.out.print('>');
 			in = keyboard.nextLine();
 			if (!in.equals("qqq")) {
-				CO = Commander.parseInput(imp, in, false);
+				CO = Commander.parseInput(imp, in, true);
 				try {
 				switch (CO.getStatus()) {
 				case SIM_ID:
