@@ -28,6 +28,7 @@ public class LoadSelectedSimulation extends JDialog {
 	}
 	
 	public LoadSelectedSimulation(Map<Integer, String> ids) {
+		setResizable(false);
 		setModal(true);
 		setTitle("Load simulation");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

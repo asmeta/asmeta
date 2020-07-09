@@ -75,6 +75,7 @@ public class SimGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public SimGUI(SimulationContainer contInstance) {
+		setResizable(false);
 		initialize();
 		enableLoadSimButtons(false);
 		containerInstance=contInstance;
@@ -176,6 +177,7 @@ public class SimGUI extends JFrame {
 		contentPane.add(scrollPane);
 		
 		JTextArea textAreaLog = new JTextArea();
+		textAreaLog.setLineWrap(true);
 		textAreaLog.setEditable(false);
 		DefaultCaret caret = (DefaultCaret)textAreaLog.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);

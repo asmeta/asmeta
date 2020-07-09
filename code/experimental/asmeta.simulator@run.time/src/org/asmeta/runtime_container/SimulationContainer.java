@@ -656,7 +656,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 	private static void printRollback(int step, MyState state) {
 
-		System.out.println("<Exception make return at previous step " + step + ">");
+		System.out.println("<Model rollback to previous step: " + step + ">");
 
 		if (state.controlledValues.size() != 0)
 			System.out.println("< Controlled function >");

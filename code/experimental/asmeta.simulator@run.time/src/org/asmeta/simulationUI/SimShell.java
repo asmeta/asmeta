@@ -12,7 +12,7 @@ public class SimShell {
 	public static void main(String[] args) {
 		String in=String.join(" ", args);
 		SimulationContainer imp = SimulationContainer.getInstance();
-		Commander.parseInput(imp, in, true);
+		Commander.parseInput(imp, in, false);
 		CommanderOutput CO;
 		Scanner keyboard = new Scanner(System.in);
 		do
