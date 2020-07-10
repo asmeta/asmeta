@@ -1,0 +1,16 @@
+Breve documentazione sui progetti asmetal2cpp_codegen, asmetal2cpp_hw, asmetal2cpp_plugin.
+
+asmetal2cpp_codegen: progetto che prende in input un modello asm e lo traduce in codice C++ generando i file .cpp e .h
+asmetal2cpp_hw: progetto che prende in input il modello asm e genera il file di configurazione json (.u2c) se non esiste e successivamente
+	genera il file _hw.cpp
+asmetal2cpp_plugin: progetto che utilizza asmetal2cpp_codegen e asmetal2cpp_hw per generare tutti i file necessari alla conversione
+	da un modello asm con configurazione (json) al file .ino ed altri che salva in una cartella arduino per poi eseguire la compilazione. 
+	Le operazioni sono supportate da una interfaccia grafica che espone un bottone di conversione quando l'editor attivato mostra un file 
+	.asm
+	
+Tutti i progetti hanno i casi di test che prendono tutti i file di input presenti nella cartella sorgente specificata e generano i file di 
+	output nella cartella destinazione specificata (ad eccezione di JsonGeneratorTest di asmetal2cpp_hw che genera i file di configurazione
+	.u2c nella stessa cartella del modello asm perchè GeneratorTest nello stesso pkg li utilizza come input).
+
+	
+NOTE: il file .u2c viene sempre salvato nella stessa path del modello asm, pure dal plugin.

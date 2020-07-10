@@ -1,0 +1,25 @@
+module test
+
+import org.asmeta.tocpp.mwe2.*
+
+/*var amsetaModel = "AdvancedClock.asm"*/
+var amsetaModel = "F:\\Dati-Andrea\\GitHub\\quasmed\\PillboxASM\\pillbox.asm"
+
+Workflow {
+// clean everything
+//component = org.eclipse.emf.mwe.utils.DirectoryCleaner{	
+//}
+// generate cpp from the asmeta model
+	component = AsmetaToCppGenerator {
+		amsetaModel = amsetaModel
+	}
+	// generate the cunit tests
+	component = AsmetaToBoostUnitGenerator {
+		amsetaModel = amsetaModel
+	}
+	// compile
+	component = CppCompilerComponent {
+		directory = "cppcode"
+	}
+	// execute tests
+}
