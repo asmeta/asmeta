@@ -3,15 +3,12 @@ package org.asmeta.tocpp.abstracttestgenerator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
-import org.asmeta.parser.util.TermPrinter;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
-import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
