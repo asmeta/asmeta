@@ -10,8 +10,8 @@ import com.google.inject.Inject;
 
 import asmeta.AsmCollection;
 import asmeta.structure.Asm;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
+//import net.lingala.zip4j.core.ZipFile;
+//import net.lingala.zip4j.exception.ZipException;
 
 public class GeneratorAndParserTest {
 
@@ -106,12 +106,12 @@ public class GeneratorAndParserTest {
 		return model;
 	}
 
-	protected void unzipProject(String zipFilePath, String destFolder) {
-		try {
-			ZipFile zipFile = new ZipFile(zipFilePath);
-			zipFile.extractAll(destFolder);
-		} catch (ZipException e) {
-			e.printStackTrace();
-		}
-	}
+//	protected void unzipProject(String zipFilePath, String destFolder) {
+//		try {
+//			ZipFile zipFile = new ZipFile(zipFilePath);
+//			zipFile.extractAll(destFolder);
+//		} catch (ZipException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }
