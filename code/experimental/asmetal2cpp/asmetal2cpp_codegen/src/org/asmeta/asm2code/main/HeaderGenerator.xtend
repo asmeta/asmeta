@@ -41,14 +41,14 @@ class HeaderGenerator extends AsmToCGenerator {
 					#include <Arduino.h>
 					// The following two libs have to be installed into your Arduino Sketchbook
 					#include <ArduinoSTL.h>
-					#include <boost_1_51_0.h>
+					//#include <boost_1_51_0.h>
 					#include <string.h>				
 					#include <iostream> 
 					#include <vector> 
 					#include <set>
 					#include <map>
 					#include <list>
-					#include <boost/tuple/tuple.hpp>
+					//#include <boost/tuple/tuple.hpp>
 					using namespace std;
 					/*Arduino.h uses WString instead... */
 					#include <string.h>
@@ -147,7 +147,12 @@ class HeaderGenerator extends AsmToCGenerator {
 	 			if (!s.contains("StandardLibrary")
  				&& !s.contains("CTLlibrary")
  				&& !s.contains("LTLlibrary")) {// Ignore StandardLibrary, CTllibrary and LTLlibrary import.
-	 				sb.append('#include "'  + new ImportToH(asm).visit(i) + '.h" \n') 
+ 				if (options.compilerType != CompilerType.ArduinoCompiler)
+	 				sb.append('#include "'  + new ImportToH(asm).visit(i) + '.h" \n')
+	 			else{
+	 				var String[] buffer = new ImportToH(asm).visit(i).split('/');
+	 				sb.append('#include "' + buffer.get(buffer.size - 1 ) + '.h" \n')
+	 			} 
 	 			}
 	 		}
 	 			

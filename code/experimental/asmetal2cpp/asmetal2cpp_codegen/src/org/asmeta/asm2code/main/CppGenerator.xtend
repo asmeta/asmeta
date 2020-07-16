@@ -50,11 +50,17 @@ class CppGenerator extends AsmToCGenerator {
 				
 				/* Static function definition */
 				«functionDefinition(asm)»
-				«/*possibleValueOfStaticDomain(asm)*/»
+				«IF(options.compilerType == CompilerType.ArduinoCompiler)»
+					«possibleValueOfStaticDomain(asm)»
 				
 				/* Function and domain initialization */
-				«asmName»::«asmName»()«/*initialStaticDomainDefinition(asm)*/»«initialStaticDomain(asm)»{
+				«asmName»::«asmName»()«initialStaticDomainDefinition(asm)»«/*initialStaticDomain(asm)*/»{
 				«initialDynamicDomainDefinition(asm)»
+				«ELSE»
+				/* Function and domain initialization */
+				«asmName»::«asmName»()«initialStaticDomain(asm)»{
+				«initialDynamicDomainDefinition(asm)»
+				«ENDIF»
 				/* Init static functions Abstract domain */
 				«functionAbstractDom(asm)»
 				/* Function initialization */
@@ -133,7 +139,7 @@ class CppGenerator extends AsmToCGenerator {
 				var String n = dd.definedDomain.name
 				initial.append((Util.getElemsSetName(dd.definedDomain.name) + ("(" +
 					(new DomainToCpp(asm).visit(dd)).replace("{", if (options.compilerType==CompilerType.ArduinoCompiler) 
-						"{&var" else "{var" + n + "_").replace(",",if (options.compilerType==CompilerType.ArduinoCompiler) ",&var" else ",var" + n + "_") + "),").replaceAll("\\s+","") + "\n"
+						"{&var" + n + "_" else "{var" + n + "_").replace(",",if (options.compilerType==CompilerType.ArduinoCompiler) ",&var" + n + "_" else ",var" + n + "_") + "),").replaceAll("\\s+","") + "\n"
 				))
 			}
 		}
@@ -141,9 +147,10 @@ class CppGenerator extends AsmToCGenerator {
 			asm.headerSection.signature.domain !== null) {
 			for (ed : asm.headerSection.signature.domain) {
 				if (ed instanceof EnumTd) {
+					var String n = ed.name;
 					initial.append(Util.getElemsSetName(ed.name) + "(" + (new DomainToCpp(asm).visit(ed)).replace(
-						"{", if (options.compilerType==CompilerType.ArduinoCompiler) "{&var_" else "{var_").replace(",", 
-							if (options.compilerType==CompilerType.ArduinoCompiler) ",&var_" else ",var_"
+						"{", if (options.compilerType==CompilerType.ArduinoCompiler) "{&var" + n + "_" else "{var_").replace(",", 
+							if (options.compilerType==CompilerType.ArduinoCompiler) ",&var_" + n + "_" else ",var_"
 						) + "
 					), \n")
 				}

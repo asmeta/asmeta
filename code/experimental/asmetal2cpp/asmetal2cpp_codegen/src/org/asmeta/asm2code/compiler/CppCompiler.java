@@ -78,7 +78,7 @@ public class CppCompiler {
 				if (evalCoverage)
 					command.addAll(Arrays.asList("-fprofile-arcs", "-ftest-coverage"));
 				command.add(name);
-				command.add("-lboost_unit_test_framework");
+				command.add("-lboost_unit_test_framework"); 
 				oFile = directory.getPath() + '/' + "a.exe"; // assuming windows
 			}
 			// delete the file if already exists

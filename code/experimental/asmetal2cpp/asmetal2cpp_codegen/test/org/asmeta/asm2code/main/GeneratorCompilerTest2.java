@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.asmeta.asm2code.main.CppGenerator;
 import org.asmeta.asm2code.main.HeaderGenerator;
+import org.asmeta.asm2code.main.TranslatorOptions.CompilerType;
 import org.asmeta.asm2code.compiler.CompileResult;
 import org.asmeta.asm2code.compiler.CppCompiler;
 import org.asmeta.parser.ASMParser;
@@ -52,6 +53,7 @@ public class GeneratorCompilerTest2 {
 		//
 		// PARSE THE SPECIFICATION
 		// parse using the asmeta parser
+		TranslatorOptions opt = userOptions;
 		File asmFile = new File(asmspec);
 		assert asmFile.exists();
 		String asmname = asmFile.getName();
@@ -94,7 +96,9 @@ public class GeneratorCompilerTest2 {
 		// now compile it
 		System.out.println("Generated h file: " + hFile.getCanonicalPath());
 		System.out.println("Generated cpp file: " + cppFile.getCanonicalPath());
-		CompileResult result = CppCompiler.compile(name + ".cpp", dir.getAbsolutePath(), true, false);
+		CompileResult result =  new CompileResult(true,"");
+		if(opt.compilerType != CompilerType.ArduinoCompiler)//se il codice è per arduino, non compila. 
+			result = CppCompiler.compile(name + ".cpp", dir.getAbsolutePath(), true, false);
 		// clean the produced files
 		// delete h file
 		// hFile.delete();

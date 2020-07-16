@@ -1,351 +1,461 @@
-	/* CarSystem007AdaptiveCruiseC.cpp automatically generated from ASM2CODE */
-	#include "CarSystem007AdaptiveCruiseC.h"
-	
-	using namespace CarSystem007AdaptiveCruiseCnamespace;
-	
-	/* Conversion of ASM rules in C++ methods */
-	void CarSystem007AdaptiveCruiseC::r_CalculateSafetyDistancePlan_CC(){
-		if ((currentSpeed < 200)){ 
-			{ //par
-				speedVehicleAhead_Prec[1] = speedVehicleAhead;
-				if ((speedVehicleAhead < 200) & (speedVehicleAhead > 0)){ 
-					setSafetyDistance[1] = rtoi((2.5 * ));
-				}
-				if (bothVehicleStanding()){ 
-					setSafetyDistance[1] = 2;
-				}
-				if ((speedVehicleAhead > speedVehicleAhead_Prec[0]) & (currentSpeed != 0)){ 
-					setSafetyDistance[1] = rtoi((3.0 * ));
-				}
-			}//endpar
-		}
-	}
-	void CarSystem007AdaptiveCruiseC::r_SafetyDistanceByUser(){
-		if (! adaptiveCruiseControlActivated()){ 
-			if ((currentSpeed > 200)){ 
-				if ((sCSLever == HEAD)){ 
-					setSafetyDistance[1] = rtoi(( * safetyDistance));
-				}
-			}
-		}
-	}
-	void CarSystem007AdaptiveCruiseC::r_CollisionDetection(){
+/* CarSystem007AdaptiveCruiseC.cpp automatically generated from ASM2CODE */
+#include "CarSystem007AdaptiveCruiseC.h"
+
+using namespace CarSystem007AdaptiveCruiseCnamespace;
+
+/* Conversion of ASM rules in C++ methods */
+void CarSystem007AdaptiveCruiseC::r_CalculateSafetyDistancePlan_CC() {
+	if ((currentSpeed < 200)) {
 		{ //par
-			if ((rangeRadarSensor < brakingDistance())){ 
-				acousticCollisionSignals[1] = true;
+			speedVehicleAhead_Prec[1] = speedVehicleAhead;
+			if ((speedVehicleAhead < 200) & (speedVehicleAhead > 0)) {
+				setSafetyDistance[1] = (int) ((2.5 * (currentSpeed / 36)));
 			}
-			if ((rangeRadarSensor > brakingDistance()) & (acousticCollisionSignals[0] == true)){ 
-				acousticCollisionSignals[1] = false;
+			if (bothVehicleStanding()) {
+				setSafetyDistance[1] = 2;
 			}
-		}//endpar
+			if ((speedVehicleAhead > speedVehicleAhead_Prec[0])
+					& (currentSpeed != 0)) {
+				setSafetyDistance[1] = (int) ((3.0 * (currentSpeed / 36)));
+			}
+		} //endpar
 	}
-	void CarSystem007AdaptiveCruiseC::r_AcceleratePlan_CC(){
-			if ((currentSpeed < setVehicleSpeed[0])){ 
-			{ //par
-				acceleration[1] = 2;
-				if (! manualSpeed()){ 
-					if ((desiredSpeed[0] > setVehicleSpeed[0])){ 
-							if ((setTargetFromAccDec > speedVehicleAhead)){ 
-							setVehicleSpeed[1] = speedVehicleAhead;
-							}else{
-							setVehicleSpeed[1] = setTargetFromAccDec;
-						}
+}
+void CarSystem007AdaptiveCruiseC::r_SafetyDistanceByUser() {
+	if (!adaptiveCruiseControlActivated()) {
+		if ((currentSpeed > 200)) {
+			if ((sCSLever == HEAD)) {
+				setSafetyDistance[1] = (int) ((((currentSpeed / 10) / 3.6)
+						* safetyDistance));
+			}
+		}
+	}
+}
+void CarSystem007AdaptiveCruiseC::r_CollisionDetection() {
+	{ //par
+		if ((rangeRadarSensor < brakingDistance())) {
+			acousticCollisionSignals[1] = true;
+		}
+		if ((rangeRadarSensor > brakingDistance())
+				& (acousticCollisionSignals[0] == true)) {
+			acousticCollisionSignals[1] = false;
+		}
+	} //endpar
+}
+void CarSystem007AdaptiveCruiseC::r_AcceleratePlan_CC() {
+	if ((currentSpeed < setVehicleSpeed[0])) {
+		{ //par
+			acceleration[1] = 2;
+			if (!manualSpeed()) {
+				if ((desiredSpeed[0] > setVehicleSpeed[0])) {
+					if ((setTargetFromAccDec > speedVehicleAhead)) {
+						setVehicleSpeed[1] = speedVehicleAhead;
+					} else {
+						setVehicleSpeed[1] = setTargetFromAccDec;
 					}
 				}
-			}//endpar
-			}else{
-			acceleration[1] = 0;
-		}
+			}
+		} //endpar
+	} else {
+		acceleration[1] = 0;
 	}
-	void CarSystem007AdaptiveCruiseC::r_DeceleratePlan_CC(){
-			if ((currentSpeed != 0)){ 
-			{ //par
-				acceleration[1] = -5;
-				if (! manualSpeed()){ 
-					setVehicleSpeed[1] = setTargetFromAccDec;
-				}
-			}//endpar
-			}else{
-			acceleration[1] = 0;
-		}
-	}
-	void CarSystem007AdaptiveCruiseC::r_WarningPlan_CC(){
+}
+void CarSystem007AdaptiveCruiseC::r_DeceleratePlan_CC() {
+	if ((currentSpeed != 0)) {
 		{ //par
-			if ((itor(rangeRadarSensor) < ( * 1.5))){ 
-					visualWarningOn[1] = true;
-			} else if (visualWarningOn[0]){ 
-				visualWarningOn[1] = false;
+			acceleration[1] = -5;
+			if (!manualSpeed()) {
+				setVehicleSpeed[1] = setTargetFromAccDec;
 			}
-			if ((itor(rangeRadarSensor) < ( * 0.8))){ 
-					acousticWarningOn[1] = true;
-			} else if (acousticWarningOn[0]){ 
-				acousticWarningOn[1] = false;
-			}
-		}//endpar
+		} //endpar
+	} else {
+		acceleration[1] = 0;
 	}
-	void CarSystem007AdaptiveCruiseC::r_Monitor_Analyze_CC(){
-		if (adaptiveCruiseControlActivated()){ 
-			{ //par
-				if (obstacleAhead() & (rangeRadarSensor < setSafetyDistance[0])){ 
-					r_AcceleratePlan_CC();
-				}
-				if (obstacleAhead() & (rangeRadarSensor > setSafetyDistance[0])){ 
-					r_DeceleratePlan_CC();
-				}
-				r_CollisionDetection();
-				if (obstacleAhead()){ 
-					r_WarningPlan_CC();
-				}
-				r_CalculateSafetyDistancePlan_CC();
-			}//endpar
+}
+void CarSystem007AdaptiveCruiseC::r_WarningPlan_CC() {
+	{ //par
+		if ((double) (rangeRadarSensor) < (((currentSpeed / 10) / 3.6) * 1.5)) {
+			visualWarningOn[1] = true;
+		} else if (visualWarningOn[0]) {
+			visualWarningOn[1] = false;
 		}
+		if ((double) (rangeRadarSensor) < (((currentSpeed / 10) / 3.6) * 0.8)) {
+			acousticWarningOn[1] = true;
+		} else if (acousticWarningOn[0]) {
+			acousticWarningOn[1] = false;
+		}
+	} //endpar
+}
+void CarSystem007AdaptiveCruiseC::r_Monitor_Analyze_CC() {
+	if (adaptiveCruiseControlActivated()) {
+		{ //par
+			if (obstacleAhead() & (rangeRadarSensor < setSafetyDistance[0])) {
+				r_AcceleratePlan_CC();
+			}
+			if (obstacleAhead() & (rangeRadarSensor > setSafetyDistance[0])) {
+				r_DeceleratePlan_CC();
+			}
+			r_CollisionDetection();
+			if (obstacleAhead()) {
+				r_WarningPlan_CC();
+			}
+			r_CalculateSafetyDistancePlan_CC();
+		} //endpar
 	}
-	void CarSystem007AdaptiveCruiseC::r_MAPE_CC(){
-		r_Monitor_Analyze_CC();
-	}
-	
-	/* Static function definition */
-	bool CarSystem007AdaptiveCruiseC::adaptiveCruiseControlActivated(){return (cruiseControlMode == CCM2);}
-	bool CarSystem007AdaptiveCruiseC::obstacleAhead(){return (rangeRadarState == READY) & (rangeRadarSensor != 0);}
-	bool CarSystem007AdaptiveCruiseC::bothVehicleStanding(){return (currentSpeed == 0) & (speedVehicleAhead == 0);}
-	int CarSystem007AdaptiveCruiseC::brakingDistance(){return rtoi();}
-	bool CarSystem007AdaptiveCruiseC::manualSpeed(){return (sCSLever == UPWARD5_SCS) | (sCSLever == UPWARD7_SCS) | (sCSLever == DOWNWARD5_SCS) | (sCSLever == DOWNWARD7_SCS);}
-	RangeRadarSensor var_0 = 0;
-	RangeRadarSensor var_1 =  1;
-	RangeRadarSensor var_2 =  2;
-	RangeRadarSensor var_3 =  3;
-	RangeRadarSensor var_4 =  4;
-	RangeRadarSensor var_5 =  5;
-	RangeRadarSensor var_6 =  6;
-	RangeRadarSensor var_7 =  7;
-	RangeRadarSensor var_8 =  8;
-	RangeRadarSensor var_9 =  9;
-	RangeRadarSensor var_10 =  10;
-	RangeRadarSensor var_11 =  11;
-	RangeRadarSensor var_12 =  12;
-	RangeRadarSensor var_13 =  13;
-	RangeRadarSensor var_14 =  14;
-	RangeRadarSensor var_15 =  15;
-	RangeRadarSensor var_16 =  16;
-	RangeRadarSensor var_17 =  17;
-	RangeRadarSensor var_18 =  18;
-	RangeRadarSensor var_19 =  19;
-	RangeRadarSensor var_20 =  20;
-	RangeRadarSensor var_21 =  21;
-	RangeRadarSensor var_22 =  22;
-	RangeRadarSensor var_23 =  23;
-	RangeRadarSensor var_24 =  24;
-	RangeRadarSensor var_25 =  25;
-	RangeRadarSensor var_26 =  26;
-	RangeRadarSensor var_27 =  27;
-	RangeRadarSensor var_28 =  28;
-	RangeRadarSensor var_29 =  29;
-	RangeRadarSensor var_30 =  30;
-	RangeRadarSensor var_31 =  31;
-	RangeRadarSensor var_32 =  32;
-	RangeRadarSensor var_33 =  33;
-	RangeRadarSensor var_34 =  34;
-	RangeRadarSensor var_35 =  35;
-	RangeRadarSensor var_36 =  36;
-	RangeRadarSensor var_37 =  37;
-	RangeRadarSensor var_38 =  38;
-	RangeRadarSensor var_39 =  39;
-	RangeRadarSensor var_40 =  40;
-	RangeRadarSensor var_41 =  41;
-	RangeRadarSensor var_42 =  42;
-	RangeRadarSensor var_43 =  43;
-	RangeRadarSensor var_44 =  44;
-	RangeRadarSensor var_45 =  45;
-	RangeRadarSensor var_46 =  46;
-	RangeRadarSensor var_47 =  47;
-	RangeRadarSensor var_48 =  48;
-	RangeRadarSensor var_49 =  49;
-	RangeRadarSensor var_50 =  50;
-	RangeRadarSensor var_51 =  51;
-	RangeRadarSensor var_52 =  52;
-	RangeRadarSensor var_53 =  53;
-	RangeRadarSensor var_54 =  54;
-	RangeRadarSensor var_55 =  55;
-	RangeRadarSensor var_56 =  56;
-	RangeRadarSensor var_57 =  57;
-	RangeRadarSensor var_58 =  58;
-	RangeRadarSensor var_59 =  59;
-	RangeRadarSensor var_60 =  60;
-	RangeRadarSensor var_61 =  61;
-	RangeRadarSensor var_62 =  62;
-	RangeRadarSensor var_63 =  63;
-	RangeRadarSensor var_64 =  64;
-	RangeRadarSensor var_65 =  65;
-	RangeRadarSensor var_66 =  66;
-	RangeRadarSensor var_67 =  67;
-	RangeRadarSensor var_68 =  68;
-	RangeRadarSensor var_69 =  69;
-	RangeRadarSensor var_70 =  70;
-	RangeRadarSensor var_71 =  71;
-	RangeRadarSensor var_72 =  72;
-	RangeRadarSensor var_73 =  73;
-	RangeRadarSensor var_74 =  74;
-	RangeRadarSensor var_75 =  75;
-	RangeRadarSensor var_76 =  76;
-	RangeRadarSensor var_77 =  77;
-	RangeRadarSensor var_78 =  78;
-	RangeRadarSensor var_79 =  79;
-	RangeRadarSensor var_80 =  80;
-	RangeRadarSensor var_81 =  81;
-	RangeRadarSensor var_82 =  82;
-	RangeRadarSensor var_83 =  83;
-	RangeRadarSensor var_84 =  84;
-	RangeRadarSensor var_85 =  85;
-	RangeRadarSensor var_86 =  86;
-	RangeRadarSensor var_87 =  87;
-	RangeRadarSensor var_88 =  88;
-	RangeRadarSensor var_89 =  89;
-	RangeRadarSensor var_90 =  90;
-	RangeRadarSensor var_91 =  91;
-	RangeRadarSensor var_92 =  92;
-	RangeRadarSensor var_93 =  93;
-	RangeRadarSensor var_94 =  94;
-	RangeRadarSensor var_95 =  95;
-	RangeRadarSensor var_96 =  96;
-	RangeRadarSensor var_97 =  97;
-	RangeRadarSensor var_98 =  98;
-	RangeRadarSensor var_99 =  99;
-	RangeRadarSensor var_100 =  100;
-	RangeRadarSensor var_101 =  101;
-	RangeRadarSensor var_102 =  102;
-	RangeRadarSensor var_103 =  103;
-	RangeRadarSensor var_104 =  104;
-	RangeRadarSensor var_105 =  105;
-	RangeRadarSensor var_106 =  106;
-	RangeRadarSensor var_107 =  107;
-	RangeRadarSensor var_108 =  108;
-	RangeRadarSensor var_109 =  109;
-	RangeRadarSensor var_110 =  110;
-	RangeRadarSensor var_111 =  111;
-	RangeRadarSensor var_112 =  112;
-	RangeRadarSensor var_113 =  113;
-	RangeRadarSensor var_114 =  114;
-	RangeRadarSensor var_115 =  115;
-	RangeRadarSensor var_116 =  116;
-	RangeRadarSensor var_117 =  117;
-	RangeRadarSensor var_118 =  118;
-	RangeRadarSensor var_119 =  119;
-	RangeRadarSensor var_120 =  120;
-	RangeRadarSensor var_121 =  121;
-	RangeRadarSensor var_122 =  122;
-	RangeRadarSensor var_123 =  123;
-	RangeRadarSensor var_124 =  124;
-	RangeRadarSensor var_125 =  125;
-	RangeRadarSensor var_126 =  126;
-	RangeRadarSensor var_127 =  127;
-	RangeRadarSensor var_128 =  128;
-	RangeRadarSensor var_129 =  129;
-	RangeRadarSensor var_130 =  130;
-	RangeRadarSensor var_131 =  131;
-	RangeRadarSensor var_132 =  132;
-	RangeRadarSensor var_133 =  133;
-	RangeRadarSensor var_134 =  134;
-	RangeRadarSensor var_135 =  135;
-	RangeRadarSensor var_136 =  136;
-	RangeRadarSensor var_137 =  137;
-	RangeRadarSensor var_138 =  138;
-	RangeRadarSensor var_139 =  139;
-	RangeRadarSensor var_140 =  140;
-	RangeRadarSensor var_141 =  141;
-	RangeRadarSensor var_142 =  142;
-	RangeRadarSensor var_143 =  143;
-	RangeRadarSensor var_144 =  144;
-	RangeRadarSensor var_145 =  145;
-	RangeRadarSensor var_146 =  146;
-	RangeRadarSensor var_147 =  147;
-	RangeRadarSensor var_148 =  148;
-	RangeRadarSensor var_149 =  149;
-	RangeRadarSensor var_150 =  150;
-	RangeRadarSensor var_151 =  151;
-	RangeRadarSensor var_152 =  152;
-	RangeRadarSensor var_153 =  153;
-	RangeRadarSensor var_154 =  154;
-	RangeRadarSensor var_155 =  155;
-	RangeRadarSensor var_156 =  156;
-	RangeRadarSensor var_157 =  157;
-	RangeRadarSensor var_158 =  158;
-	RangeRadarSensor var_159 =  159;
-	RangeRadarSensor var_160 =  160;
-	RangeRadarSensor var_161 =  161;
-	RangeRadarSensor var_162 =  162;
-	RangeRadarSensor var_163 =  163;
-	RangeRadarSensor var_164 =  164;
-	RangeRadarSensor var_165 =  165;
-	RangeRadarSensor var_166 =  166;
-	RangeRadarSensor var_167 =  167;
-	RangeRadarSensor var_168 =  168;
-	RangeRadarSensor var_169 =  169;
-	RangeRadarSensor var_170 =  170;
-	RangeRadarSensor var_171 =  171;
-	RangeRadarSensor var_172 =  172;
-	RangeRadarSensor var_173 =  173;
-	RangeRadarSensor var_174 =  174;
-	RangeRadarSensor var_175 =  175;
-	RangeRadarSensor var_176 =  176;
-	RangeRadarSensor var_177 =  177;
-	RangeRadarSensor var_178 =  178;
-	RangeRadarSensor var_179 =  179;
-	RangeRadarSensor var_180 =  180;
-	RangeRadarSensor var_181 =  181;
-	RangeRadarSensor var_182 =  182;
-	RangeRadarSensor var_183 =  183;
-	RangeRadarSensor var_184 =  184;
-	RangeRadarSensor var_185 =  185;
-	RangeRadarSensor var_186 =  186;
-	RangeRadarSensor var_187 =  187;
-	RangeRadarSensor var_188 =  188;
-	RangeRadarSensor var_189 =  189;
-	RangeRadarSensor var_190 =  190;
-	RangeRadarSensor var_191 =  191;
-	RangeRadarSensor var_192 =  192;
-	RangeRadarSensor var_193 =  193;
-	RangeRadarSensor var_194 =  194;
-	RangeRadarSensor var_195 =  195;
-	RangeRadarSensor var_196 =  196;
-	RangeRadarSensor var_197 =  197;
-	RangeRadarSensor var_198 =  198;
-	RangeRadarSensor var_199 =  199;
-	RangeRadarSensor var_200 =  200;
-	RangeRadarState var_READY = READY;
-	RangeRadarState var_DIRTY = DIRTY;
-	RangeRadarState var_NOTREADY = NOTREADY;
-	Aceleration var_ACCP5 = ACCP5;
-	Aceleration var_DECM2 = DECM2;
-	Aceleration var_NOACC = NOACC;
-	
-	/* Function and domain initialization */
-	CarSystem007AdaptiveCruiseC::CarSystem007AdaptiveCruiseC()/*: 
-	// Static domain initialization 
-	RangeRadarSensor_elems(set<int>{var_0,var_ 1,var_ 2,var_ 3,var_ 4,var_ 5,var_ 6,var_ 7,var_ 8,var_ 9,var_ 10,var_ 11,var_ 12,var_ 13,var_ 14,var_ 15,var_ 16,var_ 17,var_ 18,var_ 19,var_ 20,var_ 21,var_ 22,var_ 23,var_ 24,var_ 25,var_ 26,var_ 27,var_ 28,var_ 29,var_ 30,var_ 31,var_ 32,var_ 33,var_ 34,var_ 35,var_ 36,var_ 37,var_ 38,var_ 39,var_ 40,var_ 41,var_ 42,var_ 43,var_ 44,var_ 45,var_ 46,var_ 47,var_ 48,var_ 49,var_ 50,var_ 51,var_ 52,var_ 53,var_ 54,var_ 55,var_ 56,var_ 57,var_ 58,var_ 59,var_ 60,var_ 61,var_ 62,var_ 63,var_ 64,var_ 65,var_ 66,var_ 67,var_ 68,var_ 69,var_ 70,var_ 71,var_ 72,var_ 73,var_ 74,var_ 75,var_ 76,var_ 77,var_ 78,var_ 79,var_ 80,var_ 81,var_ 82,var_ 83,var_ 84,var_ 85,var_ 86,var_ 87,var_ 88,var_ 89,var_ 90,var_ 91,var_ 92,var_ 93,var_ 94,var_ 95,var_ 96,var_ 97,var_ 98,var_ 99,var_ 100,var_ 101,var_ 102,var_ 103,var_ 104,var_ 105,var_ 106,var_ 107,var_ 108,var_ 109,var_ 110,var_ 111,var_ 112,var_ 113,var_ 114,var_ 115,var_ 116,var_ 117,var_ 118,var_ 119,var_ 120,var_ 121,var_ 122,var_ 123,var_ 124,var_ 125,var_ 126,var_ 127,var_ 128,var_ 129,var_ 130,var_ 131,var_ 132,var_ 133,var_ 134,var_ 135,var_ 136,var_ 137,var_ 138,var_ 139,var_ 140,var_ 141,var_ 142,var_ 143,var_ 144,var_ 145,var_ 146,var_ 147,var_ 148,var_ 149,var_ 150,var_ 151,var_ 152,var_ 153,var_ 154,var_ 155,var_ 156,var_ 157,var_ 158,var_ 159,var_ 160,var_ 161,var_ 162,var_ 163,var_ 164,var_ 165,var_ 166,var_ 167,var_ 168,var_ 169,var_ 170,var_ 171,var_ 172,var_ 173,var_ 174,var_ 175,var_ 176,var_ 177,var_ 178,var_ 179,var_ 180,var_ 181,var_ 182,var_ 183,var_ 184,var_ 185,var_ 186,var_ 187,var_ 188,var_ 189,var_ 190,var_ 191,var_ 192,var_ 193,var_ 194,var_ 195,var_ 196,var_ 197,var_ 198,var_ 199,var_ 200}), 
-	RangeRadarState_elems({var_READY,var_DIRTY,var_NOTREADY}
-						), 
-	Aceleration_elems({var_ACCP5,var_DECM2,var_NOACC}
-						)
-	*/{
+}
+void CarSystem007AdaptiveCruiseC::r_MAPE_CC() {
+	r_Monitor_Analyze_CC();
+}
+
+/* Static function definition */
+bool CarSystem007AdaptiveCruiseC::adaptiveCruiseControlActivated() {
+	return (cruiseControlMode == CCM2);
+}
+bool CarSystem007AdaptiveCruiseC::obstacleAhead() {
+	return (rangeRadarState == READY) & (rangeRadarSensor != 0);
+}
+bool CarSystem007AdaptiveCruiseC::bothVehicleStanding() {
+	return (currentSpeed == 0) & (speedVehicleAhead == 0);
+}
+int CarSystem007AdaptiveCruiseC::brakingDistance() {
+	return (int) (((currentSpeed * currentSpeed) / 20));
+}
+bool CarSystem007AdaptiveCruiseC::manualSpeed() {
+	return (sCSLever == UPWARD5_SCS) | (sCSLever == UPWARD7_SCS)
+			| (sCSLever == DOWNWARD5_SCS) | (sCSLever == DOWNWARD7_SCS);
+}
+RangeRadarSensor varRangeRadarSensor_0 = 0;
+RangeRadarSensor varRangeRadarSensor_1 = 1;
+RangeRadarSensor varRangeRadarSensor_2 = 2;
+RangeRadarSensor varRangeRadarSensor_3 = 3;
+RangeRadarSensor varRangeRadarSensor_4 = 4;
+RangeRadarSensor varRangeRadarSensor_5 = 5;
+RangeRadarSensor varRangeRadarSensor_6 = 6;
+RangeRadarSensor varRangeRadarSensor_7 = 7;
+RangeRadarSensor varRangeRadarSensor_8 = 8;
+RangeRadarSensor varRangeRadarSensor_9 = 9;
+RangeRadarSensor varRangeRadarSensor_10 = 10;
+RangeRadarSensor varRangeRadarSensor_11 = 11;
+RangeRadarSensor varRangeRadarSensor_12 = 12;
+RangeRadarSensor varRangeRadarSensor_13 = 13;
+RangeRadarSensor varRangeRadarSensor_14 = 14;
+RangeRadarSensor varRangeRadarSensor_15 = 15;
+RangeRadarSensor varRangeRadarSensor_16 = 16;
+RangeRadarSensor varRangeRadarSensor_17 = 17;
+RangeRadarSensor varRangeRadarSensor_18 = 18;
+RangeRadarSensor varRangeRadarSensor_19 = 19;
+RangeRadarSensor varRangeRadarSensor_20 = 20;
+RangeRadarSensor varRangeRadarSensor_21 = 21;
+RangeRadarSensor varRangeRadarSensor_22 = 22;
+RangeRadarSensor varRangeRadarSensor_23 = 23;
+RangeRadarSensor varRangeRadarSensor_24 = 24;
+RangeRadarSensor varRangeRadarSensor_25 = 25;
+RangeRadarSensor varRangeRadarSensor_26 = 26;
+RangeRadarSensor varRangeRadarSensor_27 = 27;
+RangeRadarSensor varRangeRadarSensor_28 = 28;
+RangeRadarSensor varRangeRadarSensor_29 = 29;
+RangeRadarSensor varRangeRadarSensor_30 = 30;
+RangeRadarSensor varRangeRadarSensor_31 = 31;
+RangeRadarSensor varRangeRadarSensor_32 = 32;
+RangeRadarSensor varRangeRadarSensor_33 = 33;
+RangeRadarSensor varRangeRadarSensor_34 = 34;
+RangeRadarSensor varRangeRadarSensor_35 = 35;
+RangeRadarSensor varRangeRadarSensor_36 = 36;
+RangeRadarSensor varRangeRadarSensor_37 = 37;
+RangeRadarSensor varRangeRadarSensor_38 = 38;
+RangeRadarSensor varRangeRadarSensor_39 = 39;
+RangeRadarSensor varRangeRadarSensor_40 = 40;
+RangeRadarSensor varRangeRadarSensor_41 = 41;
+RangeRadarSensor varRangeRadarSensor_42 = 42;
+RangeRadarSensor varRangeRadarSensor_43 = 43;
+RangeRadarSensor varRangeRadarSensor_44 = 44;
+RangeRadarSensor varRangeRadarSensor_45 = 45;
+RangeRadarSensor varRangeRadarSensor_46 = 46;
+RangeRadarSensor varRangeRadarSensor_47 = 47;
+RangeRadarSensor varRangeRadarSensor_48 = 48;
+RangeRadarSensor varRangeRadarSensor_49 = 49;
+RangeRadarSensor varRangeRadarSensor_50 = 50;
+RangeRadarSensor varRangeRadarSensor_51 = 51;
+RangeRadarSensor varRangeRadarSensor_52 = 52;
+RangeRadarSensor varRangeRadarSensor_53 = 53;
+RangeRadarSensor varRangeRadarSensor_54 = 54;
+RangeRadarSensor varRangeRadarSensor_55 = 55;
+RangeRadarSensor varRangeRadarSensor_56 = 56;
+RangeRadarSensor varRangeRadarSensor_57 = 57;
+RangeRadarSensor varRangeRadarSensor_58 = 58;
+RangeRadarSensor varRangeRadarSensor_59 = 59;
+RangeRadarSensor varRangeRadarSensor_60 = 60;
+RangeRadarSensor varRangeRadarSensor_61 = 61;
+RangeRadarSensor varRangeRadarSensor_62 = 62;
+RangeRadarSensor varRangeRadarSensor_63 = 63;
+RangeRadarSensor varRangeRadarSensor_64 = 64;
+RangeRadarSensor varRangeRadarSensor_65 = 65;
+RangeRadarSensor varRangeRadarSensor_66 = 66;
+RangeRadarSensor varRangeRadarSensor_67 = 67;
+RangeRadarSensor varRangeRadarSensor_68 = 68;
+RangeRadarSensor varRangeRadarSensor_69 = 69;
+RangeRadarSensor varRangeRadarSensor_70 = 70;
+RangeRadarSensor varRangeRadarSensor_71 = 71;
+RangeRadarSensor varRangeRadarSensor_72 = 72;
+RangeRadarSensor varRangeRadarSensor_73 = 73;
+RangeRadarSensor varRangeRadarSensor_74 = 74;
+RangeRadarSensor varRangeRadarSensor_75 = 75;
+RangeRadarSensor varRangeRadarSensor_76 = 76;
+RangeRadarSensor varRangeRadarSensor_77 = 77;
+RangeRadarSensor varRangeRadarSensor_78 = 78;
+RangeRadarSensor varRangeRadarSensor_79 = 79;
+RangeRadarSensor varRangeRadarSensor_80 = 80;
+RangeRadarSensor varRangeRadarSensor_81 = 81;
+RangeRadarSensor varRangeRadarSensor_82 = 82;
+RangeRadarSensor varRangeRadarSensor_83 = 83;
+RangeRadarSensor varRangeRadarSensor_84 = 84;
+RangeRadarSensor varRangeRadarSensor_85 = 85;
+RangeRadarSensor varRangeRadarSensor_86 = 86;
+RangeRadarSensor varRangeRadarSensor_87 = 87;
+RangeRadarSensor varRangeRadarSensor_88 = 88;
+RangeRadarSensor varRangeRadarSensor_89 = 89;
+RangeRadarSensor varRangeRadarSensor_90 = 90;
+RangeRadarSensor varRangeRadarSensor_91 = 91;
+RangeRadarSensor varRangeRadarSensor_92 = 92;
+RangeRadarSensor varRangeRadarSensor_93 = 93;
+RangeRadarSensor varRangeRadarSensor_94 = 94;
+RangeRadarSensor varRangeRadarSensor_95 = 95;
+RangeRadarSensor varRangeRadarSensor_96 = 96;
+RangeRadarSensor varRangeRadarSensor_97 = 97;
+RangeRadarSensor varRangeRadarSensor_98 = 98;
+RangeRadarSensor varRangeRadarSensor_99 = 99;
+RangeRadarSensor varRangeRadarSensor_100 = 100;
+RangeRadarSensor varRangeRadarSensor_101 = 101;
+RangeRadarSensor varRangeRadarSensor_102 = 102;
+RangeRadarSensor varRangeRadarSensor_103 = 103;
+RangeRadarSensor varRangeRadarSensor_104 = 104;
+RangeRadarSensor varRangeRadarSensor_105 = 105;
+RangeRadarSensor varRangeRadarSensor_106 = 106;
+RangeRadarSensor varRangeRadarSensor_107 = 107;
+RangeRadarSensor varRangeRadarSensor_108 = 108;
+RangeRadarSensor varRangeRadarSensor_109 = 109;
+RangeRadarSensor varRangeRadarSensor_110 = 110;
+RangeRadarSensor varRangeRadarSensor_111 = 111;
+RangeRadarSensor varRangeRadarSensor_112 = 112;
+RangeRadarSensor varRangeRadarSensor_113 = 113;
+RangeRadarSensor varRangeRadarSensor_114 = 114;
+RangeRadarSensor varRangeRadarSensor_115 = 115;
+RangeRadarSensor varRangeRadarSensor_116 = 116;
+RangeRadarSensor varRangeRadarSensor_117 = 117;
+RangeRadarSensor varRangeRadarSensor_118 = 118;
+RangeRadarSensor varRangeRadarSensor_119 = 119;
+RangeRadarSensor varRangeRadarSensor_120 = 120;
+RangeRadarSensor varRangeRadarSensor_121 = 121;
+RangeRadarSensor varRangeRadarSensor_122 = 122;
+RangeRadarSensor varRangeRadarSensor_123 = 123;
+RangeRadarSensor varRangeRadarSensor_124 = 124;
+RangeRadarSensor varRangeRadarSensor_125 = 125;
+RangeRadarSensor varRangeRadarSensor_126 = 126;
+RangeRadarSensor varRangeRadarSensor_127 = 127;
+RangeRadarSensor varRangeRadarSensor_128 = 128;
+RangeRadarSensor varRangeRadarSensor_129 = 129;
+RangeRadarSensor varRangeRadarSensor_130 = 130;
+RangeRadarSensor varRangeRadarSensor_131 = 131;
+RangeRadarSensor varRangeRadarSensor_132 = 132;
+RangeRadarSensor varRangeRadarSensor_133 = 133;
+RangeRadarSensor varRangeRadarSensor_134 = 134;
+RangeRadarSensor varRangeRadarSensor_135 = 135;
+RangeRadarSensor varRangeRadarSensor_136 = 136;
+RangeRadarSensor varRangeRadarSensor_137 = 137;
+RangeRadarSensor varRangeRadarSensor_138 = 138;
+RangeRadarSensor varRangeRadarSensor_139 = 139;
+RangeRadarSensor varRangeRadarSensor_140 = 140;
+RangeRadarSensor varRangeRadarSensor_141 = 141;
+RangeRadarSensor varRangeRadarSensor_142 = 142;
+RangeRadarSensor varRangeRadarSensor_143 = 143;
+RangeRadarSensor varRangeRadarSensor_144 = 144;
+RangeRadarSensor varRangeRadarSensor_145 = 145;
+RangeRadarSensor varRangeRadarSensor_146 = 146;
+RangeRadarSensor varRangeRadarSensor_147 = 147;
+RangeRadarSensor varRangeRadarSensor_148 = 148;
+RangeRadarSensor varRangeRadarSensor_149 = 149;
+RangeRadarSensor varRangeRadarSensor_150 = 150;
+RangeRadarSensor varRangeRadarSensor_151 = 151;
+RangeRadarSensor varRangeRadarSensor_152 = 152;
+RangeRadarSensor varRangeRadarSensor_153 = 153;
+RangeRadarSensor varRangeRadarSensor_154 = 154;
+RangeRadarSensor varRangeRadarSensor_155 = 155;
+RangeRadarSensor varRangeRadarSensor_156 = 156;
+RangeRadarSensor varRangeRadarSensor_157 = 157;
+RangeRadarSensor varRangeRadarSensor_158 = 158;
+RangeRadarSensor varRangeRadarSensor_159 = 159;
+RangeRadarSensor varRangeRadarSensor_160 = 160;
+RangeRadarSensor varRangeRadarSensor_161 = 161;
+RangeRadarSensor varRangeRadarSensor_162 = 162;
+RangeRadarSensor varRangeRadarSensor_163 = 163;
+RangeRadarSensor varRangeRadarSensor_164 = 164;
+RangeRadarSensor varRangeRadarSensor_165 = 165;
+RangeRadarSensor varRangeRadarSensor_166 = 166;
+RangeRadarSensor varRangeRadarSensor_167 = 167;
+RangeRadarSensor varRangeRadarSensor_168 = 168;
+RangeRadarSensor varRangeRadarSensor_169 = 169;
+RangeRadarSensor varRangeRadarSensor_170 = 170;
+RangeRadarSensor varRangeRadarSensor_171 = 171;
+RangeRadarSensor varRangeRadarSensor_172 = 172;
+RangeRadarSensor varRangeRadarSensor_173 = 173;
+RangeRadarSensor varRangeRadarSensor_174 = 174;
+RangeRadarSensor varRangeRadarSensor_175 = 175;
+RangeRadarSensor varRangeRadarSensor_176 = 176;
+RangeRadarSensor varRangeRadarSensor_177 = 177;
+RangeRadarSensor varRangeRadarSensor_178 = 178;
+RangeRadarSensor varRangeRadarSensor_179 = 179;
+RangeRadarSensor varRangeRadarSensor_180 = 180;
+RangeRadarSensor varRangeRadarSensor_181 = 181;
+RangeRadarSensor varRangeRadarSensor_182 = 182;
+RangeRadarSensor varRangeRadarSensor_183 = 183;
+RangeRadarSensor varRangeRadarSensor_184 = 184;
+RangeRadarSensor varRangeRadarSensor_185 = 185;
+RangeRadarSensor varRangeRadarSensor_186 = 186;
+RangeRadarSensor varRangeRadarSensor_187 = 187;
+RangeRadarSensor varRangeRadarSensor_188 = 188;
+RangeRadarSensor varRangeRadarSensor_189 = 189;
+RangeRadarSensor varRangeRadarSensor_190 = 190;
+RangeRadarSensor varRangeRadarSensor_191 = 191;
+RangeRadarSensor varRangeRadarSensor_192 = 192;
+RangeRadarSensor varRangeRadarSensor_193 = 193;
+RangeRadarSensor varRangeRadarSensor_194 = 194;
+RangeRadarSensor varRangeRadarSensor_195 = 195;
+RangeRadarSensor varRangeRadarSensor_196 = 196;
+RangeRadarSensor varRangeRadarSensor_197 = 197;
+RangeRadarSensor varRangeRadarSensor_198 = 198;
+RangeRadarSensor varRangeRadarSensor_199 = 199;
+RangeRadarSensor varRangeRadarSensor_200 = 200;
+RangeRadarState varRangeRadarState_READY = READY;
+RangeRadarState varRangeRadarState_DIRTY = DIRTY;
+RangeRadarState varRangeRadarState_NOTREADY = NOTREADY;
+Aceleration varAceleration_ACCP5 = ACCP5;
+Aceleration varAceleration_DECM2 = DECM2;
+Aceleration varAceleration_NOACC = NOACC;
+
+/* Function and domain initialization */
+CarSystem007AdaptiveCruiseC::CarSystem007AdaptiveCruiseC() :
+// Static domain initialization 
+RangeRadarSensor_elems(set<int> { &varRangeRadarSensor_0,
+		&varRangeRadarSensor_1, &varRangeRadarSensor_2, &varRangeRadarSensor_3,
+		&varRangeRadarSensor_4, &varRangeRadarSensor_5, &varRangeRadarSensor_6,
+		&varRangeRadarSensor_7, &varRangeRadarSensor_8, &varRangeRadarSensor_9,
+		&varRangeRadarSensor_10, &varRangeRadarSensor_11,
+		&varRangeRadarSensor_12, &varRangeRadarSensor_13,
+		&varRangeRadarSensor_14, &varRangeRadarSensor_15,
+		&varRangeRadarSensor_16, &varRangeRadarSensor_17,
+		&varRangeRadarSensor_18, &varRangeRadarSensor_19,
+		&varRangeRadarSensor_20, &varRangeRadarSensor_21,
+		&varRangeRadarSensor_22, &varRangeRadarSensor_23,
+		&varRangeRadarSensor_24, &varRangeRadarSensor_25,
+		&varRangeRadarSensor_26, &varRangeRadarSensor_27,
+		&varRangeRadarSensor_28, &varRangeRadarSensor_29,
+		&varRangeRadarSensor_30, &varRangeRadarSensor_31,
+		&varRangeRadarSensor_32, &varRangeRadarSensor_33,
+		&varRangeRadarSensor_34, &varRangeRadarSensor_35,
+		&varRangeRadarSensor_36, &varRangeRadarSensor_37,
+		&varRangeRadarSensor_38, &varRangeRadarSensor_39,
+		&varRangeRadarSensor_40, &varRangeRadarSensor_41,
+		&varRangeRadarSensor_42, &varRangeRadarSensor_43,
+		&varRangeRadarSensor_44, &varRangeRadarSensor_45,
+		&varRangeRadarSensor_46, &varRangeRadarSensor_47,
+		&varRangeRadarSensor_48, &varRangeRadarSensor_49,
+		&varRangeRadarSensor_50, &varRangeRadarSensor_51,
+		&varRangeRadarSensor_52, &varRangeRadarSensor_53,
+		&varRangeRadarSensor_54, &varRangeRadarSensor_55,
+		&varRangeRadarSensor_56, &varRangeRadarSensor_57,
+		&varRangeRadarSensor_58, &varRangeRadarSensor_59,
+		&varRangeRadarSensor_60, &varRangeRadarSensor_61,
+		&varRangeRadarSensor_62, &varRangeRadarSensor_63,
+		&varRangeRadarSensor_64, &varRangeRadarSensor_65,
+		&varRangeRadarSensor_66, &varRangeRadarSensor_67,
+		&varRangeRadarSensor_68, &varRangeRadarSensor_69,
+		&varRangeRadarSensor_70, &varRangeRadarSensor_71,
+		&varRangeRadarSensor_72, &varRangeRadarSensor_73,
+		&varRangeRadarSensor_74, &varRangeRadarSensor_75,
+		&varRangeRadarSensor_76, &varRangeRadarSensor_77,
+		&varRangeRadarSensor_78, &varRangeRadarSensor_79,
+		&varRangeRadarSensor_80, &varRangeRadarSensor_81,
+		&varRangeRadarSensor_82, &varRangeRadarSensor_83,
+		&varRangeRadarSensor_84, &varRangeRadarSensor_85,
+		&varRangeRadarSensor_86, &varRangeRadarSensor_87,
+		&varRangeRadarSensor_88, &varRangeRadarSensor_89,
+		&varRangeRadarSensor_90, &varRangeRadarSensor_91,
+		&varRangeRadarSensor_92, &varRangeRadarSensor_93,
+		&varRangeRadarSensor_94, &varRangeRadarSensor_95,
+		&varRangeRadarSensor_96, &varRangeRadarSensor_97,
+		&varRangeRadarSensor_98, &varRangeRadarSensor_99,
+		&varRangeRadarSensor_100, &varRangeRadarSensor_101,
+		&varRangeRadarSensor_102, &varRangeRadarSensor_103,
+		&varRangeRadarSensor_104, &varRangeRadarSensor_105,
+		&varRangeRadarSensor_106, &varRangeRadarSensor_107,
+		&varRangeRadarSensor_108, &varRangeRadarSensor_109,
+		&varRangeRadarSensor_110, &varRangeRadarSensor_111,
+		&varRangeRadarSensor_112, &varRangeRadarSensor_113,
+		&varRangeRadarSensor_114, &varRangeRadarSensor_115,
+		&varRangeRadarSensor_116, &varRangeRadarSensor_117,
+		&varRangeRadarSensor_118, &varRangeRadarSensor_119,
+		&varRangeRadarSensor_120, &varRangeRadarSensor_121,
+		&varRangeRadarSensor_122, &varRangeRadarSensor_123,
+		&varRangeRadarSensor_124, &varRangeRadarSensor_125,
+		&varRangeRadarSensor_126, &varRangeRadarSensor_127,
+		&varRangeRadarSensor_128, &varRangeRadarSensor_129,
+		&varRangeRadarSensor_130, &varRangeRadarSensor_131,
+		&varRangeRadarSensor_132, &varRangeRadarSensor_133,
+		&varRangeRadarSensor_134, &varRangeRadarSensor_135,
+		&varRangeRadarSensor_136, &varRangeRadarSensor_137,
+		&varRangeRadarSensor_138, &varRangeRadarSensor_139,
+		&varRangeRadarSensor_140, &varRangeRadarSensor_141,
+		&varRangeRadarSensor_142, &varRangeRadarSensor_143,
+		&varRangeRadarSensor_144, &varRangeRadarSensor_145,
+		&varRangeRadarSensor_146, &varRangeRadarSensor_147,
+		&varRangeRadarSensor_148, &varRangeRadarSensor_149,
+		&varRangeRadarSensor_150, &varRangeRadarSensor_151,
+		&varRangeRadarSensor_152, &varRangeRadarSensor_153,
+		&varRangeRadarSensor_154, &varRangeRadarSensor_155,
+		&varRangeRadarSensor_156, &varRangeRadarSensor_157,
+		&varRangeRadarSensor_158, &varRangeRadarSensor_159,
+		&varRangeRadarSensor_160, &varRangeRadarSensor_161,
+		&varRangeRadarSensor_162, &varRangeRadarSensor_163,
+		&varRangeRadarSensor_164, &varRangeRadarSensor_165,
+		&varRangeRadarSensor_166, &varRangeRadarSensor_167,
+		&varRangeRadarSensor_168, &varRangeRadarSensor_169,
+		&varRangeRadarSensor_170, &varRangeRadarSensor_171,
+		&varRangeRadarSensor_172, &varRangeRadarSensor_173,
+		&varRangeRadarSensor_174, &varRangeRadarSensor_175,
+		&varRangeRadarSensor_176, &varRangeRadarSensor_177,
+		&varRangeRadarSensor_178, &varRangeRadarSensor_179,
+		&varRangeRadarSensor_180, &varRangeRadarSensor_181,
+		&varRangeRadarSensor_182, &varRangeRadarSensor_183,
+		&varRangeRadarSensor_184, &varRangeRadarSensor_185,
+		&varRangeRadarSensor_186, &varRangeRadarSensor_187,
+		&varRangeRadarSensor_188, &varRangeRadarSensor_189,
+		&varRangeRadarSensor_190, &varRangeRadarSensor_191,
+		&varRangeRadarSensor_192, &varRangeRadarSensor_193,
+		&varRangeRadarSensor_194, &varRangeRadarSensor_195,
+		&varRangeRadarSensor_196, &varRangeRadarSensor_197,
+		&varRangeRadarSensor_198, &varRangeRadarSensor_199,
+		&varRangeRadarSensor_200 }), RangeRadarState_elems( {
+		&varRangeRadarState_READY, &var_RangeRadarState_DIRTY,
+		&var_RangeRadarState_NOTREADY }), Aceleration_elems( {
+		&varAceleration_ACCP5, &var_Aceleration_DECM2, &var_Aceleration_NOACC }) {
 	/* Init static functions Abstract domain */
 	/* Function initialization */
-	}
-	
-	/* initialize controlled functions that contains monitored functions in the init term */
-	void CarSystem007AdaptiveCruiseC::initControlledWithMonitored(){
-	}
-	
+}
 
-	/* Apply the update set */
-	void CarSystem007AdaptiveCruiseC::fireUpdateSet(){
-		acousticWarningOn[0] = acousticWarningOn[1];
-		visualWarningOn[0] = visualWarningOn[1];
-		speedVehicleAhead_Prec[0] = speedVehicleAhead_Prec[1];
-		setSafetyDistance[0] = setSafetyDistance[1];
-		brakePressure[0] = brakePressure[1];
-		acceleration[0] = acceleration[1];
-		acousticCollisionSignals[0] = acousticCollisionSignals[1];
-	}
-	
-	/* init static functions and elements of abstract domains */
-	
+/* initialize controlled functions that contains monitored functions in the init term */
+void CarSystem007AdaptiveCruiseC::initControlledWithMonitored() {
+}
+
+/* Apply the update set */
+void CarSystem007AdaptiveCruiseC::fireUpdateSet() {
+	acousticWarningOn[0] = acousticWarningOn[1];
+	visualWarningOn[0] = visualWarningOn[1];
+	speedVehicleAhead_Prec[0] = speedVehicleAhead_Prec[1];
+	setSafetyDistance[0] = setSafetyDistance[1];
+	brakePressure[0] = brakePressure[1];
+	acceleration[0] = acceleration[1];
+	acousticCollisionSignals[0] = acousticCollisionSignals[1];
+}
+
+/* init static functions and elements of abstract domains */
+

@@ -57,13 +57,6 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 			fail();
 	}
 	
-	@Test  
-	public void testStandardLibrary() throws IOException, Exception{
-		String asmspec = "examples/ABZ2020/StandardLibrary.asm";
-		if (!test(asmspec,options).success)
-			fail();
-	}
-	
 	@Test
 	public void testCarSystem001Functions() throws IOException, Exception{
 		String asmspec = "examples/ABZ2020/CarSystemModule/CarSystem001/CarSystem001Functions.asm";
