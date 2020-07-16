@@ -1,1 +1,6 @@
 /target/
+
+# ignore generated files 
+
+*.cpp
+*.h
