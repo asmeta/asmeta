@@ -42,5 +42,10 @@
   		<artifactId>asmeta.emf</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>asmeta</groupId>
+  		<artifactId>asmetal2cpp_codegen</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>
