@@ -26,7 +26,7 @@ import asmeta.structure.Asm;
  * Descrizione: con questo test si verifica la corretta generazione del file hw 
  * dato in input il modello asm ed il file di configurazione .u2c
  * Mi aspetto in output il file _HW.cpp che salvo in destinationFolder
- * NOTA: per questo test il file .u2c è nella stessa directory del modello asm 
+ * NOTA: per questo test il file .u2c e` nella stessa directory del modello asm 
  * che si trova in examplesAsmPath
  */
 

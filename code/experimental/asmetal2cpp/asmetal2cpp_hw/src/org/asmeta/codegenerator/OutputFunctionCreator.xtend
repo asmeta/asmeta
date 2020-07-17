@@ -21,6 +21,7 @@ import asmeta.definitions.domains.impl.BasicTdImpl
 import asmeta.definitions.domains.impl.ConcreteDomainImpl
 import asmeta.definitions.impl.DerivedFunctionImpl
 import asmeta.definitions.DerivedFunction
+import asmeta.definitions.domains.impl.BooleanDomainImpl
 
 /**
  * Generate the code for the setOutput function. 
@@ -216,23 +217,23 @@ class OutputFunctionCreator {
 		// ///////////////////////
 		// BOOLEAN -> DIGITALPIN
 		// ///////////////////////
-		if (outDefinition instanceof BasicTd && (outDefinition as BasicTd) == BooleanDomain) {
+		if (outDefinition.codomain instanceof BooleanDomainImpl) { // BasicTdImpl && (outDefinition.codomain as BasicTdImpl) == 
 			return getBooleanToDigitalPin(model, binding, inverted)
 		// TODO: controllare AnyDomainImpl
-		} else if (outDefinition instanceof AnyDomainImpl) {
+		} else if (outDefinition.codomain instanceof AnyDomainImpl) {
 			var domDefinitions = model.bodySection.functionDefinition.filter [ x |
 				x.definedFunction == (outDefinition as AnyDomainImpl)
 			]
 			// D1 of BOOLEAN binded to DIGITALPIN
 			if (domDefinitions.size > 0) {
 				val domDefinition = domDefinitions.get(0)
-				if (domDefinition.body.domain instanceof BasicTd)
-					if ((domDefinition.body.domain as BasicTd) == BooleanDomain)
+				if (domDefinition.body.domain instanceof BasicTdImpl)
+					if ((domDefinition.body.domain as BasicTdImpl) == BooleanDomainImpl)
 						return getBooleanToDigitalPin(model, binding, inverted)
 				// D1 of (BOOLEAN) binded to DIGITALPIN
 				// TODO: controllare domDefinition.body.domain.constraint.get(0).constrainedDomain
-				if (domDefinition.body.domain.constraint.get(0).constrainedDomain instanceof BasicTd)
-					if ((domDefinition.body.domain.constraint.get(0).constrainedDomain as BasicTd) == BooleanDomain)
+				if (domDefinition.body.domain.constraint.get(0).constrainedDomain instanceof BasicTdImpl)
+					if ((domDefinition.body.domain.constraint.get(0).constrainedDomain as BasicTdImpl) == BooleanDomainImpl)
 						return getBooleanToDigitalPin(model, binding, inverted)
 
 			}
@@ -242,7 +243,7 @@ class OutputFunctionCreator {
 		// /////////////////////////////
 		if (outDefinition.codomain instanceof EnumTdImpl) {
 			if (outDefinition.codomain.eContents.size == 2)
-				return getEnumToDigitalPin(model, binding, outDefinition.codomain as EnumTd, inverted)
+				return getEnumToDigitalPin(model, binding, outDefinition.codomain as EnumTdImpl, inverted)
 		}
 
 		throw new RuntimeException('''Error with «binding.function»: DigitalBinding only supports booleans or 2-values-enums''')
