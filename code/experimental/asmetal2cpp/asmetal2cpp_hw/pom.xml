@@ -29,6 +29,25 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+		<plugin>
+		    <groupId>org.codehaus.mojo</groupId>
+		    <artifactId>build-helper-maven-plugin</artifactId>
+		    <version>3.0.0</version>
+		    <executions>
+		        <execution>
+		            <phase>generate-sources</phase>
+		            <goals>
+		                <goal>add-source</goal>
+		            </goals>
+		            <configuration>
+		                <sources>
+		                    <source>xtend-gen</source>
+		                    <source>test</source>
+		                </sources>
+		            </configuration>
+		        </execution>
+		    </executions>
+		</plugin>
     </plugins>
   </build>
   <dependencies>
@@ -47,5 +66,20 @@
   		<artifactId>asmetal2cpp_codegen</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+	<dependency>
+	    <groupId>org.eclipse.xtext</groupId>
+	    <artifactId>org.eclipse.xtext.junit4</artifactId>
+	    <version>2.10.0</version>
+	</dependency>
+	<dependency>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.flattener</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.apache.directory.studio</groupId>
+	    <artifactId>org.apache.commons.io</artifactId>
+	    <version>2.4</version>
+	</dependency>
   </dependencies>
 </project>
