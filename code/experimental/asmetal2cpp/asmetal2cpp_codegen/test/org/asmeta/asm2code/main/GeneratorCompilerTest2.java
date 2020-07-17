@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.asmeta.asm2code.main.CppGenerator;
 import org.asmeta.asm2code.main.HeaderGenerator;
+import org.asmeta.asm2code.main.TranslatorOptions.CompilerType;
 import org.asmeta.asm2code.compiler.CompileResult;
 import org.asmeta.asm2code.compiler.CppCompiler;
 import org.asmeta.parser.ASMParser;
@@ -24,7 +25,7 @@ public class GeneratorCompilerTest2 {
 	// the generator for the code 
 	static private CppGenerator cppGenerator = new CppGenerator();
 	
-	static protected TranslatorOptions options= new TranslatorOptions(false, true, true, false);
+	static protected TranslatorOptions options= new TranslatorOptions(false, true, true, true);
 
 	// resturn all the file in a directory
 	void listf(String directoryName, List<File> files) {
@@ -91,10 +92,15 @@ public class GeneratorCompilerTest2 {
 			e.printStackTrace();
 			return new CompileResult(false, e.getMessage());
 		}
-		// now compile it
-		System.out.println("Generated h file: " + hFile.getCanonicalPath());
-		System.out.println("Generated cpp file: " + cppFile.getCanonicalPath());
-		CompileResult result = CppCompiler.compile(name + ".cpp", dir.getAbsolutePath(), true, false);
+		
+		CompileResult result = new CompileResult(true, "");
+		if (options.compilerType != CompilerType.ArduinoCompiler)
+		{
+			// now compile it
+			System.out.println("Generated h file: " + hFile.getCanonicalPath());
+			System.out.println("Generated cpp file: " + cppFile.getCanonicalPath());
+			result = CppCompiler.compile(name + ".cpp", dir.getAbsolutePath(), true, false);
+		}
 		// clean the produced files
 		// delete h file
 		// hFile.delete();
