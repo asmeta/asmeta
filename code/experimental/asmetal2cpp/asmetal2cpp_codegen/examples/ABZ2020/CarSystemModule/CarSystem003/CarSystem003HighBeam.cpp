@@ -144,41 +144,24 @@ bool CarSystem003HighBeam::headlampFixedDeactivated() {
 			& (lightRotarySwitch == ON) | (lightRotarySwitch == OFF)
 			| (keyState == NOKEYINSERTED) & !headlampFlasherActivated();
 }
-HighBeamMotor varHighBeamMotor_0 = 0;
-HighBeamMotor varHighBeamMotor_1 = 1;
-HighBeamMotor varHighBeamMotor_2 = 2;
-HighBeamMotor varHighBeamMotor_3 = 3;
-HighBeamMotor varHighBeamMotor_4 = 4;
-HighBeamMotor varHighBeamMotor_5 = 5;
-HighBeamMotor varHighBeamMotor_6 = 6;
-HighBeamMotor varHighBeamMotor_7 = 7;
-HighBeamMotor varHighBeamMotor_8 = 8;
-HighBeamMotor varHighBeamMotor_9 = 9;
-HighBeamMotor varHighBeamMotor_10 = 10;
-HighBeamMotor varHighBeamMotor_11 = 11;
-HighBeamMotor varHighBeamMotor_12 = 12;
-HighBeamMotor varHighBeamMotor_13 = 13;
-HighBeamMotor varHighBeamMotor_14 = 14;
-CameraState varCameraState_CAMERA_READY = CAMERA_READY;
-CameraState varCameraState_CAMERA_DIRTY = CAMERA_DIRTY;
-CameraState varCameraState_CAMERA_NOTREADY = CAMERA_NOTREADY;
-PitmanArmForthBack varPitmanArmForthBack_BACKWARD = BACKWARD;
-PitmanArmForthBack varPitmanArmForthBack_FORWARD = FORWARD;
-PitmanArmForthBack varPitmanArmForthBack_NEUTRAL_FB = NEUTRAL_FB;
 
 /* Function and domain initialization */
-CarSystem003HighBeam::CarSystem003HighBeam() :
-// Static domain initialization 
-HighBeamMotor_elems(set<int> { &varHighBeamMotor_0, &varHighBeamMotor_1,
-		&varHighBeamMotor_2, &varHighBeamMotor_3, &varHighBeamMotor_4,
-		&varHighBeamMotor_5, &varHighBeamMotor_6, &varHighBeamMotor_7,
-		&varHighBeamMotor_8, &varHighBeamMotor_9, &varHighBeamMotor_10,
-		&varHighBeamMotor_11, &varHighBeamMotor_12, &varHighBeamMotor_13,
-		&varHighBeamMotor_14 }), CameraState_elems( {
-		&varCameraState_CAMERA_READY, &var_CameraState_CAMERA_DIRTY,
-		&var_CameraState_CAMERA_NOTREADY }), PitmanArmForthBack_elems( {
-		&varPitmanArmForthBack_BACKWARD, &var_PitmanArmForthBack_FORWARD,
-		&var_PitmanArmForthBack_NEUTRAL_FB }) {
+CarSystem003HighBeam::CarSystem003HighBeam() {
+	//Static domain initialization 
+	HighBeamMotor_elems: {
+		0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 1;
+	}
+	;
+
+	CameraState_elems: {
+		CAMERA_READY, CAMERA_DIRTY, CAMERA_NOTREADY;
+	}
+	;
+
+	PitmanArmForthBack_elems: {
+		BACKWARD, FORWARD, NEUTRAL_FB;
+	};
+	//MOD
 	/* Init static functions Abstract domain */
 	/* Function initialization */
 }

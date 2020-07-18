@@ -19,6 +19,8 @@ import org.asmeta.asm2code.SeqRuleCollector
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.asmeta.asm2code.main.TranslatorOptions.CompilerType
+import asmeta.terms.basicterms.SetTerm
+import asmeta.definitions.domains.IntegerDomain
 
 /**Generates .cpp ASM file */
 class CppGenerator extends AsmToCGenerator {
@@ -51,10 +53,11 @@ class CppGenerator extends AsmToCGenerator {
 				/* Static function definition */
 				«functionDefinition(asm)»
 				«IF(options.compilerType == CompilerType.ArduinoCompiler)»
-					«possibleValueOfStaticDomain(asm)»
+				«/*possibleValueOfStaticDomain(asm)*/»
 				
 				/* Function and domain initialization */
-				«asmName»::«asmName»()«initialStaticDomainDefinition(asm)»«/*initialStaticDomain(asm)*/»{
+				«asmName»::«asmName»()«/*initialStaticDomainDefinition(asm)*/»«/*initialStaticDomain(asm)*/»{
+				«initialStaticDomainArduino(asm)» //MOD
 				«initialDynamicDomainDefinition(asm)»
 				«ELSE»
 				/* Function and domain initialization */
@@ -66,6 +69,7 @@ class CppGenerator extends AsmToCGenerator {
 				/* Function initialization */
 				«functionInitialization(asm)»
 				}
+			
 				
 				/* initialize controlled functions that contains monitored functions in the init term */
 				void «asmName»::initControlledWithMonitored(){
@@ -161,6 +165,33 @@ class CppGenerator extends AsmToCGenerator {
 				initial.toString.substring(0, initial.toString.length - 3) + "\n"
 		else
 			return ""
+	}
+	
+	def initialStaticDomainArduino(Asm asm){
+		var StringBuffer initial = new StringBuffer
+		if(asm.bodySection !== null && asm.bodySection.domainDefinition !== null){
+			for (dd : asm.bodySection.domainDefinition) {
+				if(dd.body instanceof SetTerm && dd.body.domain.name.contains("Integer")){
+					var SetTerm s = dd.body as SetTerm;
+					var String domain = s.domain.name
+					println("is set term." + " Domain " + domain)
+					initial.append(Util.getElemsSetName(dd.definedDomain.name) + ":" + (new DomainToCpp(asm).visitArduino(s)  + "; \n"  ))
+				}
+				else
+				initial.append(Util.getElemsSetName(dd.definedDomain.name) + ":" + (new DomainToCpp(asm).visit(dd)  + "; \n"  ))
+			} 
+		}
+		if(asm.headerSection !== null && asm.headerSection.signature !== null && asm.headerSection.signature.domain !== null){
+			for(ed : asm.headerSection.signature.domain) {
+				if(ed instanceof EnumTd) {
+					initial.append("\n" + Util.getElemsSetName(ed.name) + ":" + (new DomainToCpp(asm).visit(ed,true)) + " \n")
+				}
+			}
+		}
+		if (initial.toString.length != 0)
+		return "//Static domain initialization \n" +
+			initial.toString.substring(0, initial.toString.length - 2) + "\n"
+		else return ""
 	}
 	
 	def initialStaticDomain(Asm asm){
