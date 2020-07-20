@@ -49,7 +49,7 @@ class OutputFunctionCreator {
 		}
 
 		for (Binding binding : config.bindings) {
-			println("BINDING 1 " + binding)
+			//println("BINDING 1 " + binding)
 			if (model.headerSection.signature.function.filter(ControlledFunction).exists [ x |
 				(x.name == binding.function.substring(0, (if (binding.function.contains("("))
 					binding.function.indexOf("(")
@@ -62,7 +62,7 @@ class OutputFunctionCreator {
 				else
 					binding.function.length)))
 			]) { // PWM and ANALOGLINEAROUT are only for output
-				println("BINDING 2 " + binding)
+				//println("BINDING 2 " + binding)
 				switch (binding.configMode) {
 					case DIGITAL:
 						outputFunction += getDigitalBinding(model, binding)
@@ -173,22 +173,22 @@ class OutputFunctionCreator {
 	def String getIntegerToAnalogPin(Asm model, Binding binding, double fullscale) {
 		if (binding.minVal == 0)
 			return '''
-				analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»)*(double)(«fullscale»/«binding.maxVal-binding.minVal +1»);
+				analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»)*(double)(«fullscale»/«binding.maxVal-binding.minVal +1»));
 			'''
 		else
 			return '''
-				analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»-(«binding.minVal»))*(double)(«fullscale»/«binding.maxVal-binding.minVal +1»);
+				analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»-(«binding.minVal»))*(double)(«fullscale»/«binding.maxVal-binding.minVal +1»));
 			'''
 	}
 
 	def String getNumberToAnalogPin(Asm model, Binding binding, double fullscale) {
 		if (binding.minVal == 0)
 			return '''
-				analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»)*(double)(«fullscale»/«binding.maxVal-binding.minVal»);
+				analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»)*(double)(«fullscale»/«binding.maxVal-binding.minVal»));
 			'''
 		else
 			return '''
-				analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»-(«binding.minVal»))*(double)(«fullscale»/«binding.maxVal-binding.minVal»);
+				analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»-(«binding.minVal»))*(double)(«fullscale»/«binding.maxVal-binding.minVal»));
 			'''
 	}
 
@@ -401,8 +401,9 @@ class OutputFunctionCreator {
 		// /////////////////////////////
 		// n-VALUES-ENUM -> PWM
 		// ///////////////////////////
-		//println(monDefinition.name + "Mondef domain" + monDefinition.domain)
+		println(monDefinition.name + " Mondef domain " + monDefinition.domain)
 		if (monDefinition.codomain instanceof EnumTdImpl || monDefinition.codomain instanceof ConcreteDomainImpl){
+			
 		 	return getIntegerToAnalogPin(model,binding,fullscale)
 		}
 		/* 
@@ -419,7 +420,7 @@ class OutputFunctionCreator {
 			'''
 		}*/
 		//if(true) return getIntegerToAnalogPin(model, binding, fullscale)
-		println("PROBLEM " + monDefinition.codomain)
+		//println("PROBLEM " + monDefinition.codomain)
 		throw new RuntimeException('''Error with «binding.function»: PWMBinding only supports INTEGER, NUMBER or Enumerative''')
 	}
 
