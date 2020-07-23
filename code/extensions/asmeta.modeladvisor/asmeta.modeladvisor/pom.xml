@@ -32,7 +32,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										org.asmeta.falttener.cli.AsmetaF
+										org.asmeta.modeladvisor.AsmetaMAcli
 									</mainClass>
 								</manifest>
 							</archive>
