@@ -32,7 +32,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										org.asmeta.modeladvisor.AsmetaMAcli
+										org.asmeta.falttener.cli.AsmetaF
 									</mainClass>
 								</manifest>
 							</archive>
@@ -86,16 +86,6 @@
 		<dependency>
 			<groupId>asmeta</groupId>
 			<artifactId>asmeta.emf</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.smv</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.flattener</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
