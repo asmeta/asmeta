@@ -21,6 +21,10 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import org.asmeta.asm2code.main.TranslatorOptions.CompilerType
 import asmeta.terms.basicterms.SetTerm
 import asmeta.definitions.domains.IntegerDomain
+import asmeta.AsmCollection
+import org.asmeta.asm2code.formatter.Formatter
+import java.nio.file.Files
+import java.nio.file.Paths
 
 /**Generates .cpp ASM file */
 class CppGenerator extends AsmToCGenerator {
@@ -30,6 +34,73 @@ class CppGenerator extends AsmToCGenerator {
 	// all the rules that must translate in two versions seq and not seq
 	// if null, translate all
 	List<Rule> seqCalledRules;
+	
+	def generate(AsmCollection model, String path) {
+		if (options === null) throw new Exception("TranslationOptions not inizialized")
+		var compiled = compileAsm(model)
+		if (options.formatter)
+			compiled = Formatter.formatCode(compiled)
+		Files.write(Paths.get(path), compiled.getBytes())
+	}
+	
+	def compileAsm(AsmCollection asmCol){
+		var Asm asm = asmCol.main
+		if (options.optimizeSeqMacroRule) {
+			seqCalledRules = new ArrayList
+			for (r : asm.bodySection.ruleDeclaration)
+				seqCalledRules.addAll(new SeqRuleCollector(false).visit(r))
+		}
+		//
+		val asmName = asm.name
+		functionSignature(asm)
+		// TODO fix include list
+		return '''
+				/* «asmName».cpp automatically generated from ASM2CODE */
+				#include "«asmName».h"
+				
+				using namespace «asmName»namespace;
+				
+				/* Conversion of ASM rules in C++ methods */
+				«ruleDefinitions(asm)»
+				
+				/* Static function definition */
+				«functionDefinition(asm)»
+				«IF(options.compilerType == CompilerType.ArduinoCompiler)»
+				«/*possibleValueOfStaticDomain(asm)*/»
+				
+				/* Function and domain initialization */
+				«asmName»::«asmName»()«/*initialStaticDomainDefinition(asm)*/»«/*initialStaticDomain(asm)*/»{
+				«initialStaticDomainArduino(asm)» //MOD
+				«initialDynamicDomainDefinition(asm)»
+				«ELSE»
+				/* Function and domain initialization */
+				«asmName»::«asmName»()«initialStaticDomain(asm)»{
+				«initialDynamicDomainDefinition(asm)»
+				«ENDIF»
+				/* Init static functions Abstract domain */
+				«functionAbstractDom(asm)»
+				/* Function initialization */
+				«functionInitialization(asm)»
+				}
+			
+				
+				/* initialize controlled functions that contains monitored functions in the init term */
+				void «asmName»::initControlledWithMonitored(){
+				«initConrolledMonitored»
+				}
+				
+			
+				/* Apply the update set */
+				void «asmName»::fireUpdateSet(){
+					«updateSet(asmCol)»
+				}
+				
+				/* init static functions and elements of abstract domains */
+				«initStatic(asm)»
+				
+		'''
+		
+	}
 
 	override compileAsm(Asm asm) {
 		if (options.optimizeSeqMacroRule) {
@@ -89,6 +160,8 @@ class CppGenerator extends AsmToCGenerator {
 
 	}
 	
+	
+	
 	def initStatic(Asm asm) {
 		var sb = new StringBuffer;
 		for (dd : asm.headerSection.signature.domain) {
@@ -126,14 +199,41 @@ class CppGenerator extends AsmToCGenerator {
 	 * term implementazione
 	 */
 	def updateSet(Asm asm) {
-		var StringBuffer updateset = new StringBuffer
+		var StringBuffer updateset = new StringBuffer/*
+		for (imp : asm.headerSection.importClause){ //Inizializzazione
+			if(!imp.moduleName.contains("StandardLibrary")){
+				var String[] buffer = imp.moduleName.split("/")
+				var String name = buffer.get(buffer.length - 1)
+				updateset.append('''«name» «name.toLowerCase»;''')
+			}
+	
+		} */
 		for (cf : asm.headerSection.signature.function)
 			if (cf instanceof ControlledFunction)
 				updateset.append('''«cf.name»[0] = «cf.name»[1];
-				''')
+				''')/*
+		for (imp : asm.headerSection.importClause){ //Chiamata al metodo fireUpdateSet();
+			//println("IMPORT CLAUSE " + imp.moduleName.toString)
+			if(!imp.moduleName.contains("StandardLibrary")){
+				var String[] buffer = imp.moduleName.split("/")
+				var String name = buffer.get(buffer.length - 1)
+				//updateset.append('''«name.toLowerCase».fireUpdateSet();''')
+				updateset.append('''«name».fireUpdateSet();''')
+			}
+		}*/
 		return updateset.toString
 	}
 	
+	def updateSet(AsmCollection asmCol){
+		var StringBuffer updateset = new StringBuffer
+		for(asm : asmCol)
+			if(!asm.name.contains("StandardLibrary"))
+			for (cf : asm.headerSection.signature.function)
+				if (cf instanceof ControlledFunction)
+					updateset.append('''«cf.name»[0] = «cf.name»[1];
+						''')
+		return updateset.toString
+	}
 
  
 	def initialStaticDomainDefinition(Asm asm) {

@@ -88,7 +88,8 @@ public class GeneratorCompilerTest2 {
 		// write CPP
 		try {
 			cppGenerator.options = userOptions;
-			cppGenerator.generate(model.getMain(), cppFile.getCanonicalPath());
+			//cppGenerator.generate(model.getMain(), cppFile.getCanonicalPath());
+			cppGenerator.generate(model, cppFile.getCanonicalPath());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new CompileResult(false, e.getMessage());

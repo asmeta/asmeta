@@ -149,7 +149,7 @@ bool CarSystem003HighBeam::headlampFixedDeactivated() {
 CarSystem003HighBeam::CarSystem003HighBeam() {
 	//Static domain initialization 
 	HighBeamMotor_elems: {
-		0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 1;
+		0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14;
 	}
 	;
 
@@ -176,6 +176,18 @@ void CarSystem003HighBeam::fireUpdateSet() {
 	highBeamRange[0] = highBeamRange[1];
 	highBeamMotor[0] = highBeamMotor[1];
 	pitmanArmForthBackPrevious[0] = pitmanArmForthBackPrevious[1];
+	pitmanArmUpDown_Buff[0] = pitmanArmUpDown_Buff[1];
+	pitmanArmUpDown_RunnReq[0] = pitmanArmUpDown_RunnReq[1];
+	tailLampLeftBlinkValue[0] = tailLampLeftBlinkValue[1];
+	tailLampRightBlinkValue[0] = tailLampRightBlinkValue[1];
+	lightRotarySwitchPrevious[0] = lightRotarySwitchPrevious[1];
+	reverseLight[0] = reverseLight[1];
+	brakeLampLeft[0] = brakeLampLeft[1];
+	brakeLampRight[0] = brakeLampRight[1];
+	brakeLampCenter[0] = brakeLampCenter[1];
+	brakeLampCenterStatus[0] = brakeLampCenterStatus[1];
+	keyState_Previous[0] = keyState_Previous[1];
+	setVehicleSpeed[0] = setVehicleSpeed[1];
 }
 
 /* init static functions and elements of abstract domains */

@@ -71,7 +71,7 @@ class DomainToCpp extends ReflectiveVisitor<String> {
 				var i = l as IntegerTerm
 				s += i.symbol + ","
 				}
-			s = s.substring(0, s.length - 2)
+			s = s.substring(0, s.length - 1)
 		}
 		s += "}"
 		return s.substring(0,s.length-1) + ";}"

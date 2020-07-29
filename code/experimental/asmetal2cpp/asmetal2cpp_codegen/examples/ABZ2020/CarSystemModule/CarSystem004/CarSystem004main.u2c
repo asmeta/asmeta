@@ -34,21 +34,21 @@
     {
       "mode": "ANALOGLINEARIN",
       "function": "pitmanArmUpDown",
-      "pin": "A6",
+      "pin": "A4",
       "minval": 0.0,
       "maxval": 4.0
     },
     {
       "mode": "PWM",
       "function": "reverseLight",
-      "pin": "D0",
+      "pin": "D44",
       "minval": 0.0,
       "maxval": 99.0
     },
     {
       "mode": "PWM",
       "function": "brakeLampLeft",
-      "pin": "D1",
+      "pin": "D45",
       "minval": 0.0,
       "maxval": 99.0
     },
@@ -67,16 +67,16 @@
       "maxval": 99.0
     },
     {
-      "mode": "PWM",
+      "mode": "ANALOGLINEARIN",
       "function": "lightRotarySwitch",
-      "pin": "D4",
+      "pin": "A5",
       "minval": 0.0,
       "maxval": 2.0
     },
     {
       "mode": "ANALOGLINEARIN",
       "function": "currentVoltage",
-      "pin": "A7",
+      "pin": "A6",
       "minval": 0.0,
       "maxval": 99.0
     },
@@ -97,35 +97,35 @@
     {
       "mode": "PWM",
       "function": "lowBeamLeft",
-      "pin": "D5",
+      "pin": "D4",
       "minval": 0.0,
       "maxval": 99.0
     },
     {
       "mode": "PWM",
       "function": "lowBeamRight",
-      "pin": "D6",
+      "pin": "D5",
       "minval": 0.0,
       "maxval": 99.0
     },
     {
       "mode": "PWM",
       "function": "tailLampLeft",
-      "pin": "D7",
+      "pin": "D6",
       "minval": 0.0,
       "maxval":99.0
     },
     {
       "mode": "PWM",
       "function": "tailLampRight",
-      "pin": "D8",
+      "pin": "D7",
       "minval": 0.0,
       "maxval": 99.0
     },
     {
       "mode": "ANALOGLINEARIN",
       "function": "brightnessSensor",
-      "pin": "A10",
+      "pin": "A7",
       "minval": 0.0,
       "maxval": 99999.0
     },
@@ -139,35 +139,35 @@
     {
       "mode": "ANALOGLINEARIN",
       "function": "steeringAngle",
-      "pin": "A12",
+      "pin": "A8",
       "minval": 0.0,
       "maxval": 19.0
     },
     {
       "mode": "ANALOGLINEARIN",
       "function": "brakePedal",
-      "pin": "A13",
+      "pin": "A9",
       "minval": 0.0,
       "maxval": 224.0
     },
     {
       "mode": "ANALOGLINEARIN",
       "function": "highBeamOn",
-      "pin": "A8",
+      "pin": "D45",
       "minval": 0.0,
       "maxval": 0.0
     },
     {
       "mode": "ANALOGLINEARIN",
       "function": "cameraState",
-      "pin": "A14",
+      "pin": "A10",
       "minval": 0.0,
       "maxval": 2.0
     },
     {
       "mode": "ANALOGLINEARIN",
       "function": "pitmanArmForthBack",
-      "pin": "A15",
+      "pin": "A11",
       "minval": 0.0,
       "maxval": 2.0
     },
@@ -181,16 +181,37 @@
     {
       "mode": "PWM",
       "function": "blinkLeft",
-      "pin": "D9",
+      "pin": "D8",
       "minval": 0.0,
       "maxval":99.0
     },
     {
       "mode": "PWM",
       "function": "blinkRight",
+      "pin": "D9",
+      "minval": 0.0,
+      "maxval": 99.0
+    },
+    {
+      "mode": "PWM",
+      "function": "highBeamRange",
       "pin": "D10",
       "minval": 0.0,
       "maxval": 99.0
+    },
+    {
+      "mode": "PWM",
+      "function": "corneringLightLeft",
+      "pin": "D11",
+      "minval": 0.0,
+      "maxval": 0.0
+    },
+    {
+      "mode": "PWM",
+      "function": "corneringLightRight",
+      "pin": "D12",
+      "minval": 0.0,
+      "maxval": 0.0
     }
   ]
 }
