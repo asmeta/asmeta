@@ -43,9 +43,9 @@ class OutputFunctionCreator {
 				else
 					binding.function.length)))
 			]
-			//if (functionDefinition.size == 0)
-				//throw new RuntimeException("Error: function " + binding.function + " unknown.")
-				//println("FUNCTION " + functionDefinition )
+		// if (functionDefinition.size == 0)
+		// throw new RuntimeException("Error: function " + binding.function + " unknown.")
+		// println("FUNCTION " + functionDefinition )
 		}
 
 		for (Binding binding : config.bindings) {
@@ -55,8 +55,7 @@ class OutputFunctionCreator {
 					binding.function.indexOf("(")
 				else
 					binding.function.length)))
-			] || 
-			model.headerSection.signature.function.filter(DerivedFunction).exists [ x |
+			] || model.headerSection.signature.function.filter(DerivedFunction).exists [ x |
 				(x.name == binding.function.substring(0, (if (binding.function.contains("("))
 					binding.function.indexOf("(")
 				else
@@ -76,6 +75,9 @@ class OutputFunctionCreator {
 						outputFunction += getUserDefinedBinding(model, binding)
 					case ANALOGLINEARIN:
 						outputFunction += ""
+					case SWITCH: {
+						outputFunction += getEnumSwitch(model, binding)
+					}
 				}
 			}
 		}
@@ -88,19 +90,29 @@ class OutputFunctionCreator {
 			'''
 		}
 		/*if(outputFunction.length != 0) 
-		return '''
-			void «model.name»::setOutputs(){
+		 * return '''
+		 * 	void «model.name»::setOutputs(){
+		 * 		«outputFunction»
+		 * 	}
+		 * '''
+		 * else return ""
+		 */
+		if (outputFunction.length != 0)
+			return '''
 				«outputFunction»
-			}
-		'''
-		else return ""
-		*/
-		if(outputFunction.length != 0)
-		return '''
-			«outputFunction»
-		'''
-		else return ""
+			'''
+		else
+			return ""
+
+	}
 	
+	def String getEnumSwitch(Asm asm, Binding binding) {
+		return '''
+				swicth(XXX)
+					case case1();
+					case case2();
+					case case3();
+			'''
 	}
 
 	def String getBooleanToDigitalPin(Asm model, Binding binding, boolean inverted) {
@@ -256,7 +268,7 @@ class OutputFunctionCreator {
 			else
 				binding.function.length)))
 		]
-		
+
 		if (definitions.size < 1)
 			throw new RuntimeException("Error: no Out Function found with name: " + binding.function)
 		val monDefinition = definitions.get(0)
@@ -341,8 +353,8 @@ class OutputFunctionCreator {
 			else
 				binding.function.length)))
 		]
-		//println("DEFINITIONS " + definitions + " " + definitions.size)
-		//println("DEFINITION " + definitions)
+		// println("DEFINITIONS " + definitions + " " + definitions.size)
+		// println("DEFINITION " + definitions)
 		println("Binding " + binding)
 		if (definitions.size < 1)
 			throw new RuntimeException("Error: no Out Function found with name: " + binding.function)
@@ -354,7 +366,8 @@ class OutputFunctionCreator {
 		// /////////////////////////////////////
 		// INTEGER  -> PWM
 		// /////////////////////////////////////
-		if ((monDefinition.codomain instanceof BasicTdImpl) && (monDefinition.codomain as BasicTdImpl) == IntegerDomainImpl) {
+		if ((monDefinition.codomain instanceof BasicTdImpl) &&
+			(monDefinition.codomain as BasicTdImpl) == IntegerDomainImpl) {
 			return getIntegerToAnalogPin(model, binding, fullscale)
 		} else if (monDefinition instanceof AnyDomainImpl) {
 			var domDefinitions = model.bodySection.functionDefinition.filter [ x |
@@ -376,7 +389,7 @@ class OutputFunctionCreator {
 		// /////////////////////////////////////
 		// NUMBER  -> PWM
 		// /////////////////////////////////////			
-		//if ((monDefinition.codomain instanceof BasicTd) && (monDefinition.codomain as BasicTd) == IntegerDomain) {
+		// if ((monDefinition.codomain instanceof BasicTd) && (monDefinition.codomain as BasicTd) == IntegerDomain) {
 		if (monDefinition.codomain instanceof IntegerDomainImpl) {
 			return getNumberToAnalogPin(model, binding, fullscale)
 		} else if (monDefinition instanceof AnyDomainImpl) {
@@ -396,29 +409,28 @@ class OutputFunctionCreator {
 						return getNumberToAnalogPin(model, binding, fullscale)
 			}
 		}
-		
-		
+
 		// /////////////////////////////
 		// n-VALUES-ENUM -> PWM
 		// ///////////////////////////
-		//println(monDefinition.name + "Mondef domain" + monDefinition.domain)
-		if (monDefinition.codomain instanceof EnumTdImpl || monDefinition.codomain instanceof ConcreteDomainImpl){
-		 	return getIntegerToAnalogPin(model,binding,fullscale)
+		// println(monDefinition.name + "Mondef domain" + monDefinition.domain)
+		if (monDefinition.codomain instanceof EnumTdImpl || monDefinition.codomain instanceof ConcreteDomainImpl) {
+			return getIntegerToAnalogPin(model, binding, fullscale)
 		}
 		/* 
-	 	if (model.bodySection.functionDefinition.exists [ x |
-			x.definedFunction == (monDefinition as AnyDomainImpl)
-		]) {
-			println("exists")
-			var enumDef = model.bodySection.functionDefinition.filter [ x |
-				x.definedFunction == (monDefinition as AnyDomainImpl)
-			].get(0) 
-			
-			return '''
-				analogWrite(«binding.function»*(double)(«fullscale»/«enumDef.eContents.size»));
-			'''
-		}*/
-		//if(true) return getIntegerToAnalogPin(model, binding, fullscale)
+		 * 	 	if (model.bodySection.functionDefinition.exists [ x |
+		 * 	x.definedFunction == (monDefinition as AnyDomainImpl)
+		 * ]) {
+		 * 	println("exists")
+		 * 	var enumDef = model.bodySection.functionDefinition.filter [ x |
+		 * 		x.definedFunction == (monDefinition as AnyDomainImpl)
+		 * 	].get(0) 
+		 * 	
+		 * 	return '''
+		 * 		analogWrite(«binding.function»*(double)(«fullscale»/«enumDef.eContents.size»));
+		 * 	'''
+		 }*/
+		// if(true) return getIntegerToAnalogPin(model, binding, fullscale)
 		println("PROBLEM " + monDefinition.codomain)
 		throw new RuntimeException('''Error with «binding.function»: PWMBinding only supports INTEGER, NUMBER or Enumerative''')
 	}

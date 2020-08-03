@@ -119,6 +119,9 @@ class JsonGenerator implements IGenerator {
 		modeList.clear()
 		modeList.add(new ArduinoMode("PWM", ArduinoPinFeature.PWM8))
 		modeList.add(new ArduinoMode("ANALOGLINEAROUT", ArduinoPinFeature.ANALOGOUT10))
+		// in this case ENUM -> switch
+		modeList.add(new ArduinoMode("SWITCH", ArduinoPinFeature.ANALOGOUT10))
+		//
 		getEnumerativeBindings(model, outDefs, available, modeList)
 
 		// BOOLEAN or 2-ENUM FUNCTIONS
