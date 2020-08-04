@@ -349,7 +349,7 @@ class OutputFunctionCreator {
 		val monDefinition = definitions.get(0)
 		println(monDefinition.name + "Mondef codomain " + monDefinition.codomain)
 		var int PWMResolution = 8
-		val double fullscale = Math.pow(2, PWMResolution)
+		val double fullscale = Math.pow(2, PWMResolution) - 1
 
 		// /////////////////////////////////////
 		// INTEGER  -> PWM

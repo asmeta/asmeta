@@ -211,27 +211,38 @@ class CppGenerator extends AsmToCGenerator {
 		for (cf : asm.headerSection.signature.function)
 			if (cf instanceof ControlledFunction)
 				updateset.append('''«cf.name»[0] = «cf.name»[1];
-				''')/*
+				''')
+		if(asm.name.contains("main"))
 		for (imp : asm.headerSection.importClause){ //Chiamata al metodo fireUpdateSet();
 			//println("IMPORT CLAUSE " + imp.moduleName.toString)
 			if(!imp.moduleName.contains("StandardLibrary")){
 				var String[] buffer = imp.moduleName.split("/")
 				var String name = buffer.get(buffer.length - 1)
 				//updateset.append('''«name.toLowerCase».fireUpdateSet();''')
-				updateset.append('''«name».fireUpdateSet();''')
+				updateset.append('''«name»::fireUpdateSet();''')
 			}
-		}*/
+		}
 		return updateset.toString
 	}
 	
 	def updateSet(AsmCollection asmCol){
 		var StringBuffer updateset = new StringBuffer
-		for(asm : asmCol)
-			if(!asm.name.contains("StandardLibrary"))
-			for (cf : asm.headerSection.signature.function)
+		var asm = asmCol.main
+		/* 
+		for (cf : asm.headerSection.signature.function)
+			if (cf instanceof ControlledFunction)
+				updateset.append('''«cf.name»[0] = «cf.name»[1];
+				''')*/
+				
+	
+		if(asm.name.contains("main"))
+		for(asm1 : asmCol)
+			if(!asm1.name.contains("StandardLibrary"))
+			for (cf : asm1.headerSection.signature.function)
 				if (cf instanceof ControlledFunction)
 					updateset.append('''«cf.name»[0] = «cf.name»[1];
 						''')
+				//updateset.append('''«asm1.name»::fireUpdateSet();''')
 		return updateset.toString
 	}
 
