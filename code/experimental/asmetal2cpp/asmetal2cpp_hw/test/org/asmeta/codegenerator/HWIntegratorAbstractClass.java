@@ -114,7 +114,7 @@ public abstract class HWIntegratorAbstractClass {
 		}
 	};
 	
-	public void generateInoProject(String asmFilePath) throws IOException, Exception{
+	public void generateInoProject(String asmFilePath,final Boolean createProjectFolderFlag ) throws IOException, Exception{
 		File asmFile = new File(asmFilePath);
 		File u2cFile = getLastU2CFile(asmFile.getParentFile());
 		File inoFile = new File(asmFile.getParent() + "/" + asmFile.getName().replace(AsmToCGenerator.Ext, InoGenerator.Ext));
@@ -137,7 +137,10 @@ public abstract class HWIntegratorAbstractClass {
 			return;
 		}
 		
-		createProject(u2cFile, inoFile);
+		if (createProjectFolderFlag)
+		{
+			createProject(u2cFile, inoFile);
+		}
 	}
 	
 	protected File getLastU2CFile(File dir) throws ParseException
@@ -170,9 +173,11 @@ public abstract class HWIntegratorAbstractClass {
 	{
 		String projectName = FilenameUtils.removeExtension(inoFile.getName());
 		File projectDir = new File(inoFile.getParentFile().getAbsolutePath() + "/" + projectName);
-				
+		
 		// re-create folder
 		projectDir.createNewFile();
+		
+		// s > source , d > destination
 		
 		Path sIno = inoFile.toPath();
 		Path dIno = Paths.get(projectDir.getAbsolutePath() + "/" + projectName + ".ino");

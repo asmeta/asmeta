@@ -7,6 +7,8 @@ import org.junit.Test;
 
 public class HWIntegratorSmartPillBoxTest extends HWIntegratorAbstractClass {
 
+	private Boolean creatProjectFolderFlag = true;
+	
 	/** json generation **/
 	
 	//@Test
@@ -73,28 +75,28 @@ public class HWIntegratorSmartPillBoxTest extends HWIntegratorAbstractClass {
 	public void Level0GenerateInoFileTest() throws Exception, IOException
 	{
 		String asmPath = "..//..//..//..//asm_examples//PillBox//Level0//pillbox_0.asm";
-		generateInoProject(asmPath);
+		generateInoProject(asmPath, creatProjectFolderFlag);
 	}
 	
 	//@Test
 	public void Level1GenerateInoFileTest() throws Exception, IOException
 	{
 		String asmPath = "..//..//..//..//asm_examples//PillBox//Level1//pillbox_1.asm";
-		generateInoProject(asmPath);
+		generateInoProject(asmPath, creatProjectFolderFlag);
 	}
 	
 	//@Test
 	public void Level2GenerateInoFileTest() throws Exception, IOException
 	{
 		String asmPath = "..//..//..//..//asm_examples//PillBox//Level2//pillbox_2.asm";
-		generateInoProject(asmPath);
+		generateInoProject(asmPath, creatProjectFolderFlag);
 	}
 	
 	//@Test
 	public void Level3GenerateInoFileTest() throws Exception, IOException
 	{
 		String asmPath = "..//..//..//..//asm_examples//PillBox//Level3//pillbox_FULL.asm";
-		generateInoProject(asmPath);
+		generateInoProject(asmPath, creatProjectFolderFlag);
 	}
 	
 	/** other tests **/

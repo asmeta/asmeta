@@ -29,6 +29,7 @@ public class Binding {
 			case ANALOGLINEARIN:
 			case ANALOGLINEAROUT:
 			case PWM:
+			case SWITCH:
 				return (function != null && pin != null);
 			case USERDEFINED:
 				return (function != null);

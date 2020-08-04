@@ -1,0 +1,6 @@
+# file types
+*.cpp
+*.h
+*.ino
+*.u2c
+*.o

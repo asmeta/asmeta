@@ -3,7 +3,7 @@ package org.asmeta.codegenerator;
 import org.asmeta.codegenerator.arduino.ArduinoPinFeature;
 
 public enum ConfigurationMode {
-	DIGITAL, DIGITALINVERTED, ANALOGLINEARIN, ANALOGLINEAROUT, PWM, USERDEFINED;
+	DIGITAL, DIGITALINVERTED, ANALOGLINEARIN, ANALOGLINEAROUT, PWM, USERDEFINED, SWITCH;
 	
 	public static ConfigurationMode fromString(String configMode){
 		for(ConfigurationMode cm: ConfigurationMode.values()){

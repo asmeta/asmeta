@@ -22,6 +22,7 @@ import asmeta.definitions.domains.impl.ConcreteDomainImpl
 import asmeta.definitions.impl.DerivedFunctionImpl
 import asmeta.definitions.DerivedFunction
 import asmeta.definitions.domains.impl.BooleanDomainImpl
+import asmeta.definitions.Function
 
 /**
  * Generate the code for the setOutput function. 
@@ -51,18 +52,21 @@ class OutputFunctionCreator {
 
 		for (Binding binding : config.bindings) {
 			println("BINDING 1 " + binding)
-			if (model.headerSection.signature.function.filter(ControlledFunction).exists [ x |
+			var controlledFunc = model.headerSection.signature.function.filter(ControlledFunction).filter [ x |
 				(x.name == binding.function.substring(0, (if (binding.function.contains("("))
 					binding.function.indexOf("(")
 				else
 					binding.function.length)))
-			] || 
-			model.headerSection.signature.function.filter(DerivedFunction).exists [ x |
+			]
+
+			var derivedFunc = model.headerSection.signature.function.filter(DerivedFunction).filter [ x |
 				(x.name == binding.function.substring(0, (if (binding.function.contains("("))
 					binding.function.indexOf("(")
 				else
 					binding.function.length)))
-			]) { // PWM and ANALOGLINEAROUT are only for output
+			]
+
+			if (controlledFunc.size() > 0 || derivedFunc.size() > 0) { // PWM and ANALOGLINEAROUT are only for output
 				println("BINDING 2 " + binding)
 				switch (binding.configMode) {
 					case DIGITAL:
@@ -77,6 +81,10 @@ class OutputFunctionCreator {
 						outputFunction += getUserDefinedBinding(model, binding)
 					case ANALOGLINEARIN:
 						outputFunction += ""
+					case SWITCH:
+						outputFunction +=
+							getEnumSwitchBinding(model, binding,
+								controlledFunc.size() > 0 ? controlledFunc.get(0) : derivedFunc.get(0))
 				}
 			}
 		}
@@ -430,5 +438,33 @@ class OutputFunctionCreator {
 			//TODO place here your input binding for function «binding.function»
 			//
 		'''
+	}
+
+	def String getEnumSwitchBinding(Asm asm, Binding binding, Function func) {
+		return '''
+			switch («binding.function»[0])
+			{
+				«getSwitchCases(func)»
+			}
+		''';
+	}
+	
+	def String getSwitchCases(Function func) {
+		var StringBuffer sb = new StringBuffer
+		var enumDef = func.codomain as EnumTdImpl
+		
+		for (var i = 0; i < enumDef.eContents.size(); i++)
+		{
+			var enumEl = enumDef.eContents.get(i) as EnumElement
+			sb.append('''
+				case «enumEl.symbol»:
+				{
+					// add implementation here
+					break;
+				}
+			''')
+		}
+		
+		return sb.toString
 	}
 }

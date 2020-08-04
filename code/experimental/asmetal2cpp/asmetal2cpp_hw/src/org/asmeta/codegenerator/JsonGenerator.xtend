@@ -100,12 +100,17 @@ class JsonGenerator implements IGenerator {
 		var List<Function> monDefs = new ArrayList<Function>(definedFunctions.filter(MonitoredFunction).toList)
 		//var List<Function> statDefs = new ArrayList<Function>(definedFunctions.filter(StaticFunction).toList)
 		var List<Function> derDefs = new ArrayList<Function>(definedFunctions.filter(DerivedFunction).toList)
+		
+		println("outDefs" + outDefs)
+		println("monDefs" + monDefs)
 		println("derDefs" + derDefs)
+		println()
+		
 		// mode list containing necessary pin features and min/max values for bindings
 		var modeList = new ArrayList<ArduinoMode>()
 		
 		/////////////////////////////////////////////
-		// OUT FUNCTION BINDINGS                   //
+		// CONTROLLED FUNCTION BINDINGS            //
 		/////////////////////////////////////////////		
 		
 		// INTEGER or NUMBER FUNCTIONS
@@ -113,7 +118,7 @@ class JsonGenerator implements IGenerator {
 		modeList.add(new ArduinoMode("PWM", 0, 255, ArduinoPinFeature.PWM8))
 		modeList.add(new ArduinoMode("ANALOGOUT", 0, 1023, ArduinoPinFeature.ANALOGOUT10))
 		getIntegerAndNaturalNumberBindings(outDefs, available, modeList)
-		
+						
 		// n-ENUM FUNCTIONS
 		// **ANALOG_OUT PINS**  **PWM PINS**
 		modeList.clear()
@@ -126,7 +131,15 @@ class JsonGenerator implements IGenerator {
 		getBooleanBindings(model, outDefs, available);		
 		
 		/////////////////////////////////////////////
-		// MONITORED FUNCTION BINDINGS                   //
+		// n-ENUM to switch FUNCTIONS              //
+		/////////////////////////////////////////////		
+
+		// n-ENUM FUNCTIONS to switch
+		// **USERDEFINED**
+		getEnumerativeSwitchBindings(model, outDefs);		
+		
+		/////////////////////////////////////////////
+		// MONITORED FUNCTION BINDINGS             //
 		/////////////////////////////////////////////		
 		
 		// INTEGER or NUMBER FUNCTIONS
@@ -151,7 +164,7 @@ class JsonGenerator implements IGenerator {
 		removeBoundFunctions(outDefs)
 		removeBoundFunctions(monDefs)
 		// removeBoundFunctions(statDefs)
-		
+				
 		//
 		// THIS IS THE LAST CHANCE... IF NO IDEA HOW TO BIND OR NO PIN LEFT --> USERDEFINED
 		//
@@ -223,6 +236,25 @@ class JsonGenerator implements IGenerator {
 			}
 	}
 	
+	def void getEnumerativeSwitchBindings(Asm model, List<Function> defList) {
+		for (Function def : defList) {
+			if (def.codomain instanceof EnumTd && getEnumerativeDomainSize(model, def) > 2
+				&& def.name.toLowerCase().indexOf("switch") >= 0
+			) { // n-ENUM and function name contains "switch" substring
+				var Binding newbinding = new Binding
+				var foundBinding = false;
+				for(var i = 0; i< available.size && !foundBinding; i++){
+					foundBinding = true;
+					newbinding.function = def.name
+					newbinding.mode = "SWITCH"
+					newbinding.pin = available.get(i).id.name
+					available.remove(i)
+					config.bindings.add(newbinding)
+				}
+			}
+		}
+	}
+	
 	def void getIntegerAndNaturalNumberBindings(List<Function> defList, List<ArduinoPin> pinList, List<ArduinoMode> modeList) {
 		for (Function def : defList) {
 			if (def.codomain instanceof IntegerDomain || def.codomain instanceof NaturalDomain) {
@@ -268,7 +300,9 @@ class JsonGenerator implements IGenerator {
 
 	def void getEnumerativeBindings(Asm model, List<Function> defList, List<ArduinoPin> pinList, List<ArduinoMode> modeList) {
 		for (Function def : defList) {
-			if (def.codomain instanceof EnumTd && getEnumerativeDomainSize(model, def) > 2) { // n-ENUM
+			if (def.codomain instanceof EnumTd && getEnumerativeDomainSize(model, def) > 2
+				&& def.name.toLowerCase().indexOf("switch") < 0
+			) { // n-ENUM
 				var foundBinding = false
 				var Binding newbinding = new Binding
 				newbinding.function = def.name
