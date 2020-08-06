@@ -147,7 +147,12 @@ class HeaderGenerator extends AsmToCGenerator {
 	 			if (!s.contains("StandardLibrary")
  				&& !s.contains("CTLlibrary")
  				&& !s.contains("LTLlibrary")) {// Ignore StandardLibrary, CTllibrary and LTLlibrary import.
-	 				sb.append('#include "'  + new ImportToH(asm).visit(i) + '.h" \n') 
+ 				if (options.compilerType != CompilerType.ArduinoCompiler)
+	 				sb.append('#include "'  + new ImportToH(asm).visit(i) + '.h" \n')
+	 			else{
+	 				var String[] buffer = new ImportToH(asm).visit(i).split('/');
+	 				sb.append('#include "' + buffer.get(buffer.size - 1 ) + '.h" \n')
+	 			} 
 	 			}
 	 		}
 	 			

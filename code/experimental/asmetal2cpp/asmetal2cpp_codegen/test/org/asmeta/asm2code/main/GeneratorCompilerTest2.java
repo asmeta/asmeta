@@ -53,6 +53,7 @@ public class GeneratorCompilerTest2 {
 		//
 		// PARSE THE SPECIFICATION
 		// parse using the asmeta parser
+		TranslatorOptions opt = userOptions;
 		File asmFile = new File(asmspec);
 		assert asmFile.exists();
 		String asmname = asmFile.getName();
@@ -87,20 +88,22 @@ public class GeneratorCompilerTest2 {
 		// write CPP
 		try {
 			cppGenerator.options = userOptions;
-			cppGenerator.generate(model.getMain(), cppFile.getCanonicalPath());
+			//cppGenerator.generate(model.getMain(), cppFile.getCanonicalPath());
+			cppGenerator.generate(model, cppFile.getCanonicalPath());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new CompileResult(false, e.getMessage());
 		}
-		
-		CompileResult result = new CompileResult(true, "");
-		if (options.compilerType != CompilerType.ArduinoCompiler)
-		{
-			// now compile it
-			System.out.println("Generated h file: " + hFile.getCanonicalPath());
-			System.out.println("Generated cpp file: " + cppFile.getCanonicalPath());
+
+		// now compile it
+		System.out.println("Generated h file: " + hFile.getCanonicalPath());
+		System.out.println("Generated cpp file: " + cppFile.getCanonicalPath());
+		CompileResult result =  new CompileResult(true,"");
+		if(opt.compilerType != CompilerType.ArduinoCompiler)//se il codice � per arduino, non compila. 
 			result = CppCompiler.compile(name + ".cpp", dir.getAbsolutePath(), true, false);
-		}
+
+		
+
 		// clean the produced files
 		// delete h file
 		// hFile.delete();

@@ -195,6 +195,7 @@ class TermToCpp extends ReflectiveVisitor<String> {
 			s = s.substring(0, s.length - 2)
 		}
 		s += "}"
+		//println(type)
 		return type + s
 		/*var String s = ""
 		s += "{"

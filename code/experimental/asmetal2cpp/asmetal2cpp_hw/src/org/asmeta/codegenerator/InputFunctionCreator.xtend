@@ -227,7 +227,7 @@ class InputFunctionCreator {
 		
 		if (monDefinition.codomain instanceof EnumTdImpl){
 			return '''
-		  		«binding.function» = static_cast<«monDefinition.name»>(analogRead(«Util.arduinoPinToString(binding.pin)»)*(double)(«monDefinition.codomain.eContents.size»/«fullscale»));
+		  		«binding.function» = static_cast<«monDefinition.codomain.name»>(analogRead(«Util.arduinoPinToString(binding.pin)»)*(double)(«monDefinition.codomain.eContents.size»/«fullscale»));
 		  	'''}
 		
 		// /////////////////////////////////////
