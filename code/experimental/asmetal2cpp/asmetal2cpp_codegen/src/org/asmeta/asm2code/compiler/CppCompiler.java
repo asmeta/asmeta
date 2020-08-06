@@ -21,19 +21,41 @@ import org.apache.log4j.Logger;
  */
 public class CppCompiler {
 
-	private static String C_MIN_GW_BIN_G_EXE;	
+	private static String G_EXE;
+		
+	private static String OS = System.getProperty("os.name").toLowerCase();
 	
 	static {
-		// try to set the c++ compiler
-		searchCppCompiler("C:\\MinGW\\bin\\g++.exe");
-		//searchCppCompiler("C:\\MinGW\\bin\\g++.exe");
+		
+		if (isWindows())
+		{
+			// try to set the c++ compiler
+			searchCppCompiler("C:\\MinGW\\bin\\g++.exe");
+			//searchCppCompiler("C:\\MinGW\\bin\\g++.exe");
+		}
+		else if (isMac())
+		{
+			searchCppCompiler("/usr/bin/g++");
+		}
 	}
 	
 	static void searchCppCompiler(String cpppath) {
-		if (Files.isExecutable(Paths.get(cpppath)))  C_MIN_GW_BIN_G_EXE = cpppath;
+		if (Files.isExecutable(Paths.get(cpppath)))  
+		{
+			G_EXE = cpppath;
+		}
 		
 	}
 	
+	private static boolean isWindows()
+	{
+		return (OS.indexOf("win") >= 0);
+	}
+	
+	private static boolean isMac()
+	{
+		return (OS.indexOf("mac") >= 0);
+	}	
 	
 	static private Logger logger = Logger.getLogger(CppCompiler.class);
 
@@ -66,7 +88,7 @@ public class CppCompiler {
 				// delete the .o file (to check if it has been produced after)
 				oFile = directory.getPath() + '/' + nameNoExt + ".o";
 				// delete so I can check the success if .o file is present
-				command.addAll(Arrays.asList(C_MIN_GW_BIN_G_EXE, "-c", "-std=c++11"));
+				command.addAll(Arrays.asList(G_EXE, "-c", "-std=c++11"));
 				if (evalCoverage)
 					command.addAll(Arrays.asList("-fprofile-arcs", "-ftest-coverage"));
 				command.add(nameNoExt + ".cpp");
@@ -74,7 +96,7 @@ public class CppCompiler {
 				// in this case, link !! (assume that boost is needed
 				// -lgcov --coverage is needed otherwise I get an error.
 				// TODO
-				command.addAll(Arrays.asList(C_MIN_GW_BIN_G_EXE, "-std=c++11", "-lgcov", "--coverage"));
+				command.addAll(Arrays.asList(G_EXE, "-std=c++11", "-lgcov", "--coverage"));
 				if (evalCoverage)
 					command.addAll(Arrays.asList("-fprofile-arcs", "-ftest-coverage"));
 				command.add(name);

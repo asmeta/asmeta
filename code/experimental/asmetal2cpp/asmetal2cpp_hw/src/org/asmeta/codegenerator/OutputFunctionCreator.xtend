@@ -21,6 +21,8 @@ import asmeta.definitions.domains.impl.BasicTdImpl
 import asmeta.definitions.domains.impl.ConcreteDomainImpl
 import asmeta.definitions.impl.DerivedFunctionImpl
 import asmeta.definitions.DerivedFunction
+import asmeta.definitions.domains.impl.BooleanDomainImpl
+import asmeta.definitions.Function
 
 /**
  * Generate the code for the setOutput function. 
@@ -43,26 +45,33 @@ class OutputFunctionCreator {
 				else
 					binding.function.length)))
 			]
-			//if (functionDefinition.size == 0)
-				//throw new RuntimeException("Error: function " + binding.function + " unknown.")
-				//println("FUNCTION " + functionDefinition )
+		// if (functionDefinition.size == 0)
+		// throw new RuntimeException("Error: function " + binding.function + " unknown.")
+		// println("FUNCTION " + functionDefinition )
 		}
 
 		for (Binding binding : config.bindings) {
-			//println("BINDING 1 " + binding)
-			if (model.headerSection.signature.function.filter(ControlledFunction).exists [ x |
+
+			println("BINDING 1 " + binding)
+			var controlledFunc = model.headerSection.signature.function.filter(ControlledFunction).filter [ x |
+
 				(x.name == binding.function.substring(0, (if (binding.function.contains("("))
 					binding.function.indexOf("(")
 				else
 					binding.function.length)))
-			] || 
-			model.headerSection.signature.function.filter(DerivedFunction).exists [ x |
+			]
+
+			var derivedFunc = model.headerSection.signature.function.filter(DerivedFunction).filter [ x |
 				(x.name == binding.function.substring(0, (if (binding.function.contains("("))
 					binding.function.indexOf("(")
 				else
 					binding.function.length)))
-			]) { // PWM and ANALOGLINEAROUT are only for output
-				//println("BINDING 2 " + binding)
+
+			]
+
+			if (controlledFunc.size() > 0 || derivedFunc.size() > 0) { // PWM and ANALOGLINEAROUT are only for output
+				println("BINDING 2 " + binding)
+
 				switch (binding.configMode) {
 					case DIGITAL:
 						outputFunction += getDigitalBinding(model, binding)
@@ -76,6 +85,10 @@ class OutputFunctionCreator {
 						outputFunction += getUserDefinedBinding(model, binding)
 					case ANALOGLINEARIN:
 						outputFunction += ""
+					case SWITCH:
+						outputFunction +=
+							getEnumSwitchBinding(model, binding,
+								controlledFunc.size() > 0 ? controlledFunc.get(0) : derivedFunc.get(0))
 				}
 			}
 		}
@@ -83,24 +96,34 @@ class OutputFunctionCreator {
 		// LCD
 		if (config.lcd !== null) {
 			outputFunction += '''
-				«config.lcd.name».clear();
-				«config.lcd.name».print(«config.lcd.function»);
+				Â«config.lcd.nameÂ».clear();
+				Â«config.lcd.nameÂ».print(Â«config.lcd.functionÂ»);
 			'''
 		}
 		/*if(outputFunction.length != 0) 
-		return '''
-			void «model.name»::setOutputs(){
-				«outputFunction»
-			}
-		'''
-		else return ""
-		*/
-		if(outputFunction.length != 0)
-		return '''
-			«outputFunction»
-		'''
-		else return ""
+		 * return '''
+		 * 	void Â«model.nameÂ»::setOutputs(){
+		 * 		Â«outputFunctionÂ»
+		 * 	}
+		 * '''
+		 * else return ""
+		 */
+		if (outputFunction.length != 0)
+			return '''
+				Â«outputFunctionÂ»
+			'''
+		else
+			return ""
+
+	}
 	
+	def String getEnumSwitch(Asm asm, Binding binding) {
+		return '''
+				swicth(XXX)
+					case case1();
+					case case2();
+					case case3();
+			'''
 	}
 
 	def String getBooleanToDigitalPin(Asm model, Binding binding, boolean inverted) {
@@ -110,18 +133,18 @@ class OutputFunctionCreator {
 		 */
 		if (inverted)
 			return '''
-				if(«binding.function»)
-					digitalWrite(«Util.arduinoPinToString(binding.pin)», LOW);
+				if(Â«binding.functionÂ»)
+					digitalWrite(Â«Util.arduinoPinToString(binding.pin)Â», LOW);
 				else
-					digitalWrite(«Util.arduinoPinToString(binding.pin)», HIGH);
+					digitalWrite(Â«Util.arduinoPinToString(binding.pin)Â», HIGH);
 					
 			'''
 		else
 			return '''
-				if(«binding.function»)
-					digitalWrite(«Util.arduinoPinToString(binding.pin)», HIGH);
+				if(Â«binding.functionÂ»)
+					digitalWrite(Â«Util.arduinoPinToString(binding.pin)Â», HIGH);
 				else
-					digitalWrite(«Util.arduinoPinToString(binding.pin)», LOW);
+					digitalWrite(Â«Util.arduinoPinToString(binding.pin)Â», LOW);
 				
 			'''
 	}
@@ -134,37 +157,37 @@ class OutputFunctionCreator {
 		if (inverted)
 			if (!binding.function.contains("(")) {
 				return '''
-					if(«binding.function» == «(enumDef.eContents.get(0) as EnumElement).symbol»)
-						digitalWrite(«Util.arduinoPinToString(binding.pin)», HIGH);
+					if(Â«binding.functionÂ» == Â«(enumDef.eContents.get(0) as EnumElement).symbolÂ»)
+						digitalWrite(Â«Util.arduinoPinToString(binding.pin)Â», HIGH);
 					else
-						digitalWrite(«Util.arduinoPinToString(binding.pin)», LOW);
+						digitalWrite(Â«Util.arduinoPinToString(binding.pin)Â», LOW);
 					
 				'''
 			} else {
 				return '''
-					if(«binding.function.substring(0, binding.function.indexOf("(")) + "[1][" +
-						binding.function.substring(binding.function.indexOf("(")+1, binding.function.indexOf(")"))  + "]"» == «(enumDef.eContents.get(0) as EnumElement).symbol»)
-						digitalWrite(«Util.arduinoPinToString(binding.pin)», HIGH);
+					if(Â«binding.function.substring(0, binding.function.indexOf("(")) + "[1][" +
+						binding.function.substring(binding.function.indexOf("(")+1, binding.function.indexOf(")"))  + "]"Â» == Â«(enumDef.eContents.get(0) as EnumElement).symbolÂ»)
+						digitalWrite(Â«Util.arduinoPinToString(binding.pin)Â», HIGH);
 					else
-						digitalWrite(«Util.arduinoPinToString(binding.pin)», LOW);
+						digitalWrite(Â«Util.arduinoPinToString(binding.pin)Â», LOW);
 					
 				'''
 			}
 		else if (!binding.function.contains("(")) {
 			return '''
-				if(«binding.function» == «(enumDef.eContents.get(0) as EnumElement).symbol»)
-					digitalWrite(«Util.arduinoPinToString(binding.pin)», LOW);
+				if(Â«binding.functionÂ» == Â«(enumDef.eContents.get(0) as EnumElement).symbolÂ»)
+					digitalWrite(Â«Util.arduinoPinToString(binding.pin)Â», LOW);
 				else
-					digitalWrite(«Util.arduinoPinToString(binding.pin)», HIGH);
+					digitalWrite(Â«Util.arduinoPinToString(binding.pin)Â», HIGH);
 				
 			'''
 		} else {
 			return '''
-				if(«binding.function.substring(0, binding.function.indexOf("(")) + "[1][" +
-						binding.function.substring(binding.function.indexOf("(")+1, binding.function.indexOf(")"))  + "]"» == «(enumDef.eContents.get(0) as EnumElement).symbol»)
-					digitalWrite(«Util.arduinoPinToString(binding.pin)», LOW);
+				if(Â«binding.function.substring(0, binding.function.indexOf("(")) + "[1][" +
+						binding.function.substring(binding.function.indexOf("(")+1, binding.function.indexOf(")"))  + "]"Â» == Â«(enumDef.eContents.get(0) as EnumElement).symbolÂ»)
+					digitalWrite(Â«Util.arduinoPinToString(binding.pin)Â», LOW);
 				else
-					digitalWrite(«Util.arduinoPinToString(binding.pin)», HIGH);
+					digitalWrite(Â«Util.arduinoPinToString(binding.pin)Â», HIGH);
 				
 			'''
 		}
@@ -173,22 +196,22 @@ class OutputFunctionCreator {
 	def String getIntegerToAnalogPin(Asm model, Binding binding, double fullscale) {
 		if (binding.minVal == 0)
 			return '''
-				analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»)*(double)(«fullscale»/«binding.maxVal-binding.minVal +1»));
+				analogWrite(Â«Util.arduinoPinToString(binding.pin)Â»,(Â«binding.functionÂ»)*(double)(Â«fullscaleÂ»/Â«binding.maxVal-binding.minVal +1Â»));
 			'''
 		else
 			return '''
-				analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»-(«binding.minVal»))*(double)(«fullscale»/«binding.maxVal-binding.minVal +1»));
+				analogWrite(Â«Util.arduinoPinToString(binding.pin)Â»,(Â«binding.functionÂ»-(Â«binding.minValÂ»))*(double)(Â«fullscaleÂ»/Â«binding.maxVal-binding.minVal +1Â»));
 			'''
 	}
 
 	def String getNumberToAnalogPin(Asm model, Binding binding, double fullscale) {
 		if (binding.minVal == 0)
 			return '''
-				analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»)*(double)(«fullscale»/«binding.maxVal-binding.minVal»));
+				analogWrite(Â«Util.arduinoPinToString(binding.pin)Â»,(Â«binding.functionÂ»)*(double)(Â«fullscaleÂ»/Â«binding.maxVal-binding.minValÂ»));
 			'''
 		else
 			return '''
-				analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»-(«binding.minVal»))*(double)(«fullscale»/«binding.maxVal-binding.minVal»));
+				analogWrite(Â«Util.arduinoPinToString(binding.pin)Â»,(Â«binding.functionÂ»-(Â«binding.minValÂ»))*(double)(Â«fullscaleÂ»/Â«binding.maxVal-binding.minValÂ»));
 			'''
 	}
 
@@ -216,23 +239,23 @@ class OutputFunctionCreator {
 		// ///////////////////////
 		// BOOLEAN -> DIGITALPIN
 		// ///////////////////////
-		if (outDefinition instanceof BasicTd && (outDefinition as BasicTd) == BooleanDomain) {
+		if (outDefinition.codomain instanceof BooleanDomainImpl) { // BasicTdImpl && (outDefinition.codomain as BasicTdImpl) == 
 			return getBooleanToDigitalPin(model, binding, inverted)
 		// TODO: controllare AnyDomainImpl
-		} else if (outDefinition instanceof AnyDomainImpl) {
+		} else if (outDefinition.codomain instanceof AnyDomainImpl) {
 			var domDefinitions = model.bodySection.functionDefinition.filter [ x |
 				x.definedFunction == (outDefinition as AnyDomainImpl)
 			]
 			// D1 of BOOLEAN binded to DIGITALPIN
 			if (domDefinitions.size > 0) {
 				val domDefinition = domDefinitions.get(0)
-				if (domDefinition.body.domain instanceof BasicTd)
-					if ((domDefinition.body.domain as BasicTd) == BooleanDomain)
+				if (domDefinition.body.domain instanceof BasicTdImpl)
+					if ((domDefinition.body.domain as BasicTdImpl) == BooleanDomainImpl)
 						return getBooleanToDigitalPin(model, binding, inverted)
 				// D1 of (BOOLEAN) binded to DIGITALPIN
 				// TODO: controllare domDefinition.body.domain.constraint.get(0).constrainedDomain
-				if (domDefinition.body.domain.constraint.get(0).constrainedDomain instanceof BasicTd)
-					if ((domDefinition.body.domain.constraint.get(0).constrainedDomain as BasicTd) == BooleanDomain)
+				if (domDefinition.body.domain.constraint.get(0).constrainedDomain instanceof BasicTdImpl)
+					if ((domDefinition.body.domain.constraint.get(0).constrainedDomain as BasicTdImpl) == BooleanDomainImpl)
 						return getBooleanToDigitalPin(model, binding, inverted)
 
 			}
@@ -242,10 +265,10 @@ class OutputFunctionCreator {
 		// /////////////////////////////
 		if (outDefinition.codomain instanceof EnumTdImpl) {
 			if (outDefinition.codomain.eContents.size == 2)
-				return getEnumToDigitalPin(model, binding, outDefinition.codomain as EnumTd, inverted)
+				return getEnumToDigitalPin(model, binding, outDefinition.codomain as EnumTdImpl, inverted)
 		}
 
-		throw new RuntimeException('''Error with «binding.function»: DigitalBinding only supports booleans or 2-values-enums''')
+		throw new RuntimeException('''Error with Â«binding.functionÂ»: DigitalBinding only supports booleans or 2-values-enums''')
 	}
 
 	def String getAnalogLinearBinding(Asm model, Binding binding) {
@@ -256,7 +279,7 @@ class OutputFunctionCreator {
 			else
 				binding.function.length)))
 		]
-		
+
 		if (definitions.size < 1)
 			throw new RuntimeException("Error: no Out Function found with name: " + binding.function)
 		val monDefinition = definitions.get(0)
@@ -326,10 +349,10 @@ class OutputFunctionCreator {
 			].get(0)
 
 			return '''
-				analogWrite(«binding.function»*(double)(«fullscale»/«enumDef.eContents.size»));
+				analogWrite(Â«binding.functionÂ»*(double)(Â«fullscaleÂ»/Â«enumDef.eContents.sizeÂ»));
 			'''
 		}
-		throw new RuntimeException('''Error with «binding.function»: AnalogLinearBinding only supports INTEGER, NUMBER or Enumerative''')
+		throw new RuntimeException('''Error with Â«binding.functionÂ»: AnalogLinearBinding only supports INTEGER, NUMBER or Enumerative''')
 
 	}
 
@@ -341,8 +364,8 @@ class OutputFunctionCreator {
 			else
 				binding.function.length)))
 		]
-		//println("DEFINITIONS " + definitions + " " + definitions.size)
-		//println("DEFINITION " + definitions)
+		// println("DEFINITIONS " + definitions + " " + definitions.size)
+		// println("DEFINITION " + definitions)
 		println("Binding " + binding)
 		if (definitions.size < 1)
 			throw new RuntimeException("Error: no Out Function found with name: " + binding.function)
@@ -354,7 +377,8 @@ class OutputFunctionCreator {
 		// /////////////////////////////////////
 		// INTEGER  -> PWM
 		// /////////////////////////////////////
-		if ((monDefinition.codomain instanceof BasicTdImpl) && (monDefinition.codomain as BasicTdImpl) == IntegerDomainImpl) {
+		if ((monDefinition.codomain instanceof BasicTdImpl) &&
+			(monDefinition.codomain as BasicTdImpl) == IntegerDomainImpl) {
 			return getIntegerToAnalogPin(model, binding, fullscale)
 		} else if (monDefinition instanceof AnyDomainImpl) {
 			var domDefinitions = model.bodySection.functionDefinition.filter [ x |
@@ -376,7 +400,7 @@ class OutputFunctionCreator {
 		// /////////////////////////////////////
 		// NUMBER  -> PWM
 		// /////////////////////////////////////			
-		//if ((monDefinition.codomain instanceof BasicTd) && (monDefinition.codomain as BasicTd) == IntegerDomain) {
+		// if ((monDefinition.codomain instanceof BasicTd) && (monDefinition.codomain as BasicTd) == IntegerDomain) {
 		if (monDefinition.codomain instanceof IntegerDomainImpl) {
 			return getNumberToAnalogPin(model, binding, fullscale)
 		} else if (monDefinition instanceof AnyDomainImpl) {
@@ -396,39 +420,67 @@ class OutputFunctionCreator {
 						return getNumberToAnalogPin(model, binding, fullscale)
 			}
 		}
-		
-		
+
 		// /////////////////////////////
 		// n-VALUES-ENUM -> PWM
 		// ///////////////////////////
-		println(monDefinition.name + " Mondef domain " + monDefinition.domain)
-		if (monDefinition.codomain instanceof EnumTdImpl || monDefinition.codomain instanceof ConcreteDomainImpl){
-			
-		 	return getIntegerToAnalogPin(model,binding,fullscale)
+
+		// println(monDefinition.name + "Mondef domain" + monDefinition.domain)
+		if (monDefinition.codomain instanceof EnumTdImpl || monDefinition.codomain instanceof ConcreteDomainImpl) {
+			return getIntegerToAnalogPin(model, binding, fullscale)
 		}
 		/* 
-	 	if (model.bodySection.functionDefinition.exists [ x |
-			x.definedFunction == (monDefinition as AnyDomainImpl)
-		]) {
-			println("exists")
-			var enumDef = model.bodySection.functionDefinition.filter [ x |
-				x.definedFunction == (monDefinition as AnyDomainImpl)
-			].get(0) 
-			
-			return '''
-				analogWrite(«binding.function»*(double)(«fullscale»/«enumDef.eContents.size»));
-			'''
-		}*/
-		//if(true) return getIntegerToAnalogPin(model, binding, fullscale)
-		//println("PROBLEM " + monDefinition.codomain)
-		throw new RuntimeException('''Error with «binding.function»: PWMBinding only supports INTEGER, NUMBER or Enumerative''')
+		 * 	 	if (model.bodySection.functionDefinition.exists [ x |
+		 * 	x.definedFunction == (monDefinition as AnyDomainImpl)
+		 * ]) {
+		 * 	println("exists")
+		 * 	var enumDef = model.bodySection.functionDefinition.filter [ x |
+		 * 		x.definedFunction == (monDefinition as AnyDomainImpl)
+		 * 	].get(0) 
+		 * 	
+		 * 	return '''
+		 * 		analogWrite(Â«binding.functionÂ»*(double)(Â«fullscaleÂ»/Â«enumDef.eContents.sizeÂ»));
+		 * 	'''
+		 }*/
+		// if(true) return getIntegerToAnalogPin(model, binding, fullscale)
+		println("PROBLEM " + monDefinition.codomain)
+
+		throw new RuntimeException('''Error with Â«binding.functionÂ»: PWMBinding only supports INTEGER, NUMBER or Enumerative''')
 	}
 
 	def String getUserDefinedBinding(Asm model, Binding binding) {
 		return '''
 			//
-			//TODO place here your input binding for function «binding.function»
+			//TODO place here your input binding for function Â«binding.functionÂ»
 			//
 		'''
+	}
+
+	def String getEnumSwitchBinding(Asm asm, Binding binding, Function func) {
+		return '''
+			switch (Â«binding.functionÂ»[0])
+			{
+				Â«getSwitchCases(func)Â»
+			}
+		''';
+	}
+	
+	def String getSwitchCases(Function func) {
+		var StringBuffer sb = new StringBuffer
+		var enumDef = func.codomain as EnumTdImpl
+		
+		for (var i = 0; i < enumDef.eContents.size(); i++)
+		{
+			var enumEl = enumDef.eContents.get(i) as EnumElement
+			sb.append('''
+				case Â«enumEl.symbolÂ»:
+				{
+					// add implementation here
+					break;
+				}
+			''')
+		}
+		
+		return sb.toString
 	}
 }

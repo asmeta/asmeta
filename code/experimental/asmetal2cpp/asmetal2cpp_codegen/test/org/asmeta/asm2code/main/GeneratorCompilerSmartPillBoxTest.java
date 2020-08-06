@@ -14,10 +14,10 @@ import asmeta.AsmCollection;
 
 public class GeneratorCompilerSmartPillBoxTest extends GeneratorCompilerTest2{
 
-	//@Test
+	@Test
 	public void SmartPillBoxLevel0Test() throws Exception, IOException
 	{
-		String asmspec = "C:\\asmeta\\asm_examples\\PillBox\\Level0\\pillbox_0.asm";
+		String asmspec = "..//..//..//..//asm_examples//PillBox//Level0//pillbox_0.asm";
 		if (!test(asmspec, options).success)
 			fail();
 	}
@@ -25,7 +25,7 @@ public class GeneratorCompilerSmartPillBoxTest extends GeneratorCompilerTest2{
 	//@Test
 	public void SmartPillBoxLevel1Test() throws Exception, IOException
 	{
-		String asmspec = "C:\\asmeta\\asm_examples\\PillBox\\Level1\\pillbox_1.asm";
+		String asmspec = "..//..//..//..//asm_examples//PillBox//Level1//pillbox_1.asm";
 		if (!test(asmspec, options).success)
 			fail();
 	}
@@ -33,15 +33,15 @@ public class GeneratorCompilerSmartPillBoxTest extends GeneratorCompilerTest2{
 	//@Test
 	public void SmartPillBoxLevel2Test() throws Exception, IOException
 	{
-		String asmspec = "C:\\asmeta\\asm_examples\\PillBox\\Level2\\pillbox_2.asm";
+		String asmspec = "..//..//..//..//asm_examples//PillBox//Level2//pillbox_2.asm";
 		if (!test(asmspec, options).success)
 			fail();
 	}
 
-	@Test
+	//@Test
 	public void SmartPillBoxLevel3Test() throws Exception, IOException
 	{
-		String asmspec = "C:\\asmeta\\asm_examples\\PillBox\\Level3\\pillbox_FULL.asm";
+		String asmspec = "..//..//..//..//asm_examples//PillBox//Level3//pillbox_FULL.asm";
 		if (!test(asmspec, options).success)
 			fail();
 	}
