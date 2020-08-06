@@ -21,6 +21,8 @@ import asmeta.definitions.domains.impl.BasicTdImpl
 import asmeta.definitions.domains.impl.ConcreteDomainImpl
 import asmeta.definitions.impl.DerivedFunctionImpl
 import asmeta.definitions.DerivedFunction
+import asmeta.definitions.domains.impl.BooleanDomainImpl
+import asmeta.definitions.Function
 
 /**
  * Generate the code for the setOutput function. 
@@ -50,17 +52,21 @@ class OutputFunctionCreator {
 
 		for (Binding binding : config.bindings) {
 			println("BINDING 1 " + binding)
-			if (model.headerSection.signature.function.filter(ControlledFunction).exists [ x |
+			var controlledFunc = model.headerSection.signature.function.filter(ControlledFunction).filter [ x |
 				(x.name == binding.function.substring(0, (if (binding.function.contains("("))
 					binding.function.indexOf("(")
 				else
 					binding.function.length)))
-			] || model.headerSection.signature.function.filter(DerivedFunction).exists [ x |
+			]
+
+			var derivedFunc = model.headerSection.signature.function.filter(DerivedFunction).filter [ x |
 				(x.name == binding.function.substring(0, (if (binding.function.contains("("))
 					binding.function.indexOf("(")
 				else
 					binding.function.length)))
-			]) { // PWM and ANALOGLINEAROUT are only for output
+			]
+
+			if (controlledFunc.size() > 0 || derivedFunc.size() > 0) { // PWM and ANALOGLINEAROUT are only for output
 				println("BINDING 2 " + binding)
 				switch (binding.configMode) {
 					case DIGITAL:
@@ -75,9 +81,10 @@ class OutputFunctionCreator {
 						outputFunction += getUserDefinedBinding(model, binding)
 					case ANALOGLINEARIN:
 						outputFunction += ""
-					case SWITCH: {
-						outputFunction += getEnumSwitch(model, binding)
-					}
+					case SWITCH:
+						outputFunction +=
+							getEnumSwitchBinding(model, binding,
+								controlledFunc.size() > 0 ? controlledFunc.get(0) : derivedFunc.get(0))
 				}
 			}
 		}
@@ -228,23 +235,23 @@ class OutputFunctionCreator {
 		// ///////////////////////
 		// BOOLEAN -> DIGITALPIN
 		// ///////////////////////
-		if (outDefinition instanceof BasicTd && (outDefinition as BasicTd) == BooleanDomain) {
+		if (outDefinition.codomain instanceof BooleanDomainImpl) { // BasicTdImpl && (outDefinition.codomain as BasicTdImpl) == 
 			return getBooleanToDigitalPin(model, binding, inverted)
 		// TODO: controllare AnyDomainImpl
-		} else if (outDefinition instanceof AnyDomainImpl) {
+		} else if (outDefinition.codomain instanceof AnyDomainImpl) {
 			var domDefinitions = model.bodySection.functionDefinition.filter [ x |
 				x.definedFunction == (outDefinition as AnyDomainImpl)
 			]
 			// D1 of BOOLEAN binded to DIGITALPIN
 			if (domDefinitions.size > 0) {
 				val domDefinition = domDefinitions.get(0)
-				if (domDefinition.body.domain instanceof BasicTd)
-					if ((domDefinition.body.domain as BasicTd) == BooleanDomain)
+				if (domDefinition.body.domain instanceof BasicTdImpl)
+					if ((domDefinition.body.domain as BasicTdImpl) == BooleanDomainImpl)
 						return getBooleanToDigitalPin(model, binding, inverted)
 				// D1 of (BOOLEAN) binded to DIGITALPIN
 				// TODO: controllare domDefinition.body.domain.constraint.get(0).constrainedDomain
-				if (domDefinition.body.domain.constraint.get(0).constrainedDomain instanceof BasicTd)
-					if ((domDefinition.body.domain.constraint.get(0).constrainedDomain as BasicTd) == BooleanDomain)
+				if (domDefinition.body.domain.constraint.get(0).constrainedDomain instanceof BasicTdImpl)
+					if ((domDefinition.body.domain.constraint.get(0).constrainedDomain as BasicTdImpl) == BooleanDomainImpl)
 						return getBooleanToDigitalPin(model, binding, inverted)
 
 			}
@@ -254,7 +261,7 @@ class OutputFunctionCreator {
 		// /////////////////////////////
 		if (outDefinition.codomain instanceof EnumTdImpl) {
 			if (outDefinition.codomain.eContents.size == 2)
-				return getEnumToDigitalPin(model, binding, outDefinition.codomain as EnumTd, inverted)
+				return getEnumToDigitalPin(model, binding, outDefinition.codomain as EnumTdImpl, inverted)
 		}
 
 		throw new RuntimeException('''Error with «binding.function»: DigitalBinding only supports booleans or 2-values-enums''')
@@ -441,5 +448,33 @@ class OutputFunctionCreator {
 			//TODO place here your input binding for function «binding.function»
 			//
 		'''
+	}
+
+	def String getEnumSwitchBinding(Asm asm, Binding binding, Function func) {
+		return '''
+			switch («binding.function»[0])
+			{
+				«getSwitchCases(func)»
+			}
+		''';
+	}
+	
+	def String getSwitchCases(Function func) {
+		var StringBuffer sb = new StringBuffer
+		var enumDef = func.codomain as EnumTdImpl
+		
+		for (var i = 0; i < enumDef.eContents.size(); i++)
+		{
+			var enumEl = enumDef.eContents.get(i) as EnumElement
+			sb.append('''
+				case «enumEl.symbol»:
+				{
+					// add implementation here
+					break;
+				}
+			''')
+		}
+		
+		return sb.toString
 	}
 }
