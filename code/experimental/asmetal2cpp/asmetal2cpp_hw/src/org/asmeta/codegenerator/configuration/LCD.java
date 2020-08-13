@@ -27,6 +27,11 @@ public class LCD {
 	private int numberofrows;
 	@SerializedName("numberofcolumns")
 	private int numberofcolumns;
+	@SerializedName("isi2c")
+	private Boolean isi2c;
+	@SerializedName("address")
+	private String address;
+	
 	public ArduinoPinID getPin0() {
 		return ArduinoPinID.fromString(pin0);
 	}
@@ -89,7 +94,20 @@ public class LCD {
 	}
 	public void setFunction(String function) {
 		this.function = function;
+	}	
+	public Boolean getIsi2c() {
+		return isi2c;
 	}
+	public void setIsi2c(Boolean isi2c) {
+		this.isi2c = isi2c;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
 	@Override
 	public String toString(){
 		return "lcd" + name +"("+pin0+","+pin1+","+pin2+","+pin3+","+pin4+","+pin5+") "+"["+numberofcolumns+"x"+numberofrows+"]";
