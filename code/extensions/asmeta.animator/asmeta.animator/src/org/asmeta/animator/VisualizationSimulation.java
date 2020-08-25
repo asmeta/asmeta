@@ -373,8 +373,9 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	/** export the table content to avalla */
 	protected void exportToAvalla() {
+		log.info("//// starting scenario");
 		log.info("scenario " + "SCENARIO_NAME");
-		log.info("load " + "SPEC_NAME.asm");
+		log.info("load " + asm.getMain().getName()+".asm");
 		// DOWN 
 		// TODO UP 
 		// TODO create new file/document
