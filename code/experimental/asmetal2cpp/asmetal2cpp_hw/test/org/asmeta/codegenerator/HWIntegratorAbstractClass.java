@@ -175,7 +175,7 @@ public abstract class HWIntegratorAbstractClass {
 		File projectDir = new File(inoFile.getParentFile().getAbsolutePath() + "/" + projectName);
 		
 		// re-create folder
-		projectDir.createNewFile();
+		projectDir.mkdir();
 		
 		// s > source , d > destination
 		

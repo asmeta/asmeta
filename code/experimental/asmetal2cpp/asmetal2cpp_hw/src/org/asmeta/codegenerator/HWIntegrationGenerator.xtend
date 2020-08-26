@@ -53,6 +53,7 @@ class HWIntegrationGenerator implements IGenerator {
 			#include "«asm.name».h"
 			#include <Arduino.h>
 			«externalLCD»
+			
 			void «asm.name»::getInputs(){
 				«input.getInputFunction(asm)»
 			}
@@ -69,6 +70,7 @@ class HWIntegrationGenerator implements IGenerator {
 			#include "«asmCol.main.name».h"
 			#include <Arduino.h>
 			«externalLCD»
+			
 			void «asmCol.main.name»::getInputs(){
 				«inputResult»
 			}
@@ -97,9 +99,24 @@ class HWIntegrationGenerator implements IGenerator {
 	
 	def externalLCD() {
 		if (config.lcd !== null)
-			return '''
-				extern LiquidCrystal «config.lcd.name»;
-			'''
+		{
+			if (config.lcd.isi2c)
+			{
+				return '''
+					#include <LiquidCrystal_I2C.h>;
+
+					extern LiquidCrystal_I2C «config.lcd.name»;
+				'''
+			}
+			else
+			{
+				return '''
+					#include <LiquidCrystal.h>;
+
+					extern LiquidCrystal «config.lcd.name»;
+				'''
+			}
+		}
 	}
 	
 	override doGenerate(Resource input, IFileSystemAccess fsa) {
