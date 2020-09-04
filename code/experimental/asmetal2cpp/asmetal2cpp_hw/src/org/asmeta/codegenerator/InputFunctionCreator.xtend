@@ -62,7 +62,12 @@ class InputFunctionCreator {
 					case DIGITALINVERTED:
 						inputFunction += getInvertedDigitalBinding(model, binding)
 					case ANALOGLINEARIN:
-						inputFunction += getAnalogLinearBinding(model, binding)
+						if(binding.offset == 0)
+							inputFunction += getAnalogLinearBinding(model, binding)
+						else{
+							var inFun = getAnalogLinearBinding(model, binding)
+							inputFunction += inFun.substring(0,inFun.length - 3) +  ''' - «binding.offset»; '''
+						}	
 					case USERDEFINED:
 						inputFunction += getUserDefinedBinding(model, binding)
 					case PWM:

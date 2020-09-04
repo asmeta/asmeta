@@ -18,6 +18,8 @@ public class Binding {
 	private double minval;
 	@SerializedName("maxval")
 	private double maxval;
+	@SerializedName("offset")
+	private double offset;
 
 	public boolean isDataComplete() {
 		if (mode == null)
@@ -79,6 +81,14 @@ public class Binding {
 
 	public void setMode(String mode) {
 		this.mode = mode;
+	}
+	
+	public void setOffset(double offset) {
+		this.offset = offset;
+	}
+	
+	public double getOffset() {
+		return this.offset;
 	}
 
 	public ConfigurationMode getConfigMode() {
