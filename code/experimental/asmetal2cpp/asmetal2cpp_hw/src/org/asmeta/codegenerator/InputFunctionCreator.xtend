@@ -62,12 +62,7 @@ class InputFunctionCreator {
 					case DIGITALINVERTED:
 						inputFunction += getInvertedDigitalBinding(model, binding)
 					case ANALOGLINEARIN:
-						if(binding.offset == 0)
-							inputFunction += getAnalogLinearBinding(model, binding)
-						else{
-							var inFun = getAnalogLinearBinding(model, binding)
-							inputFunction += inFun.substring(0,inFun.length - 3) +  ''' - «binding.offset»; '''
-						}	
+						inputFunction += getAnalogLinearBinding(model, binding)
 					case USERDEFINED:
 						inputFunction += getUserDefinedBinding(model, binding)
 					case PWM:
@@ -152,6 +147,7 @@ class InputFunctionCreator {
 
 	//def String getNumberFromAnalogPin(Resource res, Binding binding, double fullscale) {
 	def String getNumberFromAnalogPin(Asm res, Binding binding, double fullscale) {
+		if( binding.offset == 0){
 		if (binding.minVal == 0)
 			return '''
 				«binding.function» = analogRead(«Util.arduinoPinToString(binding.pin)»)*(double)(«binding.maxVal-binding.minVal»/«fullscale»);
@@ -160,6 +156,16 @@ class InputFunctionCreator {
 			return '''
 				«binding.function» = analogRead(«Util.arduinoPinToString(binding.pin)»)*(double)(«binding.maxVal-binding.minVal»/«fullscale») + («binding.minVal»);
 			'''
+		}else{
+			if (binding.minVal == 0)
+			return '''
+				«binding.function» = analogRead(«Util.arduinoPinToString(binding.pin)»)*(double)(«binding.maxVal-binding.minVal»/«fullscale») - «binding.offset»;
+			'''
+			else
+			return '''
+				«binding.function» = analogRead(«Util.arduinoPinToString(binding.pin)»)*(double)(«binding.maxVal-binding.minVal»/«fullscale») + («binding.minVal»)  - «binding.offset»;
+			'''
+			}
 	}
 
 	def String getDigitalBinding(Asm model, Binding binding) {
@@ -231,9 +237,15 @@ class InputFunctionCreator {
 		// /////////////////////////////////////
 		
 		if (monDefinition.codomain instanceof EnumTdImpl){
+			if(binding.offset == 0)
 			return '''
 		  		«binding.function» = static_cast<«monDefinition.codomain.name»>(analogRead(«Util.arduinoPinToString(binding.pin)»)*(double)(«monDefinition.codomain.eContents.size»/«fullscale»));
-		  	'''}
+		  	'''
+		  	else
+		  	return '''
+		  		«binding.function» = static_cast<«monDefinition.codomain.name»>(analogRead(«Util.arduinoPinToString(binding.pin)»)*(double)(«monDefinition.codomain.eContents.size»/«fullscale»)) - «binding.offset»;
+		  	'''
+		  	}
 		
 		// /////////////////////////////////////
 		// CONCRETEDOMAIN  -> ANALOGLINEARIN
