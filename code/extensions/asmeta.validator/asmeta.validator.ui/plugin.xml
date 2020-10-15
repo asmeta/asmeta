@@ -18,6 +18,11 @@
             categoryId="validator.plugin.commands.category"
             id="validator.plugin.commands.runValidatorCoverageCommand">
       </command>
+      <command
+            name="Run AsmetaV with the Animator"
+            categoryId="validator.plugin.commands.category"
+            id="validator.plugin.commands.runValidatorAnimatorCommand">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -28,6 +33,10 @@
       <handler
             commandId="validator.plugin.commands.runValidatorCoverageCommand"
             class="validator.plugin.handlers.ValidatorCoverageHandler">
+      </handler>
+      <handler
+            commandId="validator.plugin.commands.runValidatorAnimatorCommand"
+            class="validator.plugin.handlers.ValidatorAnimatorHandler">
       </handler>
    </extension>
    <extension
@@ -49,7 +58,14 @@
                   tooltip="Run AsmetaV">
             </command>
             <command
-                  commandId="validator.plugin.commands.runValidatorCoverageCommand"
+                  commandId="validator.plugin.commands.runValidatorAnimatorCommand"
+                  icon="icons/runValidatorA.gif"
+                  id="validator.plugin.menus.runValidatorAnimatorCommand"
+                  label="Run AsmetaV with the Animator"
+                  tooltip="Run AsmetaV with the Animator">
+            </command>
+            <command
+                  commandId="validator.plugin.commands."
                   icon="icons/runValidatorAndCoverage.gif"
                   id="validator.plugin.menus.runValidatorCoverageCommand"
                   label="Run AsmetaV and compute coverage"
@@ -69,6 +85,13 @@
                   id="validator.plugin.toolbars.runValidatorCommand"
                   label="Run AsmetaV"
                   tooltip="Run AsmetaV">
+            </command>
+            <command
+                  commandId="validator.plugin.commands.runValidatorAnimatorCommand"
+                  icon="icons/runValidatorA.gif"
+                  id="validator.plugin.toolbars.runValidatorCommandAnimator"
+                  label="Run AsmetaV with Animator"
+                  tooltip="Run AsmetaVwith Animator">
             </command>
             <command
                   commandId="validator.plugin.commands.runValidatorCoverageCommand"
