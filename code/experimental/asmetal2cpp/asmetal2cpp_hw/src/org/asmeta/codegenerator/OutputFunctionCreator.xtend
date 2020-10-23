@@ -29,7 +29,7 @@ import asmeta.definitions.Function
  * For each out function generates the equivalent code to set the outputs.
  */
 class OutputFunctionCreator {
-	private HWConfiguration config
+	HWConfiguration config
 
 	new(HWConfiguration config) {
 		this.config = config

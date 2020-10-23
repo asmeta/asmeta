@@ -7,6 +7,9 @@ import org.asmeta.asm2code.Util;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.Term;
 
+/** translation of complex (not atomic) terms, like and and so on.
+ * Used by the TermToCpp
+ */
 public class ExpressionToCpp {
 	protected Asm asm;
 

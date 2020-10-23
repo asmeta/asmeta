@@ -88,6 +88,10 @@ public class Utility {
 	public static boolean selectFirstBestRanking = true;
 
 	private static Logger logger = Logger.getLogger(Utility.class);
+	
+	static {
+		logger.setLevel(Level.OFF);
+	}
 
 	// ================================================= appendInKey
 	/*
