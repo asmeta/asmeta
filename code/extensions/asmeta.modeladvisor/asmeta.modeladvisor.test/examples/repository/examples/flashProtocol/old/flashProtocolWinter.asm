@@ -8,7 +8,7 @@
 */
 asm flashProtocol
 
-import ../../STDL/StandardLibrary
+import ../../../STDL/StandardLibrary
 
 signature:
 
