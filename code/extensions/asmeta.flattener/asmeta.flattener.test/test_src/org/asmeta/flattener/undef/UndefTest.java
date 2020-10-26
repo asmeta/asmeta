@@ -31,6 +31,6 @@ public class UndefTest {
 		PrintWriter writer = new PrintWriter(sw);
 		AsmPrinter ap = new AsmPrinter(writer);
 		ap.visit(asm);
-		System.out.println(sw.toString());
+		//System.out.println(sw.toString());
 	}
 }
