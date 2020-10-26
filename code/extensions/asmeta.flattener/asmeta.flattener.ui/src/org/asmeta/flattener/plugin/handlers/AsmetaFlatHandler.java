@@ -58,8 +58,8 @@ public class AsmetaFlatHandler extends AbstractHandler {
 		myConsole.activate();
 		OutputStream out = myConsole.newOutputStream();
 		PrintStream printOut = new PrintStream(out);
-		System.setOut(printOut);
-		System.setErr(printOut);
+		//System.setOut(printOut);
+		//System.setErr(printOut);
 		try {
 			IPreferenceStore store = AsmetaFlatActivator.getDefault().getPreferenceStore();
 			List<Class<? extends AsmetaFlattener>> flatteners = new ArrayList<>();
