@@ -41,17 +41,17 @@ public class FlattenerTest {
 	public static void init() {
 		Logger.getRootLogger().removeAllAppenders();
 		Logger.getRootLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
-		Logger.getLogger(RemoveArgumentsFlattener.class).setLevel(Level.INFO);
-		Logger.getLogger(TermRenameVars.class).setLevel(Level.INFO);
-		Logger.getLogger(ChooseRuleFlattener.class).setLevel(Level.INFO);
-		Logger.getLogger(RuleFlattener.class).setLevel(Level.DEBUG);
-		Logger.getLogger(RuleSimplifier.class).setLevel(Level.DEBUG);
-		Logger.getLogger(MacroCallRuleFlattener.class).setLevel(Level.INFO);
+		Logger.getLogger(RemoveArgumentsFlattener.class).setLevel(Level.OFF);
+		Logger.getLogger(TermRenameVars.class).setLevel(Level.OFF);
+		Logger.getLogger(ChooseRuleFlattener.class).setLevel(Level.OFF);
+		Logger.getLogger(RuleFlattener.class).setLevel(Level.OFF);
+		Logger.getLogger(RuleSimplifier.class).setLevel(Level.OFF);
+		Logger.getLogger(MacroCallRuleFlattener.class).setLevel(Level.OFF);
 		// Logger.getLogger(ProgramFlattener.class).setLevel(Level.INFO);
-		Logger.getLogger(ForallRuleFlattener.class).setLevel(Level.INFO);
-		Logger.getLogger(RemoveArgumentsTermFlattener.class).setLevel(Level.INFO);
-		Logger.getLogger(RemoveArgumentsRuleFlattener.class).setLevel(Level.INFO);
-		Logger.getLogger("org.asmeta.parser").setLevel(Level.FATAL);
+		Logger.getLogger(ForallRuleFlattener.class).setLevel(Level.OFF);
+		Logger.getLogger(RemoveArgumentsTermFlattener.class).setLevel(Level.OFF);
+		Logger.getLogger(RemoveArgumentsRuleFlattener.class).setLevel(Level.OFF);
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 	}
 
 	@Before
@@ -72,7 +72,7 @@ public class FlattenerTest {
 	public String flattenerTest(String asmModel, Class<? extends AsmetaFlattener>... flatteners) throws Exception {
 		Statistics.resetStats();
 		String refactoredAsm = AsmetaMultipleFlattener.flattenAsStr(asmModel, flatteners);
-		System.out.println(refactoredAsm);
+		//System.out.println(refactoredAsm);
 		String asmName = Paths.get(asmModel).getFileName().toString();
 		String path = asmModel.substring(0, asmModel.indexOf(asmName));
 		String asmPath = path + asmName;
