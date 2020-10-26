@@ -80,7 +80,7 @@ public class FlattenerTest {
 		Asm asm = ASMParser.setUpReadAsm(new File(asmPath)).getMain();
 		// stuff for statistics
 		Statistics.getInstance().setEnabled(true);
-		Statistics.getInstance().getStatistics(asm, flattenedAsm);
+		//Statistics.getInstance().getStatistics(asm, flattenedAsm);
 		return refactoredAsm;
 	}
 
