@@ -14,6 +14,9 @@ import asmeta.definitions.domains.impl.StructuredTdImpl
 import asmeta.structure.Asm
 import org.asmeta.parser.util.ReflectiveVisitor
 import org.asmeta.asm2code.main.TranslatorOptions
+import asmeta.structure.DomainDefinition
+import asmeta.definitions.domains.ConcreteDomain
+import asmeta.terms.basicterms.SetTerm
 
 class FunctionToH extends ReflectiveVisitor<String> {
 
@@ -23,6 +26,11 @@ class FunctionToH extends ReflectiveVisitor<String> {
 	new(Asm resource) {
 		this.res = resource
 		this.options = new TranslatorOptions(true, false, false,false);
+	}
+	
+	new (Asm resource, TranslatorOptions options) {
+		this.res = resource
+		this.options = options
 	}
 
 	def String visit(StaticFunction object) {
@@ -100,8 +108,18 @@ class FunctionToH extends ReflectiveVisitor<String> {
 			else
 				function.append('''«returnDomain(object.codomain,false)» «object.name»[2];''')
 		} else {
-			function.
-				append(options.stdNamespacePrefix + '''map<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name»[2];''')
+			if (!(object.domain instanceof ConcreteDomain) || this.options.useMaps)
+			{
+				function.
+					append(options.stdNamespacePrefix + '''map<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name»[2];''')
+			}
+			else
+			{
+				var ConcreteDomain domain = object.domain as ConcreteDomain
+				var SetTerm t = domain.definition.body as SetTerm
+				function.
+					append('''«returnDomain(object.codomain,false)» «object.name»[2][«t.size»];''')		
+			}
 		}
 		/* 		if (object.arity<= 1) { // only 1 parameter
 		 * 			function.
@@ -148,8 +166,18 @@ class FunctionToH extends ReflectiveVisitor<String> {
 			else
 			function.append('''«returnDomain(object.codomain,false)» «object.name»;''')
 		} else {
-			function.
-				append(options.stdNamespacePrefix + '''map<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name»;''')
+			if (!(object.domain instanceof ConcreteDomain) || this.options.useMaps)
+			{
+				function.
+					append(options.stdNamespacePrefix + '''map<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name»;''')		
+			}
+			else
+			{
+				var ConcreteDomain domain = object.domain as ConcreteDomain
+				var SetTerm t = domain.definition.body as SetTerm
+				function.
+					append('''«returnDomain(object.codomain,false)» «object.name»[«t.size»];''')		
+			}
 		}
 		/* 		if (object.arity<= 1) { // only 1 parameter
 		 * 			function.
@@ -173,8 +201,18 @@ class FunctionToH extends ReflectiveVisitor<String> {
 		else
 			function.append('''«returnDomain(object.codomain,false)» «object.name»;''')
 		} else {
-			function.
-				append(options.stdNamespacePrefix + '''map<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name»;''')
+			if (this.options.useMaps)
+			{
+				function.
+					append(options.stdNamespacePrefix + '''map<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name»;''')
+			}
+			else
+			{
+				var ConcreteDomain domain = object.domain as ConcreteDomain
+				var SetTerm t = domain.definition.body as SetTerm
+				function.
+					append('''«returnDomain(object.codomain,false)» «object.name»[«t.size»];''')		
+			}
 		}
 		/* 		if (object.arity<= 1) { // only 1 parameter
 		 * 			function.
