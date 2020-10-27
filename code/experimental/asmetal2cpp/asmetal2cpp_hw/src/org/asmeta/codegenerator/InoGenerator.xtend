@@ -43,8 +43,8 @@ class InoGenerator implements IGenerator {
 			  «ENDIF»
 			  «asmInstance».getInputs();
 			  «asmInstance».«asm.mainrule.name»();
-			  «asmInstance».fireUpdateSet();
 			  «asmInstance».setOutputs();
+			  «asmInstance».fireUpdateSet();
 			  «IF (config.stepTime > 0)»
 			  	delay(«config.stepTime»-(millis()-cicleStart));
 			  «ENDIF»
@@ -61,10 +61,6 @@ class InoGenerator implements IGenerator {
 		{
 			if (lcd.isi2c)
 			{
-				sb.append('''#include <Wire.h>''')
-				sb.append(System.lineSeparator)
-				sb.append('''#include <LiquidCrystal_I2C.h>''')
-				sb.append(System.lineSeparator)
 				sb.append(System.lineSeparator)
 				sb.append('''LiquidCrystal_I2C «config.lcd.name»(«config.lcd.address.toString», «config.lcd.numberofcolumns», «config.lcd.numberofrows»);''')
 				sb.append(System.lineSeparator)
@@ -72,7 +68,6 @@ class InoGenerator implements IGenerator {
 			}
 			else
 			{
-				sb.append('''#include <LiquidCrystal.h>''')
 				sb.append(System.lineSeparator)
 				sb.append('''LiquidCrystal «config.lcd.name»(«config.lcd.pin0», «config.lcd.pin1», «config.lcd.pin2»,
 											«config.lcd.pin3», «config.lcd.pin4», «config.lcd.pin5»);''')

@@ -23,7 +23,12 @@ class SetupFunctionCreator {
 	def String getSetupFunction(Asm asm) {
 		var String setupFunction = ""
 		for (Binding binding : config.bindings) {
-			if (asm.headerSection.signature.function.exists[x|(x.name == binding.function)]) {
+			if (asm.headerSection.signature.function.exists[x|
+				if (binding.function.contains("("))
+					return x.name == binding.function.substring(0, binding.function.indexOf("("))
+				else
+					return x.name == binding.function	
+			]) {
 				// PWM and ANALOGLINEAROUT are only for output
 				switch (binding.configMode) {
 					// TODO PROVARE CON ARDUINO QUALI SETUP SONO NECESSARI!!
@@ -46,9 +51,9 @@ class SetupFunctionCreator {
 		}
 		return '''
 			void setup(){
-				«setupFunction»
-				«getRandomSeed(asm)»
-				«getLCDSetup»
+				ï¿½setupFunctionï¿½
+				ï¿½getRandomSeed(asm)ï¿½
+				ï¿½getLCDSetupï¿½
 			}
 		'''
 	}
@@ -59,16 +64,16 @@ class SetupFunctionCreator {
 			if (config.lcd.isi2c)
 			{
 				return '''
-					«config.lcd.name».init();
-					«config.lcd.name».clear();
-					«config.lcd.name».backlight();
+					ï¿½config.lcd.nameï¿½.init();
+					ï¿½config.lcd.nameï¿½.clear();
+					ï¿½config.lcd.nameï¿½.backlight();
 				'''
 			}
 			else
 			{
 				return '''
-					«config.lcd.name».begin(«config.lcd.numberofcolumns»,«config.lcd.numberofrows»);
-					«config.lcd.name».clear();
+					ï¿½config.lcd.nameï¿½.begin(ï¿½config.lcd.numberofcolumnsï¿½,ï¿½config.lcd.numberofrowsï¿½);
+					ï¿½config.lcd.nameï¿½.clear();
 					
 				'''
 			}
@@ -86,13 +91,23 @@ class SetupFunctionCreator {
 	}
 
 	def String getStandardSetup(Asm asm, Binding binding) {
-		if (asm.headerSection.signature.function.filter(ControlledFunction).exists[x|(x.name == binding.function)])
+		if (asm.headerSection.signature.function.filter(ControlledFunction).exists[x|
+				if (binding.function.contains("("))
+					return x.name == binding.function.substring(0, binding.function.indexOf("("))
+				else
+					return x.name == binding.function
+		])
 			return '''
-				pinMode(«Util.arduinoPinToString(binding.pin)», OUTPUT);
+				pinMode(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, OUTPUT);
 			'''
-		else if (asm.headerSection.signature.function.filter(MonitoredFunction).exists[x|(x.name == binding.function)])
+		else if (asm.headerSection.signature.function.filter(MonitoredFunction).exists[x|
+				if (binding.function.contains("("))
+					return x.name == binding.function.substring(0, binding.function.indexOf("("))
+				else
+					return x.name == binding.function
+		])
 			return '''
-				pinMode(«Util.arduinoPinToString(binding.pin)», INPUT);
+				pinMode(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, INPUT);
 			'''
 		else
 			throw new RuntimeException("Error: no monitored/out functions with name " + binding.function + " found.")
@@ -100,37 +115,37 @@ class SetupFunctionCreator {
 
 	def String getDigitalSetup(Asm asm, Binding binding) {
 		return '''
-			«getStandardSetup(asm, binding)»
+			ï¿½getStandardSetup(asm, binding)ï¿½
 		'''
 	}
 
 	def String getInvertedDigitalSetup(Asm asm, Binding binding) {
 		return '''
-			«getStandardSetup(asm, binding)»
+			ï¿½getStandardSetup(asm, binding)ï¿½
 		'''
 	}
 
 	def String getAnalogLinearInSetup(Asm asm, Binding binding) {
 		return '''
-			«getStandardSetup(asm, binding)»
+			ï¿½getStandardSetup(asm, binding)ï¿½
 		'''
 	}
 
 	def String getPWMSetup(Asm asm, Binding binding) {
 		return '''
-			«getStandardSetup(asm, binding)»
+			ï¿½getStandardSetup(asm, binding)ï¿½
 		'''
 	}
 
 	def String getAnalogLinearOutSetup(Asm asm, Binding binding) {
 		return '''
-			«getStandardSetup(asm, binding)»
+			ï¿½getStandardSetup(asm, binding)ï¿½
 		'''
 	}
 
 	def String getSwitchSetup(Asm asm, Binding binding) {
 		return '''
-			«getStandardSetup(asm, binding)»
+			ï¿½getStandardSetup(asm, binding)ï¿½
 		'''
 	}
 }
