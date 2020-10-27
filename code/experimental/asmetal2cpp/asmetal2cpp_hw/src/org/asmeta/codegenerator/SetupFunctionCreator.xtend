@@ -51,9 +51,9 @@ class SetupFunctionCreator {
 		}
 		return '''
 			void setup(){
-				ï¿½setupFunctionï¿½
-				ï¿½getRandomSeed(asm)ï¿½
-				ï¿½getLCDSetupï¿½
+				«setupFunction»
+				«getRandomSeed(asm)»
+				«getLCDSetup»
 			}
 		'''
 	}
@@ -64,16 +64,16 @@ class SetupFunctionCreator {
 			if (config.lcd.isi2c)
 			{
 				return '''
-					ï¿½config.lcd.nameï¿½.init();
-					ï¿½config.lcd.nameï¿½.clear();
-					ï¿½config.lcd.nameï¿½.backlight();
+					«config.lcd.name».init();
+					«config.lcd.name».clear();
+					«config.lcd.name».backlight();
 				'''
 			}
 			else
 			{
 				return '''
-					ï¿½config.lcd.nameï¿½.begin(ï¿½config.lcd.numberofcolumnsï¿½,ï¿½config.lcd.numberofrowsï¿½);
-					ï¿½config.lcd.nameï¿½.clear();
+					«config.lcd.name».begin(«config.lcd.numberofcolumns»,«config.lcd.numberofrows»);
+					«config.lcd.name».clear();
 					
 				'''
 			}
@@ -98,7 +98,7 @@ class SetupFunctionCreator {
 					return x.name == binding.function
 		])
 			return '''
-				pinMode(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, OUTPUT);
+				pinMode(«Util.arduinoPinToString(binding.pin)», OUTPUT);
 			'''
 		else if (asm.headerSection.signature.function.filter(MonitoredFunction).exists[x|
 				if (binding.function.contains("("))
@@ -107,7 +107,7 @@ class SetupFunctionCreator {
 					return x.name == binding.function
 		])
 			return '''
-				pinMode(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, INPUT);
+				pinMode(«Util.arduinoPinToString(binding.pin)», INPUT);
 			'''
 		else
 			throw new RuntimeException("Error: no monitored/out functions with name " + binding.function + " found.")
@@ -115,37 +115,37 @@ class SetupFunctionCreator {
 
 	def String getDigitalSetup(Asm asm, Binding binding) {
 		return '''
-			ï¿½getStandardSetup(asm, binding)ï¿½
+			«getStandardSetup(asm, binding)»
 		'''
 	}
 
 	def String getInvertedDigitalSetup(Asm asm, Binding binding) {
 		return '''
-			ï¿½getStandardSetup(asm, binding)ï¿½
+			«getStandardSetup(asm, binding)»
 		'''
 	}
 
 	def String getAnalogLinearInSetup(Asm asm, Binding binding) {
 		return '''
-			ï¿½getStandardSetup(asm, binding)ï¿½
+			«getStandardSetup(asm, binding)»
 		'''
 	}
 
 	def String getPWMSetup(Asm asm, Binding binding) {
 		return '''
-			ï¿½getStandardSetup(asm, binding)ï¿½
+			«getStandardSetup(asm, binding)»
 		'''
 	}
 
 	def String getAnalogLinearOutSetup(Asm asm, Binding binding) {
 		return '''
-			ï¿½getStandardSetup(asm, binding)ï¿½
+			«getStandardSetup(asm, binding)»
 		'''
 	}
 
 	def String getSwitchSetup(Asm asm, Binding binding) {
 		return '''
-			ï¿½getStandardSetup(asm, binding)ï¿½
+			«getStandardSetup(asm, binding)»
 		'''
 	}
 }
