@@ -57,7 +57,7 @@
 						</goals>
 						<configuration>
 							<dataFile>${project.build.directory}/asm_examples/coverage/jacoco/jacoco-ut.exec</dataFile>
-							<outputDirectory>${project.build.directory}/asm_examples/coverage/jacoco/jacoco-ut</outputDirectory>
+							<outputDirectory>/asm_examples/coverage/jacoco/</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
