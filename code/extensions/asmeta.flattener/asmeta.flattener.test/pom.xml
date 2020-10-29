@@ -21,6 +21,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M4</version>
 				<configuration>
+					<argLine>${surefireArgLine}</argLine>
 					<systemPropertyVariables>
 						<log4j.configuration>file:${basedir}/log4j_maven.properties</log4j.configuration>
 					</systemPropertyVariables>
@@ -32,6 +33,34 @@
 						<version>3.0.0-M4</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.5.201505241946</version>
+				<executions>
+					<execution>
+						<id>pre-unit-test</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<destFile>${project.build.directory}/asm_examples/coverage/jacoco/jacoco-ut.exec</destFile>
+							<propertyName>surefireArgLine</propertyName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<dataFile>${project.build.directory}/asm_examples/coverage/jacoco/jacoco-ut.exec</dataFile>
+							<outputDirectory>${project.build.directory}/asm_examples/coverage/jacoco/jacoco-ut</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
