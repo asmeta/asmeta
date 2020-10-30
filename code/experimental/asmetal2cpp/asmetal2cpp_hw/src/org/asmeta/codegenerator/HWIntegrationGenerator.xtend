@@ -14,6 +14,7 @@ import org.asmeta.parser.ASMParser
 import asmeta.AsmCollection
 import asmeta.definitions.MonitoredFunction
 import java.util.Iterator
+import org.asmeta.asm2code.main.TranslatorOptions
 
 /**
  * This class generates the cpp file reading inputs and setting outputs
@@ -26,11 +27,17 @@ class HWIntegrationGenerator implements IGenerator {
 	HWConfiguration config
 	String inputResult 
 	String outputResult 
+	TranslatorOptions options
 
 	new(HWConfiguration config) {
+		this(config, null)
+	}
+
+	new(HWConfiguration config, TranslatorOptions options) {
 		this.config = config
+		this.options = options
 		input = new InputFunctionCreator(config)
-		output = new OutputFunctionCreator(config)
+		output = new OutputFunctionCreator(config, this.options)
 		inputResult = ""
 		outputResult = ""
 	}
@@ -51,7 +58,7 @@ class HWIntegrationGenerator implements IGenerator {
 	def String compile(Asm asm) {
 		return '''
 			#include "«asm.name».h"
-			#include <Arduino.h>
+			
 			«externalLCD»
 			
 			void «asm.name»::getInputs(){
@@ -68,7 +75,7 @@ class HWIntegrationGenerator implements IGenerator {
 		getInputOutputFunction(asmCol)
 		return '''
 			#include "«asmCol.main.name».h"
-			#include <Arduino.h>
+			
 			«externalLCD»
 			
 			void «asmCol.main.name»::getInputs(){
@@ -103,16 +110,12 @@ class HWIntegrationGenerator implements IGenerator {
 			if (config.lcd.isi2c)
 			{
 				return '''
-					#include <LiquidCrystal_I2C.h>;
-
 					extern LiquidCrystal_I2C «config.lcd.name»;
 				'''
 			}
 			else
 			{
 				return '''
-					#include <LiquidCrystal.h>;
-
 					extern LiquidCrystal «config.lcd.name»;
 				'''
 			}

@@ -211,7 +211,7 @@ public class ExpressionToCpp {
 	 */
 	private String not(List<Term> argsTerm) throws Exception {
 		String arg = new TermToCpp(asm).visit(argsTerm.get(0));
-		return "! " + updateVarName(arg);
+		return "! (" + updateVarName(arg) + ")";
 	}
 
 	/**
