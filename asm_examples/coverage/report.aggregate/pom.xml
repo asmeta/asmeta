@@ -65,7 +65,7 @@
 							<goal>prepare-agent</goal>
 						</goals>
 						<configuration>
-							<destFile>${basedir}/jacoco/jacoco-ut.exec</destFile>
+							<destFile>${project.build.directory}/asm_examples/coverage/jacoco/jacoco-ut.exec</destFile>
 							<propertyName>surefireArgLine</propertyName>
 						</configuration>
 					</execution>
@@ -73,10 +73,10 @@
 						<id>post-unit-test</id>
 						<phase>test</phase>
 						<goals>
-							<goal>report</goal>
+							<goal>report-aggregate</goal>
 						</goals>
 						<configuration>
-							<dataFile>${basedir}/jacoco/jacoco-ut.exec</dataFile>
+							<dataFile>${project.build.directory}/asm_examples/coverage/jacoco/jacoco-ut.exec</dataFile>
 							<outputDirectory>/asm_examples/coverage/jacoco/</outputDirectory>
 						</configuration>
 					</execution>
