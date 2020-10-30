@@ -30,7 +30,7 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 	@BeforeClass
 	public static void setUpLogger() {
 		//AsmParserTest.setUpLogger();
-		Logger.getLogger("org.asmeta.parser").setLevel(Level.ALL);
+		//Logger.getLogger("org.asmeta.parser").setLevel(Level.ALL);
 	}
 
 	@Test
@@ -209,7 +209,7 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 		Logger log = Logger.getLogger("org.asmeta.parser");
 		if (!log.getAllAppenders().hasMoreElements())
 		log.addAppender(new ConsoleAppender(new SimpleLayout()));
-		 log.setLevel(Level.ALL);
+		//log.setLevel(Level.ALL);
 		String file = "examples/philosophers/philosophers1.asm";
 		testOneSpec(file);
 	}

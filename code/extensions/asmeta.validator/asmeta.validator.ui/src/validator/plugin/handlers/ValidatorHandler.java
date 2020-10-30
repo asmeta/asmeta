@@ -32,7 +32,6 @@ import org.eclipse.ui.part.FileEditorInput;
  * @see org.eclipse.core.commands.AbstractHandler
  */
 abstract class ValidatorHandler extends AbstractHandler {
-	private static final String ASMETAV_CONSOLE = "AsmetaV";
 
 	abstract void execValidation(String path) throws Exception;
 
@@ -65,7 +64,7 @@ abstract class ValidatorHandler extends AbstractHandler {
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		AsmetaVConsole myConsole = findConsole(ASMETAV_CONSOLE);
+		AsmetaVConsole myConsole = findConsole(AsmetaVConsole.CONSOLE_NAME);
 		view.display(myConsole);
 		myConsole.activate();
 		OutputStream out = myConsole.newOutputStream();
@@ -87,6 +86,11 @@ abstract class ValidatorHandler extends AbstractHandler {
 		return null;
 	}
 
+	/** find the console given its name
+	 * 
+	 * @param name
+	 * @return
+	 */
 	private AsmetaVConsole findConsole(String name) {
 		ConsolePlugin plugin = ConsolePlugin.getDefault();
 		IConsoleManager conMan = plugin.getConsoleManager();

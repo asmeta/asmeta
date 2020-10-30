@@ -120,7 +120,7 @@ class JsonGenerator implements IGenerator {
 		modeList.add(new ArduinoMode("PWM", 0, 255, ArduinoPinFeature.PWM8))
 		modeList.add(new ArduinoMode("ANALOGOUT", 0, 1023, ArduinoPinFeature.ANALOGOUT10))
 		getIntegerAndNaturalNumberBindings(outDefs, available, modeList)
-						
+		//println(modeList.get(modeList.length - 1))				
 		// n-ENUM FUNCTIONS
 		// **ANALOG_OUT PINS**  **PWM PINS**
 		modeList.clear()
@@ -270,6 +270,7 @@ class JsonGenerator implements IGenerator {
 							newbinding.pin = pinList.get(i).id.name
 							newbinding.minVal = mode.getMinValue()
 							newbinding.maxVal = mode.getMaxValue()
+							newbinding.offset = 0
 							pinList.remove(i)
 							config.bindings.add(newbinding)
 							foundBinding = true

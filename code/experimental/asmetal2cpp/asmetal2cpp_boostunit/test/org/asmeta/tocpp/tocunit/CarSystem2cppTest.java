@@ -25,9 +25,9 @@ public class CarSystem2cppTest extends AsmToBoostModuleTest{
 	
 	@BeforeClass
 	public static void setUpLogger() {
-		Logger.getLogger(Simulator.class).setLevel(Level.ALL);
-		Logger.getLogger(org.asmeta.parser.ASMParser.class).setLevel(Level.ALL);
-		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
+		//Logger.getLogger(Simulator.class).setLevel(Level.ALL);
+		//Logger.getLogger(org.asmeta.parser.ASMParser.class).setLevel(Level.ALL);
+		//Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 	}
 	
 	/**

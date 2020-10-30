@@ -50,7 +50,7 @@ public class OverloadingTest extends BaseTest {
 
 	@Test(expected=ParseException.class)
 	public void test03_optionFalse() throws Exception {
-		ASMParser.getResultLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
+		//ASMParser.getResultLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
 		//Simulator.logger.addAppender(new ConsoleAppender(new SimpleLayout()));
 		Simulator.logger.setLevel(Level.OFF);
 		Utility.selectFirstBestRanking = false;
@@ -60,7 +60,7 @@ public class OverloadingTest extends BaseTest {
 
 	@Test
 	public void test03_optionTrue() throws Exception {
-		ASMParser.getResultLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
+		//ASMParser.getResultLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
 		//Simulator.logger.addAppender(new ConsoleAppender(new SimpleLayout()));
 		Simulator.logger.setLevel(Level.OFF);
 		Utility.selectFirstBestRanking = true;

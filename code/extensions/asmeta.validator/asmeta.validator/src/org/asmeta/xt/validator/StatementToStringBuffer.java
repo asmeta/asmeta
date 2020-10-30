@@ -166,7 +166,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avallaXt.util.A
 	 */
 	@Override
 	public Void caseStepUntil(StepUntil untilCmd) {
-		// group the rules before step
+		// group the rules before stepuntil
 		enclose();
 		// add the step
 		String cond = untilCmd.getExpression().trim();

@@ -44,8 +44,9 @@ public class AsmetaV {
 		Simulator sim = null;
 		File[] listFile;
 		ArrayList<String> all_rules = new ArrayList<String>();
-		if (file.isDirectory()) { // get all rules covered by a set of
-									// scenarios into directory
+		// get all rules covered by a set of
+		// scenarios into directory
+		if (file.isDirectory()) { 
 			listFile = file.listFiles();
 			for (int i = 0; i < listFile.length; i++)
 				if (listFile[i].isFile()) {
