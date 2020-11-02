@@ -21,25 +21,27 @@
 		<module>code/extensions/asmeta.flattener/asmeta.flattener.test</module> 
 		<module>asm_examples/coverage/report.aggregate</module> 
 	</modules>
-	<plugins>
-		<plugin>
-			<groupId>org.jacoco</groupId>
-			<artifactId>jacoco-maven-plugin</artifactId>
-			<version>0.7.9</version>
-			<executions>					<execution>
-					<id>pre-unit-test</id>
-					<goals>
-						<goal>prepare-agent</goal>
-					</goals>
-					<configuration>
-						<append>true</append>
-						<destFile>${jacoco.destFile}</destFile>
-						<!-- <propertyName>surefireArgLine</propertyName> -->
-					</configuration>
-				</execution>
-			</executions>
-		</plugin>
-	</plugins>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.9</version>
+				<executions>					<execution>
+						<id>pre-unit-test</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<append>true</append>
+							<destFile>${jacoco.destFile}</destFile>
+							<!-- <propertyName>surefireArgLine</propertyName> -->
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
