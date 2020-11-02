@@ -5,6 +5,9 @@
 	<groupId>asmeta</groupId>
 	<artifactId>report.aggregate</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<jacoco.destFile>${maven.multiModuleProjectDirectory}/asm_examples/coverage/jacoco/jacoco.exec</jacoco.destFile>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>asmeta</groupId>
@@ -64,10 +67,11 @@
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
-						<!--<configuration>
-							<destFile>${project.build.directory}/asm_examples/coverage/jacoco/jacoco-ut.exec</destFile>
-							<propertyName>surefireArgLine</propertyName>
-						</configuration>-->
+						<configuration>
+							<append>true</append>
+							<destFile>${jacoco.destFile}</destFile>
+							<!-- <propertyName>surefireArgLine</propertyName> -->
+						</configuration>
 					</execution>
 					<execution>
 						<id>post-unit-test</id>
