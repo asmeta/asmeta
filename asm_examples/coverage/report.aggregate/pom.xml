@@ -6,7 +6,7 @@
 	<artifactId>report.aggregate</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
-		<jacoco.destFile>${maven.multiModuleProjectDirectory}/asm_examples/coverage/jacoco/jacoco.exec</jacoco.destFile>
+		<jacoco.destFile>${maven.multiModuleProjectDirectory}/asm_examples/coverage/jacoco/jacoco.xml</jacoco.destFile>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -79,10 +79,10 @@
 						<goals>
 							<goal>report-aggregate</goal>
 						</goals>
-						<!--<configuration>
-							<dataFile>${project.build.directory}/asm_examples/coverage/jacoco/jacoco-ut.exec</dataFile>
-							<outputDirectory>/asm_examples/coverage/jacoco/</outputDirectory>
-						</configuration>-->
+						<configuration>
+							<dataFile>${jacoco.destFile}</dataFile>
+							<!--<outputDirectory>/asm_examples/coverage/jacoco/</outputDirectory>-->
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
