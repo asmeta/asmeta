@@ -64,10 +64,10 @@
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
-						<configuration>
+						<!--<configuration>
 							<destFile>${project.build.directory}/asm_examples/coverage/jacoco/jacoco-ut.exec</destFile>
 							<propertyName>surefireArgLine</propertyName>
-						</configuration>
+						</configuration>-->
 					</execution>
 					<execution>
 						<id>post-unit-test</id>
@@ -75,10 +75,10 @@
 						<goals>
 							<goal>report-aggregate</goal>
 						</goals>
-						<configuration>
+						<!--<configuration>
 							<dataFile>${project.build.directory}/asm_examples/coverage/jacoco/jacoco-ut.exec</dataFile>
 							<outputDirectory>/asm_examples/coverage/jacoco/</outputDirectory>
-						</configuration>
+						</configuration>-->
 					</execution>
 				</executions>
 			</plugin>
