@@ -39,6 +39,10 @@ test-jdk8:
   script:
     - 'mvn -Dmaven.test.failure.ignore=true clean org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
   artifacts:
+    when: always
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
     paths:
       - asm_examples/coverage/jacoco/jacoco.xml
       

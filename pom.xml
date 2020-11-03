@@ -7,7 +7,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
-		<jacoco.destFile>${maven.multiModuleProjectDirectory}/asm_examples/coverage/jacoco/jacoco.xml</jacoco.destFile>
+		<jacoco.destFile>${project.basedir}/asm_examples/coverage/jacoco/jacoco.exec</jacoco.destFile>
 	</properties>
 	<modules>
 		<module>code/core/asmeta.emf</module>
