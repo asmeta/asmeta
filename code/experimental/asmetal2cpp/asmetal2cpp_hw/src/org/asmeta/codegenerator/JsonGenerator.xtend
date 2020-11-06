@@ -67,7 +67,7 @@ class JsonGenerator implements IGenerator {
 	
 	/**
 	 * Genera il file JSON.
-	 * Se l'ASM ha import e non si vuole creare il JSON limitandosi alla cartella della main ASM, utilizzare generate con ASMCollection perchè è più performante
+	 * Se l'ASM ha import e non si vuole creare il JSON limitandosi alla cartella della main ASM, utilizzare generate con ASMCollection perchï¿½ ï¿½ piï¿½ performante
 	 */
 	def generate(Asm model, String path) {
 		Files.write(Paths.get(path), compile(model,true,false).getBytes())
@@ -96,9 +96,11 @@ class JsonGenerator implements IGenerator {
 		//var List<ArduinoPin> available = new ArrayList<ArduinoPin>(arduino.pins)
 		//  . .functionDefinition.map[getDefinedFunction]
 		var List<Function> definedFunctions = model.headerSection.signature.function.toList
-		var List<Function> outDefs = new ArrayList<Function>(definedFunctions.filter(ControlledFunction).toList)
+		//var List<Function> outDefs = new ArrayList<Function>(definedFunctions.filter(ControlledFunction).toList)
+		var List<Function> outDefs = new ArrayList<Function>(definedFunctions.filter[
+			x | x instanceof ControlledFunction || x instanceof OutFunction
+		].toList)
 		var List<Function> monDefs = new ArrayList<Function>(definedFunctions.filter(MonitoredFunction).toList)
-		//var List<Function> statDefs = new ArrayList<Function>(definedFunctions.filter(StaticFunction).toList)
 		var List<Function> derDefs = new ArrayList<Function>(definedFunctions.filter(DerivedFunction).toList)
 		
 		println("outDefs" + outDefs)
@@ -110,7 +112,7 @@ class JsonGenerator implements IGenerator {
 		var modeList = new ArrayList<ArduinoMode>()
 		
 		/////////////////////////////////////////////
-		// CONTROLLED FUNCTION BINDINGS            //
+		// CONTROLLED AND OUT FUNCTION BINDINGS            //
 		/////////////////////////////////////////////		
 		
 		// INTEGER or NUMBER FUNCTIONS
@@ -118,7 +120,7 @@ class JsonGenerator implements IGenerator {
 		modeList.add(new ArduinoMode("PWM", 0, 255, ArduinoPinFeature.PWM8))
 		modeList.add(new ArduinoMode("ANALOGOUT", 0, 1023, ArduinoPinFeature.ANALOGOUT10))
 		getIntegerAndNaturalNumberBindings(outDefs, available, modeList)
-						
+		//println(modeList.get(modeList.length - 1))				
 		// n-ENUM FUNCTIONS
 		// **ANALOG_OUT PINS**  **PWM PINS**
 		modeList.clear()
@@ -268,6 +270,7 @@ class JsonGenerator implements IGenerator {
 							newbinding.pin = pinList.get(i).id.name
 							newbinding.minVal = mode.getMinValue()
 							newbinding.maxVal = mode.getMaxValue()
+							newbinding.offset = 0
 							pinList.remove(i)
 							config.bindings.add(newbinding)
 							foundBinding = true

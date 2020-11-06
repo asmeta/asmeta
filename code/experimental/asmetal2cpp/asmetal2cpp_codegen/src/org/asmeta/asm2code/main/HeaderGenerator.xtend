@@ -28,6 +28,15 @@ class HeaderGenerator extends AsmToCGenerator {
 
 	List<Rule> seqCalledRules;
 
+	new () {
+		super()
+	}
+
+	new (TranslatorOptions options) {
+		super(options)
+	}
+
+
 	override String compileAsm(Asm asm) {
 		if (options.optimizeSeqMacroRule) {
 			seqCalledRules = new ArrayList
@@ -49,9 +58,11 @@ class HeaderGenerator extends AsmToCGenerator {
 					#include <map>
 					#include <list>
 					#include <boost/tuple/tuple.hpp>
+					#include <LiquidCrystal.h>
+					#include <LiquidCrystal_I2C.h>
+					#include <DS3231.h>
 					using namespace std;
 					/*Arduino.h uses WString instead... */
-					#include <string.h>
 				'''
 			else
 				'''
@@ -237,7 +248,7 @@ class HeaderGenerator extends AsmToCGenerator {
 	def functionSignature(Asm asm) {
 		var sb = new StringBuffer;
 		for (fd : asm.headerSection.signature.function) {
-			sb.append(new FunctionToH(asm).visit(fd) + "\n")
+			sb.append(new FunctionToH(asm, options).visit(fd) + "\n")
 		}
 		return sb.toString
 	}

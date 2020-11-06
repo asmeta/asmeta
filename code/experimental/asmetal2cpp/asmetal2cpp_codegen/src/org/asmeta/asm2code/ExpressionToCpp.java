@@ -7,6 +7,9 @@ import org.asmeta.asm2code.Util;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.Term;
 
+/** translation of complex (not atomic) terms, like and and so on.
+ * Used by the TermToCpp
+ */
 public class ExpressionToCpp {
 	protected Asm asm;
 
@@ -208,7 +211,7 @@ public class ExpressionToCpp {
 	 */
 	private String not(List<Term> argsTerm) throws Exception {
 		String arg = new TermToCpp(asm).visit(argsTerm.get(0));
-		return "! " + updateVarName(arg);
+		return "! (" + updateVarName(arg) + ")";
 	}
 
 	/**

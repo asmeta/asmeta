@@ -1,7 +1,7 @@
 /** FLASH Cache Coherence Protocol dalla tesi di George Ma */
 
 asm flashProtocol
-import ../../STDL/StandardLibrary
+import ../../../STDL/StandardLibrary
 
 signature:
 	enum domain MsgType = {NO_MESS | GET_MSG | GETX_MSG | INV_MSG | WB_MSG |

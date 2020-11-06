@@ -11,7 +11,7 @@ signature:
 	derived isWinner: PlayerDom -> Boolean 
 
 definitions:
-	domain Coord = {1..4}
+	domain Coord = {1:4}
 
 	function isWinner($p in PlayerDom) =
 		if($p = PLAYERA) then

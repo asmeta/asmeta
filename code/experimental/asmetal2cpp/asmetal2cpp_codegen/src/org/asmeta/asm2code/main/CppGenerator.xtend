@@ -31,6 +31,14 @@ class CppGenerator extends AsmToCGenerator {
 	public static String Ext = ".cpp"
 	String initConrolledMonitored
 
+	new () {
+		super()
+	}
+
+	new (TranslatorOptions options) {
+		super(options)
+	}
+	
 	// all the rules that must translate in two versions seq and not seq
 	// if null, translate all
 	List<Rule> seqCalledRules;
@@ -362,11 +370,11 @@ class CppGenerator extends AsmToCGenerator {
 
 				if (containsMonitored == false)
 					initial.append(
-		  					'''«new FunctionToCpp(asm).visit(fd.initializedFunction)»
+		  					'''«new FunctionToCpp(asm, options).visit(fd.initializedFunction)»
 					''')
 				else
 					initialMonitored.append(
-		  					'''«new FunctionToCpp(asm).visit(fd.initializedFunction)»
+		  					'''«new FunctionToCpp(asm, options).visit(fd.initializedFunction)»
 					''')
 			}
 		}

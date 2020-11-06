@@ -36,12 +36,12 @@ import org.apache.log4j.Logger;
  */
 public class ParserResultLogger { // DO NOT EXTEND LOGGER !!! USE COMPOSITION TO CHECK extends Logger{
 	
-	Logger log;
+	private Logger log;
 	
 	public ParserResultLogger() {
 		// get the logger for the parser
 		log = Logger.getLogger("org.asmeta.parser");
-		log.setLevel(Level.OFF);
+		//log.setLevel(Level.OFF);
 		// if there are no appenders, a warning will be printed
 //		if (!log.getAllAppenders().hasMoreElements())
 //			log.addAppender(new ConsoleAppender(new SimpleLayout()));
@@ -92,6 +92,7 @@ public class ParserResultLogger { // DO NOT EXTEND LOGGER !!! USE COMPOSITION TO
 	}
 	// DEBUG
 	public void logDebug(String s){
+		log.debug("LOGGGER " + log.getName() + " " + log.getLevel());
 		log.debug(s);
 	}
 

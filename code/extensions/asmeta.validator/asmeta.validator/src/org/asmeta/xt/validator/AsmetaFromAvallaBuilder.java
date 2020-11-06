@@ -438,5 +438,9 @@ public class AsmetaFromAvallaBuilder extends AsmPrinter {
 		if (allLocations.contains(init.getInitializedFunction().getName())) return;
 		super.visitInit(init);
 	}
+	/** return the path where the asm has been saved*/
+	public String getTempAsmPath() {
+		return tempAsmPath;
+	}
 
 }
