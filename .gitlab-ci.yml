@@ -29,6 +29,9 @@ cache:
 #verify:jdk8:
 #  <<: *verify
 
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
 build:
   stage: build
   script:
