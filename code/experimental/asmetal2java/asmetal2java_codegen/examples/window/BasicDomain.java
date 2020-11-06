@@ -22,140 +22,152 @@ import org.javatuples.Septet;
 import org.javatuples.Sextet;
 import org.javatuples.Triplet;
 
-abstract class BasicDomain_sig {
 
+abstract class BasicDomain_sig {
+	
 	/////////////////////////////////////////////////
 	/// DOMAIN CONTAINERS
 	/////////////////////////////////////////////////
 	/* Domain containers here */
 	//Variabile di tipo Concreto o Enumerativo
-	static enum Prova {
-		AA, BB
-	}
-
+	
+	static enum Prova {AA, BB}
+				
 	List<Prova> Prova_lista = new ArrayList<Prova>();
-
+	
+	
 	//Metodi di supporto per l'implementazione delle funzioni controlled
-
+	
 	class zeroC<Domain> {
-
-		Domain oldValue;
-		Domain newValue;
-
-		void set(Domain d) {
-
+    
+    Domain oldValue;
+    Domain newValue;
+    
+	void set(Domain d) {
+		
 			newValue = d;
-		}
-
-		Domain get() {
-
+	}
+	
+	Domain get() {
+		
 			return oldValue;
-		}
 	}
-
+	}
+	
 	static class nC<Domain, Codomain> {
-
-		Map<Domain, Codomain> oldValues = new HashMap<>();
-		Map<Domain, Codomain> newValues = new HashMap<>();
-
-		void set(Domain d, Codomain c) {
-
+		
+	Map<Domain, Codomain> oldValues = new HashMap<>();
+	Map<Domain, Codomain> newValues = new HashMap<>();
+	
+	void set(Domain d, Codomain c) {
+		
 			newValues.put(d, c);
-		}
-
-		Codomain get(Domain d) {
-
+	}
+	
+	Codomain get(Domain d) {
+		
 			return oldValues.get(d);
-		}
 	}
-
+	}
+	
+	
+	
 	//Metodi di supporto per l'implementazione delle funzioni non controlled
-
+	
 	class zero<Domain> {
-
-		Domain Value;
-
-		void set(Domain d) {
-
+    
+    Domain Value;
+    
+	void set(Domain d) {
+		
 			Value = d;
-		}
-
-		Domain get() {
-
+	}
+	
+	Domain get() {
+		
 			return Value;
-		}
 	}
-
+	}
+	
+	
 	class n<Domain, Codomain> {
-
-		Map<Domain, Codomain> Values = new HashMap<>();
-
-		void set(Domain d, Codomain c) {
-
+		
+	Map<Domain, Codomain> Values = new HashMap<>();
+	
+	void set(Domain d, Codomain c) {
+		
 			Values.put(d, c);
-		}
-
-		Codomain get(Domain d) {
-
-			return Values.get(d);
-		}
 	}
-
+	
+	Codomain get(Domain d) {
+		
+			return Values.get(d);
+	}
+	}					
+	
 	/////////////////////////////////////////////////
 	/// FUNCTIONS
 	/////////////////////////////////////////////////
 	//Funzione di tipo Controlled
-	zeroC<Integer> x = new zeroC<>();
-
+	zeroC <Integer> x = new zeroC<>();
+	
+	
+	
 	////////////////////////////////////////////////
 	/// RULE DEFINITION
 	/////////////////////////////////////////////////
 	/* Rule definition here */
-
-	abstract
-	void r_Main();
-
+	
+	abstract void r_Main();
+	
 }
 
+
+
 class BasicDomain extends BasicDomain_sig {
-
+	
 	// Inizializzazione di funzioni e domini
-
-	BasicDomain() {
-
-		//Definizione iniziale dei domini statici
-
-		//setto la lista di elementi di supporto della classe enumerativa
-		for(Prova i : Prova.values())
-		Prova_lista.add(i);
-
-		//Definizione iniziale dei domini dinamici
-
-		//Definizione iniziale dei domini astratti con funzini statiche
-
-		//Inizializzazione delle funzioni
-
+	
+	BasicDomain(){
+	
+     //Definizione iniziale dei domini statici
+     
+	 //setto la lista di elementi di supporto della classe enumerativa
+	 for(Prova i : Prova.values())
+	 Prova_lista.add(i);
+	 
+	
+	 //Definizione iniziale dei domini dinamici
+	 
+	
+	 //Definizione iniziale dei domini astratti con funzini statiche
+	 
+	
+	 //Inizializzazione delle funzioni
+	 
+	
 	}
-
-	// Definizione delle funzioni statiche
-
+	
+    // Definizione delle funzioni statiche
+	
 	// Conversione delle regole ASM in metodi java
-
+	
 	@Override
-	void r_Main() {
+	void r_Main(){
 		x.set((1 * 2) + (3 * 4));
 	}
-
+	
+	
 	// inizializazzione delle funzioni controllate che contengono metodi monitorati nei temini iniziali
-	void initControlledWithMonitored() {
-	}
-
+	void initControlledWithMonitored(){
+    }
+	
 	// applicazione dell'aggiornamento del set
-	void fireUpdateSet() {
-
-		x.oldValue = x.newValue;
+	void fireUpdateSet(){
+		
+	  x.oldValue = x.newValue;
 	}
-
+	
 	//Metodo per l'aggiornamento dell'asm
 	void UpdateASM()
 	{
@@ -163,10 +175,10 @@ class BasicDomain extends BasicDomain_sig {
 		fireUpdateSet();
 		initControlledWithMonitored();
 	}
-
-public static void main(String[] args) {
-	}
-
+	
+	public static void main(String[] args) {
+		}
+	
 }
 
 

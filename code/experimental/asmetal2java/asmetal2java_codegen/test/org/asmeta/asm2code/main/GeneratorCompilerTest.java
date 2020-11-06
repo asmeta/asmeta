@@ -1,6 +1,8 @@
 package org.asmeta.asm2code.main;
 
 
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,17 +36,17 @@ public class GeneratorCompilerTest {
 	//-----
 	//-------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	/*
-	 * 
-	 * 
-	 * 
 	 
      @Test 
      public void testBasicDomain() throws IOException, Exception { 
          String asmspec = "examples/BasicDomain.asm"; 
          if (!test(asmspec, options).success) fail(); 
      } 
-     
+
+ 	/*
+ 	 * 
+ 	 * 
+ 	 * 
      
      @Test public void testAdvancedClock() throws IOException, Exception { 
          String asmspec = "examples/AdvancedClock.asm"; 
