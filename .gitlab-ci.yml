@@ -29,6 +29,11 @@ cache:
 #verify:jdk8:
 #  <<: *verify
 
+version: "2"
+plugins:
+  sonar-java:
+    enabled: true
+
 include:
   - template: Code-Quality.gitlab-ci.yml
   
