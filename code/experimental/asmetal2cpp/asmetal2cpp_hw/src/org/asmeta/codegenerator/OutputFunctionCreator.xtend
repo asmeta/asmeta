@@ -104,10 +104,10 @@ class OutputFunctionCreator {
 				else
 				{
 					outputFunction += '''
-						if (ï¿½f.nameï¿½[0] != ï¿½f.nameï¿½[1])
+						if («f.name»[0] != «f.name»[1])
 						{
-							ï¿½config.lcd.nameï¿½.clear();
-							ï¿½config.lcd.nameï¿½.print(ï¿½f.nameï¿½[1]);
+							«config.lcd.name».clear();
+							«config.lcd.name».print(«f.name»[1]);
 						}
 					'''
 				}
@@ -124,7 +124,7 @@ class OutputFunctionCreator {
 		 */
 		if (outputFunction.length != 0)
 			return '''
-				ï¿½outputFunctionï¿½
+				«outputFunction»
 			'''
 		else
 			return ""
@@ -138,18 +138,18 @@ class OutputFunctionCreator {
 		 */
 		if (inverted)
 			return '''
-				if(ï¿½binding.functionï¿½)
-					digitalWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, LOW);
+				if(«binding.function»)
+					digitalWrite(«Util.arduinoPinToString(binding.pin)», LOW);
 				else
-					digitalWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, HIGH);
+					digitalWrite(«Util.arduinoPinToString(binding.pin)», HIGH);
 					
 			'''
 		else
 			return '''
-				if(ï¿½binding.functionï¿½)
-					digitalWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, HIGH);
+				if(«binding.function»)
+					digitalWrite(«Util.arduinoPinToString(binding.pin)», HIGH);
 				else
-					digitalWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, LOW);
+					digitalWrite(«Util.arduinoPinToString(binding.pin)», LOW);
 				
 			'''
 	}
@@ -162,50 +162,50 @@ class OutputFunctionCreator {
 		if (inverted)
 			if (!binding.function.contains("(")) {
 				return '''
-					if (ï¿½binding.functionï¿½[0] != ï¿½binding.functionï¿½[1])
+					if («binding.function»[0] != «binding.function»[1])
 					{
-						if(ï¿½binding.functionï¿½ == ï¿½(enumDef.eContents.get(0) as EnumElement).symbolï¿½)
-							digitalWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, HIGH);
+						if(«binding.function» == «(enumDef.eContents.get(0) as EnumElement).symbol»)
+							digitalWrite(«Util.arduinoPinToString(binding.pin)», HIGH);
 						else
-							digitalWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, LOW);
+							digitalWrite(«Util.arduinoPinToString(binding.pin)», LOW);
 					}
 						
 				'''
 			} else {
 				var funcName = binding.function.substring(0, binding.function.indexOf("("))
 				return '''
-					if (ï¿½funcNameï¿½[0] != ï¿½funcNameï¿½[1])
+					if («funcName»[0] != «funcName»[1])
 					{
-						if(ï¿½funcName + "[1][" +
-							binding.function.substring(binding.function.indexOf("(")+1, binding.function.indexOf(")"))  + "]"ï¿½ == ï¿½(enumDef.eContents.get(0) as EnumElement).symbolï¿½)
-							digitalWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, HIGH);
+						if(«funcName + "[1][" +
+							binding.function.substring(binding.function.indexOf("(")+1, binding.function.indexOf(")"))  + "]"» == «(enumDef.eContents.get(0) as EnumElement).symbol»)
+							digitalWrite(«Util.arduinoPinToString(binding.pin)», HIGH);
 						else
-							digitalWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, LOW);
+							digitalWrite(«Util.arduinoPinToString(binding.pin)», LOW);
 					}
 						
 				'''
 			}
 		else if (!binding.function.contains("(")) {
 			return '''
-				if (ï¿½binding.functionï¿½[0] != ï¿½binding.functionï¿½[1])
+				if («binding.function»[0] != «binding.function»[1])
 				{
-					if(ï¿½binding.functionï¿½ == ï¿½(enumDef.eContents.get(0) as EnumElement).symbolï¿½)
-						digitalWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, LOW);
+					if(«binding.function» == «(enumDef.eContents.get(0) as EnumElement).symbol»)
+						digitalWrite(«Util.arduinoPinToString(binding.pin)», LOW);
 					else
-						digitalWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, HIGH);
+						digitalWrite(«Util.arduinoPinToString(binding.pin)», HIGH);
 				}
 					
 			'''
 		} else {
 				var funcName = binding.function.substring(0, binding.function.indexOf("("))
 				return '''
-					if (ï¿½funcNameï¿½[0] != ï¿½funcNameï¿½[1])
+					if («funcName»[0] != «funcName»[1])
 					{
-						if(ï¿½funcName + "[1][" +
-								binding.function.substring(binding.function.indexOf("(")+1, binding.function.indexOf(")"))  + "]"ï¿½ == ï¿½(enumDef.eContents.get(0) as EnumElement).symbolï¿½)
-							digitalWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, LOW);
+						if(«funcName + "[1][" +
+								binding.function.substring(binding.function.indexOf("(")+1, binding.function.indexOf(")"))  + "]"» == «(enumDef.eContents.get(0) as EnumElement).symbol»)
+							digitalWrite(«Util.arduinoPinToString(binding.pin)», LOW);
 						else
-							digitalWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½, HIGH);
+							digitalWrite(«Util.arduinoPinToString(binding.pin)», HIGH);
 					}
 						
 			'''
@@ -214,36 +214,36 @@ class OutputFunctionCreator {
 
 	def String getIntegerToAnalogPin(Asm model, Binding binding, double fullscale) {
 		return '''
-			if (ï¿½binding.functionï¿½[0] != ï¿½binding.functionï¿½[1])
+			if («binding.function»[0] != «binding.function»[1])
 			{
-				ï¿½
+				«
 				if (binding.minVal == 0)
 					'''
-						analogWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½,(ï¿½binding.functionï¿½[1])*(double)(ï¿½fullscaleï¿½/ï¿½binding.maxVal-binding.minVal +1ï¿½));
+						analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»[1])*(double)(«fullscale»/«binding.maxVal-binding.minVal +1»));
 					'''
 				else
 					'''
-						analogWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½,(ï¿½binding.functionï¿½[1]-(ï¿½binding.minValï¿½))*(double)(ï¿½fullscaleï¿½/ï¿½binding.maxVal-binding.minVal +1ï¿½));
+						analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»[1]-(«binding.minVal»))*(double)(«fullscale»/«binding.maxVal-binding.minVal +1»));
 					'''
-				ï¿½
+				»
 			}
 		'''
 	}
 
 	def String getNumberToAnalogPin(Asm model, Binding binding, double fullscale) {
 		return '''
-			if (ï¿½binding.functionï¿½[0] != ï¿½binding.functionï¿½[1])
+			if («binding.function»[0] != «binding.function»[1])
 			{
-				ï¿½
+				«
 				if (binding.minVal == 0)
 					'''
-						analogWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½,(ï¿½binding.functionï¿½[1])*(double)(ï¿½fullscaleï¿½/ï¿½binding.maxVal-binding.minValï¿½));
+						analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»[1])*(double)(«fullscale»/«binding.maxVal-binding.minVal»));
 					'''
 				else
 					'''
-						analogWrite(ï¿½Util.arduinoPinToString(binding.pin)ï¿½,(ï¿½binding.functionï¿½[1]-(ï¿½binding.minValï¿½))*(double)(ï¿½fullscaleï¿½/ï¿½binding.maxVal-binding.minValï¿½));
+						analogWrite(«Util.arduinoPinToString(binding.pin)»,(«binding.function»[1]-(«binding.minVal»))*(double)(«fullscale»/«binding.maxVal-binding.minVal»));
 					'''
-				ï¿½
+				»
 			}
 		'''
 	}
@@ -301,7 +301,7 @@ class OutputFunctionCreator {
 				return getEnumToDigitalPin(model, binding, outDefinition.codomain as EnumTdImpl, inverted)
 		}
 
-		throw new RuntimeException('''Error with ï¿½binding.functionï¿½: DigitalBinding only supports booleans or 2-values-enums''')
+		throw new RuntimeException('''Error with «binding.function»: DigitalBinding only supports booleans or 2-values-enums''')
 	}
 
 	def String getAnalogLinearBinding(Asm model, Binding binding) {
@@ -382,10 +382,10 @@ class OutputFunctionCreator {
 			].get(0)
 
 			return '''
-				analogWrite(ï¿½binding.functionï¿½*(double)(ï¿½fullscaleï¿½/ï¿½enumDef.eContents.sizeï¿½));
+				analogWrite(«binding.function»*(double)(«fullscale»/«enumDef.eContents.size»));
 			'''
 		}
-		throw new RuntimeException('''Error with ï¿½binding.functionï¿½: AnalogLinearBinding only supports INTEGER, NUMBER or Enumerative''')
+		throw new RuntimeException('''Error with «binding.function»: AnalogLinearBinding only supports INTEGER, NUMBER or Enumerative''')
 
 	}
 
@@ -472,19 +472,19 @@ class OutputFunctionCreator {
 		 * 	].get(0) 
 		 * 	
 		 * 	return '''
-		 * 		analogWrite(ï¿½binding.functionï¿½*(double)(ï¿½fullscaleï¿½/ï¿½enumDef.eContents.sizeï¿½));
+		 * 		analogWrite(«binding.functionï¿½*(double)(«fullscaleï¿½/«enumDef.eContents.sizeï¿½));
 		 * 	'''
 		 }*/
 		// if(true) return getIntegerToAnalogPin(model, binding, fullscale)
 		println("PROBLEM " + monDefinition.codomain)
 
-		throw new RuntimeException('''Error with ï¿½binding.functionï¿½: PWMBinding only supports INTEGER, NUMBER or Enumerative''')
+		throw new RuntimeException('''Error with «binding.function»: PWMBinding only supports INTEGER, NUMBER or Enumerative''')
 	}
 
 	def String getUserDefinedBinding(Asm model, Binding binding) {
 		return '''
 			//
-			//TODO place here your input binding for function ï¿½binding.functionï¿½
+			//TODO place here your input binding for function «binding.function»
 			//
 		'''
 	}
@@ -496,35 +496,35 @@ class OutputFunctionCreator {
 										: true;
 		
 		var String variable = (binding !== null && binding.function.contains("("))
-									? '''[ï¿½binding.function.substring(binding.function.indexOf("(")+1, binding.function.indexOf(")"))ï¿½]'''
+									? '''[«binding.function.substring(binding.function.indexOf("(")+1, binding.function.indexOf(")"))»]'''
 									: ''''''
 		
 		return '''
-			if (ï¿½func.nameï¿½[0]ï¿½variableï¿½ != ï¿½func.nameï¿½[1]ï¿½variableï¿½)
+			if («func.name»[0]«variable» != «func.name»[1]«variable»)
 			{
-				ï¿½
+				«
 				if (config.lcd !== null && func.name == config.lcd.function) { // LCD
-					'''ï¿½config.lcd.nameï¿½.clear();'''
+					'''«config.lcd.name».clear();'''
 				}
-				ï¿½
-				ï¿½
+				»
+				«
 					if (useCasesForSwitch)
 					{
 						'''
-						switch (ï¿½func.nameï¿½[1])
+						switch («func.name»[1])
 						{
 						'''
 					}
-				ï¿½
-					ï¿½getCases(func, binding, useCasesForSwitch, variable)ï¿½
-				ï¿½
+				»
+					«getCases(func, binding, useCasesForSwitch, variable)»
+				«
 					if (useCasesForSwitch)
 					{
 						'''
 						}
 						'''
 					}
-				ï¿½	
+				»
 			}
 			
 		''';
@@ -551,16 +551,16 @@ class OutputFunctionCreator {
 			var enumEl = enumDef.eContents.get(i) as EnumElement
 			
 			sb.append('''
-				ï¿½String.format(caseTerm, enumEl.symbol)ï¿½ ï¿½String.format(conditionTerm, '''ï¿½func.nameï¿½[1]ï¿½variableï¿½''', enumEl.symbol)ï¿½
+				«String.format(caseTerm, enumEl.symbol)» «String.format(conditionTerm, '''«func.name»[1]«variable»''', enumEl.symbol)»
 				{
-					ï¿½
+					«
 					if (config.lcd !== null && func.name == config.lcd.function) { // LCD
 						'''
-							ï¿½config.lcd.nameï¿½.print("ï¿½enumEl.symbolï¿½");
+							«config.lcd.name».print("«enumEl.symbol»");
 						'''
 					}
-					ï¿½
-					ï¿½breakTermï¿½
+					»
+					«breakTerm»
 				}
 			''')
 		}
