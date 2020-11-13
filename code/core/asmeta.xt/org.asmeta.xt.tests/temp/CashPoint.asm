@@ -1,36 +1,3 @@
-package org.asmeta.xt.tests.parsing.positive
-
-import org.junit.Assert
-import org.junit.Test
-
-class AbstractAndAgentDomain{
-
-	@Test
-	def void test1() {
-		var result = SimpleParsingTest.test('''
-			asm blankpage
-			signature: 
-				abstract domain Agent
-				abstract domain Student
-				basic domain Integer
-				
-				static x : Student -> Integer
-				
-			definitions: 
-				function x($x in Student) = 4
-		''',"blankpage")
-		// asm test
-		// header test																			
-		Assert.assertEquals(0, result.headerSection.importClause.size)
-		Assert.assertEquals(null, result.headerSection.exportClause)
-		Assert.assertEquals(3, result.headerSection.signature.domain.size)
-		println(result.headerSection.signature.domain.get(0).class)
-		println(result.headerSection.signature.domain.get(1).class)
-	}
-
-	@Test
-	def void testCashPoint() {
-		var result =  SimpleParsingTest.test('''
 asm CashPoint
 
 import StandardLibrary
@@ -164,18 +131,3 @@ default init s_0:
     function balance($a in Account) = chooseone({1000,2000,3000})
     function daily_withdraw_sum($c in Card) = 0
     function cardLastUseDate($c in Card) = monday
-		''', "CashPoint")
-		// asm test
-		// header test																			
-		Assert.assertEquals(1, result.headerSection.importClause.size)
-		Assert.assertEquals(null, result.headerSection.exportClause)
-		Assert.assertEquals(5, result.headerSection.signature.domain.size)
-		println(result.headerSection.signature.domain.get(0).class)
-		println(result.headerSection.signature.domain.get(1).class)
-		println(result.headerSection.signature.domain.get(2).class)
-		println(result.headerSection.signature.domain.get(3).class)
-		println(result.headerSection.signature.domain.get(4).class)
-	}
-	
-
-}

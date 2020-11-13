@@ -378,14 +378,20 @@ public class AllAsmExamplesTesterWOHelper {
 
 	@Test
 	public void testCashPoint() throws IOException {
-		testAsmetaXtFile("..\\..\\..\\asm_examples\\test\\simulator\\macro\\macro06.asm", false);
+		testAsmetaXtFile("..\\..\\..\\..\\asm_examples\\test\\simulator\\macro\\macro06.asm", false);
 	}
 	
 	@Test
 	public void testSingleSpec() throws IOException {
-		testAsmetaXtFile("..\\..\\..\\asm_examples\\SystemCUMLProfile_metahooking\\SystemCUMLProfile_INIT.asm", false);
+		testAsmetaXtFile("../../../asm_examples/SystemCUMLProfile_metahooking\\SystemCUMLProfile_INIT.asm", false);
 	}
 
+	@Test
+	public void testPillBox() throws IOException {
+		testAsmetaXtFile("../../../../asm_examples/PillBox/Level0/pillbox_0.asm", false);
+	}
+
+	
 	@Test
 	public void testAllExamples() throws IOException {
 		Path examplePath = Paths.get("../../../asm_examples");
@@ -573,7 +579,7 @@ public class AllAsmExamplesTesterWOHelper {
 		}
 
 		try {
-			ParseAndValidateResult result = AsmetaLParserWOHelper.parseAndValidateFile(path, false);
+			ParseAndValidateResult result = new AsmetaLParserWOHelper().parseAndValidateFile(path, false);
 			if (result.getErrors().isEmpty()) {
 				System.out.print("parser and validation ok");
 				System.out.println();

@@ -7,12 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.asmeta.xt.AsmetaLStandaloneSetup;
@@ -35,8 +32,8 @@ import com.google.inject.Injector;
 
 public class AsmetaLParserWOHelper {
 	
-	public static HashSet<String> importedAsm = new HashSet<String>(); 
-
+	public HashSet<String> importedAsm = new HashSet<String>(); 
+	
 	/**
 	 * parse and return the ASM + errors (validation and parser).
 	 *
@@ -46,12 +43,12 @@ public class AsmetaLParserWOHelper {
 	 * @throws FileNotFoundException  the file not found exception
 	 * @throws OperationCanceledError the operation canceled error
 	 */
-	public static ParseAndValidateResult parseAndValidateFile(String path, boolean verifyWithOldParser)
+	public ParseAndValidateResult parseAndValidateFile(String path, boolean verifyWithOldParser)
 			throws IOException, FileNotFoundException, OperationCanceledError {
 		Injector injector = new AsmetaLStandaloneSetup().createInjectorAndDoEMFRegistration();
 		ResourceSet rs = injector.getInstance(ResourceSet.class);
 		Resource resource = rs.getResource(URI.createURI(path), true);
-		resource.load(null);
+		resource.load(rs.getLoadOptions());
 		// parse the resource
 		IParser parser = injector.getInstance(IParser.class);
 		IParseResult pResult = parser.parse(new FileReader(path));
