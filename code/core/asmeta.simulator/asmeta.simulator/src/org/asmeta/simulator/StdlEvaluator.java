@@ -68,7 +68,7 @@ public class StdlEvaluator {
 	 * @return the function value
 	 */
 	public Value visit(Function function, Object[] arguments) {		
-		// assert(function.getArity() == arguments.length);		
+		// assert(function.getArity() == arguments.length);	
 		logger.debug("<StaticFunction>" + function.getName()+ "</StaticFunction>");
 		String name = function.getName();
 		Class<?>[] argTypes = getClasses(arguments);

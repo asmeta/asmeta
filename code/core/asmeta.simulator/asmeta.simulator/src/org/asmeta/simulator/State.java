@@ -128,14 +128,15 @@ public class State extends LocationSet {
 	 * @param location a location
 	 * @return location's content
 	 */
-	public Value read(Location location) {
-		Value value = locationMap.get(location);
+	public Value<?> read(Location location) {
+		Value<?> value = locationMap.get(location);
 		if (value == null) {
 			// PA 21/02/2012 in order to read derived locations values
 			if (Defs.isDerived(location.getSignature())) {
 				logger.debug(location);
 				value = evalUserDefinedFunc(this, location.getSignature(), location.getElements());
 				// System.out.println(location + " = " + value);
+				// TODO why it is not put into the state map? AG
 				return value;
 			}
 			// the location is not in the state, does initialization
