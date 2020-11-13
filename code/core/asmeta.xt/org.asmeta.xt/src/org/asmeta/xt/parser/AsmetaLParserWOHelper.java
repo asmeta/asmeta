@@ -47,7 +47,7 @@ public class AsmetaLParserWOHelper {
 			throws IOException, FileNotFoundException, OperationCanceledError {
 		Injector injector = new AsmetaLStandaloneSetup().createInjectorAndDoEMFRegistration();
 		ResourceSet rs = injector.getInstance(ResourceSet.class);
-		Resource resource = rs.getResource(URI.createURI(path), true);
+		Resource resource = rs.getResource(URI.createFileURI(path), true);
 		resource.load(rs.getLoadOptions());
 		// parse the resource
 		IParser parser = injector.getInstance(IParser.class);

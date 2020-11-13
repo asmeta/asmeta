@@ -3,11 +3,11 @@ package org.asmeta.xt.tests.parsing.positive
 import org.junit.Assert
 import org.junit.Test
 
-class AbstractAndAgentDomain{
+class AbstractAndAgentDomain extends ParserTest{
 
 	@Test
 	def void test1() {
-		var result = SimpleParsingTest.test('''
+		var result = test('''
 			asm blankpage
 			signature: 
 				abstract domain Agent
@@ -30,7 +30,7 @@ class AbstractAndAgentDomain{
 
 	@Test
 	def void testCashPoint() {
-		var result =  SimpleParsingTest.test('''
+		var result =  test('''
 asm CashPoint
 
 import StandardLibrary
