@@ -297,8 +297,9 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 		if (Defs.isDynamic(func)) {
 			Location location = new Location(func, arguments);
 			value = state.read(location);
-			if (Defs.isMonitored(func) && value == null)
+			if (Defs.isMonitored(func) && value == null) {
 				value = environment.read(location, state);
+			}
 			assert value != null;
 		} else if (Defs.isAbstractConst(func) || Defs.isAgentConst(func)) {
 			value = state.readAbstractConst(func.getName());

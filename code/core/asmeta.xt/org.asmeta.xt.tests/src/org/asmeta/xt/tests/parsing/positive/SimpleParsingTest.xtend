@@ -1,31 +1,18 @@
 package org.asmeta.xt.tests.parsing.positive
 
-import org.junit.runner.RunWith
-import org.eclipse.xtext.testing.XtextRunner
-import org.eclipse.xtext.testing.InjectWith
-import org.asmeta.xt.tests.AsmetaLInjectorProvider
-import com.google.inject.Inject
-import org.eclipse.xtext.testing.util.ParseHelper
-import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.asmeta.xt.asmetal.Asm
-import org.junit.Test
+import java.io.File
 import org.junit.Assert
+import org.junit.Test
 
-@RunWith(XtextRunner)
-@InjectWith(AsmetaLInjectorProvider)
-class SimpleParsingTest {
-	
-	@Inject	ParseHelper<Asm> parseHelper
-	@Inject extension ValidationTestHelper
+class SimpleParsingTest extends ParserTest{	
 
 	@Test
 	def void testBlankAsm() {
-		var result = parseHelper.parse('''
+		var result = test('''
 			asm blankpage
 			signature: 
 			definitions: 
-		''')
-		result.assertNoErrors
+		''', "blankpage")
 		// asm test
 		Assert.assertEquals( false, result.isAsynchr )													
 		Assert.assertEquals( "blankpage", result.name)														
@@ -49,6 +36,31 @@ class SimpleParsingTest {
 		
 		// initialstate test
 		Assert.assertEquals( 0, result.initialState.size )
-	}	
+	}
 	
+	@Test
+	def void testImport() {	
+		val f = new File("../../../../asm_examples/STDL/StandardLibrary.asm")
+		Assert.assertTrue(f.exists)
+		// relative path
+		var asmlib = f.path.replaceAll("\\\\","/")
+		asmlib = asmlib.substring(0,asmlib.length-4)
+		testImport(asmlib)
+		// relative path with quotes
+		testImport("\""+asmlib+"\"")				
+	}
+	
+	def testImport(String toimport){
+		println("*** testing with " + toimport)
+		val string = '''
+					asm import1
+					import "../'''+toimport+'''" 
+
+signature: 
+definitions: 
+				'''
+		println(string)
+		var result = test(string, "import1")
+		
+	}
 }

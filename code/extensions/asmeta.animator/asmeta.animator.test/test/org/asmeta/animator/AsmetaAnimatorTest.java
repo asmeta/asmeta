@@ -18,6 +18,13 @@ public class AsmetaAnimatorTest {
 	}
 
 	@Test
+	public  void testLight() throws FileNotFoundException, IOException, InterruptedException, Exception {
+		String asmspec = "examples/light.asm";
+		testAnimator(asmspec);
+	}
+
+	
+	@Test
 	public  void testMixCoffeeVendingMachineNC() throws FileNotFoundException, IOException, InterruptedException, Exception {
 		String asmspec = "examples/coffeeVendingMachineNC.asm";
 		testAnimator(asmspec);

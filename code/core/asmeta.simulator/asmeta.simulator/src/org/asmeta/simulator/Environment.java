@@ -24,11 +24,13 @@
 package org.asmeta.simulator;
 
 import org.asmeta.simulator.readers.MonFuncReader;
+import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.Value;
 
 /**
  * The environment returns the value of the monitored functions.<br>
- * Non tiene conto del valore attuale: se viene richiesto due volte potrebbe dare due risultati diversi
+ * Non tiene conto del valore attuale: se viene richiesto due volte potrebbe 
+ * dare due risultati diversi
  * 
  * always the same value.
  * 
@@ -56,7 +58,13 @@ public final class Environment {
 	public Value<?> read(Location location, State state) {
 		// state does not contain location value
 		assert state.locationMap.get(location) == null;
-		Value value = monFuncReader.read(location, state);
+		// AG 13/11/2020 
+		// if it is time, read from the machine
+		Value value;
+		if (location.getName().equals("currTimeMillisecsX"))
+			value = new IntegerValue(System.currentTimeMillis());
+		else 
+			value = monFuncReader.read(location, state);
 		return value;
 	}
 

@@ -317,4 +317,8 @@ signature :
 	static currTimeMillisecs: Integer
 	static currTimeSecs: Integer
 
+/*----------- Java time temp --------------*/
+	monitored currTimeMillisecsX: Integer
+
+
 definitions:

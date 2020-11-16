@@ -50,7 +50,6 @@ class StructureChecker {
 		
 		if (path.contains("\\")) path = path.replace("\\","/")
 		
-		var String message = 'The file name is not equal to the asm name "' + asm.name + '"'
 		var String code = ErrorCode.ASM__INVALID_NAME
 		var EStructuralFeature feature = AsmetalPackage.Literals.ASM__NAME
 
@@ -58,6 +57,8 @@ class StructureChecker {
 		
 		var file_name = path_split.get( path_split.length-1 )
 		var name_no_extension = file_name.substring( 0, file_name.length-4 )
+		
+		var String message = 'The file name "'+ name_no_extension +'" is not equal to the asm name "' + asm.name + '"'
 			
 		if ( !name_no_extension.equals( asm.name ) ) return new ErrorType( message, feature, code )
 		else return null
