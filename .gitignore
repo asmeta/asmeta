@@ -44,3 +44,6 @@ test-bin/
 #maven stuff
 surefire-reports
 maven-status
+
+#extend binaries
+*.xtendbin
