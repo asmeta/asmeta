@@ -10,3 +10,15 @@
 /.TermToJavaSupportoProdMap.java._trace
 /.ToString.java._trace
 /.Util.java._trace
+/DomainToJavaSigDef.java
+/FindMonitoredInControlledFunct.java
+/FunctionToJavaDef.java
+/FunctionToJavaSig.java
+/RuleToJava.java
+/SeqRuleCollector.java
+/TermToJava.java
+/TermToJavaConditionalAbs.java
+/TermToJavaSupportoConfronto.java
+/TermToJavaSupportoProdMap.java
+/ToString.java
+/Util.java
