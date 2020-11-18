@@ -1,0 +1,35 @@
+scenario HWNotExeActivatedNow
+load ../CarSystem001main.asm
+
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown:= DOWNWARD7;
+
+step
+check pitmanArmUpDown_Runn= DOWNWARD7;
+check blinkLeft != 0
+	 blinkRightLeft != NOPULSE; //controllo che sta lampeggiando per la direzione
+check hazardWarningSwitchOn_Runn =false;
+check hazardWarningSwitchOn_Start= false;
+set hazardWarningSwitchOn :=true; //attivato qui
+
+step
+
+check hazardWarningSwitchOn_Runn =false;
+check hazardWarningSwitchOn =true;
+check hazardWarningSwitchOn_Start= true; //attivato allo stato precedente e in avvio
+check pitmanArmUpDown_Buff= DOWNWARD7; //questo deve finire nel buffer
+check blinkLeft != 0
+	 blinkRightLeft != NOPULSE; //controllo che non stia più lampeggiando
+step
+
+check hazardWarningSwitchOn_Runn =true;
+check hazardWarningSwitchOn =true;
+check hazardWarningSwitchOn_Start= false;
+//controllo se sta lampeggiando per l'hw
+check blinkRight = 0
+	 blinkRightPulseRatio = NOPULSE;
+check blinkLeft = 0
+	 blinkRightLeft = NOPULSE;
+//controllo se ha salvato nel buffer
+check pitmanArmUpDown= DOWNWARD7;
+

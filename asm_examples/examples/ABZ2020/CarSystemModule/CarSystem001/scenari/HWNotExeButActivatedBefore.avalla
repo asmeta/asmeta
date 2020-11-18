@@ -1,0 +1,28 @@
+scenario HWNotExeActivatedBefore
+load ../CarSystem001main.asm
+
+set keyState := KEYINIGNITIONONPOSITION;
+check hazardWarningSwitchOn_Runn =false;
+check hazardWarningSwitchOn_Start= false;
+set hazardWarningSwitchOn :=true;
+
+step
+
+check hazardWarningSwitchOn_Runn =false;
+check hazardWarningSwitchOn =true;
+check hazardWarningSwitchOn_Start= true; //attivato allo stato precedente
+set pitmanArmUpDown:= DOWNWARD7; //questo deve finire nel buffer
+
+step
+
+check hazardWarningSwitchOn_Runn =true;
+check hazardWarningSwitchOn =true;
+check hazardWarningSwitchOn_Start= false;
+//controllo se sta lampeggiando
+check blinkRight != 0 //dovrei mettere i valori del lampeggiamento di emergenza
+	 blinkRightPulseRatio != NOPULSE;
+check blinkLeft != 0
+	 blinkRightLeft != NOPULSE;
+//controllo se ha salvato nel buffer
+check pitmanArmUpDown_Buff= DOWNWARD7;
+

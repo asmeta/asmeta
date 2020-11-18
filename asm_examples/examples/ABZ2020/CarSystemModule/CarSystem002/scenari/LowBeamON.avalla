@@ -1,0 +1,37 @@
+scenario lowBeamON
+load ../CarSystem002main.asm
+
+check keyState_Previous = undef;
+check brakeLampRight = 0;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check parkingLightON = false;
+check hazardWarningSwitchOn_Start = false;
+//questi sono importanti
+set keyState := KEYINIGNITIONONPOSITION;
+set lightRotarySwitch := ON;
+//anche questi ma guardiamo solo la condizione motore acceso switch su ON
+set hazardWarningSwitchOn := false;
+set pitmanArmUpDown := NEUTRAL_UD;
+set darknessModeSwitchOn := false;
+set brightnessSensor := 300;
+set reverseGear := false;
+set brakePedal := 0;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check brakeLampRight = 0;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check parkingLightON = false;
+check hazardWarningSwitchOn_Start = false;
+check reverseLight = 0;
+check lightRotarySwitchPrevious = ON;
+step

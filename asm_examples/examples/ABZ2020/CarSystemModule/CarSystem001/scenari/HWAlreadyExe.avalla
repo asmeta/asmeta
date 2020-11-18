@@ -1,0 +1,40 @@
+scenario HWAlreadyExe
+load ../CarSystem001main.asm
+
+set keyState := KEYINIGNITIONONPOSITION;
+check hazardWarningSwitchOn_Runn =false;
+check hazardWarningSwitchOn_Start= true;
+check hazardWarningSwitchOn=true;
+check pitmanArmUpDown_Buff= DOWNWARD7; 
+set pitmanArmUpDown:= UPWARD5; //controlliamo se finisce nel buffer anche durante l'accensione
+
+step //l'hw è acceso
+check keyState = KEYINIGNITIONONPOSITION;
+check hazardWarningSwitchOn_Runn =true;
+check hazardWarningSwitchOn_Start= false;
+check hazardWarningSwitchOn=true;
+check blinkRight != 0 //dovrei mettere i valori del lampeggiamento di emergenza
+	 blinkRightPulseRatio != NOPULSE;
+check blinkLeft != 0
+	 blinkRightLeft != NOPULSE;
+check pitmanArmUpDown_Buff= DOWNWARD7; 
+	
+	//qui controlliamo lo spegnimento utente nel caso lo volesse spegnere
+	set hazardWarningSwitchOn:=false;
+
+	step
+	check hazardWarningSwitchOn_Runn =false;
+	check pitmanArmUpDown_Runn= DOWNWARD7; //quindi riprende l'ultima request
+	check blinkRight = 0
+	 blinkRightPulseRatio = NOPULSE;
+	check blinkLeft != 0
+	 blinkRightLeft != NOPULSE;
+
+	//se invece non vuole spegnerlo controllo il contrario
+	 step
+	check hazardWarningSwitchOn_Runn =true;
+	check blinkRight != 0
+	 blinkRightPulseRatio != NOPULSE;
+	check blinkLeft != 0
+	 blinkRightLeft != NOPULSE;
+//queste ultime due parti di codice sono opzionali nel caso volessi validare l'una o altra operazione
