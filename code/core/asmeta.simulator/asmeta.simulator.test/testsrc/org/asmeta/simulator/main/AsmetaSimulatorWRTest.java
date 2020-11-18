@@ -32,9 +32,4 @@ public class AsmetaSimulatorWRTest extends BaseTest{
 
 	}
 
-	@Test
-	public void testRollBack() {
-		fail("Not yet implemented");
-	}
-
 }
