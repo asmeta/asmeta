@@ -23,6 +23,8 @@
 
 package org.asmeta.simulator;
 
+import java.time.Instant;
+
 import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.Value;
@@ -37,6 +39,8 @@ import org.asmeta.simulator.value.Value;
  */
 public final class Environment {
 
+	// link the time variable to the time of the java machine
+	public static boolean USE_TIME_JAVA = true;
 	/**
 	 * Parses an input string and returns a value.
 	 */
@@ -60,10 +64,16 @@ public final class Environment {
 		assert state.locationMap.get(location) == null;
 		// AG 13/11/2020 
 		// if it is time, read from the machine
-		Value value;
-		if (location.getName().equals("currTimeMillisecsX"))
-			value = new IntegerValue(System.currentTimeMillis());
-		else 
+		Value value = null;
+		if (USE_TIME_JAVA) {
+			//TODO use switch expressions !
+			switch(location.getName()){
+			case "mCurrTimeNanosecs": value = new IntegerValue(System.nanoTime()); break;
+			case "mCurrTimeMillisecs": value = new IntegerValue(System.currentTimeMillis()); break;
+			case "mCurrTimeSecs": value = new IntegerValue(Instant.now().getEpochSecond()); break;
+			}
+		} 	
+		if (value == null)
 			value = monFuncReader.read(location, state);
 		return value;
 	}
