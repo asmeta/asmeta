@@ -1,4 +1,4 @@
-package org.asmeta.modelli_java;
+package org.asmeta.java_models;
 
 import java.util.Scanner;
 

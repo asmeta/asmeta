@@ -1,4 +1,4 @@
-package org.asmeta.modelli_java;
+package org.asmeta.java_models;
 
 //import org.asmeta.monitoring.Asm;
 //import org.asmeta.monitoring.FieldToFunction;

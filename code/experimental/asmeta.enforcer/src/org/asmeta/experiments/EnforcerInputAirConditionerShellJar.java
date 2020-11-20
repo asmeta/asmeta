@@ -1,4 +1,4 @@
-package org.asmeta.esperimenti;
+package org.asmeta.experiments;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Scanner;
 
-public class EnforcerAirConditionerShellJar {
+public class EnforcerInputAirConditionerShellJar {
 	//ma effettivamente perchè sto usando 2 jar, non posso usare direttamente RUNTIMECONTAINER come imodelexecution???????
 	public static void main(String[] args) {
 		String stringJ = "",stringS = "";
