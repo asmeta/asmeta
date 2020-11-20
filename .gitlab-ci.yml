@@ -33,6 +33,10 @@ include:
   - template: Code-Quality.gitlab-ci.yml
   
 code_quality:
+  artifacts:
+    paths: [gl-code-quality-report.json]
+  
+code_quality_html:
   extends: code_quality
   variables:
     REPORT_FORMAT: html
