@@ -1,4 +1,4 @@
-//applied flatteners: NR 
+//applied flatteners: FR 
 asm forallRuleChoose_flat
 import ../../../../../asm_examples/STDL/StandardLibrary
 
@@ -16,9 +16,18 @@ definitions:
 
 
     main rule r_Main =
-        forall $a in ConcrDom with lt($a,6) do
-            choose $x in ConcrDom with lt($x,$a) do
-                r_rule[$a,$x]
+        par
+            choose $x82 in ConcrDom with lt($x82,4) do
+                r_rule[4,$x82]
+            choose $x83 in ConcrDom with lt($x83,1) do
+                r_rule[1,$x83]
+            choose $x85 in ConcrDom with lt($x85,3) do
+                r_rule[3,$x85]
+            choose $x87 in ConcrDom with lt($x87,5) do
+                r_rule[5,$x87]
+            choose $x89 in ConcrDom with lt($x89,2) do
+                r_rule[2,$x89]
+        endpar
 
 default init s0:
     function foo($x in ConcrDom) = 1

@@ -1,4 +1,4 @@
-//applied flatteners: NR 
+//applied flatteners: AR 
 asm macroArgs_flat
 import ../../../../asm_examples/STDL/StandardLibrary
 
@@ -17,8 +17,12 @@ definitions:
     macro rule r_move($a in Actors) =
         if eq(position(FERRYMAN),position($a)) then
             par
-                position($a) := opposite(position($a))
-                position(FERRYMAN) := opposite(position(FERRYMAN))
+                let ($var_0 = position($a)) in
+                    position($a) := opposite($var_0)
+                endlet
+                let ($var_1 = position(FERRYMAN)) in
+                    position(FERRYMAN) := opposite($var_1)
+                endlet
             endpar
         endif
 

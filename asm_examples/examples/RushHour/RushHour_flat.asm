@@ -1,4 +1,4 @@
-//applied flatteners: AR 
+//applied flatteners: FR 
 asm RushHour_flat
 import ../../STDL/StandardLibrary
 
@@ -36,21 +36,368 @@ definitions:
     function redCarAtExit = eq(board(2,5),redCar)
 
     macro rule r_move($car in Car, $dir in Dir) =
-        forall $r in Coord, $c in Coord with eq(board($r,$c),$car) do
-            par
-                let ($var_962 = rMove($dir), $var_963 = cMove($dir)) in
-                    if eq(board(mod(plus($r,$var_962),6),mod(plus($c,$var_963),6)),undef) then
-                        let ($var_964 = rMove($dir), $var_965 = cMove($dir)) in
-                            board(mod(plus($r,$var_964),6),mod(plus($c,$var_965),6)) := $car
-                        endlet
+        par
+            if eq(board(2,2),$car) then
+                par
+                    if eq(board(mod(plus(2,rMove($dir)),6),mod(plus(2,cMove($dir)),6)),undef) then
+                        board(mod(plus(2,rMove($dir)),6),mod(plus(2,cMove($dir)),6)) := $car
                     endif
-                endlet
-                let ($var_966 = rMoveP($dir), $var_967 = cMoveP($dir)) in
-                    if neq(board(mod(plus($r,$var_966),6),mod(plus($c,$var_967),6)),$car) then
-                        board($r,$c) := undef
+                    if neq(board(mod(plus(2,rMoveP($dir)),6),mod(plus(2,cMoveP($dir)),6)),$car) then
+                        board(2,2) := undef
                     endif
-                endlet
-            endpar
+                endpar
+            endif
+            if eq(board(2,4),$car) then
+                par
+                    if eq(board(mod(plus(2,rMove($dir)),6),mod(plus(4,cMove($dir)),6)),undef) then
+                        board(mod(plus(2,rMove($dir)),6),mod(plus(4,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(2,rMoveP($dir)),6),mod(plus(4,cMoveP($dir)),6)),$car) then
+                        board(2,4) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(2,3),$car) then
+                par
+                    if eq(board(mod(plus(2,rMove($dir)),6),mod(plus(3,cMove($dir)),6)),undef) then
+                        board(mod(plus(2,rMove($dir)),6),mod(plus(3,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(2,rMoveP($dir)),6),mod(plus(3,cMoveP($dir)),6)),$car) then
+                        board(2,3) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(2,0),$car) then
+                par
+                    if eq(board(mod(plus(2,rMove($dir)),6),mod(plus(0,cMove($dir)),6)),undef) then
+                        board(mod(plus(2,rMove($dir)),6),mod(plus(0,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(2,rMoveP($dir)),6),mod(plus(0,cMoveP($dir)),6)),$car) then
+                        board(2,0) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(2,5),$car) then
+                par
+                    if eq(board(mod(plus(2,rMove($dir)),6),mod(plus(5,cMove($dir)),6)),undef) then
+                        board(mod(plus(2,rMove($dir)),6),mod(plus(5,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(2,rMoveP($dir)),6),mod(plus(5,cMoveP($dir)),6)),$car) then
+                        board(2,5) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(2,1),$car) then
+                par
+                    if eq(board(mod(plus(2,rMove($dir)),6),mod(plus(1,cMove($dir)),6)),undef) then
+                        board(mod(plus(2,rMove($dir)),6),mod(plus(1,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(2,rMoveP($dir)),6),mod(plus(1,cMoveP($dir)),6)),$car) then
+                        board(2,1) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(4,2),$car) then
+                par
+                    if eq(board(mod(plus(4,rMove($dir)),6),mod(plus(2,cMove($dir)),6)),undef) then
+                        board(mod(plus(4,rMove($dir)),6),mod(plus(2,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(4,rMoveP($dir)),6),mod(plus(2,cMoveP($dir)),6)),$car) then
+                        board(4,2) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(4,4),$car) then
+                par
+                    if eq(board(mod(plus(4,rMove($dir)),6),mod(plus(4,cMove($dir)),6)),undef) then
+                        board(mod(plus(4,rMove($dir)),6),mod(plus(4,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(4,rMoveP($dir)),6),mod(plus(4,cMoveP($dir)),6)),$car) then
+                        board(4,4) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(4,3),$car) then
+                par
+                    if eq(board(mod(plus(4,rMove($dir)),6),mod(plus(3,cMove($dir)),6)),undef) then
+                        board(mod(plus(4,rMove($dir)),6),mod(plus(3,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(4,rMoveP($dir)),6),mod(plus(3,cMoveP($dir)),6)),$car) then
+                        board(4,3) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(4,0),$car) then
+                par
+                    if eq(board(mod(plus(4,rMove($dir)),6),mod(plus(0,cMove($dir)),6)),undef) then
+                        board(mod(plus(4,rMove($dir)),6),mod(plus(0,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(4,rMoveP($dir)),6),mod(plus(0,cMoveP($dir)),6)),$car) then
+                        board(4,0) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(4,5),$car) then
+                par
+                    if eq(board(mod(plus(4,rMove($dir)),6),mod(plus(5,cMove($dir)),6)),undef) then
+                        board(mod(plus(4,rMove($dir)),6),mod(plus(5,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(4,rMoveP($dir)),6),mod(plus(5,cMoveP($dir)),6)),$car) then
+                        board(4,5) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(4,1),$car) then
+                par
+                    if eq(board(mod(plus(4,rMove($dir)),6),mod(plus(1,cMove($dir)),6)),undef) then
+                        board(mod(plus(4,rMove($dir)),6),mod(plus(1,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(4,rMoveP($dir)),6),mod(plus(1,cMoveP($dir)),6)),$car) then
+                        board(4,1) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(3,2),$car) then
+                par
+                    if eq(board(mod(plus(3,rMove($dir)),6),mod(plus(2,cMove($dir)),6)),undef) then
+                        board(mod(plus(3,rMove($dir)),6),mod(plus(2,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(3,rMoveP($dir)),6),mod(plus(2,cMoveP($dir)),6)),$car) then
+                        board(3,2) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(3,4),$car) then
+                par
+                    if eq(board(mod(plus(3,rMove($dir)),6),mod(plus(4,cMove($dir)),6)),undef) then
+                        board(mod(plus(3,rMove($dir)),6),mod(plus(4,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(3,rMoveP($dir)),6),mod(plus(4,cMoveP($dir)),6)),$car) then
+                        board(3,4) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(3,3),$car) then
+                par
+                    if eq(board(mod(plus(3,rMove($dir)),6),mod(plus(3,cMove($dir)),6)),undef) then
+                        board(mod(plus(3,rMove($dir)),6),mod(plus(3,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(3,rMoveP($dir)),6),mod(plus(3,cMoveP($dir)),6)),$car) then
+                        board(3,3) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(3,0),$car) then
+                par
+                    if eq(board(mod(plus(3,rMove($dir)),6),mod(plus(0,cMove($dir)),6)),undef) then
+                        board(mod(plus(3,rMove($dir)),6),mod(plus(0,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(3,rMoveP($dir)),6),mod(plus(0,cMoveP($dir)),6)),$car) then
+                        board(3,0) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(3,5),$car) then
+                par
+                    if eq(board(mod(plus(3,rMove($dir)),6),mod(plus(5,cMove($dir)),6)),undef) then
+                        board(mod(plus(3,rMove($dir)),6),mod(plus(5,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(3,rMoveP($dir)),6),mod(plus(5,cMoveP($dir)),6)),$car) then
+                        board(3,5) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(3,1),$car) then
+                par
+                    if eq(board(mod(plus(3,rMove($dir)),6),mod(plus(1,cMove($dir)),6)),undef) then
+                        board(mod(plus(3,rMove($dir)),6),mod(plus(1,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(3,rMoveP($dir)),6),mod(plus(1,cMoveP($dir)),6)),$car) then
+                        board(3,1) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(0,2),$car) then
+                par
+                    if eq(board(mod(plus(0,rMove($dir)),6),mod(plus(2,cMove($dir)),6)),undef) then
+                        board(mod(plus(0,rMove($dir)),6),mod(plus(2,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(0,rMoveP($dir)),6),mod(plus(2,cMoveP($dir)),6)),$car) then
+                        board(0,2) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(0,4),$car) then
+                par
+                    if eq(board(mod(plus(0,rMove($dir)),6),mod(plus(4,cMove($dir)),6)),undef) then
+                        board(mod(plus(0,rMove($dir)),6),mod(plus(4,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(0,rMoveP($dir)),6),mod(plus(4,cMoveP($dir)),6)),$car) then
+                        board(0,4) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(0,3),$car) then
+                par
+                    if eq(board(mod(plus(0,rMove($dir)),6),mod(plus(3,cMove($dir)),6)),undef) then
+                        board(mod(plus(0,rMove($dir)),6),mod(plus(3,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(0,rMoveP($dir)),6),mod(plus(3,cMoveP($dir)),6)),$car) then
+                        board(0,3) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(0,0),$car) then
+                par
+                    if eq(board(mod(plus(0,rMove($dir)),6),mod(plus(0,cMove($dir)),6)),undef) then
+                        board(mod(plus(0,rMove($dir)),6),mod(plus(0,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(0,rMoveP($dir)),6),mod(plus(0,cMoveP($dir)),6)),$car) then
+                        board(0,0) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(0,5),$car) then
+                par
+                    if eq(board(mod(plus(0,rMove($dir)),6),mod(plus(5,cMove($dir)),6)),undef) then
+                        board(mod(plus(0,rMove($dir)),6),mod(plus(5,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(0,rMoveP($dir)),6),mod(plus(5,cMoveP($dir)),6)),$car) then
+                        board(0,5) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(0,1),$car) then
+                par
+                    if eq(board(mod(plus(0,rMove($dir)),6),mod(plus(1,cMove($dir)),6)),undef) then
+                        board(mod(plus(0,rMove($dir)),6),mod(plus(1,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(0,rMoveP($dir)),6),mod(plus(1,cMoveP($dir)),6)),$car) then
+                        board(0,1) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(5,2),$car) then
+                par
+                    if eq(board(mod(plus(5,rMove($dir)),6),mod(plus(2,cMove($dir)),6)),undef) then
+                        board(mod(plus(5,rMove($dir)),6),mod(plus(2,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(5,rMoveP($dir)),6),mod(plus(2,cMoveP($dir)),6)),$car) then
+                        board(5,2) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(5,4),$car) then
+                par
+                    if eq(board(mod(plus(5,rMove($dir)),6),mod(plus(4,cMove($dir)),6)),undef) then
+                        board(mod(plus(5,rMove($dir)),6),mod(plus(4,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(5,rMoveP($dir)),6),mod(plus(4,cMoveP($dir)),6)),$car) then
+                        board(5,4) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(5,3),$car) then
+                par
+                    if eq(board(mod(plus(5,rMove($dir)),6),mod(plus(3,cMove($dir)),6)),undef) then
+                        board(mod(plus(5,rMove($dir)),6),mod(plus(3,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(5,rMoveP($dir)),6),mod(plus(3,cMoveP($dir)),6)),$car) then
+                        board(5,3) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(5,0),$car) then
+                par
+                    if eq(board(mod(plus(5,rMove($dir)),6),mod(plus(0,cMove($dir)),6)),undef) then
+                        board(mod(plus(5,rMove($dir)),6),mod(plus(0,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(5,rMoveP($dir)),6),mod(plus(0,cMoveP($dir)),6)),$car) then
+                        board(5,0) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(5,5),$car) then
+                par
+                    if eq(board(mod(plus(5,rMove($dir)),6),mod(plus(5,cMove($dir)),6)),undef) then
+                        board(mod(plus(5,rMove($dir)),6),mod(plus(5,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(5,rMoveP($dir)),6),mod(plus(5,cMoveP($dir)),6)),$car) then
+                        board(5,5) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(5,1),$car) then
+                par
+                    if eq(board(mod(plus(5,rMove($dir)),6),mod(plus(1,cMove($dir)),6)),undef) then
+                        board(mod(plus(5,rMove($dir)),6),mod(plus(1,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(5,rMoveP($dir)),6),mod(plus(1,cMoveP($dir)),6)),$car) then
+                        board(5,1) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(1,2),$car) then
+                par
+                    if eq(board(mod(plus(1,rMove($dir)),6),mod(plus(2,cMove($dir)),6)),undef) then
+                        board(mod(plus(1,rMove($dir)),6),mod(plus(2,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(1,rMoveP($dir)),6),mod(plus(2,cMoveP($dir)),6)),$car) then
+                        board(1,2) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(1,4),$car) then
+                par
+                    if eq(board(mod(plus(1,rMove($dir)),6),mod(plus(4,cMove($dir)),6)),undef) then
+                        board(mod(plus(1,rMove($dir)),6),mod(plus(4,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(1,rMoveP($dir)),6),mod(plus(4,cMoveP($dir)),6)),$car) then
+                        board(1,4) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(1,3),$car) then
+                par
+                    if eq(board(mod(plus(1,rMove($dir)),6),mod(plus(3,cMove($dir)),6)),undef) then
+                        board(mod(plus(1,rMove($dir)),6),mod(plus(3,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(1,rMoveP($dir)),6),mod(plus(3,cMoveP($dir)),6)),$car) then
+                        board(1,3) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(1,0),$car) then
+                par
+                    if eq(board(mod(plus(1,rMove($dir)),6),mod(plus(0,cMove($dir)),6)),undef) then
+                        board(mod(plus(1,rMove($dir)),6),mod(plus(0,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(1,rMoveP($dir)),6),mod(plus(0,cMoveP($dir)),6)),$car) then
+                        board(1,0) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(1,5),$car) then
+                par
+                    if eq(board(mod(plus(1,rMove($dir)),6),mod(plus(5,cMove($dir)),6)),undef) then
+                        board(mod(plus(1,rMove($dir)),6),mod(plus(5,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(1,rMoveP($dir)),6),mod(plus(5,cMoveP($dir)),6)),$car) then
+                        board(1,5) := undef
+                    endif
+                endpar
+            endif
+            if eq(board(1,1),$car) then
+                par
+                    if eq(board(mod(plus(1,rMove($dir)),6),mod(plus(1,cMove($dir)),6)),undef) then
+                        board(mod(plus(1,rMove($dir)),6),mod(plus(1,cMove($dir)),6)) := $car
+                    endif
+                    if neq(board(mod(plus(1,rMoveP($dir)),6),mod(plus(1,cMoveP($dir)),6)),$car) then
+                        board(1,1) := undef
+                    endif
+                endpar
+            endif
+        endpar
 
 
     invariant inv_0 over board: eq(size({$r in Coord,$c in Coord| eq(board($r,$c),undef) : plus(mult($r,6),$c)}),22)

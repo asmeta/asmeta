@@ -30,6 +30,33 @@ definitions:
     CTLSPEC ag(ge(plus(plus(available(COFFEE),available(TEA)),available(MILK)),5))
     main rule r_Main =
         par
+            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,TEA),eq(chooseVar0,COFFEE))) then
+                available(TEA) := minus(available(COFFEE),1)
+            endif
+            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,COFFEE),eq(chooseVar0,COFFEE))) then
+                available(COFFEE) := minus(available(COFFEE),1)
+            endif
+            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,COFFEE),eq(chooseVar0,TEA))) then
+                available(COFFEE) := minus(available(TEA),1)
+            endif
+            if and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)) then
+                coins := plus(coins,1)
+            endif
+            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,MILK),eq(chooseVar0,COFFEE))) then
+                available(MILK) := minus(available(COFFEE),1)
+            endif
+            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,TEA),eq(chooseVar0,TEA))) then
+                available(TEA) := minus(available(TEA),1)
+            endif
+            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,TEA),eq(chooseVar0,MILK))) then
+                available(TEA) := minus(available(MILK),1)
+            endif
+            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,MILK),eq(chooseVar0,MILK))) then
+                available(MILK) := minus(available(MILK),1)
+            endif
+            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,MILK),eq(chooseVar0,TEA))) then
+                available(MILK) := minus(available(TEA),1)
+            endif
             if and(and(lt(coins,25),eq(insertedCoin,HALF)),gt(available(MILK),0)) then
                 par
                     available(MILK) := minus(available(MILK),1)
@@ -38,33 +65,6 @@ definitions:
             endif
             if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,COFFEE),eq(chooseVar0,MILK))) then
                 available(COFFEE) := minus(available(MILK),1)
-            endif
-            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,MILK),eq(chooseVar0,COFFEE))) then
-                available(MILK) := minus(available(COFFEE),1)
-            endif
-            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,COFFEE),eq(chooseVar0,TEA))) then
-                available(COFFEE) := minus(available(TEA),1)
-            endif
-            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,TEA),eq(chooseVar0,COFFEE))) then
-                available(TEA) := minus(available(COFFEE),1)
-            endif
-            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,TEA),eq(chooseVar0,MILK))) then
-                available(TEA) := minus(available(MILK),1)
-            endif
-            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,TEA),eq(chooseVar0,TEA))) then
-                available(TEA) := minus(available(TEA),1)
-            endif
-            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,MILK),eq(chooseVar0,TEA))) then
-                available(MILK) := minus(available(TEA),1)
-            endif
-            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,COFFEE),eq(chooseVar0,COFFEE))) then
-                available(COFFEE) := minus(available(COFFEE),1)
-            endif
-            if and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)) then
-                coins := plus(coins,1)
-            endif
-            if and(and(and(lt(coins,25),not(eq(insertedCoin,HALF))),isDef(chooseVar0)),and(eq(chooseVar0,MILK),eq(chooseVar0,MILK))) then
-                available(MILK) := minus(available(MILK),1)
             endif
         endpar
 

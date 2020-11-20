@@ -1,4 +1,4 @@
-//applied flatteners: AR 
+//applied flatteners: AR LR ChR FR MCR 
 asm coffeeVendingMachine_flat
 import ../../STDL/StandardLibrary
 import ../../STDL/CTLlibrary
@@ -12,17 +12,14 @@ signature:
     controlled available: Product -> QuantityDomain
     controlled coins: CoinDomain
     monitored insertedCoin: CoinType
+    derived chooseVar0: Product
 
 definitions:
 
     domain QuantityDomain = {0,1,2,3,4,5,6,7,8,9,10}
     domain CoinDomain = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}
 
-    macro rule r_serveProduct($p in Product) =
-        par
-            available($p) := minus(available($p),1)
-            coins := plus(coins,1)
-        endpar
+    function chooseVar0 = chooseone({$p in Product| and(neq($p,MILK),gt(available($p),0)) : $p})
 
 
     CTLSPEC ef(and(and(eq(available(MILK),0),eq(available(COFFEE),9)),eq(available(TEA),0)))
@@ -35,11 +32,46 @@ definitions:
         if lt(coins,25) then
             if eq(insertedCoin,HALF) then
                 if gt(available(MILK),0) then
-                    r_serveProduct[MILK]
+                    par
+                        available(MILK) := minus(available(MILK),1)
+                        coins := plus(coins,1)
+                    endpar
                 endif
             else 
-                choose $p in Product with and(neq($p,MILK),gt(available($p),0)) do
-                    r_serveProduct[$p]
+                if isDef(chooseVar0) then
+                    par
+                        par
+                            if and(eq(chooseVar0,COFFEE),eq(chooseVar0,COFFEE)) then
+                                available(COFFEE) := minus(available(COFFEE),1)
+                            endif
+                            if and(eq(chooseVar0,COFFEE),eq(chooseVar0,TEA)) then
+                                available(COFFEE) := minus(available(TEA),1)
+                            endif
+                            if and(eq(chooseVar0,COFFEE),eq(chooseVar0,MILK)) then
+                                available(COFFEE) := minus(available(MILK),1)
+                            endif
+                            if and(eq(chooseVar0,TEA),eq(chooseVar0,COFFEE)) then
+                                available(TEA) := minus(available(COFFEE),1)
+                            endif
+                            if and(eq(chooseVar0,TEA),eq(chooseVar0,TEA)) then
+                                available(TEA) := minus(available(TEA),1)
+                            endif
+                            if and(eq(chooseVar0,TEA),eq(chooseVar0,MILK)) then
+                                available(TEA) := minus(available(MILK),1)
+                            endif
+                            if and(eq(chooseVar0,MILK),eq(chooseVar0,COFFEE)) then
+                                available(MILK) := minus(available(COFFEE),1)
+                            endif
+                            if and(eq(chooseVar0,MILK),eq(chooseVar0,TEA)) then
+                                available(MILK) := minus(available(TEA),1)
+                            endif
+                            if and(eq(chooseVar0,MILK),eq(chooseVar0,MILK)) then
+                                available(MILK) := minus(available(MILK),1)
+                            endif
+                        endpar
+                        coins := plus(coins,1)
+                    endpar
+                endif
             endif
         endif
 

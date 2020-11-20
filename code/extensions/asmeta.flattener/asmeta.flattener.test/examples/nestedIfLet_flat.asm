@@ -23,6 +23,9 @@ definitions:
 
     main rule r_Main =
         par
+            if and(and(not(a),c),not(d)) then
+                z := 2
+            endif
             if and(a,b) then
                 par
                     x := 2
@@ -39,17 +42,14 @@ definitions:
                     endlet
                 endpar
             endif
-            if and(and(not(a),c),d) then
-                z := 3
-            endif
             if a then
                 par
                     k := 2
                     x := 3
                 endpar
             endif
-            if and(and(not(a),c),not(d)) then
-                z := 2
+            if and(and(not(a),c),d) then
+                z := 3
             endif
         endpar
 
