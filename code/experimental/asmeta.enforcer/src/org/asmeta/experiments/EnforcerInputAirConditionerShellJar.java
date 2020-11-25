@@ -11,6 +11,7 @@ public class EnforcerInputAirConditionerShellJar {
 	//ma effettivamente perchè sto usando 2 jar, non posso usare direttamente RUNTIMECONTAINER come imodelexecution???????
 	public static void main(String[] args) {
 		String stringJ = "",stringS = "";
+		Scanner s = new Scanner(System.in); 
 		try {
 			//Processo JAVA
 			ProcessBuilder pbJ = new ProcessBuilder("java", "-jar", ".\\jars\\ProvaAirC_v2.jar");
@@ -29,7 +30,7 @@ public class EnforcerInputAirConditionerShellJar {
 			while((stringS = inS.readLine()) != null && !stringS.equals(">")){ //stesso problema del carattere di attesa system.in (credo)
 			    System.out.println(stringS);								   
 			}
-			outS.write("startexecution -modelpath \".\\ASMmodels\\airConditioner.asm\"\n");
+			outS.write("startexecution -modelpath \".\\examples\\airConditioner.asm\"\n");
 		    outS.flush();
 			while((stringS = inS.readLine()) != null && !stringS.equals(">")){
 			    System.out.println(stringS);								   
@@ -38,7 +39,6 @@ public class EnforcerInputAirConditionerShellJar {
 			while((stringJ = inJ.readLine()) != null && !stringJ.equals(">")){
 			    System.out.println(stringJ);
 			}
-			Scanner s = new Scanner(System.in); 
 			T= s.nextInt();
 			boolean errore=true;
 			while (T>-275) {
@@ -67,6 +67,8 @@ public class EnforcerInputAirConditionerShellJar {
 		}
 		catch (IOException e) {
 			System.out.println("-----ERRORE IOEXCEPTION-----");
+		}finally {
+			s.close();
 		}
 	}
 

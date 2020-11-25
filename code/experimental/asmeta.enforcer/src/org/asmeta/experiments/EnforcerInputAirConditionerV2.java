@@ -22,6 +22,7 @@ public class EnforcerInputAirConditionerV2 {
 		int T=0;
 		RunOutput SafeOut = new RunOutput(Esit.SAFE, "ok");
 		RunOutput simResult;
+		Scanner s = new Scanner(System.in); 
 		//model simulation start
 		SimulationContainer sc = SimulationContainer.getInstance();
 		sc.init(1);
@@ -37,7 +38,6 @@ public class EnforcerInputAirConditionerV2 {
 				stringJ=inJ.readLine();
 			    System.out.println(stringJ);
 			}
-			Scanner s = new Scanner(System.in); 
 			T = s.nextInt(); //first input
 			while (T!=-1) {
 				Map<String,String> locVal = new HashMap<>();
@@ -59,6 +59,8 @@ public class EnforcerInputAirConditionerV2 {
 			}
 		}catch (IOException e) {
 			System.out.println("-----IOEXCEPTION-----");
+		}finally {
+			s.close();
 		}
 	}
 	
