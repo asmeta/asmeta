@@ -34,7 +34,10 @@ public class AirConditioner {
 		}
 	}
 
-	
+	public void setAirIntensity(int value) {
+		airIntensity = value;
+	}
+
 	public void setRoomTemperature(int roomTemperature) {
 		this.roomTemperature = roomTemperature;
 	}
