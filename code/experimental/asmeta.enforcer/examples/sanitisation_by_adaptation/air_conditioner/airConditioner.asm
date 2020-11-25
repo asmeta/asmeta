@@ -12,7 +12,8 @@ definitions:
 	domain AirSpeedDomain = {0:2}
 
 	invariant inv_a over temperature: temperature > 0  //negative values must be filtered out
-	//invariant inv_c over airIntensity: airIntensity < 2 //output sanitisation: to avoid over speed
+	//invariant inv_b over airIntensity: airIntensity < 2 //output sanitisation: to avoid over speed
+	invariant inv_b over airSpeed: airSpeed < 2 //output sanitisation: to avoid over speed; like inv_b but for airSpeed!
 	
 	 
 	
