@@ -1,6 +1,6 @@
 package org.asmeta.input_sanitisation_java;
 
-//Input: room temeperature (integer value)
+//Input: room temperature (integer value)
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
