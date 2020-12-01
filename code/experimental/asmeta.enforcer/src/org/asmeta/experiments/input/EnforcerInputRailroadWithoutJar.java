@@ -1,4 +1,4 @@
-package org.asmeta.experiments;
+package org.asmeta.experiments.input;
 
 import java.util.Map;
 import java.util.HashMap;

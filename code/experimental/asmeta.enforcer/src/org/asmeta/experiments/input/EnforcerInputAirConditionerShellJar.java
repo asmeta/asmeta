@@ -1,4 +1,4 @@
-package org.asmeta.experiments;
+package org.asmeta.experiments.input;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
