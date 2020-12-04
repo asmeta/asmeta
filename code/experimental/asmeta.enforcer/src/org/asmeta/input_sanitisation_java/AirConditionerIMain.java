@@ -1,31 +1,30 @@
-package org.asmeta.output_sanitisation_java;
+package org.asmeta.input_sanitisation_java;
 
-//Input: room temeperature (integer value)
+//Input: room temperature (integer value)
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class AirConditionerMain {
+public class AirConditionerIMain {
 	
 	public static void main(String[] args) {	
         int T =0;//default temperature value: 0
-        AirConditioner cond = new AirConditioner(0);	
+        AirConditionerI cond = new AirConditionerI(0);	
 		
         Scanner s = new Scanner(System.in); 
-		while (T!=-1) { 
-			try {	
+        try {
+			while (T!=-1) { 
 				System.out.println("Conditioner ON: speed "+cond.getAirIntensity());			
 				System.out.println("Enter temperature value >");
 				T = s.nextInt(); //read room temperature
 				cond.setRoomTemperature(T);
 				cond.setAirIntensity();
 				}
-			catch(InputMismatchException ex) {
-				System.out.println("Error, input illformed.");
-	        } 
-			finally {
-		        s.close();
-		        System.out.println("Conditioner OFF");
-	       }
+        }catch(InputMismatchException ex) {
+			System.out.println("Error, input illformed.");
+        }finally {
+	        s.close();
+	        System.out.println("Conditioner OFF");
+       }
     }
-   }
 }
+

@@ -10,7 +10,7 @@ package org.asmeta.output_sanitisation_java;
 //import org.asmeta.monitoring.StartMonitoring;
 
 //@Asm(asmFile="models/airConditioner.asm")
-public class AirConditioner {
+public class AirConditionerO {
 	//@Monitored(func="temperature", args={})
 	public int roomTemperature;
 	//@FieldToLocation(func="airSpeed", args={})
@@ -18,7 +18,7 @@ public class AirConditioner {
 	public int airIntensity;
 
 	//@StartMonitoring
-	public AirConditioner(int temperature) {
+	public AirConditionerO(int temperature) {
 		airIntensity = 0;
 		this.roomTemperature = temperature;
 	}
