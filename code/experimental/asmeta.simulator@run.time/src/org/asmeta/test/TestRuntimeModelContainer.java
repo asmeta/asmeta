@@ -896,12 +896,13 @@ public class TestRuntimeModelContainer {
 		public void testAddInvariant() throws Exception {
 			int result=0;
 			Map<String,String> m=new HashMap<String, String>();
-			m.put("carry", "WOLF");
+			m.put("carry", "GOAT");
 			String model = "examples/ferrymanSimulator_raff1.asm";
 			Files.copy(Paths.get(model+".original"), Paths.get(model), StandardCopyOption.REPLACE_EXISTING);
 			SimulationContainer imp = SimulationContainer.getInstance();
 			imp.init(2);
 			int id = imp.startExecution(model);
+			imp.runStep(id,m);
 			imp.removeInvariant(id,"invariant over position:position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
 			System.out.println(imp.viewListInvariant(id));
 			//imp.runStep(id,m, model);

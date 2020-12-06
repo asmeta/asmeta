@@ -2,6 +2,7 @@ package org.asmeta.runtime_container;
 
 import java.io.PrintStream;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.asmeta.animator.MyState;
@@ -106,7 +107,22 @@ public class RunOutput implements Serializable {
 		sb.append("-----------------------------------\n");
 		return sb.toString();
 	}
-
+	
+	//NEEDED TO GET OUT FUNCTIONS VALUES
+	//TODO ho messo l'output in string per isolare location e value al simulator, non so se è meglio importarli nell'enforcer
+	public  Map<String, String> getControlledvalues(){
+		if (ms!=null && ms.getControlledValues()!=null) {
+			Map<Location, Value> set=ms.getControlledValues();
+			HashMap<String, String> controlled = new HashMap<String, String>();
+			for (Location key : set.keySet()) {
+			    Value val = set.get(key);
+			    controlled.put(key.toString(), val.toString());
+			}
+			return controlled;
+		}
+		return new HashMap<String,String>();
+	}
+//prova
 	
 
 	@Override
