@@ -38,9 +38,9 @@ definitions:
 	
 	macro rule r_setBrakeValue ($value in LightPercentage) =
 		par
-			brakeLampLeft := 100
-			brakeLampRight := 100
-			brakeLampCenter := 100
+			brakeLampLeft := $value
+			brakeLampRight := $value
+			brakeLampCenter := $value
 		endpar
 			
 	//ELS-39 ELS-40
