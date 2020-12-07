@@ -26,9 +26,9 @@ public class EnforcerInputAirConditionerV2 {
 		//model simulation start
 		SimulationContainer sc = SimulationContainer.getInstance();
 		sc.init(1);
-		sc.startExecution(".\\examples.\\input_sanitisation\\air_conditioner\\airConditioner.asm");
+		sc.startExecution("./examples./input_sanitisation/air_conditioner/airConditioner.asm");
 		//java system start
-		ProcessBuilder pbJ = new ProcessBuilder("java", "-jar", ".\\jars\\AirConditionerInputSystem.jar");
+		ProcessBuilder pbJ = new ProcessBuilder("java", "-jar", "./jars/AirConditionerInputSystem.jar");
 		try {
 			Process pJ = pbJ.start();
 			BufferedReader inJ = new BufferedReader(new InputStreamReader(pJ.getInputStream()));

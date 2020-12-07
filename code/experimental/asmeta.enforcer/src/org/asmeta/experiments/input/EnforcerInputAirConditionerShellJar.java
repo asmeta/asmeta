@@ -14,13 +14,13 @@ public class EnforcerInputAirConditionerShellJar {
 		Scanner s = new Scanner(System.in); 
 		try {
 			//Processo JAVA
-			ProcessBuilder pbJ = new ProcessBuilder("java", "-jar", ".\\jars\\ProvaAirC_v2.jar");
+			ProcessBuilder pbJ = new ProcessBuilder("java", "-jar", "./jars/ProvaAirC_v2.jar");
 			Process pJ = pbJ.start();
 			BufferedReader inJ = new BufferedReader(new InputStreamReader(pJ.getInputStream()));
 			BufferedWriter outJ = new BufferedWriter(new OutputStreamWriter(pJ.getOutputStream()));
 			//Processo SIMULATOR																				 
 			//ProcessBuilder pbS = new ProcessBuilder("java", "-jar", "InterfacciaSimShell_v1.jar","init -n 1"); //forse è meglio se faccio una interfaccia jar ad hoc invece che usare shell
-			ProcessBuilder pbS = new ProcessBuilder("java", "-jar", ".\\jars\\InterfacciaSimShell_v2.jar","init -n 1");	//ho isolato > su una riga con l'a capo
+			ProcessBuilder pbS = new ProcessBuilder("java", "-jar", "./jars/InterfacciaSimShell_v2.jar","init -n 1");	//ho isolato > su una riga con l'a capo
 			Process pS = pbS.start();
 			BufferedReader inS = new BufferedReader(new InputStreamReader(pS.getInputStream()));
 			BufferedWriter outS = new BufferedWriter(new OutputStreamWriter(pS.getOutputStream()));
@@ -30,7 +30,7 @@ public class EnforcerInputAirConditionerShellJar {
 			while((stringS = inS.readLine()) != null && !stringS.equals(">")){ //stesso problema del carattere di attesa system.in (credo)
 			    System.out.println(stringS);								   
 			}
-			outS.write("startexecution -modelpath \".\\examples\\airConditioner.asm\"\n");
+			outS.write("startexecution -modelpath \"./examples/input_sanitisation/air_conditioner/airConditioner.asm\"\n");
 		    outS.flush();
 			while((stringS = inS.readLine()) != null && !stringS.equals(">")){
 			    System.out.println(stringS);								   
