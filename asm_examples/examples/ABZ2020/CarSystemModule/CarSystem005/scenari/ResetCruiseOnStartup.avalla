@@ -1,0 +1,47 @@
+scenario ResetCruiseOnStartup
+load ../CarSystem005main.asm
+//accendo motore e cruise
+check setVehicleSpeed = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM0;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check setVehicleSpeed = 0;
+check desiredSpeed = 0;
+set sCSLever := FORWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 301;
+set cruiseControlMode := CCM2;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = FORWARD_SCS;
+check setVehicleSpeed = 301;
+check desiredSpeed = 301;
+set sCSLever := NEUTRAL;
+//poi spengo il motore
+set keyState := KEYINSERTED;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM2;
+step
+check keyState_Previous = KEYINSERTED;
+check sCSLeve_Previous = NEUTRAL;
+check setVehicleSpeed = 301;
+check desiredSpeed = 301;
+set sCSLever := NEUTRAL;
+//verifico che alla successiva accesione il cruise sia resettato
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM2;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check setVehicleSpeed = 0;
+check desiredSpeed = 0;
+step
