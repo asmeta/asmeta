@@ -1,50 +1,60 @@
 //// starting scenario
-scenario ParkingLightsONAmbient
+scenario ParkingLightsON.avalla
 load ../CarSystem002main.asm
-//per questo abbiamo presettato ambientLighting =false
+/*
+ * 
+ * 			if (ambientLightingAvailable and lowBeamLightingOn and (not engineOn(keyState))) then
+				if (passed30Sec) then
+		//ParkingLightsON.avalla
+					if (parkingLight) then
+						par
+							r_parkingLight[] //	ELS-28
+							parkingLightON := true
+						endpar
+					else
+ */
+
 check keyState_Previous = undef;
+check lowBeamRight = 0;
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
-check lowBeamLeft = 0;
 check brakeLampLeft = 0;
 check brakeLampCenterStatus = FIX;
 check hazardWarningSwitchOn_Runn = false;
 check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
 check hazardWarningSwitchOn_Start = false;
-	check lightRotarySwitchPrevious = OFF;
-	check lowBeamRight = 0;
-	set keyState := KEYINIGNITIONONPOSITION;
-	set lightRotarySwitch := ON;
+	check lowBeamLeft = 0;
+set keyState := KEYINIGNITIONONPOSITION;
+set lightRotarySwitch := ON;
 set hazardWarningSwitchOn := false;
-	set pitmanArmUpDown := UPWARD7;
 set darknessModeSwitchOn := false;
 set brightnessSensor := 100;
 set reverseGear := false;
 set brakePedal := 0;
+	set pitmanArmUpDown := DOWNWARD7;
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
+check lowBeamRight = 100;
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
-check lowBeamLeft = 100;
 check brakeLampLeft = 0;
 check brakeLampCenterStatus = FIX;
 check hazardWarningSwitchOn_Runn = false;
-check pitmanArmUpDown_RunnReq = UPWARD7;
+	check pitmanArmUpDown_RunnReq = DOWNWARD7;
 check hazardWarningSwitchOn_Start = false;
-check lightRotarySwitchPrevious = ON;
+check blinkLeftPulseRatio = PULSE11;
 check reverseLight = 0;
 check pitmanArmUpDown_Buff = NEUTRAL_UD;
-check tailLampLeftFixValue = 100;
+check tailLampRightFixValue = 100;
+check blinkLeft = 100;
+check lightRotarySwitchPrevious = ON;
 check corneringLightLeft = 0;
 check corneringLightRight = 0;
-	check tailLampRightFixValue = 100;
-	check blinkRight = 100;
-	check blinkRightPulseRatio = PULSE11;
-	check lowBeamRight = 100;
+	check lowBeamLeft = 100;
+	check tailLampLeftFixValue = 100;
 	set keyState := KEYINIGNITIONONPOSITION;
 	set lightRotarySwitch := ON;
 set hazardWarningSwitchOn := false;
-	set pitmanArmUpDown := UPWARD7;
 set darknessModeSwitchOn := false;
 set brightnessSensor := 100;
 set reverseGear := false;
@@ -52,30 +62,30 @@ set brakePedal := 0;
 set currentSpeed := 0;
 set steeringAngle := 500;
 set passed5Sec := false;
+	set pitmanArmUpDown := DOWNWARD7;
 step
-check keyState_Previous = KEYINIGNITIONONPOSITION;
+	check keyState_Previous = KEYINIGNITIONONPOSITION;
+check lowBeamRight = 100;
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
-check lowBeamLeft = 100;
 check brakeLampLeft = 0;
 check brakeLampCenterStatus = FIX;
 check hazardWarningSwitchOn_Runn = false;
-check pitmanArmUpDown_RunnReq = UPWARD7;
+	check pitmanArmUpDown_RunnReq = DOWNWARD7;
 check hazardWarningSwitchOn_Start = false;
-check lightRotarySwitchPrevious = ON;
+check blinkLeftPulseRatio = PULSE11;
 check reverseLight = 0;
 check pitmanArmUpDown_Buff = NEUTRAL_UD;
-check tailLampLeftFixValue = 100;
+check tailLampRightFixValue = 100;
+	check blinkLeft = 100;
+check lightRotarySwitchPrevious = ON;
 check corneringLightLeft = 0;
 check corneringLightRight = 0;
-	check tailLampRightFixValue = 100;
-	check blinkRight = 100;
-	check blinkRightPulseRatio = PULSE11;
-	check lowBeamRight = 100;
+	check lowBeamLeft = 100;
+	check tailLampLeftFixValue = 100;
 	set keyState := NOKEYINSERTED;
 	set lightRotarySwitch := ON;
 set hazardWarningSwitchOn := false;
-	set pitmanArmUpDown := UPWARD7;
 set darknessModeSwitchOn := false;
 set brightnessSensor := 100;
 set reverseGear := false;
@@ -83,25 +93,27 @@ set brakePedal := 0;
 set currentSpeed := 0;
 set steeringAngle := 500;
 set passed5Sec := false;
+set pitmanArmUpDown := DOWNWARD7;
+	set passed30Sec := true;
 step
-check keyState_Previous = NOKEYINSERTED;
+	check keyState_Previous = NOKEYINSERTED;
+check lowBeamRight = 0;
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
-check lowBeamLeft = 0;
 check brakeLampLeft = 0;
 check brakeLampCenterStatus = FIX;
 check hazardWarningSwitchOn_Runn = false;
 check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
 check hazardWarningSwitchOn_Start = false;
-check lightRotarySwitchPrevious = ON;
+check blinkLeftPulseRatio = NOPULSE;
 check reverseLight = 0;
 check pitmanArmUpDown_Buff = NEUTRAL_UD;
-check tailLampLeftFixValue = 0;
+check tailLampRightFixValue = 0;
+check blinkLeft = 0;
+check lightRotarySwitchPrevious = ON;
 check corneringLightLeft = 0;
 check corneringLightRight = 0;
+	check lowBeamLeft = 10;
+	check tailLampLeftFixValue = 10;
 	check parkingLightON = true;
-	check tailLampRightFixValue = 10;
-	check blinkRight = 0;
-	check blinkRightPulseRatio = NOPULSE;
-	check lowBeamRight = 10;
 step

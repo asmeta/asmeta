@@ -1,6 +1,23 @@
 //// starting scenario
-scenario ParkingLightsON.avalla
+scenario ParkingLightsONnoRule.avalla
 load ../CarSystem002main.asm
+/*
+ * 
+ * 			//LowBeamOFFPowerOFF
+			if (ambientLightingAvailable and lowBeamLightingOn and (not engineOn(keyState))) then
+				if (passed30Sec) then
+		//ParkingLightsON.avalla
+				...
+				else
+		//ParkingLightsONnoRule.avalla
+					if (parkingLight) then
+						parkingLightON := true
+					endif
+				endif
+			endif
+ */
+ //questo copre l'if nel caso non sono passati 30 secondi, ma non capisco perchè le luci di parcheggio sono settate accese anche
+ //se non lo sono
 
 check keyState_Previous = undef;
 check lowBeamRight = 0;
@@ -82,7 +99,7 @@ set currentSpeed := 0;
 set steeringAngle := 500;
 set passed5Sec := false;
 set pitmanArmUpDown := DOWNWARD7;
-set passed30Sec := true;
+	set passed30Sec := false;
 step
 	check keyState_Previous = NOKEYINSERTED;
 check lowBeamRight = 0;
@@ -101,7 +118,7 @@ check blinkLeft = 0;
 check lightRotarySwitchPrevious = ON;
 check corneringLightLeft = 0;
 check corneringLightRight = 0;
-	check lowBeamLeft = 10;
-	check tailLampLeftFixValue = 10;
+	//check lowBeamLeft = 10;
+	//check tailLampLeftFixValue = 10;
 	check parkingLightON = true;
 step
