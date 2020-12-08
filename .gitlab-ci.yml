@@ -56,7 +56,9 @@ test-jdk8:
   artifacts:
     when: always
     reports:
-      junit: TEST-*.xml
+      junit: 
+        - code/core/asmeta.parser/asmeta.parser.test/target/surefire-reports/TEST-*.xml
+        - code/core/asmeta.emf/target/surefire-reports/TEST-*.xml
     paths:
       - asm_examples/coverage/jacoco/jacoco.xml
       
