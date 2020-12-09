@@ -1,31 +1,60 @@
 scenario HWExecutedShutdown
 load ../CarSystem001main.asm
-
+//in questo scenario controlliamo che, alla disattivazione dell'indicatore di pericolo, si proceda ad eseguire la richiesta di indicatore direzionale
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+set hazardWarningSwitchOn := false;
 set keyState := KEYINIGNITIONONPOSITION;
-check hazardWarningSwitchOn_Runn =false;
-check hazardWarningSwitchOn_Start= true;
-check hazardWarningSwitchOn=true;
-check pitmanArmUpDown_Buff= DOWNWARD7; 
-set pitmanArmUpDown:= UPWARD5; //controlliamo se finisce nel buffer anche durante l'accensione
-
-step //l'hw è acceso
-check keyState = KEYINIGNITIONONPOSITION;
-check hazardWarningSwitchOn_Runn =true;
-check hazardWarningSwitchOn_Start= false;
-check hazardWarningSwitchOn=true;
-check blinkRight != 0 //dovrei mettere i valori del lampeggiamento di emergenza
-	 blinkRightPulseRatio != NOPULSE;
-check blinkLeft != 0
-	 blinkRightLeft != NOPULSE;
-check pitmanArmUpDown_Buff= DOWNWARD7; 
-	
-	//qui controlliamo lo spegnimento utente nel caso lo volesse spegnere
-	set hazardWarningSwitchOn:=false;
-
-	step
-	check hazardWarningSwitchOn_Runn =false;
-	check pitmanArmUpDown_Runn= DOWNWARD7; //quindi riprende l'ultima request
-	check blinkRight = 0
-	 blinkRightPulseRatio = NOPULSE;
-	check blinkLeft != 0
-	 blinkRightLeft != NOPULSE;
+set pitmanArmUpDown := NEUTRAL_UD;
+step
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+set hazardWarningSwitchOn := true;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := UPWARD5;
+step
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = true;
+set hazardWarningSwitchOn := true;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := UPWARD5;
+step
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = true;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check blinkRightPulseRatio = PULSE11;
+check blinkRight = 100;
+check blinkLeftPulseRatio = PULSE11;
+check blinkLeft = 100;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := UPWARD5;
+step
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check blinkRightPulseRatio = NOPULSE;
+check blinkRight = 0;
+check blinkLeftPulseRatio = NOPULSE;
+check blinkLeft = 0;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := UPWARD5;
+step
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = UPWARD5;
+check hazardWarningSwitchOn_Start = false;
+check blinkRightPulseRatio = PULSE11;
+check blinkRight = 100;
+check blinkLeftPulseRatio = NOPULSE;
+check blinkLeft = 0;
+step
