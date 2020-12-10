@@ -1,0 +1,55 @@
+scenario AcceleratingScenario
+load ../CarSystem007main.asm
+//credo che il cruise acceleri quando la distanza di sicurezza è < della distanza rilevata dal radar
+//ovvero rangeRadarSensor>setSafetyDistance
+check setVehicleSpeed = 0;
+set keyState := KEYINIGNITIONONPOSITION;
+set sCSLever := NEUTRAL;
+set currentSpeed := 0;
+set cruiseControlMode := CCM0;
+step
+check setVehicleSpeed = 0;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 0;
+check setSafetyDistance = 2;
+set keyState := KEYINIGNITIONONPOSITION;
+set sCSLever := FORWARD_SCS;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 3;
+step
+check setVehicleSpeed = 500;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = FORWARD_SCS;
+check desiredSpeed = 500;
+check setSafetyDistance = 2;
+check acceleration = 0;
+set keyState := KEYINIGNITIONONPOSITION;
+set sCSLever := UPWARD7_SCS;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 3;
+step
+check setVehicleSpeed = 600;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = UPWARD7_SCS;
+check desiredSpeed = 600;
+check setSafetyDistance = 2;
+check acceleration = 0;
+set keyState := KEYINIGNITIONONPOSITION;
+set sCSLever := NEUTRAL;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 3;
+step
+check setVehicleSpeed = 600;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 600;
+check setSafetyDistance = 2;
+check acceleration = 2;
+step
