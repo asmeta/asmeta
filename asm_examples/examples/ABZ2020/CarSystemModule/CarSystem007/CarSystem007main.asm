@@ -53,3 +53,4 @@ default init s0:
 	function acousticSignalImpact = false
 	function visualWarningOn=false
 	function acousticWarningOn=false
+	function speedVehicleAhead_Prec= 0
