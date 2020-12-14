@@ -34,7 +34,7 @@ definitions:
 		 (brakeLampLeft != 0 and brakeLampRight != 0 and brakeLampCenter != 0)		
 		 
 	function automaticEmergencyBrake =
-	// 	prima->	(currentSpeed > 0 and currentSpeed <= 60 and stationaryObstacle) or (currentSpeed > 0 and currentSpeed <= 120 and movingObstacle)
+	// 	(currentSpeed > 0 and currentSpeed <= 60 and stationaryObstacle) or (currentSpeed > 0 and currentSpeed <= 120 and movingObstacle)
 		(currentSpeed > 0 and currentSpeed <= 600 and stationaryObstacle) or (currentSpeed > 0 and currentSpeed <= 1200 and movingObstacle) 
 
 	macro rule r_setBrakeValue ($value in LightPercentage) =
