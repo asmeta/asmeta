@@ -1,6 +1,7 @@
 package org.asmeta.framework.enforcer;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
 
@@ -8,7 +9,7 @@ import org.asmeta.framework.auxiliary.Utility;
 import org.asmeta.framework.managedSystem.*;
 
 
-//import org.asmeta.runtime_container;
+import org.asmeta.runtime_container.*;
 
 
 public abstract class Enforcer {//extends TimerTask{
@@ -34,7 +35,7 @@ public abstract class Enforcer {//extends TimerTask{
     private static String RUNTIME_MODEL_PATH;
     
     /** Runtime model handle*/
-    //private SimulationContainer modelEngine; 
+    private SimulationContainer modelEngine; 
     
     /** ManagedSystem handle*/
     private ManagedSystem system; 
@@ -57,8 +58,10 @@ public abstract class Enforcer {//extends TimerTask{
 			SIMULATION_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));
 		    System.out.println(SIMULATION_TIMEOUT);
 			//init AsmetaS@run.time model engine
-			//modelEngine = SimulationContainer.getInstance();
-			//modelEngine.startExecution(RUNTIME_MODEL_PATHNAME);
+			modelEngine = SimulationContainer.getInstance();
+			System.out.println(modelEngine.getLoadedIDs());
+			modelEngine.startExecution(Utility.getProperty("RUNTIME_MODEL_PATH"));
+			System.out.println(Utility.getProperty("RUNTIME_MODEL_PATH"));
 			
 	    }
 	    catch (Exception e) {
@@ -84,16 +87,30 @@ public abstract class Enforcer {//extends TimerTask{
 	 * Run input sanitisation; input is eventually filtered out
 	 * 
 	 */
-	public boolean sanitiseInput(String inputValues) {
-		//return eval(inputValues).equals(new RunOutput(Esit.SAFE,"safe"));;
-		return true;
+	public boolean sanitiseInput(Map<String, String> inputValues) {
+		return eval(inputValues).equals(new RunOutput(Esit.SAFE,"safe"));
+		
 	}
 	
-	//private RunOutput eval(String input) {
-		//Map<String, String> inputValues = convert(input)
-		//return modelEngine.runUntilEmptyTimeout(1, locationValues, SIMULATION_TIMEOUT)
-				
-	//}
+	private RunOutput eval(Map<String, String> inputValues) {
+		//Map<String, String> inputs = convert(inputValues);
+		//return modelEngine.runStepTimeout(1, inputValues, SIMULATION_TIMEOUT);
+		return modelEngine.runStep(1, inputValues);
+	}
+	
+	/* private static <T> Map<String, String> convert(String input) {	//ho cercato di fare una conversione di input generica non so se è giusto
+		Map<String,String> locValue=new HashMap<>();
+		for(Map.Entry<String, T> entry : input.entrySet()) {
+		    String key = entry.getKey();
+		    T value = entry.getValue();
+		    if (value instanceof String)	//effettivamente se è un enum di asm non va bene
+		    	locValue.put(key, "\""+value.toString()+"\"");
+		    else
+		    	locValue.put(key, value.toString());
+		}
+		return locValue;
+	}*/
+	
 	
 	/**
 	 * Run output sanitisation; output is filtered out

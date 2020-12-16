@@ -30,7 +30,7 @@ public class mainInternalOutputSanitisation {
 		e.runLoop();
 		System.out.println("Air speed forced to: " + ((KnowledgeAirConditioner) k).airSpeed);
 		System.out.println("Air speed set by the system: " + managedSystem.getAirIntensity());
-		System.out.print("Starting/ending loop time: " + loop.getStartTime() + "\t" + loop.getEndTime());
+		System.out.println("Starting/ending loop time: " + loop.getStartTime() + "\t" + loop.getEndTime());
 	}
 
 }
