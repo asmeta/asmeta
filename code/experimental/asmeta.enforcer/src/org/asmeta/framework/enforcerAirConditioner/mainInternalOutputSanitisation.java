@@ -6,10 +6,7 @@ import org.asmeta.framework.airConditioner.*;
 
 //First test class: the managed system is internal to its enforcer
 public class mainInternalOutputSanitisation {
-    
-    /** System pathname*/
-    //private static String SYSTEM_PATH;
-    
+   
 	
 	public static void main(String[] args) {
 		
