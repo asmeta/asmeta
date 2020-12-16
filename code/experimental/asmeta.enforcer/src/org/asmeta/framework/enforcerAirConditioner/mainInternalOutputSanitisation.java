@@ -1,6 +1,4 @@
 package org.asmeta.framework.enforcerAirConditioner;
-//http://homepage.lnu.se/staff/daweaa/ActivFORMS/Model-based-simulation.htm
-//https://www-users.cs.york.ac.uk/simos/UNDERSEA/
 //https://examples.javacodegeeks.com/core-java/lang/processbuilder/java-lang-processbuilder-example/
 	
 import org.asmeta.framework.enforcer.*;
