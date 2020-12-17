@@ -54,14 +54,18 @@ public abstract class Enforcer {//extends TimerTask{
 			knowledge  = k;
 		    loop = l;
 		    
-     		//init simulation timeout for the runtime model
-			SIMULATION_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));
-		    System.out.println(SIMULATION_TIMEOUT);
-			//init AsmetaS@run.time model engine
+     		//Read the pathname of the runtime model and the simulation timeout value from the configuration file
+		    RUNTIME_MODEL_PATH = Utility.getProperty("RUNTIME_MODEL_PATH");
+		    SIMULATION_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));
+		       
+		    //Initialize the AsmetaS@run.time model engine
 			modelEngine = SimulationContainer.getInstance();
-			System.out.println(modelEngine.getLoadedIDs());
-			modelEngine.startExecution(Utility.getProperty("RUNTIME_MODEL_PATH"));
-			System.out.println(Utility.getProperty("RUNTIME_MODEL_PATH"));
+			modelEngine.init(1);
+			int result = modelEngine.startExecution(RUNTIME_MODEL_PATH);
+			if (result < 0) 
+				System.err.println("ERROR: Simulation engine not initialized for the model "+ RUNTIME_MODEL_PATH);
+			else 
+				System.out.println("Model engine initialized for "+ RUNTIME_MODEL_PATH + " with simulation step timeout " + SIMULATION_TIMEOUT);
 			
 	    }
 	    catch (Exception e) {
