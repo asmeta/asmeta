@@ -9,8 +9,11 @@ public abstract class Knowledge {
 	public boolean adaptationRequired = false;
     
 	
+	/** flag showing whether the observed part of the managed system has changed or not; default: true*/
+	public boolean systemStateChanged() { 
+		return true; 
 	
-	public abstract boolean systemStateChanged();
+	}
 	
 	
 }

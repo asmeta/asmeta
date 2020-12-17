@@ -7,10 +7,10 @@ import org.asmeta.framework.enforcer.Knowledge;
 public class KnowledgeAirConditioner extends Knowledge {
 	 
 
-    /** Keeps the times when the controller started executing the MAPE loop (i.e, after every "time_window" seconds)*/
+    /** Keeps the times when the MAPE loop starts */
     //public List<Double> initTimeList = new ArrayList<Double>();    
 
-    /** Keeps the times when the controller completed the execution of its MAPE loop*/
+    /** Keeps the times when the MAPE loop completes*/
     //public List<Double> endTimeList = new ArrayList<Double>();    
 	
 	
@@ -23,20 +23,13 @@ public class KnowledgeAirConditioner extends Knowledge {
    
 		
 	
-	   //Overloading
-		public boolean systemStateChanged(int newVal){
-			if	( this.airSpeed != newVal)
+	 //Overloading (by the new parameter)
+	public boolean systemStateChanged(int newAirSpeedVal){
+			if	( this.airSpeed != newAirSpeedVal)
 				return true;
 			return false;
 		}
 
-
-
-		@Override
-		public boolean systemStateChanged() {
-
-			return true;
-		}
 	
 	
 }

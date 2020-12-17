@@ -46,9 +46,7 @@ public abstract class Enforcer {//extends TimerTask{
 	public Enforcer(ManagedSystem s, Knowledge k, FeedbackLoop l) {		
 	    try {
 	    		    	
-		    //connect system and feedback loop
-	    	
-	    	// get probe and effectors
+		    //connect managed system and feedback loop (get probe and effectors from the managed system)
 		    probe = s.getProbe();
 			effector = s.getEffector();
 			knowledge  = k;

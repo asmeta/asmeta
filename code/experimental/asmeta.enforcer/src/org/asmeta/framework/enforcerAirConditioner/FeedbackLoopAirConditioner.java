@@ -12,7 +12,10 @@ public class FeedbackLoopAirConditioner extends FeedbackLoop{
 
 	//@Override
 	public void monitor() {
-		int newVal = ((AirConditioner)(this.getProbe())).getAirIntensity();
+		//Read and save the air speed value calculated by the air conditioner into the knowledge
+		AirConditioner probeAC = (AirConditioner) this.getProbe();
+		int newVal = probeAC.getAirIntensity();
+		
 		if (((KnowledgeAirConditioner)this.getKnowledge()).systemStateChanged(newVal)) {
 			//store the new value into the knowledge
 			((KnowledgeAirConditioner) this.getKnowledge()).airSpeed = newVal;
