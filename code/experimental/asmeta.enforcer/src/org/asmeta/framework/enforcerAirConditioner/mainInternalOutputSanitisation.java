@@ -21,16 +21,29 @@ public class mainInternalOutputSanitisation {
 		Enforcer.setConfigFile("./resources/AirConditioner/config.properties");
 		Enforcer e = new EnforcerAirConditioner(managedSystem,k,loop);
 		
-		 /** Running (one step) -- example of output sanitisation via MAPE-K*/
-		System.out.println("Air speed set by the system: " + managedSystem.getAirIntensity());
+		 /** Running -- example of output sanitisation via MAPE-K*/
+		System.out.println("Initial air speed of the system: " + managedSystem.getAirIntensity());
 		managedSystem.setRoomTemperature(40);
 		managedSystem.setAirIntensity();
+		System.out.println("Room temperature measured by the system: " + managedSystem.getRoomTemperature());
+		System.out.println("Air speed set by the system: " + managedSystem.getAirIntensity());
+		//Output sanitisation via a MAPE-K loop
+		e.runLoop();
+		System.out.println("Air speed forced to: " + ((KnowledgeAirConditioner) k).airSpeed);
+		System.out.println("Air speed set by the system: " + managedSystem.getAirIntensity());
+		System.out.println("Starting/ending loop time: " + loop.getStartTime() + "\t" + loop.getEndTime() + "\n\n");
+		
+		managedSystem.setRoomTemperature(22);
+		managedSystem.setAirIntensity();
+		System.out.println("Room temperature measured by the system: " + managedSystem.getRoomTemperature());
 		System.out.println("Air speed set by the system: " + managedSystem.getAirIntensity());
 		//Output sanitisation via a MAPE-K loop
 		e.runLoop();
 		System.out.println("Air speed forced to: " + ((KnowledgeAirConditioner) k).airSpeed);
 		System.out.println("Air speed set by the system: " + managedSystem.getAirIntensity());
 		System.out.println("Starting/ending loop time: " + loop.getStartTime() + "\t" + loop.getEndTime());
+		
+		
 	}
 
 }

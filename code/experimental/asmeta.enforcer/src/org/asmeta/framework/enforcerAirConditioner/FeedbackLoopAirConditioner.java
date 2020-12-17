@@ -5,6 +5,7 @@ import java.util.Map;
 import org.asmeta.framework. airConditioner.AirConditioner;
 import org.asmeta.framework.enforcer.*;
 import org.asmeta.framework.managedSystem.*;
+import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 
 public class FeedbackLoopAirConditioner extends FeedbackLoop{
@@ -20,10 +21,9 @@ public class FeedbackLoopAirConditioner extends FeedbackLoop{
 	public void monitor() {
 		//Read and save the air speed value calculated by the air conditioner into the knowledge
 		AirConditioner probeAC = (AirConditioner) this.getProbe();
-		int newVal = probeAC.getAirIntensity();
 		//check and store if system changed
-		if (kAC.systemStateChanged(newVal)) {
-			//if changed, perform analysis
+		if (kAC.systemStateChanged(probeAC.getAirIntensity(),probeAC.getRoomTemperature())) {
+			//if the system produced a new output, perform analysis (output sanitisation)
 			analysis();
 		}
 	}
@@ -49,15 +49,23 @@ public class FeedbackLoopAirConditioner extends FeedbackLoop{
 	
 	@Override
 	public void planning() {
-		//Output sanitisation made by the ASM runtime model: make an ASM evaluation step from the monitored input 
+		//Output sanitisation made by the ASM runtime model: make an ASM evaluation step from the current state and the new monitored input 
+		System.out.println("Output sanitisation made by the ASM runtime model...");
 		RunOutput result = eval(prepareInput());
+		
+		//Usage:
 		//result.getEsit(); //SAFE or UNSAFE
         //result.getResult(); //Timeout expired or not
-		result.getControlledvalues(); //Output values from the ASM model
+		//System.out.println(result.getControlledvalues().get("airSpeed")); //Output values from the ASM model
 		
-		//store the new value as computed by the ASM runtime model into the knowledge
-		kAC.airSpeed = 1;
-		execution();
+		if (result.getEsit() == Esit.SAFE) {
+			//store the new value as computed by the ASM runtime model into the knowledge and trigger execution
+			kAC.airSpeed = Integer.valueOf(result.getControlledvalues().get("airSpeed"));
+			execution();
+		}
+		else {
+			System.out.println("Error: something got wrong with the output sanitisation made by the ASM runtime model. No enforcement applied.");
+		}
 	}
 	
 	

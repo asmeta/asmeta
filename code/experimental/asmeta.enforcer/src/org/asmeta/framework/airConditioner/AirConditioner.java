@@ -47,6 +47,10 @@ public class AirConditioner extends ManagedSystem implements Probe, Effector{
 		this.roomTemperature = roomTemperature;
 	}
 
+	public int getRoomTemperature() {
+		return roomTemperature;
+	}
+	
 	//@MethodToLocation(func="airSpeed", args={})
 	public int getAirIntensity() {
 		return airIntensity;

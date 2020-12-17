@@ -94,10 +94,14 @@ public abstract class FeedbackLoop {
 	//abstract method
 	public abstract void execution();
 
-	protected void setModel(SimulationContainer modelHandle) {
+	public  void setModel(SimulationContainer modelHandle) {
 		model = modelHandle;
-	};
+	}
 
+	public SimulationContainer getModel() {
+		return model;
+	}
+	
 	//make an ASM evaluation step from the monitored input 
 	public RunOutput eval(Map<String, String> inputValues) {
 		//return modelEngine.runStepTimeout(1, inputValues, SIMULATION_TIMEOUT);

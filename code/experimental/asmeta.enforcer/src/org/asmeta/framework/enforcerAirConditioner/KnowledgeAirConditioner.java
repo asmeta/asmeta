@@ -25,10 +25,11 @@ public class KnowledgeAirConditioner extends Knowledge {
 		
 	
 	 //Overloading (by the new parameter); checks and eventually store the new system output value if different
-	public boolean systemStateChanged(int newAirSpeedVal){
+	public boolean systemStateChanged(int newAirSpeedVal, int newTempValue){
 			if	( this.airSpeed != newAirSpeedVal) {
 				//store the new value into the knowledge
 				airSpeed = newAirSpeedVal;
+				temperature = newTempValue;
 				return true;
 			}
 			return false;
