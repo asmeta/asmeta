@@ -1,6 +1,10 @@
 package org.asmeta.framework.enforcer;
+import java.util.Map;
+
 import org.asmeta.framework.managedSystem.Effector;
 import org.asmeta.framework.managedSystem.Probe;
+import org.asmeta.runtime_container.RunOutput;
+import org.asmeta.runtime_container.SimulationContainer;
 
 public abstract class FeedbackLoop {
 
@@ -19,6 +23,9 @@ public abstract class FeedbackLoop {
 	/** Knowledge handle*/
 	private Knowledge k;
 
+	/** Runtime model handle*/
+	private SimulationContainer model;
+	
 	/**
 	 * FeedbackLoop constructor
 	 */
@@ -87,5 +94,17 @@ public abstract class FeedbackLoop {
 	//abstract method
 	public abstract void execution();
 
+	protected void setModel(SimulationContainer modelHandle) {
+		model = modelHandle;
+	};
+
+	//make an ASM evaluation step from the monitored input 
+	public RunOutput eval(Map<String, String> inputValues) {
+		//return modelEngine.runStepTimeout(1, inputValues, SIMULATION_TIMEOUT);
+		return model.runStep(1, inputValues);
+	}
+	
+	// create an output object from the knowledge which can be used as input object for the ASM runtime model 
+	//public abstract Map<String, String> prepareInput();
 	
 }

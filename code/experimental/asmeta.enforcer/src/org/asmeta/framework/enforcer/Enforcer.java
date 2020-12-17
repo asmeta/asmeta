@@ -45,14 +45,14 @@ public abstract class Enforcer {//extends TimerTask{
 	 */
 	public Enforcer(ManagedSystem s, Knowledge k, FeedbackLoop l) {		
 	    try {
-	    		    	
-		    //connect managed system and feedback loop (get probe and effectors from the managed system)
+	    		    		    
+	    	//connect managed system and feedback loop (get probe and effectors from the managed system)
 		    probe = s.getProbe();
 			effector = s.getEffector();
 			knowledge  = k;
 		    loop = l;
 		    
-     		//Read the pathname of the runtime model and the simulation timeout value from the configuration file
+	    	//Read the pathname of the runtime model and the simulation timeout value from the configuration file
 		    RUNTIME_MODEL_PATH = Utility.getProperty("RUNTIME_MODEL_PATH");
 		    SIMULATION_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));
 		       
@@ -62,9 +62,11 @@ public abstract class Enforcer {//extends TimerTask{
 			int result = modelEngine.startExecution(RUNTIME_MODEL_PATH);
 			if (result < 0) 
 				System.err.println("ERROR: Simulation engine not initialized for the model "+ RUNTIME_MODEL_PATH);
-			else 
-				System.out.println("Model engine initialized for "+ RUNTIME_MODEL_PATH + " with simulation step timeout " + SIMULATION_TIMEOUT);
-			
+			else {
+			    //connect the ASM runtime model to the loop
+				loop.setModel(modelEngine);
+				System.out.println("Model engine initialized for "+ RUNTIME_MODEL_PATH + " with simulation step timeout " + SIMULATION_TIMEOUT + " seconds");
+			}
 	    }
 	    catch (Exception e) {
 			e.printStackTrace();
@@ -89,39 +91,19 @@ public abstract class Enforcer {//extends TimerTask{
 	 * Run input sanitisation; input is eventually filtered out
 	 * 
 	 */
-	public boolean sanitiseInput(Map<String, String> inputValues) {
+	public abstract boolean sanitiseInput(String inputValues); /*{
 		return eval(inputValues).equals(new RunOutput(Esit.SAFE,"safe"));
 		
-	}
-	
-	private RunOutput eval(Map<String, String> inputValues) {
-		//Map<String, String> inputs = convert(inputValues);
-		//return modelEngine.runStepTimeout(1, inputValues, SIMULATION_TIMEOUT);
-		return modelEngine.runStep(1, inputValues);
-	}
-	
-	/* private static <T> Map<String, String> convert(String input) {	//ho cercato di fare una conversione di input generica non so se è giusto
-		Map<String,String> locValue=new HashMap<>();
-		for(Map.Entry<String, T> entry : input.entrySet()) {
-		    String key = entry.getKey();
-		    T value = entry.getValue();
-		    if (value instanceof String)	//effettivamente se è un enum di asm non va bene
-		    	locValue.put(key, "\""+value.toString()+"\"");
-		    else
-		    	locValue.put(key, value.toString());
-		}
-		return locValue;
 	}*/
+	
+	
 	
 	
 	/**
 	 * Run output sanitisation; output is filtered out
 	 * 
 	 */
-	public boolean sanitiseOutput(String outputValues) {
-		//return eval(outputValues).equals(new RunOutput(Esit.SAFE,"safe"));;
-		return true;
-	}
+	public abstract boolean sanitiseOutput(String outputValues);
 	
 	
 	/**

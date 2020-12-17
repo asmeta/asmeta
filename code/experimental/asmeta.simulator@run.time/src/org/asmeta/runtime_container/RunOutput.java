@@ -83,6 +83,10 @@ public class RunOutput implements Serializable {
 		return timeoutFlag;
 	}
 	
+	/** Shows the esit SAFE or UNSAFE */
+	public Esit getEsit() {
+		return esit;
+	}
 	
 	@Override
 	public String toString() {

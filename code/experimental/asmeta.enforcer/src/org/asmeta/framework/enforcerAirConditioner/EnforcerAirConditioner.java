@@ -7,4 +7,17 @@ public class EnforcerAirConditioner extends Enforcer{
 		super(system, k, l);
 	}
 
+	//Unimplemented methods yet
+	@Override
+	public boolean sanitiseInput(String inputValues) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sanitiseOutput(String outputValues) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -13,8 +13,9 @@ public class KnowledgeAirConditioner extends Knowledge {
     /** Keeps the times when the MAPE loop completes*/
     //public List<Double> endTimeList = new ArrayList<Double>();    
 	
-	
-	int airSpeed;
+	/** Monitored values from the Air Conditioner*/ 
+	int airSpeed; //input value for the Air Conditioner
+	int temperature; //output value as computed by the Air Conditioner
 	   
 
 	public KnowledgeAirConditioner() {
@@ -23,7 +24,7 @@ public class KnowledgeAirConditioner extends Knowledge {
    
 		
 	
-	 //Overloading (by the new parameter); checks and eventually store the new value if different
+	 //Overloading (by the new parameter); checks and eventually store the new system output value if different
 	public boolean systemStateChanged(int newAirSpeedVal){
 			if	( this.airSpeed != newAirSpeedVal) {
 				//store the new value into the knowledge
