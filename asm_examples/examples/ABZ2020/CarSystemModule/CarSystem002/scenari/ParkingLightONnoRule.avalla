@@ -1,0 +1,124 @@
+//// starting scenario
+scenario ParkingLightsONnoRule.avalla
+load ../CarSystem002main.asm
+/*
+ * 
+ * 			//LowBeamOFFPowerOFF
+			if (ambientLightingAvailable and lowBeamLightingOn and (not engineOn(keyState))) then
+				if (passed30Sec) then
+		//ParkingLightsON.avalla
+				...
+				else
+		//ParkingLightsONnoRule.avalla
+					if (parkingLight) then
+						parkingLightON := true
+					endif
+				endif
+			endif
+ */
+ //questo copre l'if nel caso non sono passati 30 secondi, ma non capisco perchè le luci di parcheggio sono settate accese anche
+ //se non lo sono
+
+check keyState_Previous = undef;
+check lowBeamRight = 0;
+check brakeLampRight = 0;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+	check lowBeamLeft = 0;
+set keyState := KEYINIGNITIONONPOSITION;
+set lightRotarySwitch := ON;
+set hazardWarningSwitchOn := false;
+set darknessModeSwitchOn := false;
+set brightnessSensor := 100;
+set reverseGear := false;
+set brakePedal := 0;
+	set pitmanArmUpDown := DOWNWARD7;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check lowBeamRight = 100;
+check brakeLampRight = 0;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+	check pitmanArmUpDown_RunnReq = DOWNWARD7;
+check hazardWarningSwitchOn_Start = false;
+check blinkLeftPulseRatio = PULSE11;
+check reverseLight = 0;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check tailLampRightFixValue = 100;
+check blinkLeft = 100;
+check lightRotarySwitchPrevious = ON;
+check corneringLightLeft = 0;
+check corneringLightRight = 0;
+	check lowBeamLeft = 100;
+	check tailLampLeftFixValue = 100;
+	set keyState := KEYINIGNITIONONPOSITION;
+	set lightRotarySwitch := ON;
+set hazardWarningSwitchOn := false;
+set darknessModeSwitchOn := false;
+set brightnessSensor := 100;
+set reverseGear := false;
+set brakePedal := 0;
+set currentSpeed := 0;
+set steeringAngle := 500;
+set passed5Sec := false;
+	set pitmanArmUpDown := DOWNWARD7;
+step
+	check keyState_Previous = KEYINIGNITIONONPOSITION;
+check lowBeamRight = 100;
+check brakeLampRight = 0;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+	check pitmanArmUpDown_RunnReq = DOWNWARD7;
+check hazardWarningSwitchOn_Start = false;
+check blinkLeftPulseRatio = PULSE11;
+check reverseLight = 0;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check tailLampRightFixValue = 100;
+	check blinkLeft = 100;
+check lightRotarySwitchPrevious = ON;
+check corneringLightLeft = 0;
+check corneringLightRight = 0;
+	check lowBeamLeft = 100;
+	check tailLampLeftFixValue = 100;
+	set keyState := NOKEYINSERTED;
+	set lightRotarySwitch := ON;
+set hazardWarningSwitchOn := false;
+set darknessModeSwitchOn := false;
+set brightnessSensor := 100;
+set reverseGear := false;
+set brakePedal := 0;
+set currentSpeed := 0;
+set steeringAngle := 500;
+set passed5Sec := false;
+set pitmanArmUpDown := DOWNWARD7;
+	set passed30Sec := false;
+step
+	check keyState_Previous = NOKEYINSERTED;
+check lowBeamRight = 0;
+check brakeLampRight = 0;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check blinkLeftPulseRatio = NOPULSE;
+check reverseLight = 0;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check tailLampRightFixValue = 0;
+check blinkLeft = 0;
+check lightRotarySwitchPrevious = ON;
+check corneringLightLeft = 0;
+check corneringLightRight = 0;
+	//check lowBeamLeft = 10;
+	//check tailLampLeftFixValue = 10;
+	check parkingLightON = true;
+step

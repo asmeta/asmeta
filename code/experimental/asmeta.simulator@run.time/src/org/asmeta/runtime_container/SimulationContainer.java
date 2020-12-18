@@ -1052,7 +1052,6 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			}
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Couldn't open and read the given model");
 		} finally {
 			try {
@@ -1120,7 +1119,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				File file2 = new File(modelfile+"_to_overwrite");
 				success = file2.renameTo(file);*/
 				overwrite(modelfile,"_to_overwrite");
-				if (restartSim(id, state)<0) { // TODO sistemare controllo restartsim come in add
+				if (restartSim(id, state)<0) {
 					//Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
 					overwrite(modelfile,"_old");
 					restartExecution(modelfile,id,state);
@@ -1155,6 +1154,15 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			state.previousLocationValues = new HashMap<Location, Value>();
 		stopExecution(id);		
 		int res = restartExecution(modelPath,id, state);
+		/*//TODO PLACEHOLDER CONOSCENZA DELLO STATO
+		if (res>0) {
+			//MyState control=asmS.getSimulatorTable().get(res).getState();
+			//asmS.getSimulatorTable().get(res).getSim().getCurrentState().;
+			MyState control = new MyState(asmS.getSimulatorTable().get(res).getSim().getCurrentState().getContrLocs(false), null);
+			if (control!=null)
+				System.out.println("::::CONTROL:::::The new state is: " + control.getControlledValues());
+		}
+		//end PLACEHOLDER*/
 		return res;
 	}
 	

@@ -10,6 +10,8 @@ To use the asmeta framework in Eclipse IDE you need to install:
 * Eclipse Plug-in Development Environment
 * JavaCC Eclipse Plug-in
 
+https://asmeta.github.io/
+
 ### eclispe with asmeta:
 
 https://cs.unibg.it/gargantini/didattica/info3/sw/eclipse_asmeta_smv.7z

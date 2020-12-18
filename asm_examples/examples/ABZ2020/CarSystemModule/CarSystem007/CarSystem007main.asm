@@ -51,3 +51,6 @@ default init s0:
 	function speedLimitSpeed = 0
 	function setSafetyDistance = 2
 	function acousticSignalImpact = false
+	function visualWarningOn=false
+	function acousticWarningOn=false
+	function speedVehicleAhead_Prec= 0

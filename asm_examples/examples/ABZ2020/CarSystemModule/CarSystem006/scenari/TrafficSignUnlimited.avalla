@@ -1,0 +1,29 @@
+scenario TrafficSignUnlimited
+load ../CarSystem006main.asm
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM0;
+set trafficSignDetectionOn := false;
+step
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := true;
+set gasPedal := 0;
+set detectedTrafficSign := UNLIMITED;
+step
+check setVehicleSpeed = 1200;
+check speedLimitActive = false;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+step

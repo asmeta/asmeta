@@ -54,6 +54,7 @@ definitions:
 	//Se il lupo (WOLF) e la capra (GOAT) sono sulla stessa sponda, allora deve essere presente anche il FERRYMAN
 	invariant over position:position(WOLF)=position(GOAT) implies position(WOLF)=position(FERRYMAN)
 
+	invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)
 	main rule r_Main =
 		if(not(allOnRightSide)) then
 			r_carry[carry]

@@ -1,0 +1,51 @@
+scenario TipBlinking
+load ../CarSystem001main.asm
+//questo scenario verifica lo spegnimento del lampeggiamento temporaneo UPWARD/DOWNWARD5 alla fine dei 3 cicli di blink, dopo che ne siano stati
+//eseguiti almeno 3
+//verifica implicitamente anche il proseguimento dell'operazione nel caso sia uguale a quella precedente
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := DOWNWARD5;
+step
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = DOWNWARD5;
+check hazardWarningSwitchOn_Start = false;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check blinkLeftPulseRatio = PULSE11;
+check blinkLeft = 100;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := DOWNWARD5;
+step
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = DOWNWARD5;
+check hazardWarningSwitchOn_Start = false;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check blinkLeftPulseRatio = PULSE11;
+check blinkLeft = 100;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := NEUTRAL_UD;
+set threeBlinkingCycle := false;
+step
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = DOWNWARD5;
+check hazardWarningSwitchOn_Start = false;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check blinkLeftPulseRatio = PULSE11;
+check blinkLeft = 100;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := NEUTRAL_UD;
+set threeBlinkingCycle := true;
+step
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check blinkLeftPulseRatio = NOPULSE;
+check blinkLeft = 0;
+step

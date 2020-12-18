@@ -1,0 +1,49 @@
+scenario CCM1ONandOFF
+load ../CarSystem005main.asm
+check setVehicleSpeed = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM0;
+step
+check setVehicleSpeed = 0;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 0;
+set sCSLever := FORWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 300;
+set cruiseControlMode := CCM1;
+step
+//il cruise si accende se il freno non è premuto e se current>200 (20km)
+check setVehicleSpeed = 300;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = FORWARD_SCS;
+check desiredSpeed = 300;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 300;
+set cruiseControlMode := CCM1;
+//il cruise non si spegne se non accelero più di esso
+set accelerationUserHighCruiseControl := false;
+step
+check setVehicleSpeed = 300;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 300;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 304;
+set cruiseControlMode := CCM1;
+//il cruise si spegne se accellero più di esso
+set accelerationUserHighCruiseControl := true;
+step
+check setVehicleSpeed = 0;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 300;
+step

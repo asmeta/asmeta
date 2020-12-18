@@ -1,0 +1,38 @@
+scenario OvervoltageHighBeam
+load ../CarSystem004main.asm
+
+//deve esserci qualcosa che non va nella funzione che genera la potenza per le luci perchè i valori tornati sono negativi
+check lowBeamLeft = 0;
+check lowBeamRight = 0;
+check pitmanArmForthBackPrevious = NEUTRAL_FB;
+set currentVoltage := 130;
+set pitmanArmForthBack := BACKWARD;
+set lightRotarySwitch := ON;
+step
+check highBeamRange = 100;
+check tailLampRightFixValue = 100;
+check tailLampLeftFixValue = 100;
+check lowBeamLeft = 100;
+check lowBeamRight = 100;
+check pitmanArmForthBackPrevious = BACKWARD;
+set currentVoltage := 155;
+set pitmanArmForthBack := BACKWARD;
+set lightRotarySwitch := ON;
+step
+check highBeamRange = -200;
+check tailLampRightFixValue = -200;
+check tailLampLeftFixValue = -200;
+check lowBeamLeft = -200;
+check lowBeamRight = -200;
+check pitmanArmForthBackPrevious = BACKWARD;
+set currentVoltage := 147;
+set pitmanArmForthBack := BACKWARD;
+set lightRotarySwitch := ON;
+step
+check highBeamRange = -40;
+check tailLampRightFixValue = -40;
+check tailLampLeftFixValue = -40;
+check lowBeamLeft = -40;
+check lowBeamRight = -40;
+check pitmanArmForthBackPrevious = BACKWARD;
+step
