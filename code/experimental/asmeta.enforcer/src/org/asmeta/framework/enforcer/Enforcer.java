@@ -94,10 +94,7 @@ public abstract class Enforcer {//extends TimerTask{
 	 * Run input sanitisation; returns true if the input is to filter out, false otherwise
 	 * 
 	 */
-	public abstract boolean sanitiseInput(String inputValues); /*{
-		return eval(inputValues).equals(new RunOutput(Esit.SAFE,"safe"));
-		
-	}*/
+	public abstract boolean sanitiseInput(String inputValues); 
 	
 	
 	

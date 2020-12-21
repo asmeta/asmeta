@@ -11,17 +11,19 @@ public class EnforcerAirConditioner extends Enforcer{
 		super(system, k, l);
 	}
 
-	//Unimplemented methods yet
 	@Override
 	public boolean sanitiseInput(String inputValues) {
-		// TODO Auto-generated method stub
-		return false;
+		int temp = Integer.parseInt(inputValues.trim());
+		return temp <= 0; //without the use of the runtime model
 	}
+	/*{
+	return eval(inputValues).equals(new RunOutput(Esit.SAFE,"safe"));
+    }*/
 
 	@Override
 	public boolean sanitiseOutput(String outputValues) {
-		// TODO Auto-generated method stub
-		return false;
+		int speed = Integer.parseInt(((outputValues.split(":"))[1]).trim());
+		return speed > 1; //without the use of the runtime model
 	}
 
 }

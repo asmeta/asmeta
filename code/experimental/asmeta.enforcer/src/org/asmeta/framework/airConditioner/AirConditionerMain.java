@@ -11,7 +11,7 @@ public class AirConditionerMain {
         AirConditioner cond = new AirConditioner(0);	
         
         Scanner s = new Scanner(System.in); 
-        System.out.println("Conditioner ON: speed "+cond.getAirIntensity());	
+        System.out.println("Conditioner ON, speed: "+cond.getAirIntensity());	
         System.out.println("Enter temperature value >");
         try {
          String str = s.nextLine();
@@ -19,7 +19,7 @@ public class AirConditionerMain {
 				T = Integer.parseInt(str); //read room temperature
 				cond.setRoomTemperature(T);
 				cond.setAirIntensity();
-				System.out.println("Conditioner ON: speed "+cond.getAirIntensity());	
+				System.out.println("Conditioner speed: "+cond.getAirIntensity());	
 				System.out.println("Enter temperature value >");
 				str = s.nextLine();
 			}
