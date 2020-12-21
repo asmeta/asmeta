@@ -16,9 +16,6 @@ public class EnforcerAirConditioner extends Enforcer{
 		int temp = Integer.parseInt(inputValues.trim());
 		return temp <= 0; //to filter out negative values (without the use of the runtime model)
 	}
-	/*{
-	return eval(inputValues).equals(new RunOutput(Esit.SAFE,"safe"));
-    }*/
 
 	@Override
 	public boolean sanitiseOutput(String outputValues) {
