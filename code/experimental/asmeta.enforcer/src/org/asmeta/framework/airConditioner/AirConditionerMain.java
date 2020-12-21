@@ -15,7 +15,10 @@ public class AirConditionerMain {
         try {
            while (T!=-1) { 	
 				System.out.println("Enter temperature value >");
+				System.out.println("ciao");
 				T = s.nextInt(); //read room temperature
+				System.out.println(T);
+				System.out.println("ciao");
 				cond.setRoomTemperature(T);
 				cond.setAirIntensity();
 				System.out.println("Conditioner ON: speed "+cond.getAirIntensity());	

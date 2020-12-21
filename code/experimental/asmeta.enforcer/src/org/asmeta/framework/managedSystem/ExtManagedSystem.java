@@ -57,7 +57,6 @@ public class ExtManagedSystem extends ManagedSystem{
     	   Process p = pb.start();
     	   //we get the input stream from the standard output of the process.
 		   outFromS = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		   
 		   //we get the output stream from the standard input of the process.
 		   inToS = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
 		  } 
@@ -82,13 +81,16 @@ public class ExtManagedSystem extends ManagedSystem{
 		
 	}
 	
+	public boolean hasNext() throws IOException {
+		return outFromS.ready();
+	}
 	
 	public String write(String outputStr) throws IOException{
 		//inToS.println(outputStr);
 		inToS.write(outputStr);
 		inToS.flush();
-		//return outputStr;
-		return read();
+		return outputStr;
+		//return read();
 	}
 	
 	public boolean shutDown(){
@@ -116,4 +118,6 @@ public class ExtManagedSystem extends ManagedSystem{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 }

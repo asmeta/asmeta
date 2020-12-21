@@ -1,8 +1,8 @@
-package controller;
+package org.asmeta.framework.managedSystem;
 
 import java.io.IOException;
 
-import controller.comms.Client;
+
 
 public class Sensor {
 
@@ -37,7 +37,7 @@ public class Sensor {
 	
 	
 	private void parseReply (String reply){
-		//SENSOR1:RATE:#READINGS:#SUCC_READINGS,SENSOR2:RATE:#READINGS:#SUCC_READINGS,...
+	/*	//SENSOR1:RATE:#READINGS:#SUCC_READINGS,SENSOR2:RATE:#READINGS:#SUCC_READINGS,...
 		String[] sensorsStr = reply.split(",");//multiple SENSOR1=RATE:#READINGS:#SUCC_READINGS
 		
 		for (String str : sensorsStr){
@@ -56,7 +56,7 @@ public class Sensor {
 			Knowledge.getInstance().setSensorReadings(sensorData[0], Integer.parseInt(sensorData[2]));
 			Knowledge.getInstance().setSensorAccurateReadings(sensorData[0], Integer.parseInt(sensorData[3]));
 			
-		}
+		}*/
 	}
 	
 	
