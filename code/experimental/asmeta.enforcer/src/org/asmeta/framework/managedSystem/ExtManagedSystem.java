@@ -13,10 +13,10 @@ import org.asmeta.framework.auxiliary.Utility;
 //The managed system is a local process but external to the JVM where the enforcer runs.
 //Communication is carried out by a local pipe using the ProcessBuilder class, which allows a 
 //Java program to specify a process that is native to the operating system.
-//Communication between the virtual machine and the external process occurs through the 
+//Communication between the JVM and the external process occurs through the 
 //InputStream and OutputStream of the external process.
 
-public abstract class LocalManagedSystem extends ManagedSystem{
+public abstract class ExtManagedSystem extends ManagedSystem{
 
 	/** Communication handles*/
     //private Socket socket;		
@@ -32,11 +32,10 @@ public abstract class LocalManagedSystem extends ManagedSystem{
     /**
      * Constructor: create a new client instance as a local application
      * 	(by default, the subprocess reads input from a pipe)
-     *  @param host
-     *  @param port
+     *  
      */
 	//public Client(String host, int port) {
-    public LocalManagedSystem() {
+    public ExtManagedSystem() {
      try {
 			/*socket	= new Socket(host, port);
     	    out 	= new PrintWriter(socket.getOutputStream(),true);
@@ -47,7 +46,7 @@ public abstract class LocalManagedSystem extends ManagedSystem{
 			 * By default, the subprocess reads input from a pipe. 
 			 * 
 			 * */
-    	   String command = Utility.getProperty("SYSTEM_CMD"); //a string array containing the program and its arguments
+    	   String command = Utility.getProperty("SYSTEM_CMD"); //a string array containing the program to start and its arguments
     	   pb = new ProcessBuilder(command);
     	   Process p = pb.start();
 		   in = new BufferedReader(new InputStreamReader(p.getInputStream()));

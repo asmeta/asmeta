@@ -7,7 +7,7 @@ import controller.comms.Client;
 public class Sensor {
 
 	/** Communication handles*/
-    private LocalManagedSystem client;			
+    private ExtManagedSystem client;			
 
     /** Command to send to managed system*/
     private String command = "SENSORS";
@@ -18,7 +18,7 @@ public class Sensor {
     /**
      * Constructor: create a new sensor
      */
-	public Sensor(LocalManagedSystem client) {
+	public Sensor(ExtManagedSystem client) {
 		//assign client handler
 		this.client = client;		
 	}
