@@ -7,7 +7,7 @@ import org.asmeta.framework.enforcer.Enforcer;
 import org.asmeta.framework.managedSystem.ExtManagedSystem;
 public class mainExtIOSanitisation{
 	
-public static void main(String[] args) throws IOException {
+public static void main(String[] args)  {
 	
 	/** Initialization*/
 	
@@ -22,28 +22,23 @@ public static void main(String[] args) throws IOException {
 	String sin;
 	try {
 		System.out.println("Managed system prompt messages(s):\n ");
-		System.out.println(managedSystem.read());
-		System.out.println(managedSystem.read());
-		/*while  (managedSystem.hasNext()) {
-			sin = managedSystem.read();
-			System.out.println(sin);
-		}*/
+		System.out.println(managedSystem.readAll());
 	    while ( input.hasNextLine() ) { 
 		  sin = input.nextLine();	
           System.out.println("Input: " + sin);
-	      //Forward sin to the enforcer for input sanitisation
-		 if (! e.sanitiseInput(sin)) {
+	      if (sin.equals("-1")) break;
+          //Forward sin to the enforcer for input sanitisation
+		  if (! e.sanitiseInput(sin)) {
 			//Forward sin as it is to the managed system
 			System.out.println("Input forwarded to the managed system: " + sin);
-			sin = managedSystem.write(sin);
-			System.out.println("Managed system reply: "+sin);
-			//System.out.println(managedSystem.read());
-			//System.out.println(managedSystem.read());
-			//System.out.println(managedSystem.read());
-			//System.out.println("pio");
+			managedSystem.write(sin);
+			System.out.println("Managed system reply message(s): ");
+			System.out.println(managedSystem.readAll());
 		  }//else it is filtered out 
-		  
 	    }
+	}
+	catch (IOException ex) {
+		ex.printStackTrace();
 	}
 	finally {
 		input.close();

@@ -76,31 +76,37 @@ public class ExtManagedSystem extends ManagedSystem{
 	}
 	*/
 	
-	public String read() throws IOException{
-		return outFromS.readLine();
-		
+	public String readAll() throws IOException{
+		String s = outFromS.readLine(); //to wait the arrival of a new line
+		while  (ready())  //to search if there are more than one line
+			s +=  "\r\n"+outFromS.readLine();
+		return s;
 	}
 	
-	public boolean hasNext() throws IOException {
+	public String read() throws IOException{
+		return outFromS.readLine();
+	}
+	
+	public boolean ready() throws IOException {
 		return outFromS.ready();
 	}
 	
-	public String write(String outputStr) throws IOException{
+	public void write(String outputStr) throws IOException{
 		//inToS.println(outputStr);
-		inToS.write(outputStr);
+		inToS.write(outputStr+"\r\n"); 
 		inToS.flush();
-		return outputStr;
+		//return outputStr;
 		//return read();
 	}
 	
 	public boolean shutDown(){
-		String inputStr;
+		//String inputStr;
 		try {
-			inputStr = write(SHUT_DOWN_STR);
-			System.out.println(inputStr);
-			if (inputStr.equals(SHUT_DOWN_STR))
-				return true;
-			
+			//inputStr = write(SHUT_DOWN_STR);
+			//if (inputStr.equals(SHUT_DOWN_STR))
+			//	return true;
+			write(SHUT_DOWN_STR);
+			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
