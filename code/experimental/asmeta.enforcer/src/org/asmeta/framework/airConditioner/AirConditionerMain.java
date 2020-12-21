@@ -12,21 +12,22 @@ public class AirConditionerMain {
 		
         Scanner s = new Scanner(System.in); 
         System.out.println("Conditioner ON: speed "+cond.getAirIntensity());			
-		while (T!=-1) { 
-			try {	
+        try {
+           while (T!=-1) { 	
 				System.out.println("Enter temperature value >");
 				T = s.nextInt(); //read room temperature
 				cond.setRoomTemperature(T);
 				cond.setAirIntensity();
 				System.out.println("Conditioner ON: speed "+cond.getAirIntensity());	
-				}
+			}
+         }
 			catch(InputMismatchException ex) {
 				System.err.println("Error, input illformed.");
 	        } 
-			finally {
+		finally {
 		        s.close();
 		        System.out.println("Conditioner OFF");
 	       }
-    }
+        
    }
 }
