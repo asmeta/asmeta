@@ -38,14 +38,14 @@ public static void main(String[] args)  {
 			managedSystem.write(s);
 			//Take the output speed value emitted from the system
 			s = managedSystem.read();
-			//Forward s to the enforcer for output sanitisation to avoid over speed
+			//Forward s to the enforcer for output sanitisation 
 			System.out.println("Managed system reply message(s): ");
 			if (! e.sanitiseOutput(s)) 
 				System.out.println("Conditioner speed: "+s);
-			else System.out.println(s + " is filtered out!");
+			else System.out.println(s + ". It is filtered out to avoid over speed!");
 			System.out.println(managedSystem.read()); 
 		  }
-		  else System.out.println("Input "+ s + " is filtered out!\n"+"Enter temperature value >");
+		  else System.out.println("Input "+ s + " is filtered out! Negative values are not allowed.\n"+"Enter temperature value >");
 		  
 	    }
 	}
