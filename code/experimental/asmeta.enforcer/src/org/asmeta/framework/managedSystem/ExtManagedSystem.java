@@ -49,10 +49,11 @@ public class ExtManagedSystem extends ManagedSystem{
 			 * */
     	   String command = Utility.getProperty("SYSTEM_CMD"); //strings containing the program to be invoked and its arguments, if any
     	   String arg = Utility.getProperty("SYSTEM_ARG");
+    	   String syspath = Utility.getProperty("SYSTEM_PATH");
     	   pb = new ProcessBuilder();
     	   pb.redirectErrorStream(true);
     	   //System.out.println(pb.directory());
-    	   pb.command(command,arg);
+    	   pb.command(command,"-cp",syspath,arg);
     	   Process p = pb.start();
     	   //we get the input stream from the standard output of the process.
 		   outFromS = new BufferedReader(new InputStreamReader(p.getInputStream()));
