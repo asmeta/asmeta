@@ -1,6 +1,6 @@
 package org.asmeta.framework.managedSystem;
 
-public interface LocalProbe extends Probe{
+public interface ExtProbe extends Probe{
 
 	public String send(String cmd);
 	/*{

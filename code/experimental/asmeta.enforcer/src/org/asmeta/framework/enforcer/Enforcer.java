@@ -41,8 +41,11 @@ public abstract class Enforcer {//extends TimerTask{
     private ManagedSystem system; 
 	
 	/**
-	 * Enforcer constructor
+	 * Enforcer constructors
+	 * 
 	 */
+    public Enforcer() {}
+    
 	public Enforcer(ManagedSystem s, Knowledge k, FeedbackLoop l) {		
 	    try {
 	    		    		    
@@ -88,7 +91,7 @@ public abstract class Enforcer {//extends TimerTask{
 	}
 	
 	/**
-	 * Run input sanitisation; input is eventually filtered out
+	 * Run input sanitisation; returns true if the input is to filter out, false otherwise
 	 * 
 	 */
 	public abstract boolean sanitiseInput(String inputValues); /*{
@@ -100,7 +103,7 @@ public abstract class Enforcer {//extends TimerTask{
 	
 	
 	/**
-	 * Run output sanitisation; output is filtered out
+	 * Run output sanitisation; returns true if the output is to filter out, false otherwise
 	 * 
 	 */
 	public abstract boolean sanitiseOutput(String outputValues);

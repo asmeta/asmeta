@@ -10,20 +10,21 @@ import java.io.OutputStreamWriter;
 
 import org.asmeta.framework.auxiliary.Utility;
 
+
 //The managed system is a local process but external to the JVM where the enforcer runs.
 //Communication is carried out by a local pipe using the ProcessBuilder class, which allows a 
 //Java program to specify a process that is native to the operating system.
 //Communication between the JVM and the external process occurs through the 
 //InputStream and OutputStream of the external process.
 
-public abstract class ExtManagedSystem extends ManagedSystem{
+public class ExtManagedSystem extends ManagedSystem{
 
 	/** Communication handles*/
     //private Socket socket;		
     //private PrintWriter out;			
     //private BufferedReader in;
-	private BufferedReader in;
-	private BufferedWriter out;
+	private BufferedReader outFromS;
+	private BufferedWriter inToS;
 	
 	 private ProcessBuilder pb;
     /** Shut down string*/
@@ -34,7 +35,7 @@ public abstract class ExtManagedSystem extends ManagedSystem{
      * 	(by default, the subprocess reads input from a pipe)
      *  
      */
-	//public Client(String host, int port) {
+	//public ExtManagedSystem(String host, int port) {
     public ExtManagedSystem() {
      try {
 			/*socket	= new Socket(host, port);
@@ -46,11 +47,18 @@ public abstract class ExtManagedSystem extends ManagedSystem{
 			 * By default, the subprocess reads input from a pipe. 
 			 * 
 			 * */
-    	   String command = Utility.getProperty("SYSTEM_CMD"); //a string array containing the program to start and its arguments
-    	   pb = new ProcessBuilder(command);
+    	   String command = Utility.getProperty("SYSTEM_CMD"); //strings containing the program to be invoked and its arguments, if any
+    	   String arg = Utility.getProperty("SYSTEM_ARG");
+    	   pb = new ProcessBuilder();
+    	   pb.redirectErrorStream(true);
+    	   //System.out.println(pb.directory());
+    	   pb.command(command,arg);
     	   Process p = pb.start();
-		   in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		   out = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
+    	   //we get the input stream from the standard output of the process.
+		   outFromS = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		   
+		   //we get the output stream from the standard input of the process.
+		   inToS = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
 		  } 
 		catch (IOException e) {
 			e.printStackTrace();
@@ -69,14 +77,16 @@ public abstract class ExtManagedSystem extends ManagedSystem{
 	*/
 	
 	public String read() throws IOException{
-		return in.readLine();
+		return outFromS.readLine();
+		
 	}
 	
 	
 	public String write(String outputStr) throws IOException{
-		//out.println(outputStr);
-		out.write(outputStr);
-		out.flush();
+		//inToS.println(outputStr);
+		inToS.write(outputStr);
+		inToS.flush();
+		//return outputStr;
 		return read();
 	}
 	
@@ -92,5 +102,17 @@ public abstract class ExtManagedSystem extends ManagedSystem{
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public Probe getProbe() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Effector getEffector() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

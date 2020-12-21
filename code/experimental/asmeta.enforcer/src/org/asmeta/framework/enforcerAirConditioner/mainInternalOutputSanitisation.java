@@ -14,7 +14,6 @@ public class mainInternalOutputSanitisation {
 		//Create system handle, probe, and effector
 		AirConditioner managedSystem =  new AirConditioner(0); 
 		//Create system knowledge and loop
-		//KnowledgeSingleton k = KnowledgeAirConditioner.getInstance();
 		Knowledge k = new KnowledgeAirConditioner();
 		FeedbackLoop loop = new FeedbackLoopAirConditioner(managedSystem.getProbe(),managedSystem.getEffector(),k);
 		//create a new specialized enforcer for the AirConditioner system

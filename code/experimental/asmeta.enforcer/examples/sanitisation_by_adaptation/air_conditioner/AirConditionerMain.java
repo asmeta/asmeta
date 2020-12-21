@@ -1,4 +1,4 @@
-//Input: room temeperature (integer value)
+//Input: room temperature (integer value)
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -9,16 +9,17 @@ public class AirConditionerMain {
         AirConditioner cond = new AirConditioner(0);	
 		
         Scanner s = new Scanner(System.in); 
+        System.out.println("Conditioner ON: speed "+cond.getAirIntensity());			
 		while (T!=-1) { 
 			try {	
-				System.out.println("Conditioner ON: speed "+cond.getAirIntensity());			
 				System.out.println("Enter temperature value >");
 				T = s.nextInt(); //read room temperature
 				cond.setRoomTemperature(T);
 				cond.setAirIntensity();
+				System.out.println("Conditioner ON: speed "+cond.getAirIntensity());	
 				}
 			catch(InputMismatchException ex) {
-				System.out.println("Error, input illformed.");
+				System.err.println("Error, input illformed.");
 	        } 
 			finally {
 		        s.close();
