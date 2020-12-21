@@ -20,27 +20,22 @@ import org.asmeta.framework.auxiliary.Utility;
 public class ExtManagedSystem extends ManagedSystem{
 
 	/** Communication handles*/
-    //private Socket socket;		
-    //private PrintWriter out;			
-    //private BufferedReader in;
 	private BufferedReader outFromS;
 	private BufferedWriter inToS;
 	
-	 private ProcessBuilder pb;
+	private ProcessBuilder pb;
+	 
     /** Shut down string*/
     private String SHUT_DOWN_STR = "###";
     
     /**
-     * Constructor: create a new client instance as a local application
-     * 	(by default, the subprocess reads input from a pipe)
+     * Constructor: create a new managed system instance as a local application
+     * 	(by default, the subprocess reads/writes input/output from/to a pipe)
      *  
      */
-	//public ExtManagedSystem(String host, int port) {
+	
     public ExtManagedSystem() {
      try {
-			/*socket	= new Socket(host, port);
-    	    out 	= new PrintWriter(socket.getOutputStream(),true);
-			in		= new BufferedReader(new InputStreamReader(socket.getInputStream()));*/
 			
 			//Managed system started as a local application
     	     /* 
