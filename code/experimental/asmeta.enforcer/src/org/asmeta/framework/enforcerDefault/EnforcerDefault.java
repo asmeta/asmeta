@@ -9,4 +9,16 @@ public class EnforcerDefault extends Enforcer{
 		super(s, k, loop);
 	}
 
+	@Override
+	public boolean sanitiseInput(String inputValues) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sanitiseOutput(String outputValues) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
