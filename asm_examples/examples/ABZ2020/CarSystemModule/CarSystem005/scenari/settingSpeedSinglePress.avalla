@@ -1,0 +1,89 @@
+scenario settingSpeedSinglePress
+load ../CarSystem005main.asm
+check setVehicleSpeed = 0;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM0;
+set sCSLever := NEUTRAL;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check setVehicleSpeed = 0;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 350;
+set cruiseControlMode := CCM2;
+set sCSLever := UPWARD5_SCS;
+//testiamo anche la preimpostazione della velocità a cruise spento con
+//la posizione sCSLever a UP/DOWN 5/7
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = UPWARD5_SCS;
+check setVehicleSpeed = 0;
+check desiredSpeed = 350;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 350;
+set cruiseControlMode := CCM2;
+set sCSLever := FORWARD_SCS;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = FORWARD_SCS;
+check setVehicleSpeed = 350;
+check desiredSpeed = 350;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 350;
+set cruiseControlMode := CCM2;
+set sCSLever := UPWARD5_SCS;
+//UPWARD/DOWNWARD 5 aumenta/diminuisce la velocità di 10unit = 1km/h
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = UPWARD5_SCS;
+check setVehicleSpeed = 360;
+check desiredSpeed = 360;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 350;
+set cruiseControlMode := CCM2;
+set sCSLever := NEUTRAL;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check setVehicleSpeed = 360;
+check desiredSpeed = 360;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 350;
+set cruiseControlMode := CCM2;
+set sCSLever := DOWNWARD5_SCS;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = DOWNWARD5_SCS;
+check setVehicleSpeed = 350;
+check desiredSpeed = 350;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 350;
+set cruiseControlMode := CCM2;
+set sCSLever := UPWARD7_SCS;
+//UPWARD/DOWNWARD 7 aumenta/diminuisce la velocità alla decina precendente
+//o successiva
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = UPWARD7_SCS;
+check setVehicleSpeed = 400;
+check desiredSpeed = 400;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 350;
+set cruiseControlMode := CCM2;
+set sCSLever := DOWNWARD7_SCS;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = DOWNWARD7_SCS;
+check setVehicleSpeed = 300;
+check desiredSpeed = 300;
+step
+

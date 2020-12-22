@@ -9,7 +9,7 @@ asm railroadGate
 //open, off, flashing, closing, closed, off, opening, open. (no: opening ma non flashing)
 //open, off, closing, flashing, closed, opening, open, off. (no: closing ma non flashing)
 
-import ../../STDL/StandardLibrary
+import StandardLibrary
 
 signature:
 	enum domain LightState = {FLASHING | OFF}

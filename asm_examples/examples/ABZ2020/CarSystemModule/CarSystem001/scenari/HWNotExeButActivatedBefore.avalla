@@ -1,28 +1,37 @@
 scenario HWNotExeActivatedBefore
 load ../CarSystem001main.asm
-
+//questo scenario controlla che durante lo start dell'indicatore di pericolo, richieste direzionali non vadano a sovrapporlo
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+set hazardWarningSwitchOn := false;
 set keyState := KEYINIGNITIONONPOSITION;
-check hazardWarningSwitchOn_Runn =false;
-check hazardWarningSwitchOn_Start= false;
-set hazardWarningSwitchOn :=true;
-
+set pitmanArmUpDown := NEUTRAL_UD;
 step
-
-check hazardWarningSwitchOn_Runn =false;
-check hazardWarningSwitchOn =true;
-check hazardWarningSwitchOn_Start= true; //attivato allo stato precedente
-set pitmanArmUpDown:= DOWNWARD7; //questo deve finire nel buffer
-
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+set hazardWarningSwitchOn := true;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := NEUTRAL_UD;
 step
-
-check hazardWarningSwitchOn_Runn =true;
-check hazardWarningSwitchOn =true;
-check hazardWarningSwitchOn_Start= false;
-//controllo se sta lampeggiando
-check blinkRight != 0 //dovrei mettere i valori del lampeggiamento di emergenza
-	 blinkRightPulseRatio != NOPULSE;
-check blinkLeft != 0
-	 blinkRightLeft != NOPULSE;
-//controllo se ha salvato nel buffer
-check pitmanArmUpDown_Buff= DOWNWARD7;
-
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+//starting
+check hazardWarningSwitchOn_Start = true;
+set hazardWarningSwitchOn := true;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := DOWNWARD5;
+step
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = true;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check blinkRightPulseRatio = PULSE11;
+check blinkRight = 100;
+check blinkLeftPulseRatio = PULSE11;
+check blinkLeft = 100;
+step

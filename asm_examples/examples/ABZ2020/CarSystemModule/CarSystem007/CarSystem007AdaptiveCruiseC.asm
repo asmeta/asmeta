@@ -61,8 +61,8 @@ definitions:
 		(currentSpeed = 0 and speedVehicleAhead = 0)
 
 	function brakingDistance = 
-	 	 rtoi((currentSpeed*currentSpeed)/20)
-	 	 
+	 	// rtoi((currentSpeed*currentSpeed)/20) --> fixing, out of range in RangeRadarSensor domain, see r_CollisionDetection
+	 	 rtoi(currentSpeed/20)
 //====================================
 //It is true if user changes desired speed manually	
 	function manualSpeed = 
@@ -75,17 +75,17 @@ definitions:
 	//SCS-23 
 	//@PE_MAPE_CC
 	macro rule r_CalculateSafetyDistancePlan_CC = 
-			if currentSpeed<200 then
+			if (currentSpeed<200) then
 				par
 					speedVehicleAhead_Prec := speedVehicleAhead
-					if (speedVehicleAhead < 200 and speedVehicleAhead > 0) then
-						setSafetyDistance := rtoi(2.5 * (currentSpeed/36)) // div 10 -> from unity to km/h, div3.6 -> from km/h to m/s
-					endif
-					if (bothVehicleStanding) then
-						setSafetyDistance := 2
-					endif
 					if (speedVehicleAhead > speedVehicleAhead_Prec and currentSpeed != 0) then
-						setSafetyDistance := rtoi(3.0 * (currentSpeed/36))
+							setSafetyDistance := rtoi(3.0 * (currentSpeed/36))
+					else if (speedVehicleAhead < 200 and speedVehicleAhead > 0) then
+						setSafetyDistance := rtoi(2.5 * (currentSpeed/36))  	// div 10 -> from unity to km/h, div3.6 -> from km/h to m/s
+						else if (bothVehicleStanding) then
+							setSafetyDistance := 2
+							endif
+						endif
 					endif
 				endpar
 			endif
@@ -115,7 +115,7 @@ definitions:
 	
 	//@P_MAPE_CC
 	macro rule r_AcceleratePlan_CC =
-	   	if currentSpeed < setVehicleSpeed then
+	   	if (currentSpeed < setVehicleSpeed) then
 	   	par
 	   	  	acceleration := 2
 	   	  	//Assumption: The scs lever has the priority when modifing setvehiclespeed
@@ -151,15 +151,13 @@ definitions:
 	  par
 	  	if (itor(rangeRadarSensor) < ((currentSpeed/10)/3.6)*1.5) then 
 	  		visualWarningOn := true 
-	  	else
-		  	if visualWarningOn then
+	  	else if (visualWarningOn) then
 		  		visualWarningOn := false
 		  	endif
 	  	endif
 	  	if (itor(rangeRadarSensor) < ((currentSpeed/10)/3.6)*0.8) then  
 	  		acousticWarningOn:= true 
-	  	else
-	  		if acousticWarningOn then
+	  	else if (acousticWarningOn) then
 		  		acousticWarningOn := false
 		  	endif
 	  	endif 	  
@@ -167,13 +165,17 @@ definitions:
 	   	  
 	//@MA_MAPE_CC
 	//All MAPE computations of the MAPE loop are executed within one single ASM-step machine.
+	//Assumption: r_AcceleratePlan_CC[] when distance nearest obstacle(rangeRadarSensor) > Safety distance (setSafetyDistance)
+	//viceversa for r_DeceleratePlan_CC[] 
 	macro rule r_Monitor_Analyze_CC =
 	 if adaptiveCruiseControlActivated then
-	   par	
-	 	 if (obstacleAhead and rangeRadarSensor<setSafetyDistance) then //SCS-22 checks if adaptation is necessary
+	   par
+	   //if (obstacleAhead and rangeRadarSensor<setSafetyDistance) then //before
+	 	 if (obstacleAhead and rangeRadarSensor>setSafetyDistance) then //SCS-22 checks if adaptation is necessary
 	 		r_AcceleratePlan_CC[] 
 	 	 endif
-	 	 if (obstacleAhead and rangeRadarSensor>setSafetyDistance) then //SCS-20 checks if adaptation is necessary
+	 //if (obstacleAhead and rangeRadarSensor>setSafetyDistance) then //before
+	 	 if (obstacleAhead and rangeRadarSensor<setSafetyDistance) then //SCS-20 checks if adaptation is necessary
 	 		r_DeceleratePlan_CC[] 
 	 	 endif
 	 	 r_CollisionDetection[] 

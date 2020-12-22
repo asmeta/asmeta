@@ -1,0 +1,40 @@
+scenario SequentialBlinking
+load ../CarSystem001main.asm
+// questo scenario controlla l'utilizzo del buffer nel caso di richieste di lampeggiamento diverse e sequenziali
+//il buffer serve per salvare la richiesta nell'interruzione tra un lampeggiamento e l'altro
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := DOWNWARD5;
+step
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = DOWNWARD5;
+check hazardWarningSwitchOn_Start = false;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check blinkLeftPulseRatio = PULSE11;
+check blinkLeft = 100;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := UPWARD5;
+step
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check pitmanArmUpDown_Buff = UPWARD5;
+check blinkLeftPulseRatio = NOPULSE;
+check blinkLeft = 0;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := NEUTRAL_UD;
+step
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = UPWARD5;
+check hazardWarningSwitchOn_Start = false;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check blinkLeftPulseRatio = NOPULSE;
+check blinkLeft = 0;
+check blinkRightPulseRatio = PULSE11;
+check blinkRight = 100;
+step

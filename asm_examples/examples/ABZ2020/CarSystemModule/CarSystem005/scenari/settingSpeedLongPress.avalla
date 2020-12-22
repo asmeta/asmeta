@@ -1,0 +1,99 @@
+//testiamo la pressione prolungata sia per UP/DOWN5 che UP/DOWN7
+
+scenario settingSpeedLongPress
+load ../CarSystem005main.asm
+check keyState_Previous = NOKEYINSERTED;
+check setVehicleSpeed = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM2;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check desiredSpeed = 0;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := FORWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 350;
+set cruiseControlMode := CCM2;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 350;
+check desiredSpeed = 350;
+check sCSLeve_Previous = FORWARD_SCS;
+//testiamo la pressione prolungata per UP/DOWN5
+set sCSLever := UPWARD5_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 350;
+set cruiseControlMode := CCM2;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 360;
+check desiredSpeed = 360;
+check sCSLeve_Previous = UPWARD5_SCS;
+set sCSLever := UPWARD5_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 350;
+set cruiseControlMode := CCM2;
+set passed2Sec := true;
+set passed1Sec := true;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 370;
+check desiredSpeed = 370;
+check sCSLeve_Previous = UPWARD5_SCS;
+set sCSLever := UPWARD5_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 370;
+set cruiseControlMode := CCM2;
+set passed2Sec := true;
+set passed1Sec := true;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 380;
+check desiredSpeed = 380;
+check sCSLeve_Previous = UPWARD5_SCS;
+//testiamo la pressione prolungata per UP/DOWN7
+set sCSLever := DOWNWARD7_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 900;
+set cruiseControlMode := CCM2;
+set passed2Sec := true;
+set passed1Sec := true;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 300;
+check desiredSpeed = 300;
+check sCSLeve_Previous = DOWNWARD7_SCS;
+set sCSLever := DOWNWARD7_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 870;
+set cruiseControlMode := CCM2;
+set passed2Sec := true;
+set passed1Sec := true;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 200;
+check desiredSpeed = 200;
+check sCSLeve_Previous = DOWNWARD7_SCS;
+set sCSLever := DOWNWARD7_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 800;
+set cruiseControlMode := CCM2;
+set passed2Sec := true;
+set passed1Sec := true;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 100;
+check desiredSpeed = 100;
+check sCSLeve_Previous = DOWNWARD7_SCS;
+step

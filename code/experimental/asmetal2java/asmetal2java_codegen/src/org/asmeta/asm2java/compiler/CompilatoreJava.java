@@ -20,8 +20,8 @@ public class CompilatoreJava {
 	
 	public static CompileResult compile(String name, File directory, boolean compileOnly, boolean evalCoverage) {
 		
-		     System.setProperty("java.home", "C:\\Program Files\\Java\\jdk1.8.0_191");
-		    
+		     //System.setProperty("java.home", "C:\\Program Files\\Java\\jdk1.8.0_191");
+		     System.setProperty("java.home", "C:\\Program Files\\Java\\jdk-11.0.8");
 			
 		     assert directory.isDirectory();	
 		     assert !compileOnly || name.endsWith(".java") : name + " does not end with .java";
