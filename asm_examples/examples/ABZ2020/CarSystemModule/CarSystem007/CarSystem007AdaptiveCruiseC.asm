@@ -61,8 +61,7 @@ definitions:
 		(currentSpeed = 0 and speedVehicleAhead = 0)
 
 	function brakingDistance = 
-	 	// rtoi((currentSpeed*currentSpeed)/20) --> fixing, out of range in RangeRadarSensor domain, see r_CollisionDetection
-	 	 rtoi(currentSpeed/20)
+	 	rtoi((currentSpeed/10)/3.6 * (currentSpeed/10)/3.6 * (1/6))  //SCS-21
 //====================================
 //It is true if user changes desired speed manually	
 	function manualSpeed = 

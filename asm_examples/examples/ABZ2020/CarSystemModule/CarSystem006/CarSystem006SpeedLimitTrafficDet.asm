@@ -72,7 +72,8 @@ definitions:
 		//SCS-36
 		//	if (cruiseControlMode = CCM2 and trafficSignDetectionOn and not setSpeedLimitManually) then
 		//If traffic sign detection is active, but the user changes the speed manually (SCSLever moved) the speed is modificed by the SCSLever
-		if (cruiseControlMode = CCM2 and trafficSignDetectionOn and (not manualSpeed) and brakePedal!=0) then
+		//if (cruiseControlMode = CCM2 and trafficSignDetectionOn and (not manualSpeed) and brakePedal!=0) then
+		if (cruiseControlMode = CCM2 and trafficSignDetectionOn and (not manualSpeed) and brakePedal=0) then
 			//SCS-37
 			if (gasPedal = 0) then
 				par

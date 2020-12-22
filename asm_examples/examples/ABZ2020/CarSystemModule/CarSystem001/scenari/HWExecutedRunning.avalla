@@ -1,4 +1,4 @@
-scenario HWExecutedShutdown
+scenario HWExecutedRunning
 load ../CarSystem001main.asm
 //questo scenario controlla la corretta accensione dell'indicatore di pericolo anche in caso di una richiesta di indicatore direzionale
 //in questo scenario l'indicatore di pericolo rimane attivo

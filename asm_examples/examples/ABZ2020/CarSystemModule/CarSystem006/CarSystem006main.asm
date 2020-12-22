@@ -29,10 +29,11 @@ definitions:
 	// MAIN RULE
 	main rule r_Main =
 		par
-			r_ReadMonitorFunctions[] 
-			r_DesiredSpeedVehicleSpeed[] 
-			r_BrakePedal[] 
-			r_SpeedLimit[] 
+			r_ReadMonitorFunctions[]
+			r_DesiredSpeedVehicleSpeed[]
+			r_BrakePedal[]
+			r_SpeedLimit[]
+			r_TrafficSignDetection[]	
 		endpar 
 
 // INITIAL STATE
