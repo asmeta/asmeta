@@ -46,6 +46,10 @@ import asmeta.transitionrules.basictransitionrules.Rule;
  */
 public class StandardLibrary {
 	// -------------------
+	
+	// this name is reserved 
+	public static final String STANDARD_LIBARY_NAME = "StandardLibrary";
+	
 
 	// //////////////////////////////////////////////////////////////////////
 	// Boolean

@@ -94,12 +94,29 @@ public class TestSingleFile extends TestValidator {
 		//test("C:\\Users\\garganti\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\scenarios\\CarSystem004scenario001.avalla", true);
 		test("D:\\AgHome\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\Car System\\scenarios\\CarSystem006scenario003.avalla",true);
 	}
+
+	@Test
+	public void testABZ2020_module1() throws Exception {
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
+		//Logger.getLogger(Simulator.class).setLevel(Level.ALL);
+		//test("C:\\Users\\garganti\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\scenarios\\CarSystem004scenario001.avalla", true);
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\HWExecutedRunning.avalla",true);
+	}
+
 	
 	@Test
 	public void testMon() throws Exception {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
 		test("scenariosfortest\\mon\\scenario.avalla", false);
 	}
-
+// with the use of importin/modules
+	@Test
+	public void testMod1() throws Exception {
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
+		test("scenariosfortest\\withmodules\\scenario1.avalla", false);		
+	}
+	
+	
+	
 	
 }
