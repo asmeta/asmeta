@@ -17,7 +17,7 @@ import org.asmeta.framework.auxiliary.Utility;
 //Communication between the JVM and the external process occurs through the 
 //InputStream and OutputStream of the external process.
 
-public class ExtManagedSystem extends ManagedSystem{
+public class ExtManagedSystem extends ManagedSystem implements Probe, Effector{
 
 	/** Communication handles*/
 	private BufferedReader outFromS;
@@ -60,16 +60,7 @@ public class ExtManagedSystem extends ManagedSystem{
 			System.exit(-1);
 		}		
     }
-	
-	/* public PrintWriter getPrintWriter(){
-		return this.out;
-	}
-	
-	
-	public BufferedReader getBufferedReader(){
-		return this.in;
-	}
-	*/
+
 	
 	public String readAll() throws IOException{
 		String s = outFromS.readLine(); //to wait the arrival of a new line
@@ -86,20 +77,16 @@ public class ExtManagedSystem extends ManagedSystem{
 		return outFromS.ready();
 	}
 	
-	public void write(String outputStr) throws IOException{
-		//inToS.println(outputStr);
-		inToS.write(outputStr+"\r\n"); 
+	public void write(String cmd) throws IOException{
+		//inToS.println(cmd);
+		inToS.write(cmd+"\r\n"); 
 		inToS.flush();
-		//return outputStr;
 		//return read();
 	}
 	
+	
 	public boolean shutDown(){
-		//String inputStr;
 		try {
-			//inputStr = write(SHUT_DOWN_STR);
-			//if (inputStr.equals(SHUT_DOWN_STR))
-			//	return true;
 			write(SHUT_DOWN_STR);
 			return true;
 		} catch (IOException e) {
@@ -110,14 +97,12 @@ public class ExtManagedSystem extends ManagedSystem{
 
 	@Override
 	public Probe getProbe() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 	@Override
 	public Effector getEffector() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 	
