@@ -28,7 +28,8 @@ public class EnforcerInputAirConditionerV2 {
 		sc.init(1);
 		sc.startExecution("./examples./input_sanitisation/air_conditioner/airConditioner.asm");
 		//java system start
-		ProcessBuilder pbJ = new ProcessBuilder("java", "-jar", "./jars/AirConditionerInputSystem.jar");
+		//ProcessBuilder pbJ = new ProcessBuilder("java", "-jar", "./jars/AirConditionerInputSystem.jar");
+		ProcessBuilder pbJ = new ProcessBuilder("java", "-cp", "bin", "org.asmeta.input_sanitisation_java.AirConditionerIMain");
 		try {
 			Process pJ = pbJ.start();
 			BufferedReader inJ = new BufferedReader(new InputStreamReader(pJ.getInputStream()));

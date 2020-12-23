@@ -351,6 +351,10 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		return runStepTimeout(id,null,timeout);
 	}
 	
+	//TODO sistemare il problema della sleep
+	//Rimane comunque il problema che se allo scadere non ha finito il programma restituirà run timed out con rollback della sim
+	//ma la simulazione deve comunque finire altrimenti tutte le run successive non funzioneranno (forse mettendo il timeout direttamente
+	//nella parte del simulator invece del container in modo tale di almeno arginare il finish forzato su uno step)
 	public RunOutput runStepTimeout(int id,Map<String, String> locationValue,int timeout) {	
 		Timer timer = new Timer(false);
 		
@@ -388,8 +392,10 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	    //cancel after timeout if the task has not terminated
 	    if (timeout<0)
 	    	timeout=1;
-	    try {
-	        Thread.sleep(timeout);
+	    try {//soluzione brutta per far finire il timeout prima
+	    	int splits=10;
+	    	for (int i=0;splits*i<timeout && !routTO.getResult();i++)
+	    		Thread.sleep(splits);
 	    } catch (InterruptedException e) {
 	        e.printStackTrace();
 	    }
@@ -406,7 +412,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
         		} catch (InterruptedException e) {
                     e.printStackTrace();}
     		}
-    		while (!routTO.getResult()) {
+    		while (!routTO.getResult()) {	//se non ho ancora rOut vuol dire che non ha ancora finito, devo aspettare altrimenti non funziona più nulla successivamente
     			try {
     				Thread.sleep(10);	
         		} catch (InterruptedException e) {
@@ -419,7 +425,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	    	MyState after = asmS.getCurrentState(id);
 	    	
 			if (/*rollbStatus!=rollbackStatus.ROLLOK &&*/ after!=null && !after.equals(pre))	//do a rollback if it has not already been done 
-			{
+			{	//TODO PER QUALCHE MOTIVO FA IL DOPPIO ROLLBACK MI SA CHE L'EQUALS NON FUNZIONA 
 				try {
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 				} catch (NullPointerException e1) {
@@ -550,6 +556,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	}
 	
 	//same logic as the one with runstep but using runUntilEmpty and rollbacktostate instead
+	//TODO sistemare problema della sleep con in runstep
 	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) {
 
         Timer timer = new Timer(false);

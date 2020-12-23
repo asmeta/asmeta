@@ -149,7 +149,7 @@ public class RunOutput implements Serializable {
 	}
 	
 	public boolean equalsMessage(Object obj) {
-        return equals(obj) && this.message == ((RunOutput)obj).message;
+        return equals(obj) && this.message.equals(((RunOutput)obj).message);
 	}
 	
 

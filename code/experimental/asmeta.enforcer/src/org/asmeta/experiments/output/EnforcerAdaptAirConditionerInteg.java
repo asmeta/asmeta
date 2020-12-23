@@ -14,6 +14,10 @@ public class EnforcerAdaptAirConditionerInteg {
 		data.put("temperature", 20);
 		data.put("airIntensity", 2);
 		enforcer.adapt(Enf.convert(data));
+		
+		//PROVA CONVERT CON STRING
+		System.out.println(Enf.convertPipeInput("temp=40,speed=5,text=\"too fast\""));
+		
 		/*Map<String, Integer> data = new HashMap<>();
 		data.put("temperature", 0);
 		data.put("airIntensity", 0);

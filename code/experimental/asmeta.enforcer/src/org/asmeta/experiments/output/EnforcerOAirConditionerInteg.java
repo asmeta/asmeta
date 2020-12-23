@@ -1,7 +1,10 @@
 package org.asmeta.experiments.output;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.asmeta.output_sanitisation_java.AirConditionerO;
 import org.asmeta.runtime_container.Esit;
@@ -67,6 +70,25 @@ class Enf{
 		    else
 		    	locValue.put(key, value.toString());
 		}
+		return locValue;
+	}
+	
+	//input format as: "mon1=value1,mon2=value2,...", il messaggio intero potrebbe essere "locval input" 
+	public static Map<String, String> convertPipeInput(String input){
+		Map<String,String> locValue=new HashMap<>();
+		/*Scanner scan = new Scanner(input);
+		scan.delimiter()*/
+		List<String> mons = Arrays.asList(input.split("[,]",0));
+		for (String mon: mons)
+			if (mon.contains("="))
+			{
+				String key="", value="";
+				key=mon.substring(0, mon.indexOf('='));
+				value=mon.substring(mon.indexOf('=')+1);
+				locValue.put(key, value);
+			}
+			else
+				System.out.println("Error: missing '=' character");
 		return locValue;
 	}
 	
