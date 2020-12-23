@@ -357,7 +357,15 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
 	    routTO = rout;
 	    
-	    MyState pre = asmS.getCurrentState(id);
+	    MyState pre;
+	    
+		try {
+			pre = asmS.getCurrentState(id);
+		} catch (IdNotFoundException e) {
+			rout = new RunOutput(Esit.UNSAFE, "the id is not found");
+			System.err.println(rout.toString());
+			return rout;
+		}
 	    
         TimerTask timeoutTask = new TimerTask() {
         	@Override  
@@ -547,7 +555,14 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
         Timer timer = new Timer(false);
         RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
         routTO = rout;
-		MyState pre = asmS.getCurrentState(id);
+		MyState pre;
+		try {
+			pre = asmS.getCurrentState(id);
+		} catch (IdNotFoundException e) {
+			rout = new RunOutput(Esit.UNSAFE, "the id is not found");
+			System.err.println(rout.toString());
+			return rout;
+		}
 		
         TimerTask timeoutTask = new TimerTask() {
         	@Override  
