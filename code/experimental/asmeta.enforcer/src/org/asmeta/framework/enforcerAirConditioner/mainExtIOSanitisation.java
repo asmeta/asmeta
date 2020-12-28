@@ -13,7 +13,7 @@ public static void main(String[] args)  {
 	
 	//Create a new specialized enforcer for the AirConditioner system without feedback control loop (to use only for I/O sanitisation)
 	Enforcer.setConfigFile("./resources/AirConditioner/config.properties");
-	Enforcer e = new EnforcerAirConditioner();
+	Enforcer e = new EnforcerAirConditioner_v2();
 	//Create system handle 
 	ExtManagedSystem managedSystem =  new ExtManagedSystem(); 
 	

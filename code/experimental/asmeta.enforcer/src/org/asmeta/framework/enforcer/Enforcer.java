@@ -132,5 +132,20 @@ public abstract class Enforcer {//extends TimerTask{
 		}
 	}
 
-	
+	//TODO Ho dovuto farlo per poter impostare il modello nella versione senza MAPEK loop, così non cambio la visibilità della variabile. Va bene?
+	/**
+	 * Sets the simulation engine.
+	 * Should only be used inside inherited default constructor
+	 */
+	protected void setModelEngine(SimulationContainer engine) {
+		if (modelEngine == null)
+			modelEngine = engine;
+	}
+	//TODO Se voglio usarlo mi serve anche un get. (anche se in realtà essendo singleton basterebbe .getInstance un'altra volta)
+	/**
+	 * Returns the current enforcer simulation engine.
+	 */
+	protected SimulationContainer getModelEngine() {
+		return modelEngine;
+	}
 }
