@@ -1,9 +1,7 @@
 package validator.plugin.handlers;
 
 import org.asmeta.animator.VisualizationSimulation;
-import org.asmeta.simulator.main.Simulator;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
-import org.asmeta.xt.validator.AsmetaV;
 
 
 /**

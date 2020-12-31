@@ -66,13 +66,13 @@ public class TestSingleFile extends TestValidator {
 	@Test
 	public void testATM1() throws Exception {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
-		test("scenarios.avalla\\atm\\atm1.avalla", false);
+		test("scenariosforexamples\\atm\\atm1.avalla", false);
 	}
 
 	@Test
 	public void testModule1() throws Exception {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
-		test("scenariosfortest\\modules\\lift.avalla", false);
+		test("scenariosfortest\\lift.avalla", false);
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public class TestSingleFile extends TestValidator {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
 		//Logger.getLogger(Simulator.class).setLevel(Level.ALL);
 		//test("C:\\Users\\garganti\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\scenarios\\CarSystem004scenario001.avalla", true);
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\HWExecutedRunning.avalla",true);
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\HWExecutedRunning.avalla",false);
 	}
 
 	
@@ -109,14 +109,24 @@ public class TestSingleFile extends TestValidator {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
 		test("scenariosfortest\\mon\\scenario.avalla", false);
 	}
-// with the use of importin/modules
+// with the use of import/modules
 	@Test
 	public void testMod1() throws Exception {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
 		test("scenariosfortest\\withmodules\\scenario1.avalla", false);		
 	}
 	
-	
+	@Test
+	public void testMod2() throws Exception {
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
+		test("scenariosfortest\\withmodules\\scenarios\\scenario2.avalla", false);		
+	}
+	// import nested
+	@Test
+	public void testMod3() throws Exception {
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
+		test("scenariosfortest\\withmodules\\scenario2i.avalla", false);		
+	}
 	
 	
 }

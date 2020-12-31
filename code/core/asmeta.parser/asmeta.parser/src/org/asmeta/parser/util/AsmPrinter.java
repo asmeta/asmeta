@@ -677,7 +677,10 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	}
 
 	public void visit(ExportClause exportClause) {
-		// TODO
+		if (exportClause != null) {
+			// TODO in the future
+			println("export *");
+		}
 	}
 
 	public void visit(Signature signature) {

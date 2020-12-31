@@ -1,0 +1,10 @@
+scenario example
+//  using relative
+load ..\mainasm.asm
+// set the moniotred
+set m_f:= true;
+step
+
+check c_f = true;
+
+step
