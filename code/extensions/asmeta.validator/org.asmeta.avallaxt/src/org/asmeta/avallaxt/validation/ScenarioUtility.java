@@ -43,7 +43,7 @@ public class ScenarioUtility {
 	}
 
 	// return the path for the asm spec to be loaded for this scenario
-	public static String getAsmPath(Scenario scenario) {
+	public static java.nio.file.Path getAsmPath(Scenario scenario) {
 		String spec = scenario.getSpec();
 		// remove "" if necessary
 		if (spec.startsWith("\"")) {
@@ -52,12 +52,12 @@ public class ScenarioUtility {
 		}
 		// assuming absolute
 		if (Files.exists(Paths.get(spec)))
-			return Paths.get(spec).toString();
+			return Paths.get(spec);
 		// IT MUST BE relative then
 		// check if the file exists
 		String baseDir = getBaseDir(scenario);		
 		// try relative
-		return baseDir + File.separator + spec;
+		return Paths.get(baseDir,spec);
 	}
 
 	// return the names of blocks in this scenario

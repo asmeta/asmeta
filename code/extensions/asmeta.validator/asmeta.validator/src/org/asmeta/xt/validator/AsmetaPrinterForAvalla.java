@@ -128,7 +128,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 				// get the name of the file to import. name is relative to the load spec
 				String name = importClause.getModuleName();
 				// now build the path
-				Path importedAsmPath = Path.of(builder.modelPathDir,name + ".asm");
+				Path importedAsmPath = Path.of(builder.modelPathDir.toString(),name + ".asm");
 				assert importedAsmPath.toFile().exists() : " path " + importedAsmPath.toString() + " does not exist"; 
 				if (name.contains(StandardLibrary.STANDARD_LIBARY_NAME)) {
 					printImport(importedAsmPath);
@@ -164,6 +164,11 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		// convert to a relative path with the current file
 		Path tempAsmBasePath = new File(tempAsmPath).getParentFile().toPath();
 		assert tempAsmBasePath.toFile().exists() && tempAsmBasePath.toFile().isDirectory();
+		// check if they must be must both absolute
+		if (!tempAsmBasePath.isAbsolute() || !importedAsm.isAbsolute()) {
+			importedAsm = importedAsm.toAbsolutePath();
+			tempAsmBasePath = tempAsmBasePath.toAbsolutePath();
+		}
 		Path asm_to_imported = tempAsmBasePath.relativize(importedAsm);
 		// transform to string
 		String importedName = asm_to_imported.toString();

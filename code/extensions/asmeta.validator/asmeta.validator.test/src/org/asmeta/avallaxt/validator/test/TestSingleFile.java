@@ -1,5 +1,12 @@
 package org.asmeta.avallaxt.validator.test;
 
+import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
@@ -17,7 +24,26 @@ public class TestSingleFile extends TestValidator {
 	@Test
 	public void testBuilerWithSpaces() throws Exception {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
-		test("scenariosfortest/lift2.avalla", false);
+		//
+		Path model = Paths.get("scenariosfortest\\sub dir\\Lift.asm");
+		assert Files.exists(model);
+		// transform to absolute
+		String modelAbsPath = model.toAbsolutePath().toString();
+		assert modelAbsPath.contains(" ");
+		assert Files.exists(Path.of(modelAbsPath));
+		System.out.println(modelAbsPath);
+		modelAbsPath = modelAbsPath.replace("\\", "\\\\\\\\");
+		// put in the lift2.avalla
+		Path templateAvalla = Paths.get("scenariosfortest\\lift2_avalla.template");
+		assert Files.exists(templateAvalla);
+		Charset charset = StandardCharsets.UTF_8;
+		String content = new String(Files.readAllBytes(templateAvalla), charset);
+		content = content.replaceAll("LIFTASM_AS_ABSPATH", "\"" +modelAbsPath + "\"");
+		System.out.println(content);
+		Path avalla = Paths.get("scenariosfortest\\lift2.avalla");
+		assert Files.exists(avalla);
+		Files.write(avalla, content.getBytes(charset));
+		test(avalla.toString(), false);
 	}
 
 	@Test

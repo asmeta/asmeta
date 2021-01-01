@@ -2,6 +2,7 @@ package org.asmeta.xt.validator;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,8 +46,8 @@ public class AsmetaFromAvallaBuilder {
 	/** The parent path. */
 	String scenarioDirectoryPath;
 
-	String modelPath;
-	String modelPathDir;
+	Path modelPath;// path of the model
+	Path modelPathDir; // path of the parent where the model is stored
 
 	/**
 	 * The invariants specified in the model.
@@ -91,6 +92,7 @@ public class AsmetaFromAvallaBuilder {
 	 * @throws Exception the exception
 	 */
 	private void buildScript(String scenarioPath) throws Exception {
+		assert Path.of(scenarioPath).toFile().exists();
 		// read the spec from file
 		Injector injector = new AvallaStandaloneSetup().createInjectorAndDoEMFRegistration();
 		XtextResourceSet rs = injector.getInstance(XtextResourceSet.class);
@@ -100,8 +102,9 @@ public class AsmetaFromAvallaBuilder {
 		scenario = (Scenario) resource.getContents().get(0);
 		// get the specification loaded by the script
 		modelPath = ScenarioUtility.getAsmPath(scenario);
+		assert Files.exists(modelPath);
 		logger.debug("modelPath " + modelPath);
-		modelFile = new File(modelPath);
+		modelFile = modelPath.toFile();
 		logger.debug("modelFile " + modelFile);
 		logger.debug("modelFile " + modelFile.exists());
 		AsmCollection pack = ASMParser.setUpReadAsm(modelFile);
@@ -114,7 +117,7 @@ public class AsmetaFromAvallaBuilder {
 		// questo sbaglia
 		// modelPathDir = modelPath.substring(0,
 		// modelPath.lastIndexOf(File.separatorChar));
-		modelPathDir = Paths.get(modelPath).getParent().toString();
+		modelPathDir = modelPath.getParent();
 	}
 
 	/**
