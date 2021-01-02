@@ -154,5 +154,11 @@ public class TestSingleFile extends TestValidator {
 		test("scenariosfortest\\withmodules\\scenario2i.avalla", false);		
 	}
 	
+	// import from a subdir
+	@Test
+	public void testMod4() throws Exception {
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
+		test("scenariosfortest\\withmodules\\scenario3.avalla", false);		
+	}
 	
 }

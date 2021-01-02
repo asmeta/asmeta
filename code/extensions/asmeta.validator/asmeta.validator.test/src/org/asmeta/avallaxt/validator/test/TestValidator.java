@@ -32,9 +32,13 @@ public class TestValidator {
 		File dir = new File("temp");
 		assert dir.exists() && dir.isDirectory();
 		// clean directory
-		for(File file: dir.listFiles())
+		for(File file: dir.listFiles()) {
 		    if (file.getName().endsWith(".asm")) 
-		        file.delete();		
+		        file.delete();
+		    if (file.isDirectory()) {
+		    	file.delete();
+		    }
+		}
 	}
 	/**
 	 * 

@@ -47,14 +47,12 @@ public class AsmetaFromAvallaBuilder {
 	String scenarioDirectoryPath;
 
 	Path modelPath;// path of the model
-	Path modelPathDir; // path of the parent where the model is stored
 
 	/**
 	 * The invariants specified in the model.
 	 */
 	Collection<asmeta.definitions.Invariant> modelInvariants;
 
-	private File modelFile;
 
 	ArrayList<Set> monitoredInitState;// PA: 2017/12/29
 
@@ -65,6 +63,12 @@ public class AsmetaFromAvallaBuilder {
 	// for the scenario itself (the AsmPrinter has another model)
 	Asm asm;
 
+	
+	public AsmetaFromAvallaBuilder(String scenarioPath) throws Exception {
+		this(scenarioPath, Files.createTempFile("__tempAsmetaV", ".asm").toString());
+	}
+
+	
 	/**
 	 * Instantiates a new builder.
 	 * 
@@ -75,24 +79,8 @@ public class AsmetaFromAvallaBuilder {
 	 * @throws Exception the exception
 	 */
 	public AsmetaFromAvallaBuilder(String scenarioPath, String tempAsmPath) throws Exception {
-		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath,this);
-		scenarioDirectoryPath = new File(scenarioPath).getAbsoluteFile().getParent();
-		buildScript(scenarioPath);
-	}
-
-	public AsmetaFromAvallaBuilder(String scenarioPath) throws Exception {
-		this(scenarioPath, Files.createTempFile("__tempAsmetaV", ".asm").toString());
-	}
-
-	/**
-	 * Builds the script.
-	 * 
-	 * @param scenarioPath the scenario path
-	 * 
-	 * @throws Exception the exception
-	 */
-	private void buildScript(String scenarioPath) throws Exception {
 		assert Path.of(scenarioPath).toFile().exists();
+		scenarioDirectoryPath = new File(scenarioPath).getAbsoluteFile().getParent();
 		// read the spec from file
 		Injector injector = new AvallaStandaloneSetup().createInjectorAndDoEMFRegistration();
 		XtextResourceSet rs = injector.getInstance(XtextResourceSet.class);
@@ -104,7 +92,7 @@ public class AsmetaFromAvallaBuilder {
 		modelPath = ScenarioUtility.getAsmPath(scenario);
 		assert Files.exists(modelPath);
 		logger.debug("modelPath " + modelPath);
-		modelFile = modelPath.toFile();
+		File modelFile = modelPath.toFile();
 		logger.debug("modelFile " + modelFile);
 		logger.debug("modelFile " + modelFile.exists());
 		AsmCollection pack = ASMParser.setUpReadAsm(modelFile);
@@ -114,10 +102,7 @@ public class AsmetaFromAvallaBuilder {
 		if (mainrule == null)
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
 		oldMainName = mainrule.getName();
-		// questo sbaglia
-		// modelPathDir = modelPath.substring(0,
-		// modelPath.lastIndexOf(File.separatorChar));
-		modelPathDir = modelPath.getParent();
+		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath,modelPath.getParent(), this);
 	}
 
 	/**
