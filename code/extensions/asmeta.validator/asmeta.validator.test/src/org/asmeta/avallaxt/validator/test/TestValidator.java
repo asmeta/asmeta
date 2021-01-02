@@ -22,6 +22,9 @@ public class TestValidator {
 
 	static int i = 0;
 
+	static String pathname = "temp/temp/";
+
+	
 	public TestValidator() {
 		super();
 	}
@@ -29,7 +32,7 @@ public class TestValidator {
 	@BeforeClass
 	public static void cleanup(){
 		i = 0;
-		File dir = new File("temp");
+		File dir = new File(pathname);
 		assert dir.exists() && dir.isDirectory();
 		// clean directory
 		for(File file: dir.listFiles()) {
@@ -54,7 +57,7 @@ public class TestValidator {
 		} else {
 			//
 			System.out.println("transating " + scenarioPath);
-			String tempAsmPath = "temp/temp_spec" + (i++) + ".asm";
+			String tempAsmPath = pathname + "temp_spec" + (i++) + ".asm";
 			// delete if exists
 			Path path_tempAsm = Paths.get(tempAsmPath);
 			assert ! Files.exists(path_tempAsm);

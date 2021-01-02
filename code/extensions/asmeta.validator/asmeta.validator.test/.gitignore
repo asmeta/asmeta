@@ -1,1 +1,4 @@
-/temp/*.asm
+/temp/temp/*.asm
+/temp/temp/*
+/temp/*
+!/temp/temp
