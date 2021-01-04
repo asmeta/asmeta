@@ -20,6 +20,9 @@ public class Main {
 		Enforcer e = new EnforcerPillBox(managedSystem,k,loop);
 		
 		 /** Running -- example of safety enforcement via MAPE-K*/
+		 //Causality relation implementation between managed system and the runtime ASM model, loop execution, system execution
+		 //Once an event triggers the MAPE loop, the loop executes safety checks and eventually adapts the model and the system 
+		
 	   /*	System.out.println("Initial air speed of the system: " + managedSystem.getAirIntensity());
 		managedSystem.setRoomTemperature(40);
 		managedSystem.setAirIntensity();
