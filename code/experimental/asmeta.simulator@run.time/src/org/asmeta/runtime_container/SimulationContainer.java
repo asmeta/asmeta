@@ -692,33 +692,70 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 	}
 
+	/**
+	 * findAllMonitored: Search recursively for monitored function names in the model and all imported ones
+	 *
+	 * @param monNames: starting list (starts empty)
+	 * @param modelPath: Path file root (starts at the same directory the main .asm is located) and goes deep as each module is opened
+	 * @return list with all monitored function names in the ASM model
+	 * @throws Exception from ASMParser
+	 */
+	private List<String> findAllMonitored(List<String> monNames, String modelPath) throws Exception{
+		String root="";
+		root=modelPath.substring(0,modelPath.lastIndexOf("/")+1);
+		File asmFile = new File(modelPath);
+		try {
+			if (!asmFile.exists()) {
+				throw new AsmModelNotFoundException(modelPath);
+			}
+		}catch (AsmModelNotFoundException ex){
+			//DEBUG
+			System.out.println("CheckSafety: "+ex.getMessage());
+		}
+		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
+		// cerco di prendere la classe delle monitorate  NON LEGGE LE MONITORATE NEI FILE DI IMPORT
+		for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
+			if (asm.getMain().getHeaderSection().getSignature().getFunction()
+					.get(i) instanceof MonitoredFunctionImpl)
+				monNames.add(asm.getMain().getHeaderSection().getSignature().getFunction().get(i).getName());
+		}
+		int c = asm.getMain().getHeaderSection().getImportClause().size();
+		for (int i=0;i<c;i++) {
+			String moduleName=asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
+			if (!moduleName.toLowerCase().endsWith("standardlibrary"))	//Skips the StandardLibrary.asm
+				monNames=findAllMonitored(monNames, root+moduleName+".asm");
+		}
+		return monNames;
+	}
+	//Could be improved by adding a List<String> moduleNames to skip multiple imports of the same .asm (if it's possible to create import cycles)
 
 	/**
-	 * Check safety: Verifica se il nome del input è corretto
+	 * Check safety: Checks if given monitored function names are correct
 	 *
 	 * @param modelPath     the model path
 	 * @param locationValue Change to CheckInputName Safety
 	 * @return the array list
 	 */
 	private RunOutput checkSafety(String modelPath, Map<String, String> locationValue) {
-		ArrayList<String> nomi = new ArrayList<String>(); // per salvare i nomi di quelli che sono monitorate
+		List<String> nomi = new ArrayList<String>(); // monitored functions name list
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
 		// AsmCollection asm = null;
 		String name = "";
 		try {
+			nomi = findAllMonitored(nomi, modelPath);
+			/*
 			File asmFile = new File(modelPath);
 			if (!asmFile.exists()) {
 				throw new AsmModelNotFoundException(modelPath);
 			}
 
 			AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
-			// cerco di prendere la classe delle monitorate TODO NON LEGGE LE MONITORATE NEI FILE DI IMPORT
+			// cerco di prendere la classe delle monitorate  NON LEGGE LE MONITORATE NEI FILE DI IMPORT
 			for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
 				if (asm.getMain().getHeaderSection().getSignature().getFunction()
 						.get(i) instanceof MonitoredFunctionImpl)
 					nomi.add(asm.getMain().getHeaderSection().getSignature().getFunction().get(i).getName());
-
-			}
+			}*/
 
 	
 			boolean found = false;
@@ -735,8 +772,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				}
 				if (!found) {
 					name = monName;
-					//throw new NameMistMatchException("Name <<" + s + ">> Not Found");
-					found = true;
+					throw new NameMistMatchException("Name <<" + s + ">> Not Found");
 				} else
 					found = true;
 
