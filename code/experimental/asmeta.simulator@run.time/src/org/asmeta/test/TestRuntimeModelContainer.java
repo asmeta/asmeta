@@ -1168,7 +1168,29 @@ public class TestRuntimeModelContainer {
 		}
 		@Test
 		public void safePillboxTest() {
-			
+			Map<String, String> monitored = new HashMap<String, String>();
+			RunOutput out;
+			String model = "examples/Pillbox/safePillbox.asm";
+			SimulationContainer imp = SimulationContainer.getInstance();
+			imp.init(1);
+			int id = imp.startExecution(model);
+			monitored.put("redLed(compartment2)", "OFF");
+			monitored.put("redLed(compartment3)", "OFF");
+			monitored.put("redLed(compartment4)", "OFF");
+			monitored.put("name(compartment2)", "\"aspirine\"");
+			monitored.put("name(compartment3)", "\"moment\"");
+			monitored.put("name(compartment4)", "\"fosamax\"");
+			monitored.put("time_consumption(compartment2)", "[960]");
+			monitored.put("time_consumption(compartment3)", "[780, 1140]");
+			monitored.put("time_consumption(compartment4)", "[410]");
+			monitored.put("drugIndex(compartment2)", "0");
+			monitored.put("drugIndex(compartment3)", "0");
+			monitored.put("drugIndex(compartment4)", "0");
+			monitored.put("nextDrugIndex(compartment2)", "0");
+			monitored.put("nextDrugIndex(compartment3)", "1");
+			out = imp.runStep(id, monitored);
+			//out = imp.runStep(id);	
+			System.out.println(out.getControlledvalues());
 		}
 		//=========================Fine Asm Test===============================================================
 		//=========================Inizio GUI Test===============================================================

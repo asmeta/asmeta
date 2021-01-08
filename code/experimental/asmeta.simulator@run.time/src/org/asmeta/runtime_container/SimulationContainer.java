@@ -41,6 +41,7 @@ import org.asmeta.simulator.main.*;
 import org.asmeta.simulator.util.InputMismatchException;
 import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.value.Value;
+import org.eclipse.emf.ecore.xml.type.internal.RegEx;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Invariant;
@@ -711,7 +712,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			}
 
 			AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
-			// cerco di prendere la classe delle monitorate
+			// cerco di prendere la classe delle monitorate TODO NON LEGGE LE MONITORATE NEI FILE DI IMPORT
 			for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
 				if (asm.getMain().getHeaderSection().getSignature().getFunction()
 						.get(i) instanceof MonitoredFunctionImpl)
@@ -722,14 +723,18 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	
 			boolean found = false;
 			for (String s : locationValue.keySet()) {
+				//This part lets multiple parameters monitored functions name pass if at least the name is correct
+				String monName = "".concat(s);
+				if (monName.contains("(") && monName.endsWith(")"))
+					monName=monName.substring(0,monName.indexOf("("));
+				
 				for (int i = 0; i < nomi.size(); i++) {
-					if (s.equals(nomi.get(i))) {
+					if (monName.equals(nomi.get(i))) {
 						found = true;
 					}
 				}
 				if (!found) {
-					name = s;
-					//TODO SISTEMARE PER MONITORED N-ARIE 
+					name = monName;
 					//throw new NameMistMatchException("Name <<" + s + ">> Not Found");
 					found = true;
 				} else
