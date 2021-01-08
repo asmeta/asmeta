@@ -302,7 +302,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
-			}
+			} /*else { //DEBUG ONLY
+				e.printStackTrace();
+			}*/
 		}
 		simulationRunning = SimStatus.READY;
 		return rout; // can be use for Json
@@ -351,7 +353,6 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		return runStepTimeout(id,null,timeout);
 	}
 	
-	//TODO sistemare il problema della sleep
 	//Rimane comunque il problema che se allo scadere non ha finito il programma restituirà run timed out con rollback della sim
 	//ma la simulazione deve comunque finire altrimenti tutte le run successive non funzioneranno (forse mettendo il timeout direttamente
 	//nella parte del simulator invece del container in modo tale di almeno arginare il finish forzato su uno step)
@@ -556,7 +557,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	}
 	
 	//same logic as the one with runstep but using runUntilEmpty and rollbacktostate instead
-	//TODO sistemare problema della sleep con in runstep
+	//TODO sistemare problema della sleep come in runstep
 	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) {
 
         Timer timer = new Timer(false);
@@ -728,7 +729,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				}
 				if (!found) {
 					name = s;
-					throw new NameMistMatchException("Name <<" + s + ">> Not Found");
+					//TODO SISTEMARE PER MONITORED N-ARIE 
+					//throw new NameMistMatchException("Name <<" + s + ">> Not Found");
+					found = true;
 				} else
 					found = true;
 
@@ -764,7 +767,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	}
 	
 	
-	/*public RunOutput runStepTransaction(int id,Queue<Map<String, String>> locationValue, String modelPath) { //TODO da finalizzare?
+	/*public RunOutput runStepTransaction(int id,Queue<Map<String, String>> locationValue, String modelPath) { //da finalizzare?
 		boolean unsafe = false;
 		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not intialized");
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
@@ -788,7 +791,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		return rout;	
 		
 	}*/
-	/*public RunOutput runTransaction(int id,Queue<Map<String, String>> locationValue) { //TODO da finalizzare?
+	/*public RunOutput runTransaction(int id,Queue<Map<String, String>> locationValue) { //da finalizzare?
 		boolean unsafe = false;
 		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not intialized");
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");

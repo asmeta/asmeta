@@ -8,10 +8,10 @@ import org.asmeta.framework.managedSystem.*;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 
-public class FeedbackLoopAirConditionerL extends FeedbackLoop{
+public class FeedbackLoopAirConditionerExt extends FeedbackLoop{
 	KnowledgeAirConditioner kAC; //casted version
 		
-	public FeedbackLoopAirConditionerL(Probe probe, Effector effector, Knowledge k){
+	public FeedbackLoopAirConditionerExt(Probe probe, Effector effector, Knowledge k){
 		super(probe, effector, k);
 		kAC= (KnowledgeAirConditioner) this.getKnowledge();
 		

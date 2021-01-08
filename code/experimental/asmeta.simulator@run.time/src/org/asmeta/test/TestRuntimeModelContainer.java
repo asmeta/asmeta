@@ -1075,6 +1075,101 @@ public class TestRuntimeModelContainer {
 			imp.runStep(id, monitored, model);*/
 		
 		}
+		
+		//Made to check if the simulation requires all monitored variable or can run without some in particular cases
+		@Test
+		public void missingMonitoredTest() {
+			Map<String, String> monitored = new HashMap<String, String>();
+			String model = "examples/railroadGate.asm";
+			SimulationContainer imp = SimulationContainer.getInstance();
+			imp.init(1);
+			int id = imp.startExecution(model);
+			monitored.put("lightMon", "FLASHING"); monitored.put("gateMon","OPENED");monitored.put("event","LIGHT");
+			imp.runStep(id, monitored);		
+			monitored.clear();
+			monitored.put("gateMon","CLOSING");monitored.put("event","GATE");
+			imp.runStep(id, monitored);		
+			monitored.clear();
+			monitored.put("gateMon","CLOSED");monitored.put("event","GATE");
+			imp.runStep(id, monitored);		
+			monitored.clear();
+			monitored.put("gateMon","OPENING");monitored.put("event","GATE");
+			imp.runStep(id, monitored);		
+			monitored.clear();
+			monitored.put("gateMon","OPENED");monitored.put("event","GATE");
+			imp.runStep(id, monitored);		
+			monitored.clear();
+			monitored.put("lightMon","OFF");monitored.put("event","LIGHT");
+			imp.runStep(id, monitored);		
+			monitored.clear();
+		}
+		
+		//=========================Multiple parameters monitored test===============================================================
+
+		//Multiple parameters monitored function test
+		@Test
+		public void liftTest() {
+			Map<String, String> monitored = new HashMap<String, String>();
+			RunOutput out;
+			String model = "examples/LIFT.asm";
+			SimulationContainer imp = SimulationContainer.getInstance();
+			imp.init(1);
+			int id = imp.startExecution(model);
+			monitored.put("insideCall(lift1,2)", "true");
+			monitored.put("insideCall(lift1,1)", "false");
+			monitored.put("insideCall(lift1,0)", "false");
+			monitored.put("outsideCall(0,UP)", "false");
+			monitored.put("outsideCall(0,DOWN)", "false");
+			monitored.put("outsideCall(1,UP)", "false");
+			monitored.put("outsideCall(1,DOWN)", "false");
+			monitored.put("outsideCall(2,UP)", "false");
+			monitored.put("outsideCall(2,DOWN)", "false");
+			out = imp.runStep(id, monitored);		
+			//out = imp.runStep(id);	
+			System.out.println(out.getControlledvalues());
+			monitored.clear();
+		}
+		//Single parameter monitored function test
+		@Test
+		public void invariants2Test() {
+			Map<String, String> monitored = new HashMap<String, String>();
+			RunOutput out;
+			String model = "examples/Invariants2.asm";
+			SimulationContainer imp = SimulationContainer.getInstance();
+			imp.init(1);
+			int id = imp.startExecution(model);
+			monitored.put("quantity(p1)", "1000");
+			monitored.put("quantity(p2)", "10000");
+			monitored.put("quantity(p3)", "100000");
+			//out = imp.runUntilEmpty(id, monitored,50000);
+			out = imp.runStep(id, monitored);	
+			monitored.clear();
+			monitored.put("quantity(p2)", "10000");
+			out = imp.runStep(id, monitored);		
+			//out = imp.runStep(id);	
+			System.out.println(out.getControlledvalues());
+			monitored.clear();
+		}
+		@Test
+		public void pillboxTest() {
+			Map<String, String> monitored = new HashMap<String, String>();
+			RunOutput out;
+			String model = "examples/Pillbox/pillbox.asm";
+			SimulationContainer imp = SimulationContainer.getInstance();
+			imp.init(1);
+			int id = imp.startExecution(model);
+			monitored.put("systemTime", "1000");
+			monitored.put("openSwitch(compartment2)", "false");
+			monitored.put("openSwitch(compartment3)", "true");
+			monitored.put("openSwitch(compartment4)", "false");
+			out = imp.runStep(id, monitored);
+			//out = imp.runStep(id);	
+			System.out.println(out.getControlledvalues());
+		}
+		@Test
+		public void safePillboxTest() {
+			
+		}
 		//=========================Fine Asm Test===============================================================
 		//=========================Inizio GUI Test===============================================================
 	/*@Test

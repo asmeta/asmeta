@@ -19,7 +19,7 @@ public static void main(String[] args)  {
 	ExtManagedSystemAC managedSystem =  new ExtManagedSystemAC(); 
 	//Create system knowledge and loop
 	Knowledge k = new KnowledgeAirConditioner();
-	FeedbackLoop loop = new FeedbackLoopAirConditionerL(managedSystem.getProbe(),managedSystem.getEffector(),k);
+	FeedbackLoop loop = new FeedbackLoopAirConditionerExt(managedSystem.getProbe(),managedSystem.getEffector(),k);
 	
 	//Create a new specialized enforcer for the AirConditioner system
 	Enforcer e = new EnforcerAirConditioner_v2(managedSystem, k, loop);
