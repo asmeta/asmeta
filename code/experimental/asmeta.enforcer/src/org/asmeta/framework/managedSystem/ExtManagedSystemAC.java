@@ -96,6 +96,9 @@ public class ExtManagedSystemAC extends ManagedSystem implements Probe, Effector
 	public boolean shutDown(){
 		try {
 			write(SHUT_DOWN_STR);
+			//System.out.println("DEBUG: "+ readAllNoWait());
+			outFromS.close();
+			inToS.close();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -154,7 +157,7 @@ public class ExtManagedSystemAC extends ManagedSystem implements Probe, Effector
 			write("Temp:"+roomTemperature);
 			read=read();
 			if (!read.equals("OK"))
-				System.out.println("DEBUG : setRoomTemperature : CRITICAL : Didn't recieve OK message");
+				System.out.println("DEBUG : setRoomTemperature : CRITICAL : Didn't receive OK message");
 		} catch (IOException e) {
 			System.out.println("DEBUG : setRoomTemperature : IOException");
 		}
@@ -166,10 +169,10 @@ public class ExtManagedSystemAC extends ManagedSystem implements Probe, Effector
 			read=readAllNoWait();
 			if (!read.equals(""))
 				System.out.println("DEBUG : setAirIntensity : readAllNoWait read something");
-			write("Temp:"+speed);
+			write("Speed:"+speed);
 			read=read();
 			if (!read.equals("OK"))
-				System.out.println("DEBUG : setAirIntensity : CRITICAL : Didn't recieve OK message");
+				System.out.println("DEBUG : setAirIntensity : CRITICAL : Didn't receive OK message");
 		} catch (IOException e) {
 			System.out.println("DEBUG : setAirIntensity : IOException");
 		}

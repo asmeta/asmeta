@@ -24,11 +24,37 @@ public static void main(String[] args)  {
 	//Create a new specialized enforcer for the AirConditioner system
 	Enforcer e = new EnforcerAirConditioner_v2(managedSystem, k, loop);
 	
+	Scanner console = new Scanner(System.in);
+	String s;
 	/** Running*/
 	//Scanner input = new Scanner(System.in);
 	//String s;
 	try {
+		/** Running -- example of execution loop with MAPE-K using console to simulate system input */
+		while ( console.hasNextLine() ) { 
+			  s = console.nextLine();	
+	          //System.out.println("Input: " + s);
+	          //Checks whether to shutdown the system or not
+	          if (s.equals("###")) {
+	        	  managedSystem.shutDown();
+	        	  break;
+	          }
+	          try {
+	        	  int input = Integer.parseInt(s);
+	        	  managedSystem.setRoomTemperature(input);
+	        	  System.out.println("Room temperature measured by the system: " + managedSystem.getRoomTemperature());
+	      		  System.out.println("Air speed set by the system: " + managedSystem.getAirIntensity());
+	        	  e.runLoop();
+	        	  System.out.println("Air speed forced to: " + ((KnowledgeAirConditioner) k).airSpeed);
+	        	  System.out.println("Air speed set by the system: " + managedSystem.getAirIntensity());
+	          }catch(NumberFormatException nfe) {
+	        	  System.out.println("Error: only integers and ### are accepted");
+	          }
+	          
+		}
+		
 		/** Running -- example of output sanitisation via MAPE-K*/
+		/*
 		System.out.println("Initial air speed of the system: " + managedSystem.getAirIntensity());
 		managedSystem.setRoomTemperature(40);
 		//managedSystem.setAirIntensity();
@@ -49,6 +75,7 @@ public static void main(String[] args)  {
 		System.out.println("Air speed forced to: " + ((KnowledgeAirConditioner) k).airSpeed);
 		System.out.println("Air speed set by the system: " + managedSystem.getAirIntensity());
 		System.out.println("Starting/ending loop time: " + loop.getStartTime() + "\t" + loop.getEndTime());
+		*/
 	}
 	catch (Exception ex) {
 		ex.printStackTrace();

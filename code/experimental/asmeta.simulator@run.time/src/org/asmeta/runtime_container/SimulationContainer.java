@@ -381,7 +381,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
                		routTO = runStep(id, locationValue);
         		}catch (Exception e) {}
         		finally {
-               		routTO.setResult(true);
+               		routTO.setTimeoutFlag(true);
         			timer.cancel();
         		}
 
@@ -396,7 +396,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	    	timeout=1;
 	    try {//soluzione brutta per far finire il timeout prima
 	    	int splits=10;
-	    	for (int i=0;splits*i<timeout && !routTO.getResult();i++)
+	    	for (int i=0;splits*i<timeout && !routTO.getTimeoutFlag();i++)
 	    		Thread.sleep(splits);
 	    } catch (InterruptedException e) {
 	        e.printStackTrace();
@@ -407,14 +407,14 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	    }
 	    else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
 	    
-	    if (!routTO.getResult()) {	//if the thread is still going after time runs out  
+	    if (!routTO.getTimeoutFlag()) {	//if the thread is still going after time runs out  
     		while (simulationRunning==SimStatus.ROLLINGBACK) {	//cannot stop the timertask while it's doing a rollback
     			try {
     				Thread.sleep(10);	//how often the program check for the rollback to finish before killing the thread
         		} catch (InterruptedException e) {
                     e.printStackTrace();}
     		}
-    		while (!routTO.getResult()) {	//se non ho ancora rOut vuol dire che non ha ancora finito, devo aspettare altrimenti non funziona più nulla successivamente
+    		while (!routTO.getTimeoutFlag()) {	//se non ho ancora rOut vuol dire che non ha ancora finito, devo aspettare altrimenti non funziona più nulla successivamente
     			try {
     				Thread.sleep(10);	
         		} catch (InterruptedException e) {
@@ -581,7 +581,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
         			routTO = runUntilEmpty(id, locationValue, max);
         		}catch (Exception e) {}
         		finally {
-               		routTO.setResult(true);
+               		routTO.setTimeoutFlag(true);
         			timer.cancel();
         		}
                  //System.out.println("Timer task finished at:"+new Date());
@@ -604,14 +604,14 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
         	System.out.println("TimerTask cancelled"+" -- flag TaskTerminated: "+taskTerminated.getResult());
         }
         else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
-        if (!routTO.getResult()) {	//if the thread is still going after time runs out  
+        if (!routTO.getTimeoutFlag()) {	//if the thread is still going after time runs out  
     		while (simulationRunning==SimStatus.ROLLINGBACK) {	//cannot stop the timertask while it's doing a rollback
     			try {
     				Thread.sleep(10);	//how often the program check for the rollback to finish before killing the thread
         		} catch (InterruptedException e) {
                     e.printStackTrace();}
     		}
-    		while (!routTO.getResult()) {
+    		while (!routTO.getTimeoutFlag()) {
     			try {
     				Thread.sleep(10);	
         		} catch (InterruptedException e) {

@@ -74,12 +74,12 @@ public class RunOutput implements Serializable {
 	}
 
 	/** Changes the timeout flag value */
-	public void setResult(boolean result) {
+	public void setTimeoutFlag(boolean result) {
 		timeoutFlag = result;
 	}
 
 	/** Shows the timeout flag value */
-	public boolean getResult() {
+	public boolean getTimeoutFlag() {
 		return timeoutFlag;
 	}
 	
