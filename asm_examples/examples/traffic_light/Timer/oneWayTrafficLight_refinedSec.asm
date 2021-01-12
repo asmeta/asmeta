@@ -26,7 +26,6 @@ signature:
 	dynamic controlled rPulse: LightUnit -> Boolean
 	dynamic controlled gPulse: LightUnit -> Boolean
 	
-	static timeUnit: TimerUnit
 	static timer50Passed: Timer
 	derived xtimer50Passed: Boolean
 	static timer120Passed: Timer
@@ -34,9 +33,9 @@ signature:
 	
 definitions:
 	
-	function timeUnit = SEC
-	function xtimer50Passed = expired(timer50Passed, timeUnit)
-	function xtimer120Passed = expired(timer120Passed, timeUnit)
+	function timeUnitDefault = SEC
+	function xtimer50Passed = expired(timer50Passed)
+	function xtimer120Passed = expired(timer120Passed)
 
 	rule r_switch($l in Boolean) =
 		$l := not($l)
@@ -53,7 +52,7 @@ definitions:
 				par
 					r_switchLightUnit[LIGHTUNIT2]
 					phase:=GO2STOP1
-					r_reset_timer[timer120Passed, timeUnit]
+					r_reset_timer[timer120Passed]
 				endpar
 			endif
 		endif
@@ -64,7 +63,7 @@ definitions:
 				par
 					r_switchLightUnit[LIGHTUNIT2]
 					phase:=STOP2STOP1
-					r_reset_timer[timer50Passed, timeUnit]
+					r_reset_timer[timer50Passed]
 				endpar
 			endif
 		endif
@@ -75,7 +74,7 @@ definitions:
 				par
 					r_switchLightUnit[LIGHTUNIT1]
 					phase:=GO1STOP2
-					r_reset_timer[timer120Passed, timeUnit]
+					r_reset_timer[timer120Passed]
 				endpar
 			endif
 		endif
@@ -86,7 +85,7 @@ definitions:
 				par
 					r_switchLightUnit[LIGHTUNIT1]
 					phase:=STOP1STOP2
-					r_reset_timer[timer50Passed, timeUnit]
+					r_reset_timer[timer50Passed]
 				endpar
 			endif
 		endif
