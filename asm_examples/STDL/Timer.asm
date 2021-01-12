@@ -1,6 +1,7 @@
 // definition of timers in ASM
 module Timer
 
+
 import StandardLibrary
 export *
 
@@ -11,19 +12,15 @@ signature:
 	controlled start: Timer-> Integer
 	// duration in ms of the timer starting from its start
 	controlled duration: Timer -> Integer
+	//Timer unit
 	controlled timerUnit: Timer -> TimerUnit
 	
-	//Functions used when the user uses default Timer unit
 	//init start time to current time
 	static initStart : Timer-> Integer
 	// is the timer expired?
 	derived expired: Timer -> Boolean
 			
-	//If the user wants to use one time unit for all the simulation set "timeUnitDefault" value in function definitions,
-	//then call functions/rules without passing the timer unit
-	// otherwise the user can specify the timer unit passing it as function/rule parameter
-	//Examples with one time unit: oneWayTrafficLight_refinedSec, oneWayTrafficLight_refinedMillisec
-	//Example with multiple time unit: oneWayTrafficLight_refinedMillisecSec
+	
 	
 definitions:
 														
@@ -42,12 +39,16 @@ definitions:
 	
 	/*******************************************************/
 	// restart the timer
-	macro rule r_reset_timer($t in Timer) =	start($t) :=initStart($t)					
+	macro rule r_reset_timer($t in Timer) =	start($t) := initStart($t)					
 														
     
     
 	// change or set the duration of a timer
     macro rule r_set_duration($t in Timer, $ms in Integer) = 
     	duration($t) := $ms
+    
+    // change or set the timer unit	
+    macro rule r_set_timer_unit($t in Timer, $unit in TimerUnit) = 
+    	timerUnit($t) := $unit
  
 
