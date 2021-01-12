@@ -12,18 +12,30 @@ signature:
 	// duration in ms of the timer starting from its start
 	controlled duration: Timer -> Integer
 	
+	//Functions used when the user specify the Timer unit
 	// is the timer expired?
 	derived expired: Prod(Timer, TimerUnit) -> Boolean
-	
+	//init start time to current time
 	static initStart : Prod(Timer,TimerUnit)-> Integer
-	
-	
-	static timeUnitDefault: TimerUnit
+
+	//Functions used when the user uses default Timer unit
+	//init start time to current time
 	static initStart : Timer-> Integer
+	// is the timer expired?
 	derived expired: Timer -> Boolean
+	
+	//Timer unit used for the simulation, must be set in the user specification
+	static timerUnitDefault: TimerUnit
+		
+	//If the user wants to use one time unit for all the simulation set "timeUnitDefault" value in function definitions,
+	//then call functions/rules without passing the timer unit
+	// otherwise the user can specify the timer unit passing it as function/rule parameter
+	//Examples with one time unit: oneWayTrafficLight_refinedSec, oneWayTrafficLight_refinedMillisec
+	//Example with multiple time unit: oneWayTrafficLight_refinedMillisecSec
 	
 definitions:
 
+	
 	function initStart($t in Timer, $unit in TimerUnit)= if ($unit=NANOSEC) then currTimeNanosecs
 														else if ($unit=MILLISEC) then currTimeMillisecs
 														else if ($unit=SEC) then currTimeSecs
@@ -34,13 +46,12 @@ definitions:
 														else if ($unit=SEC) then (currTimeSecs > start($t, $unit) + duration($t))
 														endif endif endif
 														
+	
 	/*******************************************************/	
-	function initStart($t in Timer) = initStart($t, timeUnitDefault)
+	function initStart($t in Timer) = initStart($t, timerUnitDefault)
 														
-	function expired($t in Timer) = if (timeUnitDefault=NANOSEC) then (currTimeNanosecs > start($t, timeUnitDefault) + duration($t))
-														else if (timeUnitDefault=MILLISEC) then (currTimeMillisecs > start($t, timeUnitDefault) + duration($t))
-														else if (timeUnitDefault=SEC) then (currTimeSecs > start($t, timeUnitDefault) + duration($t))
-														endif endif endif
+	function expired($t in Timer) = expired($t, timerUnitDefault)
+	
 	
 	/*===================================================*/
 	// restart the timer
@@ -48,10 +59,8 @@ definitions:
 	
 	
 	/*******************************************************/
-	
-	
 	// restart the timer
-	macro rule r_reset_timer($t in Timer) =	start($t, timeUnitDefault) :=initStart($t)										
+	macro rule r_reset_timer($t in Timer) =	r_reset_timer[$t, timerUnitDefault]									
 														
     
     

@@ -33,7 +33,7 @@ signature:
 	
 definitions:
 	
-	function timeUnitDefault = SEC
+	function timerUnitDefault = SEC
 	function xtimer50Passed = expired(timer50Passed)
 	function xtimer120Passed = expired(timer120Passed)
 
