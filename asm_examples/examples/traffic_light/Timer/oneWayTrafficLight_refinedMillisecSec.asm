@@ -33,8 +33,8 @@ signature:
 	
 definitions:
 
-	function xtimer50Passed = expired(timer50Passed, MILLISEC)
-	function xtimer120Passed = expired(timer120Passed, SEC)
+	function xtimer50Passed = expired(timer50Passed)
+	function xtimer120Passed = expired(timer120Passed)
 
 	rule r_switch($l in Boolean) =
 		$l := not($l)
@@ -51,7 +51,7 @@ definitions:
 				par
 					r_switchLightUnit[LIGHTUNIT2]
 					phase:=GO2STOP1
-					r_reset_timer[timer120Passed, SEC]
+					r_reset_timer[timer120Passed]
 				endpar
 			endif
 		endif
@@ -62,7 +62,7 @@ definitions:
 				par
 					r_switchLightUnit[LIGHTUNIT2]
 					phase:=STOP2STOP1
-					r_reset_timer[timer50Passed, MILLISEC]
+					r_reset_timer[timer50Passed]
 				endpar
 			endif
 		endif
@@ -73,7 +73,7 @@ definitions:
 				par
 					r_switchLightUnit[LIGHTUNIT1]
 					phase:=GO1STOP2
-					r_reset_timer[timer120Passed, SEC]
+					r_reset_timer[timer120Passed]
 				endpar
 			endif
 		endif
@@ -84,7 +84,7 @@ definitions:
 				par
 					r_switchLightUnit[LIGHTUNIT1]
 					phase:=STOP1STOP2
-					r_reset_timer[timer50Passed, MILLISEC]
+					r_reset_timer[timer50Passed]
 				endpar
 			endif
 		endif
@@ -133,4 +133,10 @@ default init s0:
     									else 
     										if $t = timer120Passed	then 6 endif //120000
    									endif
-	function start($t in Timer, $unit in TimerUnit) = initStart($t,$unit)
+   									
+	function start($t in Timer) = initStart($t)
+	
+	function timerUnit($t in Timer) = if $t = timer50Passed 	then MILLISEC //50
+    									else 
+    										if $t = timer120Passed	then SEC endif //120
+   									endif

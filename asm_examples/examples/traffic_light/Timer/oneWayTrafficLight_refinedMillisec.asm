@@ -33,7 +33,7 @@ signature:
 	
 definitions:
 	
-	function timerUnitDefault = MILLISEC
+
 	function xtimer50Passed = expired(timer50Passed)
 	function xtimer120Passed = expired(timer120Passed)
 
@@ -130,8 +130,15 @@ default init s0:
 	function phase = STOP1STOP2
 	function rPulse($l in LightUnit) = false
 	function gPulse($l in LightUnit) = false
-	function duration($t in Timer) = if $t = timer50Passed 	then 5000 //50000
+	function duration($t in Timer) = if $t = timer50Passed 	then 50000 //50000
     									else 
-    										if $t = timer120Passed	then 6000 endif //120000
+    										if $t = timer120Passed	then 120000 endif //120000
    									endif
-	function start($t in Timer, $unit in TimerUnit) = initStart($t,$unit)
+	
+	function timerUnit($t in Timer) = if $t = timer50Passed 	then MILLISEC //50
+    									else 
+    								  if $t = timer120Passed	then MILLISEC endif //120
+   									  endif
+	
+	function start($t in Timer) = initStart($t)
+	

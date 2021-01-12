@@ -33,7 +33,6 @@ signature:
 	
 definitions:
 	
-	function timerUnitDefault = SEC
 	function xtimer50Passed = expired(timer50Passed)
 	function xtimer120Passed = expired(timer120Passed)
 
@@ -134,4 +133,9 @@ default init s0:
     									else 
     										if $t = timer120Passed	then 6 endif //120
    									endif
-	function start($t in Timer, $unit in TimerUnit) = initStart($t,$unit)
+	function start($t in Timer) = initStart($t)
+	
+	function timerUnit($t in Timer) = if $t = timer50Passed 	then SEC //50
+    									else 
+    										if $t = timer120Passed	then SEC endif //120
+   									endif
