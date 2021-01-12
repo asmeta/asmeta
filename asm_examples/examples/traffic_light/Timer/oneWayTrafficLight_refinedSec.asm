@@ -1,4 +1,4 @@
-asm oneWayTrafficLight_refined
+asm oneWayTrafficLight_refinedSec
 
 /*
 ...the traffic is controlled by a pair of simple portable traffic light
@@ -19,23 +19,24 @@ import ../../../STDL/Timer
 
 signature:
 	enum domain LightUnit = {LIGHTUNIT1 | LIGHTUNIT2}
-	enum domain PhaseDomain = { STOP1STOP2 | GO2STOP1 | STOP2STOP1 | GO1STOP2 |
-	STOP1STOP2CHANGING | GO2STOP1CHANGING | STOP2STOP1CHANGING | GO1STOP2CHANGING }
+	enum domain PhaseDomain = { STOP1STOP2 | GO2STOP1 | STOP2STOP1 | GO1STOP2}
 	dynamic controlled phase: PhaseDomain
 	dynamic controlled stopLight: LightUnit -> Boolean
 	dynamic controlled goLight: LightUnit -> Boolean
 	dynamic controlled rPulse: LightUnit -> Boolean
 	dynamic controlled gPulse: LightUnit -> Boolean
 	
+	static timeUnit: TimerUnit
 	static timer50Passed: Timer
 	derived xtimer50Passed: Boolean
 	static timer120Passed: Timer
 	derived xtimer120Passed: Boolean
 	
 definitions:
-
-	function xtimer50Passed = expired(timer50Passed)
-	function xtimer120Passed = expired(timer120Passed)
+	
+	function timeUnit = SEC
+	function xtimer50Passed = expired(timer50Passed, timeUnit)
+	function xtimer120Passed = expired(timer120Passed, timeUnit)
 
 	rule r_switch($l in Boolean) =
 		$l := not($l)
@@ -46,42 +47,46 @@ definitions:
 		    gPulse($l) := true
 		endpar
 
-	rule r_stop1stop2_to_stop1stop2changing =
+	rule r_stop1stop2_to_go2stop1 =
 		if(phase=STOP1STOP2) then
 			if xtimer50Passed then
 				par
 					r_switchLightUnit[LIGHTUNIT2]
-					phase:=STOP1STOP2CHANGING
+					phase:=GO2STOP1
+					r_reset_timer[timer120Passed, timeUnit]
 				endpar
 			endif
 		endif
 
-	rule r_go2stop1_to_go2stop1changing =
+	rule r_go2stop1_to_stop2stop1 =
 		if(phase=GO2STOP1) then
 			if xtimer120Passed then
 				par
 					r_switchLightUnit[LIGHTUNIT2]
-					phase:=GO2STOP1CHANGING
+					phase:=STOP2STOP1
+					r_reset_timer[timer50Passed, timeUnit]
 				endpar
 			endif
 		endif
 
-	rule r_stop2stop1_to_stop2stop1changing =
+	rule r_stop2stop1_to_go1stop2 =
 		if(phase=STOP2STOP1) then
 			if xtimer50Passed then
 				par
 					r_switchLightUnit[LIGHTUNIT1]
-					phase:=STOP2STOP1CHANGING
+					phase:=GO1STOP2
+					r_reset_timer[timer120Passed, timeUnit]
 				endpar
 			endif
 		endif
 
-	rule r_go1stop2_to_go1stop2changing =
+	rule r_go1stop2_to_stop1stop2 =
 		if(phase=GO1STOP2) then
 			if xtimer120Passed then
 				par
 					r_switchLightUnit[LIGHTUNIT1]
-					phase:=GO1STOP2CHANGING
+					phase:=STOP1STOP2
+					r_reset_timer[timer50Passed, timeUnit]
 				endpar
 			endif
 		endif
@@ -103,22 +108,6 @@ definitions:
 				endif
 			endpar
 
-	rule r_changeState =
-		par
-			if(phase=STOP1STOP2CHANGING) then
-				phase := GO2STOP1
-			endif
-			if(phase=GO2STOP1CHANGING) then
-				phase := STOP2STOP1
-			endif
-			if(phase=STOP2STOP1CHANGING) then
-				phase := GO1STOP2
-			endif
-			if(phase=GO1STOP2CHANGING) then
-				phase := STOP1STOP2
-			endif
-		endpar
-
 	//i segnali rPulse e gPulse sono sempre letti ed azzerati in un solo passo
 	//the rPulse e gPulse signals are always read and resetted in a single step
 	CTLSPEC ag(rPulse(LIGHTUNIT1) implies ax(not(rPulse(LIGHTUNIT1))))
@@ -128,12 +117,11 @@ definitions:
 
 	main rule r_Main =
 		par
-			r_stop1stop2_to_stop1stop2changing[]
-			r_go2stop1_to_go2stop1changing[]
-			r_stop2stop1_to_stop2stop1changing[]
-			r_go1stop2_to_go1stop2changing[]
+			r_stop1stop2_to_go2stop1[]
+			r_go2stop1_to_stop2stop1[]
+			r_stop2stop1_to_go1stop2[]
+			r_go1stop2_to_stop1stop2[]
 			r_pulses[]
-			r_changeState[]
 		endpar
 				
 
@@ -143,8 +131,8 @@ default init s0:
 	function phase = STOP1STOP2
 	function rPulse($l in LightUnit) = false
 	function gPulse($l in LightUnit) = false
-	function duration($t in Timer) = if $t = timer50Passed 	then 5000 //50000
+	function duration($t in Timer) = if $t = timer50Passed 	then 5 //50000
     									else 
-    										if $t = timer120Passed	then 12000 endif //12000
+    										if $t = timer120Passed	then 12 endif //120000
    									endif
-	function start($t in Timer) = currTimeMillisecs
+	function start($t in Timer) = currTimeSecs
