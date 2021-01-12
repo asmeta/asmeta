@@ -30,10 +30,8 @@ definitions:
 														endif endif endif
 
 	// restart the timer
-    macro rule r_reset_timer($t in Timer, $unit in TimerUnit) = if ($unit=NANOSEC) then start($t, $unit) := currTimeNanosecs
-														else if ($unit=MILLISEC) then start($t, $unit) := currTimeMillisecs
-														else if ($unit=SEC) then start($t, $unit) := currTimeSecs
-														endif endif endif
+	macro rule r_reset_timer($t in Timer, $unit in TimerUnit) =	start($t, $unit) :=	initStart($t, $unit)										
+														
     
     
 	// change or set the duration of a timer
