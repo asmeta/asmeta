@@ -8,26 +8,31 @@ signature:
 	abstract domain Timer
 	enum domain TimerUnit={NANOSEC, MILLISEC, SEC}
 	// starting time taken from the local clock
-	controlled start: Timer -> Integer
+	controlled start: Prod(Timer,TimerUnit)-> Integer
 	// duration in ms of the timer starting from its start
 	controlled duration: Timer -> Integer
 	
 	// is the timer expired?
 	derived expired: Prod(Timer, TimerUnit) -> Boolean
+	
+	static initStart : Prod(Timer,TimerUnit)-> Integer
 
 definitions:
 
-	//function expired($t in Timer) = (currTimeMillisecs > start($t) + duration($t))
+	function initStart($t in Timer, $unit in TimerUnit)= if ($unit=NANOSEC) then currTimeNanosecs
+														else if ($unit=MILLISEC) then currTimeMillisecs
+														else if ($unit=SEC) then currTimeSecs
+														endif endif endif
 	
-	function expired($t in Timer, $unit in TimerUnit) = if ($unit=NANOSEC) then (currTimeNanosecs > start($t) + duration($t))
-														else if ($unit=MILLISEC) then (currTimeMillisecs > start($t) + duration($t))
-														else if ($unit=SEC) then (currTimeSecs > start($t) + duration($t))
+	function expired($t in Timer, $unit in TimerUnit) = if ($unit=NANOSEC) then (currTimeNanosecs > start($t, $unit) + duration($t))
+														else if ($unit=MILLISEC) then (currTimeMillisecs > start($t, $unit) + duration($t))
+														else if ($unit=SEC) then (currTimeSecs > start($t, $unit) + duration($t))
 														endif endif endif
 
 	// restart the timer
-    macro rule r_reset_timer($t in Timer, $unit in TimerUnit) = if ($unit=NANOSEC) then start($t) := currTimeNanosecs
-														else if ($unit=MILLISEC) then start($t) := currTimeMillisecs
-														else if ($unit=SEC) then start($t) := currTimeSecs
+    macro rule r_reset_timer($t in Timer, $unit in TimerUnit) = if ($unit=NANOSEC) then start($t, $unit) := currTimeNanosecs
+														else if ($unit=MILLISEC) then start($t, $unit) := currTimeMillisecs
+														else if ($unit=SEC) then start($t, $unit) := currTimeSecs
 														endif endif endif
     
     

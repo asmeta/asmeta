@@ -131,8 +131,8 @@ default init s0:
 	function phase = STOP1STOP2
 	function rPulse($l in LightUnit) = false
 	function gPulse($l in LightUnit) = false
-	function duration($t in Timer) = if $t = timer50Passed 	then 5 //50000
+	function duration($t in Timer) = if $t = timer50Passed 	then 5 //50
     									else 
-    										if $t = timer120Passed	then 12 endif //120000
+    										if $t = timer120Passed	then 6 endif //120
    									endif
-	function start($t in Timer) = currTimeSecs
+	function start($t in Timer, $unit in TimerUnit) = initStart($t,$unit)

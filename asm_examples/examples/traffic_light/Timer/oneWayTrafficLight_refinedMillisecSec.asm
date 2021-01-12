@@ -1,4 +1,4 @@
-asm oneWayTrafficLight_refinedMillisec
+asm oneWayTrafficLight_refinedMillisecSec
 
 /*
 ...the traffic is controlled by a pair of simple portable traffic light
@@ -27,6 +27,7 @@ signature:
 	dynamic controlled gPulse: LightUnit -> Boolean
 	
 	static timeUnit: TimerUnit
+	static timeUnit2: TimerUnit
 	static timer50Passed: Timer
 	derived xtimer50Passed: Boolean
 	static timer120Passed: Timer
@@ -35,8 +36,9 @@ signature:
 definitions:
 	
 	function timeUnit = MILLISEC
+	function timeUnit2 = SEC
 	function xtimer50Passed = expired(timer50Passed, timeUnit)
-	function xtimer120Passed = expired(timer120Passed, timeUnit)
+	function xtimer120Passed = expired(timer120Passed, timeUnit2)
 
 	rule r_switch($l in Boolean) =
 		$l := not($l)
@@ -53,7 +55,7 @@ definitions:
 				par
 					r_switchLightUnit[LIGHTUNIT2]
 					phase:=GO2STOP1
-					r_reset_timer[timer120Passed, timeUnit]
+					r_reset_timer[timer120Passed, timeUnit2]
 				endpar
 			endif
 		endif
@@ -75,7 +77,7 @@ definitions:
 				par
 					r_switchLightUnit[LIGHTUNIT1]
 					phase:=GO1STOP2
-					r_reset_timer[timer120Passed, timeUnit]
+					r_reset_timer[timer120Passed, timeUnit2]
 				endpar
 			endif
 		endif
@@ -133,6 +135,6 @@ default init s0:
 	function gPulse($l in LightUnit) = false
 	function duration($t in Timer) = if $t = timer50Passed 	then 5000 //50000
     									else 
-    										if $t = timer120Passed	then 6000 endif //120000
+    										if $t = timer120Passed	then 6 endif //120000
    									endif
 	function start($t in Timer, $unit in TimerUnit) = initStart($t,$unit)
