@@ -31,6 +31,12 @@ definitions:
     CTLSPEC ef(eq(phase,FULLYOPEN))
     main rule r_Main =
         par
+            if and(and(eq(phase,OPENING),eq(top,bottom)),event(bottom)) then
+                par
+                    motor := OFF
+                    phase := FULLYOPEN
+                endpar
+            endif
             if and(and(eq(phase,FULLYCLOSED),eq(closedPeriod,170)),passed(170)) then
                 par
                     dir := CLOCKWISE
@@ -38,17 +44,23 @@ definitions:
                     phase := OPENING
                 endpar
             endif
-            if and(and(eq(phase,FULLYOPEN),eq(openPeriod,10)),passed(10)) then
+            if and(and(eq(phase,FULLYCLOSED),eq(closedPeriod,10)),passed(10)) then
                 par
-                    dir := ANTICLOCKWISE
+                    dir := CLOCKWISE
                     motor := ON
-                    phase := CLOSING
+                    phase := OPENING
                 endpar
             endif
             if and(eq(phase,OPENING),event(top)) then
                 par
                     motor := OFF
                     phase := FULLYOPEN
+                endpar
+            endif
+            if and(eq(phase,CLOSING),event(bottom)) then
+                par
+                    motor := OFF
+                    phase := FULLYCLOSED
                 endpar
             endif
             if and(and(eq(phase,CLOSING),eq(bottom,top)),event(top)) then
@@ -64,23 +76,11 @@ definitions:
                     phase := CLOSING
                 endpar
             endif
-            if and(and(eq(phase,FULLYCLOSED),eq(closedPeriod,10)),passed(10)) then
+            if and(and(eq(phase,FULLYOPEN),eq(openPeriod,10)),passed(10)) then
                 par
-                    dir := CLOCKWISE
+                    dir := ANTICLOCKWISE
                     motor := ON
-                    phase := OPENING
-                endpar
-            endif
-            if and(eq(phase,CLOSING),event(bottom)) then
-                par
-                    motor := OFF
-                    phase := FULLYCLOSED
-                endpar
-            endif
-            if and(and(eq(phase,OPENING),eq(top,bottom)),event(bottom)) then
-                par
-                    motor := OFF
-                    phase := FULLYOPEN
+                    phase := CLOSING
                 endpar
             endif
         endpar

@@ -22,7 +22,7 @@ definitions:
     domain X = {1,2}
     domain Y = {1,2}
 
-    function moveExists($a in Moves) = let($var_953=playerPosX,$var_954=playerPosY,$var_955=playerPosX,$var_956=playerPosY,$var_957=playerPosX,$var_958=playerPosY,$var_959=playerPosX,$var_960=playerPosY) in switch $a case NORTH:eq(north($var_953,$var_954),true) case EAST:eq(east($var_955,$var_956),true) case SOUTH:eq(south($var_957,$var_958),true) case WEST:eq(west($var_959,$var_960),true) case NONE:false endswitch endlet
+    function moveExists($a in Moves) = let($var_2=playerPosX,$var_3=playerPosY,$var_4=playerPosX,$var_5=playerPosY,$var_6=playerPosX,$var_7=playerPosY,$var_8=playerPosX,$var_9=playerPosY) in switch $a case NORTH:eq(north($var_2,$var_3),true) case EAST:eq(east($var_4,$var_5),true) case SOUTH:eq(south($var_6,$var_7),true) case WEST:eq(west($var_8,$var_9),true) case NONE:false endswitch endlet
 
 
     CTLSPEC (forall $x in X,$y in Y with ag(implies(and(eq(playerPosX,$x),eq(playerPosY,$y)),iff(moveExists(NORTH),north($x,$y)))))
@@ -30,8 +30,8 @@ definitions:
     CTLSPEC (forall $x in X,$y in Y with ag(implies(and(eq(playerPosX,$x),eq(playerPosY,$y)),iff(moveExists(WEST),west($x,$y)))))
     CTLSPEC (forall $x in X,$y in Y with ag(implies(and(eq(playerPosX,$x),eq(playerPosY,$y)),iff(moveExists(EAST),east($x,$y)))))
     main rule r_Main =
-        let ($var_961 = move) in
-            if moveExists($var_961) then
+        let ($var_10 = move) in
+            if moveExists($var_10) then
                 choose $x in X, $y in Y with true do
                     par
                         playerPosX := $x

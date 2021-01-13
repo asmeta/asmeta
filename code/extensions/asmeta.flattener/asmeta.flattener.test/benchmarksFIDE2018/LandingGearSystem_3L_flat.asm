@@ -66,24 +66,37 @@ definitions:
     CTLSPEC (forall $s in GearStatus with ag(ef(eq(gears,$s))))
     main rule r_Main =
         par
-            if and(and(eq(handle,UP),neq(gears,RETRACTED)),eq(CLOSING,doors)) then
+            if and(and(eq(handle,UP),not(neq(gears,RETRACTED))),eq(OPENING,doors)) then
                 par
-                    closeDoorsElectroValve := false
-                    openDoorsElectroValve := true
-                    doors := OPENING
-                endpar
-            endif
-            if and(and(and(eq(handle,UP),neq(gears,RETRACTED)),eq(OPENING,doors)),doorsOpen) then
-                par
+                    closeDoorsElectroValve := true
                     openDoorsElectroValve := false
-                    doors := OPEN
+                    doors := CLOSING
                 endpar
             endif
-            if and(and(not(eq(handle,UP)),neq(gears,EXTENDED)),eq(CLOSED,doors)) then
+            if and(and(and(and(eq(handle,UP),neq(gears,RETRACTED)),eq(OPEN,doors)),eq(EXTENDED,gears)),gearsShockAbsorber) then
                 par
-                    generalElectroValve := true
-                    openDoorsElectroValve := true
-                    doors := OPENING
+                    retractGearsElectroValve := true
+                    gears := RETRACTING
+                endpar
+            endif
+            if and(and(not(eq(handle,UP)),not(neq(gears,EXTENDED))),eq(OPENING,doors)) then
+                par
+                    closeDoorsElectroValve := true
+                    openDoorsElectroValve := false
+                    doors := CLOSING
+                endpar
+            endif
+            if and(and(and(eq(handle,UP),neq(gears,RETRACTED)),eq(OPEN,doors)),eq(EXTENDING,gears)) then
+                par
+                    extendGearsElectroValve := false
+                    retractGearsElectroValve := true
+                    gears := RETRACTING
+                endpar
+            endif
+            if and(and(eq(handle,UP),not(neq(gears,RETRACTED))),eq(OPEN,doors)) then
+                par
+                    closeDoorsElectroValve := true
+                    doors := CLOSING
                 endpar
             endif
             if and(and(and(not(eq(handle,UP)),not(neq(gears,EXTENDED))),eq(CLOSING,doors)),doorsClosed) then
@@ -93,56 +106,10 @@ definitions:
                     doors := CLOSED
                 endpar
             endif
-            if and(and(eq(handle,UP),neq(gears,RETRACTED)),eq(CLOSED,doors)) then
-                par
-                    generalElectroValve := true
-                    openDoorsElectroValve := true
-                    doors := OPENING
-                endpar
-            endif
-            if and(and(eq(handle,UP),not(neq(gears,RETRACTED))),eq(OPEN,doors)) then
-                par
-                    closeDoorsElectroValve := true
-                    doors := CLOSING
-                endpar
-            endif
-            if and(and(and(not(eq(handle,UP)),neq(gears,EXTENDED)),eq(OPEN,doors)),eq(RETRACTED,gears)) then
-                par
-                    extendGearsElectroValve := true
-                    gears := EXTENDING
-                endpar
-            endif
-            if and(and(and(and(not(eq(handle,UP)),neq(gears,EXTENDED)),eq(OPEN,doors)),eq(EXTENDING,gears)),gearsExtended) then
-                par
-                    extendGearsElectroValve := false
-                    gears := EXTENDED
-                endpar
-            endif
             if and(and(and(and(eq(handle,UP),neq(gears,RETRACTED)),eq(OPEN,doors)),eq(RETRACTING,gears)),gearsRetracted) then
                 par
                     retractGearsElectroValve := false
                     gears := RETRACTED
-                endpar
-            endif
-            if and(and(eq(handle,UP),not(neq(gears,RETRACTED))),eq(OPENING,doors)) then
-                par
-                    closeDoorsElectroValve := true
-                    openDoorsElectroValve := false
-                    doors := CLOSING
-                endpar
-            endif
-            if and(and(and(not(eq(handle,UP)),neq(gears,EXTENDED)),eq(OPEN,doors)),eq(RETRACTING,gears)) then
-                par
-                    extendGearsElectroValve := true
-                    retractGearsElectroValve := false
-                    gears := EXTENDING
-                endpar
-            endif
-            if and(and(not(eq(handle,UP)),not(neq(gears,EXTENDED))),eq(OPENING,doors)) then
-                par
-                    closeDoorsElectroValve := true
-                    openDoorsElectroValve := false
-                    doors := CLOSING
                 endpar
             endif
             if and(and(and(eq(handle,UP),not(neq(gears,RETRACTED))),eq(CLOSING,doors)),doorsClosed) then
@@ -158,12 +125,6 @@ definitions:
                     doors := OPEN
                 endpar
             endif
-            if and(and(not(eq(handle,UP)),not(neq(gears,EXTENDED))),eq(OPEN,doors)) then
-                par
-                    closeDoorsElectroValve := true
-                    doors := CLOSING
-                endpar
-            endif
             if and(and(not(eq(handle,UP)),neq(gears,EXTENDED)),eq(CLOSING,doors)) then
                 par
                     closeDoorsElectroValve := false
@@ -171,17 +132,56 @@ definitions:
                     doors := OPENING
                 endpar
             endif
-            if and(and(and(and(eq(handle,UP),neq(gears,RETRACTED)),eq(OPEN,doors)),eq(EXTENDED,gears)),gearsShockAbsorber) then
+            if and(and(eq(handle,UP),neq(gears,RETRACTED)),eq(CLOSING,doors)) then
                 par
-                    retractGearsElectroValve := true
-                    gears := RETRACTING
+                    closeDoorsElectroValve := false
+                    openDoorsElectroValve := true
+                    doors := OPENING
                 endpar
             endif
-            if and(and(and(eq(handle,UP),neq(gears,RETRACTED)),eq(OPEN,doors)),eq(EXTENDING,gears)) then
+            if and(and(not(eq(handle,UP)),neq(gears,EXTENDED)),eq(CLOSED,doors)) then
+                par
+                    generalElectroValve := true
+                    openDoorsElectroValve := true
+                    doors := OPENING
+                endpar
+            endif
+            if and(and(and(not(eq(handle,UP)),neq(gears,EXTENDED)),eq(OPEN,doors)),eq(RETRACTED,gears)) then
+                par
+                    extendGearsElectroValve := true
+                    gears := EXTENDING
+                endpar
+            endif
+            if and(and(and(eq(handle,UP),neq(gears,RETRACTED)),eq(OPENING,doors)),doorsOpen) then
+                par
+                    openDoorsElectroValve := false
+                    doors := OPEN
+                endpar
+            endif
+            if and(and(not(eq(handle,UP)),not(neq(gears,EXTENDED))),eq(OPEN,doors)) then
+                par
+                    closeDoorsElectroValve := true
+                    doors := CLOSING
+                endpar
+            endif
+            if and(and(and(and(not(eq(handle,UP)),neq(gears,EXTENDED)),eq(OPEN,doors)),eq(EXTENDING,gears)),gearsExtended) then
                 par
                     extendGearsElectroValve := false
-                    retractGearsElectroValve := true
-                    gears := RETRACTING
+                    gears := EXTENDED
+                endpar
+            endif
+            if and(and(eq(handle,UP),neq(gears,RETRACTED)),eq(CLOSED,doors)) then
+                par
+                    generalElectroValve := true
+                    openDoorsElectroValve := true
+                    doors := OPENING
+                endpar
+            endif
+            if and(and(and(not(eq(handle,UP)),neq(gears,EXTENDED)),eq(OPEN,doors)),eq(RETRACTING,gears)) then
+                par
+                    extendGearsElectroValve := true
+                    retractGearsElectroValve := false
+                    gears := EXTENDING
                 endpar
             endif
         endpar

@@ -21,62 +21,41 @@ definitions:
 
     main rule r_Main =
         par
-            if and(alive(1n,3n),or(lt(aliveNeighb(1n,3n),2),gt(aliveNeighb(1n,3n),3))) then
-                alive(1n,3n) := false
+            if and(alive(2n,3n),or(lt(aliveNeighb(2n,3n),2),gt(aliveNeighb(2n,3n),3))) then
+                alive(2n,3n) := false
             endif
-            if and(not(alive(2n,4n)),eq(aliveNeighb(2n,4n),3)) then
-                alive(2n,4n) := true
+            if and(not(alive(4n,1n)),eq(aliveNeighb(4n,1n),3)) then
+                alive(4n,1n) := true
             endif
-            if and(alive(4n,3n),or(lt(aliveNeighb(4n,3n),2),gt(aliveNeighb(4n,3n),3))) then
-                alive(4n,3n) := false
-            endif
-            if and(not(alive(2n,3n)),eq(aliveNeighb(2n,3n),3)) then
-                alive(2n,3n) := true
-            endif
-            if and(alive(2n,2n),or(lt(aliveNeighb(2n,2n),2),gt(aliveNeighb(2n,2n),3))) then
-                alive(2n,2n) := false
-            endif
-            if and(not(alive(2n,2n)),eq(aliveNeighb(2n,2n),3)) then
-                alive(2n,2n) := true
-            endif
-            if and(not(alive(2n,1n)),eq(aliveNeighb(2n,1n),3)) then
-                alive(2n,1n) := true
-            endif
-            if and(not(alive(3n,4n)),eq(aliveNeighb(3n,4n),3)) then
-                alive(3n,4n) := true
-            endif
-            if and(alive(1n,1n),or(lt(aliveNeighb(1n,1n),2),gt(aliveNeighb(1n,1n),3))) then
-                alive(1n,1n) := false
-            endif
-            if and(alive(4n,2n),or(lt(aliveNeighb(4n,2n),2),gt(aliveNeighb(4n,2n),3))) then
-                alive(4n,2n) := false
+            if and(not(alive(4n,4n)),eq(aliveNeighb(4n,4n),3)) then
+                alive(4n,4n) := true
             endif
             if and(alive(1n,2n),or(lt(aliveNeighb(1n,2n),2),gt(aliveNeighb(1n,2n),3))) then
                 alive(1n,2n) := false
             endif
-            if and(not(alive(4n,2n)),eq(aliveNeighb(4n,2n),3)) then
-                alive(4n,2n) := true
-            endif
-            if and(not(alive(4n,3n)),eq(aliveNeighb(4n,3n),3)) then
-                alive(4n,3n) := true
-            endif
-            if and(alive(3n,2n),or(lt(aliveNeighb(3n,2n),2),gt(aliveNeighb(3n,2n),3))) then
-                alive(3n,2n) := false
-            endif
             if and(not(alive(3n,1n)),eq(aliveNeighb(3n,1n),3)) then
                 alive(3n,1n) := true
+            endif
+            if and(alive(1n,1n),or(lt(aliveNeighb(1n,1n),2),gt(aliveNeighb(1n,1n),3))) then
+                alive(1n,1n) := false
             endif
             if and(not(alive(1n,3n)),eq(aliveNeighb(1n,3n),3)) then
                 alive(1n,3n) := true
             endif
-            if and(alive(2n,1n),or(lt(aliveNeighb(2n,1n),2),gt(aliveNeighb(2n,1n),3))) then
-                alive(2n,1n) := false
+            if and(alive(4n,3n),or(lt(aliveNeighb(4n,3n),2),gt(aliveNeighb(4n,3n),3))) then
+                alive(4n,3n) := false
             endif
-            if and(alive(3n,4n),or(lt(aliveNeighb(3n,4n),2),gt(aliveNeighb(3n,4n),3))) then
-                alive(3n,4n) := false
+            if and(alive(3n,2n),or(lt(aliveNeighb(3n,2n),2),gt(aliveNeighb(3n,2n),3))) then
+                alive(3n,2n) := false
             endif
-            if and(not(alive(1n,4n)),eq(aliveNeighb(1n,4n),3)) then
-                alive(1n,4n) := true
+            if and(not(alive(2n,1n)),eq(aliveNeighb(2n,1n),3)) then
+                alive(2n,1n) := true
+            endif
+            if and(not(alive(1n,2n)),eq(aliveNeighb(1n,2n),3)) then
+                alive(1n,2n) := true
+            endif
+            if and(alive(4n,2n),or(lt(aliveNeighb(4n,2n),2),gt(aliveNeighb(4n,2n),3))) then
+                alive(4n,2n) := false
             endif
             if and(alive(2n,4n),or(lt(aliveNeighb(2n,4n),2),gt(aliveNeighb(2n,4n),3))) then
                 alive(2n,4n) := false
@@ -84,38 +63,59 @@ definitions:
             if and(alive(1n,4n),or(lt(aliveNeighb(1n,4n),2),gt(aliveNeighb(1n,4n),3))) then
                 alive(1n,4n) := false
             endif
-            if and(not(alive(1n,1n)),eq(aliveNeighb(1n,1n),3)) then
-                alive(1n,1n) := true
-            endif
-            if and(alive(3n,1n),or(lt(aliveNeighb(3n,1n),2),gt(aliveNeighb(3n,1n),3))) then
-                alive(3n,1n) := false
-            endif
-            if and(not(alive(3n,2n)),eq(aliveNeighb(3n,2n),3)) then
-                alive(3n,2n) := true
-            endif
-            if and(alive(2n,3n),or(lt(aliveNeighb(2n,3n),2),gt(aliveNeighb(2n,3n),3))) then
-                alive(2n,3n) := false
-            endif
-            if and(alive(3n,3n),or(lt(aliveNeighb(3n,3n),2),gt(aliveNeighb(3n,3n),3))) then
-                alive(3n,3n) := false
-            endif
-            if and(not(alive(4n,1n)),eq(aliveNeighb(4n,1n),3)) then
-                alive(4n,1n) := true
-            endif
-            if and(alive(4n,1n),or(lt(aliveNeighb(4n,1n),2),gt(aliveNeighb(4n,1n),3))) then
-                alive(4n,1n) := false
-            endif
-            if and(not(alive(1n,2n)),eq(aliveNeighb(1n,2n),3)) then
-                alive(1n,2n) := true
+            if and(not(alive(3n,4n)),eq(aliveNeighb(3n,4n),3)) then
+                alive(3n,4n) := true
             endif
             if and(not(alive(3n,3n)),eq(aliveNeighb(3n,3n),3)) then
                 alive(3n,3n) := true
             endif
+            if and(not(alive(2n,3n)),eq(aliveNeighb(2n,3n),3)) then
+                alive(2n,3n) := true
+            endif
+            if and(not(alive(1n,1n)),eq(aliveNeighb(1n,1n),3)) then
+                alive(1n,1n) := true
+            endif
+            if and(alive(1n,3n),or(lt(aliveNeighb(1n,3n),2),gt(aliveNeighb(1n,3n),3))) then
+                alive(1n,3n) := false
+            endif
+            if and(alive(3n,3n),or(lt(aliveNeighb(3n,3n),2),gt(aliveNeighb(3n,3n),3))) then
+                alive(3n,3n) := false
+            endif
             if and(alive(4n,4n),or(lt(aliveNeighb(4n,4n),2),gt(aliveNeighb(4n,4n),3))) then
                 alive(4n,4n) := false
             endif
-            if and(not(alive(4n,4n)),eq(aliveNeighb(4n,4n),3)) then
-                alive(4n,4n) := true
+            if and(not(alive(2n,2n)),eq(aliveNeighb(2n,2n),3)) then
+                alive(2n,2n) := true
+            endif
+            if and(not(alive(3n,2n)),eq(aliveNeighb(3n,2n),3)) then
+                alive(3n,2n) := true
+            endif
+            if and(not(alive(4n,3n)),eq(aliveNeighb(4n,3n),3)) then
+                alive(4n,3n) := true
+            endif
+            if and(alive(3n,1n),or(lt(aliveNeighb(3n,1n),2),gt(aliveNeighb(3n,1n),3))) then
+                alive(3n,1n) := false
+            endif
+            if and(alive(3n,4n),or(lt(aliveNeighb(3n,4n),2),gt(aliveNeighb(3n,4n),3))) then
+                alive(3n,4n) := false
+            endif
+            if and(not(alive(2n,4n)),eq(aliveNeighb(2n,4n),3)) then
+                alive(2n,4n) := true
+            endif
+            if and(not(alive(1n,4n)),eq(aliveNeighb(1n,4n),3)) then
+                alive(1n,4n) := true
+            endif
+            if and(alive(2n,1n),or(lt(aliveNeighb(2n,1n),2),gt(aliveNeighb(2n,1n),3))) then
+                alive(2n,1n) := false
+            endif
+            if and(alive(2n,2n),or(lt(aliveNeighb(2n,2n),2),gt(aliveNeighb(2n,2n),3))) then
+                alive(2n,2n) := false
+            endif
+            if and(not(alive(4n,2n)),eq(aliveNeighb(4n,2n),3)) then
+                alive(4n,2n) := true
+            endif
+            if and(alive(4n,1n),or(lt(aliveNeighb(4n,1n),2),gt(aliveNeighb(4n,1n),3))) then
+                alive(4n,1n) := false
             endif
         endpar
 

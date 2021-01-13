@@ -52,49 +52,8 @@ definitions:
     CTLSPEC ag(implies(eq(outMessage,NOTCERTIFICATE),ag(eq(outMessage,NOTCERTIFICATE))))
     main rule r_Main =
         par
-            if and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),not(eq(getAnswer,currentAnswer))),answerError),not(lt(levelTest,6))) then
-                test := false
-            endif
-            if and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),not(eq(getAnswer,currentAnswer))),answerError),lt(levelTest,6)) then
-                par
-                    levelTest := plus(levelTest,1)
-                    answerError := false
-                    answerSkip := false
-                    rightAnswer := 0
-                    levelCertificate := plus(levelCertificate,1)
-                endpar
-            endif
-            if and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),eq(getAnswer,currentAnswer)),gt(levelTest,1)),eq(loop,false)) then
-                par
-                    answerError := false
-                    answerSkip := false
-                    levelTest := minus(levelTest,1)
-                    levelCertificate := minus(levelCertificate,1)
-                endpar
-            endif
-            if and(not(test),eq(levelCertificate,7)) then
-                outMessage := NOTCERTIFICATE
-            endif
-            if and(not(test),not(eq(levelCertificate,7))) then
-                outMessage := CERTIFICATE
-            endif
-            if and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),eq(getAnswer,currentAnswer)),not(gt(levelTest,1))),not(le(rightAnswer,1))) then
-                par
-                    levelCertificate := minus(levelCertificate,1)
-                    test := false
-                endpar
-            endif
-            if and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),eq(getAnswer,currentAnswer)),not(gt(levelTest,1))),le(rightAnswer,1)) then
-                rightAnswer := plus(rightAnswer,1)
-            endif
-            if and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),not(eq(getAnswer,currentAnswer))),not(answerError)) then
-                answerError := true
-            endif
-            if and(and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),eq(getAnswer,currentAnswer)),gt(levelTest,1)),not(eq(loop,false))),le(rightAnswer,1)) then
-                rightAnswer := plus(rightAnswer,1)
-            endif
-            if and(and(and(test,not(eq(getAnswer,EXIT))),eq(getAnswer,SKIP)),answerSkip) then
-                loop := true
+            if and(and(and(test,not(eq(getAnswer,EXIT))),eq(getAnswer,SKIP)),not(answerSkip)) then
+                answerSkip := true
             endif
             if and(and(and(and(test,not(eq(getAnswer,EXIT))),eq(getAnswer,SKIP)),answerSkip),lt(levelTest,6)) then
                 par
@@ -105,26 +64,67 @@ definitions:
                     levelCertificate := plus(levelCertificate,1)
                 endpar
             endif
-            if and(test,eq(getAnswer,EXIT)) then
-                par
-                    test := false
-                    levelCertificate := 7
-                endpar
-            endif
             if and(and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),eq(getAnswer,currentAnswer)),gt(levelTest,1)),not(eq(loop,false))),not(le(rightAnswer,1))) then
                 par
                     levelCertificate := minus(levelCertificate,1)
                     test := false
                 endpar
             endif
-            if and(and(and(test,not(eq(getAnswer,EXIT))),eq(getAnswer,SKIP)),not(answerSkip)) then
-                answerSkip := true
+            if and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),not(eq(getAnswer,currentAnswer))),answerError),not(lt(levelTest,6))) then
+                test := false
             endif
-            if and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),not(eq(getAnswer,currentAnswer))),answerError) then
+            if and(and(and(test,not(eq(getAnswer,EXIT))),eq(getAnswer,SKIP)),answerSkip) then
                 loop := true
             endif
             if and(and(and(and(test,not(eq(getAnswer,EXIT))),eq(getAnswer,SKIP)),answerSkip),not(lt(levelTest,6))) then
                 test := false
+            endif
+            if and(and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),eq(getAnswer,currentAnswer)),gt(levelTest,1)),not(eq(loop,false))),le(rightAnswer,1)) then
+                rightAnswer := plus(rightAnswer,1)
+            endif
+            if and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),eq(getAnswer,currentAnswer)),not(gt(levelTest,1))),le(rightAnswer,1)) then
+                rightAnswer := plus(rightAnswer,1)
+            endif
+            if and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),eq(getAnswer,currentAnswer)),not(gt(levelTest,1))),not(le(rightAnswer,1))) then
+                par
+                    levelCertificate := minus(levelCertificate,1)
+                    test := false
+                endpar
+            endif
+            if and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),not(eq(getAnswer,currentAnswer))),answerError) then
+                loop := true
+            endif
+            if and(not(test),not(eq(levelCertificate,7))) then
+                outMessage := CERTIFICATE
+            endif
+            if and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),not(eq(getAnswer,currentAnswer))),answerError),lt(levelTest,6)) then
+                par
+                    levelTest := plus(levelTest,1)
+                    answerError := false
+                    answerSkip := false
+                    rightAnswer := 0
+                    levelCertificate := plus(levelCertificate,1)
+                endpar
+            endif
+            if and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),not(eq(getAnswer,currentAnswer))),not(answerError)) then
+                answerError := true
+            endif
+            if and(and(and(and(and(test,not(eq(getAnswer,EXIT))),not(eq(getAnswer,SKIP))),eq(getAnswer,currentAnswer)),gt(levelTest,1)),eq(loop,false)) then
+                par
+                    answerError := false
+                    answerSkip := false
+                    levelTest := minus(levelTest,1)
+                    levelCertificate := minus(levelCertificate,1)
+                endpar
+            endif
+            if and(test,eq(getAnswer,EXIT)) then
+                par
+                    test := false
+                    levelCertificate := 7
+                endpar
+            endif
+            if and(not(test),eq(levelCertificate,7)) then
+                outMessage := NOTCERTIFICATE
             endif
         endpar
 

@@ -49,24 +49,24 @@ definitions:
     function hasToken($m in Machine) = eq($m,token)
     function terminated = and(not(firstRound),and(and(eq(token,0),eq(machineColor(0),WHITE)),eq(tokenColor,WHITE)))
     function stableState = (forall $m in Machine with not(active($m)))
-    function chooseVar0 = chooseone({$sendMsg511514 in Boolean| true : $sendMsg511514})
-    function chooseVar1 = chooseone({$higherMachine512515 in Machine| true : $higherMachine512515})
-    function chooseVar2 = chooseone({$nextStatus513516 in Boolean| true : $nextStatus513516})
-    function chooseVar3 = chooseone({$sendMsg511517 in Boolean| true : $sendMsg511517})
-    function chooseVar4 = chooseone({$higherMachine512518 in Machine| true : $higherMachine512518})
-    function chooseVar5 = chooseone({$nextStatus513519 in Boolean| true : $nextStatus513519})
-    function chooseVar6 = chooseone({$sendMsg511520 in Boolean| true : $sendMsg511520})
-    function chooseVar7 = chooseone({$higherMachine512521 in Machine| true : $higherMachine512521})
-    function chooseVar8 = chooseone({$nextStatus513522 in Boolean| true : $nextStatus513522})
-    function chooseVar9 = chooseone({$sendMsg511523 in Boolean| true : $sendMsg511523})
-    function chooseVar10 = chooseone({$higherMachine512524 in Machine| true : $higherMachine512524})
-    function chooseVar11 = chooseone({$nextStatus513525 in Boolean| true : $nextStatus513525})
-    function chooseVar12 = chooseone({$sendMsg511526 in Boolean| true : $sendMsg511526})
-    function chooseVar13 = chooseone({$higherMachine512527 in Machine| true : $higherMachine512527})
-    function chooseVar14 = chooseone({$nextStatus513528 in Boolean| true : $nextStatus513528})
-    function chooseVar15 = chooseone({$sendMsg511529 in Boolean| true : $sendMsg511529})
-    function chooseVar16 = chooseone({$higherMachine512530 in Machine| true : $higherMachine512530})
-    function chooseVar17 = chooseone({$nextStatus513531 in Boolean| true : $nextStatus513531})
+    function chooseVar0 = chooseone({$sendMsg5356 in Boolean| true : $sendMsg5356})
+    function chooseVar1 = chooseone({$higherMachine5457 in Machine| true : $higherMachine5457})
+    function chooseVar2 = chooseone({$nextStatus5558 in Boolean| true : $nextStatus5558})
+    function chooseVar3 = chooseone({$sendMsg5359 in Boolean| true : $sendMsg5359})
+    function chooseVar4 = chooseone({$higherMachine5460 in Machine| true : $higherMachine5460})
+    function chooseVar5 = chooseone({$nextStatus5561 in Boolean| true : $nextStatus5561})
+    function chooseVar6 = chooseone({$sendMsg5362 in Boolean| true : $sendMsg5362})
+    function chooseVar7 = chooseone({$higherMachine5463 in Machine| true : $higherMachine5463})
+    function chooseVar8 = chooseone({$nextStatus5564 in Boolean| true : $nextStatus5564})
+    function chooseVar9 = chooseone({$sendMsg5365 in Boolean| true : $sendMsg5365})
+    function chooseVar10 = chooseone({$higherMachine5466 in Machine| true : $higherMachine5466})
+    function chooseVar11 = chooseone({$nextStatus5567 in Boolean| true : $nextStatus5567})
+    function chooseVar12 = chooseone({$sendMsg5368 in Boolean| true : $sendMsg5368})
+    function chooseVar13 = chooseone({$higherMachine5469 in Machine| true : $higherMachine5469})
+    function chooseVar14 = chooseone({$nextStatus5570 in Boolean| true : $nextStatus5570})
+    function chooseVar15 = chooseone({$sendMsg5371 in Boolean| true : $sendMsg5371})
+    function chooseVar16 = chooseone({$higherMachine5472 in Machine| true : $higherMachine5472})
+    function chooseVar17 = chooseone({$nextStatus5573 in Boolean| true : $nextStatus5573})
 
 
     LTLSPEC g(implies(terminated,stableState))
@@ -75,133 +75,17 @@ definitions:
     CTLSPEC ag(implies(stableState,ef(terminated)))
     main rule r_main =
         par
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,2)),not(active(2))),eq(chooseVar1,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,2)),not(active(2))),eq(chooseVar13,2)) then
-                active(2) := true
-            endif
-            if and(active(5),isDef(chooseVar11)) then
-                active(5) := chooseVar11
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,3)),not(active(3))),eq(chooseVar1,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,4)),not(active(4))),eq(chooseVar4,2)) then
-                active(2) := true
-            endif
-            if and(and(and(not(active(3)),hasToken(3)),neq(3,master)),eq(machineColor(3),BLACK)) then
-                tokenColor := BLACK
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,2)),not(active(2))),eq(chooseVar13,0)) then
-                active(0) := true
-            endif
-            if and(and(not(active(1)),hasToken(1)),neq(1,master)) then
-                par
-                    token := pred(1)
-                    machineColor(1) := WHITE
-                endpar
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,2)),not(active(2))),eq(chooseVar4,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,3)),not(active(3))),eq(chooseVar7,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,5)),not(active(5))),eq(chooseVar13,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,5)),not(active(5))),eq(chooseVar16,4)) then
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,2)),not(active(2))),eq(chooseVar7,4)) then
                 active(4) := true
             endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,2)),not(active(2))),eq(chooseVar16,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,0)),not(active(0))),eq(chooseVar16,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,2)),not(active(2))),eq(chooseVar1,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,4)),not(active(4))),eq(chooseVar4,4)) then
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,4)),not(active(4))),eq(chooseVar16,4)) then
                 active(4) := true
             endif
-            if and(and(and(and(not(active(2)),hasToken(2)),isMaster(2)),or(or(eq(machineColor(2),BLACK),eq(tokenColor,BLACK)),firstRound)),firstRound) then
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,3)),not(active(3))),eq(chooseVar7,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(not(active(5)),hasToken(5)),isMaster(5)),or(or(eq(machineColor(5),BLACK),eq(tokenColor,BLACK)),firstRound)),firstRound) then
                 firstRound := false
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,5)),not(active(5))),eq(chooseVar10,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,4)),not(active(4))),eq(chooseVar1,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,4)),not(active(4))),eq(chooseVar7,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(not(active(4)),hasToken(4)),isMaster(4)),or(or(eq(machineColor(4),BLACK),eq(tokenColor,BLACK)),firstRound)),firstRound) then
-                firstRound := false
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,0)),not(active(0))),eq(chooseVar13,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,2)),not(active(2))),eq(chooseVar7,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,1)),not(active(1))),eq(chooseVar4,1)) then
-                active(1) := true
-            endif
-            if and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9) then
-                machineColor(5) := BLACK
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,1)),not(active(1))),eq(chooseVar10,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,3)),not(active(3))),eq(chooseVar7,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,5)),not(active(5))),eq(chooseVar16,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,5)),not(active(5))),eq(chooseVar16,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,5)),not(active(5))),eq(chooseVar4,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,3)),not(active(3))),eq(chooseVar4,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,4)),not(active(4))),eq(chooseVar4,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,3)),not(active(3))),eq(chooseVar7,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,3)),not(active(3))),eq(chooseVar1,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,5)),not(active(5))),eq(chooseVar7,3)) then
-                active(3) := true
-            endif
-            if and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3) then
-                machineColor(0) := BLACK
-            endif
-            if and(and(and(not(active(4)),hasToken(4)),isMaster(4)),or(or(eq(machineColor(4),BLACK),eq(tokenColor,BLACK)),firstRound)) then
-                par
-                    token := pred(4)
-                    machineColor(4) := WHITE
-                    machineColor(0) := WHITE
-                    tokenColor := WHITE
-                endpar
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,5)),not(active(5))),eq(chooseVar10,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,3)),not(active(3))),eq(chooseVar10,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,1)),not(active(1))),eq(chooseVar13,1)) then
-                active(1) := true
             endif
             if and(and(and(not(active(1)),hasToken(1)),isMaster(1)),or(or(eq(machineColor(1),BLACK),eq(tokenColor,BLACK)),firstRound)) then
                 par
@@ -211,402 +95,11 @@ definitions:
                     tokenColor := WHITE
                 endpar
             endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,0)),not(active(0))),eq(chooseVar1,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,4)),not(active(4))),eq(chooseVar13,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,1)),not(active(1))),eq(chooseVar1,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,1)),not(active(1))),eq(chooseVar1,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,0)),not(active(0))),eq(chooseVar16,1)) then
-                active(1) := true
-            endif
-            if and(active(2),isDef(chooseVar17)) then
-                active(2) := chooseVar17
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,5)),not(active(5))),eq(chooseVar13,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,5)),not(active(5))),eq(chooseVar4,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,1)),not(active(1))),eq(chooseVar16,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,0)),not(active(0))),eq(chooseVar4,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,3)),not(active(3))),eq(chooseVar1,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,1)),not(active(1))),eq(chooseVar1,0)) then
-                active(0) := true
-            endif
-            if and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6) then
-                machineColor(4) := BLACK
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,3)),not(active(3))),eq(chooseVar4,0)) then
-                active(0) := true
-            endif
-            if and(and(and(not(active(3)),hasToken(3)),isMaster(3)),or(or(eq(machineColor(3),BLACK),eq(tokenColor,BLACK)),firstRound)) then
-                par
-                    token := pred(3)
-                    machineColor(3) := WHITE
-                    machineColor(0) := WHITE
-                    tokenColor := WHITE
-                endpar
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,5)),not(active(5))),eq(chooseVar1,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,4)),not(active(4))),eq(chooseVar16,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,3)),not(active(3))),eq(chooseVar7,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,0)),not(active(0))),eq(chooseVar13,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,3)),not(active(3))),eq(chooseVar13,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,4)),not(active(4))),eq(chooseVar13,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(not(active(0)),hasToken(0)),isMaster(0)),or(or(eq(machineColor(0),BLACK),eq(tokenColor,BLACK)),firstRound)),firstRound) then
-                firstRound := false
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,4)),not(active(4))),eq(chooseVar10,0)) then
-                active(0) := true
-            endif
-            if and(and(not(active(2)),hasToken(2)),neq(2,master)) then
-                par
-                    token := pred(2)
-                    machineColor(2) := WHITE
-                endpar
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,5)),not(active(5))),eq(chooseVar16,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,4)),not(active(4))),eq(chooseVar16,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,2)),not(active(2))),eq(chooseVar16,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,5)),not(active(5))),eq(chooseVar7,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,1)),not(active(1))),eq(chooseVar10,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,3)),not(active(3))),eq(chooseVar4,4)) then
-                active(4) := true
-            endif
-            if and(and(and(not(active(2)),hasToken(2)),isMaster(2)),or(or(eq(machineColor(2),BLACK),eq(tokenColor,BLACK)),firstRound)) then
-                par
-                    token := pred(2)
-                    machineColor(2) := WHITE
-                    machineColor(0) := WHITE
-                    tokenColor := WHITE
-                endpar
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,4)),not(active(4))),eq(chooseVar10,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,1)),not(active(1))),eq(chooseVar16,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,2)),not(active(2))),eq(chooseVar1,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,0)),not(active(0))),eq(chooseVar13,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,5)),not(active(5))),eq(chooseVar4,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,0)),not(active(0))),eq(chooseVar10,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,2)),not(active(2))),eq(chooseVar16,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,2)),not(active(2))),eq(chooseVar4,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,3)),not(active(3))),eq(chooseVar4,2)) then
-                active(2) := true
-            endif
             if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,5)),not(active(5))),eq(chooseVar10,1)) then
                 active(1) := true
             endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,2)),not(active(2))),eq(chooseVar10,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,1)),not(active(1))),eq(chooseVar4,4)) then
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,5)),not(active(5))),eq(chooseVar10,4)) then
                 active(4) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,4)),not(active(4))),eq(chooseVar10,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,2)),not(active(2))),eq(chooseVar13,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,4)),not(active(4))),eq(chooseVar7,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,3)),not(active(3))),eq(chooseVar1,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,1)),not(active(1))),eq(chooseVar1,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,2)),not(active(2))),eq(chooseVar7,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,1)),not(active(1))),eq(chooseVar13,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,0)),not(active(0))),eq(chooseVar16,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,0)),not(active(0))),eq(chooseVar10,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,0)),not(active(0))),eq(chooseVar13,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,1)),not(active(1))),eq(chooseVar7,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,3)),not(active(3))),eq(chooseVar10,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,4)),not(active(4))),eq(chooseVar1,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,2)),not(active(2))),eq(chooseVar10,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,0)),not(active(0))),eq(chooseVar4,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,4)),not(active(4))),eq(chooseVar16,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,1)),not(active(1))),eq(chooseVar4,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,2)),not(active(2))),eq(chooseVar7,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,4)),not(active(4))),eq(chooseVar7,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,0)),not(active(0))),eq(chooseVar7,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,3)),not(active(3))),eq(chooseVar13,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,3)),not(active(3))),eq(chooseVar16,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,1)),not(active(1))),eq(chooseVar1,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,0)),not(active(0))),eq(chooseVar4,3)) then
-                active(3) := true
-            endif
-            if and(and(and(not(active(4)),hasToken(4)),neq(4,master)),eq(machineColor(4),BLACK)) then
-                tokenColor := BLACK
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,0)),not(active(0))),eq(chooseVar7,5)) then
-                active(5) := true
-            endif
-            if and(and(and(not(active(1)),hasToken(1)),neq(1,master)),eq(machineColor(1),BLACK)) then
-                tokenColor := BLACK
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,1)),not(active(1))),eq(chooseVar13,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,3)),not(active(3))),eq(chooseVar10,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,3)),not(active(3))),eq(chooseVar7,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,1)),not(active(1))),eq(chooseVar7,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,2)),not(active(2))),eq(chooseVar1,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,0)),not(active(0))),eq(chooseVar10,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,3)),not(active(3))),eq(chooseVar7,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,3)),not(active(3))),eq(chooseVar16,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,4)),not(active(4))),eq(chooseVar16,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,1)),not(active(1))),eq(chooseVar13,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,0)),not(active(0))),eq(chooseVar13,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,1)),not(active(1))),eq(chooseVar1,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,4)),not(active(4))),eq(chooseVar4,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(not(active(5)),hasToken(5)),isMaster(5)),or(or(eq(machineColor(5),BLACK),eq(tokenColor,BLACK)),firstRound)),firstRound) then
-                firstRound := false
-            endif
-            if and(and(not(active(5)),hasToken(5)),neq(5,master)) then
-                par
-                    token := pred(5)
-                    machineColor(5) := WHITE
-                endpar
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,0)),not(active(0))),eq(chooseVar1,3)) then
-                active(3) := true
-            endif
-            if and(and(not(active(0)),hasToken(0)),neq(0,master)) then
-                par
-                    token := pred(0)
-                    machineColor(0) := WHITE
-                endpar
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,5)),not(active(5))),eq(chooseVar7,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,0)),not(active(0))),eq(chooseVar13,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,1)),not(active(1))),eq(chooseVar13,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,4)),not(active(4))),eq(chooseVar16,2)) then
-                active(2) := true
-            endif
-            if and(and(not(active(4)),hasToken(4)),neq(4,master)) then
-                par
-                    token := pred(4)
-                    machineColor(4) := WHITE
-                endpar
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,2)),not(active(2))),eq(chooseVar10,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,5)),not(active(5))),eq(chooseVar13,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,1)),not(active(1))),eq(chooseVar16,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,2)),not(active(2))),eq(chooseVar4,5)) then
-                active(5) := true
-            endif
-            if and(active(4),isDef(chooseVar8)) then
-                active(4) := chooseVar8
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,5)),not(active(5))),eq(chooseVar7,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,4)),not(active(4))),eq(chooseVar4,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,5)),not(active(5))),eq(chooseVar7,4)) then
-                active(4) := true
-            endif
-            if and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12) then
-                machineColor(1) := BLACK
-            endif
-            if and(active(0),isDef(chooseVar5)) then
-                active(0) := chooseVar5
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,2)),not(active(2))),eq(chooseVar13,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,3)),not(active(3))),eq(chooseVar1,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,5)),not(active(5))),eq(chooseVar4,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,5)),not(active(5))),eq(chooseVar4,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,0)),not(active(0))),eq(chooseVar7,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,2)),not(active(2))),eq(chooseVar7,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,2)),not(active(2))),eq(chooseVar10,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,0)),not(active(0))),eq(chooseVar4,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,2)),not(active(2))),eq(chooseVar4,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,3)),not(active(3))),eq(chooseVar10,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,0)),not(active(0))),eq(chooseVar16,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,1)),not(active(1))),eq(chooseVar7,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,1)),not(active(1))),eq(chooseVar10,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,0)),not(active(0))),eq(chooseVar1,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,4)),not(active(4))),eq(chooseVar1,4)) then
-                active(4) := true
-            endif
-            if and(and(not(active(3)),hasToken(3)),neq(3,master)) then
-                par
-                    token := pred(3)
-                    machineColor(3) := WHITE
-                endpar
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,0)),not(active(0))),eq(chooseVar4,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,3)),not(active(3))),eq(chooseVar16,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,3)),not(active(3))),eq(chooseVar13,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,3)),not(active(3))),eq(chooseVar10,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,0)),not(active(0))),eq(chooseVar7,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,4)),not(active(4))),eq(chooseVar7,0)) then
-                active(0) := true
             endif
             if and(and(and(not(active(0)),hasToken(0)),isMaster(0)),or(or(eq(machineColor(0),BLACK),eq(tokenColor,BLACK)),firstRound)) then
                 par
@@ -616,29 +109,448 @@ definitions:
                     tokenColor := WHITE
                 endpar
             endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,0)),not(active(0))),eq(chooseVar4,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,1)),not(active(1))),eq(chooseVar16,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,0)),not(active(0))),eq(chooseVar4,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,4)),not(active(4))),eq(chooseVar4,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,1)),not(active(1))),eq(chooseVar4,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,1)),not(active(1))),eq(chooseVar10,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,3)),not(active(3))),eq(chooseVar7,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,3)),not(active(3))),eq(chooseVar7,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,3)),not(active(3))),eq(chooseVar4,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,1)),not(active(1))),eq(chooseVar7,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,4)),not(active(4))),eq(chooseVar1,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,5)),not(active(5))),eq(chooseVar10,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,5)),not(active(5))),eq(chooseVar4,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,0)),not(active(0))),eq(chooseVar16,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,0)),not(active(0))),eq(chooseVar7,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,4)),not(active(4))),eq(chooseVar16,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,0)),not(active(0))),eq(chooseVar16,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,5)),not(active(5))),eq(chooseVar4,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,0)),not(active(0))),eq(chooseVar1,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(not(active(1)),hasToken(1)),isMaster(1)),or(or(eq(machineColor(1),BLACK),eq(tokenColor,BLACK)),firstRound)),firstRound) then
+                firstRound := false
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,5)),not(active(5))),eq(chooseVar16,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,2)),not(active(2))),eq(chooseVar4,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,2)),not(active(2))),eq(chooseVar10,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,0)),not(active(0))),eq(chooseVar13,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,3)),not(active(3))),eq(chooseVar13,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,0)),not(active(0))),eq(chooseVar4,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,2)),not(active(2))),eq(chooseVar4,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,2)),not(active(2))),eq(chooseVar16,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,4)),not(active(4))),eq(chooseVar4,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,4)),not(active(4))),eq(chooseVar16,3)) then
+                active(3) := true
+            endif
+            if and(active(1),isDef(chooseVar2)) then
+                active(1) := chooseVar2
+            endif
+            if and(and(and(not(active(4)),hasToken(4)),neq(4,master)),eq(machineColor(4),BLACK)) then
+                tokenColor := BLACK
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,0)),not(active(0))),eq(chooseVar16,3)) then
+                active(3) := true
+            endif
+            if and(and(and(not(active(5)),hasToken(5)),neq(5,master)),eq(machineColor(5),BLACK)) then
+                tokenColor := BLACK
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,1)),not(active(1))),eq(chooseVar4,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(not(active(2)),hasToken(2)),isMaster(2)),or(or(eq(machineColor(2),BLACK),eq(tokenColor,BLACK)),firstRound)),firstRound) then
+                firstRound := false
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,2)),not(active(2))),eq(chooseVar13,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(not(active(3)),hasToken(3)),isMaster(3)),or(or(eq(machineColor(3),BLACK),eq(tokenColor,BLACK)),firstRound)),firstRound) then
+                firstRound := false
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,1)),not(active(1))),eq(chooseVar4,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,4)),not(active(4))),eq(chooseVar13,3)) then
+                active(3) := true
+            endif
+            if and(and(not(active(5)),hasToken(5)),neq(5,master)) then
+                par
+                    token := pred(5)
+                    machineColor(5) := WHITE
+                endpar
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,5)),not(active(5))),eq(chooseVar1,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,5)),not(active(5))),eq(chooseVar13,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,4)),not(active(4))),eq(chooseVar7,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,5)),not(active(5))),eq(chooseVar10,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,4)),not(active(4))),eq(chooseVar13,1)) then
+                active(1) := true
+            endif
+            if and(active(0),isDef(chooseVar14)) then
+                active(0) := chooseVar14
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,5)),not(active(5))),eq(chooseVar13,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,1)),not(active(1))),eq(chooseVar7,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,3)),not(active(3))),eq(chooseVar4,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,0)),not(active(0))),eq(chooseVar4,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,3)),not(active(3))),eq(chooseVar16,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,5)),not(active(5))),eq(chooseVar1,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,1)),not(active(1))),eq(chooseVar10,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,3)),not(active(3))),eq(chooseVar13,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,0)),not(active(0))),eq(chooseVar1,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,4)),not(active(4))),eq(chooseVar13,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,1)),not(active(1))),eq(chooseVar16,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,1)),not(active(1))),eq(chooseVar13,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,4)),not(active(4))),eq(chooseVar1,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,4)),not(active(4))),eq(chooseVar10,0)) then
+                active(0) := true
+            endif
             if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,3)),not(active(3))),eq(chooseVar10,5)) then
                 active(5) := true
             endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,4)),not(active(4))),eq(chooseVar1,3)) then
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,0)),not(active(0))),eq(chooseVar13,3)) then
                 active(3) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,2)),not(active(2))),eq(chooseVar13,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,2)),not(active(2))),eq(chooseVar16,4)) then
+                active(4) := true
+            endif
+            if and(active(5),isDef(chooseVar11)) then
+                active(5) := chooseVar11
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,3)),not(active(3))),eq(chooseVar4,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,2)),not(active(2))),eq(chooseVar7,5)) then
+                active(5) := true
+            endif
+            if and(and(not(active(4)),hasToken(4)),neq(4,master)) then
+                par
+                    token := pred(4)
+                    machineColor(4) := WHITE
+                endpar
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,0)),not(active(0))),eq(chooseVar1,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,0)),not(active(0))),eq(chooseVar10,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,2)),not(active(2))),eq(chooseVar10,2)) then
+                active(2) := true
+            endif
+            if and(and(and(not(active(0)),hasToken(0)),neq(0,master)),eq(machineColor(0),BLACK)) then
+                tokenColor := BLACK
+            endif
+            if and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3) then
+                machineColor(4) := BLACK
+            endif
+            if and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6) then
+                machineColor(3) := BLACK
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,3)),not(active(3))),eq(chooseVar1,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,4)),not(active(4))),eq(chooseVar1,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,3)),not(active(3))),eq(chooseVar7,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,5)),not(active(5))),eq(chooseVar13,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,0)),not(active(0))),eq(chooseVar1,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,1)),not(active(1))),eq(chooseVar10,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,3)),not(active(3))),eq(chooseVar10,4)) then
+                active(4) := true
             endif
             if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,2)),not(active(2))),eq(chooseVar10,5)) then
                 active(5) := true
             endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,5)),not(active(5))),eq(chooseVar4,5)) then
-                active(5) := true
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,0)),not(active(0))),eq(chooseVar7,4)) then
+                active(4) := true
             endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,1)),not(active(1))),eq(chooseVar16,0)) then
+            if and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15) then
+                machineColor(2) := BLACK
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,1)),not(active(1))),eq(chooseVar4,0)) then
                 active(0) := true
             endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,2)),not(active(2))),eq(chooseVar1,1)) then
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,5)),not(active(5))),eq(chooseVar13,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,0)),not(active(0))),eq(chooseVar4,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,4)),not(active(4))),eq(chooseVar7,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,5)),not(active(5))),eq(chooseVar16,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,2)),not(active(2))),eq(chooseVar16,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,3)),not(active(3))),eq(chooseVar1,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,2)),not(active(2))),eq(chooseVar1,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,5)),not(active(5))),eq(chooseVar13,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,2)),not(active(2))),eq(chooseVar13,1)) then
                 active(1) := true
             endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,3)),not(active(3))),eq(chooseVar4,5)) then
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,2)),not(active(2))),eq(chooseVar13,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,5)),not(active(5))),eq(chooseVar4,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,1)),not(active(1))),eq(chooseVar10,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,4)),not(active(4))),eq(chooseVar7,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,0)),not(active(0))),eq(chooseVar10,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,2)),not(active(2))),eq(chooseVar16,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,2)),not(active(2))),eq(chooseVar1,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,4)),not(active(4))),eq(chooseVar10,5)) then
                 active(5) := true
             endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,3)),not(active(3))),eq(chooseVar16,0)) then
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,0)),not(active(0))),eq(chooseVar13,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,3)),not(active(3))),eq(chooseVar16,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,1)),not(active(1))),eq(chooseVar16,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,0)),not(active(0))),eq(chooseVar7,0)) then
                 active(0) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,2)),not(active(2))),eq(chooseVar7,0)) then
+                active(0) := true
+            endif
+            if and(and(not(active(3)),hasToken(3)),neq(3,master)) then
+                par
+                    token := pred(3)
+                    machineColor(3) := WHITE
+                endpar
+            endif
+            if and(active(3),isDef(chooseVar8)) then
+                active(3) := chooseVar8
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,1)),not(active(1))),eq(chooseVar1,1)) then
+                active(1) := true
+            endif
+            if and(and(not(active(0)),hasToken(0)),neq(0,master)) then
+                par
+                    token := pred(0)
+                    machineColor(0) := WHITE
+                endpar
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,0)),not(active(0))),eq(chooseVar13,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,5)),not(active(5))),eq(chooseVar7,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,1)),not(active(1))),eq(chooseVar7,2)) then
+                active(2) := true
+            endif
+            if and(and(and(not(active(3)),hasToken(3)),isMaster(3)),or(or(eq(machineColor(3),BLACK),eq(tokenColor,BLACK)),firstRound)) then
+                par
+                    token := pred(3)
+                    machineColor(3) := WHITE
+                    machineColor(0) := WHITE
+                    tokenColor := WHITE
+                endpar
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,5)),not(active(5))),eq(chooseVar16,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,0)),not(active(0))),eq(chooseVar10,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,2)),not(active(2))),eq(chooseVar16,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,2)),not(active(2))),eq(chooseVar1,4)) then
+                active(4) := true
+            endif
+            if and(and(not(active(1)),hasToken(1)),neq(1,master)) then
+                par
+                    token := pred(1)
+                    machineColor(1) := WHITE
+                endpar
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,0)),not(active(0))),eq(chooseVar16,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,0)),not(active(0))),eq(chooseVar10,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,1)),not(active(1))),eq(chooseVar1,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,4)),not(active(4))),eq(chooseVar7,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,1)),not(active(1))),eq(chooseVar1,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,5)),not(active(5))),eq(chooseVar13,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,1)),not(active(1))),eq(chooseVar13,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,2)),not(active(2))),eq(chooseVar10,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,3)),not(active(3))),eq(chooseVar1,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,3)),not(active(3))),eq(chooseVar10,3)) then
+                active(3) := true
+            endif
+            if and(and(not(active(2)),hasToken(2)),neq(2,master)) then
+                par
+                    token := pred(2)
+                    machineColor(2) := WHITE
+                endpar
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,5)),not(active(5))),eq(chooseVar4,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,2)),not(active(2))),eq(chooseVar1,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,4)),not(active(4))),eq(chooseVar10,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,4)),not(active(4))),eq(chooseVar1,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,2)),not(active(2))),eq(chooseVar4,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,2)),not(active(2))),eq(chooseVar7,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,4)),not(active(4))),eq(chooseVar10,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,4)),not(active(4))),eq(chooseVar10,4)) then
+                active(4) := true
             endif
             if and(and(and(not(active(5)),hasToken(5)),isMaster(5)),or(or(eq(machineColor(5),BLACK),eq(tokenColor,BLACK)),firstRound)) then
                 par
@@ -648,236 +560,324 @@ definitions:
                     tokenColor := WHITE
                 endpar
             endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,4)),not(active(4))),eq(chooseVar1,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,1)),not(active(1))),eq(chooseVar4,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,0)),not(active(0))),eq(chooseVar10,3)) then
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,1)),not(active(1))),eq(chooseVar1,3)) then
                 active(3) := true
             endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,0)),not(active(0))),eq(chooseVar10,4)) then
-                active(4) := true
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,1)),not(active(1))),eq(chooseVar16,3)) then
+                active(3) := true
             endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,0)),not(active(0))),eq(chooseVar1,5)) then
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,3)),not(active(3))),eq(chooseVar7,5)) then
                 active(5) := true
             endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,5)),not(active(5))),eq(chooseVar10,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,1)),not(active(1))),eq(chooseVar10,5)) then
-                active(5) := true
-            endif
-            if and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15) then
-                machineColor(2) := BLACK
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,3)),not(active(3))),eq(chooseVar13,2)) then
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,5)),not(active(5))),eq(chooseVar4,2)) then
                 active(2) := true
             endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,1)),not(active(1))),eq(chooseVar7,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,2)),not(active(2))),eq(chooseVar7,0)) then
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,3)),not(active(3))),eq(chooseVar10,0)) then
                 active(0) := true
             endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,1)),not(active(1))),eq(chooseVar7,5)) then
-                active(5) := true
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,2)),not(active(2))),eq(chooseVar16,3)) then
+                active(3) := true
             endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,3)),not(active(3))),eq(chooseVar13,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,2)),not(active(2))),eq(chooseVar4,1)) then
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,3)),not(active(3))),eq(chooseVar10,1)) then
                 active(1) := true
             endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,1)),not(active(1))),eq(chooseVar10,2)) then
-                active(2) := true
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,4)),not(active(4))),eq(chooseVar4,4)) then
+                active(4) := true
             endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,5)),not(active(5))),eq(chooseVar1,3)) then
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,5)),not(active(5))),eq(chooseVar7,3)) then
                 active(3) := true
             endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,5)),not(active(5))),eq(chooseVar13,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,1)),not(active(1))),eq(chooseVar7,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,4)),not(active(4))),eq(chooseVar1,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,2)),not(active(2))),eq(chooseVar13,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,0)),not(active(0))),eq(chooseVar16,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,5)),not(active(5))),eq(chooseVar1,0)) then
-                active(0) := true
-            endif
-            if and(and(and(not(active(5)),hasToken(5)),neq(5,master)),eq(machineColor(5),BLACK)) then
-                tokenColor := BLACK
-            endif
-            if and(active(3),isDef(chooseVar2)) then
-                active(3) := chooseVar2
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,0)),not(active(0))),eq(chooseVar7,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,5)),not(active(5))),eq(chooseVar10,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,5)),not(active(5))),eq(chooseVar1,1)) then
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,3)),not(active(3))),eq(chooseVar7,1)) then
                 active(1) := true
             endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,1)),not(active(1))),eq(chooseVar16,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,3)),not(active(3))),eq(chooseVar4,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,2)),not(active(2))),eq(chooseVar7,4)) then
-                active(4) := true
-            endif
-            if and(and(and(not(active(0)),hasToken(0)),neq(0,master)),eq(machineColor(0),BLACK)) then
-                tokenColor := BLACK
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,5)),not(active(5))),eq(chooseVar10,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,4)),not(active(4))),eq(chooseVar10,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,3)),not(active(3))),eq(chooseVar16,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,4)),not(active(4))),eq(chooseVar16,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,1)),not(active(1))),eq(chooseVar4,0)) then
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,3)),not(active(3))),eq(chooseVar1,0)) then
                 active(0) := true
             endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,4)),not(active(4))),eq(chooseVar7,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,4)),not(active(4))),eq(chooseVar10,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,4)),not(active(4))),eq(chooseVar10,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,1)),not(active(1))),eq(chooseVar4,3)) then
-                active(3) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,0)),not(active(0))),eq(chooseVar4,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,2)),not(active(2))),eq(chooseVar16,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,4)),not(active(4))),eq(chooseVar13,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,2)),not(active(2))),eq(chooseVar4,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,5)),not(active(5))),eq(chooseVar13,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,1)),not(active(1))),eq(chooseVar16,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(not(active(1)),hasToken(1)),isMaster(1)),or(or(eq(machineColor(1),BLACK),eq(tokenColor,BLACK)),firstRound)),firstRound) then
-                firstRound := false
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,5)),not(active(5))),eq(chooseVar1,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,0)),not(active(0))),eq(chooseVar1,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,2)),not(active(2))),eq(chooseVar10,4)) then
-                active(4) := true
-            endif
-            if and(and(and(not(active(2)),hasToken(2)),neq(2,master)),eq(machineColor(2),BLACK)) then
-                tokenColor := BLACK
-            endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,5)),not(active(5))),eq(chooseVar1,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,0)),not(active(0))),eq(chooseVar7,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,5)),not(active(5))),eq(chooseVar7,2)) then
-                active(2) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,4)),not(active(4))),eq(chooseVar13,5)) then
-                active(5) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,1)),not(active(1))),eq(chooseVar13,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,0)),not(active(0))),eq(chooseVar10,2)) then
-                active(2) := true
-            endif
-            if and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0) then
-                machineColor(3) := BLACK
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,0)),not(active(0))),eq(chooseVar16,0)) then
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,3)),not(active(3))),eq(chooseVar16,0)) then
                 active(0) := true
             endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,2)),not(active(2))),eq(chooseVar1,4)) then
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,4)),not(active(4))),eq(chooseVar13,4)) then
                 active(4) := true
             endif
-            if and(and(and(and(not(active(3)),hasToken(3)),isMaster(3)),or(or(eq(machineColor(3),BLACK),eq(tokenColor,BLACK)),firstRound)),firstRound) then
-                firstRound := false
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,1)),not(active(1))),eq(chooseVar13,4)) then
+                active(4) := true
             endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,5)),not(active(5))),eq(chooseVar13,0)) then
-                active(0) := true
-            endif
-            if and(and(and(and(and(and(active(4),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,4)),not(active(4))),eq(chooseVar7,1)) then
-                active(1) := true
-            endif
-            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,1)),not(active(1))),eq(chooseVar10,3)) then
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,2)),not(active(2))),eq(chooseVar7,3)) then
                 active(3) := true
             endif
-            if and(active(1),isDef(chooseVar14)) then
-                active(1) := chooseVar14
-            endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,2)),not(active(2))),eq(chooseVar16,1)) then
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,5)),not(active(5))),eq(chooseVar16,1)) then
                 active(1) := true
             endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,2)),not(active(2))),eq(chooseVar16,5)) then
-                active(5) := true
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,3)),not(active(3))),eq(chooseVar4,3)) then
+                active(3) := true
             endif
-            if and(and(and(and(and(and(active(0),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,4)),not(active(4))),eq(chooseVar4,0)) then
-                active(0) := true
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,1)),not(active(1))),eq(chooseVar13,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,5)),not(active(5))),eq(chooseVar1,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,5)),not(active(5))),eq(chooseVar1,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,2)),not(active(2))),eq(chooseVar4,2)) then
+                active(2) := true
             endif
             if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,5)),not(active(5))),eq(chooseVar16,5)) then
                 active(5) := true
             endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,4)),not(active(4))),eq(chooseVar13,4)) then
-                active(4) := true
-            endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,2)),not(active(2))),eq(chooseVar13,3)) then
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,2)),not(active(2))),eq(chooseVar4,3)) then
                 active(3) := true
             endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,3)),not(active(3))),eq(chooseVar13,5)) then
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,5)),not(active(5))),eq(chooseVar1,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,4)),not(active(4))),eq(chooseVar1,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,0)),not(active(0))),eq(chooseVar4,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,2)),not(active(2))),eq(chooseVar1,5)) then
                 active(5) := true
             endif
-            if and(and(and(and(and(and(active(1),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,4)),not(active(4))),eq(chooseVar13,2)) then
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,1)),not(active(1))),eq(chooseVar7,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,3)),not(active(3))),eq(chooseVar13,4)) then
+                active(4) := true
+            endif
+            if and(active(4),isDef(chooseVar5)) then
+                active(4) := chooseVar5
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,4)),not(active(4))),eq(chooseVar7,2)) then
                 active(2) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,4)),not(active(4))),eq(chooseVar4,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,5)),not(active(5))),eq(chooseVar7,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,3)),not(active(3))),eq(chooseVar10,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,3)),not(active(3))),eq(chooseVar16,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,5)),not(active(5))),eq(chooseVar16,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,5)),not(active(5))),eq(chooseVar7,1)) then
+                active(1) := true
+            endif
+            if and(and(and(not(active(3)),hasToken(3)),neq(3,master)),eq(machineColor(3),BLACK)) then
+                tokenColor := BLACK
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,3)),not(active(3))),eq(chooseVar13,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,1)),not(active(1))),eq(chooseVar16,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,2)),not(active(2))),eq(chooseVar13,0)) then
+                active(0) := true
+            endif
+            if and(and(and(not(active(2)),hasToken(2)),neq(2,master)),eq(machineColor(2),BLACK)) then
+                tokenColor := BLACK
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,5)),not(active(5))),eq(chooseVar10,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(not(active(0)),hasToken(0)),isMaster(0)),or(or(eq(machineColor(0),BLACK),eq(tokenColor,BLACK)),firstRound)),firstRound) then
+                firstRound := false
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,0)),not(active(0))),eq(chooseVar7,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,1)),not(active(1))),eq(chooseVar10,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,4)),not(active(4))),eq(chooseVar1,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,0)),not(active(0))),eq(chooseVar13,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,3)),not(active(3))),eq(chooseVar4,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,1)),not(active(1))),eq(chooseVar4,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,1)),not(active(1))),eq(chooseVar1,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,0)),not(active(0))),eq(chooseVar7,5)) then
+                active(5) := true
+            endif
+            if and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0) then
+                machineColor(1) := BLACK
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,0)),not(active(0))),eq(chooseVar16,1)) then
+                active(1) := true
+            endif
+            if and(and(and(not(active(4)),hasToken(4)),isMaster(4)),or(or(eq(machineColor(4),BLACK),eq(tokenColor,BLACK)),firstRound)) then
+                par
+                    token := pred(4)
+                    machineColor(4) := WHITE
+                    machineColor(0) := WHITE
+                    tokenColor := WHITE
+                endpar
+            endif
+            if and(and(and(and(not(active(4)),hasToken(4)),isMaster(4)),or(or(eq(machineColor(4),BLACK),eq(tokenColor,BLACK)),firstRound)),firstRound) then
+                firstRound := false
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,4)),not(active(4))),eq(chooseVar16,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,3)),not(active(3))),eq(chooseVar4,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,0)),not(active(0))),eq(chooseVar1,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,4)),not(active(4))),eq(chooseVar4,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,4)),not(active(4))),eq(chooseVar16,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,2)),not(active(2))),eq(chooseVar7,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,1)),not(active(1))),eq(chooseVar1,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,0)),not(active(0))),eq(chooseVar7,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,5)),not(active(5))),eq(chooseVar7,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,1)),not(active(1))),eq(chooseVar16,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,0)),not(active(0))),eq(chooseVar10,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,2)),not(active(2))),eq(chooseVar10,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,1)),not(active(1))),eq(chooseVar13,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,1)),not(active(1))),eq(chooseVar4,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,1)),not(active(1))),eq(chooseVar7,3)) then
+                active(3) := true
+            endif
+            if and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9) then
+                machineColor(5) := BLACK
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,0)),not(active(0))),eq(chooseVar1,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,4)),not(active(4))),eq(chooseVar16,2)) then
+                active(2) := true
+            endif
+            if and(and(and(not(active(2)),hasToken(2)),isMaster(2)),or(or(eq(machineColor(2),BLACK),eq(tokenColor,BLACK)),firstRound)) then
+                par
+                    token := pred(2)
+                    machineColor(2) := WHITE
+                    machineColor(0) := WHITE
+                    tokenColor := WHITE
+                endpar
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,4)),not(active(4))),eq(chooseVar10,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,1)),not(active(1))),eq(chooseVar10,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,3)),not(active(3))),eq(chooseVar13,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,5)),not(active(5))),eq(chooseVar7,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,5)),not(active(5))),eq(chooseVar10,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,3)),not(active(3))),eq(chooseVar13,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,1)),not(active(1))),eq(chooseVar13,3)) then
+                active(3) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,1)),not(active(1))),eq(chooseVar7,5)) then
+                active(5) := true
+            endif
+            if and(and(and(not(active(1)),hasToken(1)),neq(1,master)),eq(machineColor(1),BLACK)) then
+                tokenColor := BLACK
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,2)),not(active(2))),eq(chooseVar4,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,4)),not(active(4))),eq(chooseVar13,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,0)),not(active(0))),eq(chooseVar13,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,3)),not(active(3))),eq(chooseVar16,1)) then
+                active(1) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,5)),not(active(5))),eq(chooseVar4,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,2)),not(active(2))),eq(chooseVar13,5)) then
+                active(5) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,3)),not(active(3))),eq(chooseVar1,2)) then
+                active(2) := true
+            endif
+            if and(active(2),isDef(chooseVar17)) then
+                active(2) := chooseVar17
+            endif
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,2)),not(active(2))),eq(chooseVar10,4)) then
+                active(4) := true
+            endif
+            if and(and(and(and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12),eq(chooseVar13,4)),not(active(4))),eq(chooseVar13,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,0)),not(active(0))),eq(chooseVar16,5)) then
+                active(5) := true
             endif
             if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,3)),not(active(3))),eq(chooseVar16,2)) then
                 active(2) := true
             endif
-            if and(and(and(and(and(and(active(2),isDef(chooseVar15)),isDef(chooseVar16)),chooseVar15),eq(chooseVar16,5)),not(active(5))),eq(chooseVar16,3)) then
-                active(3) := true
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,3)),not(active(3))),eq(chooseVar1,4)) then
+                active(4) := true
             endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,0)),not(active(0))),eq(chooseVar1,1)) then
+            if and(and(and(and(and(and(active(5),isDef(chooseVar9)),isDef(chooseVar10)),chooseVar9),eq(chooseVar10,0)),not(active(0))),eq(chooseVar10,0)) then
+                active(0) := true
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,2)),not(active(2))),eq(chooseVar1,2)) then
+                active(2) := true
+            endif
+            if and(and(and(and(and(and(active(4),isDef(chooseVar3)),isDef(chooseVar4)),chooseVar3),eq(chooseVar4,4)),not(active(4))),eq(chooseVar4,1)) then
                 active(1) := true
             endif
-            if and(and(and(and(and(and(active(3),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,3)),not(active(3))),eq(chooseVar1,5)) then
+            if and(and(and(active(0),isDef(chooseVar12)),isDef(chooseVar13)),chooseVar12) then
+                machineColor(0) := BLACK
+            endif
+            if and(and(and(and(and(and(active(1),isDef(chooseVar0)),isDef(chooseVar1)),chooseVar0),eq(chooseVar1,5)),not(active(5))),eq(chooseVar1,5)) then
                 active(5) := true
+            endif
+            if and(and(and(and(and(and(active(3),isDef(chooseVar6)),isDef(chooseVar7)),chooseVar6),eq(chooseVar7,4)),not(active(4))),eq(chooseVar7,1)) then
+                active(1) := true
             endif
         endpar
 

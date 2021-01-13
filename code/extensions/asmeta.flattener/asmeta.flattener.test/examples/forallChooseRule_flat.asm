@@ -16,11 +16,11 @@ definitions:
 
     domain ConcrDom = {1,2,3,4,5}
 
-    function chooseVar0 = chooseone({$b505 in ConcrDom| lt($b505,1) : $b505})
-    function chooseVar1 = chooseone({$b506 in ConcrDom| lt($b506,4) : $b506})
-    function chooseVar2 = chooseone({$b507 in ConcrDom| lt($b507,5) : $b507})
-    function chooseVar3 = chooseone({$b508 in ConcrDom| lt($b508,2) : $b508})
-    function chooseVar4 = chooseone({$b509 in ConcrDom| lt($b509,3) : $b509})
+    function chooseVar0 = chooseone({$b47 in ConcrDom| lt($b47,1) : $b47})
+    function chooseVar1 = chooseone({$b48 in ConcrDom| lt($b48,4) : $b48})
+    function chooseVar2 = chooseone({$b49 in ConcrDom| lt($b49,5) : $b49})
+    function chooseVar3 = chooseone({$b50 in ConcrDom| lt($b50,2) : $b50})
+    function chooseVar4 = chooseone({$b51 in ConcrDom| lt($b51,3) : $b51})
 
 
     main rule r_Main =
