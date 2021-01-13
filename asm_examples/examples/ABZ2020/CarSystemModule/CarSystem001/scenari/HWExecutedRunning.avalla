@@ -1,0 +1,37 @@
+scenario HWExecutedRunning
+load ../CarSystem001main.asm
+//questo scenario controlla la corretta accensione dell'indicatore di pericolo anche in caso di una richiesta di indicatore direzionale
+//in questo scenario l'indicatore di pericolo rimane attivo
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := NEUTRAL_UD;
+step
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+set hazardWarningSwitchOn := true;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := UPWARD5;
+step
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = true;
+set hazardWarningSwitchOn := true;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := UPWARD5;
+step
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check hazardWarningSwitchOn_Runn = true;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check blinkRightPulseRatio = PULSE11;
+check blinkRight = 100;
+check blinkLeftPulseRatio = PULSE11;
+check blinkLeft = 100;
+step

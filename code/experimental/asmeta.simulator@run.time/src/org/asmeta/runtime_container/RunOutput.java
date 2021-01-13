@@ -2,6 +2,7 @@ package org.asmeta.runtime_container;
 
 import java.io.PrintStream;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.asmeta.animator.MyState;
@@ -73,15 +74,19 @@ public class RunOutput implements Serializable {
 	}
 
 	/** Changes the timeout flag value */
-	public void setResult(boolean result) {
+	public void setTimeoutFlag(boolean result) {
 		timeoutFlag = result;
 	}
 
 	/** Shows the timeout flag value */
-	public boolean getResult() {
+	public boolean getTimeoutFlag() {
 		return timeoutFlag;
 	}
 	
+	/** Shows the esit SAFE or UNSAFE */
+	public Esit getEsit() {
+		return esit;
+	}
 	
 	@Override
 	public String toString() {
@@ -106,7 +111,22 @@ public class RunOutput implements Serializable {
 		sb.append("-----------------------------------\n");
 		return sb.toString();
 	}
-
+	
+	//NEEDED TO GET OUT FUNCTIONS VALUES
+	//TODO ho messo l'output in string per isolare location e value al simulator, non so se è meglio importarli nell'enforcer
+	public  Map<String, String> getControlledvalues(){
+		if (ms!=null && ms.getControlledValues()!=null) {
+			Map<Location, Value> set=ms.getControlledValues();
+			HashMap<String, String> controlled = new HashMap<String, String>();
+			for (Location key : set.keySet()) {
+			    Value val = set.get(key);
+			    controlled.put(key.toString(), val.toString());
+			}
+			return controlled;
+		}
+		return new HashMap<String,String>();
+	}
+//prova
 	
 
 	@Override
@@ -129,7 +149,7 @@ public class RunOutput implements Serializable {
 	}
 	
 	public boolean equalsMessage(Object obj) {
-        return equals(obj) && this.message == ((RunOutput)obj).message;
+        return equals(obj) && this.message.equals(((RunOutput)obj).message);
 	}
 	
 

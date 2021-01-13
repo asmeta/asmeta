@@ -16,7 +16,7 @@ import asmeta.structure.Asm;
  */
 public class AsmCollection implements Iterable<Asm> {
 
-	List<Asm> allAsms;
+	private List<Asm> allAsms;
 	
 	// build the collection of ASM
 	public AsmCollection(Collection<Asm> values) {

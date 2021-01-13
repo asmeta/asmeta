@@ -58,7 +58,7 @@ public class AsmetaV {
 				if (listFile[i].isFile()) {
 					builder = new AsmetaFromAvallaBuilder(listFile[i].getPath());
 					builder.save();
-					sim = Simulator.createSimulator(builder.tempAsmPath);
+					sim = Simulator.createSimulator(builder.getTempAsmPath());
 					sim.setShuffleFlag(true);
 					if (coverage) {
 						RuleEvaluator.COMPUTE_COVERAGE = true;
@@ -84,7 +84,7 @@ public class AsmetaV {
 		} else { // if the file is not a directory but a file
 			builder = new AsmetaFromAvallaBuilder(scenarioPath.getAbsolutePath());
 			builder.save();
-			sim = Simulator.createSimulator(builder.tempAsmPath);
+			sim = Simulator.createSimulator(builder.getTempAsmPath());
 			sim.setShuffleFlag(true);
 			if (coverage) {
 				RuleEvaluator.COMPUTE_COVERAGE = true;

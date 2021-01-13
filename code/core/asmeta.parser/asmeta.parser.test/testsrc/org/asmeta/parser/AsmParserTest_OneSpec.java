@@ -1,6 +1,7 @@
 package org.asmeta.parser;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -186,11 +187,13 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 
 	@Test
 	public void testNull() {
-		testOneSpec("test/parser/null/null.asm");
+		AsmCollection asm = testOneAsmFile("test/parser/null/null.asm");
+		assertFalse(asm.iterator().hasNext());
 	}
 	@Test
 	public void testonlyComments() {
-		testOneSpec("test/parser/null/comment.asm");
+		AsmCollection asm = testOneAsmFile("test/parser/null/comment.asm");
+		assertFalse(asm.iterator().hasNext());
 	}
 	
 	@Test

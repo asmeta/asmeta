@@ -4,13 +4,16 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+
 import org.asmeta.parser.ASMParser;
 import org.asmeta.xt.validator.AsmetaV;
+import org.junit.BeforeClass;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 
 import asmeta.AsmCollection;
@@ -19,10 +22,27 @@ public class TestValidator {
 
 	static int i = 0;
 
+	static String pathname = "temp/temp/";
+
+	
 	public TestValidator() {
 		super();
 	}
 
+	@BeforeClass
+	public static void cleanup(){
+		i = 0;
+		File dir = new File(pathname);
+		assert dir.exists() && dir.isDirectory();
+		// clean directory
+		for(File file: dir.listFiles()) {
+		    if (file.getName().endsWith(".asm")) 
+		        file.delete();
+		    if (file.isDirectory()) {
+		    	file.delete();
+		    }
+		}
+	}
 	/**
 	 * 
 	 * @param scenarioPath
@@ -35,12 +55,12 @@ public class TestValidator {
 			// it should be runnable
 			AsmetaV.execValidation(scenarioPath, false);
 		} else {
+			//
 			System.out.println("transating " + scenarioPath);
-			String tempAsmPath = "example/temp_spec" + (i++) + ".asm";
+			String tempAsmPath = pathname + "temp_spec" + (i++) + ".asm";
 			// delete if exists
 			Path path_tempAsm = Paths.get(tempAsmPath);
-			while (Files.exists(path_tempAsm))
-				Files.delete(path_tempAsm);
+			assert ! Files.exists(path_tempAsm);
 			org.asmeta.xt.validator.AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(scenarioPath, tempAsmPath);
 			builder.save();
 			// the files exists

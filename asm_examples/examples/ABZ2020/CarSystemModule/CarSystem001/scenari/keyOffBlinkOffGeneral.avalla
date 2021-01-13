@@ -1,0 +1,19 @@
+scenario GeneralKeyOffBlinkOff
+load ../CarSystem001main.asm
+
+set keyState := KEYINIGNITIONONPOSITION;
+//check function engineOn =true;
+set pitmanArmUpDown:= UPWARD5;
+
+step until pitmanArmUpDown_RunnReq!= NEUTRAL_UD;
+
+check keyState = KEYINIGNITIONONPOSITION;
+set keyState := NOKEYINSERTED; //or KEYINSERTED
+check pitmanArmUpDown_RunnReq!= NEUTRAL_UD;
+
+step until pitmanArmUpDown_RunnReq= NEUTRAL_UD;
+
+check blinkLeft = 0;
+check blinkLeftPulseRatio = NOPULSE;
+check blinkRight = 0;
+check blinkRightPulseRatio = NOPULSE;

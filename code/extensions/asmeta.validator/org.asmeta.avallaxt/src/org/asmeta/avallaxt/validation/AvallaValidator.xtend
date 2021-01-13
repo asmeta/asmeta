@@ -65,13 +65,13 @@ class AvallaValidator extends AbstractAvallaValidator {
 		}
 		// get the path for the 
 		val asmPath = ScenarioUtility.getAsmPath(scenario)
-		if (! (Files.exists(Paths.get(asmPath)) && Files.isRegularFile(Paths.get(asmPath)))) {
+		if (! (Files.exists(asmPath) && Files.isRegularFile(asmPath))) {
 			error('File ' + scenario.spec + " does not exist as " + asmPath, AvallaXtPackage.Literals.SCENARIO__SPEC)
 			return;
 		}
 		// parse the ASM if requested ? - now it pareses every time - one could check if only it has been modified
 		try {
-			setAsmCollection(ASMParser.setUpReadAsm(new File(asmPath)))
+			setAsmCollection(ASMParser.setUpReadAsm(asmPath.toFile))
 		} catch (ParseException pe) {
 			warning('Error in parsing asm in ' + asmPath, AvallaXtPackage.Literals.SCENARIO__SPEC)
 		} catch (org.asmeta.parser.ImportNotFoundException infe) {

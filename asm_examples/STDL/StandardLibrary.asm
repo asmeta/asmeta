@@ -312,13 +312,15 @@ signature :
 
 	static pre: D -> D
 
-/*----------- Java time--------------*/
+/*----------- Java time  as static function--------------*/
 	static currTimeNanosecs: Integer	
 	static currTimeMillisecs: Integer
 	static currTimeSecs: Integer
 
-/*----------- Java time temp --------------*/
-	monitored currTimeMillisecsX: Integer
+/*----------- Java time  as monitored function (experimental) --------------*/
+	monitored mCurrTimeNanosecs: Integer
+	monitored mCurrTimeMillisecs: Integer
+	monitored mCurrTimeSecs: Integer
 
 
 definitions:

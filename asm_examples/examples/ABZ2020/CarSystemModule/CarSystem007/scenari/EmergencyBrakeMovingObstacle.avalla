@@ -1,0 +1,80 @@
+scenario EmergencyBrakeMovingObstacle
+load ../CarSystem007main.asm
+//nota: brakepressure rimane a 100 quando finisce la frenata di emergenza
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check acousticSignalImpact = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM0;
+set stationaryObstacle := false;
+set movingObstacle := false;
+step
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check acousticSignalImpact = false;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 1100;
+set cruiseControlMode := CCM0;
+set stationaryObstacle := false;
+set movingObstacle := true;
+set timeImpact := 1;
+step
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check acousticSignalImpact = true;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check brakePressure = 20;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 1100;
+set cruiseControlMode := CCM0;
+set stationaryObstacle := false;
+set movingObstacle := true;
+set timeImpact := 2;
+step
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check acousticSignalImpact = true;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check brakePressure = 60;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 800;
+set cruiseControlMode := CCM0;
+set stationaryObstacle := false;
+set movingObstacle := true;
+set timeImpact := 3;
+step
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check acousticSignalImpact = true;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check brakePressure = 100;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 700;
+set cruiseControlMode := CCM0;
+set stationaryObstacle := false;
+set movingObstacle := false;
+set timeImpact := 3;
+step
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check acousticSignalImpact = false;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check brakePressure = 100;
+step

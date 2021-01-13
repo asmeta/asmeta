@@ -1,0 +1,82 @@
+//// starting scenario
+scenario WarningsAndCollisionDetect
+load ../CarSystem007main.asm
+//testiamo l'accensione e lo spegnimento dei warning visuali e acustici
+//cosi come il segnale di collisione
+//ognuno ha attivazione a distanze di radar diversi e una volta attivi procediamo per step per testare la disattivazione
+check setVehicleSpeed = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set currentSpeed := 0;
+set cruiseControlMode := CCM0;
+step
+check setVehicleSpeed = 0;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 0;
+check setSafetyDistance = 2;
+check acousticCollisionSignals = undef;
+set sCSLever := FORWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 2;
+step
+check setVehicleSpeed = 500;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = FORWARD_SCS;
+check desiredSpeed = 500;
+check setSafetyDistance = 2;
+check acousticCollisionSignals = true;
+check acousticWarningOn = true;
+check visualWarningOn = true;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 12;
+step
+check setVehicleSpeed = 500;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 500;
+check setSafetyDistance = 2;
+check acousticCollisionSignals = true;
+check acousticWarningOn = false;
+check visualWarningOn = true;
+check acceleration = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 21;
+step
+check setVehicleSpeed = 500;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 500;
+check setSafetyDistance = 2;
+check acousticCollisionSignals = true;
+check acousticWarningOn = false;
+check visualWarningOn = false;
+check acceleration = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 26;
+step
+check setVehicleSpeed = 500;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 500;
+check setSafetyDistance = 2;
+check acousticCollisionSignals = false;
+check acousticWarningOn = false;
+check visualWarningOn = false;
+check acceleration = 0;
+step

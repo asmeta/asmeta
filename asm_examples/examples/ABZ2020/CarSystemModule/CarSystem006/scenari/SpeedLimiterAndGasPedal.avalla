@@ -1,0 +1,76 @@
+//facciamo accensione alla pressione della testa
+//comportamento in base alla pressione dell'acceleratore
+//e spegnimento con BACKWARD
+//// starting scenario
+scenario SpeedLimiterAndGasPedal
+load ../CarSystem006main.asm
+check keyState_Previous = NOKEYINSERTED;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM2;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check desiredSpeed = 0;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := HEAD;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 600;
+set cruiseControlMode := CCM2;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 600;
+check speedLimitActive = true;
+check desiredSpeed = 600;
+check sCSLeve_Previous = HEAD;
+check orangeLed = true;
+check speedLimitTempDeacti = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 600;
+set cruiseControlMode := CCM2;
+set gasPedal := 91;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 600;
+check speedLimitActive = true;
+check desiredSpeed = 600;
+check sCSLeve_Previous = NEUTRAL;
+check orangeLed = true;
+check speedLimitTempDeacti = true;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 700;
+set cruiseControlMode := CCM2;
+set gasPedal := 50;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 600;
+check speedLimitActive = true;
+check desiredSpeed = 600;
+check sCSLeve_Previous = NEUTRAL;
+check orangeLed = true;
+check speedLimitTempDeacti = false;
+set sCSLever := BACKWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 700;
+set cruiseControlMode := CCM2;
+set gasPedal := 50;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 600;
+check speedLimitActive = false;
+check desiredSpeed = 600;
+check sCSLeve_Previous = BACKWARD_SCS;
+check orangeLed = false;
+check speedLimitTempDeacti = false;
+step

@@ -1,0 +1,37 @@
+scenario SequentialBlinkingBuffer
+load ../CarSystem001main.asm
+//questo scenario mostra come le nuove richieste arrivate hanno la priorità sul buffer nelle richieste direzionali sequenziali
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := DOWNWARD5;
+step
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = DOWNWARD5;
+check hazardWarningSwitchOn_Start = false;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check blinkLeftPulseRatio = PULSE11;
+check blinkLeft = 100;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := UPWARD5;
+step
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check pitmanArmUpDown_Buff = UPWARD5;
+check blinkLeftPulseRatio = NOPULSE;
+check blinkLeft = 0;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := DOWNWARD5;
+step
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = DOWNWARD5;
+check hazardWarningSwitchOn_Start = false;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check blinkLeftPulseRatio = PULSE11;
+check blinkLeft = 100;
+step

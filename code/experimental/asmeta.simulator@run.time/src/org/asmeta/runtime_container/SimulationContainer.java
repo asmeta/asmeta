@@ -41,6 +41,7 @@ import org.asmeta.simulator.main.*;
 import org.asmeta.simulator.util.InputMismatchException;
 import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.value.Value;
+import org.eclipse.emf.ecore.xml.type.internal.RegEx;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Invariant;
@@ -302,7 +303,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
-			}
+			} /*else { //DEBUG ONLY
+				e.printStackTrace();
+			}*/
 		}
 		simulationRunning = SimStatus.READY;
 		return rout; // can be use for Json
@@ -351,13 +354,24 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		return runStepTimeout(id,null,timeout);
 	}
 	
+	//Rimane comunque il problema che se allo scadere non ha finito il programma restituirà run timed out con rollback della sim
+	//ma la simulazione deve comunque finire altrimenti tutte le run successive non funzioneranno (forse mettendo il timeout direttamente
+	//nella parte del simulator invece del container in modo tale di almeno arginare il finish forzato su uno step)
 	public RunOutput runStepTimeout(int id,Map<String, String> locationValue,int timeout) {	
 		Timer timer = new Timer(false);
 		
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
 	    routTO = rout;
 	    
-	    MyState pre = asmS.getCurrentState(id);
+	    MyState pre;
+	    
+		try {
+			pre = asmS.getCurrentState(id);
+		} catch (IdNotFoundException e) {
+			rout = new RunOutput(Esit.UNSAFE, "the id is not found");
+			System.err.println(rout.toString());
+			return rout;
+		}
 	    
         TimerTask timeoutTask = new TimerTask() {
         	@Override  
@@ -367,7 +381,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
                		routTO = runStep(id, locationValue);
         		}catch (Exception e) {}
         		finally {
-               		routTO.setResult(true);
+               		routTO.setTimeoutFlag(true);
         			timer.cancel();
         		}
 
@@ -380,8 +394,10 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	    //cancel after timeout if the task has not terminated
 	    if (timeout<0)
 	    	timeout=1;
-	    try {
-	        Thread.sleep(timeout);
+	    try {//soluzione brutta per far finire il timeout prima
+	    	int splits=10;
+	    	for (int i=0;splits*i<timeout && !routTO.getTimeoutFlag();i++)
+	    		Thread.sleep(splits);
 	    } catch (InterruptedException e) {
 	        e.printStackTrace();
 	    }
@@ -391,14 +407,14 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	    }
 	    else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
 	    
-	    if (!routTO.getResult()) {	//if the thread is still going after time runs out  
+	    if (!routTO.getTimeoutFlag()) {	//if the thread is still going after time runs out  
     		while (simulationRunning==SimStatus.ROLLINGBACK) {	//cannot stop the timertask while it's doing a rollback
     			try {
     				Thread.sleep(10);	//how often the program check for the rollback to finish before killing the thread
         		} catch (InterruptedException e) {
                     e.printStackTrace();}
     		}
-    		while (!routTO.getResult()) {
+    		while (!routTO.getTimeoutFlag()) {	//se non ho ancora rOut vuol dire che non ha ancora finito, devo aspettare altrimenti non funziona più nulla successivamente
     			try {
     				Thread.sleep(10);	
         		} catch (InterruptedException e) {
@@ -411,7 +427,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	    	MyState after = asmS.getCurrentState(id);
 	    	
 			if (/*rollbStatus!=rollbackStatus.ROLLOK &&*/ after!=null && !after.equals(pre))	//do a rollback if it has not already been done 
-			{
+			{	//TODO PER QUALCHE MOTIVO FA IL DOPPIO ROLLBACK MI SA CHE L'EQUALS NON FUNZIONA 
 				try {
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 				} catch (NullPointerException e1) {
@@ -542,12 +558,20 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	}
 	
 	//same logic as the one with runstep but using runUntilEmpty and rollbacktostate instead
+	//TODO sistemare problema della sleep come in runstep
 	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) {
 
         Timer timer = new Timer(false);
         RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
         routTO = rout;
-		MyState pre = asmS.getCurrentState(id);
+		MyState pre;
+		try {
+			pre = asmS.getCurrentState(id);
+		} catch (IdNotFoundException e) {
+			rout = new RunOutput(Esit.UNSAFE, "the id is not found");
+			System.err.println(rout.toString());
+			return rout;
+		}
 		
         TimerTask timeoutTask = new TimerTask() {
         	@Override  
@@ -557,7 +581,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
         			routTO = runUntilEmpty(id, locationValue, max);
         		}catch (Exception e) {}
         		finally {
-               		routTO.setResult(true);
+               		routTO.setTimeoutFlag(true);
         			timer.cancel();
         		}
                  //System.out.println("Timer task finished at:"+new Date());
@@ -580,14 +604,14 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
         	System.out.println("TimerTask cancelled"+" -- flag TaskTerminated: "+taskTerminated.getResult());
         }
         else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
-        if (!routTO.getResult()) {	//if the thread is still going after time runs out  
+        if (!routTO.getTimeoutFlag()) {	//if the thread is still going after time runs out  
     		while (simulationRunning==SimStatus.ROLLINGBACK) {	//cannot stop the timertask while it's doing a rollback
     			try {
     				Thread.sleep(10);	//how often the program check for the rollback to finish before killing the thread
         		} catch (InterruptedException e) {
                     e.printStackTrace();}
     		}
-    		while (!routTO.getResult()) {
+    		while (!routTO.getTimeoutFlag()) {
     			try {
     				Thread.sleep(10);	
         		} catch (InterruptedException e) {
@@ -668,44 +692,86 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 	}
 
+	/**
+	 * findAllMonitored: Search recursively for monitored function names in the model and all imported ones
+	 *
+	 * @param monNames: starting list (starts empty)
+	 * @param modelPath: Path file root (starts at the same directory the main .asm is located) and goes deep as each module is opened
+	 * @return list with all monitored function names in the ASM model
+	 * @throws Exception from ASMParser
+	 */
+	private List<String> findAllMonitored(List<String> monNames, String modelPath) throws Exception{
+		String root="";
+		root=modelPath.substring(0,modelPath.lastIndexOf("/")+1);
+		File asmFile = new File(modelPath);
+		try {
+			if (!asmFile.exists()) {
+				throw new AsmModelNotFoundException(modelPath);
+			}
+		}catch (AsmModelNotFoundException ex){
+			//DEBUG
+			System.out.println("CheckSafety: "+ex.getMessage());
+		}
+		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
+		// cerco di prendere la classe delle monitorate  NON LEGGE LE MONITORATE NEI FILE DI IMPORT
+		for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
+			if (asm.getMain().getHeaderSection().getSignature().getFunction()
+					.get(i) instanceof MonitoredFunctionImpl)
+				monNames.add(asm.getMain().getHeaderSection().getSignature().getFunction().get(i).getName());
+		}
+		int c = asm.getMain().getHeaderSection().getImportClause().size();
+		for (int i=0;i<c;i++) {
+			String moduleName=asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
+			if (!moduleName.toLowerCase().endsWith("standardlibrary"))	//Skips the StandardLibrary.asm
+				monNames=findAllMonitored(monNames, root+moduleName+".asm");
+		}
+		return monNames;
+	}
+	//Could be improved by adding a List<String> moduleNames to skip multiple imports of the same .asm (if it's possible to create import cycles)
 
 	/**
-	 * Check safety: Verifica se il nome del input è corretto
+	 * Check safety: Checks if given monitored function names are correct
 	 *
 	 * @param modelPath     the model path
 	 * @param locationValue Change to CheckInputName Safety
 	 * @return the array list
 	 */
 	private RunOutput checkSafety(String modelPath, Map<String, String> locationValue) {
-		ArrayList<String> nomi = new ArrayList<String>(); // per salvare i nomi di quelli che sono monitorate
+		List<String> nomi = new ArrayList<String>(); // monitored functions name list
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
 		// AsmCollection asm = null;
 		String name = "";
 		try {
+			nomi = findAllMonitored(nomi, modelPath);
+			/*
 			File asmFile = new File(modelPath);
 			if (!asmFile.exists()) {
 				throw new AsmModelNotFoundException(modelPath);
 			}
 
 			AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
-			// cerco di prendere la classe delle monitorate
+			// cerco di prendere la classe delle monitorate  NON LEGGE LE MONITORATE NEI FILE DI IMPORT
 			for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
 				if (asm.getMain().getHeaderSection().getSignature().getFunction()
 						.get(i) instanceof MonitoredFunctionImpl)
 					nomi.add(asm.getMain().getHeaderSection().getSignature().getFunction().get(i).getName());
-
-			}
+			}*/
 
 	
 			boolean found = false;
 			for (String s : locationValue.keySet()) {
+				//This part lets multiple parameters monitored functions name pass if at least the name is correct
+				String monName = "".concat(s);
+				if (monName.contains("(") && monName.endsWith(")"))
+					monName=monName.substring(0,monName.indexOf("("));
+				
 				for (int i = 0; i < nomi.size(); i++) {
-					if (s.equals(nomi.get(i))) {
+					if (monName.equals(nomi.get(i))) {
 						found = true;
 					}
 				}
 				if (!found) {
-					name = s;
+					name = monName;
 					throw new NameMistMatchException("Name <<" + s + ">> Not Found");
 				} else
 					found = true;
@@ -742,7 +808,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	}
 	
 	
-	/*public RunOutput runStepTransaction(int id,Queue<Map<String, String>> locationValue, String modelPath) { //TODO da finalizzare?
+	/*public RunOutput runStepTransaction(int id,Queue<Map<String, String>> locationValue, String modelPath) { //da finalizzare?
 		boolean unsafe = false;
 		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not intialized");
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
@@ -766,7 +832,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		return rout;	
 		
 	}*/
-	/*public RunOutput runTransaction(int id,Queue<Map<String, String>> locationValue) { //TODO da finalizzare?
+	/*public RunOutput runTransaction(int id,Queue<Map<String, String>> locationValue) { //da finalizzare?
 		boolean unsafe = false;
 		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not intialized");
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
@@ -1052,7 +1118,6 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			}
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Couldn't open and read the given model");
 		} finally {
 			try {
@@ -1120,7 +1185,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				File file2 = new File(modelfile+"_to_overwrite");
 				success = file2.renameTo(file);*/
 				overwrite(modelfile,"_to_overwrite");
-				if (restartSim(id, state)<0) { // TODO sistemare controllo restartsim come in add
+				if (restartSim(id, state)<0) {
 					//Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
 					overwrite(modelfile,"_old");
 					restartExecution(modelfile,id,state);
@@ -1155,6 +1220,15 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			state.previousLocationValues = new HashMap<Location, Value>();
 		stopExecution(id);		
 		int res = restartExecution(modelPath,id, state);
+		/*//TODO PLACEHOLDER CONOSCENZA DELLO STATO
+		if (res>0) {
+			//MyState control=asmS.getSimulatorTable().get(res).getState();
+			//asmS.getSimulatorTable().get(res).getSim().getCurrentState().;
+			MyState control = new MyState(asmS.getSimulatorTable().get(res).getSim().getCurrentState().getContrLocs(false), null);
+			if (control!=null)
+				System.out.println("::::CONTROL:::::The new state is: " + control.getControlledValues());
+		}
+		//end PLACEHOLDER*/
 		return res;
 	}
 	

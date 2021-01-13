@@ -39,6 +39,8 @@ definitions:
 					brakePressure := 100
 				endif
 			endpar
+		else 
+			brakePressure :=0
 		endif
 	
 	//SCS-27

@@ -23,6 +23,10 @@
 
 package org.asmeta.simulator;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
+
 import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.Value;
@@ -37,13 +41,23 @@ import org.asmeta.simulator.value.Value;
  */
 public final class Environment {
 
+	// link the time variable to the time of the java machine
+	public static boolean use_java_time = true;
+	
+	private static boolean START_TIME_FROM_0 = true;
 	/**
 	 * Parses an input string and returns a value.
 	 */
 	private MonFuncReader monFuncReader;
+
+	private Instant startFrom;
 	
 	public Environment(MonFuncReader monFuncReader) {
 		this.monFuncReader = monFuncReader;
+		if (START_TIME_FROM_0) 
+			startFrom = Instant.now();
+		else
+			startFrom = Instant.MIN;
 	}
 
 	/**
@@ -60,10 +74,18 @@ public final class Environment {
 		assert state.locationMap.get(location) == null;
 		// AG 13/11/2020 
 		// if it is time, read from the machine
-		Value value;
-		if (location.getName().equals("currTimeMillisecsX"))
-			value = new IntegerValue(System.currentTimeMillis());
-		else 
+		Value value = null;
+		if (use_java_time) {
+			//TODO use switch expressions !
+			TemporalUnit timeunit = null;
+			switch(location.getName()){
+			case "mCurrTimeNanosecs": timeunit = ChronoUnit.NANOS; break;
+			case "mCurrTimeMillisecs": timeunit = ChronoUnit.MILLIS; break;
+			case "mCurrTimeSecs": timeunit = ChronoUnit.SECONDS; break;
+			}
+			if (timeunit!= null) value = new IntegerValue(startFrom.until(Instant.now(), timeunit));
+		} 	
+		if (value == null)
 			value = monFuncReader.read(location, state);
 		return value;
 	}

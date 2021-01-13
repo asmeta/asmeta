@@ -1,17 +1,6 @@
 package org.asmeta.eclipse.editor.preferences;
 
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_CHECK_AXIOMS;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_COLOR_ASM_COMMENT;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_COLOR_ASM_KEYWORD;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_COLOR_ASM_RULES;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_COLOR_ASM_VARS;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_EXTERNAL_FILE;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_PARSER;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_SIMULATOR;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_USE_EXTERNAL_FILE;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_SHUFFLE;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_STOP_UPDATESET_EMPTY;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_STOP_UPDATESET_TRIVIAL;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.*;
 
 import org.apache.log4j.Level;
 import org.asmeta.eclipse.AsmeeActivator;
@@ -45,7 +34,7 @@ public class SimulatorPreferencePage
 	public SimulatorPreferencePage() {
 		super(GRID);
 		setPreferenceStore(AsmeeActivator.getDefault().getPreferenceStore());
-		setDescription("Preferences for AsmEE");
+		setDescription("Preferences for amseta");
 	}
 	
 	/**
@@ -85,6 +74,8 @@ public class SimulatorPreferencePage
 		addField(new BooleanFieldEditor(P_CHECK_AXIOMS, "Check invariants", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_EMPTY, "Stop simulation if the update set is empty", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_TRIVIAL, "Stop simulation if the update set is trivial", fieldEdtrPrnt));
+		// 
+		addField(new BooleanFieldEditor(P_USE_SYSTEMTIME, "Use system time for monitored ASM time", fieldEdtrPrnt));
 		// per logger
 		addField(new BooleanFieldEditor(P_DEBUG_USE_EXTERNAL_FILE, "Use prop file for log4j", fieldEdtrPrnt));
 		addField(new FileFieldEditor(P_DEBUG_EXTERNAL_FILE, "Use prop file for log4j", fieldEdtrPrnt));		

@@ -52,7 +52,7 @@ public class Commander {
 	 /**
 	 * Reads the operation and executes it.
 	 *
-	 * @param crt containerRT instance
+	 * @param crt SimulationContainer instance
 	 * @param input string with the command and parameter to parse
 	 * @param debugMode shows more information on the console
 	 * @return object representing the result of the command executed

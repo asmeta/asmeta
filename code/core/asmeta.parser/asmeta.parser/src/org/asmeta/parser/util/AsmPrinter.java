@@ -77,9 +77,9 @@ import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
 
 public class AsmPrinter extends ReflectiveVisitor<Void> {
 	AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
-	String tabWidth = "    ";
-	int indentation = 0;
-	PrintWriter out;
+	static final private String tabWidth = "    ";
+	private int indentation = 0;
+	private PrintWriter out;
 	protected Asm model;
 	boolean expand = true;
 
@@ -677,7 +677,10 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	}
 
 	public void visit(ExportClause exportClause) {
-		// TODO
+		if (exportClause != null) {
+			// TODO in the future
+			println("export *");
+		}
 	}
 
 	public void visit(Signature signature) {
