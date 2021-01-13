@@ -133,9 +133,11 @@ default init s0:
     									else 
     										if $t = timer120Passed	then 6 endif //120
    									endif
-	function start($t in Timer) = initStart($t)
 	
 	function timerUnit($t in Timer) = if $t = timer50Passed 	then SEC //50
     									else 
     										if $t = timer120Passed	then SEC endif //120
    									endif
+   									
+   	function start($t in Timer) = initStart($t)
+	
