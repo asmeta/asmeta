@@ -3,6 +3,7 @@ package org.asmeta.simulator.main;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.UpdateClashException;
 import org.kohsuke.args4j.CmdLineException;
@@ -35,6 +36,10 @@ public class AsmetaS extends AsmetaCLI {
 
 	@Option(name = "-n", usage = "run for n steps (100 default)")
 	private int nSteps = 100;
+	
+	
+	@Option(name = "-systemtime", usage = "use the time from the system")
+	private boolean systemtime = false;
 
 	/**
 	 * Entry point of the program.
@@ -78,6 +83,8 @@ public class AsmetaS extends AsmetaCLI {
 				sim.setShuffleFlag(true);
 			else
 				sim.setShuffleFlag(false);
+			//
+			Environment.use_java_time = systemtime;
 			// run
 			if (runUntilEmpty) {
 				sim.runUntilEmpty();
