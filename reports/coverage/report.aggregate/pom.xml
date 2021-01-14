@@ -70,7 +70,7 @@
 						</goals>
 						<!--<configuration>
 							<dataFile>${jacoco.destFile}</dataFile>
-							<outputDirectory>/asm_examples/coverage/jacoco/</outputDirectory>
+							<outputDirectory>/reports/coverage/jacoco/</outputDirectory>
 						</configuration> -->
 					</execution>
 				</executions>

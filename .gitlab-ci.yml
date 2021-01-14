@@ -60,22 +60,22 @@ test-jdk8:
         - code/core/asmeta.parser/asmeta.parser.test/target/surefire-reports/TEST-*.xml
         - code/core/asmeta.emf/target/surefire-reports/TEST-*.xml
     paths:
-      - asm_examples/coverage/jacoco/jacoco.xml
+      - reports/coverage/jacoco/jacoco.xml
       
 coverage:
   stage: deploy
   image: haynes/jacoco2cobertura:1.0.3
   script:
     # convert report from jacoco to cobertura
-    - 'python /opt/cover2cover.py asm_examples/coverage/jacoco/jacoco.xml > asm_examples/coverage/cobertura.xml'
+    - 'python /opt/cover2cover.py reports/coverage/jacoco/jacoco.xml > reports/coverage/cobertura.xml'
     # read the <source></source> tag and prepend the path to every filename attribute
-    - 'python /opt/source2filename.py asm_examples/coverage/cobertura.xml'
+    - 'python /opt/source2filename.py reports/coverage/cobertura.xml'
   needs: ["test-jdk8"]
   dependencies:
     - test-jdk8
   artifacts:
     reports:
-      cobertura: asm_examples/coverage/cobertura.xml
+      cobertura: reports/coverage/cobertura.xml
     paths:
-      - asm_examples/coverage/jacoco/jacoco.xml
+      - reports/coverage/jacoco/jacoco.xml
     

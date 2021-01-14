@@ -7,7 +7,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
-		<jacoco.destFile>${project.basedir}/asm_examples/coverage/jacoco/jacoco.exec</jacoco.destFile>
+		<jacoco.destFile>${project.basedir}/reports/coverage/jacoco/jacoco.exec</jacoco.destFile>
 	</properties>
 	<modules>
 		<module>code/core/asmeta.emf</module>
@@ -19,7 +19,7 @@
 		<module>code/core/asmeta.parser/asmeta.parser.test</module>
 		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener.test</module> 
-		<module>asm_examples/coverage/report.aggregate</module> 
+		<module>reports/coverage/report.aggregate</module> 
 	</modules>
 	<build>
 		<plugins>
