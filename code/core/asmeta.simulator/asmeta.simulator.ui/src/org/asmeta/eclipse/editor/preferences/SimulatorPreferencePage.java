@@ -34,7 +34,7 @@ public class SimulatorPreferencePage
 	public SimulatorPreferencePage() {
 		super(GRID);
 		setPreferenceStore(AsmeeActivator.getDefault().getPreferenceStore());
-		setDescription("Preferences for amseta");
+		setDescription("Preferences for asmeta simulator");
 	}
 	
 	/**
@@ -66,10 +66,6 @@ public class SimulatorPreferencePage
 		 * 
 		 */
 		Composite fieldEdtrPrnt = getFieldEditorParent();
-		addField(new ColorFieldEditor(P_COLOR_ASM_KEYWORD, "Keyword color", fieldEdtrPrnt));
-		addField(new ColorFieldEditor(P_COLOR_ASM_COMMENT, "Comment color", fieldEdtrPrnt));
-		addField(new ColorFieldEditor(P_COLOR_ASM_VARS, "Variables color", fieldEdtrPrnt));
-		addField(new ColorFieldEditor(P_COLOR_ASM_RULES, "Rule color", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_SHUFFLE, "Shuffle choose rule", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_CHECK_AXIOMS, "Check invariants", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_EMPTY, "Stop simulation if the update set is empty", fieldEdtrPrnt));

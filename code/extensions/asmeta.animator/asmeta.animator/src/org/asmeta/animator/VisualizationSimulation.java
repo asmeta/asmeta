@@ -60,7 +60,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	private Text textStepNumber, textError, textInvariant;
 	private AsmCollection asm;
 	private Label lblInvariant, lblInsertStepNumber;
-	private Button btnStep, btnStep2, btnMoveControlledUp, btnMoveControlledDown, btnMoveMonitoredUp,
+	private Button btnStep, btnStep2, btnStepTime, btnMoveControlledUp, btnMoveControlledDown, btnMoveMonitoredUp,
 			btnMoveMonitoredDown;
 	private Color updateColor, newFunctionColor, red;
 	private Image arrowUp, arrowDown;
@@ -210,8 +210,6 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		btnStep2.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
 		// only text
 		btnStep2.setText("Do one interactive step");
-
-		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		// Show button to perform simulation steps
 		btnStep = new Button(composite, SWT.NONE);
@@ -248,8 +246,15 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			}
 		});
 		new Label(composite, SWT.NONE);
+		// add the button for automatic time 
+		btnStepTime = new Button(composite, SWT.TOGGLE);
+		btnStepTime.setForeground(SWTResourceManager.getColor(255, 255, 255));
+		btnStepTime.setBackground(SWTResourceManager.getColor(0, 0, 255));
+		btnStepTime.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		btnStepTime.setText("Do one step every XX seconds");
+		//
 		new Label(composite, SWT.NONE);
-		// TODO
+		// invariant checker
 		lblInvariant = new Label(composite, SWT.WRAP);
 		lblInvariant.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
 		lblInvariant.setBackground(SWTResourceManager.getColor(255, 255, 255));

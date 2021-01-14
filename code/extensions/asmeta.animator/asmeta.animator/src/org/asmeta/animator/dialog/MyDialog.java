@@ -8,6 +8,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+/** Super class for dialog when asking the user to insert values in the animator
+ * to be passed to the simulator
+ */
 public abstract class MyDialog extends Dialog {
 
 	Shell shell;
@@ -38,11 +41,7 @@ public abstract class MyDialog extends Dialog {
 		}
 		return input;
 	}
-	 
-	
-	
 	
 	abstract void createContents(final Shell shell);
-
 
 }
