@@ -7,7 +7,7 @@ variables:
   # `installAtEnd` and `deployAtEnd` are only effective with recent version of the corresponding plugins.
   MAVEN_CLI_OPTS: "--batch-mode --fail-at-end --show-version --quiet -DinstallAtEnd=true -DdeployAtEnd=true"
 
-# This template uses jdk8 for verifying and deploying images
+# Specify the version of java to use
 image: maven:3-jdk-8
 
 # Cache downloaded dependencies and plugins between builds.
@@ -25,17 +25,17 @@ cache:
   except:
     - master
 
-# Verify merge requests using JDK8
-#verify:jdk8:
-#  <<: *verify
-
+# Template for running a code quality analyzer 
 include:
   - template: Code-Quality.gitlab-ci.yml
-  
+ 
+# Job for uploading the json report as artifact to gitlab.
+# Will show up in the pipeline report.
 code_quality:
   artifacts:
     paths: [gl-code-quality-report.json]
-  
+
+# Job for uploading the html report as artifact to gitlab
 code_quality_html:
   extends: code_quality
   variables:
@@ -43,12 +43,16 @@ code_quality_html:
   artifacts:
     paths: [gl-code-quality-report.html]
   
-
+# Job for checking wether the mvn build succeeds
 build:
   stage: build
   script:
     - mvn compile
 
+# Job to run all surefire tests and run the JaCoCo coverage plugin
+# TODO:
+# - Remove the failure.ignore=true
+# - Try to obtain ALL test reports
 test-jdk8:
   stage: test
   script:
@@ -61,7 +65,8 @@ test-jdk8:
         - code/core/asmeta.emf/target/surefire-reports/TEST-*.xml
     paths:
       - reports/coverage/jacoco/jacoco.xml
-      
+
+# Job to translate the JaCoCo xml into a cobertura xml
 coverage:
   stage: deploy
   image: haynes/jacoco2cobertura:1.0.3
