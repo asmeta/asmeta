@@ -68,10 +68,10 @@
 						<goals>
 							<goal>report-aggregate</goal>
 						</goals>
-						<!--<configuration>
-							<dataFile>${jacoco.destFile}</dataFile>
+						<configuration>
+							<!-- <dataFile>${jacoco.destFile}</dataFile> -->
 							<outputDirectory>/reports/coverage/jacoco/</outputDirectory>
-						</configuration> -->
+						</configuration> 
 					</execution>
 				</executions>
 			</plugin>
