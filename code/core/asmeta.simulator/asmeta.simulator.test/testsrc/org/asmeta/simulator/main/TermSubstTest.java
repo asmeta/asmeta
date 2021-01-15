@@ -86,7 +86,7 @@ public class TermSubstTest {
 	public void test05() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst05.asm");
 		assertEquals(
-				"let($x!1=$x,$y!2=$y,$z!3=$z)in plus($x!1,$z) endlet", 
+				"let($x!1=$x,$y!2=$y,$z!3=$z) in plus($x!1,$z) endlet", 
 				actual);
 	}
 

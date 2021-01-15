@@ -16,6 +16,8 @@ import asmeta.definitions.Function;
 
 public class StandardLibraryTest extends BaseTest {
 
+	private static final String ASM_EXAMPLES = "../../../../asm_examples/";
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		//AsmParserTest.setUpLogger();
@@ -25,7 +27,7 @@ public class StandardLibraryTest extends BaseTest {
 	public void testAppend() throws Exception {
 		// Scrivi caso di test per la library
 		String ex = "test/simulator/STDL/test_append.asm";
-		Simulator sim = Simulator.createSimulator("../../../asm_examples/" + ex);
+		Simulator sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		UpdateSet us = sim.run(1);
 		System.out.println("UPDATE SET\n"+ us);
 		assertEquals("succ_fibo=[1,1,4]", us.toString());		
@@ -35,7 +37,7 @@ public class StandardLibraryTest extends BaseTest {
 	@Test
 	public void testContainsString() throws Exception {
 		String ex = "test/simulator/STDL/containsString.asm";
-		sim = Simulator.createSimulator("../../../asm_examples/" + ex);
+		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
 		State s = sim.getCurrentState();
 		Function foo1 = searchFunction("foo1");
@@ -52,7 +54,7 @@ public class StandardLibraryTest extends BaseTest {
 	@Test
 	public void testConcatString() throws Exception {
 		String ex = "test/simulator/STDL/StringConcat.asm";
-		sim = Simulator.createSimulator("../../../asm_examples/" + ex);
+		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
 		State s = sim.getCurrentState();
 		Function foo1 = searchFunction("str1");
@@ -75,7 +77,7 @@ public class StandardLibraryTest extends BaseTest {
 	@Test
 	public void testAddString() throws Exception {
 		String ex = "test/simulator/STDL/StringAdd.asm";
-		sim = Simulator.createSimulator("../../../asm_examples/" + ex);
+		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
 		State s = sim.getCurrentState();
 		Function foo1 = searchFunction("str1");
@@ -98,7 +100,7 @@ public class StandardLibraryTest extends BaseTest {
 	@Test
 	public void testToLowerString() throws Exception {
 		String ex = "test/simulator/STDL/StringToLower.asm";
-		sim = Simulator.createSimulator("../../../asm_examples/" + ex);
+		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
 		State s = sim.getCurrentState();
 		Function foo1 = searchFunction("str1");
@@ -121,7 +123,7 @@ public class StandardLibraryTest extends BaseTest {
 	@Test
 	public void testToUpperString() throws Exception {
 		String ex = "test/simulator/STDL/StringToUpper.asm";
-		sim = Simulator.createSimulator("../../../asm_examples/" + ex);
+		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
 		State s = sim.getCurrentState();
 		Function foo1 = searchFunction("str1");
@@ -144,7 +146,7 @@ public class StandardLibraryTest extends BaseTest {
 	@Test
 	public void testSplitString() throws Exception {
 		String ex = "test/simulator/STDL/splitString.asm";
-		sim = Simulator.createSimulator("../../../asm_examples/" + ex);
+		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
 		State s = sim.getCurrentState();
 		Function seqStr = searchFunction("seqStr");
@@ -159,7 +161,7 @@ public class StandardLibraryTest extends BaseTest {
 	@Test
 	public void testSizeString() throws Exception {
 		String ex = "test/simulator/STDL/sizeString.asm";
-		sim = Simulator.createSimulator("../../../asm_examples/" + ex);
+		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
 		State s = sim.getCurrentState();
 		Function sizeStr1 = searchFunction("sizeStr1");
@@ -176,7 +178,7 @@ public class StandardLibraryTest extends BaseTest {
 	@Test
 	public void testAppendSequence() throws Exception {
 		String ex = "test/simulator/STDL/appendSequence.asm";
-		sim = Simulator.createSimulator("../../../asm_examples/" + ex);
+		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
 		State s = sim.getCurrentState();
 		Function sequence = searchFunction("sequence");
