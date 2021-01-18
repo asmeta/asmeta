@@ -6,7 +6,7 @@ asmeta main repository with code and examples
 To use the asmeta framework in Eclipse IDE you need to install:
 
 * Zest SDK 1.7
-* XText SDK
+* XText SDK >= 2.20
 * Eclipse Plug-in Development Environment
 * JavaCC Eclipse Plug-in
 
