@@ -161,4 +161,11 @@ public class TestSingleFile extends TestValidator {
 		test("scenariosfortest\\withmodules\\scenario3.avalla", false);		
 	}
 	
+	//Error: java.lang.IllegalArgumentException: 'other' has different root
+	@Test
+	public void testSafePillbox() throws Exception {
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
+		test("D:\\GitHub\\ASMETA\\SafePillbox\\SafePillbox\\V04\\scenarios\\scenario3.avalla", false);		
+	}
+	
 }
