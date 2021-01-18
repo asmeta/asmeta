@@ -16,6 +16,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	
 	 /** Runtime model simulator*/
     private SimulationContainer modelEngine; 
+    private int id;
    
  
 	public PillBox(String SYSTEM_MODEL_PATH) {
@@ -28,7 +29,8 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 		if (result < 0) 
 			System.err.println("ERROR: Simulation engine not initialized for the model "+ SYSTEM_MODEL_PATH);
 		else {
-		    System.out.println("Model engine initialized for "+ SYSTEM_MODEL_PATH);
+			id = result;
+		    System.out.println("Model engine initialized for "+ SYSTEM_MODEL_PATH + " with simulation id " + id);
 		}
 	}
 
@@ -92,7 +94,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 
 	@Override
 	public boolean shutDown() {
-		// TODO Auto-generated method stub
+		modelEngine.stopExecution(id);
 		return false;
 	}
 	

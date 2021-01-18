@@ -198,7 +198,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	// @Override
 	public int stopExecution(int id) {
 		try {
-			System.out.println("the model " + asmS.getModelName(id) + " is successfully stop");
+			System.out.println("the model " + asmS.getModelName(id) + " successfully stopped");
 			asmS.stop(id);
 			id = 1;
 		} catch (RuntimeException e) {
