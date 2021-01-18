@@ -108,7 +108,5 @@ public abstract class FeedbackLoop {
 		return model.runStep(1, inputValues);
 	}
 	
-	// create an output object from the knowledge which can be used as input object for the ASM runtime model 
-	//public abstract Map<String, String> prepareInput();
 	
 }
