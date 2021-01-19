@@ -11,11 +11,11 @@ public class Main {
 		
 		/** Initialization*/
 		//Create system handle, probe, and effector
-		PillBox managedSystem =  new PillBox(); 
+		PillBox managedSystem =  new PillBox("examples/pillbox/pillbox.asm"); 		
 		//Create system knowledge and loop
 		Knowledge k = new KnowledgePB();
 		FeedbackLoop loop = new FeedbackLoopPillBox(managedSystem.getProbe(),managedSystem.getEffector(),k);
-		//create a new specialized enforcer for the AirConditioner system
+		//create a new specialized enforcer for the Pillbox system
 		Enforcer.setConfigFile("./resources/PillBox/config.properties");
 		Enforcer e = new EnforcerPillBox(managedSystem,k,loop);
 		

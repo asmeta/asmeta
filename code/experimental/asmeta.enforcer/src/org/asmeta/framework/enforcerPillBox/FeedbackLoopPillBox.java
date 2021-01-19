@@ -5,6 +5,7 @@ import java.util.Map;
 import org.asmeta.framework. airConditioner.AirConditioner;
 import org.asmeta.framework.enforcer.*;
 import org.asmeta.framework.managedSystem.*;
+import org.asmeta.framework.pillBox.PillBox;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 
@@ -20,10 +21,10 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 	@Override
 	public void monitor() {
 		//Read and save the out function values from the PillBox into the knowledge
-		//AirConditioner probePB = (AirConditioner) this.getProbe();
+		PillBox probePB = (PillBox) this.getProbe();
 		//check and store if system changed
-		//if (kPB.systemStateChanged(probeAC.getAirIntensity(),probePB.getRoomTemperature())) {
-			//if the system produced a new output, perform analysis (output sanitisation)
+		if (kPB.systemStateChanged(probePB.getOutput())) 
+			//if the system produced a new output, perform analysis (output sanitisation by adaptation)
 			analysis();
 		}
 	
