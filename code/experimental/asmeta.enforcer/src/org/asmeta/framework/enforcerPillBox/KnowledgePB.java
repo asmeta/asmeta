@@ -13,7 +13,7 @@ public class KnowledgePB extends Knowledge {
     /** Keeps the times when the MAPE loop completes*/
     //public List<Double> endTimeList = new ArrayList<Double>();    
 	
-	/** Monitored values from the Air Conditioner*/ 
+	/** Monitored values from the PillBox*/ 
 	int airSpeed; //input value for the Air Conditioner
 	int temperature; //output value as computed by the Air Conditioner
 	   
