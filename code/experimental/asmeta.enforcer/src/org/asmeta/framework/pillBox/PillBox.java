@@ -40,15 +40,15 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	//Input command syntax example: 
     //openSwitch(compartment2) false openSwitch(compartment3) false set openSwitch(compartment4) true systemTime 414 
 	public Map<String, String> run (String input) {
-		Map<String, String> output = new HashMap<>();
+		//Map<String, String> output = new HashMap<>();
 		RunOutput result = modelEngine.runStep(1, prepareInput(input));
 		//Usage:
 		//result.getEsit(); //SAFE or UNSAFE
 		//result.getResult(); //Timeout expired or not
-		//System.out.println(result.getControlledvalues().get("airSpeed")); //Output values from the ASM model
 		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map
-			currentState.putAll(result.getControlledvalues());
+			//currentState.putAll(result.getControlledvalues());
+			currentState = result.getControlledvalues(); //Output values from the ASM model
 			//output = prepareOutput(currentState);
 			//output = prepareOutput(result.getControlledvalues());
 		}
