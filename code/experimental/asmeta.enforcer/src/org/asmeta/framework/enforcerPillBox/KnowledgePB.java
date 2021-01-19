@@ -1,5 +1,8 @@
 package org.asmeta.framework.enforcerPillBox;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.asmeta.framework.enforcer.Knowledge;
 
 
@@ -14,8 +17,8 @@ public class KnowledgePB extends Knowledge {
     //public List<Double> endTimeList = new ArrayList<Double>();    
 	
 	/** Monitored values from the PillBox*/ 
-	int airSpeed; //input value for the Air Conditioner
-	int temperature; //output value as computed by the Air Conditioner
+	Map<String, String> input; //input value for the PillBox
+	Map<String, String> output; //output value as computed by the PillBox
 	   
 
 	public KnowledgePB() {
@@ -23,18 +26,20 @@ public class KnowledgePB extends Knowledge {
 	}
    
 		
-	
 	 //Overloading (by the new parameter); checks and eventually store the new system output value if different
-	/*public boolean systemStateChanged(int newAirSpeedVal, int newTempValue){
-			if	( this.airSpeed != newAirSpeedVal) {
-				//store the new value into the knowledge
-				airSpeed = newAirSpeedVal;
-				temperature = newTempValue;
-				return true;
-			}
-			return false;
+	public boolean systemStateChanged(Map<String, String> newOutput){
+		  if (output.equals(newOutput)) return false;
+		  output = newOutput;
+		  return true;
 		}
-    */
+	
+	public void setInput(Map<String, String> newInput){
+		input = newInput;
+	}
+	
+	public Map<String, String> getInput(Map<String, String> newInput){
+		return input;
+	}
 	
 	
 }

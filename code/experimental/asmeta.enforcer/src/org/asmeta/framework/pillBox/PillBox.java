@@ -17,6 +17,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	 /** Runtime model simulator*/
     private SimulationContainer modelEngine; 
     private int id;
+    private Map<String, String> currentState;
    
  
 	public PillBox(String SYSTEM_MODEL_PATH) {
@@ -25,6 +26,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	    //Initialize an AsmetaS@run.time model engine instance for the runtime system model (the simulated managed system!) 
 		modelEngine = SimulationContainer.getInstance();
 		modelEngine.init(1);
+		currentState = new HashMap<>();
 		int result = modelEngine.startExecution(SYSTEM_MODEL_PATH);
 		if (result < 0) 
 			System.err.println("ERROR: Simulation engine not initialized for the model "+ SYSTEM_MODEL_PATH);
@@ -44,9 +46,11 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 		//result.getEsit(); //SAFE or UNSAFE
 		//result.getResult(); //Timeout expired or not
 		//System.out.println(result.getControlledvalues().get("airSpeed")); //Output values from the ASM model
-		if (result.getEsit() == Esit.SAFE) 
+		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map
-			output = prepareOutput(result.getControlledvalues());
+			currentState.putAll(result.getControlledvalues());
+			output = prepareOutput(currentState);
+		}
 		else 
 			 System.out.println("Error: something got wrong with the outcome of the ASM-based simulated system.");
 		return output;
@@ -55,11 +59,12 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	
 		
 	private Map<String, String> prepareOutput(Map<String, String> locations) {
-		//Filter only the output locations
-		//TO DO: to be generalized in the ASM simulator
-		Map<String, String> output = new HashMap<>();
-		System.out.println(locations.toString());
-		return output; 
+		//TO DO: Filter only the output locations; it should be done in a general manner in the ASM simulator@run.time
+		//Currently, it returns everything
+		//Map<String, String> output = new HashMap<>();
+		//System.out.println("Pillbox Output: "+locations.toString());// for debugging purposes
+		return locations;
+		//return output; 
 	}
 	
 	/*
@@ -83,6 +88,22 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 					return data;
 	}
 	
+	
+	//OUT to patient
+	//out outMess: Compartment -> String
+	//out redLed: Compartment -> LedLights 
+	//O={outMess,redLed}
+	public Map<String, String>  getOutputToPatient() {
+			Map<String, String> tmp = new HashMap<>();
+			//iterating over keys only and selects those starting with "outMess" or "redLed"
+		    for (String key : currentState.keySet()) {
+		        if (key.startsWith("outMess") || key.startsWith("redLed")) 
+		        	tmp.put(key,currentState.get(key));	
+		    }
+			return tmp;
+			
+		}
+	
 	public Probe getProbe() {
 		
 		return this;
@@ -98,29 +119,36 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 		return false;
 	}
 	
+
+	public Map<String, String> getOutput() {
+		return prepareOutput(currentState);
+	}
 	
+	//To test the PillBox wrapper in a standlone manner
 	//Example of input cmd: systemTime 412 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false 
-	public static void main(String[] args) {	
-       PillBox p = new PillBox("examples/pillbox/pillbox.asm");	
-        
-        Scanner s = new Scanner(System.in); 
-        System.out.println("PillBox ON, enter monitored values> ");	
-        try {
-         String str = s.nextLine();
-         while (! str.equals("###")) { 	
-				p.run(str);
-				System.out.println("Enter monitored values> ");
-				str = s.nextLine();
-			}
-         }
-			catch(InputMismatchException ex) {
-				System.err.println("Error, input illformed.");
-	        } 
-		finally {
-		        s.close();
-		        p.shutDown();
-		        System.out.println("PillBox OFF");
-	       }
-        
-   }
+		public static void main(String[] args) {	
+	        PillBox p = new PillBox("examples/pillbox/pillbox.asm");	
+	        
+	        Scanner s = new Scanner(System.in); 
+	        System.out.println("PillBox ON, enter monitored values> ");	
+	        try {
+	         String str = s.nextLine();
+	         while (! str.equals("###")) { 	
+					p.run(str);
+					//System.out.println(p.getOutputToPatient());
+					System.out.println("Enter monitored values> ");
+					str = s.nextLine();
+				}
+	         }
+				catch(InputMismatchException ex) {
+					System.err.println("Error, input illformed.");
+		        } 
+			finally {
+			        s.close();
+			        p.shutDown();
+			        System.out.println("PillBox OFF");
+		       }
+	        
+	   }
+	
 }
