@@ -17,8 +17,8 @@ public class KnowledgePB extends Knowledge {
     //public List<Double> endTimeList = new ArrayList<Double>();    
 	
 	/** Monitored values from the PillBox*/ 
-	Map<String, String> input; //input value for the PillBox
-	Map<String, String> output; //output value as computed by the PillBox, and eventually sanitised by the enforcer
+	Map<String, String> input; //user input for the PillBox
+	Map<String, String> output; //output as computed by the PillBox, and eventually sanitised by the enforcer
 	   
 
 	public KnowledgePB() {
@@ -37,7 +37,7 @@ public class KnowledgePB extends Knowledge {
 		input = newInput;
 	}
 	
-	public Map<String, String> getInput(Map<String, String> newInput){
+	public Map<String, String> getInput(){
 		return input;
 	}
 	

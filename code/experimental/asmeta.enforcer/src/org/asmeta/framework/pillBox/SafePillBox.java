@@ -5,14 +5,14 @@ import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
-import org.asmeta.framework.auxiliary.Utility;
-import org.asmeta.framework.managedSystem.*;
+
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainer;
 
-public class PillBox extends ManagedSystem implements Probe, Effector{
-	//Java wrapper of the simulated Pillbox system (an ASM model)
+public class SafePillBox {
+	//Java wrapper of the simulated SafePillbox system (an ASM model)
+	//For debugging purposes!
 	
 	 /** Runtime model simulator*/
     private SimulationContainer modelEngine; 
@@ -20,7 +20,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
     private Map<String, String> currentState;
    
  
-	public PillBox(String SYSTEM_MODEL_PATH) {
+	public SafePillBox(String SYSTEM_MODEL_PATH) {
 	
 	    System.out.println("Trying to initialize a model engine for "+ SYSTEM_MODEL_PATH);	       
 	    //Initialize an AsmetaS@run.time model engine instance for the runtime system model (the simulated managed system!) 
@@ -48,7 +48,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map
 			//currentState.putAll(result.getControlledvalues());
-			currentState = result.getControlledvalues(); //Output values from the ASM model
+			currentState = result.getControlledvalues(); //Output values changed from the ASM model
 			//output = prepareOutput(currentState);
 			//output = prepareOutput(result.getControlledvalues());
 		}
@@ -83,36 +83,29 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	private Map<String, String> prepareInput(String cmd) {	
 					Map<String, String> data = new HashMap<>();
 					String[] input = cmd.split(" ");
-					for(int i=0; i<input.length; i+=2)
-					data.put(input[i],input[i+1]); //put monitored value (key,value)  
+					for(int i=0; i<input.length; i+=2) {
+					     data.put(input[i],input[i+1]); //put monitored value (key,value)  
+					     System.out.println("("+input[i]+","+input[i+1]+")");
+					}
 					return data;
 	}
 	
 	
-	//Output to patient O={outMess,redLed}
-	//out outMess: Compartment -> String
-	//out redLed: Compartment -> LedLights 
-	public Map<String, String>  getOutputToPatient() {
+	//Output to Pillbox 
+	public Map<String, String>  getOutputToPillBox() {
 			Map<String, String> tmp = new HashMap<>();
-			//iterating over keys only and selects those starting with "outMess" or "redLed"
+			//iterating over keys only and selects those starting with "setNewTime", etc.
 		    for (String key : currentState.keySet()) {
-		        if (key.startsWith("outMess") || key.startsWith("redLed")) 
+		        if (key.startsWith("setNewTime") || key.startsWith("newTime") || key.startsWith("skipNextPill")) 
 		        	tmp.put(key,currentState.get(key));	
 		    }
 			return tmp;
 			
 		}
 	
-	public Probe getProbe() {
-		
-		return this;
-	}
 
-	public Effector getEffector() {
-		return this;
-	}
 
-	@Override
+
 	public boolean shutDown() {
 		modelEngine.stopExecution(id);
 		return false;
@@ -124,18 +117,19 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	}
 	
 	//To test the PillBox wrapper in a standlone manner
-	//Example of input cmd: systemTime 412 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false 
+	//Example of input cmd: 
+	//redLed(compartment2) OFF redLed(compartment3) OFF redLed(compartment4) OFF name(compartment2) "aspirine" name(compartment3) "moment" name(compartment4) "fosamax" time_consumption(compartment2) [960] time_consumption(compartment3) [780,1140] time_consumption(compartment4) [410] drugIndex(compartment2) 0 drugIndex(compartment3) 0 drugIndex(compartment4) 0 nextDrugIndex(compartment2) 0 nextDrugIndex(compartment3) 1
 		public static void main(String[] args) {	
-	        PillBox p = new PillBox("examples/pillbox/pillbox.asm");	
+	        SafePillBox p = new SafePillBox("examples/pillbox/safePillbox.asm");	
 	        
 	        Scanner s = new Scanner(System.in); 
-	        System.out.println("PillBox ON, enter user input> ");	
+	        System.out.println("SafePillBox ON, enter input values> ");	
 	        try {
 	         String str = s.nextLine();
 	         while (! str.equals("###")) { 	
 					p.run(str);
-					System.out.println("Output to patient: "+p.getOutputToPatient().toString());
-					System.out.println("Enter user input> ");
+					System.out.println("Output to pillbox: "+p.getOutputToPillBox().toString());
+					System.out.println("Enter input value> ");
 					str = s.nextLine();
 				}
 	         }
@@ -145,7 +139,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 			finally {
 			        s.close();
 			        p.shutDown();
-			        System.out.println("PillBox OFF");
+			        System.out.println("SafePillBox OFF");
 		       }
 	        
 	   }
