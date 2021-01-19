@@ -54,7 +54,6 @@ import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.readers.FileMonFuncReader;
 import org.asmeta.simulator.readers.InteractiveMFReader;
-import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.readers.RandomMFReader;
 import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.value.AgentValue;
@@ -86,21 +85,8 @@ public class Simulator {
 	protected List<Invariant> controlledInvariants;
 	private List<Invariant> monitoredInvariants;
 
-	private static final Logger logger = Logger.getLogger(Simulator.class);
+	public static Logger logger = Logger.getLogger(Simulator.class);
 
-	// decoupling the logger from the console
-	// in the future the logger will be independent
-	class SimulatorConsole{
-		
-		public void info(String string) { logger.info(string); }
-
-		public void debug(String string) {logger.debug(string);}
-
-		public boolean isInfoEnabled() {return logger.isInfoEnabled();}
-		
-	}
-	public static SimulatorConsole console;
-	
 	/**
 	 * Check invariants flag.
 	 *
@@ -230,13 +216,13 @@ public class Simulator {
 	 */
 	protected static Simulator createSimulator(String modelPath, String envPath)
 			throws Exception {
-		MonFuncReader mfr;
+		Environment env;
 		if (envPath == null) {
-			mfr = new InteractiveMFReader(System.in, System.out);
+			env = new Environment(
+					new InteractiveMFReader(System.in, System.out));
 		} else {
-			mfr = new FileMonFuncReader(envPath);
+			env = new Environment(new FileMonFuncReader(envPath));
 		}
-		Environment env = new Environment(mfr);
 		return createSimulator(modelPath, env);
 	}
 
@@ -328,16 +314,16 @@ public class Simulator {
 			updateSet = runNoCatchInv(ntimes);
 		}
 		catch (InvalidInvariantException e) {
-			console.info("<Invariant violation>");
+			logger.info("<Invariant violation>");
 			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
-			console.info(tp.visit(e.getInvariant().getBody()));
-			console.info("</Invariant violation>");
+			logger.info(tp.visit(e.getInvariant().getBody()));
+			logger.info("</Invariant violation>");
 		}
 		return updateSet;
 	}
 
 	public UpdateSet runNoCatchInv(int ntimes) {
-		console.debug("<Run>");
+		logger.debug("<Run>");
 		UpdateSet updateSet = new UpdateSet();
 		getContrMonInvariants();
 		if (checkInvariants) {
@@ -351,12 +337,12 @@ public class Simulator {
 		for (; ntimes > 0; ntimes--) {
 			updateSet = doOneStep();
 		}
-		console.debug("</Run>");
+		logger.debug("</Run>");
 		return updateSet;
 	}
 	
 	protected void checkInvariantRestart() {
-		console.debug("<Run>");
+		logger.debug("<Run>");
 		UpdateSet updateSet = new UpdateSet();
 		getContrMonInvariants();
 		Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);
@@ -365,7 +351,7 @@ public class Simulator {
 			System.out.println("Invariant violation!");
 			throw new InvalidInvariantException(invariant, updateSet);
 		}
-		console.debug("</Run>");
+		logger.debug("</Run>");
 	}
 
 	/**
@@ -374,7 +360,7 @@ public class Simulator {
 	 * @return the update set
 	 */
 	UpdateSet doOneStep() {
-		console.debug("<Transition>");
+		logger.debug("<Transition>");
 		// STEP 1
 		// Visit the main rule to compute the update set. Ask the value of the
 		// monitored functions in the current state.
@@ -406,26 +392,26 @@ public class Simulator {
 
 		// Print of the current values of monitored
 		// print the next state in controlled part
-		if(console.isInfoEnabled()) {
+		if(logger.isInfoEnabled()) {
 	 		String monLocState = currentState.getMonLocsState();
 			if(monLocState.length() > 0) {
-				console.info("<State " + numOfState + " (monitored)>");
-				console.info(monLocState);
-				console.info("</State " + numOfState + " (monitored)>");//PA: 10 giugno 2010
+				logger.info("<State " + numOfState + " (monitored)>");
+				logger.info(monLocState);
+				logger.info("</State " + numOfState + " (monitored)>");//PA: 10 giugno 2010
 			}
 			// if also debug, show the update set
 			if (showUpdateSet) {
-				console.info("<UpdateSet - "+ numOfState + ">");
-				if (!updateSet.isEmpty()) console.info(updateSet.toString());
-				console.info("</UpdateSet>");
+				logger.info("<UpdateSet - "+ numOfState + ">");
+				if (!updateSet.isEmpty()) logger.info(updateSet);
+				logger.info("</UpdateSet>");
 			}
 			// controlled part of the next state
 			String contrLocState = currentState.getContrLocsState();
-			console.info("<State " + (numOfState + 1) + " (controlled)>");
+			logger.info("<State " + (numOfState + 1) + " (controlled)>");
 			if(contrLocState.length() > 0) {
-				console.info(contrLocState);
+				logger.info(contrLocState);
 			}
-			console.info("</State " + (numOfState + 1) + " (controlled)>");
+			logger.info("</State " + (numOfState + 1) + " (controlled)>");
 		}
 		numOfState++;//
 		// STEP 4
@@ -442,7 +428,7 @@ public class Simulator {
 				throw new InvalidInvariantException(invariant, updateSet);
 			}
 		}		
-		console.debug("</Transition>");
+		logger.debug("</Transition>");
 		return updateSet;
 	}
 
@@ -452,7 +438,7 @@ public class Simulator {
 	 * @return the final state
 	 */
 	public LocationSet runUntilEmpty() {
-		console.debug("<Run>");
+		logger.debug("<Run>");
 		UpdateSet updateSet = new UpdateSet();
 		getContrMonInvariants();
 		try {
@@ -468,12 +454,12 @@ public class Simulator {
 			} while (!updateSet.isEmpty());
 		}
 		catch (InvalidInvariantException e) {
-			console.info("<Invariant violation>");
+			logger.info("<Invariant violation>");
 			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
-			console.info(tp.visit(e.getInvariant().getBody()));
-			console.info("</Invariant violation>");
+			logger.info(tp.visit(e.getInvariant().getBody()));
+			logger.info("</Invariant violation>");
 		}
-		console.debug("</Run>");
+		logger.debug("</Run>");
 		return currentState;
 	}
 
@@ -483,7 +469,7 @@ public class Simulator {
 	 * @return the final state
 	 */
 	public LocationSet runUntilTrivial() {
-		console.debug("<Run>");
+		logger.debug("<Run>");
 		UpdateSet updateSet = new UpdateSet();
 		getContrMonInvariants();
 		//State previousState;
@@ -501,12 +487,12 @@ public class Simulator {
 			while(!updateSet.isTrivial(previousState));
 		}
 		catch (InvalidInvariantException e) {
-			console.info("<Invariant violation>");
+			logger.info("<Invariant violation>");
 			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
-			console.info(tp.visit(e.getInvariant().getBody()));
-			console.info("</Invariant violation>");
+			logger.info(tp.visit(e.getInvariant().getBody()));
+			logger.info("</Invariant violation>");
 		}
-		console.debug("</Run>");
+		logger.debug("</Run>");
 		return currentState;
 	}
 
@@ -515,11 +501,11 @@ public class Simulator {
 	 * It is called at the end of the current transition.
 	 */
 	public void clearMon() {
-		console.debug("clear monitored vars");
+		logger.debug("clear monitored vars");
 		for(Iterator<Entry<Location,Value>> i = currentState.iterator();i.hasNext();){
 			 Entry<Location, Value> locVal = i.next();
 			 if (Defs.isMonitored(locVal.getKey().getSignature())){
-				 console.debug("clear "+ locVal);
+				 logger.debug("clear "+ locVal);
 				 i.remove();
 			 }
 		}
@@ -538,11 +524,11 @@ public class Simulator {
 		for (Invariant invariant : invariants) {
 			invariantBody = invariant.getBody();
 			invariantName = invariant.getName();
-			console.debug(
+			logger.debug(
 				"<Invariant" + ((invariantName == null || invariantName.equals("")) ? "" : (" name=" + invariantName)) + ">");
 			BooleanValue result = (BooleanValue) eval.visit(invariantBody);						
-			console.debug("<Value>" + result + "</Value>");
-			console.debug("</Invariant>");
+			logger.debug("<Value>" + result + "</Value>");
+			logger.debug("</Invariant>");
 			if (!result.getValue()) {
 				return invariant;
 			}
@@ -667,18 +653,18 @@ public class Simulator {
 				String domainName = domain.getName();
 				Rule program = agentInit.getProgram();
 				SetValue<?> agentSet = state.read(domain);
-				console.debug("<initAgents>set program for agents in " + domainName);
+				logger.debug("<initAgents>set program for agents in " + domainName);
 				for (Value<?> oo : agentSet) {
 					AgentValue agent = (AgentValue) oo;
 					Domain agentDomain = agent.getDomain();
-					console.debug("<agent>" + agent.getId()
+					logger.debug("<agent>" + agent.getId()
 							+ (Object) agent.hashCode() + "</agent>");
-					console.debug("<program>" + program + "</program>");
+					logger.debug("<program>" + program + "</program>");
 					if (Defs.equals(domain, agentDomain)) {
 						agent.setProgram(program);
 					}
 				}
-				console.debug("</initAgents>");
+				logger.debug("</initAgents>");
 			}
 		}
 	}
