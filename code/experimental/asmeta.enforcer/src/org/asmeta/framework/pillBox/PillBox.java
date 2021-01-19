@@ -48,12 +48,14 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 		//System.out.println(result.getControlledvalues().get("airSpeed")); //Output values from the ASM model
 		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map
-			//currentState.putAll(result.getControlledvalues());
-			output = prepareOutput(currentState);
+			currentState.putAll(result.getControlledvalues());
+			//output = prepareOutput(currentState);
+			//output = prepareOutput(result.getControlledvalues());
 		}
 		else 
 			 System.out.println("Error: something got wrong with the outcome of the ASM-based simulated system.");
-		return output;
+		
+		return currentState;
 
 	}
 	
@@ -62,7 +64,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 		//TO DO: Filter only the output locations; it should be done in a general manner in the ASM simulator@run.time
 		//Currently, it returns everything
 		//Map<String, String> output = new HashMap<>();
-		System.out.println("Pillbox Output: "+locations.toString());// for debugging purposes
+		//System.out.println("Pillbox Output: "+locations.toString());// for debugging purposes
 		return locations;
 		//return output; 
 	}
@@ -81,18 +83,15 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	private Map<String, String> prepareInput(String cmd) {	
 					Map<String, String> data = new HashMap<>();
 					String[] input = cmd.split(" ");
-					System.out.println(input);
 					for(int i=0; i<input.length; i+=2)
-						data.put(input[i],input[i+1]); //put monitored value (key,value)  
-					System.out.println(data);
+					data.put(input[i],input[i+1]); //put monitored value (key,value)  
 					return data;
 	}
 	
 	
-	//OUT to patient
+	//Output to patient O={outMess,redLed}
 	//out outMess: Compartment -> String
 	//out redLed: Compartment -> LedLights 
-	//O={outMess,redLed}
 	public Map<String, String>  getOutputToPatient() {
 			Map<String, String> tmp = new HashMap<>();
 			//iterating over keys only and selects those starting with "outMess" or "redLed"
@@ -135,7 +134,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	         String str = s.nextLine();
 	         while (! str.equals("###")) { 	
 					p.run(str);
-					//System.out.println(p.getOutputToPatient());
+					System.out.println("Output to patient: "+p.getOutputToPatient().toString());
 					System.out.println("Enter monitored values> ");
 					str = s.nextLine();
 				}
