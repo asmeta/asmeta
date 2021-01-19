@@ -56,7 +56,7 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 		//result.getControlledvalues(); //Output values from the ASM model	
 		if (result.getEsit() == Esit.SAFE) {
 			//store the adaptation plan as computed by the ASM runtime model into the knowledge and trigger execution
-			kPB.setOutput(result.getControlledvalues()); 
+			//kPB.setOutputForPillbox(result.getControlledvalues()); TO DO
 			execution();
 		}
 		else {
@@ -70,7 +70,8 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 	public void execution() {
 		//Force the system as planned by actuating the effectors 
 		//((AirConditioner)(this.getEffector())).setAirIntensity(kAC.airSpeed);
-		effectorPB.
+		//effectorPB.
+		//TO DO
 		
 	
 	}
