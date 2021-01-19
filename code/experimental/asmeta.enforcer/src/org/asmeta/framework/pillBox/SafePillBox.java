@@ -42,6 +42,7 @@ public class SafePillBox {
 	public Map<String, String> run (String input) {
 		//Map<String, String> output = new HashMap<>();
 		RunOutput result = modelEngine.runStep(1, prepareInput(input));
+		//RunOutput result = modelEngine.runUntilEmpty(1, prepareInput(input));
 		//Usage:
 		//result.getEsit(); //SAFE or UNSAFE
 		//result.getResult(); //Timeout expired or not
