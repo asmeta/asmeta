@@ -665,9 +665,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		System.out.println(
 				"[step:" + asmS.getSimulatorTable().get(id).getContSim() + " of model " + asmS.getModelName(id) + "]");
 		System.out.println(r1.MytoString());
-		System.out.println("time execution :" + time + " nT");
-		System.out.println(
-				"number of steps for the transition: " + asmS.getSimulatorTable().get(id).getSim().getCurrentStep());
+		System.out.println("Execution time :" + time + " nT");
+		//System.out.println(
+		//		"Number of steps for the transition: " + asmS.getSimulatorTable().get(id).getSim().getCurrentStep());
 		/*
 		 * System.out.println("Maximum number of state before rollBackToState: " +
 		 * asmS.getSimulatorTable().get(id).getSim().getMax() );
@@ -675,7 +675,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 		System.out.println("                                 ");
 
-		System.out.println("=====================");
+		//System.out.println("=====================");
 	}
 
 	private static void printRollback(int step, MyState state) {

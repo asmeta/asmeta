@@ -18,7 +18,7 @@ public class KnowledgePB extends Knowledge {
 	
 	/** Monitored values from the PillBox*/ 
 	Map<String, String> input; //input value for the PillBox
-	Map<String, String> output; //output value as computed by the PillBox
+	Map<String, String> output; //output value as computed by the PillBox, and eventually sanitised by the enforcer
 	   
 
 	public KnowledgePB() {

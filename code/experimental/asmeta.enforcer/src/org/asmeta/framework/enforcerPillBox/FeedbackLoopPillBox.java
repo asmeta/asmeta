@@ -41,11 +41,7 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 	
   
 	private boolean analyzeKnowledge() {
-		
-	  // if (kPB.airSpeed == 2)
-	  //			return true;
-		
-		return false;
+		 return true; //Can we invoke only the pillbox sanitezer here?
 	}
 	
 	@Override
