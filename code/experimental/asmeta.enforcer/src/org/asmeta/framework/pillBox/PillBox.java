@@ -48,7 +48,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 		//System.out.println(result.getControlledvalues().get("airSpeed")); //Output values from the ASM model
 		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map
-			currentState.putAll(result.getControlledvalues());
+			//currentState.putAll(result.getControlledvalues());
 			output = prepareOutput(currentState);
 		}
 		else 
@@ -62,7 +62,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 		//TO DO: Filter only the output locations; it should be done in a general manner in the ASM simulator@run.time
 		//Currently, it returns everything
 		//Map<String, String> output = new HashMap<>();
-		//System.out.println("Pillbox Output: "+locations.toString());// for debugging purposes
+		System.out.println("Pillbox Output: "+locations.toString());// for debugging purposes
 		return locations;
 		//return output; 
 	}
