@@ -3,7 +3,6 @@ package org.asmeta.simulator.main;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import org.apache.log4j.Logger;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.UpdateClashException;
@@ -100,7 +99,7 @@ public class AsmetaS extends AsmetaCLI {
 					// Simulator.logger.fatal("<UpdateSet>" + iae.us
 					// + "</UpdateSet>");
 				} catch (UpdateClashException uce) {
-					Logger.getLogger(Simulator.class).fatal(uce.loc + " updated to " + uce.c1 + " and " + uce.c2);
+					Simulator.logger.fatal(uce.loc + " updated to " + uce.c1 + " and " + uce.c2);
 				}
 				System.out.println("Final state:\n" + sim.getCurrentState().getContrLocsState());
 			}
