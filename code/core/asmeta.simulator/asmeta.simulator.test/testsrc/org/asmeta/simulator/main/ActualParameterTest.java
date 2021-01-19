@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Utility;
 import org.asmeta.simulator.NotCompatibleDomainsException;
@@ -16,7 +17,7 @@ public class ActualParameterTest extends BaseTest {
 	@BeforeClass
 	public static void setup() {
 		ASMParser.getResultLogger().setLevel(Level.OFF);
-		Simulator.logger.setLevel(Level.OFF);
+		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
 		RuleEvaluator.logger.setLevel(Level.OFF);
 		Utility.selectFirstBestRanking = false;
 	}

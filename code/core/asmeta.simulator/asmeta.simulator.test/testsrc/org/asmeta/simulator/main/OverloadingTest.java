@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Location;
@@ -52,7 +53,7 @@ public class OverloadingTest extends BaseTest {
 	public void test03_optionFalse() throws Exception {
 		//ASMParser.getResultLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
 		//Simulator.logger.addAppender(new ConsoleAppender(new SimpleLayout()));
-		Simulator.logger.setLevel(Level.OFF);
+		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
 		Utility.selectFirstBestRanking = false;
 		// too many compatible macro declarations
 		sim = Simulator.createSimulator(BASE + "test/parser/overloading/m3.asm");
@@ -62,7 +63,7 @@ public class OverloadingTest extends BaseTest {
 	public void test03_optionTrue() throws Exception {
 		//ASMParser.getResultLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
 		//Simulator.logger.addAppender(new ConsoleAppender(new SimpleLayout()));
-		Simulator.logger.setLevel(Level.OFF);
+		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
 		Utility.selectFirstBestRanking = true;
 		// too many compatible macro declarations
 		sim = Simulator.createSimulator(BASE + "test/parser/overloading/m3.asm");
