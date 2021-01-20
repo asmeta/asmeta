@@ -1,3 +1,4 @@
+// Scenario to test SAFEPILLBOX.ASM
 scenario scenario1
 load ../safePillbox.asm
 

@@ -1,0 +1,33 @@
+Missed first pill, not possible to reschedule it because minToInterferViolation -> pill is definitively missed
+default init s0
+
+MPPillbox1.avalla -> scenario for pillbox.asm
+MPSafePillbox1.avalla -> scenario for safepillbox.asm
+
+Traces:
+MPPillbox1Trace.txt
+MPSafePillbox1Trace.txt
+
+================================================================================================================
+
+Missed first pill -> rescheduled
+default init s1
+
+MPPillbox2.avalla -> scenario for pillbox.asm
+MPSafePillbox2.avalla -> scenario for safepillbox.asm
+
+Traces:
+MPPillbox2Trace.txt
+MPSafePillbox2Trace.txt
+
+=================================================================================================================
+
+First pill taken but with delay, actualtimeconsumption+deltadelay violate mintointerfer
+use init s2
+
+LPPillbox1.avalla -> scenario for pillbox.asm
+LPSafePillbox1.avalla -> scenario for safepillbox.asm
+
+Traces:
+LPPillbox1Trace.txt
+LPSafePillbox1Trace.txt

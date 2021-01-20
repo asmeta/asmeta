@@ -22,7 +22,6 @@ signature:
 	out drugIndex: Compartment -> Natural 
 	out actual_time_consumption: Compartment -> Seq(Natural) //Which time is the pill taken 
 	out day: Integer //Controlled
-	out nextDrugIndex: Compartment -> Natural // next drug index of the given compartment 
 	//Patient has missed the pill
 	out isPillMissed: Compartment -> Boolean
 	out pillTakenWithDelay: Compartment -> Boolean // is true if the patient takes the pill (compartment opened) 
@@ -49,6 +48,7 @@ signature:
 	monitored systemTime: Natural //Time in minutes since midnight
 	
 	derived next: Compartment ->  Powerset(Compartment) //Set of next compartmentes
+	derived nextDrugIndex: Compartment -> Natural // next drug index of the given compartment 
 	
 	
 	//*************************************************
@@ -70,6 +70,10 @@ definitions:
 	function next($compartment in Compartment) =  
 		{$c in Compartment | (at(time_consumption($c),drugIndex($c)) > at(time_consumption($compartment),drugIndex($compartment))) : $c}
 	
+	function nextDrugIndex($compartment in Compartment) = 	let ( $i = drugIndex($compartment) + 1n ) in 
+		if  $i < iton(length(time_consumption($compartment)))  then $i else 0n endif
+		endlet 
+		
 	//*************************************************
 	// RULE DEFINITIONS
 	//*************************************************
@@ -258,7 +262,7 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 	endpar
 			
 				
-default init s0:	//This init state is correct, it does not generate any invariant violation
+init s0:	//This init state is correct, it does not generate any invariant violation
 	/* PillBox initialization */
 	// Initialization of the SystemTime
 	function systemTime = 0n
@@ -276,7 +280,7 @@ default init s0:	//This init state is correct, it does not generate any invarian
 		switch($compartment)
 			case compartment2 : [960n]
 			case compartment3 : [780n, 1140n]
-			case compartment4 : [410n]//410 working, 710 + actual time consumption violate minToInterfer
+			case compartment4 : [410n]//reschedule not allowed
 		endswitch 
 	// Insert a drug in each compartment	
 	function name($compartment in Compartment) = //id(medicineIn($compartment))
@@ -307,10 +311,6 @@ default init s0:	//This init state is correct, it does not generate any invarian
 	//Initialization of day	
 	function day = 0	
 	
-	function nextDrugIndex($compartment in Compartment) = 	let ( $i = drugIndex($compartment) + 1n ) in 
-		if  $i < iton(length(time_consumption($compartment)))  then $i else 0n endif
-		endlet 
-		
 	function isPillMissed ($compartment in Compartment) =  (drugIndex($compartment)<iton(length(time_consumption($compartment)))) and
 		  		 redLed($compartment) = BLINKING and 
 		  			(not(not openSwitch($compartment) and opened($compartment))) and
@@ -339,7 +339,7 @@ init s1:	//This init state is correct, it does not generate any invariant violat
 		switch($compartment)
 			case compartment2 : [960n]
 			case compartment3 : [780n, 1140n]
-			case compartment4 : [710n]//710 + actual time consumption violate minToInterfer
+			case compartment4 : [350n]//reschedule allowed
 		endswitch 
 	// Insert a drug in each compartment	
 	function name($compartment in Compartment) = //id(medicineIn($compartment))
@@ -369,11 +369,66 @@ init s1:	//This init state is correct, it does not generate any invariant violat
 	
 	//Initialization of day	
 	function day = 0	
+			
+	function isPillMissed ($compartment in Compartment) =  (drugIndex($compartment)<iton(length(time_consumption($compartment)))) and
+		  		 redLed($compartment) = BLINKING and 
+		  			(not(not openSwitch($compartment) and opened($compartment))) and
+		  				(systemTime-compartmentTimer($compartment)>tenMinutes) and
+		  					(not openSwitch($compartment))
+
+	// Assuming pill is taken when compartment is closed
+	function pillTakenWithDelay($compartment in Compartment) =  ((drugIndex($compartment)<iton(length(time_consumption($compartment)))) and (at(skipPill($compartment),drugIndex($compartment))=false))
+	and redLed($compartment) = BLINKING and (not openSwitch($compartment) and opened($compartment))
+
+default init s2:	//This init state is correct, it does not generate any invariant violation
+	/* PillBox initialization */
+	// Initialization of the SystemTime
+	function systemTime = 0n
+	// Each compartment's timer starts from 0
+	function compartmentTimer($compartment in Compartment) = 0n
+	// Controlled function that indicates the status of the compartment
+	function opened($compartment in Compartment) = false		
+	// Reset the output display message and the log message
+	function outMess($compartment in Compartment) = ""
+	function logMess($compartment in Compartment) = ""
+	// Turn-off all the led of the Compartments
+	function redLed($compartment in Compartment) = OFF
+	// Initialization of the time consumption for a compartment
+	function time_consumption($compartment in Compartment) = //time(name($compartment))
+		switch($compartment)
+			case compartment2 : [960n]
+			case compartment3 : [780n, 1140n]
+			case compartment4 : [410n]
+		endswitch 
+	// Insert a drug in each compartment	
+	function name($compartment in Compartment) = //id(medicineIn($compartment))
+		switch($compartment)
+			case compartment2 : "aspirine"
+			case compartment3 : "moment"
+			case compartment4 : "fosamax"
+		endswitch
+	// Every compartment has an index starting from 0
+	function drugIndex($compartment in Compartment) = 0n
+
+	// Initialization of the actual time consumption for a compartment
+	function actual_time_consumption($compartment in Compartment) = //time(name($compartment))
+		switch($compartment)
+			case compartment2 : [0n]
+			case compartment3 : [0n, 0n]
+			case compartment4 : [0n]
+		endswitch 
 	
-	function nextDrugIndex($compartment in Compartment) = 	let ( $i = drugIndex($compartment) + 1n ) in 
-		if  $i < iton(length(time_consumption($compartment)))  then $i else 0n endif
-		endlet 
-		
+	// Initialization of the skip pill for a compartment
+	function skipPill($compartment in Compartment) = //time(name($compartment))
+		switch($compartment)
+			case compartment2 : [false]
+			case compartment3 : [false, false]
+			case compartment4 : [false]
+		endswitch 
+	
+	//Initialization of day	
+	function day = 0	
+			
 	function isPillMissed ($compartment in Compartment) =  (drugIndex($compartment)<iton(length(time_consumption($compartment)))) and
 		  		 redLed($compartment) = BLINKING and 
 		  			(not(not openSwitch($compartment) and opened($compartment))) and

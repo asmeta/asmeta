@@ -27,6 +27,7 @@ signature:
 	
 	derived next: Compartment ->  Powerset(Compartment) 
 	derived ledStatusUpdateOk: Compartment -> Boolean
+	derived nextDrugIndex: Compartment -> Natural // next drug index of the given compartment 
 	
 	
 	//IN from Pillbox
@@ -34,7 +35,6 @@ signature:
 	monitored name: Compartment -> String
 	monitored drugIndex: Compartment -> Natural
 	monitored redLed: Compartment -> LedLights
-	monitored nextDrugIndex: Compartment -> Natural 
 	
 definitions:
 	//*************************************************
@@ -46,7 +46,9 @@ definitions:
     function minToInterferer($m in Medicine, $n in Medicine) = minToInterferer(id($m),id($n))
     function time($m in Medicine) = time(id($m))
     function deltaDelay($m in Medicine) = deltaDelay(id($m))
-    
+    function nextDrugIndex($compartment in Compartment) = 	let ( $i = drugIndex($compartment) + 1n ) in 
+		if  $i < iton(length(time_consumption($compartment)))  then $i else 0n endif
+		endlet 
     //***************Derived function declared in this module
 	function ledStatusUpdateOk($compartment in Compartment) = ((prevRedLed($compartment) = OFF and redLed($compartment)= BLINKING) or
 			    /*(prevRedLed($compartment) = ON and redLed($compartment)= OFF) or*/

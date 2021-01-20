@@ -1,0 +1,7 @@
+//// Missed first pill, not possible to reschedule it because minToInterferViolation -> pill is definitively missed
+//default init s0
+//input trace events for scenario MPPillbox1 in Avalla
+
+systemTime 411 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false
+systemTime 422 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false
+systemTime 433 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false setNewTime(compartment4) false newTime(compartment4) 410

@@ -1,0 +1,34 @@
+        monitored name: Compartment -> String //initialized!
+	monitored drugIndex: Compartment -> Natural //initialized!
+        monitored day: Integer //initialized!
+	monitored systemTime: Natural //initialized!
+	monitored actual_time_consumption: Compartment -> Seq(Natural) //initialized!
+	monitored time_consumption: Compartment -> Seq(Natural) //initialized!
+        monitored isPillMissed: Compartment -> Boolean //given in the input stream
+	monitored pillTakenWithDelay: Compartment -> Boolean //given in the input stream
+	monitored redLed: Compartment -> LedLights //initialized and also given in the input stream
+	monitored nextDrugIndex: Compartment -> Natural //given in the input stream (lo si può inserire dentro)
+
+//initial input trace 
+redLed(compartment2) OFF redLed(compartment3) OFF redLed(compartment4) OFF name(compartment2) "aspirine" name(compartment3) "moment" name(compartment4) "fosamax" time_consumption(compartment2) [960] time_consumption(compartment3) [780,1140] time_consumption(compartment4) [410] drugIndex(compartment2) 0 drugIndex(compartment3) 0 drugIndex(compartment4) 0 nextDrugIndex(compartment2) 0 nextDrugIndex(compartment3) 1 nextDrugIndex(compartment4) 0
+
+//input trace 
+redLed(compartment2) BLINKING redLed(compartment3) OFF redLed(compartment4) OFF nextDrugIndex(compartment4) 0 drugIndex(compartment3) 1 isPillMissed(compartment2) true isPillMissed(compartment3) false pillTakenWithDelay(compartment3) false isPillMissed(compartment4) false pillTakenWithDelay(compartment4) false systemTime 1010 nextDrugIndex(compartment2) 0 nextDrugIndex(compartment3) 1 pillTakenWithDelay(compartment2) false time_consumption(compartment2) [960] time_consumption(compartment3) [780,1140] time_consumption(compartment4) [410] drugIndex(compartment2) 0 drugIndex(compartment3) 0 drugIndex(compartment4) 0 name(compartment2) "aspirine" name(compartment3) "moment" name(compartment4) "fosamax"
+
+redLed(compartment2) BLINKING redLed(compartment3) OFF redLed(compartment4) OFF drugIndex(compartment3) 1 isPillMissed(compartment2) true isPillMissed(compartment3) false pillTakenWithDelay(compartment3) false isPillMissed(compartment4) false pillTakenWithDelay(compartment4) false systemTime 1010 pillTakenWithDelay(compartment2) false time_consumption(compartment2) [960] time_consumption(compartment3) [780,1140] time_consumption(compartment4) [410] drugIndex(compartment2) 0 drugIndex(compartment3) 0 drugIndex(compartment4) 0 name(compartment2) "aspirine" name(compartment3) "moment" name(compartment4) "fosamax" nextDrugIndex(compartment2) 0 nextDrugIndex(compartment3) 1 nextDrugIndex(compartment4) 0
+
+-----------------------------------
+//initial input trace 
+redLed(compartment2) OFF redLed(compartment3) OFF redLed(compartment4) OFF name(compartment2) "aspirine" name(compartment3) "moment" name(compartment4) "fosamax" time_consumption(compartment2) [960] time_consumption(compartment3) [780,1140] time_consumption(compartment4) [410] drugIndex(compartment2) 0 drugIndex(compartment3) 0 drugIndex(compartment4) 0 nextDrugIndex(compartment2) 0 nextDrugIndex(compartment3) 1 
+//input trace 
+redLed(compartment2) BLINKING redLed(compartment3) OFF redLed(compartment4) OFF nextDrugIndex(compartment4) 0 drugIndex(compartment3) 1 isPillMissed(compartment2) true isPillMissed(compartment3) false pillTakenWithDelay(compartment3) false isPillMissed(compartment4) false pillTakenWithDelay(compartment4) false systemTime 1010 nextDrugIndex(compartment2) 0 nextDrugIndex(compartment3) 1 pillTakenWithDelay(compartment2) false
+
+//input trace: Missed pill compartment 2 drugindex 0
+redLed(compartment2) OFF isPillMissed(compartment2) true systemTime 1012
+
+
+	
+	
+
+
+
