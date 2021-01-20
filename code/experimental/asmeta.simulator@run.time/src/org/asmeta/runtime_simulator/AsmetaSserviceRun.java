@@ -112,6 +112,7 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 			}
 		}
 		System.out.println("\nPatrizia line for function "+ locationToFind + " not found!");
+		//E quindi la linea distream da cui leggere resta settata al valore precedente.
 	}
 	
 	@Override
