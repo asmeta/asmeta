@@ -102,9 +102,14 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 	/**
 	 * Set the value of location only for monitored
 	 */
+	//Patrizia 2021: il metodo si occupa di settare il valore di una locazione monitorata. 
+	//L'override di questo metodo è necessario perchè di default l'input stream è la console. In questo caso invece la
+	//funzione monitorata viene già acquisita dalla mappa dell'input fornito dall'utente in AsmetaSservice
 	@Override
 	public void readLine() {
-		for(Map.Entry<String, String> m: AsmetaSservice.getInstance().getSimulatorTable().get(id).getLocationValue().entrySet()) {	//Find the value of a particular location in list
+		Map<String, String> map = AsmetaSservice.getInstance().getSimulatorTable().get(id).getLocationValue();
+		System.out.println("\nPatrizia User input map: "+map.toString());
+		for(Map.Entry<String, String> m: map.entrySet()) {	//Find the value of a particular location in list
 			if (m.getKey().equals(locationToFind)) {
 				System.out.println("\nPatrizia set-line: "+m.getValue()+" for function "+ locationToFind);
 				setLine(m.getValue());
@@ -112,7 +117,7 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 			}
 		}
 		System.out.println("\nPatrizia line for function "+ locationToFind + " not found!");
-		//E quindi la linea distream da cui leggere resta settata al valore precedente.
+		//E quindi la linea di stream da cui leggere resta settata al valore precedente.
 	}
 	
 	@Override
