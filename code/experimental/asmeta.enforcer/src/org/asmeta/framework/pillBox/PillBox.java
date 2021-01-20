@@ -96,12 +96,27 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 			Map<String, String> tmp = new HashMap<>();
 			//iterating over keys only and selects those starting with "outMess" or "redLed"
 		    for (String key : currentState.keySet()) {
-		        if (key.startsWith("outMess") || key.startsWith("redLed")) 
+		        if (key.startsWith("outMess") || key.startsWith("redLed") || key.startsWith("logMess")) 
 		        	tmp.put(key,currentState.get(key));	
 		    }
 			return tmp;
 			
 		}
+	
+	
+
+	public Map<String, String>  getOutputForProbing() {
+		Map<String, String> tmp = new HashMap<>();
+		//iterating over keys only and selects those starting with ...
+	    for (String key : currentState.keySet()) {
+	        if (key.startsWith("isPillMissed") || key.startsWith("pillTakenWithDelay") || key.startsWith("actual_time_consumption") ||
+	        	key.startsWith("drugIndex") || key.startsWith("name") || key.startsWith("time_consumption") ||
+	        	key.startsWith("redLed") || key.startsWith("day")	) 
+	        	tmp.put(key,currentState.get(key));	
+	    }
+		return tmp;
+		
+	}
 	
 	public Probe getProbe() {
 		
@@ -132,9 +147,10 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	        System.out.println("PillBox ON, enter user input> ");	
 	        try {
 	         String str = s.nextLine();
-	         while (! str.equals("###")) { 	
+	         while (! str.equals("###") && ! str.isBlank()) { 	
 					p.run(str);
 					System.out.println("Output to patient: "+p.getOutputToPatient().toString());
+					System.out.println("Output for probing: "+p.getOutputForProbing().toString());
 					System.out.println("Enter user input> ");
 					str = s.nextLine();
 				}
