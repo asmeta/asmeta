@@ -43,7 +43,7 @@ import asmeta.definitions.domains.UndefDomain;
 
 public class AsmetaSserviceRun extends InteractiveMFReader{
 	
-	private static int id;	//Simulator's id give by AsmetaSservice
+	private static int id;	//Simulator's id given by AsmetaSservice
 	private String locationToFind; //Location to find in list, set by readValue
 	private static Map<Location, Value> monitored; //I must save here the monitored function thanks to readValue because after run the monitored are deleted. It's static because extend.
 	
@@ -65,30 +65,33 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 		else if(mode == RunMode.RUN_UNTIL_EMPTY)
 			sim.runUntilEmpty();
 		
-		state = sim.getCurrentState();
+		state = sim.getCurrentState(); 
 		
 		State previousState = sim.previousState;
 		
 		//Set previous state
 		AsmetaSservice.getInstance().getSimulatorTable().get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null));
+		System.out.println("\nPatrizia: monitored locs in the current state: "+state.getMonLocsState().toString());
 		
 		//Update current State
 		AsmetaSservice.getInstance().getSimulatorTable().get(id).setState(new MyState(state.getContrLocs(false), monitored));
+		System.out.println("\nPatrizia: monitored locs in the current state: "+state.getMonLocsState().toString());
+		System.out.println("\nPatrizia: monitored locs in the current state (as re-built): "+monitored.toString());
 	}
 	
 	/**
-	 * Convert string value only for monitored.
-	 * In this method I must save location and value of the monitored function because in the simulator this value are been delete
+	 * Convert string value only for monitored functions.
+	 * In this method I must save location and value of the monitored function because in the simulator this value is deleted
 	 */
 	@Override
 	public Value readValue(Location location, State state) {
-		Function func = location.getSignature();
-		locationToFind = location.toString();
-		System.out.println("Ciao func "+func.getName()+" codomain: "+func.getCodomain().getName() +" locationToFind: " + locationToFind);
+		Function func = location.getSignature(); //e.g.: isPillMissed; location.getElements() e.g. (compartment2)
+		locationToFind = location.toString(); //e.g.: isPillMissed(compartment2)
+		System.out.println("Patrizia func "+func.getName()+" codomain: "+func.getCodomain().getName() +" locationToFind: " + locationToFind);
 		Value value =  visit(func.getCodomain());
-		
-		monitored.put(location, value);//Patrizia: qui viene usato "value" per tutte le locazioni con nome location.getSignature (simbolo di funzione)
-		System.out.println("Ciao monitored: "+monitored.toString());
+		System.out.println("Patrizia value found: "+ value.toString());
+		monitored.put(location, value);
+		System.out.println("Patrizia monitored: "+monitored.toString()+"\n");
 		return value;
 	}
 	//Not overriden version of readValue:
@@ -103,16 +106,17 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 	public void readLine() {
 		for(Map.Entry<String, String> m: AsmetaSservice.getInstance().getSimulatorTable().get(id).getLocationValue().entrySet()) {	//Find the value of a particular location in list
 			if (m.getKey().equals(locationToFind)) {
+				System.out.println("\nPatrizia set-line: "+m.getValue()+" for function "+ locationToFind);
 				setLine(m.getValue());
 				return;	//I Suppose that I found it
 			}
 		}
+		System.out.println("\nPatrizia line for function "+ locationToFind + " not found!");
 	}
 	
 	@Override
 	public IntegerValue visit(IntegerDomain domain) throws InputMismatchException {
 		IntegerValue value = null;
-		System.out.println("ciao"+getLine());
 		readLine();
 		value = new Parser(getLine()).visit(domain);
 
@@ -187,6 +191,7 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 		SequenceValue value = null;
 		
 		readLine();
+		System.out.println("Patrizia readLine() in a Sequence domain: "+getLine());
 		value = new Parser(getLine()).visit(domain);
 		
 		return value;
