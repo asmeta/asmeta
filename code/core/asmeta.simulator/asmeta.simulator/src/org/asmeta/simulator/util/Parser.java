@@ -105,7 +105,6 @@ public class Parser extends ReflectiveVisitor<Value> {
 	 */
 	public IntegerValue visit(IntegerDomain domain) throws InputMismatchException {
 		int i = scanner.scanInt();
-		System.out.print("ciao"+i);
 		return new IntegerValue(i);
 	}
 
