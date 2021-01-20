@@ -33,7 +33,7 @@ public class Main {
         System.out.println("PillBox ON, enter user input> ");	
         try {
          String str = s.nextLine();
-         while (! str.equals("###")) { 	
+         while (! str.equals("###") && ! str.isBlank()) { 	
         	    e.sanitiseInput(str); //system input sanitisation 
           	    managedSystem.run(str);
           	    System.out.println("Output to patient: "+managedSystem.getOutputToPatient().toString());

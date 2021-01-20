@@ -15,34 +15,41 @@ signature:
 	//*************************************************
 	// FUNCTIONS
 	//*************************************************
-	dynamic monitored openSwitch: Compartment -> Boolean
-	dynamic out opened: Compartment -> Boolean //Controlled
-	dynamic out redLed: Compartment -> LedLights //Controlled
-	dynamic out outMess: Compartment -> String //Controlled
-	dynamic out logMess: Compartment -> String //Controlled
-	dynamic out time_consumption: Compartment -> Seq(Natural) //Controlled
-	dynamic out name: Compartment -> String //Controlled
-	dynamic out drugIndex: Compartment -> Natural //Controlled
-	dynamic out actual_time_consumption: Compartment -> Seq(Natural) //Which time is the pill taken //Controlled
-	dynamic out skipPill: Compartment -> Seq(Boolean) //If true skip pill otherwise no //Controlled
-	dynamic out day: Integer //Controlled
-	
-	out nextDrugIndex: Compartment -> Natural // next drug index of the given compartment //Derived
+	//OUT to Safe Pillbox
+	out redLed: Compartment -> LedLights
+	out time_consumption: Compartment -> Seq(Natural)
+	out name: Compartment -> String
+	out drugIndex: Compartment -> Natural 
+	out actual_time_consumption: Compartment -> Seq(Natural) //Which time is the pill taken 
+	out day: Integer //Controlled
+	out nextDrugIndex: Compartment -> Natural // next drug index of the given compartment 
 	//Patient has missed the pill
-	out isPillMissed: Compartment -> Boolean//Derived
-	out pillTakenWithDelay: Compartment -> Boolean // is true if the patient takes the pill (compartment opened) //Derived
+	out isPillMissed: Compartment -> Boolean
+	out pillTakenWithDelay: Compartment -> Boolean // is true if the patient takes the pill (compartment opened) 
 	
-	// The systemTime is expressed as the number of hours passed since the 01/01/1970
-	dynamic monitored systemTime: Natural //Time in minutes since midnight
-	dynamic out compartmentTimer: Compartment -> Natural//Controlled
-	static tenMinutes: Integer
-	
-	//NEW
+	//IN from Safe Pillbox
 	monitored setNewTime: Compartment -> Boolean //when pill is missed if true set new time, otherwise reset original time
 	monitored newTime: Compartment -> Natural //new time when pill is missed
 	monitored skipNextPill: Prod(Compartment,Compartment) -> Boolean //pill taken with delay if next pill causes minToInterfer violation is true
 	
-	derived next: Compartment ->  Powerset(Compartment) 
+	//System functions
+	controlled opened: Compartment -> Boolean 
+	controlled skipPill: Compartment -> Seq(Boolean) //If true skip pill otherwise no 
+	controlled compartmentTimer: Compartment -> Natural
+	
+	//IN from patient
+	monitored openSwitch: Compartment -> Boolean
+	
+	//OUT to patient 
+	out outMess: Compartment -> String
+	out logMess: Compartment -> String
+	
+	//Time management
+	// The systemTime is expressed as the number of hours passed since the 01/01/1970
+	monitored systemTime: Natural //Time in minutes since midnight
+	
+	derived next: Compartment ->  Powerset(Compartment) //Set of next compartmentes
+	
 	
 	//*************************************************
 	// STATIC VARIABLES
@@ -51,6 +58,7 @@ signature:
 	static compartment3: Compartment	
 	static compartment4: Compartment
 	
+	static tenMinutes: Integer
 	
 	
 definitions:
@@ -70,10 +78,10 @@ definitions:
 	/*if redLed($compartment) = OFF then if (at(time_consumption($compartment),drugIndex($compartment))<systemTime) then r_pillToBeTaken[$compartment] endif endif
 quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime e se è così dice che è da prendere... Però se ho medA = 100 e med B=200, a 100 prendo medA ma quando arrivo a 200 mi dice che devo prendere sia medA che medB */	
 	//Pill is taken 	
-	turbo rule r_PillTaken($compartment in Compartment) =
+	rule r_PillTaken($compartment in Compartment) =
 		skipPill($compartment) := replaceAt(skipPill($compartment),drugIndex($compartment),true)
 	//Pill is missed 	
-	turbo rule r_PillMissed($compartment in Compartment) =
+	rule r_PillMissed($compartment in Compartment) =
 		skipPill($compartment) := replaceAt(skipPill($compartment),drugIndex($compartment),true)
 		
 	// Rule that implement the writing on the log file
@@ -93,7 +101,6 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 			if redLed($compartment) != BLINKING and outMess($compartment) != ("Close " + name($compartment) + " in 10 minutes") then compartmentTimer($compartment) := systemTime endif
 			redLed($compartment) := BLINKING
 			outMess($compartment) := "Close " + name($compartment) + " in 10 minutes"	//Pill taken
-			logMess($compartment) := name($compartment) + " taken"			
 			//Hypothesis: the pill is taken when compartment is opened
 			actual_time_consumption($compartment) := replaceAt(actual_time_consumption($compartment),drugIndex($compartment),(systemTime mod 1440n))	
 		endpar
@@ -105,7 +112,7 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 			outMess($compartment) := ""
 			compartmentTimer($compartment) := systemTime
 			drugIndex($compartment) := nextDrugIndex($compartment)
-			r_PillTaken($compartment)
+			r_PillTaken[$compartment]
 		endpar
 	
 				  	
@@ -124,10 +131,11 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 	rule r_compartmentClosed($compartment in Compartment) =
 		par
 			redLed($compartment) := OFF
-			outMess($compartment) := ""
+			outMess($compartment) := ""			
+			logMess($compartment) := name($compartment) + " taken"			
 			compartmentTimer($compartment) := systemTime
 			drugIndex($compartment) := nextDrugIndex($compartment)
-			r_PillTaken($compartment)
+			r_PillTaken[$compartment]
 			forall $c2 in next($compartment) with skipNextPill($compartment, $c2) do
 				r_skipNextPill($compartment,  $c2)
 		endpar
@@ -135,13 +143,13 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 	
 	
 	//Update pill time
-	turbo rule  r_setNewTime ($compartment in Compartment, $deltaTime in Natural)=
+	rule  r_setNewTime ($compartment in Compartment, $deltaTime in Natural)=
 		time_consumption($compartment) := replaceAt(time_consumption($compartment),drugIndex($compartment), $deltaTime)
 	
-	turbo rule r_resetOriginalPillTime($compartment in Compartment, $time in Natural)=			  		
+	rule r_resetOriginalPillTime($compartment in Compartment, $time in Natural)=			  		
 	  	par
 			drugIndex($compartment) := nextDrugIndex($compartment)
-			r_PillMissed($compartment)
+			r_PillMissed[$compartment]
 			//reset to the original time
 			//r_setNewTime[$compartment, $time]
 			time_consumption($compartment) := replaceAt(time_consumption($compartment),drugIndex($compartment), $time)
@@ -158,13 +166,13 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 			compartmentTimer($compartment) := systemTime
 			//In case of missed pill the index is updated in pillbox_sanitizer only if the new pill time violates the invariant (See SafePillbox)
 			//drugIndex($compartment) := drugIndex($compartment) + 1n
-			//r_PillMissed($compartment)
+			//r_PillMissed[$compartment]
 			r_writeToFile[$compartment] 
 			//NEW
 			if setNewTime($compartment) then
-				r_setNewTime($compartment, newTime($compartment))
+				r_setNewTime[$compartment, newTime($compartment)]
 			else
-				r_resetOriginalPillTime($compartment, newTime($compartment))
+				r_resetOriginalPillTime[$compartment, newTime($compartment)]
 			endif
 		endpar	
 		
@@ -176,7 +184,7 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 			logMess($compartment) := name($compartment) + " compartment not closed"
 			compartmentTimer($compartment) := systemTime
 			drugIndex($compartment) := nextDrugIndex($compartment)
-			r_PillTaken($compartment)
+			r_PillTaken[$compartment]
 			r_writeToFile[$compartment]
 		endpar	
 		

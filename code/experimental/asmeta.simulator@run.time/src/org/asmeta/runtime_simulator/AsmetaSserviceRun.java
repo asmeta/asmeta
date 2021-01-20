@@ -45,7 +45,7 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 	
 	private static int id;	//Simulator's id give by AsmetaSservice
 	private String locationToFind; //Location to find in list, set by readValue
-	private static Map<Location, Value> monitored; //I must save here the monitored function thanks to readValue because after run the monitored are delete. It's static because extend.
+	private static Map<Location, Value> monitored; //I must save here the monitored function thanks to readValue because after run the monitored are deleted. It's static because extend.
 	
 	public AsmetaSserviceRun(int id) {
 		super(System.in, System.out);
@@ -84,12 +84,17 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 	public Value readValue(Location location, State state) {
 		Function func = location.getSignature();
 		locationToFind = location.toString();
-		
+		System.out.println("Ciao func "+func.getName()+" codomain: "+func.getCodomain().getName() +" locationToFind: " + locationToFind);
 		Value value =  visit(func.getCodomain());
 		
-		monitored.put(location, value);
+		monitored.put(location, value);//Patrizia: qui viene usato "value" per tutte le locazioni con nome location.getSignature (simbolo di funzione)
+		System.out.println("Ciao monitored: "+monitored.toString());
 		return value;
 	}
+	//Not overriden version of readValue:
+	//Function func = location.getSignature();
+	//out.println("Insert a " + domainPrinter.visit(func.getCodomain()) + " for " + location.toString() + ":");
+	//return visit(func.getCodomain());
 	
 	/**
 	 * Set the value of location only for monitored
@@ -107,9 +112,10 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 	@Override
 	public IntegerValue visit(IntegerDomain domain) throws InputMismatchException {
 		IntegerValue value = null;
-		
+		System.out.println("ciao"+getLine());
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+
 
 		return value;
 	}
@@ -203,6 +209,7 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 	@Override
 	public EnumValue visit(EnumTd domain) throws InputMismatchException {
 		EnumValue value = null;
+		
 
 		readLine();
 		value = new Parser(getLine()).visit(domain);

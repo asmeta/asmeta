@@ -16,14 +16,11 @@ signature:
 	controlled id: Medicine -> String
 	derived minTimeToIntake: Medicine -> Natural //amount of time to wait at least for the next intake of the same medicine
 	derived minToInterferer: Prod(Medicine,Medicine) -> Natural //indicates the minimum separation (in terms of minutes) from the medicine M to the interferer N
-	//derived minFrInterferer: Prod(Medicine,Medicine) -> Natural //minimum separation (in terms of minutes) from the interferer N to the medicine M
 	derived interferesWith: Prod(Medicine,Medicine) -> Boolean //indicates whether medicine M interferes with medicine N or not
 	derived time: Medicine ->  Seq(Natural) //time schedule to intake the pill 
 	derived amount: Medicine -> Natural //number of pills per day
 	derived deltaDelay: Medicine -> Natural //delta time added when pill is missed
-
-	//derived next: Medicine -> Powerset(Medicine) //next medicine(s) to intake w.r.t. a current medicine (note that there may be more than one medicine to take at a given time)  
-		
+	
 	definitions:
 	
 	//*************************************************

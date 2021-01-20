@@ -15,20 +15,21 @@ signature:
 	// FUNCTIONS
 	//*************************************************
 	
-	dynamic controlled state: States
-	derived next: Compartment ->  Powerset(Compartment) 
-	dynamic controlled prevRedLed: Compartment -> LedLights
+	controlled state: States
+	controlled prevRedLed: Compartment -> LedLights
 	controlled amount: String -> Natural
 	controlled minTimeToIntake: String -> Natural 
 	controlled minToInterferer: Prod(String,String) -> Natural
 	controlled time: String -> Seq(Natural)
 	controlled medicine_list: Seq(String)
-	derived ledStatusUpdateOk: Compartment -> Boolean
 	controlled deltaDelay: String -> Natural
 	controlled nextDrugIndexN: Compartment ->Natural
-	static incrementMedicineTime: Integer
 	
-	//IN
+	derived next: Compartment ->  Powerset(Compartment) 
+	derived ledStatusUpdateOk: Compartment -> Boolean
+	
+	
+	//IN from Pillbox
 	monitored time_consumption: Compartment -> Seq(Natural)
 	monitored name: Compartment -> String
 	monitored drugIndex: Compartment -> Natural

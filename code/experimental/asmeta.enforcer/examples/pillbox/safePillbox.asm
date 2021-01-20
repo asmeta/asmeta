@@ -10,18 +10,22 @@ signature:
 	//*************************************************
 	// FUNCTIONS
 	//*************************************************
-	//IN
+	//IN from Pillbox
 	monitored isPillMissed: Compartment -> Boolean //pill missed
 	monitored pillTakenWithDelay: Compartment -> Boolean // is true if the patient takes the pill but it causes mintointerfer violation
 	monitored actual_time_consumption: Compartment -> Seq(Natural) //Which time is the pill taken
-	dynamic monitored systemTime: Natural //Time in minutes since midnight
 	monitored day: Integer //Day number since first day of use
 	
-	//OUT
-	dynamic out setNewTime: Prod(Compartment, Natural) -> Boolean //pill is missed and new time must be set = previous + delay,
+	//OUT to Pillbox
+	out setNewTime: Prod(Compartment, Natural) -> Boolean //pill is missed and new time must be set = previous + delay,
 	// if mintointerfer is violated this is false and the time is set to the original value
 	out newTime: Prod(Compartment, Natural) -> Natural //new pill time
 	out skipNextPill: Prod(Compartment,Compartment) -> Boolean //is next compartment skipped? It can be that more than one next compartments are skipped (current compartment, skip compartment)
+	
+	
+	//Time management
+	// The systemTime is expressed as the number of hours passed since the 01/01/1970
+	monitored systemTime: Natural //Time in minutes since midnight
 	
 	//*************************************************
 	// STATIC VARIABLES
@@ -47,7 +51,7 @@ definitions:
 			state := NORMAL
 		endpar
 		
-	rule r_MAPE = 
+	rule r_enforce = 
 	  forall $compartment in Compartment do 
 	  par
 	  	if isPillMissed($compartment) then //M
@@ -92,7 +96,7 @@ definitions:
 				endpar
 		endif
 				
-	rule r_NORMAL_FUNCT =  par r_keepPrevLiths[] r_MAPE[] r_resetMidnight[] endpar //r_CompartmentMgmt[] 
+	rule r_NORMAL_FUNCT =  par r_keepPrevLiths[] r_enforce[] r_resetMidnight[] endpar //r_CompartmentMgmt[] 
     
   
 		

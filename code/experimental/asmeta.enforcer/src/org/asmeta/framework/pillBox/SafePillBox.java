@@ -82,13 +82,14 @@ public class SafePillBox {
 	// Split the input cmd by whitespace and create an input object to be used for the ASM system model; note that input
 	//can be partial, missing monitored functions are 
 	private Map<String, String> prepareInput(String cmd) {	
-					Map<String, String> data = new HashMap<>();
+		Map<String, String> data = new HashMap<>();
+		if (!cmd.isBlank()) {			
 					String[] input = cmd.split(" ");
 					for(int i=0; i<input.length; i+=2) {
 					     data.put(input[i],input[i+1]); //put monitored value (key,value)  
 					     System.out.println("("+input[i]+","+input[i+1]+")");
-					}
-					return data;
+					}}
+		return data;
 	}
 	
 	
@@ -104,8 +105,6 @@ public class SafePillBox {
 			
 		}
 	
-
-
 
 	public boolean shutDown() {
 		modelEngine.stopExecution(id);
@@ -127,7 +126,7 @@ public class SafePillBox {
 	        System.out.println("SafePillBox ON, enter input values> ");	
 	        try {
 	         String str = s.nextLine();
-	         while (! str.equals("###")) { 	
+	         while (! str.equals("###") && ! str.isBlank()) { 	
 					p.run(str);
 					System.out.println("Output to pillbox: "+p.getOutputToPillBox().toString());
 					System.out.println("Enter input value> ");
