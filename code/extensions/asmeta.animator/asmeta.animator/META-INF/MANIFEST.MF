@@ -11,7 +11,8 @@ Require-Bundle: org.apache.log4j,
  asmeta.emf,
  asmeta.parser,
  asmeta.simulator,
- org.eclipse.equinox.p2.ui
+ org.eclipse.equinox.p2.ui,
+ org.eclipse.core.jobs
 Import-Package: org.eclipse.core.runtime,
  org.eclipse.swt.widgets
 Bundle-ClassPath: .

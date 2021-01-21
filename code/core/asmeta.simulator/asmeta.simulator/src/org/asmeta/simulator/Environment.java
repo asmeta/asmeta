@@ -79,11 +79,15 @@ public final class Environment {
 			//TODO use switch expressions !
 			TemporalUnit timeunit = null;
 			switch(location.getName()){
+			// problema se li leggo in istanti diversi ma nello stesso stato
+			// ho tre valori distinti on multipli esatti
 			case "mCurrTimeNanosecs": timeunit = ChronoUnit.NANOS; break;
 			case "mCurrTimeMillisecs": timeunit = ChronoUnit.MILLIS; break;
 			case "mCurrTimeSecs": timeunit = ChronoUnit.SECONDS; break;
 			}
-			if (timeunit!= null) value = new IntegerValue(startFrom.until(Instant.now(), timeunit));
+			if (timeunit!= null) {
+				value = new IntegerValue(startFrom.until(Instant.now(), timeunit));
+			}
 		} 	
 		if (value == null)
 			value = monFuncReader.read(location, state);

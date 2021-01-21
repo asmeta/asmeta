@@ -72,7 +72,9 @@ public class AnimatorHandler extends AbstractHandler {
 //					System.setOut(printOut);
 			outputfromSim = new WriterAppender(new PatternLayout("%m%n"), out);
 //			Logger.getLogger("org.asmeta.simulator").addAppender(outputfromSim);
-			Logger.getLogger(Simulator.class).addAppender(outputfromSim);
+			Logger simulatorLogger = Logger.getLogger(Simulator.class);
+			if (!simulatorLogger.getAllAppenders().hasMoreElements())
+				simulatorLogger.addAppender(outputfromSim);
 			Logger.getLogger(Simulator.class).setLevel(Level.ALL);
 		}
 		// run the animator

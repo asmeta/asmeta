@@ -15,22 +15,30 @@ import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ScrollBar;
@@ -43,7 +51,41 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import asmeta.AsmCollection;
 
-public class VisualizationSimulation implements VisualizationSimulationI {	
+public class VisualizationSimulation implements VisualizationSimulationI {
+
+	// for executing evert to tseconds
+	public class RepeatingJob extends Job {
+		private boolean running = true;
+		protected long repeatDelay = 1000;
+		private AsmTestGeneratorMixedSimulation tg;
+
+		public RepeatingJob(AsmTestGeneratorMixedSimulation tg) {
+			super("executing random stesp every ...");
+			this.tg = tg;
+		}
+
+		public boolean shouldSchedule() {
+			return running;
+		}
+
+		public void stop() {
+			running = false;
+		}
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			MyState state = tg.runSimulation(1);
+			Display.getDefault().syncExec(new Runnable() {
+			    public void run() {
+			    	showFunctionsRandomSimulation(state);
+			    }
+			});
+			schedule(repeatDelay);
+			return org.eclipse.core.runtime.Status.OK_STATUS;
+		}
+	}
+
+	RepeatingJob job;
 
 	// get the logger form the simulator
 	static Logger log = Logger.getLogger(Simulator.class);
@@ -60,11 +102,13 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	private Text textStepNumber, textError, textInvariant;
 	private AsmCollection asm;
 	private Label lblInvariant, lblInsertStepNumber;
-	private Button btnStep, btnStep2, btnStepTime, btnMoveControlledUp, btnMoveControlledDown, btnMoveMonitoredUp,
-			btnMoveMonitoredDown;
+	private Button btnRndStep, btnInterStep, btnStepTime, btnMoveControlledUp, btnMoveControlledDown,
+			btnMoveMonitoredUp, btnMoveMonitoredDown;
 	private Color updateColor, newFunctionColor, red;
 	private Image arrowUp, arrowDown;
 	private String lastMonitoredInteractiveValue;
+
+	private Text timeStep;
 
 	/**
 	 * Launch the application. Open the window for interactive simulation.
@@ -110,6 +154,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		runMixedSimulation();
 	}
 
+	// init the graphical parts and the listeners of the buttons.
 	private void runMixedSimulation() {
 		AsmTestGeneratorMixedSimulation tg = new AsmTestGeneratorMixedSimulation(asm, this);
 		try {
@@ -128,10 +173,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			e1.printStackTrace();
 		}
 		/* Execute one step when push the button "Do one step" */
-		btnStep.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
+		btnRndStep.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -140,15 +182,11 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 				// System.out.println("RANDOM SIMULATION");
 				for (int i = 0; i < stepNumber; i++) {
 					MyState state = tg.runSimulation(stepNumber);
-					showFunctionsRandomSimulation(table_functions_left_up, table_states_right_up,
-							table_functions_left_down, table_states_right_down, state);
+					showFunctionsRandomSimulation(state);
 				}
 			}
 		});
-		btnStep2.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
+		btnInterStep.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -158,6 +196,30 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 				showFunctionsInteractiveSimulation(state);
 			}
 		});
+		btnStepTime.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Button source = (Button) e.getSource();
+				if (source.getSelection()) {
+					// start
+					tg.setRandom();
+					try {
+						int delay = Integer.parseInt(timeStep.getText());
+						if (job == null)
+							job = new RepeatingJob(tg);
+						job.running = true;
+						job.repeatDelay = delay;
+						job.schedule(delay); //
+					} catch (NumberFormatException nfe) {
+						System.err.println(nfe.getMessage());
+					}
+				} else {
+					job.running = false;
+					System.out.println("stop");
+				}
+			}
+		});
+
 	}
 
 	private void generateGraphicalElements(Display display, Shell shlAsmetaa) {
@@ -204,19 +266,19 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		composite.setLayout(new GridLayout(1, false));
 		new Label(composite, SWT.NONE);
 		// add the button for interactive
-		btnStep2 = new Button(composite, SWT.NONE);
-		btnStep2.setForeground(SWTResourceManager.getColor(255, 255, 255));
-		btnStep2.setBackground(SWTResourceManager.getColor(0, 0, 255));
-		btnStep2.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		btnInterStep = new Button(composite, SWT.NONE);
+		btnInterStep.setForeground(SWTResourceManager.getColor(255, 255, 255));
+		btnInterStep.setBackground(SWTResourceManager.getColor(0, 0, 255));
+		btnInterStep.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
 		// only text
-		btnStep2.setText("Do one interactive step");
+		btnInterStep.setText("Do one interactive step");
 		new Label(composite, SWT.NONE);
 		// Show button to perform simulation steps
-		btnStep = new Button(composite, SWT.NONE);
-		btnStep.setForeground(SWTResourceManager.getColor(255, 255, 255));
-		btnStep.setBackground(SWTResourceManager.getColor(0, 0, 255));
-		btnStep.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
-		btnStep.setText("Do random step/s");
+		btnRndStep = new Button(composite, SWT.NONE);
+		btnRndStep.setForeground(SWTResourceManager.getColor(255, 255, 255));
+		btnRndStep.setBackground(SWTResourceManager.getColor(0, 0, 255));
+		btnRndStep.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		btnRndStep.setText("Do random step/s");
 		lblInsertStepNumber = new Label(composite, SWT.NONE);
 		lblInsertStepNumber.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
 		lblInsertStepNumber.setBackground(SWTResourceManager.getColor(255, 255, 255));
@@ -231,28 +293,42 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		gd_textStepNumber.widthHint = 175;
 		textStepNumber.setLayoutData(gd_textStepNumber);
 		// allow only numbers
-		textStepNumber.addListener(SWT.Verify, new Listener() {
+		textStepNumber.addVerifyListener(new VerifyListener() {
 			@Override
-			public void handleEvent(Event e) {
-				String string = e.text;
-				char[] chars = new char[string.length()];
-				string.getChars(0, chars.length, chars, 0);
-				for (int i = 0; i < chars.length; i++) {
-					if (!('0' <= chars[i] && chars[i] <= '9')) {
-						e.doit = false;
-						return;
-					}
+			public void verifyText(VerifyEvent e) {
+				try {
+					Integer.valueOf(((Text) e.widget).getText());
+				} catch (NumberFormatException ex) {
+					e.doit = false;
 				}
 			}
 		});
 		new Label(composite, SWT.NONE);
-		// add the button for automatic time 
-		btnStepTime = new Button(composite, SWT.TOGGLE);
+		// add as group automatci progress
+		Group timeStepGroup = new Group(composite, SWT.NONE);
+		timeStepGroup.setLayout(new RowLayout(SWT.HORIZONTAL));
+		// add the button for automatic time
+		btnStepTime = new Button(timeStepGroup, SWT.TOGGLE);
 		btnStepTime.setForeground(SWTResourceManager.getColor(255, 255, 255));
 		btnStepTime.setBackground(SWTResourceManager.getColor(0, 0, 255));
 		btnStepTime.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
-		btnStepTime.setText("Do one step every XX seconds");
-		//
+		btnStepTime.setText("Do one step every milliseconds");
+		// add the textfield for time step
+		timeStep = new Text(timeStepGroup, SWT.BORDER);
+		timeStep.setBackground(SWTResourceManager.getColor(245, 245, 245));
+		timeStep.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		timeStep.setText("1");
+		timeStep.setTouchEnabled(true);
+		timeStep.addVerifyListener(new VerifyListener() {
+			@Override
+			public void verifyText(VerifyEvent e) {
+				try {
+					Integer.valueOf(((Text) e.widget).getText());
+				} catch (NumberFormatException ex) {
+					e.doit = false;
+				}
+			}
+		});
 		new Label(composite, SWT.NONE);
 		// invariant checker
 		lblInvariant = new Label(composite, SWT.WRAP);
@@ -314,6 +390,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 		// add listener to show functions
 		btnMoveMonitoredDown.addSelectionListener(new SelectionListener() {
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
@@ -380,12 +457,12 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	protected void exportToAvalla() {
 		log.info("//// starting scenario");
 		log.info("scenario " + "SCENARIO_NAME");
-		log.info("load " + asm.getMain().getName()+".asm");
-		// DOWN 
-		// TODO UP 
+		log.info("load " + asm.getMain().getName() + ".asm");
+		// DOWN
+		// TODO UP
 		// TODO create new file/document
 		TableItem[] states = table_states_right_down.getItems();
-		TableItem[] functions = table_functions_left_down.getItems();		
+		TableItem[] functions = table_functions_left_down.getItems();
 		// get the states in items
 		for (int column = 0; column < table_states_right_down.getColumnCount(); column++) {
 			// controlled and then monitored
@@ -406,7 +483,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 						if (functionType.equals("M"))
 							log.info("set " + functionName + " := " + text + ";");
 						else
-							log.info("check " + functionName + " = " + text+ ";");
+							log.info("check " + functionName + " = " + text + ";");
 					}
 				}
 			}
@@ -713,8 +790,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	}
 
 	// Show value of function when interactive simulation is performed
-	void showFunctionsRandomSimulation(Table table_functions_left_up, Table table_states_right_up,
-			Table table_functions_left_down, Table table_states_right_down, MyState state) {
+	void showFunctionsRandomSimulation(MyState state) {
 		TableColumn column1_up = new TableColumn(table_states_right_up, SWT.NONE);
 		column1_up.setText("State " + (table_states_right_up.getColumnCount() - 1));
 		TableColumn column1_down = new TableColumn(table_states_right_down, SWT.NONE);
