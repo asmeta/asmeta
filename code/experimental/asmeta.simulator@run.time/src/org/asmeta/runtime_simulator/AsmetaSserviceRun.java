@@ -197,7 +197,6 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 		SequenceValue value = null;
 		
 		readLine();
-		System.out.println("Patrizia readLine() in a Sequence domain: "+getLine());
 		value = new Parser(getLine()).visit(domain);
 		
 		return value;

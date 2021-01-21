@@ -17,7 +17,8 @@ public class KnowledgePB extends Knowledge {
     //public List<Double> endTimeList = new ArrayList<Double>();    
 	
 	/** Monitored values from the PillBox*/ 
-	Map<String, String> input; //user input for the PillBox
+	Map<String, String> input; //user input for the PillBox, and eventually sanitised by the enforcer
+	Map<String, String> probes; //probing values as exposed by the PillBox
 	Map<String, String> output; //output as computed by the PillBox, and eventually sanitised by the enforcer
 	   
 
@@ -26,12 +27,16 @@ public class KnowledgePB extends Knowledge {
 	}
    
 		
-	 //Overloading (by the new parameter); checks and eventually store the new system output value if different
-	public boolean systemStateChanged(Map<String, String> newOutput){
-		  if (output.equals(newOutput)) return false;
-		  output = newOutput;
-		  return true;
-		}
+	 //Overloading (by the new parameter); checks and eventually store the new system probing values if different
+	public boolean systemStateChanged(Map<String, String> newProbes){
+		System.out.println("Ciao: "+newProbes.toString()); 
+		if (probes == null || !probes.equals(newProbes)) {
+			  probes = newProbes;
+			  return true;
+		  }
+		System.out.println("UGUALE a: "+probes.toString()); 
+		return false;
+	}
 	
 	public void setInput(Map<String, String> newInput){
 		input = newInput;
@@ -41,5 +46,8 @@ public class KnowledgePB extends Knowledge {
 		return input;
 	}
 	
+	public Map<String, String> getOutput(){
+		return output;
+	}
 	
 }

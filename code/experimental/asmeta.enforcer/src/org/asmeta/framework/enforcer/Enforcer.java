@@ -6,10 +6,6 @@
 package org.asmeta.framework.enforcer;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimerTask;
-
 import org.asmeta.framework.auxiliary.Utility;
 import org.asmeta.framework.managedSystem.*;
 
@@ -17,8 +13,7 @@ import org.asmeta.framework.managedSystem.*;
 import org.asmeta.runtime_container.*;
 
 
-public abstract class Enforcer {//extends TimerTask{
-	
+public abstract class Enforcer {
 	private static String configFile;
 
 	/** MAPE-K loop handle*/
@@ -34,10 +29,10 @@ public abstract class Enforcer {//extends TimerTask{
 	private Knowledge knowledge;
 
     /** Simulation timeout*/
-    private static long SIMULATION_TIMEOUT;
+    protected static long SIMULATION_TIMEOUT;
     
     /** Runtime model pathname*/
-    private static String RUNTIME_MODEL_PATH;
+    protected static String RUNTIME_MODEL_PATH;
     
     /** Runtime model handle*/
     private SimulationContainer modelEngine; 
@@ -73,7 +68,7 @@ public abstract class Enforcer {//extends TimerTask{
 			else {
 			    //connect the ASM runtime model to the loop
 				loop.setModel(modelEngine);
-				System.out.println("Model engine initialized for "+ RUNTIME_MODEL_PATH + " with simulation step timeout " + SIMULATION_TIMEOUT + " seconds");
+				System.out.println("Enforcer and ASM@run.time model engine initialized for <"+ RUNTIME_MODEL_PATH + "> with simulation timeout of " + SIMULATION_TIMEOUT + " seconds");
 			}
 	    }
 	    catch (Exception e) {
@@ -137,7 +132,7 @@ public abstract class Enforcer {//extends TimerTask{
 		}
 	}
 
-	//TODO Ho dovuto farlo per poter impostare il modello nella versione senza MAPEK loop, così non cambio la visibilità della variabile. Va bene?
+	
 	/**
 	 * Sets the simulation engine.
 	 * Should only be used inside inherited default constructor
@@ -146,7 +141,8 @@ public abstract class Enforcer {//extends TimerTask{
 		if (modelEngine == null)
 			modelEngine = engine;
 	}
-	//TODO Se voglio usarlo mi serve anche un get. (anche se in realtà essendo singleton basterebbe .getInstance un'altra volta)
+	
+	
 	/**
 	 * Returns the current enforcer simulation engine.
 	 */

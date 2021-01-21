@@ -23,14 +23,15 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 		kPB= (KnowledgePB) this.getKnowledge();
 		probePB = (PillBox) this.getProbe();
 		effectorPB = (PillBox) this.getEffector();
+		
 	}
 
 	@Override
 	public void monitor() {
 		//Read and save the observed probe values from the PillBox into the knowledge
 		//and check if system changed
-		if (kPB.systemStateChanged(probePB.getOutput())) 
-			//if the system produced a new output, perform analysis (output sanitisation by adaptation)
+		if (kPB.systemStateChanged(probePB.getOutputForProbing())) 
+			//if system changed, perform analysis (enforcement by adaptation)
 			analysis();
 		}
 	
@@ -47,7 +48,7 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 	
   
 	private boolean analyzeKnowledge() {
-		 return true; //Can we invoke here only the ASM sanitizer for checking invariants only with the model rolling back in case of violation?
+		 return true; //We could invoke here only the ASM pillbox_sanitiser for checking invariants (safety assertions) only with the model rolling back in case of violation
 	}
 	
 	@Override

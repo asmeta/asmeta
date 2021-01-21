@@ -21,7 +21,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	
 	 /** Runtime model simulator*/
     private SimulationContainer modelEngine; 
-    private int id;
+    private int id; //model simulation identifier
     private Map<String, String> currentState; //system current state
     private String SYSTEM_MODEL_PATH;
  
@@ -47,7 +47,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
     //openSwitch(compartment2) false openSwitch(compartment3) false set openSwitch(compartment4) true systemTime 414 
 	public Map<String, String> run (String input) {
 		System.out.println (prepareInput(input).toString());
-		RunOutput result = modelEngine.runStep(1, prepareInput(input));
+		RunOutput result = modelEngine.runStep(id, prepareInput(input));
 		//Usage:
 		//result.getEsit(); //SAFE or UNSAFE
 		//result.getResult(); //Timeout expired or not
@@ -67,7 +67,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	
     //overloading
 	public Map<String, String> run (Map<String, String> input) {
-		RunOutput result = modelEngine.runStep(1, input);
+		RunOutput result = modelEngine.runStep(id, input);
 		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map
 			//currentState.putAll(result.getControlledvalues());
@@ -76,7 +76,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 			//output = prepareOutput(result.getControlledvalues());
 		}
 		else 
-			 System.out.println("Error: something got wrong with the outcome of the ASM-based simulated system.");
+			 System.out.println("Error: something got wrong with the outcome of the ASM-based simulated system <"+ SYSTEM_MODEL_PATH +">\"");
 		
 		return currentState;
 
@@ -111,6 +111,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	}
 	
 	
+	//Overall current state of the PillBox
 	public Map<String, String> getOutput() {
 		return prepareOutput(currentState);
 	}
@@ -129,14 +130,14 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 			
 		}
 
-
+	//Output for probing
 	public Map<String, String>  getOutputForProbing() {
 		Map<String, String> tmp = new HashMap<>();
 		//iterating over keys only and selects those starting with ...
 	    for (String key : currentState.keySet()) {
 	        if (key.startsWith("isPillMissed") || key.startsWith("pillTakenWithDelay") || key.startsWith("actual_time_consumption") ||
 	        	key.startsWith("drugIndex") || key.startsWith("name") || key.startsWith("time_consumption") ||
-	        	key.startsWith("redLed") || key.startsWith("day")	) 
+	        	key.startsWith("redLed") || key.startsWith("systemTime") || key.startsWith("day")) 
 	        	tmp.put(key,currentState.get(key));	
 	    }
 		return tmp;
