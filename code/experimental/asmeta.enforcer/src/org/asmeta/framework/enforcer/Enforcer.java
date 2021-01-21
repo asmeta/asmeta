@@ -68,7 +68,7 @@ public abstract class Enforcer {
 			else {
 			    //connect the ASM runtime model to the loop
 				loop.setModel(modelEngine);
-				System.out.println("Enforcer and ASM@run.time model engine initialized for <"+ RUNTIME_MODEL_PATH + "> with simulation timeout of " + SIMULATION_TIMEOUT + " seconds");
+				System.out.println(modelEngine.toString()+"Enforcer and ASM@run.time model engine initialized for <"+ RUNTIME_MODEL_PATH + "> with simulation timeout of " + SIMULATION_TIMEOUT + " seconds");
 			}
 	    }
 	    catch (Exception e) {

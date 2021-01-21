@@ -744,6 +744,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		String name = "";
 		try {
 			nomi = findAllMonitored(nomi, modelPath);
+			System.out.println("Patrizia modelpath: "+ modelPath + "nomi: "+nomi.toString()+"\nlocations: "+locationValue.toString());
+			
 			/*
 			File asmFile = new File(modelPath);
 			if (!asmFile.exists()) {
