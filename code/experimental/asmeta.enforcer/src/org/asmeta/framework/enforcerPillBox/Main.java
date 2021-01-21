@@ -111,13 +111,5 @@ public class Main { //extends JFrame {
         
    }
 		
-		
-	private Map<String, String> prepareInput(String cmd) {	
-		Map<String, String> data = new HashMap<>();
-		String[] input = cmd.split(" ");
-		for(int i=0; i<input.length; i+=2)
-		data.put(input[i],input[i+1]); //put monitored value (key,value)  
-		return data;
-}
 
 }
