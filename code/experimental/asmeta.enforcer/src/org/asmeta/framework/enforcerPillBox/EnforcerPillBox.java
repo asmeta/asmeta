@@ -22,6 +22,10 @@ public class EnforcerPillBox extends Enforcer{
 		kPB.setInput(prepareInput(inputValues));
 		return false; //no input sanitisation applied, only input storing into the knowledge in a tabular form
 	}
+	
+	public Map<String, String> getSanitisedInput(){
+		return ((KnowledgePB) this.loop.getKnowledge()).getInput();
+	}
 
 	@Override
 	public boolean sanitiseOutput(String outputValues) {

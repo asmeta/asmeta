@@ -17,7 +17,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	 /** Runtime model simulator*/
     private SimulationContainer modelEngine; 
     private int id;
-    private Map<String, String> currentState;
+    private Map<String, String> currentState; //system current state
    
  
 	public PillBox(String SYSTEM_MODEL_PATH) {
@@ -59,7 +59,23 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 
 	}
 	
+    //overloading
+	public Map<String, String> run (Map<String, String> input) {
+		RunOutput result = modelEngine.runStep(1, input);
+		if (result.getEsit() == Esit.SAFE) {
+		    //store the new output location value as computed by the ASM into the output map
+			//currentState.putAll(result.getControlledvalues());
+			currentState = result.getControlledvalues(); //Output values from the ASM model
+			//output = prepareOutput(currentState);
+			//output = prepareOutput(result.getControlledvalues());
+		}
+		else 
+			 System.out.println("Error: something got wrong with the outcome of the ASM-based simulated system.");
 		
+		return currentState;
+
+	}
+	
 	private Map<String, String> prepareOutput(Map<String, String> locations) {
 		//TO DO: Filter only the output locations; it should be done in a general manner in the ASM simulator@run.time
 		//Currently, it returns everything
@@ -89,6 +105,10 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	}
 	
 	
+	public Map<String, String> getOutput() {
+		return prepareOutput(currentState);
+	}
+	
 	//Output to patient O={outMess,redLed}
 	//out outMess: Compartment -> String
 	//out redLed: Compartment -> LedLights 
@@ -102,8 +122,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 			return tmp;
 			
 		}
-	
-	
+
 
 	public Map<String, String>  getOutputForProbing() {
 		Map<String, String> tmp = new HashMap<>();
@@ -134,9 +153,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	}
 	
 
-	public Map<String, String> getOutput() {
-		return prepareOutput(currentState);
-	}
+	
 	
 	//To test the PillBox wrapper in a standlone manner
 	//Example of input cmd: systemTime 412 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false 
