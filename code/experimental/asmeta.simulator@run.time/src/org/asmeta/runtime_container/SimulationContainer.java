@@ -783,7 +783,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				//System.err.println("No transition to step " 
 						//+ "  for model " + asmS.getSimulatorTable().get(id).getModelPath()
 							//	.substring(asmS.getSimulatorTable().get(id).getModelPath().lastIndexOf("/") + 1));
-				rout = new RunOutput(Esit.UNSAFE, "monitored name <<" + name + ">> not found");
+				rout = new RunOutput(Esit.UNSAFE, "monitored location name <<" + name + ">> not found");
 				System.err.println(rout.toString());
 			}
 
