@@ -40,6 +40,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	//Input command syntax example: 
     //openSwitch(compartment2) false openSwitch(compartment3) false set openSwitch(compartment4) true systemTime 414 
 	public Map<String, String> run (String input) {
+		 System.out.println("Ciao "+ input);
 		//Map<String, String> output = new HashMap<>();
 		RunOutput result = modelEngine.runStep(1, prepareInput(input));
 		//Usage:

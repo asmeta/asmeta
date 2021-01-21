@@ -14,10 +14,10 @@ import java.awt.*;
 import javax.swing.*; 
 
 //First test class: the managed system is internal to its enforcer
-public class Main extends JFrame {
+public class Main { //extends JFrame {
 	
 	    // frame 
-	    static JFrame f; 
+	    //static JFrame f; 
 	  
 	    // default constructor 
 	    Main() 
@@ -91,7 +91,8 @@ public class Main extends JFrame {
          String str = s.nextLine();
          while (! str.equals("###") && ! str.isBlank()) { 	
         	    e.sanitiseInput(str); //no input sanitisation applied, only input storing into the knowledge 
-        	    System.out.println("User input:"+e.getSanitisedInput().toString());
+        	    //System.out.println("User input:"+e.getSanitisedInput().toString());
+        	    System.out.println("User input: "+str);
         	    //managedSystem.run(e.getSanitisedInput()); //the managed system runs 
         	    managedSystem.run(str);
         	    System.out.println("Output to patient: "+managedSystem.getOutputToPatient().toString());
