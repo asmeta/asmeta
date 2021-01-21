@@ -3,6 +3,7 @@ package org.asmeta.framework.enforcerPillBox;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.asmeta.framework.enforcer.*;
+import org.asmeta.framework.pillBox.PillBox;
 
 
 //import java.awt.*; 
@@ -68,10 +69,10 @@ public class Main { //extends JFrame {
 		PillBox managedSystem =  new PillBox("examples/pillbox/pillbox.asm"); 		
 		//Create system knowledge and feedback loop
 		Knowledge k = new KnowledgePB();
-		FeedbackLoop loop = new FeedbackLoopPillBox(managedSystem.getProbe(),managedSystem.getEffector(),k);
+		//FeedbackLoop loop = new FeedbackLoopPillBox(managedSystem.getProbe(),managedSystem.getEffector(),k);
 		//create a new specialized enforcer for the Pillbox system
 		Enforcer.setConfigFile("./resources/PillBox/config.properties");
-		EnforcerPillBox e = new EnforcerPillBox(managedSystem,k,loop);
+		//EnforcerPillBox e = new EnforcerPillBox(managedSystem,k,loop);
 		
 		 /** Running -- example of safety enforcement via MAPE-K*/
 		 //Causality relation implementation between managed system and the ASM enforcement model: user input reading (by console), system/loop execution
@@ -83,7 +84,7 @@ public class Main { //extends JFrame {
         try {
          String str = s.nextLine();
          while (! str.equals("###") && ! str.isBlank()) { 	
-        	    e.sanitiseInput(str); //no input sanitisation applied, only input storing into the knowledge 
+        	    //e.sanitiseInput(str); //no input sanitisation applied, only input storing into the knowledge 
         	    //System.out.println("User input:"+e.getSanitisedInput().toString());
         	    //System.out.println("User input: "+str);
         	    //managedSystem.run(e.getSanitisedInput()); //the managed system runs 
