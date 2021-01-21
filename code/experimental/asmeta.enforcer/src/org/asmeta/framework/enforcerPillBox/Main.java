@@ -1,17 +1,14 @@
 package org.asmeta.framework.enforcerPillBox;
 
-import java.awt.Cursor;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
 import org.asmeta.framework.enforcer.*;
-import org.asmeta.framework.enforcerAirConditioner.KnowledgeAirConditioner;
 import org.asmeta.framework.pillBox.*;
-import org.apache.log4j.Logger;
-import java.awt.*; 
-import javax.swing.*; 
+//import java.awt.*; 
+//import javax.swing.*; 
 
 //First test class: the managed system is internal to its enforcer
 public class Main { //extends JFrame {
@@ -83,16 +80,14 @@ public class Main { //extends JFrame {
 		 //Once an event triggers the MAPE loop, the loop executes safety checks and eventually adapts the managed system 
 		
 		Scanner s = new Scanner(System.in); 
-		
         System.out.println("PillBox ON, enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$");
         //Cursor c = Cursor.getSystemCustomCursor("Invalid.32x32\");
-       
         try {
          String str = s.nextLine();
          while (! str.equals("###") && ! str.isBlank()) { 	
         	    e.sanitiseInput(str); //no input sanitisation applied, only input storing into the knowledge 
         	    //System.out.println("User input:"+e.getSanitisedInput().toString());
-        	    System.out.println("User input: "+str);
+        	    //System.out.println("User input: "+str);
         	    //managedSystem.run(e.getSanitisedInput()); //the managed system runs 
         	    managedSystem.run(str);
         	    System.out.println("Output to patient: "+managedSystem.getOutputToPatient().toString());
