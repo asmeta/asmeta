@@ -5,12 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.WriterAppender;
 import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
 
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
+import org.asmeta.simulator.main.Simulator;
 
 import asmeta.AsmCollection;
 
@@ -65,10 +70,17 @@ public class AsmetaSservice implements IAsmetaSservice{
 			throw new AsmModelNotFoundException(modelPath);
 		}
 	
+		Logger.getLogger("org.asmeta.parser").addAppender( new WriterAppender(new PatternLayout("%m%n"), System.out));
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
+		//ASMParser.getResultLogger().setLevel(Level.OFF); //Patrizia Jan 2021: to avoid log4J:WARN messages
 		String modelName = asm.getMain().getName();
 		Environment env = new Environment(new AsmetaSserviceRun());
 		SimulatorRT sim = new SimulatorRT(modelName, asm, env);
+		//SimulatorRT.logger.setLevel(Level.OFF); //Patrizia Jan 2021: to avoid log4J:WARN messages
+		//Logger.getLogger(SimulatorRT.class).setLevel(Level.OFF);
+		
+
 		
 		int id = getFirstFreeId();
 		

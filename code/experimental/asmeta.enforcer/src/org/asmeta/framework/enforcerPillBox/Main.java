@@ -8,6 +8,7 @@ import java.util.Scanner;
 import org.asmeta.framework.enforcer.*;
 import org.asmeta.framework.enforcerAirConditioner.KnowledgeAirConditioner;
 import org.asmeta.framework.pillBox.*;
+import org.apache.log4j.Logger;
 
 //First test class: the managed system is internal to its enforcer
 public class Main {
@@ -15,6 +16,10 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
+		System.out.println("#################################################\n"+
+				   "##   Medicine Reminder and Monitoring System   ##\n"+
+				   "#################################################\n"+
+				   "Pillbox initialization (simulated version) ...");
 		/** Initialization*/
 		//Create system handle, probe, and effector
 		PillBox managedSystem =  new PillBox("examples/pillbox/pillbox.asm"); 		
@@ -30,6 +35,7 @@ public class Main {
 		 //Once an event triggers the MAPE loop, the loop executes safety checks and eventually adapts the model and the system 
 		
 		Scanner s = new Scanner(System.in); 
+		
         System.out.println("PillBox ON, enter user input> ");	
         try {
          String str = s.nextLine();

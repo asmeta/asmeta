@@ -115,9 +115,10 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		try {
 			id = asmS.start(modelPath);
 			ids = checkStartId(id);
+			
 
 			sout = new StartOutput(ids, "The id " + ids + " is successfully created");
-			System.out.println(sout.toString());
+			//System.out.println(sout.toString());
 
 		} catch (Exception e) {
 			if (e instanceof MainRuleNotFoundException) {
@@ -198,7 +199,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	// @Override
 	public int stopExecution(int id) {
 		try {
-			System.out.println("the model " + asmS.getModelName(id) + " successfully stopped");
+			System.out.println("Model " + asmS.getModelName(id) + " successfully stopped");
 			asmS.stop(id);
 			id = 1;
 		} catch (RuntimeException e) {
@@ -218,7 +219,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			maxSimInstance = scan.nextInt();
 			scan.close();
 		}
-		System.out.printf("max number of simulators %d" + " successfully instantiated:\n", maxSimInstance);
+		//System.out.printf("Max number of simulators instantiated: %d" + "\n", maxSimInstance);
 		asmS.init(maxSimInstance);
 		return maxSimInstance;
 
@@ -680,7 +681,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 	private static void printRollback(int step, MyState state) {
 
-		System.out.println("<Model rollback to previous step: " + step + ">");
+		System.out.println("Model rollback to previous step: " + step);
 
 		if (state.controlledValues.size() != 0)
 			System.out.println("< Controlled function >");
