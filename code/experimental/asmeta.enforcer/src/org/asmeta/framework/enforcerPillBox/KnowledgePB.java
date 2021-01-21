@@ -1,11 +1,11 @@
+/**
+* 
+*
+* @author Patrizia Scandurra
+*/
 package org.asmeta.framework.enforcerPillBox;
-
-import java.util.HashMap;
 import java.util.Map;
-
 import org.asmeta.framework.enforcer.Knowledge;
-
-
 
 public class KnowledgePB extends Knowledge {
 	 

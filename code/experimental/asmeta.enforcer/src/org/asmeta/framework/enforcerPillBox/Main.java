@@ -1,3 +1,8 @@
+/**
+* 
+*
+* @author Patrizia Scandurra
+*/
 package org.asmeta.framework.enforcerPillBox;
 
 import java.util.InputMismatchException;
@@ -87,8 +92,8 @@ public class Main { //extends JFrame {
         	    e.sanitiseInput(str); //no input sanitisation applied, only input storing into the knowledge 
         	    System.out.println("User input:~$\n"+e.getSanitisedInput().toString());
         	    //System.out.println("User input: "+str);
-        	    //managedSystem.run(e.getSanitisedInput()); //the managed system runs 
-        	    managedSystem.run(str);
+        	    managedSystem.run(e.getSanitisedInput()); //the managed system runs 
+        	    //managedSystem.run(str);
         	    System.out.println("Output to patient:~$\n"+managedSystem.getOutputToPatient().toString());
           	    System.out.println("Output for probing:~$\n"+managedSystem.getOutputForProbing().toString()+"\n");
           	    //e.runLoop(); //system output sanitisation by monitoring and adaptation

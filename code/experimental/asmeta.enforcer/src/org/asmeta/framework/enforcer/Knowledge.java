@@ -1,3 +1,8 @@
+/**
+* 
+*
+* @author Patrizia Scandurra
+*/
 package org.asmeta.framework.enforcer;
 public abstract class Knowledge {
 	

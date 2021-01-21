@@ -1,3 +1,8 @@
+/**
+* 
+*
+* @author Patrizia Scandurra
+*/
 package org.asmeta.framework.enforcerPillBox;
 import java.util.HashMap;
 import java.util.Map;

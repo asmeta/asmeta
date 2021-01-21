@@ -1,3 +1,8 @@
+/**
+* 
+*
+* @author Patrizia Scandurra
+*/
 package org.asmeta.framework.enforcerDefault;
 
 import org.asmeta.framework.enforcer.*;
