@@ -1,4 +1,4 @@
-package org.asmeta.framework.pillBox;
+package org.asmeta.framework.enforcerPillBox;
 
 import java.util.HashMap;
 import java.util.InputMismatchException;

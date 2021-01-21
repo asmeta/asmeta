@@ -1,12 +1,10 @@
 package org.asmeta.framework.enforcerPillBox;
 
-import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.Map;
 import java.util.Scanner;
-
 import org.asmeta.framework.enforcer.*;
-import org.asmeta.framework.pillBox.*;
+
+
 //import java.awt.*; 
 //import javax.swing.*; 
 
@@ -17,9 +15,9 @@ public class Main { //extends JFrame {
 	    //static JFrame f; 
 	  
 	    // default constructor 
-	    Main() 
-	    { 
-	    }   
+	    //Main() 
+	    //{ 
+	    //}   
 	
 	public static void main(String[] args) {
 		
@@ -101,8 +99,6 @@ public class Main { //extends JFrame {
 		catch(InputMismatchException ex) {
 				System.err.println("Error, input illformed.");
 	        } 
-
-        
 		finally {
 		        s.close();
 		        managedSystem.shutDown();
