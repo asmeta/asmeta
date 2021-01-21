@@ -69,10 +69,10 @@ public class Main { //extends JFrame {
 		PillBox managedSystem =  new PillBox("examples/pillbox/pillbox.asm"); 		
 		//Create system knowledge and feedback loop
 		Knowledge k = new KnowledgePB();
-		//FeedbackLoop loop = new FeedbackLoopPillBox(managedSystem.getProbe(),managedSystem.getEffector(),k);
+		FeedbackLoop loop = new FeedbackLoopPillBox(managedSystem.getProbe(),managedSystem.getEffector(),k);
 		//create a new specialized enforcer for the Pillbox system
 		Enforcer.setConfigFile("./resources/PillBox/config.properties");
-		//EnforcerPillBox e = new EnforcerPillBox(managedSystem,k,loop);
+		EnforcerPillBox e = new EnforcerPillBox(managedSystem,k,loop);
 		
 		 /** Running -- example of safety enforcement via MAPE-K*/
 		 //Causality relation implementation between managed system and the ASM enforcement model: user input reading (by console), system/loop execution
@@ -84,13 +84,13 @@ public class Main { //extends JFrame {
         try {
          String str = s.nextLine();
          while (! str.equals("###") && ! str.isBlank()) { 	
-        	    //e.sanitiseInput(str); //no input sanitisation applied, only input storing into the knowledge 
-        	    //System.out.println("User input:"+e.getSanitisedInput().toString());
+        	    e.sanitiseInput(str); //no input sanitisation applied, only input storing into the knowledge 
+        	    System.out.println("User input:~$\n"+e.getSanitisedInput().toString());
         	    //System.out.println("User input: "+str);
         	    //managedSystem.run(e.getSanitisedInput()); //the managed system runs 
         	    managedSystem.run(str);
-        	    System.out.println("Output to patient: "+managedSystem.getOutputToPatient().toString());
-          	    System.out.println("Output for probing: "+managedSystem.getOutputForProbing().toString());
+        	    System.out.println("Output to patient:~$\n"+managedSystem.getOutputToPatient().toString());
+          	    System.out.println("Output for probing:~$\n"+managedSystem.getOutputForProbing().toString()+"\n");
           	    //e.runLoop(); //system output sanitisation by monitoring and adaptation
 				//System.out.println("(Enforced) Output to patient: "+managedSystem.getOutputToPatient().toString());
 				System.out.println("Enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$");

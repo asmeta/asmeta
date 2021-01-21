@@ -18,21 +18,22 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
     private SimulationContainer modelEngine; 
     private int id;
     private Map<String, String> currentState; //system current state
-   
+    private String SYSTEM_MODEL_PATH;
  
-	public PillBox(String SYSTEM_MODEL_PATH) {
+	public PillBox(String model_path) {
 	
 	    //System.out.println("Trying to initialize a simulation engine for "+ SYSTEM_MODEL_PATH);	       
 	    //Initialize an AsmetaS@run.time model engine instance for the runtime system model (the simulated managed system!) 
 		modelEngine = SimulationContainer.getInstance();
 		modelEngine.init(1);
 		currentState = new HashMap<>();
+		SYSTEM_MODEL_PATH = model_path;
 		int result = modelEngine.startExecution(SYSTEM_MODEL_PATH);
 		if (result < 0) 
-			System.err.println("ERROR: Simulation engine not initialized for "+ SYSTEM_MODEL_PATH);
+			System.err.println("ERROR: Simulation engine not initialized for <"+ SYSTEM_MODEL_PATH+">");
 		else {
 			id = result;
-		    System.out.println("Simulation engine initialized for "+ SYSTEM_MODEL_PATH + " with simulation id " + id);
+		    //System.out.println("Simulation engine initialized for "+ SYSTEM_MODEL_PATH + " with simulation id " + id);
 		}
 	}
 
@@ -53,7 +54,7 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 			//output = prepareOutput(result.getControlledvalues());
 		}
 		else 
-			 System.out.println("Error: something got wrong with the outcome of the ASM-based simulated system.");
+			 System.out.println("Error: something got wrong with the outcome of the simulated system <"+ SYSTEM_MODEL_PATH+">");
 		
 		return currentState;
 

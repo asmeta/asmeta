@@ -664,7 +664,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 	private static void printState(int step, RunOutput r1, long time, int id) {
 		System.out.println(
-				"[step:" + asmS.getSimulatorTable().get(id).getContSim() + " of model " + asmS.getModelName(id) + "]");
+				"[step:" + asmS.getSimulatorTable().get(id).getContSim() + " of " + asmS.getModelName(id) + "]");
 		System.out.println(r1.MytoString());
 		System.out.println("Execution time :" + time + " nT");
 		//System.out.println(
@@ -674,7 +674,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		 * asmS.getSimulatorTable().get(id).getSim().getMax() );
 		 */
 
-		System.out.println("                                 ");
+		//System.out.println("                                 ");
 
 		//System.out.println("=====================");
 	}

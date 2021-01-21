@@ -71,12 +71,12 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 		
 		//Set previous state
 		AsmetaSservice.getInstance().getSimulatorTable().get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null));
-		System.out.println("\nPatrizia: monitored locs in the current state: "+state.getMonLocsState().toString());
+		//System.out.println("\nPatrizia: monitored locs in the current state: "+state.getMonLocsState().toString());
 		
 		//Update current State
 		AsmetaSservice.getInstance().getSimulatorTable().get(id).setState(new MyState(state.getContrLocs(false), monitored));
-		System.out.println("\nPatrizia: monitored locs in the current state: "+state.getMonLocsState().toString());
-		System.out.println("\nPatrizia: monitored locs in the current state (as re-built): "+monitored.toString());
+		//System.out.println("\nPatrizia: monitored locs in the current state: "+state.getMonLocsState().toString());
+		//System.out.println("\nPatrizia: monitored locs in the current state (as re-built): "+monitored.toString());
 	}
 	
 	/**
@@ -87,11 +87,11 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 	public Value readValue(Location location, State state) {
 		Function func = location.getSignature(); //e.g.: isPillMissed; location.getElements() e.g. (compartment2)
 		locationToFind = location.toString(); //e.g.: isPillMissed(compartment2)
-		System.out.println("Patrizia func "+func.getName()+" codomain: "+func.getCodomain().getName() +" locationToFind: " + locationToFind);
+		//System.out.println("Patrizia func "+func.getName()+" codomain: "+func.getCodomain().getName() +" locationToFind: " + locationToFind);
 		Value value =  visit(func.getCodomain());
-		System.out.println("Patrizia value found: "+ value.toString());
+		//System.out.println("Patrizia value found: "+ value.toString());
 		monitored.put(location, value);
-		System.out.println("Patrizia monitored: "+monitored.toString()+"\n");
+		//System.out.println("Patrizia monitored: "+monitored.toString()+"\n");
 		return value;
 	}
 	//Not overriden version of readValue:
@@ -108,15 +108,15 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 	@Override
 	public void readLine() {
 		Map<String, String> map = AsmetaSservice.getInstance().getSimulatorTable().get(id).getLocationValue();
-		System.out.println("\nPatrizia User input map: "+map.toString());
+		//System.out.println("\nPatrizia User input map: "+map.toString());
 		for(Map.Entry<String, String> m: map.entrySet()) {	//Find the value of a particular location in list
 			if (m.getKey().equals(locationToFind)) {
-				System.out.println("\nPatrizia set-line: "+m.getValue()+" for function "+ locationToFind);
+				//System.out.println("\nPatrizia set-line: "+m.getValue()+" for function "+ locationToFind);
 				setLine(m.getValue());
 				return;	//I Suppose that I found it
 			}
 		}
-		System.out.println("\nPatrizia line for function "+ locationToFind + " not found!");
+		//System.out.println("\nPatrizia line for function "+ locationToFind + " not found!");
 		//E quindi la linea di stream da cui leggere resta settata al valore precedente.
 	}
 	

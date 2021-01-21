@@ -105,7 +105,7 @@ public class RunOutput implements Serializable {
 		if (!message.equals(""))
 			sb.append("Reason: " + message + "\n");
 		if (locationValue!=null)
-			sb.append("The monitored locations are: " + locationValue + "\n");
+		//	sb.append("The monitored locations are: " + locationValue + "\n");
 		if (ms!=null)
 			sb.append("The new state is: " + ms.getControlledValues());
 		//sb.append("-----------------------------------\n");

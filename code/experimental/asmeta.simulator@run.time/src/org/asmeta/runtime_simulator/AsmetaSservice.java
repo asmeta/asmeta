@@ -70,15 +70,16 @@ public class AsmetaSservice implements IAsmetaSservice{
 			throw new AsmModelNotFoundException(modelPath);
 		}
 	
-		Logger.getLogger("org.asmeta.parser").addAppender( new WriterAppender(new PatternLayout("%m%n"), System.out));
+		Logger.getLogger("org.asmeta.parser").addAppender( new WriterAppender(new PatternLayout("%m%n"), System.out)); //Patrizia Jan 2021: to avoid log4J:WARN messages
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
+		Logger.getLogger("org.asmeta.simulator").addAppender( new WriterAppender(new PatternLayout("%m%n"), System.out));
+		Logger.getLogger("org.asmeta.simulator").setLevel(Level.OFF);
 		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
-		//ASMParser.getResultLogger().setLevel(Level.OFF); //Patrizia Jan 2021: to avoid log4J:WARN messages
+	
 		String modelName = asm.getMain().getName();
 		Environment env = new Environment(new AsmetaSserviceRun());
 		SimulatorRT sim = new SimulatorRT(modelName, asm, env);
-		//SimulatorRT.logger.setLevel(Level.OFF); //Patrizia Jan 2021: to avoid log4J:WARN messages
-		//Logger.getLogger(SimulatorRT.class).setLevel(Level.OFF);
+		
 		
 
 		
