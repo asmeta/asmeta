@@ -10,6 +10,7 @@ import org.asmeta.framework.managedSystem.Effector;
 import org.asmeta.framework.managedSystem.Probe;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerNotSing;
 
 public abstract class FeedbackLoop {
 
@@ -29,7 +30,7 @@ public abstract class FeedbackLoop {
 	private Knowledge k;
 
 	/** Runtime model handle*/
-	private SimulationContainer model;
+	private SimulationContainerNotSing model;
 	
 	/**
 	 * FeedbackLoop constructor
@@ -99,11 +100,11 @@ public abstract class FeedbackLoop {
 	//abstract method
 	public abstract void execution();
 
-	public  void setModel(SimulationContainer modelHandle) {
-		model = modelHandle;
+	public  void setModel(SimulationContainerNotSing modelEngine) {
+		model = modelEngine;
 	}
 
-	public SimulationContainer getModel() {
+	public SimulationContainerNotSing getModel() {
 		return model;
 	}
 	

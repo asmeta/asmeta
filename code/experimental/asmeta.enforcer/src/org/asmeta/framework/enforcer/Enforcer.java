@@ -35,7 +35,7 @@ public abstract class Enforcer {
     protected static String RUNTIME_MODEL_PATH;
     
     /** Runtime model handle*/
-    private SimulationContainer modelEngine; 
+    private SimulationContainerNotSing modelEngine; 
     
     /** ManagedSystem handle*/
     private ManagedSystem system; 
@@ -61,7 +61,7 @@ public abstract class Enforcer {
 		       
 		    //Initialize the AsmetaS@run.time model engine
 			//modelEngine = SimulationContainer.getInstance();
-		    modelEngine = new SimulationContainerNotSingle();
+		    modelEngine = new SimulationContainerNotSing();
 			modelEngine.init(1);
 			int result = modelEngine.startExecution(RUNTIME_MODEL_PATH);
 			if (result < 0) 
@@ -138,7 +138,7 @@ public abstract class Enforcer {
 	 * Sets the simulation engine.
 	 * Should only be used inside inherited default constructor
 	 */
-	protected void setModelEngine(SimulationContainer engine) {
+	protected void setModelEngine(SimulationContainerNotSing engine) {
 		if (modelEngine == null)
 			modelEngine = engine;
 	}
@@ -147,7 +147,7 @@ public abstract class Enforcer {
 	/**
 	 * Returns the current enforcer simulation engine.
 	 */
-	protected SimulationContainer getModelEngine() {
+	protected SimulationContainerNotSing getModelEngine() {
 		return modelEngine;
 	}
 }
