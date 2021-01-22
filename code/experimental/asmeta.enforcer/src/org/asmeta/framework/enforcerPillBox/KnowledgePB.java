@@ -30,13 +30,12 @@ public class KnowledgePB extends Knowledge {
 		
 	 //Overloading (by the new parameter); checks and eventually store the new system probing values if different
 	public boolean systemStateChanged(Map<String, String> newProbes){
-		System.out.println("Probes values: "+newProbes.toString()); 
+
 		if (probes == null || !probes.equals(newProbes)) {
-			  System.out.println("UGUALE a: "+probes.toString()); 
 			  probes = newProbes;
 			  return true;
 		  }
-		System.out.println("UGUALE a: "+probes.toString()); 
+		//System.out.println("Probes values: "+probes.toString()+" UGUALE a: "+newProbes.toString()); 
 		return false;
 	}
 	
@@ -46,6 +45,10 @@ public class KnowledgePB extends Knowledge {
 	
 	public Map<String, String> getEffectors(){
 		return effectors;
+	}
+	
+	public Map<String, String> getProbes(){
+		return probes;
 	}
 	
 	public Map<String, String> getInput(){

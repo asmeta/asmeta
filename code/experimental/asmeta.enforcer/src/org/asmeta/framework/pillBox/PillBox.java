@@ -143,6 +143,8 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	        	key.startsWith("redLed") || key.startsWith("systemTime") || key.startsWith("day")) 
 	        	tmp.put(key,currentState.get(key));	
 	    }
+	    
+		
 		return tmp;
 		
 	}

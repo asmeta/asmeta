@@ -730,14 +730,21 @@ public class SimulationContainerNotSing implements IModelExecution, IModelAdapta
 	 * @param locationValue Change to CheckInputName Safety
 	 * @return the array list
 	 */
+	/**
+	 * Check safety: Checks if given monitored function names are correct
+	 *
+	 * @param modelPath     the model path
+	 * @param locationValue Change to CheckInputName Safety
+	 * @return the array list
+	 */
 	private RunOutput checkSafety(String modelPath, Map<String, String> locationValue) {
-		List<String> nomi = new ArrayList<String>(); // monitored functions name list
+		List<String> nameL = new ArrayList<String>(); // monitored functions name list
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
 		// AsmCollection asm = null;
 		String name = "";
 		try {
-			nomi = findAllMonitored(nomi, modelPath);
-			System.out.println("Patrizia modelpath: "+ modelPath + " nomi: "+nomi.toString()+"\nlocations: "+locationValue.toString());
+			nameL = findAllMonitored(nameL, modelPath);
+			//System.out.println("Patrizia modelpath: "+ modelPath + " nanmeL: "+nameL.toString()+"\nlocations: "+locationValue.toString());
 			
 			/*
 			File asmFile = new File(modelPath);
@@ -761,8 +768,8 @@ public class SimulationContainerNotSing implements IModelExecution, IModelAdapta
 				if (monName.contains("(") && monName.endsWith(")"))
 					monName=monName.substring(0,monName.indexOf("("));
 				
-				for (int i = 0; i < nomi.size(); i++) {
-					if (monName.equals(nomi.get(i))) {
+				for (int i = 0; i < nameL.size(); i++) {
+					if (monName.equals(nameL.get(i))) {
 						found = true;
 					}
 				}
@@ -786,7 +793,7 @@ public class SimulationContainerNotSing implements IModelExecution, IModelAdapta
 
 		return rout;
 	}
-
+	
 	/**
 	 * Check start id.
 	 *

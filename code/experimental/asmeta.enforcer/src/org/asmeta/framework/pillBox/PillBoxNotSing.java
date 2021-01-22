@@ -141,6 +141,15 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 	        	key.startsWith("redLed") || key.startsWith("systemTime") || key.startsWith("day")) 
 	        	tmp.put(key,currentState.get(key));	
 	    }
+	   //Patrizia TODO: da sostituire con qualcosa di pulito per recuperare i segnali mancanti
+        tmp.put("isPillMissed(compartment2)","false");
+        tmp.put("isPillMissed(compartment3)","false");
+        tmp.put("isPillMissed(compartment4)","false");
+        tmp.put("pillTakenWithDelay(compartment2)","false");
+        tmp.put("pillTakenWithDelay(compartment3)","false");
+        tmp.put("pillTakenWithDelay(compartment4)","false");
+        tmp.put("systemTime","411");
+        System.out.println("Patrizia: Output for probing: "+tmp.toString());
 		return tmp;
 		
 	}

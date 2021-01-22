@@ -8,7 +8,7 @@ package org.asmeta.framework.enforcerPillBox;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.asmeta.framework.enforcer.*;
-import org.asmeta.framework.pillBox.PillBox;
+import org.asmeta.framework.pillBox.PillBoxNotSing;
 
 
 //import java.awt.*; 
@@ -64,7 +64,7 @@ public class Main { //extends JFrame {
 				   "Pillbox initialization (simulated version) ...");
 		/** Initialization*/
 		//Create managed system handle, probe, and effector
-		PillBox managedSystem =  new PillBox("examples/pillbox/pillbox.asm"); 		
+		PillBoxNotSing managedSystem =  new PillBoxNotSing("examples/pillbox/pillbox.asm"); 		
 		//Create system knowledge and feedback loop
 		Knowledge k = new KnowledgePB();
 		FeedbackLoop loop = new FeedbackLoopPillBox(managedSystem.getProbe(),managedSystem.getEffector(),k);
@@ -89,10 +89,10 @@ public class Main { //extends JFrame {
         	    System.out.println("(Sanitised) User input:~$ "+e.getSanitisedInput().toString());
         	    managedSystem.run(e.getSanitisedInput()); //the managed system runs 
         	    System.out.println("Output to patient:~$\n"+managedSystem.getOutputToPatient().toString());
-          	    System.out.println("Output for probing:~$\n"+managedSystem.getOutputForProbing().toString()+"\n");
+          	    System.out.println("Output for probing:~$\n"+managedSystem.getOutputForProbing().toString());
           	    System.out.println("Enforcement feedback loop starting...");
           	    e.runLoop(); //system output sanitisation by monitoring and adaptation
-          	    System.out.println("Enforcer output for effectors:~$\n"+ e.getOutputForEffectors().toString()+"\n");
+          	    //System.out.println("Enforcer output for effectors:~$\n"+ e.getOutputForEffectors().toString()+"\n");
           	    System.out.println("Enforced PillBox state: "+managedSystem.getOutput());
           	    System.out.println("(Enforced) Output to patient: "+managedSystem.getOutputToPatient().toString());
 				System.out.println("Enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$");

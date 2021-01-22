@@ -67,7 +67,7 @@ public class SafePillBox {
 	
 		
 	private Map<String, String> prepareOutput(Map<String, String> locations) {
-		//TO DO: Filter only the output locations; it should be done in a general manner in the ASM simulator@run.time
+		//TODO: Filter only the output locations; it should be done in a general manner in the ASM simulator@run.time
 		//Currently, it returns everything
 		//Map<String, String> output = new HashMap<>();
 		//System.out.println("Pillbox Output: "+locations.toString());// for debugging purposes
