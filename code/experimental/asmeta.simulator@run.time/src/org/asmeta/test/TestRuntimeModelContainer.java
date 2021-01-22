@@ -1170,7 +1170,7 @@ public class TestRuntimeModelContainer {
 		public void safePillboxTest() {
 			Map<String, String> monitored = new HashMap<String, String>();
 			RunOutput out;
-			String model = "examples/Pillbox/safePillbox.asm";
+			String model = "examples/Pillbox2/safePillbox.asm";
 			SimulationContainer imp = SimulationContainer.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
@@ -1191,6 +1191,31 @@ public class TestRuntimeModelContainer {
 			out = imp.runStep(id, monitored);
 			//out = imp.runStep(id);	
 			System.out.println(out.getControlledvalues());
+			//monitored.clear();
+			monitored.put("redLed(compartment2)", "BLINKING");
+			monitored.put("redLed(compartment3)", "OFF");
+			monitored.put("redLed(compartment4)", "OFF");
+			monitored.put("nextDrugIndex(compartment4)","0");
+			monitored.put("drugIndex(compartment3)","1");
+			monitored.put("isPillMissed(compartment2)","true");
+			monitored.put("isPillMissed(compartment3)","false");
+			monitored.put("isPillMissed(compartment4)","false");
+			monitored.put("pillTakenWithDelay(compartment3)","false");
+			monitored.put("pillTakenWithDelay(compartment4)","false");
+			monitored.put("systemTime","1010");
+			monitored.put("pillTakenWithDelay(compartment2)","false");
+			
+			/*monitored.put("nextDrugIndex(compartment2)","0");
+			monitored.put("nextDrugIndex(compartment3)","1");
+			monitored.put("time_consumption(compartment2)", "[960]");
+			monitored.put("time_consumption(compartment3)", "[780, 1140]");
+			monitored.put("time_consumption(compartment4)", "[410]");
+			monitored.put("drugIndex(compartment2)", "0");
+			monitored.put("drugIndex(compartment3)", "0");
+			monitored.put("drugIndex(compartment4)", "0");*/
+			out = imp.runStep(id, monitored);
+			//out = imp.runStep(id);	
+			//System.out.println(out.getControlledvalues());
 		}
 		//=========================Fine Asm Test===============================================================
 		//=========================Inizio GUI Test===============================================================
