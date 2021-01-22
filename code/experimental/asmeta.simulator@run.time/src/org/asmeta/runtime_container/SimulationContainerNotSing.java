@@ -65,7 +65,7 @@ public class SimulationContainerNotSing implements IModelExecution, IModelAdapta
 	private int ids; //the id for the method start to check if is full o not
 
 	/** The asm S. */
-	private AsmetaSserviceNotSing asmS;
+	protected AsmetaSserviceNotSing asmS;
 
 
 	/** The ms. */
@@ -91,8 +91,11 @@ public class SimulationContainerNotSing implements IModelExecution, IModelAdapta
 	
 	public SimulationContainerNotSing() {
 		asmS = new AsmetaSserviceNotSing();
+		
 	}
 
+	
+	
 
 	/**
 	 * return the id of the simulator if the simulator is full return -1;.
@@ -231,7 +234,7 @@ public class SimulationContainerNotSing implements IModelExecution, IModelAdapta
 				rout = checkSafety(modelPath, locationValue);
 			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not intialized"))) {
 				startRun = System.nanoTime();
-				ms = asmS.run(id, locationValue);
+				ms = asmS.run(id, locationValue); //run ASM with id and monitored locations locationValue
 				endRun = System.nanoTime();
 				duration = (endRun - startRun);
 				if (locationValue!=null) 

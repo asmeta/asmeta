@@ -88,7 +88,7 @@ public class AsmetaSserviceNotSing implements IAsmetaSservice{
 		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
 	
 		String modelName = asm.getMain().getName();
-		Environment env = new Environment(new AsmetaSserviceRun());
+		Environment env = new Environment(new AsmetaSserviceRunNotSing(simulatorMap));
 		SimulatorRT sim = new SimulatorRT(modelName, asm, env);
 		
 		
@@ -122,7 +122,7 @@ public class AsmetaSserviceNotSing implements IAsmetaSservice{
 	
 		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
 		String modelName = asm.getMain().getName();
-		Environment env = new Environment(new AsmetaSserviceRun());
+		Environment env = new Environment(new AsmetaSserviceRunNotSing(simulatorMap));
 		SimulatorRT sim = new SimulatorRT(modelName, asm, env, s);
 		
 		int id = oldId;;
@@ -160,7 +160,7 @@ public class AsmetaSserviceNotSing implements IAsmetaSservice{
 	public MyState run(int id, Map<String, String> locationValue) {
 		checkId(id);
 		simulatorMap.get(id).setLocationValue(locationValue);	//locationValue is a sharing variable with runner
-		AsmetaSserviceRun runner = new AsmetaSserviceRun(id);
+		AsmetaSserviceRunNotSing runner = new AsmetaSserviceRunNotSing(id,simulatorMap);
 		runner.run(RunMode.RUN_ONE_STEP);
 		simulatorMap.get(id).incContSim();
 		
@@ -182,7 +182,7 @@ public class AsmetaSserviceNotSing implements IAsmetaSservice{
 			simulatorMap.get(id).getSim().setMax(max);
 		}
 		
-		AsmetaSserviceRun runner = new AsmetaSserviceRun(id);
+		AsmetaSserviceRunNotSing runner = new AsmetaSserviceRunNotSing(id,simulatorMap);
 		runner.run(RunMode.RUN_UNTIL_EMPTY);
 		simulatorMap.get(id).incContSim();
 		
@@ -299,7 +299,7 @@ public class AsmetaSserviceNotSing implements IAsmetaSservice{
 	public void reset(int id) throws Exception {
 		checkId(id);
 		SimulatorRT sim = new SimulatorRT(simulatorMap.get(id).getSim().getAsmModel().getName(), 
-				simulatorMap.get(id).getSim().getAsmCollection(), new Environment(new AsmetaSserviceRun()));
+				simulatorMap.get(id).getSim().getAsmCollection(), new Environment(new AsmetaSserviceRunNotSing(simulatorMap)));
 		
 		simulatorMap.put(id, new InfoAsmetaService(sim));
 	}
