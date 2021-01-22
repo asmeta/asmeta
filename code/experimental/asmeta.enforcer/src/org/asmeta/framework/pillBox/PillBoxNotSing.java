@@ -72,6 +72,7 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 		    //store the new output location value as computed by the ASM into the output map
 			//currentState.putAll(result.getControlledvalues());
 			currentState = result.getControlledvalues(); //Output values from the ASM model
+			currentState.putAll(input); //added monitored locations
 			//output = prepareOutput(currentState);
 			//output = prepareOutput(result.getControlledvalues());
 		}

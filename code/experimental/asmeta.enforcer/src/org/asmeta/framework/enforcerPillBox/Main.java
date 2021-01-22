@@ -90,6 +90,7 @@ public class Main { //extends JFrame {
         	    managedSystem.run(e.getSanitisedInput()); //the managed system runs 
         	    System.out.println("Output to patient:~$\n"+managedSystem.getOutputToPatient().toString());
           	    System.out.println("Output for probing:~$\n"+managedSystem.getOutputForProbing().toString()+"\n");
+          	    System.out.println("Enforcement feedback loop starting...");
           	    e.runLoop(); //system output sanitisation by monitoring and adaptation
           	    System.out.println("Enforcer output for effectors:~$\n"+ e.getOutputForEffectors().toString()+"\n");
           	    System.out.println("Enforced PillBox state: "+managedSystem.getOutput());
