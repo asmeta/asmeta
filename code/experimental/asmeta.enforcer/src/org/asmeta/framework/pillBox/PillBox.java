@@ -15,12 +15,14 @@ import org.asmeta.framework.managedSystem.*;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerNotSingle;
 
 public class PillBox extends ManagedSystem implements Probe, Effector{
 	//Java wrapper of the simulated Pillbox system (an ASM model)
 	
 	 /** Runtime model simulator*/
-    private SimulationContainer modelEngine; 
+    //private SimulationContainer modelEngine; 
+	SimulationContainerNotSingle modelEngine;
     private int id; //model simulation identifier
     private Map<String, String> currentState; //system current state
     private String SYSTEM_MODEL_PATH;
@@ -29,7 +31,8 @@ public class PillBox extends ManagedSystem implements Probe, Effector{
 	
 	    //System.out.println("Trying to initialize a simulation engine for "+ SYSTEM_MODEL_PATH);	       
 	    //Initialize an AsmetaS@run.time model engine instance for the runtime system model (the simulated managed system!) 
-		modelEngine = SimulationContainer.getInstance();
+		//modelEngine = SimulationContainer.getInstance();
+		modelEngine = new SimulationContainerNotSingle();
 		modelEngine.init(1);
 		currentState = new HashMap<>();
 		SYSTEM_MODEL_PATH = model_path;

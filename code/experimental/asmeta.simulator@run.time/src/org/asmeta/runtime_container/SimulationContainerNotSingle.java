@@ -65,8 +65,8 @@ public class SimulationContainerNotSingle extends SimulationContainer implements
 	private int ids; //the id for the method start to check if is full o not
 
 	/** The asm S. */
-	//static AsmetaSservice asmS = AsmetaSservice.getInstance();
-	static AsmetaSservice asmS;
+	static AsmetaSservice asmS = AsmetaSservice.getInstance();
+	
 
 	/** The instance. */
 	//private static SimulationContainerNotSingle instance = null;
@@ -105,7 +105,7 @@ public class SimulationContainerNotSingle extends SimulationContainer implements
 	
 	public SimulationContainerNotSingle() {
 		asmS = new AsmetaSservice();
-		AsmetaSservice.setInstance(asmS);
+		//AsmetaSservice.setInstance(asmS);
 	}
 
 
@@ -757,7 +757,7 @@ public class SimulationContainerNotSingle extends SimulationContainer implements
 		String name = "";
 		try {
 			nomi = findAllMonitored(nomi, modelPath);
-			System.out.println("Patrizia modelpath: "+ modelPath + "nomi: "+nomi.toString()+"\nlocations: "+locationValue.toString());
+			System.out.println("Patrizia modelpath: "+ modelPath + " nomi: "+nomi.toString()+"\nlocations: "+locationValue.toString());
 			
 			/*
 			File asmFile = new File(modelPath);

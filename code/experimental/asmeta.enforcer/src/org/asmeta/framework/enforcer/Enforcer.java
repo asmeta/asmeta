@@ -60,7 +60,8 @@ public abstract class Enforcer {
 		    SIMULATION_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));
 		       
 		    //Initialize the AsmetaS@run.time model engine
-			modelEngine = SimulationContainer.getInstance();
+			//modelEngine = SimulationContainer.getInstance();
+		    modelEngine = new SimulationContainerNotSingle();
 			modelEngine.init(1);
 			int result = modelEngine.startExecution(RUNTIME_MODEL_PATH);
 			if (result < 0) 
