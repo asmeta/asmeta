@@ -44,6 +44,15 @@ public class AsmetaSservice implements IAsmetaSservice{
 		
 		return service;
 	}
+	
+	/**
+	 * TODO USED IN SOME TESTS BEFORE REMOVING SINGLETON PATTERN
+	 * @return AsmetaSservice instance
+	 */
+	public static void setInstance(AsmetaSservice instance) {
+		if (instance!=null)
+		service=instance;
+	}
 
 	/**
 	 * Set the initial data of this singleton. It must be call just once before use this class
