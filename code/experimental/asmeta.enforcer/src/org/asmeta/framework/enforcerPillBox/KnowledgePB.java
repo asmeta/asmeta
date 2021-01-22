@@ -19,6 +19,7 @@ public class KnowledgePB extends Knowledge {
 	/** Monitored values from the PillBox*/ 
 	Map<String, String> input; //user input for the PillBox, and eventually sanitised by the enforcer
 	Map<String, String> probes; //probing values as exposed by the PillBox
+	Map<String, String> effectors; //effector values for the PillBox
 	Map<String, String> output; //output as computed by the PillBox, and eventually sanitised by the enforcer
 	   
 
@@ -38,8 +39,12 @@ public class KnowledgePB extends Knowledge {
 		return false;
 	}
 	
-	public void setInput(Map<String, String> newInput){
-		input = newInput;
+	public void setEffectors(Map<String, String> newValues){
+		effectors = newValues;
+	}
+	
+	public Map<String, String> getEffectors(){
+		return effectors;
 	}
 	
 	public Map<String, String> getInput(){
@@ -48,6 +53,10 @@ public class KnowledgePB extends Knowledge {
 	
 	public Map<String, String> getOutput(){
 		return output;
+	}
+	
+	public void setInput(Map<String, String> newInput){
+		input = newInput;
 	}
 	
 }

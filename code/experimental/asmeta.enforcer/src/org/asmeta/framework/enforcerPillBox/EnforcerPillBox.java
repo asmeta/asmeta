@@ -64,4 +64,11 @@ public class EnforcerPillBox extends Enforcer{
 		return data;
 		}
 
+	
+	//Output for effectors
+	public Map<String, String>  getOutputForEffectors(){
+				return ((KnowledgePB) this.loop.getKnowledge()).getEffectors();
+				
+			}
+
 }

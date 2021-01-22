@@ -33,7 +33,8 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 		if (kPB.systemStateChanged(probePB.getOutputForProbing())) 
 			//if system changed, perform analysis (enforcement by adaptation)
 			analysis();
-		}
+		
+	}
 	
 
 	@Override 
@@ -62,11 +63,12 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 		//result.getControlledvalues(); //Output values from the ASM model	
 		if (result.getEsit() == Esit.SAFE) {
 			//store the adaptation plan as computed by the ASM runtime model into the knowledge and trigger execution
-			//kPB.setOutputForPillbox(result.getControlledvalues()); TO DO
+			kPB.setEffectors(result.getControlledvalues()); 
 			execution();
 		}
 		else {
 			System.out.println("Error: something got wrong with the output sanitisation made by the ASM runtime model. No enforcement applied.");
+		
 		}
 	}
 	
@@ -74,11 +76,10 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 	
 	@Override
 	public void execution() {
-		//Force the system as planned by actuating the effectors 
-		//((AirConditioner)(this.getEffector())).setAirIntensity(kAC.airSpeed);
-		//effectorPB.
-		//TO DO
-		
+		//If enforcement is required, force the system as planned by actuating the effectors 
+  	    if (! kPB.getEffectors().isEmpty()) {
+  	       effectorPB.run(kPB.getEffectors()); //the managed system runs again to return in a safe region
+  	   }
 	
 	}
 
