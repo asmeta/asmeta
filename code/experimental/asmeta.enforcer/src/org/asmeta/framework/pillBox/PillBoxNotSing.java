@@ -138,8 +138,12 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 	    for (String key : currentState.keySet()) {
 	        if (key.startsWith("isPillMissed") || key.startsWith("pillTakenWithDelay") || key.startsWith("actual_time_consumption") ||
 	        	key.startsWith("drugIndex") || key.startsWith("name") || key.startsWith("time_consumption") ||
-	        	key.startsWith("redLed") || key.startsWith("systemTime") || key.startsWith("day")) 
-	        	tmp.put(key,currentState.get(key));	
+	        	key.startsWith("redLed") || key.startsWith("systemTime") || key.startsWith("day")) {
+	        	/*if (key.startsWith("name") )
+	        		tmp.put(key,"\""+currentState.get(key)+"\"");
+	            else tmp.put(key,currentState.get(key));	*/
+	        	tmp.put(key,currentState.get(key));
+	        }
 	    }
 	   //Patrizia TODO: da sostituire con qualcosa di pulito per recuperare i segnali mancanti
         tmp.put("isPillMissed(compartment2)","false");
@@ -149,6 +153,10 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
         tmp.put("pillTakenWithDelay(compartment3)","false");
         tmp.put("pillTakenWithDelay(compartment4)","false");
         tmp.put("systemTime","411");
+        tmp.put("name(compartment2)","\"aspirine\"");
+        tmp.put("name(compartment3)","\"moment\"");
+        tmp.put("name(compartment4)","\"fosamax\"");
+        
         System.out.println("Patrizia: Output for probing: "+tmp.toString());
 		return tmp;
 		
