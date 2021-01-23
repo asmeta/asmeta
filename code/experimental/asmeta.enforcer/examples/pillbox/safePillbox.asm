@@ -203,7 +203,7 @@ init s0:	//This init state is correct, it does not generate any invariant violat
 			case compartment4 : [0n]
 		endswitch 	
 
-init s1:	//This init state is correct, it does not generate any invariant violation
+default init s1:	//This init state is correct, it does not generate any invariant violation
 	//Controlled function that indicates the status of the system
 	function state = INIT
 	
@@ -291,7 +291,7 @@ init s1:	//This init state is correct, it does not generate any invariant violat
 			case compartment4 : [0n]
 		endswitch 	
 				
-default init s2:	//This init state is correct, it does not generate any invariant violation
+init s2:	//This init state is correct, it does not generate any invariant violation
 	//Controlled function that indicates the status of the system
 	function state = INIT
 	

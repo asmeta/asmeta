@@ -321,7 +321,7 @@ init s0:	//This init state is correct, it does not generate any invariant violat
 	function pillTakenWithDelay($compartment in Compartment) =  ((drugIndex($compartment)<iton(length(time_consumption($compartment)))) and (at(skipPill($compartment),drugIndex($compartment))=false))
 	and redLed($compartment) = BLINKING and (not openSwitch($compartment) and opened($compartment))
 
-init s1:	//This init state is correct, it does not generate any invariant violation
+default init s1:	//This init state is correct, it does not generate any invariant violation
 	/* PillBox initialization */
 	// Initialization of the SystemTime
 	function systemTime = 0n
@@ -380,7 +380,7 @@ init s1:	//This init state is correct, it does not generate any invariant violat
 	function pillTakenWithDelay($compartment in Compartment) =  ((drugIndex($compartment)<iton(length(time_consumption($compartment)))) and (at(skipPill($compartment),drugIndex($compartment))=false))
 	and redLed($compartment) = BLINKING and (not openSwitch($compartment) and opened($compartment))
 
-default init s2:	//This init state is correct, it does not generate any invariant violation
+init s2:	//This init state is correct, it does not generate any invariant violation
 	/* PillBox initialization */
 	// Initialization of the SystemTime
 	function systemTime = 0n

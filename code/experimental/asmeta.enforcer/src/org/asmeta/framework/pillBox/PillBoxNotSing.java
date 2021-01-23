@@ -145,7 +145,9 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 	        	tmp.put(key,currentState.get(key));
 	        }
 	    }
-	   //Patrizia TODO: da sostituire con qualcosa di pulito per recuperare i segnali mancanti
+	    //Patrizia TODO: da sostituire con qualcosa di pulito per recuperare i segnali mancanti
+	    //Good for both MPSafePillbox1  and LPSafePillbox1
+	    //Per MPSafePillbox2 va verificato perchè isPillMissed(compartment4) è true
         tmp.put("isPillMissed(compartment2)","false");
         tmp.put("isPillMissed(compartment3)","false");
         tmp.put("isPillMissed(compartment4)","false");
