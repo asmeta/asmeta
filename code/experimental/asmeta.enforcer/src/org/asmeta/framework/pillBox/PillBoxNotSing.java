@@ -157,7 +157,7 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
         tmp.put("name(compartment3)","\"moment\"");
         tmp.put("name(compartment4)","\"fosamax\"");
         
-        System.out.println("Patrizia: Output for probing: "+tmp.toString());
+        //System.out.println("Patrizia: Output for probing: "+tmp.toString());
 		return tmp;
 		
 	}
