@@ -45,16 +45,17 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 	//Make an ASM evaluation step from the monitored input and returns the output location values
 	//Input command syntax example: 
     //openSwitch(compartment2) false openSwitch(compartment3) false set openSwitch(compartment4) true systemTime 414 
-	public Map<String, String> run (String input) {
-		System.out.println (prepareInput(input).toString());
-		RunOutput result = modelEngine.runStep(id, prepareInput(input));
+	public Map<String, String> run (String s) {
+		Map<String, String> input = prepareInput(s);
+		System.out.println (input.toString());
+		RunOutput result = modelEngine.runStep(id, input);
 		//Usage:
 		//result.getEsit(); //SAFE or UNSAFE
 		//result.getResult(); //Timeout expired or not
 		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map
-			//currentState.putAll(result.getControlledvalues());
-			currentState = result.getControlledvalues(); //Output values from the ASM model
+			currentState.putAll(input); //Add monitored locations
+			currentState.putAll(result.getControlledvalues()); //Add output values from the ASM model
 			//output = prepareOutput(currentState);
 			//output = prepareOutput(result.getControlledvalues());
 		}
@@ -71,8 +72,8 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map
 			//currentState.putAll(result.getControlledvalues());
-			currentState = result.getControlledvalues(); //Output values from the ASM model
-			currentState.putAll(input); //added monitored locations
+			currentState.putAll(input); //Add monitored locations
+			currentState.putAll(result.getControlledvalues()); //Add output values from the ASM model
 			//output = prepareOutput(currentState);
 			//output = prepareOutput(result.getControlledvalues());
 		}
@@ -145,19 +146,29 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 	        	tmp.put(key,currentState.get(key));
 	        }
 	    }
+	    //Alcuini segnali nel currentState del modello del PillBox risultano obsoleti come systemTime e/o mancanti 
 	    //Patrizia TODO: da sostituire con qualcosa di pulito per recuperare i segnali mancanti
-	    //Good for both MPSafePillbox1  and LPSafePillbox1
-	    //Per MPSafePillbox2 va verificato perchè isPillMissed(compartment4) è true
-        tmp.put("isPillMissed(compartment2)","false");
+	    //Additional values for LPSafePillbox1 if missing
+        /*tmp.put("isPillMissed(compartment2)","false");
         tmp.put("isPillMissed(compartment3)","false");
         tmp.put("isPillMissed(compartment4)","false");
         tmp.put("pillTakenWithDelay(compartment2)","false");
         tmp.put("pillTakenWithDelay(compartment3)","false");
         tmp.put("pillTakenWithDelay(compartment4)","false");
-        tmp.put("systemTime","411");
         tmp.put("name(compartment2)","\"aspirine\"");
         tmp.put("name(compartment3)","\"moment\"");
-        tmp.put("name(compartment4)","\"fosamax\"");
+        tmp.put("name(compartment4)","\"fosamax\"");*/
+	    //Additional values for MPSafePillbox2 if missing
+        if (! tmp.containsKey("isPillMissed(compartment2)")) tmp.put("isPillMissed(compartment2)","false");
+        if (! tmp.containsKey("isPillMissed(compartment3)")) tmp.put("isPillMissed(compartment3)","false");
+        if (! tmp.containsKey("isPillMissed(compartment4)")) tmp.put("isPillMissed(compartment4)","false");
+        if (! tmp.containsKey("pillTakenWithDelay(compartment2)")) tmp.put("pillTakenWithDelay(compartment2)","false");
+        if (! tmp.containsKey("pillTakenWithDelay(compartment3)")) tmp.put("pillTakenWithDelay(compartment3)","false");
+        if (! tmp.containsKey("pillTakenWithDelay(compartment4)"))  tmp.put("pillTakenWithDelay(compartment4)","false");
+        if (! tmp.containsKey("name(compartment2)")) tmp.put("name(compartment2)","\"aspirine\"");
+        if (! tmp.containsKey("name(compartment3)")) tmp.put("name(compartment3)","\"moment\"");
+        if (! tmp.containsKey("name(compartment4)"))tmp.put("name(compartment4)","\"fosamax\"");
+        
         
         //System.out.println("Patrizia: Output for probing: "+tmp.toString());
 		return tmp;
