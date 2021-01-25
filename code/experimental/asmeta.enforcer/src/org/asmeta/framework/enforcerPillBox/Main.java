@@ -6,6 +6,7 @@
 package org.asmeta.framework.enforcerPillBox;
 
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 import org.asmeta.framework.enforcer.*;
 import org.asmeta.framework.pillBox.PillBoxNotSing;
@@ -66,23 +67,24 @@ public class Main { //extends JFrame {
 		//Create managed system handle, probe, and effector
 		PillBoxNotSing managedSystem =  new PillBoxNotSing("examples/pillbox/pillbox.asm"); 		
 		//Create system knowledge and feedback loop
-		Knowledge k = new KnowledgePB();
+		KnowledgePB k = new KnowledgePB();
 		FeedbackLoop loop = new FeedbackLoopPillBox(managedSystem.getProbe(),managedSystem.getEffector(),k);
 		//create a new specialized enforcer for the Pillbox system
 		Enforcer.setConfigFile("./resources/PillBox/config.properties");
 		EnforcerPillBox e = new EnforcerPillBox(managedSystem,k,loop);
 		//Init step for the enforcement model SAFEPillbox
-        String initial_state_s2 = "drugIndex(compartment2) 0 drugIndex(compartment3) 0 drugIndex(compartment4) 0 name(compartment2) \"aspirine\" name(compartment3) \"moment\" name(compartment4) \"fosamax\" redLed(compartment2) OFF redLed(compartment3) OFF" + 
-        		" redLed(compartment4) OFF time_consumption(compartment2) [960] time_consumption(compartment3) [780,1140] time_consumption(compartment4) [410]";
+        String initial_input_trace = "drugIndex(compartment2) 0 drugIndex(compartment3) 0 drugIndex(compartment4) 0 name(compartment2) \"aspirine\" name(compartment3) \"moment\" name(compartment4) \"fosamax\" redLed(compartment2) OFF redLed(compartment3) OFF" + 
+              		" redLed(compartment4) OFF time_consumption(compartment2) [960] time_consumption(compartment3) [780,1140] time_consumption(compartment4) [350]";
+        Map<String, String> initState = e.initModel(initial_input_trace); 
+	
+        /** Running -- example of safety enforcement via MAPE-K*/
+	    //Causality relation implementation between managed system and the ASM enforcement model: user input reading (by console), system/loop execution
+		//Once an event triggers the MAPE loop, the loop executes safety checks and eventually adapts the managed system 
         
-		if (! e.initModel(initial_state_s2).isEmpty()) {
-		   /** Running -- example of safety enforcement via MAPE-K*/
-	       //Causality relation implementation between managed system and the ASM enforcement model: user input reading (by console), system/loop execution
-		   //Once an event triggers the MAPE loop, the loop executes safety checks and eventually adapts the managed system 
-			Scanner s = new Scanner(System.in); 
-            System.out.println("PillBox ON, enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$");
-            try {
-              String str = s.nextLine();    
+        Scanner s = new Scanner(System.in); 
+        System.out.println("PillBox ON, enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$");
+        String str = s.nextLine();    
+        try {     
               while (! str.equals("###") && ! str.isBlank()) { 	
         	    e.sanitiseInput(str); //no input sanitisation applied, only input storing into the knowledge
         	    //System.out.println("User input:~$\n "+str);
@@ -101,13 +103,12 @@ public class Main { //extends JFrame {
             }
 		    catch(InputMismatchException ex) {
 				System.err.println("Error, input illformed.");
-	        } 
+	        } //TODO Aggiungere altri di tipi di eccezioni come Invalid Invariant
 		    finally {
 		        s.close();
 		        managedSystem.shutDown();
 		        System.out.println("PillBox OFF");
 	       }
-		}//End if
 		
 		managedSystem.shutDown();
 	}//End main	

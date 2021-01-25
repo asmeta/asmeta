@@ -26,11 +26,12 @@ public class EnforcerPillBox extends Enforcer{
 	//First init step for the ASM SafePillbox used as enforcement model by the enforcer
 	public Map<String, String> initModel (String input) {
 		Map<String, String> initState = prepareInput(input);
+		System.out.println("Initial input trace: "+ initState.toString());
 		RunOutput result = this.getModelEngine().runStep(1, initState);
 		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map
 			//currentState.putAll(result.getControlledvalues());
-			initState = result.getControlledvalues(); //Output values from the ASM model for the controlled/out locations
+			initState.putAll(result.getControlledvalues()); //Output values from the ASM model for the controlled/out locations
 		}
 		else 
 			 System.out.println("Error: something got wrong with the initialization of the ASM <"+ Enforcer.RUNTIME_MODEL_PATH +">\"");

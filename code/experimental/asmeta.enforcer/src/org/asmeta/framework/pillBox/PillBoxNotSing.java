@@ -165,9 +165,9 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
         if (! tmp.containsKey("pillTakenWithDelay(compartment2)")) tmp.put("pillTakenWithDelay(compartment2)","false");
         if (! tmp.containsKey("pillTakenWithDelay(compartment3)")) tmp.put("pillTakenWithDelay(compartment3)","false");
         if (! tmp.containsKey("pillTakenWithDelay(compartment4)"))  tmp.put("pillTakenWithDelay(compartment4)","false");
-        if (! tmp.containsKey("name(compartment2)")) tmp.put("name(compartment2)","\"aspirine\"");
-        if (! tmp.containsKey("name(compartment3)")) tmp.put("name(compartment3)","\"moment\"");
-        if (! tmp.containsKey("name(compartment4)"))tmp.put("name(compartment4)","\"fosamax\"");
+        tmp.put("name(compartment2)","\"aspirine\"");
+        tmp.put("name(compartment3)","\"moment\"");
+        tmp.put("name(compartment4)","\"fosamax\"");
         
         
         //System.out.println("Patrizia: Output for probing: "+tmp.toString());
