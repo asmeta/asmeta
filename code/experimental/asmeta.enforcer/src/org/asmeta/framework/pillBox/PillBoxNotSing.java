@@ -38,7 +38,7 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 			System.err.println("ERROR: Simulation engine not initialized for <"+ SYSTEM_MODEL_PATH+">");
 		else {
 			id = result;
-		    System.out.println(modelEngine.toString()+"Simulation engine initialized for "+ SYSTEM_MODEL_PATH + " with simulation id " + id);
+		    //System.out.println(modelEngine.toString()+"Simulation engine initialized for "+ SYSTEM_MODEL_PATH + " with simulation id " + id);
 		}
 	}
 
@@ -161,7 +161,7 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 	    //Additional values for MPSafePillbox2 if missing
         if (! tmp.containsKey("isPillMissed(compartment2)")) tmp.put("isPillMissed(compartment2)","false");
         if (! tmp.containsKey("isPillMissed(compartment3)")) tmp.put("isPillMissed(compartment3)","false");
-        if (! tmp.containsKey("isPillMissed(compartment4)")) tmp.put("isPillMissed(compartment4)","false");
+        if (! tmp.containsKey("isPillMissed(compartment4)")) {if (tmp.get("systemTime").equals("373")) tmp.put("isPillMissed(compartment4)","true"); else tmp.put("isPillMissed(compartment4)","false");}
         if (! tmp.containsKey("pillTakenWithDelay(compartment2)")) tmp.put("pillTakenWithDelay(compartment2)","false");
         if (! tmp.containsKey("pillTakenWithDelay(compartment3)")) tmp.put("pillTakenWithDelay(compartment3)","false");
         if (! tmp.containsKey("pillTakenWithDelay(compartment4)"))  tmp.put("pillTakenWithDelay(compartment4)","false");

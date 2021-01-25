@@ -94,7 +94,7 @@ public class Main { //extends JFrame {
           	    System.out.println("Output for probing:~$\n"+managedSystem.getOutputForProbing().toString());
           	    System.out.println("Enforcement feedback loop starting...");
           	    e.runLoop(); //system output sanitisation by monitoring and adaptation
-          	    //System.out.println("Enforcer output for effectors:~$\n"+ e.getOutputForEffectors().toString()+"\n");
+          	    //System.out.println("Enforcer output for effectors:~$ "+ e.getOutputForEffectors().toString());
           	    System.out.println("Enforced PillBox state: "+managedSystem.getOutput());
           	    System.out.println("(Enforced) Output to patient: "+managedSystem.getOutputToPatient().toString());
 				System.out.println("Enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$");

@@ -84,10 +84,11 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 	@Override
 	public void execution() {
 		//If enforcement is required, force the system as planned by actuating the effectors 
+		System.out.println("Enforcer output for effectors:~$ "+ kPB.getEffectors().toString());
   	    if (! kPB.getEffectors().isEmpty()) {
   	       effectorPB.run(kPB.getEffectors()); //the managed system runs again to return in a safe region
-  	   }
-	
+  	    }
+ 	
 	}
 
 	
