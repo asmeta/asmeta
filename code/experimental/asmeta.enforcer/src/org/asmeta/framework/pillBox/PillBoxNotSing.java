@@ -47,17 +47,17 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
     //openSwitch(compartment2) false openSwitch(compartment3) false set openSwitch(compartment4) true systemTime 414 
 	public Map<String, String> run (String s) {
 		Map<String, String> input = prepareInput(s);
-		System.out.println (input.toString());
+		//System.out.println (input.toString());
 		RunOutput result = modelEngine.runStep(id, input);
 		//Usage:
 		//result.getEsit(); //SAFE or UNSAFE
 		//result.getResult(); //Timeout expired or not
 		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map
-			currentState.putAll(input); //Add monitored locations
+			currentState = input; //Add monitored locations
 			currentState.putAll(result.getControlledvalues()); //Add output values from the ASM model
-			//output = prepareOutput(currentState);
-			//output = prepareOutput(result.getControlledvalues());
+			System.out.println("PillBox state: "+ getOutput().toString());
+      	    System.out.println("Output to patient: "+ getOutputToPatient().toString());
 		}
 		else 
 			 System.out.println("Error: something got wrong with the outcome of the simulated system <"+ SYSTEM_MODEL_PATH+">");
@@ -72,10 +72,13 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map
 			//currentState.putAll(result.getControlledvalues());
-			currentState.putAll(input); //Add monitored locations
+			currentState = input; //Add monitored locations
 			currentState.putAll(result.getControlledvalues()); //Add output values from the ASM model
 			//output = prepareOutput(currentState);
 			//output = prepareOutput(result.getControlledvalues());
+			System.out.println("PillBox state: "+ getOutput().toString());
+      	    System.out.println("Output to patient: "+ getOutputToPatient().toString());
+			
 		}
 		else 
 			 System.out.println("Error: something got wrong with the outcome of the ASM-based simulated system <"+ SYSTEM_MODEL_PATH +">\"");
@@ -85,7 +88,7 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 	}
 	
 	private Map<String, String> prepareOutput(Map<String, String> locations) {
-		//TO DO: Filter only the output locations; it should be done in a general manner in the ASM simulator@run.time
+		//TODO: Filter only the output locations; it should be done in a general manner in the ASM simulator@run.time
 		//Currently, it returns everything
 		//Map<String, String> output = new HashMap<>();
 		//System.out.println("Pillbox Output: "+locations.toString());// for debugging purposes
@@ -161,7 +164,7 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 	    //Additional values for MPSafePillbox2 if missing
         if (! tmp.containsKey("isPillMissed(compartment2)")) tmp.put("isPillMissed(compartment2)","false");
         if (! tmp.containsKey("isPillMissed(compartment3)")) tmp.put("isPillMissed(compartment3)","false");
-        if (! tmp.containsKey("isPillMissed(compartment4)")) {if (tmp.get("systemTime").equals("373")) tmp.put("isPillMissed(compartment4)","true"); else tmp.put("isPillMissed(compartment4)","false");}
+        if (! tmp.containsKey("isPillMissed(compartment4)")) {if (tmp.get("systemTime").equals("362")) tmp.put("isPillMissed(compartment4)","true"); else tmp.put("isPillMissed(compartment4)","false");}
         if (! tmp.containsKey("pillTakenWithDelay(compartment2)")) tmp.put("pillTakenWithDelay(compartment2)","false");
         if (! tmp.containsKey("pillTakenWithDelay(compartment3)")) tmp.put("pillTakenWithDelay(compartment3)","false");
         if (! tmp.containsKey("pillTakenWithDelay(compartment4)"))  tmp.put("pillTakenWithDelay(compartment4)","false");

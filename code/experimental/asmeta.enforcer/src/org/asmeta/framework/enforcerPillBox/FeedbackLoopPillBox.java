@@ -65,11 +65,20 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 			//store the adaptation plan as computed by the ASM runtime model into the knowledge and trigger execution
 			//kPB.setEffectors(result.getControlledvalues()); 
 			Map<String, String> tmp = new HashMap<>();
-			//iterating over keys only and selects those starting with "setNewTime", etc.
+			//iterating over keys only and selects those starting with "skipNextPill", "setNewTime" and "newTime"  
 		    for (String key : result.getControlledvalues().keySet()) {
-		        if (key.startsWith("setNewTime") || key.startsWith("newTime") || key.startsWith("skipNextPill")) 
+		        if ( key.startsWith("setNewTime") || key.startsWith("newTime") || key.startsWith("skipNextPill")) 
 		        	tmp.put(key,result.getControlledvalues().get(key));	
 		     }
+		    System.out.println("Enforcer output for effectors:~$ "+ tmp.toString());
+		    if (! tmp.isEmpty()) { //to conditionally fill with the other monitored locations as received in input by the Pillbox
+	    	//iterating over keys only and selects those starting with "systemTime" and "openSwitch"  
+		    for (String key : kPB.getInput().keySet()) {
+		        if (key.startsWith("openSwitch") || key.startsWith("systemTime")) 
+		        	tmp.put(key,kPB.getInput().get(key));	
+		     }
+	        }
+		    	
 			kPB.setEffectors(tmp);
 			execution();
 		}
@@ -84,8 +93,8 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 	@Override
 	public void execution() {
 		//If enforcement is required, force the system as planned by actuating the effectors 
-		System.out.println("Enforcer output for effectors:~$ "+ kPB.getEffectors().toString());
   	    if (! kPB.getEffectors().isEmpty()) {
+  	  	   System.out.println("The Pillbox returns into a safe state with the enforced input:~$ "+kPB.getEffectors().toString());
   	       effectorPB.run(kPB.getEffectors()); //the managed system runs again to return in a safe region
   	    }
  	
