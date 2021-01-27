@@ -3,52 +3,71 @@
 #################################################
 Pillbox initialization (simulated version) ...
 Enforcer and ASM@run.time model engine initialized for <examples/pillbox/safePillbox.asm> with simulation timeout of 20 seconds
-Initial input trace: {redLed(compartment2)=OFF, redLed(compartment3)=OFF, name(compartment2)="aspirine", redLed(compartment4)=OFF, name(compartment4)="fosamax", name(compartment3)="moment", time_consumption(compartment2)=[960], time_consumption(compartment3)=[780,1140], time_consumption(compartment4)=[350], drugIndex(compartment4)=0, drugIndex(compartment2)=0, drugIndex(compartment3)=0}
+Model initialization with the actual pillbox content: {redLed(compartment2)=OFF, name(compartment2)="moment", name(compartment1)="fosamax", time_consumption(compartment1)=[350], time_consumption(compartment2)=[780,1140], redLed(compartment1)=OFF, drugIndex(compartment1)=0, drugIndex(compartment2)=0}
 [step:1 of safePillbox]
-The esit of the running is: SAFE
-The new state is: {amount(moment)=2, id(Medicine!2)=moment, time(fosamax)=[350], id(Medicine!1)=aspirine, time(aspirine)=[960], minToInterferer(fosamax,aspirine)=360, prevRedLed(compartment3)=undef, prevRedLed(compartment2)=undef, id(Medicine!3)=fosamax, prevRedLed(compartment4)=undef, time(moment)=[780,1140], amount(aspirine)=1, state=NORMAL, amount(fosamax)=1, medicine_list=[aspirine,moment,fosamax], minToInterferer(fosamax,moment)=360, minToInterferer(moment,aspirine)=60}
-Execution time :26977000 nT
+Model execution outcome: SAFE
+Updated locations: {amount(moment)=2, time(moment)=[780,1140], id(Medicine!2)=fosamax, time(fosamax)=[350], id(Medicine!1)=moment, state=NORMAL, amount(fosamax)=1, medicine_list=[moment,fosamax], prevRedLed(compartment1)=undef, prevRedLed(compartment2)=undef, minToInterferer(fosamax,moment)=360}
+Execution time :20617000 nT
+                                 
 PillBox ON, enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$
-systemTime 351 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false
-(Sanitised) User input:~$ {openSwitch(compartment2)=false, openSwitch(compartment3)=false, openSwitch(compartment4)=false, systemTime=351}
+systemTime 351 openSwitch(compartment1) false openSwitch(compartment2) false
+(Sanitised) User input:~$ {openSwitch(compartment1)=false, openSwitch(compartment2)=false, systemTime=351}
+Pillbox running...
 [step:1 of pillbox]
-The esit of the running is: SAFE
-The new state is: {skipPill(compartment2)=[false], time_consumption(compartment4)=[350], opened(compartment4)=false, skipPill(compartment4)=[false], skipPill(compartment3)=[false,false], redLed(compartment2)=OFF, redLed(compartment3)=OFF, day=0, redLed(compartment4)=ON, outMess(compartment4)=Take fosamax, opened(compartment2)=false, drugIndex(compartment2)=0, opened(compartment3)=false, drugIndex(compartment3)=0, time_consumption(compartment3)=[780,1140], name(compartment4)=fosamax, time_consumption(compartment2)=[960], drugIndex(compartment4)=0, compartmentTimer(compartment4)=351, compartmentTimer(compartment3)=0, compartmentTimer(compartment2)=0}
-Execution time :12386500 nT
-PillBox state: {redLed(compartment2)=OFF, opened(compartment3)=false, redLed(compartment4)=ON, time_consumption(compartment3)=[780,1140], compartmentTimer(compartment3)=0, systemTime=351, drugIndex(compartment3)=0, skipPill(compartment2)=[false], skipPill(compartment4)=[false], openSwitch(compartment3)=false, day=0, opened(compartment4)=false, redLed(compartment3)=OFF, opened(compartment2)=false, outMess(compartment4)=Take fosamax, time_consumption(compartment2)=[960], time_consumption(compartment4)=[350], compartmentTimer(compartment4)=351, drugIndex(compartment4)=0, compartmentTimer(compartment2)=0, drugIndex(compartment2)=0, name(compartment4)=fosamax, skipPill(compartment3)=[false,false], openSwitch(compartment2)=false, openSwitch(compartment4)=false}
-Output to patient: {redLed(compartment2)=OFF, redLed(compartment3)=OFF, redLed(compartment4)=ON, outMess(compartment4)=Take fosamax}
-Output for probing:~$
-{redLed(compartment2)=OFF, redLed(compartment3)=OFF, redLed(compartment4)=ON, time_consumption(compartment2)=[960], time_consumption(compartment3)=[780,1140], time_consumption(compartment4)=[350], drugIndex(compartment4)=0, pillTakenWithDelay(compartment2)=false, systemTime=351, drugIndex(compartment2)=0, drugIndex(compartment3)=0, pillTakenWithDelay(compartment4)=false, name(compartment2)="aspirine", pillTakenWithDelay(compartment3)=false, name(compartment4)="fosamax", isPillMissed(compartment3)=false, isPillMissed(compartment2)=false, name(compartment3)="moment", isPillMissed(compartment4)=false, day=0}
-Enforcement feedback loop starting...
-Output sanitisation made by the ASM enforcement model...
+Model execution outcome: SAFE
+Updated locations: {skipPill(compartment2)=[false,false], skipPill(compartment1)=[false], logMess(compartment1)=, redLed(compartment1)=ON, redLed(compartment2)=OFF, day=0, outMess(compartment1)=Take fosamax, drugIndex(compartment1)=0, time_consumption(compartment1)=[350], compartmentTimer(compartment1)=351, opened(compartment2)=false, drugIndex(compartment2)=0, opened(compartment1)=false, time_consumption(compartment2)=[780,1140], name(compartment1)=fosamax, compartmentTimer(compartment2)=0}
+Execution time :9841900 nT
+                                 
+Output to patient: {redLed(compartment2)=OFF, redLed(compartment1)=ON, outMess(compartment1)=Take fosamax}
+Output for probing:~$ {redLed(compartment2)=OFF, time_consumption(compartment1)=[350], time_consumption(compartment2)=[780,1140], redLed(compartment1)=ON, drugIndex(compartment1)=0, isPillMissed(compartment1)=false, pillTakenWithDelay(compartment2)=false, systemTime=351, pillTakenWithDelay(compartment1)=false, drugIndex(compartment2)=0, name(compartment2)="moment", name(compartment1)="fosamax", isPillMissed(compartment2)=false, day=0}
+Enforcement feedback loop starting...Output sanitisation made by the enforcement model...
 [step:2 of safePillbox]
-The esit of the running is: SAFE
-The new state is: {amount(moment)=2, id(Medicine!2)=moment, time(fosamax)=[350], id(Medicine!1)=aspirine, time(aspirine)=[960], minToInterferer(fosamax,aspirine)=360, prevRedLed(compartment3)=OFF, prevRedLed(compartment2)=OFF, nextDrugIndexN(compartment3)=1, id(Medicine!3)=fosamax, nextDrugIndexN(compartment2)=0, prevRedLed(compartment4)=OFF, nextDrugIndexN(compartment4)=0, time(moment)=[780,1140], amount(aspirine)=1, state=NORMAL, amount(fosamax)=1, medicine_list=[aspirine,moment,fosamax], minToInterferer(fosamax,moment)=360, minToInterferer(moment,aspirine)=60}
-Execution time :14682900 nT
+Model execution outcome: SAFE
+Updated locations: {amount(moment)=2, id(Medicine!2)=fosamax, nextDrugIndexN(compartment1)=0, time(fosamax)=[350], id(Medicine!1)=moment, prevRedLed(compartment1)=OFF, prevRedLed(compartment2)=OFF, nextDrugIndexN(compartment2)=1, time(moment)=[780,1140], state=NORMAL, amount(fosamax)=1, medicine_list=[moment,fosamax], minToInterferer(fosamax,moment)=360}
+Execution time :8725700 nT
+                                 
 Enforcer output for effectors:~$ {}
 Enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$
-systemTime 362 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false
-(Sanitised) User input:~$ {openSwitch(compartment2)=false, openSwitch(compartment3)=false, openSwitch(compartment4)=false, systemTime=362}
+systemTime 362 openSwitch(compartment1) false openSwitch(compartment2) false
+(Sanitised) User input:~$ {openSwitch(compartment1)=false, openSwitch(compartment2)=false, systemTime=362}
+Pillbox running...
 [step:2 of pillbox]
-The esit of the running is: SAFE
-The new state is: {skipPill(compartment2)=[false], time_consumption(compartment4)=[350], opened(compartment4)=false, skipPill(compartment4)=[false], skipPill(compartment3)=[false,false], redLed(compartment2)=OFF, redLed(compartment3)=OFF, day=0, redLed(compartment4)=BLINKING, outMess(compartment4)=Take fosamax in 10 minutes, opened(compartment2)=false, drugIndex(compartment2)=0, opened(compartment3)=false, drugIndex(compartment3)=0, time_consumption(compartment3)=[780,1140], name(compartment4)=fosamax, time_consumption(compartment2)=[960], drugIndex(compartment4)=0, compartmentTimer(compartment4)=362, compartmentTimer(compartment3)=0, compartmentTimer(compartment2)=0}
-Execution time :5383400 nT
-PillBox state: {redLed(compartment2)=OFF, opened(compartment3)=false, redLed(compartment4)=BLINKING, time_consumption(compartment3)=[780,1140], compartmentTimer(compartment3)=0, systemTime=362, drugIndex(compartment3)=0, skipPill(compartment2)=[false], skipPill(compartment4)=[false], openSwitch(compartment3)=false, day=0, opened(compartment4)=false, redLed(compartment3)=OFF, opened(compartment2)=false, outMess(compartment4)=Take fosamax in 10 minutes, time_consumption(compartment2)=[960], time_consumption(compartment4)=[350], compartmentTimer(compartment4)=362, drugIndex(compartment4)=0, compartmentTimer(compartment2)=0, drugIndex(compartment2)=0, name(compartment4)=fosamax, skipPill(compartment3)=[false,false], openSwitch(compartment2)=false, openSwitch(compartment4)=false}
-Output to patient: {redLed(compartment2)=OFF, redLed(compartment3)=OFF, redLed(compartment4)=BLINKING, outMess(compartment4)=Take fosamax in 10 minutes}
-Output for probing:~$
-{redLed(compartment2)=OFF, redLed(compartment3)=OFF, redLed(compartment4)=BLINKING, time_consumption(compartment2)=[960], time_consumption(compartment3)=[780,1140], time_consumption(compartment4)=[350], drugIndex(compartment4)=0, pillTakenWithDelay(compartment2)=false, systemTime=362, drugIndex(compartment2)=0, drugIndex(compartment3)=0, pillTakenWithDelay(compartment4)=false, name(compartment2)="aspirine", pillTakenWithDelay(compartment3)=false, name(compartment4)="fosamax", isPillMissed(compartment3)=false, isPillMissed(compartment2)=false, name(compartment3)="moment", isPillMissed(compartment4)=true, day=0}
-Enforcement feedback loop starting...
-Output sanitisation made by the ASM enforcement model...
+Model execution outcome: SAFE
+Updated locations: {skipPill(compartment2)=[false,false], skipPill(compartment1)=[false], logMess(compartment1)=, redLed(compartment1)=BLINKING, redLed(compartment2)=OFF, day=0, outMess(compartment1)=Take fosamax in 10 minutes, drugIndex(compartment1)=0, time_consumption(compartment1)=[350], compartmentTimer(compartment1)=362, opened(compartment2)=false, drugIndex(compartment2)=0, opened(compartment1)=false, time_consumption(compartment2)=[780,1140], name(compartment1)=fosamax, compartmentTimer(compartment2)=0}
+Execution time :5060000 nT
+                                 
+Output to patient: {redLed(compartment2)=OFF, redLed(compartment1)=BLINKING, outMess(compartment1)=Take fosamax in 10 minutes}
+Output for probing:~$ {redLed(compartment2)=OFF, time_consumption(compartment1)=[350], time_consumption(compartment2)=[780,1140], redLed(compartment1)=BLINKING, drugIndex(compartment1)=0, isPillMissed(compartment1)=false, pillTakenWithDelay(compartment2)=false, systemTime=362, pillTakenWithDelay(compartment1)=false, drugIndex(compartment2)=0, name(compartment2)="moment", name(compartment1)="fosamax", isPillMissed(compartment2)=false, day=0}
+Enforcement feedback loop starting...Output sanitisation made by the enforcement model...
 [step:3 of safePillbox]
-The esit of the running is: SAFE
-The new state is: {amount(moment)=2, id(Medicine!2)=moment, time(fosamax)=[350], id(Medicine!1)=aspirine, time(aspirine)=[960], minToInterferer(fosamax,aspirine)=360, newTime(compartment4,0)=410, deltaDelay(fosamax)=60, prevRedLed(compartment3)=OFF, prevRedLed(compartment2)=OFF, nextDrugIndexN(compartment3)=1, id(Medicine!3)=fosamax, nextDrugIndexN(compartment2)=0, prevRedLed(compartment4)=ON, nextDrugIndexN(compartment4)=0, time(moment)=[780,1140], amount(aspirine)=1, state=NORMAL, amount(fosamax)=1, medicine_list=[aspirine,moment,fosamax], setNewTime(compartment4,0)=true, minToInterferer(fosamax,moment)=360, minToInterferer(moment,aspirine)=60}
-Execution time :17042900 nT
-Enforcer output for effectors:~$ {setNewTime(compartment4,0)=true, newTime(compartment4,0)=410}
-The Pillbox returns into a safe state with the enforced input:~$ {setNewTime(compartment4,0)=true, newTime(compartment4,0)=410, openSwitch(compartment2)=false, openSwitch(compartment3)=false, openSwitch(compartment4)=false, systemTime=362}
+Model execution outcome: SAFE
+Updated locations: {amount(moment)=2, id(Medicine!2)=fosamax, nextDrugIndexN(compartment1)=0, time(fosamax)=[350], id(Medicine!1)=moment, prevRedLed(compartment1)=ON, prevRedLed(compartment2)=OFF, nextDrugIndexN(compartment2)=1, time(moment)=[780,1140], state=NORMAL, amount(fosamax)=1, medicine_list=[moment,fosamax], minToInterferer(fosamax,moment)=360}
+Execution time :7728400 nT
+                                 
+Enforcer output for effectors:~$ {}
+Enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$
+systemTime 373 openSwitch(compartment1) false openSwitch(compartment2) false
+(Sanitised) User input:~$ {openSwitch(compartment1)=false, openSwitch(compartment2)=false, systemTime=373}
+Pillbox running...
 [step:3 of pillbox]
-The esit of the running is: SAFE
-The new state is: {skipPill(compartment2)=[false], time_consumption(compartment4)=[350], opened(compartment4)=false, skipPill(compartment4)=[false], skipPill(compartment3)=[false,false], redLed(compartment2)=OFF, redLed(compartment3)=OFF, day=0, redLed(compartment4)=BLINKING, outMess(compartment4)=Take fosamax in 10 minutes, opened(compartment2)=false, drugIndex(compartment2)=0, opened(compartment3)=false, drugIndex(compartment3)=0, time_consumption(compartment3)=[780,1140], name(compartment4)=fosamax, time_consumption(compartment2)=[960], drugIndex(compartment4)=0, compartmentTimer(compartment4)=362, compartmentTimer(compartment3)=0, compartmentTimer(compartment2)=0}
-Execution time :1778100 nT
-PillBox state: {redLed(compartment2)=OFF, opened(compartment3)=false, redLed(compartment4)=BLINKING, time_consumption(compartment3)=[780,1140], newTime(compartment4,0)=410, compartmentTimer(compartment3)=0, systemTime=362, drugIndex(compartment3)=0, skipPill(compartment2)=[false], skipPill(compartment4)=[false], openSwitch(compartment3)=false, day=0, opened(compartment4)=false, redLed(compartment3)=OFF, opened(compartment2)=false, outMess(compartment4)=Take fosamax in 10 minutes, time_consumption(compartment2)=[960], time_consumption(compartment4)=[350], compartmentTimer(compartment4)=362, drugIndex(compartment4)=0, compartmentTimer(compartment2)=0, drugIndex(compartment2)=0, name(compartment4)=fosamax, setNewTime(compartment4,0)=true, skipPill(compartment3)=[false,false], openSwitch(compartment2)=false, openSwitch(compartment4)=false}
-Output to patient: {redLed(compartment2)=OFF, redLed(compartment3)=OFF, redLed(compartment4)=BLINKING, outMess(compartment4)=Take fosamax in 10 minutes}
+Model execution outcome: SAFE
+Updated locations: {isPillMissed(compartment1)=true, skipPill(compartment2)=[false,false], skipPill(compartment1)=[false], logMess(compartment1)=fosamax missed, redLed(compartment1)=OFF, redLed(compartment2)=OFF, day=0, outMess(compartment1)=fosamax missed, drugIndex(compartment1)=0, time_consumption(compartment1)=[350], compartmentTimer(compartment1)=373, opened(compartment2)=false, drugIndex(compartment2)=0, opened(compartment1)=false, time_consumption(compartment2)=[780,1140], name(compartment1)=fosamax, compartmentTimer(compartment2)=0}
+Execution time :3291700 nT
+                                 
+Output to patient: {redLed(compartment2)=OFF, redLed(compartment1)=OFF, outMess(compartment1)=fosamax missed}
+Output for probing:~$ {redLed(compartment2)=OFF, time_consumption(compartment1)=[350], time_consumption(compartment2)=[780,1140], redLed(compartment1)=OFF, drugIndex(compartment1)=0, isPillMissed(compartment1)=true, pillTakenWithDelay(compartment2)=false, systemTime=373, pillTakenWithDelay(compartment1)=false, drugIndex(compartment2)=0, name(compartment2)="moment", name(compartment1)="fosamax", isPillMissed(compartment2)=false, day=0}
+Enforcement feedback loop starting...Output sanitisation made by the enforcement model...
+[step:4 of safePillbox]
+Model execution outcome: SAFE
+Updated locations: {amount(moment)=2, id(Medicine!2)=fosamax, nextDrugIndexN(compartment1)=0, time(fosamax)=[350], id(Medicine!1)=moment, deltaDelay(fosamax)=60, setOriginalTime(compartment1)=false, prevRedLed(compartment1)=BLINKING, setNewTime(compartment1)=true, prevRedLed(compartment2)=OFF, nextDrugIndexN(compartment2)=1, time(moment)=[780,1140], state=NORMAL, amount(fosamax)=1, newTime(compartment1)=410, medicine_list=[moment,fosamax], minToInterferer(fosamax,moment)=360}
+Execution time :7934600 nT
+                                 
+Enforcer output for effectors:~$ {setOriginalTime(compartment1)=false, openSwitch(compartment1)=false, openSwitch(compartment2)=false, setNewTime(compartment1)=true, newTime(compartment1)=410, systemTime=373}
+The Pillbox returns into a safe state with the enforced input:~$ {setOriginalTime(compartment1)=false, openSwitch(compartment1)=false, openSwitch(compartment2)=false, setNewTime(compartment1)=true, newTime(compartment1)=410, systemTime=373}
+[step:4 of pillbox]
+Model execution outcome: SAFE
+Updated locations: {isPillMissed(compartment1)=false, skipPill(compartment2)=[false,false], skipPill(compartment1)=[false], logMess(compartment1)=fosamax rescheduled, redLed(compartment1)=OFF, redLed(compartment2)=OFF, day=0, outMess(compartment1)=fosamax rescheduled, compartmentTimer(compartment1)=373, drugIndex(compartment1)=0, time_consumption(compartment1)=[410], opened(compartment2)=false, drugIndex(compartment2)=0, opened(compartment1)=false, time_consumption(compartment2)=[780,1140], compartmentTimer(compartment2)=0, name(compartment1)=fosamax}
+Execution time :6211600 nT
+                                 
+Output to patient: {redLed(compartment2)=OFF, redLed(compartment1)=OFF, outMess(compartment1)=fosamax rescheduled}
 Enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$

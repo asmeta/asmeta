@@ -55,7 +55,7 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 	@Override
 	public void planning() {
 		//Output sanitisation made by the ASM runtime model: make an ASM evaluation step from the current system state and the new user input (as saved/sanitized into the knowledge) 
-		System.out.println("Output sanitisation made by the ASM enforcement model...");
+		System.out.println("Output sanitisation made by the enforcement model...");
 		RunOutput result = eval(kPB.getProbes()); 	
 		//Usage:
 		//result.getEsit(); //SAFE or UNSAFE
@@ -69,16 +69,19 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 		        if ( key.startsWith("setNewTime") || key.startsWith("newTime") || key.startsWith("skipNextPill") || key.startsWith("setOriginalTime")) 
 		        	tmp.put(key,result.getControlledvalues().get(key));	
 		     }
-		    System.out.println("Enforcer output for effectors:~$ "+ tmp.toString() + "ciao: " + kPB.getInput().toString());
 		    if (! tmp.isEmpty()) { //to add the other monitored locations as required in input by the Pillbox
 	    	//iterating over keys of the input stored into the knowledge and selects those starting with "systemTime" and "openSwitch"
 		    for (String key : kPB.getInput().keySet()) {
-		        if (key.startsWith("openSwitch") || key.startsWith("systemTime")) 
+		        if (key.startsWith("openSwitch") || key.startsWith("systemTime") )
 		        	tmp.put(key,kPB.getInput().get(key));	
-		     }
 	        }
-		    	
+  		    //Add locations in the effectors (they are monitored for Pillbox!) only if not changed! 
+		    //Namely: setNewTime, newTime, skipNextPill, setOriginalTime
+		    //TODO Patrizia: forse non necessario qui, ma nel metodo run della classe PillBoxNotSing.java
+		    }
+		    
 			kPB.setEffectors(tmp);
+			System.out.println("Enforcer output for effectors:~$ "+ tmp.toString());
 			execution();
 		}
 		else {

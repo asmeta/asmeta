@@ -34,17 +34,17 @@ Output for probing: {redLed(compartment1)=ON, redLed(compartment2)=OFF, name(com
 //Second input
 openSwitch(compartment1) false openSwitch(compartment2) false setNewTime(compartment1) false setNewTime(compartment2) false skipNextPill(compartment1) false skipNextPill(compartment2) false systemTime 422
 
-Output to patient: {redLed(compartment1)=BLINKING, redLed(compartment2)=OFF,  outMess(compartment1)=Take fosamax in 10 minutes}
+Output to patient: {redLed(compartment1)=BLINKING, redLed(compartment2)=OFF, outMess(compartment1)=Take fosamax in 10 minutes}
 Output for probing: {redLed(compartment1)=BLINKING, redLed(compartment2)=OFF, name(compartment1)=fosamax, time_consumption(compartment1)=[410], time_consumption(compartment2)=[780,1140],  drugIndex(compartment1)=0, day=0, drugIndex(compartment2)=0}
 
 //Third input
 openSwitch(compartment1) false openSwitch(compartment2) false setNewTime(compartment1) false setNewTime(compartment2) false skipNextPill(compartment1) false skipNextPill(compartment2) false systemTime 433
 
-Output to patient: {redLed(compartment1)=OFF, redLed(compartment2)=OFF,  outMess(compartment1)=Take fosamax in 10 minutes}
+Output to patient: {redLed(compartment1)=OFF, redLed(compartment2)=OFF, logMess(compartment1)=fosamax missed}
 Output for probing: {redLed(compartment1)=OFF, redLed(compartment2)=OFF, name(compartment1)=fosamax, time_consumption(compartment1)=[410], time_consumption(compartment2)=[780,1140],  drugIndex(compartment1)=0, day=0, drugIndex(compartment2)=0, isPillMissed(compartment1)=true}
 
 //Forth input
 openSwitch(compartment1) false openSwitch(compartment2) false setNewTime(compartment1) true setNewTime(compartment2) false skipNextPill(compartment1) false skipNextPill(compartment2) false systemTime 433 setOriginalTime(compartment1) true newTime(compartment1) 410
 
-Output to patient: {redLed(compartment1)=OFF, redLed(compartment2)=OFF}
+Output to patient: {redLed(compartment1)=OFF, redLed(compartment2)=OFF, outMess(compartment1)=fosamax not rescheduled, logMess(compartment1)=fosamax not rescheduled}
 Output for probing: {redLed(compartment1)=OFF, redLed(compartment2)=OFF, name(compartment1)=fosamax, time_consumption(compartment1)=[410], time_consumption(compartment2)=[780,1140],  drugIndex(compartment1)=0, day=0, drugIndex(compartment2)=0, isPillMissed(compartment1)=false}

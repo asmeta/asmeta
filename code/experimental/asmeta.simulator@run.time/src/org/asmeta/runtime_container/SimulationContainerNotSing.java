@@ -658,7 +658,7 @@ public class SimulationContainerNotSing implements IModelExecution, IModelAdapta
 	private  void printState(int step, RunOutput r1, long time, int id) {
 		System.out.println(
 				"[step:" + asmS.getSimulatorTable().get(id).getContSim() + " of " + asmS.getModelName(id) + "]");
-		System.out.println(r1.MytoString());
+		System.out.println(r1.toString());
 		System.out.println("Execution time :" + time + " nT");
 		//System.out.println(
 		//		"Number of steps for the transition: " + asmS.getSimulatorTable().get(id).getSim().getCurrentStep());
@@ -667,9 +667,9 @@ public class SimulationContainerNotSing implements IModelExecution, IModelAdapta
 		 * asmS.getSimulatorTable().get(id).getSim().getMax() );
 		 */
 
-		//System.out.println("                                 ");
-
+		System.out.println("                                 ");
 		//System.out.println("=====================");
+		
 	}
 
 	private  void printRollback(int step, MyState state) {

@@ -26,7 +26,7 @@ public class EnforcerPillBox extends Enforcer{
 	//First init step for the ASM SafePillbox used as enforcement model by the enforcer
 	public Map<String, String> initStep (String input) {
 		Map<String, String> initState = prepareInput(input);
-		System.out.println("Initial input trace: "+ initState.toString());
+		System.out.println("Model initialization with the actual pillbox content: "+ initState.toString());
 		RunOutput result = this.getModelEngine().runStep(1, initState);
 		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map

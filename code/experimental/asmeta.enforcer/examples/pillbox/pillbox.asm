@@ -91,7 +91,8 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 		par
 			if redLed($compartment) != ON then compartmentTimer($compartment) := systemTime endif
 			redLed($compartment) := ON 
-			outMess($compartment) := "Take " + name($compartment)			
+			outMess($compartment) := "Take " + name($compartment)		
+			logMess($compartment) :=""	
 		endpar	
 		
 	// Rule to set the red led blinking, after the compartment opening
@@ -100,6 +101,7 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 			if redLed($compartment) != BLINKING and outMess($compartment) != ("Close " + name($compartment) + " in 10 minutes") then compartmentTimer($compartment) := systemTime endif
 			redLed($compartment) := BLINKING
 			outMess($compartment) := "Close " + name($compartment) + " in 10 minutes"	//Pill taken
+			logMess($compartment) := ""
 			//Hypothesis: the pill is taken when compartment is opened
 			actual_time_consumption($compartment) := replaceAt(actual_time_consumption($compartment),drugIndex($compartment),(systemTime mod 1440n))	
 		endpar
@@ -109,6 +111,7 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 		par
 			redLed($compartment) := OFF
 			outMess($compartment) := ""
+			logMess($compartment) := name($compartment) + " not closed"
 			compartmentTimer($compartment) := systemTime
 			drugIndex($compartment) := nextDrugIndex($compartment)
 			skipPill($compartment) := replaceAt(skipPill($compartment),drugIndex($compartment),true)
@@ -119,8 +122,8 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 	rule r_compartmentClosed($compartment in Compartment) =
 		par
 			redLed($compartment) := OFF
-			outMess($compartment) := ""			
-			logMess($compartment) := name($compartment) + " taken"			
+			outMess($compartment) := name($compartment) + " taken"		
+			logMess($compartment) := name($compartment) + " taken"	
 			compartmentTimer($compartment) := systemTime
 			drugIndex($compartment) := nextDrugIndex($compartment)
 			pillTakenWithDelay($compartment) := true
@@ -132,7 +135,7 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 	rule r_timeOutExpired_missedPill($compartment in Compartment) =
 		par
 			redLed($compartment) := OFF
-			outMess($compartment) := ""
+			outMess($compartment) := name($compartment) + " missed"
 			logMess($compartment) := name($compartment) + " missed"	
 			compartmentTimer($compartment) := systemTime
 			isPillMissed($compartment) := true
@@ -184,6 +187,8 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 			else
 				skipPill($c2) := replaceAt(skipPill($c2),nextDrugIndex($c2),true)
 			endif
+			outMess($compartment) := name($compartment) + " skipped"		
+			logMess($compartment) := name($compartment) + " skipped"
 			drugIndex($c2) := nextDrugIndex($c2)
 		endpar
 			
@@ -198,9 +203,15 @@ quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime
 							drugIndex($compartment) := nextDrugIndex($compartment)
 							skipPill($compartment) := replaceAt(skipPill($compartment),drugIndex($compartment),true)
 							time_consumption($compartment) := replaceAt(time_consumption($compartment),drugIndex($compartment), newTime($compartment))
+							outMess($compartment) := name($compartment) + " not rescheduled"		
+							logMess($compartment) := name($compartment) + " not rescheduled"		
 						endpar
 					else
-						time_consumption($compartment) := replaceAt(time_consumption($compartment),drugIndex($compartment), newTime($compartment))
+						par
+							time_consumption($compartment) := replaceAt(time_consumption($compartment),drugIndex($compartment), newTime($compartment))
+							outMess($compartment) := name($compartment) + " rescheduled"		
+							logMess($compartment) := name($compartment) + " rescheduled"
+						endpar
 					endif
 					isPillMissed($compartment):=false
 				endpar
@@ -375,7 +386,7 @@ default init s1:	//This init state is correct, it does not generate any invarian
 	function pillTakenWithDelay($compartment in Compartment) =  ((drugIndex($compartment)<iton(length(time_consumption($compartment)))) and (at(skipPill($compartment),drugIndex($compartment))=false))
 	and redLed($compartment) = BLINKING and (not openSwitch($compartment) and opened($compartment))*/
 
- init s2:	//This init state is correct, it does not generate any invariant violation
+init s2:	//This init state is correct, it does not generate any invariant violation
 
 	/* PillBox initialization */
 	// Initialization of the SystemTime

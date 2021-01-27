@@ -42,13 +42,13 @@ Output for probing: {redLed(compartment1)=BLINKING, redLed(compartment2)=OFF, na
 //Third input:
 setNewTime(compartment1) false skipNextPill(compartment1) false systemTime 426 openSwitch(compartment1) false setNewTime(compartment2) false skipNextPill(compartment2) false openSwitch(compartment2) false
 
-Output to patient: {redLed(compartment1)=OFF, redLed(compartment2)=OFF, outMess(compartment1)=Close fosamax in 10 minutes, logMess(compartment1)=fosamax taken}
+Output to patient: {redLed(compartment1)=OFF, redLed(compartment2)=OFF, outMess(compartment1)=fosamax taken, logMess(compartment1)=fosamax taken}
 Output for probing: {redLed(compartment1)=OFF, redLed(compartment2)=OFF, pillTakenWithDelay(compartment1)=true, name(compartment1)=fosamax, time_consumption(compartment1)=[410], time_consumption(compartment2)=[780,1140], actual_time_consumption(compartment1)=[425], drugIndex(compartment1)=0, day=0, drugIndex(compartment2)=0}
 
 //Forth input:
 setNewTime(compartment1) false skipNextPill(compartment1) true systemTime 426 openSwitch(compartment1) false setNewTime(compartment2) false skipNextPill(compartment2) false openSwitch(compartment2) false skipNextPill(compartment1,compartment2) true
 	
-Output to patient: {redLed(compartment1)=OFF, redLed(compartment2)=OFF, logMess(compartment1)=fosamax taken}
+Output to patient: {redLed(compartment1)=OFF, redLed(compartment2)=OFF, outMess(compartment1)=fosamax skipped, logMess(compartment1)=fosamax skipped}
 Output for probing: {redLed(compartment1)=OFF, redLed(compartment2)=OFF, pillTakenWithDelay(compartment1)=false, name(compartment1)=fosamax, time_consumption(compartment1)=[410], time_consumption(compartment2)=[780,1140], actual_time_consumption(compartment1)=[425], drugIndex(compartment1)=0, day=0, drugIndex(compartment2)=1}
 
 

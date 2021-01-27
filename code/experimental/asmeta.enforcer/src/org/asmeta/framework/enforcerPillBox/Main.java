@@ -79,7 +79,7 @@ public class Main { //extends JFrame {
 	
         /** Running -- example of safety enforcement via MAPE-K*/
 	    //Causality relation implementation between managed system and the ASM enforcement model: user input reading (by console), system/loop execution
-		//Once an event triggers the MAPE loop, the loop executes safety checks and eventually adapts the managed system 
+		//Once an event triggers the MAPE loop, the loop executes safety checks and eventually adapts the managed system by executing it once again with the provided effectors values
         
         Scanner s = new Scanner(System.in); 
         System.out.println("PillBox ON, enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$");
@@ -89,10 +89,11 @@ public class Main { //extends JFrame {
         	    e.sanitiseInput(str); //no input sanitisation applied, only input storing into the knowledge
         	    //System.out.println("User input:~$\n "+str);
         	    System.out.println("(Sanitised) User input:~$ "+e.getSanitisedInput().toString());
+        	    System.out.println("Pillbox running...");
         	    managedSystem.run(e.getSanitisedInput()); //the managed system runs 
         	    //System.out.println("Output to patient:~$\n"+managedSystem.getOutputToPatient().toString());
-          	    System.out.println("Output for probing:~$\n"+managedSystem.getOutputForProbing().toString());
-          	    System.out.println("Enforcement feedback loop starting...");
+          	    System.out.println("Output for probing:~$ "+managedSystem.getOutputForProbing().toString());
+          	    System.out.print("Enforcement feedback loop starting...");
           	    e.runLoop(); //system output sanitisation by monitoring and adaptation
           	    //System.out.println("Enforcer output for effectors:~$ "+ e.getOutputForEffectors().toString());
           	    //System.out.println("Enforced PillBox state: "+managedSystem.getOutput());

@@ -49,7 +49,7 @@ public class EnforcerInputAirConditionerShellJar {
 				while((stringS = inS.readLine()) != null && !stringS.equals(">")){
 				    System.out.println(stringS);	
 				    //meglio lavorare con oggetto runoutput o estendendo imodelexecution per avere le getOut ecc...
-				    if (stringS.equals("The Esit of the running is: SAFE")) 
+				    if (stringS.equals("The outcome of the running is: SAFE")) 
 				    	errore=false;
 				}
 				if (!errore) {
