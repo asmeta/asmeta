@@ -1,7 +1,0 @@
-//// Missed first pill -> rescheduled
-//default init s1
-//input trace events for scenario MPPillbox2 in Avalla 
-
-systemTime 351 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false
-systemTime 362 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false
-systemTime 373 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false setNewTime(compartment4) true newTime(compartment4) 410

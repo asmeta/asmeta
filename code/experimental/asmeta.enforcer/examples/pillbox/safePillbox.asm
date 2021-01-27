@@ -17,11 +17,12 @@ signature:
 	monitored day: Integer //Day number since first day of use
 	
 	//OUT to Pillbox
-	out setNewTime: Prod(Compartment, Natural) -> Boolean //pill is missed and new time must be set = previous + delay,
+	out setNewTime: Compartment -> Boolean //if true set new time when pill is missed 
+	out setOriginalTime: Compartment -> Boolean //pill is missed and new time must be set = previous + delay,
 	// if mintointerfer is violated this is false and the time is set to the original value
-	out newTime: Prod(Compartment, Natural) -> Natural //new pill time
+	out newTime: Compartment -> Natural //new pill time
 	out skipNextPill: Prod(Compartment,Compartment) -> Boolean //is next compartment skipped? It can be that more than one next compartments are skipped (current compartment, skip compartment)
-	
+	out skipNextPill: Compartment -> Boolean //SafePillbox detected that pill taken with delay
 	
 	//Time management
 	// The systemTime is expressed as the number of hours passed since the 01/01/1970
@@ -30,9 +31,8 @@ signature:
 	//*************************************************
 	// STATIC VARIABLES
 	//*************************************************
-	static compartment2: Compartment
-	static compartment3: Compartment	
-	static compartment4: Compartment
+	static compartment1: Compartment
+	static compartment2: Compartment	
 	
 definitions:
 	//*************************************************
@@ -55,6 +55,8 @@ definitions:
 	  forall $compartment in Compartment do 
 	  par
 	  	if isPillMissed($compartment) then //M
+	  	par
+	  	setNewTime ($compartment):= true
 			//Missed pill check if the new time causes invariant violation
 			 if ((forall $c in next($compartment) with 
 			   	(  (iton((at(time_consumption($c),drugIndex($c)) - at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment)))))
@@ -62,15 +64,16 @@ definitions:
 				>= (minToInterferer(name($compartment),name($c))) and $c=$compartment)
 				))) then //A
 			  			par
-			  				setNewTime ($compartment, drugIndex($compartment)):= true
-			  				newTime ($compartment, drugIndex($compartment)):= at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))
+			  				setOriginalTime ($compartment):= false
+			  				newTime ($compartment):= at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))
 			  			endpar //if not update new time of pill otherwise skip the pill
 			  else
 			  	par
-			  		setNewTime ($compartment, drugIndex($compartment)):= false
-			  		newTime ($compartment, drugIndex($compartment)):= at(time(name($compartment)),drugIndex($compartment))
+			  		setOriginalTime ($compartment):= true
+			  		newTime ($compartment):= at(time(name($compartment)),drugIndex($compartment))
 			  	endpar 
 			 endif
+		endpar
 		endif
 	 	if pillTakenWithDelay($compartment) then
 			//pill taken later compared the timecompartment
@@ -80,7 +83,10 @@ definitions:
 				<= (minToInterferer(name($compartment),name($c2)))) and $c2!=$compartment) or ((iton(at(time_consumption($c2),nextDrugIndex($c2)) - (systemTime mod 1440n))
 				<= (minToInterferer(name($compartment),name($c2)))) and $c2=$compartment)
 				) do
-					skipNextPill($compartment, $c2):= true
+					par
+						skipNextPill($compartment, $c2):= true
+						skipNextPill($compartment) := true
+					endpar
 					//skip next pill -> rule must be in pillbox
 		endif
 		endpar
@@ -90,7 +96,7 @@ definitions:
 		if (rtoi(systemTime/1440n))> day then
 			forall $c in Compartment do
 				par
-					setNewTime($c, drugIndex($c)) := false 
+					setNewTime($c) := false 
 					forall $c2 in Compartment with $c!=$c2 do
 						skipNextPill ($c, $c2) := false
 				endpar
@@ -115,30 +121,27 @@ definitions:
 
 
 		
-init s0:	//This init state is correct, it does not generate any invariant violation
+ init s0:	//This init state is correct, it does not generate any invariant violation
 	//Controlled function that indicates the status of the system
 	function state = INIT
 	
 		
 	/* Medicine knowledge initialization from an external prescription (e.g., a JSON file)*/
-	 function medicine_list = ["aspirine","moment","fosamax"]
+	 function medicine_list = ["fosamax","moment"]
 	 function amount($medicine in String) =
 		switch($medicine)
-			case "aspirine" : 1n
 			case "moment" : 2n
 			case "fosamax" : 1n
 		endswitch	
 		
 	function time($m in String) =
 		switch($m)
-			case "aspirine" : [960n]
 			case "moment" : [780n, 1140n]
 			case "fosamax" : [410n]//[180n] modificato per far si che si riprogrammi una volta sola e poi non può più essere riprogrammato
 		endswitch
 	
 	function minTimeToIntake($medicine in String) =
 		switch($medicine)
-			case "aspirine" : 360n
 			case "moment" : 120n
 			case "fosamax" : 360n
 			otherwise 0n
@@ -149,11 +152,7 @@ init s0:	//This init state is correct, it does not generate any invariant violat
  			minTimeToIntake($m)
 	 else
 		switch ($m,$n)//(($m,$n))
-			case ("moment","aspirine") : 60n
-			case ("aspirine","moment") : 60n
-			case ("fosamax","aspirine") : 360n
 			case ("fosamax","moment") : 360n
-			case ("aspirine","fosamax") : 360n
 			case ("moment","fosamax") : 360n
 			otherwise 0n
 		endswitch 	
@@ -161,15 +160,15 @@ init s0:	//This init state is correct, it does not generate any invariant violat
 	
 	function deltaDelay($medicine in String) =
 		switch($medicine)
-			case "aspirine" : 60n
 			case "moment" : 60n
 			case "fosamax" : 60n
 			otherwise 0n
 		endswitch 
 		
-	function setNewTime($c in Compartment, $index in Natural) = false
-	function newTime($c in Compartment, $index in Natural) = 0n
+	function setNewTime($c in Compartment) = false
+	function newTime($c in Compartment) = 0n
 	function skipNextPill($c in Compartment, $c2 in Compartment) = false
+	function skipNextPill($c in Compartment) = false
 	
 	//Initialization of day
 	function day = 0	
@@ -181,16 +180,14 @@ init s0:	//This init state is correct, it does not generate any invariant violat
 	// Initialization of the time consumption for a compartment
 	function time_consumption($compartment in Compartment) = //time(name($compartment))
 		switch($compartment)
-			case compartment2 : [960n]
-			case compartment3 : [780n, 1140n]
-			case compartment4 : [410n]
+			case compartment1 : [410n]
+			case compartment2 : [780n, 1140n]
 		endswitch 
 	// Insert a drug in each compartment	
 	function name($compartment in Compartment) = //id(medicineIn($compartment))
 		switch($compartment)
-			case compartment2 : "aspirine"
-			case compartment3 : "moment"
-			case compartment4 : "fosamax"
+			case compartment1 : "fosamax"
+			case compartment2 : "moment"
 		endswitch
 	// Every compartment has an index starting from 0
 	function drugIndex($compartment in Compartment) = 0n
@@ -198,35 +195,31 @@ init s0:	//This init state is correct, it does not generate any invariant violat
 	// Initialization of the actual time consumption for a compartment
 	function actual_time_consumption($compartment in Compartment) = //time(name($compartment))
 		switch($compartment)
-			case compartment2 : [0n]
-			case compartment3 : [0n, 0n]
-			case compartment4 : [0n]
+			case compartment1 : [0n]
+			case compartment2 : [0n, 0n]
 		endswitch 	
 
-default init s1:	//This init state is correct, it does not generate any invariant violation
+ default init s1:	//This init state is correct, it does not generate any invariant violation
 	//Controlled function that indicates the status of the system
 	function state = INIT
 	
 		
 	/* Medicine knowledge initialization from an external prescription (e.g., a JSON file)*/
-	 function medicine_list = ["aspirine","moment","fosamax"]
+	 function medicine_list = ["moment","fosamax"]
 	 function amount($medicine in String) =
 		switch($medicine)
-			case "aspirine" : 1n
 			case "moment" : 2n
 			case "fosamax" : 1n
 		endswitch	
 		
 	function time($m in String) =
 		switch($m)
-			case "aspirine" : [960n]
 			case "moment" : [780n, 1140n]
 			case "fosamax" : [350n]
 		endswitch
 	
 	function minTimeToIntake($medicine in String) =
 		switch($medicine)
-			case "aspirine" : 360n
 			case "moment" : 120n
 			case "fosamax" : 360n
 			otherwise 0n
@@ -237,11 +230,7 @@ default init s1:	//This init state is correct, it does not generate any invarian
  			minTimeToIntake($m)
 	 else
 		switch ($m,$n)//(($m,$n))
-			case ("moment","aspirine") : 60n
-			case ("aspirine","moment") : 60n
-			case ("fosamax","aspirine") : 360n
 			case ("fosamax","moment") : 360n
-			case ("aspirine","fosamax") : 360n
 			case ("moment","fosamax") : 360n
 			otherwise 0n
 		endswitch 	
@@ -249,15 +238,15 @@ default init s1:	//This init state is correct, it does not generate any invarian
 	
 	function deltaDelay($medicine in String) =
 		switch($medicine)
-			case "aspirine" : 60n
 			case "moment" : 60n
 			case "fosamax" : 60n
 			otherwise 0n
 		endswitch 
 		
-	function setNewTime($c in Compartment, $index in Natural) = false
-	function newTime($c in Compartment, $index in Natural) = 0n
+	function setNewTime($c in Compartment) = false
+	function newTime($c in Compartment) = 0n
 	function skipNextPill($c in Compartment, $c2 in Compartment) = false
+	function skipNextPill($c in Compartment) = false
 	
 	//Initialization of day
 	function day = 0	
@@ -269,16 +258,14 @@ default init s1:	//This init state is correct, it does not generate any invarian
 	// Initialization of the time consumption for a compartment
 	function time_consumption($compartment in Compartment) = //time(name($compartment))
 		switch($compartment)
-			case compartment2 : [960n]
-			case compartment3 : [780n, 1140n]
-			case compartment4 : [350n]
+			case compartment1 : [350n]
+			case compartment2 : [780n, 1140n]
 		endswitch 
 	// Insert a drug in each compartment	
 	function name($compartment in Compartment) = //id(medicineIn($compartment))
 		switch($compartment)
-			case compartment2 : "aspirine"
-			case compartment3 : "moment"
-			case compartment4 : "fosamax"
+			case compartment2 : "moment"
+			case compartment1 : "fosamax"
 		endswitch
 	// Every compartment has an index starting from 0
 	function drugIndex($compartment in Compartment) = 0n
@@ -286,35 +273,31 @@ default init s1:	//This init state is correct, it does not generate any invarian
 	// Initialization of the actual time consumption for a compartment
 	function actual_time_consumption($compartment in Compartment) = //time(name($compartment))
 		switch($compartment)
-			case compartment2 : [0n]
-			case compartment3 : [0n, 0n]
-			case compartment4 : [0n]
+			case compartment1 : [0n]
+			case compartment2 : [0n, 0n]
 		endswitch 	
 				
-init s2:	//This init state is correct, it does not generate any invariant violation
+ init s2:	//This init state is correct, it does not generate any invariant violation
 	//Controlled function that indicates the status of the system
 	function state = INIT
 	
 		
 	/* Medicine knowledge initialization from an external prescription (e.g., a JSON file)*/
-	 function medicine_list = ["aspirine","moment","fosamax"]
+	 function medicine_list = ["moment","fosamax"]
 	 function amount($medicine in String) =
 		switch($medicine)
-			case "aspirine" : 1n
 			case "moment" : 2n
 			case "fosamax" : 1n
 		endswitch	
 		
 	function time($m in String) =
 		switch($m)
-			case "aspirine" : [960n]
 			case "moment" : [780n, 1140n]
 			case "fosamax" : [410n]
 		endswitch
 	
 	function minTimeToIntake($medicine in String) =
 		switch($medicine)
-			case "aspirine" : 360n
 			case "moment" : 120n
 			case "fosamax" : 360n
 			otherwise 0n
@@ -325,11 +308,7 @@ init s2:	//This init state is correct, it does not generate any invariant violat
  			minTimeToIntake($m)
 	 else
 		switch ($m,$n)//(($m,$n))
-			case ("moment","aspirine") : 60n
-			case ("aspirine","moment") : 60n
-			case ("fosamax","aspirine") : 360n
 			case ("fosamax","moment") : 360n
-			case ("aspirine","fosamax") : 360n
 			case ("moment","fosamax") : 360n
 			otherwise 0n
 		endswitch 	
@@ -337,15 +316,15 @@ init s2:	//This init state is correct, it does not generate any invariant violat
 	
 	function deltaDelay($medicine in String) =
 		switch($medicine)
-			case "aspirine" : 60n
 			case "moment" : 60n
 			case "fosamax" : 60n
 			otherwise 0n
 		endswitch 
 		
-	function setNewTime($c in Compartment, $index in Natural) = false
-	function newTime($c in Compartment, $index in Natural) = 0n
+	function setNewTime($c in Compartment) = false
+	function newTime($c in Compartment) = 0n
 	function skipNextPill($c in Compartment, $c2 in Compartment) = false
+	function skipNextPill($c in Compartment) = false
 	
 	//Initialization of day
 	function day = 0	
@@ -357,16 +336,14 @@ init s2:	//This init state is correct, it does not generate any invariant violat
 	// Initialization of the time consumption for a compartment
 	function time_consumption($compartment in Compartment) = //time(name($compartment))
 		switch($compartment)
-			case compartment2 : [960n]
-			case compartment3 : [780n, 1140n]
-			case compartment4 : [410n]
+			case compartment2 : [780n, 1140n]
+			case compartment1 : [410n]
 		endswitch 
 	// Insert a drug in each compartment	
 	function name($compartment in Compartment) = //id(medicineIn($compartment))
 		switch($compartment)
-			case compartment2 : "aspirine"
-			case compartment3 : "moment"
-			case compartment4 : "fosamax"
+			case compartment2 : "moment"
+			case compartment1 : "fosamax"
 		endswitch
 	// Every compartment has an index starting from 0
 	function drugIndex($compartment in Compartment) = 0n
@@ -374,8 +351,8 @@ init s2:	//This init state is correct, it does not generate any invariant violat
 	// Initialization of the actual time consumption for a compartment
 	function actual_time_consumption($compartment in Compartment) = //time(name($compartment))
 		switch($compartment)
-			case compartment2 : [0n]
-			case compartment3 : [0n, 0n]
-			case compartment4 : [0n]
+			case compartment1 : [0n]
+			case compartment2 : [0n, 0n]
 		endswitch 			
-		
+	
+	

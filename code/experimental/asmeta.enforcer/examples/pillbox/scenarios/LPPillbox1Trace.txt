@@ -1,7 +1,0 @@
-//First pill taken but with delay, actualtimeconsumption+deltadelay violate mintointerfer
-//use init s2
-//input trace events for scenario LPPillbox1 in Avalla
-
-systemTime 411 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false
-systemTime 425 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) true
-systemTime 426 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false skipNextPill(compartment4,compartment2) false skipNextPill(compartment4,compartment3) true

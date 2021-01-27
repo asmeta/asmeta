@@ -151,28 +151,16 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 	    }
 	    //Alcuini segnali nel currentState del modello del PillBox risultano obsoleti come systemTime e/o mancanti 
 	    //Patrizia TODO: da sostituire con qualcosa di pulito per recuperare i segnali mancanti
-	    //Additional values for LPSafePillbox1 if missing
-        /*tmp.put("isPillMissed(compartment2)","false");
-        tmp.put("isPillMissed(compartment3)","false");
-        tmp.put("isPillMissed(compartment4)","false");
-        tmp.put("pillTakenWithDelay(compartment2)","false");
-        tmp.put("pillTakenWithDelay(compartment3)","false");
-        tmp.put("pillTakenWithDelay(compartment4)","false");
-        tmp.put("name(compartment2)","\"aspirine\"");
-        tmp.put("name(compartment3)","\"moment\"");
-        tmp.put("name(compartment4)","\"fosamax\"");*/
 	    //Additional values for MPSafePillbox2 if missing
+        if (! tmp.containsKey("isPillMissed(compartment1)")) tmp.put("isPillMissed(compartment1)","false");
         if (! tmp.containsKey("isPillMissed(compartment2)")) tmp.put("isPillMissed(compartment2)","false");
-        if (! tmp.containsKey("isPillMissed(compartment3)")) tmp.put("isPillMissed(compartment3)","false");
-        if (! tmp.containsKey("isPillMissed(compartment4)")) {if (tmp.get("systemTime").equals("362")) tmp.put("isPillMissed(compartment4)","true"); else tmp.put("isPillMissed(compartment4)","false");}
+        //if (! tmp.containsKey("isPillMissed(compartment4)")) {if (tmp.get("systemTime").equals("362")) tmp.put("isPillMissed(compartment4)","true"); else tmp.put("isPillMissed(compartment4)","false");}
+        if (! tmp.containsKey("pillTakenWithDelay(compartment1)")) tmp.put("pillTakenWithDelay(compartment1)","false");
         if (! tmp.containsKey("pillTakenWithDelay(compartment2)")) tmp.put("pillTakenWithDelay(compartment2)","false");
-        if (! tmp.containsKey("pillTakenWithDelay(compartment3)")) tmp.put("pillTakenWithDelay(compartment3)","false");
-        if (! tmp.containsKey("pillTakenWithDelay(compartment4)"))  tmp.put("pillTakenWithDelay(compartment4)","false");
-        tmp.put("name(compartment2)","\"aspirine\"");
-        tmp.put("name(compartment3)","\"moment\"");
-        tmp.put("name(compartment4)","\"fosamax\"");
-        
-        
+        //if (! tmp.containsKey("name(compartment1)")) tmp.put("name(compartment1)","\"fosamax\"");
+        //if (! tmp.containsKey("name(compartment2)")) tmp.put("name(compartment2)","\"moment\"");       
+        tmp.put("name(compartment1)","\"fosamax\"");
+        tmp.put("name(compartment2)","\"moment\"");
         //System.out.println("Patrizia: Output for probing: "+tmp.toString());
 		return tmp;
 		
@@ -207,7 +195,7 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 	         String str = s.nextLine();
 	         while (! str.equals("###") && ! str.isBlank()) { 	
 					p.run(str);
-					System.out.println("Output to patient: "+p.getOutputToPatient().toString());
+					//System.out.println("Output to patient: "+p.getOutputToPatient().toString());
 					System.out.println("Output for probing: "+p.getOutputForProbing().toString());
 					System.out.println("Enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$");
 					str = s.nextLine();
