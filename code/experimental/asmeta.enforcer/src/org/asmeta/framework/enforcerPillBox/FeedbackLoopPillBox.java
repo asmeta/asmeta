@@ -69,7 +69,7 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 		        if ( key.startsWith("setNewTime") || key.startsWith("newTime") || key.startsWith("skipNextPill") || key.startsWith("setOriginalTime")) 
 		        	tmp.put(key,result.getControlledvalues().get(key));	
 		     }
-		    System.out.println("Enforcer output for effectors:~$ "+ tmp.toString());
+		    System.out.println("Enforcer output for effectors:~$ "+ tmp.toString() + "ciao: " + kPB.getInput().toString());
 		    if (! tmp.isEmpty()) { //to add the other monitored locations as required in input by the Pillbox
 	    	//iterating over keys of the input stored into the knowledge and selects those starting with "systemTime" and "openSwitch"
 		    for (String key : kPB.getInput().keySet()) {
