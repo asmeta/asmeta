@@ -69,13 +69,14 @@ public class Main { //extends JFrame {
 		//Create system knowledge and feedback loop
 		KnowledgePB k = new KnowledgePB();
 		FeedbackLoop loop = new FeedbackLoopPillBox(managedSystem.getProbe(),managedSystem.getEffector(),k);
-		//create a new specialized enforcer for the Pillbox system
+		//Create a new specialized enforcer for the Pillbox system
 		Enforcer.setConfigFile("./resources/PillBox/config.properties");
 		EnforcerPillBox e = new EnforcerPillBox(managedSystem,k,loop);
-		//Init step for the enforcement model SAFEPillbox
-        String initial_input_trace = "drugIndex(compartment2) 0 drugIndex(compartment3) 0 drugIndex(compartment4) 0 name(compartment2) \"aspirine\" name(compartment3) \"moment\" name(compartment4) \"fosamax\" redLed(compartment2) OFF redLed(compartment3) OFF" + 
-              		" redLed(compartment4) OFF time_consumption(compartment2) [960] time_consumption(compartment3) [780,1140] time_consumption(compartment4) [350]";
-        Map<String, String> initState = e.initModel(initial_input_trace); 
+		
+		//Init step for the enforcement model SafePillbox for the plug-in of the pill box, with consistency checks of the invariants
+        String initial_input_trace =  "redLed(compartment1) OFF redLed(compartment2) OFF name(compartment1) \"fosamax\" name(compartment2) \"moment\""
+        		       + "time_consumption(compartment1) [350] time_consumption(compartment2) [780,1140] drugIndex(compartment1) 0 drugIndex(compartment2) 0";
+        Map<String, String> initState = e.initStep(initial_input_trace); //TODO Aggiungere gestione eccezione per invarianti, ecc..
 	
         /** Running -- example of safety enforcement via MAPE-K*/
 	    //Causality relation implementation between managed system and the ASM enforcement model: user input reading (by console), system/loop execution

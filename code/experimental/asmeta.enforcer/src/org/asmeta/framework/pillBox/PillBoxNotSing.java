@@ -128,7 +128,7 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 			Map<String, String> tmp = new HashMap<>();
 			//iterating over keys only and selects those starting with "outMess" or "redLed"
 		    for (String key : currentState.keySet()) {
-		        if (key.startsWith("outMess") || key.startsWith("redLed") || key.startsWith("logMess")) 
+		        if (key.startsWith("outMess") || key.startsWith("redLed") ) //|| key.startsWith("logMess")) 
 		        	tmp.put(key,currentState.get(key));	
 		    }
 			return tmp;

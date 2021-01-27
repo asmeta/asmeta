@@ -63,16 +63,15 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 		//result.getControlledvalues(); //Output values from the ASM model	
 		if (result.getEsit() == Esit.SAFE) {
 			//store the adaptation plan as computed by the ASM runtime model into the knowledge and trigger execution
-			//kPB.setEffectors(result.getControlledvalues()); 
 			Map<String, String> tmp = new HashMap<>();
-			//iterating over keys only and selects those starting with "skipNextPill", "setNewTime" and "newTime"  
+			//iterating over keys only and selects those location values for the effectors 
 		    for (String key : result.getControlledvalues().keySet()) {
-		        if ( key.startsWith("setNewTime") || key.startsWith("newTime") || key.startsWith("skipNextPill")) 
+		        if ( key.startsWith("setNewTime") || key.startsWith("newTime") || key.startsWith("skipNextPill") || key.startsWith("setOriginalTime")) 
 		        	tmp.put(key,result.getControlledvalues().get(key));	
 		     }
 		    System.out.println("Enforcer output for effectors:~$ "+ tmp.toString());
-		    if (! tmp.isEmpty()) { //to conditionally fill with the other monitored locations as received in input by the Pillbox
-	    	//iterating over keys only and selects those starting with "systemTime" and "openSwitch"  
+		    if (! tmp.isEmpty()) { //to add the other monitored locations as required in input by the Pillbox
+	    	//iterating over keys of the input stored into the knowledge and selects those starting with "systemTime" and "openSwitch"
 		    for (String key : kPB.getInput().keySet()) {
 		        if (key.startsWith("openSwitch") || key.startsWith("systemTime")) 
 		        	tmp.put(key,kPB.getInput().get(key));	
@@ -92,7 +91,7 @@ public class FeedbackLoopPillBox extends FeedbackLoop{
 	
 	@Override
 	public void execution() {
-		//If enforcement is required, force the system as planned by actuating the effectors 
+		//If enforcement is required, force the system as planned by actuating the Pillbox effectors 
   	    if (! kPB.getEffectors().isEmpty()) {
   	  	   System.out.println("The Pillbox returns into a safe state with the enforced input:~$ "+kPB.getEffectors().toString());
   	       effectorPB.run(kPB.getEffectors()); //the managed system runs again to return in a safe region
