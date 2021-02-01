@@ -4,7 +4,7 @@ import org.asmeta.eclipse.AsmeeActivator;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.eclipse.editor.preferences.PreferenceConstants;
 import org.asmeta.eclipse.simulator.jobs.RunJob;
-import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.eclipse.core.resources.IFile;
@@ -46,7 +46,7 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 		// get the preferences
 		IPreferenceStore store = AsmeeActivator.getDefault().getPreferenceStore();
 		RuleEvaluator.isShuffled = store.getBoolean(PreferenceConstants.P_SHUFFLE);
-		Environment.use_java_time = store.getBoolean(PreferenceConstants.P_USE_SYSTEMTIME);
+		TimeMngt.use_java_time = store.getBoolean(PreferenceConstants.P_USE_SYSTEMTIME);
 		Simulator.checkInvariants = store.getBoolean(PreferenceConstants.P_CHECK_AXIOMS);
 		RunJob.stopSimulationIfUpdateSetEmpty = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_EMPTY);
 		RunJob.stopSimulationIfUpdateSetTrivial = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_TRIVIAL);

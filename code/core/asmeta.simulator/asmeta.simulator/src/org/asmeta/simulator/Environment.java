@@ -32,17 +32,19 @@ import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.Value;
 
 /**
- * The environment returns the value of the monitored functions.<br>
- * Non tiene conto del valore attuale: se viene richiesto due volte potrebbe 
- * dare due risultati diversi
- * 
- * always the same value.
- * 
+ * The environment returns the value of the monitored functions.
  */
 public final class Environment {
 
-	// link the time variable to the time of the java machine
-	public static boolean use_java_time = true;
+	enum TimeMngt{
+		// link the time variable to the time of the java machine
+		use_java_time,
+		// ask the user
+		ask_user;
+	}
+	public static TemporalUnit timeunit = null;
+	
+	public static TimeMngt timeMngt;
 	
 	private static boolean START_TIME_FROM_0 = true;
 	/**
@@ -60,6 +62,7 @@ public final class Environment {
 			startFrom = Instant.MIN;
 	}
 
+	
 	/**
 	 * Returns the value of a monitored function.
 	 * 
@@ -75,7 +78,21 @@ public final class Environment {
 		// AG 13/11/2020 
 		// if it is time, read from the machine
 		Value value = null;
-		if (use_java_time) {
+		// se è un tempo
+		if (isTime(location)) {
+			// check if a time is already set in the state
+			Object timeSet = find_mCurrTime(state);
+			// convert if possible 
+			// if it is not possible throw Exception
+		
+		
+		// se la simualzione è java time prendi il time dallo stato (da bvraibile extra)
+		// se domando all'utente?
+		/*se la varibile è un time
+		se c'è il un time settato nello stato, converti 
+		altrimenti a seconda dei modi
+		
+		if (timeMngt == TimeMngt.use_java_time) {
 			//TODO use switch expressions !
 			TemporalUnit timeunit = null;
 			switch(location.getName()){
@@ -90,8 +107,23 @@ public final class Environment {
 			}
 		} 	
 		if (value == null)
-			value = monFuncReader.read(location, state);
-		return value;
+			value = monFuncReader.read(location, state);*/
+			return null;
+		}
+		// not a time location
+		return monFuncReader.read(location, state);
+	}
+
+
+	private Object find_mCurrTime(State state) {
+		// scan the state and look for time
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	private boolean isTime(Location location) {
+		return (location.getName().startsWith("mCurrTime"));
 	}
 
 }
