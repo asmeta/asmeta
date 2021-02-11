@@ -14,12 +14,18 @@ public class TestAssignementConcretedomain {
 		sim.run(1);
 		
 	}
-	@Test //(expected = Exception.class)
+	@Test(expected = Exception.class)
 	public void testAny() throws Exception {
 		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/concreteAssgnAny.asm");
 		sim.run(1);
 		
 	}
 
+	@Test(expected = Exception.class)
+	public void testUnion() throws Exception {
+		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/concreteAssgnAnyunion.asm");
+		sim.run(1);
+		
+	}
 
 }
