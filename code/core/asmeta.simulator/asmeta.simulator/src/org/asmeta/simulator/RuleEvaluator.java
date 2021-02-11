@@ -42,6 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.stream.StreamSupport;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.Defs;
@@ -52,6 +53,7 @@ import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.CollectionValue;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.RuleValue;
+import org.asmeta.simulator.value.SetValue;
 import org.asmeta.simulator.value.TupleValue;
 import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
@@ -212,6 +214,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			}
 			logger.debug("</LocationTerm>");
 			Location location = new Location(signature, (Value[]) arguments.toArray(new Value[arguments.size()]));
+			checkCompatibility(content,location);
 			updateSet.putUpdate(location, content);
 		} else if (lhsTerm instanceof VariableTerm) {
 			// FIXME experimental!!
@@ -224,6 +227,24 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
 		logger.debug("</UpdateRule>");
 		return updateSet;
+	}
+
+	/**
+	 * Check compatibility.
+	 *
+	 * @param content the content to be assigne to the location
+	 * @param location the location
+	 */
+	// check the compatibility of content with location (i.e. content can be copied into location)
+	private void checkCompatibility(Value content, Location location) {
+		Domain codomain = location.getSignature().getCodomain();
+		if (codomain instanceof ConcreteDomain) {
+			ConcreteDomain concreteDomain = ((ConcreteDomain)codomain);
+			// get the values in the domain (should work both static and dynamic)
+			SetValue values = termEval.getValues(concreteDomain);
+			if (!values.getValue().stream().anyMatch(x -> x.equals(content)))
+				throw new RuntimeException("value out of domain: cannot assign " + content + " to " + location);
+		}
 	}
 
 	/**

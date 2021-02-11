@@ -7,7 +7,7 @@ export *
 
 signature:
 	abstract domain Timer
-	enum domain TimerUnit={NANOSEC, MILLISEC, SEC}
+	enum domain TimerUnit={NANOSEC, MILLISEC, SEC, MIN, HOUR}
 	// starting time taken from the local clock
 	controlled start: Timer-> Integer
 	// duration in ms of the timer starting from its start
@@ -26,15 +26,19 @@ definitions:
 														
 	
 	/*******************************************************/	
-	function initStart($t in Timer) = if (timerUnit($t)=NANOSEC) then currTimeNanosecs
-														else if (timerUnit($t)=MILLISEC) then currTimeMillisecs
-														else if (timerUnit($t)=SEC) then currTimeSecs
-														endif endif endif
+	function initStart($t in Timer) = if (timerUnit($t)=NANOSEC) then mCurrTimeNanosecs
+										else if (timerUnit($t)=MILLISEC) then mCurrTimeMillisecs
+										else if (timerUnit($t)=SEC) then mCurrTimeSecs
+										else if (timerUnit($t)=MIN) then mCurrTimeMins
+										else if (timerUnit($t)=HOUR) then mCurrTimeHours
+										endif endif endif endif endif
 														
-	function expired($t in Timer) = if (timerUnit($t)=NANOSEC) then (currTimeNanosecs > start($t) + duration($t))
-														else if (timerUnit($t)=MILLISEC) then (currTimeMillisecs > start($t) + duration($t))
-														else if (timerUnit($t)=SEC) then (currTimeSecs > start($t) + duration($t))
-														endif endif endif
+	function expired($t in Timer) = if (timerUnit($t)=NANOSEC) then (mCurrTimeNanosecs > start($t) + duration($t))
+										else if (timerUnit($t)=MILLISEC) then (mCurrTimeMillisecs > start($t) + duration($t))
+										else if (timerUnit($t)=SEC) then (mCurrTimeSecs > start($t) + duration($t))
+										else if (timerUnit($t)=MIN) then (mCurrTimeMins > start($t) + duration($t))
+										else if (timerUnit($t)=HOUR) then (mCurrTimeHours > start($t) + duration($t))
+									endif endif endif endif endif
 	
 	
 	/*******************************************************/
