@@ -659,7 +659,7 @@ public class SimulationContainerNotSing implements IModelExecution, IModelAdapta
 		System.out.println(
 				"[step:" + asmS.getSimulatorTable().get(id).getContSim() + " of " + asmS.getModelName(id) + "]");
 		System.out.println(r1.toString());
-		System.out.println("Execution time :" + time + " nT");
+		System.out.println("Execution time (in milliseconds): " + time/ 1000000 +" ms");
 		//System.out.println(
 		//		"Number of steps for the transition: " + asmS.getSimulatorTable().get(id).getSim().getCurrentStep());
 		/*

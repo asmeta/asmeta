@@ -109,10 +109,11 @@ public abstract class Enforcer {
 	
 	/**
 	 * Run the enforcer's MAPE-K control loop. Final so subclasses can't override
+	 * @return 
 	 */
-	public final void runLoop(){		
+	public final long runLoop(){		
 		
-		loop.run();
+		return loop.run();
 		
 	}
 	

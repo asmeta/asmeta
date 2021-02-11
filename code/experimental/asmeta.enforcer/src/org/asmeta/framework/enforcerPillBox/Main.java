@@ -94,7 +94,8 @@ public class Main { //extends JFrame {
         	    //System.out.println("Output to patient:~$\n"+managedSystem.getOutputToPatient().toString());
           	    System.out.println("Output for probing:~$ "+managedSystem.getOutputForProbing().toString());
           	    System.out.print("Enforcement feedback loop starting...");
-          	    e.runLoop(); //system output sanitisation by monitoring and adaptation
+          	    long execTime = e.runLoop(); //system output sanitisation by monitoring and adaptation
+          	    System.out.println("Enforcement feedback loop execution time (in milliseconds): "+execTime/ 1000000 +" ms");
           	    //System.out.println("Enforcer output for effectors:~$ "+ e.getOutputForEffectors().toString());
           	    //System.out.println("Enforced PillBox state: "+managedSystem.getOutput());
           	    //System.out.println("(Enforced) Output to patient: "+managedSystem.getOutputToPatient().toString());

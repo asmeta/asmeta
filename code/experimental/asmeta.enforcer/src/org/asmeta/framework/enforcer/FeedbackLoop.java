@@ -76,10 +76,11 @@ public abstract class FeedbackLoop {
 	}
 	
 	//Final so subclasses can't override
-	public final void run() {
-		startTime = System.currentTimeMillis();	
+	public final long run() {
+		startTime = System.nanoTime();	
 		monitor(); //waterfall invocation
-		endTime = System.currentTimeMillis();
+		endTime = System.nanoTime();	
+		return (endTime - startTime);
 	}
 
 	//hook method

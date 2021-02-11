@@ -1,7 +1,7 @@
 //// Missed first pill -> rescheduled
 
 //SafePillbox used as enforcement model by the enforcer
-//input trace events for scenario MPSafePillbox2 in Avalla 
+//input trace events for scenario MPSafePillbox1 in Avalla 
 //use init s1 as default
 
 //First input (initialization)
@@ -27,7 +27,7 @@ Output to pillbox: {newTime(compartment1)=410, setOriginalTime(compartment1)=fal
 ------------------------------------------------------------------------------------------
 ////// Missed first pill -> rescheduled
 //use init s1 as default
-//input trace events for scenario MPPillbox2 in Avalla
+//input trace events for scenario MPPillbox1 in Avalla
 
 //Pillbox
 //First input
