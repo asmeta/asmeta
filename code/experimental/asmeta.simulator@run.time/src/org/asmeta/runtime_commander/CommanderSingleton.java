@@ -6,9 +6,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.asmeta.runtime_container.SimulationContainerNotSing;
+import org.asmeta.runtime_container.SimulationContainer;
 
-public class Commander {
+public class CommanderSingleton {
 
 	static int DEFVALUE=-10;	//default value to check if user has inserted integer values
 								
@@ -45,7 +45,7 @@ public class Commander {
 		return str;
 	}
 	
-	public void parseInput(SimulationContainerNotSing crt, String input) {	//using default no debug mode
+	public void parseInput(SimulationContainer crt, String input) {	//using default no debug mode
 		parseInput(crt, input, false);
 	}
 	
@@ -57,7 +57,7 @@ public class Commander {
 	 * @param debugMode shows more information on the console
 	 * @return object representing the result of the command executed
 	 */
-	public static CommanderOutput parseInput(SimulationContainerNotSing crt, String input, boolean debugMode) {
+	public static CommanderOutput parseInput(SimulationContainer crt, String input, boolean debugMode) {
 		Pattern p;
 		Matcher m;
 		String f="";

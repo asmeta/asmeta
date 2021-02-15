@@ -22,7 +22,7 @@ import org.asmeta.assertion_catalog.InvariantGUI;
 import org.asmeta.assertion_catalog.LoadComboItem;
 import org.asmeta.assertion_catalog.LoadDialog;
 import org.asmeta.parser.ASMParser;
-import org.asmeta.runtime_container.SimulationContainerNotSing;
+import org.asmeta.runtime_container.SimulationContainer;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 
@@ -40,7 +40,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 
-public class SimGUI extends JFrame {
+public class SimGUISingleton extends JFrame {
 
 	private JPanel contentPane;
 	private JTextPane textPaneID;
@@ -50,7 +50,7 @@ public class SimGUI extends JFrame {
 	private JButton btnRunstepTimeout;
 	private JButton btnRununtilempty;
 	private JButton rununtilemptytimeout;
-	static SimulationContainerNotSing containerInstance;
+	static SimulationContainer containerInstance;
 	static int currentLoadedID;
 	static int currentMaxInstances;
 	static String currentLoadedModel;
@@ -58,11 +58,11 @@ public class SimGUI extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		SimulationContainerNotSing contInstance = new SimulationContainerNotSing();
+		SimulationContainer contInstance = SimulationContainer.getInstance();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SimGUI frame = new SimGUI(contInstance);
+					SimGUISingleton frame = new SimGUISingleton(contInstance);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -74,7 +74,7 @@ public class SimGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SimGUI(SimulationContainerNotSing contInstance) {
+	public SimGUISingleton(SimulationContainer contInstance) {
 		setResizable(false);
 		initialize();
 		enableLoadSimButtons(false);

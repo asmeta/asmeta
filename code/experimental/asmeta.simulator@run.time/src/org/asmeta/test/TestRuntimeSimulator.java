@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.asmeta.animator.MyState;
-import org.asmeta.runtime_simulator.AsmetaSservice;
+import org.asmeta.runtime_simulator.AsmetaSserviceSingleton;
 import org.asmeta.runtime_simulator.IdNotFoundException;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
@@ -31,7 +31,7 @@ public class TestRuntimeSimulator {
 		System.out.println("MODEL WITHOUT MONITORED TEST");
 		
 		String modelName = "examples/AdvancedClock.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		int id = asmS.start(modelName);
 		
@@ -56,7 +56,7 @@ public class TestRuntimeSimulator {
 		System.out.println("MODEL WITH MONITORED TEST");
 		
 		String modelName = "examples/AdvancedClock2.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		Map<String, String> locationValue = new HashMap<String, String>();
 		int id = asmS.start(modelName);
@@ -91,7 +91,7 @@ public class TestRuntimeSimulator {
 		System.out.println("UPDATECLASHEXCEPTION TEST");
 		
 		String modelName = "examples/updateClash.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		int id = asmS.start(modelName);
 
@@ -116,7 +116,7 @@ public class TestRuntimeSimulator {
 		
 		
 		String modelName = "examples/Invariants.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		int id = asmS.start(modelName);
 		
@@ -143,7 +143,7 @@ public class TestRuntimeSimulator {
 		System.out.println("MODEL WITH MONITORED TEST");
 		
 		String modelName =  "examples/AdvancedClock2.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		Map<String, String> locationValue = new HashMap<String, String>();
 		int id = asmS.start(modelName);
@@ -170,7 +170,7 @@ public class TestRuntimeSimulator {
 		System.out.println("RUN UNTIL EMPTY TEST");
 		
 		String modelName = "examples/test_insertAt_Sequence.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		int id = asmS.start(modelName);
 		
@@ -187,7 +187,7 @@ public class TestRuntimeSimulator {
 		System.out.println("RUN UNTIL EMPTY TEST");
 		
 		String modelName =   "examples/AdvancedClock2.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		Map<String, String> locationValue = new HashMap<String, String>();
 		int id = asmS.start(modelName);
@@ -219,7 +219,7 @@ public class TestRuntimeSimulator {
 		System.out.println("ROLLBACK TEST");
 		
 		String modelName =   "examples/AdvancedClock.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		int id = asmS.start(modelName);
 		MyState previousState = null;
@@ -279,7 +279,7 @@ public class TestRuntimeSimulator {
 		System.out.println("ROLLBACK TEST");
 		
 		String modelName =  "examples/updateClash.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		int id = asmS.start(modelName);
 
@@ -310,7 +310,7 @@ public class TestRuntimeSimulator {
 		
 		
 		String modelName =   "examples/Invariants.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		int id = asmS.start(modelName);
 		
@@ -344,7 +344,7 @@ public class TestRuntimeSimulator {
 		System.out.println("RESET SIMULATOR TEST");
 		
 		String modelName =   "examples/AdvancedClock2.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		Map<String, String> locationValue = new HashMap<String, String>();
 		int id = asmS.start(modelName);
@@ -394,7 +394,7 @@ public class TestRuntimeSimulator {
 		System.out.println("ID EXCEPTION TEST");
 		
 		String modelName =   "examples/AdvancedClock.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		int id = asmS.start(modelName);
 		
@@ -434,7 +434,7 @@ public class TestRuntimeSimulator {
 		System.out.println("VARIOUS METHODS TEST");
 		
 		String modelName =   "examples/AdvancedClock.asm";
-		AsmetaSservice asmS = AsmetaSservice.getInstance();
+		AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 		asmS.init(5);
 		int id = asmS.start(modelName);
 		assertEquals(1, id);

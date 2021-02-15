@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.asmeta.assertion_catalog.InvariantGUI;
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerNotSing;
 import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.IModelExecution;
 import org.asmeta.simulationUI.SimShell;
@@ -16,7 +16,7 @@ import org.asmeta.simulationUI.SimShell;
 public class GuiTest {
 
 	public static void main(String[] args) {
-		SimulationContainer imp = SimulationContainer.getInstance();
+		SimulationContainerNotSing imp = new SimulationContainerNotSing();
 		//imp.init(20);
 		//String model = "examples/ferrymanSimulator_raff1.asm";
 		//String model = "examples/LGS_GM.asm";

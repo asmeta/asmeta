@@ -2,25 +2,25 @@ package org.asmeta.simulationUI;
 
 import java.util.Scanner;
 
-import org.asmeta.runtime_commander.Commander;
+import org.asmeta.runtime_commander.CommanderSingleton;
 import org.asmeta.runtime_commander.CommanderException;
 import org.asmeta.runtime_commander.CommanderOutput;
-import org.asmeta.runtime_container.SimulationContainerNotSing;
+import org.asmeta.runtime_container.SimulationContainer;
 
-public class SimShell {
+public class SimShell_endline_old_singleton {
 
 	public static void main(String[] args) {
 		String in=String.join(" ", args);
-		SimulationContainerNotSing imp = new SimulationContainerNotSing();
-		Commander.parseInput(imp, in, false);
+		SimulationContainer imp = SimulationContainer.getInstance();
+		CommanderSingleton.parseInput(imp, in, false);
 		CommanderOutput CO;
 		Scanner keyboard = new Scanner(System.in);
 		do
 		{
-			System.out.print('>');
+			System.out.println('>');
 			in = keyboard.nextLine();
 			if (!in.equals("qqq")) {
-				CO = Commander.parseInput(imp, in, false);
+				CO = CommanderSingleton.parseInput(imp, in, false);
 				try {
 				switch (CO.getStatus()) {
 				case SIM_ID:

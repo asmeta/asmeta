@@ -2,25 +2,25 @@ package org.asmeta.simulationUI;
 
 import java.util.Scanner;
 
-import org.asmeta.runtime_commander.Commander;
+import org.asmeta.runtime_commander.CommanderSingleton;
 import org.asmeta.runtime_commander.CommanderException;
 import org.asmeta.runtime_commander.CommanderOutput;
 import org.asmeta.runtime_container.SimulationContainer;
 
-public class SimShell_con_aCapo {
+public class SimShellSingleton {
 
 	public static void main(String[] args) {
 		String in=String.join(" ", args);
 		SimulationContainer imp = SimulationContainer.getInstance();
-		Commander.parseInput(imp, in, false);
+		CommanderSingleton.parseInput(imp, in, false);
 		CommanderOutput CO;
 		Scanner keyboard = new Scanner(System.in);
 		do
 		{
-			System.out.println('>');
+			System.out.print('>');
 			in = keyboard.nextLine();
 			if (!in.equals("qqq")) {
-				CO = Commander.parseInput(imp, in, false);
+				CO = CommanderSingleton.parseInput(imp, in, false);
 				try {
 				switch (CO.getStatus()) {
 				case SIM_ID:

@@ -1,13 +1,9 @@
 package org.asmeta.test;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerNotSing;
 
 public class TestMonitorateNarie {
 
@@ -25,7 +21,7 @@ public class TestMonitorateNarie {
 		Map<String,String> m=new HashMap<String, String>(); //prova per invalid invariant su aggiunta
 		m.put("carry", "GOAT");
 		System.out.println(i.runStep(3,m));*/
-		SimulationContainer i=SimulationContainer.getInstance();
+		SimulationContainerNotSing i=new SimulationContainerNotSing();
 		i.init(5);
 		int id;
 		//id=i.startExecution(model);

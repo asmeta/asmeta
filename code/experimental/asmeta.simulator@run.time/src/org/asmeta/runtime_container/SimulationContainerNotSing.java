@@ -29,7 +29,7 @@ import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
 import org.asmeta.parser.util.AsmPrinter;
-import org.asmeta.runtime_simulator.AsmetaSserviceNotSing;
+import org.asmeta.runtime_simulator.AsmetaSservice;
 import org.asmeta.runtime_simulator.IdNotFoundException;
 import org.asmeta.runtime_simulator.InfoAsmetaService;
 import org.asmeta.simulator.InvalidInvariantException;
@@ -65,7 +65,7 @@ public class SimulationContainerNotSing implements IModelExecution, IModelAdapta
 	private int ids; //the id for the method start to check if is full o not
 
 	/** The asm S. */
-	protected AsmetaSserviceNotSing asmS;
+	protected AsmetaSservice asmS;
 
 
 	/** The ms. */
@@ -90,7 +90,7 @@ public class SimulationContainerNotSing implements IModelExecution, IModelAdapta
 
 	
 	public SimulationContainerNotSing() {
-		asmS = new AsmetaSserviceNotSing();
+		asmS = new AsmetaSservice();
 		
 	}
 

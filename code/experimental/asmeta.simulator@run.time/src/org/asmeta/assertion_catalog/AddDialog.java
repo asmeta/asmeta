@@ -13,7 +13,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.asmeta.runtime_container.InvariantData;
-import org.asmeta.test.TestSimulationContainer;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;

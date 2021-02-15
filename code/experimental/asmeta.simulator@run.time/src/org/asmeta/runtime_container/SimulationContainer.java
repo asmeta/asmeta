@@ -29,7 +29,7 @@ import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
 import org.asmeta.parser.util.AsmPrinter;
-import org.asmeta.runtime_simulator.AsmetaSservice;
+import org.asmeta.runtime_simulator.AsmetaSserviceSingleton;
 import org.asmeta.runtime_simulator.IdNotFoundException;
 import org.asmeta.runtime_simulator.InfoAsmetaService;
 import org.asmeta.simulator.InvalidInvariantException;
@@ -65,7 +65,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	private int ids; //the id for the method start to check if is full o not
 
 	/** The asm S. */
-	static AsmetaSservice asmS = AsmetaSservice.getInstance();
+	static AsmetaSserviceSingleton asmS = AsmetaSserviceSingleton.getInstance();
 
 	/** The instance. */
 	private static SimulationContainer instance = null;
