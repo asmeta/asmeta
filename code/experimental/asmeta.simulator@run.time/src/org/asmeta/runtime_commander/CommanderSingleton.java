@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 
 public class CommanderSingleton {
 
@@ -45,7 +45,7 @@ public class CommanderSingleton {
 		return str;
 	}
 	
-	public void parseInput(SimulationContainer crt, String input) {	//using default no debug mode
+	public void parseInput(SimulationContainerSingleton crt, String input) {	//using default no debug mode
 		parseInput(crt, input, false);
 	}
 	
@@ -57,7 +57,7 @@ public class CommanderSingleton {
 	 * @param debugMode shows more information on the console
 	 * @return object representing the result of the command executed
 	 */
-	public static CommanderOutput parseInput(SimulationContainer crt, String input, boolean debugMode) {
+	public static CommanderOutput parseInput(SimulationContainerSingleton crt, String input, boolean debugMode) {
 		Pattern p;
 		Matcher m;
 		String f="";

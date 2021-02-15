@@ -5,13 +5,13 @@ import java.util.Scanner;
 import org.asmeta.runtime_commander.CommanderSingleton;
 import org.asmeta.runtime_commander.CommanderException;
 import org.asmeta.runtime_commander.CommanderOutput;
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 
 public class SimShellSingleton {
 
 	public static void main(String[] args) {
 		String in=String.join(" ", args);
-		SimulationContainer imp = SimulationContainer.getInstance();
+		SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 		CommanderSingleton.parseInput(imp, in, false);
 		CommanderOutput CO;
 		Scanner keyboard = new Scanner(System.in);

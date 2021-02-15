@@ -13,23 +13,23 @@ import java.util.Scanner;
 
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 
-public class SafePillBox {
+public class SafePillBoxSingleton {
 	//Java wrapper of the simulated SafePillbox system (an ASM model)
 	//For debugging purposes!
 	
 	 /** Runtime model simulator*/
-    private SimulationContainer modelEngine; 
+    private SimulationContainerSingleton modelEngine; 
     private int id;
     private Map<String, String> currentStateChange;
    
  
-	public SafePillBox(String SYSTEM_MODEL_PATH) {
+	public SafePillBoxSingleton(String SYSTEM_MODEL_PATH) {
 	
 	    System.out.println("Trying to initialize a model engine for "+ SYSTEM_MODEL_PATH);	       
 	    //Initialize an AsmetaS@run.time model engine instance for the runtime system model (the simulated managed system!) 
-		modelEngine = SimulationContainer.getInstance();
+		modelEngine = SimulationContainerSingleton.getInstance();
 		modelEngine.init(1);
 		currentStateChange = new HashMap<>();
 		int result = modelEngine.startExecution(SYSTEM_MODEL_PATH);
@@ -125,7 +125,7 @@ public class SafePillBox {
 	//Example of input cmd: 
 	//redLed(compartment2) OFF redLed(compartment3) OFF redLed(compartment4) OFF name(compartment2) "aspirine" name(compartment3) "moment" name(compartment4) "fosamax" time_consumption(compartment2) [960] time_consumption(compartment3) [780,1140] time_consumption(compartment4) [410] drugIndex(compartment2) 0 drugIndex(compartment3) 0 drugIndex(compartment4) 0 nextDrugIndex(compartment2) 0 nextDrugIndex(compartment3) 1
 		public static void main(String[] args) {	
-	        SafePillBox p = new SafePillBox("examples/pillbox1/safePillbox.asm");	
+	        SafePillBoxSingleton p = new SafePillBoxSingleton("examples/pillbox1/safePillbox.asm");	
 	        
 	        Scanner s = new Scanner(System.in); 
 	        System.out.println("SafePillBox ON, enter input values> ");	

@@ -3,7 +3,7 @@ package org.asmeta.test;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.asmeta.runtime_container.SimulationContainerNotSing;
+import org.asmeta.runtime_container.SimulationContainer;
 
 public class TestMonitorateNarie {
 
@@ -21,7 +21,7 @@ public class TestMonitorateNarie {
 		Map<String,String> m=new HashMap<String, String>(); //prova per invalid invariant su aggiunta
 		m.put("carry", "GOAT");
 		System.out.println(i.runStep(3,m));*/
-		SimulationContainerNotSing i=new SimulationContainerNotSing();
+		SimulationContainer i=new SimulationContainer();
 		i.init(5);
 		int id;
 		//id=i.startExecution(model);

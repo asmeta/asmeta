@@ -13,14 +13,14 @@ import java.util.Scanner;
 
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 
 public class SafePillBox {
 	//Java wrapper of the simulated SafePillbox system (an ASM model)
 	//For debugging purposes!
 	
 	 /** Runtime model simulator*/
-    private SimulationContainer modelEngine; 
+    private SimulationContainerSingleton modelEngine; 
     private int id;
     private Map<String, String> currentStateChange;
    
@@ -29,7 +29,7 @@ public class SafePillBox {
 	
 	    System.out.println("Trying to initialize a model engine for "+ SYSTEM_MODEL_PATH);	       
 	    //Initialize an AsmetaS@run.time model engine instance for the runtime system model (the simulated managed system!) 
-		modelEngine = SimulationContainer.getInstance();
+		modelEngine = SimulationContainerSingleton.getInstance();
 		modelEngine.init(1);
 		currentStateChange = new HashMap<>();
 		int result = modelEngine.startExecution(SYSTEM_MODEL_PATH);

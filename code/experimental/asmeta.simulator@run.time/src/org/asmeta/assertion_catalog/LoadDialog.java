@@ -10,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 import org.asmeta.parser.ParseException;
 import org.asmeta.runtime_container.FullMapException;
 import org.asmeta.runtime_container.IModelExecution;
-import org.asmeta.runtime_container.SimulationContainerNotSing;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 

@@ -22,7 +22,7 @@ import org.asmeta.assertion_catalog.InvariantGUI;
 import org.asmeta.assertion_catalog.LoadComboItem;
 import org.asmeta.assertion_catalog.LoadDialog;
 import org.asmeta.parser.ASMParser;
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 
@@ -50,7 +50,7 @@ public class SimGUISingleton extends JFrame {
 	private JButton btnRunstepTimeout;
 	private JButton btnRununtilempty;
 	private JButton rununtilemptytimeout;
-	static SimulationContainer containerInstance;
+	static SimulationContainerSingleton containerInstance;
 	static int currentLoadedID;
 	static int currentMaxInstances;
 	static String currentLoadedModel;
@@ -58,7 +58,7 @@ public class SimGUISingleton extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		SimulationContainer contInstance = SimulationContainer.getInstance();
+		SimulationContainerSingleton contInstance = SimulationContainerSingleton.getInstance();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -74,7 +74,7 @@ public class SimGUISingleton extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SimGUISingleton(SimulationContainer contInstance) {
+	public SimGUISingleton(SimulationContainerSingleton contInstance) {
 		setResizable(false);
 		initialize();
 		enableLoadSimButtons(false);
