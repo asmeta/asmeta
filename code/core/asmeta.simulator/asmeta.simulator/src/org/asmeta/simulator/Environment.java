@@ -82,6 +82,8 @@ public final class Environment {
 			case "mCurrTimeNanosecs": timeunit = ChronoUnit.NANOS; break;
 			case "mCurrTimeMillisecs": timeunit = ChronoUnit.MILLIS; break;
 			case "mCurrTimeSecs": timeunit = ChronoUnit.SECONDS; break;
+			case "mCurrTimeMins": timeunit = ChronoUnit.MINUTES; break;
+			case "mCurrTimeHours": timeunit = ChronoUnit.HOURS; break;
 			}
 			if (timeunit!= null) value = new IntegerValue(startFrom.until(Instant.now(), timeunit));
 		} 	

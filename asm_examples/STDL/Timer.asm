@@ -15,7 +15,7 @@ signature:
 	//Timer unit
 	controlled timerUnit: Timer -> TimerUnit
 	
-	//init start time to current time
+	//init start time to current time --> static???????????????????????? forse meglio derived
 	static initStart : Timer-> Integer
 	// is the timer expired?
 	derived expired: Timer -> Boolean
