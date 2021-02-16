@@ -1,0 +1,2 @@
+- Fare sì che tutte le funzioni di out vengono stampate dal safepillbox in modo che non devono essere date come input "hard-coded" nel proramma
+- Eseguire in contemporanea due specifiche che comunicano tra loro: simulare il funzionamento di probe e effector, gli input di una specifica sono gli output dell'altra e viceversa
