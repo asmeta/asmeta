@@ -78,7 +78,10 @@ public class RunOutput implements Serializable {
 		timeoutFlag = result;
 	}
 
-	/** Shows the timeout flag value */
+	/**
+	 * Shows the timeout flag value, for the timeout methods
+	 * @return true if run finished, false if it's still running
+	 */
 	public boolean getTimeoutFlag() {
 		return timeoutFlag;
 	}

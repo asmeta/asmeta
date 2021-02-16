@@ -9,7 +9,7 @@ import java.util.Scanner;
 import org.asmeta.output_sanitisation_java.AirConditionerO;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 
 class adaptationResult{
 	boolean resu;
@@ -34,10 +34,10 @@ class adaptationResult{
 }
 
 class Enf{
-	private SimulationContainer model;
+	private SimulationContainerSingleton model;
 	//private Map<String, String> locationValue;
 	public Enf(String modelPath){
-		model = SimulationContainer.getInstance();	//TODO container è singleton, non è meglio se faccio singleton anche l'enforcer?
+		model = SimulationContainerSingleton.getInstance();	//TODO container è singleton, non è meglio se faccio singleton anche l'enforcer?
 		model.init(1);
 		model.startExecution(modelPath);
 	}

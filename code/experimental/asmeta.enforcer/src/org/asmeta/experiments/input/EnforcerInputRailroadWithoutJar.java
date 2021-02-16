@@ -11,10 +11,10 @@ public class EnforcerInputRailroadWithoutJar {
 	
 	private static String modelName=".\\ASMmodels\\railroadGateMonitored.asm";	
 	//private static IModelExecution simu; //mi farebbe importare altre 2 eccezioni da asmeta.simulator che richiedono il linking quindi al progetto simulator
-	private static SimulationContainer simu;
+	private static SimulationContainerSingleton simu;
 	
 	public static int fakeBuilder() {
-		simu = SimulationContainer.getInstance();
+		simu = SimulationContainerSingleton.getInstance();
 		int resu = simu.init(1);
 		simu.startExecution(modelName);
 		return resu;

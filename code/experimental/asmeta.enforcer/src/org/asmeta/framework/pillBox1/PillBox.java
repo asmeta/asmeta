@@ -3,7 +3,7 @@
 *
 * @author Patrizia Scandurra
 */
-package org.asmeta.framework.pillBox;
+package org.asmeta.framework.pillBox1;
 
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -16,7 +16,7 @@ import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainer;
 
-public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
+public class PillBox extends ManagedSystem implements Probe, Effector{
 	//Java wrapper of the simulated Pillbox system (an ASM model)
 	
 	 /** Runtime model simulator*/
@@ -26,7 +26,7 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
     private Map<String, String> moncurrentState; //system monitored current state (only monitored locations)
     private String SYSTEM_MODEL_PATH;
  
-	public PillBoxNotSing(String model_path) {
+	public PillBox(String model_path) {
 	
 	    //System.out.println("Trying to initialize a simulation engine for "+ SYSTEM_MODEL_PATH);	       
 	    //Initialize an AsmetaS@run.time model engine instance for the runtime system model (the simulated managed system!) 
@@ -202,7 +202,7 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 	//To test the PillBox wrapper in a standlone manner
 	//Example of input cmd: systemTime 412 openSwitch(compartment2) false openSwitch(compartment3) false openSwitch(compartment4) false 
 		public static void main(String[] args) {	
-	        PillBoxNotSing p = new PillBoxNotSing("examples/pillbox/pillbox.asm");	
+	        PillBox p = new PillBox("examples/pillbox1/pillbox.asm");	
 	        
 	        Scanner s = new Scanner(System.in); 
 	        System.out.println("Enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$");	

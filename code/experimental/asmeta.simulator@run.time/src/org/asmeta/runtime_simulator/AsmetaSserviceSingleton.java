@@ -21,40 +21,38 @@ import asmeta.AsmCollection;
 
 /**
  * 
- * @author Simone Giusso, Patrizia Scandurra
+ * @author Simone Giusso
  * Manage multiple instances of Simulator by providing an interface.
  * See documentation for more details.
  */
 
-public class AsmetaSserviceNotSing implements IAsmetaSservice{
+public class AsmetaSserviceSingleton implements IAsmetaSservice{
 	
 	private int maxSimInstance;	//maximum number of simulators
 	private boolean id[];	//id. If cell is free id(index of cell) is available
-	//private static AsmetaSserviceNotSing service;	//For singleton
+	private static AsmetaSserviceSingleton service;	//For singleton
 	private Map<Integer, InfoAsmetaService> simulatorMap;	//Map id -> created instance of the simulator (see InfoAsmetaService)
-	
-	public AsmetaSserviceNotSing() {}
 	
 	/**
 	 * SINGLETON
 	 * @return AsmetaSservice instance
 	 */
-	/*public static AsmetaSserviceNotSing getInstance(){
+	public static AsmetaSserviceSingleton getInstance(){
 		if( service == null ) {
-			service = new AsmetaSserviceNotSing();
+			service = new AsmetaSserviceSingleton();
 		}
 		
 		return service;
-	}*/
+	}
 	
 	/**
 	 * TODO USED IN SOME TESTS BEFORE REMOVING SINGLETON PATTERN
 	 * @return AsmetaSservice instance
 	 */
-	/*public static void setInstance(AsmetaSserviceNotSing instance) {
+	public static void setInstance(AsmetaSserviceSingleton instance) {
 		if (instance!=null)
 		service=instance;
-	}*/
+	}
 
 	/**
 	 * Set the initial data of this singleton. It must be call just once before use this class
@@ -88,7 +86,7 @@ public class AsmetaSserviceNotSing implements IAsmetaSservice{
 		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
 	
 		String modelName = asm.getMain().getName();
-		Environment env = new Environment(new AsmetaSserviceRunNotSing(simulatorMap));
+		Environment env = new Environment(new AsmetaSserviceRunSingleton());
 		SimulatorRT sim = new SimulatorRT(modelName, asm, env);
 		
 		
@@ -122,7 +120,7 @@ public class AsmetaSserviceNotSing implements IAsmetaSservice{
 	
 		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
 		String modelName = asm.getMain().getName();
-		Environment env = new Environment(new AsmetaSserviceRunNotSing(simulatorMap));
+		Environment env = new Environment(new AsmetaSserviceRunSingleton());
 		SimulatorRT sim = new SimulatorRT(modelName, asm, env, s);
 		
 		int id = oldId;;
@@ -160,7 +158,7 @@ public class AsmetaSserviceNotSing implements IAsmetaSservice{
 	public MyState run(int id, Map<String, String> locationValue) {
 		checkId(id);
 		simulatorMap.get(id).setLocationValue(locationValue);	//locationValue is a sharing variable with runner
-		AsmetaSserviceRunNotSing runner = new AsmetaSserviceRunNotSing(id,simulatorMap);
+		AsmetaSserviceRunSingleton runner = new AsmetaSserviceRunSingleton(id);
 		runner.run(RunMode.RUN_ONE_STEP);
 		simulatorMap.get(id).incContSim();
 		
@@ -182,7 +180,7 @@ public class AsmetaSserviceNotSing implements IAsmetaSservice{
 			simulatorMap.get(id).getSim().setMax(max);
 		}
 		
-		AsmetaSserviceRunNotSing runner = new AsmetaSserviceRunNotSing(id,simulatorMap);
+		AsmetaSserviceRunSingleton runner = new AsmetaSserviceRunSingleton(id);
 		runner.run(RunMode.RUN_UNTIL_EMPTY);
 		simulatorMap.get(id).incContSim();
 		
@@ -268,8 +266,8 @@ public class AsmetaSserviceNotSing implements IAsmetaSservice{
 		State state = simulatorMap.get(id).getSim().getCurrentState();
 		State previousState = simulatorMap.get(id).getSim().previousState;
 		
-		this.getSimulatorTable().get(id).setState(new MyState(state.getContrLocs(false), null));
-		this.getSimulatorTable().get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null));
+		AsmetaSserviceSingleton.getInstance().getSimulatorTable().get(id).setState(new MyState(state.getContrLocs(false), null));
+		AsmetaSserviceSingleton.getInstance().getSimulatorTable().get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null));
 		
 		return simulatorMap.get(id).getState();
 	}
@@ -285,8 +283,8 @@ public class AsmetaSserviceNotSing implements IAsmetaSservice{
 		State state = simulatorMap.get(id).getSim().getCurrentState();
 		State previousState = simulatorMap.get(id).getSim().previousState;
 		
-		this.getSimulatorTable().get(id).setState(new MyState(state.getContrLocs(false), null));
-		this.getSimulatorTable().get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null));
+		AsmetaSserviceSingleton.getInstance().getSimulatorTable().get(id).setState(new MyState(state.getContrLocs(false), null));
+		AsmetaSserviceSingleton.getInstance().getSimulatorTable().get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null));
 		
 		return simulatorMap.get(id).getState();
 	}
@@ -299,7 +297,7 @@ public class AsmetaSserviceNotSing implements IAsmetaSservice{
 	public void reset(int id) throws Exception {
 		checkId(id);
 		SimulatorRT sim = new SimulatorRT(simulatorMap.get(id).getSim().getAsmModel().getName(), 
-				simulatorMap.get(id).getSim().getAsmCollection(), new Environment(new AsmetaSserviceRunNotSing(simulatorMap)));
+				simulatorMap.get(id).getSim().getAsmCollection(), new Environment(new AsmetaSserviceRunSingleton()));
 		
 		simulatorMap.put(id, new InfoAsmetaService(sim));
 	}

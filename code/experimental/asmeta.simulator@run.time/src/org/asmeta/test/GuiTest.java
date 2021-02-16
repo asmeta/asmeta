@@ -16,7 +16,7 @@ import org.asmeta.simulationUI.SimShell;
 public class GuiTest {
 
 	public static void main(String[] args) {
-		SimulationContainer imp = SimulationContainer.getInstance();
+		SimulationContainer imp = new SimulationContainer();
 		//imp.init(20);
 		//String model = "examples/ferrymanSimulator_raff1.asm";
 		//String model = "examples/LGS_GM.asm";

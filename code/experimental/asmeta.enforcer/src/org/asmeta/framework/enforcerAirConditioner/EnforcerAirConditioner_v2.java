@@ -23,7 +23,7 @@ public class EnforcerAirConditioner_v2 extends Enforcer{
 	    SIM_TIMEOUT*=1000;
 	    
 	    //Initialize the AsmetaS@run.time model engine
-		setModelEngine(SimulationContainer.getInstance());
+		setModelEngine(new SimulationContainer());
 		getModelEngine().init(1);
 		int result = getModelEngine().startExecution(RUNTIME_MODEL_PATH);
 		if (result < 0) 
@@ -46,7 +46,7 @@ public class EnforcerAirConditioner_v2 extends Enforcer{
 
 	@Override
 	public boolean sanitiseOutput(String outputValues) {
-		int OLD_AIRSPEED=SIM_AIRSPEED;
+		//int OLD_AIRSPEED=SIM_AIRSPEED;
 		SIM_AIRSPEED = Integer.parseInt(((outputValues.split(":"))[1]).trim());
 		RunOutput result = getModelEngine().runStepTimeout(1, prepareInput(), (int)SIM_TIMEOUT);
 		

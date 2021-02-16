@@ -7,7 +7,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.parser.ParseException;
+import org.asmeta.runtime_container.FullMapException;
+import org.asmeta.runtime_container.IModelExecution;
+import org.asmeta.simulator.main.AsmModelNotFoundException;
+import org.asmeta.simulator.main.MainRuleNotFoundException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -34,7 +38,7 @@ public class LoadDialog extends JDialog {
 		return ret;
 	}
 
-	public LoadDialog(SimulationContainer containerInstance,Map<Integer, String> ids) {
+	public LoadDialog(IModelExecution containerInstance,Map<Integer, String> ids) {
 		setResizable(false);
 		setModal(true);
 		setTitle("Load simulation");
@@ -91,7 +95,16 @@ public class LoadDialog extends JDialog {
 			    String checkmodel = StartGui.getModel();
 			    if(!checkmodel.isEmpty() && checkmodel.indexOf(".asm")!=-1)
 			     {
-			    	int id=containerInstance.startExecution(checkmodel);
+			    	int id=-99;
+					try {
+						id = containerInstance.startExecution(checkmodel);
+					} catch (MainRuleNotFoundException | AsmModelNotFoundException | FullMapException
+							| ParseException e1) {
+						JOptionPane.showMessageDialog(null, "DEBUG: Something went wrong with Exceptions management"); 
+						/*
+						e1.printStackTrace();
+						*/
+					}
 			    	if(id>0){
 			    		comboBox.addItem(new LoadComboItem(id,checkmodel));
 			    		btnLoad.setEnabled(true);

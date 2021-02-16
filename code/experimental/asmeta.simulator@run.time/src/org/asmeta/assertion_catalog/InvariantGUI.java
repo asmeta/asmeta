@@ -5,7 +5,6 @@ import java.awt.EventQueue;
 
 import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.InvariantData;
-import org.asmeta.test.*;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
