@@ -129,6 +129,7 @@ default init s0:
 	function phase = STOP1STOP2
 	function rPulse($l in LightUnit) = false
 	function gPulse($l in LightUnit) = false
+	
 	function duration($t in Timer) = if $t = timer50Passed 	then 5000 //50000
     									else 
     										if $t = timer120Passed	then 6 endif //120000

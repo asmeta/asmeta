@@ -366,6 +366,7 @@ public class Simulator {
 		// monitored functions in the current state.
 		// Current state is completed with the monitored values.
 		UpdateSet updateSet = ruleEvaluator.visit(mainRule);
+		//System.out.println("Locations updated for model "+this.asmModel.getName()+updateSet.getLocationsUpdated().toString()); //Patrizia for debugging Jan 2021 
 		// STEP 2
 		// Check invariants that require monitored functions (not only controlled)
 		// before the update set is committed but the current state is completed 

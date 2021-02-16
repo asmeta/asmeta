@@ -5,12 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.WriterAppender;
 import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
 
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
+import org.asmeta.simulator.main.Simulator;
 
 import asmeta.AsmCollection;
 
@@ -39,6 +44,15 @@ public class AsmetaSservice implements IAsmetaSservice{
 		
 		return service;
 	}
+	
+	/**
+	 * TODO USED IN SOME TESTS BEFORE REMOVING SINGLETON PATTERN
+	 * @return AsmetaSservice instance
+	 */
+	public static void setInstance(AsmetaSservice instance) {
+		if (instance!=null)
+		service=instance;
+	}
 
 	/**
 	 * Set the initial data of this singleton. It must be call just once before use this class
@@ -65,10 +79,18 @@ public class AsmetaSservice implements IAsmetaSservice{
 			throw new AsmModelNotFoundException(modelPath);
 		}
 	
+		Logger.getLogger("org.asmeta.parser").addAppender( new WriterAppender(new PatternLayout("%m%n"), System.out)); //Patrizia Jan 2021: to avoid log4J:WARN messages
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
+		Logger.getLogger("org.asmeta.simulator").addAppender( new WriterAppender(new PatternLayout("%m%n"), System.out));
+		Logger.getLogger("org.asmeta.simulator").setLevel(Level.OFF);
 		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
+	
 		String modelName = asm.getMain().getName();
 		Environment env = new Environment(new AsmetaSserviceRun());
 		SimulatorRT sim = new SimulatorRT(modelName, asm, env);
+		
+		
+
 		
 		int id = getFirstFreeId();
 		

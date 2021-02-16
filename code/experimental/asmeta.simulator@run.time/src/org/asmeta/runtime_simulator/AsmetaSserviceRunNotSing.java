@@ -2,7 +2,6 @@ package org.asmeta.runtime_simulator;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.asmeta.animator.MyState;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -37,28 +36,32 @@ import asmeta.definitions.domains.UndefDomain;
 
 /**
  * 
- * @author Simone Giusso
+ * @author Simone Giusso, Patrizia Scandurra
  * Create by AsmetaSservice for run Simulator. This class is also used for create environment (see start method of AsmetaSservice).
  */
 
-public class AsmetaSserviceRun extends InteractiveMFReader{
+public class AsmetaSserviceRunNotSing extends InteractiveMFReader{
 	
 	private static int id;	//Simulator's id given by AsmetaSservice
 	private String locationToFind; //Location to find in list, set by readValue
 	private static Map<Location, Value> monitored; //I must save here the monitored function thanks to readValue because after run the monitored are deleted. It's static because extend.
+	private Map<Integer, InfoAsmetaService> simulatorMap;	//Map id -> created instance of the simulator (see InfoAsmetaService)
 	
-	public AsmetaSserviceRun(int id) {
+	public AsmetaSserviceRunNotSing(int id, Map<Integer, InfoAsmetaService> simulatorMap) {
 		super(System.in, System.out);
 		this.id = id;
 		monitored = new HashMap<Location, Value>();
+		this.simulatorMap = simulatorMap;
 	}
 	
-	public AsmetaSserviceRun() {
+	public AsmetaSserviceRunNotSing( Map<Integer,InfoAsmetaService> simulatorMap) {
 		super(System.in, System.out);
+		this.simulatorMap = simulatorMap;
 	}
 	
 	public void run(RunMode mode) {
-		SimulatorRT sim = AsmetaSservice.getInstance().getSimulatorTable().get(id).getSim();
+		SimulatorRT sim = simulatorMap.get(id).getSim();
+		
 		
 		if(mode == RunMode.RUN_ONE_STEP)
 			sim.run(1);
@@ -70,11 +73,11 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 		State previousState = sim.previousState;
 		
 		//Set previous state
-		AsmetaSservice.getInstance().getSimulatorTable().get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null));
+		simulatorMap.get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null));
 		//System.out.println("\nPatrizia: monitored locs in the current state: "+state.getMonLocsState().toString());
 		
 		//Update current State
-		AsmetaSservice.getInstance().getSimulatorTable().get(id).setState(new MyState(state.getContrLocs(false), monitored));
+		simulatorMap.get(id).setState(new MyState(state.getContrLocs(false), monitored));
 		//System.out.println("\nPatrizia: monitored locs in the current state: "+state.getMonLocsState().toString());
 		//System.out.println("\nPatrizia: monitored locs in the current state (as re-built): "+monitored.toString());
 	}
@@ -107,7 +110,7 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 	//funzione monitorata viene già acquisita dalla mappa dell'input fornito dall'utente in AsmetaSservice
 	@Override
 	public void readLine() {
-		Map<String, String> map = AsmetaSservice.getInstance().getSimulatorTable().get(id).getLocationValue();
+		Map<String, String> map = simulatorMap.get(id).getLocationValue();
 		//System.out.println("\nPatrizia User input map: "+map.toString());
 		for(Map.Entry<String, String> m: map.entrySet()) {	//Find the value of a particular location in list
 			if (m.getKey().equals(locationToFind)) {

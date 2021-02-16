@@ -1,3 +1,8 @@
+/**
+* 
+*
+* @author Patrizia Scandurra
+*/
 package org.asmeta.framework.pillBox;
 
 import java.util.HashMap;
@@ -17,7 +22,7 @@ public class SafePillBox {
 	 /** Runtime model simulator*/
     private SimulationContainer modelEngine; 
     private int id;
-    private Map<String, String> currentState;
+    private Map<String, String> currentStateChange;
    
  
 	public SafePillBox(String SYSTEM_MODEL_PATH) {
@@ -26,7 +31,7 @@ public class SafePillBox {
 	    //Initialize an AsmetaS@run.time model engine instance for the runtime system model (the simulated managed system!) 
 		modelEngine = SimulationContainer.getInstance();
 		modelEngine.init(1);
-		currentState = new HashMap<>();
+		currentStateChange = new HashMap<>();
 		int result = modelEngine.startExecution(SYSTEM_MODEL_PATH);
 		if (result < 0) 
 			System.err.println("ERROR: Simulation engine not initialized for the model "+ SYSTEM_MODEL_PATH);
@@ -49,20 +54,20 @@ public class SafePillBox {
 		if (result.getEsit() == Esit.SAFE) {
 		    //store the new output location value as computed by the ASM into the output map
 			//currentState.putAll(result.getControlledvalues());
-			currentState = result.getControlledvalues(); //Output values changed from the ASM model
+			currentStateChange = result.getControlledvalues(); //Output values changed from the ASM model
 			//output = prepareOutput(currentState);
 			//output = prepareOutput(result.getControlledvalues());
 		}
 		else 
 			 System.out.println("Error: something got wrong with the outcome of the ASM-based simulated system.");
 		
-		return currentState;
+		return currentStateChange;
 
 	}
 	
 		
 	private Map<String, String> prepareOutput(Map<String, String> locations) {
-		//TO DO: Filter only the output locations; it should be done in a general manner in the ASM simulator@run.time
+		//TODO: Filter only the output locations; it should be done in a general manner in the ASM simulator@run.time
 		//Currently, it returns everything
 		//Map<String, String> output = new HashMap<>();
 		//System.out.println("Pillbox Output: "+locations.toString());// for debugging purposes
@@ -97,9 +102,9 @@ public class SafePillBox {
 	public Map<String, String>  getOutputToPillBox() {
 			Map<String, String> tmp = new HashMap<>();
 			//iterating over keys only and selects those starting with "setNewTime", etc.
-		    for (String key : currentState.keySet()) {
+		    for (String key : currentStateChange.keySet()) {
 		        if (key.startsWith("setNewTime") || key.startsWith("newTime") || key.startsWith("skipNextPill")) 
-		        	tmp.put(key,currentState.get(key));	
+		        	tmp.put(key,currentStateChange.get(key));	
 		    }
 			return tmp;
 			
@@ -113,7 +118,7 @@ public class SafePillBox {
 	
 
 	public Map<String, String> getOutput() {
-		return prepareOutput(currentState);
+		return prepareOutput(currentStateChange);
 	}
 	
 	//To test the PillBox wrapper in a standlone manner

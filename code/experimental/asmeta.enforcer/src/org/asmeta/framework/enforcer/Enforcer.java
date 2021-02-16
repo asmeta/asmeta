@@ -1,10 +1,11 @@
+/**
+* 
+*
+* @author Patrizia Scandurra
+*/
 package org.asmeta.framework.enforcer;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimerTask;
-
 import org.asmeta.framework.auxiliary.Utility;
 import org.asmeta.framework.managedSystem.*;
 
@@ -12,8 +13,7 @@ import org.asmeta.framework.managedSystem.*;
 import org.asmeta.runtime_container.*;
 
 
-public abstract class Enforcer {//extends TimerTask{
-	
+public abstract class Enforcer {
 	private static String configFile;
 
 	/** MAPE-K loop handle*/
@@ -29,13 +29,13 @@ public abstract class Enforcer {//extends TimerTask{
 	private Knowledge knowledge;
 
     /** Simulation timeout*/
-    private static long SIMULATION_TIMEOUT;
+    protected static long SIMULATION_TIMEOUT;
     
     /** Runtime model pathname*/
-    private static String RUNTIME_MODEL_PATH;
+    protected static String RUNTIME_MODEL_PATH;
     
     /** Runtime model handle*/
-    private SimulationContainer modelEngine; 
+    private SimulationContainerNotSing modelEngine; 
     
     /** ManagedSystem handle*/
     private ManagedSystem system; 
@@ -60,7 +60,8 @@ public abstract class Enforcer {//extends TimerTask{
 		    SIMULATION_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));
 		       
 		    //Initialize the AsmetaS@run.time model engine
-			modelEngine = SimulationContainer.getInstance();
+			//modelEngine = SimulationContainer.getInstance();
+		    modelEngine = new SimulationContainerNotSing();
 			modelEngine.init(1);
 			int result = modelEngine.startExecution(RUNTIME_MODEL_PATH);
 			if (result < 0) 
@@ -68,7 +69,7 @@ public abstract class Enforcer {//extends TimerTask{
 			else {
 			    //connect the ASM runtime model to the loop
 				loop.setModel(modelEngine);
-				System.out.println("Model engine initialized for "+ RUNTIME_MODEL_PATH + " with simulation step timeout " + SIMULATION_TIMEOUT + " seconds");
+				System.out.println("Enforcer and ASM@run.time model engine initialized for <"+ RUNTIME_MODEL_PATH + "> with simulation timeout of " + SIMULATION_TIMEOUT + " seconds");
 			}
 	    }
 	    catch (Exception e) {
@@ -108,10 +109,11 @@ public abstract class Enforcer {//extends TimerTask{
 	
 	/**
 	 * Run the enforcer's MAPE-K control loop. Final so subclasses can't override
+	 * @return 
 	 */
-	public final void runLoop(){		
+	public final long runLoop(){		
 		
-		loop.run();
+		return loop.run();
 		
 	}
 	
@@ -132,20 +134,21 @@ public abstract class Enforcer {//extends TimerTask{
 		}
 	}
 
-	//TODO Ho dovuto farlo per poter impostare il modello nella versione senza MAPEK loop, così non cambio la visibilità della variabile. Va bene?
+	
 	/**
 	 * Sets the simulation engine.
 	 * Should only be used inside inherited default constructor
 	 */
-	protected void setModelEngine(SimulationContainer engine) {
+	protected void setModelEngine(SimulationContainerNotSing engine) {
 		if (modelEngine == null)
 			modelEngine = engine;
 	}
-	//TODO Se voglio usarlo mi serve anche un get. (anche se in realtà essendo singleton basterebbe .getInstance un'altra volta)
+	
+	
 	/**
 	 * Returns the current enforcer simulation engine.
 	 */
-	protected SimulationContainer getModelEngine() {
+	protected SimulationContainerNotSing getModelEngine() {
 		return modelEngine;
 	}
 }

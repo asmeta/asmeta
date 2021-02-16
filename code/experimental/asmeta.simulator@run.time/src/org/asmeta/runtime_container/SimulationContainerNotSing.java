@@ -29,7 +29,7 @@ import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
 import org.asmeta.parser.util.AsmPrinter;
-import org.asmeta.runtime_simulator.AsmetaSservice;
+import org.asmeta.runtime_simulator.AsmetaSserviceNotSing;
 import org.asmeta.runtime_simulator.IdNotFoundException;
 import org.asmeta.runtime_simulator.InfoAsmetaService;
 import org.asmeta.simulator.InvalidInvariantException;
@@ -57,18 +57,16 @@ import asmeta.terms.basicterms.Term;
  * It is a container for managing the execution of an ASM model at runtime.
  * It provides methods for instantiating, starting, running and stopping a model execution
  */
-public class SimulationContainer implements IModelExecution, IModelAdaptation {
+public class SimulationContainerNotSing implements IModelExecution, IModelAdaptation {
     
-	private int id; // returning the id of the simulator generated if everything goes welcl
+	private int id; // returning the id of the simulator generated if everything goes well
 
 	/** The ids. */
 	private int ids; //the id for the method start to check if is full o not
 
 	/** The asm S. */
-	static AsmetaSservice asmS = AsmetaSservice.getInstance();
+	protected AsmetaSserviceNotSing asmS;
 
-	/** The instance. */
-	private static SimulationContainer instance = null;
 
 	/** The ms. */
 	MyState ms;
@@ -90,19 +88,14 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	private RunOutput routTO=null;	//support variable for the timeout methods
 
 
-
-	/**
-	 * Gets the single instance of ImpModelExecute.
-	 *
-	 * @return single instance of ImpModelExecute
-	 */
-	public static SimulationContainer getInstance() {
-		if (instance == null)
-			instance = new SimulationContainer();
-		return instance;
+	
+	public SimulationContainerNotSing() {
+		asmS = new AsmetaSserviceNotSing();
+		
 	}
 
-
+	
+	
 
 	/**
 	 * return the id of the simulator if the simulator is full return -1;.
@@ -241,7 +234,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				rout = checkSafety(modelPath, locationValue);
 			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not intialized"))) {
 				startRun = System.nanoTime();
-				ms = asmS.run(id, locationValue);
+				ms = asmS.run(id, locationValue); //run ASM with id and monitored locations locationValue
 				endRun = System.nanoTime();
 				duration = (endRun - startRun);
 				if (locationValue!=null) 
@@ -309,7 +302,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			}*/
 		}
 		simulationRunning = SimStatus.READY;
-		return rout; // can be use for Json
+		return rout; 
 
 	}
 	
@@ -662,11 +655,11 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		return runUntilEmptyTimeout(id, locationValue, 0, timeout);
 	}
 
-	private static void printState(int step, RunOutput r1, long time, int id) {
+	private  void printState(int step, RunOutput r1, long time, int id) {
 		System.out.println(
 				"[step:" + asmS.getSimulatorTable().get(id).getContSim() + " of " + asmS.getModelName(id) + "]");
-		System.out.println(r1.MytoString());
-		System.out.println("Execution time (in milliseconds): " + time/ 1000000+" ms");
+		System.out.println(r1.toString());
+		System.out.println("Execution time (in milliseconds): " + time/ 1000000 +" ms");
 		//System.out.println(
 		//		"Number of steps for the transition: " + asmS.getSimulatorTable().get(id).getSim().getCurrentStep());
 		/*
@@ -674,12 +667,12 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		 * asmS.getSimulatorTable().get(id).getSim().getMax() );
 		 */
 
-		//System.out.println("                                 ");
-
+		System.out.println("                                 ");
 		//System.out.println("=====================");
+		
 	}
 
-	private static void printRollback(int step, MyState state) {
+	private  void printRollback(int step, MyState state) {
 
 		System.out.println("Model rollback to previous step: " + step);
 
@@ -730,6 +723,13 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	}
 	//Could be improved by adding a List<String> moduleNames to skip multiple imports of the same .asm (if it's possible to create import cycles)
 
+	/**
+	 * Check safety: Checks if given monitored function names are correct
+	 *
+	 * @param modelPath     the model path
+	 * @param locationValue Change to CheckInputName Safety
+	 * @return the array list
+	 */
 	/**
 	 * Check safety: Checks if given monitored function names are correct
 	 *
@@ -793,7 +793,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 		return rout;
 	}
-
+	
 	/**
 	 * Check start id.
 	 *

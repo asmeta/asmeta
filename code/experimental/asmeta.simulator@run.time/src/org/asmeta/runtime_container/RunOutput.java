@@ -83,7 +83,7 @@ public class RunOutput implements Serializable {
 		return timeoutFlag;
 	}
 	
-	/** Shows the esit SAFE or UNSAFE */
+	/** Shows the outcome SAFE or UNSAFE */
 	public Esit getEsit() {
 		return esit;
 	}
@@ -91,9 +91,12 @@ public class RunOutput implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("The Esit of the running is: " + esit + "\n");
+		sb.append("Model execution outcome: " + esit + "\n");
 		if (!message.equals(""))
 			sb.append("Reason: " + message + "\n");
+		if (ms!=null)
+			sb.append("Updated locations: " + ms.getControlledValues());
+
 		return sb.toString();
 	}
 	
@@ -101,7 +104,7 @@ public class RunOutput implements Serializable {
 	//JUST IN USE FOR TESTING
 	public String MytoString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("The esit of the running is: " + esit + "\n");
+		sb.append("The outcome of the running is: " + esit + "\n");
 		if (!message.equals(""))
 			sb.append("Reason: " + message + "\n");
 		if (locationValue!=null)
