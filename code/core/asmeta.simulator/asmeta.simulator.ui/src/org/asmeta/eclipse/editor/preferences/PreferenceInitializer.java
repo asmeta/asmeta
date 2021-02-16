@@ -2,6 +2,7 @@ package org.asmeta.eclipse.editor.preferences;
   
 import org.apache.log4j.Level;
 import org.asmeta.eclipse.AsmeeActivator;
+import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
@@ -28,8 +29,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(PreferenceConstants.P_STOP_UPDATESET_EMPTY, true);
 		store.setDefault(PreferenceConstants.P_STOP_UPDATESET_TRIVIAL, true);
 		
-		store.setDefault(PreferenceConstants.P_USE_SYSTEMTIME, true);
-		TimeMngt.use_java_time = true;
+		store.setDefault(PreferenceConstants.P_TIME_MNGT, TimeMngt.use_java_time.toString());
+		Environment.timeMngt = TimeMngt.use_java_time;
 		
 
 		store.setDefault(PreferenceConstants.P_DEBUG_PARSER, Level.INFO.toString());

@@ -4,11 +4,13 @@ import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.*;
 
 import org.apache.log4j.Level;
 import org.asmeta.eclipse.AsmeeActivator;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.FileFieldEditor;
+import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -71,7 +73,14 @@ public class SimulatorPreferencePage
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_EMPTY, "Stop simulation if the update set is empty", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_TRIVIAL, "Stop simulation if the update set is trivial", fieldEdtrPrnt));
 		// 
-		addField(new BooleanFieldEditor(P_USE_SYSTEMTIME, "Use system time for monitored ASM time", fieldEdtrPrnt));
+		//addField(new RadioGroupFieldEditor(P_TIME_MNGT, "Which time for monitored ASM time", null, fieldEdtrPrnt));
+		addField(new RadioGroupFieldEditor(PreferenceConstants.P_TIME_MNGT,
+	        "Which time for monitored ASM time:",
+	        3,
+	        new String[][] {
+	          { "ask user", TimeMngt.ask_user.toString()},
+	          { "use java time", TimeMngt.use_java_time.toString()}
+	        }, fieldEdtrPrnt, true));
 		// per logger
 		addField(new BooleanFieldEditor(P_DEBUG_USE_EXTERNAL_FILE, "Use prop file for log4j", fieldEdtrPrnt));
 		addField(new FileFieldEditor(P_DEBUG_EXTERNAL_FILE, "Use prop file for log4j", fieldEdtrPrnt));		

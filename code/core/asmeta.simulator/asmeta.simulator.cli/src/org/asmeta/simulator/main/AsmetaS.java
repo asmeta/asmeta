@@ -86,7 +86,7 @@ public class AsmetaS extends AsmetaCLI {
 			else
 				sim.setShuffleFlag(false);
 			//
-			if (systemtime) Environment.timeMngt = use_java_time;
+			if (systemtime) Environment.timeMngt = TimeMngt.use_java_time;
 			// run
 			if (runUntilEmpty) {
 				sim.runUntilEmpty();

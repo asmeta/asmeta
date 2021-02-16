@@ -13,5 +13,5 @@ public class PreferenceConstants {
 	public static final String P_DEBUG_PARSER = "asmee.editor.debuglevel.parser";
 	public static final String P_DEBUG_SIMULATOR = "asmee.editor.debuglevel.simulator";
 	// 
-	public static final String P_USE_SYSTEMTIME = "asmee.simulator.usesystemtime";
+	public static final String P_TIME_MNGT = "asmee.simulator.timemngt";
 }

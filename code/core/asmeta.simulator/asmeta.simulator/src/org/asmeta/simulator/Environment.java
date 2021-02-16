@@ -26,6 +26,9 @@ package org.asmeta.simulator;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.value.IntegerValue;
@@ -36,13 +39,14 @@ import org.asmeta.simulator.value.Value;
  */
 public final class Environment {
 
-	enum TimeMngt{
+	public enum TimeMngt{
 		// link the time variable to the time of the java machine
 		use_java_time,
 		// ask the user
 		ask_user;
 	}
-	public static TemporalUnit timeunit = null;
+	// it can be null: automatic
+	public static TimeUnit currentTimeUnit = null;
 	
 	public static TimeMngt timeMngt;
 	
@@ -73,57 +77,80 @@ public final class Environment {
 	 * @return the location value
 	 */
 	public Value<?> read(Location location, State state) {
-		// state does not contain location value
+		// state does not contain location value otherwise must not be asked 
 		assert state.locationMap.get(location) == null;
 		// AG 13/11/2020 
-		// if it is time, read from the machine
-		Value value = null;
-		// se è un tempo
+		// if it is time, read in a special way
 		if (isTime(location)) {
+			// extract 
+			TimeUnit locationTimeUnit = getTimeUnit(location);
+			// set the time unit if not already set
+			if (currentTimeUnit==null) currentTimeUnit = locationTimeUnit;
 			// check if a time is already set in the state
-			Object timeSet = find_mCurrTime(state);
+			return find_mCurrTime(state,location, locationTimeUnit);
 			// convert if possible 
 			// if it is not possible throw Exception
-		
-		
-		// se la simualzione è java time prendi il time dallo stato (da bvraibile extra)
-		// se domando all'utente?
-		/*se la varibile è un time
-		se c'è il un time settato nello stato, converti 
-		altrimenti a seconda dei modi
-		
-		if (timeMngt == TimeMngt.use_java_time) {
-			//TODO use switch expressions !
-			TemporalUnit timeunit = null;
-			switch(location.getName()){
-			// problema se li leggo in istanti diversi ma nello stesso stato
-			// ho tre valori distinti on multipli esatti
-			case "mCurrTimeNanosecs": timeunit = ChronoUnit.NANOS; break;
-			case "mCurrTimeMillisecs": timeunit = ChronoUnit.MILLIS; break;
-			case "mCurrTimeSecs": timeunit = ChronoUnit.SECONDS; break;
-			}
-			if (timeunit!= null) {
-				value = new IntegerValue(startFrom.until(Instant.now(), timeunit));
-			}
-		} 	
-		if (value == null)
-			value = monFuncReader.read(location, state);*/
-			return null;
-		}
+		}			
 		// not a time location
 		return monFuncReader.read(location, state);
 	}
 
+	// find the current time of the location in tu timeunit
+	// considering that the teh current time could be set in other time units 
+	private Value find_mCurrTime(State state, Location location, TimeUnit tu) {
+		assert tu == getTimeUnit(location);
+		// scan the state and look for time of the time unit for the simulation
+		// case base, it is asking a time in the time of the simulation
+		if (currentTimeUnit == tu) return readTime(state, location, tu); 
+		// check if its convertible 
+		if (currentTimeUnit.convert(1, tu) == 0) throw new RuntimeException("cannot convert " +currentTimeUnit + " to " + tu);
+		// check if is already memorized in the currentTimeUnit of the simulation		
+		Value<Long> currentValue = null;
+		for (Entry<Location, Value> v : state.getMonLocs().entrySet()) {
+			if (v.getKey().getName().equals("mCurrTimeMillisecs") && currentTimeUnit == TimeUnit.MILLISECONDS) {
+				currentValue = v.getValue();
+				break;
+			}			
+			if (v.getKey().getName().equals("mCurrTimeSecs") && currentTimeUnit == TimeUnit.SECONDS) {
+				currentValue = v.getValue();
+				break;
+			}			
+		}
+		// if not found I get the time in the currentTimeUnit
+		if (currentValue == null) currentValue = readTime(state, location, currentTimeUnit);
+		assert currentValue != null;
+		// convert from currentTimeUnit to tu 
+		long converteval = tu.convert(currentValue.getValue(),currentTimeUnit); 
+		return new IntegerValue(converteval);		
+	}
 
-	private Object find_mCurrTime(State state) {
-		// scan the state and look for time
-		// TODO Auto-generated method stub
+	// read time - it must be 
+	private Value readTime(State state, Location location, TimeUnit tu) {
+		Value value = null;
+		// if use java time
+		if (timeMngt == TimeMngt.use_java_time) {
+			value = new IntegerValue(startFrom.until(Instant.now(), currentTimeUnit.toChronoUnit()));
+		} else { 	
+			value = monFuncReader.read(location, state);
+		}
+		return value;
+	}
+
+
+	// return the temporal unit
+	private TimeUnit getTimeUnit(Location location) {
+		switch(location.getName()){
+		case "mCurrTimeNanosecs": return TimeUnit.NANOSECONDS;
+		case "mCurrTimeMillisecs": return TimeUnit.MILLISECONDS;
+		case "mCurrTimeSecs": return TimeUnit.SECONDS;
+		}
+		assert (false);
 		return null;
 	}
-
-
+	// check is the location refers to time quantities (special monitored functions)
 	private boolean isTime(Location location) {
-		return (location.getName().startsWith("mCurrTime"));
+		return location.getName().startsWith("mCurrTime");
 	}
-
+	
+	
 }
