@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 
 public class EnforcerInputAirConditionerV2 {
 
@@ -24,7 +24,7 @@ public class EnforcerInputAirConditionerV2 {
 		RunOutput simResult;
 		Scanner s = new Scanner(System.in); 
 		//model simulation start
-		SimulationContainer sc = SimulationContainer.getInstance();
+		SimulationContainerSingleton sc = SimulationContainerSingleton.getInstance();
 		sc.init(1);
 		sc.startExecution("./examples./input_sanitisation/air_conditioner/airConditioner.asm");
 		//java system start

@@ -22,22 +22,22 @@ import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
 import org.asmeta.assertion_catalog.InvariantGUI;
-import org.asmeta.runtime_commander.Commander;
+import org.asmeta.runtime_commander.CommanderSingleton;
 import org.asmeta.runtime_commander.CommanderException;
 import org.asmeta.runtime_commander.CommanderOutput;
 import org.asmeta.runtime_commander.CommanderStatus;
-import org.asmeta.runtime_container.SimulationContainerNotSingle;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.InvariantData;
 import org.asmeta.runtime_container.RunOutput;
-import org.asmeta.runtime_simulator.AsmetaSservice;
+import org.asmeta.runtime_simulator.AsmetaSserviceSingleton;
 import org.junit.Test;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Test1.
  */
-public class TestSimulationContainerNotSing {
+public class TestSimulationContainerSingleton {
 	
 	
 	final int max = 50;
@@ -74,7 +74,7 @@ public class TestSimulationContainerNotSing {
 	public void StartExec1() throws Exception {
 		System.out.println(" |||||||||||||||||||||  TEST START1 |||||||||||||||||||||||||||||||||||||||||||||");
 		String model = "examples/Lavatrice.asm";
-		SimulationContainerNotSingle i = new SimulationContainerNotSingle();
+		SimulationContainerSingleton i = new SimulationContainerSingleton();
 		i.init(3);
 		assertTrue(i.startExecution(model) == 1);
 	}
@@ -83,7 +83,7 @@ public class TestSimulationContainerNotSing {
 	public void StartExec2() throws Exception {
 		System.out.println(" |||||||||||||||||||||  TEST START2 |||||||||||||||||||||||||||||||||||||||||||||");
 		String model = "examples/Lavatri.asm";
-		SimulationContainerNotSingle i = new SimulationContainerNotSingle();
+		SimulationContainerSingleton i = new SimulationContainerSingleton();
 		i.init(3);
 		assertTrue(i.startExecution(model) == -3);
 	}
@@ -92,7 +92,7 @@ public class TestSimulationContainerNotSing {
 	public void StartExec3() throws Exception {
 		System.out.println(" |||||||||||||||||||||  TEST START3 |||||||||||||||||||||||||||||||||||||||||||||");
 		String model = "examples/LavatriCe.asm";
-		SimulationContainerNotSingle i = new SimulationContainerNotSingle();
+		SimulationContainerSingleton i = new SimulationContainerSingleton();
 		i.init(3);
 		assertTrue(i.startExecution(model) == -5);
 	}
@@ -101,7 +101,7 @@ public class TestSimulationContainerNotSing {
 	public void StartExec4() throws Exception {
 		System.out.println(" |||||||||||||||||||||  TEST START4 |||||||||||||||||||||||||||||||||||||||||||||");
 		String model = null;
-		SimulationContainerNotSingle i = new SimulationContainerNotSingle();
+		SimulationContainerSingleton i = new SimulationContainerSingleton();
 		i.init(3);
 		assertTrue(i.startExecution(model) == -6);
 	}
@@ -110,7 +110,7 @@ public class TestSimulationContainerNotSing {
 	public void StartExec5() throws Exception {
 		System.out.println(" |||||||||||||||||||||  TEST START5 |||||||||||||||||||||||||||||||||||||||||||||");
 		String model = "examples/noMainRule.asm";
-		SimulationContainerNotSingle i = new SimulationContainerNotSingle();
+		SimulationContainerSingleton i = new SimulationContainerSingleton();
 		i.init(3);
 		assertTrue(i.startExecution(model) == -2);
 	}
@@ -120,7 +120,7 @@ public class TestSimulationContainerNotSing {
 		System.out.println(" |||||||||||||||||||||  TEST START6 |||||||||||||||||||||||||||||||||||||||||||||");
 		System.out.println("CHECKID for fullmap");
 		String model = "examples/Lavatrice.asm";	
-		SimulationContainerNotSingle i = new SimulationContainerNotSingle();
+		SimulationContainerSingleton i = SimulationContainerSingleton.getInstance();
 		i.init(3);
 		int id1 = i.startExecution(model);
 		int id2 = i.startExecution(model);
@@ -192,19 +192,18 @@ public class TestSimulationContainerNotSing {
 		public void run1() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST 1 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
 			int id = imp.startExecution(model);
 			monitored.put("operation", "ALLUMER"); 
-			System.out.println(imp.runStep(id, monitored));
 			assertTrue( new RunOutput(Esit.SAFE, "ALLUMER").equals(imp.runStep(id, monitored)));
 		}
 		@Test //names mismatch 
 		public void run2() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST 2 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = new SimulationContainerSingleton();
 			
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
@@ -219,7 +218,7 @@ public class TestSimulationContainerNotSing {
 		public void run3() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST 3 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = new SimulationContainerSingleton();
 			
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
@@ -231,7 +230,7 @@ public class TestSimulationContainerNotSing {
 		public void run4() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST 4 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = new SimulationContainerSingleton();
 			
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
@@ -246,7 +245,7 @@ public class TestSimulationContainerNotSing {
 		public void run5() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST 5 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model2 =  "examples/InvariantsMon.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(3);
 			int id = imp.startExecution(model2);
 			System.out.println(id);
@@ -262,7 +261,7 @@ public class TestSimulationContainerNotSing {
 		public void run6() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST 6 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model2 =  "examples/updateClash.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			Map<String, String> monitored = new HashMap<String, String>();
 			
 			imp.init(1);
@@ -289,7 +288,7 @@ public class TestSimulationContainerNotSing {
 		public void runT1() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST T1 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
 			int id = imp.startExecution(model);
@@ -300,7 +299,7 @@ public class TestSimulationContainerNotSing {
 		public void runT2() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST T2 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = new SimulationContainerSingleton();
 			
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
@@ -315,7 +314,7 @@ public class TestSimulationContainerNotSing {
 		public void runT3() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST T3 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = new SimulationContainerSingleton();
 			
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
@@ -327,7 +326,7 @@ public class TestSimulationContainerNotSing {
 		public void runT4() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST T4 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = new SimulationContainerSingleton();
 			
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
@@ -342,7 +341,7 @@ public class TestSimulationContainerNotSing {
 		public void runT5() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST T5 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model2 =  "examples/InvariantsMon.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(3);
 			int id = imp.startExecution(model2);
 			System.out.println(id);
@@ -358,7 +357,7 @@ public class TestSimulationContainerNotSing {
 		public void runT6() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST T6 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model2 =  "examples/updateClash.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			Map<String, String> monitored = new HashMap<String, String>();
 			
 			imp.init(1);
@@ -383,7 +382,7 @@ public class TestSimulationContainerNotSing {
 				public void runUT1() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UT1 |||||||||||||||||||||||||||||||||||||||||||||");
 					String model = "examples/Lavatrice.asm";
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 					imp.init(3);
 					Map<String, String> monitored = new HashMap<String, String>();
 					int id = imp.startExecution(model);
@@ -395,7 +394,7 @@ public class TestSimulationContainerNotSing {
 				public void runUT2() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UT2 |||||||||||||||||||||||||||||||||||||||||||||");
 					String model = "examples/Lavatrice.asm";
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = new SimulationContainerSingleton();
 					imp.init(3);
 					Map<String, String> monitored = new HashMap<String, String>();
 					monitored.put("operaion", "ALLUMER"); 
@@ -409,7 +408,7 @@ public class TestSimulationContainerNotSing {
 				public void runUT3() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UT3 |||||||||||||||||||||||||||||||||||||||||||||");
 					String model = "examples/Lavatrice.asm";
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = new SimulationContainerSingleton();
 					
 					imp.init(3);
 					Map<String, String> monitored = new HashMap<String, String>();
@@ -421,7 +420,7 @@ public class TestSimulationContainerNotSing {
 				public void runUT4() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UT4 |||||||||||||||||||||||||||||||||||||||||||||");
 					String model = "examples/Lavatrice.asm";
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = new SimulationContainerSingleton();
 					
 					imp.init(3);
 					Map<String, String> monitored = new HashMap<String, String>();
@@ -436,7 +435,7 @@ public class TestSimulationContainerNotSing {
 				public void runUT5() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UT5 |||||||||||||||||||||||||||||||||||||||||||||");
 					String model2 =  "examples/Invariants.asm";
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 					imp.init(3);
 					int id = imp.startExecution(model2);
 					System.out.println(id);
@@ -449,7 +448,7 @@ public class TestSimulationContainerNotSing {
 				public void runUT6() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UT6 |||||||||||||||||||||||||||||||||||||||||||||");
 					String model2 =  "examples/updateClash.asm";
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 					Map<String, String> monitored = new HashMap<String, String>();
 					
 					imp.init(1);
@@ -476,7 +475,7 @@ public class TestSimulationContainerNotSing {
 		public void runU1() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST U1 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
 			int id = imp.startExecution(model);
@@ -488,7 +487,7 @@ public class TestSimulationContainerNotSing {
 		public void runU2() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST U2 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = new SimulationContainerSingleton();
 			
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
@@ -502,7 +501,7 @@ public class TestSimulationContainerNotSing {
 		public void runU3() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST U3 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = new SimulationContainerSingleton();
 			
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
@@ -514,7 +513,7 @@ public class TestSimulationContainerNotSing {
 		public void runU4() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST U4 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = new SimulationContainerSingleton();
 			
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
@@ -529,7 +528,7 @@ public class TestSimulationContainerNotSing {
 		public void runU5() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST U5 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model2 =  "examples/Invariants.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(3);
 			int id = imp.startExecution(model2);
 			System.out.println(id);
@@ -543,7 +542,7 @@ public class TestSimulationContainerNotSing {
 		public void runU6() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST U6 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model2 =  "examples/updateClash.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			Map<String, String> monitored = new HashMap<String, String>();
 			
 			imp.init(1);
@@ -568,7 +567,7 @@ public class TestSimulationContainerNotSing {
 		public void runW1() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST W1 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model  = "examples/test_insertAt_Sequence.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(3);
 			int id = imp.startExecution(model);
 			assertTrue( new RunOutput(Esit.SAFE, "everything okays").equals(imp.runStep(id)));
@@ -577,7 +576,7 @@ public class TestSimulationContainerNotSing {
 		public void runW2() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST W2 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model = "examples/Lavatrice.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = new SimulationContainerSingleton();
 			
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
@@ -589,7 +588,7 @@ public class TestSimulationContainerNotSing {
 		public void runW3() throws Exception {
 			System.out.println(" |||||||||||||||||||||  TEST W3 |||||||||||||||||||||||||||||||||||||||||||||");
 			String model2 =  "examples/updateClash.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			Map<String, String> monitored = new HashMap<String, String>();
 			
 			imp.init(1);
@@ -613,7 +612,7 @@ public class TestSimulationContainerNotSing {
 				public void runUW1() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UW1 |||||||||||||||||||||||||||||||||||||||||||||");
 					String model  ="examples/test_insertAt_Sequence.asm";
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 					imp.init(3);
 					int id = imp.startExecution(model);
 					assertTrue( new RunOutput(Esit.SAFE, "everything okays").equals(imp.runUntilEmpty(id, max)));
@@ -621,7 +620,7 @@ public class TestSimulationContainerNotSing {
 				@Test //id not found
 				public void runUW2() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UW2 |||||||||||||||||||||||||||||||||||||||||||||");
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();	
+					SimulationContainerSingleton imp = new SimulationContainerSingleton();	
 					imp.init(3);
 					assertTrue(new RunOutput(Esit.UNSAFE, "the id is not found").equalsMessage(imp.runUntilEmpty(-1, max)));
 				}
@@ -631,7 +630,7 @@ public class TestSimulationContainerNotSing {
 				public void runUW3() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UW3 |||||||||||||||||||||||||||||||||||||||||||||");
 					String model2 =  "examples/updateClash.asm";
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 				//	Map<String, String> monitored = new HashMap<String, String>();
 					
 					imp.init(1);
@@ -651,7 +650,7 @@ public class TestSimulationContainerNotSing {
 				public void runUWT1() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UWT1 |||||||||||||||||||||||||||||||||||||||||||||");
 					String model  ="examples/test_insertAt_Sequence.asm";
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 					imp.init(3);
 					int id = imp.startExecution(model);
 					assertTrue( new RunOutput(Esit.UNSAFE, "Run timed out").equalsMessage(imp.runUntilEmptyTimeout(id, max,0)));
@@ -659,7 +658,7 @@ public class TestSimulationContainerNotSing {
 				@Test //id not found timeout 1 second
 				public void runUWT2() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UWT2 |||||||||||||||||||||||||||||||||||||||||||||");
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();	
+					SimulationContainerSingleton imp = new SimulationContainerSingleton();	
 					imp.init(3);
 					assertTrue(new RunOutput(Esit.UNSAFE, "the id is not found").equalsMessage(imp.runUntilEmptyTimeout(-1, max,1000)));
 				}
@@ -667,7 +666,7 @@ public class TestSimulationContainerNotSing {
 				public void runUWT3() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UWT3 |||||||||||||||||||||||||||||||||||||||||||||");
 					String model2 =  "examples/updateClash.asm";
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 				//	Map<String, String> monitored = new HashMap<String, String>();
 					imp.init(1);
 					int id = imp.startExecution(model2);
@@ -691,7 +690,7 @@ public class TestSimulationContainerNotSing {
 				public void initTest1() {
 					System.out.println(" |||||||||||||||||||||  TEST INIT1 |||||||||||||||||||||||||||||||||||||||||||||");
 					System.out.println("==================================");
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = new SimulationContainerSingleton();
 					assertTrue(imp.init(1) > 0);
 					System.out.println("==================================");
 				
@@ -713,7 +712,7 @@ public class TestSimulationContainerNotSing {
 				@Test
 				public void stopExe1() {
 					System.out.println(" |||||||||||||||||||||  TEST STOP1 |||||||||||||||||||||||||||||||||||||||||||||");
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = new SimulationContainerSingleton();
 					String model = "examples/Lavatrice.asm";
 					 imp.init(1);
 					int id = imp.startExecution(model);
@@ -727,7 +726,7 @@ public class TestSimulationContainerNotSing {
 				@Test
 				public void stopExe2() {
 					System.out.println(" |||||||||||||||||||||  TEST STOP2 |||||||||||||||||||||||||||||||||||||||||||||");
-					SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+					SimulationContainerSingleton imp = new SimulationContainerSingleton();
 					String model = "examples/Lavatrice.asm";
 				    imp.init(1);
 					Map<String, String> monitored = new HashMap<String, String>();
@@ -747,10 +746,10 @@ public class TestSimulationContainerNotSing {
 				System.out.println(" |||||||||||||||||||||  TEST PARSE1 |||||||||||||||||||||||||||||||||||||||||||||");
 				String input="init -n 3";
 				CommanderOutput res;
-				SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
-				res=Commander.parseInput(imp, input, true);
+				SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
+				res=CommanderSingleton.parseInput(imp, input, true);
 				input="startexecution -modelpath \"examples/Lavatrice.asm\"";
-				res=Commander.parseInput(imp, input, true);
+				res=CommanderSingleton.parseInput(imp, input, true);
 				int id=-11;
 				try {
 					id = res.getID();
@@ -758,7 +757,7 @@ public class TestSimulationContainerNotSing {
 					e.printStackTrace();
 				}
 				input="runstep -id "+id+" -locationvalue {operation=ALLUMER} -modelpath \"examples/Lavatrice.asm\"";
-				res=Commander.parseInput(imp, input, true);
+				res=CommanderSingleton.parseInput(imp, input, true);
 				RunOutput ro=null;
 				ro=res.getRunOutput();
 				assertTrue(new RunOutput(Esit.SAFE,"ALLUMER").equals(ro));
@@ -768,8 +767,8 @@ public class TestSimulationContainerNotSing {
 			public void parse2() {
 				System.out.println(" |||||||||||||||||||||  TEST PARSE2 |||||||||||||||||||||||||||||||||||||||||||||");
 				String input="rununttilempty -id 1 -max 5 -modelpath \"ciao.asm\" -locationvalue {operaion  = ALLUMER ,, ALLUMEER=ALLUMER, ALLUMER=ALLUMER}";
-				SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
-				assertTrue(Commander.parseInput(imp, input, true).getStatus()==CommanderStatus.FAILURE);
+				SimulationContainerSingleton imp = new SimulationContainerSingleton();
+				assertTrue(CommanderSingleton.parseInput(imp, input, true).getStatus()==CommanderStatus.FAILURE);
 			}	
 //=========================Fine Parsing Test===============================================================		
 
@@ -956,7 +955,7 @@ public class TestSimulationContainerNotSing {
 		{
 			String model = "examples/ferrymanSimulator_raff1.asm";
 			InvariantData final_list = new InvariantData();
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
 			final_list = imp.viewListInvariant(id);
@@ -977,7 +976,7 @@ public class TestSimulationContainerNotSing {
 			m.put("carry", "GOAT");
 			String model = "examples/ferrymanSimulator_raff1.asm";
 			Files.copy(Paths.get(model+".original"), Paths.get(model), StandardCopyOption.REPLACE_EXISTING);
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(2);
 			int id = imp.startExecution(model);
 			imp.runStep(id,m);
@@ -1000,7 +999,7 @@ public class TestSimulationContainerNotSing {
 		public void testUpdateInvariant() throws Exception {
 			int result;
 			String model = "examples/ferrymanSimulator_raff1.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
 			result = imp.updateInvariant(id,"invariant over position: position(GOAT)=position(CABBAGE) implies position(WOLF)=position(FERRYMAN)","invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
@@ -1017,7 +1016,7 @@ public class TestSimulationContainerNotSing {
 		@Test
 		public void testRemoveInvariant() throws Exception {
 			String model = "examples/ferrymanSimulator_raff1.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
 			boolean result = imp.removeInvariant(id,"invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)");
@@ -1029,7 +1028,7 @@ public class TestSimulationContainerNotSing {
 		@Test
 		public void testruntimeout() {
 			String model = "examples/ferrymanSimulator_raff1.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = new SimulationContainerSingleton();
 			imp.init(3);
 			Map<String, String> monitored = new HashMap<String, String>();
 			monitored.put("carry", "GOAT"); 
@@ -1048,7 +1047,7 @@ public class TestSimulationContainerNotSing {
 			int result=0;
 			Map<String, String> monitored = new HashMap<String, String>();
 			String model = "examples/ferrymanSimulator_raff1.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(3);
 			int id = imp.startExecution(model);
 			imp.startExecution(model);
@@ -1082,7 +1081,7 @@ public class TestSimulationContainerNotSing {
 		public void missingMonitoredTest() {
 			Map<String, String> monitored = new HashMap<String, String>();
 			String model = "examples/railroadGate.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
 			monitored.put("lightMon", "FLASHING"); monitored.put("gateMon","OPENED");monitored.put("event","LIGHT");
@@ -1113,7 +1112,7 @@ public class TestSimulationContainerNotSing {
 			Map<String, String> monitored = new HashMap<String, String>();
 			RunOutput out;
 			String model = "examples/LIFT.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
 			monitored.put("insideCall(lift1,2)", "true");
@@ -1136,7 +1135,7 @@ public class TestSimulationContainerNotSing {
 			Map<String, String> monitored = new HashMap<String, String>();
 			RunOutput out;
 			String model = "examples/Invariants2.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
 			monitored.put("quantity(p1)", "1000");
@@ -1156,7 +1155,7 @@ public class TestSimulationContainerNotSing {
 			Map<String, String> monitored = new HashMap<String, String>();
 			RunOutput out;
 			String model = "examples/Pillbox/pillbox.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
 			monitored.put("systemTime", "1000");
@@ -1172,7 +1171,7 @@ public class TestSimulationContainerNotSing {
 			Map<String, String> monitored = new HashMap<String, String>();
 			RunOutput out;
 			String model = "examples/Pillbox2/safePillbox.asm";
-			SimulationContainerNotSingle imp = new SimulationContainerNotSingle();
+			SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
 			imp.init(1);
 			int id = imp.startExecution(model);
 			monitored.put("redLed(compartment2)", "OFF");

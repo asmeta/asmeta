@@ -9,8 +9,8 @@ import java.util.Map;
 import org.asmeta.framework.managedSystem.Effector;
 import org.asmeta.framework.managedSystem.Probe;
 import org.asmeta.runtime_container.RunOutput;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 import org.asmeta.runtime_container.SimulationContainer;
-import org.asmeta.runtime_container.SimulationContainerNotSing;
 
 public abstract class FeedbackLoop {
 
@@ -30,7 +30,7 @@ public abstract class FeedbackLoop {
 	private Knowledge k;
 
 	/** Runtime model handle*/
-	private SimulationContainerNotSing model;
+	private SimulationContainer model;
 	
 	/**
 	 * FeedbackLoop constructor
@@ -101,11 +101,11 @@ public abstract class FeedbackLoop {
 	//abstract method
 	public abstract void execution();
 
-	public  void setModel(SimulationContainerNotSing modelEngine) {
+	public  void setModel(SimulationContainer modelEngine) {
 		model = modelEngine;
 	}
 
-	public SimulationContainerNotSing getModel() {
+	public SimulationContainer getModel() {
 		return model;
 	}
 	
