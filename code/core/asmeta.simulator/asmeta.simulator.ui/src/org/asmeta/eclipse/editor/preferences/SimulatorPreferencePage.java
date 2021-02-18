@@ -2,8 +2,11 @@ package org.asmeta.eclipse.editor.preferences;
 
 import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.*;
 
+import java.time.temporal.ChronoUnit;
+
 import org.apache.log4j.Level;
 import org.asmeta.eclipse.AsmeeActivator;
+import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
@@ -79,14 +82,23 @@ public class SimulatorPreferencePage
 	        3,
 	        new String[][] {
 	          { "ask user", TimeMngt.ask_user.toString()},
-	          { "use java time", TimeMngt.use_java_time.toString()}
+	          { "use java time", TimeMngt.use_java_time.toString()},
+	          { "auto increment", TimeMngt.auto_increment.toString()}
 	        }, fieldEdtrPrnt, true));
+		addField(new ComboFieldEditor(P_TIME_UNIT, "Preferred time unit", getTimeUnits(), fieldEdtrPrnt));
 		// per logger
 		addField(new BooleanFieldEditor(P_DEBUG_USE_EXTERNAL_FILE, "Use prop file for log4j", fieldEdtrPrnt));
 		addField(new FileFieldEditor(P_DEBUG_EXTERNAL_FILE, "Use prop file for log4j", fieldEdtrPrnt));		
 		//
 		addField(new ComboFieldEditor(P_DEBUG_PARSER, "Debug level for parser", getLog4Jlevels(), fieldEdtrPrnt));
 		addField(new ComboFieldEditor(P_DEBUG_SIMULATOR, "Debug level for simulator", getLog4Jlevels(), fieldEdtrPrnt));
+	}
+
+	private String[][] getTimeUnits() {
+		return new String[][] {
+			{AUTO, AUTO},
+			{MILLIS_STRING,MILLIS_STRING},
+			{SECONDS_STRING,SECONDS_STRING}};
 	}
 
 	private String[][] getLog4Jlevels() {

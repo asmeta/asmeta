@@ -12,6 +12,6 @@ definitions:
 	
 main rule r_main =
 	par
-		timeS:= mCurrTimeSecs
 		timeMS:= mCurrTimeMillisecs
+		timeS:= mCurrTimeSecs
 	endpar

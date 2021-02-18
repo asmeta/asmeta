@@ -1,7 +1,7 @@
 package asmeta.animator.ui.handlers;
 
 import java.io.OutputStream;
-import java.io.PrintStream;
+
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -15,6 +15,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.console.IConsoleConstants;
 import org.eclipse.ui.console.IConsoleView;
@@ -39,7 +40,11 @@ public class AnimatorHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
-			loadModel(event);
+			String path = loadModel(event);
+			// get the options
+			org.asmeta.eclipse.simulator.actions.RunAction.setSimulationPrecerences();
+			// run the animator
+			VisualizationSimulation.showView(path);					
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -47,19 +52,10 @@ public class AnimatorHandler extends AbstractHandler {
 		return null;
 	}
 	
-	protected void loadModel(ExecutionEvent event) throws Exception {
+	private String loadModel(ExecutionEvent event) throws Exception {		
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		String path = null;
-		IEditorInput editorInput = window.getActivePage().getActiveEditor().getEditorInput();
-		if(editorInput instanceof org.eclipse.ui.part.FileEditorInput) {
-			path = ((org.eclipse.ui.part.FileEditorInput)editorInput).getURI().getPath();
-		}
-		else if(editorInput instanceof org.eclipse.ui.ide.FileStoreEditorInput) {
-			path = ((org.eclipse.ui.ide.FileStoreEditorInput)editorInput).getURI().getPath();
-		}
-		else {
-			throw new Error("Unknown editor " + editorInput.getClass().getSimpleName());
-		}
+		// get the file
+		String path = AsmetaUtility.getEditorPath(window);
 		// open the simulator console
 		IConsoleView view = (IConsoleView) window.getActivePage().showView(IConsoleConstants.ID_CONSOLE_VIEW);
 		AsmeeConsole mc = AsmetaUtility.findDefaultConsole();
@@ -77,7 +73,6 @@ public class AnimatorHandler extends AbstractHandler {
 				simulatorLogger.addAppender(outputfromSim);
 			Logger.getLogger(Simulator.class).setLevel(Level.ALL);
 		}
-		// run the animator
-		VisualizationSimulation.showView(path);		
+		return path;
 	}
 }

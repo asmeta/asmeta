@@ -1,5 +1,7 @@
 package org.asmeta.eclipse.simulator.actions;
 
+import java.util.concurrent.TimeUnit;
+
 import org.asmeta.eclipse.AsmeeActivator;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.eclipse.editor.preferences.PreferenceConstants;
@@ -44,17 +46,11 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 	 */
 	@Override
 	public void run(IAction action) {
-		// get the preferences
-		IPreferenceStore store = AsmeeActivator.getDefault().getPreferenceStore();
-		RuleEvaluator.isShuffled = store.getBoolean(PreferenceConstants.P_SHUFFLE);
-		//
-		Environment.timeMngt = TimeMngt.valueOf(store.getString(PreferenceConstants.P_TIME_MNGT));
-		Simulator.checkInvariants = store.getBoolean(PreferenceConstants.P_CHECK_AXIOMS);
-		RunJob.stopSimulationIfUpdateSetEmpty = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_EMPTY);
-		RunJob.stopSimulationIfUpdateSetTrivial = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_TRIVIAL);
+		IPreferenceStore store = setSimulationPrecerences();
 
 		AsmetaUtility.setUpLogger(store);
 
+		// TODO use console or something similar
 		System.out.println("running " + action.getDescription());
 		
 		// get the current document as file (IFile)
@@ -75,6 +71,31 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
+	}
+
+	/**
+	 * 
+	 * @return the preference store
+	 */
+	static public IPreferenceStore setSimulationPrecerences() {
+		// get the preferences
+		IPreferenceStore store = AsmeeActivator.getDefault().getPreferenceStore();
+		RuleEvaluator.isShuffled = store.getBoolean(PreferenceConstants.P_SHUFFLE);
+		//
+		Environment.timeMngt = TimeMngt.valueOf(store.getString(PreferenceConstants.P_TIME_MNGT));
+		String timeunit = store.getString(PreferenceConstants.P_TIME_UNIT);
+		switch(timeunit) {
+		case PreferenceConstants.AUTO : Environment.currentTimeUnit = null; break;
+		case PreferenceConstants.MILLIS_STRING : Environment.currentTimeUnit = TimeUnit.MILLISECONDS; break;
+		case PreferenceConstants.SECONDS_STRING: Environment.currentTimeUnit = TimeUnit.SECONDS; break;
+			//MILLISECONDS"Environment.currentTimeUnit = TimeUnit.MILLISECONDS;
+		default: throw new RuntimeException();
+		}
+		
+		Simulator.checkInvariants = store.getBoolean(PreferenceConstants.P_CHECK_AXIOMS);
+		RunJob.stopSimulationIfUpdateSetEmpty = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_EMPTY);
+		RunJob.stopSimulationIfUpdateSetTrivial = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_TRIVIAL);
+		return store;
 	}
 
 	/** get the job for this action

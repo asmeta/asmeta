@@ -85,7 +85,24 @@ public class Simulator {
 	protected List<Invariant> controlledInvariants;
 	private List<Invariant> monitoredInvariants;
 
-	public static Logger logger = Logger.getLogger(Simulator.class);
+	static class SimulatorLogger{
+		public static Logger logger = Logger.getLogger(Simulator.class);
+
+		public void info(UpdateSet updateSet) {
+			logger.info(updateSet);			
+		}
+		public void info(String string) {
+			logger.info(string);			
+		}
+		public boolean isInfoEnabled() {
+			return logger.isInfoEnabled();
+		}
+		public void debug(String string) {
+			logger.debug(string);			
+		}
+	}
+	
+	public static SimulatorLogger logger = new SimulatorLogger();
 
 	/**
 	 * Check invariants flag.

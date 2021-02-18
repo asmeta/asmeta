@@ -110,6 +110,24 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	private Text timeStep;
 
+	
+	/** build the viewer from a path 
+	 * sort of a factory */
+	public static void showView(String path) throws Exception {
+		String example = path;
+		// PARSE THE SPECIFICATION (ASM)
+		// parse using the asmeta parser
+		File asmFile1 = new File(example);
+		assert asmFile1.exists();
+		File asmFile = asmFile1;
+		final AsmCollection model = ASMParser.setUpReadAsm(asmFile);
+		AsmCollection asm = model;
+		// System.out.println(System.getProperty("user.dir"));
+		log.debug("animating " + path);
+		new VisualizationSimulation(asm);
+	}
+
+	
 	/**
 	 * Launch the application. Open the window for interactive simulation.
 	 * 
@@ -402,10 +420,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			}
 
 		});
-		btnMoveControlledUp.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
+		btnMoveControlledUp.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -413,21 +428,15 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 						table_states_right_up, CONTROLLED, arrowDown, true);
 			}
 		});
-		btnMoveControlledDown.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
-
+		btnMoveControlledDown.addSelectionListener(new SelectionAdapter() {
+			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				moveMultipleFunctions(table_functions_left_up, table_states_right_up, table_functions_left_down,
 						table_states_right_down, CONTROLLED, arrowUp, false);
 			}
 		});
-		btnMoveMonitoredUp.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
+		btnMoveMonitoredUp.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -970,20 +979,6 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		return -1;
 	}
 
-	/** build the viewer from a path */
-	public static void showView(String path) throws Exception {
-		String example = path;
-		// PARSE THE SPECIFICATION (ASM)
-		// parse using the asmeta parser
-		File asmFile1 = new File(example);
-		assert asmFile1.exists();
-		File asmFile = asmFile1;
-		final AsmCollection model = ASMParser.setUpReadAsm(asmFile);
-		AsmCollection asm = model;
-		// System.out.println(System.getProperty("user.dir"));
-		log.debug("animating " + path);
-		new VisualizationSimulation(asm);
-	}
 
 	@Override
 	public void setInvalidIvariantText(String s) {

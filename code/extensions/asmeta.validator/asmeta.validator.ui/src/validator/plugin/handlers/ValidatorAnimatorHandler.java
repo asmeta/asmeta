@@ -5,7 +5,7 @@ import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 
 
 /**
- * 
+ * validate the scenario with the animator
  * 
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler

@@ -1,5 +1,7 @@
 package org.asmeta.eclipse.editor.preferences;
 
+import java.time.temporal.ChronoUnit;
+
 /**
  * Constant definitions for plug-in preferences
  */
@@ -14,4 +16,12 @@ public class PreferenceConstants {
 	public static final String P_DEBUG_SIMULATOR = "asmee.editor.debuglevel.simulator";
 	// 
 	public static final String P_TIME_MNGT = "asmee.simulator.timemngt";
+	public static final String P_TIME_UNIT = "asmee.simulator.timeunit";
+	
+	public static final String AUTO = "auto";
+	
+	public static final String SECONDS_STRING = "SECONDS";
+	public static final String MILLIS_STRING = "MILLIS";
+
+
 }

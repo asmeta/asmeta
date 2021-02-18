@@ -76,7 +76,7 @@ public class AsmetaUtility {
 	}
 	
 	/**
-	 * Gets the editor I file.
+	 * Gets the editor as Ifile.
 	 *
 	 * @param window the window
 	 * @return the editor I file

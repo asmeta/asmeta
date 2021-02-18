@@ -43,8 +43,8 @@ public class ParserResultLogger { // DO NOT EXTEND LOGGER !!! USE COMPOSITION TO
 		log = Logger.getLogger("org.asmeta.parser");
 		//log.setLevel(Level.OFF);
 		// if there are no appenders, a warning will be printed
-//		if (!log.getAllAppenders().hasMoreElements())
-//			log.addAppender(new ConsoleAppender(new SimpleLayout()));
+		//if (!log.getAllAppenders().hasMoreElements())
+		//	log.addAppender(new ConsoleAppender(new SimpleLayout()));
 	}
 	
 
@@ -110,6 +110,8 @@ public class ParserResultLogger { // DO NOT EXTEND LOGGER !!! USE COMPOSITION TO
 	
 	// add appender	
 	public void addAppender(Appender arg0){
+		// I don't want to many appenders
+		// assert !(log.getAllAppenders().hasMoreElements());
 		log.addAppender(arg0);
 	}
 

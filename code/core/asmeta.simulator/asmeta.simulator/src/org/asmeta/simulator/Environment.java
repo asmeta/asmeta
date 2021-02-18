@@ -26,30 +26,59 @@ package org.asmeta.simulator;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.apache.log4j.xml.Log4jEntityResolver;
+import org.asmeta.parser.Utility;
 import org.asmeta.simulator.readers.MonFuncReader;
+import org.asmeta.simulator.util.StandardLibrary;
 import org.asmeta.simulator.value.IntegerValue;
+import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
+
+import asmeta.definitions.DefinitionsFactory;
+import asmeta.definitions.Function;
+import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.domains.DomainsFactory;
 
 /**
  * The environment returns the value of the monitored functions.
  */
 public final class Environment {
 
-	public enum TimeMngt{
+	private static final Object[][] OBJECTS = new Object[][] { 
+		{ "mCurrTimeNanosecs", TimeUnit.NANOSECONDS },
+		{ "mCurrTimeMillisecs", TimeUnit.MILLISECONDS }, 
+		{ "mCurrTimeSecs", TimeUnit.SECONDS }, };
+
+	public enum TimeMngt {
 		// link the time variable to the time of the java machine
 		use_java_time,
 		// ask the user
-		ask_user;
+		ask_user,
+		// increment the time unit by 1 at each step
+		// TODO delta
+		auto_increment;
 	}
+	// map from monitored functions to time units
+	final static Map<String, TimeUnit> monTimeFunctions = Stream
+			.of(OBJECTS)
+			.collect(Collectors.toMap(data -> (String) data[0], data -> (TimeUnit) data[1]));
+	// map from time units to functions names - reverse
+	final static Map<TimeUnit,String> monTimeUnits = monTimeFunctions.entrySet()
+		       .stream()
+		       .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+
 	// it can be null: automatic
 	public static TimeUnit currentTimeUnit = null;
-	
 	public static TimeMngt timeMngt;
 	
+
 	private static boolean START_TIME_FROM_0 = true;
 	/**
 	 * Parses an input string and returns a value.
@@ -57,100 +86,122 @@ public final class Environment {
 	private MonFuncReader monFuncReader;
 
 	private Instant startFrom;
+	private Instant currentStateInstant;
+
+	private State currentState;
+
 	
 	public Environment(MonFuncReader monFuncReader) {
 		this.monFuncReader = monFuncReader;
-		if (START_TIME_FROM_0) 
+		if (START_TIME_FROM_0)
 			startFrom = Instant.now();
 		else
 			startFrom = Instant.MIN;
+		currentStateInstant = startFrom;
 	}
 
-	
 	/**
 	 * Returns the value of a monitored function.
 	 * 
-	 * @param location
-	 *            a location
-	 * @param state
-	 *            the current state
+	 * @param location a location
+	 * @param state    the current state
 	 * @return the location value
 	 */
 	public Value<?> read(Location location, State state) {
-		// state does not contain location value otherwise must not be asked 
+		// state does not contain location value otherwise must not be asked
 		assert state.locationMap.get(location) == null;
-		// AG 13/11/2020 
 		// if it is time, read in a special way
-		if (isTime(location)) {
-			// extract 
-			TimeUnit locationTimeUnit = getTimeUnit(location);
-			// set the time unit if not already set
-			if (currentTimeUnit==null) currentTimeUnit = locationTimeUnit;
+		// check is the location refers to time quantities (special monitored functions)
+		if (location.getName().startsWith("mCurrTime")) {
+			assert monTimeFunctions.keySet().contains(location.getName());
 			// check if a time is already set in the state
-			return find_mCurrTime(state,location, locationTimeUnit);
-			// convert if possible 
+			// convert if possible
 			// if it is not possible throw Exception
-		}			
+			return find_mCurrTime(state, location);
+		}
 		// not a time location
 		return monFuncReader.read(location, state);
 	}
 
 	// find the current time of the location in tu timeunit
-	// considering that the teh current time could be set in other time units 
-	private Value find_mCurrTime(State state, Location location, TimeUnit tu) {
-		assert tu == getTimeUnit(location);
+	// considering that the teh current time could be set in other time units
+	private Value find_mCurrTime(State state, Location location) {
+		// extract the time unit
+		TimeUnit locationTimeUnit = getTimeUnit(location);
+		// set the time unit if not already set
+		if (currentTimeUnit == null)
+			currentTimeUnit = locationTimeUnit;
 		// scan the state and look for time of the time unit for the simulation
 		// case base, it is asking a time in the time of the simulation
-		if (currentTimeUnit == tu) return readTime(state, location, tu); 
-		// check if its convertible 
-		if (currentTimeUnit.convert(1, tu) == 0) throw new RuntimeException("cannot convert " +currentTimeUnit + " to " + tu);
-		// check if is already memorized in the currentTimeUnit of the simulation		
-		Value<Long> currentValue = null;
+		// check if its convertible
+		//if (timeMngt != TimeMngt.use_java_time && currentTimeUnit.convert(1, locationTimeUnit) == 0 )
+		//	// log a warning
+		//
+		// check if is already memorized in the currentTimeUnit of the simulation
+		// find current time in currentTimeUnit
+		Value<Long> currentTimeValue = null;
+		exit: 
 		for (Entry<Location, Value> v : state.getMonLocs().entrySet()) {
-			if (v.getKey().getName().equals("mCurrTimeMillisecs") && currentTimeUnit == TimeUnit.MILLISECONDS) {
-				currentValue = v.getValue();
-				break;
-			}			
-			if (v.getKey().getName().equals("mCurrTimeSecs") && currentTimeUnit == TimeUnit.SECONDS) {
-				currentValue = v.getValue();
-				break;
-			}			
+			for ( Entry<String, TimeUnit> mtf: monTimeFunctions.entrySet()) {
+				if (v.getKey().getName().equals(mtf.getKey()) &&  currentTimeUnit == mtf.getValue()) {
+					currentTimeValue = v.getValue();
+					if (!(currentTimeValue instanceof UndefValue)) break exit;					
+				} 
+			}
 		}
-		// if not found I get the time in the currentTimeUnit
-		if (currentValue == null) currentValue = readTime(state, location, currentTimeUnit);
-		assert currentValue != null;
-		// convert from currentTimeUnit to tu 
-		long converteval = tu.convert(currentValue.getValue(),currentTimeUnit); 
-		return new IntegerValue(converteval);		
-	}
-
-	// read time - it must be 
-	private Value readTime(State state, Location location, TimeUnit tu) {
-		Value value = null;
-		// if use java time
-		if (timeMngt == TimeMngt.use_java_time) {
-			value = new IntegerValue(startFrom.until(Instant.now(), currentTimeUnit.toChronoUnit()));
-		} else { 	
-			value = monFuncReader.read(location, state);
+		// if not found, it's the first time the simulator has been asked to get a time in the current state
+		// set current time for the state in the current Time unit
+		if (currentTimeValue == null) {
+			System.out.println("no time info in the current state - adding " + currentTimeUnit);
+			if (timeMngt == TimeMngt.use_java_time) {
+				currentStateInstant = Instant.now();
+			} else if (timeMngt == TimeMngt.ask_user) {
+				// if asking to the user a differen time format 
+				if (locationTimeUnit != currentTimeUnit) {
+					// not java time and location time unit != current Time unit
+					// create the location
+					MonitoredFunction func = DefinitionsFactory.eINSTANCE.createMonitoredFunction();
+					func.setName(monTimeUnits.get(currentTimeUnit));
+					func.setArity(0);
+					func.setCodomain(DomainsFactory.eINSTANCE.createIntegerDomain());
+					Location timeLocation = new Location(func, new IntegerValue[0]); 
+					Value<Long> firstTimeValue = monFuncReader.read(timeLocation, state);
+					currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit.toChronoUnit());
+					System.out.println("setting current time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));					
+				} else {
+					if (currentState != state) {
+						// 	current time and location time (they are the same)
+						Value<Long> firstTimeValue = monFuncReader.read(location, state);
+						currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit.toChronoUnit());
+						System.out.println("setting current (and location) time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));
+						// done in this case
+						return firstTimeValue;
+					}
+				} 
+			} else {
+				assert timeMngt == TimeMngt.auto_increment;
+				currentStateInstant = currentStateInstant.plus(1, currentTimeUnit.toChronoUnit());
+			}
+			// now covert for read the value for the location
+			long deltaTime = startFrom.until(currentStateInstant,  currentTimeUnit.toChronoUnit());
+			currentTimeValue = new IntegerValue(deltaTime);			
 		}
-		return value;
+		// change the current state;
+		currentState = state;
+		if (locationTimeUnit == currentTimeUnit) {
+			return currentTimeValue;
+		}
+		assert currentTimeValue != null && locationTimeUnit != currentTimeUnit;
+		// 	convert from currentTimeUnit to locationTimeUnit
+		long converteval = locationTimeUnit.convert(currentTimeValue.getValue(), currentTimeUnit);		
+		System.out.println("converting  " + currentTimeValue.getValue() + currentTimeUnit + " to " + converteval +locationTimeUnit);
+		return new IntegerValue(converteval);
 	}
-
 
 	// return the temporal unit
 	private TimeUnit getTimeUnit(Location location) {
-		switch(location.getName()){
-		case "mCurrTimeNanosecs": return TimeUnit.NANOSECONDS;
-		case "mCurrTimeMillisecs": return TimeUnit.MILLISECONDS;
-		case "mCurrTimeSecs": return TimeUnit.SECONDS;
-		}
-		assert (false);
-		return null;
+		assert monTimeFunctions.containsKey(location.getName());
+		return monTimeFunctions.get(location.getName());
 	}
-	// check is the location refers to time quantities (special monitored functions)
-	private boolean isTime(Location location) {
-		return location.getName().startsWith("mCurrTime");
-	}
-	
-	
+
 }
