@@ -87,8 +87,8 @@ public final class Environment {
 
 	private Instant startFrom;
 	private Instant currentStateInstant;
+	private boolean currentStateInstantUpdated =false;
 
-	private State currentState;
 
 	
 	public Environment(MonFuncReader monFuncReader) {
@@ -145,21 +145,25 @@ public final class Environment {
 			for ( Entry<String, TimeUnit> mtf: monTimeFunctions.entrySet()) {
 				if (v.getKey().getName().equals(mtf.getKey()) &&  currentTimeUnit == mtf.getValue()) {
 					currentTimeValue = v.getValue();
-					if (!(currentTimeValue instanceof UndefValue)) break exit;					
+					if ( currentTimeValue instanceof UndefValue) {
+						currentTimeValue = null;
+						break exit;
+					}					 
 				} 
 			}
 		}
-		// if not found, it's the first time the simulator has been asked to get a time in the current state
-		// set current time for the state in the current Time unit
+		// if not found, it's the first time the simulator has been asked to get 
+		// the  time in the current state in the current Time unit
+		// set current instant for the state in the current Time unit
 		if (currentTimeValue == null) {
-			System.out.println("no time info in the current state - adding " + currentTimeUnit);
+			System.out.println("no time info in the current state - looking for " + currentTimeUnit);
 			if (timeMngt == TimeMngt.use_java_time) {
 				currentStateInstant = Instant.now();
 			} else if (timeMngt == TimeMngt.ask_user) {
 				// if asking to the user a differen time format 
 				if (locationTimeUnit != currentTimeUnit) {
 					// not java time and location time unit != current Time unit
-					// create the location
+					// create the location and ask to the user
 					MonitoredFunction func = DefinitionsFactory.eINSTANCE.createMonitoredFunction();
 					func.setName(monTimeUnits.get(currentTimeUnit));
 					func.setArity(0);
@@ -167,15 +171,18 @@ public final class Environment {
 					Location timeLocation = new Location(func, new IntegerValue[0]); 
 					Value<Long> firstTimeValue = monFuncReader.read(timeLocation, state);
 					currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit.toChronoUnit());
-					System.out.println("setting current time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));					
+					System.out.println("setting current time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));
+					currentStateInstantUpdated = true;
 				} else {
-					if (currentState != state) {
-						// 	current time and location time (they are the same)
+					// current time and location time (they are the same)
+					if (! currentStateInstantUpdated) {						
 						Value<Long> firstTimeValue = monFuncReader.read(location, state);
 						currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit.toChronoUnit());
 						System.out.println("setting current (and location) time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));
 						// done in this case
 						return firstTimeValue;
+					} else {
+						// location is in the current 
 					}
 				} 
 			} else {
@@ -185,9 +192,11 @@ public final class Environment {
 			// now covert for read the value for the location
 			long deltaTime = startFrom.until(currentStateInstant,  currentTimeUnit.toChronoUnit());
 			currentTimeValue = new IntegerValue(deltaTime);			
+			// change the current state;
+			currentStateInstantUpdated = true;
+		} else {
+			currentStateInstantUpdated = false;			
 		}
-		// change the current state;
-		currentState = state;
 		if (locationTimeUnit == currentTimeUnit) {
 			return currentTimeValue;
 		}

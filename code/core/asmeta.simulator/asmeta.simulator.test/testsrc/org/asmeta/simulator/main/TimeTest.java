@@ -162,6 +162,7 @@ public class TimeTest extends BaseTest {
 		assertEquals("[Millis, Millis]",monFuncReader.asked.values().toString());
 	}
 
+	
 	// two times but asked only once
 	@Test
 	public void test_2_au_ok() throws Exception {
@@ -192,6 +193,20 @@ public class TimeTest extends BaseTest {
 		user.inctime();sim.run(1);
 		user.inctime();sim.run(1);
 		assertEquals("[Seconds, Seconds, Seconds]",user.asked.values().toString());
+		assertEquals("3", getFunctionValue("timeS", sim.getCurrentState()));
+		assertEquals("3000", getFunctionValue("timeMS", sim.getCurrentState()));
+	}
+	// two different units - ask only the millis 
+	@Test
+	public void test_mix1_au_warn() throws Exception {
+		Environment.currentTimeUnit = null;
+		Environment.timeMngt = TimeMngt.ask_user;
+		SimulatedUser user = new SimulatedUser();
+		sim = Simulator.createSimulator(BASE + "test/simulator/time/mixedtime1.asm", new Environment(user));
+		user.inctime();sim.run(1);
+		user.inctime();sim.run(1);
+		user.inctime();sim.run(1);
+		assertEquals("[Millis, Millis, Millis]",user.asked.values().toString());
 		assertEquals("3", getFunctionValue("timeS", sim.getCurrentState()));
 		assertEquals("3000", getFunctionValue("timeMS", sim.getCurrentState()));
 	}
@@ -234,6 +249,7 @@ public class TimeTest extends BaseTest {
 		// one monitored variable with time seconds
 		sim = Simulator.createSimulator(BASE + "test/simulator/time/time1.asm");
 		Environment.timeMngt = TimeMngt.auto_increment;
+		Environment.currentTimeUnit = TimeUnit.SECONDS;
 		sim.run(1);
 		State state = sim.getCurrentState();
 		assertEquals("1", getFunctionValue("time", state));
