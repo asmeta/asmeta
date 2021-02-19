@@ -19,7 +19,9 @@ import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.Location;
+import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.State;
+import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.Value;
 import org.junit.BeforeClass;
@@ -32,6 +34,8 @@ public class TimeTest extends BaseTest {
 	@BeforeClass
 	static public void setLogger() {
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
+		Logger.getLogger(RuleEvaluator.class).setLevel(Level.OFF);
+		Logger.getLogger(TermEvaluator.class).setLevel(Level.OFF);
 	}
 
 	@Test
@@ -54,6 +58,7 @@ public class TimeTest extends BaseTest {
 		sim = Simulator.createSimulator(BASE + "test/simulator/time/time2.asm");
 		Environment.timeMngt = TimeMngt.use_java_time;
 		Instant startFrom = Instant.now();
+		TimeUnit.MILLISECONDS.sleep(3);
 		sim.run(1);
 		long mills = startFrom.until(Instant.now(), ChronoUnit.MILLIS);
 		State state = sim.getCurrentState();

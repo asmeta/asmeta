@@ -87,7 +87,6 @@ public final class Environment {
 
 	private Instant startFrom;
 	private Instant currentStateInstant;
-	private boolean currentStateInstantUpdated =false;
 
 
 	
@@ -137,25 +136,13 @@ public final class Environment {
 		//if (timeMngt != TimeMngt.use_java_time && currentTimeUnit.convert(1, locationTimeUnit) == 0 )
 		//	// log a warning
 		//
-		// check if is already memorized in the currentTimeUnit of the simulation
-		// find current time in currentTimeUnit
-		Value<Long> currentTimeValue = null;
-		exit: 
-		for (Entry<Location, Value> v : state.getMonLocs().entrySet()) {
-			for ( Entry<String, TimeUnit> mtf: monTimeFunctions.entrySet()) {
-				if (v.getKey().getName().equals(mtf.getKey()) &&  currentTimeUnit == mtf.getValue()) {
-					currentTimeValue = v.getValue();
-					if ( currentTimeValue instanceof UndefValue) {
-						currentTimeValue = null;
-						break exit;
-					}					 
-				} 
-			}
-		}
+		// check if time information is already memorized in the state
+		//
+		boolean timeSet = state.getMonLocs().keySet().stream().anyMatch( x -> monTimeFunctions.keySet().contains(x.getName()));
 		// if not found, it's the first time the simulator has been asked to get 
 		// the  time in the current state in the current Time unit
 		// set current instant for the state in the current Time unit
-		if (currentTimeValue == null) {
+		if (!timeSet) {
 			System.out.println("no time info in the current state - looking for " + currentTimeUnit);
 			if (timeMngt == TimeMngt.use_java_time) {
 				currentStateInstant = Instant.now();
@@ -172,39 +159,24 @@ public final class Environment {
 					Value<Long> firstTimeValue = monFuncReader.read(timeLocation, state);
 					currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit.toChronoUnit());
 					System.out.println("setting current time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));
-					currentStateInstantUpdated = true;
 				} else {
-					// current time and location time (they are the same)
-					if (! currentStateInstantUpdated) {						
-						Value<Long> firstTimeValue = monFuncReader.read(location, state);
-						currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit.toChronoUnit());
-						System.out.println("setting current (and location) time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));
-						// done in this case
-						return firstTimeValue;
-					} else {
-						// location is in the current 
-					}
+					// ask this right way
+					Value<Long> firstTimeValue = monFuncReader.read(location, state);
+					currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit.toChronoUnit());
+					System.out.println("setting current (and location) time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));
+					// done in this case
+					return firstTimeValue;
 				} 
 			} else {
 				assert timeMngt == TimeMngt.auto_increment;
 				currentStateInstant = currentStateInstant.plus(1, currentTimeUnit.toChronoUnit());
 			}
-			// now covert for read the value for the location
-			long deltaTime = startFrom.until(currentStateInstant,  currentTimeUnit.toChronoUnit());
-			currentTimeValue = new IntegerValue(deltaTime);			
-			// change the current state;
-			currentStateInstantUpdated = true;
-		} else {
-			currentStateInstantUpdated = false;			
 		}
-		if (locationTimeUnit == currentTimeUnit) {
-			return currentTimeValue;
-		}
-		assert currentTimeValue != null && locationTimeUnit != currentTimeUnit;
-		// 	convert from currentTimeUnit to locationTimeUnit
-		long converteval = locationTimeUnit.convert(currentTimeValue.getValue(), currentTimeUnit);		
-		System.out.println("converting  " + currentTimeValue.getValue() + currentTimeUnit + " to " + converteval +locationTimeUnit);
-		return new IntegerValue(converteval);
+		// compute the time 
+		//it could be also in the ask_user and current time unit as well, but not ask it again
+		long deltaTime = startFrom.until(currentStateInstant,  locationTimeUnit.toChronoUnit());
+		System.out.println("converting  " + deltaTime + locationTimeUnit.toChronoUnit());
+		return new IntegerValue(deltaTime);
 	}
 
 	// return the temporal unit
