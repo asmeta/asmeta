@@ -17,6 +17,7 @@ public class PreferenceConstants {
 	// 
 	public static final String P_TIME_MNGT = "asmee.simulator.timemngt";
 	public static final String P_TIME_UNIT = "asmee.simulator.timeunit";
+	public static final String P_AUTO_DELTA = "asmee.simulator.delta_autoincrement";
 	
 	public static final String AUTO = "auto";
 	

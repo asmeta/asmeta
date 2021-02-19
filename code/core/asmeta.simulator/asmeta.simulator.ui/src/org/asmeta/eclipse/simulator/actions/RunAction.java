@@ -93,6 +93,7 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 			//MILLISECONDS"Environment.currentTimeUnit = TimeUnit.MILLISECONDS;
 		default: throw new RuntimeException();
 		}
+		Environment.auto_increment_delta = store.getInt(PreferenceConstants.P_AUTO_DELTA);
 		
 		Simulator.checkInvariants = store.getBoolean(PreferenceConstants.P_CHECK_AXIOMS);
 		RunJob.stopSimulationIfUpdateSetEmpty = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_EMPTY);

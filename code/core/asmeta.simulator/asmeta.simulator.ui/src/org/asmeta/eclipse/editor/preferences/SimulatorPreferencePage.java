@@ -13,10 +13,20 @@ import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.FileFieldEditor;
+import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 /**
  * This class represents a preference page that
@@ -50,26 +60,6 @@ public class SimulatorPreferencePage
 	 */
 	@Override
 	public void createFieldEditors() {
-/*		addField(new DirectoryFieldEditor(PreferenceConstants.P_PATH, 
-				"&Directory preference:", getFieldEditorParent()));
-		addField(
-			new BooleanFieldEditor(
-				PreferenceConstants.P_BOOLEAN,
-				"&An example of a boolean preference",
-				getFieldEditorParent()));
-
-		addField(new RadioGroupFieldEditor(
-				PreferenceConstants.P_CHOICE,
-			"An example of a multiple-choice preference",
-			1,
-			new String[][] { { "&Choice 1", "choice1" }, {
-				"C&hoice 2", "choice2" }
-		}, getFieldEditorParent()));
-		addField(
-			new StringFieldEditor(PreferenceConstants.P_STRING, "A &text preference:", getFieldEditorParent()));
-		/// ^^^ from wizard
-		 * 
-		 */
 		Composite fieldEdtrPrnt = getFieldEditorParent();
 		addField(new BooleanFieldEditor(P_SHUFFLE, "Shuffle choose rule", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_CHECK_AXIOMS, "Check invariants", fieldEdtrPrnt));
@@ -85,6 +75,10 @@ public class SimulatorPreferencePage
 	          { "use java time", TimeMngt.use_java_time.toString()},
 	          { "auto increment", TimeMngt.auto_increment.toString()}
 	        }, fieldEdtrPrnt, true));
+		IntegerFieldEditor integerFieldEditor = new IntegerFieldEditor(P_AUTO_DELTA, "Delta when auto increment", fieldEdtrPrnt);
+		integerFieldEditor.setValidRange(1, 10000);
+		addField(integerFieldEditor);	
+		
 		addField(new ComboFieldEditor(P_TIME_UNIT, "Preferred time unit", getTimeUnits(), fieldEdtrPrnt));
 		// per logger
 		addField(new BooleanFieldEditor(P_DEBUG_USE_EXTERNAL_FILE, "Use prop file for log4j", fieldEdtrPrnt));

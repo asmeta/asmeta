@@ -35,6 +35,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		Environment.timeMngt = TimeMngt.use_java_time;
 		store.setDefault(PreferenceConstants.P_TIME_UNIT, PreferenceConstants.AUTO);
 		Environment.currentTimeUnit = null;
+		store.setDefault(PreferenceConstants.P_AUTO_DELTA, 1);
 		
 
 		store.setDefault(PreferenceConstants.P_DEBUG_PARSER, Level.INFO.toString());

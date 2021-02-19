@@ -15,9 +15,6 @@ import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -53,39 +50,6 @@ import asmeta.AsmCollection;
 
 public class VisualizationSimulation implements VisualizationSimulationI {
 
-	// for executing evert to tseconds
-	public class RepeatingJob extends Job {
-		private boolean running = true;
-		protected long repeatDelay = 1000;
-		private AsmTestGeneratorMixedSimulation tg;
-
-		public RepeatingJob(AsmTestGeneratorMixedSimulation tg) {
-			super("executing random stesp every ...");
-			this.tg = tg;
-		}
-
-		public boolean shouldSchedule() {
-			return running;
-		}
-
-		public void stop() {
-			running = false;
-		}
-
-		@Override
-		protected IStatus run(IProgressMonitor monitor) {
-			MyState state = tg.runSimulation(1);
-			Display.getDefault().syncExec(new Runnable() {
-			    public void run() {
-			    	showFunctionsRandomSimulation(state);
-			    }
-			});
-			schedule(repeatDelay);
-			return org.eclipse.core.runtime.Status.OK_STATUS;
-		}
-	}
-
-	RepeatingJob job;
 
 	// get the logger form the simulator
 	static Logger log = Logger.getLogger(Simulator.class);
@@ -205,36 +169,12 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			}
 		});
 		btnInterStep.addSelectionListener(new SelectionAdapter() {
-
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				tg.setInteractive();
 				// System.out.println("INTERACTIVE SIMULATION");
 				MyState state = tg.runSimulation(); // TODO: get initial state
 				showFunctionsInteractiveSimulation(state);
-			}
-		});
-		btnStepTime.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Button source = (Button) e.getSource();
-				if (source.getSelection()) {
-					// start
-					tg.setRandom();
-					try {
-						int delay = Integer.parseInt(timeStep.getText());
-						if (job == null)
-							job = new RepeatingJob(tg);
-						job.running = true;
-						job.repeatDelay = delay;
-						job.schedule(delay); //
-					} catch (NumberFormatException nfe) {
-						System.err.println(nfe.getMessage());
-					}
-				} else {
-					job.running = false;
-					System.out.println("stop");
-				}
 			}
 		});
 
@@ -312,32 +252,6 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		textStepNumber.setLayoutData(gd_textStepNumber);
 		// allow only numbers
 		textStepNumber.addVerifyListener(new VerifyListener() {
-			@Override
-			public void verifyText(VerifyEvent e) {
-				try {
-					Integer.valueOf(((Text) e.widget).getText());
-				} catch (NumberFormatException ex) {
-					e.doit = false;
-				}
-			}
-		});
-		new Label(composite, SWT.NONE);
-		// add as group automatci progress
-		Group timeStepGroup = new Group(composite, SWT.NONE);
-		timeStepGroup.setLayout(new RowLayout(SWT.HORIZONTAL));
-		// add the button for automatic time
-		btnStepTime = new Button(timeStepGroup, SWT.TOGGLE);
-		btnStepTime.setForeground(SWTResourceManager.getColor(255, 255, 255));
-		btnStepTime.setBackground(SWTResourceManager.getColor(0, 0, 255));
-		btnStepTime.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
-		btnStepTime.setText("Do one step every milliseconds");
-		// add the textfield for time step
-		timeStep = new Text(timeStepGroup, SWT.BORDER);
-		timeStep.setBackground(SWTResourceManager.getColor(245, 245, 245));
-		timeStep.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
-		timeStep.setText("1");
-		timeStep.setTouchEnabled(true);
-		timeStep.addVerifyListener(new VerifyListener() {
 			@Override
 			public void verifyText(VerifyEvent e) {
 				try {

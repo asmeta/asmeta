@@ -64,16 +64,19 @@ public final class Environment {
 		use_java_time,
 		// ask the user
 		ask_user,
-		// increment the time unit by 1 at each step
+		// increment the time unit by auto_increment_delta at each step
 		// TODO delta
 		auto_increment;
 	}
+	// 
+	public static int auto_increment_delta = 1;
+	
 	// map from monitored functions to time units
-	final static Map<String, TimeUnit> monTimeFunctions = Stream
+	private final static Map<String, TimeUnit> monTimeFunctions = Stream
 			.of(OBJECTS)
 			.collect(Collectors.toMap(data -> (String) data[0], data -> (TimeUnit) data[1]));
 	// map from time units to functions names - reverse
-	final static Map<TimeUnit,String> monTimeUnits = monTimeFunctions.entrySet()
+	private final static Map<TimeUnit,String> monTimeUnits = monTimeFunctions.entrySet()
 		       .stream()
 		       .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
 
@@ -173,7 +176,8 @@ public final class Environment {
 				} 
 			} else {
 				assert timeMngt == TimeMngt.auto_increment;
-				currentStateInstant = currentStateInstant.plus(1, currentTimeUnit.toChronoUnit());
+				assert auto_increment_delta > 0;
+				currentStateInstant = currentStateInstant.plus(auto_increment_delta, currentTimeUnit.toChronoUnit());
 			}
 		}
 		// compute the time 
