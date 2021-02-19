@@ -27,15 +27,9 @@ signature:
 	dynamic controlled gPulse: LightUnit -> Boolean
 	
 	static timer50Passed: Timer
-	derived xtimer50Passed: Boolean
 	static timer120Passed: Timer
-	derived xtimer120Passed: Boolean
 	
 definitions:
-	
-
-	function xtimer50Passed = expired(timer50Passed)
-	function xtimer120Passed = expired(timer120Passed)
 
 	rule r_switch($l in Boolean) =
 		$l := not($l)
@@ -48,7 +42,7 @@ definitions:
 
 	rule r_stop1stop2_to_go2stop1 =
 		if(phase=STOP1STOP2) then
-			if xtimer50Passed then
+			if expired(timer50Passed) then
 				par
 					r_switchLightUnit[LIGHTUNIT2]
 					phase:=GO2STOP1
@@ -59,7 +53,7 @@ definitions:
 
 	rule r_go2stop1_to_stop2stop1 =
 		if(phase=GO2STOP1) then
-			if xtimer120Passed then
+			if expired(timer120Passed) then
 				par
 					r_switchLightUnit[LIGHTUNIT2]
 					phase:=STOP2STOP1
@@ -70,7 +64,7 @@ definitions:
 
 	rule r_stop2stop1_to_go1stop2 =
 		if(phase=STOP2STOP1) then
-			if xtimer50Passed then
+			if expired(timer50Passed) then
 				par
 					r_switchLightUnit[LIGHTUNIT1]
 					phase:=GO1STOP2
@@ -81,7 +75,7 @@ definitions:
 
 	rule r_go1stop2_to_stop1stop2 =
 		if(phase=GO1STOP2) then
-			if xtimer120Passed then
+			if expired(timer120Passed) then
 				par
 					r_switchLightUnit[LIGHTUNIT1]
 					phase:=STOP1STOP2
