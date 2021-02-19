@@ -29,14 +29,9 @@ signature:
 	dynamic monitored event: Position -> Boolean
 	
 	static timer10MinPassed: Timer
-	derived xtimer10MinPassed: Boolean
 	static timer3hPassed: Timer
-	derived xtimer3hPassed: Boolean
 
 definitions:
-
-	function xtimer10MinPassed = expired(timer10MinPassed)
-	function xtimer3hPassed = expired(timer3hPassed)
 
 	rule r_start_to_raise =
 		par
@@ -59,7 +54,7 @@ definitions:
 	main rule r_Main =
 		par
 			if(phase=FULLYCLOSED) then
-				if xtimer3hPassed then
+				if expired(timer3hPassed) then
 					par
 						r_start_to_raise[]
 						phase := OPENING
@@ -71,11 +66,12 @@ definitions:
 					par
 						r_stop_motor[]
 						phase := FULLYOPEN
+						r_reset_timer[timer10MinPassed]
 					endpar
 				endif
 			endif
 			if(phase=FULLYOPEN) then
-				if xtimer10MinPassed then
+				if expired(timer10MinPassed) then
 					par
 						r_start_to_lower[]
 						phase := CLOSING
@@ -87,6 +83,7 @@ definitions:
 					par
 						r_stop_motor[]
 						phase := FULLYCLOSED
+						r_reset_timer[timer3hPassed]
 					endpar
 				endif
 			endif
