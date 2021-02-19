@@ -33,11 +33,11 @@ definitions:
 										else if (timerUnit($t)=HOUR) then mCurrTimeHours
 										endif endif endif endif endif
 														
-	function expired($t in Timer) = if (timerUnit($t)=NANOSEC) then (mCurrTimeNanosecs > start($t) + duration($t))
-										else if (timerUnit($t)=MILLISEC) then (mCurrTimeMillisecs > start($t) + duration($t))
-										else if (timerUnit($t)=SEC) then (mCurrTimeSecs > start($t) + duration($t))
-										else if (timerUnit($t)=MIN) then (mCurrTimeMins > start($t) + duration($t))
-										else if (timerUnit($t)=HOUR) then (mCurrTimeHours > start($t) + duration($t))
+	function expired($t in Timer) = if (timerUnit($t)=NANOSEC) then (mCurrTimeNanosecs >= start($t) + duration($t))
+										else if (timerUnit($t)=MILLISEC) then (mCurrTimeMillisecs >= start($t) + duration($t))
+										else if (timerUnit($t)=SEC) then (mCurrTimeSecs >= start($t) + duration($t))
+										else if (timerUnit($t)=MIN) then (mCurrTimeMins >= start($t) + duration($t))
+										else if (timerUnit($t)=HOUR) then (mCurrTimeHours >= start($t) + duration($t))
 									endif endif endif endif endif
 	
 	
