@@ -1,32 +1,33 @@
 package org.asmeta.eclipse.editor.preferences;
 
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.*;
-
-import java.time.temporal.ChronoUnit;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.AUTO;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.HOUR_STRING;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.MILLIS_STRING;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.MINUTES_STRING;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_AUTO_DELTA;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_CHECK_AXIOMS;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_EXTERNAL_FILE;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_PARSER;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_SIMULATOR;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_USE_EXTERNAL_FILE;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_SHUFFLE;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_STOP_UPDATESET_EMPTY;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_STOP_UPDATESET_TRIVIAL;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_TIME_UNIT;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.SECONDS_STRING;
 
 import org.apache.log4j.Level;
 import org.asmeta.eclipse.AsmeeActivator;
-import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.eclipse.jface.preference.BooleanFieldEditor;
-import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.events.VerifyListener;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.wb.swt.SWTResourceManager;
 
 /**
  * This class represents a preference page that

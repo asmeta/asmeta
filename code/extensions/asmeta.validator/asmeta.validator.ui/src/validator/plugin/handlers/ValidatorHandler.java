@@ -2,13 +2,14 @@ package validator.plugin.handlers;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-
+import org.asmeta.eclipse.AsmetaUtility;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -41,23 +42,14 @@ abstract class ValidatorHandler extends AbstractHandler {
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-
+		// get the path for the current editor file asmeta
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		// IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		IWorkbenchWindow window = workbench == null ? null : workbench.getActiveWorkbenchWindow();
-		IWorkbenchPage activePage = window == null ? null : window.getActivePage();
-		IEditorPart editor = activePage == null ? null : activePage.getActiveEditor();
-		// save automatically
-		editor.doSave(new NullProgressMonitor());
-		//
-		IEditorInput input = editor == null ? null : editor.getEditorInput();
-		IPath ipath = input instanceof FileEditorInput ? ((FileEditorInput) input).getPath() : null;
-		if (ipath == null) {
-			System.err.println(" path not found");
-			throw new Error("Unknown editor " + input.getClass().getSimpleName());
-		}
-		// convert to path as string (do not use ospath)
-		String path = ipath.toString(); 
+		IWorkbenchWindow window = workbench == null ? null : workbench.getActiveWorkbenchWindow();		
+		String path = AsmetaUtility.getEditorPath(window);
+		// set the simulator preferences
+		org.asmeta.eclipse.simulator.actions.RunAction.setSimulationPrecerences();
+		// get the console
 		IConsoleView view = null;
 		try {
 			view = (IConsoleView) window.getActivePage().showView(IConsoleConstants.ID_CONSOLE_VIEW);
