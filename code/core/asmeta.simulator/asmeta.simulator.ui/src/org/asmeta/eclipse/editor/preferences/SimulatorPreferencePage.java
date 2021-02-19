@@ -98,7 +98,9 @@ public class SimulatorPreferencePage
 		return new String[][] {
 			{AUTO, AUTO},
 			{MILLIS_STRING,MILLIS_STRING},
-			{SECONDS_STRING,SECONDS_STRING}};
+			{SECONDS_STRING,SECONDS_STRING},
+			{MINUTES_STRING,MINUTES_STRING},
+			{HOUR_STRING,HOUR_STRING}};
 	}
 
 	private String[][] getLog4Jlevels() {

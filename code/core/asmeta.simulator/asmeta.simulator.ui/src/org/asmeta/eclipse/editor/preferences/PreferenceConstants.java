@@ -22,6 +22,8 @@ public class PreferenceConstants {
 	
 	public static final String SECONDS_STRING = "SECONDS";
 	public static final String MILLIS_STRING = "MILLIS";
+	public static final String MINUTES_STRING = "MINUTES";
+	public static final String HOUR_STRING = "HOUR";
 
 
 }

@@ -54,7 +54,10 @@ public final class Environment {
 	private static final Object[][] OBJECTS = new Object[][] { 
 		{ "mCurrTimeNanosecs", TimeUnit.NANOSECONDS },
 		{ "mCurrTimeMillisecs", TimeUnit.MILLISECONDS }, 
-		{ "mCurrTimeSecs", TimeUnit.SECONDS }, };
+		{ "mCurrTimeSecs", TimeUnit.SECONDS },
+		{ "mCurrTimeMins", TimeUnit.MINUTES },
+		{ "mCurrTimeHours", TimeUnit.HOURS }		
+	};
 
 	public enum TimeMngt {
 		// link the time variable to the time of the java machine
@@ -127,6 +130,7 @@ public final class Environment {
 	private Value find_mCurrTime(State state, Location location) {
 		// extract the time unit
 		TimeUnit locationTimeUnit = getTimeUnit(location);
+		assert locationTimeUnit != null;
 		// set the time unit if not already set
 		if (currentTimeUnit == null)
 			currentTimeUnit = locationTimeUnit;

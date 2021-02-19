@@ -88,6 +88,8 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 		case PreferenceConstants.AUTO : Environment.currentTimeUnit = null; break;
 		case PreferenceConstants.MILLIS_STRING : Environment.currentTimeUnit = TimeUnit.MILLISECONDS; break;
 		case PreferenceConstants.SECONDS_STRING: Environment.currentTimeUnit = TimeUnit.SECONDS; break;
+		case PreferenceConstants.MINUTES_STRING: Environment.currentTimeUnit = TimeUnit.MINUTES; break;
+		case PreferenceConstants.HOUR_STRING: Environment.currentTimeUnit = TimeUnit.HOURS; break;
 			//MILLISECONDS"Environment.currentTimeUnit = TimeUnit.MILLISECONDS;
 		default: throw new RuntimeException();
 		}
