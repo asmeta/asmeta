@@ -56,7 +56,7 @@ public class TestValidator {
 			AsmetaV.execValidation(scenarioPath, false);
 		} else {
 			//
-			System.out.println("transating " + scenarioPath);
+			System.out.println("translating " + scenarioPath);
 			String tempAsmPath = pathname + "temp_spec" + (i++) + ".asm";
 			// delete if exists
 			Path path_tempAsm = Paths.get(tempAsmPath);

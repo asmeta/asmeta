@@ -32,7 +32,7 @@ signature:
 	//*************************************************
 	dynamic monitored openSwitch: Drawer -> Boolean
 	dynamic controlled opened: Drawer -> Boolean
-	dynamic controlled redLedSwitch: Drawer -> LedLights
+	dynamic controlled redLed: Drawer -> LedLights
 	dynamic controlled outMess: Drawer -> OutMessages
 	dynamic controlled logMess: Drawer -> OutMessages
 	dynamic controlled time_consumption: Drawer -> Time
@@ -73,8 +73,8 @@ definitions:
 	// Rule to set the led red ON when the pill has to be taken
 	rule r_pillToBeTaken($drawer in Drawer) =
 		par
-			if redLedSwitch($drawer) != ON then drawerTimer($drawer) := systemTime endif
-			redLedSwitch($drawer) := ON
+			if redLed($drawer) != ON then drawerTimer($drawer) := systemTime endif
+			redLed($drawer) := ON
 			if ($drawer=drawer1) then
 				outMess($drawer) := TAKE_TYLENOL
 			else 
@@ -89,9 +89,9 @@ definitions:
 	// Rule to set the red led blinking, after the drawer opening
 	rule r_drawerOpened($drawer in Drawer) =
 		par
-			if redLedSwitch($drawer) != BLINKING and outMess($drawer) != CLOSE_ASPIRINE_DRAWER_IN_10_MIN and outMess($drawer) != CLOSE_TYLENOL_DRAWER_IN_10_MIN and
+			if redLed($drawer) != BLINKING and outMess($drawer) != CLOSE_ASPIRINE_DRAWER_IN_10_MIN and outMess($drawer) != CLOSE_TYLENOL_DRAWER_IN_10_MIN and
 				outMess($drawer) != CLOSE_MOMENT_DRAWER_IN_10_MIN then drawerTimer($drawer) := systemTime endif
-			redLedSwitch($drawer) := BLINKING
+			redLed($drawer) := BLINKING
 			if ($drawer=drawer1) then
 				outMess($drawer) := CLOSE_TYLENOL_DRAWER_IN_10_MIN
 			else 
@@ -106,7 +106,7 @@ definitions:
 	// Rule to handle the closing of a drawer when the RED Led is blinking
 	rule r_drawerClosed($drawer in Drawer) =
 		par
-			redLedSwitch($drawer) := OFF
+			redLed($drawer) := OFF
 			outMess($drawer) := NONE
 			drawerTimer($drawer) := systemTime
 			requestSatisfied($drawer) := true
@@ -115,7 +115,7 @@ definitions:
 	// Rule to take the system back to the initial state when the Blinking timeout is passed
 	rule r_timeOutExpired_missedPill($drawer in Drawer) =
 		par
-			redLedSwitch($drawer) := OFF
+			redLed($drawer) := OFF
 			outMess($drawer) := NONE
 			if ($drawer=drawer1) then
 				logMess($drawer) := TYLENOL_MISSED
@@ -134,7 +134,7 @@ definitions:
 	// Rule to take the system back to the initial state when the Blinking timeout is passed and the drawer has not been closed
 	rule r_timeOutExpired_drawerOpened($drawer in Drawer) =
 		par
-			redLedSwitch($drawer) := OFF
+			redLed($drawer) := OFF
 			outMess($drawer) := NONE
 			if ($drawer=drawer1) then
 				logMess($drawer) := TYLENOL_DRAWER_NOT_CLOSED 
@@ -154,24 +154,24 @@ definitions:
 	// Property Verification
 	//*************************************************
 	// If the pill has to be taken, red led will lights up
-	CTLSPEC ag((time_consumption(drawer1)<systemTime and not requestSatisfied(drawer1) and redLedSwitch(drawer1) = OFF) implies ax(redLedSwitch(drawer1) = ON))
-	CTLSPEC ag((time_consumption(drawer2)<systemTime and not requestSatisfied(drawer2) and redLedSwitch(drawer2) = OFF) implies ax(redLedSwitch(drawer2) = ON))
-	CTLSPEC ag((time_consumption(drawer3)<systemTime and not requestSatisfied(drawer3) and redLedSwitch(drawer3) = OFF) implies ax(redLedSwitch(drawer3) = ON))
+	CTLSPEC ag((time_consumption(drawer1)<systemTime and not requestSatisfied(drawer1) and redLed(drawer1) = OFF) implies ax(redLed(drawer1) = ON))
+	CTLSPEC ag((time_consumption(drawer2)<systemTime and not requestSatisfied(drawer2) and redLed(drawer2) = OFF) implies ax(redLed(drawer2) = ON))
+	CTLSPEC ag((time_consumption(drawer3)<systemTime and not requestSatisfied(drawer3) and redLed(drawer3) = OFF) implies ax(redLed(drawer3) = ON))
 	// If the patient does not take the pill or the drawer has to be closed, the red light will blink
-	CTLSPEC ag(((redLedSwitch(drawer1) = ON and not opened(drawer1) and openSwitch(drawer1)) or (redLedSwitch(drawer1) = ON and systemTime-drawerTimer(drawer1)=tenMinutes and not(opened(drawer1)))) implies ax(redLedSwitch(drawer1) = BLINKING))
-	CTLSPEC ag(((redLedSwitch(drawer2) = ON and not opened(drawer2) and openSwitch(drawer2)) or (redLedSwitch(drawer2) = ON and systemTime-drawerTimer(drawer2)=tenMinutes and not(opened(drawer2)))) implies ax(redLedSwitch(drawer2) = BLINKING))
-	CTLSPEC ag(((redLedSwitch(drawer3) = ON and not opened(drawer3) and openSwitch(drawer3)) or (redLedSwitch(drawer3) = ON and systemTime-drawerTimer(drawer3)=tenMinutes and not(opened(drawer3)))) implies ax(redLedSwitch(drawer3) = BLINKING))
+	CTLSPEC ag(((redLed(drawer1) = ON and not opened(drawer1) and openSwitch(drawer1)) or (redLed(drawer1) = ON and systemTime-drawerTimer(drawer1)=tenMinutes and not(opened(drawer1)))) implies ax(redLed(drawer1) = BLINKING))
+	CTLSPEC ag(((redLed(drawer2) = ON and not opened(drawer2) and openSwitch(drawer2)) or (redLed(drawer2) = ON and systemTime-drawerTimer(drawer2)=tenMinutes and not(opened(drawer2)))) implies ax(redLed(drawer2) = BLINKING))
+	CTLSPEC ag(((redLed(drawer3) = ON and not opened(drawer3) and openSwitch(drawer3)) or (redLed(drawer3) = ON and systemTime-drawerTimer(drawer3)=tenMinutes and not(opened(drawer3)))) implies ax(redLed(drawer3) = BLINKING))
 	// The red light will change value after 10 minutes if the patient doesn't take the pill
-	CTLSPEC ag((redLedSwitch(drawer1) = ON and systemTime-drawerTimer(drawer1)=tenMinutes and not(opened(drawer1))) implies ax(redLedSwitch(drawer1) = BLINKING))
-	CTLSPEC ag((redLedSwitch(drawer2) = ON and systemTime-drawerTimer(drawer2)=tenMinutes and not(opened(drawer2))) implies ax(redLedSwitch(drawer2) = BLINKING))
-	CTLSPEC ag((redLedSwitch(drawer3) = ON and systemTime-drawerTimer(drawer3)=tenMinutes and not(opened(drawer3))) implies ax(redLedSwitch(drawer3) = BLINKING))
-	CTLSPEC ag((redLedSwitch(drawer1) = BLINKING and systemTime-drawerTimer(drawer1)>tenMinutes and not(openSwitch(drawer1))) implies ax(redLedSwitch(drawer1) = OFF))
-	CTLSPEC ag((redLedSwitch(drawer2) = BLINKING and systemTime-drawerTimer(drawer2)>tenMinutes and not(openSwitch(drawer2))) implies ax(redLedSwitch(drawer2) = OFF))
-	CTLSPEC ag((redLedSwitch(drawer3) = BLINKING and systemTime-drawerTimer(drawer3)>tenMinutes and not(openSwitch(drawer3))) implies ax(redLedSwitch(drawer3) = OFF))
+	CTLSPEC ag((redLed(drawer1) = ON and systemTime-drawerTimer(drawer1)=tenMinutes and not(opened(drawer1))) implies ax(redLed(drawer1) = BLINKING))
+	CTLSPEC ag((redLed(drawer2) = ON and systemTime-drawerTimer(drawer2)=tenMinutes and not(opened(drawer2))) implies ax(redLed(drawer2) = BLINKING))
+	CTLSPEC ag((redLed(drawer3) = ON and systemTime-drawerTimer(drawer3)=tenMinutes and not(opened(drawer3))) implies ax(redLed(drawer3) = BLINKING))
+	CTLSPEC ag((redLed(drawer1) = BLINKING and systemTime-drawerTimer(drawer1)>tenMinutes and not(openSwitch(drawer1))) implies ax(redLed(drawer1) = OFF))
+	CTLSPEC ag((redLed(drawer2) = BLINKING and systemTime-drawerTimer(drawer2)>tenMinutes and not(openSwitch(drawer2))) implies ax(redLed(drawer2) = OFF))
+	CTLSPEC ag((redLed(drawer3) = BLINKING and systemTime-drawerTimer(drawer3)>tenMinutes and not(openSwitch(drawer3))) implies ax(redLed(drawer3) = OFF))
 	// If the patient takes the pill, red light will turn-off
-	CTLSPEC ag((time_consumption(drawer1)<systemTime and not requestSatisfied(drawer1) and opened(drawer1) and not(openSwitch(drawer1)) and not(redLedSwitch(drawer1) = OFF) and not(systemTime-drawerTimer(drawer1)>=tenMinutes)) implies ax(redLedSwitch(drawer1) = OFF))
-	CTLSPEC ag((time_consumption(drawer2)<systemTime and not requestSatisfied(drawer2) and opened(drawer2) and not(openSwitch(drawer2)) and not(redLedSwitch(drawer2) = OFF) and not(systemTime-drawerTimer(drawer2)>=tenMinutes)) implies ax(redLedSwitch(drawer2) = OFF))
-	CTLSPEC ag((time_consumption(drawer3)<systemTime and not requestSatisfied(drawer3) and opened(drawer3) and not(openSwitch(drawer3)) and not(redLedSwitch(drawer3) = OFF) and not(systemTime-drawerTimer(drawer3)>=tenMinutes)) implies ax(redLedSwitch(drawer3) = OFF))
+	CTLSPEC ag((time_consumption(drawer1)<systemTime and not requestSatisfied(drawer1) and opened(drawer1) and not(openSwitch(drawer1)) and not(redLed(drawer1) = OFF) and not(systemTime-drawerTimer(drawer1)>=tenMinutes)) implies ax(redLed(drawer1) = OFF))
+	CTLSPEC ag((time_consumption(drawer2)<systemTime and not requestSatisfied(drawer2) and opened(drawer2) and not(openSwitch(drawer2)) and not(redLed(drawer2) = OFF) and not(systemTime-drawerTimer(drawer2)>=tenMinutes)) implies ax(redLed(drawer2) = OFF))
+	CTLSPEC ag((time_consumption(drawer3)<systemTime and not requestSatisfied(drawer3) and opened(drawer3) and not(openSwitch(drawer3)) and not(redLed(drawer3) = OFF) and not(systemTime-drawerTimer(drawer3)>=tenMinutes)) implies ax(redLed(drawer3) = OFF))
 		
 	//*************************************************
 	// MAIN Rule
@@ -190,7 +190,7 @@ definitions:
 						if opened($drawer) and not openSwitch($drawer) then opened($drawer) := false endif
 						            
 						// time to take pill 
-						if redLedSwitch($drawer) = OFF 
+						if redLed($drawer) = OFF 
 						then
 							if time_consumption($drawer)<=systemTime and systemTime-time_consumption($drawer)<=tenMinutes
 							then
@@ -199,25 +199,25 @@ definitions:
 						endif
             
 						// drawer opened within 10 minutes
-						if redLedSwitch($drawer) = ON and opened($drawer) and systemTime-drawerTimer($drawer)<=tenMinutes
+						if redLed($drawer) = ON and opened($drawer) and systemTime-drawerTimer($drawer)<=tenMinutes
 						then
 							r_drawerOpened[$drawer]
 						endif
 						
 						// waited too long - missed pill
-						if redLedSwitch($drawer) = ON and systemTime-time_consumption($drawer)>tenMinutes
+						if redLed($drawer) = ON and systemTime-time_consumption($drawer)>tenMinutes
 						then
 							r_timeOutExpired_missedPill[$drawer]
 						endif
 						
 						// forgot to close the drawer
-						if redLedSwitch($drawer) = BLINKING and systemTime-drawerTimer($drawer)>tenMinutes
+						if redLed($drawer) = BLINKING and systemTime-drawerTimer($drawer)>tenMinutes
 						then
 							r_timeOutExpired_drawerOpened[$drawer]
 						endif						
 						
 						// closed drawer within 10 minutes
-						if redLedSwitch($drawer) = BLINKING and systemTime-drawerTimer($drawer)<=tenMinutes and not(opened($drawer))
+						if redLed($drawer) = BLINKING and systemTime-drawerTimer($drawer)<=tenMinutes and not(opened($drawer))
 						then
 							r_drawerClosed[$drawer]
 						endif
@@ -234,7 +234,7 @@ default init s0:
 	function logMess($drawer in Drawer) = NONE
 	
 	// Turn-off all the led of the Drawers
-	function redLedSwitch($drawer in Drawer) = OFF
+	function redLed($drawer in Drawer) = OFF
 	
 	// Each drawer's timer starts from 0
 	function drawerTimer($drawer in Drawer) = 0

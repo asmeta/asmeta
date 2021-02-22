@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.asmeta.parser.ParserResultLogger;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.SimulatorWCov;
 import org.junit.Test;
@@ -167,5 +168,14 @@ public class TestSingleFile extends TestValidator {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
 		test("D:\\GitHub\\ASMETA\\SafePillbox\\SafePillbox\\V04\\scenarios\\scenario3.avalla", false);		
 	}
+	
+	//Error: java.lang.IllegalArgumentException: 'other' has different root
+	@Test
+	public void testPillbox() throws Exception {
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.ALL);
+		test("D:\\AgHome\\progettidaSVNGIT\\asmeta\\asmeta\\asm_examples\\PillBox\\Level0\\pillbox_0_scenario1.avalla", false);		
+	}
+
 	
 }

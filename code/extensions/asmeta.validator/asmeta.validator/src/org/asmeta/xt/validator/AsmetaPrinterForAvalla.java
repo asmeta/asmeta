@@ -138,7 +138,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 				// now build the path
 				Path importedAsmPath = Path.of(asmPathDir.toString(),name + ".asm");
 				assert Files.exists(importedAsmPath) : " path (imported ASM) " + importedAsmPath.toString() + " does not exist"; 
-				if (name.contains(StandardLibrary.STANDARD_LIBARY_NAME)) {
+				if (StandardLibrary.isAStandardLibrary(name)) {
 					printImport(importedAsmPath);
 				} else {
 					// convert the file to a new file with monitored -> controlled
@@ -187,9 +187,15 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			importedAsm = importedAsm.toAbsolutePath();
 			tempAsmBasePath = tempAsmBasePath.toAbsolutePath();
 		}
-		Path asm_to_imported = tempAsmBasePath.relativize(importedAsm);
+		// check if it can be relativized
+		Path asm_to_import = null;
+		try {
+			asm_to_import = tempAsmBasePath.relativize(importedAsm);
+		} catch(IllegalArgumentException  ie) {
+			asm_to_import = importedAsm.normalize();
+		}	
 		// transform to string
-		String importedName = asm_to_imported.toString();
+		String importedName = asm_to_import.toString();
 		// remove extension 
 		importedName = importedName.substring(0, importedName.length() -4);
 		// replace \ with \\ so when printed it will be printed correctly (with \\)
