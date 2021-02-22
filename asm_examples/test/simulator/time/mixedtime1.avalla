@@ -1,0 +1,9 @@
+scenario mixedtime1
+load mixedtime1.asm
+
+set timeMS := 1000;
+
+step
+
+check timeMS = 1000;
+check timeS = 1;
