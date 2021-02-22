@@ -1,7 +1,8 @@
 scenario mixedtime1
 load mixedtime1.asm
 
-set timeMS := 1000;
+set mCurrTimeSecs := 1;
+set mCurrTimeMillisecs := 1000;
 
 step
 
