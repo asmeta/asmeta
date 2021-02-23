@@ -12,7 +12,7 @@
 //anticlockwise, on and off pulses.
 asm sluiceGateGround
 
-import ../../../STDL/Timer
+import ../../../STDL/TimeLibrary
 
 signature:
 	enum domain PhaseDomain = { FULLYCLOSED | FULLYOPEN }

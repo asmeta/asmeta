@@ -1,6 +1,6 @@
 //Simple clock -> hours:minutes
 asm simpleClock
-import ../../../STDL/StandardLibrary
+import ../../../STDL/TimeLibrary
 	
 signature:
 controlled clockHours: Integer
