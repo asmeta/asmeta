@@ -1,5 +1,5 @@
 // definition of timers in ASM
-module Timer
+module TimeLibrary
 
 
 import StandardLibrary
