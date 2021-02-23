@@ -2,6 +2,7 @@
 // it can give errors (if it evaluates the millisec after the secs)
 asm mixedtime1
 import ../../../STDL/StandardLibrary
+import ../../../STDL/Timer
 	
 signature:
 controlled timeS: Integer
@@ -15,3 +16,7 @@ main rule r_main =
 		timeMS:= mCurrTimeMillisecs
 		timeS:= mCurrTimeSecs
 	endpar
+
+
+default init s0:
+	function mCurrTimeMillisecs = 1000

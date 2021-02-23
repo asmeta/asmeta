@@ -149,8 +149,9 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 						// get the path of the main
 						File folder = new File(tempAsmPath).getParentFile();
 						assert folder.exists() && folder.isDirectory();
-						// the new path for the imported file						
-						Path importednewFile = Paths.get(folder.toString(), name + ".asm");
+						// the new path for the imported file
+						String includedName = pack.getMain().getName();
+						Path importednewFile = Files.createTempFile("__" + includedName, ".asm");
 						System.out.println(importednewFile);
 						// if necessary buuild the subdir
 						if (! Files.exists(importednewFile.getParent().toAbsolutePath())){
@@ -163,6 +164,9 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 						AsmetaPrinterForAvalla newprinter = 
 								new AsmetaPrinterForAvalla(importednewFile.toString(),importedAsmPath.getParent(),builder);
 						newprinter.visit(pack.getMain());
+						
+						newprinter.tempAsmName = importednewFile.getFileName().toString();
+						
 						newprinter.close();
 						// add the new import	
 						printImport(importednewFile);

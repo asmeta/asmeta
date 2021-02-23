@@ -19,6 +19,14 @@ signature:
 	derived initStart : Timer-> Integer
 	// is the timer expired?
 	derived expired: Timer -> Boolean
+	
+	
+/*----------- Java time  as monitored function (experimental) --------------*/
+	monitored mCurrTimeNanosecs: Integer
+	monitored mCurrTimeMillisecs: Integer
+	monitored mCurrTimeSecs: Integer
+	monitored mCurrTimeMins: Integer
+	monitored mCurrTimeHours: Integer
 			
 	
 	
