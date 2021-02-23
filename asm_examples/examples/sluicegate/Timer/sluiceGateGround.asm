@@ -12,11 +12,17 @@
 //anticlockwise, on and off pulses.
 asm sluiceGateGround
 
+<<<<<<< Updated upstream
 import ../../../STDL/StandardLibrary
 import ../../../STDL/Timer
 
 signature:
 	domain Minutes subsetof Integer
+=======
+import ../../../STDL/Timer
+
+signature:
+>>>>>>> Stashed changes
 	enum domain PhaseDomain = { FULLYCLOSED | FULLYOPEN }
 	dynamic controlled phase: PhaseDomain
 	static timer10MinPassed: Timer
@@ -27,6 +33,7 @@ definitions:
 	
 	main rule r_Main =
 		par
+<<<<<<< Updated upstream
 			if(phase=FULLYCLOSED) then
 				if expired(timer3hPassed) then
 					par
@@ -42,10 +49,27 @@ definitions:
 						r_reset_timer[timer3hPassed]
 					endpar
 				endif
+=======
+			if phase=FULLYCLOSED and expired(timer3hPassed) then
+				par
+					phase := FULLYOPEN
+					r_reset_timer[timer10MinPassed]
+				endpar
+			endif
+			if phase=FULLYOPEN and expired(timer10MinPassed) then
+				par
+					phase := FULLYCLOSED
+					r_reset_timer[timer3hPassed]
+				endpar
+>>>>>>> Stashed changes
 			endif
 		endpar	
 
 default init s0:
+<<<<<<< Updated upstream
+=======
+	function phase = FULLYCLOSED
+>>>>>>> Stashed changes
 	function duration($t in Timer) = if $t = timer10MinPassed 	then 10 //600=10 min in sec
     								else 
     									if $t = timer3hPassed	then 3 endif //10200=3h-10min in sec
