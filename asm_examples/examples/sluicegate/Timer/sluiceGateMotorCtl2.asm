@@ -12,9 +12,8 @@
 //anticlockwise, on and off pulses.
 asm sluiceGateMotorCtl2
 
-import ../../../STDL/StandardLibrary
 import ../../../STDL/CTLlibrary
-import ../../../STDL/Timer
+import ../../../STDL/TimeLibrary
 
 signature:
 	abstract domain Position

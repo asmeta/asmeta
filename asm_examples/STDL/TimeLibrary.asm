@@ -1,5 +1,5 @@
 // definition of timers in ASM
-module Timer
+module TimeLibrary
 
 
 import StandardLibrary
@@ -28,7 +28,12 @@ signature:
 	monitored mCurrTimeMins: Integer
 	monitored mCurrTimeHours: Integer
 			
-	
+	/*----------- Java time  as monitored function (experimental) --------------*/
+	monitored mCurrTimeNanosecs: Integer
+	monitored mCurrTimeMillisecs: Integer
+	monitored mCurrTimeSecs: Integer
+	monitored mCurrTimeMins: Integer
+	monitored mCurrTimeHours: Integer
 	
 definitions:
 														

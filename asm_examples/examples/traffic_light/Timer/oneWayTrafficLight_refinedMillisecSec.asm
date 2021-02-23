@@ -13,9 +13,9 @@ shows Stop and the other Go; then for 50 seconds both show Stop
 again; then for 120 seconds the unit that previously showed Go shows
 Stop, and the other shows Go. Then the cycle is repeated.
 */
-import ../../../STDL/StandardLibrary
+
 import ../../../STDL/CTLlibrary
-import ../../../STDL/Timer
+import ../../../STDL/TimeLibrary
 
 signature:
 	enum domain LightUnit = {LIGHTUNIT1 | LIGHTUNIT2}
