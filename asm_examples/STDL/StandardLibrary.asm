@@ -319,12 +319,7 @@ signature :
 	static currTimeMillisecs: Integer
 	static currTimeSecs: Integer
 
-/*----------- Java time  as monitored function (experimental) --------------*/
-	monitored mCurrTimeNanosecs: Integer
-	monitored mCurrTimeMillisecs: Integer
-	monitored mCurrTimeSecs: Integer
-	monitored mCurrTimeMins: Integer
-	monitored mCurrTimeHours: Integer
+
 
 
 definitions:
