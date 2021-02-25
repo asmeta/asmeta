@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.log4j.Logger;
 import org.apache.log4j.xml.Log4jEntityResolver;
 import org.asmeta.parser.Utility;
 import org.asmeta.simulator.readers.MonFuncReader;
@@ -50,6 +51,8 @@ import asmeta.definitions.domains.DomainsFactory;
  * The environment returns the value of the monitored functions.
  */
 public final class Environment {
+	
+	public static final Logger LOG = Logger.getLogger(Environment.class); 
 
 	private static final Object[][] OBJECTS = new Object[][] { 
 		{ "mCurrTimeNanosecs", TimeUnit.NANOSECONDS },
@@ -150,7 +153,7 @@ public final class Environment {
 		// the  time in the current state in the current Time unit
 		// set current instant for the state in the current Time unit
 		if (!timeSet) {
-			System.out.println("no time info in the current state - looking for " + currentTimeUnit);
+			LOG.debug("no time info in the current state - looking for " + currentTimeUnit);
 			if (timeMngt == TimeMngt.use_java_time) {
 				currentStateInstant = Instant.now();
 			} else if (timeMngt == TimeMngt.ask_user) {
@@ -165,12 +168,12 @@ public final class Environment {
 					Location timeLocation = new Location(func, new IntegerValue[0]); 
 					Value<Long> firstTimeValue = monFuncReader.read(timeLocation, state);
 					currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit.toChronoUnit());
-					System.out.println("setting current time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));
+					LOG.debug("setting current time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));
 				} else {
 					// ask this right way
 					Value<Long> firstTimeValue = monFuncReader.read(location, state);
 					currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit.toChronoUnit());
-					System.out.println("setting current (and location) time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));
+					LOG.debug("setting current (and location) time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));
 					// done in this case
 					return firstTimeValue;
 				} 
@@ -183,7 +186,7 @@ public final class Environment {
 		// compute the time 
 		//it could be also in the ask_user and current time unit as well, but not ask it again
 		long deltaTime = startFrom.until(currentStateInstant,  locationTimeUnit.toChronoUnit());
-		System.out.println("converting  " + deltaTime + locationTimeUnit.toChronoUnit());
+		LOG.debug("converting  " + deltaTime + locationTimeUnit.toChronoUnit());
 		return new IntegerValue(deltaTime);
 	}
 

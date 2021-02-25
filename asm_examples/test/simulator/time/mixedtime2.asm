@@ -3,6 +3,7 @@
 // in auto time unit mode
 asm mixedtime2
 import ../../../STDL/StandardLibrary
+import ../../../STDL/TimeLibrary
 	
 signature:
 controlled timeS: Integer

@@ -2,7 +2,7 @@
 // it can give errors (if it evaluates the millisec after the secs)
 asm mixedtime1
 import ../../../STDL/StandardLibrary
-import ../../../STDL/Timer
+import ../../../STDL/TimeLibrary
 	
 signature:
 controlled timeS: Integer

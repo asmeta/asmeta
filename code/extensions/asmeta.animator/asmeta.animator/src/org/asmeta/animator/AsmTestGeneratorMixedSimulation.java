@@ -45,34 +45,20 @@ class AsmTestGeneratorMixedSimulation{
 		state = simulator.getCurrentState();
 	}
 
-	/** run one step and returns the new state*/
-	public MyState runSimulation() {
+	/** run one step and returns the new state (mix current and previous)*/
+	public MyState runSimulation(boolean random) {
 		mixedMFReader.clear();
-		// System.out.println("state.getMonLocs " + state.getMonLocsState());
-		// System.out.println("mixedMFReader " +
-		// mixedMFReader.interactive.values.toString());
-		// InputStream input = new
-		// ByteArrayInputStream(v.getTextMonitored().getText().getBytes());
+		// exec one step
 		simulator.run(1);
-		// state.locationMap.putAll(mixedMFReader.random.values);
-		mixedMFReader.clear();
-		// update the state
+		// take the state
 		state = simulator.getCurrentState();
-		return new MyState(state.getContrLocs(false), state.getMonLocs());
-	}
-
-	public MyState runSimulation(int stepnumber) {
-		mixedMFReader.clear();
-		// InputStream input = new
-		// ByteArrayInputStream(v.getTextMonitored().getText().getBytes());
-		simulator.run(1);
-		// state.locationMap.putAll(mixedMFReader.random.values);
-		Map<Location, Value> monitored = new HashMap<>(mixedMFReader.random.values);
-		// state.locationMap.putAll(mixedMFReader.);
-		mixedMFReader.clear();
-		// update the state
-		state = simulator.getCurrentState();
-		// return new MyState(state.getContrLocs(), state.getMonLocs());
+		// get the previous values
+		Map<Location, Value> monitored = simulator.previousState.getMonLocs();
+		// if changed by the random reader, update the values
+		if (random)
+			monitored.putAll(mixedMFReader.random.values);		
+		// useless?
+		// mixedMFReader.clear();
 		return new MyState(state.getContrLocs(false), monitored);
 	}
 
@@ -83,10 +69,5 @@ class AsmTestGeneratorMixedSimulation{
 	public void setInteractive() {
 		mixedMFReader.setInteractive();
 	}
-
-	MyState getPreviousState() {
-		return new MyState(simulator.previousState.getContrLocs(false),simulator.previousState.getMonLocs());  
-	}
-	
-	
+		
 }

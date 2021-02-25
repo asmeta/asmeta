@@ -1,6 +1,6 @@
 // use just one time as seconds
 asm time1
-import ../../../STDL/StandardLibrary
+import ../../../STDL/TimeLibrary
 	
 signature:
 controlled time: Integer

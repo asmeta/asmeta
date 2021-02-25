@@ -163,7 +163,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 				tg.setRandom();
 				// System.out.println("RANDOM SIMULATION");
 				for (int i = 0; i < stepNumber; i++) {
-					MyState state = tg.runSimulation(stepNumber);
+					MyState state = tg.runSimulation(true);
 					showFunctionsRandomSimulation(state);
 				}
 			}
@@ -173,7 +173,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			public void widgetSelected(SelectionEvent arg0) {
 				tg.setInteractive();
 				// System.out.println("INTERACTIVE SIMULATION");
-				MyState state = tg.runSimulation(); // TODO: get initial state
+				MyState state = tg.runSimulation(false); // TODO: get initial state
 				showFunctionsInteractiveSimulation(state);
 			}
 		});
@@ -720,10 +720,8 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		column1_down.setText("State " + (table_states_right_down.getColumnCount() - 1));
 		addResizeListener(table_states_right_up, table_states_right_down, table_states_right_down.getColumnCount() - 1);
 		addResizeListener(table_states_right_down, table_states_right_up, table_states_right_down.getColumnCount() - 1);
-		showControlled(table_functions_left_up, table_states_right_up, table_functions_left_down,
-				table_states_right_down, state);
-		showMonitoredRandomSimulation(table_functions_left_up, table_states_right_up, table_functions_left_down,
-				table_states_right_down, state);
+		showControlled(state.getControlledValues());
+		showMonitored(state.getMonitoredValues());
 		table_states_right_up.getColumn(table_states_right_up.getColumnCount() - 1).pack();
 		table_states_right_down.getColumn(table_states_right_down.getColumnCount() - 1).pack();
 		table_states_right_down
@@ -744,8 +742,8 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		column1_down.setText("State " + (table_states_right_down.getColumnCount() - 1));
 		addResizeListener(table_states_right_up, table_states_right_down, table_states_right_down.getColumnCount() - 1);
 		addResizeListener(table_states_right_down, table_states_right_up, table_states_right_down.getColumnCount() - 1);
-		showControlled(table_functions_left_up, table_states_right_up, table_functions_left_down,
-				table_states_right_down, state);
+		showControlled(state.getControlledValues());
+		showMonitored(state.getMonitoredValues());
 		addMissingValueMoniotrFunctions(table_states_right_up);
 		addMissingValueMoniotrFunctions(table_states_right_down);
 		table_states_right_up.getColumn(table_states_right_up.getColumnCount() - 1).pack();
@@ -756,9 +754,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	}
 
 	// Show controlled functions
-	void showControlled(Table table_functions_left_up, Table table_states_right_up, Table table_functions_left_down,
-			Table table_states_right_down, MyState state) {
-		Map<Location, Value> location = state.getControlledValues();
+	void showControlled(Map<Location, Value> location) {
 		Set<Location> listKey = location.keySet();
 		for (Iterator<Location> it = listKey.iterator(); it.hasNext();) {
 			Location key = it.next();
@@ -811,9 +807,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	}
 
 	// Show monitored functions random simulation
-	void showMonitoredRandomSimulation(Table table_functions_left_up, Table table_states_right_up,
-			Table table_functions_left_down, Table table_states_right_down, MyState state) {
-		Map<Location, Value> location = state.getMonitoredValues();
+	void showMonitored(Map<Location, Value> location) {
 		Set<Location> listKey = location.keySet();
 		for (Iterator<Location> it = listKey.iterator(); it.hasNext();) {
 			Location key = it.next();

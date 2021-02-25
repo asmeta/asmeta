@@ -2,7 +2,7 @@
 // no error - secs are evaluated after a while
 // under the assumption that current time starts from 0 and unit = auto  
 asm mixedtime3
-import ../../../STDL/StandardLibrary
+import ../../../STDL/TimeLibrary
 	
 signature:
 controlled timeS: Integer

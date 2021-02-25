@@ -1,7 +1,7 @@
 // two times, but the same time unit
 // must be equal at the same time
 asm time2
-import ../../../STDL/StandardLibrary
+import ../../../STDL/TimeLibrary
 	
 signature:
 
