@@ -69,14 +69,14 @@ public class SimulatorPreferencePage
 		// 
 		//addField(new RadioGroupFieldEditor(P_TIME_MNGT, "Which time for monitored ASM time", null, fieldEdtrPrnt));
 		addField(new RadioGroupFieldEditor(PreferenceConstants.P_TIME_MNGT,
-	        "Which time for monitored ASM time:",
+	        "Time mechanism:",
 	        3,
 	        new String[][] {	          
 	          { "use java time", TimeMngt.use_java_time.toString()},
 	          { "ask user", TimeMngt.ask_user.toString()},
 	          { "auto increment", TimeMngt.auto_increment.toString()}
 	        }, fieldEdtrPrnt, true));
-		IntegerFieldEditor integerFieldEditor = new IntegerFieldEditor(P_AUTO_DELTA, "Delta when auto increment", fieldEdtrPrnt);
+		IntegerFieldEditor integerFieldEditor = new IntegerFieldEditor(P_AUTO_DELTA, "Delta if auto increment", fieldEdtrPrnt);
 		integerFieldEditor.setValidRange(1, 10000);
 		addField(integerFieldEditor);	
 		
