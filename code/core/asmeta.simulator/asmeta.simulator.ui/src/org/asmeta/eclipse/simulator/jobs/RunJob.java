@@ -87,6 +87,8 @@ public abstract class RunJob extends Job {
 			InputStream is = mc.getInputStream();
 			MonFuncReader ui = getUI(is, printOut);
 			Environment env = new Environment(ui);
+			String specName = asmFile.getName().substring(0, asmFile.getName().length() - 4);
+			asmSimulator = new Simulator(specName, parseJob.getAsm(), env);
 			// SET THE RIGHT OUTPUT
 			if (outputfromSim == null) {
 				outputfromSim = new WriterAppender(new PatternLayout("%m%n"), out);
@@ -94,10 +96,8 @@ public abstract class RunJob extends Job {
 				// TO GET THE LOGGER REDIRECTED
 				//Logger.getRootLogger().addAppender(outputfromSim);
 				//Logger.getLogger("org.asmeta.simulator").setAdditivity(false);
-				Logger.getLogger("org.asmeta.simulator").addAppender(outputfromSim);
+				Simulator.logger.addAppender(outputfromSim);
 			}
-			String specName = asmFile.getName().substring(0, asmFile.getName().length() - 4);
-			asmSimulator = new Simulator(specName, parseJob.getAsm(), env);
 
 			LocationSet currentState = asmSimulator.getCurrentState();
 			printOut.println("INITIAL STATE:" + currentState.toString());
