@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Appender;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
@@ -100,11 +101,16 @@ public class Simulator {
 			return logger.isInfoEnabled();
 		}
 		public void debug(String string) {
-			logger.debug(Collections.list(logger.getAllAppenders()) + " " + string);			
+			logger.debug(string);			
 		}
+		// add appender only if needed
+		// only one appender is allowed !!!
 		public void addAppender(Appender outputfromSim) {
-			System.out.println("***** " + outputfromSim.getClass() + "  XX "+ outputfromSim.getName());
-			logger.addAppender(outputfromSim);
+			if (Collections.list(logger.getAllAppenders()).size() == 0) 
+				logger.addAppender(outputfromSim);
+		}
+		public void setLevel(Level level) {
+			logger.setLevel(level);			
 		}
 	}
 	

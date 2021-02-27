@@ -3,6 +3,7 @@ package org.asmeta.eclipse.simulator.actions;
 import java.util.concurrent.TimeUnit;
 
 import org.asmeta.eclipse.AsmeeActivator;
+import org.asmeta.eclipse.AsmeeConsole;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.eclipse.editor.preferences.PreferenceConstants;
 import org.asmeta.eclipse.simulator.jobs.RunJob;
@@ -47,23 +48,13 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 	@Override
 	public void run(IAction action) {
 		IPreferenceStore store = setSimulationPrecerences();
-
 		AsmetaUtility.setUpLogger(store);
-
-		// TODO use console or something similar
-		System.out.println("running " + action.getDescription());
-		
-		// get the current document as file (IFile)
-		IEditorPart part = window.getActivePage().getActiveEditor();
-		// save the file
-		part.doSave(new NullProgressMonitor());
-		IEditorInput input = part.getEditorInput();
-		
-		IFile file = ((IFileEditorInput) input).getFile();
-		System.out.println("running " + file.getName());
-		
+		AsmeeConsole console = AsmetaUtility.findDefaultConsole();
+		// get the current ASM (and save the file)
+		IFile file = AsmetaUtility.getEditorIFile(window);
+		console.writeMessage("simulating " + file.getName());
+		// run job
 		RunJob runjob = getJob(file);
-
 		runjob.schedule();
 /*		try {
 			out.close();

@@ -41,19 +41,20 @@ public class AsmetaUtility {
 	public static void setUpLogger(IPreferenceStore store) {
 		// for debugging
 		// get the preference
-		Boolean useexternalFile = store.getBoolean(PreferenceConstants.P_DEBUG_USE_EXTERNAL_FILE);
-		if (useexternalFile){
-			String fileConf = store.getString(PreferenceConstants.P_DEBUG_EXTERNAL_FILE);
-			//PropertyConfigurator.configureAndWatch("log4j.asmee.prop");
-			PropertyConfigurator.configureAndWatch(fileConf);
-		} else{		
+		// angelo 27/2/21. do no loger use external file 
+//		Boolean useexternalFile = store.getBoolean(PreferenceConstants.P_DEBUG_USE_EXTERNAL_FILE);
+//		if (useexternalFile){
+//			String fileConf = store.getString(PreferenceConstants.P_DEBUG_EXTERNAL_FILE);
+//			//PropertyConfigurator.configureAndWatch("log4j.asmee.prop");
+//			PropertyConfigurator.configureAndWatch(fileConf);
+//		} else{		
 			String parserDebuglevel = store.getString(PreferenceConstants.P_DEBUG_PARSER);
 			// note that parser uses this logger
 			Logger.getLogger("org.asmeta.parser").setLevel(Level.toLevel(parserDebuglevel));
 			String simulatorDebuglevel = store.getString(PreferenceConstants.P_DEBUG_SIMULATOR);
 			//Logger.getLogger(Simulator.class).setLevel(Level.toLevel(simulatorDebuglevel));
 			Logger.getLogger("org.asmeta.simulator").setLevel(Level.toLevel(simulatorDebuglevel));
-		}
+//		}
 	}
 	
 	// this method is to find the path of the active window

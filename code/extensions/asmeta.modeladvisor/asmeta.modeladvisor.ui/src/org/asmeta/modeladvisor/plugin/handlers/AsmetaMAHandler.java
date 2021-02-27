@@ -6,6 +6,7 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.modeladvisor.AsmetaMA;
 import org.asmeta.modeladvisor.plugin.AsmetaMAActivator;
 import org.asmeta.modeladvisor.plugin.AsmetaMAConsole;
@@ -40,17 +41,10 @@ public class AsmetaMAHandler extends AbstractHandler {
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		// get the current file
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		URI uri;
-		IEditorInput editorInput = window.getActivePage().getActiveEditor().getEditorInput();
-		if (editorInput instanceof org.eclipse.ui.part.FileEditorInput) {
-			uri = ((org.eclipse.ui.part.FileEditorInput) editorInput).getURI();
-		} else if (editorInput instanceof org.eclipse.ui.ide.FileStoreEditorInput) {
-			uri = ((org.eclipse.ui.ide.FileStoreEditorInput) editorInput).getURI();
-		} else {
-			throw new Error("Unknown editor " + editorInput.getClass().getSimpleName());
-		}		
-		Path path = Paths.get(uri);
+		String path = AsmetaUtility.getEditorPath(window);
+		// TODO use Asmee Console instead (only one console for everythign in asmeta)
 		IConsoleView view = null;
 		try {
 			view = (IConsoleView) window.getActivePage().showView(IConsoleConstants.ID_CONSOLE_VIEW);
@@ -98,7 +92,7 @@ public class AsmetaMAHandler extends AbstractHandler {
 		}
 		return null;
 	}
-
+	// TODO use find console do AsmetaUtility instead
 	private AsmetaMAConsole findConsole(String name) {
 		ConsolePlugin plugin = ConsolePlugin.getDefault();
 		IConsoleManager conMan = plugin.getConsoleManager();

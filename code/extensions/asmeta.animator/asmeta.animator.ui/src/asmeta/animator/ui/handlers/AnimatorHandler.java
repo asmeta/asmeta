@@ -39,15 +39,19 @@ public class AnimatorHandler extends AbstractHandler {
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		AsmeeConsole mc = AsmetaUtility.findDefaultConsole();
 		try {
 			String path = loadModel(event);
+			mc.writeMessage("PATH2  "  + path);
 			// get the options
 			org.asmeta.eclipse.simulator.actions.RunAction.setSimulationPrecerences();
+			mc.writeMessage("PROS " +path);			
 			// run the animator
 			VisualizationSimulation.showView(path);					
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			mc.writeMessage("PROSXXXX " +e.getLocalizedMessage());
 		}
 		return null;
 	}
@@ -60,6 +64,7 @@ public class AnimatorHandler extends AbstractHandler {
 		IConsoleView view = (IConsoleView) window.getActivePage().showView(IConsoleConstants.ID_CONSOLE_VIEW);
 		AsmeeConsole mc = AsmetaUtility.findDefaultConsole();
 		view.display(mc);
+		mc.writeMessage("PATH "  + path);
 		// SET THE RIGHT OUTPUT
 		if (outputfromSim == null) {
 			OutputStream out = mc.newOutputStream();
@@ -68,10 +73,8 @@ public class AnimatorHandler extends AbstractHandler {
 //					System.setOut(printOut);
 			outputfromSim = new WriterAppender(new PatternLayout("%m%n"), out);
 //			Logger.getLogger("org.asmeta.simulator").addAppender(outputfromSim);
-			Logger simulatorLogger = Logger.getLogger(Simulator.class);
-			if (!simulatorLogger.getAllAppenders().hasMoreElements())
-				simulatorLogger.addAppender(outputfromSim);
-			Logger.getLogger(Simulator.class).setLevel(Level.ALL);
+//			Simulator.logger.addAppender(outputfromSim);
+//			Simulator.logger.setLevel(Level.ALL);
 		}
 		return path;
 	}

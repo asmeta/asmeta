@@ -23,6 +23,10 @@ See http://asmeta.sourceforge.net/
       <update label="Asmeta" url="http://svn.code.sf.net/p/asmeta/code/code/stable/asmeta_update"/>
    </url>
 
+   <requires>
+      <import feature="org.asmeta.simulator.feature" version="0.9.12"/>
+   </requires>
+
    <plugin
          id="asmeta.asmetasmv.ui"
          download-size="0"
@@ -38,25 +42,6 @@ See http://asmeta.sourceforge.net/
 
    <plugin
          id="asmeta.flattener"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="asmeta.parser"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="asmeta.emf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="asmeta.simulator"
          download-size="0"
          install-size="0"
          version="0.0.0"/>

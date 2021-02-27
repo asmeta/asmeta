@@ -42,6 +42,7 @@ See http://asmeta.sourceforge.net/
       <import plugin="asmeta.parser"/>
       <import plugin="asmeta.simulator"/>
       <import plugin="org.eclipse.core.resources"/>
+      <import feature="org.asmeta.asmetasmv.feature" version="1.0.6"/>
    </requires>
 
    <plugin

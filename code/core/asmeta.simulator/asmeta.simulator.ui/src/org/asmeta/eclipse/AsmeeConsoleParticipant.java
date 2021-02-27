@@ -9,6 +9,7 @@ import org.eclipse.ui.part.IPageBookViewPage;
 public class AsmeeConsoleParticipant implements IConsolePageParticipant {
 	
 	
+	private static final String STOP = "STOP";
 	public boolean firstStop = false;
 	public static RunJob runJob;
 
@@ -30,14 +31,24 @@ public class AsmeeConsoleParticipant implements IConsolePageParticipant {
 	@Override
 	public void init(IPageBookViewPage page, IConsole console) {
 		// stop the simulation
-    	Action stop = new Action("STOP") { 
+    	Action stop = new Action(STOP) { 
 			@Override
 			public void run() {
 				if (runJob != null) {
 					// second stop: stop the thread
 					if (firstStop){
 						firstStop = false;
-						runJob.getThread().stop();
+						Thread thread = runJob.getThread();
+						if (thread != null) {
+							try {
+								thread.stop();
+							} catch (ThreadDeath td) {
+								// ignore for now
+								// TODO
+								// fix as suggested in 
+								// https://docs.oracle.com/javase/8/docs/technotes/guides/concurrency/threadPrimitiveDeprecation.html
+							}
+						}
 					} else {
 						runJob.cancel();
 						firstStop = true;

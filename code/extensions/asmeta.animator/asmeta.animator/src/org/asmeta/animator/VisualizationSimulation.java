@@ -30,12 +30,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ScrollBar;
@@ -66,29 +64,25 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	private Text textStepNumber, textError, textInvariant;
 	private AsmCollection asm;
 	private Label lblInvariant, lblInsertStepNumber;
-	private Button btnRndStep, btnInterStep, btnStepTime, btnMoveControlledUp, btnMoveControlledDown,
+	private Button btnRndStep, btnInterStep, btnMoveControlledUp, btnMoveControlledDown,
 			btnMoveMonitoredUp, btnMoveMonitoredDown;
 	private Color updateColor, newFunctionColor, red;
 	private Image arrowUp, arrowDown;
 	private String lastMonitoredInteractiveValue;
 
-	private Text timeStep;
-
 	
 	/** build the viewer from a path 
 	 * sort of a factory */
 	public static void showView(String path) throws Exception {
-		String example = path;
 		// PARSE THE SPECIFICATION (ASM)
 		// parse using the asmeta parser
-		File asmFile1 = new File(example);
+		File asmFile1 = new File(path);
 		assert asmFile1.exists();
-		File asmFile = asmFile1;
-		final AsmCollection model = ASMParser.setUpReadAsm(asmFile);
-		AsmCollection asm = model;
+		final AsmCollection model = ASMParser.setUpReadAsm(asmFile1);
 		// System.out.println(System.getProperty("user.dir"));
 		log.debug("animating " + path);
-		new VisualizationSimulation(asm);
+		System.out.println("ANIMATING ...");
+		new VisualizationSimulation(model);
 	}
 
 	

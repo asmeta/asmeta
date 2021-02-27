@@ -22,6 +22,10 @@ See http://asmeta.sourceforge.net/
       <update label="Asmeta" url="http://svn.code.sf.net/p/asmeta/code/code/stable/asmeta_update"/>
    </url>
 
+   <requires>
+      <import feature="org.asmeta.asmetasmv.feature" version="1.0.6"/>
+   </requires>
+
    <plugin
          id="asmeta.modeladvisor"
          download-size="0"
