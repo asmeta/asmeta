@@ -1,7 +1,8 @@
 package asmeta.animator.ui.handlers;
 
 import java.io.OutputStream;
-
+import java.io.PrintStream;
+import java.io.PrintWriter;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -52,6 +53,10 @@ public class AnimatorHandler extends AbstractHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			mc.writeMessage("PROSXXXX " +e.getLocalizedMessage());
+		} catch (Throwable t) {
+			mc.writeMessage("PROSYYYY " +t.getLocalizedMessage());
+			mc.writeMessage(t.toString());
+			mc.writeMessage(t.getStackTrace().toString());
 		}
 		return null;
 	}

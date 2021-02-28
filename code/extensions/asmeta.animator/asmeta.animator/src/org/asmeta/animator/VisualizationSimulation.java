@@ -13,7 +13,6 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
-import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -48,9 +47,8 @@ import asmeta.AsmCollection;
 
 public class VisualizationSimulation implements VisualizationSimulationI {
 
-
 	// get the logger form the simulator
-	static Logger log = Logger.getLogger(Simulator.class);
+	static Logger log = Logger.getLogger(VisualizationSimulation.class);
 
 	static final int rowHeight = 30;
 	static final String CONTROLLED = "C";

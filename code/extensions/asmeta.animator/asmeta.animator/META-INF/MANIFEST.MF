@@ -3,20 +3,24 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Animator
 Bundle-SymbolicName: asmeta.animator;singleton:=true
 Bundle-Version: 0.0.5
-Export-Package: org.asmeta.animator,
- org.eclipse.wb.swt
+Export-Package: org.asmeta.animator;
+  uses:="org.asmeta.animator.dialog,
+   org.eclipse.swt.graphics,
+   org.eclipse.swt.widgets,
+   org.asmeta.simulator.main,
+   org.asmeta.simulator,
+   org.asmeta.simulator.readers,
+   org.asmeta.simulator.value,
+   asmeta,
+   org.apache.log4j,
+   asmeta.definitions.domains",
+ org.eclipse.wb.swt;uses:="org.eclipse.swt.graphics"
 Require-Bundle: org.apache.log4j,
- org.eclipse.equinox.common,
  org.eclipse.swt,
  asmeta.emf,
  asmeta.parser,
- asmeta.simulator,
- org.eclipse.equinox.p2.ui,
- org.eclipse.core.jobs
-Import-Package: org.eclipse.core.runtime,
- org.eclipse.swt.widgets
+ asmeta.simulator
+Import-Package: org.eclipse.swt.widgets
 Bundle-ClassPath: .
 Automatic-Module-Name: asmeta.animator
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: fmse.di.unimi.it
-Bundle-ActivationPolicy: lazy

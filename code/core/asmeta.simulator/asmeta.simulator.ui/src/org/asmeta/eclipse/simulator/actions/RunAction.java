@@ -66,7 +66,7 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 
 	/**
 	 * 
-	 * @return the preference store
+	 * @return the preference store - it sets also all the prferences
 	 */
 	static public IPreferenceStore setSimulationPrecerences() {
 		// get the preferences
