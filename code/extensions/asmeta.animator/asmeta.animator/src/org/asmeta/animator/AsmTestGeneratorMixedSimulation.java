@@ -1,16 +1,13 @@
 package org.asmeta.animator;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.asmeta.simulator.Environment;
-import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.value.Value;
-import org.eclipse.swt.widgets.Text;
 
 import asmeta.AsmCollection;
 
