@@ -23,7 +23,7 @@ See http://asmeta.sourceforge.net/
    </url>
 
    <requires>
-      <import feature="org.asmeta.asmetasmv.feature" version="1.0.6"/>
+      <import feature="org.asmeta.asmetasmv.feature"/>
    </requires>
 
    <plugin
