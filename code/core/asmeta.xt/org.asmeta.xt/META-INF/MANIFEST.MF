@@ -34,3 +34,4 @@ Import-Package: asmeta,
  asmeta.terms.basicterms,
  org.apache.log4j,
  org.asmeta.parser
+Automatic-Module-Name: org.asmeta.xt

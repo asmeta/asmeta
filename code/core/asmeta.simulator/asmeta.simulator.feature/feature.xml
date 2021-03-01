@@ -54,7 +54,7 @@ See http://asmeta.sourceforge.net/
          version="0.0.0"/>
 
    <plugin
-         id="org.asmeta.simulator.ui"
+         id="asmeta.simulator.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

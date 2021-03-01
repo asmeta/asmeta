@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta simulator plugin
-Bundle-SymbolicName: org.asmeta.simulator.ui;singleton:=true
+Bundle-SymbolicName: asmeta.simulator.ui;singleton:=true
 Bundle-Version: 0.9.12
 Bundle-Activator: org.asmeta.eclipse.AsmeeActivator
 Bundle-ClassPath: .

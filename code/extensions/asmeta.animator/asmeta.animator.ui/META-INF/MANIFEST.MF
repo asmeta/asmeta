@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  asmeta.animator,
  org.eclipse.equinox.p2.ui,
- org.asmeta.simulator.ui
+ asmeta.simulator.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: fmse.di.unimi.it
