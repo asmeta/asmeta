@@ -111,7 +111,8 @@ public class ParserResultLogger { // DO NOT EXTEND LOGGER !!! USE COMPOSITION TO
 	// add appender	
 	public void addAppender(Appender arg0){
 		// I don't want to many appenders
-		// assert !(log.getAllAppenders().hasMoreElements());
+		//if (log.getAllAppenders().hasMoreElements())
+		//		throw new RuntimeException("XXX");
 		log.addAppender(arg0);
 	}
 

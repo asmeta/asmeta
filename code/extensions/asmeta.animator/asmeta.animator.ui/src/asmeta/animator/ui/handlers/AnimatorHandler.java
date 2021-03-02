@@ -8,6 +8,7 @@ import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
 import org.asmeta.animator.VisualizationSimulation;
 import org.asmeta.eclipse.AsmeeConsole;
+import org.asmeta.eclipse.AsmetaActionHandler;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.simulator.main.Simulator;
 import org.eclipse.core.commands.AbstractHandler;
@@ -25,7 +26,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
-public class AnimatorHandler extends AbstractHandler {
+public class AnimatorHandler extends AsmetaActionHandler {
 
 	private WriterAppender outputfromSim;
 

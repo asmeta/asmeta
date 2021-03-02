@@ -2,21 +2,16 @@ package validator.plugin.handlers;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+
+import org.asmeta.eclipse.AsmetaActionHandler;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -25,14 +20,14 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleConstants;
 import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.IConsoleView;
-import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
-abstract class ValidatorHandler extends AbstractHandler {
+abstract class ValidatorHandler extends AsmetaActionHandler {
+
+	private OutputStream out;
 
 	abstract void execValidation(String path) throws Exception;
 
@@ -59,11 +54,13 @@ abstract class ValidatorHandler extends AbstractHandler {
 		AsmetaVConsole myConsole = findConsole(AsmetaVConsole.CONSOLE_NAME);
 		view.display(myConsole);
 		myConsole.activate();
-		OutputStream out = myConsole.newOutputStream();
-		PrintStream printOut = new PrintStream(out);
-		System.setOut(printOut);
-		System.setErr(printOut);
-		System.out.println("path " + path);
+		if (out == null) {
+			out = myConsole.newOutputStream();
+			PrintStream printOut = new PrintStream(out);
+			System.setOut(printOut);
+			System.setErr(printOut);
+			System.out.println("path " + path);
+		}
 		try {
 			execValidation(path);
 		} catch (Exception e) {

@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.ui,
  asmeta.modeladvisor,
  asmeta.smv,
  org.eclipse.swt,
- asmeta.simulator.ui
+ asmeta.simulator.ui,
+ org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: fmse.di.unimi.it

@@ -25,10 +25,10 @@ signature:
 	dynamic controlled fooN: EnumDom4 -> Boolean
 
 definitions:
-	domain SubDom = {1..6}
+	domain SubDom = {1 : 6}
 	domain SubDomAll = {1, 2}
-	domain SubDomAll2 = {1 .. 10}
-	domain SubDomAll3 = {1 .. 20}
+	domain SubDomAll2 = {1 : 10}
+	domain SubDomAll3 = {1 : 20}
 
 	main  rule r_Main =
 		par
