@@ -13,6 +13,7 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
+import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -48,7 +49,7 @@ import asmeta.AsmCollection;
 public class VisualizationSimulation implements VisualizationSimulationI {
 
 	// get the logger form the simulator
-	static Logger log = Logger.getLogger(VisualizationSimulation.class);
+	static private final Logger simulatorLogger = Logger.getLogger(Simulator.class);
 
 	static final int rowHeight = 30;
 	static final String CONTROLLED = "C";
@@ -78,8 +79,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		assert asmFile1.exists();
 		final AsmCollection model = ASMParser.setUpReadAsm(asmFile1);
 		// System.out.println(System.getProperty("user.dir"));
-		log.debug("animating " + path);
-		System.out.println("ANIMATING ...");
+		simulatorLogger.debug("animating " + path);
 		new VisualizationSimulation(model);
 	}
 
@@ -370,9 +370,9 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	/** export the table content to avalla */
 	protected void exportToAvalla() {
-		log.info("//// starting scenario");
-		log.info("scenario " + "SCENARIO_NAME");
-		log.info("load " + asm.getMain().getName() + ".asm");
+		simulatorLogger.info("//// starting scenario");
+		simulatorLogger.info("scenario " + "SCENARIO_NAME");
+		simulatorLogger.info("load " + asm.getMain().getName() + ".asm");
 		// DOWN
 		// TODO UP
 		// TODO create new file/document
@@ -396,14 +396,14 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 							continue;
 						// print
 						if (functionType.equals("M"))
-							log.info("set " + functionName + " := " + text + ";");
+							simulatorLogger.info("set " + functionName + " := " + text + ";");
 						else
-							log.info("check " + functionName + " = " + text + ";");
+							simulatorLogger.info("check " + functionName + " = " + text + ";");
 					}
 				}
 			}
 			// new step
-			log.info("step");
+			simulatorLogger.info("step");
 		}
 	}
 
