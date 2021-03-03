@@ -35,6 +35,8 @@ public class AsmetaV {
 		log.setLevel(Level.INFO);
 		Enumeration<?> it = log.getAllAppenders();
 
+		// 03/03/2021 - Andrea
+		// Delete all the appenders of the root logger except a single ConsoleAppender
 		if (Collections.list(log.getAllAppenders()).stream().filter(x -> (x instanceof ConsoleAppender)).count() > 1) {
 
 			java.util.Optional app = Collections.list(log.getAllAppenders()).stream()
