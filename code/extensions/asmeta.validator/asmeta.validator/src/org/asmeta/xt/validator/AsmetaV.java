@@ -2,13 +2,13 @@ package org.asmeta.xt.validator;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 
-import org.apache.log4j.Appender;
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 
@@ -28,15 +28,31 @@ public class AsmetaV {
 		setLogger();
 		execValidation(file, coverage);
 	}
-
+	
 	public static void setLogger() {
 		BasicConfigurator.configure();
 		Logger log = Logger.getRootLogger();
 		log.setLevel(Level.INFO);
 		Enumeration<?> it = log.getAllAppenders();
-		while(it.hasMoreElements()) {
-			((Appender)it.nextElement()).setLayout(new PatternLayout());
+
+		if (Collections.list(log.getAllAppenders()).stream().filter(x -> (x instanceof ConsoleAppender)).count() > 1) {
+
+			java.util.Optional app = Collections.list(log.getAllAppenders()).stream()
+					.filter(x -> (x instanceof ConsoleAppender)).findFirst();
+
+			if (app != null) {
+				ConsoleAppender consoleApp = (ConsoleAppender)app.get();
+				ConsoleAppender newConsoleApp = new ConsoleAppender(consoleApp.getLayout(),
+						consoleApp.getTarget());
+				newConsoleApp.setLayout(new org.apache.log4j.PatternLayout());
+				log.removeAllAppenders();
+				log.addAppender(newConsoleApp);
+			}
 		}
+		
+		/*while(it.hasMoreElements()) {
+			((Appender)it.nextElement()).setLayout(new PatternLayout());
+		}*/
 		System.out.println();
 	}
 	/**
