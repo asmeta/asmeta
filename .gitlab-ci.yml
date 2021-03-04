@@ -63,6 +63,9 @@ test-jdk8:
       junit: 
         - code/core/asmeta.parser/asmeta.parser.test/target/surefire-reports/TEST-*.xml
         - code/core/asmeta.emf/target/surefire-reports/TEST-*.xml
+        - code/core/asmeta.simulator/asmeta.simulator.test/target/surefire-reports/TEST-*.xml
+        - code/extensions/asmetasmv/asmeta.smv.test/target/surefire-reports/TEST-*.xml
+        - code/extensions/asmeta.flattener/asmeta.flattener.test/target/surefire-reports/TEST-*.xml
     paths:
       - reports/coverage/jacoco/jacoco.xml
 
