@@ -1,6 +1,6 @@
 //questo è un accensione/spengnimento della modalità fixed in soli 2 step
 scenario HighBeamFixedONOFF
-load ../CarSystem003main_absolute.asm
+load ../CarSystem003main.asm
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
 check brakeLampCenterStatus = FIX;

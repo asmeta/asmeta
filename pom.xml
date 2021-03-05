@@ -19,7 +19,7 @@
 		<module>code/extensions/asmeta.flattener/asmeta.flattener</module>
 		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener.test</module> 
-		<module>asm_examples/coverage/report.aggregate</module> 
+		 
 	</modules>
 	<build>
 		<plugins>
