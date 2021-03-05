@@ -67,7 +67,6 @@ test-jdk8:
         - code/extensions/asmetasmv/asmeta.smv.test/target/surefire-reports/TEST-*.xml
         - code/extensions/asmeta.flattener/asmeta.flattener.test/target/surefire-reports/TEST-*.xml
     paths:
-      - junit.xml
       - reports/coverage/jacoco/jacoco.xml
 
 # Job to translate the JaCoCo xml into a cobertura xml
