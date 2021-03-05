@@ -144,6 +144,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 					// convert the file to a new file with monitored -> controlled
 					// change also the path (if in a subdir)
 					try {
+						
 						AsmCollection pack = ASMParser.setUpReadAsm(importedAsmPath.toFile());
 						// now visit this imported asm
 						// get the path of the main
@@ -151,23 +152,36 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 						assert folder.exists() && folder.isDirectory();
 						// the new path for the imported file
 						String includedName = pack.getMain().getName();
-						Path importednewFile = Files.createTempFile("__" + includedName, ".asm");
-						System.out.println(importednewFile);
-						// if necessary buuild the subdir
-						if (! Files.exists(importednewFile.getParent().toAbsolutePath())){
-							System.out.println("building the subdir " +importednewFile.getParent().toAbsolutePath());
-							// TODO check that it is a subdir of the main directory
-							Files.createDirectory(importednewFile.getParent().toAbsolutePath());
+
+						Path importednewFile;
+						
+						// Check whether the file has been already processed
+						System.out.println("Looking for " + includedName);
+						
+						if (AsmetaV.fileNames.containsKey(includedName)) {
+							importednewFile = Path.of(AsmetaV.fileNames.get(includedName));
+							assert Files.exists(importednewFile) : "File not found";
+						} else {
+							importednewFile = Files.createTempFile("__" + includedName, ".asm");
+							AsmetaV.fileNames.put(includedName, importednewFile.toString());
+																		
+							System.out.println(importednewFile);
+							// if necessary buuild the subdir
+							if (! Files.exists(importednewFile.getParent().toAbsolutePath())){
+								System.out.println("building the subdir " +importednewFile.getParent().toAbsolutePath());
+								// TODO check that it is a subdir of the main directory
+								Files.createDirectory(importednewFile.getParent().toAbsolutePath());
+							}
+							LOG.debug("original import of "+name + " converted to " + importednewFile);
+							System.out.println("original import of "+name + " converted to " + importednewFile);
+							AsmetaPrinterForAvalla newprinter = 
+									new AsmetaPrinterForAvalla(importednewFile.toString(),importedAsmPath.getParent(),builder);
+							newprinter.visit(pack.getMain());
+							
+							newprinter.tempAsmName = importednewFile.getFileName().toString();
+							
+							newprinter.close();
 						}
-						LOG.debug("original import of "+name + " converted to " + importednewFile);
-						System.out.println("original import of "+name + " converted to " + importednewFile);
-						AsmetaPrinterForAvalla newprinter = 
-								new AsmetaPrinterForAvalla(importednewFile.toString(),importedAsmPath.getParent(),builder);
-						newprinter.visit(pack.getMain());
-						
-						newprinter.tempAsmName = importednewFile.getFileName().toString();
-						
-						newprinter.close();
 						// add the new import	
 						printImport(importednewFile);
 					} catch (Exception e) {
@@ -204,7 +218,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		importedName = importedName.substring(0, importedName.length() -4);
 		// replace \ with \\ so when printed it will be printed correctly (with \\)
 		// TODO the path should be OS independent
-		// importedName = importedName.replace("\\", "\\\\");
+		importedName = importedName.replace("\\", "\\\\");
 		// if the name contains spaces, add the double quotes
 		if (importedName.contains(" ")) {
 			assert !importedName.contains("\"");

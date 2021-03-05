@@ -57,10 +57,9 @@ public class TestValidator {
 		} else {
 			//
 			System.out.println("translating " + scenarioPath);
-			String tempAsmPath = pathname + "temp_spec" + (i++) + ".asm";
+			String tempAsmPath = Files.createTempFile("__tempAsmetaV", ".asm").toString();
 			// delete if exists
 			Path path_tempAsm = Paths.get(tempAsmPath);
-			assert ! Files.exists(path_tempAsm);
 			org.asmeta.xt.validator.AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(scenarioPath, tempAsmPath);
 			builder.save();
 			// the files exists

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
@@ -19,8 +20,11 @@ import org.asmeta.simulator.main.Simulator;
  *
  */
 public class AsmetaV {
+	
+	public static HashMap <String, String> fileNames; 
 
 	public static void execValidation(String scenarioPath, boolean coverage) throws Exception {
+		fileNames = new HashMap<String, String>();
 		execValidationSetLogger(new File(scenarioPath), coverage);
 	}
 
