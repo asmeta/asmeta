@@ -135,8 +135,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			for (ImportClause importClause : imports) {
 				// get the name of the file to import. name is relative to the load spec
 				String name = importClause.getModuleName();
-				// now build the path
-				Path importedAsmPath = Path.of(asmPathDir.toString(),name + ".asm");
+				// now build the path				
+				Path importedAsmPath = asmPathDir.resolve(name + ".asm");
 				assert Files.exists(importedAsmPath) : " path (imported ASM) " + importedAsmPath.toString() + " does not exist"; 
 				if (StandardLibrary.isAStandardLibrary(name)) {
 					printImport(importedAsmPath);

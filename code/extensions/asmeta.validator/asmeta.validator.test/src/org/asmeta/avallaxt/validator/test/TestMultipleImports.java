@@ -34,5 +34,15 @@ public class TestMultipleImports extends TestValidator {
 		test("F:\\Dati-Andrea\\GitHub\\asmeta\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\HighBeamFixedONOFF.avalla", true);		
 	}
 
+	@Test
+	public void testMultipleImports3() throws Exception {
+		AsmetaV.fileNames = new HashMap<String, String>();
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
+		test("F:\\Dati-Andrea\\GitHub\\asmeta\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\HighBeamFlasherONOFF_Absolute.avalla", true);		
+	}
+
+	
+	
 	
 }
