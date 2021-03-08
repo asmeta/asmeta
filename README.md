@@ -14,4 +14,4 @@ https://asmeta.github.io/
 
 ### eclispe with asmeta:
 
-https://cs.unibg.it/gargantini/didattica/info3/sw/eclipse_asmeta_smv.7z
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2021_03.zip
