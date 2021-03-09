@@ -51,23 +51,21 @@ build:
 
 # Job to run all surefire tests and run the JaCoCo coverage plugin
 # TODO:
-# - Remove the failure.ignore=true
-# - Try to obtain ALL test reports
+# - Remove the failure.ignore=true AFTER fixing all the tests.
+#   To make it so that when a test fails, the pipeline job also fails.
 test-jdk8:
   stage: test
   script:
     - 'mvn -Dmaven.test.failure.ignore=true clean org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
   artifacts:
     when: always
-    reports:
-      junit: 
+    reports: # Upload the info for the job report artifact (artifact:reports:junit in this case)
+      junit: # Paths of all test results for each test module
         - code/core/asmeta.parser/asmeta.parser.test/target/surefire-reports/TEST-*.xml
         - code/core/asmeta.emf/target/surefire-reports/TEST-*.xml
         - code/core/asmeta.simulator/asmeta.simulator.test/target/surefire-reports/TEST-*.xml
         - code/extensions/asmetasmv/asmeta.smv.test/target/surefire-reports/TEST-*.xml
         - code/extensions/asmeta.flattener/asmeta.flattener.test/target/surefire-reports/TEST-*.xml
-    paths:
-      - reports/coverage/jacoco/jacoco.xml
 
 # Job to translate the JaCoCo xml into a cobertura xml
 coverage:
@@ -82,8 +80,8 @@ coverage:
   dependencies:
     - test-jdk8
   artifacts:
-    reports:
+    reports: # Upload the info for the job report artifact (artifact:reports:cobertura)
       cobertura: reports/coverage/cobertura.xml
-    paths:
+    paths: # Upload the file as a generic job artifact
       - reports/coverage/jacoco/jacoco.xml
     
