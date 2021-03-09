@@ -1,5 +1,4 @@
-//// starting scenario
-scenario LowBeamONHalfPower
+scenario LowBeamONKey
 load ../CarSystem002main.asm
 
 check keyState_Previous = undef;

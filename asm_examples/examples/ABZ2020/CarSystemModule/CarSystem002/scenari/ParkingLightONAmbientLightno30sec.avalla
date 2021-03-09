@@ -1,5 +1,4 @@
-//// starting scenario
-scenario ParkingLightsONnoRule.avalla
+scenario ParkingLightONAmbientLightno30sec
 load ../CarSystem002main.asm
 /*
  * 

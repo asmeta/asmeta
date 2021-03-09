@@ -1,4 +1,4 @@
-scenario ParkingLightsONAmbient
+scenario ParkingLightONnoAmbient
 load ../CarSystem002main.asm
 //per questo abbiamo presettato ambientLighting =false
 /*

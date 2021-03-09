@@ -1,7 +1,8 @@
-
-scenario LowBeamOFFPowerOFF
+scenario LowBeamOFFonAmbientLight
 load ../CarSystem002main.asm
 //prima accendo la macchina e le luci con ambientLight settato a true
+//testato funzionante
+
 check keyState_Previous = undef;
 check brakeLampRight = 0;
 check pitmanArmUpDown_Buff = NEUTRAL_UD;
@@ -69,8 +70,8 @@ check corneringLightRight = 0;
 	check lowBeamLeft = 100;
 	check lowBeamRight = 100;
 //questo aggiunto manualmente
-	check lowBeamLightingOn=true ;
-	check parkingLight=false;
+	//check lowBeamLightingOn=true ;
+	//check parkingLight=false;
 //spengo la macchina
 	set keyState := KEYINSERTED;
 set lightRotarySwitch := AUTO;

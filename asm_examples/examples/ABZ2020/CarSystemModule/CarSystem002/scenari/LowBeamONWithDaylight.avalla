@@ -1,10 +1,8 @@
+scenario LowBeamONWithDayLight
+load ../CarSystem002main.asm
 //imposto dalle funzioni ambientLighting=false con Daylight=true
 //in modo da testare l'accensione degli anabbaglianti
 //ho testato con ambientLighting=false con Daylight=false e le luci non si accendono
-
-//// starting scenario
-scenario LowBeamONWithDayLight
-load ../CarSystem002main.asm
 
 check keyState_Previous = undef;
 check brakeLampRight = 0;
@@ -50,7 +48,7 @@ set pitmanArmUpDown := NEUTRAL_UD;
 set reverseGear := false;
 set brakePedal := 0;
 //aggiunto manualmente
-	check lowBeamLightingOn=false;
+//	check lowBeamLightingOn=false;
 step
 	check keyState_Previous = KEYINIGNITIONONPOSITION;
 check brakeLampRight = 0;

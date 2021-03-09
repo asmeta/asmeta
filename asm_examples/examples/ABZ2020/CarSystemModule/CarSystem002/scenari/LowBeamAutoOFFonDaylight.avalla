@@ -1,11 +1,11 @@
-//posso non accendere la luce di parcheggio per testare visto che è richiesta spenta
-//daytimeLight=true
-//la chiave non è inserita e prima lo era oppure il motore era acceso
-//prima accendo con lo switch a ON e lo lascio su ON per tutto lo scenario
-
-//// starting scenario
 scenario LowBeamAutoOFFonDaylight
 load ../CarSystem002main.asm
+//posso non accendere la luce di parcheggio per testare visto che è richiesta spenta
+//daytimeLight=false
+//la chiave non è inserita e prima lo era oppure il motore era acceso
+//prima accendo con lo switch a ON e lo lascio su ON per tutto lo scenario
+//testato funzionante
+
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
 check brakeLampCenterStatus = FIX;
