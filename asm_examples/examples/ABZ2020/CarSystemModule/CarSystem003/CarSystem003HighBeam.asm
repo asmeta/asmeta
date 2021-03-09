@@ -41,6 +41,7 @@ signature:
 	derived drivesFasterThan: Prod(CurrentSpeed,Integer) -> Boolean
 	derived lightIlluminationDistance: CurrentSpeed -> HighBeamMotor
 	derived luminousStrength: CurrentSpeed -> HighBeamRange
+	derived luminousStrengthDecrease: CurrentSpeed -> HighBeamRange
 	derived calculateSpeed: CurrentSpeed
 	
 	static percentageHBM: Integer -> HighBeamMotor
@@ -91,6 +92,11 @@ definitions:
 	 
 	function luminousStrength($x in CurrentSpeed) = 
 	if $x <= 1200 then rtoi((7*$x/10 + 60.0)/9.0)
+	else 100
+	endif
+	
+	function luminousStrengthDecrease($x in CurrentSpeed) = 
+	if $x <= 1200 then rtoi(((7*$x/10 + 60.0)/9.0)*0.7)
 	else 100
 	endif
 	
@@ -169,7 +175,9 @@ definitions:
 	//as well as by reduction of the luminous strength to 30%. 
 	//depending on the vehicle speed
 	macro rule r_DecreasingPlan_HBH =
-	   	  r_Execute_HBH[true,30,0]
+	  let ($l = luminousStrengthDecrease(calculateSpeed)) in
+	   	  r_Execute_HBH[true,0,$l]
+	endlet
   
 	    
 	//ELS-33-34-35 @MA_MAPE_HBH

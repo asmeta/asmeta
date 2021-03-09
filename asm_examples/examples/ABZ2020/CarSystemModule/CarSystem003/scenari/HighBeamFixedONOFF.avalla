@@ -1,7 +1,8 @@
-//il flasher corrisponde alla posizione BACKWARD del pitman arm
-//il flasher e lo spegnimento durano ognuno 2 step
-scenario HighBeamFlasherONOFF
+scenario HighBeamFixedONOFF
 load ../CarSystem003main.asm
+//il fixed corrisponde alla posizione BACKWARD del pitman arm
+//il fixed e lo spegnimento durano ognuno 2 step
+
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
 check brakeLampCenterStatus = FIX;
