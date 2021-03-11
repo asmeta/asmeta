@@ -29,17 +29,21 @@ definitions:
 	macro rule r_SCSLeverForward = 
 		if (sCSLever = FORWARD_SCS) then
 			if (currentSpeed < 200) then
+			//CruiseTestingforActivation.avalla
 				if (desiredSpeed = 0) then 
 					setVehicleSpeed := 0
+			//CruiseTestingforActivationPresetandDeactivation.avalla
 				else
 					setVehicleSpeed := desiredSpeed
 				endif
 			else
+			//CruiseTestingforActivation.avalla
 				if (desiredSpeed = 0) then
 					par
 						setVehicleSpeed := currentSpeed
 						desiredSpeed := currentSpeed
 					endpar
+			//CruiseTestingforActivationPresetandDeactivation.avalla
 				else
 					setVehicleSpeed := desiredSpeed
 				endif
@@ -72,6 +76,7 @@ definitions:
 		
 								
 	//SCS-4 SCS-5 SCS-6
+	//settingSpeedSinglePress.avalla
 	macro rule r_setDesiredSpeed = 
 		if (setVehicleSpeed != 0) then
 		//Lever has different value from previous state
@@ -84,6 +89,7 @@ definitions:
 					r_UpwardDownward7[desiredSpeed] 
 					r_UpwardDownward7[setVehicleSpeed] 
 					//SCS-12 SCS-17
+	//CruiseTestingforActivationPresetandDeactivation.avalla
 					if (sCSLever = BACKWARD_SCS) then
 						setVehicleSpeed := 0
 					endif
@@ -93,6 +99,7 @@ definitions:
 		
 	macro rule r_setVehicleSpeedLongLeverPress = 
 		//SCS-7 SCS-8 SCS-9 SCS-10
+		//settingSpeedLongPress.avalla
 		if (setVehicleSpeed != 0) then
 			if (sCSLeve_Previous = sCSLever and sCSLever != NEUTRAL) then 
 				if (passed2Sec) then
@@ -122,6 +129,7 @@ definitions:
 	
 	macro rule r_SetModifySpeed = 
 		//SCS-1
+		//ResetCruiseOnStartup.avalla
 		if ((not engineOn(keyState_Previous)) and engineOn(keyState)) then
 			par
 				setVehicleSpeed := 0
@@ -132,6 +140,7 @@ definitions:
 				par	
 					r_SCSLeverForward[] 
 					//SCS-11
+					//settingSpeedSinglePress.avalla
 					if ((sCSLever = UPWARD5_SCS or sCSLever = UPWARD7_SCS or sCSLever = DOWNWARD5_SCS or sCSLever = DOWNWARD7_SCS) and setVehicleSpeed = 0) then
 						desiredSpeed := currentSpeed
 					endif
@@ -144,10 +153,11 @@ definitions:
 	macro rule  r_DesiredSpeedVehicleSpeed =
 		if (brakePedal=0) then
 			par
-				let ($x = currentSpeed) in skip endlet
+				let ($x = currentSpeed) in skip endlet //?
 				if (cruiseControlMode=CCM2) then
 					r_SetModifySpeed[] 
 				endif
+				//CCM1ONandOFF.avalla
 				if (cruiseControlMode=CCM1) then
 					//SCS-15
 					if (setVehicleSpeed != 0) then
