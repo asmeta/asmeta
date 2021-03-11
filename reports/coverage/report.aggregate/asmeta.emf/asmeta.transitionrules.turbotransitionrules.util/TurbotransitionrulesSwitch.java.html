@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>TurbotransitionrulesSwitch.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.turbotransitionrules.util</a> &gt; <span class="el_source">TurbotransitionrulesSwitch.java</span></div><h1>TurbotransitionrulesSwitch.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.turbotransitionrules.util;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
+
+import asmeta.definitions.Classifier;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.structure.NamedElement;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.turbotransitionrules.*;
+import asmeta.transitionrules.turbotransitionrules.IterateRule;
+import asmeta.transitionrules.turbotransitionrules.SeqRule;
+import asmeta.transitionrules.turbotransitionrules.TryCatchRule;
+import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
+import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
+import asmeta.transitionrules.turbotransitionrules.TurboLocalStateRule;
+import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
+import asmeta.transitionrules.turbotransitionrules.TurboRule;
+import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * The &lt;b&gt;Switch&lt;/b&gt; for the model's inheritance hierarchy.
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)}
+ * to invoke the &lt;code&gt;caseXXX&lt;/code&gt; method for each class of the model,
+ * starting with the actual class of the object
+ * and proceeding up the inheritance hierarchy
+ * until a non-null result is returned,
+ * which is the result of the switch.
+ * &lt;!-- end-user-doc --&gt;
+ * @see asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage
+ * @generated
+ */
+public class TurbotransitionrulesSwitch&lt;T&gt; extends Switch&lt;T&gt; {
+	/**
+	 * The cached model package
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected static TurbotransitionrulesPackage modelPackage;
+
+	/**
+	 * Creates an instance of the switch.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="nc" id="L56">	public TurbotransitionrulesSwitch() {</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">		if (modelPackage == null) {</span>
+<span class="nc" id="L58">			modelPackage = TurbotransitionrulesPackage.eINSTANCE;</span>
+		}
+<span class="nc" id="L60">	}</span>
+
+	/**
+	 * Checks whether this is a switch for the given package.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param ePackage the package in question.
+	 * @return whether this is a switch for the given package.
+	 * @generated
+	 */
+	@Override
+	protected boolean isSwitchFor(EPackage ePackage) {
+<span class="nc bnc" id="L72" title="All 2 branches missed.">		return ePackage == modelPackage;</span>
+	}
+
+	/**
+	 * Calls &lt;code&gt;caseXXX&lt;/code&gt; for each class of the model until one returns a non null result; it yields that result.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the first non-null result returned by a &lt;code&gt;caseXXX&lt;/code&gt; call.
+	 * @generated
+	 */
+	@Override
+	protected T doSwitch(int classifierID, EObject theEObject) {
+<span class="nc bnc" id="L84" title="All 9 branches missed.">		switch (classifierID) {</span>
+			case TurbotransitionrulesPackage.TURBO_RULE: {
+<span class="nc" id="L86">				TurboRule turboRule = (TurboRule)theEObject;</span>
+<span class="nc" id="L87">				T result = caseTurboRule(turboRule);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">				if (result == null) result = caseRule(turboRule);</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L90">				return result;</span>
+			}
+			case TurbotransitionrulesPackage.TURBO_DECLARATION: {
+<span class="nc" id="L93">				TurboDeclaration turboDeclaration = (TurboDeclaration)theEObject;</span>
+<span class="nc" id="L94">				T result = caseTurboDeclaration(turboDeclaration);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">				if (result == null) result = caseRuleDeclaration(turboDeclaration);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">				if (result == null) result = caseClassifier(turboDeclaration);</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">				if (result == null) result = caseNamedElement(turboDeclaration);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L99">				return result;</span>
+			}
+			case TurbotransitionrulesPackage.SEQ_RULE: {
+<span class="nc" id="L102">				SeqRule seqRule = (SeqRule)theEObject;</span>
+<span class="nc" id="L103">				T result = caseSeqRule(seqRule);</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">				if (result == null) result = caseTurboRule(seqRule);</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">				if (result == null) result = caseRule(seqRule);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L107">				return result;</span>
+			}
+			case TurbotransitionrulesPackage.TURBO_LOCAL_STATE_RULE: {
+<span class="nc" id="L110">				TurboLocalStateRule turboLocalStateRule = (TurboLocalStateRule)theEObject;</span>
+<span class="nc" id="L111">				T result = caseTurboLocalStateRule(turboLocalStateRule);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">				if (result == null) result = caseTurboRule(turboLocalStateRule);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">				if (result == null) result = caseRule(turboLocalStateRule);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L115">				return result;</span>
+			}
+			case TurbotransitionrulesPackage.TURBO_CALL_RULE: {
+<span class="nc" id="L118">				TurboCallRule turboCallRule = (TurboCallRule)theEObject;</span>
+<span class="nc" id="L119">				T result = caseTurboCallRule(turboCallRule);</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">				if (result == null) result = caseTurboRule(turboCallRule);</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">				if (result == null) result = caseRule(turboCallRule);</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L123">				return result;</span>
+			}
+			case TurbotransitionrulesPackage.TURBO_RETURN_RULE: {
+<span class="nc" id="L126">				TurboReturnRule turboReturnRule = (TurboReturnRule)theEObject;</span>
+<span class="nc" id="L127">				T result = caseTurboReturnRule(turboReturnRule);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">				if (result == null) result = caseTurboRule(turboReturnRule);</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">				if (result == null) result = caseRule(turboReturnRule);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L131">				return result;</span>
+			}
+			case TurbotransitionrulesPackage.TRY_CATCH_RULE: {
+<span class="nc" id="L134">				TryCatchRule tryCatchRule = (TryCatchRule)theEObject;</span>
+<span class="nc" id="L135">				T result = caseTryCatchRule(tryCatchRule);</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">				if (result == null) result = caseTurboRule(tryCatchRule);</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">				if (result == null) result = caseRule(tryCatchRule);</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L139">				return result;</span>
+			}
+			case TurbotransitionrulesPackage.ITERATE_RULE: {
+<span class="nc" id="L142">				IterateRule iterateRule = (IterateRule)theEObject;</span>
+<span class="nc" id="L143">				T result = caseIterateRule(iterateRule);</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">				if (result == null) result = caseTurboRule(iterateRule);</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">				if (result == null) result = caseRule(iterateRule);</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L147">				return result;</span>
+			}
+<span class="nc" id="L149">			default: return defaultCase(theEObject);</span>
+		}
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Turbo Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Turbo Rule&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTurboRule(TurboRule object) {
+<span class="nc" id="L165">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Turbo Declaration&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Turbo Declaration&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTurboDeclaration(TurboDeclaration object) {
+<span class="nc" id="L180">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Seq Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Seq Rule&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSeqRule(SeqRule object) {
+<span class="nc" id="L195">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Turbo Local State Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Turbo Local State Rule&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTurboLocalStateRule(TurboLocalStateRule object) {
+<span class="nc" id="L210">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Turbo Call Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Turbo Call Rule&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTurboCallRule(TurboCallRule object) {
+<span class="nc" id="L225">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Turbo Return Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Turbo Return Rule&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTurboReturnRule(TurboReturnRule object) {
+<span class="nc" id="L240">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Try Catch Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Try Catch Rule&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTryCatchRule(TryCatchRule object) {
+<span class="nc" id="L255">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Iterate Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Iterate Rule&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIterateRule(IterateRule object) {
+<span class="nc" id="L270">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Rule&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRule(Rule object) {
+<span class="nc" id="L285">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Named Element&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Named Element&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNamedElement(NamedElement object) {
+<span class="nc" id="L300">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Classifier&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Classifier&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseClassifier(Classifier object) {
+<span class="nc" id="L315">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Rule Declaration&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Rule Declaration&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRuleDeclaration(RuleDeclaration object) {
+<span class="nc" id="L330">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;EObject&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch, but this is the last case anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;EObject&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
+	 * @generated
+	 */
+	@Override
+	public T defaultCase(EObject object) {
+<span class="nc" id="L346">		return null;</span>
+	}
+
+} //TurbotransitionrulesSwitch
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

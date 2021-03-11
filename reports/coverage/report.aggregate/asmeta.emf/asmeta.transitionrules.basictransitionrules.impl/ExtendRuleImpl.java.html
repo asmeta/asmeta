@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ExtendRuleImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.basictransitionrules.impl</a> &gt; <span class="el_source">ExtendRuleImpl.java</span></div><h1>ExtendRuleImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.basictransitionrules.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import asmeta.definitions.domains.Domain;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Extend Rule&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.ExtendRuleImpl#getExtendedDomain &lt;em&gt;Extended Domain&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.ExtendRuleImpl#getBoundVar &lt;em&gt;Bound Var&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.ExtendRuleImpl#getDoRule &lt;em&gt;Do Rule&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class ExtendRuleImpl extends BasicRuleImpl implements ExtendRule {
+	/**
+	 * The cached value of the '{@link #getExtendedDomain() &lt;em&gt;Extended Domain&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getExtendedDomain()
+	 * @generated
+	 * @ordered
+	 */
+	protected Domain extendedDomain;
+
+	/**
+	 * The cached value of the '{@link #getBoundVar() &lt;em&gt;Bound Var&lt;/em&gt;}' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getBoundVar()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;VariableTerm&gt; boundVar;
+
+	/**
+	 * The cached value of the '{@link #getDoRule() &lt;em&gt;Do Rule&lt;/em&gt;}' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getDoRule()
+	 * @generated
+	 * @ordered
+	 */
+	protected Rule doRule;
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected ExtendRuleImpl() {
+<span class="fc" id="L79">		super();</span>
+<span class="fc" id="L80">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L89">		return BasictransitionrulesPackage.Literals.EXTEND_RULE;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Domain getExtendedDomain() {
+<span class="pc bpc" id="L99" title="2 of 4 branches missed.">		if (extendedDomain != null &amp;&amp; extendedDomain.eIsProxy()) {</span>
+<span class="nc" id="L100">			InternalEObject oldExtendedDomain = (InternalEObject)extendedDomain;</span>
+<span class="nc" id="L101">			extendedDomain = (Domain)eResolveProxy(oldExtendedDomain);</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">			if (extendedDomain != oldExtendedDomain) {</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L104">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BasictransitionrulesPackage.EXTEND_RULE__EXTENDED_DOMAIN, oldExtendedDomain, extendedDomain));</span>
+			}
+		}
+<span class="fc" id="L107">		return extendedDomain;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Domain basicGetExtendedDomain() {
+<span class="nc" id="L116">		return extendedDomain;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setExtendedDomain(Domain newExtendedDomain) {
+<span class="fc" id="L126">		Domain oldExtendedDomain = extendedDomain;</span>
+<span class="fc" id="L127">		extendedDomain = newExtendedDomain;</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L129">			eNotify(new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.EXTEND_RULE__EXTENDED_DOMAIN, oldExtendedDomain, extendedDomain));</span>
+<span class="fc" id="L130">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;VariableTerm&gt; getBoundVar() {
+<span class="fc bfc" id="L139" title="All 2 branches covered.">		if (boundVar == null) {</span>
+<span class="fc" id="L140">			boundVar = new EObjectContainmentEList&lt;VariableTerm&gt;(VariableTerm.class, this, BasictransitionrulesPackage.EXTEND_RULE__BOUND_VAR);</span>
+		}
+<span class="fc" id="L142">		return boundVar;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Rule getDoRule() {
+<span class="nc" id="L152">		return doRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetDoRule(Rule newDoRule, NotificationChain msgs) {
+<span class="fc" id="L161">		Rule oldDoRule = doRule;</span>
+<span class="fc" id="L162">		doRule = newDoRule;</span>
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L164">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.EXTEND_RULE__DO_RULE, oldDoRule, newDoRule);</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L167">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setDoRule(Rule newDoRule) {
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">		if (newDoRule != doRule) {</span>
+<span class="fc" id="L178">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">			if (doRule != null)</span>
+<span class="nc" id="L180">				msgs = ((InternalEObject)doRule).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BasictransitionrulesPackage.EXTEND_RULE__DO_RULE, null, msgs);</span>
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">			if (newDoRule != null)</span>
+<span class="fc" id="L182">				msgs = ((InternalEObject)newDoRule).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BasictransitionrulesPackage.EXTEND_RULE__DO_RULE, null, msgs);</span>
+<span class="fc" id="L183">			msgs = basicSetDoRule(newDoRule, msgs);</span>
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L185">		}</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L187">			eNotify(new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.EXTEND_RULE__DO_RULE, newDoRule, newDoRule));</span>
+<span class="fc" id="L188">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L197" title="All 3 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__BOUND_VAR:
+<span class="nc" id="L199">				return ((InternalEList&lt;?&gt;)getBoundVar()).basicRemove(otherEnd, msgs);</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__DO_RULE:
+<span class="nc" id="L201">				return basicSetDoRule(null, msgs);</span>
+		}
+<span class="nc" id="L203">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L213" title="All 4 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__EXTENDED_DOMAIN:
+<span class="nc bnc" id="L215" title="All 2 branches missed.">				if (resolve) return getExtendedDomain();</span>
+<span class="nc" id="L216">				return basicGetExtendedDomain();</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__BOUND_VAR:
+<span class="nc" id="L218">				return getBoundVar();</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__DO_RULE:
+<span class="nc" id="L220">				return getDoRule();</span>
+		}
+<span class="nc" id="L222">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L233" title="All 4 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__EXTENDED_DOMAIN:
+<span class="nc" id="L235">				setExtendedDomain((Domain)newValue);</span>
+<span class="nc" id="L236">				return;</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__BOUND_VAR:
+<span class="nc" id="L238">				getBoundVar().clear();</span>
+<span class="nc" id="L239">				getBoundVar().addAll((Collection&lt;? extends VariableTerm&gt;)newValue);</span>
+<span class="nc" id="L240">				return;</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__DO_RULE:
+<span class="nc" id="L242">				setDoRule((Rule)newValue);</span>
+<span class="nc" id="L243">				return;</span>
+		}
+<span class="nc" id="L245">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L246">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L255" title="All 4 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__EXTENDED_DOMAIN:
+<span class="nc" id="L257">				setExtendedDomain((Domain)null);</span>
+<span class="nc" id="L258">				return;</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__BOUND_VAR:
+<span class="nc" id="L260">				getBoundVar().clear();</span>
+<span class="nc" id="L261">				return;</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__DO_RULE:
+<span class="nc" id="L263">				setDoRule((Rule)null);</span>
+<span class="nc" id="L264">				return;</span>
+		}
+<span class="nc" id="L266">		super.eUnset(featureID);</span>
+<span class="nc" id="L267">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L276" title="All 4 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__EXTENDED_DOMAIN:
+<span class="nc bnc" id="L278" title="All 2 branches missed.">				return extendedDomain != null;</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__BOUND_VAR:
+<span class="nc bnc" id="L280" title="All 4 branches missed.">				return boundVar != null &amp;&amp; !boundVar.isEmpty();</span>
+			case BasictransitionrulesPackage.EXTEND_RULE__DO_RULE:
+<span class="nc bnc" id="L282" title="All 2 branches missed.">				return doRule != null;</span>
+		}
+<span class="nc" id="L284">		return super.eIsSet(featureID);</span>
+	}
+
+} //ExtendRuleImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

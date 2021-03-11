@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>Environment.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator</a> &gt; <span class="el_source">Environment.java</span></div><h1>Environment.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2005, 2006 ASMETA group (http://asmeta.sourceforge.net)
+ * License Information: http://asmeta.sourceforge.net/licensing/
+ * 
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License version 2 as
+ *   published by the Free Software Foundation.
+ * 
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ * 
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
+ *   USA
+ * 
+ *   http://www.gnu.org/licenses/gpl.txt
+ * 
+ *   
+ *******************************************************************************/
+
+package org.asmeta.simulator;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
+
+import org.asmeta.simulator.readers.MonFuncReader;
+import org.asmeta.simulator.value.IntegerValue;
+import org.asmeta.simulator.value.Value;
+
+/**
+ * The environment returns the value of the monitored functions.&lt;br&gt;
+ * Non tiene conto del valore attuale: se viene richiesto due volte potrebbe 
+ * dare due risultati diversi
+ * 
+ * always the same value.
+ * 
+ */
+<span class="nc bnc" id="L42" title="All 2 branches missed.">public final class Environment {</span>
+
+	// link the time variable to the time of the java machine
+<span class="nc" id="L45">	public static boolean use_java_time = true;</span>
+	
+<span class="nc" id="L47">	private static boolean START_TIME_FROM_0 = true;</span>
+	/**
+	 * Parses an input string and returns a value.
+	 */
+	private MonFuncReader monFuncReader;
+
+	private Instant startFrom;
+	
+<span class="nc" id="L55">	public Environment(MonFuncReader monFuncReader) {</span>
+<span class="nc" id="L56">		this.monFuncReader = monFuncReader;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">		if (START_TIME_FROM_0) </span>
+<span class="nc" id="L58">			startFrom = Instant.now();</span>
+		else
+<span class="nc" id="L60">			startFrom = Instant.MIN;</span>
+<span class="nc" id="L61">	}</span>
+
+	/**
+	 * Returns the value of a monitored function.
+	 * 
+	 * @param location
+	 *            a location
+	 * @param state
+	 *            the current state
+	 * @return the location value
+	 */
+	public Value&lt;?&gt; read(Location location, State state) {
+		// state does not contain location value
+<span class="nc bnc" id="L74" title="All 4 branches missed.">		assert state.locationMap.get(location) == null;</span>
+		// AG 13/11/2020 
+		// if it is time, read from the machine
+<span class="nc" id="L77">		Value value = null;</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">		if (use_java_time) {</span>
+			//TODO use switch expressions !
+<span class="nc" id="L80">			TemporalUnit timeunit = null;</span>
+<span class="nc bnc" id="L81" title="All 14 branches missed.">			switch(location.getName()){</span>
+<span class="nc" id="L82">			case &quot;mCurrTimeNanosecs&quot;: timeunit = ChronoUnit.NANOS; break;</span>
+<span class="nc" id="L83">			case &quot;mCurrTimeMillisecs&quot;: timeunit = ChronoUnit.MILLIS; break;</span>
+<span class="nc" id="L84">			case &quot;mCurrTimeSecs&quot;: timeunit = ChronoUnit.SECONDS; break;</span>
+			}
+<span class="nc bnc" id="L86" title="All 2 branches missed.">			if (timeunit!= null) value = new IntegerValue(startFrom.until(Instant.now(), timeunit));</span>
+		} 	
+<span class="nc bnc" id="L88" title="All 2 branches missed.">		if (value == null)</span>
+<span class="nc" id="L89">			value = monFuncReader.read(location, state);</span>
+<span class="nc" id="L90">		return value;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

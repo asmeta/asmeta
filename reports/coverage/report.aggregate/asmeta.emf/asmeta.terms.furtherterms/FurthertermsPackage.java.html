@@ -1,0 +1,2276 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>FurthertermsPackage.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.terms.furtherterms</a> &gt; <span class="el_source">FurthertermsPackage.java</span></div><h1>FurthertermsPackage.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.terms.furtherterms;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+
+import asmeta.terms.basicterms.BasictermsPackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * The &lt;b&gt;Package&lt;/b&gt; for the model.
+ * It contains accessors for the meta objects to represent
+ * &lt;ul&gt;
+ *   &lt;li&gt;each class,&lt;/li&gt;
+ *   &lt;li&gt;each feature of each class,&lt;/li&gt;
+ *   &lt;li&gt;each enum,&lt;/li&gt;
+ *   &lt;li&gt;and each data type&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;!-- end-user-doc --&gt;
+ * @see asmeta.terms.furtherterms.FurthertermsFactory
+ * @model kind=&quot;package&quot;
+ * @generated
+ */
+public interface FurthertermsPackage extends EPackage {
+	/**
+	 * The package name.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	String eNAME = &quot;furtherterms&quot;;
+
+	/**
+	 * The package namespace URI.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	String eNS_URI = &quot;http://org.asmeta/asmm#FurtherTerms&quot;;
+
+	/**
+	 * The package namespace name.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	String eNS_PREFIX = &quot;AsmM&quot;;
+
+	/**
+	 * The singleton instance of the package.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L62">	FurthertermsPackage eINSTANCE = asmeta.terms.furtherterms.impl.FurthertermsPackageImpl.init();</span>
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.IntegerTermImpl &lt;em&gt;Integer Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.IntegerTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getIntegerTerm()
+	 * @generated
+	 */
+	int INTEGER_TERM = 0;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TERM__DOMAIN = BasictermsPackage.CONSTANT_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TERM__TERM_AS_RULE = BasictermsPackage.CONSTANT_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Symbol&lt;/b&gt;&lt;/em&gt;' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TERM__SYMBOL = BasictermsPackage.CONSTANT_TERM__SYMBOL;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Integer Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TERM_FEATURE_COUNT = BasictermsPackage.CONSTANT_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.NaturalTermImpl &lt;em&gt;Natural Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.NaturalTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getNaturalTerm()
+	 * @generated
+	 */
+	int NATURAL_TERM = 1;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int NATURAL_TERM__DOMAIN = BasictermsPackage.CONSTANT_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int NATURAL_TERM__TERM_AS_RULE = BasictermsPackage.CONSTANT_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Symbol&lt;/b&gt;&lt;/em&gt;' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int NATURAL_TERM__SYMBOL = BasictermsPackage.CONSTANT_TERM__SYMBOL;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Natural Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int NATURAL_TERM_FEATURE_COUNT = BasictermsPackage.CONSTANT_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.VariableBindingTermImpl &lt;em&gt;Variable Binding Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.VariableBindingTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getVariableBindingTerm()
+	 * @generated
+	 */
+	int VARIABLE_BINDING_TERM = 2;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_BINDING_TERM__DOMAIN = BasictermsPackage.EXTENDED_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_BINDING_TERM__TERM_AS_RULE = BasictermsPackage.EXTENDED_TERM__TERM_AS_RULE;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Variable Binding Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_BINDING_TERM_FEATURE_COUNT = BasictermsPackage.EXTENDED_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.StringTermImpl &lt;em&gt;String Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.StringTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getStringTerm()
+	 * @generated
+	 */
+	int STRING_TERM = 3;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TERM__DOMAIN = BasictermsPackage.CONSTANT_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TERM__TERM_AS_RULE = BasictermsPackage.CONSTANT_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Symbol&lt;/b&gt;&lt;/em&gt;' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TERM__SYMBOL = BasictermsPackage.CONSTANT_TERM__SYMBOL;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;String Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TERM_FEATURE_COUNT = BasictermsPackage.CONSTANT_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.ComprehensionTermImpl &lt;em&gt;Comprehension Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.ComprehensionTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getComprehensionTerm()
+	 * @generated
+	 */
+	int COMPREHENSION_TERM = 17;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int COMPREHENSION_TERM__DOMAIN = VARIABLE_BINDING_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int COMPREHENSION_TERM__TERM_AS_RULE = VARIABLE_BINDING_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int COMPREHENSION_TERM__VARIABLE = VARIABLE_BINDING_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int COMPREHENSION_TERM__GUARD = VARIABLE_BINDING_TERM_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int COMPREHENSION_TERM__TERM = VARIABLE_BINDING_TERM_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Ranges&lt;/b&gt;&lt;/em&gt;' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int COMPREHENSION_TERM__RANGES = VARIABLE_BINDING_TERM_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Comprehension Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int COMPREHENSION_TERM_FEATURE_COUNT = VARIABLE_BINDING_TERM_FEATURE_COUNT + 4;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.SetCtImpl &lt;em&gt;Set Ct&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.SetCtImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getSetCt()
+	 * @generated
+	 */
+	int SET_CT = 4;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SET_CT__DOMAIN = COMPREHENSION_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SET_CT__TERM_AS_RULE = COMPREHENSION_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SET_CT__VARIABLE = COMPREHENSION_TERM__VARIABLE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SET_CT__GUARD = COMPREHENSION_TERM__GUARD;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SET_CT__TERM = COMPREHENSION_TERM__TERM;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Ranges&lt;/b&gt;&lt;/em&gt;' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SET_CT__RANGES = COMPREHENSION_TERM__RANGES;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Set Ct&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SET_CT_FEATURE_COUNT = COMPREHENSION_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.SequenceTermImpl &lt;em&gt;Sequence Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.SequenceTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getSequenceTerm()
+	 * @generated
+	 */
+	int SEQUENCE_TERM = 5;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TERM__DOMAIN = BasictermsPackage.COLLECTION_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TERM__TERM_AS_RULE = BasictermsPackage.COLLECTION_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Size&lt;/b&gt;&lt;/em&gt;' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TERM__SIZE = BasictermsPackage.COLLECTION_TERM__SIZE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Terms&lt;/b&gt;&lt;/em&gt;' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TERM__TERMS = BasictermsPackage.COLLECTION_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Sequence Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TERM_FEATURE_COUNT = BasictermsPackage.COLLECTION_TERM_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.SequenceCtImpl &lt;em&gt;Sequence Ct&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.SequenceCtImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getSequenceCt()
+	 * @generated
+	 */
+	int SEQUENCE_CT = 6;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_CT__DOMAIN = COMPREHENSION_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_CT__TERM_AS_RULE = COMPREHENSION_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_CT__VARIABLE = COMPREHENSION_TERM__VARIABLE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_CT__GUARD = COMPREHENSION_TERM__GUARD;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_CT__TERM = COMPREHENSION_TERM__TERM;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Ranges&lt;/b&gt;&lt;/em&gt;' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_CT__RANGES = COMPREHENSION_TERM__RANGES;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Sequence Ct&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_CT_FEATURE_COUNT = COMPREHENSION_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.RealTermImpl &lt;em&gt;Real Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.RealTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getRealTerm()
+	 * @generated
+	 */
+	int REAL_TERM = 7;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_TERM__DOMAIN = BasictermsPackage.CONSTANT_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_TERM__TERM_AS_RULE = BasictermsPackage.CONSTANT_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Symbol&lt;/b&gt;&lt;/em&gt;' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_TERM__SYMBOL = BasictermsPackage.CONSTANT_TERM__SYMBOL;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Real Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_TERM_FEATURE_COUNT = BasictermsPackage.CONSTANT_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.MapTermImpl &lt;em&gt;Map Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.MapTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getMapTerm()
+	 * @generated
+	 */
+	int MAP_TERM = 8;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TERM__DOMAIN = BasictermsPackage.COLLECTION_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TERM__TERM_AS_RULE = BasictermsPackage.COLLECTION_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Size&lt;/b&gt;&lt;/em&gt;' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TERM__SIZE = BasictermsPackage.COLLECTION_TERM__SIZE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Pair&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TERM__PAIR = BasictermsPackage.COLLECTION_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Map Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TERM_FEATURE_COUNT = BasictermsPackage.COLLECTION_TERM_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.MapCtImpl &lt;em&gt;Map Ct&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.MapCtImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getMapCt()
+	 * @generated
+	 */
+	int MAP_CT = 9;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_CT__DOMAIN = COMPREHENSION_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_CT__TERM_AS_RULE = COMPREHENSION_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_CT__VARIABLE = COMPREHENSION_TERM__VARIABLE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_CT__GUARD = COMPREHENSION_TERM__GUARD;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_CT__TERM = COMPREHENSION_TERM__TERM;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Ranges&lt;/b&gt;&lt;/em&gt;' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_CT__RANGES = COMPREHENSION_TERM__RANGES;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Map Ct&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_CT_FEATURE_COUNT = COMPREHENSION_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.LetTermImpl &lt;em&gt;Let Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.LetTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getLetTerm()
+	 * @generated
+	 */
+	int LET_TERM = 10;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int LET_TERM__DOMAIN = VARIABLE_BINDING_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int LET_TERM__TERM_AS_RULE = VARIABLE_BINDING_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int LET_TERM__VARIABLE = VARIABLE_BINDING_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Assignment Term&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int LET_TERM__ASSIGNMENT_TERM = VARIABLE_BINDING_TERM_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Body&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int LET_TERM__BODY = VARIABLE_BINDING_TERM_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Let Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int LET_TERM_FEATURE_COUNT = VARIABLE_BINDING_TERM_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.FiniteQuantificationTermImpl &lt;em&gt;Finite Quantification Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.FiniteQuantificationTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getFiniteQuantificationTerm()
+	 * @generated
+	 */
+	int FINITE_QUANTIFICATION_TERM = 12;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int FINITE_QUANTIFICATION_TERM__DOMAIN = VARIABLE_BINDING_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int FINITE_QUANTIFICATION_TERM__TERM_AS_RULE = VARIABLE_BINDING_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int FINITE_QUANTIFICATION_TERM__VARIABLE = VARIABLE_BINDING_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int FINITE_QUANTIFICATION_TERM__GUARD = VARIABLE_BINDING_TERM_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Ranges&lt;/b&gt;&lt;/em&gt;' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int FINITE_QUANTIFICATION_TERM__RANGES = VARIABLE_BINDING_TERM_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Finite Quantification Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int FINITE_QUANTIFICATION_TERM_FEATURE_COUNT = VARIABLE_BINDING_TERM_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.ForallTermImpl &lt;em&gt;Forall Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.ForallTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getForallTerm()
+	 * @generated
+	 */
+	int FORALL_TERM = 11;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int FORALL_TERM__DOMAIN = FINITE_QUANTIFICATION_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int FORALL_TERM__TERM_AS_RULE = FINITE_QUANTIFICATION_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int FORALL_TERM__VARIABLE = FINITE_QUANTIFICATION_TERM__VARIABLE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int FORALL_TERM__GUARD = FINITE_QUANTIFICATION_TERM__GUARD;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Ranges&lt;/b&gt;&lt;/em&gt;' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int FORALL_TERM__RANGES = FINITE_QUANTIFICATION_TERM__RANGES;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Forall Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int FORALL_TERM_FEATURE_COUNT = FINITE_QUANTIFICATION_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.ExistUniqueTermImpl &lt;em&gt;Exist Unique Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.ExistUniqueTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getExistUniqueTerm()
+	 * @generated
+	 */
+	int EXIST_UNIQUE_TERM = 13;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int EXIST_UNIQUE_TERM__DOMAIN = FINITE_QUANTIFICATION_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int EXIST_UNIQUE_TERM__TERM_AS_RULE = FINITE_QUANTIFICATION_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int EXIST_UNIQUE_TERM__VARIABLE = FINITE_QUANTIFICATION_TERM__VARIABLE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int EXIST_UNIQUE_TERM__GUARD = FINITE_QUANTIFICATION_TERM__GUARD;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Ranges&lt;/b&gt;&lt;/em&gt;' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int EXIST_UNIQUE_TERM__RANGES = FINITE_QUANTIFICATION_TERM__RANGES;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Exist Unique Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int EXIST_UNIQUE_TERM_FEATURE_COUNT = FINITE_QUANTIFICATION_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.ExistTermImpl &lt;em&gt;Exist Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.ExistTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getExistTerm()
+	 * @generated
+	 */
+	int EXIST_TERM = 14;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int EXIST_TERM__DOMAIN = FINITE_QUANTIFICATION_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int EXIST_TERM__TERM_AS_RULE = FINITE_QUANTIFICATION_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int EXIST_TERM__VARIABLE = FINITE_QUANTIFICATION_TERM__VARIABLE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int EXIST_TERM__GUARD = FINITE_QUANTIFICATION_TERM__GUARD;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Ranges&lt;/b&gt;&lt;/em&gt;' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int EXIST_TERM__RANGES = FINITE_QUANTIFICATION_TERM__RANGES;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Exist Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int EXIST_TERM_FEATURE_COUNT = FINITE_QUANTIFICATION_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.EnumTermImpl &lt;em&gt;Enum Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.EnumTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getEnumTerm()
+	 * @generated
+	 */
+	int ENUM_TERM = 15;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_TERM__DOMAIN = BasictermsPackage.CONSTANT_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_TERM__TERM_AS_RULE = BasictermsPackage.CONSTANT_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Symbol&lt;/b&gt;&lt;/em&gt;' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_TERM__SYMBOL = BasictermsPackage.CONSTANT_TERM__SYMBOL;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Enum Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_TERM_FEATURE_COUNT = BasictermsPackage.CONSTANT_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.ConditionalTermImpl &lt;em&gt;Conditional Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.ConditionalTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getConditionalTerm()
+	 * @generated
+	 */
+	int CONDITIONAL_TERM = 16;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITIONAL_TERM__DOMAIN = BasictermsPackage.EXTENDED_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITIONAL_TERM__TERM_AS_RULE = BasictermsPackage.EXTENDED_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Else Term&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITIONAL_TERM__ELSE_TERM = BasictermsPackage.EXTENDED_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITIONAL_TERM__GUARD = BasictermsPackage.EXTENDED_TERM_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Then Term&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITIONAL_TERM__THEN_TERM = BasictermsPackage.EXTENDED_TERM_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Conditional Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITIONAL_TERM_FEATURE_COUNT = BasictermsPackage.EXTENDED_TERM_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.ComplexTermImpl &lt;em&gt;Complex Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.ComplexTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getComplexTerm()
+	 * @generated
+	 */
+	int COMPLEX_TERM = 18;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLEX_TERM__DOMAIN = BasictermsPackage.CONSTANT_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLEX_TERM__TERM_AS_RULE = BasictermsPackage.CONSTANT_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Symbol&lt;/b&gt;&lt;/em&gt;' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLEX_TERM__SYMBOL = BasictermsPackage.CONSTANT_TERM__SYMBOL;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Complex Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int COMPLEX_TERM_FEATURE_COUNT = BasictermsPackage.CONSTANT_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.CharTermImpl &lt;em&gt;Char Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.CharTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getCharTerm()
+	 * @generated
+	 */
+	int CHAR_TERM = 19;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CHAR_TERM__DOMAIN = BasictermsPackage.CONSTANT_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CHAR_TERM__TERM_AS_RULE = BasictermsPackage.CONSTANT_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Symbol&lt;/b&gt;&lt;/em&gt;' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CHAR_TERM__SYMBOL = BasictermsPackage.CONSTANT_TERM__SYMBOL;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Char Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CHAR_TERM_FEATURE_COUNT = BasictermsPackage.CONSTANT_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.CaseTermImpl &lt;em&gt;Case Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.CaseTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getCaseTerm()
+	 * @generated
+	 */
+	int CASE_TERM = 20;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_TERM__DOMAIN = BasictermsPackage.EXTENDED_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_TERM__TERM_AS_RULE = BasictermsPackage.EXTENDED_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Comparing Term&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_TERM__COMPARING_TERM = BasictermsPackage.EXTENDED_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Compared Term&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_TERM__COMPARED_TERM = BasictermsPackage.EXTENDED_TERM_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Otherwise Term&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_TERM__OTHERWISE_TERM = BasictermsPackage.EXTENDED_TERM_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Result Terms&lt;/b&gt;&lt;/em&gt;' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_TERM__RESULT_TERMS = BasictermsPackage.EXTENDED_TERM_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Case Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_TERM_FEATURE_COUNT = BasictermsPackage.EXTENDED_TERM_FEATURE_COUNT + 4;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.BagTermImpl &lt;em&gt;Bag Term&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.BagTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getBagTerm()
+	 * @generated
+	 */
+	int BAG_TERM = 21;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TERM__DOMAIN = BasictermsPackage.COLLECTION_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TERM__TERM_AS_RULE = BasictermsPackage.COLLECTION_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Size&lt;/b&gt;&lt;/em&gt;' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TERM__SIZE = BasictermsPackage.COLLECTION_TERM__SIZE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TERM__TERM = BasictermsPackage.COLLECTION_TERM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Bag Term&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TERM_FEATURE_COUNT = BasictermsPackage.COLLECTION_TERM_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.BagCtImpl &lt;em&gt;Bag Ct&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.terms.furtherterms.impl.BagCtImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getBagCt()
+	 * @generated
+	 */
+	int BAG_CT = 22;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Domain&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_CT__DOMAIN = COMPREHENSION_TERM__DOMAIN;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term As Rule&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_CT__TERM_AS_RULE = COMPREHENSION_TERM__TERM_AS_RULE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_CT__VARIABLE = COMPREHENSION_TERM__VARIABLE;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_CT__GUARD = COMPREHENSION_TERM__GUARD;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_CT__TERM = COMPREHENSION_TERM__TERM;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Ranges&lt;/b&gt;&lt;/em&gt;' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_CT__RANGES = COMPREHENSION_TERM__RANGES;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Bag Ct&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_CT_FEATURE_COUNT = COMPREHENSION_TERM_FEATURE_COUNT + 0;
+
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.IntegerTerm &lt;em&gt;Integer Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Integer Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.IntegerTerm
+	 * @generated
+	 */
+	EClass getIntegerTerm();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.NaturalTerm &lt;em&gt;Natural Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Natural Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.NaturalTerm
+	 * @generated
+	 */
+	EClass getNaturalTerm();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.VariableBindingTerm &lt;em&gt;Variable Binding Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Variable Binding Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.VariableBindingTerm
+	 * @generated
+	 */
+	EClass getVariableBindingTerm();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.StringTerm &lt;em&gt;String Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;String Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.StringTerm
+	 * @generated
+	 */
+	EClass getStringTerm();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.SetCt &lt;em&gt;Set Ct&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Set Ct&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.SetCt
+	 * @generated
+	 */
+	EClass getSetCt();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.SequenceTerm &lt;em&gt;Sequence Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Sequence Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.SequenceTerm
+	 * @generated
+	 */
+	EClass getSequenceTerm();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link asmeta.terms.furtherterms.SequenceTerm#getTerms &lt;em&gt;Terms&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the attribute list '&lt;em&gt;Terms&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.SequenceTerm#getTerms()
+	 * @see #getSequenceTerm()
+	 * @generated
+	 */
+	EAttribute getSequenceTerm_Terms();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.SequenceCt &lt;em&gt;Sequence Ct&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Sequence Ct&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.SequenceCt
+	 * @generated
+	 */
+	EClass getSequenceCt();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.RealTerm &lt;em&gt;Real Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Real Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.RealTerm
+	 * @generated
+	 */
+	EClass getRealTerm();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.MapTerm &lt;em&gt;Map Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Map Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.MapTerm
+	 * @generated
+	 */
+	EClass getMapTerm();
+
+	/**
+	 * Returns the meta object for the reference list '{@link asmeta.terms.furtherterms.MapTerm#getPair &lt;em&gt;Pair&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference list '&lt;em&gt;Pair&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.MapTerm#getPair()
+	 * @see #getMapTerm()
+	 * @generated
+	 */
+	EReference getMapTerm_Pair();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.MapCt &lt;em&gt;Map Ct&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Map Ct&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.MapCt
+	 * @generated
+	 */
+	EClass getMapCt();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.LetTerm &lt;em&gt;Let Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Let Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.LetTerm
+	 * @generated
+	 */
+	EClass getLetTerm();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link asmeta.terms.furtherterms.LetTerm#getVariable &lt;em&gt;Variable&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the containment reference list '&lt;em&gt;Variable&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.LetTerm#getVariable()
+	 * @see #getLetTerm()
+	 * @generated
+	 */
+	EReference getLetTerm_Variable();
+
+	/**
+	 * Returns the meta object for the reference list '{@link asmeta.terms.furtherterms.LetTerm#getAssignmentTerm &lt;em&gt;Assignment Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference list '&lt;em&gt;Assignment Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.LetTerm#getAssignmentTerm()
+	 * @see #getLetTerm()
+	 * @generated
+	 */
+	EReference getLetTerm_AssignmentTerm();
+
+	/**
+	 * Returns the meta object for the reference '{@link asmeta.terms.furtherterms.LetTerm#getBody &lt;em&gt;Body&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference '&lt;em&gt;Body&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.LetTerm#getBody()
+	 * @see #getLetTerm()
+	 * @generated
+	 */
+	EReference getLetTerm_Body();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ForallTerm &lt;em&gt;Forall Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Forall Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ForallTerm
+	 * @generated
+	 */
+	EClass getForallTerm();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.FiniteQuantificationTerm &lt;em&gt;Finite Quantification Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Finite Quantification Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.FiniteQuantificationTerm
+	 * @generated
+	 */
+	EClass getFiniteQuantificationTerm();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link asmeta.terms.furtherterms.FiniteQuantificationTerm#getVariable &lt;em&gt;Variable&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the containment reference list '&lt;em&gt;Variable&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.FiniteQuantificationTerm#getVariable()
+	 * @see #getFiniteQuantificationTerm()
+	 * @generated
+	 */
+	EReference getFiniteQuantificationTerm_Variable();
+
+	/**
+	 * Returns the meta object for the reference '{@link asmeta.terms.furtherterms.FiniteQuantificationTerm#getGuard &lt;em&gt;Guard&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference '&lt;em&gt;Guard&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.FiniteQuantificationTerm#getGuard()
+	 * @see #getFiniteQuantificationTerm()
+	 * @generated
+	 */
+	EReference getFiniteQuantificationTerm_Guard();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link asmeta.terms.furtherterms.FiniteQuantificationTerm#getRanges &lt;em&gt;Ranges&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the attribute list '&lt;em&gt;Ranges&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.FiniteQuantificationTerm#getRanges()
+	 * @see #getFiniteQuantificationTerm()
+	 * @generated
+	 */
+	EAttribute getFiniteQuantificationTerm_Ranges();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ExistUniqueTerm &lt;em&gt;Exist Unique Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Exist Unique Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ExistUniqueTerm
+	 * @generated
+	 */
+	EClass getExistUniqueTerm();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ExistTerm &lt;em&gt;Exist Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Exist Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ExistTerm
+	 * @generated
+	 */
+	EClass getExistTerm();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.EnumTerm &lt;em&gt;Enum Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Enum Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.EnumTerm
+	 * @generated
+	 */
+	EClass getEnumTerm();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ConditionalTerm &lt;em&gt;Conditional Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Conditional Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ConditionalTerm
+	 * @generated
+	 */
+	EClass getConditionalTerm();
+
+	/**
+	 * Returns the meta object for the reference '{@link asmeta.terms.furtherterms.ConditionalTerm#getElseTerm &lt;em&gt;Else Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference '&lt;em&gt;Else Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ConditionalTerm#getElseTerm()
+	 * @see #getConditionalTerm()
+	 * @generated
+	 */
+	EReference getConditionalTerm_ElseTerm();
+
+	/**
+	 * Returns the meta object for the reference '{@link asmeta.terms.furtherterms.ConditionalTerm#getGuard &lt;em&gt;Guard&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference '&lt;em&gt;Guard&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ConditionalTerm#getGuard()
+	 * @see #getConditionalTerm()
+	 * @generated
+	 */
+	EReference getConditionalTerm_Guard();
+
+	/**
+	 * Returns the meta object for the reference '{@link asmeta.terms.furtherterms.ConditionalTerm#getThenTerm &lt;em&gt;Then Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference '&lt;em&gt;Then Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ConditionalTerm#getThenTerm()
+	 * @see #getConditionalTerm()
+	 * @generated
+	 */
+	EReference getConditionalTerm_ThenTerm();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ComprehensionTerm &lt;em&gt;Comprehension Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Comprehension Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ComprehensionTerm
+	 * @generated
+	 */
+	EClass getComprehensionTerm();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link asmeta.terms.furtherterms.ComprehensionTerm#getVariable &lt;em&gt;Variable&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the containment reference list '&lt;em&gt;Variable&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ComprehensionTerm#getVariable()
+	 * @see #getComprehensionTerm()
+	 * @generated
+	 */
+	EReference getComprehensionTerm_Variable();
+
+	/**
+	 * Returns the meta object for the reference '{@link asmeta.terms.furtherterms.ComprehensionTerm#getGuard &lt;em&gt;Guard&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference '&lt;em&gt;Guard&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ComprehensionTerm#getGuard()
+	 * @see #getComprehensionTerm()
+	 * @generated
+	 */
+	EReference getComprehensionTerm_Guard();
+
+	/**
+	 * Returns the meta object for the reference '{@link asmeta.terms.furtherterms.ComprehensionTerm#getTerm &lt;em&gt;Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference '&lt;em&gt;Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ComprehensionTerm#getTerm()
+	 * @see #getComprehensionTerm()
+	 * @generated
+	 */
+	EReference getComprehensionTerm_Term();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link asmeta.terms.furtherterms.ComprehensionTerm#getRanges &lt;em&gt;Ranges&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the attribute list '&lt;em&gt;Ranges&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ComprehensionTerm#getRanges()
+	 * @see #getComprehensionTerm()
+	 * @generated
+	 */
+	EAttribute getComprehensionTerm_Ranges();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ComplexTerm &lt;em&gt;Complex Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Complex Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.ComplexTerm
+	 * @generated
+	 */
+	EClass getComplexTerm();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.CharTerm &lt;em&gt;Char Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Char Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.CharTerm
+	 * @generated
+	 */
+	EClass getCharTerm();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.CaseTerm &lt;em&gt;Case Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Case Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.CaseTerm
+	 * @generated
+	 */
+	EClass getCaseTerm();
+
+	/**
+	 * Returns the meta object for the reference list '{@link asmeta.terms.furtherterms.CaseTerm#getComparingTerm &lt;em&gt;Comparing Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference list '&lt;em&gt;Comparing Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.CaseTerm#getComparingTerm()
+	 * @see #getCaseTerm()
+	 * @generated
+	 */
+	EReference getCaseTerm_ComparingTerm();
+
+	/**
+	 * Returns the meta object for the reference '{@link asmeta.terms.furtherterms.CaseTerm#getComparedTerm &lt;em&gt;Compared Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference '&lt;em&gt;Compared Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.CaseTerm#getComparedTerm()
+	 * @see #getCaseTerm()
+	 * @generated
+	 */
+	EReference getCaseTerm_ComparedTerm();
+
+	/**
+	 * Returns the meta object for the reference '{@link asmeta.terms.furtherterms.CaseTerm#getOtherwiseTerm &lt;em&gt;Otherwise Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference '&lt;em&gt;Otherwise Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.CaseTerm#getOtherwiseTerm()
+	 * @see #getCaseTerm()
+	 * @generated
+	 */
+	EReference getCaseTerm_OtherwiseTerm();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link asmeta.terms.furtherterms.CaseTerm#getResultTerms &lt;em&gt;Result Terms&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the attribute list '&lt;em&gt;Result Terms&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.CaseTerm#getResultTerms()
+	 * @see #getCaseTerm()
+	 * @generated
+	 */
+	EAttribute getCaseTerm_ResultTerms();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.BagTerm &lt;em&gt;Bag Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Bag Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.BagTerm
+	 * @generated
+	 */
+	EClass getBagTerm();
+
+	/**
+	 * Returns the meta object for the reference list '{@link asmeta.terms.furtherterms.BagTerm#getTerm &lt;em&gt;Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference list '&lt;em&gt;Term&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.BagTerm#getTerm()
+	 * @see #getBagTerm()
+	 * @generated
+	 */
+	EReference getBagTerm_Term();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.BagCt &lt;em&gt;Bag Ct&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Bag Ct&lt;/em&gt;'.
+	 * @see asmeta.terms.furtherterms.BagCt
+	 * @generated
+	 */
+	EClass getBagCt();
+
+	/**
+	 * Returns the factory that creates the instances of the model.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the factory that creates the instances of the model.
+	 * @generated
+	 */
+	FurthertermsFactory getFurthertermsFactory();
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * Defines literals for the meta objects that represent
+	 * &lt;ul&gt;
+	 *   &lt;li&gt;each class,&lt;/li&gt;
+	 *   &lt;li&gt;each feature of each class,&lt;/li&gt;
+	 *   &lt;li&gt;each enum,&lt;/li&gt;
+	 *   &lt;li&gt;and each data type&lt;/li&gt;
+	 * &lt;/ul&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	interface Literals {
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.IntegerTermImpl &lt;em&gt;Integer Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.IntegerTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getIntegerTerm()
+		 * @generated
+		 */
+<span class="nc" id="L1891">		EClass INTEGER_TERM = eINSTANCE.getIntegerTerm();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.NaturalTermImpl &lt;em&gt;Natural Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.NaturalTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getNaturalTerm()
+		 * @generated
+		 */
+<span class="nc" id="L1901">		EClass NATURAL_TERM = eINSTANCE.getNaturalTerm();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.VariableBindingTermImpl &lt;em&gt;Variable Binding Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.VariableBindingTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getVariableBindingTerm()
+		 * @generated
+		 */
+<span class="nc" id="L1911">		EClass VARIABLE_BINDING_TERM = eINSTANCE.getVariableBindingTerm();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.StringTermImpl &lt;em&gt;String Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.StringTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getStringTerm()
+		 * @generated
+		 */
+<span class="nc" id="L1921">		EClass STRING_TERM = eINSTANCE.getStringTerm();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.SetCtImpl &lt;em&gt;Set Ct&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.SetCtImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getSetCt()
+		 * @generated
+		 */
+<span class="nc" id="L1931">		EClass SET_CT = eINSTANCE.getSetCt();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.SequenceTermImpl &lt;em&gt;Sequence Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.SequenceTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getSequenceTerm()
+		 * @generated
+		 */
+<span class="nc" id="L1941">		EClass SEQUENCE_TERM = eINSTANCE.getSequenceTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Terms&lt;/b&gt;&lt;/em&gt;' attribute list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L1949">		EAttribute SEQUENCE_TERM__TERMS = eINSTANCE.getSequenceTerm_Terms();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.SequenceCtImpl &lt;em&gt;Sequence Ct&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.SequenceCtImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getSequenceCt()
+		 * @generated
+		 */
+<span class="nc" id="L1959">		EClass SEQUENCE_CT = eINSTANCE.getSequenceCt();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.RealTermImpl &lt;em&gt;Real Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.RealTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getRealTerm()
+		 * @generated
+		 */
+<span class="nc" id="L1969">		EClass REAL_TERM = eINSTANCE.getRealTerm();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.MapTermImpl &lt;em&gt;Map Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.MapTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getMapTerm()
+		 * @generated
+		 */
+<span class="nc" id="L1979">		EClass MAP_TERM = eINSTANCE.getMapTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Pair&lt;/b&gt;&lt;/em&gt;' reference list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L1987">		EReference MAP_TERM__PAIR = eINSTANCE.getMapTerm_Pair();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.MapCtImpl &lt;em&gt;Map Ct&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.MapCtImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getMapCt()
+		 * @generated
+		 */
+<span class="nc" id="L1997">		EClass MAP_CT = eINSTANCE.getMapCt();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.LetTermImpl &lt;em&gt;Let Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.LetTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getLetTerm()
+		 * @generated
+		 */
+<span class="nc" id="L2007">		EClass LET_TERM = eINSTANCE.getLetTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2015">		EReference LET_TERM__VARIABLE = eINSTANCE.getLetTerm_Variable();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Assignment Term&lt;/b&gt;&lt;/em&gt;' reference list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2023">		EReference LET_TERM__ASSIGNMENT_TERM = eINSTANCE.getLetTerm_AssignmentTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Body&lt;/b&gt;&lt;/em&gt;' reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2031">		EReference LET_TERM__BODY = eINSTANCE.getLetTerm_Body();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.ForallTermImpl &lt;em&gt;Forall Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.ForallTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getForallTerm()
+		 * @generated
+		 */
+<span class="nc" id="L2041">		EClass FORALL_TERM = eINSTANCE.getForallTerm();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.FiniteQuantificationTermImpl &lt;em&gt;Finite Quantification Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.FiniteQuantificationTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getFiniteQuantificationTerm()
+		 * @generated
+		 */
+<span class="nc" id="L2051">		EClass FINITE_QUANTIFICATION_TERM = eINSTANCE.getFiniteQuantificationTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2059">		EReference FINITE_QUANTIFICATION_TERM__VARIABLE = eINSTANCE.getFiniteQuantificationTerm_Variable();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2067">		EReference FINITE_QUANTIFICATION_TERM__GUARD = eINSTANCE.getFiniteQuantificationTerm_Guard();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Ranges&lt;/b&gt;&lt;/em&gt;' attribute list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2075">		EAttribute FINITE_QUANTIFICATION_TERM__RANGES = eINSTANCE.getFiniteQuantificationTerm_Ranges();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.ExistUniqueTermImpl &lt;em&gt;Exist Unique Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.ExistUniqueTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getExistUniqueTerm()
+		 * @generated
+		 */
+<span class="nc" id="L2085">		EClass EXIST_UNIQUE_TERM = eINSTANCE.getExistUniqueTerm();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.ExistTermImpl &lt;em&gt;Exist Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.ExistTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getExistTerm()
+		 * @generated
+		 */
+<span class="nc" id="L2095">		EClass EXIST_TERM = eINSTANCE.getExistTerm();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.EnumTermImpl &lt;em&gt;Enum Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.EnumTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getEnumTerm()
+		 * @generated
+		 */
+<span class="nc" id="L2105">		EClass ENUM_TERM = eINSTANCE.getEnumTerm();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.ConditionalTermImpl &lt;em&gt;Conditional Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.ConditionalTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getConditionalTerm()
+		 * @generated
+		 */
+<span class="nc" id="L2115">		EClass CONDITIONAL_TERM = eINSTANCE.getConditionalTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Else Term&lt;/b&gt;&lt;/em&gt;' reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2123">		EReference CONDITIONAL_TERM__ELSE_TERM = eINSTANCE.getConditionalTerm_ElseTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2131">		EReference CONDITIONAL_TERM__GUARD = eINSTANCE.getConditionalTerm_Guard();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Then Term&lt;/b&gt;&lt;/em&gt;' reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2139">		EReference CONDITIONAL_TERM__THEN_TERM = eINSTANCE.getConditionalTerm_ThenTerm();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.ComprehensionTermImpl &lt;em&gt;Comprehension Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.ComprehensionTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getComprehensionTerm()
+		 * @generated
+		 */
+<span class="nc" id="L2149">		EClass COMPREHENSION_TERM = eINSTANCE.getComprehensionTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Variable&lt;/b&gt;&lt;/em&gt;' containment reference list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2157">		EReference COMPREHENSION_TERM__VARIABLE = eINSTANCE.getComprehensionTerm_Variable();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2165">		EReference COMPREHENSION_TERM__GUARD = eINSTANCE.getComprehensionTerm_Guard();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Term&lt;/b&gt;&lt;/em&gt;' reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2173">		EReference COMPREHENSION_TERM__TERM = eINSTANCE.getComprehensionTerm_Term();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Ranges&lt;/b&gt;&lt;/em&gt;' attribute list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2181">		EAttribute COMPREHENSION_TERM__RANGES = eINSTANCE.getComprehensionTerm_Ranges();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.ComplexTermImpl &lt;em&gt;Complex Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.ComplexTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getComplexTerm()
+		 * @generated
+		 */
+<span class="nc" id="L2191">		EClass COMPLEX_TERM = eINSTANCE.getComplexTerm();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.CharTermImpl &lt;em&gt;Char Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.CharTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getCharTerm()
+		 * @generated
+		 */
+<span class="nc" id="L2201">		EClass CHAR_TERM = eINSTANCE.getCharTerm();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.CaseTermImpl &lt;em&gt;Case Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.CaseTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getCaseTerm()
+		 * @generated
+		 */
+<span class="nc" id="L2211">		EClass CASE_TERM = eINSTANCE.getCaseTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Comparing Term&lt;/b&gt;&lt;/em&gt;' reference list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2219">		EReference CASE_TERM__COMPARING_TERM = eINSTANCE.getCaseTerm_ComparingTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Compared Term&lt;/b&gt;&lt;/em&gt;' reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2227">		EReference CASE_TERM__COMPARED_TERM = eINSTANCE.getCaseTerm_ComparedTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Otherwise Term&lt;/b&gt;&lt;/em&gt;' reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2235">		EReference CASE_TERM__OTHERWISE_TERM = eINSTANCE.getCaseTerm_OtherwiseTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Result Terms&lt;/b&gt;&lt;/em&gt;' attribute list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2243">		EAttribute CASE_TERM__RESULT_TERMS = eINSTANCE.getCaseTerm_ResultTerms();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.BagTermImpl &lt;em&gt;Bag Term&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.BagTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getBagTerm()
+		 * @generated
+		 */
+<span class="nc" id="L2253">		EClass BAG_TERM = eINSTANCE.getBagTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Term&lt;/b&gt;&lt;/em&gt;' reference list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L2261">		EReference BAG_TERM__TERM = eINSTANCE.getBagTerm_Term();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.BagCtImpl &lt;em&gt;Bag Ct&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.terms.furtherterms.impl.BagCtImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getBagCt()
+		 * @generated
+		 */
+<span class="nc" id="L2271">		EClass BAG_CT = eINSTANCE.getBagCt();</span>
+
+	}
+
+} //FurthertermsPackage
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

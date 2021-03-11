@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>BasictermsAdapterFactory.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.terms.basicterms.util</a> &gt; <span class="el_source">BasictermsAdapterFactory.java</span></div><h1>BasictermsAdapterFactory.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.terms.basicterms.util;
+
+import asmeta.terms.basicterms.*;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+import org.eclipse.emf.ecore.EObject;
+
+import asmeta.terms.basicterms.BasicTerm;
+import asmeta.terms.basicterms.BasictermsPackage;
+import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.CollectionTerm;
+import asmeta.terms.basicterms.ConstantTerm;
+import asmeta.terms.basicterms.DomainTerm;
+import asmeta.terms.basicterms.ExtendedTerm;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.RuleAsTerm;
+import asmeta.terms.basicterms.SetTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.UndefTerm;
+import asmeta.terms.basicterms.VariableTerm;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * The &lt;b&gt;Adapter Factory&lt;/b&gt; for the model.
+ * It provides an adapter &lt;code&gt;createXXX&lt;/code&gt; method for each class of the model.
+ * &lt;!-- end-user-doc --&gt;
+ * @see asmeta.terms.basicterms.BasictermsPackage
+ * @generated
+ */
+public class BasictermsAdapterFactory extends AdapterFactoryImpl {
+	/**
+	 * The cached model package.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected static BasictermsPackage modelPackage;
+
+	/**
+	 * Creates an instance of the adapter factory.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="nc" id="L54">	public BasictermsAdapterFactory() {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">		if (modelPackage == null) {</span>
+<span class="nc" id="L56">			modelPackage = BasictermsPackage.eINSTANCE;</span>
+		}
+<span class="nc" id="L58">	}</span>
+
+	/**
+	 * Returns whether this factory is applicable for the type of the object.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns &lt;code&gt;true&lt;/code&gt; if the object is either the model's package or is an instance object of the model.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return whether this factory is applicable for the type of the object.
+	 * @generated
+	 */
+	@Override
+	public boolean isFactoryForType(Object object) {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">		if (object == modelPackage) {</span>
+<span class="nc" id="L71">			return true;</span>
+		}
+<span class="nc bnc" id="L73" title="All 2 branches missed.">		if (object instanceof EObject) {</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">			return ((EObject)object).eClass().getEPackage() == modelPackage;</span>
+		}
+<span class="nc" id="L76">		return false;</span>
+	}
+
+	/**
+	 * The switch that delegates to the &lt;code&gt;createXXX&lt;/code&gt; methods.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="nc" id="L85">	protected BasictermsSwitch&lt;Adapter&gt; modelSwitch =</span>
+<span class="nc" id="L86">		new BasictermsSwitch&lt;Adapter&gt;() {</span>
+			@Override
+			public Adapter caseVariableTerm(VariableTerm object) {
+<span class="nc" id="L89">				return createVariableTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseUndefTerm(UndefTerm object) {
+<span class="nc" id="L93">				return createUndefTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseTupleTerm(TupleTerm object) {
+<span class="nc" id="L97">				return createTupleTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseSetTerm(SetTerm object) {
+<span class="nc" id="L101">				return createSetTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseRuleAsTerm(RuleAsTerm object) {
+<span class="nc" id="L105">				return createRuleAsTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseLocationTerm(LocationTerm object) {
+<span class="nc" id="L109">				return createLocationTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseFunctionTerm(FunctionTerm object) {
+<span class="nc" id="L113">				return createFunctionTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseExtendedTerm(ExtendedTerm object) {
+<span class="nc" id="L117">				return createExtendedTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseDomainTerm(DomainTerm object) {
+<span class="nc" id="L121">				return createDomainTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseConstantTerm(ConstantTerm object) {
+<span class="nc" id="L125">				return createConstantTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseCollectionTerm(CollectionTerm object) {
+<span class="nc" id="L129">				return createCollectionTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseBooleanTerm(BooleanTerm object) {
+<span class="nc" id="L133">				return createBooleanTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseBasicTerm(BasicTerm object) {
+<span class="nc" id="L137">				return createBasicTermAdapter();</span>
+			}
+			@Override
+			public Adapter caseTerm(Term object) {
+<span class="nc" id="L141">				return createTermAdapter();</span>
+			}
+			@Override
+			public Adapter defaultCase(EObject object) {
+<span class="nc" id="L145">				return createEObjectAdapter();</span>
+			}
+		};
+
+	/**
+	 * Creates an adapter for the &lt;code&gt;target&lt;/code&gt;.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param target the object to adapt.
+	 * @return the adapter for the &lt;code&gt;target&lt;/code&gt;.
+	 * @generated
+	 */
+	@Override
+	public Adapter createAdapter(Notifier target) {
+<span class="nc" id="L159">		return modelSwitch.doSwitch((EObject)target);</span>
+	}
+
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.VariableTerm &lt;em&gt;Variable Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.VariableTerm
+	 * @generated
+	 */
+	public Adapter createVariableTermAdapter() {
+<span class="nc" id="L174">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.UndefTerm &lt;em&gt;Undef Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.UndefTerm
+	 * @generated
+	 */
+	public Adapter createUndefTermAdapter() {
+<span class="nc" id="L188">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.TupleTerm &lt;em&gt;Tuple Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.TupleTerm
+	 * @generated
+	 */
+	public Adapter createTupleTermAdapter() {
+<span class="nc" id="L202">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.SetTerm &lt;em&gt;Set Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.SetTerm
+	 * @generated
+	 */
+	public Adapter createSetTermAdapter() {
+<span class="nc" id="L216">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.RuleAsTerm &lt;em&gt;Rule As Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.RuleAsTerm
+	 * @generated
+	 */
+	public Adapter createRuleAsTermAdapter() {
+<span class="nc" id="L230">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.LocationTerm &lt;em&gt;Location Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.LocationTerm
+	 * @generated
+	 */
+	public Adapter createLocationTermAdapter() {
+<span class="nc" id="L244">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.FunctionTerm &lt;em&gt;Function Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.FunctionTerm
+	 * @generated
+	 */
+	public Adapter createFunctionTermAdapter() {
+<span class="nc" id="L258">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.ExtendedTerm &lt;em&gt;Extended Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.ExtendedTerm
+	 * @generated
+	 */
+	public Adapter createExtendedTermAdapter() {
+<span class="nc" id="L272">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.DomainTerm &lt;em&gt;Domain Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.DomainTerm
+	 * @generated
+	 */
+	public Adapter createDomainTermAdapter() {
+<span class="nc" id="L286">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.ConstantTerm &lt;em&gt;Constant Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.ConstantTerm
+	 * @generated
+	 */
+	public Adapter createConstantTermAdapter() {
+<span class="nc" id="L300">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.CollectionTerm &lt;em&gt;Collection Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.CollectionTerm
+	 * @generated
+	 */
+	public Adapter createCollectionTermAdapter() {
+<span class="nc" id="L314">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.BooleanTerm &lt;em&gt;Boolean Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.BooleanTerm
+	 * @generated
+	 */
+	public Adapter createBooleanTermAdapter() {
+<span class="nc" id="L328">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.BasicTerm &lt;em&gt;Basic Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.BasicTerm
+	 * @generated
+	 */
+	public Adapter createBasicTermAdapter() {
+<span class="nc" id="L342">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.Term &lt;em&gt;Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.terms.basicterms.Term
+	 * @generated
+	 */
+	public Adapter createTermAdapter() {
+<span class="nc" id="L356">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for the default case.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @generated
+	 */
+	public Adapter createEObjectAdapter() {
+<span class="nc" id="L368">		return null;</span>
+	}
+
+} //BasictermsAdapterFactory
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

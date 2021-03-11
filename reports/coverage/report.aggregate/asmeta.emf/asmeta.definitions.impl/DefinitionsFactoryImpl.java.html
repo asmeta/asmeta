@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>DefinitionsFactoryImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.definitions.impl</a> &gt; <span class="el_source">DefinitionsFactoryImpl.java</span></div><h1>DefinitionsFactoryImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.definitions.impl;
+
+import asmeta.definitions.*;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import asmeta.definitions.CompassionConstraint;
+import asmeta.definitions.ControlledFunction;
+import asmeta.definitions.CtlSpec;
+import asmeta.definitions.DefinitionsFactory;
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.DerivedFunction;
+import asmeta.definitions.InvarConstraint;
+import asmeta.definitions.Invariant;
+import asmeta.definitions.JusticeConstraint;
+import asmeta.definitions.LocalFunction;
+import asmeta.definitions.LtlSpec;
+import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.OutFunction;
+import asmeta.definitions.Property;
+import asmeta.definitions.SharedFunction;
+import asmeta.definitions.StaticFunction;
+import asmeta.definitions.domains.DomainsFactory;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model &lt;b&gt;Factory&lt;/b&gt;.
+ * &lt;!-- end-user-doc --&gt;
+ * @generated
+ */
+public class DefinitionsFactoryImpl extends EFactoryImpl implements DefinitionsFactory {
+	/**
+	 * Creates the default factory implementation.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public static DefinitionsFactory init() {
+		try {
+<span class="fc" id="L49">			DefinitionsFactory theDefinitionsFactory = (DefinitionsFactory)EPackage.Registry.INSTANCE.getEFactory(DefinitionsPackage.eNS_URI);</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">			if (theDefinitionsFactory != null) {</span>
+<span class="nc" id="L51">				return theDefinitionsFactory;</span>
+			}
+		}
+<span class="nc" id="L54">		catch (Exception exception) {</span>
+<span class="nc" id="L55">			EcorePlugin.INSTANCE.log(exception);</span>
+<span class="fc" id="L56">		}</span>
+<span class="fc" id="L57">		return new DefinitionsFactoryImpl();</span>
+	}
+
+	/**
+	 * Creates an instance of the factory.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public DefinitionsFactoryImpl() {
+<span class="fc" id="L67">		super();</span>
+<span class="fc" id="L68">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EObject create(EClass eClass) {
+<span class="nc bnc" id="L77" title="All 15 branches missed.">		switch (eClass.getClassifierID()) {</span>
+<span class="nc" id="L78">			case DefinitionsPackage.LOCAL_FUNCTION: return createLocalFunction();</span>
+<span class="nc" id="L79">			case DefinitionsPackage.CONTROLLED_FUNCTION: return createControlledFunction();</span>
+<span class="nc" id="L80">			case DefinitionsPackage.SHARED_FUNCTION: return createSharedFunction();</span>
+<span class="nc" id="L81">			case DefinitionsPackage.MONITORED_FUNCTION: return createMonitoredFunction();</span>
+<span class="nc" id="L82">			case DefinitionsPackage.OUT_FUNCTION: return createOutFunction();</span>
+<span class="nc" id="L83">			case DefinitionsPackage.STATIC_FUNCTION: return createStaticFunction();</span>
+<span class="nc" id="L84">			case DefinitionsPackage.DERIVED_FUNCTION: return createDerivedFunction();</span>
+<span class="nc" id="L85">			case DefinitionsPackage.INVARIANT: return createInvariant();</span>
+<span class="nc" id="L86">			case DefinitionsPackage.PROPERTY: return createProperty();</span>
+<span class="nc" id="L87">			case DefinitionsPackage.CTL_SPEC: return createCtlSpec();</span>
+<span class="nc" id="L88">			case DefinitionsPackage.LTL_SPEC: return createLtlSpec();</span>
+<span class="nc" id="L89">			case DefinitionsPackage.INVAR_CONSTRAINT: return createInvarConstraint();</span>
+<span class="nc" id="L90">			case DefinitionsPackage.JUSTICE_CONSTRAINT: return createJusticeConstraint();</span>
+<span class="nc" id="L91">			case DefinitionsPackage.COMPASSION_CONSTRAINT: return createCompassionConstraint();</span>
+			default:
+<span class="nc" id="L93">				throw new IllegalArgumentException(&quot;The class '&quot; + eClass.getName() + &quot;' is not a valid classifier&quot;);</span>
+		}
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public LocalFunction createLocalFunction() {
+<span class="fc" id="L104">		LocalFunctionImpl localFunction = new LocalFunctionImpl();</span>
+<span class="fc" id="L105">		return localFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public ControlledFunction createControlledFunction() {
+<span class="fc" id="L115">		ControlledFunctionImpl controlledFunction = new ControlledFunctionImpl();</span>
+<span class="fc" id="L116">		return controlledFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public SharedFunction createSharedFunction() {
+<span class="fc" id="L126">		SharedFunctionImpl sharedFunction = new SharedFunctionImpl();</span>
+<span class="fc" id="L127">		return sharedFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public MonitoredFunction createMonitoredFunction() {
+<span class="fc" id="L137">		MonitoredFunctionImpl monitoredFunction = new MonitoredFunctionImpl();</span>
+<span class="fc" id="L138">		return monitoredFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public OutFunction createOutFunction() {
+<span class="fc" id="L148">		OutFunctionImpl outFunction = new OutFunctionImpl();</span>
+<span class="fc" id="L149">		return outFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public StaticFunction createStaticFunction() {
+<span class="fc" id="L159">		StaticFunctionImpl staticFunction = new StaticFunctionImpl();</span>
+<span class="fc" id="L160">		return staticFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public DerivedFunction createDerivedFunction() {
+<span class="fc" id="L170">		DerivedFunctionImpl derivedFunction = new DerivedFunctionImpl();</span>
+<span class="fc" id="L171">		return derivedFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Invariant createInvariant() {
+<span class="fc" id="L181">		InvariantImpl invariant = new InvariantImpl();</span>
+<span class="fc" id="L182">		return invariant;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Property createProperty() {
+<span class="nc" id="L192">		PropertyImpl property = new PropertyImpl();</span>
+<span class="nc" id="L193">		return property;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public CtlSpec createCtlSpec() {
+<span class="fc" id="L203">		CtlSpecImpl ctlSpec = new CtlSpecImpl();</span>
+<span class="fc" id="L204">		return ctlSpec;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public LtlSpec createLtlSpec() {
+<span class="fc" id="L214">		LtlSpecImpl ltlSpec = new LtlSpecImpl();</span>
+<span class="fc" id="L215">		return ltlSpec;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public InvarConstraint createInvarConstraint() {
+<span class="nc" id="L225">		InvarConstraintImpl invarConstraint = new InvarConstraintImpl();</span>
+<span class="nc" id="L226">		return invarConstraint;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public JusticeConstraint createJusticeConstraint() {
+<span class="fc" id="L236">		JusticeConstraintImpl justiceConstraint = new JusticeConstraintImpl();</span>
+<span class="fc" id="L237">		return justiceConstraint;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public CompassionConstraint createCompassionConstraint() {
+<span class="nc" id="L247">		CompassionConstraintImpl compassionConstraint = new CompassionConstraintImpl();</span>
+<span class="nc" id="L248">		return compassionConstraint;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public DefinitionsPackage getDefinitionsPackage() {
+<span class="nc" id="L258">		return (DefinitionsPackage)getEPackage();</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @deprecated
+	 * @generated
+	 */
+	@Deprecated
+	public static DefinitionsPackage getPackage() {
+<span class="nc" id="L269">		return DefinitionsPackage.eINSTANCE;</span>
+	}
+
+	/** scritto da AG */
+	@Override
+	public DomainsFactory getDomains() {
+<span class="fc" id="L275">		return DomainsFactory.eINSTANCE;	</span>
+	}
+
+} //DefinitionsFactoryImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

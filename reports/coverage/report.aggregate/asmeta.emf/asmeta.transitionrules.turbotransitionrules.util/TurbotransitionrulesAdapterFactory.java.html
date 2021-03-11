@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>TurbotransitionrulesAdapterFactory.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.turbotransitionrules.util</a> &gt; <span class="el_source">TurbotransitionrulesAdapterFactory.java</span></div><h1>TurbotransitionrulesAdapterFactory.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.turbotransitionrules.util;
+
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+import org.eclipse.emf.ecore.EObject;
+
+import asmeta.definitions.Classifier;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.structure.NamedElement;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.turbotransitionrules.*;
+import asmeta.transitionrules.turbotransitionrules.IterateRule;
+import asmeta.transitionrules.turbotransitionrules.SeqRule;
+import asmeta.transitionrules.turbotransitionrules.TryCatchRule;
+import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
+import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
+import asmeta.transitionrules.turbotransitionrules.TurboLocalStateRule;
+import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
+import asmeta.transitionrules.turbotransitionrules.TurboRule;
+import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * The &lt;b&gt;Adapter Factory&lt;/b&gt; for the model.
+ * It provides an adapter &lt;code&gt;createXXX&lt;/code&gt; method for each class of the model.
+ * &lt;!-- end-user-doc --&gt;
+ * @see asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage
+ * @generated
+ */
+public class TurbotransitionrulesAdapterFactory extends AdapterFactoryImpl {
+	/**
+	 * The cached model package.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected static TurbotransitionrulesPackage modelPackage;
+
+	/**
+	 * Creates an instance of the adapter factory.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="nc" id="L52">	public TurbotransitionrulesAdapterFactory() {</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">		if (modelPackage == null) {</span>
+<span class="nc" id="L54">			modelPackage = TurbotransitionrulesPackage.eINSTANCE;</span>
+		}
+<span class="nc" id="L56">	}</span>
+
+	/**
+	 * Returns whether this factory is applicable for the type of the object.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns &lt;code&gt;true&lt;/code&gt; if the object is either the model's package or is an instance object of the model.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return whether this factory is applicable for the type of the object.
+	 * @generated
+	 */
+	@Override
+	public boolean isFactoryForType(Object object) {
+<span class="nc bnc" id="L68" title="All 2 branches missed.">		if (object == modelPackage) {</span>
+<span class="nc" id="L69">			return true;</span>
+		}
+<span class="nc bnc" id="L71" title="All 2 branches missed.">		if (object instanceof EObject) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">			return ((EObject)object).eClass().getEPackage() == modelPackage;</span>
+		}
+<span class="nc" id="L74">		return false;</span>
+	}
+
+	/**
+	 * The switch that delegates to the &lt;code&gt;createXXX&lt;/code&gt; methods.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="nc" id="L83">	protected TurbotransitionrulesSwitch&lt;Adapter&gt; modelSwitch =</span>
+<span class="nc" id="L84">		new TurbotransitionrulesSwitch&lt;Adapter&gt;() {</span>
+			@Override
+			public Adapter caseTurboRule(TurboRule object) {
+<span class="nc" id="L87">				return createTurboRuleAdapter();</span>
+			}
+			@Override
+			public Adapter caseTurboDeclaration(TurboDeclaration object) {
+<span class="nc" id="L91">				return createTurboDeclarationAdapter();</span>
+			}
+			@Override
+			public Adapter caseSeqRule(SeqRule object) {
+<span class="nc" id="L95">				return createSeqRuleAdapter();</span>
+			}
+			@Override
+			public Adapter caseTurboLocalStateRule(TurboLocalStateRule object) {
+<span class="nc" id="L99">				return createTurboLocalStateRuleAdapter();</span>
+			}
+			@Override
+			public Adapter caseTurboCallRule(TurboCallRule object) {
+<span class="nc" id="L103">				return createTurboCallRuleAdapter();</span>
+			}
+			@Override
+			public Adapter caseTurboReturnRule(TurboReturnRule object) {
+<span class="nc" id="L107">				return createTurboReturnRuleAdapter();</span>
+			}
+			@Override
+			public Adapter caseTryCatchRule(TryCatchRule object) {
+<span class="nc" id="L111">				return createTryCatchRuleAdapter();</span>
+			}
+			@Override
+			public Adapter caseIterateRule(IterateRule object) {
+<span class="nc" id="L115">				return createIterateRuleAdapter();</span>
+			}
+			@Override
+			public Adapter caseRule(Rule object) {
+<span class="nc" id="L119">				return createRuleAdapter();</span>
+			}
+			@Override
+			public Adapter caseNamedElement(NamedElement object) {
+<span class="nc" id="L123">				return createNamedElementAdapter();</span>
+			}
+			@Override
+			public Adapter caseClassifier(Classifier object) {
+<span class="nc" id="L127">				return createClassifierAdapter();</span>
+			}
+			@Override
+			public Adapter caseRuleDeclaration(RuleDeclaration object) {
+<span class="nc" id="L131">				return createRuleDeclarationAdapter();</span>
+			}
+			@Override
+			public Adapter defaultCase(EObject object) {
+<span class="nc" id="L135">				return createEObjectAdapter();</span>
+			}
+		};
+
+	/**
+	 * Creates an adapter for the &lt;code&gt;target&lt;/code&gt;.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param target the object to adapt.
+	 * @return the adapter for the &lt;code&gt;target&lt;/code&gt;.
+	 * @generated
+	 */
+	@Override
+	public Adapter createAdapter(Notifier target) {
+<span class="nc" id="L149">		return modelSwitch.doSwitch((EObject)target);</span>
+	}
+
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.transitionrules.turbotransitionrules.TurboRule &lt;em&gt;Turbo Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.transitionrules.turbotransitionrules.TurboRule
+	 * @generated
+	 */
+	public Adapter createTurboRuleAdapter() {
+<span class="nc" id="L164">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.transitionrules.turbotransitionrules.TurboDeclaration &lt;em&gt;Turbo Declaration&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.transitionrules.turbotransitionrules.TurboDeclaration
+	 * @generated
+	 */
+	public Adapter createTurboDeclarationAdapter() {
+<span class="nc" id="L178">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.transitionrules.turbotransitionrules.SeqRule &lt;em&gt;Seq Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.transitionrules.turbotransitionrules.SeqRule
+	 * @generated
+	 */
+	public Adapter createSeqRuleAdapter() {
+<span class="nc" id="L192">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.transitionrules.turbotransitionrules.TurboLocalStateRule &lt;em&gt;Turbo Local State Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.transitionrules.turbotransitionrules.TurboLocalStateRule
+	 * @generated
+	 */
+	public Adapter createTurboLocalStateRuleAdapter() {
+<span class="nc" id="L206">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.transitionrules.turbotransitionrules.TurboCallRule &lt;em&gt;Turbo Call Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.transitionrules.turbotransitionrules.TurboCallRule
+	 * @generated
+	 */
+	public Adapter createTurboCallRuleAdapter() {
+<span class="nc" id="L220">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.transitionrules.turbotransitionrules.TurboReturnRule &lt;em&gt;Turbo Return Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.transitionrules.turbotransitionrules.TurboReturnRule
+	 * @generated
+	 */
+	public Adapter createTurboReturnRuleAdapter() {
+<span class="nc" id="L234">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.transitionrules.turbotransitionrules.TryCatchRule &lt;em&gt;Try Catch Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.transitionrules.turbotransitionrules.TryCatchRule
+	 * @generated
+	 */
+	public Adapter createTryCatchRuleAdapter() {
+<span class="nc" id="L248">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.transitionrules.turbotransitionrules.IterateRule &lt;em&gt;Iterate Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.transitionrules.turbotransitionrules.IterateRule
+	 * @generated
+	 */
+	public Adapter createIterateRuleAdapter() {
+<span class="nc" id="L262">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.transitionrules.basictransitionrules.Rule &lt;em&gt;Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.transitionrules.basictransitionrules.Rule
+	 * @generated
+	 */
+	public Adapter createRuleAdapter() {
+<span class="nc" id="L276">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.structure.NamedElement &lt;em&gt;Named Element&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.structure.NamedElement
+	 * @generated
+	 */
+	public Adapter createNamedElementAdapter() {
+<span class="nc" id="L290">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.Classifier &lt;em&gt;Classifier&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.Classifier
+	 * @generated
+	 */
+	public Adapter createClassifierAdapter() {
+<span class="nc" id="L304">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.RuleDeclaration &lt;em&gt;Rule Declaration&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.RuleDeclaration
+	 * @generated
+	 */
+	public Adapter createRuleDeclarationAdapter() {
+<span class="nc" id="L318">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for the default case.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @generated
+	 */
+	public Adapter createEObjectAdapter() {
+<span class="nc" id="L330">		return null;</span>
+	}
+
+} //TurbotransitionrulesAdapterFactory
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

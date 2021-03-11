@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>InvariantImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.definitions.impl</a> &gt; <span class="el_source">InvariantImpl.java</span></div><h1>InvariantImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.definitions.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.Function;
+import asmeta.definitions.Invariant;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.DomainsPackage;
+import asmeta.terms.basicterms.Term;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Invariant&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.impl.InvariantImpl#getConstrainedDomain &lt;em&gt;Constrained Domain&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.impl.InvariantImpl#getConstrainedRule &lt;em&gt;Constrained Rule&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.impl.InvariantImpl#getConstrainedFunction &lt;em&gt;Constrained Function&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.impl.InvariantImpl#getBody &lt;em&gt;Body&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class InvariantImpl extends PropertyImpl implements Invariant {
+	/**
+	 * The cached value of the '{@link #getConstrainedDomain() &lt;em&gt;Constrained Domain&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getConstrainedDomain()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;Domain&gt; constrainedDomain;
+
+	/**
+	 * The cached value of the '{@link #getConstrainedRule() &lt;em&gt;Constrained Rule&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getConstrainedRule()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;RuleDeclaration&gt; constrainedRule;
+
+	/**
+	 * The cached value of the '{@link #getConstrainedFunction() &lt;em&gt;Constrained Function&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getConstrainedFunction()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;Function&gt; constrainedFunction;
+
+	/**
+	 * The cached value of the '{@link #getBody() &lt;em&gt;Body&lt;/em&gt;}' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getBody()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term body;
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected InvariantImpl() {
+<span class="fc" id="L91">		super();</span>
+<span class="fc" id="L92">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L101">		return DefinitionsPackage.Literals.INVARIANT;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;Domain&gt; getConstrainedDomain() {
+<span class="fc bfc" id="L111" title="All 2 branches covered.">		if (constrainedDomain == null) {</span>
+<span class="fc" id="L112">			constrainedDomain = new EObjectWithInverseResolvingEList.ManyInverse&lt;Domain&gt;(Domain.class, this, DefinitionsPackage.INVARIANT__CONSTRAINED_DOMAIN, DomainsPackage.DOMAIN__CONSTRAINT);</span>
+		}
+<span class="fc" id="L114">		return constrainedDomain;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;RuleDeclaration&gt; getConstrainedRule() {
+<span class="fc bfc" id="L124" title="All 2 branches covered.">		if (constrainedRule == null) {</span>
+<span class="fc" id="L125">			constrainedRule = new EObjectWithInverseResolvingEList.ManyInverse&lt;RuleDeclaration&gt;(RuleDeclaration.class, this, DefinitionsPackage.INVARIANT__CONSTRAINED_RULE, DefinitionsPackage.RULE_DECLARATION__CONSTRAINT);</span>
+		}
+<span class="fc" id="L127">		return constrainedRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;Function&gt; getConstrainedFunction() {
+<span class="fc bfc" id="L137" title="All 2 branches covered.">		if (constrainedFunction == null) {</span>
+<span class="fc" id="L138">			constrainedFunction = new EObjectWithInverseResolvingEList.ManyInverse&lt;Function&gt;(Function.class, this, DefinitionsPackage.INVARIANT__CONSTRAINED_FUNCTION, DefinitionsPackage.FUNCTION__CONSTRAINT);</span>
+		}
+<span class="fc" id="L140">		return constrainedFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getBody() {
+<span class="fc" id="L150">		return body;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetBody(Term newBody, NotificationChain msgs) {
+<span class="fc" id="L159">		Term oldBody = body;</span>
+<span class="fc" id="L160">		body = newBody;</span>
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L162">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DefinitionsPackage.INVARIANT__BODY, oldBody, newBody);</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L165">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setBody(Term newBody) {
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">		if (newBody != body) {</span>
+<span class="fc" id="L176">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">			if (body != null)</span>
+<span class="nc" id="L178">				msgs = ((InternalEObject)body).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - DefinitionsPackage.INVARIANT__BODY, null, msgs);</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">			if (newBody != null)</span>
+<span class="fc" id="L180">				msgs = ((InternalEObject)newBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - DefinitionsPackage.INVARIANT__BODY, null, msgs);</span>
+<span class="fc" id="L181">			msgs = basicSetBody(newBody, msgs);</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L183">		}</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L185">			eNotify(new ENotificationImpl(this, Notification.SET, DefinitionsPackage.INVARIANT__BODY, newBody, newBody));</span>
+<span class="fc" id="L186">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L196" title="All 4 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_DOMAIN:
+<span class="nc" id="L198">				return ((InternalEList&lt;InternalEObject&gt;)(InternalEList&lt;?&gt;)getConstrainedDomain()).basicAdd(otherEnd, msgs);</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_RULE:
+<span class="nc" id="L200">				return ((InternalEList&lt;InternalEObject&gt;)(InternalEList&lt;?&gt;)getConstrainedRule()).basicAdd(otherEnd, msgs);</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_FUNCTION:
+<span class="nc" id="L202">				return ((InternalEList&lt;InternalEObject&gt;)(InternalEList&lt;?&gt;)getConstrainedFunction()).basicAdd(otherEnd, msgs);</span>
+		}
+<span class="nc" id="L204">		return super.eInverseAdd(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L214" title="All 5 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_DOMAIN:
+<span class="nc" id="L216">				return ((InternalEList&lt;?&gt;)getConstrainedDomain()).basicRemove(otherEnd, msgs);</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_RULE:
+<span class="nc" id="L218">				return ((InternalEList&lt;?&gt;)getConstrainedRule()).basicRemove(otherEnd, msgs);</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_FUNCTION:
+<span class="nc" id="L220">				return ((InternalEList&lt;?&gt;)getConstrainedFunction()).basicRemove(otherEnd, msgs);</span>
+			case DefinitionsPackage.INVARIANT__BODY:
+<span class="nc" id="L222">				return basicSetBody(null, msgs);</span>
+		}
+<span class="nc" id="L224">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L234" title="All 5 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_DOMAIN:
+<span class="nc" id="L236">				return getConstrainedDomain();</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_RULE:
+<span class="nc" id="L238">				return getConstrainedRule();</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_FUNCTION:
+<span class="nc" id="L240">				return getConstrainedFunction();</span>
+			case DefinitionsPackage.INVARIANT__BODY:
+<span class="nc" id="L242">				return getBody();</span>
+		}
+<span class="nc" id="L244">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L255" title="All 5 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_DOMAIN:
+<span class="nc" id="L257">				getConstrainedDomain().clear();</span>
+<span class="nc" id="L258">				getConstrainedDomain().addAll((Collection&lt;? extends Domain&gt;)newValue);</span>
+<span class="nc" id="L259">				return;</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_RULE:
+<span class="nc" id="L261">				getConstrainedRule().clear();</span>
+<span class="nc" id="L262">				getConstrainedRule().addAll((Collection&lt;? extends RuleDeclaration&gt;)newValue);</span>
+<span class="nc" id="L263">				return;</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_FUNCTION:
+<span class="nc" id="L265">				getConstrainedFunction().clear();</span>
+<span class="nc" id="L266">				getConstrainedFunction().addAll((Collection&lt;? extends Function&gt;)newValue);</span>
+<span class="nc" id="L267">				return;</span>
+			case DefinitionsPackage.INVARIANT__BODY:
+<span class="nc" id="L269">				setBody((Term)newValue);</span>
+<span class="nc" id="L270">				return;</span>
+		}
+<span class="nc" id="L272">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L273">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L282" title="All 5 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_DOMAIN:
+<span class="nc" id="L284">				getConstrainedDomain().clear();</span>
+<span class="nc" id="L285">				return;</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_RULE:
+<span class="nc" id="L287">				getConstrainedRule().clear();</span>
+<span class="nc" id="L288">				return;</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_FUNCTION:
+<span class="nc" id="L290">				getConstrainedFunction().clear();</span>
+<span class="nc" id="L291">				return;</span>
+			case DefinitionsPackage.INVARIANT__BODY:
+<span class="nc" id="L293">				setBody((Term)null);</span>
+<span class="nc" id="L294">				return;</span>
+		}
+<span class="nc" id="L296">		super.eUnset(featureID);</span>
+<span class="nc" id="L297">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L306" title="All 5 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_DOMAIN:
+<span class="nc bnc" id="L308" title="All 4 branches missed.">				return constrainedDomain != null &amp;&amp; !constrainedDomain.isEmpty();</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_RULE:
+<span class="nc bnc" id="L310" title="All 4 branches missed.">				return constrainedRule != null &amp;&amp; !constrainedRule.isEmpty();</span>
+			case DefinitionsPackage.INVARIANT__CONSTRAINED_FUNCTION:
+<span class="nc bnc" id="L312" title="All 4 branches missed.">				return constrainedFunction != null &amp;&amp; !constrainedFunction.isEmpty();</span>
+			case DefinitionsPackage.INVARIANT__BODY:
+<span class="nc bnc" id="L314" title="All 2 branches missed.">				return body != null;</span>
+		}
+<span class="nc" id="L316">		return super.eIsSet(featureID);</span>
+	}
+
+} //InvariantImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

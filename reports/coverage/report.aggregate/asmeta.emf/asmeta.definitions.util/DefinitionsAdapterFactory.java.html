@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>DefinitionsAdapterFactory.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.definitions.util</a> &gt; <span class="el_source">DefinitionsAdapterFactory.java</span></div><h1>DefinitionsAdapterFactory.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.definitions.util;
+
+import asmeta.definitions.*;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+import org.eclipse.emf.ecore.EObject;
+
+import asmeta.definitions.BasicFunction;
+import asmeta.definitions.Classifier;
+import asmeta.definitions.CompassionConstraint;
+import asmeta.definitions.ControlledFunction;
+import asmeta.definitions.CtlSpec;
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.DerivedFunction;
+import asmeta.definitions.DynamicFunction;
+import asmeta.definitions.FairnessConstraint;
+import asmeta.definitions.Function;
+import asmeta.definitions.InvarConstraint;
+import asmeta.definitions.Invariant;
+import asmeta.definitions.JusticeConstraint;
+import asmeta.definitions.LocalFunction;
+import asmeta.definitions.LtlSpec;
+import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.OutFunction;
+import asmeta.definitions.Property;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.SharedFunction;
+import asmeta.definitions.StaticFunction;
+import asmeta.definitions.TemporalProperty;
+import asmeta.structure.NamedElement;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * The &lt;b&gt;Adapter Factory&lt;/b&gt; for the model.
+ * It provides an adapter &lt;code&gt;createXXX&lt;/code&gt; method for each class of the model.
+ * &lt;!-- end-user-doc --&gt;
+ * @see asmeta.definitions.DefinitionsPackage
+ * @generated
+ */
+public class DefinitionsAdapterFactory extends AdapterFactoryImpl {
+	/**
+	 * The cached model package.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected static DefinitionsPackage modelPackage;
+
+	/**
+	 * Creates an instance of the adapter factory.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="nc" id="L62">	public DefinitionsAdapterFactory() {</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">		if (modelPackage == null) {</span>
+<span class="nc" id="L64">			modelPackage = DefinitionsPackage.eINSTANCE;</span>
+		}
+<span class="nc" id="L66">	}</span>
+
+	/**
+	 * Returns whether this factory is applicable for the type of the object.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns &lt;code&gt;true&lt;/code&gt; if the object is either the model's package or is an instance object of the model.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return whether this factory is applicable for the type of the object.
+	 * @generated
+	 */
+	@Override
+	public boolean isFactoryForType(Object object) {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">		if (object == modelPackage) {</span>
+<span class="nc" id="L79">			return true;</span>
+		}
+<span class="nc bnc" id="L81" title="All 2 branches missed.">		if (object instanceof EObject) {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">			return ((EObject)object).eClass().getEPackage() == modelPackage;</span>
+		}
+<span class="nc" id="L84">		return false;</span>
+	}
+
+	/**
+	 * The switch that delegates to the &lt;code&gt;createXXX&lt;/code&gt; methods.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="nc" id="L93">	protected DefinitionsSwitch&lt;Adapter&gt; modelSwitch =</span>
+<span class="nc" id="L94">		new DefinitionsSwitch&lt;Adapter&gt;() {</span>
+			@Override
+			public Adapter caseRuleDeclaration(RuleDeclaration object) {
+<span class="nc" id="L97">				return createRuleDeclarationAdapter();</span>
+			}
+			@Override
+			public Adapter caseLocalFunction(LocalFunction object) {
+<span class="nc" id="L101">				return createLocalFunctionAdapter();</span>
+			}
+			@Override
+			public Adapter caseControlledFunction(ControlledFunction object) {
+<span class="nc" id="L105">				return createControlledFunctionAdapter();</span>
+			}
+			@Override
+			public Adapter caseSharedFunction(SharedFunction object) {
+<span class="nc" id="L109">				return createSharedFunctionAdapter();</span>
+			}
+			@Override
+			public Adapter caseMonitoredFunction(MonitoredFunction object) {
+<span class="nc" id="L113">				return createMonitoredFunctionAdapter();</span>
+			}
+			@Override
+			public Adapter caseOutFunction(OutFunction object) {
+<span class="nc" id="L117">				return createOutFunctionAdapter();</span>
+			}
+			@Override
+			public Adapter caseDynamicFunction(DynamicFunction object) {
+<span class="nc" id="L121">				return createDynamicFunctionAdapter();</span>
+			}
+			@Override
+			public Adapter caseStaticFunction(StaticFunction object) {
+<span class="nc" id="L125">				return createStaticFunctionAdapter();</span>
+			}
+			@Override
+			public Adapter caseDerivedFunction(DerivedFunction object) {
+<span class="nc" id="L129">				return createDerivedFunctionAdapter();</span>
+			}
+			@Override
+			public Adapter caseBasicFunction(BasicFunction object) {
+<span class="nc" id="L133">				return createBasicFunctionAdapter();</span>
+			}
+			@Override
+			public Adapter caseInvariant(Invariant object) {
+<span class="nc" id="L137">				return createInvariantAdapter();</span>
+			}
+			@Override
+			public Adapter caseFunction(Function object) {
+<span class="nc" id="L141">				return createFunctionAdapter();</span>
+			}
+			@Override
+			public Adapter caseClassifier(Classifier object) {
+<span class="nc" id="L145">				return createClassifierAdapter();</span>
+			}
+			@Override
+			public Adapter caseProperty(Property object) {
+<span class="nc" id="L149">				return createPropertyAdapter();</span>
+			}
+			@Override
+			public Adapter caseTemporalProperty(TemporalProperty object) {
+<span class="nc" id="L153">				return createTemporalPropertyAdapter();</span>
+			}
+			@Override
+			public Adapter caseCtlSpec(CtlSpec object) {
+<span class="nc" id="L157">				return createCtlSpecAdapter();</span>
+			}
+			@Override
+			public Adapter caseLtlSpec(LtlSpec object) {
+<span class="nc" id="L161">				return createLtlSpecAdapter();</span>
+			}
+			@Override
+			public Adapter caseInvarConstraint(InvarConstraint object) {
+<span class="nc" id="L165">				return createInvarConstraintAdapter();</span>
+			}
+			@Override
+			public Adapter caseFairnessConstraint(FairnessConstraint object) {
+<span class="nc" id="L169">				return createFairnessConstraintAdapter();</span>
+			}
+			@Override
+			public Adapter caseJusticeConstraint(JusticeConstraint object) {
+<span class="nc" id="L173">				return createJusticeConstraintAdapter();</span>
+			}
+			@Override
+			public Adapter caseCompassionConstraint(CompassionConstraint object) {
+<span class="nc" id="L177">				return createCompassionConstraintAdapter();</span>
+			}
+			@Override
+			public Adapter caseNamedElement(NamedElement object) {
+<span class="nc" id="L181">				return createNamedElementAdapter();</span>
+			}
+			@Override
+			public Adapter defaultCase(EObject object) {
+<span class="nc" id="L185">				return createEObjectAdapter();</span>
+			}
+		};
+
+	/**
+	 * Creates an adapter for the &lt;code&gt;target&lt;/code&gt;.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param target the object to adapt.
+	 * @return the adapter for the &lt;code&gt;target&lt;/code&gt;.
+	 * @generated
+	 */
+	@Override
+	public Adapter createAdapter(Notifier target) {
+<span class="nc" id="L199">		return modelSwitch.doSwitch((EObject)target);</span>
+	}
+
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.RuleDeclaration &lt;em&gt;Rule Declaration&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.RuleDeclaration
+	 * @generated
+	 */
+	public Adapter createRuleDeclarationAdapter() {
+<span class="nc" id="L214">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.LocalFunction &lt;em&gt;Local Function&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.LocalFunction
+	 * @generated
+	 */
+	public Adapter createLocalFunctionAdapter() {
+<span class="nc" id="L228">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.ControlledFunction &lt;em&gt;Controlled Function&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.ControlledFunction
+	 * @generated
+	 */
+	public Adapter createControlledFunctionAdapter() {
+<span class="nc" id="L242">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.SharedFunction &lt;em&gt;Shared Function&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.SharedFunction
+	 * @generated
+	 */
+	public Adapter createSharedFunctionAdapter() {
+<span class="nc" id="L256">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.MonitoredFunction &lt;em&gt;Monitored Function&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.MonitoredFunction
+	 * @generated
+	 */
+	public Adapter createMonitoredFunctionAdapter() {
+<span class="nc" id="L270">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.OutFunction &lt;em&gt;Out Function&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.OutFunction
+	 * @generated
+	 */
+	public Adapter createOutFunctionAdapter() {
+<span class="nc" id="L284">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.DynamicFunction &lt;em&gt;Dynamic Function&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.DynamicFunction
+	 * @generated
+	 */
+	public Adapter createDynamicFunctionAdapter() {
+<span class="nc" id="L298">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.StaticFunction &lt;em&gt;Static Function&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.StaticFunction
+	 * @generated
+	 */
+	public Adapter createStaticFunctionAdapter() {
+<span class="nc" id="L312">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.DerivedFunction &lt;em&gt;Derived Function&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.DerivedFunction
+	 * @generated
+	 */
+	public Adapter createDerivedFunctionAdapter() {
+<span class="nc" id="L326">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.BasicFunction &lt;em&gt;Basic Function&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.BasicFunction
+	 * @generated
+	 */
+	public Adapter createBasicFunctionAdapter() {
+<span class="nc" id="L340">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.Invariant &lt;em&gt;Invariant&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.Invariant
+	 * @generated
+	 */
+	public Adapter createInvariantAdapter() {
+<span class="nc" id="L354">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.Function &lt;em&gt;Function&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.Function
+	 * @generated
+	 */
+	public Adapter createFunctionAdapter() {
+<span class="nc" id="L368">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.Classifier &lt;em&gt;Classifier&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.Classifier
+	 * @generated
+	 */
+	public Adapter createClassifierAdapter() {
+<span class="nc" id="L382">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.Property &lt;em&gt;Property&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.Property
+	 * @generated
+	 */
+	public Adapter createPropertyAdapter() {
+<span class="nc" id="L396">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.TemporalProperty &lt;em&gt;Temporal Property&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.TemporalProperty
+	 * @generated
+	 */
+	public Adapter createTemporalPropertyAdapter() {
+<span class="nc" id="L410">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.CtlSpec &lt;em&gt;Ctl Spec&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.CtlSpec
+	 * @generated
+	 */
+	public Adapter createCtlSpecAdapter() {
+<span class="nc" id="L424">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.LtlSpec &lt;em&gt;Ltl Spec&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.LtlSpec
+	 * @generated
+	 */
+	public Adapter createLtlSpecAdapter() {
+<span class="nc" id="L438">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.InvarConstraint &lt;em&gt;Invar Constraint&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.InvarConstraint
+	 * @generated
+	 */
+	public Adapter createInvarConstraintAdapter() {
+<span class="nc" id="L452">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.FairnessConstraint &lt;em&gt;Fairness Constraint&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.FairnessConstraint
+	 * @generated
+	 */
+	public Adapter createFairnessConstraintAdapter() {
+<span class="nc" id="L466">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.JusticeConstraint &lt;em&gt;Justice Constraint&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.JusticeConstraint
+	 * @generated
+	 */
+	public Adapter createJusticeConstraintAdapter() {
+<span class="nc" id="L480">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.definitions.CompassionConstraint &lt;em&gt;Compassion Constraint&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.definitions.CompassionConstraint
+	 * @generated
+	 */
+	public Adapter createCompassionConstraintAdapter() {
+<span class="nc" id="L494">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link asmeta.structure.NamedElement &lt;em&gt;Named Element&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @see asmeta.structure.NamedElement
+	 * @generated
+	 */
+	public Adapter createNamedElementAdapter() {
+<span class="nc" id="L508">		return null;</span>
+	}
+
+	/**
+	 * Creates a new adapter for the default case.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This default implementation returns null.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the new adapter.
+	 * @generated
+	 */
+	public Adapter createEObjectAdapter() {
+<span class="nc" id="L520">		return null;</span>
+	}
+
+} //DefinitionsAdapterFactory
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

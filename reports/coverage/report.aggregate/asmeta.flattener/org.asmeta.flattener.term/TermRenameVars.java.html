@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>TermRenameVars.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.flattener</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.flattener.term</a> &gt; <span class="el_source">TermRenameVars.java</span></div><h1>TermRenameVars.java</h1><pre class="source lang-java linenums">package org.asmeta.flattener.term;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.log4j.Logger;
+import org.asmeta.parser.util.AsmPrinter;
+import org.asmeta.simulator.wrapper.RuleFactory;
+
+import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.UndefTerm;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.ConditionalTerm;
+import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.FiniteQuantificationTerm;
+import asmeta.terms.furtherterms.ForallTerm;
+import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.LetTerm;
+import asmeta.terms.furtherterms.MapTerm;
+import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.StringTerm;
+
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">public class TermRenameVars extends TermFlattenerVisitor {</span>
+<span class="fc" id="L36">	static final Logger logger = Logger.getLogger(TermRenameVars.class);</span>
+	private Map&lt;VariableTerm, Term&gt; variableMap;
+	public Term currentSelf;
+	// private Map&lt;String, VariableTerm&gt; varNames;
+<span class="pc" id="L40">	private RuleFactory ruleFact = new RuleFactory();</span>
+
+<span class="fc" id="L42">	public TermRenameVars() {</span>
+<span class="fc" id="L43">		resetVariableMap();</span>
+<span class="fc" id="L44">	}</span>
+
+<span class="nc" id="L46">	public TermRenameVars(Map&lt;VariableTerm, Term&gt; variableMap) {</span>
+<span class="nc" id="L47">		setVariableMap(variableMap);</span>
+<span class="nc" id="L48">	}</span>
+
+	public void addMap(Map&lt;VariableTerm, Term&gt; variableMap) {
+		/*
+		 * for(Entry&lt;VariableTerm, Term&gt; e: variableMap.entrySet()) { VariableTerm key =
+		 * e.getKey(); Term value = e.getValue(); assert
+		 * !this.variableMap.containsKey(key); if(this.variableMap.containsValue(key)) {
+		 * for(VariableTerm a: this.variableMap.keySet()) { if(this.variableMap.get(a)
+		 * == key) { this.variableMap.put(a, value); } } } this.variableMap.put(key,
+		 * value); }
+		 */
+<span class="fc" id="L59">		logger.debug(&quot;newMap &quot; + variableMap);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">		for (Entry&lt;VariableTerm, Term&gt; e : variableMap.entrySet()) {</span>
+<span class="pc bpc" id="L61" title="2 of 4 branches missed.">			assert !this.variableMap.containsKey(e.getKey());</span>
+<span class="fc" id="L62">			this.variableMap.put(e.getKey(), e.getValue());</span>
+<span class="fc" id="L63">		}</span>
+		/*
+		 * for(VariableTerm var: variableMap.keySet()) { String varName = var.getName();
+		 * assert !varNames.containsKey(varName); varNames.put(varName, var); } assert
+		 * this.variableMap.size() == varNames.size();
+		 */
+<span class="fc" id="L69">	}</span>
+
+	public void removeMap(Map&lt;VariableTerm, Term&gt; variableMap) {
+<span class="fc bfc" id="L72" title="All 2 branches covered.">		for (Entry&lt;VariableTerm, Term&gt; e : variableMap.entrySet()) {</span>
+<span class="fc" id="L73">			this.variableMap.remove(e.getKey(), e.getValue());</span>
+<span class="fc" id="L74">		}</span>
+		/*
+		 * for(VariableTerm var: variableMap.keySet()) { String varName = var.getName();
+		 * assert varNames.containsKey(varName): varName; varNames.remove(varName); }
+		 * assert this.variableMap.size() == varNames.size();
+		 */
+<span class="fc" id="L80">	}</span>
+
+	public void resetVariableMap() {
+<span class="fc" id="L83">		this.variableMap = new HashMap&lt;&gt;();</span>
+		// varNames = new HashMap&lt;String, VariableTerm&gt;();
+<span class="fc" id="L85">	}</span>
+
+	public void setVariableMap(Map&lt;VariableTerm, Term&gt; variableMap) {
+<span class="nc" id="L88">		this.variableMap = variableMap;</span>
+		/*
+		 * varNames = new HashMap&lt;&gt;(); for(VariableTerm var: variableMap.keySet()) {
+		 * String varName = var.getName(); assert !varNames.containsKey(varName);
+		 * varNames.put(varName, var); } assert this.variableMap.size() ==
+		 * varNames.size();
+		 */
+<span class="nc" id="L95">	}</span>
+
+	public Term visit(BooleanTerm boolTerm) {
+<span class="fc" id="L98">		return boolTerm;</span>
+	}
+
+	public Term visit(CaseTerm caseTerm) {
+<span class="nc" id="L102">		CaseTerm newCaseTerm = ruleFact.createCaseTerm();</span>
+<span class="nc" id="L103">		newCaseTerm.setComparedTerm(visit(caseTerm.getComparedTerm()));</span>
+<span class="nc" id="L104">		newCaseTerm.setDomain(caseTerm.getDomain());</span>
+<span class="nc" id="L105">		Term oTerm = caseTerm.getOtherwiseTerm();</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">		if (oTerm != null) {</span>
+<span class="nc" id="L107">			newCaseTerm.setOtherwiseTerm(visit(oTerm));</span>
+		}
+<span class="nc" id="L109">		List&lt;Term&gt; newResultTerms = new ArrayList&lt;Term&gt;();</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">		for (Term rt : caseTerm.getResultTerms()) {</span>
+<span class="nc" id="L111">			newResultTerms.add(visit(rt));</span>
+<span class="nc" id="L112">		}</span>
+<span class="nc" id="L113">		newCaseTerm.getResultTerms().clear();</span>
+<span class="nc" id="L114">		newCaseTerm.getResultTerms().addAll(newResultTerms);</span>
+<span class="nc" id="L115">		return newCaseTerm;</span>
+	}
+
+	public Term visit(ConditionalTerm condTerm) {
+<span class="nc" id="L119">		ConditionalTerm newCondTerm = ruleFact.createConditionalTerm();</span>
+<span class="nc" id="L120">		newCondTerm.setGuard(visit(condTerm.getGuard()));</span>
+<span class="nc" id="L121">		newCondTerm.setThenTerm(visit(condTerm.getThenTerm()));</span>
+<span class="nc" id="L122">		Term elseTerm = condTerm.getElseTerm();</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">		if (elseTerm != null) {</span>
+<span class="nc" id="L124">			newCondTerm.setElseTerm(visit(elseTerm));</span>
+		}
+<span class="nc" id="L126">		return newCondTerm;</span>
+	}
+
+	public Term visit(EnumTerm enumTerm) {
+<span class="fc" id="L130">		return enumTerm;</span>
+	}
+
+	public Term visit(ExistTerm existTerm) {
+<span class="fc" id="L134">		return visit(existTerm, ruleFact.createExistTerm());</span>
+	}
+
+	public Term visit(ExistUniqueTerm existUniqueTerm) {
+<span class="nc" id="L138">		return visit(existUniqueTerm, ruleFact.createExistUniqueTerm());</span>
+	}
+
+	public Term visit(FiniteQuantificationTerm fqtTerm, FiniteQuantificationTerm newFqtTerm) {
+<span class="fc" id="L142">		List&lt;VariableTerm&gt; variables = newFqtTerm.getVariable();</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">		for (VariableTerm v : fqtTerm.getVariable()) {</span>
+<span class="fc" id="L144">			VariableTerm vt = ruleFact.createVariableTerm();</span>
+<span class="fc" id="L145">			vt.setDomain(v.getDomain());</span>
+<span class="fc" id="L146">			vt.setFiniteQuantificationTerm(newFqtTerm);</span>
+<span class="fc" id="L147">			vt.setKind(v.getKind());</span>
+<span class="fc" id="L148">			vt.setName(v.getName());</span>
+<span class="fc" id="L149">			variables.add(vt);</span>
+<span class="fc" id="L150">		}</span>
+<span class="fc" id="L151">		newFqtTerm.setDomain(fqtTerm.getDomain());</span>
+<span class="fc" id="L152">		List&lt;Term&gt; ranges = newFqtTerm.getRanges();</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">		for (Term r : fqtTerm.getRanges()) {</span>
+<span class="fc" id="L154">			ranges.add(r);</span>
+<span class="fc" id="L155">		}</span>
+<span class="fc" id="L156">		Term newGuard = visit(fqtTerm.getGuard());</span>
+<span class="fc" id="L157">		newFqtTerm.setGuard(newGuard);</span>
+<span class="pc bpc" id="L158" title="2 of 4 branches missed.">		assert variables.size() &gt; 0;</span>
+<span class="pc bpc" id="L159" title="2 of 4 branches missed.">		assert variables.size() == ranges.size();</span>
+<span class="pc bpc" id="L160" title="2 of 4 branches missed.">		assert variables.size() == fqtTerm.getVariable().size();</span>
+<span class="fc" id="L161">		return newFqtTerm;</span>
+	}
+
+	public Term visit(ForallTerm forallTerm) {
+<span class="fc" id="L165">		return visit(forallTerm, ruleFact.createForallTerm());</span>
+	}
+
+	public Term visit(FunctionTerm funcTerm) throws Exception {
+<span class="fc" id="L169">		FunctionTerm newFunctionTerm = ruleFact.createFunctionTerm();</span>
+<span class="fc" id="L170">		newFunctionTerm.setDomain(funcTerm.getDomain());</span>
+<span class="fc" id="L171">		newFunctionTerm.setFunction(funcTerm.getFunction());</span>
+
+<span class="fc" id="L173">		List&lt;Term&gt; newTerms = new ArrayList&lt;Term&gt;();</span>
+<span class="fc" id="L174">		TupleTerm arguments = funcTerm.getArguments();</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">		if (arguments != null) {</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">			for (Term term : arguments.getTerms()) {</span>
+<span class="fc" id="L177">				newTerms.add(visit(term));</span>
+<span class="fc" id="L178">			}</span>
+<span class="fc" id="L179">			TupleTerm newTupleTerm = ruleFact.createTupleTerm();</span>
+<span class="fc" id="L180">			newTupleTerm.setArity(arguments.getArity());</span>
+<span class="fc" id="L181">			newTupleTerm.getTerms().addAll(newTerms);</span>
+<span class="fc" id="L182">			newFunctionTerm.setArguments(newTupleTerm);</span>
+		}
+<span class="fc" id="L184">		return newFunctionTerm;</span>
+	}
+
+	public Term visit(IntegerTerm intTerm) {
+<span class="fc" id="L188">		return intTerm;</span>
+	}
+
+	public Term visit(LetTerm letTerm) {
+<span class="nc" id="L192">		return letTerm;</span>
+	}
+
+	public Term visit(LocationTerm locTerm) throws Exception {
+		// System.out.println(locTerm.getFunction().getName());
+<span class="fc" id="L197">		String locName = locTerm.getFunction().getName();</span>
+<span class="fc bfc" id="L198" title="All 4 branches covered.">		if (locName.equals(&quot;self&quot;) &amp;&amp; currentSelf != null) {</span>
+<span class="fc" id="L199">			return currentSelf;</span>
+		} else {
+<span class="fc" id="L201">			LocationTerm newLocationTerm = ruleFact.createLocationTerm();</span>
+<span class="fc" id="L202">			newLocationTerm.setDomain(locTerm.getDomain());</span>
+<span class="fc" id="L203">			newLocationTerm.setFunction(locTerm.getFunction());</span>
+
+<span class="fc" id="L205">			TupleTerm arguments = locTerm.getArguments();</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">			if (arguments != null) {</span>
+<span class="fc" id="L207">				List&lt;Term&gt; newTerms = new ArrayList&lt;Term&gt;();</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">				for (Term term : arguments.getTerms()) {</span>
+<span class="fc" id="L209">					newTerms.add(visit(term));</span>
+<span class="fc" id="L210">				}</span>
+<span class="fc" id="L211">				TupleTerm newTupleTerm = ruleFact.createTupleTerm();</span>
+<span class="fc" id="L212">				newTupleTerm.setArity(arguments.getArity());</span>
+<span class="fc" id="L213">				newTupleTerm.getTerms().addAll(newTerms);</span>
+<span class="fc" id="L214">				newLocationTerm.setArguments(newTupleTerm);</span>
+			}
+<span class="fc" id="L216">			return newLocationTerm;</span>
+		}
+	}
+
+	
+	private String print(Term t) {
+<span class="nc" id="L222">		StringWriter sw = new StringWriter();</span>
+<span class="nc" id="L223">		PrintWriter writer = new PrintWriter(sw);</span>
+<span class="nc" id="L224">		AsmPrinter ap = new AsmPrinter(writer);</span>
+<span class="nc" id="L225">		ap.visitTerm(t);</span>
+<span class="nc" id="L226">		ap.close();</span>
+<span class="nc" id="L227">		String tS = sw.toString();</span>
+<span class="nc" id="L228">		return tS;</span>
+	}
+	
+	// TODO check whether it is correct. should we also visit the map term?
+	public Term visit(MapTerm mapTerm) {
+		
+<span class="nc bnc" id="L234" title="All 2 branches missed.">		assert false: &quot;MapTerm not supported &quot;+ mapTerm.getDomain().getName();</span>
+<span class="nc" id="L235">		return mapTerm;</span>
+	}
+
+	public Term visit(NaturalTerm natTerm) {
+<span class="fc" id="L239">		return natTerm;</span>
+	}
+
+	public Term visit(StringTerm strTerm) {
+<span class="fc" id="L243">		return strTerm;</span>
+	}
+
+	public Term visit(TupleTerm tupleTerm) throws Exception {
+<span class="nc" id="L247">		List&lt;Term&gt; newTerms = new ArrayList&lt;Term&gt;();</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">		for (Term term : tupleTerm.getTerms()) {</span>
+<span class="nc" id="L249">			newTerms.add(visit(term));</span>
+<span class="nc" id="L250">		}</span>
+<span class="nc" id="L251">		TupleTerm newTupleTerm = ruleFact.createTupleTerm();</span>
+<span class="nc" id="L252">		newTupleTerm.setArity(tupleTerm.getArity());</span>
+<span class="nc" id="L253">		newTupleTerm.getTerms().addAll(newTerms);</span>
+<span class="nc" id="L254">		return newTupleTerm;</span>
+	}
+
+	public Term visit(UndefTerm undefTerm) {
+<span class="fc" id="L258">		return undefTerm;</span>
+	}
+
+	public Term visit(VariableTerm varTerm) {
+<span class="fc bfc" id="L262" title="All 2 branches covered.">		if (variableMap.containsKey(varTerm)) {</span>
+<span class="fc" id="L263">			logger.debug(variableMap.get(varTerm) + &quot; for &quot; + varTerm);</span>
+<span class="fc" id="L264">			return variableMap.get(varTerm);</span>
+		}
+		/*for(VariableTerm k: variableMap.keySet()) {
+			if(k.getName().equals(varTerm.getName())) {
+				return variableMap.get(k);
+			}
+		}*/
+		/*
+		 * String varName = varTerm.getName(); if (varNames.containsKey(varName)) {
+		 * VariableTerm var = varNames.get(varName); assert var != null; Term value =
+		 * variableMap.get(var); assert value != null: &quot;variableMap &quot; + variableMap +
+		 * &quot;\nvarNames &quot; + varNames; logger.debug(value + &quot; for &quot; + varTerm); return
+		 * variableMap.get(var); }
+		 */
+<span class="fc" id="L278">		logger.debug(&quot;No value for &quot; + varTerm + &quot;\n&quot; + variableMap);</span>
+<span class="fc" id="L279">		return varTerm;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

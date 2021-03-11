@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>PowersetDomainImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.definitions.domains.impl</a> &gt; <span class="el_source">PowersetDomainImpl.java</span></div><h1>PowersetDomainImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.definitions.domains.impl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.DomainsPackage;
+import asmeta.definitions.domains.PowersetDomain;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Powerset Domain&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.domains.impl.PowersetDomainImpl#getBaseDomain &lt;em&gt;Base Domain&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class PowersetDomainImpl extends StructuredTdImpl implements PowersetDomain {
+	/**
+	 * The cached value of the '{@link #getBaseDomain() &lt;em&gt;Base Domain&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getBaseDomain()
+	 * @generated
+	 * @ordered
+	 */
+	protected Domain baseDomain;
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected PowersetDomainImpl() {
+<span class="fc" id="L48">		super();</span>
+<span class="fc" id="L49">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L58">		return DomainsPackage.Literals.POWERSET_DOMAIN;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Domain getBaseDomain() {
+<span class="pc bpc" id="L68" title="2 of 4 branches missed.">		if (baseDomain != null &amp;&amp; baseDomain.eIsProxy()) {</span>
+<span class="nc" id="L69">			InternalEObject oldBaseDomain = (InternalEObject)baseDomain;</span>
+<span class="nc" id="L70">			baseDomain = (Domain)eResolveProxy(oldBaseDomain);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">			if (baseDomain != oldBaseDomain) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L73">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, DomainsPackage.POWERSET_DOMAIN__BASE_DOMAIN, oldBaseDomain, baseDomain));</span>
+			}
+		}
+<span class="fc" id="L76">		return baseDomain;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Domain basicGetBaseDomain() {
+<span class="nc" id="L85">		return baseDomain;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setBaseDomain(Domain newBaseDomain) {
+<span class="fc" id="L95">		Domain oldBaseDomain = baseDomain;</span>
+<span class="fc" id="L96">		baseDomain = newBaseDomain;</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L98">			eNotify(new ENotificationImpl(this, Notification.SET, DomainsPackage.POWERSET_DOMAIN__BASE_DOMAIN, oldBaseDomain, baseDomain));</span>
+<span class="fc" id="L99">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L108" title="All 2 branches missed.">		switch (featureID) {</span>
+			case DomainsPackage.POWERSET_DOMAIN__BASE_DOMAIN:
+<span class="nc bnc" id="L110" title="All 2 branches missed.">				if (resolve) return getBaseDomain();</span>
+<span class="nc" id="L111">				return basicGetBaseDomain();</span>
+		}
+<span class="nc" id="L113">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L123" title="All 2 branches missed.">		switch (featureID) {</span>
+			case DomainsPackage.POWERSET_DOMAIN__BASE_DOMAIN:
+<span class="nc" id="L125">				setBaseDomain((Domain)newValue);</span>
+<span class="nc" id="L126">				return;</span>
+		}
+<span class="nc" id="L128">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L129">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L138" title="All 2 branches missed.">		switch (featureID) {</span>
+			case DomainsPackage.POWERSET_DOMAIN__BASE_DOMAIN:
+<span class="nc" id="L140">				setBaseDomain((Domain)null);</span>
+<span class="nc" id="L141">				return;</span>
+		}
+<span class="nc" id="L143">		super.eUnset(featureID);</span>
+<span class="nc" id="L144">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L153" title="All 2 branches missed.">		switch (featureID) {</span>
+			case DomainsPackage.POWERSET_DOMAIN__BASE_DOMAIN:
+<span class="nc bnc" id="L155" title="All 2 branches missed.">				return baseDomain != null;</span>
+		}
+<span class="nc" id="L157">		return super.eIsSet(featureID);</span>
+	}
+
+} //PowersetDomainImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

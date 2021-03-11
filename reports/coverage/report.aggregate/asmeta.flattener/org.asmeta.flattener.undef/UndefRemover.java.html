@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>UndefRemover.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.flattener</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.flattener.undef</a> &gt; <span class="el_source">UndefRemover.java</span></div><h1>UndefRemover.java</h1><pre class="source lang-java linenums">package org.asmeta.flattener.undef;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.asmeta.flattener.term.DomainVisitor;
+import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.Defs;
+
+import asmeta.definitions.ControlledFunction;
+import asmeta.definitions.Function;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.DomainsFactory;
+import asmeta.definitions.domains.EnumElement;
+import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.IntegerDomain;
+import asmeta.definitions.domains.TypeDomain;
+import asmeta.structure.Asm;
+import asmeta.structure.FunctionInitialization;
+import asmeta.structure.StructureFactory;
+import asmeta.terms.TermsFactory;
+import asmeta.terms.basicterms.SetTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.FurthertermsFactory;
+import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+public class UndefRemover {
+	private Asm asm;
+	private List&lt;Domain&gt; asmDomains;
+<span class="fc" id="L40">	private Set&lt;Domain&gt; fixedDomain = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L41">	private Map&lt;Domain, Object&gt; mapDomainsUndef = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L42">	private Map&lt;Domain, Term&gt; mapDomainsUndefTerm = new HashMap&lt;&gt;();</span>
+
+	public UndefRemover(String file) throws Exception {
+<span class="fc" id="L45">		this(ASMParser.setUpReadAsm(new File(file)).getMain());</span>
+<span class="fc" id="L46">	}</span>
+
+<span class="fc" id="L48">	public UndefRemover(Asm asm) {</span>
+<span class="fc" id="L49">		this.asm = asm;</span>
+<span class="fc" id="L50">		asmDomains = asm.getHeaderSection().getSignature().getDomain();</span>
+<span class="fc" id="L51">	}</span>
+
+	public void fixAsm() {
+<span class="fc" id="L54">		Set&lt;Function&gt; affectedFuncs = findUndef();</span>
+<span class="fc" id="L55">		fixDomains(asm, affectedFuncs);</span>
+<span class="fc" id="L56">		RewriteRules rr = new RewriteRules(asm, affectedFuncs, mapDomainsUndefTerm);</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">		for (RuleDeclaration rd : asm.getBodySection().getRuleDeclaration()) {</span>
+<span class="fc" id="L58">			Rule newBody = rr.visit(rd.getRuleBody());</span>
+<span class="fc" id="L59">			rd.setRuleBody(newBody);</span>
+<span class="fc" id="L60">		}</span>
+<span class="fc" id="L61">		UndefRemover.fixInitialState(asm, affectedFuncs, mapDomainsUndefTerm);</span>
+<span class="fc" id="L62">	}</span>
+
+	public void fixDomains(Asm asm, Set&lt;Function&gt; affectedFuncs) {
+<span class="fc" id="L65">		DomainVisitor dv = new DomainVisitor(asm);</span>
+<span class="fc" id="L66">		dv.visitDomains();</span>
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">		for (Function f : affectedFuncs) {</span>
+<span class="fc" id="L69">			Domain codomain = f.getCodomain();</span>
+			// TODO we should also check whether it is used as domain of some function. In
+			// this case, we should create a new domain (otherwise, we would introduce new
+			// locations)
+<span class="fc bfc" id="L73" title="All 2 branches covered.">			if (!fixedDomain.contains(codomain)) {</span>
+<span class="fc" id="L74">				boolean usedAsFuncDomain = usedAsFuncDomain(asm, codomain);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">				if (Defs.isEnumDomain(codomain)) {</span>
+<span class="fc" id="L76">					EnumTd e = ((EnumTd) codomain);</span>
+<span class="fc" id="L77">					List&lt;EnumElement&gt; elements = e.getElement();</span>
+<span class="fc" id="L78">					EnumElement undefEnum = DomainsFactory.eINSTANCE.createEnumElement();</span>
+<span class="fc" id="L79">					String symbol = e.getName().toUpperCase() + &quot;_UNDEF&quot;;</span>
+<span class="fc" id="L80">					undefEnum.setSymbol(symbol);</span>
+<span class="fc" id="L81">					EnumTerm enumTerm = TermsFactory.eINSTANCE.getFurtherTerms().createEnumTerm();</span>
+<span class="fc" id="L82">					enumTerm.setDomain(codomain);</span>
+<span class="fc" id="L83">					enumTerm.setSymbol(symbol);</span>
+<span class="fc" id="L84">					EnumTd newDom = null;</span>
+					/*
+					 * if (usedAsFuncDomain) { newDom = DomainsFactory.eINSTANCE.createEnumTd();
+					 * newDom.setName(e.getName() + &quot;_forUndef&quot;);
+					 * newDom.getElement().addAll(elements); newDom.getElement().add(undefEnum);
+					 * asm.getHeaderSection().getSignature().getDomain().add(newDom); } else {
+					 */
+<span class="fc" id="L91">					elements.add(undefEnum);</span>
+<span class="fc" id="L92">					newDom = e;</span>
+					// }
+<span class="fc" id="L94">					fixedDomain.add(newDom);</span>
+<span class="fc" id="L95">					mapDomainsUndef.put(newDom, undefEnum);</span>
+<span class="fc" id="L96">					mapDomainsUndefTerm.put(newDom, enumTerm);</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">				} else if (Defs.isConcreteDomain(codomain)) {</span>
+<span class="fc" id="L98">					ConcreteDomain cd = (ConcreteDomain) codomain;</span>
+<span class="fc" id="L99">					TypeDomain td = cd.getTypeDomain();</span>
+<span class="fc" id="L100">					Set&lt;Term&gt; values = dv.getValues(codomain);</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">					if (td instanceof IntegerDomain) {</span>
+<span class="fc" id="L102">						Integer max = null;</span>
+<span class="fc" id="L103">						Integer min = null;</span>
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">						for (Term v : values) {</span>
+<span class="fc" id="L106">							int value = Integer.parseInt(((IntegerTerm) v).getSymbol());</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">							if (max == null) {</span>
+<span class="fc" id="L108">								max = value;</span>
+<span class="fc" id="L109">								min = value;</span>
+							} else {
+<span class="fc bfc" id="L111" title="All 2 branches covered.">								if (value &lt; min) {</span>
+<span class="fc" id="L112">									min = value;</span>
+								}
+<span class="fc bfc" id="L114" title="All 2 branches covered.">								if (value &gt; max) {</span>
+<span class="fc" id="L115">									max = value;</span>
+								}
+							}
+<span class="fc" id="L118">						}</span>
+<span class="fc" id="L119">						Term domainBody = cd.getDefinition().getBody();</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">						if (domainBody instanceof SetTerm) {</span>
+<span class="fc" id="L121">							SetTerm st = (SetTerm) domainBody;</span>
+<span class="fc" id="L122">							IntegerTerm it = FurthertermsFactory.eINSTANCE.createIntegerTerm();</span>
+<span class="fc" id="L123">							String symbol = Integer.toString(max + 1);</span>
+<span class="fc" id="L124">							it.setSymbol(symbol);</span>
+<span class="fc" id="L125">							st.getTerm().add(it);</span>
+<span class="fc" id="L126">							fixedDomain.add(codomain);</span>
+<span class="fc" id="L127">							mapDomainsUndefTerm.put(codomain, it);</span>
+						}
+					}
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">				} else if (Defs.isBooleanDomain(codomain)) {</span>
+<span class="fc" id="L131">					EnumTd newDom = DomainsFactory.eINSTANCE.createEnumTd();</span>
+<span class="fc" id="L132">					newDom.setName(&quot;Boolean_forUndef&quot;);</span>
+<span class="fc" id="L133">					List&lt;EnumElement&gt; newDomElements = newDom.getElement();</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">					for (String symbol : new String[] { &quot;TRUE&quot;, &quot;FALSE&quot;, &quot;BOOL_UNDEF&quot; }) {</span>
+<span class="fc" id="L135">						EnumElement newEl = DomainsFactory.eINSTANCE.createEnumElement();</span>
+<span class="fc" id="L136">						newEl.setSymbol(symbol);</span>
+<span class="fc" id="L137">						newDomElements.add(newEl);</span>
+					}
+<span class="fc" id="L139">					asmDomains.add(newDom);</span>
+<span class="fc" id="L140">					f.setCodomain(newDom);</span>
+<span class="fc" id="L141">					fixedDomain.add(codomain);</span>
+<span class="fc" id="L142">					EnumTerm enumTerm = TermsFactory.eINSTANCE.getFurtherTerms().createEnumTerm();</span>
+<span class="fc" id="L143">					enumTerm.setDomain(codomain);</span>
+<span class="fc" id="L144">					enumTerm.setSymbol(&quot;BOOL_UNDEF&quot;);</span>
+<span class="fc" id="L145">					mapDomainsUndefTerm.put(codomain, enumTerm);</span>
+<span class="fc" id="L146">					mapDomainsUndefTerm.put(newDom, enumTerm);</span>
+				}
+			}
+<span class="fc" id="L149">		}</span>
+<span class="fc" id="L150">	}</span>
+
+	public Set&lt;Function&gt; findUndef() {
+<span class="fc" id="L153">		Map&lt;Function, Set&lt;Function&gt;&gt; deps = GetDependencies.getDependencies(asm);</span>
+<span class="fc" id="L154">		Set&lt;Function&gt; undefSources = GetUndefSource.getUndefSources(asm);</span>
+<span class="fc" id="L155">		Set&lt;Function&gt; affectedFuncs = new HashSet&lt;&gt;(undefSources);</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">		for (Function us : undefSources) {</span>
+			// TODO improve getDependencies in order to avoid this loop
+<span class="fc bfc" id="L158" title="All 2 branches covered.">			for (Entry&lt;Function, Set&lt;Function&gt;&gt; es : deps.entrySet()) {</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">				if (es.getValue().contains(us)) {</span>
+<span class="fc" id="L160">					affectedFuncs.add(es.getKey());</span>
+				}
+<span class="fc" id="L162">			}</span>
+<span class="fc" id="L163">		}</span>
+<span class="fc" id="L164">		return affectedFuncs;</span>
+	}
+
+	public static void fixInitialState(Asm asm, Set&lt;Function&gt; funcsWithUndef, Map&lt;Domain, Term&gt; mapDomainsUndefTerm) {
+<span class="fc" id="L168">		List&lt;FunctionInitialization&gt; is = asm.getDefaultInitialState().getFunctionInitialization();</span>
+<span class="fc" id="L169">		List&lt;Function&gt; funcs = asm.getHeaderSection().getSignature().getFunction();</span>
+<span class="fc" id="L170">		List&lt;Function&gt; initFuncs = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">		for(FunctionInitialization fi: is) {</span>
+<span class="fc" id="L172">			initFuncs.add(fi.getInitializedFunction());</span>
+<span class="fc" id="L173">		}</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">		for(Function f: funcs) {</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">			if(Defs.isControlled(f)) {</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">				if (!initFuncs.contains(f)) {</span>
+<span class="fc" id="L177">					FunctionInitialization newFi = StructureFactory.eINSTANCE.createFunctionInitialization();</span>
+<span class="fc" id="L178">					newFi.setInitializedFunction((ControlledFunction) f);</span>
+<span class="fc" id="L179">					Domain codomain = f.getCodomain();</span>
+<span class="fc" id="L180">					Term value = mapDomainsUndefTerm.get(codomain);</span>
+<span class="fc" id="L181">					newFi.setBody(value);</span>
+<span class="fc" id="L182">					is.add(newFi);</span>
+				}
+			}
+<span class="fc" id="L185">		}</span>
+<span class="fc" id="L186">	}</span>
+
+	private static boolean usedAsFuncDomain(Asm asm, Domain domain) {
+<span class="fc bfc" id="L189" title="All 2 branches covered.">		for (Function func : asm.getHeaderSection().getSignature().getFunction()) {</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">			if (func.getDomain() == domain) {</span>
+<span class="fc" id="L191">				return true;</span>
+			}
+<span class="fc" id="L193">		}</span>
+<span class="fc" id="L194">		return false;</span>
+	}
+
+	public static Asm buildNewAsm(String file) throws Exception {
+<span class="fc" id="L198">		UndefRemover uf = new UndefRemover(file);</span>
+<span class="fc" id="L199">		uf.fixAsm();</span>
+<span class="fc" id="L200">		return uf.asm;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

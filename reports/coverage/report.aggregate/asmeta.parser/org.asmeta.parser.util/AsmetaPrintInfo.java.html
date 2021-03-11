@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>AsmetaPrintInfo.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.parser</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.parser.util</a> &gt; <span class="el_source">AsmetaPrintInfo.java</span></div><h1>AsmetaPrintInfo.java</h1><pre class="source lang-java linenums">package org.asmeta.parser.util;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.asmeta.parser.ASMParser;
+import org.eclipse.emf.common.util.EList;
+
+import asmeta.definitions.ControlledFunction;
+import asmeta.definitions.DerivedFunction;
+import asmeta.definitions.Function;
+import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.StaticFunction;
+import asmeta.structure.Asm;
+import asmeta.structure.Body;
+
+/**
+ * print the information of a specification or of a set a spec in directory
+ * 
+ * @author garganti
+ *
+ */
+public class AsmetaPrintInfo {
+
+<span class="fc" id="L29">	public class AsmInfo {</span>
+
+<span class="fc" id="L31">		public Map&lt;String, Integer&gt; infoMap = new HashMap&lt;String, Integer&gt;();</span>
+
+		void inc(String s) {
+			int val;
+<span class="fc bfc" id="L35" title="All 2 branches covered.">			if (infoMap.containsKey(s)) {</span>
+<span class="fc" id="L36">				val = infoMap.get(s) + 1;</span>
+			} else {
+<span class="fc" id="L38">				val = 1;</span>
+			}
+<span class="fc" id="L40">			infoMap.put(s, val);</span>
+<span class="fc" id="L41">		}</span>
+	}
+
+	// all the asm in the dir, or just one in case is just one
+<span class="fc" id="L45">	public List&lt;Asm&gt; asms = new ArrayList&lt;Asm&gt;();</span>
+
+<span class="fc" id="L47">	public AsmetaPrintInfo(String asmPath) throws Exception {</span>
+<span class="fc" id="L48">		File asmFile = new File(asmPath);</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">		if (asmFile.isDirectory()) {</span>
+<span class="nc" id="L50">			System.out.println(&quot;reading all the asm in the path&quot;);</span>
+<span class="nc" id="L51">			File[] files = asmFile.listFiles(new FilenameFilter() {				</span>
+				@Override
+				public boolean accept(File arg0, String arg1) {
+<span class="nc" id="L54">					return arg1.endsWith(&quot;.asm&quot;);</span>
+				}
+			});
+<span class="nc bnc" id="L57" title="All 2 branches missed.">			for(File f:files) {</span>
+<span class="nc" id="L58">				asms.add(ASMParser.setUpReadAsm(f).getMain());</span>
+			}
+<span class="nc" id="L60">		} else {</span>
+<span class="fc" id="L61">			asms.add(ASMParser.setUpReadAsm(asmFile).getMain());</span>
+		}
+<span class="fc" id="L63">	}</span>
+
+	public AsmInfo getInfo() throws Exception {
+<span class="fc" id="L66">		AsmInfo info = new AsmInfo();</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">		for (Asm asm : asms) {</span>
+			// functions
+<span class="fc" id="L69">			EList&lt;Function&gt; funcs = asm.getHeaderSection().getSignature().getFunction();</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">			for (Function f : funcs) {</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">				if (f instanceof ControlledFunction) {</span>
+<span class="fc" id="L72">					info.inc(&quot;controlled&quot;);</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">				} else if (f instanceof MonitoredFunction) {</span>
+<span class="fc" id="L74">					info.inc(&quot;monitored&quot;);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">				} else if (f instanceof DerivedFunction) {</span>
+<span class="fc" id="L76">					info.inc(&quot;derived&quot;);</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">				} else if (f instanceof StaticFunction) {</span>
+<span class="fc" id="L78">					info.inc(&quot;static&quot;);</span>
+				} else {
+<span class="nc" id="L80">					throw new RuntimeException(f.getClass().getCanonicalName());</span>
+				}
+<span class="fc" id="L82">			}</span>
+			// rules
+<span class="fc" id="L84">			RuleCounter rc = new RuleCounter();</span>
+<span class="fc" id="L85">			info.infoMap.put(&quot;nrules&quot;, rc.getNumOfRules(asm));</span>
+			// rule declaration
+<span class="fc" id="L87">			Body bodySection = asm.getBodySection();</span>
+<span class="fc" id="L88">			info.infoMap.put(&quot;nrulesdeclarations&quot;, bodySection.getRuleDeclaration().size());</span>
+			// properties
+<span class="fc" id="L90">			info.infoMap.put(&quot;nproperties&quot;, bodySection.getProperty().size());</span>
+<span class="fc" id="L91">		}</span>
+<span class="fc" id="L92">		return info;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

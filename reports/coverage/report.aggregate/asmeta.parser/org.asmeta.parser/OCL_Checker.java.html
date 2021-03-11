@@ -1,0 +1,2978 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>OCL_Checker.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.parser</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.parser</a> &gt; <span class="el_source">OCL_Checker.java</span></div><h1>OCL_Checker.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2005, 2006 ASMETA group (http://asmeta.sourceforge.net)
+ * License Information: http://asmeta.sourceforge.net/licensing/
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License version 2 as
+ *   published by the Free Software Foundation.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
+ *   USA
+ *
+ *   http://www.gnu.org/licenses/gpl.txt
+ *
+ *
+ *******************************************************************************/
+package org.asmeta.parser;
+
+import java.io.PrintStream;
+import java.math.BigInteger;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.asmeta.parser.util.AsmetaTermPrinter;
+
+import asmeta.definitions.DerivedFunction;
+import asmeta.definitions.DynamicFunction;
+import asmeta.definitions.Function;
+import asmeta.definitions.Invariant;
+import asmeta.definitions.LocalFunction;
+import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.StaticFunction;
+import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.AgentDomain;
+import asmeta.definitions.domains.AnyDomain;
+import asmeta.definitions.domains.BagDomain;
+import asmeta.definitions.domains.BasicTd;
+import asmeta.definitions.domains.BooleanDomain;
+import asmeta.definitions.domains.CharDomain;
+import asmeta.definitions.domains.ComplexDomain;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.EnumElement;
+import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.IntegerDomain;
+import asmeta.definitions.domains.MapDomain;
+import asmeta.definitions.domains.NaturalDomain;
+import asmeta.definitions.domains.PowersetDomain;
+import asmeta.definitions.domains.ProductDomain;
+import asmeta.definitions.domains.RealDomain;
+import asmeta.definitions.domains.RuleDomain;
+import asmeta.definitions.domains.SequenceDomain;
+import asmeta.definitions.domains.StringDomain;
+import asmeta.definitions.domains.StructuredTd;
+import asmeta.definitions.domains.TypeDomain;
+import asmeta.definitions.domains.UndefDomain;
+import asmeta.structure.AgentInitialization;
+import asmeta.structure.Asm;
+import asmeta.structure.DomainDefinition;
+import asmeta.structure.DomainInitialization;
+import asmeta.structure.ExportClause;
+import asmeta.structure.FunctionDefinition;
+import asmeta.structure.FunctionInitialization;
+import asmeta.structure.Initialization;
+import asmeta.structure.Signature;
+import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.DomainTerm;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.RuleAsTerm;
+import asmeta.terms.basicterms.SetTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.UndefTerm;
+import asmeta.terms.basicterms.VariableKind;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.BagCt;
+import asmeta.terms.furtherterms.BagTerm;
+import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.CharTerm;
+import asmeta.terms.furtherterms.ComplexTerm;
+import asmeta.terms.furtherterms.ComprehensionTerm;
+import asmeta.terms.furtherterms.ConditionalTerm;
+import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.FiniteQuantificationTerm;
+import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.LetTerm;
+import asmeta.terms.furtherterms.MapCt;
+import asmeta.terms.furtherterms.MapTerm;
+import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
+import asmeta.terms.furtherterms.SequenceCt;
+import asmeta.terms.furtherterms.SequenceTerm;
+import asmeta.terms.furtherterms.SetCt;
+import asmeta.terms.furtherterms.StringTerm;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
+import asmeta.transitionrules.basictransitionrules.TermAsRule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
+import asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule;
+import asmeta.transitionrules.turbotransitionrules.TryCatchRule;
+import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
+import asmeta.transitionrules.turbotransitionrules.TurboLocalStateRule;
+import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
+
+/**
+ *
+ * @author Patrizia
+ */
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">public class OCL_Checker {</span>
+
+<span class="fc" id="L129">	static Logger logger = Logger.getLogger(OCL_Checker.class);</span>
+
+<span class="fc" id="L131">	public static String SUPER_ANYDOMAIN = &quot;Any&quot;;</span>
+
+<span class="fc" id="L133">	private static String MSG_ERR = &quot;&quot;;</span>
+
+	public static String getMsgErr() {
+<span class="nc" id="L136">		return MSG_ERR;</span>
+	}
+
+	public static boolean isBoolean(Term t) {
+<span class="fc" id="L140">		return (t.getDomain() instanceof BooleanDomain);</span>
+	}
+
+	// -----------------------------------------------------------------------//
+	// ----------------- Package ASMStructure ---------------------//
+	// -----------------------------------------------------------------------//
+
+	// --- ASM --- //
+	public static boolean checkAsm(Asm asm) {
+<span class="fc" id="L149">		return A1(asm);</span>
+	}
+
+	public static boolean A1(Asm asm) {
+		// check constraint A1: mainrule-&gt;notEmpty() implies mainrule.arity=0
+<span class="fc" id="L154">		RuleDeclaration mainRule = asm.getMainrule();</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">		if (mainRule != null)</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">			if (mainRule.getArity() != 0) {</span>
+<span class="nc" id="L157">				MSG_ERR = &quot;Error: The arity of the main rule must be 0.&quot;;</span>
+<span class="nc" id="L158">				return false;</span>
+			}
+<span class="fc" id="L160">		return true;</span>
+	}
+
+	// --- EXPORT CLAUSE --- //
+	public static boolean checkExportClause(ExportClause expCl) {
+<span class="nc" id="L165">		return A2(expCl);</span>
+	}
+
+	public static boolean A2(ExportClause expCl) {
+		// check constraint A2: exportedDomain-&gt;notEmpty() or
+		// exportedFunction-&gt;notEmpty() or exportedRule-&gt;notEmpty()
+<span class="nc bnc" id="L171" title="All 2 branches missed.">		if (expCl.getExportedDomain() == null</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">				&amp;&amp; expCl.getExportedFunction() == null</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">				&amp;&amp; expCl.getExportedRule() == null) {</span>
+<span class="nc" id="L174">			MSG_ERR = &quot;Error: An export clause must contain at least one Domain or one function or one rule.&quot;;</span>
+<span class="nc" id="L175">			return false;</span>
+		}
+<span class="nc" id="L177">		return true;</span>
+	}
+
+	// --- SIGNATURE --- //
+	public static boolean checkSignature(Signature s) {
+<span class="nc" id="L182">		return U7(s);</span>
+	}
+
+	public static boolean U7(Signature s) {
+		// check constraint U7: function-&gt;forAll(f:Function |
+		// not f.oclIsTypeOf(LocalFunction))
+<span class="nc" id="L188">		Iterator&lt;?&gt; iter = s.getFunction().iterator();</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">		while (iter.hasNext()) {</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">			if (isLocal((Function) iter.next())) {</span>
+<span class="nc" id="L191">				MSG_ERR = &quot;Error: An ASM signature can't declare local functions.&quot;;</span>
+<span class="nc" id="L192">				return false;</span>
+			}
+		}
+<span class="nc" id="L195">		return true;</span>
+	}
+
+	public static boolean isLocal(Function f) {
+<span class="fc" id="L199">		return (f instanceof LocalFunction);</span>
+	}
+
+	// --- INITIALIZATION --- //
+	public static boolean checkInitialization(Initialization i) {
+<span class="pc bpc" id="L204" title="3 of 6 branches missed.">		return I1(i) &amp;&amp; I2(i) &amp;&amp; I3(i);</span>
+	}
+
+	public static boolean I1(Initialization i) {
+		// check constraint I1/M4: I1: domainInitialization-&gt;notEmpty()
+		// or functionInitialization-&gt;notEmpty() or
+		// agentInitialization-&gt;notEmpty()
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">		if (!(i.getDomainInitialization() != null</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">				|| i.getFunctionInitialization() != null || i</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">				.getAgentInitialization() != null)) {</span>
+<span class="nc" id="L214">			MSG_ERR = &quot;Error: An initial state must contain the initialization of at least one domain,&quot;</span>
+					+ &quot;function or agent.&quot;;
+<span class="nc" id="L216">			return false;</span>
+		}
+<span class="fc" id="L218">		return true;</span>
+	}
+
+	public static boolean I2(Initialization i) {
+		// check constraint I2:
+		// domainInitialization-&gt;forAll(d1,d2:DomainInitialization |
+		// d1&lt;&gt;d2 implies d1.initializedDomain &lt;&gt; d2.initializedDomain)
+<span class="pc bpc" id="L225" title="1 of 2 branches missed.">		return ((rightDomainInit(i.getDomainInitialization())) ? true : false);</span>
+	}
+
+	public static boolean I3(Initialization i) {
+		// check constraint I3:
+		// functionInitialization-&gt;forAll(f1,f2:FunctionInitialization |
+		// d1&lt;&gt;d2 implies d1.initializedFunction&lt;&gt;d2.initializedFunction)
+<span class="pc bpc" id="L232" title="1 of 2 branches missed.">		return ((rightFunctionInit(i.getFunctionInitialization())) ? true</span>
+<span class="nc" id="L233">				: false);</span>
+	}
+
+	private static boolean rightDomainInit(Collection&lt;?&gt; domInitColl) {
+<span class="fc" id="L237">		HashMap&lt;Integer, String&gt; domMap = new HashMap&lt;Integer, String&gt;();</span>
+<span class="fc" id="L238">		Iterator&lt;?&gt; iter = domInitColl.iterator();</span>
+		String domName;
+<span class="fc bfc" id="L240" title="All 2 branches covered.">		while (iter.hasNext()) {</span>
+<span class="fc" id="L241">			domName = ((DomainInitialization) iter.next())</span>
+<span class="fc" id="L242">					.getInitializedDomain().getName();</span>
+<span class="pc bpc" id="L243" title="1 of 2 branches missed.">			if (domMap.containsKey(new Integer(domName.hashCode()))) {</span>
+<span class="nc" id="L244">				MSG_ERR = &quot;Error: Within an initial state a concrete domain can be initialized only once. Domain &quot; + domName;</span>
+<span class="nc" id="L245">				return false;</span>
+			} else
+<span class="fc" id="L247">				domMap.put(new Integer(domName.hashCode()), domName);</span>
+		}
+<span class="fc" id="L249">		return true;</span>
+	}
+
+	private static boolean rightFunctionInit(Collection&lt;?&gt; funInitColl) {
+<span class="fc" id="L253">		HashMap&lt;Integer, String&gt; funMap = new HashMap&lt;Integer, String&gt;();</span>
+<span class="fc" id="L254">		Iterator&lt;?&gt; iter = funInitColl.iterator();</span>
+		String funName;
+		DynamicFunction fun;
+<span class="fc bfc" id="L257" title="All 2 branches covered.">		while (iter.hasNext()) {</span>
+<span class="fc" id="L258">			fun = ((FunctionInitialization) iter.next())</span>
+<span class="fc" id="L259">					.getInitializedFunction();</span>
+<span class="fc" id="L260">			funName = fun.getName();</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">			if (fun.getDomain() != null)</span>
+				// To distinguish among overloaded function names
+<span class="fc" id="L263">				funName = funName.concat(&quot;(&quot;).concat(fun.getDomain().getName())</span>
+<span class="fc" id="L264">						.concat(&quot;)&quot;);</span>
+<span class="pc bpc" id="L265" title="1 of 2 branches missed.">			if (funMap.containsKey(new Integer(funName.hashCode()))) {</span>
+<span class="nc" id="L266">				MSG_ERR = &quot;Error: Within an initial state a dynamic function can be initialized only once. Function &quot; + funName;</span>
+<span class="nc" id="L267">				return false;</span>
+			} else
+<span class="fc" id="L269">				funMap.put(new Integer(funName.hashCode()), funName);</span>
+		}
+<span class="fc" id="L271">		return true;</span>
+	}
+
+	// ----------------- DOMAIN INITIALIZATION -------------- //
+	public static boolean checkDomainInitialization(DomainInitialization d_init) {
+<span class="pc bpc" id="L276" title="2 of 4 branches missed.">		return I4(d_init) &amp;&amp; I5(d_init);</span>
+	}
+
+	public static boolean I4(DomainInitialization d_init) {
+		// check constraint I4: initializedDomain.isDynamic = true
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">		if (!d_init.getInitializedDomain().getIsDynamic()) {</span>
+<span class="nc" id="L282">			MSG_ERR = &quot;Error: Static domains can't be initialized.&quot;;</span>
+<span class="nc" id="L283">			return false;</span>
+		}
+<span class="fc" id="L285">		return true;</span>
+	}
+
+	public static boolean I5(DomainInitialization d_init) {
+		// check constraint I5: body.domain.oclIsTypeOf(PowersetDomain) and
+		// body.domain.oclAsType(PowersetDomain).baseDomain =
+		// initializedDomain.typeDomain
+<span class="fc" id="L292">		Domain body_td = d_init.getBody().getDomain();</span>
+<span class="pc bpc" id="L293" title="2 of 4 branches missed.">		if (!((body_td instanceof PowersetDomain) &amp;&amp; compatible(d_init</span>
+<span class="fc" id="L294">				.getInitializedDomain().getTypeDomain(),</span>
+<span class="fc" id="L295">				((PowersetDomain) body_td).getBaseDomain()))) {</span>
+			// TRICK:
+			// If the names of the domains are equal, return true
+<span class="nc bnc" id="L298" title="All 2 branches missed.">			if (((PowersetDomain) body_td).getBaseDomain().getName().equals(</span>
+<span class="nc" id="L299">					d_init.getInitializedDomain().getTypeDomain().getName()))</span>
+<span class="nc" id="L300">				return true;</span>
+<span class="nc" id="L301">			MSG_ERR = &quot;Error: The body of the domain initialization is ill formed.&quot;;</span>
+<span class="nc" id="L302">			return false;</span>
+		}
+<span class="fc" id="L304">		return true;</span>
+	}
+
+	// ----------------- DOMAIN DEFINITION -------------- //
+	public static boolean checkDomainDefinition(DomainDefinition d_def) {
+<span class="pc bpc" id="L309" title="2 of 4 branches missed.">		return B1(d_def) &amp;&amp; B2(d_def);</span>
+	}
+
+	public static boolean B1(DomainDefinition d_def) {
+		// check constraint B1: definedDomain.isDynamic = false
+<span class="pc bpc" id="L314" title="1 of 2 branches missed.">		if (d_def.getDefinedDomain().getIsDynamic()) {</span>
+<span class="nc" id="L315">			MSG_ERR = &quot;Error: Dynamic domains must be initialized, not defined!&quot;;</span>
+<span class="nc" id="L316">			return false;</span>
+		}
+<span class="fc" id="L318">		return true;</span>
+	}
+
+	public static boolean B2(DomainDefinition d_def) {
+		// check constraint B2: body.domain.oclIsTypeOf(PowersetDomain) and
+		// body.domain.oclAsType(PowersetDomain).baseDomain =
+		// definedDomain.typeDomain
+<span class="fc" id="L325">		Domain body_td = d_def.getBody().getDomain();</span>
+<span class="pc bpc" id="L326" title="1 of 2 branches missed.">		if (!(body_td instanceof PowersetDomain)) {</span>
+<span class="nc" id="L327">			MSG_ERR = &quot;Error: The type-domain of the body of the domain definition must be a powerset.&quot;</span>
+<span class="nc" id="L328">					+ ((PowersetDomain) body_td).getBaseDomain().toString()</span>
+					+ &quot;\n&quot;
+<span class="nc" id="L330">					+ d_def.getDefinedDomain().getTypeDomain().toString();</span>
+<span class="nc" id="L331">			return false;</span>
+		}
+<span class="pc bpc" id="L333" title="1 of 2 branches missed.">		if (!(compatible(d_def.getDefinedDomain().getTypeDomain(),</span>
+<span class="fc" id="L334">				((PowersetDomain) body_td).getBaseDomain())))</span>
+		// For testing:
+		// Try with refMofId:
+		// ((PowersetDomain) body_td).getBaseDomain().refMofId()
+		// .equals(d_def.getDefinedDomain().getTypeDomain())))
+		// Try with &quot;compatible&quot;:
+		// compatible(d_def.getDefinedDomain().getTypeDomain(),((PowersetDomain)
+		// body_td).getBaseDomain())))
+		{
+			// TRICK:
+			// If the names of the domains are equal, return true
+<span class="nc bnc" id="L345" title="All 2 branches missed.">			if (((PowersetDomain) body_td).getBaseDomain().getName().equals(</span>
+<span class="nc" id="L346">					d_def.getDefinedDomain().getTypeDomain().getName()))</span>
+<span class="nc" id="L347">				return true;</span>
+
+<span class="nc" id="L349">			MSG_ERR = &quot;Error: The body of the domain definition is ill formed.&quot;</span>
+<span class="nc" id="L350">					+ ((PowersetDomain) body_td).getBaseDomain().toString()</span>
+					+ &quot;\n&quot;
+<span class="nc" id="L352">					+ d_def.getDefinedDomain().getTypeDomain().toString();</span>
+<span class="nc" id="L353">			return false;</span>
+		}
+<span class="fc" id="L355">		return true;</span>
+	}
+
+	// ----------------- FUNCTION INITIALIZATION ---------- //
+	public static boolean checkFunctionInitialization(
+			FunctionInitialization f_init) {
+<span class="pc bpc" id="L361" title="3 of 6 branches missed.">		return I6(f_init) &amp;&amp; I7_I8_I9(f_init) &amp;&amp; I10(f_init);// &amp;&amp; E20(f_init);</span>
+	}
+
+	public static boolean I6(FunctionInitialization f_init) {
+		// check constraint I6: variable-&gt;size() =
+		// initializedFunction.arity.oclAsType(Integer)
+<span class="pc bpc" id="L367" title="1 of 2 branches missed.">		if (f_init.getVariable().size() != f_init.getInitializedFunction()</span>
+<span class="fc" id="L368">				.getArity()) {</span>
+<span class="nc" id="L369">			MSG_ERR = &quot;Error: In a function initialization, the number of formal &quot;</span>
+					+ &quot;parameters must be equal to the arity of the function to initialize.&quot;;
+<span class="nc" id="L371">			return false;</span>
+		}
+<span class="fc" id="L373">		return true;</span>
+	}
+
+	public static boolean I7_I8_I9(FunctionInitialization f_init) {
+		// check constraints I7,I8,I9:
+		// let size:Integer = self.variable-&gt;size() in
+		// let D:Domain = self.initializedFunction.domain in
+		// I7: if size = 1 then variable-&gt;at(1).domain = D
+		// else if size &gt; 1 then
+		// I8: (D.oclIsTypeOf(ProductDomain) and Sequence{1..size}-&gt;
+		// forAll(i:Integer |
+		// variable-&gt;at(i).domain = D.oclAsType(ProductDomain).domains-&gt;at(i) ))
+		// or
+		// I9: (D.oclIsTypeOf(ConcreteDomain) and
+		// D.oclAsType(ConcreteDomain).typeDomain.oclIsTypeOf(ProductDomain)
+		// and Sequence{1..size}-&gt;
+		// forAll(i:Integer | variable-&gt;at(i).domain =
+		// D.oclAsType(ConcreteDomain).typeDomain.
+		// oclAsType(ProductDomain).domains-&gt;at(i)) ) endif endif endlet endlet
+<span class="fc" id="L392">		int size = f_init.getVariable().size();</span>
+<span class="fc" id="L393">		Domain D = f_init.getInitializedFunction().getDomain();</span>
+
+		// I7
+<span class="fc bfc" id="L396" title="All 2 branches covered.">		if (size == 1)</span>
+<span class="pc bpc" id="L397" title="1 of 2 branches missed.">			if (f_init.getVariable().get(0).getDomain() != D) {</span>
+<span class="nc" id="L398">				MSG_ERR = &quot;Error: The domain where the formal parameter takes its value&quot;</span>
+						+ &quot;must be equal to the domain of the function.&quot;;
+<span class="nc" id="L400">				return false;</span>
+			} else
+<span class="fc" id="L402">				return true; // case size == 1</span>
+<span class="fc bfc" id="L403" title="All 2 branches covered.">		if (size &gt; 1) {</span>
+			// I8
+<span class="pc bpc" id="L405" title="1 of 2 branches missed.">			if (D instanceof ProductDomain)</span>
+<span class="fc" id="L406">				return I8_I9aux(f_init.getVariable(), (ProductDomain) D);</span>
+			// or I9
+<span class="nc bnc" id="L408" title="All 2 branches missed.">			else if ((D instanceof ConcreteDomain)</span>
+<span class="nc bnc" id="L409" title="All 2 branches missed.">					&amp;&amp; (((ConcreteDomain) D).getTypeDomain() instanceof ProductDomain))</span>
+<span class="nc" id="L410">				return I8_I9aux(f_init.getVariable(),</span>
+<span class="nc" id="L411">						(ProductDomain) ((ConcreteDomain) D).getTypeDomain());</span>
+		}
+<span class="fc" id="L413">		return true; // case size == 0</span>
+	}
+
+	private static boolean I8_I9aux(List&lt;?&gt; variables, ProductDomain D) {
+		// Check:
+		// Sequence{1..size}-&gt; forAll(i:Integer |
+		// variable-&gt;at(i).domain = D.oclAsType(ProductDomain).domains-&gt;at(i) )
+
+<span class="fc" id="L421">		Iterator&lt;?&gt; iter1 = variables.iterator();</span>
+<span class="fc" id="L422">		Iterator&lt;?&gt; iter2 = D.getDomains().iterator();</span>
+		Domain d1, d2;
+<span class="pc bpc" id="L424" title="1 of 4 branches missed.">		while (iter1.hasNext() &amp;&amp; iter2.hasNext()) {</span>
+<span class="fc" id="L425">			d1 = ((VariableTerm) iter1.next()).getDomain();</span>
+<span class="fc" id="L426">			d2 = (Domain) iter2.next();</span>
+<span class="pc bpc" id="L427" title="1 of 2 branches missed.">			if (!(d1.getName().equals(d2.getName()))) { // TRICK! OLD: d1 != d2</span>
+<span class="nc" id="L428">				MSG_ERR = &quot;Error: the domain of the function is a product domain&quot;</span>
+						+ &quot;or a concrete domain whose type-domain is a product domain, but domain components are not equal to the parameters domains&quot;
+						+ &quot;Type mismatch between &quot;
+<span class="nc" id="L431">						+ d1.getName()</span>
+						+ &quot; and &quot;
+<span class="nc" id="L433">						+ d2.getName();</span>
+<span class="nc" id="L434">				return false;</span>
+			}
+		}
+<span class="fc" id="L437">		return true;</span>
+	}
+
+	public static boolean I10(FunctionInitialization f_init) {
+		// check constraint I10:
+		// initializedFunction.codomain.compatible(body.domain)
+<span class="fc" id="L443">		TypeDomain TD = getTypeDomain(f_init.getInitializedFunction()</span>
+<span class="fc" id="L444">				.getCodomain());</span>
+		//TypeDomain BTD = getTypeDomain(f_init.getBody().getDomain());
+
+		// special case: check if the domain of the function body is a
+		// MapDomain; in this case
+		// the compatibility between the function codomain and the body domain
+		// is extablished
+		// according to E20
+		/* Disabled!
+		if (BTD instanceof MapDomain) {
+			return E20(f_init);
+		}
+		else */
+		// normal case: I10
+<span class="pc bpc" id="L458" title="1 of 2 branches missed.">		 if (!(compatible(TD, f_init.getBody().getDomain()))) {</span>
+<span class="nc" id="L459">			MSG_ERR = &quot;Error: The domain of the function body must be compatible with the function codomain &quot;</span>
+<span class="nc" id="L460">					+ TD.getName() + &quot;.&quot;;</span>
+<span class="nc" id="L461">			return false;</span>
+		}
+<span class="fc" id="L463">		return true;</span>
+	}
+
+	//Disabled for FunctionInitialization/definition in order to allow its use for
+	//0-ary functions. n-ary functions can be defined/initialized also with a map term
+	//by the use of the predefined &quot;at&quot; function defined in the standard library!
+	/*public static boolean E20(FunctionInitialization f_init) {
+		// E20: let M:Domain = body.domain in
+		// if (M.oclIsTypeOf(MapDomain)) then
+		// initializedFunction.domain-&gt;notEmpty() and
+		// M.oclAsType(MapDomain).sourceDomain.compatible(initializedFunction.domain)
+		// and
+		// M.oclAsType(MapDomain).targetDomain.compatible(initializedFunction.codomain)
+		// endif
+		if (!body_ok(f_init.getInitializedFunction(), f_init.getBody()))
+			return false;
+		return true;
+	}
+
+	public static boolean E21(FunctionDefinition f_def) {
+		// E21: like in E20
+		if (!body_ok(f_def.getDefinedFunction(), f_def.getBody()))
+			return false;
+		return true;
+	}
+*/
+	public static boolean body_ok(Function f, Term body) { // See E20
+<span class="nc" id="L490">		Domain dom = f.getDomain();</span>
+<span class="nc" id="L491">		Domain cod = f.getCodomain();</span>
+<span class="nc" id="L492">		Domain td_body = body.getDomain();</span>
+<span class="nc bnc" id="L493" title="All 2 branches missed.">		if (td_body instanceof MapDomain) {</span>
+<span class="nc bnc" id="L494" title="All 2 branches missed.">			if (dom == null) {</span>
+<span class="nc" id="L495">				MSG_ERR = &quot;Error: A map term cannot be used as body.&quot;;</span>
+<span class="nc" id="L496">				return false;</span>
+			}
+
+<span class="nc" id="L499">			Domain M1 = ((MapDomain) td_body).getSourceDomain();</span>
+<span class="nc" id="L500">			Domain M2 = ((MapDomain) td_body).getTargetDomain();</span>
+<span class="nc bnc" id="L501" title="All 4 branches missed.">			if (!(compatible(M1, dom) &amp;&amp; compatible(M2, cod))) {</span>
+<span class="nc" id="L502">				MSG_ERR = &quot;Error: The map term representing the function body is ill formed.&quot;;</span>
+<span class="nc" id="L503">				return false;</span>
+			}
+		}
+<span class="nc" id="L506">		return true;</span>
+	}
+
+	// ----------------- FUNCTION DEFINITION --------------//
+	public static boolean checkFunctionDefinition(FunctionDefinition f_def) {
+<span class="pc bpc" id="L511" title="4 of 8 branches missed.">		return B3(f_def) &amp;&amp; B6(f_def) &amp;&amp; B7_B8_B9(f_def) &amp;&amp; B10(f_def);</span>
+				//&amp;&amp; E21(f_def);
+	}
+
+	public static boolean B3(FunctionDefinition f_def) {
+		// check constraint B3: definedFunction.oclIsTypeOf(StaticFunction) or
+		// definedFunction.oclIsTypeOf(DerivedFunction)
+<span class="fc bfc" id="L518" title="All 2 branches covered.">		if (!((f_def.getDefinedFunction() instanceof StaticFunction) || (f_def</span>
+<span class="pc bpc" id="L519" title="1 of 2 branches missed.">				.getDefinedFunction() instanceof DerivedFunction))) {</span>
+<span class="nc" id="L520">			MSG_ERR = &quot;Error: Only static/derived functions already declared in the ASM signature can be defined.&quot;;</span>
+<span class="nc" id="L521">			return false;</span>
+		}
+<span class="fc" id="L523">		return true;</span>
+	}
+
+	public static boolean B6(FunctionDefinition f_def) {
+		// check constraint B6: variable-&gt;size() =
+		// definedFunction.arity.oclAsType(Integer)
+<span class="pc bpc" id="L529" title="1 of 2 branches missed.">		if (f_def.getVariable().size() != f_def.getDefinedFunction().getArity()) {</span>
+<span class="nc" id="L530">			MSG_ERR = &quot;Error: In a function definition, the number of formal &quot;</span>
+					+ &quot;parameters must be equal to the arity of the function to define.&quot;;
+<span class="nc" id="L532">			return false;</span>
+		}
+<span class="fc" id="L534">		return true;</span>
+	}
+
+	public static boolean B10(FunctionDefinition f_def) {
+		// check constraint B10:
+		// definedFunction.codomain.compatible(body.domain)
+
+<span class="fc" id="L541">		TypeDomain TD = getTypeDomain(f_def.getDefinedFunction().getCodomain());</span>
+		//TypeDomain BTD = getTypeDomain(f_def.getBody().getDomain());
+
+		// special case: check if the domain of the function body is a
+		// MapDomain; in this case
+		// the compatibility between the function codomain and the body domain
+		// is extablished
+		// according to E21
+		//Disabled!
+		/* if (BTD instanceof MapDomain) {
+			return E21(f_def);
+		}
+		else */
+		// normal case: B10
+<span class="pc bpc" id="L555" title="1 of 2 branches missed.">		if (!(compatible(TD, f_def.getBody().getDomain()))) {</span>
+<span class="nc" id="L556">			MSG_ERR = &quot;Error: The domain of the function body must be compatible with the function codomain &quot;</span>
+<span class="nc" id="L557">					+ TD.getName() + &quot;.&quot;;</span>
+<span class="nc" id="L558">			return false;</span>
+		}
+<span class="fc" id="L560">		return true;</span>
+	}
+
+	public static boolean B7_B8_B9(FunctionDefinition f_def) {
+		// see constraints I7,I8,I9 of FunctionInitialization
+<span class="fc" id="L565">		int size = f_def.getVariable().size();</span>
+<span class="fc" id="L566">		Domain D = f_def.getDefinedFunction().getDomain();</span>
+
+		// B7
+<span class="fc bfc" id="L569" title="All 2 branches covered.">		if (size == 1)</span>
+<span class="pc bpc" id="L570" title="1 of 2 branches missed.">			if (f_def.getVariable().get(0).getDomain() != D) {</span>
+<span class="nc" id="L571">				MSG_ERR = &quot;Error: The domain where the formal parameter takes its value&quot;</span>
+						+ &quot;must be equal to the domain of the function.&quot;;
+<span class="nc" id="L573">				return false;</span>
+			} else
+<span class="fc" id="L575">				return true; // case size == 1</span>
+<span class="fc bfc" id="L576" title="All 2 branches covered.">		if (size &gt; 1) {</span>
+			// I8
+<span class="pc bpc" id="L578" title="1 of 2 branches missed.">			if (D instanceof ProductDomain)</span>
+<span class="fc" id="L579">				return I8_I9aux(f_def.getVariable(), (ProductDomain) D);</span>
+			// I9
+<span class="nc bnc" id="L581" title="All 2 branches missed.">			else if ((D instanceof ConcreteDomain)</span>
+<span class="nc bnc" id="L582" title="All 2 branches missed.">					&amp;&amp; (((ConcreteDomain) D).getTypeDomain() instanceof ProductDomain))</span>
+<span class="nc" id="L583">				return I8_I9aux(f_def.getVariable(),</span>
+<span class="nc" id="L584">						(ProductDomain) ((ConcreteDomain) D).getTypeDomain());</span>
+		}
+<span class="fc" id="L586">		return true; // case size == 0</span>
+	}
+
+	// --- AGENT INITIALIZATION ------//
+	public static boolean checkAgentInitialization(AgentInitialization a) {
+<span class="fc" id="L591">		return M3(a);</span>
+	}
+
+	public static boolean M3(AgentInitialization a) {
+		// check constraint M3:
+		// the program is not empty and
+		// the domain is the Agent Domain or a subset of it:
+		// program-&gt;notEmpty() and (domain.oclIsTypeOf(AgentDomain) or
+		// domain.oclIsTypeOf(ConcreteDomain) and
+		// domain.oclAsType(ConcreteDomain).typeDomain.oclIsTypeOf(AgentDomain))
+
+<span class="pc bpc" id="L602" title="1 of 2 branches missed.">		if (a.getProgram() == null) {</span>
+<span class="nc" id="L603">			MSG_ERR = &quot;Error: No rule is associated as program to agents &quot;</span>
+<span class="nc" id="L604">					+ a.getDomain().getName() + &quot;.&quot;;</span>
+<span class="nc" id="L605">			return false;</span>
+		}
+
+<span class="fc bfc" id="L608" title="All 2 branches covered.">		if (a.getDomain() instanceof AgentDomain)</span>
+<span class="fc" id="L609">			return true;</span>
+
+<span class="pc bpc" id="L611" title="1 of 2 branches missed.">		if ((a.getDomain() instanceof ConcreteDomain)</span>
+<span class="pc bpc" id="L612" title="1 of 2 branches missed.">				&amp;&amp; (((ConcreteDomain) a.getDomain()).getTypeDomain() instanceof AgentDomain))</span>
+<span class="fc" id="L613">			return true;</span>
+
+<span class="nc" id="L615">		MSG_ERR = &quot;Error: the domain &quot; + a.getDomain().getName()</span>
+				+ &quot; is not the Agent Domain or a subset of it.&quot;;
+<span class="nc" id="L617">		return false;</span>
+
+	}
+
+	// -----------------------------------------------------------------------//
+	// ----------------- Package ASMDefinitions ---------------------//
+	// -----------------------------------------------------------------------//
+
+	// -------------------------- DOMAIN query/operations
+	// -----------------------//
+
+	/**
+	 * Computes a number expressing the compatibility between two domains.
+	 * Two domains are compatible if and only if they are the same one or
+	 * one is a subset of the other (i.e. a concrete domain of the other).
+	 * More depth is the chain of subset declarations between the domains,
+	 * lower is the compatibility.
+	 *
+	 * &lt;br&gt;&lt;br&gt;NOTE ON IMPLEMENTATION
+	 * &lt;br&gt;See the method &lt;i&gt;rating(List&lt;Domain&gt;, List&lt;Domain&gt;)&lt;/i&gt; for the
+	 * maximum value of the returned rating.
+	 *
+	 * @param given 
+	 * 		the given domain
+	 * @param another 
+	 * 		the possible compatible domain
+	 * @return 
+	 * 		0 if the domains are the same one, -1 if they are incompatible,
+	 * 		otherwise a positive number expressing the compatibility (higher is the
+	 * 		number, lower is the compatibility).
+	 */
+	private static int compatibleRating(Domain given, Domain another) {
+		// FIXME sometimes the method getAsmName() doesn't work.
+		// This check tries to catch such situations.
+<span class="fc bfc" id="L651" title="All 2 branches covered.">		if (given == another) {</span>
+<span class="fc" id="L652">			return 0;</span>
+		}
+<span class="fc" id="L654">		String name1 = given.getName();</span>
+<span class="fc" id="L655">		String name2 = another.getName();</span>
+<span class="fc" id="L656">		String module1 = Defs.getAsmName(given);</span>
+<span class="fc" id="L657">		String module2 = Defs.getAsmName(another);</span>
+
+		//The comparison between basic type domains is based on their names.
+<span class="fc bfc" id="L660" title="All 2 branches covered.">		if (given instanceof BasicTd) {</span>
+<span class="fc bfc" id="L661" title="All 2 branches covered.">			if (another instanceof BasicTd) {</span>
+<span class="pc bpc" id="L662" title="1 of 2 branches missed.">				return name1.equals(name2)? 0: -1;</span>
+			}
+<span class="fc" id="L664">			return -1;</span>
+<span class="fc bfc" id="L665" title="All 2 branches covered.">		} else if (given instanceof StructuredTd) {</span>
+<span class="pc bpc" id="L666" title="1 of 2 branches missed.">			if (another instanceof StructuredTd) {</span>
+<span class="pc bpc" id="L667" title="1 of 2 branches missed.">				return Defs.equals(another, given)? 0: -1;</span>
+			}
+<span class="nc" id="L669">			return -1;</span>
+<span class="fc bfc" id="L670" title="All 2 branches covered.">		} else if (given instanceof EnumTd) {</span>
+<span class="fc bfc" id="L671" title="All 2 branches covered.">			if (another instanceof EnumTd) {</span>
+<span class="pc bpc" id="L672" title="2 of 4 branches missed.">				return module1.equals(module2) &amp;&amp; name1.equals(name2)? 0: -1;</span>
+			}
+<span class="fc" id="L674">			return -1;</span>
+<span class="fc bfc" id="L675" title="All 2 branches covered.">		} else if (given instanceof AbstractTd) {</span>
+<span class="pc bpc" id="L676" title="1 of 2 branches missed.">			if (another instanceof AbstractTd) {</span>
+<span class="nc bnc" id="L677" title="All 4 branches missed.">				return module1.equals(module2) &amp;&amp; name1.equals(name2)? 0: -1;</span>
+			}
+<span class="fc" id="L679">			return -1;</span>
+		}
+<span class="pc bpc" id="L681" title="1 of 2 branches missed.">		else if (given instanceof ConcreteDomain) {</span>
+<span class="fc bfc" id="L682" title="All 2 branches covered.">			if (another instanceof ConcreteDomain) {</span>
+				//If they are two concrete domains, it is enough to check the name.
+<span class="pc bpc" id="L684" title="2 of 4 branches missed.">				return module1.equals(module2) &amp;&amp; name1.equals(name2)? 0: -1;</span>
+			} else /*if (another instanceof AbstractTd)*/ {
+				//we must check that the type domain of the concrete domain &quot;given&quot; is
+				//equal to &quot;another&quot;
+<span class="fc" id="L688">				TypeDomain given2 = ((ConcreteDomain) given).getTypeDomain();</span>
+<span class="fc" id="L689">				name1 = given2.getName();</span>
+<span class="fc" id="L690">				module1 = Defs.getAsmName(given2);</span>
+				// NOTE: the distance between the domains is now incremented by 1
+<span class="pc bpc" id="L692" title="2 of 4 branches missed.">				return module1.equals(module2) &amp;&amp; name1.equals(name2)? 1: -1;</span>
+			}
+//			return -1;
+		}
+<span class="nc bnc" id="L696" title="All 6 branches missed.">		else if ( (given instanceof AnyDomain &amp;&amp; name1.equals(SUPER_ANYDOMAIN)) ||</span>
+<span class="nc bnc" id="L697" title="All 2 branches missed.">				(another instanceof AnyDomain &amp;&amp; name2.equals(SUPER_ANYDOMAIN)))</span>
+<span class="nc" id="L698">				return 2; //Added by Patrizia for domain Any</span>
+		                   //FIXME Similarly to function declarations (that not use a rating algorithm for compatibility), also the other concrete domains should be treated!
+		
+<span class="nc" id="L701">		throw new RuntimeException(&quot;Unable to compare domains: &quot;</span>
+				+ module1 + &quot;::&quot; + name1 + &quot;, &quot; + module2 + &quot;::&quot; + name2);
+	}
+
+	/**
+	 * @see compatibleRating()
+	 * 
+	 */
+	static int rating(Domain given, Domain another) {
+<span class="fc" id="L710">		int r = compatibleRating(given, another);</span>
+<span class="fc bfc" id="L711" title="All 2 branches covered.">		if (r == -1) {</span>
+<span class="fc" id="L712">			logger.debug(&quot;In rating. Domains &quot; + given.getName() + &quot; and &quot; + another.getName() + &quot; are incompatible. So we see if &quot; + another.getName() + &quot; and &quot; + given.getName() + &quot; are compatible.&quot;);</span>
+<span class="fc" id="L713">			r = compatibleRating(another, given);//why? see definition of compatible</span>
+<span class="fc" id="L714">			r *= 10;</span>
+		}
+<span class="fc" id="L716">		return r;</span>
+	}
+
+	/**
+	 * Computes a number expressing the compatibility between two list of domains
+	 * (e.g. the domains of the formal parameters of a macro declaration and
+	 * the domains of the actual parameters of a macro invocation).
+	 *
+	 * &lt;br&gt;&lt;br&gt;NOTE ON IMPLEMENTATION
+	 * &lt;br&gt;The current implementation assumes the rating returned by the
+	 * &lt;i&gt;rating()&lt;/i&gt; method is between 0 and 99. In general, if the
+	 * rating returned is between 0 and &lt;i&gt;x&lt;/i&gt;, the value of the local variable
+	 * &lt;i&gt;big100&lt;/i&gt; must be &lt;i&gt;x+1&lt;/i&gt;.
+	 *
+	 * @param givenLst 
+	 * 		a list of domains
+	 * @param anotherLst 
+	 * 		another list of domains
+	 * @return 
+	 * 		0 if the domains are the same ones, -1 if they are incompatible,
+	 * 		otherwise a positive number expressing the compatibility (higher is the
+	 * 		number, lower is the compatibility).
+	 * 
+	 */
+	static BigInteger rating(List&lt;Domain&gt; givenLst, List&lt;Domain&gt; anotherLst) {
+<span class="fc bfc" id="L741" title="All 2 branches covered.">		if (givenLst.size() != anotherLst.size()) {</span>
+<span class="fc" id="L742">			logger.debug(&quot;In rating. The lists have different sizes.&quot;);</span>
+<span class="fc" id="L743">			return BigInteger.valueOf(-1);</span>
+		}
+<span class="fc" id="L745">		BigInteger total = BigInteger.valueOf(0);</span>
+		// NOTE
+		// make sure the rating returned by compatibleRating() is less than 100,
+		// otherwise increase the value of big100 so that it is greater than the
+		// maximum rating
+<span class="fc" id="L750">		BigInteger big100 = BigInteger.valueOf(100);</span>
+<span class="fc" id="L751">		Iterator&lt;Domain&gt; givenIt = givenLst.iterator();</span>
+<span class="fc" id="L752">		Iterator&lt;Domain&gt; anotherIt = anotherLst.iterator();</span>
+<span class="fc bfc" id="L753" title="All 2 branches covered.">		while (givenIt.hasNext()) {</span>
+<span class="fc" id="L754">			Domain given = givenIt.next();</span>
+<span class="fc" id="L755">			Domain another = anotherIt.next();</span>
+<span class="fc" id="L756">			int rating = rating(given, another);</span>
+<span class="fc" id="L757">			logger.debug(&quot;In rating. Rating between &quot; + given.getName() + &quot; and &quot; + another.getName() + &quot; is &quot; + rating);</span>
+<span class="pc bpc" id="L758" title="2 of 4 branches missed.">			assert rating &lt; big100.intValue();</span>
+<span class="pc bpc" id="L759" title="1 of 2 branches missed.">			if (rating == -1) {</span>
+<span class="nc" id="L760">				return BigInteger.valueOf(-1);</span>
+			}
+<span class="fc" id="L762">			BigInteger bigRating = BigInteger.valueOf(rating);</span>
+			// total = total * big100 + bigRating
+<span class="fc" id="L764">			total = total.multiply(big100).add(bigRating);</span>
+<span class="fc" id="L765">		}</span>
+<span class="fc" id="L766">		logger.debug(&quot;In rating. Total rating is &quot; + total.intValue());</span>
+<span class="fc" id="L767">		return total;</span>
+	}
+
+	/**
+	 * Compatible.
+	 *
+	 * @param self  e' il dominio della funzione - parametro formale
+	 * @param d e' il dominio degli argomenti della funzione - parametro attuale
+	 *
+	 * @return true, if successful
+	 */
+	public static boolean compatible(Domain self, Domain d) {
+
+<span class="fc" id="L780">		logger.debug(&quot;checking compatibility between &quot; + self.getName() + &quot; and &quot; + d.getName());</span>
+		/*
+		 * OCL SYNTAX: context Domain def: let compatible(Domain d): boolean =
+		 */
+		/*
+		 * OCL SYNTAX: -- self and d are equals or d is Undef self = d or
+		 * d.oclIsTypeOf(UndefDomain) or
+		 */
+<span class="pc bpc" id="L788" title="1 of 8 branches missed.">		if ((self == d)</span>
+				|| (d instanceof UndefDomain)
+				|| (self instanceof UndefDomain)
+<span class="pc bpc" id="L791" title="1 of 4 branches missed.">				|| ((d instanceof AnyDomain) &amp;&amp; d.getName().equals(&quot;Any&quot;))</span>
+<span class="pc bpc" id="L792" title="1 of 2 branches missed.">				|| ((self instanceof AnyDomain) &amp;&amp; self.getName().equals(&quot;Any&quot;))) // NEW</span>
+																					// by
+																					// Patrizia
+																					// Added
+																					// AnyDomain
+<span class="fc" id="L797">			return true;</span>
+		/*
+		 * OCL SYNTAX: -- one is a ConcreteDomain (
+		 * self.oclIsTypeOf(ConcreteDomain) and d.oclIsTypeOf(TypeDomain) and d =
+		 * self.oclAsType(ConcreteDomain).typeDomain ) or (
+		 * d.oclIsTypeOf(ConcreteDomain) and self.oclIsTypeOf(TypeDomain) and
+		 * self = d.oclAsType(ConcreteDomain).typeDomain ) or
+		 */
+<span class="pc bpc" id="L805" title="1 of 4 branches missed.">		if (self instanceof ConcreteDomain &amp;&amp; d instanceof TypeDomain) {</span>
+<span class="fc" id="L806">			return compatible(d, ((ConcreteDomain) self).getTypeDomain());</span>
+		}
+<span class="pc bpc" id="L808" title="1 of 4 branches missed.">		if (d instanceof ConcreteDomain &amp;&amp; self instanceof TypeDomain) {</span>
+<span class="fc" id="L809">			return compatible(self,((ConcreteDomain) d).getTypeDomain());</span>
+		}
+		/*
+		 * OCL SYNTAX: -- two PowersetDomain ( self.oclIsTypeOf(PowersetDomain)
+		 * and d.oclIsTypeOf(PowersetDomain) and
+		 * self.oclAsType(PowersetDomain).baseDomain.compatible(d.oclAsType(PowersetDomain).baseDomain))
+		 * or
+		 */
+<span class="pc bpc" id="L817" title="1 of 4 branches missed.">		if (self instanceof PowersetDomain</span>
+				&amp;&amp; d instanceof PowersetDomain)
+<span class="fc" id="L819">			return compatible(((PowersetDomain) self).getBaseDomain(),</span>
+<span class="fc" id="L820">						((PowersetDomain) d).getBaseDomain());</span>
+		/*
+		 * OCL SYNTAX: -- two ProductDomain ( self.oclIsTypeOf(ProductDomain)
+		 * and d.oclIsTypeOf(ProductDomain) and (let size:Integer =
+		 * self.oclAsType(ProductDomain).domains-&gt;sise() in size =
+		 * d.oclAsType(ProductDomain).domains-&gt;sise() and
+		 * Sequence{1..size}-&gt;forAll(i:Integer |
+		 * self.oclAsType(ProductDomain).domains-&gt;at(i).compatible(d.oclAsType(ProductDomain).domains-&gt;at(i))
+		 * endlet) )
+		 */
+<span class="pc bpc" id="L830" title="1 of 4 branches missed.">		if ((self instanceof ProductDomain)</span>
+				&amp;&amp; (d instanceof ProductDomain)
+<span class="pc bpc" id="L832" title="1 of 2 branches missed.">				&amp;&amp; compatibleSubDomains((ProductDomain) self, (ProductDomain) d))</span>
+<span class="fc" id="L833">			return true;</span>
+		/*
+		 * OCL SYNTAX: -- two SequenceDomain (self.oclIsTypeOf(SequenceDomain)
+		 * and d.oclIsTypeOf(SequenceDomain) and
+		 * self.oclAsType(SequenceDomain).domain.compatible(d.oclAsType(SequenceDomain).domain))
+		 * or
+		 */
+<span class="pc bpc" id="L840" title="1 of 4 branches missed.">		if ((self instanceof SequenceDomain)</span>
+				&amp;&amp; (d instanceof SequenceDomain)
+<span class="pc bpc" id="L842" title="1 of 2 branches missed.">				&amp;&amp; compatible(((SequenceDomain) self).getDomain(),</span>
+<span class="fc" id="L843">						((SequenceDomain) d).getDomain()))</span>
+<span class="fc" id="L844">			return true;</span>
+		/*
+		 * OCL SYNTAX: -- two BagDomain (self.oclIsTypeOf(BagDomain) and
+		 * d.oclIsTypeOf(BagDomain) and
+		 * self.oclAsType(BagDomain).domain.compatible(d.oclAsType(BagDomain).domain))
+		 * or
+		 */
+<span class="pc bpc" id="L851" title="1 of 4 branches missed.">		if ((self instanceof BagDomain)</span>
+				&amp;&amp; (d instanceof BagDomain)
+<span class="pc bpc" id="L853" title="1 of 2 branches missed.">				&amp;&amp; compatible(((BagDomain) self).getDomain(), ((BagDomain) d)</span>
+<span class="fc" id="L854">						.getDomain()))</span>
+<span class="fc" id="L855">			return true;</span>
+		/*
+		 * OCL SYNTAX: -- two MapDomain (self.oclIsTypeOf(MapDomain) and
+		 * d.oclIsTypeOf(MapDomain) and
+		 * self.oclAsType(MapDomain).sourceDomain.compatible(d.oclAsType(MapDomain).sourceDomain)
+		 * and
+		 * self.oclAsType(MapDomain).targetDomain.compatible(d.oclAsType(MapDomain).targetDomain))
+		 */
+<span class="pc bpc" id="L863" title="3 of 4 branches missed.">		if ((self instanceof MapDomain)</span>
+				&amp;&amp; (d instanceof MapDomain)
+<span class="nc bnc" id="L865" title="All 2 branches missed.">				&amp;&amp; compatible(((MapDomain) self).getSourceDomain(),</span>
+<span class="nc" id="L866">						((MapDomain) d).getSourceDomain())</span>
+<span class="nc bnc" id="L867" title="All 2 branches missed.">				&amp;&amp; compatible(((MapDomain) self).getTargetDomain(),</span>
+<span class="nc" id="L868">						((MapDomain) d).getTargetDomain()))</span>
+<span class="nc" id="L869">			return true;</span>
+		// TRICK by Patrizia
+<span class="pc bpc" id="L871" title="1 of 2 branches missed.">		if (self.getName().equals(d.getName()))</span>
+<span class="fc" id="L872">			return true;</span>
+
+<span class="nc" id="L874">		return false;</span>
+	}
+
+	private static boolean compatibleSubDomains(ProductDomain self,
+			ProductDomain d) {
+<span class="fc" id="L879">		int size = self.getDomains().size();</span>
+<span class="pc bpc" id="L880" title="1 of 2 branches missed.">		if (size != d.getDomains().size())</span>
+<span class="nc" id="L881">			return false;</span>
+<span class="fc" id="L882">		Iterator&lt;?&gt; dom1_iter = self.getDomains().iterator();</span>
+<span class="fc" id="L883">		Iterator&lt;?&gt; dom2_iter = d.getDomains().iterator();</span>
+<span class="fc bfc" id="L884" title="All 2 branches covered.">		while (dom1_iter.hasNext()) {</span>
+<span class="pc bpc" id="L885" title="1 of 2 branches missed.">			if (!compatible((Domain) dom1_iter.next(), (Domain) dom2_iter</span>
+<span class="fc" id="L886">					.next()))</span>
+<span class="nc" id="L887">				return false;</span>
+		}
+<span class="fc" id="L889">		return true;</span>
+	}
+
+	/**
+	 * resitituisce il type domain di un domain
+	 * se è un concrete return the type domain altrimenti se stesso
+	 */
+
+	public static TypeDomain getTypeDomain(Domain d) {
+<span class="fc bfc" id="L898" title="All 2 branches covered.">		if (d instanceof ConcreteDomain)</span>
+<span class="fc" id="L899">			return ((ConcreteDomain) d).getTypeDomain();</span>
+		else
+<span class="fc" id="L901">			return (TypeDomain) d;</span>
+	}
+
+
+
+	public static void printListOfDomains(List&lt;TypeDomain&gt; list, PrintStream out) {
+<span class="nc bnc" id="L907" title="All 2 branches missed.">		for (Iterator&lt;TypeDomain&gt; i = list.iterator(); i.hasNext();)</span>
+<span class="nc" id="L908">			out.println(i.next().getName() + &quot; &quot;);</span>
+<span class="nc" id="L909">	}</span>
+
+	/*
+	 * Modificata che prende due domini e non due type domain, un type domain
+	 * puo' essere un product di domain confronta il dominio formale con
+	 * l'attuale e nel caso sostituisce Any se necessario se i due sono non
+	 * compatibile restituisce false
+	 *
+	 * vedi definizione su report
+	 */
+	public static boolean compareFixingAnyDomain(Domain formalDom,
+			Domain actualDom, HashMap&lt;String, Domain&gt; genericDomValue) {
+<span class="fc" id="L921">		logger.debug(&quot;comparing formal &quot; + formalDom.getName() +  &quot;(&quot; +formalDom.getClass().getSimpleName() +&quot;)&quot;</span>
+<span class="fc" id="L922">				   +&quot; with actual &quot; + actualDom.getName() +  &quot;(&quot; +actualDom.getClass().getSimpleName() + &quot;)&quot;);</span>
+		// System.out.println(&quot;hash: &quot; + genericDomValue.toString());
+<span class="fc bfc" id="L924" title="All 2 branches covered.">		if (formalDom == actualDom)</span>
+<span class="fc" id="L925">			return true;</span>
+
+		// one is a Concrete domain with type T an the other is TypeDomain T
+<span class="fc bfc" id="L928" title="All 2 branches covered.">		if (formalDom instanceof ConcreteDomain) {</span>
+<span class="fc" id="L929">			logger.debug(formalDom + &quot; instanceof ConcreteDomain&quot;);</span>
+<span class="fc" id="L930">			ConcreteDomain cfd = (ConcreteDomain) formalDom;</span>
+<span class="fc bfc" id="L931" title="All 2 branches covered.">			if (actualDom instanceof TypeDomain) {</span>
+<span class="fc" id="L932">				logger.debug(actualDom + &quot; instanceof TypeDomain&quot;);</span>
+<span class="fc" id="L933">				return compareFixingAnyDomain(cfd.getTypeDomain(),actualDom,genericDomValue);</span>
+			}
+			else
+<span class="fc" id="L936">				return false;</span>
+		}
+		// FIXME 1/4/2009 this code must be rewritten!!!!
+		/*
+		if (formalDom instanceof AnyDomain &amp;&amp; actualDom instanceof ConcreteDomain) {
+			genericDomValue.put(formalDom.getName(), actualDom);
+			return true;
+		}
+		*/
+<span class="fc bfc" id="L945" title="All 2 branches covered.">		if (actualDom instanceof ConcreteDomain) {</span>
+<span class="fc" id="L946">			logger.debug(actualDom.getName() + &quot; instanceof ConcreteDomain&quot;);</span>
+<span class="fc" id="L947">			ConcreteDomain cad = (ConcreteDomain) actualDom;</span>
+			//PA: 30/07/2014
+			//TODO check
+<span class="fc bfc" id="L950" title="All 4 branches covered.">			if (cad.getTypeDomain() instanceof AgentDomain &amp;&amp; formalDom instanceof AnyDomain) {</span>
+<span class="fc" id="L951">				genericDomValue.put(formalDom.getName(), actualDom);</span>
+<span class="fc" id="L952">				return true;</span>
+			}
+<span class="pc bpc" id="L954" title="1 of 2 branches missed.">			else if (formalDom instanceof TypeDomain) {</span>
+<span class="fc" id="L955">				logger.debug(formalDom.getName() + &quot; instanceof TypeDomain&quot;);</span>
+<span class="fc" id="L956">				return compareFixingAnyDomain(formalDom,cad.getTypeDomain(),genericDomValue);</span>
+			}
+			else
+<span class="nc" id="L959">				return false;</span>
+		}
+
+		// TWO PRODUCT DOMAINS
+<span class="fc bfc" id="L963" title="All 4 branches covered.">		if (formalDom instanceof ProductDomain &amp;&amp; actualDom instanceof ProductDomain) {</span>
+			// both product domains
+<span class="fc" id="L965">			List&lt;Domain&gt; formalDom_list = ((ProductDomain) formalDom).getDomains();</span>
+<span class="fc" id="L966">			List&lt;Domain&gt; actualDom_list = ((ProductDomain) actualDom).getDomains();</span>
+			// For debugging
+			// System.out.println(&quot;Printing Prod lists ...&quot;);
+			// printListOfDomains(formalDom_list,System.out);
+			// printListOfDomains(actualDom_list,System.out);
+
+			// mi assicuro che il num dei domini del product ??? uguale al num
+			// degli elementi della tupla
+<span class="fc bfc" id="L974" title="All 2 branches covered.">			if (formalDom_list.size() != actualDom_list.size()){</span>
+<span class="fc" id="L975">				logger.debug(&quot;formal size &quot;+ formalDom_list.size() + &quot;!= actual size &quot; +actualDom_list.size());</span>
+<span class="fc" id="L976">				return false;</span>
+			}
+<span class="fc" id="L978">			Iterator&lt;Domain&gt; formalDom_iter = formalDom_list.listIterator();</span>
+<span class="fc" id="L979">			Iterator&lt;Domain&gt; actualDom_iter = actualDom_list.listIterator();</span>
+<span class="fc bfc" id="L980" title="All 2 branches covered.">			while (formalDom_iter.hasNext()) {</span>
+				// domain
+<span class="fc" id="L982">				Domain fd_i = formalDom_iter.next();</span>
+<span class="fc" id="L983">				Domain ad_i = actualDom_iter.next();</span>
+<span class="fc bfc" id="L984" title="All 2 branches covered.">				if (!compareFixingAnyDomain(fd_i, ad_i, genericDomValue))</span>
+<span class="fc" id="L985">					return false;</span>
+<span class="fc" id="L986">			}</span>
+<span class="fc" id="L987">			logger.debug(&quot;product domain :&quot;</span>
+<span class="fc" id="L988">					+ ((ProductDomain) formalDom).getName() + &quot; found&quot;);</span>
+<span class="fc" id="L989">			return true;</span>
+<span class="fc bfc" id="L990" title="All 4 branches covered.">		} else if (formalDom instanceof SequenceDomain</span>
+				&amp;&amp; actualDom instanceof SequenceDomain)
+<span class="fc" id="L992">			return compareFixingAnyDomain(((SequenceDomain) formalDom)</span>
+<span class="fc" id="L993">					.getDomain(), ((SequenceDomain) actualDom).getDomain(),</span>
+					genericDomValue);
+
+<span class="fc bfc" id="L996" title="All 4 branches covered.">		else if (formalDom instanceof PowersetDomain</span>
+				&amp;&amp; actualDom instanceof PowersetDomain)
+<span class="fc" id="L998">			return compareFixingAnyDomain(((PowersetDomain) formalDom)</span>
+<span class="fc" id="L999">					.getBaseDomain(), ((PowersetDomain) actualDom)</span>
+<span class="fc" id="L1000">					.getBaseDomain(), genericDomValue);</span>
+
+<span class="fc bfc" id="L1002" title="All 4 branches covered.">		else if (formalDom instanceof BagDomain</span>
+				&amp;&amp; actualDom instanceof BagDomain)
+<span class="fc" id="L1004">			return compareFixingAnyDomain(((BagDomain) formalDom).getDomain(),</span>
+<span class="fc" id="L1005">					((BagDomain) actualDom).getDomain(), genericDomValue);</span>
+
+<span class="fc bfc" id="L1007" title="All 4 branches covered.">		else if (formalDom instanceof MapDomain</span>
+				&amp;&amp; actualDom instanceof MapDomain)
+<span class="pc bpc" id="L1009" title="1 of 2 branches missed.">			return (compareFixingAnyDomain(((MapDomain) formalDom)</span>
+<span class="fc" id="L1010">					.getSourceDomain(), ((MapDomain) actualDom)</span>
+<span class="pc bpc" id="L1011" title="1 of 2 branches missed.">					.getSourceDomain(), genericDomValue) &amp;&amp; (compareFixingAnyDomain(</span>
+<span class="fc" id="L1012">					((MapDomain) formalDom).getTargetDomain(),</span>
+<span class="fc" id="L1013">					((MapDomain) actualDom).getTargetDomain(), genericDomValue)));</span>
+
+<span class="fc bfc" id="L1015" title="All 2 branches covered.">		else if (actualDom instanceof AnyDomain)</span>
+<span class="fc" id="L1016">			return true;</span>
+
+<span class="fc bfc" id="L1018" title="All 2 branches covered.">		else if (formalDom instanceof AnyDomain</span>
+<span class="pc bpc" id="L1019" title="1 of 2 branches missed.">				&amp;&amp; formalDom.getName().equals(SUPER_ANYDOMAIN))</span>
+<span class="nc" id="L1020">			return true;</span>
+
+<span class="fc bfc" id="L1022" title="All 2 branches covered.">		else if (formalDom instanceof AnyDomain</span>
+<span class="fc bfc" id="L1023" title="All 2 branches covered.">				&amp;&amp; genericDomValue.get(formalDom.getName()) == null) {</span>
+<span class="fc" id="L1024">			genericDomValue.put(formalDom.getName(), actualDom);</span>
+<span class="fc" id="L1025">			return true;</span>
+		}
+
+<span class="fc bfc" id="L1028" title="All 2 branches covered.">		else if (formalDom instanceof AnyDomain</span>
+<span class="pc bpc" id="L1029" title="1 of 2 branches missed.">				&amp;&amp; ((TypeDomain) genericDomValue.get(formalDom.getName())) != null) {</span>
+			// TRICK &quot;compare by name&quot;
+			// NEW: and by &quot;compatibility&quot; for domains made of concrete domains which are
+			// compatible in this context although they have different names
+			//
+<span class="fc" id="L1034">			logger.debug(&quot;compare by name Any and TD&quot;);</span>
+<span class="fc" id="L1035">			TypeDomain TD = (TypeDomain) genericDomValue.get(formalDom</span>
+<span class="fc" id="L1036">					.getName());</span>
+<span class="fc" id="L1037">			logger.debug(&quot;TD= &quot; + TD.getName());</span>
+<span class="fc" id="L1038">			logger.debug(&quot;ActualDom= &quot; + actualDom.getName());</span>
+<span class="pc bpc" id="L1039" title="1 of 4 branches missed.">			return (actualDom.equals(TD) || actualDom.getName().equals(</span>
+<span class="fc" id="L1040">					TD.getName())</span>
+<span class="pc bpc" id="L1041" title="1 of 2 branches missed.">					|| compatible(TD,actualDom));</span>
+		}
+
+		else // formalDom e' un dominio ben preciso
+		{ // TRICK &quot;compare domains by name&quot;
+<span class="pc bpc" id="L1046" title="1 of 2 branches missed.">			if (actualDom.equals(formalDom)) {</span>
+<span class="nc" id="L1047">				logger.debug(&quot;same domain&quot;);</span>
+<span class="nc" id="L1048">				return true;</span>
+<span class="pc bpc" id="L1049" title="1 of 2 branches missed.">			} else if (actualDom.getName().equals(formalDom.getName())) {</span>
+<span class="nc" id="L1050">				logger.debug(&quot;same name - to check&quot;);</span>
+<span class="nc" id="L1051">				return true;</span>
+			} else {
+<span class="fc" id="L1053">				return false;</span>
+			}
+		}
+	}
+
+	/*
+	 * public static boolean compareFixingAnyDomain(Domain formalDom, Domain
+	 * actualDom,HashMap&lt;String,Domain&gt; genericDomValue) {
+	 * System.out.println(&quot;comparing &quot; + formalDom.getName() + &quot; with &quot;+
+	 * actualDom.getName()); System.out.println(&quot;hash: &quot; +
+	 * genericDomValue.toString()); // TWO PRODUCT DOMAINS if(formalDom
+	 * instanceof ProductDomain &amp;&amp; actualDom instanceof ProductDomain) { // only
+	 * for debugging Object o1 = null; Object o2 = null; // both product domains
+	 * List&lt;Domain&gt; formalDom_list = ((ProductDomain)formalDom).getDomains();
+	 * List&lt;Domain&gt; actualDom_list = ((ProductDomain)actualDom).getDomains();
+	 * //mi assicuro che il num dei domini del product ??? uguale al num degli
+	 * elementi della tupla if(formalDom_list.size() != actualDom_list.size())
+	 * return false; Iterator&lt;Domain&gt; formalDom_iter =
+	 * formalDom_list.listIterator(); Iterator&lt;Domain&gt; actualDom_iter =
+	 * actualDom_list.listIterator(); while(formalDom_iter.hasNext()) { o1 =
+	 * formalDom_iter.next(); o2 = actualDom_iter.next(); Domain fd_i; Domain
+	 * ad_i; // this trick is necessary because I get many errors of type
+	 * ClassCast Exception // I use now getByMofID to get the right class of the
+	 * i-th domain try { fd_i = (Domain) o1; } catch
+	 * (java.lang.ClassCastException cce){
+	 * System.err.println(&quot;ClassCastException in compareFixingAnyDomain: &quot; +
+	 * cce.getMessage()); if (o1 != null) System.err.println(&quot;i th formal domain
+	 * :&quot;+ o1.toString() + &quot; of type &quot;+ o1.getClass()); else
+	 * System.err.println(&quot;i th formal domain is null&quot;);
+	 * //System.err.println(&quot;stack trace:&quot;); //List stack =
+	 * java.util.Arrays.asList(cce.getStackTrace()); //for (Object o: stack)
+	 * System.err.println(o); // trick to build the right object fd_i =
+	 * (Domain)org.netbeans.api.mdr.MDRManager.getDefault().getDefaultRepository().getByMofId(o1.toString());
+	 * System.err.println(&quot;by mofid:&quot;+fd_i.getClass()); } try { ad_i = (Domain)
+	 * o2; } catch (java.lang.ClassCastException cce){
+	 * System.err.println(&quot;ClassCastException in compareFixingAnyDomain: &quot; +
+	 * cce.getMessage()); if (o2 != null) System.err.println(&quot;i th actual domain
+	 * :&quot;+ o2.toString() + &quot; of type &quot;+ o2.getClass()); else
+	 * System.err.println(&quot;i th actual domain is null&quot;);
+	 * //System.err.println(&quot;stack trace:&quot;); //List stack =
+	 * java.util.Arrays.asList(cce.getStackTrace()); //for (Object o: stack)
+	 * System.err.println(o); // trick to build the right object ad_i =
+	 * (Domain)org.netbeans.api.mdr.MDRManager.getDefault().getDefaultRepository().getByMofId(o2.toString());
+	 * System.err.println(&quot;by mofid:&quot;+ad_i.getClass()); } if
+	 * (!compareFixingAnyDomain(fd_i,ad_i,genericDomValue)) return false; }
+	 * System.err.println(&quot;product domain :&quot; +
+	 * ((ProductDomain)formalDom).getName()+&quot; found&quot;); return true; } else
+	 * if(formalDom instanceof SequenceDomain &amp;&amp; actualDom instanceof
+	 * SequenceDomain) return
+	 * compareFixingAnyDomain(((SequenceDomain)formalDom).getDomain(),((SequenceDomain)actualDom).getDomain(),genericDomValue);
+	 *
+	 * else if(formalDom instanceof PowersetDomain &amp;&amp; actualDom instanceof
+	 * PowersetDomain) return
+	 * compareFixingAnyDomain(((PowersetDomain)formalDom).getBaseDomain(),((PowersetDomain)actualDom).getBaseDomain(),genericDomValue);
+	 *
+	 * else if(formalDom instanceof BagDomain &amp;&amp; actualDom instanceof BagDomain)
+	 * return
+	 * compareFixingAnyDomain(((BagDomain)formalDom).getDomain(),((BagDomain)actualDom).getDomain(),genericDomValue);
+	 *
+	 * else if(formalDom instanceof MapDomain &amp;&amp; actualDom instanceof MapDomain)
+	 * return
+	 * (compareFixingAnyDomain(((MapDomain)formalDom).getSourceDomain(),((MapDomain)actualDom).getSourceDomain(),genericDomValue)&amp;&amp;
+	 * (compareFixingAnyDomain(((MapDomain)formalDom).getTargetDomain(),((MapDomain)actualDom).getTargetDomain(),genericDomValue)));
+	 *
+	 * else if (actualDom instanceof AnyDomain) return true;
+	 *
+	 * else if (formalDom instanceof AnyDomain &amp;&amp;
+	 * formalDom.getName().equals(SUPER_ANYDOMAIN)) return true;
+	 *
+	 * else if(formalDom instanceof AnyDomain &amp;&amp;
+	 * genericDomValue.get(formalDom.getName())==null) {
+	 * genericDomValue.put(formalDom.getName(),actualDom); return true; }
+	 *
+	 * else if(formalDom instanceof AnyDomain &amp;&amp;
+	 * ((TypeDomain)genericDomValue.get(formalDom.getName()))!=null) return
+	 * actualDom == (TypeDomain)genericDomValue.get(formalDom.getName());
+	 *
+	 * else //formalDom ??? un dominio ben preciso return
+	 * actualDom.equals(formalDom);
+	 *  }
+	 */
+
+	// ----------- FUNCTION -----------//
+	public static boolean checkFunction(Function f) {
+		// check function arity
+<span class="nc bnc" id="L1138" title="All 2 branches missed.">		if (f.getArity() != evalArity(f)) {</span>
+<span class="nc" id="L1139">			MSG_ERR = &quot;Error: Wrong function arity.&quot;;</span>
+<span class="nc" id="L1140">			return false;</span>
+		}
+<span class="nc" id="L1142">		return true;</span>
+	}
+
+	// Compute the function arity according to the scheme:
+	// F1: if domain-&gt;isEmpty() then arity.oclAsType(Integer)= 0
+	// F2: else if domain.oclIsTypeOf(ProductDomain)
+	// then arity.oclAsType(Integer)=
+	// domain.oclAsType(ProductDomain).domain-&gt;size()
+	// F3: else arity.oclAsType(Integer) = 1
+	// endif endif endif
+	public static int evalArity(Function func) {
+<span class="fc" id="L1153">		Domain d = func.getDomain();</span>
+<span class="fc bfc" id="L1154" title="All 2 branches covered.">		if (d == null)</span>
+<span class="fc" id="L1155">			return 0;</span>
+<span class="fc bfc" id="L1156" title="All 2 branches covered.">		else if (d instanceof ProductDomain)</span>
+<span class="fc" id="L1157">			return ((ProductDomain) d).getDomains().size();</span>
+		/*
+		 * else if ((d instanceof ConcreteDomain) &amp;&amp; (((ConcreteDomain)
+		 * d).getTypeDomain() instanceof ProductDomain)) return ((ProductDomain)
+		 * ((ConcreteDomain) d).getTypeDomain()).getDomains().size();
+		 */
+		else
+<span class="fc" id="L1164">			return 1;</span>
+	}
+
+	// ----------------- RULE DECLARATION --------------//
+	public static boolean checkRuleDeclaration(RuleDeclaration r) {
+		// check constraint R16: arity.oclAsType(Integer) = variable-&gt;size()
+<span class="nc bnc" id="L1170" title="All 2 branches missed.">		if (r.getArity() != r.getVariable().size()) {</span>
+<span class="nc" id="L1171">			MSG_ERR = &quot;Error: Wrong rule declaration arity.&quot;;</span>
+<span class="nc" id="L1172">			return false;</span>
+		}
+<span class="nc" id="L1174">		return true;</span>
+	}
+
+	// ----------------- AXIOM --------------//
+	public static boolean checkAxiom(Invariant a) {
+<span class="nc bnc" id="L1179" title="All 4 branches missed.">		return B4(a) &amp;&amp; B5(a);</span>
+	}
+
+	public static boolean B4(Invariant a) {
+		// check constraint B4: body.domain.oclIsTypeOf(BooleanDomain)
+<span class="nc bnc" id="L1184" title="All 2 branches missed.">		if (!isBoolean(a.getBody())) {</span>
+<span class="nc" id="L1185">			MSG_ERR = &quot;Error: The expression of an invariant must yield a boolean value, when valuated in a state of the ASM.&quot;;</span>
+<span class="nc" id="L1186">			return false;</span>
+		}
+<span class="nc" id="L1188">		return true;</span>
+	}
+
+	public static boolean B5(Invariant a) {
+		// check constraint B5: constrainedRule-&gt;notEmpty() or
+		// constrainedFunction-&gt;notEmpty() or constrainedDomain-&gt;notEmpty()
+<span class="nc bnc" id="L1194" title="All 2 branches missed.">		if (!(a.getConstrainedRule() != null</span>
+<span class="nc bnc" id="L1195" title="All 2 branches missed.">				|| a.getConstrainedFunction() != null || a</span>
+<span class="nc bnc" id="L1196" title="All 2 branches missed.">				.getConstrainedDomain() != null)) {</span>
+<span class="nc" id="L1197">			MSG_ERR = &quot;Error: An invariant must refer to at least one rule, one function or one domain.&quot;;</span>
+<span class="nc" id="L1198">			return false;</span>
+		}
+<span class="nc" id="L1200">		return true;</span>
+	}
+
+	// -----------------------------------------------------------------------//
+	// -------------------------- RULES -----------------------------//
+	// --------------------------------------------------------------//
+
+	// --------------------- BASIC RULES -----------------------//
+	// ////////////////////////////////////////
+	// --- UPDATE RULE--- //
+
+	public static boolean checkUpdateRule(UpdateRule r) {
+<span class="pc bpc" id="L1212" title="2 of 4 branches missed.">		return (R1(r) &amp;&amp; R2(r));</span>
+	}
+
+	public static boolean R1(UpdateRule r) {
+		// Check constraint R1: location.compatible(updatingTerm)
+<span class="fc" id="L1217">		Term location = r.getLocation();</span>
+<span class="fc" id="L1218">		Term updatingTerm = r.getUpdatingTerm();</span>
+<span class="pc bpc" id="L1219" title="1 of 2 branches missed.">		if (!(compatible(location, updatingTerm))) {</span>
+<span class="nc" id="L1220">			MSG_ERR = &quot;Error: In an update rule, the term on the right-hand side (&quot;+ new AsmetaTermPrinter(false).visit(updatingTerm) + &quot;) must be compatible &quot;</span>
+<span class="nc" id="L1221">					+ &quot;with the one on the left-hand side (&quot; + new AsmetaTermPrinter(false).visit(location) + &quot;).&quot;;</span>
+<span class="nc" id="L1222">			return false;</span>
+		}
+<span class="fc" id="L1224">		return true;</span>
+	}
+
+	public static boolean R2(UpdateRule r) {
+		// Check constraint R2:
+		// (location.oclIsTypeOf(LocationTerm) and not
+		// location.oclAsType(LocationTerm).function.oclIsTypeOf(MonitoredFunction))or
+		// (location.oclIsTypeOf(VariableTerm) and
+		// location.oclAsType(VariableTerm).kind = VariableKind::locationVar )
+<span class="fc bfc" id="L1233" title="All 2 branches covered.">		if (((r.getLocation() instanceof LocationTerm) &amp;&amp; (!(((LocationTerm) r</span>
+<span class="pc bpc" id="L1234" title="1 of 2 branches missed.">				.getLocation()).getFunction() instanceof MonitoredFunction)))</span>
+<span class="pc bpc" id="L1235" title="1 of 2 branches missed.">				|| ((r.getLocation() instanceof VariableTerm) &amp;&amp; ((VariableTerm) r</span>
+<span class="pc bpc" id="L1236" title="1 of 2 branches missed.">						.getLocation()).getKind() == VariableKind.LOCATION_VAR))</span>
+<span class="fc" id="L1237">			return true;</span>
+<span class="nc" id="L1238">		MSG_ERR = &quot;Error: In an update rule, the left-hand side must be either a location term (with a non monitored function) or &quot;</span>
+				+ &quot;a location variable term&quot;;
+<span class="nc" id="L1240">		return false;</span>
+	}
+
+	// --- CONDITIONAL RULE --- //
+	public static boolean checkConditionalRule(ConditionalRule r) {
+<span class="nc" id="L1245">		return R3(r);</span>
+	}
+
+	public static boolean R3(ConditionalRule r) {
+		// Check constraint R3: guard.domain.oclIsTypeOf(BooleanDomain)
+<span class="nc bnc" id="L1250" title="All 2 branches missed.">		if (!isBoolean(r.getGuard())) {</span>
+<span class="nc" id="L1251">			MSG_ERR = &quot;Error: In a conditional rule, the guard is a term representing a boolean condition.&quot;;</span>
+<span class="nc" id="L1252">			return false;</span>
+		}
+<span class="nc" id="L1254">		return true;</span>
+	}
+
+	// --- EXTEND RULE --- //
+	public static boolean checkExtendRule(ExtendRule r) {
+<span class="pc bpc" id="L1259" title="2 of 4 branches missed.">		return R5(r) &amp;&amp; R6(r);</span>
+	}
+
+	public static boolean R5(ExtendRule r) {
+		// Check constraint R5: The extended domain is a Concrete dynamic domain
+		// with
+		// type domain an abstract TD or a dynamic abstract TD
+		// inv R5: (extendedDomain.oclIsTypeOf(ConcreteDomain) and
+		// extendedDomain.oclAsType(ConcreteDomain).isDynamic = true and
+		// extendedDomain.oclAsType(ConcreteDomain).typeDomain.oclIsTypeOf(AbstractTD))
+		// or (extendedDomain.oclIsTypeOf(AbstractTD) and
+		// extendedDomain.oclAsType(AbstractTD).isDynamic = true)
+<span class="fc bfc" id="L1271" title="All 2 branches covered.">		if ((r.getExtendedDomain() instanceof ConcreteDomain)</span>
+<span class="pc bpc" id="L1272" title="1 of 2 branches missed.">				&amp;&amp; ((ConcreteDomain) r.getExtendedDomain()).getIsDynamic()</span>
+<span class="pc bpc" id="L1273" title="1 of 2 branches missed.">				&amp;&amp; (((ConcreteDomain) r.getExtendedDomain()).getTypeDomain() instanceof AbstractTd))</span>
+<span class="fc" id="L1274">			return true;</span>
+<span class="pc bpc" id="L1275" title="1 of 2 branches missed.">		else if ((r.getExtendedDomain() instanceof AbstractTd)</span>
+<span class="pc bpc" id="L1276" title="1 of 2 branches missed.">				&amp;&amp; (((AbstractTd) r.getExtendedDomain()).getIsDynamic()))</span>
+<span class="fc" id="L1277">			return true;</span>
+		else {
+<span class="nc" id="L1279">			MSG_ERR = &quot;Error: In an extend rule, the domain to extend must be dynamic, and it must be a concrete domain  &quot;</span>
+					+ &quot;subsetting an abstract TD or an abstract TD.&quot;;
+<span class="nc" id="L1281">			return false;</span>
+		}
+	}
+
+	public static boolean R6(ExtendRule r) {
+		// Check constraint R6: boundVar-&gt;forAll(v:VariableTerm | v.domain =
+		// extendedDomain
+		// and v.kind=VariableKind::logicalVar)
+<span class="fc" id="L1289">		Iterator&lt;?&gt; iter_var = r.getBoundVar().iterator();</span>
+		VariableTerm v;
+<span class="fc bfc" id="L1291" title="All 2 branches covered.">		while (iter_var.hasNext()) {</span>
+<span class="fc" id="L1292">			v = (VariableTerm) iter_var.next();</span>
+<span class="pc bpc" id="L1293" title="1 of 2 branches missed.">			if (v.getDomain() != r.getExtendedDomain()) {</span>
+<span class="nc" id="L1294">				MSG_ERR = &quot;Error: In an extend rule, variables must range in the extended domain.&quot;;</span>
+<span class="nc" id="L1295">				return false;</span>
+			}
+<span class="pc bpc" id="L1297" title="1 of 2 branches missed.">			if (!v.getKind().equals(VariableKind.LOGICAL_VAR)) {</span>
+<span class="nc" id="L1298">				MSG_ERR = &quot;Error: In a ExtendRule, variables must be logical.&quot;;</span>
+<span class="nc" id="L1299">				return false;</span>
+			}
+		}
+<span class="fc" id="L1302">		return true;</span>
+	}
+
+	// --- CHOOSE RULE --- //
+	public static boolean checkChooseRule(ChooseRule r) {
+<span class="nc bnc" id="L1307" title="All 6 branches missed.">		return R10(r) &amp;&amp; R9(r) &amp;&amp; R7_R8(r);</span>
+	}
+
+	public static boolean R7_R8(ChooseRule r) {
+		// Check constraints R7, R8:
+		// R7: Sequence{1..variable-&gt;size()}-&gt; forAll(i:Integer |
+		// ranges-&gt;at(i).domain.oclIsTypeOf(PowersetDomain)
+		// R8: and variable-&gt;at(i).domain =
+		// ranges-&gt;at(i).domain.oclAsType(PowersetDomain).baseDomain)
+<span class="nc" id="L1316">		Iterator&lt;?&gt; iter1 = r.getVariable().iterator();</span>
+<span class="nc" id="L1317">		Iterator&lt;?&gt; iter2 = r.getRanges().iterator();</span>
+		VariableTerm v;
+		Term t;
+<span class="nc bnc" id="L1320" title="All 2 branches missed.">		while (iter1.hasNext()) {</span>
+<span class="nc" id="L1321">			v = (VariableTerm) iter1.next();</span>
+<span class="nc" id="L1322">			t = (Term) iter2.next();</span>
+<span class="nc bnc" id="L1323" title="All 2 branches missed.">			if (!(OCL_Checker.getTypeDomain(t.getDomain()) instanceof PowersetDomain)) {</span>
+<span class="nc" id="L1324">				MSG_ERR = &quot;Error: The domain of the variables ranges must be a PowersetDomain.&quot;;</span>
+<span class="nc" id="L1325">				return false;</span>
+			}
+<span class="nc" id="L1327">			Domain bd = ((PowersetDomain) t.getDomain()).getBaseDomain();</span>
+<span class="nc bnc" id="L1328" title="All 2 branches missed.">			if (v.getDomain() != bd) {</span>
+<span class="nc" id="L1329">				MSG_ERR = &quot;Error: The domain of the variables ranges must be a PowersetDomain&quot;</span>
+						+ &quot;whose base domain must be equal to the variable type domain.&quot;
+						+ &quot;Type mismatch between&quot;
+<span class="nc" id="L1332">						+ v.getDomain().getName()</span>
+<span class="nc" id="L1333">						+ &quot;and&quot; + bd.getName();</span>
+				;
+<span class="nc" id="L1335">				return false;</span>
+			}
+<span class="nc" id="L1337">		}</span>
+<span class="nc" id="L1338">		return true;</span>
+	}
+
+	public static boolean R9(ChooseRule r) {
+		// R9: guard.domain.oclIsTypeOf(BooleanDomain)
+<span class="nc bnc" id="L1343" title="All 2 branches missed.">		if (!isBoolean(r.getGuard())) {</span>
+<span class="nc" id="L1344">			MSG_ERR = &quot;Error: In a choose rule, the guard is a term representing a boolean condition.&quot;;</span>
+<span class="nc" id="L1345">			return false;</span>
+		}
+<span class="nc" id="L1347">		return true;</span>
+	}
+
+	public static boolean R10(ChooseRule r) {
+		// R10: variable-&gt;size() = ranges-&gt;size()
+<span class="nc bnc" id="L1352" title="All 2 branches missed.">		if (r.getVariable().size() != r.getRanges().size()) {</span>
+<span class="nc" id="L1353">			MSG_ERR = &quot;Error: In a choose rule, the number of variables must be equal to the number of terms.&quot;;</span>
+<span class="nc" id="L1354">			return false;</span>
+		}
+<span class="nc" id="L1356">		return true;</span>
+	}
+
+	// --- FORALL RULE --- //
+	public static boolean checkForallRule(ForallRule r) {
+<span class="nc bnc" id="L1361" title="All 6 branches missed.">		return R13(r) &amp;&amp; R14(r) &amp;&amp; R11_R12(r);</span>
+	}
+
+	public static boolean R11_R12(ForallRule r) {
+		// Check constraint R11_R12: Sequence{1..variable-&gt;size()}-&gt;
+		// forAll(i:Integer |ranges-&gt;at(i).domain.oclIsTypeOf(PowersetDomain)
+		// and variable-&gt;at(i).domain =
+		// ranges-&gt;at(i).domain.oclAsType(PowersetDomain).baseDomain )
+<span class="nc" id="L1369">		Iterator&lt;VariableTerm&gt; iter1 = r.getVariable().iterator();</span>
+<span class="nc" id="L1370">		Iterator&lt;Term&gt; iter2 = r.getRanges().iterator();</span>
+		VariableTerm v;
+		Term t;
+<span class="nc bnc" id="L1373" title="All 2 branches missed.">		while (iter1.hasNext()) {</span>
+<span class="nc" id="L1374">			v = iter1.next();</span>
+<span class="nc" id="L1375">			t = iter2.next();</span>
+<span class="nc bnc" id="L1376" title="All 2 branches missed.">			if (!(t.getDomain() instanceof PowersetDomain)) {</span>
+<span class="nc" id="L1377">				MSG_ERR = &quot;Error: The domain of the variables ranges must be a PowersetDomain.&quot;;</span>
+<span class="nc" id="L1378">				return false;</span>
+			}
+<span class="nc" id="L1380">			Domain bd = ((PowersetDomain) t.getDomain()).getBaseDomain();</span>
+<span class="nc bnc" id="L1381" title="All 2 branches missed.">			if (v.getDomain() != bd) {</span>
+<span class="nc" id="L1382">				MSG_ERR = &quot;Error: The domain of the variables ranges must be a PowersetDomain&quot;</span>
+						+ &quot;whose base domain must be equal to the variable type domain.&quot;
+						+ &quot;Type mismatch between&quot;
+<span class="nc" id="L1385">						+ v.getDomain().getName()</span>
+<span class="nc" id="L1386">						+ &quot;and&quot; + bd.getName();</span>
+<span class="nc" id="L1387">				return false;</span>
+			}
+<span class="nc" id="L1389">		}</span>
+<span class="nc" id="L1390">		return true;</span>
+	}
+
+	public static boolean R13(ForallRule r) {
+		// Check constraint R13: guard.domain.oclIsTypeOf(BooleanDomain)
+<span class="nc bnc" id="L1395" title="All 2 branches missed.">		if (!isBoolean(r.getGuard())) {</span>
+<span class="nc" id="L1396">			MSG_ERR = &quot;Error: In a forall rule, the guard is a term representing a boolean condition.&quot;;</span>
+<span class="nc" id="L1397">			return false;</span>
+		}
+<span class="nc" id="L1399">		return true;</span>
+	}
+
+	public static boolean R14(ForallRule r) {
+		// Check constraint R14: variable-&gt;size() = ranges-&gt;size()
+<span class="nc bnc" id="L1404" title="All 2 branches missed.">		if (r.getVariable().size() != r.getRanges().size()) {</span>
+<span class="nc" id="L1405">			MSG_ERR = &quot;Error: In a forall rule, the number of variables must be equal to the number of terms.&quot;;</span>
+<span class="nc" id="L1406">			return false;</span>
+		}
+<span class="nc" id="L1408">		return true;</span>
+	}
+
+	// --- LET RULE --- //
+	public static boolean checkLetRule(LetRule r) {
+<span class="fc" id="L1413">		return R15(r);</span>
+	}
+
+	public static boolean R15(LetRule r) {
+		// R15: initExpression-&gt;size() = variable-&gt;size() and
+		// Sequence{1..variable-&gt;size()}-&gt;
+		// forAll(i:Integer| variable-&gt;at(i).domain =
+		// initExpression-&gt;at(i).domain) and
+		// -- every veriable must be a logical variable
+		// variable-&gt;at(i).kind = VariableKind::logicalVar
+
+<span class="pc bpc" id="L1424" title="1 of 2 branches missed.">		if (r.getInitExpression().size() != r.getVariable().size()) {</span>
+<span class="nc" id="L1425">			MSG_ERR = &quot;Error: In a let-rule, the number of variables must be equal to the number of initialization terms.&quot;+</span>
+<span class="nc" id="L1426">					&quot; variables: &quot; + r.getVariable().size() + r.getVariable().get(0).getName()+ &quot; init terms: &quot;+ r.getInitExpression().size();</span>
+<span class="nc" id="L1427">			return false;</span>
+		}
+<span class="fc" id="L1429">		Iterator&lt;?&gt; iter1 = r.getVariable().iterator();</span>
+<span class="fc" id="L1430">		Iterator&lt;?&gt; iter2 = r.getInitExpression().iterator();</span>
+		VariableTerm v;
+		Term expr;
+<span class="fc bfc" id="L1433" title="All 2 branches covered.">		while (iter1.hasNext()) {</span>
+<span class="fc" id="L1434">			v = (VariableTerm) iter1.next();</span>
+<span class="fc" id="L1435">			expr = (Term) iter2.next();</span>
+<span class="pc bpc" id="L1436" title="1 of 2 branches missed.">			if (v.getDomain() != expr.getDomain()) {</span>
+<span class="nc" id="L1437">				MSG_ERR = &quot;Error: In a let-rule, the type-domain associated to each variable&quot;</span>
+						+ &quot;must be equal to the one associated to the corresponding initialization term.&quot;
+						+ &quot;Type mismatch between&quot;
+<span class="nc" id="L1440">						+ v.getDomain().getName()</span>
+<span class="nc" id="L1441">						+ &quot;and&quot; + expr.getDomain().getName();</span>
+<span class="nc" id="L1442">				return false;</span>
+			}
+<span class="fc bfc" id="L1444" title="All 2 branches covered.">			if (v.getKind() != VariableKind.LOGICAL_VAR </span>
+<span class="pc bpc" id="L1445" title="1 of 2 branches missed.">					&amp;&amp; v.getKind() != VariableKind.LOCATION_VAR) {</span>
+				// FIXME
+				// &quot;&amp;&amp; v.getKind() != VariableKind.LOCATION_VAR&quot; added
+				// 1 August 2008 by acarioni
+<span class="nc" id="L1449">				MSG_ERR = &quot;Error: In a let-rule, each variable&quot;</span>
+<span class="nc" id="L1450">						+ &quot;must be logical.&quot; + &quot;Variable &quot; + v.getName()</span>
+						+ &quot; isn't logical.&quot;;
+<span class="nc" id="L1452">				return false;</span>
+			}
+		}
+<span class="fc" id="L1455">		return true;</span>
+	}
+
+	// --- MACROCALL RULE --- //
+	public static boolean checkMacroCallRule(MacroCallRule r) {
+<span class="pc bpc" id="L1460" title="2 of 4 branches missed.">		return R17(r) &amp;&amp; R18_R19(r);</span>
+	}
+
+	public static boolean R17(MacroCallRule r) {
+		// Check constraint R17: parameter-&gt;size() =
+		// calledMacro.arity.oclAsType(Integer)
+<span class="pc bpc" id="L1466" title="1 of 2 branches missed.">		if (r.getParameters().size() != r.getCalledMacro().getArity()) {</span>
+<span class="nc" id="L1467">			MSG_ERR = &quot;Error: In the application of a named macro rule, &quot;</span>
+					+ &quot;the number of actual parameters must be equal to the arity of the rule to apply.&quot;;
+<span class="nc" id="L1469">			return false;</span>
+		}
+<span class="fc" id="L1471">		return true;</span>
+	}
+
+	public static boolean R18_R19(MacroCallRule r) {
+		// Check constraint R18_R19:
+		// let arity:Integer = calledMacro.arity.oclAsType(Integer) in
+		// if arity &gt; 0 then Sequence{1..arity}-&gt;forAll(i:Integer |
+		// R18: calledMacro.variable-&gt;at(i).compatible(parameter-&gt;at(i))
+		// R19: calledMacro.variable-&gt;at(i).kind=VariableKind::locationVar
+		// implies
+		// ( (parameters-&gt;at(i)-&gt;oclIsTypeOf(LocationTerm) and
+		// parameters-&gt;at(i).oclAsType(LocationTerm).function.oclIsTypeOf(MonitoredFunction))
+		// or (parameters-&gt;at(i)-&gt;oclIsTypeOf(VariableTerm) and
+		// parameters-&gt;at(i)-&gt;oclAsType(VariableTerm).kind =
+		// VariableKind::locationVar))
+<span class="fc bfc" id="L1486" title="All 2 branches covered.">		if (r.getCalledMacro().getArity() &gt; 0) {</span>
+<span class="pc bpc" id="L1487" title="1 of 2 branches missed.">			if (!compareParamTD_Rule(r.getParameters(), r.getCalledMacro()</span>
+<span class="fc" id="L1488">					.getVariable()))</span>
+<span class="nc" id="L1489">				return false;</span>
+		}
+<span class="fc" id="L1491">		return true;</span>
+	}
+
+	// ---------------For MacroCallRule and TurboCallRule ---------------
+	public static boolean compareParamTD_Rule(List&lt;?&gt; actualParamList,
+			List&lt;?&gt; formalParamList) {
+<span class="fc" id="L1497">		Iterator&lt;?&gt; actualIter = actualParamList.iterator();</span>
+<span class="fc" id="L1498">		Iterator&lt;?&gt; formalIter = formalParamList.iterator();</span>
+		Term actualPar;
+		VariableTerm formalPar;
+<span class="fc bfc" id="L1501" title="All 2 branches covered.">		while (formalIter.hasNext()) {</span>
+<span class="fc" id="L1502">			actualPar = (Term) actualIter.next();</span>
+<span class="fc" id="L1503">			formalPar = (VariableTerm) formalIter.next();</span>
+			// check compatibility
+<span class="pc bpc" id="L1505" title="1 of 2 branches missed.">			if (!compatible(actualPar.getDomain(), formalPar.getDomain())) {</span>
+<span class="nc" id="L1506">				MSG_ERR = &quot;Error: Wrong type-domain of arguments.&quot;</span>
+						+ &quot;Type mismatch between&quot;
+<span class="nc" id="L1508">						+ actualPar.getDomain().getName() + &quot;and&quot;</span>
+<span class="nc" id="L1509">						+ formalPar.getDomain().getName();</span>
+<span class="nc" id="L1510">				return false;</span>
+			}
+			// If a formal parameter of a macro[turbo] rule declaration is a
+			// location variable,
+			// then it can be replaced only by an actual parameter which is
+			// either a location
+			// term (with a non monitored function) or a location variable
+			// There is an ** exception **! If the actual parameter is a fresh (logical) variable
+			// it is turned in a location variable!!
+<span class="fc bfc" id="L1519" title="All 2 branches covered.">			if (formalPar.getKind() == VariableKind.LOCATION_VAR)</span>
+<span class="fc bfc" id="L1520" title="All 2 branches covered.">				if (!((actualPar instanceof LocationTerm &amp;&amp; !(((FunctionTerm) actualPar)</span>
+<span class="pc bpc" id="L1521" title="2 of 4 branches missed.">						.getFunction() instanceof MonitoredFunction))</span>
+					   || (actualPar instanceof VariableTerm &amp;&amp; ((VariableTerm) actualPar)
+<span class="pc bpc" id="L1523" title="1 of 4 branches missed.">						.getKind() == VariableKind.LOCATION_VAR)</span>
+						//The ** exception **!!!
+					   || (actualPar instanceof VariableTerm &amp;&amp; ((VariableTerm) actualPar)
+<span class="pc bpc" id="L1526" title="1 of 2 branches missed.">								.getKind() == VariableKind.LOGICAL_VAR) )</span>
+
+				) {
+<span class="nc" id="L1529">					MSG_ERR = &quot;Error: If a formal parameter of a macro [turbo] rule declaration is a location variable,&quot;</span>
+							+ &quot;it can be replaced only by an actual parameter which is either a location term or a location variable.&quot;;
+<span class="nc" id="L1531">					return false;</span>
+				  }
+<span class="fc bfc" id="L1533" title="All 2 branches covered.">			    else if ( actualPar instanceof VariableTerm &amp;&amp; ((VariableTerm) actualPar)</span>
+<span class="fc bfc" id="L1534" title="All 2 branches covered.">						.getKind() == VariableKind.LOGICAL_VAR )</span>
+			      {
+                    //The ** exception **!!!
+			    	//the actual logical variable is turned in a location variable!!
+<span class="fc" id="L1538">			    	((VariableTerm) actualPar).setKind(VariableKind.LOCATION_VAR);</span>
+<span class="fc" id="L1539">			    	logger.debug(&quot;\t\t\t&quot;+ ((VariableTerm) actualPar).getName()+&quot; updated: TD=&quot; + ((VariableTerm) actualPar).getDomain().getName()+&quot;, kind=&quot;+((VariableTerm) actualPar).getKind().toString());</span>
+			      }
+		}
+<span class="fc" id="L1542">		return true;</span>
+	}
+
+	// --------------------- TURBO RULES -----------------------//
+
+	// --- TURBO CALL RULE --- //
+	public static boolean checkTurboCallRule(TurboCallRule r) {
+<span class="pc bpc" id="L1549" title="2 of 4 branches missed.">		return U1(r) &amp;&amp; U2_U3(r);</span>
+	}
+
+	public static boolean U1(TurboCallRule r) {
+		// Check constraint U1: parameter-&gt;size() =
+		// calledRule.arity.oclAsType(Integer)
+<span class="pc bpc" id="L1555" title="1 of 2 branches missed.">		if (r.getParameters().size() != r.getCalledRule().getArity()) {</span>
+<span class="nc" id="L1556">			MSG_ERR = &quot;Error: In the application of a named turbo rule, &quot;</span>
+					+ &quot;the number of actual parameters must be equal to the arity of the rule to apply.&quot;;
+<span class="nc" id="L1558">			return false;</span>
+		}
+<span class="fc" id="L1560">		return true;</span>
+	}
+
+	public static boolean U2_U3(TurboCallRule r) {
+		// Check constraint U2_U3:
+		// let arity:Integer = calledRule.arity.oclAsType(Integer) in
+		// arity &gt; 0 implies Sequence{1..arity}-&gt;forAll(i:Integer |
+		// U2: calledRule.variable-&gt;at(i).compatible(parameters-&gt;at(i))) and
+		// U3: (calledRule.variable-&gt;at(i).kind=VariableKind::locationVar
+		// implies
+		// (parameters-&gt;at(i)-&gt;oclIsTypeOf(LocationTerm) or (
+		// parameters-&gt;at(i)-&gt;oclIsTypeOf(VariableTerm)
+		// and parameters-&gt;at(i)-&gt;oclAsType(VariableTerm).kind =
+		// VariableKind::locationVar)) )
+<span class="fc bfc" id="L1574" title="All 2 branches covered.">		if (r.getCalledRule().getArity() &gt; 0) {</span>
+<span class="pc bpc" id="L1575" title="1 of 2 branches missed.">			if (!compareParamTD_Rule(r.getParameters(), r.getCalledRule()</span>
+<span class="fc" id="L1576">					.getVariable()))</span>
+<span class="nc" id="L1577">				return false;</span>
+		}
+<span class="fc" id="L1579">		return true;</span>
+	}
+
+	// --- TRY CATCH RULE ---
+	public static boolean checkTryCatchRule(TryCatchRule r) {
+<span class="nc" id="L1584">		return U4(r);</span>
+	}
+
+	public static boolean U4(TryCatchRule r) {
+
+		// check U4: location-&gt;forAll(t:Term | t.oclIsTypeOf(LocationTerm) or
+		// ( oclIsTypeOf(VariableTerm) and
+		// t.oclAsTypeOf(VariableTerm).kind=VariableKind::locationVar))
+<span class="nc bnc" id="L1592" title="All 2 branches missed.">		for (Term t : (Collection&lt;Term&gt;) r.getLocation()) {</span>
+<span class="nc bnc" id="L1593" title="All 4 branches missed.">			if (!((t instanceof LocationTerm)</span>
+					|| ((t instanceof FunctionTerm) &amp;&amp; ((FunctionTerm) t)
+<span class="nc bnc" id="L1595" title="All 4 branches missed.">							.getFunction() instanceof DynamicFunction) || ((t instanceof VariableTerm) &amp;&amp; ((VariableTerm) t)</span>
+<span class="nc bnc" id="L1596" title="All 2 branches missed.">					.getKind().equals(VariableKind.LOCATION_VAR)))) {</span>
+<span class="nc" id="L1597">				MSG_ERR = &quot;Error: In a try-catch rule, the location set contains only location variables or location terms&quot;;</span>
+<span class="nc" id="L1598">				return false;</span>
+			}
+<span class="nc" id="L1600">		}</span>
+<span class="nc" id="L1601">		return true;</span>
+	}
+
+	// --- TURBO RETURN RULE --- //
+	public static boolean checkTurboReturnRule(TurboReturnRule r) {
+		// !!! Ma perch� location � opzionale, lasciando la possibilit� che sia
+		// &quot;null&quot;?
+		// location-&gt;notEmpty() implies
+		// U5: forAll(t:Term | t.oclIsTypeOf(LocationTerm) or
+		// ( t.oclIsTypeOf(VariableTerm) and
+		// t.oclAsTypeOf(VariableTerm).kind=VariableKind::locationVar)) )
+		// U6: and
+		// (location.domain.compatible(updateRule.calledRule.resultType))
+
+<span class="nc bnc" id="L1615" title="All 2 branches missed.">		if (r.getLocation() != null)</span>
+<span class="nc bnc" id="L1616" title="All 4 branches missed.">			return U5(r) &amp;&amp; U6(r);</span>
+		else
+<span class="nc" id="L1618">			return true;// !!!!!E' giusto???</span>
+	}
+
+	public static boolean U5(TurboReturnRule r) {
+		// location-&gt;notEmpty() implies
+		// U5: location.oclIsTypeOf(LocationTerm) or
+		// (location.oclIsTypeOf(VariableTerm) and
+		// location.oclAsTypeOf(VariableTerm).kind=VariableKind::locationVar)) )
+<span class="nc bnc" id="L1626" title="All 4 branches missed.">		if (!((r.getLocation() instanceof LocationTerm) || ((r.getLocation() instanceof VariableTerm) &amp;&amp; ((VariableTerm) r</span>
+<span class="nc bnc" id="L1627" title="All 2 branches missed.">				.getLocation()).getKind().equals(</span>
+				VariableKind.LOCATION_VAR)))) {
+<span class="nc" id="L1629">			MSG_ERR = &quot;Error: In a turbo rule with return value, the location in which to store the return value&quot;</span>
+					+ &quot;can be either a location variable term or a location term.&quot;;
+<span class="nc" id="L1631">			return false;</span>
+		}
+<span class="nc" id="L1633">		return true;</span>
+	}
+
+	public static boolean U6(TurboReturnRule r) {
+		// U6: (location.domain.compatible(updateRule.calledRule.resultType))
+<span class="nc bnc" id="L1638" title="All 2 branches missed.">		if (!compatible(r.getLocation().getDomain(), r.getUpdateRule()</span>
+<span class="nc" id="L1639">				.getCalledRule().getResultType())) {</span>
+<span class="nc" id="L1640">			MSG_ERR = &quot;Error: In a turbo rule with return value, the domain of the location in which to store the intended&quot;</span>
+					+ &quot;return value must be compatible with the domain of the returned value. &quot;
+					+ &quot;Type mismatch between&quot;
+<span class="nc" id="L1643">					+ r.getLocation().getDomain().getName()</span>
+					+ &quot;and&quot;
+<span class="nc" id="L1645">					+ r.getUpdateRule().getCalledRule().getResultType()</span>
+<span class="nc" id="L1646">							.getName();</span>
+<span class="nc" id="L1647">			return false;</span>
+		}
+<span class="nc" id="L1649">		return true;</span>
+	}
+
+	// --- TURBO LOCAL STATE RULE ---
+	public static boolean checkTurboLocalStateRule(TurboLocalStateRule r) {
+<span class="fc" id="L1654">		return U8(r);</span>
+	}
+
+	public static boolean U8(TurboLocalStateRule r) {
+		// check U8: localFunction-&gt;size() = init-&gt;size()
+<span class="pc bpc" id="L1659" title="1 of 2 branches missed.">		if (r.getLocalFunction().size() != r.getInit().size()) {</span>
+<span class="nc" id="L1660">			MSG_ERR = &quot;Error: In a turbo rule with local state, The number of functions declared locally must be equal to the number of the initializing rules.&quot;;</span>
+<span class="nc" id="L1661">			return false;</span>
+		}
+<span class="fc" id="L1663">		return true;</span>
+	}
+
+	// --------------------- DERIVED RULES -----------------------//
+
+	// --- CASE RULE --- //
+	public static boolean checkCaseRule(CaseRule r) {
+<span class="pc bpc" id="L1670" title="2 of 4 branches missed.">		return K1(r) &amp;&amp; K2(r);</span>
+	}
+
+	public static boolean K1(CaseRule r) {
+		// Check constraint K1: caseTerm-&gt;size() = caseBranches-&gt;size()
+<span class="pc bpc" id="L1675" title="1 of 2 branches missed.">		if (r.getCaseTerm().size() != r.getCaseBranches().size()) {</span>
+<span class="nc" id="L1676">			MSG_ERR = &quot;Error: In a case rule, the number of case terms must be equal to the number of case rules.&quot;;</span>
+<span class="nc" id="L1677">			return false;</span>
+		}
+<span class="fc" id="L1679">		return true;</span>
+	}
+
+	public static boolean K2(CaseRule r) {
+		// Check constraint K2: caseTerm-&gt;forAll(t:Term |term.compatible(t))
+<span class="fc" id="L1684">		Iterator&lt;?&gt; iter = r.getCaseTerm().iterator();</span>
+		Term t;
+<span class="fc bfc" id="L1686" title="All 2 branches covered.">		while (iter.hasNext()) {</span>
+<span class="fc" id="L1687">			t = (Term) iter.next();</span>
+<span class="pc bpc" id="L1688" title="1 of 2 branches missed.">			if (!compatible(t, r.getTerm())) {</span>
+<span class="nc" id="L1689">				MSG_ERR = &quot;Error: In a case rule, every term of the case-clauses must be compatible to the main term.&quot;;</span>
+<span class="nc" id="L1690">				return false;</span>
+			}
+		}
+<span class="fc" id="L1693">		return true;</span>
+	}
+
+	// --- ITERATIVE WHILE RULE --- //
+	public static boolean checkIterativeWhileRule(IterativeWhileRule r) {
+<span class="fc" id="L1698">		return K3(r);</span>
+	}
+
+	public static boolean K3(IterativeWhileRule r) {
+		// Check constraint K3: guard.domain.oclIsTypeOf(BooleanDomain)
+<span class="pc bpc" id="L1703" title="1 of 2 branches missed.">		if (!isBoolean(r.getGuard())) {</span>
+<span class="nc" id="L1704">			MSG_ERR = &quot;Error: In a iterative-while rule, the term representing a guard must be boolean.&quot;;</span>
+<span class="nc" id="L1705">			return false;</span>
+		}
+<span class="fc" id="L1707">		return true;</span>
+	}
+
+	// --- RECURSIVE WHILE RULE ---
+	public static boolean checkRecursiveWhileRule(RecursiveWhileRule r) {
+<span class="nc" id="L1712">		return K4(r);</span>
+	}
+
+	public static boolean K4(RecursiveWhileRule r) {
+		// Check k4: guard.domain.oclIsTypeOf(BooleanDomain)
+<span class="nc bnc" id="L1717" title="All 2 branches missed.">		if (!isBoolean(r.getGuard())) {</span>
+<span class="nc" id="L1718">			MSG_ERR = &quot;Error: In a recursive-while, rule the type-domain associated to the guard must be the Boolean domain.&quot;;</span>
+<span class="nc" id="L1719">			return false;</span>
+		}
+<span class="nc" id="L1721">		return true;</span>
+	}
+
+	// --- TERM AS RULE --- //
+	public static boolean checkTermAsRule(TermAsRule r) {
+<span class="fc" id="L1726">		return K5(r);</span>
+	}
+
+	/**
+	 * modified 10 Jan 2008 by acarioni
+	 *
+	 * Checks if a TermAsRule is correctly invoked.
+	 *
+	 * @param r a TermAsRule
+	 * @return true if ok, false otherwise
+	 */
+	public static boolean K5(TermAsRule r) {
+		/* commented 10 Jan 2008 by acarioni
+		// check constraint k5: term.domain.oclIsTypeOf(RuleDomain)
+		if (!(r.getTerm().getDomain() instanceof RuleDomain)) {
+			MSG_ERR = &quot;Error: the association end term must be an actual rule.&quot;;
+			return false;
+		}
+		return true;
+		*/
+<span class="pc bpc" id="L1746" title="1 of 2 branches missed.">		if (!(r.getTerm().getDomain() instanceof RuleDomain)) {</span>
+<span class="nc" id="L1747">			MSG_ERR = &quot;Expected a rule for term &quot; + new AsmetaTermPrinter(true).visit(r.getTerm()) + &quot; domain &quot; + r.getTerm().getDomain();</span>
+<span class="nc" id="L1748">			return false;</span>
+		}
+<span class="fc" id="L1750">		RuleDomain domain = (RuleDomain) r.getTerm().getDomain();</span>
+<span class="fc" id="L1751">		List&lt;Domain&gt; expected = Utility.getList(domain);</span>
+<span class="fc" id="L1752">		List&lt;Domain&gt; actual = Utility.buildDomains(r.getParameters());</span>
+<span class="pc bpc" id="L1753" title="1 of 2 branches missed.">		if (!compatible(expected, actual)) {</span>
+<span class="nc" id="L1754">			MSG_ERR = &quot;Expected a rule with parameters &quot;</span>
+<span class="nc" id="L1755">				+ Utility.toString(expected)</span>
+<span class="nc" id="L1756">				+ &quot; but found &quot; + Utility.toString(actual);</span>
+<span class="nc" id="L1757">			return false;</span>
+		}
+<span class="fc" id="L1759">		return true;</span>
+	}
+
+	/**
+	 * added 10 Jan 2008 by acarioni
+	 *
+	 * Compares two lists of domains.
+	 *
+	 * @param lst1 a list
+	 * @param lst2 another list
+	 * @return true if compatible, false otherwise
+	 */
+	static boolean compatible(List&lt;? extends Domain&gt; lst1, List&lt;? extends Domain&gt; lst2) {
+<span class="pc bpc" id="L1772" title="1 of 2 branches missed.">		if (lst1.size() != lst2.size()) {</span>
+<span class="nc" id="L1773">			return false;</span>
+		}
+<span class="fc bfc" id="L1775" title="All 2 branches covered.">		for (int i = 0; i &lt; lst1.size(); i++) {</span>
+<span class="pc bpc" id="L1776" title="1 of 2 branches missed.">			if (!compatible(lst1.get(i), lst2.get(i))) {</span>
+<span class="nc" id="L1777">				return false;</span>
+			}
+		}
+<span class="fc" id="L1780">		return true;</span>
+	}
+
+	// -----------------------------------------------------------------------//
+	// -------------------------- TERMS -----------------------------//
+	// -----------------------------------------------------------------------//
+
+	// Term Compatibility Definition
+	// context Term def:
+	// T1: let compatible(Term t) : boolean = self.domain.compatible(t.domain)
+	public static boolean compatible(Term self, Term t) {
+<span class="fc" id="L1791">		return compatible(self.getDomain(), t.getDomain());</span>
+	}
+
+	// -------------------------- BASIC TERMS --------------------------- //
+
+	// --- VARIABLE TERM --- //
+	public static boolean checkVariableTerm(VariableTerm t) {
+<span class="nc" id="L1798">		return T11(t);</span>
+	}
+
+	public static boolean T11(VariableTerm t) {
+		// Check constraint T11: domain.oclIsTypeOf(RuleDomain) &lt;=&gt;
+		// (kind = VariableKind::ruleVar)
+<span class="nc bnc" id="L1804" title="All 2 branches missed.">		if ((t.getDomain() instanceof RuleDomain &amp;&amp; !(t.getKind()</span>
+<span class="nc bnc" id="L1805" title="All 2 branches missed.">				.equals((VariableKind.RULE_VAR))))</span>
+<span class="nc bnc" id="L1806" title="All 2 branches missed.">				|| (!(t.getDomain() instanceof RuleDomain) &amp;&amp; t.getKind()</span>
+<span class="nc bnc" id="L1807" title="All 2 branches missed.">						.equals((VariableKind.RULE_VAR)))) {</span>
+<span class="nc" id="L1808">			MSG_ERR = &quot;Error: if (and only if) the domain of a VariableTerm is the RuleDomain, then the variable is a rule variable.&quot;;</span>
+<span class="nc" id="L1809">			return false;</span>
+		}
+<span class="nc" id="L1811">		return true;</span>
+	}
+
+	// --- FUNCTION TERM --- //
+	public static boolean checkFunctionTerm(FunctionTerm t) {
+<span class="nc bnc" id="L1816" title="All 4 branches missed.">		return T8(t) &amp;&amp; T9(t);</span>
+	}
+
+	public static boolean T8(FunctionTerm t) {
+		// check constraint T8: domain = function.codomain
+<span class="nc bnc" id="L1821" title="All 2 branches missed.">		if (t.getDomain() != t.getFunction().getCodomain()) {</span>
+<span class="nc" id="L1822">			MSG_ERR = &quot;Error: the domain of the function term [location term] &quot;</span>
+					+ &quot;is not equal to the associated function codomain.&quot;;
+<span class="nc" id="L1824">			return false;</span>
+		}
+<span class="nc" id="L1826">		return true;</span>
+	}
+
+	public static boolean T9(FunctionTerm t) {
+<span class="nc" id="L1830">		logger.debug(&quot;checking T9&quot;);</span>
+<span class="nc" id="L1831">		Function f = t.getFunction();</span>
+		// check constraint T9:
+		// if function.arity.oclAsType(Integer) = 0
+		// then arguments-&gt;isEmpty()
+		// else arguments-&gt;notEmpty() and
+		// arguments.domain.compatible(function.domain)
+		// endif
+<span class="nc bnc" id="L1838" title="All 4 branches missed.">		if (f.getArity() == 0 &amp;&amp; t.getArguments() != null) {</span>
+<span class="nc" id="L1839">			MSG_ERR = &quot;Error: the associated function arity is 0, but the function term&quot;</span>
+					+ &quot;specify arguments of the function application.&quot;;
+<span class="nc" id="L1841">			return false;</span>
+		}
+
+<span class="nc bnc" id="L1844" title="All 2 branches missed.">		if (f.getArity() != 0</span>
+<span class="nc bnc" id="L1845" title="All 4 branches missed.">				&amp;&amp; !(t.getArguments() != null &amp;&amp; compatible(t.getArguments()</span>
+<span class="nc" id="L1846">						.getDomain(), f.getDomain()))) {</span>
+<span class="nc" id="L1847">			MSG_ERR = &quot;Error: the associated function arity is greater than 0, but the function term&quot;</span>
+					+ &quot;doesn't specify the actual arguments of the function application.&quot;;
+<span class="nc" id="L1849">			return false;</span>
+			}
+<span class="nc" id="L1851">		logger.debug(&quot;Checking applicability...&quot;);</span>
+<span class="nc bnc" id="L1852" title="All 2 branches missed.">		if (! applicable(t)) return false;</span>
+<span class="nc" id="L1853">		return true;</span>
+	}
+
+
+
+	/**
+	 * Applicability criteria
+	 *
+	 * @param t a function term f(t1,..,tn)
+	 *
+	 * @return true, if the function is applicable with respect to the function term's arguments
+	 */
+	static boolean applicable(FunctionTerm t) {
+		/*
+		 * OCL SYNTAX: context FunctionTerm def:
+		 * let applicable(FunctionTerm ft): boolean = applicable(function.domain,arguments.domain)
+		 */
+
+<span class="fc bfc" id="L1871" title="All 2 branches covered.">	if ((t.getArguments() != null)){</span>
+<span class="fc" id="L1872">    		Function f = t.getFunction();</span>
+<span class="fc" id="L1873">			String args = Utility.appendInKey(new StringBuffer(),t.getArguments()).toString();</span>
+<span class="fc bfc" id="L1874" title="All 2 branches covered.">			if( !args.contains(&quot;self&quot;)   //Special case: function self:Agent appears in the arguments list</span>
+<span class="pc bpc" id="L1875" title="1 of 2 branches missed.">			 &amp;&amp; !applicable(f.getDomain(),t.getArguments().getDomain())</span>
+			) {
+<span class="nc" id="L1877">			MSG_ERR = &quot;Error: the function defined on a concrete C subset of an abstract domain can be applied only on&quot;</span>
+<span class="nc" id="L1878">				+ &quot; the same domain C ( C = &quot;+ f.getDomain().getName()+&quot; function: &quot;+ f.getName()+&quot; applied to &quot;+t.getArguments().getDomain().getName()+&quot;)&quot;;</span>
+<span class="nc" id="L1879">			return false;</span>
+		}
+		}
+<span class="fc" id="L1882">		return true;</span>
+	}
+
+
+    //Domain Applicability definition
+	/**
+	 * Applicability of f(t1,...,tn)
+	 *
+	 * @param self  is the function domain
+	 * @param d is the domain of the arguments
+	 * @return true, if successful
+	 */
+	public static boolean applicable(Domain self, Domain d) {
+
+	    /*
+		 * OCL SYNTAX: context Domain def: let applicable(Domain d): boolean =
+		 */
+
+		/*
+		 * OCL SYNTAX: -- self is a ConcreteDomain subset of an Abstract Domain
+		 * (self.oclIsTypeOf(ConcreteDomain) and
+		    self.oclAsType(ConcreteDomain).typeDomain.oclIsTypeOf(AbstractTd))
+		    implies self = d */
+<span class="fc bfc" id="L1905" title="All 2 branches covered.">		if (self instanceof ConcreteDomain &amp;&amp;</span>
+<span class="pc bpc" id="L1906" title="1 of 4 branches missed.">			getTypeDomain(self) instanceof AbstractTd &amp;&amp;</span>
+<span class="pc bpc" id="L1907" title="1 of 2 branches missed.">			(self!= d || !self.getName().equals(d.getName())))</span>
+<span class="nc" id="L1908">				return false;</span>
+
+		/*
+		 * OCL SYNTAX: -- two PowersetDomain ( self.oclIsTypeOf(PowersetDomain)
+		 * and d.oclIsTypeOf(PowersetDomain) and
+		 * self.oclAsType(PowersetDomain).baseDomain.applicable(d.oclAsType(PowersetDomain).baseDomain))
+		 * or
+		 */
+<span class="fc bfc" id="L1916" title="All 4 branches covered.">		if (self instanceof PowersetDomain</span>
+				&amp;&amp; d instanceof PowersetDomain)
+<span class="fc" id="L1918">			return applicable(((PowersetDomain) self).getBaseDomain(),</span>
+<span class="fc" id="L1919">						((PowersetDomain) d).getBaseDomain());</span>
+		/*
+		 * OCL SYNTAX: -- two ProductDomain ( self.oclIsTypeOf(ProductDomain)
+		 * and d.oclIsTypeOf(ProductDomain) and (let size:Integer =
+		 * self.oclAsType(ProductDomain).domains-&gt;sise() in size =
+		 * d.oclAsType(ProductDomain).domains-&gt;sise() and
+		 * Sequence{1..size}-&gt;forAll(i:Integer |
+		 * self.oclAsType(ProductDomain).domains-&gt;at(i).applicable(d.oclAsType(ProductDomain).domains-&gt;at(i))
+		 * endlet) )
+		 */
+<span class="fc bfc" id="L1929" title="All 4 branches covered.">		if ((self instanceof ProductDomain)</span>
+				&amp;&amp; (d instanceof ProductDomain))
+<span class="fc" id="L1931">				return applicableSubDomains((ProductDomain) self, (ProductDomain) d);</span>
+
+		/*
+		 * OCL SYNTAX: -- two SequenceDomain (self.oclIsTypeOf(SequenceDomain)
+		 * and d.oclIsTypeOf(SequenceDomain) and
+		 * self.oclAsType(SequenceDomain).domain.applicable(d.oclAsType(SequenceDomain).domain))
+		 * or
+		 */
+<span class="pc bpc" id="L1939" title="1 of 4 branches missed.">		if ((self instanceof SequenceDomain)</span>
+				&amp;&amp; (d instanceof SequenceDomain))
+<span class="fc" id="L1941">				return applicable(((SequenceDomain) self).getDomain(),</span>
+<span class="fc" id="L1942">						((SequenceDomain) d).getDomain());</span>
+
+		/*
+		 * OCL SYNTAX: -- two BagDomain (self.oclIsTypeOf(BagDomain) and
+		 * d.oclIsTypeOf(BagDomain) and
+		 * self.oclAsType(BagDomain).domain.applicable(d.oclAsType(BagDomain).domain))
+		 * or
+		 */
+<span class="pc bpc" id="L1950" title="1 of 4 branches missed.">		if ((self instanceof BagDomain)</span>
+				&amp;&amp; (d instanceof BagDomain))
+<span class="fc" id="L1952">				return applicable(((BagDomain) self).getDomain(), ((BagDomain) d)</span>
+<span class="fc" id="L1953">						.getDomain());</span>
+
+		/*
+		 * OCL SYNTAX: -- two MapDomain (self.oclIsTypeOf(MapDomain) and
+		 * d.oclIsTypeOf(MapDomain) and
+		 * self.oclAsType(MapDomain).sourceDomain.applicable(d.oclAsType(MapDomain).sourceDomain)
+		 * and
+		 * self.oclAsType(MapDomain).targetDomain.applicable(d.oclAsType(MapDomain).targetDomain))
+		 */
+<span class="pc bpc" id="L1962" title="1 of 4 branches missed.">		if ((self instanceof MapDomain)</span>
+				&amp;&amp; (d instanceof MapDomain))
+<span class="pc bpc" id="L1964" title="1 of 2 branches missed.">				return (applicable(((MapDomain) self).getSourceDomain(),((MapDomain) d).getSourceDomain())  &amp;&amp;</span>
+<span class="pc bpc" id="L1965" title="1 of 2 branches missed.">						applicable(((MapDomain) self).getTargetDomain(),((MapDomain) d).getTargetDomain()));</span>
+
+<span class="fc" id="L1967">		return true;</span>
+	}
+
+	private static boolean applicableSubDomains(ProductDomain self,
+			ProductDomain d) {
+<span class="fc" id="L1972">		int size = self.getDomains().size();</span>
+<span class="pc bpc" id="L1973" title="1 of 2 branches missed.">		if (size != d.getDomains().size())</span>
+<span class="nc" id="L1974">			return false;</span>
+
+		Object o1,o2;
+<span class="fc" id="L1977">		Iterator&lt;?&gt; dom1_iter = self.getDomains().listIterator();</span>
+<span class="fc" id="L1978">		Iterator&lt;?&gt; dom2_iter = d.getDomains().listIterator();</span>
+<span class="fc bfc" id="L1979" title="All 2 branches covered.">		while (dom1_iter.hasNext()) {</span>
+<span class="fc" id="L1980">			o1 = dom1_iter.next();</span>
+<span class="fc" id="L1981">			o2 = dom2_iter.next();</span>
+			// this trick is necessary because I get many errors of type
+			// ClassCast Exception
+			// I use now getByMofID to get the right class of the i-th
+			// domain
+<span class="fc" id="L1986">			Domain fd_i = (Domain) o1;</span>
+<span class="fc" id="L1987">			Domain ad_i = (Domain) o2;</span>
+<span class="pc bpc" id="L1988" title="1 of 2 branches missed.">			if (!applicable(fd_i, ad_i))</span>
+<span class="nc" id="L1989">				return false;</span>
+<span class="fc" id="L1990">		}</span>
+<span class="fc" id="L1991">		return true;</span>
+	}
+
+
+
+
+	// --- LOCATION TERM --- //
+	public static boolean checkLocationTerm(LocationTerm t) {
+<span class="nc bnc" id="L1999" title="All 4 branches missed.">		return checkFunctionTerm(t) &amp;&amp; T10(t);</span>
+	}
+
+	public static boolean T10(LocationTerm t) {
+		// Check constraint T10: function.oclIsTypeOf(DynamicFunction)
+<span class="nc bnc" id="L2004" title="All 2 branches missed.">		if (!(t.getFunction() instanceof DynamicFunction)) {</span>
+<span class="nc" id="L2005">			MSG_ERR = &quot;Error: In a location term, the leftmost function must be dynamic.&quot;;</span>
+<span class="nc" id="L2006">			return false;</span>
+		}
+<span class="nc" id="L2008">		return true;</span>
+	}
+
+	// -------------- CONSTANT TERMS --------------- //
+
+	// --- COMPLEX TERM --- //
+	public static boolean checkComplexTerm(ComplexTerm t) {
+<span class="nc" id="L2015">		return T10(t);</span>
+	}
+
+	public static boolean T10(ComplexTerm t) {
+		// Check constraint T10: domain.oclIsTypeOf(ComplexDomain)
+<span class="nc bnc" id="L2020" title="All 2 branches missed.">		if (!(t.getDomain() instanceof ComplexDomain)) {</span>
+<span class="nc" id="L2021">			MSG_ERR = &quot;Error:The type-domain associated to a complex term must be the complex domain.&quot;;</span>
+<span class="nc" id="L2022">			return false;</span>
+		}
+<span class="nc" id="L2024">		return true;</span>
+	}
+
+	// --- REAL TERM --- //
+	public static boolean checkRealTerm(RealTerm t) {
+<span class="nc" id="L2029">		return T11(t);</span>
+	}
+
+	public static boolean T11(RealTerm t) {
+		// Check constraint T11: domain.oclIsTypeOf(RealDomain)
+<span class="nc bnc" id="L2034" title="All 2 branches missed.">		if (!(t.getDomain() instanceof RealDomain)) {</span>
+<span class="nc" id="L2035">			MSG_ERR = &quot;Error:The type-domain associated to a real term must be the real domain.&quot;;</span>
+<span class="nc" id="L2036">			return false;</span>
+		}
+<span class="nc" id="L2038">		return true;</span>
+	}
+
+	// --- INTEGER TERM --- //
+	public static boolean checkIntegerTerm(IntegerTerm t) {
+<span class="nc" id="L2043">		return T12(t);</span>
+	}
+
+	public static boolean T12(IntegerTerm t) {
+		// check constraint T12: domain.oclIsTypeOf(IntegerDomain)
+<span class="nc bnc" id="L2048" title="All 2 branches missed.">		if (!(t.getDomain() instanceof IntegerDomain)) {</span>
+<span class="nc" id="L2049">			MSG_ERR = &quot;Error:The type-domain associated to an integer term must be the integer domain.&quot;;</span>
+<span class="nc" id="L2050">			return false;</span>
+		}
+<span class="nc" id="L2052">		return true;</span>
+	}
+
+	// --- NATURAL TERM --- //
+	public static boolean checkNaturalTerm(NaturalTerm t) {
+<span class="nc" id="L2057">		return T13(t);</span>
+	}
+
+	public static boolean T13(NaturalTerm t) {
+		// check constraint T13: domain.oclIsTypeOf(NaturalDomain)
+<span class="nc bnc" id="L2062" title="All 2 branches missed.">		if (!(t.getDomain() instanceof NaturalDomain)) {</span>
+<span class="nc" id="L2063">			MSG_ERR = &quot;Error:The type-domain associated to a natural term must be the natural domain.&quot;;</span>
+<span class="nc" id="L2064">			return false;</span>
+		}
+<span class="nc" id="L2066">		return true;</span>
+	}
+
+	// --- CHAR TERM --- //
+	public static boolean checkCharTerm(CharTerm t) {
+		// check constraint 1
+<span class="nc bnc" id="L2072" title="All 2 branches missed.">		if (!(t.getDomain() instanceof CharDomain)) {</span>
+<span class="nc" id="L2073">			MSG_ERR = &quot;Error:The type-domain associated to a CharTerm must be the char domain.&quot;;</span>
+<span class="nc" id="L2074">			return false;</span>
+		}
+<span class="nc" id="L2076">		return true;</span>
+	}
+
+	// --- STRING TERM --- //
+	public static boolean checkStringTerm(StringTerm t) {
+<span class="nc" id="L2081">		return T14(t);</span>
+	}
+
+	public static boolean T14(StringTerm t) {
+		// check constraint T14: domain.oclIsTypeOf(CharDomain)
+<span class="nc bnc" id="L2086" title="All 2 branches missed.">		if (!(t.getDomain() instanceof StringDomain)) {</span>
+<span class="nc" id="L2087">			MSG_ERR = &quot;Error:The type-domain associated to a string term must be the string domain.&quot;;</span>
+<span class="nc" id="L2088">			return false;</span>
+		}
+<span class="nc" id="L2090">		return true;</span>
+	}
+
+	// --- BOOLEAN TERM --- //
+	public static boolean checkBooleanTerm(BooleanTerm t) {
+<span class="nc" id="L2095">		return T2(t);</span>
+		// T3 and T4 can't be checked!!
+		// T3: BooleanTerm.allInstances()-&gt;size()=2
+		// T4: BooleanTerm.allInstances()-&gt;exist(t1,t2|
+		// t1.symbol = 'true' and t2.symbol = 'false')
+	}
+
+	public static boolean T2(BooleanTerm t) {
+		// check constraint T2: domain.oclIsTypeOf(BooleanDomain)
+<span class="nc bnc" id="L2104" title="All 2 branches missed.">		if (!(t.getDomain() instanceof BooleanDomain)) {</span>
+<span class="nc" id="L2105">			MSG_ERR = &quot;Error:The type-domain associated to a boolean term must be the boolean domain.&quot;;</span>
+<span class="nc" id="L2106">			return false;</span>
+		}
+<span class="nc" id="L2108">		return true;</span>
+	}
+
+	// --- UNDEF TERM --- //
+	public static boolean checkUndefTerm(UndefTerm t) {
+<span class="nc" id="L2113">		return T5(t);</span>
+		// T6: UndefTerm.allInstances()-&gt;size()=1 by MOF!
+		// T7: UndefTerm.allInstances()-&gt;exist(t | t.symbol = 'undef') ??? How
+		// to in Java ???
+	}
+
+	public static boolean T5(UndefTerm t) {
+		// Check constraint T5: domain.oclIsTypeOf(UndefDomain)
+<span class="nc bnc" id="L2121" title="All 2 branches missed.">		if (!(t.getDomain() instanceof UndefDomain)) {</span>
+<span class="nc" id="L2122">			MSG_ERR = &quot;Error:The type-domain associated to the undef term must be the undef domain.&quot;;</span>
+<span class="nc" id="L2123">			return false;</span>
+		}
+<span class="nc" id="L2125">		return true;</span>
+	}
+
+	// --- ENUM TERM --- //
+	public static boolean checkEnumTerm(EnumTerm t) {
+<span class="nc bnc" id="L2130" title="All 4 branches missed.">		return T16(t) &amp;&amp; T17(t);</span>
+	}
+
+	public static boolean T16(EnumTerm t) {
+		// T16: domain.oclIsTypeOf(EnumTD)
+<span class="nc bnc" id="L2135" title="All 2 branches missed.">		if (!(t.getDomain() instanceof EnumTd)) {</span>
+<span class="nc" id="L2136">			MSG_ERR = &quot;Error:The type-domain associated to an EnumTerm must be an an enumeration type-domain.&quot;;</span>
+<span class="nc" id="L2137">			return false;</span>
+		}
+<span class="nc" id="L2139">		return true;</span>
+	}
+
+	public static boolean T17(EnumTerm t) {
+		// T17: domain.oclAsType(EnumTD).element -&gt;
+		// exist(e:EnumElement | e.symbol = symbol)
+
+<span class="nc" id="L2146">		Iterator&lt;?&gt; iter = ((EnumTd) t.getDomain()).getElement().iterator();</span>
+		EnumElement enumEl;
+<span class="nc" id="L2148">		boolean elemFind = false;</span>
+<span class="nc bnc" id="L2149" title="All 4 branches missed.">		while (iter.hasNext() &amp;&amp; !elemFind) {</span>
+<span class="nc" id="L2150">			enumEl = (EnumElement) iter.next();</span>
+<span class="nc bnc" id="L2151" title="All 2 branches missed.">			if (enumEl.getSymbol().equals(t.getSymbol()))</span>
+<span class="nc" id="L2152">				elemFind = true;</span>
+		}
+<span class="nc bnc" id="L2154" title="All 2 branches missed.">		if (!elemFind) {</span>
+<span class="nc" id="L2155">			MSG_ERR = &quot;Error: The symbol denoted by an enum constant term must be an element of&quot;</span>
+					+ &quot;the enumeration type-domain associated to the enum constant term.&quot;;
+<span class="nc" id="L2157">			return false;</span>
+		}
+<span class="nc" id="L2159">		return true;</span>
+	}
+
+	// -------------------------- EXTENDED TERMS --------------------------- //
+
+	// --- CONDITIONAL TERM --- //
+	public static boolean checkConditionalTerm(ConditionalTerm t) {
+<span class="pc bpc" id="L2166" title="2 of 4 branches missed.">		return T19(t) &amp;&amp; T18(t);</span>
+	}
+
+	public static boolean T18(ConditionalTerm t) {
+		// Check constraint T18: self.compatible(thenTerm) and
+		// (elseTerm -&gt; notEmpty() implies self.compatible(elseTerm))
+<span class="fc" id="L2172">		Domain thenT_td = t.getThenTerm().getDomain();</span>
+<span class="fc" id="L2173">		Domain conditional_td = t.getDomain();</span>
+<span class="fc" id="L2174">		Term elseT = t.getElseTerm();</span>
+
+<span class="pc bpc" id="L2176" title="1 of 2 branches missed.">		if (!compatible(conditional_td, thenT_td)) {</span>
+<span class="nc" id="L2177">			MSG_ERR = &quot;Error: The conditional term isn't compatible to the 'then term'.&quot;;</span>
+<span class="nc" id="L2178">			return false;</span>
+		}
+<span class="pc bpc" id="L2180" title="1 of 4 branches missed.">		if (elseT != null &amp;&amp; !compatible(conditional_td, elseT.getDomain())) {</span>
+<span class="nc" id="L2181">			MSG_ERR = &quot;Error: The conditional term isn't compatible to the 'else term'.&quot;;</span>
+<span class="nc" id="L2182">			return false;</span>
+		}
+<span class="fc" id="L2184">		return true;</span>
+	}
+
+	public static boolean T19(ConditionalTerm t) {
+		// Check constraint T19: guard.domain.oclIsTypeOf(BooleanDomain)
+<span class="pc bpc" id="L2189" title="1 of 2 branches missed.">		if (!isBoolean(t.getGuard())) {</span>
+<span class="nc" id="L2190">			MSG_ERR = &quot;Error: The type-domain associated to the guard term must be the boolean domain.&quot;;</span>
+<span class="nc" id="L2191">			return false;</span>
+		}
+<span class="fc" id="L2193">		return true;</span>
+	}
+
+	// --- CASE TERM --- //
+	public static boolean checkCaseTerm(CaseTerm t) {
+<span class="pc bpc" id="L2198" title="3 of 6 branches missed.">		return T20(t) &amp;&amp; T21(t) &amp;&amp; T22(t);</span>
+	}
+
+	public static boolean T20(CaseTerm t) {
+		// T20: comparingTerm-&gt;size() = resultTerm-&gt;size()
+<span class="pc bpc" id="L2203" title="1 of 2 branches missed.">		if (t.getComparingTerm().size() != t.getResultTerms().size()) {</span>
+<span class="nc" id="L2204">			MSG_ERR = &quot;Error:The number of left-hand side terms of the case-clauses must&quot;</span>
+					+ &quot;be equal to the number of right-hand side terms.&quot;;
+<span class="nc" id="L2206">			return false;</span>
+		}
+<span class="fc" id="L2208">		return true;</span>
+	}
+
+	public static boolean T21(CaseTerm t) {
+		// T21: resultTerms-&gt;forAll(t:Term|self.compatible(t))
+		// and self.compatible(otherwiseTerm)
+
+<span class="fc" id="L2215">		Iterator&lt;?&gt; iter = t.getResultTerms().iterator();</span>
+		Term resultT;
+<span class="fc bfc" id="L2217" title="All 2 branches covered.">		while (iter.hasNext()) {</span>
+<span class="fc" id="L2218">			resultT = (Term) iter.next();</span>
+<span class="pc bpc" id="L2219" title="1 of 2 branches missed.">			if (!compatible(resultT, t)) {</span>
+<span class="nc" id="L2220">				MSG_ERR = &quot;Error: A case term must be compatible to the right-hand side terms of the case-clauses.&quot;;</span>
+<span class="nc" id="L2221">				return false;</span>
+			}
+		}
+<span class="fc" id="L2224">		Term otherwiseT = t.getOtherwiseTerm();</span>
+<span class="pc bpc" id="L2225" title="1 of 4 branches missed.">		if (otherwiseT != null &amp;&amp; !compatible(otherwiseT, t)) {</span>
+<span class="nc" id="L2226">			MSG_ERR = &quot;Error: A case term must be compatible to the term of the otherwise-clause.&quot;;</span>
+<span class="nc" id="L2227">			return false;</span>
+		}
+<span class="fc" id="L2229">		return true;</span>
+	}
+
+	public static boolean T22(CaseTerm t) {
+		// T22: comparingTerm-&gt;forAll(t:Term | comparedTerm.compatible(t))
+<span class="fc" id="L2234">		Iterator&lt;?&gt; iter = t.getComparingTerm().iterator();</span>
+		Term comparingT;
+<span class="fc bfc" id="L2236" title="All 2 branches covered.">		while (iter.hasNext()) {</span>
+<span class="fc" id="L2237">			comparingT = (Term) iter.next();</span>
+<span class="pc bpc" id="L2238" title="1 of 2 branches missed.">			if (!compatible(t.getComparedTerm(), comparingT)) {</span>
+<span class="nc" id="L2239">				MSG_ERR = &quot;Error: The term to match isn't compatible to the left-hand terms of the case-clauses.&quot;;</span>
+<span class="nc" id="L2240">				return false;</span>
+			}
+		}
+<span class="fc" id="L2243">		return true;</span>
+	}
+
+	// --- DOMAIN TERM --- //
+	public static boolean checkDomainTerm(DomainTerm t) {
+<span class="nc" id="L2248">		return E5(t);</span>
+	}
+
+	public static boolean E5(DomainTerm t) {
+		// Check constraint E5: domain.oclIsTypeOf(PowersetDomain)
+<span class="nc bnc" id="L2253" title="All 2 branches missed.">		if (!((t.getDomain() instanceof PowersetDomain))) {</span>
+<span class="nc" id="L2254">			MSG_ERR = &quot;Error: the type-domain of a DomainTerm must be a powerset.&quot;;</span>
+<span class="nc" id="L2255">			return false;</span>
+		}
+<span class="nc" id="L2257">		return true;</span>
+	}
+
+	// --- RULE AS TERM --- //
+	public static boolean checkRuleAsTerm(RuleAsTerm t) {
+<span class="nc" id="L2262">		return E4(t);</span>
+	}
+
+	public static boolean E4(RuleAsTerm t) {
+		// Check constraint E4: domain.oclIsTypeOf(RuleDomain)
+<span class="nc bnc" id="L2267" title="All 2 branches missed.">		if (!(t.getDomain() instanceof RuleDomain)) {</span>
+<span class="nc" id="L2268">			MSG_ERR = &quot;Error:The type-domain associated to a RuleAsTerm must be the rule domain.&quot;;</span>
+<span class="nc" id="L2269">			return false;</span>
+		}
+<span class="nc" id="L2271">		return true;</span>
+	}
+
+	// --- TUPLE TERM --- //
+	public static boolean checkTupleTerm(TupleTerm t) {
+		// let size:Integer = arity.oclAsType(Integer) in
+		// E1: size = terms-&gt;size() and
+		// E2: if size = 1 then domain = term-&gt;at(1).domain
+		// E3 else domain.oclIsTypeOf(ProductDomain) and
+		// domain.oclAsType(ProductDomain).domains-&gt;size() = size and
+		// Sequence{1..size}-&gt;forAll(i:Integer |
+		// domain.oclAsType(ProductDomain).domains-&gt;at(i) = terms-&gt;at(i).domain)
+		// endif
+<span class="pc bpc" id="L2284" title="3 of 8 branches missed.">		return E1(t) &amp;&amp; E2(t) &amp;&amp; E3(t) &amp;&amp; H12(t);</span>
+	}
+
+	public static boolean E1(TupleTerm t) {
+		// check constraint E1
+<span class="pc bpc" id="L2289" title="1 of 2 branches missed.">		if (t.getArity() != t.getTerms().size()) {</span>
+<span class="nc" id="L2290">			MSG_ERR = &quot;Error:The tuple arity is not equal to the number of composing terms.&quot;;</span>
+<span class="nc" id="L2291">			return false;</span>
+		}
+<span class="fc" id="L2293">		return true;</span>
+	}
+
+	public static boolean E2(TupleTerm t) {
+		// check constraint E2
+<span class="fc bfc" id="L2298" title="All 2 branches covered.">		if (t.getArity() == 1</span>
+<span class="pc bpc" id="L2299" title="1 of 2 branches missed.">				&amp;&amp; t.getDomain() != t.getTerms().get(0).getDomain()) {</span>
+<span class="nc" id="L2300">			MSG_ERR = &quot;Error: If the arity of a tuple is 1 (this case), then the domain of the tuple&quot;</span>
+					+ &quot;must be that of the component term.&quot;;
+<span class="nc" id="L2302">			return false;</span>
+		}
+<span class="fc" id="L2304">		return true;</span>
+	}
+
+	public static boolean E3(TupleTerm t) {
+<span class="fc bfc" id="L2308" title="All 2 branches covered.">		if (t.getArity() &gt; 1) {</span>
+<span class="pc bpc" id="L2309" title="1 of 2 branches missed.">			if (!(t.getDomain() instanceof ProductDomain)) {</span>
+<span class="nc" id="L2310">				MSG_ERR = &quot;Error:The type-domain associated to the tuple term must be a product domain.&quot;;</span>
+<span class="nc" id="L2311">				return false;</span>
+			}
+<span class="fc" id="L2313">			Collection&lt;?&gt; subTDList = ((ProductDomain) t.getDomain()).getDomains();</span>
+<span class="pc bpc" id="L2314" title="1 of 2 branches missed.">			if (subTDList.size() != t.getTerms().size()) {</span>
+<span class="nc" id="L2315">				MSG_ERR = &quot;Error: The number of the component domains of the product domain associated to the tuple term must be equal to the tuple arity.&quot;;</span>
+<span class="nc" id="L2316">				return false;</span>
+			}
+
+<span class="fc" id="L2319">			Iterator&lt;?&gt; subTDIter = subTDList.iterator();</span>
+<span class="fc" id="L2320">			Iterator&lt;?&gt; elemIter = t.getTerms().iterator();</span>
+<span class="fc bfc" id="L2321" title="All 2 branches covered.">			while (subTDIter.hasNext()) {</span>
+<span class="fc bfc" id="L2322" title="All 2 branches covered.">				if (subTDIter.next() != ((Term) elemIter.next()).getDomain()) {</span>
+<span class="fc" id="L2323">					MSG_ERR = &quot;Error: the domain of the tuple is not the Cartesian product of the domains of the corresponding component terms. &quot;</span>
+							+ &quot;Type mismatch between&quot;
+<span class="fc" id="L2325">							+ ((TypeDomain) subTDIter.next()).getName()</span>
+							+ &quot;and&quot;
+<span class="fc" id="L2327">							+ ((Term) elemIter.next()).getDomain().getName();</span>
+<span class="fc" id="L2328">					return false;</span>
+				}
+			}
+		}
+<span class="fc" id="L2332">		return true;</span>
+	}
+
+	public static boolean H12(TupleTerm t) {
+		// now we allow COmprehension H12: to correct
+		// H12: terms -&gt; forAll( t: Term | not
+		// t.domain.oclIsTypeOf(VariableBindingTerm) and
+		// not t.domain.oclIsTypeOf(ConditionalTerm) and not
+		// t.domain.oclIsTypeOf(CaseTerm)
+<span class="fc" id="L2341">		Iterator&lt;?&gt; elemIter = t.getTerms().iterator();</span>
+<span class="fc bfc" id="L2342" title="All 2 branches covered.">		while (elemIter.hasNext()) {</span>
+<span class="fc" id="L2343">			Term elem = (Term) elemIter.next();</span>
+<span class="pc bpc" id="L2344" title="1 of 2 branches missed.">			if (!termAccepted(elem))</span>
+<span class="nc" id="L2345">				return false;</span>
+<span class="fc" id="L2346">		}</span>
+<span class="fc" id="L2347">		return true;</span>
+	}
+
+	/**
+	 * The only terms allowed in tuple terms, map terms, sequence terms, set
+	 * terms, bag terms, and comprehension terms (bags, sets, sequences, and
+	 * maps) are basic terms, collection terms, and extended terms except
+	 * ConditionalTerms, CaseTerms, and VariableBindingTerms To this purpose use
+	 * the following method
+	 */
+	public static boolean termAccepted(Term t) {
+		/* NOW WE ALLOW Comprehension */
+		// July 22, 2008 - commented by acarioni
+		// In my opinion, if they are terms, they can appear everywhere a term can
+//		if (t instanceof FiniteQuantificationTerm) {
+//			MSG_ERR = &quot;Error: Inner terms cannot be instances of FiniteQuantificationTerm.&quot;;
+//			return false;
+//		}
+//		if (t instanceof LetTerm) {
+//			MSG_ERR = &quot;Error: Inner terms cannot be instances of LetTerm.&quot;;
+//			return false;
+//		}
+//		if (t instanceof ConditionalTerm) {
+//			MSG_ERR = &quot;Error: Inner terms cannot be instances of ConditionalTerm.&quot;;
+//			return false;
+//		}
+//		if (t instanceof CaseTerm) {
+//			MSG_ERR = &quot;Error: Inner terms cannot be instances of CaseTerm.&quot;;
+//			return false;
+//		}
+<span class="fc" id="L2377">		return true;</span>
+	}
+
+	// -----------COLLECTION TERMS ------------ //
+
+	// --- SET TERM --- //
+	public static boolean checkSetTerm(SetTerm t) {
+<span class="nc bnc" id="L2384" title="All 6 branches missed.">		return E6(t) &amp;&amp; E7(t) &amp;&amp; H15(t);</span>
+	}
+
+	public static boolean E6(SetTerm t) {
+		// Check constraint E6: size.oclAsType(Integer) = term-&gt;size()
+<span class="nc bnc" id="L2389" title="All 2 branches missed.">		if (t.getSize() != t.getTerm().size()) {</span>
+<span class="nc" id="L2390">			MSG_ERR = &quot;Error: The size of a set term must be the number of terms it contains.&quot;;</span>
+<span class="nc" id="L2391">			return false;</span>
+		}
+<span class="nc" id="L2393">		return true;</span>
+	}
+
+	public static boolean E7(SetTerm t) {
+		// E7: domain.oclIsTypeOf(PowersetDomain) and
+		// term-&gt;forAll(t:Term|domain.oclAsType(PowersetDomain).baseDomain =
+		// t.domain)
+<span class="nc" id="L2400">		Domain d = t.getDomain();</span>
+<span class="nc bnc" id="L2401" title="All 2 branches missed.">		if (!(d instanceof PowersetDomain)) {</span>
+<span class="nc" id="L2402">			MSG_ERR = &quot;Error: the type-domain of a SetTerm must be a PowersetDomain.&quot;;</span>
+<span class="nc" id="L2403">			return false;</span>
+		}
+<span class="nc" id="L2405">		Domain bd = ((PowersetDomain) d).getBaseDomain();</span>
+		// Note that, if the set is empty, then &quot;bd&quot; can be any type domain.
+		// &quot;bd&quot;
+		// is generally set during the creation of the empty set depending on
+		// the type of the elements the set is going to contain.
+		// To this purpose, we introduced a notion of &quot;generic type-domain&quot;
+		// (represented by the class AnyDomain) i.e. a domain which stands for
+		// any
+		// other type-domain.
+		// E7aux: if size = 0 then
+		// domain.oclAsType(PowersetDomain).baseDomain.oclIsTypeOf(AnyDomain)
+<span class="nc bnc" id="L2416" title="All 2 branches missed.">		if (t.getSize() == 0) {</span>
+<span class="nc bnc" id="L2417" title="All 2 branches missed.">			if (!(bd instanceof AnyDomain)) {</span>
+<span class="nc" id="L2418">				MSG_ERR = &quot;Error: the type-domain of an empty set term must be a PowersetDomain of AnyDomain.&quot;;</span>
+<span class="nc" id="L2419">				return false;</span>
+			}
+		} else {
+<span class="nc" id="L2422">			Iterator&lt;?&gt; iter = t.getTerm().iterator();</span>
+			Term elem;
+<span class="nc bnc" id="L2424" title="All 2 branches missed.">			while (iter.hasNext()) {</span>
+<span class="nc" id="L2425">				elem = (Term) iter.next();</span>
+<span class="nc bnc" id="L2426" title="All 2 branches missed.">				if (bd != elem.getDomain()) {</span>
+<span class="nc" id="L2427">					MSG_ERR = &quot;Error: wrong domain of some element of the SetTerm.&quot;;</span>
+<span class="nc" id="L2428">					return false;</span>
+				}
+			}
+		}
+<span class="nc" id="L2432">		return true;</span>
+	}
+
+	public static boolean H15(SetTerm t) {
+		// H15: see H12 for TupleTerm
+<span class="nc" id="L2437">		Iterator&lt;?&gt; elemIter = t.getTerm().iterator();</span>
+<span class="nc bnc" id="L2438" title="All 2 branches missed.">		while (elemIter.hasNext()) {</span>
+<span class="nc" id="L2439">			Term elem = (Term) elemIter.next();</span>
+<span class="nc bnc" id="L2440" title="All 2 branches missed.">			if (!termAccepted(elem)) {</span>
+<span class="nc" id="L2441">				MSG_ERR = &quot;Error [H15]: term not accepted in SetTerm&quot;;</span>
+<span class="nc" id="L2442">				return false;</span>
+			}
+<span class="nc" id="L2444">		}</span>
+<span class="nc" id="L2445">		return true;</span>
+	}
+
+	// --- BAG TERM --- //
+	public static boolean checkBagTerm(BagTerm t) {
+<span class="nc bnc" id="L2450" title="All 8 branches missed.">		return E10(t) &amp;&amp; E11(t) &amp;&amp; E12(t) &amp;&amp; H16(t);</span>
+	}
+
+	public static boolean E10(BagTerm t) {
+		// E10: size.oclAsType(Integer) = term-&gt;size()
+<span class="nc bnc" id="L2455" title="All 2 branches missed.">		if (t.getSize() != t.getTerm().size()) {</span>
+<span class="nc" id="L2456">			MSG_ERR = &quot;Error: wrong size of the BagTerm.&quot;;</span>
+<span class="nc" id="L2457">			return false;</span>
+		}
+<span class="nc" id="L2459">		return true;</span>
+	}
+
+	public static boolean E11(BagTerm t) {
+		// E11: domain.oclIsTypeOf(BagDomain)
+<span class="nc bnc" id="L2464" title="All 2 branches missed.">		if (!(t.getDomain() instanceof BagDomain)) {</span>
+<span class="nc" id="L2465">			MSG_ERR = &quot;Error: the type-domain of a bag term must be a BagDomain.&quot;;</span>
+<span class="nc" id="L2466">			return false;</span>
+		}
+<span class="nc" id="L2468">		return true;</span>
+	}
+
+	public static boolean E12(BagTerm t) {
+		// E12: term-&gt;forAll(t:Term |
+		// t.domain.compatible(domain.oclAsType(BagDomain).domain) )
+<span class="nc" id="L2474">		Domain subDom = ((BagDomain) t.getDomain()).getDomain();</span>
+
+		// Empty bag
+		// E12aux: if size = 0 then
+		// domain.oclAsType(BagDomain).domain.oclIsTypeOf(AnyDomain)
+<span class="nc bnc" id="L2479" title="All 2 branches missed.">		if (t.getSize() == 0) {</span>
+<span class="nc bnc" id="L2480" title="All 2 branches missed.">			if (!(subDom instanceof AnyDomain)) {</span>
+<span class="nc" id="L2481">				MSG_ERR = &quot;Error: the type-domain of the empty BagTerm must be a BagDomain of AnyDomain.&quot;;</span>
+<span class="nc" id="L2482">				return false;</span>
+			}
+		} else {
+<span class="nc" id="L2485">			Iterator&lt;?&gt; iter = t.getTerm().iterator();</span>
+			Term elem;
+<span class="nc bnc" id="L2487" title="All 2 branches missed.">			while (iter.hasNext()) {</span>
+<span class="nc" id="L2488">				elem = (Term) iter.next();</span>
+<span class="nc bnc" id="L2489" title="All 2 branches missed.">				if (!compatible(subDom, elem.getDomain())) {</span>
+<span class="nc" id="L2490">					MSG_ERR = &quot;Error: wrong type-domain of some element of the BagTerm.&quot;;</span>
+<span class="nc" id="L2491">					return false;</span>
+				}
+			}
+		}
+<span class="nc" id="L2495">		return true;</span>
+	}
+
+	public static boolean H16(BagTerm t) {
+		// H16: see H12 for TupleTerm
+<span class="nc" id="L2500">		Iterator&lt;?&gt; elemIter = t.getTerm().iterator();</span>
+<span class="nc bnc" id="L2501" title="All 2 branches missed.">		while (elemIter.hasNext()) {</span>
+<span class="nc" id="L2502">			Term elem = (Term) elemIter.next();</span>
+<span class="nc bnc" id="L2503" title="All 2 branches missed.">			if (!termAccepted(elem))</span>
+<span class="nc" id="L2504">				return false;</span>
+<span class="nc" id="L2505">		}</span>
+<span class="nc" id="L2506">		return true;</span>
+	}
+
+	// --- SEQUENCE TERM --- //
+	public static boolean checkSequenceTerm(SequenceTerm t) {
+<span class="nc bnc" id="L2511" title="All 8 branches missed.">		return E13(t) &amp;&amp; E14(t) &amp;&amp; E15(t) &amp;&amp; H14(t);</span>
+	}
+
+	public static boolean E13(SequenceTerm t) {
+		// E13: size.oclAsType(Integer) = term-&gt;size()
+<span class="nc bnc" id="L2516" title="All 2 branches missed.">		if (t.getSize() != t.getTerms().size()) {</span>
+<span class="nc" id="L2517">			MSG_ERR = &quot;Error: wrong size of the SequenceTerm.&quot;;</span>
+<span class="nc" id="L2518">			return false;</span>
+		}
+<span class="nc" id="L2520">		return true;</span>
+	}
+
+	public static boolean E14(SequenceTerm t) {
+		// E14: domain.oclIsTypeOf(SequenceDomain)
+<span class="nc bnc" id="L2525" title="All 2 branches missed.">		if (!(t.getDomain() instanceof SequenceDomain)) {</span>
+<span class="nc" id="L2526">			MSG_ERR = &quot;Error: the type-domain of a sequence term must be a SequenceDomain.&quot;;</span>
+<span class="nc" id="L2527">			return false;</span>
+		}
+<span class="nc" id="L2529">		return true;</span>
+	}
+
+	public static boolean E15(SequenceTerm t) {
+		// E15: term-&gt;forAll(t:Term |
+		// t.domain.compatible(domain.oclAsType(SequenceDomain).domain) )
+<span class="nc" id="L2535">		Domain subDom = ((SequenceDomain) t.getDomain()).getDomain();</span>
+
+		// Empty sequence
+		// E15aux: if size = 0 then
+		// domain.oclAsType(SequenceDomain).domain.oclIsTypeOf(AnyDomain)
+<span class="nc bnc" id="L2540" title="All 2 branches missed.">		if (t.getSize() == 0) {</span>
+<span class="nc bnc" id="L2541" title="All 2 branches missed.">			if (!(subDom instanceof AnyDomain)) {</span>
+<span class="nc" id="L2542">				MSG_ERR = &quot;Error: the type-domain of the empty SequenceTerm must be a SequenceDomain of AnyDomain.&quot;;</span>
+<span class="nc" id="L2543">				return false;</span>
+			}
+		} else {
+<span class="nc" id="L2546">			Iterator&lt;?&gt; iter = t.getTerms().iterator();</span>
+			Term elem;
+<span class="nc bnc" id="L2548" title="All 2 branches missed.">			while (iter.hasNext()) {</span>
+<span class="nc" id="L2549">				elem = (Term) iter.next();</span>
+<span class="nc bnc" id="L2550" title="All 2 branches missed.">				if (!compatible(subDom, elem.getDomain())) {</span>
+<span class="nc" id="L2551">					MSG_ERR = &quot;Error: wrong type-domain of some element of the SequenceTerm.&quot;;</span>
+<span class="nc" id="L2552">					return false;</span>
+				}
+			}
+		}
+<span class="nc" id="L2556">		return true;</span>
+	}
+
+	public static boolean H14(SequenceTerm t) {
+		// H14: see H12 for TupleTerm
+<span class="nc" id="L2561">		Iterator&lt;?&gt; elemIter = t.getTerms().iterator();</span>
+<span class="nc bnc" id="L2562" title="All 2 branches missed.">		while (elemIter.hasNext()) {</span>
+<span class="nc" id="L2563">			Term elem = (Term) elemIter.next();</span>
+<span class="nc bnc" id="L2564" title="All 2 branches missed.">			if (!termAccepted(elem))</span>
+<span class="nc" id="L2565">				return false;</span>
+<span class="nc" id="L2566">		}</span>
+<span class="nc" id="L2567">		return true;</span>
+	}
+
+	// --- MAP TERM --- //
+	public static boolean checkMapTerm(MapTerm t) {
+<span class="nc bnc" id="L2572" title="All 8 branches missed.">		return E16(t) &amp;&amp; E17(t) &amp;&amp; E18(t) &amp;&amp; H13(t);</span>
+	}
+
+	public static boolean E16(MapTerm t) {
+		// E16: pair-&gt;forAll(p:TupleTerm | p.term-&gt;size()= 2)
+<span class="nc" id="L2577">		Iterator&lt;?&gt; iter = t.getPair().iterator();</span>
+<span class="nc bnc" id="L2578" title="All 2 branches missed.">		while (iter.hasNext()) {</span>
+<span class="nc bnc" id="L2579" title="All 2 branches missed.">			if (((TupleTerm) iter.next()).getArity() != 2) {</span>
+<span class="nc" id="L2580">				MSG_ERR = &quot;Error: the elements of a map term must be pairs.&quot;;</span>
+<span class="nc" id="L2581">				return false;</span>
+			}
+		}
+<span class="nc" id="L2584">		return true;</span>
+	}
+
+	public static boolean E17(MapTerm t) {
+		// E17: size.oclAsType(Integer) = pair-&gt;size()
+<span class="nc bnc" id="L2589" title="All 2 branches missed.">		if (t.getSize() != t.getPair().size()) {</span>
+<span class="nc" id="L2590">			MSG_ERR = &quot;Error: wrong size of the MapTerm.&quot;;</span>
+<span class="nc" id="L2591">			return false;</span>
+		}
+<span class="nc" id="L2593">		return true;</span>
+	}
+
+	public static boolean E18(MapTerm t) {
+		// E18: domain.oclIsTypeOf(MapDomain)
+<span class="nc bnc" id="L2598" title="All 2 branches missed.">		if (!(t.getDomain() instanceof MapDomain)) {</span>
+<span class="nc" id="L2599">			MSG_ERR = &quot;Error: the type-domain of a map term must be a MapDomain.&quot;;</span>
+<span class="nc" id="L2600">			return false;</span>
+		}
+<span class="nc" id="L2602">		return true;</span>
+	}
+
+	public static boolean E19(MapTerm t) {
+		// E19: pair-&gt;forAll(p:TupleTerm |
+		// domain.oclAsType(MapDomain).sourceDomain.
+		// compatible(p.domain.oclAsType(ProductDomain).domain-&gt;at(1)) and
+		// domain.oclAsType(MapDomain).targetDomain.compatible(p.domain.oclAsType(ProductDomain).domain-&gt;at(2)))
+<span class="nc" id="L2610">		Domain sourceDom = ((MapDomain) t.getDomain()).getSourceDomain();</span>
+<span class="nc" id="L2611">		Domain targetDom = ((MapDomain) t.getDomain()).getTargetDomain();</span>
+
+		// Empty map
+		// E19_aux:
+		// E15aux: if size = 0 then
+		// domain.oclAsType(MapDomain).sourceDomain.oclIsTypeOf(AnyDomain) and
+		// domain.oclAsType(MapDomain).targetDomain.oclIsTypeOf(AnyDomain) endif
+<span class="nc bnc" id="L2618" title="All 2 branches missed.">		if (t.getSize() == 0) {</span>
+<span class="nc bnc" id="L2619" title="All 4 branches missed.">			if (!((sourceDom instanceof AnyDomain) &amp;&amp; (targetDom instanceof AnyDomain))) {</span>
+<span class="nc" id="L2620">				MSG_ERR = &quot;Error: the source and target domain of an empty map term must be AnyDomain.&quot;;</span>
+<span class="nc" id="L2621">				return false;</span>
+			}
+		}
+
+		else {
+<span class="nc" id="L2626">			Iterator&lt;?&gt; iter = t.getPair().iterator();</span>
+<span class="nc bnc" id="L2627" title="All 2 branches missed.">			while (iter.hasNext()) {</span>
+<span class="nc" id="L2628">				List&lt;?&gt; subDomList = ((ProductDomain) ((TupleTerm) iter.next())</span>
+<span class="nc" id="L2629">						.getDomain()).getDomains();</span>
+<span class="nc bnc" id="L2630" title="All 4 branches missed.">				if (!(compatible(sourceDom, (TypeDomain) subDomList.get(1)) &amp;&amp; (compatible(</span>
+<span class="nc" id="L2631">						targetDom, (TypeDomain) subDomList.get(2))))) {</span>
+<span class="nc" id="L2632">					MSG_ERR = &quot;Error: wrong type-domain of some pair of the MapTerm.&quot;;</span>
+<span class="nc" id="L2633">					return false;</span>
+				}
+<span class="nc" id="L2635">			}</span>
+		}
+<span class="nc" id="L2637">		return true;</span>
+	}
+
+	public static boolean H13(MapTerm t) {
+		// H13: see H12 for TupleTerm
+<span class="nc" id="L2642">		Iterator&lt;?&gt; elemIter = t.getPair().iterator();</span>
+<span class="nc bnc" id="L2643" title="All 2 branches missed.">		while (elemIter.hasNext()) {</span>
+<span class="nc" id="L2644">			Term elem = (Term) elemIter.next();</span>
+<span class="nc bnc" id="L2645" title="All 2 branches missed.">			if (!termAccepted(elem))</span>
+<span class="nc" id="L2646">				return false;</span>
+<span class="nc" id="L2647">		}</span>
+<span class="nc" id="L2648">		return true;</span>
+	}
+
+	// ------------------ VARIABLE BINDING TERMS ---------------------- //
+
+	// --- LET TERM --- //
+	public static boolean checkLetTerm(LetTerm t) {
+<span class="nc bnc" id="L2655" title="All 6 branches missed.">		return L1(t) &amp;&amp; L2(t) &amp;&amp; L3(t);</span>
+	}
+
+	public static boolean L1(LetTerm t) {
+		// L1: domain = body.domain
+<span class="nc bnc" id="L2660" title="All 2 branches missed.">		if (t.getDomain() != t.getBody().getDomain()) {</span>
+<span class="nc" id="L2661">			MSG_ERR = &quot;Error: The type-domain of a LetTerm must be equal to the one of its body.&quot;;</span>
+<span class="nc" id="L2662">			return false;</span>
+		}
+<span class="nc" id="L2664">		return true;</span>
+	}
+
+	public static boolean L2(LetTerm t) {
+		// L2: assignmentTerm-&gt;size() = variable-&gt;size()
+<span class="nc bnc" id="L2669" title="All 2 branches missed.">		if (t.getAssignmentTerm().size() != t.getVariable().size()) {</span>
+<span class="nc" id="L2670">			MSG_ERR = &quot;Error: In a LetTerm, the number of variables must be equal to the number of assignment terms.&quot;;</span>
+<span class="nc" id="L2671">			return false;</span>
+		}
+<span class="nc" id="L2673">		return true;</span>
+	}
+
+	public static boolean L3(LetTerm t) {
+		// L3: Sequence1..variable-&gt;size()-&gt;forAll(i:Integer|
+		// variable-&gt;at(i).compatible(assignmentTerm-&gt;at(i))
+<span class="nc" id="L2679">		Iterator&lt;?&gt; iter1 = t.getVariable().iterator();</span>
+<span class="nc" id="L2680">		Iterator&lt;?&gt; iter2 = t.getAssignmentTerm().iterator();</span>
+<span class="nc bnc" id="L2681" title="All 2 branches missed.">		while (iter1.hasNext()) {</span>
+<span class="nc bnc" id="L2682" title="All 2 branches missed.">			if (!compatible((VariableTerm) iter1.next(), (Term) iter2.next())) {</span>
+<span class="nc" id="L2683">				MSG_ERR = &quot;Error: In a let-term, each variable must be compatible to its corresponding assignment term.&quot;;</span>
+<span class="nc" id="L2684">				return false;</span>
+			}
+		}
+<span class="nc" id="L2687">		return true;</span>
+	}
+
+	// ----------------- FINITE QUANTIFICATION TERMS ----------------------- //
+
+	public static boolean checkFiniteQuantificationTerm(
+			FiniteQuantificationTerm t) {
+<span class="nc bnc" id="L2694" title="All 6 branches missed.">		return Q1(t) &amp;&amp; Q4(t) &amp;&amp; Q2_Q3(t);</span>
+	}
+
+	public static boolean Q1(FiniteQuantificationTerm t) {
+		// Check Q1: domain.oclIsTypeOf(BooleanDomain)
+<span class="nc bnc" id="L2699" title="All 2 branches missed.">		if (!(t.getDomain() instanceof BooleanDomain)) {</span>
+<span class="nc" id="L2700">			MSG_ERR = &quot;Error: The type-domain of a finite-quantification term must be the boolean domain.&quot;;</span>
+<span class="nc" id="L2701">			return false;</span>
+		}
+<span class="nc" id="L2703">		return true;</span>
+	}
+
+	public static boolean Q2_Q3(FiniteQuantificationTerm t) {
+		// Check:
+		// Sequence{1..variable-&gt;size()}-&gt;forAll(i:Integer|
+		// Q2: ranges-&gt;at(i).domain.oclIsTypeOf(PowersetDomain) and
+		// Q3: variable-&gt;at(i).domain =
+		// ranges-&gt;at(i).domain.oclAsType(PowersetDomain).baseDomain)
+<span class="nc" id="L2712">		Iterator&lt;?&gt; iter1 = t.getVariable().iterator();</span>
+<span class="nc" id="L2713">		Iterator&lt;?&gt; iter2 = t.getRanges().iterator();</span>
+		VariableTerm v;
+		Term d;
+<span class="nc bnc" id="L2716" title="All 2 branches missed.">		while (iter1.hasNext()) {</span>
+<span class="nc" id="L2717">			d = (Term) iter2.next();</span>
+<span class="nc bnc" id="L2718" title="All 2 branches missed.">			if (!(d.getDomain() instanceof PowersetDomain)) {</span>
+<span class="nc" id="L2719">				MSG_ERR = &quot;Error: The domain of each term appearing in the variables ranges must be a powerset domain.&quot;;</span>
+<span class="nc" id="L2720">				return false;</span>
+			}
+<span class="nc" id="L2722">			v = (VariableTerm) iter1.next();</span>
+<span class="nc" id="L2723">			if (v.getDomain() != ((PowersetDomain) d.getDomain())</span>
+<span class="nc bnc" id="L2724" title="All 2 branches missed.">					.getBaseDomain()) {</span>
+<span class="nc" id="L2725">				MSG_ERR = &quot;Error: In a finite-quantification term, the domain of each variable must be equal to the base domain of the dorresponding powerset range.&quot;;</span>
+<span class="nc" id="L2726">				return false;</span>
+			}
+		}
+<span class="nc" id="L2729">		return true;</span>
+	}
+
+	public static boolean Q4(FiniteQuantificationTerm t) {
+		// Check Q4: if self.guard-&gt;notEmpty() then
+		// guard.domain.oclIsTypeOf(BooleanDomain) endif
+<span class="nc bnc" id="L2735" title="All 4 branches missed.">		if ((t.getGuard() != null) &amp;&amp; (!isBoolean(t.getGuard()))) {</span>
+<span class="nc" id="L2736">			MSG_ERR = &quot;Error: The type-domain of the guard term must be the boolean domain.&quot;;</span>
+<span class="nc" id="L2737">			return false;</span>
+		}
+<span class="nc" id="L2739">		return true;</span>
+	}
+
+	// ----------------- COMPREHENSION TERMS ----------------------- //
+
+	public static boolean checkComprehensionTerm(ComprehensionTerm t) {
+<span class="nc bnc" id="L2745" title="All 6 branches missed.">		return H1(t) &amp;&amp; H2(t) &amp;&amp; H17(t);</span>
+	}
+
+	public static boolean H17(ComprehensionTerm t) {
+		// H17: see H12 for TupleTerm
+<span class="nc bnc" id="L2750" title="All 2 branches missed.">		if (!termAccepted(t.getTerm()))</span>
+<span class="nc" id="L2751">			return false;</span>
+<span class="nc" id="L2752">		return true;</span>
+	}
+
+	public static boolean H1(ComprehensionTerm t) {
+		// H1: if guard-&gt;notEmpty() then guard.domain.oclIsTypeOf(BooleanDomain)
+		// endif
+<span class="nc bnc" id="L2758" title="All 4 branches missed.">		if ((t.getGuard() != null) &amp;&amp; (!isBoolean(t.getGuard()))) {</span>
+<span class="nc" id="L2759">			MSG_ERR = &quot;Error: The type-domain of the guard term must be the boolean domain.&quot;;</span>
+<span class="nc" id="L2760">			return false;</span>
+		}
+<span class="nc" id="L2762">		return true;</span>
+	}
+
+	public static boolean H2(ComprehensionTerm t) {
+		// H2: variable-&gt;size() = ranges-&gt;size()
+<span class="nc bnc" id="L2767" title="All 2 branches missed.">		if (t.getVariable().size() != t.getRanges().size()) {</span>
+<span class="nc" id="L2768">			MSG_ERR = &quot;Error: In a comprehension term, the number of variables must be equal to the number of terms in ranges.&quot;;</span>
+<span class="nc" id="L2769">			return false;</span>
+		}
+<span class="nc" id="L2771">		return true;</span>
+	}
+
+	// --- SetCT --- //
+	public static boolean checkSetCT(SetCt t) {
+		// check constraints of the superclass
+<span class="nc bnc" id="L2777" title="All 2 branches missed.">		if (!checkComprehensionTerm(t))</span>
+<span class="nc" id="L2778">			return false;</span>
+<span class="nc bnc" id="L2779" title="All 4 branches missed.">		return H3(t) &amp;&amp; H4(t);</span>
+	}
+
+	public static boolean H3(SetCt t) {
+		// H3: domain.oclIsTypeOf(PowersetDomain) and
+		// domain.oclAsType(PowersetDomain).domain = term.domain
+<span class="nc bnc" id="L2785" title="All 2 branches missed.">		if (!((t.getDomain() instanceof PowersetDomain) &amp;&amp; ((PowersetDomain) t</span>
+<span class="nc bnc" id="L2786" title="All 2 branches missed.">				.getDomain()).getBaseDomain() == t.getTerm().getDomain())) {</span>
+<span class="nc" id="L2787">			MSG_ERR = &quot;Error: The type-domain of a set comprehension term must be a PowersetDomain over the type-domain of the main term.&quot;;</span>
+<span class="nc" id="L2788">			return false;</span>
+		}
+<span class="nc" id="L2790">		return true;</span>
+	}
+
+	public static boolean H4(SetCt t) {
+		// H4: Sequence{1..variable-&gt;size()}-&gt; forAll(i:Integer |
+		// ranges-&gt;at(i).domain.oclIsTypeOf(PowersetDomain) and
+		// variable-&gt;at(i).domain =
+		// ranges-&gt;at(i).domain.oclAsType(PowersetDomain).baseDomain )
+
+<span class="nc" id="L2799">		Iterator&lt;?&gt; iter1 = t.getVariable().iterator();</span>
+<span class="nc" id="L2800">		Iterator&lt;?&gt; iter2 = t.getRanges().iterator();</span>
+		VariableTerm v;
+		Term r;
+<span class="nc bnc" id="L2803" title="All 2 branches missed.">		while (iter1.hasNext()) {</span>
+<span class="nc" id="L2804">			v = (VariableTerm) iter1.next();</span>
+<span class="nc" id="L2805">			r = (Term) iter2.next();</span>
+<span class="nc bnc" id="L2806" title="All 2 branches missed.">			if (!(r.getDomain() instanceof PowersetDomain)) {</span>
+<span class="nc" id="L2807">				MSG_ERR = &quot;Error: the type of the collection terms in ranges, Di, must be equal to the type of&quot;</span>
+						+ &quot;the comprehension term. Di must be a set for a set comprehension term and its domain must be a Powerset.&quot;;
+<span class="nc" id="L2809">				return false;</span>
+			}
+<span class="nc" id="L2811">			if (v.getDomain() != ((PowersetDomain) r.getDomain())</span>
+<span class="nc bnc" id="L2812" title="All 2 branches missed.">					.getBaseDomain()) {</span>
+<span class="nc" id="L2813">				MSG_ERR = &quot;Error: In a SetCT, the domains of variables must be set accordingly.&quot;;</span>
+<span class="nc" id="L2814">				return false;</span>
+			}
+		}
+<span class="nc" id="L2817">		return true;</span>
+	}
+
+	// --- MapCT --- //
+	public static boolean checkMapCT(MapCt t) {
+		// check constraints of the superclass
+<span class="nc bnc" id="L2823" title="All 2 branches missed.">		if (!checkComprehensionTerm(t))</span>
+<span class="nc" id="L2824">			return false;</span>
+<span class="nc bnc" id="L2825" title="All 4 branches missed.">		return H9(t) &amp;&amp; H10(t) &amp; H11(t);</span>
+	}
+
+	public static boolean H9(MapCt t) {
+		// H9: term.oclIsTypeOf(TupleTerm) and
+		// term.oclAsType(TupleTerm).term-&gt;size()=2
+<span class="nc" id="L2831">		Term mainT = t.getTerm();</span>
+<span class="nc bnc" id="L2832" title="All 2 branches missed.">		if (!((mainT instanceof TupleTerm) &amp;&amp; (((TupleTerm) mainT).getTerms()</span>
+<span class="nc bnc" id="L2833" title="All 2 branches missed.">				.size() == 2))) {</span>
+<span class="nc" id="L2834">			MSG_ERR = &quot;Error: The main term of a map comprehension term must be a pair.&quot;;</span>
+<span class="nc" id="L2835">			return false;</span>
+		}
+<span class="nc" id="L2837">		return true;</span>
+	}
+
+	public static boolean H10(MapCt t) {
+		// H10: domain.oclIsTypeOf(MapDomain) and
+		// domain.oclAsType(MapDomain).sourceDomain =
+		// term.domain.oclAsType(ProductDomain).domains-&gt;at(1) and
+		// domain.oclAsType(MapDomain).targetDomain =
+		// term.domain.oclAsType(ProductDomain).domains-&gt;at(2)
+<span class="nc" id="L2846">		ProductDomain mainD = (ProductDomain) t.getTerm().getDomain();</span>
+<span class="nc" id="L2847">		TypeDomain firstDom = (TypeDomain) mainD.getDomains().get(0);</span>
+<span class="nc" id="L2848">		TypeDomain secondDom = (TypeDomain) mainD.getDomains().get(1);</span>
+<span class="nc bnc" id="L2849" title="All 2 branches missed.">		if (!((t.getDomain() instanceof MapDomain)</span>
+<span class="nc bnc" id="L2850" title="All 2 branches missed.">				&amp;&amp; (((MapDomain) t.getDomain()).getSourceDomain() == firstDom) &amp;&amp; (((MapDomain) t</span>
+<span class="nc bnc" id="L2851" title="All 2 branches missed.">				.getDomain()).getTargetDomain() == secondDom))) {</span>
+<span class="nc" id="L2852">			MSG_ERR = &quot;Error: Wrong type-domain of the map comprehension.&quot;;</span>
+<span class="nc" id="L2853">			return false;</span>
+		}
+<span class="nc" id="L2855">		return true;</span>
+	}
+
+	public static boolean H11(MapCt t) {
+		// H11: Sequence{1..variable-&gt;size()}-&gt; forAll(i:Integer |
+		// ranges-&gt;at(i).domain.oclIsTypeOf(PowersetDomain) and
+		// variable-&gt;at(i).domain =
+		// ranges-&gt;at(i).domain.oclAsType(PowersetDomain).baseDomain )
+<span class="nc" id="L2863">		Iterator&lt;?&gt; iter1 = t.getVariable().iterator();</span>
+<span class="nc" id="L2864">		Iterator&lt;?&gt; iter2 = t.getRanges().iterator();</span>
+		VariableTerm v;
+		Term r;
+<span class="nc bnc" id="L2867" title="All 2 branches missed.">		while (iter1.hasNext()) {</span>
+<span class="nc" id="L2868">			v = (VariableTerm) iter1.next();</span>
+<span class="nc" id="L2869">			r = (Term) iter2.next();</span>
+<span class="nc bnc" id="L2870" title="All 2 branches missed.">			if (!(r.getDomain() instanceof PowersetDomain)) {</span>
+<span class="nc" id="L2871">				MSG_ERR = &quot;Error: In a MapCT, terms in ranges, Di, representing where variables vary, must be powersets.&quot;;</span>
+<span class="nc" id="L2872">				return false;</span>
+			}
+<span class="nc" id="L2874">			if (v.getDomain() != ((PowersetDomain) r.getDomain())</span>
+<span class="nc bnc" id="L2875" title="All 2 branches missed.">					.getBaseDomain()) {</span>
+<span class="nc" id="L2876">				MSG_ERR = &quot;Error: In a MapCT, the domains of variables must be set accordingly.&quot;;</span>
+<span class="nc" id="L2877">				return false;</span>
+			}
+		}
+<span class="nc" id="L2880">		return true;</span>
+	}
+
+	// --- BagCT --- //
+	public static boolean checkBagCT(BagCt t) {
+		// check constraints of the superclass
+<span class="nc bnc" id="L2886" title="All 2 branches missed.">		if (!checkComprehensionTerm(t))</span>
+<span class="nc" id="L2887">			return false;</span>
+<span class="nc bnc" id="L2888" title="All 4 branches missed.">		return H5(t) &amp;&amp; H6(t);</span>
+	}
+
+	public static boolean H5(BagCt t) {
+		// H5: domain.oclIsTypeOf(BagDomain) and
+		// domain.oclAsType(BagDomain).domain = term.domain
+<span class="nc bnc" id="L2894" title="All 2 branches missed.">		if (!((t.getDomain() instanceof BagDomain) &amp;&amp; ((BagDomain) t</span>
+<span class="nc bnc" id="L2895" title="All 2 branches missed.">				.getDomain()).getDomain() == t.getTerm().getDomain())) {</span>
+<span class="nc" id="L2896">			MSG_ERR = &quot;Error: The type-domain of a bag comprehension term must be a BagDomain over the type-domain of the main term.&quot;;</span>
+<span class="nc" id="L2897">			return false;</span>
+		}
+<span class="nc" id="L2899">		return true;</span>
+	}
+
+	public static boolean H6(BagCt t) {
+		// H6: Sequence{1..variable-&gt;size()}-&gt; forAll(i:Integer |
+		// ranges-&gt;at(i).domain.oclIsTypeOf(BagDomain) and
+		// variable-&gt;at(i).domain =
+		// ranges-&gt;at(i).domain.oclAsType(BagDomain).domain )
+<span class="nc" id="L2907">		Iterator&lt;?&gt; iter1 = t.getVariable().iterator();</span>
+<span class="nc" id="L2908">		Iterator&lt;?&gt; iter2 = t.getRanges().iterator();</span>
+		VariableTerm v;
+		Term r;
+<span class="nc bnc" id="L2911" title="All 2 branches missed.">		while (iter1.hasNext()) {</span>
+<span class="nc" id="L2912">			v = (VariableTerm) iter1.next();</span>
+<span class="nc" id="L2913">			r = (Term) iter2.next();</span>
+<span class="nc bnc" id="L2914" title="All 2 branches missed.">			if (!(r.getDomain() instanceof BagDomain)) {</span>
+<span class="nc" id="L2915">				MSG_ERR = &quot;Error: In a BagCT, terms in ranges, Bi, representing where variables vary, must be bags.&quot;;</span>
+<span class="nc" id="L2916">				return false;</span>
+			}
+<span class="nc bnc" id="L2918" title="All 2 branches missed.">			if (v.getDomain() != ((BagDomain) r.getDomain()).getDomain()) {</span>
+<span class="nc" id="L2919">				MSG_ERR = &quot;Error: In a BagCT, the domains of variables must be set accordingly.&quot;;</span>
+<span class="nc" id="L2920">				return false;</span>
+			}
+		}
+<span class="nc" id="L2923">		return true;</span>
+	}
+
+	// --- SequenceCT --- //
+	public static boolean checkSequenceCT(SequenceCt t) {
+		// check constraints of the superclass
+<span class="nc bnc" id="L2929" title="All 2 branches missed.">		if (!checkComprehensionTerm(t))</span>
+<span class="nc" id="L2930">			return false;</span>
+<span class="nc bnc" id="L2931" title="All 4 branches missed.">		return H7(t) &amp;&amp; H8(t);</span>
+	}
+
+	public static boolean H7(SequenceCt t) {
+		// H7: domain.oclIsTypeOf(SequenceDomain) and
+		// domain.oclAsType(SequenceDomain).domain = term.domain
+<span class="nc bnc" id="L2937" title="All 2 branches missed.">		if (!((t.getDomain() instanceof SequenceDomain) &amp;&amp; ((SequenceDomain) t</span>
+<span class="nc bnc" id="L2938" title="All 2 branches missed.">				.getDomain()).getDomain() == t.getTerm().getDomain())) {</span>
+<span class="nc" id="L2939">			MSG_ERR = &quot;Error: The type-domain of a sequence comprehension term must be a SequenceDomain over the type-domain of the main term.&quot;;</span>
+<span class="nc" id="L2940">			return false;</span>
+		}
+<span class="nc" id="L2942">		return true;</span>
+	}
+
+	public static boolean H8(SequenceCt t) {
+		// H8: Sequence{1..variable-&gt;size()}-&gt; forAll(i:Integer |
+		// ranges-&gt;at(i).domain.oclIsTypeOf(SequenceDomain) and
+		// variable-&gt;at(i).domain =
+		// ranges-&gt;at(i).domain.oclAsType(SequenceDomain).domain )
+<span class="nc" id="L2950">		Iterator&lt;?&gt; iter1 = t.getVariable().iterator();</span>
+<span class="nc" id="L2951">		Iterator&lt;?&gt; iter2 = t.getRanges().iterator();</span>
+		VariableTerm v;
+		Term r;
+<span class="nc bnc" id="L2954" title="All 2 branches missed.">		while (iter1.hasNext()) {</span>
+<span class="nc" id="L2955">			v = (VariableTerm) iter1.next();</span>
+<span class="nc" id="L2956">			r = (Term) iter2.next();</span>
+<span class="nc bnc" id="L2957" title="All 2 branches missed.">			if (!(r.getDomain() instanceof SequenceDomain)) {</span>
+<span class="nc" id="L2958">				MSG_ERR = &quot;Error: In a SequenceCT, terms in ranges, Bi, representing where variables vary, must be sequences.&quot;;</span>
+<span class="nc" id="L2959">				return false;</span>
+			}
+<span class="nc bnc" id="L2961" title="All 2 branches missed.">			if (v.getDomain() != ((SequenceDomain) r.getDomain()).getDomain()) {</span>
+<span class="nc" id="L2962">				MSG_ERR = &quot;Error: In a SequenceCT, the domains of variables must be set accordingly.&quot;;</span>
+<span class="nc" id="L2963">				return false;</span>
+			}
+		}
+<span class="nc" id="L2966">		return true;</span>
+	}
+
+	public static void setMSG_ERR(String mSG_ERR) {
+<span class="nc" id="L2970">		MSG_ERR = mSG_ERR;</span>
+<span class="nc" id="L2971">	}</span>
+
+	public static String getMSG_ERR() {
+<span class="nc" id="L2974">		return MSG_ERR;</span>
+	}
+
+}// Class end
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

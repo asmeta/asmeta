@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>CaseRuleFlattener.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.flattener</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.flattener.rule</a> &gt; <span class="el_source">CaseRuleFlattener.java</span></div><h1>CaseRuleFlattener.java</h1><pre class="source lang-java linenums">package org.asmeta.flattener.rule;
+
+import java.util.ArrayList;
+
+import org.asmeta.flattener.statistics.Statistics;
+import org.asmeta.flattener.util.StdlFunction;
+import org.eclipse.emf.common.util.EList;
+
+import asmeta.structure.Asm;
+import asmeta.terms.basicterms.Term;
+import asmeta.transitionrules.basictransitionrules.BlockRule;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+
+<span class="pc bpc" id="L16" title="1 of 2 branches missed.">public class CaseRuleFlattener extends RuleFlattener {</span>
+	private StdlFunction stdlFunction;
+<span class="fc" id="L18">	public static boolean DO_STATS = false;</span>
+
+	public CaseRuleFlattener(Asm asm) {
+<span class="fc" id="L21">		super(asm);</span>
+<span class="fc" id="L22">		stdlFunction = new StdlFunction(asm);</span>
+<span class="fc" id="L23">	}</span>
+
+	@Override
+	public Rule visit(CaseRule caseRule) {
+		//Statistics.getInstance().increaseValue(this.getClass().getName());
+<span class="fc" id="L28">		Statistics.getInstance().increaseValue(this.getCode());</span>
+
+<span class="fc" id="L30">		BlockRule par = ruleFact.createBlockRule();</span>
+<span class="fc" id="L31">		EList&lt;Rule&gt; parRules = par.getRules();</span>
+<span class="fc" id="L32">		EList&lt;Rule&gt; rules = parRules;</span>
+
+<span class="fc" id="L34">		Term term = caseRule.getTerm();</span>
+<span class="fc" id="L35">		EList&lt;Term&gt; values = caseRule.getCaseTerm();</span>
+
+<span class="fc" id="L37">		ArrayList&lt;Rule&gt; rulesCase = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">		for (Rule r : caseRule.getCaseBranches()) {</span>
+<span class="fc" id="L39">			rulesCase.add(r);</span>
+<span class="fc" id="L40">		}</span>
+
+<span class="fc" id="L42">		ArrayList&lt;Term&gt; a = null;</span>
+<span class="fc" id="L43">		Rule otherwise = caseRule.getOtherwiseBranch();</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		if (otherwise != null) {</span>
+<span class="fc" id="L45">			a = new ArrayList&lt;&gt;();</span>
+		}
+	
+<span class="fc bfc" id="L48" title="All 2 branches covered.">		for (int i = 0; i &lt; rulesCase.size(); ++i) {</span>
+<span class="fc" id="L49">			ConditionalRule conditionalRule = ruleFact.createConditionalRule();</span>
+<span class="fc" id="L50">			Term value = values.get(i);</span>
+<span class="fc" id="L51">			Rule visitedRule = visit(rulesCase.get(i));</span>
+			// value == term, the result is the &quot;if&quot; guard
+<span class="fc" id="L53">			Term eq = stdlFunction.eq(value, term);</span>
+<span class="fc" id="L54">			conditionalRule.setGuard(eq);</span>
+<span class="fc" id="L55">			conditionalRule.setThenRule(visitedRule);</span>
+<span class="fc" id="L56">			rules.add(conditionalRule);</span>
+
+			// add(and) to otherwiseGuard the negated guard of this case.
+<span class="fc bfc" id="L59" title="All 2 branches covered.">			if (otherwise != null) {</span>
+<span class="fc" id="L60">				a.add(stdlFunction.not(eq));</span>
+			}
+		}
+		// se non e' uguale ad ogni di prima in and tra loro allora fai l'altro
+<span class="fc bfc" id="L64" title="All 2 branches covered.">		if (otherwise != null) {</span>
+<span class="fc" id="L65">			ConditionalRule conditionalRule = ruleFact.createConditionalRule();</span>
+<span class="fc" id="L66">			conditionalRule.setGuard(stdlFunction.and(a));</span>
+<span class="fc" id="L67">			conditionalRule.setThenRule(otherwise);</span>
+<span class="fc" id="L68">			rules.add(conditionalRule);</span>
+		}
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">		if (parRules.size() &gt; 1) {</span>
+<span class="fc" id="L71">			return par;</span>
+		} else {
+<span class="nc bnc" id="L73" title="All 4 branches missed.">			assert parRules.size() == 1;</span>
+<span class="nc" id="L74">			return parRules.get(0);</span>
+		}
+
+	}
+
+	@Override
+	public String getCode() {
+<span class="fc" id="L81">		return &quot;CaR&quot;;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

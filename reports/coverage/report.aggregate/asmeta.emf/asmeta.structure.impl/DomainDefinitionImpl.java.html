@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>DomainDefinitionImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.structure.impl</a> &gt; <span class="el_source">DomainDefinitionImpl.java</span></div><h1>DomainDefinitionImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.structure.impl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.DomainsPackage;
+import asmeta.structure.DomainDefinition;
+import asmeta.structure.StructurePackage;
+import asmeta.terms.basicterms.Term;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Domain Definition&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.DomainDefinitionImpl#getBody &lt;em&gt;Body&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.DomainDefinitionImpl#getDefinedDomain &lt;em&gt;Defined Domain&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class DomainDefinitionImpl extends EObjectImpl implements DomainDefinition {
+	/**
+	 * The cached value of the '{@link #getBody() &lt;em&gt;Body&lt;/em&gt;}' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getBody()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term body;
+
+	/**
+	 * The cached value of the '{@link #getDefinedDomain() &lt;em&gt;Defined Domain&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getDefinedDomain()
+	 * @generated
+	 * @ordered
+	 */
+	protected ConcreteDomain definedDomain;
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected DomainDefinitionImpl() {
+<span class="fc" id="L63">		super();</span>
+<span class="fc" id="L64">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L73">		return StructurePackage.Literals.DOMAIN_DEFINITION;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getBody() {
+<span class="fc" id="L83">		return body;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetBody(Term newBody, NotificationChain msgs) {
+<span class="fc" id="L92">		Term oldBody = body;</span>
+<span class="fc" id="L93">		body = newBody;</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L95">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StructurePackage.DOMAIN_DEFINITION__BODY, oldBody, newBody);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L98">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setBody(Term newBody) {
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">		if (newBody != body) {</span>
+<span class="fc" id="L109">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">			if (body != null)</span>
+<span class="nc" id="L111">				msgs = ((InternalEObject)body).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - StructurePackage.DOMAIN_DEFINITION__BODY, null, msgs);</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">			if (newBody != null)</span>
+<span class="fc" id="L113">				msgs = ((InternalEObject)newBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - StructurePackage.DOMAIN_DEFINITION__BODY, null, msgs);</span>
+<span class="fc" id="L114">			msgs = basicSetBody(newBody, msgs);</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L116">		}</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L118">			eNotify(new ENotificationImpl(this, Notification.SET, StructurePackage.DOMAIN_DEFINITION__BODY, newBody, newBody));</span>
+<span class="fc" id="L119">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public ConcreteDomain getDefinedDomain() {
+<span class="pc bpc" id="L128" title="2 of 4 branches missed.">		if (definedDomain != null &amp;&amp; definedDomain.eIsProxy()) {</span>
+<span class="nc" id="L129">			InternalEObject oldDefinedDomain = (InternalEObject)definedDomain;</span>
+<span class="nc" id="L130">			definedDomain = (ConcreteDomain)eResolveProxy(oldDefinedDomain);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">			if (definedDomain != oldDefinedDomain) {</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L133">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StructurePackage.DOMAIN_DEFINITION__DEFINED_DOMAIN, oldDefinedDomain, definedDomain));</span>
+			}
+		}
+<span class="fc" id="L136">		return definedDomain;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public ConcreteDomain basicGetDefinedDomain() {
+<span class="nc" id="L145">		return definedDomain;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetDefinedDomain(ConcreteDomain newDefinedDomain, NotificationChain msgs) {
+<span class="fc" id="L154">		ConcreteDomain oldDefinedDomain = definedDomain;</span>
+<span class="fc" id="L155">		definedDomain = newDefinedDomain;</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L157">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StructurePackage.DOMAIN_DEFINITION__DEFINED_DOMAIN, oldDefinedDomain, newDefinedDomain);</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L160">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setDefinedDomain(ConcreteDomain newDefinedDomain) {
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">		if (newDefinedDomain != definedDomain) {</span>
+<span class="fc" id="L171">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">			if (definedDomain != null)</span>
+<span class="nc" id="L173">				msgs = ((InternalEObject)definedDomain).eInverseRemove(this, DomainsPackage.CONCRETE_DOMAIN__DEFINITION, ConcreteDomain.class, msgs);</span>
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">			if (newDefinedDomain != null)</span>
+<span class="fc" id="L175">				msgs = ((InternalEObject)newDefinedDomain).eInverseAdd(this, DomainsPackage.CONCRETE_DOMAIN__DEFINITION, ConcreteDomain.class, msgs);</span>
+<span class="fc" id="L176">			msgs = basicSetDefinedDomain(newDefinedDomain, msgs);</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L178">		}</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L180">			eNotify(new ENotificationImpl(this, Notification.SET, StructurePackage.DOMAIN_DEFINITION__DEFINED_DOMAIN, newDefinedDomain, newDefinedDomain));</span>
+<span class="fc" id="L181">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L190" title="All 2 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.DOMAIN_DEFINITION__DEFINED_DOMAIN:
+<span class="nc bnc" id="L192" title="All 2 branches missed.">				if (definedDomain != null)</span>
+<span class="nc" id="L193">					msgs = ((InternalEObject)definedDomain).eInverseRemove(this, DomainsPackage.CONCRETE_DOMAIN__DEFINITION, ConcreteDomain.class, msgs);</span>
+<span class="nc" id="L194">				return basicSetDefinedDomain((ConcreteDomain)otherEnd, msgs);</span>
+		}
+<span class="nc" id="L196">		return super.eInverseAdd(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L206" title="All 3 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.DOMAIN_DEFINITION__BODY:
+<span class="nc" id="L208">				return basicSetBody(null, msgs);</span>
+			case StructurePackage.DOMAIN_DEFINITION__DEFINED_DOMAIN:
+<span class="nc" id="L210">				return basicSetDefinedDomain(null, msgs);</span>
+		}
+<span class="nc" id="L212">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L222" title="All 3 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.DOMAIN_DEFINITION__BODY:
+<span class="nc" id="L224">				return getBody();</span>
+			case StructurePackage.DOMAIN_DEFINITION__DEFINED_DOMAIN:
+<span class="nc bnc" id="L226" title="All 2 branches missed.">				if (resolve) return getDefinedDomain();</span>
+<span class="nc" id="L227">				return basicGetDefinedDomain();</span>
+		}
+<span class="nc" id="L229">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L239" title="All 3 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.DOMAIN_DEFINITION__BODY:
+<span class="nc" id="L241">				setBody((Term)newValue);</span>
+<span class="nc" id="L242">				return;</span>
+			case StructurePackage.DOMAIN_DEFINITION__DEFINED_DOMAIN:
+<span class="nc" id="L244">				setDefinedDomain((ConcreteDomain)newValue);</span>
+<span class="nc" id="L245">				return;</span>
+		}
+<span class="nc" id="L247">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L248">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L257" title="All 3 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.DOMAIN_DEFINITION__BODY:
+<span class="nc" id="L259">				setBody((Term)null);</span>
+<span class="nc" id="L260">				return;</span>
+			case StructurePackage.DOMAIN_DEFINITION__DEFINED_DOMAIN:
+<span class="nc" id="L262">				setDefinedDomain((ConcreteDomain)null);</span>
+<span class="nc" id="L263">				return;</span>
+		}
+<span class="nc" id="L265">		super.eUnset(featureID);</span>
+<span class="nc" id="L266">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L275" title="All 3 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.DOMAIN_DEFINITION__BODY:
+<span class="nc bnc" id="L277" title="All 2 branches missed.">				return body != null;</span>
+			case StructurePackage.DOMAIN_DEFINITION__DEFINED_DOMAIN:
+<span class="nc bnc" id="L279" title="All 2 branches missed.">				return definedDomain != null;</span>
+		}
+<span class="nc" id="L281">		return super.eIsSet(featureID);</span>
+	}
+
+} //DomainDefinitionImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>State.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator</a> &gt; <span class="el_source">State.java</span></div><h1>State.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2005, 2006 ASMETA group (http://asmeta.sourceforge.net)
+ * License Information: http://asmeta.sourceforge.net/licensing/
+ * 
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License version 2 as
+ *   published by the Free Software Foundation.
+ * 
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ * 
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
+ *   USA
+ * 
+ *   http://www.gnu.org/licenses/gpl.txt
+ * 
+ *   
+ *******************************************************************************/
+/*
+ * AsmState.java
+ *
+ * Created on 26 maggio 2006, 15.20
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package org.asmeta.simulator;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.log4j.Logger;
+import org.asmeta.parser.Defs;
+import org.asmeta.simulator.value.ReserveValue;
+import org.asmeta.simulator.value.SetValue;
+import org.asmeta.simulator.value.UndefValue;
+import org.asmeta.simulator.value.Value;
+
+import asmeta.definitions.DynamicFunction;
+import asmeta.definitions.Function;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
+import asmeta.structure.FunctionDefinition;
+import asmeta.structure.FunctionInitialization;
+import asmeta.structure.Initialization;
+import asmeta.terms.basicterms.Term;
+
+/**
+ * The state of an ASM.
+ * 
+ */
+<span class="nc bnc" id="L61" title="All 2 branches missed.">public class State extends LocationSet {</span>
+<span class="nc" id="L62">	private static Logger logger = Logger.getLogger(State.class);</span>
+
+	/**
+	 * Returns the value of monitored and shared locations.
+	 * 
+	 */
+	// PA 18/5/2011: why static? It give problem when more than a simulator is
+	// running.
+	// static Environment environment;
+	// changed in not static
+	Environment environment;
+
+	/**
+	 * Initialization of dynamic functions and domains.
+	 * 
+	 */
+	Initialization initialization;
+
+	public Map&lt;Location, Value&gt; previousLocationValues;
+
+	/**
+	 * Creates an empty state.
+	 * 
+	 * @param init initialization
+	 */
+<span class="nc" id="L87">	public State(Initialization init, Environment env) {</span>
+<span class="nc bnc" id="L88" title="All 4 branches missed.">		assert env != null;</span>
+<span class="nc" id="L89">		environment = env;</span>
+<span class="nc" id="L90">		initialization = init;</span>
+<span class="nc" id="L91">		previousLocationValues = new HashMap&lt;Location, Value&gt;();// PA: 10 giugno 2010</span>
+<span class="nc" id="L92">	}</span>
+
+	/**
+	 * Copy constructor.
+	 * 
+	 * @param state a state
+	 */
+	public State(State state) {
+<span class="nc" id="L100">		super(state);</span>
+<span class="nc" id="L101">		environment = state.environment;</span>
+<span class="nc" id="L102">		initialization = state.getInitialization();</span>
+<span class="nc" id="L103">	}</span>
+
+	/**
+	 * Returns the initialization of dynamic functions and domains.
+	 * 
+	 * @return initialization
+	 */
+	public Initialization getInitialization() {
+<span class="nc" id="L111">		return initialization;</span>
+	}
+
+	protected Value evalUserDefinedFunc(State state, Function function, Value[] arguments) {
+<span class="nc" id="L115">		FunctionDefinition funcDef = function.getDefinition();</span>
+<span class="nc" id="L116">		List&lt;?&gt;/* &lt;VariableTerm&gt; */ variables = funcDef.getVariable();</span>
+<span class="nc" id="L117">		Term body = funcDef.getBody();</span>
+<span class="nc" id="L118">		ValueAssignment newAssignment = new ValueAssignment();</span>
+<span class="nc" id="L119">		newAssignment.put(variables, arguments);</span>
+<span class="nc" id="L120">		TermEvaluator newTermEvaluator = new TermEvaluator(state, environment, newAssignment);</span>
+<span class="nc" id="L121">		Value value = newTermEvaluator.visit(body);</span>
+<span class="nc" id="L122">		return value;</span>
+	}
+
+	/**
+	 * Returns the content of the given location.
+	 * 
+	 * @param location a location
+	 * @return location's content
+	 */
+	public Value&lt;?&gt; read(Location location) {
+<span class="nc" id="L132">		Value&lt;?&gt; value = locationMap.get(location);</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">		if (value == null) {</span>
+			// PA 21/02/2012 in order to read derived locations values
+<span class="nc bnc" id="L135" title="All 2 branches missed.">			if (Defs.isDerived(location.getSignature())) {</span>
+<span class="nc" id="L136">				logger.debug(location);</span>
+<span class="nc" id="L137">				value = evalUserDefinedFunc(this, location.getSignature(), location.getElements());</span>
+				// System.out.println(location + &quot; = &quot; + value);
+				// TODO why it is not put into the state map? AG
+<span class="nc" id="L140">				return value;</span>
+			}
+			// the location is not in the state, does initialization
+<span class="nc" id="L143">			DynamicFunction signature = (DynamicFunction) location.getSignature();</span>
+<span class="nc bnc" id="L144" title="All 4 branches missed.">			if (Defs.isControlled(signature) || Defs.isOut(signature)) {</span>
+<span class="nc" id="L145">				logger.debug(&quot;&lt;Initialization&gt;&quot;);</span>
+<span class="nc" id="L146">				Value[] elements = location.getElements();</span>
+<span class="nc" id="L147">				value = evalFuncInit(signature, elements);</span>
+<span class="nc" id="L148">				logger.debug(&quot;&lt;/Initialization&gt;&quot;);</span>
+<span class="nc bnc" id="L149" title="All 4 branches missed.">			} else if (Defs.isMonitored(signature) || Defs.isShared(signature)) {</span>
+<span class="nc" id="L150">				logger.debug(&quot;&lt;EnvironmentInitialization&gt;&quot;);</span>
+<span class="nc" id="L151">				logger.debug(location);</span>
+<span class="nc" id="L152">				value = environment.read(location, this);</span>
+<span class="nc" id="L153">				logger.debug(&quot;&lt;/EnvironmentInitialization&gt;&quot;);</span>
+			} else {
+<span class="nc" id="L155">				throw new RuntimeException(&quot;Unknown function kind of &quot; + location.getName());</span>
+			}
+<span class="nc" id="L157">			locationMap.put(location, value);</span>
+		}
+<span class="nc" id="L159">		return value;</span>
+	}
+
+	/**
+	 * 20/10/10 PA: for monitoring. We need the values of all the locations. TODO:
+	 * problems with function overloading? TODO: the method is not correct. It does
+	 * not consider function not yet initialized.
+	 * 
+	 * @param function
+	 * @return
+	 */
+	public Map&lt;Location, Value&gt; read(Function function) {
+<span class="nc bnc" id="L171" title="All 2 branches missed.">		if (function.getArity() == 0) {</span>
+<span class="nc" id="L172">			read(new Location(function, new Value[0]));</span>
+		}
+<span class="nc" id="L174">		Map&lt;Location, Value&gt; values = new HashMap&lt;Location, Value&gt;();</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">		for (Location location : locationMap.keySet()) {</span>
+			// TODO questo controlla solo il nome dovrebbe controllare la funzione non il nome
+<span class="nc bnc" id="L177" title="All 2 branches missed.">			if (location.getSignature().getName().equals(function.getName())) {</span>
+				// if(location.getSignature().equals(function)) {
+<span class="nc" id="L179">				values.put(location, read(location));</span>
+			}
+<span class="nc" id="L181">		}</span>
+<span class="nc" id="L182">		return values;</span>
+	}
+
+	/**
+	 * Returns the abstract constant with the given name.
+	 * 
+	 * @param name constant name
+	 * @return the constant value
+	 */
+	public Value readAbstractConst(String name) {
+		// FIXME add some optimization, i.e. search only in the domain of the value
+<span class="nc bnc" id="L193" title="All 2 branches missed.">		for (Set&lt;ReserveValue&gt; s : abstractSets.values()) {</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">			for (ReserveValue av : s) {</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">				if (av.getValue().equals(name)) {</span>
+<span class="nc" id="L196">					return av;</span>
+				}
+<span class="nc" id="L198">			}</span>
+<span class="nc" id="L199">		}</span>
+<span class="nc" id="L200">		return UndefValue.UNDEF;</span>
+	}
+
+	/**
+	 * Evaluates the initialization of the given location.
+	 * 
+	 * @param func      a function
+	 * @param arguments arguments
+	 * @return the initial value of the location
+	 */
+	private Value evalFuncInit(DynamicFunction func, Value[] arguments) {
+		Value value;
+<span class="nc" id="L212">		FunctionInitialization funcInit = searchFunctInit(func);</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">		if (funcInit == null) {</span>
+			// locations without initialization are undefined
+<span class="nc" id="L215">			value = UndefValue.UNDEF;</span>
+		} else {
+<span class="nc" id="L217">			ValueAssignment newAssignment = new ValueAssignment();</span>
+<span class="nc" id="L218">			List&lt;?&gt;/* &lt;VariableTerm&gt; */ variables = funcInit.getVariable();</span>
+<span class="nc" id="L219">			newAssignment.put(variables, arguments);</span>
+<span class="nc" id="L220">			TermEvaluator newTermEvaluator = new TermEvaluator(this, environment, newAssignment);</span>
+//			// FIXME does this code work?
+			// I get the null pointer since it sets the nev to null !!!
+//			TermEvaluator newTermEvaluator = 
+//				new TermEvaluator(null, null, newAssignment);
+<span class="nc" id="L225">			Term body = funcInit.getBody();</span>
+<span class="nc" id="L226">			value = newTermEvaluator.visit(body);</span>
+		}
+<span class="nc" id="L228">		return value;</span>
+	}
+
+	/**
+	 * Searches a function initialization.
+	 * 
+	 * @param func a function declaration
+	 * @return the function initialization, otherwise null
+	 */
+	private FunctionInitialization searchFunctInit(DynamicFunction func) {
+<span class="nc bnc" id="L238" title="All 2 branches missed.">		if (initialization != null) {</span>
+<span class="nc" id="L239">			Collection&lt;FunctionInitialization&gt; funcInits = initialization.getFunctionInitialization();</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">			for (FunctionInitialization funcInit : funcInits) {</span>
+<span class="nc" id="L241">				DynamicFunction funcDcl = funcInit.getInitializedFunction();</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">				if (Defs.equals(func, funcDcl)) {</span>
+<span class="nc" id="L243">					return funcInit;</span>
+				}
+<span class="nc" id="L245">			}</span>
+			// FIXME: func could be initialized by a function that takes as domain func
+			// typedomain
+			// AG giugno 09
+<span class="nc bnc" id="L249" title="All 2 branches missed.">			if (func.getDomain() instanceof ConcreteDomain) {</span>
+<span class="nc" id="L250">				ConcreteDomain temp = (ConcreteDomain) func.getDomain();</span>
+<span class="nc" id="L251">				func.setDomain(temp.getTypeDomain());</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">				for (FunctionInitialization funcInit : funcInits) {</span>
+<span class="nc" id="L253">					DynamicFunction funcDcl = funcInit.getInitializedFunction();</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">					if (Defs.equals(func, funcDcl)) {</span>
+						// reste the original domain
+<span class="nc" id="L256">						func.setDomain(temp);</span>
+<span class="nc" id="L257">						return funcInit;</span>
+					}
+<span class="nc" id="L259">				}</span>
+
+			}
+		}
+<span class="nc" id="L263">		return null;</span>
+	}
+
+	/**
+	 * Returns the content of a dynamic domain. If the domain is the super set of
+	 * others domains, the method returns the union of all such domains.
+	 * 
+	 * @param domain a dynamic domain
+	 * @return the content
+	 */
+	public SetValue read(Domain domain) {
+<span class="nc" id="L274">		Set&lt;Value&lt;?&gt;&gt; set = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L275" title="All 2 branches missed.">		for (Map.Entry&lt;LocationSet.WrappedDomain, Set&lt;ReserveValue&gt;&gt; entry : abstractSets.entrySet()) {</span>
+<span class="nc" id="L276">			Domain dom1 = entry.getKey().domain;</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">			if (Defs.isSubsetOf(dom1, domain)) {</span>
+<span class="nc" id="L278">				set.addAll(entry.getValue());</span>
+			}
+<span class="nc" id="L280">		}</span>
+<span class="nc" id="L281">		return new SetValue(set);</span>
+	}
+
+	/**
+	 * Applies the given update set to the state.
+	 * 
+	 * @param updateSet an update set
+	 */
+	public void fireUpdates(UpdateSet updateSet) {
+		// updates the locations
+<span class="nc" id="L291">		locationMap.putAll(updateSet.locationMap);</span>
+		// adds the sets
+<span class="nc" id="L293">		add(updateSet.abstractSets);</span>
+<span class="nc" id="L294">	}</span>
+
+	// Inizio modifiche PA: 10 giugno 2010
+	/**
+	 * It prints the controlled part of the state.
+	 * 
+	 * @return
+	 */
+	public String getContrLocsState() {
+<span class="nc" id="L303">		return formatString(getContrLocs(false), '\n', true);</span>
+	}
+
+	/**
+	 * 
+	 * @return the controlled part of the state
+	 */
+	public Map&lt;Location, Value&gt; getContrLocs(boolean retrieveSelf) {
+<span class="nc" id="L311">		Map&lt;Location, Value&gt; contrLocationMap = new HashMap&lt;Location, Value&gt;();</span>
+		Function function;
+<span class="nc bnc" id="L313" title="All 2 branches missed.">		for (Location location : locationMap.keySet()) {</span>
+<span class="nc" id="L314">			function = location.getSignature();</span>
+<span class="nc bnc" id="L315" title="All 4 branches missed.">			if (!retrieveSelf &amp;&amp; Defs.isSelf(function)) {</span>
+<span class="nc" id="L316">				continue;</span>
+			}
+<span class="nc bnc" id="L318" title="All 4 branches missed.">			if (Defs.isControlled(function) || Defs.isOut(function)) {</span>
+<span class="nc" id="L319">				contrLocationMap.put(location, locationMap.get(location));</span>
+			}
+<span class="nc" id="L321">		}</span>
+<span class="nc" id="L322">		return contrLocationMap;</span>
+	}
+
+	public Map&lt;Location, Value&gt; getContrLocs() {
+<span class="nc" id="L326">		return getContrLocs(true);</span>
+	}
+
+	/**
+	 * It prints the monitored part of the state.
+	 * 
+	 * @return
+	 */
+	public String getMonLocsState() {
+<span class="nc" id="L335">		Map&lt;Location, Value&gt; monLocationMap = getMonLocs();</span>
+<span class="nc" id="L336">		return formatString(monLocationMap, '\n', false);</span>
+	}
+	// Fine modifiche PA: 10 giugno 2010
+
+	// return the monitored part of the state
+	// as a new map
+	public Map&lt;Location, Value&gt; getMonLocs() {
+<span class="nc" id="L343">		Map&lt;Location, Value&gt; monLocationMap = new HashMap&lt;Location, Value&gt;();</span>
+		Function function;
+<span class="nc bnc" id="L345" title="All 2 branches missed.">		for (Location location : locationMap.keySet()) {</span>
+<span class="nc" id="L346">			function = location.getSignature();</span>
+<span class="nc bnc" id="L347" title="All 2 branches missed.">			if (Defs.isMonitored(function)</span>
+			// || Defs.isShared(function)
+			) {
+<span class="nc" id="L350">				monLocationMap.put(location, locationMap.get(location));</span>
+			}
+<span class="nc" id="L352">		}</span>
+<span class="nc" id="L353">		return monLocationMap;</span>
+	}
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>BasictransitionrulesFactoryImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.basictransitionrules.impl</a> &gt; <span class="el_source">BasictransitionrulesFactoryImpl.java</span></div><h1>BasictransitionrulesFactoryImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.basictransitionrules.impl;
+
+import asmeta.transitionrules.basictransitionrules.*;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesFactory;
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+import asmeta.transitionrules.basictransitionrules.BlockRule;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
+import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.SkipRule;
+import asmeta.transitionrules.basictransitionrules.TermAsRule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model &lt;b&gt;Factory&lt;/b&gt;.
+ * &lt;!-- end-user-doc --&gt;
+ * @generated
+ */
+public class BasictransitionrulesFactoryImpl extends EFactoryImpl implements BasictransitionrulesFactory {
+	/**
+	 * Creates the default factory implementation.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public static BasictransitionrulesFactory init() {
+		try {
+<span class="fc" id="L47">			BasictransitionrulesFactory theBasictransitionrulesFactory = (BasictransitionrulesFactory)EPackage.Registry.INSTANCE.getEFactory(BasictransitionrulesPackage.eNS_URI);</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">			if (theBasictransitionrulesFactory != null) {</span>
+<span class="nc" id="L49">				return theBasictransitionrulesFactory;</span>
+			}
+		}
+<span class="nc" id="L52">		catch (Exception exception) {</span>
+<span class="nc" id="L53">			EcorePlugin.INSTANCE.log(exception);</span>
+<span class="fc" id="L54">		}</span>
+<span class="fc" id="L55">		return new BasictransitionrulesFactoryImpl();</span>
+	}
+
+	/**
+	 * Creates an instance of the factory.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public BasictransitionrulesFactoryImpl() {
+<span class="fc" id="L65">		super();</span>
+<span class="fc" id="L66">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EObject create(EClass eClass) {
+<span class="nc bnc" id="L75" title="All 12 branches missed.">		switch (eClass.getClassifierID()) {</span>
+<span class="nc" id="L76">			case BasictransitionrulesPackage.TERM_AS_RULE: return createTermAsRule();</span>
+<span class="nc" id="L77">			case BasictransitionrulesPackage.CHOOSE_RULE: return createChooseRule();</span>
+<span class="nc" id="L78">			case BasictransitionrulesPackage.MACRO_CALL_RULE: return createMacroCallRule();</span>
+<span class="nc" id="L79">			case BasictransitionrulesPackage.BLOCK_RULE: return createBlockRule();</span>
+<span class="nc" id="L80">			case BasictransitionrulesPackage.CONDITIONAL_RULE: return createConditionalRule();</span>
+<span class="nc" id="L81">			case BasictransitionrulesPackage.FORALL_RULE: return createForallRule();</span>
+<span class="nc" id="L82">			case BasictransitionrulesPackage.LET_RULE: return createLetRule();</span>
+<span class="nc" id="L83">			case BasictransitionrulesPackage.EXTEND_RULE: return createExtendRule();</span>
+<span class="nc" id="L84">			case BasictransitionrulesPackage.UPDATE_RULE: return createUpdateRule();</span>
+<span class="nc" id="L85">			case BasictransitionrulesPackage.SKIP_RULE: return createSkipRule();</span>
+<span class="nc" id="L86">			case BasictransitionrulesPackage.MACRO_DECLARATION: return createMacroDeclaration();</span>
+			default:
+<span class="nc" id="L88">				throw new IllegalArgumentException(&quot;The class '&quot; + eClass.getName() + &quot;' is not a valid classifier&quot;);</span>
+		}
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+<span class="nc bnc" id="L99" title="All 2 branches missed.">		switch (eDataType.getClassifierID()) {</span>
+			case BasictransitionrulesPackage.RULE_DT:
+<span class="nc" id="L101">				return createRuleDTFromString(eDataType, initialValue);</span>
+			default:
+<span class="nc" id="L103">				throw new IllegalArgumentException(&quot;The datatype '&quot; + eDataType.getName() + &quot;' is not a valid classifier&quot;);</span>
+		}
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">		switch (eDataType.getClassifierID()) {</span>
+			case BasictransitionrulesPackage.RULE_DT:
+<span class="nc" id="L116">				return convertRuleDTToString(eDataType, instanceValue);</span>
+			default:
+<span class="nc" id="L118">				throw new IllegalArgumentException(&quot;The datatype '&quot; + eDataType.getName() + &quot;' is not a valid classifier&quot;);</span>
+		}
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public TermAsRule createTermAsRule() {
+<span class="fc" id="L129">		TermAsRuleImpl termAsRule = new TermAsRuleImpl();</span>
+<span class="fc" id="L130">		return termAsRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public ChooseRule createChooseRule() {
+<span class="fc" id="L140">		ChooseRuleImpl chooseRule = new ChooseRuleImpl();</span>
+<span class="fc" id="L141">		return chooseRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public MacroCallRule createMacroCallRule() {
+<span class="fc" id="L151">		MacroCallRuleImpl macroCallRule = new MacroCallRuleImpl();</span>
+<span class="fc" id="L152">		return macroCallRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public BlockRule createBlockRule() {
+<span class="fc" id="L162">		BlockRuleImpl blockRule = new BlockRuleImpl();</span>
+<span class="fc" id="L163">		return blockRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public ConditionalRule createConditionalRule() {
+<span class="fc" id="L173">		ConditionalRuleImpl conditionalRule = new ConditionalRuleImpl();</span>
+<span class="fc" id="L174">		return conditionalRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public ForallRule createForallRule() {
+<span class="fc" id="L184">		ForallRuleImpl forallRule = new ForallRuleImpl();</span>
+<span class="fc" id="L185">		return forallRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public LetRule createLetRule() {
+<span class="fc" id="L195">		LetRuleImpl letRule = new LetRuleImpl();</span>
+<span class="fc" id="L196">		return letRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public ExtendRule createExtendRule() {
+<span class="fc" id="L206">		ExtendRuleImpl extendRule = new ExtendRuleImpl();</span>
+<span class="fc" id="L207">		return extendRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public UpdateRule createUpdateRule() {
+<span class="fc" id="L217">		UpdateRuleImpl updateRule = new UpdateRuleImpl();</span>
+<span class="fc" id="L218">		return updateRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public SkipRule createSkipRule() {
+<span class="fc" id="L228">		SkipRuleImpl skipRule = new SkipRuleImpl();</span>
+<span class="fc" id="L229">		return skipRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public MacroDeclaration createMacroDeclaration() {
+<span class="fc" id="L239">		MacroDeclarationImpl macroDeclaration = new MacroDeclarationImpl();</span>
+<span class="fc" id="L240">		return macroDeclaration;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Rule createRuleDTFromString(EDataType eDataType, String initialValue) {
+<span class="nc" id="L249">		return (Rule)super.createFromString(eDataType, initialValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public String convertRuleDTToString(EDataType eDataType, Object instanceValue) {
+<span class="nc" id="L258">		return super.convertToString(eDataType, instanceValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public BasictransitionrulesPackage getBasictransitionrulesPackage() {
+<span class="nc" id="L268">		return (BasictransitionrulesPackage)getEPackage();</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @deprecated
+	 * @generated
+	 */
+	@Deprecated
+	public static BasictransitionrulesPackage getPackage() {
+<span class="nc" id="L279">		return BasictransitionrulesPackage.eINSTANCE;</span>
+	}
+
+} //BasictransitionrulesFactoryImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

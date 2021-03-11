@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>UpdateRuleImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.basictransitionrules.impl</a> &gt; <span class="el_source">UpdateRuleImpl.java</span></div><h1>UpdateRuleImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.basictransitionrules.impl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Update Rule&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.UpdateRuleImpl#getUpdatingTerm &lt;em&gt;Updating Term&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.UpdateRuleImpl#getLocation &lt;em&gt;Location&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class UpdateRuleImpl extends BasicRuleImpl implements UpdateRule {
+	/**
+	 * The cached value of the '{@link #getUpdatingTerm() &lt;em&gt;Updating Term&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getUpdatingTerm()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term updatingTerm;
+
+	/**
+	 * The cached value of the '{@link #getLocation() &lt;em&gt;Location&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getLocation()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term location;
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected UpdateRuleImpl() {
+<span class="fc" id="L60">		super();</span>
+<span class="fc" id="L61">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L70">		return BasictransitionrulesPackage.Literals.UPDATE_RULE;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getUpdatingTerm() {
+<span class="pc bpc" id="L80" title="2 of 4 branches missed.">		if (updatingTerm != null &amp;&amp; updatingTerm.eIsProxy()) {</span>
+<span class="nc" id="L81">			InternalEObject oldUpdatingTerm = (InternalEObject)updatingTerm;</span>
+<span class="nc" id="L82">			updatingTerm = (Term)eResolveProxy(oldUpdatingTerm);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">			if (updatingTerm != oldUpdatingTerm) {</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L85">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BasictransitionrulesPackage.UPDATE_RULE__UPDATING_TERM, oldUpdatingTerm, updatingTerm));</span>
+			}
+		}
+<span class="fc" id="L88">		return updatingTerm;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Term basicGetUpdatingTerm() {
+<span class="nc" id="L97">		return updatingTerm;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setUpdatingTerm(Term newUpdatingTerm) {
+<span class="fc" id="L107">		Term oldUpdatingTerm = updatingTerm;</span>
+<span class="fc" id="L108">		updatingTerm = newUpdatingTerm;</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L110">			eNotify(new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.UPDATE_RULE__UPDATING_TERM, oldUpdatingTerm, updatingTerm));</span>
+<span class="fc" id="L111">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getLocation() {
+<span class="pc bpc" id="L120" title="2 of 4 branches missed.">		if (location != null &amp;&amp; location.eIsProxy()) {</span>
+<span class="nc" id="L121">			InternalEObject oldLocation = (InternalEObject)location;</span>
+<span class="nc" id="L122">			location = (Term)eResolveProxy(oldLocation);</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">			if (location != oldLocation) {</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L125">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BasictransitionrulesPackage.UPDATE_RULE__LOCATION, oldLocation, location));</span>
+			}
+		}
+<span class="fc" id="L128">		return location;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Term basicGetLocation() {
+<span class="nc" id="L137">		return location;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setLocation(Term newLocation) {
+<span class="fc" id="L147">		Term oldLocation = location;</span>
+<span class="fc" id="L148">		location = newLocation;</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L150">			eNotify(new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.UPDATE_RULE__LOCATION, oldLocation, location));</span>
+<span class="fc" id="L151">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L160" title="All 3 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.UPDATE_RULE__UPDATING_TERM:
+<span class="nc bnc" id="L162" title="All 2 branches missed.">				if (resolve) return getUpdatingTerm();</span>
+<span class="nc" id="L163">				return basicGetUpdatingTerm();</span>
+			case BasictransitionrulesPackage.UPDATE_RULE__LOCATION:
+<span class="nc bnc" id="L165" title="All 2 branches missed.">				if (resolve) return getLocation();</span>
+<span class="nc" id="L166">				return basicGetLocation();</span>
+		}
+<span class="nc" id="L168">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L178" title="All 3 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.UPDATE_RULE__UPDATING_TERM:
+<span class="nc" id="L180">				setUpdatingTerm((Term)newValue);</span>
+<span class="nc" id="L181">				return;</span>
+			case BasictransitionrulesPackage.UPDATE_RULE__LOCATION:
+<span class="nc" id="L183">				setLocation((Term)newValue);</span>
+<span class="nc" id="L184">				return;</span>
+		}
+<span class="nc" id="L186">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L187">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L196" title="All 3 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.UPDATE_RULE__UPDATING_TERM:
+<span class="nc" id="L198">				setUpdatingTerm((Term)null);</span>
+<span class="nc" id="L199">				return;</span>
+			case BasictransitionrulesPackage.UPDATE_RULE__LOCATION:
+<span class="nc" id="L201">				setLocation((Term)null);</span>
+<span class="nc" id="L202">				return;</span>
+		}
+<span class="nc" id="L204">		super.eUnset(featureID);</span>
+<span class="nc" id="L205">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L214" title="All 3 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.UPDATE_RULE__UPDATING_TERM:
+<span class="nc bnc" id="L216" title="All 2 branches missed.">				return updatingTerm != null;</span>
+			case BasictransitionrulesPackage.UPDATE_RULE__LOCATION:
+<span class="nc bnc" id="L218" title="All 2 branches missed.">				return location != null;</span>
+		}
+<span class="nc" id="L220">		return super.eIsSet(featureID);</span>
+	}
+
+} //UpdateRuleImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

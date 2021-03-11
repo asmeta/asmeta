@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>Simulator.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator.main</a> &gt; <span class="el_source">Simulator.java</span></div><h1>Simulator.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2005, 2006 ASMETA group (http://asmeta.sourceforge.net)
+ * License Information: http://asmeta.sourceforge.net/licensing/
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License version 2 as
+ *   published by the Free Software Foundation.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
+ *   USA
+ *
+ *   http://www.gnu.org/licenses/gpl.txt
+ *
+ *
+ *******************************************************************************/
+
+/*
+ * Simulator.java
+ *
+ * Created on 20 maggio 2006, 13.34
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package org.asmeta.simulator.main;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+
+import org.apache.log4j.Logger;
+import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.InvalidInvariantException;
+import org.asmeta.simulator.Location;
+import org.asmeta.simulator.LocationSet;
+import org.asmeta.simulator.RuleEvaluator;
+import org.asmeta.simulator.State;
+import org.asmeta.simulator.TermEvaluator;
+import org.asmeta.simulator.UpdateSet;
+import org.asmeta.simulator.readers.FileMonFuncReader;
+import org.asmeta.simulator.readers.InteractiveMFReader;
+import org.asmeta.simulator.readers.RandomMFReader;
+import org.asmeta.simulator.util.MonitoredFinder;
+import org.asmeta.simulator.value.AgentValue;
+import org.asmeta.simulator.value.BooleanValue;
+import org.asmeta.simulator.value.ReserveValue;
+import org.asmeta.simulator.value.SetValue;
+import org.asmeta.simulator.value.Value;
+import org.asmeta.simulator.wrapper.RuleFactory;
+
+import asmeta.AsmCollection;
+import asmeta.definitions.Function;
+import asmeta.definitions.Invariant;
+import asmeta.definitions.Property;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.domains.Domain;
+import asmeta.structure.AgentInitialization;
+import asmeta.structure.Asm;
+import asmeta.structure.Body;
+import asmeta.structure.Initialization;
+import asmeta.terms.basicterms.Term;
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+/**
+ * A simulator that executes ASM models.
+ *
+ */
+<span class="nc bnc" id="L83" title="All 2 branches missed.">public class Simulator {</span>
+	//
+	protected List&lt;Invariant&gt; controlledInvariants;
+	private List&lt;Invariant&gt; monitoredInvariants;
+
+<span class="nc" id="L88">	public static Logger logger = Logger.getLogger(Simulator.class);</span>
+
+	/**
+	 * Check invariants flag.
+	 *
+	 */
+<span class="nc" id="L94">	public static boolean checkInvariants = true;</span>
+
+	// show also the update set
+<span class="nc" id="L97">	public static boolean showUpdateSet = false;</span>
+
+	/**
+	 * Package of the model to simulate.
+	 */
+	protected AsmCollection asmetaPackage;
+
+	/**
+	 * The model to simulate.
+	 *
+	 */
+	Asm asmModel;
+
+	/**
+	 * The state.
+	 *
+	 */
+	State currentState;
+	
+	// useful when init state is queried and controlled state ned previous values
+	public State previousState;
+
+	/**
+	 * The environment.
+	 *
+	 */
+	protected Environment environment;
+
+	/**
+	 * The rule evaluator.
+	 */
+	protected RuleEvaluator ruleEvaluator;
+	
+	/**
+	 * The main rule of the model.
+	 *
+	 */
+	private Rule mainRule;
+
+	/**
+	 * The number of the current state.
+	 */
+	private int numOfState;//PA: 10 giugno 2010
+		
+	/**
+	 * Constructor.
+	 *
+	 * @param modelName
+	 *            the model name
+	 * @param asmp
+	 *            the package of the model
+	 * @param env
+	 *            the environment
+	 * @throws AsmModelNotFoundException
+	 *             if the model has not been found
+	 * @throws MainRuleNotFoundException
+	 *             if the model has not main rule
+	 */
+	public Simulator(String modelName, AsmCollection asmp, Environment env) 
+<span class="nc" id="L156">			throws AsmModelNotFoundException, MainRuleNotFoundException {</span>
+<span class="nc bnc" id="L157" title="All 4 branches missed.">		assert env != null;</span>
+<span class="nc" id="L158">		asmetaPackage = asmp;</span>
+<span class="nc" id="L159">		initAsmModel(modelName);</span>
+<span class="nc" id="L160">		environment = env;</span>
+<span class="nc" id="L161">		currentState = initState();</span>
+<span class="nc" id="L162">		initEvaluator(currentState);</span>
+<span class="nc" id="L163">		numOfState = 0;//PA: 10 giugno 2010</span>
+<span class="nc" id="L164">		currentState.previousLocationValues.putAll(currentState.locationMap);//PA: 10 giugno 2010</span>
+<span class="nc" id="L165">		controlledInvariants = new ArrayList&lt;Invariant&gt;();</span>
+<span class="nc" id="L166">		monitoredInvariants = new ArrayList&lt;Invariant&gt;();</span>
+<span class="nc" id="L167">	}</span>
+	
+	/**
+	 * Instantiates a new simulator.
+	 *
+	 * @param modelName the model name
+	 * @param asmp the asmp
+	 * @param env the env
+	 * @param s the intial state
+	 * @throws AsmModelNotFoundException the asm model not found exception
+	 * @throws MainRuleNotFoundException the main rule not found exception
+	 */
+	public Simulator(String modelName, AsmCollection asmp, Environment env, State s) 
+<span class="nc" id="L180">			throws AsmModelNotFoundException, MainRuleNotFoundException {</span>
+<span class="nc bnc" id="L181" title="All 4 branches missed.">		assert env != null;</span>
+<span class="nc" id="L182">		asmetaPackage = asmp;</span>
+<span class="nc" id="L183">		initAsmModel(modelName);</span>
+<span class="nc" id="L184">		environment = env;</span>
+<span class="nc" id="L185">		currentState = s;</span>
+<span class="nc" id="L186">		initEvaluator(currentState);</span>
+<span class="nc" id="L187">		numOfState = 0;//PA: 10 giugno 2010</span>
+<span class="nc" id="L188">		currentState.previousLocationValues.putAll(currentState.locationMap);//PA: 10 giugno 2010</span>
+<span class="nc" id="L189">		controlledInvariants = new ArrayList&lt;Invariant&gt;();</span>
+<span class="nc" id="L190">		monitoredInvariants = new ArrayList&lt;Invariant&gt;();</span>
+<span class="nc" id="L191">	}</span>
+
+	/**
+	 * Returns a simulator ready to execute the given model. The environment is
+	 * read by the standard input.
+	 *
+	 * @param modelPath
+	 *            path name of the model file
+	 * @return a simulator
+	 * @throws Exception
+	 */
+	public static Simulator createSimulator(String modelPath) throws Exception {
+<span class="nc" id="L203">		return createSimulator(modelPath, (String) null);</span>
+	}
+
+	/**
+	 * Returns a simulator ready to execute the given model. The environment is
+	 * read by the given file.
+	 *
+	 * @param modelPath
+	 *            path name of the model file
+	 * @param envPath
+	 *            path name of the environment file
+	 * @return a simulator
+	 * @throws Exception
+	 */
+	protected static Simulator createSimulator(String modelPath, String envPath)
+			throws Exception {
+		Environment env;
+<span class="nc bnc" id="L220" title="All 2 branches missed.">		if (envPath == null) {</span>
+<span class="nc" id="L221">			env = new Environment(</span>
+					new InteractiveMFReader(System.in, System.out));
+		} else {
+<span class="nc" id="L224">			env = new Environment(new FileMonFuncReader(envPath));</span>
+		}
+<span class="nc" id="L226">		return createSimulator(modelPath, env);</span>
+	}
+
+	/**
+	 * create a simulator using a random environment *
+	 *
+	 * @param modelPath
+	 *            path name of the model file
+	 * @return a simulator
+	 * @throws Exception
+	 */
+	protected static Simulator createSimulatorRnd(String modelPath)
+			throws Exception {
+<span class="nc" id="L239">		Environment env = new Environment(new RandomMFReader());</span>
+<span class="nc" id="L240">		return createSimulator(modelPath, env);</span>
+	}
+
+	/**
+	 * Returns a simulator ready to execute the given model.
+	 *
+	 * @param modelPath
+	 *            path name of the model file
+	 * @param env
+	 *            environment
+	 * @return a simulator
+	 * @throws Exception
+	 */
+	public static Simulator createSimulator(String modelPath, Environment env)
+			throws Exception {
+<span class="nc" id="L255">		File modelFile = new File(modelPath);</span>
+<span class="nc bnc" id="L256" title="All 2 branches missed.">		if (!modelFile.exists()) {</span>
+<span class="nc" id="L257">			throw new FileNotFoundException(modelPath);</span>
+		}
+<span class="nc" id="L259">		AsmCollection asmetaPackage = ASMParser.setUpReadAsm(modelFile);</span>
+<span class="nc" id="L260">		String fileName = modelFile.getName().split(&quot;\\.&quot;)[0];</span>
+<span class="nc" id="L261">		Simulator sim = new Simulator(fileName, asmetaPackage, env);</span>
+<span class="nc" id="L262">		return sim;</span>
+	}
+
+	/**
+	 * Creates the simulator.
+	 *
+	 * @param modelPath the model path
+	 * @param env the env
+	 * @param asmetaPackage the asmeta package
+	 * @return the simulator
+	 * @throws Exception the exception
+	 */
+	public static Simulator createSimulator(String modelPath, Environment env, AsmCollection asmetaPackage) throws Exception {
+<span class="nc" id="L275">		File modelFile = new File(modelPath);</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">		if (!modelFile.exists()) {</span>
+<span class="nc" id="L277">			throw new FileNotFoundException(modelPath);</span>
+		}
+<span class="nc" id="L279">		String fileName = modelFile.getName().split(&quot;\\.&quot;)[0];</span>
+<span class="nc" id="L280">		Simulator sim = new Simulator(fileName, asmetaPackage, env);</span>
+<span class="nc" id="L281">		return sim;</span>
+	}
+
+	/**
+	 * Gets the current state.
+	 *
+	 * @return the current state
+	 */
+	public State getCurrentState() {
+<span class="nc" id="L290">		return currentState;</span>
+	}
+
+	/**
+	 * Sets the shuffle flag for the choose rule (default is false).
+	 *
+	 * @param flag
+	 *            the new value
+	 */
+	public void setShuffleFlag(boolean flag) {
+<span class="nc" id="L300">		RuleEvaluator.isShuffled = flag;</span>
+<span class="nc" id="L301">	}</span>
+
+	/**
+	 * Executes the machine a fixed number of times.
+	 *
+	 * @param ntimes
+	 *            transition number
+	 * @return the final state
+	 */
+	public UpdateSet run(int ntimes) {
+		// get the update set
+<span class="nc" id="L312">		UpdateSet updateSet = new UpdateSet();</span>
+		try {
+<span class="nc" id="L314">			updateSet = runNoCatchInv(ntimes);</span>
+		}
+<span class="nc" id="L316">		catch (InvalidInvariantException e) {</span>
+<span class="nc" id="L317">			logger.info(&quot;&lt;Invariant violation&gt;&quot;);</span>
+<span class="nc" id="L318">			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);</span>
+<span class="nc" id="L319">			logger.info(tp.visit(e.getInvariant().getBody()));</span>
+<span class="nc" id="L320">			logger.info(&quot;&lt;/Invariant violation&gt;&quot;);</span>
+<span class="nc" id="L321">		}</span>
+<span class="nc" id="L322">		return updateSet;</span>
+	}
+
+	public UpdateSet runNoCatchInv(int ntimes) {
+<span class="nc" id="L326">		logger.debug(&quot;&lt;Run&gt;&quot;);</span>
+<span class="nc" id="L327">		UpdateSet updateSet = new UpdateSet();</span>
+<span class="nc" id="L328">		getContrMonInvariants();</span>
+<span class="nc bnc" id="L329" title="All 2 branches missed.">		if (checkInvariants) {</span>
+<span class="nc" id="L330">			Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);</span>
+			//System.out.println(&quot;Controllo invariants controllati nello stato iniziale.&quot;);
+<span class="nc bnc" id="L332" title="All 2 branches missed.">			if (invariant != null) {</span>
+<span class="nc" id="L333">				System.out.println(&quot;Invariant violation!&quot;);</span>
+<span class="nc" id="L334">				throw new InvalidInvariantException(invariant, updateSet);</span>
+			}
+		}		
+<span class="nc bnc" id="L337" title="All 2 branches missed.">		for (; ntimes &gt; 0; ntimes--) {</span>
+<span class="nc" id="L338">			updateSet = doOneStep();</span>
+		}
+<span class="nc" id="L340">		logger.debug(&quot;&lt;/Run&gt;&quot;);</span>
+<span class="nc" id="L341">		return updateSet;</span>
+	}
+	
+	protected void checkInvariantRestart() {
+<span class="nc" id="L345">		logger.debug(&quot;&lt;Run&gt;&quot;);</span>
+<span class="nc" id="L346">		UpdateSet updateSet = new UpdateSet();</span>
+<span class="nc" id="L347">		getContrMonInvariants();</span>
+<span class="nc" id="L348">		Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);</span>
+		//System.out.println(&quot;Controllo invariants controllati nello stato iniziale.&quot;);
+<span class="nc bnc" id="L350" title="All 2 branches missed.">		if (invariant != null) {</span>
+<span class="nc" id="L351">			System.out.println(&quot;Invariant violation!&quot;);</span>
+<span class="nc" id="L352">			throw new InvalidInvariantException(invariant, updateSet);</span>
+		}
+<span class="nc" id="L354">		logger.debug(&quot;&lt;/Run&gt;&quot;);</span>
+<span class="nc" id="L355">	}</span>
+
+	/**
+	 * Executes a single transition and returns the last applied update set.
+	 *
+	 * @return the update set
+	 */
+	UpdateSet doOneStep() {
+<span class="nc" id="L363">		logger.debug(&quot;&lt;Transition&gt;&quot;);</span>
+		// STEP 1
+		// Visit the main rule to compute the update set. Ask the value of the
+		// monitored functions in the current state.
+		// Current state is completed with the monitored values.
+<span class="nc" id="L368">		UpdateSet updateSet = ruleEvaluator.visit(mainRule);</span>
+		// STEP 2
+		// Check invariants that require monitored functions (not only controlled)
+		// before the update set is committed but the current state is completed 
+<span class="nc bnc" id="L372" title="All 2 branches missed.">		if (checkInvariants) {</span>
+<span class="nc" id="L373">			Invariant invariant = checkInvariants(ruleEvaluator.termEval, monitoredInvariants);</span>
+			//System.out.println(&quot;Controllo invarianti monitorati&quot;);
+<span class="nc bnc" id="L375" title="All 2 branches missed.">			if (invariant != null) {</span>
+<span class="nc" id="L376">				throw new InvalidInvariantException(invariant, updateSet);</span>
+			}
+		}
+		//
+		// STEP 3
+		// store the previous state
+<span class="nc" id="L382">		previousState = new State(currentState);</span>
+		// Apply the update set to apply the state changes (the new state is
+		// updated in its controlled part) - monitored functions still have the
+		// old values.
+<span class="nc" id="L386">		currentState.fireUpdates(updateSet);</span>
+		// Now the current state has monitored old values and new controlled
+		// values.
+		// So it is not an actual state but a mix between the current state
+		// (the monitored functions values) and next state (the controlled
+		// functions values).
+
+		// Print of the current values of monitored
+		// print the next state in controlled part
+<span class="nc bnc" id="L395" title="All 2 branches missed.">		if(logger.isInfoEnabled()) {</span>
+<span class="nc" id="L396">	 		String monLocState = currentState.getMonLocsState();</span>
+<span class="nc bnc" id="L397" title="All 2 branches missed.">			if(monLocState.length() &gt; 0) {</span>
+<span class="nc" id="L398">				logger.info(&quot;&lt;State &quot; + numOfState + &quot; (monitored)&gt;&quot;);</span>
+<span class="nc" id="L399">				logger.info(monLocState);</span>
+<span class="nc" id="L400">				logger.info(&quot;&lt;/State &quot; + numOfState + &quot; (monitored)&gt;&quot;);//PA: 10 giugno 2010</span>
+			}
+			// if also debug, show the update set
+<span class="nc bnc" id="L403" title="All 2 branches missed.">			if (showUpdateSet) {</span>
+<span class="nc" id="L404">				logger.info(&quot;&lt;UpdateSet - &quot;+ numOfState + &quot;&gt;&quot;);</span>
+<span class="nc bnc" id="L405" title="All 2 branches missed.">				if (!updateSet.isEmpty()) logger.info(updateSet);</span>
+<span class="nc" id="L406">				logger.info(&quot;&lt;/UpdateSet&gt;&quot;);</span>
+			}
+			// controlled part of the next state
+<span class="nc" id="L409">			String contrLocState = currentState.getContrLocsState();</span>
+<span class="nc" id="L410">			logger.info(&quot;&lt;State &quot; + (numOfState + 1) + &quot; (controlled)&gt;&quot;);</span>
+<span class="nc bnc" id="L411" title="All 2 branches missed.">			if(contrLocState.length() &gt; 0) {</span>
+<span class="nc" id="L412">				logger.info(contrLocState);</span>
+			}
+<span class="nc" id="L414">			logger.info(&quot;&lt;/State &quot; + (numOfState + 1) + &quot; (controlled)&gt;&quot;);</span>
+		}
+<span class="nc" id="L416">		numOfState++;//</span>
+		// STEP 4
+		// Clear the monitored variables of the current state
+<span class="nc" id="L419">		clearMon();</span>
+		// STEP 5
+		// Check invariants over only controlled functions.
+		// It is not necessary to have the complete state (indeed the values of
+		// monitored function is missing).
+<span class="nc bnc" id="L424" title="All 2 branches missed.">		if (checkInvariants) {</span>
+<span class="nc" id="L425">			Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);</span>
+			//System.out.println(&quot;Controllo invarianti controllati.&quot;);
+<span class="nc bnc" id="L427" title="All 2 branches missed.">			if (invariant != null) {</span>
+<span class="nc" id="L428">				throw new InvalidInvariantException(invariant, updateSet);</span>
+			}
+		}		
+<span class="nc" id="L431">		logger.debug(&quot;&lt;/Transition&gt;&quot;);</span>
+<span class="nc" id="L432">		return updateSet;</span>
+	}
+
+	/**
+	 * Executes the machine until the main rule produces an empty update set.
+	 *
+	 * @return the final state
+	 */
+	public LocationSet runUntilEmpty() {
+<span class="nc" id="L441">		logger.debug(&quot;&lt;Run&gt;&quot;);</span>
+<span class="nc" id="L442">		UpdateSet updateSet = new UpdateSet();</span>
+<span class="nc" id="L443">		getContrMonInvariants();</span>
+		try {
+<span class="nc bnc" id="L445" title="All 2 branches missed.">			if (checkInvariants) {</span>
+<span class="nc" id="L446">				Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);</span>
+				//System.out.println(&quot;Controllo invarianti controllati nello stato iniziale.&quot;);
+<span class="nc bnc" id="L448" title="All 2 branches missed.">				if (invariant != null) {</span>
+<span class="nc" id="L449">					throw new InvalidInvariantException(invariant, updateSet);</span>
+				}
+			}		
+			do {
+<span class="nc" id="L453">				updateSet = doOneStep();</span>
+<span class="nc bnc" id="L454" title="All 2 branches missed.">			} while (!updateSet.isEmpty());</span>
+		}
+<span class="nc" id="L456">		catch (InvalidInvariantException e) {</span>
+<span class="nc" id="L457">			logger.info(&quot;&lt;Invariant violation&gt;&quot;);</span>
+<span class="nc" id="L458">			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);</span>
+<span class="nc" id="L459">			logger.info(tp.visit(e.getInvariant().getBody()));</span>
+<span class="nc" id="L460">			logger.info(&quot;&lt;/Invariant violation&gt;&quot;);</span>
+<span class="nc" id="L461">		}</span>
+<span class="nc" id="L462">		logger.debug(&quot;&lt;/Run&gt;&quot;);</span>
+<span class="nc" id="L463">		return currentState;</span>
+	}
+
+	/**
+	 * Executes the machine until the main rule produces a set equal to the previous one
+	 *
+	 * @return the final state
+	 */
+	public LocationSet runUntilTrivial() {
+<span class="nc" id="L472">		logger.debug(&quot;&lt;Run&gt;&quot;);</span>
+<span class="nc" id="L473">		UpdateSet updateSet = new UpdateSet();</span>
+<span class="nc" id="L474">		getContrMonInvariants();</span>
+		//State previousState;
+		try {
+<span class="nc bnc" id="L477" title="All 2 branches missed.">			if (checkInvariants) {</span>
+<span class="nc" id="L478">				Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);</span>
+<span class="nc bnc" id="L479" title="All 2 branches missed.">				if (invariant != null) {</span>
+<span class="nc" id="L480">					throw new InvalidInvariantException(invariant, updateSet);</span>
+				}
+			}		
+			do {
+				//previousState = new State(currentState);
+<span class="nc" id="L485">				updateSet = doOneStep();</span>
+			}
+<span class="nc bnc" id="L487" title="All 2 branches missed.">			while(!updateSet.isTrivial(previousState));</span>
+		}
+<span class="nc" id="L489">		catch (InvalidInvariantException e) {</span>
+<span class="nc" id="L490">			logger.info(&quot;&lt;Invariant violation&gt;&quot;);</span>
+<span class="nc" id="L491">			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);</span>
+<span class="nc" id="L492">			logger.info(tp.visit(e.getInvariant().getBody()));</span>
+<span class="nc" id="L493">			logger.info(&quot;&lt;/Invariant violation&gt;&quot;);</span>
+<span class="nc" id="L494">		}</span>
+<span class="nc" id="L495">		logger.debug(&quot;&lt;/Run&gt;&quot;);</span>
+<span class="nc" id="L496">		return currentState;</span>
+	}
+
+	/**
+	 * Deletes the content of the monitored functions.
+	 * It is called at the end of the current transition.
+	 */
+	public void clearMon() {
+<span class="nc" id="L504">		logger.debug(&quot;clear monitored vars&quot;);</span>
+<span class="nc bnc" id="L505" title="All 2 branches missed.">		for(Iterator&lt;Entry&lt;Location,Value&gt;&gt; i = currentState.iterator();i.hasNext();){</span>
+<span class="nc" id="L506">			 Entry&lt;Location, Value&gt; locVal = i.next();</span>
+<span class="nc bnc" id="L507" title="All 2 branches missed.">			 if (Defs.isMonitored(locVal.getKey().getSignature())){</span>
+<span class="nc" id="L508">				 logger.debug(&quot;clear &quot;+ locVal);</span>
+<span class="nc" id="L509">				 i.remove();</span>
+			 }
+<span class="nc" id="L511">		}</span>
+<span class="nc" id="L512">	}</span>
+
+	/**
+	 * It checks the invariants given as input.
+	 * 
+	 * @param eval A term evaluator
+	 * @param invariants a list of invariants to check
+	 * @return
+	 */
+	protected Invariant checkInvariants(TermEvaluator eval, List&lt;Invariant&gt; invariants) {
+		Term invariantBody;
+		String invariantName;
+<span class="nc bnc" id="L524" title="All 2 branches missed.">		for (Invariant invariant : invariants) {</span>
+<span class="nc" id="L525">			invariantBody = invariant.getBody();</span>
+<span class="nc" id="L526">			invariantName = invariant.getName();</span>
+<span class="nc" id="L527">			logger.debug(</span>
+<span class="nc bnc" id="L528" title="All 4 branches missed.">				&quot;&lt;Invariant&quot; + ((invariantName == null || invariantName.equals(&quot;&quot;)) ? &quot;&quot; : (&quot; name=&quot; + invariantName)) + &quot;&gt;&quot;);</span>
+<span class="nc" id="L529">			BooleanValue result = (BooleanValue) eval.visit(invariantBody);						</span>
+<span class="nc" id="L530">			logger.debug(&quot;&lt;Value&gt;&quot; + result + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L531">			logger.debug(&quot;&lt;/Invariant&gt;&quot;);</span>
+<span class="nc bnc" id="L532" title="All 2 branches missed.">			if (!result.getValue()) {</span>
+<span class="nc" id="L533">				return invariant;</span>
+			}
+<span class="nc" id="L535">		}</span>
+<span class="nc" id="L536">		return null;</span>
+	}
+
+	/**
+	 * Makes some initializations on the model.
+	 *
+	 * @param modelName
+	 *            the model name
+	 * @throws AsmModelNotFoundException
+	 * @throws MainRuleNotFoundException
+	 */
+	private void initAsmModel(String modelName) throws AsmModelNotFoundException,
+			MainRuleNotFoundException {
+		// get the model
+<span class="nc" id="L550">		asmModel = asmetaPackage.getMain();</span>
+		// 
+<span class="nc bnc" id="L552" title="All 4 branches missed.">		assert asmModel.getName().equals(modelName);</span>
+		// check the main rule
+<span class="nc" id="L554">		RuleDeclaration mainRuleDec = asmModel.getMainrule();</span>
+<span class="nc bnc" id="L555" title="All 2 branches missed.">		if (mainRuleDec == null)</span>
+<span class="nc" id="L556">			throw new MainRuleNotFoundException(modelName);</span>
+<span class="nc" id="L557">		mainRule = mainRuleDec.getRuleBody();</span>
+<span class="nc" id="L558">	}</span>
+
+
+	/**
+	 * Makes some initializations on the state.
+	 *
+	 * @return a fresh new state
+	 */
+	private State initState() {
+		// NOTE the order of the initializations is important
+<span class="nc" id="L568">		Initialization initialization = asmModel.getDefaultInitialState();</span>
+<span class="nc" id="L569">		State state = new State(initialization, environment);</span>
+<span class="nc" id="L570">		initAbstractConstants(state);</span>
+<span class="nc" id="L571">		initAgents(state);</span>
+		// search the self function in the StandardLibrary,
+		// then assign it to the static attribute of TermEvaluator
+<span class="nc bnc" id="L574" title="All 2 branches missed.">		for (Asm asm : asmetaPackage) {</span>
+<span class="nc" id="L575">			String name = asm.getName();</span>
+<span class="nc bnc" id="L576" title="All 2 branches missed.">			if (!name.equals(&quot;StandardLibrary&quot;)) {</span>
+<span class="nc" id="L577">				continue;</span>
+			}
+<span class="nc" id="L579">			Collection&lt;?&gt; functions = </span>
+<span class="nc" id="L580">				asm.getHeaderSection().getSignature().getFunction();</span>
+<span class="nc bnc" id="L581" title="All 2 branches missed.">			for (Object o : functions) {</span>
+<span class="nc" id="L582">				Function func = (Function) o;</span>
+<span class="nc" id="L583">				String fname = func.getName();</span>
+<span class="nc bnc" id="L584" title="All 4 branches missed.">				if (func.getArity() == 0 &amp;&amp; fname.equals(&quot;self&quot;)) {</span>
+<span class="nc" id="L585">					TermEvaluator.self = new Location(func, new Value[0]);</span>
+<span class="nc" id="L586">					break;</span>
+				}
+<span class="nc" id="L588">			}</span>
+<span class="nc" id="L589">		}</span>
+<span class="nc bnc" id="L590" title="All 4 branches missed.">		assert TermEvaluator.self != null;</span>
+<span class="nc" id="L591">		return state;</span>
+	}
+
+	/**
+	 * Makes some initializations on the rule evaluator.
+	 *
+	 * @param state
+	 *            the initial state
+	 * @return a fresh new evaluator
+	 */
+	protected void initEvaluator(State state) {
+<span class="nc" id="L602">		RuleFactory factory = new RuleFactory();</span>
+<span class="nc" id="L603">		ruleEvaluator = new RuleEvaluator(state, environment, factory);</span>
+<span class="nc" id="L604">		return;</span>
+	}
+
+	/**
+	 * Searches the abstract constants in the signature and saves them in the
+	 * initial state.
+	 *
+	 * @param state
+	 *            the initial state
+	 */
+	private void initAbstractConstants(State state) {
+<span class="nc bnc" id="L615" title="All 2 branches missed.">		for (Asm asm : asmetaPackage) {</span>
+<span class="nc" id="L616">			Collection&lt;Function&gt; functions = </span>
+<span class="nc" id="L617">				asm.getHeaderSection().getSignature().getFunction();</span>
+<span class="nc bnc" id="L618" title="All 2 branches missed.">			for (Function func : functions) {</span>
+				// NOTE the order of controls does matter, because an agent is
+				// an abstract constant but not the contrary
+<span class="nc bnc" id="L621" title="All 2 branches missed.">				if (Defs.isAgentConst(func)) {</span>
+<span class="nc" id="L622">					String name = func.getName();</span>
+<span class="nc" id="L623">					Domain signature = func.getCodomain();</span>
+					// NOTE the agent initializations is incomplete, because
+					// the program )remains unspecified.
+					// The remaining work is carried out by initAgents()
+<span class="nc" id="L627">					AgentValue element = new AgentValue(name, signature, null);</span>
+<span class="nc" id="L628">					state.add(signature, element);</span>
+<span class="nc bnc" id="L629" title="All 2 branches missed.">				} else if (Defs.isAbstractConst(func)) {</span>
+<span class="nc" id="L630">					String name = func.getName();</span>
+<span class="nc" id="L631">					Domain signature = func.getCodomain();</span>
+<span class="nc" id="L632">					ReserveValue element = new ReserveValue(name);</span>
+<span class="nc" id="L633">					state.add(signature, element);</span>
+				}
+<span class="nc" id="L635">			}</span>
+<span class="nc" id="L636">		}</span>
+<span class="nc" id="L637">	}</span>
+
+	/**
+	 * Searches the agent constants in the signature and sets their own program.
+	 *
+	 * @param state
+	 *            the initial state
+	 */
+	private void initAgents(State state) {
+<span class="nc" id="L646">		AgentValue.setAsm(asmModel);</span>
+<span class="nc bnc" id="L647" title="All 2 branches missed.">		if (state.getInitialization() != null) {</span>
+<span class="nc" id="L648">			Collection&lt;?&gt; agentInitList = </span>
+<span class="nc" id="L649">				state.getInitialization().getAgentInitialization();</span>
+<span class="nc bnc" id="L650" title="All 2 branches missed.">			for (Object o : agentInitList) {</span>
+<span class="nc" id="L651">				AgentInitialization agentInit = (AgentInitialization) o;</span>
+<span class="nc" id="L652">				Domain domain = agentInit.getDomain();</span>
+<span class="nc" id="L653">				String domainName = domain.getName();</span>
+<span class="nc" id="L654">				Rule program = agentInit.getProgram();</span>
+<span class="nc" id="L655">				SetValue&lt;?&gt; agentSet = state.read(domain);</span>
+<span class="nc" id="L656">				logger.debug(&quot;&lt;initAgents&gt;set program for agents in &quot; + domainName);</span>
+<span class="nc bnc" id="L657" title="All 2 branches missed.">				for (Value&lt;?&gt; oo : agentSet) {</span>
+<span class="nc" id="L658">					AgentValue agent = (AgentValue) oo;</span>
+<span class="nc" id="L659">					Domain agentDomain = agent.getDomain();</span>
+<span class="nc" id="L660">					logger.debug(&quot;&lt;agent&gt;&quot; + agent.getId()</span>
+<span class="nc" id="L661">							+ (Object) agent.hashCode() + &quot;&lt;/agent&gt;&quot;);</span>
+<span class="nc" id="L662">					logger.debug(&quot;&lt;program&gt;&quot; + program + &quot;&lt;/program&gt;&quot;);</span>
+<span class="nc bnc" id="L663" title="All 2 branches missed.">					if (Defs.equals(domain, agentDomain)) {</span>
+<span class="nc" id="L664">						agent.setProgram(program);</span>
+					}
+<span class="nc" id="L666">				}</span>
+<span class="nc" id="L667">				logger.debug(&quot;&lt;/initAgents&gt;&quot;);</span>
+<span class="nc" id="L668">			}</span>
+		}
+<span class="nc" id="L670">	}</span>
+
+	/**
+	 * PA: 31/10/2010
+	 * It separates the monitored invariants (invariants which contain at least a
+	 * monitored function) from controlled invariants (invariants which do not contain
+	 * any monitored function).
+	 */
+	protected void getContrMonInvariants() {
+<span class="nc" id="L679">		MonitoredFinder mf = new MonitoredFinder();</span>
+		boolean isMonitoredInvariant;
+<span class="nc bnc" id="L681" title="All 2 branches missed.">		for (Iterator&lt;Asm&gt; i = asmetaPackage.iterator(); i.hasNext();) {</span>
+<span class="nc" id="L682">			Asm asm_i = i.next();</span>
+<span class="nc" id="L683">			Body b = asm_i.getBodySection();</span>
+<span class="nc" id="L684">			Collection&lt;Property&gt; propertiesList = b.getProperty();</span>
+<span class="nc bnc" id="L685" title="All 2 branches missed.">			if (propertiesList != null) {</span>
+<span class="nc bnc" id="L686" title="All 2 branches missed.">				for (Property property: propertiesList) {</span>
+<span class="nc bnc" id="L687" title="All 2 branches missed.">					if(property instanceof Invariant) {</span>
+<span class="nc" id="L688">						Term body = ((Invariant)property).getBody();</span>
+<span class="nc" id="L689">						isMonitoredInvariant = mf.visit(body);</span>
+<span class="nc bnc" id="L690" title="All 2 branches missed.">						if(isMonitoredInvariant) {</span>
+<span class="nc" id="L691">							monitoredInvariants.add((Invariant)property);</span>
+						}
+						else {
+<span class="nc" id="L694">							controlledInvariants.add((Invariant)property);</span>
+						}
+					}
+<span class="nc" id="L697">				}</span>
+			}
+<span class="nc" id="L699">		}</span>
+<span class="nc" id="L700">	}</span>
+
+	public Asm getAsmModel() {
+<span class="nc" id="L703">		return asmModel;</span>
+	}
+
+	/** return the state number starting from 0 */
+	public int getNumOfState(){
+<span class="nc" id="L708">		return numOfState;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

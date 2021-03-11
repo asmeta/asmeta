@@ -1,0 +1,828 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>BasictransitionrulesPackageImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.basictransitionrules.impl</a> &gt; <span class="el_source">BasictransitionrulesPackageImpl.java</span></div><h1>BasictransitionrulesPackageImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.basictransitionrules.impl;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.domains.DomainsPackage;
+import asmeta.definitions.domains.impl.DomainsPackageImpl;
+import asmeta.definitions.impl.DefinitionsPackageImpl;
+import asmeta.structure.StructurePackage;
+import asmeta.structure.impl.StructurePackageImpl;
+import asmeta.terms.basicterms.BasictermsPackage;
+import asmeta.terms.basicterms.impl.BasictermsPackageImpl;
+import asmeta.terms.furtherterms.FurthertermsPackage;
+import asmeta.terms.furtherterms.impl.FurthertermsPackageImpl;
+import asmeta.transitionrules.basictransitionrules.BasicRule;
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesFactory;
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+import asmeta.transitionrules.basictransitionrules.BlockRule;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
+import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.SkipRule;
+import asmeta.transitionrules.basictransitionrules.TermAsRule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage;
+import asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl;
+import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+import asmeta.transitionrules.turbotransitionrules.impl.TurbotransitionrulesPackageImpl;
+import primitivetypes.PrimitivetypesPackage;
+import primitivetypes.impl.PrimitivetypesPackageImpl;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model &lt;b&gt;Package&lt;/b&gt;.
+ * &lt;!-- end-user-doc --&gt;
+ * @generated
+ */
+public class BasictransitionrulesPackageImpl extends EPackageImpl implements BasictransitionrulesPackage {
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L60">	private EClass termAsRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L67">	private EClass basicRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L74">	private EClass ruleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L81">	private EClass chooseRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L88">	private EClass macroCallRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L95">	private EClass blockRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L102">	private EClass conditionalRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L109">	private EClass forallRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L116">	private EClass letRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L123">	private EClass extendRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L130">	private EClass updateRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L137">	private EClass skipRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L144">	private EClass macroDeclarationEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L151">	private EDataType ruleDTEDataType = null;</span>
+
+	/**
+	 * Creates an instance of the model &lt;b&gt;Package&lt;/b&gt;, registered with
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * &lt;p&gt;Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see org.eclipse.emf.ecore.EPackage.Registry
+	 * @see asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage#eNS_URI
+	 * @see #init()
+	 * @generated
+	 */
+	private BasictransitionrulesPackageImpl() {
+<span class="fc" id="L169">		super(eNS_URI, BasictransitionrulesFactory.eINSTANCE);</span>
+<span class="fc" id="L170">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L177">	private static boolean isInited = false;</span>
+
+	/**
+	 * Creates, registers, and initializes the &lt;b&gt;Package&lt;/b&gt; for this model, and for any others upon which it depends.
+	 *
+	 * &lt;p&gt;This method is used to initialize {@link BasictransitionrulesPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #eNS_URI
+	 * @see #createPackageContents()
+	 * @see #initializePackageContents()
+	 * @generated
+	 */
+	public static BasictransitionrulesPackage init() {
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">		if (isInited) return (BasictransitionrulesPackage)EPackage.Registry.INSTANCE.getEPackage(BasictransitionrulesPackage.eNS_URI);</span>
+
+		// Obtain or create and register package
+<span class="fc" id="L195">		Object registeredBasictransitionrulesPackage = EPackage.Registry.INSTANCE.get(eNS_URI);</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">		BasictransitionrulesPackageImpl theBasictransitionrulesPackage = registeredBasictransitionrulesPackage instanceof BasictransitionrulesPackageImpl ? (BasictransitionrulesPackageImpl)registeredBasictransitionrulesPackage : new BasictransitionrulesPackageImpl();</span>
+
+<span class="fc" id="L198">		isInited = true;</span>
+
+		// Obtain or create and register interdependencies
+<span class="fc" id="L201">		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(FurthertermsPackage.eNS_URI);</span>
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">		FurthertermsPackageImpl theFurthertermsPackage = (FurthertermsPackageImpl)(registeredPackage instanceof FurthertermsPackageImpl ? registeredPackage : FurthertermsPackage.eINSTANCE);</span>
+<span class="fc" id="L203">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BasictermsPackage.eNS_URI);</span>
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">		BasictermsPackageImpl theBasictermsPackage = (BasictermsPackageImpl)(registeredPackage instanceof BasictermsPackageImpl ? registeredPackage : BasictermsPackage.eINSTANCE);</span>
+<span class="fc" id="L205">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(StructurePackage.eNS_URI);</span>
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">		StructurePackageImpl theStructurePackage = (StructurePackageImpl)(registeredPackage instanceof StructurePackageImpl ? registeredPackage : StructurePackage.eINSTANCE);</span>
+<span class="fc" id="L207">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TurbotransitionrulesPackage.eNS_URI);</span>
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">		TurbotransitionrulesPackageImpl theTurbotransitionrulesPackage = (TurbotransitionrulesPackageImpl)(registeredPackage instanceof TurbotransitionrulesPackageImpl ? registeredPackage : TurbotransitionrulesPackage.eINSTANCE);</span>
+<span class="fc" id="L209">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DerivedtransitionrulesPackage.eNS_URI);</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">		DerivedtransitionrulesPackageImpl theDerivedtransitionrulesPackage = (DerivedtransitionrulesPackageImpl)(registeredPackage instanceof DerivedtransitionrulesPackageImpl ? registeredPackage : DerivedtransitionrulesPackage.eINSTANCE);</span>
+<span class="fc" id="L211">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DefinitionsPackage.eNS_URI);</span>
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">		DefinitionsPackageImpl theDefinitionsPackage = (DefinitionsPackageImpl)(registeredPackage instanceof DefinitionsPackageImpl ? registeredPackage : DefinitionsPackage.eINSTANCE);</span>
+<span class="fc" id="L213">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DomainsPackage.eNS_URI);</span>
+<span class="pc bpc" id="L214" title="1 of 2 branches missed.">		DomainsPackageImpl theDomainsPackage = (DomainsPackageImpl)(registeredPackage instanceof DomainsPackageImpl ? registeredPackage : DomainsPackage.eINSTANCE);</span>
+<span class="fc" id="L215">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(PrimitivetypesPackage.eNS_URI);</span>
+<span class="pc bpc" id="L216" title="1 of 2 branches missed.">		PrimitivetypesPackageImpl thePrimitivetypesPackage = (PrimitivetypesPackageImpl)(registeredPackage instanceof PrimitivetypesPackageImpl ? registeredPackage : PrimitivetypesPackage.eINSTANCE);</span>
+
+		// Create package meta-data objects
+<span class="fc" id="L219">		theBasictransitionrulesPackage.createPackageContents();</span>
+<span class="fc" id="L220">		theFurthertermsPackage.createPackageContents();</span>
+<span class="fc" id="L221">		theBasictermsPackage.createPackageContents();</span>
+<span class="fc" id="L222">		theStructurePackage.createPackageContents();</span>
+<span class="fc" id="L223">		theTurbotransitionrulesPackage.createPackageContents();</span>
+<span class="fc" id="L224">		theDerivedtransitionrulesPackage.createPackageContents();</span>
+<span class="fc" id="L225">		theDefinitionsPackage.createPackageContents();</span>
+<span class="fc" id="L226">		theDomainsPackage.createPackageContents();</span>
+<span class="fc" id="L227">		thePrimitivetypesPackage.createPackageContents();</span>
+
+		// Initialize created meta-data
+<span class="fc" id="L230">		theBasictransitionrulesPackage.initializePackageContents();</span>
+<span class="fc" id="L231">		theFurthertermsPackage.initializePackageContents();</span>
+<span class="fc" id="L232">		theBasictermsPackage.initializePackageContents();</span>
+<span class="fc" id="L233">		theStructurePackage.initializePackageContents();</span>
+<span class="fc" id="L234">		theTurbotransitionrulesPackage.initializePackageContents();</span>
+<span class="fc" id="L235">		theDerivedtransitionrulesPackage.initializePackageContents();</span>
+<span class="fc" id="L236">		theDefinitionsPackage.initializePackageContents();</span>
+<span class="fc" id="L237">		theDomainsPackage.initializePackageContents();</span>
+<span class="fc" id="L238">		thePrimitivetypesPackage.initializePackageContents();</span>
+
+		// Mark meta-data to indicate it can't be changed
+<span class="fc" id="L241">		theBasictransitionrulesPackage.freeze();</span>
+
+		// Update the registry and return the package
+<span class="fc" id="L244">		EPackage.Registry.INSTANCE.put(BasictransitionrulesPackage.eNS_URI, theBasictransitionrulesPackage);</span>
+<span class="fc" id="L245">		return theBasictransitionrulesPackage;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getTermAsRule() {
+<span class="fc" id="L255">		return termAsRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getTermAsRule_Term() {
+<span class="fc" id="L265">		return (EReference)termAsRuleEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EAttribute getTermAsRule_Parameters() {
+<span class="fc" id="L275">		return (EAttribute)termAsRuleEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getBasicRule() {
+<span class="fc" id="L285">		return basicRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getRule() {
+<span class="fc" id="L295">		return ruleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getChooseRule() {
+<span class="nc" id="L305">		return chooseRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getChooseRule_Ifnone() {
+<span class="fc" id="L315">		return (EReference)chooseRuleEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getChooseRule_DoRule() {
+<span class="fc" id="L325">		return (EReference)chooseRuleEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getChooseRule_Guard() {
+<span class="fc" id="L335">		return (EReference)chooseRuleEClass.getEStructuralFeatures().get(2);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getChooseRule_Variable() {
+<span class="fc" id="L345">		return (EReference)chooseRuleEClass.getEStructuralFeatures().get(3);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EAttribute getChooseRule_Ranges() {
+<span class="fc" id="L355">		return (EAttribute)chooseRuleEClass.getEStructuralFeatures().get(4);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getMacroCallRule() {
+<span class="fc" id="L365">		return macroCallRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getMacroCallRule_CalledMacro() {
+<span class="fc" id="L375">		return (EReference)macroCallRuleEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EAttribute getMacroCallRule_Parameters() {
+<span class="fc" id="L385">		return (EAttribute)macroCallRuleEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getBlockRule() {
+<span class="nc" id="L395">		return blockRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EAttribute getBlockRule_Rules() {
+<span class="fc" id="L405">		return (EAttribute)blockRuleEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getConditionalRule() {
+<span class="nc" id="L415">		return conditionalRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getConditionalRule_Guard() {
+<span class="fc" id="L425">		return (EReference)conditionalRuleEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getConditionalRule_ElseRule() {
+<span class="fc" id="L435">		return (EReference)conditionalRuleEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getConditionalRule_ThenRule() {
+<span class="fc" id="L445">		return (EReference)conditionalRuleEClass.getEStructuralFeatures().get(2);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getForallRule() {
+<span class="nc" id="L455">		return forallRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getForallRule_Variable() {
+<span class="fc" id="L465">		return (EReference)forallRuleEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getForallRule_Guard() {
+<span class="fc" id="L475">		return (EReference)forallRuleEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getForallRule_DoRule() {
+<span class="fc" id="L485">		return (EReference)forallRuleEClass.getEStructuralFeatures().get(2);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EAttribute getForallRule_Ranges() {
+<span class="fc" id="L495">		return (EAttribute)forallRuleEClass.getEStructuralFeatures().get(3);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getLetRule() {
+<span class="nc" id="L505">		return letRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getLetRule_InRule() {
+<span class="fc" id="L515">		return (EReference)letRuleEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getLetRule_InitExpression() {
+<span class="fc" id="L525">		return (EReference)letRuleEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getLetRule_Variable() {
+<span class="fc" id="L535">		return (EReference)letRuleEClass.getEStructuralFeatures().get(2);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getExtendRule() {
+<span class="nc" id="L545">		return extendRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getExtendRule_ExtendedDomain() {
+<span class="fc" id="L555">		return (EReference)extendRuleEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getExtendRule_BoundVar() {
+<span class="fc" id="L565">		return (EReference)extendRuleEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getExtendRule_DoRule() {
+<span class="fc" id="L575">		return (EReference)extendRuleEClass.getEStructuralFeatures().get(2);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getUpdateRule() {
+<span class="nc" id="L585">		return updateRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getUpdateRule_UpdatingTerm() {
+<span class="fc" id="L595">		return (EReference)updateRuleEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getUpdateRule_Location() {
+<span class="fc" id="L605">		return (EReference)updateRuleEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getSkipRule() {
+<span class="nc" id="L615">		return skipRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getMacroDeclaration() {
+<span class="fc" id="L625">		return macroDeclarationEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EDataType getRuleDT() {
+<span class="fc" id="L635">		return ruleDTEDataType;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public BasictransitionrulesFactory getBasictransitionrulesFactory() {
+<span class="nc" id="L645">		return (BasictransitionrulesFactory)getEFactoryInstance();</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L653">	private boolean isCreated = false;</span>
+
+	/**
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public void createPackageContents() {
+<span class="fc bfc" id="L663" title="All 2 branches covered.">		if (isCreated) return;</span>
+<span class="fc" id="L664">		isCreated = true;</span>
+
+		// Create classes and their features
+<span class="fc" id="L667">		termAsRuleEClass = createEClass(TERM_AS_RULE);</span>
+<span class="fc" id="L668">		createEReference(termAsRuleEClass, TERM_AS_RULE__TERM);</span>
+<span class="fc" id="L669">		createEAttribute(termAsRuleEClass, TERM_AS_RULE__PARAMETERS);</span>
+
+<span class="fc" id="L671">		basicRuleEClass = createEClass(BASIC_RULE);</span>
+
+<span class="fc" id="L673">		ruleEClass = createEClass(RULE);</span>
+
+<span class="fc" id="L675">		chooseRuleEClass = createEClass(CHOOSE_RULE);</span>
+<span class="fc" id="L676">		createEReference(chooseRuleEClass, CHOOSE_RULE__IFNONE);</span>
+<span class="fc" id="L677">		createEReference(chooseRuleEClass, CHOOSE_RULE__DO_RULE);</span>
+<span class="fc" id="L678">		createEReference(chooseRuleEClass, CHOOSE_RULE__GUARD);</span>
+<span class="fc" id="L679">		createEReference(chooseRuleEClass, CHOOSE_RULE__VARIABLE);</span>
+<span class="fc" id="L680">		createEAttribute(chooseRuleEClass, CHOOSE_RULE__RANGES);</span>
+
+<span class="fc" id="L682">		macroCallRuleEClass = createEClass(MACRO_CALL_RULE);</span>
+<span class="fc" id="L683">		createEReference(macroCallRuleEClass, MACRO_CALL_RULE__CALLED_MACRO);</span>
+<span class="fc" id="L684">		createEAttribute(macroCallRuleEClass, MACRO_CALL_RULE__PARAMETERS);</span>
+
+<span class="fc" id="L686">		blockRuleEClass = createEClass(BLOCK_RULE);</span>
+<span class="fc" id="L687">		createEAttribute(blockRuleEClass, BLOCK_RULE__RULES);</span>
+
+<span class="fc" id="L689">		conditionalRuleEClass = createEClass(CONDITIONAL_RULE);</span>
+<span class="fc" id="L690">		createEReference(conditionalRuleEClass, CONDITIONAL_RULE__GUARD);</span>
+<span class="fc" id="L691">		createEReference(conditionalRuleEClass, CONDITIONAL_RULE__ELSE_RULE);</span>
+<span class="fc" id="L692">		createEReference(conditionalRuleEClass, CONDITIONAL_RULE__THEN_RULE);</span>
+
+<span class="fc" id="L694">		forallRuleEClass = createEClass(FORALL_RULE);</span>
+<span class="fc" id="L695">		createEReference(forallRuleEClass, FORALL_RULE__VARIABLE);</span>
+<span class="fc" id="L696">		createEReference(forallRuleEClass, FORALL_RULE__GUARD);</span>
+<span class="fc" id="L697">		createEReference(forallRuleEClass, FORALL_RULE__DO_RULE);</span>
+<span class="fc" id="L698">		createEAttribute(forallRuleEClass, FORALL_RULE__RANGES);</span>
+
+<span class="fc" id="L700">		letRuleEClass = createEClass(LET_RULE);</span>
+<span class="fc" id="L701">		createEReference(letRuleEClass, LET_RULE__IN_RULE);</span>
+<span class="fc" id="L702">		createEReference(letRuleEClass, LET_RULE__INIT_EXPRESSION);</span>
+<span class="fc" id="L703">		createEReference(letRuleEClass, LET_RULE__VARIABLE);</span>
+
+<span class="fc" id="L705">		extendRuleEClass = createEClass(EXTEND_RULE);</span>
+<span class="fc" id="L706">		createEReference(extendRuleEClass, EXTEND_RULE__EXTENDED_DOMAIN);</span>
+<span class="fc" id="L707">		createEReference(extendRuleEClass, EXTEND_RULE__BOUND_VAR);</span>
+<span class="fc" id="L708">		createEReference(extendRuleEClass, EXTEND_RULE__DO_RULE);</span>
+
+<span class="fc" id="L710">		updateRuleEClass = createEClass(UPDATE_RULE);</span>
+<span class="fc" id="L711">		createEReference(updateRuleEClass, UPDATE_RULE__UPDATING_TERM);</span>
+<span class="fc" id="L712">		createEReference(updateRuleEClass, UPDATE_RULE__LOCATION);</span>
+
+<span class="fc" id="L714">		skipRuleEClass = createEClass(SKIP_RULE);</span>
+
+<span class="fc" id="L716">		macroDeclarationEClass = createEClass(MACRO_DECLARATION);</span>
+
+		// Create data types
+<span class="fc" id="L719">		ruleDTEDataType = createEDataType(RULE_DT);</span>
+<span class="fc" id="L720">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L727">	private boolean isInitialized = false;</span>
+
+	/**
+	 * Complete the initialization of the package and its meta-model.  This
+	 * method is guarded to have no affect on any invocation but its first.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public void initializePackageContents() {
+<span class="fc bfc" id="L737" title="All 2 branches covered.">		if (isInitialized) return;</span>
+<span class="fc" id="L738">		isInitialized = true;</span>
+
+		// Initialize package
+<span class="fc" id="L741">		setName(eNAME);</span>
+<span class="fc" id="L742">		setNsPrefix(eNS_PREFIX);</span>
+<span class="fc" id="L743">		setNsURI(eNS_URI);</span>
+
+		// Obtain other dependent packages
+<span class="fc" id="L746">		BasictermsPackage theBasictermsPackage = (BasictermsPackage)EPackage.Registry.INSTANCE.getEPackage(BasictermsPackage.eNS_URI);</span>
+<span class="fc" id="L747">		DomainsPackage theDomainsPackage = (DomainsPackage)EPackage.Registry.INSTANCE.getEPackage(DomainsPackage.eNS_URI);</span>
+<span class="fc" id="L748">		DefinitionsPackage theDefinitionsPackage = (DefinitionsPackage)EPackage.Registry.INSTANCE.getEPackage(DefinitionsPackage.eNS_URI);</span>
+
+		// Create type parameters
+
+		// Set bounds for type parameters
+
+		// Add supertypes to classes
+<span class="fc" id="L755">		termAsRuleEClass.getESuperTypes().add(this.getRule());</span>
+<span class="fc" id="L756">		basicRuleEClass.getESuperTypes().add(this.getRule());</span>
+<span class="fc" id="L757">		chooseRuleEClass.getESuperTypes().add(this.getBasicRule());</span>
+<span class="fc" id="L758">		macroCallRuleEClass.getESuperTypes().add(this.getBasicRule());</span>
+<span class="fc" id="L759">		blockRuleEClass.getESuperTypes().add(this.getBasicRule());</span>
+<span class="fc" id="L760">		conditionalRuleEClass.getESuperTypes().add(this.getBasicRule());</span>
+<span class="fc" id="L761">		forallRuleEClass.getESuperTypes().add(this.getBasicRule());</span>
+<span class="fc" id="L762">		letRuleEClass.getESuperTypes().add(this.getBasicRule());</span>
+<span class="fc" id="L763">		extendRuleEClass.getESuperTypes().add(this.getBasicRule());</span>
+<span class="fc" id="L764">		updateRuleEClass.getESuperTypes().add(this.getBasicRule());</span>
+<span class="fc" id="L765">		skipRuleEClass.getESuperTypes().add(this.getBasicRule());</span>
+<span class="fc" id="L766">		macroDeclarationEClass.getESuperTypes().add(theDefinitionsPackage.getRuleDeclaration());</span>
+
+		// Initialize classes and features; add operations and parameters
+<span class="fc" id="L769">		initEClass(termAsRuleEClass, TermAsRule.class, &quot;TermAsRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L770">		initEReference(getTermAsRule_Term(), theBasictermsPackage.getTerm(), theBasictermsPackage.getTerm_TermAsRule(), &quot;term&quot;, null, 1, 1, TermAsRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L771">		initEAttribute(getTermAsRule_Parameters(), theBasictermsPackage.getTermDT(), &quot;parameters&quot;, null, 0, -1, TermAsRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+
+<span class="fc" id="L773">		initEClass(basicRuleEClass, BasicRule.class, &quot;BasicRule&quot;, IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L775">		initEClass(ruleEClass, Rule.class, &quot;Rule&quot;, IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L777">		initEClass(chooseRuleEClass, ChooseRule.class, &quot;ChooseRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L778">		initEReference(getChooseRule_Ifnone(), this.getRule(), null, &quot;ifnone&quot;, null, 0, 1, ChooseRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L779">		initEReference(getChooseRule_DoRule(), this.getRule(), null, &quot;doRule&quot;, null, 1, 1, ChooseRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L780">		initEReference(getChooseRule_Guard(), theBasictermsPackage.getTerm(), null, &quot;guard&quot;, null, 1, 1, ChooseRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L781">		initEReference(getChooseRule_Variable(), theBasictermsPackage.getVariableTerm(), null, &quot;variable&quot;, null, 1, -1, ChooseRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+<span class="fc" id="L782">		initEAttribute(getChooseRule_Ranges(), theBasictermsPackage.getTermDT(), &quot;ranges&quot;, null, 1, -1, ChooseRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+
+<span class="fc" id="L784">		initEClass(macroCallRuleEClass, MacroCallRule.class, &quot;MacroCallRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L785">		initEReference(getMacroCallRule_CalledMacro(), this.getMacroDeclaration(), null, &quot;calledMacro&quot;, null, 1, 1, MacroCallRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L786">		initEAttribute(getMacroCallRule_Parameters(), theBasictermsPackage.getTermDT(), &quot;parameters&quot;, null, 0, -1, MacroCallRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+
+<span class="fc" id="L788">		initEClass(blockRuleEClass, BlockRule.class, &quot;BlockRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L789">		initEAttribute(getBlockRule_Rules(), this.getRuleDT(), &quot;rules&quot;, null, 2, -1, BlockRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+
+<span class="fc" id="L791">		initEClass(conditionalRuleEClass, ConditionalRule.class, &quot;ConditionalRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L792">		initEReference(getConditionalRule_Guard(), theBasictermsPackage.getTerm(), null, &quot;guard&quot;, null, 1, 1, ConditionalRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L793">		initEReference(getConditionalRule_ElseRule(), this.getRule(), null, &quot;elseRule&quot;, null, 0, 1, ConditionalRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L794">		initEReference(getConditionalRule_ThenRule(), this.getRule(), null, &quot;thenRule&quot;, null, 1, 1, ConditionalRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+
+<span class="fc" id="L796">		initEClass(forallRuleEClass, ForallRule.class, &quot;ForallRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L797">		initEReference(getForallRule_Variable(), theBasictermsPackage.getVariableTerm(), null, &quot;variable&quot;, null, 1, -1, ForallRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+<span class="fc" id="L798">		initEReference(getForallRule_Guard(), theBasictermsPackage.getTerm(), null, &quot;guard&quot;, null, 1, 1, ForallRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L799">		initEReference(getForallRule_DoRule(), this.getRule(), null, &quot;doRule&quot;, null, 1, 1, ForallRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L800">		initEAttribute(getForallRule_Ranges(), theBasictermsPackage.getTermDT(), &quot;ranges&quot;, null, 1, -1, ForallRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+
+<span class="fc" id="L802">		initEClass(letRuleEClass, LetRule.class, &quot;LetRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L803">		initEReference(getLetRule_InRule(), this.getRule(), null, &quot;inRule&quot;, null, 1, 1, LetRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L804">		initEReference(getLetRule_InitExpression(), theBasictermsPackage.getTerm(), null, &quot;initExpression&quot;, null, 1, -1, LetRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+<span class="fc" id="L805">		initEReference(getLetRule_Variable(), theBasictermsPackage.getVariableTerm(), null, &quot;variable&quot;, null, 1, -1, LetRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+
+<span class="fc" id="L807">		initEClass(extendRuleEClass, ExtendRule.class, &quot;ExtendRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L808">		initEReference(getExtendRule_ExtendedDomain(), theDomainsPackage.getDomain(), null, &quot;extendedDomain&quot;, null, 1, 1, ExtendRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L809">		initEReference(getExtendRule_BoundVar(), theBasictermsPackage.getVariableTerm(), null, &quot;boundVar&quot;, null, 1, -1, ExtendRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L810">		initEReference(getExtendRule_DoRule(), this.getRule(), null, &quot;doRule&quot;, null, 1, 1, ExtendRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+
+<span class="fc" id="L812">		initEClass(updateRuleEClass, UpdateRule.class, &quot;UpdateRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L813">		initEReference(getUpdateRule_UpdatingTerm(), theBasictermsPackage.getTerm(), null, &quot;updatingTerm&quot;, null, 1, 1, UpdateRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L814">		initEReference(getUpdateRule_Location(), theBasictermsPackage.getTerm(), null, &quot;location&quot;, null, 0, 1, UpdateRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+
+<span class="fc" id="L816">		initEClass(skipRuleEClass, SkipRule.class, &quot;SkipRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L818">		initEClass(macroDeclarationEClass, MacroDeclaration.class, &quot;MacroDeclaration&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+		// Initialize data types
+<span class="fc" id="L821">		initEDataType(ruleDTEDataType, Rule.class, &quot;RuleDT&quot;, IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);</span>
+
+		// Create resource
+<span class="fc" id="L824">		createResource(eNS_URI);</span>
+<span class="fc" id="L825">	}</span>
+
+} //BasictransitionrulesPackageImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

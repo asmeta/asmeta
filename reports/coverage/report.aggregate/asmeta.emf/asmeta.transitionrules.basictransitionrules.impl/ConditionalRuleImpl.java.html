@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ConditionalRuleImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.basictransitionrules.impl</a> &gt; <span class="el_source">ConditionalRuleImpl.java</span></div><h1>ConditionalRuleImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.basictransitionrules.impl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Conditional Rule&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.ConditionalRuleImpl#getGuard &lt;em&gt;Guard&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.ConditionalRuleImpl#getElseRule &lt;em&gt;Else Rule&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.ConditionalRuleImpl#getThenRule &lt;em&gt;Then Rule&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class ConditionalRuleImpl extends BasicRuleImpl implements ConditionalRule {
+	/**
+	 * The cached value of the '{@link #getGuard() &lt;em&gt;Guard&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getGuard()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term guard;
+
+	/**
+	 * The cached value of the '{@link #getElseRule() &lt;em&gt;Else Rule&lt;/em&gt;}' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getElseRule()
+	 * @generated
+	 * @ordered
+	 */
+	protected Rule elseRule;
+
+	/**
+	 * The cached value of the '{@link #getThenRule() &lt;em&gt;Then Rule&lt;/em&gt;}' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getThenRule()
+	 * @generated
+	 * @ordered
+	 */
+	protected Rule thenRule;
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected ConditionalRuleImpl() {
+<span class="fc" id="L73">		super();</span>
+<span class="fc" id="L74">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L83">		return BasictransitionrulesPackage.Literals.CONDITIONAL_RULE;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getGuard() {
+<span class="pc bpc" id="L93" title="2 of 4 branches missed.">		if (guard != null &amp;&amp; guard.eIsProxy()) {</span>
+<span class="nc" id="L94">			InternalEObject oldGuard = (InternalEObject)guard;</span>
+<span class="nc" id="L95">			guard = (Term)eResolveProxy(oldGuard);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">			if (guard != oldGuard) {</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L98">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BasictransitionrulesPackage.CONDITIONAL_RULE__GUARD, oldGuard, guard));</span>
+			}
+		}
+<span class="fc" id="L101">		return guard;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Term basicGetGuard() {
+<span class="nc" id="L110">		return guard;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setGuard(Term newGuard) {
+<span class="fc" id="L120">		Term oldGuard = guard;</span>
+<span class="fc" id="L121">		guard = newGuard;</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L123">			eNotify(new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.CONDITIONAL_RULE__GUARD, oldGuard, guard));</span>
+<span class="fc" id="L124">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Rule getElseRule() {
+<span class="fc" id="L133">		return elseRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetElseRule(Rule newElseRule, NotificationChain msgs) {
+<span class="fc" id="L142">		Rule oldElseRule = elseRule;</span>
+<span class="fc" id="L143">		elseRule = newElseRule;</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L145">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.CONDITIONAL_RULE__ELSE_RULE, oldElseRule, newElseRule);</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L148">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setElseRule(Rule newElseRule) {
+<span class="fc bfc" id="L158" title="All 2 branches covered.">		if (newElseRule != elseRule) {</span>
+<span class="fc" id="L159">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">			if (elseRule != null)</span>
+<span class="nc" id="L161">				msgs = ((InternalEObject)elseRule).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BasictransitionrulesPackage.CONDITIONAL_RULE__ELSE_RULE, null, msgs);</span>
+<span class="pc bpc" id="L162" title="1 of 2 branches missed.">			if (newElseRule != null)</span>
+<span class="fc" id="L163">				msgs = ((InternalEObject)newElseRule).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BasictransitionrulesPackage.CONDITIONAL_RULE__ELSE_RULE, null, msgs);</span>
+<span class="fc" id="L164">			msgs = basicSetElseRule(newElseRule, msgs);</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L166">		}</span>
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L168">			eNotify(new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.CONDITIONAL_RULE__ELSE_RULE, newElseRule, newElseRule));</span>
+<span class="fc" id="L169">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Rule getThenRule() {
+<span class="fc" id="L178">		return thenRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetThenRule(Rule newThenRule, NotificationChain msgs) {
+<span class="fc" id="L187">		Rule oldThenRule = thenRule;</span>
+<span class="fc" id="L188">		thenRule = newThenRule;</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L190">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.CONDITIONAL_RULE__THEN_RULE, oldThenRule, newThenRule);</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L193">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setThenRule(Rule newThenRule) {
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">		if (newThenRule != thenRule) {</span>
+<span class="fc" id="L204">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L205" title="1 of 2 branches missed.">			if (thenRule != null)</span>
+<span class="nc" id="L206">				msgs = ((InternalEObject)thenRule).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BasictransitionrulesPackage.CONDITIONAL_RULE__THEN_RULE, null, msgs);</span>
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">			if (newThenRule != null)</span>
+<span class="fc" id="L208">				msgs = ((InternalEObject)newThenRule).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BasictransitionrulesPackage.CONDITIONAL_RULE__THEN_RULE, null, msgs);</span>
+<span class="fc" id="L209">			msgs = basicSetThenRule(newThenRule, msgs);</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L211">		}</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L213">			eNotify(new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.CONDITIONAL_RULE__THEN_RULE, newThenRule, newThenRule));</span>
+<span class="fc" id="L214">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="pc bpc" id="L223" title="1 of 3 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__ELSE_RULE:
+<span class="fc" id="L225">				return basicSetElseRule(null, msgs);</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__THEN_RULE:
+<span class="fc" id="L227">				return basicSetThenRule(null, msgs);</span>
+		}
+<span class="nc" id="L229">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L239" title="All 4 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__GUARD:
+<span class="nc bnc" id="L241" title="All 2 branches missed.">				if (resolve) return getGuard();</span>
+<span class="nc" id="L242">				return basicGetGuard();</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__ELSE_RULE:
+<span class="nc" id="L244">				return getElseRule();</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__THEN_RULE:
+<span class="nc" id="L246">				return getThenRule();</span>
+		}
+<span class="nc" id="L248">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L258" title="All 4 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__GUARD:
+<span class="nc" id="L260">				setGuard((Term)newValue);</span>
+<span class="nc" id="L261">				return;</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__ELSE_RULE:
+<span class="nc" id="L263">				setElseRule((Rule)newValue);</span>
+<span class="nc" id="L264">				return;</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__THEN_RULE:
+<span class="nc" id="L266">				setThenRule((Rule)newValue);</span>
+<span class="nc" id="L267">				return;</span>
+		}
+<span class="nc" id="L269">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L270">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L279" title="All 4 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__GUARD:
+<span class="nc" id="L281">				setGuard((Term)null);</span>
+<span class="nc" id="L282">				return;</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__ELSE_RULE:
+<span class="nc" id="L284">				setElseRule((Rule)null);</span>
+<span class="nc" id="L285">				return;</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__THEN_RULE:
+<span class="nc" id="L287">				setThenRule((Rule)null);</span>
+<span class="nc" id="L288">				return;</span>
+		}
+<span class="nc" id="L290">		super.eUnset(featureID);</span>
+<span class="nc" id="L291">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L300" title="All 4 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__GUARD:
+<span class="nc bnc" id="L302" title="All 2 branches missed.">				return guard != null;</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__ELSE_RULE:
+<span class="nc bnc" id="L304" title="All 2 branches missed.">				return elseRule != null;</span>
+			case BasictransitionrulesPackage.CONDITIONAL_RULE__THEN_RULE:
+<span class="nc bnc" id="L306" title="All 2 branches missed.">				return thenRule != null;</span>
+		}
+<span class="nc" id="L308">		return super.eIsSet(featureID);</span>
+	}
+
+} //ConditionalRuleImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

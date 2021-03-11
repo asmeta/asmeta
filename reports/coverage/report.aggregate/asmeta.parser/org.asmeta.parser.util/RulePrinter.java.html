@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>RulePrinter.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.parser</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.parser.util</a> &gt; <span class="el_source">RulePrinter.java</span></div><h1>RulePrinter.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2005, 2006 ASMETA group (http://asmeta.sourceforge.net)
+ * License Information: http://asmeta.sourceforge.net/licensing/
+ * 
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License version 2 as
+ *   published by the Free Software Foundation.
+ * 
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ * 
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
+ *   USA
+ * 
+ *   http://www.gnu.org/licenses/gpl.txt
+ * 
+ *   
+ *******************************************************************************/
+
+/*
+ * RulePrinter.java
+ *
+ * Created on 27 giugno 2006, 18.04
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package org.asmeta.parser.util;
+
+import java.util.Iterator;
+
+import org.asmeta.parser.Defs;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.transitionrules.basictransitionrules.BlockRule;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.SkipRule;
+import asmeta.transitionrules.basictransitionrules.TermAsRule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
+import asmeta.transitionrules.turbotransitionrules.SeqRule;
+import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
+import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
+
+/**
+ * A rule printer.
+ * 
+ */
+public class RulePrinter extends AsmetaTermPrinter {
+        	
+	/** 
+	 * Creates a rule printer.
+	 * 
+	 * @param showAsmName if true show the fully qualified name
+	 */
+	public RulePrinter(boolean showAsmName){
+<span class="nc" id="L70">		super(showAsmName);		</span>
+<span class="nc" id="L71">	}</span>
+	
+    /**
+     * Converts a rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+    public String visit(Rule rule) {
+<span class="nc" id="L80">        return visit((Object) rule);</span>
+    }
+
+    /**
+     * Converts a skip rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+    public String visit(SkipRule skipRule) {
+<span class="nc" id="L90">        return &quot;skip&quot;;</span>
+    }
+    
+    /**
+     * Converts an update rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+    public String visit(UpdateRule updateRule) {
+        Term leftHandSide;
+<span class="nc" id="L101">        leftHandSide = updateRule.getLocation();</span>
+<span class="nc" id="L102">        return visit(leftHandSide) + &quot;:=&quot; + visit(updateRule.getUpdatingTerm());</span>
+    }
+    
+    /**
+     * Converts a block rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+    public String visit(BlockRule blockRule) {
+<span class="nc" id="L112">        StringBuilder s = new StringBuilder();</span>
+<span class="nc" id="L113">        s.append(&quot;par &quot;);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        for (Rule rule : blockRule.getRules()) {</span>
+<span class="nc" id="L115">            s.append(visit(rule) + &quot; &quot;);</span>
+<span class="nc" id="L116">        }</span>
+<span class="nc" id="L117">        s.append(&quot;endpar&quot;);</span>
+<span class="nc" id="L118">        return s.toString();</span>
+    }
+    
+    /**
+     * Converts a sequence rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+    public String visit(SeqRule seqRule) {
+<span class="nc" id="L128">        StringBuilder s = new StringBuilder();</span>
+<span class="nc" id="L129">        s.append(&quot;seq &quot;);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        for (Rule rule : seqRule.getRules()) {</span>
+<span class="nc" id="L131">            s.append(visit(rule) + &quot; &quot;);</span>
+<span class="nc" id="L132">        }</span>
+<span class="nc" id="L133">        s.append(&quot;endseq&quot;);</span>
+<span class="nc" id="L134">        return s.toString();</span>
+    }
+    
+    /**
+     * Converts a term as rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+    public String visit(TermAsRule term) {
+<span class="nc" id="L144">    	return visit(term.getTerm()) + visit(term.getParameters(), &quot;[&quot;, &quot;]&quot;);</span>
+    }
+    
+    /**
+     * Converts a conditional rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+    public String visit(ConditionalRule condRule) {
+<span class="nc" id="L154">        String guard = visit(condRule.getGuard());</span>
+<span class="nc" id="L155">        String thenRule = visit(condRule.getThenRule());</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        String elseRule = (condRule.getElseRule() != null) ? (&quot; else &quot; + visit(condRule.getElseRule())) : &quot;&quot;;</span>
+<span class="nc" id="L157">        return &quot;if &quot; + guard + &quot; then &quot; + thenRule + elseRule + &quot; endif&quot;;</span>
+    }
+    
+    /**
+     * Converts a case rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+	public String visit(CaseRule caseRule) {
+<span class="nc" id="L167">		StringBuilder s = new StringBuilder();</span>
+<span class="nc" id="L168">		s.append(&quot;switch &quot; + visit(caseRule.getTerm()));</span>
+<span class="nc" id="L169">		Iterator&lt;Rule&gt; branchIt = caseRule.getCaseBranches().iterator();</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">		for (Term comp : caseRule.getCaseTerm()) {</span>
+<span class="nc" id="L171">			Rule branch = branchIt.next();</span>
+<span class="nc" id="L172">			s.append(&quot; case &quot; + visit(comp) + &quot;:&quot; + visit(branch));</span>
+<span class="nc" id="L173">		}</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">		if (caseRule.getOtherwiseBranch() != null) {</span>
+<span class="nc" id="L175">			s.append(&quot; otherwise &quot; + visit(caseRule.getOtherwiseBranch()));</span>
+		}
+<span class="nc" id="L177">		s.append(&quot; endswitch&quot;);</span>
+<span class="nc" id="L178">		return s.toString();</span>
+	}
+	
+    /**
+     * Converts an extend rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+	public String visit(ExtendRule extendRule) {
+<span class="nc" id="L188">		return &quot;extend &quot; + extendRule.getExtendedDomain().getName() +</span>
+<span class="nc" id="L189">			visit(extendRule.getBoundVar(), &quot; with &quot;, &quot; do &quot;) + </span>
+<span class="nc" id="L190">			visit(extendRule.getDoRule());</span>
+	}
+    
+    /**
+     * Converts a let rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+    public String visit(LetRule letRule) {
+<span class="nc" id="L200">        StringBuilder s = new StringBuilder();</span>
+<span class="nc" id="L201">        s.append(&quot;let(&quot;);</span>
+<span class="nc" id="L202">        Iterator&lt;?&gt;/*&lt;VariableTerm&gt;*/ variableIterator = letRule.getVariable().iterator();</span>
+<span class="nc" id="L203">        Iterator&lt;?&gt;/*&lt;Term&gt;*/ termIterator = letRule.getInitExpression().iterator();</span>
+<span class="nc" id="L204">        String variable = ((VariableTerm) variableIterator.next()).getName();</span>
+<span class="nc" id="L205">        String term = visit(((Term) termIterator.next()));</span>
+<span class="nc" id="L206">        s.append(variable + &quot;=&quot; + term);</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">        while (variableIterator.hasNext()) {</span>
+<span class="nc" id="L208">            variable = ((VariableTerm) variableIterator.next()).getName();</span>
+<span class="nc" id="L209">            term = visit(((Term) termIterator.next()));</span>
+<span class="nc" id="L210">            s.append(&quot;,&quot; + variable + &quot;=&quot; + term);</span>
+        }
+<span class="nc" id="L212">        s.append(&quot;)in &quot;);</span>
+<span class="nc" id="L213">        String rule = visit(letRule.getInRule());</span>
+<span class="nc" id="L214">        s.append(rule);</span>
+<span class="nc" id="L215">        s.append(&quot; endlet&quot;);</span>
+<span class="nc" id="L216">        return s.toString();</span>
+    }
+    
+    /**
+     * Converts a forall rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+    public String visit(ForallRule forRule) {
+<span class="nc" id="L226">        StringBuilder s = new StringBuilder();</span>
+<span class="nc" id="L227">        s.append(&quot;forall &quot;);</span>
+<span class="nc" id="L228">        Iterator&lt;?&gt;/*&lt;VariableTerm&gt;*/ variableIterator = forRule.getVariable().iterator();</span>
+<span class="nc" id="L229">        Iterator&lt;?&gt;/*&lt;Term&gt;*/ domaTermsiteartor = forRule.getRanges().iterator();</span>
+<span class="nc" id="L230">        VariableTerm variableTerm = (VariableTerm) variableIterator.next();</span>
+<span class="nc" id="L231">        String variable = variableTerm.getName();</span>
+<span class="nc" id="L232">        String term = visit(((Term) domaTermsiteartor.next()));</span>
+<span class="nc" id="L233">        s.append(variable + &quot; in &quot; + term);</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        while (variableIterator.hasNext()) {</span>
+<span class="nc" id="L235">            variableTerm = (VariableTerm) variableIterator.next();</span>
+<span class="nc" id="L236">            variable = variableTerm.getName();</span>
+<span class="nc" id="L237">            term = visit(((Term) domaTermsiteartor.next()));</span>
+<span class="nc" id="L238">            s.append(&quot;,&quot; + variable + &quot; in &quot; + term);</span>
+        }
+<span class="nc bnc" id="L240" title="All 2 branches missed.">        s.append(&quot; with &quot; + ((forRule.getGuard() != null) ? visit(forRule.getGuard()) : &quot;true&quot;));</span>
+<span class="nc" id="L241">        s.append(&quot; do &quot; + visit(forRule.getDoRule()));</span>
+<span class="nc" id="L242">        return s.toString();</span>
+    }
+    
+    /**
+     * Converts a choose rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+    public String visit(ChooseRule chooseRule) {
+<span class="nc" id="L252">        StringBuilder s = new StringBuilder();</span>
+<span class="nc" id="L253">        s.append(&quot;choose &quot;);</span>
+<span class="nc" id="L254">        Iterator&lt;?&gt;/*&lt;VariableTerm&gt;*/ variableIterator = chooseRule.getVariable().iterator();</span>
+<span class="nc" id="L255">        Iterator&lt;?&gt;/*&lt;Term&gt;*/ domaTermsiteartor = chooseRule.getRanges().iterator();</span>
+<span class="nc" id="L256">        VariableTerm variableTerm = (VariableTerm) variableIterator.next();</span>
+<span class="nc" id="L257">        String variable = variableTerm.getName();</span>
+<span class="nc" id="L258">        String term = visit(((Term) domaTermsiteartor.next()));</span>
+<span class="nc" id="L259">        s.append(variable + &quot; in &quot; + term);</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">        while (variableIterator.hasNext()) {</span>
+<span class="nc" id="L261">            variableTerm = (VariableTerm) variableIterator.next();</span>
+<span class="nc" id="L262">            variable = variableTerm.getName();</span>
+<span class="nc" id="L263">            term = visit(((Term) domaTermsiteartor.next()));</span>
+<span class="nc" id="L264">            s.append(&quot;,&quot; + variable + &quot; in &quot; + term);</span>
+        }
+<span class="nc" id="L266">        s.append(&quot; with &quot; + visit(chooseRule.getGuard()));</span>
+<span class="nc" id="L267">        s.append(&quot; do &quot; + visit(chooseRule.getDoRule()));</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        if (chooseRule.getIfnone() != null) {</span>
+<span class="nc" id="L269">            s.append(&quot; ifnone &quot; + visit(chooseRule.getIfnone()));</span>
+        }
+<span class="nc" id="L271">        return s.toString();</span>
+    }
+    
+    /**
+     * Converts a macro call rule into string.
+     * 
+     * @param rule a rule
+     * @return a string
+     */
+    public String visit(MacroCallRule macro) {
+<span class="nc bnc" id="L281" title="All 2 branches missed.">    	return (showAsmName ? (Defs.getAsmName(macro.getCalledMacro())  + &quot;::&quot;) : &quot;&quot;) </span>
+<span class="nc" id="L282">    	+ macro.getCalledMacro().getName() + visit(macro.getParameters(), &quot;[&quot;, &quot;]&quot;);</span>
+    }
+    
+    public String visit(TurboCallRule turbo) {
+<span class="nc bnc" id="L286" title="All 2 branches missed.">    	return (showAsmName ? (Defs.getAsmName(turbo.getCalledRule())  + &quot;::&quot;) : &quot;&quot;) </span>
+<span class="nc" id="L287">    	+ turbo.getCalledRule().getName() + visit(turbo.getParameters(), &quot;(&quot;, &quot;)&quot;);</span>
+    }
+    
+    public String visit(TurboReturnRule retRule) {
+<span class="nc" id="L291">    	return visit(retRule.getLocation()) + &quot;&lt;-&quot; + visit(retRule.getUpdateRule());</span>
+    }
+
+    public String visit(IterativeWhileRule itWhileRule) {
+<span class="nc" id="L295">    	return &quot;while &quot; + visit(itWhileRule.getGuard()) + &quot; do &quot; + visit(itWhileRule.getRule());</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

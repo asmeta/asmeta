@@ -73,7 +73,7 @@ coverage:
   image: haynes/jacoco2cobertura:1.0.3
   script:
     # convert report from jacoco to cobertura
-    - 'python /opt/cover2cover.py reports/coverage/jacoco/jacoco.xml > reports/coverage/cobertura.xml'
+    - 'python /opt/cover2cover.py reports/coverage/report.aggregate/jacoco.xml > reports/coverage/cobertura.xml'
     # read the <source></source> tag and prepend the path to every filename attribute
     - 'python /opt/source2filename.py reports/coverage/cobertura.xml'
   needs: ["test-jdk8"]
@@ -83,5 +83,5 @@ coverage:
     reports: # Upload the info for the job report artifact (artifact:reports:cobertura)
       cobertura: reports/coverage/cobertura.xml
     paths: # Upload the file as a generic job artifact
-      - reports/coverage/jacoco/jacoco.xml
+      - reports/coverage/report.aggregate/jacoco.xml
     

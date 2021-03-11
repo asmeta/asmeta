@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>RuleVisitor.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator</a> &gt; <span class="el_source">RuleVisitor.java</span></div><h1>RuleVisitor.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2009 .
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *      - initial API and implementation
+ ******************************************************************************/
+package org.asmeta.simulator;
+
+import org.asmeta.parser.util.ReflectiveVisitor;
+
+import asmeta.transitionrules.basictransitionrules.BlockRule;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.SkipRule;
+import asmeta.transitionrules.basictransitionrules.TermAsRule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import asmeta.transitionrules.turbotransitionrules.SeqRule;
+
+/**
+ * abstract visitor of the rules.
+ * 
+ * @author garganti
+ * 
+ * @param &lt;T&gt;
+ */
+<span class="nc" id="L36">public abstract class RuleVisitor&lt;T&gt; extends ReflectiveVisitor&lt;T&gt; implements IRuleVisitor&lt;T&gt;{</span>
+
+	/**
+	 * call the reflective visitor
+	 * 
+	 * @param rule
+	 * @return
+	 */
+	@Override
+	public final T visit(Rule rule) {
+<span class="nc" id="L46">		return visit((Object) rule);</span>
+	}
+
+	@Override
+	public abstract T visit(SkipRule rule);
+
+	@Override
+	public abstract T visit(UpdateRule rule);
+
+	@Override
+	public abstract T visit(TermAsRule rule);
+
+	@Override
+	abstract public T visit(BlockRule block);
+
+	@Override
+	abstract public T visit(SeqRule seq);
+
+	@Override
+	abstract public T visit(ConditionalRule rule);
+
+	@Override
+	abstract public T visit(ExtendRule rule);
+
+	@Override
+	abstract public T visit(LetRule rule);
+
+	@Override
+	abstract public T visit(ChooseRule rule);
+
+	@Override
+	abstract public T visit(ForallRule rule);
+
+	@Override
+	abstract public T visit(MacroCallRule rule) throws Exception;
+
+	@Override
+	abstract public T visit(CaseRule rule);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>EvalUndefInTerm.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.flattener</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.flattener.undef</a> &gt; <span class="el_source">EvalUndefInTerm.java</span></div><h1>EvalUndefInTerm.java</h1><pre class="source lang-java linenums">package org.asmeta.flattener.undef;
+
+import java.util.List;
+import java.util.Map;
+
+import org.asmeta.parser.util.ReflectiveVisitor;
+
+import asmeta.definitions.domains.Domain;
+import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.SetTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.UndefTerm;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.ConditionalTerm;
+import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.FiniteQuantificationTerm;
+import asmeta.terms.furtherterms.ForallTerm;
+import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.LetTerm;
+import asmeta.terms.furtherterms.MapTerm;
+import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.SetCt;
+import asmeta.terms.furtherterms.StringTerm;
+
+public class EvalUndefInTerm extends ReflectiveVisitor&lt;Term&gt; {
+	private Map&lt;Domain, Term&gt; mapDomainsUndefTerm;
+	private Domain domain;
+	private boolean found;
+
+<span class="fc" id="L36">	public EvalUndefInTerm(Map&lt;Domain, Term&gt; mapDomainsUndefTerm, Domain domain) {</span>
+<span class="fc" id="L37">		this.mapDomainsUndefTerm = mapDomainsUndefTerm;</span>
+<span class="fc" id="L38">		this.domain = domain;</span>
+<span class="fc" id="L39">	}</span>
+
+	public Term visit(VariableTerm varTerm) {
+<span class="fc" id="L42">		return varTerm;</span>
+	}
+
+	public Term visit(NaturalTerm natTerm) {
+<span class="nc" id="L46">		return natTerm;</span>
+	}
+
+	public Term visit(BooleanTerm boolTerm) {
+<span class="fc" id="L50">		return boolTerm;</span>
+	}
+
+	public Term visit(EnumTerm enumTerm) {
+<span class="fc" id="L54">		return enumTerm;</span>
+	}
+
+	public Term visit(IntegerTerm intTerm) {
+<span class="fc" id="L58">		return intTerm;</span>
+	}
+
+	public Term visit(UndefTerm undefTerm) {
+<span class="fc" id="L62">		found = true;</span>
+<span class="fc" id="L63">		return mapDomainsUndefTerm.get(domain);</span>
+	}
+
+	public Term visit(LetTerm letTerm) {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">		for (Term t : letTerm.getAssignmentTerm()) {</span>
+<span class="nc" id="L68">			Term res = visit(t);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">			if(found) {</span>
+<span class="nc" id="L70">				return res;</span>
+			}
+<span class="nc" id="L72">		}</span>
+<span class="nc" id="L73">		return letTerm;</span>
+	}
+
+	public Term visit(SetCt setCt) {
+<span class="nc" id="L77">		Term res = visit(visit(setCt.getGuard()));</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">		if(found) {</span>
+<span class="nc" id="L79">			return res;</span>
+		}
+<span class="nc bnc" id="L81" title="All 2 branches missed.">		for (Term t : setCt.getRanges()) {</span>
+<span class="nc" id="L82">			res = visit(t);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">			if(found) {</span>
+<span class="nc" id="L84">				return res;</span>
+			}
+<span class="nc" id="L86">		}</span>
+<span class="nc" id="L87">		res = visit(setCt.getTerm());</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">		if(found) {</span>
+<span class="nc" id="L89">			return res;</span>
+		}
+<span class="nc" id="L91">		return setCt;</span>
+	}
+
+	public Term visit(ConditionalTerm condTerm) {
+<span class="nc" id="L95">		Term res = visit(visit(condTerm.getGuard()));</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">		if(found) {</span>
+<span class="nc" id="L97">			return res;</span>
+		}
+<span class="nc" id="L99">		res = visit(visit(condTerm.getThenTerm()));</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">		if(found) {</span>
+<span class="nc" id="L101">			return res;</span>
+		}
+<span class="nc" id="L103">		Term elseTerm = condTerm.getElseTerm();</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">		if (elseTerm != null) {</span>
+<span class="nc" id="L105">			res = visit(visit(elseTerm));</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">			if(found) {</span>
+<span class="nc" id="L107">				return res;</span>
+			}
+		}
+<span class="nc" id="L110">		return condTerm;</span>
+	}
+
+	public Term visit(CaseTerm caseTerm) {
+<span class="nc" id="L114">		Term res = visit(visit(caseTerm.getComparedTerm()));</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">		if(found) {</span>
+<span class="nc" id="L116">			return res;</span>
+		}
+<span class="nc" id="L118">		List&lt;Term&gt; comparingTerm = caseTerm.getComparingTerm();</span>
+<span class="nc" id="L119">		List&lt;Term&gt; resultTerms = caseTerm.getResultTerms();</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">		for (int i = 0; i &lt; comparingTerm.size(); i++) {</span>
+<span class="nc" id="L121">			res = visit(visit(comparingTerm.get(i)));</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">			if(found) {</span>
+<span class="nc" id="L123">				return res;</span>
+			}
+<span class="nc" id="L125">			res = visit(visit(resultTerms.get(i)));</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">			if(found) {</span>
+<span class="nc" id="L127">				return res;</span>
+			}
+		}
+<span class="nc" id="L130">		Term otherTerm = caseTerm.getOtherwiseTerm();</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">		if (otherTerm != null) {</span>
+<span class="nc" id="L132">			res = visit(visit(otherTerm));</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">			if(found) {</span>
+<span class="nc" id="L134">				return res;</span>
+			}
+		}
+<span class="nc" id="L137">		return caseTerm;</span>
+	}
+
+	public Term visit(FiniteQuantificationTerm fqtTerm) {
+<span class="nc" id="L141">		Term res = visit(visit(fqtTerm.getGuard()));</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">		if(found) {</span>
+<span class="nc" id="L143">			return res;</span>
+		}
+<span class="nc" id="L145">		List&lt;Term&gt; ranges = fqtTerm.getRanges();</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">		for (int i = 0; i &lt; ranges.size(); i++) {</span>
+<span class="nc" id="L147">			res = visit(visit(ranges.get(i)));</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">			if(found) {</span>
+<span class="nc" id="L149">				return res;</span>
+			}
+		}
+<span class="nc" id="L152">		return fqtTerm;</span>
+	}
+
+	public Term visit(ForallTerm forallTerm) {
+<span class="nc" id="L156">		return visit((FiniteQuantificationTerm) forallTerm);</span>
+	}
+
+	public Term visit(ExistTerm existTerm) {
+<span class="nc" id="L160">		return visit((FiniteQuantificationTerm) existTerm);</span>
+	}
+
+	public Term visit(ExistUniqueTerm existUniqueTerm) {
+<span class="nc" id="L164">		return visit((FiniteQuantificationTerm) existUniqueTerm);</span>
+	}
+
+	public Term visit(TupleTerm tupleTerm) throws Exception {
+<span class="nc bnc" id="L168" title="All 2 branches missed.">		for (Term t : tupleTerm.getTerms()) {</span>
+<span class="nc" id="L169">			Term res = visit(visit(t));</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">			if(found) {</span>
+<span class="nc" id="L171">				return res;</span>
+			}
+<span class="nc" id="L173">		}</span>
+<span class="nc" id="L174">		return tupleTerm;</span>
+	}
+
+	public Term visit(LocationTerm locTerm) throws Exception {
+<span class="fc" id="L178">		TupleTerm args = locTerm.getArguments();</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">		if (args != null) {</span>
+<span class="fc bfc" id="L180" title="All 2 branches covered.">			for (Term t : args.getTerms()) {</span>
+<span class="fc" id="L181">				Term res = visit(visit(t));</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">				if(found) {</span>
+<span class="nc" id="L183">					return res;</span>
+				}
+<span class="fc" id="L185">			}</span>
+		}
+<span class="fc" id="L187">		return locTerm;</span>
+	}
+
+	public Term visit(FunctionTerm funcTerm) throws Exception {
+<span class="fc" id="L191">		TupleTerm args = funcTerm.getArguments();</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">		if (args != null) {</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">			for (Term t : args.getTerms()) {</span>
+<span class="fc" id="L194">				Term res = visit(visit(t));</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">				if(found) {</span>
+<span class="nc" id="L196">					return res;</span>
+				}
+<span class="fc" id="L198">			}</span>
+		}
+<span class="fc" id="L200">		return funcTerm;</span>
+	}
+
+	public Term visit(MapTerm mapTerm) {
+<span class="nc" id="L204">		return mapTerm;</span>
+	}
+
+	public Term visit(SetTerm setTerm) {
+<span class="nc" id="L208">		return setTerm;</span>
+	}
+
+	public Term visit(StringTerm strTerm) {
+<span class="nc" id="L212">		return strTerm;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

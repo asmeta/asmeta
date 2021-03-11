@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>RuleEvaluator.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator</a> &gt; <span class="el_source">RuleEvaluator.java</span></div><h1>RuleEvaluator.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2005, 2006 ASMETA group (http://asmeta.sourceforge.net)
+ * License Information: http://asmeta.sourceforge.net/licensing/
+ * 
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License version 2 as
+ *   published by the Free Software Foundation.
+ * 
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ * 
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
+ *   USA
+ * 
+ *   http://www.gnu.org/licenses/gpl.txt
+ * 
+ *   
+ *******************************************************************************/
+
+/*
+ * RuleEvaluator.java
+ *
+ * Created on 22 maggio 2006, 11.39
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package org.asmeta.simulator;
+
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
+
+import org.apache.log4j.Logger;
+import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.simulator.util.RandomIterator;
+import org.asmeta.simulator.value.AgentValue;
+import org.asmeta.simulator.value.BooleanValue;
+import org.asmeta.simulator.value.CollectionValue;
+import org.asmeta.simulator.value.ReserveValue;
+import org.asmeta.simulator.value.RuleValue;
+import org.asmeta.simulator.value.TupleValue;
+import org.asmeta.simulator.value.UndefValue;
+import org.asmeta.simulator.value.Value;
+import org.asmeta.simulator.wrapper.RuleFactory;
+import org.eclipse.emf.common.util.EList;
+
+import asmeta.definitions.Function;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.domains.AnyDomain;
+import asmeta.definitions.domains.BagDomain;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.MapDomain;
+import asmeta.definitions.domains.PowersetDomain;
+import asmeta.definitions.domains.SequenceDomain;
+import asmeta.definitions.domains.TypeDomain;
+import asmeta.definitions.domains.UndefDomain;
+import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.transitionrules.basictransitionrules.BlockRule;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
+import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.SkipRule;
+import asmeta.transitionrules.basictransitionrules.TermAsRule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
+import asmeta.transitionrules.turbotransitionrules.SeqRule;
+import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
+import asmeta.transitionrules.turbotransitionrules.TurboLocalStateRule;
+import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
+
+/**
+ * Provides methods to evaluate rules.
+ * 
+ */
+<span class="nc bnc" id="L99" title="All 2 branches missed.">public class RuleEvaluator extends RuleVisitor&lt;UpdateSet&gt; {</span>
+
+<span class="nc" id="L101">	private static final Random RAND = new Random();</span>
+
+<span class="nc" id="L103">	public static boolean COMPUTE_COVERAGE = false;</span>
+
+<span class="nc" id="L105">	public static Logger logger = Logger.getLogger(RuleEvaluator.class);</span>
+
+	/**
+	 * Shuffles the elements in the choose rule.
+	 * 
+	 */
+<span class="nc" id="L111">	public static boolean isShuffled = false;</span>
+
+	/**
+	 * Returns a string representation of a term.
+	 * 
+	 */
+<span class="nc" id="L117">	private static AsmetaTermPrinter printer = new AsmetaTermPrinter(true);</span>
+
+	/**
+	 * Caches the macro substitutions.
+	 * 
+	 */
+<span class="nc" id="L123">	static HashMap&lt;String, Rule&gt; macros = new HashMap&lt;String, Rule&gt;();</span>
+
+	// covered macros
+	// FIXME: l'uso di static is due to the fact that several RuleEvaluator
+	// are created for the same run;
+	private static Collection&lt;MacroDeclaration&gt; coveredMacros;
+
+	public TermEvaluator termEval;
+
+	/**
+	 * Constructs an evaluator: reuses the covered macros
+	 * 
+	 * @param state
+	 *            state
+	 * @param environment
+	 *            environment
+	 * @param assignment
+	 *            assignment
+	 */
+<span class="nc" id="L142">	protected RuleEvaluator(State state, Environment environment, ValueAssignment assignment) {</span>
+<span class="nc" id="L143">		termEval = new TermEvaluator(state, environment, assignment);</span>
+<span class="nc" id="L144">	}</span>
+
+	/**
+	 * Constructs a new fresh evaluator.
+	 * 
+	 * @param state
+	 *            state
+	 * @param environment
+	 *            environment
+	 * @param factory
+	 *            factory
+	 */
+	public RuleEvaluator(State state, Environment environment, RuleFactory factory) {
+<span class="nc" id="L157">		this(state, environment, new ValueAssignment());</span>
+<span class="nc" id="L158">		TermSubstitution.ruleFactory = factory;</span>
+<span class="nc" id="L159">		coveredMacros = new HashSet&lt;MacroDeclaration&gt;();</span>
+<span class="nc" id="L160">	}</span>
+
+	Value visitTerm(Term t) {
+<span class="nc" id="L163">		return termEval.visit(t);</span>
+	}
+
+	/**
+	 * Evaluates a skip rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	@Override
+	public UpdateSet visit(SkipRule rule) {
+<span class="nc" id="L175">		logger.debug(&quot;&lt;SkipRule&gt;&quot;);</span>
+<span class="nc" id="L176">		logger.debug(&quot;&lt;UpdateSet&gt;{}&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L177">		logger.debug(&quot;&lt;/SkipRule&gt;&quot;);</span>
+<span class="nc" id="L178">		return new UpdateSet();</span>
+	}
+
+	/**
+	 * Evaluates an update rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	@Override
+	public UpdateSet visit(UpdateRule rule) {
+<span class="nc" id="L190">		logger.debug(&quot;&lt;UpdateRule&gt;&quot;);</span>
+<span class="nc" id="L191">		UpdateSet updateSet = new UpdateSet();</span>
+<span class="nc" id="L192">		logger.debug(&quot;&lt;UpdatingTerm&gt;&quot;);</span>
+<span class="nc" id="L193">		Term rhsTerm = rule.getUpdatingTerm();</span>
+<span class="nc" id="L194">		Value content = visitTerm(rhsTerm);</span>
+<span class="nc" id="L195">		logger.debug(&quot;&lt;/UpdatingTerm&gt;&quot;);</span>
+<span class="nc" id="L196">		Term lhsTerm = rule.getLocation();</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">		if (lhsTerm instanceof LocationTerm) {</span>
+<span class="nc" id="L198">			logger.debug(&quot;&lt;LocationTerm&gt;&quot;);</span>
+<span class="nc" id="L199">			LocationTerm locationTerm = (LocationTerm) lhsTerm;</span>
+<span class="nc" id="L200">			Function signature = locationTerm.getFunction();</span>
+<span class="nc" id="L201">			logger.debug(&quot;&lt;Name&gt;&quot; + signature.getName() + &quot;&lt;/Name&gt;&quot;);</span>
+<span class="nc" id="L202">			TupleTerm tupleTerm = locationTerm.getArguments();</span>
+<span class="nc" id="L203">			logger.debug(&quot;&lt;Arguments&gt;&quot; + tupleTerm + &quot;&lt;/Arguments&gt;&quot;);</span>
+			List arguments;
+			// if tuple term has no arguments (plain variable), then build an empty value
+			// array
+<span class="nc bnc" id="L207" title="All 2 branches missed.">			if (tupleTerm == null) {</span>
+<span class="nc" id="L208">				arguments = Collections.emptyList();</span>
+			} else {
+				//assert tupleTerm.getTerms().size() == tupleTerm.getArity() : &quot;tupleTerm.getTerms().size(): &quot; + tupleTerm.getTerms().size() + &quot;  tupleTerm.getArity(): &quot; + tupleTerm.getArity();
+<span class="nc" id="L211">				arguments = ((TupleValue) visitTerm(tupleTerm)).getValue();</span>
+			}
+<span class="nc" id="L213">			logger.debug(&quot;&lt;/LocationTerm&gt;&quot;);</span>
+<span class="nc" id="L214">			Location location = new Location(signature, (Value[]) arguments.toArray(new Value[arguments.size()]));</span>
+<span class="nc" id="L215">			updateSet.putUpdate(location, content);</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">		} else if (lhsTerm instanceof VariableTerm) {</span>
+			// FIXME experimental!!
+<span class="nc" id="L218">			VariableTerm variable = (VariableTerm) lhsTerm;</span>
+<span class="nc" id="L219">			termEval.assignment.put(variable, content);</span>
+			// throw new UnsupportedOperationException();
+<span class="nc" id="L221">		} else {</span>
+<span class="nc" id="L222">			throw new RuntimeException(&quot;Unknown left-hand-side term &quot; + lhsTerm.getClass());</span>
+		}
+<span class="nc" id="L224">		logger.debug(&quot;&lt;UpdateSet&gt;&quot; + updateSet + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L225">		logger.debug(&quot;&lt;/UpdateRule&gt;&quot;);</span>
+<span class="nc" id="L226">		return updateSet;</span>
+	}
+
+	/**
+	 * Evaluates a conditional rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	@Override
+	public UpdateSet visit(ConditionalRule condRule) {
+<span class="nc" id="L238">		logger.debug(&quot;&lt;ConditionalRule&gt;&quot;);</span>
+		UpdateSet updateSet;
+<span class="nc" id="L240">		logger.debug(&quot;&lt;Guard&gt;&quot;);</span>
+<span class="nc" id="L241">		Value value = visitTerm(condRule.getGuard());</span>
+<span class="nc bnc" id="L242" title="All 4 branches missed.">		assert value instanceof BooleanValue : value + &quot;\n&quot; + new AsmetaTermPrinter(false).visit(condRule.getGuard());</span>
+		// if undef launch an execption
+<span class="nc bnc" id="L244" title="All 2 branches missed.">		if (value instanceof UndefValue) throw new RuntimeException(new AsmetaTermPrinter(false).visit(condRule.getGuard()) + &quot; is undef&quot;);</span>
+<span class="nc" id="L245">		BooleanValue guardValue = (BooleanValue) value;</span>
+<span class="nc" id="L246">		logger.debug(&quot;&lt;/Guard&gt;&quot;);</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">		if (guardValue.getValue()) {</span>
+<span class="nc" id="L248">			logger.debug(&quot;&lt;ThenRule&gt;&quot;);</span>
+<span class="nc" id="L249">			updateSet = visit(condRule.getThenRule());</span>
+<span class="nc" id="L250">			logger.debug(&quot;&lt;/ThenRule&gt;&quot;);</span>
+		} else {
+<span class="nc bnc" id="L252" title="All 2 branches missed.">			if (condRule.getElseRule() != null) {</span>
+				// there is an else clause
+<span class="nc" id="L254">				logger.debug(&quot;&lt;ElseRule&gt;&quot;);</span>
+<span class="nc" id="L255">				updateSet = visit(condRule.getElseRule());</span>
+<span class="nc" id="L256">				logger.debug(&quot;&lt;/ElseRule&gt;&quot;);</span>
+			} else {
+<span class="nc" id="L258">				updateSet = new UpdateSet();</span>
+			}
+		}
+<span class="nc" id="L261">		logger.debug(&quot;&lt;UpdateSet&gt;&quot; + updateSet + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L262">		logger.debug(&quot;&lt;/ConditionalRule&gt;&quot;);</span>
+<span class="nc" id="L263">		return updateSet;</span>
+	}
+
+	/**
+	 * Evaluates a switch rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	@Override
+	public UpdateSet visit(CaseRule caseRule) {
+<span class="nc" id="L275">		logger.debug(&quot;&lt;CaseRule&gt;&quot;);</span>
+<span class="nc" id="L276">		UpdateSet updateset = null;</span>
+<span class="nc" id="L277">		logger.debug(&quot;&lt;ComparedTerm&gt;&quot;);</span>
+<span class="nc" id="L278">		Value comparedValue = visitTerm(caseRule.getTerm());</span>
+<span class="nc" id="L279">		logger.debug(&quot;&lt;/ComparedTerm&gt;&quot;);</span>
+<span class="nc" id="L280">		Iterator&lt;Rule&gt; branchRuleIt = caseRule.getCaseBranches().iterator();</span>
+<span class="nc bnc" id="L281" title="All 2 branches missed.">		for (Term comparingTerm : caseRule.getCaseTerm()) {</span>
+<span class="nc" id="L282">			Rule branchRule = branchRuleIt.next();</span>
+<span class="nc" id="L283">			logger.debug(&quot;&lt;ComparingTerm&gt;&quot;);</span>
+<span class="nc" id="L284">			Value comparingValue = visitTerm(comparingTerm);</span>
+<span class="nc" id="L285">			logger.debug(&quot;&lt;/ComparingTerm&gt;&quot;);</span>
+<span class="nc bnc" id="L286" title="All 2 branches missed.">			if (comparedValue.equals(comparingValue)) {</span>
+<span class="nc" id="L287">				logger.debug(&quot;&lt;BranchRule&gt;&quot;);</span>
+<span class="nc" id="L288">				updateset = visit(branchRule);</span>
+<span class="nc" id="L289">				logger.debug(&quot;&lt;/BranchRule&gt;&quot;);</span>
+<span class="nc" id="L290">				break;</span>
+			}
+<span class="nc" id="L292">		}</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">		if (updateset == null) {</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">			if (caseRule.getOtherwiseBranch() != null) {</span>
+<span class="nc" id="L295">				logger.debug(&quot;&lt;OtherwiseRule&gt;&quot;);</span>
+<span class="nc" id="L296">				updateset = visit(caseRule.getOtherwiseBranch());</span>
+<span class="nc" id="L297">				logger.debug(&quot;&lt;/OtherwiseRule&gt;&quot;);</span>
+			} else {
+<span class="nc" id="L299">				updateset = new UpdateSet();</span>
+			}
+		}
+<span class="nc" id="L302">		logger.debug(&quot;&lt;UpdateSet&gt;&quot; + updateset + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L303">		logger.debug(&quot;&lt;/CaseRule&gt;&quot;);</span>
+<span class="nc" id="L304">		return updateset;</span>
+	}
+
+	/**
+	 * Evaluates a block rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	@Override
+	public UpdateSet visit(BlockRule blockRule) {
+<span class="nc" id="L316">		logger.debug(&quot;&lt;BlockRule&gt;&quot;);</span>
+<span class="nc" id="L317">		UpdateSet updateSet = new UpdateSet();</span>
+<span class="nc" id="L318">		Collection&lt;Rule&gt; ruleCollection = blockRule.getRules();</span>
+<span class="nc bnc" id="L319" title="All 2 branches missed.">		for (Rule nextRule : ruleCollection) {</span>
+<span class="nc" id="L320">			UpdateSet nextUpdateSet = visit(nextRule);</span>
+<span class="nc" id="L321">			updateSet.union(nextUpdateSet);</span>
+<span class="nc" id="L322">		}</span>
+<span class="nc" id="L323">		logger.debug(&quot;&lt;UpdateSet&gt;&quot; + updateSet + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L324">		logger.debug(&quot;&lt;/BlockRule&gt;&quot;);</span>
+<span class="nc" id="L325">		return updateSet;</span>
+	}
+
+	/**
+	 * Evaluates a sequential rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	@Override
+	public UpdateSet visit(SeqRule seqRule) {
+<span class="nc" id="L337">		logger.debug(&quot;&lt;SeqRule&gt;&quot;);</span>
+<span class="nc" id="L338">		Collection&lt;Rule&gt; ruleCollection = seqRule.getRules();</span>
+		// the resulting update set of the seq
+<span class="nc" id="L340">		UpdateSet updateSet = new UpdateSet();</span>
+<span class="nc" id="L341">		UpdateSet nextUpdateSet = null;</span>
+<span class="nc" id="L342">		State nextState = new State(termEval.state);</span>
+<span class="nc bnc" id="L343" title="All 2 branches missed.">		for (Rule nextRule : ruleCollection) {</span>
+			// apply the changes of the last visited rule to get the new state
+<span class="nc bnc" id="L345" title="All 2 branches missed.">			if (nextUpdateSet != null) {</span>
+				// apply all the changes so far
+<span class="nc" id="L347">				nextState.fireUpdates(nextUpdateSet);</span>
+				// all the value changes are committed, clear them
+				// nextUpdateSet.resetValueChanges();
+			}
+<span class="nc" id="L351">			RuleEvaluator newRuleEvaluator = new RuleEvaluator(nextState, termEval.environment, termEval.assignment);</span>
+<span class="nc" id="L352">			nextUpdateSet = newRuleEvaluator.visit(nextRule);</span>
+<span class="nc" id="L353">			updateSet.merge(nextUpdateSet);</span>
+<span class="nc" id="L354">		}</span>
+<span class="nc" id="L355">		logger.debug(&quot;&lt;UpdateSet&gt;&quot; + updateSet + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L356">		logger.debug(&quot;&lt;/SeqRule&gt;&quot;);</span>
+
+<span class="nc" id="L358">		return updateSet;</span>
+	}
+
+	/**
+	 * Evaluates an IterativeWhileRule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	public UpdateSet visit(IterativeWhileRule iterativeWhileRule) {
+<span class="nc" id="L369">		logger.debug(&quot;&lt;IterativeWhileRule&gt;&quot;);</span>
+<span class="nc" id="L370">		Rule rule = iterativeWhileRule.getRule();</span>
+<span class="nc" id="L371">		Term guard = iterativeWhileRule.getGuard();</span>
+<span class="nc" id="L372">		UpdateSet updateSet = new UpdateSet();</span>
+<span class="nc" id="L373">		UpdateSet nextUpdateSet = null;</span>
+<span class="nc" id="L374">		BooleanValue guardValue = (BooleanValue) termEval.visit(guard);</span>
+<span class="nc" id="L375">		State nextState = new State(termEval.state);</span>
+		// TODO controllare che sia corretto
+<span class="nc bnc" id="L377" title="All 2 branches missed.">		while (guardValue.getValue()) {</span>
+<span class="nc" id="L378">			RuleEvaluator newRuleEvaluator = new RuleEvaluator(nextState, termEval.environment, termEval.assignment);</span>
+<span class="nc" id="L379">			nextUpdateSet = newRuleEvaluator.visit(rule);</span>
+<span class="nc" id="L380">			updateSet.merge(nextUpdateSet);</span>
+			// PA 2014/01/16: il seguente if prima era all'inizio del ciclo.
+			// e' stato spostato qui
+<span class="nc bnc" id="L383" title="All 2 branches missed.">			if (nextUpdateSet != null) {</span>
+<span class="nc" id="L384">				nextState.fireUpdates(nextUpdateSet);</span>
+			}
+<span class="nc" id="L386">			guardValue = (BooleanValue) newRuleEvaluator.termEval.visit(guard);</span>
+<span class="nc" id="L387">		}</span>
+<span class="nc" id="L388">		logger.debug(&quot;&lt;UpdateSet&gt;&quot; + updateSet + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L389">		logger.debug(&quot;&lt;/IterativeWhileRule&gt;&quot;);</span>
+<span class="nc" id="L390">		return updateSet;</span>
+	}
+
+	/**
+	 * Evaluates a let rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	@Override
+	public UpdateSet visit(LetRule letRule) {
+<span class="nc" id="L402">		logger.debug(&quot;&lt;LetRule&gt;&quot;);</span>
+<span class="nc" id="L403">		Collection&lt;VariableTerm&gt; varCollection = letRule.getVariable();</span>
+<span class="nc" id="L404">		Iterator&lt;Term&gt; initTermIterator = letRule.getInitExpression().iterator();</span>
+<span class="nc" id="L405">		ValueAssignment newAssignment = new ValueAssignment(termEval.assignment);</span>
+<span class="nc" id="L406">		TermEvaluator newTermEvaluator = new TermEvaluator(termEval.state, termEval.environment, newAssignment);</span>
+<span class="nc" id="L407">		logger.debug(&quot;&lt;InitList&gt;&quot;);</span>
+<span class="nc bnc" id="L408" title="All 2 branches missed.">		for (VariableTerm var : varCollection) {</span>
+<span class="nc" id="L409">			logger.debug(&quot;&lt;VariableTerm name=\&quot;&quot; + var.getName() + &quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L410">			Term initTerm = initTermIterator.next();</span>
+<span class="nc" id="L411">			Value initValue = newTermEvaluator.visit(initTerm);</span>
+<span class="nc" id="L412">			newAssignment.put(var, initValue);</span>
+<span class="nc" id="L413">			logger.debug(&quot;&lt;Value&gt;&quot; + initValue + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L414">			logger.debug(&quot;&lt;/VariableTerm&gt;&quot;);</span>
+<span class="nc" id="L415">		}</span>
+<span class="nc" id="L416">		logger.debug(&quot;&lt;/InitList&gt;&quot;);</span>
+<span class="nc" id="L417">		logger.debug(&quot;&lt;InRule&gt;&quot;);</span>
+<span class="nc" id="L418">		RuleEvaluator newRuleEvaluator = new RuleEvaluator(termEval.state, termEval.environment, newAssignment);</span>
+<span class="nc" id="L419">		UpdateSet updateSet = newRuleEvaluator.visit(letRule.getInRule());</span>
+<span class="nc" id="L420">		logger.debug(&quot;&lt;/InRule&gt;&quot;);</span>
+<span class="nc" id="L421">		logger.debug(&quot;&lt;UpdateSet&gt;&quot; + updateSet + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L422">		logger.debug(&quot;&lt;/LetRule&gt;&quot;);</span>
+<span class="nc" id="L423">		return updateSet;</span>
+	}
+
+	/**
+	 * Evaluates a forall rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	@Override
+	public UpdateSet visit(ForallRule forRule) {
+<span class="nc" id="L435">		logger.debug(&quot;&lt;ForallRule&gt;&quot;);</span>
+<span class="nc" id="L436">		UpdateSet updateSet = new UpdateSet();</span>
+<span class="nc" id="L437">		Value[] boundValues = new Value[forRule.getVariable().size()];</span>
+<span class="nc" id="L438">		CollectionValue[] domains = evaluateRanges(forRule.getRanges());</span>
+<span class="nc" id="L439">		visitForall(0, domains, boundValues, forRule, updateSet);</span>
+<span class="nc" id="L440">		logger.debug(&quot;&lt;UpdateSet&gt;&quot; + updateSet + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L441">		logger.debug(&quot;&lt;/ForallRule&gt;&quot;);</span>
+<span class="nc" id="L442">		return updateSet;</span>
+	}
+
+	/**
+	 * Valuta una &lt;i&gt;ForallRule&lt;/i&gt;.&lt;br&gt;
+	 * L'algoritmo di valutazione e' il seguente:&lt;br&gt;
+	 * per ogni valore v1 appartenente al dominio associato alla variabile 1&lt;br&gt;
+	 * per ogni valore v2 appartenente al dominio associato alla variabile 2&lt;br&gt;
+	 * ...&lt;br&gt;
+	 * per ogni valore vn appartenente al dominio associato alla variabile n&lt;br&gt;
+	 * se (v1...vn) soddisfano la guardia, fai quello che devi fare &lt;br&gt;
+	 * &lt;br&gt;
+	 * Poiche' pero' il numero della variabili non e' noto a priori, uso un
+	 * algoritmo ricorsivo che nasconde un po' l'idea di partenza.
+	 * 
+	 * @param varIndex
+	 *            indice della variabile a cui assegnare un valore appartenente al
+	 *            dominio associato
+	 * @param domains
+	 *            domini su cui variano le variabili logiche della regola
+	 * @param boundValues
+	 *            array che contiene i valori delle variabili gia' fissate
+	 * @param forRule
+	 *            regola da valutare
+	 * @param updateSet
+	 *            update set prodotto dalla valutazione. La costruzione avviene in
+	 *            modo incrementale.
+	 */
+	private void visitForall(int varIndex, CollectionValue&lt;?&gt;[] domains, Value&lt;?&gt;[] boundValues, ForallRule forRule,
+			UpdateSet updateSet) {
+<span class="nc bnc" id="L472" title="All 2 branches missed.">		if (varIndex &lt; domains.length) {</span>
+<span class="nc" id="L473">			CollectionValue&lt;?&gt; currentDomain = domains[varIndex];</span>
+<span class="nc bnc" id="L474" title="All 2 branches missed.">			for (Value&lt;?&gt; elem : currentDomain) {</span>
+<span class="nc" id="L475">				boundValues[varIndex] = elem;</span>
+<span class="nc" id="L476">				visitForall(varIndex + 1, domains, boundValues, forRule, updateSet);</span>
+<span class="nc" id="L477">			}</span>
+<span class="nc" id="L478">		} else {</span>
+<span class="nc" id="L479">			ValueAssignment newAssignment = new ValueAssignment(termEval.assignment);</span>
+<span class="nc" id="L480">			newAssignment.put(forRule.getVariable(), boundValues);</span>
+<span class="nc" id="L481">			RuleEvaluator newEvaluator = new RuleEvaluator(termEval.state, termEval.environment, newAssignment);</span>
+<span class="nc" id="L482">			logger.debug(&quot;&lt;Guard&gt;&quot;);</span>
+<span class="nc" id="L483">			BooleanValue guard = (BooleanValue) newEvaluator.visitTerm(forRule.getGuard());</span>
+<span class="nc" id="L484">			logger.debug(&quot;&lt;/Guard&gt;&quot;);</span>
+<span class="nc bnc" id="L485" title="All 2 branches missed.">			if (guard.getValue()) {</span>
+<span class="nc" id="L486">				logger.debug(&quot;&lt;DoRule&gt;&quot;);</span>
+<span class="nc" id="L487">				UpdateSet newSet = newEvaluator.visit(forRule.getDoRule());</span>
+<span class="nc" id="L488">				updateSet.union(newSet);</span>
+<span class="nc" id="L489">				logger.debug(&quot;&lt;/DoRule&gt;&quot;);</span>
+			}
+		}
+<span class="nc" id="L492">	}</span>
+
+	/**
+	 * Evaluates a choose rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	@Override
+	public UpdateSet visit(ChooseRule chooseRule) {
+<span class="nc" id="L503">		logger.debug(&quot;&lt;ChooseRule&gt;&quot;);</span>
+		// set the initial empty UpdateSet
+<span class="nc" id="L505">		UpdateSet updateSet = new UpdateSet();</span>
+		// the variable content
+<span class="nc" id="L507">		Value[] boundValues = new Value[chooseRule.getVariable().size()];</span>
+<span class="nc" id="L508">		CollectionValue[] domains = evaluateRanges(chooseRule.getRanges());</span>
+<span class="nc bnc" id="L509" title="All 2 branches missed.">		if (!visitChoose(0, domains, boundValues, chooseRule, updateSet)) {</span>
+<span class="nc bnc" id="L510" title="All 2 branches missed.">			if (chooseRule.getIfnone() != null) {</span>
+<span class="nc" id="L511">				logger.debug(&quot;&lt;IfnoneRule&gt;&quot;);</span>
+<span class="nc" id="L512">				updateSet = visit(chooseRule.getIfnone());</span>
+<span class="nc" id="L513">				logger.debug(&quot;&lt;/IfnoneRule&gt;&quot;);</span>
+			}
+		}
+<span class="nc" id="L516">		logger.debug(&quot;&lt;UpdateSet&gt;&quot; + updateSet + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L517">		logger.debug(&quot;&lt;/ChooseRule&gt;&quot;);</span>
+<span class="nc" id="L518">		return updateSet;</span>
+	}
+
+	/**
+	 * Valuta una &lt;i&gt;ChooseRule&lt;/i&gt;.&lt;br&gt;
+	 * NOTA: vedi la documentazione relativa al metodo &lt;i&gt;visit(ForallRule)&lt;/i&gt;.
+	 * 
+	 * @param varIndex
+	 *            indice della variabile a cui assegnare un valore appartenente al
+	 *            dominio associato
+	 * @param domains
+	 *            domini su cui variano le variabili logiche della regola
+	 * @param boundContent
+	 *            array che contiene i valori delle variabili gia' fissate
+	 * @param chooseRule
+	 *            regola da valutare
+	 * @param updateSet
+	 *            update set prodotto dalla valutazione. La costruzione avviene in
+	 *            modo incrementale.
+	 * 
+	 * @return true se e' riuscito a fissare la varIndex variable ad un valore
+	 */
+	private boolean visitChoose(int varIndex, CollectionValue[] domains, Value[] boundContent, ChooseRule chooseRule,
+			UpdateSet updateSet) {
+<span class="nc bnc" id="L542" title="All 2 branches missed.">		if (varIndex &lt; domains.length) {</span>
+<span class="nc" id="L543">			CollectionValue currentDomain = domains[varIndex];</span>
+<span class="nc" id="L544">			Iterator&lt;Value&gt; values = currentDomain.iterator();</span>
+			// shuffle stuff
+<span class="nc" id="L546">			Object o = currentDomain.getValue();</span>
+<span class="nc bnc" id="L547" title="All 2 branches missed.">			if (isShuffled) {</span>
+<span class="nc" id="L548">				logger.debug(&quot;interating randomly&quot;);</span>
+				// TODO da sistemare un po' AG
+<span class="nc bnc" id="L550" title="All 2 branches missed.">				if (o instanceof Collection&lt;?&gt;)</span>
+<span class="nc" id="L551">					values = new RandomIterator&lt;Value&gt;((Collection&lt;Value&gt;) o, RAND);</span>
+				else
+<span class="nc" id="L553">					logger.debug(&quot;interating randomly not possible&quot;);</span>
+			}
+<span class="nc bnc" id="L555" title="All 2 branches missed.">			while (values.hasNext()) {</span>
+<span class="nc" id="L556">				Value elem = values.next();</span>
+				// fix the element with index varIndex and consider the next
+				// variable
+<span class="nc" id="L559">				boundContent[varIndex] = elem;</span>
+<span class="nc" id="L560">				logger.debug(</span>
+<span class="nc" id="L561">						&quot;fixing var &quot; + chooseRule.getVariable().get(varIndex).getName() + &quot; to &quot; + elem.toString());</span>
+
+				// fix the i +1 th variable
+<span class="nc bnc" id="L564" title="All 2 branches missed.">				if (visitChoose(varIndex + 1, domains, boundContent, chooseRule, updateSet)) {</span>
+<span class="nc" id="L565">					return true;</span>
+				}
+				// if false, take the next value for variable
+<span class="nc" id="L568">			}</span>
+			// logger.debug(&quot;no value for var &quot;
+			// + ((VariableTerm) chooseRule.getVariable().get(varIndex))
+			// .getName());
+<span class="nc" id="L572">			return false;</span>
+		} else {
+			// all variables are fixed
+<span class="nc" id="L575">			ValueAssignment newAssignment = new ValueAssignment(termEval.assignment);</span>
+<span class="nc" id="L576">			newAssignment.put(chooseRule.getVariable(), boundContent);</span>
+<span class="nc" id="L577">			RuleEvaluator newEvaluator = new RuleEvaluator(termEval.state, termEval.environment, newAssignment);</span>
+<span class="nc" id="L578">			logger.debug(&quot;&lt;Guard&gt;&quot;);</span>
+<span class="nc" id="L579">			BooleanValue guard = null;</span>
+<span class="nc bnc" id="L580" title="All 2 branches missed.">			if (chooseRule.getGuard() != null)</span>
+<span class="nc" id="L581">				guard = (BooleanValue) newEvaluator.visitTerm(chooseRule.getGuard());</span>
+<span class="nc" id="L582">			logger.debug(&quot;&lt;/Guard&gt;&quot;);</span>
+<span class="nc bnc" id="L583" title="All 4 branches missed.">			if (guard != null &amp;&amp; guard.getValue()) {</span>
+<span class="nc" id="L584">				logger.debug(&quot;&lt;DoRule&gt;&quot;);</span>
+<span class="nc" id="L585">				UpdateSet newSet = newEvaluator.visit(chooseRule.getDoRule());</span>
+<span class="nc" id="L586">				updateSet.union(newSet);</span>
+<span class="nc" id="L587">				logger.debug(&quot;&lt;/DoRule&gt;&quot;);</span>
+			}
+<span class="nc" id="L589">			return guard.getValue();</span>
+		}
+	}
+
+	/**
+	 * Evaluates a macro call rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 * @throws Exception
+	 */
+	@Override
+	public UpdateSet visit(MacroCallRule macroRule) throws NotCompatibleDomainsException {
+<span class="nc" id="L603">		MacroDeclaration dcl = macroRule.getCalledMacro();</span>
+<span class="nc" id="L604">		logger.debug(&quot;&lt;MacroCallRule name=\&quot;&quot; + dcl.getName() + &quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L605">		List&lt;Term&gt; actualParameters = macroRule.getParameters();</span>
+
+		// PA 10/11/2011 - Inizio
+<span class="nc" id="L608">		Rule rule1 = macroRule.getCalledMacro().getRuleBody();</span>
+<span class="nc" id="L609">		Iterator&lt;VariableTerm&gt; formalParameters = macroRule.getCalledMacro().getVariable().iterator();</span>
+<span class="nc bnc" id="L610" title="All 2 branches missed.">		for (Term actualParameter : actualParameters) {</span>
+<span class="nc" id="L611">			Domain actualParameterDomain = actualParameter.getDomain();</span>
+<span class="nc" id="L612">			Domain formalDomain = formalParameters.next().getDomain();</span>
+			// TODO Il lancio dell'eccezione dovrebbe essere ripristinato.
+			// Pero' ora lancia anche l'eccezione quando non dovrebbe.
+			// Vedi la simulazione con roulette.asm.
+			/*
+			 * if(!compatible(actualParameterDomain, formalDomain)) { throw new
+			 * NotCompatibleDomainsException(actualParameterDomain, formalDomain); }
+			 */
+<span class="nc" id="L620">		}</span>
+		// PA 10/11/2011 - Fine
+
+<span class="nc" id="L623">		UpdateSet updates = visit(dcl, actualParameters);</span>
+		// keep track of all the macro evaluated
+<span class="nc bnc" id="L625" title="All 2 branches missed.">		if (COMPUTE_COVERAGE) {</span>
+<span class="nc" id="L626">			coveredMacros.add(macroRule.getCalledMacro());</span>
+		}
+<span class="nc" id="L628">		logger.debug(&quot;&lt;/MacroCallRule&gt;&quot;);</span>
+<span class="nc" id="L629">		return updates;</span>
+	}
+
+	// PA 14/11/2011
+	public static boolean compatible(Domain actual, Domain formal) {
+<span class="nc bnc" id="L634" title="All 8 branches missed.">		if ((actual == formal) || (formal instanceof UndefDomain) || (actual instanceof UndefDomain)</span>
+<span class="nc bnc" id="L635" title="All 4 branches missed.">				|| ((formal instanceof AnyDomain) &amp;&amp; formal.getName().equals(&quot;Any&quot;))</span>
+<span class="nc bnc" id="L636" title="All 2 branches missed.">				|| ((actual instanceof AnyDomain) &amp;&amp; actual.getName().equals(&quot;Any&quot;)))</span>
+<span class="nc" id="L637">			return true;</span>
+<span class="nc bnc" id="L638" title="All 4 branches missed.">		if (actual instanceof ConcreteDomain &amp;&amp; formal instanceof TypeDomain) {</span>
+<span class="nc" id="L639">			return compatible(formal, ((ConcreteDomain) actual).getTypeDomain());</span>
+		}
+<span class="nc bnc" id="L641" title="All 4 branches missed.">		if (actual instanceof PowersetDomain &amp;&amp; formal instanceof PowersetDomain)</span>
+<span class="nc" id="L642">			return compatible(((PowersetDomain) actual).getBaseDomain(), ((PowersetDomain) formal).getBaseDomain());</span>
+<span class="nc bnc" id="L643" title="All 4 branches missed.">		if ((actual instanceof SequenceDomain) &amp;&amp; (formal instanceof SequenceDomain)</span>
+<span class="nc bnc" id="L644" title="All 2 branches missed.">				&amp;&amp; compatible(((SequenceDomain) actual).getDomain(), ((SequenceDomain) formal).getDomain()))</span>
+<span class="nc" id="L645">			return true;</span>
+<span class="nc bnc" id="L646" title="All 4 branches missed.">		if ((actual instanceof BagDomain) &amp;&amp; (formal instanceof BagDomain)</span>
+<span class="nc bnc" id="L647" title="All 2 branches missed.">				&amp;&amp; compatible(((BagDomain) actual).getDomain(), ((BagDomain) formal).getDomain()))</span>
+<span class="nc" id="L648">			return true;</span>
+<span class="nc bnc" id="L649" title="All 4 branches missed.">		if ((actual instanceof MapDomain) &amp;&amp; (formal instanceof MapDomain)</span>
+<span class="nc bnc" id="L650" title="All 2 branches missed.">				&amp;&amp; compatible(((MapDomain) actual).getSourceDomain(), ((MapDomain) formal).getSourceDomain())</span>
+<span class="nc bnc" id="L651" title="All 2 branches missed.">				&amp;&amp; compatible(((MapDomain) actual).getTargetDomain(), ((MapDomain) formal).getTargetDomain()))</span>
+<span class="nc" id="L652">			return true;</span>
+<span class="nc bnc" id="L653" title="All 2 branches missed.">		if (actual.getName().equals(formal.getName()))</span>
+<span class="nc" id="L654">			return true;</span>
+<span class="nc" id="L655">		return false;</span>
+	}
+
+	/**
+	 * Evaluates a turbo call rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	public UpdateSet visit(TurboCallRule turboRule) {
+<span class="nc" id="L666">		RuleDeclaration dcl = turboRule.getCalledRule();</span>
+<span class="nc" id="L667">		logger.debug(&quot;&lt;TurboCallRule name=\&quot;&quot; + dcl.getName() + &quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L668">		List&lt;Term&gt; arguments = turboRule.getParameters();</span>
+<span class="nc" id="L669">		Value[] values = visit(arguments);</span>
+<span class="nc" id="L670">		EList&lt;VariableTerm&gt; vars = dcl.getVariable();</span>
+<span class="nc" id="L671">		ValueAssignment newAssignment = new ValueAssignment();</span>
+<span class="nc" id="L672">		newAssignment.put(vars, values);</span>
+<span class="nc" id="L673">		RuleEvaluator newEval = new RuleEvaluator(termEval.state, termEval.environment, newAssignment);</span>
+<span class="nc" id="L674">		UpdateSet updates = newEval.visit(dcl.getRuleBody());</span>
+<span class="nc" id="L675">		logger.debug(&quot;&lt;/TurboCallRule&gt;&quot;);</span>
+<span class="nc" id="L676">		return updates;</span>
+	}
+
+	public UpdateSet visit(TurboLocalStateRule rule) {
+<span class="nc" id="L680">		System.out.println(rule);</span>
+<span class="nc" id="L681">		return null;</span>
+	}
+
+	Value[] visit(List&lt;Term&gt; terms) {
+<span class="nc" id="L685">		Value[] values = new Value[terms.size()];</span>
+<span class="nc bnc" id="L686" title="All 2 branches missed.">		for (int i = 0; i &lt; values.length; i++) {</span>
+<span class="nc" id="L687">			values[i] = visitTerm(terms.get(i));</span>
+		}
+<span class="nc" id="L689">		return values;</span>
+	}
+
+	Value getResult(UpdateSet updates) {
+<span class="nc bnc" id="L693" title="All 2 branches missed.">		for (Entry&lt;Location, Value&gt; entry : updates) {</span>
+<span class="nc" id="L694">			Location loc = entry.getKey();</span>
+<span class="nc" id="L695">			Function signature = loc.getSignature();</span>
+			// search the 0-ary function result of the Standard Library
+<span class="nc bnc" id="L697" title="All 4 branches missed.">			if (signature.getName().equals(&quot;result&quot;) &amp;&amp; signature.getArity() == 0</span>
+<span class="nc bnc" id="L698" title="All 2 branches missed.">					&amp;&amp; Defs.getAsmName(signature).equals(&quot;StandardLibrary&quot;)) {</span>
+<span class="nc" id="L699">				return entry.getValue();</span>
+			}
+<span class="nc" id="L701">		}</span>
+<span class="nc" id="L702">		return null;</span>
+	}
+
+	public UpdateSet visit(TurboReturnRule retRule) {
+<span class="nc" id="L706">		logger.debug(&quot;&lt;TurboReturnRule&gt;&quot;);</span>
+<span class="nc" id="L707">		logger.debug(&quot;&lt;UpdatingTerm&gt;&quot;);</span>
+<span class="nc" id="L708">		TurboCallRule turboRule = retRule.getUpdateRule();</span>
+<span class="nc" id="L709">		UpdateSet updateSet = visit(turboRule);</span>
+<span class="nc" id="L710">		Value content = getResult(updateSet);</span>
+<span class="nc" id="L711">		logger.debug(&quot;&lt;/UpdatingTerm&gt;&quot;);</span>
+<span class="nc" id="L712">		Term lhsTerm = retRule.getLocation();</span>
+<span class="nc bnc" id="L713" title="All 2 branches missed.">		if (lhsTerm instanceof LocationTerm) {</span>
+<span class="nc" id="L714">			logger.debug(&quot;&lt;LocationTerm&gt;&quot;);</span>
+<span class="nc" id="L715">			LocationTerm locationTerm = (LocationTerm) lhsTerm;</span>
+<span class="nc" id="L716">			Function signature = locationTerm.getFunction();</span>
+<span class="nc" id="L717">			logger.debug(&quot;&lt;Name&gt;&quot; + signature.getName() + &quot;&lt;/Name&gt;&quot;);</span>
+<span class="nc" id="L718">			TupleTerm tupleTerm = locationTerm.getArguments();</span>
+			Value[] arguments;
+<span class="nc bnc" id="L720" title="All 2 branches missed.">			if (tupleTerm != null) {</span>
+				//assert tupleTerm.getTerms().size() == tupleTerm.getArity();
+<span class="nc" id="L722">				arguments = ((TupleValue) visitTerm(tupleTerm)).getValueAsArray();</span>
+			} else {
+<span class="nc" id="L724">				arguments = new Value[0];</span>
+			}
+<span class="nc" id="L726">			logger.debug(&quot;&lt;/LocationTerm&gt;&quot;);</span>
+<span class="nc" id="L727">			Location location = new Location(signature, arguments);</span>
+<span class="nc" id="L728">			updateSet.putUpdate(location, content);</span>
+<span class="nc bnc" id="L729" title="All 2 branches missed.">		} else if (lhsTerm instanceof VariableTerm) {</span>
+			// FIXME experimental!!
+<span class="nc" id="L731">			VariableTerm variable = (VariableTerm) lhsTerm;</span>
+<span class="nc" id="L732">			termEval.assignment.put(variable, content);</span>
+			// throw new UnsupportedOperationException();
+<span class="nc" id="L734">		} else {</span>
+<span class="nc" id="L735">			throw new RuntimeException(&quot;Unknown left-hand-side term &quot; + lhsTerm.getClass());</span>
+		}
+<span class="nc" id="L737">		logger.debug(&quot;&lt;UpdateSet&gt;&quot; + updateSet + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L738">		logger.debug(&quot;&lt;/TurboReturnRule&gt;&quot;);</span>
+<span class="nc" id="L739">		return updateSet;</span>
+	}
+
+	/**
+	 * Evaluates a rule given the declaration and the arguments.
+	 * 
+	 * @param dcl
+	 *            rule's declaration
+	 * @param arguments
+	 *            arguments
+	 * @return the rule's update set
+	 */
+	public UpdateSet visit(RuleDeclaration dcl, List&lt;Term&gt; arguments) {
+<span class="nc" id="L752">		List&lt;VariableTerm&gt; variables = dcl.getVariable();</span>
+<span class="nc" id="L753">		UpdateSet updateSet = null;</span>
+<span class="nc" id="L754">		Rule body = dcl.getRuleBody();</span>
+<span class="nc bnc" id="L755" title="All 2 branches missed.">		if (dcl.getVariable().size() != arguments.size()) {</span>
+<span class="nc" id="L756">			throw new RuntimeException(&quot;The number of arguments of the &quot;</span>
+					+ &quot;term as rule doesn't match the number of arguments of &quot; + &quot;the associated rule as term&quot;);
+		}
+		// FINDBUGS: A value is checked here to see whether it is null, but this
+		// value can't be null because it was previously dereferenced and if it
+		// were null a null pointer exception would have occurred at the earlier
+		// dereference. Essentially, this code and the previous dereference disagree
+		// as to whether this value is allowed to be null. Either the check is
+		// redundant or the previous dereference is erroneous.
+		// if (arguments == null || arguments.size() == 0) {
+<span class="nc bnc" id="L766" title="All 2 branches missed.">		if (arguments.size() == 0) {</span>
+			// macro without parameters: not need to perform substitution
+<span class="nc" id="L768">			updateSet = visit(body);</span>
+		} else {
+<span class="nc" id="L770">			String signature = Defs.getAsmName(dcl) + &quot;::&quot; + dcl.getName() + printer.visit(arguments, &quot;[&quot;, &quot;]&quot;);</span>
+<span class="nc" id="L771">			Rule newRule = macros.get(signature);</span>
+<span class="nc bnc" id="L772" title="All 2 branches missed.">			if (newRule == null) {</span>
+<span class="nc" id="L773">				logger.debug(&quot;&lt;Substitution&gt;&quot;);</span>
+<span class="nc" id="L774">				TermAssignment macroAssignment = new TermAssignment();</span>
+<span class="nc" id="L775">				macroAssignment.put(variables, arguments);</span>
+<span class="nc" id="L776">				RuleSubstitution substitution = new RuleSubstitution(macroAssignment);</span>
+<span class="nc" id="L777">				newRule = substitution.visit(body);</span>
+<span class="nc" id="L778">				logger.debug(&quot;&lt;/Substitution&gt;&quot;);</span>
+<span class="nc" id="L779">				macros.put(signature, newRule);</span>
+			}
+<span class="nc" id="L781">			updateSet = visit(newRule);</span>
+		}
+<span class="nc" id="L783">		logger.debug(&quot;&lt;UpdateSet&gt;&quot; + updateSet + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L784">		return updateSet;</span>
+	}
+
+	/**
+	 * Evaluates an extend rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	@Override
+	public UpdateSet visit(ExtendRule extendRule) {
+<span class="nc" id="L796">		logger.debug(&quot;&lt;ExtendRule&gt;&quot;);</span>
+<span class="nc" id="L797">		UpdateSet updateSet = new UpdateSet();</span>
+<span class="nc" id="L798">		ValueAssignment newAssignment = new ValueAssignment(termEval.assignment);</span>
+<span class="nc" id="L799">		Domain dom = extendRule.getExtendedDomain();</span>
+		// Originally only AbstractDomains could be extended.
+		// Now every domain can be extended
+		// // AbstractTd abstractTd = (AbstractTd) (dom instanceof AbstractTd ? dom
+		// // : ((ConcreteDomain)dom).getTypeDomain());
+		// if (!(dom instanceof AbstractTd)) {
+		// throw new UnsupportedOperationException(
+		// &quot;Only abstract domain are extended - for now&quot;);
+		// }
+		// AbstractTd domain = (AbstractTd) dom;
+<span class="nc" id="L809">		Collection&lt;VariableTerm&gt; varList = extendRule.getBoundVar();</span>
+<span class="nc bnc" id="L810" title="All 2 branches missed.">		for (VariableTerm var : varList) {</span>
+<span class="nc" id="L811">			ReserveValue newValue = ReserveValue.getFromReserve(dom);</span>
+<span class="nc" id="L812">			updateSet.add(dom, newValue);</span>
+<span class="nc" id="L813">			newAssignment.put(var, newValue);</span>
+<span class="nc" id="L814">		}</span>
+<span class="nc" id="L815">		RuleEvaluator newEvaluator = new RuleEvaluator(termEval.state, termEval.environment, newAssignment);</span>
+<span class="nc" id="L816">		UpdateSet doSet = newEvaluator.visit(extendRule.getDoRule());</span>
+<span class="nc" id="L817">		updateSet.union(doSet);</span>
+<span class="nc" id="L818">		logger.debug(&quot;&lt;UpdateSet&gt;&quot; + updateSet + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L819">		logger.debug(&quot;&lt;/ExtendRule&gt;&quot;);</span>
+<span class="nc" id="L820">		return updateSet;</span>
+	}
+
+	/**
+	 * Evaluates a term as a rule.
+	 * 
+	 * @param rule
+	 *            a rule
+	 * @return the rule's update set
+	 */
+	@Override
+	public UpdateSet visit(TermAsRule termAsRule) {
+<span class="nc" id="L832">		logger.debug(&quot;&lt;TermAsRule&gt;&quot;);</span>
+<span class="nc" id="L833">		Term term = termAsRule.getTerm();</span>
+		/*
+		 * if (term instanceof FunctionTerm) { FunctionTerm fun = (FunctionTerm) term;
+		 * if (fun.getFunction().getName().equals(&quot;program&quot;)) { TupleValue tuple =
+		 * visit(fun.getArguments()); AgentValue agent = (AgentValue)
+		 * tuple.getValue()[0]; MacroDeclaration program = ((MacroCallRule)
+		 * agent.getProgram()).getCalledMacro(); List&lt;Term&gt; arguments =
+		 * fun.getArguments().getTerms(); UpdateSet updateSet = visit(program,
+		 * arguments); logger.debug(&quot;&lt;/TermAsRule&gt;&quot;); return updateSet; } }
+		 */
+<span class="nc" id="L843">		RuleValue ruleValue = (RuleValue) visitTerm(term);</span>
+<span class="nc" id="L844">		AgentValue agent = ruleValue.getAgent();</span>
+<span class="nc" id="L845">		RuleDeclaration dcl = ruleValue.getRule();</span>
+<span class="nc" id="L846">		List&lt;Term&gt; arguments = termAsRule.getParameters();</span>
+		// set the self location
+<span class="nc" id="L848">		termEval.state.locationMap.put(TermEvaluator.self, agent);</span>
+<span class="nc" id="L849">		UpdateSet updateSet = visit(dcl, arguments);</span>
+<span class="nc" id="L850">		logger.debug(&quot;&lt;/TermAsRule&gt;&quot;);</span>
+<span class="nc" id="L851">		return updateSet;</span>
+	}
+
+	/**
+	 * Evaluates a list of domain terms.
+	 * 
+	 * @param domains
+	 *            domain terms
+	 * @return an array of CollectionValue
+	 */
+	private CollectionValue[] evaluateRanges(List&lt;Term&gt; domains) {
+<span class="nc" id="L862">		CollectionValue[] values = new CollectionValue[domains.size()];</span>
+<span class="nc" id="L863">		logger.debug(&quot;&lt;Domains total=\&quot;&quot; + domains.size() + &quot;\&quot;&gt;&quot;);</span>
+<span class="nc bnc" id="L864" title="All 2 branches missed.">		for (int i = 0; i &lt; domains.size(); i++) {</span>
+<span class="nc" id="L865">			Term domain = domains.get(i);</span>
+			// VariableTerm var = (VariableTerm) varList.get(i);
+<span class="nc" id="L867">			values[i] = (CollectionValue) visitTerm(domain);</span>
+		}
+<span class="nc" id="L869">		logger.debug(&quot;&lt;/Domains&gt;&quot;);</span>
+<span class="nc" id="L870">		return values;</span>
+	}
+
+	/**
+	 * print the macros that were covered
+	 * 
+	 */
+	public static void printCoveredMacro(PrintStream ps) {
+<span class="nc bnc" id="L878" title="All 2 branches missed.">		for (MacroDeclaration md : coveredMacros) {</span>
+<span class="nc" id="L879">			ps.println(md.getName());</span>
+<span class="nc" id="L880">		}</span>
+<span class="nc" id="L881">	}</span>
+
+	/**
+	 * get the macros that were covered
+	 * 
+	 */
+	public static ArrayList&lt;String&gt; getCoveredMacro() {
+<span class="nc" id="L888">		ArrayList&lt;String&gt; s = new ArrayList&lt;String&gt;();</span>
+<span class="nc bnc" id="L889" title="All 2 branches missed.">		for (MacroDeclaration md : coveredMacros) {</span>
+<span class="nc" id="L890">			s.add(md.getName());</span>
+<span class="nc" id="L891">		}</span>
+<span class="nc" id="L892">		return s;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

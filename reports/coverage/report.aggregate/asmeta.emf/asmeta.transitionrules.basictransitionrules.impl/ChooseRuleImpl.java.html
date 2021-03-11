@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ChooseRuleImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.basictransitionrules.impl</a> &gt; <span class="el_source">ChooseRuleImpl.java</span></div><h1>ChooseRuleImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.basictransitionrules.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Choose Rule&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.ChooseRuleImpl#getIfnone &lt;em&gt;Ifnone&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.ChooseRuleImpl#getDoRule &lt;em&gt;Do Rule&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.ChooseRuleImpl#getGuard &lt;em&gt;Guard&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.ChooseRuleImpl#getVariable &lt;em&gt;Variable&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.basictransitionrules.impl.ChooseRuleImpl#getRanges &lt;em&gt;Ranges&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class ChooseRuleImpl extends BasicRuleImpl implements ChooseRule {
+	/**
+	 * The cached value of the '{@link #getIfnone() &lt;em&gt;Ifnone&lt;/em&gt;}' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getIfnone()
+	 * @generated
+	 * @ordered
+	 */
+	protected Rule ifnone;
+
+	/**
+	 * The cached value of the '{@link #getDoRule() &lt;em&gt;Do Rule&lt;/em&gt;}' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getDoRule()
+	 * @generated
+	 * @ordered
+	 */
+	protected Rule doRule;
+
+	/**
+	 * The cached value of the '{@link #getGuard() &lt;em&gt;Guard&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getGuard()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term guard;
+
+	/**
+	 * The cached value of the '{@link #getVariable() &lt;em&gt;Variable&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getVariable()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;VariableTerm&gt; variable;
+
+	/**
+	 * The cached value of the '{@link #getRanges() &lt;em&gt;Ranges&lt;/em&gt;}' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getRanges()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;Term&gt; ranges;
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected ChooseRuleImpl() {
+<span class="fc" id="L101">		super();</span>
+<span class="fc" id="L102">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L111">		return BasictransitionrulesPackage.Literals.CHOOSE_RULE;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Rule getIfnone() {
+<span class="fc" id="L121">		return ifnone;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetIfnone(Rule newIfnone, NotificationChain msgs) {
+<span class="fc" id="L130">		Rule oldIfnone = ifnone;</span>
+<span class="fc" id="L131">		ifnone = newIfnone;</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L133">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.CHOOSE_RULE__IFNONE, oldIfnone, newIfnone);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L136">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setIfnone(Rule newIfnone) {
+<span class="fc bfc" id="L146" title="All 2 branches covered.">		if (newIfnone != ifnone) {</span>
+<span class="fc" id="L147">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">			if (ifnone != null)</span>
+<span class="nc" id="L149">				msgs = ((InternalEObject)ifnone).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BasictransitionrulesPackage.CHOOSE_RULE__IFNONE, null, msgs);</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">			if (newIfnone != null)</span>
+<span class="fc" id="L151">				msgs = ((InternalEObject)newIfnone).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BasictransitionrulesPackage.CHOOSE_RULE__IFNONE, null, msgs);</span>
+<span class="fc" id="L152">			msgs = basicSetIfnone(newIfnone, msgs);</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L154">		}</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L156">			eNotify(new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.CHOOSE_RULE__IFNONE, newIfnone, newIfnone));</span>
+<span class="fc" id="L157">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Rule getDoRule() {
+<span class="fc" id="L166">		return doRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetDoRule(Rule newDoRule, NotificationChain msgs) {
+<span class="fc" id="L175">		Rule oldDoRule = doRule;</span>
+<span class="fc" id="L176">		doRule = newDoRule;</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L178">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.CHOOSE_RULE__DO_RULE, oldDoRule, newDoRule);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L181">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setDoRule(Rule newDoRule) {
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">		if (newDoRule != doRule) {</span>
+<span class="fc" id="L192">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">			if (doRule != null)</span>
+<span class="nc" id="L194">				msgs = ((InternalEObject)doRule).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BasictransitionrulesPackage.CHOOSE_RULE__DO_RULE, null, msgs);</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">			if (newDoRule != null)</span>
+<span class="fc" id="L196">				msgs = ((InternalEObject)newDoRule).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BasictransitionrulesPackage.CHOOSE_RULE__DO_RULE, null, msgs);</span>
+<span class="fc" id="L197">			msgs = basicSetDoRule(newDoRule, msgs);</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L199">		}</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L201">			eNotify(new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.CHOOSE_RULE__DO_RULE, newDoRule, newDoRule));</span>
+<span class="fc" id="L202">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getGuard() {
+<span class="pc bpc" id="L211" title="2 of 4 branches missed.">		if (guard != null &amp;&amp; guard.eIsProxy()) {</span>
+<span class="nc" id="L212">			InternalEObject oldGuard = (InternalEObject)guard;</span>
+<span class="nc" id="L213">			guard = (Term)eResolveProxy(oldGuard);</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">			if (guard != oldGuard) {</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L216">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BasictransitionrulesPackage.CHOOSE_RULE__GUARD, oldGuard, guard));</span>
+			}
+		}
+<span class="fc" id="L219">		return guard;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Term basicGetGuard() {
+<span class="nc" id="L228">		return guard;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setGuard(Term newGuard) {
+<span class="fc" id="L238">		Term oldGuard = guard;</span>
+<span class="fc" id="L239">		guard = newGuard;</span>
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L241">			eNotify(new ENotificationImpl(this, Notification.SET, BasictransitionrulesPackage.CHOOSE_RULE__GUARD, oldGuard, guard));</span>
+<span class="fc" id="L242">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;VariableTerm&gt; getVariable() {
+<span class="fc bfc" id="L251" title="All 2 branches covered.">		if (variable == null) {</span>
+<span class="fc" id="L252">			variable = new EObjectResolvingEList&lt;VariableTerm&gt;(VariableTerm.class, this, BasictransitionrulesPackage.CHOOSE_RULE__VARIABLE);</span>
+		}
+<span class="fc" id="L254">		return variable;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;Term&gt; getRanges() {
+<span class="fc bfc" id="L264" title="All 2 branches covered.">		if (ranges == null) {</span>
+<span class="fc" id="L265">			ranges = new EDataTypeEList&lt;Term&gt;(Term.class, this, BasictransitionrulesPackage.CHOOSE_RULE__RANGES);</span>
+		}
+<span class="fc" id="L267">		return ranges;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="pc bpc" id="L277" title="1 of 3 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__IFNONE:
+<span class="fc" id="L279">				return basicSetIfnone(null, msgs);</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__DO_RULE:
+<span class="fc" id="L281">				return basicSetDoRule(null, msgs);</span>
+		}
+<span class="nc" id="L283">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L293" title="All 6 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__IFNONE:
+<span class="nc" id="L295">				return getIfnone();</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__DO_RULE:
+<span class="nc" id="L297">				return getDoRule();</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__GUARD:
+<span class="nc bnc" id="L299" title="All 2 branches missed.">				if (resolve) return getGuard();</span>
+<span class="nc" id="L300">				return basicGetGuard();</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__VARIABLE:
+<span class="nc" id="L302">				return getVariable();</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__RANGES:
+<span class="nc" id="L304">				return getRanges();</span>
+		}
+<span class="nc" id="L306">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L317" title="All 6 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__IFNONE:
+<span class="nc" id="L319">				setIfnone((Rule)newValue);</span>
+<span class="nc" id="L320">				return;</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__DO_RULE:
+<span class="nc" id="L322">				setDoRule((Rule)newValue);</span>
+<span class="nc" id="L323">				return;</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__GUARD:
+<span class="nc" id="L325">				setGuard((Term)newValue);</span>
+<span class="nc" id="L326">				return;</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__VARIABLE:
+<span class="nc" id="L328">				getVariable().clear();</span>
+<span class="nc" id="L329">				getVariable().addAll((Collection&lt;? extends VariableTerm&gt;)newValue);</span>
+<span class="nc" id="L330">				return;</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__RANGES:
+<span class="nc" id="L332">				getRanges().clear();</span>
+<span class="nc" id="L333">				getRanges().addAll((Collection&lt;? extends Term&gt;)newValue);</span>
+<span class="nc" id="L334">				return;</span>
+		}
+<span class="nc" id="L336">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L337">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L346" title="All 6 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__IFNONE:
+<span class="nc" id="L348">				setIfnone((Rule)null);</span>
+<span class="nc" id="L349">				return;</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__DO_RULE:
+<span class="nc" id="L351">				setDoRule((Rule)null);</span>
+<span class="nc" id="L352">				return;</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__GUARD:
+<span class="nc" id="L354">				setGuard((Term)null);</span>
+<span class="nc" id="L355">				return;</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__VARIABLE:
+<span class="nc" id="L357">				getVariable().clear();</span>
+<span class="nc" id="L358">				return;</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__RANGES:
+<span class="nc" id="L360">				getRanges().clear();</span>
+<span class="nc" id="L361">				return;</span>
+		}
+<span class="nc" id="L363">		super.eUnset(featureID);</span>
+<span class="nc" id="L364">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L373" title="All 6 branches missed.">		switch (featureID) {</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__IFNONE:
+<span class="nc bnc" id="L375" title="All 2 branches missed.">				return ifnone != null;</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__DO_RULE:
+<span class="nc bnc" id="L377" title="All 2 branches missed.">				return doRule != null;</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__GUARD:
+<span class="nc bnc" id="L379" title="All 2 branches missed.">				return guard != null;</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__VARIABLE:
+<span class="nc bnc" id="L381" title="All 4 branches missed.">				return variable != null &amp;&amp; !variable.isEmpty();</span>
+			case BasictransitionrulesPackage.CHOOSE_RULE__RANGES:
+<span class="nc bnc" id="L383" title="All 4 branches missed.">				return ranges != null &amp;&amp; !ranges.isEmpty();</span>
+		}
+<span class="nc" id="L385">		return super.eIsSet(featureID);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+<span class="pc bpc" id="L395" title="1 of 2 branches missed.">		if (eIsProxy()) return super.toString();</span>
+
+<span class="fc" id="L397">		StringBuilder result = new StringBuilder(super.toString());</span>
+<span class="fc" id="L398">		result.append(&quot; (ranges: &quot;);</span>
+<span class="fc" id="L399">		result.append(ranges);</span>
+<span class="fc" id="L400">		result.append(')');</span>
+<span class="fc" id="L401">		return result.toString();</span>
+	}
+
+} //ChooseRuleImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

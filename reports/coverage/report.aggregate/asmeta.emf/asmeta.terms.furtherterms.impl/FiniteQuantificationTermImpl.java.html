@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>FiniteQuantificationTermImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.terms.furtherterms.impl</a> &gt; <span class="el_source">FiniteQuantificationTermImpl.java</span></div><h1>FiniteQuantificationTermImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.terms.furtherterms.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import asmeta.terms.basicterms.BasictermsPackage;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.FiniteQuantificationTerm;
+import asmeta.terms.furtherterms.FurthertermsPackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Finite Quantification Term&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.terms.furtherterms.impl.FiniteQuantificationTermImpl#getVariable &lt;em&gt;Variable&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.terms.furtherterms.impl.FiniteQuantificationTermImpl#getGuard &lt;em&gt;Guard&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.terms.furtherterms.impl.FiniteQuantificationTermImpl#getRanges &lt;em&gt;Ranges&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public abstract class FiniteQuantificationTermImpl extends VariableBindingTermImpl implements FiniteQuantificationTerm {
+	/**
+	 * The cached value of the '{@link #getVariable() &lt;em&gt;Variable&lt;/em&gt;}' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getVariable()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;VariableTerm&gt; variable;
+
+	/**
+	 * The cached value of the '{@link #getGuard() &lt;em&gt;Guard&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getGuard()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term guard;
+
+	/**
+	 * The cached value of the '{@link #getRanges() &lt;em&gt;Ranges&lt;/em&gt;}' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getRanges()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;Term&gt; ranges;
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected FiniteQuantificationTermImpl() {
+<span class="fc" id="L80">		super();</span>
+<span class="fc" id="L81">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L90">		return FurthertermsPackage.Literals.FINITE_QUANTIFICATION_TERM;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;VariableTerm&gt; getVariable() {
+<span class="fc bfc" id="L100" title="All 2 branches covered.">		if (variable == null) {</span>
+<span class="fc" id="L101">			variable = new EObjectContainmentWithInverseEList&lt;VariableTerm&gt;(VariableTerm.class, this, FurthertermsPackage.FINITE_QUANTIFICATION_TERM__VARIABLE, BasictermsPackage.VARIABLE_TERM__FINITE_QUANTIFICATION_TERM);</span>
+		}
+<span class="fc" id="L103">		return variable;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getGuard() {
+<span class="pc bpc" id="L113" title="1 of 4 branches missed.">		if (guard != null &amp;&amp; guard.eIsProxy()) {</span>
+<span class="nc" id="L114">			InternalEObject oldGuard = (InternalEObject)guard;</span>
+<span class="nc" id="L115">			guard = (Term)eResolveProxy(oldGuard);</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">			if (guard != oldGuard) {</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L118">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, FurthertermsPackage.FINITE_QUANTIFICATION_TERM__GUARD, oldGuard, guard));</span>
+			}
+		}
+<span class="fc" id="L121">		return guard;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Term basicGetGuard() {
+<span class="nc" id="L130">		return guard;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setGuard(Term newGuard) {
+<span class="fc" id="L140">		Term oldGuard = guard;</span>
+<span class="fc" id="L141">		guard = newGuard;</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L143">			eNotify(new ENotificationImpl(this, Notification.SET, FurthertermsPackage.FINITE_QUANTIFICATION_TERM__GUARD, oldGuard, guard));</span>
+<span class="fc" id="L144">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;Term&gt; getRanges() {
+<span class="fc bfc" id="L153" title="All 2 branches covered.">		if (ranges == null) {</span>
+<span class="fc" id="L154">			ranges = new EDataTypeEList&lt;Term&gt;(Term.class, this, FurthertermsPackage.FINITE_QUANTIFICATION_TERM__RANGES);</span>
+		}
+<span class="fc" id="L156">		return ranges;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__VARIABLE:
+<span class="fc" id="L169">				return ((InternalEList&lt;InternalEObject&gt;)(InternalEList&lt;?&gt;)getVariable()).basicAdd(otherEnd, msgs);</span>
+		}
+<span class="nc" id="L171">		return super.eInverseAdd(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L181" title="All 2 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__VARIABLE:
+<span class="nc" id="L183">				return ((InternalEList&lt;?&gt;)getVariable()).basicRemove(otherEnd, msgs);</span>
+		}
+<span class="nc" id="L185">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L195" title="All 4 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__VARIABLE:
+<span class="nc" id="L197">				return getVariable();</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__GUARD:
+<span class="nc bnc" id="L199" title="All 2 branches missed.">				if (resolve) return getGuard();</span>
+<span class="nc" id="L200">				return basicGetGuard();</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__RANGES:
+<span class="nc" id="L202">				return getRanges();</span>
+		}
+<span class="nc" id="L204">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L215" title="All 4 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__VARIABLE:
+<span class="nc" id="L217">				getVariable().clear();</span>
+<span class="nc" id="L218">				getVariable().addAll((Collection&lt;? extends VariableTerm&gt;)newValue);</span>
+<span class="nc" id="L219">				return;</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__GUARD:
+<span class="nc" id="L221">				setGuard((Term)newValue);</span>
+<span class="nc" id="L222">				return;</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__RANGES:
+<span class="nc" id="L224">				getRanges().clear();</span>
+<span class="nc" id="L225">				getRanges().addAll((Collection&lt;? extends Term&gt;)newValue);</span>
+<span class="nc" id="L226">				return;</span>
+		}
+<span class="nc" id="L228">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L229">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L238" title="All 4 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__VARIABLE:
+<span class="nc" id="L240">				getVariable().clear();</span>
+<span class="nc" id="L241">				return;</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__GUARD:
+<span class="nc" id="L243">				setGuard((Term)null);</span>
+<span class="nc" id="L244">				return;</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__RANGES:
+<span class="nc" id="L246">				getRanges().clear();</span>
+<span class="nc" id="L247">				return;</span>
+		}
+<span class="nc" id="L249">		super.eUnset(featureID);</span>
+<span class="nc" id="L250">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L259" title="All 4 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__VARIABLE:
+<span class="nc bnc" id="L261" title="All 4 branches missed.">				return variable != null &amp;&amp; !variable.isEmpty();</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__GUARD:
+<span class="nc bnc" id="L263" title="All 2 branches missed.">				return guard != null;</span>
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM__RANGES:
+<span class="nc bnc" id="L265" title="All 4 branches missed.">				return ranges != null &amp;&amp; !ranges.isEmpty();</span>
+		}
+<span class="nc" id="L267">		return super.eIsSet(featureID);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+<span class="pc bpc" id="L277" title="1 of 2 branches missed.">		if (eIsProxy()) return super.toString();</span>
+
+<span class="fc" id="L279">		StringBuilder result = new StringBuilder(super.toString());</span>
+<span class="fc" id="L280">		result.append(&quot; (ranges: &quot;);</span>
+<span class="fc" id="L281">		result.append(ranges);</span>
+<span class="fc" id="L282">		result.append(')');</span>
+<span class="fc" id="L283">		return result.toString();</span>
+	}
+
+} //FiniteQuantificationTermImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ComprehensionTermImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.terms.furtherterms.impl</a> &gt; <span class="el_source">ComprehensionTermImpl.java</span></div><h1>ComprehensionTermImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.terms.furtherterms.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.ComprehensionTerm;
+import asmeta.terms.furtherterms.FurthertermsPackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Comprehension Term&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.terms.furtherterms.impl.ComprehensionTermImpl#getVariable &lt;em&gt;Variable&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.terms.furtherterms.impl.ComprehensionTermImpl#getGuard &lt;em&gt;Guard&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.terms.furtherterms.impl.ComprehensionTermImpl#getTerm &lt;em&gt;Term&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.terms.furtherterms.impl.ComprehensionTermImpl#getRanges &lt;em&gt;Ranges&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public abstract class ComprehensionTermImpl extends VariableBindingTermImpl implements ComprehensionTerm {
+	/**
+	 * The cached value of the '{@link #getVariable() &lt;em&gt;Variable&lt;/em&gt;}' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getVariable()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;VariableTerm&gt; variable;
+
+	/**
+	 * The cached value of the '{@link #getGuard() &lt;em&gt;Guard&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getGuard()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term guard;
+
+	/**
+	 * The cached value of the '{@link #getTerm() &lt;em&gt;Term&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getTerm()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term term;
+
+	/**
+	 * The cached value of the '{@link #getRanges() &lt;em&gt;Ranges&lt;/em&gt;}' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getRanges()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;Term&gt; ranges;
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected ComprehensionTermImpl() {
+<span class="fc" id="L90">		super();</span>
+<span class="fc" id="L91">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L100">		return FurthertermsPackage.Literals.COMPREHENSION_TERM;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;VariableTerm&gt; getVariable() {
+<span class="fc bfc" id="L110" title="All 2 branches covered.">		if (variable == null) {</span>
+<span class="fc" id="L111">			variable = new EObjectContainmentEList&lt;VariableTerm&gt;(VariableTerm.class, this, FurthertermsPackage.COMPREHENSION_TERM__VARIABLE);</span>
+		}
+<span class="fc" id="L113">		return variable;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getGuard() {
+<span class="pc bpc" id="L123" title="1 of 4 branches missed.">		if (guard != null &amp;&amp; guard.eIsProxy()) {</span>
+<span class="nc" id="L124">			InternalEObject oldGuard = (InternalEObject)guard;</span>
+<span class="nc" id="L125">			guard = (Term)eResolveProxy(oldGuard);</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">			if (guard != oldGuard) {</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L128">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, FurthertermsPackage.COMPREHENSION_TERM__GUARD, oldGuard, guard));</span>
+			}
+		}
+<span class="fc" id="L131">		return guard;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Term basicGetGuard() {
+<span class="nc" id="L140">		return guard;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setGuard(Term newGuard) {
+<span class="fc" id="L150">		Term oldGuard = guard;</span>
+<span class="fc" id="L151">		guard = newGuard;</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L153">			eNotify(new ENotificationImpl(this, Notification.SET, FurthertermsPackage.COMPREHENSION_TERM__GUARD, oldGuard, guard));</span>
+<span class="fc" id="L154">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getTerm() {
+<span class="pc bpc" id="L163" title="2 of 4 branches missed.">		if (term != null &amp;&amp; term.eIsProxy()) {</span>
+<span class="nc" id="L164">			InternalEObject oldTerm = (InternalEObject)term;</span>
+<span class="nc" id="L165">			term = (Term)eResolveProxy(oldTerm);</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">			if (term != oldTerm) {</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L168">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, FurthertermsPackage.COMPREHENSION_TERM__TERM, oldTerm, term));</span>
+			}
+		}
+<span class="fc" id="L171">		return term;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Term basicGetTerm() {
+<span class="nc" id="L180">		return term;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setTerm(Term newTerm) {
+<span class="fc" id="L190">		Term oldTerm = term;</span>
+<span class="fc" id="L191">		term = newTerm;</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L193">			eNotify(new ENotificationImpl(this, Notification.SET, FurthertermsPackage.COMPREHENSION_TERM__TERM, oldTerm, term));</span>
+<span class="fc" id="L194">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;Term&gt; getRanges() {
+<span class="fc bfc" id="L203" title="All 2 branches covered.">		if (ranges == null) {</span>
+<span class="fc" id="L204">			ranges = new EDataTypeEList&lt;Term&gt;(Term.class, this, FurthertermsPackage.COMPREHENSION_TERM__RANGES);</span>
+		}
+<span class="fc" id="L206">		return ranges;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L216" title="All 2 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__VARIABLE:
+<span class="nc" id="L218">				return ((InternalEList&lt;?&gt;)getVariable()).basicRemove(otherEnd, msgs);</span>
+		}
+<span class="nc" id="L220">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L230" title="All 5 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__VARIABLE:
+<span class="nc" id="L232">				return getVariable();</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__GUARD:
+<span class="nc bnc" id="L234" title="All 2 branches missed.">				if (resolve) return getGuard();</span>
+<span class="nc" id="L235">				return basicGetGuard();</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__TERM:
+<span class="nc bnc" id="L237" title="All 2 branches missed.">				if (resolve) return getTerm();</span>
+<span class="nc" id="L238">				return basicGetTerm();</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__RANGES:
+<span class="nc" id="L240">				return getRanges();</span>
+		}
+<span class="nc" id="L242">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L253" title="All 5 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__VARIABLE:
+<span class="nc" id="L255">				getVariable().clear();</span>
+<span class="nc" id="L256">				getVariable().addAll((Collection&lt;? extends VariableTerm&gt;)newValue);</span>
+<span class="nc" id="L257">				return;</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__GUARD:
+<span class="nc" id="L259">				setGuard((Term)newValue);</span>
+<span class="nc" id="L260">				return;</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__TERM:
+<span class="nc" id="L262">				setTerm((Term)newValue);</span>
+<span class="nc" id="L263">				return;</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__RANGES:
+<span class="nc" id="L265">				getRanges().clear();</span>
+<span class="nc" id="L266">				getRanges().addAll((Collection&lt;? extends Term&gt;)newValue);</span>
+<span class="nc" id="L267">				return;</span>
+		}
+<span class="nc" id="L269">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L270">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L279" title="All 5 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__VARIABLE:
+<span class="nc" id="L281">				getVariable().clear();</span>
+<span class="nc" id="L282">				return;</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__GUARD:
+<span class="nc" id="L284">				setGuard((Term)null);</span>
+<span class="nc" id="L285">				return;</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__TERM:
+<span class="nc" id="L287">				setTerm((Term)null);</span>
+<span class="nc" id="L288">				return;</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__RANGES:
+<span class="nc" id="L290">				getRanges().clear();</span>
+<span class="nc" id="L291">				return;</span>
+		}
+<span class="nc" id="L293">		super.eUnset(featureID);</span>
+<span class="nc" id="L294">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L303" title="All 5 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__VARIABLE:
+<span class="nc bnc" id="L305" title="All 4 branches missed.">				return variable != null &amp;&amp; !variable.isEmpty();</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__GUARD:
+<span class="nc bnc" id="L307" title="All 2 branches missed.">				return guard != null;</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__TERM:
+<span class="nc bnc" id="L309" title="All 2 branches missed.">				return term != null;</span>
+			case FurthertermsPackage.COMPREHENSION_TERM__RANGES:
+<span class="nc bnc" id="L311" title="All 4 branches missed.">				return ranges != null &amp;&amp; !ranges.isEmpty();</span>
+		}
+<span class="nc" id="L313">		return super.eIsSet(featureID);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+<span class="pc bpc" id="L323" title="1 of 2 branches missed.">		if (eIsProxy()) return super.toString();</span>
+
+<span class="fc" id="L325">		StringBuilder result = new StringBuilder(super.toString());</span>
+<span class="fc" id="L326">		result.append(&quot; (ranges: &quot;);</span>
+<span class="fc" id="L327">		result.append(ranges);</span>
+<span class="fc" id="L328">		result.append(')');</span>
+<span class="fc" id="L329">		return result.toString();</span>
+	}
+
+} //ComprehensionTermImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

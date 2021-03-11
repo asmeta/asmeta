@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>MonitoredFinder.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator.util</a> &gt; <span class="el_source">MonitoredFinder.java</span></div><h1>MonitoredFinder.java</h1><pre class="source lang-java linenums">package org.asmeta.simulator.util;
+
+import java.util.List;
+
+import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.ReflectiveVisitor;
+
+import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.DomainTerm;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.UndefTerm;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ForallTerm;
+import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.SetCt;
+import asmeta.terms.furtherterms.StringTerm;
+
+/**
+ * PA (31/10/2010) It discovers if a term contains monitored functions. It is
+ * used in the invariant verification to discover if an invariant contains
+ * monitored functions. Indeed an invariant, depending on the fact that it
+ * contains or does not contain monitored functions, must be evaluated in
+ * different points of the execution.
+ *
+ */
+<span class="nc" id="L34">public class MonitoredFinder extends ReflectiveVisitor&lt;Boolean&gt; {</span>
+
+	public boolean visit(Term term) {
+		// System.out.println(term.getClass().getSimpleName());
+<span class="nc" id="L38">		return invokeMethod(term);</span>
+		// return (Boolean) visit(term);
+		// return visit(term);
+		// return (Boolean) visit((Object) term);
+	}
+
+	public boolean visit(VariableTerm variable) {
+<span class="nc" id="L45">		return false;</span>
+	}
+
+	public boolean visit(SetCt setCtTerm) {
+<span class="nc bnc" id="L49" title="All 4 branches missed.">		return visit(setCtTerm.getGuard()) &amp;&amp; visit(setCtTerm.getTerm());</span>
+	}
+
+	public boolean visit(FunctionTerm funcTerm) {
+<span class="nc bnc" id="L53" title="All 4 branches missed.">		return Defs.isMonitored(funcTerm.getFunction()) || visit(funcTerm.getArguments());</span>
+	}
+
+	public boolean visit(TupleTerm tupleTerm) {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">		if (tupleTerm != null) {</span>
+			//assert tupleTerm.getTerms().size() == tupleTerm.getArity();
+<span class="nc" id="L59">			List&lt;Term&gt; terms = tupleTerm.getTerms();</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">			for (Term term : terms) {</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">				if (visit(term)) {</span>
+<span class="nc" id="L62">					return true;</span>
+				}
+<span class="nc" id="L64">			}</span>
+		}
+<span class="nc" id="L66">		return false;</span>
+	}
+
+	public boolean visit(LocationTerm loc) {
+<span class="nc bnc" id="L70" title="All 4 branches missed.">		return Defs.isMonitored(loc.getFunction()) || visit(loc.getArguments());</span>
+	}
+
+	public boolean visit(NaturalTerm number) {
+<span class="nc" id="L74">		return false;</span>
+	}
+
+	public boolean visit(IntegerTerm number) {
+<span class="nc" id="L78">		return false;</span>
+	}
+
+	public boolean visit(EnumTerm term) {
+<span class="nc" id="L82">		return false;</span>
+	}
+
+	public boolean visit(BooleanTerm bool) {
+<span class="nc" id="L86">		return false;</span>
+	}
+
+	public boolean visit(UndefTerm undef) {
+<span class="nc" id="L90">		return false;</span>
+	}
+
+	public boolean visit(DomainTerm term) {
+<span class="nc" id="L94">		return false;</span>
+	}
+
+	public boolean visit(ExistTerm existTerm) throws Exception {
+<span class="nc" id="L98">		return visit(existTerm.getGuard());</span>
+	}
+
+	public boolean visit(ExistUniqueTerm exitUniqueTerm) {
+<span class="nc" id="L102">		return visit(exitUniqueTerm.getGuard());</span>
+	}
+
+	public boolean visit(StringTerm term) {
+<span class="nc" id="L106">		return false;</span>
+	}
+
+	public boolean visit(ForallTerm forallTerm) {
+<span class="nc" id="L110">		return visit(forallTerm.getGuard());</span>
+	}
+
+	public boolean visit(CaseTerm caseTerm) {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">		if (visit(caseTerm.getComparedTerm())) {</span>
+<span class="nc" id="L115">			return true;</span>
+		}
+<span class="nc bnc" id="L117" title="All 2 branches missed.">		if (visit(caseTerm.getComparedTerm())) {</span>
+<span class="nc" id="L118">			return true;</span>
+		}
+<span class="nc" id="L120">		Term otherTerm = caseTerm.getOtherwiseTerm();</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">		if (otherTerm != null) {</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">			if (visit(otherTerm)) {</span>
+<span class="nc" id="L123">				return true;</span>
+			}
+		}
+<span class="nc" id="L126">		return false;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

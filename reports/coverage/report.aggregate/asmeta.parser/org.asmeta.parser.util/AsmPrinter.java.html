@@ -1,0 +1,965 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>AsmPrinter.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.parser</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.parser.util</a> &gt; <span class="el_source">AsmPrinter.java</span></div><h1>AsmPrinter.java</h1><pre class="source lang-java linenums">package org.asmeta.parser.util;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
+import org.asmeta.parser.Defs;
+import org.eclipse.emf.common.util.EList;
+
+import asmeta.definitions.CompassionConstraint;
+import asmeta.definitions.ControlledFunction;
+import asmeta.definitions.CtlSpec;
+import asmeta.definitions.DerivedFunction;
+import asmeta.definitions.DynamicFunction;
+import asmeta.definitions.FairnessConstraint;
+import asmeta.definitions.Function;
+import asmeta.definitions.Invariant;
+import asmeta.definitions.LtlSpec;
+import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.OutFunction;
+import asmeta.definitions.Property;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.SharedFunction;
+import asmeta.definitions.StaticFunction;
+import asmeta.definitions.TemporalProperty;
+import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.AgentDomain;
+import asmeta.definitions.domains.BagDomain;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.EnumElement;
+import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.MapDomain;
+import asmeta.definitions.domains.PowersetDomain;
+import asmeta.definitions.domains.ProductDomain;
+import asmeta.definitions.domains.ReserveDomain;
+import asmeta.definitions.domains.RuleDomain;
+import asmeta.definitions.domains.SequenceDomain;
+import asmeta.definitions.domains.StructuredTd;
+import asmeta.definitions.domains.TypeDomain;
+import asmeta.structure.AgentInitialization;
+import asmeta.structure.Asm;
+import asmeta.structure.Body;
+import asmeta.structure.DomainDefinition;
+import asmeta.structure.ExportClause;
+import asmeta.structure.FunctionDefinition;
+import asmeta.structure.FunctionInitialization;
+import asmeta.structure.Header;
+import asmeta.structure.ImportClause;
+import asmeta.structure.Initialization;
+import asmeta.structure.Signature;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.transitionrules.basictransitionrules.BlockRule;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
+import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.SkipRule;
+import asmeta.transitionrules.basictransitionrules.TermAsRule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
+import asmeta.transitionrules.turbotransitionrules.SeqRule;
+import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
+import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
+import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
+
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">public class AsmPrinter extends ReflectiveVisitor&lt;Void&gt; {</span>
+<span class="pc" id="L79">	AsmetaTermPrinter tp = new AsmetaTermPrinter(false);</span>
+	static final private String tabWidth = &quot;    &quot;;
+<span class="pc" id="L81">	private int indentation = 0;</span>
+	private PrintWriter out;
+	protected Asm model;
+<span class="pc" id="L84">	boolean expand = true;</span>
+
+	public void close() {
+<span class="fc" id="L87">		out.flush();</span>
+<span class="fc" id="L88">		out.close();</span>
+<span class="fc" id="L89">	}</span>
+
+	public AsmPrinter(String fileName) throws FileNotFoundException {
+<span class="nc" id="L92">		this(new File(fileName));</span>
+<span class="nc" id="L93">	}</span>
+
+<span class="nc" id="L95">	public AsmPrinter(File file) throws FileNotFoundException {</span>
+<span class="nc" id="L96">		out = new PrintWriter(file);</span>
+<span class="nc" id="L97">	}</span>
+
+<span class="fc" id="L99">	public AsmPrinter(PrintWriter writer) {</span>
+<span class="fc" id="L100">		out = writer;</span>
+<span class="fc" id="L101">	}</span>
+
+	public void visitUnknown(Object object) {
+<span class="fc" id="L104">		invokeMethod(object);</span>
+<span class="fc" id="L105">	}</span>
+
+	public void visitUnknownDcl(Object object) {
+<span class="fc" id="L108">		invokeMethod(object, &quot;visitDcl&quot;);</span>
+<span class="fc" id="L109">	}</span>
+
+	public void visit(Asm asm) {
+<span class="fc" id="L112">		model = asm;</span>
+<span class="fc" id="L113">		String name = getAsmName();</span>
+<span class="fc" id="L114">		Header header = asm.getHeaderSection();</span>
+<span class="fc" id="L115">		Body body = asm.getBodySection();</span>
+<span class="fc" id="L116">		Initialization init = asm.getDefaultInitialState();</span>
+<span class="fc" id="L117">		println(&quot;asm &quot; + name);</span>
+<span class="fc" id="L118">		visit(header);</span>
+<span class="fc" id="L119">		println();</span>
+<span class="fc" id="L120">		visit(body);</span>
+<span class="fc" id="L121">		MacroDeclaration main = asm.getMainrule();</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">		if (main != null) {</span>
+<span class="fc" id="L123">			indent();</span>
+<span class="fc" id="L124">			visitMain(main);</span>
+<span class="fc" id="L125">			unIndent();</span>
+		}
+<span class="fc" id="L127">		visitDefault(init);</span>
+<span class="fc" id="L128">		model = null;</span>
+<span class="fc" id="L129">	}</span>
+
+	public String getAsmName() {
+<span class="fc" id="L132">		return model.getName();</span>
+	}
+
+	public void visit(Term term) {
+<span class="nc" id="L136">		tp.visit(term);</span>
+<span class="nc" id="L137">	}</span>
+
+	public void visit(Body body) {
+<span class="fc" id="L140">		Collection&lt;Property&gt; property = body.getProperty();</span>
+<span class="fc" id="L141">		Collection&lt;DomainDefinition&gt; domains = body.getDomainDefinition();</span>
+<span class="fc" id="L142">		Collection&lt;FunctionDefinition&gt; funcs = body.getFunctionDefinition();</span>
+<span class="fc" id="L143">		Collection&lt;RuleDeclaration&gt; rules = body.getRuleDeclaration();</span>
+<span class="fc" id="L144">		println(&quot;definitions:&quot;);</span>
+<span class="fc" id="L145">		println();</span>
+<span class="fc" id="L146">		indent();</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">		if (domains.size() &gt; 0) {</span>
+<span class="fc" id="L148">			visitDomDefs(domains);</span>
+<span class="fc" id="L149">			println();</span>
+		}
+<span class="fc bfc" id="L151" title="All 2 branches covered.">		if (funcs.size() &gt; 0) {</span>
+<span class="fc" id="L152">			visitFunDefs(funcs);</span>
+<span class="fc" id="L153">			println();</span>
+		}
+<span class="fc bfc" id="L155" title="All 2 branches covered.">		if (rules.size() &gt; 0) {</span>
+<span class="fc" id="L156">			visitRuleDefs(rules);</span>
+<span class="fc" id="L157">			println();</span>
+		}
+<span class="fc" id="L159">		visitFairness(body.getFairnessConstraint());// TODO</span>
+<span class="fc" id="L160">		visitProperties(property);</span>
+<span class="fc" id="L161">		unIndent();</span>
+<span class="fc" id="L162">	}</span>
+
+	protected void visitFairness(List&lt;FairnessConstraint&gt; fairness) {
+<span class="fc bfc" id="L165" title="All 2 branches covered.">		for (FairnessConstraint f : fairness) {</span>
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">			if (f instanceof CompassionConstraint) {</span>
+<span class="nc" id="L167">				CompassionConstraint c = ((CompassionConstraint) f);</span>
+<span class="nc" id="L168">				println(&quot;COMPASSION (&quot; + tp.visit(c.getP()) + &quot;,&quot; + tp.visit(c.getQ()) + &quot;)&quot;);</span>
+			}
+
+<span class="fc" id="L171">		}</span>
+<span class="fc" id="L172">	}</span>
+
+	protected void visitProperties(Collection&lt;Property&gt; property) {
+<span class="fc bfc" id="L175" title="All 2 branches covered.">		if (property.size() &gt; 0) {</span>
+<span class="fc" id="L176">			Collection&lt;Invariant&gt; invariants = new ArrayList&lt;Invariant&gt;();</span>
+<span class="fc" id="L177">			Collection&lt;LtlSpec&gt; ltlSpecs = new ArrayList&lt;LtlSpec&gt;();</span>
+<span class="fc" id="L178">			Collection&lt;CtlSpec&gt; ctlSpecs = new ArrayList&lt;CtlSpec&gt;();</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">			for (Property p : property) {</span>
+<span class="fc bfc" id="L180" title="All 2 branches covered.">				if (p instanceof Invariant) {</span>
+<span class="fc" id="L181">					invariants.add((Invariant) p);</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">				} else if (p instanceof LtlSpec) {</span>
+<span class="fc" id="L183">					ltlSpecs.add((LtlSpec) p);</span>
+				} else {
+<span class="fc" id="L185">					ctlSpecs.add((CtlSpec) p);</span>
+				}
+<span class="fc" id="L187">			}</span>
+<span class="fc" id="L188">			visitInvariants(invariants);</span>
+<span class="fc" id="L189">			visitTemporalProperties(ltlSpecs);</span>
+<span class="fc" id="L190">			visitTemporalProperties(ctlSpecs);</span>
+		}
+<span class="fc" id="L192">	}</span>
+
+	protected void visitTemporalProperties(Collection&lt;? extends TemporalProperty&gt; properties) {
+<span class="fc bfc" id="L195" title="All 2 branches covered.">		for (TemporalProperty property : properties) {</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">			if (property instanceof LtlSpec) {</span>
+<span class="fc" id="L197">				print(&quot;LTLSPEC &quot;);</span>
+			} else {
+<span class="fc" id="L199">				print(&quot;CTLSPEC &quot;);</span>
+			}
+<span class="fc" id="L201">			String name = property.getName();</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">			if (name != null) {</span>
+<span class="fc" id="L203">				print(name + &quot;: &quot;);</span>
+			}
+<span class="fc" id="L205">			println(tp.visit(property.getBody()));</span>
+<span class="fc" id="L206">		}</span>
+<span class="fc" id="L207">	}</span>
+
+	protected void visitInvariants(Collection&lt;Invariant&gt; invariants) {
+<span class="fc bfc" id="L210" title="All 2 branches covered.">		for (Invariant invariant : invariants) {</span>
+<span class="fc" id="L211">			print(&quot;invariant &quot;);</span>
+<span class="fc" id="L212">			String name = invariant.getName();</span>
+<span class="pc bpc" id="L213" title="1 of 4 branches missed.">			if (name != null &amp;&amp; !name.equals(&quot;&quot;))</span>
+<span class="fc" id="L214">				print(name + &quot; &quot;);</span>
+<span class="fc" id="L215">			print(&quot;over &quot;);</span>
+<span class="fc" id="L216">			boolean needComma = false;</span>
+<span class="fc" id="L217">			List&lt;Function&gt; constrFuncs = invariant.getConstrainedFunction();</span>
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">			if (!constrFuncs.isEmpty()) {</span>
+<span class="fc" id="L219">				Iterator&lt;Function&gt; i = constrFuncs.iterator();</span>
+<span class="fc" id="L220">				print(i.next().getName());</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">				while (i.hasNext()) {</span>
+<span class="fc" id="L222">					print(&quot;, &quot; + i.next().getName());</span>
+				}
+<span class="fc" id="L224">				needComma = true;</span>
+			}
+<span class="fc" id="L226">			List&lt;Domain&gt; constrDoms = invariant.getConstrainedDomain();</span>
+<span class="pc bpc" id="L227" title="1 of 2 branches missed.">			if (!constrDoms.isEmpty()) {</span>
+<span class="nc" id="L228">				Iterator&lt;Domain&gt; i = constrDoms.iterator();</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">				if (needComma)</span>
+<span class="nc" id="L230">					print(&quot;, &quot;);</span>
+<span class="nc" id="L231">				print(i.next().getName());</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">				while (i.hasNext()) {</span>
+<span class="nc" id="L233">					print(&quot;, &quot; + i.next().getName());</span>
+				}
+<span class="nc" id="L235">				needComma = true;</span>
+			}
+<span class="fc" id="L237">			List&lt;RuleDeclaration&gt; constrRules = invariant.getConstrainedRule();</span>
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">			if (!constrRules.isEmpty()) {</span>
+<span class="nc" id="L239">				Iterator&lt;RuleDeclaration&gt; i = constrRules.iterator();</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">				if (needComma)</span>
+<span class="nc" id="L241">					print(&quot;, &quot;);</span>
+<span class="nc" id="L242">				print(i.next().getName());</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">				while (i.hasNext()) {</span>
+<span class="nc" id="L244">					print(&quot;, &quot; + i.next().getName());</span>
+				}
+			}
+<span class="fc" id="L247">			print(&quot;: &quot;);</span>
+<span class="fc" id="L248">			visitInvariantBody(invariant);</span>
+<span class="fc" id="L249">		}</span>
+<span class="fc" id="L250">	}</span>
+
+	protected void visitInvariantBody(Invariant invariant) {
+<span class="fc" id="L253">		println(tp.visit(invariant.getBody()));</span>
+<span class="fc" id="L254">	}</span>
+
+	public void visitFunDefs(Collection&lt;FunctionDefinition&gt; funcs) {
+<span class="pc bpc" id="L257" title="1 of 2 branches missed.">		if (funcs != null) {</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">			for (FunctionDefinition def : funcs) {</span>
+<span class="fc" id="L259">				Function func = def.getDefinedFunction();</span>
+<span class="fc" id="L260">				Asm asm = Defs.getAsm(func);</span>
+				// PA 2014/01/31 commentato l'if. Perche' non posso definire una funzione in un
+				// modulo diverso?
+				// if (asm == model) {
+<span class="fc" id="L264">				visitDef(def);</span>
+				// }
+<span class="fc" id="L266">			}</span>
+		}
+<span class="fc" id="L268">	}</span>
+
+	public void visitDef(FunctionDefinition def) {
+<span class="fc" id="L271">		String name = def.getDefinedFunction().getName();</span>
+<span class="fc" id="L272">		List&lt;VariableTerm&gt; vars = def.getVariable();</span>
+<span class="fc" id="L273">		Term term = def.getBody();</span>
+<span class="fc" id="L274">		String termStr = tp.visit(term);</span>
+<span class="fc" id="L275">		print(&quot;function &quot; + name);</span>
+<span class="fc" id="L276">		visitDclVars(vars, &quot;(&quot;, &quot;)&quot;);</span>
+<span class="fc" id="L277">		println(&quot; = &quot; + termStr);</span>
+<span class="fc" id="L278">	}</span>
+
+	public void visitDomDefs(Collection&lt;DomainDefinition&gt; domains) {
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">		if (domains != null) {</span>
+<span class="fc bfc" id="L282" title="All 2 branches covered.">			for (DomainDefinition def : domains) {</span>
+<span class="fc" id="L283">				ConcreteDomain dom = def.getDefinedDomain();</span>
+<span class="fc" id="L284">				Asm asm = Defs.getAsm(dom);</span>
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">				if (asm == model) {</span>
+<span class="fc" id="L286">					visitDef(def);</span>
+				}
+<span class="fc" id="L288">			}</span>
+		}
+<span class="fc" id="L290">	}</span>
+
+	public void visitDef(DomainDefinition def) {
+<span class="fc" id="L293">		String name = def.getDefinedDomain().getName();</span>
+<span class="fc" id="L294">		Term term = def.getBody();</span>
+<span class="fc" id="L295">		String termStr = tp.visit(term);</span>
+<span class="pc bpc" id="L296" title="1 of 2 branches missed.">		if (def.getDefinedDomain().getIsDynamic()) {</span>
+<span class="nc" id="L297">			print(&quot;dynamic &quot;);</span>
+		}
+<span class="fc" id="L299">		println(&quot;domain &quot; + name + &quot; = &quot; + termStr);</span>
+<span class="fc" id="L300">	}</span>
+
+	public void visit(IterativeWhileRule rule) {
+<span class="nc" id="L303">		Term guard = rule.getGuard();</span>
+<span class="nc" id="L304">		Rule r = rule.getRule();</span>
+<span class="nc" id="L305">		print(&quot;while &quot;);</span>
+<span class="nc" id="L306">		print(tp.visit(guard));</span>
+<span class="nc" id="L307">		print(&quot; do &quot;);</span>
+<span class="nc" id="L308">		visit(r);</span>
+<span class="nc" id="L309">	}</span>
+
+	public void visitRuleDefs(Collection&lt;RuleDeclaration&gt; defs) {
+<span class="pc bpc" id="L312" title="1 of 2 branches missed.">		if (defs != null) {</span>
+<span class="fc" id="L313">			RuleDeclaration[] rules = sortRuleDeclarations(defs);</span>
+<span class="fc bfc" id="L314" title="All 2 branches covered.">			for (RuleDeclaration rule : rules) {</span>
+<span class="fc" id="L315">				Asm asm = Defs.getAsm(rule);</span>
+<span class="pc bpc" id="L316" title="1 of 2 branches missed.">				if (asm == model) {</span>
+					// PA: 207/05/19
+					// control added to avoid to print the
+					// main rule twice
+<span class="fc bfc" id="L320" title="All 2 branches covered.">					if (rule != asm.getMainrule()) {</span>
+<span class="fc" id="L321">						visitDef(rule);</span>
+					}
+				}
+			}
+		}
+<span class="fc" id="L326">	}</span>
+
+	public RuleDeclaration[] sortRuleDeclarations(Collection&lt;RuleDeclaration&gt; ruleDcls) {
+<span class="fc" id="L329">		RuleDeclaration[] rules = ruleDcls.toArray(new RuleDeclaration[0]);</span>
+		/*
+		 * Arrays.sort(rules, new Comparator&lt;RuleDeclaration&gt;() {
+		 * 
+		 * @Override public int compare(RuleDeclaration o1, RuleDeclaration o2) { String
+		 * name1 = o1.getName(); String name2 = o2.getName(); return
+		 * name1.compareTo(name2); }
+		 * 
+		 * });
+		 */
+<span class="fc" id="L339">		return rules;</span>
+	}
+
+	/** print a rule declaration (not main rule) **/
+	public void visitDef(RuleDeclaration dcl) {
+		// assert model.getMainrule() != dcl;
+<span class="pc bpc" id="L345" title="1 of 2 branches missed.">		if (dcl instanceof MacroDeclaration) {</span>
+<span class="fc" id="L346">			print(&quot;macro &quot;);</span>
+		} else {
+<span class="nc" id="L348">			print(&quot;turbo &quot;);</span>
+		}
+<span class="fc" id="L350">		visitDef2(dcl);</span>
+<span class="fc" id="L351">	}</span>
+
+	void visitDef2(RuleDeclaration dcl) {
+<span class="fc" id="L354">		String name = dcl.getName();</span>
+<span class="fc" id="L355">		List&lt;VariableTerm&gt; vars = dcl.getVariable();</span>
+<span class="fc" id="L356">		Rule rule = dcl.getRuleBody();</span>
+<span class="pc bpc" id="L357" title="2 of 4 branches missed.">		assert rule != null;</span>
+<span class="fc" id="L358">		print(&quot;rule &quot; + name);</span>
+<span class="fc" id="L359">		visitDclVars(vars, &quot;(&quot;, &quot;)&quot;);</span>
+<span class="fc" id="L360">		println(&quot; =&quot;);</span>
+<span class="fc" id="L361">		indent();</span>
+<span class="fc" id="L362">		visit(rule);</span>
+<span class="fc" id="L363">		println();</span>
+<span class="fc" id="L364">		unIndent();</span>
+<span class="fc" id="L365">	}</span>
+
+	public void visitMain(MacroDeclaration main) {
+<span class="fc" id="L368">		print(&quot;main &quot;);</span>
+<span class="fc" id="L369">		visitDef2(main);</span>
+<span class="fc" id="L370">	}</span>
+
+	public void visit(Rule rule) {
+<span class="fc" id="L373">		visitUnknown(rule);</span>
+<span class="fc" id="L374">	}</span>
+
+	public void visit(SkipRule rule) {
+<span class="fc" id="L377">		println(&quot;skip&quot;);</span>
+<span class="fc" id="L378">	}</span>
+
+	public void visit(ConditionalRule rule) {
+<span class="fc" id="L381">		Term cond = rule.getGuard();</span>
+<span class="fc" id="L382">		Rule thenRule = rule.getThenRule();</span>
+<span class="fc" id="L383">		Rule elseRule = rule.getElseRule();</span>
+<span class="fc" id="L384">		String condStr = tp.visit(cond);</span>
+<span class="fc" id="L385">		println(&quot;if &quot; + condStr + &quot; then&quot;);</span>
+<span class="fc" id="L386">		indent();</span>
+<span class="fc" id="L387">		visit(thenRule);</span>
+<span class="fc bfc" id="L388" title="All 2 branches covered.">		if (elseRule != null) {</span>
+<span class="fc" id="L389">			unIndent();</span>
+<span class="fc" id="L390">			println(&quot;else &quot;);</span>
+<span class="fc" id="L391">			indent();</span>
+<span class="fc" id="L392">			visit(elseRule);</span>
+		}
+<span class="fc" id="L394">		unIndent();</span>
+<span class="fc" id="L395">		println(&quot;endif&quot;);</span>
+<span class="fc" id="L396">	}</span>
+
+	public void visit(BlockRule rule) {
+<span class="fc" id="L399">		List&lt;Rule&gt; rules = rule.getRules();</span>
+<span class="fc" id="L400">		println(&quot;par&quot;);</span>
+<span class="fc" id="L401">		indent();</span>
+<span class="fc" id="L402">		visitRules(rules);</span>
+<span class="fc" id="L403">		unIndent();</span>
+<span class="fc" id="L404">		println(&quot;endpar&quot;);</span>
+<span class="fc" id="L405">	}</span>
+
+	public void visit(SeqRule rule) {
+<span class="nc" id="L408">		List&lt;Rule&gt; rules = rule.getRules();</span>
+<span class="nc" id="L409">		println(&quot;seq&quot;);</span>
+<span class="nc" id="L410">		indent();</span>
+<span class="nc" id="L411">		visitRules(rules);</span>
+<span class="nc" id="L412">		unIndent();</span>
+<span class="nc" id="L413">		println(&quot;endseq&quot;);</span>
+<span class="nc" id="L414">	}</span>
+
+	public void visitRules(List&lt;Rule&gt; rules) {
+<span class="pc bpc" id="L417" title="1 of 2 branches missed.">		if (rules != null) {</span>
+<span class="fc bfc" id="L418" title="All 2 branches covered.">			for (Rule rule : rules) {</span>
+<span class="fc" id="L419">				visit(rule);</span>
+<span class="fc" id="L420">			}</span>
+		}
+<span class="fc" id="L422">	}</span>
+
+	public void visit(UpdateRule rule) {
+<span class="fc" id="L425">		Term location = rule.getLocation();</span>
+<span class="pc bpc" id="L426" title="2 of 4 branches missed.">		assert (location != null);</span>
+<span class="fc" id="L427">		Term term = rule.getUpdatingTerm();</span>
+<span class="pc bpc" id="L428" title="2 of 4 branches missed.">		assert (term != null);</span>
+<span class="fc" id="L429">		String locationStr = tp.visit(location);</span>
+<span class="fc" id="L430">		String termStr = tp.visit(term);</span>
+<span class="fc" id="L431">		println(locationStr + &quot; := &quot; + termStr);</span>
+<span class="fc" id="L432">	}</span>
+
+	public void visit(ExtendRule rule) {
+<span class="nc" id="L435">		Collection&lt;VariableTerm&gt; vars = rule.getBoundVar();</span>
+<span class="nc" id="L436">		Domain domain = rule.getExtendedDomain();</span>
+<span class="nc" id="L437">		Rule rule2 = rule.getDoRule();</span>
+<span class="nc" id="L438">		String varsStr = tp.visit(vars, &quot;&quot;, &quot;&quot;);</span>
+<span class="nc" id="L439">		print(&quot;extend &quot;);</span>
+<span class="nc" id="L440">		visit(domain);</span>
+<span class="nc" id="L441">		print(&quot; with &quot;);</span>
+<span class="nc" id="L442">		print(varsStr);</span>
+<span class="nc" id="L443">		println(&quot; do&quot;);</span>
+<span class="nc" id="L444">		indent();</span>
+<span class="nc" id="L445">		visit(rule2);</span>
+<span class="nc" id="L446">		unIndent();</span>
+<span class="nc" id="L447">	}</span>
+
+	public void visit(LetRule rule) {
+<span class="fc" id="L450">		List&lt;VariableTerm&gt; vars = rule.getVariable();</span>
+<span class="fc" id="L451">		List&lt;Term&gt; terms = rule.getInitExpression();</span>
+<span class="fc" id="L452">		Rule rule2 = rule.getInRule();</span>
+<span class="fc" id="L453">		print(&quot;let (&quot;);</span>
+<span class="fc" id="L454">		visit(vars, terms, &quot;=&quot;);</span>
+<span class="fc" id="L455">		println(&quot;) in&quot;);</span>
+<span class="fc" id="L456">		indent();</span>
+<span class="fc" id="L457">		visit(rule2);</span>
+<span class="fc" id="L458">		unIndent();</span>
+<span class="fc" id="L459">		println(&quot;endlet&quot;);</span>
+<span class="fc" id="L460">	}</span>
+
+	public void visit(ChooseRule rule) {
+<span class="fc" id="L463">		List&lt;VariableTerm&gt; vars = rule.getVariable();</span>
+<span class="fc" id="L464">		List&lt;Term&gt; domains = rule.getRanges();</span>
+<span class="fc" id="L465">		Term cond = rule.getGuard();</span>
+<span class="fc" id="L466">		Rule rule2 = rule.getDoRule();</span>
+<span class="fc" id="L467">		Rule rule3 = rule.getIfnone();</span>
+<span class="fc" id="L468">		print(&quot;choose &quot;);</span>
+<span class="fc" id="L469">		visit(vars, domains, &quot;in&quot;);</span>
+<span class="pc bpc" id="L470" title="1 of 2 branches missed.">		if (cond != null) {</span>
+<span class="fc" id="L471">			String condStr = tp.visit(cond);</span>
+<span class="fc" id="L472">			print(&quot; with &quot; + condStr);</span>
+		}
+<span class="fc" id="L474">		println(&quot; do&quot;);</span>
+<span class="fc" id="L475">		indent();</span>
+<span class="fc" id="L476">		visit(rule2);</span>
+<span class="fc" id="L477">		unIndent();</span>
+<span class="fc bfc" id="L478" title="All 2 branches covered.">		if (rule3 != null) {</span>
+<span class="fc" id="L479">			unIndent();</span>
+<span class="fc" id="L480">			println(&quot;ifnone&quot;);</span>
+<span class="fc" id="L481">			indent();</span>
+<span class="fc" id="L482">			visit(rule3);</span>
+<span class="fc" id="L483">			unIndent();</span>
+		}
+<span class="fc" id="L485">	}</span>
+
+	public void visit(ForallRule rule) {
+<span class="fc" id="L488">		List&lt;VariableTerm&gt; vars = rule.getVariable();</span>
+<span class="fc" id="L489">		List&lt;Term&gt; domains = rule.getRanges();</span>
+<span class="fc" id="L490">		Term cond = rule.getGuard();</span>
+<span class="fc" id="L491">		Rule rule2 = rule.getDoRule();</span>
+<span class="fc" id="L492">		print(&quot;forall &quot;);</span>
+<span class="fc" id="L493">		visit(vars, domains, &quot;in&quot;);</span>
+<span class="pc bpc" id="L494" title="1 of 2 branches missed.">		if (cond != null) {</span>
+<span class="fc" id="L495">			String condStr = tp.visit(cond);</span>
+<span class="fc" id="L496">			print(&quot; with &quot; + condStr);</span>
+		}
+<span class="fc" id="L498">		println(&quot; do&quot;);</span>
+<span class="fc" id="L499">		indent();</span>
+<span class="fc" id="L500">		visit(rule2);</span>
+<span class="fc" id="L501">		unIndent();</span>
+<span class="fc" id="L502">	}</span>
+
+	public void visit(CaseRule rule) {
+		// indent();
+<span class="fc" id="L506">		print(&quot;switch &quot;);</span>
+<span class="fc" id="L507">		println(tp.visit(rule.getTerm()));</span>
+<span class="fc" id="L508">		List&lt;Term&gt; cases = rule.getCaseTerm();</span>
+<span class="fc" id="L509">		List&lt;Rule&gt; rules = rule.getCaseBranches();</span>
+<span class="fc" id="L510">		indent();</span>
+<span class="fc bfc" id="L511" title="All 2 branches covered.">		for (int i = 0; i &lt; cases.size(); i++) {</span>
+<span class="fc" id="L512">			print(&quot;case &quot;);</span>
+<span class="fc" id="L513">			println(tp.visit(cases.get(i)) + &quot;:&quot;);</span>
+<span class="fc" id="L514">			indent();</span>
+<span class="fc" id="L515">			visit(rules.get(i));</span>
+<span class="fc" id="L516">			unIndent();</span>
+		}
+<span class="fc" id="L518">		unIndent();</span>
+<span class="fc" id="L519">		Rule rOth = rule.getOtherwiseBranch();</span>
+<span class="fc bfc" id="L520" title="All 2 branches covered.">		if (rOth != null) {</span>
+<span class="fc" id="L521">			println(&quot;otherwise&quot;);</span>
+<span class="fc" id="L522">			indent();</span>
+<span class="fc" id="L523">			visit(rOth);</span>
+<span class="fc" id="L524">			unIndent();</span>
+		}
+<span class="fc" id="L526">		println(&quot;endswitch&quot;);</span>
+		// unIndent();
+<span class="fc" id="L528">	}</span>
+
+	public void visit(MacroCallRule rule) {
+<span class="fc" id="L531">		MacroDeclaration dcl = rule.getCalledMacro();</span>
+<span class="fc" id="L532">		String name = dcl.getName();</span>
+<span class="fc" id="L533">		List&lt;Term&gt; params = rule.getParameters();</span>
+<span class="fc" id="L534">		String paramsStr = tp.visit(params, &quot;[&quot;, &quot;]&quot;);</span>
+<span class="fc" id="L535">		println(name + paramsStr);</span>
+<span class="fc" id="L536">	}</span>
+
+	public void visit(TurboCallRule rule) {
+<span class="nc" id="L539">		TurboDeclaration dcl = rule.getCalledRule();</span>
+<span class="nc" id="L540">		String name = dcl.getName();</span>
+<span class="nc" id="L541">		List&lt;Term&gt; params = rule.getParameters();</span>
+<span class="nc" id="L542">		String paramsStr = tp.visit(params, &quot;(&quot;, &quot;)&quot;);</span>
+<span class="nc" id="L543">		println(name + paramsStr);</span>
+<span class="nc" id="L544">	}</span>
+
+	public void visit(TurboReturnRule rule) {
+<span class="nc" id="L547">		Term loc = rule.getLocation();</span>
+<span class="nc" id="L548">		tp.visit(loc);</span>
+<span class="nc" id="L549">		print(&quot;&lt;-&quot;);</span>
+<span class="nc" id="L550">		visit(rule.getUpdateRule());</span>
+<span class="nc" id="L551">	}</span>
+
+	public void visit(TermAsRule rule) {
+<span class="fc" id="L554">		Term term = rule.getTerm();</span>
+<span class="fc" id="L555">		String termStr = tp.visit(term);</span>
+<span class="fc" id="L556">		print(termStr);</span>
+<span class="fc" id="L557">		List&lt;Term&gt; params = rule.getParameters();</span>
+<span class="pc bpc" id="L558" title="1 of 2 branches missed.">		if (params.size() &gt; 0) {</span>
+<span class="nc" id="L559">			String paramsStr = tp.visit(params, &quot;[&quot;, &quot;]&quot;);</span>
+<span class="nc" id="L560">			println(paramsStr);</span>
+<span class="nc" id="L561">		} else {</span>
+<span class="fc" id="L562">			println();</span>
+		}
+<span class="fc" id="L564">	}</span>
+
+	public void visit(List&lt;VariableTerm&gt; vars, List&lt;Term&gt; terms, String delim) {
+<span class="pc bpc" id="L567" title="1 of 2 branches missed.">		if (vars != null) {</span>
+<span class="pc bpc" id="L568" title="2 of 4 branches missed.">			assert vars.size() &gt; 0;</span>
+<span class="fc" id="L569">			VariableTerm var = vars.get(0);</span>
+<span class="fc" id="L570">			Term term = terms.get(0);</span>
+<span class="fc" id="L571">			String varStr = var.getName();</span>
+<span class="fc" id="L572">			String termStr = tp.visit(term);</span>
+<span class="fc" id="L573">			print(varStr + &quot; &quot; + delim + &quot; &quot; + termStr);</span>
+<span class="pc bpc" id="L574" title="2 of 4 branches missed.">			assert vars.size() == terms.size();</span>
+<span class="fc bfc" id="L575" title="All 2 branches covered.">			for (int i = 1; i &lt; vars.size(); i++) {</span>
+<span class="fc" id="L576">				var = vars.get(i);</span>
+<span class="fc" id="L577">				term = terms.get(i);</span>
+<span class="fc" id="L578">				varStr = var.getName();</span>
+<span class="fc" id="L579">				termStr = tp.visit(term);</span>
+<span class="fc" id="L580">				print(&quot;, &quot; + varStr + &quot; &quot; + delim + &quot; &quot; + termStr);</span>
+			}
+		}
+<span class="fc" id="L583">	}</span>
+
+	public void visitDclVars(Collection&lt;VariableTerm&gt; vars, String start, String stop) {
+<span class="nc" id="L586">		VariableTerm[] array = vars.toArray(new VariableTerm[0]);</span>
+<span class="nc" id="L587">		List&lt;VariableTerm&gt; list = Arrays.asList(array);</span>
+<span class="nc" id="L588">		visitDclVars(list, start, stop);</span>
+<span class="nc" id="L589">	}</span>
+
+	public void visitDclVars(List&lt;VariableTerm&gt; vars, String start, String stop) {
+<span class="pc bpc" id="L592" title="1 of 4 branches missed.">		if (vars != null &amp;&amp; vars.size() &gt; 0) {</span>
+<span class="fc" id="L593">			print(start);</span>
+<span class="fc" id="L594">			VariableTerm var = vars.get(0);</span>
+<span class="fc" id="L595">			String name = var.getName();</span>
+<span class="fc" id="L596">			Domain domain = var.getDomain();</span>
+<span class="fc" id="L597">			print(name + &quot; in &quot;);</span>
+<span class="fc" id="L598">			visit(domain);</span>
+<span class="fc bfc" id="L599" title="All 2 branches covered.">			for (int i = 1; i &lt; vars.size(); i++) {</span>
+<span class="fc" id="L600">				var = vars.get(i);</span>
+<span class="fc" id="L601">				name = var.getName();</span>
+<span class="fc" id="L602">				domain = var.getDomain();</span>
+<span class="fc" id="L603">				print(&quot;, &quot; + name + &quot; in &quot;);</span>
+<span class="fc" id="L604">				visit(domain);</span>
+			}
+<span class="fc" id="L606">			print(stop);</span>
+		}
+<span class="fc" id="L608">	}</span>
+
+	public void visit(Initialization init) {
+		// TODO init.getDomainInitialization()
+<span class="pc bpc" id="L612" title="1 of 2 branches missed.">		if (init != null) {</span>
+<span class="fc" id="L613">			String name = init.getName();</span>
+<span class="fc" id="L614">			println(&quot;init &quot; + name + &quot;:&quot;);</span>
+<span class="fc" id="L615">			indent();</span>
+<span class="fc" id="L616">			Collection&lt;FunctionInitialization&gt; funcs = init.getFunctionInitialization();</span>
+<span class="fc" id="L617">			visitFuncInits(funcs);</span>
+
+<span class="fc" id="L619">			EList&lt;AgentInitialization&gt; agents = init.getAgentInitialization();</span>
+<span class="fc bfc" id="L620" title="All 2 branches covered.">			for (AgentInitialization agent : agents) {</span>
+<span class="fc" id="L621">				print(&quot;agent &quot; + agent.getDomain().getName() + &quot;:\n&quot;);</span>
+<span class="fc" id="L622">				indent();</span>
+<span class="fc" id="L623">				print(agent.getProgram().getCalledMacro().getName() + &quot;[]\n\n&quot;);</span>
+<span class="fc" id="L624">				unIndent();</span>
+<span class="fc" id="L625">			}</span>
+
+<span class="fc" id="L627">			unIndent();</span>
+		}
+<span class="fc" id="L629">	}</span>
+
+	public void visitDefault(Initialization init) {
+<span class="fc bfc" id="L632" title="All 2 branches covered.">		if (init != null) {</span>
+<span class="fc" id="L633">			print(&quot;default &quot;);</span>
+<span class="fc" id="L634">			visit(init);</span>
+		}
+<span class="fc" id="L636">	}</span>
+
+	public void visitFuncInits(Collection&lt;FunctionInitialization&gt; funcs) {
+<span class="pc bpc" id="L639" title="1 of 2 branches missed.">		if (funcs != null) {</span>
+<span class="fc bfc" id="L640" title="All 2 branches covered.">			for (FunctionInitialization init : funcs) {</span>
+<span class="fc" id="L641">				DynamicFunction func = init.getInitializedFunction();</span>
+<span class="fc" id="L642">				Asm asm = Defs.getAsm(func);</span>
+<span class="fc bfc" id="L643" title="All 2 branches covered.">				if (asm == model) {</span>
+<span class="fc" id="L644">					visitInit(init);</span>
+				}
+<span class="fc" id="L646">			}</span>
+		}
+<span class="fc" id="L648">	}</span>
+
+	public void visitInit(FunctionInitialization init) {
+<span class="fc" id="L651">		String name = init.getInitializedFunction().getName();</span>
+<span class="fc" id="L652">		List&lt;VariableTerm&gt; vars = init.getVariable();</span>
+<span class="fc" id="L653">		Term term = init.getBody();</span>
+<span class="fc" id="L654">		String termStr = tp.visit(term);</span>
+<span class="fc" id="L655">		print(&quot;function &quot; + name);</span>
+<span class="fc" id="L656">		visitDclVars(vars, &quot;(&quot;, &quot;)&quot;);</span>
+<span class="fc" id="L657">		println(&quot; = &quot; + termStr);</span>
+<span class="fc" id="L658">	}</span>
+
+	public void visit(Header header) {
+<span class="fc" id="L661">		Collection&lt;ImportClause&gt; importClause = header.getImportClause();</span>
+<span class="fc" id="L662">		ExportClause exportClause = header.getExportClause();</span>
+<span class="fc" id="L663">		Signature signature = header.getSignature();</span>
+<span class="fc" id="L664">		visit(importClause);</span>
+<span class="fc" id="L665">		visit(exportClause);</span>
+<span class="fc" id="L666">		println();</span>
+<span class="fc" id="L667">		visit(signature);</span>
+<span class="fc" id="L668">	}</span>
+
+	public void visit(Collection&lt;ImportClause&gt; imports) {
+<span class="pc bpc" id="L671" title="1 of 2 branches missed.">		if (imports != null) {</span>
+<span class="fc bfc" id="L672" title="All 2 branches covered.">			for (ImportClause importClause : imports) {</span>
+<span class="fc" id="L673">				String name = importClause.getModuleName();</span>
+<span class="fc" id="L674">				println(&quot;import &quot; + name);</span>
+<span class="fc" id="L675">			}</span>
+		}
+<span class="fc" id="L677">	}</span>
+
+	public void visit(ExportClause exportClause) {
+<span class="pc bpc" id="L680" title="1 of 2 branches missed.">		if (exportClause != null) {</span>
+			// TODO in the future
+<span class="nc" id="L682">			println(&quot;export *&quot;);</span>
+		}
+<span class="fc" id="L684">	}</span>
+
+	public void visit(Signature signature) {
+<span class="fc" id="L687">		Collection&lt;Domain&gt; domains = signature.getDomain();</span>
+<span class="fc" id="L688">		Collection&lt;Function&gt; functions = signature.getFunction();</span>
+<span class="fc" id="L689">		println(&quot;signature:&quot;);</span>
+<span class="fc" id="L690">		indent();</span>
+<span class="fc" id="L691">		visitDomains(domains);</span>
+<span class="fc" id="L692">		println();</span>
+<span class="fc" id="L693">		visitFunctions(functions);</span>
+<span class="fc" id="L694">		unIndent();</span>
+<span class="fc" id="L695">	}</span>
+
+	public void visitFunctions(Collection&lt;Function&gt; funcs) {
+<span class="pc bpc" id="L698" title="1 of 2 branches missed.">		if (funcs != null) {</span>
+<span class="fc" id="L699">			Function[] functions = sortFunctions(funcs);</span>
+<span class="fc bfc" id="L700" title="All 2 branches covered.">			for (Function function : functions) {</span>
+<span class="fc" id="L701">				Asm asm = Defs.getAsm(function);</span>
+<span class="pc bpc" id="L702" title="1 of 2 branches missed.">				if (asm == model) {</span>
+<span class="fc" id="L703">					visitDcl(function);</span>
+				}
+			}
+		}
+<span class="fc" id="L707">	}</span>
+
+	private Function[] sortFunctions(Collection&lt;Function&gt; funcs) {
+<span class="fc" id="L710">		Function[] functions = funcs.toArray(new Function[0]);</span>
+		/*
+		 * Arrays.sort(functions, new Comparator&lt;Function&gt;() {
+		 * 
+		 * @Override public int compare(Function arg0, Function arg1) { int[][] compare
+		 * = { {+0, -1, -1, -1, -1, -1, -1}, {+1, +0, -1, -1, -1, -1, -1}, {+1, +1, +0,
+		 * -1, -1, -1, -1}, {+1, +1, +1, +0, -1, -1, -1}, {+1, +1, +1, +1, +0, -1, -1},
+		 * {+1, +1, +1, +1, +1, +0, -1}, {+1, +1, +1, +1, +1, +1, +0} }; int i =
+		 * order(arg0); int j = order(arg1); int result = compare[i][j]; return result
+		 * == 0 ? compare2(arg0, arg1) : result; }
+		 * 
+		 * int order(Function func) { if (func instanceof MonitoredFunction) { return 0;
+		 * } else if (func instanceof SharedFunction) { return 1; } else if (func
+		 * instanceof ControlledFunction) { return 2; } else if (func instanceof
+		 * OutFunction) { return 3; } else if (func instanceof StaticFunction) { return
+		 * 4; } else if (func instanceof DerivedFunction) { return 5; } else { return 6;
+		 * } }
+		 * 
+		 * int compare2(Function arg0, Function arg1) { String name0 = arg0.getName();
+		 * String name1 = arg1.getName(); return name0.compareTo(name1); }
+		 * 
+		 * });
+		 */
+<span class="fc" id="L733">		return functions;</span>
+	}
+
+	public void visitDcl(Function function) {
+<span class="fc" id="L737">		String name = function.getName();</span>
+<span class="fc" id="L738">		Domain domain = function.getDomain();</span>
+<span class="fc" id="L739">		Domain codomain = function.getCodomain();</span>
+<span class="fc" id="L740">		visitUnknownDcl(function);</span>
+<span class="fc" id="L741">		print(name + &quot;: &quot;);</span>
+<span class="fc bfc" id="L742" title="All 2 branches covered.">		if (domain != null) {</span>
+<span class="fc" id="L743">			visit(domain);</span>
+<span class="fc" id="L744">			print(&quot; -&gt; &quot;);</span>
+		}
+<span class="fc" id="L746">		visit(codomain);</span>
+<span class="fc" id="L747">		println();</span>
+<span class="fc" id="L748">	}</span>
+
+	public void visit(Domain domain) {
+<span class="fc bfc" id="L751" title="All 2 branches covered.">		if (domain instanceof StructuredTd) {</span>
+<span class="fc" id="L752">			visitUnknown(domain);</span>
+		} else {
+<span class="fc" id="L754">			String name = domain.getName();</span>
+<span class="fc" id="L755">			print(name);</span>
+		}
+<span class="fc" id="L757">	}</span>
+
+	public void visit(RuleDomain domain) {
+<span class="nc" id="L760">		List&lt;Domain&gt; domains = domain.getDomains();</span>
+<span class="nc" id="L761">		print(&quot;Rule&quot;);</span>
+<span class="nc" id="L762">		visit(domains);</span>
+<span class="nc" id="L763">	}</span>
+
+	public void visit(ProductDomain domain) {
+<span class="fc" id="L766">		List&lt;Domain&gt; domains = domain.getDomains();</span>
+<span class="fc" id="L767">		print(&quot;Prod&quot;);</span>
+<span class="fc" id="L768">		visit(domains);</span>
+<span class="fc" id="L769">	}</span>
+
+	public void visit(SequenceDomain domain) {
+<span class="nc" id="L772">		Domain base = domain.getDomain();</span>
+<span class="nc" id="L773">		print(&quot;Seq(&quot;);</span>
+<span class="nc" id="L774">		visit(base);</span>
+<span class="nc" id="L775">		print(&quot;)&quot;);</span>
+<span class="nc" id="L776">	}</span>
+
+	public void visit(PowersetDomain domain) {
+<span class="fc" id="L779">		Domain base = domain.getBaseDomain();</span>
+<span class="fc" id="L780">		print(&quot;Powerset(&quot;);</span>
+<span class="fc" id="L781">		visit(base);</span>
+<span class="fc" id="L782">		print(&quot;)&quot;);</span>
+<span class="fc" id="L783">	}</span>
+
+	public void visit(BagDomain domain) {
+<span class="nc" id="L786">		Domain base = domain.getDomain();</span>
+<span class="nc" id="L787">		print(&quot;Bag(&quot;);</span>
+<span class="nc" id="L788">		visit(base);</span>
+<span class="nc" id="L789">		print(&quot;)&quot;);</span>
+<span class="nc" id="L790">	}</span>
+
+	public void visit(MapDomain domain) {
+<span class="nc" id="L793">		Domain source = domain.getSourceDomain();</span>
+<span class="nc" id="L794">		Domain target = domain.getTargetDomain();</span>
+<span class="nc" id="L795">		print(&quot;Map(&quot;);</span>
+<span class="nc" id="L796">		visit(source);</span>
+<span class="nc" id="L797">		print(&quot;, &quot;);</span>
+<span class="nc" id="L798">		visit(target);</span>
+<span class="nc" id="L799">		print(&quot;)&quot;);</span>
+<span class="nc" id="L800">	}</span>
+
+	/**
+	 * visit the domain list, if it is empty do nothing
+	 * 
+	 * @param domains
+	 */
+	public void visit(List&lt;Domain&gt; domains) {
+<span class="pc bpc" id="L808" title="3 of 6 branches missed.">		if (domains != null &amp; domains.size() &gt; 0) {</span>
+<span class="fc" id="L809">			print(&quot;(&quot;);</span>
+			int i;
+<span class="fc bfc" id="L811" title="All 2 branches covered.">			for (i = 0; i &lt; domains.size() - 1; i++) {</span>
+<span class="fc" id="L812">				visit(domains.get(i));</span>
+<span class="fc" id="L813">				print(&quot;, &quot;);</span>
+			}
+<span class="fc" id="L815">			visit(domains.get(i));</span>
+<span class="fc" id="L816">			print(&quot;)&quot;);</span>
+		}
+<span class="fc" id="L818">	}</span>
+
+	public void visitDcl(StaticFunction function) {
+<span class="fc" id="L821">		print(&quot;static &quot;);</span>
+<span class="fc" id="L822">	}</span>
+
+	public void visitDcl(OutFunction function) {
+<span class="nc" id="L825">		print(&quot;out &quot;);</span>
+<span class="nc" id="L826">	}</span>
+
+	public void visitDcl(MonitoredFunction function) {
+<span class="fc" id="L829">		print(&quot;monitored &quot;);</span>
+<span class="fc" id="L830">	}</span>
+
+	public void visitDcl(SharedFunction function) {
+<span class="nc" id="L833">		print(&quot;shared &quot;);</span>
+<span class="nc" id="L834">	}</span>
+
+	public void visitDcl(ControlledFunction function) {
+<span class="fc" id="L837">		print(&quot;controlled &quot;);</span>
+<span class="fc" id="L838">	}</span>
+
+	public void visitDcl(DerivedFunction function) {
+<span class="fc" id="L841">		print(&quot;derived &quot;);</span>
+<span class="fc" id="L842">	}</span>
+
+	public void visitDomains(Collection&lt;Domain&gt; doms) {
+<span class="pc bpc" id="L845" title="1 of 2 branches missed.">		if (doms != null) {</span>
+<span class="fc" id="L846">			Domain[] domains = sortDomains(doms);</span>
+<span class="fc bfc" id="L847" title="All 2 branches covered.">			for (Domain domain : domains) {</span>
+<span class="fc" id="L848">				Asm asm = Defs.getAsm(domain);</span>
+<span class="pc bpc" id="L849" title="1 of 2 branches missed.">				if (asm == model) {</span>
+<span class="fc" id="L850">					visitDcl(domain);</span>
+				}
+			}
+		}
+<span class="fc" id="L854">	}</span>
+
+	private Domain[] sortDomains(Collection&lt;Domain&gt; doms) {
+<span class="fc" id="L857">		Domain[] domains = doms.toArray(new Domain[0]);</span>
+		/*
+		 * Arrays.sort(domains, new Comparator&lt;Domain&gt;() {
+		 * 
+		 * @Override public int compare(Domain arg0, Domain arg1) { String name0 =
+		 * arg0.getName(); String name1 = arg1.getName(); if (arg0 instanceof
+		 * AbstractTd) { if (arg1 instanceof AbstractTd) { return
+		 * name0.compareTo(name1); } return -1; } else if (arg0 instanceof
+		 * ConcreteDomain) { if (arg1 instanceof AbstractTd) { return 1; } if (arg1
+		 * instanceof ConcreteDomain) { return name0.compareTo(name1); } return -1; }
+		 * else if (arg0 instanceof EnumTd) { if (arg1 instanceof AbstractTd || arg1
+		 * instanceof ConcreteDomain) { return 1; } return name0.compareTo(name1); }
+		 * else { return name0.compareTo(name1); } }
+		 * 
+		 * });
+		 */
+<span class="fc" id="L873">		return domains;</span>
+	}
+
+	public void visitDcl(Domain domain) {
+<span class="pc bpc" id="L877" title="1 of 6 branches missed.">		if (domain instanceof AbstractTd || domain instanceof ConcreteDomain || domain instanceof EnumTd) {</span>
+<span class="pc bpc" id="L878" title="2 of 4 branches missed.">			if (!(domain instanceof AgentDomain || domain instanceof ReserveDomain)) {</span>
+<span class="fc" id="L879">				visitUnknownDcl(domain);</span>
+			}
+		}
+<span class="fc" id="L882">	}</span>
+
+	public void visitDcl(AbstractTd domain) {
+<span class="fc" id="L885">		String name = domain.getName();</span>
+<span class="pc bpc" id="L886" title="1 of 2 branches missed.">		if (domain.getIsDynamic()) {</span>
+<span class="nc" id="L887">			print(&quot;dynamic &quot;);</span>
+		}
+<span class="fc" id="L889">		println(&quot;abstract domain &quot; + name);</span>
+<span class="fc" id="L890">	}</span>
+
+	public void visitDcl(ConcreteDomain domain) {
+<span class="fc" id="L893">		String name = domain.getName();</span>
+<span class="fc" id="L894">		TypeDomain typeDomain = domain.getTypeDomain();</span>
+<span class="pc bpc" id="L895" title="1 of 2 branches missed.">		if (domain.getIsDynamic()) {</span>
+<span class="nc" id="L896">			print(&quot;dynamic &quot;);</span>
+		}
+<span class="fc" id="L898">		print(&quot;domain &quot; + name + &quot; subsetof &quot;);</span>
+<span class="fc" id="L899">		visit(typeDomain);</span>
+<span class="fc" id="L900">		println();</span>
+<span class="fc" id="L901">	}</span>
+
+	public void visitDcl(EnumTd enumTd) {
+<span class="fc" id="L904">		String name = enumTd.getName();</span>
+<span class="fc" id="L905">		Collection&lt;EnumElement&gt; elements = enumTd.getElement();</span>
+<span class="fc" id="L906">		print(&quot;enum domain &quot; + name + &quot; = &quot;);</span>
+<span class="fc" id="L907">		visitDcl(elements);</span>
+<span class="fc" id="L908">	}</span>
+
+	public void visitDcl(Collection&lt;EnumElement&gt; enums) {
+<span class="pc bpc" id="L911" title="1 of 2 branches missed.">		if (enums != null) {</span>
+<span class="fc" id="L912">			print(&quot;{&quot;);</span>
+<span class="fc" id="L913">			EnumElement[] elements = enums.toArray(new EnumElement[0]);</span>
+<span class="fc" id="L914">			EnumElement enumElement = elements[0];</span>
+<span class="fc" id="L915">			String name = enumElement.getSymbol();</span>
+<span class="fc" id="L916">			print(name);</span>
+<span class="fc bfc" id="L917" title="All 2 branches covered.">			for (int i = 1; i &lt; elements.length; i++) {</span>
+<span class="fc" id="L918">				enumElement = elements[i];</span>
+<span class="fc" id="L919">				name = enumElement.getSymbol();</span>
+<span class="fc" id="L920">				print(&quot; | &quot; + name);</span>
+			}
+<span class="fc" id="L922">			println(&quot;}&quot;);</span>
+		}
+<span class="fc" id="L924">	}</span>
+
+	protected void print(String msg) {
+<span class="fc bfc" id="L927" title="All 2 branches covered.">		if (expand) {</span>
+<span class="fc" id="L928">			expandWhites();</span>
+<span class="fc" id="L929">			expand = false;</span>
+		}
+<span class="fc" id="L931">		out.print(msg);</span>
+<span class="fc" id="L932">	}</span>
+
+	protected void println(String msg) {
+<span class="fc" id="L935">		print(msg);</span>
+<span class="fc" id="L936">		println();</span>
+<span class="fc" id="L937">	}</span>
+
+	protected void println() {
+<span class="fc" id="L940">		out.println();</span>
+<span class="fc" id="L941">		expand = true;</span>
+<span class="fc" id="L942">	}</span>
+
+	// increases the indentation
+	protected void indent() {
+<span class="fc" id="L946">		indentation++;</span>
+<span class="fc" id="L947">	}</span>
+
+	protected void unIndent() {
+<span class="fc" id="L950">		indentation--;</span>
+<span class="fc" id="L951">	}</span>
+
+	void expandWhites() {
+<span class="fc" id="L954">		String s = &quot;&quot;;</span>
+<span class="fc bfc" id="L955" title="All 2 branches covered.">		for (int i = 0; i &lt; indentation; i++) {</span>
+<span class="fc" id="L956">			s += tabWidth;</span>
+		}
+<span class="fc" id="L958">		out.print(s);</span>
+<span class="fc" id="L959">	}</span>
+
+	public void visitTerm(Term t) {
+<span class="nc" id="L962">		out.print(tp.visit(t));</span>
+<span class="nc" id="L963">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

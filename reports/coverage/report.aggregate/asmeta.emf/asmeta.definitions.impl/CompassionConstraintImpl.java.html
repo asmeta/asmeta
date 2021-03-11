@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>CompassionConstraintImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.definitions.impl</a> &gt; <span class="el_source">CompassionConstraintImpl.java</span></div><h1>CompassionConstraintImpl.java</h1><pre class="source lang-java linenums">/**
+ */
+package asmeta.definitions.impl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import asmeta.definitions.CompassionConstraint;
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.terms.basicterms.Term;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Compassion Constraint&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.impl.CompassionConstraintImpl#getP &lt;em&gt;P&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.impl.CompassionConstraintImpl#getQ &lt;em&gt;Q&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class CompassionConstraintImpl extends FairnessConstraintImpl implements CompassionConstraint {
+	/**
+	 * The cached value of the '{@link #getP() &lt;em&gt;P&lt;/em&gt;}' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getP()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term p;
+	/**
+	 * The cached value of the '{@link #getQ() &lt;em&gt;Q&lt;/em&gt;}' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getQ()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term q;
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected CompassionConstraintImpl() {
+<span class="nc" id="L55">		super();</span>
+<span class="nc" id="L56">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L65">		return DefinitionsPackage.Literals.COMPASSION_CONSTRAINT;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getP() {
+<span class="nc" id="L75">		return p;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetP(Term newP, NotificationChain msgs) {
+<span class="nc" id="L84">		Term oldP = p;</span>
+<span class="nc" id="L85">		p = newP;</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L87">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DefinitionsPackage.COMPASSION_CONSTRAINT__P, oldP, newP);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="nc" id="L90">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setP(Term newP) {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">		if (newP != p) {</span>
+<span class="nc" id="L101">			NotificationChain msgs = null;</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">			if (p != null)</span>
+<span class="nc" id="L103">				msgs = ((InternalEObject)p).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - DefinitionsPackage.COMPASSION_CONSTRAINT__P, null, msgs);</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">			if (newP != null)</span>
+<span class="nc" id="L105">				msgs = ((InternalEObject)newP).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - DefinitionsPackage.COMPASSION_CONSTRAINT__P, null, msgs);</span>
+<span class="nc" id="L106">			msgs = basicSetP(newP, msgs);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="nc" id="L108">		}</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L110">			eNotify(new ENotificationImpl(this, Notification.SET, DefinitionsPackage.COMPASSION_CONSTRAINT__P, newP, newP));</span>
+<span class="nc" id="L111">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getQ() {
+<span class="nc" id="L120">		return q;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetQ(Term newQ, NotificationChain msgs) {
+<span class="nc" id="L129">		Term oldQ = q;</span>
+<span class="nc" id="L130">		q = newQ;</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L132">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DefinitionsPackage.COMPASSION_CONSTRAINT__Q, oldQ, newQ);</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="nc" id="L135">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setQ(Term newQ) {
+<span class="nc bnc" id="L145" title="All 2 branches missed.">		if (newQ != q) {</span>
+<span class="nc" id="L146">			NotificationChain msgs = null;</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">			if (q != null)</span>
+<span class="nc" id="L148">				msgs = ((InternalEObject)q).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - DefinitionsPackage.COMPASSION_CONSTRAINT__Q, null, msgs);</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">			if (newQ != null)</span>
+<span class="nc" id="L150">				msgs = ((InternalEObject)newQ).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - DefinitionsPackage.COMPASSION_CONSTRAINT__Q, null, msgs);</span>
+<span class="nc" id="L151">			msgs = basicSetQ(newQ, msgs);</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="nc" id="L153">		}</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L155">			eNotify(new ENotificationImpl(this, Notification.SET, DefinitionsPackage.COMPASSION_CONSTRAINT__Q, newQ, newQ));</span>
+<span class="nc" id="L156">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L165" title="All 3 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.COMPASSION_CONSTRAINT__P:
+<span class="nc" id="L167">				return basicSetP(null, msgs);</span>
+			case DefinitionsPackage.COMPASSION_CONSTRAINT__Q:
+<span class="nc" id="L169">				return basicSetQ(null, msgs);</span>
+		}
+<span class="nc" id="L171">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L181" title="All 3 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.COMPASSION_CONSTRAINT__P:
+<span class="nc" id="L183">				return getP();</span>
+			case DefinitionsPackage.COMPASSION_CONSTRAINT__Q:
+<span class="nc" id="L185">				return getQ();</span>
+		}
+<span class="nc" id="L187">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L197" title="All 3 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.COMPASSION_CONSTRAINT__P:
+<span class="nc" id="L199">				setP((Term)newValue);</span>
+<span class="nc" id="L200">				return;</span>
+			case DefinitionsPackage.COMPASSION_CONSTRAINT__Q:
+<span class="nc" id="L202">				setQ((Term)newValue);</span>
+<span class="nc" id="L203">				return;</span>
+		}
+<span class="nc" id="L205">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L206">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L215" title="All 3 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.COMPASSION_CONSTRAINT__P:
+<span class="nc" id="L217">				setP((Term)null);</span>
+<span class="nc" id="L218">				return;</span>
+			case DefinitionsPackage.COMPASSION_CONSTRAINT__Q:
+<span class="nc" id="L220">				setQ((Term)null);</span>
+<span class="nc" id="L221">				return;</span>
+		}
+<span class="nc" id="L223">		super.eUnset(featureID);</span>
+<span class="nc" id="L224">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L233" title="All 3 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.COMPASSION_CONSTRAINT__P:
+<span class="nc bnc" id="L235" title="All 2 branches missed.">				return p != null;</span>
+			case DefinitionsPackage.COMPASSION_CONSTRAINT__Q:
+<span class="nc bnc" id="L237" title="All 2 branches missed.">				return q != null;</span>
+		}
+<span class="nc" id="L239">		return super.eIsSet(featureID);</span>
+	}
+
+} //CompassionConstraintImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

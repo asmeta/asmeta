@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>FunctionInitializationImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.structure.impl</a> &gt; <span class="el_source">FunctionInitializationImpl.java</span></div><h1>FunctionInitializationImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.structure.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.DynamicFunction;
+import asmeta.structure.FunctionInitialization;
+import asmeta.structure.Initialization;
+import asmeta.structure.StructurePackage;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Function Initialization&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.FunctionInitializationImpl#getInitialState &lt;em&gt;Initial State&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.FunctionInitializationImpl#getBody &lt;em&gt;Body&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.FunctionInitializationImpl#getInitializedFunction &lt;em&gt;Initialized Function&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.FunctionInitializationImpl#getVariable &lt;em&gt;Variable&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class FunctionInitializationImpl extends EObjectImpl implements FunctionInitialization {
+	/**
+	 * The cached value of the '{@link #getBody() &lt;em&gt;Body&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getBody()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term body;
+
+	/**
+	 * The cached value of the '{@link #getInitializedFunction() &lt;em&gt;Initialized Function&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getInitializedFunction()
+	 * @generated
+	 * @ordered
+	 */
+	protected DynamicFunction initializedFunction;
+
+	/**
+	 * The cached value of the '{@link #getVariable() &lt;em&gt;Variable&lt;/em&gt;}' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getVariable()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;VariableTerm&gt; variable;
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected FunctionInitializationImpl() {
+<span class="fc" id="L83">		super();</span>
+<span class="fc" id="L84">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L93">		return StructurePackage.Literals.FUNCTION_INITIALIZATION;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Initialization getInitialState() {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">		if (eContainerFeatureID() != StructurePackage.FUNCTION_INITIALIZATION__INITIAL_STATE) return null;</span>
+<span class="nc" id="L104">		return (Initialization)eInternalContainer();</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetInitialState(Initialization newInitialState, NotificationChain msgs) {
+<span class="fc" id="L113">		msgs = eBasicSetContainer((InternalEObject)newInitialState, StructurePackage.FUNCTION_INITIALIZATION__INITIAL_STATE, msgs);</span>
+<span class="fc" id="L114">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setInitialState(Initialization newInitialState) {
+<span class="pc bpc" id="L124" title="5 of 6 branches missed.">		if (newInitialState != eInternalContainer() || (eContainerFeatureID() != StructurePackage.FUNCTION_INITIALIZATION__INITIAL_STATE &amp;&amp; newInitialState != null)) {</span>
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">			if (EcoreUtil.isAncestor(this, newInitialState))</span>
+<span class="nc" id="L126">				throw new IllegalArgumentException(&quot;Recursive containment not allowed for &quot; + toString());</span>
+<span class="fc" id="L127">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">			if (eInternalContainer() != null)</span>
+<span class="nc" id="L129">				msgs = eBasicRemoveFromContainer(msgs);</span>
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">			if (newInitialState != null)</span>
+<span class="fc" id="L131">				msgs = ((InternalEObject)newInitialState).eInverseAdd(this, StructurePackage.INITIALIZATION__FUNCTION_INITIALIZATION, Initialization.class, msgs);</span>
+<span class="fc" id="L132">			msgs = basicSetInitialState(newInitialState, msgs);</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L134">		}</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L136">			eNotify(new ENotificationImpl(this, Notification.SET, StructurePackage.FUNCTION_INITIALIZATION__INITIAL_STATE, newInitialState, newInitialState));</span>
+<span class="fc" id="L137">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getBody() {
+<span class="pc bpc" id="L146" title="2 of 4 branches missed.">		if (body != null &amp;&amp; body.eIsProxy()) {</span>
+<span class="nc" id="L147">			InternalEObject oldBody = (InternalEObject)body;</span>
+<span class="nc" id="L148">			body = (Term)eResolveProxy(oldBody);</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">			if (body != oldBody) {</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L151">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StructurePackage.FUNCTION_INITIALIZATION__BODY, oldBody, body));</span>
+			}
+		}
+<span class="fc" id="L154">		return body;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Term basicGetBody() {
+<span class="nc" id="L163">		return body;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setBody(Term newBody) {
+<span class="fc" id="L173">		Term oldBody = body;</span>
+<span class="fc" id="L174">		body = newBody;</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L176">			eNotify(new ENotificationImpl(this, Notification.SET, StructurePackage.FUNCTION_INITIALIZATION__BODY, oldBody, body));</span>
+<span class="fc" id="L177">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public DynamicFunction getInitializedFunction() {
+<span class="pc bpc" id="L186" title="2 of 4 branches missed.">		if (initializedFunction != null &amp;&amp; initializedFunction.eIsProxy()) {</span>
+<span class="nc" id="L187">			InternalEObject oldInitializedFunction = (InternalEObject)initializedFunction;</span>
+<span class="nc" id="L188">			initializedFunction = (DynamicFunction)eResolveProxy(oldInitializedFunction);</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">			if (initializedFunction != oldInitializedFunction) {</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L191">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StructurePackage.FUNCTION_INITIALIZATION__INITIALIZED_FUNCTION, oldInitializedFunction, initializedFunction));</span>
+			}
+		}
+<span class="fc" id="L194">		return initializedFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public DynamicFunction basicGetInitializedFunction() {
+<span class="nc" id="L203">		return initializedFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetInitializedFunction(DynamicFunction newInitializedFunction, NotificationChain msgs) {
+<span class="fc" id="L212">		DynamicFunction oldInitializedFunction = initializedFunction;</span>
+<span class="fc" id="L213">		initializedFunction = newInitializedFunction;</span>
+<span class="pc bpc" id="L214" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L215">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StructurePackage.FUNCTION_INITIALIZATION__INITIALIZED_FUNCTION, oldInitializedFunction, newInitializedFunction);</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L218">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setInitializedFunction(DynamicFunction newInitializedFunction) {
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">		if (newInitializedFunction != initializedFunction) {</span>
+<span class="fc" id="L229">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L230" title="1 of 2 branches missed.">			if (initializedFunction != null)</span>
+<span class="nc" id="L231">				msgs = ((InternalEObject)initializedFunction).eInverseRemove(this, DefinitionsPackage.DYNAMIC_FUNCTION__INITIALIZATION, DynamicFunction.class, msgs);</span>
+<span class="pc bpc" id="L232" title="1 of 2 branches missed.">			if (newInitializedFunction != null)</span>
+<span class="fc" id="L233">				msgs = ((InternalEObject)newInitializedFunction).eInverseAdd(this, DefinitionsPackage.DYNAMIC_FUNCTION__INITIALIZATION, DynamicFunction.class, msgs);</span>
+<span class="fc" id="L234">			msgs = basicSetInitializedFunction(newInitializedFunction, msgs);</span>
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L236">		}</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L238">			eNotify(new ENotificationImpl(this, Notification.SET, StructurePackage.FUNCTION_INITIALIZATION__INITIALIZED_FUNCTION, newInitializedFunction, newInitializedFunction));</span>
+<span class="fc" id="L239">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;VariableTerm&gt; getVariable() {
+<span class="fc bfc" id="L248" title="All 2 branches covered.">		if (variable == null) {</span>
+<span class="fc" id="L249">			variable = new EObjectContainmentEList&lt;VariableTerm&gt;(VariableTerm.class, this, StructurePackage.FUNCTION_INITIALIZATION__VARIABLE);</span>
+		}
+<span class="fc" id="L251">		return variable;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="pc bpc" id="L261" title="2 of 3 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIAL_STATE:
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">				if (eInternalContainer() != null)</span>
+<span class="nc" id="L264">					msgs = eBasicRemoveFromContainer(msgs);</span>
+<span class="fc" id="L265">				return basicSetInitialState((Initialization)otherEnd, msgs);</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIALIZED_FUNCTION:
+<span class="nc bnc" id="L267" title="All 2 branches missed.">				if (initializedFunction != null)</span>
+<span class="nc" id="L268">					msgs = ((InternalEObject)initializedFunction).eInverseRemove(this, DefinitionsPackage.DYNAMIC_FUNCTION__INITIALIZATION, DynamicFunction.class, msgs);</span>
+<span class="nc" id="L269">				return basicSetInitializedFunction((DynamicFunction)otherEnd, msgs);</span>
+		}
+<span class="nc" id="L271">		return super.eInverseAdd(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="pc bpc" id="L281" title="3 of 4 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIAL_STATE:
+<span class="nc" id="L283">				return basicSetInitialState(null, msgs);</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIALIZED_FUNCTION:
+<span class="fc" id="L285">				return basicSetInitializedFunction(null, msgs);</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__VARIABLE:
+<span class="nc" id="L287">				return ((InternalEList&lt;?&gt;)getVariable()).basicRemove(otherEnd, msgs);</span>
+		}
+<span class="nc" id="L289">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+<span class="nc bnc" id="L299" title="All 2 branches missed.">		switch (eContainerFeatureID()) {</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIAL_STATE:
+<span class="nc" id="L301">				return eInternalContainer().eInverseRemove(this, StructurePackage.INITIALIZATION__FUNCTION_INITIALIZATION, Initialization.class, msgs);</span>
+		}
+<span class="nc" id="L303">		return super.eBasicRemoveFromContainerFeature(msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L313" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIAL_STATE:
+<span class="nc" id="L315">				return getInitialState();</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__BODY:
+<span class="nc bnc" id="L317" title="All 2 branches missed.">				if (resolve) return getBody();</span>
+<span class="nc" id="L318">				return basicGetBody();</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIALIZED_FUNCTION:
+<span class="nc bnc" id="L320" title="All 2 branches missed.">				if (resolve) return getInitializedFunction();</span>
+<span class="nc" id="L321">				return basicGetInitializedFunction();</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__VARIABLE:
+<span class="nc" id="L323">				return getVariable();</span>
+		}
+<span class="nc" id="L325">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L336" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIAL_STATE:
+<span class="nc" id="L338">				setInitialState((Initialization)newValue);</span>
+<span class="nc" id="L339">				return;</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__BODY:
+<span class="nc" id="L341">				setBody((Term)newValue);</span>
+<span class="nc" id="L342">				return;</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIALIZED_FUNCTION:
+<span class="nc" id="L344">				setInitializedFunction((DynamicFunction)newValue);</span>
+<span class="nc" id="L345">				return;</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__VARIABLE:
+<span class="nc" id="L347">				getVariable().clear();</span>
+<span class="nc" id="L348">				getVariable().addAll((Collection&lt;? extends VariableTerm&gt;)newValue);</span>
+<span class="nc" id="L349">				return;</span>
+		}
+<span class="nc" id="L351">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L352">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L361" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIAL_STATE:
+<span class="nc" id="L363">				setInitialState((Initialization)null);</span>
+<span class="nc" id="L364">				return;</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__BODY:
+<span class="nc" id="L366">				setBody((Term)null);</span>
+<span class="nc" id="L367">				return;</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIALIZED_FUNCTION:
+<span class="nc" id="L369">				setInitializedFunction((DynamicFunction)null);</span>
+<span class="nc" id="L370">				return;</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__VARIABLE:
+<span class="nc" id="L372">				getVariable().clear();</span>
+<span class="nc" id="L373">				return;</span>
+		}
+<span class="nc" id="L375">		super.eUnset(featureID);</span>
+<span class="nc" id="L376">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L385" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIAL_STATE:
+<span class="nc bnc" id="L387" title="All 2 branches missed.">				return getInitialState() != null;</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__BODY:
+<span class="nc bnc" id="L389" title="All 2 branches missed.">				return body != null;</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__INITIALIZED_FUNCTION:
+<span class="nc bnc" id="L391" title="All 2 branches missed.">				return initializedFunction != null;</span>
+			case StructurePackage.FUNCTION_INITIALIZATION__VARIABLE:
+<span class="nc bnc" id="L393" title="All 4 branches missed.">				return variable != null &amp;&amp; !variable.isEmpty();</span>
+		}
+<span class="nc" id="L395">		return super.eIsSet(featureID);</span>
+	}
+
+} //FunctionInitializationImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

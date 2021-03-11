@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>DerivedtransitionrulesPackage.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.derivedtransitionrules</a> &gt; <span class="el_source">DerivedtransitionrulesPackage.java</span></div><h1>DerivedtransitionrulesPackage.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.derivedtransitionrules;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * The &lt;b&gt;Package&lt;/b&gt; for the model.
+ * It contains accessors for the meta objects to represent
+ * &lt;ul&gt;
+ *   &lt;li&gt;each class,&lt;/li&gt;
+ *   &lt;li&gt;each feature of each class,&lt;/li&gt;
+ *   &lt;li&gt;each enum,&lt;/li&gt;
+ *   &lt;li&gt;and each data type&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;!-- end-user-doc --&gt;
+ * @see asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesFactory
+ * @model kind=&quot;package&quot;
+ * @generated
+ */
+public interface DerivedtransitionrulesPackage extends EPackage {
+	/**
+	 * The package name.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	String eNAME = &quot;derivedtransitionrules&quot;;
+
+	/**
+	 * The package namespace URI.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	String eNS_URI = &quot;http://org.asmeta/asmm#DerivedTransitionRules&quot;;
+
+	/**
+	 * The package namespace name.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	String eNS_PREFIX = &quot;AsmM&quot;;
+
+	/**
+	 * The singleton instance of the package.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L62">	DerivedtransitionrulesPackage eINSTANCE = asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl.init();</span>
+
+	/**
+	 * The meta object id for the '{@link asmeta.transitionrules.derivedtransitionrules.impl.DerivedRuleImpl &lt;em&gt;Derived Rule&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedRuleImpl
+	 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl#getDerivedRule()
+	 * @generated
+	 */
+	int DERIVED_RULE = 2;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Derived Rule&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int DERIVED_RULE_FEATURE_COUNT = BasictransitionrulesPackage.RULE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.transitionrules.derivedtransitionrules.impl.TurboDerivedRuleImpl &lt;em&gt;Turbo Derived Rule&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.transitionrules.derivedtransitionrules.impl.TurboDerivedRuleImpl
+	 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl#getTurboDerivedRule()
+	 * @generated
+	 */
+	int TURBO_DERIVED_RULE = 5;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Turbo Derived Rule&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int TURBO_DERIVED_RULE_FEATURE_COUNT = DERIVED_RULE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.transitionrules.derivedtransitionrules.impl.RecursiveWhileRuleImpl &lt;em&gt;Recursive While Rule&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.transitionrules.derivedtransitionrules.impl.RecursiveWhileRuleImpl
+	 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl#getRecursiveWhileRule()
+	 * @generated
+	 */
+	int RECURSIVE_WHILE_RULE = 0;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Rule&lt;/b&gt;&lt;/em&gt;' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int RECURSIVE_WHILE_RULE__RULE = TURBO_DERIVED_RULE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int RECURSIVE_WHILE_RULE__GUARD = TURBO_DERIVED_RULE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Recursive While Rule&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int RECURSIVE_WHILE_RULE_FEATURE_COUNT = TURBO_DERIVED_RULE_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link asmeta.transitionrules.derivedtransitionrules.impl.IterativeWhileRuleImpl &lt;em&gt;Iterative While Rule&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.transitionrules.derivedtransitionrules.impl.IterativeWhileRuleImpl
+	 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl#getIterativeWhileRule()
+	 * @generated
+	 */
+	int ITERATIVE_WHILE_RULE = 1;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATIVE_WHILE_RULE__GUARD = TURBO_DERIVED_RULE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Rule&lt;/b&gt;&lt;/em&gt;' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATIVE_WHILE_RULE__RULE = TURBO_DERIVED_RULE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Iterative While Rule&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATIVE_WHILE_RULE_FEATURE_COUNT = TURBO_DERIVED_RULE_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link asmeta.transitionrules.derivedtransitionrules.impl.BasicDerivedRuleImpl &lt;em&gt;Basic Derived Rule&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.transitionrules.derivedtransitionrules.impl.BasicDerivedRuleImpl
+	 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl#getBasicDerivedRule()
+	 * @generated
+	 */
+	int BASIC_DERIVED_RULE = 4;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Basic Derived Rule&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int BASIC_DERIVED_RULE_FEATURE_COUNT = DERIVED_RULE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link asmeta.transitionrules.derivedtransitionrules.impl.CaseRuleImpl &lt;em&gt;Case Rule&lt;/em&gt;}' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see asmeta.transitionrules.derivedtransitionrules.impl.CaseRuleImpl
+	 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl#getCaseRule()
+	 * @generated
+	 */
+	int CASE_RULE = 3;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Term&lt;/b&gt;&lt;/em&gt;' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_RULE__TERM = BASIC_DERIVED_RULE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Case Term&lt;/b&gt;&lt;/em&gt;' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_RULE__CASE_TERM = BASIC_DERIVED_RULE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Otherwise Branch&lt;/b&gt;&lt;/em&gt;' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_RULE__OTHERWISE_BRANCH = BASIC_DERIVED_RULE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '&lt;em&gt;&lt;b&gt;Case Branches&lt;/b&gt;&lt;/em&gt;' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_RULE__CASE_BRANCHES = BASIC_DERIVED_RULE_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '&lt;em&gt;Case Rule&lt;/em&gt;' class.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_RULE_FEATURE_COUNT = BASIC_DERIVED_RULE_FEATURE_COUNT + 4;
+
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule &lt;em&gt;Recursive While Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Recursive While Rule&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule
+	 * @generated
+	 */
+	EClass getRecursiveWhileRule();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule#getRule &lt;em&gt;Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the containment reference '&lt;em&gt;Rule&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule#getRule()
+	 * @see #getRecursiveWhileRule()
+	 * @generated
+	 */
+	EReference getRecursiveWhileRule_Rule();
+
+	/**
+	 * Returns the meta object for the reference '{@link asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule#getGuard &lt;em&gt;Guard&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference '&lt;em&gt;Guard&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule#getGuard()
+	 * @see #getRecursiveWhileRule()
+	 * @generated
+	 */
+	EReference getRecursiveWhileRule_Guard();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule &lt;em&gt;Iterative While Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Iterative While Rule&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule
+	 * @generated
+	 */
+	EClass getIterativeWhileRule();
+
+	/**
+	 * Returns the meta object for the reference '{@link asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule#getGuard &lt;em&gt;Guard&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference '&lt;em&gt;Guard&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule#getGuard()
+	 * @see #getIterativeWhileRule()
+	 * @generated
+	 */
+	EReference getIterativeWhileRule_Guard();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule#getRule &lt;em&gt;Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the containment reference '&lt;em&gt;Rule&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule#getRule()
+	 * @see #getIterativeWhileRule()
+	 * @generated
+	 */
+	EReference getIterativeWhileRule_Rule();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.transitionrules.derivedtransitionrules.DerivedRule &lt;em&gt;Derived Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Derived Rule&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.DerivedRule
+	 * @generated
+	 */
+	EClass getDerivedRule();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.transitionrules.derivedtransitionrules.CaseRule &lt;em&gt;Case Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Case Rule&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.CaseRule
+	 * @generated
+	 */
+	EClass getCaseRule();
+
+	/**
+	 * Returns the meta object for the reference '{@link asmeta.transitionrules.derivedtransitionrules.CaseRule#getTerm &lt;em&gt;Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference '&lt;em&gt;Term&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.CaseRule#getTerm()
+	 * @see #getCaseRule()
+	 * @generated
+	 */
+	EReference getCaseRule_Term();
+
+	/**
+	 * Returns the meta object for the reference list '{@link asmeta.transitionrules.derivedtransitionrules.CaseRule#getCaseTerm &lt;em&gt;Case Term&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the reference list '&lt;em&gt;Case Term&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.CaseRule#getCaseTerm()
+	 * @see #getCaseRule()
+	 * @generated
+	 */
+	EReference getCaseRule_CaseTerm();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link asmeta.transitionrules.derivedtransitionrules.CaseRule#getOtherwiseBranch &lt;em&gt;Otherwise Branch&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the containment reference '&lt;em&gt;Otherwise Branch&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.CaseRule#getOtherwiseBranch()
+	 * @see #getCaseRule()
+	 * @generated
+	 */
+	EReference getCaseRule_OtherwiseBranch();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link asmeta.transitionrules.derivedtransitionrules.CaseRule#getCaseBranches &lt;em&gt;Case Branches&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for the attribute list '&lt;em&gt;Case Branches&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.CaseRule#getCaseBranches()
+	 * @see #getCaseRule()
+	 * @generated
+	 */
+	EAttribute getCaseRule_CaseBranches();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.transitionrules.derivedtransitionrules.BasicDerivedRule &lt;em&gt;Basic Derived Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Basic Derived Rule&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.BasicDerivedRule
+	 * @generated
+	 */
+	EClass getBasicDerivedRule();
+
+	/**
+	 * Returns the meta object for class '{@link asmeta.transitionrules.derivedtransitionrules.TurboDerivedRule &lt;em&gt;Turbo Derived Rule&lt;/em&gt;}'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the meta object for class '&lt;em&gt;Turbo Derived Rule&lt;/em&gt;'.
+	 * @see asmeta.transitionrules.derivedtransitionrules.TurboDerivedRule
+	 * @generated
+	 */
+	EClass getTurboDerivedRule();
+
+	/**
+	 * Returns the factory that creates the instances of the model.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the factory that creates the instances of the model.
+	 * @generated
+	 */
+	DerivedtransitionrulesFactory getDerivedtransitionrulesFactory();
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * Defines literals for the meta objects that represent
+	 * &lt;ul&gt;
+	 *   &lt;li&gt;each class,&lt;/li&gt;
+	 *   &lt;li&gt;each feature of each class,&lt;/li&gt;
+	 *   &lt;li&gt;each enum,&lt;/li&gt;
+	 *   &lt;li&gt;and each data type&lt;/li&gt;
+	 * &lt;/ul&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	interface Literals {
+		/**
+		 * The meta object literal for the '{@link asmeta.transitionrules.derivedtransitionrules.impl.RecursiveWhileRuleImpl &lt;em&gt;Recursive While Rule&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.transitionrules.derivedtransitionrules.impl.RecursiveWhileRuleImpl
+		 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl#getRecursiveWhileRule()
+		 * @generated
+		 */
+<span class="nc" id="L429">		EClass RECURSIVE_WHILE_RULE = eINSTANCE.getRecursiveWhileRule();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Rule&lt;/b&gt;&lt;/em&gt;' containment reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L437">		EReference RECURSIVE_WHILE_RULE__RULE = eINSTANCE.getRecursiveWhileRule_Rule();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L445">		EReference RECURSIVE_WHILE_RULE__GUARD = eINSTANCE.getRecursiveWhileRule_Guard();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.transitionrules.derivedtransitionrules.impl.IterativeWhileRuleImpl &lt;em&gt;Iterative While Rule&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.transitionrules.derivedtransitionrules.impl.IterativeWhileRuleImpl
+		 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl#getIterativeWhileRule()
+		 * @generated
+		 */
+<span class="nc" id="L455">		EClass ITERATIVE_WHILE_RULE = eINSTANCE.getIterativeWhileRule();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Guard&lt;/b&gt;&lt;/em&gt;' reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L463">		EReference ITERATIVE_WHILE_RULE__GUARD = eINSTANCE.getIterativeWhileRule_Guard();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Rule&lt;/b&gt;&lt;/em&gt;' containment reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L471">		EReference ITERATIVE_WHILE_RULE__RULE = eINSTANCE.getIterativeWhileRule_Rule();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.transitionrules.derivedtransitionrules.impl.DerivedRuleImpl &lt;em&gt;Derived Rule&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedRuleImpl
+		 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl#getDerivedRule()
+		 * @generated
+		 */
+<span class="nc" id="L481">		EClass DERIVED_RULE = eINSTANCE.getDerivedRule();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.transitionrules.derivedtransitionrules.impl.CaseRuleImpl &lt;em&gt;Case Rule&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.transitionrules.derivedtransitionrules.impl.CaseRuleImpl
+		 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl#getCaseRule()
+		 * @generated
+		 */
+<span class="nc" id="L491">		EClass CASE_RULE = eINSTANCE.getCaseRule();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Term&lt;/b&gt;&lt;/em&gt;' reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L499">		EReference CASE_RULE__TERM = eINSTANCE.getCaseRule_Term();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Case Term&lt;/b&gt;&lt;/em&gt;' reference list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L507">		EReference CASE_RULE__CASE_TERM = eINSTANCE.getCaseRule_CaseTerm();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Otherwise Branch&lt;/b&gt;&lt;/em&gt;' containment reference feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L515">		EReference CASE_RULE__OTHERWISE_BRANCH = eINSTANCE.getCaseRule_OtherwiseBranch();</span>
+
+		/**
+		 * The meta object literal for the '&lt;em&gt;&lt;b&gt;Case Branches&lt;/b&gt;&lt;/em&gt;' attribute list feature.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @generated
+		 */
+<span class="nc" id="L523">		EAttribute CASE_RULE__CASE_BRANCHES = eINSTANCE.getCaseRule_CaseBranches();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.transitionrules.derivedtransitionrules.impl.BasicDerivedRuleImpl &lt;em&gt;Basic Derived Rule&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.transitionrules.derivedtransitionrules.impl.BasicDerivedRuleImpl
+		 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl#getBasicDerivedRule()
+		 * @generated
+		 */
+<span class="nc" id="L533">		EClass BASIC_DERIVED_RULE = eINSTANCE.getBasicDerivedRule();</span>
+
+		/**
+		 * The meta object literal for the '{@link asmeta.transitionrules.derivedtransitionrules.impl.TurboDerivedRuleImpl &lt;em&gt;Turbo Derived Rule&lt;/em&gt;}' class.
+		 * &lt;!-- begin-user-doc --&gt;
+		 * &lt;!-- end-user-doc --&gt;
+		 * @see asmeta.transitionrules.derivedtransitionrules.impl.TurboDerivedRuleImpl
+		 * @see asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl#getTurboDerivedRule()
+		 * @generated
+		 */
+<span class="nc" id="L543">		EClass TURBO_DERIVED_RULE = eINSTANCE.getTurboDerivedRule();</span>
+
+	}
+
+} //DerivedtransitionrulesPackage
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

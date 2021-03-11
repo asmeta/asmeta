@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>PrimitivetypesFactoryImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">primitivetypes.impl</a> &gt; <span class="el_source">PrimitivetypesFactoryImpl.java</span></div><h1>PrimitivetypesFactoryImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package primitivetypes.impl;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import primitivetypes.*;
+import primitivetypes.PrimitivetypesFactory;
+import primitivetypes.PrimitivetypesPackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model &lt;b&gt;Factory&lt;/b&gt;.
+ * &lt;!-- end-user-doc --&gt;
+ * @generated
+ */
+public class PrimitivetypesFactoryImpl extends EFactoryImpl implements PrimitivetypesFactory {
+	/**
+	 * Creates the default factory implementation.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public static PrimitivetypesFactory init() {
+		try {
+<span class="fc" id="L35">			PrimitivetypesFactory thePrimitivetypesFactory = (PrimitivetypesFactory)EPackage.Registry.INSTANCE.getEFactory(PrimitivetypesPackage.eNS_URI);</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">			if (thePrimitivetypesFactory != null) {</span>
+<span class="nc" id="L37">				return thePrimitivetypesFactory;</span>
+			}
+		}
+<span class="nc" id="L40">		catch (Exception exception) {</span>
+<span class="nc" id="L41">			EcorePlugin.INSTANCE.log(exception);</span>
+<span class="fc" id="L42">		}</span>
+<span class="fc" id="L43">		return new PrimitivetypesFactoryImpl();</span>
+	}
+
+	/**
+	 * Creates an instance of the factory.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public PrimitivetypesFactoryImpl() {
+<span class="fc" id="L53">		super();</span>
+<span class="fc" id="L54">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EObject create(EClass eClass) {
+<span class="nc" id="L63">		switch (eClass.getClassifierID()) {</span>
+			default:
+<span class="nc" id="L65">				throw new IllegalArgumentException(&quot;The class '&quot; + eClass.getName() + &quot;' is not a valid classifier&quot;);</span>
+		}
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+<span class="nc bnc" id="L76" title="All 7 branches missed.">		switch (eDataType.getClassifierID()) {</span>
+			case PrimitivetypesPackage.INTEGER:
+<span class="nc" id="L78">				return createIntegerFromString(eDataType, initialValue);</span>
+			case PrimitivetypesPackage.LONG:
+<span class="nc" id="L80">				return createLongFromString(eDataType, initialValue);</span>
+			case PrimitivetypesPackage.FLOAT:
+<span class="nc" id="L82">				return createFloatFromString(eDataType, initialValue);</span>
+			case PrimitivetypesPackage.DOUBLE:
+<span class="nc" id="L84">				return createDoubleFromString(eDataType, initialValue);</span>
+			case PrimitivetypesPackage.BOOLEAN:
+<span class="nc" id="L86">				return createBooleanFromString(eDataType, initialValue);</span>
+			case PrimitivetypesPackage.STRING:
+<span class="nc" id="L88">				return createStringFromString(eDataType, initialValue);</span>
+			default:
+<span class="nc" id="L90">				throw new IllegalArgumentException(&quot;The datatype '&quot; + eDataType.getName() + &quot;' is not a valid classifier&quot;);</span>
+		}
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+<span class="nc bnc" id="L101" title="All 7 branches missed.">		switch (eDataType.getClassifierID()) {</span>
+			case PrimitivetypesPackage.INTEGER:
+<span class="nc" id="L103">				return convertIntegerToString(eDataType, instanceValue);</span>
+			case PrimitivetypesPackage.LONG:
+<span class="nc" id="L105">				return convertLongToString(eDataType, instanceValue);</span>
+			case PrimitivetypesPackage.FLOAT:
+<span class="nc" id="L107">				return convertFloatToString(eDataType, instanceValue);</span>
+			case PrimitivetypesPackage.DOUBLE:
+<span class="nc" id="L109">				return convertDoubleToString(eDataType, instanceValue);</span>
+			case PrimitivetypesPackage.BOOLEAN:
+<span class="nc" id="L111">				return convertBooleanToString(eDataType, instanceValue);</span>
+			case PrimitivetypesPackage.STRING:
+<span class="nc" id="L113">				return convertStringToString(eDataType, instanceValue);</span>
+			default:
+<span class="nc" id="L115">				throw new IllegalArgumentException(&quot;The datatype '&quot; + eDataType.getName() + &quot;' is not a valid classifier&quot;);</span>
+		}
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Integer createIntegerFromString(EDataType eDataType, String initialValue) {
+<span class="nc" id="L125">		return (Integer)super.createFromString(eDataType, initialValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public String convertIntegerToString(EDataType eDataType, Object instanceValue) {
+<span class="nc" id="L134">		return super.convertToString(eDataType, instanceValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Long createLongFromString(EDataType eDataType, String initialValue) {
+<span class="nc" id="L143">		return (Long)super.createFromString(eDataType, initialValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public String convertLongToString(EDataType eDataType, Object instanceValue) {
+<span class="nc" id="L152">		return super.convertToString(eDataType, instanceValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Float createFloatFromString(EDataType eDataType, String initialValue) {
+<span class="nc" id="L161">		return (Float)super.createFromString(eDataType, initialValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public String convertFloatToString(EDataType eDataType, Object instanceValue) {
+<span class="nc" id="L170">		return super.convertToString(eDataType, instanceValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Double createDoubleFromString(EDataType eDataType, String initialValue) {
+<span class="nc" id="L179">		return (Double)super.createFromString(eDataType, initialValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public String convertDoubleToString(EDataType eDataType, Object instanceValue) {
+<span class="nc" id="L188">		return super.convertToString(eDataType, instanceValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Boolean createBooleanFromString(EDataType eDataType, String initialValue) {
+<span class="nc" id="L197">		return (Boolean)super.createFromString(eDataType, initialValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public String convertBooleanToString(EDataType eDataType, Object instanceValue) {
+<span class="nc" id="L206">		return super.convertToString(eDataType, instanceValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public String createStringFromString(EDataType eDataType, String initialValue) {
+<span class="nc" id="L215">		return (String)super.createFromString(eDataType, initialValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public String convertStringToString(EDataType eDataType, Object instanceValue) {
+<span class="nc" id="L224">		return super.convertToString(eDataType, instanceValue);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public PrimitivetypesPackage getPrimitivetypesPackage() {
+<span class="nc" id="L234">		return (PrimitivetypesPackage)getEPackage();</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @deprecated
+	 * @generated
+	 */
+	@Deprecated
+	public static PrimitivetypesPackage getPackage() {
+<span class="nc" id="L245">		return PrimitivetypesPackage.eINSTANCE;</span>
+	}
+
+} //PrimitivetypesFactoryImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

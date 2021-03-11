@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>MonFuncReader.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator.readers</a> &gt; <span class="el_source">MonFuncReader.java</span></div><h1>MonFuncReader.java</h1><pre class="source lang-java linenums">/**
+ * 
+ */
+package org.asmeta.simulator.readers;
+
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.simulator.Location;
+import org.asmeta.simulator.State;
+import org.asmeta.simulator.TermEvaluator;
+import org.asmeta.simulator.value.EnumValue;
+import org.asmeta.simulator.value.ReserveValue;
+import org.asmeta.simulator.value.SetValue;
+import org.asmeta.simulator.value.Value;
+
+import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.EnumElement;
+import asmeta.definitions.domains.EnumTd;
+import asmeta.structure.DomainDefinition;
+
+/**
+ * Questa classe astratta si interpone fra l'ambiente &lt;i&gt;Environment&lt;/i&gt; e
+ * l'utente leggendo la rappresentazione in formato stringa di una costante e
+ * convertendola nell'oggetto &lt;i&gt;Value&lt;/i&gt; approprito in base al dominio di
+ * appartenenza.
+ * 
+ * @see &lt;i&gt;InteractiveMFReader&lt;/i&gt;, &lt;i&gt;FileMonFuncReader&lt;/i&gt;
+ * 
+ */
+<span class="nc" id="L30">public abstract class MonFuncReader extends ReflectiveVisitor&lt;Value&gt; {</span>
+	protected State state;
+
+	/**
+	 * Legge il contenuto di una location.
+	 * 
+	 * @param location location da leggere
+	 * @param state    stato corrente (serve per effettuare alcuni controlli di
+	 *                 consistenza sui valori letti)
+	 * @return contenuto di &lt;i&gt;location&lt;/i&gt;
+	 */
+	public final Value read(Location location, State state) {
+<span class="nc" id="L42">		this.state = state;</span>
+		// System.out.println(&quot;location = &quot; + location + &quot; state = &quot; +
+		// state.getMonLocsState());
+<span class="nc" id="L45">		return readValue(location, state);</span>
+	}
+
+	/**
+	 * Legge il contenuto di una location.
+	 * 
+	 * @param location location da leggere
+	 * @param state    stato corrente (serve per effettuare alcuni controlli di
+	 *                 consistenza sui valori letti)
+	 * @return contenuto di &lt;i&gt;location&lt;/i&gt;
+	 */
+	public abstract Value readValue(Location location, State state);
+
+	/**
+	 * Controlla che un valore appartenga al dominio astratto associato.
+	 * 
+	 * @param domain dominio astratto
+	 * @param value  valore da controllare
+	 * @return True se &lt;i&gt;value&lt;/i&gt; appartiene a &lt;i&gt;domain&lt;/i&gt;
+	 */
+	protected boolean checkAbstract(AbstractTd domain, ReserveValue value) {
+<span class="nc" id="L66">		SetValue set = state.read(domain);</span>
+<span class="nc" id="L67">		return set.getValue().contains(value);</span>
+	}
+
+	/**
+	 * Controlla che un valore appartenga al dominio enumerativo associato.
+	 * 
+	 * @param domain dominio enumerativo
+	 * @param value  valore da controllare
+	 * @return True se &lt;i&gt;value&lt;/i&gt; appartiene a &lt;i&gt;domain&lt;/i&gt;
+	 */
+	protected boolean checkEnum(EnumTd domain, EnumValue value) {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">		for (Object o : domain.getElement()) {</span>
+<span class="nc" id="L79">			EnumElement element = (EnumElement) o;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">			if (element.getSymbol().equals(value.getValue())) {</span>
+<span class="nc" id="L81">				return true;</span>
+			}
+<span class="nc" id="L83">		}</span>
+<span class="nc" id="L84">		return false;</span>
+	}
+
+	/**
+	 * Controlla che un valore appartenga al dominio concreto associato.
+	 * 
+	 * @param domain dominio concreto
+	 * @param value  valore da controllare
+	 * @return True se &lt;i&gt;value&lt;/i&gt; appartiene a &lt;i&gt;domain&lt;/i&gt;
+	 */
+	protected boolean checkConcrete(ConcreteDomain domain, Value value) {
+<span class="nc" id="L95">		DomainDefinition def = domain.getDefinition();</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">		if (def != null) {</span>
+			// NOTA: i parametri &lt;i&gt;environment&lt;/i&gt; e &lt;i&gt;assignment&lt;/i&gt; sono null
+			// poiche' una definizione di un dominio non contiene occorrenze di
+			// funzioni monitorate o di variabili libere
+<span class="nc" id="L100">			TermEvaluator eval = new TermEvaluator(state, null, null);</span>
+<span class="nc" id="L101">			SetValue&lt;?&gt; set = (SetValue&lt;?&gt;) eval.visit(def.getBody());</span>
+<span class="nc" id="L102">			return set.getValue().contains(value);</span>
+		}
+<span class="nc" id="L104">		return true;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

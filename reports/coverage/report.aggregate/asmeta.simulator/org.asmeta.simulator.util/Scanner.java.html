@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>Scanner.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator.util</a> &gt; <span class="el_source">Scanner.java</span></div><h1>Scanner.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2009 .
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *      - initial API and implementation
+ ******************************************************************************/
+package org.asmeta.simulator.util;
+
+import java.io.IOException;
+import java.io.Reader;
+
+/**
+ * Scans an input stream, identifies the tokens and converts them into the
+ * corresponding values.
+ * 
+ */
+public class Scanner {
+	
+	/**
+	 * Next read token.
+	 * 
+	 */
+<span class="nc" id="L27">	private StringBuilder buffer = new StringBuilder(128);</span>
+	
+	
+	/**
+	 * Next read character.
+	 * 
+	 */
+<span class="nc" id="L34">	private int lookahead = ' ';</span>
+	
+	/**
+	 * Input stream.
+	 *  
+	 */
+	private Reader reader;
+
+	/**
+	 * Creates a scanner.
+	 * 
+	 * @param reader a reader
+	 */
+<span class="nc" id="L47">	public Scanner(Reader reader) {</span>
+<span class="nc" id="L48">		this.reader = reader;</span>
+<span class="nc" id="L49">	}</span>
+	
+	/**
+	 * Clears the buffer.
+	 * 
+	 */
+	private void clearBuffer() {
+<span class="nc" id="L56">		buffer.delete(0, buffer.length());</span>
+<span class="nc" id="L57">	}</span>
+	
+	/**
+	 * Adds the lookahead character to the buffer.
+	 * 
+	 */
+	private void appendBuffer() {
+<span class="nc" id="L64">		buffer.append((char) lookahead);</span>
+<span class="nc" id="L65">	}</span>
+	
+	/**
+	 * Gets the token in the buffer.
+	 * 
+	 * @return the token
+	 */
+	private String bufferToString() {
+<span class="nc" id="L73">		return buffer.toString();</span>
+	}
+		
+	/**
+	 * Reads the next character (modifies the lookahead).
+	 * 
+	 */
+	private void next() {
+		try {
+<span class="nc" id="L82">			lookahead = reader.read();</span>
+<span class="nc" id="L83">		} catch (IOException e) {</span>
+<span class="nc" id="L84">			throw new RuntimeException(e);</span>
+<span class="nc" id="L85">		}</span>
+<span class="nc" id="L86">	}</span>
+	
+	/**
+	 * Skips all the whites characters.
+	 * 
+	 */
+	private void skipWhites() {
+<span class="nc bnc" id="L93" title="All 2 branches missed.">		while (Character.isWhitespace(lookahead)) {</span>
+<span class="nc" id="L94">			next();</span>
+		}
+<span class="nc" id="L96">	}</span>
+	
+	/**
+	 * Matches the lookahead with the given character.
+	 * 
+	 * @param expected expected character
+	 * @throws InputMismatchException
+	 */
+	private void match(int expected) throws InputMismatchException {
+<span class="nc bnc" id="L105" title="All 2 branches missed.">		if (lookahead != expected) {</span>
+<span class="nc" id="L106">			throw new InputMismatchException(</span>
+					&quot;Expected &quot; + (char) expected + 
+<span class="nc bnc" id="L108" title="All 2 branches missed.">					&quot; but found &quot; +  (lookahead == -1 ? &quot;EOF&quot; : (char) lookahead));</span>
+		}
+<span class="nc" id="L110">	}</span>
+	
+	/**
+	 * Matches the lookahead with the digits.  
+	 * 
+	 * @throws InputMismatchException
+	 */
+	private void matchDigit() throws InputMismatchException {
+<span class="nc bnc" id="L118" title="All 2 branches missed.">		if (!Character.isDigit(lookahead)) {</span>
+<span class="nc" id="L119">			throw new InputMismatchException(</span>
+					&quot;Expected a digit but found &quot; + 
+<span class="nc bnc" id="L121" title="All 2 branches missed.">					(lookahead == -1 ? &quot;EOF&quot; : (char) lookahead));</span>
+		}
+<span class="nc" id="L123">	}</span>
+	
+	/**
+	 * Matches the lookahead with the letters.
+	 * 
+	 * @throws InputMismatchException
+	 */
+	private void matchLetter() throws InputMismatchException {
+<span class="nc bnc" id="L131" title="All 2 branches missed.">		if (!Character.isLetter(lookahead)) {</span>
+<span class="nc" id="L132">			throw new InputMismatchException(</span>
+					&quot;Expected a letter but found &quot; + 
+<span class="nc bnc" id="L134" title="All 2 branches missed.">					(lookahead == -1 ? &quot;EOF&quot; : (char) lookahead));</span>
+		}
+<span class="nc" id="L136">	}</span>
+	
+	/**
+	 * Gets the lookahead (doesn't modify it).
+	 * 
+	 * @return the lookahead
+	 * @throws InputMismatchException if end-of-file is found
+	 */
+	public char peekChar() throws InputMismatchException {
+<span class="nc" id="L145">		skipWhites();</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">		if (lookahead == -1) {</span>
+<span class="nc" id="L147">			throw new InputMismatchException(</span>
+					&quot;Expected a char but found EOF&quot;);			
+		}
+<span class="nc" id="L150">		return (char) lookahead;</span>
+	}
+	
+	/**
+	 * Converts the current token into an integer.
+	 * 
+	 * @return an integer
+	 * @throws InputMismatchException
+	 */
+	public int scanInt() throws InputMismatchException {
+<span class="nc" id="L160">		clearBuffer();</span>
+<span class="nc" id="L161">		skipWhites();</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">		if (lookahead == '-') {</span>
+<span class="nc" id="L163">			appendBuffer();</span>
+<span class="nc" id="L164">			next();</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">		} else if (lookahead == '+') {</span>
+<span class="nc" id="L166">			next();</span>
+		}
+<span class="nc" id="L168">		matchDigit();</span>
+<span class="nc" id="L169">		appendBuffer();</span>
+<span class="nc" id="L170">		next();</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">		while (Character.isDigit(lookahead)) {</span>
+<span class="nc" id="L172">			appendBuffer();</span>
+<span class="nc" id="L173">			next();</span>
+		}
+<span class="nc" id="L175">		return Integer.parseInt(bufferToString());</span>
+	}
+	
+	/**
+	 * Converts the current token into a real.
+	 * 
+	 * @return a real
+	 * @throws InputMismatchException
+	 */
+	public double scanReal() throws InputMismatchException {
+<span class="nc" id="L185">		clearBuffer();</span>
+<span class="nc" id="L186">		skipWhites();</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">		if (lookahead == '-') {</span>
+<span class="nc" id="L188">			appendBuffer();</span>
+<span class="nc" id="L189">			next();</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">		} else if (lookahead == '+') {</span>
+<span class="nc" id="L191">			next();</span>
+		}
+<span class="nc" id="L193">		matchDigit();</span>
+<span class="nc" id="L194">		appendBuffer();</span>
+<span class="nc" id="L195">		next();</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">		while (Character.isDigit(lookahead)) {</span>
+<span class="nc" id="L197">			appendBuffer();</span>
+<span class="nc" id="L198">			next();</span>
+		}
+<span class="nc bnc" id="L200" title="All 2 branches missed.">		if (lookahead == '.') {</span>
+<span class="nc" id="L201">			appendBuffer();</span>
+<span class="nc" id="L202">			next(); matchDigit(); </span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">			while (Character.isDigit(lookahead)) {</span>
+<span class="nc" id="L204">				appendBuffer();</span>
+<span class="nc" id="L205">				next();</span>
+			}
+		}
+<span class="nc" id="L208">		return Double.parseDouble(bufferToString());</span>
+	}
+	
+	/**
+	 * Converts the current token into a boolean.
+	 * 
+	 * @return a boolean
+	 * @throws InputMismatchException
+	 */
+	public boolean scanBool() throws InputMismatchException {
+<span class="nc" id="L218">		skipWhites();</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">		if (lookahead == 't') {</span>
+<span class="nc" id="L220">			next(); match('r');</span>
+<span class="nc" id="L221">			next(); match('u');</span>
+<span class="nc" id="L222">			next(); match('e');</span>
+<span class="nc" id="L223">			next();</span>
+<span class="nc" id="L224">			return true;</span>
+<span class="nc bnc" id="L225" title="All 2 branches missed.">		} else if (lookahead == 'f') {</span>
+<span class="nc" id="L226">			next(); match('a');</span>
+<span class="nc" id="L227">			next(); match('l');</span>
+<span class="nc" id="L228">			next(); match('s');</span>
+<span class="nc" id="L229">			next(); match('e');</span>
+<span class="nc" id="L230">			next();</span>
+<span class="nc" id="L231">			return false;	</span>
+		}
+<span class="nc" id="L233">		throw new InputMismatchException(</span>
+				&quot;Expected boolean but found &quot; + (char) lookahead);
+	}
+	
+	/**
+	 * Checks if the current token is equals to the given string.
+	 * 
+	 * @param expected expected string
+	 * @return &lt;i&gt;expected&lt;/i&gt;
+	 * @throws InputMismatchException if the token is not equals to &lt;i&gt;expected&lt;/i&gt;
+	 */
+	public String scan(String expected) throws InputMismatchException {
+<span class="nc" id="L245">		skipWhites();</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">		for (int i = 0; i &lt; expected.length(); i++) {</span>
+<span class="nc" id="L247">			match(expected.charAt(i));</span>
+<span class="nc" id="L248">			next();</span>
+		}
+<span class="nc" id="L250">		return expected;</span>
+	}
+
+	/**
+	 * Converts the current token into a quoted string.
+	 * 
+	 * @return a quoted string
+	 * @throws InputMismatchException
+	 */
+	public String scanQuoted() throws InputMismatchException {
+<span class="nc" id="L260">		clearBuffer();</span>
+<span class="nc" id="L261">		skipWhites();</span>
+<span class="nc" id="L262">		match('&quot;');</span>
+<span class="nc" id="L263">		appendBuffer();</span>
+<span class="nc" id="L264">		next();</span>
+<span class="nc bnc" id="L265" title="All 4 branches missed.">		while (lookahead != -1 &amp;&amp; lookahead != '&quot;') {</span>
+<span class="nc" id="L266">			appendBuffer();</span>
+<span class="nc" id="L267">			next();</span>
+		}
+<span class="nc" id="L269">		match('&quot;');</span>
+<span class="nc" id="L270">		appendBuffer();</span>
+<span class="nc" id="L271">		next();</span>
+<span class="nc" id="L272">		return bufferToString();</span>
+	}
+
+	/**
+	 * Converts the current token into an identifier (a string of letters, digits,
+	 * &quot;_&quot; and &quot;!&quot;).
+	 * 
+	 * @return an identifier
+	 * @throws InputMismatchException
+	 */
+	public String scanId() throws InputMismatchException {
+<span class="nc" id="L283">		clearBuffer();</span>
+<span class="nc" id="L284">		skipWhites();</span>
+<span class="nc" id="L285">		matchLetter();</span>
+<span class="nc" id="L286">		appendBuffer();</span>
+<span class="nc" id="L287">		next();</span>
+<span class="nc" id="L288">		while (</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">				Character.isLetter(lookahead) || </span>
+<span class="nc bnc" id="L290" title="All 6 branches missed.">				Character.isDigit(lookahead) ||</span>
+				lookahead == '_' ||
+				lookahead == '!') {
+<span class="nc" id="L293">			appendBuffer();</span>
+<span class="nc" id="L294">			next();</span>
+		}
+<span class="nc" id="L296">		return bufferToString();</span>
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

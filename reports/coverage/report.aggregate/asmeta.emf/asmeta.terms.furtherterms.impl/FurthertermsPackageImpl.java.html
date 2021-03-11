@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>FurthertermsPackageImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.terms.furtherterms.impl</a> &gt; <span class="el_source">FurthertermsPackageImpl.java</span></div><h1>FurthertermsPackageImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.terms.furtherterms.impl;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.domains.DomainsPackage;
+import asmeta.definitions.domains.impl.DomainsPackageImpl;
+import asmeta.definitions.impl.DefinitionsPackageImpl;
+import asmeta.structure.StructurePackage;
+import asmeta.structure.impl.StructurePackageImpl;
+import asmeta.terms.basicterms.BasictermsPackage;
+import asmeta.terms.basicterms.impl.BasictermsPackageImpl;
+import asmeta.terms.furtherterms.BagCt;
+import asmeta.terms.furtherterms.BagTerm;
+import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.CharTerm;
+import asmeta.terms.furtherterms.ComplexTerm;
+import asmeta.terms.furtherterms.ComprehensionTerm;
+import asmeta.terms.furtherterms.ConditionalTerm;
+import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.FiniteQuantificationTerm;
+import asmeta.terms.furtherterms.ForallTerm;
+import asmeta.terms.furtherterms.FurthertermsFactory;
+import asmeta.terms.furtherterms.FurthertermsPackage;
+import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.LetTerm;
+import asmeta.terms.furtherterms.MapCt;
+import asmeta.terms.furtherterms.MapTerm;
+import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
+import asmeta.terms.furtherterms.SequenceCt;
+import asmeta.terms.furtherterms.SequenceTerm;
+import asmeta.terms.furtherterms.SetCt;
+import asmeta.terms.furtherterms.StringTerm;
+import asmeta.terms.furtherterms.VariableBindingTerm;
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+import asmeta.transitionrules.basictransitionrules.impl.BasictransitionrulesPackageImpl;
+import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage;
+import asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl;
+import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+import asmeta.transitionrules.turbotransitionrules.impl.TurbotransitionrulesPackageImpl;
+import primitivetypes.PrimitivetypesPackage;
+import primitivetypes.impl.PrimitivetypesPackageImpl;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model &lt;b&gt;Package&lt;/b&gt;.
+ * &lt;!-- end-user-doc --&gt;
+ * @generated
+ */
+public class FurthertermsPackageImpl extends EPackageImpl implements FurthertermsPackage {
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L69">	private EClass integerTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L76">	private EClass naturalTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L83">	private EClass variableBindingTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L90">	private EClass stringTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L97">	private EClass setCtEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L104">	private EClass sequenceTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L111">	private EClass sequenceCtEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L118">	private EClass realTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L125">	private EClass mapTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L132">	private EClass mapCtEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L139">	private EClass letTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L146">	private EClass forallTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L153">	private EClass finiteQuantificationTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L160">	private EClass existUniqueTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L167">	private EClass existTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L174">	private EClass enumTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L181">	private EClass conditionalTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L188">	private EClass comprehensionTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L195">	private EClass complexTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L202">	private EClass charTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L209">	private EClass caseTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L216">	private EClass bagTermEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L223">	private EClass bagCtEClass = null;</span>
+
+	/**
+	 * Creates an instance of the model &lt;b&gt;Package&lt;/b&gt;, registered with
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * &lt;p&gt;Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see org.eclipse.emf.ecore.EPackage.Registry
+	 * @see asmeta.terms.furtherterms.FurthertermsPackage#eNS_URI
+	 * @see #init()
+	 * @generated
+	 */
+	private FurthertermsPackageImpl() {
+<span class="fc" id="L241">		super(eNS_URI, FurthertermsFactory.eINSTANCE);</span>
+<span class="fc" id="L242">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L249">	private static boolean isInited = false;</span>
+
+	/**
+	 * Creates, registers, and initializes the &lt;b&gt;Package&lt;/b&gt; for this model, and for any others upon which it depends.
+	 *
+	 * &lt;p&gt;This method is used to initialize {@link FurthertermsPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #eNS_URI
+	 * @see #createPackageContents()
+	 * @see #initializePackageContents()
+	 * @generated
+	 */
+	public static FurthertermsPackage init() {
+<span class="pc bpc" id="L264" title="1 of 2 branches missed.">		if (isInited) return (FurthertermsPackage)EPackage.Registry.INSTANCE.getEPackage(FurthertermsPackage.eNS_URI);</span>
+
+		// Obtain or create and register package
+<span class="fc" id="L267">		Object registeredFurthertermsPackage = EPackage.Registry.INSTANCE.get(eNS_URI);</span>
+<span class="pc bpc" id="L268" title="1 of 2 branches missed.">		FurthertermsPackageImpl theFurthertermsPackage = registeredFurthertermsPackage instanceof FurthertermsPackageImpl ? (FurthertermsPackageImpl)registeredFurthertermsPackage : new FurthertermsPackageImpl();</span>
+
+<span class="fc" id="L270">		isInited = true;</span>
+
+		// Obtain or create and register interdependencies
+<span class="fc" id="L273">		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BasictermsPackage.eNS_URI);</span>
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">		BasictermsPackageImpl theBasictermsPackage = (BasictermsPackageImpl)(registeredPackage instanceof BasictermsPackageImpl ? registeredPackage : BasictermsPackage.eINSTANCE);</span>
+<span class="fc" id="L275">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(StructurePackage.eNS_URI);</span>
+<span class="pc bpc" id="L276" title="1 of 2 branches missed.">		StructurePackageImpl theStructurePackage = (StructurePackageImpl)(registeredPackage instanceof StructurePackageImpl ? registeredPackage : StructurePackage.eINSTANCE);</span>
+<span class="fc" id="L277">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TurbotransitionrulesPackage.eNS_URI);</span>
+<span class="pc bpc" id="L278" title="1 of 2 branches missed.">		TurbotransitionrulesPackageImpl theTurbotransitionrulesPackage = (TurbotransitionrulesPackageImpl)(registeredPackage instanceof TurbotransitionrulesPackageImpl ? registeredPackage : TurbotransitionrulesPackage.eINSTANCE);</span>
+<span class="fc" id="L279">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DerivedtransitionrulesPackage.eNS_URI);</span>
+<span class="pc bpc" id="L280" title="1 of 2 branches missed.">		DerivedtransitionrulesPackageImpl theDerivedtransitionrulesPackage = (DerivedtransitionrulesPackageImpl)(registeredPackage instanceof DerivedtransitionrulesPackageImpl ? registeredPackage : DerivedtransitionrulesPackage.eINSTANCE);</span>
+<span class="fc" id="L281">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BasictransitionrulesPackage.eNS_URI);</span>
+<span class="pc bpc" id="L282" title="1 of 2 branches missed.">		BasictransitionrulesPackageImpl theBasictransitionrulesPackage = (BasictransitionrulesPackageImpl)(registeredPackage instanceof BasictransitionrulesPackageImpl ? registeredPackage : BasictransitionrulesPackage.eINSTANCE);</span>
+<span class="fc" id="L283">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DefinitionsPackage.eNS_URI);</span>
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">		DefinitionsPackageImpl theDefinitionsPackage = (DefinitionsPackageImpl)(registeredPackage instanceof DefinitionsPackageImpl ? registeredPackage : DefinitionsPackage.eINSTANCE);</span>
+<span class="fc" id="L285">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DomainsPackage.eNS_URI);</span>
+<span class="pc bpc" id="L286" title="1 of 2 branches missed.">		DomainsPackageImpl theDomainsPackage = (DomainsPackageImpl)(registeredPackage instanceof DomainsPackageImpl ? registeredPackage : DomainsPackage.eINSTANCE);</span>
+<span class="fc" id="L287">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(PrimitivetypesPackage.eNS_URI);</span>
+<span class="pc bpc" id="L288" title="1 of 2 branches missed.">		PrimitivetypesPackageImpl thePrimitivetypesPackage = (PrimitivetypesPackageImpl)(registeredPackage instanceof PrimitivetypesPackageImpl ? registeredPackage : PrimitivetypesPackage.eINSTANCE);</span>
+
+		// Create package meta-data objects
+<span class="fc" id="L291">		theFurthertermsPackage.createPackageContents();</span>
+<span class="fc" id="L292">		theBasictermsPackage.createPackageContents();</span>
+<span class="fc" id="L293">		theStructurePackage.createPackageContents();</span>
+<span class="fc" id="L294">		theTurbotransitionrulesPackage.createPackageContents();</span>
+<span class="fc" id="L295">		theDerivedtransitionrulesPackage.createPackageContents();</span>
+<span class="fc" id="L296">		theBasictransitionrulesPackage.createPackageContents();</span>
+<span class="fc" id="L297">		theDefinitionsPackage.createPackageContents();</span>
+<span class="fc" id="L298">		theDomainsPackage.createPackageContents();</span>
+<span class="fc" id="L299">		thePrimitivetypesPackage.createPackageContents();</span>
+
+		// Initialize created meta-data
+<span class="fc" id="L302">		theFurthertermsPackage.initializePackageContents();</span>
+<span class="fc" id="L303">		theBasictermsPackage.initializePackageContents();</span>
+<span class="fc" id="L304">		theStructurePackage.initializePackageContents();</span>
+<span class="fc" id="L305">		theTurbotransitionrulesPackage.initializePackageContents();</span>
+<span class="fc" id="L306">		theDerivedtransitionrulesPackage.initializePackageContents();</span>
+<span class="fc" id="L307">		theBasictransitionrulesPackage.initializePackageContents();</span>
+<span class="fc" id="L308">		theDefinitionsPackage.initializePackageContents();</span>
+<span class="fc" id="L309">		theDomainsPackage.initializePackageContents();</span>
+<span class="fc" id="L310">		thePrimitivetypesPackage.initializePackageContents();</span>
+
+		// Mark meta-data to indicate it can't be changed
+<span class="fc" id="L313">		theFurthertermsPackage.freeze();</span>
+
+		// Update the registry and return the package
+<span class="fc" id="L316">		EPackage.Registry.INSTANCE.put(FurthertermsPackage.eNS_URI, theFurthertermsPackage);</span>
+<span class="fc" id="L317">		return theFurthertermsPackage;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getIntegerTerm() {
+<span class="nc" id="L327">		return integerTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getNaturalTerm() {
+<span class="nc" id="L337">		return naturalTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getVariableBindingTerm() {
+<span class="fc" id="L347">		return variableBindingTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getStringTerm() {
+<span class="nc" id="L357">		return stringTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getSetCt() {
+<span class="nc" id="L367">		return setCtEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getSequenceTerm() {
+<span class="nc" id="L377">		return sequenceTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EAttribute getSequenceTerm_Terms() {
+<span class="fc" id="L387">		return (EAttribute)sequenceTermEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getSequenceCt() {
+<span class="nc" id="L397">		return sequenceCtEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getRealTerm() {
+<span class="nc" id="L407">		return realTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getMapTerm() {
+<span class="nc" id="L417">		return mapTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getMapTerm_Pair() {
+<span class="fc" id="L427">		return (EReference)mapTermEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getMapCt() {
+<span class="nc" id="L437">		return mapCtEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getLetTerm() {
+<span class="nc" id="L447">		return letTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getLetTerm_Variable() {
+<span class="fc" id="L457">		return (EReference)letTermEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getLetTerm_AssignmentTerm() {
+<span class="fc" id="L467">		return (EReference)letTermEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getLetTerm_Body() {
+<span class="fc" id="L477">		return (EReference)letTermEClass.getEStructuralFeatures().get(2);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getForallTerm() {
+<span class="nc" id="L487">		return forallTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getFiniteQuantificationTerm() {
+<span class="fc" id="L497">		return finiteQuantificationTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getFiniteQuantificationTerm_Variable() {
+<span class="fc" id="L507">		return (EReference)finiteQuantificationTermEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getFiniteQuantificationTerm_Guard() {
+<span class="fc" id="L517">		return (EReference)finiteQuantificationTermEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EAttribute getFiniteQuantificationTerm_Ranges() {
+<span class="fc" id="L527">		return (EAttribute)finiteQuantificationTermEClass.getEStructuralFeatures().get(2);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getExistUniqueTerm() {
+<span class="nc" id="L537">		return existUniqueTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getExistTerm() {
+<span class="nc" id="L547">		return existTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getEnumTerm() {
+<span class="nc" id="L557">		return enumTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getConditionalTerm() {
+<span class="nc" id="L567">		return conditionalTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getConditionalTerm_ElseTerm() {
+<span class="fc" id="L577">		return (EReference)conditionalTermEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getConditionalTerm_Guard() {
+<span class="fc" id="L587">		return (EReference)conditionalTermEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getConditionalTerm_ThenTerm() {
+<span class="fc" id="L597">		return (EReference)conditionalTermEClass.getEStructuralFeatures().get(2);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getComprehensionTerm() {
+<span class="fc" id="L607">		return comprehensionTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getComprehensionTerm_Variable() {
+<span class="fc" id="L617">		return (EReference)comprehensionTermEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getComprehensionTerm_Guard() {
+<span class="fc" id="L627">		return (EReference)comprehensionTermEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getComprehensionTerm_Term() {
+<span class="fc" id="L637">		return (EReference)comprehensionTermEClass.getEStructuralFeatures().get(2);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EAttribute getComprehensionTerm_Ranges() {
+<span class="fc" id="L647">		return (EAttribute)comprehensionTermEClass.getEStructuralFeatures().get(3);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getComplexTerm() {
+<span class="nc" id="L657">		return complexTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getCharTerm() {
+<span class="nc" id="L667">		return charTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getCaseTerm() {
+<span class="nc" id="L677">		return caseTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getCaseTerm_ComparingTerm() {
+<span class="fc" id="L687">		return (EReference)caseTermEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getCaseTerm_ComparedTerm() {
+<span class="fc" id="L697">		return (EReference)caseTermEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getCaseTerm_OtherwiseTerm() {
+<span class="fc" id="L707">		return (EReference)caseTermEClass.getEStructuralFeatures().get(2);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCaseTerm_ResultTerms() {
+<span class="fc" id="L717">		return (EAttribute)caseTermEClass.getEStructuralFeatures().get(3);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getBagTerm() {
+<span class="nc" id="L727">		return bagTermEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getBagTerm_Term() {
+<span class="fc" id="L737">		return (EReference)bagTermEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getBagCt() {
+<span class="nc" id="L747">		return bagCtEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public FurthertermsFactory getFurthertermsFactory() {
+<span class="nc" id="L757">		return (FurthertermsFactory)getEFactoryInstance();</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L765">	private boolean isCreated = false;</span>
+
+	/**
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public void createPackageContents() {
+<span class="fc bfc" id="L775" title="All 2 branches covered.">		if (isCreated) return;</span>
+<span class="fc" id="L776">		isCreated = true;</span>
+
+		// Create classes and their features
+<span class="fc" id="L779">		integerTermEClass = createEClass(INTEGER_TERM);</span>
+
+<span class="fc" id="L781">		naturalTermEClass = createEClass(NATURAL_TERM);</span>
+
+<span class="fc" id="L783">		variableBindingTermEClass = createEClass(VARIABLE_BINDING_TERM);</span>
+
+<span class="fc" id="L785">		stringTermEClass = createEClass(STRING_TERM);</span>
+
+<span class="fc" id="L787">		setCtEClass = createEClass(SET_CT);</span>
+
+<span class="fc" id="L789">		sequenceTermEClass = createEClass(SEQUENCE_TERM);</span>
+<span class="fc" id="L790">		createEAttribute(sequenceTermEClass, SEQUENCE_TERM__TERMS);</span>
+
+<span class="fc" id="L792">		sequenceCtEClass = createEClass(SEQUENCE_CT);</span>
+
+<span class="fc" id="L794">		realTermEClass = createEClass(REAL_TERM);</span>
+
+<span class="fc" id="L796">		mapTermEClass = createEClass(MAP_TERM);</span>
+<span class="fc" id="L797">		createEReference(mapTermEClass, MAP_TERM__PAIR);</span>
+
+<span class="fc" id="L799">		mapCtEClass = createEClass(MAP_CT);</span>
+
+<span class="fc" id="L801">		letTermEClass = createEClass(LET_TERM);</span>
+<span class="fc" id="L802">		createEReference(letTermEClass, LET_TERM__VARIABLE);</span>
+<span class="fc" id="L803">		createEReference(letTermEClass, LET_TERM__ASSIGNMENT_TERM);</span>
+<span class="fc" id="L804">		createEReference(letTermEClass, LET_TERM__BODY);</span>
+
+<span class="fc" id="L806">		forallTermEClass = createEClass(FORALL_TERM);</span>
+
+<span class="fc" id="L808">		finiteQuantificationTermEClass = createEClass(FINITE_QUANTIFICATION_TERM);</span>
+<span class="fc" id="L809">		createEReference(finiteQuantificationTermEClass, FINITE_QUANTIFICATION_TERM__VARIABLE);</span>
+<span class="fc" id="L810">		createEReference(finiteQuantificationTermEClass, FINITE_QUANTIFICATION_TERM__GUARD);</span>
+<span class="fc" id="L811">		createEAttribute(finiteQuantificationTermEClass, FINITE_QUANTIFICATION_TERM__RANGES);</span>
+
+<span class="fc" id="L813">		existUniqueTermEClass = createEClass(EXIST_UNIQUE_TERM);</span>
+
+<span class="fc" id="L815">		existTermEClass = createEClass(EXIST_TERM);</span>
+
+<span class="fc" id="L817">		enumTermEClass = createEClass(ENUM_TERM);</span>
+
+<span class="fc" id="L819">		conditionalTermEClass = createEClass(CONDITIONAL_TERM);</span>
+<span class="fc" id="L820">		createEReference(conditionalTermEClass, CONDITIONAL_TERM__ELSE_TERM);</span>
+<span class="fc" id="L821">		createEReference(conditionalTermEClass, CONDITIONAL_TERM__GUARD);</span>
+<span class="fc" id="L822">		createEReference(conditionalTermEClass, CONDITIONAL_TERM__THEN_TERM);</span>
+
+<span class="fc" id="L824">		comprehensionTermEClass = createEClass(COMPREHENSION_TERM);</span>
+<span class="fc" id="L825">		createEReference(comprehensionTermEClass, COMPREHENSION_TERM__VARIABLE);</span>
+<span class="fc" id="L826">		createEReference(comprehensionTermEClass, COMPREHENSION_TERM__GUARD);</span>
+<span class="fc" id="L827">		createEReference(comprehensionTermEClass, COMPREHENSION_TERM__TERM);</span>
+<span class="fc" id="L828">		createEAttribute(comprehensionTermEClass, COMPREHENSION_TERM__RANGES);</span>
+
+<span class="fc" id="L830">		complexTermEClass = createEClass(COMPLEX_TERM);</span>
+
+<span class="fc" id="L832">		charTermEClass = createEClass(CHAR_TERM);</span>
+
+<span class="fc" id="L834">		caseTermEClass = createEClass(CASE_TERM);</span>
+<span class="fc" id="L835">		createEReference(caseTermEClass, CASE_TERM__COMPARING_TERM);</span>
+<span class="fc" id="L836">		createEReference(caseTermEClass, CASE_TERM__COMPARED_TERM);</span>
+<span class="fc" id="L837">		createEReference(caseTermEClass, CASE_TERM__OTHERWISE_TERM);</span>
+<span class="fc" id="L838">		createEAttribute(caseTermEClass, CASE_TERM__RESULT_TERMS);</span>
+
+<span class="fc" id="L840">		bagTermEClass = createEClass(BAG_TERM);</span>
+<span class="fc" id="L841">		createEReference(bagTermEClass, BAG_TERM__TERM);</span>
+
+<span class="fc" id="L843">		bagCtEClass = createEClass(BAG_CT);</span>
+<span class="fc" id="L844">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L851">	private boolean isInitialized = false;</span>
+
+	/**
+	 * Complete the initialization of the package and its meta-model.  This
+	 * method is guarded to have no affect on any invocation but its first.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public void initializePackageContents() {
+<span class="fc bfc" id="L861" title="All 2 branches covered.">		if (isInitialized) return;</span>
+<span class="fc" id="L862">		isInitialized = true;</span>
+
+		// Initialize package
+<span class="fc" id="L865">		setName(eNAME);</span>
+<span class="fc" id="L866">		setNsPrefix(eNS_PREFIX);</span>
+<span class="fc" id="L867">		setNsURI(eNS_URI);</span>
+
+		// Obtain other dependent packages
+<span class="fc" id="L870">		BasictermsPackage theBasictermsPackage = (BasictermsPackage)EPackage.Registry.INSTANCE.getEPackage(BasictermsPackage.eNS_URI);</span>
+
+		// Create type parameters
+
+		// Set bounds for type parameters
+
+		// Add supertypes to classes
+<span class="fc" id="L877">		integerTermEClass.getESuperTypes().add(theBasictermsPackage.getConstantTerm());</span>
+<span class="fc" id="L878">		naturalTermEClass.getESuperTypes().add(theBasictermsPackage.getConstantTerm());</span>
+<span class="fc" id="L879">		variableBindingTermEClass.getESuperTypes().add(theBasictermsPackage.getExtendedTerm());</span>
+<span class="fc" id="L880">		stringTermEClass.getESuperTypes().add(theBasictermsPackage.getConstantTerm());</span>
+<span class="fc" id="L881">		setCtEClass.getESuperTypes().add(this.getComprehensionTerm());</span>
+<span class="fc" id="L882">		sequenceTermEClass.getESuperTypes().add(theBasictermsPackage.getCollectionTerm());</span>
+<span class="fc" id="L883">		sequenceCtEClass.getESuperTypes().add(this.getComprehensionTerm());</span>
+<span class="fc" id="L884">		realTermEClass.getESuperTypes().add(theBasictermsPackage.getConstantTerm());</span>
+<span class="fc" id="L885">		mapTermEClass.getESuperTypes().add(theBasictermsPackage.getCollectionTerm());</span>
+<span class="fc" id="L886">		mapCtEClass.getESuperTypes().add(this.getComprehensionTerm());</span>
+<span class="fc" id="L887">		letTermEClass.getESuperTypes().add(this.getVariableBindingTerm());</span>
+<span class="fc" id="L888">		forallTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());</span>
+<span class="fc" id="L889">		finiteQuantificationTermEClass.getESuperTypes().add(this.getVariableBindingTerm());</span>
+<span class="fc" id="L890">		existUniqueTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());</span>
+<span class="fc" id="L891">		existTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());</span>
+<span class="fc" id="L892">		enumTermEClass.getESuperTypes().add(theBasictermsPackage.getConstantTerm());</span>
+<span class="fc" id="L893">		conditionalTermEClass.getESuperTypes().add(theBasictermsPackage.getExtendedTerm());</span>
+<span class="fc" id="L894">		comprehensionTermEClass.getESuperTypes().add(this.getVariableBindingTerm());</span>
+<span class="fc" id="L895">		complexTermEClass.getESuperTypes().add(theBasictermsPackage.getConstantTerm());</span>
+<span class="fc" id="L896">		charTermEClass.getESuperTypes().add(theBasictermsPackage.getConstantTerm());</span>
+<span class="fc" id="L897">		caseTermEClass.getESuperTypes().add(theBasictermsPackage.getExtendedTerm());</span>
+<span class="fc" id="L898">		bagTermEClass.getESuperTypes().add(theBasictermsPackage.getCollectionTerm());</span>
+<span class="fc" id="L899">		bagCtEClass.getESuperTypes().add(this.getComprehensionTerm());</span>
+
+		// Initialize classes and features; add operations and parameters
+<span class="fc" id="L902">		initEClass(integerTermEClass, IntegerTerm.class, &quot;IntegerTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L904">		initEClass(naturalTermEClass, NaturalTerm.class, &quot;NaturalTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L906">		initEClass(variableBindingTermEClass, VariableBindingTerm.class, &quot;VariableBindingTerm&quot;, IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L908">		initEClass(stringTermEClass, StringTerm.class, &quot;StringTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L910">		initEClass(setCtEClass, SetCt.class, &quot;SetCt&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L912">		initEClass(sequenceTermEClass, SequenceTerm.class, &quot;SequenceTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L913">		initEAttribute(getSequenceTerm_Terms(), theBasictermsPackage.getTermDT(), &quot;terms&quot;, null, 0, -1, SequenceTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+
+<span class="fc" id="L915">		initEClass(sequenceCtEClass, SequenceCt.class, &quot;SequenceCt&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L917">		initEClass(realTermEClass, RealTerm.class, &quot;RealTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L919">		initEClass(mapTermEClass, MapTerm.class, &quot;MapTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L920">		initEReference(getMapTerm_Pair(), theBasictermsPackage.getTupleTerm(), null, &quot;pair&quot;, null, 0, -1, MapTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+
+<span class="fc" id="L922">		initEClass(mapCtEClass, MapCt.class, &quot;MapCt&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L924">		initEClass(letTermEClass, LetTerm.class, &quot;LetTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L925">		initEReference(getLetTerm_Variable(), theBasictermsPackage.getVariableTerm(), null, &quot;variable&quot;, null, 1, -1, LetTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+<span class="fc" id="L926">		initEReference(getLetTerm_AssignmentTerm(), theBasictermsPackage.getTerm(), null, &quot;assignmentTerm&quot;, null, 1, -1, LetTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+<span class="fc" id="L927">		initEReference(getLetTerm_Body(), theBasictermsPackage.getTerm(), null, &quot;body&quot;, null, 1, 1, LetTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+
+<span class="fc" id="L929">		initEClass(forallTermEClass, ForallTerm.class, &quot;ForallTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L931">		initEClass(finiteQuantificationTermEClass, FiniteQuantificationTerm.class, &quot;FiniteQuantificationTerm&quot;, IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L932">		initEReference(getFiniteQuantificationTerm_Variable(), theBasictermsPackage.getVariableTerm(), theBasictermsPackage.getVariableTerm_FiniteQuantificationTerm(), &quot;variable&quot;, null, 1, -1, FiniteQuantificationTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+<span class="fc" id="L933">		initEReference(getFiniteQuantificationTerm_Guard(), theBasictermsPackage.getTerm(), null, &quot;guard&quot;, null, 0, 1, FiniteQuantificationTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L934">		initEAttribute(getFiniteQuantificationTerm_Ranges(), theBasictermsPackage.getTermDT(), &quot;ranges&quot;, null, 1, -1, FiniteQuantificationTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+
+<span class="fc" id="L936">		initEClass(existUniqueTermEClass, ExistUniqueTerm.class, &quot;ExistUniqueTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L938">		initEClass(existTermEClass, ExistTerm.class, &quot;ExistTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L940">		initEClass(enumTermEClass, EnumTerm.class, &quot;EnumTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L942">		initEClass(conditionalTermEClass, ConditionalTerm.class, &quot;ConditionalTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L943">		initEReference(getConditionalTerm_ElseTerm(), theBasictermsPackage.getTerm(), null, &quot;elseTerm&quot;, null, 0, 1, ConditionalTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L944">		initEReference(getConditionalTerm_Guard(), theBasictermsPackage.getTerm(), null, &quot;guard&quot;, null, 1, 1, ConditionalTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L945">		initEReference(getConditionalTerm_ThenTerm(), theBasictermsPackage.getTerm(), null, &quot;thenTerm&quot;, null, 1, 1, ConditionalTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+
+<span class="fc" id="L947">		initEClass(comprehensionTermEClass, ComprehensionTerm.class, &quot;ComprehensionTerm&quot;, IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L948">		initEReference(getComprehensionTerm_Variable(), theBasictermsPackage.getVariableTerm(), null, &quot;variable&quot;, null, 1, -1, ComprehensionTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+<span class="fc" id="L949">		initEReference(getComprehensionTerm_Guard(), theBasictermsPackage.getTerm(), null, &quot;guard&quot;, null, 0, 1, ComprehensionTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L950">		initEReference(getComprehensionTerm_Term(), theBasictermsPackage.getTerm(), null, &quot;term&quot;, null, 1, 1, ComprehensionTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L951">		initEAttribute(getComprehensionTerm_Ranges(), theBasictermsPackage.getTermDT(), &quot;ranges&quot;, null, 1, -1, ComprehensionTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+
+<span class="fc" id="L953">		initEClass(complexTermEClass, ComplexTerm.class, &quot;ComplexTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L955">		initEClass(charTermEClass, CharTerm.class, &quot;CharTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L957">		initEClass(caseTermEClass, CaseTerm.class, &quot;CaseTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L958">		initEReference(getCaseTerm_ComparingTerm(), theBasictermsPackage.getTerm(), null, &quot;comparingTerm&quot;, null, 1, -1, CaseTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+<span class="fc" id="L959">		initEReference(getCaseTerm_ComparedTerm(), theBasictermsPackage.getTerm(), null, &quot;comparedTerm&quot;, null, 1, 1, CaseTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L960">		initEReference(getCaseTerm_OtherwiseTerm(), theBasictermsPackage.getTerm(), null, &quot;otherwiseTerm&quot;, null, 0, 1, CaseTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L961">		initEAttribute(getCaseTerm_ResultTerms(), theBasictermsPackage.getTermDT(), &quot;resultTerms&quot;, null, 1, -1, CaseTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+
+<span class="fc" id="L963">		initEClass(bagTermEClass, BagTerm.class, &quot;BagTerm&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L964">		initEReference(getBagTerm_Term(), theBasictermsPackage.getTerm(), null, &quot;term&quot;, null, 0, -1, BagTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+
+<span class="fc" id="L966">		initEClass(bagCtEClass, BagCt.class, &quot;BagCt&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+		// Create resource
+<span class="fc" id="L969">		createResource(eNS_URI);</span>
+<span class="fc" id="L970">	}</span>
+
+} //FurthertermsPackageImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

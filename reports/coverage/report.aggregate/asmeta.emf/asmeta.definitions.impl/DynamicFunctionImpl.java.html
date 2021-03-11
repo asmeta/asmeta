@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>DynamicFunctionImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.definitions.impl</a> &gt; <span class="el_source">DynamicFunctionImpl.java</span></div><h1>DynamicFunctionImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.definitions.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.DynamicFunction;
+import asmeta.structure.FunctionInitialization;
+import asmeta.structure.StructurePackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Dynamic Function&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.impl.DynamicFunctionImpl#getInitialization &lt;em&gt;Initialization&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public abstract class DynamicFunctionImpl extends BasicFunctionImpl implements DynamicFunction {
+	/**
+	 * The cached value of the '{@link #getInitialization() &lt;em&gt;Initialization&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getInitialization()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;FunctionInitialization&gt; initialization;
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected DynamicFunctionImpl() {
+<span class="fc" id="L53">		super();</span>
+<span class="fc" id="L54">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L63">		return DefinitionsPackage.Literals.DYNAMIC_FUNCTION;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;FunctionInitialization&gt; getInitialization() {
+<span class="fc bfc" id="L73" title="All 2 branches covered.">		if (initialization == null) {</span>
+<span class="fc" id="L74">			initialization = new EObjectWithInverseResolvingEList&lt;FunctionInitialization&gt;(FunctionInitialization.class, this, DefinitionsPackage.DYNAMIC_FUNCTION__INITIALIZATION, StructurePackage.FUNCTION_INITIALIZATION__INITIALIZED_FUNCTION);</span>
+		}
+<span class="fc" id="L76">		return initialization;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">		switch (featureID) {</span>
+			case DefinitionsPackage.DYNAMIC_FUNCTION__INITIALIZATION:
+<span class="fc" id="L89">				return ((InternalEList&lt;InternalEObject&gt;)(InternalEList&lt;?&gt;)getInitialization()).basicAdd(otherEnd, msgs);</span>
+		}
+<span class="fc" id="L91">		return super.eInverseAdd(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L101" title="All 2 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.DYNAMIC_FUNCTION__INITIALIZATION:
+<span class="nc" id="L103">				return ((InternalEList&lt;?&gt;)getInitialization()).basicRemove(otherEnd, msgs);</span>
+		}
+<span class="nc" id="L105">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L115" title="All 2 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.DYNAMIC_FUNCTION__INITIALIZATION:
+<span class="nc" id="L117">				return getInitialization();</span>
+		}
+<span class="nc" id="L119">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L130" title="All 2 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.DYNAMIC_FUNCTION__INITIALIZATION:
+<span class="nc" id="L132">				getInitialization().clear();</span>
+<span class="nc" id="L133">				getInitialization().addAll((Collection&lt;? extends FunctionInitialization&gt;)newValue);</span>
+<span class="nc" id="L134">				return;</span>
+		}
+<span class="nc" id="L136">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L137">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L146" title="All 2 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.DYNAMIC_FUNCTION__INITIALIZATION:
+<span class="nc" id="L148">				getInitialization().clear();</span>
+<span class="nc" id="L149">				return;</span>
+		}
+<span class="nc" id="L151">		super.eUnset(featureID);</span>
+<span class="nc" id="L152">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L161" title="All 2 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.DYNAMIC_FUNCTION__INITIALIZATION:
+<span class="nc bnc" id="L163" title="All 4 branches missed.">				return initialization != null &amp;&amp; !initialization.isEmpty();</span>
+		}
+<span class="nc" id="L165">		return super.eIsSet(featureID);</span>
+	}
+
+} //DynamicFunctionImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

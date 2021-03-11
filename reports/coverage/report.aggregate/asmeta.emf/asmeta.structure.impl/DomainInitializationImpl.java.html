@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>DomainInitializationImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.structure.impl</a> &gt; <span class="el_source">DomainInitializationImpl.java</span></div><h1>DomainInitializationImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.structure.impl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.DomainsPackage;
+import asmeta.structure.DomainInitialization;
+import asmeta.structure.Initialization;
+import asmeta.structure.StructurePackage;
+import asmeta.terms.basicterms.Term;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Domain Initialization&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.DomainInitializationImpl#getInitializedDomain &lt;em&gt;Initialized Domain&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.DomainInitializationImpl#getBody &lt;em&gt;Body&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.DomainInitializationImpl#getInitialState &lt;em&gt;Initial State&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class DomainInitializationImpl extends EObjectImpl implements DomainInitialization {
+	/**
+	 * The cached value of the '{@link #getInitializedDomain() &lt;em&gt;Initialized Domain&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getInitializedDomain()
+	 * @generated
+	 * @ordered
+	 */
+	protected ConcreteDomain initializedDomain;
+
+	/**
+	 * The cached value of the '{@link #getBody() &lt;em&gt;Body&lt;/em&gt;}' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getBody()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term body;
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected DomainInitializationImpl() {
+<span class="fc" id="L66">		super();</span>
+<span class="fc" id="L67">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L76">		return StructurePackage.Literals.DOMAIN_INITIALIZATION;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public ConcreteDomain getInitializedDomain() {
+<span class="pc bpc" id="L86" title="2 of 4 branches missed.">		if (initializedDomain != null &amp;&amp; initializedDomain.eIsProxy()) {</span>
+<span class="nc" id="L87">			InternalEObject oldInitializedDomain = (InternalEObject)initializedDomain;</span>
+<span class="nc" id="L88">			initializedDomain = (ConcreteDomain)eResolveProxy(oldInitializedDomain);</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">			if (initializedDomain != oldInitializedDomain) {</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L91">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StructurePackage.DOMAIN_INITIALIZATION__INITIALIZED_DOMAIN, oldInitializedDomain, initializedDomain));</span>
+			}
+		}
+<span class="fc" id="L94">		return initializedDomain;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public ConcreteDomain basicGetInitializedDomain() {
+<span class="nc" id="L103">		return initializedDomain;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetInitializedDomain(ConcreteDomain newInitializedDomain, NotificationChain msgs) {
+<span class="fc" id="L112">		ConcreteDomain oldInitializedDomain = initializedDomain;</span>
+<span class="fc" id="L113">		initializedDomain = newInitializedDomain;</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L115">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StructurePackage.DOMAIN_INITIALIZATION__INITIALIZED_DOMAIN, oldInitializedDomain, newInitializedDomain);</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L118">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setInitializedDomain(ConcreteDomain newInitializedDomain) {
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">		if (newInitializedDomain != initializedDomain) {</span>
+<span class="fc" id="L129">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">			if (initializedDomain != null)</span>
+<span class="nc" id="L131">				msgs = ((InternalEObject)initializedDomain).eInverseRemove(this, DomainsPackage.CONCRETE_DOMAIN__INITIALIZATION, ConcreteDomain.class, msgs);</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">			if (newInitializedDomain != null)</span>
+<span class="fc" id="L133">				msgs = ((InternalEObject)newInitializedDomain).eInverseAdd(this, DomainsPackage.CONCRETE_DOMAIN__INITIALIZATION, ConcreteDomain.class, msgs);</span>
+<span class="fc" id="L134">			msgs = basicSetInitializedDomain(newInitializedDomain, msgs);</span>
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L136">		}</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L138">			eNotify(new ENotificationImpl(this, Notification.SET, StructurePackage.DOMAIN_INITIALIZATION__INITIALIZED_DOMAIN, newInitializedDomain, newInitializedDomain));</span>
+<span class="fc" id="L139">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getBody() {
+<span class="fc" id="L148">		return body;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetBody(Term newBody, NotificationChain msgs) {
+<span class="fc" id="L157">		Term oldBody = body;</span>
+<span class="fc" id="L158">		body = newBody;</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L160">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StructurePackage.DOMAIN_INITIALIZATION__BODY, oldBody, newBody);</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L163">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setBody(Term newBody) {
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">		if (newBody != body) {</span>
+<span class="fc" id="L174">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">			if (body != null)</span>
+<span class="nc" id="L176">				msgs = ((InternalEObject)body).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - StructurePackage.DOMAIN_INITIALIZATION__BODY, null, msgs);</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">			if (newBody != null)</span>
+<span class="fc" id="L178">				msgs = ((InternalEObject)newBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - StructurePackage.DOMAIN_INITIALIZATION__BODY, null, msgs);</span>
+<span class="fc" id="L179">			msgs = basicSetBody(newBody, msgs);</span>
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L181">		}</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L183">			eNotify(new ENotificationImpl(this, Notification.SET, StructurePackage.DOMAIN_INITIALIZATION__BODY, newBody, newBody));</span>
+<span class="fc" id="L184">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Initialization getInitialState() {
+<span class="nc bnc" id="L193" title="All 2 branches missed.">		if (eContainerFeatureID() != StructurePackage.DOMAIN_INITIALIZATION__INITIAL_STATE) return null;</span>
+<span class="nc" id="L194">		return (Initialization)eInternalContainer();</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetInitialState(Initialization newInitialState, NotificationChain msgs) {
+<span class="fc" id="L203">		msgs = eBasicSetContainer((InternalEObject)newInitialState, StructurePackage.DOMAIN_INITIALIZATION__INITIAL_STATE, msgs);</span>
+<span class="fc" id="L204">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setInitialState(Initialization newInitialState) {
+<span class="pc bpc" id="L214" title="5 of 6 branches missed.">		if (newInitialState != eInternalContainer() || (eContainerFeatureID() != StructurePackage.DOMAIN_INITIALIZATION__INITIAL_STATE &amp;&amp; newInitialState != null)) {</span>
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">			if (EcoreUtil.isAncestor(this, newInitialState))</span>
+<span class="nc" id="L216">				throw new IllegalArgumentException(&quot;Recursive containment not allowed for &quot; + toString());</span>
+<span class="fc" id="L217">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">			if (eInternalContainer() != null)</span>
+<span class="nc" id="L219">				msgs = eBasicRemoveFromContainer(msgs);</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">			if (newInitialState != null)</span>
+<span class="fc" id="L221">				msgs = ((InternalEObject)newInitialState).eInverseAdd(this, StructurePackage.INITIALIZATION__DOMAIN_INITIALIZATION, Initialization.class, msgs);</span>
+<span class="fc" id="L222">			msgs = basicSetInitialState(newInitialState, msgs);</span>
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L224">		}</span>
+<span class="nc bnc" id="L225" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L226">			eNotify(new ENotificationImpl(this, Notification.SET, StructurePackage.DOMAIN_INITIALIZATION__INITIAL_STATE, newInitialState, newInitialState));</span>
+<span class="fc" id="L227">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L236" title="All 3 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIALIZED_DOMAIN:
+<span class="nc bnc" id="L238" title="All 2 branches missed.">				if (initializedDomain != null)</span>
+<span class="nc" id="L239">					msgs = ((InternalEObject)initializedDomain).eInverseRemove(this, DomainsPackage.CONCRETE_DOMAIN__INITIALIZATION, ConcreteDomain.class, msgs);</span>
+<span class="nc" id="L240">				return basicSetInitializedDomain((ConcreteDomain)otherEnd, msgs);</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIAL_STATE:
+<span class="nc bnc" id="L242" title="All 2 branches missed.">				if (eInternalContainer() != null)</span>
+<span class="nc" id="L243">					msgs = eBasicRemoveFromContainer(msgs);</span>
+<span class="nc" id="L244">				return basicSetInitialState((Initialization)otherEnd, msgs);</span>
+		}
+<span class="nc" id="L246">		return super.eInverseAdd(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L256" title="All 4 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIALIZED_DOMAIN:
+<span class="nc" id="L258">				return basicSetInitializedDomain(null, msgs);</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__BODY:
+<span class="nc" id="L260">				return basicSetBody(null, msgs);</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIAL_STATE:
+<span class="nc" id="L262">				return basicSetInitialState(null, msgs);</span>
+		}
+<span class="nc" id="L264">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+<span class="nc bnc" id="L274" title="All 2 branches missed.">		switch (eContainerFeatureID()) {</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIAL_STATE:
+<span class="nc" id="L276">				return eInternalContainer().eInverseRemove(this, StructurePackage.INITIALIZATION__DOMAIN_INITIALIZATION, Initialization.class, msgs);</span>
+		}
+<span class="nc" id="L278">		return super.eBasicRemoveFromContainerFeature(msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L288" title="All 4 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIALIZED_DOMAIN:
+<span class="nc bnc" id="L290" title="All 2 branches missed.">				if (resolve) return getInitializedDomain();</span>
+<span class="nc" id="L291">				return basicGetInitializedDomain();</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__BODY:
+<span class="nc" id="L293">				return getBody();</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIAL_STATE:
+<span class="nc" id="L295">				return getInitialState();</span>
+		}
+<span class="nc" id="L297">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L307" title="All 4 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIALIZED_DOMAIN:
+<span class="nc" id="L309">				setInitializedDomain((ConcreteDomain)newValue);</span>
+<span class="nc" id="L310">				return;</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__BODY:
+<span class="nc" id="L312">				setBody((Term)newValue);</span>
+<span class="nc" id="L313">				return;</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIAL_STATE:
+<span class="nc" id="L315">				setInitialState((Initialization)newValue);</span>
+<span class="nc" id="L316">				return;</span>
+		}
+<span class="nc" id="L318">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L319">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L328" title="All 4 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIALIZED_DOMAIN:
+<span class="nc" id="L330">				setInitializedDomain((ConcreteDomain)null);</span>
+<span class="nc" id="L331">				return;</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__BODY:
+<span class="nc" id="L333">				setBody((Term)null);</span>
+<span class="nc" id="L334">				return;</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIAL_STATE:
+<span class="nc" id="L336">				setInitialState((Initialization)null);</span>
+<span class="nc" id="L337">				return;</span>
+		}
+<span class="nc" id="L339">		super.eUnset(featureID);</span>
+<span class="nc" id="L340">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L349" title="All 4 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIALIZED_DOMAIN:
+<span class="nc bnc" id="L351" title="All 2 branches missed.">				return initializedDomain != null;</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__BODY:
+<span class="nc bnc" id="L353" title="All 2 branches missed.">				return body != null;</span>
+			case StructurePackage.DOMAIN_INITIALIZATION__INITIAL_STATE:
+<span class="nc bnc" id="L355" title="All 2 branches missed.">				return getInitialState() != null;</span>
+		}
+<span class="nc" id="L357">		return super.eIsSet(featureID);</span>
+	}
+
+} //DomainInitializationImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

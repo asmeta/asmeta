@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>TermSimplifier.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.flattener</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.flattener.term</a> &gt; <span class="el_source">TermSimplifier.java</span></div><h1>TermSimplifier.java</h1><pre class="source lang-java linenums">package org.asmeta.flattener.term;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
+import java.util.function.BiFunction;
+
+import org.apache.log4j.Logger;
+import org.asmeta.flattener.statistics.Statistics;
+import org.asmeta.flattener.util.StdlFunction;
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.simulator.wrapper.RuleFactory;
+
+import asmeta.definitions.Function;
+import asmeta.definitions.domains.Domain;
+import asmeta.structure.Asm;
+import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.ConstantTerm;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.SetTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.UndefTerm;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.ConditionalTerm;
+import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.FiniteQuantificationTerm;
+import asmeta.terms.furtherterms.ForallTerm;
+import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.LetTerm;
+import asmeta.terms.furtherterms.MapTerm;
+import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.SetCt;
+import asmeta.terms.furtherterms.StringTerm;
+
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">public class TermSimplifier extends ReflectiveVisitor&lt;Term&gt; {</span>
+<span class="fc" id="L43">	static final Logger logger = Logger.getLogger(TermSimplifier.class);</span>
+	private static RuleFactory ruleFact;
+	public static BooleanTerm falseT;
+	public static BooleanTerm trueT;
+	private AsmetaTermPrinter tp;
+	//public final static TermSimplifier TS = new TermSimplifier();
+	private DomainVisitor dv;
+	private StdlFunction sl;
+
+	static {
+<span class="fc" id="L53">		ruleFact = new RuleFactory();</span>
+<span class="fc" id="L54">		falseT = ruleFact.createBooleanTerm();</span>
+<span class="fc" id="L55">		falseT.setSymbol(&quot;false&quot;);</span>
+<span class="fc" id="L56">		trueT = ruleFact.createBooleanTerm();</span>
+<span class="fc" id="L57">		trueT.setSymbol(&quot;true&quot;);</span>
+<span class="fc" id="L58">	}</span>
+
+<span class="fc" id="L60">	public TermSimplifier(DomainVisitor dv, StdlFunction sl) {</span>
+<span class="fc" id="L61">		tp = new AsmetaTermPrinter(false);</span>
+<span class="fc" id="L62">		this.dv = dv;</span>
+<span class="fc" id="L63">		this.sl = sl;</span>
+<span class="fc" id="L64">	}</span>
+
+	public Term visit(VariableTerm varTerm) {
+<span class="fc" id="L67">		return varTerm;</span>
+	}
+
+	public Term visit(NaturalTerm natTerm) {
+<span class="fc" id="L71">		return natTerm;</span>
+	}
+
+	public Term visit(BooleanTerm boolTerm) {
+<span class="fc" id="L75">		return boolTerm;</span>
+	}
+
+	public Term visit(EnumTerm enumTerm) {
+<span class="fc" id="L79">		return enumTerm;</span>
+	}
+
+	public Term visit(IntegerTerm intTerm) {
+<span class="fc" id="L83">		return intTerm;</span>
+	}
+
+	public Term visit(UndefTerm undefTerm) {
+<span class="fc" id="L87">		return undefTerm;</span>
+	}
+
+	public Term visit(LetTerm letTerm) {
+<span class="nc" id="L91">		return letTerm;</span>
+	}
+
+	public Term visit(SetCt setCt) {
+<span class="nc" id="L95">		return setCt;</span>
+	}
+
+	public Term visit(ConditionalTerm condTerm) {
+<span class="nc" id="L99">		Term guard = condTerm.getGuard();</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">		if (guard instanceof BooleanTerm) {</span>
+<span class="nc" id="L101">			String value = ((BooleanTerm) guard).getSymbol();</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">			if (value.equals(&quot;true&quot;)) {</span>
+<span class="nc" id="L103">				logger.debug(&quot;ConditionalTerm simplified&quot;);</span>
+				//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="nc" id="L105">				return visit(condTerm.getThenTerm());</span>
+<span class="nc bnc" id="L106" title="All 4 branches missed.">			} else if (value.equals(&quot;false&quot;) &amp;&amp; condTerm.getElseTerm() != null) {</span>
+<span class="nc" id="L107">				logger.debug(&quot;ConditionalTerm simplified&quot;);</span>
+				//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="nc" id="L109">				return visit(condTerm.getElseTerm());</span>
+			}
+		}
+<span class="nc" id="L112">		return condTerm;</span>
+	}
+
+	public Term visit(CaseTerm caseTerm) {
+		// TODO
+<span class="nc" id="L117">		return caseTerm;</span>
+	}
+
+	public Term visit(FiniteQuantificationTerm fqtTerm) {
+<span class="fc" id="L121">		return fqtTerm;</span>
+	}
+
+	public Term visit(ForallTerm forallTerm) throws Exception {
+		//return visit((FiniteQuantificationTerm) forallTerm);
+<span class="fc" id="L126">		List&lt;Term&gt; operands = getGuardWithAllValues(forallTerm.getVariable(), forallTerm.getRanges(), forallTerm.getGuard());</span>
+<span class="fc" id="L127">		return sl.and(operands);</span>
+	}
+	
+	private List&lt;Term&gt; getGuardWithAllValues(List&lt;VariableTerm&gt; vars, List&lt;Term&gt; ranges, Term guard) throws Exception {
+<span class="fc" id="L131">		List&lt;Domain&gt; domains = new ArrayList&lt;Domain&gt;();</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">		for(Term t: ranges) {</span>
+<span class="fc" id="L133">			domains.add(t.getDomain());</span>
+<span class="fc" id="L134">		}</span>
+<span class="fc" id="L135">		ArrayList&lt;Term[]&gt; result = new ArrayList&lt;Term[]&gt;();</span>
+<span class="fc" id="L136">		ValuesCombinator.combineValuesFromVars(vars, 0, result, new Stack&lt;Term&gt;(), dv.getDomainSet());</span>
+<span class="fc" id="L137">		List&lt;Term&gt; operands = new ArrayList&lt;Term&gt;();</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">		for(Term[] values: result) {</span>
+<span class="fc" id="L139">			ReplaceValueInTerm rvt = new ReplaceValueInTerm(values, vars);</span>
+<span class="fc" id="L140">			operands.add(rvt.visit(guard));</span>
+<span class="fc" id="L141">		}</span>
+<span class="fc" id="L142">		return operands;</span>
+	}
+
+	public Term visit(ExistTerm existTerm) {
+<span class="fc" id="L146">		return visit((FiniteQuantificationTerm) existTerm);</span>
+	}
+
+	public Term visit(ExistUniqueTerm existUniqueTerm) {
+<span class="nc" id="L150">		return visit((FiniteQuantificationTerm) existUniqueTerm);</span>
+	}
+
+	public Term visit(TupleTerm tupleTerm) throws Exception {
+<span class="nc" id="L154">		return tupleTerm;</span>
+	}
+
+	public Term visit(LocationTerm locTerm) throws Exception {
+<span class="fc" id="L158">		TupleTerm args = locTerm.getArguments();</span>
+<span class="fc" id="L159">		Term[] newArgs = null;</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">		if (args != null) {</span>
+<span class="fc" id="L161">			newArgs = new Term[args.getArity()];</span>
+<span class="fc" id="L162">			List&lt;Term&gt; terms = args.getTerms();</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">			for (int i = 0; i &lt; terms.size(); i++) {</span>
+<span class="fc" id="L164">				newArgs[i] = visit(terms.get(i));</span>
+			}
+		}
+<span class="fc" id="L167">		return buildNewLocTerm(locTerm, newArgs);</span>
+		//return locTerm;
+	}
+
+	private Term buildNewLocTerm(LocationTerm locTerm, Term... args) {
+<span class="fc" id="L172">		LocationTerm newLocTerm = ruleFact.createLocationTerm();</span>
+<span class="fc" id="L173">		newLocTerm.setFunction(locTerm.getFunction());</span>
+<span class="fc" id="L174">		newLocTerm.setDomain(locTerm.getDomain());</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">		if (args != null) {</span>
+<span class="fc" id="L176">			TupleTerm newTupleTerm = ruleFact.createTupleTerm();</span>
+<span class="fc" id="L177">			newTupleTerm.setArity(args.length);</span>
+<span class="fc" id="L178">			newTupleTerm.getTerms().addAll(Arrays.asList(args));</span>
+<span class="fc" id="L179">			newLocTerm.setArguments(newTupleTerm);</span>
+		}
+<span class="fc" id="L181">		return newLocTerm;</span>
+	}
+
+	public Term visit(FunctionTerm funcTerm) throws Exception {
+<span class="fc" id="L185">		String funcName = funcTerm.getFunction().getName();</span>
+<span class="fc" id="L186">		TupleTerm args = funcTerm.getArguments();</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">		if (funcName.equals(&quot;not&quot;)) {</span>
+<span class="fc" id="L188">			return not(funcTerm);</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">		} else if (funcName.equals(&quot;eq&quot;)) {</span>
+<span class="fc" id="L190">			return eq(funcTerm);</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">		} else if (funcName.equals(&quot;neq&quot;)) {</span>
+<span class="fc" id="L192">			return neq(funcTerm);</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">		} else if (funcName.equals(&quot;and&quot;)) {</span>
+<span class="fc" id="L194">			return and(funcTerm);</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">		} else if (funcName.equals(&quot;or&quot;)) {</span>
+<span class="fc" id="L196">			return or(funcTerm);</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">		} else if (funcName.equals(&quot;le&quot;)) {</span>
+<span class="pc bnc" id="L198" title="All 2 branches missed.">			return relationalOperator(funcTerm, (x, y) -&gt; (x &lt;= y));</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">		} else if (funcName.equals(&quot;lt&quot;)) {</span>
+<span class="fc bfc" id="L200" title="All 2 branches covered.">			return relationalOperator(funcTerm, (x, y) -&gt; (x &lt; y));</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">		} else if (funcName.equals(&quot;ge&quot;)) {</span>
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">			return relationalOperator(funcTerm, (x, y) -&gt; (x &gt;= y));</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">		} else if (funcName.equals(&quot;gt&quot;)) {</span>
+<span class="pc bnc" id="L204" title="All 2 branches missed.">			return relationalOperator(funcTerm, (x, y) -&gt; (x &gt; y));</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">		} else if (funcName.equals(&quot;plus&quot;)) {</span>
+<span class="fc" id="L206">			return mathematicalOperator(funcTerm, (x, y) -&gt; (x + y));</span>
+<span class="pc bpc" id="L207" title="1 of 4 branches missed.">		} else if (funcName.equals(&quot;minus&quot;) &amp;&amp; args.getArity() == 2) {</span>
+<span class="fc" id="L208">			return mathematicalOperator(funcTerm, (x, y) -&gt; (x - y));</span>
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">		} else if (funcName.equals(&quot;mult&quot;)) {</span>
+<span class="nc" id="L210">			return mathematicalOperator(funcTerm, (x, y) -&gt; (x * y));</span>
+<span class="fc bfc" id="L211" title="All 2 branches covered.">		} else if (funcName.equals(&quot;idiv&quot;)) {</span>
+<span class="pc" id="L212">			return mathematicalOperator(funcTerm, (x, y) -&gt; (x / y));</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">		} else if (funcName.equals(&quot;mod&quot;)) {</span>
+<span class="fc" id="L214">			return mathematicalOperator(funcTerm, (x, y) -&gt; (x % y));</span>
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">		} else if (funcName.equals(&quot;max&quot;)) {</span>
+<span class="nc" id="L216">			return mathematicalOperator(funcTerm, (x, y) -&gt; (Math.max(x, y)));</span>
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">		} else if (funcName.equals(&quot;min&quot;)) {</span>
+<span class="nc" id="L218">			return mathematicalOperator(funcTerm, (x, y) -&gt; (Math.min(x, y)));</span>
+		}
+<span class="fc" id="L220">		Term[] newArgs = null;</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">		if (args != null) {</span>
+<span class="fc" id="L222">			newArgs = new Term[args.getArity()];</span>
+<span class="fc" id="L223">			List&lt;Term&gt; terms = args.getTerms();</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">			for (int i = 0; i &lt; terms.size(); i++) {</span>
+<span class="fc" id="L225">				newArgs[i] = visit(terms.get(i));</span>
+			}
+		}
+<span class="fc" id="L228">		return buildNewFuncTerm(funcTerm, newArgs);</span>
+	}
+
+	private Term eq(FunctionTerm funcTerm) {
+<span class="fc" id="L232">		List&lt;Term&gt; args = funcTerm.getArguments().getTerms();</span>
+<span class="pc bpc" id="L233" title="2 of 4 branches missed.">		assert args.size() == 2;</span>
+<span class="fc" id="L234">		Term firstArg = visit(args.get(0));</span>
+<span class="fc" id="L235">		Term secondArg = visit(args.get(1));</span>
+<span class="fc bfc" id="L236" title="All 4 branches covered.">		if (firstArg instanceof ConstantTerm &amp;&amp; secondArg instanceof ConstantTerm) {</span>
+<span class="fc" id="L237">			String v1 = ((ConstantTerm) firstArg).getSymbol();</span>
+<span class="fc" id="L238">			String v2 = ((ConstantTerm) secondArg).getSymbol();</span>
+<span class="fc" id="L239">			logger.debug(&quot;eq simplified&quot;);</span>
+<span class="fc" id="L240">			Statistics.getInstance().increaseValue(&quot;TS&quot;);</span>
+<span class="fc bfc" id="L241" title="All 2 branches covered.">			return v1.equals(v2) ? trueT : falseT;</span>
+		}
+<span class="fc bfc" id="L243" title="All 4 branches covered.">		if (firstArg instanceof BooleanTerm &amp;&amp; ((BooleanTerm) firstArg).getSymbol().equals(&quot;true&quot;)) {</span>
+<span class="fc" id="L244">			logger.debug(&quot;eq simplified&quot;);</span>
+<span class="fc" id="L245">			Statistics.getInstance().increaseValue(&quot;TS&quot;);</span>
+<span class="fc" id="L246">			return secondArg;</span>
+		}
+<span class="fc bfc" id="L248" title="All 4 branches covered.">		if (secondArg instanceof BooleanTerm &amp;&amp; ((BooleanTerm) secondArg).getSymbol().equals(&quot;true&quot;)) {</span>
+<span class="fc" id="L249">			logger.debug(&quot;eq simplified&quot;);</span>
+<span class="fc" id="L250">			Statistics.getInstance().increaseValue(&quot;TS&quot;);</span>
+<span class="fc" id="L251">			return firstArg;</span>
+		}
+<span class="fc bfc" id="L253" title="All 2 branches covered.">		if (tp.visit(firstArg).equals(tp.visit(secondArg))) {</span>
+			// System.out.println(tp.visit(firstArg) + &quot;\t&quot; + tp.visit(secondArg) + &quot;\t&quot; +
+			// tp.visit(firstArg).equals(tp.visit(secondArg)));
+<span class="fc" id="L256">			logger.debug(&quot;eq simplified&quot;);</span>
+<span class="fc" id="L257">			Statistics.getInstance().increaseValue(&quot;TS&quot;);</span>
+<span class="fc" id="L258">			return trueT;</span>
+		}
+<span class="fc" id="L260">		return buildNewFuncTerm(funcTerm, firstArg, secondArg);</span>
+	}
+
+	private Term neq(FunctionTerm funcTerm) {
+<span class="fc" id="L264">		List&lt;Term&gt; args = funcTerm.getArguments().getTerms();</span>
+<span class="pc bpc" id="L265" title="2 of 4 branches missed.">		assert args.size() == 2;</span>
+<span class="fc" id="L266">		Term firstArg = visit(args.get(0));</span>
+<span class="fc" id="L267">		Term secondArg = visit(args.get(1));</span>
+<span class="fc bfc" id="L268" title="All 4 branches covered.">		if (firstArg instanceof ConstantTerm &amp;&amp; secondArg instanceof ConstantTerm) {</span>
+<span class="fc" id="L269">			String v1 = ((ConstantTerm) firstArg).getSymbol();</span>
+<span class="fc" id="L270">			String v2 = ((ConstantTerm) secondArg).getSymbol();</span>
+<span class="fc" id="L271">			logger.debug(&quot;neq simplified&quot;);</span>
+<span class="fc" id="L272">			Statistics.getInstance().increaseValue(&quot;TS&quot;);</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">			return !v1.equals(v2) ? trueT : falseT;</span>
+		}
+<span class="pc bpc" id="L275" title="3 of 4 branches missed.">		if (firstArg instanceof BooleanTerm &amp;&amp; ((BooleanTerm) firstArg).getSymbol().equals(&quot;false&quot;)) {</span>
+<span class="nc" id="L276">			logger.debug(&quot;neq simplified&quot;);</span>
+<span class="nc" id="L277">			Statistics.getInstance().increaseValue(&quot;TS&quot;);</span>
+<span class="nc" id="L278">			return secondArg;</span>
+		}
+<span class="pc bpc" id="L280" title="3 of 4 branches missed.">		if (secondArg instanceof BooleanTerm &amp;&amp; ((BooleanTerm) secondArg).getSymbol().equals(&quot;false&quot;)) {</span>
+<span class="nc" id="L281">			logger.debug(&quot;neq simplified&quot;);</span>
+			//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="nc" id="L283">			return firstArg;</span>
+		}
+<span class="fc" id="L285">		return buildNewFuncTerm(funcTerm, firstArg, secondArg);</span>
+	}
+
+	private Term not(FunctionTerm funcTerm) {
+<span class="fc" id="L289">		List&lt;Term&gt; args = funcTerm.getArguments().getTerms();</span>
+<span class="pc bpc" id="L290" title="2 of 4 branches missed.">		assert args.size() == 1;</span>
+<span class="fc" id="L291">		Term arg = visit(args.get(0));</span>
+<span class="fc bfc" id="L292" title="All 2 branches covered.">		if (arg instanceof BooleanTerm) {</span>
+<span class="fc" id="L293">			String v = ((BooleanTerm) arg).getSymbol();</span>
+<span class="fc bfc" id="L294" title="All 2 branches covered.">			if (v.equals(&quot;false&quot;)) {</span>
+<span class="fc" id="L295">				logger.debug(&quot;not simplified&quot;);</span>
+				//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="fc" id="L297">				return trueT;</span>
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">			} else if (v.equals(&quot;true&quot;)) {</span>
+<span class="fc" id="L299">				logger.debug(&quot;not simplified&quot;);</span>
+				//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="fc" id="L301">				return falseT;</span>
+			}
+		}
+<span class="fc bfc" id="L304" title="All 2 branches covered.">		if(arg instanceof FunctionTerm) {</span>
+<span class="fc bfc" id="L305" title="All 2 branches covered.">			if(((FunctionTerm) arg).getFunction().getName().equals(&quot;not&quot;)) {</span>
+<span class="fc" id="L306">				return ((FunctionTerm) arg).getArguments().getTerms().get(0);</span>
+			}
+		}
+<span class="fc" id="L309">		return funcTerm;</span>
+	}
+
+	private Term and(FunctionTerm funcTerm) {
+<span class="fc" id="L313">		List&lt;Term&gt; args = funcTerm.getArguments().getTerms();</span>
+<span class="pc bpc" id="L314" title="2 of 4 branches missed.">		assert args.size() == 2;</span>
+<span class="fc" id="L315">		Term firstArg = visit(args.get(0));</span>
+<span class="fc" id="L316">		String v1 = null;</span>
+<span class="fc" id="L317">		Term secondArg = visit(args.get(1));</span>
+<span class="fc" id="L318">		String v2 = null;</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">		if (firstArg instanceof BooleanTerm) {</span>
+<span class="fc" id="L320">			v1 = ((BooleanTerm) firstArg).getSymbol();</span>
+		}
+<span class="fc bfc" id="L322" title="All 2 branches covered.">		if (secondArg instanceof BooleanTerm) {</span>
+<span class="fc" id="L323">			v2 = ((BooleanTerm) secondArg).getSymbol();</span>
+		}
+<span class="fc bfc" id="L325" title="All 2 branches covered.">		if (v1 != null) {</span>
+<span class="fc bfc" id="L326" title="All 2 branches covered.">			if (v1.equals(&quot;false&quot;)) {</span>
+<span class="fc" id="L327">				logger.debug(&quot;and simplified&quot;);</span>
+				//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="fc" id="L329">				return falseT;</span>
+<span class="pc bpc" id="L330" title="1 of 2 branches missed.">			} else if (v1.equals(&quot;true&quot;)) {</span>
+<span class="fc" id="L331">				logger.debug(&quot;and simplified&quot;);</span>
+				//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="fc" id="L333">				return secondArg;</span>
+			}
+<span class="fc bfc" id="L335" title="All 2 branches covered.">		} else if (v2 != null) {</span>
+<span class="pc bpc" id="L336" title="1 of 2 branches missed.">			if (v2.equals(&quot;false&quot;)) {</span>
+<span class="nc" id="L337">				logger.debug(&quot;and simplified&quot;);</span>
+				//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="nc" id="L339">				return falseT;</span>
+<span class="pc bpc" id="L340" title="1 of 2 branches missed.">			} else if (v2.equals(&quot;true&quot;)) {</span>
+<span class="fc" id="L341">				logger.debug(&quot;and simplified&quot;);</span>
+				//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="fc" id="L343">				return firstArg;</span>
+			}
+		}
+<span class="fc" id="L346">		return buildNewFuncTerm(funcTerm, firstArg, secondArg);</span>
+	}
+
+	private Term buildNewFuncTerm(FunctionTerm funcTerm, Term... args) {
+<span class="fc" id="L350">		FunctionTerm newFunctTerm = ruleFact.createFunctionTerm();</span>
+<span class="fc" id="L351">		newFunctTerm.setFunction(funcTerm.getFunction());</span>
+<span class="fc" id="L352">		newFunctTerm.setDomain(funcTerm.getDomain());</span>
+<span class="fc bfc" id="L353" title="All 2 branches covered.">		if (args != null) {</span>
+<span class="fc" id="L354">			TupleTerm newTupleTerm = ruleFact.createTupleTerm();</span>
+<span class="fc" id="L355">			newTupleTerm.setArity(args.length);</span>
+<span class="fc" id="L356">			newTupleTerm.getTerms().addAll(Arrays.asList(args));</span>
+<span class="fc" id="L357">			newFunctTerm.setArguments(newTupleTerm);</span>
+		}
+<span class="fc" id="L359">		return newFunctTerm;</span>
+	}
+
+	private Term or(FunctionTerm funcTerm) {
+<span class="fc" id="L363">		List&lt;Term&gt; args = funcTerm.getArguments().getTerms();</span>
+<span class="pc bpc" id="L364" title="2 of 4 branches missed.">		assert args.size() == 2;</span>
+<span class="fc" id="L365">		Term firstArg = visit(args.get(0));</span>
+<span class="fc" id="L366">		String v1 = null;</span>
+<span class="fc" id="L367">		Term secondArg = visit(args.get(1));</span>
+<span class="fc" id="L368">		String v2 = null;</span>
+<span class="pc bpc" id="L369" title="1 of 2 branches missed.">		if (firstArg instanceof BooleanTerm) {</span>
+<span class="nc" id="L370">			v1 = ((BooleanTerm) firstArg).getSymbol();</span>
+		}
+<span class="pc bpc" id="L372" title="1 of 2 branches missed.">		if (secondArg instanceof BooleanTerm) {</span>
+<span class="nc" id="L373">			v2 = ((BooleanTerm) secondArg).getSymbol();</span>
+		}
+<span class="pc bpc" id="L375" title="1 of 2 branches missed.">		if (v1 != null) {</span>
+<span class="nc bnc" id="L376" title="All 2 branches missed.">			if (v1.equals(&quot;true&quot;)) {</span>
+<span class="nc" id="L377">				logger.debug(&quot;or simplified&quot;);</span>
+<span class="nc" id="L378">				Statistics.getInstance().increaseValue(&quot;TS&quot;);</span>
+<span class="nc" id="L379">				return trueT;</span>
+<span class="nc bnc" id="L380" title="All 2 branches missed.">			} else if (v1.equals(&quot;false&quot;)) {</span>
+<span class="nc bnc" id="L381" title="All 2 branches missed.">				if (v2 != null) {</span>
+<span class="nc" id="L382">					logger.debug(&quot;or simplified&quot;);</span>
+<span class="nc" id="L383">					Statistics.getInstance().increaseValue(&quot;TS&quot;);</span>
+<span class="nc" id="L384">					return secondArg;</span>
+				}
+			}
+<span class="pc bpc" id="L387" title="1 of 2 branches missed.">		} else if (v2 != null) {</span>
+<span class="nc bnc" id="L388" title="All 2 branches missed.">			if (v2.equals(&quot;true&quot;)) {</span>
+<span class="nc" id="L389">				logger.debug(&quot;or simplified&quot;);</span>
+				//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="nc" id="L391">				return trueT;</span>
+<span class="nc bnc" id="L392" title="All 2 branches missed.">			} else if (v2.equals(&quot;false&quot;)) {</span>
+<span class="nc" id="L393">				logger.debug(&quot;or simplified&quot;);</span>
+				//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="nc" id="L395">				return firstArg;</span>
+			}
+		}
+<span class="fc" id="L398">		return buildNewFuncTerm(funcTerm, firstArg, secondArg);</span>
+	}
+
+	private Term relationalOperator(FunctionTerm funcTerm, BiFunction&lt;Integer, Integer, Boolean&gt; intRelation) {
+<span class="fc" id="L402">		List&lt;Term&gt; args = funcTerm.getArguments().getTerms();</span>
+<span class="pc bpc" id="L403" title="2 of 4 branches missed.">		assert args.size() == 2;</span>
+<span class="fc" id="L404">		Term firstArg = visit(args.get(0));</span>
+<span class="fc" id="L405">		Term secondArg = visit(args.get(1));</span>
+<span class="pc bpc" id="L406" title="1 of 8 branches missed.">		if ((firstArg instanceof IntegerTerm || firstArg instanceof NaturalTerm)</span>
+				&amp;&amp; (secondArg instanceof IntegerTerm || secondArg instanceof NaturalTerm)) {
+<span class="fc" id="L408">			int v1 = Integer.parseInt(((ConstantTerm) firstArg).getSymbol());</span>
+<span class="fc" id="L409">			int v2 = Integer.parseInt(((ConstantTerm) secondArg).getSymbol());</span>
+<span class="fc" id="L410">			logger.debug(&quot;rel operator simplified&quot;);</span>
+			//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="fc bfc" id="L412" title="All 2 branches covered.">			if (intRelation.apply(v1, v2)) {</span>
+<span class="fc" id="L413">				return trueT;</span>
+			} else {
+<span class="fc" id="L415">				return falseT;</span>
+			}
+		}
+<span class="fc" id="L418">		return buildNewFuncTerm(funcTerm, firstArg, secondArg);</span>
+	}
+
+	private Term mathematicalOperator(FunctionTerm funcTerm, BiFunction&lt;Integer, Integer, Integer&gt; intRelation) {
+<span class="fc" id="L422">		List&lt;Term&gt; args = funcTerm.getArguments().getTerms();</span>
+<span class="pc bpc" id="L423" title="2 of 4 branches missed.">		assert args.size() == 2;</span>
+<span class="fc" id="L424">		Term firstArg = visit(args.get(0));</span>
+<span class="fc" id="L425">		Term secondArg = visit(args.get(1));</span>
+<span class="pc bpc" id="L426" title="1 of 8 branches missed.">		if ((firstArg instanceof IntegerTerm || firstArg instanceof NaturalTerm)</span>
+				&amp;&amp; (secondArg instanceof IntegerTerm || secondArg instanceof NaturalTerm)) {
+<span class="fc" id="L428">			int v1 = Integer.parseInt(((ConstantTerm) firstArg).getSymbol());</span>
+<span class="fc" id="L429">			int v2 = Integer.parseInt(((ConstantTerm) secondArg).getSymbol());</span>
+<span class="fc" id="L430">			IntegerTerm intTerm = ruleFact.createIntegerTerm();</span>
+<span class="fc" id="L431">			intTerm.setSymbol(intRelation.apply(v1, v2).toString());</span>
+<span class="fc" id="L432">			logger.debug(&quot;math operator simplified&quot;);</span>
+			//Statistics.getInstance().increaseValue(&quot;TS&quot;);
+<span class="fc" id="L434">			return intTerm;</span>
+		}
+<span class="fc" id="L436">		return buildNewFuncTerm(funcTerm, firstArg, secondArg);</span>
+	}
+
+	public Term visit(MapTerm mapTerm) {
+<span class="nc" id="L440">		return mapTerm;</span>
+	}
+
+	public Term visit(SetTerm setTerm) {
+<span class="nc" id="L444">		return setTerm;</span>
+	}
+
+	public Term visit(StringTerm strTerm) {
+<span class="fc" id="L448">		return strTerm;</span>
+	}
+
+	static Asm getAsm(Function function) {
+<span class="nc" id="L452">		return function.getSignature().getHeaderSection().getAsm();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,1691 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>Utility.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.parser</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.parser</a> &gt; <span class="el_source">Utility.java</span></div><h1>Utility.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2005, 2006 ASMETA group (http://asmeta.sourceforge.net)
+ * License Information: http://asmeta.sourceforge.net/licensing/
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License version 2 as
+ *   published by the Free Software Foundation.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
+ *   USA
+ *
+ *   http://www.gnu.org/licenses/gpl.txt
+ *
+ *
+ *******************************************************************************/
+package org.asmeta.parser;
+
+import java.io.File;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.EList;
+
+import asmeta.definitions.DefinitionsFactory;
+import asmeta.definitions.DynamicFunction;
+import asmeta.definitions.Function;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.AgentDomain;
+import asmeta.definitions.domains.AnyDomain;
+import asmeta.definitions.domains.BagDomain;
+import asmeta.definitions.domains.BasicTd;
+import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.DomainsFactory;
+import asmeta.definitions.domains.IntegerDomain;
+import asmeta.definitions.domains.MapDomain;
+import asmeta.definitions.domains.PowersetDomain;
+import asmeta.definitions.domains.ProductDomain;
+import asmeta.definitions.domains.RealDomain;
+import asmeta.definitions.domains.ReserveDomain;
+import asmeta.definitions.domains.RuleDomain;
+import asmeta.definitions.domains.SequenceDomain;
+import asmeta.definitions.domains.StructuredTd;
+import asmeta.definitions.domains.TypeDomain;
+import asmeta.structure.Signature;
+import asmeta.terms.TermsFactory;
+import asmeta.terms.basicterms.ConstantTerm;
+import asmeta.terms.basicterms.DomainTerm;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.SetTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.VariableKind;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.BagTerm;
+import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.MapTerm;
+import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
+import asmeta.terms.furtherterms.SequenceTerm;
+import asmeta.terms.furtherterms.StringTerm;
+
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">public class Utility {</span>
+	// PA 12/11/2011. Fabio Albani, in method resolve, needs to import just the the
+	// first rule with
+	// the best ranking. The static field &quot;selectFirstBestRanking&quot; can be used
+	// to set this option; if &quot;selectFirstBestRanking&quot; is
+	// - true, the first the first rule with the best ranking is selected;
+	// - false, if there are at least two rules with the equal best ranking
+	// an exception is raised.
+	// By default, &quot;selectFirstBestRanking&quot; is true.
+<span class="fc" id="L88">	public static boolean selectFirstBestRanking = true;</span>
+
+<span class="fc" id="L90">	private static Logger logger = Logger.getLogger(Utility.class);</span>
+	
+	static {
+<span class="fc" id="L93">		logger.setLevel(Level.OFF);</span>
+<span class="fc" id="L94">	}</span>
+
+	// ================================================= appendInKey
+	/*
+	 * Concatenate to key the representation of t depending on the attribute symbol
+	 * key = &quot;&quot; -&gt; t = 10 : returns &quot;10&quot; key &quot;[3,&quot; -&gt; t = {3,4} returns &quot;[3,{3,4}&quot;
+	 */
+	public static StringBuffer appendInKey(StringBuffer key, Term t) {
+
+<span class="fc bfc" id="L103" title="All 2 branches covered.">		if (t instanceof FunctionTerm) {</span>
+<span class="fc" id="L104">			FunctionTerm ft = (FunctionTerm) t;</span>
+<span class="fc" id="L105">			key.append(ft.getFunction().getName());</span>
+<span class="fc" id="L106">			appendInKey(key, ft.getArguments());</span>
+		}
+
+<span class="fc bfc" id="L109" title="All 2 branches covered.">		if (t instanceof ConstantTerm)</span>
+<span class="fc" id="L110">			key.append(((ConstantTerm) t).getSymbol());</span>
+
+<span class="fc bfc" id="L112" title="All 2 branches covered.">		if (t instanceof VariableTerm)</span>
+<span class="fc" id="L113">			key.append(((VariableTerm) t).getName());</span>
+
+<span class="fc bfc" id="L115" title="All 2 branches covered.">		if (t instanceof DomainTerm)</span>
+<span class="fc" id="L116">			key.append(((DomainTerm) t).getDomain().getName());</span>
+
+<span class="fc bfc" id="L118" title="All 2 branches covered.">		if (t instanceof SequenceTerm) {</span>
+<span class="fc" id="L119">			key.append(&quot;[&quot;);</span>
+<span class="fc" id="L120">			Iterator&lt;Term&gt; iter = ((SequenceTerm) t).getTerms().iterator();</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">			while (iter.hasNext()) {</span>
+<span class="fc" id="L122">				appendInKey(key, iter.next());</span>
+<span class="fc" id="L123">				key.append(&quot;,&quot;);</span>
+			}
+<span class="fc" id="L125">			key.deleteCharAt(key.length() - 1); // delete the last comma</span>
+<span class="fc" id="L126">			key.append(&quot;]&quot;);</span>
+		}
+<span class="fc bfc" id="L128" title="All 2 branches covered.">		if (t instanceof SetTerm) {</span>
+<span class="fc" id="L129">			key.append(&quot;{&quot;);</span>
+<span class="fc" id="L130">			Iterator&lt;Term&gt; iter = ((SetTerm) t).getTerm().iterator();</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">			while (iter.hasNext()) {</span>
+<span class="fc" id="L132">				appendInKey(key, iter.next());</span>
+<span class="fc" id="L133">				key.append(&quot;,&quot;);</span>
+			}
+<span class="fc" id="L135">			key.deleteCharAt(key.length() - 1); // delete the last comma</span>
+<span class="fc" id="L136">			key.append(&quot;}&quot;);</span>
+		}
+<span class="fc bfc" id="L138" title="All 2 branches covered.">		if (t instanceof BagTerm) {</span>
+<span class="fc" id="L139">			key.append(&quot;&lt;&quot;);</span>
+<span class="fc" id="L140">			Iterator iter = ((BagTerm) t).getTerm().iterator();</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">			while (iter.hasNext()) {</span>
+<span class="fc" id="L142">				appendInKey(key, (Term) iter.next());</span>
+<span class="fc" id="L143">				key.append(&quot;,&quot;);</span>
+			}
+<span class="fc" id="L145">			key.deleteCharAt(key.length() - 1); // delete the last comma</span>
+<span class="fc" id="L146">			key.append(&quot;&gt;&quot;);</span>
+		}
+<span class="fc bfc" id="L148" title="All 2 branches covered.">		if (t instanceof MapTerm) {</span>
+<span class="fc" id="L149">			key.append(&quot;{&quot;);</span>
+<span class="fc" id="L150">			Iterator iter = ((MapTerm) t).getPair().iterator();</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">			while (iter.hasNext()) {</span>
+<span class="fc" id="L152">				appendInKey(key, (Term) iter.next());</span>
+<span class="fc" id="L153">				key.append(&quot;,&quot;);</span>
+			}
+<span class="fc" id="L155">			key.deleteCharAt(key.length() - 1); // delete the last comma</span>
+<span class="fc" id="L156">			key.append(&quot;}&quot;);</span>
+		}
+<span class="fc bfc" id="L158" title="All 2 branches covered.">		if (t instanceof TupleTerm) {</span>
+<span class="fc" id="L159">			key.append(&quot;(&quot;);</span>
+<span class="fc" id="L160">			Iterator iter = ((TupleTerm) t).getTerms().iterator();</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">			while (iter.hasNext()) {</span>
+<span class="fc" id="L162">				Term tupleElem = (Term) iter.next();</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">				if (tupleElem instanceof FunctionTerm) {</span>
+<span class="fc" id="L164">					key.append(((FunctionTerm) tupleElem).getFunction().getName());</span>
+<span class="fc" id="L165">					appendInKey(key, ((FunctionTerm) tupleElem).getArguments());</span>
+				} else
+<span class="fc" id="L167">					appendInKey(key, tupleElem);</span>
+<span class="fc" id="L168">				key.append(&quot;,&quot;);</span>
+<span class="fc" id="L169">			}</span>
+<span class="fc" id="L170">			key.deleteCharAt(key.length() - 1); // delete the last comma</span>
+<span class="fc" id="L171">			key.append(&quot;)&quot;);</span>
+		}
+<span class="fc" id="L173">		return key;</span>
+	}
+
+	// ================================================= getCommonTD
+	/*
+	 * Se td ha TD fissato controllo che la funz compare(td, elem_TD) torni true se
+	 * td ha TD generico (non ho ancora incotrato un termine con TD fissato) e
+	 * l'elem corrente ha TD generico -&gt; passo al prossimo elemento (non faccio
+	 * alcun controllo) se td ha TD generico (non ho ancora incotrato un termine con
+	 * TD fissato) e l'elem corrente ha TD fissato -&gt; assegno a td tale dominio e
+	 * passo al prossimo elem Se non vengono riscontrate differenze tra i
+	 * type-domain degli elementi della collection viene tornato il TypeDomain
+	 * comune altrimenti viene tornato null NOTA: se tutti gli elementi della
+	 * collection hanno come type-domain AnyDomain (sono variabili) il TD del
+	 * collectionTerm sar? uno structuredTD su AnyDomain
+	 */
+	public static TypeDomain getCommonTD(Collection&lt;Term&gt; c) {
+<span class="fc" id="L190">		Iterator&lt;Term&gt; iter = c.iterator();</span>
+<span class="fc" id="L191">		TypeDomain elem_TD = OCL_Checker.getTypeDomain(iter.next().getDomain()); // take</span>
+		// the
+		// TypeDomain
+		// of
+		// the
+		// first
+		// element
+		// of
+		// the
+		// collection
+<span class="fc" id="L201">		TypeDomain td = elem_TD;</span>
+		// check if every term of the collection has td as associated TypeDomain
+<span class="fc bfc" id="L203" title="All 2 branches covered.">		while (iter.hasNext()) {</span>
+<span class="fc" id="L204">			elem_TD = OCL_Checker.getTypeDomain(iter.next().getDomain());</span>
+<span class="pc bpc" id="L205" title="1 of 2 branches missed.">			if (!(td instanceof AnyDomain)) {</span>
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">				if (!OCL_Checker.compatible(td, elem_TD))</span>
+<span class="nc" id="L207">					return null;</span>
+			} else {
+<span class="nc bnc" id="L209" title="All 2 branches missed.">				if (!(elem_TD instanceof AnyDomain))</span>
+<span class="nc" id="L210">					td = elem_TD;</span>
+			}
+
+		}
+<span class="fc" id="L214">		return td;</span>
+	}
+
+	// ================================================= convertDoubleToTerm,
+	// convertIntegerToTerm
+	/**
+	 * Returns a Term (an Unary Expression with domain Real or a RealTerm) for a
+	 * double. For n and +n it returns a RealTerm, for -n a FunctionTerm (Unary
+	 * Expression), where n is a double. For 0.0 a RealTerm is created.
+	 * 
+	 * @throws ParseException
+	 */
+
+	private static RealTerm/* Term */ convertDoubleToTerm(double n, TermsFactory termsPack, TypeDomain realDom,
+			HashMap&lt;String, List&lt;Function&gt;&gt; declared_Func, HashMap&lt;String, Domain&gt; declared_Dom,
+			DefinitionsFactory defPack, Signature s) throws ParseException {
+
+		// create a new RealTerm for n
+<span class="fc" id="L232">		RealTerm realTerm = termsPack.getFurtherTerms().createRealTerm();</span>
+<span class="fc" id="L233">		realTerm.setSymbol(Double.toString(n));</span>
+		// set references
+<span class="fc" id="L235">		realTerm.setDomain(realDom);</span>
+
+<span class="fc" id="L237">		return realTerm;</span>
+		// commentato da PA il 22 aprile 2010. Forse basta ritornare il realTerm.
+		/*
+		 * if (n &gt;= 0) return realTerm;
+		 * 
+		 * // otherwise create a FunctionTerm for -n TupleTerm tupleT =
+		 * createSingle(realTerm, termsPack, defPack, s); FunctionTerm t =
+		 * createFunctionTerm(&quot;minus&quot;, tupleT, termsPack, declared_Func, declared_Dom,
+		 * defPack, s); if (t == null) throw new ParseException(
+		 * &quot;Problems in creating the unary expression for&quot; + n); return t;
+		 */
+	}
+
+	/**
+	 * return an Integer term is n is positive, otherwise a Function term
+	 * 
+	 * @param n
+	 * @param termsPack
+	 * @param integerDom
+	 * @param declared_Func
+	 * @param declared_Dom
+	 * @param defPack
+	 * @param s
+	 * @return
+	 * @throws ParseException
+	 */
+	private static IntegerTerm/* Term */ convertIntegerToTerm(int n, TermsFactory termsPack, TypeDomain integerDom,
+			HashMap&lt;String, List&lt;Function&gt;&gt; declared_Func, HashMap&lt;String, Domain&gt; declared_Dom,
+			DefinitionsFactory defPack, Signature s) throws ParseException {
+
+		// create a new IntegerTerm
+
+<span class="fc" id="L269">		IntegerTerm integerTerm = termsPack.getFurtherTerms().createIntegerTerm();</span>
+		// set references
+<span class="fc" id="L271">		integerTerm.setDomain(integerDom);</span>
+<span class="fc" id="L272">		integerTerm.setSymbol(Integer.toString(n));</span>
+<span class="fc" id="L273">		return integerTerm;</span>
+
+		// commentato da PA il 22/04/2010. Forse basta ritornare l'integerTerm.
+		/*
+		 * if (n &gt;= 0){ integerTerm.setSymbol(Integer.toString(n)); return integerTerm;
+		 * } // otherwise create a FunctionTerm -n assert( n &lt; 0);
+		 * integerTerm.setSymbol(Integer.toString(n)); TupleTerm tupleT =
+		 * createSingle(integerTerm, termsPack, defPack, s); FunctionTerm t =
+		 * createFunctionTerm(&quot;minus&quot;, tupleT, termsPack, declared_Func, declared_Dom,
+		 * defPack, s); if (t == null) throw new ParseException(
+		 * &quot;Problems in creating the unary expression for&quot; + n); return t;
+		 */
+	}
+
+	// ================================================= convertToDouble
+	/**
+	 * Returns the double for a FunctionTerm (Unary Expression with domain Real or
+	 * Integer) or for a constant numeric term (real, integer, natural).
+	 * 
+	 * @throws ParseException
+	 */
+
+	public static double convertToDouble(Term ft) throws ParseException {
+<span class="fc" id="L296">		double n = 0;</span>
+
+		// if ft is a constant numeric term, return its value
+<span class="fc bfc" id="L299" title="All 2 branches covered.">		if (ft instanceof RealTerm)</span>
+<span class="fc" id="L300">			return Double.parseDouble(((RealTerm) ft).getSymbol());</span>
+<span class="fc bfc" id="L301" title="All 2 branches covered.">		if (ft instanceof IntegerTerm)</span>
+<span class="fc" id="L302">			return Double.parseDouble(((IntegerTerm) ft).getSymbol());</span>
+<span class="fc bfc" id="L303" title="All 2 branches covered.">		if (ft instanceof NaturalTerm) {</span>
+			// Eliminate the suffix &quot;n&quot;
+<span class="fc" id="L305">			String s = ((NaturalTerm) ft).getSymbol();</span>
+<span class="fc" id="L306">			return Double.parseDouble(s.substring(0, s.length() - 1));</span>
+		}
+		// otherwise it must be a function term with domain Real or
+		// Integer
+<span class="pc bpc" id="L310" title="1 of 2 branches missed.">		if (!(ft instanceof FunctionTerm))</span>
+<span class="nc" id="L311">			throw new ParseException(</span>
+<span class="nc" id="L312">					&quot;Can convert only function terms like + constant or - constant, found  &quot; + ft.getClass());</span>
+		// get the unary Expression
+<span class="fc" id="L314">		String name = ((FunctionTerm) ft).getFunction().getName();</span>
+<span class="pc bpc" id="L315" title="2 of 6 branches missed.">		if (!(((FunctionTerm) ft).getFunction().getArity() == 1 &amp;&amp; (name.equals(&quot;plus&quot;) || name.equals(&quot;minus&quot;))))</span>
+<span class="nc" id="L316">			throw new ParseException(&quot;Can convert only unary expressions + constant or - constant &quot;);</span>
+
+<span class="fc" id="L318">		Term argument = ((FunctionTerm) ft).getArguments().getTerms().get(0);</span>
+
+<span class="pc bpc" id="L320" title="1 of 4 branches missed.">		if (!(argument instanceof RealTerm) &amp;&amp; !(argument instanceof IntegerTerm))</span>
+<span class="nc" id="L321">			throw new ParseException(</span>
+					&quot;Can convert only unary expressions + REALTERM or - REALTERM or + INTEGERTERM - INTEGERTERM &quot;);
+
+<span class="fc bfc" id="L324" title="All 2 branches covered.">		if (argument instanceof RealTerm)</span>
+			// REAL FUNCTION TERM
+<span class="fc" id="L326">			n = Double.parseDouble(((RealTerm) argument).getSymbol());</span>
+
+<span class="pc bpc" id="L328" title="1 of 2 branches missed.">		else if (argument instanceof IntegerTerm)</span>
+			// INTEGER FUNCTION TERM
+<span class="fc" id="L330">			n = Double.parseDouble(((IntegerTerm) argument).getSymbol());</span>
+<span class="fc bfc" id="L331" title="All 2 branches covered.">		if (name.equals(&quot;plus&quot;))</span>
+<span class="fc" id="L332">			return n;</span>
+		else
+<span class="fc" id="L334">			return -n;</span>
+	}
+
+	// ================================================= createTermCollection
+	/**
+	 * firstElem is already in elemColl. This method put in the collection the
+	 * remaining elements till lastElem, taking into account of the step and of the
+	 * type. By default the step is 1. The interval notation is allowed only for
+	 * reals, integer and natural numbers!
+	 * 
+	 * @throws ParseException
+	 */
+	public static void createTermCollection(Term firstElem, Term lastElem, Collection&lt;Term&gt; elemColl, double step,
+			boolean natural_step, TermsFactory termsPack, HashMap&lt;String, List&lt;Function&gt;&gt; declared_Func,
+			HashMap&lt;String, Domain&gt; declared_Dom, DefinitionsFactory defPack, Signature s) throws ParseException {
+
+<span class="fc" id="L350">		double low = convertToDouble(firstElem);</span>
+<span class="fc" id="L351">		double upp = convertToDouble(lastElem);</span>
+<span class="pc bpc" id="L352" title="1 of 2 branches missed.">		if (low &gt; upp)</span>
+<span class="nc" id="L353">			throw new ParseException(&quot;Error: The last interval element cannot be greatest than the first one.&quot;);</span>
+
+<span class="fc bfc" id="L355" title="All 4 branches covered.">		if (natural_step &amp;&amp; (firstElem instanceof NaturalTerm))</span>
+		// Set of natural terms
+		{
+<span class="pc bpc" id="L358" title="1 of 2 branches missed.">			if (!(lastElem instanceof NaturalTerm))</span>
+<span class="nc" id="L359">				throw new ParseException(</span>
+						&quot;Error: The first interval element is a NaturalTerm so also the last one must be a NaturalTerm.&quot;
+								+ &quot;(the TypeDomain associated to every element of a set must be the same)&quot;);
+			NaturalTerm naturalTerm;
+			// look for the Natural domain package
+<span class="fc" id="L364">			TypeDomain naturalDom = getBasicDomain(defPack.getDomains(), &quot;Natural&quot;);</span>
+<span class="pc bpc" id="L365" title="1 of 2 branches missed.">			if (naturalDom == null) {</span>
+<span class="nc" id="L366">				throw new ParseException(&quot;Error: The natural domain has not been declared.&quot;);</span>
+			}
+			// put the elements
+<span class="fc" id="L369">			logger.debug(&quot;\t\t\tInterval elements: &quot; + ((NaturalTerm) firstElem).getSymbol());</span>
+<span class="fc bfc" id="L370" title="All 2 branches covered.">			for (int i = (int) (low + step); i &lt; (int) upp; i = (int) (i + step))// first</span>
+			// element
+			// is
+			// already
+			// stored
+			{ // create a new NaturalTerm
+<span class="fc" id="L376">				naturalTerm = termsPack.getFurtherTerms().createNaturalTerm();</span>
+<span class="fc" id="L377">				naturalTerm.setSymbol(String.valueOf(i) + &quot;n&quot;);</span>
+				// set references
+<span class="fc" id="L379">				naturalTerm.setDomain(naturalDom);</span>
+
+				// link the created Natural term to the Sequence term
+<span class="fc" id="L382">				elemColl.add(naturalTerm);</span>
+				// add a new association
+				// X a_SetTerm_Term.add(term,naturalTerm);
+<span class="fc" id="L385">				logger.debug(&quot; &quot; + naturalTerm.getSymbol());</span>
+			}
+<span class="fc" id="L387">		} // End set of natural</span>
+
+<span class="fc bfc" id="L389" title="All 4 branches covered.">		else if (natural_step &amp;&amp; (firstElem.getDomain() instanceof IntegerDomain))</span>
+		// Set of integer terms
+		{
+<span class="pc bpc" id="L392" title="1 of 2 branches missed.">			if (!(lastElem.getDomain() instanceof IntegerDomain))</span>
+<span class="nc" id="L393">				throw new ParseException(</span>
+						&quot;Error: The first interval element is integer so also the last one must be integer.&quot;
+								+ &quot;(the TypeDomain associated to every element of a set must be the same!)&quot;);
+
+			// Generate integer terms between first and last given elements and
+			// insert them in the element list
+			// Two cases: a IntegrTerm or an integer FunctionTerm (for integers
+			// preceded by +plus and minus) are created.
+
+			// look for the Integer domain reference in the predefined_Dom
+			// HashMap
+<span class="fc" id="L404">			TypeDomain integerDom = getBasicDomain(defPack.getDomains(), &quot;Integer&quot;);</span>
+<span class="pc bpc" id="L405" title="1 of 2 branches missed.">			if (integerDom == null) {</span>
+<span class="nc" id="L406">				throw new ParseException(&quot;Error: The integer domain has not been declared.&quot;);</span>
+			}
+
+			// logger.debug(&quot;\t\t\tinterval elements:
+			// &quot;+((IntegerTerm)firstElem).getSymbol());
+<span class="fc bfc" id="L411" title="All 2 branches covered.">			for (int i = (int) (low + step); i &lt; (int) upp; i = (int) (i + step))// first</span>
+			// element
+			// is
+			// already
+			// stored
+			{
+				// link the created integer term to the Set term
+<span class="fc" id="L418">				Term intToadd = convertIntegerToTerm(i, termsPack, integerDom, declared_Func, declared_Dom, defPack, s);</span>
+<span class="fc" id="L419">				elemColl.add(intToadd);</span>
+				// add a new association
+				// X a_SetTerm_Term.add(term,integerTerm);
+<span class="fc" id="L422">				logger.debug(&quot;i: &quot; + i + &quot; integer term &quot; + intToadd.toString());</span>
+				// logger.debug(&quot; &quot;+integerTerm.getSymbol());
+			}
+<span class="fc" id="L425">		} // End set of integer</span>
+		else
+		// Set of real terms
+
+<span class="pc bpc" id="L429" title="1 of 2 branches missed.">		if (firstElem.getDomain() instanceof RealDomain) {</span>
+<span class="pc bpc" id="L430" title="1 of 2 branches missed.">			if (!(lastElem.getDomain() instanceof RealDomain))</span>
+<span class="nc" id="L431">				throw new ParseException(&quot;Error: The first interval element is real so also the last one must be real.&quot;</span>
+						+ &quot;(The TypeDomain associated to every element of a set must be the same!)&quot;);
+			// Generate real terms between first and last given elements and
+			// insert them in the element list
+			// Two cases: a RealTerm or a real FunctionTerm (for reals
+			// preceded by +plus and minus) are created.
+
+			// Look for the Real domain reference in the predefined_Dom
+			// HashMap
+<span class="fc" id="L440">			TypeDomain realDom = getBasicDomain(defPack.getDomains(), &quot;Real&quot;);</span>
+<span class="pc bpc" id="L441" title="1 of 2 branches missed.">			if (realDom == null) {</span>
+<span class="nc" id="L442">				throw new ParseException(&quot;Error: The real domain has not been declared.&quot;);</span>
+			}
+
+			// logger.debug(&quot;\t\t\tinterval elements:
+			// &quot;+((RealTerm)firstElem).getSymbol());
+<span class="fc bfc" id="L447" title="All 2 branches covered.">			for (double i = low + step; i &lt; upp; i = i + step)// first element</span>
+			// is
+			// already stored
+			{
+				// link the created real term to the Set term
+<span class="fc" id="L452">				elemColl.add(convertDoubleToTerm(i, termsPack, realDom, declared_Func, declared_Dom, defPack, s));</span>
+				// add a new association
+				// X a_SetTerm_Term.add(term,realTerm);
+				// logger.debug(&quot; &quot;+realTerm.getSymbol());
+<span class="fc" id="L456">				logger.debug(&quot; &quot; + i);</span>
+			}
+<span class="fc" id="L458">		} // End set of real</span>
+
+		else
+<span class="nc" id="L461">			throw new ParseException(&quot;Error: The interval is ill formed!&quot;);</span>
+
+		// For all kind of sets, check if the lastElem must be included in the
+		// set unless is equal to low (AG 31/7/18 for {1..1}
+<span class="fc bfc" id="L465" title="All 4 branches covered.">		if (low &lt; upp &amp;&amp; (((upp - low) % step) == 0)) {</span>
+<span class="fc" id="L466">			elemColl.add(lastElem);</span>
+			// add a new association
+			// X a_SetTerm_Term.add(term,lastElem);
+<span class="fc" id="L469">			logger.debug(&quot; last element has been included!&quot;);</span>
+			// logger.debug(&quot;
+			// &quot;+((ConstantTerm)lastElem).getSymbol());
+		}
+<span class="fc" id="L473">		logger.debug(&quot;&quot;);</span>
+
+<span class="fc" id="L475">	}</span>
+
+	// NEW by Patrizia 25 Set 2006
+	public static Domain fixTypeDomain(Domain td, HashMap&lt;String, Domain&gt; m, HashMap&lt;String, Domain&gt; declared_Dom,
+			DefinitionsFactory defPack, Signature s) {
+		// ProductDomain
+<span class="pc bpc" id="L481" title="1 of 2 branches missed.">		if (td instanceof ProductDomain) {</span>
+<span class="nc" id="L482">			EList&lt;Domain&gt; prodDomList = ((ProductDomain) td).getDomains();</span>
+<span class="nc" id="L483">			List&lt;Domain&gt; newlist = new LinkedList&lt;Domain&gt;();</span>
+<span class="nc" id="L484">			Iterator&lt;Domain&gt; iter = prodDomList.listIterator();</span>
+<span class="nc bnc" id="L485" title="All 2 branches missed.">			while (iter.hasNext())</span>
+<span class="nc" id="L486">				newlist.add(fixTypeDomain(iter.next(), m, declared_Dom, defPack, s));</span>
+<span class="nc" id="L487">			return getProduct(newlist, defPack, s);</span>
+		}
+		// PowersetDomain
+<span class="fc bfc" id="L490" title="All 2 branches covered.">		else if (td instanceof PowersetDomain)</span>
+<span class="fc" id="L491">			return getPowerset(fixTypeDomain(((PowersetDomain) td).getBaseDomain(), m, declared_Dom, defPack, s),</span>
+					defPack, s);
+		// SequenceDomain
+<span class="fc bfc" id="L494" title="All 2 branches covered.">		else if (td instanceof SequenceDomain)</span>
+<span class="fc" id="L495">			return getSequence(fixTypeDomain(((SequenceDomain) td).getDomain(), m, declared_Dom, defPack, s), defPack,</span>
+					s);
+		// BagDomain
+<span class="fc bfc" id="L498" title="All 2 branches covered.">		else if (td instanceof BagDomain)</span>
+<span class="fc" id="L499">			return getBag(fixTypeDomain(((BagDomain) td).getDomain(), m, declared_Dom, defPack, s), defPack, s);</span>
+		// MapDomain
+<span class="pc bpc" id="L501" title="1 of 2 branches missed.">		else if (td instanceof MapDomain)</span>
+<span class="nc" id="L502">			return getMap(fixTypeDomain(((MapDomain) td).getSourceDomain(), m, declared_Dom, defPack, s),</span>
+<span class="nc" id="L503">					fixTypeDomain(((MapDomain) td).getTargetDomain(), m, declared_Dom, defPack, s), defPack, s);</span>
+<span class="pc bpc" id="L504" title="1 of 4 branches missed.">		else if (td instanceof AnyDomain &amp;&amp; m.containsKey(td.getName())) {</span>
+			// return (TypeDomain) m.get(td.getName()); Da problemi!
+			// Provo invece cosi':
+<span class="fc" id="L507">			String dom_name = m.get(td.getName()).getName();</span>
+<span class="fc" id="L508">			Domain dom = null;</span>
+			try {
+<span class="fc" id="L510">				dom = declared_Dom.get(dom_name);</span>
+<span class="fc bfc" id="L511" title="All 2 branches covered.">				if (dom == null) {</span>
+<span class="fc" id="L512">					logger.debug(&quot;Trying predefined domain&quot;);</span>
+<span class="fc" id="L513">					dom = getPredefinedDomain(defPack.getDomains(), dom_name);</span>
+				}
+<span class="fc bfc" id="L515" title="All 2 branches covered.">				if (dom == null) {</span>
+<span class="fc" id="L516">					logger.debug(&quot;Trying structured domain&quot;);</span>
+<span class="fc" id="L517">					dom = getStructuredDomain(defPack.getDomains(), dom_name, s);</span>
+				}
+<span class="pc bpc" id="L519" title="1 of 2 branches missed.">				if (dom == null)</span>
+<span class="nc" id="L520">					throw new ParseException(&quot;Error: &quot; + dom_name + &quot; domain is not declared.&quot;);</span>
+<span class="nc" id="L521">			} catch (Exception e) {</span>
+<span class="nc" id="L522">				logger.error(&quot;Problems in fixing the type domain &quot; + td.getName());</span>
+<span class="nc" id="L523">				logger.error(&quot;Exception: &quot; + e.getMessage());</span>
+<span class="fc" id="L524">			}</span>
+<span class="fc" id="L525">			return dom;</span>
+		}
+
+<span class="fc" id="L528">		return td;</span>
+	}
+
+	// ////////////////////////////////////Function for creation of Structured
+	// Type-Domain ////////////////////////////////////
+
+	/* returns the rule domain parameterized for a list of domains */
+	public static RuleDomain getRuleDomain(List&lt;Domain&gt; domainList, DefinitionsFactory defPack, Signature s) {
+<span class="fc" id="L536">		String name = getRuleDomName(domainList);</span>
+<span class="fc" id="L537">		logger.debug(&quot;RuleDomain: &quot; + name);</span>
+		// check if this structuredTD has been defined previously
+<span class="fc" id="L539">		RuleDomain domReturned = (RuleDomain) getStructuredDomain(defPack.getDomains(), name, s);</span>
+<span class="pc bpc" id="L540" title="1 of 2 branches missed.">		if (domReturned == null) // it is not present in the HashMap</span>
+		{ // create the object
+<span class="fc" id="L542">			logger.debug(&quot;RuleDomain: &quot; + name + &quot; not present in the HashMap. It is now been created..&quot;);</span>
+<span class="fc" id="L543">			logger.debug(&quot;domainList: &quot; + name + &quot; of size: &quot; + domainList.size());</span>
+			RuleDomain ruleDom;
+
+<span class="fc" id="L546">			ruleDom = defPack.getDomains().createRuleDomain();</span>
+<span class="fc" id="L547">			ruleDom.setName(name);</span>
+<span class="fc bfc" id="L548" title="All 2 branches covered.">			if (domainList.size() &gt; 0)</span>
+<span class="fc" id="L549">				ruleDom.getDomains().addAll(domainList);</span>
+			// set the signature
+<span class="fc" id="L551">			s.getStructuredDomain().add(ruleDom);</span>
+<span class="fc" id="L552">			return ruleDom;</span>
+		} else
+<span class="nc" id="L554">			return domReturned;</span>
+	}
+
+	/*
+	 * returns the product domain of a list of domains
+	 */
+	public static ProductDomain getProduct(List&lt;Domain&gt; domainList, DefinitionsFactory defPack, Signature s) {
+<span class="fc" id="L561">		String name = getDomName(domainList);</span>
+
+		// check if this structuredTD has been defined previously
+<span class="fc" id="L564">		ProductDomain domReturned = (ProductDomain) getStructuredDomain(defPack.getDomains(), name, s);</span>
+<span class="fc bfc" id="L565" title="All 2 branches covered.">		if (domReturned == null) // it is not present in the HashMap</span>
+		{ // create the object
+<span class="fc" id="L567">			ProductDomain prodDom = defPack.getDomains().createProductDomain();</span>
+<span class="fc" id="L568">			prodDom.setName(name);</span>
+<span class="fc" id="L569">			prodDom.getDomains().addAll(domainList);</span>
+<span class="fc" id="L570">			logger.debug(&quot;domainList: &quot; + name + &quot; of size: &quot; + domainList.size());</span>
+			// set the signature
+<span class="fc" id="L572">			s.getStructuredDomain().add(prodDom);</span>
+
+<span class="fc" id="L574">			return prodDom;</span>
+		} else
+<span class="fc" id="L576">			return domReturned;</span>
+	}
+
+	public static PowersetDomain getPowerset(Domain dom, DefinitionsFactory defPack, Signature s) {
+<span class="fc" id="L580">		String name = &quot;Powerset(&quot;;</span>
+<span class="fc" id="L581">		name = name.concat(dom.getName());</span>
+<span class="fc" id="L582">		name = name.concat(&quot;)&quot;);</span>
+		// check if this structuredTD has been defined previously
+<span class="fc" id="L584">		PowersetDomain powersetDom = (PowersetDomain) getStructuredDomain(defPack.getDomains(), name, s);</span>
+<span class="fc bfc" id="L585" title="All 2 branches covered.">		if (powersetDom == null)// it is not present in the HashMap</span>
+		{ // create the object
+<span class="fc" id="L587">			powersetDom = defPack.getDomains().createPowersetDomain();</span>
+<span class="fc" id="L588">			powersetDom.setName(name);</span>
+			// set references
+<span class="fc" id="L590">			powersetDom.setBaseDomain(dom);</span>
+			// create and set associations
+			// X APowersetDomain a_Powerset_Domain =
+			// defPack.getAPowersetDomain();
+			// X a_Powerset_Domain.add(powersetDom,dom);
+			// insert it in the hashMap
+			// structTD.put(name, powersetDom);
+			// set the signature
+
+<span class="fc" id="L599">			s.getStructuredDomain().add(powersetDom);</span>
+		}
+<span class="fc" id="L601">		return powersetDom;</span>
+	}
+
+	// OK!
+	public static SequenceDomain getSequence(Domain dom, DefinitionsFactory defPack, Signature s) {
+<span class="fc" id="L606">		String name = &quot;Seq(&quot;;</span>
+<span class="fc" id="L607">		name = name.concat(dom.getName());</span>
+<span class="fc" id="L608">		name = name.concat(&quot;)&quot;);</span>
+		// check if this structuredTD has been defined previously
+<span class="fc" id="L610">		SequenceDomain seqDom = (SequenceDomain) getStructuredDomain(defPack.getDomains(), name, s);</span>
+<span class="fc bfc" id="L611" title="All 2 branches covered.">		if (seqDom == null)// it is not present in the HashMap</span>
+		{ // create the object
+<span class="fc" id="L613">			seqDom = defPack.getDomains().createSequenceDomain();</span>
+<span class="fc" id="L614">			seqDom.setName(name);</span>
+			// set references
+<span class="fc" id="L616">			seqDom.setDomain(dom);</span>
+			// set the signature
+<span class="fc" id="L618">			s.getStructuredDomain().add(seqDom);</span>
+		}
+<span class="fc" id="L620">		return seqDom;</span>
+	}
+
+	// OK!
+	public static BagDomain getBag(Domain dom, DefinitionsFactory defPack, Signature s) {
+<span class="fc" id="L625">		String name = &quot;Bag(&quot;;</span>
+<span class="fc" id="L626">		name = name.concat(dom.getName());</span>
+<span class="fc" id="L627">		name = name.concat(&quot;)&quot;);</span>
+		// check if this structuredTD has been defined previously
+<span class="fc" id="L629">		BagDomain bagDom = (BagDomain) getStructuredDomain(defPack.getDomains(), name, s);</span>
+<span class="fc bfc" id="L630" title="All 2 branches covered.">		if (bagDom == null)// it is not present in the HashMap</span>
+		{ // create the object
+<span class="fc" id="L632">			bagDom = defPack.getDomains().createBagDomain();</span>
+<span class="fc" id="L633">			bagDom.setName(name);</span>
+			// set references
+<span class="fc" id="L635">			bagDom.setDomain(dom);</span>
+			// set the signature
+<span class="fc" id="L637">			s.getStructuredDomain().add(bagDom);</span>
+		}
+<span class="fc" id="L639">		return bagDom;</span>
+	}
+
+	// OK!
+	/* builds a MapDomain dom1 -&gt; dom2, which are typeDomain */
+	public static MapDomain getMap(Domain dom1, Domain dom2, DefinitionsFactory defPack, Signature s) {
+<span class="fc" id="L645">		String name = &quot;Map(&quot;;</span>
+<span class="fc" id="L646">		name = name.concat(dom1.getName());</span>
+<span class="fc" id="L647">		name = name.concat(&quot;,&quot;);</span>
+<span class="fc" id="L648">		name = name.concat(dom2.getName());</span>
+<span class="fc" id="L649">		name = name.concat(&quot;)&quot;);</span>
+		// check if this structuredTD has been defined previously
+<span class="fc" id="L651">		MapDomain mapDom = (MapDomain) getStructuredDomain(defPack.getDomains(), name, s);</span>
+<span class="fc bfc" id="L652" title="All 2 branches covered.">		if (mapDom == null)// it is not present in the HashMap</span>
+		{ // create the object
+<span class="fc" id="L654">			mapDom = defPack.getDomains().createMapDomain();</span>
+<span class="fc" id="L655">			mapDom.setName(name);</span>
+			// set references
+<span class="fc" id="L657">			mapDom.setSourceDomain(dom1);</span>
+<span class="fc" id="L658">			mapDom.setTargetDomain(dom2);</span>
+			// set the signature
+<span class="fc" id="L660">			s.getStructuredDomain().add(mapDom);</span>
+
+		}
+<span class="fc" id="L663">		return mapDom;</span>
+	}
+
+	/**
+	 * Per generare il nome di un RuleDomain se la lista e' vuota restituisce
+	 * &quot;Rule&quot;, se la lista ha un solo elemento D restituisce D altrimenti restitiuce
+	 * Rule(D1,...DN). A rule domain can be formed also by concrete domains.
+	 */
+	public static String getRuleDomName(List&lt;Domain&gt; domains) {
+<span class="fc" id="L672">		String dom_Name = &quot;Rule&quot;;</span>
+<span class="pc bpc" id="L673" title="1 of 4 branches missed.">		if (domains == null || domains.size() == 0)</span>
+<span class="fc" id="L674">			return dom_Name;</span>
+<span class="fc" id="L675">		dom_Name = dom_Name.concat(&quot;(&quot;);</span>
+<span class="fc" id="L676">		Iterator&lt;Domain&gt; iter = domains.iterator();</span>
+		Domain d;
+<span class="fc bfc" id="L678" title="All 2 branches covered.">		while (iter.hasNext()) {</span>
+<span class="fc" id="L679">			d = iter.next();</span>
+<span class="fc" id="L680">			dom_Name = dom_Name.concat(d.getName()).concat(&quot;,&quot;);</span>
+		}
+<span class="fc" id="L682">		dom_Name = dom_Name.substring(0, dom_Name.length() - 1); // delete</span>
+		// the
+		// last comma
+<span class="fc" id="L685">		dom_Name = dom_Name.concat(&quot;)&quot;);</span>
+<span class="fc" id="L686">		return dom_Name;</span>
+	}
+
+	/**
+	 * Per generare il nome di un product se la lista e' vuota restituisce &quot;&quot;, se la
+	 * lista ha un solo elemento D restituisce D altrimenti restitiuce
+	 * Prod(D1,...DN). A product domain can now be formed also by concrete domains.
+	 */
+	public static &lt;T extends Domain&gt; String getDomName(List&lt;T&gt; domains) {
+<span class="fc" id="L695">		String dom_Name = &quot;&quot;;</span>
+<span class="fc" id="L696">		int size = domains.size();</span>
+<span class="pc bpc" id="L697" title="1 of 2 branches missed.">		if (size == 0)</span>
+<span class="nc" id="L698">			return dom_Name;</span>
+<span class="pc bpc" id="L699" title="1 of 2 branches missed.">		if (size &gt; 1)</span>
+<span class="fc" id="L700">			dom_Name = dom_Name.concat(&quot;Prod(&quot;);</span>
+<span class="fc" id="L701">		Iterator&lt;T&gt; iter = domains.iterator();</span>
+		Domain d;
+<span class="fc bfc" id="L703" title="All 2 branches covered.">		while (iter.hasNext()) {</span>
+<span class="fc" id="L704">			d = iter.next();</span>
+			/*
+			 * if (size &gt; 1 &amp;&amp; (d instanceof ConcreteDomain)) return null; // THIS NO LONGER
+			 * APPLY: A product domain cannot be formed by concrete domains else
+			 */
+<span class="fc" id="L709">			dom_Name = dom_Name.concat(d.getName()).concat(&quot;,&quot;);</span>
+		}
+<span class="fc" id="L711">		dom_Name = dom_Name.substring(0, dom_Name.length() - 1); // delete</span>
+		// the
+		// last comma
+<span class="pc bpc" id="L714" title="1 of 2 branches missed.">		if (size &gt; 1)</span>
+<span class="fc" id="L715">			dom_Name = dom_Name.concat(&quot;)&quot;);</span>
+<span class="fc" id="L716">		return dom_Name;</span>
+
+	}
+
+	/**
+	 * It creates a function term if the funcname function is dynamic, it returns a
+	 * LocationTerm otherwise it returns a FunctionTerm
+	 * 
+	 * @param funcName functionName: it cannot be null
+	 * @param tupleT   the tuple argument of the function: it can be null
+	 */
+	public static FunctionTerm createFunctionTerm(String funcName, TupleTerm tupleT, TermsFactory termsPack,
+			HashMap&lt;String, List&lt;Function&gt;&gt; declared_Func, HashMap&lt;String, Domain&gt; declared_Dom,
+			DefinitionsFactory defPack, Signature s)
+
+	{
+<span class="fc" id="L732">		logger.debug(&quot;\tcreating a location/function term for function &quot; + funcName);</span>
+		// if the tuple is not null, it computes its Domain
+<span class="fc" id="L734">		Domain tupleD = null;</span>
+<span class="fc bfc" id="L735" title="All 2 branches covered.">		if (tupleT != null) { // set the reference</span>
+<span class="fc" id="L736">			tupleD = tupleT.getDomain();</span>
+		}
+
+		// looks for the function
+<span class="fc" id="L740">		Function func = null;</span>
+<span class="fc" id="L741">		HashMap&lt;String, Domain&gt; genericDomValue = new HashMap&lt;String, Domain&gt;();</span>
+		try {
+			// NEW by Patrizia 25 Set 2006
+			// Added parameter genericDomValue
+			// *****
+<span class="fc" id="L746">			func = getFunction(funcName, tupleD, true, genericDomValue, declared_Func);</span>
+			// *****
+<span class="pc bpc" id="L748" title="1 of 2 branches missed.">			if (func == null)</span>
+<span class="nc" id="L749">				throw new ParseException(&quot;Function &quot; + funcName</span>
+<span class="nc bnc" id="L750" title="All 2 branches missed.">						+ ((tupleT != null) ? (&quot;(&quot; + tupleD.getName() + &quot;)&quot;) : &quot;&quot;) + &quot; has not been found&quot;);</span>
+<span class="fc" id="L751">			logger.debug(&quot;\t\t\tFound function &quot; + func.getName()</span>
+<span class="fc bfc" id="L752" title="All 2 branches covered.">					+ ((func.getDomain() != null) ? &quot; with domain &quot; + func.getDomain().getName() : &quot;&quot;));</span>
+<span class="nc" id="L753">		} catch (Exception e) {</span>
+<span class="nc" id="L754">			logger.error(&quot;Problems locating the function &quot; + funcName</span>
+<span class="nc bnc" id="L755" title="All 2 branches missed.">					+ ((tupleT != null) ? (&quot;(&quot; + tupleD.getName() + &quot;)&quot;) : &quot;&quot;));</span>
+<span class="nc" id="L756">			logger.error(&quot;Exception: &quot; + e.getMessage());</span>
+<span class="nc bnc" id="L757" title="All 2 branches missed.">			logger.debug(&quot;tupleD has domain &quot; + (tupleD != null ? tupleD.getName() : &quot;&quot;) + &quot; and ref &quot;</span>
+<span class="nc bnc" id="L758" title="All 2 branches missed.">					+ (tupleD != null ? tupleD.toString() : &quot;&quot;));</span>
+			// get the functions with the same name
+<span class="nc" id="L760">			List&lt;Function&gt; f_list = declared_Func.get(funcName);</span>
+<span class="nc bnc" id="L761" title="All 2 branches missed.">			if (f_list == null)</span>
+<span class="nc" id="L762">				logger.debug(&quot;No other function with the same name!&quot;);</span>
+			else {
+<span class="nc" id="L764">				logger.debug(&quot;other functions with the same name have domains: &quot;);</span>
+<span class="nc bnc" id="L765" title="All 2 branches missed.">				for (Function f : f_list)</span>
+<span class="nc" id="L766">					logger.debug(f.getDomain().getName() + &quot; ref: &quot; + f.getDomain().toString());</span>
+			}
+<span class="nc" id="L768">			return null;</span>
+<span class="fc" id="L769">		}</span>
+		// create the object
+		FunctionTerm term;
+<span class="fc bfc" id="L772" title="All 2 branches covered.">		if (func instanceof DynamicFunction) {</span>
+<span class="fc" id="L773">			term = termsPack.getBasicTerms().createLocationTerm();</span>
+<span class="fc" id="L774">			logger.debug(&quot;\tcreating a location term&quot;);</span>
+		} else {
+			// static function or derived
+<span class="fc" id="L777">			term = termsPack.getBasicTerms().createFunctionTerm();</span>
+<span class="fc" id="L778">			logger.debug(&quot;\tcreating a function term&quot;);</span>
+		}
+<span class="fc bfc" id="L780" title="All 2 branches covered.">		if (tupleT != null) { // set the reference</span>
+<span class="fc" id="L781">			term.setArguments(tupleT);</span>
+		}
+		// set the reference
+<span class="fc" id="L784">		term.setFunction(func);</span>
+
+		// NEW by Patrizia 25 Set 2006
+<span class="fc" id="L787">		logger.debug(&quot;Setting TypeDomain &quot; + func.getCodomain().getName() + &quot;...&quot;);</span>
+		Domain td;
+<span class="fc bfc" id="L789" title="All 2 branches covered.">		if (genericDomValue.isEmpty()) {</span>
+			// set Function term domain to the codomain of the function
+<span class="fc" id="L791">			td = func.getCodomain();</span>
+		} else {
+<span class="fc" id="L793">			td = fixTypeDomain(func.getCodomain(), genericDomValue, declared_Dom, defPack, s);</span>
+		}
+<span class="fc" id="L795">		logger.debug(&quot;\t\t--&gt; &quot; + td.getName());</span>
+
+		// set the reference
+<span class="fc" id="L798">		term.setDomain(td);</span>
+
+		// constraints 1-2 granted for construction
+		// checks applicability
+<span class="fc" id="L802">		logger.debug(&quot;Checking applicability...&quot;);</span>
+		// FIXME 1/4/2009 code commented
+<span class="pc bpc" id="L804" title="1 of 2 branches missed.">		if (!OCL_Checker.applicable(term)) {</span>
+<span class="nc" id="L805">			logger.fatal(&quot;not applicable! &quot; + OCL_Checker.getMSG_ERR());</span>
+<span class="nc" id="L806">			return null;</span>
+		}
+<span class="fc" id="L808">		return term;</span>
+	}
+
+	/**
+	 * Search a function f_name with domain d. Note that the list of declared
+	 * functions must be traversed in reverse order!!!
+	 * 
+	 * @param f_name          the f_name
+	 * @param d               the d
+	 * @param withCompare     the with compare
+	 * @param genericDomValue the generic dom value
+	 * @param declared_Func   the declared_ func
+	 * 
+	 * @return the function
+	 */
+	public static Function getFunction(String f_name, Domain d, boolean withCompare,
+			HashMap&lt;String, Domain&gt; genericDomValue, HashMap&lt;String, List&lt;Function&gt;&gt; declared_Func) {
+		// Functions with the same name of the function we are looking for
+<span class="fc" id="L826">		List&lt;Function&gt; f_list = declared_Func.get(f_name);</span>
+<span class="pc bpc" id="L827" title="1 of 2 branches missed.">		if (f_list == null)</span>
+<span class="nc" id="L828">			return null;</span>
+		else {
+<span class="fc" id="L830">			ListIterator&lt;Function&gt; iter = f_list.listIterator(f_list.size());</span>
+			Function func;
+<span class="pc bpc" id="L832" title="1 of 2 branches missed.">			while (iter.hasPrevious()) {</span>
+<span class="fc" id="L833">				func = iter.previous();</span>
+<span class="fc" id="L834">				Domain f_dom = func.getDomain();</span>
+<span class="pc bpc" id="L835" title="1 of 4 branches missed.">				if (d == null &amp;&amp; f_dom == null)</span>
+<span class="fc" id="L836">					return func;</span>
+<span class="pc bpc" id="L837" title="1 of 4 branches missed.">				else if (d != null &amp;&amp; f_dom != null) {</span>
+					// if func has domain compatible with d return funct
+					// see OCL constraint T9
+					// funct domain is self e d is other domain - which can be
+					// undef
+					// COMMENTATO MA DOVREBBE ANDARE BENE BY Angelo
+					// però il compareFixing ha il trucco getFromID che compare
+					// non
+					// ha ...
+					// if (OCL_Checker.compatible(f_dom,d)) return func;
+					// metto alcuni casi particolari che non danno errore che
+					// dovrebbero andare
+					// in compatible
+					// if they are equals
+
+					// consider Any Domain with Type Domains
+					// NEW by Patrizia 25 Set 06
+<span class="fc bfc" id="L854" title="All 2 branches covered.">					if (withCompare) {</span>
+						// //TODO Regression testing is necessary!!!
+<span class="fc bfc" id="L856" title="All 2 branches covered.">						if (OCL_Checker.compareFixingAnyDomain(f_dom, d, genericDomValue)) {</span>
+<span class="fc" id="L857">							logger.debug(&quot;\t\t getFunction &quot; + f_name + &quot; Domain &quot; + d.getName() + &quot; found &quot;);</span>
+<span class="fc" id="L858">							return func;</span>
+						}
+<span class="fc bfc" id="L860" title="All 2 branches covered.">					} else if (equals(f_dom, d)</span>
+					// TODO Regression testing is necessary!!!
+					// NEW! This commented line is to distinguish among
+					// different concrete domains
+					// ||
+					// equals(OCL_Checker.getTypeDomain(f_dom),OCL_Checker.getTypeDomain(d))
+					) {
+<span class="fc" id="L867">						logger.debug(&quot;\t\t getFunction &quot; + f_name + &quot; Domain &quot; + d.getName() + &quot; found &quot;);</span>
+<span class="fc" id="L868">						return func;</span>
+					}
+				}
+<span class="fc" id="L871">			}</span>
+<span class="nc" id="L872">			logger.debug(</span>
+<span class="nc bnc" id="L873" title="All 2 branches missed.">					&quot;\t\t getFunction &quot; + f_name + &quot; Domain &quot; + (d != null ? &quot;d.getName()&quot; : &quot; null&quot;) + &quot; not found &quot;);</span>
+<span class="nc" id="L874">			return null;</span>
+		}
+	}
+
+	// ////////////////////////////collections managements
+	// //////////////////////////////
+
+	public static RuleDeclaration search_ruleName(Collection&lt;RuleDeclaration&gt; collection, String obj_name) {
+<span class="nc" id="L882">		return searchNameInCollection(collection, obj_name);</span>
+	}
+
+	public static Function search_funcName(Collection&lt;Function&gt; collection, String obj_name) {
+<span class="fc" id="L886">		return searchNameInCollection(collection, obj_name);</span>
+	}
+
+	public static Domain search_domName(Collection&lt;Domain&gt; collection, String obj_name) {
+<span class="nc" id="L890">		return searchNameInCollection(collection, obj_name);</span>
+	}
+
+	/** search an named element in a collection */
+	private static &lt;T extends asmeta.structure.NamedElement&gt; T searchNameInCollection(Collection&lt;T&gt; collection,
+			String obj_name) {
+
+<span class="fc" id="L897">		Iterator&lt;T&gt; iter = collection.iterator();</span>
+<span class="pc bpc" id="L898" title="1 of 2 branches missed.">		while (iter.hasNext()) {</span>
+<span class="fc" id="L899">			T obj = iter.next();</span>
+<span class="fc bfc" id="L900" title="All 2 branches covered.">			if (obj.getName().equals(obj_name))</span>
+<span class="fc" id="L901">				return obj;</span>
+<span class="fc" id="L902">		}</span>
+<span class="nc" id="L903">		return null;</span>
+	}
+
+	// ////////////////////////////////////Declared-function table management
+	// ////////////////////////////////////
+	/**
+	 * Insert a new Function in the function db and return true iff successful
+	 * Function overloading is allowed on the base of the domain!
+	 */
+	public static boolean insert(Function f, HashMap&lt;String, List&lt;Function&gt;&gt; declared_Func) {
+<span class="fc" id="L913">		String f_name = f.getName();</span>
+<span class="fc" id="L914">		List&lt;Function&gt; f_list = declared_Func.get(f_name);</span>
+<span class="fc bfc" id="L915" title="All 2 branches covered.">		if (f_list == null) {</span>
+<span class="fc" id="L916">			f_list = new LinkedList&lt;Function&gt;();</span>
+<span class="fc" id="L917">			declared_Func.put(f_name, f_list);</span>
+<span class="fc" id="L918">			f_list.add(f);</span>
+<span class="fc" id="L919">			return true;</span>
+		} else {
+<span class="fc" id="L921">			Domain d = f.getDomain();</span>
+<span class="fc bfc" id="L922" title="All 2 branches covered.">			for (Function func : f_list) {</span>
+<span class="fc bfc" id="L923" title="All 2 branches covered.">				if (func.getDomain() == d)</span>
+<span class="fc" id="L924">					return false;</span>
+<span class="fc" id="L925">			}</span>
+<span class="fc" id="L926">			f_list.add(f);</span>
+<span class="fc" id="L927">			return true;</span>
+		}
+	}
+
+	public static boolean remove(Function f, HashMap&lt;String, List&lt;Function&gt;&gt; declared_Func) {
+<span class="fc" id="L932">		String f_name = f.getName();</span>
+<span class="fc" id="L933">		List&lt;Function&gt; f_list = declared_Func.get(f_name);</span>
+<span class="pc bpc" id="L934" title="1 of 2 branches missed.">		if (f_list == null)</span>
+<span class="nc" id="L935">			return false;</span>
+		else {
+<span class="fc" id="L937">			Domain d = f.getDomain();</span>
+			Function func;
+<span class="pc bpc" id="L939" title="1 of 2 branches missed.">			for (int count = 0; count &lt; f_list.size(); count++) {</span>
+<span class="fc" id="L940">				func = f_list.get(count);</span>
+<span class="pc bpc" id="L941" title="1 of 2 branches missed.">				if (OCL_Checker.getTypeDomain(func.getDomain()) == OCL_Checker.getTypeDomain(d)) {</span>
+<span class="fc" id="L942">					f_list.remove(count);</span>
+<span class="fc" id="L943">					return true;</span>
+				}
+			}
+<span class="nc" id="L946">			return false;</span>
+		}
+	}
+
+	/**
+	 * insert a domain in the declared domain, return true if successfull false:
+	 * already presented or null or structured, basic, Agent ....
+	 * 
+	 * @param d
+	 * @param declared_Dom
+	 * @return
+	 */
+	public static boolean insert(Domain d, HashMap&lt;String, Domain&gt; declared_Dom) {
+<span class="fc bfc" id="L959" title="All 2 branches covered.">		if (d == null)</span>
+<span class="fc" id="L960">			return false;</span>
+<span class="fc" id="L961">		String d_name = d.getName();</span>
+<span class="fc bfc" id="L962" title="All 2 branches covered.">		if (declared_Dom.get(d_name) == null) {</span>
+<span class="pc bpc" id="L963" title="1 of 10 branches missed.">			if (!(d instanceof StructuredTd || d instanceof BasicTd || d instanceof AgentDomain</span>
+					|| d instanceof ReserveDomain || d instanceof AnyDomain))
+				// insert the domain in the table of declared domains
+<span class="fc" id="L966">				declared_Dom.put(d_name, d);</span>
+<span class="fc" id="L967">			return true;</span>
+		}
+<span class="fc" id="L969">		return false;</span>
+	}
+
+	/** a seconda dell'operatore restituisce il nome */
+	public static String getFunctionName(String operat) {
+<span class="fc bfc" id="L974" title="All 2 branches covered.">		if (operat.equals(&quot;-&quot;))</span>
+<span class="fc" id="L975">			return &quot;minus&quot;;</span>
+<span class="pc bpc" id="L976" title="1 of 2 branches missed.">		if (operat.equals(&quot;^&quot;))</span>
+<span class="nc" id="L977">			return &quot;pwr&quot;;</span>
+<span class="fc bfc" id="L978" title="All 2 branches covered.">		if (operat.equals(&quot;*&quot;))</span>
+<span class="fc" id="L979">			return &quot;mult&quot;;</span>
+<span class="fc bfc" id="L980" title="All 2 branches covered.">		if (operat.equals(&quot;/&quot;))</span>
+<span class="fc" id="L981">			return &quot;div&quot;;</span>
+<span class="fc bfc" id="L982" title="All 2 branches covered.">		if (operat.equals(&quot;mod&quot;))</span>
+<span class="fc" id="L983">			return &quot;mod&quot;;</span>
+<span class="fc bfc" id="L984" title="All 2 branches covered.">		if (operat.equals(&quot;+&quot;))</span>
+<span class="fc" id="L985">			return &quot;plus&quot;;</span>
+<span class="fc bfc" id="L986" title="All 2 branches covered.">		if (operat.equals(&quot;&lt;&quot;))</span>
+<span class="fc" id="L987">			return &quot;lt&quot;;</span>
+<span class="fc bfc" id="L988" title="All 2 branches covered.">		if (operat.equals(&quot;&lt;=&quot;))</span>
+<span class="fc" id="L989">			return &quot;le&quot;;</span>
+<span class="fc bfc" id="L990" title="All 2 branches covered.">		if (operat.equals(&quot;&gt;&quot;))</span>
+<span class="fc" id="L991">			return &quot;gt&quot;;</span>
+<span class="fc bfc" id="L992" title="All 2 branches covered.">		if (operat.equals(&quot;&gt;=&quot;))</span>
+<span class="fc" id="L993">			return &quot;ge&quot;;</span>
+<span class="fc bfc" id="L994" title="All 2 branches covered.">		if (operat.equals(&quot;=&quot;))</span>
+<span class="fc" id="L995">			return &quot;eq&quot;;</span>
+<span class="fc bfc" id="L996" title="All 2 branches covered.">		if (operat.equals(&quot;!=&quot;))</span>
+<span class="fc" id="L997">			return &quot;neq&quot;;</span>
+<span class="pc bpc" id="L998" title="1 of 2 branches missed.">		if (operat.equals(&quot;in&quot;))</span>
+<span class="nc" id="L999">			return &quot;in&quot;;</span>
+<span class="pc bpc" id="L1000" title="1 of 2 branches missed.">		if (operat.equals(&quot;notin&quot;))</span>
+<span class="nc" id="L1001">			return &quot;notin&quot;;</span>
+<span class="fc bfc" id="L1002" title="All 2 branches covered.">		if (operat.equals(&quot;not&quot;))</span>
+<span class="fc" id="L1003">			return &quot;not&quot;;</span>
+<span class="fc bfc" id="L1004" title="All 2 branches covered.">		if (operat.equals(&quot;and&quot;))</span>
+<span class="fc" id="L1005">			return &quot;and&quot;;</span>
+<span class="fc bfc" id="L1006" title="All 2 branches covered.">		if (operat.equals(&quot;xor&quot;))</span>
+<span class="fc" id="L1007">			return &quot;xor&quot;;</span>
+<span class="fc bfc" id="L1008" title="All 2 branches covered.">		if (operat.equals(&quot;or&quot;))</span>
+<span class="fc" id="L1009">			return &quot;or&quot;;</span>
+<span class="fc bfc" id="L1010" title="All 2 branches covered.">		if (operat.equals(&quot;implies&quot;))</span>
+<span class="fc" id="L1011">			return &quot;implies&quot;;</span>
+<span class="pc bpc" id="L1012" title="1 of 2 branches missed.">		if (operat.equals(&quot;iff&quot;))</span>
+<span class="fc" id="L1013">			return &quot;iff&quot;;</span>
+		else
+<span class="nc" id="L1015">			return null;</span>
+	}
+
+	/** binds the variable to its domain */
+	public static void updateVariable(VariableTerm v, Domain inDom) {
+		// set the domain of the variable
+<span class="fc" id="L1021">		v.setDomain(inDom);</span>
+		// nel caso sia un regola
+<span class="fc" id="L1023">		TypeDomain varTD = OCL_Checker.getTypeDomain(inDom);</span>
+		// o da confrontare ul inDom direttamente ???
+<span class="fc bfc" id="L1025" title="All 2 branches covered.">		if (varTD instanceof RuleDomain)</span>
+			// update variable kind
+<span class="fc" id="L1027">			v.setKind(VariableKind.RULE_VAR);</span>
+<span class="fc" id="L1028">	}</span>
+
+	/**
+	 * binds a variable to a term: the term must have domain a PowersetDomain or a
+	 * SequenceDomain like in SetT { $o | $o in X} -&gt; X is a term the variable get
+	 * the domain the base domain of the term
+	 * 
+	 * TODO TO BE COMPLETED WITH OTHER KIND OF DOMAIN ATTENZIONE lega la variabile
+	 * al TypeDomain e non al domain nel caso di un concrete domain
+	 * 
+	 * @throws ParseException
+	 */
+	public static void updateVariable(VariableTerm v, Term inTerm) throws ParseException {
+		// set the variable domain
+<span class="fc" id="L1042">		Domain D = null;</span>
+		// if the domain of interm is a conrecte, get its type domain
+<span class="fc" id="L1044">		Domain itD = OCL_Checker.getTypeDomain(inTerm.getDomain());</span>
+		// check which domain it is
+<span class="fc bfc" id="L1046" title="All 2 branches covered.">		if (itD instanceof PowersetDomain)</span>
+<span class="fc" id="L1047">			D = ((PowersetDomain) itD).getBaseDomain();</span>
+<span class="fc bfc" id="L1048" title="All 2 branches covered.">		else if (itD instanceof SequenceDomain)</span>
+<span class="fc" id="L1049">			D = ((SequenceDomain) itD).getDomain();</span>
+<span class="pc bpc" id="L1050" title="1 of 2 branches missed.">		else if (itD instanceof BagDomain)</span>
+<span class="fc" id="L1051">			D = ((BagDomain) itD).getDomain();</span>
+		else {
+<span class="nc" id="L1053">			throw new ParseException(</span>
+<span class="nc" id="L1054">					&quot;binding variable &quot; + v.getName() + &quot; to &quot; + inTerm.getDomain().getName() + &quot; not allowed&quot;);</span>
+		}
+<span class="fc" id="L1056">		v.setDomain(D);</span>
+<span class="pc bpc" id="L1057" title="1 of 2 branches missed.">		if (D instanceof RuleDomain)</span>
+			// update variable kind
+<span class="nc" id="L1059">			v.setKind(VariableKind.RULE_VAR);</span>
+<span class="fc" id="L1060">	}</span>
+
+	public static StringTerm createStringT(String s, TermsFactory termsPack, DomainsFactory Dom) {
+		// look for the String domain reference in the predefined_Dom HashMap
+<span class="fc" id="L1064">		TypeDomain dom = getBasicDomain(Dom, &quot;String&quot;);</span>
+<span class="pc bpc" id="L1065" title="1 of 2 branches missed.">		if (dom == null)</span>
+<span class="nc" id="L1066">			return null;</span>
+
+		// create the object
+<span class="fc" id="L1069">		StringTerm term = termsPack.getFurtherTerms().createStringTerm();</span>
+<span class="fc" id="L1070">		term.setSymbol(s);</span>
+		// set references
+<span class="fc" id="L1072">		term.setDomain(dom);</span>
+
+		// constraint 1 is granted for construction
+
+<span class="fc" id="L1076">		return term;</span>
+	}
+
+	/** createa a tuple with 1 argument */
+	public static TupleTerm createSingle(Term arg1, TermsFactory termsPack, DefinitionsFactory defPack, Signature s) {
+
+<span class="fc" id="L1082">		return createPair(arg1, null, termsPack, defPack, s);</span>
+	}
+
+	/**
+	 * it creates a tuple with 2 arguments the second can be null; it builds the
+	 * association
+	 * 
+	 * if the term is unique, the domain of the tuple is equal to the domain of the
+	 * term
+	 */
+	public static TupleTerm createPair(Term arg1, Term arg2, TermsFactory termsPack, DefinitionsFactory defPack,
+			Signature s) {
+<span class="fc" id="L1094">		TupleTerm term = termsPack.getBasicTerms().createTupleTerm();</span>
+<span class="fc" id="L1095">		List&lt;Domain&gt; prodDomList = new LinkedList&lt;Domain&gt;();</span>
+		// set the list of terms as attribute of the tuple
+<span class="fc" id="L1097">		List&lt;Term&gt; elemList = term.getTerms();</span>
+
+		// add the first element to the terms list
+<span class="fc" id="L1100">		elemList.add(arg1);</span>
+		// the name of the tuple type-domain
+		// TypeDomain elemTD = OCL_Checker.getTypeDomain(arg1.getDomain());
+<span class="fc" id="L1103">		Domain elemTD = arg1.getDomain();</span>
+		// add this type-domain to the list of the product domain
+<span class="fc" id="L1105">		prodDomList.add(elemTD);</span>
+
+		// add the second element to the terms list if it is a pair
+<span class="fc bfc" id="L1108" title="All 2 branches covered.">		if (arg2 != null) {</span>
+<span class="fc" id="L1109">			elemList.add(arg2);</span>
+			// the name of the tuple type-domain
+			// elemTD = OCL_Checker.getTypeDomain(arg2.getDomain());
+<span class="fc" id="L1112">			elemTD = arg2.getDomain();</span>
+			// add this type-domain to the list of the product domain
+<span class="fc" id="L1114">			prodDomList.add(elemTD);</span>
+		}
+
+		// (OCL constraints 1) set the tuple arity
+<span class="fc" id="L1118">		int arity = elemList.size();</span>
+<span class="fc" id="L1119">		term.setArity(arity);</span>
+
+		// (OCL constraints 2) set the tuple Domain
+		Domain dom;
+<span class="fc bfc" id="L1123" title="All 2 branches covered.">		if (arity == 1)// the type-domain associated to the tuple term must be</span>
+			// equal to the one associated to its unique term
+			// dom = OCL_Checker.getTypeDomain(arg1.getDomain());
+<span class="fc" id="L1126">			dom = arg1.getDomain();</span>
+		else
+			// the type-domain associated to the tuple term must be a
+			// Cartesian product domain
+<span class="fc" id="L1130">			dom = Utility.getProduct(prodDomList, defPack, s);</span>
+<span class="fc" id="L1131">		term.setDomain(dom);</span>
+<span class="fc" id="L1132">		OCL_Checker.checkTupleTerm(term);</span>
+<span class="fc" id="L1133">		return term;</span>
+	}
+
+	public static String print(Collection&lt;Term&gt; c) {
+		Term elem;
+<span class="nc" id="L1138">		String toPrint = &quot;(&quot;;</span>
+<span class="nc" id="L1139">		Iterator&lt;Term&gt; iter = c.iterator();</span>
+
+<span class="nc bnc" id="L1141" title="All 2 branches missed.">		while (iter.hasNext()) {</span>
+<span class="nc" id="L1142">			elem = iter.next();</span>
+<span class="nc bnc" id="L1143" title="All 2 branches missed.">			if (elem instanceof ConstantTerm)</span>
+<span class="nc" id="L1144">				toPrint = toPrint.concat(((ConstantTerm) elem).getSymbol() + &quot;,&quot;);</span>
+<span class="nc bnc" id="L1145" title="All 2 branches missed.">			else if (elem instanceof VariableTerm) {</span>
+<span class="nc" id="L1146">				toPrint = toPrint.concat(((VariableTerm) elem).getName());</span>
+<span class="nc" id="L1147">				Domain varInDom = ((VariableTerm) elem).getDomain();</span>
+<span class="nc bnc" id="L1148" title="All 4 branches missed.">				assert (varInDom != null);</span>
+<span class="nc" id="L1149">				toPrint = toPrint.concat(&quot; in &quot;).concat(varInDom.getName());</span>
+<span class="nc" id="L1150">				toPrint = toPrint.concat(&quot;,&quot;);</span>
+<span class="nc" id="L1151">			} else</span>
+<span class="nc" id="L1152">				toPrint = toPrint.concat(&quot;TERM,&quot;);</span>
+		}
+<span class="nc" id="L1154">		toPrint = toPrint.concat(&quot;)&quot;);</span>
+<span class="nc" id="L1155">		return toPrint;</span>
+	}
+
+	public static String print(Term t) {
+<span class="nc bnc" id="L1159" title="All 2 branches missed.">		if (t instanceof ConstantTerm)</span>
+<span class="nc" id="L1160">			return ((ConstantTerm) t).getSymbol();</span>
+<span class="nc bnc" id="L1161" title="All 2 branches missed.">		else if (t instanceof VariableTerm)</span>
+<span class="nc" id="L1162">			return ((VariableTerm) t).getName();</span>
+		else
+<span class="nc" id="L1164">			return &quot;Term&quot;;</span>
+	}
+
+	/**
+	 * given a Domain Factory, returns a basic domain with name name if name is not
+	 * valid, return null
+	 * 
+	 * @throws ParseException in case the basic domain is not known
+	 * 
+	 */
+
+	static Map&lt;String, BasicTd&gt; basicTds;
+
+	public static asmeta.definitions.domains.BasicTd getBasicDomain(
+			asmeta.definitions.domains.DomainsFactory domPackage, String name) {
+<span class="fc" id="L1179">		BasicTd bd = basicTds.get(name);</span>
+<span class="fc bfc" id="L1180" title="All 2 branches covered.">		if (bd == null) {</span>
+<span class="fc" id="L1181">			bd = createBasicDomain(domPackage, name);</span>
+<span class="fc bfc" id="L1182" title="All 2 branches covered.">			if (bd == null)</span>
+<span class="fc" id="L1183">				return null;</span>
+<span class="fc" id="L1184">			basicTds.put(name, bd);</span>
+<span class="fc" id="L1185">			bd.setName(name);</span>
+		}
+<span class="fc" id="L1187">		return bd;</span>
+	}
+
+	public static asmeta.definitions.domains.BasicTd createBasicDomain(
+			asmeta.definitions.domains.DomainsFactory domPackage, String name) {
+<span class="fc bfc" id="L1192" title="All 2 branches covered.">		if (name.equals(&quot;Complex&quot;)) {</span>
+<span class="fc" id="L1193">			return domPackage.createComplexDomain();</span>
+<span class="fc bfc" id="L1194" title="All 2 branches covered.">		} else if (name.equals(&quot;Real&quot;)) {</span>
+<span class="fc" id="L1195">			return domPackage.createRealDomain();</span>
+<span class="fc bfc" id="L1196" title="All 2 branches covered.">		} else if (name.equals(&quot;Integer&quot;)) {</span>
+<span class="fc" id="L1197">			return domPackage.createIntegerDomain();</span>
+<span class="fc bfc" id="L1198" title="All 2 branches covered.">		} else if (name.equals(&quot;Natural&quot;)) {</span>
+<span class="fc" id="L1199">			return domPackage.createNaturalDomain();</span>
+<span class="fc bfc" id="L1200" title="All 2 branches covered.">		} else if (name.equals(&quot;Char&quot;)) {</span>
+<span class="fc" id="L1201">			return domPackage.createCharDomain();</span>
+<span class="fc bfc" id="L1202" title="All 2 branches covered.">		} else if (name.equals(&quot;String&quot;)) {</span>
+<span class="fc" id="L1203">			return domPackage.createStringDomain();</span>
+<span class="fc bfc" id="L1204" title="All 2 branches covered.">		} else if (name.equals(&quot;Boolean&quot;)) {</span>
+<span class="fc" id="L1205">			return domPackage.createBooleanDomain();</span>
+<span class="fc bfc" id="L1206" title="All 2 branches covered.">		} else if (name.equals(&quot;Undef&quot;)) {</span>
+<span class="fc" id="L1207">			return domPackage.createUndefDomain();</span>
+		}
+		/*
+		 * else if (name.equals(&quot;Rule&quot;)) { }
+		 */// Adesso Rule e' un dominio strutturato! (vedi getRuleDomain())
+<span class="fc" id="L1212">		return null;</span>
+	}
+
+	static Map&lt;String, AbstractTd&gt; abstractTds;
+
+	/**
+	 * get the AbstarctDomains agent and reserve if they exists, otherwise create
+	 * them
+	 */
+	public static asmeta.definitions.domains.AbstractTd getPredefinedAbstractDomain(
+			asmeta.definitions.domains.DomainsFactory domFactory, String name) {
+<span class="fc" id="L1223">		AbstractTd a = abstractTds.get(name);</span>
+<span class="fc bfc" id="L1224" title="All 2 branches covered.">		if (a == null) {</span>
+<span class="fc" id="L1225">			logger.debug(&quot;Create predefined abstract domain&quot;);</span>
+<span class="fc" id="L1226">			a = createPredefinedAbstractDomain(domFactory, name);</span>
+<span class="fc" id="L1227">			abstractTds.put(name, a);</span>
+		} else {
+<span class="fc" id="L1229">			logger.debug(&quot;Abstract domain &quot; + name + &quot; found.&quot;);</span>
+		}
+<span class="fc" id="L1231">		return a;</span>
+	}
+
+	public static asmeta.definitions.domains.AbstractTd createPredefinedAbstractDomain(
+			asmeta.definitions.domains.DomainsFactory domFactory, String name) {
+<span class="fc" id="L1236">		AbstractTd result = null;</span>
+<span class="fc bfc" id="L1237" title="All 2 branches covered.">		if (name.equals(&quot;Agent&quot;)) {</span>
+<span class="fc" id="L1238">			result = domFactory.createAgentDomain();</span>
+<span class="fc" id="L1239">			result.setName(&quot;Agent&quot;);</span>
+<span class="fc" id="L1240">			result.setIsDynamic(true);</span>
+<span class="fc bfc" id="L1241" title="All 2 branches covered.">		} else if (name.equals(&quot;Reserve&quot;)) {</span>
+<span class="fc" id="L1242">			result = domFactory.createReserveDomain();</span>
+<span class="fc" id="L1243">			result.setName(&quot;Reserve&quot;);</span>
+<span class="fc" id="L1244">			result.setIsDynamic(true);</span>
+		}
+<span class="fc" id="L1246">		return result;</span>
+	}
+
+	/**
+	 * get the anydomain name, otherwise return null
+	 */
+	public static asmeta.definitions.domains.AnyDomain getAnyDomain(
+			asmeta.definitions.domains.DomainsFactory domFactory, String name) {
+<span class="fc" id="L1254">		return DomainsFactory.eINSTANCE.getAnyDomain(name);</span>
+	}
+
+	/** sobstitute the predefined domain hash map !!! */
+	public static asmeta.definitions.domains.Domain getPredefinedDomain(
+			asmeta.definitions.domains.DomainsFactory domFactory, String name) {
+<span class="fc" id="L1260">		Domain d = null;</span>
+<span class="fc" id="L1261">		d = getBasicDomain(domFactory, name);</span>
+		// try predefined abstract Domain
+<span class="fc bfc" id="L1263" title="All 2 branches covered.">		if (d == null) {</span>
+<span class="fc" id="L1264">			logger.debug(&quot;Trying predifined abstract domain&quot;);</span>
+<span class="fc" id="L1265">			logger.debug(&quot;level&quot; + logger.getLevel() + &quot;nome &quot;  + logger.getName());</span>
+<span class="fc" id="L1266">			d = getPredefinedAbstractDomain(domFactory, name);</span>
+		}
+		// try any domains
+<span class="fc bfc" id="L1269" title="All 2 branches covered.">		if (d == null) {</span>
+<span class="fc" id="L1270">			logger.debug(&quot;Trying any domain&quot;);</span>
+<span class="fc" id="L1271">			d = getAnyDomain(domFactory, name);</span>
+		}
+<span class="fc" id="L1273">		return d;</span>
+	}
+
+	/** get the structured TD or a subclass with a given name */
+	public static StructuredTd getStructuredDomain(DomainsFactory domFactory, String name, Signature s) {
+
+<span class="fc" id="L1279">		StructuredTd d = DomainsFactory.eINSTANCE.getStructuredTd(name);</span>
+
+<span class="fc" id="L1281">		return d;</span>
+	}
+
+	/**
+	 * Given a name, returns the ruleDeclaration with that name, null if there are
+	 * problems.
+	 * 
+	 * @param declared_Rules  all the declaration rules
+	 * @param idElement
+	 * @param actualParamList the list of domains of idElement: if it is null,
+	 *                        return the only one in pratica posso fare l'import o
+	 *                        ecport solo di una regola ... e idem per gli
+	 *                        invarianti
+	 * @throws ParseException
+	 * 
+	 */
+	static RuleDeclaration getRuleByNameTerm(Map&lt;String, List&lt;RuleDeclaration&gt;&gt; declared_Rules, String idElement,
+			List&lt;Term&gt; actualParamList) throws ParseException {
+<span class="fc" id="L1299">		List&lt;Domain&gt; lst = buildDomains(actualParamList);</span>
+<span class="fc" id="L1300">		RuleDeclaration res = getRuleByNameDom(declared_Rules, idElement, lst);</span>
+<span class="fc" id="L1301">		return res;</span>
+	}
+
+	/**
+	 * modified 7 Jan 2008 by acarioni
+	 * 
+	 * Given a list of terms, returns a list with the domains of the terms in the
+	 * same order.
+	 * 
+	 * @param actualParamList a list of terms
+	 * @return the list of the term domains
+	 */
+	static &lt;T extends Term&gt; List&lt;Domain&gt; buildDomains(List&lt;T&gt; actualParamList) {
+<span class="fc" id="L1314">		List&lt;Domain&gt; domains = new ArrayList&lt;Domain&gt;();</span>
+<span class="fc bfc" id="L1315" title="All 2 branches covered.">		for (Term term : actualParamList) {</span>
+<span class="fc" id="L1316">			Domain dom = term.getDomain();</span>
+<span class="fc" id="L1317">			domains.add(dom);</span>
+<span class="fc" id="L1318">		}</span>
+<span class="fc" id="L1319">		return domains;</span>
+	}
+
+	/*
+	 * Given a list of terms, returns a list with the domains of the terms in the
+	 * same order. For concrete domains, the astract super domain is considered.
+	 * 
+	 * @param actualParamList a list of terms
+	 * 
+	 * @return the list of the term domains
+	 */
+	/*
+	 * static &lt;T extends Term&gt; List&lt;Domain&gt; buildSuperDomains(List&lt;T&gt;
+	 * actualParamList) { List&lt;Domain&gt; domains = new ArrayList&lt;Domain&gt;(); for (Term
+	 * term : actualParamList) { Domain dom = term.getDomain(); if (dom instanceof
+	 * ConcreteDomain) { ConcreteDomain cd = (ConcreteDomain)dom;
+	 * domains.add(cd.getTypeDomain()); } else domains.add(dom); } return domains;
+	 * }/*
+	 * 
+	 * /** added 10 Jan 2008 by acarioni
+	 * 
+	 * Given a RuleDomain, returns the list of domains belonging to it.
+	 * 
+	 * @param domain a RuleDomain
+	 * 
+	 * @return the list of domains
+	 */
+	@Deprecated
+	static List&lt;Domain&gt; getList(RuleDomain domain) {
+<span class="fc" id="L1348">		List&lt;Domain&gt; lst = new ArrayList&lt;Domain&gt;();</span>
+<span class="fc bfc" id="L1349" title="All 2 branches covered.">		for (Domain dom : domain.getDomains()) {</span>
+<span class="fc" id="L1350">			lst.add(dom);</span>
+<span class="fc" id="L1351">		}</span>
+<span class="fc" id="L1352">		return lst;</span>
+	}
+
+	/**
+	 * added 10 Jan 2008 by acarioni
+	 * 
+	 * Returns a string representation.
+	 * 
+	 * @param expected a list
+	 * @return a string
+	 */
+	static &lt;T extends Domain&gt; String toString(Collection&lt;T&gt; expected) {
+<span class="nc" id="L1364">		StringBuffer s = new StringBuffer(&quot;(&quot;);</span>
+<span class="nc bnc" id="L1365" title="All 2 branches missed.">		for (Domain domain : expected) {</span>
+<span class="nc" id="L1366">			s.append(domain.getName() + &quot; &quot;);</span>
+			// s.append(&quot;[&quot; + ((Object) domain).toString() + &quot;]&quot;);
+<span class="nc" id="L1368">		}</span>
+<span class="nc" id="L1369">		s.append(&quot;)&quot;);</span>
+<span class="nc" id="L1370">		return s.toString();</span>
+	}
+
+	/** gives the string for the declared rules */
+	static String toString(Map&lt;String, List&lt;RuleDeclaration&gt;&gt; declared_Rules) {
+<span class="nc" id="L1375">		StringBuffer s = new StringBuffer(&quot;{&quot;);</span>
+<span class="nc bnc" id="L1376" title="All 2 branches missed.">		for (String ruleName : declared_Rules.keySet()) {</span>
+<span class="nc" id="L1377">			s.append(ruleName + &quot; declarations:(&quot;);</span>
+<span class="nc bnc" id="L1378" title="All 2 branches missed.">			for (RuleDeclaration rd : declared_Rules.get(ruleName)) {</span>
+<span class="nc" id="L1379">				s.append(toString(rd));</span>
+<span class="nc" id="L1380">			}</span>
+<span class="nc" id="L1381">			s.append(&quot;)&quot;);</span>
+<span class="nc" id="L1382">		}</span>
+<span class="nc" id="L1383">		s.append(&quot;}&quot;);</span>
+<span class="nc" id="L1384">		return s.toString();</span>
+	}
+
+	static String toString(RuleDeclaration rd) {
+<span class="nc" id="L1388">		StringBuffer sb = new StringBuffer();</span>
+<span class="nc bnc" id="L1389" title="All 2 branches missed.">		for (VariableTerm vt : rd.getVariable()) {</span>
+<span class="nc" id="L1390">			sb.append(vt.getName() + &quot; &quot; + vt.getDomain().getName() + &quot;,&quot;);</span>
+
+			// sb.append(&quot;[&quot; + ((Object) vt.getDomain()).toString() + &quot;]&quot;);
+
+<span class="nc" id="L1394">		}</span>
+		// sb.deleteCharAt(sb.length() - 1);
+<span class="nc" id="L1396">		return sb.toString();</span>
+	}
+
+	/**
+	 * modified 8 Jan 2008 by acarioni, see the method resolve() below
+	 * 
+	 * @param declared_Rules
+	 * @param idElement
+	 * @param expDoms
+	 * @return
+	 * @throws ParseException
+	 */
+	static RuleDeclaration getRuleByNameDom(Map&lt;String, List&lt;RuleDeclaration&gt;&gt; declared_Rules, String idElement,
+			List&lt;Domain&gt; expDoms) throws ParseException {
+
+<span class="fc" id="L1411">		return resolve(declared_Rules, idElement, expDoms);</span>
+	}
+
+	/**
+	 * added 7 Jan 2008 by acarioni, adapted from
+	 * org.asmeta.simulator.StaticFunctionEvaluator.java
+	 * 
+	 * Given a macro name and the domains of the actual parameters, returns the
+	 * macro declaration that best matches with the given one.
+	 * 
+	 * @param declared_Rules rules declared in the model
+	 * @param name           macro name
+	 * @param expDoms        domains of the actual parameters
+	 * @return a macro declaration, null if none is found
+	 * @throws ParseException if there are too macros compatible with the given
+	 *                        declaration
+	 * 
+	 */
+	static RuleDeclaration resolve(Map&lt;String, List&lt;RuleDeclaration&gt;&gt; declared_Rules, String name, List&lt;Domain&gt; expDoms)
+			throws ParseException {
+<span class="fc" id="L1431">		StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L1432" title="All 2 branches covered.">		for (Domain domain : expDoms)</span>
+<span class="fc" id="L1433">			sb.append(domain.getName() + &quot; &quot;);</span>
+<span class="fc" id="L1434">		logger.debug(&quot;In resolve. Rule name: &quot; + name + &quot;. Expected domains: &quot; + sb.toString());</span>
+
+		// get the rules with name equals to the parameter name
+<span class="fc" id="L1437">		List&lt;RuleDeclaration&gt; rulesByName = declared_Rules.get(name);</span>
+<span class="pc bpc" id="L1438" title="1 of 4 branches missed.">		if (rulesByName == null || rulesByName.size() == 0) {</span>
+<span class="fc" id="L1439">			logger.debug(&quot;In resolve. No rule found.&quot;);</span>
+<span class="fc" id="L1440">			return null;</span>
+		}
+		// rating of the best candidate
+<span class="fc" id="L1443">		BigInteger bestRating = null;</span>
+		// index of the best candidate
+		// bestIndex = -1 means that I have not found a candidate
+<span class="fc" id="L1446">		int bestIndex = -1;</span>
+		// if there is another candidate with the same rating of bestIndex,
+		// bestIndex2 points to it
+<span class="fc" id="L1449">		int bestIndex2 = -1;</span>
+<span class="fc bfc" id="L1450" title="All 2 branches covered.">		for (int i = 0; i &lt; rulesByName.size(); i++) {</span>
+<span class="fc" id="L1451">			RuleDeclaration dcl = rulesByName.get(i);</span>
+			// get the domains of the formal parameters of the current candidate
+<span class="fc" id="L1453">			List&lt;Domain&gt; currDoms = buildDomains(dcl.getVariable());</span>
+<span class="fc" id="L1454">			sb = new StringBuilder();</span>
+<span class="fc bfc" id="L1455" title="All 2 branches covered.">			for (Domain domain : currDoms)</span>
+<span class="fc" id="L1456">				sb.append(domain.getName());</span>
+<span class="fc" id="L1457">			logger.debug(&quot;In resolve. Domains of rule # &quot; + i + &quot;: &quot; + sb.toString());</span>
+			// rating of the current candidate
+			// a negative rating means the declarations are incompatibles
+			// a positive one means compatibility
+			// small is the rating, best is the compatibility
+			// 0 means a perfect match
+<span class="fc" id="L1463">			BigInteger r = OCL_Checker.rating(expDoms, currDoms);</span>
+<span class="fc bfc" id="L1464" title="All 2 branches covered.">			if (r.compareTo(BigInteger.ZERO) &lt; 0) {</span>
+				// declaration are not compatible
+<span class="fc" id="L1466">				continue;</span>
+<span class="fc bfc" id="L1467" title="All 2 branches covered.">			} else if (bestIndex == -1) {</span>
+				// found the first candidate
+<span class="fc" id="L1469">				bestRating = r;</span>
+<span class="fc" id="L1470">				bestIndex = i;</span>
+<span class="pc bpc" id="L1471" title="1 of 2 branches missed.">			} else if (r.compareTo(bestRating) &lt; 0) {</span>
+				// the current candidate is better than bestIndex
+				// update bestRating and bestIndex
+<span class="nc" id="L1474">				bestRating = r;</span>
+<span class="nc" id="L1475">				bestIndex = i;</span>
+<span class="nc" id="L1476">				bestIndex2 = -1;</span>
+<span class="fc bfc" id="L1477" title="All 2 branches covered.">			} else if (r.compareTo(bestRating) == 0) {</span>
+				// found a candidate with the same rating of bestIndex
+<span class="fc" id="L1479">				bestIndex2 = i;</span>
+			}
+		}
+<span class="fc bfc" id="L1482" title="All 2 branches covered.">		if (bestIndex == -1) {</span>
+			// no candidate found
+<span class="fc" id="L1484">			return null;</span>
+		} /*
+			 * FIXME 25/06/2010 by Fabio Albani commentato per supportare import multipli di
+			 * una stessa regola per poi selezionare solo la prima
+			 * 
+			 * else if (bestIndex2 != -1) { // too many canditates found with the same
+			 * rating throw new ParseException(&quot;ERROR: Unresolved reference &quot; + name +
+			 * &quot; Too many compatible definitions: &quot; + rulesByName.get(bestIndex) + &quot;, &quot; +
+			 * rulesByName.get(bestIndex2)); }
+			 */
+		// PA 12/11/2011. Fabio Albani needs to import just the the first rule with
+		// the best ranking. The static field &quot;selectFirstBestRanking&quot; can be used
+		// to set this option; if &quot;selectFirstBestRanking&quot; is
+		// - true, the first the first rule with the best ranking is selected;
+		// - false, if there are at least two rules with the equal best ranking
+		// an exception is raised.
+		// By default, &quot;selectFirstBestRanking&quot; is true.
+<span class="pc bpc" id="L1501" title="1 of 2 branches missed.">		if (!selectFirstBestRanking) {</span>
+<span class="nc bnc" id="L1502" title="All 2 branches missed.">			if (bestIndex2 != -1) {</span>
+				// too many canditates found with the same rating
+<span class="nc" id="L1504">				throw new ParseException(&quot;ERROR: Unresolved reference &quot; + name + &quot; Too many compatible definitions: &quot;</span>
+<span class="nc" id="L1505">						+ rulesByName.get(bestIndex) + &quot;, &quot; + rulesByName.get(bestIndex2));</span>
+			}
+		}
+
+<span class="fc" id="L1509">		RuleDeclaration rdcl = rulesByName.get(bestIndex);</span>
+<span class="fc" id="L1510">		return rdcl;</span>
+	}
+
+	/**
+	 * modified 8 Jan 2008 by acarioni
+	 * 
+	 * Given a macro name and a list of domains, returns the declaration of the
+	 * macro that has the same name and the same domains as formal parameters.
+	 * 
+	 * @param declared_Rules  all the rules declared in the module
+	 * @param idElement       a macro name
+	 * @param actualParamList a list of domains
+	 * @return the macro declaration that matches the name and the domains,
+	 *         otherwise null
+	 */
+	static &lt;T extends Term&gt; RuleDeclaration searchRuleByName(Map&lt;String, List&lt;RuleDeclaration&gt;&gt; declared_Rules,
+			String idElement, List&lt;T&gt; actualParamList) {
+		/*
+		 * commented 8 Jan 2008 by acarioni try { return
+		 * getRuleByNameTerm(declared_Rules, idElement, actualParamList); } catch
+		 * (ParseException e) {
+		 * 
+		 * return null; }
+		 */
+		try {
+<span class="fc" id="L1535">			List&lt;Domain&gt; givenDoms = buildDomains(actualParamList);</span>
+<span class="fc" id="L1536">			RuleDeclaration dcl = getRuleByNameDom(declared_Rules, idElement, givenDoms);</span>
+			// dcl == null, if the macro is not found
+<span class="fc bfc" id="L1538" title="All 2 branches covered.">			if (dcl == null) {</span>
+<span class="fc" id="L1539">				return null;</span>
+			}
+<span class="fc" id="L1541">			List&lt;Domain&gt; returnedDoms = buildDomains(dcl.getVariable());</span>
+<span class="fc" id="L1542">			BigInteger rating = OCL_Checker.rating(givenDoms, returnedDoms);</span>
+			// returns a value != null if and only if exists a macro with
+			// identical declaration (i.e. rating == 0)
+<span class="pc bpc" id="L1545" title="1 of 2 branches missed.">			return rating.compareTo(BigInteger.ZERO) == 0 ? dcl : null;</span>
+<span class="nc" id="L1546">		} catch (ParseException e) {</span>
+<span class="nc" id="L1547">			throw new RuntimeException(e);</span>
+		}
+	}
+
+	// //////////////////////////////
+
+	// // alcune funzioni di utilita' prese dall'inteprete (copiate e
+	// incollate)
+	// mia colpa AG
+
+	/**
+	 * Compares two domain declarations. quando non funziona == eusto dovrebbe
+	 * funzionare andrebbe controllato perche' l'== non funziona correttamemte
+	 * 
+	 * @param d1 a domain
+	 * @param d2 another domain
+	 * @return true if the declarations are equal, false otherwise
+	 */
+	public static boolean equals(Domain d1, Domain d2) {
+		// structured domains
+<span class="fc bfc" id="L1567" title="All 2 branches covered.">		if (d1 instanceof ProductDomain) {</span>
+<span class="fc bfc" id="L1568" title="All 2 branches covered.">			if (!(d2 instanceof ProductDomain)) {</span>
+<span class="fc" id="L1569">				return false;</span>
+			}
+<span class="fc" id="L1571">			List&lt;?&gt; lst1 = ((ProductDomain) d1).getDomains();</span>
+<span class="fc" id="L1572">			List&lt;?&gt; lst2 = ((ProductDomain) d2).getDomains();</span>
+<span class="pc bpc" id="L1573" title="1 of 2 branches missed.">			if (lst1.size() != lst2.size()) {</span>
+<span class="nc" id="L1574">				return false;</span>
+			}
+<span class="fc" id="L1576">			Iterator&lt;?&gt; i1 = lst1.iterator();</span>
+<span class="fc" id="L1577">			Iterator&lt;?&gt; i2 = lst2.iterator();</span>
+<span class="fc bfc" id="L1578" title="All 2 branches covered.">			while (i1.hasNext()) {</span>
+<span class="fc" id="L1579">				Domain dd1 = (Domain) i1.next();</span>
+<span class="fc" id="L1580">				Domain dd2 = (Domain) i2.next();</span>
+<span class="pc bpc" id="L1581" title="1 of 2 branches missed.">				if (!equals(dd1, dd2)) {</span>
+<span class="nc" id="L1582">					return false;</span>
+				}
+<span class="fc" id="L1584">			}</span>
+<span class="fc" id="L1585">			return true;</span>
+<span class="fc bfc" id="L1586" title="All 2 branches covered.">		} else if (d1 instanceof PowersetDomain) {</span>
+<span class="pc bpc" id="L1587" title="1 of 2 branches missed.">			if (!(d2 instanceof PowersetDomain)) {</span>
+<span class="nc" id="L1588">				return false;</span>
+			}
+<span class="fc" id="L1590">			Domain dd1 = ((PowersetDomain) d1).getBaseDomain();</span>
+<span class="fc" id="L1591">			Domain dd2 = ((PowersetDomain) d2).getBaseDomain();</span>
+<span class="fc" id="L1592">			return equals(dd1, dd2);</span>
+<span class="fc bfc" id="L1593" title="All 2 branches covered.">		} else if (d1 instanceof SequenceDomain) {</span>
+<span class="pc bpc" id="L1594" title="1 of 2 branches missed.">			if (!(d2 instanceof SequenceDomain)) {</span>
+<span class="nc" id="L1595">				return false;</span>
+			}
+<span class="fc" id="L1597">			Domain dd1 = ((SequenceDomain) d1).getDomain();</span>
+<span class="fc" id="L1598">			Domain dd2 = ((SequenceDomain) d2).getDomain();</span>
+<span class="fc" id="L1599">			return equals(dd1, dd2);</span>
+<span class="pc bpc" id="L1600" title="1 of 2 branches missed.">		} else if (d1 instanceof BagDomain) {</span>
+<span class="nc bnc" id="L1601" title="All 2 branches missed.">			if (!(d2 instanceof BagDomain)) {</span>
+<span class="nc" id="L1602">				return false;</span>
+			}
+<span class="nc" id="L1604">			Domain dd1 = ((BagDomain) d1).getDomain();</span>
+<span class="nc" id="L1605">			Domain dd2 = ((BagDomain) d2).getDomain();</span>
+<span class="nc" id="L1606">			return equals(dd1, dd2);</span>
+<span class="pc bpc" id="L1607" title="1 of 2 branches missed.">		} else if (d1 instanceof MapDomain) {</span>
+<span class="nc bnc" id="L1608" title="All 2 branches missed.">			if (!(d2 instanceof MapDomain)) {</span>
+<span class="nc" id="L1609">				return false;</span>
+			}
+<span class="nc" id="L1611">			Domain sd1 = ((MapDomain) d1).getSourceDomain();</span>
+<span class="nc" id="L1612">			Domain sd2 = ((MapDomain) d2).getSourceDomain();</span>
+<span class="nc" id="L1613">			Domain td1 = ((MapDomain) d1).getTargetDomain();</span>
+<span class="nc" id="L1614">			Domain td2 = ((MapDomain) d2).getTargetDomain();</span>
+<span class="nc bnc" id="L1615" title="All 4 branches missed.">			return equals(sd1, sd2) &amp;&amp; equals(td1, td2);</span>
+		}
+		// non-structured domains
+<span class="fc" id="L1618">		String name1 = d1.getName();</span>
+<span class="fc" id="L1619">		String name2 = d2.getName();</span>
+<span class="fc" id="L1620">		String moduleName1 = Defs.getAsmName(d1);</span>
+<span class="fc" id="L1621">		String moduleName2 = Defs.getAsmName(d2);</span>
+<span class="pc bpc" id="L1622" title="1 of 4 branches missed.">		return name1.equals(name2) &amp;&amp; moduleName1.equals(moduleName2);</span>
+	}
+
+	/** reset the utility */
+	public static void reset() {
+<span class="fc" id="L1627">		basicTds = new HashMap&lt;String, BasicTd&gt;();</span>
+<span class="fc" id="L1628">		abstractTds = new HashMap&lt;String, AbstractTd&gt;();</span>
+<span class="fc" id="L1629">	}</span>
+
+	/**
+	 * read an import file it can be relative to the asmDirLib or absolute
+	 * 
+	 * @param asmDirLib    can be null, in case &quot;.&quot; is taken or absolute is
+	 *                     considered
+	 * @param moduleName
+	 * @param asmExtension
+	 */
+	static File importFile(String asmDirLib, String moduleName) {
+		// it should compute again asmLibPath relatively the import ...??
+		File res;
+<span class="pc bpc" id="L1642" title="1 of 2 branches missed.">		if (asmDirLib == null) {</span>
+			// with asm extesion
+<span class="nc" id="L1644">			res = checkExistsAsmFile(moduleName + ASMParser.asmExtension);</span>
+<span class="nc bnc" id="L1645" title="All 2 branches missed.">			if (res != null)</span>
+<span class="nc" id="L1646">				return res;</span>
+			// without asm extension
+<span class="nc" id="L1648">			res = checkExistsAsmFile(moduleName);</span>
+<span class="nc bnc" id="L1649" title="All 2 branches missed.">			if (res != null)</span>
+<span class="nc" id="L1650">				return res;</span>
+			// with asm extesion
+<span class="nc" id="L1652">			res = checkExistsAsmFile(&quot;.&quot; + moduleName + ASMParser.asmExtension);</span>
+<span class="nc bnc" id="L1653" title="All 2 branches missed.">			if (res != null)</span>
+<span class="nc" id="L1654">				return res;</span>
+			// without asm extension
+<span class="nc" id="L1656">			res = checkExistsAsmFile(&quot;.&quot; + moduleName);</span>
+<span class="nc bnc" id="L1657" title="All 2 branches missed.">			if (res != null)</span>
+<span class="nc" id="L1658">				return res;</span>
+		}
+<span class="pc bpc" id="L1660" title="2 of 4 branches missed.">		assert asmDirLib != null;</span>
+		// build the complete module name
+<span class="fc" id="L1662">		res = checkExistsAsmFile(asmDirLib + File.separatorChar + moduleName + ASMParser.asmExtension);</span>
+<span class="fc bfc" id="L1663" title="All 2 branches covered.">		if (res != null)</span>
+<span class="fc" id="L1664">			return res;</span>
+		// without asm extension
+<span class="fc" id="L1666">		res = checkExistsAsmFile(asmDirLib + File.separatorChar + moduleName);</span>
+<span class="fc bfc" id="L1667" title="All 2 branches covered.">		if (res != null)</span>
+<span class="fc" id="L1668">			return res;</span>
+		// check absolute also with asmDirLib != null
+<span class="fc" id="L1670">		res = checkExistsAsmFile(moduleName);</span>
+<span class="fc bfc" id="L1671" title="All 2 branches covered.">		if (res != null)</span>
+<span class="fc" id="L1672">			return res;</span>
+<span class="fc" id="L1673">		res = checkExistsAsmFile(moduleName + ASMParser.asmExtension);</span>
+<span class="fc bfc" id="L1674" title="All 2 branches covered.">		if (res != null)</span>
+<span class="fc" id="L1675">			return res;</span>
+		//
+		// ERROR !!!
+<span class="fc" id="L1678">		throw new ImportNotFoundException(asmDirLib, moduleName);</span>
+	}
+
+	static private File checkExistsAsmFile(String fileName) {
+<span class="fc bfc" id="L1682" title="All 2 branches covered.">		if (!fileName.endsWith(ASMParser.asmExtension))</span>
+<span class="fc" id="L1683">			return null;</span>
+<span class="fc" id="L1684">		File moduleFile = new java.io.File(fileName);</span>
+<span class="pc bpc" id="L1685" title="1 of 4 branches missed.">		if (moduleFile.exists() &amp;&amp; moduleFile.isFile())</span>
+<span class="fc" id="L1686">			return moduleFile;</span>
+		else
+<span class="fc" id="L1688">			return null;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

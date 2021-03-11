@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>RewriteRules.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.flattener</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.flattener.undef</a> &gt; <span class="el_source">RewriteRules.java</span></div><h1>RewriteRules.java</h1><pre class="source lang-java linenums">package org.asmeta.flattener.undef;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.asmeta.flattener.args.RemoveArgumentsRuleFlattener;
+import org.asmeta.flattener.args.RemoveArgumentsTermFlattener;
+import org.asmeta.flattener.rule.RuleFlattener;
+import org.asmeta.flattener.util.StdlFunction;
+
+import asmeta.definitions.Function;
+import asmeta.definitions.domains.Domain;
+import asmeta.structure.Asm;
+import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
+
+public class RewriteRules extends RuleFlattener {
+	private Set&lt;Function&gt; funcsWithUndef;
+	private Map&lt;Domain, Term&gt; mapDomainsUndefTerm;
+
+	public RewriteRules(Asm asm, Set&lt;Function&gt; funcsWithUndef, Map&lt;Domain, Term&gt; mapDomainsUndefTerm) {
+<span class="fc" id="L30">		super(asm);</span>
+<span class="fc" id="L31">		this.funcsWithUndef = funcsWithUndef;</span>
+<span class="fc" id="L32">		this.mapDomainsUndefTerm = mapDomainsUndefTerm;</span>
+<span class="fc" id="L33">	}</span>
+
+	@Override
+	public Rule visit(UpdateRule ur) {
+<span class="fc" id="L37">		LocationTerm lt = (LocationTerm)ur.getLocation();</span>
+<span class="fc" id="L38">		Function func = lt.getFunction();</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">		if(funcsWithUndef.contains(func)) {</span>
+<span class="fc" id="L40">			Term ut = ur.getUpdatingTerm();</span>
+<span class="fc" id="L41">			EvalUndefInTerm eu = new EvalUndefInTerm(mapDomainsUndefTerm, func.getCodomain());</span>
+<span class="fc" id="L42">			Term newTerm = eu.visit(ut);</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">			if(newTerm != ut) {</span>
+<span class="fc" id="L44">				UpdateRule newUr = ruleFact.createUpdateRule();</span>
+<span class="fc" id="L45">				newUr.setLocation(lt);</span>
+<span class="fc" id="L46">				newUr.setUpdatingTerm(newTerm);</span>
+<span class="fc" id="L47">				return newUr;</span>
+			}
+<span class="fc" id="L49">			RemoveArgumentsTermFlattener ratf = new RemoveArgumentsTermFlattener();</span>
+			try {
+<span class="fc" id="L51">				ratf.visit(ur.getUpdatingTerm());</span>
+<span class="fc" id="L52">				LinkedHashMap&lt;VariableTerm, Term&gt; mapForLet = ratf.getMapForLet();</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">				if(mapForLet.size() &gt; 0) {</span>
+<span class="fc" id="L54">					LetRule letRule = RemoveArgumentsRuleFlattener.buildLetRule(ur, mapForLet, ruleFact);</span>
+<span class="fc" id="L55">					StdlFunction stdl = new StdlFunction(asm);</span>
+<span class="fc" id="L56">					List&lt;Term&gt; neqs = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">					for(Term i: letRule.getVariable()) {</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">						if(mapDomainsUndefTerm.containsKey(i.getDomain())) {</span>
+<span class="fc" id="L59">							neqs.add(stdl.neq(i, mapDomainsUndefTerm.get(i.getDomain())));</span>
+						}
+<span class="fc" id="L61">					}</span>
+<span class="fc" id="L62">					Term guard = stdl.and(neqs);</span>
+<span class="fc" id="L63">					ConditionalRule condRule = ruleFact.createConditionalRule();</span>
+<span class="fc" id="L64">					condRule.setGuard(guard);</span>
+<span class="fc" id="L65">					condRule.setThenRule(letRule.getInRule());</span>
+<span class="fc" id="L66">					UpdateRule elseRule = ruleFact.createUpdateRule();</span>
+<span class="fc" id="L67">					elseRule.setLocation(lt);</span>
+<span class="fc" id="L68">					elseRule.setUpdatingTerm(mapDomainsUndefTerm.get(lt.getDomain()));</span>
+<span class="fc" id="L69">					condRule.setElseRule(elseRule);</span>
+<span class="fc" id="L70">					letRule.setInRule(condRule);</span>
+<span class="fc" id="L71">					return letRule;</span>
+				}
+<span class="nc" id="L73">			} catch (Exception e) {</span>
+<span class="nc" id="L74">				e.printStackTrace();</span>
+<span class="nc" id="L75">				throw new Error();</span>
+<span class="fc" id="L76">			}</span>
+		}
+<span class="fc" id="L78">		return ur;</span>
+	}
+
+	@Override
+	public String getCode() {
+<span class="nc" id="L83">		return &quot;RR&quot;;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

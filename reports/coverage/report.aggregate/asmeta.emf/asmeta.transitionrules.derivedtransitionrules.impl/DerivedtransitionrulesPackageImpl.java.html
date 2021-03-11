@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>DerivedtransitionrulesPackageImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.derivedtransitionrules.impl</a> &gt; <span class="el_source">DerivedtransitionrulesPackageImpl.java</span></div><h1>DerivedtransitionrulesPackageImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.derivedtransitionrules.impl;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.domains.DomainsPackage;
+import asmeta.definitions.domains.impl.DomainsPackageImpl;
+import asmeta.definitions.impl.DefinitionsPackageImpl;
+import asmeta.structure.StructurePackage;
+import asmeta.structure.impl.StructurePackageImpl;
+import asmeta.terms.basicterms.BasictermsPackage;
+import asmeta.terms.basicterms.impl.BasictermsPackageImpl;
+import asmeta.terms.furtherterms.FurthertermsPackage;
+import asmeta.terms.furtherterms.impl.FurthertermsPackageImpl;
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+import asmeta.transitionrules.basictransitionrules.impl.BasictransitionrulesPackageImpl;
+import asmeta.transitionrules.derivedtransitionrules.BasicDerivedRule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import asmeta.transitionrules.derivedtransitionrules.DerivedRule;
+import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesFactory;
+import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage;
+import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
+import asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule;
+import asmeta.transitionrules.derivedtransitionrules.TurboDerivedRule;
+import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+import asmeta.transitionrules.turbotransitionrules.impl.TurbotransitionrulesPackageImpl;
+import primitivetypes.PrimitivetypesPackage;
+import primitivetypes.impl.PrimitivetypesPackageImpl;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model &lt;b&gt;Package&lt;/b&gt;.
+ * &lt;!-- end-user-doc --&gt;
+ * @generated
+ */
+public class DerivedtransitionrulesPackageImpl extends EPackageImpl implements DerivedtransitionrulesPackage {
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L52">	private EClass recursiveWhileRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L59">	private EClass iterativeWhileRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L66">	private EClass derivedRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L73">	private EClass caseRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L80">	private EClass basicDerivedRuleEClass = null;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L87">	private EClass turboDerivedRuleEClass = null;</span>
+
+	/**
+	 * Creates an instance of the model &lt;b&gt;Package&lt;/b&gt;, registered with
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * &lt;p&gt;Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see org.eclipse.emf.ecore.EPackage.Registry
+	 * @see asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage#eNS_URI
+	 * @see #init()
+	 * @generated
+	 */
+	private DerivedtransitionrulesPackageImpl() {
+<span class="fc" id="L105">		super(eNS_URI, DerivedtransitionrulesFactory.eINSTANCE);</span>
+<span class="fc" id="L106">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L113">	private static boolean isInited = false;</span>
+
+	/**
+	 * Creates, registers, and initializes the &lt;b&gt;Package&lt;/b&gt; for this model, and for any others upon which it depends.
+	 *
+	 * &lt;p&gt;This method is used to initialize {@link DerivedtransitionrulesPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #eNS_URI
+	 * @see #createPackageContents()
+	 * @see #initializePackageContents()
+	 * @generated
+	 */
+	public static DerivedtransitionrulesPackage init() {
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">		if (isInited) return (DerivedtransitionrulesPackage)EPackage.Registry.INSTANCE.getEPackage(DerivedtransitionrulesPackage.eNS_URI);</span>
+
+		// Obtain or create and register package
+<span class="fc" id="L131">		Object registeredDerivedtransitionrulesPackage = EPackage.Registry.INSTANCE.get(eNS_URI);</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">		DerivedtransitionrulesPackageImpl theDerivedtransitionrulesPackage = registeredDerivedtransitionrulesPackage instanceof DerivedtransitionrulesPackageImpl ? (DerivedtransitionrulesPackageImpl)registeredDerivedtransitionrulesPackage : new DerivedtransitionrulesPackageImpl();</span>
+
+<span class="fc" id="L134">		isInited = true;</span>
+
+		// Obtain or create and register interdependencies
+<span class="fc" id="L137">		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(FurthertermsPackage.eNS_URI);</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">		FurthertermsPackageImpl theFurthertermsPackage = (FurthertermsPackageImpl)(registeredPackage instanceof FurthertermsPackageImpl ? registeredPackage : FurthertermsPackage.eINSTANCE);</span>
+<span class="fc" id="L139">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BasictermsPackage.eNS_URI);</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">		BasictermsPackageImpl theBasictermsPackage = (BasictermsPackageImpl)(registeredPackage instanceof BasictermsPackageImpl ? registeredPackage : BasictermsPackage.eINSTANCE);</span>
+<span class="fc" id="L141">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(StructurePackage.eNS_URI);</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		StructurePackageImpl theStructurePackage = (StructurePackageImpl)(registeredPackage instanceof StructurePackageImpl ? registeredPackage : StructurePackage.eINSTANCE);</span>
+<span class="fc" id="L143">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(TurbotransitionrulesPackage.eNS_URI);</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">		TurbotransitionrulesPackageImpl theTurbotransitionrulesPackage = (TurbotransitionrulesPackageImpl)(registeredPackage instanceof TurbotransitionrulesPackageImpl ? registeredPackage : TurbotransitionrulesPackage.eINSTANCE);</span>
+<span class="fc" id="L145">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(BasictransitionrulesPackage.eNS_URI);</span>
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">		BasictransitionrulesPackageImpl theBasictransitionrulesPackage = (BasictransitionrulesPackageImpl)(registeredPackage instanceof BasictransitionrulesPackageImpl ? registeredPackage : BasictransitionrulesPackage.eINSTANCE);</span>
+<span class="fc" id="L147">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DefinitionsPackage.eNS_URI);</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">		DefinitionsPackageImpl theDefinitionsPackage = (DefinitionsPackageImpl)(registeredPackage instanceof DefinitionsPackageImpl ? registeredPackage : DefinitionsPackage.eINSTANCE);</span>
+<span class="fc" id="L149">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DomainsPackage.eNS_URI);</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">		DomainsPackageImpl theDomainsPackage = (DomainsPackageImpl)(registeredPackage instanceof DomainsPackageImpl ? registeredPackage : DomainsPackage.eINSTANCE);</span>
+<span class="fc" id="L151">		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(PrimitivetypesPackage.eNS_URI);</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">		PrimitivetypesPackageImpl thePrimitivetypesPackage = (PrimitivetypesPackageImpl)(registeredPackage instanceof PrimitivetypesPackageImpl ? registeredPackage : PrimitivetypesPackage.eINSTANCE);</span>
+
+		// Create package meta-data objects
+<span class="fc" id="L155">		theDerivedtransitionrulesPackage.createPackageContents();</span>
+<span class="fc" id="L156">		theFurthertermsPackage.createPackageContents();</span>
+<span class="fc" id="L157">		theBasictermsPackage.createPackageContents();</span>
+<span class="fc" id="L158">		theStructurePackage.createPackageContents();</span>
+<span class="fc" id="L159">		theTurbotransitionrulesPackage.createPackageContents();</span>
+<span class="fc" id="L160">		theBasictransitionrulesPackage.createPackageContents();</span>
+<span class="fc" id="L161">		theDefinitionsPackage.createPackageContents();</span>
+<span class="fc" id="L162">		theDomainsPackage.createPackageContents();</span>
+<span class="fc" id="L163">		thePrimitivetypesPackage.createPackageContents();</span>
+
+		// Initialize created meta-data
+<span class="fc" id="L166">		theDerivedtransitionrulesPackage.initializePackageContents();</span>
+<span class="fc" id="L167">		theFurthertermsPackage.initializePackageContents();</span>
+<span class="fc" id="L168">		theBasictermsPackage.initializePackageContents();</span>
+<span class="fc" id="L169">		theStructurePackage.initializePackageContents();</span>
+<span class="fc" id="L170">		theTurbotransitionrulesPackage.initializePackageContents();</span>
+<span class="fc" id="L171">		theBasictransitionrulesPackage.initializePackageContents();</span>
+<span class="fc" id="L172">		theDefinitionsPackage.initializePackageContents();</span>
+<span class="fc" id="L173">		theDomainsPackage.initializePackageContents();</span>
+<span class="fc" id="L174">		thePrimitivetypesPackage.initializePackageContents();</span>
+
+		// Mark meta-data to indicate it can't be changed
+<span class="fc" id="L177">		theDerivedtransitionrulesPackage.freeze();</span>
+
+		// Update the registry and return the package
+<span class="fc" id="L180">		EPackage.Registry.INSTANCE.put(DerivedtransitionrulesPackage.eNS_URI, theDerivedtransitionrulesPackage);</span>
+<span class="fc" id="L181">		return theDerivedtransitionrulesPackage;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getRecursiveWhileRule() {
+<span class="nc" id="L191">		return recursiveWhileRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getRecursiveWhileRule_Rule() {
+<span class="fc" id="L201">		return (EReference)recursiveWhileRuleEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getRecursiveWhileRule_Guard() {
+<span class="fc" id="L211">		return (EReference)recursiveWhileRuleEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getIterativeWhileRule() {
+<span class="nc" id="L221">		return iterativeWhileRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getIterativeWhileRule_Guard() {
+<span class="fc" id="L231">		return (EReference)iterativeWhileRuleEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getIterativeWhileRule_Rule() {
+<span class="fc" id="L241">		return (EReference)iterativeWhileRuleEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getDerivedRule() {
+<span class="fc" id="L251">		return derivedRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getCaseRule() {
+<span class="nc" id="L261">		return caseRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getCaseRule_Term() {
+<span class="fc" id="L271">		return (EReference)caseRuleEClass.getEStructuralFeatures().get(0);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getCaseRule_CaseTerm() {
+<span class="fc" id="L281">		return (EReference)caseRuleEClass.getEStructuralFeatures().get(1);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EReference getCaseRule_OtherwiseBranch() {
+<span class="fc" id="L291">		return (EReference)caseRuleEClass.getEStructuralFeatures().get(2);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCaseRule_CaseBranches() {
+<span class="fc" id="L301">		return (EAttribute)caseRuleEClass.getEStructuralFeatures().get(3);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getBasicDerivedRule() {
+<span class="fc" id="L311">		return basicDerivedRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EClass getTurboDerivedRule() {
+<span class="fc" id="L321">		return turboDerivedRuleEClass;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public DerivedtransitionrulesFactory getDerivedtransitionrulesFactory() {
+<span class="nc" id="L331">		return (DerivedtransitionrulesFactory)getEFactoryInstance();</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L339">	private boolean isCreated = false;</span>
+
+	/**
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public void createPackageContents() {
+<span class="fc bfc" id="L349" title="All 2 branches covered.">		if (isCreated) return;</span>
+<span class="fc" id="L350">		isCreated = true;</span>
+
+		// Create classes and their features
+<span class="fc" id="L353">		recursiveWhileRuleEClass = createEClass(RECURSIVE_WHILE_RULE);</span>
+<span class="fc" id="L354">		createEReference(recursiveWhileRuleEClass, RECURSIVE_WHILE_RULE__RULE);</span>
+<span class="fc" id="L355">		createEReference(recursiveWhileRuleEClass, RECURSIVE_WHILE_RULE__GUARD);</span>
+
+<span class="fc" id="L357">		iterativeWhileRuleEClass = createEClass(ITERATIVE_WHILE_RULE);</span>
+<span class="fc" id="L358">		createEReference(iterativeWhileRuleEClass, ITERATIVE_WHILE_RULE__GUARD);</span>
+<span class="fc" id="L359">		createEReference(iterativeWhileRuleEClass, ITERATIVE_WHILE_RULE__RULE);</span>
+
+<span class="fc" id="L361">		derivedRuleEClass = createEClass(DERIVED_RULE);</span>
+
+<span class="fc" id="L363">		caseRuleEClass = createEClass(CASE_RULE);</span>
+<span class="fc" id="L364">		createEReference(caseRuleEClass, CASE_RULE__TERM);</span>
+<span class="fc" id="L365">		createEReference(caseRuleEClass, CASE_RULE__CASE_TERM);</span>
+<span class="fc" id="L366">		createEReference(caseRuleEClass, CASE_RULE__OTHERWISE_BRANCH);</span>
+<span class="fc" id="L367">		createEAttribute(caseRuleEClass, CASE_RULE__CASE_BRANCHES);</span>
+
+<span class="fc" id="L369">		basicDerivedRuleEClass = createEClass(BASIC_DERIVED_RULE);</span>
+
+<span class="fc" id="L371">		turboDerivedRuleEClass = createEClass(TURBO_DERIVED_RULE);</span>
+<span class="fc" id="L372">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L379">	private boolean isInitialized = false;</span>
+
+	/**
+	 * Complete the initialization of the package and its meta-model.  This
+	 * method is guarded to have no affect on any invocation but its first.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public void initializePackageContents() {
+<span class="fc bfc" id="L389" title="All 2 branches covered.">		if (isInitialized) return;</span>
+<span class="fc" id="L390">		isInitialized = true;</span>
+
+		// Initialize package
+<span class="fc" id="L393">		setName(eNAME);</span>
+<span class="fc" id="L394">		setNsPrefix(eNS_PREFIX);</span>
+<span class="fc" id="L395">		setNsURI(eNS_URI);</span>
+
+		// Obtain other dependent packages
+<span class="fc" id="L398">		BasictransitionrulesPackage theBasictransitionrulesPackage = (BasictransitionrulesPackage)EPackage.Registry.INSTANCE.getEPackage(BasictransitionrulesPackage.eNS_URI);</span>
+<span class="fc" id="L399">		BasictermsPackage theBasictermsPackage = (BasictermsPackage)EPackage.Registry.INSTANCE.getEPackage(BasictermsPackage.eNS_URI);</span>
+
+		// Create type parameters
+
+		// Set bounds for type parameters
+
+		// Add supertypes to classes
+<span class="fc" id="L406">		recursiveWhileRuleEClass.getESuperTypes().add(this.getTurboDerivedRule());</span>
+<span class="fc" id="L407">		iterativeWhileRuleEClass.getESuperTypes().add(this.getTurboDerivedRule());</span>
+<span class="fc" id="L408">		derivedRuleEClass.getESuperTypes().add(theBasictransitionrulesPackage.getRule());</span>
+<span class="fc" id="L409">		caseRuleEClass.getESuperTypes().add(this.getBasicDerivedRule());</span>
+<span class="fc" id="L410">		basicDerivedRuleEClass.getESuperTypes().add(this.getDerivedRule());</span>
+<span class="fc" id="L411">		turboDerivedRuleEClass.getESuperTypes().add(this.getDerivedRule());</span>
+
+		// Initialize classes and features; add operations and parameters
+<span class="fc" id="L414">		initEClass(recursiveWhileRuleEClass, RecursiveWhileRule.class, &quot;RecursiveWhileRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L415">		initEReference(getRecursiveWhileRule_Rule(), theBasictransitionrulesPackage.getRule(), null, &quot;rule&quot;, null, 1, 1, RecursiveWhileRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L416">		initEReference(getRecursiveWhileRule_Guard(), theBasictermsPackage.getTerm(), null, &quot;guard&quot;, null, 1, 1, RecursiveWhileRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+
+<span class="fc" id="L418">		initEClass(iterativeWhileRuleEClass, IterativeWhileRule.class, &quot;IterativeWhileRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L419">		initEReference(getIterativeWhileRule_Guard(), theBasictermsPackage.getTerm(), null, &quot;guard&quot;, null, 1, 1, IterativeWhileRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L420">		initEReference(getIterativeWhileRule_Rule(), theBasictransitionrulesPackage.getRule(), null, &quot;rule&quot;, null, 1, 1, IterativeWhileRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+
+<span class="fc" id="L422">		initEClass(derivedRuleEClass, DerivedRule.class, &quot;DerivedRule&quot;, IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L424">		initEClass(caseRuleEClass, CaseRule.class, &quot;CaseRule&quot;, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+<span class="fc" id="L425">		initEReference(getCaseRule_Term(), theBasictermsPackage.getTerm(), null, &quot;term&quot;, null, 1, 1, CaseRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L426">		initEReference(getCaseRule_CaseTerm(), theBasictermsPackage.getTerm(), null, &quot;caseTerm&quot;, null, 1, -1, CaseRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+<span class="fc" id="L427">		initEReference(getCaseRule_OtherwiseBranch(), theBasictransitionrulesPackage.getRule(), null, &quot;otherwiseBranch&quot;, null, 0, 1, CaseRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);</span>
+<span class="fc" id="L428">		initEAttribute(getCaseRule_CaseBranches(), theBasictransitionrulesPackage.getRuleDT(), &quot;caseBranches&quot;, null, 1, -1, CaseRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);</span>
+
+<span class="fc" id="L430">		initEClass(basicDerivedRuleEClass, BasicDerivedRule.class, &quot;BasicDerivedRule&quot;, IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+<span class="fc" id="L432">		initEClass(turboDerivedRuleEClass, TurboDerivedRule.class, &quot;TurboDerivedRule&quot;, IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);</span>
+
+		// Create resource
+<span class="fc" id="L435">		createResource(eNS_URI);</span>
+<span class="fc" id="L436">	}</span>
+
+} //DerivedtransitionrulesPackageImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

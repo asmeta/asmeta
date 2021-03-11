@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>CollectionTermImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.terms.basicterms.impl</a> &gt; <span class="el_source">CollectionTermImpl.java</span></div><h1>CollectionTermImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.terms.basicterms.impl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import asmeta.terms.basicterms.BasictermsPackage;
+import asmeta.terms.basicterms.CollectionTerm;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Collection Term&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.terms.basicterms.impl.CollectionTermImpl#getSize &lt;em&gt;Size&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public abstract class CollectionTermImpl extends ExtendedTermImpl implements CollectionTerm {
+	/**
+	 * The default value of the '{@link #getSize() &lt;em&gt;Size&lt;/em&gt;}' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getSize()
+	 * @generated
+	 * @ordered
+	 */
+<span class="fc" id="L38">	protected static final Integer SIZE_EDEFAULT = null;</span>
+
+	/**
+	 * The cached value of the '{@link #getSize() &lt;em&gt;Size&lt;/em&gt;}' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getSize()
+	 * @generated
+	 * @ordered
+	 */
+<span class="fc" id="L48">	protected Integer size = SIZE_EDEFAULT;</span>
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected CollectionTermImpl() {
+<span class="fc" id="L57">		super();</span>
+<span class="fc" id="L58">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L67">		return BasictermsPackage.Literals.COLLECTION_TERM;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Integer getSize() {
+<span class="fc" id="L77">		return size;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setSize(Integer newSize) {
+<span class="fc" id="L87">		Integer oldSize = size;</span>
+<span class="fc" id="L88">		size = newSize;</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L90">			eNotify(new ENotificationImpl(this, Notification.SET, BasictermsPackage.COLLECTION_TERM__SIZE, oldSize, size));</span>
+<span class="fc" id="L91">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.COLLECTION_TERM__SIZE:
+<span class="nc" id="L102">				return getSize();</span>
+		}
+<span class="nc" id="L104">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.COLLECTION_TERM__SIZE:
+<span class="nc" id="L116">				setSize((Integer)newValue);</span>
+<span class="nc" id="L117">				return;</span>
+		}
+<span class="nc" id="L119">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L120">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L129" title="All 2 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.COLLECTION_TERM__SIZE:
+<span class="nc" id="L131">				setSize(SIZE_EDEFAULT);</span>
+<span class="nc" id="L132">				return;</span>
+		}
+<span class="nc" id="L134">		super.eUnset(featureID);</span>
+<span class="nc" id="L135">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L144" title="All 2 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.COLLECTION_TERM__SIZE:
+<span class="nc bnc" id="L146" title="All 6 branches missed.">				return SIZE_EDEFAULT == null ? size != null : !SIZE_EDEFAULT.equals(size);</span>
+		}
+<span class="nc" id="L148">		return super.eIsSet(featureID);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">		if (eIsProxy()) return super.toString();</span>
+
+<span class="fc" id="L160">		StringBuilder result = new StringBuilder(super.toString());</span>
+<span class="fc" id="L161">		result.append(&quot; (size: &quot;);</span>
+<span class="fc" id="L162">		result.append(size);</span>
+<span class="fc" id="L163">		result.append(')');</span>
+<span class="fc" id="L164">		return result.toString();</span>
+	}
+
+} //CollectionTermImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

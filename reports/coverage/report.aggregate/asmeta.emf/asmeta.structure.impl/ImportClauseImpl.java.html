@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ImportClauseImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.structure.impl</a> &gt; <span class="el_source">ImportClauseImpl.java</span></div><h1>ImportClauseImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.structure.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+
+import asmeta.definitions.Function;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.domains.Domain;
+import asmeta.structure.ImportClause;
+import asmeta.structure.StructurePackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Import Clause&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.ImportClauseImpl#getImportedDomain &lt;em&gt;Imported Domain&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.ImportClauseImpl#getImportedFunction &lt;em&gt;Imported Function&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.ImportClauseImpl#getImportedRule &lt;em&gt;Imported Rule&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.ImportClauseImpl#getModuleName &lt;em&gt;Module Name&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class ImportClauseImpl extends EObjectImpl implements ImportClause {
+	/**
+	 * The cached value of the '{@link #getImportedDomain() &lt;em&gt;Imported Domain&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getImportedDomain()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;Domain&gt; importedDomain;
+
+	/**
+	 * The cached value of the '{@link #getImportedFunction() &lt;em&gt;Imported Function&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getImportedFunction()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;Function&gt; importedFunction;
+
+	/**
+	 * The cached value of the '{@link #getImportedRule() &lt;em&gt;Imported Rule&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getImportedRule()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;RuleDeclaration&gt; importedRule;
+
+	/**
+	 * The default value of the '{@link #getModuleName() &lt;em&gt;Module Name&lt;/em&gt;}' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getModuleName()
+	 * @generated
+	 * @ordered
+	 */
+<span class="fc" id="L79">	protected static final String MODULE_NAME_EDEFAULT = null;</span>
+
+	/**
+	 * The cached value of the '{@link #getModuleName() &lt;em&gt;Module Name&lt;/em&gt;}' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getModuleName()
+	 * @generated
+	 * @ordered
+	 */
+<span class="fc" id="L89">	protected String moduleName = MODULE_NAME_EDEFAULT;</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected ImportClauseImpl() {
+<span class="fc" id="L97">		super();</span>
+<span class="fc" id="L98">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L107">		return StructurePackage.Literals.IMPORT_CLAUSE;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;Domain&gt; getImportedDomain() {
+<span class="fc bfc" id="L117" title="All 2 branches covered.">		if (importedDomain == null) {</span>
+<span class="fc" id="L118">			importedDomain = new EObjectResolvingEList&lt;Domain&gt;(Domain.class, this, StructurePackage.IMPORT_CLAUSE__IMPORTED_DOMAIN);</span>
+		}
+<span class="fc" id="L120">		return importedDomain;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;Function&gt; getImportedFunction() {
+<span class="fc bfc" id="L130" title="All 2 branches covered.">		if (importedFunction == null) {</span>
+<span class="fc" id="L131">			importedFunction = new EObjectResolvingEList&lt;Function&gt;(Function.class, this, StructurePackage.IMPORT_CLAUSE__IMPORTED_FUNCTION);</span>
+		}
+<span class="fc" id="L133">		return importedFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;RuleDeclaration&gt; getImportedRule() {
+<span class="fc bfc" id="L143" title="All 2 branches covered.">		if (importedRule == null) {</span>
+<span class="fc" id="L144">			importedRule = new EObjectResolvingEList&lt;RuleDeclaration&gt;(RuleDeclaration.class, this, StructurePackage.IMPORT_CLAUSE__IMPORTED_RULE);</span>
+		}
+<span class="fc" id="L146">		return importedRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public String getModuleName() {
+<span class="fc" id="L156">		return moduleName;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setModuleName(String newModuleName) {
+<span class="fc" id="L166">		String oldModuleName = moduleName;</span>
+<span class="fc" id="L167">		moduleName = newModuleName;</span>
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L169">			eNotify(new ENotificationImpl(this, Notification.SET, StructurePackage.IMPORT_CLAUSE__MODULE_NAME, oldModuleName, moduleName));</span>
+<span class="fc" id="L170">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L179" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.IMPORT_CLAUSE__IMPORTED_DOMAIN:
+<span class="nc" id="L181">				return getImportedDomain();</span>
+			case StructurePackage.IMPORT_CLAUSE__IMPORTED_FUNCTION:
+<span class="nc" id="L183">				return getImportedFunction();</span>
+			case StructurePackage.IMPORT_CLAUSE__IMPORTED_RULE:
+<span class="nc" id="L185">				return getImportedRule();</span>
+			case StructurePackage.IMPORT_CLAUSE__MODULE_NAME:
+<span class="nc" id="L187">				return getModuleName();</span>
+		}
+<span class="nc" id="L189">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L200" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.IMPORT_CLAUSE__IMPORTED_DOMAIN:
+<span class="nc" id="L202">				getImportedDomain().clear();</span>
+<span class="nc" id="L203">				getImportedDomain().addAll((Collection&lt;? extends Domain&gt;)newValue);</span>
+<span class="nc" id="L204">				return;</span>
+			case StructurePackage.IMPORT_CLAUSE__IMPORTED_FUNCTION:
+<span class="nc" id="L206">				getImportedFunction().clear();</span>
+<span class="nc" id="L207">				getImportedFunction().addAll((Collection&lt;? extends Function&gt;)newValue);</span>
+<span class="nc" id="L208">				return;</span>
+			case StructurePackage.IMPORT_CLAUSE__IMPORTED_RULE:
+<span class="nc" id="L210">				getImportedRule().clear();</span>
+<span class="nc" id="L211">				getImportedRule().addAll((Collection&lt;? extends RuleDeclaration&gt;)newValue);</span>
+<span class="nc" id="L212">				return;</span>
+			case StructurePackage.IMPORT_CLAUSE__MODULE_NAME:
+<span class="nc" id="L214">				setModuleName((String)newValue);</span>
+<span class="nc" id="L215">				return;</span>
+		}
+<span class="nc" id="L217">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L218">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L227" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.IMPORT_CLAUSE__IMPORTED_DOMAIN:
+<span class="nc" id="L229">				getImportedDomain().clear();</span>
+<span class="nc" id="L230">				return;</span>
+			case StructurePackage.IMPORT_CLAUSE__IMPORTED_FUNCTION:
+<span class="nc" id="L232">				getImportedFunction().clear();</span>
+<span class="nc" id="L233">				return;</span>
+			case StructurePackage.IMPORT_CLAUSE__IMPORTED_RULE:
+<span class="nc" id="L235">				getImportedRule().clear();</span>
+<span class="nc" id="L236">				return;</span>
+			case StructurePackage.IMPORT_CLAUSE__MODULE_NAME:
+<span class="nc" id="L238">				setModuleName(MODULE_NAME_EDEFAULT);</span>
+<span class="nc" id="L239">				return;</span>
+		}
+<span class="nc" id="L241">		super.eUnset(featureID);</span>
+<span class="nc" id="L242">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L251" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.IMPORT_CLAUSE__IMPORTED_DOMAIN:
+<span class="nc bnc" id="L253" title="All 4 branches missed.">				return importedDomain != null &amp;&amp; !importedDomain.isEmpty();</span>
+			case StructurePackage.IMPORT_CLAUSE__IMPORTED_FUNCTION:
+<span class="nc bnc" id="L255" title="All 4 branches missed.">				return importedFunction != null &amp;&amp; !importedFunction.isEmpty();</span>
+			case StructurePackage.IMPORT_CLAUSE__IMPORTED_RULE:
+<span class="nc bnc" id="L257" title="All 4 branches missed.">				return importedRule != null &amp;&amp; !importedRule.isEmpty();</span>
+			case StructurePackage.IMPORT_CLAUSE__MODULE_NAME:
+<span class="nc bnc" id="L259" title="All 6 branches missed.">				return MODULE_NAME_EDEFAULT == null ? moduleName != null : !MODULE_NAME_EDEFAULT.equals(moduleName);</span>
+		}
+<span class="nc" id="L261">		return super.eIsSet(featureID);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+<span class="nc bnc" id="L271" title="All 2 branches missed.">		if (eIsProxy()) return super.toString();</span>
+
+<span class="nc" id="L273">		StringBuilder result = new StringBuilder(super.toString());</span>
+<span class="nc" id="L274">		result.append(&quot; (moduleName: &quot;);</span>
+<span class="nc" id="L275">		result.append(moduleName);</span>
+<span class="nc" id="L276">		result.append(')');</span>
+<span class="nc" id="L277">		return result.toString();</span>
+	}
+
+} //ImportClauseImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

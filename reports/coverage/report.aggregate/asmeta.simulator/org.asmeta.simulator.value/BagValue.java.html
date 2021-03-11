@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>BagValue.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator.value</a> &gt; <span class="el_source">BagValue.java</span></div><h1>BagValue.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2009 .
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *      - initial API and implementation
+ ******************************************************************************/
+package org.asmeta.simulator.value;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
+/**
+ * A bag of values.
+ * 
+ */
+public class BagValue&lt;T&gt; extends CollectionValue&lt;T&gt; {
+		
+	/**
+	 * The bag.
+	 *  
+	 */
+	private List&lt;Value&lt;T&gt;&gt; bag;
+		
+	/**
+	 * Creates a bag.
+	 * 
+	 * @param list a list of values
+	 */
+<span class="nc" id="L35">	public BagValue(List&lt;Value&lt;T&gt;&gt; list) {</span>
+<span class="nc" id="L36">		bag = list;</span>
+<span class="nc" id="L37">	}</span>
+	
+	/**
+     * Gets the bag's content.
+     * 
+     * @return the content
+     */
+	@Override
+	public List&lt;Value&lt;T&gt;&gt; getValue() {
+<span class="nc" id="L46">		return bag;</span>
+	}
+	
+	@Override
+	public int hashCode() {
+<span class="nc" id="L51">		return bag.hashCode();</span>
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">		if (o instanceof BagValue) {</span>
+<span class="nc" id="L57">			return bag.equals(((BagValue&lt;T&gt;)o).getValue());</span>
+		}
+<span class="nc" id="L59">		throw new IllegalArgumentException();</span>
+	}
+		
+	@Override
+	public String toString() {
+<span class="nc" id="L64">		StringBuilder s = new StringBuilder(&quot;&lt;&quot;);</span>
+<span class="nc" id="L65">		String[] elements = new String[bag.size()];</span>
+<span class="nc" id="L66">		int i = 0;</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">		for (Value&lt;T&gt; e : bag) {</span>
+<span class="nc" id="L68">			elements[i++] = e.toString();</span>
+<span class="nc" id="L69">		}</span>
+<span class="nc" id="L70">		Arrays.sort(elements);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">		if (elements.length &gt; 0) {</span>
+<span class="nc" id="L72">			s.append(elements[0]);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">			for (i = 1; i &lt; elements.length; i++) {</span>
+<span class="nc" id="L74">				s.append(&quot;,&quot; + elements[i]);</span>
+			}
+		}
+<span class="nc" id="L77">		s.append(&quot;&gt;&quot;);</span>
+<span class="nc" id="L78">		return s.toString();</span>
+	}
+
+	@Override
+	public Iterator&lt;Value&lt;T&gt;&gt; iterator() {
+<span class="nc" id="L83">		return bag.iterator();</span>
+	}
+
+	//PA: 14 giugno 10
+	@Override
+	public Value&lt;Collection&lt;Value&lt;T&gt;&gt;&gt; clone() {
+		// TODO Auto-generated method stub
+<span class="nc" id="L90">		return null;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

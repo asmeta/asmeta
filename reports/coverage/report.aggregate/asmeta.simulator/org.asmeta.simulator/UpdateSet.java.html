@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>UpdateSet.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator</a> &gt; <span class="el_source">UpdateSet.java</span></div><h1>UpdateSet.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2005, 2006 ASMETA group (http://asmeta.sourceforge.net)
+ * License Information: http://asmeta.sourceforge.net/licensing/
+ * 
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License version 2 as
+ *   published by the Free Software Foundation.
+ * 
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ * 
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
+ *   USA
+ * 
+ *   http://www.gnu.org/licenses/gpl.txt
+ * 
+ *   
+ *******************************************************************************/
+
+/*
+ * UpdateSet.java
+ *
+ * Created on 26 maggio 2006, 10.03
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package org.asmeta.simulator;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.apache.log4j.Logger;
+import org.asmeta.simulator.value.UndefValue;
+import org.asmeta.simulator.value.Value;
+
+import asmeta.definitions.Function;
+
+/**
+ * An update set. 
+ * 
+ */
+<span class="nc" id="L49">public class UpdateSet extends LocationSet {</span>
+
+<span class="nc" id="L51">	private static Logger logger = Logger.getLogger(UpdateSet.class);</span>
+
+	/**
+	 * Adds a new update.
+	 * 
+	 * @param location a location
+	 * @param content a new content
+	 * @throws UpdateClashException if the update set becames inconsistent
+	 */
+	public void putUpdate(Location location, Value content) {
+<span class="nc bnc" id="L61" title="All 2 branches missed.">		if (locationMap.containsKey(location)){</span>
+<span class="nc" id="L62">			Value oldContent = locationMap.get(location);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">			if (!oldContent.equals(content)) {</span>
+<span class="nc" id="L64">				logger.debug(&quot;&lt;UpdateClash&gt;&quot;);</span>
+<span class="nc" id="L65">				logger.debug(&quot;&lt;UpdateSet&gt;&quot; + this + &quot;&lt;/UpdateSet&gt;&quot;);</span>
+<span class="nc" id="L66">				logger.debug(&quot;&lt;Update&gt;&quot; + location + &quot;=&quot; + content + &quot;&lt;/Update&gt;&quot;);</span>
+<span class="nc" id="L67">				logger.debug(&quot;&lt;/UpdateClash&gt;&quot;);</span>
+				//System.out.println(&quot;location = &quot; + location + &quot;\noldContent=&quot;+oldContent+&quot;\ncontent=&quot;+content);
+<span class="nc" id="L69">				throw new UpdateClashException(location, oldContent, content);</span>
+			}
+		}
+<span class="nc" id="L72">		locationMap.put(location, content);</span>
+<span class="nc" id="L73">	}</span>
+
+	/**
+	 * Merges two update sets. If a location belongs to both the update sets,
+	 * the final content is that in the second update set.
+	 *  
+	 * @param updateSet an update set
+	 */
+	public void merge(UpdateSet updateSet) {
+		// manages the locations
+<span class="nc" id="L83">		locationMap.putAll(updateSet.locationMap);</span>
+		// manages the abstract sets
+<span class="nc" id="L85">		add(updateSet.abstractSets);</span>
+<span class="nc" id="L86">	}</span>
+
+	/**
+	 * Merges two update sets. If a location belongs to both the update sets, but
+	 * the contents are different, an exception is thrown.
+	 * 
+	 * @param anotherSet an update set
+	 * @throws UpdateClashException if two updates clash
+	 */
+	public void union(UpdateSet anotherSet) {
+		// manages the locations
+<span class="nc bnc" id="L97" title="All 2 branches missed.">		for (Map.Entry&lt;Location, Value&gt; entry : anotherSet.locationMap.entrySet()) {</span>
+<span class="nc" id="L98">			Location location = entry.getKey();</span>
+<span class="nc" id="L99">			Value value = entry.getValue();</span>
+<span class="nc" id="L100">			putUpdate(location, value);</span>
+<span class="nc" id="L101">		}</span>
+		// manages the abstract sets
+<span class="nc" id="L103">		add(anotherSet.abstractSets);</span>
+<span class="nc" id="L104">	}</span>
+
+	/**
+	 * Is the update set empty?
+	 * 
+	 * @return true if it is empty, otherwise false
+	 */
+	public boolean isEmpty() {
+<span class="nc" id="L112">		return locationMap.isEmpty();</span>
+	}
+
+	/*public UpdateSet clone() {
+		UpdateSet newUpdateSet = new UpdateSet();
+		newUpdateSet.abstractSets = new HashMap&lt;WrappedDomain, Set&lt;ReserveValue&gt;&gt;();
+		for(Entry&lt;WrappedDomain, Set&lt;ReserveValue&gt;&gt; entry: abstractSets.entrySet()) {
+			newUpdateSet.abstractSets.put(entry.getKey(), new HashSet&lt;ReserveValue&gt;());
+			for(ReserveValue rv: entry.getValue()) {
+				newUpdateSet.abstractSets.get(entry.getKey()).add(rv);
+			}
+		}
+		newUpdateSet.locationMap = new HashMap&lt;Location, Value&gt;();
+		for(Entry&lt;Location, Value&gt; entry: locationMap.entrySet()) {
+			newUpdateSet.locationMap.put(entry.getKey(), entry.getValue());
+		}
+		return newUpdateSet;
+	}*/
+
+	public Value get(Location location) {
+<span class="nc" id="L132">		return locationMap.get(location);</span>
+	}
+
+	@Override
+	public boolean equals(Object o) {
+<span class="nc bnc" id="L137" title="All 2 branches missed.">		if(o instanceof UpdateSet) {</span>
+<span class="nc" id="L138">			UpdateSet updateSet = (UpdateSet)o;</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">			if(locationMap.size() != updateSet.locationMap.size()) {</span>
+				//if the two update sets do not have the  same number of elements,
+				//it means that they are not equal. Are we sure?
+<span class="nc" id="L142">				return false;</span>
+			}
+<span class="nc bnc" id="L144" title="All 2 branches missed.">			for(Location location: locationMap.keySet()) {</span>
+<span class="nc" id="L145">				Value value = updateSet.get(location);</span>
+<span class="nc bnc" id="L146" title="All 4 branches missed.">				if(value == null || !value.equals(locationMap.get(location))) {</span>
+<span class="nc" id="L147">					return false; </span>
+				}	
+<span class="nc" id="L149">			}</span>
+<span class="nc" id="L150">			return true;</span>
+		}
+		else {
+<span class="nc" id="L153">			return false;</span>
+		}
+	}
+
+	public Set&lt;Location&gt; getLocationsUpdated() {
+<span class="nc" id="L158">		return locationMap.keySet();</span>
+	}
+
+	public Set&lt;Function&gt; getFunctionsUpdated() {
+<span class="nc" id="L162">		Set&lt;Location&gt; locations = getLocationsUpdated();</span>
+<span class="nc" id="L163">		Set&lt;Function&gt; functions = new HashSet&lt;Function&gt;();</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">		for(Location location: locations) {</span>
+<span class="nc" id="L165">			functions.add(location.getSignature());</span>
+<span class="nc" id="L166">		}</span>
+<span class="nc" id="L167">		return functions;</span>
+	}
+
+	public boolean isTrivial(State previousState) {
+<span class="nc bnc" id="L171" title="All 2 branches missed.">		if(!isEmpty()) {</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">			for(Entry&lt;Location, Value&gt; locValue: locationMap.entrySet()) {</span>
+<span class="nc" id="L173">				Location loc = locValue.getKey();</span>
+<span class="nc" id="L174">				Value value = locValue.getValue();</span>
+<span class="nc" id="L175">				Value previousStateValue = previousState.read(loc);</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">				if(!(value instanceof UndefValue)) {</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">					if(previousStateValue instanceof UndefValue ||</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">						!previousStateValue.equals(value)) {</span>
+<span class="nc" id="L179">						return false;</span>
+					}
+				}
+				else {
+<span class="nc bnc" id="L183" title="All 2 branches missed.">					if(!(previousStateValue instanceof UndefValue)) {</span>
+<span class="nc" id="L184">						return false;</span>
+					}
+				}
+				
+<span class="nc" id="L188">			}</span>
+<span class="nc" id="L189">			return true;</span>
+		}
+		else {
+<span class="nc" id="L192">			return false;//an empty update set is NOT considered trivial</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>StructureFactoryImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.structure.impl</a> &gt; <span class="el_source">StructureFactoryImpl.java</span></div><h1>StructureFactoryImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.structure.impl;
+
+import asmeta.structure.*;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import asmeta.structure.AgentInitialization;
+import asmeta.structure.Asm;
+import asmeta.structure.Body;
+import asmeta.structure.DomainDefinition;
+import asmeta.structure.DomainInitialization;
+import asmeta.structure.ExportClause;
+import asmeta.structure.FunctionDefinition;
+import asmeta.structure.FunctionInitialization;
+import asmeta.structure.Header;
+import asmeta.structure.ImportClause;
+import asmeta.structure.Initialization;
+import asmeta.structure.Signature;
+import asmeta.structure.StructureFactory;
+import asmeta.structure.StructurePackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model &lt;b&gt;Factory&lt;/b&gt;.
+ * &lt;!-- end-user-doc --&gt;
+ * @generated
+ */
+public class StructureFactoryImpl extends EFactoryImpl implements StructureFactory {
+	/**
+	 * Creates the default factory implementation.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public static StructureFactory init() {
+		try {
+<span class="fc" id="L46">			StructureFactory theStructureFactory = (StructureFactory)EPackage.Registry.INSTANCE.getEFactory(StructurePackage.eNS_URI);</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">			if (theStructureFactory != null) {</span>
+<span class="nc" id="L48">				return theStructureFactory;</span>
+			}
+		}
+<span class="nc" id="L51">		catch (Exception exception) {</span>
+<span class="nc" id="L52">			EcorePlugin.INSTANCE.log(exception);</span>
+<span class="fc" id="L53">		}</span>
+<span class="fc" id="L54">		return new StructureFactoryImpl();</span>
+	}
+
+	/**
+	 * Creates an instance of the factory.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public StructureFactoryImpl() {
+<span class="fc" id="L64">		super();</span>
+<span class="fc" id="L65">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EObject create(EClass eClass) {
+<span class="nc bnc" id="L74" title="All 13 branches missed.">		switch (eClass.getClassifierID()) {</span>
+<span class="nc" id="L75">			case StructurePackage.AGENT_INITIALIZATION: return createAgentInitialization();</span>
+<span class="nc" id="L76">			case StructurePackage.BODY: return createBody();</span>
+<span class="nc" id="L77">			case StructurePackage.FUNCTION_INITIALIZATION: return createFunctionInitialization();</span>
+<span class="nc" id="L78">			case StructurePackage.DOMAIN_INITIALIZATION: return createDomainInitialization();</span>
+<span class="nc" id="L79">			case StructurePackage.SIGNATURE: return createSignature();</span>
+<span class="nc" id="L80">			case StructurePackage.EXPORT_CLAUSE: return createExportClause();</span>
+<span class="nc" id="L81">			case StructurePackage.IMPORT_CLAUSE: return createImportClause();</span>
+<span class="nc" id="L82">			case StructurePackage.FUNCTION_DEFINITION: return createFunctionDefinition();</span>
+<span class="nc" id="L83">			case StructurePackage.DOMAIN_DEFINITION: return createDomainDefinition();</span>
+<span class="nc" id="L84">			case StructurePackage.INITIALIZATION: return createInitialization();</span>
+<span class="nc" id="L85">			case StructurePackage.HEADER: return createHeader();</span>
+<span class="nc" id="L86">			case StructurePackage.ASM: return createAsm();</span>
+			default:
+<span class="nc" id="L88">				throw new IllegalArgumentException(&quot;The class '&quot; + eClass.getName() + &quot;' is not a valid classifier&quot;);</span>
+		}
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public AgentInitialization createAgentInitialization() {
+<span class="fc" id="L99">		AgentInitializationImpl agentInitialization = new AgentInitializationImpl();</span>
+<span class="fc" id="L100">		return agentInitialization;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Body createBody() {
+<span class="fc" id="L110">		BodyImpl body = new BodyImpl();</span>
+<span class="fc" id="L111">		return body;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public FunctionInitialization createFunctionInitialization() {
+<span class="fc" id="L121">		FunctionInitializationImpl functionInitialization = new FunctionInitializationImpl();</span>
+<span class="fc" id="L122">		return functionInitialization;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public DomainInitialization createDomainInitialization() {
+<span class="fc" id="L132">		DomainInitializationImpl domainInitialization = new DomainInitializationImpl();</span>
+<span class="fc" id="L133">		return domainInitialization;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Signature createSignature() {
+<span class="fc" id="L143">		SignatureImpl signature = new SignatureImpl();</span>
+<span class="fc" id="L144">		return signature;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public ExportClause createExportClause() {
+<span class="fc" id="L154">		ExportClauseImpl exportClause = new ExportClauseImpl();</span>
+<span class="fc" id="L155">		return exportClause;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public ImportClause createImportClause() {
+<span class="fc" id="L165">		ImportClauseImpl importClause = new ImportClauseImpl();</span>
+<span class="fc" id="L166">		return importClause;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public FunctionDefinition createFunctionDefinition() {
+<span class="fc" id="L176">		FunctionDefinitionImpl functionDefinition = new FunctionDefinitionImpl();</span>
+<span class="fc" id="L177">		return functionDefinition;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public DomainDefinition createDomainDefinition() {
+<span class="fc" id="L187">		DomainDefinitionImpl domainDefinition = new DomainDefinitionImpl();</span>
+<span class="fc" id="L188">		return domainDefinition;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Initialization createInitialization() {
+<span class="fc" id="L198">		InitializationImpl initialization = new InitializationImpl();</span>
+<span class="fc" id="L199">		return initialization;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Header createHeader() {
+<span class="fc" id="L209">		HeaderImpl header = new HeaderImpl();</span>
+<span class="fc" id="L210">		return header;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Asm createAsm() {
+<span class="fc" id="L220">		AsmImpl asm = new AsmImpl();</span>
+<span class="fc" id="L221">		return asm;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public StructurePackage getStructurePackage() {
+<span class="nc" id="L231">		return (StructurePackage)getEPackage();</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @deprecated
+	 * @generated
+	 */
+	@Deprecated
+	public static StructurePackage getPackage() {
+<span class="nc" id="L242">		return StructurePackage.eINSTANCE;</span>
+	}
+
+	@Override
+	@Deprecated
+	public Asm createAsm(String name, boolean isAsyncr) {
+<span class="fc" id="L248">		Asm result = createAsm();</span>
+<span class="fc" id="L249">		result.setName(name);</span>
+<span class="fc" id="L250">		result.setIsAsynchr(isAsyncr);</span>
+<span class="fc" id="L251">		return result;</span>
+	}
+
+} //StructureFactoryImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>RemoveArgumentsTermFlattener.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.flattener</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.flattener.args</a> &gt; <span class="el_source">RemoveArgumentsTermFlattener.java</span></div><h1>RemoveArgumentsTermFlattener.java</h1><pre class="source lang-java linenums">package org.asmeta.flattener.args;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.simulator.value.Value;
+import org.asmeta.simulator.wrapper.RuleFactory;
+
+import asmeta.definitions.Function;
+import asmeta.structure.Asm;
+import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.SetTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.UndefTerm;
+import asmeta.terms.basicterms.VariableKind;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.ConditionalTerm;
+import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.FiniteQuantificationTerm;
+import asmeta.terms.furtherterms.ForallTerm;
+import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.LetTerm;
+import asmeta.terms.furtherterms.MapTerm;
+import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.SetCt;
+import asmeta.terms.furtherterms.StringTerm;
+
+public class RemoveArgumentsTermFlattener extends ReflectiveVisitor&lt;Term&gt; {
+<span class="fc" id="L39">	private static final Logger logger = Logger.getLogger(RemoveArgumentsTermFlattener.class);</span>
+	private boolean inLocationArguments;
+	private RuleFactory ruleFact;
+	private LinkedHashMap&lt;VariableTerm, Term&gt; mapForLet;
+	private static int counterForLogicVars;
+	public static ArrayList&lt;String&gt; stdlFuncs;
+<span class="fc" id="L45">	public static boolean REUSE_VAR = true;</span>
+
+	static {
+<span class="fc" id="L48">		stdlFuncs = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L49">		stdlFuncs.add(&quot;abs&quot;);</span>
+<span class="fc" id="L50">		stdlFuncs.add(&quot;max&quot;);</span>
+<span class="fc" id="L51">		stdlFuncs.add(&quot;min&quot;);</span>
+<span class="fc" id="L52">		stdlFuncs.add(&quot;isDef&quot;);</span>
+<span class="fc" id="L53">		stdlFuncs.add(&quot;isUndef&quot;);</span>
+<span class="fc" id="L54">		stdlFuncs.add(&quot;self&quot;);</span>
+<span class="fc" id="L55">		stdlFuncs.add(&quot;program&quot;);</span>
+<span class="fc" id="L56">	}</span>
+
+	public RemoveArgumentsTermFlattener() {
+<span class="fc" id="L59">		this(new RuleFactory());</span>
+<span class="fc" id="L60">	}</span>
+
+<span class="fc" id="L62">	public RemoveArgumentsTermFlattener(RuleFactory ruleFact) {</span>
+<span class="fc" id="L63">		this.ruleFact = ruleFact;</span>
+<span class="fc" id="L64">		mapForLet = new LinkedHashMap&lt;VariableTerm, Term&gt;();</span>
+<span class="fc" id="L65">		inLocationArguments = false;</span>
+<span class="fc" id="L66">	}</span>
+
+	public Term visit(VariableTerm varTerm) {
+<span class="fc" id="L69">		return varTerm;</span>
+	}
+
+	public Term visit(NaturalTerm natTerm) {
+<span class="fc" id="L73">		return natTerm;</span>
+	}
+
+	public Term visit(BooleanTerm boolTerm) {
+<span class="fc" id="L77">		return boolTerm;</span>
+	}
+
+	public Term visit(EnumTerm enumTerm) {
+<span class="fc" id="L81">		return enumTerm;</span>
+	}
+
+	public Term visit(IntegerTerm intTerm) {
+<span class="fc" id="L85">		return intTerm;</span>
+	}
+
+	public Term visit(UndefTerm undefTerm) {
+<span class="fc" id="L89">		return undefTerm;</span>
+	}
+
+	public Term visit(LetTerm letTerm) {
+		// TODO also the let term should be checked
+<span class="fc" id="L94">		return letTerm;</span>
+	}
+	
+	public Term visit(SetCt setCt) {
+<span class="fc" id="L98">		return setCt;</span>
+	}
+
+	
+	public Term visit(ConditionalTerm condTerm) {
+<span class="fc" id="L103">		condTerm.setGuard(visit(condTerm.getGuard()));</span>
+<span class="fc" id="L104">		condTerm.setThenTerm(visit(condTerm.getThenTerm()));</span>
+<span class="fc" id="L105">		Term elseTerm = condTerm.getElseTerm();</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">		if (elseTerm != null) {</span>
+<span class="fc" id="L107">			condTerm.setElseTerm(visit(elseTerm));</span>
+		}
+<span class="fc" id="L109">		return condTerm;</span>
+	}
+
+	public Term visit(CaseTerm caseTerm) {
+<span class="fc" id="L113">		caseTerm.setComparedTerm(visit(caseTerm.getComparedTerm()));</span>
+<span class="fc" id="L114">		Term oTerm = caseTerm.getOtherwiseTerm();</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">		if (oTerm != null) {</span>
+<span class="nc" id="L116">			caseTerm.setOtherwiseTerm(visit(oTerm));</span>
+		}
+<span class="fc" id="L118">		List&lt;Term&gt; newResultTerms = new ArrayList&lt;Term&gt;();</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">		for (Term rt : caseTerm.getResultTerms()) {</span>
+<span class="fc" id="L120">			newResultTerms.add(visit(rt));</span>
+<span class="fc" id="L121">		}</span>
+<span class="fc" id="L122">		caseTerm.getResultTerms().clear();</span>
+<span class="fc" id="L123">		caseTerm.getResultTerms().addAll(newResultTerms);</span>
+<span class="fc" id="L124">		return caseTerm;</span>
+	}
+
+	public Term visit(FiniteQuantificationTerm fqtTerm) {
+<span class="fc" id="L128">		RemoveArgumentsTermFlattener tf = new RemoveArgumentsTermFlattener(ruleFact);</span>
+<span class="fc" id="L129">		Term newGuard = tf.visit(fqtTerm.getGuard());</span>
+<span class="fc" id="L130">		LinkedHashMap&lt;VariableTerm, Term&gt; guardMap = tf.getMapForLet();</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">		if (guardMap.size() &gt; 0) {</span>
+<span class="nc" id="L132">			fqtTerm.setGuard(buildLetTerm(guardMap, newGuard));</span>
+		}
+<span class="fc" id="L134">		return fqtTerm;</span>
+	}
+
+	public LetTerm buildLetTerm(Map&lt;VariableTerm, Term&gt; map, Term term) {
+<span class="fc" id="L138">		LetTerm letTerm = ruleFact.createLetTerm();</span>
+<span class="fc" id="L139">		letTerm.setBody(term);</span>
+<span class="fc" id="L140">		letTerm.setDomain(term.getDomain());</span>
+<span class="fc" id="L141">		letTerm.getVariable().addAll(map.keySet());</span>
+<span class="fc" id="L142">		letTerm.getAssignmentTerm().addAll(map.values());</span>
+<span class="fc" id="L143">		return letTerm;</span>
+	}
+
+	public Term visit(ForallTerm forallTerm) {
+<span class="fc" id="L147">		return visit((FiniteQuantificationTerm) forallTerm);</span>
+	}
+
+	public Term visit(ExistTerm existTerm) {
+<span class="fc" id="L151">		return visit((FiniteQuantificationTerm) existTerm);</span>
+	}
+
+	public Term visit(ExistUniqueTerm existUniqueTerm) {
+<span class="nc" id="L155">		return visit((FiniteQuantificationTerm) existUniqueTerm);</span>
+	}
+
+	public Term visit(TupleTerm tupleTerm) throws Exception {
+<span class="nc" id="L159">		List&lt;Term&gt; newTerms = new ArrayList&lt;Term&gt;();</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">		for (Term term : tupleTerm.getTerms()) {</span>
+<span class="nc" id="L161">			newTerms.add(visit(term));</span>
+<span class="nc" id="L162">		}</span>
+<span class="nc" id="L163">		TupleTerm newTupleTerm = ruleFact.createTupleTerm();</span>
+<span class="nc" id="L164">		newTupleTerm.setArity(tupleTerm.getArity());</span>
+<span class="nc" id="L165">		newTupleTerm.getTerms().addAll(newTerms);</span>
+<span class="nc" id="L166">		return newTupleTerm;</span>
+	}
+
+	public Term visit(LocationTerm locTerm) throws Exception {
+<span class="fc" id="L170">		String locName = getFunctionName(locTerm.getFunction());</span>
+<span class="fc" id="L171">		logger.debug(&quot;visit locTerm &quot; + locName);</span>
+<span class="fc" id="L172">		String funcSymbol = parsename(locName);</span>
+<span class="pc bpc" id="L173" title="1 of 4 branches missed.">		if (stdlFuncs.contains(locName) || hasEvaluateVisitor(funcSymbol)) {</span>
+<span class="fc" id="L174">			TupleTerm tt = locTerm.getArguments();</span>
+<span class="pc bpc" id="L175" title="3 of 4 branches missed.">			if (tt != null &amp;&amp; tt.getArity() &gt; 0) {</span>
+<span class="nc" id="L176">				List&lt;Term&gt; args = new ArrayList&lt;Term&gt;();</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">				for (Term arg : tt.getTerms()) {</span>
+<span class="nc" id="L178">					args.add(visit(arg));</span>
+<span class="nc" id="L179">				}</span>
+<span class="nc" id="L180">				tt.getTerms().clear();</span>
+<span class="nc" id="L181">				tt.getTerms().addAll(args);</span>
+			}
+<span class="fc" id="L183">			return locTerm;</span>
+		}
+<span class="fc" id="L185">		logger.debug(&quot;visit locTerm &quot; + locName);</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">		if (inLocationArguments) {</span>
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">			if(REUSE_VAR) {</span>
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">				if(mapForLet.values().contains(locTerm)) {</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">					for(VariableTerm v: mapForLet.keySet()) {</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">						if(mapForLet.get(v).equals(locTerm)) {</span>
+<span class="nc" id="L191">							return v;</span>
+						}
+<span class="nc" id="L193">					}</span>
+				}
+			}
+<span class="fc" id="L196">			VariableTerm vt = ruleFact.createVariableTerm();</span>
+<span class="fc" id="L197">			vt.setName(&quot;$var_&quot; + (counterForLogicVars++));</span>
+<span class="fc" id="L198">			vt.setKind(VariableKind.LOGICAL_VAR);</span>
+<span class="fc" id="L199">			vt.setDomain(locTerm.getFunction().getCodomain());</span>
+<span class="fc" id="L200">			TupleTerm tt = locTerm.getArguments();</span>
+<span class="pc bpc" id="L201" title="1 of 4 branches missed.">			if (tt != null &amp;&amp; tt.getArity() &gt; 0) {</span>
+<span class="fc" id="L202">				List&lt;Term&gt; args = new ArrayList&lt;Term&gt;();</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">				for (Term arg : tt.getTerms()) {</span>
+<span class="fc" id="L204">					args.add(visit(arg));</span>
+<span class="fc" id="L205">				}</span>
+<span class="fc" id="L206">				tt.getTerms().clear();</span>
+<span class="fc" id="L207">				tt.getTerms().addAll(args);</span>
+			}
+<span class="fc" id="L209">			logger.debug(&quot;var &quot; + vt.getName() + &quot; for &quot; + locName);</span>
+<span class="fc" id="L210">			mapForLet.put(vt, locTerm);</span>
+<span class="fc" id="L211">			return vt;</span>
+		} else {
+<span class="fc" id="L213">			TupleTerm tt = locTerm.getArguments();</span>
+<span class="pc bpc" id="L214" title="1 of 4 branches missed.">			if (tt != null &amp;&amp; tt.getArity() &gt; 0) {</span>
+<span class="fc" id="L215">				List&lt;Term&gt; args = new ArrayList&lt;Term&gt;();</span>
+<span class="fc" id="L216">				inLocationArguments = true;</span>
+<span class="fc bfc" id="L217" title="All 2 branches covered.">				for (Term arg : tt.getTerms()) {</span>
+<span class="fc" id="L218">					args.add(visit(arg));</span>
+<span class="fc" id="L219">				}</span>
+<span class="fc" id="L220">				inLocationArguments = false;</span>
+<span class="fc" id="L221">				tt.getTerms().clear();</span>
+<span class="fc" id="L222">				tt.getTerms().addAll(args);</span>
+			}
+<span class="fc" id="L224">			return locTerm;</span>
+		}
+	}
+
+	public Term visit(FunctionTerm funcTerm) throws Exception {
+<span class="fc" id="L229">		String funcName = getFunctionName(funcTerm.getFunction());</span>
+<span class="fc" id="L230">		logger.debug(&quot;visit funcTerm &quot; + funcName);</span>
+<span class="fc" id="L231">		String funcSymbol = parsename(funcName);</span>
+<span class="fc bfc" id="L232" title="All 4 branches covered.">		if (stdlFuncs.contains(funcName) || hasEvaluateVisitor(funcSymbol)) {</span>
+<span class="fc" id="L233">			TupleTerm tt = funcTerm.getArguments();</span>
+<span class="pc bpc" id="L234" title="2 of 4 branches missed.">			if (tt != null &amp;&amp; tt.getArity() &gt; 0) {</span>
+<span class="fc" id="L235">				List&lt;Term&gt; args = new ArrayList&lt;Term&gt;();</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">				for (Term arg : tt.getTerms()) {</span>
+<span class="fc" id="L237">					args.add(visit(arg));</span>
+<span class="fc" id="L238">				}</span>
+<span class="fc" id="L239">				tt.getTerms().clear();</span>
+<span class="fc" id="L240">				tt.getTerms().addAll(args);</span>
+			}
+<span class="fc" id="L242">			return funcTerm;</span>
+		}
+<span class="fc bfc" id="L244" title="All 2 branches covered.">		if (inLocationArguments) {</span>
+<span class="pc bpc" id="L245" title="1 of 2 branches missed.">			if(REUSE_VAR) {</span>
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">				if(mapForLet.values().contains(funcTerm)) {</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">					for(VariableTerm v: mapForLet.keySet()) {</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">						if(mapForLet.get(v).equals(funcTerm)) {</span>
+<span class="nc" id="L249">							return v;</span>
+						}
+<span class="nc" id="L251">					}</span>
+				}
+			}
+<span class="fc" id="L254">			VariableTerm vt = ruleFact.createVariableTerm();</span>
+<span class="fc" id="L255">			vt.setName(&quot;$var_&quot; + (counterForLogicVars++));</span>
+<span class="fc" id="L256">			vt.setKind(VariableKind.LOGICAL_VAR);</span>
+<span class="fc" id="L257">			vt.setDomain(funcTerm.getFunction().getCodomain());</span>
+<span class="fc" id="L258">			TupleTerm tt = funcTerm.getArguments();</span>
+<span class="pc bpc" id="L259" title="1 of 4 branches missed.">			if (tt != null &amp;&amp; tt.getArity() &gt; 0) {</span>
+<span class="fc" id="L260">				List&lt;Term&gt; args = new ArrayList&lt;Term&gt;();</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">				for (Term arg : tt.getTerms()) {</span>
+<span class="fc" id="L262">					args.add(visit(arg));</span>
+<span class="fc" id="L263">				}</span>
+<span class="fc" id="L264">				tt.getTerms().clear();</span>
+<span class="fc" id="L265">				tt.getTerms().addAll(args);</span>
+			}
+<span class="fc" id="L267">			logger.debug(&quot;var &quot; + vt.getName() + &quot; for &quot; + funcTerm.getFunction().getName());</span>
+<span class="fc" id="L268">			mapForLet.put(vt, funcTerm);</span>
+<span class="fc" id="L269">			return vt;</span>
+		} else {
+<span class="fc" id="L271">			TupleTerm tt = funcTerm.getArguments();</span>
+<span class="pc bpc" id="L272" title="1 of 4 branches missed.">			if (tt != null &amp;&amp; tt.getArity() &gt; 0) {</span>
+<span class="fc" id="L273">				List&lt;Term&gt; args = new ArrayList&lt;Term&gt;();</span>
+<span class="fc" id="L274">				inLocationArguments = true;</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">				for (Term arg : tt.getTerms()) {</span>
+<span class="fc" id="L276">					args.add(visit(arg));</span>
+<span class="fc" id="L277">				}</span>
+<span class="fc" id="L278">				inLocationArguments = false;</span>
+<span class="fc" id="L279">				tt.getTerms().clear();</span>
+<span class="fc" id="L280">				tt.getTerms().addAll(args);</span>
+			}
+<span class="fc" id="L282">			return funcTerm;</span>
+		}
+	}
+
+	// TODO check whether it is correct. should we also visit the map term?
+	public Term visit(MapTerm mapTerm) {
+<span class="nc" id="L288">		return mapTerm;</span>
+	}
+
+	public Term visit(SetTerm setTerm) {
+<span class="fc" id="L292">		return setTerm;</span>
+	}
+
+	public Term visit(StringTerm strTerm) {
+<span class="fc" id="L296">		return strTerm;</span>
+	}
+
+	public LinkedHashMap&lt;VariableTerm, Term&gt; getMapForLet() {
+<span class="fc" id="L300">		return mapForLet;</span>
+	}
+
+	public void setInLocationArguments(boolean inLocationArguments) {
+<span class="nc" id="L304">		this.inLocationArguments = inLocationArguments;</span>
+<span class="nc" id="L305">	}</span>
+
+	public static String getLocationName(Function function, Value[] values) {
+<span class="nc" id="L308">		StringBuilder locationName = new StringBuilder();</span>
+<span class="nc" id="L309">		locationName.append(getFunctionName(function));</span>
+<span class="nc bnc" id="L310" title="All 2 branches missed.">		for (Value value : values) {</span>
+<span class="nc" id="L311">			locationName.append(&quot;_&quot; + value.toString().toUpperCase());</span>
+		}
+<span class="nc" id="L313">		return locationName.toString();</span>
+	}
+
+	public static String getFunctionName(Function function) {
+<span class="fc" id="L317">		String functionName = function.getName();</span>
+		/*
+		 * String asmName = getAsmName(function); if (!belongsToMainAsm(function) &amp;&amp;
+		 * !asmName.equals(&quot;StandardLibrary&quot;) &amp;&amp; !asmName.equals(&quot;CTLlibrary&quot;) &amp;&amp;
+		 * !asmName.equals(&quot;LTLlibrary&quot;)) { functionName = asmName + &quot;_&quot; + functionName;
+		 * }
+		 */
+<span class="fc" id="L324">		return functionName;</span>
+	}
+
+	static String getAsmName(Function function) {
+<span class="nc" id="L328">		return getAsm(function).getName();</span>
+	}
+
+	static Asm getAsm(Function function) {
+<span class="nc" id="L332">		return function.getSignature().getHeaderSection().getAsm();</span>
+	}
+
+	/*
+	 * static boolean belongsToMainAsm(Function function) { return
+	 * getAsmName(function).equals(getMainAsmName()); }
+	 */
+
+	public static String parsename(String s) throws Exception {
+<span class="fc bfc" id="L341" title="All 2 branches covered.">		if (s.equals(&quot;and&quot;)) {</span>
+<span class="fc" id="L342">			return &quot;&amp;&quot;;</span>
+<span class="fc bfc" id="L343" title="All 2 branches covered.">		} else if (s.equals(&quot;or&quot;)) {</span>
+<span class="fc" id="L344">			return &quot;|&quot;;</span>
+<span class="fc bfc" id="L345" title="All 2 branches covered.">		} else if (s.equals(&quot;not&quot;)) {</span>
+<span class="fc" id="L346">			return &quot;!&quot;;</span>
+<span class="fc bfc" id="L347" title="All 2 branches covered.">		} else if (s.equals(&quot;plus&quot;)) {</span>
+<span class="fc" id="L348">			return &quot;+&quot;;</span>
+<span class="fc bfc" id="L349" title="All 2 branches covered.">		} else if (s.equals(&quot;minus&quot;)) {</span>
+<span class="fc" id="L350">			return &quot;-&quot;;</span>
+<span class="pc bpc" id="L351" title="1 of 2 branches missed.">		} else if (s.equals(&quot;mult&quot;)) {</span>
+<span class="nc" id="L352">			return &quot;*&quot;;</span>
+<span class="pc bpc" id="L353" title="1 of 2 branches missed.">		} else if (s.equals(&quot;div&quot;)) {</span>
+<span class="nc" id="L354">			return &quot;/&quot;;</span>
+<span class="fc bfc" id="L355" title="All 2 branches covered.">		} else if (s.equals(&quot;gt&quot;)) {</span>
+<span class="fc" id="L356">			return &quot;&gt;&quot;;</span>
+<span class="fc bfc" id="L357" title="All 2 branches covered.">		} else if (s.equals(&quot;ge&quot;)) {</span>
+<span class="fc" id="L358">			return &quot;&gt;=&quot;;</span>
+<span class="fc bfc" id="L359" title="All 2 branches covered.">		} else if (s.equals(&quot;lt&quot;)) {</span>
+<span class="fc" id="L360">			return &quot;&lt;&quot;;</span>
+<span class="fc bfc" id="L361" title="All 2 branches covered.">		} else if (s.equals(&quot;le&quot;)) {</span>
+<span class="fc" id="L362">			return &quot;&lt;=&quot;;</span>
+<span class="fc bfc" id="L363" title="All 2 branches covered.">		} else if (s.equals(&quot;eq&quot;)) {</span>
+<span class="fc" id="L364">			return &quot;=&quot;;</span>
+<span class="fc bfc" id="L365" title="All 2 branches covered.">		} else if (s.equals(&quot;neq&quot;)) {</span>
+<span class="fc" id="L366">			return &quot;!=&quot;;</span>
+<span class="fc bfc" id="L367" title="All 2 branches covered.">		} else if (s.equals(&quot;implies&quot;)) {</span>
+<span class="fc" id="L368">			return &quot;-&gt;&quot;;</span>
+<span class="fc bfc" id="L369" title="All 2 branches covered.">		} else if (s.equals(&quot;iff&quot;)) {</span>
+<span class="fc" id="L370">			return &quot;&lt;-&gt;&quot;;</span>
+<span class="pc bpc" id="L371" title="5 of 10 branches missed.">		} else if (s.equals(&quot;eg&quot;) || s.equals(&quot;ex&quot;) || s.equals(&quot;ef&quot;) || s.equals(&quot;ag&quot;) || s.equals(&quot;ax&quot;)</span>
+<span class="pc bpc" id="L372" title="1 of 2 branches missed.">				|| s.equals(&quot;af&quot;)) {</span>
+<span class="nc" id="L373">			return s.toUpperCase();</span>
+<span class="pc bpc" id="L374" title="2 of 4 branches missed.">		} else if (s.equals(&quot;e&quot;) || s.equals(&quot;a&quot;)) {</span>
+<span class="nc" id="L375">			return &quot;U&quot;;</span>
+<span class="pc bpc" id="L376" title="6 of 12 branches missed.">		} else if (s.equals(&quot;x&quot;) || s.equals(&quot;g&quot;) || s.equals(&quot;f&quot;) || s.equals(&quot;u&quot;) || s.equals(&quot;v&quot;) || s.equals(&quot;y&quot;)</span>
+<span class="pc bpc" id="L377" title="5 of 10 branches missed.">				|| s.equals(&quot;z&quot;) || s.equals(&quot;h&quot;) || s.equals(&quot;o&quot;) || s.equals(&quot;s&quot;) || s.equals(&quot;t&quot;)) {</span>
+<span class="nc" id="L378">			return s.toUpperCase();</span>
+<span class="pc bpc" id="L379" title="1 of 2 branches missed.">		} else if (s.equals(&quot;pwr&quot;)) {</span>
+<span class="nc" id="L380">			throw new Exception(&quot;Function &quot; + s + &quot; is not supported.&quot;);</span>
+		} else {
+<span class="fc" id="L382">			return s;</span>
+		}
+	}
+
+	public static boolean hasEvaluateVisitor(String function) {
+<span class="fc bfc" id="L387" title="All 8 branches covered.">		return function.equals(&quot;&lt;&quot;) || function.equals(&quot;&lt;=&quot;) || function.equals(&quot;&gt;&quot;) || function.equals(&quot;&gt;=&quot;)</span>
+<span class="fc bfc" id="L388" title="All 8 branches covered.">				|| function.equals(&quot;=&quot;) || function.equals(&quot;!=&quot;) || function.equals(&quot;-&quot;) || function.equals(&quot;!&quot;)</span>
+<span class="fc bfc" id="L389" title="All 8 branches covered.">				|| function.equals(&quot;&amp;&quot;) || function.equals(&quot;|&quot;) || function.equals(&quot;xor&quot;) || function.equals(&quot;-&gt;&quot;)</span>
+<span class="pc bpc" id="L390" title="1 of 8 branches missed.">				|| function.equals(&quot;&lt;-&gt;&quot;) || function.equals(&quot;mod&quot;) || function.equals(&quot;+&quot;) || function.equals(&quot;*&quot;)</span>
+<span class="pc bpc" id="L391" title="1 of 4 branches missed.">				|| function.equals(&quot;idiv&quot;) || function.equals(&quot;isDef&quot;);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

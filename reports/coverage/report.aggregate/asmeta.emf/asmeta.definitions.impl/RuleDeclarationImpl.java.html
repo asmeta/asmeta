@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>RuleDeclarationImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.definitions.impl</a> &gt; <span class="el_source">RuleDeclarationImpl.java</span></div><h1>RuleDeclarationImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.definitions.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.Invariant;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.structure.Body;
+import asmeta.structure.StructurePackage;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Rule Declaration&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.impl.RuleDeclarationImpl#getVariable &lt;em&gt;Variable&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.impl.RuleDeclarationImpl#getConstraint &lt;em&gt;Constraint&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.impl.RuleDeclarationImpl#getRuleBody &lt;em&gt;Rule Body&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.impl.RuleDeclarationImpl#getAsmBody &lt;em&gt;Asm Body&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.definitions.impl.RuleDeclarationImpl#getArity &lt;em&gt;Arity&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public abstract class RuleDeclarationImpl extends ClassifierImpl implements RuleDeclaration {
+	/**
+	 * The cached value of the '{@link #getVariable() &lt;em&gt;Variable&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getVariable()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;VariableTerm&gt; variable;
+
+	/**
+	 * The cached value of the '{@link #getConstraint() &lt;em&gt;Constraint&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getConstraint()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;Invariant&gt; constraint;
+
+	/**
+	 * The cached value of the '{@link #getRuleBody() &lt;em&gt;Rule Body&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getRuleBody()
+	 * @generated
+	 * @ordered
+	 */
+	protected Rule ruleBody;
+
+	/**
+	 * The default value of the '{@link #getArity() &lt;em&gt;Arity&lt;/em&gt;}' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getArity()
+	 * @generated
+	 * @ordered
+	 */
+<span class="fc" id="L86">	protected static final Integer ARITY_EDEFAULT = null;</span>
+
+	/**
+	 * The cached value of the '{@link #getArity() &lt;em&gt;Arity&lt;/em&gt;}' attribute.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getArity()
+	 * @generated
+	 * @ordered
+	 */
+<span class="fc" id="L96">	protected Integer arity = ARITY_EDEFAULT;</span>
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected RuleDeclarationImpl() {
+<span class="fc" id="L105">		super();</span>
+<span class="fc" id="L106">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L115">		return DefinitionsPackage.Literals.RULE_DECLARATION;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;VariableTerm&gt; getVariable() {
+<span class="fc bfc" id="L125" title="All 2 branches covered.">		if (variable == null) {</span>
+<span class="fc" id="L126">			variable = new EObjectResolvingEList&lt;VariableTerm&gt;(VariableTerm.class, this, DefinitionsPackage.RULE_DECLARATION__VARIABLE);</span>
+		}
+<span class="fc" id="L128">		return variable;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;Invariant&gt; getConstraint() {
+<span class="nc bnc" id="L138" title="All 2 branches missed.">		if (constraint == null) {</span>
+<span class="nc" id="L139">			constraint = new EObjectWithInverseResolvingEList.ManyInverse&lt;Invariant&gt;(Invariant.class, this, DefinitionsPackage.RULE_DECLARATION__CONSTRAINT, DefinitionsPackage.INVARIANT__CONSTRAINED_RULE);</span>
+		}
+<span class="nc" id="L141">		return constraint;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Rule getRuleBody() {
+<span class="pc bpc" id="L151" title="2 of 4 branches missed.">		if (ruleBody != null &amp;&amp; ruleBody.eIsProxy()) {</span>
+<span class="nc" id="L152">			InternalEObject oldRuleBody = (InternalEObject)ruleBody;</span>
+<span class="nc" id="L153">			ruleBody = (Rule)eResolveProxy(oldRuleBody);</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">			if (ruleBody != oldRuleBody) {</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L156">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, DefinitionsPackage.RULE_DECLARATION__RULE_BODY, oldRuleBody, ruleBody));</span>
+			}
+		}
+<span class="fc" id="L159">		return ruleBody;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Rule basicGetRuleBody() {
+<span class="nc" id="L168">		return ruleBody;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setRuleBody(Rule newRuleBody) {
+<span class="fc" id="L178">		Rule oldRuleBody = ruleBody;</span>
+<span class="fc" id="L179">		ruleBody = newRuleBody;</span>
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L181">			eNotify(new ENotificationImpl(this, Notification.SET, DefinitionsPackage.RULE_DECLARATION__RULE_BODY, oldRuleBody, ruleBody));</span>
+<span class="fc" id="L182">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Body getAsmBody() {
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">		if (eContainerFeatureID() != DefinitionsPackage.RULE_DECLARATION__ASM_BODY) return null;</span>
+<span class="fc" id="L192">		return (Body)eInternalContainer();</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetAsmBody(Body newAsmBody, NotificationChain msgs) {
+<span class="fc" id="L201">		msgs = eBasicSetContainer((InternalEObject)newAsmBody, DefinitionsPackage.RULE_DECLARATION__ASM_BODY, msgs);</span>
+<span class="fc" id="L202">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setAsmBody(Body newAsmBody) {
+<span class="nc bnc" id="L212" title="All 6 branches missed.">		if (newAsmBody != eInternalContainer() || (eContainerFeatureID() != DefinitionsPackage.RULE_DECLARATION__ASM_BODY &amp;&amp; newAsmBody != null)) {</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">			if (EcoreUtil.isAncestor(this, newAsmBody))</span>
+<span class="nc" id="L214">				throw new IllegalArgumentException(&quot;Recursive containment not allowed for &quot; + toString());</span>
+<span class="nc" id="L215">			NotificationChain msgs = null;</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">			if (eInternalContainer() != null)</span>
+<span class="nc" id="L217">				msgs = eBasicRemoveFromContainer(msgs);</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">			if (newAsmBody != null)</span>
+<span class="nc" id="L219">				msgs = ((InternalEObject)newAsmBody).eInverseAdd(this, StructurePackage.BODY__RULE_DECLARATION, Body.class, msgs);</span>
+<span class="nc" id="L220">			msgs = basicSetAsmBody(newAsmBody, msgs);</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="nc" id="L222">		}</span>
+<span class="nc bnc" id="L223" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L224">			eNotify(new ENotificationImpl(this, Notification.SET, DefinitionsPackage.RULE_DECLARATION__ASM_BODY, newAsmBody, newAsmBody));</span>
+<span class="nc" id="L225">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Integer getArity() {
+<span class="fc" id="L234">		return arity;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setArity(Integer newArity) {
+<span class="fc" id="L244">		Integer oldArity = arity;</span>
+<span class="fc" id="L245">		arity = newArity;</span>
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L247">			eNotify(new ENotificationImpl(this, Notification.SET, DefinitionsPackage.RULE_DECLARATION__ARITY, oldArity, arity));</span>
+<span class="fc" id="L248">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="pc bpc" id="L258" title="2 of 3 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.RULE_DECLARATION__CONSTRAINT:
+<span class="nc" id="L260">				return ((InternalEList&lt;InternalEObject&gt;)(InternalEList&lt;?&gt;)getConstraint()).basicAdd(otherEnd, msgs);</span>
+			case DefinitionsPackage.RULE_DECLARATION__ASM_BODY:
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">				if (eInternalContainer() != null)</span>
+<span class="nc" id="L263">					msgs = eBasicRemoveFromContainer(msgs);</span>
+<span class="fc" id="L264">				return basicSetAsmBody((Body)otherEnd, msgs);</span>
+		}
+<span class="nc" id="L266">		return super.eInverseAdd(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="pc bpc" id="L276" title="2 of 3 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.RULE_DECLARATION__CONSTRAINT:
+<span class="nc" id="L278">				return ((InternalEList&lt;?&gt;)getConstraint()).basicRemove(otherEnd, msgs);</span>
+			case DefinitionsPackage.RULE_DECLARATION__ASM_BODY:
+<span class="fc" id="L280">				return basicSetAsmBody(null, msgs);</span>
+		}
+<span class="nc" id="L282">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+<span class="nc bnc" id="L292" title="All 2 branches missed.">		switch (eContainerFeatureID()) {</span>
+			case DefinitionsPackage.RULE_DECLARATION__ASM_BODY:
+<span class="nc" id="L294">				return eInternalContainer().eInverseRemove(this, StructurePackage.BODY__RULE_DECLARATION, Body.class, msgs);</span>
+		}
+<span class="nc" id="L296">		return super.eBasicRemoveFromContainerFeature(msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L306" title="All 6 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.RULE_DECLARATION__VARIABLE:
+<span class="nc" id="L308">				return getVariable();</span>
+			case DefinitionsPackage.RULE_DECLARATION__CONSTRAINT:
+<span class="nc" id="L310">				return getConstraint();</span>
+			case DefinitionsPackage.RULE_DECLARATION__RULE_BODY:
+<span class="nc bnc" id="L312" title="All 2 branches missed.">				if (resolve) return getRuleBody();</span>
+<span class="nc" id="L313">				return basicGetRuleBody();</span>
+			case DefinitionsPackage.RULE_DECLARATION__ASM_BODY:
+<span class="nc" id="L315">				return getAsmBody();</span>
+			case DefinitionsPackage.RULE_DECLARATION__ARITY:
+<span class="nc" id="L317">				return getArity();</span>
+		}
+<span class="nc" id="L319">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L330" title="All 6 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.RULE_DECLARATION__VARIABLE:
+<span class="nc" id="L332">				getVariable().clear();</span>
+<span class="nc" id="L333">				getVariable().addAll((Collection&lt;? extends VariableTerm&gt;)newValue);</span>
+<span class="nc" id="L334">				return;</span>
+			case DefinitionsPackage.RULE_DECLARATION__CONSTRAINT:
+<span class="nc" id="L336">				getConstraint().clear();</span>
+<span class="nc" id="L337">				getConstraint().addAll((Collection&lt;? extends Invariant&gt;)newValue);</span>
+<span class="nc" id="L338">				return;</span>
+			case DefinitionsPackage.RULE_DECLARATION__RULE_BODY:
+<span class="nc" id="L340">				setRuleBody((Rule)newValue);</span>
+<span class="nc" id="L341">				return;</span>
+			case DefinitionsPackage.RULE_DECLARATION__ASM_BODY:
+<span class="nc" id="L343">				setAsmBody((Body)newValue);</span>
+<span class="nc" id="L344">				return;</span>
+			case DefinitionsPackage.RULE_DECLARATION__ARITY:
+<span class="nc" id="L346">				setArity((Integer)newValue);</span>
+<span class="nc" id="L347">				return;</span>
+		}
+<span class="nc" id="L349">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L350">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L359" title="All 6 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.RULE_DECLARATION__VARIABLE:
+<span class="nc" id="L361">				getVariable().clear();</span>
+<span class="nc" id="L362">				return;</span>
+			case DefinitionsPackage.RULE_DECLARATION__CONSTRAINT:
+<span class="nc" id="L364">				getConstraint().clear();</span>
+<span class="nc" id="L365">				return;</span>
+			case DefinitionsPackage.RULE_DECLARATION__RULE_BODY:
+<span class="nc" id="L367">				setRuleBody((Rule)null);</span>
+<span class="nc" id="L368">				return;</span>
+			case DefinitionsPackage.RULE_DECLARATION__ASM_BODY:
+<span class="nc" id="L370">				setAsmBody((Body)null);</span>
+<span class="nc" id="L371">				return;</span>
+			case DefinitionsPackage.RULE_DECLARATION__ARITY:
+<span class="nc" id="L373">				setArity(ARITY_EDEFAULT);</span>
+<span class="nc" id="L374">				return;</span>
+		}
+<span class="nc" id="L376">		super.eUnset(featureID);</span>
+<span class="nc" id="L377">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L386" title="All 6 branches missed.">		switch (featureID) {</span>
+			case DefinitionsPackage.RULE_DECLARATION__VARIABLE:
+<span class="nc bnc" id="L388" title="All 4 branches missed.">				return variable != null &amp;&amp; !variable.isEmpty();</span>
+			case DefinitionsPackage.RULE_DECLARATION__CONSTRAINT:
+<span class="nc bnc" id="L390" title="All 4 branches missed.">				return constraint != null &amp;&amp; !constraint.isEmpty();</span>
+			case DefinitionsPackage.RULE_DECLARATION__RULE_BODY:
+<span class="nc bnc" id="L392" title="All 2 branches missed.">				return ruleBody != null;</span>
+			case DefinitionsPackage.RULE_DECLARATION__ASM_BODY:
+<span class="nc bnc" id="L394" title="All 2 branches missed.">				return getAsmBody() != null;</span>
+			case DefinitionsPackage.RULE_DECLARATION__ARITY:
+<span class="nc bnc" id="L396" title="All 6 branches missed.">				return ARITY_EDEFAULT == null ? arity != null : !ARITY_EDEFAULT.equals(arity);</span>
+		}
+<span class="nc" id="L398">		return super.eIsSet(featureID);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+<span class="nc bnc" id="L408" title="All 2 branches missed.">		if (eIsProxy()) return super.toString();</span>
+
+<span class="nc" id="L410">		StringBuilder result = new StringBuilder(super.toString());</span>
+<span class="nc" id="L411">		result.append(&quot; (arity: &quot;);</span>
+<span class="nc" id="L412">		result.append(arity);</span>
+<span class="nc" id="L413">		result.append(')');</span>
+<span class="nc" id="L414">		return result.toString();</span>
+	}
+
+} //RuleDeclarationImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

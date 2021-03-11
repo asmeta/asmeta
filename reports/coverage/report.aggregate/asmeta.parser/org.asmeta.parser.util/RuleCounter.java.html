@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>RuleCounter.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.parser</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.parser.util</a> &gt; <span class="el_source">RuleCounter.java</span></div><h1>RuleCounter.java</h1><pre class="source lang-java linenums">package org.asmeta.parser.util;
+
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.asmeta.parser.ASMParser;
+
+import asmeta.structure.AgentInitialization;
+import asmeta.structure.Asm;
+import asmeta.transitionrules.basictransitionrules.BlockRule;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.SkipRule;
+import asmeta.transitionrules.basictransitionrules.TermAsRule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import asmeta.transitionrules.turbotransitionrules.SeqRule;
+
+/** it counts the number of rules (not only the declarations
+ * */
+<span class="fc" id="L26">public class RuleCounter extends org.asmeta.parser.util.ReflectiveVisitor&lt;Void&gt; {</span>
+
+	private Set&lt;Rule&gt; rules;
+
+	public void visit(Asm asm) throws Exception {
+		// this.asm = asm;
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">		if (asm.getMainrule() != null) {</span>
+<span class="fc" id="L33">			visit(asm.getMainrule().getRuleBody());</span>
+		}
+		// can be null for module
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">		if (asm.getDefaultInitialState() != null) {</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">			for (AgentInitialization ai : asm.getDefaultInitialState().getAgentInitialization()) {</span>
+<span class="nc" id="L38">				visit(ai.getProgram());</span>
+<span class="nc" id="L39">			}</span>
+		}
+<span class="fc" id="L41">	}</span>
+
+	public int getNumOfRules(Rule rule) {
+<span class="nc" id="L44">		rules = new HashSet&lt;Rule&gt;();</span>
+<span class="nc" id="L45">		visit(rule);</span>
+		// return numOfRules;
+<span class="nc" id="L47">		return rules.size();</span>
+	}
+
+	public int getNumOfRules(Asm asm) throws Exception {
+<span class="fc" id="L51">		rules = new HashSet&lt;Rule&gt;();</span>
+<span class="fc" id="L52">		visit(asm);</span>
+		// return numOfRules;
+<span class="fc" id="L54">		return rules.size();</span>
+	}
+
+	public int getNumOfRules(String asm) throws Exception {
+<span class="nc" id="L58">		File asmFile = new File(asm);</span>
+<span class="nc" id="L59">		return getNumOfRules(ASMParser.setUpReadAsm(asmFile).getMain());</span>
+	}
+
+	public void visit(BlockRule blockRule) {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		for (Rule rule : blockRule.getRules()) {</span>
+<span class="fc" id="L64">			visit(rule);</span>
+<span class="fc" id="L65">		}</span>
+<span class="fc" id="L66">	}</span>
+
+	public void visit(CaseRule caseRule) throws Exception {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">		for (Rule branch : caseRule.getCaseBranches()) {</span>
+<span class="nc" id="L70">			visit(branch);</span>
+<span class="nc" id="L71">		}</span>
+<span class="nc" id="L72">		Rule otherRule = caseRule.getOtherwiseBranch();</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">		if (otherRule != null) {</span>
+<span class="nc" id="L74">			visit(otherRule);</span>
+		}
+<span class="nc" id="L76">	}</span>
+
+	public void visit(ChooseRule chooseRule) throws Exception {
+<span class="nc" id="L79">		visit(chooseRule.getDoRule());</span>
+<span class="nc" id="L80">		Rule ifNoneRule = chooseRule.getIfnone();</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">		if (ifNoneRule != null) {</span>
+<span class="nc" id="L82">			visit(ifNoneRule);</span>
+		}
+<span class="nc" id="L84">	}</span>
+
+	public void visit(ConditionalRule conditionalRule) throws Exception {
+<span class="fc" id="L87">		visit(conditionalRule.getThenRule());</span>
+<span class="fc" id="L88">		Rule elseRule = conditionalRule.getElseRule();</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">		if (elseRule != null) {</span>
+<span class="fc" id="L90">			visit(elseRule);</span>
+		}
+<span class="fc" id="L92">	}</span>
+
+	public void visit(ForallRule forallRule) throws Exception {
+<span class="fc" id="L95">		visit(forallRule.getDoRule());</span>
+<span class="fc" id="L96">	}</span>
+
+	public void visit(LetRule letRule) {
+<span class="nc" id="L99">		visit(letRule.getInRule());</span>
+<span class="nc" id="L100">	}</span>
+
+	public void visit(MacroCallRule macroCallRule) {
+<span class="fc" id="L103">		visit(macroCallRule.getCalledMacro().getRuleBody());</span>
+<span class="fc" id="L104">	}</span>
+
+	public void visit(Rule rule) {
+<span class="fc" id="L107">		rules.add(rule);</span>
+<span class="fc" id="L108">		invokeMethod(rule, &quot;visit&quot;);</span>
+<span class="fc" id="L109">	}</span>
+
+	public void visit(SeqRule seqRule) throws Exception {
+<span class="nc bnc" id="L112" title="All 2 branches missed.">		for (Rule rule : seqRule.getRules()) {</span>
+<span class="nc" id="L113">			visit(rule);</span>
+<span class="nc" id="L114">		}</span>
+<span class="nc" id="L115">	}</span>
+
+	public void visit(SkipRule skipRule) {
+<span class="fc" id="L118">	}</span>
+
+	public void visit(UpdateRule updateRule) {
+<span class="fc" id="L121">	}</span>
+
+	public void visit(TermAsRule termAsRule) {
+<span class="nc" id="L124">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>RuleAsTermImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.terms.basicterms.impl</a> &gt; <span class="el_source">RuleAsTermImpl.java</span></div><h1>RuleAsTermImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.terms.basicterms.impl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import asmeta.definitions.RuleDeclaration;
+import asmeta.terms.basicterms.BasictermsPackage;
+import asmeta.terms.basicterms.RuleAsTerm;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Rule As Term&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.terms.basicterms.impl.RuleAsTermImpl#getRule &lt;em&gt;Rule&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class RuleAsTermImpl extends ExtendedTermImpl implements RuleAsTerm {
+	/**
+	 * The cached value of the '{@link #getRule() &lt;em&gt;Rule&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getRule()
+	 * @generated
+	 * @ordered
+	 */
+	protected RuleDeclaration rule;
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected RuleAsTermImpl() {
+<span class="fc" id="L49">		super();</span>
+<span class="fc" id="L50">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L59">		return BasictermsPackage.Literals.RULE_AS_TERM;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public RuleDeclaration getRule() {
+<span class="nc bnc" id="L69" title="All 4 branches missed.">		if (rule != null &amp;&amp; rule.eIsProxy()) {</span>
+<span class="nc" id="L70">			InternalEObject oldRule = (InternalEObject)rule;</span>
+<span class="nc" id="L71">			rule = (RuleDeclaration)eResolveProxy(oldRule);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">			if (rule != oldRule) {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L74">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BasictermsPackage.RULE_AS_TERM__RULE, oldRule, rule));</span>
+			}
+		}
+<span class="nc" id="L77">		return rule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public RuleDeclaration basicGetRule() {
+<span class="nc" id="L86">		return rule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setRule(RuleDeclaration newRule) {
+<span class="fc" id="L96">		RuleDeclaration oldRule = rule;</span>
+<span class="fc" id="L97">		rule = newRule;</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L99">			eNotify(new ENotificationImpl(this, Notification.SET, BasictermsPackage.RULE_AS_TERM__RULE, oldRule, rule));</span>
+<span class="fc" id="L100">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L109" title="All 2 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.RULE_AS_TERM__RULE:
+<span class="nc bnc" id="L111" title="All 2 branches missed.">				if (resolve) return getRule();</span>
+<span class="nc" id="L112">				return basicGetRule();</span>
+		}
+<span class="nc" id="L114">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.RULE_AS_TERM__RULE:
+<span class="nc" id="L126">				setRule((RuleDeclaration)newValue);</span>
+<span class="nc" id="L127">				return;</span>
+		}
+<span class="nc" id="L129">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L130">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L139" title="All 2 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.RULE_AS_TERM__RULE:
+<span class="nc" id="L141">				setRule((RuleDeclaration)null);</span>
+<span class="nc" id="L142">				return;</span>
+		}
+<span class="nc" id="L144">		super.eUnset(featureID);</span>
+<span class="nc" id="L145">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L154" title="All 2 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.RULE_AS_TERM__RULE:
+<span class="nc bnc" id="L156" title="All 2 branches missed.">				return rule != null;</span>
+		}
+<span class="nc" id="L158">		return super.eIsSet(featureID);</span>
+	}
+
+} //RuleAsTermImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

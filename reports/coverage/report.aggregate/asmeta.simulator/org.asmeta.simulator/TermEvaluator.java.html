@@ -1,0 +1,1008 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>TermEvaluator.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator</a> &gt; <span class="el_source">TermEvaluator.java</span></div><h1>TermEvaluator.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2005, 2006 ASMETA group (http://asmeta.sourceforge.net)
+ * License Information: http://asmeta.sourceforge.net/licensing/
+ * 
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License version 2 as
+ *   published by the Free Software Foundation.
+ * 
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ * 
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
+ *   USA
+ * 
+ *   http://www.gnu.org/licenses/gpl.txt
+ * 
+ *   
+ *******************************************************************************/
+
+/*
+ * TermEvaluator.java
+ *
+ * Created on 23 maggio 2006, 13.25
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package org.asmeta.simulator;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.log4j.Logger;
+import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.simulator.value.BagValue;
+import org.asmeta.simulator.value.BooleanValue;
+import org.asmeta.simulator.value.CollectionValue;
+import org.asmeta.simulator.value.EnumValue;
+import org.asmeta.simulator.value.IntegerValue;
+import org.asmeta.simulator.value.MapValue;
+import org.asmeta.simulator.value.RealValue;
+import org.asmeta.simulator.value.RuleValue;
+import org.asmeta.simulator.value.SequenceValue;
+import org.asmeta.simulator.value.SetValue;
+import org.asmeta.simulator.value.StringValue;
+import org.asmeta.simulator.value.TupleValue;
+import org.asmeta.simulator.value.UndefValue;
+import org.asmeta.simulator.value.Value;
+
+import asmeta.definitions.Function;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.AgentDomain;
+import asmeta.definitions.domains.BooleanDomain;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.EnumElement;
+import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.PowersetDomain;
+import asmeta.structure.FunctionDefinition;
+import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.DomainTerm;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.RuleAsTerm;
+import asmeta.terms.basicterms.SetTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.UndefTerm;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.BagCt;
+import asmeta.terms.furtherterms.BagTerm;
+import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.ComprehensionTerm;
+import asmeta.terms.furtherterms.ConditionalTerm;
+import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ForallTerm;
+import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.LetTerm;
+import asmeta.terms.furtherterms.MapTerm;
+import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
+import asmeta.terms.furtherterms.SequenceCt;
+import asmeta.terms.furtherterms.SequenceTerm;
+import asmeta.terms.furtherterms.SetCt;
+import asmeta.terms.furtherterms.StringTerm;
+
+/**
+ * Evaluator of terms.
+ * 
+ */
+<span class="nc bnc" id="L106" title="All 2 branches missed.">public class TermEvaluator extends ReflectiveVisitor&lt;Value&gt; implements ITermVisitor&lt;Value&gt; {</span>
+
+<span class="nc" id="L108">	private static Logger logger = Logger.getLogger(TermEvaluator.class);</span>
+
+	public static Location self;
+
+	/**
+	 * Evaluates the standard library functions.
+	 * 
+	 */
+<span class="nc" id="L116">	protected StdlEvaluator stdlEvaluator = new StdlEvaluator();</span>
+
+	/**
+	 * State.
+	 * 
+	 */
+	protected State state;
+
+	/**
+	 * Environment.
+	 * 
+	 */
+	protected Environment environment;
+
+	/**
+	 * Assignment of free variables.
+	 * 
+	 */
+	protected ValueAssignment assignment;
+
+	/** is the use of pre enabled */
+	// boolean isPreEnabled = false;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param state       state
+	 * @param environment environment
+	 * @param assignment  assignment of the free variables
+	 */
+<span class="nc" id="L146">	public TermEvaluator(State state, Environment environment, ValueAssignment assignment) {</span>
+<span class="nc bnc" id="L147" title="All 4 branches missed.">		assert state != null;</span>
+		// assert environment != null;
+		// assert assignment != null;
+<span class="nc" id="L150">		this.state = state;</span>
+<span class="nc" id="L151">		this.environment = environment;</span>
+<span class="nc" id="L152">		this.assignment = assignment;</span>
+<span class="nc" id="L153">	}</span>
+
+	/**
+	 * Gets the state.
+	 * 
+	 * @return state
+	 */
+	public State getState() {
+<span class="nc" id="L161">		return state;</span>
+	}
+
+	/**
+	 * Gets the environment
+	 * 
+	 * @return state
+	 */
+	public Environment getEnv() {
+<span class="nc" id="L170">		return environment;</span>
+	}
+
+	/**
+	 * Gets the environment
+	 * 
+	 * @return state
+	 */
+
+	public ValueAssignment getAssignment() {
+<span class="nc" id="L180">		return assignment;</span>
+	}
+
+	/**
+	 * Evaluates a term.
+	 * 
+	 * @param term a term
+	 * @return term's value
+	 */
+	@Override
+	public Value visit(Term term) {
+<span class="nc" id="L191">		return visit((Object) term);</span>
+	}
+
+	/**
+	 * Evaluates a variable term.
+	 * 
+	 * @param term a variable term
+	 * @return term's value
+	 */
+	@Override
+	public Value visit(VariableTerm var) {
+<span class="nc" id="L202">		logger.debug(&quot;&lt;VariableTerm&gt;&quot;);</span>
+<span class="nc" id="L203">		logger.debug(&quot;&lt;Name&gt;&quot; + var.getName() + &quot;&lt;/Name&gt;&quot;);</span>
+<span class="nc" id="L204">		Value value = assignment.get(var);</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">		if (value == null) {</span>
+<span class="nc" id="L206">			throw new RuntimeException(&quot;Variable &quot; + var.getName() + &quot; is unbound&quot;);</span>
+		}
+<span class="nc" id="L208">		logger.debug(&quot;&lt;Value&gt;&quot; + value + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L209">		logger.debug(&quot;&lt;/VariableTerm&gt;&quot;);</span>
+<span class="nc" id="L210">		return value;</span>
+	}
+
+	/**
+	 * Evaluates a tuple term.
+	 * 
+	 * @param term a tuple term
+	 * @return term's value
+	 */
+	@Override
+	public TupleValue visit(TupleTerm tuple) {
+<span class="nc" id="L221">		logger.debug(&quot;&lt;TupleTerm&gt;&quot;);</span>
+<span class="nc" id="L222">		List&lt;Value&gt; result = new ArrayList&lt;Value&gt;();</span>
+<span class="nc bnc" id="L223" title="All 2 branches missed.">		if (tuple != null) {</span>
+<span class="nc bnc" id="L224" title="All 4 branches missed.">			assert tuple.getArity() == tuple.getTerms().size() : &quot;tuple.getArity(): &quot; + tuple.getArity()</span>
+<span class="nc" id="L225">					+ &quot;  tuple.getTerms().size(): &quot; + tuple.getTerms().size();</span>
+<span class="nc" id="L226">			List&lt;?&gt; termList = tuple.getTerms();</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">			for (Object o : termList) {</span>
+<span class="nc" id="L228">				Term term = (Term) o;</span>
+<span class="nc" id="L229">				Value newValue = visit(term);</span>
+<span class="nc" id="L230">				result.add(newValue);</span>
+<span class="nc" id="L231">			}</span>
+<span class="nc bnc" id="L232" title="All 4 branches missed.">			assert tuple.getArity() == result.size();</span>
+		}
+		// assert tuple == null || tuple.getArity() == result.size();
+<span class="nc" id="L235">		logger.debug(&quot;&lt;Value&gt;&quot; + result + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L236">		logger.debug(&quot;&lt;/TupleTerm&gt;&quot;);</span>
+<span class="nc" id="L237">		return new TupleValue(result);</span>
+	}
+
+	/**
+	 * Evaluates a function term.
+	 * 
+	 * @param term a function term
+	 * @return term's value
+	 */
+	@Override
+	public Value visit(FunctionTerm functionTerm) {
+<span class="nc" id="L248">		logger.debug(&quot;&lt;FunctionTerm&gt;&quot;);</span>
+<span class="nc" id="L249">		logger.debug(&quot;&lt;Name&gt;&quot; + functionTerm.getFunction().getName() + &quot;&lt;/Name&gt;&quot;);</span>
+<span class="nc" id="L250">		TupleTerm terms = functionTerm.getArguments();</span>
+		// if it is not a variable terms must have the correct number of arguments
+<span class="nc bnc" id="L252" title="All 6 branches missed.">		assert terms == null &amp;&amp; functionTerm.getFunction().getDomain() == null</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">				|| terms.getTerms().size() == terms.getArity();</span>
+<span class="nc" id="L254">		TupleValue tuple = visit(terms);</span>
+<span class="nc" id="L255">		Value[] args = tuple.getValueAsArray();</span>
+<span class="nc bnc" id="L256" title="All 6 branches missed.">		assert terms == null || terms.getArity() == args.length;</span>
+		// logger.debug(&quot;&lt;Args&gt;&quot; + Arrays.asList(args) + &quot;&lt;/Args&gt;&quot;);
+		// PA: 17 giugno 10 - inizio modifiche
+<span class="nc" id="L259">		Value value = evalFunc(functionTerm.getFunction(), args);</span>
+		/*
+		 * Value value; if(functionTerm.getFunction().getName().equals(&quot;pre&quot;)) {
+		 * if(isPreEnabled) { value =
+		 * evalFuncPreviousState((FunctionTerm)terms.getTerms().get(0)); } else { throw
+		 * new Error(&quot;The pre function can be used only in invariants.&quot;); } } else {
+		 * value = evalFunc(functionTerm.getFunction(), args); }
+		 */
+		// PA: 17 giugno 10 - fine modifiche
+<span class="nc" id="L268">		logger.debug(&quot;&lt;Value&gt;&quot; + value + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L269">		logger.debug(&quot;&lt;/FunctionTerm&gt;&quot;);</span>
+<span class="nc" id="L270">		return value;</span>
+	}
+
+	/**
+	 * Evaluates a location term.
+	 * 
+	 * @param term a location term
+	 * @return term's value
+	 */
+	@Override
+	public Value visit(LocationTerm functionTerm) {
+<span class="nc" id="L281">		logger.debug(&quot;&lt;LocationTerm&gt;&quot;);</span>
+<span class="nc" id="L282">		Value value = visit((FunctionTerm) functionTerm);</span>
+<span class="nc" id="L283">		logger.debug(&quot;&lt;/LocationTerm&gt;&quot;);</span>
+<span class="nc" id="L284">		return value;</span>
+	}
+
+	/**
+	 * Evaluates a function.
+	 * 
+	 * @param func      a function declaration
+	 * @param arguments actual parameters
+	 * @return function value
+	 */
+	protected Value evalFunc(Function func, Value[] arguments) {
+		Value value;
+		// NOTE the order of the checks does matter
+<span class="nc bnc" id="L297" title="All 2 branches missed.">		if (Defs.isDynamic(func)) {</span>
+<span class="nc" id="L298">			Location location = new Location(func, arguments);</span>
+<span class="nc" id="L299">			value = state.read(location);</span>
+<span class="nc bnc" id="L300" title="All 4 branches missed.">			if (Defs.isMonitored(func) &amp;&amp; value == null) {</span>
+<span class="nc" id="L301">				value = environment.read(location, state);</span>
+			}
+<span class="nc bnc" id="L303" title="All 4 branches missed.">			assert value != null;</span>
+<span class="nc bnc" id="L304" title="All 4 branches missed.">		} else if (Defs.isAbstractConst(func) || Defs.isAgentConst(func)) {</span>
+<span class="nc" id="L305">			value = state.readAbstractConst(func.getName());</span>
+<span class="nc bnc" id="L306" title="All 2 branches missed.">		} else if (Defs.isBuiltIn(func)) {</span>
+<span class="nc" id="L307">			value = stdlEvaluator.visit(func, arguments);</span>
+<span class="nc bnc" id="L308" title="All 4 branches missed.">		} else if (Defs.isUserDefined(func) || Defs.isDerived(func)) {</span>
+<span class="nc" id="L309">			value = evalUserDefinedFunc(func, arguments);</span>
+		} else {
+<span class="nc" id="L311">			throw new Error(&quot;Unknown function type.&quot;);</span>
+		}
+<span class="nc" id="L313">		return value;</span>
+	}
+
+	// PA: 17 giugno 10
+/*
+ *  DO NOT USE, use get previous tsat eof the simulator instead 
+ *  
+     protected Value evalFuncPreviousState(FunctionTerm functionTerm) {
+ 		Value value;
+		Function function = functionTerm.getFunction();
+		TupleTerm terms = functionTerm.getArguments();
+		TupleValue tuple = visit(terms);
+		Value[] args = tuple.getValueAsArray();
+		if (Defs.isDynamic(function)) {
+			Location location = new Location(function, args);
+			value = state.previousLocationValues.get(location);
+			assert value != null;
+		} else if (Defs.isAbstractConst(function) || Defs.isAgentConst(function)) {
+			throw new Error(&quot;Wrong use of pre function.&quot;);
+		} else if (Defs.isBuiltIn(function)) {
+			throw new Error(&quot;Wrong use of pre function.&quot;);
+		} else if (Defs.isUserDefined(function) || Defs.isDerived(function)) {
+			throw new Error(&quot;Wrong use of pre function.&quot;);
+		} else {
+			throw new Error(&quot;Unknown function type.&quot;);
+		}
+		return value;
+	}*/
+
+	/**
+	 * Evaluates an user-defined function.
+	 * 
+	 * @param func      a function declaration
+	 * @param arguments actual parameters
+	 * @return function value
+	 */
+	protected Value evalUserDefinedFunc(Function function, Value[] arguments) {
+<span class="nc" id="L350">		FunctionDefinition funcDef = function.getDefinition();</span>
+<span class="nc bnc" id="L351" title="All 4 branches missed.">		assert funcDef != null : function.getName();</span>
+<span class="nc" id="L352">		List&lt;?&gt;/* &lt;VariableTerm&gt; */ variables = funcDef.getVariable();</span>
+<span class="nc" id="L353">		Term body = funcDef.getBody();</span>
+<span class="nc bnc" id="L354" title="All 4 branches missed.">		assert body != null : function.getName() + &quot; has null body.\nvars: &quot; + variables;</span>
+<span class="nc" id="L355">		ValueAssignment newAssignment = new ValueAssignment();</span>
+<span class="nc" id="L356">		newAssignment.put(variables, arguments);</span>
+<span class="nc" id="L357">		TermEvaluator newTermEvaluator = new TermEvaluator(state, environment, newAssignment);</span>
+<span class="nc" id="L358">		Value value = newTermEvaluator.visit(body);</span>
+<span class="nc" id="L359">		return value;</span>
+	}
+
+	/**
+	 * Evaluates a conditional term.
+	 * 
+	 * @param term a conditional term
+	 * @return term's value
+	 */
+	@Override
+	public Value visit(ConditionalTerm condTerm) {
+<span class="nc" id="L370">		logger.debug(&quot;&lt;ConditionalTerm&gt;&quot;);</span>
+<span class="nc" id="L371">		logger.debug(&quot;&lt;Guard&gt;&quot;);</span>
+<span class="nc bnc" id="L372" title="All 4 branches missed.">		assert !visit(condTerm.getGuard()).equals(UndefValue.UNDEF): condTerm;</span>
+<span class="nc" id="L373">		BooleanValue guard = (BooleanValue) visit(condTerm.getGuard());</span>
+<span class="nc" id="L374">		logger.debug(&quot;&lt;/Guard&gt;&quot;);</span>
+		Value value;
+<span class="nc bnc" id="L376" title="All 2 branches missed.">		if (guard.getValue()) {</span>
+<span class="nc" id="L377">			logger.debug(&quot;&lt;ThenTerm&gt;&quot;);</span>
+<span class="nc" id="L378">			value = visit(condTerm.getThenTerm());</span>
+<span class="nc" id="L379">			logger.debug(&quot;&lt;/ThenTerm&gt;&quot;);</span>
+<span class="nc bnc" id="L380" title="All 2 branches missed.">		} else if (condTerm.getElseTerm() != null) {</span>
+<span class="nc" id="L381">			logger.debug(&quot;&lt;ElseTerm&gt;&quot;);</span>
+<span class="nc" id="L382">			value = visit(condTerm.getElseTerm());</span>
+<span class="nc" id="L383">			logger.debug(&quot;&lt;/ElseTerm&gt;&quot;);</span>
+		} else {
+<span class="nc" id="L385">			value = UndefValue.UNDEF;</span>
+		}
+<span class="nc" id="L387">		logger.debug(&quot;&lt;/ConditionalTerm&gt;&quot;);</span>
+<span class="nc" id="L388">		return value;</span>
+	}
+
+	/**
+	 * Evaluates a case term.
+	 * 
+	 * @param term a case term
+	 * @return term's value
+	 */
+	@Override
+	public Value visit(CaseTerm caseTerm) {
+<span class="nc" id="L399">		logger.debug(&quot;&lt;CaseTerm&gt;&quot;);</span>
+<span class="nc" id="L400">		Value value = null;</span>
+<span class="nc" id="L401">		logger.debug(&quot;&lt;ComparedTerm&gt;&quot;);</span>
+<span class="nc" id="L402">		Value comparedValue = visit(caseTerm.getComparedTerm());</span>
+<span class="nc" id="L403">		logger.debug(&quot;&lt;/ComparedTerm&gt;&quot;);</span>
+<span class="nc" id="L404">		Iterator&lt;?&gt;/* &lt;Term&gt; */ resultTermIt = caseTerm.getResultTerms().iterator();</span>
+<span class="nc bnc" id="L405" title="All 2 branches missed.">		for (Object o : caseTerm.getComparingTerm()) {</span>
+<span class="nc" id="L406">			Term comparingTerm = (Term) o;</span>
+<span class="nc" id="L407">			Term resultTerm = (Term) resultTermIt.next();</span>
+<span class="nc" id="L408">			logger.debug(&quot;&lt;ComparingTerm&gt;&quot;);</span>
+<span class="nc" id="L409">			Value comparingValue = visit(comparingTerm);</span>
+<span class="nc" id="L410">			logger.debug(&quot;&lt;/ComparingTerm&gt;&quot;);</span>
+<span class="nc bnc" id="L411" title="All 2 branches missed.">			if (comparedValue.equals(comparingValue)) {</span>
+<span class="nc" id="L412">				logger.debug(&quot;&lt;ResultTerm&gt;&quot;);</span>
+<span class="nc" id="L413">				value = visit(resultTerm);</span>
+<span class="nc" id="L414">				logger.debug(&quot;&lt;/ResultTerm&gt;&quot;);</span>
+<span class="nc" id="L415">				break;</span>
+			}
+<span class="nc" id="L417">		}</span>
+<span class="nc bnc" id="L418" title="All 2 branches missed.">		if (value == null) {</span>
+<span class="nc bnc" id="L419" title="All 2 branches missed.">			if (caseTerm.getOtherwiseTerm() != null) {</span>
+<span class="nc" id="L420">				logger.debug(&quot;&lt;OtherwiseTerm&gt;&quot;);</span>
+<span class="nc" id="L421">				value = visit(caseTerm.getOtherwiseTerm());</span>
+<span class="nc" id="L422">				logger.debug(&quot;&lt;/OtherwiseTerm&gt;&quot;);</span>
+			} else {
+<span class="nc" id="L424">				value = UndefValue.UNDEF;</span>
+			}
+		}
+<span class="nc" id="L427">		logger.debug(&quot;&lt;Value&gt;&quot; + value + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L428">		logger.debug(&quot;&lt;/CaseTerm&gt;&quot;);</span>
+<span class="nc" id="L429">		return value;</span>
+	}
+
+	/**
+	 * Evaluates a domain term.
+	 * 
+	 * @param term a domain term
+	 * @return term's value
+	 */
+	@Override
+	public SetValue visit(DomainTerm domainTerm) {
+<span class="nc" id="L440">		logger.debug(&quot;&lt;DomainTerm&gt;&quot;);</span>
+		// the base domain is always a power set domain
+<span class="nc" id="L442">		Domain baseDomain = ((PowersetDomain) domainTerm.getDomain()).getBaseDomain();</span>
+<span class="nc" id="L443">		SetValue values = getValues(baseDomain);</span>
+<span class="nc" id="L444">		logger.debug(&quot;&lt;/DomainTerm&gt;&quot;);</span>
+<span class="nc" id="L445">		return values;</span>
+
+	}
+
+	/**
+	 * computes the values of a domain
+	 * 
+	 * @param baseDomain
+	 * @return
+	 */
+	public SetValue getValues(Domain baseDomain) {
+		SetValue values;
+<span class="nc" id="L457">		logger.debug(&quot;&lt;Domain&gt;&quot; + baseDomain.getName() + &quot;&lt;/Domain&gt;&quot;);</span>
+<span class="nc bnc" id="L458" title="All 2 branches missed.">		if (baseDomain instanceof ConcreteDomain) {</span>
+<span class="nc" id="L459">			logger.debug(&quot;&lt;Type&gt;ConcreteDomain&lt;/Type&gt;&quot;);</span>
+<span class="nc" id="L460">			ConcreteDomain concreteDomain = (ConcreteDomain) baseDomain;</span>
+<span class="nc bnc" id="L461" title="All 2 branches missed.">			if (concreteDomain.getIsDynamic()) {</span>
+<span class="nc" id="L462">				values = state.read(concreteDomain);</span>
+			} else {
+<span class="nc bnc" id="L464" title="All 2 branches missed.">				if (concreteDomain.getTypeDomain() instanceof AgentDomain) {</span>
+<span class="nc" id="L465">					values = state.read(concreteDomain);</span>
+				} else {
+<span class="nc" id="L467">					Term body = concreteDomain.getDefinition().getBody();</span>
+<span class="nc" id="L468">					values = (SetValue) visit(body);</span>
+				}
+			}
+<span class="nc bnc" id="L471" title="All 2 branches missed.">		} else if (baseDomain instanceof AbstractTd) {</span>
+<span class="nc" id="L472">			logger.debug(&quot;&lt;Type&gt;AbstractTd&lt;/Type&gt;&quot;);</span>
+<span class="nc" id="L473">			values = state.read(baseDomain);</span>
+<span class="nc bnc" id="L474" title="All 2 branches missed.">		} else if (baseDomain instanceof EnumTd) {</span>
+<span class="nc" id="L475">			logger.debug(&quot;&lt;Type&gt;EnumTd&lt;/Type&gt;&quot;);</span>
+<span class="nc" id="L476">			values = getEnumDomainContent((EnumTd) baseDomain);</span>
+<span class="nc bnc" id="L477" title="All 2 branches missed.">		} else if (baseDomain instanceof BooleanDomain) {</span>
+<span class="nc" id="L478">			logger.debug(&quot;&lt;Type&gt;BooleanDomain&lt;/Type&gt;&quot;);</span>
+<span class="nc" id="L479">			Set&lt;Value&gt; set = new HashSet&lt;Value&gt;();</span>
+<span class="nc" id="L480">			set.add(BooleanValue.FALSE);</span>
+<span class="nc" id="L481">			set.add(BooleanValue.TRUE);</span>
+<span class="nc" id="L482">			values = new SetValue(set);</span>
+<span class="nc" id="L483">		} else {</span>
+<span class="nc" id="L484">			throw new UnsupportedOperationException();</span>
+		}
+<span class="nc" id="L486">		logger.debug(&quot;&lt;Value&gt;&quot; + values + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L487">		return values;</span>
+	}
+
+	/**
+	 * Gets the content of an enumeration domain.
+	 * 
+	 * @param domain an enumeration domain
+	 * @return the content
+	 */
+	private static SetValue getEnumDomainContent(EnumTd domain) {
+<span class="nc" id="L497">		Set&lt;Value&gt; set = new HashSet&lt;Value&gt;();</span>
+<span class="nc bnc" id="L498" title="All 2 branches missed.">		for (Object o : domain.getElement()) {</span>
+<span class="nc" id="L499">			EnumElement nextEnum = (EnumElement) o;</span>
+<span class="nc" id="L500">			EnumValue nextValue = new EnumValue(nextEnum);</span>
+<span class="nc" id="L501">			set.add(nextValue);</span>
+<span class="nc" id="L502">		}</span>
+<span class="nc" id="L503">		return new SetValue(set);</span>
+	}
+
+	/**
+	 * Evaluates an enumeration term.
+	 * 
+	 * @param term an enumeration term
+	 * @return term's value
+	 */
+	@Override
+	public EnumValue visit(EnumTerm enumTerm) {
+<span class="nc" id="L514">		logger.debug(&quot;&lt;EnumTerm&gt;&quot;);</span>
+<span class="nc" id="L515">		EnumValue value = new EnumValue(enumTerm);</span>
+<span class="nc" id="L516">		logger.debug(&quot;&lt;Value&gt;&quot; + value + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L517">		logger.debug(&quot;&lt;/EnumTerm&gt;&quot;);</span>
+<span class="nc" id="L518">		return value;</span>
+	}
+
+	/**
+	 * Evaluates a let term.
+	 * 
+	 * @param term a let term
+	 * @return term's value
+	 */
+	@Override
+	public Value visit(LetTerm letTerm) {
+<span class="nc" id="L529">		logger.debug(&quot;&lt;LetTerm&gt;&quot;);</span>
+<span class="nc" id="L530">		ValueAssignment newAssignment = new ValueAssignment(assignment);</span>
+<span class="nc" id="L531">		TermEvaluator newEvaluator = new TermEvaluator(state, environment, newAssignment);</span>
+<span class="nc" id="L532">		Iterator&lt;?&gt;/* &lt;Term&gt; */ initTermIt = letTerm.getAssignmentTerm().iterator();</span>
+<span class="nc" id="L533">		logger.debug(&quot;&lt;InitList&gt;&quot;);</span>
+<span class="nc bnc" id="L534" title="All 2 branches missed.">		for (Object o : letTerm.getVariable()) {</span>
+<span class="nc" id="L535">			VariableTerm variable = (VariableTerm) o;</span>
+<span class="nc" id="L536">			logger.debug(&quot;&lt;VariableTerm&gt;&quot;);</span>
+<span class="nc" id="L537">			logger.debug(&quot;&lt;Name&gt;&quot; + variable.getName() + &quot;&lt;/Name&gt;&quot;);</span>
+<span class="nc" id="L538">			Term initTerm = (Term) initTermIt.next();</span>
+<span class="nc" id="L539">			Value initValue = newEvaluator.visit(initTerm);</span>
+<span class="nc" id="L540">			newAssignment.put(variable, initValue);</span>
+<span class="nc" id="L541">			logger.debug(&quot;&lt;Value&gt;&quot; + initValue + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L542">			logger.debug(&quot;&lt;/VariableTerm&gt;&quot;);</span>
+<span class="nc" id="L543">		}</span>
+<span class="nc" id="L544">		logger.debug(&quot;&lt;/InitList&gt;&quot;);</span>
+<span class="nc" id="L545">		logger.debug(&quot;&lt;InTerm&gt;&quot;);</span>
+<span class="nc" id="L546">		Term body = letTerm.getBody();</span>
+<span class="nc" id="L547">		Value value = newEvaluator.visit(body);</span>
+<span class="nc" id="L548">		logger.debug(&quot;&lt;/InTerm&gt;&quot;);</span>
+<span class="nc" id="L549">		logger.debug(&quot;&lt;/LetTerm&gt;&quot;);</span>
+<span class="nc" id="L550">		return value;</span>
+	}
+
+	/**
+	 * Evaluates an exist term.
+	 * 
+	 * @param term an exist term
+	 * @return term's value
+	 */
+	@Override
+	public BooleanValue visit(ExistTerm existTerm) {
+<span class="nc" id="L561">		logger.debug(&quot;&lt;ExistTerm&gt;&quot;);</span>
+<span class="nc" id="L562">		Value[] boundValues = new Value[existTerm.getVariable().size()];</span>
+<span class="nc" id="L563">		Object/* Term */[] domains = existTerm.getRanges().toArray();</span>
+<span class="nc" id="L564">		boolean bool = visitExistTerm(0, domains, boundValues, existTerm);</span>
+<span class="nc" id="L565">		BooleanValue value = BooleanValue.parseBooleanValue(bool);</span>
+<span class="nc" id="L566">		logger.debug(&quot;&lt;Value&gt;&quot; + value + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L567">		logger.debug(&quot;&lt;/ExistTerm&gt;&quot;);</span>
+<span class="nc" id="L568">		return value;</span>
+	}
+
+	/**
+	 * Evaluates an exist term.
+	 * 
+	 * @param varIndex    next variable to bound a value
+	 * @param domains     an array of range term
+	 * @param boundValues current values of the bound variables
+	 * @param existTerm   the term to evaluate
+	 * @return the exist term value
+	 */
+	boolean visitExistTerm(int varIndex, Object/* Term */[] domains, Value[] boundValues, ExistTerm existTerm) {
+<span class="nc bnc" id="L581" title="All 2 branches missed.">		if (varIndex &lt; existTerm.getVariable().size()) {</span>
+<span class="nc" id="L582">			Term rangeTerm = (Term) domains[varIndex];</span>
+<span class="nc" id="L583">			CollectionValue&lt;?&gt; range = (CollectionValue) visit(rangeTerm);</span>
+<span class="nc bnc" id="L584" title="All 2 branches missed.">			for (Value&lt;?&gt; value : range) {</span>
+<span class="nc" id="L585">				boundValues[varIndex] = value;</span>
+<span class="nc" id="L586">				boolean bool = visitExistTerm(varIndex + 1, domains, boundValues, existTerm);</span>
+<span class="nc bnc" id="L587" title="All 2 branches missed.">				if (bool) {</span>
+<span class="nc" id="L588">					return true;</span>
+				}
+<span class="nc" id="L590">			}</span>
+<span class="nc" id="L591">		} else {</span>
+<span class="nc" id="L592">			ValueAssignment newAssignment = new ValueAssignment(assignment);</span>
+<span class="nc" id="L593">			newAssignment.put(existTerm.getVariable(), boundValues);</span>
+<span class="nc" id="L594">			TermEvaluator newEvaluator = new TermEvaluator(state, environment, newAssignment);</span>
+<span class="nc" id="L595">			logger.debug(&quot;&lt;ExistTermGuard&gt;&quot;);</span>
+<span class="nc" id="L596">			Term existTermGuard = existTerm.getGuard();</span>
+<span class="nc" id="L597">			BooleanValue guard = BooleanValue.TRUE;</span>
+<span class="nc bnc" id="L598" title="All 2 branches missed.">			if (existTermGuard != null) {</span>
+<span class="nc" id="L599">				guard = (BooleanValue) newEvaluator.visit(existTermGuard);</span>
+			}
+<span class="nc" id="L601">			logger.debug(&quot;&lt;/ExistTermGuard&gt;&quot;);</span>
+<span class="nc" id="L602">			return guard.getValue();</span>
+		}
+<span class="nc" id="L604">		return false;</span>
+	}
+
+	/**
+	 * Evaluates an exist term.
+	 * 
+	 * @param term an exist term
+	 * @return term's value
+	 */
+	public BooleanValue visit(ExistUniqueTerm existUniqueTerm) {
+<span class="nc" id="L614">		logger.debug(&quot;&lt;ExistUniqueTerm&gt;&quot;);</span>
+<span class="nc" id="L615">		Value[] boundValues = new Value[existUniqueTerm.getVariable().size()];</span>
+<span class="nc" id="L616">		Object/* Term */[] domains = existUniqueTerm.getRanges().toArray();</span>
+<span class="nc" id="L617">		boolean bool = visitExistUniqueTerm(0, domains, boundValues, existUniqueTerm);</span>
+<span class="nc" id="L618">		BooleanValue value = BooleanValue.parseBooleanValue(bool);</span>
+<span class="nc" id="L619">		logger.debug(&quot;&lt;Value&gt;&quot; + value + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L620">		logger.debug(&quot;&lt;/ExistUniqueTerm&gt;&quot;);</span>
+<span class="nc" id="L621">		return value;</span>
+	}
+
+	/**
+	 * Evaluates an exist term.
+	 * 
+	 * @param varIndex    next variable to bound a value
+	 * @param domains     an array of range term
+	 * @param boundValues current values of the bound variables
+	 * @param existTerm   the term to evaluate
+	 * @return the exist term value
+	 */
+	boolean visitExistUniqueTerm(int varIndex, Object/* Term */[] domains, Value[] boundValues,
+			ExistUniqueTerm existUniqueTerm) {
+<span class="nc bnc" id="L635" title="All 2 branches missed.">		if (varIndex &lt; existUniqueTerm.getVariable().size()) {</span>
+<span class="nc" id="L636">			Term rangeTerm = (Term) domains[varIndex];</span>
+<span class="nc" id="L637">			CollectionValue&lt;?&gt; range = (CollectionValue) visit(rangeTerm);</span>
+<span class="nc" id="L638">			int trueCounter = 0;</span>
+<span class="nc bnc" id="L639" title="All 2 branches missed.">			for (Value&lt;?&gt; value : range) {</span>
+<span class="nc" id="L640">				boundValues[varIndex] = value;</span>
+<span class="nc" id="L641">				boolean bool = visitExistUniqueTerm(varIndex + 1, domains, boundValues, existUniqueTerm);</span>
+<span class="nc bnc" id="L642" title="All 2 branches missed.">				if (bool) {</span>
+<span class="nc" id="L643">					trueCounter++;</span>
+					// System.out.println(&quot;trueCounter &quot; + trueCounter);
+<span class="nc bnc" id="L645" title="All 2 branches missed.">					if (trueCounter &gt; 1) {</span>
+<span class="nc" id="L646">						return false;</span>
+					}
+				}
+<span class="nc" id="L649">			}</span>
+<span class="nc bnc" id="L650" title="All 2 branches missed.">			return trueCounter == 1;</span>
+		} else {
+<span class="nc" id="L652">			ValueAssignment newAssignment = new ValueAssignment(assignment);</span>
+<span class="nc" id="L653">			newAssignment.put(existUniqueTerm.getVariable(), boundValues);</span>
+<span class="nc" id="L654">			TermEvaluator newEvaluator = new TermEvaluator(state, environment, newAssignment);</span>
+<span class="nc" id="L655">			logger.debug(&quot;&lt;ExistUniqueTermGuard&gt;&quot;);</span>
+<span class="nc" id="L656">			Term existTermGuard = existUniqueTerm.getGuard();</span>
+<span class="nc" id="L657">			BooleanValue guard = BooleanValue.TRUE;</span>
+<span class="nc bnc" id="L658" title="All 2 branches missed.">			if (existTermGuard != null) {</span>
+<span class="nc" id="L659">				guard = (BooleanValue) newEvaluator.visit(existTermGuard);</span>
+				// System.out.println(newAssignment + &quot; &quot; + guard.getValue());
+			}
+<span class="nc" id="L662">			logger.debug(&quot;&lt;/ExistUniqueTermGuard&gt;&quot;);</span>
+<span class="nc" id="L663">			return guard.getValue();</span>
+		}
+		// return false;
+	}
+
+	/**
+	 * Evaluates a forall term.
+	 * 
+	 * @param term a forall term
+	 * @return term's value
+	 */
+	@Override
+	public BooleanValue visit(ForallTerm forTerm) {
+<span class="nc" id="L676">		logger.debug(&quot;&lt;ForallTerm&gt;&quot;);</span>
+<span class="nc" id="L677">		Value[] boundValues = new Value[forTerm.getVariable().size()];</span>
+<span class="nc" id="L678">		Object/* Term */[] domains = forTerm.getRanges().toArray();</span>
+<span class="nc" id="L679">		BooleanValue value = BooleanValue.parseBooleanValue(visitForTerm(0, domains, boundValues, forTerm));</span>
+<span class="nc" id="L680">		logger.debug(&quot;&lt;Value&gt;&quot; + value + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L681">		logger.debug(&quot;&lt;/ForallTerm&gt;&quot;);</span>
+<span class="nc" id="L682">		return value;</span>
+	}
+
+	/**
+	 * Evaluates a forall term.
+	 * 
+	 * @param varIndex    next variable to bound a value
+	 * @param domains     an array of range term
+	 * @param boundValues current values of the bound variables
+	 * @param forTerm     the term to evaluate
+	 * @return the forall term value
+	 */
+	boolean visitForTerm(int varIndex, Object/* Term */[] domains, Value[] boundValues, ForallTerm forTerm) {
+<span class="nc bnc" id="L695" title="All 2 branches missed.">		if (varIndex &lt; forTerm.getVariable().size()) {</span>
+<span class="nc" id="L696">			Term rangeTerm = (Term) domains[varIndex];</span>
+<span class="nc" id="L697">			CollectionValue&lt;?&gt; range = (CollectionValue) visit(rangeTerm);</span>
+<span class="nc bnc" id="L698" title="All 2 branches missed.">			for (Value&lt;?&gt; val : range) {</span>
+<span class="nc" id="L699">				boundValues[varIndex] = val;</span>
+<span class="nc" id="L700">				boolean bool = visitForTerm(varIndex + 1, domains, boundValues, forTerm);</span>
+<span class="nc bnc" id="L701" title="All 2 branches missed.">				if (!bool) {</span>
+<span class="nc" id="L702">					return false;</span>
+				}
+<span class="nc" id="L704">			}</span>
+<span class="nc" id="L705">		} else {</span>
+<span class="nc" id="L706">			ValueAssignment newAssignment = new ValueAssignment(assignment);</span>
+<span class="nc" id="L707">			newAssignment.put(forTerm.getVariable(), boundValues);</span>
+<span class="nc" id="L708">			TermEvaluator newEvaluator = new TermEvaluator(state, environment, newAssignment);</span>
+<span class="nc" id="L709">			logger.debug(&quot;&lt;Guard&gt;&quot;);</span>
+<span class="nc" id="L710">			BooleanValue guard = (BooleanValue) newEvaluator.visit(forTerm.getGuard());</span>
+<span class="nc" id="L711">			logger.debug(&quot;&lt;/Guard&gt;&quot;);</span>
+<span class="nc" id="L712">			return guard.getValue();</span>
+		}
+<span class="nc" id="L714">		return true;</span>
+	}
+
+	/**
+	 * Evaluates a set comprehension term.
+	 * 
+	 * @param term a set comprehension term
+	 * @return term's value
+	 */
+	@Override
+	public SetValue visit(SetCt setCt) {
+<span class="nc" id="L725">		logger.debug(&quot;&lt;SetCt&gt;&quot;);</span>
+<span class="nc" id="L726">		Set&lt;Value&gt; setValue = new HashSet&lt;Value&gt;();</span>
+<span class="nc" id="L727">		Value[] boundValues = new Value[setCt.getVariable().size()];</span>
+<span class="nc" id="L728">		List&lt;VariableTerm&gt; freeVars = setCt.getVariable();</span>
+<span class="nc" id="L729">		List&lt;Term&gt; domains = setCt.getRanges();</span>
+<span class="nc" id="L730">		visitComprehension(0, freeVars, domains, boundValues, setCt, setValue);</span>
+<span class="nc" id="L731">		logger.debug(&quot;&lt;Value&gt;&quot; + setValue + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L732">		logger.debug(&quot;&lt;/SetCt&gt;&quot;);</span>
+<span class="nc" id="L733">		return new SetValue(setValue);</span>
+	}
+
+	// PA 2010/12/15
+	public BagValue visit(BagCt bagCt) {
+<span class="nc" id="L738">		logger.debug(&quot;&lt;BagCt&gt;&quot;);</span>
+<span class="nc" id="L739">		List&lt;Value&gt; bagValue = new ArrayList&lt;Value&gt;();</span>
+<span class="nc" id="L740">		Value[] boundValues = new Value[bagCt.getVariable().size()];</span>
+<span class="nc" id="L741">		List&lt;VariableTerm&gt; freeVars = bagCt.getVariable();</span>
+<span class="nc" id="L742">		List&lt;Term&gt; domains = bagCt.getRanges();</span>
+<span class="nc" id="L743">		visitComprehension(0, freeVars, domains, boundValues, bagCt, bagValue);</span>
+<span class="nc" id="L744">		logger.debug(&quot;&lt;Value&gt;&quot; + bagValue + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L745">		logger.debug(&quot;&lt;/BagCt&gt;&quot;);</span>
+<span class="nc" id="L746">		return new BagValue(bagValue);</span>
+	}
+
+	/**
+	 * Evaluates a sequence comprehension term.
+	 * 
+	 * @param term a sequence comprehension term
+	 * @return term's value
+	 */
+	@Override
+	public SequenceValue visit(SequenceCt seqCt) {
+<span class="nc" id="L757">		logger.debug(&quot;&lt;SequenceCt&gt;&quot;);</span>
+<span class="nc" id="L758">		List&lt;Value&gt; seqValue = new ArrayList&lt;Value&gt;();</span>
+<span class="nc" id="L759">		Value[] boundValues = new Value[seqCt.getVariable().size()];</span>
+<span class="nc" id="L760">		List&lt;VariableTerm&gt; freeVars = seqCt.getVariable();</span>
+<span class="nc" id="L761">		List&lt;Term&gt; domains = seqCt.getRanges();</span>
+<span class="nc" id="L762">		visitComprehension(0, freeVars, domains, boundValues, seqCt, seqValue);</span>
+<span class="nc" id="L763">		logger.debug(&quot;&lt;Value&gt;&quot; + seqValue + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L764">		logger.debug(&quot;&lt;/SequenceCt&gt;&quot;);</span>
+<span class="nc" id="L765">		return new SequenceValue(seqValue);</span>
+	}
+
+	/**
+	 * Evaluates a comprehension term.
+	 * 
+	 * @param varIndex      next variable to bound a value
+	 * @param boundVars     variables to bound
+	 * @param domains       an array of range term
+	 * @param boundValues   current values of the bound variables
+	 * @param comprehension a comprehension term
+	 * @param the           result of evaluation
+	 */
+	private void visitComprehension(int varIndex, List&lt;VariableTerm&gt; boundVars, List&lt;Term&gt; domains, Value[] boundValues,
+			ComprehensionTerm comprehension, Collection&lt;Value&gt; result) {
+<span class="nc bnc" id="L780" title="All 2 branches missed.">		if (varIndex &lt; boundVars.size()) {</span>
+<span class="nc" id="L781">			logger.debug(&quot;&lt;VariableTerm&gt;&quot;);</span>
+<span class="nc" id="L782">			VariableTerm variable = boundVars.get(varIndex);</span>
+<span class="nc" id="L783">			logger.debug(&quot;&lt;Name&gt;&quot; + variable.getName() + &quot;&lt;/Name&gt;&quot;);</span>
+<span class="nc" id="L784">			Term rangeTerm = domains.get(varIndex);</span>
+<span class="nc" id="L785">			logger.debug(&quot;&lt;Range&gt;&quot;);</span>
+<span class="nc" id="L786">			CollectionValue&lt;?&gt; range = (CollectionValue) visit(rangeTerm);</span>
+<span class="nc" id="L787">			logger.debug(&quot;&lt;/Range&gt;&quot;);</span>
+<span class="nc" id="L788">			logger.debug(&quot;&lt;/VariableTerm&gt;&quot;);</span>
+<span class="nc bnc" id="L789" title="All 2 branches missed.">			for (Value&lt;?&gt; value : range) {</span>
+<span class="nc" id="L790">				boundValues[varIndex] = value;</span>
+<span class="nc" id="L791">				visitComprehension(varIndex + 1, boundVars, domains, boundValues, comprehension, result);</span>
+<span class="nc" id="L792">			}</span>
+<span class="nc" id="L793">		} else {</span>
+<span class="nc" id="L794">			ValueAssignment newAssignment = new ValueAssignment(assignment);</span>
+<span class="nc" id="L795">			newAssignment.put(comprehension.getVariable(), boundValues);</span>
+<span class="nc" id="L796">			TermEvaluator newEvaluator = new TermEvaluator(state, environment, newAssignment);</span>
+			BooleanValue guard;
+<span class="nc bnc" id="L798" title="All 2 branches missed.">			if (comprehension.getGuard() != null) {</span>
+<span class="nc" id="L799">				logger.debug(&quot;&lt;Guard&gt;&quot;);</span>
+<span class="nc" id="L800">				guard = (BooleanValue) newEvaluator.visit(comprehension.getGuard());</span>
+<span class="nc" id="L801">				logger.debug(&quot;&lt;/Guard&gt;&quot;);</span>
+			} else {
+				// guard null -&gt; true
+<span class="nc" id="L804">				guard = BooleanValue.TRUE;</span>
+			}
+<span class="nc bnc" id="L806" title="All 2 branches missed.">			if (guard.getValue()) {</span>
+<span class="nc" id="L807">				logger.debug(&quot;&lt;Add&gt;&quot;);</span>
+<span class="nc" id="L808">				Value newValue = newEvaluator.visit(comprehension.getTerm());</span>
+<span class="nc" id="L809">				logger.debug(&quot;&lt;/Add&gt;&quot;);</span>
+<span class="nc" id="L810">				result.add(newValue);</span>
+			}
+		}
+<span class="nc" id="L813">	}</span>
+
+	/**
+	 * Evaluates a set term.
+	 * 
+	 * @param term a set term
+	 * @return term's value
+	 */
+	@Override
+	public SetValue visit(SetTerm setTerm) {
+<span class="nc" id="L823">		logger.debug(&quot;&lt;SetTerm&gt;&quot;);</span>
+<span class="nc" id="L824">		Collection&lt;?&gt;/* &lt;Term&gt; */ terms = setTerm.getTerm();</span>
+<span class="nc" id="L825">		Set&lt;Value&gt; setValue = new HashSet&lt;Value&gt;();</span>
+<span class="nc bnc" id="L826" title="All 2 branches missed.">		for (Object o : terms) {</span>
+<span class="nc" id="L827">			Term nextTerm = (Term) o;</span>
+<span class="nc" id="L828">			Value nextValue = visit(nextTerm);</span>
+<span class="nc" id="L829">			setValue.add(nextValue);</span>
+<span class="nc" id="L830">		}</span>
+<span class="nc" id="L831">		logger.debug(&quot;&lt;Value&gt;&quot; + setValue + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L832">		logger.debug(&quot;&lt;/SetTerm&gt;&quot;);</span>
+<span class="nc" id="L833">		return new SetValue(setValue);</span>
+	}
+
+	/**
+	 * Evaluates a map term.
+	 * 
+	 * @param term a map term
+	 * @return term's value
+	 */
+	@Override
+	public MapValue visit(MapTerm mapTerm) {
+<span class="nc" id="L844">		logger.debug(&quot;&lt;MapTerm&gt;&quot;);</span>
+<span class="nc" id="L845">		Collection&lt;?&gt; pairs = mapTerm.getPair();</span>
+<span class="nc" id="L846">		Map&lt;Value, Value&gt; map = new HashMap&lt;Value, Value&gt;();</span>
+<span class="nc bnc" id="L847" title="All 2 branches missed.">		for (Object o : pairs) {</span>
+<span class="nc" id="L848">			TupleTerm next = (TupleTerm) ((Term) o);</span>
+<span class="nc" id="L849">			List&lt;?&gt; elements = next.getTerms();</span>
+<span class="nc" id="L850">			Term temp = (Term) elements.get(0);</span>
+<span class="nc" id="L851">			Value key = visit(temp);</span>
+<span class="nc" id="L852">			temp = (Term) elements.get(1);</span>
+<span class="nc" id="L853">			Value value = visit(temp);</span>
+<span class="nc" id="L854">			map.put(key, value);</span>
+<span class="nc" id="L855">		}</span>
+<span class="nc" id="L856">		MapValue mapValue = new MapValue(map);</span>
+<span class="nc" id="L857">		logger.debug(&quot;&lt;Value&gt;&quot; + mapValue + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L858">		logger.debug(&quot;&lt;/SetTerm&gt;&quot;);</span>
+<span class="nc" id="L859">		return mapValue;</span>
+	}
+
+	/**
+	 * Evaluates a bag term.
+	 * 
+	 * @param term a bag term
+	 * @return term's value
+	 */
+	@Override
+	public BagValue visit(BagTerm bagTerm) {
+<span class="nc" id="L870">		logger.debug(&quot;&lt;BagTerm&gt;&quot;);</span>
+<span class="nc" id="L871">		Collection&lt;Term&gt; terms = bagTerm.getTerm();</span>
+<span class="nc" id="L872">		List&lt;Value&gt; bag = new ArrayList&lt;Value&gt;();</span>
+<span class="nc bnc" id="L873" title="All 2 branches missed.">		for (Term nextTerm : terms) {</span>
+<span class="nc" id="L874">			Value nextValue = visit(nextTerm);</span>
+<span class="nc" id="L875">			bag.add(nextValue);</span>
+<span class="nc" id="L876">		}</span>
+<span class="nc" id="L877">		logger.debug(&quot;&lt;Value&gt;&quot; + bag + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L878">		logger.debug(&quot;&lt;/BagTerm&gt;&quot;);</span>
+<span class="nc" id="L879">		return new BagValue(bag);</span>
+	}
+
+	/**
+	 * Evaluates a sequence term.
+	 * 
+	 * @param term a sequence term
+	 * @return term's value
+	 */
+	@Override
+	public SequenceValue visit(SequenceTerm sequence) {
+<span class="nc" id="L890">		logger.debug(&quot;&lt;SequenceTerm&gt;&quot;);</span>
+<span class="nc" id="L891">		Collection&lt;?&gt;/* &lt;Term&gt; */ terms = sequence.getTerms();</span>
+<span class="nc" id="L892">		List&lt;Value&gt; seqValue = new ArrayList&lt;Value&gt;();</span>
+<span class="nc bnc" id="L893" title="All 2 branches missed.">		for (Object o : terms) {</span>
+<span class="nc" id="L894">			Term nextTerm = (Term) o;</span>
+<span class="nc" id="L895">			Value nextValue = visit(nextTerm);</span>
+<span class="nc" id="L896">			seqValue.add(nextValue);</span>
+<span class="nc" id="L897">		}</span>
+<span class="nc" id="L898">		logger.debug(&quot;&lt;Value&gt;&quot; + seqValue + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L899">		logger.debug(&quot;&lt;/SequenceTerm&gt;&quot;);</span>
+<span class="nc" id="L900">		return new SequenceValue(seqValue);</span>
+	}
+
+	/**
+	 * Evaluates a natural term.
+	 * 
+	 * @param term a natural term
+	 * @return term's value
+	 */
+	@Override
+	public IntegerValue visit(NaturalTerm numericTerm) {
+<span class="nc" id="L911">		logger.debug(&quot;&lt;NaturalTerm&gt;&quot;);</span>
+<span class="nc" id="L912">		IntegerValue value = new IntegerValue(numericTerm);</span>
+<span class="nc" id="L913">		logger.debug(&quot;&lt;Value&gt;&quot; + value + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L914">		logger.debug(&quot;&lt;/NaturalTerm&gt;&quot;);</span>
+<span class="nc" id="L915">		return value;</span>
+	}
+
+	/**
+	 * Evaluates an integer term.
+	 * 
+	 * @param term an integer term
+	 * @return term's value
+	 */
+	@Override
+	public IntegerValue visit(IntegerTerm numericTerm) {
+<span class="nc" id="L926">		logger.debug(&quot;&lt;IntegerTerm&gt;&quot;);</span>
+<span class="nc" id="L927">		IntegerValue value = new IntegerValue(numericTerm);</span>
+<span class="nc" id="L928">		logger.debug(&quot;&lt;Value&gt;&quot; + value + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L929">		logger.debug(&quot;&lt;/IntegerTerm&gt;&quot;);</span>
+<span class="nc" id="L930">		return value;</span>
+	}
+
+	/**
+	 * Evaluates a real term.
+	 * 
+	 * @param term a real term
+	 * @return term's value
+	 */
+	@Override
+	public RealValue visit(RealTerm numericTerm) {
+<span class="nc" id="L941">		logger.debug(&quot;&lt;RealTerm&gt;&quot;);</span>
+<span class="nc" id="L942">		RealValue value = new RealValue(numericTerm);</span>
+<span class="nc" id="L943">		logger.debug(&quot;&lt;Value&gt;&quot; + value + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L944">		logger.debug(&quot;&lt;/RealTerm&gt;&quot;);</span>
+<span class="nc" id="L945">		return value;</span>
+	}
+
+	/**
+	 * Evaluates a boolean term.
+	 * 
+	 * @param term a boolean term
+	 * @return term's value
+	 */
+	@Override
+	public BooleanValue visit(BooleanTerm booleanTerm) {
+<span class="nc" id="L956">		logger.debug(&quot;&lt;BooleanTerm&gt;&quot;);</span>
+<span class="nc" id="L957">		BooleanValue value = BooleanValue.parseBooleanValue(booleanTerm);</span>
+<span class="nc" id="L958">		logger.debug(&quot;&lt;Value&gt;&quot; + value + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L959">		logger.debug(&quot;&lt;/BooleanTerm&gt;&quot;);</span>
+<span class="nc" id="L960">		return value;</span>
+	}
+
+	/**
+	 * Evaluates a string term.
+	 * 
+	 * @param term a string term
+	 * @return term's value
+	 */
+	@Override
+	public StringValue visit(StringTerm string) {
+<span class="nc" id="L971">		logger.debug(&quot;&lt;StringTerm&gt;&quot;);</span>
+<span class="nc" id="L972">		StringValue value = new StringValue(string);</span>
+<span class="nc" id="L973">		logger.debug(&quot;&lt;Value&gt;&quot; + value + &quot;&lt;/Value&gt;&quot;);</span>
+<span class="nc" id="L974">		logger.debug(&quot;&lt;/StringTerm&gt;&quot;);</span>
+<span class="nc" id="L975">		return value;</span>
+	}
+
+	/**
+	 * Evaluates an undefined term.
+	 * 
+	 * @param term an undefined term
+	 * @return term's value
+	 */
+	@Override
+	public UndefValue visit(UndefTerm undef) {
+<span class="nc" id="L986">		return UndefValue.UNDEF;</span>
+	}
+
+	/**
+	 * Evaluates a rule as term.
+	 * 
+	 * @param term a rule as term
+	 * @return term's value
+	 */
+	@Override
+	public RuleValue visit(RuleAsTerm rule) {
+		RuleValue value;
+<span class="nc" id="L998">		RuleDeclaration dcl = rule.getRule();</span>
+		// TODO add package name
+<span class="nc" id="L1000">		logger.debug(&quot;&lt;RuleAsTerm name=\&quot;&quot; + dcl.getName() + &quot;\&quot;&gt;&quot;);</span>
+		// FIXME agent should not be null
+<span class="nc" id="L1002">		value = new RuleValue(dcl, null);</span>
+<span class="nc" id="L1003">		logger.debug(&quot;&lt;/RuleAsTerm&gt;&quot;);</span>
+<span class="nc" id="L1004">		return value;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

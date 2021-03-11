@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>RandomIterator.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator.util</a> &gt; <span class="el_source">RandomIterator.java</span></div><h1>RandomIterator.java</h1><pre class="source lang-java linenums">package org.asmeta.simulator.util;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
+/**
+ * Provides a random iteration over the given list.
+ * 
+ * This effect can be achieved by using Collections.shuffle, which shuffles the
+ * entire collection in linear time.
+ * 
+ * If the iteration process may end before all items are processed, this class
+ * may give a speed increase because the shuffling process is performed as items
+ * are requested rather than in the beginning.
+ */
+public class RandomIterator&lt;E&gt; implements Iterator&lt;E&gt; {
+
+	/**
+	 * Mapping indicating which items were served (by index). if served[i] then
+	 * the item with index i in the list has already been served.
+	 * 
+	 * Note it is possible to save memory here by using BitSet rather than a
+	 * boolean array, however it will increase the running time slightly.
+	 */
+	private final boolean[] served;
+
+	/** The amount of items served so far */
+<span class="nc" id="L31">	private int servedCount = 0;</span>
+
+	private final List&lt;E&gt; list;
+	private final int LIST_SIZE;
+
+	/**
+	 * The random number generator has a great influence on the running time of
+	 * this iterator.
+	 * 
+	 * See, for instance, http://www.qbrundage.com/michaelb/pubs/e� for some
+	 * implementations, which are faster than java.util.Random.
+	 */
+	private final Random rand;
+
+	/** Used to nar-row the range to take random indexes from */
+	private int lower, upper;
+
+<span class="nc" id="L48">	public RandomIterator(Collection&lt;E&gt; coll, Random rand) {</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">		if (coll instanceof List)</span>
+<span class="nc" id="L50">			this.list = (List&lt;E&gt;) coll;</span>
+		else 
+<span class="nc" id="L52">			this.list = new ArrayList&lt;E&gt;(coll);</span>
+<span class="nc" id="L53">		this.rand = rand;</span>
+<span class="nc" id="L54">		LIST_SIZE = list.size();</span>
+<span class="nc" id="L55">		served = new boolean[LIST_SIZE];</span>
+<span class="nc" id="L56">		lower = 0;</span>
+<span class="nc" id="L57">		upper = LIST_SIZE - 1;</span>
+<span class="nc" id="L58">	}</span>
+
+	@Override
+	public boolean hasNext() {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">		return servedCount &lt; LIST_SIZE;</span>
+	}
+
+	private int index, range;
+
+	@Override
+	public E next() {
+
+<span class="nc" id="L70">		range = upper - lower + 1;</span>
+
+		do {
+<span class="nc" id="L73">			index = lower + rand.nextInt(range);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">		} while (served[index]);</span>
+
+		// check if the range from which random values
+		// are taken can be reduced
+<span class="nc bnc" id="L78" title="All 2 branches missed.">		if (index == lower)</span>
+<span class="nc" id="L79">			lower++;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">		else if (index == upper)</span>
+<span class="nc" id="L81">			upper--;</span>
+
+<span class="nc" id="L83">		served[index] = true;</span>
+<span class="nc" id="L84">		servedCount++;</span>
+
+<span class="nc" id="L86">		return list.get(index);</span>
+	}
+
+	@Override
+	public void remove() {
+<span class="nc" id="L91">		throw new UnsupportedOperationException();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

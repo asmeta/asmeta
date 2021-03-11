@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>TurboReturnRuleImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.turbotransitionrules.impl</a> &gt; <span class="el_source">TurboReturnRuleImpl.java</span></div><h1>TurboReturnRuleImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.turbotransitionrules.impl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
+import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
+import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Turbo Return Rule&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.turbotransitionrules.impl.TurboReturnRuleImpl#getLocation &lt;em&gt;Location&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.turbotransitionrules.impl.TurboReturnRuleImpl#getUpdateRule &lt;em&gt;Update Rule&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class TurboReturnRuleImpl extends TurboRuleImpl implements TurboReturnRule {
+	/**
+	 * The cached value of the '{@link #getLocation() &lt;em&gt;Location&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getLocation()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term location;
+
+	/**
+	 * The cached value of the '{@link #getUpdateRule() &lt;em&gt;Update Rule&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getUpdateRule()
+	 * @generated
+	 * @ordered
+	 */
+	protected TurboCallRule updateRule;
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected TurboReturnRuleImpl() {
+<span class="fc" id="L61">		super();</span>
+<span class="fc" id="L62">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L71">		return TurbotransitionrulesPackage.Literals.TURBO_RETURN_RULE;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getLocation() {
+<span class="nc bnc" id="L81" title="All 4 branches missed.">		if (location != null &amp;&amp; location.eIsProxy()) {</span>
+<span class="nc" id="L82">			InternalEObject oldLocation = (InternalEObject)location;</span>
+<span class="nc" id="L83">			location = (Term)eResolveProxy(oldLocation);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">			if (location != oldLocation) {</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L86">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TurbotransitionrulesPackage.TURBO_RETURN_RULE__LOCATION, oldLocation, location));</span>
+			}
+		}
+<span class="nc" id="L89">		return location;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Term basicGetLocation() {
+<span class="nc" id="L98">		return location;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setLocation(Term newLocation) {
+<span class="fc" id="L108">		Term oldLocation = location;</span>
+<span class="fc" id="L109">		location = newLocation;</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L111">			eNotify(new ENotificationImpl(this, Notification.SET, TurbotransitionrulesPackage.TURBO_RETURN_RULE__LOCATION, oldLocation, location));</span>
+<span class="fc" id="L112">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public TurboCallRule getUpdateRule() {
+<span class="nc bnc" id="L121" title="All 4 branches missed.">		if (updateRule != null &amp;&amp; updateRule.eIsProxy()) {</span>
+<span class="nc" id="L122">			InternalEObject oldUpdateRule = (InternalEObject)updateRule;</span>
+<span class="nc" id="L123">			updateRule = (TurboCallRule)eResolveProxy(oldUpdateRule);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">			if (updateRule != oldUpdateRule) {</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L126">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TurbotransitionrulesPackage.TURBO_RETURN_RULE__UPDATE_RULE, oldUpdateRule, updateRule));</span>
+			}
+		}
+<span class="nc" id="L129">		return updateRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public TurboCallRule basicGetUpdateRule() {
+<span class="nc" id="L138">		return updateRule;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setUpdateRule(TurboCallRule newUpdateRule) {
+<span class="fc" id="L148">		TurboCallRule oldUpdateRule = updateRule;</span>
+<span class="fc" id="L149">		updateRule = newUpdateRule;</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L151">			eNotify(new ENotificationImpl(this, Notification.SET, TurbotransitionrulesPackage.TURBO_RETURN_RULE__UPDATE_RULE, oldUpdateRule, updateRule));</span>
+<span class="fc" id="L152">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L161" title="All 3 branches missed.">		switch (featureID) {</span>
+			case TurbotransitionrulesPackage.TURBO_RETURN_RULE__LOCATION:
+<span class="nc bnc" id="L163" title="All 2 branches missed.">				if (resolve) return getLocation();</span>
+<span class="nc" id="L164">				return basicGetLocation();</span>
+			case TurbotransitionrulesPackage.TURBO_RETURN_RULE__UPDATE_RULE:
+<span class="nc bnc" id="L166" title="All 2 branches missed.">				if (resolve) return getUpdateRule();</span>
+<span class="nc" id="L167">				return basicGetUpdateRule();</span>
+		}
+<span class="nc" id="L169">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L179" title="All 3 branches missed.">		switch (featureID) {</span>
+			case TurbotransitionrulesPackage.TURBO_RETURN_RULE__LOCATION:
+<span class="nc" id="L181">				setLocation((Term)newValue);</span>
+<span class="nc" id="L182">				return;</span>
+			case TurbotransitionrulesPackage.TURBO_RETURN_RULE__UPDATE_RULE:
+<span class="nc" id="L184">				setUpdateRule((TurboCallRule)newValue);</span>
+<span class="nc" id="L185">				return;</span>
+		}
+<span class="nc" id="L187">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L188">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L197" title="All 3 branches missed.">		switch (featureID) {</span>
+			case TurbotransitionrulesPackage.TURBO_RETURN_RULE__LOCATION:
+<span class="nc" id="L199">				setLocation((Term)null);</span>
+<span class="nc" id="L200">				return;</span>
+			case TurbotransitionrulesPackage.TURBO_RETURN_RULE__UPDATE_RULE:
+<span class="nc" id="L202">				setUpdateRule((TurboCallRule)null);</span>
+<span class="nc" id="L203">				return;</span>
+		}
+<span class="nc" id="L205">		super.eUnset(featureID);</span>
+<span class="nc" id="L206">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L215" title="All 3 branches missed.">		switch (featureID) {</span>
+			case TurbotransitionrulesPackage.TURBO_RETURN_RULE__LOCATION:
+<span class="nc bnc" id="L217" title="All 2 branches missed.">				return location != null;</span>
+			case TurbotransitionrulesPackage.TURBO_RETURN_RULE__UPDATE_RULE:
+<span class="nc bnc" id="L219" title="All 2 branches missed.">				return updateRule != null;</span>
+		}
+<span class="nc" id="L221">		return super.eIsSet(featureID);</span>
+	}
+
+} //TurboReturnRuleImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>TermDerivedRemover.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.flattener</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.flattener.term</a> &gt; <span class="el_source">TermDerivedRemover.java</span></div><h1>TermDerivedRemover.java</h1><pre class="source lang-java linenums">package org.asmeta.flattener.term;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.simulator.wrapper.RuleFactory;
+
+import asmeta.structure.Asm;
+import asmeta.structure.FunctionDefinition;
+import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.UndefTerm;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.ConditionalTerm;
+import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.FiniteQuantificationTerm;
+import asmeta.terms.furtherterms.ForallTerm;
+import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.LetTerm;
+import asmeta.terms.furtherterms.MapTerm;
+import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.StringTerm;
+
+<span class="nc bnc" id="L31" title="All 2 branches missed.">public class TermDerivedRemover extends ReflectiveVisitor&lt;Term&gt; {</span>
+<span class="nc" id="L32">	private RuleFactory ruleFact = new RuleFactory();</span>
+	private List&lt;FunctionDefinition&gt; funcDefs;
+
+<span class="nc" id="L35">	public TermDerivedRemover(Asm asm) {</span>
+<span class="nc" id="L36">		funcDefs = asm.getBodySection().getFunctionDefinition();</span>
+<span class="nc" id="L37">	}</span>
+
+	public Term visit(BooleanTerm boolTerm) {
+<span class="nc" id="L40">		return boolTerm;</span>
+	}
+
+	public Term visit(CaseTerm caseTerm) {
+<span class="nc" id="L44">		CaseTerm newCaseTerm = ruleFact.createCaseTerm();</span>
+<span class="nc" id="L45">		newCaseTerm.setComparedTerm(visit(caseTerm.getComparedTerm()));</span>
+<span class="nc" id="L46">		Term oTerm = caseTerm.getOtherwiseTerm();</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">		if (oTerm != null) {</span>
+<span class="nc" id="L48">			newCaseTerm.setOtherwiseTerm(visit(oTerm));</span>
+		}
+<span class="nc" id="L50">		List&lt;Term&gt; newResultTerms = new ArrayList&lt;Term&gt;();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">		for (Term rt : caseTerm.getResultTerms()) {</span>
+<span class="nc" id="L52">			newResultTerms.add(visit(rt));</span>
+<span class="nc" id="L53">		}</span>
+<span class="nc" id="L54">		newCaseTerm.getResultTerms().clear();</span>
+<span class="nc" id="L55">		newCaseTerm.getResultTerms().addAll(newResultTerms);</span>
+<span class="nc" id="L56">		newCaseTerm.setDomain(caseTerm.getDomain());</span>
+<span class="nc bnc" id="L57" title="All 4 branches missed.">		assert newCaseTerm.getDomain() != null;</span>
+<span class="nc" id="L58">		return newCaseTerm;</span>
+	}
+
+	public Term visit(ConditionalTerm condTerm) {
+<span class="nc" id="L62">		ConditionalTerm newCondTerm = ruleFact.createConditionalTerm();</span>
+<span class="nc" id="L63">		newCondTerm.setGuard(visit(condTerm.getGuard()));</span>
+<span class="nc" id="L64">		newCondTerm.setThenTerm(visit(condTerm.getThenTerm()));</span>
+<span class="nc" id="L65">		Term elseTerm = condTerm.getElseTerm();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">		if (elseTerm != null) {</span>
+<span class="nc" id="L67">			newCondTerm.setElseTerm(visit(elseTerm));</span>
+		}
+<span class="nc" id="L69">		return newCondTerm;</span>
+	}
+
+	public Term visit(EnumTerm enumTerm) {
+<span class="nc" id="L73">		return enumTerm;</span>
+	}
+
+	public Term visit(ExistTerm existTerm) {
+<span class="nc" id="L77">		return visit(existTerm, ruleFact.createExistTerm());</span>
+	}
+
+	public Term visit(ExistUniqueTerm existUniqueTerm) {
+<span class="nc" id="L81">		return visit(existUniqueTerm, ruleFact.createExistUniqueTerm());</span>
+	}
+
+	public Term visit(FiniteQuantificationTerm fqtTerm, FiniteQuantificationTerm newFqtTerm) {
+<span class="nc" id="L85">		List&lt;VariableTerm&gt; variables = newFqtTerm.getVariable();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">		for (VariableTerm v : fqtTerm.getVariable()) {</span>
+<span class="nc" id="L87">			VariableTerm vt = ruleFact.createVariableTerm();</span>
+<span class="nc" id="L88">			vt.setDomain(v.getDomain());</span>
+<span class="nc" id="L89">			vt.setFiniteQuantificationTerm(newFqtTerm);</span>
+<span class="nc" id="L90">			vt.setKind(v.getKind());</span>
+<span class="nc" id="L91">			vt.setName(v.getName());</span>
+<span class="nc" id="L92">			variables.add(vt);</span>
+<span class="nc" id="L93">		}</span>
+<span class="nc" id="L94">		newFqtTerm.setDomain(fqtTerm.getDomain());</span>
+<span class="nc" id="L95">		List&lt;Term&gt; ranges = newFqtTerm.getRanges();</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">		for (Term r : fqtTerm.getRanges()) {</span>
+<span class="nc" id="L97">			ranges.add(r);</span>
+<span class="nc" id="L98">		}</span>
+<span class="nc" id="L99">		Term newGuard = visit(fqtTerm.getGuard());</span>
+<span class="nc" id="L100">		newFqtTerm.setGuard(newGuard);</span>
+<span class="nc bnc" id="L101" title="All 4 branches missed.">		assert variables.size() &gt; 0;</span>
+<span class="nc bnc" id="L102" title="All 4 branches missed.">		assert variables.size() == ranges.size();</span>
+<span class="nc bnc" id="L103" title="All 4 branches missed.">		assert variables.size() == fqtTerm.getVariable().size();</span>
+<span class="nc" id="L104">		return newFqtTerm;</span>
+	}
+
+	public Term visit(ForallTerm forallTerm) {
+<span class="nc" id="L108">		return visit(forallTerm, ruleFact.createForallTerm());</span>
+	}
+
+	public Term visit(FunctionTerm funcTerm) throws Exception {
+<span class="nc" id="L112">		FunctionTerm newFunctionTerm = ruleFact.createFunctionTerm();</span>
+<span class="nc" id="L113">		newFunctionTerm.setDomain(funcTerm.getDomain());</span>
+<span class="nc" id="L114">		newFunctionTerm.setFunction(funcTerm.getFunction());</span>
+
+<span class="nc" id="L116">		List&lt;Term&gt; newTerms = new ArrayList&lt;Term&gt;();</span>
+<span class="nc" id="L117">		TupleTerm arguments = funcTerm.getArguments();</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">		if (arguments != null) {</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">			for (Term term : arguments.getTerms()) {</span>
+<span class="nc" id="L120">				newTerms.add(visit(term));</span>
+<span class="nc" id="L121">			}</span>
+<span class="nc" id="L122">			TupleTerm newTupleTerm = ruleFact.createTupleTerm();</span>
+<span class="nc" id="L123">			newTupleTerm.setArity(arguments.getArity());</span>
+<span class="nc" id="L124">			newTupleTerm.getTerms().addAll(newTerms);</span>
+<span class="nc" id="L125">			newFunctionTerm.setArguments(newTupleTerm);</span>
+		}
+<span class="nc" id="L127">		return newFunctionTerm;</span>
+	}
+
+	public Term visit(IntegerTerm intTerm) {
+<span class="nc" id="L131">		return intTerm;</span>
+	}
+
+	public Term visit(LetTerm letTerm) {
+<span class="nc" id="L135">		return letTerm;</span>
+	}
+
+	public Term visit(LocationTerm locTerm) throws Exception {
+		//TODO
+<span class="nc" id="L140">		return null;</span>
+	}
+
+	// TODO check whether it is correct. should we also visit the map term?
+	public Term visit(MapTerm mapTerm) {
+<span class="nc bnc" id="L145" title="All 2 branches missed.">		assert false;</span>
+<span class="nc" id="L146">		return mapTerm;</span>
+	}
+
+	public Term visit(NaturalTerm natTerm) {
+<span class="nc" id="L150">		return natTerm;</span>
+	}
+
+	public Term visit(StringTerm strTerm) {
+<span class="nc" id="L154">		return strTerm;</span>
+	}
+
+	public Term visit(TupleTerm tupleTerm) throws Exception {
+<span class="nc" id="L158">		List&lt;Term&gt; newTerms = new ArrayList&lt;Term&gt;();</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">		for (Term term : tupleTerm.getTerms()) {</span>
+<span class="nc" id="L160">			newTerms.add(visit(term));</span>
+<span class="nc" id="L161">		}</span>
+<span class="nc" id="L162">		TupleTerm newTupleTerm = ruleFact.createTupleTerm();</span>
+<span class="nc" id="L163">		newTupleTerm.setArity(tupleTerm.getArity());</span>
+<span class="nc" id="L164">		newTupleTerm.getTerms().addAll(newTerms);</span>
+<span class="nc" id="L165">		return newTupleTerm;</span>
+	}
+
+	public Term visit(UndefTerm undefTerm) {
+<span class="nc" id="L169">		return undefTerm;</span>
+	}
+
+	public Term visit(VariableTerm varTerm) {
+<span class="nc" id="L173">		return varTerm;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

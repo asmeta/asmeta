@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>AsmetaFactory.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta</a> &gt; <span class="el_source">AsmetaFactory.java</span></div><h1>AsmetaFactory.java</h1><pre class="source lang-java linenums">package asmeta;
+
+import asmeta.definitions.DefinitionsFactory;
+import asmeta.structure.StructureFactory;
+import asmeta.terms.TermsFactory;
+import asmeta.transitionrules.TransitionRulesFactory;
+
+/**
+ * questa classe serve solamente perche' EMF non genera le istanze dei package
+ * senza classi non servirebbe perche' poi richiama le eInstance corrette nei
+ * package contenuti
+ * 
+ * @author pscandurra
+ *
+ */
+<span class="fc" id="L16">public class AsmetaFactory {</span>
+<span class="fc" id="L17">	public static AsmetaFactory eINSTANCE = init();</span>
+
+	private static AsmetaFactory init() {
+<span class="fc" id="L20">		return new AsmetaFactory();</span>
+	}
+
+	/**
+	 * Returns nested package Terms.
+	 * 
+	 * @return Proxy object related to nested package Terms.
+	 */
+	public asmeta.terms.TermsFactory getTerms() {
+<span class="fc" id="L29">		return TermsFactory.eINSTANCE;</span>
+	}
+
+	/**
+	 * Returns nested package Structure.
+	 * 
+	 * @return Proxy object related to nested package Structure.
+	 */
+	public asmeta.structure.StructureFactory getStructure() {
+<span class="fc" id="L38">		return StructureFactory.eINSTANCE;</span>
+	}
+
+	/**
+	 * Returns nested package TransitionRules.
+	 * 
+	 * @return Proxy object related to nested package TransitionRules.
+	 */
+	public asmeta.transitionrules.TransitionRulesFactory getTransitionRules() {
+<span class="fc" id="L47">		return TransitionRulesFactory.eINSTANCE;</span>
+	}
+
+	/**
+	 * Returns nested package Definitions.
+	 * 
+	 * @return Proxy object related to nested package Definitions.
+	 */
+	public asmeta.definitions.DefinitionsFactory getDefinitions() {
+<span class="fc" id="L56">		return DefinitionsFactory.eINSTANCE;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

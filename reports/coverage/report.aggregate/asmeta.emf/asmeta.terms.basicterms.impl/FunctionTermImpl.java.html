@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>FunctionTermImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.terms.basicterms.impl</a> &gt; <span class="el_source">FunctionTermImpl.java</span></div><h1>FunctionTermImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.terms.basicterms.impl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import asmeta.definitions.Function;
+import asmeta.terms.basicterms.BasictermsPackage;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.TupleTerm;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Function Term&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.terms.basicterms.impl.FunctionTermImpl#getArguments &lt;em&gt;Arguments&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.terms.basicterms.impl.FunctionTermImpl#getFunction &lt;em&gt;Function&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class FunctionTermImpl extends BasicTermImpl implements FunctionTerm {
+	/**
+	 * The cached value of the '{@link #getArguments() &lt;em&gt;Arguments&lt;/em&gt;}' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getArguments()
+	 * @generated
+	 * @ordered
+	 */
+	protected TupleTerm arguments;
+
+	/**
+	 * The cached value of the '{@link #getFunction() &lt;em&gt;Function&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getFunction()
+	 * @generated
+	 * @ordered
+	 */
+	protected Function function;
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected FunctionTermImpl() {
+<span class="fc" id="L62">		super();</span>
+<span class="fc" id="L63">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L72">		return BasictermsPackage.Literals.FUNCTION_TERM;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public TupleTerm getArguments() {
+<span class="fc" id="L82">		return arguments;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetArguments(TupleTerm newArguments, NotificationChain msgs) {
+<span class="fc" id="L91">		TupleTerm oldArguments = arguments;</span>
+<span class="fc" id="L92">		arguments = newArguments;</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L94">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, BasictermsPackage.FUNCTION_TERM__ARGUMENTS, oldArguments, newArguments);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L97">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setArguments(TupleTerm newArguments) {
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">		if (newArguments != arguments) {</span>
+<span class="fc" id="L108">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">			if (arguments != null)</span>
+<span class="nc" id="L110">				msgs = ((InternalEObject)arguments).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - BasictermsPackage.FUNCTION_TERM__ARGUMENTS, null, msgs);</span>
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">			if (newArguments != null)</span>
+<span class="fc" id="L112">				msgs = ((InternalEObject)newArguments).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - BasictermsPackage.FUNCTION_TERM__ARGUMENTS, null, msgs);</span>
+<span class="fc" id="L113">			msgs = basicSetArguments(newArguments, msgs);</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L115">		}</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L117">			eNotify(new ENotificationImpl(this, Notification.SET, BasictermsPackage.FUNCTION_TERM__ARGUMENTS, newArguments, newArguments));</span>
+<span class="fc" id="L118">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Function getFunction() {
+<span class="pc bpc" id="L127" title="2 of 4 branches missed.">		if (function != null &amp;&amp; function.eIsProxy()) {</span>
+<span class="nc" id="L128">			InternalEObject oldFunction = (InternalEObject)function;</span>
+<span class="nc" id="L129">			function = (Function)eResolveProxy(oldFunction);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">			if (function != oldFunction) {</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L132">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, BasictermsPackage.FUNCTION_TERM__FUNCTION, oldFunction, function));</span>
+			}
+		}
+<span class="fc" id="L135">		return function;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Function basicGetFunction() {
+<span class="nc" id="L144">		return function;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setFunction(Function newFunction) {
+<span class="fc" id="L154">		Function oldFunction = function;</span>
+<span class="fc" id="L155">		function = newFunction;</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L157">			eNotify(new ENotificationImpl(this, Notification.SET, BasictermsPackage.FUNCTION_TERM__FUNCTION, oldFunction, function));</span>
+<span class="fc" id="L158">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L167" title="All 2 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.FUNCTION_TERM__ARGUMENTS:
+<span class="nc" id="L169">				return basicSetArguments(null, msgs);</span>
+		}
+<span class="nc" id="L171">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L181" title="All 3 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.FUNCTION_TERM__ARGUMENTS:
+<span class="nc" id="L183">				return getArguments();</span>
+			case BasictermsPackage.FUNCTION_TERM__FUNCTION:
+<span class="nc bnc" id="L185" title="All 2 branches missed.">				if (resolve) return getFunction();</span>
+<span class="nc" id="L186">				return basicGetFunction();</span>
+		}
+<span class="nc" id="L188">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L198" title="All 3 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.FUNCTION_TERM__ARGUMENTS:
+<span class="nc" id="L200">				setArguments((TupleTerm)newValue);</span>
+<span class="nc" id="L201">				return;</span>
+			case BasictermsPackage.FUNCTION_TERM__FUNCTION:
+<span class="nc" id="L203">				setFunction((Function)newValue);</span>
+<span class="nc" id="L204">				return;</span>
+		}
+<span class="nc" id="L206">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L207">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L216" title="All 3 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.FUNCTION_TERM__ARGUMENTS:
+<span class="nc" id="L218">				setArguments((TupleTerm)null);</span>
+<span class="nc" id="L219">				return;</span>
+			case BasictermsPackage.FUNCTION_TERM__FUNCTION:
+<span class="nc" id="L221">				setFunction((Function)null);</span>
+<span class="nc" id="L222">				return;</span>
+		}
+<span class="nc" id="L224">		super.eUnset(featureID);</span>
+<span class="nc" id="L225">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L234" title="All 3 branches missed.">		switch (featureID) {</span>
+			case BasictermsPackage.FUNCTION_TERM__ARGUMENTS:
+<span class="nc bnc" id="L236" title="All 2 branches missed.">				return arguments != null;</span>
+			case BasictermsPackage.FUNCTION_TERM__FUNCTION:
+<span class="nc bnc" id="L238" title="All 2 branches missed.">				return function != null;</span>
+		}
+<span class="nc" id="L240">		return super.eIsSet(featureID);</span>
+	}
+
+} //FunctionTermImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

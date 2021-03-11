@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ImportFlattener.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.parser</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.parser.util</a> &gt; <span class="el_source">ImportFlattener.java</span></div><h1>ImportFlattener.java</h1><pre class="source lang-java linenums">package org.asmeta.parser.util;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.asmeta.parser.ASMParser;
+
+import asmeta.AsmCollection;
+import asmeta.definitions.Function;
+import asmeta.definitions.domains.Domain;
+import asmeta.structure.Asm;
+import asmeta.structure.Body;
+import asmeta.structure.DomainDefinition;
+import asmeta.structure.DomainInitialization;
+import asmeta.structure.ImportClause;
+import asmeta.structure.Initialization;
+import asmeta.structure.Signature;
+
+/**
+ * takes an ASM and recursively call the imports and build the entire set of
+ * functions and domains
+ * 
+ * used in model advisor - in altre parti non serve perch� ho controllato che
+ * se import e poi import, vengono aggiunte a quelle dell'ultimo livello quindi
+ * basta un import (almeno per avalla) AG 9/1/20
+ */
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">public class ImportFlattener {</span>
+
+	private HashSet&lt;Domain&gt; domains;
+	private ArrayList&lt;Function&gt; functions;
+	private ArrayList&lt;DomainDefinition&gt; domainDefs;
+	private ArrayList&lt;DomainInitialization&gt; domainInits;
+
+	// where the asm is located in the file system
+	private String folder;
+	private Asm asm;
+
+	/**
+	 * 
+	 * @param asm
+	 * @param folder
+	 */
+<span class="fc" id="L48">	public ImportFlattener(Asm asm, String folder) {</span>
+		// check that exists and it is a directory
+<span class="pc bpc" id="L50" title="3 of 6 branches missed.">		assert Files.exists(Paths.get(folder)) &amp;&amp; Files.isDirectory(Paths.get(folder));</span>
+<span class="fc" id="L51">		this.folder = folder;</span>
+<span class="fc" id="L52">		this.asm = asm;</span>
+
+<span class="fc" id="L54">		Signature signature = asm.getHeaderSection().getSignature();</span>
+<span class="fc" id="L55">		this.domains = new HashSet&lt;Domain&gt;(signature.getDomain());</span>
+<span class="fc" id="L56">		this.functions = new ArrayList&lt;Function&gt;(signature.getFunction());</span>
+
+<span class="fc" id="L58">		Body body = asm.getBodySection();</span>
+<span class="fc" id="L59">		this.domainDefs = new ArrayList&lt;DomainDefinition&gt;(body.getDomainDefinition());</span>
+<span class="fc" id="L60">		this.domainInits = new ArrayList&lt;DomainInitialization&gt;();</span>
+<span class="fc" id="L61">		Initialization defaultInit = asm.getDefaultInitialState();</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">		if (defaultInit != null) {</span>
+<span class="fc" id="L63">			domainInits.addAll(defaultInit.getDomainInitialization());</span>
+		}
+
+<span class="fc" id="L66">	}</span>
+
+	/** visit the asm and imports and build the data for it */
+	public void visit() {
+<span class="fc" id="L70">		List&lt;ImportClause&gt; list = asm.getHeaderSection().getImportClause();</span>
+		Signature signature;
+		Initialization defaultInitialState;
+<span class="fc" id="L73">		Set&lt;Asm&gt; asmSet = new HashSet&lt;Asm&gt;();</span>
+<span class="fc" id="L74">		getAsms(list, asmSet);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">		for (Asm asm : asmSet) {</span>
+<span class="fc" id="L76">			signature = asm.getHeaderSection().getSignature();</span>
+<span class="fc" id="L77">			domains.addAll(signature.getDomain());</span>
+<span class="fc" id="L78">			domainDefs.addAll(asm.getBodySection().getDomainDefinition());</span>
+<span class="fc" id="L79">			defaultInitialState = asm.getDefaultInitialState();</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">			if (defaultInitialState != null) {</span>
+<span class="nc" id="L81">				domainInits.addAll(defaultInitialState.getDomainInitialization());</span>
+			}
+<span class="fc" id="L83">			functions.addAll(signature.getFunction());</span>
+<span class="fc" id="L84">		}</span>
+<span class="fc" id="L85">	}</span>
+
+	/**
+	 * It recursively visits the import clauses and memorises in &quot;asmSet&quot; the
+	 * involved modules.
+	 * 
+	 * @param list   the list of imported clauses
+	 * @param asmSet the set of imported ASMs
+	 * 
+	 */
+	private void getAsms(List&lt;ImportClause&gt; list, Set&lt;Asm&gt; asmSet) {
+		String moduleName;// name of the imported module
+		File file;
+		AsmCollection asms;
+		Asm main;
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">		if (list != null) {</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">			for (ImportClause ic : list) {</span>
+<span class="fc" id="L102">				moduleName = ic.getModuleName();</span>
+<span class="fc bfc" id="L103" title="All 4 branches covered.">				if (!moduleName.endsWith(&quot;StandardLibrary&quot;) &amp;&amp; !moduleName.endsWith(&quot;CTLlibrary&quot;)</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">						&amp;&amp; !moduleName.endsWith(&quot;LTLlibrary&quot;)) {</span>
+					// file = new File(path + moduleName + &quot;.asm&quot;);
+<span class="fc" id="L106">					file = new File(folder + &quot;/&quot; + moduleName + &quot;.asm&quot;);</span>
+<span class="fc" id="L107">					asms = null;</span>
+					try {
+<span class="fc" id="L109">						asms = ASMParser.setUpReadAsm(file);</span>
+<span class="nc" id="L110">					} catch (Exception e) {</span>
+<span class="nc" id="L111">						e.printStackTrace();</span>
+<span class="nc" id="L112">						throw new Error(e);</span>
+<span class="fc" id="L113">					}</span>
+<span class="fc" id="L114">					main = asms.getMain();</span>
+<span class="fc" id="L115">					asmSet.add(main);</span>
+<span class="fc" id="L116">					getAsms(main.getHeaderSection().getImportClause(), asmSet);</span>
+				}
+<span class="fc" id="L118">			}</span>
+		}
+<span class="fc" id="L120">	}</span>
+
+	public Set&lt;Domain&gt; getDomains() {
+<span class="fc" id="L123">		return domains;</span>
+	}
+
+	public List&lt;Function&gt; getFunctions() {
+<span class="fc" id="L127">		return functions;</span>
+	}
+
+	public List&lt;DomainDefinition&gt; getDomainDefinitions() {
+<span class="fc" id="L131">		return domainDefs;</span>
+	}
+
+	public List&lt;DomainInitialization&gt; getDomainInitializations() {
+<span class="fc" id="L135">		return domainInits;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

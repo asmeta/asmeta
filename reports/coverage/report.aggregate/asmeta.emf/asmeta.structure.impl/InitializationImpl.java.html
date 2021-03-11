@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>InitializationImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.structure.impl</a> &gt; <span class="el_source">InitializationImpl.java</span></div><h1>InitializationImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.structure.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import asmeta.structure.AgentInitialization;
+import asmeta.structure.Asm;
+import asmeta.structure.DomainInitialization;
+import asmeta.structure.FunctionInitialization;
+import asmeta.structure.Initialization;
+import asmeta.structure.StructurePackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Initialization&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.InitializationImpl#getDomainInitialization &lt;em&gt;Domain Initialization&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.InitializationImpl#getFunctionInitialization &lt;em&gt;Function Initialization&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.InitializationImpl#getAgentInitialization &lt;em&gt;Agent Initialization&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.InitializationImpl#getAsm &lt;em&gt;Asm&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class InitializationImpl extends NamedElementImpl implements Initialization {
+	/**
+	 * The cached value of the '{@link #getDomainInitialization() &lt;em&gt;Domain Initialization&lt;/em&gt;}' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getDomainInitialization()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;DomainInitialization&gt; domainInitialization;
+
+	/**
+	 * The cached value of the '{@link #getFunctionInitialization() &lt;em&gt;Function Initialization&lt;/em&gt;}' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getFunctionInitialization()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;FunctionInitialization&gt; functionInitialization;
+
+	/**
+	 * The cached value of the '{@link #getAgentInitialization() &lt;em&gt;Agent Initialization&lt;/em&gt;}' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getAgentInitialization()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;AgentInitialization&gt; agentInitialization;
+
+	/**
+	 * The cached value of the '{@link #getAsm() &lt;em&gt;Asm&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getAsm()
+	 * @generated
+	 * @ordered
+	 */
+	protected Asm asm;
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected InitializationImpl() {
+<span class="fc" id="L90">		super();</span>
+<span class="fc" id="L91">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L100">		return StructurePackage.Literals.INITIALIZATION;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;DomainInitialization&gt; getDomainInitialization() {
+<span class="fc bfc" id="L110" title="All 2 branches covered.">		if (domainInitialization == null) {</span>
+<span class="fc" id="L111">			domainInitialization = new EObjectContainmentWithInverseEList&lt;DomainInitialization&gt;(DomainInitialization.class, this, StructurePackage.INITIALIZATION__DOMAIN_INITIALIZATION, StructurePackage.DOMAIN_INITIALIZATION__INITIAL_STATE);</span>
+		}
+<span class="fc" id="L113">		return domainInitialization;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;FunctionInitialization&gt; getFunctionInitialization() {
+<span class="fc bfc" id="L123" title="All 2 branches covered.">		if (functionInitialization == null) {</span>
+<span class="fc" id="L124">			functionInitialization = new EObjectContainmentWithInverseEList&lt;FunctionInitialization&gt;(FunctionInitialization.class, this, StructurePackage.INITIALIZATION__FUNCTION_INITIALIZATION, StructurePackage.FUNCTION_INITIALIZATION__INITIAL_STATE);</span>
+		}
+<span class="fc" id="L126">		return functionInitialization;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;AgentInitialization&gt; getAgentInitialization() {
+<span class="fc bfc" id="L136" title="All 2 branches covered.">		if (agentInitialization == null) {</span>
+<span class="fc" id="L137">			agentInitialization = new EObjectContainmentWithInverseEList&lt;AgentInitialization&gt;(AgentInitialization.class, this, StructurePackage.INITIALIZATION__AGENT_INITIALIZATION, StructurePackage.AGENT_INITIALIZATION__INITIAL_STATE);</span>
+		}
+<span class="fc" id="L139">		return agentInitialization;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Asm getAsm() {
+<span class="nc bnc" id="L149" title="All 4 branches missed.">		if (asm != null &amp;&amp; asm.eIsProxy()) {</span>
+<span class="nc" id="L150">			InternalEObject oldAsm = (InternalEObject)asm;</span>
+<span class="nc" id="L151">			asm = (Asm)eResolveProxy(oldAsm);</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">			if (asm != oldAsm) {</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L154">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StructurePackage.INITIALIZATION__ASM, oldAsm, asm));</span>
+			}
+		}
+<span class="nc" id="L157">		return asm;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Asm basicGetAsm() {
+<span class="nc" id="L166">		return asm;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetAsm(Asm newAsm, NotificationChain msgs) {
+<span class="fc" id="L175">		Asm oldAsm = asm;</span>
+<span class="fc" id="L176">		asm = newAsm;</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L178">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StructurePackage.INITIALIZATION__ASM, oldAsm, newAsm);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L181">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setAsm(Asm newAsm) {
+<span class="nc bnc" id="L191" title="All 2 branches missed.">		if (newAsm != asm) {</span>
+<span class="nc" id="L192">			NotificationChain msgs = null;</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">			if (asm != null)</span>
+<span class="nc" id="L194">				msgs = ((InternalEObject)asm).eInverseRemove(this, StructurePackage.ASM__DEFAULT_INITIAL_STATE, Asm.class, msgs);</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">			if (newAsm != null)</span>
+<span class="nc" id="L196">				msgs = ((InternalEObject)newAsm).eInverseAdd(this, StructurePackage.ASM__DEFAULT_INITIAL_STATE, Asm.class, msgs);</span>
+<span class="nc" id="L197">			msgs = basicSetAsm(newAsm, msgs);</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="nc" id="L199">		}</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L201">			eNotify(new ENotificationImpl(this, Notification.SET, StructurePackage.INITIALIZATION__ASM, newAsm, newAsm));</span>
+<span class="nc" id="L202">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="pc bpc" id="L212" title="1 of 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.INITIALIZATION__DOMAIN_INITIALIZATION:
+<span class="fc" id="L214">				return ((InternalEList&lt;InternalEObject&gt;)(InternalEList&lt;?&gt;)getDomainInitialization()).basicAdd(otherEnd, msgs);</span>
+			case StructurePackage.INITIALIZATION__FUNCTION_INITIALIZATION:
+<span class="fc" id="L216">				return ((InternalEList&lt;InternalEObject&gt;)(InternalEList&lt;?&gt;)getFunctionInitialization()).basicAdd(otherEnd, msgs);</span>
+			case StructurePackage.INITIALIZATION__AGENT_INITIALIZATION:
+<span class="fc" id="L218">				return ((InternalEList&lt;InternalEObject&gt;)(InternalEList&lt;?&gt;)getAgentInitialization()).basicAdd(otherEnd, msgs);</span>
+			case StructurePackage.INITIALIZATION__ASM:
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">				if (asm != null)</span>
+<span class="nc" id="L221">					msgs = ((InternalEObject)asm).eInverseRemove(this, StructurePackage.ASM__DEFAULT_INITIAL_STATE, Asm.class, msgs);</span>
+<span class="fc" id="L222">				return basicSetAsm((Asm)otherEnd, msgs);</span>
+		}
+<span class="nc" id="L224">		return super.eInverseAdd(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L234" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.INITIALIZATION__DOMAIN_INITIALIZATION:
+<span class="nc" id="L236">				return ((InternalEList&lt;?&gt;)getDomainInitialization()).basicRemove(otherEnd, msgs);</span>
+			case StructurePackage.INITIALIZATION__FUNCTION_INITIALIZATION:
+<span class="nc" id="L238">				return ((InternalEList&lt;?&gt;)getFunctionInitialization()).basicRemove(otherEnd, msgs);</span>
+			case StructurePackage.INITIALIZATION__AGENT_INITIALIZATION:
+<span class="nc" id="L240">				return ((InternalEList&lt;?&gt;)getAgentInitialization()).basicRemove(otherEnd, msgs);</span>
+			case StructurePackage.INITIALIZATION__ASM:
+<span class="nc" id="L242">				return basicSetAsm(null, msgs);</span>
+		}
+<span class="nc" id="L244">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L254" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.INITIALIZATION__DOMAIN_INITIALIZATION:
+<span class="nc" id="L256">				return getDomainInitialization();</span>
+			case StructurePackage.INITIALIZATION__FUNCTION_INITIALIZATION:
+<span class="nc" id="L258">				return getFunctionInitialization();</span>
+			case StructurePackage.INITIALIZATION__AGENT_INITIALIZATION:
+<span class="nc" id="L260">				return getAgentInitialization();</span>
+			case StructurePackage.INITIALIZATION__ASM:
+<span class="nc bnc" id="L262" title="All 2 branches missed.">				if (resolve) return getAsm();</span>
+<span class="nc" id="L263">				return basicGetAsm();</span>
+		}
+<span class="nc" id="L265">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L276" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.INITIALIZATION__DOMAIN_INITIALIZATION:
+<span class="nc" id="L278">				getDomainInitialization().clear();</span>
+<span class="nc" id="L279">				getDomainInitialization().addAll((Collection&lt;? extends DomainInitialization&gt;)newValue);</span>
+<span class="nc" id="L280">				return;</span>
+			case StructurePackage.INITIALIZATION__FUNCTION_INITIALIZATION:
+<span class="nc" id="L282">				getFunctionInitialization().clear();</span>
+<span class="nc" id="L283">				getFunctionInitialization().addAll((Collection&lt;? extends FunctionInitialization&gt;)newValue);</span>
+<span class="nc" id="L284">				return;</span>
+			case StructurePackage.INITIALIZATION__AGENT_INITIALIZATION:
+<span class="nc" id="L286">				getAgentInitialization().clear();</span>
+<span class="nc" id="L287">				getAgentInitialization().addAll((Collection&lt;? extends AgentInitialization&gt;)newValue);</span>
+<span class="nc" id="L288">				return;</span>
+			case StructurePackage.INITIALIZATION__ASM:
+<span class="nc" id="L290">				setAsm((Asm)newValue);</span>
+<span class="nc" id="L291">				return;</span>
+		}
+<span class="nc" id="L293">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L294">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L303" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.INITIALIZATION__DOMAIN_INITIALIZATION:
+<span class="nc" id="L305">				getDomainInitialization().clear();</span>
+<span class="nc" id="L306">				return;</span>
+			case StructurePackage.INITIALIZATION__FUNCTION_INITIALIZATION:
+<span class="nc" id="L308">				getFunctionInitialization().clear();</span>
+<span class="nc" id="L309">				return;</span>
+			case StructurePackage.INITIALIZATION__AGENT_INITIALIZATION:
+<span class="nc" id="L311">				getAgentInitialization().clear();</span>
+<span class="nc" id="L312">				return;</span>
+			case StructurePackage.INITIALIZATION__ASM:
+<span class="nc" id="L314">				setAsm((Asm)null);</span>
+<span class="nc" id="L315">				return;</span>
+		}
+<span class="nc" id="L317">		super.eUnset(featureID);</span>
+<span class="nc" id="L318">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L327" title="All 5 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.INITIALIZATION__DOMAIN_INITIALIZATION:
+<span class="nc bnc" id="L329" title="All 4 branches missed.">				return domainInitialization != null &amp;&amp; !domainInitialization.isEmpty();</span>
+			case StructurePackage.INITIALIZATION__FUNCTION_INITIALIZATION:
+<span class="nc bnc" id="L331" title="All 4 branches missed.">				return functionInitialization != null &amp;&amp; !functionInitialization.isEmpty();</span>
+			case StructurePackage.INITIALIZATION__AGENT_INITIALIZATION:
+<span class="nc bnc" id="L333" title="All 4 branches missed.">				return agentInitialization != null &amp;&amp; !agentInitialization.isEmpty();</span>
+			case StructurePackage.INITIALIZATION__ASM:
+<span class="nc bnc" id="L335" title="All 2 branches missed.">				return asm != null;</span>
+		}
+<span class="nc" id="L337">		return super.eIsSet(featureID);</span>
+	}
+
+} //InitializationImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

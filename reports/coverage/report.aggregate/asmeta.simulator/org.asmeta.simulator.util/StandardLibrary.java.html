@@ -1,0 +1,1028 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>StandardLibrary.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator.util</a> &gt; <span class="el_source">StandardLibrary.java</span></div><h1>StandardLibrary.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2009 .
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *      - initial API and implementation
+ ******************************************************************************/
+package org.asmeta.simulator.util;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.asmeta.simulator.value.AgentValue;
+import org.asmeta.simulator.value.BagValue;
+import org.asmeta.simulator.value.BooleanValue;
+import org.asmeta.simulator.value.CharValue;
+import org.asmeta.simulator.value.EnumValue;
+import org.asmeta.simulator.value.IntegerValue;
+import org.asmeta.simulator.value.MapValue;
+import org.asmeta.simulator.value.RealValue;
+import org.asmeta.simulator.value.ReserveValue;
+import org.asmeta.simulator.value.RuleValue;
+import org.asmeta.simulator.value.SequenceValue;
+import org.asmeta.simulator.value.SetValue;
+import org.asmeta.simulator.value.StringValue;
+import org.asmeta.simulator.value.TupleValue;
+import org.asmeta.simulator.value.UndefValue;
+import org.asmeta.simulator.value.Value;
+
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
+import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+/**
+ * Implementations of the functions of the standard library.
+ * 
+ */
+<span class="nc" id="L47">public class StandardLibrary {</span>
+	// -------------------
+	
+	// this name is reserved 
+	public static final String STANDARD_LIBARY_NAME = &quot;StandardLibrary&quot;;
+	
+
+	// //////////////////////////////////////////////////////////////////////
+	// Boolean
+
+	public static BooleanValue not(BooleanValue op1) {
+<span class="nc bnc" id="L58" title="All 2 branches missed.">		if (!op1.getValue())</span>
+<span class="nc" id="L59">			return BooleanValue.TRUE;</span>
+		else
+<span class="nc" id="L61">			return BooleanValue.FALSE;</span>
+	}
+
+	public static BooleanValue and(BooleanValue op1, BooleanValue op2) {
+<span class="nc bnc" id="L65" title="All 4 branches missed.">		if (op1.getValue() &amp;&amp; op2.getValue())</span>
+<span class="nc" id="L66">			return BooleanValue.TRUE;</span>
+		else
+<span class="nc" id="L68">			return BooleanValue.FALSE;</span>
+	}
+
+	public static BooleanValue and(UndefValue op1, BooleanValue op2) {
+<span class="nc" id="L72">		return BooleanValue.FALSE;</span>
+	}
+
+	public static BooleanValue or(BooleanValue op1, BooleanValue op2) {
+<span class="nc bnc" id="L76" title="All 4 branches missed.">		if (op1.getValue() || op2.getValue())</span>
+<span class="nc" id="L77">			return BooleanValue.TRUE;</span>
+		else
+<span class="nc" id="L79">			return BooleanValue.FALSE;</span>
+	}
+
+	public static Value or(BooleanValue op1, UndefValue op2) {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">		if (op1.getValue())</span>
+<span class="nc" id="L84">			return BooleanValue.TRUE;</span>
+		else
+<span class="nc" id="L86">			return UndefValue.UNDEF;</span>
+	}
+
+	public static UndefValue or(UndefValue op1, UndefValue op2) {
+<span class="nc" id="L90">		return UndefValue.UNDEF;</span>
+	}
+
+	public static BooleanValue xor(BooleanValue op1, BooleanValue op2) {
+<span class="nc" id="L94">		boolean v1 = op1.getValue();</span>
+<span class="nc" id="L95">		boolean v2 = op2.getValue();</span>
+<span class="nc bnc" id="L96" title="All 8 branches missed.">		if ((v1 &amp;&amp; !v2) || (!v1 &amp;&amp; v2))</span>
+<span class="nc" id="L97">			return BooleanValue.TRUE;</span>
+		else
+<span class="nc" id="L99">			return BooleanValue.FALSE;</span>
+	}
+
+	public static BooleanValue implies(BooleanValue op1, BooleanValue op2) {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">		if (!op1.getValue())</span>
+<span class="nc" id="L104">			return BooleanValue.TRUE;</span>
+		else
+<span class="nc bnc" id="L106" title="All 2 branches missed.">			return op2.getValue() ? BooleanValue.TRUE : BooleanValue.FALSE;</span>
+	}
+
+	public static Value implies(BooleanValue op1, UndefValue op2) {
+<span class="nc bnc" id="L110" title="All 2 branches missed.">		if (!op1.getValue())</span>
+<span class="nc" id="L111">			return BooleanValue.TRUE;</span>
+		else
+<span class="nc" id="L113">			return UndefValue.UNDEF;</span>
+	}
+
+	public static BooleanValue iff(BooleanValue op1, BooleanValue op2) {
+<span class="nc bnc" id="L117" title="All 8 branches missed.">		if (!op1.getValue() &amp;&amp; !op2.getValue() || op1.getValue() &amp;&amp; op2.getValue())</span>
+<span class="nc" id="L118">			return BooleanValue.TRUE;</span>
+		else
+<span class="nc" id="L120">			return BooleanValue.FALSE;</span>
+	}
+
+	public static BooleanValue eq(BooleanValue op1, BooleanValue op2) {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(op1.getValue() == op2.getValue());</span>
+	}
+
+	public static BooleanValue neq(BooleanValue op1, BooleanValue op2) {
+<span class="nc bnc" id="L128" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(op1.getValue() != op2.getValue());</span>
+	}
+
+	// Integer
+
+	public static IntegerValue min(IntegerValue v1, IntegerValue v2) {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">		return v1.getValue() &lt; v2.getValue() ? v1 : v2;</span>
+	}
+
+	public static IntegerValue max(IntegerValue v1, IntegerValue v2) {
+<span class="nc bnc" id="L138" title="All 2 branches missed.">		return v1.getValue() &gt; v2.getValue() ? v1 : v2;</span>
+	}
+
+	public static IntegerValue plus(IntegerValue v1, IntegerValue v2) {
+<span class="nc" id="L142">		return new IntegerValue(v1.getValue() + v2.getValue());</span>
+	}
+
+	public static IntegerValue mod(IntegerValue v1, IntegerValue op2) {
+<span class="nc" id="L146">		return new IntegerValue(v1.getValue() % op2.getValue());</span>
+	}
+
+	public static IntegerValue mult(IntegerValue v1, IntegerValue op2) {
+<span class="nc" id="L150">		return new IntegerValue(v1.getValue() * op2.getValue());</span>
+	}
+
+	public static IntegerValue plus(IntegerValue v1) {
+<span class="nc" id="L154">		return v1;</span>
+	}
+
+	public static IntegerValue minus(IntegerValue v1, IntegerValue op2) {
+<span class="nc" id="L158">		return new IntegerValue(v1.getValue() - op2.getValue());</span>
+	}
+
+	// PA: 2018/2/1 This is wrong!
+	/*
+	 * public static IntegerValue div(IntegerValue v1, IntegerValue op2) { return
+	 * new IntegerValue(v1.getValue() / op2.getValue()); }
+	 */
+	public static RealValue div(IntegerValue v1, IntegerValue op2) {
+<span class="nc" id="L167">		return new RealValue(v1.getValue() / (double) op2.getValue());</span>
+	}
+
+	public static IntegerValue idiv(IntegerValue v1, IntegerValue op2) {
+<span class="nc" id="L171">		return new IntegerValue(v1.getValue() / op2.getValue());</span>
+	}
+
+	public static BooleanValue eq(IntegerValue v1, IntegerValue op2) {
+		// DO NOT USE == because with Integer and Long does not work with values &gt; 127
+<span class="nc" id="L176">		return BooleanValue.parseBooleanValue(v1.equals(op2));</span>
+	}
+
+	public static BooleanValue neq(IntegerValue v1, IntegerValue op2) {
+<span class="nc bnc" id="L180" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(! v1.equals(op2));</span>
+	}
+
+	public static BooleanValue neq(RealValue op1, RealValue op2) {
+<span class="nc bnc" id="L184" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(!op1.equals(op2));</span>
+	}
+
+	public static BooleanValue lt(IntegerValue v1, IntegerValue op2) {
+<span class="nc bnc" id="L188" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(v1.getValue() &lt; op2.getValue());</span>
+	}
+
+	public static UndefValue lt(UndefValue v1, IntegerValue op2) {
+<span class="nc" id="L192">		return UndefValue.UNDEF;</span>
+	}
+
+	public static UndefValue lt(UndefValue v1, UndefValue op2) {
+<span class="nc" id="L196">		return UndefValue.UNDEF;</span>
+	}
+
+	public static UndefValue ge(UndefValue v1, IntegerValue op2) {
+<span class="nc" id="L200">		return UndefValue.UNDEF;</span>
+	}
+
+	public static BooleanValue lt(RealValue op1, RealValue op2) {
+<span class="nc bnc" id="L204" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(op1.getValue() &lt; op2.getValue());</span>
+	}
+
+	public static BooleanValue le(IntegerValue v1, IntegerValue op2) {
+<span class="nc bnc" id="L208" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(v1.getValue() &lt;= op2.getValue());</span>
+	}
+
+	public static IntegerValue ntoi(IntegerValue iv) {
+<span class="nc" id="L212">		return iv;</span>
+	}
+
+	public static RealValue ntor(org.asmeta.simulator.value.IntegerValue iv) {
+<span class="nc" id="L216">		return new RealValue(iv.getValue());</span>
+	}
+
+	public static RealValue itor(org.asmeta.simulator.value.IntegerValue iv) {
+<span class="nc" id="L220">		return new RealValue(iv.getValue());</span>
+	}
+
+	// Real
+
+	public static BooleanValue le(RealValue op1, RealValue op2) {
+<span class="nc bnc" id="L226" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(op1.getValue() &lt;= op2.getValue());</span>
+	}
+
+	public static BooleanValue gt(IntegerValue v1, IntegerValue op2) {
+<span class="nc bnc" id="L230" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(v1.getValue() &gt; op2.getValue());</span>
+	}
+
+	public static BooleanValue gt(RealValue op1, RealValue op2) {
+<span class="nc bnc" id="L234" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(op1.getValue() &gt; op2.getValue());</span>
+	}
+
+	public static BooleanValue ge(IntegerValue v1, IntegerValue op2) {
+<span class="nc bnc" id="L238" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(v1.getValue() &gt;= op2.getValue());</span>
+	}
+
+	public static BooleanValue ge(RealValue op1, RealValue op2) {
+<span class="nc bnc" id="L242" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(op1.getValue() &gt;= op2.getValue());</span>
+	}
+
+	public static IntegerValue minus(IntegerValue v1) {
+<span class="nc" id="L246">		return new IntegerValue(-v1.getValue());</span>
+	}
+
+	public static IntegerValue abs(IntegerValue v1) {
+<span class="nc bnc" id="L250" title="All 2 branches missed.">		return v1.getValue() &gt;= 0 ? v1 : new IntegerValue(-v1.getValue());</span>
+	}
+
+	public static SetValue&lt;Long&gt; range(IntegerValue v1, IntegerValue iv) {
+<span class="nc" id="L254">		Set&lt;Value&lt;Long&gt;&gt; result = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L255" title="All 2 branches missed.">		for (Long i = v1.getValue(); i &lt; iv.getValue(); i++)</span>
+<span class="nc" id="L256">			result.add(new IntegerValue(i));</span>
+<span class="nc" id="L257">		return new SetValue&lt;&gt;(result);</span>
+	}
+
+	public static RealValue div(RealValue op1, RealValue op2) {
+<span class="nc" id="L261">		return new RealValue(op1.getValue() / op2.getValue());</span>
+	}
+
+	public static RealValue plus(RealValue op1, RealValue op2) {
+<span class="nc" id="L265">		return new RealValue(op1.getValue() + op2.getValue());</span>
+	}
+
+	public static RealValue minus(RealValue op1, RealValue op2) {
+<span class="nc" id="L269">		return new RealValue(op1.getValue() - op2.getValue());</span>
+	}
+
+	public static RealValue minus(RealValue op1) {
+<span class="nc" id="L273">		return new RealValue(-op1.getValue());</span>
+	}
+
+	public static RealValue mult(RealValue op1, RealValue op2) {
+<span class="nc" id="L277">		return new RealValue(op1.getValue() * op2.getValue());</span>
+	}
+
+	public static BooleanValue eq(RealValue op1, RealValue op2) {
+<span class="nc" id="L281">		return BooleanValue.parseBooleanValue(op1.equals(op2));</span>
+	}
+
+	public static IntegerValue rton(RealValue op1) {
+<span class="nc" id="L285">		return new IntegerValue(op1.getValue().longValue());</span>
+	}
+
+	public static IntegerValue rtoi(RealValue op1) {
+<span class="nc" id="L289">		return new IntegerValue(op1.getValue().longValue());</span>
+	}
+
+	public static RealValue abs(RealValue rv) {
+<span class="nc" id="L293">		double d = rv.getValue();</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">		if (d &gt; 0)</span>
+<span class="nc" id="L295">			return rv;</span>
+		else
+<span class="nc" id="L297">			return new RealValue(-d);</span>
+	}
+
+	public static IntegerValue floor(RealValue rv) {
+<span class="nc" id="L301">		double d = rv.getValue();</span>
+<span class="nc" id="L302">		return new IntegerValue((int) Math.floor(d));</span>
+	}
+
+	public static IntegerValue floor(IntegerValue rv) {
+<span class="nc" id="L306">		return rv;</span>
+	}
+	
+	
+	public static RealValue pwr(RealValue rv1, RealValue rv2) {
+<span class="nc" id="L311">		return new RealValue(Math.pow(rv1.getValue().doubleValue(), rv2.getValue().doubleValue()));</span>
+	}
+	public static RealValue max(RealValue rv1, RealValue rv2) {
+<span class="nc bnc" id="L314" title="All 2 branches missed.">		if (rv1.getValue().compareTo(rv2.getValue())&gt;0) return rv1;</span>
+<span class="nc" id="L315">		else return rv2;</span>
+	}
+	public static RealValue min(RealValue rv1, RealValue rv2) {
+<span class="nc bnc" id="L318" title="All 2 branches missed.">		if (rv1.getValue().compareTo(rv2.getValue())&lt;0) return rv1;</span>
+<span class="nc" id="L319">		else return rv2;		</span>
+	}
+
+	
+
+	// Sequence
+
+	// static count : Prod(Seq(D),D) -&gt; Natural
+	public static IntegerValue count(SequenceValue seq, Value value) {
+<span class="nc" id="L328">		ArrayList&lt;Value&gt; list = new ArrayList&lt;Value&gt;(seq.getValue());</span>
+<span class="nc" id="L329">		int count = 0;</span>
+<span class="nc bnc" id="L330" title="All 2 branches missed.">		while (list.remove(value)) {</span>
+<span class="nc" id="L331">			count++;</span>
+		}
+<span class="nc" id="L333">		return new IntegerValue(count);</span>
+	}
+
+	public static BooleanValue eq(SequenceValue seq1, SequenceValue seq2) {
+<span class="nc" id="L337">		return BooleanValue.parseBooleanValue(seq1.equals(seq2));</span>
+	}
+
+	public static BooleanValue neq(SequenceValue seq1, SequenceValue seq2) {
+<span class="nc bnc" id="L341" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(!seq1.equals(seq2));</span>
+	}
+
+	public static IntegerValue length(SequenceValue&lt;?&gt; seq1) {
+<span class="nc" id="L345">		return new IntegerValue(seq1.getValue().size());</span>
+	}
+
+	public static &lt;T&gt; Value&lt;T&gt; at(SequenceValue&lt;T&gt; seq1, IntegerValue iv) {
+<span class="nc" id="L349">		return seq1.getValue().get(iv.getValue().intValue());</span>
+	}
+
+	public static &lt;T&gt; Value&lt;T&gt; first(SequenceValue&lt;T&gt; seq1) {
+<span class="nc" id="L353">		return seq1.getValue().get(0);</span>
+	}
+
+	public static SequenceValue tail(SequenceValue seq1) {
+<span class="nc" id="L357">		List&lt;Value&gt; l = seq1.getValue();</span>
+<span class="nc" id="L358">		List&lt;Value&gt; nl = new ArrayList&lt;Value&gt;(l.subList(1, seq1.getValue().size()));</span>
+<span class="nc" id="L359">		return new SequenceValue(nl);</span>
+	}
+
+	public static SequenceValue union(SequenceValue seq1, SequenceValue seq2) {
+<span class="nc" id="L363">		List&lt;Value&gt; newSeq = new LinkedList&lt;Value&gt;(seq1.getValue());</span>
+<span class="nc" id="L364">		newSeq.addAll(seq2.getValue());</span>
+<span class="nc" id="L365">		return new SequenceValue(newSeq);</span>
+	}
+
+	public static SetValue asSet(SequenceValue seq1) {
+<span class="nc" id="L369">		return new SetValue(new LinkedHashSet&lt;Value&gt;(seq1.getValue()));</span>
+	}
+
+	public static &lt;T&gt; SequenceValue&lt;T&gt; subSequence(SequenceValue&lt;T&gt; sv, IntegerValue iv1, IntegerValue iv2) {
+<span class="nc" id="L373">		List&lt;Value&lt;T&gt;&gt; l = sv.getValue();</span>
+<span class="nc" id="L374">		List&lt;Value&lt;T&gt;&gt; nl = new ArrayList&lt;&gt;(l.subList(iv1.getValue().intValue(), iv2.getValue().intValue()));</span>
+<span class="nc" id="L375">		return new SequenceValue&lt;&gt;(nl);</span>
+	}
+
+	public static SequenceValue excluding(SequenceValue sv, Value av) {
+<span class="nc" id="L379">		List&lt;Value&gt; l = new ArrayList&lt;Value&gt;(sv.getValue());</span>
+<span class="nc" id="L380">		l.remove(av);</span>
+<span class="nc" id="L381">		return new SequenceValue(l);</span>
+	}
+
+	public static SequenceValue insertAt(SequenceValue sv, IntegerValue index, Value av) {
+<span class="nc" id="L385">		List&lt;Value&gt; l = new ArrayList&lt;Value&gt;(sv.getValue());</span>
+<span class="nc" id="L386">		l.add(index.getValue().intValue(), av);</span>
+<span class="nc" id="L387">		return new SequenceValue(l);</span>
+	}
+
+	public static SequenceValue replaceAt(SequenceValue sv, IntegerValue index, Value av) {
+<span class="nc" id="L391">		List&lt;Value&gt; l = new ArrayList&lt;Value&gt;(sv.getValue());</span>
+<span class="nc" id="L392">		l.add(index.getValue().intValue(), av);</span>
+<span class="nc" id="L393">		l.remove(index.getValue().intValue() + 1);</span>
+<span class="nc" id="L394">		return new SequenceValue(l);</span>
+	}
+
+	public static BooleanValue contains(SequenceValue sv, ReserveValue av) {
+<span class="nc" id="L398">		return BooleanValue.parseBooleanValue(sv.getValue().contains(av));</span>
+	}
+
+	public static BooleanValue contains(SequenceValue sv, Value av) {
+<span class="nc" id="L402">		return BooleanValue.parseBooleanValue(sv.getValue().contains(av));</span>
+	}
+
+	public static Value last(SequenceValue sv) {
+<span class="nc" id="L406">		List&lt;Value&gt; elements = sv.getValue();</span>
+<span class="nc" id="L407">		return elements.get(elements.size() - 1);</span>
+	}
+
+	public static BooleanValue contains(UndefValue sv, Value av) {
+<span class="nc" id="L411">		return BooleanValue.FALSE;</span>
+	}
+
+	// Set
+
+	public static Value chooseone(SetValue setValue) {
+<span class="nc" id="L417">		Set&lt;Value&gt; set = setValue.getValue();</span>
+<span class="nc bnc" id="L418" title="All 2 branches missed.">		if (set.isEmpty()) {</span>
+			// throw new RuntimeException(&quot;ERROR at chooseone: the set is empty &quot;);
+<span class="nc" id="L420">			return UndefValue.UNDEF;</span>
+		}
+<span class="nc" id="L422">		Value value = set.iterator().next();</span>
+<span class="nc" id="L423">		return value;</span>
+	}
+
+	public static BooleanValue eq(SetValue set1, SetValue set2) {
+<span class="nc" id="L427">		return BooleanValue.parseBooleanValue(set1.equals(set2));</span>
+	}
+
+	public static BooleanValue neq(SetValue set1, SetValue set2) {
+<span class="nc bnc" id="L431" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(!set1.equals(set2));</span>
+	}
+
+	public static BooleanValue contains(SetValue sv, Value av) {
+<span class="nc" id="L435">		return BooleanValue.parseBooleanValue(sv.getValue().contains(av));</span>
+	}
+
+	// clayton
+
+	public static BooleanValue notEmpty(SetValue set1) {
+<span class="nc bnc" id="L441" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(!set1.getValue().isEmpty());</span>
+	}
+
+	public static BooleanValue notallin(SetValue set1, SetValue set2) {
+<span class="nc bnc" id="L445" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(!set1.getValue().containsAll(set2.getValue()));</span>
+	}
+
+	public static BooleanValue allin(SetValue set1, SetValue set2) {
+<span class="nc" id="L449">		return BooleanValue.parseBooleanValue(set1.getValue().containsAll(set2.getValue()));</span>
+	}
+
+	public static &lt;T&gt; IntegerValue indexOf(SequenceValue&lt;T&gt; sq, Value&lt;T&gt; v) {
+<span class="nc" id="L453">		int result = -1;</span>
+<span class="nc" id="L454">		int index = 0;</span>
+<span class="nc bnc" id="L455" title="All 2 branches missed.">		for (Value&lt;T&gt; value : sq) {</span>
+<span class="nc bnc" id="L456" title="All 2 branches missed.">			if (value.equals(v)) {</span>
+<span class="nc" id="L457">				result = index;</span>
+<span class="nc" id="L458">				break;</span>
+			}
+<span class="nc" id="L460">			index++;</span>
+<span class="nc" id="L461">		}</span>
+<span class="nc" id="L462">		return new IntegerValue(result);</span>
+	}
+
+	public static SetValue difference(SetValue sv1, SetValue sv2) {
+<span class="nc" id="L466">		Set&lt;Value&gt; set1 = sv1.getValue();</span>
+<span class="nc" id="L467">		Set&lt;Value&gt; set2 = sv2.getValue();</span>
+<span class="nc" id="L468">		Set&lt;Value&gt; result = new HashSet&lt;Value&gt;();</span>
+
+<span class="nc" id="L470">		Iterator&lt;?&gt; e1 = set1.iterator();</span>
+
+<span class="nc bnc" id="L472" title="All 2 branches missed.">		while (e1.hasNext()) {</span>
+<span class="nc" id="L473">			Value v = (Value) e1.next();</span>
+<span class="nc bnc" id="L474" title="All 2 branches missed.">			if (!set2.contains(v)) {</span>
+<span class="nc" id="L475">				result.add(v);</span>
+			}
+<span class="nc" id="L477">		}</span>
+
+<span class="nc" id="L479">		Iterator&lt;?&gt; e2 = set2.iterator();</span>
+
+<span class="nc bnc" id="L481" title="All 2 branches missed.">		while (e2.hasNext()) {</span>
+<span class="nc" id="L482">			Value v = (Value) e2.next();</span>
+<span class="nc bnc" id="L483" title="All 2 branches missed.">			if (!set1.contains(v)) {</span>
+<span class="nc" id="L484">				result.add(v);</span>
+			}
+<span class="nc" id="L486">		}</span>
+
+<span class="nc" id="L488">		return new SetValue(result);</span>
+	}
+
+	public static SetValue intersection(SetValue sv1, SetValue sv2) {
+<span class="nc" id="L492">		Set&lt;Value&gt; set1 = sv1.getValue();</span>
+<span class="nc" id="L493">		Set&lt;Value&gt; set2 = sv2.getValue();</span>
+<span class="nc" id="L494">		Set&lt;Value&gt; result = new HashSet&lt;Value&gt;();</span>
+
+<span class="nc" id="L496">		Iterator&lt;?&gt; e1 = set1.iterator();</span>
+<span class="nc bnc" id="L497" title="All 2 branches missed.">		while (e1.hasNext()) {</span>
+<span class="nc" id="L498">			Value v = (Value) e1.next();</span>
+<span class="nc bnc" id="L499" title="All 2 branches missed.">			if (set2.contains(v)) {</span>
+<span class="nc" id="L500">				result.add(v);</span>
+			}
+<span class="nc" id="L502">		}</span>
+
+<span class="nc" id="L504">		Iterator&lt;?&gt; e2 = set2.iterator();</span>
+
+<span class="nc bnc" id="L506" title="All 2 branches missed.">		while (e2.hasNext()) {</span>
+<span class="nc" id="L507">			Value v = (Value) e2.next();</span>
+<span class="nc bnc" id="L508" title="All 2 branches missed.">			if (set1.contains(v)) {</span>
+<span class="nc" id="L509">				result.add(v);</span>
+			}
+<span class="nc" id="L511">		}</span>
+
+<span class="nc" id="L513">		return new SetValue(result);</span>
+	}
+
+	public static SetValue union(SetValue sv1, SetValue sv2) {
+<span class="nc" id="L517">		Set&lt;Value&gt; set1 = sv1.getValue();</span>
+<span class="nc" id="L518">		Set&lt;Value&gt; set2 = sv2.getValue();</span>
+<span class="nc" id="L519">		Set&lt;Value&gt; result = new HashSet&lt;Value&gt;();</span>
+<span class="nc" id="L520">		Iterator&lt;?&gt; e1 = set1.iterator();</span>
+<span class="nc bnc" id="L521" title="All 2 branches missed.">		while (e1.hasNext()) {</span>
+<span class="nc" id="L522">			Value v = (Value) e1.next();</span>
+<span class="nc" id="L523">			result.add(v);</span>
+<span class="nc" id="L524">		}</span>
+<span class="nc" id="L525">		Iterator&lt;?&gt; e2 = set2.iterator();</span>
+<span class="nc bnc" id="L526" title="All 2 branches missed.">		while (e2.hasNext()) {</span>
+<span class="nc" id="L527">			Value v = (Value) e2.next();</span>
+<span class="nc" id="L528">			result.add(v);</span>
+<span class="nc" id="L529">		}</span>
+<span class="nc" id="L530">		return new SetValue(result);</span>
+	}
+
+	public static StringValue toString(SetValue set) {
+<span class="nc" id="L534">		Set&lt;Value&gt; set1 = set.getValue();</span>
+<span class="nc" id="L535">		Iterator&lt;?&gt; e1 = set1.iterator();</span>
+<span class="nc bnc" id="L536" title="All 2 branches missed.">		while (e1.hasNext()) {</span>
+<span class="nc" id="L537">			Value v = (Value) e1.next();</span>
+<span class="nc" id="L538">			set1.add(v);</span>
+<span class="nc" id="L539">		}</span>
+<span class="nc" id="L540">		return new StringValue(set1.toString());</span>
+	}
+
+	public static StringValue concat(StringValue str1, StringValue str2) {
+<span class="nc" id="L544">		String str1Value = str1.getValue();</span>
+<span class="nc" id="L545">		String str2Value = str2.getValue();</span>
+		/*if (str1Value.startsWith(&quot;\&quot;&quot;) &amp;&amp; str1Value.endsWith(&quot;\&quot;&quot;)) {
+			str1Value = str1Value.substring(0, str1Value.length() - 1);
+		}
+		if (str2Value.startsWith(&quot;\&quot;&quot;) &amp;&amp; str2Value.endsWith(&quot;\&quot;&quot;)) {
+			str2Value = str2Value.substring(1, str2Value.length());
+		}*/
+<span class="nc" id="L552">		return new StringValue(str1Value + str2Value);</span>
+	}
+
+	public static StringValue plus(StringValue str1, StringValue str2) {
+<span class="nc" id="L556">		return concat(str1, str2);</span>
+	}
+
+	public static IntegerValue toInteger(StringValue str) {
+<span class="nc" id="L560">		return new IntegerValue(str.getValue());</span>
+	}
+
+	public static RealValue toReal(StringValue str) {
+<span class="nc" id="L564">		return new RealValue(str.getValue());</span>
+	}
+
+	// fim clayton
+
+	public static IntegerValue size(SetValue set1) {
+<span class="nc" id="L570">		return new IntegerValue(set1.getValue().size());</span>
+	}
+
+	public static BooleanValue isEmpty(SetValue set1) {
+<span class="nc" id="L574">		return BooleanValue.parseBooleanValue(set1.getValue().isEmpty());</span>
+	}
+
+	public static BooleanValue isEmpty(SequenceValue seq) {
+<span class="nc" id="L578">		return BooleanValue.parseBooleanValue(seq.getValue().isEmpty());</span>
+	}
+
+	public static SequenceValue asSequence(SetValue set1) {
+<span class="nc" id="L582">		return new SequenceValue(new LinkedList&lt;Value&gt;(set1.getValue()));</span>
+	}
+
+	public static BagValue asBag(SetValue set1) {
+<span class="nc" id="L586">		return new BagValue(new ArrayList&lt;Value&gt;(set1.getValue()));</span>
+	}
+
+	public static BooleanValue contains(SetValue sv, TupleValue av) {
+<span class="nc" id="L590">		return BooleanValue.parseBooleanValue(sv.getValue().contains(av));</span>
+	}
+
+	public static BooleanValue contains(SetValue sv, IntegerValue av) {
+<span class="nc" id="L594">		return BooleanValue.parseBooleanValue(sv.getValue().contains(av));</span>
+	}
+
+	public static BooleanValue notin(SetValue sv, TupleValue av) {
+<span class="nc bnc" id="L598" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(!sv.getValue().contains(av));</span>
+	}
+
+	public static BooleanValue notin(SetValue sv, IntegerValue av) {
+<span class="nc bnc" id="L602" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(!sv.getValue().contains(av));</span>
+	}
+
+	public static SetValue including(SetValue sv, Value iv) {
+<span class="nc" id="L606">		Set&lt;Value&gt; set = sv.getValue();</span>
+<span class="nc" id="L607">		Set&lt;Value&gt; n_set = new HashSet&lt;Value&gt;(set);</span>
+<span class="nc" id="L608">		n_set.add(iv);</span>
+<span class="nc" id="L609">		return new SetValue(n_set);</span>
+	}
+
+	public static SetValue excluding(SetValue sv, Value iv) {
+<span class="nc" id="L613">		Set&lt;Value&gt; set = sv.getValue();</span>
+<span class="nc" id="L614">		Set&lt;Value&gt; n_set = new HashSet&lt;Value&gt;(set);</span>
+<span class="nc" id="L615">		n_set.remove(iv);</span>
+<span class="nc" id="L616">		return new SetValue(n_set);</span>
+	}
+
+	public static SetValue excluding(SetValue sv, TupleValue iv) {
+<span class="nc" id="L620">		return excluding(sv, (Value) iv);</span>
+	}
+
+	public static SetValue excluding(SetValue sv, SetValue iv) {
+<span class="nc" id="L624">		return excluding(sv, (Value) iv);</span>
+	}
+
+	public static SetValue excluding(SetValue sv, IntegerValue iv) {
+<span class="nc" id="L628">		return excluding(sv, (Value) iv);</span>
+	}
+
+	public static IntegerValue sum(SetValue&lt;Integer&gt; sv) {
+<span class="nc" id="L632">		long somma = 0;</span>
+<span class="nc bnc" id="L633" title="All 2 branches missed.">		for (Value v : sv.getValue()) {</span>
+<span class="nc" id="L634">			somma = somma + ((IntegerValue) v).getValue();</span>
+<span class="nc" id="L635">		}</span>
+<span class="nc" id="L636">		return new IntegerValue(somma);</span>
+	}
+
+	public static IntegerValue sum(BagValue&lt;Integer&gt; sv) {
+<span class="nc" id="L640">		long somma = 0;</span>
+<span class="nc bnc" id="L641" title="All 2 branches missed.">		for (Value v : sv.getValue()) {</span>
+<span class="nc" id="L642">			somma = somma + ((IntegerValue) v).getValue();</span>
+<span class="nc" id="L643">		}</span>
+<span class="nc" id="L644">		return new IntegerValue(somma);</span>
+	}
+
+	// Map
+
+	public static Value at(MapValue mapValue, Value key) {
+<span class="nc" id="L650">		Map&lt;Value, Value&gt; map = mapValue.getValue();</span>
+<span class="nc" id="L651">		Value value = map.get(key);</span>
+<span class="nc bnc" id="L652" title="All 2 branches missed.">		return value == null ? UndefValue.UNDEF : value;</span>
+	}
+
+	public static BooleanValue eq(TupleValue tuple1, TupleValue tuple2) {
+<span class="nc" id="L656">		return BooleanValue.parseBooleanValue(tuple1.equals(tuple2));</span>
+	}
+
+	// String
+
+	public static BooleanValue eq(StringValue op1, StringValue op2) {
+<span class="nc" id="L662">		return BooleanValue.parseBooleanValue(op1.getValue().equals(op2.getValue()));</span>
+	}
+
+	public static BooleanValue neq(StringValue op1, StringValue op2) {
+<span class="nc" id="L666">		return not(eq(op1, op2));</span>
+	}
+
+	public static IntegerValue size(StringValue str) {
+<span class="nc" id="L670">		String strValue = str.getValue();</span>
+<span class="nc bnc" id="L671" title="All 4 branches missed.">		if (strValue.startsWith(&quot;\&quot;&quot;) &amp;&amp; strValue.endsWith(&quot;\&quot;&quot;)) {</span>
+<span class="nc" id="L672">			strValue = strValue.substring(1, strValue.length() - 1);</span>
+		}
+<span class="nc" id="L674">		return new IntegerValue(strValue.length());</span>
+	}
+
+	public static BooleanValue contains(StringValue str, StringValue subStr) {
+<span class="nc" id="L678">		String strValue = str.getValue();</span>
+<span class="nc bnc" id="L679" title="All 4 branches missed.">		if (strValue.startsWith(&quot;\&quot;&quot;) &amp;&amp; strValue.endsWith(&quot;\&quot;&quot;)) {</span>
+<span class="nc" id="L680">			strValue = strValue.substring(1, strValue.length() - 1);</span>
+		}
+<span class="nc" id="L682">		String subStrValue = subStr.getValue();</span>
+<span class="nc bnc" id="L683" title="All 4 branches missed.">		if (subStrValue.startsWith(&quot;\&quot;&quot;) &amp;&amp; subStrValue.endsWith(&quot;\&quot;&quot;)) {</span>
+<span class="nc" id="L684">			subStrValue = subStrValue.substring(1, subStrValue.length() - 1);</span>
+		}
+<span class="nc" id="L686">		return BooleanValue.parseBooleanValue(strValue.contains(subStrValue));</span>
+	}
+
+	public static StringValue toLower(StringValue str) {
+<span class="nc" id="L690">		return new StringValue(str.getValue().toLowerCase());</span>
+	}
+
+	public static StringValue toUpper(StringValue str) {
+<span class="nc" id="L694">		return new StringValue(str.getValue().toUpperCase());</span>
+	}
+
+	public static Value toChar(StringValue str) {
+<span class="nc" id="L698">		String strValue = str.getValue();</span>
+<span class="nc bnc" id="L699" title="All 2 branches missed.">		if (strValue.length() == 1) {</span>
+<span class="nc" id="L700">			return new CharValue(strValue.charAt(0));</span>
+		} else {
+<span class="nc" id="L702">			return UndefValue.UNDEF;</span>
+		}
+	}
+
+	public static SequenceValue split(StringValue str, StringValue regex) {
+<span class="nc" id="L707">		String strValue = str.getValue();</span>
+<span class="nc bnc" id="L708" title="All 4 branches missed.">		if (strValue.startsWith(&quot;\&quot;&quot;) &amp;&amp; strValue.endsWith(&quot;\&quot;&quot;)) {</span>
+<span class="nc" id="L709">			strValue = strValue.substring(1, strValue.length() - 1);</span>
+		}
+<span class="nc" id="L711">		String regexValue = regex.getValue();</span>
+<span class="nc bnc" id="L712" title="All 4 branches missed.">		if (regexValue.startsWith(&quot;\&quot;&quot;) &amp;&amp; regexValue.endsWith(&quot;\&quot;&quot;)) {</span>
+<span class="nc" id="L713">			regexValue = regexValue.substring(1, regexValue.length() - 1);</span>
+		}
+		// System.err.println(Arrays.toString(strValue.split(&quot;\\|&quot;)));
+		// System.err.println(regexValue);
+		// System.err.println(regexValue.equals(&quot;\\|&quot;));
+<span class="nc" id="L718">		String[] split = strValue.split(regexValue);</span>
+		// System.err.println(Arrays.toString(split));
+<span class="nc" id="L720">		List&lt;Value&gt; values = new ArrayList&lt;Value&gt;();</span>
+<span class="nc bnc" id="L721" title="All 2 branches missed.">		for (String s : split) {</span>
+<span class="nc" id="L722">			values.add(new StringValue(s));</span>
+		}
+<span class="nc" id="L724">		return new SequenceValue(values);</span>
+	}
+
+	// Char
+
+	public static StringValue toString(CharValue c) {
+<span class="nc" id="L730">		return new StringValue(c.toString());</span>
+	}
+
+	public static BooleanValue lt(CharValue c1, CharValue c2) {
+<span class="nc bnc" id="L734" title="All 2 branches missed.">		return (c1.getValue() &lt; c2.getValue()) ? BooleanValue.TRUE : BooleanValue.FALSE;</span>
+	}
+
+	public static BooleanValue gt(CharValue c1, CharValue c2) {
+<span class="nc bnc" id="L738" title="All 2 branches missed.">		return (c1.getValue() &gt; c2.getValue()) ? BooleanValue.TRUE : BooleanValue.FALSE;</span>
+	}
+
+	public static BooleanValue le(CharValue c1, CharValue c2) {
+<span class="nc bnc" id="L742" title="All 2 branches missed.">		return (c1.getValue() &lt;= c2.getValue()) ? BooleanValue.TRUE : BooleanValue.FALSE;</span>
+	}
+
+	public static BooleanValue ge(CharValue c1, CharValue c2) {
+<span class="nc bnc" id="L746" title="All 2 branches missed.">		return (c1.getValue() &gt;= c2.getValue()) ? BooleanValue.TRUE : BooleanValue.FALSE;</span>
+	}
+
+	// Undef
+	// Da questo punto, inizia il codice che implementa le funzioni
+	// della libreria standard
+
+	public static BooleanValue eq(UndefValue undef, Value value) {
+<span class="nc bnc" id="L754" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(undef == value);</span>
+	}
+
+	public static BooleanValue neq(UndefValue undef, Value value) {
+<span class="nc" id="L758">		return not(eq(undef, value));</span>
+	}
+
+	// Abstract Value
+
+	public static BooleanValue eq(ReserveValue op1, ReserveValue op2) {
+<span class="nc" id="L764">		return BooleanValue.parseBooleanValue(op1.getValue().equals(op2.getValue()));</span>
+	}
+
+	public static BooleanValue neq(ReserveValue op1, ReserveValue op2) {
+<span class="nc" id="L768">		return not(eq(op1, op2));</span>
+	}
+
+	// Enumeration
+
+	public static BooleanValue eq(EnumValue op1, EnumValue op2) {
+<span class="nc" id="L774">		return BooleanValue.parseBooleanValue(op1.getValue().equals(op2.getValue()));</span>
+	}
+
+	public static BooleanValue neq(EnumValue op1, EnumValue op2) {
+<span class="nc bnc" id="L778" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(!op1.getValue().equals(op2.getValue()));</span>
+	}
+
+	public static BooleanValue eq(UndefValue op1, UndefValue op2) {
+<span class="nc" id="L782">		return BooleanValue.TRUE;</span>
+	}
+
+	public static BooleanValue neq(UndefValue op1, UndefValue op2) {
+<span class="nc" id="L786">		return BooleanValue.FALSE;</span>
+	}
+
+	public static BooleanValue eq(UndefValue op1, EnumValue op2) {
+<span class="nc" id="L790">		return BooleanValue.FALSE;</span>
+	}
+
+	public static BooleanValue neq(UndefValue op1, EnumValue op2) {
+<span class="nc" id="L794">		return BooleanValue.TRUE;</span>
+	}
+
+	public static BooleanValue isDef(org.asmeta.simulator.value.EnumValue e) {
+<span class="nc" id="L798">		return BooleanValue.TRUE;</span>
+	}
+
+	public static BooleanValue isDef(org.asmeta.simulator.value.UndefValue e) {
+<span class="nc" id="L802">		return BooleanValue.FALSE;</span>
+	}
+
+	public static BooleanValue isDef(Value v) {
+<span class="nc bnc" id="L806" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(!v.equals(UndefValue.UNDEF));</span>
+	}
+
+	public static BooleanValue isUndef(Value v) {
+<span class="nc" id="L810">		return not(isDef(v));</span>
+	}
+
+	public static BooleanValue eq(Value v, UndefValue undef) {
+<span class="nc" id="L814">		return BooleanValue.parseBooleanValue(v.equals(UndefValue.UNDEF));</span>
+	}
+
+	public static BooleanValue neq(Value v, UndefValue undef) {
+<span class="nc" id="L818">		return not(eq(v, undef));</span>
+	}
+
+	public static BooleanValue isUndef(UndefValue v) {
+<span class="nc" id="L822">		return BooleanValue.TRUE;</span>
+	}
+
+	public static BooleanValue isUndef(AgentValue v) {
+<span class="nc" id="L826">		return BooleanValue.FALSE;</span>
+	}
+
+	// Agent
+
+	public static RuleValue program(AgentValue agent) {
+<span class="nc" id="L832">		Rule program = agent.getProgram();</span>
+<span class="nc bnc" id="L833" title="All 2 branches missed.">		if (program == null) {</span>
+<span class="nc" id="L834">			throw new RuntimeException(&quot;Agent &quot; + agent.getId() + &quot; has not program&quot;);</span>
+		}
+<span class="nc" id="L836">		MacroCallRule macro = (MacroCallRule) program;</span>
+<span class="nc" id="L837">		MacroDeclaration macroDcl = macro.getCalledMacro();</span>
+<span class="nc" id="L838">		return new RuleValue(macroDcl, agent);</span>
+	}
+
+	public static BooleanValue eq(AgentValue a1, AgentValue a2) {
+<span class="nc bnc" id="L842" title="All 2 branches missed.">		if (a1 == a2)</span>
+<span class="nc" id="L843">			return BooleanValue.TRUE;</span>
+<span class="nc" id="L844">		return BooleanValue.parseBooleanValue(a1.getId().equals(a2.getId()));</span>
+
+	}
+
+	public static BooleanValue neq(AgentValue a1, AgentValue a2) {
+<span class="nc bnc" id="L849" title="All 2 branches missed.">		if (a1 == a2)</span>
+<span class="nc" id="L850">			return BooleanValue.FALSE;</span>
+<span class="nc bnc" id="L851" title="All 2 branches missed.">		return BooleanValue.parseBooleanValue(!a1.getId().equals(a2.getId()));</span>
+
+	}
+
+	public static BooleanValue eq(UndefValue u, AgentValue a) {
+<span class="nc" id="L856">		return BooleanValue.FALSE;</span>
+	}
+
+	public static BooleanValue eq(UndefValue u, BooleanValue b) {
+<span class="nc" id="L860">		return BooleanValue.FALSE;</span>
+	}
+
+	public static &lt;T&gt; Value&lt;T&gt; first(TupleValue&lt;T&gt; t) {
+<span class="nc" id="L864">		return t.getValue().get(0);</span>
+	}
+
+	public static &lt;T&gt; Value&lt;T&gt; second(TupleValue&lt;T&gt; t) {
+<span class="nc" id="L868">		return t.getValue().get(1);</span>
+	}
+
+	public static &lt;T&gt; Value&lt;T&gt; third(TupleValue&lt;T&gt; t) {
+<span class="nc" id="L872">		return t.getValue().get(2);</span>
+	}
+
+	public static &lt;T&gt; Value&lt;T&gt; fourth(TupleValue&lt;T&gt; t) {
+<span class="nc" id="L876">		return t.getValue().get(3);</span>
+	}
+
+	public static &lt;T&gt; Value&lt;T&gt; fifth(TupleValue&lt;T&gt; t) {
+<span class="nc" id="L880">		return t.getValue().get(4);</span>
+	}
+
+	public static &lt;T&gt; Value&lt;T&gt; sixth(TupleValue&lt;T&gt; t) {
+<span class="nc" id="L884">		return t.getValue().get(5);</span>
+	}
+
+	public static &lt;T&gt; Value&lt;T&gt; seventh(TupleValue&lt;T&gt; t) {
+<span class="nc" id="L888">		return t.getValue().get(6);</span>
+	}
+
+	public static &lt;T&gt; Value&lt;T&gt; eighth(TupleValue&lt;T&gt; t) {
+<span class="nc" id="L892">		return t.getValue().get(7);</span>
+	}
+
+	public static &lt;T&gt; Value&lt;T&gt; nineth(TupleValue&lt;T&gt; t) {
+<span class="nc" id="L896">		return t.getValue().get(8);</span>
+	}
+
+	public static BooleanValue isDef(TupleValue tv) {
+<span class="nc" id="L900">		return BooleanValue.TRUE;</span>
+	}
+
+	public static BooleanValue isUndef(TupleValue tv) {
+<span class="nc" id="L904">		return BooleanValue.FALSE;</span>
+	}
+
+	public static Value first(RealValue t1, RealValue t2) {
+<span class="nc" id="L908">		return t1;</span>
+	}
+
+	public static Value second(RealValue t1, RealValue t2) {
+<span class="nc" id="L912">		return t2;</span>
+	}
+
+	public static Value first(ReserveValue t1, IntegerValue t2) {
+<span class="nc" id="L916">		return t1;</span>
+	}
+
+	public static Value second(ReserveValue t1, IntegerValue t2) {
+<span class="nc" id="L920">		return t2;</span>
+	}
+
+	public static Value append(SequenceValue s, Value v) {
+<span class="nc" id="L924">		SequenceValue result = new SequenceValue(s);</span>
+<span class="nc" id="L925">		result.getValue().add(v);</span>
+<span class="nc" id="L926">		return result;</span>
+	}
+
+	public static Value prepend(Value v, SequenceValue s) {
+<span class="nc" id="L930">		SequenceValue result = new SequenceValue(s);</span>
+<span class="nc" id="L931">		result.getValue().add(0, v);</span>
+<span class="nc" id="L932">		return result;</span>
+	}
+
+	public static Value asBag(SequenceValue s) {
+<span class="nc" id="L936">		return new BagValue(s.getValue());</span>
+	}
+
+	public static SequenceValue append(SequenceValue s, IntegerValue iv) {
+<span class="nc" id="L940">		SequenceValue result = new SequenceValue(s);</span>
+<span class="nc" id="L941">		result.getValue().add(iv);</span>
+<span class="nc" id="L942">		return result;</span>
+	}
+
+	public static IntegerValue iton(IntegerValue iv) {
+<span class="nc" id="L946">		return iv;</span>
+	}
+
+	// These last functions are not part of the standard library, their
+	// purpose is to test the name resolution procedure
+
+	public static void foo(IntegerValue i, Value v) {
+<span class="nc" id="L953">		throw new UnsupportedOperationException();</span>
+	}
+
+	public static void foo(Value v, IntegerValue i) {
+<span class="nc" id="L957">		throw new UnsupportedOperationException();</span>
+	}
+
+	// Debug functions
+
+	public static IntegerValue print(Value v1) {
+<span class="nc" id="L963">		return _print(v1);</span>
+	}
+
+	public static IntegerValue print(Value v1, Value v2) {
+<span class="nc" id="L967">		return _print(v1, v2);</span>
+	}
+
+	public static IntegerValue print(Value v1, Value v2, Value v3) {
+<span class="nc" id="L971">		return _print(v1, v2, v3);</span>
+	}
+
+	public static IntegerValue print(Value v1, Value v2, Value v3, Value v4) {
+<span class="nc" id="L975">		return _print(v1, v2, v3, v4);</span>
+	}
+
+	public static IntegerValue print(Value v1, Value v2, Value v3, Value v4, Value v5) {
+<span class="nc" id="L979">		return _print(v1, v2, v3, v4, v5);</span>
+	}
+
+	public static IntegerValue print(Value v1, Value v2, Value v3, Value v4, Value v5, Value v6) {
+<span class="nc" id="L983">		return _print(v1, v2, v3, v4, v5, v6);</span>
+	}
+
+	public static IntegerValue print(Value v1, Value v2, Value v3, Value v4, Value v5, Value v6, Value v7) {
+<span class="nc" id="L987">		return _print(v1, v2, v3, v4, v5, v6, v7);</span>
+	}
+
+	public static IntegerValue print(Value v1, Value v2, Value v3, Value v4, Value v5, Value v6, Value v7, Value v8) {
+<span class="nc" id="L991">		return _print(v1, v2, v3, v4, v5, v6, v7, v8);</span>
+	}
+
+	public static IntegerValue print(Value v1, Value v2, Value v3, Value v4, Value v5, Value v6, Value v7, Value v8,
+			Value v9) {
+<span class="nc" id="L996">		return _print(v1, v2, v3, v4, v5, v6, v7, v8, v9);</span>
+	}
+
+	public static IntegerValue print(Value v1, Value v2, Value v3, Value v4, Value v5, Value v6, Value v7, Value v8,
+			Value v9, Value v10) {
+<span class="nc" id="L1001">		return _print(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10);</span>
+	}
+
+	public static IntegerValue _print(Value... values) {
+<span class="nc bnc" id="L1005" title="All 2 branches missed.">		for (Value v : values) {</span>
+<span class="nc" id="L1006">			System.out.print(v + &quot; &quot;);</span>
+		}
+<span class="nc" id="L1008">		System.out.println();</span>
+<span class="nc" id="L1009">		return new IntegerValue(values.length);</span>
+	}
+
+	public static StringValue toString(Value value) {
+<span class="nc" id="L1013">		return new StringValue(value.toString());</span>
+	}
+
+	public static IntegerValue currTimeNanosecs() {
+<span class="nc" id="L1017">		return new IntegerValue(System.nanoTime());</span>
+	}
+
+	public static IntegerValue currTimeMillisecs() {
+<span class="nc" id="L1021">		return new IntegerValue(System.currentTimeMillis());</span>
+	}
+
+	public static IntegerValue currTimeSecs() {
+<span class="nc" id="L1025">		return new IntegerValue(System.currentTimeMillis() / 1000);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

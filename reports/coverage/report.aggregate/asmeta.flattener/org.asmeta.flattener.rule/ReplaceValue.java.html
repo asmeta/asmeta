@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ReplaceValue.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.flattener</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.flattener.rule</a> &gt; <span class="el_source">ReplaceValue.java</span></div><h1>ReplaceValue.java</h1><pre class="source lang-java linenums">package org.asmeta.flattener.rule;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.asmeta.flattener.term.ReplaceValueInTerm;
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.simulator.wrapper.RuleFactory;
+import org.eclipse.emf.common.util.EList;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.transitionrules.basictransitionrules.BlockRule;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
+import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.SkipRule;
+import asmeta.transitionrules.basictransitionrules.TermAsRule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import asmeta.transitionrules.turbotransitionrules.SeqRule;
+
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">public class ReplaceValue extends ReflectiveVisitor&lt;Rule&gt; {</span>
+	private ReplaceValueInTerm tv;
+<span class="pc" id="L30">	private RuleFactory ruleFact = new RuleFactory();</span>
+
+<span class="nc" id="L32">	public ReplaceValue(Term[] values, List&lt;VariableTerm&gt; vars) {</span>
+<span class="nc" id="L33">		tv = new ReplaceValueInTerm(values, vars);</span>
+<span class="nc" id="L34">	}</span>
+
+<span class="fc" id="L36">	public ReplaceValue(ReplaceValueInTerm replaceValueInTerm) {</span>
+<span class="fc" id="L37">		tv = replaceValueInTerm;</span>
+<span class="fc" id="L38">	}</span>
+
+	public Rule visit(UpdateRule updateRule) {
+<span class="fc" id="L41">		UpdateRule newRule = ruleFact.createUpdateRule();</span>
+<span class="fc" id="L42">		newRule.setLocation(tv.visit(updateRule.getLocation()));</span>
+<span class="fc" id="L43">		newRule.setUpdatingTerm(tv.visit(updateRule.getUpdatingTerm()));</span>
+<span class="fc" id="L44">		return newRule;</span>
+	}
+
+	public ConditionalRule visit(ConditionalRule conditionalRule) {
+<span class="fc" id="L48">		ConditionalRule newCondRule = ruleFact.createConditionalRule();</span>
+<span class="fc" id="L49">		newCondRule.setGuard(tv.visit(conditionalRule.getGuard()));</span>
+<span class="fc" id="L50">		Rule thenRule = conditionalRule.getThenRule();</span>
+<span class="pc bpc" id="L51" title="2 of 4 branches missed.">		assert thenRule != null;</span>
+<span class="fc" id="L52">		Rule visitThenRule = visit(thenRule);</span>
+<span class="pc bpc" id="L53" title="2 of 4 branches missed.">		assert visitThenRule != null;</span>
+<span class="fc" id="L54">		newCondRule.setThenRule(visitThenRule);</span>
+<span class="fc" id="L55">		Rule elseRule = conditionalRule.getElseRule();</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">		if (elseRule != null) {</span>
+<span class="fc" id="L57">			newCondRule.setElseRule(visit(elseRule));</span>
+		}
+<span class="fc" id="L59">		return newCondRule;</span>
+	}
+
+	public Rule visit(CaseRule caseRule) {
+<span class="fc" id="L63">		CaseRule newCaseRule = ruleFact.createCaseRule();</span>
+
+<span class="fc" id="L65">		newCaseRule.setTerm(tv.visit(caseRule.getTerm()));</span>
+
+<span class="fc" id="L67">		List&lt;Term&gt; caseTerm = caseRule.getCaseTerm();</span>
+<span class="fc" id="L68">		List&lt;Term&gt; newCaseTerm = newCaseRule.getCaseTerm();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		for (Term t : caseTerm) {</span>
+<span class="fc" id="L70">			newCaseTerm.add(t);</span>
+<span class="fc" id="L71">		}</span>
+
+<span class="fc" id="L73">		EList&lt;Rule&gt; branches = caseRule.getCaseBranches();</span>
+<span class="fc" id="L74">		EList&lt;Rule&gt; newBranches = newCaseRule.getCaseBranches();</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">		for (Rule v : branches) {</span>
+<span class="fc" id="L76">			newBranches.add(visit(v));</span>
+<span class="fc" id="L77">		}</span>
+<span class="fc" id="L78">		Rule otherwise = caseRule.getOtherwiseBranch();</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">		if (otherwise != null) {</span>
+<span class="nc" id="L80">			newCaseRule.setOtherwiseBranch(visit(otherwise));</span>
+		}
+<span class="fc" id="L82">		return newCaseRule;</span>
+	}
+
+	public Rule visit(MacroCallRule macroCallRule) {
+<span class="fc" id="L86">		MacroCallRule newMacroCallRule = ruleFact.createMacroCallRule();</span>
+<span class="fc" id="L87">		MacroDeclaration calledMacro = macroCallRule.getCalledMacro();</span>
+<span class="fc" id="L88">		newMacroCallRule.setCalledMacro(calledMacro);</span>
+<span class="fc" id="L89">		EList&lt;Term&gt; newParameters = newMacroCallRule.getParameters();</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">		for (Term t : macroCallRule.getParameters()) {</span>
+<span class="fc" id="L91">			newParameters.add(tv.visit(t));</span>
+<span class="fc" id="L92">		}</span>
+<span class="fc" id="L93">		return newMacroCallRule;</span>
+	}
+
+	public Rule visit(BlockRule blockRule) {
+<span class="fc" id="L97">		BlockRule newBlockRule = ruleFact.createBlockRule();</span>
+<span class="fc" id="L98">		visitListRules(blockRule.getRules(), newBlockRule.getRules());</span>
+<span class="fc" id="L99">		return newBlockRule;</span>
+	}
+
+	public Rule visit(SeqRule seqRule) {
+<span class="nc" id="L103">		SeqRule newSeqRule = ruleFact.createSeqRule();</span>
+<span class="nc" id="L104">		visitListRules(seqRule.getRules(), newSeqRule.getRules());</span>
+<span class="nc" id="L105">		return newSeqRule;</span>
+	}
+
+	private void visitListRules(List&lt;Rule&gt; rules, List&lt;Rule&gt; newRules) {
+<span class="fc bfc" id="L109" title="All 2 branches covered.">		for (Rule r : rules) {</span>
+<span class="fc" id="L110">			newRules.add(visit(r));</span>
+<span class="fc" id="L111">		}</span>
+<span class="fc" id="L112">	}</span>
+
+	public Rule visit(TermAsRule termAsRule) {
+<span class="fc" id="L115">		TermAsRule newTermAsRule = ruleFact.createTermAsRule();</span>
+
+<span class="fc" id="L117">		newTermAsRule.setTerm(tv.visit(termAsRule.getTerm()));</span>
+
+<span class="fc" id="L119">		EList&lt;Term&gt; parameters = termAsRule.getParameters();</span>
+<span class="fc" id="L120">		EList&lt;Term&gt; newParameters = newTermAsRule.getParameters();</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">		for (Term t : parameters) {</span>
+<span class="nc" id="L122">			newParameters.add(tv.visit(t));</span>
+<span class="nc" id="L123">		}</span>
+
+<span class="fc" id="L125">		return newTermAsRule;</span>
+	}
+
+	public Rule visit(ForallRule forallRule) {
+<span class="nc" id="L129">		ForallRule newForallRule = ruleFact.createForallRule();</span>
+<span class="nc" id="L130">		newForallRule.setGuard(tv.visit(forallRule.getGuard()));</span>
+<span class="nc" id="L131">		EList&lt;Term&gt; ranges = forallRule.getRanges();</span>
+<span class="nc" id="L132">		EList&lt;Term&gt; newRanges = newForallRule.getRanges();</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">		for (Term t : ranges) {</span>
+<span class="nc" id="L134">			newRanges.add(tv.visit(t));</span>
+<span class="nc" id="L135">		}</span>
+<span class="nc" id="L136">		EList&lt;VariableTerm&gt; variables = forallRule.getVariable();</span>
+<span class="nc" id="L137">		EList&lt;VariableTerm&gt; newVariables = newForallRule.getVariable();</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">		for (VariableTerm t : variables) {</span>
+<span class="nc" id="L139">			newVariables.add((VariableTerm) tv.visit(t));</span>
+<span class="nc" id="L140">		}</span>
+<span class="nc" id="L141">		Rule doRule = forallRule.getDoRule();</span>
+<span class="nc" id="L142">		newForallRule.setDoRule(visit(doRule));</span>
+<span class="nc" id="L143">		return newForallRule;</span>
+	}
+
+	public Rule visit(ChooseRule chooseRule) {
+<span class="fc" id="L147">		ChooseRule newChooseRule = ruleFact.createChooseRule();</span>
+<span class="fc" id="L148">		newChooseRule.setGuard(tv.visit(chooseRule.getGuard()));</span>
+
+<span class="fc" id="L150">		EList&lt;Term&gt; ranges = chooseRule.getRanges();</span>
+<span class="fc" id="L151">		EList&lt;Term&gt; newRanges = newChooseRule.getRanges();</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">		for (Term t : ranges) {</span>
+<span class="fc" id="L153">			newRanges.add(tv.visit(t));</span>
+<span class="fc" id="L154">		}</span>
+
+<span class="fc" id="L156">		EList&lt;VariableTerm&gt; variables = chooseRule.getVariable();</span>
+<span class="fc" id="L157">		EList&lt;VariableTerm&gt; newVariables = newChooseRule.getVariable();</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">		for (VariableTerm t : variables) {</span>
+<span class="fc" id="L159">			newVariables.add((VariableTerm) tv.visit(t));</span>
+<span class="fc" id="L160">		}</span>
+<span class="fc" id="L161">		Rule doRule = chooseRule.getDoRule();</span>
+<span class="fc" id="L162">		newChooseRule.setDoRule(visit(doRule));</span>
+<span class="fc" id="L163">		return newChooseRule;</span>
+	}
+
+	public Rule visit(LetRule letRule) {
+<span class="fc" id="L167">		LetRule newLetRule = ruleFact.createLetRule();</span>
+<span class="fc" id="L168">		EList&lt;Term&gt; initExpression = letRule.getInitExpression();</span>
+<span class="fc" id="L169">		EList&lt;Term&gt; newInitExpression = newLetRule.getInitExpression();</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">		for (Term t : initExpression) {</span>
+<span class="fc" id="L171">			newInitExpression.add(tv.visit(t));</span>
+<span class="fc" id="L172">		}</span>
+<span class="fc" id="L173">		EList&lt;VariableTerm&gt; variables = letRule.getVariable();</span>
+<span class="fc" id="L174">		EList&lt;VariableTerm&gt; newVariables = newLetRule.getVariable();</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">		for (VariableTerm t : variables) {</span>
+<span class="fc" id="L176">			newVariables.add((VariableTerm) tv.visit(t));</span>
+<span class="fc" id="L177">		}</span>
+
+<span class="fc" id="L179">		Rule doRule = letRule.getInRule();</span>
+<span class="fc" id="L180">		newLetRule.setInRule(visit(doRule));</span>
+<span class="fc" id="L181">		return newLetRule;</span>
+	}
+
+	public Rule visit(SkipRule skipRule) {
+<span class="nc" id="L185">		return skipRule;</span>
+	}
+
+	public Rule visit(ExtendRule extendRule) {
+<span class="nc" id="L189">		ExtendRule newExtendRule = ruleFact.createExtendRule();</span>
+
+<span class="nc" id="L191">		List&lt;VariableTerm&gt; boundVar = extendRule.getBoundVar();</span>
+<span class="nc" id="L192">		List&lt;VariableTerm&gt; newBoundVar = newExtendRule.getBoundVar();</span>
+<span class="nc" id="L193">		List&lt;VariableTerm&gt; newVars = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">		for (VariableTerm t : boundVar) {</span>
+			// newBoundVar.add((VariableTerm) tv.visit(t));
+<span class="nc" id="L196">			newVars.add((VariableTerm) tv.visit(t));</span>
+<span class="nc" id="L197">		}</span>
+<span class="nc" id="L198">		newBoundVar.addAll(newVars);</span>
+
+<span class="nc" id="L200">		Rule doRule = extendRule.getDoRule();</span>
+<span class="nc" id="L201">		extendRule.setDoRule(visit(doRule));</span>
+<span class="nc" id="L202">		return newExtendRule;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

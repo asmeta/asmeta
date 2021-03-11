@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>CaseRuleImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.derivedtransitionrules.impl</a> &gt; <span class="el_source">CaseRuleImpl.java</span></div><h1>CaseRuleImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.derivedtransitionrules.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Case Rule&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.derivedtransitionrules.impl.CaseRuleImpl#getTerm &lt;em&gt;Term&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.derivedtransitionrules.impl.CaseRuleImpl#getCaseTerm &lt;em&gt;Case Term&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.derivedtransitionrules.impl.CaseRuleImpl#getOtherwiseBranch &lt;em&gt;Otherwise Branch&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.transitionrules.derivedtransitionrules.impl.CaseRuleImpl#getCaseBranches &lt;em&gt;Case Branches&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class CaseRuleImpl extends BasicDerivedRuleImpl implements CaseRule {
+	/**
+	 * The cached value of the '{@link #getTerm() &lt;em&gt;Term&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getTerm()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term term;
+
+	/**
+	 * The cached value of the '{@link #getCaseTerm() &lt;em&gt;Case Term&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getCaseTerm()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;Term&gt; caseTerm;
+
+	/**
+	 * The cached value of the '{@link #getOtherwiseBranch() &lt;em&gt;Otherwise Branch&lt;/em&gt;}' containment reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getOtherwiseBranch()
+	 * @generated
+	 * @ordered
+	 */
+	protected Rule otherwiseBranch;
+
+	/**
+	 * The cached value of the '{@link #getCaseBranches() &lt;em&gt;Case Branches&lt;/em&gt;}' attribute list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getCaseBranches()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;Rule&gt; caseBranches;
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected CaseRuleImpl() {
+<span class="fc" id="L89">		super();</span>
+<span class="fc" id="L90">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L99">		return DerivedtransitionrulesPackage.Literals.CASE_RULE;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getTerm() {
+<span class="pc bpc" id="L109" title="2 of 4 branches missed.">		if (term != null &amp;&amp; term.eIsProxy()) {</span>
+<span class="nc" id="L110">			InternalEObject oldTerm = (InternalEObject)term;</span>
+<span class="nc" id="L111">			term = (Term)eResolveProxy(oldTerm);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">			if (term != oldTerm) {</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L114">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, DerivedtransitionrulesPackage.CASE_RULE__TERM, oldTerm, term));</span>
+			}
+		}
+<span class="fc" id="L117">		return term;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Term basicGetTerm() {
+<span class="nc" id="L126">		return term;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setTerm(Term newTerm) {
+<span class="fc" id="L136">		Term oldTerm = term;</span>
+<span class="fc" id="L137">		term = newTerm;</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L139">			eNotify(new ENotificationImpl(this, Notification.SET, DerivedtransitionrulesPackage.CASE_RULE__TERM, oldTerm, term));</span>
+<span class="fc" id="L140">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;Term&gt; getCaseTerm() {
+<span class="fc bfc" id="L149" title="All 2 branches covered.">		if (caseTerm == null) {</span>
+<span class="fc" id="L150">			caseTerm = new EObjectResolvingEList&lt;Term&gt;(Term.class, this, DerivedtransitionrulesPackage.CASE_RULE__CASE_TERM);</span>
+		}
+<span class="fc" id="L152">		return caseTerm;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Rule getOtherwiseBranch() {
+<span class="fc" id="L162">		return otherwiseBranch;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetOtherwiseBranch(Rule newOtherwiseBranch, NotificationChain msgs) {
+<span class="fc" id="L171">		Rule oldOtherwiseBranch = otherwiseBranch;</span>
+<span class="fc" id="L172">		otherwiseBranch = newOtherwiseBranch;</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L174">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, DerivedtransitionrulesPackage.CASE_RULE__OTHERWISE_BRANCH, oldOtherwiseBranch, newOtherwiseBranch);</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L177">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setOtherwiseBranch(Rule newOtherwiseBranch) {
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">		if (newOtherwiseBranch != otherwiseBranch) {</span>
+<span class="fc" id="L188">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">			if (otherwiseBranch != null)</span>
+<span class="nc" id="L190">				msgs = ((InternalEObject)otherwiseBranch).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - DerivedtransitionrulesPackage.CASE_RULE__OTHERWISE_BRANCH, null, msgs);</span>
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">			if (newOtherwiseBranch != null)</span>
+<span class="fc" id="L192">				msgs = ((InternalEObject)newOtherwiseBranch).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - DerivedtransitionrulesPackage.CASE_RULE__OTHERWISE_BRANCH, null, msgs);</span>
+<span class="fc" id="L193">			msgs = basicSetOtherwiseBranch(newOtherwiseBranch, msgs);</span>
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L195">		}</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L197">			eNotify(new ENotificationImpl(this, Notification.SET, DerivedtransitionrulesPackage.CASE_RULE__OTHERWISE_BRANCH, newOtherwiseBranch, newOtherwiseBranch));</span>
+<span class="fc" id="L198">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;Rule&gt; getCaseBranches() {
+<span class="fc bfc" id="L207" title="All 2 branches covered.">		if (caseBranches == null) {</span>
+<span class="fc" id="L208">			caseBranches = new EDataTypeEList&lt;Rule&gt;(Rule.class, this, DerivedtransitionrulesPackage.CASE_RULE__CASE_BRANCHES);</span>
+		}
+<span class="fc" id="L210">		return caseBranches;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">		switch (featureID) {</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__OTHERWISE_BRANCH:
+<span class="fc" id="L222">				return basicSetOtherwiseBranch(null, msgs);</span>
+		}
+<span class="nc" id="L224">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L234" title="All 5 branches missed.">		switch (featureID) {</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__TERM:
+<span class="nc bnc" id="L236" title="All 2 branches missed.">				if (resolve) return getTerm();</span>
+<span class="nc" id="L237">				return basicGetTerm();</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__CASE_TERM:
+<span class="nc" id="L239">				return getCaseTerm();</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__OTHERWISE_BRANCH:
+<span class="nc" id="L241">				return getOtherwiseBranch();</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__CASE_BRANCHES:
+<span class="nc" id="L243">				return getCaseBranches();</span>
+		}
+<span class="nc" id="L245">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L256" title="All 5 branches missed.">		switch (featureID) {</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__TERM:
+<span class="nc" id="L258">				setTerm((Term)newValue);</span>
+<span class="nc" id="L259">				return;</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__CASE_TERM:
+<span class="nc" id="L261">				getCaseTerm().clear();</span>
+<span class="nc" id="L262">				getCaseTerm().addAll((Collection&lt;? extends Term&gt;)newValue);</span>
+<span class="nc" id="L263">				return;</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__OTHERWISE_BRANCH:
+<span class="nc" id="L265">				setOtherwiseBranch((Rule)newValue);</span>
+<span class="nc" id="L266">				return;</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__CASE_BRANCHES:
+<span class="nc" id="L268">				getCaseBranches().clear();</span>
+<span class="nc" id="L269">				getCaseBranches().addAll((Collection&lt;? extends Rule&gt;)newValue);</span>
+<span class="nc" id="L270">				return;</span>
+		}
+<span class="nc" id="L272">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L273">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L282" title="All 5 branches missed.">		switch (featureID) {</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__TERM:
+<span class="nc" id="L284">				setTerm((Term)null);</span>
+<span class="nc" id="L285">				return;</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__CASE_TERM:
+<span class="nc" id="L287">				getCaseTerm().clear();</span>
+<span class="nc" id="L288">				return;</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__OTHERWISE_BRANCH:
+<span class="nc" id="L290">				setOtherwiseBranch((Rule)null);</span>
+<span class="nc" id="L291">				return;</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__CASE_BRANCHES:
+<span class="nc" id="L293">				getCaseBranches().clear();</span>
+<span class="nc" id="L294">				return;</span>
+		}
+<span class="nc" id="L296">		super.eUnset(featureID);</span>
+<span class="nc" id="L297">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L306" title="All 5 branches missed.">		switch (featureID) {</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__TERM:
+<span class="nc bnc" id="L308" title="All 2 branches missed.">				return term != null;</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__CASE_TERM:
+<span class="nc bnc" id="L310" title="All 4 branches missed.">				return caseTerm != null &amp;&amp; !caseTerm.isEmpty();</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__OTHERWISE_BRANCH:
+<span class="nc bnc" id="L312" title="All 2 branches missed.">				return otherwiseBranch != null;</span>
+			case DerivedtransitionrulesPackage.CASE_RULE__CASE_BRANCHES:
+<span class="nc bnc" id="L314" title="All 4 branches missed.">				return caseBranches != null &amp;&amp; !caseBranches.isEmpty();</span>
+		}
+<span class="nc" id="L316">		return super.eIsSet(featureID);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+<span class="pc bpc" id="L326" title="1 of 2 branches missed.">		if (eIsProxy()) return super.toString();</span>
+
+<span class="fc" id="L328">		StringBuilder result = new StringBuilder(super.toString());</span>
+<span class="fc" id="L329">		result.append(&quot; (caseBranches: &quot;);</span>
+<span class="fc" id="L330">		result.append(caseBranches);</span>
+<span class="fc" id="L331">		result.append(')');</span>
+<span class="fc" id="L332">		return result.toString();</span>
+	}
+
+} //CaseRuleImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>Parser.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator.util</a> &gt; <span class="el_source">Parser.java</span></div><h1>Parser.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2009 .
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *      - initial API and implementation
+ ******************************************************************************/
+package org.asmeta.simulator.util;
+
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.simulator.value.BooleanValue;
+import org.asmeta.simulator.value.EnumValue;
+import org.asmeta.simulator.value.IntegerValue;
+import org.asmeta.simulator.value.RealValue;
+import org.asmeta.simulator.value.ReserveValue;
+import org.asmeta.simulator.value.SequenceValue;
+import org.asmeta.simulator.value.SetValue;
+import org.asmeta.simulator.value.StringValue;
+import org.asmeta.simulator.value.TupleValue;
+import org.asmeta.simulator.value.UndefValue;
+import org.asmeta.simulator.value.Value;
+
+import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.AgentDomain;
+import asmeta.definitions.domains.BooleanDomain;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.IntegerDomain;
+import asmeta.definitions.domains.NaturalDomain;
+import asmeta.definitions.domains.PowersetDomain;
+import asmeta.definitions.domains.ProductDomain;
+import asmeta.definitions.domains.RealDomain;
+import asmeta.definitions.domains.SequenceDomain;
+import asmeta.definitions.domains.StringDomain;
+import asmeta.definitions.domains.UndefDomain;
+
+/**
+ * String to value converter.
+ * 
+ */
+<span class="nc bnc" id="L53" title="All 2 branches missed.">public class Parser extends ReflectiveVisitor&lt;Value&gt; {</span>
+
+	/**
+	 * Returns the next input token.
+	 * 
+	 */
+	private Scanner scanner;
+
+	/**
+	 * Parses a reader.
+	 * 
+	 * @param reader a reader
+	 */
+<span class="nc" id="L66">	public Parser(Reader reader) {</span>
+<span class="nc" id="L67">		scanner = new Scanner(reader);</span>
+<span class="nc" id="L68">	}</span>
+
+	/**
+	 * Parses a string.
+	 * 
+	 * @param reader a string
+	 */
+	public Parser(String reader) {
+<span class="nc" id="L76">		this(new StringReader(reader));</span>
+<span class="nc" id="L77">	}</span>
+
+	/**
+	 * Converts the read input into a value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public Value visit(Domain domain) throws InputMismatchException {
+		try {
+<span class="nc" id="L88">			return visit((Object) domain);</span>
+<span class="nc" id="L89">		} catch (RuntimeException e) {</span>
+<span class="nc" id="L90">			Throwable cause = e.getCause();</span>
+<span class="nc bnc" id="L91" title="All 4 branches missed.">			if (e != null &amp;&amp; cause instanceof InputMismatchException) {</span>
+<span class="nc" id="L92">				throw (InputMismatchException) cause;</span>
+			} else {
+<span class="nc" id="L94">				throw e;</span>
+			}
+		}
+	}
+
+	/**
+	 * Converts the read input into an integer value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public IntegerValue visit(IntegerDomain domain) throws InputMismatchException {
+<span class="nc" id="L107">		int i = scanner.scanInt();</span>
+<span class="nc" id="L108">		return new IntegerValue(i);</span>
+	}
+
+	/**
+	 * Converts the read input into a natural value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public IntegerValue visit(NaturalDomain domain) throws InputMismatchException {
+<span class="nc" id="L119">		return visit((IntegerDomain) domain);</span>
+	}
+
+	/**
+	 * Converts the read input into a real value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public RealValue visit(RealDomain domain) throws InputMismatchException {
+<span class="nc" id="L130">		double d = scanner.scanReal();</span>
+		// System.out.println(&quot;scanned real &quot; + d);
+<span class="nc" id="L132">		return new RealValue(d);</span>
+	}
+
+	/**
+	 * Converts the read input into a boolean value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public BooleanValue visit(BooleanDomain domain) throws InputMismatchException {
+<span class="nc" id="L143">		boolean b = scanner.scanBool();</span>
+<span class="nc" id="L144">		return BooleanValue.parseBooleanValue(b);</span>
+	}
+
+	/**
+	 * Converts the read input into an undefined value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public UndefValue visit(UndefDomain domain) throws InputMismatchException {
+<span class="nc" id="L155">		scanner.scan(&quot;undef&quot;);</span>
+<span class="nc" id="L156">		return UndefValue.UNDEF;</span>
+	}
+
+	/**
+	 * Converts the read input into a string value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public StringValue visit(StringDomain domain) throws InputMismatchException {
+<span class="nc" id="L167">		String s = scanner.scanQuoted();</span>
+<span class="nc bnc" id="L168" title="All 4 branches missed.">		assert s.startsWith(&quot;\&quot;&quot;): s;</span>
+<span class="nc bnc" id="L169" title="All 4 branches missed.">		assert s.endsWith(&quot;\&quot;&quot;): s;</span>
+<span class="nc" id="L170">		return new StringValue(s.substring(1, s.length() - 1));</span>
+	}
+
+	/**
+	 * Converts the read input into a tuple value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public TupleValue visit(ProductDomain domain) throws InputMismatchException {
+<span class="nc" id="L181">		scanner.scan(&quot;(&quot;);</span>
+<span class="nc" id="L182">		List&lt;Domain&gt; baseDomains = domain.getDomains();</span>
+<span class="nc" id="L183">		List&lt;Value&gt; collection = new ArrayList&lt;Value&gt;();</span>
+<span class="nc" id="L184">		Iterator&lt;Domain&gt; it = baseDomains.iterator();</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">		if (scanner.peekChar() != ')') {</span>
+<span class="nc" id="L186">			int i = 0;</span>
+			while (true) {
+<span class="nc" id="L188">				i++;</span>
+<span class="nc" id="L189">				Domain nextDomain = it.next();</span>
+<span class="nc" id="L190">				Value elementValue = visit(nextDomain);</span>
+<span class="nc" id="L191">				collection.add(elementValue);</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">				if (scanner.peekChar() != ',') {</span>
+<span class="nc" id="L193">					break;</span>
+				}
+<span class="nc" id="L195">				scanner.scan(&quot;,&quot;);</span>
+<span class="nc" id="L196">			}</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">			if (i != baseDomains.size()) {</span>
+<span class="nc" id="L198">				throw new InputMismatchException(&quot;Expected a &quot; + baseDomains.size() + &quot;elements tuple but&quot; + &quot; found a &quot;</span>
+						+ i + &quot;elements tuple.&quot;);
+			}
+		}
+<span class="nc" id="L202">		scanner.scan(&quot;)&quot;);</span>
+<span class="nc" id="L203">		return new TupleValue(collection);</span>
+	}
+
+	/**
+	 * Converts the read input into a set value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public SetValue visit(PowersetDomain domain) throws InputMismatchException {
+<span class="nc" id="L214">		scanner.scan(&quot;{&quot;);</span>
+<span class="nc" id="L215">		Domain baseDomain = (domain).getBaseDomain();</span>
+<span class="nc" id="L216">		Set&lt;Value&gt; collection = new HashSet&lt;Value&gt;();</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">		if (scanner.peekChar() != '}') {</span>
+			while (true) {
+<span class="nc" id="L219">				Value elementValue = visit(baseDomain);</span>
+<span class="nc" id="L220">				collection.add(elementValue);</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">				if (scanner.peekChar() != ',') {</span>
+<span class="nc" id="L222">					break;</span>
+				}
+<span class="nc" id="L224">				scanner.scan(&quot;,&quot;);</span>
+<span class="nc" id="L225">			}</span>
+		}
+<span class="nc" id="L227">		scanner.scan(&quot;}&quot;);</span>
+<span class="nc" id="L228">		return new SetValue(collection);</span>
+	}
+
+	/**
+	 * Converts the read input into a sequence value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public SequenceValue visit(SequenceDomain domain) throws InputMismatchException {
+<span class="nc" id="L239">		scanner.scan(&quot;[&quot;);</span>
+<span class="nc" id="L240">		Domain baseDomain = (domain).getDomain();</span>
+<span class="nc" id="L241">		List&lt;Value&gt; collection = new ArrayList&lt;Value&gt;();</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">		if (scanner.peekChar() != ']') {</span>
+			while (true) {
+<span class="nc" id="L244">				Value elementValue = visit(baseDomain);</span>
+<span class="nc" id="L245">				collection.add(elementValue);</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">				if (scanner.peekChar() != ',') {</span>
+<span class="nc" id="L247">					break;</span>
+				}
+<span class="nc" id="L249">				scanner.scan(&quot;,&quot;);</span>
+<span class="nc" id="L250">			}</span>
+		}
+<span class="nc" id="L252">		scanner.scan(&quot;]&quot;);</span>
+<span class="nc" id="L253">		return new SequenceValue(collection);</span>
+	}
+
+	/**
+	 * Converts the read input into an abstract value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public ReserveValue visit(AbstractTd domain) throws InputMismatchException {
+<span class="nc" id="L264">		String s = scanner.scanId();</span>
+<span class="nc" id="L265">		return new ReserveValue(s);</span>
+	}
+
+	/**
+	 * Converts the read input into an enumeration value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public EnumValue visit(EnumTd domain) throws InputMismatchException {
+<span class="nc" id="L276">		String s = scanner.scanId();</span>
+<span class="nc" id="L277">		return new EnumValue(s);</span>
+	}
+
+	/**
+	 * Converts the read input into a concrete domain value.
+	 * 
+	 * @param domain a domain
+	 * @return a value
+	 * @throws InputMismatchException
+	 */
+	public Value visit(ConcreteDomain domain) throws InputMismatchException {
+<span class="nc" id="L288">		ConcreteDomain concreteDomain = domain;</span>
+<span class="nc" id="L289">		return visit(concreteDomain.getTypeDomain());</span>
+	}
+
+	// PA: 2013/01/10
+	public ReserveValue visit(AgentDomain domain) throws InputMismatchException {
+<span class="nc" id="L294">		String s = scanner.scanId();</span>
+		// TODO: dovrebbe ritornare un agent value
+<span class="nc" id="L296">		return new ReserveValue(s);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

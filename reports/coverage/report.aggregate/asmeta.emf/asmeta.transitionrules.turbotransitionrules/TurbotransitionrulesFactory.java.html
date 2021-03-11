@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>TurbotransitionrulesFactory.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.transitionrules.turbotransitionrules</a> &gt; <span class="el_source">TurbotransitionrulesFactory.java</span></div><h1>TurbotransitionrulesFactory.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.transitionrules.turbotransitionrules;
+
+import org.eclipse.emf.ecore.EFactory;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * The &lt;b&gt;Factory&lt;/b&gt; for the model.
+ * It provides a create method for each non-abstract class of the model.
+ * &lt;!-- end-user-doc --&gt;
+ * @see asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage
+ * @generated
+ */
+public interface TurbotransitionrulesFactory extends EFactory {
+	/**
+	 * The singleton instance of the factory.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="fc" id="L26">	TurbotransitionrulesFactory eINSTANCE = asmeta.transitionrules.turbotransitionrules.impl.TurbotransitionrulesFactoryImpl.init();</span>
+
+	/**
+	 * Returns a new object of class '&lt;em&gt;Turbo Declaration&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return a new object of class '&lt;em&gt;Turbo Declaration&lt;/em&gt;'.
+	 * @generated
+	 */
+	TurboDeclaration createTurboDeclaration();
+
+	/**
+	 * Returns a new object of class '&lt;em&gt;Seq Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return a new object of class '&lt;em&gt;Seq Rule&lt;/em&gt;'.
+	 * @generated
+	 */
+	SeqRule createSeqRule();
+
+	/**
+	 * Returns a new object of class '&lt;em&gt;Turbo Local State Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return a new object of class '&lt;em&gt;Turbo Local State Rule&lt;/em&gt;'.
+	 * @generated
+	 */
+	TurboLocalStateRule createTurboLocalStateRule();
+
+	/**
+	 * Returns a new object of class '&lt;em&gt;Turbo Call Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return a new object of class '&lt;em&gt;Turbo Call Rule&lt;/em&gt;'.
+	 * @generated
+	 */
+	TurboCallRule createTurboCallRule();
+
+	/**
+	 * Returns a new object of class '&lt;em&gt;Turbo Return Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return a new object of class '&lt;em&gt;Turbo Return Rule&lt;/em&gt;'.
+	 * @generated
+	 */
+	TurboReturnRule createTurboReturnRule();
+
+	/**
+	 * Returns a new object of class '&lt;em&gt;Try Catch Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return a new object of class '&lt;em&gt;Try Catch Rule&lt;/em&gt;'.
+	 * @generated
+	 */
+	TryCatchRule createTryCatchRule();
+
+	/**
+	 * Returns a new object of class '&lt;em&gt;Iterate Rule&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return a new object of class '&lt;em&gt;Iterate Rule&lt;/em&gt;'.
+	 * @generated
+	 */
+	IterateRule createIterateRule();
+
+	/**
+	 * Returns the package supported by this factory.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the package supported by this factory.
+	 * @generated
+	 */
+	TurbotransitionrulesPackage getTurbotransitionrulesPackage();
+
+} //TurbotransitionrulesFactory
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

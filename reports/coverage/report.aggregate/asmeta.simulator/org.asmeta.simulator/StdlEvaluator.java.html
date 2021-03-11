@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>StdlEvaluator.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator</a> &gt; <span class="el_source">StdlEvaluator.java</span></div><h1>StdlEvaluator.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2005, 2006 ASMETA group (http://asmeta.sourceforge.net)
+ * License Information: http://asmeta.sourceforge.net/licensing/
+ * 
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License version 2 as
+ *   published by the Free Software Foundation.
+ * 
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ * 
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
+ *   USA
+ * 
+ *   http://www.gnu.org/licenses/gpl.txt
+ * 
+ *   
+ *******************************************************************************/
+package org.asmeta.simulator;
+
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
+import org.apache.log4j.Logger;
+import org.asmeta.simulator.util.StandardLibrary;
+import org.asmeta.simulator.util.UnresolvedReferenceException;
+import org.asmeta.simulator.value.Value;
+
+import asmeta.definitions.Function;
+
+/**
+ * Evaluator of the function of the standard library.
+ * 
+ */
+<span class="nc" id="L41">public class StdlEvaluator {</span>
+	
+<span class="nc" id="L43">	private static Logger logger = Logger.getLogger(StdlEvaluator.class);</span>
+	
+	/** 
+	 * Function declarations of the standard library (the declaration are 
+	 * sorted with respect to the name and the number of arguments).
+	 * 
+	 */
+	static WrappedMethod[] funDcls;
+	
+	static {
+		// wraps Method objects before sorting
+<span class="nc" id="L54">		Method[] mm = StandardLibrary.class.getMethods();</span>
+<span class="nc" id="L55">		funDcls = new WrappedMethod[mm.length];</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">		for (int i = 0; i &lt; mm.length; i++) {</span>
+<span class="nc" id="L57">			funDcls[i] = new WrappedMethod(mm[i]);</span>
+		}
+		// sorts them
+<span class="nc" id="L60">		Arrays.sort(funDcls);</span>
+<span class="nc" id="L61">	}</span>
+	
+	/**
+	 * Evaluates the given standard library function.
+	 *  
+	 * @param function a function declaration
+	 * @param arguments actual parameters
+	 * @return the function value
+	 */
+	public Value visit(Function function, Object[] arguments) {		
+		// assert(function.getArity() == arguments.length);	
+<span class="nc" id="L72">		logger.debug(&quot;&lt;StaticFunction&gt;&quot; + function.getName()+ &quot;&lt;/StaticFunction&gt;&quot;);</span>
+<span class="nc" id="L73">		String name = function.getName();</span>
+<span class="nc" id="L74">		Class&lt;?&gt;[] argTypes = getClasses(arguments);</span>
+<span class="nc" id="L75">		Method m = resolve(name, argTypes);</span>
+		Object result;
+		try {
+<span class="nc" id="L78">			result = m.invoke(null, arguments);</span>
+<span class="nc" id="L79">		} catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L80">			throw e;</span>
+<span class="nc" id="L81">		} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L82">			throw new RuntimeException(e);</span>
+<span class="nc" id="L83">		} catch (InvocationTargetException e) {</span>
+			// this is the most frequent exception, so to avoid long chain of 
+			// encapsulated runtime exception, I do a type check
+<span class="nc bnc" id="L86" title="All 2 branches missed.">			if (e.getCause() instanceof RuntimeException) {</span>
+<span class="nc" id="L87">				throw (RuntimeException) e.getCause();</span>
+			} else {
+<span class="nc" id="L89">				throw new RuntimeException(e.getCause());</span>
+			}
+<span class="nc" id="L91">		}			</span>
+<span class="nc" id="L92">		return (Value) result;</span>
+	}
+		
+	/**
+	 * Returns the method of the standard library that best matches with the
+	 * given function declaration.
+	 *  
+	 * @param name function name
+	 * @param argTypes list of parameter types
+	 * @return a method declaration
+	 * @throws UnresolvedReferenceException if no method is found or there
+	 * are too methods compatible with the given declaration
+	 */
+	protected Method resolve(String name, Class&lt;?&gt;[] argTypes)
+	throws UnresolvedReferenceException {
+<span class="nc" id="L107">		WrappedMethod m1 = new WrappedMethod(name, argTypes);</span>
+<span class="nc" id="L108">		int[] jj = findCandidates(m1);</span>
+<span class="nc" id="L109">		int j1 = jj[0], j2 = jj[1];</span>
+		// NOTE 1
+		// bestRating = 999999, no method can have a rating so high to exceed this
+		// value, so the first one found compatible sets the variables bestRating
+		// and bestIndex with his own values
+		// NOTE 2
+		// bestIndex = -1 means that I have not found a method (until now)		 
+<span class="nc" id="L116">		int bestRating = 999999, bestIndex = -1;</span>
+<span class="nc" id="L117">		int bestIndex2 = -1;</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">		for (; j1 &lt; j2; j1++) {</span>
+<span class="nc" id="L119">			int r = rating(m1, funDcls[j1]);</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">			if (r &lt; 0) {</span>
+				// declaration are not compatible
+<span class="nc" id="L122">				continue;</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">			} else if (r &lt; bestRating) {</span>
+<span class="nc" id="L124">				bestRating = r;</span>
+<span class="nc" id="L125">				bestIndex = j1;</span>
+<span class="nc" id="L126">				bestIndex2 = -1;</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">			} else if (r == bestRating) {</span>
+<span class="nc" id="L128">				bestIndex2 = j1;</span>
+			}
+		}
+<span class="nc bnc" id="L131" title="All 2 branches missed.">		if (bestIndex == -1) {</span>
+<span class="nc" id="L132">			throw new UnresolvedReferenceException(</span>
+					&quot;ERROR: Unresolved reference &quot; + m1);
+<span class="nc bnc" id="L134" title="All 2 branches missed.">		} else if (bestIndex2 != -1) {</span>
+<span class="nc" id="L135">			throw new UnresolvedReferenceException(</span>
+					&quot;ERROR: Unresolved reference &quot; + m1 +
+					&quot; Too many compatible definitions: &quot; +
+					funDcls[bestIndex] + &quot;, &quot; + funDcls[bestIndex2]);			
+		}
+<span class="nc" id="L140">		return funDcls[bestIndex].getMethod();</span>
+	}
+	
+	/**
+	 * Returns the functions with the same name and the same number of arguments
+	 * of the given function.
+	 * 
+	 * @param m1 the function name to resolve
+	 * @return a pair of index (j1, j2) such that
+	 * funDcls[j1-1] &lt; funDcls[j1] = ... = funDcls[j2-1] &lt; funDcls[j2]. 
+	 * If no declaration matches m1 then returns j1 &gt; j2.
+	 */
+	private int[] findCandidates(WrappedMethod m1) {		
+<span class="nc" id="L153">		int i = Arrays.binarySearch(funDcls, m1);</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">		if (i &gt;= 0) {</span>
+			// element found
+			int j1, j2;
+<span class="nc bnc" id="L157" title="All 2 branches missed.">			for (j1 = i; j1 &gt; 0; j1--) {</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">				if (m1.compareTo(funDcls[j1 - 1]) != 0) {</span>
+<span class="nc" id="L159">					break;</span>
+				}
+			}
+<span class="nc bnc" id="L162" title="All 2 branches missed.">			for (j2 = i + 1; j2 &lt; funDcls.length; j2++) {</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">				if (m1.compareTo(funDcls[j2]) != 0) {</span>
+<span class="nc" id="L164">					break;</span>
+				}
+			}
+			// ASSERT: funDcls[j1-1] &lt; funDcls[j1] = ... = funDcls[j2-1] &lt; funDcls[j2]
+<span class="nc" id="L168">			return new int[]{j1, j2};</span>
+		}
+<span class="nc" id="L170">		return new int[]{0, -1};</span>
+	}
+
+	/**
+	 * Computes a measure of compatibility between two function declarations.
+	 * The following procedure is adopted:&lt;br&gt;
+	 * - F1(A1,..,Z1) is the declaration of the first function with name F1 and
+	 * parameters types A1,..,Z1&lt;br&gt;
+	 * - F2(A2,..,Z2) is the declaration of the second function with name F2 and
+	 * parameters types A2,..,Z2&lt;br&gt;
+	 * - the rating is equals to g(A1,A2) + ... + g(Z1, Z2) with g that returns
+	 * 0 if A1 = A2 or returns 1 if A1 != A2 but A2 = Value.class
+	 * 
+	 * @param m1 a function declaration
+	 * @param m2 a function declaration
+	 * @return a negative number if the functions are not compatible, 0 if a
+	 * strict matching is found, a positive number if the functions are 
+	 * more or less compatible
+	 */
+	private int rating(WrappedMethod m1, WrappedMethod m2) {
+<span class="nc" id="L190">		int rating = 0;</span>
+<span class="nc" id="L191">		Class&lt;?&gt;[] params1 = m1.getParameterTypes();</span>
+<span class="nc" id="L192">		Class&lt;?&gt;[] params2 = m2.getParameterTypes();</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">		for (int i = 0; i &lt; params1.length; i++) {</span>
+<span class="nc" id="L194">			Class&lt;?&gt; p1 = params1[i];</span>
+<span class="nc" id="L195">			Class&lt;?&gt; p2 = params2[i];</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">			if (!p1.equals(p2)) {</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">				if (p2.equals(Value.class)) {</span>
+<span class="nc" id="L198">					rating++;</span>
+				} else {
+<span class="nc" id="L200">					return -1;</span>
+				}
+			}
+		}
+<span class="nc" id="L204">		return rating;</span>
+	}
+	
+	/**
+	 * Returns an array whose elements are the Class objects of the first array
+	 * elements.
+	 *  
+	 * @param arguments an array of object
+	 * @return an array of Class objects
+	 */
+	public static Class&lt;?&gt;[] getClasses(Object[] arguments) {
+<span class="nc" id="L215">		Class&lt;?&gt;[] classes = new Class[arguments.length];</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">		for (int i = 0; i &lt; arguments.length; i++) {</span>
+<span class="nc" id="L217">			classes[i] = arguments[i].getClass();</span>
+		}
+<span class="nc" id="L219">		return classes;</span>
+	}
+	
+	/**
+	 * Wraps the Method class, so I can redefine methods compareTo() and
+	 * equals().
+	 *
+	 */
+	static class WrappedMethod implements Comparable&lt;WrappedMethod&gt; {
+
+		private Method m;
+		private String name;
+		private Class&lt;?&gt;[] params;
+
+<span class="nc" id="L233">		public WrappedMethod(Method m) {</span>
+<span class="nc" id="L234">			this.m = m;</span>
+<span class="nc" id="L235">			this.name = m.getName();</span>
+<span class="nc" id="L236">			this.params = m.getParameterTypes();</span>
+<span class="nc" id="L237">		}</span>
+
+		/**
+		 * Creates a new method declaration.
+		 * 
+		 * @param name function name
+		 * @param params list of the classes that act as formal parameter types
+		 */
+<span class="nc" id="L245">		public WrappedMethod(String name, Class&lt;?&gt;[] params) {</span>
+<span class="nc" id="L246">			this.m = null;</span>
+<span class="nc" id="L247">			this.name = name;</span>
+<span class="nc" id="L248">			this.params = params;</span>
+<span class="nc" id="L249">		}</span>
+
+		public String getName() {
+<span class="nc" id="L252">			return name;</span>
+		}
+
+		public Class&lt;?&gt;[] getParameterTypes() {
+<span class="nc" id="L256">			return params;</span>
+		}
+
+		/**
+		 * If the wrapped method belongs to the standard library, returns the
+		 * related Method object.
+		 * 
+		 * @return the related Method object
+		 */
+		public Method getMethod() {
+<span class="nc" id="L266">			return m;</span>
+		}
+		
+		@Override
+		public boolean equals(Object arg0) {
+<span class="nc bnc" id="L271" title="All 2 branches missed.">			if (arg0 instanceof WrappedMethod) {</span>
+<span class="nc" id="L272">				WrappedMethod m2 = (WrappedMethod) arg0;</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">				return compareTo(m2) == 0;</span>
+			}
+<span class="nc" id="L275">			throw new IllegalArgumentException();</span>
+		}
+
+		@Override
+		public int compareTo(WrappedMethod m2) {
+<span class="nc" id="L280">			WrappedMethod m1 = this;</span>
+<span class="nc" id="L281">			int order = m1.getName().compareTo(m2.getName());</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">			if (order == 0) {</span>
+<span class="nc" id="L283">				Class&lt;?&gt;[] params1 = m1.getParameterTypes();</span>
+<span class="nc" id="L284">				Class&lt;?&gt;[] params2 = m2.getParameterTypes();</span>
+<span class="nc" id="L285">				return params1.length - params2.length;</span>
+			}
+<span class="nc" id="L287">			return order;</span>
+		}
+
+		@Override
+		public String toString() {
+<span class="nc" id="L292">			StringBuilder s = new StringBuilder();</span>
+<span class="nc" id="L293">			s.append(name);</span>
+<span class="nc" id="L294">			s.append(&quot;(&quot;);</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">			for (Class&lt;?&gt; c : params) {</span>
+<span class="nc" id="L296">				s.append(c.getSimpleName());</span>
+<span class="nc" id="L297">				s.append(&quot;,&quot;);</span>
+			}
+<span class="nc bnc" id="L299" title="All 2 branches missed.">			if (params.length &gt; 0) {</span>
+				// delete last comma
+<span class="nc" id="L301">				s.deleteCharAt(s.length() - 1);</span>
+			}
+<span class="nc" id="L303">			s.append(&quot;)&quot;);</span>
+<span class="nc" id="L304">			return s.toString();</span>
+		}		
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

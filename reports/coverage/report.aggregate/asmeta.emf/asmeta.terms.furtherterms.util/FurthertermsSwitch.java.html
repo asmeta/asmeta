@@ -1,0 +1,753 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>FurthertermsSwitch.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.terms.furtherterms.util</a> &gt; <span class="el_source">FurthertermsSwitch.java</span></div><h1>FurthertermsSwitch.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.terms.furtherterms.util;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
+
+import asmeta.terms.basicterms.BasicTerm;
+import asmeta.terms.basicterms.CollectionTerm;
+import asmeta.terms.basicterms.ConstantTerm;
+import asmeta.terms.basicterms.ExtendedTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.furtherterms.*;
+import asmeta.terms.furtherterms.BagCt;
+import asmeta.terms.furtherterms.BagTerm;
+import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.CharTerm;
+import asmeta.terms.furtherterms.ComplexTerm;
+import asmeta.terms.furtherterms.ComprehensionTerm;
+import asmeta.terms.furtherterms.ConditionalTerm;
+import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.FiniteQuantificationTerm;
+import asmeta.terms.furtherterms.ForallTerm;
+import asmeta.terms.furtherterms.FurthertermsPackage;
+import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.LetTerm;
+import asmeta.terms.furtherterms.MapCt;
+import asmeta.terms.furtherterms.MapTerm;
+import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
+import asmeta.terms.furtherterms.SequenceCt;
+import asmeta.terms.furtherterms.SequenceTerm;
+import asmeta.terms.furtherterms.SetCt;
+import asmeta.terms.furtherterms.StringTerm;
+import asmeta.terms.furtherterms.VariableBindingTerm;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * The &lt;b&gt;Switch&lt;/b&gt; for the model's inheritance hierarchy.
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)}
+ * to invoke the &lt;code&gt;caseXXX&lt;/code&gt; method for each class of the model,
+ * starting with the actual class of the object
+ * and proceeding up the inheritance hierarchy
+ * until a non-null result is returned,
+ * which is the result of the switch.
+ * &lt;!-- end-user-doc --&gt;
+ * @see asmeta.terms.furtherterms.FurthertermsPackage
+ * @generated
+ */
+public class FurthertermsSwitch&lt;T&gt; extends Switch&lt;T&gt; {
+	/**
+	 * The cached model package
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected static FurthertermsPackage modelPackage;
+
+	/**
+	 * Creates an instance of the switch.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+<span class="nc" id="L72">	public FurthertermsSwitch() {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">		if (modelPackage == null) {</span>
+<span class="nc" id="L74">			modelPackage = FurthertermsPackage.eINSTANCE;</span>
+		}
+<span class="nc" id="L76">	}</span>
+
+	/**
+	 * Checks whether this is a switch for the given package.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param ePackage the package in question.
+	 * @return whether this is a switch for the given package.
+	 * @generated
+	 */
+	@Override
+	protected boolean isSwitchFor(EPackage ePackage) {
+<span class="nc bnc" id="L88" title="All 2 branches missed.">		return ePackage == modelPackage;</span>
+	}
+
+	/**
+	 * Calls &lt;code&gt;caseXXX&lt;/code&gt; for each class of the model until one returns a non null result; it yields that result.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @return the first non-null result returned by a &lt;code&gt;caseXXX&lt;/code&gt; call.
+	 * @generated
+	 */
+	@Override
+	protected T doSwitch(int classifierID, EObject theEObject) {
+<span class="nc bnc" id="L100" title="All 24 branches missed.">		switch (classifierID) {</span>
+			case FurthertermsPackage.INTEGER_TERM: {
+<span class="nc" id="L102">				IntegerTerm integerTerm = (IntegerTerm)theEObject;</span>
+<span class="nc" id="L103">				T result = caseIntegerTerm(integerTerm);</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">				if (result == null) result = caseConstantTerm(integerTerm);</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">				if (result == null) result = caseBasicTerm(integerTerm);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">				if (result == null) result = caseTerm(integerTerm);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L108">				return result;</span>
+			}
+			case FurthertermsPackage.NATURAL_TERM: {
+<span class="nc" id="L111">				NaturalTerm naturalTerm = (NaturalTerm)theEObject;</span>
+<span class="nc" id="L112">				T result = caseNaturalTerm(naturalTerm);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">				if (result == null) result = caseConstantTerm(naturalTerm);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">				if (result == null) result = caseBasicTerm(naturalTerm);</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">				if (result == null) result = caseTerm(naturalTerm);</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L117">				return result;</span>
+			}
+			case FurthertermsPackage.VARIABLE_BINDING_TERM: {
+<span class="nc" id="L120">				VariableBindingTerm variableBindingTerm = (VariableBindingTerm)theEObject;</span>
+<span class="nc" id="L121">				T result = caseVariableBindingTerm(variableBindingTerm);</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(variableBindingTerm);</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">				if (result == null) result = caseTerm(variableBindingTerm);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L125">				return result;</span>
+			}
+			case FurthertermsPackage.STRING_TERM: {
+<span class="nc" id="L128">				StringTerm stringTerm = (StringTerm)theEObject;</span>
+<span class="nc" id="L129">				T result = caseStringTerm(stringTerm);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">				if (result == null) result = caseConstantTerm(stringTerm);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">				if (result == null) result = caseBasicTerm(stringTerm);</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">				if (result == null) result = caseTerm(stringTerm);</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L134">				return result;</span>
+			}
+			case FurthertermsPackage.SET_CT: {
+<span class="nc" id="L137">				SetCt setCt = (SetCt)theEObject;</span>
+<span class="nc" id="L138">				T result = caseSetCt(setCt);</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">				if (result == null) result = caseComprehensionTerm(setCt);</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">				if (result == null) result = caseVariableBindingTerm(setCt);</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(setCt);</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">				if (result == null) result = caseTerm(setCt);</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L144">				return result;</span>
+			}
+			case FurthertermsPackage.SEQUENCE_TERM: {
+<span class="nc" id="L147">				SequenceTerm sequenceTerm = (SequenceTerm)theEObject;</span>
+<span class="nc" id="L148">				T result = caseSequenceTerm(sequenceTerm);</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">				if (result == null) result = caseCollectionTerm(sequenceTerm);</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(sequenceTerm);</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">				if (result == null) result = caseTerm(sequenceTerm);</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L153">				return result;</span>
+			}
+			case FurthertermsPackage.SEQUENCE_CT: {
+<span class="nc" id="L156">				SequenceCt sequenceCt = (SequenceCt)theEObject;</span>
+<span class="nc" id="L157">				T result = caseSequenceCt(sequenceCt);</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">				if (result == null) result = caseComprehensionTerm(sequenceCt);</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">				if (result == null) result = caseVariableBindingTerm(sequenceCt);</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(sequenceCt);</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">				if (result == null) result = caseTerm(sequenceCt);</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L163">				return result;</span>
+			}
+			case FurthertermsPackage.REAL_TERM: {
+<span class="nc" id="L166">				RealTerm realTerm = (RealTerm)theEObject;</span>
+<span class="nc" id="L167">				T result = caseRealTerm(realTerm);</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">				if (result == null) result = caseConstantTerm(realTerm);</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">				if (result == null) result = caseBasicTerm(realTerm);</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">				if (result == null) result = caseTerm(realTerm);</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L172">				return result;</span>
+			}
+			case FurthertermsPackage.MAP_TERM: {
+<span class="nc" id="L175">				MapTerm mapTerm = (MapTerm)theEObject;</span>
+<span class="nc" id="L176">				T result = caseMapTerm(mapTerm);</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">				if (result == null) result = caseCollectionTerm(mapTerm);</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(mapTerm);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">				if (result == null) result = caseTerm(mapTerm);</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L181">				return result;</span>
+			}
+			case FurthertermsPackage.MAP_CT: {
+<span class="nc" id="L184">				MapCt mapCt = (MapCt)theEObject;</span>
+<span class="nc" id="L185">				T result = caseMapCt(mapCt);</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">				if (result == null) result = caseComprehensionTerm(mapCt);</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">				if (result == null) result = caseVariableBindingTerm(mapCt);</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(mapCt);</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">				if (result == null) result = caseTerm(mapCt);</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L191">				return result;</span>
+			}
+			case FurthertermsPackage.LET_TERM: {
+<span class="nc" id="L194">				LetTerm letTerm = (LetTerm)theEObject;</span>
+<span class="nc" id="L195">				T result = caseLetTerm(letTerm);</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">				if (result == null) result = caseVariableBindingTerm(letTerm);</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(letTerm);</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">				if (result == null) result = caseTerm(letTerm);</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L200">				return result;</span>
+			}
+			case FurthertermsPackage.FORALL_TERM: {
+<span class="nc" id="L203">				ForallTerm forallTerm = (ForallTerm)theEObject;</span>
+<span class="nc" id="L204">				T result = caseForallTerm(forallTerm);</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">				if (result == null) result = caseFiniteQuantificationTerm(forallTerm);</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">				if (result == null) result = caseVariableBindingTerm(forallTerm);</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(forallTerm);</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">				if (result == null) result = caseTerm(forallTerm);</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L210">				return result;</span>
+			}
+			case FurthertermsPackage.FINITE_QUANTIFICATION_TERM: {
+<span class="nc" id="L213">				FiniteQuantificationTerm finiteQuantificationTerm = (FiniteQuantificationTerm)theEObject;</span>
+<span class="nc" id="L214">				T result = caseFiniteQuantificationTerm(finiteQuantificationTerm);</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">				if (result == null) result = caseVariableBindingTerm(finiteQuantificationTerm);</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(finiteQuantificationTerm);</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">				if (result == null) result = caseTerm(finiteQuantificationTerm);</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L219">				return result;</span>
+			}
+			case FurthertermsPackage.EXIST_UNIQUE_TERM: {
+<span class="nc" id="L222">				ExistUniqueTerm existUniqueTerm = (ExistUniqueTerm)theEObject;</span>
+<span class="nc" id="L223">				T result = caseExistUniqueTerm(existUniqueTerm);</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">				if (result == null) result = caseFiniteQuantificationTerm(existUniqueTerm);</span>
+<span class="nc bnc" id="L225" title="All 2 branches missed.">				if (result == null) result = caseVariableBindingTerm(existUniqueTerm);</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(existUniqueTerm);</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">				if (result == null) result = caseTerm(existUniqueTerm);</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L229">				return result;</span>
+			}
+			case FurthertermsPackage.EXIST_TERM: {
+<span class="nc" id="L232">				ExistTerm existTerm = (ExistTerm)theEObject;</span>
+<span class="nc" id="L233">				T result = caseExistTerm(existTerm);</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">				if (result == null) result = caseFiniteQuantificationTerm(existTerm);</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">				if (result == null) result = caseVariableBindingTerm(existTerm);</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(existTerm);</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">				if (result == null) result = caseTerm(existTerm);</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L239">				return result;</span>
+			}
+			case FurthertermsPackage.ENUM_TERM: {
+<span class="nc" id="L242">				EnumTerm enumTerm = (EnumTerm)theEObject;</span>
+<span class="nc" id="L243">				T result = caseEnumTerm(enumTerm);</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">				if (result == null) result = caseConstantTerm(enumTerm);</span>
+<span class="nc bnc" id="L245" title="All 2 branches missed.">				if (result == null) result = caseBasicTerm(enumTerm);</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">				if (result == null) result = caseTerm(enumTerm);</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L248">				return result;</span>
+			}
+			case FurthertermsPackage.CONDITIONAL_TERM: {
+<span class="nc" id="L251">				ConditionalTerm conditionalTerm = (ConditionalTerm)theEObject;</span>
+<span class="nc" id="L252">				T result = caseConditionalTerm(conditionalTerm);</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(conditionalTerm);</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">				if (result == null) result = caseTerm(conditionalTerm);</span>
+<span class="nc bnc" id="L255" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L256">				return result;</span>
+			}
+			case FurthertermsPackage.COMPREHENSION_TERM: {
+<span class="nc" id="L259">				ComprehensionTerm comprehensionTerm = (ComprehensionTerm)theEObject;</span>
+<span class="nc" id="L260">				T result = caseComprehensionTerm(comprehensionTerm);</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">				if (result == null) result = caseVariableBindingTerm(comprehensionTerm);</span>
+<span class="nc bnc" id="L262" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(comprehensionTerm);</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">				if (result == null) result = caseTerm(comprehensionTerm);</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L265">				return result;</span>
+			}
+			case FurthertermsPackage.COMPLEX_TERM: {
+<span class="nc" id="L268">				ComplexTerm complexTerm = (ComplexTerm)theEObject;</span>
+<span class="nc" id="L269">				T result = caseComplexTerm(complexTerm);</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">				if (result == null) result = caseConstantTerm(complexTerm);</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">				if (result == null) result = caseBasicTerm(complexTerm);</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">				if (result == null) result = caseTerm(complexTerm);</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L274">				return result;</span>
+			}
+			case FurthertermsPackage.CHAR_TERM: {
+<span class="nc" id="L277">				CharTerm charTerm = (CharTerm)theEObject;</span>
+<span class="nc" id="L278">				T result = caseCharTerm(charTerm);</span>
+<span class="nc bnc" id="L279" title="All 2 branches missed.">				if (result == null) result = caseConstantTerm(charTerm);</span>
+<span class="nc bnc" id="L280" title="All 2 branches missed.">				if (result == null) result = caseBasicTerm(charTerm);</span>
+<span class="nc bnc" id="L281" title="All 2 branches missed.">				if (result == null) result = caseTerm(charTerm);</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L283">				return result;</span>
+			}
+			case FurthertermsPackage.CASE_TERM: {
+<span class="nc" id="L286">				CaseTerm caseTerm = (CaseTerm)theEObject;</span>
+<span class="nc" id="L287">				T result = caseCaseTerm(caseTerm);</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(caseTerm);</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">				if (result == null) result = caseTerm(caseTerm);</span>
+<span class="nc bnc" id="L290" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L291">				return result;</span>
+			}
+			case FurthertermsPackage.BAG_TERM: {
+<span class="nc" id="L294">				BagTerm bagTerm = (BagTerm)theEObject;</span>
+<span class="nc" id="L295">				T result = caseBagTerm(bagTerm);</span>
+<span class="nc bnc" id="L296" title="All 2 branches missed.">				if (result == null) result = caseCollectionTerm(bagTerm);</span>
+<span class="nc bnc" id="L297" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(bagTerm);</span>
+<span class="nc bnc" id="L298" title="All 2 branches missed.">				if (result == null) result = caseTerm(bagTerm);</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L300">				return result;</span>
+			}
+			case FurthertermsPackage.BAG_CT: {
+<span class="nc" id="L303">				BagCt bagCt = (BagCt)theEObject;</span>
+<span class="nc" id="L304">				T result = caseBagCt(bagCt);</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">				if (result == null) result = caseComprehensionTerm(bagCt);</span>
+<span class="nc bnc" id="L306" title="All 2 branches missed.">				if (result == null) result = caseVariableBindingTerm(bagCt);</span>
+<span class="nc bnc" id="L307" title="All 2 branches missed.">				if (result == null) result = caseExtendedTerm(bagCt);</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">				if (result == null) result = caseTerm(bagCt);</span>
+<span class="nc bnc" id="L309" title="All 2 branches missed.">				if (result == null) result = defaultCase(theEObject);</span>
+<span class="nc" id="L310">				return result;</span>
+			}
+<span class="nc" id="L312">			default: return defaultCase(theEObject);</span>
+		}
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Integer Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Integer Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIntegerTerm(IntegerTerm object) {
+<span class="nc" id="L328">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Natural Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Natural Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNaturalTerm(NaturalTerm object) {
+<span class="nc" id="L343">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Variable Binding Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Variable Binding Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseVariableBindingTerm(VariableBindingTerm object) {
+<span class="nc" id="L358">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;String Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;String Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStringTerm(StringTerm object) {
+<span class="nc" id="L373">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Set Ct&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Set Ct&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSetCt(SetCt object) {
+<span class="nc" id="L388">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Sequence Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Sequence Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSequenceTerm(SequenceTerm object) {
+<span class="nc" id="L403">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Sequence Ct&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Sequence Ct&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSequenceCt(SequenceCt object) {
+<span class="nc" id="L418">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Real Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Real Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRealTerm(RealTerm object) {
+<span class="nc" id="L433">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Map Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Map Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMapTerm(MapTerm object) {
+<span class="nc" id="L448">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Map Ct&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Map Ct&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMapCt(MapCt object) {
+<span class="nc" id="L463">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Let Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Let Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLetTerm(LetTerm object) {
+<span class="nc" id="L478">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Forall Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Forall Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseForallTerm(ForallTerm object) {
+<span class="nc" id="L493">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Finite Quantification Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Finite Quantification Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFiniteQuantificationTerm(FiniteQuantificationTerm object) {
+<span class="nc" id="L508">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Exist Unique Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Exist Unique Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExistUniqueTerm(ExistUniqueTerm object) {
+<span class="nc" id="L523">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Exist Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Exist Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExistTerm(ExistTerm object) {
+<span class="nc" id="L538">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Enum Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Enum Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEnumTerm(EnumTerm object) {
+<span class="nc" id="L553">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Conditional Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Conditional Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseConditionalTerm(ConditionalTerm object) {
+<span class="nc" id="L568">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Comprehension Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Comprehension Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseComprehensionTerm(ComprehensionTerm object) {
+<span class="nc" id="L583">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Complex Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Complex Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseComplexTerm(ComplexTerm object) {
+<span class="nc" id="L598">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Char Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Char Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCharTerm(CharTerm object) {
+<span class="nc" id="L613">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Case Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Case Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCaseTerm(CaseTerm object) {
+<span class="nc" id="L628">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Bag Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Bag Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBagTerm(BagTerm object) {
+<span class="nc" id="L643">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Bag Ct&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Bag Ct&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBagCt(BagCt object) {
+<span class="nc" id="L658">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTerm(Term object) {
+<span class="nc" id="L673">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Basic Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Basic Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBasicTerm(BasicTerm object) {
+<span class="nc" id="L688">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Constant Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Constant Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseConstantTerm(ConstantTerm object) {
+<span class="nc" id="L703">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Extended Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Extended Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExtendedTerm(ExtendedTerm object) {
+<span class="nc" id="L718">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;Collection Term&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;Collection Term&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCollectionTerm(CollectionTerm object) {
+<span class="nc" id="L733">		return null;</span>
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '&lt;em&gt;EObject&lt;/em&gt;'.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch, but this is the last case anyway.
+	 * &lt;!-- end-user-doc --&gt;
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '&lt;em&gt;EObject&lt;/em&gt;'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
+	 * @generated
+	 */
+	@Override
+	public T defaultCase(EObject object) {
+<span class="nc" id="L749">		return null;</span>
+	}
+
+} //FurthertermsSwitch
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

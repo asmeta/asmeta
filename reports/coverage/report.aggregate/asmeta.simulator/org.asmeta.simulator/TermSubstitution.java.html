@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>TermSubstitution.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator</a> &gt; <span class="el_source">TermSubstitution.java</span></div><h1>TermSubstitution.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2005, 2006 ASMETA group (http://asmeta.sourceforge.net)
+ * License Information: http://asmeta.sourceforge.net/licensing/
+ * 
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License version 2 as
+ *   published by the Free Software Foundation.
+ * 
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ * 
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
+ *   USA
+ * 
+ *   http://www.gnu.org/licenses/gpl.txt
+ * 
+ *   
+ *******************************************************************************/
+
+/*
+ * TermSubstitution.java
+ *
+ * Created on 25 giugno 2006, 17.02
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package org.asmeta.simulator;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.simulator.wrapper.RuleFactory;
+
+import asmeta.terms.basicterms.ConstantTerm;
+import asmeta.terms.basicterms.DomainTerm;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.RuleAsTerm;
+import asmeta.terms.basicterms.SetTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.ComprehensionTerm;
+import asmeta.terms.furtherterms.ConditionalTerm;
+import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.FiniteQuantificationTerm;
+import asmeta.terms.furtherterms.ForallTerm;
+import asmeta.terms.furtherterms.LetTerm;
+import asmeta.terms.furtherterms.SequenceCt;
+import asmeta.terms.furtherterms.SequenceTerm;
+import asmeta.terms.furtherterms.SetCt;
+
+/**
+ * Substituter of the terms in the place of the free variables. 
+ * 
+ */
+<span class="nc bnc" id="L69" title="All 2 branches missed.">public class TermSubstitution extends ReflectiveVisitor&lt;Term&gt; {</span>
+    
+<span class="nc" id="L71">	private static Logger logger = Logger.getLogger(TermSubstitution.class);</span>
+	
+	/**
+	 * Prints a string representation of terms.
+	 * 
+	 */
+<span class="nc" id="L77">	protected AsmetaTermPrinter printer = new AsmetaTermPrinter(true);</span>
+	
+	/**
+	 * Creates new terms and rules.
+	 * 
+	 */
+	public static RuleFactory ruleFactory;
+	
+	/**
+	 * This field is added to the name of renamed bound variables to avoid
+	 * name clashes.
+	 *  
+	 */
+<span class="nc" id="L90">	public static int varSuffix = 0;</span>
+	
+    /**
+     * Terms to substitute to free variables.
+     * 
+     */
+    protected TermAssignment assignment;
+    
+    
+    /**
+     * Free variables contained in the terms to substitute.
+     *  
+     */
+    protected VariableSet freeVars;
+    
+    /**
+     * Constructor.
+     *  
+     * @param params assignment of terms and free variables
+     */
+<span class="nc" id="L110">    public TermSubstitution(TermAssignment params) {</span>
+<span class="nc" id="L111">        assignment = params;</span>
+        // FIXME getFrees() should go in the class TermAssignment to avoid
+        // to call it every time a new TermSubstitution is created
+<span class="nc" id="L114">        freeVars = getFrees();</span>
+<span class="nc" id="L115">    }</span>
+    
+    /**
+     * Copy constructor.
+     * 
+     */
+<span class="nc" id="L121">    public TermSubstitution(TermSubstitution substitution) {</span>
+<span class="nc" id="L122">    	assignment = new TermAssignment(substitution.assignment);</span>
+<span class="nc" id="L123">    	freeVars = getFrees();</span>
+<span class="nc" id="L124">    }</span>
+       
+    /**
+     * Gets the free variables contained in the terms to substitute.
+     * 
+     * @return set of free variables
+     */
+    private VariableSet getFrees() {
+<span class="nc" id="L132">    	VariableSet set = new VariableSet();</span>
+<span class="nc" id="L133">    	VarFinder finder = new VarFinder();</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">    	for (Object o : assignment.assignmentMap.values()) {</span>
+<span class="nc" id="L135">    		Term nextTerm = (Term) o;</span>
+<span class="nc" id="L136">			VariableSet nextSet = finder.visit(nextTerm);</span>
+<span class="nc" id="L137">			set.addAll(nextSet);</span>
+<span class="nc" id="L138">		}</span>
+<span class="nc" id="L139">    	return set;</span>
+    }
+    
+	/**
+	 * Makes substitutions on a term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+    public Term visit(Term term) {
+<span class="nc bnc" id="L149" title="All 2 branches missed.">    	if (!(term instanceof ConstantTerm)) {</span>
+<span class="nc" id="L150">    		return visit((Object) term);</span>
+    	}
+<span class="nc" id="L152">    	return term;</span>
+    }
+    
+	/**
+	 * Makes substitutions on a free variable term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+    public Term visit(VariableTerm variable) {
+<span class="nc" id="L162">    	logger.debug(&quot;&lt;VariableTerm&gt;&quot;);</span>
+<span class="nc" id="L163">        Term newTerm = getSubstitute(variable);</span>
+<span class="nc" id="L164">        logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(variable) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L165">        logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(newTerm) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L166">        logger.debug(&quot;&lt;/VariableTerm&gt;&quot;);</span>
+<span class="nc" id="L167">        return newTerm;</span>
+    }
+    
+	/**
+	 * Gets the term to substitute to the given free variable.
+	 * 
+	 * @param variable a variable
+	 * @return the corresponding term 
+	 */
+	protected Term getSubstitute(VariableTerm variable) {
+<span class="nc" id="L177">		Term substitute = assignment.get(variable);</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">		return substitute == null ? variable : substitute;</span>
+	}
+    
+	/**
+	 * Makes substitutions on a tuple term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+    public TupleTerm visit(TupleTerm tuple) {
+<span class="nc bnc" id="L188" title="All 2 branches missed.">    	if (tuple != null) {</span>
+    		//assert tuple.getTerms() == null || tuple.getArity() == tuple.getTerms().size();
+<span class="nc" id="L190">    		logger.debug(&quot;&lt;TupleTerm&gt;&quot;);</span>
+<span class="nc" id="L191">    		TupleTerm newTuple = ruleFactory.createTupleTerm();</span>
+<span class="nc" id="L192">    		newTuple.setDomain(tuple.getDomain());</span>
+<span class="nc" id="L193">    		newTuple.setArity(tuple.getArity());</span>
+<span class="nc" id="L194">    		List&lt;Term&gt; newTerms = visit(tuple.getTerms());</span>
+<span class="nc" id="L195">    		newTuple.getTerms().addAll(newTerms);</span>
+<span class="nc bnc" id="L196" title="All 6 branches missed.">    		assert newTuple.getTerms() == null || newTuple.getArity() == newTuple.getTerms().size();</span>
+<span class="nc" id="L197">    		logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(tuple) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L198">    		logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(newTuple) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L199">    		logger.debug(&quot;&lt;/TupleTerm&gt;&quot;);</span>
+<span class="nc" id="L200">    		return newTuple;</span>
+    	}
+<span class="nc" id="L202">    	return null;</span>
+    }
+    
+	/**
+	 * Makes substitutions on a function term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+    public FunctionTerm visit(FunctionTerm function) {
+<span class="nc" id="L212">    	logger.debug(&quot;&lt;FunctionTerm&gt;&quot;);</span>
+<span class="nc" id="L213">		logger.debug(&quot;&lt;Name&gt;&quot; + function.getFunction().getName() + &quot;&lt;/Name&gt;&quot;);</span>
+<span class="nc" id="L214">        FunctionTerm newFunction = ruleFactory.createFunctionTerm();</span>
+<span class="nc" id="L215">        newFunction.setDomain(function.getDomain());</span>
+<span class="nc" id="L216">		TupleTerm newTuple = visit(function.getArguments());</span>
+		//assert newTuple.getTerms() == null || newTuple.getArity() == newTuple.getTerms().size();
+<span class="nc" id="L218">        newFunction.setArguments(newTuple);</span>
+<span class="nc" id="L219">        newFunction.setFunction(function.getFunction());</span>
+<span class="nc" id="L220">    	logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(function) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L221">        logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(newFunction) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L222">        logger.debug(&quot;&lt;/FunctionTerm&gt;&quot;);</span>
+<span class="nc" id="L223">        return newFunction;</span>
+    }
+    
+	/**
+	 * Makes substitutions on a location term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+    public LocationTerm visit(LocationTerm location) {
+<span class="nc" id="L233">    	logger.debug(&quot;&lt;LocationTerm&gt;&quot;);</span>
+<span class="nc" id="L234">		logger.debug(&quot;&lt;Name&gt;&quot; + location.getFunction().getName() + &quot;&lt;/Name&gt;&quot;);</span>
+<span class="nc" id="L235">        LocationTerm newLocation = ruleFactory.createLocationTerm();</span>
+<span class="nc" id="L236">        newLocation.setDomain(location.getDomain());</span>
+<span class="nc" id="L237">		TupleTerm newTuple = visit(location.getArguments());</span>
+<span class="nc" id="L238">        newLocation.setArguments(newTuple);</span>
+<span class="nc" id="L239">        newLocation.setFunction(location.getFunction());</span>
+<span class="nc" id="L240">    	logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(location) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L241">        logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(newLocation) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L242">        logger.debug(&quot;&lt;/LocationTerm&gt;&quot;);</span>
+<span class="nc" id="L243">        return newLocation;</span>
+    }
+	
+	/**
+	 * Makes substitutions on a conditional term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+	public ConditionalTerm visit(ConditionalTerm cond) {
+<span class="nc" id="L253">		logger.debug(&quot;&lt;ConditionalTerm&gt;&quot;);</span>
+<span class="nc" id="L254">		ConditionalTerm newCond = ruleFactory.createConditionalTerm();</span>
+<span class="nc" id="L255">		newCond.setDomain(cond.getDomain());</span>
+<span class="nc" id="L256">		logger.debug(&quot;&lt;Guard&gt;&quot;);</span>
+<span class="nc" id="L257">		Term newGuard = visit(cond.getGuard());</span>
+<span class="nc" id="L258">		newCond.setGuard(newGuard);</span>
+<span class="nc" id="L259">		logger.debug(&quot;&lt;/Guard&gt;&quot;);</span>
+<span class="nc" id="L260">		logger.debug(&quot;&lt;ThenTerm&gt;&quot;);</span>
+<span class="nc" id="L261">		Term newThen = visit(cond.getThenTerm());</span>
+<span class="nc" id="L262">		newCond.setThenTerm(newThen);</span>
+<span class="nc" id="L263">		logger.debug(&quot;&lt;/ThenTerm&gt;&quot;);</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">		if (cond.getElseTerm() != null) {</span>
+<span class="nc" id="L265">			logger.debug(&quot;&lt;ElseTerm&gt;&quot;);</span>
+<span class="nc" id="L266">			Term newElse = visit(cond.getElseTerm());</span>
+<span class="nc" id="L267">			newCond.setElseTerm(newElse);</span>
+<span class="nc" id="L268">			logger.debug(&quot;&lt;/ElseTerm&gt;&quot;);</span>
+		}
+<span class="nc" id="L270">		logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(cond) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L271">    	logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(newCond) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L272">		logger.debug(&quot;&lt;/ConditionalTerm&gt;&quot;);</span>
+<span class="nc" id="L273">		return newCond;</span>
+	}
+	
+	/**
+	 * Makes substitutions on a case term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+	public CaseTerm visit(CaseTerm caseTerm) {
+<span class="nc" id="L283">		logger.debug(&quot;&lt;CaseTerm&gt;&quot;);</span>
+<span class="nc" id="L284">		CaseTerm newCase = ruleFactory.createCaseTerm();</span>
+<span class="nc" id="L285">		newCase.setDomain(caseTerm.getDomain());</span>
+<span class="nc" id="L286">		logger.debug(&quot;&lt;ComparedTerm&gt;&quot;);</span>
+<span class="nc" id="L287">		Term newComparedTerm = visit(caseTerm.getComparedTerm());</span>
+<span class="nc" id="L288">		newCase.setComparedTerm(newComparedTerm);</span>
+<span class="nc" id="L289">		logger.debug(&quot;&lt;/ComparedTerm&gt;&quot;);</span>
+<span class="nc" id="L290">		logger.debug(&quot;&lt;ComparingTerms&gt;&quot;);</span>
+<span class="nc" id="L291">		List&lt;Term&gt; newComparingTerms = newCase.getComparingTerm();</span>
+<span class="nc" id="L292">		visit(caseTerm.getComparingTerm(), newComparingTerms);</span>
+<span class="nc" id="L293">		logger.debug(&quot;&lt;/ComparingTerms&gt;&quot;);</span>
+<span class="nc" id="L294">		logger.debug(&quot;&lt;ResultTerms&gt;&quot;);</span>
+<span class="nc" id="L295">		List&lt;Term&gt; newResultTerms = visit(caseTerm.getResultTerms());</span>
+<span class="nc" id="L296">		newCase.getResultTerms().addAll(newResultTerms);</span>
+<span class="nc" id="L297">		logger.debug(&quot;&lt;/ResultTerms&gt;&quot;);		</span>
+<span class="nc bnc" id="L298" title="All 2 branches missed.">		if (caseTerm.getOtherwiseTerm() != null) {</span>
+<span class="nc" id="L299">			logger.debug(&quot;&lt;OtherwiseTerm&gt;&quot;);</span>
+<span class="nc" id="L300">			Term newOtherwiseTerm = visit(caseTerm.getOtherwiseTerm());</span>
+<span class="nc" id="L301">			newCase.setOtherwiseTerm(newOtherwiseTerm);</span>
+<span class="nc" id="L302">			logger.debug(&quot;&lt;/OtherwiseTerm&gt;&quot;);</span>
+		}
+<span class="nc" id="L304">		logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(caseTerm) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L305">    	logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(newCase) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L306">		logger.debug(&quot;&lt;/CaseTerm&gt;&quot;);</span>
+<span class="nc" id="L307">		return newCase;</span>
+	}
+	
+	/**
+	 * Makes substitutions on a domain term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+    public DomainTerm visit(DomainTerm domain) {
+<span class="nc" id="L317">    	logger.debug(&quot;&lt;DomainTerm&gt;&quot;);</span>
+<span class="nc" id="L318">    	logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(domain) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L319">    	logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(domain) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L320">    	logger.debug(&quot;&lt;/DomainTerm&gt;&quot;);</span>
+<span class="nc" id="L321">		return domain;</span>
+    }
+    
+	/**
+	 * Makes substitutions on an enumeration term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+	public EnumTerm visit(EnumTerm enumTerm) {
+<span class="nc" id="L331">    	logger.debug(&quot;&lt;EnumTerm&gt;&quot;);</span>
+<span class="nc" id="L332">    	logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(enumTerm) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L333">    	logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(enumTerm) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L334">    	logger.debug(&quot;&lt;/EnumTerm&gt;&quot;);</span>
+<span class="nc" id="L335">        return enumTerm;</span>
+    }
+	
+	/**
+	 * Makes substitutions on a let term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+	public LetTerm visit(LetTerm let) {
+<span class="nc" id="L345">		logger.debug(&quot;&lt;LetTerm&gt;&quot;);</span>
+<span class="nc" id="L346">		TermSubstitution newSubstitution = new TermSubstitution(this);</span>
+<span class="nc" id="L347">		LetTerm newLet = ruleFactory.createLetTerm();</span>
+<span class="nc" id="L348">		logger.debug(&quot;&lt;Variables&gt;&quot;);</span>
+<span class="nc" id="L349">		List&lt;VariableTerm&gt; newVarList = newLet.getVariable();</span>
+<span class="nc" id="L350">		newSubstitution.visitBoundVars(let.getVariable(), newVarList);</span>
+<span class="nc" id="L351">		logger.debug(&quot;&lt;/Variables&gt;&quot;);</span>
+<span class="nc" id="L352">		logger.debug(&quot;&lt;InitTerms&gt;&quot;);</span>
+<span class="nc" id="L353">		List&lt;Term&gt; newInitList = newLet.getAssignmentTerm();</span>
+<span class="nc" id="L354">		newSubstitution.visit(let.getAssignmentTerm(), newInitList);</span>
+<span class="nc" id="L355">		logger.debug(&quot;&lt;/InitTerms&gt;&quot;);</span>
+<span class="nc" id="L356">		newLet.setDomain(let.getDomain());</span>
+<span class="nc" id="L357">		logger.debug(&quot;&lt;Body&gt;&quot;);</span>
+<span class="nc" id="L358">		Term newBody = newSubstitution.visit(let.getBody());</span>
+<span class="nc" id="L359">		newLet.setBody(newBody);</span>
+<span class="nc" id="L360">		logger.debug(&quot;&lt;/Body&gt;&quot;);</span>
+<span class="nc" id="L361">		logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(let) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L362">    	logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(newLet) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L363">		logger.debug(&quot;&lt;/LetTerm&gt;&quot;);</span>
+<span class="nc" id="L364">		return newLet;</span>
+	}
+
+	/**
+	 * Makes substitutions on an exist term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+	public ExistTerm visit(ExistTerm exist) {
+<span class="nc" id="L374">		logger.debug(&quot;&lt;ExistTerm&gt;&quot;);</span>
+<span class="nc" id="L375">		ExistTerm newExist = ruleFactory.createExistTerm();</span>
+<span class="nc" id="L376">		visitQuant(exist, newExist);</span>
+<span class="nc" id="L377">		logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(exist) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L378">    	logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(newExist) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L379">		logger.debug(&quot;&lt;/ExistTerm&gt;&quot;);</span>
+<span class="nc" id="L380">		return newExist;</span>
+	}
+	
+	/**
+	 * Makes substitutions on a forall term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+	public ForallTerm visit(ForallTerm forall) {
+<span class="nc" id="L390">		logger.debug(&quot;&lt;ForallTerm&gt;&quot;);</span>
+<span class="nc" id="L391">		ForallTerm newForall = ruleFactory.createForallTerm();</span>
+<span class="nc" id="L392">		visitQuant(forall, newForall);</span>
+<span class="nc" id="L393">		logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(forall) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L394">    	logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(newForall) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L395">		logger.debug(&quot;&lt;/ForallTerm&gt;&quot;);</span>
+<span class="nc" id="L396">		return newForall;</span>
+	}
+		
+	/**
+	 * Makes substitutions on a finite quantification term.
+	 * 
+	 * @param quantTerm a finite quantification term
+	 * @param newQuantTerm the new term
+	 */
+	protected void visitQuant(FiniteQuantificationTerm quantTerm, FiniteQuantificationTerm newQuantTerm) {
+<span class="nc" id="L406">		logger.debug(&quot;&lt;Variables&gt;&quot;);</span>
+<span class="nc" id="L407">		TermSubstitution newSubstitution = new TermSubstitution(this);</span>
+<span class="nc" id="L408">		List&lt;VariableTerm&gt; newVarList = newQuantTerm.getVariable();</span>
+<span class="nc" id="L409">		newSubstitution.visitBoundVars(quantTerm.getVariable(), newVarList);</span>
+<span class="nc" id="L410">		logger.debug(&quot;&lt;/Variables&gt;&quot;);</span>
+<span class="nc" id="L411">		logger.debug(&quot;&lt;Ranges&gt;&quot;);</span>
+<span class="nc" id="L412">		List&lt;Term&gt; newRanges = newSubstitution.visit(quantTerm.getRanges());</span>
+<span class="nc" id="L413">		newQuantTerm.getRanges().addAll(newRanges);</span>
+<span class="nc" id="L414">		logger.debug(&quot;&lt;/Ranges&gt;&quot;);</span>
+<span class="nc" id="L415">		newQuantTerm.setDomain(quantTerm.getDomain());</span>
+<span class="nc" id="L416">		logger.debug(&quot;&lt;Guard&gt;&quot;);</span>
+<span class="nc" id="L417">		Term newGuard = newSubstitution.visit(quantTerm.getGuard());</span>
+<span class="nc" id="L418">		newQuantTerm.setGuard(newGuard);</span>
+<span class="nc" id="L419">		logger.debug(&quot;&lt;/Guard&gt;&quot;);</span>
+<span class="nc" id="L420">	}</span>
+	
+	/**
+	 * Makes substitutions on a rule as term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+	public RuleAsTerm visit(RuleAsTerm term) {
+<span class="nc" id="L429">    	logger.debug(&quot;&lt;RuleAsTerm name=\&quot;&quot; + term.getRule().getName() + &quot;\&quot;/&gt;&quot;);</span>
+<span class="nc" id="L430">    	return term;</span>
+    }
+	
+	/**
+	 * Makes substitutions on a set comprehension term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+	public SetCt visit(SetCt setCt) {
+<span class="nc" id="L440">		logger.debug(&quot;&lt;SetCt&gt;&quot;);</span>
+<span class="nc" id="L441">		SetCt newSetCt = ruleFactory.createSetCt();</span>
+<span class="nc" id="L442">		visitCt(setCt, newSetCt);</span>
+<span class="nc" id="L443">		logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(setCt) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L444">    	logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(newSetCt) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L445">		logger.debug(&quot;&lt;/SetCt&gt;&quot;);</span>
+<span class="nc" id="L446">		return newSetCt;</span>
+	}
+
+	/**
+	 * Makes substitutions on a sequence comprehension term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+	public SequenceCt visit(SequenceCt seqCt) {
+<span class="nc" id="L456">		logger.debug(&quot;&lt;SequenceCt&gt;&quot;);</span>
+<span class="nc" id="L457">		SequenceCt newSeqCt = ruleFactory.createSequenceCt();</span>
+<span class="nc" id="L458">		visitCt(seqCt, newSeqCt);</span>
+<span class="nc" id="L459">		logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(seqCt) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L460">    	logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(newSeqCt) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L461">		logger.debug(&quot;&lt;/SequenceCt&gt;&quot;);</span>
+<span class="nc" id="L462">		return newSeqCt;</span>
+	}
+
+	/**
+	 * Makes substitutions on a comprehension term.
+	 * 
+	 * @param ct a comprehension term
+	 * @param newCt the new term
+	 */
+	public void visitCt(ComprehensionTerm ct, ComprehensionTerm newCt) {
+<span class="nc" id="L472">		logger.debug(&quot;&lt;Variables&gt;&quot;);</span>
+<span class="nc" id="L473">		TermSubstitution newSubstitution = new TermSubstitution(this);</span>
+<span class="nc" id="L474">		List&lt;VariableTerm&gt; newVarList = newCt.getVariable();</span>
+<span class="nc" id="L475">		newSubstitution.visitBoundVars(ct.getVariable(), newVarList);</span>
+<span class="nc" id="L476">		logger.debug(&quot;&lt;/Variables&gt;&quot;);</span>
+<span class="nc" id="L477">		logger.debug(&quot;&lt;Ranges&gt;&quot;);</span>
+<span class="nc" id="L478">		List&lt;Term&gt; newRanges = newSubstitution.visit(ct.getRanges());</span>
+<span class="nc" id="L479">		newCt.getRanges().addAll(newRanges);</span>
+<span class="nc" id="L480">		logger.debug(&quot;&lt;/Ranges&gt;&quot;);</span>
+<span class="nc" id="L481">		newCt.setDomain(ct.getDomain());</span>
+		// get the guard
+<span class="nc" id="L483">		logger.debug(&quot;&lt;Guard&gt;&quot;);</span>
+<span class="nc" id="L484">		Term newGuard = ct.getGuard();</span>
+<span class="nc bnc" id="L485" title="All 2 branches missed.">		if (newGuard != null) newGuard = newSubstitution.visit(ct.getGuard());</span>
+<span class="nc" id="L486">		else logger.debug(&quot;null guard&quot;);</span>
+<span class="nc" id="L487">		newCt.setGuard(newGuard);</span>
+<span class="nc" id="L488">		logger.debug(&quot;&lt;/Guard&gt;&quot;);</span>
+<span class="nc" id="L489">		logger.debug(&quot;&lt;Term&gt;&quot;);</span>
+<span class="nc" id="L490">		Term newTerm = newSubstitution.visit(ct.getTerm());</span>
+<span class="nc" id="L491">		newCt.setTerm(newTerm);</span>
+<span class="nc" id="L492">		logger.debug(&quot;&lt;/Term&gt;&quot;);</span>
+<span class="nc" id="L493">	}</span>
+	
+	/**
+	 * Makes substitutions on a set term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+    public SetTerm visit(SetTerm setTerm) {
+<span class="nc" id="L502">    	logger.debug(&quot;&lt;SetTerm&gt;&quot;);</span>
+<span class="nc" id="L503">    	SetTerm newSet = ruleFactory.createSetTerm();</span>
+<span class="nc" id="L504">    	Collection&lt;Term&gt; newTerms = newSet.getTerm();</span>
+<span class="nc" id="L505">    	visit(setTerm.getTerm(), newTerms);</span>
+<span class="nc" id="L506">    	newSet.setDomain(setTerm.getDomain());</span>
+<span class="nc" id="L507">    	newSet.setSize(setTerm.getSize());</span>
+<span class="nc" id="L508">    	logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(setTerm) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L509">    	logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(setTerm) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L510">    	logger.debug(&quot;&lt;/SetTerm&gt;&quot;);</span>
+<span class="nc" id="L511">        return setTerm;</span>
+    }
+	
+	/**
+	 * Makes substitutions on a sequence term.
+	 * 
+	 * @param term a term
+	 * @return the new term
+	 */
+	public SequenceTerm visit(SequenceTerm sequence) {
+<span class="nc" id="L521">    	logger.debug(&quot;&lt;SequenceTerm&gt;&quot;);</span>
+<span class="nc" id="L522">    	SequenceTerm newSeq = ruleFactory.createSequenceTerm();</span>
+    	// creates the list of terms in it
+    	// List newTerms = newSeq.getTerms();
+<span class="nc" id="L525">    	List&lt;Term&gt; newTerms = new ArrayList&lt;Term&gt;();</span>
+<span class="nc" id="L526">    	newSeq.getTerms().addAll(newTerms);</span>
+<span class="nc" id="L527">    	visit(sequence.getTerms(), newTerms);</span>
+<span class="nc" id="L528">    	newSeq.setDomain(sequence.getDomain());</span>
+<span class="nc" id="L529">    	newSeq.setSize(sequence.getSize());</span>
+<span class="nc" id="L530">    	logger.debug(&quot;&lt;Before&gt;&quot; + printer.visit(sequence) + &quot;&lt;/Before&gt;&quot;);</span>
+<span class="nc" id="L531">    	logger.debug(&quot;&lt;After&gt;&quot; + printer.visit(sequence) + &quot;&lt;/After&gt;&quot;);</span>
+<span class="nc" id="L532">    	logger.debug(&quot;&lt;/SequenceTerm&gt;&quot;);</span>
+<span class="nc" id="L533">        return sequence;</span>
+    }
+	
+	/**
+	 * Makes a copy of the given variable.
+	 * 
+	 * @param var a variable
+	 * @return the copy
+	 */
+	protected VariableTerm copy(VariableTerm var) {
+<span class="nc" id="L543">		VariableTerm newVar = ruleFactory.createVariableTerm();</span>
+<span class="nc" id="L544">		newVar.setDomain(var.getDomain());</span>
+<span class="nc" id="L545">		newVar.setName(var.getName());</span>
+<span class="nc" id="L546">		newVar.setKind(var.getKind());</span>
+<span class="nc" id="L547">		return newVar;</span>
+	}
+	
+	/**
+	 * Makes substitutions on a list of terms.
+	 * 
+	 * @param term a list of terms
+	 * @return the new list of terms
+	 */
+    protected List&lt;Term&gt; visit(Collection&lt;?&gt;/*&lt;Term&gt;*/ termList) {
+<span class="nc" id="L557">    	ArrayList&lt;Term&gt; newList = new ArrayList&lt;Term&gt;(termList.size());</span>
+<span class="nc" id="L558">    	return visit(termList, newList);</span>
+    }
+
+    /**
+     * Makes substitutions on a list of terms.
+     * 
+     * @param termList a list of terms
+     * @param newList the new list of terms
+     * @return &lt;i&gt;newList&lt;/i&gt;
+     */
+    protected List&lt;Term&gt; visit(
+    		Collection&lt;?&gt;/*&lt;Term&gt;*/ termList, 
+    		List&lt;Term&gt; newList) {
+<span class="nc bnc" id="L571" title="All 2 branches missed.">    	for (Object o : termList) {</span>
+<span class="nc" id="L572">    		Term term = (Term) o;</span>
+<span class="nc" id="L573">			Term newTerm = visit(term);</span>
+<span class="nc" id="L574">			newList.add(newTerm);</span>
+<span class="nc" id="L575">		}</span>
+<span class="nc" id="L576">    	return newList;</span>
+    }
+    
+    /**
+     * Makes substitutions on a collection of terms.
+     * 
+     * @param termList a collection of terms
+     * @param newList the new collection of terms
+     * @return &lt;i&gt;newList&lt;/i&gt;
+     */
+
+    protected Collection&lt;Term&gt; visit(
+    		Collection&lt;?&gt;/*&lt;Term&gt;*/ termList, 
+    		Collection&lt;Term&gt; newList) {
+<span class="nc bnc" id="L590" title="All 2 branches missed.">    	for (Object o : termList) {</span>
+<span class="nc" id="L591">    		Term term = (Term) o;</span>
+<span class="nc" id="L592">			Term newTerm = visit(term);</span>
+<span class="nc" id="L593">			newList.add(newTerm);</span>
+<span class="nc" id="L594">		}</span>
+<span class="nc" id="L595">    	return newList;</span>
+    }
+    	
+	/**
+	 * Mangles a variable name to avoid name clashes.
+	 * 
+	 * @param var a variable
+	 */
+	void mangleName(VariableTerm var) {
+		// the character '!' can not belong to a standard name so the
+		// new name is certainly unique
+<span class="nc" id="L606">		var.setName(var.getName() + &quot;!&quot; + ++varSuffix );</span>
+<span class="nc" id="L607">	}</span>
+	
+	/**
+	 * Renames the bound variables (i.e. not in the field &lt;i&gt;freeVars&lt;/i&gt;)
+	 * contained in the given collection.
+	 * 
+	 * @param varList a variable collection
+	 * @return the new collection
+	 */
+	protected Collection&lt;VariableTerm&gt; visitBoundVars(Collection&lt;VariableTerm&gt; varList) {
+<span class="nc" id="L617">		List&lt;VariableTerm&gt; newList = new ArrayList&lt;VariableTerm&gt;();</span>
+<span class="nc" id="L618">		return visitBoundVars(varList, newList);</span>
+	}
+	
+	/**
+	 * Renames the bound variables (i.e. not in the field &lt;i&gt;freeVars&lt;/i&gt;)
+	 * contained in the given collection.
+	 * 
+	 * @param varList a variable collection
+	 * @param newList the new collection
+	 * @return &lt;i&gt;newList&lt;/i&gt;
+	 */
+	protected Collection&lt;VariableTerm&gt; visitBoundVars(
+			Collection&lt;VariableTerm&gt; varList, 
+			Collection&lt;VariableTerm&gt; newList) {
+<span class="nc bnc" id="L632" title="All 2 branches missed.">		for (Object o : varList) {</span>
+<span class="nc" id="L633">			VariableTerm var = (VariableTerm) o;</span>
+			VariableTerm newVar;
+<span class="nc bnc" id="L635" title="All 2 branches missed.">			if (freeVars.contains(var)) {</span>
+				// rename the variable
+<span class="nc" id="L637">				VariableTerm renamedVar = copy(var);</span>
+<span class="nc" id="L638">				mangleName(renamedVar);</span>
+				// put the renamed variable in the assignment
+<span class="nc" id="L640">				assignment.put(var, renamedVar);</span>
+<span class="nc" id="L641">				newVar = copy(renamedVar);</span>
+<span class="nc" id="L642">			} else {</span>
+<span class="nc" id="L643">				newVar = copy(var);</span>
+			}
+<span class="nc" id="L645">			newList.add(newVar);</span>
+<span class="nc" id="L646">		}</span>
+<span class="nc" id="L647">		return newList;		</span>
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

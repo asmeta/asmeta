@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>LetTermImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.terms.furtherterms.impl</a> &gt; <span class="el_source">LetTermImpl.java</span></div><h1>LetTermImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.terms.furtherterms.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.FurthertermsPackage;
+import asmeta.terms.furtherterms.LetTerm;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Let Term&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.terms.furtherterms.impl.LetTermImpl#getVariable &lt;em&gt;Variable&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.terms.furtherterms.impl.LetTermImpl#getAssignmentTerm &lt;em&gt;Assignment Term&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.terms.furtherterms.impl.LetTermImpl#getBody &lt;em&gt;Body&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class LetTermImpl extends VariableBindingTermImpl implements LetTerm {
+	/**
+	 * The cached value of the '{@link #getVariable() &lt;em&gt;Variable&lt;/em&gt;}' containment reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getVariable()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;VariableTerm&gt; variable;
+
+	/**
+	 * The cached value of the '{@link #getAssignmentTerm() &lt;em&gt;Assignment Term&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getAssignmentTerm()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;Term&gt; assignmentTerm;
+
+	/**
+	 * The cached value of the '{@link #getBody() &lt;em&gt;Body&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getBody()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term body;
+
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected LetTermImpl() {
+<span class="fc" id="L79">		super();</span>
+<span class="fc" id="L80">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L89">		return FurthertermsPackage.Literals.LET_TERM;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;VariableTerm&gt; getVariable() {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">		if (variable == null) {</span>
+<span class="fc" id="L100">			variable = new EObjectContainmentEList&lt;VariableTerm&gt;(VariableTerm.class, this, FurthertermsPackage.LET_TERM__VARIABLE);</span>
+		}
+<span class="fc" id="L102">		return variable;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;Term&gt; getAssignmentTerm() {
+<span class="fc bfc" id="L112" title="All 2 branches covered.">		if (assignmentTerm == null) {</span>
+<span class="fc" id="L113">			assignmentTerm = new EObjectResolvingEList&lt;Term&gt;(Term.class, this, FurthertermsPackage.LET_TERM__ASSIGNMENT_TERM);</span>
+		}
+<span class="fc" id="L115">		return assignmentTerm;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getBody() {
+<span class="pc bpc" id="L125" title="2 of 4 branches missed.">		if (body != null &amp;&amp; body.eIsProxy()) {</span>
+<span class="nc" id="L126">			InternalEObject oldBody = (InternalEObject)body;</span>
+<span class="nc" id="L127">			body = (Term)eResolveProxy(oldBody);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">			if (body != oldBody) {</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L130">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, FurthertermsPackage.LET_TERM__BODY, oldBody, body));</span>
+			}
+		}
+<span class="fc" id="L133">		return body;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Term basicGetBody() {
+<span class="nc" id="L142">		return body;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setBody(Term newBody) {
+<span class="fc" id="L152">		Term oldBody = body;</span>
+<span class="fc" id="L153">		body = newBody;</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L155">			eNotify(new ENotificationImpl(this, Notification.SET, FurthertermsPackage.LET_TERM__BODY, oldBody, body));</span>
+<span class="fc" id="L156">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L165" title="All 2 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.LET_TERM__VARIABLE:
+<span class="nc" id="L167">				return ((InternalEList&lt;?&gt;)getVariable()).basicRemove(otherEnd, msgs);</span>
+		}
+<span class="nc" id="L169">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L179" title="All 4 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.LET_TERM__VARIABLE:
+<span class="nc" id="L181">				return getVariable();</span>
+			case FurthertermsPackage.LET_TERM__ASSIGNMENT_TERM:
+<span class="nc" id="L183">				return getAssignmentTerm();</span>
+			case FurthertermsPackage.LET_TERM__BODY:
+<span class="nc bnc" id="L185" title="All 2 branches missed.">				if (resolve) return getBody();</span>
+<span class="nc" id="L186">				return basicGetBody();</span>
+		}
+<span class="nc" id="L188">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L199" title="All 4 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.LET_TERM__VARIABLE:
+<span class="nc" id="L201">				getVariable().clear();</span>
+<span class="nc" id="L202">				getVariable().addAll((Collection&lt;? extends VariableTerm&gt;)newValue);</span>
+<span class="nc" id="L203">				return;</span>
+			case FurthertermsPackage.LET_TERM__ASSIGNMENT_TERM:
+<span class="nc" id="L205">				getAssignmentTerm().clear();</span>
+<span class="nc" id="L206">				getAssignmentTerm().addAll((Collection&lt;? extends Term&gt;)newValue);</span>
+<span class="nc" id="L207">				return;</span>
+			case FurthertermsPackage.LET_TERM__BODY:
+<span class="nc" id="L209">				setBody((Term)newValue);</span>
+<span class="nc" id="L210">				return;</span>
+		}
+<span class="nc" id="L212">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L213">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L222" title="All 4 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.LET_TERM__VARIABLE:
+<span class="nc" id="L224">				getVariable().clear();</span>
+<span class="nc" id="L225">				return;</span>
+			case FurthertermsPackage.LET_TERM__ASSIGNMENT_TERM:
+<span class="nc" id="L227">				getAssignmentTerm().clear();</span>
+<span class="nc" id="L228">				return;</span>
+			case FurthertermsPackage.LET_TERM__BODY:
+<span class="nc" id="L230">				setBody((Term)null);</span>
+<span class="nc" id="L231">				return;</span>
+		}
+<span class="nc" id="L233">		super.eUnset(featureID);</span>
+<span class="nc" id="L234">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L243" title="All 4 branches missed.">		switch (featureID) {</span>
+			case FurthertermsPackage.LET_TERM__VARIABLE:
+<span class="nc bnc" id="L245" title="All 4 branches missed.">				return variable != null &amp;&amp; !variable.isEmpty();</span>
+			case FurthertermsPackage.LET_TERM__ASSIGNMENT_TERM:
+<span class="nc bnc" id="L247" title="All 4 branches missed.">				return assignmentTerm != null &amp;&amp; !assignmentTerm.isEmpty();</span>
+			case FurthertermsPackage.LET_TERM__BODY:
+<span class="nc bnc" id="L249" title="All 2 branches missed.">				return body != null;</span>
+		}
+<span class="nc" id="L251">		return super.eIsSet(featureID);</span>
+	}
+
+} //LetTermImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

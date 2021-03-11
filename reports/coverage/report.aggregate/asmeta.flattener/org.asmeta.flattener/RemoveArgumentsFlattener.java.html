@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>RemoveArgumentsFlattener.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.flattener</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.flattener</a> &gt; <span class="el_source">RemoveArgumentsFlattener.java</span></div><h1>RemoveArgumentsFlattener.java</h1><pre class="source lang-java linenums">package org.asmeta.flattener;
+
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.LinkedHashMap;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
+import org.asmeta.flattener.args.RemoveArgumentsRuleFlattener;
+import org.asmeta.flattener.args.RemoveArgumentsTermFlattener;
+import org.asmeta.flattener.rule.AsmetaFlattener;
+import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.util.AsmPrinter;
+import org.asmeta.simulator.wrapper.RuleFactory;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.structure.Asm;
+import asmeta.structure.FunctionDefinition;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+public class RemoveArgumentsFlattener implements AsmetaFlattener {
+
+<span class="fc" id="L25">	private static final Logger logger = Logger.getLogger(RemoveArgumentsFlattener.class);</span>
+	private RuleFactory ruleFact;
+	private Asm asm;
+
+<span class="fc" id="L29">	public RemoveArgumentsFlattener(Asm asm) {</span>
+<span class="fc" id="L30">		this.asm = asm;</span>
+<span class="fc" id="L31">		ruleFact = new RuleFactory();</span>
+<span class="fc" id="L32">	}</span>
+
+	@Override
+	public Asm flattenASM() {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">		for (FunctionDefinition fd : asm.getBodySection().getFunctionDefinition()) {</span>
+<span class="fc" id="L37">			logger.debug(fd.getDefinedFunction().getName());</span>
+<span class="fc" id="L38">			RemoveArgumentsTermFlattener tf = new RemoveArgumentsTermFlattener(ruleFact);</span>
+<span class="fc" id="L39">			Term newFunctionBody = tf.visit(fd.getBody());</span>
+<span class="fc" id="L40">			LinkedHashMap&lt;VariableTerm, Term&gt; map = tf.getMapForLet();</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">			if (map.size() &gt; 0) {</span>
+<span class="fc" id="L42">				fd.setBody(tf.buildLetTerm(map, newFunctionBody));</span>
+			}
+<span class="fc" id="L44">		}</span>
+<span class="fc" id="L45">		RemoveArgumentsRuleFlattener rf = new RemoveArgumentsRuleFlattener(ruleFact);</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">		for (RuleDeclaration rd : asm.getBodySection().getRuleDeclaration()) {</span>
+<span class="fc" id="L47">			logger.debug(rd.getName());</span>
+<span class="fc" id="L48">			Rule newRuleBody = rf.visit(rd.getRuleBody());</span>
+<span class="fc" id="L49">			rd.setRuleBody(newRuleBody);</span>
+<span class="fc" id="L50">		}</span>
+		
+		//this is meant to flatten properties, but does not work
+		/*RemoveArgumentsTermFlattener.REUSE_VAR = false;
+		List&lt;Property&gt; properties = asm.getBodySection().getProperty();
+		for (Property p : properties) {
+			if (p instanceof TemporalProperty) {
+				TemporalProperty tp = (TemporalProperty) p;
+				RemoveArgumentsTermFlattener tf = new RemoveArgumentsTermFlattener(ruleFact);
+				Term newBody = tf.visit(tp.getBody());
+				LinkedHashMap&lt;VariableTerm, Term&gt; map = tf.getMapForLet();
+				if (map.size() &gt; 0) {
+					tp.setBody(tf.buildLetTerm(map, newBody));
+				}
+			}
+		}
+		RemoveArgumentsTermFlattener.REUSE_VAR = true;*/
+<span class="fc" id="L67">		return asm;</span>
+	}
+
+	public static void main(String[] args) throws Exception {
+		// Asm asm = ASMParser.setUpReadAsm(new
+		// File(&quot;../../../../asm_examples/examples/GilbreathCardTrick/GilbreathCardTrickFasterShuffleForAsmetaSMV.asm&quot;)).getMain();
+<span class="nc" id="L73">		Asm asm = ASMParser.setUpReadAsm(new File(&quot;./examples/derivedLocArgs.asm&quot;)).getMain();</span>
+<span class="nc" id="L74">		Logger.getRootLogger().removeAllAppenders();</span>
+<span class="nc" id="L75">		Logger.getRootLogger().addAppender(new ConsoleAppender(new SimpleLayout()));</span>
+<span class="nc" id="L76">		Logger.getLogger(RemoveArgumentsFlattener.class).setLevel(Level.DEBUG);</span>
+<span class="nc" id="L77">		Logger.getLogger(RemoveArgumentsRuleFlattener.class).setLevel(Level.DEBUG);</span>
+<span class="nc" id="L78">		Logger.getLogger(RemoveArgumentsTermFlattener.class).setLevel(Level.DEBUG);</span>
+<span class="nc" id="L79">		Logger.getLogger(&quot;org.asmeta.parser&quot;).setLevel(Level.FATAL);</span>
+<span class="nc" id="L80">		RemoveArgumentsFlattener f = new RemoveArgumentsFlattener(asm);</span>
+<span class="nc" id="L81">		f.flattenASM();</span>
+<span class="nc" id="L82">		AsmPrinter p = new AsmPrinter(new PrintWriter(System.out));</span>
+<span class="nc" id="L83">		p.visit(asm);</span>
+<span class="nc" id="L84">		p.close();</span>
+<span class="nc" id="L85">	}</span>
+
+	@Override
+	public String getCode() {
+<span class="nc" id="L89">		return &quot;AR&quot;;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

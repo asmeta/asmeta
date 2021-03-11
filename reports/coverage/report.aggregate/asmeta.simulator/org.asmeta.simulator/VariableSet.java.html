@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>VariableSet.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator</a> &gt; <span class="el_source">VariableSet.java</span></div><h1>VariableSet.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2009 .
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *      - initial API and implementation
+ ******************************************************************************/
+package org.asmeta.simulator;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import asmeta.terms.basicterms.VariableTerm;
+
+/**
+ * A set of variables.
+ * 
+ */
+public class VariableSet {
+	
+	/**
+	 * Set of variable names.
+	 * 
+	 */
+	Set&lt;String&gt; set;
+	
+	/**
+	 * Creates an empty set.
+	 * 
+	 */
+<span class="nc" id="L35">	public VariableSet() {</span>
+<span class="nc" id="L36">		set = new HashSet&lt;String&gt;();</span>
+<span class="nc" id="L37">	}</span>
+	
+	/**
+	 * Copy constructor.
+	 * 
+	 */
+<span class="nc" id="L43">	public VariableSet(VariableSet anotherSet) {</span>
+<span class="nc" id="L44">		set = new HashSet&lt;String&gt;(anotherSet.set);</span>
+<span class="nc" id="L45">	}</span>
+	
+	/**
+	 * Creates a set with the given variable names.
+	 * 
+	 * @param values a list of variable names
+	 */
+<span class="nc" id="L52">	public VariableSet(String... values) {</span>
+<span class="nc" id="L53">		set = new HashSet&lt;String&gt;(Arrays.asList(values));</span>
+<span class="nc" id="L54">	}</span>
+	
+	/**
+	 * Adds a variable name.
+	 * 
+	 * @param var a variable
+	 */
+	public void add(VariableTerm var) {
+<span class="nc" id="L62">		set.add(var.getName());</span>
+<span class="nc" id="L63">	}</span>
+	
+	/**
+	 * Adds a set of variable names.
+	 * 
+	 * @param anotherSet a set of variables
+	 */
+	public void addAll(VariableSet anotherSet) {
+<span class="nc" id="L71">		set.addAll(anotherSet.set);</span>
+<span class="nc" id="L72">	}</span>
+		
+	/**
+	 * Is the given variable contained?
+	 * 
+	 * @param var a variable
+	 * @return true if contained, otherwise false
+	 */
+	public boolean contains(VariableTerm var) {
+<span class="nc" id="L81">		return set.contains(var.getName());</span>
+	}
+	
+	/**
+	 * Removes all the variable names contained in the given set.
+	 * 
+	 * @param anotherSet a variable set
+	 */
+	public void removeAll(VariableSet anotherSet) {
+<span class="nc" id="L90">		set.removeAll(anotherSet.set);</span>
+<span class="nc" id="L91">	}</span>
+	
+	@Override
+	public int hashCode() {
+<span class="nc" id="L95">		final int prime = 31;</span>
+<span class="nc" id="L96">		int result = 1;</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">		result = prime * result + ((set == null) ? 0 : set.hashCode());</span>
+<span class="nc" id="L98">		return result;</span>
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">		if (this == obj)</span>
+<span class="nc" id="L104">			return true;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">		if (obj == null)</span>
+<span class="nc" id="L106">			return false;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">		if (getClass() != obj.getClass())</span>
+<span class="nc" id="L108">			return false;</span>
+<span class="nc" id="L109">		final VariableSet other = (VariableSet) obj;</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">		if (set == null) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">			if (other.set != null)</span>
+<span class="nc" id="L112">				return false;</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">		} else if (!set.equals(other.set))</span>
+<span class="nc" id="L114">			return false;</span>
+<span class="nc" id="L115">		return true;</span>
+	}
+
+	@Override
+	public String toString() {
+<span class="nc" id="L120">		return set.toString();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

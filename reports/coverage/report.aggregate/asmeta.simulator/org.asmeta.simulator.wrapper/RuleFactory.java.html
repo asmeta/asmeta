@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>RuleFactory.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator.wrapper</a> &gt; <span class="el_source">RuleFactory.java</span></div><h1>RuleFactory.java</h1><pre class="source lang-java linenums">/*
+ * RuleFactory.java
+ *
+ * Created on 27 giugno 2006, 9.40
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package org.asmeta.simulator.wrapper;
+
+import asmeta.transitionrules.TransitionRulesFactory;
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesFactory;
+import asmeta.transitionrules.basictransitionrules.BlockRule;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
+import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.SkipRule;
+import asmeta.transitionrules.basictransitionrules.TermAsRule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesFactory;
+import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
+import asmeta.transitionrules.turbotransitionrules.SeqRule;
+import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
+import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
+import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesFactory;
+
+/**
+ * A rule factory.
+ */
+public class RuleFactory extends TermFactory {
+	private BasictransitionrulesFactory rulePackage;
+	private TurbotransitionrulesFactory turboPackage;
+	private DerivedtransitionrulesFactory derivedRulesPackage;
+
+	/**
+	 * Creates a rule factory.
+	 * 
+	 * @param asmetaPackage
+	 *            an ASMETA package
+	 */
+<span class="fc" id="L47">	public RuleFactory() {</span>
+<span class="fc" id="L48">		rulePackage = TransitionRulesFactory.eINSTANCE.getBasicTransitionRules();</span>
+<span class="fc" id="L49">		turboPackage = TransitionRulesFactory.eINSTANCE.getTurboTransitionRules();</span>
+<span class="fc" id="L50">		derivedRulesPackage = TransitionRulesFactory.eINSTANCE.getDerivedTransitionRules();</span>
+<span class="fc" id="L51">	}</span>
+
+	public SkipRule createSkipRule() {
+<span class="fc" id="L54">		return rulePackage.createSkipRule();</span>
+	}
+
+	public UpdateRule createUpdateRule() {
+<span class="fc" id="L58">		return rulePackage.createUpdateRule();</span>
+	}
+
+	public BlockRule createBlockRule() {
+<span class="fc" id="L62">		return rulePackage.createBlockRule();</span>
+	}
+
+	public SeqRule createSeqRule() {
+<span class="nc" id="L66">		return turboPackage.createSeqRule();</span>
+	}
+
+	public ConditionalRule createConditionalRule() {
+<span class="fc" id="L70">		return rulePackage.createConditionalRule();</span>
+	}
+
+	public LetRule createLetRule() {
+<span class="fc" id="L74">		return rulePackage.createLetRule();</span>
+	}
+
+	public ForallRule createForallRule() {
+<span class="fc" id="L78">		return rulePackage.createForallRule();</span>
+	}
+
+	public ChooseRule createChooseRule() {
+<span class="fc" id="L82">		return rulePackage.createChooseRule();</span>
+	}
+
+	public IterativeWhileRule createIterativeWhileRule() {
+<span class="nc" id="L86">		return derivedRulesPackage.createIterativeWhileRule();</span>
+	}
+
+	public MacroCallRule createMacroCallRule() {
+<span class="fc" id="L90">		return rulePackage.createMacroCallRule();</span>
+	}
+
+	public TurboCallRule createTurboCallRule() {
+<span class="nc" id="L94">		return turboPackage.createTurboCallRule();</span>
+	}
+
+	public TurboReturnRule createTurboReturnRule() {
+<span class="nc" id="L98">		return turboPackage.createTurboReturnRule();</span>
+	}
+
+	public TermAsRule createTermAsRule() {
+<span class="fc" id="L102">		return rulePackage.createTermAsRule();</span>
+	}
+
+	public CaseRule createCaseRule() {
+<span class="fc" id="L106">		return derivedRulesPackage.createCaseRule();</span>
+	}
+
+	public ExtendRule createExtendRule() {
+<span class="nc" id="L110">		return rulePackage.createExtendRule();</span>
+	}
+
+	public MacroDeclaration createMacroDeclaration() {
+<span class="nc" id="L114">		return rulePackage.createMacroDeclaration();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>MapValue.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator.value</a> &gt; <span class="el_source">MapValue.java</span></div><h1>MapValue.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2009 .
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *      - initial API and implementation
+ ******************************************************************************/
+package org.asmeta.simulator.value;
+
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**
+ * A map.
+ *
+ */
+public class MapValue extends Value {
+
+	Map&lt;Value, Value&gt; map;
+
+	/**
+	 * Creates a map.
+	 * 
+	 * @param map
+	 *            a map
+	 */
+<span class="nc" id="L30">	public MapValue(Map&lt;Value, Value&gt; map) {</span>
+<span class="nc" id="L31">		this.map = map;</span>
+<span class="nc" id="L32">	}</span>
+
+	/**
+	 * Gets the value.
+	 * 
+	 * @return the value
+	 */
+	@Override
+	public Map&lt;Value, Value&gt; getValue() {
+<span class="nc" id="L41">		return map;</span>
+	}
+
+	// PA: 14 giugno 10
+	@Override
+	public Value clone() {
+		// TODO Auto-generated method stub
+<span class="nc" id="L48">		return null;</span>
+	}
+
+	@Override
+	public String toString() {
+		// {&quot;A&quot;-&gt; 5}
+<span class="nc" id="L54">		String s = map.entrySet().stream().map(e -&gt; (e.getKey().toString() + &quot;-&gt;&quot; + e.getValue()))</span>
+<span class="nc" id="L55">				.collect(Collectors.joining(&quot;,&quot;));</span>
+<span class="nc" id="L56">		return &quot;{&quot; + s + &quot;}&quot;;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

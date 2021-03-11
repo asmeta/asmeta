@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>FunctionDefinitionImpl.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.emf</a> &gt; <a href="index.source.html" class="el_package">asmeta.structure.impl</a> &gt; <span class="el_source">FunctionDefinitionImpl.java</span></div><h1>FunctionDefinitionImpl.java</h1><pre class="source lang-java linenums">/**
+ * &lt;copyright&gt;
+ * &lt;/copyright&gt;
+ *
+ * $Id$
+ */
+package asmeta.structure.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.Function;
+import asmeta.structure.FunctionDefinition;
+import asmeta.structure.StructurePackage;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+
+/**
+ * &lt;!-- begin-user-doc --&gt;
+ * An implementation of the model object '&lt;em&gt;&lt;b&gt;Function Definition&lt;/b&gt;&lt;/em&gt;'.
+ * &lt;!-- end-user-doc --&gt;
+ * &lt;p&gt;
+ * The following features are implemented:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.FunctionDefinitionImpl#getBody &lt;em&gt;Body&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.FunctionDefinitionImpl#getVariable &lt;em&gt;Variable&lt;/em&gt;}&lt;/li&gt;
+ *   &lt;li&gt;{@link asmeta.structure.impl.FunctionDefinitionImpl#getDefinedFunction &lt;em&gt;Defined Function&lt;/em&gt;}&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @generated
+ */
+public class FunctionDefinitionImpl extends EObjectImpl implements FunctionDefinition {
+	/**
+	 * The cached value of the '{@link #getBody() &lt;em&gt;Body&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getBody()
+	 * @generated
+	 * @ordered
+	 */
+	protected Term body;
+
+	/**
+	 * The cached value of the '{@link #getVariable() &lt;em&gt;Variable&lt;/em&gt;}' reference list.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getVariable()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList&lt;VariableTerm&gt; variable;
+
+	/**
+	 * The cached value of the '{@link #getDefinedFunction() &lt;em&gt;Defined Function&lt;/em&gt;}' reference.
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @see #getDefinedFunction()
+	 * @generated
+	 * @ordered
+	 */
+	protected Function definedFunction;
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	protected FunctionDefinitionImpl() {
+<span class="fc" id="L79">		super();</span>
+<span class="fc" id="L80">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+<span class="nc" id="L89">		return StructurePackage.Literals.FUNCTION_DEFINITION;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Term getBody() {
+<span class="pc bpc" id="L99" title="2 of 4 branches missed.">		if (body != null &amp;&amp; body.eIsProxy()) {</span>
+<span class="nc" id="L100">			InternalEObject oldBody = (InternalEObject)body;</span>
+<span class="nc" id="L101">			body = (Term)eResolveProxy(oldBody);</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">			if (body != oldBody) {</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L104">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StructurePackage.FUNCTION_DEFINITION__BODY, oldBody, body));</span>
+			}
+		}
+<span class="fc" id="L107">		return body;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Term basicGetBody() {
+<span class="nc" id="L116">		return body;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setBody(Term newBody) {
+<span class="fc" id="L126">		Term oldBody = body;</span>
+<span class="fc" id="L127">		body = newBody;</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">		if (eNotificationRequired())</span>
+<span class="nc" id="L129">			eNotify(new ENotificationImpl(this, Notification.SET, StructurePackage.FUNCTION_DEFINITION__BODY, oldBody, body));</span>
+<span class="fc" id="L130">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public EList&lt;VariableTerm&gt; getVariable() {
+<span class="fc bfc" id="L139" title="All 2 branches covered.">		if (variable == null) {</span>
+<span class="fc" id="L140">			variable = new EObjectResolvingEList&lt;VariableTerm&gt;(VariableTerm.class, this, StructurePackage.FUNCTION_DEFINITION__VARIABLE);</span>
+		}
+<span class="fc" id="L142">		return variable;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Function getDefinedFunction() {
+<span class="pc bpc" id="L152" title="2 of 4 branches missed.">		if (definedFunction != null &amp;&amp; definedFunction.eIsProxy()) {</span>
+<span class="nc" id="L153">			InternalEObject oldDefinedFunction = (InternalEObject)definedFunction;</span>
+<span class="nc" id="L154">			definedFunction = (Function)eResolveProxy(oldDefinedFunction);</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">			if (definedFunction != oldDefinedFunction) {</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">				if (eNotificationRequired())</span>
+<span class="nc" id="L157">					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StructurePackage.FUNCTION_DEFINITION__DEFINED_FUNCTION, oldDefinedFunction, definedFunction));</span>
+			}
+		}
+<span class="fc" id="L160">		return definedFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public Function basicGetDefinedFunction() {
+<span class="nc" id="L169">		return definedFunction;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	public NotificationChain basicSetDefinedFunction(Function newDefinedFunction, NotificationChain msgs) {
+<span class="fc" id="L178">		Function oldDefinedFunction = definedFunction;</span>
+<span class="fc" id="L179">		definedFunction = newDefinedFunction;</span>
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">		if (eNotificationRequired()) {</span>
+<span class="nc" id="L181">			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StructurePackage.FUNCTION_DEFINITION__DEFINED_FUNCTION, oldDefinedFunction, newDefinedFunction);</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">			if (msgs == null) msgs = notification; else msgs.add(notification);</span>
+		}
+<span class="fc" id="L184">		return msgs;</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void setDefinedFunction(Function newDefinedFunction) {
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">		if (newDefinedFunction != definedFunction) {</span>
+<span class="fc" id="L195">			NotificationChain msgs = null;</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">			if (definedFunction != null)</span>
+<span class="nc" id="L197">				msgs = ((InternalEObject)definedFunction).eInverseRemove(this, DefinitionsPackage.FUNCTION__DEFINITION, Function.class, msgs);</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">			if (newDefinedFunction != null)</span>
+<span class="fc" id="L199">				msgs = ((InternalEObject)newDefinedFunction).eInverseAdd(this, DefinitionsPackage.FUNCTION__DEFINITION, Function.class, msgs);</span>
+<span class="fc" id="L200">			msgs = basicSetDefinedFunction(newDefinedFunction, msgs);</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">			if (msgs != null) msgs.dispatch();</span>
+<span class="fc" id="L202">		}</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">		else if (eNotificationRequired())</span>
+<span class="nc" id="L204">			eNotify(new ENotificationImpl(this, Notification.SET, StructurePackage.FUNCTION_DEFINITION__DEFINED_FUNCTION, newDefinedFunction, newDefinedFunction));</span>
+<span class="fc" id="L205">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L214" title="All 2 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.FUNCTION_DEFINITION__DEFINED_FUNCTION:
+<span class="nc bnc" id="L216" title="All 2 branches missed.">				if (definedFunction != null)</span>
+<span class="nc" id="L217">					msgs = ((InternalEObject)definedFunction).eInverseRemove(this, DefinitionsPackage.FUNCTION__DEFINITION, Function.class, msgs);</span>
+<span class="nc" id="L218">				return basicSetDefinedFunction((Function)otherEnd, msgs);</span>
+		}
+<span class="nc" id="L220">		return super.eInverseAdd(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+<span class="nc bnc" id="L230" title="All 2 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.FUNCTION_DEFINITION__DEFINED_FUNCTION:
+<span class="nc" id="L232">				return basicSetDefinedFunction(null, msgs);</span>
+		}
+<span class="nc" id="L234">		return super.eInverseRemove(otherEnd, featureID, msgs);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+<span class="nc bnc" id="L244" title="All 4 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.FUNCTION_DEFINITION__BODY:
+<span class="nc bnc" id="L246" title="All 2 branches missed.">				if (resolve) return getBody();</span>
+<span class="nc" id="L247">				return basicGetBody();</span>
+			case StructurePackage.FUNCTION_DEFINITION__VARIABLE:
+<span class="nc" id="L249">				return getVariable();</span>
+			case StructurePackage.FUNCTION_DEFINITION__DEFINED_FUNCTION:
+<span class="nc bnc" id="L251" title="All 2 branches missed.">				if (resolve) return getDefinedFunction();</span>
+<span class="nc" id="L252">				return basicGetDefinedFunction();</span>
+		}
+<span class="nc" id="L254">		return super.eGet(featureID, resolve, coreType);</span>
+	}
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void eSet(int featureID, Object newValue) {
+<span class="nc bnc" id="L265" title="All 4 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.FUNCTION_DEFINITION__BODY:
+<span class="nc" id="L267">				setBody((Term)newValue);</span>
+<span class="nc" id="L268">				return;</span>
+			case StructurePackage.FUNCTION_DEFINITION__VARIABLE:
+<span class="nc" id="L270">				getVariable().clear();</span>
+<span class="nc" id="L271">				getVariable().addAll((Collection&lt;? extends VariableTerm&gt;)newValue);</span>
+<span class="nc" id="L272">				return;</span>
+			case StructurePackage.FUNCTION_DEFINITION__DEFINED_FUNCTION:
+<span class="nc" id="L274">				setDefinedFunction((Function)newValue);</span>
+<span class="nc" id="L275">				return;</span>
+		}
+<span class="nc" id="L277">		super.eSet(featureID, newValue);</span>
+<span class="nc" id="L278">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+<span class="nc bnc" id="L287" title="All 4 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.FUNCTION_DEFINITION__BODY:
+<span class="nc" id="L289">				setBody((Term)null);</span>
+<span class="nc" id="L290">				return;</span>
+			case StructurePackage.FUNCTION_DEFINITION__VARIABLE:
+<span class="nc" id="L292">				getVariable().clear();</span>
+<span class="nc" id="L293">				return;</span>
+			case StructurePackage.FUNCTION_DEFINITION__DEFINED_FUNCTION:
+<span class="nc" id="L295">				setDefinedFunction((Function)null);</span>
+<span class="nc" id="L296">				return;</span>
+		}
+<span class="nc" id="L298">		super.eUnset(featureID);</span>
+<span class="nc" id="L299">	}</span>
+
+	/**
+	 * &lt;!-- begin-user-doc --&gt;
+	 * &lt;!-- end-user-doc --&gt;
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+<span class="nc bnc" id="L308" title="All 4 branches missed.">		switch (featureID) {</span>
+			case StructurePackage.FUNCTION_DEFINITION__BODY:
+<span class="nc bnc" id="L310" title="All 2 branches missed.">				return body != null;</span>
+			case StructurePackage.FUNCTION_DEFINITION__VARIABLE:
+<span class="nc bnc" id="L312" title="All 4 branches missed.">				return variable != null &amp;&amp; !variable.isEmpty();</span>
+			case StructurePackage.FUNCTION_DEFINITION__DEFINED_FUNCTION:
+<span class="nc bnc" id="L314" title="All 2 branches missed.">				return definedFunction != null;</span>
+		}
+<span class="nc" id="L316">		return super.eIsSet(featureID);</span>
+	}
+
+} //FunctionDefinitionImpl
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

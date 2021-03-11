@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>LocationSet.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">report.aggregate</a> &gt; <a href="../index.html" class="el_bundle">asmeta.simulator</a> &gt; <a href="index.source.html" class="el_package">org.asmeta.simulator</a> &gt; <span class="el_source">LocationSet.java</span></div><h1>LocationSet.java</h1><pre class="source lang-java linenums">/*******************************************************************************
+ * Copyright (c) 2009 .
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *      - initial API and implementation
+ ******************************************************************************/
+package org.asmeta.simulator;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.asmeta.parser.Defs;
+import org.asmeta.simulator.value.ReserveValue;
+import org.asmeta.simulator.value.Value;
+
+import asmeta.definitions.Function;
+import asmeta.definitions.domains.Domain;
+
+/** 
+ * Keeps the association between the locations/dynamic sets and their contents.
+ *
+ */
+public class LocationSet implements Iterable&lt;Map.Entry&lt;Location, Value&gt;&gt; {
+
+	/**
+	 * Contents of locations.
+	 * 
+	 */
+	public Map&lt;Location, Value&gt; locationMap;
+		
+	/** 
+	 * Contents of dynamic sets.
+	 * 
+	 */
+	protected Map&lt;WrappedDomain, Set&lt;ReserveValue&gt;&gt; abstractSets;  
+
+	/**
+	 * Constructor.
+	 * 
+	 */
+<span class="nc" id="L52">	protected LocationSet() {</span>
+<span class="nc" id="L53">		locationMap = new HashMap&lt;Location, Value&gt;();</span>
+<span class="nc" id="L54">		abstractSets = new HashMap&lt;WrappedDomain, Set&lt;ReserveValue&gt;&gt;();</span>
+<span class="nc" id="L55">	}</span>
+	
+	/** 
+	 * Copy constructor. In depth constructor !
+	 *  
+	 */
+<span class="nc" id="L61">	protected LocationSet(LocationSet state) {</span>
+<span class="nc" id="L62">		locationMap = new HashMap&lt;Location, Value&gt;(state.locationMap);</span>
+<span class="nc" id="L63">		abstractSets = new HashMap&lt;WrappedDomain, Set&lt;ReserveValue&gt;&gt;();</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">		for(Entry&lt;WrappedDomain,Set&lt;ReserveValue&gt;&gt; s: state.abstractSets.entrySet()){</span>
+<span class="nc" id="L65">			abstractSets.put(s.getKey(), new  HashSet&lt;ReserveValue&gt;(s.getValue()));</span>
+<span class="nc" id="L66">		}</span>
+<span class="nc" id="L67">	}</span>
+	
+	/**
+	 * Adds a reserve element to a dynamic domain.
+	 * 
+	 * @param domain a dynamic domain
+	 * @param content a new element
+	 */
+	public void add(Domain domain, ReserveValue content) {
+<span class="nc" id="L76">		WrappedDomain wdomain = new WrappedDomain(domain);</span>
+<span class="nc" id="L77">		Set&lt;ReserveValue&gt; set = abstractSets.get(wdomain);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">		if (set == null){</span>
+<span class="nc" id="L79">			set = new HashSet&lt;ReserveValue&gt;();</span>
+<span class="nc" id="L80">			abstractSets.put(wdomain, set);</span>
+		} 
+<span class="nc" id="L82">		set.add(content);		</span>
+<span class="nc" id="L83">	}</span>
+
+	/**
+	 * Adds all the elements of the given set to the given domain.
+	 *  
+	 * @param domain a domain
+	 * @param content a set
+	 */
+	protected void add(WrappedDomain domain, Set&lt;ReserveValue&gt; content) {
+<span class="nc" id="L92">		Set&lt;ReserveValue&gt; current = abstractSets.get(domain);</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">		if (current == null) {</span>
+<span class="nc" id="L94">			abstractSets.put(domain, content);</span>
+		} else {
+<span class="nc" id="L96">			current.addAll(content);</span>
+		}
+<span class="nc" id="L98">	}</span>
+	
+	/**
+	 * Adds all the elements of the given sets to the given domains. 
+	 * 
+	 * @param map a map from domain to set
+	 */
+	protected void add(Map&lt;WrappedDomain, Set&lt;ReserveValue&gt;&gt; map) {
+<span class="nc bnc" id="L106" title="All 2 branches missed.">		for(Entry&lt;WrappedDomain, Set&lt;ReserveValue&gt;&gt; entry: map.entrySet()) {</span>
+<span class="nc" id="L107">			add(entry.getKey(), entry.getValue());</span>
+<span class="nc" id="L108">		}</span>
+<span class="nc" id="L109">	}</span>
+
+	/**
+	 * A WrappedDomain redefines the methods equals(Object o) and hashCode()
+	 * of the class Domain.
+	 *
+	 */
+	protected static class WrappedDomain {
+		
+		protected Domain domain;
+		
+<span class="nc" id="L120">		WrappedDomain(Domain domain) {</span>
+<span class="nc" id="L121">			this.domain = domain;</span>
+<span class="nc" id="L122">		}</span>
+				
+		@Override
+		public boolean equals(Object o) {
+<span class="nc bnc" id="L126" title="All 2 branches missed.">			if (o instanceof WrappedDomain) {</span>
+<span class="nc" id="L127">				WrappedDomain d = (WrappedDomain) o;</span>
+<span class="nc" id="L128">				return Defs.equals(domain, d.domain);</span>
+			}
+<span class="nc" id="L130">			throw new IllegalArgumentException();</span>
+		}
+		
+		@Override
+		public int hashCode() {
+<span class="nc" id="L135">			return domain.getName().hashCode();</span>
+		}
+		
+	}
+
+	@Override
+	public String toString() {
+<span class="nc" id="L142">		return formatString('\n');</span>
+	}
+	
+	/**
+	 * Returns a string representation of a collection of objects.
+	 * 
+	 * @param c a collection of objects
+	 * @param sep a character separator
+	 * @return a string
+	 */
+	String formatString(Collection&lt;?&gt; c, char sep) {
+<span class="nc" id="L153">		StringBuilder s = new StringBuilder();</span>
+<span class="nc" id="L154">		Iterator&lt;?&gt; i = c.iterator();</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">		if (i.hasNext()) {</span>
+<span class="nc" id="L156">			s.append(i.next().toString());</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">			while (i.hasNext()) {</span>
+<span class="nc" id="L158">				s.append(sep);</span>
+<span class="nc" id="L159">				s.append(i.next().toString());</span>
+			}
+		}
+<span class="nc" id="L162">		return s.toString();</span>
+	}
+
+	//Inizio modifiche PA: 10 giugno 2010
+	/**
+	 * Returns a string representation of the content of a location set.
+	 * 
+	 * @param sep a character separator
+	 * @return a string
+	 */
+	String formatString(char sep) {
+<span class="nc" id="L173">		return formatString(locationMap, sep, true);</span>
+	}
+	/*String formatString(char sep) {
+		StringBuilder s = new StringBuilder();
+		// sort dynamic domain by name
+		WrappedDomain[] keys = new WrappedDomain[0];
+		keys = abstractSets.keySet().toArray(keys);
+		Arrays.sort(keys, new Comparator&lt;WrappedDomain&gt;() {
+			
+			@Override
+			public int compare(WrappedDomain o1, WrappedDomain o2) {
+				String name1 = o1.domain.getName();
+				String name2 = o2.domain.getName();
+				return name1.compareTo(name2);
+			}
+			
+		});
+		
+		if (keys.length &gt; 0) {
+			int i = 0;
+			ReserveValue[] set;
+			Comparator&lt;ReserveValue&gt; comp = new Comparator&lt;ReserveValue&gt;() {
+				
+				@Override
+				public int compare(ReserveValue o1, ReserveValue o2) {
+					String v1 = o1.getValue();
+					String v2 = o2.getValue();
+					return v1.compareTo(v2);
+				}
+				
+			};
+			// get first domain content
+			set = new ReserveValue[0];
+			set = abstractSets.get(keys[i]).toArray(set);
+			Arrays.sort(set, comp);
+			s.append(keys[i].domain.getName());
+			s.append(&quot;={&quot;);
+			s.append(formatString(Arrays.asList(set), ','));
+			s.append(&quot;}&quot;);
+			// get others domain contents
+			for (i++; i &lt; keys.length; i++) {
+				s.append(sep);
+				
+				set = new ReserveValue[0];
+				set = abstractSets.get(keys[i]).toArray(set);
+				Arrays.sort(set, comp);
+				s.append(keys[i].domain.getName());
+				s.append(&quot;={&quot;);
+				s.append(formatString(Arrays.asList(set), ','));
+				s.append(&quot;}&quot;);
+			}						
+		}
+		// now formats the locations
+		Location[] keys2 = new Location[0];
+		keys2 = locationMap.keySet().toArray(keys2);
+		Arrays.sort(keys2, new Comparator&lt;Location&gt;() {
+			
+			@Override
+			public int compare(Location l1, Location l2) {
+				Function sig1 = l1.getSignature();
+				Function sig2 = l2.getSignature();
+				String name1 = sig1.getName();
+				String name2 = sig2.getName();
+				if (name1.compareTo(name2) == 0) {
+					if (sig1.getArity() == sig2.getArity()) {
+						String str1 = l1.toString();
+						String str2 = l2.toString();
+						return str1.compareTo(str2);
+					}
+					return sig1.getArity() - sig2.getArity();
+				}
+				return name1.compareTo(name2);
+			}
+			
+		});		
+		if (keys2.length &gt; 0) {
+			int i = 0;
+			
+			if (keys.length &gt; 0) {
+				s.append(sep);
+			}			
+			s.append(keys2[i].toString());
+			s.append(&quot;=&quot;);
+			s.append(locationMap.get(keys2[i]).toString());			
+			for (i++; i&lt; keys2.length; i++) {
+				s.append(sep);
+				
+				s.append(keys2[i].toString());
+				s.append(&quot;=&quot;);
+				Value tmp = locationMap.get(keys2[i]);
+				s.append((tmp != null) ? tmp.toString() : &quot;null&quot;);
+			}
+		}
+		return s.toString();
+	}*/
+
+	String formatString(Map&lt;Location, Value&gt; locMap, char sep, boolean printDomains) {
+<span class="nc" id="L270">		StringBuilder s = new StringBuilder();</span>
+		// sort dynamic domain by name
+<span class="nc" id="L272">		WrappedDomain[] keys = new WrappedDomain[0];</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">		if(printDomains) {</span>
+<span class="nc" id="L274">			keys = abstractSets.keySet().toArray(keys);</span>
+<span class="nc" id="L275">			Arrays.sort(keys, new Comparator&lt;WrappedDomain&gt;() {</span>
+				
+				@Override
+				public int compare(WrappedDomain o1, WrappedDomain o2) {
+<span class="nc" id="L279">					String name1 = o1.domain.getName();</span>
+<span class="nc" id="L280">					String name2 = o2.domain.getName();</span>
+<span class="nc" id="L281">					return name1.compareTo(name2);</span>
+				}
+				
+			});
+			
+<span class="nc bnc" id="L286" title="All 2 branches missed.">			if (keys.length &gt; 0) {</span>
+<span class="nc" id="L287">				int i = 0;</span>
+				ReserveValue[] set;
+<span class="nc" id="L289">				Comparator&lt;ReserveValue&gt; comp = new Comparator&lt;ReserveValue&gt;() {</span>
+					
+					@Override
+					public int compare(ReserveValue o1, ReserveValue o2) {
+<span class="nc" id="L293">						String v1 = o1.getValue();</span>
+<span class="nc" id="L294">						String v2 = o2.getValue();</span>
+<span class="nc" id="L295">						return v1.compareTo(v2);</span>
+					}
+					
+				};
+				// get first domain content
+<span class="nc" id="L300">				set = new ReserveValue[0];</span>
+<span class="nc" id="L301">				set = abstractSets.get(keys[i]).toArray(set);</span>
+<span class="nc" id="L302">				Arrays.sort(set, comp);</span>
+<span class="nc" id="L303">				s.append(keys[i].domain.getName());</span>
+<span class="nc" id="L304">				s.append(&quot;={&quot;);</span>
+<span class="nc" id="L305">				s.append(formatString(Arrays.asList(set), ','));</span>
+<span class="nc" id="L306">				s.append(&quot;}&quot;);</span>
+				// get others domain contents
+<span class="nc bnc" id="L308" title="All 2 branches missed.">				for (i++; i &lt; keys.length; i++) {</span>
+<span class="nc" id="L309">					s.append(sep);</span>
+					
+<span class="nc" id="L311">					set = new ReserveValue[0];</span>
+<span class="nc" id="L312">					set = abstractSets.get(keys[i]).toArray(set);</span>
+<span class="nc" id="L313">					Arrays.sort(set, comp);</span>
+<span class="nc" id="L314">					s.append(keys[i].domain.getName());</span>
+<span class="nc" id="L315">					s.append(&quot;={&quot;);</span>
+<span class="nc" id="L316">					s.append(formatString(Arrays.asList(set), ','));</span>
+<span class="nc" id="L317">					s.append(&quot;}&quot;);</span>
+				}						
+			}
+		}
+		
+		// now formats the locations
+<span class="nc" id="L323">		Location[] keys2 = new Location[0];</span>
+<span class="nc" id="L324">		keys2 = locMap.keySet().toArray(keys2);</span>
+<span class="nc" id="L325">		Arrays.sort(keys2, new Comparator&lt;Location&gt;() {</span>
+			
+			@Override
+			public int compare(Location l1, Location l2) {
+<span class="nc" id="L329">				Function sig1 = l1.getSignature();</span>
+<span class="nc" id="L330">				Function sig2 = l2.getSignature();</span>
+<span class="nc" id="L331">				String name1 = sig1.getName();</span>
+<span class="nc" id="L332">				String name2 = sig2.getName();</span>
+<span class="nc bnc" id="L333" title="All 2 branches missed.">				if (name1.compareTo(name2) == 0) {</span>
+					//FINDBUGS
+					//This method compares two reference values using the == or
+					//!= operator, where the correct way to compare instances of
+					//this type is generally with the equals() method. It is
+					//possible to create distinct instances that are equal but
+					//do not compare as == since they are different objects.
+					//Examples of classes which should generally not be compared
+					//by reference are java.lang.Integer, java.lang.Float, etc.
+					//if (sig1.getArity() == sig2.getArity()) {
+					
+					//possible solution
+<span class="nc bnc" id="L345" title="All 2 branches missed.">					if(sig1.getArity().intValue() == sig2.getArity().intValue()) {</span>
+<span class="nc" id="L346">						String str1 = l1.toString();</span>
+<span class="nc" id="L347">						String str2 = l2.toString();</span>
+<span class="nc" id="L348">						return str1.compareTo(str2);</span>
+					}
+<span class="nc" id="L350">					return sig1.getArity() - sig2.getArity();</span>
+				}
+<span class="nc" id="L352">				return name1.compareTo(name2);</span>
+			}
+			
+		});		
+<span class="nc bnc" id="L356" title="All 2 branches missed.">		if (keys2.length &gt; 0) {</span>
+<span class="nc" id="L357">			int i = 0;</span>
+			
+<span class="nc bnc" id="L359" title="All 4 branches missed.">			if (printDomains &amp;&amp; keys.length &gt; 0) {</span>
+<span class="nc" id="L360">				s.append(sep);</span>
+			}			
+<span class="nc" id="L362">			s.append(keys2[i].toString());</span>
+<span class="nc" id="L363">			s.append(&quot;=&quot;);</span>
+<span class="nc" id="L364">			s.append(locMap.get(keys2[i]).toString());			</span>
+<span class="nc bnc" id="L365" title="All 2 branches missed.">			for (i++; i&lt; keys2.length; i++) {</span>
+<span class="nc" id="L366">				s.append(sep);</span>
+				
+<span class="nc" id="L368">				s.append(keys2[i].toString());</span>
+<span class="nc" id="L369">				s.append(&quot;=&quot;);</span>
+<span class="nc" id="L370">				Value tmp = locMap.get(keys2[i]);</span>
+<span class="nc bnc" id="L371" title="All 2 branches missed.">				s.append((tmp != null) ? tmp.toString() : &quot;null&quot;);</span>
+			}
+		}
+<span class="nc" id="L374">		return s.toString();</span>
+	}
+	//Fine modifiche PA: 10 giugno 2010
+	
+	@Override
+	public Iterator&lt;Entry&lt;Location, Value&gt;&gt; iterator() {
+<span class="nc" id="L380">		return locationMap.entrySet().iterator();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
