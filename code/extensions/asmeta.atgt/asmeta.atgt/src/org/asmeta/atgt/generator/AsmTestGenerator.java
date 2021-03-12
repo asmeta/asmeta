@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.asmeta.parser.util.AsmPrinter;
 
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
@@ -102,7 +103,7 @@ public abstract class AsmTestGenerator {
 			tc.setToVerify(true);
 			logger.debug("tp " + name + " queued");
 			if (i > maxNTP) {
-				logger.debug("mac number of tp reached");
+				logger.debug("max number of tp reached");
 				break;
 			}
 		}
