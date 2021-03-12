@@ -4,7 +4,7 @@ asmeta main repository with code and examples
 ## Gitlab CI
 <p align="center">
 	<a href="https://gitlab.com/garganti/asmeta/-/pipelines/gitlab_ci/latest" alt="Pipeline Status">
-        <img src="https://gitlab.com/%{project_path}/badges/gitlab_ci/pipeline.svg" /></a>
+        <img src="https://gitlab.com/garganti/asmeta/badges/gitlab_ci/pipeline.svg" /></a>
     <a href="https://gitlab.com/garganti/asmeta/-/pipelines/gitlab_ci/latest">
         <img src="https://img.shields.io/gitlab/pipeline/garganti/asmeta" alt="Build Status"></a>
     <a href="https://github.com/asmeta/asmeta">
