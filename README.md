@@ -22,6 +22,10 @@ asmeta main repository with code and examples
 	<a href="https://github.com/asmeta/asmeta/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/asmeta/asmeta"
             alt="Licence"/></a>
+	<a href="https://github.com/asmeta/asmeta/graphs/contributors">
+        <img src="https://img.shields.io/github/contributors/asmeta/asmeta"
+            alt="Licence"/></a>
+	
 </p>
 
 <a href="https://gitlab.com/garganti/asmeta/-/pipelines/gitlab_ci/latest" alt="Latest Pipeline"> Ultima pipeline eseguita </a>
