@@ -66,9 +66,8 @@ test-jdk8:
         - code/core/asmeta.simulator/asmeta.simulator.test/target/surefire-reports/TEST-*.xml
         - code/extensions/asmetasmv/asmeta.smv.test/target/surefire-reports/TEST-*.xml
         - code/extensions/asmeta.flattener/asmeta.flattener.test/target/surefire-reports/TEST-*.xml
-    artifacts:
-      paths: # Upload the file as a generic job artifact
-        - reports/coverage/report.aggregate/jacoco.xml
+    paths: # Upload the file as a generic job artifact
+      - reports/coverage/report.aggregate/jacoco.xml
 
 # Job to translate the JaCoCo xml into a cobertura xml
 coverage:
