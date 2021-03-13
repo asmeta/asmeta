@@ -71,7 +71,7 @@ test-jdk8:
 
 # Job to translate the JaCoCo xml into a cobertura xml
 coverage:
-  stage: post-test
+  stage: deploy
   image: haynes/jacoco2cobertura:1.0.3
   script:
     # convert report from jacoco to cobertura
