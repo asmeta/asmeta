@@ -22,15 +22,6 @@ cache:
   paths:
     - .m2/repository
 
-# For merge requests do not `deploy` but only run `verify`.
-# See https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
-.verify: &verify
-  stage: test
-  script:
-    - 'mvn $MAVEN_CLI_OPTS verify'
-  except:
-    - master
-
 # Template for running a code quality analyzer 
 include:
   - template: Code-Quality.gitlab-ci.yml
