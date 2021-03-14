@@ -29,6 +29,7 @@ asmeta main repository with code and examples
 </p>
 
 <a href="https://gitlab.com/garganti/asmeta/-/pipelines/gitlab_ci/latest" alt="Latest Pipeline"> Latest Pipeline Run </a>
+
 <a href="https://gitlab.com/garganti/asmeta/-/jobs/artifacts/gitlab_ci/file/reports/coverage/report.aggregate/index.html?job=test-jdk8" alt="Latest Coverage"> Latest Coverage Result </a>
 
 ## Requirements
