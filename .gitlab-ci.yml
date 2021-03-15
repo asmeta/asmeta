@@ -35,7 +35,7 @@ build:
 test-jdk8:
   stage: test
   script:
-    - 'mvn -Dmaven.test.failure.ignore=true clean org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
+    - 'mvn -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
   artifacts:
     when: always
     reports: # Upload the info for the job report artifact (artifact:reports:junit in this case)
