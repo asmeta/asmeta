@@ -6,6 +6,8 @@ load ../CarSystem002main.asm
 				if (passed30Sec) then
 		//ParkingLightsON.avalla
 					if (parkingLight) then
+parkinglight=	(keyState = NOKEYINSERTED and lightRotarySwitch = ON and (pitmanArmUpDown = UPWARD7 or pitmanArmUpDown = DOWNWARD7)) 
+			
 						par
 							r_parkingLight[] //	ELS-28
 							parkingLightON := true

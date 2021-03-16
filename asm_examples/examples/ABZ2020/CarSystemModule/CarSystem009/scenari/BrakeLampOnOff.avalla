@@ -1,37 +1,7 @@
 scenario BrakeLampOnOff
 load ../CarSystem009main.asm
 //accensione/spegnimento luci di frenata in frenata normale
-check brakeLampRight = 0;
-check brakeLampCenter = 0;
-check brakeLampLeft = 0;
-check brakeLampCenterStatus = FIX;
-set brakePedal := 0;
-set timeImpact := 0;
-set currentVoltage := 12;
-step
-check brakeLampRight = 0;
-check brakeLampCenter = 0;
-check brakeLampLeft = 0;
-check brakeLampCenterStatus = FIX;
-set brakePedal := 20;
-set timeImpact := 0;
-set currentVoltage := 12;
-step
-check brakeLampRight = 100;
-check brakeLampCenter = 100;
-check brakeLampLeft = 100;
-check brakeLampCenterStatus = FIX;
-set brakePedal := 4;
-set timeImpact := 0;
-set currentVoltage := 12;
-step
-check brakeLampRight = 0;
-check brakeLampCenter = 0;
-check brakeLampLeft = 0;
-check brakeLampCenterStatus = FIX;
-step
 
-/*
 check lowBeamRight = 0;
 check corneringLightLeft = 0;
 check corneringLightRight = 0;
@@ -174,4 +144,4 @@ check brakeLampLeft = 0;
 check brakeLampCenter = 0;
 check brakeLampRight = 0;
 check brakeLampCenterStatus = FIX;
-step */
+step 

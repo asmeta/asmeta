@@ -5,9 +5,22 @@ load ../CarSystem004main.asm
 check lowBeamLeft = 0;
 check lowBeamRight = 0;
 check pitmanArmForthBackPrevious = NEUTRAL_FB;
+
+set keyState := KEYINIGNITIONONPOSITION;
+set hazardWarningSwitchOn := false;
+set darknessModeSwitchOn := false;
+set brightnessSensor := 200;
+set reverseGear := false;
+set brakePedal := 0;
+set cameraState := CAMERA_READY;
+set pitmanArmUpDown := NEUTRAL_UD;
+set currentSpeed := 4;
+set steeringAngle := 700;
+set passed5Sec := false;
 set currentVoltage := 130;
 set pitmanArmForthBack := BACKWARD;
 set lightRotarySwitch := ON;
+
 step
 check highBeamRange = 100;
 check tailLampRightFixValue = 100;
@@ -15,6 +28,19 @@ check tailLampLeftFixValue = 100;
 check lowBeamLeft = 100;
 check lowBeamRight = 100;
 check pitmanArmForthBackPrevious = BACKWARD;
+
+set keyState := KEYINIGNITIONONPOSITION;
+set hazardWarningSwitchOn := false;
+set darknessModeSwitchOn := false;
+set brightnessSensor := 200;
+set reverseGear := false;
+set brakePedal := 0;
+set cameraState := CAMERA_READY;
+set pitmanArmUpDown := NEUTRAL_UD;
+set currentSpeed := 4;
+set steeringAngle := 700;
+set passed5Sec := false;
+
 set currentVoltage := 155;
 set pitmanArmForthBack := BACKWARD;
 set lightRotarySwitch := ON;
@@ -25,6 +51,18 @@ check tailLampLeftFixValue = -200;
 check lowBeamLeft = -200;
 check lowBeamRight = -200;
 check pitmanArmForthBackPrevious = BACKWARD;
+set keyState := KEYINIGNITIONONPOSITION;
+set hazardWarningSwitchOn := false;
+set darknessModeSwitchOn := false;
+set brightnessSensor := 200;
+set reverseGear := false;
+set brakePedal := 0;
+set cameraState := CAMERA_READY;
+set pitmanArmUpDown := NEUTRAL_UD;
+set currentSpeed := 4;
+set steeringAngle := 700;
+set passed5Sec := false;
+
 set currentVoltage := 147;
 set pitmanArmForthBack := BACKWARD;
 set lightRotarySwitch := ON;

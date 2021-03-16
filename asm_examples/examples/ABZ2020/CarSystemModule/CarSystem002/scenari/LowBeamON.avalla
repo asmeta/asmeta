@@ -43,6 +43,10 @@ set reverseGear := false;
 set brakePedal := 0;
 set lightRotarySwitch := ON;
 set keyState := KEYINIGNITIONONPOSITION;
+set currentSpeed := 0;
+set steeringAngle := 0;
+set passed5Sec := false;
+set passed3Sec := false;
 step
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
