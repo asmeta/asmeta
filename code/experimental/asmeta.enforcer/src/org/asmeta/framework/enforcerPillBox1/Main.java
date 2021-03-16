@@ -70,12 +70,13 @@ public class Main { //extends JFrame {
 		KnowledgePB k = new KnowledgePB();
 		FeedbackLoop loop = new FeedbackLoopPillBox(managedSystem.getProbe(),managedSystem.getEffector(),k);
 		//Create a new specialized enforcer for the Pillbox system
-		Enforcer.setConfigFile("./resources/PillBox/config2.properties");
+		Enforcer.setConfigFile("./resources/PillBox1/config.properties");
 		EnforcerPillBox e = new EnforcerPillBox(managedSystem,k,loop);
 		
 		//Init step for the enforcement model SafePillbox for the plug-in of the pill box, with consistency checks of the invariants
         String initial_input_trace =  "redLed(compartment1) OFF redLed(compartment2) OFF name(compartment1) \"fosamax\" name(compartment2) \"moment\" time_consumption(compartment1) [360] time_consumption(compartment2) [730,1140] drugIndex(compartment1) 0 drugIndex(compartment2) 0";
-        Map<String, String> initState = e.initStep(initial_input_trace); //TODO Aggiungere gestione eccezione per invarianti, ecc..
+		//String initial_input_trace =  "drugIndex(compartment1) 0 drugIndex(compartment2) 0 name(compartment2) \"moment\" name(compartment1) \"fosamax\" redLed(compartment1) OFF redLed(compartment2) OFF time_consumption(compartment2) [730,1140] time_consumption(compartment1) [360]";
+		Map<String, String> initState = e.initStep(initial_input_trace); //TODO Aggiungere gestione eccezione per invarianti, ecc..
 	
         /** Running -- example of safety enforcement via MAPE-K*/
 	    //Causality relation implementation between managed system and the ASM enforcement model: user input reading (by console), system/loop execution

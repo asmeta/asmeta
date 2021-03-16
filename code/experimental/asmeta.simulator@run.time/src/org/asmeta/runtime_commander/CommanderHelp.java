@@ -31,7 +31,7 @@ class CommanderHelp {
 		System.out.println("\t\t\t\tParameter: [-locationvalue <Hash map with monitored variables and their value>]");
 		System.out.println("\t\t\t\tParameter: [-max <max steps to take>]");
 		System.out.println("\t\t\t\tParameter: -t <timeout in milliseconds>");
-		//VEWLISTINVARIANT
+		//VIEWLISTINVARIANT
 		System.out.println("VIEWLISTINVARIANT\tShows a list with all the variables and invariants in the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		//ADDINVARIANT
