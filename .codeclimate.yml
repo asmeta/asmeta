@@ -1,42 +1,4 @@
 version: "2"
-plugins:
-  csslint:
-    enabled: true
-  coffeelint:
-    enabled: true
-  duplication:
-    enabled: true
-    config:
-      languages:
-        - ruby
-        - javascript
-        - python
-        - php
-  eslint:
-    enabled: true
-    channel: __ESLINT_CHANNEL__
-  fixme:
-    enabled: true
-  rubocop:
-    enabled: true
-exclude_patterns:
-  - config/
-  - db/
-  - dist/
-  - features/
-  - "**/node_modules/"
-  - script/
-  - "**/spec/"
-  - "**/test/"
-  - "**/tests/"
-  - Tests/
-  - "**/vendor/"
-  - "**/*_test.go"
-  - "**/*.d.ts"
-  - "**/*.min.js"
-  - "**/*.min.css"
-  - "**/__tests__/"
-  - "**/__mocks__/"
 checks:
   argument-count:
     config:
@@ -61,7 +23,7 @@ checks:
       threshold: 8
   return-statements:
     config:
-      threshold: 16
+      threshold: 8
   similar-code:
     enabled: false
   identical-code:
