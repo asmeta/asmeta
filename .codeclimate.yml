@@ -8,19 +8,23 @@ checks:
       threshold: 8
   file-lines:
     config:
-      threshold: 1000
+      threshold: 2000
   method-complexity:
     config:
-      threshold: 10
+      threshold: 30
   method-count:
     config:
       threshold: 50
   method-lines:
     config:
-      threshold: 75
+      threshold: 100
   nested-control-flow:
     config:
-      threshold: 4
+      threshold: 8
   return-statements:
     config:
-      threshold: 4
+      threshold: 8
+  similar-code:
+    enabled: false
+  identical-code:
+    enabled: false
