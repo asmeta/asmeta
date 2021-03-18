@@ -19,6 +19,7 @@
 		<module>code/core/asmeta.parser/asmeta.parser.test</module>
 		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener.test</module> 
+		<module>code/core/asmeta.simulator/asmeta.simulator.test</module>
 		<module>reports/coverage/report.aggregate</module> 
 	</modules>
 	<build>
