@@ -36,7 +36,7 @@ abstract class ValidatorHandler extends AsmetaActionHandler {
 	 * the application context.
 	 */
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	public Object execute(ExecutionEvent event) throws ExecutionException {		
 		// get the path for the current editor file asmeta
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		// IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);

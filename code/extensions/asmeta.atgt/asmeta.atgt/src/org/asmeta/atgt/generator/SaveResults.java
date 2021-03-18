@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,35 +36,42 @@ public class SaveResults {
 		// find new dir where to put files
 		String dirPath = Paths.get(parent,"abstractests").toString();
 		// find new dir where to put files
-		File f = new File(dirPath);
+		File testFile = new File(dirPath);
 		int i = 1;
-		while (f.exists()) {
-			f = new File(dirPath + i++);
+		while (testFile.exists()) {
+			testFile = new File(dirPath + i++);
 		}
-		System.out.println(f.mkdir());
-		System.out.println("saving tests to " + f.getAbsolutePath());
+		System.out.println(testFile.mkdir());
+		System.out.println("saving tests to " + testFile.getAbsolutePath());
 		// save to output files
 		String allSequences = ""; // used for ProTest, to create a single file with all the sequences
 		for (AsmTestSequence tc : result.getTests()) {
 			try {
 				if (formats.contains(FormatsEnum.XML)) {
-					File ftc = new File(f, tc.getName().replace("@","") + ".xml");
+					File ftc = new File(testFile, tc.getName().replace("@","") + ".xml");
 					PrintStream dst;
 					dst = new PrintStream(new FileOutputStream(ftc));
 					dst.println((new toXML().export(tc)));
 					dst.close();
 				} 
 				if (formats.contains(FormatsEnum.AVALLA)) {
-					File ftc = new File(f, tc.getName().replace("@","") + ".avalla");	
-					String asmName = ".." + (asmetaSpecPath.contains("/") ? asmetaSpecPath.substring(asmetaSpecPath.lastIndexOf("/")) : ("/"+asmetaSpecPath)); //getRelativePath(ftc.getAbsolutePath(), asmetaSpecPath);
-					new toAvalla(ftc,tc,asmName).save();
+					File ftc = new File(testFile, tc.getName().replace("@","") + ".avalla");	
+					// get the relative path if possible
+					Path asm_to_import = null;
+					try {
+						asm_to_import = ftc.toPath().getParent().relativize(new File(asmetaSpecPath).toPath());
+					} catch(IllegalArgumentException  ie) {
+						asm_to_import = new File(asmetaSpecPath).toPath().normalize();
+					}	
+					new toAvalla(ftc,tc,asm_to_import.toString()).save();
+					System.out.println("***" +asm_to_import.toString());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		if (!"".equals(allSequences)) try {
-			File ftc = new File(f, config+".protest");
+			File ftc = new File(testFile, config+".protest");
 			PrintWriter fout = new PrintWriter(new FileWriter(ftc));
 			fout.println(allSequences);
 			fout.println("Information of Sequences :\n" + 
