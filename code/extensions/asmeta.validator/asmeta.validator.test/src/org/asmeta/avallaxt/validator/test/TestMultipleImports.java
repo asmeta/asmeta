@@ -42,6 +42,13 @@ public class TestMultipleImports extends TestValidator {
 	@Test
 	public void testMultipleCarSystem() throws Exception {
 		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\", true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem002\\scenari\\", true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\", true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem004\\scenari\\", true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem005\\scenari\\", true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem006\\scenari\\", true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem007\\scenari\\", true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem008\\scenari\\", true);		
 		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem009\\scenari\\", true);		
 	}
 	

@@ -52,6 +52,7 @@ public class TestValidator {
 	 */
 	protected void test(String scenarioPath, boolean runValidator) throws IOException, Exception {
 		if (runValidator) {
+			System.out.println("executing " + scenarioPath);
 			// it should be runnable
 			AsmetaV.execValidation(scenarioPath, false);
 		} else {

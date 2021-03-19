@@ -7,6 +7,7 @@ module CarSystem001Domains
 import ../../StandardLibrary
 import ../CarSystem000/CarSystem000CommonDomains
 export *
+//export MarketCode, PitmanArmUpDown, LightPercentage,PulseRatio,TailLampStatus
 
 signature:
 

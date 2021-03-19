@@ -5,6 +5,7 @@
 module CarSystem001Blink
 import ../../StandardLibrary
 import CarSystem001Functions
+import CarSystem001Domains
 export *
 
 signature:

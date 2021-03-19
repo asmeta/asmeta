@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
@@ -20,17 +22,16 @@ import org.asmeta.simulator.main.Simulator;
  *
  */
 public class AsmetaV {
-	
-	private static HashMap <String, String> fileNames; 
+
+	private static HashMap<String, String> fileNames;
 
 	/**
 	 * @return the fileNames
 	 */
-	public static HashMap <String, String> getFileNames() {
+	public static HashMap<String, String> getFileNames() {
 		return fileNames;
 	}
 
-	
 	public static void execValidation(String scenarioPath, boolean coverage) throws Exception {
 		fileNames = new HashMap<String, String>();
 		setLogger();
@@ -39,8 +40,8 @@ public class AsmetaV {
 
 	private static void setLogger() {
 		BasicConfigurator.configure();
-		Logger log = Logger.getRootLogger();
-		log.setLevel(Level.INFO);
+		Logger log = Logger.getRootLogger();		
+		//log.setLevel(Level.INFO);
 		Enumeration<?> it = log.getAllAppenders();
 
 		// 03/03/2021 - Andrea
@@ -51,19 +52,20 @@ public class AsmetaV {
 					.filter(x -> (x instanceof ConsoleAppender)).findFirst();
 
 			if (app != null) {
-				ConsoleAppender consoleApp = (ConsoleAppender)app.get();
-				ConsoleAppender newConsoleApp = new ConsoleAppender(consoleApp.getLayout(),
-						consoleApp.getTarget());
+				ConsoleAppender consoleApp = (ConsoleAppender) app.get();
+				ConsoleAppender newConsoleApp = new ConsoleAppender(consoleApp.getLayout(), consoleApp.getTarget());
 				newConsoleApp.setLayout(new org.apache.log4j.PatternLayout());
 				log.removeAllAppenders();
 				log.addAppender(newConsoleApp);
 			}
 		}
-		
-		/*while(it.hasMoreElements()) {
-			((Appender)it.nextElement()).setLayout(new PatternLayout());
-		}*/
+
+		/*
+		 * while(it.hasMoreElements()) { ((Appender)it.nextElement()).setLayout(new
+		 * PatternLayout()); }
+		 */
 	}
+
 	/**
 	 * 
 	 * @param scenarioPath file containing the scenario or directory containign all the scenarios
@@ -71,55 +73,50 @@ public class AsmetaV {
 	 * @throws Exception
 	 */
 	private static void execValidation(File scenarioPath, boolean coverage) throws Exception {
-		AsmetaFromAvallaBuilder builder;
-		Simulator sim = null;
-		File[] listFile;
-		ArrayList<String> all_rules = new ArrayList<String>();
-		// get all rules covered by a set of
+		// get all rules covered by a set of string
+		Set<String> all_rules = new HashSet<String>();
 		// scenarios into directory
 		if (scenarioPath.isDirectory()) { 
-			listFile = scenarioPath.listFiles();
-			for (int i = 0; i < listFile.length; i++)
-				if (listFile[i].isFile()) {
-					builder = new AsmetaFromAvallaBuilder(listFile[i].getPath());
-					builder.save();
-					sim = Simulator.createSimulator(builder.getTempAsmPath());
-					sim.setShuffleFlag(true);
-					if (coverage) {
-						RuleEvaluator.COMPUTE_COVERAGE = true;
-					}
-					System.out.println("\n** Simulation **\n");
-					sim.runUntilEmpty();
-					if (coverage) // for each scenario insert rules covered
-									// into list if they aren't covered
-						for (int j = 0; j < RuleEvaluator.getCoveredMacro()
-								.size(); j++)
-							if (!all_rules.contains(RuleEvaluator
-									.getCoveredMacro().get(j)))
-								all_rules.add(RuleEvaluator
-										.getCoveredMacro().get(j));
-				} else
-					System.out.println(listFile[i].getName()
-							+ " is not a file!!");
-			if (coverage) { // print all covered rules
-				System.out.println("\n** Coverage Info: **\n");
-				for (int j = 0; j < all_rules.size(); j++)
-					System.out.println(all_rules.get(j));
-			}
+			File[] listFile = scenarioPath.listFiles();
+			for (File element : listFile)
+				if (element.isFile()) {
+					String path = element.getPath();
+					validateSingleFile(coverage, all_rules, path);
+				} else {
+					System.out.println(element.getName() + " is not a file!!");
+				}
 		} else { // if the file is not a directory but a file
-			builder = new AsmetaFromAvallaBuilder(scenarioPath.getAbsolutePath());
-			builder.save();			
-			sim = Simulator.createSimulator(builder.getTempAsmPath());
-			sim.setShuffleFlag(true);
-			if (coverage) {
-				RuleEvaluator.COMPUTE_COVERAGE = true;
-			}
-			System.out.println("\n** Simulation **\n");
-			sim.runUntilEmpty();
-			if (coverage) {
-				System.out.println("\n** Coverage Info: **\n");
-				RuleEvaluator.printCoveredMacro(System.out);
-			}
+			validateSingleFile(coverage, all_rules, scenarioPath.getAbsolutePath());
+		}
+		if (coverage) { // print all covered rules
+			System.out.println("\n** Coverage Info: **\n");
+			for (String rule : all_rules)
+				System.out.println(rule);
+		}
+	}
+
+	/**
+	 * @param coverage
+	 * @param coveredRules
+	 * @param path
+	 * @throws Exception
+	 */
+	private static void validateSingleFile(boolean coverage, Set<String> coveredRules, String path) throws Exception {
+		AsmetaFromAvallaBuilder builder;
+		Simulator sim;
+		builder = new AsmetaFromAvallaBuilder(path);
+		builder.save();
+		sim = Simulator.createSimulator(builder.getTempAsmPath());
+		sim.setShuffleFlag(true);
+		if (coverage) {
+			RuleEvaluator.COMPUTE_COVERAGE = true;
+		}
+		System.out.println("\n** Simulation " +  path + " **\n");
+		sim.runUntilEmpty();
+		if (coverage) { // for each scenario insert rules covered
+						// into list if they aren't covered
+			for (String element : RuleEvaluator.getCoveredMacro())
+				coveredRules.add(element);
 		}
 	}
 
