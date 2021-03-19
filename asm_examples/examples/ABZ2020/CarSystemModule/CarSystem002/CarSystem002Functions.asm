@@ -42,7 +42,7 @@ definitions:
 
 	function armoredVehicle = true
 	function daytimeLight = true
-	function ambientLighting = true
+	function ambientLighting = false
 		
 	//Engine state is determined by KeyPosition value. If the key is on the engine is on, otherwise is off
 	//function engineOn ($key in KeyPosition)=
