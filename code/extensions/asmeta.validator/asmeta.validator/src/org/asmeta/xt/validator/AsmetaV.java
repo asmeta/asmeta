@@ -39,7 +39,8 @@ public class AsmetaV {
 	}
 
 	private static void setLogger() {
-		BasicConfigurator.configure();
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
+		//BasicConfigurator.configure();
 		Logger log = Logger.getRootLogger();		
 		//log.setLevel(Level.INFO);
 		Enumeration<?> it = log.getAllAppenders();
