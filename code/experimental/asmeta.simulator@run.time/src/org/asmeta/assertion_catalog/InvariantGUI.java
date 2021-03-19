@@ -163,7 +163,7 @@ public class InvariantGUI {
 		//list.setToolTipText("");
 		//list.setBounds(557, 80, 144, 247);
 		//frame.getContentPane().add(list);
-		upload = new JButton("UPLOAD MODEL",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/upload.png")));
+		upload = new JButton("LOAD MODEL",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/upload.png")));
 		upload.setBounds(523, 13, 186, 54);
 		frame.getContentPane().add(upload);
 		

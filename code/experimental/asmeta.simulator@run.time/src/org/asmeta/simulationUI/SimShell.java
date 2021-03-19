@@ -60,6 +60,7 @@ public class SimShell {
 			}
 		}
 		while (!in.equals("qqq"));
+		System.out.println("Quitting...");
 		keyboard.close();
 	}
 }
