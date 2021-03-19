@@ -1,7 +1,10 @@
-scenario LowBeamOFFPowerOFF2
+scenario LowBeamOFFPowerOFFKey
 load ../CarSystem002main.asm
-//prima accendo il motore
-//per questo spegnimento daytimeLigh=false
+//questo spegnimento funziona quando l'ambientLight = false e daytimeLight=false
+//quindi il sistema non usa l'altro con i 30 secondi
+
+//testato funzionante
+//prima accendo la macchina con lightSwitch su ON
 	check keyState_Previous = undef;
 check brakeLampRight = 0;
 check pitmanArmUpDown_Buff = NEUTRAL_UD;
@@ -12,17 +15,18 @@ check hazardWarningSwitchOn_Runn = false;
 check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
 check hazardWarningSwitchOn_Start = false;
 check lightRotarySwitchPrevious = OFF;
-	check lowBeamLeft = 0;
-	check lowBeamRight = 0;
+check lowBeamLeft = 0;
+check lowBeamRight = 0;
 	set keyState := KEYINIGNITIONONPOSITION;
 	set lightRotarySwitch := ON;
 set hazardWarningSwitchOn := false;
 set pitmanArmUpDown := NEUTRAL_UD;
 set darknessModeSwitchOn := false;
-set brightnessSensor := 150;
+set brightnessSensor := 50;
 set reverseGear := false;
 set brakePedal := 0;
 step
+//la macchina e gli anabbaglianti sono accesi
 	check keyState_Previous = KEYINIGNITIONONPOSITION;
 check brakeLampRight = 0;
 check pitmanArmUpDown_Buff = NEUTRAL_UD;
@@ -45,14 +49,14 @@ check corneringLightRight = 0;
 set hazardWarningSwitchOn := false;
 set pitmanArmUpDown := NEUTRAL_UD;
 set darknessModeSwitchOn := false;
-set brightnessSensor := 150;
+set brightnessSensor := 50;
 set reverseGear := false;
 set brakePedal := 0;
 set currentSpeed := 0;
 set steeringAngle := 500;
 set passed5Sec := false;
 step
-//spegno il motore e tolgo la chiabe
+//spengo la macchina con la chiave inserita
 	check keyState_Previous = KEYINIGNITIONONPOSITION;
 check brakeLampRight = 0;
 check pitmanArmUpDown_Buff = NEUTRAL_UD;
@@ -70,21 +74,20 @@ check corneringLightRight = 0;
 	check tailLampRightFixValue = 100;
 	check lowBeamLeft = 100;
 	check lowBeamRight = 100;
-	set keyState := NOKEYINSERTED;
+	set keyState := KEYINSERTED;
 	set lightRotarySwitch := ON;
-//aggiunto manualmente
-	check parkingLight=false;
+	//check daytimeLight=false;
 set hazardWarningSwitchOn := false;
 set pitmanArmUpDown := NEUTRAL_UD;
 set darknessModeSwitchOn := false;
-set brightnessSensor := 150;
+set brightnessSensor := 100;
 set reverseGear := false;
 set brakePedal := 0;
 set currentSpeed := 0;
-set steeringAngle := 0;
+set steeringAngle := 500;
 set passed5Sec := false;
 step
-	check keyState_Previous = NOKEYINSERTED;
+	check keyState_Previous = KEYINSERTED;
 check brakeLampRight = 0;
 check pitmanArmUpDown_Buff = NEUTRAL_UD;
 check brakeLampCenter = 0;
@@ -102,3 +105,4 @@ check corneringLightRight = 0;
 	check lowBeamLeft = 0;
 	check lowBeamRight = 0;
 step
+

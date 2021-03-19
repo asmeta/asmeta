@@ -68,7 +68,7 @@ definitions:
 	
 	//ambient light if active is activated only if this function is true
 	function ambientLightingConditionOn = 
-		(engineOn(keyState_Previous) and (not engineOn(keyState)) and brightnessSensor<200) 
+	(engineOn(keyState_Previous) and (not engineOn(keyState)) and brightnessSensor<200) 
 			
 	//ELS-23
 	//Tail lamp value
@@ -133,33 +133,40 @@ definitions:
 	macro rule 	r_LowBeamHeadlights =
 		par
 		//ELS-14
+		//LowBeamON.avalla
 			if (lightRotarySwitch = ON and engineOn(keyState)) then
 				r_LowBeamTailLampOnOff[100] 
 			endif
 		//ELS-19
+		//LowBeamONWithAmbientLight.avalla
 			if (ambientLightingAvailable and ambientLightingConditionOn) then
 				if ((not lowBeamLightingOn)) then
 					r_LowBeamTailLampOnOff[100] 
 				endif
 			endif
 		//ELS-19	
+		//LowBeamOFFonAmbientLight.avalla
 			if (ambientLightingAvailable and lowBeamLightingOn and (not engineOn(keyState))) then
 				if (passed30Sec) then
+		//ParkingLightONAmbientLight.avalla
 					if (parkingLight) then
 						par
 							r_parkingLight[] //	ELS-28
 							parkingLightON := true
 						endpar
 					else
+		//LowBeamOFFonAmbientLight.avalla
 						r_LowBeamTailLampOnOff[0] 
 					endif
 				else
+		//ParkingLightONAmbientLightno30sec
 					if (parkingLight) then
 						parkingLightON := true
 					endif
 				endif
 			endif
 		//ELS-15
+		//LowBeamONKey.avalla
 			//if not (ambientLightingAvailable and ambientLightingConditionOn) then
 			if  (not ambientLightingAvailable) then
 				par
@@ -168,9 +175,11 @@ definitions:
 					endif
 					if (not daytimeLight) then
 						par
+		//LowBeamOFFPowerOFFKey.avalla
 							if (keyState = KEYINSERTED and engineOn(keyState_Previous) and (not engineOn(keyState)) and lightRotarySwitchPrevious = ON and lightRotarySwitch = ON) then
 								r_LowBeamTailLampOnOff[0] 
 							endif
+		//LowBeamOFFPowerOFFNoKey.avalla
 							if (keyState = NOKEYINSERTED and lightRotarySwitchPrevious = ON and lightRotarySwitch = ON and (not parkingLight)) then
 								r_LowBeamTailLampOnOff[0]
 							endif
@@ -179,8 +188,9 @@ definitions:
 				endpar
 			endif
 		//ELS-17
+		//LowBeamONWithDaylight.avalla
 			if (daytimeLight) then
-				if ((not ambientLightingAvailable) or (not (ambientLightingAvailable and ambientLightingConditionOn)))  then 
+				if (not ambientLightingAvailable or not ambientLightingConditionOn)  then 
 					//if ((keyState = KEYINSERTED or keyState = KEYINIGNITIONONPOSITION) and ((not engineOn(keyState_Previous)) and engineOn = true)) then
 					if ((not engineOn(keyState_Previous)) and engineOn(keyState)) then
 						par
@@ -188,6 +198,7 @@ definitions:
 								r_LowBeamTailLampOnOff[100] 
 							endif
 							//Turn off parking light
+		//ParkingLightOFF.avalla
 							if (parkingLightON) then
 								parkingLightON := false
 							endif
@@ -199,26 +210,31 @@ definitions:
 			//ELS-16 ELS-17, ELS-16 has priority over ELS-17
 			if (not ambientLightingAvailable) then
 			//ELS-16
+		//LowBeamAutoOFFonSwitch.avalla	
 				if ((not engineOn(keyState_Previous)) and (not engineOn(keyState)) and lightRotarySwitch = AUTO and lightRotarySwitchPrevious != AUTO) then
 					r_LowBeamTailLampOnOff[0] 
 				else
+		//LowBeamAutoOFFonDaylight.avalla
 					if ((not parkingLight) and daytimeLight and keyState = NOKEYINSERTED and (keyState_Previous = KEYINSERTED or keyState_Previous = KEYINIGNITIONONPOSITION)) then
 						r_LowBeamTailLampOnOff[0] 
 					endif
 				endif
 			endif
 		//ELS-18
+		//LowBeamAutoON.avalla
 			if (lightRotarySwitch = AUTO and engineOn(keyState) and brightnessSensor<200) then 
 				if ((not lowBeamLightingOn)) then
 					r_LowBeamTailLampOnOff[100] 
 				endif
 			endif
+		//LowBeamAutoOFF.avalla
 			if (lightRotarySwitch = AUTO and engineOn(keyState) and brightnessSensor>250) then
 				if (lowBeamLightingOn and passed3Sec) then
 					r_LowBeamTailLampOnOff[0] 
 				endif
 			endif
 		//ELS-28
+		//ParkingLightONnoAmbient.avalla
 			if (not ambientLightingAvailable and parkingLight) then
 				par
 					r_parkingLight[] 
@@ -230,6 +246,12 @@ definitions:
 		//	endif
 		endpar
 	
+	
+		
+	// INVARIANTS
+	
+	
+	//PROPERTIES
 		
 	// INVARIANTS
 	

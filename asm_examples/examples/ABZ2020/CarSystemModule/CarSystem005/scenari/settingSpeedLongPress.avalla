@@ -1,7 +1,7 @@
-//testiamo la pressione prolungata sia per UP/DOWN5 che UP/DOWN7
-
 scenario settingSpeedLongPress
 load ../CarSystem005main.asm
+//testiamo la pressione prolungata sia per UP/DOWN5 che UP/DOWN7
+
 check keyState_Previous = NOKEYINSERTED;
 check setVehicleSpeed = 0;
 set sCSLever := NEUTRAL;

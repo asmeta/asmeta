@@ -33,9 +33,8 @@ import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_simulator.AsmetaSserviceSingleton;
 import org.junit.Test;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Test1.
+ * The SimulationContainer test class
  */
 public class TestSimulationContainer {
 	
@@ -294,7 +293,8 @@ public class TestSimulationContainer {
 			Map<String, String> monitored = new HashMap<String, String>();
 			int id = imp.startExecution(model);
 			monitored.put("operation", "ALLUMER"); 
-			assertTrue( new RunOutput(Esit.UNSAFE, "Run timed out").equalsMessage(imp.runStepTimeout(id, monitored, 0)));
+			assertTrue( new RunOutput(Esit.UNSAFE, "Run timed out").equalsMessage(imp.runStepTimeout(id, monitored, 1)));
+			Thread.sleep(50);
 		}
 		@Test //names mismatch 
 		public void runT2() throws Exception {
@@ -647,14 +647,14 @@ public class TestSimulationContainer {
 				
 //===================================START RUN UNTIL EMPTY TIMEOUT WITHOUT MONITORING===================================
 				
-				@Test //everything should go well but it times out
+				@Test //everything should go well but it times out, sometimes it runs too fast and it doesn't, running this on its own should give the proper result
 				public void runUWT1() throws Exception {
 					System.out.println(" |||||||||||||||||||||  TEST UWT1 |||||||||||||||||||||||||||||||||||||||||||||");
 					String model  ="examples/test_insertAt_Sequence.asm";
 					SimulationContainer imp = new SimulationContainer();
 					imp.init(3);
 					int id = imp.startExecution(model);
-					assertTrue( new RunOutput(Esit.UNSAFE, "Run timed out").equalsMessage(imp.runUntilEmptyTimeout(id, max,0)));
+					assertTrue( new RunOutput(Esit.UNSAFE, "Run timed out").equalsMessage(imp.runUntilEmptyTimeout(id, max,1)));
 				}
 				@Test //id not found timeout 1 second
 				public void runUWT2() throws Exception {

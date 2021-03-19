@@ -3,7 +3,7 @@
 
 scenario AdaptativeHighBeamDecreasing
 load ../CarSystem003main.asm
-/* 
+
 check brakeLampRight = 0;
 check lowBeamRight = 0;
 check brakeLampCenter = 0;
@@ -234,8 +234,7 @@ check highBeamOn = true;
 check highBeamRange = 100;
 check highBeamMotor = 11;
 check lightRotarySwitchPrevious = AUTO;
-* 
-*/
+
 //da qui in poi è la parte nuova dello scenario
 set hazardWarningSwitchOn := false;
 set pitmanArmUpDown := NEUTRAL_UD;
@@ -271,8 +270,8 @@ check tailLampLeftFixValue = 100;
 check corneringLightLeft = 0;
 check corneringLightRight = 0;
 	check highBeamOn = true;
-	check highBeamRange = 0;//si abbassano gli abbaglianti
-	check highBeamMotor = 30;//questo non è un valore valido per il dominio di definizione della funzione. c'è qualche problema
+	check highBeamRange = 100;//si abbassano gli abbaglianti
+	check highBeamMotor = 0;//questo non è un valore valido per il dominio di definizione della funzione. c'è qualche problema
 							//nella funzione
 	check lightRotarySwitchPrevious = AUTO;
 set hazardWarningSwitchOn := false;

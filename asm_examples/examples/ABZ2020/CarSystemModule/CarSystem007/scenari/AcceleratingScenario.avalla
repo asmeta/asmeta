@@ -7,6 +7,9 @@ set keyState := KEYINIGNITIONONPOSITION;
 set sCSLever := NEUTRAL;
 set currentSpeed := 0;
 set cruiseControlMode := CCM0;
+set brakePedal := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
 step
 check setVehicleSpeed = 0;
 check keyState_Previous = KEYINIGNITIONONPOSITION;
@@ -19,6 +22,9 @@ set currentSpeed := 500;
 set cruiseControlMode := CCM2;
 set rangeRadarState := READY;
 set rangeRadarSensor := 3;
+set brakePedal := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
 step
 check setVehicleSpeed = 500;
 check keyState_Previous = KEYINIGNITIONONPOSITION;
@@ -32,6 +38,9 @@ set currentSpeed := 500;
 set cruiseControlMode := CCM2;
 set rangeRadarState := READY;
 set rangeRadarSensor := 3;
+set brakePedal := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
 step
 check setVehicleSpeed = 600;
 check keyState_Previous = KEYINIGNITIONONPOSITION;
@@ -45,6 +54,9 @@ set currentSpeed := 500;
 set cruiseControlMode := CCM2;
 set rangeRadarState := READY;
 set rangeRadarSensor := 3;
+set brakePedal := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
 step
 check setVehicleSpeed = 600;
 check keyState_Previous = KEYINIGNITIONONPOSITION;

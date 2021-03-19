@@ -1,14 +1,17 @@
-//// starting scenario
 scenario WarningsAndCollisionDetect
 load ../CarSystem007main.asm
 //testiamo l'accensione e lo spegnimento dei warning visuali e acustici
 //cosi come il segnale di collisione
 //ognuno ha attivazione a distanze di radar diversi e una volta attivi procediamo per step per testare la disattivazione
+
 check setVehicleSpeed = 0;
 set sCSLever := NEUTRAL;
 set keyState := KEYINIGNITIONONPOSITION;
 set currentSpeed := 0;
 set cruiseControlMode := CCM0;
+set brakePedal := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
 step
 check setVehicleSpeed = 0;
 check keyState_Previous = KEYINIGNITIONONPOSITION;
@@ -22,6 +25,9 @@ set currentSpeed := 500;
 set cruiseControlMode := CCM2;
 set rangeRadarState := READY;
 set rangeRadarSensor := 2;
+set brakePedal := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
 step
 check setVehicleSpeed = 500;
 check keyState_Previous = KEYINIGNITIONONPOSITION;
@@ -37,6 +43,9 @@ set currentSpeed := 500;
 set cruiseControlMode := CCM2;
 set rangeRadarState := READY;
 set rangeRadarSensor := 12;
+set brakePedal := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
 step
 check setVehicleSpeed = 500;
 check keyState_Previous = KEYINIGNITIONONPOSITION;
@@ -53,6 +62,9 @@ set currentSpeed := 500;
 set cruiseControlMode := CCM2;
 set rangeRadarState := READY;
 set rangeRadarSensor := 21;
+set brakePedal := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
 step
 check setVehicleSpeed = 500;
 check keyState_Previous = KEYINIGNITIONONPOSITION;
@@ -68,7 +80,10 @@ set keyState := KEYINIGNITIONONPOSITION;
 set currentSpeed := 500;
 set cruiseControlMode := CCM2;
 set rangeRadarState := READY;
-set rangeRadarSensor := 26;
+set rangeRadarSensor := 33;
+set brakePedal := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
 step
 check setVehicleSpeed = 500;
 check keyState_Previous = KEYINIGNITIONONPOSITION;

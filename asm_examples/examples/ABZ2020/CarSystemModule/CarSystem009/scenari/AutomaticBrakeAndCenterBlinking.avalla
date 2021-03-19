@@ -5,59 +5,6 @@ load ../CarSystem009main.asm
 //a veicolo fermo e quindi senza timeimpact, verifichiamo lo spegnimento delle luci di frenata e
 //il non lampeggiamento della luce centrale
 
-check brakeLampCenter = 0;
-check brakeLampLeft = 0;
-check brakeLampRight = 0;
-check brakeLampCenterStatus = FIX;
-set timeImpact := 0;
-set stationaryObstacle := false;
-set movingObstacle := false;
-set currentSpeed := 0;
-set brakePedal := 0;
-set currentVoltage := 12;
-step
-check brakeLampCenter = 0;
-check brakeLampLeft = 0;
-check brakeLampRight = 0;
-check brakeLampCenterStatus = FIX;
-set timeImpact := 1;
-set stationaryObstacle := true;
-set movingObstacle := false;
-set currentSpeed := 500;
-set brakePedal := 0;
-set currentVoltage := 12;
-step
-check brakeLampCenter = 100;
-check brakeLampLeft = 100;
-check brakeLampRight = 100;
-check brakeLampCenterStatus = FIX;
-check brakePressure = 20;
-set timeImpact := 3;
-set stationaryObstacle := true;
-set movingObstacle := false;
-set currentSpeed := 500;
-set brakePedal := 0;
-set currentVoltage := 12;
-step
-check brakeLampCenter = 100;
-check brakeLampLeft = 100;
-check brakeLampRight = 100;
-check brakeLampCenterStatus = BLINK;
-check brakePressure = 100;
-set timeImpact := 0;
-set stationaryObstacle := false;
-set movingObstacle := false;
-set currentSpeed := 0;
-set brakePedal := 0;
-set currentVoltage := 12;
-step
-check brakeLampCenter = 0;
-check brakeLampLeft = 0;
-check brakeLampRight = 0;
-check brakeLampCenterStatus = FIX;
-check brakePressure = 100;
-step
-/*
 check lowBeamRight = 0;
 check corneringLightLeft = 0;
 check corneringLightRight = 0;
@@ -245,4 +192,3 @@ check brakeLampRight = 0;
 check brakeLampCenterStatus = FIX;
 check brakePressure = 100;
 step
-*/

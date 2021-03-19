@@ -1,5 +1,7 @@
-scenario LightOnForReverseExport
+scenario LowBeamAutoON
 load ../CarSystem002main.asm
+//verifico l'accensione degli anabbaglianti se si passa da alta a bassa luminosità
+//(e anche delle luci di coda)
 
 check keyState_Previous = undef;
 check lowBeamRight = 0;
@@ -14,12 +16,14 @@ check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
 check parkingLightON = false;
 check hazardWarningSwitchOn_Start = false;
 set keyState := KEYINIGNITIONONPOSITION;
-set lightRotarySwitch := ON;
+set lightRotarySwitch := AUTO;
 set hazardWarningSwitchOn := false;
 set pitmanArmUpDown := NEUTRAL_UD;
 set darknessModeSwitchOn := false;
-set brightnessSensor := 10;
-set reverseGear := true;
+//imposto il sensore
+set brightnessSensor := 300;
+set passed3Sec := false;
+set reverseGear := false;
 set brakePedal := 0;
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
@@ -34,22 +38,24 @@ check hazardWarningSwitchOn_Runn = false;
 check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
 check parkingLightON = false;
 check hazardWarningSwitchOn_Start = false;
-check reverseLight = 100;
+check reverseLight = 0;
 check tailLampRightFixValue = 100;
 check tailLampLeftFixValue = 100;
-check lightRotarySwitchPrevious = ON;
+check lightRotarySwitchPrevious = AUTO;
 check corneringLightLeft = 0;
 check corneringLightRight = 0;
 set keyState := KEYINIGNITIONONPOSITION;
-set lightRotarySwitch := ON;
+set lightRotarySwitch := AUTO;
 set hazardWarningSwitchOn := false;
 set pitmanArmUpDown := NEUTRAL_UD;
 set darknessModeSwitchOn := false;
-set brightnessSensor := 10;
-set reverseGear := true;
+//a bassa luminosità si accende
+set brightnessSensor := 100;
+set passed3Sec := false;
+set reverseGear := false;
 set brakePedal := 0;
-set currentSpeed := 3;
-set steeringAngle := 57;
+set currentSpeed := 0;
+set steeringAngle := 0;
 set passed5Sec := false;
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
@@ -64,9 +70,10 @@ check hazardWarningSwitchOn_Runn = false;
 check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
 check parkingLightON = false;
 check hazardWarningSwitchOn_Start = false;
-check reverseLight = 100;
+check reverseLight = 0;
 check tailLampRightFixValue = 100;
 check tailLampLeftFixValue = 100;
-check lightRotarySwitchPrevious = ON;
-check corneringLightLeft = 100;
-check corneringLightRight = 100;
+check lightRotarySwitchPrevious = AUTO;
+check corneringLightLeft = 0;
+check corneringLightRight = 0;
+step

@@ -1,6 +1,7 @@
 scenario LowBeamAutoOFFonBrightness
 load ../CarSystem002main.asm
 //prima accendo la macchina e gli anabbaglianti
+//revisionato già corretto
 check keyState_Previous = undef;
 check brakeLampRight = 0;
 check pitmanArmUpDown_Buff = NEUTRAL_UD;

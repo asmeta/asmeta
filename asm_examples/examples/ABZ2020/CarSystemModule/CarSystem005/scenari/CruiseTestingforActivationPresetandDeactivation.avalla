@@ -1,11 +1,11 @@
+scenario CruiseTestingforActivationPreset
+load ../CarSystem005main.asm
 //attivazione core del cruise
 //questo scenario verifica l'attivazione con velocità <200
 //e velocità preimpostata
 //cosi come la sua attivazione a velocità >=200 sempre con velocità
 //preimpostata
 
-scenario CruiseTestingforActivationPreset
-load ../CarSystem005main.asm
 check setVehicleSpeed = 0;
 set sCSLever := NEUTRAL;
 set keyState := KEYINIGNITIONONPOSITION;
@@ -67,6 +67,7 @@ set keyState := KEYINIGNITIONONPOSITION;
 set brakePedal := 0;
 set currentSpeed := 500;
 set cruiseControlMode := CCM2;
+set passed2Sec := true;
 step
 check setVehicleSpeed = 700;
 check keyState_Previous = KEYINIGNITIONONPOSITION;

@@ -80,7 +80,8 @@ definitions:
 							r_CorneringLightsOn[LEFT] 
 						endpar
 					endif
-					if ((corneringLightRight != 0 and corneringLightLeft != 0 and reverseGear = false) and ((corneringLightRight != 0 or corneringLightLeft != 0) and ((steeringAngle >= 411 and steeringAngle <= 613) and (pitmanArmUpDown_RunnReq = NEUTRAL_UD and passed5Sec = true)))) then
+					//if ((corneringLightRight != 0 and corneringLightLeft != 0 and reverseGear = false) and ((corneringLightRight != 0 or corneringLightLeft != 0) and ((steeringAngle >= 411 and steeringAngle <= 613) and (pitmanArmUpDown_RunnReq = NEUTRAL_UD and passed5Sec = true)))) then
+					if ((corneringLightRight != 0 and corneringLightLeft != 0 and reverseGear = false) or ((corneringLightRight != 0 or corneringLightLeft != 0) and ((steeringAngle >= 411 and steeringAngle <= 613) and (pitmanArmUpDown_RunnReq = NEUTRAL_UD and passed5Sec = true)))) then
 						r_CorneringLightsOff[] 
 					endif
 				endpar

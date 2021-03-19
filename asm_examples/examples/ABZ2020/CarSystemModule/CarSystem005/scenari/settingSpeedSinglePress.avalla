@@ -80,6 +80,7 @@ set brakePedal := 0;
 set currentSpeed := 350;
 set cruiseControlMode := CCM2;
 set sCSLever := DOWNWARD7_SCS;
+set passed2Sec :=true;
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
 check sCSLeve_Previous = DOWNWARD7_SCS;

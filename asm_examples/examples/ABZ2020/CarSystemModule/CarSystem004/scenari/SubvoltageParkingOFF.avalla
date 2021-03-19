@@ -1,7 +1,7 @@
-// le luci, mentre sono accese non si spengono in caso di subvoltage perchè il controllo è posto prima dell'accensione
-// in caso di subvoltage l'unica cosa che accade è la loro non accensione
 scenario SubvoltageParkingOFF
 load ../CarSystem004main.asm
+// le luci, mentre sono accese non si spengono in caso di subvoltage perchè il controllo è posto prima dell'accensione
+// in caso di subvoltage l'unica cosa che accade è la loro non accensione
 
 check brakeLampRight = 0;
 check corneringLightLeft = 0;

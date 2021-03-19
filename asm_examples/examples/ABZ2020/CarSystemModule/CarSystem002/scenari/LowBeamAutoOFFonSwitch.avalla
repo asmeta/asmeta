@@ -1,11 +1,10 @@
+scenario LowBeamAutoOFFonSwitch
+load ../CarSystem002main.asm
 //ambientLighting=false
 //prima accendo gli anabbaglianti con lo switch su ON
 //poi metto lo switch su on
 //spengo la macchina
 //lo step successivo metto lo switch su AUTO
-
-scenario LowBeamAutoOFFonSwitch
-load ../CarSystem002main.asm
 
 check brakeLampRight = 0;
 check brakeLampCenter = 0;

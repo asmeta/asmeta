@@ -1,9 +1,9 @@
+scenario SpeedLimiterAndGasPedal
+load ../CarSystem006main.asm
 //facciamo accensione alla pressione della testa
 //comportamento in base alla pressione dell'acceleratore
 //e spegnimento con BACKWARD
-//// starting scenario
-scenario SpeedLimiterAndGasPedal
-load ../CarSystem006main.asm
+
 check keyState_Previous = NOKEYINSERTED;
 check setVehicleSpeed = 0;
 check speedLimitActive = false;
@@ -12,6 +12,8 @@ set keyState := KEYINIGNITIONONPOSITION;
 set brakePedal := 0;
 set currentSpeed := 0;
 set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := false;
+
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
 check setVehicleSpeed = 0;
@@ -23,6 +25,8 @@ set keyState := KEYINIGNITIONONPOSITION;
 set brakePedal := 0;
 set currentSpeed := 600;
 set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := false;
+
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
 check setVehicleSpeed = 600;
@@ -37,6 +41,8 @@ set brakePedal := 0;
 set currentSpeed := 600;
 set cruiseControlMode := CCM2;
 set gasPedal := 91;
+set trafficSignDetectionOn := false;
+
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
 check setVehicleSpeed = 600;
@@ -51,6 +57,8 @@ set brakePedal := 0;
 set currentSpeed := 700;
 set cruiseControlMode := CCM2;
 set gasPedal := 50;
+set trafficSignDetectionOn := false;
+
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
 check setVehicleSpeed = 600;
@@ -65,12 +73,16 @@ set brakePedal := 0;
 set currentSpeed := 700;
 set cruiseControlMode := CCM2;
 set gasPedal := 50;
+set trafficSignDetectionOn := false;
+
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
-check setVehicleSpeed = 600;
+check setVehicleSpeed = 0;
 check speedLimitActive = false;
 check desiredSpeed = 600;
 check sCSLeve_Previous = BACKWARD_SCS;
 check orangeLed = false;
 check speedLimitTempDeacti = false;
+check trafficSignDetectionOn = false;
+
 step

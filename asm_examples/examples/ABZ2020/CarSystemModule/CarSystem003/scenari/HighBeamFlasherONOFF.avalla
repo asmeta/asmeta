@@ -1,6 +1,8 @@
-//questo è un accensione/spengnimento della modalità fixed in soli 2 step
-scenario HighBeamFixedONOFF
+scenario HighBeamFlasherONOFF
 load ../CarSystem003main.asm
+//questo è un accensione/spengnimento della modalità flasher in soli 2 step
+//testato funzionante
+
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
 check brakeLampCenterStatus = FIX;

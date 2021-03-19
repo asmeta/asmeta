@@ -1,8 +1,9 @@
+scenario SpeedLimiterActivationAndCruise
+load ../CarSystem006main.asm
 // in questa implementazione lo speedlimiter si avvale della funzione del cruise per la funzione di limitatore di velocità
 //questa funzionalità era già implementata in CarSystem005 ed è stata evoluta per funzionare anche alla pressione della testa della pitman arm
 //qui testiamo lo switch tra cruise e speedlimiter
-scenario SpeedLimiterActivationAndCruise
-load ../CarSystem006main.asm
+
 check keyState_Previous = NOKEYINSERTED;
 check setVehicleSpeed = 0;
 check speedLimitActive = false;
@@ -11,6 +12,7 @@ set keyState := KEYINIGNITIONONPOSITION;
 set brakePedal := 0;
 set currentSpeed := 0;
 set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := false;
 
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
@@ -23,6 +25,8 @@ set keyState := KEYINIGNITIONONPOSITION;
 set brakePedal := 0;
 set currentSpeed := 500;
 set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := false;
+
 
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
@@ -36,6 +40,8 @@ set keyState := KEYINIGNITIONONPOSITION;
 set brakePedal := 0;
 set currentSpeed := 500;
 set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := false;
+
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
 check setVehicleSpeed = 500;
@@ -50,6 +56,8 @@ set keyState := KEYINIGNITIONONPOSITION;
 set brakePedal := 0;
 set currentSpeed := 500;
 set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := false;
+
 step
 check keyState_Previous = KEYINIGNITIONONPOSITION;
 check setVehicleSpeed = 0;
@@ -58,4 +66,6 @@ check desiredSpeed = 500;
 check sCSLeve_Previous = BACKWARD_SCS;
 check orangeLed = false;
 check speedLimitTempDeacti = false;
+check trafficSignDetectionOn = false;
+
 step

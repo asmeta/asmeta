@@ -1,7 +1,7 @@
-scenario LowBeamAUTOON
+scenario LowBeamONKey
 load ../CarSystem002main.asm
 
-	check keyState_Previous = KEYINIGNITIONONPOSITION;
+check keyState_Previous = undef;
 	check lowBeamRight = 0;
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
@@ -12,16 +12,16 @@ check hazardWarningSwitchOn_Runn = false;
 check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
 check hazardWarningSwitchOn_Start = false;
 check lightRotarySwitchPrevious = OFF;
-	set keyState := KEYINIGNITIONONPOSITION;
-	set lightRotarySwitch := AUTO;
+	set keyState := KEYINSERTED;
+	set lightRotarySwitch := OFF;
 set hazardWarningSwitchOn := false;
 set darknessModeSwitchOn := false;
-	set brightnessSensor := 250;
+set brightnessSensor := 300;
 set pitmanArmUpDown := NEUTRAL_UD;
 set reverseGear := false;
 set brakePedal := 0;
 step
-	check keyState_Previous = KEYINIGNITIONONPOSITION;
+	check keyState_Previous = KEYINSERTED;
 	check lowBeamRight = 0;
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
@@ -31,33 +31,29 @@ check brakeLampCenterStatus = FIX;
 check hazardWarningSwitchOn_Runn = false;
 check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
 check hazardWarningSwitchOn_Start = false;
-	check lightRotarySwitchPrevious = AUTO;
+	check lightRotarySwitchPrevious = OFF;
 check reverseLight = 0;
-	check tailLampRightFixValue = 0;
-	check tailLampLeftFixValue = 0;
-check pitmanArmUpDown_Buff = NEUTRAL_UD;
-	set keyState := KEYINIGNITIONONPOSITION;
-	set lightRotarySwitch := AUTO;
+	set keyState := KEYINSERTED;
+	set lightRotarySwitch := ON;
 set hazardWarningSwitchOn := false;
 set darknessModeSwitchOn := false;
-	set brightnessSensor := 150;
+set brightnessSensor := 300;
 set pitmanArmUpDown := NEUTRAL_UD;
 set reverseGear := false;
 set brakePedal := 0;
 step
-check keyState_Previous = KEYINIGNITIONONPOSITION;
-	check lowBeamRight = 100;
+	check keyState_Previous = KEYINSERTED;
+	check lowBeamRight = 50;
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
-	check lowBeamLeft = 100;
+	check lowBeamLeft = 50;
 check brakeLampLeft = 0;
 check brakeLampCenterStatus = FIX;
 check hazardWarningSwitchOn_Runn = false;
 check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
 check hazardWarningSwitchOn_Start = false;
-	check lightRotarySwitchPrevious = AUTO;
+	check lightRotarySwitchPrevious = ON;
 check reverseLight = 0;
-	check tailLampRightFixValue = 100;
-	check tailLampLeftFixValue = 100;
-check pitmanArmUpDown_Buff = NEUTRAL_UD;
+	check tailLampRightFixValue = 50;
+	check tailLampLeftFixValue = 50;
 step

@@ -1,6 +1,7 @@
-// testiamo solo la svolta a destra, sia con pitman che con l'angolo di sterzata
 scenario SubvoltageCorneringOFF
 load ../CarSystem004main.asm
+// testiamo solo la svolta a destra, sia con pitman che con l'angolo di sterzata
+
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
 check pitmanArmForthBackPrevious = NEUTRAL_FB;

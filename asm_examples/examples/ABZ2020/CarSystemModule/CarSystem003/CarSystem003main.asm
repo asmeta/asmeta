@@ -33,7 +33,7 @@ definitions:
 			r_HazardWarningLight[] 
 			r_LowBeamHeadlights[]
 			r_CorneringLights[] 
-			r_ReverseLight[] 
+			r_ReverseLight[]
 			r_EmergencyBrakeLights[]
 			r_HighBeam[] 
 		endpar
