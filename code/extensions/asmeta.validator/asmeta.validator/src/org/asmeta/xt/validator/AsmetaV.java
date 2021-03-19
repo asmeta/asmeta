@@ -25,15 +25,11 @@ public class AsmetaV {
 
 	public static void execValidation(String scenarioPath, boolean coverage) throws Exception {
 		fileNames = new HashMap<String, String>();
-		execValidationSetLogger(new File(scenarioPath), coverage);
+		setLogger();
+		execValidation(new File(scenarioPath), coverage);
 	}
 
-	public static void execValidationSetLogger(File file, boolean coverage) throws Exception {
-		setLogger();
-		execValidation(file, coverage);
-	}
-	
-	public static void setLogger() {
+	private static void setLogger() {
 		BasicConfigurator.configure();
 		Logger log = Logger.getRootLogger();
 		log.setLevel(Level.INFO);
@@ -59,7 +55,6 @@ public class AsmetaV {
 		/*while(it.hasMoreElements()) {
 			((Appender)it.nextElement()).setLayout(new PatternLayout());
 		}*/
-		System.out.println();
 	}
 	/**
 	 * 
@@ -67,7 +62,7 @@ public class AsmetaV {
 	 * @param coverage
 	 * @throws Exception
 	 */
-	public static void execValidation(File scenarioPath, boolean coverage) throws Exception {
+	private static void execValidation(File scenarioPath, boolean coverage) throws Exception {
 		AsmetaFromAvallaBuilder builder;
 		Simulator sim = null;
 		File[] listFile;
@@ -105,7 +100,7 @@ public class AsmetaV {
 			}
 		} else { // if the file is not a directory but a file
 			builder = new AsmetaFromAvallaBuilder(scenarioPath.getAbsolutePath());
-			builder.save();
+			builder.save();			
 			sim = Simulator.createSimulator(builder.getTempAsmPath());
 			sim.setShuffleFlag(true);
 			if (coverage) {
