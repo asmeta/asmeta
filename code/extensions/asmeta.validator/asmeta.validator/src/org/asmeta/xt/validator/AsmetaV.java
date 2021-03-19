@@ -21,8 +21,16 @@ import org.asmeta.simulator.main.Simulator;
  */
 public class AsmetaV {
 	
-	public static HashMap <String, String> fileNames; 
+	private static HashMap <String, String> fileNames; 
 
+	/**
+	 * @return the fileNames
+	 */
+	public static HashMap <String, String> getFileNames() {
+		return fileNames;
+	}
+
+	
 	public static void execValidation(String scenarioPath, boolean coverage) throws Exception {
 		fileNames = new HashMap<String, String>();
 		setLogger();
@@ -114,4 +122,5 @@ public class AsmetaV {
 			}
 		}
 	}
+
 }

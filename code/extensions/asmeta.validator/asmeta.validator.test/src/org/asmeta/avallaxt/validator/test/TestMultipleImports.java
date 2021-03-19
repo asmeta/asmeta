@@ -14,43 +14,43 @@ import org.asmeta.parser.ParserResultLogger;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.SimulatorWCov;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TestMultipleImports extends TestValidator {
 	
 	@Test
 	public void testMultipleImports1() throws Exception {
-		AsmetaV.fileNames = new HashMap<String, String>();
-		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
-		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		test("F:\\Dati-Andrea\\GitHub\\asmeta\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\HighBeamFlasherONOFF.avalla", true);		
 	}
 	
 	@Test
 	public void testMultipleImports2() throws Exception {
-		AsmetaV.fileNames = new HashMap<String, String>();
-		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
-		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		test("F:\\Dati-Andrea\\GitHub\\asmeta\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\HighBeamFixedONOFF.avalla", true);		
 	}
 
 	@Test
 	public void testMultipleImports3() throws Exception {
-		AsmetaV.fileNames = new HashMap<String, String>();
-		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
-		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		test("F:\\Dati-Andrea\\GitHub\\asmeta\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\HighBeamFlasherONOFF_Absolute.avalla", true);		
 	}
 
 	@Test
 	public void testMultipleImports4() throws Exception {
-		AsmetaV.fileNames = new HashMap<String, String>();
-		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
-		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\TipBlinking.avalla", true);		
 	}
 	
+	@Test
+	public void testMultipleCarSystem() throws Exception {
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\", true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem009\\scenari\\", true);		
+	}
 	
+
+	@BeforeClass
+	public static void setupLoggers() {
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);		
+	}
 	
 	
 	

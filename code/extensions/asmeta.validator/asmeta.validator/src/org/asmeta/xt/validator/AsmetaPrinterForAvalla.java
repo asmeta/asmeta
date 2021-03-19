@@ -158,12 +158,12 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 						// Check whether the file has been already processed
 						System.out.println("Looking for " + includedName);
 						
-						if (AsmetaV.fileNames.containsKey(includedName)) {
-							importednewFile = Path.of(AsmetaV.fileNames.get(includedName));
+						if (AsmetaV.getFileNames().containsKey(includedName)) {
+							importednewFile = Path.of(AsmetaV.getFileNames().get(includedName));
 							assert Files.exists(importednewFile) : "File not found";
 						} else {
 							importednewFile = Files.createTempFile("__" + includedName, ".asm");
-							AsmetaV.fileNames.put(includedName, importednewFile.toString());
+							AsmetaV.getFileNames().put(includedName, importednewFile.toString());
 																		
 							System.out.println(importednewFile);
 							// if necessary buuild the subdir
