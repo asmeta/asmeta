@@ -1,6 +1,6 @@
 asm prod
 
-import ../../STDL/StandardLibrary
+import ../../../STDL/StandardLibrary
 
 signature:
 	domain MyDomain subsetof Integer

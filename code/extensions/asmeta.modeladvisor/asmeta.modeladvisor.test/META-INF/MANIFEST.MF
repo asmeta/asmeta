@@ -8,7 +8,7 @@ Bundle-ClassPath: asmetama.jar,
   org.eclipse.emf.ecore.jar,
   log4j.jar,
   args4j.jar
-Require-Bundle: asmeta.modeladvisor;bundle-version="0.0.1",
- asmeta.emf;bundle-version="1.0.0"
+Require-Bundle: asmeta.modeladvisor,
+ asmeta.emf
 Bundle-Vendor: fmse.di.unimi.it
 Automatic-Module-Name: asmeta.modeladvisor.test

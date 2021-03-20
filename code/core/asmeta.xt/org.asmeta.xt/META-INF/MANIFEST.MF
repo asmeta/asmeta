@@ -8,13 +8,13 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,
  org.eclipse.equinox.common,
  org.eclipse.emf.ecore,
- org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
- org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ org.eclipse.xtext.xbase.lib,
+ org.antlr.runtime,
  org.eclipse.xtext.util,
- org.eclipse.xtend.lib;bundle-version="2.14.0",
+ org.eclipse.xtend.lib,
  org.eclipse.emf.common,
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.asmeta.xt,
  org.asmeta.xt.asmetal,
  org.asmeta.xt.asmetal.impl,

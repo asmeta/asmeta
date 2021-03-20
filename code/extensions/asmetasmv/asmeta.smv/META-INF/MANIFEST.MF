@@ -14,4 +14,4 @@ Bundle-Vendor: fmse.di.unimi.it
 Export-Package: org.asmeta.nusmv,
  org.asmeta.nusmv.util
 Automatic-Module-Name: asmeta.smv
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
