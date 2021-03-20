@@ -57,4 +57,3 @@ check lightRotarySwitchPrevious = ON;
 check reverseLight = 0;
 check tailLampRightFixValue = 50;
 check tailLampLeftFixValue = 50;
-step
