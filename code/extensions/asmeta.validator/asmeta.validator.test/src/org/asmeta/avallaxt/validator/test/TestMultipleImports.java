@@ -21,35 +21,34 @@ public class TestMultipleImports extends TestValidator {
 	
 	@Test
 	public void testMultipleImports1() throws Exception {
-		test("F:\\Dati-Andrea\\GitHub\\asmeta\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\HighBeamFlasherONOFF.avalla", true);		
+		test("F:\\Dati-Andrea\\GitHub\\asmeta\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\HighBeamFlasherONOFF.avalla", true, false);		
 	}
 	
 	@Test
 	public void testMultipleImports2() throws Exception {
-		test("F:\\Dati-Andrea\\GitHub\\asmeta\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\HighBeamFixedONOFF.avalla", true);		
+		test("F:\\Dati-Andrea\\GitHub\\asmeta\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\HighBeamFixedONOFF.avalla", true, false);		
 	}
 
 	@Test
 	public void testMultipleImports3() throws Exception {
-		test("F:\\Dati-Andrea\\GitHub\\asmeta\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\HighBeamFlasherONOFF_Absolute.avalla", true);		
+		test("F:\\Dati-Andrea\\GitHub\\asmeta\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\HighBeamFlasherONOFF_Absolute.avalla", true, false);		
 	}
 
 	@Test
 	public void testMultipleImports4() throws Exception {
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\TipBlinking.avalla", true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\TipBlinking.avalla", true, false);		
 	}
 	
 	@Test
 	public void testMultipleCarSystem() throws Exception {
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\", true);		
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem002\\scenari\\", true);		
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\", true);		
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem004\\scenari\\", true);		
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem005\\scenari\\", true);		
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem006\\scenari\\", true);		
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem007\\scenari\\", true);		
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem008\\scenari\\", true);		
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem009\\scenari\\", true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\", true, true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem002\\scenari\\", true, true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\", true, true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem004\\scenari\\", true, true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem005\\scenari\\", true, true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem006\\scenari\\", true, true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem007\\scenari\\", true, true);		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem009\\scenari\\", true, true);		
 	}
 	
 

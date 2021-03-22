@@ -1,6 +1,0 @@
-// 
-scenario AdaptativeHighBeamDecreasing
-load ../CarSystem003main.asm
- 
-check brakeLampRight = 0;
-step

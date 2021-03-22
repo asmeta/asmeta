@@ -47,14 +47,15 @@ public class TestValidator {
 	 * 
 	 * @param scenarioPath
 	 * @param runValidator
+	 * @param computeCoverage TODO
 	 * @throws IOException
 	 * @throws Exception
 	 */
-	protected void test(String scenarioPath, boolean runValidator) throws IOException, Exception {
+	protected void test(String scenarioPath, boolean runValidator, boolean computeCoverage) throws IOException, Exception {
 		if (runValidator) {
 			System.out.println("executing " + scenarioPath);
 			// it should be runnable
-			AsmetaV.execValidation(scenarioPath, false);
+			AsmetaV.execValidation(scenarioPath, computeCoverage);
 		} else {
 			//
 			System.out.println("translating " + scenarioPath);

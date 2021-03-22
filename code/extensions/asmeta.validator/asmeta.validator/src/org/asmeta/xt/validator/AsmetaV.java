@@ -103,16 +103,14 @@ public class AsmetaV {
 	 * @throws Exception
 	 */
 	private static void validateSingleFile(boolean coverage, Set<String> coveredRules, String path) throws Exception {
-		AsmetaFromAvallaBuilder builder;
-		Simulator sim;
-		builder = new AsmetaFromAvallaBuilder(path);
+		System.out.println("\n** Simulation " +  path + " **\n");
+		AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(path);
 		builder.save();
-		sim = Simulator.createSimulator(builder.getTempAsmPath());
+		Simulator sim = Simulator.createSimulator(builder.getTempAsmPath());
 		sim.setShuffleFlag(true);
 		if (coverage) {
 			RuleEvaluator.COMPUTE_COVERAGE = true;
 		}
-		System.out.println("\n** Simulation " +  path + " **\n");
 		sim.runUntilEmpty();
 		if (coverage) { // for each scenario insert rules covered
 						// into list if they aren't covered
