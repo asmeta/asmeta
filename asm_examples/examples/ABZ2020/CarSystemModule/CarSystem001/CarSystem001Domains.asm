@@ -24,5 +24,6 @@ signature:
 	
 definitions:
 	// DOMAIN DEFINITIONS
-	domain LightPercentage = {0, 50, 100} //0 :100 -> SEMPLIFICATO CON I SOLI VALORI UTILIZZATI NELLA SPECIFICA
+	domain LightPercentage = {0 : 100}
+	// {0, 50, 100} //0 :100 -> SEMPLIFICATO CON I SOLI VALORI UTILIZZATI NELLA SPECIFICA
 

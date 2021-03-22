@@ -27,6 +27,7 @@ set reverseGear := false;
 set brakePedal := 0;
 	set keyState := KEYINIGNITIONONPOSITION;
 	set lightRotarySwitch := ON;
+	set passed30Sec:=false;
 step
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
@@ -57,6 +58,8 @@ set steeringAngle := 500;
 set passed5Sec := false;
 	set keyState := KEYINSERTED;
 	set lightRotarySwitch := ON;
+	set passed30Sec:=false;
+
 step
 check brakeLampRight = 0;
 check brakeLampCenter = 0;
@@ -87,6 +90,8 @@ set steeringAngle := 500;
 set passed5Sec := false;
 	set keyState := NOKEYINSERTED;
 	set lightRotarySwitch := ON;
+	set passed30Sec:=true;
+
 step
 check brakeLampRight = 0;
 check brakeLampCenter = 0;

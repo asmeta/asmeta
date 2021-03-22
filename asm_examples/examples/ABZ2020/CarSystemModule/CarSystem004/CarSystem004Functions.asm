@@ -35,7 +35,7 @@ definitions:
 		(currentVoltage > 140)
 
 	function overVoltageMaxValueLight = 
-		(100-(currentVoltage-140)*20)
+		rtoi((1000-(currentVoltage-145)*20)/10)
 	
 	//ELS-47	
 	function setOverVoltageValueLight ($value in Integer) =  //$value in LightPercentage
@@ -54,4 +54,4 @@ definitions:
 		endif
 	
 	function overVoltageMaxValueHighBeam =
-		(100-(currentVoltage-140)*20)
+		rtoi((1000-(currentVoltage-145)*20)/10)
