@@ -3,13 +3,14 @@
 *
 * @author Patrizia Scandurra
 */
-package org.asmeta.framework.enforcerPillBox;
+package org.asmeta.framework.enforcer.pillBoxApp;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 import org.asmeta.framework.enforcer.*;
-import org.asmeta.framework.pillBox.PillBoxNotSing;
 
 
 //import java.awt.*; 
@@ -65,17 +66,21 @@ public class Main { //extends JFrame {
 				   "Pillbox initialization (simulated version) ...");
 		/** Initialization*/
 		//Create managed system handle, probe, and effector
-		PillBoxNotSing managedSystem =  new PillBoxNotSing("examples/pillbox/pillbox.asm"); 		
+		File currentDirectory = new File(new File(".").getAbsolutePath());
+		String path=currentDirectory.getAbsolutePath();
+		PillBoxNotSing managedSystem;
+		managedSystem = new PillBoxNotSing(path.substring(0,path.length()-2)+"\\src\\org\\asmeta\\framework\\enforcer\\pillBoxApp\\specs\\pillbox.asm");
 		//Create system knowledge and feedback loop
 		KnowledgePB k = new KnowledgePB();
 		FeedbackLoop loop = new FeedbackLoopPillBox(managedSystem.getProbe(),managedSystem.getEffector(),k);
 		//Create a new specialized enforcer for the Pillbox system
-		Enforcer.setConfigFile("./resources/PillBox/config.properties");
-		EnforcerPillBox e = new EnforcerPillBox(managedSystem,k,loop);
+		Enforcer.setConfigFile(path.substring(0,path.length()-2)+"\\src\\org\\asmeta\\framework\\enforcer\\pillBoxApp\\specs\\config.properties");
+		EnforcerPillBox e = new EnforcerPillBox(managedSystem,k,loop,true);
 		
 		//Init step for the enforcement model SafePillbox for the plug-in of the pill box, with consistency checks of the invariants
-        String initial_input_trace =  "redLed(compartment1) OFF redLed(compartment2) OFF name(compartment1) \"fosamax\" name(compartment2) \"moment\" time_consumption(compartment1) [350] time_consumption(compartment2) [780,1140] drugIndex(compartment1) 0 drugIndex(compartment2) 0";
-        Map<String, String> initState = e.initStep(initial_input_trace); //TODO Aggiungere gestione eccezione per invarianti, ecc..
+        String initial_input_trace =  "redLed(compartment1) OFF redLed(compartment2) OFF name(compartment1) \"fosamax\" name(compartment2) \"moment\" time_consumption(compartment1) [360] time_consumption(compartment2) [730,1140] drugIndex(compartment1) 0 drugIndex(compartment2) 0";
+		//String initial_input_trace =  "drugIndex(compartment1) 0 drugIndex(compartment2) 0 name(compartment2) \"moment\" name(compartment1) \"fosamax\" redLed(compartment1) OFF redLed(compartment2) OFF time_consumption(compartment2) [730,1140] time_consumption(compartment1) [360]";
+		Map<String, String> initState = e.initStep(initial_input_trace); //TODO Aggiungere gestione eccezione per invarianti, ecc..
 	
         /** Running -- example of safety enforcement via MAPE-K*/
 	    //Causality relation implementation between managed system and the ASM enforcement model: user input reading (by console), system/loop execution

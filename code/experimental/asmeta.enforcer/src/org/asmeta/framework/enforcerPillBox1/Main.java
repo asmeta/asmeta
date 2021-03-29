@@ -86,7 +86,7 @@ public class Main { //extends JFrame {
         System.out.println("PillBox ON, enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$");
         String str = s.nextLine();    
         try {     
-              while (! str.equals("###") && ! str.isBlank()) { 	
+              while (! str.equals("###") && ! str.isEmpty()) { 	
         	    e.sanitiseInput(str); //no input sanitisation applied, only input storing into the knowledge
         	    //System.out.println("User input:~$\n "+str);
         	    System.out.println("(Sanitised) User input:~$ "+e.getSanitisedInput().toString());

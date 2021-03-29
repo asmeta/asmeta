@@ -8,7 +8,7 @@ public class EnforcerAirConditioner extends Enforcer{
 	}
 	
 	public EnforcerAirConditioner(ManagedSystem system, Knowledge k, FeedbackLoop l) {
-		super(system, k, l);
+		super(system, k, l,false);
 	}
 
 	@Override

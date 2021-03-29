@@ -208,7 +208,7 @@ public class PillBoxNotSing extends ManagedSystem implements Probe, Effector{
 	        System.out.println("Enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$");	
 	        try {
 	         String str = s.nextLine();
-	         while (! str.equals("###") && ! str.isBlank()) { 	
+	         while (! str.equals("###") && ! str.isEmpty()) { 	
 					p.run(str);
 					//System.out.println("Output to patient: "+p.getOutputToPatient().toString());
 					System.out.println("Output for probing: "+p.getOutputForProbing().toString());

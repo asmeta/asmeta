@@ -5,8 +5,10 @@
 */
 package org.asmeta.framework.enforcer;
 
+import java.io.File;
 import java.io.IOException;
-import org.asmeta.framework.auxiliary.Utility;
+
+import org.asmeta.framework.enforcer.pillBoxApp.PillBoxNotSing;
 import org.asmeta.framework.managedSystem.*;
 
 
@@ -46,7 +48,7 @@ public abstract class Enforcer {
 	 */
     public Enforcer() {}
     
-	public Enforcer(ManagedSystem s, Knowledge k, FeedbackLoop l) {		
+	public Enforcer(ManagedSystem s, Knowledge k, FeedbackLoop l, boolean absolute) {		
 	    try {
 	    		    		    
 	    	//connect managed system and feedback loop (get probe and effectors from the managed system)
@@ -54,11 +56,16 @@ public abstract class Enforcer {
 			effector = s.getEffector();
 			knowledge  = k;
 		    loop = l;
-		    
 	    	//Read the pathname of the runtime model and the simulation timeout value from the configuration file
-		    RUNTIME_MODEL_PATH = Utility.getProperty("RUNTIME_MODEL_PATH");
-		    SIMULATION_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));
-		       
+		    if (absolute==false) {RUNTIME_MODEL_PATH = Utility.getProperty("RUNTIME_MODEL_PATH");
+		    SIMULATION_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));}
+		    else {		   
+			    File currentDirectory = new File(new File(".").getAbsolutePath());
+				String path=currentDirectory.getAbsolutePath();
+				RUNTIME_MODEL_PATH = path.substring(0,path.length()-2)+"\\src\\org\\asmeta\\framework\\enforcer\\pillBoxApp\\specs\\"+Utility.getProperty("RUNTIME_MODEL_PATH");
+			    SIMULATION_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));
+		    }
+			
 		    //Initialize the AsmetaS@run.time model engine
 			//modelEngine = SimulationContainer.getInstance();
 		    modelEngine = new SimulationContainer();

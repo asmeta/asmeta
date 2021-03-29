@@ -3,7 +3,7 @@
 *
 * @author Patrizia Scandurra
 */
-package org.asmeta.framework.enforcerPillBox1;
+package org.asmeta.framework.enforcer.pillBoxApp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,8 +17,8 @@ public class EnforcerPillBox extends Enforcer{
 		super();
 	}
 	
-	public EnforcerPillBox(ManagedSystem system, Knowledge k, FeedbackLoop l) {
-		super(system, k, l, false);
+	public EnforcerPillBox(ManagedSystem system, Knowledge k, FeedbackLoop l, boolean absolute) {
+		super(system, k, l, absolute);
 		
 	}
 	

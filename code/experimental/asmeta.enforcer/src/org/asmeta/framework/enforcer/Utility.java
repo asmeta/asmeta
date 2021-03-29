@@ -3,7 +3,7 @@
 *
 * @author Patrizia Scandurra
 */
-package org.asmeta.framework.auxiliary;
+package org.asmeta.framework.enforcer;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
-
-import org.asmeta.framework.enforcer.Enforcer;
 
 
 public class Utility {
@@ -45,7 +43,7 @@ public class Utility {
 
 	public static String getProperty (String propertiesFile, String key){
 		
-		String result = properties.getProperty(key); 
+		String result = properties.getProperty(propertiesFile+key); 
 		if (result == null)
 			  throw new IllegalArgumentException(key.toUpperCase() + " name not found!");
 		return result;		

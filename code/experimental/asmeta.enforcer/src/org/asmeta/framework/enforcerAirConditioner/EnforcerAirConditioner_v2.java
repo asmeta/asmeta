@@ -2,7 +2,6 @@ package org.asmeta.framework.enforcerAirConditioner;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.asmeta.framework.auxiliary.Utility;
 import org.asmeta.framework.enforcer.*;
 import org.asmeta.framework.managedSystem.ManagedSystem;
 import org.asmeta.runtime_container.Esit;
@@ -34,7 +33,7 @@ public class EnforcerAirConditioner_v2 extends Enforcer{
 	}
 	
 	public EnforcerAirConditioner_v2(ManagedSystem system, Knowledge k, FeedbackLoop l) {
-		super(system, k, l);
+		super(system, k, l,false);
 	}
 
 	@Override
