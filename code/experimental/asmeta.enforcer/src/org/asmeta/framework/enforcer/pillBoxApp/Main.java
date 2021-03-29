@@ -60,14 +60,13 @@ public class Main { //extends JFrame {
 		
 		*/
 		
-		System.out.println("#################################################\n"+
+		/*System.out.println("#################################################\n"+
 				   "##   Medicine Reminder and Monitoring System   ##\n"+
 				   "#################################################\n"+
 				   "Pillbox initialization (simulated version) ...");
 		/** Initialization*/
 		//Create managed system handle, probe, and effector
-		File currentDirectory = new File(new File(".").getAbsolutePath());
-		String path=currentDirectory.getAbsolutePath();
+		/*String path=new MyPath().getPath();
 		PillBoxNotSing managedSystem;
 		managedSystem = new PillBoxNotSing(path.substring(0,path.length()-2)+"\\src\\org\\asmeta\\framework\\enforcer\\pillBoxApp\\specs\\pillbox.asm");
 		//Create system knowledge and feedback loop
@@ -85,21 +84,23 @@ public class Main { //extends JFrame {
         /** Running -- example of safety enforcement via MAPE-K*/
 	    //Causality relation implementation between managed system and the ASM enforcement model: user input reading (by console), system/loop execution
 		//Once an event triggers the MAPE loop, the loop executes safety checks and eventually adapts the managed system by executing it once again with the provided effectors values
-        
-        Scanner s = new Scanner(System.in); 
+       
+		EnforcerApp myEnf= new EnforcerApp();
+		
+		Scanner s = new Scanner(System.in); 
         System.out.println("PillBox ON, enter user input (command line syntax: systemTime T openSwitch(compartmentN) true|false):~$");
         String str = s.nextLine();    
         try {     
               while (! str.equals("###") && ! str.isEmpty()) { 	
-        	    e.sanitiseInput(str); //no input sanitisation applied, only input storing into the knowledge
+            	  myEnf.getEnforcerPillBox().sanitiseInput(str); //no input sanitisation applied, only input storing into the knowledge
         	    //System.out.println("User input:~$\n "+str);
-        	    System.out.println("(Sanitised) User input:~$ "+e.getSanitisedInput().toString());
+        	    System.out.println("(Sanitised) User input:~$ "+myEnf.getEnforcerPillBox().getSanitisedInput().toString());
         	    System.out.println("Pillbox running...");
-        	    managedSystem.run(e.getSanitisedInput()); //the managed system runs 
+        	    myEnf.getManagedSystem().run(myEnf.getEnforcerPillBox().getSanitisedInput()); //the managed system runs 
         	    //System.out.println("Output to patient:~$\n"+managedSystem.getOutputToPatient().toString());
-          	    System.out.println("Output for probing:~$ "+managedSystem.getOutputForProbing().toString());
+          	    System.out.println("Output for probing:~$ "+ myEnf.getManagedSystem().getOutputForProbing().toString());
           	    System.out.print("Enforcement feedback loop starting...");
-          	    long execTime = e.runLoop(); //system output sanitisation by monitoring and adaptation
+          	    long execTime = myEnf.getEnforcerPillBox().runLoop(); //system output sanitisation by monitoring and adaptation
           	    System.out.println("Enforcement feedback loop execution time (in milliseconds): "+execTime/ 1000000 +" ms");
           	    //System.out.println("Enforcer output for effectors:~$ "+ e.getOutputForEffectors().toString());
           	    //System.out.println("Enforced PillBox state: "+managedSystem.getOutput());
@@ -113,11 +114,11 @@ public class Main { //extends JFrame {
 	        } //TODO Aggiungere altri di tipi di eccezioni come Invalid Invariant
 		    finally {
 		        s.close();
-		        managedSystem.shutDown();
+		        myEnf.getManagedSystem().shutDown();
 		        System.out.println("PillBox OFF");
 	       }
 		
-		managedSystem.shutDown();
+        myEnf.getManagedSystem().shutDown();
 	}//End main	
 
 }

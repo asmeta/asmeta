@@ -8,6 +8,7 @@ package org.asmeta.framework.enforcer;
 import java.io.File;
 import java.io.IOException;
 
+import org.asmeta.framework.enforcer.pillBoxApp.MyPath;
 import org.asmeta.framework.enforcer.pillBoxApp.PillBoxNotSing;
 import org.asmeta.framework.managedSystem.*;
 
@@ -60,9 +61,8 @@ public abstract class Enforcer {
 		    if (absolute==false) {RUNTIME_MODEL_PATH = Utility.getProperty("RUNTIME_MODEL_PATH");
 		    SIMULATION_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));}
 		    else {		   
-			    File currentDirectory = new File(new File(".").getAbsolutePath());
-				String path=currentDirectory.getAbsolutePath();
-				RUNTIME_MODEL_PATH = path.substring(0,path.length()-2)+"\\src\\org\\asmeta\\framework\\enforcer\\pillBoxApp\\specs\\"+Utility.getProperty("RUNTIME_MODEL_PATH");
+				String path=new MyPath("").getPath();
+				RUNTIME_MODEL_PATH = path.substring(0,path.length())+"\\"+Utility.getProperty("RUNTIME_MODEL_PATH");
 			    SIMULATION_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));
 		    }
 			
