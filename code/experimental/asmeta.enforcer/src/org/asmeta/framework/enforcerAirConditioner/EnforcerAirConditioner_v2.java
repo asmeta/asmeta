@@ -33,7 +33,7 @@ public class EnforcerAirConditioner_v2 extends Enforcer{
 	}
 	
 	public EnforcerAirConditioner_v2(ManagedSystem system, Knowledge k, FeedbackLoop l) {
-		super(system, k, l,false);
+		super(system, k, l);
 	}
 
 	@Override

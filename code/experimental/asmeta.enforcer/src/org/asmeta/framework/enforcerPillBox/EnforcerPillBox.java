@@ -18,7 +18,7 @@ public class EnforcerPillBox extends Enforcer{
 	}
 	
 	public EnforcerPillBox(ManagedSystem system, Knowledge k, FeedbackLoop l) {
-		super(system, k, l,false);
+		super(system, k, l);
 		
 	}
 	
