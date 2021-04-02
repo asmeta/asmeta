@@ -119,7 +119,7 @@ public class RunOutput implements Serializable {
 	}
 	
 	//NEEDED TO GET OUT FUNCTIONS VALUES
-	//TODO ho messo l'output in string per isolare location e value al simulator, non so se è meglio importarli nell'enforcer
+	//TODO Federico Rebucini->ho messo l'output in string per isolare location e value al simulator, non so se è meglio importarli nell'enforcer
 	public  Map<String, String> getControlledvalues(){
 		if (ms!=null && ms.getControlledValues()!=null) {
 			Map<Location, Value> set=ms.getControlledValues();

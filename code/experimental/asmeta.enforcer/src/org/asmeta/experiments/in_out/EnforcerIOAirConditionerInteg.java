@@ -8,12 +8,15 @@ import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainerSingleton;
 
+/**
+ * @author Federico Rebucini
+ */
 class Enf{
 	private SimulationContainerSingleton model;
-	private AirConditionerIO system;	//TODO ho deciso di farlo così per far vedere che l'out sanitisation avviene senza il coinvolgimento dell'utente
+	private AirConditionerIO system;	//TODO Federico Rebucini-> ho deciso di farlo così per far vedere che l'out sanitisation avviene senza il coinvolgimento dell'utente
 	//private Map<String, String> locationValue;
 	public Enf(String modelPath, AirConditionerIO sys){
-		model = SimulationContainerSingleton.getInstance();	//TODO container è singleton, non è meglio se faccio singleton anche l'enforcer?
+		model = SimulationContainerSingleton.getInstance();
 		model.init(1);
 		model.startExecution(modelPath);
 		system = sys;

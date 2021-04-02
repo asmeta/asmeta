@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.asmeta.output_sanitisation_java.AirConditionerO;
 
+/**
+ * @author Federico Rebucini
+ */
 public class EnforcerAdaptAirConditionerInteg {
 	
 	public static void main(String[] args) {

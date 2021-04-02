@@ -13,6 +13,9 @@ import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.IModelExecution;
 import org.asmeta.simulationUI.SimShell;
 
+/**
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
+ */
 public class GuiTest {
 
 	public static void main(String[] args) {

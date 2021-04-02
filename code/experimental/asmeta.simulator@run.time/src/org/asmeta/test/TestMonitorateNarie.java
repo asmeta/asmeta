@@ -52,8 +52,8 @@ public class TestMonitorateNarie {
 			mLIFTREAL.put("outsideCall", "(1, DOWN) = false");
 			mLIFTREAL.put("outsideCall", "(2, DOWN) = false");
 		}
-		Map<String,String> mLIFTREAL2=new HashMap<String, String>(); //mappa 2 per modello LIFT (checksafety non prende le parentesi, errore solo fino a lì?)
-		{								
+		Map<String,String> mLIFTREAL2=new HashMap<String, String>(); //mappa 2 per modello LIFT (checksafety non prende le parentesi)
+		{								//checksafety non prende le parentesi perchè può controllare solo il nome della funzione,funziona
 			mLIFTREAL2.put("insideCall(lift1, 0)", "false");
 			mLIFTREAL2.put("insideCall(lift1, 1)", "true");
 			mLIFTREAL2.put("insideCall(lift1, 2)", "false");

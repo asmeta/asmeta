@@ -26,6 +26,9 @@ import javax.swing.InputMap;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
+ */
 public class InvariantGUI {
 
 	private JFrame frame;

@@ -56,10 +56,8 @@ import asmeta.structure.Asm;
 import asmeta.structure.Body;
 import asmeta.terms.basicterms.Term;
 
-//TODO inserire autore in ogni mia classe e todo
-//TODO sistemare rout not intialized ovunque lo trovi
-//TODO inserimento manuale monitored (x n-arie) in simGUI
 /**
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
  * The Class  SimulationContainer. 
  * It is a container for managing the execution of an ASM model at runtime.
  * It provides methods for instantiating, starting, running and stopping a model execution
@@ -229,7 +227,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	public RunOutput runStep(int id, Map<String, String> locationValue) {
 		simulationRunning=SimStatus.RUNNING;
 		//rollbStatus = rollbackStatus.NOTROLLED;
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 		String modelPath=null;
 		try {
 			try {
@@ -239,7 +237,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			}
 			if (locationValue!=null) 
 				rout = checkSafety(modelPath, locationValue);
-			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not intialized"))) {
+			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not initialized"))) {
 				startRun = System.nanoTime();
 				ms = asmS.run(id, locationValue); //run ASM with id and monitored locations locationValue
 				endRun = System.nanoTime();
@@ -357,7 +355,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	public RunOutput runStepTimeout(int id,Map<String, String> locationValue,int timeout) {	
 		//Timer timer = new Timer(false);
 		
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 	    routTO = rout;
 	    PrintStream sysOut = System.out;
 	    PrintStream sysErr = System.err;
@@ -404,6 +402,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				System.setOut(sysOut);
 				System.setErr(sysErr);
 				rout=this.runStep(id,locationValue);
+				rout.setTimeoutFlag(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -464,7 +463,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //	public RunOutput runStepTimeout(int id,Map<String, String> locationValue,int timeout) {	
 //		Timer timer = new Timer(false);
 //		
-//		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+//		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 //	    routTO = rout;
 //	    
 //	    MyState pre;
@@ -570,7 +569,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	public RunOutput runUntilEmpty(int id, Map<String, String> locationValue, int max) {
 		simulationRunning = SimStatus.RUNNING;
 		//rollbStatus = rollbackStatus.NOTROLLED;
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");		
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");		
 		String modelPath=null;
 		try {
 			try {
@@ -581,7 +580,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			if (locationValue!=null)
 				rout = checkSafety(modelPath, locationValue);
 			
-			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not intialized"))) {
+			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not initialized"))) {
 				startRun = System.nanoTime();
 				ms = asmS.runUntilEmpty(id, locationValue, max);
 				endRun = System.nanoTime();
@@ -672,7 +671,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) {
 		//Timer timer = new Timer(false);
 		
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 	    routTO = rout;
 	    PrintStream sysOut = System.out;
 	    PrintStream sysErr = System.err;
@@ -719,6 +718,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				System.setOut(sysOut);
 				System.setErr(sysErr);
 				rout=this.runUntilEmpty(id,locationValue,max);
+				rout.setTimeoutFlag(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -734,7 +734,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) {
 //
 //        Timer timer = new Timer(false);
-//        RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+//        RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 //        routTO = rout;
 //		MyState pre;
 //		try {
@@ -917,7 +917,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	 */
 	private RunOutput checkSafety(String modelPath, Map<String, String> locationValue) {
 		List<String> nameL = new ArrayList<String>(); // monitored functions name list
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 		// AsmCollection asm = null;
 		String name = "";
 		try {
@@ -988,11 +988,11 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 	}
 	
-	
-	/*public RunOutput runStepTransaction(int id,Queue<Map<String, String>> locationValue, String modelPath) { //da finalizzare?
+	//OLDTODO Federico Rebucini->da finalizzare? permette di eseguire n runstep con una lista di n input, se uno di questi fallisce viene rollbackato alla partenza
+	/*public RunOutput runStepTransaction(int id,Queue<Map<String, String>> locationValue, String modelPath) {
 		boolean unsafe = false;
-		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not intialized");
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not initialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 		Map<String,String> element = new HashMap<String, String>();
 		int statecount=0;
 		while (!locationValue.isEmpty() && unsafe == false) {
@@ -1015,8 +1015,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	}*/
 	/*public RunOutput runTransaction(int id,Queue<Map<String, String>> locationValue) { //da finalizzare?
 		boolean unsafe = false;
-		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not intialized");
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not initialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 		Map<String,String> element = new HashMap<String, String>();
 		int statecount=0;
 		while (!locationValue.isEmpty() && unsafe == false) {

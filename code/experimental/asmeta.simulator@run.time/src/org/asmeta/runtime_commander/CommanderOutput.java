@@ -6,6 +6,9 @@ import java.util.Map;
 import org.asmeta.runtime_container.InvariantData;
 import org.asmeta.runtime_container.RunOutput;
 
+/**
+ * @author Federico Rebucini
+ */
 public class CommanderOutput {
 	private CommanderStatus status; // gives out how this result should be interpreted
 	private int num; // integer result

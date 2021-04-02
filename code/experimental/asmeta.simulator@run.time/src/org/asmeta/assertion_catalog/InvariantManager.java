@@ -9,6 +9,10 @@ import javax.swing.JOptionPane;
 import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.InvariantData;
 
+/**
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
+ * Controller class for InvariantGUI
+ */
 public class InvariantManager {
 	
 	JFileChooser fileChooser = new JFileChooser();

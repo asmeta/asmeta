@@ -7,6 +7,10 @@ import org.asmeta.framework.enforcer.Enforcer;
 import org.asmeta.framework.enforcer.FeedbackLoop;
 import org.asmeta.framework.enforcer.Knowledge;
 import org.asmeta.framework.managedSystem.ExtManagedSystemAC;
+
+/**
+ * @author Federico Rebucini
+ */
 public class mainExtIOSanitisationLoop{
 	
 public static void main(String[] args)  {

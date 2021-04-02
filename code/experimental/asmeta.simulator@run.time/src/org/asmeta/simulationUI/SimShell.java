@@ -7,6 +7,9 @@ import org.asmeta.runtime_commander.CommanderException;
 import org.asmeta.runtime_commander.CommanderOutput;
 import org.asmeta.runtime_container.SimulationContainer;
 
+/**
+ * @author Federico Rebucini
+ */
 public class SimShell {
 
 	public static void main(String[] args) {

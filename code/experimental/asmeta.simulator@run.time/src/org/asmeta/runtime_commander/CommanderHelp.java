@@ -1,5 +1,8 @@
 package org.asmeta.runtime_commander;
 
+/**
+ * @author Federico Rebucini
+ */
 class CommanderHelp {
 	static void help() {
 		//INIT

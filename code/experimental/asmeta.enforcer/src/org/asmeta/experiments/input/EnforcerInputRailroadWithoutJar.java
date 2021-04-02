@@ -7,6 +7,9 @@ import org.asmeta.java_models.Command;
 import org.asmeta.java_models.RailroadGate_v2;
 import org.asmeta.runtime_container.*;
 
+/**
+ * @author Federico Rebucini
+ */
 public class EnforcerInputRailroadWithoutJar {
 	
 	private static String modelName=".\\ASMmodels\\railroadGateMonitored.asm";	

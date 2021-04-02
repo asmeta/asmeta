@@ -4,6 +4,9 @@ package org.asmeta.framework.airConditioner;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * @author Federico Rebucini
+ */
 public class AirConditionerMainLoop {
 	    
 	public static void main(String[] args) {	

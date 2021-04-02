@@ -11,6 +11,9 @@ import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainerSingleton;
 
+/**
+ * @author Federico Rebucini
+ */
 class adaptationResult{
 	boolean resu;
 	int valu;
@@ -37,7 +40,7 @@ class Enf{
 	private SimulationContainerSingleton model;
 	//private Map<String, String> locationValue;
 	public Enf(String modelPath){
-		model = SimulationContainerSingleton.getInstance();	//TODO container è singleton, non è meglio se faccio singleton anche l'enforcer?
+		model = SimulationContainerSingleton.getInstance();	
 		model.init(1);
 		model.startExecution(modelPath);
 	}
@@ -46,7 +49,7 @@ class Enf{
 		return model.runStep(1, locationValue).equals(new RunOutput(Esit.SAFE,"safe"));
 	}
 	
-	//TODO COME USARE L'IMPLEMENTAZIONE DELL'ALTRO MODELLO ADAPTATION
+	//TODO Federico Rebucini-> COME USARE L'IMPLEMENTAZIONE DELL'ALTRO MODELLO ADAPTATION
 	//Il modello output normale va in unsafe e quindi non restituisce lo stato con la variabile OUT corretta,
 	//il modello output adaptation non va mai in unsafe quindi non mi accorgo quando devo fare adaptation (a meno che faccio
 	//il controllo sulla variabile invece che sull'unsafe ma non avrebbe senso), devo metterli entrambi running in parallelo?

@@ -4,6 +4,9 @@ package org.asmeta.output_sanitisation_java;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * @author Federico Rebucini
+ */
 public class AirConditionerOMain {
 	
 	public static void main(String[] args) {	

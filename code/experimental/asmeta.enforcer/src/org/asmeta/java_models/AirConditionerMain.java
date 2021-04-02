@@ -2,6 +2,9 @@ package org.asmeta.java_models;
 
 import java.util.Scanner;
 
+/**
+ * @author Federico Rebucini
+ */
 public class AirConditionerMain {
 
 	//V1 il bufferedreader sul processbuilder si blocca al system.in .nextInt

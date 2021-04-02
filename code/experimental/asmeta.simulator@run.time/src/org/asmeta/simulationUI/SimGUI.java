@@ -40,6 +40,9 @@ import java.awt.event.WindowEvent;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 
+/**
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
+ */
 public class SimGUI extends JFrame {
 
 	private JPanel contentPane;

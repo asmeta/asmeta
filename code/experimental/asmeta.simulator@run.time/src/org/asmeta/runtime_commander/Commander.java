@@ -8,6 +8,10 @@ import java.util.regex.Pattern;
 
 import org.asmeta.runtime_container.SimulationContainer;
 
+/**
+ * @author Federico Rebucini
+ * Command line interface main class
+ */
 public class Commander {
 
 	private static int DEFVALUE=-10;	//default value to check if user has inserted integer values

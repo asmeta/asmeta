@@ -44,7 +44,6 @@ public class RemoveDialog extends JDialog {
 					InvariantManager.removeInvariant(s,InvariantGUI.containerInstance,InvariantGUI.currentLoadedID);
 					dispose();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

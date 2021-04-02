@@ -89,7 +89,6 @@ public class LoadDialog extends JDialog {
 				try {
 					StartGui.chooseModel();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			    String checkmodel = StartGui.getModel();
@@ -109,7 +108,6 @@ public class LoadDialog extends JDialog {
 			    		comboBox.addItem(new LoadComboItem(id,checkmodel));
 			    		btnLoad.setEnabled(true);
 			    	}else if (id==-2)
-			    			//TODO GESTIONE ERRORI
 			    		JOptionPane.showMessageDialog(null, "Error: Main rule not found"); 
 			    	else if (id==-3)
 			    		JOptionPane.showMessageDialog(null, "Error: The model doesn't exist"); 
