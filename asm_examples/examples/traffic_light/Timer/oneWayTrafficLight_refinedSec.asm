@@ -135,5 +135,5 @@ default init s0:
     										if $t = timer120Passed	then SEC endif //120
    									endif
    									
-   	function start($t in Timer) = initStart($t)
+   	function start($t in Timer) = currentTime($t)
 	

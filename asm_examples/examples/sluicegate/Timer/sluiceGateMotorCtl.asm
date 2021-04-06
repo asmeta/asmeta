@@ -98,7 +98,7 @@ default init s0:
     									if $t = timer3hPassed	then 3 endif //10200=3h-10min in sec
    									endif
    									
-	function start($t in Timer) = initStart($t)
+	function start($t in Timer) = currentTime($t)
 	
 	function timerUnit($t in Timer) = if $t = timer10MinPassed 	then MIN 
     									else 

@@ -130,7 +130,7 @@ default init s0:
     										if $t = timer120Passed	then 120 endif //120000
    									endif
    									
-	function start($t in Timer) = initStart($t)
+	function start($t in Timer) = currentTime($t)
 	
 	function timerUnit($t in Timer) = if $t = timer50Passed 	then MILLISEC //50
     									else 
