@@ -50,3 +50,4 @@ maven-status
 *_flat.asm
 #extend binaries
 *.xtendbin
+*.versionsBackup
