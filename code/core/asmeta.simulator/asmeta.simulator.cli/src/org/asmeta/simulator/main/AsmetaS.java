@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 
 import org.apache.log4j.Logger;
 import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.UpdateClashException;
 import org.kohsuke.args4j.CmdLineException;
@@ -85,7 +86,7 @@ public class AsmetaS extends AsmetaCLI {
 			else
 				sim.setShuffleFlag(false);
 			//
-			Environment.use_java_time = systemtime;
+			if (systemtime) Environment.timeMngt = TimeMngt.use_java_time;
 			// run
 			if (runUntilEmpty) {
 				sim.runUntilEmpty();

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import org.asmeta.eclipse.AsmetaActionHandler;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.nusmv.AsmetaSMV;
 import org.asmeta.nusmv.AsmetaSMVOptions;
@@ -31,7 +32,8 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
-abstract class AsmetaSMVHandler extends AbstractHandler {
+abstract class AsmetaSMVHandler extends AsmetaActionHandler {
+	
 	abstract void exec(AsmetaSMV asmetaSMV) throws Exception;
 
 	/**
@@ -54,7 +56,7 @@ abstract class AsmetaSMVHandler extends AbstractHandler {
 		OutputStream out = myConsole.newOutputStream();
 		PrintStream printOut = new PrintStream(out);
 		System.setOut(printOut);
-		//System.setErr(printOut);
+		//System.setErr(printOut);		
 		try {
 			AsmetaSMV asmetaSMV = new AsmetaSMV(path);
 			IPreferenceStore store = AsmetaSMVActivator.getDefault().getPreferenceStore();

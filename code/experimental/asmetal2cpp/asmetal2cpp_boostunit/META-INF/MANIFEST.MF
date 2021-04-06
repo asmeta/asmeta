@@ -17,3 +17,4 @@ Import-Package: org.apache.log4j,
  org.asmeta.simulator.main,
  org.asmeta.simulator.readers,
  org.junit
+Automatic-Module-Name: asmetal2cpp.boostunit

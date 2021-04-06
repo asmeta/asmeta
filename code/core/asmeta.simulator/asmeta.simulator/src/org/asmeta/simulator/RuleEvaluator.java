@@ -232,11 +232,14 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Check compatibility.
 	 *
-	 * @param content the content to be assigne to the location
+	 * @param content the content to be assign to the location
 	 * @param location the location
 	 */
 	// check the compatibility of content with location (i.e. content can be copied into location)
 	private void checkCompatibility(Value content, Location location) {
+		// if the conte is undef, it is correct in any case - undef can be assigned to any domain
+		if (content instanceof UndefValue)
+			return; 
 		Domain codomain = location.getSignature().getCodomain();
 		if (codomain instanceof ConcreteDomain) {
 			ConcreteDomain concreteDomain = ((ConcreteDomain)codomain);

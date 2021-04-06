@@ -114,7 +114,10 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		Header header = asm.getHeaderSection();
 		Body body = asm.getBodySection();
 		Initialization init = asm.getDefaultInitialState();
-		println("asm " + name);
+		if (model.getMainrule() == null) 
+			println("module " + name);
+		else
+			println("asm " + name);
 		visit(header);
 		println();
 		visit(body);

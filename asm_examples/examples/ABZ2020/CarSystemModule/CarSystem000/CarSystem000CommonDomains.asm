@@ -1,6 +1,7 @@
 module CarSystem000CommonDomains
 import ../../StandardLibrary
-export * 
+export *
+//export KeyPosition, CruiseControlMode, CurrentSpeed
 
 signature:
 	enum domain KeyPosition = {NOKEYINSERTED | KEYINSERTED | KEYINIGNITIONONPOSITION} // Key state

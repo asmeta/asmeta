@@ -1,14 +1,30 @@
 package org.asmeta.eclipse.editor.preferences;
 
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.*;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.AUTO;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.HOUR_STRING;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.MILLIS_STRING;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.MINUTES_STRING;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_AUTO_DELTA;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_CHECK_AXIOMS;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_EXTERNAL_FILE;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_PARSER;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_SIMULATOR;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_USE_EXTERNAL_FILE;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_SHUFFLE;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_STOP_UPDATESET_EMPTY;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_STOP_UPDATESET_TRIVIAL;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_TIME_UNIT;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.SECONDS_STRING;
 
 import org.apache.log4j.Level;
 import org.asmeta.eclipse.AsmeeActivator;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.eclipse.jface.preference.BooleanFieldEditor;
-import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.FileFieldEditor;
+import org.eclipse.jface.preference.IntegerFieldEditor;
+import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -45,39 +61,41 @@ public class SimulatorPreferencePage
 	 */
 	@Override
 	public void createFieldEditors() {
-/*		addField(new DirectoryFieldEditor(PreferenceConstants.P_PATH, 
-				"&Directory preference:", getFieldEditorParent()));
-		addField(
-			new BooleanFieldEditor(
-				PreferenceConstants.P_BOOLEAN,
-				"&An example of a boolean preference",
-				getFieldEditorParent()));
-
-		addField(new RadioGroupFieldEditor(
-				PreferenceConstants.P_CHOICE,
-			"An example of a multiple-choice preference",
-			1,
-			new String[][] { { "&Choice 1", "choice1" }, {
-				"C&hoice 2", "choice2" }
-		}, getFieldEditorParent()));
-		addField(
-			new StringFieldEditor(PreferenceConstants.P_STRING, "A &text preference:", getFieldEditorParent()));
-		/// ^^^ from wizard
-		 * 
-		 */
 		Composite fieldEdtrPrnt = getFieldEditorParent();
 		addField(new BooleanFieldEditor(P_SHUFFLE, "Shuffle choose rule", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_CHECK_AXIOMS, "Check invariants", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_EMPTY, "Stop simulation if the update set is empty", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_TRIVIAL, "Stop simulation if the update set is trivial", fieldEdtrPrnt));
 		// 
-		addField(new BooleanFieldEditor(P_USE_SYSTEMTIME, "Use system time for monitored ASM time", fieldEdtrPrnt));
+		//addField(new RadioGroupFieldEditor(P_TIME_MNGT, "Which time for monitored ASM time", null, fieldEdtrPrnt));
+		addField(new RadioGroupFieldEditor(PreferenceConstants.P_TIME_MNGT,
+	        "Time mechanism:",
+	        3,
+	        new String[][] {	          
+	          { "use java time", TimeMngt.use_java_time.toString()},
+	          { "ask user", TimeMngt.ask_user.toString()},
+	          { "auto increment", TimeMngt.auto_increment.toString()}
+	        }, fieldEdtrPrnt, true));
+		IntegerFieldEditor integerFieldEditor = new IntegerFieldEditor(P_AUTO_DELTA, "Delta if auto increment", fieldEdtrPrnt);
+		integerFieldEditor.setValidRange(1, 10000);
+		addField(integerFieldEditor);	
+		
+		addField(new ComboFieldEditor(P_TIME_UNIT, "Preferred time unit", getTimeUnits(), fieldEdtrPrnt));
 		// per logger
 		addField(new BooleanFieldEditor(P_DEBUG_USE_EXTERNAL_FILE, "Use prop file for log4j", fieldEdtrPrnt));
 		addField(new FileFieldEditor(P_DEBUG_EXTERNAL_FILE, "Use prop file for log4j", fieldEdtrPrnt));		
 		//
 		addField(new ComboFieldEditor(P_DEBUG_PARSER, "Debug level for parser", getLog4Jlevels(), fieldEdtrPrnt));
 		addField(new ComboFieldEditor(P_DEBUG_SIMULATOR, "Debug level for simulator", getLog4Jlevels(), fieldEdtrPrnt));
+	}
+
+	private String[][] getTimeUnits() {
+		return new String[][] {
+			{AUTO, AUTO},
+			{MILLIS_STRING,MILLIS_STRING},
+			{SECONDS_STRING,SECONDS_STRING},
+			{MINUTES_STRING,MINUTES_STRING},
+			{HOUR_STRING,HOUR_STRING}};
 	}
 
 	private String[][] getLog4Jlevels() {

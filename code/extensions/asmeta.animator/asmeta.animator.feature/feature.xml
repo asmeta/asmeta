@@ -19,19 +19,19 @@ See http://asmeta.sourceforge.net/
    </license>
 
    <url>
-      <update label="Asmeta" url="http://svn.code.sf.net/p/asmeta/code/code/stable/asmeta_update"/>
+      <update label="Asmeta" url="https://raw.githubusercontent.com/asmeta/asmeta_update_site"/>
    </url>
 
    <requires>
       <import plugin="org.eclipse.ui" version="3.107.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore" version="2.11.1" match="greaterOrEqual"/>
-      <import plugin="org.junit"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.xtext.xbase.lib"/>
       <import plugin="org.eclipse.xtend.lib"/>
       <import plugin="org.eclipse.xtend.lib.macro"/>
       <import plugin="org.eclipse.swt"/>
+      <import feature="org.asmeta.simulator.feature" version="0.9.12"/>
    </requires>
 
    <plugin

@@ -15,17 +15,19 @@ signature:
 	//Timer unit
 	controlled timerUnit: Timer -> TimerUnit
 	
-	//init start time to current time --> static???????????????????????? forse meglio derived
-	static initStart : Timer-> Integer
+	//init start time to current time
+	derived initStart : Timer-> Integer
 	// is the timer expired?
 	derived expired: Timer -> Boolean
-			
-	/*----------- Java time  as monitored function (experimental) --------------*/
+	
+	
+/*----------- Java time  as monitored function (experimental) --------------*/
 	monitored mCurrTimeNanosecs: Integer
 	monitored mCurrTimeMillisecs: Integer
 	monitored mCurrTimeSecs: Integer
 	monitored mCurrTimeMins: Integer
 	monitored mCurrTimeHours: Integer
+
 	
 definitions:
 														

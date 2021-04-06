@@ -53,6 +53,13 @@ public class AsmToBoostModuleTest {
 	}
 
 	@Test
+	public void testTrafficLight() throws Exception {
+		testSpec("../../../../asm_examples/examples/traffic_light/oneWayTrafficLight.asm", SIMULATOR,"1","5");
+	}
+
+	
+	
+	@Test
 	public void testGenerateCounter() throws Exception {
 		testSpec("examples/asmeta_examples/Counter.asm", SIMULATOR,"1","5");
 	}
@@ -196,9 +203,8 @@ public class AsmToBoostModuleTest {
 		//
 		// generate also the code for the machine
 		// header
-		HeaderGenerator hgen = new HeaderGenerator();
+		HeaderGenerator hgen = new HeaderGenerator(userOptions);
 		String specname = asm.getMain().getName();
-		hgen.options = userOptions;
 		hgen.generate(asm.getMain(), destDir.getPath() + File.separator + specname + ".h");
 		// build the generator
 		AsmTestGenerator tg = tgs == SIMULATOR ? 
@@ -224,8 +230,7 @@ public class AsmToBoostModuleTest {
 		// compiled?
 		if (result.success) {
 			// now the main class
-			CppGenerator cppgen = new CppGenerator();
-			cppgen.options = userOptions;
+			CppGenerator cppgen = new CppGenerator(userOptions);
 			cppgen.generate(asm.getMain(), destDir.getPath() + File.separator + specname + ".cpp");
 			//
 			// compile the asm.cpp (with the coverage)

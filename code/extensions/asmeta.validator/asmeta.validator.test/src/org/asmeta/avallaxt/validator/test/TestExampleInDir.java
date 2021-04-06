@@ -55,7 +55,7 @@ public class TestExampleInDir extends TestValidator {
 				continue;*/
 			if (scenarioName.endsWith(".avalla") && Files.isRegularFile(fileToRead)) {
 				try{
-					test(scenarioName, true);
+					test(scenarioName, true, false);
 				}catch (Throwable e) {
 					e.printStackTrace();
 					failures.add(fileToRead);

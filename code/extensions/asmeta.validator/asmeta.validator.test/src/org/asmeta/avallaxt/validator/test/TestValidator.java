@@ -47,20 +47,21 @@ public class TestValidator {
 	 * 
 	 * @param scenarioPath
 	 * @param runValidator
+	 * @param computeCoverage TODO
 	 * @throws IOException
 	 * @throws Exception
 	 */
-	protected void test(String scenarioPath, boolean runValidator) throws IOException, Exception {
+	protected void test(String scenarioPath, boolean runValidator, boolean computeCoverage) throws IOException, Exception {
 		if (runValidator) {
+			System.out.println("executing " + scenarioPath);
 			// it should be runnable
-			AsmetaV.execValidation(scenarioPath, false);
+			AsmetaV.execValidation(scenarioPath, computeCoverage);
 		} else {
 			//
-			System.out.println("transating " + scenarioPath);
-			String tempAsmPath = pathname + "temp_spec" + (i++) + ".asm";
+			System.out.println("translating " + scenarioPath);
+			String tempAsmPath = Files.createTempFile("__tempAsmetaV", ".asm").toString();
 			// delete if exists
 			Path path_tempAsm = Paths.get(tempAsmPath);
-			assert ! Files.exists(path_tempAsm);
 			org.asmeta.xt.validator.AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(scenarioPath, tempAsmPath);
 			builder.save();
 			// the files exists

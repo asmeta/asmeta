@@ -18,7 +18,7 @@ See http://asmeta.sourceforge.net/
    </license>
 
    <url>
-      <update label="Asmeta" url="http://svn.code.sf.net/p/asmeta/code/code/stable/asmeta_update"/>
+      <update label="Asmeta" url="https://raw.githubusercontent.com/asmeta/asmeta_update_site"/>
    </url>
 
    <requires>
@@ -42,6 +42,7 @@ See http://asmeta.sourceforge.net/
       <import plugin="asmeta.parser"/>
       <import plugin="asmeta.simulator"/>
       <import plugin="org.eclipse.core.resources"/>
+      <import feature="org.asmeta.asmetasmv.feature" version="1.0.6"/>
    </requires>
 
    <plugin

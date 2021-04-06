@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.asmeta.eclipse.AsmetaActionHandler;
 import org.asmeta.flattener.AsmetaMultipleFlattener;
 import org.asmeta.flattener.RemoveArgumentsFlattener;
 import org.asmeta.flattener.nesting.RemoveNestingFlattener;
@@ -37,7 +38,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
-public class AsmetaFlatHandler extends AbstractHandler {
+public class AsmetaFlatHandler extends AsmetaActionHandler {
 
 	/**
 	 * the command has been executed, so extract extract the needed information from

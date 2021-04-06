@@ -57,6 +57,6 @@ Export-Package: org.asmeta.simulator;
    asmeta.transitionrules.turbotransitionrules,
    asmeta.terms.furtherterms,
    asmeta.terms.basicterms"
-Bundle-ActivationPolicy: lazy
 Bundle-Vendor: fmse.di.unimi.it
 Automatic-Module-Name: asmeta.simulator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

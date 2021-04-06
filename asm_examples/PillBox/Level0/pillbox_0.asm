@@ -23,7 +23,7 @@ signature:
 	//*************************************************
 	dynamic monitored openSwitch: Boolean
 	dynamic controlled opened: Boolean
-	dynamic controlled redLedSwitch: LedLights
+	dynamic controlled redLed: LedLights // attention: the translator may need  redLedSwitch
 	dynamic controlled outMess: OutMessages
 	dynamic controlled logMess: OutMessages
 
@@ -41,35 +41,35 @@ definitions:
 	// Rule to set the led red ON when the pill has to be taken
 	rule r_pillToBeTaken =
 		par
-			redLedSwitch := ON
+			redLed := ON
 			outMess := TAKE_PILL
 		endpar
 		
 	// Rule to set the red led blinking, after the drawer opening
 	rule r_drawerOpened =
 		par
-			redLedSwitch := BLINKING
+			redLed := BLINKING
 			outMess := CLOSE_DRAWER_IN_10_MIN
 		endpar
 		
 	// Rule to take the system back to the initial state when the drawer is open and redLed is ON
 	rule r_pillTaken_drawerOpened =
 		par
-			redLedSwitch := OFF
+			redLed := OFF
 			outMess := NONE
 		endpar
 		
 	// Rule to handle the closing of a drawer when the RED Led is blinking
 	rule r_drawerClosed =
 		par
-			redLedSwitch := OFF
+			redLed := OFF
 			outMess := NONE
 		endpar
 		
 	// Rule to take the system back to the initial state when the Blinking timeout is passed
 	rule r_timeOutExpired_missedPill =
 		par
-			redLedSwitch := OFF
+			redLed := OFF
 			outMess := NONE
 			logMess := PILL_MISSED
 			r_writeToFile[] 
@@ -78,7 +78,7 @@ definitions:
 	// Rule to take the system back to the initial state when the Blinking timeout is passed and the drawer has not been closed
 	rule r_timeOutExpired_drawerOpened =
 		par
-			redLedSwitch := OFF
+			redLed := OFF
 			outMess := NONE
 			logMess := DRAWER_NOT_CLOSED 
 			r_writeToFile[]
@@ -87,7 +87,7 @@ definitions:
 	// Rule to set the red led blinking, after the drawer opening
 	rule r_takeInTimeout =
 		par
-			redLedSwitch := BLINKING
+			redLed := BLINKING
 			outMess := TAKE_PILL_IN_10_MIN
 		endpar
 	
@@ -95,14 +95,14 @@ definitions:
 	// Property Verification
 	//*************************************************
 	// If the pill has to be taken, red led will lights up
-	CTLSPEC ag((takeThePill and redLedSwitch = OFF) implies ax(redLedSwitch = ON))
+	CTLSPEC ag((takeThePill and redLed = OFF) implies ax(redLed = ON))
 	// If the patient does not take the pill or the drawer has to be closed, the red light will blink
-	CTLSPEC ag(((redLedSwitch = ON and not opened and openSwitch) or (redLedSwitch = ON and timeDiffOver600 and not(opened))) implies ax(redLedSwitch = BLINKING))
+	CTLSPEC ag(((redLed = ON and not opened and openSwitch) or (redLed = ON and timeDiffOver600 and not(opened))) implies ax(redLed = BLINKING))
 	// The red light will change value after 10 minutes if the patient doesn't take the pill
-	CTLSPEC ag((redLedSwitch = ON and timeDiffOver600 and not(opened)) implies ax(redLedSwitch = BLINKING))
-	CTLSPEC ag((redLedSwitch = BLINKING and timeDiffOver600 and not(openSwitch)) implies ax(redLedSwitch = OFF))
+	CTLSPEC ag((redLed = ON and timeDiffOver600 and not(opened)) implies ax(redLed = BLINKING))
+	CTLSPEC ag((redLed = BLINKING and timeDiffOver600 and not(openSwitch)) implies ax(redLed = OFF))
 	// If the patient takes the pill, red light will turn-off
-	CTLSPEC ag((takeThePill and opened and not(openSwitch) and not(redLedSwitch = OFF) and not timeDiffOver600) implies ax(redLedSwitch = OFF))
+	CTLSPEC ag((takeThePill and opened and not(openSwitch) and not(redLed = OFF) and not timeDiffOver600) implies ax(redLed = OFF))
 		
 	//*************************************************
 	// MAIN Rule
@@ -115,19 +115,19 @@ definitions:
 			if opened and not openSwitch  then opened := false endif
 			
 			// Starting from the IDLE state, the pill has to be taken 
-			if redLedSwitch = OFF then if takeThePill then r_pillToBeTaken[] endif endif
+			if redLed = OFF then if takeThePill then r_pillToBeTaken[] endif endif
 			// It is open, drug to be taken, it becomes closed
-			if redLedSwitch = ON and not timeDiffOver600 and opened and not openSwitch  then r_pillTaken_drawerOpened[] endif
+			if redLed = ON and not timeDiffOver600 and opened and not openSwitch  then r_pillTaken_drawerOpened[] endif
 			// It is closed drug to be taken and it becomes open     
-			if redLedSwitch = ON and not opened and openSwitch  then r_drawerOpened[] endif
+			if redLed = ON and not opened and openSwitch  then r_drawerOpened[] endif
 			// It is closed drug to be taken and timeout     
-			if redLedSwitch = ON then
+			if redLed = ON then
 				if timeDiffOver600 then 
 					if opened then r_drawerOpened[] else if not openSwitch then r_takeInTimeout[] endif endif 
 				endif 
 			endif
 			// It is blinking, and it becomes closed (or remains closed) or timeout   
-			if redLedSwitch = BLINKING then
+			if redLed = BLINKING then
 				if not openSwitch and opened then r_drawerClosed[] 
 				else 
 					if timeDiffOver600 then
@@ -148,7 +148,7 @@ default init s0:
 	function logMess = NONE
 	
 	// Turn-off all the led of the Drawers
-	function redLedSwitch = OFF
+	function redLed = OFF
 	
 	// Initialization of the functions that substitute the time management
 	function takeThePill = false

@@ -1,10 +1,14 @@
 package org.asmeta.eclipse.simulator.actions;
 
+import java.util.concurrent.TimeUnit;
+
 import org.asmeta.eclipse.AsmeeActivator;
+import org.asmeta.eclipse.AsmeeConsole;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.eclipse.editor.preferences.PreferenceConstants;
 import org.asmeta.eclipse.simulator.jobs.RunJob;
 import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.eclipse.core.resources.IFile;
@@ -43,29 +47,14 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 	 */
 	@Override
 	public void run(IAction action) {
-		// get the preferences
-		IPreferenceStore store = AsmeeActivator.getDefault().getPreferenceStore();
-		RuleEvaluator.isShuffled = store.getBoolean(PreferenceConstants.P_SHUFFLE);
-		Environment.use_java_time = store.getBoolean(PreferenceConstants.P_USE_SYSTEMTIME);
-		Simulator.checkInvariants = store.getBoolean(PreferenceConstants.P_CHECK_AXIOMS);
-		RunJob.stopSimulationIfUpdateSetEmpty = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_EMPTY);
-		RunJob.stopSimulationIfUpdateSetTrivial = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_TRIVIAL);
-
+		IPreferenceStore store = setSimulationPrecerences();
 		AsmetaUtility.setUpLogger(store);
-
-		System.out.println("running " + action.getDescription());
-		
-		// get the current document as file (IFile)
-		IEditorPart part = window.getActivePage().getActiveEditor();
-		// save the file
-		part.doSave(new NullProgressMonitor());
-		IEditorInput input = part.getEditorInput();
-		
-		IFile file = ((IFileEditorInput) input).getFile();
-		System.out.println("running " + file.getName());
-		
+		AsmeeConsole console = AsmetaUtility.findDefaultConsole();
+		// get the current ASM (and save the file)
+		IFile file = AsmetaUtility.getEditorIFile(window);
+		console.writeMessage("simulating " + file.getName());
+		// run job
 		RunJob runjob = getJob(file);
-
 		runjob.schedule();
 /*		try {
 			out.close();
@@ -73,6 +62,34 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
+	}
+
+	/**
+	 * 
+	 * @return the preference store - it sets also all the prferences
+	 */
+	static public IPreferenceStore setSimulationPrecerences() {
+		// get the preferences
+		IPreferenceStore store = AsmeeActivator.getDefault().getPreferenceStore();
+		RuleEvaluator.isShuffled = store.getBoolean(PreferenceConstants.P_SHUFFLE);
+		//
+		Environment.timeMngt = TimeMngt.valueOf(store.getString(PreferenceConstants.P_TIME_MNGT));
+		String timeunit = store.getString(PreferenceConstants.P_TIME_UNIT);
+		switch(timeunit) {
+		case PreferenceConstants.AUTO : Environment.currentTimeUnit = null; break;
+		case PreferenceConstants.MILLIS_STRING : Environment.currentTimeUnit = TimeUnit.MILLISECONDS; break;
+		case PreferenceConstants.SECONDS_STRING: Environment.currentTimeUnit = TimeUnit.SECONDS; break;
+		case PreferenceConstants.MINUTES_STRING: Environment.currentTimeUnit = TimeUnit.MINUTES; break;
+		case PreferenceConstants.HOUR_STRING: Environment.currentTimeUnit = TimeUnit.HOURS; break;
+			//MILLISECONDS"Environment.currentTimeUnit = TimeUnit.MILLISECONDS;
+		default: throw new RuntimeException();
+		}
+		Environment.auto_increment_delta = store.getInt(PreferenceConstants.P_AUTO_DELTA);
+		
+		Simulator.checkInvariants = store.getBoolean(PreferenceConstants.P_CHECK_AXIOMS);
+		RunJob.stopSimulationIfUpdateSetEmpty = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_EMPTY);
+		RunJob.stopSimulationIfUpdateSetTrivial = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_TRIVIAL);
+		return store;
 	}
 
 	/** get the job for this action

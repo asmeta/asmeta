@@ -36,10 +36,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Appender;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
@@ -85,7 +88,33 @@ public class Simulator {
 	protected List<Invariant> controlledInvariants;
 	private List<Invariant> monitoredInvariants;
 
-	public static Logger logger = Logger.getLogger(Simulator.class);
+	public static class SimulatorLogger{
+		public static Logger logger = Logger.getLogger(Simulator.class);
+		
+		public void info(UpdateSet updateSet) {
+			logger.info(updateSet);			
+		}
+		public void info(String string) {
+			logger.info(string);			
+		}
+		public boolean isInfoEnabled() {
+			return logger.isInfoEnabled();
+		}
+		public void debug(String string) {
+			logger.debug(string);			
+		}
+		// add appender only if needed
+		// only one appender is allowed !!!
+		public void addAppender(Appender outputfromSim) {
+			if (Collections.list(logger.getAllAppenders()).size() == 0) 
+				logger.addAppender(outputfromSim);
+		}
+		public void setLevel(Level level) {
+			logger.setLevel(level);			
+		}
+	}
+	
+	public final static SimulatorLogger logger = new SimulatorLogger();
 
 	/**
 	 * Check invariants flag.

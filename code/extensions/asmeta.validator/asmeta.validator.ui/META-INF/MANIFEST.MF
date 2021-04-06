@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta validator plugin
 Bundle-SymbolicName: asmeta.validator.ui;singleton:=true
-Bundle-Version: 0.0.24
+Bundle-Version: 0.0.25
 Bundle-Activator: validator.plugin.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.console,
  asmeta.validator,
  org.eclipse.ui.workbench,
- asmeta.animator
+ asmeta.animator,
+ asmeta.simulator.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: fmse.di.unimi.it
@@ -18,4 +19,5 @@ Bundle-ClassPath: .
 Automatic-Module-Name: asmeta.validator.ui
 Export-Package: validator.plugin,
  validator.plugin.handlers
-Import-Package: org.asmeta.simulator.main
+Import-Package: org.asmeta.eclipse,
+ org.asmeta.simulator.main

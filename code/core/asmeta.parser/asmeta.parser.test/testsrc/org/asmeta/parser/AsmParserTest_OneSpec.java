@@ -211,7 +211,7 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 	public void testPhilo1() {
 		Logger log = Logger.getLogger("org.asmeta.parser");
 		if (!log.getAllAppenders().hasMoreElements())
-		log.addAppender(new ConsoleAppender(new SimpleLayout()));
+			log.addAppender(new ConsoleAppender(new SimpleLayout()));
 		//log.setLevel(Level.ALL);
 		String file = "examples/philosophers/philosophers1.asm";
 		testOneSpec(file);
