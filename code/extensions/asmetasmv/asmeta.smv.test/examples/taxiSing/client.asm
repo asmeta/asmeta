@@ -23,7 +23,7 @@ signature:
 	static client: ClientAgent
 
 definitions:
-	domain NumViaggi = {0..2}
+	domain NumViaggi = {0:2}
 
 	rule r_idleMove =
 		par

@@ -8,7 +8,7 @@ signature:
 	dynamic controlled var_a : Prod(MyDomain, MyDomain) -> MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	rule r_a($x in MyDomain, $y in MyDomain) =
 		var_a($x, $y) := $y - $x

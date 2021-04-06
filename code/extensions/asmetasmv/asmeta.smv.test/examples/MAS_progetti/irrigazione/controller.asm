@@ -16,10 +16,10 @@ signature:
 	
 definitions:
 
-	domain AcquaDisponibile = {0..2}
+	domain AcquaDisponibile = {0:2}
 	
 	
-	function availablewater = 2 - utilizzo(zone01) - utilizzo(zone02) - utilizzo(zone03) - utilizzo(zone04) - utilizzo(zone05)
+	function availablewater = 2 - utilizzo(zone01) 0:2ilizzo(zone02) - utilizzo(zone03) - utilizzo(zone04) - utilizzo(zone05)
 	
 				
 	rule r_aprivalvola_doppio =

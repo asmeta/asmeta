@@ -25,7 +25,7 @@ signature:
 	derived der: Boolean
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	function der =
 		if(mon1) then

@@ -14,7 +14,7 @@ signature:
 
 definitions:
 	// DOMAIN DEFINITIONS
-	domain Numtelecamere = {1..3}
+	domain Numtelecamere = {1:3}
 	
 	// MAIN RULE
 	main rule r_Main =

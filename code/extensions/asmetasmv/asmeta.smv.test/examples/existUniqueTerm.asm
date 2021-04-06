@@ -11,7 +11,7 @@ signature:
 	dynamic controlled fooB: Boolean
 
 definitions:
-	domain MyDomain = {1..3}
+	domain MyDomain = {1:3}
 
 	CTLSPEC var_a = 2 and ax(ag(var_a=3))
 	CTLSPEC ef(fooA)

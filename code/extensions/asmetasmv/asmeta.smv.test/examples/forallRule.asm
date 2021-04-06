@@ -7,7 +7,7 @@ signature:
 	dynamic controlled foo: ConcrDom -> ConcrDom
 	
 definitions:
-	domain ConcrDom = {1..4}
+	domain ConcrDom = {1:4}
 	
 	CTLSPEC ax(ag(foo(1)=3 and foo(2)=2))
 	CTLSPEC ag(foo(4)=4)

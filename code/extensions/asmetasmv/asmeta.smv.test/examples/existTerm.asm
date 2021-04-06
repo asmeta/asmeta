@@ -12,7 +12,7 @@ signature:
 	dynamic controlled foo3: Boolean
 
 definitions:
-	domain MyDomain = {1..3}
+	domain MyDomain = {1:3}
 
 	CTLSPEC ag(var_a = 3)
 	CTLSPEC ag((exist $x in MyDomain with foo($x)=1) iff ax(foo1))

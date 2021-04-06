@@ -36,7 +36,7 @@ signature:
 
 
 definitions:
-	domain NumViaggi = {0..2}
+	domain NumViaggi = {0:2}
 	domain Coord = {1..8}
 	domain Passo ={-1..1}
 

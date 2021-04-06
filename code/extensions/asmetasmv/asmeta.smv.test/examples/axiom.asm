@@ -11,7 +11,7 @@ signature:
 	dynamic monitored monB: Boolean
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	CTLSPEC not(ef(fooA != fooB))
 	CTLSPEC ag(monA and fooA=2 implies ax(fooA=3))

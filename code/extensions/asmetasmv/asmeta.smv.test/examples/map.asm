@@ -10,7 +10,7 @@ signature:
 	dynamic controlled cc: MyDomain -> MyDomain
 		
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 	
 	CTLSPEC (aa(1) = 4 and aa(2) = 3  and aa(3) = 2 and aa(4) = 1) and
 					ax(ag(aa(1) = 1 and aa(2) = 2  and aa(3) = 3 and aa(4) = 4))

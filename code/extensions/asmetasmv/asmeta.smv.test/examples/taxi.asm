@@ -22,7 +22,7 @@ signature:
 
 definitions:
 	domain Taxi = {0..3}
-	domain Lengths = {1..3}
+	domain Lengths = {1:3}
 	function numtaxis = 3- keepTaxi(CL1) - keepTaxi(CL2) - keepTaxi(CL3) - keepTaxi(GR2) - keepTaxi(GR3)
 
 	function neededTaxi($c in Client) =

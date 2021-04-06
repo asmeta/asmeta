@@ -13,7 +13,7 @@ signature:
 	dynamic monitored mon: MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 	domain MyDomainNatural = {1n..4n}
 	
 	main  rule r_Main =

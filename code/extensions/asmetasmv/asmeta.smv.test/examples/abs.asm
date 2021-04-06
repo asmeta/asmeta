@@ -19,7 +19,7 @@ signature:
 	dynamic controlled fooL: ConcrDom
 
 definitions:
-	domain ConcrDom = {-10 .. 10}
+	domain ConcrDom = {-10 : 10}
 
 	CTLSPEC ctlSpec_f: ag(foo >= 0)
 	CTLSPEC ag(fooA >= 0)

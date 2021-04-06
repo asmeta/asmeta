@@ -1,7 +1,7 @@
 asm GiocoDelCento_raff3
 
-import ../../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../asm_examples/STDL/CTLlibrary
 
 signature:
 	

@@ -10,7 +10,7 @@ signature:
 	dynamic monitored mon: Boolean
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	CTLSPEC ax(ag(var_b=3 iff mon))
 	CTLSPEC ax(ag(var_b=4 iff not(mon)))

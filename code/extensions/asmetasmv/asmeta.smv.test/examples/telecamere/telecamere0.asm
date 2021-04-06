@@ -9,7 +9,7 @@ signature:
 	monitored teleChoice: Numtelecamere 
 
 definitions:
-	domain Numtelecamere = {1..3}
+	domain Numtelecamere = {1:3}
 	
 	main rule r_Main =
 		if(teleChoice>1)  then 

@@ -17,7 +17,7 @@ signature:
 	static gr3: ClientAgent
 
 definitions:
-	domain Durate = {1..3}
+	domain Durate = {1:3}
 	
 	rule r_travel =
 		if state(self)=TRAVELLING then
