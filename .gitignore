@@ -51,3 +51,5 @@ maven-status
 #extend binaries
 *.xtendbin
 *.versionsBackup
+
+/reports/*
