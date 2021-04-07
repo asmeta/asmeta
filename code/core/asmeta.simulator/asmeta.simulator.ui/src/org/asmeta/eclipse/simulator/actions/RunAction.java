@@ -1,5 +1,6 @@
 package org.asmeta.eclipse.simulator.actions;
 
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 import org.asmeta.eclipse.AsmeeActivator;
@@ -77,10 +78,10 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 		String timeunit = store.getString(PreferenceConstants.P_TIME_UNIT);
 		switch(timeunit) {
 		case PreferenceConstants.AUTO : Environment.currentTimeUnit = null; break;
-		case PreferenceConstants.MILLIS_STRING : Environment.currentTimeUnit = TimeUnit.MILLISECONDS; break;
-		case PreferenceConstants.SECONDS_STRING: Environment.currentTimeUnit = TimeUnit.SECONDS; break;
-		case PreferenceConstants.MINUTES_STRING: Environment.currentTimeUnit = TimeUnit.MINUTES; break;
-		case PreferenceConstants.HOUR_STRING: Environment.currentTimeUnit = TimeUnit.HOURS; break;
+		case PreferenceConstants.MILLIS_STRING : Environment.currentTimeUnit = ChronoUnit.MILLIS; break;
+		case PreferenceConstants.SECONDS_STRING: Environment.currentTimeUnit = ChronoUnit.SECONDS; break;
+		case PreferenceConstants.MINUTES_STRING: Environment.currentTimeUnit = ChronoUnit.MINUTES; break;
+		case PreferenceConstants.HOUR_STRING: Environment.currentTimeUnit = ChronoUnit.HOURS; break;
 			//MILLISECONDS"Environment.currentTimeUnit = TimeUnit.MILLISECONDS;
 		default: throw new RuntimeException();
 		}

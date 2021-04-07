@@ -25,25 +25,17 @@ package org.asmeta.simulator;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.Log4jEntityResolver;
-import org.asmeta.parser.Utility;
 import org.asmeta.simulator.readers.MonFuncReader;
-import org.asmeta.simulator.util.StandardLibrary;
 import org.asmeta.simulator.value.IntegerValue;
-import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.definitions.DefinitionsFactory;
-import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.domains.DomainsFactory;
 
@@ -55,11 +47,11 @@ public final class Environment {
 	public static final Logger LOG = Logger.getLogger(Environment.class); 
 
 	private static final Object[][] OBJECTS = new Object[][] { 
-		{ "mCurrTimeNanosecs", TimeUnit.NANOSECONDS },
-		{ "mCurrTimeMillisecs", TimeUnit.MILLISECONDS }, 
-		{ "mCurrTimeSecs", TimeUnit.SECONDS },
-		{ "mCurrTimeMins", TimeUnit.MINUTES },
-		{ "mCurrTimeHours", TimeUnit.HOURS }		
+		{ "mCurrTimeNanosecs", ChronoUnit.NANOS },
+		{ "mCurrTimeMillisecs", ChronoUnit.MILLIS }, 
+		{ "mCurrTimeSecs", ChronoUnit.SECONDS },
+		{ "mCurrTimeMins", ChronoUnit.MINUTES },
+		{ "mCurrTimeHours", ChronoUnit.HOURS }		
 	};
 
 	public enum TimeMngt {
@@ -75,16 +67,16 @@ public final class Environment {
 	public static int auto_increment_delta = 1;
 	
 	// map from monitored functions to time units
-	private final static Map<String, TimeUnit> monTimeFunctions = Stream
+	private final static Map<String, ChronoUnit> monTimeFunctions = Stream
 			.of(OBJECTS)
-			.collect(Collectors.toMap(data -> (String) data[0], data -> (TimeUnit) data[1]));
+			.collect(Collectors.toMap(data -> (String) data[0], data -> (ChronoUnit) data[1]));
 	// map from time units to functions names - reverse
-	private final static Map<TimeUnit,String> monTimeUnits = monTimeFunctions.entrySet()
+	private final static Map<ChronoUnit,String> monTimeUnits = monTimeFunctions.entrySet()
 		       .stream()
 		       .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
 
 	// it can be null: automatic
-	public static TimeUnit currentTimeUnit = null;
+	public static ChronoUnit currentTimeUnit = null;
 	public static TimeMngt timeMngt;
 	
 
@@ -135,7 +127,7 @@ public final class Environment {
 	// considering that the teh current time could be set in other time units
 	private Value find_mCurrTime(State state, Location location) {
 		// extract the time unit
-		TimeUnit locationTimeUnit = getTimeUnit(location);
+		ChronoUnit locationTimeUnit = getTimeUnit(location);
 		assert locationTimeUnit != null;
 		// set the time unit if not already set
 		if (currentTimeUnit == null)
@@ -167,12 +159,12 @@ public final class Environment {
 					func.setCodomain(DomainsFactory.eINSTANCE.createIntegerDomain());
 					Location timeLocation = new Location(func, new IntegerValue[0]); 
 					Value<Long> firstTimeValue = monFuncReader.read(timeLocation, state);
-					currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit.toChronoUnit());
+					currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit);
 					LOG.debug("setting current time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));
 				} else {
 					// ask this right way
 					Value<Long> firstTimeValue = monFuncReader.read(location, state);
-					currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit.toChronoUnit());
+					currentStateInstant = startFrom.plus(firstTimeValue.getValue(),currentTimeUnit);
 					LOG.debug("setting current (and location) time  " + firstTimeValue + " " + monTimeUnits.get(currentTimeUnit));
 					// done in this case
 					return firstTimeValue;
@@ -180,18 +172,18 @@ public final class Environment {
 			} else {
 				assert timeMngt == TimeMngt.auto_increment;
 				assert auto_increment_delta > 0;
-				currentStateInstant = currentStateInstant.plus(auto_increment_delta, currentTimeUnit.toChronoUnit());
+				currentStateInstant = currentStateInstant.plus(auto_increment_delta, currentTimeUnit);
 			}
 		}
 		// compute the time 
 		//it could be also in the ask_user and current time unit as well, but not ask it again
-		long deltaTime = startFrom.until(currentStateInstant,  locationTimeUnit.toChronoUnit());
-		LOG.debug("converting  " + deltaTime + locationTimeUnit.toChronoUnit());
+		long deltaTime = startFrom.until(currentStateInstant,  locationTimeUnit);
+		LOG.debug("converting  " + deltaTime + locationTimeUnit);
 		return new IntegerValue(deltaTime);
 	}
 
 	// return the temporal unit
-	private TimeUnit getTimeUnit(Location location) {
+	private ChronoUnit getTimeUnit(Location location) {
 		assert monTimeFunctions.containsKey(location.getName());
 		return monTimeFunctions.get(location.getName());
 	}
