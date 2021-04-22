@@ -6,7 +6,7 @@ package org.asmeta.simulator.value;
 import asmeta.terms.furtherterms.StringTerm;
 
 /**
- * A string value.
+ * A string value. WITHOUT THE double quotes around it!!!
  *
  */
 public class StringValue extends Value<String> {

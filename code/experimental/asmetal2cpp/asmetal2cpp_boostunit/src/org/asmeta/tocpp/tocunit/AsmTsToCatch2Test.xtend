@@ -15,39 +15,37 @@ import java.util.ArrayList
 import asmeta.definitions.StaticFunction
 
 // Asm test suite to ASM n
-class AsmTsToBOOSTModule extends TestSuiteTranslator{
+class AsmTsToCatch2Test extends TestSuiteTranslator{
 
+// name of the ASM and also CPP class
 	int counter = 0;
 	
 	new(AsmCollection asm) {
-		super(asm,"BOOST_CHECK")
+		super(asm, "REQUIRE")
 	}
-	
-// name of the ASM and also CPP class
+
 
 // convert the test suite
 	override convertTestSuite(AsmTestSuite testSuite) {
-		'''#define BOOST_TEST_MODULE Test«asmName»
-#define BOOST_TEST_DYN_LINK
-#include <boost/test/unit_test.hpp>
+'''#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
+#include "catch.hpp"
+
 #include <iostream>
 #include "«asmName».h"
 using namespace std;
 
 «getAbstractDomain(asm)»
 
-BOOST_AUTO_TEST_SUITE(Test«asmName»)
 «FOR t : testSuite»
 «printTestCase(t)»
 //«counter++»
 «ENDFOR»
-BOOST_AUTO_TEST_SUITE_END()
 '''
 	}
 	
+
 	def printTestCase(AsmTestSequence test) {
-		var boolean firstState = true
-		'''BOOST_AUTO_TEST_CASE( my_test_«counter» ){
+		'''TEST_CASE( "my_test_«counter»", "my_test_«counter»"){
 	// instance of the SUT
 	«asmName» «asmName.toLowerCase»;	
 	«FOR t : test.allInstructions()»

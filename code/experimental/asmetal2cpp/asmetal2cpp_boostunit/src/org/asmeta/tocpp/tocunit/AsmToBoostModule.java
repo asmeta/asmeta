@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+import org.asmeta.tocpp.tocunit.AsmToBoostModuleTest.UNITFM;
+
 import asmeta.AsmCollection;
 import atgt.coverage.AsmTestSuite;
 
@@ -12,17 +14,19 @@ public class AsmToBoostModule {
 	
 	private AsmCollection asm;
 	AsmTestSuite testsuite;
+	private UNITFM unitfm;
 	
 	/**
 	 * 
-	 * @param testsuite test generator (Nusmv or simulator)
+	 * @param testsuite test suite
 	 * @param asmPath the complete path of the ASM
 	 * @param asm 
+	 * @param unitfm 
 	 */
-	AsmToBoostModule(AsmTestSuite testsuite, AsmCollection asm, String asmPath){
+	AsmToBoostModule(AsmTestSuite testsuite, AsmCollection asm, String asmPath, UNITFM unitfm){
 		this.testsuite = testsuite; 
 		this.asm = asm;
-		
+		this.unitfm = unitfm;
 	}
 	/**
 	 * 
@@ -40,7 +44,14 @@ public class AsmToBoostModule {
 	
 	private CharSequence generate() {
 		// translate to the boost module
-		AsmTsToBOOSTModule translator = new AsmTsToBOOSTModule(asm);
+		TestSuiteTranslator translator = null;
+		if (unitfm == UNITFM.BOOST) {
+			translator = new AsmTsToBOOSTModule(asm);
+		} else if (unitfm == UNITFM.CATCH2) {
+			translator = new AsmTsToCatch2Test(asm);
+		} else {
+			throw new RuntimeException("which translator");
+		}
 		CharSequence result = translator.convertTestSuite(testsuite);
 		return result;
 	}

@@ -49,35 +49,40 @@ public class AsmToBoostModuleTest {
 	
 	@Test
 	public void testGenerate0() throws Exception {
-		testSpec("examples/Bare/Bare.asm", NuSMV);
+		testSpec(UNITFM.BOOST, "examples/Bare/Bare.asm", NuSMV);
 	}
 
 	@Test
 	public void testTrafficLight() throws Exception {
-		testSpec("../../../../asm_examples/examples/traffic_light/oneWayTrafficLight.asm", SIMULATOR,"1","5");
+		testSpec(UNITFM.BOOST, "../../../../asm_examples/examples/traffic_light/oneWayTrafficLight.asm",SIMULATOR,"1", "5");
 	}
 
+	@Test
+	public void testMVM() throws Exception {
+		//testSpec(UNITFM.BOOST, "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",SIMULATOR,"1", "5");
+		testSpec(UNITFM.CATCH2, "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",SIMULATOR,"1", "5");
+	}
 	
 	
 	@Test
 	public void testGenerateCounter() throws Exception {
-		testSpec("examples/asmeta_examples/Counter.asm", SIMULATOR,"1","5");
+		testSpec(UNITFM.BOOST, "examples/asmeta_examples/Counter.asm",SIMULATOR,"1", "5");
 	}
 	
 	@Test
 	public void testFerryMan() throws Exception {
-		testSpec("examples/ferrymanSimulator.asm", SIMULATOR,"3","8");
+		testSpec(UNITFM.BOOST, "examples/ferrymanSimulator.asm",SIMULATOR,"3", "8");
 	}
 	
 	@Test
 	public void testProdDomain() throws Exception {
-		testSpec("examples/ProdDomain.asm", SIMULATOR,"3","8");
+		testSpec(UNITFM.BOOST, "examples/ProdDomain.asm",SIMULATOR,"3", "8");
 	}
 
 	@Test
 	public void testGenerateBasicDomain() throws Exception {
 		String asmspec = "examples/BasicDomain.asm";
-		testSpec(asmspec, NuSMV);
+		testSpec(UNITFM.BOOST, asmspec, NuSMV);
 		// to compile g++ -std=c++11 AdvancedClock.cpp test.cpp -O0 -g3 -Wall -c
 		// -fmessage-length=0 -MMD -MP -MF -lboost_unit_test_framework
 	}
@@ -85,20 +90,20 @@ public class AsmToBoostModuleTest {
 	@Test
 	public void testGenerateClock() throws Exception {
 		String asmspec = "examples/AdvancedClock.asm";
-		testSpec(asmspec, SIMULATOR,"3","8");
+		testSpec(UNITFM.BOOST, asmspec,SIMULATOR,"3", "8");
 	}
 
 	@Test
 	public void testGenerateCoffee() throws Exception {
 		String asmspec = "examples/coffeeVendingMachine.asm";
-		testSpec(asmspec, NuSMV);
+		testSpec(UNITFM.BOOST, asmspec, NuSMV);
 	}
 
 	@Test
 	public void testGenerateCoffeeNC() throws Exception {
 		String asmspec = "../asmetal2cpp_codegen/examples/coffeeVendingMachineNC.asm";
 		//testSpec(asmspec, 5, NuSMV);
-		testSpec(asmspec, SIMULATOR,"5","7");
+		testSpec(UNITFM.BOOST, asmspec,SIMULATOR,"5", "7");
 	//	testSpec(asmspec, SIMULATOR,"3","7");
 	}
 	
@@ -107,79 +112,80 @@ public class AsmToBoostModuleTest {
 	public void testmonContr() throws Exception {
 		String asmspec =  "examples/moncontr.asm";
 		//testSpec(asmspec, 5, NuSMV);
-		testSpec(asmspec, SIMULATOR,"5","7");
+		testSpec(UNITFM.BOOST, asmspec,SIMULATOR,"5", "7");
 	//	testSpec(asmspec, SIMULATOR,"3","7");
 	}
 
 	@Test
 	public void testGenerateSIS() throws Exception {
 		String asmspec = "examples/SIS.asm";
-		testSpec(asmspec, NuSMV);
+		testSpec(UNITFM.BOOST, asmspec, NuSMV);
 	}
 
 	@Test
 	public void testGenerateATM3() throws IOException, Exception {
 		String asmspec = "examples/ATM3.asm";
 		//testSpec(asmspec, NuSMV); // non funziona che ha un exists ter,
-		testSpec(asmspec, SIMULATOR,"5","5"); 
+		testSpec(UNITFM.BOOST, asmspec,SIMULATOR,"5", "5"); 
 	}
 
 	@Test
 	public void testGenerateHemodialysis() throws IOException, Exception {
 		String asmspec = "examples/Hemodialysis_ref4_forMC.asm";
-		testSpec(asmspec, NuSMV);
+		testSpec(UNITFM.BOOST, asmspec, NuSMV);
 	}
 
 	@Test
 	public void testGenerateeuclide() throws Exception {
 		String asmspec = "examples/euclideMCD.asm";
-		testSpec(asmspec, NuSMV);
+		testSpec(UNITFM.BOOST, asmspec, NuSMV);
 	}
 
 	@Test
 	public void testGenerateFattoriale() throws IOException, Exception {
 		String asmspec = "examples/fattoriale.asm";
-		testSpec(asmspec, NuSMV);
+		testSpec(UNITFM.BOOST, asmspec, NuSMV);
 	}
 
 	@Test
 	public void testGenerateFibonacci() throws IOException, Exception {
 		String asmspec = "examples/fibonacci.asm";
-		testSpec(asmspec, NuSMV);
+		testSpec(UNITFM.BOOST, asmspec, NuSMV);
 	}
 
 	@Test
 	public void testGeneratePopulation_raff1_twoPersons() throws IOException, Exception {
 		String asmspec = "examples/population_raff1_twoPersons.asm";
-		testSpec(asmspec, NuSMV);
+		testSpec(UNITFM.BOOST, asmspec, NuSMV);
 	}
 
 	@Test
 	public void testGenerateProd() throws IOException, Exception {
 		String asmspec = "examples/ProdDomain.asm";
-		testSpec(asmspec, SIMULATOR,"5","5");
+		testSpec(UNITFM.BOOST, asmspec,SIMULATOR,"5", "5");
 	}
 
 	@Test
 	public void testGenerateQuickSort() throws IOException, Exception {
 		String asmspec = "examples/QuickSort.asm";
-		testSpec(asmspec, NuSMV);
+		testSpec(UNITFM.BOOST, asmspec, NuSMV);
 	}
 
 	@Test
 	public void testRoulette() throws Exception {
 		String asmspec = "examples/roulette.asm";
-		testSpec(asmspec, SIMULATOR,"5","5");
+		testSpec(UNITFM.BOOST, asmspec,SIMULATOR,"5", "5");
 	}
 	@Test
 	public void testMapDomain() throws Exception {
 		String asmspec = "examples/MapDomain.asm";
-		testSpec(asmspec, SIMULATOR,"5","5");
+		testSpec(UNITFM.BOOST, asmspec,SIMULATOR,"5", "5");
 	}
 
-	
+	enum UNITFM {BOOST, CATCH2}
 	/**
 	 * 
+	 * @param unitfm TODO
 	 * @param specpath
 	 * @param tgs
 	 * @param options: in case of simulation the number of steps and the number of tests
@@ -188,7 +194,7 @@ public class AsmToBoostModuleTest {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public static void testSpec(String specpath, String tgs, String ... options)
+	public static void testSpec(UNITFM unitfm, String specpath, String tgs, String ... options)
 			throws Exception, FileNotFoundException, IOException, InterruptedException {
 		// start timer
 		// register the starting time
@@ -219,10 +225,10 @@ public class AsmToBoostModuleTest {
 			testsuite = AsmTestSuite.getEmptyTestSuite();
 		}
 		// generate the unit test
-		AsmToBoostModule trans = new AsmToBoostModule(testsuite, asm,asmPath);
 		// test name
 		String testname=/*specname+*/TEST_NAME;
 		String testPath = destDir.getPath()+ File.separator + testname;
+		AsmToBoostModule trans = new AsmToBoostModule(testsuite, asm,asmPath,unitfm);
 		trans.generateAndSave(testPath);
 		System.out.println("*****" + testPath);
 		// compile the test.cpp

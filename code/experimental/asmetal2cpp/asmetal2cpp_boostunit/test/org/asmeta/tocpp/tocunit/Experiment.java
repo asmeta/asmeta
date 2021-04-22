@@ -44,7 +44,7 @@ public class Experiment extends AsmToBoostModuleTest{
 		//testSpec("examples/coffeeVendingMachineNC.asm", NuSMV);
 		//testSpec("../asmetal2cpp_codegen/examples/coffeeVendingMachineNC.asm", SIMULATOR,"8","7");
 		//testSpec("examples/pillbox_FULL.asm", SIMULATOR,"8","10");
-		testSpec("examples/pillbox_1.asm", NuSMV,"8","10");
+		testSpec(UNITFM.BOOST, "examples/pillbox_1.asm",NuSMV,"8", "10");
 		//testSpec("D:\\AgHome\\Dropbox\\Documenti\\progetti\\quasmed_git\\PillboxASM\\pillbox.asm", NuSMV ,"8","7");
 		//testSpec("examples/coffeeVendingMachineNC.asm", SIMULATOR,"26","7");
 		//** sluiceGateGround --- non funziona to CPP
