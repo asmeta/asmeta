@@ -23,6 +23,8 @@ public class CppCompiler {
 
 	private static String G_EXE;
 		
+	private static boolean USE_CPP_11 = false; 
+	
 	private static String OS = System.getProperty("os.name").toLowerCase();
 	
 	static {
@@ -88,7 +90,9 @@ public class CppCompiler {
 				// delete the .o file (to check if it has been produced after)
 				oFile = directory.getPath() + '/' + nameNoExt + ".o";
 				// delete so I can check the success if .o file is present
-				command.addAll(Arrays.asList(G_EXE, "-c", "-std=c++11"));
+				command.addAll(Arrays.asList(G_EXE, "-c"));
+				if (USE_CPP_11)
+					command.add("-std=c++11");
 				if (evalCoverage)
 					command.addAll(Arrays.asList("-fprofile-arcs", "-ftest-coverage"));
 				command.add(nameNoExt + ".cpp");
