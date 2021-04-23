@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
-import org.asmeta.tocpp.tocunit.AsmToBoostModuleTest.UNITFM;
+import org.asmeta.tocpp.tocunit.AsmToUnitModuleTest.UNITFM;
 
 import asmeta.AsmCollection;
 import atgt.coverage.AsmTestSuite;

@@ -21,7 +21,7 @@ import asmeta.AsmCollection;
 import asmetal2cpp_boostunit.ExampleTaker;
 import atgt.coverage.AsmTestSuite;
 
-public class CarSystem2cppTest extends AsmToBoostModuleTest{
+public class CarSystem2cppTest extends AsmToUnitModuleTest{
 	
 	@BeforeClass
 	public static void setUpLogger() {

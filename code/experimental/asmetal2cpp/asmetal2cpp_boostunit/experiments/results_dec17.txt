@@ -122,3 +122,6 @@ D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestG
 D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:1008	error
 D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:598	error
 D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:605	error
+D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:1652	error
+D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:707	error
+D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:705	error

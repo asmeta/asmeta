@@ -19,7 +19,7 @@ import org.junit.Test;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
 
-public class Experiment extends AsmToBoostModuleTest{
+public class Experiment extends AsmToUnitModuleTest{
 
 	@BeforeClass
 	public static void setUpLogger() {
