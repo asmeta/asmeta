@@ -258,14 +258,18 @@ public class AsmToUnitModuleTest {
 			// compiliamo e linkiamo file cpp il tutto (rende un po' inutile quello prima
 			result = CppCompiler.compile("*.o", destDir.getPath(), false, isCovEnabled);
 			System.out.println(result);
-			// esegui
-			System.out.println("executing test cases");
-			// printFilesList();
-			String executableName = destDir.getAbsolutePath() + "/a.exe";
-			StringBuffer resultexec = runexample(executableName, destDir);
-			System.out.println(resultexec.toString());
-			if (!resultexec.toString().contains("*** No errors detected"))
-				throw new RuntimeException("test failed " + resultexec.toString());
+			if (result.success) {
+				// esegui
+				System.out.println("executing test cases");
+				// printFilesList();
+				String executableName = destDir.getAbsolutePath() + "/a.exe";
+				StringBuffer resultexec = runexample(executableName, destDir);
+				System.out.println(resultexec.toString());
+				if (!resultexec.toString().contains("*** No errors detected"))
+					throw new RuntimeException("test failed " + resultexec.toString());
+			} else {
+				throw new RuntimeException(".o compiling/linking failure");
+			}
 		}
 		if (isCovEnabled) computeCoverageAndWriteData(specpath, destDir, tg, trans, specname, starttime);
 	}
