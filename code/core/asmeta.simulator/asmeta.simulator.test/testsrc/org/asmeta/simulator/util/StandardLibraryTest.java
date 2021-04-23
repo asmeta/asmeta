@@ -42,13 +42,13 @@ public class StandardLibraryTest extends BaseTest {
 		State s = sim.getCurrentState();
 		Function foo1 = searchFunction("foo1");
 		Value v1 = s.read(new Location(foo1, new Value[0]));
-		assertEquals("\"a\"", v1.toString());
+		assertEquals("a", v1.toString());
 		Function foo2 = searchFunction("foo2");
 		Value v2 = s.read(new Location(foo2, new Value[0]));
-		assertEquals("\"b\"", v2.toString());
+		assertEquals("b", v2.toString());
 		Function foo3 = searchFunction("foo3");
 		Value v3 = s.read(new Location(foo3, new Value[0]));
-		assertEquals("\"c\"", v3.toString());
+		assertEquals("c", v3.toString());
 	}
 
 	@Test
@@ -59,19 +59,19 @@ public class StandardLibraryTest extends BaseTest {
 		State s = sim.getCurrentState();
 		Function foo1 = searchFunction("str1");
 		Value v1 = s.read(new Location(foo1, new Value[0]));
-		assertEquals("\"aa\"", v1.toString());
+		assertEquals("aa", v1.toString());
 		Function foo2 = searchFunction("str2");
 		Value v2 = s.read(new Location(foo2, new Value[0]));
-		assertEquals("\"aabb\"", v2.toString());
+		assertEquals("aabb", v2.toString());
 
 		sim.run(1);
 		s = sim.getCurrentState();
 		foo1 = searchFunction("str1");
 		v1 = s.read(new Location(foo1, new Value[0]));
-		assertEquals("\"aa\"", v1.toString());
+		assertEquals("aa", v1.toString());
 		foo2 = searchFunction("str2");
 		v2 = s.read(new Location(foo2, new Value[0]));
-		assertEquals("\"aaaabb\"", v2.toString());
+		assertEquals("aaaabb", v2.toString());
 	}
 
 	@Test
@@ -82,19 +82,19 @@ public class StandardLibraryTest extends BaseTest {
 		State s = sim.getCurrentState();
 		Function foo1 = searchFunction("str1");
 		Value v1 = s.read(new Location(foo1, new Value[0]));
-		assertEquals("\"aa\"", v1.toString());
+		assertEquals("aa", v1.toString());
 		Function foo2 = searchFunction("str2");
 		Value v2 = s.read(new Location(foo2, new Value[0]));
-		assertEquals("\"aabb\"", v2.toString());
+		assertEquals("aabb", v2.toString());
 
 		sim.run(1);
 		s = sim.getCurrentState();
 		foo1 = searchFunction("str1");
 		v1 = s.read(new Location(foo1, new Value[0]));
-		assertEquals("\"aa\"", v1.toString());
+		assertEquals("aa", v1.toString());
 		foo2 = searchFunction("str2");
 		v2 = s.read(new Location(foo2, new Value[0]));
-		assertEquals("\"aaaabb\"", v2.toString());
+		assertEquals("aaaabb", v2.toString());
 	}
 
 	@Test
@@ -105,19 +105,19 @@ public class StandardLibraryTest extends BaseTest {
 		State s = sim.getCurrentState();
 		Function foo1 = searchFunction("str1");
 		Value v1 = s.read(new Location(foo1, new Value[0]));
-		assertEquals("\"AbC\"", v1.toString());
+		assertEquals("AbC", v1.toString());
 		Function foo2 = searchFunction("str2");
 		Value v2 = s.read(new Location(foo2, new Value[0]));
-		assertEquals("\"abc\"", v2.toString());
+		assertEquals("abc", v2.toString());
 
 		sim.run(1);
 		s = sim.getCurrentState();
 		foo1 = searchFunction("str1");
 		v1 = s.read(new Location(foo1, new Value[0]));
-		assertEquals("\"AbC\"", v1.toString());
+		assertEquals("AbC", v1.toString());
 		foo2 = searchFunction("str2");
 		v2 = s.read(new Location(foo2, new Value[0]));
-		assertEquals("\"abc\"", v2.toString());
+		assertEquals("abc", v2.toString());
 	}
 
 	@Test
@@ -128,19 +128,19 @@ public class StandardLibraryTest extends BaseTest {
 		State s = sim.getCurrentState();
 		Function foo1 = searchFunction("str1");
 		Value v1 = s.read(new Location(foo1, new Value[0]));
-		assertEquals("\"AbC\"", v1.toString());
+		assertEquals("AbC", v1.toString());
 		Function foo2 = searchFunction("str2");
 		Value v2 = s.read(new Location(foo2, new Value[0]));
-		assertEquals("\"ABC\"", v2.toString());
+		assertEquals("ABC", v2.toString());
 
 		sim.run(1);
 		s = sim.getCurrentState();
 		foo1 = searchFunction("str1");
 		v1 = s.read(new Location(foo1, new Value[0]));
-		assertEquals("\"AbC\"", v1.toString());
+		assertEquals("AbC", v1.toString());
 		foo2 = searchFunction("str2");
 		v2 = s.read(new Location(foo2, new Value[0]));
-		assertEquals("\"ABC\"", v2.toString());
+		assertEquals("ABC", v2.toString());
 	}
 
 	@Test
@@ -151,7 +151,7 @@ public class StandardLibraryTest extends BaseTest {
 		State s = sim.getCurrentState();
 		Function seqStr = searchFunction("seqStr");
 		Value seqStrV = s.read(new Location(seqStr, new Value[0]));
-		assertEquals("[\"This\",\"is\",\"a\",\"sentence\"]", seqStrV.toString());
+		assertEquals("[This,is,a,sentence]", seqStrV.toString());
 
 		Function seqStr1 = searchFunction("seqStr1");
 		Value seqStr1V = s.read(new Location(seqStr1, new Value[0]));
@@ -196,7 +196,7 @@ public class StandardLibraryTest extends BaseTest {
 
 	@Test
 	public void testSTDLfuncs() throws Exception {
-		Simulator sim = Simulator.createSimulator("../../../asm_examples/test/simulator/STDL/STDL_funcs.asm");
+		Simulator sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/STDL/STDL_funcs.asm");
 		UpdateSet us = sim.run(1);
 		assertTrue(true);
 	}
