@@ -18,7 +18,7 @@ public class TestCompilerTest {
 				+ "#include <iostream>\n" + "//#include \"MyAsm.h\"\n" + "\n" + "BOOST_AUTO_TEST_CASE( my_test )\n"
 				+ "{\n" + "}");
 		writer.close();
-		CompileResult result = CppCompiler.compile("test", "temp", false, false);
+		CompileResult result = CppCompiler.compile("test", "temp", false, false, true);
 		System.out.println(result);
 	}
 	@Test
@@ -27,7 +27,7 @@ public class TestCompilerTest {
 		PrintWriter writer = new PrintWriter(string);
 		writer.println("main(){int a;}");
 		writer.close();
-		CompileResult result = CppCompiler.compile("test", "temp", false, false);
+		CompileResult result = CppCompiler.compile("test", "temp", false, false, true);
 		System.out.println(result);
 	}
 

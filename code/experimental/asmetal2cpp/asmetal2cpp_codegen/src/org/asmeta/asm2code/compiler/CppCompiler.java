@@ -65,12 +65,13 @@ public class CppCompiler {
 	 * compile a cpp file in a directory
 	 * 
 	 * @param name         with cpp extension (it can be * for example)
-	 * @param directory    in which cpp (it can relative in case)
 	 * @param compileOnly  compile only, do not link - otherwise link
 	 * @param evalCoverage TODO
+	 * @param useBoost TODO
+	 * @param directory    in which cpp (it can relative in case)
 	 * @return
 	 */
-	public static CompileResult compile(String name, String dir, boolean compileOnly, boolean evalCoverage) {
+	public static CompileResult compile(String name, String dir, boolean compileOnly, boolean evalCoverage, boolean useBoost) {
 		try {
 			File directory = new File(dir);
 			assert directory.isDirectory();
@@ -100,11 +101,14 @@ public class CppCompiler {
 				// in this case, link !! (assume that boost is needed
 				// -lgcov --coverage is needed otherwise I get an error.
 				// TODO
-				command.addAll(Arrays.asList(G_EXE, "-std=c++11", "-lgcov", "--coverage"));
+				command.addAll(Arrays.asList(G_EXE));
+				if (USE_CPP_11)
+					command.add("-std=c++11");
 				if (evalCoverage)
-					command.addAll(Arrays.asList("-fprofile-arcs", "-ftest-coverage"));
+					command.addAll(Arrays.asList("-fprofile-arcs", "-ftest-coverage", "-lgcov", "--coverage"));
 				command.add(name);
-				command.add("-lboost_unit_test_framework"); 
+				if (useBoost)
+					command.add("-lboost_unit_test_framework"); 
 				oFile = directory.getPath() + '/' + "a.exe"; // assuming windows
 			}
 			// delete the file if already exists
