@@ -266,7 +266,7 @@ public class AsmToUnitModuleTest {
 				String executableName = destDir.getAbsolutePath() + "/a.exe";
 				StringBuffer resultexec = runexample(executableName, destDir);
 				System.out.println(resultexec.toString());
-				if (!resultexec.toString().contains("*** No errors detected"))
+				if (!resultexec.toString().contains("*** No errors detected") && !resultexec.toString().contains("All tests passed"))
 					throw new RuntimeException("test failed " + resultexec.toString());
 			} else {
 				throw new RuntimeException(".o compiling/linking failure");
