@@ -239,11 +239,12 @@ public class AsmToUnitModuleTest {
 		// test name
 		String testname = /* specname+ */TEST_NAME;
 		String testPath = destDir.getPath() + File.separator + testname;
+		boolean useBoost = (unitfm==UNITFM.BOOST ? true : false);
 		AsmToBoostModule trans = new AsmToBoostModule(testsuite, asm, asmPath, unitfm);
 		trans.generateAndSave(testPath);
 		System.out.println("*****" + testPath);
 		// compile the test.cpp
-		CompileResult result = CppCompiler.compile(testname, destDir.getPath(), true, isCovEnabled);
+		CompileResult result = CppCompiler.compile(testname, destDir.getPath(), true, isCovEnabled, useBoost);
 		System.out.println(result);
 		// compiled?
 		if (result.success) {
@@ -252,11 +253,11 @@ public class AsmToUnitModuleTest {
 			cppgen.generate(asm.getMain(), destDir.getPath() + File.separator + specname + ".cpp");
 			//
 			// compile the asm.cpp (with the coverage)
-			result = CppCompiler.compile(specname + ".cpp", destDir.getPath(), true, isCovEnabled);
+			result = CppCompiler.compile(specname + ".cpp", destDir.getPath(), true, isCovEnabled, useBoost);
 			System.out.println(result);
 			//
 			// compiliamo e linkiamo file cpp il tutto (rende un po' inutile quello prima
-			result = CppCompiler.compile("*.o", destDir.getPath(), false, isCovEnabled);
+			result = CppCompiler.compile("*.o", destDir.getPath(), false, isCovEnabled, useBoost);
 			System.out.println(result);
 			if (result.success) {
 				// esegui

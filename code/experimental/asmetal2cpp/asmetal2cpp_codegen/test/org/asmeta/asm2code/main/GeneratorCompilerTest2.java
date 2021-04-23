@@ -100,7 +100,7 @@ public class GeneratorCompilerTest2 {
 		System.out.println("Generated cpp file: " + cppFile.getCanonicalPath());
 		CompileResult result =  new CompileResult(true,"");
 		if(opt.compilerType != CompilerType.ArduinoCompiler)//se il codice � per arduino, non compila. 
-			result = CppCompiler.compile(name + ".cpp", dir.getAbsolutePath(), true, false);
+			result = CppCompiler.compile(name + ".cpp", dir.getAbsolutePath(), true, false, true);
 
 		
 
