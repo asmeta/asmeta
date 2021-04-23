@@ -252,11 +252,11 @@ public class AsmToUnitModuleTest {
 			cppgen.generate(asm.getMain(), destDir.getPath() + File.separator + specname + ".cpp");
 			//
 			// compile the asm.cpp (with the coverage)
-			result = CppCompiler.compile(specname + ".cpp", testPath, true, isCovEnabled);
+			result = CppCompiler.compile(specname + ".cpp", destDir.getPath(), true, isCovEnabled);
 			System.out.println(result);
 			//
 			// compiliamo e linkiamo file cpp il tutto (rende un po' inutile quello prima
-			result = CppCompiler.compile("*.o", testPath, false, false);
+			result = CppCompiler.compile("*.o", destDir.getPath(), false, isCovEnabled);
 			System.out.println(result);
 			// esegui
 			System.out.println("executing test cases");
