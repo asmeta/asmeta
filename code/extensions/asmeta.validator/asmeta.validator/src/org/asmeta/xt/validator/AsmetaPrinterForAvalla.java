@@ -159,7 +159,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 						System.out.println("Looking for " + includedName);
 						
 						if (AsmetaV.getFileNames().containsKey(includedName)) {
-							importednewFile = Path.of(AsmetaV.getFileNames().get(includedName));
+							importednewFile = Paths.get(AsmetaV.getFileNames().get(includedName));
 							assert Files.exists(importednewFile) : "File not found";
 						} else {
 							importednewFile = Files.createTempFile("__" + includedName, ".asm");
