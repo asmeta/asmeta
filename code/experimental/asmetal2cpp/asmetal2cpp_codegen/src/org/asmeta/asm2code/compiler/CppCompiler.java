@@ -100,7 +100,9 @@ public class CppCompiler {
 				// in this case, link !! (assume that boost is needed
 				// -lgcov --coverage is needed otherwise I get an error.
 				// TODO
-				command.addAll(Arrays.asList(G_EXE, "-std=c++11", "-lgcov", "--coverage"));
+				command.addAll(Arrays.asList(G_EXE, "-lgcov", "--coverage"));
+				if (USE_CPP_11)
+					command.add("-std=c++11");
 				if (evalCoverage)
 					command.addAll(Arrays.asList("-fprofile-arcs", "-ftest-coverage"));
 				command.add(name);
