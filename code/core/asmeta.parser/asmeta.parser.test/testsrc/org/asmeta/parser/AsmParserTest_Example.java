@@ -57,6 +57,7 @@ public class AsmParserTest_Example extends AsmParserTest{
 	// test all the examples
 	@Test
 	public void testExamples(){
+		// too many skip for now
 		//testDir("examples");
 	}
 
