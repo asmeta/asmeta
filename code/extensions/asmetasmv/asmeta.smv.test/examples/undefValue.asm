@@ -22,7 +22,7 @@ signature:
 	dynamic monitored mon: Boolean
 	dynamic monitored mon2: Boolean
 definitions:
-	domain ConcrDom = {1..2}
+	domain ConcrDom = {1:2}
 
 	CTLSPEC isDef(fooB) and ax(ag(isUndef(fooB)))
 	CTLSPEC isUndef(fooC) and ax(ag(isDef(fooC)))

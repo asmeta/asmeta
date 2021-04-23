@@ -17,8 +17,8 @@ signature:
 	derived moveExists: Moves -> Boolean
 	
 definitions:	
-	domain X = {1..2}
-	domain Y = {1..2}
+	domain X = {1:2}
+	domain Y = {1:2}
 
 	function moveExists($a in Moves) =
 		let ($c = playerPosX, $d = playerPosY) in

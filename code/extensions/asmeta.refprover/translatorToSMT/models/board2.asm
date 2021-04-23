@@ -7,7 +7,7 @@ signature:
 	controlled board: Prod(Coord, Coord) -> Boolean
 	
 definitions:
-	domain Coord = {1..2}
+	domain Coord = {1:2}
 
 	main rule r_Main =
 		forall $x in Coord with true do

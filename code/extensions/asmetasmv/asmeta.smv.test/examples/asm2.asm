@@ -22,8 +22,8 @@ signature:
 	dynamic controlled r: Lift -> Boolean
 	
 definitions:
-	domain MyDomain = {1..10}
-	domain SmallDomain = {1..2}
+	domain MyDomain = {1:10}
+	domain SmallDomain = {1:2}
 
 	rule r_b($y in MyDomain) =
 		var_a := $y

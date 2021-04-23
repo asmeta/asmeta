@@ -11,7 +11,7 @@ signature:
 	dynamic monitored mon2: Dom
 
 definitions:
-	domain Dom ={1..10}
+	domain Dom ={1:10}
 
 	main rule r_Main =
 		if(mon1=3 and mon2=4) then //NullPointerException su mon2

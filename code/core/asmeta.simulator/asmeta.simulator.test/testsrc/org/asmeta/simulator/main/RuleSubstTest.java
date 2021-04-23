@@ -138,8 +138,9 @@ public class RuleSubstTest {
 
 	@Test
 	public void testWhileRuleSubstitution() throws Exception {
-		String actual = subst(BASE
-				+ "test/simulator/rule_subst/whileRuleSubstitution.asm");
+		//TODO what does it mean?
+		// String actual = subst(BASE
+		//		+ "test/simulator/rule_subst/whileRuleSubstitution.asm");
 		//TODO
 	}
 

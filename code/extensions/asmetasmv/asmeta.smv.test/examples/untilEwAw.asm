@@ -8,7 +8,7 @@ signature:
 	dynamic controlled fooA: ConcrDom
 
 definitions:
-	domain ConcrDom = {0 .. 10}
+	domain ConcrDom = {0 : 10}
 
 	CTLSPEC a(foo < 10, ax(fooA = 1))
 	

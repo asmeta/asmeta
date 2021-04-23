@@ -30,7 +30,7 @@ signature:
 	
 
 definitions:
-	domain Giocata = {1..100}
+	domain Giocata = {1:100}
 	
 	//la funzione derivata "opponent" assegna ad un giocatore il suo avversario
 	function opponent($p in Players) =

@@ -9,7 +9,7 @@ signature:
 	dynamic controlled foo: MyDomain
 
 definitions:
-	domain MyDomain = {1..10}
+	domain MyDomain = {1:10}
 
 	main rule r_main = 
 		choose $x in MyDomain with true do

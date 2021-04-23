@@ -9,8 +9,8 @@ asm CartSimple
 // Price fixed for generic drugs
 // Removed loop (NO -> CLOSED)
 
-import ./STDL/StandardLibrary
-import ./STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/CTLlibrary
 
 signature:
 	// DOMAINS
