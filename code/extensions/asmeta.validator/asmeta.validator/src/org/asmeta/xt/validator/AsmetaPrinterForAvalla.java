@@ -37,27 +37,29 @@ import asmeta.structure.ImportClause;
 import asmeta.structure.Initialization;
 import asmeta.terms.basicterms.Term;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 
 public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	// TODO just one should be enough
-	private String tempAsmName; 
+	private String tempAsmName;
 	String tempAsmPath;
 
 	// path of the parent where the original asm is stored
-	Path asmPathDir; 
-
+	Path asmPathDir;
 
 	private AsmetaFromAvallaBuilder builder;
-	
+
 	private static Logger LOG = Logger.getLogger(AsmetaPrinterForAvalla.class);
-	
+
 	/**
 	 * Instantiates a new asmeta printer for avalla.
 	 *
-	 * @param tempAsmPath             the temp asm path where to save the new ASM (build from avalla)
-	 * @param asmPathDir the asm path dir whre the orginal model asm is stored 
-	 * @param builder the builder
+	 * @param tempAsmPath the temp asm path where to save the new ASM (build from
+	 *                    avalla)
+	 * @param asmPathDir  the asm path dir whre the orginal model asm is stored
+	 * @param builder     the builder
 	 * @throws FileNotFoundException the file not found exception
 	 */
 	public AsmetaPrinterForAvalla(String tempAsmPath, Path asmPathDir, AsmetaFromAvallaBuilder builder)
@@ -67,13 +69,10 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		this.tempAsmPath = tempAsmPath;
 		tempAsmName = new File(tempAsmPath).getName();
 		tempAsmName = tempAsmName.substring(0, tempAsmName.length() - 4);
-		this.asmPathDir  = asmPathDir;
+		this.asmPathDir = asmPathDir;
 		this.builder = builder;
 	}
-	
 
-	
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -86,7 +85,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			println("// added by validator");
 			println("default init s0__:");
 			indent();
-			if (model.getMainrule()!= null) {
+			if (model.getMainrule() != null) {
 				println("// added by validator");
 				println("function step__ = 0");
 			}
@@ -120,9 +119,6 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	public String getAsmName() {
 		return tempAsmName;
 	}
-	
-	
-	
 
 	/**
 	 * add the path.
@@ -135,16 +131,17 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			for (ImportClause importClause : imports) {
 				// get the name of the file to import. name is relative to the load spec
 				String name = importClause.getModuleName();
-				// now build the path				
+				// now build the path
 				Path importedAsmPath = asmPathDir.resolve(name + ".asm");
-				assert Files.exists(importedAsmPath) : " path (imported ASM) " + importedAsmPath.toString() + " does not exist"; 
+				assert Files.exists(importedAsmPath)
+						: " path (imported ASM) " + importedAsmPath.toString() + " does not exist";
 				if (StandardLibrary.isAStandardLibrary(name)) {
 					printImport(importedAsmPath);
 				} else {
 					// convert the file to a new file with monitored -> controlled
 					// change also the path (if in a subdir)
 					try {
-						
+
 						AsmCollection pack = ASMParser.setUpReadAsm(importedAsmPath.toFile());
 						// now visit this imported asm
 						// get the path of the main
@@ -154,35 +151,36 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 						String includedName = pack.getMain().getName();
 
 						Path importednewFile;
-						
+
 						// Check whether the file has been already processed
 						System.out.println("Looking for " + includedName);
-						
+
 						if (AsmetaV.getFileNames().containsKey(includedName)) {
 							importednewFile = Paths.get(AsmetaV.getFileNames().get(includedName));
 							assert Files.exists(importednewFile) : "File not found";
 						} else {
 							importednewFile = Files.createTempFile("__" + includedName, ".asm");
 							AsmetaV.getFileNames().put(includedName, importednewFile.toString());
-																		
+
 							System.out.println(importednewFile);
 							// if necessary buuild the subdir
-							if (! Files.exists(importednewFile.getParent().toAbsolutePath())){
-								System.out.println("building the subdir " +importednewFile.getParent().toAbsolutePath());
+							if (!Files.exists(importednewFile.getParent().toAbsolutePath())) {
+								System.out
+										.println("building the subdir " + importednewFile.getParent().toAbsolutePath());
 								// TODO check that it is a subdir of the main directory
 								Files.createDirectory(importednewFile.getParent().toAbsolutePath());
 							}
-							LOG.debug("original import of "+name + " converted to " + importednewFile);
-							System.out.println("original import of "+name + " converted to " + importednewFile);
-							AsmetaPrinterForAvalla newprinter = 
-									new AsmetaPrinterForAvalla(importednewFile.toString(),importedAsmPath.getParent(),builder);
+							LOG.debug("original import of " + name + " converted to " + importednewFile);
+							System.out.println("original import of " + name + " converted to " + importednewFile);
+							AsmetaPrinterForAvalla newprinter = new AsmetaPrinterForAvalla(importednewFile.toString(),
+									importedAsmPath.getParent(), builder);
 							newprinter.visit(pack.getMain());
-							
+
 							newprinter.tempAsmName = importednewFile.getFileName().toString();
-							
+
 							newprinter.close();
 						}
-						// add the new import	
+						// add the new import
 						printImport(importednewFile);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -192,10 +190,12 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			}
 		}
 	}
-	// the complete path of the file to import - this file must exist (in case add .asm)
+
+	// the complete path of the file to import - this file must exist (in case add
+	// .asm)
 	// the print will transform it to a relative path to the temporary ASM written
 	// without the .asm
-	private void printImport(Path importedAsm){
+	private void printImport(Path importedAsm) {
 		assert importedAsm.toFile().exists() : "imported file with path " + importedAsm + " does not exists";
 		// convert to a relative path with the current file
 		Path tempAsmBasePath = new File(tempAsmPath).getParentFile().toPath();
@@ -209,13 +209,13 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		Path asm_to_import = null;
 		try {
 			asm_to_import = tempAsmBasePath.relativize(importedAsm);
-		} catch(IllegalArgumentException  ie) {
+		} catch (IllegalArgumentException ie) {
 			asm_to_import = importedAsm.normalize();
-		}	
+		}
 		// transform to string
 		String importedName = asm_to_import.toString();
-		// remove extension 
-		importedName = importedName.substring(0, importedName.length() -4);
+		// remove extension
+		importedName = importedName.substring(0, importedName.length() - 4);
 		// replace \ with \\ so when printed it will be printed correctly (with \\)
 		// TODO the path should be OS independent
 		importedName = importedName.replace("\\", "\\\\");
@@ -226,17 +226,14 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		}
 		println("import " + importedName);
 	}
-	
-	
-	
+
 	// PA 2017/12/29
 	@Override
 	protected void visitInvariantBody(asmeta.definitions.Invariant invariant) {
 		MonitoredFinder mf = new MonitoredFinder();
 		Term body = invariant.getBody();
 		boolean isMonitoredInvariant = mf.visit(body);
-		if (isMonitoredInvariant && this.builder.allMonitored
-				.get(this.builder.allMonitored.size() - 1).isEmpty()) {
+		if (isMonitoredInvariant && this.builder.allMonitored.get(this.builder.allMonitored.size() - 1).isEmpty()) {
 			// TODO: set the correct step number
 			print("step__ >= " + (this.builder.allMonitored.size() - 1) + " or ");
 		}
@@ -281,11 +278,31 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	 */
 	@Override
 	public void visitFunctions(Collection<Function> funcs) {
-		if (model.getMainrule()!= null) { 
+		if (model.getMainrule() != null) {
 			println("// added by validator");
 			println("controlled step__: Integer");
 		}
 		super.visitFunctions(funcs);
+	}
+
+	@Override
+	public void visitDcl(Function function) {
+		String name = function.getName();
+		Domain domain = function.getDomain();
+		Domain codomain = function.getCodomain();
+		//26/04/2021 -> Silvia: do not convert monitored to controlled if simulation time is set to auto increment or use java time
+		if ((Environment.timeMngt == TimeMngt.auto_increment || Environment.timeMngt == TimeMngt.use_java_time) && Environment.monTimeFunctions.containsKey(name)) {
+				println("// Auto_increment time: keep function monitored");
+				print("monitored ");
+		} else
+			visitUnknownDcl(function);
+		print(name + ": ");
+		if (domain != null) {
+			visit(domain);
+			print(" -> ");
+		}
+		visit(codomain);
+		println();
 	}
 
 	/*
@@ -320,7 +337,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	@Override
 	public void visitFuncInits(Collection<FunctionInitialization> funcs) {
 		println("// added by validator");
-		if (model.getMainrule()!= null) 
+		if (model.getMainrule() != null)
 			println("function step__ = 0");
 
 		// PA 2017/12/29
@@ -418,8 +435,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	@Override
 	public void visitInit(FunctionInitialization init) {
 		// collect all the location set by the init state
-		java.util.Set<String> allLocations = this.builder.monitoredInitState.stream()
-				.map(x -> x.getLocation()).collect(Collectors.toSet());
+		java.util.Set<String> allLocations = this.builder.monitoredInitState.stream().map(x -> x.getLocation())
+				.collect(Collectors.toSet());
 		// check if this function is already defined in the initial state of the
 		// scenario
 		if (allLocations.contains(init.getInitializedFunction().getName()))

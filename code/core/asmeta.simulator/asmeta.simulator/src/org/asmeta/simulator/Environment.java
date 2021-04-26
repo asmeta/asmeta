@@ -46,7 +46,8 @@ public final class Environment {
 	
 	public static final Logger LOG = Logger.getLogger(Environment.class); 
 
-	private static final Object[][] OBJECTS = new Object[][] { 
+	
+	public static final Object[][] OBJECTS = new Object[][] { 
 		{ "mCurrTimeNanosecs", ChronoUnit.NANOS },
 		{ "mCurrTimeMillisecs", ChronoUnit.MILLIS }, 
 		{ "mCurrTimeSecs", ChronoUnit.SECONDS },
@@ -67,7 +68,7 @@ public final class Environment {
 	public static int auto_increment_delta = 1;
 	
 	// map from monitored functions to time units
-	private final static Map<String, ChronoUnit> monTimeFunctions = Stream
+	public final static Map<String, ChronoUnit> monTimeFunctions = Stream
 			.of(OBJECTS)
 			.collect(Collectors.toMap(data -> (String) data[0], data -> (ChronoUnit) data[1]));
 	// map from time units to functions names - reverse
