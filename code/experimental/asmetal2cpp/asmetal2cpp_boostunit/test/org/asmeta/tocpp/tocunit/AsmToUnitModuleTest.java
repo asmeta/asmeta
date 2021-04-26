@@ -64,10 +64,8 @@ public class AsmToUnitModuleTest {
 		// testSpec(UNITFM.BOOST,
 		// "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",SIMULATOR,"1",
 		// "5");
-		//testSpec(UNITFM.CATCH2, "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",
-		//		SIMULATOR, "1", "5");
-		testSpec(UNITFM.CATCH2, "F:\\Dati-Andrea\\GitHub\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",
-				SIMULATOR, "1", "5");
+		testSpec(UNITFM.CATCH2, "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",SIMULATOR, "1", "5");
+		//testSpec(UNITFM.CATCH2, "F:\\Dati-Andrea\\GitHub\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",SIMULATOR, "1", "5");
 	}
 
 	@Test
