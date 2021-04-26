@@ -47,7 +47,7 @@ public final class Environment {
 	public static final Logger LOG = Logger.getLogger(Environment.class); 
 
 	
-	public static final Object[][] OBJECTS = new Object[][] { 
+	private static final Object[][] OBJECTS = new Object[][] { 
 		{ "mCurrTimeNanosecs", ChronoUnit.NANOS },
 		{ "mCurrTimeMillisecs", ChronoUnit.MILLIS }, 
 		{ "mCurrTimeSecs", ChronoUnit.SECONDS },
