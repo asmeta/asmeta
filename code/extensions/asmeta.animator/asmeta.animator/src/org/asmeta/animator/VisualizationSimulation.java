@@ -373,37 +373,51 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		simulatorLogger.info("//// starting scenario");
 		simulatorLogger.info("scenario " + "SCENARIO_NAME");
 		simulatorLogger.info("load " + asm.getMain().getName() + ".asm");
-		// DOWN
-		// TODO UP
 		// TODO create new file/document
-		TableItem[] states = table_states_right_down.getItems();
-		TableItem[] functions = table_functions_left_down.getItems();
+		// DOWN
+		TableItem[] states_down = table_states_right_down.getItems();
+		TableItem[] functions_down = table_functions_left_down.getItems();
+		// UP
+		TableItem[] states_up = table_states_right_up.getItems();
+		TableItem[] functions_up = table_functions_left_up.getItems();
 		// get the states in items
 		for (int column = 0; column < table_states_right_down.getColumnCount(); column++) {
-			// controlled and then monitored
+			// all the controlled and then monitored
 			String functionTypes[] = { CONTROLLED, MONITORED };
 			for (String functionT : functionTypes) {
-				for (int i = 0; i < states.length; i++) {
-					// get the value of i-th state
-					String text = states[i].getText(column);
-					if (text.length() > 0) {
-						// get function name
-						TableItem left = functions[i];
-						String functionName = left.getText(2);
-						// function type
-						String functionType = left.getText(1);
-						if (!functionType.equals(functionT))
-							continue;
-						// print
-						if (functionType.equals("M"))
-							simulatorLogger.info("set " + functionName + " := " + text + ";");
-						else
-							simulatorLogger.info("check " + functionName + " = " + text + ";");
-					}
-				}
+				addStateToAvalla(states_down, functions_down, column, functionT);
+				addStateToAvalla(states_up, functions_up, column, functionT);
 			}
 			// new step
 			simulatorLogger.info("step");
+		}
+	}
+
+
+	/**
+	 * @param states_down
+	 * @param functions_down
+	 * @param column
+	 * @param functionT
+	 */
+	private void addStateToAvalla(TableItem[] states_down, TableItem[] functions_down, int column, String functionT) {
+		for (int i = 0; i < states_down.length; i++) {
+			// get the value of i-th state
+			String text = states_down[i].getText(column);
+			if (text.length() > 0) {
+				// get function name
+				TableItem left = functions_down[i];
+				String functionName = left.getText(2);
+				// function type
+				String functionType = left.getText(1);
+				if (!functionType.equals(functionT))
+					continue;
+				// print
+				if (functionType.equals(VisualizationSimulation.MONITORED))
+					simulatorLogger.info("set " + functionName + " := " + text + ";");
+				else
+					simulatorLogger.info("check " + functionName + " = " + text + ";");
+			}
 		}
 	}
 
