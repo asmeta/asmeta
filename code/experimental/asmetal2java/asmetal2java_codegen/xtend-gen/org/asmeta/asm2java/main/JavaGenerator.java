@@ -24,6 +24,8 @@ import org.asmeta.asm2java.FunctionToJavaSig;
 import org.asmeta.asm2java.RuleToJava;
 import org.asmeta.asm2java.SeqRuleCollector;
 import org.asmeta.asm2java.Util;
+import org.asmeta.asm2java.main.AsmToJavaGenerator;
+import org.asmeta.asm2java.main.TranslatorOptions;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
