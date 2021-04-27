@@ -44,7 +44,8 @@ public class AsmToUnitModuleTest {
 	public static void setUpLogger() {
 		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
 		Logger.getLogger(org.asmeta.parser.ASMParser.class).setLevel(Level.OFF);
-		Logger.getLogger(CppCompiler.class).setLevel(Level.OFF);
+		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
+		CppCompiler.setCompiler("g++.exe");
 	}
 
 	@Test
@@ -61,10 +62,11 @@ public class AsmToUnitModuleTest {
 	@Test
 	public void testMVM() throws Exception {
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
+		CppCompiler.extraOptionsWhenCompiling = "-O0 -g3 -Wall -c -fmessage-length=0";
 		// testSpec(UNITFM.BOOST,
 		// "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",SIMULATOR,"1",
 		// "5");
-		testSpec(UNITFM.CATCH2, "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",SIMULATOR, "1", "5");
+		testSpec(UNITFM.CATCH2, "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",SIMULATOR, "1", "1");
 		//testSpec(UNITFM.CATCH2, "F:\\Dati-Andrea\\GitHub\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",SIMULATOR, "1", "5");
 	}
 
@@ -343,17 +345,23 @@ public class AsmToUnitModuleTest {
 	}
 
 	/**
-	 * run the command name and returns the output prodcued by it
+	 * run the command name and returns the output produced by it
 	 * 
 	 * @return the output
+	 * @throws IOException 
 	 * 
 	 */
-	protected static StringBuffer runexample(String name, File dir, String... extraCommands) {
+	protected static StringBuffer runexample(String name, File dir, String... extraCommands) throws IOException {
+		assert dir.isDirectory();
+		File exec = new File(name);
+		assert exec.exists() && exec.canExecute();
+		name = exec.getCanonicalPath();
 		StringBuffer result = new StringBuffer();
 		List<String> command = new ArrayList<>();
 		command.add(name);
 		command.addAll(Arrays.asList(extraCommands));
 		ProcessBuilder builder = new ProcessBuilder(command);
+		System.out.println("executing " + command + " in " + dir);
 		builder.redirectErrorStream(true);
 		builder.directory(dir);
 		try {

@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -22,43 +23,52 @@ import org.apache.log4j.Logger;
 public class CppCompiler {
 
 	private static String G_EXE;
-		
-	private static boolean USE_CPP_11 = false; 
-	
+
+	private static boolean USE_CPP_11 = false;
+
+	public static String extraOptionsWhenCompiling;
+
 	private static String OS = System.getProperty("os.name").toLowerCase();
-	
-	static {
-		
-		if (isWindows())
-		{
-			// try to set the c++ compiler
-			searchCppCompiler("C:\\MinGW\\bin\\g++.exe");
-			//searchCppCompiler("C:\\MinGW\\bin\\g++.exe");
-		}
-		else if (isMac())
-		{
-			searchCppCompiler("/usr/bin/g++");
-		}
+
+	// set the compiler. If it cannot find the compiler, it will return false
+	// compiler can be like:
+	// g++ (only the name) -> search in the path the g++.exe or similar (according
+	// to the OS) if not found -> return false
+	// "C:\\MinGW\\bin\\g++.exe" -> absolute path, then it will checkif it exists
+	// and will throw an exception
+	public static boolean setCompiler(String compiler) {
+		logger.debug("setting the compiler to " + compiler);
+		//if it is 
+		if (Files.isExecutable(Paths.get(compiler))){
+			G_EXE = compiler;
+	       return true;
+	    }
+		// serach in the path
+		final String compilerName = compiler += (isWindows() && ! compiler.endsWith(".exe")) ? ".exe": "";
+		Map<String, String> env = System.getenv();
+		String path = env.get("Path");
+		logger.debug("searching the compiler in the path " + path);
+		for(String dirInPath: path.split(File.pathSeparator)){
+			File f = new File(dirInPath);
+			if (f.isDirectory()) {
+				if (Arrays.asList(f.listFiles()).stream().anyMatch( x-> (x.getName().equals(compilerName)&& x.canExecute()))){
+					logger.debug("cpp compiler " + compilerName + " found in " + dirInPath);
+					G_EXE = compiler;
+					return true;
+				}
+			}
+		}		
+		return false;
 	}
-	
-	static void searchCppCompiler(String cpppath) {
-		if (Files.isExecutable(Paths.get(cpppath)))  
-		{
-			G_EXE = cpppath;
-		}
-		
-	}
-	
-	private static boolean isWindows()
-	{
+
+	private static boolean isWindows() {
 		return (OS.indexOf("win") >= 0);
 	}
-	
-	private static boolean isMac()
-	{
+
+	private static boolean isMac() {
 		return (OS.indexOf("mac") >= 0);
-	}	
-	
+	}
+
 	static private Logger logger = Logger.getLogger(CppCompiler.class);
 
 	/**
@@ -67,11 +77,12 @@ public class CppCompiler {
 	 * @param name         with cpp extension (it can be * for example)
 	 * @param compileOnly  compile only, do not link - otherwise link
 	 * @param evalCoverage TODO
-	 * @param useBoost TODO
+	 * @param useBoost     TODO
 	 * @param directory    in which cpp (it can relative in case)
 	 * @return
 	 */
-	public static CompileResult compile(String name, String dir, boolean compileOnly, boolean evalCoverage, boolean useBoost) {
+	public static CompileResult compile(String name, String dir, boolean compileOnly, boolean evalCoverage,
+			boolean useBoost) {
 		try {
 			File directory = new File(dir);
 			assert directory.isDirectory();
@@ -80,8 +91,8 @@ public class CppCompiler {
 			// otherwise can be end with ".o"
 			// TODO allow also g++ *.cpp???? non compile?
 			assert compileOnly || name.endsWith(".o") : name + " does not end with .o";
-			assert !compileOnly || Files.isRegularFile(Paths.get(directory.getAbsolutePath(), name)) : "<" + name + ">"
-					+ " is not a file";
+			assert !compileOnly || Files.isRegularFile(Paths.get(directory.getAbsolutePath(), name))
+					: "<" + name + ">" + " is not a file";
 			List<String> command = new ArrayList<>();
 			String oFile; // outputfile
 			if (compileOnly) {
@@ -96,6 +107,10 @@ public class CppCompiler {
 					command.add("-std=c++11");
 				if (evalCoverage)
 					command.addAll(Arrays.asList("-fprofile-arcs", "-ftest-coverage"));
+				// add extra options
+				command.addAll(Arrays.asList(extraOptionsWhenCompiling.split(" ")));
+				//
+				command.add("-o" + nameNoExt + ".o");
 				command.add(nameNoExt + ".cpp");
 			} else {
 				// in this case, link !! (assume that boost is needed
@@ -108,7 +123,7 @@ public class CppCompiler {
 					command.addAll(Arrays.asList("-fprofile-arcs", "-ftest-coverage", "-lgcov", "--coverage"));
 				command.add(name);
 				if (useBoost)
-					command.add("-lboost_unit_test_framework"); 
+					command.add("-lboost_unit_test_framework");
 				oFile = directory.getPath() + '/' + "a.exe"; // assuming windows
 			}
 			// delete the file if already exists
