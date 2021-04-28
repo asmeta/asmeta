@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.InvariantData;
+import org.asmeta.simulationUI.SimGUI;
 
 /**
  * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
@@ -40,7 +41,8 @@ public class InvariantManager {
 	}
 	
 	public String chooseModel() throws Exception {
-		if(fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+		fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); // fileChooser opens in the current working directory
+		if(fileChooser.showOpenDialog(SimGUI.contentPane) == JFileChooser.APPROVE_OPTION)
 		{
 			file = fileChooser.getSelectedFile();
 			input = new Scanner(file);
@@ -69,18 +71,17 @@ public class InvariantManager {
 		if(check>0)
 		{
 			InvariantGUI.showInvariants();
-			//InvariantGraphicsInterface.setAllEnabled(1);
 			InvariantGUI.setAddRefreshEnabled();
 		}
 		else {
 				if(check==-8)
-					JOptionPane.showMessageDialog(null, "Variable is already taken");
+					JOptionPane.showMessageDialog(InvariantGUI.getContentPane(), "Error: variable is already taken!", "Error", JOptionPane.ERROR_MESSAGE);
 				else if(check==-7)
-					JOptionPane.showMessageDialog(null, "Cannot add the invariant as it is violated in the current state");
+					JOptionPane.showMessageDialog(InvariantGUI.getContentPane(), "Error: cannot add the invariant as it is violated in the current state!", "Error", JOptionPane.ERROR_MESSAGE);
 				else if(check==-5)
-					JOptionPane.showMessageDialog(null, "Invalid Invariant");
+					JOptionPane.showMessageDialog(InvariantGUI.getContentPane(), "Error: invalid invariant!", "Error", JOptionPane.ERROR_MESSAGE);
 				else if(check==-1)
-					JOptionPane.showMessageDialog(null, "Simulation was previously terminated");
+					JOptionPane.showMessageDialog(InvariantGUI.getContentPane(), "Error: simulation was previously terminated!", "Error", JOptionPane.ERROR_MESSAGE);
 				//add_result=false;
 		}
 		return check;
@@ -102,15 +103,15 @@ public class InvariantManager {
 			else {
 				//check=false;
 				if(result == -8)
-					JOptionPane.showMessageDialog(null, "Variable is already taken");
+					JOptionPane.showMessageDialog(InvariantGUI.getContentPane(), "Error: variable is already taken!", "Error", JOptionPane.ERROR_MESSAGE);
 				else if(result==-7)
-					JOptionPane.showMessageDialog(null, "Cannot add the invariant as it is violated in the current state");
+					JOptionPane.showMessageDialog(InvariantGUI.getContentPane(), "Error: cannot add the invariant as it is violated in the current state!", "Error", JOptionPane.ERROR_MESSAGE);
 				else if(result==-5)
-					JOptionPane.showMessageDialog(null, "Invalid Invariant");
+					JOptionPane.showMessageDialog(InvariantGUI.getContentPane(), "Error: invalid invariant!", "Error", JOptionPane.ERROR_MESSAGE);
 				else if (result==-1)
-					JOptionPane.showMessageDialog(null, "Simulation was previously terminated");
+					JOptionPane.showMessageDialog(InvariantGUI.getContentPane(), "Error: simulation was previously terminated!", "Error", JOptionPane.ERROR_MESSAGE);
 				else
-					JOptionPane.showMessageDialog(null, "An error has occurred - failed to rename");
+					JOptionPane.showMessageDialog(InvariantGUI.getContentPane(), "Error: failed to rename!", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		   return result;
 		  }
@@ -129,19 +130,16 @@ public class InvariantManager {
 			InvariantGUI.setAllEnabled(1);
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "Simulation was previously terminated");
+			JOptionPane.showMessageDialog(InvariantGUI.getContentPane(), "Error: simulation was previously terminated!", "Error", JOptionPane.ERROR_MESSAGE);
 			InvariantGUI.showInvariants();
 		}
 	}
 	
-	public String getModel() 
-	{
+	public String getModel() {
 		return model;
 	}
 	
 	public void setModel(String model) {
 		InvariantManager.model = model;
 	}
-	
-	
 }

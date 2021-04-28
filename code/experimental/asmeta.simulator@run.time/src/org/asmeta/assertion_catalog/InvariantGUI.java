@@ -1,19 +1,27 @@
 package org.asmeta.assertion_catalog;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 
 import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.InvariantData;
+import org.asmeta.simulationUI.SimGUI;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,17 +29,24 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JRadioButtonMenuItem;
 
 /**
  * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
  */
 public class InvariantGUI {
 
-	private JFrame frame;
+	private static JFrame frame;
 	static List<String> list_invariant = new ArrayList<String>();
 	//static DefaultListModel<String> model = new DefaultListModel<>();
 	static InvariantManager StartGui = new InvariantManager();
@@ -48,15 +63,18 @@ public class InvariantGUI {
 	static JTextPane modelpath;
 	static JButton remove;
 	static JButton add;
-	static JButton upload;
 	static JScrollPane scrollPane;
-	private static JTable table;
-	static DefaultTableModel mod;
+	//static DefaultTableModel mod;
+	static JMenuBar menuBar;
+	static JMenuItem selectModelMenuItem;
+	static JLabel lblModel;
+	static ButtonGroup fontSizeGroup;
 	//static JTable table;
 	
-	static JTable jTable = new JTable();
-	static int row = 0;
-	static int column = 0;
+	private static JTable table;
+	private static JTable jTable;
+	private static int row = 0;
+	private static int column = 0;
 	
 	//////////////CONTAINER//////////////////////
 	static InvariantData inv_manager;
@@ -65,30 +83,12 @@ public class InvariantGUI {
 	static String currentLoadedModel;
 	
 	
-	
-	/**
-	 * Launch the applile() {
-			public void 
-	/**
-	 * Launch the applile() {
-			public void run() {
-				try {
-					Frame window = new Frame();
-					window.frame.setVisible(true);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	*/ 
 	public static void main(IModelAdaptation contInstanc) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					InvariantGUI window = new InvariantGUI(contInstanc);
-					window.frame.setVisible(true);
+					InvariantGUI.frame.setVisible(true);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -111,6 +111,10 @@ public class InvariantGUI {
 		currentLoadedID=-99;
 		currentLoadedModel="";
 	}
+	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public InvariantGUI(IModelAdaptation containerInstance, int currentLoadedID, String currentLoadedModel){
 		initialize();
 		InvariantGUI.containerInstance=containerInstance;
@@ -123,6 +127,7 @@ public class InvariantGUI {
 		else
 			modelpath.setText(currentLoadedModel);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
 	}
 
 	/**
@@ -130,71 +135,200 @@ public class InvariantGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setResizable(false);
-		frame.setBounds(100, 100, 752, 490);
+		frame.setIconImages(SimGUI.icons);
+		frame.getContentPane().setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		frame.setBounds(100, 100, 674, 490);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setTitle("Assertion Catalog");
+		frame.setMinimumSize(new Dimension(640, 300));
+		frame.setLocationRelativeTo(SimGUI.contentPane);
 		
-		/////////SET VISIBILITY OF BUTTONS
-		//setAllEnabled(0);
+		// Handle window frame dynamic resizing of components
+		frame.addComponentListener(new ComponentListener() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+					int frameWidth = e.getComponent().getWidth();
+					int frameHeight = e.getComponent().getHeight();
+					
+					// Handle menuBar resizing
+					menuBar.setBounds(new Rectangle(0, 0, frameWidth - 16, 22));
+								
+					// Handle modelpath and lblModel resizing and replacement
+					modelpath.setBounds(new Rectangle(35, 55, frameWidth - 101, 22));
+					lblModel.setBounds(new Rectangle(35, 30, 94, 22));
+					
+					// Handle edit, add, remove, refresh resizing and replacement
+					edit.setBounds(new Rectangle(333, frameHeight - 128, 134, 40));
+					remove.setBounds(new Rectangle(189, frameHeight - 128, 134, 40));
+					add.setBounds(new Rectangle(45, frameHeight - 128, 134, 40));
+					refresh.setBounds(new Rectangle(477, frameHeight - 128, 134, 40));
+					
+					// Handle scrollPane resizing
+					scrollPane.setBounds(new Rectangle(35, 90, frameWidth - 101, frameHeight - 243));
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent e) { return; }
+			
+			@Override
+			public void componentShown(ComponentEvent e) { return; }
+			
+			@Override
+			public void componentHidden(ComponentEvent e) { return; }
+		});
 		
 		
 		/////////SET COMPONENTS ON THE FRAME
 		modelpath = new JTextPane();
+		modelpath.setText("No simulation loaded");
 		modelpath.setEditable(false);
-		modelpath.setBounds(35, 26, 476, 28);
-		modelpath.setFont(font);
+		modelpath.setBounds(35, 55, 586, 22);
+		modelpath.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		frame.getContentPane().add(modelpath);
-		refresh = new JButton("REFRESH",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/refresh.png")));
+		if(!SimGUI.darkMode) {
+			modelpath.setBackground(Color.WHITE);
+		} else {
+			modelpath.setBackground(new Color(40, 40, 40));
+		}
+		
+		refresh = new JButton("Refresh",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/refresh.png")));
+		refresh.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		refresh.setEnabled(false);
-		refresh.setBounds(543, 352, 134, 40);
+		refresh.setBounds(477, 362, 134, 40);
 		frame.getContentPane().add(refresh);
-		remove = new JButton("REMOVE",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/remove.png")));
-		remove.setBounds(221, 352, 134, 40);
+		
+		remove = new JButton("Remove",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/remove.png")));
+		remove.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		remove.setBounds(189, 362, 134, 40);
 		frame.getContentPane().add(remove);
 		
-		add = new JButton("ADD",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/add.png")));
-		add.setBounds(60, 352, 134, 40);
-		
+		add = new JButton("Add",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/add.png")));
+		add.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		add.setBounds(45, 362, 134, 40);
 		frame.getContentPane().add(add);
 		
-		
-		edit = new JButton("EDIT",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/edit.png")));
-		edit.setBounds(383, 352, 134, 40);
+		edit = new JButton("Edit",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/edit.png")));
+		edit.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		edit.setBounds(333, 362, 134, 40);
 		frame.getContentPane().add(edit);
-		//list.setToolTipText("");
-		//list.setBounds(557, 80, 144, 247);
-		//frame.getContentPane().add(list);
-		upload = new JButton("LOAD MODEL",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/upload.png")));
-		upload.setBounds(523, 13, 186, 54);
-		frame.getContentPane().add(upload);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(35, 80, 674, 247);
+		scrollPane.setBounds(35, 90, 586, 247);
 		frame.getContentPane().add(scrollPane);
 		
-		mod = new DefaultTableModel();
 		jTable = new JTable();
-		table = new JTable(mod);
+		table = new JTable();
+		table.setFont(new Font("Consolas", Font.PLAIN, 13));
+		if(!SimGUI.darkMode) {
+			table.setBackground(Color.WHITE);
+		} else {
+			table.setBackground(new Color(40, 40, 40));
+		}
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
 		
-		
 		scrollPane.setViewportView(table);
 		
+		lblModel = new JLabel("Loaded model:");
+		lblModel.setFont(new Font("Segoe UI", Font.BOLD, 12));
+		lblModel.setBounds(35, 30, 94, 22);
+		frame.getContentPane().add(lblModel);
+		
+		menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 671, 22);
+		frame.getContentPane().add(menuBar);
+		if(!SimGUI.darkMode) {
+			menuBar.setBackground(new Color(227, 227, 227));
+		} else {
+			menuBar.setBorder(null);
+			menuBar.setBackground(new Color(40, 40, 40));
+		}
+		
+		JMenu invManagerMenu = new JMenu("File");
+		menuBar.add(invManagerMenu);
+		
+		selectModelMenuItem = new JMenuItem("Select loaded model");
+		invManagerMenu.add(selectModelMenuItem);
+		
+		JMenu windowMenu = new JMenu("Window");
+		menuBar.add(windowMenu);
+		
+		JCheckBoxMenuItem darkModeCheckItem = new JCheckBoxMenuItem("Dark mode");
+		windowMenu.add(darkModeCheckItem);
+		darkModeCheckItem.setState(SimGUI.darkMode);
+		
+		JMenu fontSizeMenu = new JMenu("Font size");
+		windowMenu.add(fontSizeMenu);
+		
+		fontSizeGroup = new ButtonGroup();
+		
+		JRadioButtonMenuItem _12fontRadioItem = new JRadioButtonMenuItem("12");
+		fontSizeMenu.add(_12fontRadioItem);
+		fontSizeGroup.add(_12fontRadioItem);
+		
+		JRadioButtonMenuItem _14fontRadioItem = new JRadioButtonMenuItem("14");
+		fontSizeMenu.add(_14fontRadioItem);
+		fontSizeGroup.add(_14fontRadioItem);
+		
+		JRadioButtonMenuItem _16fontRadioItem = new JRadioButtonMenuItem("16");
+		fontSizeMenu.add(_16fontRadioItem);
+		fontSizeGroup.add(_16fontRadioItem);
+		
+		JRadioButtonMenuItem _18fontRadioItem = new JRadioButtonMenuItem("18");
+		fontSizeMenu.add(_18fontRadioItem);
+		fontSizeGroup.add(_18fontRadioItem);
+		
+		switch(SimGUI.fontSize) {
+			case 14: _14fontRadioItem.setSelected(true); break;
+			case 16: _16fontRadioItem.setSelected(true); break;
+			case 18: _18fontRadioItem.setSelected(true); break;
+			default: _12fontRadioItem.setSelected(true);
+		}
+	
+		_12fontRadioItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SimGUI.setProperty("fontSize", "12");
+				JOptionPane.showMessageDialog(getContentPane(), "Re-open the application to apply the new font size!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
+			}
+		});
+	
+		_14fontRadioItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SimGUI.setProperty("fontSize", "14");
+				JOptionPane.showMessageDialog(getContentPane(), "Re-open the application to apply the new font size!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
+			}
+		});
+	
+		_16fontRadioItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SimGUI.setProperty("fontSize", "16");
+				JOptionPane.showMessageDialog(getContentPane(), "Re-open the application to apply the new font size!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
+			}
+		});
+	
+		_18fontRadioItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SimGUI.setProperty("fontSize", "18");
+				JOptionPane.showMessageDialog(getContentPane(), "Re-open the application to apply the new font size!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
+			}
+		});
+		
+		darkModeCheckItem.addActionListener(new ActionListener() {	
+			public void actionPerformed(ActionEvent e) {
+				if(darkModeCheckItem.getState()) {
+					SimGUI.setProperty("mode", "dark");
+					JOptionPane.showMessageDialog(getContentPane(), "Re-open the application to apply the dark mode!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
+				} else {
+					SimGUI.setProperty("mode", "light");
+					JOptionPane.showMessageDialog(getContentPane(), "Re-open the application to disable the dark mode!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
+				}
+			}
+		});
 		
 		
-		/////////////////////TABLE CREATION AND OPTIONS 
-		
-		table_creationoptions();
-		
-		JScrollPane scrollpane = new JScrollPane();
-		scrollpane.setBounds(23, 98, 497, 229);
-		
-		
-		/////////SET BUTTONS ACTIONS
-		upload.addActionListener(new ActionListener() {
+		/////////SET BUTTONS AND MENU ACTIONS
+		selectModelMenuItem.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 			    try {	
 	    		Map<Integer, String> ids = containerInstance.getLoadedIDs();
@@ -218,7 +352,7 @@ public class InvariantGUI {
 							modelpath.setText(currentLoadedModel);
 				     }
 	    			else if(currentLoadedModel.indexOf(".asm")==-1 && !currentLoadedModel.isEmpty())
-				    	JOptionPane.showMessageDialog(null, "WRONG EXTENSION");
+	    				JOptionPane.showMessageDialog(modelpath, "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
 				    }
 	    		}
 			    //
@@ -239,9 +373,9 @@ public class InvariantGUI {
 			    }*/
 			    catch (Exception ex) {
 				    if(ex instanceof java.io.FileNotFoundException)
-				    	JOptionPane.showMessageDialog(null, "NO FILE SELECTED");
+				    	JOptionPane.showMessageDialog(modelpath, "Error: no file selected!", "Error", JOptionPane.ERROR_MESSAGE);
 				    else if(ex instanceof java.lang.NullPointerException) 
-				    	JOptionPane.showMessageDialog(null, "PARSER ERROR");  	
+				    	JOptionPane.showMessageDialog(modelpath, "Error: parser error!", "Error", JOptionPane.ERROR_MESSAGE);  	
 				    else{
 				    	ex.printStackTrace();
 				    }
@@ -249,6 +383,7 @@ public class InvariantGUI {
 			   }
 			  });
 		
+		table_creationoptions();
 		
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -349,7 +484,6 @@ public class InvariantGUI {
 				}
 				
 				
-				
 				table.addMouseListener(new MouseAdapter() {
 				    @Override
 				    public void mouseReleased(MouseEvent e) {
@@ -369,8 +503,8 @@ public class InvariantGUI {
 							remove.setEnabled(true);
 				            //System.out.println("DATO: "+valueInCell);
 				        }
-				    	}
-				    });
+				    }
+				});
 				
 				
 				/*list.getSelectionModel().addListSelectionListener(new ListSelectionListener () {
@@ -385,11 +519,11 @@ public class InvariantGUI {
 				}
 		     } catch (Exception ex) {
 				if(ex instanceof java.io.FileNotFoundException)
-					JOptionPane.showMessageDialog(null, "NO FILE SELECTED");
+					JOptionPane.showMessageDialog(modelpath, "Error: no file selected!", "Error", JOptionPane.ERROR_MESSAGE);
 				else if(ex instanceof java.lang.NullPointerException) {
 					success=false;
 					if(!modelpath.getText().isEmpty())
-						JOptionPane.showMessageDialog(null, "PARSER ERROR");
+						JOptionPane.showMessageDialog(modelpath, "Error: parser error!", "Error", JOptionPane.ERROR_MESSAGE);
 					modelpath.setText("");
 					setAllEnabled(1);
 				}
@@ -401,14 +535,21 @@ public class InvariantGUI {
 	}
 	
 	public static void setAllEnabled(int val) {
-		edit.setEnabled(false);
-		if(val==0) {
-			refresh.setEnabled(false);
-			add.setEnabled(false);
+		if(edit != null && refresh != null && add != null && table != null) {
+			edit.setEnabled(false);
+			if(val==0) {
+				refresh.setEnabled(false);
+				add.setEnabled(false);
+				if(InvariantGUI.containerInstance.getLoadedIDs().isEmpty()) {
+					selectModelMenuItem.setEnabled(false);
+				}
+				for(MouseListener mouseListener : table.getMouseListeners()) {
+					table.removeMouseListener(mouseListener);
+				}
+			}
+			remove.setEnabled(false);
 		}
-		remove.setEnabled(false);
 	}
-	
 	
 	/*private class SwingAction extends AbstractAction {
 		public SwingAction() {
@@ -422,7 +563,7 @@ public class InvariantGUI {
 	
 	public static void table_creationoptions()
 	{
-		mod.setRowCount(0);
+		//mod.setRowCount(0);
 		table.setModel(new DefaultTableModel (new Object[][] {},new String[] {"Name","Over","Content"})
 		{
 			@Override
@@ -442,10 +583,9 @@ public class InvariantGUI {
 	    cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	    
 	    
-	    //////COLUMN SIZE 
-	    table.getColumnModel().getColumn(0).setResizable(false);
-	    table.getColumnModel().getColumn(1).setResizable(false);
-	    table.getColumnModel().getColumn(2).setResizable(false);
+	    //table.getColumnModel().getColumn(0).setResizable(false);
+	    //table.getColumnModel().getColumn(1).setResizable(false);
+	    //table.getColumnModel().getColumn(2).setResizable(false);
 	    table.getTableHeader().setReorderingAllowed(false);
 	    
 	    ///////DISABLE MULTIPLE SELECTION
@@ -461,9 +601,16 @@ public class InvariantGUI {
 	    
 	}
 	
-	public static void setAddRefreshEnabled()
-	{
+	public static void setAddRefreshEnabled() {
 		add.setEnabled(true);
 		refresh.setEnabled(true);
+	}
+	
+	public static JPanel getContentPane() {
+		return (JPanel) frame.getContentPane();
+	}
+	
+	public static int getCurrentLoadedID() {
+		return InvariantGUI.currentLoadedID;
 	}
 }

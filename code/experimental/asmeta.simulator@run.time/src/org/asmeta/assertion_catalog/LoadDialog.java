@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import org.asmeta.parser.ParseException;
 import org.asmeta.runtime_container.FullMapException;
 import org.asmeta.runtime_container.IModelExecution;
+import org.asmeta.simulationUI.SimGUI;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 
@@ -39,18 +40,20 @@ public class LoadDialog extends JDialog {
 	}
 
 	public LoadDialog(IModelExecution containerInstance,Map<Integer, String> ids) {
+		setIconImages(SimGUI.icons);
 		setResizable(false);
 		setModal(true);
 		setTitle("Load simulation");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 212);
+		setLocationRelativeTo(SimGUI.contentPane);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		comboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		comboBox.setBounds(36, 56, 360, 30);
 		for(Map.Entry<Integer, String> i : ids.entrySet()) {
 		   comboBox.addItem(new LoadComboItem(i.getKey(),i.getValue()));
@@ -58,6 +61,7 @@ public class LoadDialog extends JDialog {
 		contentPane.add(comboBox);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -66,6 +70,7 @@ public class LoadDialog extends JDialog {
 		});
 		btnCancel.setBounds(182, 127, 97, 25);
 		contentPane.add(btnCancel);
+		btnLoad.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		
 
 		btnLoad.addActionListener(new ActionListener() {
@@ -79,11 +84,12 @@ public class LoadDialog extends JDialog {
 		contentPane.add(btnLoad);
 		
 		JLabel lblLabel = new JLabel("Loaded simulations:");
-		lblLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblLabel.setBounds(36, 26, 153, 16);
 		contentPane.add(lblLabel);
 		
-		JButton upload = new JButton("Upload");
+		JButton upload = new JButton("Browse");
+		upload.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		upload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -99,29 +105,27 @@ public class LoadDialog extends JDialog {
 						id = containerInstance.startExecution(checkmodel);
 					} catch (MainRuleNotFoundException | AsmModelNotFoundException | FullMapException
 							| ParseException e1) {
-						JOptionPane.showMessageDialog(null, "DEBUG: Something went wrong with Exceptions management"); 
-						/*
+						JOptionPane.showMessageDialog(null, "Debug: Something went wrong with Exceptions management!", "Debug", JOptionPane.WARNING_MESSAGE);
 						e1.printStackTrace();
-						*/
 					}
 			    	if(id>0){
 			    		comboBox.addItem(new LoadComboItem(id,checkmodel));
 			    		btnLoad.setEnabled(true);
 			    	}else if (id==-2)
-			    		JOptionPane.showMessageDialog(null, "Error: Main rule not found"); 
+			    		JOptionPane.showMessageDialog(contentPane, "Error: main rule not found!", "Error", JOptionPane.ERROR_MESSAGE); 
 			    	else if (id==-3)
-			    		JOptionPane.showMessageDialog(null, "Error: The model doesn't exist"); 
+			    		JOptionPane.showMessageDialog(contentPane, "Error: the model doesn't exist!", "Error", JOptionPane.ERROR_MESSAGE); 
 			    	else if (id==-4)
-			    		JOptionPane.showMessageDialog(null, "Error: The simulator map is full"); 
+			    		JOptionPane.showMessageDialog(contentPane, "Error: the simulator map is full!", "Error", JOptionPane.ERROR_MESSAGE); 
 			    	else if (id==-5)
-			    		JOptionPane.showMessageDialog(null, "Error: The model contains errors");
+			    		JOptionPane.showMessageDialog(contentPane, "Error: the model contains errors!", "Error", JOptionPane.ERROR_MESSAGE);
 			    	else
-			    		JOptionPane.showMessageDialog(null, "Error"); 
+			    		JOptionPane.showMessageDialog(contentPane, "Error: undefined error!", "Error", JOptionPane.ERROR_MESSAGE); 
 			    	
 			    	//JOptionPane.showMessageDialog(null, checkmodel);
 			     }
 			     if(checkmodel.indexOf(".asm")==-1 && !checkmodel.isEmpty()) {
-			    	JOptionPane.showMessageDialog(null, "Error: Wrong extension");
+			    	JOptionPane.showMessageDialog(contentPane, "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
 			    }
 			     
 			    

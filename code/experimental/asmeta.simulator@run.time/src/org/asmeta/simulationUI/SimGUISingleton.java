@@ -75,15 +75,13 @@ public class SimGUISingleton extends JFrame {
 	 * Create the frame.
 	 */
 	public SimGUISingleton(SimulationContainerSingleton contInstance) {
-		setResizable(false);
 		initialize();
 		enableLoadSimButtons(false);
 		containerInstance=contInstance;
 		currentLoadedID=-99;
 		currentLoadedModel="";
 		currentMaxInstances=0;
-		}
-	
+	}
 	
 	private void initialize()
 	{
@@ -94,8 +92,10 @@ public class SimGUISingleton extends JFrame {
 		
 		
 		setTitle("Simulator Manager");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 862, 545);
+		setLocationRelativeTo(null);
 		
 		addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
@@ -111,7 +111,7 @@ public class SimGUISingleton extends JFrame {
 						textPaneID.setText("X");
 						currentLoadedID=-99;
 						currentLoadedModel="";
-						JOptionPane.showMessageDialog(null, "Previously loaded simulation was terminated or changed ID externally");	
+						JOptionPane.showMessageDialog(null, "Previously loaded simulation was terminated or changed ID externally", "Warning", JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}
@@ -204,14 +204,25 @@ public class SimGUISingleton extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(currentMaxInstances<1)
 				{
-				String num=JOptionPane.showInputDialog("How many simulations do you want to instantiate?");
+					//String num=JOptionPane.showInputDialog("How many simulations do you want to instantiate?");
+					String num = (String) JOptionPane.showInputDialog(
+							null, 													// parent component
+							"How many simulations do you want to instantiate?", 	// message
+							"Number of simulations", 								// title
+							JOptionPane.QUESTION_MESSAGE, 							// message type
+							null, 													// icon
+							null, 													// options
+							"1"														// initial default value
+						);
 					if(num!=null)
 					{
 						try {
 							if(Integer.parseInt(num)>0)
 								currentMaxInstances=containerInstance.init(Integer.parseInt(num));
+							else
+								throw new NumberFormatException();
 						} catch (NumberFormatException e1) {
-							JOptionPane.showMessageDialog(null, "Not a valid number.");
+							JOptionPane.showMessageDialog(null, "Error: Not a valid number!", "Error", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}
@@ -255,7 +266,7 @@ public class SimGUISingleton extends JFrame {
 				if (currentLoadedID>0) {
 					int stop = containerInstance.stopExecution(currentLoadedID);
 					if (stop==-1)
-						JOptionPane.showMessageDialog(null, "Error: Couldn't stop simulation");
+						JOptionPane.showMessageDialog(null, "Error: Couldn't stop simulation!", "Error", JOptionPane.ERROR_MESSAGE);
 					else {
 						currentLoadedID=-99;
 						currentLoadedModel="";
@@ -265,14 +276,14 @@ public class SimGUISingleton extends JFrame {
 						textAreaLog.append("Simulation stopped.\n");
 					}
 				}else
-					JOptionPane.showMessageDialog(null, "Error: no simulation selected");
+					JOptionPane.showMessageDialog(null, "Error: No simulation selected!", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		
 		invmanager.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(currentLoadedID<1)
-					JOptionPane.showMessageDialog(null, "Error: no simulation selected");
+					JOptionPane.showMessageDialog(null, "Error: No simulation selected!", "Error", JOptionPane.ERROR_MESSAGE);
 				else
 				    new InvariantGUI(containerInstance,currentLoadedID,currentLoadedModel).setVisible();
 			}
@@ -315,11 +326,14 @@ public class SimGUISingleton extends JFrame {
 				{
 					try {
 						timeout=Integer.parseInt(num);
+						if(timeout < 0) {
+							throw new NumberFormatException();
+						}
 					} catch (NumberFormatException e1) {
-						JOptionPane.showMessageDialog(null, "Not a valid number.");
+						JOptionPane.showMessageDialog(null, "Error: Not a valid number!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
-				if (timeout!=-1) {
+				if(timeout >= 0) {
 					if (monitored.size()<1)
 						out=containerInstance.runUntilEmptyTimeout(currentLoadedID,timeout);
 					else {
@@ -379,11 +393,14 @@ public class SimGUISingleton extends JFrame {
 				{
 					try {
 						timeout=Integer.parseInt(num);
+						if(timeout < 0) {
+							throw new NumberFormatException();
+						}
 					} catch (NumberFormatException e1) {
 						JOptionPane.showMessageDialog(null, "Not a valid number.");
 					}
 				}
-				if (timeout!=-1) {
+				if(timeout >= 0) {
 					if (monitored.size()<1)
 						out=containerInstance.runStepTimeout(currentLoadedID,timeout);
 					else {
@@ -430,7 +447,7 @@ public class SimGUISingleton extends JFrame {
 				
 					}
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Error");
+					JOptionPane.showMessageDialog(null, "Error: asm parsing error!", "Error", JOptionPane.ERROR_MESSAGE);
 				}			
 			}
 		}

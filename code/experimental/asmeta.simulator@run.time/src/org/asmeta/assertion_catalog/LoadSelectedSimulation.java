@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.asmeta.simulationUI.SimGUI;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -29,10 +30,12 @@ public class LoadSelectedSimulation extends JDialog {
 	
 	public LoadSelectedSimulation(Map<Integer, String> ids) {
 		setResizable(false);
+		setIconImages(SimGUI.icons);
 		setModal(true);
 		setTitle("Load simulation");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 212);
+		setLocationRelativeTo(InvariantGUI.getContentPane());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -47,6 +50,7 @@ public class LoadSelectedSimulation extends JDialog {
 		contentPane.add(comboBox);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -57,6 +61,7 @@ public class LoadSelectedSimulation extends JDialog {
 		contentPane.add(btnCancel);
 		
 		JButton btnLoad = new JButton("Load");
+		btnLoad.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ret=(LoadComboItem)comboBox.getSelectedItem();
@@ -68,7 +73,7 @@ public class LoadSelectedSimulation extends JDialog {
 		contentPane.add(btnLoad);
 		
 		JLabel lblLabel = new JLabel("Loaded simulations:");
-		lblLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblLabel.setBounds(36, 26, 153, 16);
 		contentPane.add(lblLabel);
 		

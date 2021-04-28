@@ -13,6 +13,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.asmeta.runtime_container.InvariantData;
+import org.asmeta.simulationUI.SimGUI;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,6 +34,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.Font;
 
 
 
@@ -70,40 +72,46 @@ public class AddDialog extends JDialog {
 	/**
 	 * Create the frame.
 	 */
+	 
+	/*
 	 public static void infoBox(String infoMessage, String titleBar)
 	 {
-	    JOptionPane.showMessageDialog(null, infoMessage, "ERROR: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
-	 }
-	
+	    JOptionPane.showMessageDialog(null, infoMessage, "Error: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+	 } */
 	 
 	public AddDialog(InvariantData inv_manager) {
 			setModal(true);
+			setIconImages(SimGUI.icons);
 			setResizable(false);
 			setDefaultCloseOperation(AddDialog.DISPOSE_ON_CLOSE);
 			setBounds(100, 100, 710, 226);
+			setLocationRelativeTo(InvariantGUI.getContentPane());
 			contentPane = new JPanel();
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			setContentPane(contentPane);
 			contentPane.setLayout(null);
 			
-			JLabel invariant = new JLabel("invariant inv_");
-			invariant.setBounds(10, 45, 81, 16);
+			JLabel invariant = new JLabel("New invariant inv_");
+			invariant.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+			invariant.setBounds(10, 45, 114, 16);
 			contentPane.add(invariant);
 			
 			invariant_content = new JTextField();
+			invariant_content.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 			invariant_content.setBounds(368, 42, 324, 22);
 			contentPane.add(invariant_content);
 			invariant_content.setColumns(10);
 			
-			this.setTitle("Add Invariant");
+			setTitle("Add Invariant");
 			
 			JButton save = new JButton("Save",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/save.png")));
+			save.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 			save.addActionListener(new ActionListener() {
 				   public void actionPerformed(ActionEvent e) {
 					   problem = false;
 					   if(invariant_content.getText().isEmpty())
 					   {
-						   JOptionPane.showMessageDialog(null, "THE FIELD 'CONTENT' CANNOT BE EMPTY");
+						   JOptionPane.showMessageDialog(contentPane, "Error: the <content> field cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
 						   problem = true;
 					   }
 					   else
@@ -121,7 +129,7 @@ public class AddDialog extends JDialog {
 									if(problem == false)
 										over_values.add(jc.get(j).getSelectedItem().toString());
 									else
-										JOptionPane.showMessageDialog(null, "ERROR - DOUBLE OVER SELECTED");
+										JOptionPane.showMessageDialog(contentPane, "Error: double <over> selected!", "Error", JOptionPane.ERROR_MESSAGE);
 								}
 							}
 						    if(problem==false)
@@ -156,18 +164,20 @@ public class AddDialog extends JDialog {
 				   }
 				   }
 			});
-			save.setBounds(135, 108, 134, 40);
+			save.setBounds(166, 108, 134, 40);
 			contentPane.add(save);
 			
 			JButton cancel = new JButton("Cancel",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/cancel.png")));
+			cancel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 			cancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					InvariantGUI.setAddRefreshEnabled();
 					dispose();
 				}
 			});
-			cancel.setBounds(339, 108, 134, 40);
+			cancel.setBounds(400, 108, 134, 40);
 			contentPane.add(cancel);
+			over.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 			
 			
 			over.setBounds(180, 44, 32, 18);
@@ -175,7 +185,8 @@ public class AddDialog extends JDialog {
 			String[] population = inv_manager.getvariables().toArray(new String[0]);
 	        
 	        invariant_name = new JTextField();
-	        invariant_name.setBounds(89, 42, 86, 22);
+	        invariant_name.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+	        invariant_name.setBounds(118, 42, 52, 22);
 	        contentPane.add(invariant_name);
 	        invariant_name.setColumns(10);
 	        
@@ -189,23 +200,26 @@ public class AddDialog extends JDialog {
 	                1); //step  
 	        
 	        JSpinner spinner = new JSpinner(value);
-	        spinner.setBounds(297, 3, 30, 22);
+	        spinner.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+	        spinner.setBounds(275, 3, 52, 22);
 	        
 	        JScrollPane scrollPane = new JScrollPane();
 	        scrollPane.setBounds(210, 42, 147, 59);
 	        scrollPane.setBorder(null);
 	        contentPane.add(scrollPane);
 	        
+	        // TODO: provare a cambiare scrolling + combobox con spinnerlist + combobox
 	        scrollingPane = new JPanel();
 	        scrollPane.setViewportView(scrollingPane);
 	        
 	        jcombo = new JComboBox();
+	        jcombo.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 	        jc.add(jcombo);
 	        
             jcombo.setModel(new DefaultComboBoxModel<String>(population));
             
                         scrollingPane.setLayout(null);
-                        jcombo.setBounds(0, 0, 130, 22);
+                        jcombo.setBounds(0, 0, 147, 22);
                         scrollingPane.add(jcombo);
 	        
 	        spinner.addChangeListener(new ChangeListener() {
@@ -260,7 +274,8 @@ public class AddDialog extends JDialog {
 	        contentPane.add(spinner);
 	        ((DefaultEditor) spinner.getEditor()).getTextField().setEditable(false);
 	        
-	        JLabel lblNewLabel = new JLabel("Number of Over");
+	        JLabel lblNewLabel = new JLabel("Number of over:");
+	        lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 	        lblNewLabel.setBounds(180, 6, 105, 16);
 	        contentPane.add(lblNewLabel);
 	        

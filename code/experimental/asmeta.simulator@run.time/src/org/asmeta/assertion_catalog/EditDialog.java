@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.*;
 
 import org.asmeta.runtime_container.InvariantData;
-
+import org.asmeta.simulationUI.SimGUI;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,6 +29,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
+import java.awt.Font;
 
 public class EditDialog extends JDialog {
 
@@ -65,8 +66,10 @@ public class EditDialog extends JDialog {
 		new_invariant = full_invariant;
 		problem = false;
 		setResizable(false);
+		setIconImages(SimGUI.icons);
 		setDefaultCloseOperation(EditDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setLocationRelativeTo(InvariantGUI.getContentPane());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -217,6 +220,7 @@ public class EditDialog extends JDialog {
 		
 		
 		JButton save = new JButton("Save", new ImageIcon(EditDialog.class.getResource("/org/asmeta/animator/save.png")));
+		save.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		save.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
 				   if(type.equals("NAME"))
@@ -254,7 +258,7 @@ public class EditDialog extends JDialog {
 									if(problem == false)
 										over_values.add(jc.get(l).getSelectedItem().toString());
 									else
-										JOptionPane.showMessageDialog(null, "ERROR - DOUBLE OVER SELECTED");
+										JOptionPane.showMessageDialog(contentPane, "Error: double <over> selected!", "Error", JOptionPane.ERROR_MESSAGE);
 								}
 							}
 							if(problem==false)
@@ -274,7 +278,7 @@ public class EditDialog extends JDialog {
 						{
 							if(textField.getText().isEmpty())
 							{
-								JOptionPane.showMessageDialog(null, "THE FIELD CANNOT BE EMPTY");
+								JOptionPane.showMessageDialog(contentPane, "Error: the field cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
 								problem = true;
 							}
 							else
@@ -308,6 +312,7 @@ public class EditDialog extends JDialog {
 		contentPane.add(save);
 		
 		JButton cancel = new JButton("Cancel",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/cancel.png")));
+		cancel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InvariantGUI.setAddRefreshEnabled();

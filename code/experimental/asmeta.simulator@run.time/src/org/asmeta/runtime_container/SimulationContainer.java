@@ -96,7 +96,6 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	
 	public SimulationContainer() {
 		asmS = new AsmetaSservice();
-		
 	}
 
 	
@@ -362,25 +361,27 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		Thread t = new Thread() {
 			public void run() {
 				try {
-			    System.setOut(new PrintStream(new OutputStream() {
-				  public void write(int b) {}})); //temporarily blocks system.out prints to console to remove overwhelming messages
-			    System.setErr(new PrintStream(new OutputStream() {
-				  public void write(int b) {}})); //temporarily blocks system.err prints to console to remove overwhelming messages
-				SimulationContainer clone = new SimulationContainer();	//instantiation of a cloned execution
-				clone.init(1);
-				String modelPath = asmS.getSimulatorTable().get(id).getModelPath();
-				org.asmeta.simulator.State stateOrig = asmS.getSimulatorTable().get(id).getSim().getCurrentState();
-				org.asmeta.simulator.State stateClon = new org.asmeta.simulator.State(stateOrig); //clone constructor
-				if (stateClon.previousLocationValues==null)
-					stateClon.previousLocationValues = new HashMap<Location, Value>();
-				int id;
-				if (stateClon.locationMap.isEmpty())
-					id = clone.startExecution(modelPath);
-				else
-					id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
-           		routTO = clone.runStep(id, locationValue);	//the cloned simulation tries to do the operation
-           		routTO.setTimeoutFlag(true); //once finished, signal the original with the RunOutput object that simulation has stopped, probably deprecated
-				}catch(Exception e) {}
+					System.setOut(new PrintStream(new OutputStream() {
+						public void write(int b) {}})); //temporarily blocks system.out prints to console to remove overwhelming messages
+				    System.setErr(new PrintStream(new OutputStream() {
+					  public void write(int b) {}})); //temporarily blocks system.err prints to console to remove overwhelming messages
+					SimulationContainer clone = new SimulationContainer();	//instantiation of a cloned execution
+					clone.init(1);
+					String modelPath = asmS.getSimulatorTable().get(id).getModelPath();
+					org.asmeta.simulator.State stateOrig = asmS.getSimulatorTable().get(id).getSim().getCurrentState();
+					org.asmeta.simulator.State stateClon = new org.asmeta.simulator.State(stateOrig); //clone constructor
+					if (stateClon.previousLocationValues==null)
+						stateClon.previousLocationValues = new HashMap<Location, Value>();
+					int id;
+					if (stateClon.locationMap.isEmpty())
+						id = clone.startExecution(modelPath);
+					else
+						id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
+	           		routTO = clone.runStep(id, locationValue);	//the cloned simulation tries to do the operation
+	           		routTO.setTimeoutFlag(true); //once finished, signal the original with the RunOutput object that simulation has stopped, probably deprecated
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
 			}
 		};
 		try {
@@ -696,7 +697,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 					id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
            		routTO = clone.runUntilEmpty(id, locationValue, max);	//the cloned simulation tries to do the operation
            		routTO.setTimeoutFlag(true); //once finished, signal the original with the RunOutput object that simulation has stopped, probably deprecated
-				}catch(Exception e) {}
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
 			}
 		};
 		try {
@@ -1304,7 +1307,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			try {
 				Files.deleteIfExists(Paths.get(modelfile+"_old"));
 				Files.deleteIfExists(Paths.get(modelfile+"_to_overwrite"));
-			} catch (IOException e) {}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	simulationRunning=SimStatus.READY;
 	return start_output;
@@ -1380,7 +1385,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					Files.deleteIfExists(Paths.get(modelfile+"_old"));
 					Files.deleteIfExists(Paths.get(modelfile+"_to_overwrite"));
-				} catch (IOException e) {}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 			simulationRunning=SimStatus.READY;
 		return success;
