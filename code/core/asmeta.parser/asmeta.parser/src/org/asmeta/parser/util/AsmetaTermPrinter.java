@@ -402,11 +402,15 @@ public class AsmetaTermPrinter extends ReflectiveVisitor<String> {
 		if (domain != null) {
 			assert domain instanceof RuleDomain;
 			EList<Domain> domains = ((RuleDomain) domain).getDomains();
-			sb.append("(");
-			for (int i = 0; i < domains.size() - 1; i++) {
-				sb.append(domains.get(i).getName() + ", ");
+			if (domains.size()>0) {
+				sb.append("(");
+				for (int i = 0; i < domains.size() - 1; i++) {
+					sb.append(domains.get(i).getName() + ", ");
+				}
+				sb.append(domains.get(domains.size() - 1).getName());
+				// 		close
+				sb.append(")");
 			}
-			sb.append(domains.get(domains.size() - 1).getName() + ")");
 		}
 		return "<<" + (showAsmName ? Defs.getAsmName(term.getRule()) + "::" : "") + term.getRule().getName()
 				+ sb.toString() + ">>";
