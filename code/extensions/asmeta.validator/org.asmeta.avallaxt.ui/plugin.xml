@@ -78,9 +78,10 @@
 	<extension
 			point="org.eclipse.ui.preferencePages">
 		<page
-			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
-			id="org.asmeta.avallaxt.Avalla"
-			name="Avalla">
+        category="asmeta.plugin.preferences"
+        class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+        id="org.asmeta.avallaxt.Avalla"
+        name="Avalla">
 			<keywordReference id="org.asmeta.avallaxt.ui.keyword_Avalla"/>
 		</page>
 		<page

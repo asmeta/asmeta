@@ -26,7 +26,7 @@ public class CppCompiler {
 
 	private static boolean USE_CPP_11 = false;
 
-	public static String extraOptionsWhenCompiling;
+	public static String extraOptionsWhenCompiling = "";
 
 	private static String OS = System.getProperty("os.name").toLowerCase();
 
@@ -83,6 +83,7 @@ public class CppCompiler {
 	 */
 	public static CompileResult compile(String name, String dir, boolean compileOnly, boolean evalCoverage,
 			boolean useBoost) {
+		if (G_EXE == null) throw new RuntimeException("compiler not set");
 		try {
 			File directory = new File(dir);
 			assert directory.isDirectory();

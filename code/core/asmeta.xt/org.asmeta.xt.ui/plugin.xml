@@ -78,9 +78,10 @@
 	<extension
 			point="org.eclipse.ui.preferencePages">
 		<page
-			class="org.asmeta.xt.ui.AsmetaLExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
-			id="org.asmeta.xt.AsmetaL"
-			name="AsmetaL">
+        category="asmeta.plugin.preferences"
+        class="org.asmeta.xt.ui.AsmetaLExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+        id="org.asmeta.xt.AsmetaL"
+        name="AsmetaL">
 			<keywordReference id="org.asmeta.xt.ui.keyword_AsmetaL"/>
 		</page>
 		<page
