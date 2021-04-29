@@ -1,6 +1,7 @@
 package org.asmeta.assertion_catalog;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -25,21 +26,26 @@ import java.util.Map;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 public class LoadDialog extends JDialog {
 	static InvariantManager StartGui = new InvariantManager();
-	private JPanel contentPane;
-	static JButton btnLoad = new JButton("Load");
-	/**
-	 * Create the frame.
-	 */
-	private LoadComboItem ret=null;
+	private static JPanel contentPane;
+	static JButton btnLoad;
+	static JComboBox<LoadComboItem> comboBox;
+	static JButton btnCancel;
+	static JButton upload;
+	static JLabel textLabel;
+	private LoadComboItem ret = null;
+	
 	public LoadComboItem showDialog() {
 		setVisible(true);
 		return ret;
 	}
 
 	public LoadDialog(IModelExecution containerInstance,Map<Integer, String> ids) {
+		UIManager.put("OptionPane.messageFont", new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
+		UIManager.put("OptionPane.buttonFont", new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		setIconImages(SimGUI.icons);
 		setResizable(false);
 		setModal(true);
@@ -47,12 +53,13 @@ public class LoadDialog extends JDialog {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 212);
 		setLocationRelativeTo(SimGUI.contentPane);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox<LoadComboItem>();
 		comboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		comboBox.setBounds(36, 56, 360, 30);
 		for(Map.Entry<Integer, String> i : ids.entrySet()) {
@@ -60,8 +67,8 @@ public class LoadDialog extends JDialog {
 	    }
 		contentPane.add(comboBox);
 		
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		btnCancel = new JButton("Cancel");
+		btnCancel.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -70,9 +77,9 @@ public class LoadDialog extends JDialog {
 		});
 		btnCancel.setBounds(182, 127, 97, 25);
 		contentPane.add(btnCancel);
-		btnLoad.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		
-
+		btnLoad = new JButton("Load");
+		btnLoad.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ret=(LoadComboItem)comboBox.getSelectedItem();
@@ -83,13 +90,13 @@ public class LoadDialog extends JDialog {
 		btnLoad.setBounds(56, 127, 97, 25);
 		contentPane.add(btnLoad);
 		
-		JLabel lblLabel = new JLabel("Loaded simulations:");
-		lblLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		lblLabel.setBounds(36, 26, 153, 16);
-		contentPane.add(lblLabel);
+		textLabel = new JLabel("Loaded simulations:");
+		textLabel.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize + 2));
+		textLabel.setBounds(36, 26, 360, 22);
+		contentPane.add(textLabel);
 		
-		JButton upload = new JButton("Browse");
-		upload.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		upload = new JButton("Browse");
+		upload.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		upload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -133,8 +140,8 @@ public class LoadDialog extends JDialog {
 		});
 		upload.setBounds(317, 128, 89, 23);
 		contentPane.add(upload);
-		
 	}
+	
 	public void disablebutton() {
 		btnLoad.setEnabled(false);
 	}

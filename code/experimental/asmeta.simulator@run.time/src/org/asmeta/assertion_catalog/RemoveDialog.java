@@ -1,6 +1,7 @@
 package org.asmeta.assertion_catalog;
 
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import org.asmeta.simulationUI.SimGUI;
@@ -15,17 +16,17 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 
 public class RemoveDialog extends JDialog {
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
+	private static JPanel contentPane;
+	static JButton no;
+	static JButton yes;
+	static JLabel sureMessage;
 	
-
 	/**
 	 * Create the frame.
 	 */
 	public RemoveDialog(String s) {
+		UIManager.put("OptionPane.messageFont", new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
+		UIManager.put("OptionPane.buttonFont", new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		setModal(true);
 		setResizable(false);
 		setIconImages(SimGUI.icons);
@@ -37,14 +38,15 @@ public class RemoveDialog extends JDialog {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setDefaultCloseOperation(RemoveDialog.DISPOSE_ON_CLOSE);
-		JLabel sure_message = new JLabel("Are you sure?");
-		sure_message.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-		sure_message.setBounds(116, 11, 80, 29);
-		contentPane.add(sure_message);
-		this.setTitle("Remove Invariant");
 		
-		JButton yes = new JButton("Yes",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/yes.png")));
-		yes.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		sureMessage = new JLabel("Are you sure?");
+		sureMessage.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
+		sureMessage.setBounds(116, 11, 176, 29);
+		contentPane.add(sureMessage);
+		setTitle("Remove Invariant");
+		
+		yes = new JButton("Yes",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/yes.png")));
+		yes.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		yes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -58,8 +60,8 @@ public class RemoveDialog extends JDialog {
 		yes.setBounds(10, 61, 114, 37);
 		contentPane.add(yes);
 		
-		JButton no = new JButton("No",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/cancel.png")));
-		no.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		no = new JButton("No",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/cancel.png")));
+		no.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		no.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InvariantGUI.setAddRefreshEnabled();

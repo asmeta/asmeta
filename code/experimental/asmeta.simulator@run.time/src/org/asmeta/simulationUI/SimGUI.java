@@ -1,15 +1,26 @@
 package org.asmeta.simulationUI;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,15 +30,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.Caret;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -36,59 +54,27 @@ import org.asmeta.assertion_catalog.InvariantGUI;
 import org.asmeta.assertion_catalog.LoadComboItem;
 import org.asmeta.assertion_catalog.LoadDialog;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.runtime_container.Esit;
+import org.asmeta.runtime_container.IModelAdaptation;
+import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainer;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
-import org.asmeta.runtime_container.Esit;
-import org.asmeta.runtime_container.RunOutput;
-
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
-import asmeta.definitions.domains.Domain;
 import asmeta.definitions.impl.MonitoredFunctionImpl;
-import asmeta.structure.Header;
-import asmeta.structure.Signature;
-
-import javax.swing.JLabel;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-
-import java.awt.event.WindowFocusListener;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintStream;
-import java.awt.event.WindowEvent;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import java.awt.Toolkit;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.Insets;
-import java.awt.Rectangle;
-
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JCheckBoxMenuItem;
 
 /**
  * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
  */
 public class SimGUI extends JFrame {
-
-	//private JPanel contentPane;
 	public static JPanel contentPane;
+	public static boolean darkMode;
+	public static int fontSize;
+	public static List<Image> icons;
+	
 	static JScrollPane scrollPane;
 	static JTextPane textPaneID;
 	static JLabel lblSimID;
@@ -100,22 +86,35 @@ public class SimGUI extends JFrame {
 	static JButton btnRunUntilEmpty;
 	static JButton btnRunUntilEmptyTimeout;
 	static JMenuBar menuBar;
+	static JMenu fileMenu;
+	static JMenuItem openMenuItem;
+	static JMenu windowMenu;
+	static JRadioButtonMenuItem _12fontRadioItem;
+	static JRadioButtonMenuItem _14fontRadioItem;
+	static JRadioButtonMenuItem _16fontRadioItem;
+	static JRadioButtonMenuItem _18fontRadioItem;
+	static JTextArea textAreaLog;
+	static JMenu fontSizeMenu;
+	static JCheckBoxMenuItem darkModeCheckItem;
 	static JMenuItem invManagerMenuItem;
 	static ButtonGroup fontSizeGroup;
 	static SimulationContainer containerInstance;
 	static int currentLoadedID;
 	static int currentMaxInstances;
 	static String currentLoadedModel;
-	public static boolean darkMode;
-	public static int fontSize;
+	
 	static final String PROPERTIES_FILE_PATH = "src/org/asmeta/simulationUI/.properties";
-	public static List<Image> icons;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		SimulationContainer contInstance = new SimulationContainer();
+	public static void main(IModelAdaptation containerInstance) {
+		SimulationContainer contInstance;
+		if(containerInstance == null) {
+			contInstance = new SimulationContainer();
+		} else {
+			contInstance = (SimulationContainer) containerInstance;
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -153,6 +152,7 @@ public class SimGUI extends JFrame {
 		});
 	}
 
+
 	/**
 	 * Create the frame.
 	 */
@@ -176,6 +176,8 @@ public class SimGUI extends JFrame {
         icons.add(Toolkit.getDefaultToolkit().getImage(SimGUI.class.getResource("/org/asmeta/animator/icona_circolare_16.png")));
         icons.add(Toolkit.getDefaultToolkit().getImage(SimGUI.class.getResource("/org/asmeta/animator/icona_circolare_40.png")));
         
+        UIManager.put("OptionPane.messageFont", new Font("Segoe UI", Font.PLAIN, fontSize));
+        UIManager.put("OptionPane.buttonFont", new Font("Segoe UI", Font.PLAIN, fontSize));
         setIconImages(icons);
         setResizable(true);
         setMinimumSize(new Dimension(630, 350));
@@ -202,7 +204,9 @@ public class SimGUI extends JFrame {
 					}
 				}
 			}
-			public void windowLostFocus(WindowEvent arg0) {}
+
+			@Override
+			public void windowLostFocus(WindowEvent e) { return; }
 		});
 		
 		addWindowListener(new WindowAdapter() {
@@ -225,8 +229,8 @@ public class SimGUI extends JFrame {
 			public void componentResized(ComponentEvent e) {
 				int frameWidth = e.getComponent().getWidth();
 				int frameHeight = e.getComponent().getHeight();
-				//System.out.println("Width: " + frameWidth);
-				//System.out.println("Height: " + frameHeight);
+				// DEBUG: System.out.println("Width: " + frameWidth);
+				// DEBUG: System.out.println("Height: " + frameHeight);
 				
 				// Handle menuBar resizing
 				menuBar.setBounds(new Rectangle(0, 0, frameWidth - 16, 22));
@@ -348,7 +352,7 @@ public class SimGUI extends JFrame {
 		scrollPane.setBounds(47, 93, 566, 272);
 		contentPane.add(scrollPane);
 		
-		JTextArea textAreaLog = new JTextArea();
+		textAreaLog = new JTextArea();
 		textAreaLog.setEditable(false);
 		textAreaLog.setFont(new Font("Consolas", Font.PLAIN, fontSize + 1));
 		if(!darkMode) {
@@ -391,41 +395,51 @@ public class SimGUI extends JFrame {
 		menuBar.setBounds(0, 0,  664, 22);
 		contentPane.add(menuBar);
 		
-		JMenu fileMenu = new JMenu("File");
+		fileMenu = new JMenu("File");
+		fileMenu.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		menuBar.add(fileMenu);
 		
-		JMenuItem openMenuItem = new JMenuItem("Load simulations...");
+		openMenuItem = new JMenuItem("Load simulations...");
+		openMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		fileMenu.add(openMenuItem);
 		
 		invManagerMenuItem = new JMenuItem("Open assertion catalog");
+		invManagerMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		invManagerMenuItem.setEnabled(false);
 		fileMenu.add(invManagerMenuItem);
 		
-		JMenu windowMenu = new JMenu("Window");
+		windowMenu = new JMenu("Window");
+		windowMenu.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		menuBar.add(windowMenu);
 		
-		JCheckBoxMenuItem darkModeCheckItem = new JCheckBoxMenuItem("Dark Mode");
+		darkModeCheckItem = new JCheckBoxMenuItem("Dark Mode");
+		darkModeCheckItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		windowMenu.add(darkModeCheckItem);
 		darkModeCheckItem.setState(darkMode);
 		
-		JMenu fontSizeMenu = new JMenu("Font size");
+		fontSizeMenu = new JMenu("Font size");
+		fontSizeMenu.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		windowMenu.add(fontSizeMenu);
 		
 		fontSizeGroup = new ButtonGroup();
 		
-		JRadioButtonMenuItem _12fontRadioItem = new JRadioButtonMenuItem("12");
+		_12fontRadioItem = new JRadioButtonMenuItem("12");
+		_12fontRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		fontSizeMenu.add(_12fontRadioItem);
 		fontSizeGroup.add(_12fontRadioItem);
 		
-		JRadioButtonMenuItem _14fontRadioItem = new JRadioButtonMenuItem("14");
+		_14fontRadioItem = new JRadioButtonMenuItem("14");
+		_14fontRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		fontSizeMenu.add(_14fontRadioItem);
 		fontSizeGroup.add(_14fontRadioItem);
 		
-		JRadioButtonMenuItem _16fontRadioItem = new JRadioButtonMenuItem("16");
+		_16fontRadioItem = new JRadioButtonMenuItem("16");
+		_16fontRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		fontSizeMenu.add(_16fontRadioItem);
 		fontSizeGroup.add(_16fontRadioItem);
 		
-		JRadioButtonMenuItem _18fontRadioItem = new JRadioButtonMenuItem("18");
+		_18fontRadioItem = new JRadioButtonMenuItem("18");
+		_18fontRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		fontSizeMenu.add(_18fontRadioItem);
 		fontSizeGroup.add(_18fontRadioItem);
 		
@@ -481,8 +495,6 @@ public class SimGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(currentMaxInstances<1)
 				{
-					//String num=JOptionPane.showInputDialog("How many simulations do you want to instantiate?", "1");
-					//Object[] options = {"1", "2", "3"};
 					String num = (String) JOptionPane.showInputDialog(
 							contentPane, 											// parent component
 							"How many simulations do you want to instantiate?", 	// message
@@ -603,7 +615,7 @@ public class SimGUI extends JFrame {
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				int timeout=-1;
-				String num=JOptionPane.showInputDialog("Insert timeout (milliseconds):");
+				String num=JOptionPane.showInputDialog(contentPane, "Insert timeout (milliseconds):", "Timeout", JOptionPane.PLAIN_MESSAGE);
 				if(num!=null)
 				{
 					try {
@@ -670,7 +682,7 @@ public class SimGUI extends JFrame {
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				int timeout=-1;
-				String num=JOptionPane.showInputDialog("Insert timeout (milliseconds):");
+				String num=JOptionPane.showInputDialog(contentPane, "Insert timeout (milliseconds):", "Timeout", JOptionPane.PLAIN_MESSAGE);
 				if(num!=null)
 				{
 					try {
@@ -792,6 +804,9 @@ public class SimGUI extends JFrame {
 		
 		for (String monitored: monitoredList) {
 			options = enumDomainFunction.get(monitored);
+			if(options.length == 0) {
+				options = null;
+			}
 			inputValue = (String) JOptionPane.showInputDialog(
 					contentPane, 											// parent component
 					"Insert " + monitored + " value:", 						// message

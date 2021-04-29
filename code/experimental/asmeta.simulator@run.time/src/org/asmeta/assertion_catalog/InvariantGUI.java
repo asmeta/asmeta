@@ -1,6 +1,7 @@
 package org.asmeta.assertion_catalog;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
@@ -40,21 +41,21 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 /**
  * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
  */
 public class InvariantGUI {
-
 	private static JFrame frame;
-	static List<String> list_invariant = new ArrayList<String>();
+	static List<String> invariantList = new ArrayList<String>();
 	//static DefaultListModel<String> model = new DefaultListModel<>();
 	static InvariantManager StartGui = new InvariantManager();
-	static String selected_invariant;
-	boolean success;
+	static String selectedInvariant;
+	static boolean success;
 	static ListSelectionModel cellSelectionModel;
 	static String selectedData;
-	Font font = new Font(Font.DIALOG, 15, 15);
 	
 	//////////////COMPONENTS//////////////////////
 	//static JList<String> list = new JList<>();
@@ -70,6 +71,14 @@ public class InvariantGUI {
 	static JLabel lblModel;
 	static ButtonGroup fontSizeGroup;
 	//static JTable table;
+	static JMenu invManagerMenu;
+	static JMenu windowMenu;
+	static JCheckBoxMenuItem darkModeCheckItem;
+	static JMenu fontSizeMenu;
+	static JRadioButtonMenuItem _12fontRadioItem;
+	static JRadioButtonMenuItem _18fontRadioItem;
+	static JRadioButtonMenuItem _16fontRadioItem;
+	static JRadioButtonMenuItem _14fontRadioItem;
 	
 	private static JTable table;
 	private static JTable jTable;
@@ -77,11 +86,10 @@ public class InvariantGUI {
 	private static int column = 0;
 	
 	//////////////CONTAINER//////////////////////
-	static InvariantData inv_manager;
+	static InvariantData invManager;
 	static IModelAdaptation containerInstance;
 	static int currentLoadedID;
 	static String currentLoadedModel;
-	
 	
 	public static void main(IModelAdaptation contInstanc) {
 		EventQueue.invokeLater(new Runnable() {
@@ -136,13 +144,14 @@ public class InvariantGUI {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setIconImages(SimGUI.icons);
-		frame.getContentPane().setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		frame.setBounds(100, 100, 674, 490);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setTitle("Assertion Catalog");
 		frame.setMinimumSize(new Dimension(640, 300));
 		frame.setLocationRelativeTo(SimGUI.contentPane);
+		UIManager.put("OptionPane.messageFont", new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
+		UIManager.put("OptionPane.buttonFont", new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		
 		// Handle window frame dynamic resizing of components
 		frame.addComponentListener(new ComponentListener() {
@@ -156,7 +165,7 @@ public class InvariantGUI {
 								
 					// Handle modelpath and lblModel resizing and replacement
 					modelpath.setBounds(new Rectangle(35, 55, frameWidth - 101, 22));
-					lblModel.setBounds(new Rectangle(35, 30, 94, 22));
+					lblModel.setBounds(new Rectangle(35, 30, 586, 22));
 					
 					// Handle edit, add, remove, refresh resizing and replacement
 					edit.setBounds(new Rectangle(333, frameHeight - 128, 134, 40));
@@ -183,8 +192,8 @@ public class InvariantGUI {
 		modelpath = new JTextPane();
 		modelpath.setText("No simulation loaded");
 		modelpath.setEditable(false);
-		modelpath.setBounds(35, 55, 586, 22);
-		modelpath.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		modelpath.setBounds(35, 57, 586, 22);
+		modelpath.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		frame.getContentPane().add(modelpath);
 		if(!SimGUI.darkMode) {
 			modelpath.setBackground(Color.WHITE);
@@ -192,24 +201,31 @@ public class InvariantGUI {
 			modelpath.setBackground(new Color(40, 40, 40));
 		}
 		
+		lblModel = new JLabel("Loaded model:");
+		lblModel.setFont(new Font("Segoe UI", Font.BOLD, SimGUI.fontSize));
+		//lblModel.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblModel.setHorizontalAlignment(SwingConstants.LEFT);
+		lblModel.setBounds(35, 30, 586, 22);
+		frame.getContentPane().add(lblModel);
+		
 		refresh = new JButton("Refresh",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/refresh.png")));
-		refresh.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		refresh.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		refresh.setEnabled(false);
 		refresh.setBounds(477, 362, 134, 40);
 		frame.getContentPane().add(refresh);
 		
 		remove = new JButton("Remove",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/remove.png")));
-		remove.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		remove.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		remove.setBounds(189, 362, 134, 40);
 		frame.getContentPane().add(remove);
 		
 		add = new JButton("Add",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/add.png")));
-		add.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		add.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		add.setBounds(45, 362, 134, 40);
 		frame.getContentPane().add(add);
 		
 		edit = new JButton("Edit",new ImageIcon(InvariantGUI.class.getResource("/org/asmeta/animator/edit.png")));
-		edit.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		edit.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		edit.setBounds(333, 362, 134, 40);
 		frame.getContentPane().add(edit);
 		
@@ -219,7 +235,7 @@ public class InvariantGUI {
 		
 		jTable = new JTable();
 		table = new JTable();
-		table.setFont(new Font("Consolas", Font.PLAIN, 13));
+		table.setFont(new Font("Consolas", Font.PLAIN, SimGUI.fontSize + 1));
 		if(!SimGUI.darkMode) {
 			table.setBackground(Color.WHITE);
 		} else {
@@ -229,11 +245,6 @@ public class InvariantGUI {
 		table.setCellSelectionEnabled(true);
 		
 		scrollPane.setViewportView(table);
-		
-		lblModel = new JLabel("Loaded model:");
-		lblModel.setFont(new Font("Segoe UI", Font.BOLD, 12));
-		lblModel.setBounds(35, 30, 94, 22);
-		frame.getContentPane().add(lblModel);
 		
 		menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 671, 22);
@@ -245,37 +256,46 @@ public class InvariantGUI {
 			menuBar.setBackground(new Color(40, 40, 40));
 		}
 		
-		JMenu invManagerMenu = new JMenu("File");
+		invManagerMenu = new JMenu("File");
+		invManagerMenu.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		menuBar.add(invManagerMenu);
 		
 		selectModelMenuItem = new JMenuItem("Select loaded model");
+		selectModelMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		invManagerMenu.add(selectModelMenuItem);
 		
-		JMenu windowMenu = new JMenu("Window");
+		windowMenu = new JMenu("Window");
+		windowMenu.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		menuBar.add(windowMenu);
 		
-		JCheckBoxMenuItem darkModeCheckItem = new JCheckBoxMenuItem("Dark mode");
+		darkModeCheckItem = new JCheckBoxMenuItem("Dark mode");
+		darkModeCheckItem.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		windowMenu.add(darkModeCheckItem);
 		darkModeCheckItem.setState(SimGUI.darkMode);
 		
-		JMenu fontSizeMenu = new JMenu("Font size");
+		fontSizeMenu = new JMenu("Font size");
+		fontSizeMenu.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		windowMenu.add(fontSizeMenu);
 		
 		fontSizeGroup = new ButtonGroup();
 		
-		JRadioButtonMenuItem _12fontRadioItem = new JRadioButtonMenuItem("12");
+		_12fontRadioItem = new JRadioButtonMenuItem("12");
+		_12fontRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		fontSizeMenu.add(_12fontRadioItem);
 		fontSizeGroup.add(_12fontRadioItem);
 		
-		JRadioButtonMenuItem _14fontRadioItem = new JRadioButtonMenuItem("14");
+		_14fontRadioItem = new JRadioButtonMenuItem("14");
+		_14fontRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		fontSizeMenu.add(_14fontRadioItem);
 		fontSizeGroup.add(_14fontRadioItem);
 		
-		JRadioButtonMenuItem _16fontRadioItem = new JRadioButtonMenuItem("16");
+		_16fontRadioItem = new JRadioButtonMenuItem("16");
+		_16fontRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		fontSizeMenu.add(_16fontRadioItem);
 		fontSizeGroup.add(_16fontRadioItem);
 		
-		JRadioButtonMenuItem _18fontRadioItem = new JRadioButtonMenuItem("18");
+		_18fontRadioItem = new JRadioButtonMenuItem("18");
+		_18fontRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		fontSizeMenu.add(_18fontRadioItem);
 		fontSizeGroup.add(_18fontRadioItem);
 		
@@ -389,7 +409,7 @@ public class InvariantGUI {
 			public void actionPerformed(ActionEvent e) {
 				try {			
 					setAllEnabled(1);
-					new AddDialog(inv_manager).setVisible(true);
+					new AddDialog(invManager).setVisible(true);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -400,7 +420,7 @@ public class InvariantGUI {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					setAllEnabled(1);
-					new RemoveDialog(selected_invariant).setVisible(true);
+					new RemoveDialog(selectedInvariant).setVisible(true);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -414,14 +434,14 @@ public class InvariantGUI {
 					//new AddUpdateDialog(selectedData).setVisible(true);
 					if(table.getSelectedColumn() == 0) {
 						if(selectedData.trim().equals("<No name>".trim())) 
-							new EditDialog("","NAME",selected_invariant,inv_manager).setVisible(true);
+							new EditDialog("","NAME",selectedInvariant,invManager).setVisible(true);
 						else 
-							new EditDialog(selectedData,"NAME",selected_invariant,inv_manager).setVisible(true);
+							new EditDialog(selectedData,"NAME",selectedInvariant,invManager).setVisible(true);
 					}
 					else if(table.getSelectedColumn() == 1) 
-						new EditDialog(selectedData,"OVER",selected_invariant,inv_manager).setVisible(true);
+						new EditDialog(selectedData,"OVER",selectedInvariant,invManager).setVisible(true);
 					else 
-						new EditDialog(selectedData,"CONTENT",selected_invariant,inv_manager).setVisible(true);
+						new EditDialog(selectedData,"CONTENT",selectedInvariant,invManager).setVisible(true);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -444,18 +464,18 @@ public class InvariantGUI {
 			setAllEnabled(1);
 			//model.removeAllElements();
 			
-			inv_manager = StartGui.refreshInvariants(containerInstance, currentLoadedID);
-			if (inv_manager==null) {	//if the current selected sim has been terminated the gui resets
+			invManager = StartGui.refreshInvariants(containerInstance, currentLoadedID);
+			if (invManager==null) {	//if the current selected sim has been terminated the gui resets
 				currentLoadedID=-99;
 				currentLoadedModel="";
 				setAllEnabled(0);
 				((DefaultTableModel) table.getModel()).setRowCount(0);
 				modelpath.setText("");
 			}else {
-				list_invariant=inv_manager.getinvarList();
+				invariantList=invManager.getinvarList();
 				
-				System.out.println(list_invariant);
-				if(list_invariant==null)
+				System.out.println(invariantList);
+				if(invariantList==null)
 				{
 					success=false;
 					add.setEnabled(false);
@@ -468,17 +488,17 @@ public class InvariantGUI {
 			    
 			    
 				int i=0;
-				while(i<list_invariant.size())
+				while(i<invariantList.size())
 				{	
 					
-					//model.addElement(list_invariant.get(i));
+					//model.addElement(invariantList.get(i));
 					Object [] fila = new Object[3];
-					if(list_invariant.get(i).trim().substring(10).startsWith("inv_"))
-						fila[0] = list_invariant.get(i).trim().substring(10,list_invariant.get(i).trim().indexOf("over")-1).trim();
+					if(invariantList.get(i).trim().substring(10).startsWith("inv_"))
+						fila[0] = invariantList.get(i).trim().substring(10,invariantList.get(i).trim().indexOf("over")-1).trim();
 					else
 						fila[0] = "<No name>";
-					fila[1] = list_invariant.get(i).substring(list_invariant.get(i).trim().indexOf("over")+5,list_invariant.get(i).trim().indexOf(':')).trim();
-					fila[2] = list_invariant.get(i).trim().substring(list_invariant.get(i).trim().indexOf(':')+1).trim();
+					fila[1] = invariantList.get(i).substring(invariantList.get(i).trim().indexOf("over")+5,invariantList.get(i).trim().indexOf(':')).trim();
+					fila[2] = invariantList.get(i).trim().substring(invariantList.get(i).trim().indexOf(':')+1).trim();
 					((DefaultTableModel) table.getModel()).addRow(fila);
 					i++;
 				}
@@ -493,12 +513,12 @@ public class InvariantGUI {
 				            column = jTable.getSelectedColumn();
 				            selectedData = (String)jTable.getValueAt(row, column);
 				            if(((String)jTable.getValueAt(row, 0)).equals("<No name>".trim()))
-				            	selected_invariant = "invariant over "+
+				            	selectedInvariant = "invariant over "+
 					            		(String)jTable.getValueAt(row, 1)+":"+(String)jTable.getValueAt(row, 2);
 				            else
-					            selected_invariant = "invariant "+(String)jTable.getValueAt(row, 0)+" over "+
+					            selectedInvariant = "invariant "+(String)jTable.getValueAt(row, 0)+" over "+
 					            		(String)jTable.getValueAt(row, 1)+":"+(String)jTable.getValueAt(row, 2);
-				            //System.out.println(selected_invariant);
+				            //System.out.println(selectedInvariant);
 				            edit.setEnabled(true);
 							remove.setEnabled(true);
 				            //System.out.println("DATO: "+valueInCell);
@@ -510,7 +530,7 @@ public class InvariantGUI {
 				/*list.getSelectionModel().addListSelectionListener(new ListSelectionListener () {
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
-						selected_invariant = list.getSelectedValue();
+						selectedInvariant = list.getSelectedValue();
 						edit.setEnabled(true);
 						remove.setEnabled(true);
 					}
@@ -574,10 +594,10 @@ public class InvariantGUI {
 		table.getTableHeader().setReorderingAllowed(false); 
 		
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		table.getColumnModel().getColumn(2).setPreferredWidth(scrollPane.getWidth()-
-				table.getColumnModel().getColumn(0).getWidth()-table.getColumnModel().getColumn(1).getWidth());
+		table.getColumnModel().getColumn(0).setPreferredWidth(50);
+		//table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		//table.getColumnModel().getColumn(2).setPreferredWidth(scrollPane.getWidth()-
+		//		table.getColumnModel().getColumn(0).getWidth()-table.getColumnModel().getColumn(1).getWidth());
 		table.setCellSelectionEnabled(true);
 		cellSelectionModel = table.getSelectionModel();
 	    cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

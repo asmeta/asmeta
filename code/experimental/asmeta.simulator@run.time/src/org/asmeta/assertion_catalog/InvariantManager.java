@@ -15,13 +15,10 @@ import org.asmeta.simulationUI.SimGUI;
  * Controller class for InvariantGUI
  */
 public class InvariantManager {
-	
 	JFileChooser fileChooser = new JFileChooser();
 	StringBuilder sb = new StringBuilder();
 	static String model = "";
-
 	File file;
-	
 	Scanner input;
 	
 	public InvariantData refreshInvariants(IModelAdaptation instance, int id) throws Exception

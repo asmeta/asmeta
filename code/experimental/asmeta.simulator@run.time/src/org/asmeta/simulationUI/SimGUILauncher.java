@@ -1,15 +1,14 @@
 package org.asmeta.simulationUI;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import org.asmeta.runtime_container.IModelAdaptation;
 
 /**
  * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
  */
 public class SimGUILauncher {
 
-	public static void main(String[] args) {
-		SimGUI.main(args);
+	public static void main(IModelAdaptation contIstance) {
+		SimGUI.main(contIstance);
 	}
 
 }
