@@ -69,7 +69,7 @@ public class InterpreterTest extends BaseTest {
 	
 	@Test(expected=ParseException.class)
 	public void test02() throws Exception {
-		sim = Util.getSimulatorForTestSpec("test/simulator/ArithmeticExpr02.asm");		
+		sim = Util.getSimulatorForTestSpec("test/errors/np/ArithmeticExpr02.asm");		
 		sim.run(1);	
 		f = searchFunction("f");
 		v = sim.currentState.read(new Location(f, new Value[0]));
@@ -626,14 +626,18 @@ public class InterpreterTest extends BaseTest {
 	
 	@Test(expected=ParseException.class)
 	public void test48() throws Exception {
-		AsmCollection p = ASMParser.setUpReadAsm(new File("../../../asm_examples/test/simulator/macro/macro06.asm"));
+		File f2 = new File(TestOneSpec.FILE_BASE +  "/test/errors/np/macro06.asm");
+		assertTrue(f2.exists());
+		AsmCollection p = ASMParser.setUpReadAsm(f2);
 		// ERROR: Unresolved reference to r_write(Integer, Chan)
 		assertTrue(p == null);
 	}
 
 	@Test
 	public void test49() throws Exception {
-		AsmCollection p = ASMParser.setUpReadAsm(new File("../../../asm_examples/test/simulator/macro/macro07.asm"));
+		File f2 = new File(TestOneSpec.FILE_BASE + "/test/simulator/macro/macro07.asm");
+		assertTrue(f2.exists());
+		AsmCollection p = ASMParser.setUpReadAsm(f2);
 		assertTrue(p != null);
 	}
 
