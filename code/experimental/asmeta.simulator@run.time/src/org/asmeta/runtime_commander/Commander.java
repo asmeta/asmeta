@@ -29,9 +29,12 @@ public class Commander {
 			//System.out.println(m.group(1)); 
 			if (debugMode)
 				System.out.println("found "+mod+" parameter with value: "+number);
-		}else
+		}else {
 			if (debugMode)
 				System.out.println(mod+" parameter not found.");
+			number = 1;
+		}
+			
 		return number;
 	}
 	
@@ -189,7 +192,6 @@ public class Commander {
 						out=new CommanderOutput(CommanderStatus.INSTANCES, crt.init(np));
 					else
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter n ");
-						//System.out.println("Couldn't launch command, required parameter n missing.");
 				break;
 				case "STARTEXECUTION":
 					if (modelpathp!=null)
@@ -197,7 +199,6 @@ public class Commander {
 						out=new CommanderOutput(CommanderStatus.SIM_ID, crt.startExecution(modelpathp));
 					else 
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter modelpath");
-						//System.out.println("Couldn't launch command, required parameter modelpath missing.");
 				break;
 				case "STOPEXECUTION":
 					if (idp!=DEFVALUE)
@@ -205,7 +206,6 @@ public class Commander {
 						out=new CommanderOutput(CommanderStatus.STOP, crt.stopExecution(idp));
 					else 
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
-						//System.out.println("Couldn't launch command, required parameter id missing.");
 				break;
 				case "RUNSTEP":
 					if (idp!=DEFVALUE)
@@ -217,7 +217,6 @@ public class Commander {
 							out=new CommanderOutput(CommanderStatus.RUNOUTPUT, crt.runStep(idp));
 					else 
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter id");
-						//System.out.println("Couldn't launch command, required parameter id missing.");
 				break;
 				case "RUNSTEPTIMEOUT":
 					if (idp!=DEFVALUE && timeoutp!=DEFVALUE)

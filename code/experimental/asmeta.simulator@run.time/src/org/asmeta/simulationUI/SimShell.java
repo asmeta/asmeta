@@ -20,7 +20,7 @@ public class SimShell {
 		Scanner keyboard = new Scanner(System.in);
 		do
 		{
-			System.out.print('>');
+			System.out.print("> ");
 			in = keyboard.nextLine();
 			if (!in.equals("qqq")) {
 				CO = Commander.parseInput(imp, in, false);
@@ -65,5 +65,7 @@ public class SimShell {
 		while (!in.equals("qqq"));
 		System.out.println("Quitting...");
 		keyboard.close();
+		System.out.println("Done!");
+		System.exit(0);
 	}
 }
