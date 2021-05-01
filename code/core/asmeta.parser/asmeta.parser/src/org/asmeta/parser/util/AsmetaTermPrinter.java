@@ -404,6 +404,7 @@ public class AsmetaTermPrinter extends ReflectiveVisitor<String> {
 			EList<Domain> domains = ((RuleDomain) domain).getDomains();
 			if (domains.size()>0) {
 				sb.append("(");
+				// 	concatenate with comma
 				for (int i = 0; i < domains.size() - 1; i++) {
 					sb.append(domains.get(i).getName() + ", ");
 				}
