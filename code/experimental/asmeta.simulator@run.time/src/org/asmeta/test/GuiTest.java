@@ -37,7 +37,7 @@ public class GuiTest {
 		imp.startExecution("examples/Lavatrice.asm");*/
 		
 		//imp.stopExecution(2);
-		SimGUILauncher.main(imp);
+		SimGUI.main(imp);
 		SimShell.main(args);
 		/*Map<String,String> m=new HashMap<String, String>(); //prova per invalid invariant su aggiunta
 		m.put("carry", "CABBAGE");

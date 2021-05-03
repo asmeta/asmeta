@@ -40,7 +40,11 @@ public class LoadSelectedSimulation extends JDialog {
 		setTitle("Load simulation");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 212);
-		setLocationRelativeTo(InvariantGUI.getContentPane());
+		if(InvariantGUI.getContentPane() != null) {
+			setLocationRelativeTo(InvariantGUI.getContentPane());
+		} else {
+			setLocationRelativeTo(SimGUI.contentPane);
+		}
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

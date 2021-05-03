@@ -138,7 +138,7 @@ public class SimGUISingleton extends JFrame {
 					} else {
 						UIManager.setLookAndFeel(new FlatLightLaf());
 					}
-					SimGUI frame = new SimGUI(contInstance);
+					SimGUISingleton frame = new SimGUISingleton(contInstance);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -168,8 +168,8 @@ public class SimGUISingleton extends JFrame {
         ByteArrayOutputStream newConsole = new ByteArrayOutputStream();
         icons = new Vector<Image>();
         
-        icons.add(Toolkit.getDefaultToolkit().getImage(SimGUI.class.getResource("/org/asmeta/animator/icona_circolare_16.png")));
-        icons.add(Toolkit.getDefaultToolkit().getImage(SimGUI.class.getResource("/org/asmeta/animator/icona_circolare_40.png")));
+        icons.add(Toolkit.getDefaultToolkit().getImage(SimGUISingleton.class.getResource("/org/asmeta/animator/icona_circolare_16.png")));
+        icons.add(Toolkit.getDefaultToolkit().getImage(SimGUISingleton.class.getResource("/org/asmeta/animator/icona_circolare_40.png")));
         
         UIManager.put("OptionPane.messageFont", new Font("Segoe UI", Font.PLAIN, fontSize));
         UIManager.put("OptionPane.buttonFont", new Font("Segoe UI", Font.PLAIN, fontSize));
@@ -179,7 +179,7 @@ public class SimGUISingleton extends JFrame {
 		setTitle("Simulator Manager");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 680, 545);
-		setLocationRelativeTo(null); // open the SimGUI window in the center of the screen
+		setLocationRelativeTo(null); // open the SimGUISingleton window in the center of the screen
 		
 		addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
@@ -447,28 +447,28 @@ public class SimGUISingleton extends JFrame {
 		
 		_12fontRadioItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SimGUI.setProperty("fontSize", "12");
+				SimGUISingleton.setProperty("fontSize", "12");
 				JOptionPane.showMessageDialog(contentPane, "Re-open the application to apply the new font size!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
 			}
 		});
 		
 		_14fontRadioItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SimGUI.setProperty("fontSize", "14");
+				SimGUISingleton.setProperty("fontSize", "14");
 				JOptionPane.showMessageDialog(contentPane, "Re-open the application to apply the new font size!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
 			}
 		});
 		
 		_16fontRadioItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SimGUI.setProperty("fontSize", "16");
+				SimGUISingleton.setProperty("fontSize", "16");
 				JOptionPane.showMessageDialog(contentPane, "Re-open the application to apply the new font size!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
 			}
 		});
 		
 		_18fontRadioItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SimGUI.setProperty("fontSize", "18");
+				SimGUISingleton.setProperty("fontSize", "18");
 				JOptionPane.showMessageDialog(contentPane, "Re-open the application to apply the new font size!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
 			}
 		});
@@ -476,10 +476,10 @@ public class SimGUISingleton extends JFrame {
 		darkModeCheckItem.addActionListener(new ActionListener() {	
 			public void actionPerformed(ActionEvent e) {
 				if(darkModeCheckItem.getState()) {
-					SimGUI.setProperty("mode", "dark");
+					SimGUISingleton.setProperty("mode", "dark");
 					JOptionPane.showMessageDialog(contentPane, "Re-open the application to apply the dark mode!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
 				} else {
-					SimGUI.setProperty("mode", "light");
+					SimGUISingleton.setProperty("mode", "light");
 					JOptionPane.showMessageDialog(contentPane, "Re-open the application to disable the dark mode!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
 				}
 			}
@@ -558,7 +558,7 @@ public class SimGUISingleton extends JFrame {
 						currentLoadedID=-99;
 						currentLoadedModel="";
 						enableLoadSimButtons(false);
-						if(SimGUI.containerInstance.getLoadedIDs().isEmpty() || !SimGUI.containerInstance.getLoadedIDs().containsKey(InvariantGUI.getCurrentLoadedID())) {
+						if(SimGUISingleton.containerInstance.getLoadedIDs().isEmpty() || !SimGUISingleton.containerInstance.getLoadedIDs().containsKey(InvariantGUI.getCurrentLoadedID())) {
 							InvariantGUI.setAllEnabled(0);
 						}
 						textPaneModel.setText("No simulation loaded");
