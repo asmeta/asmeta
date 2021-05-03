@@ -6,11 +6,11 @@ import java.io.PrintStream;
 
 import org.asmeta.eclipse.AsmetaActionHandler;
 import org.asmeta.eclipse.AsmetaUtility;
-import org.asmeta.nusmv.AsmetaSMV;
-import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.nusmv.plugin.AsmetaSMVActivator;
 import org.asmeta.nusmv.plugin.AsmetaSMVConsole;
 import org.asmeta.nusmv.plugin.AsmetaSMVPreferencePage;
+import org.asmeta.nuxmv.AsmetaSMV;
+import org.asmeta.nuxmv.AsmetaSMVOptions;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;

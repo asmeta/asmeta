@@ -1,16 +1,16 @@
-package org.asmeta.nusmv;
+package org.asmeta.nuxmv;
 
 import static java.lang.System.out;
-import static org.asmeta.nusmv.util.Util.checkDomain;
-import static org.asmeta.nusmv.util.Util.checkTypeDomain;
-import static org.asmeta.nusmv.util.Util.falseString;
-import static org.asmeta.nusmv.util.Util.getDir;
-import static org.asmeta.nusmv.util.Util.getDomainName;
-import static org.asmeta.nusmv.util.Util.getFunctionName;
-import static org.asmeta.nusmv.util.Util.isAgentDomain;
-import static org.asmeta.nusmv.util.Util.notUsedMess;
-import static org.asmeta.nusmv.util.Util.setPars;
-import static org.asmeta.nusmv.util.Util.trueString;
+import static org.asmeta.nuxmv.util.Util.checkDomain;
+import static org.asmeta.nuxmv.util.Util.checkTypeDomain;
+import static org.asmeta.nuxmv.util.Util.falseString;
+import static org.asmeta.nuxmv.util.Util.getDir;
+import static org.asmeta.nuxmv.util.Util.getDomainName;
+import static org.asmeta.nuxmv.util.Util.getFunctionName;
+import static org.asmeta.nuxmv.util.Util.isAgentDomain;
+import static org.asmeta.nuxmv.util.Util.notUsedMess;
+import static org.asmeta.nuxmv.util.Util.setPars;
+import static org.asmeta.nuxmv.util.Util.trueString;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,8 +38,15 @@ import org.asmeta.flattener.rule.CaseRuleFlattener;
 import org.asmeta.flattener.rule.ForallRuleFlattener;
 import org.asmeta.flattener.rule.LetRuleFlattener;
 import org.asmeta.flattener.rule.MacroCallRuleFlattener;
-import org.asmeta.nusmv.util.AsmNotSupportedException;
-import org.asmeta.nusmv.util.Util;
+import org.asmeta.nusmv.AsmetaSMVOptions;
+import org.asmeta.nusmv.DerivedVisitor;
+import org.asmeta.nusmv.DoesTermContainConds;
+import org.asmeta.nusmv.Environment;
+import org.asmeta.nusmv.RuleVisitor;
+import org.asmeta.nusmv.TermVisitor;
+import org.asmeta.nusmv.UpdateMap;
+import org.asmeta.nuxmv.util.AsmNotSupportedException;
+import org.asmeta.nuxmv.util.Util;
 import org.asmeta.parser.Defs;
 import org.asmeta.parser.util.ImportFlattener;
 import org.asmeta.simulator.Location;
@@ -765,7 +772,6 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		value[0] = BooleanValue.FALSE;
 		values.add(value.clone());
 		domainSmv.put("Boolean", "boolean");// associa al nome AsmetaL il nome NuSMV
-		//Silvia: 03/05/2021: allow integer domain translation
 		domainSet.put("Boolean", set);// associa al dominio AsmetaL un insieme con tutti i valori NuSMV
 		domainValues.put("Boolean", values);
 

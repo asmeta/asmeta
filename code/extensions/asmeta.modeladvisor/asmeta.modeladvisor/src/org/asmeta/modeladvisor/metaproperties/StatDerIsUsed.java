@@ -11,7 +11,7 @@ import java.util.TreeSet;
 
 import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.modeladvisor.texpr.SometimeExpression;
-import org.asmeta.nusmv.util.Util;
+import org.asmeta.nuxmv.util.Util;
 
 public class StatDerIsUsed extends Checker {
 	private Map<String, Set<String>> smvPropMap;
