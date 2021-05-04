@@ -39,6 +39,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Appender;
@@ -88,39 +89,51 @@ public class Simulator {
 	protected List<Invariant> controlledInvariants;
 	private List<Invariant> monitoredInvariants;
 
-	public static class SimulatorLogger{
+	public static class SimulatorLogger {
 		public static Logger logger = Logger.getLogger(Simulator.class);
-		
+
 		public void info(UpdateSet updateSet) {
-			logger.info(updateSet);			
+			logger.info(updateSet);
 		}
+
 		public void info(String string) {
-			logger.info(string);			
+			logger.info(string);
 		}
+
 		public boolean isInfoEnabled() {
 			return logger.isInfoEnabled();
 		}
+
 		public void debug(String string) {
-			logger.debug(string);			
+			logger.debug(string);
 		}
+
 		// add appender only if needed
 		// only one appender is allowed !!!
 		public void addAppender(Appender outputfromSim) {
-			if (Collections.list(logger.getAllAppenders()).size() == 0) 
+			if (Collections.list(logger.getAllAppenders()).size() == 0)
 				logger.addAppender(outputfromSim);
 		}
+
 		public void setLevel(Level level) {
-			logger.setLevel(level);			
+			logger.setLevel(level);
 		}
 	}
-	
+
 	public final static SimulatorLogger logger = new SimulatorLogger();
+
+	// NO_CHECK -> do not check invariants
+	// CHECK_CONTINUE -> check but just print a message and continue
+	// CHECK_STOP -> stop and throw an exception
+	public enum InvariantTreament {
+		NO_CHECK, CHECK_CONTINUE, CHECK_STOP
+	}
 
 	/**
 	 * Check invariants flag.
 	 *
 	 */
-	public static boolean checkInvariants = true;
+	public static InvariantTreament checkInvariants = InvariantTreament.CHECK_STOP;
 
 	// show also the update set
 	public static boolean showUpdateSet = false;
@@ -141,7 +154,7 @@ public class Simulator {
 	 *
 	 */
 	State currentState;
-	
+
 	// useful when init state is queried and controlled state ned previous values
 	public State previousState;
 
@@ -155,7 +168,7 @@ public class Simulator {
 	 * The rule evaluator.
 	 */
 	protected RuleEvaluator ruleEvaluator;
-	
+
 	/**
 	 * The main rule of the model.
 	 *
@@ -165,23 +178,18 @@ public class Simulator {
 	/**
 	 * The number of the current state.
 	 */
-	private int numOfState;//PA: 10 giugno 2010
-		
+	private int numOfState;// PA: 10 giugno 2010
+
 	/**
 	 * Constructor.
 	 *
-	 * @param modelName
-	 *            the model name
-	 * @param asmp
-	 *            the package of the model
-	 * @param env
-	 *            the environment
-	 * @throws AsmModelNotFoundException
-	 *             if the model has not been found
-	 * @throws MainRuleNotFoundException
-	 *             if the model has not main rule
+	 * @param modelName the model name
+	 * @param asmp      the package of the model
+	 * @param env       the environment
+	 * @throws AsmModelNotFoundException if the model has not been found
+	 * @throws MainRuleNotFoundException if the model has not main rule
 	 */
-	public Simulator(String modelName, AsmCollection asmp, Environment env) 
+	public Simulator(String modelName, AsmCollection asmp, Environment env)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		assert env != null;
 		asmetaPackage = asmp;
@@ -189,23 +197,23 @@ public class Simulator {
 		environment = env;
 		currentState = initState();
 		initEvaluator(currentState);
-		numOfState = 0;//PA: 10 giugno 2010
-		currentState.previousLocationValues.putAll(currentState.locationMap);//PA: 10 giugno 2010
+		numOfState = 0;// PA: 10 giugno 2010
+		currentState.previousLocationValues.putAll(currentState.locationMap);// PA: 10 giugno 2010
 		controlledInvariants = new ArrayList<Invariant>();
 		monitoredInvariants = new ArrayList<Invariant>();
 	}
-	
+
 	/**
 	 * Instantiates a new simulator.
 	 *
 	 * @param modelName the model name
-	 * @param asmp the asmp
-	 * @param env the env
-	 * @param s the intial state
+	 * @param asmp      the asmp
+	 * @param env       the env
+	 * @param s         the intial state
 	 * @throws AsmModelNotFoundException the asm model not found exception
 	 * @throws MainRuleNotFoundException the main rule not found exception
 	 */
-	public Simulator(String modelName, AsmCollection asmp, Environment env, State s) 
+	public Simulator(String modelName, AsmCollection asmp, Environment env, State s)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		assert env != null;
 		asmetaPackage = asmp;
@@ -213,18 +221,17 @@ public class Simulator {
 		environment = env;
 		currentState = s;
 		initEvaluator(currentState);
-		numOfState = 0;//PA: 10 giugno 2010
-		currentState.previousLocationValues.putAll(currentState.locationMap);//PA: 10 giugno 2010
+		numOfState = 0;// PA: 10 giugno 2010
+		currentState.previousLocationValues.putAll(currentState.locationMap);// PA: 10 giugno 2010
 		controlledInvariants = new ArrayList<Invariant>();
 		monitoredInvariants = new ArrayList<Invariant>();
 	}
 
 	/**
-	 * Returns a simulator ready to execute the given model. The environment is
-	 * read by the standard input.
+	 * Returns a simulator ready to execute the given model. The environment is read
+	 * by the standard input.
 	 *
-	 * @param modelPath
-	 *            path name of the model file
+	 * @param modelPath path name of the model file
 	 * @return a simulator
 	 * @throws Exception
 	 */
@@ -233,22 +240,18 @@ public class Simulator {
 	}
 
 	/**
-	 * Returns a simulator ready to execute the given model. The environment is
-	 * read by the given file.
+	 * Returns a simulator ready to execute the given model. The environment is read
+	 * by the given file.
 	 *
-	 * @param modelPath
-	 *            path name of the model file
-	 * @param envPath
-	 *            path name of the environment file
+	 * @param modelPath path name of the model file
+	 * @param envPath   path name of the environment file
 	 * @return a simulator
 	 * @throws Exception
 	 */
-	protected static Simulator createSimulator(String modelPath, String envPath)
-			throws Exception {
+	protected static Simulator createSimulator(String modelPath, String envPath) throws Exception {
 		Environment env;
 		if (envPath == null) {
-			env = new Environment(
-					new InteractiveMFReader(System.in, System.out));
+			env = new Environment(new InteractiveMFReader(System.in, System.out));
 		} else {
 			env = new Environment(new FileMonFuncReader(envPath));
 		}
@@ -258,13 +261,11 @@ public class Simulator {
 	/**
 	 * create a simulator using a random environment *
 	 *
-	 * @param modelPath
-	 *            path name of the model file
+	 * @param modelPath path name of the model file
 	 * @return a simulator
 	 * @throws Exception
 	 */
-	protected static Simulator createSimulatorRnd(String modelPath)
-			throws Exception {
+	protected static Simulator createSimulatorRnd(String modelPath) throws Exception {
 		Environment env = new Environment(new RandomMFReader());
 		return createSimulator(modelPath, env);
 	}
@@ -272,15 +273,12 @@ public class Simulator {
 	/**
 	 * Returns a simulator ready to execute the given model.
 	 *
-	 * @param modelPath
-	 *            path name of the model file
-	 * @param env
-	 *            environment
+	 * @param modelPath path name of the model file
+	 * @param env       environment
 	 * @return a simulator
 	 * @throws Exception
 	 */
-	public static Simulator createSimulator(String modelPath, Environment env)
-			throws Exception {
+	public static Simulator createSimulator(String modelPath, Environment env) throws Exception {
 		File modelFile = new File(modelPath);
 		if (!modelFile.exists()) {
 			throw new FileNotFoundException(modelPath);
@@ -294,13 +292,14 @@ public class Simulator {
 	/**
 	 * Creates the simulator.
 	 *
-	 * @param modelPath the model path
-	 * @param env the env
+	 * @param modelPath     the model path
+	 * @param env           the env
 	 * @param asmetaPackage the asmeta package
 	 * @return the simulator
 	 * @throws Exception the exception
 	 */
-	public static Simulator createSimulator(String modelPath, Environment env, AsmCollection asmetaPackage) throws Exception {
+	public static Simulator createSimulator(String modelPath, Environment env, AsmCollection asmetaPackage)
+			throws Exception {
 		File modelFile = new File(modelPath);
 		if (!modelFile.exists()) {
 			throw new FileNotFoundException(modelPath);
@@ -322,8 +321,7 @@ public class Simulator {
 	/**
 	 * Sets the shuffle flag for the choose rule (default is false).
 	 *
-	 * @param flag
-	 *            the new value
+	 * @param flag the new value
 	 */
 	public void setShuffleFlag(boolean flag) {
 		RuleEvaluator.isShuffled = flag;
@@ -332,56 +330,75 @@ public class Simulator {
 	/**
 	 * Executes the machine a fixed number of times.
 	 *
-	 * @param ntimes
-	 *            transition number
+	 * @param ntimes transition number
 	 * @return the final state
 	 */
 	public UpdateSet run(int ntimes) {
 		// get the update set
-		UpdateSet updateSet = new UpdateSet();
-		try {
-			updateSet = runNoCatchInv(ntimes);
-		}
-		catch (InvalidInvariantException e) {
-			logger.info("<Invariant violation>");
-			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
-			logger.info(tp.visit(e.getInvariant().getBody()));
-			logger.info("</Invariant violation>");
-		}
-		return updateSet;
+		return runUntil(x -> false, ntimes, checkInvariants).updateSet;
+	}	
+	
+	
+	// it checks invariants and throws exception
+	public UpdateSet runNoCatchInv(int ntimes) {
+		return runUntil(x -> false, ntimes, InvariantTreament.CHECK_STOP).updateSet;
 	}
 
-	public UpdateSet runNoCatchInv(int ntimes) {
+	class RunResult {
+		LocationSet currentstate;
+		UpdateSet updateSet;
+	}
+
+	// run until f becomes true
+	// throw exception only if check_stop
+	// f: stop condition
+	private RunResult runUntil(StopCondition stopCondition, int maxNTimes, InvariantTreament check) {
 		logger.debug("<Run>");
+		int step = 0;
 		UpdateSet updateSet = new UpdateSet();
 		getContrMonInvariants();
-		if (checkInvariants) {
+		//
+		if (check != InvariantTreament.NO_CHECK) {
 			Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);
-			//System.out.println("Controllo invariants controllati nello stato iniziale.");
+			// System.out.println("Controllo invarianti controllati nello stato iniziale.");
 			if (invariant != null) {
-				System.out.println("Invariant violation!");
-				throw new InvalidInvariantException(invariant, updateSet);
+				if (check == InvariantTreament.CHECK_STOP) {
+					throw new InvalidInvariantException(invariant, updateSet);
+				} else {
+					assert check == InvariantTreament.CHECK_CONTINUE;
+					logger.info("<Invariant violation>");
+					AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
+					logger.info(tp.visit(invariant.getBody()));
+					logger.info("</Invariant violation>");
+				}
 			}
-		}		
-		for (; ntimes > 0; ntimes--) {
-			updateSet = doOneStep();
 		}
+		//
+		do {
+			try {
+				updateSet = doOneStep();
+			} catch (InvalidInvariantException e) {
+				if (check == InvariantTreament.CHECK_STOP)
+					throw e;
+				else {
+					assert check == InvariantTreament.CHECK_CONTINUE;
+					logger.info("<Invariant violation>");
+					AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
+					logger.info(tp.visit(e.getInvariant().getBody()));
+					logger.info("</Invariant violation>");
+					// in this case the update set must be taken for the exception
+					// TODO write a test to check this
+					updateSet = e.us;
+				}
+			}
+		} while (!stopCondition.stop(updateSet) && ++step < maxNTimes);
 		logger.debug("</Run>");
-		return updateSet;
+		RunResult result = new RunResult();
+		result.currentstate = currentState;
+		result.updateSet = updateSet;
+		return result;
 	}
-	
-	protected void checkInvariantRestart() {
-		logger.debug("<Run>");
-		UpdateSet updateSet = new UpdateSet();
-		getContrMonInvariants();
-		Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);
-		//System.out.println("Controllo invariants controllati nello stato iniziale.");
-		if (invariant != null) {
-			System.out.println("Invariant violation!");
-			throw new InvalidInvariantException(invariant, updateSet);
-		}
-		logger.debug("</Run>");
-	}
+	//
 
 	/**
 	 * Executes a single transition and returns the last applied update set.
@@ -395,13 +412,15 @@ public class Simulator {
 		// monitored functions in the current state.
 		// Current state is completed with the monitored values.
 		UpdateSet updateSet = ruleEvaluator.visit(mainRule);
-		//System.out.println("Locations updated for model "+this.asmModel.getName()+updateSet.getLocationsUpdated().toString()); //Patrizia for debugging Jan 2021 
+		// System.out.println("Locations updated for model
+		// "+this.asmModel.getName()+updateSet.getLocationsUpdated().toString());
+		// //Patrizia for debugging Jan 2021
 		// STEP 2
 		// Check invariants that require monitored functions (not only controlled)
-		// before the update set is committed but the current state is completed 
-		if (checkInvariants) {
+		// before the update set is committed but the current state is completed
+		if (checkInvariants != InvariantTreament.NO_CHECK) {
 			Invariant invariant = checkInvariants(ruleEvaluator.termEval, monitoredInvariants);
-			//System.out.println("Controllo invarianti monitorati");
+			// System.out.println("Controllo invarianti monitorati");
 			if (invariant != null) {
 				throw new InvalidInvariantException(invariant, updateSet);
 			}
@@ -422,23 +441,24 @@ public class Simulator {
 
 		// Print of the current values of monitored
 		// print the next state in controlled part
-		if(logger.isInfoEnabled()) {
-	 		String monLocState = currentState.getMonLocsState();
-			if(monLocState.length() > 0) {
+		if (logger.isInfoEnabled()) {
+			String monLocState = currentState.getMonLocsState();
+			if (monLocState.length() > 0) {
 				logger.info("<State " + numOfState + " (monitored)>");
 				logger.info(monLocState);
-				logger.info("</State " + numOfState + " (monitored)>");//PA: 10 giugno 2010
+				logger.info("</State " + numOfState + " (monitored)>");// PA: 10 giugno 2010
 			}
 			// if also debug, show the update set
 			if (showUpdateSet) {
-				logger.info("<UpdateSet - "+ numOfState + ">");
-				if (!updateSet.isEmpty()) logger.info(updateSet);
+				logger.info("<UpdateSet - " + numOfState + ">");
+				if (!updateSet.isEmpty())
+					logger.info(updateSet);
 				logger.info("</UpdateSet>");
 			}
 			// controlled part of the next state
 			String contrLocState = currentState.getContrLocsState();
 			logger.info("<State " + (numOfState + 1) + " (controlled)>");
-			if(contrLocState.length() > 0) {
+			if (contrLocState.length() > 0) {
 				logger.info(contrLocState);
 			}
 			logger.info("</State " + (numOfState + 1) + " (controlled)>");
@@ -451,13 +471,13 @@ public class Simulator {
 		// Check invariants over only controlled functions.
 		// It is not necessary to have the complete state (indeed the values of
 		// monitored function is missing).
-		if (checkInvariants) {
+		if (checkInvariants != InvariantTreament.NO_CHECK) {
 			Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);
-			//System.out.println("Controllo invarianti controllati.");
+			// System.out.println("Controllo invarianti controllati.");
 			if (invariant != null) {
 				throw new InvalidInvariantException(invariant, updateSet);
 			}
-		}		
+		}
 		logger.debug("</Transition>");
 		return updateSet;
 	}
@@ -468,83 +488,43 @@ public class Simulator {
 	 * @return the final state
 	 */
 	public LocationSet runUntilEmpty() {
-		logger.debug("<Run>");
-		UpdateSet updateSet = new UpdateSet();
-		getContrMonInvariants();
-		try {
-			if (checkInvariants) {
-				Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);
-				//System.out.println("Controllo invarianti controllati nello stato iniziale.");
-				if (invariant != null) {
-					throw new InvalidInvariantException(invariant, updateSet);
-				}
-			}		
-			do {
-				updateSet = doOneStep();
-			} while (!updateSet.isEmpty());
-		}
-		catch (InvalidInvariantException e) {
-			logger.info("<Invariant violation>");
-			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
-			logger.info(tp.visit(e.getInvariant().getBody()));
-			logger.info("</Invariant violation>");
-		}
-		logger.debug("</Run>");
-		return currentState;
+		return runUntil(updateSet -> updateSet.isEmpty(), Integer.MAX_VALUE, checkInvariants).currentstate;
 	}
 
 	/**
-	 * Executes the machine until the main rule produces a set equal to the previous one
+	 * Executes the machine until the main rule produces a set equal to the previous
+	 * one
 	 *
 	 * @return the final state
 	 */
 	public LocationSet runUntilTrivial() {
-		logger.debug("<Run>");
-		UpdateSet updateSet = new UpdateSet();
-		getContrMonInvariants();
-		//State previousState;
-		try {
-			if (checkInvariants) {
-				Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);
-				if (invariant != null) {
-					throw new InvalidInvariantException(invariant, updateSet);
-				}
-			}		
-			do {
-				//previousState = new State(currentState);
-				updateSet = doOneStep();
-			}
-			while(!updateSet.isTrivial(previousState));
-		}
-		catch (InvalidInvariantException e) {
-			logger.info("<Invariant violation>");
-			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
-			logger.info(tp.visit(e.getInvariant().getBody()));
-			logger.info("</Invariant violation>");
-		}
-		logger.debug("</Run>");
-		return currentState;
+		return runUntil(updateSet -> updateSet.isTrivial(previousState), Integer.MAX_VALUE,
+				checkInvariants).currentstate;
+	}
+
+	private interface StopCondition {
+		public boolean stop(UpdateSet us);
 	}
 
 	/**
-	 * Deletes the content of the monitored functions.
-	 * It is called at the end of the current transition.
+	 * Deletes the content of the monitored functions. It is called at the end of
+	 * the current transition.
 	 */
 	public void clearMon() {
 		logger.debug("clear monitored vars");
-		for(Iterator<Entry<Location,Value>> i = currentState.iterator();i.hasNext();){
-			 Entry<Location, Value> locVal = i.next();
-			 if (Defs.isMonitored(locVal.getKey().getSignature())){
-				 logger.debug("clear "+ locVal);
-				 i.remove();
-			 }
+		for (Iterator<Entry<Location, Value>> i = currentState.iterator(); i.hasNext();) {
+			Entry<Location, Value> locVal = i.next();
+			if (Defs.isMonitored(locVal.getKey().getSignature())) {
+				logger.debug("clear " + locVal);
+				i.remove();
+			}
 		}
 	}
 
 	/**
 	 * It checks the invariants given as input.
 	 * 
-	 * @param eval A term evaluator
+	 * @param eval       A term evaluator
 	 * @param invariants a list of invariants to check
 	 * @return
 	 */
@@ -554,9 +534,9 @@ public class Simulator {
 		for (Invariant invariant : invariants) {
 			invariantBody = invariant.getBody();
 			invariantName = invariant.getName();
-			logger.debug(
-				"<Invariant" + ((invariantName == null || invariantName.equals("")) ? "" : (" name=" + invariantName)) + ">");
-			BooleanValue result = (BooleanValue) eval.visit(invariantBody);						
+			logger.debug("<Invariant"
+					+ ((invariantName == null || invariantName.equals("")) ? "" : (" name=" + invariantName)) + ">");
+			BooleanValue result = (BooleanValue) eval.visit(invariantBody);
 			logger.debug("<Value>" + result + "</Value>");
 			logger.debug("</Invariant>");
 			if (!result.getValue()) {
@@ -569,16 +549,14 @@ public class Simulator {
 	/**
 	 * Makes some initializations on the model.
 	 *
-	 * @param modelName
-	 *            the model name
+	 * @param modelName the model name
 	 * @throws AsmModelNotFoundException
 	 * @throws MainRuleNotFoundException
 	 */
-	private void initAsmModel(String modelName) throws AsmModelNotFoundException,
-			MainRuleNotFoundException {
+	private void initAsmModel(String modelName) throws AsmModelNotFoundException, MainRuleNotFoundException {
 		// get the model
 		asmModel = asmetaPackage.getMain();
-		// 
+		//
 		assert asmModel.getName().equals(modelName);
 		// check the main rule
 		RuleDeclaration mainRuleDec = asmModel.getMainrule();
@@ -586,7 +564,6 @@ public class Simulator {
 			throw new MainRuleNotFoundException(modelName);
 		mainRule = mainRuleDec.getRuleBody();
 	}
-
 
 	/**
 	 * Makes some initializations on the state.
@@ -606,8 +583,7 @@ public class Simulator {
 			if (!name.equals("StandardLibrary")) {
 				continue;
 			}
-			Collection<?> functions = 
-				asm.getHeaderSection().getSignature().getFunction();
+			Collection<?> functions = asm.getHeaderSection().getSignature().getFunction();
 			for (Object o : functions) {
 				Function func = (Function) o;
 				String fname = func.getName();
@@ -624,8 +600,7 @@ public class Simulator {
 	/**
 	 * Makes some initializations on the rule evaluator.
 	 *
-	 * @param state
-	 *            the initial state
+	 * @param state the initial state
 	 * @return a fresh new evaluator
 	 */
 	protected void initEvaluator(State state) {
@@ -638,13 +613,11 @@ public class Simulator {
 	 * Searches the abstract constants in the signature and saves them in the
 	 * initial state.
 	 *
-	 * @param state
-	 *            the initial state
+	 * @param state the initial state
 	 */
 	private void initAbstractConstants(State state) {
 		for (Asm asm : asmetaPackage) {
-			Collection<Function> functions = 
-				asm.getHeaderSection().getSignature().getFunction();
+			Collection<Function> functions = asm.getHeaderSection().getSignature().getFunction();
 			for (Function func : functions) {
 				// NOTE the order of controls does matter, because an agent is
 				// an abstract constant but not the contrary
@@ -669,14 +642,12 @@ public class Simulator {
 	/**
 	 * Searches the agent constants in the signature and sets their own program.
 	 *
-	 * @param state
-	 *            the initial state
+	 * @param state the initial state
 	 */
 	private void initAgents(State state) {
 		AgentValue.setAsm(asmModel);
 		if (state.getInitialization() != null) {
-			Collection<?> agentInitList = 
-				state.getInitialization().getAgentInitialization();
+			Collection<?> agentInitList = state.getInitialization().getAgentInitialization();
 			for (Object o : agentInitList) {
 				AgentInitialization agentInit = (AgentInitialization) o;
 				Domain domain = agentInit.getDomain();
@@ -687,8 +658,7 @@ public class Simulator {
 				for (Value<?> oo : agentSet) {
 					AgentValue agent = (AgentValue) oo;
 					Domain agentDomain = agent.getDomain();
-					logger.debug("<agent>" + agent.getId()
-							+ (Object) agent.hashCode() + "</agent>");
+					logger.debug("<agent>" + agent.getId() + (Object) agent.hashCode() + "</agent>");
 					logger.debug("<program>" + program + "</program>");
 					if (Defs.equals(domain, agentDomain)) {
 						agent.setProgram(program);
@@ -700,10 +670,9 @@ public class Simulator {
 	}
 
 	/**
-	 * PA: 31/10/2010
-	 * It separates the monitored invariants (invariants which contain at least a
-	 * monitored function) from controlled invariants (invariants which do not contain
-	 * any monitored function).
+	 * PA: 31/10/2010 It separates the monitored invariants (invariants which
+	 * contain at least a monitored function) from controlled invariants (invariants
+	 * which do not contain any monitored function).
 	 */
 	protected void getContrMonInvariants() {
 		MonitoredFinder mf = new MonitoredFinder();
@@ -713,15 +682,14 @@ public class Simulator {
 			Body b = asm_i.getBodySection();
 			Collection<Property> propertiesList = b.getProperty();
 			if (propertiesList != null) {
-				for (Property property: propertiesList) {
-					if(property instanceof Invariant) {
-						Term body = ((Invariant)property).getBody();
+				for (Property property : propertiesList) {
+					if (property instanceof Invariant) {
+						Term body = ((Invariant) property).getBody();
 						isMonitoredInvariant = mf.visit(body);
-						if(isMonitoredInvariant) {
-							monitoredInvariants.add((Invariant)property);
-						}
-						else {
-							controlledInvariants.add((Invariant)property);
+						if (isMonitoredInvariant) {
+							monitoredInvariants.add((Invariant) property);
+						} else {
+							controlledInvariants.add((Invariant) property);
 						}
 					}
 				}
@@ -734,7 +702,7 @@ public class Simulator {
 	}
 
 	/** return the state number starting from 0 */
-	public int getNumOfState(){
+	public int getNumOfState() {
 		return numOfState;
 	}
 

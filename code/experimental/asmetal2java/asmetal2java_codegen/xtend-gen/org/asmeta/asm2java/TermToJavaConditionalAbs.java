@@ -26,8 +26,6 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.SetCt;
 import asmeta.terms.furtherterms.StringTerm;
 import java.util.Arrays;
-import org.asmeta.asm2java.ExpressionToJava;
-import org.asmeta.asm2java.Util;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Exceptions;
