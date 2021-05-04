@@ -11,7 +11,7 @@ signature:
 	dynamic controlled fooC : MyDomain -> MyDomain
 
 definitions:
-	domain MyDomain = {1..3}
+	domain MyDomain = {1 : 3}
 
 	main rule r_Main =
 		//errore ArrayIndexOutOfBoundsException in RuleEvaluator.visitForall
