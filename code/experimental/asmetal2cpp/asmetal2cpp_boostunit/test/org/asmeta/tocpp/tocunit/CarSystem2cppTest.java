@@ -23,11 +23,15 @@ import atgt.coverage.AsmTestSuite;
 
 public class CarSystem2cppTest extends AsmToUnitModuleTest{
 	
+	private static final UNITFM UNIT_FM = UNITFM.CATCH2;
+
+
 	@BeforeClass
 	public static void setUpLogger() {
 		//Logger.getLogger(Simulator.class).setLevel(Level.ALL);
 		//Logger.getLogger(org.asmeta.parser.ASMParser.class).setLevel(Level.ALL);
-		//Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
+		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
+		CppCompiler.setCompiler("g++");
 	}
 	
 	/**
@@ -40,36 +44,36 @@ public class CarSystem2cppTest extends AsmToUnitModuleTest{
 	@Test
 	public void CarSystem001MainSim() throws Exception {
 		
-		testSpec(UNITFM.BOOST, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem001/CarSystem001main.asm", SIMULATOR,"1", "100");
+		testSpec(UNIT_FM, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem001/CarSystem001main.asm", SIMULATOR,"1", "2");
 	}
 	
 	@Test
 	public void CarSystem002MainSim() throws Exception {
 		
-		testSpec(UNITFM.BOOST, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem002/CarSystem002main.asm", SIMULATOR,"1", "100");
+		testSpec(UNIT_FM, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem002/CarSystem002main.asm", SIMULATOR,"1", "100");
 	}
 	
 	@Test
 	public void CarSystem003MainSim() throws Exception {
 		
-		testSpec(UNITFM.BOOST, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem003/CarSystem003main.asm", SIMULATOR,"1", "100");
+		testSpec(UNIT_FM, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem003/CarSystem003main.asm", SIMULATOR,"1", "100");
 	}
 	@Test
 	public void CarSystem004MainSim() throws Exception {
 		
-		testSpec(UNITFM.BOOST, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem004/CarSystem004main.asm", SIMULATOR,"1", "100");
+		testSpec(UNIT_FM, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem004/CarSystem004main.asm", SIMULATOR,"1", "100");
 	}
 	
 	@Test
 	public void CarSystem005MainSim() throws Exception {
 		
-		testSpec(UNITFM.BOOST, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem005/CarSystem005main.asm", SIMULATOR,"1", "100");
+		testSpec(UNIT_FM, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem005/CarSystem005main.asm", SIMULATOR,"1", "100");
 	}
 	
 	@Test
 	public void CarSystem006MainSim() throws Exception {
 		
-		testSpec(UNITFM.BOOST, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem006/CarSystem006main.asm", SIMULATOR,"1", "100");
+		testSpec(UNIT_FM, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem006/CarSystem006main.asm", SIMULATOR,"1", "100");
 	}
 	
 	
@@ -81,20 +85,20 @@ public class CarSystem2cppTest extends AsmToUnitModuleTest{
 	@Test
 	public void CarSystem007MainSim() throws Exception {
 		
-		testSpec(UNITFM.BOOST, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem007/CarSystem007main.asm", SIMULATOR,"1", "100");
+		testSpec(UNIT_FM, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem007/CarSystem007main.asm", SIMULATOR,"1", "100");
 	}
 	
 	@Test
 	public void CarSystem008MainSim() throws Exception {
 		
-		testSpec(UNITFM.BOOST, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem007/CarSystem007main.asm", SIMULATOR,"1", "100");
+		testSpec(UNIT_FM, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem007/CarSystem007main.asm", SIMULATOR,"1", "100");
 	}
 	
 	
 	@Test
 	public void CarSystem009MainSim() throws Exception {
 		//String dDir ="../asmetal2cpp_codegen/examples/ABZ2020/test/CarSystem000";
-		testSpec(UNITFM.BOOST, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem009/CarSystem009main.asm", SIMULATOR,"1", "101");
+		testSpec(UNIT_FM, "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem009/CarSystem009main.asm", SIMULATOR,"1", "101");
 	}
 
 
