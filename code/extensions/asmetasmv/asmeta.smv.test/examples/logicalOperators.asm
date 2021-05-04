@@ -6,7 +6,7 @@ signature:
 	dynamic controlled foo: ConcrDom -> Boolean
 
 definitions:
-	domain ConcrDom = {0 .. 14}
+	domain ConcrDom = {0 : 14}
 	
 	main rule r_main =
 		par

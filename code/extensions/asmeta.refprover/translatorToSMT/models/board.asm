@@ -7,7 +7,7 @@ signature:
 	controlled board: Coord -> Boolean
 	
 definitions:
-	domain Coord = {1..2}
+	domain Coord = {1:2}
 
 	main rule r_Main =
 		choose $x in Coord with not(board($x)) do

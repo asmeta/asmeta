@@ -26,7 +26,6 @@ public class AsmetaSMVtestTranslate {
 
 	protected boolean testOneSpec(String spec) {
 		String[] args = { spec };
-		System.out.println(args[0]);
 		AsmetaSMVOptions options = new AsmetaSMVOptions();
 		AsmetaSMVOptions.keepNuSMVfile = true;
 		try {
@@ -64,7 +63,7 @@ public class AsmetaSMVtestTranslate {
 
 	private Collection<File> testSpecInSubFolder(String dirname) {
 		Collection<File> failedSpec = new ArrayList<File>();
-		File dir = new File(FILE_BASE + dirname);
+		File dir = new File(dirname);
 		assertTrue("example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
 				+ new File(".").getAbsolutePath(), dir.isDirectory());
 		// read all the specs

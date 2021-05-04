@@ -20,7 +20,7 @@ signature:
 
 definitions:
 	// DOMAIN DEFINITIONS
-	domain Led = {1..4}
+	domain Led = {1:4}
 
 	// FUNCTION DEFINITIONS
 	function acceso = (forall $l in Led with stato($l) = ACCESO )

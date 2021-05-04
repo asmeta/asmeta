@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Scanner;
 import org.asmeta.framework.enforcer.*;
 import org.asmeta.framework.pillBox.PillBoxNotSing;
+import org.asmeta.framework.pillBox1.PillBox;
 
 
 //import java.awt.*; 
@@ -65,7 +66,7 @@ public class Main { //extends JFrame {
 				   "Pillbox initialization (simulated version) ...");
 		/** Initialization*/
 		//Create managed system handle, probe, and effector
-		PillBoxNotSing managedSystem =  new PillBoxNotSing("examples/pillbox1/pillbox.asm"); 		
+		PillBox managedSystem =  new PillBox("examples/pillbox1/pillbox.asm"); 		
 		//Create system knowledge and feedback loop
 		KnowledgePB k = new KnowledgePB();
 		FeedbackLoop loop = new FeedbackLoopPillBox(managedSystem.getProbe(),managedSystem.getEffector(),k);
@@ -74,8 +75,8 @@ public class Main { //extends JFrame {
 		EnforcerPillBox e = new EnforcerPillBox(managedSystem,k,loop);
 		
 		//Init step for the enforcement model SafePillbox for the plug-in of the pill box, with consistency checks of the invariants
-        String initial_input_trace =  "redLed(compartment1) OFF redLed(compartment2) OFF name(compartment1) \"fosamax\" name(compartment2) \"moment\" time_consumption(compartment1) [360] time_consumption(compartment2) [730,1140] drugIndex(compartment1) 0 drugIndex(compartment2) 0";
-		//String initial_input_trace =  "drugIndex(compartment1) 0 drugIndex(compartment2) 0 name(compartment2) \"moment\" name(compartment1) \"fosamax\" redLed(compartment1) OFF redLed(compartment2) OFF time_consumption(compartment2) [730,1140] time_consumption(compartment1) [360]";
+        //String initial_input_trace =  "redLed(compartment1) OFF redLed(compartment2) OFF name(compartment1) \"fosamax\" name(compartment2) \"moment\" time_consumption(compartment1) [360] time_consumption(compartment2) [730,1140] drugIndex(compartment1) 0 drugIndex(compartment2) 0";
+		String initial_input_trace =  "drugIndex(compartment1) 0 drugIndex(compartment2) 0 name(compartment2) \"moment\" name(compartment1) \"fosamax\" redLed(compartment1) OFF redLed(compartment2) OFF time_consumption(compartment2) [730,1140] time_consumption(compartment1) [360]";
 		Map<String, String> initState = e.initStep(initial_input_trace); //TODO Aggiungere gestione eccezione per invarianti, ecc..
 	
         /** Running -- example of safety enforcement via MAPE-K*/

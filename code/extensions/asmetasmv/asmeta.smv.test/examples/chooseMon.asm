@@ -16,7 +16,7 @@ signature:
 	dynamic monitored monI: ConcrDom
 
 definitions:
-	domain ConcrDom = {1..10}
+	domain ConcrDom = {1:10}
 
 	//proprieta' CTL con la vecchia interpretazione delle monitorate: le monitorate
 	//appartengono al nuovo updateSet

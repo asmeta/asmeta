@@ -26,7 +26,7 @@ signature:
 	derived fooZZ: MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	function fooB = fooC
 	function fooG = fooH

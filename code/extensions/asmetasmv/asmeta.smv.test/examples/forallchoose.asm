@@ -10,7 +10,7 @@ signature:
 	//static prop: Boolean
 	dynamic monitored mon: MyDomain
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 	
 	//function check($a in MyDomain, $b in MyDomain) =
 	//	$a<3 and ($b> $a +1)

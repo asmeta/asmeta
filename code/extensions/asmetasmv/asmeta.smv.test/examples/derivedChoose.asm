@@ -9,7 +9,7 @@ signature:
 	derived der_func: MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	function der_func =
 		choose $x in MyDomain with $x<3

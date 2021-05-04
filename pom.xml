@@ -7,19 +7,24 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
-		<jacoco.destFile>${project.basedir}/asm_examples/coverage/jacoco/jacoco.exec</jacoco.destFile>
+		<jacoco.destFile>${project.basedir}/reports/coverage/jacoco/jacoco.exec</jacoco.destFile>
 	</properties>
 	<modules>
 		<module>code/core/asmeta.emf</module>
 		<module>code/core/asmeta.parser/asmeta.parser</module>
 		<module>code/core/asmeta.simulator/asmeta.simulator</module>
 		<module>code/core/asmeta.cli</module>
-		<module>code/core/asmeta.parser/asmeta.parser.test</module>
-		<module>code/extensions/asmetasmv/asmeta.smv</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener</module>
-		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
+		<module>code/extensions/asmetasmv/asmeta.smv</module>
+		<module>code/core/asmeta.parser/asmeta.parser.test</module>
+		<module>code/core/asmeta.simulator/asmeta.simulator.test</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener.test</module> 
-		 
+		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
+		<module>reports/coverage/report.aggregate</module>
+		<module>
+			code/extensions/asmeta.flattener/asmeta.flattener.cli
+		</module>
+		<module>code/core/asmeta.parser/asmeta.parser.cli</module>
 	</modules>
 	<build>
 		<plugins>
@@ -46,8 +51,13 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
+			<version>4.13.2</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.formdev</groupId>
+			<artifactId>flatlaf</artifactId>
+			<version>1.1.2</version>
 		</dependency>
 	</dependencies>
 </project>

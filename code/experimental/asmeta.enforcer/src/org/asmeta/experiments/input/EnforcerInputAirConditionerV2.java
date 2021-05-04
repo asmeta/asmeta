@@ -13,6 +13,9 @@ import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainerSingleton;
 
+/**
+ * @author Federico Rebucini
+ */
 public class EnforcerInputAirConditionerV2 {
 
 	

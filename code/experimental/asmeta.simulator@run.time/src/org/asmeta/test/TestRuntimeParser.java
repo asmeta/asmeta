@@ -10,7 +10,9 @@ import java.util.regex.Pattern;
 
 import org.asmeta.simulationUI.SimShell;
 
-
+/**
+ * @author Federico Rebucini
+ */
 public class TestRuntimeParser {
 
 	public static void main(String[] args) {

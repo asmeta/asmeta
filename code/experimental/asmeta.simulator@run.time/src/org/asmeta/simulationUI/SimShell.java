@@ -7,6 +7,9 @@ import org.asmeta.runtime_commander.CommanderException;
 import org.asmeta.runtime_commander.CommanderOutput;
 import org.asmeta.runtime_container.SimulationContainer;
 
+/**
+ * @author Federico Rebucini
+ */
 public class SimShell {
 
 	public static void main(String[] args) {
@@ -17,7 +20,7 @@ public class SimShell {
 		Scanner keyboard = new Scanner(System.in);
 		do
 		{
-			System.out.print('>');
+			System.out.print("> ");
 			in = keyboard.nextLine();
 			if (!in.equals("qqq")) {
 				CO = Commander.parseInput(imp, in, false);
@@ -62,5 +65,7 @@ public class SimShell {
 		while (!in.equals("qqq"));
 		System.out.println("Quitting...");
 		keyboard.close();
+		System.out.println("Done!");
+		System.exit(0);
 	}
 }

@@ -155,7 +155,7 @@ public class TimeTest extends BaseTest {
 
 	@Test // asking milliseconds
 	public void test_1_au_okms() throws Exception {
-		Environment.currentTimeUnit = TimeUnit.MILLISECONDS;
+		Environment.currentTimeUnit = ChronoUnit.MILLIS;
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser monFuncReader = new SimulatedUser();
 		sim = Simulator.createSimulator(BASE + "test/simulator/time/time1.asm", new Environment(monFuncReader));
@@ -219,7 +219,7 @@ public class TimeTest extends BaseTest {
 	// the same with millisec it works
 	@Test
 	public void test_mix2_fine() throws Exception {
-		Environment.currentTimeUnit = TimeUnit.MILLISECONDS; // it should ask for milliseconds
+		Environment.currentTimeUnit = ChronoUnit.MILLIS; // it should ask for milliseconds
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser u = new SimulatedUser();
 		sim = Simulator.createSimulator(BASE + "test/simulator/time/mixedtime2.asm", new Environment(u));
@@ -254,7 +254,7 @@ public class TimeTest extends BaseTest {
 		// one monitored variable with time seconds
 		sim = Simulator.createSimulator(BASE + "test/simulator/time/time1.asm");
 		Environment.timeMngt = TimeMngt.auto_increment;
-		Environment.currentTimeUnit = TimeUnit.SECONDS;
+		Environment.currentTimeUnit = ChronoUnit.SECONDS;
 		sim.run(1);
 		State state = sim.getCurrentState();
 		assertEquals("1", getFunctionValue("time", state));

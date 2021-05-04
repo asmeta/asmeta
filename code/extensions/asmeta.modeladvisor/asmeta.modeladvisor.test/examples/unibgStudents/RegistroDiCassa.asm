@@ -42,7 +42,7 @@ signature:
 
 definitions:
 	domain PrezzoPizza = {3..5}
-	domain Quantita = {1..2}
+	domain Quantita = {1:2}
 	domain TotaleDomain = {0:36}
 	
 	function getPrezzo($c in Pizza) = 	//$c per ricevere come input unastringa

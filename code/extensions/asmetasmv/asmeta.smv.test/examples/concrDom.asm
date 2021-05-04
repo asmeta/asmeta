@@ -10,9 +10,9 @@ signature:
     dynamic controlled fooN: SubDomNat
 
 definitions:
-    domain SubDomInt1 = {1..5}
+    domain SubDomInt1 = {1 : 5}
     domain SubDomInt2 = {2, 1, 5}
-    domain SubDomNat = {1n..4n}
+    domain SubDomNat = {1n : 4n}
 
     main rule r_Main =
         skip

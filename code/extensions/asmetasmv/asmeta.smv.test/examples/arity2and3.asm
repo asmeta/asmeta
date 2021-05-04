@@ -8,7 +8,7 @@ signature:
 	dynamic controlled foo3: Prod(SubDom, EnumDom, SubDom) -> Boolean
 
 definitions:
-	domain SubDom = {1..2}
+	domain SubDom = {1:2}
 	
 	main  rule r_Main =
 		par

@@ -16,6 +16,8 @@ import asmeta.definitions.domains.SequenceDomain;
 import asmeta.definitions.domains.StructuredTd;
 import asmeta.definitions.domains.impl.StructuredTdImpl;
 import asmeta.structure.Asm;
+import org.asmeta.asm2java.DomainToJavaSigDef;
+import org.asmeta.asm2java.ToString;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.xtend2.lib.StringConcatenation;
 

@@ -34,6 +34,7 @@ import org.asmeta.runtime_simulator.AsmetaSserviceSingleton;
 import org.junit.Test;
 
 /**
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
  * The SimulationContainer test class
  */
 public class TestSimulationContainer {

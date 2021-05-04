@@ -7,7 +7,7 @@ signature:
 	dynamic controlled x: Integer
 
 definitions:
-	domain ConcrDomAbs = {1..2}
+	domain ConcrDomAbs = {1:2}
 	
 	main rule r_Main =
 		choose $x in ConcrDomAbs with true do

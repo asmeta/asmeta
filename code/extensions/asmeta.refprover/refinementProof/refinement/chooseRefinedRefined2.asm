@@ -7,7 +7,7 @@ signature:
 	dynamic controlled x: ConcrDomRef
 
 definitions:
-	domain ConcrDomRef = {1..2}
+	domain ConcrDomRef = {1:2}
 
 	main rule r_Main =
 		choose $x in ConcrDomRef with $x != 2 do

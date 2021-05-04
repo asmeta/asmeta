@@ -31,5 +31,5 @@ default init s0:
 	function timerUnit($t in Timer) = 
 		if $t = timer10MinPassed then MIN
 		else if $t = timer3hPassed	then HOUR endif endif	
-	function start($t in Timer) = initStart($t)
+	function start($t in Timer) = currentTime($t)
 	function phase = FULLYCLOSED

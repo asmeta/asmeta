@@ -16,7 +16,7 @@ signature:
 	static tre: MyDomain
 	
 definitions:
-	domain MyDomain = {1..3}
+	domain MyDomain = {1:3}
 	function uno = 1
 	function due = 2
 	function tre = 3

@@ -8,6 +8,9 @@ import java.util.regex.Pattern;
 
 import org.asmeta.runtime_container.SimulationContainerSingleton;
 
+/**
+ * @author Federico Rebucini
+ */
 public class CommanderSingleton {
 
 	static int DEFVALUE=-10;	//default value to check if user has inserted integer values

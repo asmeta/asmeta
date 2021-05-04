@@ -31,7 +31,7 @@ public class TestSingleFile extends TestValidator {
 		// transform to absolute
 		String modelAbsPath = model.toAbsolutePath().toString();
 		assert modelAbsPath.contains(" ");
-		assert Files.exists(Path.of(modelAbsPath));
+		assert Files.exists(Paths.get(modelAbsPath));
 		System.out.println(modelAbsPath);
 		modelAbsPath = modelAbsPath.replace("\\", "\\\\\\\\");
 		// put in the lift2.avalla

@@ -9,7 +9,7 @@ signature:
 	dynamic controlled var_b: MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 	
 	CTLSPEC ag((var_a = 1 iff ax(var_a = 2)) and (var_a = 2 iff ax(var_a = 3)) and 
 			     (var_a = 3 iff ax(var_a = 4)) and (var_a = 4 iff ax(var_a = 1)))

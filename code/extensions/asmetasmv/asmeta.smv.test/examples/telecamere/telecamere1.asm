@@ -18,7 +18,7 @@ signature:
 
 definitions:
 	// DOMAIN DEFINITIONS
-	domain Numtelecamere = {1..3}
+	domain Numtelecamere = {1:3}
 	
 	//primo a poi la telecamera uno viene spenta
 	CTLSPEC ef(telecamere(1)=false)

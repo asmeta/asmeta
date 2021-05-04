@@ -1,6 +1,8 @@
 asm whatTimeIsIt
 		
 import ../STDL/StandardLibrary
+import ../STDL/TimeLibrary
+
 		
 signature:
 		

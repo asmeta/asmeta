@@ -9,7 +9,7 @@ signature:
 	dynamic monitored monA: Boolean
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	//Proprieta' CTL
 	CTLSPEC ag(foo=1 iff axN(foo=4, 3n))

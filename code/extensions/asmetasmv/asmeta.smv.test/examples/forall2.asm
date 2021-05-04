@@ -9,7 +9,7 @@ signature:
 	dynamic monitored var_b: MyDomain	
 
 definitions:
-	domain MyDomain = {1..10}
+	domain MyDomain = {1:10}
 
 	rule r_a($x in MyDomain, $y in MyDomain) =
 		var_a($x, $y) := $y - $x

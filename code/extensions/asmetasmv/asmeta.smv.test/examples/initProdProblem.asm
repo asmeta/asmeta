@@ -8,7 +8,7 @@ signature:
 	dynamic controlled foo: Prod(MyDomain, MyDomain) -> MyDomain
 	
 definitions:
-	domain MyDomain = {1..10}
+	domain MyDomain = {1:10}
 	
 	CTLSPEC (forall $x in MyDomain with foo($x, $x) = 8) 
 	CTLSPEC ax(ag((forall $x in MyDomain, $y in MyDomain

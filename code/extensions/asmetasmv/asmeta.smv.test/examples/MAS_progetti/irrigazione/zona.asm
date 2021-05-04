@@ -33,7 +33,7 @@ signature:
 
 definitions:
 
-	domain RandomRange = {1..2}
+	domain RandomRange = {1:2}
 	domain UsedWater = {0..1}
 	domain Position = {0..5}
 		

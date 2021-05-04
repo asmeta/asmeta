@@ -1,7 +1,7 @@
 asm GiocoDelCento_raff3
 
-import ../../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../asm_examples/STDL/CTLlibrary
 
 signature:
 	
@@ -30,7 +30,7 @@ signature:
 	
 
 definitions:
-	domain Giocata = {1..100}
+	domain Giocata = {1:100}
 	
 	//la funzione derivata "opponent" assegna ad un giocatore il suo avversario
 	function opponent($p in Players) =

@@ -3,6 +3,9 @@ package org.asmeta.runtime_container;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
+ */
 public class InvariantData {
 	List<String> variables = new ArrayList<String>();
 	List<String> invarList = new ArrayList<String>();
