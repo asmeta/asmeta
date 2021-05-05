@@ -34,9 +34,9 @@ public class LoadDialog extends JDialog {
 	static JButton btnLoad;
 	static JComboBox<LoadComboItem> comboBox;
 	static JButton btnCancel;
-	static JButton upload;
+	static JButton btnUpload;
 	static JLabel textLabel;
-	private LoadComboItem ret = null;
+	private static LoadComboItem ret = null;
 	
 	public LoadComboItem showDialog() {
 		setVisible(true);
@@ -78,7 +78,7 @@ public class LoadDialog extends JDialog {
 		btnCancel.setBounds(182, 127, 97, 25);
 		contentPane.add(btnCancel);
 		
-		btnLoad = new JButton("Load");
+		btnLoad = new JButton("Select");
 		btnLoad.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -96,9 +96,9 @@ public class LoadDialog extends JDialog {
 		textLabel.setBounds(36, 26, 360, 22);
 		contentPane.add(textLabel);
 		
-		upload = new JButton("Browse");
-		upload.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
-		upload.addActionListener(new ActionListener() {
+		btnUpload = new JButton("Browse");
+		btnUpload.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
+		btnUpload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					StartGui.chooseModel();
@@ -111,6 +111,14 @@ public class LoadDialog extends JDialog {
 			    	int id=-99;
 					try {
 						id = containerInstance.startExecution(checkmodel);
+						JOptionPane.showConfirmDialog(contentPane, "Model " + Integer.toString(id) + " added!", "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+						if(id >= SimGUI.getMaxInstances()) {
+							btnUpload.setEnabled(false);
+							JOptionPane.showConfirmDialog(contentPane, "All models added!", "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+							btnLoad.doClick();
+						} else {
+							btnUpload.doClick();
+						}
 					} catch (MainRuleNotFoundException | AsmModelNotFoundException | FullMapException
 							| ParseException e1) {
 						JOptionPane.showMessageDialog(null, "Debug: Something went wrong with Exceptions management!", "Debug", JOptionPane.WARNING_MESSAGE);
@@ -139,8 +147,8 @@ public class LoadDialog extends JDialog {
 			    
 			}
 		});
-		upload.setBounds(317, 128, 89, 23);
-		contentPane.add(upload);
+		btnUpload.setBounds(317, 128, 89, 23);
+		contentPane.add(btnUpload);
 	}
 	
 	public void disablebutton() {
