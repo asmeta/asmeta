@@ -17,10 +17,13 @@ import java.awt.event.WindowFocusListener;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +56,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import org.asmeta.assertion_catalog.InvariantGUI;
+import org.asmeta.assertion_catalog.InvariantManager;
 import org.asmeta.assertion_catalog.LoadComboItem;
 import org.asmeta.assertion_catalog.LoadDialog;
 import org.asmeta.assertion_catalog.LoadSelectedSimulation;
@@ -68,6 +72,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
 import asmeta.definitions.impl.MonitoredFunctionImpl;
+import javax.swing.JSeparator;
 
 /**
  * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
@@ -104,6 +109,8 @@ public class SimGUI extends JFrame {
 	static JMenu simulationMenu;
 	static JMenuItem currentSimulationMenuItem;
 	static JMenuItem saveMenuItem;
+	static JMenuItem clearMenuItem;
+	static JSeparator separator;
 	
 	private static SimulationContainer containerInstance;
 	private static int currentLoadedID;
@@ -429,6 +436,14 @@ public class SimGUI extends JFrame {
 		currentSimulationMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		simulationMenu.add(currentSimulationMenuItem);
 		
+		separator = new JSeparator();
+		simulationMenu.add(separator);
+		
+		clearMenuItem = new JMenuItem("Clear output");
+		clearMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		clearMenuItem.setEnabled(false);
+		simulationMenu.add(clearMenuItem);
+		
 		windowMenu = new JMenu("Window");
 		windowMenu.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		menuBar.add(windowMenu);
@@ -511,36 +526,80 @@ public class SimGUI extends JFrame {
 			}
 		});
 		
+		clearMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(currentLoadedID >= 1 && textAreaLog.getText() != null) {
+					if(JOptionPane.showConfirmDialog(contentPane, 
+												  "Do you want to save the current simulation output?",
+												  "Save",
+												  JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						saveMenuItem.doClick();
+					}
+					textAreaLog.setText("");
+				}
+				return;
+			}
+		});
+		
 		saveMenuItem.addActionListener(new ActionListener() {
+			public String toTxt(String s) {
+				if(s.length() < 4) {
+					return null;
+				}
+				if(s.substring(s.length() - 4, s.length()).equals(".txt")) {
+					return s;
+				}
+				return (s + ".txt");
+			}
+			
 			public void actionPerformed(ActionEvent e) {
 				if(currentLoadedID >= 1 && textAreaLog.getText() != null) {
 					JFileChooser fileChooser = new JFileChooser();
 					fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
 					fileChooser.setApproveButtonText("Save");
 					fileChooser.setSelectedFile(new File("simulation_output.txt"));
-					//fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-					//fileChooser.setAcceptAllFileFilterUsed(false);
+					
+					String filePath;
 					File outputFile;
+					FileWriter writer;
+					StringBuilder infoData = new StringBuilder();
+					SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+					SimpleDateFormat dateTimeFormatter_ = new SimpleDateFormat("dd_MM_yyyy_HHmmss");
 					
 					if(fileChooser.showSaveDialog(contentPane) == JFileChooser.APPROVE_OPTION) {
 						try {
-							String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-							//System.out.println(fileName);
-							if(filePath.substring(filePath.length() - 4, filePath.length()).equals(".txt")) {
-								outputFile = new File(filePath);
-							} else {
-								outputFile = new File(filePath + ".txt");
+							filePath = fileChooser.getSelectedFile().getAbsolutePath();
+							outputFile = new File(toTxt(filePath));
+							
+							if(outputFile.isDirectory()) {
+								throw new FileNotFoundException();
 							}
-							
+							if(outputFile.exists()) {
+								if(JOptionPane.showConfirmDialog(contentPane, 
+																 "Do you want to overwrite the existing file?", 
+																 "Overwrite", 
+																 JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+									outputFile = new File(fileChooser.getSelectedFile().getParent(), 
+														  toTxt("simulation_output_" + dateTimeFormatter_.format(new Date())));
+								}
+							}
 							outputFile.createNewFile();
+							infoData.append("Simulation Output timestamp: " + dateTimeFormatter.format(new Date()) + "\n");
+							infoData.append("Model path: " + currentLoadedModel + "\n");
+							infoData.append("Simulation ID: " + Integer.toString(currentLoadedID) + "\n");
+							infoData.append("------------------------------------------------\n\n");
 							
+							writer = new FileWriter(outputFile);
+							writer.write(infoData.toString());
+							writer.write(textAreaLog.getText());
+							writer.close();
 							JOptionPane.showMessageDialog(contentPane, "Simulation output saved to file!", "Success", JOptionPane.INFORMATION_MESSAGE);
 						} catch(Exception ex) {
 							JOptionPane.showMessageDialog(contentPane, "Error: could not save the file!", "Error", JOptionPane.ERROR_MESSAGE);
-							ex.printStackTrace();
+							//ex.printStackTrace();
 						}
 					} else {
-						// TODO: No selection 
+						fileChooser.cancelSelection();
 					}
 				}
 			}
@@ -637,9 +696,14 @@ public class SimGUI extends JFrame {
 		    			textAreaLog.setText("Simulation ready.\n");
 		    			invManagerMenuItem.setEnabled(true);
 		    			saveMenuItem.setEnabled(true);
+		    			clearMenuItem.setEnabled(true);
 		    			
 		    			if(currentMaxInstances > 1) {
 		    				currentSimulationMenuItem.setEnabled(true);
+		    			}
+		    			
+		    			if(containerInstance.getLoadedIDs().size() >= currentMaxInstances) {
+		    				openMenuItem.setEnabled(false);
 		    			}
 		    			/*JTextPane jj=(JTextPane)contentPane.getComponent(1);
 		    			jj.setText(currentLoadedModel);

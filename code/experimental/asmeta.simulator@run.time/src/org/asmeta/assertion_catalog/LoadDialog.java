@@ -87,6 +87,7 @@ public class LoadDialog extends JDialog {
 				dispose();
 			}
 		});
+		btnLoad.setEnabled(false);
 		btnLoad.setBounds(56, 127, 97, 25);
 		contentPane.add(btnLoad);
 		
