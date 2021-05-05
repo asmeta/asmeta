@@ -19,7 +19,7 @@ signature:
 	dynamic monitored mon2: EnumDom //never used. It could be removed.
 
 definitions:
-	domain ConcrDom = {1..3}
+	domain ConcrDom = {1 : 3}
 	
 	main  rule r_Main =
 		par

@@ -85,6 +85,15 @@ public class TestSingleFile extends TestValidator {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
 		test("example/fh/extend.avalla", false, false);
 	}
+	
+	@Test
+	public void testInvariant() throws Exception {
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
+		test("scenariosfortest\\invariants\\scenario_inv.avalla", true, false);
+	}
+
+	
+	
 	@Test
 	public void testSLE() throws Exception {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);

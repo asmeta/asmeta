@@ -101,7 +101,7 @@ public class AsmetaS extends AsmetaCLI {
 					// Simulator.logger.fatal("<UpdateSet>" + iae.us
 					// + "</UpdateSet>");
 				} catch (UpdateClashException uce) {
-					Logger.getLogger(Simulator.class).fatal(uce.loc + " updated to " + uce.c1 + " and " + uce.c2);
+					Logger.getLogger(Simulator.class).fatal(uce.getMessage());
 				}
 				System.out.println("Final state:\n" + sim.getCurrentState().getContrLocsState());
 			}

@@ -12,6 +12,8 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 
@@ -40,9 +42,9 @@ public class AsmetaV {
 
 	private static void setLogger() {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
-		//BasicConfigurator.configure();
-		Logger log = Logger.getRootLogger();		
-		//log.setLevel(Level.INFO);
+		// BasicConfigurator.configure();
+		Logger log = Logger.getRootLogger();
+		// log.setLevel(Level.INFO);
 		Enumeration<?> it = log.getAllAppenders();
 
 		// 03/03/2021 - Andrea
@@ -69,7 +71,8 @@ public class AsmetaV {
 
 	/**
 	 * 
-	 * @param scenarioPath file containing the scenario or directory containign all the scenarios
+	 * @param scenarioPath file containing the scenario or directory containign all
+	 *                     the scenarios
 	 * @param coverage
 	 * @throws Exception
 	 */
@@ -77,7 +80,7 @@ public class AsmetaV {
 		// get all rules covered by a set of string
 		Set<String> all_rules = new HashSet<String>();
 		// scenarios into directory
-		if (scenarioPath.isDirectory()) { 
+		if (scenarioPath.isDirectory()) {
 			File[] listFile = scenarioPath.listFiles();
 			for (File element : listFile)
 				if (element.isFile()) {
@@ -103,7 +106,7 @@ public class AsmetaV {
 	 * @throws Exception
 	 */
 	private static void validateSingleFile(boolean coverage, Set<String> coveredRules, String path) throws Exception {
-		System.out.println("\n** Simulation " +  path + " **\n");
+		System.out.println("\n** Simulation " + path + " **\n");
 		AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(path);
 		builder.save();
 		Simulator sim = Simulator.createSimulator(builder.getTempAsmPath());
@@ -111,7 +114,12 @@ public class AsmetaV {
 		if (coverage) {
 			RuleEvaluator.COMPUTE_COVERAGE = true;
 		}
-		sim.runUntilEmpty();
+		try {
+			sim.runUntilEmpty();
+		} catch (InvalidInvariantException iie) {
+			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
+			System.out.println("invariant violation found " + iie.getInvariant().getName() + " " + tp.visit(iie.getInvariant().getBody()));
+		}
 		if (coverage) { // for each scenario insert rules covered
 						// into list if they aren't covered
 			for (String element : RuleEvaluator.getCoveredMacro())

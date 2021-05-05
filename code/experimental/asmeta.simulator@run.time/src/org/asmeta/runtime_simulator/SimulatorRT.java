@@ -41,6 +41,20 @@ public class SimulatorRT extends AsmetaSimulatorWR{
 		checkInvariantRestart();
 	}
 	
+	private void checkInvariantRestart() {
+		logger.debug("<Run>");
+		UpdateSet updateSet = new UpdateSet();
+		getContrMonInvariants();
+		Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);
+		//System.out.println("Controllo invariants controllati nello stato iniziale.");
+		if (invariant != null) {
+			System.out.println("Invariant violation!");
+			throw new InvalidInvariantException(invariant, updateSet);
+		}
+		logger.debug("</Run>");
+	}
+
+	
 	/**
 	 * Return an InvalidInvariantException or UpdateClashException if it occurs
 	 */
@@ -60,7 +74,7 @@ public class SimulatorRT extends AsmetaSimulatorWR{
 		
 		UpdateSet updateSet = new UpdateSet();
 		getContrMonInvariants();
-		if (checkInvariants) {
+		if (checkInvariants != InvariantTreament.NO_CHECK) {
 			Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);
 			if (invariant != null) {
 				throw new InvalidInvariantException(invariant, updateSet);

@@ -14,6 +14,7 @@ import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.UpdateClashException;
 import org.asmeta.simulator.UpdateSet;
+import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.simulator.readers.RandomMFReader;
 
 public class TestOneSpec {
@@ -71,7 +72,7 @@ public class TestOneSpec {
 				);
 		System.out.println(sim.getCurrentState());
 		try {
-			Simulator.checkInvariants = true;
+			Simulator.checkInvariants = InvariantTreament.CHECK_STOP;
 			sim.setShuffleFlag(false);
 			for (int i = 0; i < 100; i++){
 				UpdateSet us = sim.run(1);

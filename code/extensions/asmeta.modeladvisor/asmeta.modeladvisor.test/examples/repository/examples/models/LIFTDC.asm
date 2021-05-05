@@ -39,7 +39,7 @@ signature:
 
 definitions:
 
-	domain Floor = {-1..+2} // e.g. for m=2
+	domain Floor = {-1:+2} // e.g. for m=2
 	function ground = 0
 	function top = +2
 

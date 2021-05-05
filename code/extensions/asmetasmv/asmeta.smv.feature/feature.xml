@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.asmetasmv.feature"
       label="Asmeta model checker"
-      version="1.0.6"
+      version="21.05"
       provider-name="fmse.di.unimi.it">
 
    <description>
@@ -24,7 +24,7 @@ See http://asmeta.sourceforge.net/
    </url>
 
    <requires>
-      <import feature="org.asmeta.simulator.feature" version="0.9.12"/>
+      <import feature="org.asmeta.simulator.feature"/>
    </requires>
 
    <plugin
@@ -45,5 +45,12 @@ See http://asmeta.sourceforge.net/
          download-size="0"
          install-size="0"
          version="0.0.0"/>
+
+   <plugin
+         id="asmeta.flattener.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>

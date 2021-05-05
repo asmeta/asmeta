@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.visualizer.feature"
       label="Asmeta visualizer"
-      version="1.0.8"
+      version="21.05"
       provider-name="fmse.di.unimi.it">
 
    <description url="fmse.di.unimi.it/asmetavisualizer/description">
@@ -30,7 +30,7 @@ See http://asmeta.sourceforge.net/
       <import plugin="org.junit"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.ui.ide"/>
-      <import feature="org.asmeta.simulator.feature" version="0.9.12"/>
+      <import feature="org.asmeta.simulator.feature"/>
    </requires>
 
    <plugin

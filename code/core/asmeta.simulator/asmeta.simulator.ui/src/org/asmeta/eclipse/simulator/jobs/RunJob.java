@@ -147,7 +147,7 @@ public abstract class RunJob extends Job {
 				us = asmSimulator.run(1);
 				previousState = asmSimulator.previousState; //PA 2018/03/22
 			} catch (InvalidInvariantException iae) {
-				printOut.print("INVARIANT violations");
+				printOut.println("INVARIANT violations");
 				monitor.setCanceled(true);
 			} catch (java.lang.RuntimeException rte) {
 				if (rte.getCause() instanceof ThreadDeath) {

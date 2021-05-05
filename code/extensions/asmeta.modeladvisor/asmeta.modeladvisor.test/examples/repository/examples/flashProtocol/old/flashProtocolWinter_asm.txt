@@ -6,7 +6,7 @@
    MessInTrQ with parametric length 
    clear InMess, as far as appending to MessInTr is successful
 */
-asm flashProtocol
+asm flashProtocolWinter
 
 import ../../../STDL/StandardLibrary
 
