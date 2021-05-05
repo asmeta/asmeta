@@ -348,7 +348,10 @@ public class Simulator {
 		LocationSet currentstate;
 		UpdateSet updateSet;
 	}
-
+	private interface StopCondition {
+		public boolean stop(UpdateSet us);
+	}
+	
 	// run until f becomes true
 	// throw exception only if check_stop
 	// f: stop condition
@@ -500,10 +503,6 @@ public class Simulator {
 	public LocationSet runUntilTrivial() {
 		return runUntil(updateSet -> updateSet.isTrivial(previousState), Integer.MAX_VALUE,
 				checkInvariants).currentstate;
-	}
-
-	private interface StopCondition {
-		public boolean stop(UpdateSet us);
 	}
 
 	/**

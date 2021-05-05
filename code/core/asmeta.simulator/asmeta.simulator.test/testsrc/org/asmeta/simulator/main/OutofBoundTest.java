@@ -12,7 +12,7 @@ package org.asmeta.simulator.main;
 
 import static org.junit.Assert.assertEquals;
 
-import org.asmeta.simulator.InvalidValeException;
+import org.asmeta.simulator.InvalidValueException;
 import org.junit.Test;
 
 public class OutofBoundTest extends BaseTest {
@@ -23,7 +23,7 @@ public class OutofBoundTest extends BaseTest {
 		sim.run(3);
 		try {
 			sim.run(1);
-		}catch(InvalidValeException e) {
+		}catch(InvalidValueException e) {
 			assertEquals("value out of domain: cannot assign 4 to foo", e.getMessage());
 		}
 	}
