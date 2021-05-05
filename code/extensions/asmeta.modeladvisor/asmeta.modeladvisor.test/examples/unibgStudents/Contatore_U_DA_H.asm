@@ -2,7 +2,7 @@
 
 asm Contatore_U_DA_H  //Nome della macchina a stati astratti
 
-import ../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../asm_examples/STDL/StandardLibrary
 
 signature:  //definizione del vocabolario
 

@@ -14,7 +14,7 @@ signature:
 	//dynamic controlled outMess: Any
 	
 definitions:
-	domain ValoreDomain = {1..4}
+	domain ValoreDomain = {1 : 4}
 	domain ResultDomain = {1..24}
 	
 	macro rule r_fattoriale =

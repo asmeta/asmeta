@@ -6,6 +6,7 @@ import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
+import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
@@ -27,7 +28,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		IPreferenceStore store = AsmeeActivator.getDefault().getPreferenceStore();
 		store.setDefault(PreferenceConstants.P_SHUFFLE, true);
 		RuleEvaluator.isShuffled = true;
-		store.setDefault(PreferenceConstants.P_CHECK_AXIOMS, Simulator.checkInvariants);
+		store.setDefault(PreferenceConstants.P_CHECK_AXIOMS, InvariantTreament.CHECK_STOP.toString());
+		Simulator.checkInvariants = InvariantTreament.CHECK_STOP;
 		store.setDefault(PreferenceConstants.P_STOP_UPDATESET_EMPTY, true);
 		store.setDefault(PreferenceConstants.P_STOP_UPDATESET_TRIVIAL, true);
 		

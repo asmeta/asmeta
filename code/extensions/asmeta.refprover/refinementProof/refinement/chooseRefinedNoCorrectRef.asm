@@ -9,7 +9,7 @@ signature:
 	dynamic controlled x: Integer
 
 definitions:
-	domain ConcrDomRef = {1..3}
+	domain ConcrDomRef = {1 : 3}
 
 	main rule r_Main =
 		choose $x in ConcrDomRef with true do

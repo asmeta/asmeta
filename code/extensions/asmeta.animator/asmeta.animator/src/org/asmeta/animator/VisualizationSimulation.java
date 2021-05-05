@@ -60,7 +60,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	final Shell shlAsmetaa = new Shell(display);
 
 	protected Table table_functions_left_up, table_states_right_up, table_functions_left_down, table_states_right_down;
-	private Text textStepNumber, textError, textInvariant;
+	private Text textStepNumber, textInvError;
 	private AsmCollection asm;
 	private Label lblInvariant, lblInsertStepNumber;
 	private Button btnRndStep, btnInterStep, btnMoveControlledUp, btnMoveControlledDown,
@@ -259,15 +259,15 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		lblInvariant.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
 		lblInvariant.setBackground(SWTResourceManager.getColor(255, 255, 255));
 		lblInvariant.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false, 1, 1));
-		lblInvariant.setText("Inviariant violation");
-		textInvariant = new Text(composite, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
-		textInvariant.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
-		textInvariant.setEditable(false);
+		lblInvariant.setText("Inviariant violation / exceptions");
+		textInvError = new Text(composite, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+		textInvError.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		textInvError.setEditable(false);
 		GridData gd_textInvariant = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_textInvariant.heightHint = 66;
 		gd_textInvariant.widthHint = 178;
-		textInvariant.setLayoutData(gd_textInvariant);
-		textInvariant.setForeground(red);
+		textInvError.setLayoutData(gd_textInvariant);
+		textInvError.setForeground(red);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 
@@ -559,10 +559,6 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		spacerData.heightHint = hBarRightC.getSize().y;
 		spacer.setVisible(false);
 		sash_tables_up.setBackground(table_functions_left.getBackground());
-	}
-
-	public void setTextError(String text) {
-		this.textError.setText(text);
 	}
 
 	public Shell getShell() {
@@ -896,7 +892,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	@Override
 	public void setInvalidIvariantText(String s) {
-		textInvariant.setText(s);
+		textInvError.setText(s == null? "null" : s);
 	}
 
 	@Override

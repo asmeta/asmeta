@@ -18,7 +18,7 @@ signature:
 	dynamic controlled fooJ: Boolean//updated
 
 definitions:
-	domain ConcrDom = {1..3}
+	domain ConcrDom = {1 : 3}
 	
 	main  rule r_Main =
 		par

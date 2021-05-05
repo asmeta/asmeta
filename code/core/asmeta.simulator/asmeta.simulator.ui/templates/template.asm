@@ -19,7 +19,7 @@ signature:
 
 definitions:
 	// DOMAIN DEFINITIONS
-	domain Coord = {1..3}
+	domain Coord = {1 : 3}
 
 	// FUNCTION DEFINITIONS
 	function winner($s in Sign) =

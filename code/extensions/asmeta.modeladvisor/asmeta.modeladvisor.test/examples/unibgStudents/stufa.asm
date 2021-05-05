@@ -2,7 +2,7 @@
 
 asm stufa
 
-import ../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	enum domain TastoPotenzaDomain = {AUMENTA | DIMINUISCI}
@@ -28,7 +28,7 @@ signature:
 definitions:
 	domain ExecDomain = {0:3}
 	domain Pellet = {0:50}
-	domain Potenza = {1..3}
+	domain Potenza = {1 : 3}
 	domain Timer = {0:10}
 	domain Fuliggine = {0:100}
 

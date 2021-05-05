@@ -31,9 +31,12 @@ public class UpdateClashException extends RuntimeException {
 	 * @param content2 the second value
 	 */
 	public UpdateClashException(Location location, Value content1, Value content2) {
+		super(location + " updated to " + content1 + " and " + content2);
 		loc = location; 
 		c1 = content1; 
 		c2 = content2; 
 	}
 
+	
+	
 }
