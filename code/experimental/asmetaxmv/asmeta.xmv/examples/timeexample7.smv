@@ -34,3 +34,4 @@ MODULE Timer(d,timeu)
 	init(mytimeSEC):=0;
 	TRANS elapsed -> next(mytimeSEC) = 0 ;
 	
+//FINAL SOLUTION: one clock for each timer derived the other time units from the basic but without introducing a new variable
