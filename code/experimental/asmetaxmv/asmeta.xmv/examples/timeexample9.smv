@@ -2,7 +2,7 @@
 
 MODULE main
 	VAR timeunit : { s0, s1 };
-	VAR c: Timer(100,s0);	
+	VAR c: Timer(10,s0);	
 	VAR c2: Timer(1,s1);
 	VAR led: boolean;
 	VAR led2: boolean;
@@ -25,13 +25,13 @@ MODULE main
 	
 MODULE Timer(d,timeu)
 	DEFINE elapsed := case 
-			timeu = s0 : (mytimeSEC)>=d;
-			timeu = s1 : (floor(((mytimeSEC+1)/60)))>=d;
+			timeu = s0 : (mytimeMIN*60)>=d;
+			timeu = s1 : (mytimeMIN)>=d;
 		esac;
 	
-	VAR mytimeSEC: clock;
+	VAR mytimeMIN: clock;
 	ASSIGN 
-	init(mytimeSEC):=0;
-	TRANS elapsed -> next(mytimeSEC) = 0 ;
+	init(mytimeMIN):=0;
+	TRANS elapsed -> next(mytimeMIN) = 0 ;
 	
 -- FINAL SOLUTION: one clock for each timer derived the other time units from the basic but without introducing a new variable
