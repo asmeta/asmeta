@@ -19,6 +19,7 @@ import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.SECONDS_
 import org.apache.log4j.Level;
 import org.asmeta.eclipse.AsmeeActivator;
 import org.asmeta.simulator.Environment.TimeMngt;
+import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -63,7 +64,10 @@ public class SimulatorPreferencePage
 	public void createFieldEditors() {
 		Composite fieldEdtrPrnt = getFieldEditorParent();
 		addField(new BooleanFieldEditor(P_SHUFFLE, "Shuffle choose rule", fieldEdtrPrnt));
-		addField(new BooleanFieldEditor(P_CHECK_AXIOMS, "Check invariants", fieldEdtrPrnt));
+		
+		addField(new ComboFieldEditor(P_CHECK_AXIOMS, "Check invariants", getCheckInvariants(), fieldEdtrPrnt));
+		
+		
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_EMPTY, "Stop simulation if the update set is empty", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_TRIVIAL, "Stop simulation if the update set is trivial", fieldEdtrPrnt));
 		// 
@@ -87,6 +91,13 @@ public class SimulatorPreferencePage
 		//
 		addField(new ComboFieldEditor(P_DEBUG_PARSER, "Debug level for parser", getLog4Jlevels(), fieldEdtrPrnt));
 		addField(new ComboFieldEditor(P_DEBUG_SIMULATOR, "Debug level for simulator", getLog4Jlevels(), fieldEdtrPrnt));
+	}
+
+	private String[][] getCheckInvariants() {
+		return new String[][] {
+			{InvariantTreament.CHECK_STOP.toString(), InvariantTreament.CHECK_STOP.toString()},
+			{InvariantTreament.CHECK_CONTINUE.toString(), InvariantTreament.CHECK_CONTINUE.toString()},
+			{InvariantTreament.NO_CHECK.toString(), InvariantTreament.NO_CHECK.toString()}};
 	}
 
 	private String[][] getTimeUnits() {

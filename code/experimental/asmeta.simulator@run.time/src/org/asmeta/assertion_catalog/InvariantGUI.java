@@ -260,7 +260,7 @@ public class InvariantGUI {
 		invManagerMenu.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		menuBar.add(invManagerMenu);
 		
-		selectModelMenuItem = new JMenuItem("Select loaded model");
+		selectModelMenuItem = new JMenuItem("Select model");
 		selectModelMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		invManagerMenu.add(selectModelMenuItem);
 		
@@ -350,58 +350,41 @@ public class InvariantGUI {
 		/////////SET BUTTONS AND MENU ACTIONS
 		selectModelMenuItem.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
-			    try {	
-	    		Map<Integer, String> ids = containerInstance.getLoadedIDs();
-	    		LoadComboItem ci=null;
-	    		if (!ids.isEmpty()) {
-	    			setAllEnabled(1);
-	    			ci = new LoadSelectedSimulation(ids).showDialog();
-	    			//JOptionPane.showMessageDialog(null, ci.getStr());
-	    		}
-	    		if (ci!=null) {
-	    			currentLoadedID = ci.getInt();
-	    			currentLoadedModel = ci.getStr();
-	    			if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(".asm")!=-1 && showInvariants())
-				     {
-	    				add.setEnabled(true);
-	    				refresh.setEnabled(true);
-				      //modelpath.setText(currentLoadedModel);
-	    				if (currentLoadedModel.indexOf("\\")>=0)
-							modelpath.setText(currentLoadedModel.substring(currentLoadedModel.lastIndexOf("\\")+1));
-						else
-							modelpath.setText(currentLoadedModel);
-				     }
-	    			else if(currentLoadedModel.indexOf(".asm")==-1 && !currentLoadedModel.isEmpty())
-	    				JOptionPane.showMessageDialog(modelpath, "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
-				    }
-	    		}
-			    //
-		    	
-			     //StartGui.chooseModel();
-			     //String checkmodel = StartGui.getModel();
-			     //new loadingbar().setVisible(true);
-			     //modelpath.setText(StartGui.getModel());
-			     
-			     /*if(!checkmodel.isEmpty() && checkmodel.indexOf(".asm")!=-1 && showInvariants())
-			     {
-			      add.setEnabled(true);
-			      refresh.setEnabled(true);
-			      modelpath.setText(StartGui.getModel());
-			     }*/
-			     /*if(checkmodel.indexOf(".asm")==-1 && !checkmodel.isEmpty())
-			    	JOptionPane.showMessageDialog(null, "WRONG EXTENSION");
-			    }*/
-			    catch (Exception ex) {
-				    if(ex instanceof java.io.FileNotFoundException)
-				    	JOptionPane.showMessageDialog(modelpath, "Error: no file selected!", "Error", JOptionPane.ERROR_MESSAGE);
-				    else if(ex instanceof java.lang.NullPointerException) 
-				    	JOptionPane.showMessageDialog(modelpath, "Error: parser error!", "Error", JOptionPane.ERROR_MESSAGE);  	
-				    else{
-				    	ex.printStackTrace();
-				    }
-			    }
+				   try {	
+					   Map<Integer, String> ids = containerInstance.getLoadedIDs();
+					   LoadComboItem ci=null;
+					   if (!ids.isEmpty()) {
+						   setAllEnabled(1);
+						   ci = new LoadSelectedSimulation(ids).showDialog();
+						   //JOptionPane.showMessageDialog(null, ci.getStr());
+					   }
+					   if (ci!=null) {
+						   currentLoadedID = ci.getInt();
+						   currentLoadedModel = ci.getStr();
+						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(".asm")!=-1 && showInvariants())
+						   {
+							   add.setEnabled(true);
+							   refresh.setEnabled(true);
+							   
+							   if (currentLoadedModel.indexOf("\\")>=0)
+								   modelpath.setText(currentLoadedModel.substring(currentLoadedModel.lastIndexOf("\\")+1));
+							   else
+								   modelpath.setText(currentLoadedModel);
+						   }
+						   else if(currentLoadedModel.indexOf(".asm")==-1 && !currentLoadedModel.isEmpty())
+							   JOptionPane.showMessageDialog(getContentPane(), "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
+					   }
+				   } catch (Exception ex) {
+			    		if(ex instanceof java.io.FileNotFoundException)
+				    		JOptionPane.showMessageDialog(getContentPane(), "Error: no file selected!", "Error", JOptionPane.ERROR_MESSAGE);
+				    	else if(ex instanceof java.lang.NullPointerException) 
+				    		JOptionPane.showMessageDialog(getContentPane(), "Error: parser error!", "Error", JOptionPane.ERROR_MESSAGE);  	
+				    	else{
+				    		ex.printStackTrace();
+				    	}
+				   }
 			   }
-			  });
+		});
 		
 		table_creationoptions();
 		
@@ -627,7 +610,11 @@ public class InvariantGUI {
 	}
 	
 	public static JPanel getContentPane() {
-		return (JPanel) frame.getContentPane();
+		if(frame != null) {
+			return (JPanel) frame.getContentPane();
+		} else {
+			return null;
+		}
 	}
 	
 	public static int getCurrentLoadedID() {

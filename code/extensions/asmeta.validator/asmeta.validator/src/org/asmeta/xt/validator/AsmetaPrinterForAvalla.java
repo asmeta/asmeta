@@ -196,26 +196,55 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	// the print will transform it to a relative path to the temporary ASM written
 	// without the .asm
 	private void printImport(Path importedAsm) {
+		String importedName = printImport(tempAsmPath,importedAsm);
+		println("import " + importedName);
+	}
+	
+	/**
+	 * Prints the import.
+	 *
+	 * @param tempAsmPath the temp asm path
+	 * @param importedAsm the imported asm
+	 * @return the string to be used to 
+	 */
+	static String printImport(String tempAsmPath, Path importedAsm) {		
 		assert importedAsm.toFile().exists() : "imported file with path " + importedAsm + " does not exists";
+		assert importedAsm.toFile().getName().endsWith(".asm");
 		// convert to a relative path with the current file
-		Path tempAsmBasePath = new File(tempAsmPath).getParentFile().toPath();
-		assert tempAsmBasePath.toFile().exists() && tempAsmBasePath.toFile().isDirectory();
-		// check if they must be must both absolute
-		if (!tempAsmBasePath.isAbsolute() || !importedAsm.isAbsolute()) {
+		assert  new File(tempAsmPath).exists();
+		Path tempAsmPathParent = new File(tempAsmPath).getParentFile().toPath();
+		assert tempAsmPathParent.toFile().exists() && tempAsmPathParent.toFile().isDirectory();
+		// if they share the parent use just the name of the imported Asm
+		String importedName;
+		if (importedAsm.getParent().equals(tempAsmPathParent)) {
+			// use just the name
+			importedName = importedAsm.toFile().getName();
+		} else {
+			// use absolute path 
+			importedName =  importedAsm.toAbsolutePath().normalize().toString();
+		}
+		// remove extension
+		importedName = importedName.substring(0, importedName.length() - 4);
+/*		// check if they must be must both absolute
+		if (!tempAsmPathParent.isAbsolute() || !importedAsm.isAbsolute()) {
 			importedAsm = importedAsm.toAbsolutePath();
-			tempAsmBasePath = tempAsmBasePath.toAbsolutePath();
+			tempAsmPathParent = tempAsmPathParent.toAbsolutePath();
 		}
 		// check if it can be relativized
 		Path asm_to_import = null;
 		try {
-			asm_to_import = tempAsmBasePath.relativize(importedAsm);
+			asm_to_import = tempAsmPathParent.relativize(importedAsm);
+//			if (!asm_to_import.toFile().exists()) {
+//				asm_to_import = importedAsm.normalize();
+//			}
 		} catch (IllegalArgumentException ie) {
 			asm_to_import = importedAsm.normalize();
 		}
 		// transform to string
 		String importedName = asm_to_import.toString();
 		// remove extension
-		importedName = importedName.substring(0, importedName.length() - 4);
+		importedName = importedName.substring(0, importedName.length() - 4);*/
+		
 		// replace \ with \\ so when printed it will be printed correctly (with \\)
 		// TODO the path should be OS independent
 		importedName = importedName.replace("\\", "\\\\");
@@ -224,7 +253,10 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			assert !importedName.contains("\"");
 			importedName = "\"" + importedName + "\"";
 		}
-		println("import " + importedName);
+		LOG.debug("tempAsmPath      " + tempAsmPath);
+		LOG.debug("importedAsm      " + importedAsm);
+		LOG.debug("importedName --> " + importedName);
+		return importedName;
 	}
 
 	// PA 2017/12/29

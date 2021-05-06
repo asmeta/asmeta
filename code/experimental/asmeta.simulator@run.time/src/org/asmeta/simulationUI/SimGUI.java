@@ -17,13 +17,18 @@ import java.awt.event.WindowFocusListener;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -32,6 +37,7 @@ import java.util.regex.Pattern;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -51,8 +57,10 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import org.asmeta.assertion_catalog.InvariantGUI;
+import org.asmeta.assertion_catalog.InvariantManager;
 import org.asmeta.assertion_catalog.LoadComboItem;
 import org.asmeta.assertion_catalog.LoadDialog;
+import org.asmeta.assertion_catalog.LoadSelectedSimulation;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.IModelAdaptation;
@@ -65,6 +73,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
 import asmeta.definitions.impl.MonitoredFunctionImpl;
+import javax.swing.JSeparator;
 
 /**
  * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
@@ -98,16 +107,23 @@ public class SimGUI extends JFrame {
 	static JCheckBoxMenuItem darkModeCheckItem;
 	static JMenuItem invManagerMenuItem;
 	static ButtonGroup fontSizeGroup;
-	static SimulationContainer containerInstance;
-	static int currentLoadedID;
-	static int currentMaxInstances;
-	static String currentLoadedModel;
+	static JMenu simulationMenu;
+	static JMenuItem currentSimulationMenuItem;
+	static JMenuItem saveMenuItem;
+	static JMenuItem clearMenuItem;
+	static JSeparator separator;
+	static JMenuItem compositionMenuItem;
+	
+	private static SimulationContainer containerInstance;
+	private static int currentLoadedID;
+	private static int currentMaxInstances;
+	private static String currentLoadedModel;
 	
 	static final String PROPERTIES_FILE_PATH = "src/org/asmeta/simulationUI/.properties";
 
 	/**
 	 * Launch the application.
-	 */
+	 */	
 	public static void main(IModelAdaptation containerInstance) {
 		SimulationContainer contInstance;
 		if(containerInstance == null) {
@@ -403,10 +419,37 @@ public class SimGUI extends JFrame {
 		openMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		fileMenu.add(openMenuItem);
 		
+		saveMenuItem = new JMenuItem("Save");
+		saveMenuItem.setEnabled(false);
+		saveMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		fileMenu.add(saveMenuItem);
+		
+		simulationMenu = new JMenu("Simulation");
+		simulationMenu.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		menuBar.add(simulationMenu);
+		
 		invManagerMenuItem = new JMenuItem("Open assertion catalog");
 		invManagerMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		invManagerMenuItem.setEnabled(false);
-		fileMenu.add(invManagerMenuItem);
+		simulationMenu.add(invManagerMenuItem);
+		
+		currentSimulationMenuItem = new JMenuItem("Select simulation");
+		currentSimulationMenuItem.setEnabled(false);
+		currentSimulationMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		simulationMenu.add(currentSimulationMenuItem);
+		
+		compositionMenuItem = new JMenuItem("Compose models");
+		compositionMenuItem.setEnabled(false);
+		compositionMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		simulationMenu.add(compositionMenuItem);
+		
+		separator = new JSeparator();
+		simulationMenu.add(separator);
+		
+		clearMenuItem = new JMenuItem("Clear output");
+		clearMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		clearMenuItem.setEnabled(false);
+		simulationMenu.add(clearMenuItem);
 		
 		windowMenu = new JMenu("Window");
 		windowMenu.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
@@ -489,8 +532,146 @@ public class SimGUI extends JFrame {
 				}
 			}
 		});
-
 		
+		compositionMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					List<Integer> options = new ArrayList<>(containerInstance.getLoadedIDs().keySet());
+					options.remove((Object) currentLoadedID);
+					
+					int receiverID = (int) JOptionPane.showInputDialog(contentPane, 
+																	   "  Select the ID of the model that will be\ncomposed with the current loaded model:",
+																	   "Receiver ID",
+																	   JOptionPane.QUESTION_MESSAGE,
+																	   null,
+																	   options.toArray(),
+																	   null);
+					// DEBUG: System.out.println(receiverID);
+					CompositionGUI.main(containerInstance, currentLoadedID, receiverID);
+				} catch(Exception ex) {
+					//DEBUG: ex.printStackTrace();
+					return;
+				}
+			}
+		});
+		
+		clearMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(currentLoadedID >= 1 && textAreaLog.getText() != null) {
+					if(JOptionPane.showConfirmDialog(contentPane, 
+												  "Do you want to save the current simulation output?",
+												  "Save",
+												  JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						saveMenuItem.doClick();
+					}
+					textAreaLog.setText("");
+				}
+				return;
+			}
+		});
+		
+		saveMenuItem.addActionListener(new ActionListener() {
+			public String toTxt(String s) {
+				if(s.length() < 4) {
+					return null;
+				}
+				if(s.substring(s.length() - 4, s.length()).equals(".txt")) {
+					return s;
+				}
+				return (s + ".txt");
+			}
+			
+			public void actionPerformed(ActionEvent e) {
+				if(currentLoadedID >= 1 && textAreaLog.getText() != null) {
+					JFileChooser fileChooser = new JFileChooser();
+					fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+					fileChooser.setApproveButtonText("Save");
+					fileChooser.setSelectedFile(new File("simulation_output.txt"));
+					
+					String filePath;
+					File outputFile;
+					FileWriter writer;
+					StringBuilder infoData = new StringBuilder();
+					SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+					SimpleDateFormat dateTimeFormatter_ = new SimpleDateFormat("dd_MM_yyyy_HHmmss");
+					
+					if(fileChooser.showSaveDialog(contentPane) == JFileChooser.APPROVE_OPTION) {
+						try {
+							filePath = fileChooser.getSelectedFile().getAbsolutePath();
+							outputFile = new File(toTxt(filePath));
+							
+							if(outputFile.isDirectory()) {
+								throw new FileNotFoundException();
+							}
+							if(outputFile.exists()) {
+								if(JOptionPane.showConfirmDialog(contentPane, 
+																 "Do you want to overwrite the existing file?", 
+																 "Overwrite", 
+																 JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+									outputFile = new File(fileChooser.getSelectedFile().getParent(), 
+														  toTxt("simulation_output_" + dateTimeFormatter_.format(new Date())));
+								}
+							}
+							outputFile.createNewFile();
+							infoData.append("Simulation Output timestamp: " + dateTimeFormatter.format(new Date()) + "\n");
+							infoData.append("Model path: " + currentLoadedModel + "\n");
+							infoData.append("Simulation ID: " + Integer.toString(currentLoadedID) + "\n");
+							infoData.append("------------------------------------------------\n\n");
+							
+							writer = new FileWriter(outputFile);
+							writer.write(infoData.toString());
+							writer.write(textAreaLog.getText());
+							writer.close();
+							JOptionPane.showMessageDialog(contentPane, "Simulation output saved to file!", "Success", JOptionPane.INFORMATION_MESSAGE);
+						} catch(Exception ex) {
+							JOptionPane.showMessageDialog(contentPane, "Error: could not save the file!", "Error", JOptionPane.ERROR_MESSAGE);
+							//ex.printStackTrace();
+						}
+					} else {
+						fileChooser.cancelSelection();
+					}
+				}
+			}
+		});
+		
+		currentSimulationMenuItem.addActionListener(new ActionListener() {
+			   public void actionPerformed(ActionEvent e) {
+				   try {	
+					   Map<Integer, String> ids = containerInstance.getLoadedIDs();
+					   LoadComboItem ci=null;
+					   if(!ids.isEmpty()) {
+						   ci = new LoadSelectedSimulation(ids).showDialog();
+					   }
+					   if(ci!=null) {
+						   currentLoadedID = ci.getInt();
+						   currentLoadedModel = ci.getStr();
+						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(".asm")!=-1){
+							   if (currentLoadedModel.indexOf("\\")>=0) {
+								   textPaneModel.setText(currentLoadedModel.substring(currentLoadedModel.lastIndexOf("\\")+1));
+								   textPaneID.setText(Integer.toString(currentLoadedID));
+							   } else {
+								   textPaneModel.setText(currentLoadedModel);
+								   textPaneID.setText(Integer.toString(currentLoadedID));
+							   }
+								   
+						   }
+						   else if(currentLoadedModel.indexOf(".asm")==-1 && !currentLoadedModel.isEmpty())
+							   JOptionPane.showMessageDialog(contentPane, "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
+					   }
+				   } catch (Exception ex) {
+			    		if(ex instanceof java.io.FileNotFoundException)
+				    		JOptionPane.showMessageDialog(contentPane, "Error: no file selected!", "Error", JOptionPane.ERROR_MESSAGE);
+				    	else if(ex instanceof java.lang.NullPointerException) {
+				    		JOptionPane.showMessageDialog(contentPane, "Error: parser error!", "Error", JOptionPane.ERROR_MESSAGE);
+				    		ex.printStackTrace();
+				    	} 	
+				    	else {
+				    		ex.printStackTrace();
+				    	}
+				   }
+			   }
+		});
+
 		openMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(currentMaxInstances<1)
@@ -517,20 +698,21 @@ public class SimGUI extends JFrame {
 						}
 					}
 				} else { // currentMaxInstances>=1
+					LoadComboItem ci = null;
+					LoadDialog ld = null;
 					Map<Integer, String> ids = containerInstance.getLoadedIDs();
-				
-		    		LoadComboItem ci=null;
-		    		if (!ids.isEmpty()) {
-		    			// setAllEnabled(1);
-		    			ci = new LoadDialog(containerInstance,ids).showDialog();
-		    			//JOptionPane.showMessageDialog(null, ci.getStr());
-		    		}else
-		    		{
-		    			LoadDialog ld = new LoadDialog(containerInstance,ids);
-		    			ld.disablebutton();
-		    			ci=new LoadDialog(containerInstance,ids).showDialog();
-		    			
-		    		}
+						
+			    	if (!ids.isEmpty()) {
+			    		// setAllEnabled(1);
+			    		ci = new LoadDialog(containerInstance,ids).showDialog();
+			    		//JOptionPane.showMessageDialog(null, ci.getStr());
+			    	} else {
+			    		ld = new LoadDialog(containerInstance,ids);
+			    		ld.disablebutton();
+			    		ci = new LoadDialog(containerInstance,ids).showDialog();
+			    	}
+					
+					
 		    		if (ci!=null) {
 		    			currentLoadedID = ci.getInt();
 		    			currentLoadedModel = ci.getStr();
@@ -543,9 +725,17 @@ public class SimGUI extends JFrame {
 		    			enableLoadSimButtons(true);
 		    			textAreaLog.setText("Simulation ready.\n");
 		    			invManagerMenuItem.setEnabled(true);
-		    			/*JTextPane jj=(JTextPane)contentPane.getComponent(1);
-		    			jj.setText(currentLoadedModel);
-		    			jj=(JTextPane)contentPane.getComponent(2);*/
+		    			saveMenuItem.setEnabled(true);
+		    			clearMenuItem.setEnabled(true);
+		    			
+		    			if(currentMaxInstances >= 2) {
+		    				currentSimulationMenuItem.setEnabled(true);
+		    				compositionMenuItem.setEnabled(true);
+		    			}
+		    			
+		    			if(containerInstance.getLoadedIDs().size() >= currentMaxInstances) {
+		    				openMenuItem.setEnabled(false);
+		    			}
 		    		}
 				}
 			}
@@ -592,7 +782,7 @@ public class SimGUI extends JFrame {
 				if (monitored.size()<1)
 					out=containerInstance.runUntilEmpty(currentLoadedID);
 				else {
-					Map<String, String> input = getInput(monitored);
+					Map<String, String> input = getInput(monitored, false);
 					out=containerInstance.runUntilEmpty(currentLoadedID, input);
 				}
 				//JOptionPane.showMessageDialog(null, out.toString());	
@@ -631,7 +821,7 @@ public class SimGUI extends JFrame {
 					if (monitored.size()<1)
 						out=containerInstance.runUntilEmptyTimeout(currentLoadedID,timeout);
 					else {
-						Map<String, String> input = getInput(monitored);
+						Map<String, String> input = getInput(monitored, false);
 						out=containerInstance.runUntilEmptyTimeout(currentLoadedID, input,timeout);
 					}
 					//JOptionPane.showMessageDialog(null, out.toString());	
@@ -658,7 +848,7 @@ public class SimGUI extends JFrame {
 				if (monitored.size()<1)
 					out=containerInstance.runStep(currentLoadedID);
 				else {
-					Map<String, String> input = getInput(monitored);
+					Map<String, String> input = getInput(monitored, true);
 					out=containerInstance.runStep(currentLoadedID, input);
 				}
 				//JOptionPane.showMessageDialog(null, out.toString());	
@@ -698,7 +888,7 @@ public class SimGUI extends JFrame {
 					if (monitored.size()<1)
 						out=containerInstance.runStepTimeout(currentLoadedID,timeout);
 					else {
-						Map<String, String> input = getInput(monitored);
+						Map<String, String> input = getInput(monitored, false);
 						out=containerInstance.runStepTimeout(currentLoadedID, input,timeout);
 					}
 					//JOptionPane.showMessageDialog(null, out.toString());	
@@ -776,7 +966,7 @@ public class SimGUI extends JFrame {
 		return monitoredList;
 	}
 	
-	private Map<String, String> getInput(List<String> monitoredList) {
+	private Map<String, String> getInput(List<String> monitoredList, boolean auto) {
 		Map<String, String> input = new HashMap<>();
 		Map<String, Object[]> enumDomainFunction = new HashMap<>();
 		String inputValue = new String();
@@ -807,15 +997,21 @@ public class SimGUI extends JFrame {
 			if(options.length == 0) {
 				options = null;
 			}
-			inputValue = (String) JOptionPane.showInputDialog(
-					contentPane, 											// parent component
-					"Insert " + monitored + " value:", 						// message
-					"Input", 												// title
-					JOptionPane.PLAIN_MESSAGE, 								// message type
-					null, 													// icon
-					options, 												// options
-					null													// initial default value
-			);
+			if(auto && options != null) {
+				Random seed = new Random();
+				inputValue = (String) options[seed.nextInt(options.length)];
+				System.out.println("Generated input for '" + monitored + "': " + inputValue);
+			} else {
+				inputValue = (String) JOptionPane.showInputDialog(
+						contentPane, 											// parent component
+						"Insert " + monitored + " value:", 						// message
+						"Input", 												// title
+						JOptionPane.PLAIN_MESSAGE, 								// message type
+						null, 													// icon
+						options, 												// options
+						null													// initial default value
+				);
+			}
 			input.put(monitored, inputValue);
 		}
 		return input;
@@ -877,6 +1073,10 @@ public class SimGUI extends JFrame {
 			}
 		}
 		return values;
+	}
+	
+	public static int getMaxInstances() {
+		return SimGUI.currentMaxInstances;
 	}
 }
 

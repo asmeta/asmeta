@@ -39,8 +39,8 @@ signature:
 
 definitions:
 // DOMAIN DEFINITIONS
-	domain Level={1..6}
-	domain Certificate={1..7} //7 not certified 1..6 level certified
+	domain Level={1 : 6}
+	domain Certificate={1 : 7} //7 not certified 1..6 level certified
 
 
 // FUNCTION DEFINITIONS

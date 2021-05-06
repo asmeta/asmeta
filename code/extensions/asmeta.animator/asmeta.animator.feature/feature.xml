@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.animator.feature"
       label="Asmeta Animator"
-      version="0.0.11"
+      version="21.05"
       provider-name="fmse.di.unimi.it">
 
    <description url="fmse.di.unimi.it/asmetaanimator/description">
@@ -31,7 +31,7 @@ See http://asmeta.sourceforge.net/
       <import plugin="org.eclipse.xtend.lib"/>
       <import plugin="org.eclipse.xtend.lib.macro"/>
       <import plugin="org.eclipse.swt"/>
-      <import feature="org.asmeta.simulator.feature" version="0.9.12"/>
+      <import feature="org.asmeta.simulator.feature"/>
    </requires>
 
    <plugin
