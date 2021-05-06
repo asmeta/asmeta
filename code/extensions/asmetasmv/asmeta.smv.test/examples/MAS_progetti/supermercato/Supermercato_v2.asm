@@ -1,6 +1,6 @@
 asm Supermercato_v2 // A.FINA M.GUZZETTI 
 
-import ../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 

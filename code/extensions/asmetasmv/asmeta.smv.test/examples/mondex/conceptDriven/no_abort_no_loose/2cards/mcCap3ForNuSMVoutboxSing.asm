@@ -22,7 +22,7 @@ asm mcCap3ForNuSMVoutboxSing
 //una nostra possibile soluzione viene descritta in no_loose_no_abort/2cards/mcCap3ForNuSMVoutboxSingCheckOnStart.asm
 //una soluzione data dal modello dell'articolo e' la reintroduzione del metodo r_abort: no_loose/2cards/mcCap3ForNuSMVoutboxSingWithAbort.asm
 
-import ../../../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	enum domain Name = {AA | BB}
@@ -60,7 +60,7 @@ signature:
 	static outBoxEqualInbox: Boolean
 
 definitions:
-	domain TidDomain = {1n..2n}
+	domain TidDomain = {1n:2n}
 	domain MoneyDomain = {0n, 5n, 10n}
 	
 	function isNone($name in Name) =

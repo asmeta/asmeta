@@ -20,8 +20,8 @@ signature:
 
 definitions:
 	// DOMAIN DEFINITIONS
-	domain Caramelle = {0..10}
-	domain Armadio = {0..6}
+	domain Caramelle = {0:10}
+	domain Armadio = {0:6}
 	domain Aggiunta = {1 : 6}
 
     // propreità falsa: se prelevo e sono a 10 rimango a 10 

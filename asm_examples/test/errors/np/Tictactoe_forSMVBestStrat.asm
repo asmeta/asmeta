@@ -1,4 +1,4 @@
-asm Tictactoe_forSMV
+asm Tictactoe_forSMVBestStrat
 
 //strategia che permette di non perdere mai
 
@@ -21,7 +21,7 @@ signature:
 	static noSquareLeft : Boolean
 
 definitions:
-	domain Square = {1..9}
+	domain Square = {1:9}
  
 	function noSquareLeft =  not (exist $s in Square with symbol($s) = EMPTY)
  
@@ -69,7 +69,7 @@ definitions:
 	//A very naive player
 	rule r_movePC =
 		if(symbol(5)=CROSS and
-		(forall $ i in Square with $i!=5 implies symbol($i)=EMPTY)) then
+		(forall $i in Square with $i!=5 implies symbol($i)=EMPTY)) then
 			symbol($s):=  NOUGHT
 		else
 			choose $s in Square with symbol($s)=EMPTY do

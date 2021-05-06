@@ -1,6 +1,6 @@
 asm controller
 
-import ../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../../asm_examples/STDL/StandardLibrary
 import zona
 
 export *

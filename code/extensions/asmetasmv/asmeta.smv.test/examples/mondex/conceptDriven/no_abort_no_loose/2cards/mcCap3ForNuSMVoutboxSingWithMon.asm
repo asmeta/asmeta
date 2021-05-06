@@ -8,7 +8,7 @@
 asm mcCap3ForNuSMVoutboxSingWithMon
 //non c'e' il metodo abort ed il metodo loose messages
 
-import ../../../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	enum domain Name = {AA | BB}
@@ -45,7 +45,7 @@ signature:
 	static inv: Boolean
 
 definitions:
-	domain TidDomain = {1n..2n}
+	domain TidDomain = {1n:2n}
 	domain MoneyDomain = {0n, 5n, 10n}
 	
 	function isNone($name in Name) =

@@ -41,7 +41,7 @@ signature:
 	static inv: Boolean
 
 definitions:
-	domain TidDomain = {1n..2n}
+	domain TidDomain = {1n:2n}
 	domain MoneyDomain = {0n, 5n, 10n}
 
 	//se e' contenuto in inbox o in outbox il tid deve essere anche in tids
