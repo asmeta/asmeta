@@ -41,10 +41,14 @@ import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 
 public class AsmetaPrinterForAvalla extends AsmPrinter {
+	
+	
+	// files already translated
+	private HashMap<String, String> translatedFiles = new HashMap<String, String>();
 
 	// TODO just one should be enough
 	private String tempAsmName;
-	String tempAsmPath;
+	File tempAsmPath;
 
 	// path of the parent where the original asm is stored
 	Path asmPathDir;
@@ -62,15 +66,20 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	 * @param builder     the builder
 	 * @throws FileNotFoundException the file not found exception
 	 */
-	public AsmetaPrinterForAvalla(String tempAsmPath, Path asmPathDir, AsmetaFromAvallaBuilder builder)
+	public AsmetaPrinterForAvalla(File tempAsmPath, Path asmPathDir, AsmetaFromAvallaBuilder builder)
 			throws FileNotFoundException {
 		super(tempAsmPath);
-		assert tempAsmPath.endsWith(".asm");
+		assert tempAsmPath.getName().endsWith(".asm");
 		this.tempAsmPath = tempAsmPath;
-		tempAsmName = new File(tempAsmPath).getName();
+		tempAsmName = tempAsmPath.getName();
 		tempAsmName = tempAsmName.substring(0, tempAsmName.length() - 4);
 		this.asmPathDir = asmPathDir;
 		this.builder = builder;
+	}
+
+	private AsmetaPrinterForAvalla(File tempAsmPath, Path asmPathDir, AsmetaFromAvallaBuilder builder, HashMap<String, String> fileNames) throws FileNotFoundException {
+		this(tempAsmPath,asmPathDir,builder);
+		this.translatedFiles.putAll(fileNames);
 	}
 
 	/*
@@ -132,7 +141,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 				// get the name of the file to import. name is relative to the load spec
 				String name = importClause.getModuleName();
 				// now build the path
-				Path importedAsmPath = asmPathDir.resolve(name + ".asm");
+				Path importedAsmPath = asmPathDir.resolve(name + ".asm").toAbsolutePath();
 				assert Files.exists(importedAsmPath)
 						: " path (imported ASM) " + importedAsmPath.toString() + " does not exist";
 				if (StandardLibrary.isAStandardLibrary(name)) {
@@ -141,47 +150,34 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 					// convert the file to a new file with monitored -> controlled
 					// change also the path (if in a subdir)
 					try {
-
-						AsmCollection pack = ASMParser.setUpReadAsm(importedAsmPath.toFile());
-						// now visit this imported asm
-						// get the path of the main
-						File folder = new File(tempAsmPath).getParentFile();
-						assert folder.exists() && folder.isDirectory();
-						// the new path for the imported file
-						String includedName = pack.getMain().getName();
-
-						Path importednewFile;
-
+						// search for the file which is included
+						LOG.debug("Looking for " + importedAsmPath.toFile());
+						Path importedFile;
 						// Check whether the file has been already processed
-						System.out.println("Looking for " + includedName);
-
-						if (AsmetaV.getFileNames().containsKey(includedName)) {
-							importednewFile = Paths.get(AsmetaV.getFileNames().get(includedName));
-							assert Files.exists(importednewFile) : "File not found";
-						} else {
-							importednewFile = Files.createTempFile("__" + includedName, ".asm");
-							AsmetaV.getFileNames().put(includedName, importednewFile.toString());
-
-							System.out.println(importednewFile);
-							// if necessary buuild the subdir
-							if (!Files.exists(importednewFile.getParent().toAbsolutePath())) {
-								System.out
-										.println("building the subdir " + importednewFile.getParent().toAbsolutePath());
-								// TODO check that it is a subdir of the main directory
-								Files.createDirectory(importednewFile.getParent().toAbsolutePath());
-							}
-							LOG.debug("original import of " + name + " converted to " + importednewFile);
-							System.out.println("original import of " + name + " converted to " + importednewFile);
-							AsmetaPrinterForAvalla newprinter = new AsmetaPrinterForAvalla(importednewFile.toString(),
-									importedAsmPath.getParent(), builder);
+						if (translatedFiles.containsKey(importedAsmPath)) {
+							importedFile = Paths.get(translatedFiles.get(importedAsmPath));
+							LOG.debug(importedAsmPath + " in include and already transalted in "  + importedFile);
+							assert Files.exists(importedFile) : "File not found";
+						} else {							
+							AsmCollection pack = ASMParser.setUpReadAsm(importedAsmPath.toFile());
+							// now visit this imported asm
+							// get the path of the main
+							File folder = tempAsmPath.getParentFile();
+							assert folder.exists() && folder.isDirectory();
+							// 	the new path for the imported file
+							String includedName = pack.getMain().getName();
+							importedFile = Files.createTempFile("__" + includedName, ".asm");
+							LOG.debug(includedName + " to be transalted in "  + importedFile);
+							translatedFiles.put(includedName, importedFile.toString());
+							// call recursively
+							AsmetaPrinterForAvalla newprinter = new AsmetaPrinterForAvalla(importedFile.toFile(),
+									importedAsmPath.getParent(), builder, this.translatedFiles);
 							newprinter.visit(pack.getMain());
-
-							newprinter.tempAsmName = importednewFile.getFileName().toString();
-
+							newprinter.tempAsmName = importedFile.getFileName().toString();
 							newprinter.close();
 						}
 						// add the new import
-						printImport(importednewFile);
+						printImport(importedFile);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -196,7 +192,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	// the print will transform it to a relative path to the temporary ASM written
 	// without the .asm
 	private void printImport(Path importedAsm) {
-		String importedName = printImport(tempAsmPath,importedAsm);
+		String importedName = printImport(tempAsmPath.toString(),importedAsm);
 		println("import " + importedName);
 	}
 	
@@ -211,7 +207,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		assert importedAsm.toFile().exists() : "imported file with path " + importedAsm + " does not exists";
 		assert importedAsm.toFile().getName().endsWith(".asm");
 		// convert to a relative path with the current file
-		assert  new File(tempAsmPath).exists();
+		assert new File(tempAsmPath).exists();
 		Path tempAsmPathParent = new File(tempAsmPath).getParentFile().toPath();
 		assert tempAsmPathParent.toFile().exists() && tempAsmPathParent.toFile().isDirectory();
 		// if they share the parent use just the name of the imported Asm

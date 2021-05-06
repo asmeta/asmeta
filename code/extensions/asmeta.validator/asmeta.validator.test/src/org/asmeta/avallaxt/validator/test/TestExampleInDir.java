@@ -14,6 +14,7 @@ import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
+import org.asmeta.xt.validator.AsmetaPrinterForAvalla;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,6 +32,7 @@ public class TestExampleInDir extends TestValidator {
 
 	@Test
 	public void testAllTest() throws Exception {
+		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);
 		testInDir("scenariosfortest");
 	}
 	

@@ -1,6 +1,6 @@
 package org.asmeta.nusmv.plugin.handlers;
 
-import org.asmeta.nuxmv.AsmetaSMV;
+import org.asmeta.nusmv.AsmetaSMV;
 
 /**
  * @see org.eclipse.core.commands.IHandler

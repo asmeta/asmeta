@@ -59,13 +59,12 @@ public class TestValidator {
 		} else {
 			//
 			System.out.println("translating " + scenarioPath);
-			String tempAsmPath = Files.createTempFile("__tempAsmetaV", ".asm").toString();
+			File tempAsmPath = Files.createTempFile("__tempAsmetaV", ".asm").toFile();
 			// delete if exists
-			Path path_tempAsm = Paths.get(tempAsmPath);
 			org.asmeta.xt.validator.AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(scenarioPath, tempAsmPath);
 			builder.save();
 			// the files exists
-			assertTrue(Files.exists(path_tempAsm));
+			assertTrue(tempAsmPath.exists());
 			// it should be parsable:
 			AsmCollection asmc = ASMParser.setUpReadAsm(new File(tempAsmPath.toString()));
 			System.out.println(ASMParser.getResultLogger().errors);

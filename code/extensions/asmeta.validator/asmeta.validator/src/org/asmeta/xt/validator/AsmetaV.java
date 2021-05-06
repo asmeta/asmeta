@@ -25,19 +25,15 @@ import org.asmeta.simulator.main.Simulator;
  */
 public class AsmetaV {
 
-	private static HashMap<String, String> fileNames = new HashMap<String, String>();
-
-	/**
-	 * @return the fileNames
-	 */
-	public static HashMap<String, String> getFileNames() {
-		return fileNames;
-	}
 
 	public static void execValidation(String scenarioPath, boolean coverage) throws Exception {
-		fileNames = new HashMap<String, String>();
 		setLogger();
-		execValidation(new File(scenarioPath), coverage);
+		AsmetaV asmetaV = new AsmetaV();
+		asmetaV.execValidation(new File(scenarioPath), coverage);
+	}
+
+	private AsmetaV() {
+
 	}
 
 	private static void setLogger() {
@@ -76,7 +72,7 @@ public class AsmetaV {
 	 * @param coverage
 	 * @throws Exception
 	 */
-	private static void execValidation(File scenarioPath, boolean coverage) throws Exception {
+	private void execValidation(File scenarioPath, boolean coverage) throws Exception {
 		// get all rules covered by a set of string
 		Set<String> all_rules = new HashSet<String>();
 		// scenarios into directory
@@ -105,11 +101,11 @@ public class AsmetaV {
 	 * @param path
 	 * @throws Exception
 	 */
-	private static void validateSingleFile(boolean coverage, Set<String> coveredRules, String path) throws Exception {
+	private void validateSingleFile(boolean coverage, Set<String> coveredRules, String path) throws Exception {
 		System.out.println("\n** Simulation " + path + " **\n");
 		AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(path);
 		builder.save();
-		Simulator sim = Simulator.createSimulator(builder.getTempAsmPath());
+		Simulator sim = Simulator.createSimulator(builder.getTempAsmPath().getPath());
 		sim.setShuffleFlag(true);
 		if (coverage) {
 			RuleEvaluator.COMPUTE_COVERAGE = true;
@@ -118,7 +114,8 @@ public class AsmetaV {
 			sim.runUntilEmpty();
 		} catch (InvalidInvariantException iie) {
 			AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
-			System.out.println("invariant violation found " + iie.getInvariant().getName() + " " + tp.visit(iie.getInvariant().getBody()));
+			System.out.println("invariant violation found " + iie.getInvariant().getName() + " "
+					+ tp.visit(iie.getInvariant().getBody()));
 		}
 		if (coverage) { // for each scenario insert rules covered
 						// into list if they aren't covered

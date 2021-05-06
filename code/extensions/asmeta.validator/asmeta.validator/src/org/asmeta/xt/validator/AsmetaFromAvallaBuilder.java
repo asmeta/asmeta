@@ -65,7 +65,7 @@ public class AsmetaFromAvallaBuilder {
 
 	
 	public AsmetaFromAvallaBuilder(String scenarioPath) throws Exception {
-		this(scenarioPath, Files.createTempFile("__tempAsmetaV", ".asm").toString());
+		this(scenarioPath, Files.createTempFile("__tempAsmetaV", ".asm").toFile());
 	}
 
 	
@@ -78,7 +78,7 @@ public class AsmetaFromAvallaBuilder {
 	 * 
 	 * @throws Exception the exception
 	 */
-	public AsmetaFromAvallaBuilder(String scenarioPath, String tempAsmPath) throws Exception {
+	public AsmetaFromAvallaBuilder(String scenarioPath, File tempAsmPath) throws Exception {
 		assert Paths.get(scenarioPath).toFile().exists();
 		scenarioDirectoryPath = new File(scenarioPath).getAbsoluteFile().getParent();
 		// read the spec from file
@@ -138,7 +138,7 @@ public class AsmetaFromAvallaBuilder {
 	}
 
 	/** return the path where the asm has been saved */
-	public String getTempAsmPath() {
+	public File getTempAsmPath() {
 		return asmetaPrinterforAvalla.tempAsmPath;
 	}
 
