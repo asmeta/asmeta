@@ -47,7 +47,7 @@ public class TermSubstTest {
 		TermSubstitution.varSuffix = 0;
 		TermSubstitution.ruleFactory = new RuleFactory();
 		Term newTerm = subst.visit(term);
-		return new AsmetaTermPrinter(false).visit(newTerm);
+		return AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(newTerm);
 	}
 	
 	@Test

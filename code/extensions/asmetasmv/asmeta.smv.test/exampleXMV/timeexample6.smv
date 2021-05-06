@@ -37,3 +37,4 @@ MODULE Timer(d,timeu)
 	TRANS elapsed -> (next(mytimeSEC) = 0 &  next(mytimeMIN) = 0) ;
 	TRANS ! elapsed -> (next(mytimeSEC) = (mytimeSEC+1) & next(mytimeMIN) = floor(((mytimeSEC+1)/60)));
 	
+-- NOT CORRECT SOLUTION because there are two clocks

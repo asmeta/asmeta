@@ -74,6 +74,21 @@ import asmeta.terms.furtherterms.SetCt;
  */
 public class AsmetaTermPrinter extends ReflectiveVisitor<String> {
 
+	
+	private static AsmetaTermPrinter  asmetaTermPrinterWAsmName = new AsmetaTermPrinter(true);
+
+	private static AsmetaTermPrinter  asmetaTermPrinterNoAsmName = new AsmetaTermPrinter(false);
+
+	/**
+	 * Gets the asmeta term printer. - to print the terms in a readable way
+	 *
+	 * @param showAsmName show the full qualified asm name
+	 * @return the asmeta term printer
+	 */
+	public static AsmetaTermPrinter getAsmetaTermPrinter(boolean showAsmName) {
+		return showAsmName ? asmetaTermPrinterWAsmName : asmetaTermPrinterNoAsmName;
+	}
+
 	/**
 	 * Fully qualified name flag.
 	 * 
@@ -86,7 +101,7 @@ public class AsmetaTermPrinter extends ReflectiveVisitor<String> {
 	 * @param showAsmName
 	 *            if true show the fully qualified name
 	 */
-	public AsmetaTermPrinter(boolean showAsmName) {
+	protected AsmetaTermPrinter(boolean showAsmName) {
 		this.showAsmName = showAsmName;
 	}
 

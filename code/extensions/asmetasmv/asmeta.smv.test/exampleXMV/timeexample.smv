@@ -28,3 +28,5 @@ MODULE Timer(d)
 	init(mytime):=0;
 	TRANS elapsed -> next(mytime) = 0;
 	TRANS ! elapsed -> next(mytime) = mytime+1;
+	
+-- EXAMPLE without time unit with integer -> wrong because it considers negative value of time
