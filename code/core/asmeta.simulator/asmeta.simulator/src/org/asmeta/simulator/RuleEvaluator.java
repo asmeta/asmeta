@@ -246,7 +246,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			// get the values in the domain (should work both static and dynamic)
 			SetValue values = termEval.getValues(concreteDomain);
 			if (!values.getValue().stream().anyMatch(x -> x.equals(content)))
-				throw new InvalidValeException(content,location);
+				throw new InvalidValueException(content,location);
 		}
 	}
 

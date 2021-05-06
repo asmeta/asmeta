@@ -12,6 +12,7 @@ import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
+import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.action.IAction;
@@ -87,7 +88,7 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 		}
 		Environment.auto_increment_delta = store.getInt(PreferenceConstants.P_AUTO_DELTA);
 		
-		Simulator.checkInvariants = store.getBoolean(PreferenceConstants.P_CHECK_AXIOMS);
+		Simulator.checkInvariants = InvariantTreament.valueOf(store.getString(PreferenceConstants.P_CHECK_AXIOMS));
 		RunJob.stopSimulationIfUpdateSetEmpty = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_EMPTY);
 		RunJob.stopSimulationIfUpdateSetTrivial = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_TRIVIAL);
 		return store;

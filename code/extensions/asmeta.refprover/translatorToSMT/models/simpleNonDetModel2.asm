@@ -7,7 +7,7 @@ signature:
 	dynamic controlled foo : MyDomain -> MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1 : 4}
 
 	main rule r_Main =
 		choose $x in MyDomain, $y in MyDomain with $x < foo($y) do

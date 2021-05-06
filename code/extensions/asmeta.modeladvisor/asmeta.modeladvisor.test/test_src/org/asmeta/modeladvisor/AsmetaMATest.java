@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.junit.Test;
 
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
@@ -350,7 +351,7 @@ public class AsmetaMATest {
 		for(String domain: asmetaMA.domainAllUsed.notUsedVals.keySet()) {
 			assertTrue(expectedNotUsedVals.containsKey(domain));
 			for(String value: asmetaMA.domainAllUsed.notUsedVals.get(domain)) {
-				assertTrue(expectedNotUsedVals.get(domain).contains(value));
+				assertTrue("domain " + expectedNotUsedVals.get(domain) + " should contain " + value, expectedNotUsedVals.get(domain).contains(value));
 			}
 		}
 	}
@@ -652,7 +653,41 @@ public class AsmetaMATest {
 	public void testLet() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("../../../../asm_examples/Casestudy/ASM model/CarSystem_adaptive_high_beam2.asm");
 		asmetaMA.execInconsistentUpdates = true;
+		AsmetaSMVOptions.setPrintNuSMVoutput(true);
 		asmetaMA.runCheck();
 	}
+	
+	@Test
+	public void main() throws Exception {
+		Set<String> funcNamesForMP1 = new HashSet<String>();
+		funcNamesForMP1.add("stateSHC");
+		AsmetaMA s =  AsmetaMA.buildAsmetaMA("trafficMonitoringForExperimentsModelReview4.asm");		
+		//, funcNamesForMP1
+		s.setMetapropertiesExecution(true, false, false, false, false, false, false);
+		s.runCheck();
+	}
+
+	
+	@Test
+	public void testIncosistentUpdate() throws Exception {
+		// questo elimina lil consiteupdate durante la traduzione
+		//TOFIX
+		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/inconsistentUpdatesSimple.asm");
+		asmetaMA.execInconsistentUpdates = true;
+		AsmetaSMVOptions.setPrintNuSMVoutput(true);
+		asmetaMA.runCheck();		
+		System.out.println(asmetaMA.inconUpd.inconUpdate);
+	}
+
+	@Test
+	public void testIncosistentUpdate2() throws Exception {
+		// questo è corretto
+		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/inconsistentUpdatesSimple2.asm");
+		asmetaMA.execInconsistentUpdates = true;
+		AsmetaSMVOptions.setPrintNuSMVoutput(true);
+		asmetaMA.runCheck();		
+		assertTrue(asmetaMA.inconUpd.inconUpdate.containsKey("fooG"));
+	}
+
 
 }

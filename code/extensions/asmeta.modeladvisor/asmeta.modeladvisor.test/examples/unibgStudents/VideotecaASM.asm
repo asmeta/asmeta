@@ -4,7 +4,7 @@
 
 asm VideotecaASM
 
-import ../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../asm_examples/STDL/StandardLibrary
 
 //declare universes and functions
 

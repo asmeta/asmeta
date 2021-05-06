@@ -3,11 +3,11 @@ Automatic-Module-Name: org.asmeta.avallaxt.ui.tests
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.avallaxt.ui.tests
 Bundle-Vendor: My Company
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 21.05
 Bundle-SymbolicName: org.asmeta.avallaxt.ui.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.avallaxt.ui,
- org.junit;bundle-version="4.12.0",
+ org.junit,
  org.eclipse.xtext.testing,
  org.eclipse.xtext.xbase.testing,
  org.eclipse.xtext.junit4,

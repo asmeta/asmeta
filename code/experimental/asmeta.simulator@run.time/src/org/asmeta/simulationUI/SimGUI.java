@@ -23,6 +23,7 @@ import java.io.FileWriter;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -111,6 +112,7 @@ public class SimGUI extends JFrame {
 	static JMenuItem saveMenuItem;
 	static JMenuItem clearMenuItem;
 	static JSeparator separator;
+	static JMenuItem compositionMenuItem;
 	
 	private static SimulationContainer containerInstance;
 	private static int currentLoadedID;
@@ -436,6 +438,11 @@ public class SimGUI extends JFrame {
 		currentSimulationMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		simulationMenu.add(currentSimulationMenuItem);
 		
+		compositionMenuItem = new JMenuItem("Compose models");
+		compositionMenuItem.setEnabled(false);
+		compositionMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		simulationMenu.add(compositionMenuItem);
+		
 		separator = new JSeparator();
 		simulationMenu.add(separator);
 		
@@ -522,6 +529,28 @@ public class SimGUI extends JFrame {
 				} else {
 					SimGUI.setProperty("mode", "light");
 					JOptionPane.showMessageDialog(contentPane, "Re-open the application to disable the dark mode!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
+				}
+			}
+		});
+		
+		compositionMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					List<Integer> options = new ArrayList<>(containerInstance.getLoadedIDs().keySet());
+					options.remove((Object) currentLoadedID);
+					
+					int receiverID = (int) JOptionPane.showInputDialog(contentPane, 
+																	   "  Select the ID of the model that will be\ncomposed with the current loaded model:",
+																	   "Receiver ID",
+																	   JOptionPane.QUESTION_MESSAGE,
+																	   null,
+																	   options.toArray(),
+																	   null);
+					// DEBUG: System.out.println(receiverID);
+					CompositionGUI.main(containerInstance, currentLoadedID, receiverID);
+				} catch(Exception ex) {
+					//DEBUG: ex.printStackTrace();
+					return;
 				}
 			}
 		});
@@ -669,20 +698,21 @@ public class SimGUI extends JFrame {
 						}
 					}
 				} else { // currentMaxInstances>=1
+					LoadComboItem ci = null;
+					LoadDialog ld = null;
 					Map<Integer, String> ids = containerInstance.getLoadedIDs();
-				
-		    		LoadComboItem ci=null;
-		    		if (!ids.isEmpty()) {
-		    			// setAllEnabled(1);
-		    			ci = new LoadDialog(containerInstance,ids).showDialog();
-		    			//JOptionPane.showMessageDialog(null, ci.getStr());
-		    		}else
-		    		{
-		    			LoadDialog ld = new LoadDialog(containerInstance,ids);
-		    			ld.disablebutton();
-		    			ci=new LoadDialog(containerInstance,ids).showDialog();
-		    			
-		    		}
+						
+			    	if (!ids.isEmpty()) {
+			    		// setAllEnabled(1);
+			    		ci = new LoadDialog(containerInstance,ids).showDialog();
+			    		//JOptionPane.showMessageDialog(null, ci.getStr());
+			    	} else {
+			    		ld = new LoadDialog(containerInstance,ids);
+			    		ld.disablebutton();
+			    		ci = new LoadDialog(containerInstance,ids).showDialog();
+			    	}
+					
+					
 		    		if (ci!=null) {
 		    			currentLoadedID = ci.getInt();
 		    			currentLoadedModel = ci.getStr();
@@ -698,16 +728,14 @@ public class SimGUI extends JFrame {
 		    			saveMenuItem.setEnabled(true);
 		    			clearMenuItem.setEnabled(true);
 		    			
-		    			if(currentMaxInstances > 1) {
+		    			if(currentMaxInstances >= 2) {
 		    				currentSimulationMenuItem.setEnabled(true);
+		    				compositionMenuItem.setEnabled(true);
 		    			}
 		    			
 		    			if(containerInstance.getLoadedIDs().size() >= currentMaxInstances) {
 		    				openMenuItem.setEnabled(false);
 		    			}
-		    			/*JTextPane jj=(JTextPane)contentPane.getComponent(1);
-		    			jj.setText(currentLoadedModel);
-		    			jj=(JTextPane)contentPane.getComponent(2);*/
 		    		}
 				}
 			}
@@ -1045,6 +1073,10 @@ public class SimGUI extends JFrame {
 			}
 		}
 		return values;
+	}
+	
+	public static int getMaxInstances() {
+		return SimGUI.currentMaxInstances;
 	}
 }
 

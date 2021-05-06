@@ -27,6 +27,7 @@ import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.UpdateClashException;
+import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.simulator.util.UnresolvedReferenceException;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.EnumValue;
@@ -726,7 +727,7 @@ public class InterpreterTest extends BaseTest {
 	@Test
 	public void testConcrDomDef() throws Exception {
 		sim = Util.getSimulatorForTestSpec("test/parser/concrDomDef.asm");
-		Simulator.checkInvariants = true;
+		Simulator.checkInvariants = InvariantTreament.CHECK_STOP;
 		try {
 			sim.run(10);
 		}

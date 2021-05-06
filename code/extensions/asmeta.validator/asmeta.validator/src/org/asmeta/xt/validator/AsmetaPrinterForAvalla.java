@@ -209,6 +209,9 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		Path asm_to_import = null;
 		try {
 			asm_to_import = tempAsmBasePath.relativize(importedAsm);
+			if (!asm_to_import.toFile().exists()) {
+				asm_to_import = importedAsm.normalize();
+			}
 		} catch (IllegalArgumentException ie) {
 			asm_to_import = importedAsm.normalize();
 		}
