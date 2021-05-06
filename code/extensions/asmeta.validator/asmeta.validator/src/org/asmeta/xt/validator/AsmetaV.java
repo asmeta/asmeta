@@ -25,7 +25,7 @@ import org.asmeta.simulator.main.Simulator;
  */
 public class AsmetaV {
 
-	private static HashMap<String, String> fileNames;
+	private static HashMap<String, String> fileNames = new HashMap<String, String>();
 
 	/**
 	 * @return the fileNames

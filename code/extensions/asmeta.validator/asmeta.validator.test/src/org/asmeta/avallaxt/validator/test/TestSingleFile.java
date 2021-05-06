@@ -25,8 +25,7 @@ public class TestSingleFile extends TestValidator {
 	}
 
 	@Test
-	public void testBuilerWithSpaces() throws Exception {
-		
+	public void testBuilerWithSpaces() throws Exception {		
 		//
 		Path model = Paths.get("scenariosfortest\\sub dir\\Lift.asm");
 		assert Files.exists(model);
@@ -120,8 +119,7 @@ public class TestSingleFile extends TestValidator {
 	}
 
 	@Test
-	public void testPillBox() throws Exception {
-		
+	public void testPillBox() throws Exception {		
 		test("D:\\AgHome\\Dropbox\\Documenti\\progetti\\quasmed_git\\PillboxASM\\onlyred_level2\\pillbox_2_scenario1.avalla", false, false);
 	}
 
@@ -170,13 +168,7 @@ public class TestSingleFile extends TestValidator {
 		test("scenariosfortest\\withmodules\\scenario3.avalla", false, false);		
 	}
 	
-	//Error: java.lang.IllegalArgumentException: 'other' has different root
-	@Test
-	public void testSafePillbox() throws Exception {
-		test("D:\\GitHub\\ASMETA\\SafePillbox\\SafePillbox\\V04\\scenarios\\scenario3.avalla", false, false);		
-	}
 	
-	//Error: java.lang.IllegalArgumentException: 'other' has different root
 	@Test
 	public void testPillbox() throws Exception {
 		test("D:\\AgHome\\progettidaSVNGIT\\asmeta\\asmeta\\asm_examples\\PillBox\\Level0\\pillbox_0_scenario1.avalla", false, false);		

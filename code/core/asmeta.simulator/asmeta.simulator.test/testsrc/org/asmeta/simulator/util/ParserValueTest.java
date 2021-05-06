@@ -17,6 +17,8 @@ import java.io.File;
 
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
+import org.asmeta.simulator.util.InputMismatchException;
+import org.asmeta.simulator.util.Parser;
 import org.asmeta.simulator.value.TupleValue;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,15 +27,18 @@ import asmeta.AsmCollection;
 import asmeta.definitions.domains.Domain;
 import asmeta.structure.Asm;
 
-public class ParserTest {
+// test case for the Libaray specification 
+public class ParserValueTest {
 
+	private static final String ASM_EXAMPLES = "../../../../asm_examples/";
+	
 	static Domain bookDom;
 
 	@BeforeClass
 	public static void setupLogger() throws Exception {
 		//AsmParserTest.setUpLogger();
 		// Scrivi caso di test per la library
-		File libraryF = new File("../../../asm_examples/examples/library/Library.asm");
+		File libraryF = new File(ASM_EXAMPLES +"examples/library/Library.asm");
 		assertTrue(libraryF.exists());
 		AsmCollection asms = ASMParser.setUpReadAsm(libraryF);
 		Asm asm = asms.getMain();
