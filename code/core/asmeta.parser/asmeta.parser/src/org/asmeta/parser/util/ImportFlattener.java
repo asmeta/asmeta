@@ -25,7 +25,7 @@ import asmeta.structure.Signature;
  * takes an ASM and recursively call the imports and build the entire set of
  * functions and domains
  * 
- * used in model advisor - in altre parti non serve perche' ho controllato che
+ * used in model advisor/ model checker - in altre parti non serve perche' ho controllato che
  * se import e poi import, vengono aggiunte a quelle dell'ultimo livello quindi
  * basta un import (almeno per avalla) AG 9/1/20
  */
