@@ -96,5 +96,12 @@ public class NuXmvExecutorTest {
 		NuXmvExecutor.runNuSMV("exampleXMV/timeexample2.smv");
 
 	}
+	
+	@Test
+	public void testExecuteUseTime2() throws Exception {
+
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer2.smv");
+
+	}
 
 }
