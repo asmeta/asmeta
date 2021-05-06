@@ -375,12 +375,4 @@ public class AsmetaMA {
 		this.execLocationCouldBeRemoved = execMp7;
 		this.execContrLocIsUpdated = execMp7;
 	}
-
-	public static void main(String[] args) throws Exception {
-		Set<String> funcNamesForMP1 = new HashSet<String>();
-		funcNamesForMP1.add("stateSHC");
-		AsmetaMA s = new AsmetaMA("trafficMonitoringForExperimentsModelReview4.asm", funcNamesForMP1);
-		s.setMetapropertiesExecution(true, false, false, false, false, false, false);
-		s.runCheck();
-	}
 }

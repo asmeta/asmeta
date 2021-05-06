@@ -11,6 +11,8 @@ import org.asmeta.assertion_catalog.InvariantGUI;
 import org.asmeta.runtime_container.SimulationContainer;
 import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.IModelExecution;
+import org.asmeta.simulationUI.SimGUI;
+import org.asmeta.simulationUI.SimGUILauncher;
 import org.asmeta.simulationUI.SimShell;
 
 /**
@@ -19,7 +21,7 @@ import org.asmeta.simulationUI.SimShell;
 public class GuiTest {
 
 	public static void main(String[] args) {
-		SimulationContainer imp = new SimulationContainer();
+		IModelAdaptation imp = new SimulationContainer();
 		//imp.init(20);
 		//String model = "examples/ferrymanSimulator_raff1.asm";
 		//String model = "examples/LGS_GM.asm";
@@ -35,7 +37,7 @@ public class GuiTest {
 		imp.startExecution("examples/Lavatrice.asm");*/
 		
 		//imp.stopExecution(2);
-		InvariantGUI.main(imp);
+		SimGUI.main(imp);
 		SimShell.main(args);
 		/*Map<String,String> m=new HashMap<String, String>(); //prova per invalid invariant su aggiunta
 		m.put("carry", "CABBAGE");

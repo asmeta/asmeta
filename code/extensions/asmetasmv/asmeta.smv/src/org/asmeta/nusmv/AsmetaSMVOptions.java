@@ -1,7 +1,5 @@
 package org.asmeta.nusmv;
 
-import org.asmeta.nusmv.util.Util;
-
 // all the options regarding translating and running AsmetaSMV
 public class AsmetaSMVOptions {
 

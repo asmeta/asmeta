@@ -2,7 +2,7 @@ asm main
 
 //il problema dovrebbe essere stato risolto. Rimangono gli esempi per documentazione
 
-import ../../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../asm_examples/STDL/StandardLibrary
 
 //modo 1: il foo di moduleA sovrascrive quello di moduleB
 import moduleA

@@ -18,7 +18,7 @@ signature:
 definitions:
 	domain ConcrDomI1 = {1 : 5}
 	domain ConcrDomI2 = {1, 3, 7}
-	domain ConcrDomN1 = {2n..6n}
+	domain ConcrDomN1 = {2n:6n}
 	domain ConcrDomN2 = {3n, 1n, 8n, 12n}
 
 default init s0:

@@ -116,7 +116,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * Returns a string representation of a term.
 	 * 
 	 */
-	private static AsmetaTermPrinter printer = new AsmetaTermPrinter(true);
+	private static AsmetaTermPrinter printer = AsmetaTermPrinter.getAsmetaTermPrinter(true);
 
 	/**
 	 * Caches the macro substitutions.
@@ -246,7 +246,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			// get the values in the domain (should work both static and dynamic)
 			SetValue values = termEval.getValues(concreteDomain);
 			if (!values.getValue().stream().anyMatch(x -> x.equals(content)))
-				throw new RuntimeException("value out of domain: cannot assign " + content + " to " + location);
+				throw new InvalidValueException(content,location);
 		}
 	}
 
@@ -263,9 +263,9 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		UpdateSet updateSet;
 		logger.debug("<Guard>");
 		Value value = visitTerm(condRule.getGuard());
-		assert value instanceof BooleanValue : value + "\n" + new AsmetaTermPrinter(false).visit(condRule.getGuard());
+		assert value instanceof BooleanValue : value + "\n" + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(condRule.getGuard());
 		// if undef launch an execption
-		if (value instanceof UndefValue) throw new RuntimeException(new AsmetaTermPrinter(false).visit(condRule.getGuard()) + " is undef");
+		if (value instanceof UndefValue) throw new RuntimeException(AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(condRule.getGuard()) + " is undef");
 		BooleanValue guardValue = (BooleanValue) value;
 		logger.debug("</Guard>");
 		if (guardValue.getValue()) {

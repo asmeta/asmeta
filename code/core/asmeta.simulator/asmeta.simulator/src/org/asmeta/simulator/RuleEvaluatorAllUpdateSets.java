@@ -96,7 +96,7 @@ public class RuleEvaluatorAllUpdateSets extends RuleVisitor<SetUpdateSet> {
 	 * Returns a string representation of a term.
 	 * 
 	 */
-	private static AsmetaTermPrinter printer = new AsmetaTermPrinter(true);
+	private static AsmetaTermPrinter printer = AsmetaTermPrinter.getAsmetaTermPrinter(true);
 	
 	/**
 	 * Caches the macro substitutions.

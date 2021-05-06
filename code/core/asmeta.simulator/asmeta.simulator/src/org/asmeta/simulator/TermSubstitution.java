@@ -74,7 +74,7 @@ public class TermSubstitution extends ReflectiveVisitor<Term> {
 	 * Prints a string representation of terms.
 	 * 
 	 */
-	protected AsmetaTermPrinter printer = new AsmetaTermPrinter(true);
+	protected AsmetaTermPrinter printer = AsmetaTermPrinter.getAsmetaTermPrinter(true);
 	
 	/**
 	 * Creates new terms and rules.

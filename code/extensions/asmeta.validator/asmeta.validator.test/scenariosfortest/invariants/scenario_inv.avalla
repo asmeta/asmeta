@@ -1,0 +1,15 @@
+scenario scenario_inv
+
+load AdvancedClock.asm
+
+// Invariante di scenario che afferma che i secondi sono sempre minore di tre
+invariant inv_1: seconds < 3;
+
+// Passo di macchina
+step
+check seconds = 1;
+step
+check seconds = 2;
+
+// Viola l'invariante di scenario
+step

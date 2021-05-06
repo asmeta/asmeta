@@ -7,7 +7,7 @@ signature:
 	dynamic controlled foo : MyDomain -> Boolean
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1 : 4}
 
 	main rule r_Main =
 		forall $x in MyDomain with true do

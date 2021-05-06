@@ -33,7 +33,7 @@ signature:
 
 definitions:
 	
-	domain Giocata = {0..99}
+	domain Giocata = {0:99}
 	domain Obiettivo = {99}
 	domain Distanza = {10}
 	

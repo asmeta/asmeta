@@ -8,7 +8,7 @@ signature:
 	dynamic controlled foo: ConcrDom -> ConcrDom  
 	
 definitions:
-	domain ConcrDom = {1n..10n}
+	domain ConcrDom = {1n:10n}
 
 	//invariant over foo: (foo < 6n)
 

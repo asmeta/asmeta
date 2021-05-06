@@ -37,6 +37,7 @@ public class MacroEvaluatorTest {
 		Assert.assertTrue(macros.containsKey("macro09::r_bar[\"hello\",macro10::punc]"));
 		Assert.assertTrue(macros.containsKey("macro09::r_odd[macro10::func(\"hello\"),macro10::punc,true]"));
 		Assert.assertTrue(macros.containsKey("macro09::r_fool[<<macro10::r_macro>>]"));
+		
 	}
 
 }
