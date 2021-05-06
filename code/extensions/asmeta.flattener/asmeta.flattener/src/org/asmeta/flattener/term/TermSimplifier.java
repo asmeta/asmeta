@@ -58,7 +58,7 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 	}
 
 	public TermSimplifier(DomainVisitor dv, StdlFunction sl) {
-		tp = new AsmetaTermPrinter(false);
+		tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 		this.dv = dv;
 		this.sl = sl;
 	}
