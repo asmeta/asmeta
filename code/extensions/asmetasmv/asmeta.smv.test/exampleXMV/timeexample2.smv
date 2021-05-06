@@ -30,3 +30,5 @@ MODULE Timer(d)
 	init(mytime):=0;
 	TRANS elapsed -> next(mytime) = 0;
 	TRANS ! elapsed -> next(mytime) = mytime+1;
+	
+-- EXAMPLE without time unit with clock -> ok, but only one time unit
