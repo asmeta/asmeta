@@ -53,7 +53,7 @@ public class SimulatorForAnimator extends Simulator {
 		} catch (InvalidInvariantException e) {
 			// if no check, ignore the message
 			if (checkInvariants != InvariantTreament.NO_CHECK) {
-				AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
+				AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 				t.setInvalidIvariantText("Invariant:\n"+ tp.visit(e.getInvariant().getBody()));
 			}
 			if (checkInvariants == InvariantTreament.CHECK_CONTINUE || checkInvariants == InvariantTreament.NO_CHECK)

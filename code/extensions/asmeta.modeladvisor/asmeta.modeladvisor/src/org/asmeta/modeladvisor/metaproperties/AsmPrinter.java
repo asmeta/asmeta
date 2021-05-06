@@ -64,7 +64,7 @@ class AsmPrinter extends org.asmeta.parser.util.ReflectiveVisitor {
 	
 	public AsmPrinter(Environment env) {
 		//tp = new AsmetaTermPrinter(env);
-		tp = new AsmetaTermPrinter(false);
+		tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 	}
 
 	public void visitUnknown(Object object) {

@@ -11,7 +11,7 @@ signature:
 	derived der2: Prod(ConcrDom, ConcrDom) -> ConcrDom
 
 definitions:
-	domain ConcrDom = {-10 .. 10}
+	domain ConcrDom = {-10 : 10}
 
 	function der($c in ConcrDom) = ($c + 1) mod 10
 

@@ -101,8 +101,8 @@ signature:
 
 definitions:
 	domain SubDom = {1:10}
-	domain SubDomOfInt = {-1..1}
-	domain SubDomOfInt2 = {-2..2}
+	domain SubDomOfInt = {-1:1}
+	domain SubDomOfInt2 = {-2:2}
 	function fooTrue = true
 	function fooFalse = false
 

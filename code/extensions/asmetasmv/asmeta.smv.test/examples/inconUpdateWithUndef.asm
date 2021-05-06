@@ -14,7 +14,7 @@ signature:
 
 definitions:
 	domain MyDomain = {1:4}
-	domain MyDomainNatural = {1n..4n}
+	domain MyDomainNatural = {1n:4n}
 	
 	main  rule r_Main =
 		par

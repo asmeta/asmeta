@@ -117,7 +117,7 @@ public class AsmetaV {
 		try {
 			sim.runUntilEmpty();
 		} catch (InvalidInvariantException iie) {
-			AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
+			AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 			System.out.println("invariant violation found " + iie.getInvariant().getName() + " " + tp.visit(iie.getInvariant().getBody()));
 		}
 		if (coverage) { // for each scenario insert rules covered

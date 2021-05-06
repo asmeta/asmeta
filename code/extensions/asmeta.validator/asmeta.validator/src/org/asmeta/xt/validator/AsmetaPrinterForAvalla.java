@@ -201,9 +201,9 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	}
 	
 	/**
-	 * Prints the import.
+	 * return the string to be used in the import.
 	 *
-	 * @param tempAsmPath the temp asm path
+	 * @param tempAsmPath the temp asm
 	 * @param importedAsm the imported asm
 	 * @return the string to be used to 
 	 */
@@ -224,27 +224,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			importedName =  importedAsm.toAbsolutePath().normalize().toString();
 		}
 		// remove extension
-		importedName = importedName.substring(0, importedName.length() - 4);
-/*		// check if they must be must both absolute
-		if (!tempAsmPathParent.isAbsolute() || !importedAsm.isAbsolute()) {
-			importedAsm = importedAsm.toAbsolutePath();
-			tempAsmPathParent = tempAsmPathParent.toAbsolutePath();
-		}
-		// check if it can be relativized
-		Path asm_to_import = null;
-		try {
-			asm_to_import = tempAsmPathParent.relativize(importedAsm);
-//			if (!asm_to_import.toFile().exists()) {
-//				asm_to_import = importedAsm.normalize();
-//			}
-		} catch (IllegalArgumentException ie) {
-			asm_to_import = importedAsm.normalize();
-		}
-		// transform to string
-		String importedName = asm_to_import.toString();
-		// remove extension
-		importedName = importedName.substring(0, importedName.length() - 4);*/
-		
+		importedName = importedName.substring(0, importedName.length() - 4);		
 		// replace \ with \\ so when printed it will be printed correctly (with \\)
 		// TODO the path should be OS independent
 		importedName = importedName.replace("\\", "\\\\");
