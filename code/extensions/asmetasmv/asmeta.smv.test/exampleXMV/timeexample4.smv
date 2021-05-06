@@ -7,3 +7,6 @@ MODULE main
 	TRANS next(i) = c mod 2;
 	 
 	LTLSPEC G(c<10)
+	
+-- MOD doesn't work with clock
+-- use   TRANS next(i) = c - floor(c / 2) * 2; instead of MOD

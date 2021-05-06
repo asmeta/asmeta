@@ -14,9 +14,9 @@ import java.util.TreeMap;
 
 import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.modeladvisor.texpr.SometimeExpression;
-import org.asmeta.nusmv.GetFunctionDomains;
-import org.asmeta.nusmv.MapVisitor;
-import org.asmeta.nusmv.util.Util;
+import org.asmeta.nuxmv.GetFunctionDomains;
+import org.asmeta.nuxmv.MapVisitor;
+import org.asmeta.nuxmv.util.Util;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.definitions.Function;

@@ -14,8 +14,8 @@ import java.util.TreeSet;
 import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.modeladvisor.texpr.SometimeExpression;
 import org.asmeta.modeladvisor.texpr.TemporalExpression;
-import org.asmeta.nusmv.MapVisitor;
-import org.asmeta.nusmv.util.Util;
+import org.asmeta.nuxmv.MapVisitor;
+import org.asmeta.nuxmv.util.Util;
 
 public class LocationCouldBeRemoved extends Checker {
 	private SortedSet<String> contrLocations;

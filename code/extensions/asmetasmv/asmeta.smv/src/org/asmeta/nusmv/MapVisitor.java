@@ -765,6 +765,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		value[0] = BooleanValue.FALSE;
 		values.add(value.clone());
 		domainSmv.put("Boolean", "boolean");// associa al nome AsmetaL il nome NuSMV
+		//Silvia: 03/05/2021: allow integer domain translation
 		domainSet.put("Boolean", set);// associa al dominio AsmetaL un insieme con tutti i valori NuSMV
 		domainValues.put("Boolean", values);
 

@@ -12,7 +12,7 @@ import org.asmeta.modeladvisor.AsmetaMA;
 import org.asmeta.modeladvisor.plugin.AsmetaMAActivator;
 import org.asmeta.modeladvisor.plugin.AsmetaMAConsole;
 import org.asmeta.modeladvisor.plugin.AsmetaMAPreferencePage;
-import org.asmeta.nusmv.AsmetaSMVOptions;
+import org.asmeta.nuxmv.AsmetaSMVOptions;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
