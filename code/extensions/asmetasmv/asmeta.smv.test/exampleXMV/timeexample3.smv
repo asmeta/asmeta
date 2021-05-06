@@ -1,0 +1,23 @@
+MODULE main
+	VAR c: Timer(10);	
+	VAR led: boolean;
+	INIT led=FALSE; 
+	ASSIGN 
+	next(led) :=
+		case 
+			c.elapsed : ! led;
+			TRUE: led;
+		esac;
+	
+		 	
+	
+	LTLSPEC G (! led -> F(led))
+	
+MODULE Timer(d)
+	DEFINE elapsed := mytime>=d;
+	
+	VAR mytime: integer;
+	ASSIGN 
+	init(mytime):=0;
+	TRANS elapsed -> next(mytime) = 0;
+	TRANS ! elapsed -> next(mytime) = mytime+1;

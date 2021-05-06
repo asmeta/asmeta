@@ -26,7 +26,7 @@ public class ParseAllExampleTest {
 					assertNotNull(asmcollection);
 					assertNotNull(asmcollection.getMain());
 				} catch (Exception e) {
-					//System.out.println(x);
+					e.printStackTrace();
 					fail();
 				}
 			}

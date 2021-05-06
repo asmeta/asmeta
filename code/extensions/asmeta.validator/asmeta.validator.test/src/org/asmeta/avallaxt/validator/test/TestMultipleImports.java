@@ -12,6 +12,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ParserResultLogger;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
+import org.asmeta.xt.validator.AsmetaPrinterForAvalla;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.SimulatorWCov;
 import org.junit.BeforeClass;
@@ -40,8 +41,11 @@ public class TestMultipleImports extends TestValidator {
 	}
 	
 	@Test
-	public void testMultipleCarSystem() throws Exception {
+	public void testMultipleCarSystem1() throws Exception {
 		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\", true, true);		
+	}
+	@Test
+	public void testMultipleCarSystem() throws Exception {
 		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem002\\scenari\\", true, true);		
 		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\", true, true);		
 		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem004\\scenari\\", true, true);		
@@ -55,6 +59,7 @@ public class TestMultipleImports extends TestValidator {
 	@BeforeClass
 	public static void setupLoggers() {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
+		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);		
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);		
 	}
 	
