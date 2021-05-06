@@ -370,7 +370,7 @@ public class Simulator {
 				} else {
 					assert check == InvariantTreament.CHECK_CONTINUE;
 					logger.info("<Invariant violation>");
-					AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
+					AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 					logger.info(tp.visit(invariant.getBody()));
 					logger.info("</Invariant violation>");
 				}
@@ -386,7 +386,7 @@ public class Simulator {
 				else {
 					assert check == InvariantTreament.CHECK_CONTINUE;
 					logger.info("<Invariant violation>");
-					AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
+					AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 					logger.info(tp.visit(e.getInvariant().getBody()));
 					logger.info("</Invariant violation>");
 					// in this case the update set must be taken for the exception

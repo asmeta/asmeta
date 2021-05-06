@@ -36,7 +36,7 @@ public class Utils {
 	}
 
 	public static String print(Term term) {
-		AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
+		AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 		return tp.visit(term);
 	}
 
