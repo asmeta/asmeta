@@ -1,9 +1,0 @@
-@TIME_DOMAIN continuous
-
-MODULE main
-	VAR c: clock;	
-	VAR i: integer
-	INIT c=0 & i=0
-	TRANS next(i) = c mod 2;
-	 
-	LTLSPEC G(c<10)
