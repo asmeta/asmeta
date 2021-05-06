@@ -24,7 +24,7 @@ public class AsmetaSMVOptions {
 	public static boolean FLATTEN = true;
 	
 	private static boolean runNuSMV;
-	private static boolean useNuXmv;
+	static boolean useNuXmv;
 
 
 	public AsmetaSMVOptions(boolean s, boolean execute, boolean checkConcrete, boolean useNuXmv) {

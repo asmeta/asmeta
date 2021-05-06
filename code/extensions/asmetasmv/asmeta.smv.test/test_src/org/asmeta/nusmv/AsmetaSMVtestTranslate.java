@@ -81,7 +81,36 @@ public class AsmetaSMVtestTranslate {
 		return failedSpec;
 
 	}
+	
+	protected boolean testOneSpecXMV(String spec) {
+		String[] args = { spec };
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		AsmetaSMVOptions.keepNuSMVfile = true;
+		AsmetaSMVOptions.useNuXmv=true;
+		try {
+			AsmetaSMV a = new AsmetaSMV(new File(args[0]),options);
+			a.translation();
+			a.createNuSMVfile();
+			// the file exists
+			if (!Files.exists(Paths.get(a.smvFileName)))
+				return false;
+			System.out.println(Paths.get(a.smvFileName));
+			// TODO parse the file with nusmv
+			a.executeNuSMV();
+			return true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 
+
+	@Test
+	public void testTime() {
+		testOneSpecXMV("exampleXMV/UseTimer2.asm");
+	}
+	
 	@Test
 	public void testFSM_hooking() {
 		testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking.asm");
@@ -154,6 +183,11 @@ public class AsmetaSMVtestTranslate {
 		testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm");
 	}
 
+	@Test
+	public void testasm1() {
+		testOneSpec("examples/asm1.asm");
+	}
+	
 	@Test
 	public void testAxioms() {
 		testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm");

@@ -105,7 +105,10 @@ public class AsmetaSMV {
 	public void translation() throws Exception {
 		Util.setMainAsmName(asm.getName());
 		Util.setIsAsynchr(asm.getIsAsynchr());
-		mv = new MapVisitor();
+		if (asmetaOptions.useNuXmv)
+			mv=new MapVisitorXMV();
+		else
+			mv = new MapVisitor();
 		mv.visit(asm);
 	}
 

@@ -115,12 +115,14 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	public Map<String, Set<String>> contrFuncLocations, derFuncLocations, statFuncLocations, monFuncLocations,
 			sharedFuncLocations;
 	public SortedSet<String> monLocations, contrLocations;
-	private SortedSet<String> derived, sharedLocations;
+	protected SortedSet<String> derived;
+
+	protected SortedSet<String> sharedLocations;
 	private Map<Location, String> locationName;
 	SortedMap<String, Map<String, String>> derivedMap;
 	public UpdateMap updateMap;
 	public SortedMap<String, String> initMap;
-	private SortedMap<String, String> varsDecl;
+	protected SortedMap<String, String> varsDecl;
 	SortedMap<String, String> chooseVarsDecl;
 	/**
 	 * It contains the conditions found during the visit of the ASM.
@@ -254,6 +256,11 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	 * @throws Exception
 	 */
 	public void printSmv(String smvFileName, PrintWriter smv) throws Exception {
+		printMainModule(smvFileName, smv);
+		smv.close();
+	}
+
+	void printMainModule(String smvFileName, PrintWriter smv) {
 		smv.println("--file " + smvFileName);
 		smv.println("-- options: flatten? " + AsmetaSMVOptions.FLATTEN);
 		smv.println("MODULE main");
@@ -484,10 +491,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		}
 
 		printSmvPropertiesAndConstraints(smv);
-		smv.close();
 	}
 
-	private void printSmvPropertiesAndConstraints(PrintWriter smv) {
+	protected void printSmvPropertiesAndConstraints(PrintWriter smv) {
 		if (invarConstraintsList.size() > 0) {
 			smv.println("--INVAR constraints");
 			for (String invarConstr : invarConstraintsList) {

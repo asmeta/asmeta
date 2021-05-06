@@ -1,0 +1,50 @@
+--file exampleXMV\UseTimer2.smv
+-- options: flatten? true
+MODULE main
+	VAR
+		TimeLibrary_duration_TIMERSTEP: {-2147483647, 0, 1, 10, 100, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 3, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 4, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 7, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 9, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99}; --controlled
+		TimeLibrary_mCurrTimeHours: 0..100; --monitored
+		TimeLibrary_mCurrTimeMillisecs: 0..100; --monitored
+		TimeLibrary_mCurrTimeMins: 0..100; --monitored
+		TimeLibrary_mCurrTimeNanosecs: 0..100; --monitored
+		TimeLibrary_mCurrTimeSecs: 0..100; --monitored
+		TimeLibrary_start_TIMERSTEP: {-2147483647, 0, 1, 10, 100, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 3, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 4, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 7, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 9, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99}; --controlled
+		TimeLibrary_timerUnit_TIMERSTEP: {HOUR, MILLISEC, MIN, NANOSEC, SEC, TIMELIBRARY_TIMERUNIT_UNDEF}; --controlled
+		current: {LIGHT_UNDEF, OFF, ON}; --controlled
+	DEFINE
+		TimeLibrary_currentTime_TIMERSTEP :=
+			case
+				(!(TimeLibrary_timerUnit_TIMERSTEP = NANOSEC) & !(TimeLibrary_timerUnit_TIMERSTEP = SEC) & (TimeLibrary_timerUnit_TIMERSTEP = MIN) & !(TimeLibrary_timerUnit_TIMERSTEP = MILLISEC)) & TimeLibrary_mCurrTimeMins in {-2147483647, 0, 1, 10, 100, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 3, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 4, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 7, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 9, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99}: TimeLibrary_mCurrTimeMins;
+				(!(TimeLibrary_timerUnit_TIMERSTEP = NANOSEC) & (TimeLibrary_timerUnit_TIMERSTEP = SEC) & !(TimeLibrary_timerUnit_TIMERSTEP = MILLISEC)) & TimeLibrary_mCurrTimeSecs in {-2147483647, 0, 1, 10, 100, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 3, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 4, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 7, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 9, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99}: TimeLibrary_mCurrTimeSecs;
+				((TimeLibrary_timerUnit_TIMERSTEP = HOUR) & !(TimeLibrary_timerUnit_TIMERSTEP = NANOSEC) & !(TimeLibrary_timerUnit_TIMERSTEP = SEC) & !(TimeLibrary_timerUnit_TIMERSTEP = MILLISEC) & !(TimeLibrary_timerUnit_TIMERSTEP = MIN)) & TimeLibrary_mCurrTimeHours in {-2147483647, 0, 1, 10, 100, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 3, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 4, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 7, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 9, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99}: TimeLibrary_mCurrTimeHours;
+				((TimeLibrary_timerUnit_TIMERSTEP = MILLISEC) & !(TimeLibrary_timerUnit_TIMERSTEP = NANOSEC)) & TimeLibrary_mCurrTimeMillisecs in {-2147483647, 0, 1, 10, 100, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 3, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 4, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 7, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 9, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99}: TimeLibrary_mCurrTimeMillisecs;
+				(TimeLibrary_timerUnit_TIMERSTEP = NANOSEC) & TimeLibrary_mCurrTimeNanosecs in {-2147483647, 0, 1, 10, 100, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 3, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 4, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 7, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 9, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99}: TimeLibrary_mCurrTimeNanosecs;
+				TRUE: -2147483647;
+			esac;
+		TimeLibrary_expired_TIMERSTEP := (TimeLibrary_currentTime_TIMERSTEP >= (TimeLibrary_start_TIMERSTEP + TimeLibrary_duration_TIMERSTEP));
+	CONSTANTS LIGHT_UNDEF, OFF, ON, TIMERSTEP, TIMELIBRARY_TIMER_UNDEF, TIMELIBRARY_TIMERUNIT_UNDEF, HOUR, MILLISEC, MIN, NANOSEC, SEC;
+	ASSIGN
+		init(TimeLibrary_duration_TIMERSTEP) := 2;
+		init(TimeLibrary_start_TIMERSTEP) := TimeLibrary_currentTime_TIMERSTEP;
+		init(TimeLibrary_timerUnit_TIMERSTEP) := SEC;
+		init(current) := ON;
+		next(TimeLibrary_duration_TIMERSTEP) := TimeLibrary_duration_TIMERSTEP;
+		next(TimeLibrary_start_TIMERSTEP) :=
+			case
+				(TimeLibrary_expired_TIMERSTEP) & TimeLibrary_currentTime_TIMERSTEP in {-2147483647, 0, 1, 10, 100, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 3, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 4, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 7, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 9, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99}: TimeLibrary_currentTime_TIMERSTEP;
+				TRUE: TimeLibrary_start_TIMERSTEP;
+			esac;
+		next(TimeLibrary_timerUnit_TIMERSTEP) := TimeLibrary_timerUnit_TIMERSTEP;
+		next(current) :=
+			case
+				((TimeLibrary_expired_TIMERSTEP & !(current = ON)) & (current = OFF)): ON;
+				((current = ON) & TimeLibrary_expired_TIMERSTEP): OFF;
+				TRUE: current;
+			esac;
+--LTL properties
+LTLSPEC NAME ltl0 := F((current = OFF));
+MODULE Time(time)
+VAR mytime: clock
+ASSIGN
+init(mytime):=0
+TRANS elapsed -> next(mytime) = 0
