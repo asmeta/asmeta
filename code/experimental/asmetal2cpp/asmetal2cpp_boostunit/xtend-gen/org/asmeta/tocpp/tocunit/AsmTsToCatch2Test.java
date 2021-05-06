@@ -6,7 +6,6 @@ import atgt.coverage.AsmTestSuite;
 import atgt.specification.location.Location;
 import java.util.List;
 import java.util.Map;
-import org.asmeta.tocpp.tocunit.TestSuiteTranslator;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
