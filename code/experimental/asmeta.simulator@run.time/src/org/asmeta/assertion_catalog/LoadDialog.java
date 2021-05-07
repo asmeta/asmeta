@@ -111,13 +111,15 @@ public class LoadDialog extends JDialog {
 			    	int id=-99;
 					try {
 						id = containerInstance.startExecution(checkmodel);
-						JOptionPane.showConfirmDialog(contentPane, "Model " + Integer.toString(id) + " added!", "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
-						if(id >= SimGUI.getMaxInstances()) {
-							btnUpload.setEnabled(false);
-							JOptionPane.showConfirmDialog(contentPane, "All models added!", "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
-							btnLoad.doClick();
-						} else {
-							btnUpload.doClick();
+						if(id >= 1) {
+							JOptionPane.showConfirmDialog(contentPane, "Model " + Integer.toString(id) + " added!", "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+							if(id >= SimGUI.getMaxInstances()) {
+								btnUpload.setEnabled(false);
+								JOptionPane.showConfirmDialog(contentPane, "All models added!", "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+								btnLoad.doClick();
+							} else {
+								btnUpload.doClick();
+							}
 						}
 					} catch (MainRuleNotFoundException | AsmModelNotFoundException | FullMapException
 							| ParseException e1) {
