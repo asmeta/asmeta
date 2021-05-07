@@ -1,5 +1,7 @@
 package validator.plugin.handlers;
 
+import java.io.File;
+
 import org.asmeta.animator.VisualizationSimulation;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 
@@ -17,7 +19,7 @@ public class ValidatorAnimatorHandler extends ValidatorHandler {
 		// build the ASM for the avalla
 		AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(path);
 		builder.save();
-		String asmPath = builder.getTempAsmPath();
+		File asmPath = builder.getTempAsmPath();
 		// call the animator on it
 		VisualizationSimulation.showView(asmPath);
 	}

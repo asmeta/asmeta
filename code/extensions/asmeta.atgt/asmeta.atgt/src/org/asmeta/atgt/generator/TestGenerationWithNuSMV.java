@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.asmeta.nuxmv.AsmetaSMV;
-import org.asmeta.nuxmv.AsmetaSMVOptions;
+import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.AsmetaSMVOptions;
 
 import tgtlib.definitions.expression.Expression;
 
@@ -36,7 +36,7 @@ public class TestGenerationWithNuSMV {
 	public TestGenerationWithNuSMV(String asmPath, Expression expression) throws Exception {
 		this.asmPath = asmPath;
 		this.tp = expression;
-		org.asmeta.nuxmv.AsmetaSMVOptions.useCoi = false;
+		AsmetaSMVOptions.useCoi = false;
 	}
 
 	public Map<String, String> getVariablesMap() {

@@ -159,7 +159,7 @@ public class TestSingleFile extends TestValidator {
 	// import nested
 	@Test
 	public void testMod3() throws Exception {
-		test("scenariosfortest\\withmodules\\scenario2i.avalla", false, false);		
+		test("scenariosfortest\\withmodules\\scenario2i.avalla", true, false);		
 	}
 	
 	// import from a subdir
