@@ -98,10 +98,40 @@ public class NuXmvExecutorTest {
 	}
 	
 	@Test
-	public void testExecuteUseTime2() throws Exception {
-
-		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer2.smv");
-
+	public void testExecuteUseTime1() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer1.smv");
 	}
+	@Test
+	public void testExecuteUseTime2() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer2.smv");
+	}
+	
+	@Test
+	public void testExecuteUseTime3() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer3.smv");
+	}
+	
+	@Test
+	public void testExecuteUseTime4() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer4.smv");
+	}
+	
+	@Test
+	public void testExecuteOneWayTrafficLight() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/oneWayTrafficLight.smv");
+	}
+	
+	@Test
+	public void testExecuteUseTimer5_newDuration() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer5_newDuration.smv");
+	}
+	
+	@Test
+	public void testExecutesluiceGateMotorCtl() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/sluiceGateMotorCtl.smv");
+	}
+	
+	
+
 
 }

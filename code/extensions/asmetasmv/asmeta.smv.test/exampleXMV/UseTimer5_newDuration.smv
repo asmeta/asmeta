@@ -4,7 +4,7 @@
 MODULE main
 	VAR 
 		currentTime: clock; -- the clock
-		timerstep: TimeLibrary(2);
+		timerstep: TimeLibrary(20,currentTime);
 		current: {LIGHT_UNDEF, OFF, ON}; --controlled
 	DEFINE
 		ASSIGN		
@@ -17,25 +17,28 @@ MODULE main
 				TRUE: current;
 			esac;
 		-- when asm call reset rule
-		next(timerstep.reset):= 
+		next(timerstep.duration) :=  
 			case
-				(timerstep.expired): TRUE;
-				TRUE: FALSE;
+				(current = ON): 40; --(time=10) doesn't work, the condition must be independent of time 
+				--(currentTime>=10): 40; doesn't work
+				TRUE: timerstep.duration;
 			esac;
+		TRANS (timerstep.expired) -> (next(timerstep.reset)= TRUE)
 --LTL properties
 
 LTLSPEC NAME ltl0 := G((current = ON));
 
-MODULE TimeLibrary(d)
+MODULE TimeLibrary(d,ct)
 	VAR 
 	 	start: real; -- when reset init the start
 	 	reset: boolean; -- true when the asm call reset rule
+	 	duration : real;
+		
+	DEFINE expired := (ct)>=(start+duration); -- timer expired 
 	
-	DEFINE expired := (currentTime)>=(start+d); -- timer expired 
 	ASSIGN 
-	
-	init(start):=currentTime; -- init start to the init time
-	init(reset):=FALSE; -- initially the timer is not reset
-	TRANS reset -> next(start) = currentTime; -- when the asm invoke reset rule it sets the reset var to true, false otherwise
+		init(start):=ct; -- init start to the init time
+		init(reset):=FALSE; -- initially the timer is not reset
+		init(duration):=d;
+	TRANS reset -> next(start) = ct; -- when the asm invoke reset rule it sets the reset var to true, false otherwise
 
-	-- NOT WORKING

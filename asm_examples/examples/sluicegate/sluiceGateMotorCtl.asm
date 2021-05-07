@@ -14,6 +14,7 @@ asm sluiceGateMotorCtl
 
 import ../../STDL/StandardLibrary
 import ../../STDL/CTLlibrary
+import ../../STDL/LTLlibrary
 
 signature:
 	domain Minutes subsetof Integer
@@ -51,7 +52,7 @@ definitions:
 	rule r_stop_motor =
 		motor := OFF
 		
-
+	//LTLSPEC f(phase=FULLYOPEN)
 	CTLSPEC ef(phase=FULLYOPEN)
 
 	main rule r_Main =
