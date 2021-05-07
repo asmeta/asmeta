@@ -24,9 +24,9 @@ signature:
 	dynamic monitored destY: Coord
 
 definitions:
-	domain Coord = {1..8}
+	domain Coord = {1:8}
 	domain NumTravels = {0:2}
-	domain Step ={-1..1}
+	domain Step ={-1:1}
 
 	//updates coordinate $i of a taxi or of a client
 	//that is travelling towards $j	

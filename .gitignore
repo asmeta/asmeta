@@ -53,3 +53,4 @@ maven-status
 *.versionsBackup
 
 /reports/*
+code/experimental/asmetal2cpp/asmetal2cpp_boostunit/temp/a.exe

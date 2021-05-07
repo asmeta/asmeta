@@ -23,9 +23,9 @@ signature:
 	dynamic controlled fooZ: SubDomInt
 
 definitions:
-	domain SubDomInt = {0..10}
-	domain SubDomNat = {0n..10n}
-	domain SubDomIntNeg = {-10..10}
+	domain SubDomInt = {0:10}
+	domain SubDomNat = {0n:10n}
+	domain SubDomIntNeg = {-10:10}
 
 	//AsmetaL invariants
 	invariant over fooA_I: (fooA_I = 2)

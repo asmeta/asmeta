@@ -1,6 +1,6 @@
 asm Supermercato // A.FINA M.GUZZETTI 
 
-import ../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 abstract domain Cliente

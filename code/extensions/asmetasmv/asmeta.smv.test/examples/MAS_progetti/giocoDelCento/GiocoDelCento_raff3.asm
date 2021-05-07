@@ -83,7 +83,7 @@ definitions:
 	//con questa regola faccio scegliere in modo NON deterministico al player che NON può implementare la strategia
 	//vincente un numero casuale che soddisfi i vincoli imposti nella funzione "giocataBuona"
 	rule r_sceltaNumero =
-		choose $g in {1 .. 100} with (giocataBuona($g, ultimaGiocataPc(opponent(turno))) = true) do
+		choose $g in {1 : 100} with (giocataBuona($g, ultimaGiocataPc(opponent(turno))) = true) do
 			par
 				ultimaGiocataPc(turno) := $g
 				turno := opponent(turno)

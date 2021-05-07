@@ -14,8 +14,8 @@ signature:
 	dynamic controlled fooT: ConcrDomN
 	
 definitions:
-	domain ConcrDom = {-10 .. 10}
-	domain ConcrDomN = {1n .. 20n}
+	domain ConcrDom = {-10 : 10}
+	domain ConcrDomN = {1n : 20n}
 
 	CTLSPEC ag(foo <= fooX and foo <= fooY)
 	CTLSPEC ag(foo = fooX or foo = fooY)

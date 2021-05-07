@@ -31,9 +31,9 @@ signature:
 definitions:
 	domain Rows = {1 : 5}
 	domain Columns = {1 : 5}
-	domain Values = {1..25}
-	domain SumValues = {0..484}
-	domain InsertedQueens = {0..5}
+	domain Values = {1:25}
+	domain SumValues = {0:484}
+	domain InsertedQueens = {0:5}
 
 	function queensNumber = 5
 	function kValue = 45
