@@ -6,6 +6,7 @@ set insideCall(1):= true;
 set insideCall(2):= false;
 //outsideCall: Prod(Integer, Dir) -> Boolean
 set outsideCall(2,UP):= false; 
+
 step
 
 check direction = UP;

@@ -43,15 +43,16 @@ import org.asmeta.simulator.Environment.TimeMngt;
 public class AsmetaPrinterForAvalla extends AsmPrinter {
 	
 	
-	// files already translated
-	private HashMap<String, String> translatedFiles = new HashMap<String, String>();
+	// ASMs already translated (to avoid over translation
+	// asm path (absolute) of the original asm -> where (path) it has been translated
+	private HashMap<Path,Path> translatedFiles = new HashMap<>();
 
 	// TODO just one should be enough
 	private String tempAsmName;
 	File tempAsmPath;
 
-	// path of the parent where the original asm is stored
-	Path asmPathDir;
+	// path of the original asm (useful to get the path and other stuff, like name and so on)
+	Path asmPath;
 
 	private AsmetaFromAvallaBuilder builder;
 
@@ -62,26 +63,34 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	 *
 	 * @param tempAsmPath the temp asm path where to save the new ASM (build from
 	 *                    avalla)
-	 * @param asmPathDir  the asm path dir whre the orginal model asm is stored
+	 * @param asmPathDir  the path of the original model asm is stored
 	 * @param builder     the builder
 	 * @throws FileNotFoundException the file not found exception
 	 */
-	public AsmetaPrinterForAvalla(File tempAsmPath, Path asmPathDir, AsmetaFromAvallaBuilder builder)
+	public AsmetaPrinterForAvalla(File tempAsmPath, Path asmPath, AsmetaFromAvallaBuilder builder)
 			throws FileNotFoundException {
 		super(tempAsmPath);
 		assert tempAsmPath.getName().endsWith(".asm");
 		this.tempAsmPath = tempAsmPath;
 		tempAsmName = tempAsmPath.getName();
 		tempAsmName = tempAsmName.substring(0, tempAsmName.length() - 4);
-		this.asmPathDir = asmPathDir;
+		assert asmPath.toString().endsWith(".asm");
+		this.asmPath = asmPath;
 		this.builder = builder;
 	}
 
-	private AsmetaPrinterForAvalla(File tempAsmPath, Path asmPathDir, AsmetaFromAvallaBuilder builder, HashMap<String, String> fileNames) throws FileNotFoundException {
-		this(tempAsmPath,asmPathDir,builder);
+	private AsmetaPrinterForAvalla(File tempAsmPath, Path asmPath, AsmetaFromAvallaBuilder builder, HashMap<Path,Path> fileNames) throws FileNotFoundException {
+		this(tempAsmPath,asmPath,builder);
 		this.translatedFiles.putAll(fileNames);
 	}
 
+	
+	public void visit(Asm asm) {
+		// add a commnt
+		println("// translation of the asm (for avalla) " + asmPath.normalize().toString()+"\n");
+		super.visit(asm);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -90,14 +99,20 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	 */
 	@Override
 	public void visitDefault(Initialization init) {
+		// if null, add the default with
 		if (init == null) {
-			println("// added by validator");
+			println("// added by validator (Initialization)");
 			println("default init s0__:");
 			indent();
 			if (model.getMainrule() != null) {
 				println("// added by validator");
 				println("function step__ = 0");
 			}
+			// other functions set by the scenario could be set in here:
+			System.out.println("monitored initState"  + this.builder.monitoredInitState);
+			XXXX
+			// NOTA COSA SUCCEDE SE UNO NON HA DEFALUT STATE MA qualche set di monitorata, non stampa nulla
+			// da controllare
 			unIndent();
 		} else {
 			super.visitDefault(init);
@@ -141,7 +156,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 				// get the name of the file to import. name is relative to the load spec
 				String name = importClause.getModuleName();
 				// now build the path
-				Path importedAsmPath = asmPathDir.resolve(name + ".asm").toAbsolutePath();
+				Path importedAsmPath = asmPath.getParent().resolve(name + ".asm").toAbsolutePath();
 				assert Files.exists(importedAsmPath)
 						: " path (imported ASM) " + importedAsmPath.toString() + " does not exist";
 				if (StandardLibrary.isAStandardLibrary(name)) {
@@ -155,7 +170,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 						Path importedFile;
 						// Check whether the file has been already processed
 						if (translatedFiles.containsKey(importedAsmPath)) {
-							importedFile = Paths.get(translatedFiles.get(importedAsmPath));
+							importedFile = translatedFiles.get(importedAsmPath);
 							LOG.debug(importedAsmPath + " in include and already transalted in "  + importedFile);
 							assert Files.exists(importedFile) : "File not found";
 						} else {							
@@ -166,12 +181,12 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 							assert folder.exists() && folder.isDirectory();
 							// 	the new path for the imported file
 							String includedName = pack.getMain().getName();
-							importedFile = Files.createTempFile("__" + includedName, ".asm");
+							importedFile = File.createTempFile("__" + includedName, ".asm", tempAsmPath.getParentFile()).toPath();
 							LOG.debug(includedName + " to be transalted in "  + importedFile);
-							translatedFiles.put(includedName, importedFile.toString());
+							translatedFiles.put(importedAsmPath, importedFile);
 							// call recursively
 							AsmetaPrinterForAvalla newprinter = new AsmetaPrinterForAvalla(importedFile.toFile(),
-									importedAsmPath.getParent(), builder, this.translatedFiles);
+									importedAsmPath, builder, this.translatedFiles);
 							newprinter.visit(pack.getMain());
 							newprinter.tempAsmName = importedFile.getFileName().toString();
 							newprinter.close();
@@ -344,7 +359,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	 */
 	@Override
 	public void visitFuncInits(Collection<FunctionInitialization> funcs) {
-		println("// added by validator");
+		println("// added by validator (visitFuncInits)");
 		if (model.getMainrule() != null)
 			println("function step__ = 0");
 

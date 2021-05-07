@@ -1,4 +1,4 @@
-asm Lift
+asm Lift_extramon
 
 import StandardLibrary
 
@@ -16,6 +16,8 @@ signature:
         
         dynamic monitored insideCall: Integer -> Boolean
 		dynamic monitored outsideCall: Prod(Integer, Dir) -> Boolean
+		
+		dynamic monitored mon: Boolean
 		
 
 definitions:

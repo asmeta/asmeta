@@ -259,9 +259,9 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	public void visitFunDefs(Collection<FunctionDefinition> funcs) {
 		if (funcs != null) {
 			for (FunctionDefinition def : funcs) {
-				Function func = def.getDefinedFunction();
-				Asm asm = Defs.getAsm(func);
 				// PA 2014/01/31 commentato l'if. Perche' non posso definire una funzione in un
+				// Function func = def.getDefinedFunction();
+				// Asm asm = Defs.getAsm(func);
 				// modulo diverso?
 				// if (asm == model) {
 				visitDef(def);
@@ -610,15 +610,16 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		}
 	}
 
-	public void visit(Initialization init) {
+	private void visit(Initialization init) {
 		// TODO init.getDomainInitialization()
 		if (init != null) {
 			String name = init.getName();
 			println("init " + name + ":");
 			indent();
+			// functions
 			Collection<FunctionInitialization> funcs = init.getFunctionInitialization();
 			visitFuncInits(funcs);
-
+			// agents
 			EList<AgentInitialization> agents = init.getAgentInitialization();
 			for (AgentInitialization agent : agents) {
 				print("agent " + agent.getDomain().getName() + ":\n");
@@ -626,7 +627,6 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 				print(agent.getProgram().getCalledMacro().getName() + "[]\n\n");
 				unIndent();
 			}
-
 			unIndent();
 		}
 	}

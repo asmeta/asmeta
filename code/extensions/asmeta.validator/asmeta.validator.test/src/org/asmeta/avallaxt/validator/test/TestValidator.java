@@ -22,7 +22,7 @@ public class TestValidator {
 
 	static int i = 0;
 
-	static String pathname = "temp/temp/";
+	static String pathname = "temp/";
 
 	
 	public TestValidator() {
@@ -59,14 +59,15 @@ public class TestValidator {
 		} else {
 			//
 			System.out.println("translating " + scenarioPath);
-			File tempAsmPath = Files.createTempFile("__tempAsmetaV", ".asm").toFile();
+			File tempAsmPath = new File("temp"); //Files.createTempFile("__tempAsmetaV", ".asm").toFile();
 			// delete if exists
 			org.asmeta.xt.validator.AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(scenarioPath, tempAsmPath);
 			builder.save();
 			// the files exists
 			assertTrue(tempAsmPath.exists());
+			assertTrue(builder.getTempAsmPath().exists() && builder.getTempAsmPath().isFile() && builder.getTempAsmPath().getName().endsWith(".asm"));
 			// it should be parsable:
-			AsmCollection asmc = ASMParser.setUpReadAsm(new File(tempAsmPath.toString()));
+			AsmCollection asmc = ASMParser.setUpReadAsm(builder.getTempAsmPath());
 			System.out.println(ASMParser.getResultLogger().errors);
 			assertNotNull(asmc);
 		}

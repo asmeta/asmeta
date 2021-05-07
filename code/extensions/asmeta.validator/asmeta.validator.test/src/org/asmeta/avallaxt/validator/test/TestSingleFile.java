@@ -19,11 +19,21 @@ import org.junit.Test;
 public class TestSingleFile extends TestValidator {
 
 	@Test
-	public void testBuiler() throws Exception {
-		
+	public void testBuilder() throws Exception {		
 		test("scenariosfortest/lift.avalla", false, false);
 	}
 
+	@Test
+	public void testMonitored() throws Exception {		
+		test("scenariosfortest/mon.avalla", false, false);
+	}
+
+	@Test
+	public void testLiftMonitored() throws Exception {		
+		test("scenariosfortest/lift_extramon.avalla", false, false);
+	}
+
+	
 	@Test
 	public void testBuilerWithSpaces() throws Exception {		
 		//
@@ -147,8 +157,7 @@ public class TestSingleFile extends TestValidator {
 	}
 // with the use of import/modules
 	@Test
-	public void testMod1() throws Exception {
-		
+	public void testMod1() throws Exception {		
 		test("scenariosfortest\\withmodules\\scenario1.avalla", false, false);		
 	}
 	
@@ -159,7 +168,12 @@ public class TestSingleFile extends TestValidator {
 	// import nested
 	@Test
 	public void testMod3() throws Exception {
-		test("scenariosfortest\\withmodules\\scenario2i.avalla", true, false);		
+		test("scenariosfortest\\withmodules\\scenario2i.avalla", false, false);		
+	}
+
+	@Test
+	public void testMod3bis() throws Exception {
+		test("scenariosfortest\\withmodules\\scenario2im.avalla", false, false);		
 	}
 	
 	// import from a subdir
