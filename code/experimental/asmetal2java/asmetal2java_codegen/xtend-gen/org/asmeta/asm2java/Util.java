@@ -10,6 +10,7 @@ import asmeta.definitions.domains.StringDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.VariableTerm;
 import com.google.common.base.Objects;
+import org.asmeta.asm2java.ToString;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Exceptions;

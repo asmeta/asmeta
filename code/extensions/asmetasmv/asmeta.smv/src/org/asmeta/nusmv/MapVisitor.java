@@ -69,6 +69,7 @@ import asmeta.definitions.domains.EnumElement;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.ProductDomain;
+import asmeta.definitions.domains.RealDomain;
 import asmeta.definitions.domains.impl.ConcreteDomainImpl;
 import asmeta.structure.AgentInitialization;
 import asmeta.structure.Asm;
@@ -972,6 +973,11 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 					}
 					throw new AsmNotSupportedException("Domain " + domName + " must be " + mustBe);
 				}
+			}/*else if (domain instanceof ) {
+			TODO translate here integer and real domain
+		}*/
+			else if (domain instanceof RealDomain) {
+				domainSmv.put(domName,null);
 			}
 		}
 	}
@@ -1109,7 +1115,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 				statFuncLocations.put(functionName, locationSet);
 			}
 			// some domains permit to model the undef value
-			if ((Defs.isEnumDomain(codomain) || Defs.isConcreteDomain(codomain) || Defs.isAbstractDomain(codomain))
+			//codomain instanceof RealDomain TODO NEW
+			if ((codomain instanceof RealDomain || Defs.isEnumDomain(codomain) || Defs.isConcreteDomain(codomain) || Defs.isAbstractDomain(codomain))
 					&& (Defs.isControlled(func) || Defs.isOut(func))) {
 				codomainDefinition = domainSmvWithUndef.get(codomainName);
 			} else {
