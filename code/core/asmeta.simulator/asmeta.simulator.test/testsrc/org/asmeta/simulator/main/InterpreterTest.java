@@ -39,6 +39,7 @@ import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.TupleValue;
 import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import asmeta.AsmCollection;
@@ -288,6 +289,7 @@ public class InterpreterTest extends BaseTest {
 		assertEquals(BooleanValue.TRUE, v);	
 	}
 
+	@Ignore // ANGELO, ignore this test, I'm not sure it is correct 2021.05
 	@Test
 	public void test21() throws Exception {
 		sim = Util.getSimulatorForTestSpec("test/simulator/ForallTerm01.asm");

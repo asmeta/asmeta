@@ -110,7 +110,7 @@ public class TermSubstTest {
 	public void test08() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst08.asm");
 		assertEquals(
-				"let($x!1=$y,$y!2=plus($x,$y))in {$z!3 in Integer| iff(eq($x!1,$z!3),eq(plus($x,$y),$z)) : $z!3} endlet", 
+				"let($x!1=$y,$y!2=plus($x,$y)) in {$z!3 in Integer| iff(eq($x!1,$z!3),eq(plus($x,$y),$z)) : $z!3} endlet", 
 				actual);
 	}
 
