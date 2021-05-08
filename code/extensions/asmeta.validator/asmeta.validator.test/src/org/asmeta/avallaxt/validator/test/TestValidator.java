@@ -4,17 +4,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
 import org.junit.BeforeClass;
-import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 
 import asmeta.AsmCollection;
 
@@ -43,6 +38,12 @@ public class TestValidator {
 		    }
 		}
 	}
+
+	protected void test(String scenarioPath) throws IOException, Exception {
+		test(scenarioPath,false,false);
+		test(scenarioPath,true,false);
+	}
+
 	/**
 	 * 
 	 * @param scenarioPath
@@ -55,7 +56,8 @@ public class TestValidator {
 		if (runValidator) {
 			System.out.println("executing " + scenarioPath);
 			// it should be runnable
-			AsmetaV.execValidation(scenarioPath, computeCoverage);
+			boolean result = AsmetaV.execValidation(scenarioPath, computeCoverage);
+			assertTrue(result);
 		} else {
 			//
 			System.out.println("translating " + scenarioPath);

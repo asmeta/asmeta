@@ -1,5 +1,7 @@
 package org.asmeta.avallaxt.validator.test;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -9,12 +11,13 @@ import java.nio.file.Paths;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.asmeta.parser.ParserResultLogger;
+import org.asmeta.parser.ASMParser;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaPrinterForAvalla;
-import org.asmeta.xt.validator.SimulatorWCov;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import asmeta.AsmCollection;
 
 public class TestSingleFile extends TestValidator {
 
@@ -100,7 +103,7 @@ public class TestSingleFile extends TestValidator {
 	@Test
 	public void testInvariant() throws Exception {
 		
-		test("scenariosfortest\\invariants\\scenario_inv.avalla", true, false);
+		test("scenariosfortest\\invariants\\scenario_inv.avalla");
 	}
 
 	
@@ -145,35 +148,45 @@ public class TestSingleFile extends TestValidator {
 	public void testABZ2020_module1() throws Exception {
 		
 		//Logger.getLogger(Simulator.class).setLevel(Level.ALL);
+		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);
 		//test("C:\\Users\\garganti\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\scenarios\\CarSystem004scenario001.avalla", true);
 		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\HWExecutedRunning.avalla",false, false);
 	}
 
 	
 	@Test
-	public void testMon() throws Exception {
-		
-		test("scenariosfortest\\mon\\scenario.avalla", false, false);
+	public void testMon1() throws Exception {
+		//TODO a way to check that the scenario succeeds
+		// monitored set in the avalla AND in the initial state
+		test("scenariosfortest\\mon\\scenario.avalla"); // ->check succeeded: a = 1
 	}
-// with the use of import/modules
+
 	@Test
-	public void testMod1() throws Exception {		
-		test("scenariosfortest\\withmodules\\scenario1.avalla", false, false);		
+	public void testMon2() throws Exception {
+		// monitored set only in the avalla - no intial state
+		test("scenariosfortest\\mon\\scenario2.avalla"); //->check succeeded: a = 1 
+	}
+
+	
+	// with the use of import/modules
+	@Test
+	public void testMod1() throws Exception {
+		test("scenariosfortest\\withmodules\\scenario1.avalla");		
 	}
 	
 	@Test
 	public void testMod2() throws Exception {
-		test("scenariosfortest\\withmodules\\scenarios\\scenario2.avalla", false, false);		
+		test("scenariosfortest\\withmodules\\scenarios\\scenario2.avalla");		
 	}
 	// import nested
 	@Test
 	public void testMod3() throws Exception {
-		test("scenariosfortest\\withmodules\\scenario2i.avalla", false, false);		
+		test("scenariosfortest\\withmodules\\scenario2i.avalla");		
 	}
 
 	@Test
 	public void testMod3bis() throws Exception {
-		test("scenariosfortest\\withmodules\\scenario2im.avalla", false, false);		
+		test("scenariosfortest\\withmodules\\scenario2im.avalla");		
 	}
 	
 	// import from a subdir
@@ -181,7 +194,14 @@ public class TestSingleFile extends TestValidator {
 	public void testMod4() throws Exception {
 		test("scenariosfortest\\withmodules\\scenario3.avalla", false, false);		
 	}
-	
+
+	// diamond
+	@Test
+	public void testDiamond() throws Exception {
+		test("scenariosfortest\\diamondimport\\scenario1.avalla", false, false);
+		// check the only 1 file for teh common root is tralsated
+	}
+
 	
 	@Test
 	public void testPillbox() throws Exception {

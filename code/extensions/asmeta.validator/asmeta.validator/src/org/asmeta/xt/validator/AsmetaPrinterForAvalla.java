@@ -7,10 +7,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
@@ -22,6 +24,7 @@ import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.util.StandardLibrary;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtext.util.internal.Log;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -81,13 +84,15 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	private AsmetaPrinterForAvalla(File tempAsmPath, Path asmPath, AsmetaFromAvallaBuilder builder, HashMap<Path,Path> fileNames) throws FileNotFoundException {
 		this(tempAsmPath,asmPath,builder);
-		this.translatedFiles.putAll(fileNames);
+		this.translatedFiles = fileNames;
 	}
 
 	
+	
+	
 	public void visit(Asm asm) {
-		// add a commnt
-		println("// translation of the asm (for avalla) " + asmPath.normalize().toString()+"\n");
+		// add a comment
+		println("// translation of the asm (for avalla) " + asmPath.normalize().toString());
 		super.visit(asm);
 	}
 	
@@ -99,24 +104,22 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	 */
 	@Override
 	public void visitDefault(Initialization init) {
-		// if null, add the default with
-		if (init == null) {
-			println("// added by validator (Initialization)");
-			println("default init s0__:");
-			indent();
-			if (model.getMainrule() != null) {
-				println("// added by validator");
-				println("function step__ = 0");
-			}
-			// other functions set by the scenario could be set in here:
-			System.out.println("monitored initState"  + this.builder.monitoredInitState);
-			XXXX
-			// NOTA COSA SUCCEDE SE UNO NON HA DEFALUT STATE MA qualche set di monitorata, non stampa nulla
-			// da controllare
-			unIndent();
-		} else {
-			super.visitDefault(init);
+		if (model.getMainrule() == null) {
+			println("// this ASM has no main, FunctionInitialization ignored");
+			return;
 		}
+		// i fit shas a main run a default init state must be added
+		// for step or for functions set in the initial part of the scenario
+		println("// added by validator (Initialization)");
+		String initName = init == null ? "s0__" : init.getName();
+		println("default init "+initName+":");
+		indent();
+		// if the init is defined, proceed as usual (see super.visitDefault)
+		if (init != null) 
+			visitFuntionsAgents(init);
+		else
+			// otherwise add the functions (monitored -> controlled)
+			visitFuncInits(Collections.EMPTY_SET);
 	}
 
 	/*
@@ -156,37 +159,48 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 				// get the name of the file to import. name is relative to the load spec
 				String name = importClause.getModuleName();
 				// now build the path
-				Path importedAsmPath = asmPath.getParent().resolve(name + ".asm").toAbsolutePath();
+				// the asm to be imported
+				Path importedAsmPath = asmPath.getParent().resolve(name + ".asm").toAbsolutePath().normalize();
 				assert Files.exists(importedAsmPath)
 						: " path (imported ASM) " + importedAsmPath.toString() + " does not exist";
 				if (StandardLibrary.isAStandardLibrary(name)) {
 					printImport(importedAsmPath);
 				} else {
 					// convert the file to a new file with monitored -> controlled
-					// change also the path (if in a subdir)
+					// change also the path - in the same directory
 					try {
 						// search for the file which is included
-						LOG.debug("Looking for " + importedAsmPath.toFile());
+						LOG.debug("Looking for " + importedAsmPath);
+						System.out.println("****");
+						for (Entry<Path, Path> o: translatedFiles.entrySet()) {
+							System.out.println(o);
+						}
+						System.out.println("****");
 						Path importedFile;
 						// Check whether the file has been already processed
 						if (translatedFiles.containsKey(importedAsmPath)) {
 							importedFile = translatedFiles.get(importedAsmPath);
-							LOG.debug(importedAsmPath + " in include and already transalted in "  + importedFile);
+							LOG.debug(importedAsmPath + " in include is already translated in "  + importedFile);
 							assert Files.exists(importedFile) : "File not found";
-						} else {							
-							AsmCollection pack = ASMParser.setUpReadAsm(importedAsmPath.toFile());
-							// now visit this imported asm
-							// get the path of the main
+						} else {
+							// get the name form the file, not from the ASM which must be read after
+							String fileName = importedAsmPath.getFileName().toString();
+							assert fileName.endsWith(".asm");
+							String asmName = fileName.substring(0, fileName.length()-4);
+							// build the temp asm file and store in the table
+							// in the same directory 
 							File folder = tempAsmPath.getParentFile();
 							assert folder.exists() && folder.isDirectory();
-							// 	the new path for the imported file
-							String includedName = pack.getMain().getName();
-							importedFile = File.createTempFile("__" + includedName, ".asm", tempAsmPath.getParentFile()).toPath();
-							LOG.debug(includedName + " to be transalted in "  + importedFile);
+							importedFile = File.createTempFile("_" + asmName +"_", ".asm", tempAsmPath.getParentFile()).toPath();
+							LOG.debug(importedAsmPath + " to be translated into "  + importedFile);
+							System.out.println("adding");
 							translatedFiles.put(importedAsmPath, importedFile);
 							// call recursively
 							AsmetaPrinterForAvalla newprinter = new AsmetaPrinterForAvalla(importedFile.toFile(),
 									importedAsmPath, builder, this.translatedFiles);
+							// import the ASM 
+							AsmCollection pack = ASMParser.setUpReadAsm(importedAsmPath.toFile());
+							// now visit this imported asm
 							newprinter.visit(pack.getMain());
 							newprinter.tempAsmName = importedFile.getFileName().toString();
 							newprinter.close();
@@ -244,9 +258,9 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			assert !importedName.contains("\"");
 			importedName = "\"" + importedName + "\"";
 		}
-		LOG.debug("tempAsmPath      " + tempAsmPath);
-		LOG.debug("importedAsm      " + importedAsm);
-		LOG.debug("importedName --> " + importedName);
+		LOG.debug("temp Asm Path  " + tempAsmPath);
+		LOG.debug("imported Asm   " + importedAsm);
+		LOG.debug("imported as -->" + importedName);
 		return importedName;
 	}
 
@@ -359,47 +373,63 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	 */
 	@Override
 	public void visitFuncInits(Collection<FunctionInitialization> funcs) {
+		if (model.getMainrule() == null) {
+			println("// this ASM has no main, FunctionInitialization ignored");
+			return;
+		}
 		println("// added by validator (visitFuncInits)");
-		if (model.getMainrule() != null)
-			println("function step__ = 0");
-
+		println("function step__ = 0");
+		// get all the functions
+		List<Function> functions = new ArrayList<>();
+		functions.addAll(builder.asm.getHeaderSection().getSignature().getFunction());
+		// get also ALL the imported functions indirectly 
+		// in any case these must not be printed in this ASM
+		this.builder.asm.getHeaderSection().getImportClause().stream().map(x -> x.getImportedFunction()).forEach(functions::addAll);
+		//
 		// PA 2017/12/29
 		// build the map for n-ary function
 		// function insideCall($x in D) = at({1 -> "eee"}, $x)
 		// function insideCall($x in D, $y in D2) = at({(1,2) -> "eee"}, ($x,$y))
-		Map<String, Map<String, String>> monitoredInit = new HashMap<>();
+		Map<Function, Map<String, String>> monitoredInit = new HashMap<>();
 		for (Set set : this.builder.monitoredInitState) {
 			// take the function name
+			String funcName;
 			String location = set.getLocation();
 			int ido = location.indexOf('(');
+			if (ido >= 0) {
+				// a n-ray function
+				funcName = location.substring(0, ido);
+			} else {
+				funcName = location;
+			}						
+			// there exists a function with that name - it can false because 
+			LOG.debug("function " + funcName + (functions.stream().anyMatch(t -> t.getName().equals(funcName)) ? " found" :  " not found"));
+			// get the signature if there is one
+			Optional<Function> func = functions.stream().filter(x -> x.getName().equals(funcName)).findFirst();
+			if (func.isEmpty()) continue;
+			// only if the the function is declared in this asm
+			/*//AG 5/2021: questo adesso lo ignoro, non guardo le ASM, potrei settare qualcosa che importo
+			// if (Defs.getAsm(func.get())!= model) {
+			if (! Defs.getAsm(func.get()).getName().equals(model.getName())) {
+				continue;			
+			}*/
 			// PUT in the map???
 			if (ido >= 0) {
 				// a n-ray function
-				String name = location.substring(0, ido);
 				String args = location.substring(ido); // including the (
-				Map<String, String> map = monitoredInit.get(name);
+				Map<String, String> map = monitoredInit.get(func);
 				if (map == null) {
 					map = new HashMap<>();
-					monitoredInit.put(name, map);
+					monitoredInit.put(func.get(), map);
 				}
 				map.put(args, set.getValue());
 			} else {
-				println("function " + location + " = " + set.getValue());
+				println("function " + funcName + " = " + set.getValue());
 			}
 		}
-		// get the functions
-		EList<Function> functions = builder.asm.getHeaderSection().getSignature().getFunction();
-		// get also the imported functions
-		this.builder.asm.getHeaderSection().getImportClause().stream().map(x -> x.getImportedFunction())
-				.forEach(functions::addAll);
-		// print the map
-		for (Entry<String, Map<String, String>> e : monitoredInit.entrySet()) {
-			String funcName = e.getKey();
-			// there exists a function with that name
-			assert functions.stream().anyMatch(t -> t.getName().equals(funcName))
-					: "function " + funcName + " not found";
-			// get the signature
-			Function func = functions.stream().filter(x -> x.getName().equals(funcName)).findFirst().get();
+		// print the map for functions A -> B
+		for (Entry<Function, Map<String, String>> e : monitoredInit.entrySet()) {
+			Function func = e.getKey();
 			// get the domains
 			Domain domain = func.getDomain();
 			List<String> domainNames = new ArrayList<String>();
@@ -410,7 +440,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 				domainNames.add(domain.getName());
 			}
 			// now print variables
-			print("function " + funcName + "(");
+			print("function " + func.getName() + "(");
 			String varNames = "";
 			for (int i = 0; i < domainNames.size(); i++) {
 				String dn = domainNames.get(i);

@@ -34,7 +34,6 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
   
   private int NvarM = 1;
   
-  @Override
   public String compileAsm(final Asm asm) {
     if (this.options.optimizeSeqMacroRule) {
       ArrayList<Rule> _arrayList = new ArrayList<Rule>();

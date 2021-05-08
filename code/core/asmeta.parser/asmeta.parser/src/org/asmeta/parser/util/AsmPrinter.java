@@ -610,31 +610,30 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		}
 	}
 
-	private void visit(Initialization init) {
+	// print the initialization part in the init regarding the functions and agents
+	protected void visitFuntionsAgents(Initialization init) {
 		// TODO init.getDomainInitialization()
-		if (init != null) {
-			String name = init.getName();
-			println("init " + name + ":");
+		assert (init != null);
+		// functions
+		Collection<FunctionInitialization> funcs = init.getFunctionInitialization();
+		visitFuncInits(funcs);
+		// agents
+		EList<AgentInitialization> agents = init.getAgentInitialization();
+		for (AgentInitialization agent : agents) {
+			print("agent " + agent.getDomain().getName() + ":\n");
 			indent();
-			// functions
-			Collection<FunctionInitialization> funcs = init.getFunctionInitialization();
-			visitFuncInits(funcs);
-			// agents
-			EList<AgentInitialization> agents = init.getAgentInitialization();
-			for (AgentInitialization agent : agents) {
-				print("agent " + agent.getDomain().getName() + ":\n");
-				indent();
-				print(agent.getProgram().getCalledMacro().getName() + "[]\n\n");
-				unIndent();
-			}
+			print(agent.getProgram().getCalledMacro().getName() + "[]\n\n");
 			unIndent();
 		}
+		unIndent();
 	}
 
 	public void visitDefault(Initialization init) {
 		if (init != null) {
-			print("default ");
-			visit(init);
+			// print the header
+			println("default init " + init.getName() + ":");
+			indent();
+			visitFuntionsAgents(init);
 		}
 	}
 
@@ -702,6 +701,7 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 			Function[] functions = sortFunctions(funcs);
 			for (Function function : functions) {
 				Asm asm = Defs.getAsm(function);
+				// check that the function belongs to this model (not those imported)
 				if (asm == model) {
 					visitDcl(function);
 				}

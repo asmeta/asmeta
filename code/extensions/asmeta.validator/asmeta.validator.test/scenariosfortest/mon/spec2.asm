@@ -1,5 +1,5 @@
-// spec with a monitored initialized
-asm spec
+// without default state
+asm spec2
 
 import ../StandardLibrary
 
@@ -14,8 +14,6 @@ main rule r_main = skip
 
 
 // define the initial states 
-default init s0:
-	
-	function a  = 0
+// NO INITIAL STATE default init s0:
         
         

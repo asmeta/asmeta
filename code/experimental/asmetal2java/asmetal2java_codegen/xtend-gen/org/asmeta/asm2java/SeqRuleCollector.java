@@ -31,7 +31,6 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
     this.seqBlock = seqBlock;
   }
   
-  @Override
   public List<Rule> visit(final BlockRule object) {
     return this.listRules(object.getRules());
   }
@@ -44,7 +43,6 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
     return sb;
   }
   
-  @Override
   public List<Rule> visit(final MacroCallRule object) {
     if (this.seqBlock) {
       return Collections.<Rule>singletonList(object.getCalledMacro().getRuleBody());
@@ -57,22 +55,18 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
     return Collections.<Rule>emptyList();
   }
   
-  @Override
   public List<Rule> visit(final SeqRule object) {
     return new SeqRuleCollector(true).listRules(object.getRules());
   }
   
-  @Override
   public List<Rule> visit(final UpdateRule object) {
     return Collections.<Rule>emptyList();
   }
   
-  @Override
   public List<Rule> visit(final SkipRule object) {
     return Collections.<Rule>emptyList();
   }
   
-  @Override
   public List<Rule> visit(final CaseRule object) {
     List<Rule> _listRules = this.listRules(object.getCaseBranches());
     List<Rule> list = new ArrayList<Rule>(_listRules);
@@ -84,17 +78,14 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
     return list;
   }
   
-  @Override
   public List<Rule> visit(final TermAsRule rule) {
     throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
   
-  @Override
   public List<Rule> visit(final ExtendRule rule) {
     return this.visit(rule.getDoRule());
   }
   
-  @Override
   public List<Rule> visit(final ConditionalRule rule) {
     List<Rule> list = new ArrayList<Rule>();
     list.addAll(this.visit(rule.getThenRule()));
@@ -106,12 +97,10 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
     return list;
   }
   
-  @Override
   public List<Rule> visit(final LetRule rule) {
     return this.visit(rule.getInRule());
   }
   
-  @Override
   public List<Rule> visit(final ChooseRule rule) {
     List<Rule> list = new ArrayList<Rule>();
     list.addAll(this.visit(rule.getDoRule()));
@@ -123,7 +112,6 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
     return list;
   }
   
-  @Override
   public List<Rule> visit(final ForallRule rule) {
     return this.visit(rule.getDoRule());
   }
