@@ -83,6 +83,7 @@ public class SimGUI extends JFrame {
 	public static boolean darkMode;
 	public static int fontSize;
 	public static List<Image> icons;
+	public static List<Integer> loadedIDs;
 	
 	static JScrollPane scrollPane;
 	static JTextPane textPaneID;
@@ -118,8 +119,6 @@ public class SimGUI extends JFrame {
 	private static int currentLoadedID;
 	private static int currentMaxInstances;
 	private static String currentLoadedModel;
-	
-	public static List<Integer> loadedIDs;
 	
 	static final String PROPERTIES_FILE_PATH = "src/org/asmeta/simulationUI/.properties";
 
@@ -549,6 +548,9 @@ public class SimGUI extends JFrame {
 																	   null);
 					// DEBUG: System.out.println(receiverID);
 					CompositionGUI.main(containerInstance, currentLoadedID, receiverID);
+					if(loadedIDs.size() <= 1) {
+						compositionMenuItem.setEnabled(false);
+					}
 				} catch(Exception ex) {
 					//DEBUG: ex.printStackTrace();
 					return;
@@ -858,21 +860,32 @@ public class SimGUI extends JFrame {
 					out = containerInstance.runStep(currentLoadedID, input);
 				}
 				
-				// TODO: Supporting model composition
+				// Supporting multi-model composition
 				if(CompositionGUI.getConPane() != null) {
 					RunOutput outReceiver = new RunOutput(Esit.UNSAFE, "rout not intialized");
-					System.setErr(new PrintStream(CompositionGUI.getFirstTab().compositionConsole));
-					System.setOut(new PrintStream(CompositionGUI.getFirstTab().compositionConsole));
-					if(out.getEsit() == Esit.SAFE) {
-						Map<String, String> senderOutput = out.getControlledvalues();
-						outReceiver = containerInstance.runStep(CompositionGUI.getFirstTab().getReceiverID(), senderOutput);
-					} else {
-						System.out.println("Sender model rollback!\n");
+					for(CompositionPanel tab: CompositionGUI.getTabList()) {
+						System.setErr(new PrintStream(tab.compositionConsole));
+						System.setOut(new PrintStream(tab.compositionConsole));
+						if(tab == CompositionGUI.getFirstTab()) {
+							if(out.getEsit() == Esit.SAFE) {
+								Map<String, String> senderOutput = out.getControlledvalues();
+								outReceiver = containerInstance.runStep(tab.getReceiverID(), senderOutput);
+							} else {
+								System.out.println("Sender model rollback!\n");
+							}
+						} else {
+							if(outReceiver.getEsit() == Esit.SAFE) {
+								Map<String, String> senderOutput = outReceiver.getControlledvalues();
+								outReceiver = containerInstance.runStep(tab.getReceiverID(), senderOutput);
+							} else {
+								System.out.println("Sender model rollback!\n");
+							}
+						}
+						previousConsole.println(tab.compositionConsole.toString());
+						tab.textAreaLog.append("");
+						tab.textAreaLog.append(tab.compositionConsole.toString());
+						tab.compositionConsole.reset();
 					}
-					previousConsole.println(CompositionGUI.getFirstTab().compositionConsole.toString());
-					CompositionGUI.getFirstTab().textAreaLog.append("");
-					CompositionGUI.getFirstTab().textAreaLog.append(CompositionGUI.getFirstTab().compositionConsole.toString());
-					CompositionGUI.getFirstTab().compositionConsole.reset();
 				}
 				//JOptionPane.showMessageDialog(null, out.toString());	
 				//textAreaLog.append("Runstep executed with current result:\n"+out.MytoString()+"\n");

@@ -35,7 +35,6 @@ import javax.swing.text.StyleConstants;
 import org.asmeta.assertion_catalog.InvariantGUI;
 
 public class CompositionPanel extends JPanel {
-	
 	JLabel lblSender;
 	JTextPane textPaneSender;
 	JLabel lblSimID;
@@ -210,8 +209,6 @@ public class CompositionPanel extends JPanel {
 				int tabWidth = e.getComponent().getWidth();
 				int tabHeight = e.getComponent().getHeight();
 				
-				System.out.println(tabWidth);
-				System.out.println(tabHeight);
 				// Handle lblSender, lblReceiver, lblSenderID and lblReceiverID resizing
 				lblSender.setBounds(new Rectangle(47, 11, 191, 22));
 				lblSenderID.setBounds(new Rectangle(Math.round(tabWidth/2 - 94), 11, 78, 22));
@@ -239,36 +236,39 @@ public class CompositionPanel extends JPanel {
 					btnSave.setBounds(new Rectangle(327, tabHeight - 71, 120, 50));
 					btnClear.setBounds(new Rectangle(457, tabHeight - 71, 120, 50));
 				}
-				
 			}
+			
 			@Override
 			public void componentMoved(ComponentEvent e) { return; }
 					
 			@Override
-			public void componentShown(ComponentEvent e) { return; }
+			public void componentShown(ComponentEvent e) { 
+				if(SimGUI.loadedIDs.size() <= 1) {
+					btnCompose.setEnabled(false);
+				}
+			}
 
 			@Override
 			public void componentHidden(ComponentEvent e) { return; }
 		});
 		
-		// TODO: Support multiple composition (chain)
+		// Support multiple composition (chain)
 		btnCompose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					SimGUI.loadedIDs.remove((Object) getReceiverID());
-					
 					int newReceiverID = (int) JOptionPane.showInputDialog(CompositionGUI.getConPane(), 
-																	   "  Select the ID of the model that will be\ncomposed with the current loaded model:",
-																	   "Receiver ID",
-																	   JOptionPane.QUESTION_MESSAGE,
-																	   null,
-																	   SimGUI.loadedIDs.toArray(),
-																	   null);
-					// DEBUG: System.out.println(receiverID);
-					//CompositionGUI.main(containerInstance, receiverID, newReceiverID);
-					SimGUI.loadedIDs.add(getReceiverID());
+																	   	  "  Select the ID of the model that will be\ncomposed with the current loaded model:",
+																	   	  "Receiver ID",
+																	   	  JOptionPane.QUESTION_MESSAGE,
+																	   	  null,
+																	   	  SimGUI.loadedIDs.toArray(),
+																	   	  null);
+					CompositionGUI.addTab(getReceiverID(), newReceiverID);
+					if(SimGUI.loadedIDs.size() <= 1) {
+						btnCompose.setEnabled(false);
+					}
 				} catch(Exception ex) {
-					//DEBUG: ex.printStackTrace();
 					return;
 				}
 			}
@@ -278,9 +278,9 @@ public class CompositionPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(getSenderID() >= 1 && getReceiverID() >= 1 && textAreaLog.getText() != null) {
 					if(JOptionPane.showConfirmDialog(CompositionGUI.getConPane(), 
-												  "Do you want to save the current simulation output?",
-												  "Save",
-												  JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+												  	 "Do you want to save the current simulation output?",
+												  	 "Save",
+												  	 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 						btnSave.doClick();
 					}
 					textAreaLog.setText("");
@@ -355,7 +355,7 @@ public class CompositionPanel extends JPanel {
 		
 		btnInvManager.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(receiverID < 1)
+				if(getReceiverID() < 1)
 					JOptionPane.showMessageDialog(CompositionGUI.getConPane(), "Error: no simulation selected!", "Error", JOptionPane.ERROR_MESSAGE);
 				else {
 					InvariantGUI invGUI = new InvariantGUI(CompositionGUI.containerInstance, getReceiverID(), receiverModel);
