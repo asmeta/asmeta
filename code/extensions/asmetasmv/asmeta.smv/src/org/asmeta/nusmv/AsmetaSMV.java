@@ -57,12 +57,12 @@ public class AsmetaSMV {
 	}
 
 	public AsmetaSMV(File file, boolean simplify) throws Exception {
-		this(file, simplify, false, true, false);
+		this(file, simplify, false, true, false,false);
 	}
 
-	public AsmetaSMV(File file, boolean simplify, boolean execute, boolean checkInteger, boolean useNuXmv)
+	public AsmetaSMV(File file, boolean simplify, boolean execute, boolean checkInteger, boolean useNuXmv, boolean useNuXmvTime)
 			throws Exception {
-		this(file, new AsmetaSMVOptions(simplify, execute, checkInteger, useNuXmv));
+		this(file, new AsmetaSMVOptions(simplify, execute, checkInteger, useNuXmv, useNuXmvTime));
 	}
 
 	/**
@@ -139,7 +139,9 @@ public class AsmetaSMV {
 			out.print("Execution of NuSMV code ...");
 		}
 		// System.out.println(smvFileName); //Silvia: 10/05/2021 runNuxmv
-		if (AsmetaSMVOptions.isUseNuXmv())
+		if (AsmetaSMVOptions.isUseNuXmvTime())
+			runNuXMVTime(smvFileName);
+		else if (AsmetaSMVOptions.isUseNuXmv())
 			runNuXMV(smvFileName);
 		else {
 			runNuSMV(smvFileName);
@@ -159,7 +161,12 @@ public class AsmetaSMV {
 		}
 	}
 
-	private void runNuXMV(String smvFileName) throws Exception {
+	private void runNuXMV(String smvFileName2) {
+		// TODO IMPLEMENT COMMANDS TO RUN NUXMV WITHOUT TIME TO ALLOW CTL PROPERTIES VERIFICATION
+		
+	}
+
+	private void runNuXMVTime(String smvFileName) throws Exception {
 		String solverName = "nuXmv";
 		ProcessBuilder bp = new ProcessBuilder(solverName, "-int", "-time");
 		bp.redirectErrorStream(true);
@@ -187,9 +194,6 @@ public class AsmetaSMV {
 		// any error???
 		int exitVal = proc.waitFor();
 		System.out.println("ExitValue: " + exitVal);
-		
-		
-
 	}
 
 	/**
@@ -326,11 +330,11 @@ public class AsmetaSMV {
 	 */
 	public String getOutput() throws Exception {
 		StringBuilder sb = new StringBuilder("> ");
-		if (AsmetaSMVOptions.isUseNuXmv()) {
-			sb.append("nuXmv");
-		} else {
+		//if (AsmetaSMVOptions.isUseNuXmv()) {
+		//	sb.append("nuXmv");
+		//} else {
 			sb.append("NuSMV");
-		}
+		//}
 		if (!AsmetaSMVOptions.isPrintCounterExample()) {
 			sb.append(" -dcx");
 		}

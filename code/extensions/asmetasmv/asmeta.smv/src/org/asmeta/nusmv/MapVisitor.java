@@ -225,8 +225,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	protected boolean needCheckOnDomain(String domName) {
 		boolean checkCond = (isEnumDomain(domName) || domName.equals("Boolean") || domName.equals("boolean")
 				|| !AsmetaSMVOptions.isCheckConcrete());
-		if (AsmetaSMVOptions.useNuXmv)
-			return !(checkCond || domName.equals("Integer") || domName.equals("integer") || domName.equals("Real") || domName.equals("real"));
+		if (AsmetaSMVOptions.isUseNuXmvTime() || AsmetaSMVOptions.isUseNuXmv())
+			return !(checkCond || domName.equals("Integer") || domName.equals("integer") || domName.equals("Real")
+					|| domName.equals("real"));
 		else
 			return !checkCond;
 	}
@@ -266,14 +267,17 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	void printMainModule(String smvFileName, PrintWriter smv) {
 		smv.println("--file " + smvFileName);
 		smv.println("-- options: flatten? " + AsmetaSMVOptions.FLATTEN);
-		if (AsmetaSMVOptions.isUseNuXmv())
+		if (AsmetaSMVOptions.isUseNuXmvTime() )
 			smv.println("@TIME_DOMAIN continuous");
 		smv.println("MODULE main");
 		smv.println("\tVAR");
 		for (String var : varsDecl.keySet()) {
 			// only variables that are actually used are defined in the NuSMV model
-			if (env.usedLoc.contains(var)) {
-				smv.print("\t\t" + var + ": " + varsDecl.get(var) + "; --");
+			if (env.usedLoc.contains(var)) { //Silvia 10/05/2021 -> automatically set clock type
+				if (AsmetaSMVOptions.isUseNuXmvTime()  && var.equalsIgnoreCase("TimeLibrarySimple_mCurrTimeSecs"))
+					smv.print("\t\t" + var + ": " + "clock" + "; --");
+				else
+					smv.print("\t\t" + var + ": " + varsDecl.get(var) + "; --");
 				if (contrLocations.contains(var)) {
 					smv.println("controlled");
 				} else if (monLocations.contains(var)) {
@@ -371,6 +375,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		// add the ASSIGN section
 		if ((initMap != null && initMap.size() > 0) || updateMap.getSize() > 0) {
 			smv.println("\tASSIGN");
+			if (AsmetaSMVOptions.isUseNuXmvTime()) //Silvia 10/05/2021: init clock to 0 if usenuxmv with time
+				smv.println("\t\tinit(" + "TimeLibrarySimple_mCurrTimeSecs" + ") := " + "0" + ";");
 			if (initMap != null) {
 				for (String var : initMap.keySet()) {
 					if (env.usedLoc.contains(var)) {
@@ -774,9 +780,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		domainSmv.put("Boolean", "boolean");// associa al nome AsmetaL il nome NuSMV
 		domainSet.put("Boolean", set);// associa al dominio AsmetaL un insieme con tutti i valori NuSMV
 		domainValues.put("Boolean", values);
-		
+
 		// Silvia: 03/05/2021: allow integer and real domains translation if nuXmv
-		if (AsmetaSMVOptions.useNuXmv) {
+		if (AsmetaSMVOptions.isUseNuXmvTime() || AsmetaSMVOptions.isUseNuXmv() ) {
 			domainSmv.put("Real", "real");
 			domainSmv.put("Integer", "integer");
 		}
