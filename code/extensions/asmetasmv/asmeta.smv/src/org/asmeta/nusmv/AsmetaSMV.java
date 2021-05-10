@@ -36,7 +36,7 @@ public class AsmetaSMV {
 	public String outputRunNuSMVreplace;
 	public static Process proc;
 	private File asmFile;
-	private Asm asm;
+	protected Asm asm;
 	String smvFileName;
 	
 	AsmetaSMVOptions asmetaOptions;
@@ -96,6 +96,10 @@ public class AsmetaSMV {
 		}
 	}
 
+	
+	
+	
+	
 	/**
 	 * It creates and populates the data structures that describe the mapping
 	 * between the ASM model and the NuSMV model.

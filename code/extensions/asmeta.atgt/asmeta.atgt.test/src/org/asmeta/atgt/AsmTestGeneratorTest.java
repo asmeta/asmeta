@@ -1,5 +1,6 @@
 package org.asmeta.atgt;
 
+import java.io.PrintStream;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.atgt.generator.AsmTestGenerator;
+import org.asmeta.atgt.generator.ConverterCounterExample;
 import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.atgt.generator.TestGenerationWithNuSMV;
@@ -17,6 +19,7 @@ import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmTestSeqContent;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
+import atgt.testseqexport.toAvalla;
 import extgt.coverage.combinatorial.StdPairwiseCovBuild;
 import tgtlib.definitions.TestSequence;
 
@@ -111,5 +114,18 @@ public class AsmTestGeneratorTest {
 				Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria));
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, ".*");
 	}
-
+	
+	@Test
+	public void generateMVM() throws Exception {
+		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
+		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.DEBUG);		
+		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.DEBUG);
+		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.DEBUG);	
+		String ex = "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true,
+				Collections.singleton(CriteriaEnum.BASIC_RULE.criteria));
+		ConverterCounterExample.IncludeUnchangedVariables = false;
+		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T");//|BR_r_Main_FFFTT15");
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, ".*");				
+	}
 }

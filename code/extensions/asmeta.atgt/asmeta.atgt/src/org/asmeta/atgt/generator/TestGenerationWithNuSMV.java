@@ -1,6 +1,7 @@
 package org.asmeta.atgt.generator;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashSet;
@@ -17,15 +18,14 @@ import tgtlib.definitions.expression.Expression;
  * generates the test by Nusmv 
  *
  */
-public class TestGenerationWithNuSMV {
+public class TestGenerationWithNuSMV extends AsmetaSMV{
 	
-	private String asmPath;
-	private Expression tp;
-	private AsmetaSMV asmetaSMV;
-
 	static private Logger logger = Logger.getLogger(TestGenerationWithNuSMV.class);
 	
 	public static boolean useLTLandBMC = false;
+	
+	
+
 	
 	/**
 	 * 
@@ -33,37 +33,39 @@ public class TestGenerationWithNuSMV {
 	 * @param expression
 	 * @throws Exception
 	 */
-	public TestGenerationWithNuSMV(String asmPath, Expression expression) throws Exception {
-		this.asmPath = asmPath;
-		this.tp = expression;
+	public TestGenerationWithNuSMV(String asmPath) throws Exception {
+		super(asmPath);
+		// set the options (now statci, in the future could be an object)
+		AsmetaSMVOptions.keepNuSMVfile = true;
+		AsmetaSMVOptions.simplifyDerived = false;
+		AsmetaSMVOptions.setPrintCounterExample(true);			
 		AsmetaSMVOptions.useCoi = false;
+		clearProperties();
+	}
+	private void clearProperties() {
+		// now remove all the properties of this ASM
+		asm.getBodySection().getProperty().clear();
 	}
 
 	public Map<String, String> getVariablesMap() {
-		return asmetaSMV.mv.nusmvNameToLocation;
+		return mv.nusmvNameToLocation;
 	}
 
-	private void buildNuSMV() throws Exception {
-		logger.debug("building the asmetasmv");
-		asmetaSMV = new AsmetaSMV(asmPath);
-		AsmetaSMVOptions.keepNuSMVfile = true;
-		AsmetaSMVOptions.simplifyDerived = false;
-		AsmetaSMVOptions.setPrintCounterExample(true);
-		logger.debug("translate the maps");
-		asmetaSMV.translation();
-		logger.debug("add cex");
+	private void buildNuSMV(Expression tp) throws Exception {	
+		logger.debug("add cex and remove the other properties");
 		Set<String> trapProps = new HashSet<String>();
 		String tpS = tp.accept(ExpressionToSMV.EXPR_TO_SMV).toString();
 		if (useLTLandBMC) {
 			// use LTL
 			trapProps.add("G(!((" + tpS + ") & X(TRUE)))");
-			asmetaSMV.addLtlProperties(trapProps);
+			addLtlProperties(trapProps);
 		} else {
 			// normal trap property
 			trapProps.add("AG(!(" + tpS + "))");			
-			asmetaSMV.addCtlProperties(trapProps);
+			addCtlProperties(trapProps);
 		}
-		asmetaSMV.createNuSMVfile();
+		createNuSMVfile();
+		logger.debug("asmetasmv file built in " + getSmvFileName());
 	}
 
 	/**
@@ -74,13 +76,17 @@ public class TestGenerationWithNuSMV {
 	 * @return
 	 * @throws Exception
 	 */
-	public Counterexample checkTpWithModelChecker() throws Exception {
-		buildNuSMV();
+	public Counterexample checkTpWithModelChecker(Expression tp) throws Exception {
+		useBMC = useLTLandBMC;
+		// clear all the previous properties.
+		clearProperties();
+		logger.debug("translate the maps");
+		translation();
+		//
+		buildNuSMV(tp);
 		// 
-		asmetaSMV.useBMC = useLTLandBMC;
-		asmetaSMV.executeNuSMV();
-		BufferedReader br = new BufferedReader(new StringReader(asmetaSMV.outputRunNuSMVreplace));
-		//System.err.println(asmetaSMV.outputRunNuSMVreplace);
+		executeNuSMV();
+		BufferedReader br = new BufferedReader(new StringReader(outputRunNuSMVreplace));
 		return parseCounterExample(br);
 	}
 
@@ -92,7 +98,9 @@ public class TestGenerationWithNuSMV {
 	 * @throws IOException
 	 */
 	static Counterexample parseCounterExample(BufferedReader br) throws IOException {
+		// skip first line
 		br.readLine();
+		// if the property is  
 		boolean result = br.readLine().contains("is true");
 		Counterexample counterexample = null;
 		if (result) {

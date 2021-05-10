@@ -1,5 +1,7 @@
 package org.asmeta.flattener;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -74,7 +76,12 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 
 	@Test
 	public void testFerryman() throws Exception {
-		flattenerTest("benchmarksFIDE2018/ferrymanSimulator_raff1.asm", ALL_FLATTENERS);
+		String result = flattenerTest("benchmarksFIDE2018/ferrymanSimulator_raff1.asm", ALL_FLATTENERS);
+		System.out.println(result);
+		// 	derived oppositeSide: Side -> Side
+		// derived allOnRightSide: Boolean
+
+		assertTrue(result.contains(""));
 	}
 
 	private static void singleExperiment(String asmModel, boolean printStats) throws Exception {

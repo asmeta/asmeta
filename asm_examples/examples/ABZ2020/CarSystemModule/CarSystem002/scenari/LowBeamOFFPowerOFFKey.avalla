@@ -5,7 +5,16 @@ load ../CarSystem002main.asm
 
 //testato funzionante
 //prima accendo la macchina con lightSwitch su ON
-	check keyState_Previous = undef;
+
+// 5/10/21 fallisce ANGELO
+//CHECK FAILED: tailLampLeftFixValue = 0 at step 3 
+//CHECK FAILED: tailLampRightFixValue = 0 at step 3 
+//CHECK FAILED: lowBeamLeft = 0 at step 3 
+//CHECK FAILED: lowBeamRight = 0 at step 3 
+
+
+
+check keyState_Previous = undef;
 check brakeLampRight = 0;
 check pitmanArmUpDown_Buff = NEUTRAL_UD;
 check brakeLampCenter = 0;

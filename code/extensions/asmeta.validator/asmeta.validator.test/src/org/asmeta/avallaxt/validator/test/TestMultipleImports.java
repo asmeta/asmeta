@@ -50,8 +50,8 @@ public class TestMultipleImports extends TestValidator {
 
 	@Test
 	public void testMultipleCarSystem2() throws Exception {
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem002\\scenari\\LowBeamOFFonAmbientLight.avalla");		
-		//test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem002\\scenari\\", true, true);		
+		//test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem002\\scenari\\LowBeamOFFonAmbientLight.avalla");		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem002\\scenari\\",true,false);		
 	}
 	@Test
 	public void testMultipleCarSystem() throws Exception {
