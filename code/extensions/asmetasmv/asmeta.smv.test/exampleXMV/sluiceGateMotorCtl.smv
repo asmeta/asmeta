@@ -2,8 +2,8 @@
 MODULE main
 	VAR
 		currentTime: clock; -- the clock
-		timer10: TimeLibrary(10,currentTime);
-		timer170: TimeLibrary(170,currentTime);
+		timer10: TimeLibrary(10.0,currentTime);
+		timer170: TimeLibrary(170.0,currentTime);
 		dir: {ANTICLOCKWISE, CLOCKWISE, DIRECTIONDOMAIN_UNDEF}; --controlled
 		event_BOTTOM: boolean; --monitored
 		event_TOP: boolean; --monitored
@@ -38,12 +38,12 @@ MODULE main
 			esac;
 		next(timer10.start) :=
 			case
-				(timer170.expired & (phase = FULLYCLOSED)) : currentTime;
+				(event_TOP & (phase = OPENING)) : currentTime;
 				TRUE: timer10.start;
 			esac;
 		next(timer170.start) := 
 			case
-				((phase = FULLYOPEN) & timer10.expired): currentTime;
+				(event_BOTTOM & (phase = CLOSING)): currentTime;
 				TRUE: timer170.start;
 			esac;
 

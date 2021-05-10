@@ -127,11 +127,34 @@ public class NuXmvExecutorTest {
 	}
 	
 	@Test
+	public void testExecuteUseTime6() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer6.smv");
+	}
+	
+	@Test
 	public void testExecutesluiceGateMotorCtl() throws Exception {
 		NuXmvExecutor.runNuSMV("exampleXMV/sluiceGateMotorCtl.smv");
 	}
 	
+	@Test
+	public void testExecutesluiceGateMotorCtl2() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/sluiceGateMotorCtl2.smv");
+	}
 	
+	@Test
+	public void testExecuteVentilator1() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4SimpleTime.smv");
+	}
+	
+	@Test
+	public void testExecuteVentilator2() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTime.smv");
+	}
 
+	@Test
+	public void testExecuteVentilator3() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTimeModule.smv");
+	}
+	
 
 }

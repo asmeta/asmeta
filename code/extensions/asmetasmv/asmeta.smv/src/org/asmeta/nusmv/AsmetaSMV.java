@@ -41,6 +41,7 @@ public class AsmetaSMV {
 	
 	AsmetaSMVOptions asmetaOptions;
 
+
 	
 	public AsmetaSMV(String file) throws Exception {
 		this(new File(file));
@@ -74,6 +75,7 @@ public class AsmetaSMV {
 	 */
 	public AsmetaSMV(File file, AsmetaSMVOptions options)
 			throws Exception {
+		AsmetaSMVOptions.useNuXmv = true;
 		asmFile = file;
 		if (asmFile.exists()) {
 			try {
@@ -105,9 +107,6 @@ public class AsmetaSMV {
 	public void translation() throws Exception {
 		Util.setMainAsmName(asm.getName());
 		Util.setIsAsynchr(asm.getIsAsynchr());
-		if (asmetaOptions.useNuXmv)
-			mv=new MapVisitorXMV();
-		else
 			mv = new MapVisitor();
 		mv.visit(asm);
 	}
