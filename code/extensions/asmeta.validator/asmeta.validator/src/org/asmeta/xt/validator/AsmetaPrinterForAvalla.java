@@ -366,6 +366,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		print("controlled ");
 	}
 
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -383,8 +384,9 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		List<Function> functions = new ArrayList<>();
 		functions.addAll(builder.asm.getHeaderSection().getSignature().getFunction());
 		// get also ALL the imported functions indirectly 
-		// in any case these must not be printed in this ASM
-		this.builder.asm.getHeaderSection().getImportClause().stream().map(x -> x.getImportedFunction()).forEach(functions::addAll);
+		// in any case these must be printed in this ASM if set in the scenario
+		// recursively
+		this.builder.asm.getHeaderSection().getImportClause().stream().map(x1 -> x1.getImportedFunction()).forEach(functions::addAll);
 		//
 		// PA 2017/12/29
 		// build the map for n-ary function
@@ -492,8 +494,9 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 				.collect(Collectors.toSet());
 		// check if this function is already defined in the initial state of the
 		// scenario
-		if (allLocations.contains(init.getInitializedFunction().getName()))
-			return;
+		if (allLocations.contains(init.getInitializedFunction().getName())) {
+			println("// " + init.getInitializedFunction().getName() + " is initialized also in the initial state");
+		}
 		super.visitInit(init);
 	}
 }

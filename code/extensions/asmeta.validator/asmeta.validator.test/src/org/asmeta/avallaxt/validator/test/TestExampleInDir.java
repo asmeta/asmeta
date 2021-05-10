@@ -36,11 +36,6 @@ public class TestExampleInDir extends TestValidator {
 		testInDir("scenariosfortest");
 	}
 	
-	@Test
-	public void testAllTestPillbox() throws Exception {
-		testInDir("F:\\Dati-Andrea\\GitHub\\quasmed\\PillboxASM\\onlyred_level0");
-	}
-
 	
 	private void testInDir(String dirPath) throws IOException, Exception {
 		List<Path> failures = new ArrayList<>();

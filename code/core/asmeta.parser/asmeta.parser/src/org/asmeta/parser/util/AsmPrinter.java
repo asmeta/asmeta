@@ -287,6 +287,8 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 				Asm asm = Defs.getAsm(dom);
 				if (asm == model) {
 					visitDef(def);
+				} else {
+					println("// domain " + def.getDefinedDomain().getName() + " not printed because it does not belong to this asm");
 				}
 			}
 		}

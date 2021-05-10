@@ -125,20 +125,9 @@ public class TestSingleFile extends TestValidator {
 		test("scenariosfortest\\lift.avalla", false, false);
 	}
 
-	@Test
-	public void testModule2() throws Exception {
-		
-		test("D:\\AgHome\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\module\\myscenario.avalla", false, false);
-	}
 
 	@Test
-	public void testPillBox() throws Exception {		
-		test("D:\\AgHome\\Dropbox\\Documenti\\progetti\\quasmed_git\\PillboxASM\\onlyred_level2\\pillbox_2_scenario1.avalla", false, false);
-	}
-
-	@Test
-	public void testABZ2020CruiseCtrl() throws Exception {
-		
+	public void testABZ2020CruiseCtrl() throws Exception {		
 		//Logger.getLogger(Simulator.class).setLevel(Level.ALL);
 		//test("C:\\Users\\garganti\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\scenarios\\CarSystem004scenario001.avalla", true);
 		test("D:\\AgHome\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\Car System\\scenarios\\CarSystem006scenario003.avalla",true, false);

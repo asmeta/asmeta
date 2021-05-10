@@ -37,8 +37,11 @@ public class TestMultipleImports extends TestValidator {
 
 	@Test
 	public void testMultipleImports4() throws Exception {
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\TipBlinking.avalla", true, false);		
+		//test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\TipBlinking.avalla", false, false);				
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\HWExecutedRunning.avalla", false, false);
 	}
+		
+	
 	
 	@Test
 	public void testMultipleCarSystem1() throws Exception {
