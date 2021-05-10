@@ -645,8 +645,9 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 				DynamicFunction func = init.getInitializedFunction();
 				Asm asm = Defs.getAsm(func);
 				if (asm == model) {
-					visitInit(init);
+					println("// this function does not belong to this asm, but it can be initialized ");
 				}
+				visitInit(init);
 			}
 		}
 	}

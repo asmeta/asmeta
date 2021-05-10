@@ -2,7 +2,7 @@ scenario lift
 // the spec is in a directory with absolute path with space in it
 // PC fisso load "Z:\AgDocuments\google_drive\codice\research\asmeta\code\experimental\avallaxt\org.asmeta.avallaxt.validator.test\example\sub dir\Lift.asm"
 // portatile
-load "D:\\AgHome\\progettidaSVNGIT\\asmeta\\asmeta\\code\\extensions\\asmeta.validator\\asmeta.validator.test\\scenariosfortest\\sub dir\\Lift.asm"
+load "D:\\AgDocuments\\progettiDaSVN\\asmeta\\asmeta\\code\\extensions\\asmeta.validator\\asmeta.validator.test\\scenariosfortest\\sub dir\\Lift.asm"
 
 set insideCall(1):= true;
 set insideCall(2):= false;

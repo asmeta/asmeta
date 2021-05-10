@@ -28,7 +28,7 @@ public class TestSingleFile extends TestValidator {
 
 	@Test
 	public void testMonitored() throws Exception {		
-		test("scenariosfortest/mon.avalla", false, false);
+		test("scenariosfortest/mon.avalla");
 	}
 
 	@Test
@@ -139,7 +139,7 @@ public class TestSingleFile extends TestValidator {
 		//Logger.getLogger(Simulator.class).setLevel(Level.ALL);
 		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);
 		//test("C:\\Users\\garganti\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\scenarios\\CarSystem004scenario001.avalla", true);
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\HWExecutedRunning.avalla",false, false);
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\HWExecutedRunning.avalla");
 	}
 
 	

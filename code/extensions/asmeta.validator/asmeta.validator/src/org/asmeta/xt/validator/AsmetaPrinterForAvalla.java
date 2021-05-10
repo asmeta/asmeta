@@ -170,12 +170,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 					// change also the path - in the same directory
 					try {
 						// search for the file which is included
-						LOG.debug("Looking for " + importedAsmPath);
-						System.out.println("****");
-						for (Entry<Path, Path> o: translatedFiles.entrySet()) {
-							System.out.println(o);
-						}
-						System.out.println("****");
+						LOG.debug("Looking for imported ASM path" + importedAsmPath);
 						Path importedFile;
 						// Check whether the file has been already processed
 						if (translatedFiles.containsKey(importedAsmPath)) {
@@ -193,7 +188,6 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 							assert folder.exists() && folder.isDirectory();
 							importedFile = File.createTempFile("_" + asmName +"_", ".asm", tempAsmPath.getParentFile()).toPath();
 							LOG.debug(importedAsmPath + " to be translated into "  + importedFile);
-							System.out.println("adding");
 							translatedFiles.put(importedAsmPath, importedFile);
 							// call recursively
 							AsmetaPrinterForAvalla newprinter = new AsmetaPrinterForAvalla(importedFile.toFile(),
@@ -495,7 +489,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		// check if this function is already defined in the initial state of the
 		// scenario
 		if (allLocations.contains(init.getInitializedFunction().getName())) {
-			println("// " + init.getInitializedFunction().getName() + " is initialized also in the initial state");
+			println("// " + init.getInitializedFunction().getName() + " is initialized also in the initial state - it will ignored");
+			print("// ");
 		}
 		super.visitInit(init);
 	}

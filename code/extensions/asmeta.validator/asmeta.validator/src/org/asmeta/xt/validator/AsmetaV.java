@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -20,6 +21,8 @@ import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
 
+import jdk.internal.jline.internal.Log;
+
 /**
  * main class of AsmetaV
  * 
@@ -28,16 +31,16 @@ import org.asmeta.simulator.value.Value;
  */
 public class AsmetaV {
 
-
 	/**
 	 * Exec validation.
 	 *
-	 * @param scenarioPath the scenario path
-	 * @param coverage compute also the coverage ?
-	 * @return true, if successful
+	 * @param scenarioPath path of the file containing the scenario or directory
+	 *                     containing all the scenarios
+	 * @param coverage     compute also the coverage ?
+	 * @return the list of scenarios that fail
 	 * @throws Exception the exception
 	 */
-	public static boolean execValidation(String scenarioPath, boolean coverage) throws Exception {
+	public static List<String> execValidation(String scenarioPath, boolean coverage) throws Exception {
 		setLogger();
 		AsmetaV asmetaV = new AsmetaV();
 		return asmetaV.execValidation(new File(scenarioPath), coverage);
@@ -81,12 +84,12 @@ public class AsmetaV {
 	 *
 	 * @param scenarioPath file containing the scenario or directory containign all
 	 *                     the scenarios
-	 * @param coverage the coverage
+	 * @param coverage     the coverage
 	 * @return true, if successful
 	 * @throws Exception the exception
 	 */
-	private boolean execValidation(File scenarioPath, boolean coverage) throws Exception {
-		boolean check_succeded = true;
+	private List<String> execValidation(File scenarioPath, boolean coverage) throws Exception {
+		List<String> failedScenarios = new ArrayList<>();
 		// get all rules covered by a set of string
 		Set<String> all_rules = new HashSet<String>();
 		// scenarios into directory
@@ -95,19 +98,22 @@ public class AsmetaV {
 			for (File element : listFile)
 				if (element.isFile()) {
 					String path = element.getPath();
-					check_succeded &= validateSingleFile(coverage, all_rules, path);
+					if (!validateSingleFile(coverage, all_rules, path)) {
+						failedScenarios.add(path);
+					}
 				} else {
 					System.out.println(element.getName() + " is not a file!!");
 				}
 		} else { // if the file is not a directory but a file
-			check_succeded = validateSingleFile(coverage, all_rules, scenarioPath.getAbsolutePath());
+			if (!validateSingleFile(coverage, all_rules, scenarioPath.getAbsolutePath()))
+				failedScenarios.add(scenarioPath.getCanonicalPath());
 		}
 		if (coverage) { // print all covered rules
 			System.out.println("\n** Coverage Info: **\n");
 			for (String rule : all_rules)
 				System.out.println(rule);
 		}
-		return check_succeded;
+		return failedScenarios;
 	}
 
 	/**
@@ -136,10 +142,12 @@ public class AsmetaV {
 		// check now the value of step
 		//
 		boolean check_succeded = false;
-		for(Entry<Location, Value> cons : sim.getCurrentState().getContrLocs().entrySet()) {
+		for (Entry<Location, Value> cons : sim.getCurrentState().getContrLocs().entrySet()) {
 			if (cons.getKey().toString().equals("step__")) {
-				if (Integer.parseInt(cons.getValue().toString()) > 0) check_succeded = true;
-				else System.out.println("some checks failed");
+				if (Integer.parseInt(cons.getValue().toString()) > 0)
+					check_succeded = true;
+				else
+					System.out.println("some checks failed");
 				break;
 			}
 		}

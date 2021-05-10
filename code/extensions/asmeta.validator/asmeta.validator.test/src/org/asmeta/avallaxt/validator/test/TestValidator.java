@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.asmeta.parser.ASMParser;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
@@ -56,8 +57,8 @@ public class TestValidator {
 		if (runValidator) {
 			System.out.println("executing " + scenarioPath);
 			// it should be runnable
-			boolean result = AsmetaV.execValidation(scenarioPath, computeCoverage);
-			assertTrue(result);
+			List<String> result = AsmetaV.execValidation(scenarioPath, computeCoverage);
+			assertTrue("failed " + result, result.isEmpty());
 		} else {
 			//
 			System.out.println("translating " + scenarioPath);

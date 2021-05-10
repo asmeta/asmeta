@@ -6,6 +6,6 @@ set mon:= true;
 
 step
 
-check con = true;
+check con = false;
 
 step
