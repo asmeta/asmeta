@@ -138,7 +138,7 @@ public class NuXmvExecutorTest {
 	
 	@Test
 	public void testExecutesluiceGateMotorCtl2() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/sluiceGateMotorCtl2.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/sluiceGateMotorCtl.smv");
 	}
 	
 	@Test

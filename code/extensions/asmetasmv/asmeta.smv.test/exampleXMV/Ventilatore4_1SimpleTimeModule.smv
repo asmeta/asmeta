@@ -5,7 +5,7 @@ MODULE main
 	VAR
 		currentTime: clock;
 	
-		time_TIMERAPNEALAG: TimeLibrary(10.0,currentTime);
+		time_TIMERAPNEALAG: TimeLibrary(10.0,currentTime); --controlled
 		time_TIMEREXPIRATIONDUR: TimeLibrary(4.0,currentTime); --controlled
 		time_TIMERINSPIRATIONDUR: TimeLibrary(2.0,currentTime); --controlled
 		time_TIMERMAXEXPPAUSE: TimeLibrary(60.0,currentTime); --controlled
@@ -153,7 +153,8 @@ MODULE main
 				TRUE: stopVentilation;
 			esac;
 --CTL properties
-LTLSPEC NAME ltl0 :=  (G(!(turnOFFbtn)) -> F(((oValve = CLOSED) & (iValve = CLOSED))));
+LTLSPEC NAME ltl0 :=  G(iValve = CLOSED);
+LTLSPEC NAME ltl1 :=  G!((((state != PSV_EXP_PAUSE) & ((((state != PCV_IN_PAUSE) & ((oValve = CLOSED) & (iValve = CLOSED))) & (state != PCV_EXP_PAUSE)) & (state != PSV_IN_PAUSE)))));
 
 CTLSPEC NAME ctl0 := (AG(!(turnOFFbtn)) -> EF(((oValve = CLOSED) & (iValve = CLOSED))));
 CTLSPEC NAME ctl1 := (AG(!(turnOFFbtn)) -> EF(((oValve = OPEN) & (iValve = OPEN))));

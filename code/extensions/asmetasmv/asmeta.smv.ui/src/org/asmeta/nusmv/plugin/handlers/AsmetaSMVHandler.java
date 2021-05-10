@@ -64,6 +64,8 @@ abstract class AsmetaSMVHandler extends AsmetaActionHandler {
 			AsmetaSMVOptions.setCheckConcrete(!store.getBoolean(AsmetaSMVPreferencePage.P_NC));
 			AsmetaSMVOptions.simplify = !store.getBoolean(AsmetaSMVPreferencePage.P_NS);
 			AsmetaSMVOptions.setPrintCounterExample(!store.getBoolean(AsmetaSMVPreferencePage.P_DCX));
+			AsmetaSMVOptions.setUseNuXmv(store.getBoolean(AsmetaSMVPreferencePage.P_NUXMV));
+			
 			String nusmvPath = store.getString(AsmetaSMVPreferencePage.P_NUSMV_PROGRAM);
 			if(!nusmvPath.equals("") && new File(nusmvPath).exists()) {
 				AsmetaSMVOptions.setSolverPath(nusmvPath);

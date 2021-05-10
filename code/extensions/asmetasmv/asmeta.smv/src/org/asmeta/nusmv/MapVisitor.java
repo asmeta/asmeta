@@ -266,6 +266,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	void printMainModule(String smvFileName, PrintWriter smv) {
 		smv.println("--file " + smvFileName);
 		smv.println("-- options: flatten? " + AsmetaSMVOptions.FLATTEN);
+		if (AsmetaSMVOptions.isUseNuXmv())
+			smv.println("@TIME_DOMAIN continuous");
 		smv.println("MODULE main");
 		smv.println("\tVAR");
 		for (String var : varsDecl.keySet()) {
