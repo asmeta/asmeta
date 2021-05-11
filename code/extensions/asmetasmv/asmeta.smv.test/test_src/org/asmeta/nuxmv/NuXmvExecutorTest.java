@@ -93,8 +93,9 @@ public class NuXmvExecutorTest {
 	@Test
 	public void testExecuteInt() throws Exception {
 
-		NuXmvExecutor.runNuSMV("exampleXMV/timeexample2.smv");
-
+		//NuXmvExecutor.runNuSMV("exampleXMV/timeexample2.smv");
+		
+		NuXmvExecutor.runNuSMV("D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM_NewTime\\Ventilatore4_1SimpleTime2.smv");
 	}
 
 }

@@ -6,6 +6,9 @@ Bundle-Version: 21.05
 Automatic-Module-Name: asmeta.atgt.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: asmeta.atgt,
- org.junit
+ org.junit,
+ asmeta.flattener,
+ asmeta.emf,
+ asmeta.parser
 Import-Package: org.apache.log4j;version="1.2.15",
  org.asmeta.parser

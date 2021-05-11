@@ -1,10 +1,9 @@
 package org.asmeta.atgt;
 
+import java.io.File;
 import java.io.PrintStream;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -13,6 +12,7 @@ import org.asmeta.atgt.generator.ConverterCounterExample;
 import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.atgt.generator.TestGenerationWithNuSMV;
+import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 
 import atgt.coverage.AsmCoverageBuilder;
@@ -21,7 +21,6 @@ import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
 import atgt.testseqexport.toAvalla;
 import extgt.coverage.combinatorial.StdPairwiseCovBuild;
-import tgtlib.definitions.TestSequence;
 
 /**
  * tests for the asmeta generator
@@ -120,12 +119,23 @@ public class AsmTestGeneratorTest {
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
 		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.DEBUG);		
 		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.DEBUG);
-		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.DEBUG);	
-		String ex = "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
+		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.DEBUG);
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.DEBUG);	
+		//String ex = "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
+		//String ex = "D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
+		String ex = "D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM_NewTime\\Ventilatore4SimpleTimeLtd.asm";
+		
+		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
+				
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true,
 				Collections.singleton(CriteriaEnum.BASIC_RULE.criteria));
 		ConverterCounterExample.IncludeUnchangedVariables = false;
 		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T");//|BR_r_Main_FFFTT15");
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, ".*");				
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T.*");
+		
+		toAvalla toavalla = new toAvalla(new PrintStream(System.out), result.getTests().get(0), "", "");
+		toavalla.saveToStream();
+		
 	}
+	
 }

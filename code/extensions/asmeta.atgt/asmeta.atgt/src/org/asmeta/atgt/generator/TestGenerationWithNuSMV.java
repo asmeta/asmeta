@@ -40,6 +40,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV{
 		AsmetaSMVOptions.simplifyDerived = false;
 		AsmetaSMVOptions.setPrintCounterExample(true);			
 		AsmetaSMVOptions.useCoi = false;
+		AsmetaSMVOptions.FLATTEN = false;
 		clearProperties();
 	}
 	private void clearProperties() {
