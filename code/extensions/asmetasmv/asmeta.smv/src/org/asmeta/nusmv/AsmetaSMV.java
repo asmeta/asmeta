@@ -57,11 +57,11 @@ public class AsmetaSMV {
 	}
 
 	public AsmetaSMV(File file, boolean simplify) throws Exception {
-		this(file, simplify, false, true, false,false);
+		this(file, simplify, false, true, false, false);
 	}
 
-	public AsmetaSMV(File file, boolean simplify, boolean execute, boolean checkInteger, boolean useNuXmv, boolean useNuXmvTime)
-			throws Exception {
+	public AsmetaSMV(File file, boolean simplify, boolean execute, boolean checkInteger, boolean useNuXmv,
+			boolean useNuXmvTime) throws Exception {
 		this(file, new AsmetaSMVOptions(simplify, execute, checkInteger, useNuXmv, useNuXmvTime));
 	}
 
@@ -162,10 +162,12 @@ public class AsmetaSMV {
 	}
 
 	private void runNuXMV(String smvFileName2) {
-		// TODO IMPLEMENT COMMANDS TO RUN NUXMV WITHOUT TIME TO ALLOW CTL PROPERTIES VERIFICATION
-		
+		// TODO IMPLEMENT COMMANDS TO RUN NUXMV WITHOUT TIME TO ALLOW CTL PROPERTIES
+		// VERIFICATION
+
 	}
 
+	// Silvia 10/05/2021: run nuxmv with time option
 	private void runNuXMVTime(String smvFileName) throws Exception {
 		String solverName = "nuXmv";
 		ProcessBuilder bp = new ProcessBuilder(solverName, "-int", "-time");
@@ -182,7 +184,13 @@ public class AsmetaSMV {
 		System.out.println("read_model -i " + smvFileName + "\n");
 		bw.write("read_model -i " + smvFileName + "\n");
 		bw.flush();
-		bw.write("go_time\n");
+		if (AsmetaSMVOptions.FLATTEN) {
+			bw.write("go_time\n");
+		} else {
+			bw.write("flatten_hierarchy\n");
+			bw.write("build_flat_model\n");
+			bw.write("time_setup\n");
+		}
 		bw.write("timed_check_ltlspec\n");
 		//
 		// while(!sg.processReady);
@@ -330,11 +338,11 @@ public class AsmetaSMV {
 	 */
 	public String getOutput() throws Exception {
 		StringBuilder sb = new StringBuilder("> ");
-		//if (AsmetaSMVOptions.isUseNuXmv()) {
-		//	sb.append("nuXmv");
-		//} else {
-			sb.append("NuSMV");
-		//}
+		// if (AsmetaSMVOptions.isUseNuXmv()) {
+		// sb.append("nuXmv");
+		// } else {
+		sb.append("NuSMV");
+		// }
 		if (!AsmetaSMVOptions.isPrintCounterExample()) {
 			sb.append(" -dcx");
 		}
@@ -554,10 +562,9 @@ class StreamGobblerNuXmv extends Thread {
 			System.out.println("Read started");
 			do {
 				ch = is.read();
-				/*if ((char)ch == '>') {
-					processReady = true;
-					System.out.println("READY");
-				}*/
+				/*
+				 * if ((char)ch == '>') { processReady = true; System.out.println("READY"); }
+				 */
 				System.out.print((char) ch);
 			} while (ch != -1);
 			System.out.println("ENDED");

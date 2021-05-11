@@ -1355,7 +1355,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			}
 		}
 	}
-
+	
 	public List<Value[]> asValueList(BooleanDomain domain) {
 		return domainValues.get("Boolean");
 	}
