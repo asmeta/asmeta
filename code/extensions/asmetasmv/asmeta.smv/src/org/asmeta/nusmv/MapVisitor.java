@@ -273,7 +273,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		smv.println("\tVAR");
 		for (String var : varsDecl.keySet()) {
 			// only variables that are actually used are defined in the NuSMV model
-			if (env.usedLoc.contains(var)) { //Silvia 10/05/2021 -> automatically set clock type
+			if (env.usedLoc.contains(var)) { 
+				//Silvia 10/05/2021 -> automatically set clock type
 				if (AsmetaSMVOptions.isUseNuXmvTime()  && var.equalsIgnoreCase("TimeLibrarySimple_mCurrTimeSecs"))
 					smv.print("\t\t" + var + ": " + "clock" + "; --");
 				else
@@ -1098,6 +1099,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		derived = new TreeSet<String>();
 		locationNameToNusmvVariableName = new HashMap<Location, String>();
 
+		
+		
 		SortedSet<String> locationSet = null;
 		for (Function func : functions) {
 			codomain = func.getCodomain();
@@ -1118,6 +1121,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			} else if (Defs.isStatic(func)) {
 				statFuncLocations.put(functionName, locationSet);
 			}
+
 			// some domains permit to model the undef value
 			if ((Defs.isEnumDomain(codomain) || Defs.isConcreteDomain(codomain) || Defs.isAbstractDomain(codomain))
 					&& (Defs.isControlled(func) || Defs.isOut(func))) {

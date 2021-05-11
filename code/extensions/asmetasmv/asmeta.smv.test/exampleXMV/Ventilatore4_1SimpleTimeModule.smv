@@ -153,8 +153,9 @@ MODULE main
 				TRUE: stopVentilation;
 			esac;
 --CTL properties
-LTLSPEC NAME ltl0 :=  G(iValve = CLOSED);
-LTLSPEC NAME ltl1 :=  G!((((state != PSV_EXP_PAUSE) & ((((state != PCV_IN_PAUSE) & ((oValve = CLOSED) & (iValve = CLOSED))) & (state != PCV_EXP_PAUSE)) & (state != PSV_IN_PAUSE)))));
+--LTLSPEC NAME ltl0 :=  G(iValve = CLOSED);
+--LTLSPEC NAME ltl1 :=  G!((((state != PSV_EXP_PAUSE) & ((((state != PCV_IN_PAUSE) & ((oValve = CLOSED) & (iValve = CLOSED))) & (state != PCV_EXP_PAUSE)) & (state != PSV_IN_PAUSE)))));
+LTLSPEC NAME ltl2 :=  G(!(state = PSV_EXP));
 
 CTLSPEC NAME ctl0 := (AG(!(turnOFFbtn)) -> EF(((oValve = CLOSED) & (iValve = CLOSED))));
 CTLSPEC NAME ctl1 := (AG(!(turnOFFbtn)) -> EF(((oValve = OPEN) & (iValve = OPEN))));
