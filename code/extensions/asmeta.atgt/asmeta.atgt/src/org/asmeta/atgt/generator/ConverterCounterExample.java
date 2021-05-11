@@ -11,6 +11,7 @@ import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSeqContent;
 import atgt.coverage.AsmTestSequence;
 import atgt.specification.ASMSpecification;
+import atgt.specification.location.Constant;
 import atgt.specification.location.DerivedFunction;
 import atgt.specification.location.Function;
 import atgt.specification.location.Location;
@@ -82,6 +83,13 @@ public class ConverterCounterExample {
 				if (dv != null){
 					// add as controlled (useful to link)
 					asmTestSequence.addAssignment(var, val, Location.VarKind.CONTROLLED);
+					continue;
+				}
+				// static functions, 
+				Constant constant = spec.getConstantByName(var);
+				if (constant != null){
+					// add as controlled - so to be checked 
+					asmTestSequence.addAssignment(var,val, Location.VarKind.CONTROLLED);
 					continue;
 				}
 				System.err.println("variable " + var + " assigned to " + val + " not found");

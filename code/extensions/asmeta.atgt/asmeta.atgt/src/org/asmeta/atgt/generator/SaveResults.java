@@ -22,7 +22,7 @@ public class SaveResults {
 	/**
 	 * 
 	 * @param result the already generated test suite
-	 * @param parent the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
+	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
 	 * @param formats XML, Avalla
 	 */
 	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String config) {

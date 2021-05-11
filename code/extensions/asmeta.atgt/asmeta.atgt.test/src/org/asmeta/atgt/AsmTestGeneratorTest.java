@@ -10,7 +10,9 @@ import org.apache.log4j.Logger;
 import org.asmeta.atgt.generator.AsmTestGenerator;
 import org.asmeta.atgt.generator.ConverterCounterExample;
 import org.asmeta.atgt.generator.CriteriaEnum;
+import org.asmeta.atgt.generator.FormatsEnum;
 import org.asmeta.atgt.generator.NuSMVtestGenerator;
+import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.atgt.generator.TestGenerationWithNuSMV;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
@@ -120,7 +122,10 @@ public class AsmTestGeneratorTest {
 		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.DEBUG);		
 		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.DEBUG);
 		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.DEBUG);
-		Logger.getLogger("org.asmeta.parser").setLevel(Level.DEBUG);	
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);	
+		
+		TestGenerationWithNuSMV.useLTLandBMC = true;
+		
 		//String ex = "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
 		//String ex = "D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
 		String ex = "D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM_NewTime\\Ventilatore4SimpleTimeLtd.asm";
@@ -131,10 +136,12 @@ public class AsmTestGeneratorTest {
 				Collections.singleton(CriteriaEnum.BASIC_RULE.criteria));
 		ConverterCounterExample.IncludeUnchangedVariables = false;
 		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T");//|BR_r_Main_FFFTT15");
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T.*");
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(5, "BR_.*");
 		
-		toAvalla toavalla = new toAvalla(new PrintStream(System.out), result.getTests().get(0), "", "");
-		toavalla.saveToStream();
+		//toAvalla toavalla = new toAvalla(new PrintStream(System.out), result.getTests().get(0), "", "");
+		//toavalla.saveToStream();
+		
+		SaveResults.saveResults(result,ex,Collections.singleton(FormatsEnum.AVALLA), "");
 		
 	}
 	
