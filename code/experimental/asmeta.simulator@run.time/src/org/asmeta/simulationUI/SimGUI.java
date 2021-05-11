@@ -23,7 +23,6 @@ import java.io.FileWriter;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +56,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import org.asmeta.assertion_catalog.InvariantGUI;
-import org.asmeta.assertion_catalog.InvariantManager;
 import org.asmeta.assertion_catalog.LoadComboItem;
 import org.asmeta.assertion_catalog.LoadDialog;
 import org.asmeta.assertion_catalog.LoadSelectedSimulation;
@@ -869,6 +867,7 @@ public class SimGUI extends JFrame {
 						if(tab == CompositionGUI.getFirstTab()) {
 							if(out.getEsit() == Esit.SAFE) {
 								Map<String, String> senderOutput = out.getControlledvalues();
+								// TODO: filtrare con funzioni "out"
 								outReceiver = containerInstance.runStep(tab.getReceiverID(), senderOutput);
 							} else {
 								System.out.println("Sender model rollback!\n");

@@ -3,7 +3,7 @@ asm ComposeComposeSquare
 import StandardLibrary
 
 signature:
-	dynamic controlled square_square_square: Integer 
+	dynamic out square_square_square: Integer 
 	dynamic monitored square_square: Integer
 
 definitions:

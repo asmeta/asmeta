@@ -1,7 +1,6 @@
 package org.asmeta.assertion_catalog;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 

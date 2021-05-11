@@ -1,7 +1,6 @@
 package org.asmeta.simulationUI;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -17,8 +16,6 @@ import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -51,7 +48,7 @@ public class CompositionPanel extends JPanel {
 	JButton btnCompose;
 	JButton btnClear;
 	
-	final int[] tabID = new int[2];
+	final int[] tabID = new int[2]; // CompositionID = (senderID, receiverID)
 	String senderModel;
 	String receiverModel;
 	

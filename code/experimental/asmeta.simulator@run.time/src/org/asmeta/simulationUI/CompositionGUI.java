@@ -1,52 +1,21 @@
 package org.asmeta.simulationUI;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.PrintStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.DefaultCaret;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-
-import org.asmeta.assertion_catalog.InvariantGUI;
 import org.asmeta.runtime_container.IModelAdaptation;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
+import org.asmeta.runtime_container.SimulationContainer;
 
 public class CompositionGUI extends JFrame {
 	static JTabbedPane tabbedPane;
-	static IModelAdaptation containerInstance;
+	static SimulationContainer containerInstance;
 	static int compCounter;
 	
 	private static ArrayList<CompositionPanel> tabs = new ArrayList<>();
@@ -71,7 +40,7 @@ public class CompositionGUI extends JFrame {
 	 * Initialize first tab (CompositionPanel) of the tabbed pane.
 	 */
 	public CompositionGUI(IModelAdaptation contInstance, int senderID, int receiverID) {
-		CompositionGUI.containerInstance = contInstance;
+		CompositionGUI.containerInstance = (SimulationContainer) contInstance;
 		CompositionPanel compositionPane = new CompositionPanel(senderID, receiverID);
 		compCounter = 1;
 		tabs.add(compositionPane);
@@ -94,7 +63,7 @@ public class CompositionGUI extends JFrame {
 		addWindowListener(new WindowListener() {
 			
 			@Override
-			public void windowOpened(WindowEvent e) {}
+			public void windowOpened(WindowEvent e) { return; }
 			
 			@Override
 			public void windowIconified(WindowEvent e) { return; }
