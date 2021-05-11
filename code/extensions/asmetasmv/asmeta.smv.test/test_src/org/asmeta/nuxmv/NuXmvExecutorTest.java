@@ -155,6 +155,11 @@ public class NuXmvExecutorTest {
 	public void testExecuteVentilator3() throws Exception {
 		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTimeModule.smv");
 	}
-	
+
+	@Test
+	public void testExecuteVentilator3TG() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTime2.smv");
+	}
+
 
 }
