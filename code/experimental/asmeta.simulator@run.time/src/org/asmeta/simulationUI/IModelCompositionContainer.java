@@ -95,9 +95,31 @@ public interface IModelCompositionContainer {
 	public int size();
 
 	/**
-	 * Run a step of the composed simulation.
-	 * @param previousOut: the output of the previous model.
-	 * @throws EmptyCompositionListException 
+	 * Simulation container's Run Step function on the composed simulation.
+	 * @param initialOutput: the output of the first model.
+	 * @throws EmptyCompositionListException: when the internal composition list is empty.
+	 * @throws CompositionSizeOutOfBoundException: when the bidirectional pipe is not called only on two models.
 	 */
-	public void runStep(RunOutput previousOut) throws EmptyCompositionListException;
+	public void runStep(RunOutput initialOutput) throws EmptyCompositionListException, CompositionSizeOutOfBoundException;
+	
+	/**
+	 * Simulation container's Run Until Empty function on the composed simulation.
+	 * @param initialOutput: the output of the first model.
+	 */
+	public void runUntilEmpty(RunOutput initialOutput);
+	
+	/**
+	 * Simulation container's Run Step with Timeout function on the composed simulation.
+	 * @param initialOutput: the output of the first model.
+	 * @param timeout: the positive integer timeout value.
+	 */
+	public void runStepTimeout(RunOutput initialOutput, int timeout);
+	
+	/**
+	 * Simulation container's Run Until Empty with Timeout function on the composed simulation.
+	 * @param initialOutput: the output of the first model.
+	 * @param timeout: the positive integer timeout value. 
+	 */
+	public void runUntilEmptyTimeout(RunOutput initialOutput, int timeout);
+	
 }

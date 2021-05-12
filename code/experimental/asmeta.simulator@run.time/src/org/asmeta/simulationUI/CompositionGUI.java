@@ -6,6 +6,9 @@ import java.awt.Font;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
@@ -16,9 +19,11 @@ import org.asmeta.runtime_container.SimulationContainer;
 public class CompositionGUI extends JFrame {
 	static JTabbedPane tabbedPane;
 	static SimulationContainer containerInstance;
+	static CompositionContainer compositionContainer;
 	static int compCounter;
+	static CompositionType compType;
 	
-	private static ArrayList<CompositionPanel> tabs = new ArrayList<>();
+	private static Map<Composition, CompositionPanel> compositionTabs;
 	
 	/**
 	 * Launch the application.
@@ -40,10 +45,15 @@ public class CompositionGUI extends JFrame {
 	 * Initialize first tab (CompositionPanel) of the tabbed pane.
 	 */
 	public CompositionGUI(IModelAdaptation contInstance, int senderID, int receiverID) {
-		CompositionGUI.containerInstance = (SimulationContainer) contInstance;
+		containerInstance = (SimulationContainer) contInstance;
+		compositionTabs = new HashMap<Composition, CompositionPanel>();
+		if(compType == null) {
+			compType = CompositionType.PIPE;
+		}
+		compositionContainer = new CompositionContainer(contInstance, compType, SimGUI.simConsole);
 		CompositionPanel compositionPane = new CompositionPanel(senderID, receiverID);
 		compCounter = 1;
-		tabs.add(compositionPane);
+		compositionTabs.put(compositionPane.currentComposition, compositionPane);
 		
 		setTitle("Composition Monitor");
 		setIconImages(SimGUI.icons);
@@ -112,12 +122,8 @@ public class CompositionGUI extends JFrame {
 	}
 	
 	public static CompositionPanel getTab(int tabSenderID, int tabReceiverID) {
-		if(!tabs.isEmpty()) {
-			for(CompositionPanel tab: tabs) {
-				if(tab.getSenderID() == tabSenderID && tab.getReceiverID() == tabReceiverID) {
-					return tab;
-				}
-			}
+		if(!compositionTabs.isEmpty() && compositionTabs != null && compositionContainer != null) {
+			return compositionTabs.get(compositionContainer.getComposition(tabSenderID, tabReceiverID));
 		}
 		return null;
 	}
@@ -127,34 +133,30 @@ public class CompositionGUI extends JFrame {
 			compCounter++;
 			CompositionPanel newTab = new CompositionPanel(tabSenderID, tabReceiverID);
 			tabbedPane.addTab("Composition " + compCounter, newTab);
-			tabs.add(newTab);
+			compositionTabs.put(newTab.currentComposition, newTab);
 		}
 	}
 	
 	public static void removeTab(int tabSenderID, int tabReceiverID) {
-		if(!tabs.isEmpty()) {
-			for(CompositionPanel tab: tabs) {
-				if(tab.getSenderID() == tabSenderID && tab.getReceiverID() == tabReceiverID) {
-					tabs.remove(tab);
-				}
-			}
+		if(compositionTabs != null && !compositionTabs.isEmpty() && compositionContainer != null) {
+			compositionTabs.remove(compositionContainer.getComposition(tabSenderID, tabReceiverID));
 		}
 	}
 	
 	public static void removeTab(CompositionPanel tab) {
-		if(!tabs.isEmpty()) {
-			tabs.remove(tab);
+		if(compositionTabs != null && !compositionTabs.isEmpty() && compositionContainer != null) {
+			compositionTabs.remove(tab.currentComposition);
 		}
 	}
 	
 	public static CompositionPanel getFirstTab() {
-		if(!tabs.isEmpty()) {
-			return tabs.get(0);
+		if(compositionTabs != null && !compositionTabs.isEmpty() && compositionContainer != null) {
+			return compositionTabs.get(compositionContainer.getFirstComposition());
 		}
 		return null;
 	}
 	
-	public static ArrayList<CompositionPanel> getTabList() {
-		return tabs;
+	public static Map<Composition, CompositionPanel> getCompositionTabs() {
+		return compositionTabs;
 	}
 }

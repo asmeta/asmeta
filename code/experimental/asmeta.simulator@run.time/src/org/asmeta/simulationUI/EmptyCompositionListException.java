@@ -5,5 +5,4 @@ public class EmptyCompositionListException extends Exception {
 	public EmptyCompositionListException(String message) {
 		super(message);
 	}
-
 }

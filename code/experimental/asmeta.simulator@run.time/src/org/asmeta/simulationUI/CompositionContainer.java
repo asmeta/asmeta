@@ -1,5 +1,7 @@
 package org.asmeta.simulationUI;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,24 +16,36 @@ public class CompositionContainer implements IModelCompositionContainer {
 	private RunOutput lastOutput;
 	public final CompositionType compType;
 	static SimulationContainer containerInstance;
+	static ByteArrayOutputStream initialConsole;
 	
 	public CompositionContainer(IModelAdaptation contInstance, CompositionType compType) {
 		compositionList = new ArrayList<>();
 		containerInstance = (SimulationContainer) contInstance;
 		this.compType = compType;
 		lastOutput = null;
+		initialConsole = null;
+	}
+	
+	public CompositionContainer(IModelAdaptation contInstance, CompositionType compType, ByteArrayOutputStream initialConsole) {
+		compositionList = new ArrayList<>();
+		containerInstance = (SimulationContainer) contInstance;
+		this.compType = compType;
+		lastOutput = null;
+		CompositionContainer.initialConsole = initialConsole;
 	}
 	
 	@Override
-	public void runStep(RunOutput originalOutput) throws EmptyCompositionListException {
-		if(compType == CompositionType.PIPE) {
+	public void runStep(RunOutput initialOutput) throws EmptyCompositionListException, CompositionSizeOutOfBoundException {
+		switch(compType) {
+		case PIPE: // Composition type/method: unidirectional cascade pipe
 			lastOutput = new RunOutput(Esit.UNSAFE, "rout not intialized");
 			if(!isEmpty()) {
 				for(Composition comp: compositionList) {
+					System.setErr(new PrintStream(comp.outputConsole));
+					System.setOut(new PrintStream(comp.outputConsole));
 					if(comp == getFirstComposition()) {
-						if(originalOutput.getEsit() == Esit.SAFE) {
-							Map<String, String> senderOutput = originalOutput.getControlledvalues();
-							// TODO: filtrare con funzioni "out"
+						if(initialOutput.getEsit() == Esit.SAFE) {
+							Map<String, String> senderOutput = initialOutput.getControlledvalues(); // TODO: filtrare con funzioni "out"
 							lastOutput = containerInstance.runStep(comp.getReceiverID(), senderOutput);
 							comp.output = lastOutput;
 						} else {
@@ -39,8 +53,7 @@ public class CompositionContainer implements IModelCompositionContainer {
 						}
 					} else {
 						if(lastOutput.getEsit() == Esit.SAFE) {
-							Map<String, String> senderOutput = lastOutput.getControlledvalues();
-							// TODO: filtrare con funzioni "out"
+							Map<String, String> senderOutput = lastOutput.getControlledvalues(); // TODO: filtrare con funzioni "out"
 							lastOutput = containerInstance.runStep(comp.getReceiverID(), senderOutput);
 							comp.output = lastOutput;
 						} else {
@@ -50,12 +63,53 @@ public class CompositionContainer implements IModelCompositionContainer {
 				}
 			} else {
 				throw new EmptyCompositionListException("The composition list is empty!");
-			}
+			} break;
+			
+		case BID_PIPE: // Composition type/method: bidirectional pipe (two models = only one composition)
+			if(size() == 1) {
+				Composition comp = getFirstComposition();
+				System.setErr(new PrintStream(comp.outputConsole));
+				System.setOut(new PrintStream(comp.outputConsole));
+				if(initialOutput.getEsit() == Esit.SAFE) {
+					Map<String, String> senderOutput = initialOutput.getControlledvalues(); // TODO: filtrare con funzioni "out"
+					lastOutput = containerInstance.runStep(comp.getReceiverID(), senderOutput);
+					comp.output = lastOutput;
+				} else {
+					System.out.println("Previous model rollback!\n");
+				}
+				System.setErr(new PrintStream(initialConsole));
+				System.setOut(new PrintStream(initialConsole));
+				if(lastOutput.getEsit() == Esit.SAFE) {
+					Map<String, String> senderOutput = lastOutput.getControlledvalues(); // TODO: filtrare con funzioni "out"
+					lastOutput = containerInstance.runStep(comp.getSenderID(), senderOutput);
+					comp.output = lastOutput;
+				} else {
+					System.out.println("Previous model rollback!\n");
+				}
+			} else {
+				throw new CompositionSizeOutOfBoundException("The bidirectional pipe requires only two models!");
+			} break;
+		case OTHER: break; // TODO: Composition type/method: to be defined
+		
+		default: System.out.println("Error: undefined composition type!");
 		}
-		// TODO: implementare anche altri CompositionType
 	}
 	
 	// TODO: implementare anche runUntilEmpty, runStepTimeout e runUntilEmptyTimeout per la composizione
+	@Override
+	public void runUntilEmpty(RunOutput initialOutput) {
+		
+	}
+	
+	@Override
+	public void runStepTimeout(RunOutput initialOutput, int timeout) {
+		
+	}
+	
+	@Override
+	public void runUntilEmptyTimeout(RunOutput initialOutput, int timeout) {
+		
+	}
 	
 	@Override
 	public List<Composition> getCompositionList() {

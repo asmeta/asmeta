@@ -82,6 +82,7 @@ public class SimGUI extends JFrame {
 	public static int fontSize;
 	public static List<Image> icons;
 	public static List<Integer> loadedIDs;
+	public static ByteArrayOutputStream simConsole;
 	
 	static JScrollPane scrollPane;
 	static JTextPane textPaneID;
@@ -112,6 +113,10 @@ public class SimGUI extends JFrame {
 	static JMenuItem clearMenuItem;
 	static JSeparator separator;
 	static JMenuItem compositionMenuItem;
+	static JMenu compositionTypeMenu;
+	static JRadioButtonMenuItem pipeRadioItem;
+	static JRadioButtonMenuItem bidPipeRadioItem;
+	static ButtonGroup compositionTypeGroup;
 	
 	private static SimulationContainer containerInstance;
 	private static int currentLoadedID;
@@ -185,7 +190,7 @@ public class SimGUI extends JFrame {
 		PrintStream previousConsole = System.out;
 		 
         // Set the standard output to use simConsole.
-        ByteArrayOutputStream simConsole = new ByteArrayOutputStream();
+        simConsole = new ByteArrayOutputStream();
         icons = new Vector<Image>();
         
         icons.add(Toolkit.getDefaultToolkit().getImage(SimGUI.class.getResource("/org/asmeta/animator/icona_circolare_16.png")));
@@ -436,6 +441,29 @@ public class SimGUI extends JFrame {
 		currentSimulationMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		simulationMenu.add(currentSimulationMenuItem);
 		
+		compositionTypeMenu = new JMenu("Select composition pattern");
+		compositionTypeMenu.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		compositionTypeMenu.setEnabled(false);
+		simulationMenu.add(compositionTypeMenu);
+		
+		compositionTypeGroup = new ButtonGroup();
+		
+		pipeRadioItem = new JRadioButtonMenuItem("Pipe");
+		pipeRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		pipeRadioItem.setSelected(true);
+		compositionTypeGroup.add(pipeRadioItem);
+		compositionTypeMenu.add(pipeRadioItem);
+		
+		bidPipeRadioItem = new JRadioButtonMenuItem("Bidirectional pipe");
+		bidPipeRadioItem.setEnabled(false);
+		bidPipeRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		compositionTypeGroup.add(bidPipeRadioItem);
+		compositionTypeMenu.add(bidPipeRadioItem);
+		
+		// TODO: Sistemare quando deciso l'ultimo pattern di composizione
+		JRadioButtonMenuItem rdbtnmntmNewRadioItem_2 = new JRadioButtonMenuItem("Others");
+		compositionTypeMenu.add(rdbtnmntmNewRadioItem_2);
+		
 		compositionMenuItem = new JMenuItem("Compose models");
 		compositionMenuItem.setEnabled(false);
 		compositionMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
@@ -516,6 +544,19 @@ public class SimGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				SimGUI.setProperty("fontSize", "18");
 				JOptionPane.showMessageDialog(contentPane, "Re-open the application to apply the new font size!", "Mode", JOptionPane.INFORMATION_MESSAGE, null);
+			}
+		});
+		
+		pipeRadioItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CompositionGUI.compType = CompositionType.PIPE;
+			}
+		});
+		
+		// TODO: test + BID_PIPE da implementare
+		bidPipeRadioItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CompositionGUI.compType = CompositionType.BID_PIPE;
 			}
 		});
 		
@@ -731,8 +772,12 @@ public class SimGUI extends JFrame {
 		    			clearMenuItem.setEnabled(true);
 		    			
 		    			if(currentMaxInstances >= 2) {
+		    				if(currentMaxInstances == 2) {
+		    					bidPipeRadioItem.setEnabled(true);
+		    				}
 		    				currentSimulationMenuItem.setEnabled(true);
 		    				compositionMenuItem.setEnabled(true);
+		    				compositionTypeMenu.setEnabled(true);
 		    			}
 		    			
 		    			if(containerInstance.getLoadedIDs().size() >= currentMaxInstances) {
@@ -849,45 +894,36 @@ public class SimGUI extends JFrame {
 				System.setErr(new PrintStream(simConsole));
 				System.setOut(new PrintStream(simConsole));
 				List<String> monitored = getMonitored();
-				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
+				RunOutput out = new RunOutput(Esit.UNSAFE, "rout not intialized");
 				
-				if (monitored.size()<1)
-					out=containerInstance.runStep(currentLoadedID);
-				else {
+				if (monitored.size() < 1) {
+					out = containerInstance.runStep(currentLoadedID);
+				} else {
 					Map<String, String> input = getInput(monitored, true);
 					out = containerInstance.runStep(currentLoadedID, input);
 				}
 				
-				// Supporting multi-model composition
-				if(CompositionGUI.getConPane() != null) {
-					RunOutput outReceiver = new RunOutput(Esit.UNSAFE, "rout not intialized");
-					for(CompositionPanel tab: CompositionGUI.getTabList()) {
-						System.setErr(new PrintStream(tab.compositionConsole));
-						System.setOut(new PrintStream(tab.compositionConsole));
-						if(tab == CompositionGUI.getFirstTab()) {
-							if(out.getEsit() == Esit.SAFE) {
-								Map<String, String> senderOutput = out.getControlledvalues();
-								// TODO: filtrare con funzioni "out"
-								outReceiver = containerInstance.runStep(tab.getReceiverID(), senderOutput);
-							} else {
-								System.out.println("Sender model rollback!\n");
-							}
-						} else {
-							if(outReceiver.getEsit() == Esit.SAFE) {
-								Map<String, String> senderOutput = outReceiver.getControlledvalues();
-								outReceiver = containerInstance.runStep(tab.getReceiverID(), senderOutput);
-							} else {
-								System.out.println("Sender model rollback!\n");
-							}
-						}
-						previousConsole.println(tab.compositionConsole.toString());
+				// Supporting multi-model composition (unidirectional cascade pipe, partial bidirectional pipe)
+				CompositionPanel tab = null;
+				if(CompositionGUI.getConPane() != null && CompositionGUI.compositionContainer != null) {
+					// La logica viene gestita completamente dal composition container
+					try {
+						CompositionGUI.compositionContainer.runStep(out);
+					} catch(EmptyCompositionListException e) {
+						JOptionPane.showMessageDialog(contentPane, "Error: the composition container is empty!", "Error", JOptionPane.ERROR_MESSAGE);
+					} catch(CompositionSizeOutOfBoundException e) {
+						JOptionPane.showMessageDialog(contentPane, "Error: the bidirectional pipe requires only two models!", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+					
+					// La parte grafica viene aggiornata con un semplice ciclo separato dalla logica
+					for(Composition comp: CompositionGUI.getCompositionTabs().keySet()) {
+						tab = CompositionGUI.getCompositionTabs().get(comp);
+						previousConsole.println(comp.outputConsole.toString());
 						tab.textAreaLog.append("");
-						tab.textAreaLog.append(tab.compositionConsole.toString());
-						tab.compositionConsole.reset();
+						tab.textAreaLog.append(comp.outputConsole.toString());
+						comp.outputConsole.reset();
 					}
 				}
-				//JOptionPane.showMessageDialog(null, out.toString());	
-				//textAreaLog.append("Runstep executed with current result:\n"+out.MytoString()+"\n");
 				 
 		        previousConsole.println(simConsole.toString()); // Display output of simConsole.
 		        

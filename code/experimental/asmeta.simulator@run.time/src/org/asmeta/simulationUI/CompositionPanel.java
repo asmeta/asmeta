@@ -48,16 +48,11 @@ public class CompositionPanel extends JPanel {
 	JButton btnCompose;
 	JButton btnClear;
 	
-	final int[] tabID = new int[2]; // CompositionID = (senderID, receiverID)
-	String senderModel;
-	String receiverModel;
-	
-	ByteArrayOutputStream compositionConsole;
+	Composition currentComposition;
 	
 	public CompositionPanel(int senderID, int receiverID) {
-		tabID[0] = senderID;
-		tabID[1] = receiverID;
-		compositionConsole = new ByteArrayOutputStream();
+		currentComposition = new Composition(senderID, receiverID);
+		CompositionGUI.compositionContainer.addComposition(currentComposition);
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
@@ -183,11 +178,9 @@ public class CompositionPanel extends JPanel {
 		add(btnInvManager);
 		
 		if(senderID >= 1 && receiverID >= 1 && CompositionGUI.containerInstance != null) {
-			senderModel = CompositionGUI.containerInstance.getLoadedIDs().get(senderID);
-			receiverModel = CompositionGUI.containerInstance.getLoadedIDs().get(receiverID);
-			textPaneSender.setText(CompositionGUI.clearPath(senderModel));
+			textPaneSender.setText(CompositionGUI.clearPath(currentComposition.getSenderModel()));
 			textPaneSenderID.setText(Integer.toString(senderID));
-			textPaneReceiver.setText(CompositionGUI.clearPath(receiverModel));
+			textPaneReceiver.setText(CompositionGUI.clearPath(currentComposition.getReceiverModel()));
 			textPaneReceiverID.setText(Integer.toString(receiverID));
 			
 			btnInvManager.setEnabled(true);
@@ -253,7 +246,7 @@ public class CompositionPanel extends JPanel {
 		btnCompose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					SimGUI.loadedIDs.remove((Object) getReceiverID());
+					SimGUI.loadedIDs.remove((Object) currentComposition.getReceiverID());
 					int newReceiverID = (int) JOptionPane.showInputDialog(CompositionGUI.getConPane(), 
 																	   	  "  Select the ID of the model that will be\ncomposed with the current loaded model:",
 																	   	  "Receiver ID",
@@ -261,7 +254,7 @@ public class CompositionPanel extends JPanel {
 																	   	  null,
 																	   	  SimGUI.loadedIDs.toArray(),
 																	   	  null);
-					CompositionGUI.addTab(getReceiverID(), newReceiverID);
+					CompositionGUI.addTab(currentComposition.getReceiverID(), newReceiverID);
 					if(SimGUI.loadedIDs.size() <= 1) {
 						btnCompose.setEnabled(false);
 					}
@@ -273,7 +266,7 @@ public class CompositionPanel extends JPanel {
 		
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(getSenderID() >= 1 && getReceiverID() >= 1 && textAreaLog.getText() != null) {
+				if(currentComposition.getSenderID() >= 1 && currentComposition.getReceiverID() >= 1 && textAreaLog.getText() != null) {
 					if(JOptionPane.showConfirmDialog(CompositionGUI.getConPane(), 
 												  	 "Do you want to save the current simulation output?",
 												  	 "Save",
@@ -298,7 +291,7 @@ public class CompositionPanel extends JPanel {
 			}
 			
 			public void actionPerformed(ActionEvent e) {
-				if(getSenderID() >= 1 && textAreaLog.getText() != null && getReceiverID() >= 1) {
+				if(currentComposition.getSenderID() >= 1 && textAreaLog.getText() != null && currentComposition.getReceiverID() >= 1) {
 					JFileChooser fileChooser = new JFileChooser();
 					fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
 					fileChooser.setApproveButtonText("Save");
@@ -330,8 +323,8 @@ public class CompositionPanel extends JPanel {
 							}
 							outputFile.createNewFile();
 							infoData.append("Simulation Output timestamp: " + dateTimeFormatter.format(new Date()) + "\n");
-							infoData.append("Model path: " + receiverModel + "\n");
-							infoData.append("Simulation ID: " + Integer.toString(getReceiverID()) + "\n");
+							infoData.append("Model path: " + currentComposition.getReceiverModel() + "\n");
+							infoData.append("Simulation ID: " + Integer.toString(currentComposition.getReceiverID()) + "\n");
 							infoData.append("------------------------------------------------\n\n");
 							
 							writer = new FileWriter(outputFile);
@@ -352,22 +345,14 @@ public class CompositionPanel extends JPanel {
 		
 		btnInvManager.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(getReceiverID() < 1)
+				if(currentComposition.getReceiverID() < 1)
 					JOptionPane.showMessageDialog(CompositionGUI.getConPane(), "Error: no simulation selected!", "Error", JOptionPane.ERROR_MESSAGE);
 				else {
-					InvariantGUI invGUI = new InvariantGUI(CompositionGUI.containerInstance, getReceiverID(), receiverModel);
+					InvariantGUI invGUI = new InvariantGUI(CompositionGUI.containerInstance, currentComposition.getReceiverID(), currentComposition.getReceiverModel());
 					invGUI.setVisible();
 					InvariantGUI.frame.setLocationRelativeTo(CompositionGUI.getConPane());
 				}	
 			}
 		});
-	}
-	
-	public int getSenderID() {
-		return tabID[0];
-	}
-	
-	public int getReceiverID() {
-		return tabID[1];
 	}
 }

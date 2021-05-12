@@ -1,12 +1,15 @@
 package org.asmeta.simulationUI;
 
+import java.io.ByteArrayOutputStream;
+
 import org.asmeta.runtime_container.RunOutput;
 
 public class Composition {
 	private final int[] compositionID = new int[2]; // CompositionID = [senderID, receiverID]
-	String senderModel;
-	String receiverModel;
+	private String senderModel;
+	private String receiverModel;
 	RunOutput output;
+	ByteArrayOutputStream outputConsole;
 	
 	public Composition(int senderID, int receiverID) {
 		compositionID[0] = senderID;
@@ -14,6 +17,7 @@ public class Composition {
 		senderModel = CompositionContainer.containerInstance.getLoadedIDs().get(compositionID[0]);
 		receiverModel = CompositionContainer.containerInstance.getLoadedIDs().get(compositionID[1]);
 		output = null;
+		outputConsole = new ByteArrayOutputStream();
 	}
 	
 	public Composition(int[] compositionID) {
@@ -23,6 +27,7 @@ public class Composition {
 			senderModel = CompositionContainer.containerInstance.getLoadedIDs().get(this.compositionID[0]);
 			receiverModel = CompositionContainer.containerInstance.getLoadedIDs().get(this.compositionID[1]);
 			output = null;
+			outputConsole = new ByteArrayOutputStream();
 		}
 	}
 	
@@ -48,5 +53,9 @@ public class Composition {
 	
 	public RunOutput getOutput() {
 		return output;
+	}
+	
+	public ByteArrayOutputStream getOutputConsole() {
+		return outputConsole;
 	}
 }
