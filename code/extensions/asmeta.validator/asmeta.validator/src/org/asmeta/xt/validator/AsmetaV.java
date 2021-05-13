@@ -4,13 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -20,8 +18,6 @@ import org.asmeta.simulator.Location;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
-
-import jdk.internal.jline.internal.Log;
 
 /**
  * main class of AsmetaV

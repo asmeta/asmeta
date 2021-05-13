@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.asmeta.atgt.testoptimizer.UnchangedRemover;
 
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
@@ -83,23 +84,8 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 						tc.bindTestSeqTestPred(asmTest);
 					}
 				}
-				// TEMP non riesco a fare andare le generazione solo di quelli cambiati, la faccio qui // TEMP
-				// FIXME
-				// IF CLEANUP - PROBLEMS ONLY WHEN COMPUTIGN COVERAGE
-				Map<Location,String> lastvalues = new HashMap<>();
-				for(Map<Location, String> state: asmTest.allInstructions()) {
-					for (Iterator<Entry<Location, String>> iterator = state.entrySet().iterator(); iterator.hasNext();) {
-						Entry<Location, String> assignemnt = iterator.next();
-						Location loc = assignemnt.getKey();
-						String val = assignemnt.getValue();
-						if (lastvalues.get(loc) != null && lastvalues.get(loc).equals(val)) {
-							//remove this entry loc and val
-							iterator.remove();
-						} else {
-							lastvalues.put(loc, val);
-						}
-					}
-				}
+				// clean up the test
+				//UnchangedRemover.eInstance.optimize(asmTest);
 				//
 				/*
 				 * for(AsmTestCondition tc: ct.allTPs()){
