@@ -46,6 +46,7 @@ public class RuleToJava extends RuleVisitor<String> {
     this.options = options;
   }
   
+  @Override
   public String visit(final BlockRule object) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("{ //par");
@@ -66,6 +67,7 @@ public class RuleToJava extends RuleVisitor<String> {
     return sb.toString();
   }
   
+  @Override
   public String visit(final MacroCallRule object) {
     String methodName = object.getCalledMacro().getName();
     if (this.seqBlock) {
@@ -114,6 +116,7 @@ public class RuleToJava extends RuleVisitor<String> {
     return sb.substring(0, _minus);
   }
   
+  @Override
   public String visit(final SeqRule object) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("{//seq");
@@ -127,6 +130,7 @@ public class RuleToJava extends RuleVisitor<String> {
     return _builder.toString();
   }
   
+  @Override
   public String visit(final UpdateRule object) {
     StringBuffer result = new StringBuffer();
     Term _location = object.getLocation();
@@ -186,10 +190,12 @@ public class RuleToJava extends RuleVisitor<String> {
     return result.toString();
   }
   
+  @Override
   public String visit(final SkipRule object) {
     return "; \n";
   }
   
+  @Override
   public String visit(final CaseRule object) {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < object.getCaseBranches().size()); i++) {
@@ -267,6 +273,7 @@ public class RuleToJava extends RuleVisitor<String> {
     }
   }
   
+  @Override
   public String visit(final ChooseRule object) {
     int counter = 0;
     StringBuffer sb = new StringBuffer();
@@ -488,6 +495,7 @@ public class RuleToJava extends RuleVisitor<String> {
     return sb.toString();
   }
   
+  @Override
   public String visit(final ForallRule object) {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < object.getRanges().size()); i++) {
@@ -561,6 +569,7 @@ public class RuleToJava extends RuleVisitor<String> {
     return sb.toString();
   }
   
+  @Override
   public String visit(final LetRule object) {
     StringBuffer let = new StringBuffer();
     let.append("{\n");
@@ -611,6 +620,7 @@ public class RuleToJava extends RuleVisitor<String> {
     return _builder.toString();
   }
   
+  @Override
   public String visit(final ConditionalRule object) {
     Rule _elseRule = object.getElseRule();
     boolean _tripleEquals = (_elseRule == null);
@@ -672,10 +682,12 @@ public class RuleToJava extends RuleVisitor<String> {
     }
   }
   
+  @Override
   public String visit(final TermAsRule rule) {
     return "Caso TermAs rule";
   }
   
+  @Override
   public String visit(final ExtendRule rule) {
     StringBuffer string = new StringBuffer();
     for (int i = 0; (i < rule.getBoundVar().size()); i++) {

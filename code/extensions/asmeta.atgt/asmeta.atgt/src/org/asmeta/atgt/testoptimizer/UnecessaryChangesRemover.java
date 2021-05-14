@@ -36,7 +36,7 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 
 	private AsmCollection asms;
 
-	UnecessaryChangesRemover(AsmCollection asms) {
+	public UnecessaryChangesRemover(AsmCollection asms) {
 		this.asms = asms;
 	}
 

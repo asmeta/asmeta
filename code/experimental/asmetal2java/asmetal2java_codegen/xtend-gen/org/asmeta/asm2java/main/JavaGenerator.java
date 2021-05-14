@@ -45,6 +45,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
   
   private String supp;
   
+  @Override
   public String compileAsm(final Asm asm) {
     if (this.options.optimizeSeqMacroRule) {
       ArrayList<Rule> _arrayList = new ArrayList<Rule>();

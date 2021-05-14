@@ -18,6 +18,7 @@ import org.eclipse.xtext.xbase.lib.InputOutput;
 public abstract class AsmToJavaGenerator implements IGenerator {
   protected TranslatorOptions options;
   
+  @Override
   public void doGenerate(final Resource input, final IFileSystemAccess fsa) {
     throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
