@@ -749,9 +749,10 @@ public class TestSimulationContainer {
 				String input="init -n 3";
 				CommanderOutput res;
 				SimulationContainer imp = new SimulationContainer();
-				res=Commander.parseInput(imp, input, true);
+				Commander.debugMode = true;
+				res=Commander.parseInput(imp, input);
 				input="startexecution -modelpath \"examples/Lavatrice.asm\"";
-				res=Commander.parseInput(imp, input, true);
+				res=Commander.parseInput(imp, input);
 				int id=-11;
 				try {
 					id = res.getID();
@@ -759,7 +760,7 @@ public class TestSimulationContainer {
 					e.printStackTrace();
 				}
 				input="runstep -id "+id+" -locationvalue {operation=ALLUMER} -modelpath \"examples/Lavatrice.asm\"";
-				res=Commander.parseInput(imp, input, true);
+				res=Commander.parseInput(imp, input);
 				RunOutput ro=null;
 				ro=res.getRunOutput();
 				assertTrue(new RunOutput(Esit.SAFE,"ALLUMER").equals(ro));
@@ -770,7 +771,8 @@ public class TestSimulationContainer {
 				System.out.println(" |||||||||||||||||||||  TEST PARSE2 |||||||||||||||||||||||||||||||||||||||||||||");
 				String input="rununttilempty -id 1 -max 5 -modelpath \"ciao.asm\" -locationvalue {operaion  = ALLUMER ,, ALLUMEER=ALLUMER, ALLUMER=ALLUMER}";
 				SimulationContainer imp = new SimulationContainer();
-				assertTrue(Commander.parseInput(imp, input, true).getStatus()==CommanderStatus.FAILURE);
+				Commander.debugMode = true;
+				assertTrue(Commander.parseInput(imp, input).getStatus()==CommanderStatus.FAILURE);
 			}	
 //=========================Fine Parsing Test===============================================================		
 

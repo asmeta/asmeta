@@ -1,5 +1,8 @@
 package org.asmeta.simulationUI;
 
+/**
+ * @author Michele Zenoni
+ */
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
@@ -7,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

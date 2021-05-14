@@ -1,5 +1,8 @@
 package org.asmeta.simulationUI;
 
+/**
+ * @author Michele Zenoni
+ */
 import java.io.ByteArrayOutputStream;
 
 import org.asmeta.runtime_container.RunOutput;

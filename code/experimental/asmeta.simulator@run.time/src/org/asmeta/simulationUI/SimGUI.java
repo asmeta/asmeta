@@ -908,7 +908,7 @@ public class SimGUI extends JFrame {
 				if(CompositionGUI.getConPane() != null && CompositionGUI.compositionContainer != null) {
 					// La logica viene gestita completamente dal composition container
 					try {
-						CompositionGUI.compositionContainer.runStep(out);
+						CompositionGUI.compositionContainer.runStep(out, true);
 					} catch(EmptyCompositionListException e) {
 						JOptionPane.showMessageDialog(contentPane, "Error: the composition container is empty!", "Error", JOptionPane.ERROR_MESSAGE);
 					} catch(CompositionSizeOutOfBoundException e) {

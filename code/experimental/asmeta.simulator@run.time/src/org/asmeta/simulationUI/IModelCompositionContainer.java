@@ -1,5 +1,8 @@
 package org.asmeta.simulationUI;
 
+/**
+ * @author Michele Zenoni
+ */
 import java.util.List;
 
 import org.asmeta.runtime_container.RunOutput;
@@ -97,29 +100,33 @@ public interface IModelCompositionContainer {
 	/**
 	 * Simulation container's Run Step function on the composed simulation.
 	 * @param initialOutput: the output of the first model.
+	 * @param multiConsole: support for multiple consoles execution.
 	 * @throws EmptyCompositionListException: when the internal composition list is empty.
 	 * @throws CompositionSizeOutOfBoundException: when the bidirectional pipe is not called only on two models.
 	 */
-	public void runStep(RunOutput initialOutput) throws EmptyCompositionListException, CompositionSizeOutOfBoundException;
+	public void runStep(RunOutput initialOutput, boolean multiConsole) throws EmptyCompositionListException, CompositionSizeOutOfBoundException;
 	
 	/**
 	 * Simulation container's Run Until Empty function on the composed simulation.
 	 * @param initialOutput: the output of the first model.
+	 * @param multiConsole: support for multiple consoles execution.
 	 */
-	public void runUntilEmpty(RunOutput initialOutput);
+	public void runUntilEmpty(RunOutput initialOutput, boolean multiConsole);
 	
 	/**
 	 * Simulation container's Run Step with Timeout function on the composed simulation.
 	 * @param initialOutput: the output of the first model.
 	 * @param timeout: the positive integer timeout value.
+	 * @param multiConsole: support for multiple consoles execution.
 	 */
-	public void runStepTimeout(RunOutput initialOutput, int timeout);
+	public void runStepTimeout(RunOutput initialOutput, int timeout, boolean multiConsole);
 	
 	/**
 	 * Simulation container's Run Until Empty with Timeout function on the composed simulation.
 	 * @param initialOutput: the output of the first model.
 	 * @param timeout: the positive integer timeout value. 
+	 * @param multiConsole: support for multiple consoles execution.
 	 */
-	public void runUntilEmptyTimeout(RunOutput initialOutput, int timeout);
+	public void runUntilEmptyTimeout(RunOutput initialOutput, int timeout, boolean multiConsole);
 	
 }

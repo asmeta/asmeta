@@ -1,5 +1,8 @@
 package org.asmeta.simulationUI;
 
+/**
+ * @author Michele Zenoni
+ */
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -35,17 +38,21 @@ public class CompositionContainer implements IModelCompositionContainer {
 	}
 	
 	@Override
-	public void runStep(RunOutput initialOutput) throws EmptyCompositionListException, CompositionSizeOutOfBoundException {
+	public void runStep(RunOutput initialOutput, boolean multiConsole) throws EmptyCompositionListException, CompositionSizeOutOfBoundException {
 		switch(compType) {
 		case PIPE: // Composition type/method: unidirectional cascade pipe
 			lastOutput = new RunOutput(Esit.UNSAFE, "rout not intialized");
 			if(!isEmpty()) {
 				for(Composition comp: compositionList) {
-					System.setErr(new PrintStream(comp.outputConsole));
-					System.setOut(new PrintStream(comp.outputConsole));
+					if(multiConsole) {
+						System.setErr(new PrintStream(comp.outputConsole));
+						System.setOut(new PrintStream(comp.outputConsole));
+					} else {
+						comp.outputConsole = null;
+					}
 					if(comp == getFirstComposition()) {
 						if(initialOutput.getEsit() == Esit.SAFE) {
-							Map<String, String> senderOutput = initialOutput.getControlledvalues(); // TODO: filtrare con funzioni "out"
+							Map<String, String> senderOutput = initialOutput.getControlledvalues(); // TODO: filtrare con funzioni "out", necessario?
 							lastOutput = containerInstance.runStep(comp.getReceiverID(), senderOutput);
 							comp.output = lastOutput;
 						} else {
@@ -53,7 +60,7 @@ public class CompositionContainer implements IModelCompositionContainer {
 						}
 					} else {
 						if(lastOutput.getEsit() == Esit.SAFE) {
-							Map<String, String> senderOutput = lastOutput.getControlledvalues(); // TODO: filtrare con funzioni "out"
+							Map<String, String> senderOutput = lastOutput.getControlledvalues();
 							lastOutput = containerInstance.runStep(comp.getReceiverID(), senderOutput);
 							comp.output = lastOutput;
 						} else {
@@ -68,19 +75,25 @@ public class CompositionContainer implements IModelCompositionContainer {
 		case BID_PIPE: // Composition type/method: bidirectional pipe (two models = only one composition)
 			if(size() == 1) {
 				Composition comp = getFirstComposition();
-				System.setErr(new PrintStream(comp.outputConsole));
-				System.setOut(new PrintStream(comp.outputConsole));
+				if(multiConsole) {
+					System.setErr(new PrintStream(comp.outputConsole));
+					System.setOut(new PrintStream(comp.outputConsole));
+				} else {
+					comp.outputConsole = null;
+				}
 				if(initialOutput.getEsit() == Esit.SAFE) {
-					Map<String, String> senderOutput = initialOutput.getControlledvalues(); // TODO: filtrare con funzioni "out"
+					Map<String, String> senderOutput = initialOutput.getControlledvalues();
 					lastOutput = containerInstance.runStep(comp.getReceiverID(), senderOutput);
 					comp.output = lastOutput;
 				} else {
 					System.out.println("Previous model rollback!\n");
 				}
-				System.setErr(new PrintStream(initialConsole));
-				System.setOut(new PrintStream(initialConsole));
+				if(multiConsole) {
+					System.setErr(new PrintStream(initialConsole));
+					System.setOut(new PrintStream(initialConsole));
+				}
 				if(lastOutput.getEsit() == Esit.SAFE) {
-					Map<String, String> senderOutput = lastOutput.getControlledvalues(); // TODO: filtrare con funzioni "out"
+					Map<String, String> senderOutput = lastOutput.getControlledvalues();
 					lastOutput = containerInstance.runStep(comp.getSenderID(), senderOutput);
 					comp.output = lastOutput;
 				} else {
@@ -91,23 +104,23 @@ public class CompositionContainer implements IModelCompositionContainer {
 			} break;
 		case OTHER: break; // TODO: Composition type/method: to be defined
 		
-		default: System.out.println("Error: undefined composition type!");
+		default: System.err.println("Error: undefined composition type!");
 		}
 	}
 	
 	// TODO: implementare anche runUntilEmpty, runStepTimeout e runUntilEmptyTimeout per la composizione
 	@Override
-	public void runUntilEmpty(RunOutput initialOutput) {
+	public void runUntilEmpty(RunOutput initialOutput, boolean multiConsole) {
 		
 	}
 	
 	@Override
-	public void runStepTimeout(RunOutput initialOutput, int timeout) {
+	public void runStepTimeout(RunOutput initialOutput, int timeout, boolean multiConsole) {
 		
 	}
 	
 	@Override
-	public void runUntilEmptyTimeout(RunOutput initialOutput, int timeout) {
+	public void runUntilEmptyTimeout(RunOutput initialOutput, int timeout, boolean multiConsole) {
 		
 	}
 	
