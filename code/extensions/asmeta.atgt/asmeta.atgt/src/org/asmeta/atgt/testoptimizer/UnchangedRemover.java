@@ -14,16 +14,22 @@ import atgt.specification.location.Location;
 // both monitored and controlled
 public class UnchangedRemover extends TestOptimizer {	
 	
+	private enum Remove{ MON, CON, ALL}
+	
 	// only monitored
-	public static UnchangedRemover eInstance = new UnchangedRemover(false);
+	public static UnchangedRemover monRemover = new UnchangedRemover(Remove.MON);
+
+	// only controlled
+	public static UnchangedRemover conRemover = new UnchangedRemover(Remove.CON);
+
 	
 	// monitored and controlled
-	public static UnchangedRemover eInstanceAll = new UnchangedRemover(true);
+	public static UnchangedRemover allRemover = new UnchangedRemover(Remove.ALL);
 
-	private boolean removeAlsoControlled;
+	private Remove remove;
 	
-	private UnchangedRemover(boolean b) {
-		this.removeAlsoControlled = b;
+	private UnchangedRemover(Remove b) {
+		this.remove = b;
 	}
 	
 	@Override
@@ -59,7 +65,8 @@ public class UnchangedRemover extends TestOptimizer {
 				Location loc = assignemnt.getKey();
 				String val = assignemnt.getValue();
 				// remove only if controlled if it is asked to remove all
-				if (lastvalues.get(loc.toString()) != null && lastvalues.get(loc.toString()).equals(val) && (loc.isControlled() || removeAlsoControlled)) {
+				if (lastvalues.get(loc.toString()) != null && lastvalues.get(loc.toString()).equals(val) 
+							&& (remove == Remove.ALL || (loc.isControlled() && remove == Remove.CON)  ||(loc.isMonitored() && remove == Remove.MON))) {
 					//remove this entry loc and val
 					toRemove.add(loc);
 				} else {

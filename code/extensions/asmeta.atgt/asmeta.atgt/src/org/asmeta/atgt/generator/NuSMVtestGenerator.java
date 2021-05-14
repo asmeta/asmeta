@@ -85,7 +85,7 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 					}
 				}
 				// clean up the test
-				//UnchangedRemover.eInstance.optimize(asmTest);
+				//UnchangedRemover.monRemover.optimize(asmTest);
 				//
 				/*
 				 * for(AsmTestCondition tc: ct.allTPs()){

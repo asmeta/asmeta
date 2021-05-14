@@ -49,9 +49,10 @@ public class UnecessaryChangesRemoverTest {
 		printtovideo(asmTest);
 		//
 		System.out.println("removing unchanged functions (both monitored and controlled)");
-		UnchangedRemover.eInstanceAll.optimize(asmTest);		
+		//UnchangedRemover.allRemover.optimize(asmTest);		
+		UnchangedRemover.conRemover.optimize(asmTest);
 		printtovideo(asmTest);
-		//
+//		//
 		System.out.println("removing what is not asked");
 		UnecessaryChangesRemover eucr  = new UnecessaryChangesRemover(asms);
 		eucr.optimize(asmTest);
