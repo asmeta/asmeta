@@ -161,9 +161,35 @@ public class AsmetaSMV {
 		}
 	}
 
-	private void runNuXMV(String smvFileName2) {
+	private void runNuXMV(String smvFileName)  throws Exception{
 		// TODO IMPLEMENT COMMANDS TO RUN NUXMV WITHOUT TIME TO ALLOW CTL PROPERTIES
 		// VERIFICATION
+		String solverName = "nuXmv";
+		ProcessBuilder bp = new ProcessBuilder(solverName, "-int");
+		bp.redirectErrorStream(true);
+		Process proc = bp.start();
+		//
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(proc.getOutputStream()));
+		//
+		StringBuilder sb = new StringBuilder();
+		StreamGobblerNuXmv sg = new StreamGobblerNuXmv(proc.getInputStream(), sb);
+		new Thread(sg).start();
+		TimeUnit.SECONDS.sleep(1);
+		// send some messages
+		System.out.println("read_model -i " + smvFileName + "\n");
+		bw.write("read_model -i " + smvFileName + "\n");
+		bw.flush();
+		bw.write("go_msat\n");
+		bw.write("msat_check_ltlspec_inc_coi -k 100\n");
+		// while(!sg.processReady);
+		// now quit
+		TimeUnit.SECONDS.sleep(1);
+		System.out.println("quit");
+		bw.write("quit\n");
+		bw.flush();
+		// any error???
+		int exitVal = proc.waitFor();
+		System.out.println("ExitValue: " + exitVal);
 
 	}
 

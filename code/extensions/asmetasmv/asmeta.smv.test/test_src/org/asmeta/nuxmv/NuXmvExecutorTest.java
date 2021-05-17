@@ -55,9 +55,9 @@ class StreamGobbler extends Thread {
 
 class NuXmvExecutor {
 
-	static void runNuSMV(String smvFileName) throws Exception {
+	static void runNuSMV(String smvFileName, boolean usingTime) throws Exception {
 		String solverName = "nuXmv";
-		ProcessBuilder bp = new ProcessBuilder(solverName, "-int", "-time");
+		ProcessBuilder bp = usingTime? new ProcessBuilder(solverName, "-int", "-time") : new ProcessBuilder(solverName, "-int");
 		bp.redirectErrorStream(true);
 		Process proc = bp.start();
 		//
@@ -71,8 +71,14 @@ class NuXmvExecutor {
 		System.out.println("read_model -i "+ smvFileName + "\n");
 		bw.write("read_model -i "+ smvFileName + "\n");
 		bw.flush();
-		bw.write("go_time\n");
-		bw.write("timed_check_ltlspec\n");
+		if (usingTime) {
+			bw.write("go_time\n");
+			bw.write("timed_check_ltlspec\n");
+		} else {
+			bw.write("go_msat\n");
+			bw.write("msat_check_ltlspec_inc_coi -k 100\n");
+			//bw.write("check_ltlspec_ic3\n");
+		}
 		//
 		//while(!sg.processReady);
 		// now quit
@@ -93,72 +99,72 @@ public class NuXmvExecutorTest {
 	@Test
 	public void testExecuteInt() throws Exception {
 
-		NuXmvExecutor.runNuSMV("exampleXMV/timeexample2.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/timeexample2.smv",true);
 
 	}
 	
 	@Test
 	public void testExecuteUseTime1() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer1.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer1.smv",true);
 	}
 	@Test
 	public void testExecuteUseTime2() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer2.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer2.smv",true);
 	}
 	
 	@Test
 	public void testExecuteUseTime3() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer3.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer3.smv",true);
 	}
 	
 	@Test
 	public void testExecuteUseTime4() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer4.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer4.smv",true);
 	}
 	
 	@Test
 	public void testExecuteOneWayTrafficLight() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/oneWayTrafficLight.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/oneWayTrafficLight.smv",true);
 	}
 	
 	@Test
 	public void testExecuteUseTimer5_newDuration() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer5_newDuration.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer5_newDuration.smv",true);
 	}
 	
 	@Test
 	public void testExecuteUseTime6() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer6.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer6.smv",true);
 	}
 	
 	@Test
 	public void testExecutesluiceGateMotorCtl() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/sluiceGateMotorCtl.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/sluiceGateMotorCtl.smv",true);
 	}
 	
 	@Test
 	public void testExecutesluiceGateMotorCtl2() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/sluiceGateMotorCtl.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/sluiceGateMotorCtl.smv",true);
 	}
 	
 	@Test
 	public void testExecuteVentilator1() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4SimpleTime.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4SimpleTime.smv",true);
 	}
 	
 	@Test
 	public void testExecuteVentilator2() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTime.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTime.smv",true);
 	}
 
 	@Test
 	public void testExecuteVentilator3() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTimeModule.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTimeModule.smv",true);
 	}
 
 	@Test
 	public void testExecuteVentilator3TG() throws Exception {
-		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTime2.smv");
+		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTime2.smv",true);
 	}
 
 
