@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
@@ -33,6 +35,8 @@ import tgtlib.definitions.expression.type.Variable;
 // removes changes of monitored values that are unnecessary
 // i.e. that are asked by the simulator
 public class UnecessaryChangesRemover extends TestOptimizer {
+	
+	static private Logger log = Logger.getLogger(UnecessaryChangesRemover.class); 
 
 	private AsmCollection asms;
 
@@ -61,10 +65,9 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 
 		private AsmTestSequence asmTest;
 		int currentStateIndex;
-		List<Variable> asked;
+		// using string - be careful with functions n-ary
+		List<String> asked;
 		Map<String,String> lastvalues = new HashMap<>();
-
-		Map<org.asmeta.simulator.Location, tgtlib.definitions.expression.type.Variable> mappedlocations = new HashMap<>();
 
 		public CheckWhatAsked(AsmTestSequence asmTest) {
 			this.asmTest = asmTest;
@@ -75,13 +78,12 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 
 		@Override
 		public Value readValue(org.asmeta.simulator.Location location, State state) {
-			System.out.println("asking for " + location);
 			String val = lastvalues.get(location.toString());
-			System.out.println("value " + val);
 			assert val != null;
+			log.debug("asking for " + location  + " value " + val);
 			StringToValue sv = new StringToValue(val);
-			asked.add(mappedlocations.get(location));
-			System.out.println("domain " + location.getSignature().getCodomain());
+			asked.add(location.toString());
+			log.debug("domain " + location.getSignature().getCodomain());
 			return sv.doSwitch(location.getSignature().getCodomain());
 		}
 
@@ -91,8 +93,12 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 			Map<? extends Variable, String> currentState = asmTest.getState(currentStateIndex);
 			List<? extends Variable> keySet = new ArrayList<>(currentState.keySet());
 			for (Variable var : keySet) {
-				if (!asked.contains(var) && !var.isControlled())
+				if (!asked.contains(var.toString()) && !var.isControlled()) {
+					log.debug("removing " + var.toString());
 					currentState.remove(var);
+				} else {
+					log.debug("keeping " + var.toString());
+				}
 			}
 			currentStateIndex++;
 			asked.clear();

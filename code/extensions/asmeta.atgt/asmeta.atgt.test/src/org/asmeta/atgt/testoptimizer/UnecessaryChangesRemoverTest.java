@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -20,6 +21,7 @@ import org.junit.Test;
 
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
+import atgt.specification.location.Location;
 
 public class UnecessaryChangesRemoverTest {
 
@@ -43,7 +45,7 @@ public class UnecessaryChangesRemoverTest {
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true,
 				Collections.singleton(CriteriaEnum.BASIC_RULE.criteria));
 		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T");//|BR_r_Main_FFFTT15");
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(1, "BR_r_Main_TFT2");
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(2, "BR_r_Main.*");
 		//
 		AsmTestSequence asmTest = result.getTests().get(0);
 		printtovideo(asmTest);
@@ -64,10 +66,9 @@ public class UnecessaryChangesRemoverTest {
 	 * @param asmTest
 	 */
 	private void printtovideo(AsmTestSequence asmTest) {
-		System.out.println("0->" +asmTest.allInstructions().get(0).size() + " " + asmTest.allInstructions().get(0));
-		System.out.println("1->" +asmTest.allInstructions().get(1).size() + " " + asmTest.allInstructions().get(1));
-		System.out.println("2->" +asmTest.allInstructions().get(2).size() + " " + asmTest.allInstructions().get(2));
-		System.out.println("3->" +asmTest.allInstructions().get(3).size() + " " + asmTest.allInstructions().get(3));
+		List<Map<Location, String>> allInstructions = asmTest.allInstructions();
+		for(int i = 0; i < 3 && i < allInstructions.size(); i++)
+			System.out.println( i + "->" +allInstructions.get(i).size() + " " + allInstructions.get(i));
 		List<String> names = asmTest.getState(0).keySet().stream().map(x -> x.toString())
 				.collect(Collectors.toList());
 		Set<String> uniques = new HashSet<>();
