@@ -55,9 +55,9 @@ class StreamGobbler extends Thread {
 
 class NuXmvExecutor {
 
-	static void runNuSMV(String smvFileName) throws Exception {
+	static void runNuSMV(String smvFileName, boolean usingTime) throws Exception {
 		String solverName = "nuXmv";
-		ProcessBuilder bp = new ProcessBuilder(solverName, "-int", "-time");
+		ProcessBuilder bp = usingTime? new ProcessBuilder(solverName, "-int", "-time") : new ProcessBuilder(solverName, "-int");
 		bp.redirectErrorStream(true);
 		Process proc = bp.start();
 		//
@@ -71,8 +71,14 @@ class NuXmvExecutor {
 		System.out.println("read_model -i "+ smvFileName + "\n");
 		bw.write("read_model -i "+ smvFileName + "\n");
 		bw.flush();
-		bw.write("go_time\n");
-		bw.write("timed_check_ltlspec\n");
+		if (usingTime) {
+			bw.write("go_time\n");
+			bw.write("timed_check_ltlspec\n");
+		} else {
+			bw.write("go_msat\n");
+			bw.write("msat_check_ltlspec_inc_coi -k 100\n");
+			//bw.write("check_ltlspec_ic3\n");
+		}
 		//
 		//while(!sg.processReady);
 		// now quit
@@ -95,7 +101,16 @@ public class NuXmvExecutorTest {
 
 		//NuXmvExecutor.runNuSMV("exampleXMV/timeexample2.smv");
 		
-		NuXmvExecutor.runNuSMV("D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM_NewTime\\Ventilatore4_1SimpleTime2.smv");
+		NuXmvExecutor.runNuSMV("D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM_NewTime\\Ventilatore4_1SimpleTime2.smv", true);
 	}
 
+	@Test
+	public void testExecuteInteger() throws Exception {
+
+		//NuXmvExecutor.runNuSMV("exampleXMV/timeexample2.smv");
+		
+		NuXmvExecutor.runNuSMV("D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\asm_models\\VentilatoreASM_NewTime\\Ventilatore4SimpleTimeLtdYInf.smv", false);
+	}
+
+	
 }
