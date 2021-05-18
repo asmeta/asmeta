@@ -138,6 +138,8 @@ public class AsmTestGeneratorTest {
 				
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true,
 				Collections.singleton(CriteriaEnum.BASIC_RULE.criteria));
+		NuSMVtestGenerator.removeUnaskedChanges = false;
+		NuSMVtestGenerator.removeUnChangedControlles = false;
 		ConverterCounterExample.IncludeUnchangedVariables = false;
 		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T");//|BR_r_Main_FFFTT15");
 		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(1, "BR_r_Main_TFFFTFFT152");

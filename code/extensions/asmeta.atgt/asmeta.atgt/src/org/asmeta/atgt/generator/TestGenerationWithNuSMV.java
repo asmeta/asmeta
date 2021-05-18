@@ -100,6 +100,10 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 		// skip first lines
 		for (;;) {
 			String line = br.readLine();
+			if (line == null) {
+				br.close();
+				return Counterexample.EMPTY;
+			}	
 			if (line.contains("is true")) {
 				assert line.startsWith("-- specification");
 				br.close();
