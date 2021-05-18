@@ -1,37 +1,37 @@
-asm Square
+asm BidPipeCube1
 
 import StandardLibrary
 
 signature:
 	enum domain Int = {ZERO | ONE | TWO | THREE | FOUR | FIVE}
-	dynamic out square: Integer 
+	dynamic out cube: Integer 
 	dynamic monitored x: Int
 
 definitions:
 
-	invariant over square:square < 20
+	//invariant over cube:cube < 70
 
 	main rule r_Main =
 		par	
 			if x = ZERO then
-				square := 0
+				cube := 0
 			endif
 			if x = ONE then
-				square := 1
+				cube := 1
 			endif
 			if x = TWO then
-				square := 4
+				cube := 8
 			endif
 			if x = THREE then
-				square := 9
+				cube := 27
 			endif
 			if x = FOUR then
-				square := 16
+				cube := 64
 			endif
 			if x = FIVE then
-				square := 25
+				cube := 125
 			endif
 	endpar
 
 default init s0:
-	function square = 0
+	function cube = 0

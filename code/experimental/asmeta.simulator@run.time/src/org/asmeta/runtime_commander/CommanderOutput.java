@@ -1,6 +1,5 @@
 package org.asmeta.runtime_commander;
 
-import java.util.List;
 import java.util.Map;
 
 import org.asmeta.runtime_container.InvariantData;
