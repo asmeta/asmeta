@@ -1,11 +1,17 @@
 package org.asmeta.atgt.generator;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.log4j.Logger;
 
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSeqContent;
 import atgt.coverage.AsmTestSequence;
 import atgt.specification.ASMSpecification;
+import atgt.specification.location.Constant;
 import atgt.specification.location.DerivedFunction;
 import atgt.specification.location.Function;
 import atgt.specification.location.Location;
@@ -20,13 +26,22 @@ import tgtlib.definitions.expression.type.IntegerType;
 /** convert a counter example of the model checker to a test sequence
  */
 public class ConverterCounterExample {
+	
+	
+	public static boolean IncludeUnchangedVariables = false;  
+	
+	
+	private final static Logger LOG = Logger.getLogger(ConverterCounterExample.class);
+	
 
 	public static AsmTestSequence convert(Counterexample test, ASMSpecification spec, AsmTestCondition tc) {
-		return convert(test, spec, tc, true);
+		return convert(test, spec, tc, IncludeUnchangedVariables);
 	}
 	
 	public static AsmTestSequence convert(Counterexample test, ASMSpecification spec, AsmTestCondition tc, boolean includeUnchangedVariables) {
-		// 
+		//
+		LOG.debug("converting cex with " + test.length() + " states to ASM test");
+		//
 		AsmTestSeqContent.addOnlyChangeValues = ! includeUnchangedVariables;
 		AsmTestSequence asmTestSequence = new AsmTestSequence(tc);
 		for (ModelCheckerState mcs : test) {
@@ -70,7 +85,15 @@ public class ConverterCounterExample {
 					asmTestSequence.addAssignment(var, val, Location.VarKind.CONTROLLED);
 					continue;
 				}
+				// static functions, 
+				Constant constant = spec.getConstantByName(var);
+				if (constant != null){
+					// add as controlled - so to be checked 
+					asmTestSequence.addAssignment(var,val, Location.VarKind.CONTROLLED);
+					continue;
+				}
 				System.err.println("variable " + var + " assigned to " + val + " not found");
+				throw new RuntimeException();
 			}
 		}
 		return asmTestSequence;

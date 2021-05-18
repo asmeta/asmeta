@@ -73,6 +73,8 @@ class HeaderGenerator extends AsmToCGenerator {
 				#include <set>
 				#include <map>
 				#include <list>
+				//Andrea Belotti
+				#include <chrono>
 				//#include <tuple>
 				//#include <bits/stl_tree.h>
 				
@@ -96,13 +98,13 @@ class HeaderGenerator extends AsmToCGenerator {
 				
 			/* DOMAIN DEFINITIONS */
 			namespace «asmName»namespace{
-				«domainSignature(asm)»
+				«domainSignature(asm)» //devo togliere questo in Timer perché non serve
 				}
 			
 				
 				using namespace «asmName»namespace;
 				
-				«abstractClassDef(asm)»
+				«abstractClassDef(asm)» //devo togliere questo in Timer perché non serve
 				
 				class «asmName» «addExtension(asm)»{
 				  
@@ -159,8 +161,8 @@ class HeaderGenerator extends AsmToCGenerator {
  				&& !s.contains("CTLlibrary")
  				&& !s.contains("LTLlibrary")) {// Ignore StandardLibrary, CTllibrary and LTLlibrary import.
  				if (options.compilerType != CompilerType.ArduinoCompiler)
-	 				sb.append('#include "'  + new ImportToH(asm).visit(i) + '.h" \n')
-	 			else{
+	 					sb.append('#include "'  + new ImportToH(asm).visit(i) + '.h" \n')
+	 			else {
 	 				var String[] buffer = new ImportToH(asm).visit(i).split('/');
 	 				sb.append('#include "' + buffer.get(buffer.size - 1 ) + '.h" \n')
 	 			} 

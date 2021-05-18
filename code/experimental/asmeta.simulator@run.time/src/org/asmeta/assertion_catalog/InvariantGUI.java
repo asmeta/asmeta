@@ -48,7 +48,7 @@ import javax.swing.UIManager;
  * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
  */
 public class InvariantGUI {
-	private static JFrame frame;
+	public static JFrame frame;
 	static List<String> invariantList = new ArrayList<String>();
 	//static DefaultListModel<String> model = new DefaultListModel<>();
 	static InvariantManager StartGui = new InvariantManager();

@@ -31,9 +31,9 @@ signature:
 definitions:
 	domain Righe = {1 : 5}
 	domain Colonne = {1 : 5}
-	domain Valore = {1..25}
-	domain SommaValore = {0..484}
-	domain RegineInserite = {0..5}
+	domain Valore = {1:25}
+	domain SommaValore = {0:484}
+	domain RegineInserite = {0:5}
 
 	function nRegine = 5
 	function valoreK = 45

@@ -2,6 +2,12 @@ scenario LowBeamOFFonAmbientLight
 load ../CarSystem002main.asm
 //prima accendo la macchina e le luci con ambientLight settato a true
 //testato funzionante
+//
+// 5/10/21 A
+// CHECK FAILED: tailLampLeftFixValue = 0 at step 3 
+// CHECK FAILED: tailLampRightFixValue = 0 at step 3 
+// CHECK FAILED: lowBeamLeft = 0 at step 3 
+// CHECK FAILED: lowBeamRight = 0 at step 3 
 
 check keyState_Previous = undef;
 check brakeLampRight = 0;

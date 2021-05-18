@@ -102,7 +102,7 @@ public abstract class AsmTestGenerator {
 				continue;
 			tc.setToVerify(true);
 			logger.debug("tp " + name + " queued");
-			if (i > maxNTP) {
+			if (i++ > maxNTP) {
 				logger.debug("max number of tp reached");
 				break;
 			}

@@ -1,7 +1,7 @@
 scenario example
 // 
 load mainasm2i.asm
-// set the moniotred
+// set the monitored
 set m_f:= true;
 set m_f2:= true;
 step

@@ -1,10 +1,10 @@
 scenario example
 // 
 load mainasm.asm
-// set the moniotred
+// set the monitored
 set m_f:= true;
 step
 
-check c_f = true;
+check c_f = false;
 
 step

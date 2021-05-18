@@ -10,8 +10,8 @@ import java.util.TreeSet;
 import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.modeladvisor.texpr.SometimeExpression;
 import org.asmeta.modeladvisor.texpr.TemporalExpression;
-import org.asmeta.nuxmv.UpdateMap;
-import org.asmeta.nuxmv.util.Util;
+import org.asmeta.nusmv.UpdateMap;
+import org.asmeta.nusmv.util.Util;
 
 /**
  * Metaproprieta' "Ogni locazione viene aggiornata."

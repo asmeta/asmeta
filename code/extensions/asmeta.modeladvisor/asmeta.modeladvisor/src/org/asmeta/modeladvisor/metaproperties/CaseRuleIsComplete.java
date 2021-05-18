@@ -10,8 +10,8 @@ import java.util.Set;
 import org.asmeta.modeladvisor.texpr.AlwaysExpression;
 import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.modeladvisor.texpr.TemporalExpression;
-import org.asmeta.nuxmv.Environment;
-import org.asmeta.nuxmv.util.Util;
+import org.asmeta.nusmv.Environment;
+import org.asmeta.nusmv.util.Util;
 
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 

@@ -119,6 +119,8 @@ public class SimGUI extends JFrame {
 	private static int currentMaxInstances;
 	private static String currentLoadedModel;
 	
+	public static List<Integer> loadedIDs;
+	
 	static final String PROPERTIES_FILE_PATH = "src/org/asmeta/simulationUI/.properties";
 
 	/**
@@ -185,8 +187,8 @@ public class SimGUI extends JFrame {
 	private void initialize() {
 		PrintStream previousConsole = System.out;
 		 
-        // Set the standard output to use newConsole.
-        ByteArrayOutputStream newConsole = new ByteArrayOutputStream();
+        // Set the standard output to use simConsole.
+        ByteArrayOutputStream simConsole = new ByteArrayOutputStream();
         icons = new Vector<Image>();
         
         icons.add(Toolkit.getDefaultToolkit().getImage(SimGUI.class.getResource("/org/asmeta/animator/icona_circolare_16.png")));
@@ -263,7 +265,7 @@ public class SimGUI extends JFrame {
 				scrollPane.setBounds(new Rectangle(47, 93, frameWidth - 114, frameHeight - 273));
 				
 				// Handle btnStop, btnRunStep, btnRunStepTimeout, btnRunUntilEmpty, btnRunUntilEmptyTimeout replacement
-				if(frameWidth < (163*5 + 10*6 + 57*2)) {
+				if(frameWidth < 989) {
 					btnRunStep.setBounds(new Rectangle(57, frameHeight - 155, 163, 40));
 					btnRunStepTimeout.setBounds(new Rectangle(57, frameHeight - 105, 163, 40));
 					btnRunUntilEmpty.setBounds(new Rectangle(230, frameHeight - 155, 163, 40));
@@ -276,7 +278,6 @@ public class SimGUI extends JFrame {
 					btnRunUntilEmptyTimeout.setBounds(new Rectangle(576, frameHeight - 155, 163, 50));
 					btnStop.setBounds(new Rectangle(frameWidth - 230, frameHeight - 165, 163, 70));
 				}
-				
 			}
 
 			@Override
@@ -536,15 +537,15 @@ public class SimGUI extends JFrame {
 		compositionMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					List<Integer> options = new ArrayList<>(containerInstance.getLoadedIDs().keySet());
-					options.remove((Object) currentLoadedID);
+					loadedIDs = new ArrayList<>(containerInstance.getLoadedIDs().keySet());
+					loadedIDs.remove((Object) currentLoadedID);
 					
 					int receiverID = (int) JOptionPane.showInputDialog(contentPane, 
 																	   "  Select the ID of the model that will be\ncomposed with the current loaded model:",
 																	   "Receiver ID",
 																	   JOptionPane.QUESTION_MESSAGE,
 																	   null,
-																	   options.toArray(),
+																	   loadedIDs.toArray(),
 																	   null);
 					// DEBUG: System.out.println(receiverID);
 					CompositionGUI.main(containerInstance, currentLoadedID, receiverID);
@@ -653,7 +654,8 @@ public class SimGUI extends JFrame {
 								   textPaneModel.setText(currentLoadedModel);
 								   textPaneID.setText(Integer.toString(currentLoadedID));
 							   }
-								   
+							   clearMenuItem.doClick();
+							   textAreaLog.setText("Simulation ready.\n");
 						   }
 						   else if(currentLoadedModel.indexOf(".asm")==-1 && !currentLoadedModel.isEmpty())
 							   JOptionPane.showMessageDialog(contentPane, "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -768,15 +770,18 @@ public class SimGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(currentLoadedID<1)
 					JOptionPane.showMessageDialog(contentPane, "Error: no simulation selected!", "Error", JOptionPane.ERROR_MESSAGE);
-				else
-					new InvariantGUI(containerInstance,currentLoadedID,currentLoadedModel).setVisible();
+				else {
+					InvariantGUI invGUI = new InvariantGUI(containerInstance,currentLoadedID,currentLoadedModel);
+					invGUI.setVisible();
+					InvariantGUI.frame.setLocationRelativeTo(contentPane);
+				}	
 			}
 		});
 		
 		btnRunUntilEmpty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.setErr(new PrintStream(newConsole));
-				System.setOut(new PrintStream(newConsole));
+				System.setErr(new PrintStream(simConsole));
+				System.setOut(new PrintStream(simConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				if (monitored.size()<1)
@@ -787,21 +792,21 @@ public class SimGUI extends JFrame {
 				}
 				//JOptionPane.showMessageDialog(null, out.toString());	
 				//textAreaLog.append("Runstep executed with current result:\n"+out.MytoString()+"\n");
-				previousConsole.println(newConsole.toString()); // Display output of newConsole.
+				previousConsole.println(simConsole.toString()); // Display output of simConsole.
 				 
 		        // Restore back the standard console output.
 		        System.setOut(previousConsole);
 		        System.setErr(previousConsole);
 		        textAreaLog.append("");
-		        textAreaLog.append(newConsole.toString());
-		        newConsole.reset();
+		        textAreaLog.append(simConsole.toString());
+		        simConsole.reset();
 			}
 		});
 		
 		btnRunUntilEmptyTimeout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.setErr(new PrintStream(newConsole));
-				System.setOut(new PrintStream(newConsole));
+				System.setErr(new PrintStream(simConsole));
+				System.setOut(new PrintStream(simConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				int timeout=-1;
@@ -828,47 +833,65 @@ public class SimGUI extends JFrame {
 					//textAreaLog.append("Runstep with timeout executed with current result:\n"+out.MytoString()+"\n");
 				} else
 					textAreaLog.append("Couldn't execute operation.\n");
-				previousConsole.println(newConsole.toString()); // Display output of newConsole.
+				previousConsole.println(simConsole.toString()); // Display output of simConsole.
 				 
 		        // Restore back the standard console output.
 		        System.setOut(previousConsole);
 		        System.setErr(previousConsole);
 		        textAreaLog.append("");
-		        textAreaLog.append(newConsole.toString());
-		        newConsole.reset();
+		        textAreaLog.append(simConsole.toString());
+		        simConsole.reset();
 			}
 		});
 		
 		btnRunStep.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.setErr(new PrintStream(newConsole));
-				System.setOut(new PrintStream(newConsole));
+				System.setErr(new PrintStream(simConsole));
+				System.setOut(new PrintStream(simConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
+				
 				if (monitored.size()<1)
 					out=containerInstance.runStep(currentLoadedID);
 				else {
 					Map<String, String> input = getInput(monitored, true);
-					out=containerInstance.runStep(currentLoadedID, input);
+					out = containerInstance.runStep(currentLoadedID, input);
+				}
+				
+				// TODO: Supporting model composition
+				if(CompositionGUI.getConPane() != null) {
+					RunOutput outReceiver = new RunOutput(Esit.UNSAFE, "rout not intialized");
+					System.setErr(new PrintStream(CompositionGUI.getFirstTab().compositionConsole));
+					System.setOut(new PrintStream(CompositionGUI.getFirstTab().compositionConsole));
+					if(out.getEsit() == Esit.SAFE) {
+						Map<String, String> senderOutput = out.getControlledvalues();
+						outReceiver = containerInstance.runStep(CompositionGUI.getFirstTab().getReceiverID(), senderOutput);
+					} else {
+						System.out.println("Sender model rollback!\n");
+					}
+					previousConsole.println(CompositionGUI.getFirstTab().compositionConsole.toString());
+					CompositionGUI.getFirstTab().textAreaLog.append("");
+					CompositionGUI.getFirstTab().textAreaLog.append(CompositionGUI.getFirstTab().compositionConsole.toString());
+					CompositionGUI.getFirstTab().compositionConsole.reset();
 				}
 				//JOptionPane.showMessageDialog(null, out.toString());	
 				//textAreaLog.append("Runstep executed with current result:\n"+out.MytoString()+"\n");
 				 
-		        previousConsole.println(newConsole.toString()); // Display output of newConsole.
-		 
+		        previousConsole.println(simConsole.toString()); // Display output of simConsole.
+		        
 		        // Restore back the standard console output.
 		        System.setOut(previousConsole);
 		        System.setErr(previousConsole);
 		        textAreaLog.append("");
-		        textAreaLog.append(newConsole.toString());
-		        newConsole.reset();
+		        textAreaLog.append(simConsole.toString());
+		        simConsole.reset();
 			}
 		});
 		
 		btnRunStepTimeout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.setErr(new PrintStream(newConsole));
-				System.setOut(new PrintStream(newConsole));
+				System.setErr(new PrintStream(simConsole));
+				System.setOut(new PrintStream(simConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				int timeout=-1;
@@ -895,14 +918,14 @@ public class SimGUI extends JFrame {
 					//textAreaLog.append("Runstep with timeout executed with current result:\n"+out.MytoString()+"\n");
 				} else
 					textAreaLog.append("Couldn't execute operation.\n");
-				previousConsole.println(newConsole.toString()); // Display output of newConsole.
+				previousConsole.println(simConsole.toString()); // Display output of simConsole.
 				 
 		        // Restore back the standard console output.
 		        System.setOut(previousConsole);
 		        System.setErr(previousConsole);
 		        textAreaLog.append("");
-		        textAreaLog.append(newConsole.toString());
-		        newConsole.reset();
+		        textAreaLog.append(simConsole.toString());
+		        simConsole.reset();
 			}
 		});
 	}

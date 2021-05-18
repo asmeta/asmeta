@@ -12,7 +12,7 @@ import org.asmeta.modeladvisor.texpr.AlwaysExpression;
 import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.modeladvisor.texpr.SometimeExpression;
 import org.asmeta.modeladvisor.texpr.TemporalExpression;
-import org.asmeta.nuxmv.util.Util;
+import org.asmeta.nusmv.util.Util;
 
 import asmeta.transitionrules.basictransitionrules.Rule;
 

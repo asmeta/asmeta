@@ -15,5 +15,9 @@ Require-Bundle: asmeta.atgt,
  org.eclipse.swt,
  javax.inject,
  org.eclipse.ui.ide,
- org.junit
+ org.junit,
+ org.eclipse.core.runtime,
+ org.eclipse.ui
 Export-Package: org.asmeta.atgt.generator.ui
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.asmeta.atgt.generator.ui.ATGTActivator

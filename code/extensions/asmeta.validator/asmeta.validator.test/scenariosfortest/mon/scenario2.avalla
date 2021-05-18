@@ -1,0 +1,12 @@
+scenario example
+
+// no default state 
+load spec2.asm
+
+set a:= 1;
+
+// a should be set to 1
+
+check a = 1;
+
+step

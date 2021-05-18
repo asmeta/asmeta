@@ -64,8 +64,14 @@ public class AsmetaFromAvallaBuilder {
 	Asm asm;
 
 	
+	/**
+	 * Instantiates a new asmeta from avalla  in a temporary file
+	 *
+	 * @param scenarioPath the scenario path
+	 * @throws Exception the exception
+	 */
 	public AsmetaFromAvallaBuilder(String scenarioPath) throws Exception {
-		this(scenarioPath, Files.createTempFile("__tempAsmetaV", ".asm").toString());
+		this(scenarioPath, Files.createTempDirectory("asms_foravalla").toFile());
 	}
 
 	
@@ -78,8 +84,11 @@ public class AsmetaFromAvallaBuilder {
 	 * 
 	 * @throws Exception the exception
 	 */
-	public AsmetaFromAvallaBuilder(String scenarioPath, String tempAsmPath) throws Exception {
+	public AsmetaFromAvallaBuilder(String scenarioPath, File tempAsmPathDir) throws Exception {
+		//
 		assert Paths.get(scenarioPath).toFile().exists();
+		assert tempAsmPathDir.exists() && tempAsmPathDir.isDirectory();
+		//
 		scenarioDirectoryPath = new File(scenarioPath).getAbsoluteFile().getParent();
 		// read the spec from file
 		Injector injector = new AvallaStandaloneSetup().createInjectorAndDoEMFRegistration();
@@ -91,10 +100,8 @@ public class AsmetaFromAvallaBuilder {
 		// get the specification loaded by the script
 		modelPath = ScenarioUtility.getAsmPath(scenario);
 		assert Files.exists(modelPath);
-		logger.debug("modelPath " + modelPath);
+		logger.debug("build the asm from scenario " + modelPath);
 		File modelFile = modelPath.toFile();
-		logger.debug("modelFile " + modelFile);
-		logger.debug("modelFile " + modelFile.exists());
 		AsmCollection pack = ASMParser.setUpReadAsm(modelFile);
 		asm = pack.getMain();
 		MacroDeclaration mainrule = asm.getMainrule();
@@ -102,7 +109,10 @@ public class AsmetaFromAvallaBuilder {
 		if (mainrule == null)
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
 		oldMainName = mainrule.getName();
-		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath,modelPath.getParent(), this);
+		// create a temp file in the directory
+		File tempAsmPath = File.createTempFile("__tempAsmetaV", ".asm", tempAsmPathDir);
+		//
+		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath,modelPath, this);
 	}
 
 	/**
@@ -138,7 +148,7 @@ public class AsmetaFromAvallaBuilder {
 	}
 
 	/** return the path where the asm has been saved */
-	public String getTempAsmPath() {
+	public File getTempAsmPath() {
 		return asmetaPrinterforAvalla.tempAsmPath;
 	}
 

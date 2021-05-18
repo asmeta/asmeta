@@ -44,8 +44,7 @@ public class AsmToUnitModuleTest {
 	public static void setUpLogger() {
 		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
 		Logger.getLogger(org.asmeta.parser.ASMParser.class).setLevel(Level.OFF);
-		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
-		CppCompiler.setCompiler("g++.exe");
+		Logger.getLogger(CppCompiler.class).setLevel(Level.OFF);
 	}
 
 	@Test
@@ -62,14 +61,32 @@ public class AsmToUnitModuleTest {
 	@Test
 	public void testMVM() throws Exception {
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
-		CppCompiler.extraOptionsWhenCompiling = "-O0 -g3 -Wall -c -fmessage-length=0";
 		// testSpec(UNITFM.BOOST,
 		// "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",SIMULATOR,"1",
 		// "5");
-		testSpec(UNITFM.CATCH2, "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",SIMULATOR, "1", "1");
-		//testSpec(UNITFM.CATCH2, "F:\\Dati-Andrea\\GitHub\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",SIMULATOR, "1", "5");
+		//testSpec(UNITFM.CATCH2, "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm",
+		//		SIMULATOR, "1", "5");
+		//testSpec(UNITFM.CATCH2, "D:\\ProgettoTesi\\FileTesi\\mvm-asmeta-master\\VentilatoreASM\\Ventilatore00.asm",
+		//		SIMULATOR, "1", "5");
+		//testSpec(UNITFM.CATCH2, "D:\\ProgettoTesi\\FileTesi\\mvm-asmeta-master\\VentilatoreASM\\Ventilatore0.asm",
+		//		SIMULATOR, "1", "5");
+		//testSpec(UNITFM.CATCH2, "D:\\ProgettoTesi\\FileTesi\\mvm-asmeta-master\\VentilatoreASM\\Ventilatore1.asm",
+		//		SIMULATOR, "1", "5");
+		//testSpec(UNITFM.CATCH2, "D:\\ProgettoTesi\\FileTesi\\mvm-asmeta-master\\VentilatoreASM\\Ventilatore2.asm",
+		//		SIMULATOR, "1", "5");
+		testSpec(UNITFM.CATCH2, "D:\\ProgettoTesi\\FileTesi\\mvm-asmeta-master\\VentilatoreASM_NewTime\\Ventilatore3.asm",
+				SIMULATOR, "1", "5");
+		
 	}
 
+	//Belotti Andrea Test creazione Timer
+	@Test
+	public void testGenerateTimer() throws Exception {
+		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
+		testSpec(UNITFM.CATCH2, "C:\\Users\\Belotti Andrea\\git\\asmeta\\asm_examples\\STDL\\TimeLibrary.asm", 
+				SIMULATOR, "1", "2");
+	}
+	
 	@Test
 	public void testGenerateCounter() throws Exception {
 		testSpec(UNITFM.BOOST, "examples/asmeta_examples/Counter.asm", SIMULATOR, "1", "5");
@@ -131,7 +148,7 @@ public class AsmToUnitModuleTest {
 	public void testGenerateATM3() throws IOException, Exception {
 		String asmspec = "examples/ATM3.asm";
 		// testSpec(asmspec, NuSMV); // non funziona che ha un exists ter,
-		testSpec(UNITFM.BOOST, asmspec, SIMULATOR, "5", "5");
+		testSpec(UNITFM.BOOST, asmspec, SIMULATOR, "7", "5");
 	}
 
 	@Test
@@ -239,7 +256,7 @@ public class AsmToUnitModuleTest {
 		// test name
 		String testname = /* specname+ */TEST_NAME;
 		String testPath = destDir.getPath() + File.separator + testname;
-		boolean useBoost = (unitfm==UNITFM.BOOST ? true : false);
+		boolean useBoost = (unitfm == UNITFM.BOOST ? true : false);
 		AsmToBoostModule trans = new AsmToBoostModule(testsuite, asm, asmPath, unitfm);
 		trans.generateAndSave(testPath);
 		System.out.println("*****" + testPath);
@@ -345,23 +362,17 @@ public class AsmToUnitModuleTest {
 	}
 
 	/**
-	 * run the command name and returns the output produced by it
+	 * run the command name and returns the output prodcued by it
 	 * 
 	 * @return the output
-	 * @throws IOException 
 	 * 
 	 */
-	protected static StringBuffer runexample(String name, File dir, String... extraCommands) throws IOException {
-		assert dir.isDirectory();
-		File exec = new File(name);
-		assert exec.exists() && exec.canExecute();
-		name = exec.getCanonicalPath();
+	protected static StringBuffer runexample(String name, File dir, String... extraCommands) {
 		StringBuffer result = new StringBuffer();
 		List<String> command = new ArrayList<>();
 		command.add(name);
 		command.addAll(Arrays.asList(extraCommands));
 		ProcessBuilder builder = new ProcessBuilder(command);
-		System.out.println("executing " + command + " in " + dir);
 		builder.redirectErrorStream(true);
 		builder.directory(dir);
 		try {

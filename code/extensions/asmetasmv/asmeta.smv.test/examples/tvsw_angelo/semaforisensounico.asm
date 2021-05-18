@@ -26,7 +26,7 @@ signature:
 	derived mettiRosso : Semaforo -> Boolean
 definitions:
 	// DOMAIN DEFINITIONS
-	domain Semaforo = {0..1}
+	domain Semaforo = {0:1}
     domain StatoSemaforo = {0:2}
     
 	// FUNCTION DEFINITIONS

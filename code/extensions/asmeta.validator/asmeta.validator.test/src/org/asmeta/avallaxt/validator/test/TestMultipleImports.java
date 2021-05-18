@@ -37,16 +37,24 @@ public class TestMultipleImports extends TestValidator {
 
 	@Test
 	public void testMultipleImports4() throws Exception {
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\TipBlinking.avalla", true, false);		
+		//test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\TipBlinking.avalla", false, false);				
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\HWExecutedRunning.avalla");
 	}
+		
+	
 	
 	@Test
 	public void testMultipleCarSystem1() throws Exception {
 		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\", true, true);		
 	}
+
+	@Test
+	public void testMultipleCarSystem2() throws Exception {
+		//test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem002\\scenari\\LowBeamOFFonAmbientLight.avalla");		
+		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem002\\scenari\\",true,false);		
+	}
 	@Test
 	public void testMultipleCarSystem() throws Exception {
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem002\\scenari\\", true, true);		
 		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem003\\scenari\\", true, true);		
 		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem004\\scenari\\", true, true);		
 		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem005\\scenari\\", true, true);		
@@ -59,7 +67,7 @@ public class TestMultipleImports extends TestValidator {
 	@BeforeClass
 	public static void setupLoggers() {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
-		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);		
+		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.OFF);		
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);		
 	}
 	

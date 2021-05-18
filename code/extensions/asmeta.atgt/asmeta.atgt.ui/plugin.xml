@@ -43,6 +43,20 @@
         </contextualLaunch>
     </shortcut>
 </extension>
+<extension
+      point="org.eclipse.ui.preferencePages">
+   <page
+         class="org.asmeta.atgt.ui.preferences.ATGTPreferencePage"
+         id="org.asmeta.atgt.ui.preferences.ATGTPreferencePage"
+         name="ATGT Preferences">
+   </page>
+</extension>
+<extension
+      point="org.eclipse.core.runtime.preferences">
+   <initializer
+         class="org.asmeta.atgt.ui.preferences.PreferenceInitializer">
+   </initializer>
+</extension>
 
 
 </plugin>

@@ -6,5 +6,7 @@ signature:
   controlled c_f : Boolean
 
 definitions:
-  main rule r_main = c_f := m_f
+//  main rule r_main = c_f := m_f
+// us enot instead to check undef values
+    main rule r_main = c_f := not m_f
   

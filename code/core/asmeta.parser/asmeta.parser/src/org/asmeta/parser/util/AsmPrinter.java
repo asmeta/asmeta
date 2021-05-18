@@ -259,9 +259,9 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	public void visitFunDefs(Collection<FunctionDefinition> funcs) {
 		if (funcs != null) {
 			for (FunctionDefinition def : funcs) {
-				Function func = def.getDefinedFunction();
-				Asm asm = Defs.getAsm(func);
 				// PA 2014/01/31 commentato l'if. Perche' non posso definire una funzione in un
+				// Function func = def.getDefinedFunction();
+				// Asm asm = Defs.getAsm(func);
 				// modulo diverso?
 				// if (asm == model) {
 				visitDef(def);
@@ -287,6 +287,8 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 				Asm asm = Defs.getAsm(dom);
 				if (asm == model) {
 					visitDef(def);
+				} else {
+					println("// domain " + def.getDefinedDomain().getName() + " not printed because it does not belong to this asm");
 				}
 			}
 		}
@@ -610,31 +612,30 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		}
 	}
 
-	public void visit(Initialization init) {
+	// print the initialization part in the init regarding the functions and agents
+	protected void visitFuntionsAgents(Initialization init) {
 		// TODO init.getDomainInitialization()
-		if (init != null) {
-			String name = init.getName();
-			println("init " + name + ":");
+		assert (init != null);
+		// functions
+		Collection<FunctionInitialization> funcs = init.getFunctionInitialization();
+		visitFuncInits(funcs);
+		// agents
+		EList<AgentInitialization> agents = init.getAgentInitialization();
+		for (AgentInitialization agent : agents) {
+			print("agent " + agent.getDomain().getName() + ":\n");
 			indent();
-			Collection<FunctionInitialization> funcs = init.getFunctionInitialization();
-			visitFuncInits(funcs);
-
-			EList<AgentInitialization> agents = init.getAgentInitialization();
-			for (AgentInitialization agent : agents) {
-				print("agent " + agent.getDomain().getName() + ":\n");
-				indent();
-				print(agent.getProgram().getCalledMacro().getName() + "[]\n\n");
-				unIndent();
-			}
-
+			print(agent.getProgram().getCalledMacro().getName() + "[]\n\n");
 			unIndent();
 		}
+		unIndent();
 	}
 
 	public void visitDefault(Initialization init) {
 		if (init != null) {
-			print("default ");
-			visit(init);
+			// print the header
+			println("default init " + init.getName() + ":");
+			indent();
+			visitFuntionsAgents(init);
 		}
 	}
 
@@ -644,8 +645,9 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 				DynamicFunction func = init.getInitializedFunction();
 				Asm asm = Defs.getAsm(func);
 				if (asm == model) {
-					visitInit(init);
+					println("// this function does not belong to this asm, but it can be initialized ");
 				}
+				visitInit(init);
 			}
 		}
 	}
@@ -702,6 +704,7 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 			Function[] functions = sortFunctions(funcs);
 			for (Function function : functions) {
 				Asm asm = Defs.getAsm(function);
+				// check that the function belongs to this model (not those imported)
 				if (asm == model) {
 					visitDcl(function);
 				}

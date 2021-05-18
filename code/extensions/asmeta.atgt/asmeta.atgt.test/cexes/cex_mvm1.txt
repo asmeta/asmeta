@@ -1,0 +1,58 @@
+> NuSMV -dynamic -quiet D:\AgDocuments\progettiDaSVN\asmeta\mvm-asmeta\VentilatoreASM\Ventilatore2.smv
+-- specification AG !(!turnOFFbtn & (stopRequested & state = PCV_EXP))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: CTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    apneaAlarm = false
+    apneaBackupMode = false
+    apneaLagPassed = false
+    dropPAW_ITS_PCV = false
+    dropPAW_ITS_PSV = false
+    expPause = false
+    expirationDurationPassed = false
+    flowDropPSV = false
+    iValve = CLOSED
+    inPause = false
+    inspirationDurationPassed = false
+    maxExpPausePassed = false
+    maxInPausePassed = false
+    maxInspTimePSVPassed = false
+    maxRmTimePassed = false
+    minExpTimePSVPassed = false
+    oValve = OPEN
+    pawGTMaxPinsp = false
+    respirationMode = PCV
+    resume = false
+    rm = false
+    selfTestPassed = false
+    startVentilation = false
+    startupEnded = false
+    state = STARTUP
+    stopRequested = false
+    stopVentilation = false
+    triggerWindowDelayPassed = false
+    turnOFFbtn = false
+    turnOffApneaAlarm = NO
+  -> State: 1.2 <-
+    startupEnded = true
+  -> State: 1.3 <-
+    selfTestPassed = true
+    startupEnded = false
+    state = SELFTEST
+  -> State: 1.4 <-
+    selfTestPassed = false
+    startVentilation = true
+    state = VENTILATIONOFF
+  -> State: 1.5 <-
+    iValve = OPEN
+    inspirationDurationPassed = true
+    oValve = CLOSED
+    startVentilation = false
+    state = PCV_INSP
+  -> State: 1.6 <-
+    iValve = CLOSED
+    inspirationDurationPassed = false
+    oValve = OPEN
+    state = PCV_EXP
+    stopRequested = true

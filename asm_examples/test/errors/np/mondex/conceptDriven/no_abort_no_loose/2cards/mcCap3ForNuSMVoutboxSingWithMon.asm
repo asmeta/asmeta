@@ -2,15 +2,16 @@
 //A concept-driven construction of the mondex protocol using three refinements
 //capitolo 3: From atomic transfers to messages
 //versione per NuSMV con 4 funzioni singole per l'outbox
+//due carte autentiche
+//con monitorata per scegliere la regola
 
-asm mcCap3ForNuSMVoutboxSing
+asm mcCap3ForNuSMVoutboxSingWithMon
 //non c'e' il metodo abort ed il metodo loose messages
-//quattro carte
 
-import ../../../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
-	enum domain Name = {AA | BB | CC | DD}
+	enum domain Name = {AA | BB}
 	//nostro per identificare il tipo di messagio
 	enum domain MessageType = {REQ | VAL | ACK}
 	//nostro per fare la choose nella main rule
@@ -38,13 +39,13 @@ signature:
 	
 	derived isNone: Name -> Boolean
 
-	//dynamic monitored chosenRule: RuleId
+	dynamic monitored chosenRule: RuleId
 	
 	static authentic: Name -> Boolean	
 	static inv: Boolean
 
 definitions:
-	domain TidDomain = {1n..2n}
+	domain TidDomain = {1n:2n}
 	domain MoneyDomain = {0n, 5n, 10n}
 	
 	function isNone($name in Name) =
@@ -64,9 +65,10 @@ definitions:
 	else
 		false
 	endif
-
 	
-	function authentic($n in Name) = if($n = AA or $n = BB or $n=CC) then
+	
+	
+	function authentic($n in Name) = if($n = AA or $n = BB) then
 						true
 					else
 						false
@@ -157,14 +159,77 @@ definitions:
 				endpar
 			outboxIsNone($receiver) := true
 		endpar*/
-
+/*
 	CTLSPEC ag(inv)
-	CTLSPEC ag(inbox(BB, REQ, AA, 5n, 1n) implies ef(inbox(AA, VAL, BB, 5n, 1n)))
+	
+	
+	CTLSPEC (inbox(AA, REQ, BB, 0n, 1n) implies ef(inbox(BB, VAL, AA, 0n, 1n)))
+	CTLSPEC (inbox(BB, REQ, AA, 0n, 1n) implies ef(inbox(AA, VAL, BB, 0n, 1n)))
+	CTLSPEC (inbox(AA, REQ, BB, 0n, 2n) implies ef(inbox(BB, VAL, AA, 0n, 2n)))
+	CTLSPEC (inbox(BB, REQ, AA, 0n, 2n) implies ef(inbox(AA, VAL, BB, 0n, 2n)))
+	CTLSPEC (inbox(AA, REQ, BB, 5n, 1n) implies ef(inbox(BB, VAL, AA, 5n, 1n)))
+	CTLSPEC (inbox(BB, REQ, AA, 5n, 1n) implies ef(inbox(AA, VAL, BB, 5n, 1n)))
+	CTLSPEC (inbox(AA, REQ, BB, 5n, 2n) implies ef(inbox(BB, VAL, AA, 5n, 2n)))
+	CTLSPEC (inbox(BB, REQ, AA, 5n, 2n) implies ef(inbox(AA, VAL, BB, 5n, 2n)))
+	CTLSPEC (inbox(AA, REQ, BB, 10n, 1n) implies ef(inbox(BB, VAL, AA, 10n, 1n)))
+	CTLSPEC (inbox(BB, REQ, AA, 10n, 1n) implies ef(inbox(AA, VAL, BB, 10n, 1n)))
+	CTLSPEC (inbox(AA, REQ, BB, 10n, 2n) implies ef(inbox(BB, VAL, AA, 10n, 2n)))
+	CTLSPEC (inbox(BB, REQ, AA, 10n, 2n) implies ef(inbox(AA, VAL, BB, 10n, 2n)))
+	
+	//se una carta e' in REQ con la regola R_req ne uscira. Quello stato (tripla valore-tid-REQ) non si potra'
+	//piu' presentare
+	//CTLSPEC ag(inbox(AA, REQ, BB, 0n, 1n) implies ef(ag(not(inbox(AA, REQ, BB, 0n, 1n)))))
+	//CTLSPEC ag(inbox(BB, REQ, AA, 0n, 1n) implies ef(ag(not(inbox(BB, REQ, AA, 0n, 1n)))))
+	//CTLSPEC ag(inbox(AA, REQ, BB, 0n, 2n) implies ef(ag(not(inbox(AA, REQ, BB, 0n, 2n)))))
+	//CTLSPEC ag(inbox(BB, REQ, AA, 0n, 2n) implies ef(ag(not(inbox(BB, REQ, AA, 0n, 2n)))))
+	//CTLSPEC ag(inbox(AA, REQ, BB, 5n, 1n) implies ef(ag(not(inbox(AA, REQ, BB, 5n, 1n)))))
+	//CTLSPEC ag(inbox(BB, REQ, AA, 5n, 1n) implies ef(ag(not(inbox(BB, REQ, AA, 5n, 1n)))))
+	//CTLSPEC ag(inbox(AA, REQ, BB, 5n, 2n) implies ef(ag(not(inbox(AA, REQ, BB, 5n, 2n)))))
+	//CTLSPEC ag(inbox(BB, REQ, AA, 5n, 2n) implies ef(ag(not(inbox(BB, REQ, AA, 5n, 2n)))))
+	
+	//se una carta e' in val, l'altra carta prima o poi sara' in ack
+	CTLSPEC ag(inbox(AA, VAL, BB, 0n, 1n) implies ef(inbox(BB, ACK, AA, 0n, 1n)))
+	CTLSPEC ag(inbox(BB, VAL, AA, 0n, 1n) implies ef(inbox(AA, ACK, BB, 0n, 1n)))
+	CTLSPEC ag(inbox(AA, VAL, BB, 0n, 2n) implies ef(inbox(BB, ACK, AA, 0n, 2n)))
+	CTLSPEC ag(inbox(BB, VAL, AA, 0n, 2n) implies ef(inbox(AA, ACK, BB, 0n, 2n)))
 	CTLSPEC ag(inbox(AA, VAL, BB, 5n, 1n) implies ef(inbox(BB, ACK, AA, 5n, 1n)))
-
+	CTLSPEC ag(inbox(BB, VAL, AA, 5n, 1n) implies ef(inbox(AA, ACK, BB, 5n, 1n)))
+	CTLSPEC ag(inbox(AA, VAL, BB, 5n, 2n) implies ef(inbox(BB, ACK, AA, 5n, 2n)))
+	CTLSPEC ag(inbox(BB, VAL, AA, 5n, 2n) implies ef(inbox(AA, ACK, BB, 5n, 2n)))
+	CTLSPEC ag(inbox(AA, VAL, BB, 10n, 1n) implies ef(inbox(BB, ACK, AA, 10n, 1n)))
+	CTLSPEC ag(inbox(BB, VAL, AA, 10n, 1n) implies ef(inbox(AA, ACK, BB, 10n, 1n)))
+	CTLSPEC ag(inbox(AA, VAL, BB, 10n, 2n) implies ef(inbox(BB, ACK, AA, 10n, 2n)))
+	CTLSPEC ag(inbox(BB, VAL, AA, 10n, 2n) implies ef(inbox(AA, ACK, BB, 10n, 2n)))
+	
+	//se una carta e' in VAL con la regola r_val ne uscira. Quello stato (tripla valore-tid-VAL) non si potra'
+	//piu' presentare
+	CTLSPEC ag(inbox(AA, VAL, BB, 0n, 1n) implies ef(ag(not(inbox(AA, VAL, BB, 0n, 1n)))))
+	CTLSPEC ag(inbox(BB, VAL, AA, 0n, 1n) implies ef(ag(not(inbox(BB, VAL, AA, 0n, 1n)))))
+	CTLSPEC ag(inbox(AA, VAL, BB, 0n, 2n) implies ef(ag(not(inbox(AA, VAL, BB, 0n, 2n)))))
+	CTLSPEC ag(inbox(BB, VAL, AA, 0n, 2n) implies ef(ag(not(inbox(BB, VAL, AA, 0n, 2n)))))
+	CTLSPEC ag(inbox(AA, VAL, BB, 5n, 1n) implies ef(ag(not(inbox(AA, VAL, BB, 5n, 1n)))))
+	CTLSPEC ag(inbox(BB, VAL, AA, 5n, 1n) implies ef(ag(not(inbox(BB, VAL, AA, 5n, 1n)))))
+	CTLSPEC ag(inbox(AA, VAL, BB, 5n, 2n) implies ef(ag(not(inbox(AA, VAL, BB, 5n, 2n)))))
+	CTLSPEC ag(inbox(BB, VAL, AA, 5n, 2n) implies ef(ag(not(inbox(BB, VAL, AA, 5n, 2n)))))
+	
+	//se una carta e' in ACK con la regola r_ack ne uscira. Quello stato (tripla valore-tid-ACK) non si potra
+	//piu' presentare
+	CTLSPEC ag(inbox(AA, ACK, BB, 0n, 1n) implies ef(ag(not(inbox(AA, ACK, BB, 0n, 1n)))))
+	CTLSPEC ag(inbox(BB, ACK, AA, 0n, 1n) implies ef(ag(not(inbox(BB, ACK, AA, 0n, 1n)))))
+	CTLSPEC ag(inbox(AA, ACK, BB, 0n, 2n) implies ef(ag(not(inbox(AA, ACK, BB, 0n, 2n)))))
+	CTLSPEC ag(inbox(BB, ACK, AA, 0n, 2n) implies ef(ag(not(inbox(BB, ACK, AA, 0n, 2n)))))
+	CTLSPEC ag(inbox(AA, ACK, BB, 5n, 1n) implies ef(ag(not(inbox(AA, ACK, BB, 5n, 1n)))))
+	CTLSPEC ag(inbox(BB, ACK, AA, 5n, 1n) implies ef(ag(not(inbox(BB, ACK, AA, 5n, 1n)))))
+	CTLSPEC ag(inbox(AA, ACK, BB, 5n, 2n) implies ef(ag(not(inbox(AA, ACK, BB, 5n, 2n)))))
+	CTLSPEC ag(inbox(BB, ACK, AA, 5n, 2n) implies ef(ag(not(inbox(BB, ACK, AA, 5n, 2n)))))
+	CTLSPEC ag(inbox(AA, ACK, BB, 10n, 1n) implies ef(ag(not(inbox(AA, ACK, BB, 10n, 1n)))))
+	CTLSPEC ag(inbox(BB, ACK, AA, 10n, 1n) implies ef(ag(not(inbox(BB, ACK, AA, 10n, 1n)))))
+	CTLSPEC ag(inbox(AA, ACK, BB, 10n, 2n) implies ef(ag(not(inbox(AA, ACK, BB, 10n, 2n)))))
+	CTLSPEC ag(inbox(BB, ACK, AA, 10n, 2n) implies ef(ag(not(inbox(BB, ACK, AA, 10n, 2n)))))
+	*/
 	main rule r_irule =
-		choose $receiver in Name, $rule in RuleId with authentic($receiver) do
-			switch($rule)
+		choose $receiver in Name with authentic($receiver) do
+			switch(chosenRule)
 				//case LOSEMSGRULE:
 				//	r_loseMsg[$receiver]
 				case STARTTORULE:
@@ -180,7 +245,7 @@ definitions:
 			endswitch
 
 default init s0:
-	function balance($n in Name) = at({AA->5n, BB->5n ,CC->0n, DD->0n},$n)
+	function balance($n in Name) = at({AA->5n, BB->5n},$n)
 	function inbox($n in Name, $t in MessageType, $na in Name, $value in MoneyDomain,$tid in TidDomain) = false
 	//function exLogFrom($n in Name, $na in Name, $value in MoneyDomain,$tid in TidDomain) = false
 	//function exLogTo($n in Name, $na in Name, $value in MoneyDomain,$tid in TidDomain) = false

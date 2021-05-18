@@ -2,9 +2,14 @@ package org.asmeta.atgt.generator;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.asmeta.atgt.testoptimizer.UnchangedRemover;
 
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
@@ -14,6 +19,7 @@ import atgt.coverage.AsmTestSuite;
 import atgt.coverage.eval.AsmCoverageEvaluator;
 import atgt.coverage.evalc.NavigableAsmInputs;
 import atgt.coverage.tpstatus.TestConditionState;
+import atgt.specification.location.Location;
 
 /**
  * 
@@ -41,29 +47,34 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 	@Override
 	protected AsmTestSuite generateTestforASM(AsmCoverage ct) throws Exception {
 		assert new File(asmFile).exists();
+		///
+		TestGenerationWithNuSMV n = new TestGenerationWithNuSMV(asmFile); 
 		// specific to NUSMV
 		AsmTestSuite asmTestSuite = new AsmTestSuite();
 		logger.info("generating tests for tps (" + ct.getNumberofTPs()+")");
 		for (AsmTestCondition tp : ct.allTPs()) {
-			System.out.println(tp.getName() + " -" + tp.getCondition());
+			logger.info("generation for TP " + tp.getName() + " -" + tp.getCondition() + " " + tp.getStatusDescription());
 			if (tp.getStatus() == TestConditionState.Queued) {
-				TestGenerationWithNuSMV n = new TestGenerationWithNuSMV(asmFile, tp.getCondition());
-				Counterexample test = n.checkTpWithModelChecker();
+				//
+				Counterexample test = n.checkTpWithModelChecker(tp.getCondition());
 				if (test == null) {
+					logger.debug("test generation failed");
 					continue;
 				}
 				AsmTestSequence asmTest = ConverterCounterExample.convert(test, getSpec(), tp);
+				
 				// close the test
 				asmTest.close();
 				// connect to thsi to
 				tp.bindTestSeqTestPred(asmTest);
 				asmTestSuite.addTest(asmTest);
-				//System.out.println(asmTest);
 				// To avoid errors while translating in C to compute coverage: 
 				// TODO to fix ATGT and build a new JAR, or reference ATGT projects.
+				// attenzione che questo modifica il test che è passato, meglio fare una copia
 				if(coverageTp) {
-					// avoid teh use of C code
+					// avoid the use of C code
 					//AsmCoverageEvaluatorC coverageEval = new AsmCoverageEvaluatorC(getSpec(), ct);
+					//
 					AsmCoverageEvaluator coverageEval = new AsmCoverageEvaluator(ct);
 					NavigableAsmInputs inputs = new NavigableAsmInputs(asmTest, getSpec());
 					Vector<AsmTestCondition> covered = coverageEval.computeCoverage(inputs);
@@ -73,6 +84,9 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 						tc.bindTestSeqTestPred(asmTest);
 					}
 				}
+				// clean up the test
+				//UnchangedRemover.monRemover.optimize(asmTest);
+				//
 				/*
 				 * for(AsmTestCondition tc: ct.allTPs()){
 				 * System.out.print(tc.getUniqueID()+ " ");

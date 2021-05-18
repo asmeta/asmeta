@@ -1,5 +1,6 @@
 package asmeta.animator.ui.handlers;
 
+import java.io.File;
 import java.io.OutputStream;
 
 import org.apache.log4j.Level;
@@ -47,7 +48,7 @@ public class AnimatorHandler extends AsmetaActionHandler {
 			// get the options
 			org.asmeta.eclipse.simulator.actions.RunAction.setSimulationPrecerences();
 			// run the animator
-			VisualizationSimulation.showView(path);
+			VisualizationSimulation.showView(new File(path));
 		} catch (Throwable t) {
 			mc.writeMessage("Error " + t.getLocalizedMessage());
 			t.printStackTrace();
