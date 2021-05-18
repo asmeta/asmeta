@@ -10,7 +10,10 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.asmeta.atgt.testoptimizer.UnchangedRemover;
+import org.asmeta.atgt.testoptimizer.UnecessaryChangesRemover;
+import org.asmeta.parser.ASMParser;
 
+import asmeta.AsmCollection;
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmTestCondition;
@@ -29,19 +32,25 @@ import atgt.specification.location.Location;
  */
 public class NuSMVtestGenerator extends AsmTestGenerator {
 
+	public static boolean removeUnChangedControlles = true;
+
+	public static boolean removeUnaskedChanges = true;
+
 	protected String asmFile;
-	
+
+	private AsmCollection asmCollection;
 	public static Logger logger = Logger.getLogger(NuSMVtestGenerator.class);
 
-	public NuSMVtestGenerator(String asmFilePath) {
+	public NuSMVtestGenerator(String asmFilePath) throws Exception {
 		this(asmFilePath, true, CriteriaEnum.getCoverageCriteria(AsmTestGenerator.DEFAULT_CRITERIA));
 	}
 
-	public NuSMVtestGenerator(String asmFilePath, boolean coverageTp, Collection<AsmCoverageBuilder> criteria) {
+	public NuSMVtestGenerator(String asmFilePath, boolean coverageTp, Collection<AsmCoverageBuilder> criteria) throws Exception {
 		super(asmFilePath, coverageTp, criteria);
 		//Logger.getLogger(AsmetaLLoader.class).setLevel(Level.OFF);
 		//Logger.getLogger(CoverageEvaluatorC.class).setLevel(Level.OFF);
 		this.asmFile = asmFilePath;
+		asmCollection = ASMParser.setUpReadAsm(new File(asmFilePath));
 	}
 
 	@Override
@@ -85,7 +94,14 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 					}
 				}
 				// clean up the test
-				//UnchangedRemover.monRemover.optimize(asmTest);
+				// removing controlled repetitions
+				if (removeUnChangedControlles) UnchangedRemover.conRemover.optimize(asmTest);
+				// removing useless monitored
+				if (removeUnaskedChanges) {
+					UnecessaryChangesRemover eucr  = new UnecessaryChangesRemover(asmCollection);
+					eucr.optimize(asmTest);				
+
+				}
 				//
 				/*
 				 * for(AsmTestCondition tc: ct.allTPs()){

@@ -28,6 +28,9 @@ import tgtlib.definitions.expression.type.IntegerType;
 public class ConverterCounterExample {
 	
 	
+	private static final EnumConstCreator ENUM_CONST_CREATOR = new EnumConstCreator();
+
+
 	public static boolean IncludeUnchangedVariables = false;  
 	
 	
@@ -63,7 +66,7 @@ public class ConverterCounterExample {
 				// it can be a function
 				if (var.contains("_")) {
 					String funName = var.substring(0, var.indexOf('_'));
-					if (spec.getFunction(funName) != null){
+					if (spec.getFunction(funName) != null){						
 						asmTestSequence.addAssignment(var, val, Location.VarKind.CONTROLLED);
 						continue;
 					}
@@ -73,7 +76,7 @@ public class ConverterCounterExample {
 					Function function = spec.getFunction(funName);
 					if (function != null){
 						FunctionTerm ft = ConverterCounterExample.extractFunctionTerm(var, spec);
-						// TO DO let asmtest sequence accept also function
+						// TODO let asmtest sequence accept also function
 						asmTestSequence.addAssignment(ft, val, function.getVarKind());
 						continue;
 					}
@@ -131,7 +134,7 @@ public class ConverterCounterExample {
 		if (et instanceof EnumType) {
 			argId = ((EnumType) et).getEnumConst(argument);
 		} else {
-			argId = new EnumConstCreator().createIdExpression(argument, IntegerType.INTEGER_TYPE);
+			argId = ENUM_CONST_CREATOR.createIdExpression(argument, IntegerType.INTEGER_TYPE);
 		}
 		assert argId != null : argument + " not found in " + et;
 		FunctionTerm ft = new FunctionTerm(f.getIdExpression(), f.getCodomain(), Collections.singletonList(argId));

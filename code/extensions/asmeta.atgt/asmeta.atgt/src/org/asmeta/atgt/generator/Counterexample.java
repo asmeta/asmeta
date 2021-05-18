@@ -2,8 +2,16 @@ package org.asmeta.atgt.generator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
+/** 
+ * counter example ad list of states
+ * 
+ *
+ */
 public class Counterexample implements Iterable<ModelCheckerState> {
+	
+	// empty counter example: there is no counter example
+	public static final Counterexample EMPTY = new Counterexample();
+	
 	private ArrayList<ModelCheckerState> counterexample;
 
 	public Counterexample() {
@@ -14,6 +22,12 @@ public class Counterexample implements Iterable<ModelCheckerState> {
 		counterexample.add(state);
 	}
 
+	/**
+	 * Gets the state.
+	 *
+	 * @param i the i-th state STARTING FROM 1 (nusmv numbers the states from 1)
+	 * @return the state
+	 */
 	public ModelCheckerState getState(int i) {
 		return counterexample.get(i - 1);
 	}

@@ -64,7 +64,6 @@ public class SaveResults {
 						asm_to_import = new File(asmetaSpecPath).toPath().normalize();
 					}	
 					new toAvalla(ftc,tc,asm_to_import.toString()).save();
-					System.out.println("***" +asm_to_import.toString());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
