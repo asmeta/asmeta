@@ -20,7 +20,10 @@ public class SimShell {
 		CommanderOutput CO;
 		Scanner keyboard = new Scanner(System.in);
 		do {
-			System.out.print("> ");
+			if(Commander.prompt == null) {
+				Commander.prompt = "> ";
+			}
+			System.out.print(Commander.prompt);
 			userInput = keyboard.nextLine();
 			if (!userInput.equals("qqq")) {
 				CO = Commander.parseInput(containerInstance, userInput);
@@ -34,9 +37,9 @@ public class SimShell {
 					break;
 					case STOP:
 						if (CO.getStop()>0)
-							System.out.println("Stop successful");
+							System.out.println("Stop successful!");
 						else 
-							System.out.println("Couldn't stop given simulation");
+							System.out.println("Couldn't stop given simulation!");
 					break;
 					case RUNOUTPUT:
 						System.out.println(CO.getRunOutput());
@@ -46,7 +49,7 @@ public class SimShell {
 					break;
 					case BOOLRES:
 						if (CO.getSuccess())
-							System.out.println("Operation successful");
+							System.out.println("Operation successful!");
 					break;
 					case FAILURE:
 						System.out.println(CO.getErrorMessage());

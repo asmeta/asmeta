@@ -22,16 +22,18 @@ import org.asmeta.simulationUI.EmptyCompositionListException;
  * Command line interface main class
  */
 public class Commander {
-	private static final int DEFAULT_VALUE = -10;	// default value to check if user has inserted integer values
-	private static final String CONFIG_FILE_PATH = "src/org/asmeta/runtime_commander/.config"; 
-	public static boolean debugMode = true;		// default value for the debug mode is false
-	public static CommanderOutput out = new CommanderOutput(CommanderStatus.FAILURE, "Nothing initialized");
-	public static SimulationContainer containerInstance;
-	public static CompositionContainer compContainer;
-	private static String defaultModelDir;
-	private static boolean initConfigRequired = true;
+	private static final int DEFAULT_VALUE = -10;																// Default value to check if user has inserted integer values
+	private static final String CONFIG_FILE_PATH = "src/org/asmeta/runtime_commander/.config"; 					// Configuration file path
+	public static boolean debugMode = false;																	// Default value for the debug mode is false
+	public static CommanderOutput out = new CommanderOutput(CommanderStatus.FAILURE, "Nothing initialized");	// CommanderOutput initialization
+	public static SimulationContainer containerInstance;														// SimulationContainer declaration 
+	public static CompositionContainer compContainer;															// CompositionContainer declaration
+	private static String defaultModelDir;																		// defaultModelDir config file property
+	private static boolean initConfigRequired = true;															// Configuration required on startup flag
+	public static String lastInput = null;																		// Last executed input
+	public static String prompt;																				// Command line prompt text
 	
-	// Argument patterns
+	// Argument regex patterns
 	private static final Pattern N_PATTERN = Pattern.compile("(-n\\s+\\d+)");
 	private static final Pattern MODELPATH_PATTERN = Pattern.compile("(-modelpath\\s+\"[^\"\\n]+\")");
 	private static final Pattern ID_PATTERN = Pattern.compile("(-id\\s+\\d+)");
@@ -41,8 +43,9 @@ public class Commander {
 	private static final Pattern INV_PATTERN = Pattern.compile("(-inv\\s+\"[^\"\\n]+\")");
 	private static final Pattern INV_OLD_PATTERN = Pattern.compile("(-invold\\s+\"[^\"\\n]+\")");
 	private static final Pattern CONFIG_DEFAULT_MODELS_DIR_PATTERN = Pattern.compile("(-dir\\s+\"[^\"\\\\\\n]+\")");
+	private static final Pattern CONFIG_PROMPT = Pattern.compile("(-prompt\\s+\"[^\"\\n]+\")");
 								
-	//support function to parse numbers 
+	// Support function to parse numbers 
 	private static int parseNumber(Matcher m, String mod) {
 		int number = DEFAULT_VALUE;
 		if (m.find()) {
@@ -63,7 +66,7 @@ public class Commander {
 		return number;
 	}
 	
-	//support function to parse strings 
+	// Support function to parse strings 
 	private static String parseText(Matcher m, String mod) {
 		String str = null;
 		if (m.find()) {
@@ -89,33 +92,33 @@ public class Commander {
 				count++;
 				String[] supp=scan.next().split("=");
 				if (supp.length>2) {
-					out = new CommanderOutput(CommanderStatus.FAILURE, "wrong input format found inside locationvalue subparameter: "+String.join("=", supp));
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Wrong input format found inside 'locationvalue' subparameter: "+String.join("=", supp));
 				}
 				else if (supp.length==2)
 					locationvaluep.put(supp[0].trim(),supp[1].trim());
 				else {
-					out = new CommanderOutput(CommanderStatus.FAILURE, "nothing found inside locationvalue subparameter number "+count);
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Nothing found inside 'locationvalue' subparameter number "+count);
 				}
 			}
 			scan.close();
 		} else {
 			if (debugMode)
-				System.out.println("locationvalue parameter not found.");
+				System.out.println("'locationvalue' parameter not found!");
 		}
-		
 		return locationvaluep;
 	}
 	
 	 /**
 	 * Reads the operation and executes it.
 	 *
-	 * @param crt SimulationContainer instance
-	 * @param input string with the command and parameter to parse
-	 * @return object representing the result of the command executed
+	 * @param crt: SimulationContainer instance
+	 * @param input: string with the command and parameter to parse
+	 * @return a CommanderOutput instance representing the result of the command executed
 	 */
 	public static CommanderOutput parseInput(SimulationContainer crt, String input) {
 		containerInstance = crt;
 		String command = "";
+		
 		if(initConfigRequired) {
 			initializeConfiguration();
 		}
@@ -129,6 +132,9 @@ public class Commander {
 			command = scan.next();
 			//System.out.println("_" + command + "_");
 			scan.close();
+			if(!command.toUpperCase().equals("RR")) {
+				lastInput = input;
+			}
 			switch (command.toUpperCase()) {
 				case "INIT": 				 cmdInit(input); 				 break;
 				case "STARTEXECUTION": 		 cmdStartExecution(input); 		 break;
@@ -145,6 +151,8 @@ public class Commander {
 				case "HELP": 				 cmdHelp(); 					 break;
 				case "AUTOSETUP":			 cmdAutoSetup(input);			 break;
 				case "CONFIG":				 cmdConfig(input);				 break;
+				case "RR":					 cmdRerun();					 break;
+				case "RUN":					 cmdRun(input);					 break;
 				default:
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Function \"" + command + "\" is not a correct command!");
 			}
@@ -163,41 +171,104 @@ public class Commander {
 				if(data.startsWith("defaultModelDir=")) {
 					cmdConfig("-dir " + data.substring(16));
 					initConfigRequired = false;
-				} 
+				} else if(data.startsWith("prompt=")) {
+					cmdConfig("-prompt " + data.substring(7));
+					initConfigRequired = false;
+				} else {
+					cmdConfig("-prompt " + "\"> \"");
+					initConfigRequired = false;
+				}
 			}
 			reader.close();
 		} catch(Exception e) {
 			System.err.println("Error while reading the configuration file!");
 		}
 	}
+	
+	private static void cmdRun(String argument) {
+		String[] tokens;
+		ArrayList<String> fileContent = new ArrayList<>();
+		if(argument.contains("/")) { // file path
+			tokens = argument.split("\\s+");
+			if(tokens.length > 2) {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid arguments!");
+				return;
+			}
+			for(String token: tokens) {
+				token = token.replace("\"", "");
+				if(!token.toUpperCase().equals("RUN") && token.toLowerCase().contains(".asmsh")) {
+					File runFile = new File(token);
+					if(runFile.exists() && runFile.isFile()) {
+						try {
+							fileContent = new ArrayList<>();
+							String line = "";
+							BufferedReader reader;
+							reader = new BufferedReader(new FileReader(runFile));
+							while((line = reader.readLine()) != null) {
+								fileContent.add(line);
+							}
+							reader.close();
+						} catch(Exception e) {
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Error while reading the file!");
+							return;
+						}
+					}
+				}
+			}
+			SimulationContainer containerInstance = new SimulationContainer();
+			for(String command: fileContent) {
+				parseInput(containerInstance, command);
+			}
+		} else { // file already in defaultModelDir
+			if(argument.toUpperCase().contains("RUN ")) {
+				argument = argument.toUpperCase().replace("RUN ", "");
+			}
+			argument = defaultModelDir + "/" + argument.trim();
+			cmdRun(argument);
+		}
+		out = new CommanderOutput(CommanderStatus.FAILURE, "Run successful!");
+	}
+	
+	private static void cmdRerun() {
+		if(lastInput != null && containerInstance != null) {
+			parseInput(containerInstance, lastInput);
+		}
+	}
 
 	private static void cmdConfig(String argument) {
 		Matcher matcher = CONFIG_DEFAULT_MODELS_DIR_PATTERN.matcher(argument);
 		String defaultDirp = parseText(matcher, "config-dir");
+		matcher = CONFIG_PROMPT.matcher(argument);
+		String promptp = parseText(matcher, "config-prompt");
 		
 		if(defaultDirp != null) {
 			File defaultDir = new File(defaultDirp);
 			if(!defaultDir.exists()) {
 				out = new CommanderOutput(CommanderStatus.FAILURE, defaultDirp + " does not exist!");
+				return;
 			} else if(!defaultDir.isDirectory()) {
 				out = new CommanderOutput(CommanderStatus.FAILURE, defaultDirp + " is not a directory!");
+				return;
 			} else {
 				defaultModelDir = defaultDirp;
 				System.out.println("Default models directory: " + defaultModelDir);
 				setProperty("defaultModelDir", "\"" + defaultModelDir + "\"");
 				out = new CommanderOutput(CommanderStatus.FAILURE, "");
 			}
+		} else if(promptp != null) {
+			prompt = promptp;
+			setProperty("prompt", "\"" + prompt + "\"");
+			out = new CommanderOutput(CommanderStatus.BOOLRES, true);
 		} else {
-			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter 'dir' !");
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing parameter 'dir' or 'prompt' !");
 		}
 	}
 	
-	// syntax:	autosetup model1.asm model2.asm ... 	-> init all + start all
-	//			autosetup model1.asm | model2.asm | ... -> init all + compose (PIPE) in order
-	//			autosetup model1.asm <|> model2.asm		-> init all (must be only 2) + compose (BID_PIPE)
-	// model1.asm, model2.asm, ... have to be in the defaultModelDir folder.
+	/* syntax:	autosetup model1.asm model2.asm ... 	-> init all + start all
+				autosetup model1.asm | model2.asm | ... -> init all + compose (PIPE) in order
+				autosetup model1.asm <|> model2.asm		-> init all (must be only 2) + compose (BID_PIPE) in order
+	   model1.asm, model2.asm, ... have to be in the defaultModelDir folder. */
 	private static void cmdAutoSetup(String argument) {
-		String msg = "";
 		ArrayList<String> params = new ArrayList<>();
 		//System.out.println(argument);
 		String[] tokens;
@@ -255,7 +326,7 @@ public class Commander {
 				}
 			}
 		} else { // No composition
-			tokens = argument.split(" ");
+			tokens = argument.split("\\s+");
 			for(String token: tokens) {
 				if(!token.toUpperCase().equals("AUTOSETUP")) {
 					if(token.contains(".asm")) {
@@ -271,7 +342,7 @@ public class Commander {
 				cmdStartExecution("-modelpath \"" + defaultModelDir + "/" + param + "\"");
 			}
 		}
-		System.out.println(params.toString());
+		//System.out.println(params.toString());
 		System.out.println("Autosetup successful, type 'help' for more commands!\nLoaded simulations:");
 		cmdGetLoadedIDs();
 	}
@@ -303,8 +374,8 @@ public class Commander {
 		Matcher matcher = ID_PATTERN.matcher(argument);
 		int idp = parseNumber(matcher, "id");
 		
-		if (idp!=DEFAULT_VALUE)
-			out=new CommanderOutput(CommanderStatus.STOP, containerInstance.stopExecution(idp));
+		if (idp != DEFAULT_VALUE)
+			out = new CommanderOutput(CommanderStatus.STOP, containerInstance.stopExecution(idp));
 		else 
 			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter 'id' !");
 	}
@@ -334,8 +405,21 @@ public class Commander {
 					}
 				}
 			}
-			else
+			else {
 				out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runStep(idp));
+				if(compContainer != null) {
+					try {
+						compContainer.runStep(out.getRunOutput(), false);
+						out = new CommanderOutput(CommanderStatus.FAILURE, "");
+					} catch (EmptyCompositionListException e) {
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, empty composition list!");
+					} catch (CompositionSizeOutOfBoundException e) {
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition list out of bounds!");
+					} catch (CommanderException e) {
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, commander error!");
+					}
+				}
+			}
 		else 
 			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter 'id' !");
 	}
@@ -380,16 +464,17 @@ public class Commander {
 		Map<String, String> locationvaluep = parseLocationValue(matcher);
 		
 		if (idp != DEFAULT_VALUE) {
-			if (maxp != DEFAULT_VALUE)
+			if (maxp != DEFAULT_VALUE) {
 				if (locationvaluep != null)
 					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runUntilEmpty(idp, locationvaluep, maxp));
 				else
 					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runUntilEmpty(idp, maxp));
-			else
+			} else {
 				if (locationvaluep != null)
 					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runUntilEmpty(idp, locationvaluep));
 				else
 					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runUntilEmpty(idp));
+			}
 		} else {
 			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter 'id' !");
 		}
@@ -412,18 +497,19 @@ public class Commander {
 		matcher = LOCATION_VALUE_PATTERN.matcher(argument);
 		Map<String, String> locationvaluep = parseLocationValue(matcher);
 		
-		if (idp != DEFAULT_VALUE && timeoutp != DEFAULT_VALUE)
-			if (maxp != DEFAULT_VALUE)
+		if (idp != DEFAULT_VALUE && timeoutp != DEFAULT_VALUE) {
+			if (maxp != DEFAULT_VALUE) {
 				if (locationvaluep != null)
 					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runUntilEmptyTimeout(idp, locationvaluep, maxp, timeoutp));
 				else
 					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runUntilEmptyTimeout(idp, maxp, timeoutp));
-			else
+			} else {
 				if (locationvaluep != null)
 					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runUntilEmptyTimeout(idp, locationvaluep, timeoutp));
 				else
 					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runUntilEmptyTimeout(idp, timeoutp));
-		else { 
+			}
+		} else { 
 			if (idp == DEFAULT_VALUE)
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter 'id' !");
 			if (timeoutp == DEFAULT_VALUE) 
@@ -568,8 +654,29 @@ public class Commander {
 		System.out.println("\t\t\t\tParameter: -inv <updated invariant>");
 		System.out.println("\t\t\t\tParameter: -invold <old invariant>");
 		
+		//CONFIG
+		System.out.println("CONFIG\t\t\tManage SimShell and Commander configuration file.");
+		System.out.println("\t\t\t\tParameter: -dir <default asmeta models directory>");
+		System.out.println("\t\t\t\tParameter: -prompt <custom command line prompt>");
+				
+		//AUTOSETUP
+		System.out.println("AUTOSETUP\t\tAuto-setup single or multiple asmeta models in the default models directory.");
+		System.out.println("\t\t\t\tArguments: <model1> [<model2> ...]\t\t-> No model composition");
+		System.out.println("\t\t\t\tArguments: <model1> | <model2> [| <model3>...]\t-> Unidirectional cascade pipe composition");
+		System.out.println("\t\t\t\tArguments: <model1> <|> <model2>\t\t-> (Partial) Bidirectional pipe composition");
+		
+		//RUN
+		System.out.println("RUN\t\t\tRun a sequence of commands specified in an asmeta shell (.asmsh) file.");
+		System.out.println("\t\t\t\tArgument: <asmsh file absolute path>");
+		System.out.println("\t\t\t\tArgument: <asmsh file name> (when the file is already in the default models directory)");
+		
+		//RERUN
+		System.out.println("RR\t\t\tRe-run the previous command.");
+		
 		//GETLOADEDIDS
-		System.out.println("GETLOADEDIDS\t\tShows all the running simulations' ID.");
+		System.out.println("GETLOADEDIDS\t\tShows all the running simulations' IDs.");
+		
+		//Example
 		System.out.println("\nParameter examples:\t-n 5");
 		System.out.println("\t\t\t-id 1");
 		System.out.println("\t\t\t-modelpath \"C:/Users/...\"");
@@ -577,13 +684,15 @@ public class Commander {
 		System.out.println("\t\t\t-t 1000");
 		System.out.println("\t\t\t-max 50");
 		System.out.println("\t\t\t-inv \"invariant inv_name over ...\"");
+		System.out.println("\t\t\t-dir \"C:/Users/...\"");
+		System.out.println("\t\t\t-prompt \"> \"");
 		
 		out = new CommanderOutput(CommanderStatus.FAILURE, "");
 	}
 	
 	/**
-	 * Change a property value in the '.properties' file.
-	 * @param propertyName: name of the property in '.properties' file.
+	 * Change a property value in the '.config' file.
+	 * @param propertyName: name of the property in '.config' file.
 	 * @param value: new property value.
 	 */
 	public static void setProperty(String propertyName, String value) {
