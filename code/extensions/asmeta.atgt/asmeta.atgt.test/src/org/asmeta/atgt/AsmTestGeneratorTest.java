@@ -157,5 +157,30 @@ public class AsmTestGeneratorTest {
 		SaveResults.saveResults(result,ex,Collections.singleton(FormatsEnum.AVALLA), "");
 
 	}
+
+	@Test
+	public void generateMVMFunctions() throws Exception {
+		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
+		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.DEBUG);		
+		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.DEBUG);
+		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.DEBUG);
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);	
+		
+		TestGenerationWithNuSMV.useLTLandBMC = true;
+		
+		//String ex = "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
+		//String ex = "D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
+		String ex = "../../../../../mvm-asmeta/asm_models/VentilatoreASM_NewTime/Ventilatore4SimpleTimeLtdYFun.asm";
+		
+		//String ex = "C:\\Users\\garganti\\code_from_repos\\asmeta\\mvm-asmeta\\asm_models\\VentilatoreASM_NewTime\\Ventilatore4SimpleTimeLtd.asm";
+		
+		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
+				
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true,
+				Collections.singleton(CriteriaEnum.BASIC_RULE.criteria));
+
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(1, ".*");
+		
+	}
 	
 }
