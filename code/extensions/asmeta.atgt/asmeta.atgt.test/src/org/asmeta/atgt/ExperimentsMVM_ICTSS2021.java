@@ -48,7 +48,6 @@ public class ExperimentsMVM_ICTSS2021 {
 	public static void setup() throws IOException{
 		String fileName = "expriments_data" + LocalDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE)+ ".txt";
 		fw = new FileWriter(fileName);
-		fw.write("XX");
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.OFF);
 		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.OFF);
 		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.ERROR);
@@ -64,15 +63,8 @@ public class ExperimentsMVM_ICTSS2021 {
 	
 	@Test
 	public void generateMVM() throws Exception {
-
-		// String ex =
-		// "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
-		// String ex =
-		// "D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
 		String ex = "../../../../../mvm-asmeta/asm_models/VentilatoreASM_NewTime/Ventilatore4SimpleTimeLtdY.asm";
-		// String ex =
-		// "C:\\Users\\garganti\\code_from_repos\\asmeta\\mvm-asmeta\\asm_models\\VentilatoreASM_NewTime\\Ventilatore4SimpleTimeLtd.asm";
-
+		
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
 
 		List<Collection<AsmCoverageBuilder>> criteria = new ArrayList<>();
@@ -89,13 +81,12 @@ public class ExperimentsMVM_ICTSS2021 {
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
 
 		for (Collection<AsmCoverageBuilder> asmcb : criteria) {
-
 			String name = asmcb.stream().map(x -> x.getCoveragePrefix()).collect(Collectors.joining());
 			if (name.length() > 8) name = "ALL";
 			println(name);
 			// generate the tests
 			Instant start = Instant.now();
-			AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(asmcb,Integer.MAX_VALUE, "CR.*");
+			AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(asmcb,Integer.MAX_VALUE, ".*");
 			Instant finish = Instant.now();
 			long timeElapsed = Duration.between(start, finish).toMillis();
 			println(nuSMVtestGenerator.getTp());
