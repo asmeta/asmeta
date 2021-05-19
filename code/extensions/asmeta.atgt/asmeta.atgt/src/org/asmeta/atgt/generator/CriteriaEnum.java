@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.asmeta.atgt.generator.combinatorial.AsmDataExtractor;
@@ -20,10 +19,8 @@ import atgt.coverage.CompleteRuleVisitor;
 import atgt.coverage.MCDCCoverage;
 import atgt.coverage.RuleGuardVisitor;
 import atgt.coverage.RuleUpdateVisitor;
-import atgt.generator.AsmMonitoredDataExtractor;
 import atgt.specification.ASMSpecification;
 import extgt.coverage.combinatorial.NWiseCovBuilder;
-import extgt.coverage.combinatorial.PairwiseCovBuilder;
 
 /** enumeration form coverage criteria */
 public enum CriteriaEnum {

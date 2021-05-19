@@ -7,8 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.asmeta.parser.util.AsmPrinter;
-
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmCoverageTree;

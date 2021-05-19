@@ -11,6 +11,9 @@ public class Counterexample implements Iterable<ModelCheckerState> {
 	
 	// empty counter example: there is no counter example
 	public static final Counterexample EMPTY = new Counterexample();
+
+	// teh counter example is aempty beacuse the test is unfeasible
+	public static final Counterexample INFEASIBLE = new Counterexample();
 	
 	private ArrayList<ModelCheckerState> counterexample;
 

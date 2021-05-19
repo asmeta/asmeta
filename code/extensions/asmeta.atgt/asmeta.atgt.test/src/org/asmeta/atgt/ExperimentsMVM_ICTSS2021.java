@@ -51,7 +51,7 @@ public class ExperimentsMVM_ICTSS2021 {
 		fw.write("XX");
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.OFF);
 		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.OFF);
-		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.OFF);
+		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.ERROR);
 		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.OFF);
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		Logger.getLogger(AsmMonitoredDataExtractor.class).setLevel(Level.OFF);

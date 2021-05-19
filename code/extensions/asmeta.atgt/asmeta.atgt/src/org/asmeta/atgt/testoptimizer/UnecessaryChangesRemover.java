@@ -2,18 +2,13 @@ package org.asmeta.atgt.testoptimizer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.apache.log4j.Logger;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
-import org.asmeta.simulator.main.AsmetaSimulatorWR;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.readers.MonFuncReader;
@@ -29,7 +24,6 @@ import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.IntegerDomain;
 import asmeta.definitions.domains.util.DomainsSwitch;
 import atgt.coverage.AsmTestSequence;
-import atgt.specification.location.Location;
 import tgtlib.definitions.expression.type.Variable;
 
 // removes changes of monitored values that are unnecessary
@@ -44,6 +38,7 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 		this.asms = asms;
 	}
 
+	@Override
 	public void optimize(AsmTestSequence asmTest) {
 		//
 		try {

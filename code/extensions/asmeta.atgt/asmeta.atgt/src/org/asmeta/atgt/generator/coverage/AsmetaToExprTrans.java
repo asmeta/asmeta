@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.asmeta.nusmv.util.AsmNotSupportedException;
-
 import asmeta.definitions.domains.Domain;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.DomainTerm;

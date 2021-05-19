@@ -1,7 +1,6 @@
 package org.asmeta.atgt.generator;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashSet;
@@ -107,7 +106,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 			if (line.contains("is true")) {
 				assert line.startsWith("-- specification");
 				br.close();
-				return Counterexample.EMPTY;
+				return Counterexample.INFEASIBLE;
 			}
 			if (line.contains("is false")) {
 				assert line.startsWith("-- specification");

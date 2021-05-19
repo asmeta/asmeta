@@ -1,6 +1,5 @@
 package org.asmeta.atgt.generator.coverage;
 
-import asmeta.structure.Asm;
 import atgt.coverage.AsmCoverage;
 import tgtlib.coverage.CoverageBuilder;
 

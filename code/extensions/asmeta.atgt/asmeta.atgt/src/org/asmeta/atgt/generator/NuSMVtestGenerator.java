@@ -1,12 +1,6 @@
 package org.asmeta.atgt.generator;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -16,14 +10,12 @@ import org.asmeta.parser.ASMParser;
 
 import asmeta.AsmCollection;
 import atgt.coverage.AsmCoverage;
-import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
 import atgt.coverage.eval.AsmCoverageEvaluator;
 import atgt.coverage.evalc.NavigableAsmInputs;
 import atgt.coverage.tpstatus.TestConditionState;
-import atgt.specification.location.Location;
 
 /**
  * 
@@ -68,11 +60,17 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 				//
 				Counterexample test = n.checkTpWithModelChecker(tp.getCondition());
 				if (test == null) {
-					logger.debug("test generation failed");
+					logger.error("test generation failed - show never happen");
 					continue;
 				}
+				if (test == Counterexample.EMPTY) {
+					logger.error("test generation failed - model checker error");
+				}
+				if (test == Counterexample.INFEASIBLE) {
+					logger.error("test generation impossible since it is infeasible");
+				}
+				// if it is impossible and empty writes the test which is empty 
 				AsmTestSequence asmTest = ConverterCounterExample.convert(test, getSpec(), tp);
-				
 				// close the test
 				asmTest.close();
 				// connect to thsi to
@@ -101,7 +99,6 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 				if (removeUnaskedChanges) {
 					UnecessaryChangesRemover eucr  = new UnecessaryChangesRemover(asmCollection);
 					eucr.optimize(asmTest);				
-
 				}
 				//
 				/*
