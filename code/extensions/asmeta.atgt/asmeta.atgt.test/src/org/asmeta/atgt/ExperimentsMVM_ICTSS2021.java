@@ -95,21 +95,24 @@ public class ExperimentsMVM_ICTSS2021 {
 			println(name);
 			// generate the tests
 			Instant start = Instant.now();
-			AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(asmcb,1, "CR.*");
+			AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(asmcb,Integer.MAX_VALUE, "CR.*");
 			Instant finish = Instant.now();
 			long timeElapsed = Duration.between(start, finish).toMillis();
+			println(nuSMVtestGenerator.getTp());
+			println(nuSMVtestGenerator.getGenTests());
 			println("time:" + Long.toString(timeElapsed));
 			// same not optimezed
-//			SaveResults.saveResults(result, ex, Collections.singleton(FormatsEnum.AVALLA), name,"");
-//			// the same tests polished
-//			List<AsmTestSequence> tests = result.getTests();
-//			UnecessaryChangesRemover eucr = new UnecessaryChangesRemover(asms);
-//			for (int i = 0; i < tests.size(); i++) {
-//				UnchangedRemover.conRemover.optimize(tests.get(i));
-//				eucr.optimize(tests.get(i));
-//			}
-//			SaveResults.saveResults(result, ex, Collections.singleton(FormatsEnum.AVALLA), name+ "opt", "");
+			SaveResults.saveResults(result, ex, Collections.singleton(FormatsEnum.AVALLA), name,"");
+			// the same tests polished
+			List<AsmTestSequence> tests = result.getTests();
+			UnecessaryChangesRemover eucr = new UnecessaryChangesRemover(asms);
+			for (int i = 0; i < tests.size(); i++) {
+				UnchangedRemover.conRemover.optimize(tests.get(i));
+				eucr.optimize(tests.get(i));
+			}
+			SaveResults.saveResults(result, ex, Collections.singleton(FormatsEnum.AVALLA), name+ "opt", "");
 		}
+		fw.close();
 
 	}
 
