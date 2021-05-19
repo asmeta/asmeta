@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
@@ -42,11 +43,11 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 	public static Logger logger = Logger.getLogger(NuSMVtestGenerator.class);
 
 	public NuSMVtestGenerator(String asmFilePath) throws Exception {
-		this(asmFilePath, true, CriteriaEnum.getCoverageCriteria(AsmTestGenerator.DEFAULT_CRITERIA));
+		this(asmFilePath, true);
 	}
 
-	public NuSMVtestGenerator(String asmFilePath, boolean coverageTp, Collection<AsmCoverageBuilder> criteria) throws Exception {
-		super(asmFilePath, coverageTp, criteria);
+	public NuSMVtestGenerator(String asmFilePath, boolean coverageTp) throws Exception {
+		super(asmFilePath, coverageTp);
 		//Logger.getLogger(AsmetaLLoader.class).setLevel(Level.OFF);
 		//Logger.getLogger(CoverageEvaluatorC.class).setLevel(Level.OFF);
 		this.asmFile = asmFilePath;

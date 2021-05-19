@@ -15,7 +15,7 @@ import atgt.project.AsmProject;
 public class SpinTestGenerator extends AsmTestGenerator {
 
 	public SpinTestGenerator(String asmfile, boolean coverageTp) {
-		super(asmfile, coverageTp, CriteriaEnum.getCoverageCriteria(AsmTestGenerator.DEFAULT_CRITERIA));
+		super(asmfile, coverageTp);
 	}
 
 	protected static final boolean SEARCH_COMMON_COVERAGE = false;

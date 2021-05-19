@@ -18,7 +18,6 @@ import atgt.testseqexport.toXML;
 
 public class SaveResults {
 
-	
 	/**
 	 * 
 	 * @param result the already generated test suite
@@ -26,6 +25,16 @@ public class SaveResults {
 	 * @param formats XML, Avalla
 	 */
 	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String config) {
+		saveResults(result, asmetaSpecPath, formats, "", config);
+	}
+	
+	/**
+	 * 
+	 * @param result the already generated test suite
+	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
+	 * @param formats XML, Avalla
+	 */
+	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String foldersuffix, String config) {
 		if (formats==null || formats.size()==0) {
 			System.err.println("No formats specified");
 			return;
@@ -34,7 +43,7 @@ public class SaveResults {
 		if (parent==null) parent = ".";
 		System.out.println("Parent: "+parent);		
 		// find new dir where to put files
-		String dirPath = Paths.get(parent,"abstractests").toString();
+		String dirPath = Paths.get(parent,"abstractests"+foldersuffix).toString();
 		// find new dir where to put files
 		File testFile = new File(dirPath);
 		int i = 1;

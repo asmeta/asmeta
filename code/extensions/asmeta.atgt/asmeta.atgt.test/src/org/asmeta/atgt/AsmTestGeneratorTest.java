@@ -51,9 +51,9 @@ public class AsmTestGeneratorTest {
 		Logger.getLogger(StdPairwiseCovBuild.class).setLevel(Level.DEBUG);
 		String asmPath = FILE_BASE + "PHD/phd_master_flat2_v6.asm";
 		List<AsmCoverageBuilder> coverageCriteria = CriteriaEnum.getCoverageCriteria(CriteriaEnum.THREEWISE);
-		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, true, coverageCriteria);
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, true);
 		TestGenerationWithNuSMV.useLTLandBMC = true;
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "gg.*");
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(coverageCriteria,Integer.MAX_VALUE, "gg.*");
 		for (AsmTestSequence t : result.getTests()) {
 			System.out.println("test sequence generated for " + t.getGeneratedFor().getName());
 			System.out.println("test sequence " + t.toVideo());
@@ -72,9 +72,9 @@ public class AsmTestGeneratorTest {
 		String asmPath = FILE_BASE + "PHD/phd_master_flat2_v1.asm";
 		List<AsmCoverageBuilder> coverageCriteria = CriteriaEnum.getCoverageCriteria(CriteriaEnum.BASIC_RULE);
 		for (boolean v : new boolean[] { true, false }) {
-			NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, v, coverageCriteria);
+			NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, v);
 			TestGenerationWithNuSMV.useLTLandBMC = true;
-			AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE,
+			AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(coverageCriteria,Integer.MAX_VALUE,
 					"BR_r_Main_TBR_r_Unassociated__REQ_ASSOC_REL_T1");
 			System.out.println("test sequence " + result.getTests().get(0).toVideo());
 			System.out.print("tp covered: ");
@@ -95,27 +95,26 @@ public class AsmTestGeneratorTest {
 	public void generateCombinatorial() throws Exception {
 		Logger.getLogger(AsmTestGeneratorTest.class).setLevel(Level.DEBUG);
 		String asmPath = "examples/asmenum.asm";
-		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, true,
-				Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria));
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, ".*");
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, true);
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria),Integer.MAX_VALUE, ".*");
 	}
 
 	@Test
 	public void generateWinvariants() throws Exception {
 		Logger.getLogger(AsmTestGeneratorTest.class).setLevel(Level.DEBUG);
 		String asmPath = "examples/phd_master_flat2_v00.asm";
-		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, true,
-				Collections.singleton(CriteriaEnum.BASIC_RULE.criteria));
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, ".*");
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, true);
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(
+				Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),Integer.MAX_VALUE, ".*");
 	}
 
 	@Test
 	public void generateCombinatorialPHD() throws Exception {
 		Logger.getLogger(AsmTestGeneratorTest.class).setLevel(Level.DEBUG);
 		String ex = "D:\\AgDocuments\\progettiDaSVN\\Rate4PHD\\ASM\\newPHD\\phd_master_flat2_v0.asm";
-		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true,
-				Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria));
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, ".*");
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(
+				Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria),Integer.MAX_VALUE, ".*");
 	}
 	
 	@Test
@@ -136,14 +135,13 @@ public class AsmTestGeneratorTest {
 		
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
 				
-		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true,
-				Collections.singleton(CriteriaEnum.BASIC_RULE.criteria));
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
 		NuSMVtestGenerator.removeUnaskedChanges = false;
 		NuSMVtestGenerator.removeUnChangedControlles = false;
 		ConverterCounterExample.IncludeUnchangedVariables = false;
 		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T");//|BR_r_Main_FFFTT15");
 		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(1, "BR_r_Main_TFFFTFFT152");
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, ".*");
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(	Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),Integer.MAX_VALUE, ".*");
 		
 		//toAvalla toavalla = new toAvalla(new PrintStream(System.out), result.getTests().get(0), "", "");
 		//toavalla.saveToStream();
@@ -178,10 +176,9 @@ public class AsmTestGeneratorTest {
 		
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
 				
-		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true,
-				Collections.singleton(CriteriaEnum.BASIC_RULE.criteria));
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
 
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(1, ".*");
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),1, ".*");
 		
 	}
 	

@@ -92,8 +92,8 @@ public class GenerateTestsFromFSM {
 	 */
 	protected String getFSMWithTestsFromFSMAndASM(String fsmPath, String asmPath, List<CriteriaEnum> criteria)
 			throws Exception {
-		AsmTestSuite result = new NuSMVtestGenerator(asmPath, false, CriteriaEnum.getCoverageCriteria(criteria))
-				.generateAbstractTests(Integer.MAX_VALUE, ".*");
+		AsmTestSuite result = new NuSMVtestGenerator(asmPath, false)
+				.generateAbstractTests( CriteriaEnum.getCoverageCriteria(criteria),Integer.MAX_VALUE, ".*");
 		String tests = SaveResults.getResults(result, asmPath, FormatsEnum.AVALLA);
 		BufferedReader fin = new BufferedReader(new FileReader(fsmPath));
 		String line = "", res = "";
@@ -119,8 +119,8 @@ public class GenerateTestsFromFSM {
 	protected String[] getFSMWithTestsFromFSMAndASMfromAvalla(String fsmPath, String asmPath, boolean useMonitoring, 
 			List<CriteriaEnum> criteria) throws Exception {
 		TestGenerationWithNuSMV.useLTLandBMC = true;
-		AsmTestSuite result = new NuSMVtestGenerator(asmPath, useMonitoring, CriteriaEnum.getCoverageCriteria(criteria))
-				.generateAbstractTests(Integer.MAX_VALUE, ".*");
+		AsmTestSuite result = new NuSMVtestGenerator(asmPath, useMonitoring)
+				.generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria),Integer.MAX_VALUE, ".*");
 		String[] tests = SaveResults.getAvallaResults(result, fsmPath, asmPath);
 		// Returns the Avalla file paths
 		return tests;

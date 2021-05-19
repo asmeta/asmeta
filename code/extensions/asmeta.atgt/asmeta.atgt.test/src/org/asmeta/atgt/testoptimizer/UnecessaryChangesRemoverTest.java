@@ -46,8 +46,7 @@ public class UnecessaryChangesRemoverTest {
 		String ex = "../../../../../mvm-asmeta/asm_models/VentilatoreASM_NewTime/Ventilatore4SimpleTimeLtdY.asm";
 		
 				
-		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true,
-				Collections.singleton(CriteriaEnum.BASIC_RULE.criteria));
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
 		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T");//|BR_r_Main_FFFTT15");
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_TFFFTFF102");
 		//

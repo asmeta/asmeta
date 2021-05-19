@@ -49,7 +49,7 @@ public enum CriteriaEnum {
 
 			@Override
 			public String getCoveragePrefix() {
-				return cov.getCoveragePrefix();
+				return"3-WISE";
 			}
 
 			@Override
