@@ -64,10 +64,10 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 					continue;
 				}
 				if (test == Counterexample.EMPTY) {
-					logger.error("test generation failed - model checker error");
+					logger.warn("test generation failed - model checker error " + tp.getName() + " -" + tp.getCondition());
 				}
 				if (test == Counterexample.INFEASIBLE) {
-					logger.error("test generation impossible since it is infeasible");
+					logger.warn("test generation impossible since it is infeasible " + tp.getName() + " -" + tp.getCondition());
 				}
 				// if it is impossible and empty writes the test which is empty 
 				AsmTestSequence asmTest = ConverterCounterExample.convert(test, getSpec(), tp);

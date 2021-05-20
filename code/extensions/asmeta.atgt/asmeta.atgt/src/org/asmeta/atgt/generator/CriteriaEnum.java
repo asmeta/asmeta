@@ -22,7 +22,11 @@ import atgt.coverage.RuleUpdateVisitor;
 import atgt.specification.ASMSpecification;
 import extgt.coverage.combinatorial.NWiseCovBuilder;
 
-/** enumeration form coverage criteria */
+/** enumeration form coverage criteria 
+ * 
+ * Wrapppers arounf 
+ * 
+ * */
 public enum CriteriaEnum {
 	
 	BASIC_RULE("BasicRule",new BasicRuleVisitor()), 
@@ -31,8 +35,8 @@ public enum CriteriaEnum {
 	RULE_UPDATE("RuleUpdate",new RuleUpdateVisitor()),
 	MCDC("MCDC",MCDCCoverage.getCoverage()),
 	// combinatorial
-	COMBINATORIAL_MON("combinatorial", AsmCombCovBuilder.get(AsmCombCovBuilder.makePairwiseCovBuilder())),
-	COMBINATORIAL_ALL("combinatorial", org.asmeta.atgt.generator.combinatorial.AsmDataExtractor.getAsmCombCovBuilder()),
+	COMBINATORIAL_MON("pairwise monitored", AsmCombCovBuilder.get(AsmCombCovBuilder.makePairwiseCovBuilder())),
+	COMBINATORIAL_ALL("pairwise all", org.asmeta.atgt.generator.combinatorial.AsmDataExtractor.getAsmCombCovBuilder()),
 	
 	THREEWISE("3wise", triwiseCoveBuilder());
 

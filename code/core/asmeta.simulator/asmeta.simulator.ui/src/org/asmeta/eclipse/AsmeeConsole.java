@@ -5,9 +5,14 @@ import java.io.IOException;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
-/** ASMEE Console*/
+/** 
+ * Asmeta Console to be used for all the ASMETA Plugins
+ * 
+ * TODO rename as asmeta console
+ * 
+ * */
 public class AsmeeConsole extends IOConsole {
-	private static final String CONSOLE_NAME = "ASMEE console";
+	private static final String CONSOLE_NAME = "Asmeta console";
 
 	public AsmeeConsole() {
 		super(CONSOLE_NAME, null);			

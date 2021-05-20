@@ -18,6 +18,7 @@ import tgtlib.coverage.CovBuilderBySubCov;
 
 public abstract class AsmTestGenerator {
 
+
 	static private Logger logger = Logger.getLogger(AsmTestGenerator.class);
 
 	/** compute coverage??? */
@@ -29,8 +30,9 @@ public abstract class AsmTestGenerator {
 		return spec;
 	}
 
-	public static final List<AsmCoverageBuilder> DEFAULT_CRITERIA = 
-			CriteriaEnum.getCoverageCriteria(Arrays.asList(CriteriaEnum.BASIC_RULE,CriteriaEnum.COMPLETE_RULE, CriteriaEnum.RULE_UPDATE));
+	public static final List<CriteriaEnum> DEFAULT_CRITERIA = Arrays.asList(CriteriaEnum.BASIC_RULE,CriteriaEnum.COMPLETE_RULE, CriteriaEnum.RULE_UPDATE);
+	
+	public static final List<AsmCoverageBuilder> DEFAULT_COV_BUILDER = CriteriaEnum.getCoverageCriteria(DEFAULT_CRITERIA);
 	
 	
 	public static final List<String> DEFAULT_FORMATS = FormatsEnum
@@ -90,7 +92,7 @@ public abstract class AsmTestGenerator {
 	 */
 	public AsmTestSuite generateAbstractTests(int maxTests, String regex) throws Exception {
 		// collect the coverage criteria
-		return generateAbstractTests(new MBTCoverage(DEFAULT_CRITERIA), maxTests, regex);
+		return generateAbstractTests(new MBTCoverage(DEFAULT_COV_BUILDER), maxTests, regex);
 	}
 
 
