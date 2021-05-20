@@ -78,7 +78,6 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 		useBMC = useLTLandBMC;
 		// clear all the previous properties.
 		clearProperties();
-		logger.debug("translate the maps");
 		translation();
 		//
 		buildNuSMV(tp);
@@ -99,6 +98,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 		// skip first lines
 		for (;;) {
 			String line = br.readLine();
+			logger.debug(line);
 			if (line == null) {
 				br.close();
 				return Counterexample.EMPTY;

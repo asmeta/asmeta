@@ -28,6 +28,8 @@ import org.asmeta.atgt.generator.TestGenerationWithNuSMV;
 import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
 import org.asmeta.atgt.testoptimizer.UnchangedRemover;
 import org.asmeta.atgt.testoptimizer.UnecessaryChangesRemover;
+import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.parser.ASMParser;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -69,6 +71,8 @@ public class ExperimentsMVM_ICTSS2021 {
 		NuSMVtestGenerator.removeUnaskedChanges = false;
 		NuSMVtestGenerator.removeUnChangedControlles = false;
 		ConverterCounterExample.IncludeUnchangedVariables = false;
+		AsmetaSMV.BMCLength = 100;
+		AsmetaSMVOptions.useCoi = true;
 	}
 
 	@Test

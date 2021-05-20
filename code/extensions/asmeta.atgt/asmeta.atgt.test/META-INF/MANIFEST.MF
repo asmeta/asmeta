@@ -9,6 +9,7 @@ Require-Bundle: asmeta.atgt,
  org.junit,
  asmeta.flattener,
  asmeta.emf,
- asmeta.parser
+ asmeta.parser,
+ asmeta.smv
 Import-Package: org.apache.log4j;version="1.2.15",
  org.asmeta.parser

@@ -16,6 +16,7 @@ import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.atgt.generator.TestGenerationWithNuSMV;
 import org.asmeta.atgt.testoptimizer.UnchangedRemover;
 import org.asmeta.atgt.testoptimizer.UnecessaryChangesRemover;
+import org.asmeta.nusmv.AsmetaSMV;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 
@@ -126,6 +127,7 @@ public class AsmTestGeneratorTest {
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);	
 		
 		TestGenerationWithNuSMV.useLTLandBMC = true;
+		AsmetaSMV.BMCLength = 100;
 		
 		//String ex = "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
 		//String ex = "D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
@@ -140,8 +142,8 @@ public class AsmTestGeneratorTest {
 		NuSMVtestGenerator.removeUnChangedControlles = false;
 		ConverterCounterExample.IncludeUnchangedVariables = false;
 		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T");//|BR_r_Main_FFFTT15");
-		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(1, "BR_r_Main_TFFFTFFT152");
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(	Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),Integer.MAX_VALUE, ".*");
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(1, "BR_r_Main_TFFFTT12");
+		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(	Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),Integer.MAX_VALUE, ".*");
 		
 		//toAvalla toavalla = new toAvalla(new PrintStream(System.out), result.getTests().get(0), "", "");
 		//toavalla.saveToStream();

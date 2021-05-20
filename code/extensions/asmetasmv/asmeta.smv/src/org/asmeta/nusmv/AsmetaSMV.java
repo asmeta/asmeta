@@ -29,8 +29,8 @@ import asmeta.structure.Asm;
 public class AsmetaSMV {
 	
 	/** use bounded model checking and LTL */
-	public boolean useBMC;
-	
+	static public boolean useBMC;
+	static public int BMCLength = -1;
 	public MapVisitor mv;
 	public String outputRunNuSMV;
 	public String outputRunNuSMVreplace;
@@ -95,10 +95,6 @@ public class AsmetaSMV {
 					"File " + file.getPath() + " has not been found. Current path " + new File(".").getAbsolutePath());
 		}
 	}
-
-	
-	
-	
 	
 	/**
 	 * It creates and populates the data structures that describe the mapping
@@ -233,7 +229,11 @@ public class AsmetaSMV {
 		commands.add("-quiet");
 		// bounded model checking? LTL and
 		if (useBMC) {
-			commands.add("-bmc");			
+			commands.add("-bmc");	
+			if (BMCLength > 0) {
+				commands.add("-bmc_length");
+				commands.add(Integer.toString(BMCLength));				
+			}
 		}
 		commands.add(smvFileName);
 		if (false) {
@@ -262,7 +262,6 @@ public class AsmetaSMV {
 		try {
 			Runtime rt = Runtime.getRuntime();
 			proc = rt.exec(cmdarray);
-
 			// outputRunNuSMV = getOutput(smvFileName);
 		} catch (Exception e) {
 			out.println("Execution error\n" + e);
