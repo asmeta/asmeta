@@ -70,7 +70,9 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 				//
 				Counterexample test = n.checkTpWithModelChecker(tp.getCondition());
 				if (test == null) {
-					logger.error("test generation failed - show never happen");
+					String msg="test generation failed - show never happen";
+					logger.error(msg);
+					if (fw!=null) println(msg,fw);
 					continue;
 				}
 				if (test == Counterexample.EMPTY) {
