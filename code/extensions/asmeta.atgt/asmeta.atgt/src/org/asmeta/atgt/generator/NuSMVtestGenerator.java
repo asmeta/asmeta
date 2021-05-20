@@ -34,6 +34,9 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 	private AsmCollection asmCollection;
 	public static Logger logger = Logger.getLogger(NuSMVtestGenerator.class);
 
+	private String tp="";
+	private String genTests="";
+	
 	public NuSMVtestGenerator(String asmFilePath) throws Exception {
 		this(asmFilePath, true);
 	}
@@ -108,8 +111,17 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 				 */
 			}
 		}
-		System.out.println("# tps " + ct.getNumberofTPs());
-		System.out.println("# generated tests " + asmTestSuite.size());
+		tp="# tps " + ct.getNumberofTPs();
+		//System.out.println(tp);
+		genTests="# generated tests " + asmTestSuite.size();
+		//System.out.println(genTests);
 		return asmTestSuite;
+	}
+	
+	public String getTp() {
+		return tp;
+	}
+	public String getGenTests() {
+		return genTests;
 	}
 }
