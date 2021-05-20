@@ -1,6 +1,8 @@
 package org.asmeta.atgt.generator;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -50,7 +52,12 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 	}
 
 	@Override
-	protected AsmTestSuite generateTestforASM(AsmCoverage ct) throws Exception {
+	protected AsmTestSuite generateTestforASM(AsmCoverage ct) throws Exception{
+		return generateTestforASM(ct, null);
+	}
+	
+	
+	protected AsmTestSuite generateTestforASM(AsmCoverage ct, FileWriter fw) throws Exception {
 		assert new File(asmFile).exists();
 		///
 		TestGenerationWithNuSMV n = new TestGenerationWithNuSMV(asmFile); 
@@ -67,10 +74,14 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 					continue;
 				}
 				if (test == Counterexample.EMPTY) {
-					logger.warn("test generation failed - model checker error " + tp.getName() + " -" + tp.getCondition());
+					String msg= "test generation failed - model checker error " + tp.getName() + " -" + tp.getCondition();
+					if (fw!=null) println(msg,fw);
+					logger.warn(msg);
 				}
 				if (test == Counterexample.INFEASIBLE) {
-					logger.warn("test generation impossible since it is infeasible " + tp.getName() + " -" + tp.getCondition());
+					String msg = "test generation impossible since it is infeasible " + tp.getName() + " -" + tp.getCondition();
+					if (fw!=null) println(msg,fw);
+					logger.warn(msg);
 				}
 				// if it is impossible and empty writes the test which is empty 
 				AsmTestSequence asmTest = ConverterCounterExample.convert(test, getSpec(), tp);
@@ -123,5 +134,11 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 	}
 	public String getGenTests() {
 		return genTests;
+	}
+	
+	private void println(String s, FileWriter fw) throws IOException {
+		fw.append(s+ "\n");
+		fw.flush();
+		System.out.println(s);
 	}
 }

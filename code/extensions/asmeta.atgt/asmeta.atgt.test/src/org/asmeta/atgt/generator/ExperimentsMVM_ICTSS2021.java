@@ -156,7 +156,7 @@ public class ExperimentsMVM_ICTSS2021 {
 				break;
 			// generate the tests
 			Instant start = Instant.now();
-			AsmTestSuite ts = nuSMVtestGenerator.generateTestforASM(ct);
+			AsmTestSuite ts = nuSMVtestGenerator.generateTestforASM(ct,fw);
 			assert ts != null;
 			assert ts.getTests().size() == 1;
 			Instant finish = Instant.now();
