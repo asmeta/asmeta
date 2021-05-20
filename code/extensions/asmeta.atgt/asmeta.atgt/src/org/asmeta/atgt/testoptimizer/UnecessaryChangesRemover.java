@@ -83,7 +83,7 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 		}
 
 		void nextState() {
-			System.out.println("asked only " + asked);
+			//System.out.println("asked only " + asked);
 			// remove the variables that are not asked
 			Map<? extends Variable, String> currentState = asmTest.getState(currentStateIndex);
 			List<? extends Variable> keySet = new ArrayList<>(currentState.keySet());

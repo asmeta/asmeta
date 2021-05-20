@@ -40,7 +40,7 @@ public class SaveResults {
 		}
 		String parent = new File(asmetaSpecPath).getParent(); //.uptoSegment(config.asmetaSpecPath.segmentCount()-1);
 		if (parent==null) parent = ".";
-		System.out.println("Parent: "+parent);		
+		//System.out.println("Parent: "+parent);		
 		// find new dir where to put files
 		String dirPath = Paths.get(parent,"abstractests"+foldersuffix).toString();
 		// find new dir where to put files
@@ -49,8 +49,8 @@ public class SaveResults {
 		while (testFile.exists()) {
 			testFile = new File(dirPath + i++);
 		}
-		System.out.println(testFile.mkdir());
-		System.out.println("saving tests to " + testFile.getAbsolutePath());
+		testFile.mkdir();
+		//System.out.println("saving tests to " + testFile.getAbsolutePath());
 		// save to output files
 		String allSequences = ""; // used for ProTest, to create a single file with all the sequences
 		for (AsmTestSequence tc : result.getTests()) {
@@ -98,7 +98,7 @@ public class SaveResults {
 		}
 		String parent = new File(asmetaSpecPath).getParent();
 		if (parent==null) parent = ".";
-		System.out.println("Parent: "+parent);		
+		//System.out.println("Parent: "+parent);		
 		String res = "Set of Sequences :\n";
 		
 		for (AsmTestSequence tc : result.getTests()) {
