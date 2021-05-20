@@ -7,6 +7,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
@@ -17,7 +18,7 @@ public class ParseAllExampleTest {
 
 	@Test
 	public void testParseOnExamples() throws IOException {
-		Files.walk(Path.of("examples"))
+		Files.walk(Paths.get("examples"))
 			.filter(Files::isRegularFile)
 			.filter(x -> x.getFileName().toString().endsWith(".asm"))
 			.filter(x -> !(x.getFileName().toString().contains("_flat.asm")))
