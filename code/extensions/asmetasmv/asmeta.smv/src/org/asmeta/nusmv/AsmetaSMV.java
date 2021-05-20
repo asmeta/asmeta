@@ -97,7 +97,7 @@ public class AsmetaSMV {
 					"File " + file.getPath() + " has not been found. Current path " + new File(".").getAbsolutePath());
 		}
 	}
-	
+
 	/**
 	 * It creates and populates the data structures that describe the mapping
 	 * between the ASM model and the NuSMV model.
@@ -145,12 +145,12 @@ public class AsmetaSMV {
 		else if (AsmetaSMVOptions.isUseNuXmv())
 			runNuXMV(smvFileName);
 		else {
-			runNuSMV(smvFileName);
+			List<String> commands = runNuSMV(smvFileName);
 			/*
 			 * if (Util.isPrintNuSMVoutput()) { c.run = false;// it stops the counter try {
 			 * t.join(); } catch (InterruptedException e) { e.printStackTrace(); } }
 			 */
-			outputRunNuSMV = getOutput();
+			outputRunNuSMV = getOutput(commands);
 			// System.out.println(outputRunNuSMV);
 			outputRunNuSMVreplace = replaceVarsWithLocations(outputRunNuSMV);
 			mv.getPropertiesResults(outputRunNuSMV);
@@ -162,7 +162,7 @@ public class AsmetaSMV {
 		}
 	}
 
-	private void runNuXMV(String smvFileName)  throws Exception{
+	private void runNuXMV(String smvFileName) throws Exception {
 		// TODO IMPLEMENT COMMANDS TO RUN NUXMV WITHOUT TIME TO ALLOW CTL PROPERTIES
 		// VERIFICATION
 		String solverName = "nuXmv";
@@ -272,10 +272,11 @@ public class AsmetaSMV {
 	 * It executes the NuSMV model "smvFileName".
 	 * 
 	 * @param smvFileName the file name of the NuSMV model
+	 * @return the commands given to nusmv
 	 * 
 	 * @throws Exception
 	 */
-	private void runNuSMV(String smvFileName) throws Exception {
+	private List<String> runNuSMV(String smvFileName) throws Exception {
 		String solverName;
 		// nuXmv also accepts standard NuSMV files
 		if (AsmetaSMVOptions.getSolverPath() == null) {
@@ -306,10 +307,10 @@ public class AsmetaSMV {
 		commands.add("-quiet");
 		// bounded model checking? LTL and
 		if (useBMC) {
-			commands.add("-bmc");	
+			commands.add("-bmc");
 			if (BMCLength > 0) {
 				commands.add("-bmc_length");
-				commands.add(Integer.toString(BMCLength));				
+				commands.add(Integer.toString(BMCLength));
 			}
 		}
 		commands.add(smvFileName);
@@ -324,12 +325,13 @@ public class AsmetaSMV {
 		}
 		runNuSMV(commands.toArray(new String[commands.size()]));
 		// runNuSMV(new String[] {"/Applications/NuSMV/bin/NuSMV", smvFileName});
+		return commands;
 	}
 
 	/**
 	 * It executes the NuSMV model with the provided set of options.
 	 *
-
+	 * 
 	 * @param cmdarray an array of options for NuSMV. The first one is the solver
 	 * @param cmdarray an array of options for NuSMV. The first one is the solver
 	 *                 name and the last one the file name.
@@ -364,25 +366,16 @@ public class AsmetaSMV {
 	/**
 	 * It reads from the input and streams of NuSMV the output of the computation.
 	 * 
+	 * @param commands
+	 * 
 	 * @param smvFileName the name of the executed NuSMV file
 	 * @return the output produced by NuSMV
 	 * @throws Exception
 	 */
-	public String getOutput() throws Exception {
+	public String getOutput(List<String> commands) throws Exception {
+		// append to commands
 		StringBuilder sb = new StringBuilder("> ");
-		// if (AsmetaSMVOptions.isUseNuXmv()) {
-		// sb.append("nuXmv");
-		// } else {
-		sb.append("NuSMV");
-		// }
-		if (!AsmetaSMVOptions.isPrintCounterExample()) {
-			sb.append(" -dcx");
-		}
-		sb.append(" -dynamic");
-		if (AsmetaSMVOptions.useCoi) {
-			sb.append(" -coi");
-		}
-		sb.append(" -quiet ").append(smvFileName).append("\n");
+		sb.append(String.join(" ", commands) + "\n");
 		InputStream inputStream = proc.getInputStream();
 		InputStream errorStream = proc.getErrorStream();
 		InputStreamReader inputStreamR = new InputStreamReader(inputStream);
