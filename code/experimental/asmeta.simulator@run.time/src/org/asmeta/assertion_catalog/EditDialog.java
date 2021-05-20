@@ -287,14 +287,14 @@ public class EditDialog extends JDialog {
 						}
 						else
 						{
-							if(textField.getText().isEmpty())
+							if(textArea.getText().isEmpty())
 							{
 								JOptionPane.showMessageDialog(contentPane, "Error: the field cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
 								problem = true;
 							}
 							else
 							{
-								newInvariant = full_invariant.replace(invariantValue, textField.getText().toString());
+								newInvariant = full_invariant.replace(invariantValue, textArea.getText().toString());
 								if(problem)
 									problem = false;
 							}

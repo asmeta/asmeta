@@ -99,18 +99,73 @@ public class NuXmvExecutorTest {
 	@Test
 	public void testExecuteInt() throws Exception {
 
-		//NuXmvExecutor.runNuSMV("exampleXMV/timeexample2.smv");
-		
-		NuXmvExecutor.runNuSMV("D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM_NewTime\\Ventilatore4_1SimpleTime2.smv", true);
+		NuXmvExecutor.runNuSMV("exampleXMV/timeexample2.smv",true);
+
+	}
+	
+	@Test
+	public void testExecuteUseTime1() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer1.smv",true);
+	}
+	@Test
+	public void testExecuteUseTime2() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer2.smv",true);
+	}
+	
+	@Test
+	public void testExecuteUseTime3() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer3.smv",true);
+	}
+	
+	@Test
+	public void testExecuteUseTime4() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer4.smv",true);
+	}
+	
+	@Test
+	public void testExecuteOneWayTrafficLight() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/oneWayTrafficLight.smv",true);
+	}
+	
+	@Test
+	public void testExecuteUseTimer5_newDuration() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer5_newDuration.smv",true);
+	}
+	
+	@Test
+	public void testExecuteUseTime6() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/UseTimer6.smv",true);
+	}
+	
+	@Test
+	public void testExecutesluiceGateMotorCtl() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/sluiceGateMotorCtl.smv",true);
+	}
+	
+	@Test
+	public void testExecutesluiceGateMotorCtl2() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/sluiceGateMotorCtl.smv",true);
+	}
+	
+	@Test
+	public void testExecuteVentilator1() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4SimpleTime.smv",true);
+	}
+	
+	@Test
+	public void testExecuteVentilator2() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTime.smv",true);
 	}
 
 	@Test
-	public void testExecuteInteger() throws Exception {
-
-		//NuXmvExecutor.runNuSMV("exampleXMV/timeexample2.smv");
-		
-		NuXmvExecutor.runNuSMV("D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\asm_models\\VentilatoreASM_NewTime\\Ventilatore4SimpleTimeLtdYInf.smv", false);
+	public void testExecuteVentilator3() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTimeModule.smv",true);
 	}
 
-	
+	@Test
+	public void testExecuteVentilator3TG() throws Exception {
+		NuXmvExecutor.runNuSMV("exampleXMV/Ventilatore4_1SimpleTime2.smv",true);
+	}
+
+
 }

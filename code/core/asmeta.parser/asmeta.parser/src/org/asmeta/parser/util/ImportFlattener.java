@@ -103,6 +103,7 @@ public class ImportFlattener {
 				if (!moduleName.endsWith("StandardLibrary") && !moduleName.endsWith("CTLlibrary")
 						&& !moduleName.endsWith("LTLlibrary")) {
 					// file = new File(path + moduleName + ".asm");
+					//TODO: the module could be in another folder -> in this case this is not correct
 					file = new File(folder + "/" + moduleName + ".asm");
 					asms = null;
 					try {

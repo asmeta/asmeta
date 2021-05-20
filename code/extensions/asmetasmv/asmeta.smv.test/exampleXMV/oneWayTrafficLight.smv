@@ -1,0 +1,82 @@
+@TIME_DOMAIN continuous
+MODULE main
+	VAR
+		currentTime: clock; -- the clock
+		timer50: TimeLibrary(50,currentTime);
+		timer120: TimeLibrary(120,currentTime);
+		goLight_LIGHTUNIT1: boolean; --controlled
+		goLight_LIGHTUNIT2: boolean; --controlled
+		phase: {GO1STOP2, GO2STOP1, PHASEDOMAIN_UNDEF, STOP1STOP2, STOP2STOP1}; --controlled
+		stopLight_LIGHTUNIT1: boolean; --controlled
+		stopLight_LIGHTUNIT2: boolean; --controlled
+	CONSTANTS PHASEDOMAIN_UNDEF, GO1STOP2, GO2STOP1, STOP1STOP2, STOP2STOP1, LIGHTUNIT_UNDEF, LIGHTUNIT1, LIGHTUNIT2;
+	ASSIGN
+		init(currentTime):=0; -- init the clock at the beginning of the execution
+		init(goLight_LIGHTUNIT1) := FALSE;
+		init(goLight_LIGHTUNIT2) := FALSE;
+		init(phase) := STOP1STOP2;
+		init(stopLight_LIGHTUNIT1) := TRUE;
+		init(stopLight_LIGHTUNIT2) := TRUE;
+		next(goLight_LIGHTUNIT1) :=
+			case
+				((timer50.expired & (phase = STOP2STOP1)) | ((phase = GO1STOP2) & timer120.expired)): !(goLight_LIGHTUNIT1);
+				TRUE: goLight_LIGHTUNIT1;
+			esac;
+		next(goLight_LIGHTUNIT2) :=
+			case
+				((timer50.expired & (phase = STOP1STOP2)) | ((phase = GO2STOP1) & timer120.expired)): !(goLight_LIGHTUNIT2);
+				TRUE: goLight_LIGHTUNIT2;
+			esac;
+		next(phase) :=
+			case
+				(timer50.expired & (phase = STOP2STOP1)): GO1STOP2;
+				((phase = GO1STOP2) & timer120.expired): STOP1STOP2;
+				(timer50.expired & (phase = STOP1STOP2)): GO2STOP1;
+				((phase = GO2STOP1) & timer120.expired): STOP2STOP1;
+				TRUE: phase;
+			esac;
+		next(stopLight_LIGHTUNIT1) :=
+			case
+				((timer50.expired & (phase = STOP2STOP1)) | ((phase = GO1STOP2) & timer120.expired)): !(stopLight_LIGHTUNIT1);
+				TRUE: stopLight_LIGHTUNIT1;
+			esac;
+		next(stopLight_LIGHTUNIT2) :=
+			case
+				((timer50.expired & (phase = STOP1STOP2)) | ((phase = GO2STOP1) & timer120.expired)): !(stopLight_LIGHTUNIT2);
+				TRUE: stopLight_LIGHTUNIT2;
+			esac;
+		-- when asm call reset rule
+		TRANS (timer50.expired) -> (next(timer50.reset)= TRUE)
+		TRANS (timer120.expired) -> (next(timer120.reset)= TRUE)	
+-- LTL properties
+LTLSPEC NAME ltl0 := G((goLight_LIGHTUNIT1 xor stopLight_LIGHTUNIT1));
+
+--CTL properties
+--CTLSPEC NAME ctl0 := AG((goLight_LIGHTUNIT1 xor stopLight_LIGHTUNIT1));
+--CTLSPEC NAME ctl1 := AG((goLight_LIGHTUNIT2 xor stopLight_LIGHTUNIT2));
+--CTLSPEC NAME ctl2 := AG((((goLight_LIGHTUNIT2 & stopLight_LIGHTUNIT1) xor (goLight_LIGHTUNIT1 & stopLight_LIGHTUNIT2)) xor (stopLight_LIGHTUNIT2 & stopLight_LIGHTUNIT1)));
+--CTLSPEC NAME ctl3 := AG(!(goLight_LIGHTUNIT1 & goLight_LIGHTUNIT2));
+--CTLSPEC NAME ctl4 := AG((((phase = STOP2STOP1) | (phase = STOP1STOP2)) <-> (stopLight_LIGHTUNIT2 & stopLight_LIGHTUNIT1)));
+--CTLSPEC NAME ctl5 := AG(((phase = GO1STOP2) <-> (goLight_LIGHTUNIT1 & stopLight_LIGHTUNIT2)));
+--CTLSPEC NAME ctl6 := AG(((phase = GO2STOP1) <-> (goLight_LIGHTUNIT2 & stopLight_LIGHTUNIT1)));
+--CTLSPEC NAME ctl7 := AG(((phase = STOP1STOP2) -> AX(((phase = GO2STOP1) | (phase = STOP1STOP2)))));
+--CTLSPEC NAME ctl8 := AG(((phase = GO2STOP1) -> AX(((phase = STOP2STOP1) | (phase = GO2STOP1)))));
+--CTLSPEC NAME ctl9 := AG(((phase = STOP2STOP1) -> AX(((phase = GO1STOP2) | (phase = STOP2STOP1)))));
+-- CTLSPEC NAME ctl10 := AG(((phase = GO1STOP2) -> AX(((phase = GO1STOP2) | (phase = STOP1STOP2)))));
+--CTLSPEC NAME ctl11 := AG((stopLight_LIGHTUNIT1 -> EF(goLight_LIGHTUNIT1)));
+--CTLSPEC NAME ctl12 := AG((stopLight_LIGHTUNIT2 -> EF(goLight_LIGHTUNIT2)));
+
+MODULE TimeLibrary(d,ct)
+	VAR 
+	 	start: real; -- when reset init the start
+	 	reset: boolean; -- true when the asm call reset rule
+	 	duration : real;
+		
+	DEFINE expired := (ct)>=(start+duration); -- timer expired 
+	
+	ASSIGN 
+		init(start):=ct; -- init start to the init time
+		init(reset):=FALSE; -- initially the timer is not reset
+		init(duration):=d;
+	TRANS reset -> next(start) = ct; -- when the asm invoke reset rule it sets the reset var to true, false otherwise
+

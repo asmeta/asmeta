@@ -3,11 +3,13 @@ package org.asmeta.nusmv;
 import static java.lang.System.out;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.asmeta.nusmv.util.Util;
 import org.asmeta.parser.ASMParser;
@@ -27,10 +30,11 @@ import asmeta.structure.Asm;
  * 
  */
 public class AsmetaSMV {
-	
+
 	/** use bounded model checking and LTL */
 	static public boolean useBMC;
 	static public int BMCLength = -1;
+
 	public MapVisitor mv;
 	public String outputRunNuSMV;
 	public String outputRunNuSMVreplace;
@@ -38,10 +42,9 @@ public class AsmetaSMV {
 	private File asmFile;
 	protected Asm asm;
 	String smvFileName;
-	
+
 	AsmetaSMVOptions asmetaOptions;
 
-	
 	public AsmetaSMV(String file) throws Exception {
 		this(new File(file));
 	}
@@ -51,18 +54,18 @@ public class AsmetaSMV {
 	}
 
 	public AsmetaSMV(File file) throws Exception {
-		this(file, new AsmetaSMVOptions()); //true, false, true, false);
+		this(file, new AsmetaSMVOptions()); // true, false, true, false);
 	}
 
 	public AsmetaSMV(File file, boolean simplify) throws Exception {
-		this(file, simplify, false, true, false);
+		this(file, simplify, false, true, false, false);
 	}
 
-	public AsmetaSMV(File file, boolean simplify, boolean execute, boolean checkInteger, boolean useNuXmv) throws Exception {
-		this(file,new AsmetaSMVOptions(simplify, execute, checkInteger, useNuXmv));
+	public AsmetaSMV(File file, boolean simplify, boolean execute, boolean checkInteger, boolean useNuXmv,
+			boolean useNuXmvTime) throws Exception {
+		this(file, new AsmetaSMVOptions(simplify, execute, checkInteger, useNuXmv, useNuXmvTime));
 	}
 
-	
 	/**
 	 * 
 	 * @param file
@@ -72,8 +75,7 @@ public class AsmetaSMV {
 	 * @param useNuXmv
 	 * @throws Exception
 	 */
-	public AsmetaSMV(File file, AsmetaSMVOptions options)
-			throws Exception {
+	public AsmetaSMV(File file, AsmetaSMVOptions options) throws Exception {
 		asmFile = file;
 		if (asmFile.exists()) {
 			try {
@@ -137,21 +139,96 @@ public class AsmetaSMV {
 		if (AsmetaSMVOptions.isPrintNuSMVoutput()) {
 			out.print("Execution of NuSMV code ...");
 		}
-		// System.out.println(smvFileName);
-		runNuSMV(smvFileName);
-		/*
-		 * if (Util.isPrintNuSMVoutput()) { c.run = false;// it stops the counter try {
-		 * t.join(); } catch (InterruptedException e) { e.printStackTrace(); } }
-		 */
-		outputRunNuSMV = getOutput();
-		// System.out.println(outputRunNuSMV);
-		outputRunNuSMVreplace = replaceVarsWithLocations(outputRunNuSMV);
-		mv.getPropertiesResults(outputRunNuSMV);
-		if (AsmetaSMVOptions.isPrintNuSMVoutput()) {
-			out.println(
-					"\n-------------------------------" + "-----------------------------\n" + outputRunNuSMVreplace);
+		// System.out.println(smvFileName); //Silvia: 10/05/2021 runNuxmv
+		if (AsmetaSMVOptions.isUseNuXmvTime())
+			runNuXMVTime(smvFileName);
+		else if (AsmetaSMVOptions.isUseNuXmv())
+			runNuXMV(smvFileName);
+		else {
+			runNuSMV(smvFileName);
+			/*
+			 * if (Util.isPrintNuSMVoutput()) { c.run = false;// it stops the counter try {
+			 * t.join(); } catch (InterruptedException e) { e.printStackTrace(); } }
+			 */
+			outputRunNuSMV = getOutput();
+			// System.out.println(outputRunNuSMV);
+			outputRunNuSMVreplace = replaceVarsWithLocations(outputRunNuSMV);
+			mv.getPropertiesResults(outputRunNuSMV);
+			if (AsmetaSMVOptions.isPrintNuSMVoutput()) {
+				out.println("\n-------------------------------" + "-----------------------------\n"
+						+ outputRunNuSMVreplace);
+			}
+			proc.destroy();
 		}
-		proc.destroy();
+	}
+
+	private void runNuXMV(String smvFileName)  throws Exception{
+		// TODO IMPLEMENT COMMANDS TO RUN NUXMV WITHOUT TIME TO ALLOW CTL PROPERTIES
+		// VERIFICATION
+		String solverName = "nuXmv";
+		ProcessBuilder bp = new ProcessBuilder(solverName, "-int");
+		bp.redirectErrorStream(true);
+		Process proc = bp.start();
+		//
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(proc.getOutputStream()));
+		//
+		StringBuilder sb = new StringBuilder();
+		StreamGobblerNuXmv sg = new StreamGobblerNuXmv(proc.getInputStream(), sb);
+		new Thread(sg).start();
+		TimeUnit.SECONDS.sleep(1);
+		// send some messages
+		System.out.println("read_model -i " + smvFileName + "\n");
+		bw.write("read_model -i " + smvFileName + "\n");
+		bw.flush();
+		bw.write("go_msat\n");
+		bw.write("msat_check_ltlspec_inc_coi -k 100\n");
+		// while(!sg.processReady);
+		// now quit
+		TimeUnit.SECONDS.sleep(1);
+		System.out.println("quit");
+		bw.write("quit\n");
+		bw.flush();
+		// any error???
+		int exitVal = proc.waitFor();
+		System.out.println("ExitValue: " + exitVal);
+
+	}
+
+	// Silvia 10/05/2021: run nuxmv with time option
+	private void runNuXMVTime(String smvFileName) throws Exception {
+		String solverName = "nuXmv";
+		ProcessBuilder bp = new ProcessBuilder(solverName, "-int", "-time");
+		bp.redirectErrorStream(true);
+		Process proc = bp.start();
+		//
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(proc.getOutputStream()));
+		//
+		StringBuilder sb = new StringBuilder();
+		StreamGobblerNuXmv sg = new StreamGobblerNuXmv(proc.getInputStream(), sb);
+		new Thread(sg).start();
+		TimeUnit.SECONDS.sleep(1);
+		// send some messages
+		System.out.println("read_model -i " + smvFileName + "\n");
+		bw.write("read_model -i " + smvFileName + "\n");
+		bw.flush();
+		if (AsmetaSMVOptions.FLATTEN) {
+			bw.write("go_time\n");
+		} else {
+			bw.write("flatten_hierarchy\n");
+			bw.write("build_flat_model\n");
+			bw.write("time_setup\n");
+		}
+		bw.write("timed_check_ltlspec\n");
+		//
+		// while(!sg.processReady);
+		// now quit
+		TimeUnit.SECONDS.sleep(1);
+		System.out.println("quit");
+		bw.write("quit\n");
+		bw.flush();
+		// any error???
+		int exitVal = proc.waitFor();
+		System.out.println("ExitValue: " + exitVal);
 	}
 
 	/**
@@ -202,11 +279,11 @@ public class AsmetaSMV {
 		String solverName;
 		// nuXmv also accepts standard NuSMV files
 		if (AsmetaSMVOptions.getSolverPath() == null) {
-			if (AsmetaSMVOptions.isUseNuXmv()) {
-				solverName = "nuXmv";
-			} else {
-				solverName = "NuSMV";
-			}
+			// if (AsmetaSMVOptions.isUseNuXmv()) {
+			// solverName = "nuXmv";
+			// } else {
+			solverName = "NuSMV";
+			// }
 		} else {
 			solverName = AsmetaSMVOptions.getSolverPath();
 		}
@@ -252,6 +329,8 @@ public class AsmetaSMV {
 	/**
 	 * It executes the NuSMV model with the provided set of options.
 	 *
+
+	 * @param cmdarray an array of options for NuSMV. The first one is the solver
 	 * @param cmdarray an array of options for NuSMV. The first one is the solver
 	 *                 name and the last one the file name.
 	 * 
@@ -291,11 +370,11 @@ public class AsmetaSMV {
 	 */
 	public String getOutput() throws Exception {
 		StringBuilder sb = new StringBuilder("> ");
-		if (AsmetaSMVOptions.isUseNuXmv()) {
-			sb.append("nuXmv");
-		} else {
-			sb.append("NuSMV");
-		}
+		// if (AsmetaSMVOptions.isUseNuXmv()) {
+		// sb.append("nuXmv");
+		// } else {
+		sb.append("NuSMV");
+		// }
 		if (!AsmetaSMVOptions.isPrintCounterExample()) {
 			sb.append(" -dcx");
 		}
@@ -389,7 +468,7 @@ public class AsmetaSMV {
 			}
 		}
 	}
-	
+
 	public void addLtlProperties(Set<String> properties) throws Exception {
 		assert properties.size() > 0 : "The list is not expected to be empty.";
 		if (properties.size() > 0) {
@@ -485,6 +564,42 @@ class StreamGobbler extends Thread {
 			while ((line = br.readLine()) != null) {
 				sb.append(line + "\n");
 			}
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+}
+
+class StreamGobblerNuXmv extends Thread {
+	InputStream is;
+	StringBuilder sb;
+	boolean processReady = false;
+
+	StreamGobblerNuXmv(InputStream is, StringBuilder sb) {
+		this.is = is;
+		this.sb = sb;
+	}
+
+	@Override
+	public void run() {
+		try {
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr);
+			/*
+			 * String line = null; while ((line = br.readLine()) != null) {
+			 * System.out.println(line); sb.append(line + "\n"); }
+			 */
+			int ch;
+			String line;
+			System.out.println("Read started");
+			do {
+				ch = is.read();
+				/*
+				 * if ((char)ch == '>') { processReady = true; System.out.println("READY"); }
+				 */
+				System.out.print((char) ch);
+			} while (ch != -1);
+			System.out.println("ENDED");
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}

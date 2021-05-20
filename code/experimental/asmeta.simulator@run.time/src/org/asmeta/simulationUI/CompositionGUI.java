@@ -1,53 +1,32 @@
 package org.asmeta.simulationUI;
 
-import java.awt.Color;
+/**
+ * @author Michele Zenoni
+ */
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.PrintStream;
-import java.text.SimpleDateFormat;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.DefaultCaret;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-
-import org.asmeta.assertion_catalog.InvariantGUI;
 import org.asmeta.runtime_container.IModelAdaptation;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
+import org.asmeta.runtime_container.SimulationContainer;
 
 public class CompositionGUI extends JFrame {
 	static JTabbedPane tabbedPane;
-	static IModelAdaptation containerInstance;
+	static SimulationContainer containerInstance;
+	static CompositionContainer compositionContainer;
 	static int compCounter;
+	static CompositionType compType;
 	
-	private static ArrayList<CompositionPanel> tabs = new ArrayList<>();
+	private static Map<Composition, CompositionPanel> compositionTabs;
 	
 	/**
 	 * Launch the application.
@@ -69,10 +48,15 @@ public class CompositionGUI extends JFrame {
 	 * Initialize first tab (CompositionPanel) of the tabbed pane.
 	 */
 	public CompositionGUI(IModelAdaptation contInstance, int senderID, int receiverID) {
-		CompositionGUI.containerInstance = contInstance;
+		containerInstance = (SimulationContainer) contInstance;
+		compositionTabs = new HashMap<Composition, CompositionPanel>();
+		if(compType == null) {
+			compType = CompositionType.PIPE;
+		}
+		compositionContainer = new CompositionContainer(contInstance, compType, SimGUI.simConsole);
 		CompositionPanel compositionPane = new CompositionPanel(senderID, receiverID);
 		compCounter = 1;
-		tabs.add(compositionPane);
+		compositionTabs.put(compositionPane.currentComposition, compositionPane);
 		
 		setTitle("Composition Monitor");
 		setIconImages(SimGUI.icons);
@@ -88,6 +72,35 @@ public class CompositionGUI extends JFrame {
 		tabbedPane.addTab("Composition " + compCounter, getTab(senderID, receiverID));
 		tabbedPane.setFont(new Font("Segoe UI", Font.BOLD, SimGUI.fontSize));
 		setContentPane(tabbedPane);
+		
+		addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) { return; }
+			
+			@Override
+			public void windowIconified(WindowEvent e) { return; }
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) { return; }
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) { return; }
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				SimGUI.loadedIDs = new ArrayList<>(contInstance.getLoadedIDs().keySet());
+				if(SimGUI.loadedIDs.size() > 1) {
+					SimGUI.compositionMenuItem.setEnabled(true);
+				}
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) { return; }
+			
+			@Override
+			public void windowActivated(WindowEvent e) { return; }
+		});
 	}
 
 	/**
@@ -112,12 +125,8 @@ public class CompositionGUI extends JFrame {
 	}
 	
 	public static CompositionPanel getTab(int tabSenderID, int tabReceiverID) {
-		if(!tabs.isEmpty()) {
-			for(CompositionPanel tab: tabs) {
-				if(tab.getSenderID() == tabSenderID && tab.getReceiverID() == tabReceiverID) {
-					return tab;
-				}
-			}
+		if(!compositionTabs.isEmpty() && compositionTabs != null && compositionContainer != null) {
+			return compositionTabs.get(compositionContainer.getComposition(tabSenderID, tabReceiverID));
 		}
 		return null;
 	}
@@ -127,30 +136,30 @@ public class CompositionGUI extends JFrame {
 			compCounter++;
 			CompositionPanel newTab = new CompositionPanel(tabSenderID, tabReceiverID);
 			tabbedPane.addTab("Composition " + compCounter, newTab);
-			tabs.add(newTab);
+			compositionTabs.put(newTab.currentComposition, newTab);
 		}
 	}
 	
 	public static void removeTab(int tabSenderID, int tabReceiverID) {
-		if(!tabs.isEmpty()) {
-			for(CompositionPanel tab: tabs) {
-				if(tab.getSenderID() == tabSenderID && tab.getReceiverID() == tabReceiverID) {
-					tabs.remove(tab);
-				}
-			}
+		if(compositionTabs != null && !compositionTabs.isEmpty() && compositionContainer != null) {
+			compositionTabs.remove(compositionContainer.getComposition(tabSenderID, tabReceiverID));
 		}
 	}
 	
 	public static void removeTab(CompositionPanel tab) {
-		if(!tabs.isEmpty()) {
-			tabs.remove(tab);
+		if(compositionTabs != null && !compositionTabs.isEmpty() && compositionContainer != null) {
+			compositionTabs.remove(tab.currentComposition);
 		}
 	}
 	
 	public static CompositionPanel getFirstTab() {
-		if(!tabs.isEmpty()) {
-			return tabs.get(0);
+		if(compositionTabs != null && !compositionTabs.isEmpty() && compositionContainer != null) {
+			return compositionTabs.get(compositionContainer.getFirstComposition());
 		}
 		return null;
+	}
+	
+	public static Map<Composition, CompositionPanel> getCompositionTabs() {
+		return compositionTabs;
 	}
 }

@@ -4,13 +4,13 @@ import StandardLibrary
 
 signature:
 	enum domain Int = {ZERO | ONE | TWO | THREE | FOUR | FIVE}
-	dynamic controlled square: Integer 
+	dynamic out square: Integer 
 	dynamic monitored x: Int
 
 definitions:
 
-	invariant over square: square < 20
-	
+	invariant over square:square < 20
+
 	main rule r_Main =
 		par	
 			if x = ZERO then
