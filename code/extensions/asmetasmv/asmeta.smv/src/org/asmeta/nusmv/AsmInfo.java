@@ -14,7 +14,7 @@ class AsmInfo {
 		as.translation();
 		as.createNuSMVfile();
 		String[] cmdarray = { "NuSMV", "-is", "-r", as.smvFileName};
-		as.runNuSMV(cmdarray);
+		as.runNuSMV(Arrays.asList(cmdarray));
 		outputRunNuSMV = as.getOutput(Arrays.asList(cmdarray));
 	}
 

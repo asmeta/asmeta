@@ -145,7 +145,8 @@ public class AsmetaSMV {
 		else if (AsmetaSMVOptions.isUseNuXmv())
 			runNuXMV(smvFileName);
 		else {
-			List<String> commands = runNuSMV(smvFileName);
+			List<String> commands = buildCommandLine(smvFileName);
+			runNuSMV(commands);
 			/*
 			 * if (Util.isPrintNuSMVoutput()) { c.run = false;// it stops the counter try {
 			 * t.join(); } catch (InterruptedException e) { e.printStackTrace(); } }
@@ -191,7 +192,6 @@ public class AsmetaSMV {
 		// any error???
 		int exitVal = proc.waitFor();
 		System.out.println("ExitValue: " + exitVal);
-
 	}
 
 	// Silvia 10/05/2021: run nuxmv with time option
@@ -268,15 +268,7 @@ public class AsmetaSMV {
 		return output;
 	}
 
-	/**
-	 * It executes the NuSMV model "smvFileName".
-	 * 
-	 * @param smvFileName the file name of the NuSMV model
-	 * @return the commands given to nusmv
-	 * 
-	 * @throws Exception
-	 */
-	private List<String> runNuSMV(String smvFileName) throws Exception {
+	private List<String> buildCommandLine(String smvFileName) {
 		String solverName;
 		// nuXmv also accepts standard NuSMV files
 		if (AsmetaSMVOptions.getSolverPath() == null) {
@@ -323,8 +315,6 @@ public class AsmetaSMV {
 			commands.add("-c");
 			commands.add("\"" + nusmvCommand + "\"");
 		}
-		runNuSMV(commands.toArray(new String[commands.size()]));
-		// runNuSMV(new String[] {"/Applications/NuSMV/bin/NuSMV", smvFileName});
 		return commands;
 	}
 
@@ -338,11 +328,11 @@ public class AsmetaSMV {
 	 * 
 	 * @throws Exception
 	 */
-	void runNuSMV(String[] cmdarray) throws Exception {
+	void runNuSMV(List<String> cmdarray) throws Exception {
 		// System.out.println(Arrays.toString(cmdarray));
 		try {
-			Runtime rt = Runtime.getRuntime();
-			proc = rt.exec(cmdarray);
+			ProcessBuilder pb = new ProcessBuilder(cmdarray);			
+			proc = pb.start();
 			// outputRunNuSMV = getOutput(smvFileName);
 		} catch (Exception e) {
 			out.println("Execution error\n" + e);

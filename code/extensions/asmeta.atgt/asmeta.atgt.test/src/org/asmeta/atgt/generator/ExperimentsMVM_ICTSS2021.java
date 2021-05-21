@@ -52,6 +52,8 @@ import atgt.testseqexport.toAvalla;
  */
 public class ExperimentsMVM_ICTSS2021 {
 
+	private static final int TIMEOUT_MS = 60000;
+
 	private static final String data = LocalDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE);
 	
 	static FileWriter fw;
@@ -160,10 +162,20 @@ public class ExperimentsMVM_ICTSS2021 {
 				break;
 			// generate the tests
 			Instant start = Instant.now();
+			NuSMVKillerTask task = new NuSMVKillerTask();
+			new java.util.Timer().schedule(task,TIMEOUT_MS);
+			// run nusmv
 			AsmTestSuite ts = nuSMVtestGenerator.generateTestforASM(ct,fw);
 			assert ts != null;
 			assert ts.getTests().size() == 1;
 			Instant finish = Instant.now();
+			AsmTestSequence ts2 = ts.getTests().get(0);
+			// if failed
+			if (task.timeout && ts2.allInstructions().size() == 0) {
+				gentc.setRunning();
+				gentc.setAssertViolated(false);
+				assert gentc.getStatus() == TestConditionState.Unknown;
+			}
 			long timeElapsed = Duration.between(start, finish).toMillis();
 			println("time:" + Long.toString(timeElapsed));
 			//
@@ -175,7 +187,6 @@ public class ExperimentsMVM_ICTSS2021 {
 			File dir = Paths.get(parent, "experiments"+data).toAbsolutePath().toFile();
 			if (! dir.exists()) dir.mkdir();
 			// same not optimezed
-			AsmTestSequence ts2 = ts.getTests().get(0);
 			File ftc = new File(dir, gentc.getName().replace("@","") + ".avalla");
 			new toAvalla(ftc, ts2, ex).save();
 			// the same tests polished
@@ -196,4 +207,25 @@ public class ExperimentsMVM_ICTSS2021 {
 		System.out.println(s);
 	}
 
+	class NuSMVKillerTask extends java.util.TimerTask {
+		boolean timeout = false;
+        @Override
+        public void run() {
+    		WindowsProcessKiller pKiller = new WindowsProcessKiller();
+    		// To kill a command prompt
+    		String processName = "NuSMV.exe";
+    		boolean isRunning = pKiller.isProcessRunning(processName);
+    		System.out.println("is " + processName + " running : " + isRunning);
+    		if (isRunning) {
+    			pKiller.killProcess(processName);
+    			AsmetaSMV.proc.destroy();
+    			timeout = true;
+    		}
+    		else {
+    			System.out.println("Not able to find the process : "+processName);
+    		}
+        }
+    };
+
+	
 }
