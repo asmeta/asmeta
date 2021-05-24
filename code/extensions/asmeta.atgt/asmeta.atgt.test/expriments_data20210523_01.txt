@@ -1,0 +1,850 @@
+generation for BR_r_Main_T2
+time:1420
+generation for BR_r_Main_FT2
+time:48027
+generation for BR_r_Main_FFT2
+time:47306
+generation for BR_r_Main_FFFTT12
+test generation failed - model checker error BR_r_Main_FFFTT12 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (apneaAlarm and ((turnOffApneaAlarm = true) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) or (state = MAIN_REGION_PCV_R1_EXPIRATION))))))
+time:2603183
+generation for BR_r_Main_FFFTF12
+test generation failed - model checker error BR_r_Main_FFFTF12 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (apneaAlarm and not((turnOffApneaAlarm = true) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) or (state = MAIN_REGION_PCV_R1_EXPIRATION))))))
+time:1558
+generation for BR_r_Main_FFFT22
+time:4611
+generation for BR_r_Main_FFFTF32
+time:1108
+generation for BR_r_Main_FFFTF42
+time:4609
+generation for BR_r_Main_FFFTTFF52
+test generation failed - model checker error BR_r_Main_FFFTTFF52 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_VENTILATIONOFF) and (startVentilation and ((mode != PCV) and (mode != PSV))))))
+time:37711
+generation for BR_r_Main_FFFTTTT62
+test generation failed - model checker error BR_r_Main_FFFTTTT62 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and ins_pause)))))
+time:47320
+generation for BR_r_Main_FFFTTTFT62
+time:1621883
+generation for BR_r_Main_FFFTTTFF62
+test generation failed - model checker error BR_r_Main_FFFTTTFF62 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (not ins_pause and not rm_request))))))
+time:981270
+generation for BR_r_Main_FFFTTFT62
+test generation failed - model checker error BR_r_Main_FFFTTFT62 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and ins_pause)))))
+time:1531
+generation for BR_r_Main_FFFTTFFT62
+test generation failed - model checker error BR_r_Main_FFFTTFFT62 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and (not ins_pause and rm_request))))))
+time:4624
+generation for BR_r_Main_FFFTTFFF62
+test generation failed - model checker error BR_r_Main_FFFTTFFF62 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and (not ins_pause and not rm_request))))))
+time:1119
+generation for BR_r_Main_FFFTT72
+test generation failed - model checker error BR_r_Main_FFFTT72 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and expiredTIMER_MAX_INS_PAUSE)))
+time:4598
+generation for BR_r_Main_FFFTFT72
+test generation failed - model checker error BR_r_Main_FFFTFT72 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and not ins_pause))))
+time:37718
+generation for BR_r_Main_FFFTFF72
+test generation failed - model checker error BR_r_Main_FFFTFF72 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and ins_pause))))
+time:47321
+generation for BR_r_Main_FFFTT82
+test generation failed - model checker error BR_r_Main_FFFTT82 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and (expiredTIMER_MAX_RM_TIME or rm_request))))
+time:1621956
+generation for BR_r_Main_FFFTF82
+test generation failed - model checker error BR_r_Main_FFFTF82 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and not(expiredTIMER_MAX_RM_TIME or rm_request))))
+time:981261
+generation for BR_r_Main_FFFTTT92
+test generation failed - model checker error BR_r_Main_FFFTTT92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and exp_pause))))
+time:1510
+generation for BR_r_Main_FFFTTF92
+test generation failed - model checker error BR_r_Main_FFFTTF92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and not exp_pause))))
+time:4615
+generation for BR_r_Main_FFFTFTT92
+test generation failed - model checker error BR_r_Main_FFFTFTT92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PCV)))))
+time:1142
+generation for BR_r_Main_FFFTFTFT92
+test generation failed - model checker error BR_r_Main_FFFTFTFT92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (not dropPAW_ITS_PCV and stopVentilationRequested))))))
+time:4594
+generation for BR_r_Main_FFFTFTFF92
+test generation failed - model checker error BR_r_Main_FFFTFTFF92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (not dropPAW_ITS_PCV and not stopVentilationRequested))))))
+time:37717
+generation for BR_r_Main_FFFTFFT92
+test generation failed - model checker error BR_r_Main_FFFTFFT92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (not expiredTIMER_TRIGGERWINDOWDELAY_MS and stopVentilationRequested)))))
+time:47326
+generation for BR_r_Main_FFFTFFF92
+time:59148
+generation for BR_r_Main_FFFTT102
+test generation failed - model checker error BR_r_Main_FFFTT102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and expiredTIMER_MAX_EXP_PAUSE)))
+time:1562798
+generation for BR_r_Main_FFFTFT102
+test generation failed - model checker error BR_r_Main_FFFTFT102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (not expiredTIMER_MAX_EXP_PAUSE and not exp_pause))))
+time:981270
+generation for BR_r_Main_FFFTFF102
+test generation failed - model checker error BR_r_Main_FFFTFF102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (not expiredTIMER_MAX_EXP_PAUSE and exp_pause))))
+time:1475
+generation for BR_r_Main_FFFTTT112
+test generation failed - model checker error BR_r_Main_FFFTTT112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and (((flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) or expiredTIMER_MAX_INSP_TIME_PSV) and ins_pause))))
+time:4611
+generation for BR_r_Main_FFFTTFT112
+test generation failed - model checker error BR_r_Main_FFFTTFT112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and (((flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) or expiredTIMER_MAX_INSP_TIME_PSV) and (not ins_pause and rm_request)))))
+time:1160
+generation for BR_r_Main_FFFTTFF112
+test generation failed - model checker error BR_r_Main_FFFTTFF112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and (((flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) or expiredTIMER_MAX_INSP_TIME_PSV) and (not ins_pause and not rm_request)))))
+time:4592
+generation for BR_r_Main_FFFTFF112
+time:33124
+generation for BR_r_Main_FFFTT122
+test generation failed - model checker error BR_r_Main_FFFTT122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and expiredTIMER_MAX_INS_PAUSE)))
+time:4580
+generation for BR_r_Main_FFFTFT122
+test generation failed - model checker error BR_r_Main_FFFTFT122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and not ins_pause))))
+time:47317
+generation for BR_r_Main_FFFTFF122
+test generation failed - model checker error BR_r_Main_FFFTFF122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and ins_pause))))
+time:59157
+generation for BR_r_Main_FFFTT132
+time:548604
+generation for BR_r_Main_FFFTT142
+time:552875
+generation for BR_r_Main_FFFTFT142
+test generation failed - model checker error BR_r_Main_FFFTFT142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and expiredTIMER_APNEALAG))))
+time:461305
+generation for BR_r_Main_FFFTFFT142
+time:728382
+generation for BR_r_Main_FFFTFFFT142
+time:60780
+generation for BR_r_Main_FFFTFFFFT142
+test generation failed - model checker error BR_r_Main_FFFTFFFFT142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and (not((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PSV)) and exp_pause) and (not stopVentilationRequested and (expiredTIMER_MIN_EXP_TIME_PSV and (mode = PCV)))))))))
+time:192070
+generation for BR_r_Main_FFFTT152
+test generation failed - model checker error BR_r_Main_FFFTT152 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATORYPAUSE) and expiredTIMER_MAX_EXP_PAUSE)))
+time:1450
+generation for BR_r_Main_FFFTFF152
+test generation failed - model checker error BR_r_Main_FFFTFF152 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATORYPAUSE) and (not expiredTIMER_MAX_EXP_PAUSE and exp_pause))))
+time:4604
+generation for RG_r_Main_TRG_r_turnOff_RG12
+test generation failed - model checker error RG_r_Main_TRG_r_turnOff_RG12 -poweroff and (iValve != CLOSED)
+time:1157
+generation for RG_r_Main_TRG_r_turnOff_RG22
+test generation failed - model checker error RG_r_Main_TRG_r_turnOff_RG22 -poweroff and (oValve != OPEN)
+time:4605
+generation for RG_r_Main_FTRG_r_ventOffPCV_RG22
+test generation failed - model checker error RG_r_Main_FTRG_r_ventOffPCV_RG22 -not poweroff and ((stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (stopVentilationRequested != false))
+time:33131
+generation for RG_r_Main_FTRG_r_ventOffPCV_RG32
+test generation failed - model checker error RG_r_Main_FTRG_r_ventOffPCV_RG32 -not poweroff and ((stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (apnea_backup_mode != false))
+time:4582
+generation for RG_r_Main_FFTRG_r_ventOffPSV_RG22
+time:46016
+generation for RG_r_Main_FFFTTRG_r_apneaAlarmOFF_RG12
+test generation failed - model checker error RG_r_Main_FFFTTRG_r_apneaAlarmOFF_RG12 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (apneaAlarm and (((turnOffApneaAlarm = true) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) or (state = MAIN_REGION_PCV_R1_EXPIRATION))) and (apneaAlarm != false)))))
+time:1274
+generation for RG_r_Main_FFFTF12
+test generation failed - model checker error RG_r_Main_FFFTF12 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (apneaAlarm and not((turnOffApneaAlarm = true) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) or (state = MAIN_REGION_PCV_R1_EXPIRATION))))))
+time:59156
+generation for RG_r_Main_FFFTTFF52
+test generation failed - model checker error RG_r_Main_FFFTTFF52 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_VENTILATIONOFF) and (startVentilation and ((mode != PCV) and (mode != PSV))))))
+time:39265
+generation for RG_r_Main_FFFTTTTRG_r_PSVins_pauseFromPCV_RG162
+test generation failed - model checker error RG_r_Main_FFFTTTTRG_r_PSVins_pauseFromPCV_RG162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (ins_pause and (state != MAIN_REGION_PSV_R1_INSPIRATORYPAUSE)))))))
+time:509378
+generation for RG_r_Main_FFFTTTTRG_r_PSVins_pauseFromPCV_RG262
+test generation failed - model checker error RG_r_Main_FFFTTTTRG_r_PSVins_pauseFromPCV_RG262 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (ins_pause and (iValve != CLOSED)))))))
+time:552885
+generation for RG_r_Main_FFFTTTTRG_r_PSVins_pauseFromPCV_RG362
+test generation failed - model checker error RG_r_Main_FFFTTTTRG_r_PSVins_pauseFromPCV_RG362 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (ins_pause and (apnea_backup_mode != false)))))))
+time:461339
+generation for RG_r_Main_FFFTTTFTRG_r_PSVrmFromPCV_RG262
+test generation failed - model checker error RG_r_Main_FFFTTTFTRG_r_PSVrmFromPCV_RG262 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (not ins_pause and (rm_request and (apnea_backup_mode != false))))))))
+time:728409
+generation for RG_r_Main_FFFTTTFFRG_r_PSVexpIValveFromPCV_RG_r_PSVexp_RG1162
+test generation failed - model checker error RG_r_Main_FFFTTTFFRG_r_PSVexpIValveFromPCV_RG_r_PSVexp_RG1162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (not ins_pause and (not rm_request and (state != MAIN_REGION_PSV_R1_EXPIRATION))))))))
+time:60776
+generation for RG_r_Main_FFFTTTFFRG_r_PSVexpIValveFromPCV_RG_r_PSVexp_RG2162
+test generation failed - model checker error RG_r_Main_FFFTTTFFRG_r_PSVexpIValveFromPCV_RG_r_PSVexp_RG2162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (not ins_pause and (not rm_request and (oValve != OPEN))))))))
+time:192081
+generation for RG_r_Main_FFFTTTFFRG_r_PSVexpIValveFromPCV_RG262
+test generation failed - model checker error RG_r_Main_FFFTTTFFRG_r_PSVexpIValveFromPCV_RG262 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (not ins_pause and (not rm_request and (iValve != CLOSED))))))))
+time:1419
+generation for RG_r_Main_FFFTTTFFRG_r_PSVexpIValveFromPCV_RG362
+test generation failed - model checker error RG_r_Main_FFFTTTFFRG_r_PSVexpIValveFromPCV_RG362 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (not ins_pause and (not rm_request and (apnea_backup_mode != false))))))))
+time:4606
+generation for RG_r_Main_FFFTTFTRG_r_PCVins_pause_RG162
+test generation failed - model checker error RG_r_Main_FFFTTFTRG_r_PCVins_pause_RG162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and (ins_pause and (state != MAIN_REGION_PCV_R1_INSPIRATORYPAUSE)))))))
+time:1167
+generation for RG_r_Main_FFFTTFTRG_r_PCVins_pause_RG262
+test generation failed - model checker error RG_r_Main_FFFTTFTRG_r_PCVins_pause_RG262 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and (ins_pause and (iValve != CLOSED)))))))
+time:4596
+generation for RG_r_Main_FFFTTFFTRG_r_PCVrm_RG162
+test generation failed - model checker error RG_r_Main_FFFTTFFTRG_r_PCVrm_RG162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and (not ins_pause and (rm_request and (state != MAIN_REGION_PCV_R1_RM))))))))
+time:33134
+generation for RG_r_Main_FFFTTFFFRG_r_PCVexpIValve_RG_r_PCVexp_RG1162
+test generation failed - model checker error RG_r_Main_FFFTTFFFRG_r_PCVexpIValve_RG_r_PCVexp_RG1162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and (not ins_pause and (not rm_request and (state != MAIN_REGION_PCV_R1_EXPIRATION))))))))
+time:4579
+generation for RG_r_Main_FFFTTFFFRG_r_PCVexpIValve_RG_r_PCVexp_RG2162
+test generation failed - model checker error RG_r_Main_FFFTTFFFRG_r_PCVexpIValve_RG_r_PCVexp_RG2162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and (not ins_pause and (not rm_request and (oValve != OPEN))))))))
+time:46041
+generation for RG_r_Main_FFFTTFFFRG_r_PCVexpIValve_RG262
+test generation failed - model checker error RG_r_Main_FFFTTFFFRG_r_PCVexpIValve_RG262 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and (not ins_pause and (not rm_request and (iValve != CLOSED))))))))
+time:1264
+generation for RG_r_Main_FFFTTRG_r_PCVexp_RG172
+test generation failed - model checker error RG_r_Main_FFFTTRG_r_PCVexp_RG172 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (expiredTIMER_MAX_INS_PAUSE and (state != MAIN_REGION_PCV_R1_EXPIRATION)))))
+time:59171
+generation for RG_r_Main_FFFTTRG_r_PCVexp_RG272
+test generation failed - model checker error RG_r_Main_FFFTTRG_r_PCVexp_RG272 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (expiredTIMER_MAX_INS_PAUSE and (oValve != OPEN)))))
+time:39252
+generation for RG_r_Main_FFFTFTRG_r_PCVexp_RG172
+test generation failed - model checker error RG_r_Main_FFFTFTRG_r_PCVexp_RG172 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and (not ins_pause and (state != MAIN_REGION_PCV_R1_EXPIRATION))))))
+time:509402
+generation for RG_r_Main_FFFTFTRG_r_PCVexp_RG272
+test generation failed - model checker error RG_r_Main_FFFTFTRG_r_PCVexp_RG272 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and (not ins_pause and (oValve != OPEN))))))
+time:552885
+generation for RG_r_Main_FFFTFF72
+test generation failed - model checker error RG_r_Main_FFFTFF72 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and ins_pause))))
+time:461341
+generation for RG_r_Main_FFFTTRG_r_PCVexpIValve_RG_r_PCVexp_RG1182
+test generation failed - model checker error RG_r_Main_FFFTTRG_r_PCVexpIValve_RG_r_PCVexp_RG1182 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and ((expiredTIMER_MAX_RM_TIME or rm_request) and (state != MAIN_REGION_PCV_R1_EXPIRATION)))))
+time:728408
+generation for RG_r_Main_FFFTTRG_r_PCVexpIValve_RG_r_PCVexp_RG2182
+test generation failed - model checker error RG_r_Main_FFFTTRG_r_PCVexpIValve_RG_r_PCVexp_RG2182 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and ((expiredTIMER_MAX_RM_TIME or rm_request) and (oValve != OPEN)))))
+time:60759
+generation for RG_r_Main_FFFTTRG_r_PCVexpIValve_RG282
+test generation failed - model checker error RG_r_Main_FFFTTRG_r_PCVexpIValve_RG282 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and ((expiredTIMER_MAX_RM_TIME or rm_request) and (iValve != CLOSED)))))
+time:192096
+generation for RG_r_Main_FFFTF82
+test generation failed - model checker error RG_r_Main_FFFTF82 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and not(expiredTIMER_MAX_RM_TIME or rm_request))))
+time:1388
+generation for RG_r_Main_FFFTTTRG_r_PCVexp_pause_RG192
+test generation failed - model checker error RG_r_Main_FFFTTTRG_r_PCVexp_pause_RG192 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and (exp_pause and (state != MAIN_REGION_PCV_R1_EXPIRATORYPAUSE))))))
+time:4607
+generation for RG_r_Main_FFFTTTRG_r_PCVexp_pause_RG292
+test generation failed - model checker error RG_r_Main_FFFTTTRG_r_PCVexp_pause_RG292 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and (exp_pause and (oValve != CLOSED))))))
+time:1159
+generation for RG_r_Main_FFFTTFRG_r_PCVinspOValve_RG_r_PCVinsp_RG1192
+test generation failed - model checker error RG_r_Main_FFFTTFRG_r_PCVinspOValve_RG_r_PCVinsp_RG1192 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and (not exp_pause and (state != MAIN_REGION_PCV_R1_INSPIRATION))))))
+time:4589
+generation for RG_r_Main_FFFTTFRG_r_PCVinspOValve_RG_r_PCVinsp_RG2192
+test generation failed - model checker error RG_r_Main_FFFTTFRG_r_PCVinspOValve_RG_r_PCVinsp_RG2192 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and (not exp_pause and (iValve != OPEN))))))
+time:33136
+generation for RG_r_Main_FFFTTFRG_r_PCVinspOValve_RG292
+test generation failed - model checker error RG_r_Main_FFFTTFRG_r_PCVinspOValve_RG292 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and (not exp_pause and (oValve != CLOSED))))))
+time:4591
+generation for RG_r_Main_FFFTFTTRG_r_PCVinspOValve_RG_r_PCVinsp_RG1192
+test generation failed - model checker error RG_r_Main_FFFTFTTRG_r_PCVinspOValve_RG_r_PCVinsp_RG1192 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (dropPAW_ITS_PCV and (state != MAIN_REGION_PCV_R1_INSPIRATION)))))))
+time:46054
+generation for RG_r_Main_FFFTFTTRG_r_PCVinspOValve_RG_r_PCVinsp_RG2192
+test generation failed - model checker error RG_r_Main_FFFTFTTRG_r_PCVinspOValve_RG_r_PCVinsp_RG2192 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (dropPAW_ITS_PCV and (iValve != OPEN)))))))
+time:1250
+generation for RG_r_Main_FFFTFTTRG_r_PCVinspOValve_RG292
+test generation failed - model checker error RG_r_Main_FFFTFTTRG_r_PCVinspOValve_RG292 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (dropPAW_ITS_PCV and (oValve != CLOSED)))))))
+time:59178
+generation for RG_r_Main_FFFTFTFTRG_r_ventOffPCV_RG192
+test generation failed - model checker error RG_r_Main_FFFTFTFTRG_r_ventOffPCV_RG192 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (not dropPAW_ITS_PCV and (stopVentilationRequested and (state != MAIN_REGION_VENTILATIONOFF))))))))
+time:39239
+generation for RG_r_Main_FFFTFTFTRG_r_ventOffPCV_RG292
+test generation failed - model checker error RG_r_Main_FFFTFTFTRG_r_ventOffPCV_RG292 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (not dropPAW_ITS_PCV and (stopVentilationRequested and (stopVentilationRequested != false))))))))
+time:509422
+generation for RG_r_Main_FFFTFTFTRG_r_ventOffPCV_RG392
+test generation failed - model checker error RG_r_Main_FFFTFTFTRG_r_ventOffPCV_RG392 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (not dropPAW_ITS_PCV and (stopVentilationRequested and (apnea_backup_mode != false))))))))
+time:552898
+generation for RG_r_Main_FFFTFTFF92
+test generation failed - model checker error RG_r_Main_FFFTFTFF92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (not dropPAW_ITS_PCV and not stopVentilationRequested))))))
+time:461340
+generation for RG_r_Main_FFFTFFTRG_r_ventOffPCV_RG192
+time:56891
+generation for RG_r_Main_FFFTFFTRG_r_ventOffPCV_RG392
+test generation failed - model checker error RG_r_Main_FFFTFFTRG_r_ventOffPCV_RG392 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (not expiredTIMER_TRIGGERWINDOWDELAY_MS and (stopVentilationRequested and (apnea_backup_mode != false)))))))
+time:671505
+generation for RG_r_Main_FFFTTRG_r_PCVinsp_RG1102
+test generation failed - model checker error RG_r_Main_FFFTTRG_r_PCVinsp_RG1102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (expiredTIMER_MAX_EXP_PAUSE and (state != MAIN_REGION_PCV_R1_INSPIRATION)))))
+time:60745
+generation for RG_r_Main_FFFTTRG_r_PCVinsp_RG2102
+test generation failed - model checker error RG_r_Main_FFFTTRG_r_PCVinsp_RG2102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (expiredTIMER_MAX_EXP_PAUSE and (iValve != OPEN)))))
+time:192105
+generation for RG_r_Main_FFFTFTRG_r_PCVinsp_RG1102
+test generation failed - model checker error RG_r_Main_FFFTFTRG_r_PCVinsp_RG1102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (not expiredTIMER_MAX_EXP_PAUSE and (not exp_pause and (state != MAIN_REGION_PCV_R1_INSPIRATION))))))
+time:1386
+generation for RG_r_Main_FFFTFTRG_r_PCVinsp_RG2102
+test generation failed - model checker error RG_r_Main_FFFTFTRG_r_PCVinsp_RG2102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (not expiredTIMER_MAX_EXP_PAUSE and (not exp_pause and (iValve != OPEN))))))
+time:4614
+generation for RG_r_Main_FFFTFF102
+test generation failed - model checker error RG_r_Main_FFFTFF102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (not expiredTIMER_MAX_EXP_PAUSE and exp_pause))))
+time:1144
+generation for RG_r_Main_FFFTTTRG_r_PSVins_pause_RG1112
+test generation failed - model checker error RG_r_Main_FFFTTTRG_r_PSVins_pause_RG1112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and (((flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) or expiredTIMER_MAX_INSP_TIME_PSV) and (ins_pause and (state != MAIN_REGION_PSV_R1_INSPIRATORYPAUSE))))))
+time:4587
+generation for RG_r_Main_FFFTTTRG_r_PSVins_pause_RG2112
+test generation failed - model checker error RG_r_Main_FFFTTTRG_r_PSVins_pause_RG2112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and (((flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) or expiredTIMER_MAX_INSP_TIME_PSV) and (ins_pause and (iValve != CLOSED))))))
+time:33144
+generation for RG_r_Main_FFFTTFFRG_r_PSVexpIValve_RG_r_PSVexp_RG11112
+test generation failed - model checker error RG_r_Main_FFFTTFFRG_r_PSVexpIValve_RG_r_PSVexp_RG11112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and (((flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) or expiredTIMER_MAX_INSP_TIME_PSV) and (not ins_pause and (not rm_request and (state != MAIN_REGION_PSV_R1_EXPIRATION)))))))
+time:4598
+generation for RG_r_Main_FFFTTFFRG_r_PSVexpIValve_RG_r_PSVexp_RG21112
+test generation failed - model checker error RG_r_Main_FFFTTFFRG_r_PSVexpIValve_RG_r_PSVexp_RG21112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and (((flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) or expiredTIMER_MAX_INSP_TIME_PSV) and (not ins_pause and (not rm_request and (oValve != OPEN)))))))
+time:46047
+generation for RG_r_Main_FFFTTFFRG_r_PSVexpIValve_RG2112
+test generation failed - model checker error RG_r_Main_FFFTTFFRG_r_PSVexpIValve_RG2112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and (((flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) or expiredTIMER_MAX_INSP_TIME_PSV) and (not ins_pause and (not rm_request and (iValve != CLOSED)))))))
+time:1243
+generation for RG_r_Main_FFFTTRG_r_PSVexp_RG1122
+test generation failed - model checker error RG_r_Main_FFFTTRG_r_PSVexp_RG1122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (expiredTIMER_MAX_INS_PAUSE and (state != MAIN_REGION_PSV_R1_EXPIRATION)))))
+time:59187
+generation for RG_r_Main_FFFTTRG_r_PSVexp_RG2122
+test generation failed - model checker error RG_r_Main_FFFTTRG_r_PSVexp_RG2122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (expiredTIMER_MAX_INS_PAUSE and (oValve != OPEN)))))
+time:39246
+generation for RG_r_Main_FFFTFTRG_r_PSVexp_RG1122
+test generation failed - model checker error RG_r_Main_FFFTFTRG_r_PSVexp_RG1122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and (not ins_pause and (state != MAIN_REGION_PSV_R1_EXPIRATION))))))
+time:509448
+generation for RG_r_Main_FFFTFTRG_r_PSVexp_RG2122
+test generation failed - model checker error RG_r_Main_FFFTFTRG_r_PSVexp_RG2122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and (not ins_pause and (oValve != OPEN))))))
+time:552892
+generation for RG_r_Main_FFFTFF122
+test generation failed - model checker error RG_r_Main_FFFTFF122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and ins_pause))))
+time:461331
+generation for RG_r_Main_FFFTFTRG_r_PCVinspApnea_RG_r_PCVinspOValve_RG_r_PCVinsp_RG111142
+test generation failed - model checker error RG_r_Main_FFFTFTRG_r_PCVinspApnea_RG_r_PCVinspOValve_RG_r_PCVinsp_RG111142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (expiredTIMER_APNEALAG and (state != MAIN_REGION_PCV_R1_INSPIRATION))))))
+time:56879
+generation for RG_r_Main_FFFTFTRG_r_PCVinspApnea_RG_r_PCVinspOValve_RG_r_PCVinsp_RG211142
+test generation failed - model checker error RG_r_Main_FFFTFTRG_r_PCVinspApnea_RG_r_PCVinspOValve_RG_r_PCVinsp_RG211142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (expiredTIMER_APNEALAG and (iValve != OPEN))))))
+time:671527
+generation for RG_r_Main_FFFTFTRG_r_PCVinspApnea_RG_r_PCVinspOValve_RG21142
+test generation failed - model checker error RG_r_Main_FFFTFTRG_r_PCVinspApnea_RG_r_PCVinspOValve_RG21142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (expiredTIMER_APNEALAG and (oValve != CLOSED))))))
+time:60735
+generation for RG_r_Main_FFFTFTRG_r_PCVinspApnea_RG2142
+test generation failed - model checker error RG_r_Main_FFFTFTRG_r_PCVinspApnea_RG2142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (expiredTIMER_APNEALAG and (apneaAlarm != true))))))
+time:192126
+generation for RG_r_Main_FFFTFTRG_r_PCVinspApnea_RG3142
+test generation failed - model checker error RG_r_Main_FFFTFTRG_r_PCVinspApnea_RG3142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (expiredTIMER_APNEALAG and (apnea_backup_mode != true))))))
+time:1365
+generation for RG_r_Main_FFFTFFFFTRG_r_PCVinspOValve_RG_r_PCVinsp_RG11142
+test generation failed - model checker error RG_r_Main_FFFTFFFFTRG_r_PCVinspOValve_RG_r_PCVinsp_RG11142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and (not((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PSV)) and exp_pause) and (not stopVentilationRequested and ((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PCV)) and (state != MAIN_REGION_PCV_R1_INSPIRATION)))))))))
+time:4603
+generation for RG_r_Main_FFFTFFFFTRG_r_PCVinspOValve_RG_r_PCVinsp_RG21142
+test generation failed - model checker error RG_r_Main_FFFTFFFFTRG_r_PCVinspOValve_RG_r_PCVinsp_RG21142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and (not((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PSV)) and exp_pause) and (not stopVentilationRequested and ((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PCV)) and (iValve != OPEN)))))))))
+time:1143
+generation for RG_r_Main_FFFTFFFFTRG_r_PCVinspOValve_RG2142
+test generation failed - model checker error RG_r_Main_FFFTFFFFTRG_r_PCVinspOValve_RG2142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and (not((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PSV)) and exp_pause) and (not stopVentilationRequested and ((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PCV)) and (oValve != CLOSED)))))))))
+time:4592
+generation for RG_r_Main_FFFTTRG_r_PSVinsp_RG1152
+test generation failed - model checker error RG_r_Main_FFFTTRG_r_PSVinsp_RG1152 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATORYPAUSE) and (expiredTIMER_MAX_EXP_PAUSE and (state != MAIN_REGION_PSV_R1_INSPIRATION)))))
+time:33138
+generation for RG_r_Main_FFFTTRG_r_PSVinsp_RG2152
+test generation failed - model checker error RG_r_Main_FFFTTRG_r_PSVinsp_RG2152 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATORYPAUSE) and (expiredTIMER_MAX_EXP_PAUSE and (iValve != OPEN)))))
+time:4583
+generation for RG_r_Main_FFFTFF152
+test generation failed - model checker error RG_r_Main_FFFTFF152 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATORYPAUSE) and (not expiredTIMER_MAX_EXP_PAUSE and exp_pause))))
+time:46063
+generation for UR_r_Main_TUR_r_turnOff_12
+test generation failed - model checker error UR_r_Main_TUR_r_turnOff_12 -poweroff and (iValve != CLOSED)
+time:1248
+generation for UR_r_Main_TUR_r_turnOff_22
+time:25675
+generation for UR_r_Main_FTUR_r_ventOffPCV_22
+test generation failed - model checker error UR_r_Main_FTUR_r_ventOffPCV_22 -not poweroff and ((stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (stopVentilationRequested != false))
+time:33498
+generation for UR_r_Main_FTUR_r_ventOffPCV_32
+test generation failed - model checker error UR_r_Main_FTUR_r_ventOffPCV_32 -not poweroff and ((stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (apnea_backup_mode != false))
+time:39248
+generation for UR_r_Main_FFFTTUR_r_apneaAlarmOFF_12
+test generation failed - model checker error UR_r_Main_FFFTTUR_r_apneaAlarmOFF_12 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (apneaAlarm and (((turnOffApneaAlarm = true) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) or (state = MAIN_REGION_PCV_R1_EXPIRATION))) and (apneaAlarm != false)))))
+time:509472
+generation for UR_r_Main_FFFTTTTUR_r_PSVins_pauseFromPCV_162
+test generation failed - model checker error UR_r_Main_FFFTTTTUR_r_PSVins_pauseFromPCV_162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (ins_pause and (state != MAIN_REGION_PSV_R1_INSPIRATORYPAUSE)))))))
+time:552870
+generation for UR_r_Main_FFFTTTTUR_r_PSVins_pauseFromPCV_262
+test generation failed - model checker error UR_r_Main_FFFTTTTUR_r_PSVins_pauseFromPCV_262 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (ins_pause and (iValve != CLOSED)))))))
+time:461333
+generation for UR_r_Main_FFFTTTTUR_r_PSVins_pauseFromPCV_362
+test generation failed - model checker error UR_r_Main_FFFTTTTUR_r_PSVins_pauseFromPCV_362 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (ins_pause and (apnea_backup_mode != false)))))))
+time:56874
+generation for UR_r_Main_FFFTTTFTUR_r_PSVrmFromPCV_262
+test generation failed - model checker error UR_r_Main_FFFTTTFTUR_r_PSVrmFromPCV_262 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (not ins_pause and (rm_request and (apnea_backup_mode != false))))))))
+time:671542
+generation for UR_r_Main_FFFTTTFFUR_r_PSVexpIValveFromPCV_UR_r_PSVexp_1162
+test generation failed - model checker error UR_r_Main_FFFTTTFFUR_r_PSVexpIValveFromPCV_UR_r_PSVexp_1162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (not ins_pause and (not rm_request and (state != MAIN_REGION_PSV_R1_EXPIRATION))))))))
+time:60724
+generation for UR_r_Main_FFFTTTFFUR_r_PSVexpIValveFromPCV_UR_r_PSVexp_2162
+test generation failed - model checker error UR_r_Main_FFFTTTFFUR_r_PSVexpIValveFromPCV_UR_r_PSVexp_2162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (not ins_pause and (not rm_request and (oValve != OPEN))))))))
+time:192151
+generation for UR_r_Main_FFFTTTFFUR_r_PSVexpIValveFromPCV_262
+test generation failed - model checker error UR_r_Main_FFFTTTFFUR_r_PSVexpIValveFromPCV_262 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (not ins_pause and (not rm_request and (iValve != CLOSED))))))))
+time:1324
+generation for UR_r_Main_FFFTTTFFUR_r_PSVexpIValveFromPCV_362
+test generation failed - model checker error UR_r_Main_FFFTTTFFUR_r_PSVexpIValveFromPCV_362 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (not ins_pause and (not rm_request and (apnea_backup_mode != false))))))))
+time:4621
+generation for UR_r_Main_FFFTTFTUR_r_PCVins_pause_162
+test generation failed - model checker error UR_r_Main_FFFTTFTUR_r_PCVins_pause_162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and (not(mode = PSV) and (ins_pause and (state != MAIN_REGION_PCV_R1_INSPIRATORYPAUSE)))))))
+time:1132
+generation for UR_r_Main_FFFTTFTUR_r_PCVins_pause_262
+test generation failed - model checker error UR_r_Main_FFFTTFTUR_r_PCVins_pause_262 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and (not(mode = PSV) and (ins_pause and (iValve != CLOSED)))))))
+time:4605
+generation for UR_r_Main_FFFTTFFTUR_r_PCVrm_162
+test generation failed - model checker error UR_r_Main_FFFTTFFTUR_r_PCVrm_162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and (not(mode = PSV) and (not ins_pause and (rm_request and (state != MAIN_REGION_PCV_R1_RM))))))))
+time:33134
+generation for UR_r_Main_FFFTTFFFUR_r_PCVexpIValve_UR_r_PCVexp_1162
+test generation failed - model checker error UR_r_Main_FFFTTFFFUR_r_PCVexpIValve_UR_r_PCVexp_1162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and (not(mode = PSV) and (not ins_pause and (not rm_request and (state != MAIN_REGION_PCV_R1_EXPIRATION))))))))
+time:4572
+generation for UR_r_Main_FFFTTFFFUR_r_PCVexpIValve_UR_r_PCVexp_2162
+test generation failed - model checker error UR_r_Main_FFFTTFFFUR_r_PCVexpIValve_UR_r_PCVexp_2162 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and (not(mode = PSV) and (not ins_pause and (not rm_request and (oValve != OPEN))))))))
+time:46073
+generation for UR_r_Main_FFFTTFFFUR_r_PCVexpIValve_262
+test generation failed - model checker error UR_r_Main_FFFTTFFFUR_r_PCVexpIValve_262 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and (not(mode = PSV) and (not ins_pause and (not rm_request and (iValve != CLOSED))))))))
+time:1250
+generation for UR_r_Main_FFFTTUR_r_PCVexp_172
+test generation failed - model checker error UR_r_Main_FFFTTUR_r_PCVexp_172 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (expiredTIMER_MAX_INS_PAUSE and (state != MAIN_REGION_PCV_R1_EXPIRATION)))))
+time:25673
+generation for UR_r_Main_FFFTTUR_r_PCVexp_272
+test generation failed - model checker error UR_r_Main_FFFTTUR_r_PCVexp_272 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (expiredTIMER_MAX_INS_PAUSE and (oValve != OPEN)))))
+time:33515
+generation for UR_r_Main_FFFTFTUR_r_PCVexp_172
+test generation failed - model checker error UR_r_Main_FFFTFTUR_r_PCVexp_172 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and (not ins_pause and (state != MAIN_REGION_PCV_R1_EXPIRATION))))))
+time:39233
+generation for UR_r_Main_FFFTFTUR_r_PCVexp_272
+test generation failed - model checker error UR_r_Main_FFFTFTUR_r_PCVexp_272 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and (not ins_pause and (oValve != OPEN))))))
+time:509493
+generation for UR_r_Main_FFFTTUR_r_PCVexpIValve_UR_r_PCVexp_1182
+test generation failed - model checker error UR_r_Main_FFFTTUR_r_PCVexpIValve_UR_r_PCVexp_1182 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and ((expiredTIMER_MAX_RM_TIME or rm_request) and (state != MAIN_REGION_PCV_R1_EXPIRATION)))))
+time:552873
+generation for UR_r_Main_FFFTTUR_r_PCVexpIValve_UR_r_PCVexp_2182
+test generation failed - model checker error UR_r_Main_FFFTTUR_r_PCVexpIValve_UR_r_PCVexp_2182 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and ((expiredTIMER_MAX_RM_TIME or rm_request) and (oValve != OPEN)))))
+time:461344
+generation for UR_r_Main_FFFTTUR_r_PCVexpIValve_282
+test generation failed - model checker error UR_r_Main_FFFTTUR_r_PCVexpIValve_282 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and ((expiredTIMER_MAX_RM_TIME or rm_request) and (iValve != CLOSED)))))
+time:56837
+generation for UR_r_Main_FFFTTTUR_r_PCVexp_pause_192
+test generation failed - model checker error UR_r_Main_FFFTTTUR_r_PCVexp_pause_192 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and (exp_pause and (state != MAIN_REGION_PCV_R1_EXPIRATORYPAUSE))))))
+time:671568
+generation for UR_r_Main_FFFTTTUR_r_PCVexp_pause_292
+test generation failed - model checker error UR_r_Main_FFFTTTUR_r_PCVexp_pause_292 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and (exp_pause and (oValve != CLOSED))))))
+time:60713
+generation for UR_r_Main_FFFTTFUR_r_PCVinspOValve_UR_r_PCVinsp_1192
+test generation failed - model checker error UR_r_Main_FFFTTFUR_r_PCVinspOValve_UR_r_PCVinsp_1192 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and (not exp_pause and (state != MAIN_REGION_PCV_R1_INSPIRATION))))))
+time:192165
+generation for UR_r_Main_FFFTTFUR_r_PCVinspOValve_UR_r_PCVinsp_2192
+test generation failed - model checker error UR_r_Main_FFFTTFUR_r_PCVinspOValve_UR_r_PCVinsp_2192 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and (not exp_pause and (iValve != OPEN))))))
+time:1300
+generation for UR_r_Main_FFFTTFUR_r_PCVinspOValve_292
+test generation failed - model checker error UR_r_Main_FFFTTFUR_r_PCVinspOValve_292 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and (not exp_pause and (oValve != CLOSED))))))
+time:4630
+generation for UR_r_Main_FFFTFTTUR_r_PCVinspOValve_UR_r_PCVinsp_1192
+test generation failed - model checker error UR_r_Main_FFFTFTTUR_r_PCVinspOValve_UR_r_PCVinsp_1192 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (dropPAW_ITS_PCV and (state != MAIN_REGION_PCV_R1_INSPIRATION)))))))
+time:1136
+generation for UR_r_Main_FFFTFTTUR_r_PCVinspOValve_UR_r_PCVinsp_2192
+test generation failed - model checker error UR_r_Main_FFFTFTTUR_r_PCVinspOValve_UR_r_PCVinsp_2192 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (dropPAW_ITS_PCV and (iValve != OPEN)))))))
+time:4585
+generation for UR_r_Main_FFFTFTTUR_r_PCVinspOValve_292
+test generation failed - model checker error UR_r_Main_FFFTFTTUR_r_PCVinspOValve_292 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (dropPAW_ITS_PCV and (oValve != CLOSED)))))))
+time:33128
+generation for UR_r_Main_FFFTFTFTUR_r_ventOffPCV_192
+test generation failed - model checker error UR_r_Main_FFFTFTFTUR_r_ventOffPCV_192 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (not dropPAW_ITS_PCV and (stopVentilationRequested and (state != MAIN_REGION_VENTILATIONOFF))))))))
+time:4585
+generation for UR_r_Main_FFFTFTFTUR_r_ventOffPCV_292
+test generation failed - model checker error UR_r_Main_FFFTFTFTUR_r_ventOffPCV_292 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (not dropPAW_ITS_PCV and (stopVentilationRequested and (stopVentilationRequested != false))))))))
+time:46077
+generation for UR_r_Main_FFFTFTFTUR_r_ventOffPCV_392
+test generation failed - model checker error UR_r_Main_FFFTFTFTUR_r_ventOffPCV_392 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (not dropPAW_ITS_PCV and (stopVentilationRequested and (apnea_backup_mode != false))))))))
+time:1246
+generation for UR_r_Main_FFFTFFTUR_r_ventOffPCV_392
+test generation failed - model checker error UR_r_Main_FFFTFFTUR_r_ventOffPCV_392 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (not expiredTIMER_TRIGGERWINDOWDELAY_MS and (stopVentilationRequested and (apnea_backup_mode != false)))))))
+time:25669
+generation for UR_r_Main_FFFTTUR_r_PCVinsp_1102
+test generation failed - model checker error UR_r_Main_FFFTTUR_r_PCVinsp_1102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (expiredTIMER_MAX_EXP_PAUSE and (state != MAIN_REGION_PCV_R1_INSPIRATION)))))
+time:33509
+generation for UR_r_Main_FFFTTUR_r_PCVinsp_2102
+test generation failed - model checker error UR_r_Main_FFFTTUR_r_PCVinsp_2102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (expiredTIMER_MAX_EXP_PAUSE and (iValve != OPEN)))))
+time:39234
+generation for UR_r_Main_FFFTFTUR_r_PCVinsp_1102
+test generation failed - model checker error UR_r_Main_FFFTFTUR_r_PCVinsp_1102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (not expiredTIMER_MAX_EXP_PAUSE and (not exp_pause and (state != MAIN_REGION_PCV_R1_INSPIRATION))))))
+time:509509
+generation for UR_r_Main_FFFTFTUR_r_PCVinsp_2102
+test generation failed - model checker error UR_r_Main_FFFTFTUR_r_PCVinsp_2102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (not expiredTIMER_MAX_EXP_PAUSE and (not exp_pause and (iValve != OPEN))))))
+time:552870
+generation for UR_r_Main_FFFTTTUR_r_PSVins_pause_1112
+test generation failed - model checker error UR_r_Main_FFFTTTUR_r_PSVins_pause_1112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and (((flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) or expiredTIMER_MAX_INSP_TIME_PSV) and (ins_pause and (state != MAIN_REGION_PSV_R1_INSPIRATORYPAUSE))))))
+time:461366
+generation for UR_r_Main_FFFTTTUR_r_PSVins_pause_2112
+test generation failed - model checker error UR_r_Main_FFFTTTUR_r_PSVins_pause_2112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and (((flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) or expiredTIMER_MAX_INSP_TIME_PSV) and (ins_pause and (iValve != CLOSED))))))
+time:56811
+generation for UR_r_Main_FFFTTFFUR_r_PSVexpIValve_UR_r_PSVexp_11112
+time:505305
+generation for UR_r_Main_FFFTTUR_r_PSVexp_1122
+test generation failed - model checker error UR_r_Main_FFFTTUR_r_PSVexp_1122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (expiredTIMER_MAX_INS_PAUSE and (state != MAIN_REGION_PSV_R1_EXPIRATION)))))
+time:166259
+generation for UR_r_Main_FFFTTUR_r_PSVexp_2122
+test generation failed - model checker error UR_r_Main_FFFTTUR_r_PSVexp_2122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (expiredTIMER_MAX_INS_PAUSE and (oValve != OPEN)))))
+time:60679
+generation for UR_r_Main_FFFTFTUR_r_PSVexp_1122
+test generation failed - model checker error UR_r_Main_FFFTFTUR_r_PSVexp_1122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and (not ins_pause and (state != MAIN_REGION_PSV_R1_EXPIRATION))))))
+time:192183
+generation for UR_r_Main_FFFTFTUR_r_PSVexp_2122
+test generation failed - model checker error UR_r_Main_FFFTFTUR_r_PSVexp_2122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and (not ins_pause and (oValve != OPEN))))))
+time:1273
+generation for UR_r_Main_FFFTFTUR_r_PCVinspApnea_UR_r_PCVinspOValve_UR_r_PCVinsp_111142
+test generation failed - model checker error UR_r_Main_FFFTFTUR_r_PCVinspApnea_UR_r_PCVinspOValve_UR_r_PCVinsp_111142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (expiredTIMER_APNEALAG and (state != MAIN_REGION_PCV_R1_INSPIRATION))))))
+time:4644
+generation for UR_r_Main_FFFTFTUR_r_PCVinspApnea_UR_r_PCVinspOValve_UR_r_PCVinsp_211142
+test generation failed - model checker error UR_r_Main_FFFTFTUR_r_PCVinspApnea_UR_r_PCVinspOValve_UR_r_PCVinsp_211142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (expiredTIMER_APNEALAG and (iValve != OPEN))))))
+time:1133
+generation for UR_r_Main_FFFTFTUR_r_PCVinspApnea_UR_r_PCVinspOValve_21142
+test generation failed - model checker error UR_r_Main_FFFTFTUR_r_PCVinspApnea_UR_r_PCVinspOValve_21142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (expiredTIMER_APNEALAG and (oValve != CLOSED))))))
+time:4599
+generation for UR_r_Main_FFFTFTUR_r_PCVinspApnea_2142
+test generation failed - model checker error UR_r_Main_FFFTFTUR_r_PCVinspApnea_2142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (expiredTIMER_APNEALAG and (apneaAlarm != true))))))
+time:33132
+generation for UR_r_Main_FFFTFTUR_r_PCVinspApnea_3142
+test generation failed - model checker error UR_r_Main_FFFTFTUR_r_PCVinspApnea_3142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (expiredTIMER_APNEALAG and (apnea_backup_mode != true))))))
+time:4584
+generation for UR_r_Main_FFFTFFFFTUR_r_PCVinspOValve_UR_r_PCVinsp_11142
+test generation failed - model checker error UR_r_Main_FFFTFFFFTUR_r_PCVinspOValve_UR_r_PCVinsp_11142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and (not((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PSV)) and exp_pause) and (not stopVentilationRequested and ((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PCV)) and (state != MAIN_REGION_PCV_R1_INSPIRATION)))))))))
+time:46071
+generation for UR_r_Main_FFFTFFFFTUR_r_PCVinspOValve_UR_r_PCVinsp_21142
+test generation failed - model checker error UR_r_Main_FFFTFFFFTUR_r_PCVinspOValve_UR_r_PCVinsp_21142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and (not((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PSV)) and exp_pause) and (not stopVentilationRequested and ((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PCV)) and (iValve != OPEN)))))))))
+time:1242
+generation for UR_r_Main_FFFTFFFFTUR_r_PCVinspOValve_2142
+test generation failed - model checker error UR_r_Main_FFFTFFFFTUR_r_PCVinspOValve_2142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and (not((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PSV)) and exp_pause) and (not stopVentilationRequested and ((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PCV)) and (oValve != CLOSED)))))))))
+time:25672
+generation for UR_r_Main_FFFTTUR_r_PSVinsp_1152
+test generation failed - model checker error UR_r_Main_FFFTTUR_r_PSVinsp_1152 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATORYPAUSE) and (expiredTIMER_MAX_EXP_PAUSE and (state != MAIN_REGION_PSV_R1_INSPIRATION)))))
+time:33523
+generation for UR_r_Main_FFFTTUR_r_PSVinsp_2152
+test generation failed - model checker error UR_r_Main_FFFTTUR_r_PSVinsp_2152 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATORYPAUSE) and (expiredTIMER_MAX_EXP_PAUSE and (iValve != OPEN)))))
+time:39225
+generation for MCDC_r_Main_F_F_F_T12
+test generation failed - model checker error MCDC_r_Main_F_F_F_T12 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and apneaAlarm))
+time:509533
+generation for MCDC_r_Main_F_F_F_T_TT12
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_TT12 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (apneaAlarm and ((turnOffApneaAlarm = true) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) or (state = MAIN_REGION_PCV_R1_EXPIRATION))))))
+time:552861
+generation for MCDC_r_Main_F_F_F_T_FT12
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_FT12 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (apneaAlarm and ((turnOffApneaAlarm != true) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) or (state = MAIN_REGION_PCV_R1_EXPIRATION))))))
+time:461370
+generation for MCDC_r_Main_F_F_F_T_TTF12
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_TTF12 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (apneaAlarm and ((turnOffApneaAlarm = true) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (state != MAIN_REGION_PCV_R1_EXPIRATION))))))
+time:56796
+generation for MCDC_r_Main_F_F_F_T_TFF12
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_TFF12 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (apneaAlarm and ((turnOffApneaAlarm = true) and ((state != MAIN_REGION_PCV_R1_INSPIRATION) and (state != MAIN_REGION_PCV_R1_EXPIRATION))))))
+time:505347
+generation for MCDC_r_Main_F_F_F_T_TFT12
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_TFT12 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (apneaAlarm and ((turnOffApneaAlarm = true) and ((state != MAIN_REGION_PCV_R1_INSPIRATION) and (state = MAIN_REGION_PCV_R1_EXPIRATION))))))
+time:166260
+generation for MCDC_r_Main_F_F_F_T_TFF12
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_TFF12 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (apneaAlarm and ((turnOffApneaAlarm = true) and ((state != MAIN_REGION_PCV_R1_INSPIRATION) and (state != MAIN_REGION_PCV_R1_EXPIRATION))))))
+time:60668
+generation for MCDC_r_Main_F_F_F_TFTT22
+time:1096
+generation for MCDC_r_Main_F_F_F_TFT22
+time:4573
+generation for MCDC_r_Main_F_F_F_TF22
+time:11484
+generation for MCDC_r_Main_F_F_F_T_T_F_F52
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T_F_F52 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_VENTILATIONOFF) and (startVentilation and ((mode != PCV) and (mode != PSV))))))
+time:38926
+generation for MCDC_r_Main_F_F_F_T_T_F62
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T_F62 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and (mode != PSV)))))
+time:136096
+generation for MCDC_r_Main_F_F_F_T_T_T_T62
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T_T_T62 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and ins_pause)))))
+time:1256
+generation for MCDC_r_Main_F_F_F_T_T_T_F_F62
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T_T_F_F62 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode = PSV) and (not ins_pause and not rm_request))))))
+time:4626
+generation for MCDC_r_Main_F_F_F_T_T_F_T62
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T_F_T62 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and ins_pause)))))
+time:1138
+generation for MCDC_r_Main_F_F_F_T_T_F_F62
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T_F_F62 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and not ins_pause)))))
+time:4613
+generation for MCDC_r_Main_F_F_F_T_T_F_F_T62
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T_F_F_T62 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and (not ins_pause and rm_request))))))
+time:33123
+generation for MCDC_r_Main_F_F_F_T_T_F_F_F62
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T_F_F_F62 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATION) and (expiredTIMER_INSPIRATION_DURATION_MS and ((mode != PSV) and (not ins_pause and not rm_request))))))
+time:4576
+generation for MCDC_r_Main_F_F_F_T72
+test generation failed - model checker error MCDC_r_Main_F_F_F_T72 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE)))
+time:46095
+generation for MCDC_r_Main_F_F_F_T_T72
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T72 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and expiredTIMER_MAX_INS_PAUSE)))
+time:1222
+generation for MCDC_r_Main_F_F_F_T_F72
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F72 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and not expiredTIMER_MAX_INS_PAUSE)))
+time:25688
+generation for MCDC_r_Main_F_F_F_T_F_T72
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_T72 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and ins_pause))))
+time:33518
+generation for MCDC_r_Main_F_F_F_T_F_F72
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_F72 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and not ins_pause))))
+time:39220
+generation for MCDC_r_Main_F_F_F_T82
+test generation failed - model checker error MCDC_r_Main_F_F_F_T82 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (state = MAIN_REGION_PCV_R1_RM)))
+time:509562
+generation for MCDC_r_Main_F_F_F_T_TF82
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_TF82 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and (expiredTIMER_MAX_RM_TIME and not rm_request))))
+time:552842
+generation for MCDC_r_Main_F_F_F_T_FF82
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_FF82 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and (not expiredTIMER_MAX_RM_TIME and not rm_request))))
+time:461378
+generation for MCDC_r_Main_F_F_F_T_FT82
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_FT82 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and (not expiredTIMER_MAX_RM_TIME and rm_request))))
+time:56792
+generation for MCDC_r_Main_F_F_F_T_FF82
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_FF82 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_RM) and (not expiredTIMER_MAX_RM_TIME and not rm_request))))
+time:505369
+generation for MCDC_r_Main_F_F_F_T_T92
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and expiredTIMER_EXPIRATION_DURATION_MS)))
+time:166260
+generation for MCDC_r_Main_F_F_F_T_T_T92
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T_T92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and exp_pause))))
+time:60644
+generation for MCDC_r_Main_F_F_F_T_T_F92
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T_F92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (expiredTIMER_EXPIRATION_DURATION_MS and not exp_pause))))
+time:1077
+generation for MCDC_r_Main_F_F_F_T_F_T92
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_T92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and expiredTIMER_TRIGGERWINDOWDELAY_MS))))
+time:4606
+generation for MCDC_r_Main_F_F_F_T_F_T_T92
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_T_T92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PCV)))))
+time:11479
+generation for MCDC_r_Main_F_F_F_T_F_T_F92
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_T_F92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and not dropPAW_ITS_PCV)))))
+time:38932
+generation for MCDC_r_Main_F_F_F_T_F_T_F_T92
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_T_F_T92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (not dropPAW_ITS_PCV and stopVentilationRequested))))))
+time:136108
+generation for MCDC_r_Main_F_F_F_T_F_T_F_F92
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_T_F_F92 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATION) and (not expiredTIMER_EXPIRATION_DURATION_MS and (expiredTIMER_TRIGGERWINDOWDELAY_MS and (not dropPAW_ITS_PCV and not stopVentilationRequested))))))
+time:1246
+generation for MCDC_r_Main_F_F_F_T102
+test generation failed - model checker error MCDC_r_Main_F_F_F_T102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE)))
+time:4621
+generation for MCDC_r_Main_F_F_F_T_T102
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and expiredTIMER_MAX_EXP_PAUSE)))
+time:1136
+generation for MCDC_r_Main_F_F_F_T_F102
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and not expiredTIMER_MAX_EXP_PAUSE)))
+time:4620
+generation for MCDC_r_Main_F_F_F_T_F_T102
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_T102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (not expiredTIMER_MAX_EXP_PAUSE and exp_pause))))
+time:33119
+generation for MCDC_r_Main_F_F_F_T_F_F102
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_F102 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PCV_R1_EXPIRATORYPAUSE) and (not expiredTIMER_MAX_EXP_PAUSE and not exp_pause))))
+time:4572
+generation for MCDC_r_Main_F_F_F_T_FTF112
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_FTF112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and ((not flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) and not expiredTIMER_MAX_INSP_TIME_PSV))))
+time:46113
+generation for MCDC_r_Main_F_F_F_T_TFF112
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_TFF112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and ((flowDropPSV and not expiredTIMER_MIN_INSP_TIME_MS) and not expiredTIMER_MAX_INSP_TIME_PSV))))
+time:1203
+generation for MCDC_r_Main_F_F_F_T_FT112
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_FT112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and (not(flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) and expiredTIMER_MAX_INSP_TIME_PSV))))
+time:25702
+generation for MCDC_r_Main_F_F_F_T_T_T112
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T_T112 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATION) and (((flowDropPSV and expiredTIMER_MIN_INSP_TIME_MS) or expiredTIMER_MAX_INSP_TIME_PSV) and ins_pause))))
+time:33514
+generation for MCDC_r_Main_F_F_F_T122
+test generation failed - model checker error MCDC_r_Main_F_F_F_T122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and (state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE)))
+time:39216
+generation for MCDC_r_Main_F_F_F_T_T122
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and expiredTIMER_MAX_INS_PAUSE)))
+time:509584
+generation for MCDC_r_Main_F_F_F_T_F122
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and not expiredTIMER_MAX_INS_PAUSE)))
+time:552837
+generation for MCDC_r_Main_F_F_F_T_F_T122
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_T122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and ins_pause))))
+time:461372
+generation for MCDC_r_Main_F_F_F_T_F_F122
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_F122 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_INSPIRATORYPAUSE) and (not expiredTIMER_MAX_INS_PAUSE and not ins_pause))))
+time:56776
+generation for MCDC_r_Main_F_F_F_T_TF132
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_TF132 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_RM) and (expiredTIMER_MAX_RM_TIME and not rm_request))))
+time:505392
+generation for MCDC_r_Main_F_F_F_T_FT142
+time:53322
+generation for MCDC_r_Main_F_F_F_T_F_T142
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_T142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and expiredTIMER_APNEALAG))))
+time:112915
+generation for MCDC_r_Main_F_F_F_T_F_F_FTT142
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_F_FTT142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and ((not expiredTIMER_MIN_EXP_TIME_PSV and (mode = PSV)) and exp_pause))))))
+time:60634
+generation for MCDC_r_Main_F_F_F_T_F_F_TFT142
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_F_TFT142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and ((expiredTIMER_MIN_EXP_TIME_PSV and (mode != PSV)) and exp_pause))))))
+time:1071
+generation for MCDC_r_Main_F_F_F_T_F_F_TF142
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_F_TF142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and ((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PSV)) and not exp_pause))))))
+time:4603
+generation for MCDC_r_Main_F_F_F_T_F_F_F_F_TT142
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_F_F_F_TT142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and (not((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PSV)) and exp_pause) and (not stopVentilationRequested and (expiredTIMER_MIN_EXP_TIME_PSV and (mode = PCV)))))))))
+time:11484
+generation for MCDC_r_Main_F_F_F_T_F_F_F_F_TT142
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_F_F_F_TT142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and (not((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PSV)) and exp_pause) and (not stopVentilationRequested and (expiredTIMER_MIN_EXP_TIME_PSV and (mode = PCV)))))))))
+time:38926
+generation for MCDC_r_Main_F_F_F_T_F_F_F_F_TF142
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_F_F_F_TF142 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATION) and (not(expiredTIMER_TRIGGERWINDOWDELAY_MS and dropPAW_ITS_PSV) and (not expiredTIMER_APNEALAG and (not((expiredTIMER_MIN_EXP_TIME_PSV and (mode = PSV)) and exp_pause) and (not stopVentilationRequested and (expiredTIMER_MIN_EXP_TIME_PSV and (mode != PCV)))))))))
+time:136129
+generation for MCDC_r_Main_F_F_F_T_T152
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_T152 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATORYPAUSE) and expiredTIMER_MAX_EXP_PAUSE)))
+time:1232
+generation for MCDC_r_Main_F_F_F_T_F_T152
+test generation failed - model checker error MCDC_r_Main_F_F_F_T_F_T152 -not poweroff and (not(stopVentilation and (state = MAIN_REGION_PCV_R1_EXPIRATION)) and (not(stopVentilation and (state = MAIN_REGION_PSV_R1_EXPIRATION)) and ((state = MAIN_REGION_PSV_R1_EXPIRATORYPAUSE) and (not expiredTIMER_MAX_EXP_PAUSE and exp_pause))))
+time:4619
+generation for pair_1_2_2_1
+time:1064
+generation for pair_1_2_2_2
+time:1086
+generation for pair_1_2_3_2
+time:1058
+generation for pair_1_2_4_2
+time:1066
+generation for pair_1_2_5_2
+time:1049
+generation for pair_1_2_6_2
+test generation failed - model checker error pair_1_2_6_2 -(dropPAW_ITS_PCV = true) and (stopVentilation = true)
+time:390
+generation for pair_1_2_7_2
+time:1074
+generation for pair_1_2_8_2
+time:1069
+generation for pair_1_2_9_2
+time:1067
+generation for pair_1_2_10_2
+time:1087
+generation for pair_1_1_11_2
+time:1101
+generation for pair_1_2_11_2
+time:1069
+generation for pair_1_2_12_2
+time:1078
+generation for pair_1_2_13_2
+time:1078
+generation for pair_1_2_14_2
+time:1068
+generation for pair_1_2_15_2
+time:1065
+generation for pair_2_2_3_2
+time:1063
+generation for pair_2_2_4_2
+time:1076
+generation for pair_2_2_6_2
+time:1104
+generation for pair_2_2_10_2
+time:1074
+generation for pair_2_2_11_2
+time:1082
+generation for pair_2_2_13_2
+time:1076
+generation for pair_2_2_14_2
+time:1093
+generation for pair_2_2_15_2
+time:1075
+generation for pair_3_2_4_2
+time:1063
+generation for pair_3_2_7_2
+time:1070
+generation for pair_3_2_8_2
+time:1066
+generation for pair_3_2_10_2
+time:1082
+generation for pair_3_2_11_2
+time:1058
+generation for pair_3_2_12_2
+time:1069
+generation for pair_3_2_13_2
+time:1074
+generation for pair_3_2_14_2
+time:1077
+generation for pair_3_2_15_2
+time:1076
+generation for pair_4_2_6_2
+time:1062
+generation for pair_4_2_7_2
+time:1087
+generation for pair_4_2_8_2
+time:1074
+generation for pair_4_2_10_2
+test generation failed - model checker error pair_4_2_10_2 -(poweroff = true) and (startupEnded = true)
+time:647
+generation for pair_4_2_11_2
+time:1064
+generation for pair_4_2_12_2
+time:1075
+generation for pair_4_2_13_2
+time:1071
+generation for pair_4_2_14_2
+time:1074
+generation for pair_4_2_15_2
+test generation failed - model checker error pair_4_2_15_2 -(poweroff = true) and (pawGTMaxPinsp = true)
+time:260
+generation for pair_5_2_10_2
+time:1086
+generation for pair_5_2_11_2
+time:1075
+generation for pair_6_2_7_2
+time:1089
+generation for pair_6_2_8_2
+time:1072
+generation for pair_6_2_10_2
+time:1077
+generation for pair_6_2_11_2
+time:1082
+generation for pair_6_2_12_2
+time:1078
+generation for pair_6_2_13_2
+time:1081
+generation for pair_7_2_8_2
+time:1073
+generation for pair_7_2_10_2
+time:1059
+generation for pair_7_2_11_2
+time:1070
+generation for pair_7_2_12_2
+time:1067
+generation for pair_7_2_13_2
+time:1049
+generation for pair_7_2_14_2
+time:1065
+generation for pair_7_2_15_2
+time:1067
+generation for pair_8_2_10_2
+time:1077
+generation for pair_8_2_11_2
+time:1072
+generation for pair_8_2_12_2
+time:1053
+generation for pair_8_2_13_2
+time:1073
+generation for pair_8_2_14_2
+time:1089
+generation for pair_8_2_15_2
+time:1067
+generation for pair_9_2_11_2
+time:1078
+generation for pair_9_2_12_2
+time:1064
+generation for pair_10_2_11_2
+time:1105
+generation for pair_10_2_12_2
+time:1072
+generation for pair_10_2_13_2
+time:1083
+generation for pair_10_2_14_2
+time:1068
+generation for pair_10_2_15_2
+time:1060
+generation for pair_11_2_12_2
+time:1067
+generation for pair_11_2_13_2
+time:1067
+generation for pair_11_2_14_2
+time:1066
+generation for pair_11_2_15_2
+time:1056
+generation for pair_12_2_13_2
+time:1063
+generation for pair_12_2_14_2
+time:1066
+generation for pair_12_2_15_2
+time:1073
+generation for pair_13_2_14_2
+time:1076
+generation for pair_13_2_15_2
+time:1059
+generation for pair_14_2_15_2
+time:1089
