@@ -179,7 +179,8 @@ public class ExperimentsMVM_ICTSS2021 {
 			long timeElapsed = Duration.between(start, finish).toMillis();
 			println("time:" + Long.toString(timeElapsed));
 			//
-
+			println("covers:" +ts2.coverageInfo());
+			//
 			String parent = new File(ex).getParent(); // .uptoSegment(config.asmetaSpecPath.segmentCount()-1);
 			assert (parent != null);
 			// System.out.println("Parent: "+parent);
@@ -227,5 +228,31 @@ public class ExperimentsMVM_ICTSS2021 {
         }
     };
 
+    
+    
+    @Test
+    public void counttp() throws Exception{
+    		String ex = "../../../../../mvm-asmeta/asm_models/VentilatoreASM_NewTime/Ventilatore4SimpleTimeLtdY.asm";
+    		// build all the criteria needed for the experiment
+    		List<AsmCoverageBuilder> coverageCriteria = new ArrayList<>();
+    		for (CriteriaEnum c : CriteriaEnum.values()) {
+    			// skip 3 wise and two wise monitored
+    			if (c == CriteriaEnum.COMBINATORIAL_ALL)
+    				continue;
+    			if (c == CriteriaEnum.THREEWISE)
+    				continue;
+    			coverageCriteria.add(c.criteria);
+    		}
+    		// read and trasform the spec
+    		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
+    		ASMSpecification spec = new AsmetaLLoader().read(new File(ex));
+    		// build the generator
+    		// build the tree depending on the criteria
+    		AsmCoverage ct = new MBTCoverage(coverageCriteria).getTPTree(spec);
+    		System.out.println(ct.getChildAt(0).getName() + " " + ((AsmCoverage)ct.getChildAt(0)).getNumberofTPs());
+
+    }
+    
+    
 	
 }
