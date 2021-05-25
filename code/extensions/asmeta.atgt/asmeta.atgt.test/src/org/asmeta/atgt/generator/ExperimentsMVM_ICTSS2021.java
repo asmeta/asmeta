@@ -79,7 +79,7 @@ public class ExperimentsMVM_ICTSS2021 {
 
 	@Test
 	public void generateMVMAll() throws Exception {
-		String ex = "../../../../../mvm-asmeta/asm_models/VentilatoreASM_NewTime/Ventilatore4SimpleTimeLtdY.asm";
+		String ex = "../../../../../mvm-asmeta/asm_models/VentilatorICTSS/Ventilatore4SimpleTimeLtdY.asm";
 
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
 
