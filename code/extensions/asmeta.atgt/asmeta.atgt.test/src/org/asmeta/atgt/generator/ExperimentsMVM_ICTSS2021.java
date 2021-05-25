@@ -128,7 +128,7 @@ public class ExperimentsMVM_ICTSS2021 {
 
 	@Test
 	public void generateMVM1atatime() throws Exception {
-		String ex = "../../../../../mvm-asmeta/asm_models/VentilatoreASM_NewTime/Ventilatore4SimpleTimeLtdY.asm";
+		String ex = "../../../../../mvm-asmeta/asm_models/VentilatorICTSS/Ventilatore4SimpleTimeLtdY.asm";
 		// build all the criteria needed for the experiment
 		List<AsmCoverageBuilder> coverageCriteria = new ArrayList<>();
 		for (CriteriaEnum c : CriteriaEnum.values()) {
