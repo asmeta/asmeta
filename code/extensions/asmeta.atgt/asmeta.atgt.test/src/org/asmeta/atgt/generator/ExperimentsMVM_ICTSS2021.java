@@ -201,7 +201,7 @@ public class ExperimentsMVM_ICTSS2021 {
 		}
 		fw.close();
 	}
-
+	
 	private void println(String s) throws IOException {
 		fw.append(s+ "\n");
 		fw.flush();
@@ -248,9 +248,9 @@ public class ExperimentsMVM_ICTSS2021 {
     		ASMSpecification spec = new AsmetaLLoader().read(new File(ex));
     		// build the generator
     		// build the tree depending on the criteria
-    		AsmCoverage ct = new MBTCoverage(coverageCriteria).getTPTree(spec);
-    		System.out.println(ct.getChildAt(0).getName() + " " + ((AsmCoverage)ct.getChildAt(0)).getNumberofTPs());
-
+    		for (int i=0;i<6;i++) {AsmCoverage ct = new MBTCoverage(coverageCriteria).getTPTree(spec);
+    		System.out.println(ct.getChildAt(i).getName() + " " + ((AsmCoverage)ct.getChildAt(i)).getNumberofTPs());
+    		}
     }
     
     
