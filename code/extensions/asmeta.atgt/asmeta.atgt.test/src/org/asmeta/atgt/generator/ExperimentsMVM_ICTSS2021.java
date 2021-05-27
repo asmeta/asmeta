@@ -52,7 +52,7 @@ import atgt.testseqexport.toAvalla;
  */
 public class ExperimentsMVM_ICTSS2021 {
 
-	private static final int TIMEOUT_MS = 7200000; //2 hour, _02 --> 3600000; //1 hour , _01 2700000 --> 45 minutes
+	private static final int TIMEOUT_MS = 7200000; //2 hour, _02 --> 3600000; 1 hour , _01 2700000 --> 45 minutes
 
 	private static final String data = LocalDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE);
 	
@@ -153,7 +153,7 @@ public class ExperimentsMVM_ICTSS2021 {
 				AsmTestCondition tc = iterator.next();
 				if (tc.getStatus() == TestConditionState.TODO) {
 					tc.setToVerify(true);
-					println("generation for " + tc.getName());
+					println("generation for " + tc.getUniqueID() + " " + tc.getName());
 					gentc = tc;
 					break;
 				}
