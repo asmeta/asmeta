@@ -116,6 +116,7 @@ public class SimGUI extends JFrame {
 	static JMenu compositionTypeMenu;
 	static JRadioButtonMenuItem pipeRadioItem;
 	static JRadioButtonMenuItem bidPipeRadioItem;
+	static JRadioButtonMenuItem parallelRadioItem;
 	static ButtonGroup compositionTypeGroup;
 	
 	private static SimulationContainer containerInstance;
@@ -460,9 +461,10 @@ public class SimGUI extends JFrame {
 		compositionTypeGroup.add(bidPipeRadioItem);
 		compositionTypeMenu.add(bidPipeRadioItem);
 		
-		// TODO: Sistemare quando deciso l'ultimo pattern di composizione
-		JRadioButtonMenuItem rdbtnmntmNewRadioItem_2 = new JRadioButtonMenuItem("Others");
-		compositionTypeMenu.add(rdbtnmntmNewRadioItem_2);
+		parallelRadioItem = new JRadioButtonMenuItem("Parallel");
+		parallelRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		compositionTypeGroup.add(parallelRadioItem);
+		compositionTypeMenu.add(parallelRadioItem);
 		
 		compositionMenuItem = new JMenuItem("Compose models");
 		compositionMenuItem.setEnabled(false);
@@ -553,10 +555,16 @@ public class SimGUI extends JFrame {
 			}
 		});
 		
-		// TODO: test + BID_PIPE da implementare
+		// TODO: fare test BID_PIPE e PARALLEL
 		bidPipeRadioItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CompositionGUI.compType = CompositionType.BID_PIPE;
+			}
+		});
+		
+		parallelRadioItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CompositionGUI.compType = CompositionType.PARALLEL;
 			}
 		});
 		
@@ -906,7 +914,7 @@ public class SimGUI extends JFrame {
 				// Supporting multi-model composition (unidirectional cascade pipe, partial bidirectional pipe)
 				CompositionPanel tab = null;
 				if(CompositionGUI.getConPane() != null && CompositionGUI.compositionContainer != null) {
-					// La logica viene gestita completamente dal composition container
+					// Logic is handled entirely by the composition container
 					try {
 						CompositionGUI.compositionContainer.runStep(out, true);
 					} catch(EmptyCompositionListException e) {
@@ -915,7 +923,7 @@ public class SimGUI extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "Error: the bidirectional pipe requires only two models!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 					
-					// La parte grafica viene aggiornata con un semplice ciclo separato dalla logica
+					// Graphics (GUI) is update with a simple loop separated from the logic.
 					for(Composition comp: CompositionGUI.getCompositionTabs().keySet()) {
 						tab = CompositionGUI.getCompositionTabs().get(comp);
 						previousConsole.println(comp.outputConsole.toString());
@@ -1102,6 +1110,7 @@ public class SimGUI extends JFrame {
 		Pattern domainPattern = Pattern.compile("\\{.*?\\}");
 		//Pattern enumPattern = Pattern.compile(".*?\\|.*|[^\\||^\" \"]*");
 		Matcher matcher;
+		boolean commented = false;
 		
 		if(!currentLoadedModel.equals("")) {
 			File asmFile = new File(currentLoadedModel);
@@ -1111,7 +1120,13 @@ public class SimGUI extends JFrame {
 					String line = "";
 					reader = new BufferedReader(new FileReader(asmFile));
 					while((line = reader.readLine()) != null) {
-						if(line.contains("enum") && line.contains("domain") && line.contains(domainName) && !line.contains("//")) {
+						if(line.contains("/*")) {
+							commented = true;
+						}
+						if(line.contains("*/")) {
+							commented = false;
+						}
+						if(line.contains("enum") && line.contains("domain") && line.contains(domainName) && !line.contains("//") && !commented) {
 							line = line.trim();
 							enumDomainContent.add(line);
 							// DEBUG: System.out.println("\n" + line + "\n");

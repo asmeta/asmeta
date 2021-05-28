@@ -1,5 +1,8 @@
 package org.asmeta.runtime_commander;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -11,11 +14,18 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.asmeta.parser.ASMParser;
+import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.SimulationContainer;
 import org.asmeta.simulationUI.CompositionContainer;
 import org.asmeta.simulationUI.CompositionSizeOutOfBoundException;
 import org.asmeta.simulationUI.CompositionType;
 import org.asmeta.simulationUI.EmptyCompositionListException;
+
+import asmeta.AsmCollection;
+import asmeta.definitions.Function;
+import asmeta.structure.Initialization;
+import asmeta.terms.basicterms.impl.BooleanTermImpl;
 
 /**
  * @author Federico Rebucini
@@ -43,7 +53,7 @@ public class Commander {
 	private static final Pattern INV_PATTERN = Pattern.compile("(-inv\\s+\"[^\"\\n]+\")");
 	private static final Pattern INV_OLD_PATTERN = Pattern.compile("(-invold\\s+\"[^\"\\n]+\")");
 	private static final Pattern CONFIG_DEFAULT_MODELS_DIR_PATTERN = Pattern.compile("(-dir\\s+\"[^\"\\\\\\n]+\")");
-	private static final Pattern CONFIG_PROMPT = Pattern.compile("(-prompt\\s+\"[^\"\\n]+\")");
+	private static final Pattern CONFIG_PROMPT_PATTERN = Pattern.compile("(-prompt\\s+\"[^\"\\n]+\")");
 								
 	// Support function to parse numbers 
 	private static int parseNumber(Matcher m, String mod) {
@@ -152,7 +162,8 @@ public class Commander {
 				case "AUTOSETUP":			 cmdAutoSetup(input);			 break;
 				case "CONFIG":				 cmdConfig(input);				 break;
 				case "RR":					 cmdRerun();					 break;
-				case "RUN":					 cmdRun(input);					 break;
+				case "OPEN":				 cmdOpen(input);				 break;
+				case "IF":					 cmdIf(input);					 break;
 				default:
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Function \"" + command + "\" is not a correct command!");
 			}
@@ -185,7 +196,161 @@ public class Commander {
 		}
 	}
 	
-	private static void cmdRun(String argument) {
+	private static void cmdIf(String argument) {
+		//System.out.println(argument);
+		argument = argument.replace("if", "IF");
+		argument = argument.replace("else", "ELSE");
+		argument = argument.replace("then", "THEN");
+		
+		Pattern ifThenPattern = Pattern.compile("\\s*IF\\s+(\\p{Alnum}+)\\s+THEN\\s+(\\p{Alnum}+.asm)");
+		Pattern ifThenElsePattern = Pattern.compile("\\s*IF\\s+(\\p{Alnum}+)\\s+THEN\\s+(\\p{Alnum}+.asm)\\s+ELSE\\s+(\\p{Alnum}+.asm)");
+		Matcher ifThenMatcher = ifThenPattern.matcher(argument);
+		Matcher ifThenElseMatcher = ifThenElsePattern.matcher(argument);
+		
+		String cond = null;
+		String modelS1 = null;
+		String modelS2 = null;
+		if(ifThenMatcher.find()) {
+			System.out.println("Match OK!");
+			if(ifThenMatcher.groupCount() != 2) {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid argument structure!");
+				return;
+			}
+			if(ifThenElseMatcher.find()) {
+				// group(0) is the entire expression
+				// group(1) is "cond" (the condition) -> must be a boolean term in S1
+				// group(2) is "S1"
+				// group(3) is "S2"
+				if(ifThenElseMatcher.groupCount() != 3) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid argument structure!");
+					return;
+				}
+				cond = ifThenElseMatcher.group(1);
+				modelS1 = ifThenElseMatcher.group(2);
+				modelS2 = ifThenElseMatcher.group(3);
+				if(!modelS1.contains(".asm") || !modelS2.contains(".asm")) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+					return;
+				}
+				try {
+					boolean condValue = false;
+					if(out.getStatus() != CommanderStatus.RUNOUTPUT) {
+						File modelS1File = new File(defaultModelDir + "/" + modelS1); // get the initial value of "cond" from the default initial state of "S1"
+						if(modelS1File.exists() && modelS1File.isFile()) {
+							AsmCollection asm = ASMParser.setUpReadAsm(modelS1File);
+							for(int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
+								Function f = asm.getMain().getHeaderSection().getSignature().getFunction().get(i);
+								if(f.getName().equals(cond) && f.getCodomain().getName().equalsIgnoreCase("boolean")) {
+									for(int j = 0; j < asm.getMain().getDefaultInitialState().getFunctionInitialization().size(); j++) {
+										Initialization g = asm.getMain().getDefaultInitialState().getFunctionInitialization().get(j).getInitialState();
+										if(g.getFunctionInitialization().get(j).getInitializedFunction().getName().equals(cond)) {
+											condValue = Boolean.parseBoolean(((BooleanTermImpl) g.getFunctionInitialization().get(j).getBody()).getSymbol());
+										}
+									}
+								}
+							}
+							if(condValue) {
+								cmdAutoSetup("autosetup " + modelS1);
+							} else {
+								cmdAutoSetup("autosetup " + modelS2);
+							}
+						}
+					} else if(out.getStatus() == CommanderStatus.RUNOUTPUT && out.getRunOutput().getEsit() == Esit.SAFE) {
+						// get the boolean term "cond" from "S1" -> it has to be a controlled boolean 0-ary function
+						Map <String, String> controlled = out.getRunOutput().getControlledvalues();
+						if(controlled.containsKey(cond)) {
+							if(controlled.get(cond).equalsIgnoreCase("true")) { // "cond" value is TRUE
+								condValue = Boolean.parseBoolean(controlled.get(cond));
+								assertTrue(condValue);
+								cmdAutoSetup("autosetup " + modelS1);
+							} else if(controlled.get(cond).equalsIgnoreCase("false")) { // "cond" value is FALSE
+								condValue = Boolean.parseBoolean(controlled.get(cond));
+								assertFalse(condValue);
+								cmdAutoSetup("autosetup " + modelS2);
+							} else {
+								out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, controlled condition " + cond + " is not valid!");
+								return;
+							}
+						} else {
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, controlled condition " + cond + " not found!");
+							return;
+						}
+					}
+				} catch(AssertionError e) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, controlled condition " + cond + " is not valid!");
+					return;
+				} catch (CommanderException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				// group(0) is the entire expression
+				// group(1) is "cond" (the condition) -> must be a boolean term in S1
+				// group(2) is "S1"
+				cond = ifThenMatcher.group(1);
+				modelS1 = ifThenMatcher.group(2);
+				if(!modelS1.contains(".asm")) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+					return;
+				}
+				try {
+					boolean condValue = false;
+					if(out.getStatus() != CommanderStatus.RUNOUTPUT) {
+						File modelS1File = new File(defaultModelDir + "/" + modelS1); // get the initial value of "cond" from the default initial state of "S1"
+						if(modelS1File.exists() && modelS1File.isFile()) {
+							AsmCollection asm = ASMParser.setUpReadAsm(modelS1File);
+							for(int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
+								Function f = asm.getMain().getHeaderSection().getSignature().getFunction().get(i);
+								if(f.getName().equals(cond) && f.getCodomain().getName().equalsIgnoreCase("boolean")) {
+									for(int j = 0; j < asm.getMain().getDefaultInitialState().getFunctionInitialization().size(); j++) {
+										Initialization g = asm.getMain().getDefaultInitialState().getFunctionInitialization().get(j).getInitialState();
+										if(g.getFunctionInitialization().get(j).getInitializedFunction().getName().equals(cond)) {
+											condValue = Boolean.parseBoolean(((BooleanTermImpl) g.getFunctionInitialization().get(j).getBody()).getSymbol());
+										}
+									}
+								}
+							}
+							if(condValue) {
+								cmdAutoSetup("autosetup " + modelS1);
+							} else {
+								out = new CommanderOutput(CommanderStatus.FAILURE, "Controlled condition: " + cond + " is false\n" + modelS1 + "cannot be executed!");
+							}
+						}
+					} else if(out.getStatus() == CommanderStatus.RUNOUTPUT && out.getRunOutput().getEsit() == Esit.SAFE) {
+						// get the boolean term "cond" from "S1" -> it has to be a controlled boolean 0-ary function
+						Map <String, String> controlled = out.getRunOutput().getControlledvalues();
+						if(controlled.containsKey(cond)) {
+							if(controlled.get(cond).equalsIgnoreCase("true")) { // "cond" value is TRUE
+								condValue = Boolean.parseBoolean(controlled.get(cond));
+								assertTrue(condValue);
+								cmdAutoSetup("autosetup " + modelS1);
+							} else if(controlled.get(cond).equalsIgnoreCase("false")) { // "cond" value is FALSE
+								condValue = Boolean.parseBoolean(controlled.get(cond));
+								assertFalse(condValue);
+								out = new CommanderOutput(CommanderStatus.FAILURE, "Controlled condition: " + cond + " is false\n" + modelS1 + " cannot be executed!");
+							} else {
+								out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, controlled condition " + cond + " is not valid!");
+								return;
+							}
+						} else {
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, controlled condition " + cond + " not found!");
+							return;
+						}
+					}
+				} catch(AssertionError e) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, controlled condition " + cond + " is not valid!");
+					return;
+				} catch (CommanderException e) {
+					e.getMessage();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	private static void cmdOpen(String argument) {
 		String[] tokens;
 		ArrayList<String> fileContent = new ArrayList<>();
 		if(argument.contains("/")) { // file path
@@ -196,7 +361,7 @@ public class Commander {
 			}
 			for(String token: tokens) {
 				token = token.replace("\"", "");
-				if(!token.toUpperCase().equals("RUN") && token.toLowerCase().contains(".asmsh")) {
+				if(!token.toUpperCase().equals("OPEN") && token.toLowerCase().contains(".asmsh")) {
 					File runFile = new File(token);
 					if(runFile.exists() && runFile.isFile()) {
 						try {
@@ -216,17 +381,81 @@ public class Commander {
 				}
 			}
 			SimulationContainer containerInstance = new SimulationContainer();
+			StringBuffer parsedCommand = new StringBuffer();
+			boolean end = false;
 			for(String command: fileContent) {
+				if(command.toLowerCase().trim().startsWith("pipe(")) { // support pipe(file1.asm, file2.asm, ..., fineN.asm) syntax
+					parsedCommand.append("autosetup ");
+					for(String token: command.substring(5).split(",")) {
+						if(token.contains(")")) {
+							token = token.replace(")", "");
+							end = true;
+						}
+						if(token.contains(".asm")) {
+							if(!end) {
+								parsedCommand.append(token + "|");
+							} else {
+								parsedCommand.append(token);
+							}
+						}
+					}
+					if(debugMode)
+						System.out.println(parsedCommand);
+					command = parsedCommand.toString();
+					parsedCommand.delete(0, parsedCommand.length());
+				} else if(command.toLowerCase().trim().startsWith("bid(")) { // support bid(file1.asm, file2.asm) syntax
+					parsedCommand.append("autosetup ");
+					for(String token: command.substring(4).split(",")) {
+						if(command.substring(4).split(",").length != 2) {
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Bidirectional pipe composition requires only two models!");
+							return;
+						}
+						if(token.contains(")")) {
+							token = token.replace(")", "");
+							end = true;
+						}
+						if(token.contains(".asm")) {
+							if(!end) {
+								parsedCommand.append(token + "<|>");
+							} else {
+								parsedCommand.append(token);
+							}
+						}
+					}
+					if(debugMode)
+						System.out.println(parsedCommand);
+					command = parsedCommand.toString();
+					parsedCommand.delete(0, parsedCommand.length());
+				} else if(command.toLowerCase().trim().startsWith("par(")) { // support par(file1.asm, file2.asm, ..., fineN.asm) syntax
+					parsedCommand.append("autosetup ");
+					for(String token: command.substring(4).split(",")) {
+						if(token.contains(")")) {
+							token = token.replace(")", "");
+							end = true;
+						}
+						if(token.contains(".asm")) {
+							if(!end) {
+								parsedCommand.append(token + "||");
+							} else {
+								parsedCommand.append(token);
+							}
+						}
+					}
+					if(debugMode)
+						System.out.println(parsedCommand);
+					command = parsedCommand.toString();
+					parsedCommand.delete(0, parsedCommand.length());
+				}
 				parseInput(containerInstance, command);
 			}
 		} else { // file already in defaultModelDir
-			if(argument.toUpperCase().contains("RUN ")) {
-				argument = argument.toUpperCase().replace("RUN ", "");
+			if(argument.toUpperCase().contains("OPEN ")) {
+				argument = argument.toUpperCase().replace("OPEN ", "");
 			}
 			argument = defaultModelDir + "/" + argument.trim();
-			cmdRun(argument);
+			cmdOpen(argument);
 		}
-		out = new CommanderOutput(CommanderStatus.FAILURE, "Run successful!");
+		out = new CommanderOutput(CommanderStatus.FAILURE, "File opened successfully!");
 	}
 	
 	private static void cmdRerun() {
@@ -238,7 +467,7 @@ public class Commander {
 	private static void cmdConfig(String argument) {
 		Matcher matcher = CONFIG_DEFAULT_MODELS_DIR_PATTERN.matcher(argument);
 		String defaultDirp = parseText(matcher, "config-dir");
-		matcher = CONFIG_PROMPT.matcher(argument);
+		matcher = CONFIG_PROMPT_PATTERN.matcher(argument);
 		String promptp = parseText(matcher, "config-prompt");
 		
 		if(defaultDirp != null) {
@@ -267,19 +496,19 @@ public class Commander {
 	/* syntax:	autosetup model1.asm model2.asm ... 	-> init all + start all
 				autosetup model1.asm | model2.asm | ... -> init all + compose (PIPE) in order
 				autosetup model1.asm <|> model2.asm		-> init all (must be only 2) + compose (BID_PIPE) in order
+				autosetup model1.asm || model2.asm ...	-> init all + compose (PARALLEL)
 	   model1.asm, model2.asm, ... have to be in the defaultModelDir folder. */
 	private static void cmdAutoSetup(String argument) {
 		ArrayList<String> params = new ArrayList<>();
 		//System.out.println(argument);
 		String[] tokens;
 		if(argument.trim().contains("|")) {
-			if(argument.trim().contains("<|>")) { // BID_PIPE
+			if(argument.trim().contains("<|>") && !argument.trim().contains("||")) { // BID_PIPE
 				tokens = argument.split("\\s*<\\|>\\s*");
 				if(tokens.length != 2) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Bidirectional pipe composition requires only two models!");
 					return;
 				}
-				tokens = argument.split("\\s*<\\|>\\s*");
 				for(String token: tokens) {
 					if(token.toUpperCase().contains("AUTOSETUP")) {
 						token = token.substring(9, token.length()).trim();
@@ -298,6 +527,29 @@ public class Commander {
 					cmdStartExecution("-modelpath \"" + defaultModelDir + "/" + param + "\"");
 				}
 				compContainer = new CompositionContainer(containerInstance, CompositionType.BID_PIPE);
+				for(int i = 0; i < params.size() - 1; i++) {
+					compContainer.addComposition(i + 1, i + 2);
+				}
+			} else if(!argument.trim().contains("<|>") && argument.trim().contains("||")) { // PARALLEL
+				tokens = argument.split("\\s*\\|\\|\\s*");
+				for(String token: tokens) {
+					if(token.toUpperCase().contains("AUTOSETUP")) {
+						token = token.substring(9, token.length()).trim();
+					}
+					if(!token.toUpperCase().equals("AUTOSETUP")) {
+						if(token.contains(".asm")) {
+							params.add(token);
+						} else {
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Invalid model extension!");
+							return;
+						}
+					}
+				}
+				cmdInit("-n " + Integer.toString(params.size()));
+				for(String param: params) {
+					cmdStartExecution("-modelpath \"" + defaultModelDir + "/" + param + "\"");
+				}
+				compContainer = new CompositionContainer(containerInstance, CompositionType.PARALLEL);
 				for(int i = 0; i < params.size() - 1; i++) {
 					compContainer.addComposition(i + 1, i + 2);
 				}
@@ -343,7 +595,7 @@ public class Commander {
 			}
 		}
 		//System.out.println(params.toString());
-		System.out.println("Autosetup successful, type 'help' for more commands!\nLoaded simulations:");
+		System.out.println("Autosetup finished, type 'help' for more commands!\nLoaded simulations:");
 		cmdGetLoadedIDs();
 	}
 	
@@ -661,14 +913,20 @@ public class Commander {
 				
 		//AUTOSETUP
 		System.out.println("AUTOSETUP\t\tAuto-setup single or multiple asmeta models in the default models directory.");
-		System.out.println("\t\t\t\tArguments: <model1> [<model2> ...]\t\t-> No model composition");
-		System.out.println("\t\t\t\tArguments: <model1> | <model2> [| <model3>...]\t-> Unidirectional cascade pipe composition");
-		System.out.println("\t\t\t\tArguments: <model1> <|> <model2>\t\t-> (Partial) Bidirectional pipe composition");
+		System.out.println("\t\t\t\tArguments: <model1> [<model2> ...]\t\t\t-> No model composition");
+		System.out.println("\t\t\t\tArguments: <model1> | <model2> [| <model3> ...]\t\t-> Unidirectional cascade pipe composition");
+		System.out.println("\t\t\t\tArguments: <model1> <|> <model2>\t\t\t-> (Partial) Bidirectional pipe composition");
+		System.out.println("\t\t\t\tArguments: <model1> || <model2> [|| <model3> ...]\t-> (Coupled) For-join composition");
 		
-		//RUN
-		System.out.println("RUN\t\t\tRun a sequence of commands specified in an asmeta shell (.asmsh) file.");
+		//OPEN
+		System.out.println("OPEN\t\t\tRun a sequence of commands specified in an asmeta shell (.asmsh) file.");
 		System.out.println("\t\t\t\tArgument: <asmsh file absolute path>");
 		System.out.println("\t\t\t\tArgument: <asmsh file name> (when the file is already in the default models directory)");
+		
+		// IF - THEN / IF - THEN - ELSE
+		System.out.println("IF-THEN-[ELSE]\t\tConditional selection of models in the default model directory.");
+		System.out.println("\t\t\t\tSyntax: IF <condition in model1> THEN <model1>");
+		System.out.println("\t\t\t\tSyntax: IF <condition in model1> THEN <model1> ELSE <model2>");
 		
 		//RERUN
 		System.out.println("RR\t\t\tRe-run the previous command.");
