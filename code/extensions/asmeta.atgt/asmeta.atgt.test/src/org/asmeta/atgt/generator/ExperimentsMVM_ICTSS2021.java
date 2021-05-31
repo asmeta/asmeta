@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Level;
@@ -52,7 +53,8 @@ import atgt.testseqexport.toAvalla;
  */
 public class ExperimentsMVM_ICTSS2021 {
 
-	private static final int TIMEOUT_MS = 7200000; //7200000 - 2 hour, 3600000 - 1 hour , 2700000 -45 minutes
+	//private static final int TIMEOUT_MS = 7200000; //7200000 - 2 hour, 3600000 - 1 hour , 2700000 -45 minutes
+	private static final int TIMEOUT_MS = 3000; 
 
 	private static final String data = LocalDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE);
 	
@@ -162,8 +164,9 @@ public class ExperimentsMVM_ICTSS2021 {
 				break;
 			// generate the tests
 			Instant start = Instant.now();
-			NuSMVKillerTask task = new NuSMVKillerTask();
-			new java.util.Timer().schedule(task,TIMEOUT_MS);
+			NuSMVKillerTask task = new NuSMVKillerTask(gentc.getUniqueID());
+			Timer timer = new java.util.Timer();
+			timer.schedule(task,TIMEOUT_MS);
 			// run nusmv
 			AsmTestSuite ts = nuSMVtestGenerator.generateTestforASM(ct,fw);
 			assert ts != null;
@@ -176,6 +179,9 @@ public class ExperimentsMVM_ICTSS2021 {
 				gentc.setAssertViolated(false);
 				assert gentc.getStatus() == TestConditionState.Unknown;
 			}
+			// if timer is still active, cancel it
+			timer.cancel();
+			//
 			long timeElapsed = Duration.between(start, finish).toMillis();
 			println("time:" + Long.toString(timeElapsed));
 			//
@@ -210,7 +216,11 @@ public class ExperimentsMVM_ICTSS2021 {
 
 	class NuSMVKillerTask extends java.util.TimerTask {
 		boolean timeout = false;
-        @Override
+		private String tpid;
+        public NuSMVKillerTask(String uniqueID) {
+			tpid = uniqueID;
+		}
+		@Override
         public void run() {
     		WindowsProcessKiller pKiller = new WindowsProcessKiller();
     		// To kill a command prompt
@@ -221,6 +231,7 @@ public class ExperimentsMVM_ICTSS2021 {
     			pKiller.killProcess(processName);
     			AsmetaSMV.proc.destroy();
     			timeout = true;
+    			System.out.println("killing the process for tp " + tpid);
     		}
     		else {
     			System.out.println("Not able to find the process : "+processName);
