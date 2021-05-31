@@ -155,7 +155,7 @@ public class AsmetaSMV {
 			 * t.join(); } catch (InterruptedException e) { e.printStackTrace(); } }
 			 */
 			outputRunNuSMV = getOutput(commands);
-			System.out.println("MY OUTPTU " + outputRunNuSMV + "END MY OUTPUT");
+			//System.out.println("MY OUTPTU " + outputRunNuSMV + "END MY OUTPUT");
 			outputRunNuSMVreplace = replaceVarsWithLocations(outputRunNuSMV);
 			mv.getPropertiesResults(outputRunNuSMV);
 			if (AsmetaSMVOptions.isPrintNuSMVoutput()) {
