@@ -42,6 +42,9 @@ public class AsmetaSMV {
 	private File asmFile;
 	protected Asm asm;
 	String smvFileName;
+	public String outputRunNuXMV;
+	// System.out.println(outputRunNuSMV);
+	public String outputRunNuXMVreplace;
 
 	AsmetaSMVOptions asmetaOptions;
 
@@ -141,9 +144,9 @@ public class AsmetaSMV {
 		}
 		// System.out.println(smvFileName); //Silvia: 10/05/2021 runNuxmv
 		if (AsmetaSMVOptions.isUseNuXmvTime())
-			runNuXMVTime(smvFileName);
+			runNuXMVTime();
 		else if (AsmetaSMVOptions.isUseNuXmv())
-			runNuXMV(smvFileName);
+			runNuXMV();
 		else {
 			List<String> commands = buildCommandLine(smvFileName);
 			runNuSMV(commands);
@@ -152,7 +155,7 @@ public class AsmetaSMV {
 			 * t.join(); } catch (InterruptedException e) { e.printStackTrace(); } }
 			 */
 			outputRunNuSMV = getOutput(commands);
-			// System.out.println(outputRunNuSMV);
+			System.out.println("MY OUTPTU " + outputRunNuSMV + "END MY OUTPUT");
 			outputRunNuSMVreplace = replaceVarsWithLocations(outputRunNuSMV);
 			mv.getPropertiesResults(outputRunNuSMV);
 			if (AsmetaSMVOptions.isPrintNuSMVoutput()) {
@@ -163,7 +166,7 @@ public class AsmetaSMV {
 		}
 	}
 
-	private void runNuXMV(String smvFileName) throws Exception {
+	public void runNuXMV() throws Exception {
 		// TODO IMPLEMENT COMMANDS TO RUN NUXMV WITHOUT TIME TO ALLOW CTL PROPERTIES
 		// VERIFICATION
 		String solverName = "nuXmv";
@@ -182,7 +185,9 @@ public class AsmetaSMV {
 		bw.write("read_model -i " + smvFileName + "\n");
 		bw.flush();
 		bw.write("go_msat\n");
-		bw.write("msat_check_ltlspec_inc_coi -k 100\n");
+		bw.write("msat_check_ltlspec_bmc -k 100\n");
+		//bw.write("msat_check_ltlspec_inc_coi -k 100\n");
+		
 		// while(!sg.processReady);
 		// now quit
 		TimeUnit.SECONDS.sleep(1);
@@ -192,10 +197,14 @@ public class AsmetaSMV {
 		// any error???
 		int exitVal = proc.waitFor();
 		System.out.println("ExitValue: " + exitVal);
+		outputRunNuXMV = sg.getStringBuilderSb().toString();
+		System.out.println("MY OUTPTU " + outputRunNuXMV + "END MY OUTPUT");
+		outputRunNuXMVreplace = replaceVarsWithLocations(outputRunNuXMV);
+		mv.getPropertiesResults(outputRunNuXMV);
 	}
 
 	// Silvia 10/05/2021: run nuxmv with time option
-	private void runNuXMVTime(String smvFileName) throws Exception {
+	private void runNuXMVTime() throws Exception {
 		String solverName = "nuXmv";
 		ProcessBuilder bp = new ProcessBuilder(solverName, "-int", "-time");
 		bp.redirectErrorStream(true);
@@ -562,6 +571,10 @@ class StreamGobblerNuXmv extends Thread {
 		this.is = is;
 		this.sb = sb;
 	}
+	
+	public StringBuilder  getStringBuilderSb(){
+		return sb;
+	}
 
 	@Override
 	public void run() {
@@ -573,15 +586,20 @@ class StreamGobblerNuXmv extends Thread {
 			 * System.out.println(line); sb.append(line + "\n"); }
 			 */
 			int ch;
-			String line;
-			System.out.println("Read started");
+			String line = null;
+			/*System.out.println("Read started");
+			while ((line = br.readLine()) != null) {
+				sb.append(line + "\n");
+			}*/
 			do {
 				ch = is.read();
 				/*
 				 * if ((char)ch == '>') { processReady = true; System.out.println("READY"); }
 				 */
 				System.out.print((char) ch);
+				line+=(char) ch;
 			} while (ch != -1);
+			sb.append(line + "\n");
 			System.out.println("ENDED");
 		} catch (IOException ioe) {
 			ioe.printStackTrace();

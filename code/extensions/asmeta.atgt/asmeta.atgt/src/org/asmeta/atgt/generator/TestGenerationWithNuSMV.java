@@ -82,8 +82,11 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 		//
 		buildNuSMV(tp);
 		//
-		executeNuSMV();
-		BufferedReader br = new BufferedReader(new StringReader(outputRunNuSMVreplace));
+		executeNuSMV(); BufferedReader br = new BufferedReader(new
+		StringReader(outputRunNuSMVreplace));
+		/*
+		 * runNuXMV(); BufferedReader br = new BufferedReader(new StringReader(outputRunNuXMVreplace));
+		 */
 		return parseCounterExample(br);
 	}
 
