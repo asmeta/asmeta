@@ -53,8 +53,7 @@ import atgt.testseqexport.toAvalla;
  */
 public class ExperimentsMVM_ICTSS2021 {
 
-	//private static final int TIMEOUT_MS = 7200000; //7200000 - 2 hour, 3600000 - 1 hour , 2700000 -45 minutes
-	private static final int TIMEOUT_MS = 3000; 
+	private static final int TIMEOUT_MS = 2400000; // 40 min, 7200000 - 2 hour, 3600000 - 1 hour , 2700000 -45 minutes 
 
 	private static final String data = LocalDateTime.now().format(DateTimeFormatter.BASIC_ISO_DATE);
 	
