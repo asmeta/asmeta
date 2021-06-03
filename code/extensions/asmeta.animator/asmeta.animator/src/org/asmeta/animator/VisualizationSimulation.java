@@ -72,14 +72,13 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	
 	/** build the viewer from a path 
 	 * sort of a factory */
-	public static void showView(String path) throws Exception {
+	public static void showView(File asmPath) throws Exception {
 		// PARSE THE SPECIFICATION (ASM)
 		// parse using the asmeta parser
-		File asmFile1 = new File(path);
-		assert asmFile1.exists();
-		final AsmCollection model = ASMParser.setUpReadAsm(asmFile1);
+		assert asmPath.exists();
+		final AsmCollection model = ASMParser.setUpReadAsm(asmPath);
 		// System.out.println(System.getProperty("user.dir"));
-		simulatorLogger.debug("animating " + path);
+		simulatorLogger.debug("animating " + asmPath);
 		new VisualizationSimulation(model);
 	}
 

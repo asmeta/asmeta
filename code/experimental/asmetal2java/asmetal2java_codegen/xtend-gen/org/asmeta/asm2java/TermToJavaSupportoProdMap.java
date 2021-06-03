@@ -12,6 +12,8 @@ import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.VariableTerm;
+import org.asmeta.asm2java.ExpressionToJava;
+import org.asmeta.asm2java.Util;
 import org.asmeta.parser.util.ReflectiveVisitor;
 
 @SuppressWarnings("all")

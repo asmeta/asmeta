@@ -59,6 +59,7 @@ public class AsmetaUtility {
 	
 	// this method is to find the path of the active window
 	// it also saves the content of the window
+	//  TODO merge with the followgin one
 	public static String getEditorPath(IWorkbenchWindow window) throws Error {
 		String path = null;
 		IEditorPart activeEditor = window.getActivePage().getActiveEditor();
@@ -69,6 +70,7 @@ public class AsmetaUtility {
 		if (editorInput instanceof org.eclipse.ui.part.FileEditorInput) {
 			path = ((org.eclipse.ui.part.FileEditorInput) editorInput).getURI().getPath();
 		} else if (editorInput instanceof org.eclipse.ui.ide.FileStoreEditorInput) {
+			//Implements an IEditorInput instance appropriate for IFileStore elements that represent files that are not part of the current workspace.
 			path = ((org.eclipse.ui.ide.FileStoreEditorInput) editorInput).getURI().getPath();
 		} else {
 			throw new Error("Unknown editor " + editorInput.getClass().getSimpleName());
@@ -85,6 +87,15 @@ public class AsmetaUtility {
 	 */
 	public static IFile  getEditorIFile(IWorkbenchWindow window) throws Error {
 		IEditorPart activeEditor = window.getActivePage().getActiveEditor();
+		return getEditorIFile(activeEditor);
+	}
+
+	/**
+	 * @param activeEditor
+	 * @return
+	 * @throws Error
+	 */
+	public static IFile getEditorIFile(IEditorPart activeEditor) throws Error {
 		// save the file
 		activeEditor.doSave(new NullProgressMonitor());
 		// get the path

@@ -78,6 +78,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avallaXt.util.A
 		this.scenarioDir = scenarioDir;
 	}
 
+	// the set that must be set in the init state (initial set of the scencario)
 	ArrayList<Set> monitoredInitState;
 	List<ArrayList<Set>> allMonitored;
 	int state;

@@ -26,7 +26,9 @@ public class AsmetaSMVPreferencePage extends FieldEditorPreferencePage implement
 	public static final String P_NS = "P_NS";
 	public static final String P_KF = "P_KF";
 	public static final String P_DONOTF = "P_DONOTF";
-
+	public static final String P_NUXMVTIME = "P_NUXMVTIME";
+	public static final String P_NUXMV = "P_NUXMV";
+	
 	public AsmetaSMVPreferencePage() {
 		super(GRID);
 		setPreferenceStore(AsmetaSMVActivator.getDefault().getPreferenceStore());
@@ -48,6 +50,8 @@ public class AsmetaSMVPreferencePage extends FieldEditorPreferencePage implement
 		addField(new BooleanFieldEditor(P_DONOTF, "do not flatten the ASM model before translation", fieldEditorParent));
 		addField(new BooleanFieldEditor(P_KF, "keep the NuSMV file", fieldEditorParent));
 		addField(new BooleanFieldEditor(P_DCX, "do not show counterexamples", fieldEditorParent));
+		addField(new BooleanFieldEditor(P_NUXMV, "use NuXmv", fieldEditorParent));
+		addField(new BooleanFieldEditor(P_NUXMVTIME, "use NuXmv with time", fieldEditorParent));
 		addField(new FileFieldEditor(P_NUSMV_PROGRAM, "NuSMV executable program", fieldEditorParent));
 	}
 

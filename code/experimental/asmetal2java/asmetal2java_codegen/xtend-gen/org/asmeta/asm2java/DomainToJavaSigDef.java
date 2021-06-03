@@ -12,6 +12,8 @@ import asmeta.definitions.domains.SequenceDomain;
 import asmeta.structure.Asm;
 import asmeta.structure.DomainDefinition;
 import asmeta.structure.DomainInitialization;
+import org.asmeta.asm2java.TermToJava;
+import org.asmeta.asm2java.ToString;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.xtend2.lib.StringConcatenation;
 

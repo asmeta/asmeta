@@ -7,7 +7,6 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,31 +17,40 @@ import atgt.testseqexport.toXML;
 
 public class SaveResults {
 
+	/**
+	 * 
+	 * @param result the already generated test suite
+	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
+	 * @param formats XML, Avalla
+	 */
+	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String config) {
+		saveResults(result, asmetaSpecPath, formats, "", config);
+	}
 	
 	/**
 	 * 
 	 * @param result the already generated test suite
-	 * @param parent the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
+	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
 	 * @param formats XML, Avalla
 	 */
-	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String config) {
+	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String foldersuffix, String config) {
 		if (formats==null || formats.size()==0) {
 			System.err.println("No formats specified");
 			return;
 		}
 		String parent = new File(asmetaSpecPath).getParent(); //.uptoSegment(config.asmetaSpecPath.segmentCount()-1);
 		if (parent==null) parent = ".";
-		System.out.println("Parent: "+parent);		
+		//System.out.println("Parent: "+parent);		
 		// find new dir where to put files
-		String dirPath = Paths.get(parent,"abstractests").toString();
+		String dirPath = Paths.get(parent,"abstractests"+foldersuffix).toString();
 		// find new dir where to put files
 		File testFile = new File(dirPath);
 		int i = 1;
 		while (testFile.exists()) {
 			testFile = new File(dirPath + i++);
 		}
-		System.out.println(testFile.mkdir());
-		System.out.println("saving tests to " + testFile.getAbsolutePath());
+		testFile.mkdir();
+		//System.out.println("saving tests to " + testFile.getAbsolutePath());
 		// save to output files
 		String allSequences = ""; // used for ProTest, to create a single file with all the sequences
 		for (AsmTestSequence tc : result.getTests()) {
@@ -64,7 +72,6 @@ public class SaveResults {
 						asm_to_import = new File(asmetaSpecPath).toPath().normalize();
 					}	
 					new toAvalla(ftc,tc,asm_to_import.toString()).save();
-					System.out.println("***" +asm_to_import.toString());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -91,7 +98,7 @@ public class SaveResults {
 		}
 		String parent = new File(asmetaSpecPath).getParent();
 		if (parent==null) parent = ".";
-		System.out.println("Parent: "+parent);		
+		//System.out.println("Parent: "+parent);		
 		String res = "Set of Sequences :\n";
 		
 		for (AsmTestSequence tc : result.getTests()) {

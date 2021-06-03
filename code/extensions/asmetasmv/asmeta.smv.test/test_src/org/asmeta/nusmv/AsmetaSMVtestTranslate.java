@@ -81,7 +81,8 @@ public class AsmetaSMVtestTranslate {
 		return failedSpec;
 
 	}
-
+	
+		
 	@Test
 	public void testFSM_hooking() {
 		testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking.asm");
@@ -154,6 +155,11 @@ public class AsmetaSMVtestTranslate {
 		testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm");
 	}
 
+	@Test
+	public void testasm1() {
+		testOneSpec("examples/asm1.asm");
+	}
+	
 	@Test
 	public void testAxioms() {
 		testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm");

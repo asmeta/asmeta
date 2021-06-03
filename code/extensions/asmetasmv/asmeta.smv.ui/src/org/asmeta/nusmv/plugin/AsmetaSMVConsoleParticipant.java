@@ -5,7 +5,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsolePageParticipant;
 import org.eclipse.ui.part.IPageBookViewPage;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class AsmetaSMVConsoleParticipant implements IConsolePageParticipant {
 

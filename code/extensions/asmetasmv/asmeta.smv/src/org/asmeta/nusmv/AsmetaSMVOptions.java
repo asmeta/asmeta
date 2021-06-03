@@ -25,17 +25,18 @@ public class AsmetaSMVOptions {
 	
 	private static boolean runNuSMV;
 	private static boolean useNuXmv;
+	private static boolean useNuXmvTime;
 
-
-	public AsmetaSMVOptions(boolean s, boolean execute, boolean checkConcrete, boolean useNuXmv) {
+	public AsmetaSMVOptions(boolean s, boolean execute, boolean checkConcrete, boolean useNuXmv, boolean useNuXmvTime) {
 		simplify = s;
 		this.execute = execute;
 		AsmetaSMVOptions.checkConcrete = checkConcrete;
 		AsmetaSMVOptions.useNuXmv = useNuXmv;
+		AsmetaSMVOptions.useNuXmvTime = useNuXmvTime;
 	}
 
 	public AsmetaSMVOptions() {
-		this(true, false, true, false);
+		this(true, false, true, false,false);
 	}
 
 	public static boolean isCheckConcrete() {
@@ -83,6 +84,14 @@ public class AsmetaSMVOptions {
 
 	public static void setUseNuXmv(boolean useNuXmv) {
 		AsmetaSMVOptions.useNuXmv = useNuXmv;
+	}
+	
+	public static boolean isUseNuXmvTime() {
+		return useNuXmvTime;
+	}
+
+	public static void setUseNuXmvTime(boolean useNuXmvTime) {
+		AsmetaSMVOptions.useNuXmvTime = useNuXmvTime;
 	}
 
 }

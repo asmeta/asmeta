@@ -6,11 +6,11 @@ import java.io.PrintStream;
 
 import org.asmeta.eclipse.AsmetaActionHandler;
 import org.asmeta.eclipse.AsmetaUtility;
-import org.asmeta.nusmv.AsmetaSMV;
-import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.nusmv.plugin.AsmetaSMVActivator;
 import org.asmeta.nusmv.plugin.AsmetaSMVConsole;
 import org.asmeta.nusmv.plugin.AsmetaSMVPreferencePage;
+import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -64,6 +64,8 @@ abstract class AsmetaSMVHandler extends AsmetaActionHandler {
 			AsmetaSMVOptions.setCheckConcrete(!store.getBoolean(AsmetaSMVPreferencePage.P_NC));
 			AsmetaSMVOptions.simplify = !store.getBoolean(AsmetaSMVPreferencePage.P_NS);
 			AsmetaSMVOptions.setPrintCounterExample(!store.getBoolean(AsmetaSMVPreferencePage.P_DCX));
+			AsmetaSMVOptions.setUseNuXmvTime(store.getBoolean(AsmetaSMVPreferencePage.P_NUXMVTIME));
+			AsmetaSMVOptions.setUseNuXmv(store.getBoolean(AsmetaSMVPreferencePage.P_NUXMV));
 			String nusmvPath = store.getString(AsmetaSMVPreferencePage.P_NUSMV_PROGRAM);
 			if(!nusmvPath.equals("") && new File(nusmvPath).exists()) {
 				AsmetaSMVOptions.setSolverPath(nusmvPath);
