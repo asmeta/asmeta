@@ -6,6 +6,7 @@ import atgt.coverage.TestCondition;
 import atgt.generator.SpinTSuiteGenForTC;
 import atgt.preferences.ATGToolPreferences;
 import atgt.project.AsmProject;
+import tgtlib.specification.ParseException;
 
 /**
  * 
@@ -14,7 +15,7 @@ import atgt.project.AsmProject;
  */
 public class SpinTestGenerator extends AsmTestGenerator {
 
-	public SpinTestGenerator(String asmfile, boolean coverageTp) {
+	public SpinTestGenerator(String asmfile, boolean coverageTp) throws ParseException {
 		super(asmfile, coverageTp);
 	}
 

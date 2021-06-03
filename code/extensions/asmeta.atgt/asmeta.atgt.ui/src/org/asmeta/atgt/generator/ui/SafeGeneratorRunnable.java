@@ -31,6 +31,7 @@ import org.eclipse.ui.console.IOConsoleOutputStream;
 
 import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmTestSuite;
+import atgt.parser.asmeta.AsmetaLLoader;
 
 public class SafeGeneratorRunnable extends Job {
 
@@ -54,6 +55,7 @@ public class SafeGeneratorRunnable extends Job {
 			Appender consoleApp = new WriterAppender(new SimpleLayout(),out);
 			Logger.getLogger(NuSMVtestGenerator.class).addAppender(consoleApp);
 			Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.INFO);
+			Logger.getLogger(AsmetaLLoader.class).setLevel(Level.ALL);
 		}
 	}
 
@@ -71,13 +73,12 @@ public class SafeGeneratorRunnable extends Job {
 			public void run() {
 				// convert to path as string (do not use ospath)
 				try {
-					List<AsmCoverageBuilder> coverageCriteria = CriteriaEnum
-							.getCoverageCriteria(config.coverageCriteria);
+					List<AsmCoverageBuilder> coverageCriteria = CriteriaEnum.getCoverageCriteria(config.coverageCriteria);
 					System.out.println(config.asmetaSpecPath.toString() + "  -  " + config.computeCoverage + "  -  "
 							+ coverageCriteria);
 					NuSMVtestGenerator generator = new NuSMVtestGenerator(config.asmetaSpecPath.toString(),
 							config.computeCoverage);
-					mc.writeMessage("generating the test with coverage criteria" + coverageCriteria);
+					mc.writeMessage("generating the test with coverage criteria " + coverageCriteria);
 					// generate all the possible tests
 					AsmTestSuite result = generator.generateAbstractTests(coverageCriteria, Integer.MAX_VALUE, ".*");
 					mc.writeMessage("tests generated, saving to avalla files");
@@ -93,6 +94,7 @@ public class SafeGeneratorRunnable extends Job {
 					SaveResults.saveResults(result, config.asmetaSpecPath.toString(), config.formats, SaveResults
 							.toStringForFile(config.computeCoverage, config.coverageCriteria, config.formats));
 				} catch (Exception e) {
+					Logger.getLogger(NuSMVtestGenerator.class).error("ATGT error: "+ e.getMessage());
 					e.printStackTrace();
 				}
 				System.out.println("End of safe runner ");
