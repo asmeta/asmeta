@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: asmetal2cpp_boostunit
 Bundle-SymbolicName: asmetal2cpp_boostunit
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Export-Package: org.asmeta.tocpp.mwe2
 Require-Bundle: org.apache.log4j,
  org.eclipse.equinox.common,

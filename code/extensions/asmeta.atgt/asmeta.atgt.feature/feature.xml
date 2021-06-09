@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.atgt.feature"
       label="Asmeta test generator"
-      version="21.05">
+      version="21.06">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]

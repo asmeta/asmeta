@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Flattener
 Bundle-SymbolicName: asmeta.flattener
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Bundle-ClassPath: args4j.jar,
  .
 Require-Bundle: asmeta.emf,

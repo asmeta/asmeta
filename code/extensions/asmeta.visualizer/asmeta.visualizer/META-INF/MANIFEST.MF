@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta visualizer
 Bundle-SymbolicName: asmeta.visualizer;singleton:=true
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Require-Bundle: org.eclipse.zest.core,
  org.eclipse.zest.layouts,
  org.eclipse.ui,

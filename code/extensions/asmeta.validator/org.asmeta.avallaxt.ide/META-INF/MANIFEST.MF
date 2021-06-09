@@ -3,7 +3,7 @@ Automatic-Module-Name: org.asmeta.avallaxt.ide
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.avallaxt.ide
 Bundle-Vendor: My Company
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Bundle-SymbolicName: org.asmeta.avallaxt.ide; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.avallaxt,

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.xt.tests
 Bundle-Vendor: My Company
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Bundle-SymbolicName: org.asmeta.xt.tests;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.xt,

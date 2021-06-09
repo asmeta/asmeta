@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.xt.feature"
       label="Asmeta xtext editor"
-      version="21.05"
+      version="21.06"
       provider-name="fmse.di.unimi.it">
 
    <description url="asmeta.sf.net">

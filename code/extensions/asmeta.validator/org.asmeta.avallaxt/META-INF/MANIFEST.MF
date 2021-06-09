@@ -3,7 +3,7 @@ Automatic-Module-Name: org.asmeta.avallaxt
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.avallaxt
 Bundle-Vendor: My Company
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Bundle-SymbolicName: org.asmeta.avallaxt; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
