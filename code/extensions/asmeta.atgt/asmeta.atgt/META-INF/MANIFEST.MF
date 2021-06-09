@@ -27,6 +27,7 @@ Export-Package: atgt.combinatorial,
  org.asmeta.atgt.generator,
  org.asmeta.atgt.generator.combinatorial,
  org.asmeta.atgt.generator.coverage,
+ org.asmeta.atgt.generator2,
  org.asmeta.atgt.testoptimizer,
  tgtlib.coverage,
  tgtlib.definitions

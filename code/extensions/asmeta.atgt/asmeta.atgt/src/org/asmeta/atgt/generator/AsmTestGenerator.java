@@ -25,7 +25,7 @@ public abstract class AsmTestGenerator {
 	/** compute coverage??? */
 	protected final boolean coverageTp;
 
-	private final ASMSpecification spec;
+	protected final ASMSpecification spec;
 
 	protected ASMSpecification getSpec() {
 		return spec;

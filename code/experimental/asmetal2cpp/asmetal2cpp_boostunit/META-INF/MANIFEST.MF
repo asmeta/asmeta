@@ -12,7 +12,8 @@ Require-Bundle: org.apache.log4j,
  asmeta.asm2cpp,
  asmeta.smv,
  org.eclipse.emf.mwe2.runtime,
- org.eclipse.emf.mwe2.launch
+ org.eclipse.emf.mwe2.launch,
+ asmeta.atgt
 Import-Package: org.apache.log4j,
  org.asmeta.simulator.main,
  org.asmeta.simulator.readers,

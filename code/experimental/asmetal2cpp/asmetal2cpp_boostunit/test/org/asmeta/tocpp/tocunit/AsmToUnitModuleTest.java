@@ -20,10 +20,10 @@ import org.asmeta.asm2code.compiler.CppCompiler;
 import org.asmeta.asm2code.main.CppGenerator;
 import org.asmeta.asm2code.main.HeaderGenerator;
 import org.asmeta.asm2code.main.TranslatorOptions;
+import org.asmeta.atgt.generator2.AsmTestGenerator;
+import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.tocpp.abstracttestgenerator.AsmTSGeneratorByNuSMV;
-import org.asmeta.tocpp.abstracttestgenerator.AsmTestGenerator;
-import org.asmeta.tocpp.abstracttestgenerator.AsmTestGeneratorBySimulation;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
