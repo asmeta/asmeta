@@ -1,0 +1,2 @@
+bid(BidPipeCube1.asm, BidPipeCube2.asm)
+runstep -id 1 -locationvalue {x=THREE}
