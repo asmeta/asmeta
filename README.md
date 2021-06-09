@@ -45,4 +45,4 @@ https://asmeta.github.io/
 
 ### eclispe with asmeta:
 
-https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2021_05.zip
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2021_06.zip
