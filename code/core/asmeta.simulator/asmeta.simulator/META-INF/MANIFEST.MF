@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta simulator
 Bundle-SymbolicName: asmeta.simulator;singleton:=true
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Bundle-ClassPath: .
 Require-Bundle: asmeta.emf,
  asmeta.parser,

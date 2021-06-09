@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Xtext Model
 Bundle-Vendor: fmse.di.unimi.it
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Bundle-SymbolicName: org.asmeta.xt;singleton:=true
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,

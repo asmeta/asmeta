@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test
 Bundle-SymbolicName: asmeta.validator.test
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Automatic-Module-Name: org.asmeta.avallaxt.validator.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: asmeta.validator,

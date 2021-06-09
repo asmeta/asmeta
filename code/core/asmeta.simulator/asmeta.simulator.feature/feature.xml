@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.simulator.feature"
       label="Asmeta simulator"
-      version="21.05"
+      version="21.06"
       provider-name="fmse.di.unimi.it">
 
    <description>

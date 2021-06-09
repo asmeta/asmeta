@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Animator
 Bundle-SymbolicName: asmeta.animator.test
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Export-Package: org.asmeta.animator
 Require-Bundle: org.eclipse.emf.mwe.utils,
  org.eclipse.emf.mwe2.launch,

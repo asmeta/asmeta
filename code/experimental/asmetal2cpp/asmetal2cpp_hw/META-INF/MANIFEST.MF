@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: uasm2code_hw
 Bundle-SymbolicName: asmeta.asmetal2cpp.hw
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.emf.mwe2.language;bundle-version="2.9.0",
  org.eclipse.emf.mwe2.runtime;bundle-version="2.9.0",
