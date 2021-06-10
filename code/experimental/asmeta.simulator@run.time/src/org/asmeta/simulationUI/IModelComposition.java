@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.asmeta.runtime_container.RunOutput;
 
-public interface IModelCompositionContainer {
+public interface IModelComposition {
 	
 	/**
 	 * Get the list of all the compositions available.

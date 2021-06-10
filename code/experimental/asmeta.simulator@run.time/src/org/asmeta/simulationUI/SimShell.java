@@ -25,7 +25,7 @@ public class SimShell {
 			}
 			System.out.print(Commander.prompt);
 			userInput = keyboard.nextLine();
-			if (!userInput.equals("qqq")) {
+			if (!userInput.equals("qqq") && !userInput.equals("quit")) {
 				CO = Commander.parseInput(containerInstance, userInput);
 				try {
 					switch (CO.getStatus()) {
@@ -63,7 +63,7 @@ public class SimShell {
 					System.out.println(e.getMessage());
 				}
 			}
-		} while(!userInput.equals("qqq"));
+		} while(!userInput.equals("qqq") && !userInput.equals("quit"));
 		
 		System.out.println("Quitting...");
 		keyboard.close();

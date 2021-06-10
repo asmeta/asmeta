@@ -42,6 +42,11 @@ public class Commander {
 	private static boolean initConfigRequired = true;															// Configuration required on startup flag
 	public static String lastInput = null;																		// Last executed input
 	public static String prompt;																				// Command line prompt text
+	public static boolean whileModelSetup;																		// Prevents infinite recursion for the cmdWhile(...)
+	public static Map<Integer, Boolean> inWhileLoop;															// Manage while loops of asm models
+	
+	// Argument regular expressions
+	private static final String RUNSTEP_REGEX = "\\s*RUNSTEP\\(\\s*([^,]+)\\s*,?\\s*(\\{(\\p{Alnum}+\\s*=\\s*\\p{Alnum}+,?)*\\})?\\)";
 	
 	// Argument regex patterns
 	private static final Pattern N_PATTERN = Pattern.compile("(-n\\s+\\d+)");
@@ -54,7 +59,12 @@ public class Commander {
 	private static final Pattern INV_OLD_PATTERN = Pattern.compile("(-invold\\s+\"[^\"\\n]+\")");
 	private static final Pattern CONFIG_DEFAULT_MODELS_DIR_PATTERN = Pattern.compile("(-dir\\s+\"[^\"\\\\\\n]+\")");
 	private static final Pattern CONFIG_PROMPT_PATTERN = Pattern.compile("(-prompt\\s+\"[^\"\\n]+\")");
-								
+	private static final Pattern IF_THEN_PATTERN = Pattern.compile("\\s*IF\\s+(\\p{Alnum}+)\\s+THEN\\s+(\\p{Alnum}+.asm|" + RUNSTEP_REGEX + ")");
+	private static final Pattern IF_THEN_ELSE_PATTERN = Pattern.compile("\\s*IF\\s+(\\p{Alnum}+)\\s+THEN\\s+(\\p{Alnum}+.asm|" + RUNSTEP_REGEX + ")\\s+ELSE\\s+(\\p{Alnum}+.asm|" + RUNSTEP_REGEX + ")");
+	private static final Pattern WHILE_DO_PATTERN = Pattern.compile("\\s*WHILE\\s+(\\p{Alnum}+)\\s+DO\\s+(\\p{Alnum}+.asm)");
+	
+	
+	
 	// Support function to parse numbers 
 	private static int parseNumber(Matcher m, String mod) {
 		int number = DEFAULT_VALUE;
@@ -142,7 +152,7 @@ public class Commander {
 			command = scan.next();
 			//System.out.println("_" + command + "_");
 			scan.close();
-			if(!command.toUpperCase().equals("RR")) {
+			if(!command.toUpperCase().equals("RR") && !command.toUpperCase().equals("IF") && !command.toUpperCase().equals("WHILE")) {
 				lastInput = input;
 			}
 			switch (command.toUpperCase()) {
@@ -164,8 +174,15 @@ public class Commander {
 				case "RR":					 cmdRerun();					 break;
 				case "OPEN":				 cmdOpen(input);				 break;
 				case "IF":					 cmdIf(input);					 break;
+				case "WHILE":				 cmdWhile(input);				 break;
 				default:
-					out = new CommanderOutput(CommanderStatus.FAILURE, "Function \"" + command + "\" is not a correct command!");
+					if(command.toUpperCase().startsWith("RUN(")) {
+						cmdRun(input);
+					} else if(command.toUpperCase().startsWith("RUNSTEP(")) {
+						cmdRunStep(input);
+					} else {
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Function \"" + command + "\" is not a correct command!");
+					}
 			}
 		} else 
 			out = new CommanderOutput(CommanderStatus.FAILURE, "No function found!");
@@ -196,23 +213,96 @@ public class Commander {
 		}
 	}
 	
+	// Syntax: WHILE cond DO S (cond boolean condition in the asmeta model S (file .asm))
+	private static void cmdWhile(String argument) {
+		argument = argument.replace("while", "WHILE");
+		argument = argument.replace("do", "DO");
+		
+		Matcher whileMatcher = WHILE_DO_PATTERN.matcher(argument);
+		String cond = null;
+		String modelS = null;
+		if(whileMatcher.find()) {
+			// group(0) is the entire expression
+			// group(1) is "cond" (the condition) -> must be a boolean term in S
+			// group(2) is "S"
+			if(whileMatcher.groupCount() != 2) {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid argument structure!");
+				return;
+			}
+			cond = whileMatcher.group(1);
+			modelS = whileMatcher.group(2);
+			inWhileLoop = new HashMap<Integer, Boolean>();
+			
+			if(containerInstance != null && containerInstance.getLoadedIDs().containsValue(defaultModelDir + "/" + modelS)) {
+				for(int id: containerInstance.getLoadedIDs().keySet()) {
+					if(containerInstance.getLoadedIDs().get(id).equals(defaultModelDir + "/" + modelS)) {
+						inWhileLoop.put(id, true); // TODO: [modify runstep] each possible output state after a step of model S from now will check cond
+						whileModelSetup = false;
+					}
+				}
+			} else if(!containerInstance.getLoadedIDs().containsValue(defaultModelDir + "/" + modelS) && !whileModelSetup) {
+				cmdIf("IF " + cond + " THEN " + modelS);
+				whileModelSetup = true;
+				cmdWhile("WHILE " + cond + " DO " + modelS);
+			} else {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, unknown error!");
+			}
+		} else {
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid syntax!");
+		}
+	}
+	
+	// Syntax: run(cond, S1) -> 	IF cond THEN S1
+	// 		   run(cond, S1, S2) -> IF cond THEN S1 ELSE S2
+	private static void cmdRun(String argument) {
+		argument = argument.trim(); // remove spaces after ")"
+		argument = argument.substring(4, argument.length() - 1);
+		argument = argument.trim(); // remove spaces inside (...)
+		argument = argument.replace(" ", "");
+		
+		String[] tokens = argument.split(",");
+		if(tokens.length == 2) {
+			if(tokens[1].contains(".asm")) {
+				cmdIf("IF " + tokens[0] + " THEN " + tokens[1]);
+			} else {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+			}
+		} else if(tokens.length == 3) {
+			if(tokens[1].contains(".asm") && tokens[2].contains(".asm")) {
+				cmdIf("IF " + tokens[0] + " THEN " + tokens[1] + " ELSE " + tokens[2]);
+			} else {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+			}
+		} else {
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid argument structure!");
+		}
+	}
+	
 	private static void cmdIf(String argument) {
 		//System.out.println(argument);
 		argument = argument.replace("if", "IF");
 		argument = argument.replace("else", "ELSE");
 		argument = argument.replace("then", "THEN");
+		argument = argument.replace("runstep", "RUNSTEP");
 		
-		Pattern ifThenPattern = Pattern.compile("\\s*IF\\s+(\\p{Alnum}+)\\s+THEN\\s+(\\p{Alnum}+.asm)");
-		Pattern ifThenElsePattern = Pattern.compile("\\s*IF\\s+(\\p{Alnum}+)\\s+THEN\\s+(\\p{Alnum}+.asm)\\s+ELSE\\s+(\\p{Alnum}+.asm)");
-		Matcher ifThenMatcher = ifThenPattern.matcher(argument);
-		Matcher ifThenElseMatcher = ifThenElsePattern.matcher(argument);
+		Matcher ifThenMatcher = IF_THEN_PATTERN.matcher(argument);
+		Matcher ifThenElseMatcher = IF_THEN_ELSE_PATTERN.matcher(argument);
+		ArrayList<String> groups = new ArrayList<>();
 		
 		String cond = null;
+		String functionOnS1 = null;
 		String modelS1 = null;
+		String functionOnS2 = null;
 		String modelS2 = null;
 		if(ifThenMatcher.find()) {
-			System.out.println("Match OK!");
-			if(ifThenMatcher.groupCount() != 2) {
+			if(debugMode)
+				System.out.println("Match OK!");
+			for(int i = 0; i <= ifThenMatcher.groupCount(); i++) {
+				if(ifThenMatcher.group(i) != null) {
+					groups.add(ifThenMatcher.group(i));
+				}
+			}
+			if(groups.size() < 3 || groups.size() > 6) {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid argument structure!");
 				return;
 			}
@@ -221,20 +311,49 @@ public class Commander {
 				// group(1) is "cond" (the condition) -> must be a boolean term in S1
 				// group(2) is "S1"
 				// group(3) is "S2"
-				if(ifThenElseMatcher.groupCount() != 3) {
+				groups.removeAll(groups);
+				for(int i = 0; i <= ifThenElseMatcher.groupCount(); i++) {
+					if(ifThenElseMatcher.group(i) != null) {
+						if(i > 1) {
+							if(ifThenElseMatcher.group(i).contains(".asm")) {
+								groups.add(ifThenElseMatcher.group(i));
+							}
+						} else {
+							groups.add(ifThenElseMatcher.group(i));
+						}
+					}
+				}
+				if(debugMode)
+					System.out.println(groups.toString());
+				if(groups.size() < 4 || groups.size() > 10) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid argument structure!");
 					return;
 				}
-				cond = ifThenElseMatcher.group(1);
-				modelS1 = ifThenElseMatcher.group(2);
-				modelS2 = ifThenElseMatcher.group(3);
+				
+				if(groups.size() == 4) {
+					cond = groups.get(1);
+					modelS1 = groups.get(2);
+					modelS2 = groups.get(3);
+				} else if(groups.size() == 5){
+					cond = groups.get(1);
+					functionOnS1 = groups.get(2);
+					modelS1 = groups.get(3);
+					modelS2 = groups.get(4);
+				} else if(groups.size() == 6) {
+					cond = groups.get(1);
+					functionOnS1 = groups.get(2);
+					modelS1 = groups.get(3);
+					functionOnS2 = groups.get(4);
+					modelS2 = groups.get(5);
+				}
 				if(!modelS1.contains(".asm") || !modelS2.contains(".asm")) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 					return;
 				}
 				try {
 					boolean condValue = false;
-					if(out.getStatus() != CommanderStatus.RUNOUTPUT) {
+					if((containerInstance != null && !containerInstance.getLoadedIDs().containsValue(defaultModelDir + "/" + modelS1)) ||
+						out.getStatus() != CommanderStatus.RUNOUTPUT) {
 						File modelS1File = new File(defaultModelDir + "/" + modelS1); // get the initial value of "cond" from the default initial state of "S1"
 						if(modelS1File.exists() && modelS1File.isFile()) {
 							AsmCollection asm = ASMParser.setUpReadAsm(modelS1File);
@@ -250,9 +369,17 @@ public class Commander {
 								}
 							}
 							if(condValue) {
-								cmdAutoSetup("autosetup " + modelS1);
+								if(functionOnS1 != null && functionOnS1.toUpperCase().contains("RUNSTEP")) {
+									cmdRunStep(functionOnS1);
+								} else {
+									cmdAutoSetup("autosetup " + modelS1);
+								}
 							} else {
-								cmdAutoSetup("autosetup " + modelS2);
+								if(functionOnS2 != null && functionOnS2.toUpperCase().contains("RUNSTEP")) {
+									cmdRunStep(functionOnS2);
+								} else {
+									cmdAutoSetup("autosetup " + modelS2);
+								}
 							}
 						}
 					} else if(out.getStatus() == CommanderStatus.RUNOUTPUT && out.getRunOutput().getEsit() == Esit.SAFE) {
@@ -262,11 +389,19 @@ public class Commander {
 							if(controlled.get(cond).equalsIgnoreCase("true")) { // "cond" value is TRUE
 								condValue = Boolean.parseBoolean(controlled.get(cond));
 								assertTrue(condValue);
-								cmdAutoSetup("autosetup " + modelS1);
+								if(functionOnS1 != null && functionOnS1.toUpperCase().contains("RUNSTEP")) {
+									cmdRunStep(functionOnS1);
+								} else {
+									cmdAutoSetup("autosetup " + modelS1);
+								}
 							} else if(controlled.get(cond).equalsIgnoreCase("false")) { // "cond" value is FALSE
 								condValue = Boolean.parseBoolean(controlled.get(cond));
 								assertFalse(condValue);
-								cmdAutoSetup("autosetup " + modelS2);
+								if(functionOnS2 != null && functionOnS2.toUpperCase().contains("RUNSTEP")) {
+									cmdRunStep(functionOnS2);
+								} else {
+									cmdAutoSetup("autosetup " + modelS2);
+								}
 							} else {
 								out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, controlled condition " + cond + " is not valid!");
 								return;
@@ -280,7 +415,7 @@ public class Commander {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, controlled condition " + cond + " is not valid!");
 					return;
 				} catch (CommanderException e) {
-					e.printStackTrace();
+					e.getMessage();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -288,15 +423,23 @@ public class Commander {
 				// group(0) is the entire expression
 				// group(1) is "cond" (the condition) -> must be a boolean term in S1
 				// group(2) is "S1"
-				cond = ifThenMatcher.group(1);
-				modelS1 = ifThenMatcher.group(2);
+				if(groups.size() == 3) {
+					cond = groups.get(1);
+					modelS1 = groups.get(2);
+				} else {
+					cond = groups.get(1);
+					functionOnS1 = groups.get(2);
+					modelS1 = groups.get(3);
+				}
+				
 				if(!modelS1.contains(".asm")) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 					return;
 				}
 				try {
 					boolean condValue = false;
-					if(out.getStatus() != CommanderStatus.RUNOUTPUT) {
+					if((containerInstance != null && !containerInstance.getLoadedIDs().containsValue(defaultModelDir + "/" + modelS1)) ||
+						out.getStatus() != CommanderStatus.RUNOUTPUT) {
 						File modelS1File = new File(defaultModelDir + "/" + modelS1); // get the initial value of "cond" from the default initial state of "S1"
 						if(modelS1File.exists() && modelS1File.isFile()) {
 							AsmCollection asm = ASMParser.setUpReadAsm(modelS1File);
@@ -312,9 +455,13 @@ public class Commander {
 								}
 							}
 							if(condValue) {
-								cmdAutoSetup("autosetup " + modelS1);
+								if(functionOnS1 != null && functionOnS1.toUpperCase().contains("RUNSTEP")) {
+									cmdRunStep(functionOnS1);
+								} else {
+									cmdAutoSetup("autosetup " + modelS1);
+								}
 							} else {
-								out = new CommanderOutput(CommanderStatus.FAILURE, "Controlled condition: " + cond + " is false\n" + modelS1 + "cannot be executed!");
+								out = new CommanderOutput(CommanderStatus.FAILURE, "Controlled condition: " + cond + " is false\n" + modelS1 + " cannot be executed!");
 							}
 						}
 					} else if(out.getStatus() == CommanderStatus.RUNOUTPUT && out.getRunOutput().getEsit() == Esit.SAFE) {
@@ -324,7 +471,11 @@ public class Commander {
 							if(controlled.get(cond).equalsIgnoreCase("true")) { // "cond" value is TRUE
 								condValue = Boolean.parseBoolean(controlled.get(cond));
 								assertTrue(condValue);
-								cmdAutoSetup("autosetup " + modelS1);
+								if(functionOnS1.toUpperCase().contains("RUNSTEP")) {
+									cmdRunStep(functionOnS1);
+								} else {
+									cmdAutoSetup("autosetup " + modelS1);
+								}
 							} else if(controlled.get(cond).equalsIgnoreCase("false")) { // "cond" value is FALSE
 								condValue = Boolean.parseBoolean(controlled.get(cond));
 								assertFalse(condValue);
@@ -347,6 +498,8 @@ public class Commander {
 					e.printStackTrace();
 				}
 			}
+		} else {
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid syntax!");
 		}
 	}
 	
@@ -455,7 +608,7 @@ public class Commander {
 			argument = defaultModelDir + "/" + argument.trim();
 			cmdOpen(argument);
 		}
-		out = new CommanderOutput(CommanderStatus.FAILURE, "File opened successfully!");
+		out = new CommanderOutput(CommanderStatus.FAILURE, "");
 	}
 	
 	private static void cmdRerun() {
@@ -641,8 +794,8 @@ public class Commander {
 		matcher = LOCATION_VALUE_PATTERN.matcher(argument);
 		Map<String, String> locationvaluep = parseLocationValue(matcher);
 		
-		if (idp != DEFAULT_VALUE)
-			if (locationvaluep != null) {
+		if(idp != DEFAULT_VALUE) {
+			if(locationvaluep != null) {
 				out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runStep(idp, locationvaluep));
 				if(compContainer != null) {
 					try {
@@ -656,8 +809,7 @@ public class Commander {
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, commander error!");
 					}
 				}
-			}
-			else {
+			} else {
 				out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runStep(idp));
 				if(compContainer != null) {
 					try {
@@ -672,8 +824,53 @@ public class Commander {
 					}
 				}
 			}
-		else 
-			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter 'id' !");
+		} else { // Alternative syntax example: RUNSTEP(1, {x=FOUR,y=TWO}) <-> RUNSTEP -id 1 -locationvalue {x=FOUR,y=TWO}
+				 // 							RUNSTEP(Square.asm, {x=FOUR}) <-> RUNSTEP -id <id of Square.asm> -locationvalue {x=FOUR}
+			argument = argument.replace("runstep", "RUNSTEP");
+			Matcher exprMatcher = Pattern.compile(RUNSTEP_REGEX).matcher(argument);
+			if(exprMatcher.find()) {
+				String firstParam = exprMatcher.group(1);
+				firstParam = firstParam.trim();
+				if(exprMatcher.groupCount() == 1) {
+					// In the example: RUNSTEP(1) <-> RUNSTEP -id 1
+					// group(0) -> the entire expression
+					// group(1) -> the model id -> 1
+					if(firstParam.contains(".asm")) {
+						if(containerInstance != null && containerInstance.getLoadedIDs().containsValue(defaultModelDir + "/" + firstParam)) {
+							for(int id: containerInstance.getLoadedIDs().keySet()) {
+								if(containerInstance.getLoadedIDs().get(id).equals(defaultModelDir + "/" + firstParam)) {
+									cmdRunStep("runstep -id " + id);
+								}
+							}
+						}
+					} else {
+						cmdRunStep("runstep -id " + firstParam);
+					}
+				} else if(exprMatcher.groupCount() == 3) {
+					// In the example: RUNSTEP(1, {x=FOUR,y=TWO}) <-> RUNSTEP -id 1 -locationvalue {x=FOUR,y=TWO}
+					// group(0) -> the entire expression
+					// group(1) -> the model id -> 1
+					// group(2) -> the whole location-value set -> {x=FOUR,y=TWO}
+					// group(3) -> the last expression -> y=TWO
+					if(firstParam.contains(".asm")) {
+						if(containerInstance != null && containerInstance.getLoadedIDs().containsValue(defaultModelDir + "/" + firstParam)) {
+							for(int id: containerInstance.getLoadedIDs().keySet()) {
+								if(containerInstance.getLoadedIDs().get(id).equals(defaultModelDir + "/" + firstParam)) {
+									cmdRunStep("runstep -id " + id + " -locationvalue " + exprMatcher.group(2));
+								}
+							}
+						}
+					} else {
+						cmdRunStep("runstep -id " + firstParam + " -locationvalue " + exprMatcher.group(2));
+					}
+				} else {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid syntax!");
+					return;
+				}
+			} else {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid syntax!");
+			}
+		}
 	}
 	
 	private static void cmdRunStepTimeout(String argument) {
@@ -846,6 +1043,7 @@ public class Commander {
 		for(int i = 0; i < loadedIDs.size(); i++) {
 			System.out.println("ID: " + loadedIDs.keySet().toArray()[i] + " | Model path: " + loadedIDs.get(i + 1));
 		}
+		System.out.println();
 		out = new CommanderOutput(CommanderStatus.FAILURE, "");
 	}
 	
@@ -866,6 +1064,8 @@ public class Commander {
 		System.out.println("RUNSTEP\t\t\tExecutes one step on a model simulation.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: [-locationvalue <Hash map with monitored variables and their value>]");
+		System.out.println("\t\t\t\tAlternative syntax: RUNSTEP(<simulation ID>[, <locationvalue>])");
+		System.out.println("\t\t\t\tAlternative syntax: RUNSTEP(<asm model in the default model directory>[, <locationvalue>])");
 		
 		//RUNSTEPTIMEOUT
 		System.out.println("RUNSTEPTIMEOUT\t\tExecutes one step on a model simulation with a given timeout.");
@@ -923,10 +1123,15 @@ public class Commander {
 		System.out.println("\t\t\t\tArgument: <asmsh file absolute path>");
 		System.out.println("\t\t\t\tArgument: <asmsh file name> (when the file is already in the default models directory)");
 		
-		// IF - THEN / IF - THEN - ELSE
+		//IF - THEN / IF - THEN - ELSE
 		System.out.println("IF-THEN-[ELSE]\t\tConditional selection of models in the default model directory.");
 		System.out.println("\t\t\t\tSyntax: IF <condition in model1> THEN <model1>");
 		System.out.println("\t\t\t\tSyntax: IF <condition in model1> THEN <model1> ELSE <model2>");
+		
+		//RUN
+		System.out.println("RUN\t\tConditional selection of models in the default model directory.");
+		System.out.println("\t\t\t\tSyntax: RUN(<condition in model1>, <model1>) equivalent to:\n\t\t\t\t\tIF <condition in model1> THEN <model1>");
+		System.out.println("\t\t\t\tSyntax: RUN(<condition in model1>, <model1>, <model2>) equivalent to:\n\t\t\t\t\tIF <condition in model1> THEN <model1> ELSE <model2>");
 		
 		//RERUN
 		System.out.println("RR\t\t\tRe-run the previous command.");

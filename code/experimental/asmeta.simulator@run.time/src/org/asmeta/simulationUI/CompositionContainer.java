@@ -22,7 +22,7 @@ import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainer;
 
-public class CompositionContainer implements IModelCompositionContainer {
+public class CompositionContainer implements IModelComposition {
 	private List<Composition> compositionList;
 	private RunOutput lastOutput;
 	public final CompositionType compType;
@@ -113,7 +113,7 @@ public class CompositionContainer implements IModelCompositionContainer {
 		case PARALLEL: // Composition type/method: (coupled) for-join execution 
 			lastOutput = new RunOutput(Esit.UNSAFE, "rout not intialized");
 			if(!isEmpty()) {
-				// Multi-thread approach
+				/* MULTI-THREAD APPROACH */
 				/* ExecutorService executorService = Executors.newFixedThreadPool(size() * 2 - 1);
 				Set<Callable<RunOutput>> simulationModels = new HashSet<Callable<RunOutput>>();
 				List<Future<RunOutput>> outputList;

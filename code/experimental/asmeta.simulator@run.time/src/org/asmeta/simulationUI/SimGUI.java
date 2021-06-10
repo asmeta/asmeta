@@ -1060,7 +1060,7 @@ public class SimGUI extends JFrame {
 					for(int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
 						Function f = asm.getMain().getHeaderSection().getSignature().getFunction().get(i);
 						if(monitoredList.contains(f.getName())) {
-							if(f.getCodomain() != null) // supporto per le funzioni a 0 area: solo codominio
+							if(f.getCodomain() != null) // supporto per le funzioni 0-arie: solo codominio
 								enumDomainFunction.put(f.getName(), getEnumDomain(f.getCodomain().getName()).toArray());
 						}
 					}
