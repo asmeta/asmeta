@@ -40,6 +40,7 @@ import org.asmeta.atgt.testoptimizer.UnecessaryChangesRemover;
 import org.asmeta.nusmv.AsmetaSMV;
 import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.simulator.readers.RandomMFReader;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -54,10 +55,12 @@ import atgt.generator.AsmMonitoredDataExtractor;
 import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.specification.ASMSpecification;
 import atgt.specification.location.Constant;
+import atgt.specification.location.DerivedFunction;
 import atgt.specification.location.Function;
 import atgt.specification.location.FunctionApplication;
 import atgt.specification.location.Location;
 import atgt.specification.location.Variable;
+import atgt.specification.type.DummyType;
 import atgt.testseqexport.toAvalla;
 import tgtlib.definitions.expression.FunctionTerm;
 import tgtlib.definitions.expression.IdExpression;
@@ -343,10 +346,10 @@ public class ExperimentsMVM_ICTSS2021 {
 		return ct;
 	}
 
-    @Test
+	@Test
     public void rndGeneration() throws Exception{
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
-		AsmTestGeneratorBySimulation asmgen = new AsmTestGeneratorBySimulation(asms,10,2);
+		AsmTestGeneratorBySimulation asmgen = new AsmTestGeneratorBySimulation(asms,100,1, getprobReader());
 		AsmTestSuite testsuite = asmgen.getTestSuite();
 		// get the coverage tree
 		AsmCoverage ct = buildCT();
@@ -386,11 +389,15 @@ public class ExperimentsMVM_ICTSS2021 {
 			addInitialState(asmTest,ASMSpecification,"iValve", "OPEN");
 			// model not complete:oValve not defined when evaluating oValve = OPEN
 			addInitialState(asmTest,ASMSpecification,"oValve", "CLOSED");
+			addInitialState(asmTest,ASMSpecification,"apnea_backup_mode", "true");
 			addInitialState(asmTest,ASMSpecification,"state", "MAIN_REGION_STARTUP");
-			String[] timers = {"TIMER_INSPIRATION_DURATION_MS","TIMER_EXPIRATION_DURATION_MS","TIMER_MAX_INSP_TIME_PSV","TIMER_MIN_EXP_TIME_PSV","TIMER_APNEALAG ","TIMER_MAX_INS_PAUSE","TIMER_MAX_RM_TIME",
+			String[] timers = {"TIMER_INSPIRATION_DURATION_MS","TIMER_EXPIRATION_DURATION_MS","TIMER_MAX_INSP_TIME_PSV","TIMER_MIN_EXP_TIME_PSV","TIMER_APNEALAG","TIMER_MAX_INS_PAUSE","TIMER_MAX_RM_TIME",
 			       			"TIMER_MAX_EXP_PAUSE","TIMER_TRIGGERWINDOWDELAY_MS","TIMER_MIN_INSP_TIME_MS"};
 			for (String s : timers)
 				addInitialState(asmTest,ASMSpecification,"start["+s+"]", "0");
+			// expiredTIMER_MIN_INSP_TIME_MS
+			for (String s : timers)
+				addInitialState(asmTest,ASMSpecification,"expired"+s, "false");
 			// now compute coverage
 			NuSMVtestGenerator.computeCoverage(ct , asmTest, ASMSpecification);
 			System.out.println(asmTest.allInstructions());
@@ -409,24 +416,50 @@ public class ExperimentsMVM_ICTSS2021 {
 
     }
 
+	/**
+	 * @return
+	 */
+	private RandomProbabilityMFReader getprobReader() {
+		RandomProbabilityMFReader randomProbabilityMFReader = new RandomProbabilityMFReader();
+		randomProbabilityMFReader.registerBoolTrue("poweroff",0.01);
+		randomProbabilityMFReader.registerBoolTrue("stopVentilation",0.01);
+		randomProbabilityMFReader.registerBoolTrue("startupEnded",0.8);
+		randomProbabilityMFReader.registerBoolTrue("selfTestPassed",0.8);
+		return randomProbabilityMFReader;
+	}
+
     static IdExpressionCreator icc = new IdExpressionCreator();
 
     static void addInitialState(AsmTestSequence asmTest, ASMSpecification ASMSpecification, String var, String value) {
 		Map<Location, String> initialState = asmTest.allInstructions().get(0);
 		if (!var.contains("[")) {
 			Variable variable = ASMSpecification.getVariable(var);
-			assert variable != null;
-			String val = initialState.get(variable);
-			if (val == null)
-				initialState.put(variable, value);
-			else
-				System.out.println("***********************");
+			if ( variable != null) {
+				String val = initialState.get(variable);
+				if (val == null)
+					initialState.put(variable, value);
+				else
+					System.out.println("***********************");
+				return;
+			}			
+			DerivedFunction derived = ASMSpecification.getDerivedFunction(var);
+			if (derived != null) {
+				// makeup a fake location
+				Location l  = new Variable(icc.createIdExpression(var, AsmTestGeneratorBySimulation.dummyType), AsmTestGeneratorBySimulation.dummyType, null);
+				assert initialState.get(l) == null;
+				initialState.put(l, value);
+				return;
+			}
+			//assert false : var + " is not found";
+			// just skip fo rnow
+			System.err.println("var " + var  + " not found");
+			
 		} else {
 			String[] dd = var.split("\\[|\\]");
 			//System.out.println(Arrays.toString(dd));
 			Function v = ASMSpecification.getFunction(dd[0]);
 			//System.out.println(v);
-			IdExpression c = icc.createIdExpression(dd[1], null);
+			IdExpression c = icc.createIdExpression(dd[1], AsmTestGeneratorBySimulation.dummyType);
 			//System.out.println(c);
 			Location l = new FunctionApplication(v,Collections.singletonList(c));
 			initialState.put(l, value);
