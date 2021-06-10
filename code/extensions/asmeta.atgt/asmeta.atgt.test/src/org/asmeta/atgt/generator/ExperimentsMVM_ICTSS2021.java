@@ -1,8 +1,12 @@
 package org.asmeta.atgt.generator;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -226,6 +230,63 @@ public class ExperimentsMVM_ICTSS2021 {
     		}
         }
     };
+    
+    @Test
+    public void generateStatistics() throws Exception {
+    	// Test non ottimizzati
+    	//String path = "F:\\Dati-Andrea\\GitHub\\mvm-asmeta\\asm_models\\VentilatoreASM_NewTime\\experiments_20210523";
+    	// Test ottimizzati
+    	String path = "F:\\Dati-Andrea\\GitHub\\mvm-asmeta\\asm_models\\VentilatoreASM_NewTime\\experiments_optimized20210523_02";
+    	int checkNumber = 0;
+    	int setNumber = 0;
+    	int stepNumber = 0;
+    	int[] results = new int[3];
+    	
+    	
+    	for(Object a : Files.walk(new File(path).toPath()).filter(f -> (f.getFileName().toString().endsWith(".avalla"))).toArray()) {
+    		try {
+    			results = computeNumbers((Path)a);
+    			if (results[0] + results[1] > 0) {
+    				stepNumber += results[2];
+	    			setNumber += results[0];
+	    			checkNumber += results[1];
+    			}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	
+    	System.out.println("checkNumber: " + checkNumber);
+    	System.out.println("setNumber: " + setNumber);
+    	System.out.println("stepNumber: " + stepNumber);
+    }
+
+	private int[] computeNumbers(Path f) throws IOException {
+		int[] results = new int[3];
+		String line = "";
+		
+		BufferedReader br = new BufferedReader(new FileReader(f.toFile()));
+		
+		while (true) {
+			line = br.readLine();
+			
+			if (line == null)
+				break;
+			
+			if (line.startsWith("set "))
+				results[0]++;
+			if (line.startsWith("check "))
+				results[1]++;
+			if (line.startsWith("step"))
+				results[2]++;
+		}
+		
+		br.close();		
+		return results;
+	}
+    
+    
 
 	
 }
