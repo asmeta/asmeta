@@ -1,4 +1,4 @@
-package org.asmeta.tocpp.abstracttestgenerator;
+package org.asmeta.atgt.generator2;
 
 import java.util.HashMap;
 import java.util.Map;

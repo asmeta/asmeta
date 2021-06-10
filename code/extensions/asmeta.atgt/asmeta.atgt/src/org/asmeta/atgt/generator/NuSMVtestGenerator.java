@@ -18,6 +18,7 @@ import atgt.coverage.AsmTestSuite;
 import atgt.coverage.eval.AsmCoverageEvaluator;
 import atgt.coverage.evalc.NavigableAsmInputs;
 import atgt.coverage.tpstatus.TestConditionState;
+import atgt.specification.ASMSpecification;
 
 /**
  * 
@@ -96,17 +97,7 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 				// TODO to fix ATGT and build a new JAR, or reference ATGT projects.
 				// attenzione che questo modifica il test che è passato, meglio fare una copia
 				if(coverageTp) {
-					// avoid the use of C code
-					//AsmCoverageEvaluatorC coverageEval = new AsmCoverageEvaluatorC(getSpec(), ct);
-					//
-					AsmCoverageEvaluator coverageEval = new AsmCoverageEvaluator(ct);
-					NavigableAsmInputs inputs = new NavigableAsmInputs(asmTest, getSpec());
-					Vector<AsmTestCondition> covered = coverageEval.computeCoverage(inputs);
-					logger.info("binding the tp covered (" + covered.size() + ")");
-					for (AsmTestCondition tc : covered) {
-						assert tc.getStatus() == TestConditionState.Covered; 
-						tc.bindTestSeqTestPred(asmTest);
-					}
+					computeCoverage(ct, asmTest, spec);
 				}
 				// clean up the test
 				// removing controlled repetitions
@@ -129,6 +120,25 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 		genTests="# generated tests " + asmTestSuite.size();
 		//System.out.println(genTests);
 		return asmTestSuite;
+	}
+
+	/**
+	 * @param ct
+	 * @param asmTest
+	 * @param spec 
+	 */
+	static public void computeCoverage(AsmCoverage ct, AsmTestSequence asmTest, ASMSpecification spec) {
+		// avoid the use of C code
+		//AsmCoverageEvaluatorC coverageEval = new AsmCoverageEvaluatorC(getSpec(), ct);
+		//
+		AsmCoverageEvaluator coverageEval = new AsmCoverageEvaluator(ct);
+		NavigableAsmInputs inputs = new NavigableAsmInputs(asmTest, spec);
+		Vector<AsmTestCondition> covered = coverageEval.computeCoverage(inputs);
+		logger.info("binding the tp covered (" + covered.size() + ")");
+		for (AsmTestCondition tc : covered) {
+			assert tc.getStatus() == TestConditionState.Covered; 
+			tc.bindTestSeqTestPred(asmTest);
+		}
 	}
 	
 	public String getTp() {

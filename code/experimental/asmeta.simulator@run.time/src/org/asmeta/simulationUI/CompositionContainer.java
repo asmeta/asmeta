@@ -6,8 +6,16 @@ package org.asmeta.simulationUI;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+//import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+//import java.util.Set;
+//import java.util.concurrent.Callable;
+//import java.util.concurrent.ExecutionException;
+//import java.util.concurrent.ExecutorService;
+//import java.util.concurrent.Executors;
+//import java.util.concurrent.Future;
 
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.IModelAdaptation;
@@ -102,7 +110,76 @@ public class CompositionContainer implements IModelCompositionContainer {
 			} else {
 				throw new CompositionSizeOutOfBoundException("The bidirectional pipe requires only two models!");
 			} break;
-		case OTHER: break; // TODO: Composition type/method: to be defined
+		case PARALLEL: // Composition type/method: (coupled) for-join execution 
+			lastOutput = new RunOutput(Esit.UNSAFE, "rout not intialized");
+			if(!isEmpty()) {
+				// Multi-thread approach
+				/* ExecutorService executorService = Executors.newFixedThreadPool(size() * 2 - 1);
+				Set<Callable<RunOutput>> simulationModels = new HashSet<Callable<RunOutput>>();
+				List<Future<RunOutput>> outputList;
+				for(Composition comp: compositionList) {
+					if(initialOutput.getEsit() == Esit.SAFE) {
+						simulationModels.add(new Callable<RunOutput>() {
+							public RunOutput call() throws Exception {
+								if(multiConsole) {
+									System.setErr(new PrintStream(comp.outputConsole));
+									System.setOut(new PrintStream(comp.outputConsole));
+								} else {
+									comp.outputConsole = null;
+								}
+								Map<String, String> senderOutput = initialOutput.getControlledvalues();
+								RunOutput parOutput = containerInstance.runStep(comp.getReceiverID(), senderOutput);
+								comp.output = parOutput;
+								return parOutput;
+							}
+							
+						});
+					} else {
+						System.out.println("Model rollback!\n");
+					}
+				}
+				try {
+					outputList = executorService.invokeAll(simulationModels);
+					executorService.shutdown();
+					Map<String, String> finalOutput = new HashMap<>();
+					for(Future<RunOutput> output: outputList) {
+						if(output.get().getEsit() != Esit.SAFE) {
+							return;
+						}
+						finalOutput.putAll(output.get().getControlledvalues());
+					}
+					lastOutput = containerInstance.runStep(getFirstComposition().getSenderID(), finalOutput);
+				} catch (InterruptedException | ExecutionException e) {
+					e.printStackTrace();
+				} */
+				for(Composition comp: compositionList) {
+					if(multiConsole) {
+						System.setErr(new PrintStream(comp.outputConsole));
+						System.setOut(new PrintStream(comp.outputConsole));
+					} else {
+						comp.outputConsole = null;
+					}
+					if(initialOutput.getEsit() == Esit.SAFE) {
+						Map<String, String> senderOutput = initialOutput.getControlledvalues();
+						comp.output = containerInstance.runStep(comp.getReceiverID(), senderOutput);
+					}
+				}
+				
+				Map<String, String> finalOutput = new HashMap<>();
+				for(Composition comp: compositionList) {
+					if(comp.output.getEsit() != Esit.SAFE) {
+						return;
+					}
+					finalOutput.putAll(comp.output.getControlledvalues());
+				}
+				if(multiConsole) {
+					System.setErr(new PrintStream(initialConsole));
+					System.setOut(new PrintStream(initialConsole));
+				}
+				lastOutput = containerInstance.runStep(getFirstComposition().getSenderID(), finalOutput);
+			} else {
+				throw new EmptyCompositionListException("The composition list is empty!");
+			} break; 
 		
 		default: System.err.println("Error: undefined composition type!");
 		}

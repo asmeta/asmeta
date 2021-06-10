@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Runtime Simulator
 Bundle-SymbolicName: asmeta.simulator@runtime;singleton:=true
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Export-Package: org.asmeta.runtime_container,
  org.asmeta.runtime_simulator
 Require-Bundle: org.apache.log4j,

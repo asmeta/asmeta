@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: asmeta.emf;singleton:=true
 Automatic-Module-Name: asmeta.emf
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin

@@ -1,4 +1,4 @@
-package org.asmeta.tocpp.abstracttestgenerator;
+package org.asmeta.atgt.generator2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,7 +67,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				simulator.setShuffleFlag(false);
 				// simulator.createSimulatorRnd(modelName);
 				//
-				AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition("test", null));
+				AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition("test"+test, null));
 				State state;
 				int currentStep = 0;
 				while (true) {
@@ -142,9 +142,16 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				for(Value v: elements)
 					args.add(icc.createIdExpression(v.toString(), null));
 				IdExpression name = icc.createIdExpression(location.getSignature().getName(), null);
-				FunctionTerm ft = new FunctionTerm(name, null, args);
-				testsequence.addAssignment(ft, stateValues.getValue().toString(),
+				// type
+				
+				FunctionTerm ft = new FunctionTerm(name, dummyType, args);
+				try {
+					testsequence.addAssignment(ft, stateValues.getValue().toString(),
 						monitored ? VarKind.MONITORED : VarKind.CONTROLLED);
+				} catch(NullPointerException npe) {
+					npe.printStackTrace();
+					System.err.println(" ft " + ft);
+				}
 			}
 			// System.out.println("PRINT STATE" +
 			// System.identityHashCode(simulator.getCurrentState()));

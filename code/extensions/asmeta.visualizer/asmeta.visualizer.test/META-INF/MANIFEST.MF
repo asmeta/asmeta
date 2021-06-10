@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta visualizer test
 Bundle-SymbolicName: asmeta.visualizer.test
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Bundle-ClassPath: .
 Automatic-Module-Name: asmeta.visualizer.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

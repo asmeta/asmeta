@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.animator.feature"
       label="Asmeta Animator"
-      version="21.05"
+      version="21.06"
       provider-name="fmse.di.unimi.it">
 
    <description url="fmse.di.unimi.it/asmetaanimator/description">

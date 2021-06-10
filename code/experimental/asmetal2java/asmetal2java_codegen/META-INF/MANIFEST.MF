@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: asmeta.asm2java
 Bundle-SymbolicName: asmeta.asm2java
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Export-Package: .,
  org.asmeta.asm2java,
  org.asmeta.asm2java.compiler,

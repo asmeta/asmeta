@@ -1,0 +1,2 @@
+par(parS0.asm, parS1.asm, parS2.asm)
+runstep -id 1 -locationvalue {x=11, y=34}

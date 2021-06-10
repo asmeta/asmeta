@@ -1,18 +1,8 @@
 package org.asmeta.tocpp.tocunit
 
+import asmeta.AsmCollection
 import atgt.coverage.AsmTestSequence
 import atgt.coverage.AsmTestSuite
-import atgt.specification.location.FunctionApplication
-import atgt.specification.location.Location
-import java.util.Map
-import org.eclipse.xtend2.lib.StringConcatenation
-import asmeta.AsmCollection
-import org.junit.Assert
-import asmeta.definitions.DerivedFunction
-import asmeta.definitions.ControlledFunction
-import asmeta.definitions.domains.AbstractTd
-import java.util.ArrayList
-import asmeta.definitions.StaticFunction
 
 // Asm test suite to ASM n
 class AsmTsToCatch2Test extends TestSuiteTranslator{

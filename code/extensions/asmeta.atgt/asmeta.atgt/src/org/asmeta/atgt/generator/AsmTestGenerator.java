@@ -15,6 +15,7 @@ import atgt.coverage.AsmTestSuite;
 import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.specification.ASMSpecification;
 import tgtlib.coverage.CovBuilderBySubCov;
+import tgtlib.specification.ParseException;
 
 public abstract class AsmTestGenerator {
 
@@ -24,7 +25,7 @@ public abstract class AsmTestGenerator {
 	/** compute coverage??? */
 	protected final boolean coverageTp;
 
-	private final ASMSpecification spec;
+	protected final ASMSpecification spec;
 
 	protected ASMSpecification getSpec() {
 		return spec;
@@ -40,10 +41,13 @@ public abstract class AsmTestGenerator {
 
 	public static final boolean DEFAULT_COMPUTE_COVERAGE = true;
 
-	public AsmTestGenerator(String asmfile, boolean coverageTp) {
+	public AsmTestGenerator(String asmfile, boolean coverageTp) throws ParseException {
 		assert new File(asmfile).exists();
 		// read the spec
 		spec = new AsmetaLLoader().read(new File(asmfile));
+		// should never happen because read will throw its own exception
+		if (spec == null)
+			throw new RuntimeException("errors in converting the asmeta for ATGT");
 		this.coverageTp = coverageTp;
 	}
 

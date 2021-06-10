@@ -1,5 +1,6 @@
 package org.asmeta.animator;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.asmeta.simulator.Environment;
@@ -50,7 +51,11 @@ class AsmTestGeneratorMixedSimulation{
 		// take the state
 		state = simulator.getCurrentState();
 		// get the previous values
-		Map<Location, Value> monitored = simulator.previousState.getMonLocs();
+		Map<Location, Value> monitored;
+		if (simulator.previousState != null)
+			monitored = simulator.previousState.getMonLocs();
+		else 
+			monitored = new HashMap<>();
 		// if changed by the random reader, update the values
 		if (random)
 			monitored.putAll(mixedMFReader.random.values);		

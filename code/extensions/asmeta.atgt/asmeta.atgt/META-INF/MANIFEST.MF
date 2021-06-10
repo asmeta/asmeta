@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AsmetaATGT
 Bundle-SymbolicName: asmeta.atgt;singleton:=true
-Bundle-Version: 21.05
+Bundle-Version: 21.06
 Automatic-Module-Name: asmeta.atgt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: asmeta.smv,
@@ -27,6 +27,7 @@ Export-Package: atgt.combinatorial,
  org.asmeta.atgt.generator,
  org.asmeta.atgt.generator.combinatorial,
  org.asmeta.atgt.generator.coverage,
+ org.asmeta.atgt.generator2,
  org.asmeta.atgt.testoptimizer,
  tgtlib.coverage,
  tgtlib.definitions
