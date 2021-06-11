@@ -213,10 +213,30 @@ public class Commander {
 		}
 	}
 	
-	// TODO
+	// Syntax: WHILE(cond, RUNSTEP(S)) 		 -> WHILE cond DO RUNSTEP(S)
+	//		   WHILE(cond, RUNSTEP(S, {...}) -> WHILE cond DO RUNSTEP(S, {...})
 	private static void cmdWhile(String argument) {
-		argument = argument.replace("while", "WHILE");
-		out = new CommanderOutput(CommanderStatus.SUCCESS);
+		argument = argument.trim(); // remove spaces after ")"
+		argument = argument.substring(6, argument.length() - 1);
+		argument = argument.trim(); // remove spaces inside (...)
+		argument = argument.replace(" ", "");
+		
+		String[] tokens = argument.split(",");
+		if(tokens.length == 2) {
+			if(tokens[1].contains(".asm") && tokens[1].toUpperCase().contains("RUNSTEP(")) {
+				cmdWhileDo("WHILE " + tokens[0] + " DO " + tokens[1]);
+			} else {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+			}
+		} else if(tokens.length == 3){
+			if(tokens[1].contains(".asm") && tokens[1].toUpperCase().contains("RUNSTEP(")) {
+				cmdWhileDo("WHILE " + tokens[0] + " DO " + tokens[1] + "," + tokens[2]);
+			} else {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+			}
+		} else { 	
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid argument structure!");
+		}
 	}
 	
 	// Syntax: WHILE cond DO runstep(S) 		(cond boolean condition in the asmeta model S (file .asm))
@@ -234,9 +254,6 @@ public class Commander {
 			// group(1) is "cond" (the condition) -> must be a boolean term in S
 			// group(2) is "RUNSTEP(...)"
 			// group(3) is the model S
-			for(int i = 0; i <= whileMatcher.groupCount(); i++) {
-				System.out.println(whileMatcher.group(i));
-			}
 			if(whileMatcher.groupCount() < 2 || whileMatcher.groupCount() > 5) {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid argument structure!");
 				return;
@@ -255,7 +272,7 @@ public class Commander {
 		}
 	}
 	
-	// Syntax: run(cond, S1) -> 	IF cond THEN S1
+	// Syntax: run(cond, S1)     -> IF cond THEN S1
 	// 		   run(cond, S1, S2) -> IF cond THEN S1 ELSE S2
 	private static void cmdRun(String argument) {
 		argument = argument.trim(); // remove spaces after ")"
@@ -1140,9 +1157,17 @@ public class Commander {
 		System.out.println("\t\t\t\tSyntax: IF <condition in model1> THEN <model1> ELSE <model2>");
 		
 		//RUN
-		System.out.println("RUN\t\tConditional selection of models in the default model directory.");
+		System.out.println("RUN\t\t\tConditional selection of models in the default model directory.");
 		System.out.println("\t\t\t\tSyntax: RUN(<condition in model1>, <model1>) equivalent to:\n\t\t\t\t\tIF <condition in model1> THEN <model1>");
 		System.out.println("\t\t\t\tSyntax: RUN(<condition in model1>, <model1>, <model2>) equivalent to:\n\t\t\t\t\tIF <condition in model1> THEN <model1> ELSE <model2>");
+		
+		//WHILE - DO
+		System.out.println("WHILE - DO\t\tIterative execution of a model in the default model directory.");
+		System.out.println("\t\t\t\tSyntax: WHILE <condition in model1> DO RUNSTEP(<model1>[, <locationvalue>])");
+		
+		//WHILE
+		System.out.println("WHILE\t\t\tIterative execution of a model in the default model directory.");
+		System.out.println("\t\t\t\tSyntax: WHILE(<condition in model1>, RUNSTEP(<model1>[, <locationvalue>])) equivalent to:\n\t\t\t\t\tWHILE <condition in model1> DO RUNSTEP(<model1>[, <locationvalue>])");
 		
 		//RERUN
 		System.out.println("RR\t\t\tRe-run the previous command.");
