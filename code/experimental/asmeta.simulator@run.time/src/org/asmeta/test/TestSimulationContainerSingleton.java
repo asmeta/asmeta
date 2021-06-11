@@ -4,24 +4,14 @@
 package org.asmeta.test;
 
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.awt.EventQueue;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
-import javax.swing.JLabel;
-import javax.swing.JTextPane;
-
-import org.asmeta.assertion_catalog.InvariantGUI;
 import org.asmeta.runtime_commander.CommanderSingleton;
 import org.asmeta.runtime_commander.CommanderException;
 import org.asmeta.runtime_commander.CommanderOutput;
@@ -30,7 +20,6 @@ import org.asmeta.runtime_container.SimulationContainerSingleton;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.InvariantData;
 import org.asmeta.runtime_container.RunOutput;
-import org.asmeta.runtime_simulator.AsmetaSserviceSingleton;
 import org.junit.Test;
 
 // TODO: Auto-generated Javadoc
@@ -747,9 +736,10 @@ public class TestSimulationContainerSingleton {
 				String input="init -n 3";
 				CommanderOutput res;
 				SimulationContainerSingleton imp = SimulationContainerSingleton.getInstance();
-				res=CommanderSingleton.parseInput(imp, input, true);
+				CommanderSingleton.debugMode = true;
+				res=CommanderSingleton.parseInput(imp, input);
 				input="startexecution -modelpath \"examples/Lavatrice.asm\"";
-				res=CommanderSingleton.parseInput(imp, input, true);
+				res=CommanderSingleton.parseInput(imp, input);
 				int id=-11;
 				try {
 					id = res.getID();
@@ -757,7 +747,7 @@ public class TestSimulationContainerSingleton {
 					e.printStackTrace();
 				}
 				input="runstep -id "+id+" -locationvalue {operation=ALLUMER} -modelpath \"examples/Lavatrice.asm\"";
-				res=CommanderSingleton.parseInput(imp, input, true);
+				res=CommanderSingleton.parseInput(imp, input);
 				RunOutput ro=null;
 				ro=res.getRunOutput();
 				assertTrue(new RunOutput(Esit.SAFE,"ALLUMER").equals(ro));
@@ -768,7 +758,8 @@ public class TestSimulationContainerSingleton {
 				System.out.println(" |||||||||||||||||||||  TEST PARSE2 |||||||||||||||||||||||||||||||||||||||||||||");
 				String input="rununttilempty -id 1 -max 5 -modelpath \"ciao.asm\" -locationvalue {operaion  = ALLUMER ,, ALLUMEER=ALLUMER, ALLUMER=ALLUMER}";
 				SimulationContainerSingleton imp = new SimulationContainerSingleton();
-				assertTrue(CommanderSingleton.parseInput(imp, input, true).getStatus()==CommanderStatus.FAILURE);
+				CommanderSingleton.debugMode = true;
+				assertTrue(CommanderSingleton.parseInput(imp, input).getStatus()==CommanderStatus.FAILURE);
 			}	
 //=========================Fine Parsing Test===============================================================		
 
