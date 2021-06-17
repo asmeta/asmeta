@@ -52,6 +52,7 @@ public class SimShell {
 							System.out.println("Operation successful!");
 					break;
 					case FAILURE:
+						System.out.println();
 						System.err.println(CO.getErrorMessage());
 					break;
 					case SUCCESS:
@@ -63,7 +64,7 @@ public class SimShell {
 					default: break; 
 					}
 				} catch(CommanderException e) {
-					System.out.println(e.getMessage());
+					System.err.println(e.getMessage());
 				}
 			}
 		} while(!userInput.equals("qqq") && !userInput.equals("quit"));

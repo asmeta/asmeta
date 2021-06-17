@@ -7,18 +7,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-//import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-//import java.util.Set;
-//import java.util.concurrent.Callable;
-//import java.util.concurrent.ExecutionException;
-//import java.util.concurrent.ExecutorService;
-//import java.util.concurrent.Executors;
-//import java.util.concurrent.Future;
 
 import org.asmeta.runtime_container.Esit;
-import org.asmeta.runtime_container.IModelAdaptation;
+import org.asmeta.runtime_container.IModelExecution;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainer;
 
@@ -29,7 +22,7 @@ public class CompositionContainer implements IModelComposition {
 	static SimulationContainer containerInstance;
 	static ByteArrayOutputStream initialConsole;
 	
-	public CompositionContainer(IModelAdaptation contInstance, CompositionType compType) {
+	public CompositionContainer(IModelExecution contInstance, CompositionType compType) {
 		compositionList = new ArrayList<>();
 		containerInstance = (SimulationContainer) contInstance;
 		this.compType = compType;
@@ -37,7 +30,7 @@ public class CompositionContainer implements IModelComposition {
 		initialConsole = null;
 	}
 	
-	public CompositionContainer(IModelAdaptation contInstance, CompositionType compType, ByteArrayOutputStream initialConsole) {
+	public CompositionContainer(IModelExecution contInstance, CompositionType compType, ByteArrayOutputStream initialConsole) {
 		compositionList = new ArrayList<>();
 		containerInstance = (SimulationContainer) contInstance;
 		this.compType = compType;
@@ -60,7 +53,7 @@ public class CompositionContainer implements IModelComposition {
 					}
 					if(comp == getFirstComposition()) {
 						if(initialOutput.getEsit() == Esit.SAFE) {
-							Map<String, String> senderOutput = initialOutput.getControlledvalues(); // TODO: filtrare con funzioni "out", necessario?
+							Map<String, String> senderOutput = initialOutput.getControlledvalues(); // TODO: filtrare con funzioni "out"
 							lastOutput = containerInstance.runStep(comp.getReceiverID(), senderOutput);
 							comp.output = lastOutput;
 						} else {
@@ -110,48 +103,9 @@ public class CompositionContainer implements IModelComposition {
 			} else {
 				throw new CompositionSizeOutOfBoundException("The bidirectional pipe requires only two models!");
 			} break;
-		case PARALLEL: // Composition type/method: (coupled) for-join execution 
+		case PARALLEL: // Composition type/method: (coupled) fork-join execution 
 			lastOutput = new RunOutput(Esit.UNSAFE, "rout not intialized");
 			if(!isEmpty()) {
-				/* MULTI-THREAD APPROACH */
-				/* ExecutorService executorService = Executors.newFixedThreadPool(size() * 2 - 1);
-				Set<Callable<RunOutput>> simulationModels = new HashSet<Callable<RunOutput>>();
-				List<Future<RunOutput>> outputList;
-				for(Composition comp: compositionList) {
-					if(initialOutput.getEsit() == Esit.SAFE) {
-						simulationModels.add(new Callable<RunOutput>() {
-							public RunOutput call() throws Exception {
-								if(multiConsole) {
-									System.setErr(new PrintStream(comp.outputConsole));
-									System.setOut(new PrintStream(comp.outputConsole));
-								} else {
-									comp.outputConsole = null;
-								}
-								Map<String, String> senderOutput = initialOutput.getControlledvalues();
-								RunOutput parOutput = containerInstance.runStep(comp.getReceiverID(), senderOutput);
-								comp.output = parOutput;
-								return parOutput;
-							}
-							
-						});
-					} else {
-						System.out.println("Model rollback!\n");
-					}
-				}
-				try {
-					outputList = executorService.invokeAll(simulationModels);
-					executorService.shutdown();
-					Map<String, String> finalOutput = new HashMap<>();
-					for(Future<RunOutput> output: outputList) {
-						if(output.get().getEsit() != Esit.SAFE) {
-							return;
-						}
-						finalOutput.putAll(output.get().getControlledvalues());
-					}
-					lastOutput = containerInstance.runStep(getFirstComposition().getSenderID(), finalOutput);
-				} catch (InterruptedException | ExecutionException e) {
-					e.printStackTrace();
-				} */
 				for(Composition comp: compositionList) {
 					if(multiConsole) {
 						System.setErr(new PrintStream(comp.outputConsole));
@@ -167,7 +121,7 @@ public class CompositionContainer implements IModelComposition {
 				
 				Map<String, String> finalOutput = new HashMap<>();
 				for(Composition comp: compositionList) {
-					if(comp.output.getEsit() != Esit.SAFE) {
+					if(comp.output.getEsit() != Esit.SAFE) { // TODO: Manage composition rollback (composition state)
 						return;
 					}
 					finalOutput.putAll(comp.output.getControlledvalues());

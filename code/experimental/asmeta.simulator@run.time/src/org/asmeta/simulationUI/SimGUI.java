@@ -83,6 +83,7 @@ public class SimGUI extends JFrame {
 	public static List<Image> icons;
 	public static List<Integer> loadedIDs;
 	public static ByteArrayOutputStream simConsole;
+	private PrintStream previousConsole;
 	
 	static JScrollPane scrollPane;
 	static JTextPane textPaneID;
@@ -188,14 +189,14 @@ public class SimGUI extends JFrame {
 	
 	
 	private void initialize() {
-		PrintStream previousConsole = System.out;
+		previousConsole = System.out;
 		 
         // Set the standard output to use simConsole.
         simConsole = new ByteArrayOutputStream();
         icons = new Vector<Image>();
         
         icons.add(Toolkit.getDefaultToolkit().getImage(SimGUI.class.getResource("/org/asmeta/animator/icona_circolare_16.png")));
-        icons.add(Toolkit.getDefaultToolkit().getImage(SimGUI.class.getResource("/org/asmeta/animator/icona_circolare_40.png")));
+        icons.add(Toolkit.getDefaultToolkit().getImage(SimGUI.class.getResource("/org/asmeta/animator/icona_circolare_64.png")));
         
         UIManager.put("OptionPane.messageFont", new Font("Segoe UI", Font.PLAIN, fontSize));
         UIManager.put("OptionPane.buttonFont", new Font("Segoe UI", Font.PLAIN, fontSize));
@@ -555,7 +556,6 @@ public class SimGUI extends JFrame {
 			}
 		});
 		
-		// TODO: fare test BID_PIPE e PARALLEL
 		bidPipeRadioItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CompositionGUI.compType = CompositionType.BID_PIPE;
@@ -907,11 +907,11 @@ public class SimGUI extends JFrame {
 				if (monitored.size() < 1) {
 					out = containerInstance.runStep(currentLoadedID);
 				} else {
-					Map<String, String> input = getInput(monitored, true);
+					Map<String, String> input = getInput(monitored, false);
 					out = containerInstance.runStep(currentLoadedID, input);
 				}
 				
-				// Supporting multi-model composition (unidirectional cascade pipe, partial bidirectional pipe)
+				// Supporting multi-model composition (unidirectional cascade pipe, partial bidirectional pipe, (coupled) for-join execution)
 				CompositionPanel tab = null;
 				if(CompositionGUI.getConPane() != null && CompositionGUI.compositionContainer != null) {
 					// Logic is handled entirely by the composition container
@@ -1030,14 +1030,28 @@ public class SimGUI extends JFrame {
 			if (asmFile.exists()) {
 				AsmCollection asm;
 				try {
-					asm = ASMParser.setUpReadAsm(asmFile);// cerco di prendere la classe delle monitorate
+					asm = ASMParser.setUpReadAsm(asmFile);
 					for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
-						if (asm.getMain().getHeaderSection().getSignature().getFunction()
-								.get(i) instanceof MonitoredFunctionImpl)
-							monitoredList.add(asm.getMain().getHeaderSection().getSignature().getFunction().get(i).getName());
-				
+						Function f = asm.getMain().getHeaderSection().getSignature().getFunction().get(i);
+						if (f instanceof MonitoredFunctionImpl) {
+							if(f.getArity() == 0) {
+								monitoredList.add(f.getName());
+							} else {
+								String domainValue = (String) JOptionPane.showInputDialog( // expected input syntax: x,y,z,... -> ex. 50,120 or just 50
+										contentPane, 											// parent component
+										"Insert " + f.getName() + " domain value/values:", 		// message
+										"Domain input", 										// title
+										JOptionPane.PLAIN_MESSAGE, 								// message type
+										null, 													// icon
+										null, 													// options
+										null													// initial default value
+								);
+								monitoredList.add(f.getName() + "(" + domainValue + ")");
+							}
+						}
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 					JOptionPane.showMessageDialog(contentPane, "Error: asm parsing error!", "Error", JOptionPane.ERROR_MESSAGE);
 				}			
 			}
@@ -1071,16 +1085,19 @@ public class SimGUI extends JFrame {
 			}
 		}
 		
-		for (String monitored: monitoredList) {
+		for(String monitored: monitoredList) {
 			options = enumDomainFunction.get(monitored);
-			if(options.length == 0) {
-				options = null;
+			if(options != null) {
+				if(options.length == 0) {
+					options = null;
+				}
 			}
 			if(auto && options != null) {
 				Random seed = new Random();
 				inputValue = (String) options[seed.nextInt(options.length)];
 				System.out.println("Generated input for '" + monitored + "': " + inputValue);
 			} else {
+				
 				inputValue = (String) JOptionPane.showInputDialog(
 						contentPane, 											// parent component
 						"Insert " + monitored + " value:", 						// message

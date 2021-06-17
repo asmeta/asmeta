@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
-import org.asmeta.runtime_container.IModelAdaptation;
+import org.asmeta.runtime_container.IModelExecution;
 import org.asmeta.runtime_container.SimulationContainer;
 
 public class CompositionGUI extends JFrame {
@@ -31,7 +31,7 @@ public class CompositionGUI extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(IModelAdaptation contInstance, int senderID, int receiverID) {
+	public static void main(IModelExecution contInstance, int senderID, int receiverID) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -47,7 +47,7 @@ public class CompositionGUI extends JFrame {
 	/**
 	 * Initialize first tab (CompositionPanel) of the tabbed pane.
 	 */
-	public CompositionGUI(IModelAdaptation contInstance, int senderID, int receiverID) {
+	public CompositionGUI(IModelExecution contInstance, int senderID, int receiverID) {
 		containerInstance = (SimulationContainer) contInstance;
 		compositionTabs = new HashMap<Composition, CompositionPanel>();
 		if(compType == null) {
@@ -89,7 +89,7 @@ public class CompositionGUI extends JFrame {
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
-				SimGUI.loadedIDs = new ArrayList<>(contInstance.getLoadedIDs().keySet());
+				SimGUI.loadedIDs = new ArrayList<>(containerInstance.getLoadedIDs().keySet());
 				if(SimGUI.loadedIDs.size() > 1) {
 					SimGUI.compositionMenuItem.setEnabled(true);
 				}

@@ -61,13 +61,13 @@ public class CompositionPanel extends JPanel {
 		UIManager.put("OptionPane.messageFont", new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		UIManager.put("OptionPane.buttonFont", new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
 		
-		lblSender = new JLabel("Sender model:");
+		lblSender = new JLabel("Previous model:");
 		lblSender.setFont(new Font("Segoe UI", Font.BOLD, SimGUI.fontSize));
 		lblSender.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSender.setBounds(47, 11, 191, 22);
 		add(lblSender);
 		
-		lblReceiver = new JLabel("Receiver model:");
+		lblReceiver = new JLabel("Current model:");
 		lblReceiver.setHorizontalAlignment(SwingConstants.LEFT);
 		lblReceiver.setFont(new Font("Segoe UI", Font.BOLD, SimGUI.fontSize));
 		lblReceiver.setBounds(360, 11, 191, 22);
