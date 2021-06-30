@@ -219,6 +219,9 @@ public class AsmetaSMV {
 		StreamGobblerNuXmv sg = new StreamGobblerNuXmv(proc.getInputStream(), sb);
 		new Thread(sg).start();
 		TimeUnit.SECONDS.sleep(1);
+		// add quotes if needed
+		if (smvFileName.contains(" "))
+			smvFileName = "\""+ smvFileName + "\"";
 		// send some messages
 		System.out.println("read_model -i " + smvFileName + "\n");
 		bw.write("read_model -i " + smvFileName + "\n");
@@ -317,6 +320,9 @@ public class AsmetaSMV {
 				commands.add(Integer.toString(BMCLength));
 			}
 		}
+		// add quotes if needed
+		if (smvFileName.contains(" "))
+			smvFileName = "\""+ smvFileName + "\"";
 		commands.add(smvFileName);
 		if (false) {
 			String nusmvCommand = commands.subList(2, commands.size()).toString();
