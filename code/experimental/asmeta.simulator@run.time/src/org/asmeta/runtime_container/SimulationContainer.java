@@ -291,7 +291,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				System.err.println("No transition to step " + (asmS.getSimulatorTable().get(id).getContSim() + 1)
 						+ " for model "
 						+ asmS.getSimulatorTable().get(id).getModelPath().substring(modelPath.lastIndexOf("/") + 1));
-				rout = new RunOutput(Esit.UNSAFE, "Invalid Input value");
+				rout = new RunOutput(Esit.UNSAFE, "Invalid input value");
 				System.err.println(rout.toString());
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
@@ -301,8 +301,20 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
-			}else { //DEBUG ONLY
-				e.printStackTrace();
+			} else {
+				System.err.println("No transition to step " + (asmS.getSimulatorTable().get(id).getContSim() + 1)
+						+ " for model "
+						+ asmS.getSimulatorTable().get(id).getModelPath().substring(modelPath.lastIndexOf("/") + 1));
+				rout = new RunOutput(Esit.UNSAFE, "Invalid input or domain value");
+				System.err.println(rout.toString());
+				try {
+					simulationRunning=SimStatus.ROLLINGBACK;
+					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
+				} catch (NullPointerException e1) {
+					System.out.println("No previous state!");
+				}finally {
+					simulationRunning=SimStatus.RUNNING;
+				}
 			}
 		}
 		simulationRunning = SimStatus.READY;

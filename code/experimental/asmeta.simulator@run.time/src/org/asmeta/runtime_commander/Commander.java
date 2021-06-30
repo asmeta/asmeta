@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -123,7 +124,134 @@ public class Commander {
 		return locationvaluep;
 	}
 	
-	 /**
+	private static int checkParentheses(String line) {
+		int parenthesesCounter = 0;
+		String symbols[] = line.split("\\s+");
+		
+		for(int i = 0; i < symbols.length; i++) {
+			if(symbols[i].contains("(")) {
+				parenthesesCounter++;
+				symbols[i] = symbols[i].replaceFirst("\\(", "");
+				i--;
+			}
+			if(symbols[i].contains(")")) {
+				parenthesesCounter--;
+				symbols[i] = symbols[i].replaceFirst("\\)", "");
+				i--;
+			}
+			
+		}
+		return parenthesesCounter;
+	}
+	
+	private static boolean validateModels(String line) { // TODO: check files in defaultModelDir
+		boolean valid = true;
+		String symbols[] = line.split("\\s+");
+		for(String symbol: symbols) {
+			if(!symbol.toLowerCase().equals("autosetup") && !symbol.equals("|") && !symbol.equals("||") && !symbol.equals("<|>")) {
+				if(!symbol.contains(".asm")) {
+					valid = false;
+				}
+			}
+		}
+		return valid;
+	}
+	
+	private static int charCount(String word, char c) {
+		if(word == null) {
+			return -1;
+		}
+		int counter = 0;
+		for(int i = 0; i < word.length(); i++) {
+			if(word.charAt(i) == c) {
+				counter++;
+			}
+		}
+		return counter;
+	}
+	
+	// Pretty print List<String[]> -> String[] dimension is 2
+	public static void printList(List<String[]> list) {
+		for(int i = 0; i < list.size(); i++) {
+			if(i == 0) {
+				System.out.print("[");
+			}
+			if(i == list.size() - 1) {
+				System.out.print("[" + list.get(i)[0] + ", " + list.get(i)[1] + "]]\n");
+			} else {
+				System.out.print("[" + list.get(i)[0] + ", " + list.get(i)[1] + "], ");
+			}			
+		}
+	}
+	
+	private static List<String[]> clearList(List<String[]> list) {
+		if(list == null) {
+			return null;
+		}
+		for(int i = 0; i < list.size(); i++) {
+			list.get(i)[0] = list.get(i)[0].replaceAll("\\(", "");
+			list.get(i)[0] = list.get(i)[0].replaceAll("\\)", "");
+		}
+		return list;
+	}
+	
+	// Support function to parse complex commands. White spaces are mandatory.
+	// Example: S1 | (S2 || S3) | S4
+	//			(S1 <|> S2) | S3
+	//			S1 | ((S2 | S3) || S4) | S5
+	private static String parseComplex(String argument) {
+		if(!argument.contains("(") && !argument.contains(")")) {
+			if(argument.contains(" | ")) {
+				if(argument.contains(" || ") || argument.contains(" <|> ")) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, operands precedence must be declared using parentheses!");
+					return null;
+				}
+				return argument;
+			} else if(argument.contains(" || ")) {
+				if(argument.contains(" <|> ")) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, operands precedence must be declared using parentheses!");
+					return null;
+				}
+				return argument;
+			}
+		}
+		int parenthesesCounter = checkParentheses(argument);
+		if(parenthesesCounter != 0) {
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command: invalid syntax (check parentheses)!");
+			return null;
+		}
+		/*if(!validateModels(argument)) {
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+			return null;
+		}*/
+		
+		// symbolsPriority structure: [["S1", "0"], ["(S2", "1"]]... -> [[symbol1, priority1], [symbol2, priority2], ..., [symbolN, priorityN]]
+		argument = argument.substring(10); // remove "autosetup "
+		String[] symbols = argument.split("\\s+");
+		List<String[]> symbolsPriority = new ArrayList<>();
+		int currentPriority = 0;
+		for(int i = 0; i < symbols.length; i++) {
+			currentPriority += charCount(symbols[i], '(');
+			String[] symbolPriority = {symbols[i], String.valueOf(currentPriority)};
+			symbolsPriority.add(symbolPriority);
+			currentPriority -= charCount(symbols[i], ')');			
+		}
+		
+		//printList(symbolsPriority);
+		symbolsPriority = clearList(symbolsPriority);
+		
+		try {
+			CommanderTreeNode<String> commanderTree = CommanderTreeNode.buildTree(symbolsPriority);
+			commanderTree.printTree();
+		} catch (Exception e) {
+			out = new CommanderOutput(CommanderStatus.FAILURE, e.getMessage());
+			return null;
+		}
+		
+		return argument;
+	}
+
+	/**
 	 * Reads the operation and executes it.
 	 *
 	 * @param crt: SimulationContainer instance
@@ -158,11 +286,11 @@ public class Commander {
 				case "RUNSTEPTIMEOUT": 		 cmdRunStepTimeout(input);		 break;
 				case "RUNUNTILEMPTY":		 cmdRunUntilEmpty(input);		 break;
 				case "RUNUNTILEMPTYTIMEOUT": cmdRunUntilEmptyTimeout(input); break;
-				case "VIEWLISTINVARIANT": 	 cmdViewListInvariant(input);	 break;
-				case "ADDINVARIANT": 		 cmdAddInvariant(input);		 break;
-				case "REMOVEINVARIANT": 	 cmdRemoveInvariant(input); 	 break;
-				case "UPDATEINVARIANT": 	 cmdUpdateInvariant(input); 	 break;
-				case "GETLOADEDIDS": 		 cmdGetLoadedIDs(); 			 break;
+				case "VIEWINV": 	 		 cmdViewInvariants(input);	 	 break;
+				case "ADDINV": 		 		 cmdAddInvariant(input);		 break;
+				case "REMOVEINV": 	 		 cmdRemoveInvariant(input); 	 break;
+				case "UPDATEINV": 	 		 cmdUpdateInvariant(input); 	 break;
+				case "IDS": 		 		 cmdGetLoadedIDs(); 			 break;
 				case "HELP": 				 cmdHelp(); 					 break;
 				case "AUTOSETUP":			 cmdAutoSetup(input);			 break;
 				case "CONFIG":				 cmdConfig(input);				 break;
@@ -177,6 +305,12 @@ public class Commander {
 						cmdRunStep(input);
 					} else if(command.toUpperCase().startsWith("WHILE(")) {
 						cmdWhile(input);
+					} else if(command.toUpperCase().startsWith("PIPE(")) {
+						cmdPipe(input);
+					} else if(command.toUpperCase().startsWith("BID(")) {
+						cmdBid(input);
+					} else if(command.toUpperCase().startsWith("PAR(")) {
+						cmdPar(input);
 					} else {
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Function \"" + command + "\" is not a correct command!");
 					}
@@ -208,6 +342,88 @@ public class Commander {
 		} catch(Exception e) {
 			System.err.println("Error while reading the configuration file!");
 		}
+	}
+	
+	// Syntax: pipe(file1.asm, file2.asm, ..., fineN.asm) <-> autosetup file1.asm | file2.asm | ... | fileN.asm
+	// file1.asm, file2.asm, ..., fileN.asm MUST be in the defaultModelDir
+	private static void cmdPipe(String argument) {
+		StringBuffer parsedCommand = new StringBuffer();
+		boolean end = false;
+		 
+		parsedCommand.append("autosetup ");
+		for(String token: argument.substring(5).split(",")) {
+			if(token.contains(")")) {
+				token = token.replace(")", "");
+				end = true;
+			}
+			if(token.contains(".asm")) {
+				if(!end) {
+					parsedCommand.append(token + "|");
+				} else {
+					parsedCommand.append(token);
+				}
+			}
+		}
+		if(debugMode)
+			System.out.println(parsedCommand);
+		
+		cmdAutoSetup(parsedCommand.toString());
+	}
+	
+	// Syntax: bid(file1.asm, file2.asm) <-> autosetup file1.asm <|> file2.asm
+	// file1.asm, file2.asm MUST be in the defaultModelDir
+	private static void cmdBid(String argument) {
+		StringBuffer parsedCommand = new StringBuffer();
+		boolean end = false;
+		
+		parsedCommand.append("autosetup ");
+		for(String token: argument.substring(4).split(",")) {
+			if(argument.substring(4).split(",").length != 2) {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Bidirectional pipe composition requires only two models!");
+				return;
+			}
+			if(token.contains(")")) {
+				token = token.replace(")", "");
+				end = true;
+			}
+			if(token.contains(".asm")) {
+				if(!end) {
+					parsedCommand.append(token + "<|>");
+				} else {
+					parsedCommand.append(token);
+				}
+			}
+		}
+		if(debugMode)
+			System.out.println(parsedCommand);
+	
+		cmdAutoSetup(parsedCommand.toString());
+	}
+	
+	// Syntax: par(file1.asm, file2.asm, ..., fineN.asm) <-> autosetup file1.asm || file2.asm || ... || fileN.asm
+	// file1.asm, file2.asm, ..., fileN.asm MUST be in the defaultModelDir
+	private static void cmdPar(String argument) {
+		StringBuffer parsedCommand = new StringBuffer();
+		boolean end = false;
+		
+		parsedCommand.append("autosetup ");
+		for(String token: argument.substring(4).split(",")) {
+			if(token.contains(")")) {
+				token = token.replace(")", "");
+				end = true;
+			}
+			if(token.contains(".asm")) {
+				if(!end) {
+					parsedCommand.append(token + "||");
+				} else {
+					parsedCommand.append(token);
+				}
+			}
+		}
+		if(debugMode)
+			System.out.println(parsedCommand);
+		
+		cmdAutoSetup(parsedCommand.toString());
 	}
 	
 	// Syntax: WHILE(cond, RUNSTEP(S)) 		 -> WHILE cond DO RUNSTEP(S)
@@ -269,8 +485,8 @@ public class Commander {
 		}
 	}
 	
-	// Syntax: run(cond, S1)     -> IF cond THEN S1
-	// 		   run(cond, S1, S2) -> IF cond THEN S1 ELSE S2
+	// Syntax: runcond(cond, S1)     -> IF cond THEN S1
+	// 		   runcond(cond, S1, S2) -> IF cond THEN S1 ELSE S2
 	private static void cmdRunCond(String argument) {
 		argument = argument.trim(); // remove spaces after ")"
 		argument = argument.substring(4, argument.length() - 1);
@@ -552,71 +768,7 @@ public class Commander {
 				}
 			}
 			SimulationContainer containerInstance = new SimulationContainer();
-			StringBuffer parsedCommand = new StringBuffer();
-			boolean end = false;
 			for(String command: fileContent) {
-				if(command.toLowerCase().trim().startsWith("pipe(")) { // support pipe(file1.asm, file2.asm, ..., fineN.asm) syntax
-					parsedCommand.append("autosetup ");
-					for(String token: command.substring(5).split(",")) {
-						if(token.contains(")")) {
-							token = token.replace(")", "");
-							end = true;
-						}
-						if(token.contains(".asm")) {
-							if(!end) {
-								parsedCommand.append(token + "|");
-							} else {
-								parsedCommand.append(token);
-							}
-						}
-					}
-					if(debugMode)
-						System.out.println(parsedCommand);
-					command = parsedCommand.toString();
-					parsedCommand.delete(0, parsedCommand.length());
-				} else if(command.toLowerCase().trim().startsWith("bid(")) { // support bid(file1.asm, file2.asm) syntax
-					parsedCommand.append("autosetup ");
-					for(String token: command.substring(4).split(",")) {
-						if(command.substring(4).split(",").length != 2) {
-							out = new CommanderOutput(CommanderStatus.FAILURE, "Bidirectional pipe composition requires only two models!");
-							return;
-						}
-						if(token.contains(")")) {
-							token = token.replace(")", "");
-							end = true;
-						}
-						if(token.contains(".asm")) {
-							if(!end) {
-								parsedCommand.append(token + "<|>");
-							} else {
-								parsedCommand.append(token);
-							}
-						}
-					}
-					if(debugMode)
-						System.out.println(parsedCommand);
-					command = parsedCommand.toString();
-					parsedCommand.delete(0, parsedCommand.length());
-				} else if(command.toLowerCase().trim().startsWith("par(")) { // support par(file1.asm, file2.asm, ..., fineN.asm) syntax
-					parsedCommand.append("autosetup ");
-					for(String token: command.substring(4).split(",")) {
-						if(token.contains(")")) {
-							token = token.replace(")", "");
-							end = true;
-						}
-						if(token.contains(".asm")) {
-							if(!end) {
-								parsedCommand.append(token + "||");
-							} else {
-								parsedCommand.append(token);
-							}
-						}
-					}
-					if(debugMode)
-						System.out.println(parsedCommand);
-					command = parsedCommand.toString();
-					parsedCommand.delete(0, parsedCommand.length());
-				}
 				parseInput(containerInstance, command);
 			}
 		} else { // file already in defaultModelDir
@@ -670,6 +822,10 @@ public class Commander {
 				autosetup model1.asm || model2.asm ...	-> init all + compose (PARALLEL) in order
 	   model1.asm, model2.asm, ... have to be in the defaultModelDir folder. */
 	private static void cmdAutoSetup(String argument) {
+		argument = parseComplex(argument);
+		if(argument == null) {
+			return;
+		}
 		ArrayList<String> params = new ArrayList<>();
 		String[] tokens;
 		if(argument.trim().contains("|")) {
@@ -991,7 +1147,7 @@ public class Commander {
 		}
 	}
 	
-	private static void cmdViewListInvariant(String argument) {
+	private static void cmdViewInvariants(String argument) {
 		//parsing ID
 		Matcher matcher = ID_PATTERN.matcher(argument);
 		int idp = parseNumber(matcher, "id");
@@ -1111,22 +1267,22 @@ public class Commander {
 		System.out.println("\t\t\t\tParameter: [-max <max steps to take>]");
 		System.out.println("\t\t\t\tParameter: -t <timeout in milliseconds>");
 		
-		//VIEWLISTINVARIANT
-		System.out.println("VIEWLISTINVARIANT\tShows a list with all the variables and invariants in the model.");
+		//VIEWINV
+		System.out.println("VIEWINV\t\t\tShows a list with all the variables and invariants in the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		
 		//ADDINVARIANT
-		System.out.println("ADDINVARIANT\t\tAdds another invariant to the model.");
+		System.out.println("ADDINV\t\t\tAdds another invariant to the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: -inv <new invariant>");
 		
 		//REMOVEINVARIANT
-		System.out.println("REMOVEINVARIANT\t\tRemoves the given invariant from the model.");
+		System.out.println("REMOVEINV\t\tRemoves the given invariant from the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: -inv <removed invariant>");
 		
 		//UPDATEINVARIANT
-		System.out.println("UPDATEINVARIANT\t\tUpdates the given invariant from the model.");
+		System.out.println("UPDATEINV\t\tUpdates the given invariant from the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: -inv <updated invariant>");
 		System.out.println("\t\t\t\tParameter: -invold <old invariant>");

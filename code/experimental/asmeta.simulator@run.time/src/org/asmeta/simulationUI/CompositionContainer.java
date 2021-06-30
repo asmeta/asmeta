@@ -130,7 +130,7 @@ public class CompositionContainer implements IModelComposition {
 					System.setErr(new PrintStream(initialConsole));
 					System.setOut(new PrintStream(initialConsole));
 				}
-				lastOutput = containerInstance.runStep(getFirstComposition().getSenderID(), finalOutput);
+				lastOutput = containerInstance.runStep(getFirstComposition().getSenderID(), finalOutput); // TODO: rendere variabile
 			} else {
 				throw new EmptyCompositionListException("The composition list is empty!");
 			} break; 

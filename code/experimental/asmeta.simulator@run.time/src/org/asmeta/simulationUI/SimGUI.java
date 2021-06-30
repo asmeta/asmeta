@@ -837,14 +837,16 @@ public class SimGUI extends JFrame {
 				System.setOut(new PrintStream(simConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
-				if (monitored.size()<1)
-					out=containerInstance.runUntilEmpty(currentLoadedID);
-				else {
-					Map<String, String> input = getInput(monitored, false);
-					out=containerInstance.runUntilEmpty(currentLoadedID, input);
+				if(monitored == null) {
+					textAreaLog.append("Couldn't execute operation.\n");
+				} else {
+					if(monitored.size() < 1) {
+						out=containerInstance.runUntilEmpty(currentLoadedID);
+					} else {
+						Map<String, String> input = getInput(monitored, false);
+						out=containerInstance.runUntilEmpty(currentLoadedID, input);
+					}
 				}
-				//JOptionPane.showMessageDialog(null, out.toString());	
-				//textAreaLog.append("Runstep executed with current result:\n"+out.MytoString()+"\n");
 				previousConsole.println(simConsole.toString()); // Display output of simConsole.
 				 
 		        // Restore back the standard console output.
@@ -875,7 +877,7 @@ public class SimGUI extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "Error: not a valid number!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
-				if(timeout >= 0) {
+				if(timeout >= 0 && monitored != null) {
 					if (monitored.size()<1)
 						out=containerInstance.runUntilEmptyTimeout(currentLoadedID,timeout);
 					else {
@@ -903,15 +905,18 @@ public class SimGUI extends JFrame {
 				System.setOut(new PrintStream(simConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out = new RunOutput(Esit.UNSAFE, "rout not intialized");
-				
-				if (monitored.size() < 1) {
-					out = containerInstance.runStep(currentLoadedID);
+				if(monitored == null) {
+					textAreaLog.append("Couldn't execute operation.\n");
 				} else {
-					Map<String, String> input = getInput(monitored, false);
-					out = containerInstance.runStep(currentLoadedID, input);
+					if(monitored.size() < 1) {
+						out = containerInstance.runStep(currentLoadedID);
+					} else {
+						Map<String, String> input = getInput(monitored, false);
+						out = containerInstance.runStep(currentLoadedID, input);
+					}
 				}
 				
-				// Supporting multi-model composition (unidirectional cascade pipe, partial bidirectional pipe, (coupled) for-join execution)
+				// Supporting multi-model composition (unidirectional cascade pipe, partial bidirectional pipe, (coupled) fork-join execution)
 				CompositionPanel tab = null;
 				if(CompositionGUI.getConPane() != null && CompositionGUI.compositionContainer != null) {
 					// Logic is handled entirely by the composition container
@@ -963,7 +968,7 @@ public class SimGUI extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "Error: not a valid number!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
-				if(timeout >= 0) {
+				if(timeout >= 0 && monitored != null) {
 					if (monitored.size()<1)
 						out=containerInstance.runStepTimeout(currentLoadedID,timeout);
 					else {
@@ -1038,21 +1043,26 @@ public class SimGUI extends JFrame {
 								monitoredList.add(f.getName());
 							} else {
 								String domainValue = (String) JOptionPane.showInputDialog( // expected input syntax: x,y,z,... -> ex. 50,120 or just 50
-										contentPane, 											// parent component
-										"Insert " + f.getName() + " domain value/values:", 		// message
-										"Domain input", 										// title
-										JOptionPane.PLAIN_MESSAGE, 								// message type
-										null, 													// icon
-										null, 													// options
-										null													// initial default value
+										contentPane, 												// parent component
+										"Insert '" + f.getName() + "' domain value/values:\n" + 
+										"Domain type: [ " + f.getDomain().getName() + " ]", 		// message
+										"Domain input", 											// title
+										JOptionPane.PLAIN_MESSAGE, 									// message type
+										null, 														// icon
+										null, 														// options
+										null														// initial default value
 								);
-								monitoredList.add(f.getName() + "(" + domainValue + ")");
+								if(domainValue != null && !domainValue.isEmpty()) {
+									monitoredList.add(f.getName() + "(" + domainValue + ")");
+								} else {
+									throw new Exception();
+								}
 							}
 						}
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(contentPane, "Error: asm parsing error!", "Error", JOptionPane.ERROR_MESSAGE);
+					monitoredList = null;
+					JOptionPane.showMessageDialog(contentPane, "Error: check the model and the input!", "Error", JOptionPane.ERROR_MESSAGE);
 				}			
 			}
 		}
@@ -1064,6 +1074,10 @@ public class SimGUI extends JFrame {
 		Map<String, Object[]> enumDomainFunction = new HashMap<>();
 		String inputValue = new String();
 		Object[] options;
+		
+		if(monitoredList == null || monitoredList.isEmpty()) {
+			return null;
+		}
 		
 		if(!currentLoadedModel.equals("")) {
 			File asmFile = new File(currentLoadedModel);
@@ -1099,13 +1113,13 @@ public class SimGUI extends JFrame {
 			} else {
 				
 				inputValue = (String) JOptionPane.showInputDialog(
-						contentPane, 											// parent component
-						"Insert " + monitored + " value:", 						// message
-						"Input", 												// title
-						JOptionPane.PLAIN_MESSAGE, 								// message type
-						null, 													// icon
-						options, 												// options
-						null													// initial default value
+						contentPane, 								// parent component
+						"Insert " + monitored + " value:", 			// message
+						"Input", 									// title
+						JOptionPane.PLAIN_MESSAGE, 					// message type
+						null, 										// icon
+						options, 									// options
+						null										// initial default value
 				);
 			}
 			input.put(monitored, inputValue);
@@ -1143,7 +1157,7 @@ public class SimGUI extends JFrame {
 						if(line.contains("*/")) {
 							commented = false;
 						}
-						if(line.contains("enum") && line.contains("domain") && line.contains(domainName) && !line.contains("//") && !commented) {
+						if(line.contains("enum") && line.contains("domain") && line.contains(domainName) && !line.startsWith("//") && !commented) {
 							line = line.trim();
 							enumDomainContent.add(line);
 							// DEBUG: System.out.println("\n" + line + "\n");
