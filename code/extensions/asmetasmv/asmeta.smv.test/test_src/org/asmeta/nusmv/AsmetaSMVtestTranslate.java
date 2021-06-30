@@ -25,9 +25,19 @@ public class AsmetaSMVtestTranslate {
 	static final String FILE_BASE = "../../../../asm_examples/";
 
 	protected boolean testOneSpec(String spec) {
-		String[] args = { spec };
 		AsmetaSMVOptions options = new AsmetaSMVOptions();
 		AsmetaSMVOptions.keepNuSMVfile = true;
+		//AsmetaSMVOptions.FLATTEN = false;
+		return testOneSpec(spec, options);
+	}
+
+	/**
+	 * @param args
+	 * @param options
+	 * @return
+	 */
+	protected boolean testOneSpec(String spec, AsmetaSMVOptions options) {
+		String[] args = { spec };
 		try {
 			AsmetaSMV a = new AsmetaSMV(new File(args[0]),options);
 			a.translation();
@@ -315,6 +325,7 @@ public class AsmetaSMVtestTranslate {
 		assertTrue(testOneSpec("examples/caseTerm2.asm"));
 		assertTrue(testOneSpec("examples/caseTerm3.asm"));
 		assertTrue(testOneSpec("examples/caseTerm4.asm"));
+		assertTrue(testOneSpec("examples/caseTerm5.asm"));
 	}
 
 	

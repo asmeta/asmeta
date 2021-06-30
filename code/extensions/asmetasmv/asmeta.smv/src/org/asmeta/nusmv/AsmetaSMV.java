@@ -180,13 +180,16 @@ public class AsmetaSMV {
 		StreamGobblerNuXmv sg = new StreamGobblerNuXmv(proc.getInputStream(), sb);
 		new Thread(sg).start();
 		TimeUnit.SECONDS.sleep(1);
+		// add quotes if needed
+		if (smvFileName.contains(" "))
+			smvFileName = "\""+ smvFileName + "\"";
 		// send some messages
 		System.out.println("read_model -i " + smvFileName + "\n");
 		bw.write("read_model -i " + smvFileName + "\n");
 		bw.flush();
 		bw.write("go_msat\n");
-		bw.write("msat_check_ltlspec_bmc -k 100\n");
-		//bw.write("msat_check_ltlspec_inc_coi -k 100\n");
+		//bw.write("msat_check_ltlspec_bmc -k 100\n");
+		bw.write("msat_check_ltlspec_inc_coi -k 100\n");
 		
 		// while(!sg.processReady);
 		// now quit
