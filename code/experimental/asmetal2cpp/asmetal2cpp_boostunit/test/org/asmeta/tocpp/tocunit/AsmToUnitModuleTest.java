@@ -22,6 +22,8 @@ import org.asmeta.asm2code.main.HeaderGenerator;
 import org.asmeta.asm2code.main.TranslatorOptions;
 import org.asmeta.atgt.generator2.AsmTestGenerator;
 import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
+import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.tocpp.abstracttestgenerator.AsmTSGeneratorByNuSMV;
 import org.junit.BeforeClass;
@@ -74,8 +76,11 @@ public class AsmToUnitModuleTest {
 		//		SIMULATOR, "1", "5");
 		//testSpec(UNITFM.CATCH2, "D:\\ProgettoTesi\\FileTesi\\mvm-asmeta-master\\VentilatoreASM\\Ventilatore2.asm",
 		//		SIMULATOR, "1", "5");
-		testSpec(UNITFM.CATCH2, "D:\\ProgettoTesi\\FileTesi\\mvm-asmeta-master\\VentilatoreASM_NewTime\\Ventilatore3.asm",
-				SIMULATOR, "1", "5");
+		Environment.timeMngt = TimeMngt.auto_increment;
+		CppCompiler.setCompiler("g++");
+		
+		testSpec(UNITFM.CATCH2, "F:\\Dati-Andrea\\GitHub\\mvm-asmeta\\asm_models\\MVM APPFM\\MVMcontroller03.asm",
+				SIMULATOR, "2", "20");
 		
 	}
 
@@ -83,7 +88,7 @@ public class AsmToUnitModuleTest {
 	@Test
 	public void testGenerateTimer() throws Exception {
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
-		testSpec(UNITFM.CATCH2, "C:\\Users\\Belotti Andrea\\git\\asmeta\\asm_examples\\STDL\\TimeLibrary.asm", 
+		testSpec(UNITFM.CATCH2, "F:\\Dati-Andrea\\GitHub\\mvm-asmeta\\asm_models\\MVM APPFM\\TimeLibrary.asm", 
 				SIMULATOR, "1", "2");
 	}
 	
