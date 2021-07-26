@@ -60,6 +60,8 @@ import org.asmeta.assertion_catalog.LoadComboItem;
 import org.asmeta.assertion_catalog.LoadDialog;
 import org.asmeta.assertion_catalog.LoadSelectedSimulation;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.runtime_commander.Commander;
+import org.asmeta.runtime_commander.CompositionTreeNode;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.RunOutput;
@@ -117,13 +119,14 @@ public class SimGUI extends JFrame {
 	static JMenu compositionTypeMenu;
 	static JRadioButtonMenuItem pipeRadioItem;
 	static JRadioButtonMenuItem bidPipeRadioItem;
-	static JRadioButtonMenuItem parallelRadioItem;
+	static JRadioButtonMenuItem complexRadioItem;
 	static ButtonGroup compositionTypeGroup;
 	
-	private static SimulationContainer containerInstance;
+	public static SimulationContainer containerInstance;
 	private static int currentLoadedID;
 	private static int currentMaxInstances;
 	private static String currentLoadedModel;
+	private static CompositionType selectedCompType;
 	
 	static final String PROPERTIES_FILE_PATH = "src/org/asmeta/simulationUI/.properties";
 
@@ -190,7 +193,9 @@ public class SimGUI extends JFrame {
 	
 	private void initialize() {
 		previousConsole = System.out;
-		 
+		if(selectedCompType == null) {
+			selectedCompType = CompositionType.PIPE;
+		}
         // Set the standard output to use simConsole.
         simConsole = new ByteArrayOutputStream();
         icons = new Vector<Image>();
@@ -450,22 +455,23 @@ public class SimGUI extends JFrame {
 		
 		compositionTypeGroup = new ButtonGroup();
 		
-		pipeRadioItem = new JRadioButtonMenuItem("Pipe");
+		pipeRadioItem = new JRadioButtonMenuItem("Simple pipe");
+		pipeRadioItem.setEnabled(false);
 		pipeRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		pipeRadioItem.setSelected(true);
 		compositionTypeGroup.add(pipeRadioItem);
 		compositionTypeMenu.add(pipeRadioItem);
 		
-		bidPipeRadioItem = new JRadioButtonMenuItem("Bidirectional pipe");
+		bidPipeRadioItem = new JRadioButtonMenuItem("Simple bidirectional pipe");
 		bidPipeRadioItem.setEnabled(false);
 		bidPipeRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		compositionTypeGroup.add(bidPipeRadioItem);
 		compositionTypeMenu.add(bidPipeRadioItem);
 		
-		parallelRadioItem = new JRadioButtonMenuItem("Parallel");
-		parallelRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
-		compositionTypeGroup.add(parallelRadioItem);
-		compositionTypeMenu.add(parallelRadioItem);
+		complexRadioItem = new JRadioButtonMenuItem("Complex");
+		complexRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		compositionTypeGroup.add(complexRadioItem);
+		compositionTypeMenu.add(complexRadioItem);
 		
 		compositionMenuItem = new JMenuItem("Compose models");
 		compositionMenuItem.setEnabled(false);
@@ -552,19 +558,19 @@ public class SimGUI extends JFrame {
 		
 		pipeRadioItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CompositionGUI.compType = CompositionType.PIPE;
+				selectedCompType = CompositionType.PIPE;
 			}
 		});
 		
 		bidPipeRadioItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CompositionGUI.compType = CompositionType.BID_PIPE;
+				selectedCompType = CompositionType.BID_PIPE;
 			}
 		});
 		
-		parallelRadioItem.addActionListener(new ActionListener() {
+		complexRadioItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CompositionGUI.compType = CompositionType.PARALLEL;
+				selectedCompType = CompositionType.PARALLEL;
 			}
 		});
 		
@@ -585,21 +591,51 @@ public class SimGUI extends JFrame {
 				try {
 					loadedIDs = new ArrayList<>(containerInstance.getLoadedIDs().keySet());
 					loadedIDs.remove((Object) currentLoadedID);
+					CompositionTreeNode compositionTree = null;
 					
-					int receiverID = (int) JOptionPane.showInputDialog(contentPane, 
-																	   "  Select the ID of the model that will be\ncomposed with the current loaded model:",
-																	   "Receiver ID",
-																	   JOptionPane.QUESTION_MESSAGE,
-																	   null,
-																	   loadedIDs.toArray(),
-																	   null);
-					// DEBUG: System.out.println(receiverID);
-					CompositionGUI.main(containerInstance, currentLoadedID, receiverID);
+					if(selectedCompType == CompositionType.PIPE || selectedCompType == CompositionType.BID_PIPE) {
+						int receiverID = (int) JOptionPane.showInputDialog(contentPane, 
+								   					"  Select the ID of the model that will be\ncomposed with the current loaded model:",
+								   					"Model ID",
+								   					JOptionPane.QUESTION_MESSAGE,
+								   					null,
+								   					loadedIDs.toArray(),
+								   					null);
+						
+						// DEBUG: System.out.println(receiverID);
+						if(selectedCompType == CompositionType.PIPE) {
+							compositionTree = Commander.parseComplex("autosetup " + 
+													CompositionGUI.clearPath(containerInstance.getLoadedIDs().get(currentLoadedID)) +
+													" | " + CompositionGUI.clearPath(containerInstance.getLoadedIDs().get(receiverID)));
+						} else {
+							compositionTree = Commander.parseComplex("autosetup " + 
+													CompositionGUI.clearPath(containerInstance.getLoadedIDs().get(currentLoadedID)) +
+													" <|> " + CompositionGUI.clearPath(containerInstance.getLoadedIDs().get(receiverID)));
+						}
+					} else { // Complex composition
+						String compositionString = (String) JOptionPane.showInputDialog(contentPane, 
+			   										"  Insert the composition operation for the loaded models:",
+			   										"Composition",
+			   										JOptionPane.QUESTION_MESSAGE,
+			   										null,
+			   										null,
+			   										null);
+						compositionTree = Commander.parseComplex("autosetup " + compositionString);
+					}
+					
+					if(compositionTree != null) {
+						CompositionGUI.main(containerInstance, compositionTree);
+					} else {
+						JOptionPane.showMessageDialog(contentPane, "Error: composition error!", "Error", JOptionPane.ERROR_MESSAGE);
+					}
 					if(loadedIDs.size() <= 1) {
 						compositionMenuItem.setEnabled(false);
 					}
+					compositionTypeMenu.setEnabled(false);
+					currentSimulationMenuItem.setEnabled(false);
+					compositionMenuItem.setEnabled(false);
 				} catch(Exception ex) {
-					//DEBUG: ex.printStackTrace();
+					ex.printStackTrace();
 					return;
 				}
 			}
@@ -781,6 +817,7 @@ public class SimGUI extends JFrame {
 		    			
 		    			if(currentMaxInstances >= 2) {
 		    				if(currentMaxInstances == 2) {
+					    		pipeRadioItem.setEnabled(true);			
 		    					bidPipeRadioItem.setEnabled(true);
 		    				}
 		    				currentSimulationMenuItem.setEnabled(true);
@@ -908,33 +945,36 @@ public class SimGUI extends JFrame {
 				if(monitored == null) {
 					textAreaLog.append("Couldn't execute operation.\n");
 				} else {
-					if(monitored.size() < 1) {
+					// Supporting multi-model mixed composition (unidirectional cascade pipe, partial bidirectional pipe, (coupled) fork-join execution)
+					CompositionPanel tab = null;
+					if(CompositionGUI.getConPane() != null && CompositionGUI.compositionManager != null) {
+						// Logic is handled entirely by the composition manager
+						try {
+							if(monitored.size() < 1) {
+								CompositionGUI.compositionManager.runStep(currentLoadedID, null);
+							} else {
+								Map<String, String> input = getInput(monitored, false);
+								CompositionGUI.compositionManager.runStep(currentLoadedID, input);
+							}
+						} catch(ModelCreationException e) {
+							JOptionPane.showMessageDialog(contentPane, "Error: the creation of the composition models failed!", "Error", JOptionPane.ERROR_MESSAGE);
+						} catch(CompositionException e) {
+							JOptionPane.showMessageDialog(contentPane, "Error: the bidirectional pipe requires only two models!", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+						
+						// Graphics (GUI) is update with a simple loop separated from the logic.
+						for(AsmetaModel model: CompositionGUI.getCompositionTabs().keySet()) {
+							tab = CompositionGUI.getCompositionTabs().get(model);
+							previousConsole.println(model.outputConsole.toString());
+							tab.textAreaLog.append("");
+							tab.textAreaLog.append(model.outputConsole.toString());
+							model.outputConsole.reset();
+						}
+					} else if(monitored.size() < 1) {
 						out = containerInstance.runStep(currentLoadedID);
 					} else {
 						Map<String, String> input = getInput(monitored, false);
 						out = containerInstance.runStep(currentLoadedID, input);
-					}
-				}
-				
-				// Supporting multi-model composition (unidirectional cascade pipe, partial bidirectional pipe, (coupled) fork-join execution)
-				CompositionPanel tab = null;
-				if(CompositionGUI.getConPane() != null && CompositionGUI.compositionContainer != null) {
-					// Logic is handled entirely by the composition container
-					try {
-						CompositionGUI.compositionContainer.runStep(out, true);
-					} catch(EmptyCompositionListException e) {
-						JOptionPane.showMessageDialog(contentPane, "Error: the composition container is empty!", "Error", JOptionPane.ERROR_MESSAGE);
-					} catch(CompositionSizeOutOfBoundException e) {
-						JOptionPane.showMessageDialog(contentPane, "Error: the bidirectional pipe requires only two models!", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					
-					// Graphics (GUI) is update with a simple loop separated from the logic.
-					for(Composition comp: CompositionGUI.getCompositionTabs().keySet()) {
-						tab = CompositionGUI.getCompositionTabs().get(comp);
-						previousConsole.println(comp.outputConsole.toString());
-						tab.textAreaLog.append("");
-						tab.textAreaLog.append(comp.outputConsole.toString());
-						comp.outputConsole.reset();
 					}
 				}
 				 

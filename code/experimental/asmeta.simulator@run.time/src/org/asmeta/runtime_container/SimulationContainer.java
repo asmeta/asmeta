@@ -37,6 +37,7 @@ import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.runtime_simulator.AsmetaSservice;
 import org.asmeta.runtime_simulator.IdNotFoundException;
 import org.asmeta.runtime_simulator.InfoAsmetaService;
+import org.asmeta.simulationUI.AsmetaModel;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -64,7 +65,7 @@ import asmeta.terms.basicterms.Term;
  */
 public class SimulationContainer implements IModelExecution, IModelAdaptation {
     
-	private int id; // returning the id of the simulator generated if everything goes well
+	private int id; // returning the id of the simulatorRT generated if everything goes well
 
 	/** The ids. */
 	private int ids; //the id for the method start to check if is full o not
@@ -88,6 +89,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	private long duration = 0L;
 	
 	private List<String> invarNames;
+	public List<AsmetaModel> loadedModels;
 	//private List<String> variables;
 	
 	private RunOutput routTO=null;	//support variable for the timeout methods
@@ -96,11 +98,35 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	
 	public SimulationContainer() {
 		asmS = new AsmetaSservice();
+		loadedModels = new ArrayList<>();
 	}
 
-	
-	
+	// TODO: da stabilire per la gestione di SimulationContainer distribuiti
+	public int getSimulatorId() {
+		return 0;
+	}
 
+	public AsmetaModel getAsmetaModel(int id) {
+		if(loadedModels != null && !loadedModels.isEmpty()) {
+			for(AsmetaModel model: loadedModels) {
+				if(model.getModelId() == id) {
+					return model;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public boolean removeAsmetaModel(int id) {
+		if(loadedModels != null && !loadedModels.isEmpty()) {
+			for(AsmetaModel model: loadedModels) {
+				if(model.getModelId() == id) {
+					return loadedModels.remove(model);
+				}
+			}
+		}
+		return false;
+	}
 	/**
 	 * return the id of the simulator if the simulator is full return -1;.
 	 *
@@ -112,7 +138,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		try {
 			id = asmS.start(modelPath);
 			ids = checkStartId(id);
-			
+			loadedModels.add(new AsmetaModel(ids, this));
 
 			sout = new StartOutput(ids, "The id " + ids + " is successfully created");
 			//System.out.println(sout.toString());
@@ -124,7 +150,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 			} else if (e instanceof AsmModelNotFoundException) {
 				sout = new StartOutput(-3,
-						"The Model " + modelPath.substring(modelPath.lastIndexOf("/") + 1) + " Doesn't esist");
+						"The Model " + modelPath.substring(modelPath.lastIndexOf("/") + 1) + " doesn't exist!");
 				System.err.println(sout.toString());
 
 			} else if (e instanceof FullMapException) {
@@ -152,7 +178,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		StartOutput sout = null;
 		try {
 			id = asmS.restart(modelPath,oldId, state);
+			removeAsmetaModel(oldId);
 			ids = checkStartId(id);
+			loadedModels.add(new AsmetaModel(ids, this));
 			sout = new StartOutput(ids, "The id " + ids + " is successfully created");
 			simulationRunning = SimStatus.READY;
 			System.out.println(sout.toString());
@@ -198,6 +226,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		try {
 			System.out.println("Model " + asmS.getModelName(id) + " successfully stopped");
 			asmS.stop(id);
+			removeAsmetaModel(id);
 			id = 1;
 		} catch (RuntimeException e) {
 			if (e instanceof IdNotFoundException) {
@@ -1456,6 +1485,17 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			if (asmS.checkValidId(i))
 				ids.put(i, asmS.getSimulatorTable().get(i).getModelPath());
 		return ids;
+	}
+	
+	public Map<String, Integer> getLoadedModels() {
+		int max = asmS.getMaxInstances();
+		Map<String, Integer> models = new HashMap<String, Integer>();
+		for(int i = 1; i <= max; i++) {
+			if(asmS.checkValidId(i)) {
+				models.put(asmS.getSimulatorTable().get(i).getModelPath(), i);
+			}
+		}
+		return models;
 	}
 	
 	/*public MyState getStatus(int id) {

@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -16,11 +18,10 @@ import java.util.regex.Pattern;
 
 import org.asmeta.parser.ASMParser;
 import org.asmeta.runtime_container.Esit;
-import org.asmeta.runtime_container.SimulationContainerSingleton;
-import org.asmeta.simulationUI.CompositionContainer;
-import org.asmeta.simulationUI.CompositionSizeOutOfBoundException;
-import org.asmeta.simulationUI.CompositionType;
-import org.asmeta.simulationUI.EmptyCompositionListException;
+import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.simulationUI.CompositionManager;
+import org.asmeta.simulationUI.ModelCreationException;
+import org.asmeta.simulationUI.CompositionException;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -36,8 +37,8 @@ public class CommanderSingleton {
 	private static final String CONFIG_FILE_PATH = "src/org/asmeta/runtime_commander/.config"; 					// Configuration file path
 	public static boolean debugMode = false;																	// Default value for the debug mode is false
 	public static CommanderOutput out = new CommanderOutput(CommanderStatus.FAILURE, "Nothing initialized");	// CommanderOutput initialization
-	public static SimulationContainerSingleton containerInstance;												// SimulationContainer declaration 
-	public static CompositionContainer compContainer;															// CompositionContainer declaration
+	public static SimulationContainer containerInstance;														// SimulationContainer declaration 
+	public static CompositionManager compManager;															// CompositionContainer declaration
 	private static String defaultModelDir;																		// defaultModelDir config file property
 	private static boolean initConfigRequired = true;															// Configuration required on startup flag
 	public static String lastInput = null;																		// Last executed input
@@ -73,7 +74,6 @@ public class CommanderSingleton {
 				if (debugMode)
 					System.out.println("NumberFormatException while parsing " + mod);
 			}
-			//System.out.println(m.group(1)); 
 			if (debugMode)
 				System.out.println("found " + mod + " parameter with value: " + number);
 		}else {
@@ -89,7 +89,6 @@ public class CommanderSingleton {
 		String str = null;
 		if (m.find()) {
 			str=m.group(1).substring(m.group(1).indexOf('"')+1,m.group(1).length()-1);
-			//System.out.println(m.group(1)); 
 			if (debugMode)
 				System.out.println("found "+mod+" parameter with value: "+str);
 		}else
@@ -101,7 +100,6 @@ public class CommanderSingleton {
 	private static Map<String, String> parseLocationValue(Matcher m) {
 		Map<String, String> locationvaluep = null;
 		if(m.find()) {
-			//System.out.println(m.group(1));
 			locationvaluep = new HashMap<String, String>();
 			Scanner scan = new Scanner(m.group(1).substring(m.group(1).indexOf('{')+1,m.group(1).length()-1));
 			scan.useDelimiter(",");
@@ -126,14 +124,228 @@ public class CommanderSingleton {
 		return locationvaluep;
 	}
 	
-	 /**
+	private static int checkParentheses(String line) {
+		int parenthesesCounter = 0;
+		String symbols[] = line.split("\\s+");
+		
+		for(int i = 0; i < symbols.length; i++) {
+			if(symbols[i].contains("(")) {
+				parenthesesCounter++;
+				symbols[i] = symbols[i].replaceFirst("\\(", "");
+				i--;
+			}
+			if(symbols[i].contains(")")) {
+				parenthesesCounter--;
+				symbols[i] = symbols[i].replaceFirst("\\)", "");
+				i--;
+			}
+			
+		}
+		return parenthesesCounter;
+	}
+	
+	private static boolean validateModels(String line) { // TODO: check files in defaultModelDir
+		boolean valid = true;
+		String symbols[] = line.split("\\s+");
+		for(String symbol: symbols) {
+			if(!symbol.toLowerCase().equals("autosetup") && !symbol.equals("|") && !symbol.equals("||") && !symbol.equals("<|>")) {
+				if(!symbol.contains(".asm")) {
+					valid = false;
+				}
+			}
+		}
+		return valid;
+	}
+	
+	private static int charCount(String word, char c) {
+		if(word == null) {
+			return -1;
+		}
+		int counter = 0;
+		for(int i = 0; i < word.length(); i++) {
+			if(word.charAt(i) == c) {
+				counter++;
+			}
+		}
+		return counter;
+	}
+	
+	// Pretty print List<String[]> -> String[] dimension is 3
+	public static void printList(List<String[]> list) {
+		for(int i = 0; i < list.size(); i++) {
+			if(i == 0) {
+				System.out.print("[");
+			}
+			if(i == list.size() - 1) {
+				System.out.print("[" + list.get(i)[0] + ", " + list.get(i)[1] + ", " + list.get(i)[2] + "]]\n");
+			} else {
+				System.out.print("[" + list.get(i)[0] + ", " + list.get(i)[1] + ", " + list.get(i)[2] + "], ");
+			}			
+		}
+	}
+	
+	private static List<String[]> clearList(List<String[]> list) {
+		if(list == null) {
+			return null;
+		} 
+		boolean remotionAllowed = true;
+		
+		for(int i = 0; i < list.size(); i++) {
+			list.get(i)[0] = list.get(i)[0].replaceAll("\\(", "");
+			list.get(i)[0] = list.get(i)[0].replaceAll("\\)", "");
+		}
+		
+		for(int i = 0; i < (int) (list.size()/2); i++) {
+			for(int j = i + 1; j < list.size(); j++) {
+				if(list.get(i)[0].equals(list.get(j)[0]) &&
+				   list.get(i)[1].equals(list.get(j)[1])) {
+					remotionAllowed = true;
+					for(int k = i; k < j; k++) {
+						if((list.get(k)[0].equals("<|>") || list.get(k)[0].equals("||") || list.get(k)[0].equals("|")) &&
+							list.get(k)[1].equals(Integer.toString(Integer.valueOf(list.get(i)[1]) - 1))) {
+							remotionAllowed = false;
+						}
+					}
+					if(remotionAllowed) {
+						list.remove(j);
+					}
+				}
+			}
+		}
+		
+		return list;
+	}
+	
+	// Support function to parse complex commands. White spaces are mandatory.
+	// Example: autosetup S1 | (S2 || S3) | S4		  -> tested OK 20/07
+	//			autosetup (S1 <|> S2) | S3 			  -> tested OK 20/07
+	//			autosetup S1 | ((S2 | S3) || S4) | S5 -> tested OK 20/07
+	public static CompositionTreeNode parseComplex(String argument) {
+		CompositionTreeNode compositionTree = null;
+		
+		if(!argument.contains("(") && !argument.contains(")")) {
+			if(argument.contains(" | ")) {
+				if(argument.contains(" || ") || argument.contains(" <|> ")) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, operands precedence must be declared using parentheses!");
+					return null;
+				}
+			} else if(argument.contains(" || ")) {
+				if(argument.contains(" <|> ")) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, operands precedence must be declared using parentheses!");
+					return null;
+				}
+			}
+		}
+		int parenthesesCounter = checkParentheses(argument);
+		if(parenthesesCounter != 0) {
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command: invalid syntax (check parentheses)!");
+			return null;
+		}
+		// TODO: togliere commento quando finito di testare
+		/*if(!validateModels(argument)) {
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+			return null;
+		}*/
+		
+		// symbolsPriority structure: [["S1", "0"], ["(S2", "1"]]... -> [[symbol1, priority1], [symbol2, priority2], ..., [symbolN, priorityN]]
+		argument = argument.substring(10); // remove "autosetup "
+		String[] symbols = argument.split("\\s+");
+		List<String[]> symbolsPriority = new ArrayList<>();
+		int currentPriority = 0;
+		int operatorId = 0;
+		int maxPriority = 0;
+		
+		for(int i = 0; i < symbols.length; i++) {
+			currentPriority += charCount(symbols[i], '(');
+			maxPriority = Math.max(currentPriority, maxPriority);
+			String[] symbolPriority = {symbols[i], String.valueOf(currentPriority), ""};
+			symbolsPriority.add(symbolPriority);
+			currentPriority -= charCount(symbols[i], ')');			
+		}
+		
+		symbolsPriority = clearList(symbolsPriority);
+		
+		for(int i = 0; i < symbolsPriority.size(); i++) {
+			operatorId = 1;
+			String[] symbolPriority = symbolsPriority.get(i);
+			if(symbolPriority[0].contains("|") || symbolPriority[0].contains("<|>") || symbolPriority[0].contains("||")) {
+				for(int j = 0; j < symbolsPriority.size(); j++) {
+					if(Integer.valueOf(symbolPriority[1]) == 0) {
+						operatorId = 1;
+					}
+					if(Integer.valueOf(symbolPriority[1]) > Integer.valueOf(symbolsPriority.get(j)[1])) {
+						if(i < j && (symbolsPriority.get(j)[0].contains("|") || 
+								   	 symbolsPriority.get(j)[0].contains("<|>") || 
+								   	 symbolsPriority.get(j)[0].contains("||") ||
+								   	 Integer.valueOf(symbolPriority[1]) > Integer.valueOf(symbolsPriority.get(j)[1]) + 1)) {
+							operatorId++;
+						} else if(i > j) {
+							operatorId++;
+						}
+					} else if(Integer.valueOf(symbolPriority[1]) == Integer.valueOf(symbolsPriority.get(j)[1]) && i > j &&
+							  (symbolsPriority.get(j)[0].contains("|") || 
+							   symbolsPriority.get(j)[0].contains("<|>") || 
+							   symbolsPriority.get(j)[0].contains("||"))) {
+						operatorId++;
+					}
+				}
+				symbolPriority[2] = String.valueOf(operatorId);
+			}
+		}
+		
+		LinkedList<Integer> availableIds = new LinkedList<>();
+		for(int i = 1; i <= symbolsPriority.size(); i++) {
+			availableIds.add(i);
+		}
+		
+		for(int i = 0; i < symbolsPriority.size(); i++) {
+			if(!symbolsPriority.get(i)[2].equals("")) {
+				availableIds.remove(Integer.valueOf(symbolsPriority.get(i)[2]));
+			}
+		}
+		
+		for(currentPriority = 0; currentPriority <= maxPriority; currentPriority++) {
+			for(int i = 0; i < symbolsPriority.size(); i++) {
+				String[] symbolPriority = symbolsPriority.get(i);
+				if(!symbolPriority[0].contains("|") &&
+				   !symbolPriority[0].contains("<|>") && 
+				   !symbolPriority[0].contains("||") &&
+				   Integer.valueOf(symbolPriority[1]) == currentPriority &&
+				   symbolPriority[2].equals("")) {
+					symbolPriority[2] = String.valueOf(availableIds.get(0));
+					availableIds.remove(0);
+				}
+			}
+		}
+		
+		assertTrue(availableIds.isEmpty());
+		
+		try {
+			compositionTree = CompositionTreeNode.buildTree(symbolsPriority);
+			
+			compositionTree.printTree();
+			//System.out.println(compositionTree.getAllChildren().toString());
+			//compositionTree.getSource().printTree();
+			//compositionTree.getSink().printTree();
+			//compositionTree.getNodeById(3).getSink().printTree();
+			//System.out.println(compositionTree.getNodeById(9).toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			out = new CommanderOutput(CommanderStatus.FAILURE, e.getMessage());
+			return null;
+		}
+		
+		return compositionTree;
+	}
+
+	/**
 	 * Reads the operation and executes it.
 	 *
 	 * @param crt: SimulationContainer instance
 	 * @param input: string with the command and parameter to parse
 	 * @return a CommanderOutput instance representing the result of the command executed
 	 */
-	public static CommanderOutput parseInput(SimulationContainerSingleton crt, String input) {
+	public static CommanderOutput parseInput(SimulationContainer crt, String input) {
 		containerInstance = crt;
 		String command = "";
 		
@@ -155,17 +367,17 @@ public class CommanderSingleton {
 			}
 			switch (command.toUpperCase()) {
 				case "INIT": 				 cmdInit(input); 				 break;
-				case "STARTEXECUTION": 		 cmdStartExecution(input); 		 break;
-				case "STOPEXECUTION": 		 cmdStopExecution(input); 		 break;
+				case "START": 		 		 cmdStart(input); 		 		 break;
+				case "STOP": 		 		 cmdStop(input); 		 		 break;
 				case "RUNSTEP": 			 cmdRunStep(input);				 break;
 				case "RUNSTEPTIMEOUT": 		 cmdRunStepTimeout(input);		 break;
 				case "RUNUNTILEMPTY":		 cmdRunUntilEmpty(input);		 break;
 				case "RUNUNTILEMPTYTIMEOUT": cmdRunUntilEmptyTimeout(input); break;
-				case "VIEWLISTINVARIANT": 	 cmdViewListInvariant(input);	 break;
-				case "ADDINVARIANT": 		 cmdAddInvariant(input);		 break;
-				case "REMOVEINVARIANT": 	 cmdRemoveInvariant(input); 	 break;
-				case "UPDATEINVARIANT": 	 cmdUpdateInvariant(input); 	 break;
-				case "GETLOADEDIDS": 		 cmdGetLoadedIDs(); 			 break;
+				case "VIEWINV": 	 		 cmdViewInvariants(input);	 	 break;
+				case "ADDINV": 		 		 cmdAddInvariant(input);		 break;
+				case "REMOVEINV": 	 		 cmdRemoveInvariant(input); 	 break;
+				case "UPDATEINV": 	 		 cmdUpdateInvariant(input); 	 break;
+				case "IDS": 		 		 cmdGetLoadedIDs(); 			 break;
 				case "HELP": 				 cmdHelp(); 					 break;
 				case "AUTOSETUP":			 cmdAutoSetup(input);			 break;
 				case "CONFIG":				 cmdConfig(input);				 break;
@@ -174,12 +386,18 @@ public class CommanderSingleton {
 				case "IF":					 cmdIf(input);					 break;
 				case "WHILE":				 cmdWhileDo(input);				 break;
 				default:
-					if(command.toUpperCase().startsWith("RUN(")) {
-						cmdRun(input);
+					if(command.toUpperCase().startsWith("RUNCOND(")) {
+						cmdRunCond(input);
 					} else if(command.toUpperCase().startsWith("RUNSTEP(")) {
 						cmdRunStep(input);
 					} else if(command.toUpperCase().startsWith("WHILE(")) {
 						cmdWhile(input);
+					} else if(command.toUpperCase().startsWith("PIPE(")) {
+						cmdPipe(input);
+					} else if(command.toUpperCase().startsWith("BID(")) {
+						cmdBid(input);
+					} else if(command.toUpperCase().startsWith("PAR(")) {
+						cmdPar(input);
 					} else {
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Function \"" + command + "\" is not a correct command!");
 					}
@@ -213,13 +431,115 @@ public class CommanderSingleton {
 		}
 	}
 	
-	// TODO
-	private static void cmdWhile(String argument) {
-		argument = argument.replace("while", "WHILE");
-		out = new CommanderOutput(CommanderStatus.SUCCESS);
+	// Syntax: pipe(file1.asm, file2.asm, ..., fineN.asm) <-> autosetup file1.asm | file2.asm | ... | fileN.asm
+	// file1.asm, file2.asm, ..., fileN.asm MUST be in the defaultModelDir
+	private static void cmdPipe(String argument) {
+		StringBuffer parsedCommand = new StringBuffer();
+		boolean end = false;
+		 
+		parsedCommand.append("autosetup ");
+		for(String token: argument.substring(5).split(",")) {
+			if(token.contains(")")) {
+				token = token.replace(")", "");
+				end = true;
+			}
+			if(token.contains(".asm")) {
+				if(!end) {
+					parsedCommand.append(token + "|");
+				} else {
+					parsedCommand.append(token);
+				}
+			}
+		}
+		if(debugMode)
+			System.out.println(parsedCommand);
+		
+		cmdAutoSetup(parsedCommand.toString());
 	}
 	
-	// Syntax: WHILE cond DO runstep(S) 		(cond boolean condition in the asmeta model S (file .asm))
+	// Syntax: bid(file1.asm, file2.asm) <-> autosetup file1.asm <|> file2.asm
+	// file1.asm, file2.asm MUST be in the defaultModelDir
+	private static void cmdBid(String argument) {
+		StringBuffer parsedCommand = new StringBuffer();
+		boolean end = false;
+		
+		parsedCommand.append("autosetup ");
+		for(String token: argument.substring(4).split(",")) {
+			if(argument.substring(4).split(",").length != 2) {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Bidirectional pipe composition requires only two models!");
+				return;
+			}
+			if(token.contains(")")) {
+				token = token.replace(")", "");
+				end = true;
+			}
+			if(token.contains(".asm")) {
+				if(!end) {
+					parsedCommand.append(token + "<|>");
+				} else {
+					parsedCommand.append(token);
+				}
+			}
+		}
+		if(debugMode)
+			System.out.println(parsedCommand);
+	
+		cmdAutoSetup(parsedCommand.toString());
+	}
+	
+	// Syntax: par(file1.asm, file2.asm, ..., fineN.asm) <-> autosetup file1.asm || file2.asm || ... || fileN.asm
+	// file1.asm, file2.asm, ..., fileN.asm MUST be in the defaultModelDir
+	private static void cmdPar(String argument) {
+		StringBuffer parsedCommand = new StringBuffer();
+		boolean end = false;
+		
+		parsedCommand.append("autosetup ");
+		for(String token: argument.substring(4).split(",")) {
+			if(token.contains(")")) {
+				token = token.replace(")", "");
+				end = true;
+			}
+			if(token.contains(".asm")) {
+				if(!end) {
+					parsedCommand.append(token + "||");
+				} else {
+					parsedCommand.append(token);
+				}
+			}
+		}
+		if(debugMode)
+			System.out.println(parsedCommand);
+		
+		cmdAutoSetup(parsedCommand.toString());
+	}
+	
+	// Syntax: WHILE(cond, RUNSTEP(S)) 		 -> WHILE cond DO RUNSTEP(S)
+	//		   WHILE(cond, RUNSTEP(S, {...}) -> WHILE cond DO RUNSTEP(S, {...})
+	private static void cmdWhile(String argument) {
+		argument = argument.trim(); // remove spaces after ")"
+		argument = argument.substring(6, argument.length() - 1);
+		argument = argument.trim(); // remove spaces inside (...)
+		argument = argument.replace(" ", "");
+		
+		String[] tokens = argument.split(",");
+		if(tokens.length == 2) {
+			if(tokens[1].contains(".asm") && tokens[1].toUpperCase().contains("RUNSTEP(")) {
+				cmdWhileDo("WHILE " + tokens[0] + " DO " + tokens[1]);
+			} else {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+			}
+		} else if(tokens.length == 3){
+			if(tokens[1].contains(".asm") && tokens[1].toUpperCase().contains("RUNSTEP(")) {
+				cmdWhileDo("WHILE " + tokens[0] + " DO " + tokens[1] + "," + tokens[2]);
+			} else {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+			}
+		} else { 	
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid argument structure!");
+		}
+	}
+	
+	// Syntax: WHILE cond DO runstep(S) 		("cond" must be a boolean condition in the asmeta model S (file .asm))
 	//		   WHILE cond DO runstep(S, {...})
 	private static void cmdWhileDo(String argument) {
 		argument = argument.replace("while", "WHILE");
@@ -234,9 +554,6 @@ public class CommanderSingleton {
 			// group(1) is "cond" (the condition) -> must be a boolean term in S
 			// group(2) is "RUNSTEP(...)"
 			// group(3) is the model S
-			for(int i = 0; i <= whileMatcher.groupCount(); i++) {
-				System.out.println(whileMatcher.group(i));
-			}
 			if(whileMatcher.groupCount() < 2 || whileMatcher.groupCount() > 5) {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid argument structure!");
 				return;
@@ -248,16 +565,16 @@ public class CommanderSingleton {
 					cmdIf("IF " + cond + " THEN " + functionOnS);
 				} while(out.getStatus() == CommanderStatus.RUNOUTPUT && out.getRunOutput().getEsit() == Esit.SAFE);
 			} catch (CommanderException e) {
-				e.getMessage();
+				System.err.println(e.getMessage());
 			}
 		} else {
 			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid syntax!");
 		}
 	}
 	
-	// Syntax: run(cond, S1) -> 	IF cond THEN S1
-	// 		   run(cond, S1, S2) -> IF cond THEN S1 ELSE S2
-	private static void cmdRun(String argument) {
+	// Syntax: runcond(cond, S1)     -> IF cond THEN S1
+	// 		   runcond(cond, S1, S2) -> IF cond THEN S1 ELSE S2
+	private static void cmdRunCond(String argument) {
 		argument = argument.trim(); // remove spaces after ")"
 		argument = argument.substring(4, argument.length() - 1);
 		argument = argument.trim(); // remove spaces inside (...)
@@ -282,7 +599,6 @@ public class CommanderSingleton {
 	}
 	
 	private static void cmdIf(String argument) {
-		//System.out.println(argument);
 		argument = argument.replace("if", "IF");
 		argument = argument.replace("else", "ELSE");
 		argument = argument.replace("then", "THEN");
@@ -418,9 +734,8 @@ public class CommanderSingleton {
 					}
 				} catch(AssertionError e) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, controlled condition " + cond + " is not valid!");
-					return;
 				} catch (CommanderException e) {
-					e.getMessage();
+					System.err.println(e.getMessage());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -494,13 +809,13 @@ public class CommanderSingleton {
 							return;
 						}
 					} else {
+						// TODO: UNSAFE case?
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, try to autosetup the model first!");
 					}
 				} catch(AssertionError e) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, controlled condition " + cond + " is not valid!");
-					return;
 				} catch (CommanderException e) {
-					e.getMessage();
+					System.err.println(e.getMessage());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -525,7 +840,6 @@ public class CommanderSingleton {
 					File runFile = new File(token);
 					if(runFile.exists() && runFile.isFile()) {
 						try {
-							fileContent = new ArrayList<>();
 							String line = "";
 							BufferedReader reader;
 							reader = new BufferedReader(new FileReader(runFile));
@@ -540,72 +854,8 @@ public class CommanderSingleton {
 					}
 				}
 			}
-			SimulationContainerSingleton containerInstance = new SimulationContainerSingleton();
-			StringBuffer parsedCommand = new StringBuffer();
-			boolean end = false;
+			SimulationContainer containerInstance = new SimulationContainer();
 			for(String command: fileContent) {
-				if(command.toLowerCase().trim().startsWith("pipe(")) { // support pipe(file1.asm, file2.asm, ..., fineN.asm) syntax
-					parsedCommand.append("autosetup ");
-					for(String token: command.substring(5).split(",")) {
-						if(token.contains(")")) {
-							token = token.replace(")", "");
-							end = true;
-						}
-						if(token.contains(".asm")) {
-							if(!end) {
-								parsedCommand.append(token + "|");
-							} else {
-								parsedCommand.append(token);
-							}
-						}
-					}
-					if(debugMode)
-						System.out.println(parsedCommand);
-					command = parsedCommand.toString();
-					parsedCommand.delete(0, parsedCommand.length());
-				} else if(command.toLowerCase().trim().startsWith("bid(")) { // support bid(file1.asm, file2.asm) syntax
-					parsedCommand.append("autosetup ");
-					for(String token: command.substring(4).split(",")) {
-						if(command.substring(4).split(",").length != 2) {
-							out = new CommanderOutput(CommanderStatus.FAILURE, "Bidirectional pipe composition requires only two models!");
-							return;
-						}
-						if(token.contains(")")) {
-							token = token.replace(")", "");
-							end = true;
-						}
-						if(token.contains(".asm")) {
-							if(!end) {
-								parsedCommand.append(token + "<|>");
-							} else {
-								parsedCommand.append(token);
-							}
-						}
-					}
-					if(debugMode)
-						System.out.println(parsedCommand);
-					command = parsedCommand.toString();
-					parsedCommand.delete(0, parsedCommand.length());
-				} else if(command.toLowerCase().trim().startsWith("par(")) { // support par(file1.asm, file2.asm, ..., fineN.asm) syntax
-					parsedCommand.append("autosetup ");
-					for(String token: command.substring(4).split(",")) {
-						if(token.contains(")")) {
-							token = token.replace(")", "");
-							end = true;
-						}
-						if(token.contains(".asm")) {
-							if(!end) {
-								parsedCommand.append(token + "||");
-							} else {
-								parsedCommand.append(token);
-							}
-						}
-					}
-					if(debugMode)
-						System.out.println(parsedCommand);
-					command = parsedCommand.toString();
-					parsedCommand.delete(0, parsedCommand.length());
-				}
 				parseInput(containerInstance, command);
 			}
 		} else { // file already in defaultModelDir
@@ -653,108 +903,47 @@ public class CommanderSingleton {
 		}
 	}
 	
-	/* syntax:	autosetup model1.asm model2.asm ... 	-> init all + start all
+	/* Syntax:	autosetup model1.asm model2.asm ... 	-> init all + start all
 				autosetup model1.asm | model2.asm | ... -> init all + compose (PIPE) in order
 				autosetup model1.asm <|> model2.asm		-> init all (must be only 2) + compose (BID_PIPE) in order
-				autosetup model1.asm || model2.asm ...	-> init all + compose (PARALLEL)
+				autosetup model1.asm || model2.asm ...	-> init all + compose (PARALLEL) in order
 	   model1.asm, model2.asm, ... have to be in the defaultModelDir folder. */
 	private static void cmdAutoSetup(String argument) {
-		ArrayList<String> params = new ArrayList<>();
-		//System.out.println(argument);
-		String[] tokens;
-		if(argument.trim().contains("|")) {
-			if(argument.trim().contains("<|>") && !argument.trim().contains("||")) { // BID_PIPE
-				tokens = argument.split("\\s*<\\|>\\s*");
-				if(tokens.length != 2) {
-					out = new CommanderOutput(CommanderStatus.FAILURE, "Bidirectional pipe composition requires only two models!");
-					return;
-				}
-				for(String token: tokens) {
-					if(token.toUpperCase().contains("AUTOSETUP")) {
-						token = token.substring(9, token.length()).trim();
-					}
-					if(!token.toUpperCase().equals("AUTOSETUP")) {
-						if(token.contains(".asm")) {
-							params.add(token);
-						} else {
-							out = new CommanderOutput(CommanderStatus.FAILURE, "Invalid model extension!");
-							return;
-						}
-					}
-				}
-				cmdInit("-n " + Integer.toString(params.size()));
-				for(String param: params) {
-					cmdStartExecution("-modelpath \"" + defaultModelDir + "/" + param + "\"");
-				}
-				compContainer = new CompositionContainer(containerInstance, CompositionType.BID_PIPE);
-				for(int i = 0; i < params.size() - 1; i++) {
-					compContainer.addComposition(i + 1, i + 2);
-				}
-			} else if(!argument.trim().contains("<|>") && argument.trim().contains("||")) { // PARALLEL
-				tokens = argument.split("\\s*\\|\\|\\s*");
-				for(String token: tokens) {
-					if(token.toUpperCase().contains("AUTOSETUP")) {
-						token = token.substring(9, token.length()).trim();
-					}
-					if(!token.toUpperCase().equals("AUTOSETUP")) {
-						if(token.contains(".asm")) {
-							params.add(token);
-						} else {
-							out = new CommanderOutput(CommanderStatus.FAILURE, "Invalid model extension!");
-							return;
-						}
-					}
-				}
-				cmdInit("-n " + Integer.toString(params.size()));
-				for(String param: params) {
-					cmdStartExecution("-modelpath \"" + defaultModelDir + "/" + param + "\"");
-				}
-				compContainer = new CompositionContainer(containerInstance, CompositionType.PARALLEL);
-				for(int i = 0; i < params.size() - 1; i++) {
-					compContainer.addComposition(i + 1, i + 2);
-				}
-			} else { // PIPE
-				tokens = argument.split("\\s*\\|\\s*");
-				for(String token: tokens) {
-					if(token.toUpperCase().contains("AUTOSETUP")) {
-						token = token.substring(9, token.length()).trim();
-					}
-					if(!token.toUpperCase().equals("AUTOSETUP")) {
-						if(token.contains(".asm")) {
-							params.add(token);
-						} else {
-							out = new CommanderOutput(CommanderStatus.FAILURE, "Invalid model extension!");
-							return;
-						}
-					}
-				}
-				cmdInit("-n " + Integer.toString(params.size()));
-				for(String param: params) {
-					cmdStartExecution("-modelpath \"" + defaultModelDir + "/" + param + "\"");
-				}
-				compContainer = new CompositionContainer(containerInstance, CompositionType.PIPE);
-				for(int i = 0; i < params.size() - 1; i++) {
-					compContainer.addComposition(i + 1, i + 2);
+		CompositionTreeNode compositionTree = parseComplex(argument);
+		if(compositionTree != null) {
+			compManager = new CompositionManager(compositionTree, false);
+			cmdInit("-n " + CompositionTreeNode.getNodeNumber());
+			// TODO: test
+			CompositionTreeNode aux = null;
+			for(int i = 1; i <= CompositionTreeNode.getNodeNumber(); i++) {
+				aux = compositionTree.getNodeById(i);
+				if(aux.nodeType == CompositionTreeNodeType.MODEL) {
+					cmdStart("-modelpath \"" + defaultModelDir + "/" + aux.getModelName() + "\"");
 				}
 			}
 		} else { // No composition
-			tokens = argument.split("\\s+");
+			String[] tokens = argument.split("\\s+");
+			ArrayList<String> params = new ArrayList<>();
+			if(tokens.length <= 1) {
+				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid arguments!");
+				return;
+			}
 			for(String token: tokens) {
 				if(!token.toUpperCase().equals("AUTOSETUP")) {
 					if(token.contains(".asm")) {
 						params.add(token);
 					} else {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Invalid model extension!");
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 						return;
 					}
 				}
 			}
 			cmdInit("-n " + Integer.toString(params.size()));
 			for(String param: params) {
-				cmdStartExecution("-modelpath \"" + defaultModelDir + "/" + param + "\"");
+				cmdStart("-modelpath \"" + defaultModelDir + "/" + param + "\"");
 			}
 		}
-		//System.out.println(params.toString());
+		
 		System.out.println("Autosetup finished, type 'help' for more commands!\nLoaded simulations:");
 		cmdGetLoadedIDs();
 	}
@@ -770,7 +959,7 @@ public class CommanderSingleton {
 			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter 'n' !");
 	}
 	
-	private static void cmdStartExecution(String argument) {
+	private static void cmdStart(String argument) {
 		//parsing MODELPATH
 		Matcher matcher = MODELPATH_PATTERN.matcher(argument);
 		String modelpathp = parseText(matcher, "modelpath");
@@ -781,7 +970,7 @@ public class CommanderSingleton {
 			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter 'modelpath' !");
 	}
 
-	private static void cmdStopExecution(String argument) {
+	private static void cmdStop(String argument) {
 		//parsing ID
 		Matcher matcher = ID_PATTERN.matcher(argument);
 		int idp = parseNumber(matcher, "id");
@@ -803,36 +992,38 @@ public class CommanderSingleton {
 		
 		if(idp != DEFAULT_VALUE) {
 			if(locationvaluep != null) {
-				out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runStep(idp, locationvaluep));
-				if(compContainer != null) {
+				if(compManager != null) {
 					try {
-						compContainer.runStep(out.getRunOutput(), false);
+						compManager.runStep(idp, locationvaluep);
 						out = new CommanderOutput(CommanderStatus.SUCCESS);
-					} catch (EmptyCompositionListException e) {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, empty composition list!");
-					} catch (CompositionSizeOutOfBoundException e) {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition list out of bounds!");
-					} catch (CommanderException e) {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, commander error!");
+					} catch (CompositionException | ModelCreationException e) {
+						e.printStackTrace();
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
+					} catch (Exception e) {
+						e.printStackTrace();
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, generic error!");
 					}
+				} else {
+					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runStep(idp, locationvaluep));
 				}
 			} else {
-				out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runStep(idp));
-				if(compContainer != null) {
+				if(compManager != null) {
 					try {
-						compContainer.runStep(out.getRunOutput(), false);
+						compManager.runStep(idp, null);
 						out = new CommanderOutput(CommanderStatus.SUCCESS);
-					} catch (EmptyCompositionListException e) {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, empty composition list!");
-					} catch (CompositionSizeOutOfBoundException e) {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition list out of bounds!");
-					} catch (CommanderException e) {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, commander error!");
+					} catch (CompositionException | ModelCreationException e) {
+						e.printStackTrace();
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
+					} catch (Exception e) {
+						e.printStackTrace();
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, generic error!");
 					}
+				} else {
+					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runStep(idp));
 				}
 			}
-		} else { // Alternative syntax example: RUNSTEP(1, {x=FOUR,y=TWO}) <-> RUNSTEP -id 1 -locationvalue {x=FOUR,y=TWO}
-				 // 							RUNSTEP(Square.asm, {x=FOUR}) <-> RUNSTEP -id <id of Square.asm> -locationvalue {x=FOUR}
+		} else { // Alternative syntaxes examples: RUNSTEP(1, {x=FOUR,y=TWO}) 	  <-> RUNSTEP -id 1 -locationvalue {x=FOUR,y=TWO}
+				 // 							   RUNSTEP(Square.asm, {x=FOUR}) <-> RUNSTEP -id <id of Square.asm> -locationvalue {x=FOUR}
 			argument = argument.replace("runstep", "RUNSTEP");
 			Matcher exprMatcher = Pattern.compile(RUNSTEP_REGEX).matcher(argument);
 			if(exprMatcher.find()) {
@@ -977,7 +1168,7 @@ public class CommanderSingleton {
 		}
 	}
 	
-	private static void cmdViewListInvariant(String argument) {
+	private static void cmdViewInvariants(String argument) {
 		//parsing ID
 		Matcher matcher = ID_PATTERN.matcher(argument);
 		int idp = parseNumber(matcher, "id");
@@ -1061,14 +1252,14 @@ public class CommanderSingleton {
 	private static void cmdHelp() {
 		//INIT
 		System.out.println("INIT\t\t\tInitializes the maximum simulation instances.");
-		System.out.println("\t\t\t\tParameter: -n <simulations number>");
+		System.out.println("\t\t\t\tParameter: -n <number of simulations>");
 		
-		//STARTEXECUTION
-		System.out.println("STARTEXECUTION\t\tStarts a model simulation execution.");
+		//START
+		System.out.println("START\t\t\tStarts a model simulation execution.");
 		System.out.println("\t\t\t\tParameter: -modelpath <model file path>");
 		
-		//STOPEXECUTION
-		System.out.println("STOPEXECUTION\t\tStops a model simulation execution.");
+		//STOP
+		System.out.println("STOP\t\t\tStops a model simulation execution.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		
 		//RUNSTEP
@@ -1097,28 +1288,28 @@ public class CommanderSingleton {
 		System.out.println("\t\t\t\tParameter: [-max <max steps to take>]");
 		System.out.println("\t\t\t\tParameter: -t <timeout in milliseconds>");
 		
-		//VIEWLISTINVARIANT
-		System.out.println("VIEWLISTINVARIANT\tShows a list with all the variables and invariants in the model.");
+		//VIEWINV
+		System.out.println("VIEWINV\t\t\tShows a list with all the variables and invariants in the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		
 		//ADDINVARIANT
-		System.out.println("ADDINVARIANT\t\tAdds another invariant to the model.");
+		System.out.println("ADDINV\t\t\tAdds another invariant to the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: -inv <new invariant>");
 		
 		//REMOVEINVARIANT
-		System.out.println("REMOVEINVARIANT\t\tRemoves the given invariant from the model.");
+		System.out.println("REMOVEINV\t\tRemoves the given invariant from the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: -inv <removed invariant>");
 		
 		//UPDATEINVARIANT
-		System.out.println("UPDATEINVARIANT\t\tUpdates the given invariant from the model.");
+		System.out.println("UPDATEINV\t\tUpdates the given invariant from the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: -inv <updated invariant>");
 		System.out.println("\t\t\t\tParameter: -invold <old invariant>");
 		
 		//CONFIG
-		System.out.println("CONFIG\t\t\tManage SimShell and Commander configuration file.");
+		System.out.println("CONFIG\t\t\tManage SimShell and CommanderSingleton configuration file.");
 		System.out.println("\t\t\t\tParameter: -dir <default asmeta models directory>");
 		System.out.println("\t\t\t\tParameter: -prompt <custom command line prompt>");
 				
@@ -1139,18 +1330,41 @@ public class CommanderSingleton {
 		System.out.println("\t\t\t\tSyntax: IF <condition in model1> THEN <model1>");
 		System.out.println("\t\t\t\tSyntax: IF <condition in model1> THEN <model1> ELSE <model2>");
 		
-		//RUN
-		System.out.println("RUN\t\tConditional selection of models in the default model directory.");
-		System.out.println("\t\t\t\tSyntax: RUN(<condition in model1>, <model1>) equivalent to:\n\t\t\t\t\tIF <condition in model1> THEN <model1>");
-		System.out.println("\t\t\t\tSyntax: RUN(<condition in model1>, <model1>, <model2>) equivalent to:\n\t\t\t\t\tIF <condition in model1> THEN <model1> ELSE <model2>");
+		//RUNCOND
+		System.out.println("RUNCOND\t\t\tConditional selection of models in the default model directory.");
+		System.out.println("\t\t\t\tSyntax: RUNCOND(<condition in model1>, <model1>) equivalent to:\n\t\t\t\t\tIF <condition in model1> THEN <model1>");
+		System.out.println("\t\t\t\tSyntax: RUNCOND(<condition in model1>, <model1>, <model2>) equivalent to:\n\t\t\t\t\tIF <condition in model1> THEN <model1> ELSE <model2>");
+		
+		//WHILE - DO
+		System.out.println("WHILE - DO\t\tIterative execution of a model in the default model directory.");
+		System.out.println("\t\t\t\tSyntax: WHILE <condition in model1> DO RUNSTEP(<model1>[, <locationvalue>])");
+		
+		//WHILE
+		System.out.println("WHILE\t\t\tIterative execution of a model in the default model directory.");
+		System.out.println("\t\t\t\tSyntax: WHILE(<condition in model1>, RUNSTEP(<model1>[, <locationvalue>])) equivalent to:\n\t\t\t\t\tWHILE <condition in model1> DO RUNSTEP(<model1>[, <locationvalue>])");
+		
+		//PIPE
+		System.out.println("PIPE\t\t\tSetup models in the default models directory for a unidirectional cascade pipe composition.");
+		System.out.println("\t\t\t\tSyntax: PIPE(<model1>, <model2>[, <model3> ...]) equivalent to:\n\t\t\t\t\tAUTOSETUP <model1> | <model2> [| <model3> ...]");
+		
+		//BID
+		System.out.println("PIPE\t\t\tSetup two models in the default models directory for a bidirectional pipe composition.");
+		System.out.println("\t\t\t\tSyntax: BID(<model1>, <model2>) equivalent to:\n\t\t\t\t\tAUTOSETUP <model1> <|> <model2>");
+				
+		//PAR
+		System.out.println("PAR\t\t\tSetup models in the default models directory for a (coupled) for-join execution.");
+		System.out.println("\t\t\t\tSyntax: PAR(<model1>, <model2>[, <model3> ...]) equivalent to:\n\t\t\t\t\tAUTOSETUP <model1> || <model2> [|| <model3> ...]");
 		
 		//RERUN
 		System.out.println("RR\t\t\tRe-run the previous command.");
 		
 		//GETLOADEDIDS
-		System.out.println("GETLOADEDIDS\t\tShows all the running simulations' IDs.");
+		System.out.println("GETLOADEDIDS\t\tShow all the running simulations' IDs.");
 		
-		//Example
+		//HELP
+		System.out.println("HELP\t\t\tShow this help menu.");
+				
+		//Examples
 		System.out.println("\nParameter examples:\t-n 5");
 		System.out.println("\t\t\t-id 1");
 		System.out.println("\t\t\t-modelpath \"C:/Users/...\"");
@@ -1189,5 +1403,9 @@ public class CommanderSingleton {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static String getDefaultModelDir() {
+		return defaultModelDir;
 	}
 }

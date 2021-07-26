@@ -2,10 +2,10 @@ package org.asmeta.simulationUI;
 
 import java.util.Scanner;
 
+import org.asmeta.runtime_commander.Commander;
 import org.asmeta.runtime_commander.CommanderException;
 import org.asmeta.runtime_commander.CommanderOutput;
-import org.asmeta.runtime_commander.CommanderSingleton;
-import org.asmeta.runtime_container.SimulationContainerSingleton;
+import org.asmeta.runtime_container.SimulationContainer;
 
 /**
  * @author Federico Rebucini
@@ -14,19 +14,19 @@ public class SimShellSingleton {
 
 	public static void main(String[] args) {
 		String userInput = String.join(" ", args); // SimShell works as a command line tool as well
-		SimulationContainerSingleton containerInstance = new SimulationContainerSingleton();
-		CommanderSingleton.debugMode = false;
-		CommanderSingleton.parseInput(containerInstance, userInput);
+		SimulationContainer containerInstance = new SimulationContainer();
+		Commander.debugMode = false;
+		Commander.parseInput(containerInstance, userInput);
 		CommanderOutput CO;
 		Scanner keyboard = new Scanner(System.in);
 		do {
-			if(CommanderSingleton.prompt == null) {
-				CommanderSingleton.prompt = "> ";
+			if(Commander.prompt == null) {
+				Commander.prompt = "> ";
 			}
-			System.out.print(CommanderSingleton.prompt);
+			System.out.print(Commander.prompt);
 			userInput = keyboard.nextLine();
 			if (!userInput.equals("qqq") && !userInput.equals("quit")) {
-				CO = CommanderSingleton.parseInput(containerInstance, userInput);
+				CO = Commander.parseInput(containerInstance, userInput);
 				try {
 					switch (CO.getStatus()) {
 					case SIM_ID:
@@ -52,6 +52,7 @@ public class SimShellSingleton {
 							System.out.println("Operation successful!");
 					break;
 					case FAILURE:
+						System.out.println();
 						System.err.println(CO.getErrorMessage());
 					break;
 					case SUCCESS:
@@ -63,7 +64,7 @@ public class SimShellSingleton {
 					default: break; 
 					}
 				} catch(CommanderException e) {
-					System.out.println(e.getMessage());
+					System.err.println(e.getMessage());
 				}
 			}
 		} while(!userInput.equals("qqq") && !userInput.equals("quit"));

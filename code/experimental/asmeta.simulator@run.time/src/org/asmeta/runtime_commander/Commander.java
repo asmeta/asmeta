@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,10 +19,9 @@ import java.util.regex.Pattern;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.SimulationContainer;
-import org.asmeta.simulationUI.CompositionContainer;
-import org.asmeta.simulationUI.CompositionSizeOutOfBoundException;
-import org.asmeta.simulationUI.CompositionType;
-import org.asmeta.simulationUI.EmptyCompositionListException;
+import org.asmeta.simulationUI.CompositionManager;
+import org.asmeta.simulationUI.ModelCreationException;
+import org.asmeta.simulationUI.CompositionException;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -38,7 +38,7 @@ public class Commander {
 	public static boolean debugMode = false;																	// Default value for the debug mode is false
 	public static CommanderOutput out = new CommanderOutput(CommanderStatus.FAILURE, "Nothing initialized");	// CommanderOutput initialization
 	public static SimulationContainer containerInstance;														// SimulationContainer declaration 
-	public static CompositionContainer compContainer;															// CompositionContainer declaration
+	public static CompositionManager compManager;															// CompositionContainer declaration
 	private static String defaultModelDir;																		// defaultModelDir config file property
 	private static boolean initConfigRequired = true;															// Configuration required on startup flag
 	public static String lastInput = null;																		// Last executed input
@@ -170,16 +170,16 @@ public class Commander {
 		return counter;
 	}
 	
-	// Pretty print List<String[]> -> String[] dimension is 2
+	// Pretty print List<String[]> -> String[] dimension is 3
 	public static void printList(List<String[]> list) {
 		for(int i = 0; i < list.size(); i++) {
 			if(i == 0) {
 				System.out.print("[");
 			}
 			if(i == list.size() - 1) {
-				System.out.print("[" + list.get(i)[0] + ", " + list.get(i)[1] + "]]\n");
+				System.out.print("[" + list.get(i)[0] + ", " + list.get(i)[1] + ", " + list.get(i)[2] + "]]\n");
 			} else {
-				System.out.print("[" + list.get(i)[0] + ", " + list.get(i)[1] + "], ");
+				System.out.print("[" + list.get(i)[0] + ", " + list.get(i)[1] + ", " + list.get(i)[2] + "], ");
 			}			
 		}
 	}
@@ -187,32 +187,53 @@ public class Commander {
 	private static List<String[]> clearList(List<String[]> list) {
 		if(list == null) {
 			return null;
-		}
+		} 
+		boolean remotionAllowed = true;
+		
 		for(int i = 0; i < list.size(); i++) {
 			list.get(i)[0] = list.get(i)[0].replaceAll("\\(", "");
 			list.get(i)[0] = list.get(i)[0].replaceAll("\\)", "");
 		}
+		
+		for(int i = 0; i < (int) (list.size()/2); i++) {
+			for(int j = i + 1; j < list.size(); j++) {
+				if(list.get(i)[0].equals(list.get(j)[0]) &&
+				   list.get(i)[1].equals(list.get(j)[1])) {
+					remotionAllowed = true;
+					for(int k = i; k < j; k++) {
+						if((list.get(k)[0].equals("<|>") || list.get(k)[0].equals("||") || list.get(k)[0].equals("|")) &&
+							list.get(k)[1].equals(Integer.toString(Integer.valueOf(list.get(i)[1]) - 1))) {
+							remotionAllowed = false;
+						}
+					}
+					if(remotionAllowed) {
+						list.remove(j);
+					}
+				}
+			}
+		}
+		
 		return list;
 	}
 	
 	// Support function to parse complex commands. White spaces are mandatory.
-	// Example: S1 | (S2 || S3) | S4
-	//			(S1 <|> S2) | S3
-	//			S1 | ((S2 | S3) || S4) | S5
-	private static String parseComplex(String argument) {
+	// Example: autosetup S1 | (S2 || S3) | S4
+	//			autosetup (S1 <|> S2) | S3 			 
+	//			autosetup S1 | ((S2 | S3) || S4) | S5 
+	public static CompositionTreeNode parseComplex(String argument) {
+		CompositionTreeNode compositionTree = null;
+		
 		if(!argument.contains("(") && !argument.contains(")")) {
 			if(argument.contains(" | ")) {
 				if(argument.contains(" || ") || argument.contains(" <|> ")) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, operands precedence must be declared using parentheses!");
 					return null;
 				}
-				return argument;
 			} else if(argument.contains(" || ")) {
 				if(argument.contains(" <|> ")) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, operands precedence must be declared using parentheses!");
 					return null;
 				}
-				return argument;
 			}
 		}
 		int parenthesesCounter = checkParentheses(argument);
@@ -220,6 +241,7 @@ public class Commander {
 			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command: invalid syntax (check parentheses)!");
 			return null;
 		}
+		// TODO: togliere commento quando finito di testare
 		/*if(!validateModels(argument)) {
 			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 			return null;
@@ -230,25 +252,84 @@ public class Commander {
 		String[] symbols = argument.split("\\s+");
 		List<String[]> symbolsPriority = new ArrayList<>();
 		int currentPriority = 0;
+		int operatorId = 0;
+		int maxPriority = 0;
+		
 		for(int i = 0; i < symbols.length; i++) {
 			currentPriority += charCount(symbols[i], '(');
-			String[] symbolPriority = {symbols[i], String.valueOf(currentPriority)};
+			maxPriority = Math.max(currentPriority, maxPriority);
+			String[] symbolPriority = {symbols[i], String.valueOf(currentPriority), ""};
 			symbolsPriority.add(symbolPriority);
 			currentPriority -= charCount(symbols[i], ')');			
 		}
 		
-		//printList(symbolsPriority);
 		symbolsPriority = clearList(symbolsPriority);
 		
+		for(int i = 0; i < symbolsPriority.size(); i++) {
+			operatorId = 1;
+			String[] symbolPriority = symbolsPriority.get(i);
+			if(symbolPriority[0].contains("|") || symbolPriority[0].contains("<|>") || symbolPriority[0].contains("||")) {
+				for(int j = 0; j < symbolsPriority.size(); j++) {
+					if(Integer.valueOf(symbolPriority[1]) == 0) {
+						operatorId = 1;
+					}
+					if(Integer.valueOf(symbolPriority[1]) > Integer.valueOf(symbolsPriority.get(j)[1])) {
+						if(i < j && (symbolsPriority.get(j)[0].contains("|") || 
+								   	 symbolsPriority.get(j)[0].contains("<|>") || 
+								   	 symbolsPriority.get(j)[0].contains("||") ||
+								   	 Integer.valueOf(symbolPriority[1]) > Integer.valueOf(symbolsPriority.get(j)[1]) + 1)) {
+							operatorId++;
+						} else if(i > j) {
+							operatorId++;
+						}
+					} else if(Integer.valueOf(symbolPriority[1]) == Integer.valueOf(symbolsPriority.get(j)[1]) && i > j &&
+							  (symbolsPriority.get(j)[0].contains("|") || 
+							   symbolsPriority.get(j)[0].contains("<|>") || 
+							   symbolsPriority.get(j)[0].contains("||"))) {
+						operatorId++;
+					}
+				}
+				symbolPriority[2] = String.valueOf(operatorId);
+			}
+		}
+		
+		LinkedList<Integer> availableIds = new LinkedList<>();
+		for(int i = 1; i <= symbolsPriority.size(); i++) {
+			availableIds.add(i);
+		}
+		
+		for(int i = 0; i < symbolsPriority.size(); i++) {
+			if(!symbolsPriority.get(i)[2].equals("")) {
+				availableIds.remove(Integer.valueOf(symbolsPriority.get(i)[2]));
+			}
+		}
+		
+		for(currentPriority = 0; currentPriority <= maxPriority; currentPriority++) {
+			for(int i = 0; i < symbolsPriority.size(); i++) {
+				String[] symbolPriority = symbolsPriority.get(i);
+				if(!symbolPriority[0].contains("|") &&
+				   !symbolPriority[0].contains("<|>") && 
+				   !symbolPriority[0].contains("||") &&
+				   Integer.valueOf(symbolPriority[1]) == currentPriority &&
+				   symbolPriority[2].equals("")) {
+					symbolPriority[2] = String.valueOf(availableIds.get(0));
+					availableIds.remove(0);
+				}
+			}
+		}
+		
+		assertTrue(availableIds.isEmpty());
+		
 		try {
-			CommanderTreeNode<String> commanderTree = CommanderTreeNode.buildTree(symbolsPriority);
-			commanderTree.printTree();
+			compositionTree = CompositionTreeNode.buildTree(symbolsPriority);
+			compositionTree.printTree();
 		} catch (Exception e) {
+			e.printStackTrace();
 			out = new CommanderOutput(CommanderStatus.FAILURE, e.getMessage());
 			return null;
 		}
 		
-		return argument;
+		return compositionTree;
 	}
 
 	/**
@@ -822,89 +903,20 @@ public class Commander {
 				autosetup model1.asm || model2.asm ...	-> init all + compose (PARALLEL) in order
 	   model1.asm, model2.asm, ... have to be in the defaultModelDir folder. */
 	private static void cmdAutoSetup(String argument) {
-		argument = parseComplex(argument);
-		if(argument == null) {
-			return;
-		}
-		ArrayList<String> params = new ArrayList<>();
-		String[] tokens;
-		if(argument.trim().contains("|")) {
-			if(argument.trim().contains("<|>") && !argument.trim().contains("||")) { // BID_PIPE
-				tokens = argument.split("\\s*<\\|>\\s*");
-				if(tokens.length != 2) {
-					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, bidirectional pipe composition requires only two models!");
-					return;
-				}
-				for(String token: tokens) {
-					if(token.toUpperCase().contains("AUTOSETUP")) {
-						token = token.substring(9, token.length()).trim();
-					}
-					if(!token.toUpperCase().equals("AUTOSETUP")) {
-						if(token.contains(".asm")) {
-							params.add(token);
-						} else {
-							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
-							return;
-						}
-					}
-				}
-				cmdInit("-n " + Integer.toString(params.size()));
-				for(String param: params) {
-					cmdStart("-modelpath \"" + defaultModelDir + "/" + param + "\"");
-				}
-				compContainer = new CompositionContainer(containerInstance, CompositionType.BID_PIPE);
-				for(int i = 0; i < params.size() - 1; i++) {
-					compContainer.addComposition(i + 1, i + 2);
-				}
-			} else if(!argument.trim().contains("<|>") && argument.trim().contains("||")) { // PARALLEL
-				tokens = argument.split("\\s*\\|\\|\\s*");
-				for(String token: tokens) {
-					if(token.toUpperCase().contains("AUTOSETUP")) {
-						token = token.substring(9, token.length()).trim();
-					}
-					if(!token.toUpperCase().equals("AUTOSETUP")) {
-						if(token.contains(".asm")) {
-							params.add(token);
-						} else {
-							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
-							return;
-						}
-					}
-				}
-				cmdInit("-n " + Integer.toString(params.size()));
-				for(String param: params) {
-					cmdStart("-modelpath \"" + defaultModelDir + "/" + param + "\"");
-				}
-				compContainer = new CompositionContainer(containerInstance, CompositionType.PARALLEL);
-				for(int i = 0; i < params.size() - 1; i++) {
-					compContainer.addComposition(i + 1, i + 2);
-				}
-			} else { // PIPE
-				tokens = argument.split("\\s*\\|\\s*");
-				for(String token: tokens) {
-					if(token.toUpperCase().contains("AUTOSETUP")) {
-						token = token.substring(9, token.length()).trim();
-					}
-					if(!token.toUpperCase().equals("AUTOSETUP")) {
-						if(token.contains(".asm")) {
-							params.add(token);
-						} else {
-							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
-							return;
-						}
-					}
-				}
-				cmdInit("-n " + Integer.toString(params.size()));
-				for(String param: params) {
-					cmdStart("-modelpath \"" + defaultModelDir + "/" + param + "\"");
-				}
-				compContainer = new CompositionContainer(containerInstance, CompositionType.PIPE);
-				for(int i = 0; i < params.size() - 1; i++) {
-					compContainer.addComposition(i + 1, i + 2);
+		CompositionTreeNode compositionTree = parseComplex(argument);
+		if(compositionTree != null) {
+			compManager = new CompositionManager(compositionTree, false);
+			cmdInit("-n " + CompositionTreeNode.getNodeNumber());
+			CompositionTreeNode aux = null;
+			for(int i = 1; i <= CompositionTreeNode.getNodeNumber(); i++) {
+				aux = compositionTree.getNodeById(i);
+				if(aux.nodeType == CompositionTreeNodeType.MODEL) {
+					cmdStart("-modelpath \"" + defaultModelDir + "/" + aux.getModelName() + "\"");
 				}
 			}
 		} else { // No composition
-			tokens = argument.split("\\s+");
+			String[] tokens = argument.split("\\s+");
+			ArrayList<String> params = new ArrayList<>();
 			if(tokens.length <= 1) {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid arguments!");
 				return;
@@ -973,32 +985,34 @@ public class Commander {
 		
 		if(idp != DEFAULT_VALUE) {
 			if(locationvaluep != null) {
-				out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runStep(idp, locationvaluep));
-				if(compContainer != null) {
+				if(compManager != null) {
 					try {
-						compContainer.runStep(out.getRunOutput(), false);
+						compManager.runStep(idp, locationvaluep);
 						out = new CommanderOutput(CommanderStatus.SUCCESS);
-					} catch (EmptyCompositionListException e) {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, empty composition list!");
-					} catch (CompositionSizeOutOfBoundException e) {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition list out of bounds!");
-					} catch (CommanderException e) {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, commander error!");
+					} catch (CompositionException | ModelCreationException e) {
+						e.printStackTrace();
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
+					} catch (Exception e) {
+						e.printStackTrace();
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, generic error!");
 					}
+				} else {
+					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runStep(idp, locationvaluep));
 				}
 			} else {
-				out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runStep(idp));
-				if(compContainer != null) {
+				if(compManager != null) {
 					try {
-						compContainer.runStep(out.getRunOutput(), false);
+						compManager.runStep(idp, null);
 						out = new CommanderOutput(CommanderStatus.SUCCESS);
-					} catch (EmptyCompositionListException e) {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, empty composition list!");
-					} catch (CompositionSizeOutOfBoundException e) {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition list out of bounds!");
-					} catch (CommanderException e) {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, commander error!");
+					} catch (CompositionException | ModelCreationException e) {
+						e.printStackTrace();
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
+					} catch (Exception e) {
+						e.printStackTrace();
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, generic error!");
 					}
+				} else {
+					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runStep(idp));
 				}
 			}
 		} else { // Alternative syntaxes examples: RUNSTEP(1, {x=FOUR,y=TWO}) 	  <-> RUNSTEP -id 1 -locationvalue {x=FOUR,y=TWO}
@@ -1382,5 +1396,9 @@ public class Commander {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static String getDefaultModelDir() {
+		return defaultModelDir;
 	}
 }
