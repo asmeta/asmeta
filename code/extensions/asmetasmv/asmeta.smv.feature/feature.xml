@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.asmetasmv.feature"
       label="Asmeta model checker"
-      version="1.0.6"
+      version="21.06"
       provider-name="fmse.di.unimi.it">
 
    <description>
@@ -20,8 +20,12 @@ See http://asmeta.sourceforge.net/
    </license>
 
    <url>
-      <update label="Asmeta" url="http://svn.code.sf.net/p/asmeta/code/code/stable/asmeta_update"/>
+      <update label="Asmeta" url="https://raw.githubusercontent.com/asmeta/asmeta_update_site"/>
    </url>
+
+   <requires>
+      <import feature="org.asmeta.simulator.feature"/>
+   </requires>
 
    <plugin
          id="asmeta.asmetasmv.ui"
@@ -43,22 +47,10 @@ See http://asmeta.sourceforge.net/
          version="0.0.0"/>
 
    <plugin
-         id="asmeta.parser"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="asmeta.emf"
+         id="asmeta.flattener.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="asmeta.simulator"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
 </feature>

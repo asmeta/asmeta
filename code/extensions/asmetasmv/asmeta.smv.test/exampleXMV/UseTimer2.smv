@@ -1,0 +1,41 @@
+--file D:\GitHub\ASMETA\mvm-asmeta\newTime\UseTimer2.smv
+-- options: flatten? false
+@TIME_DOMAIN continuous
+MODULE main
+	VAR 
+		currentTime: clock; -- the clock
+		timerstep: TimeLibrary(2);
+		current: {LIGHT_UNDEF, OFF, ON}; --controlled
+	DEFINE
+		ASSIGN		
+		init(current) := ON;
+		init(currentTime):=0; -- init the clock at the beginning of the execution
+		next(current) :=
+			case
+				(timerstep.expired & !(current = ON) & (current = OFF)): ON;
+				((current = ON) & timerstep.expired): OFF;
+				TRUE: current;
+			esac;
+		-- when asm call reset rule
+		next(timerstep.reset):= 
+			case
+				(timerstep.expired): TRUE;
+				TRUE: FALSE;
+			esac;
+--LTL properties
+
+LTLSPEC NAME ltl0 := G((current = ON));
+
+MODULE TimeLibrary(d)
+	VAR 
+	 	start: real; -- when reset init the start
+	 	reset: boolean; -- true when the asm call reset rule
+	
+	DEFINE expired := (currentTime)>=(start+d); -- timer expired 
+	ASSIGN 
+	
+	init(start):=currentTime; -- init start to the init time
+	init(reset):=FALSE; -- initially the timer is not reset
+	TRANS reset -> next(start) = currentTime; -- when the asm invoke reset rule it sets the reset var to true, false otherwise
+
+	-- NOT WORKING

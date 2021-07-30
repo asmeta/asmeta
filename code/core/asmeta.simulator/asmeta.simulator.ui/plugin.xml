@@ -80,4 +80,18 @@
 			</enablement>
    		</consolePageParticipant>            
 	</extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="asmeta.simulator.ui"
+            name="Asmeta Wizards">
+      </category>
+      <wizard
+            category="asmeta.simulator.ui"
+            class="org.asmeta.eclipse.editor.wizards.NewAsmetaWizard"
+            icon="icons/sample.png"
+            id="org.asmeta.eclipse.editor.wizards.NewAsmetaWizard"
+            name="New Asmeta File wizard">
+      </wizard>
+   </extension>
 </plugin>

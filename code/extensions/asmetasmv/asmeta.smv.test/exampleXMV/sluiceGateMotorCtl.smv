@@ -1,0 +1,70 @@
+@TIME_DOMAIN continuous
+MODULE main
+	VAR
+		currentTime: clock; -- the clock
+		timer10: TimeLibrary(10.0,currentTime);
+		timer170: TimeLibrary(170.0,currentTime);
+		dir: {ANTICLOCKWISE, CLOCKWISE, DIRECTIONDOMAIN_UNDEF}; --controlled
+		event_BOTTOM: boolean; --monitored
+		event_TOP: boolean; --monitored
+		motor: {MOTORDOMAIN_UNDEF, OFF, ON}; --controlled
+		phase: {CLOSING, FULLYCLOSED, FULLYOPEN, OPENING, PHASEDOMAIN_UNDEF}; --controlled
+	DEFINE
+	CONSTANTS DIRECTIONDOMAIN_UNDEF, ANTICLOCKWISE, CLOCKWISE, PHASEDOMAIN_UNDEF, CLOSING, FULLYCLOSED, FULLYOPEN, OPENING, MOTORDOMAIN_UNDEF, OFF, ON, TOP, BOTTOM, POSITION_UNDEF;
+	ASSIGN
+		init(currentTime):=0; -- init the clock at the beginning of the execution
+		init(dir) := ANTICLOCKWISE;
+		init(motor) := OFF;
+		init(phase) := FULLYCLOSED;
+		next(dir) :=
+			case
+				(timer170.expired & (phase = FULLYCLOSED)): CLOCKWISE;
+				((phase = FULLYOPEN) & timer10.expired): ANTICLOCKWISE;
+				TRUE: dir;
+			esac;
+		next(motor) :=
+			case
+				((timer170.expired & (phase = FULLYCLOSED)) | ((phase = FULLYOPEN) & timer10.expired)): ON;
+				((event_BOTTOM & (phase = CLOSING)) | (event_TOP & (phase = OPENING))): OFF;
+				TRUE: motor;
+			esac;
+		next(phase) :=
+			case
+				(timer170.expired & (phase = FULLYCLOSED)): OPENING;
+				((phase = FULLYOPEN) & timer10.expired): CLOSING;
+				(event_BOTTOM & (phase = CLOSING)): FULLYCLOSED;
+				(event_TOP & (phase = OPENING)): FULLYOPEN;
+				TRUE: phase;
+			esac;
+		next(timer10.start) :=
+			case
+				(event_TOP & (phase = OPENING)) : currentTime;
+				TRUE: timer10.start;
+			esac;
+		next(timer170.start) := 
+			case
+				(event_BOTTOM & (phase = CLOSING)): currentTime;
+				TRUE: timer170.start;
+			esac;
+
+-- LTL properties
+LTLSPEC NAME ltl0 := G((phase = FULLYCLOSED));
+
+CTLSPEC NAME ctl0 := EF((phase = FULLYOPEN));
+
+MODULE TimeLibrary(d,ct)
+	VAR 
+	 	start: real; -- when reset init the start
+	 	--reset: boolean; -- true when the asm call reset rule
+	 	duration : real;
+		
+	DEFINE expired := (ct)>=(start+duration); -- timer expired 
+	
+	ASSIGN 
+		init(start):=ct; -- init start to the init time
+		--init(reset):=FALSE; -- initially the timer is not reset
+		init(duration):=d;
+		next(duration):=duration;
+	--TRANS reset -> next(start) = ct; -- when the asm invoke reset rule it sets the reset var to true, false otherwise
+
+

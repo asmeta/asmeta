@@ -37,6 +37,7 @@ import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.runtime_simulator.AsmetaSservice;
 import org.asmeta.runtime_simulator.IdNotFoundException;
 import org.asmeta.runtime_simulator.InfoAsmetaService;
+import org.asmeta.simulationUI.AsmetaModel;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -56,17 +57,15 @@ import asmeta.structure.Asm;
 import asmeta.structure.Body;
 import asmeta.terms.basicterms.Term;
 
-//TODO inserire autore in ogni mia classe e todo
-//TODO sistemare rout not intialized ovunque lo trovi
-//TODO inserimento manuale monitored (x n-arie) in simGUI
 /**
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
  * The Class  SimulationContainer. 
  * It is a container for managing the execution of an ASM model at runtime.
  * It provides methods for instantiating, starting, running and stopping a model execution
  */
 public class SimulationContainer implements IModelExecution, IModelAdaptation {
     
-	private int id; // returning the id of the simulator generated if everything goes well
+	private int id; // returning the id of the simulatorRT generated if everything goes well
 
 	/** The ids. */
 	private int ids; //the id for the method start to check if is full o not
@@ -90,6 +89,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	private long duration = 0L;
 	
 	private List<String> invarNames;
+	public List<AsmetaModel> loadedModels;
 	//private List<String> variables;
 	
 	private RunOutput routTO=null;	//support variable for the timeout methods
@@ -98,12 +98,35 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	
 	public SimulationContainer() {
 		asmS = new AsmetaSservice();
-		
+		loadedModels = new ArrayList<>();
 	}
 
-	
-	
+	// TODO: da stabilire per la gestione di SimulationContainer distribuiti
+	public int getSimulatorId() {
+		return 0;
+	}
 
+	public AsmetaModel getAsmetaModel(int id) {
+		if(loadedModels != null && !loadedModels.isEmpty()) {
+			for(AsmetaModel model: loadedModels) {
+				if(model.getModelId() == id) {
+					return model;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public boolean removeAsmetaModel(int id) {
+		if(loadedModels != null && !loadedModels.isEmpty()) {
+			for(AsmetaModel model: loadedModels) {
+				if(model.getModelId() == id) {
+					return loadedModels.remove(model);
+				}
+			}
+		}
+		return false;
+	}
 	/**
 	 * return the id of the simulator if the simulator is full return -1;.
 	 *
@@ -115,7 +138,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		try {
 			id = asmS.start(modelPath);
 			ids = checkStartId(id);
-			
+			loadedModels.add(new AsmetaModel(ids, this));
 
 			sout = new StartOutput(ids, "The id " + ids + " is successfully created");
 			//System.out.println(sout.toString());
@@ -127,7 +150,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 			} else if (e instanceof AsmModelNotFoundException) {
 				sout = new StartOutput(-3,
-						"The Model " + modelPath.substring(modelPath.lastIndexOf("/") + 1) + " Doesn't esist");
+						"The Model " + modelPath.substring(modelPath.lastIndexOf("/") + 1) + " doesn't exist!");
 				System.err.println(sout.toString());
 
 			} else if (e instanceof FullMapException) {
@@ -155,7 +178,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		StartOutput sout = null;
 		try {
 			id = asmS.restart(modelPath,oldId, state);
+			removeAsmetaModel(oldId);
 			ids = checkStartId(id);
+			loadedModels.add(new AsmetaModel(ids, this));
 			sout = new StartOutput(ids, "The id " + ids + " is successfully created");
 			simulationRunning = SimStatus.READY;
 			System.out.println(sout.toString());
@@ -201,6 +226,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		try {
 			System.out.println("Model " + asmS.getModelName(id) + " successfully stopped");
 			asmS.stop(id);
+			removeAsmetaModel(id);
 			id = 1;
 		} catch (RuntimeException e) {
 			if (e instanceof IdNotFoundException) {
@@ -229,7 +255,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	public RunOutput runStep(int id, Map<String, String> locationValue) {
 		simulationRunning=SimStatus.RUNNING;
 		//rollbStatus = rollbackStatus.NOTROLLED;
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 		String modelPath=null;
 		try {
 			try {
@@ -239,7 +265,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			}
 			if (locationValue!=null) 
 				rout = checkSafety(modelPath, locationValue);
-			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not intialized"))) {
+			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not initialized"))) {
 				startRun = System.nanoTime();
 				ms = asmS.run(id, locationValue); //run ASM with id and monitored locations locationValue
 				endRun = System.nanoTime();
@@ -261,7 +287,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -285,7 +311,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -294,19 +320,31 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				System.err.println("No transition to step " + (asmS.getSimulatorTable().get(id).getContSim() + 1)
 						+ " for model "
 						+ asmS.getSimulatorTable().get(id).getModelPath().substring(modelPath.lastIndexOf("/") + 1));
-				rout = new RunOutput(Esit.UNSAFE, "Invalid Input value");
+				rout = new RunOutput(Esit.UNSAFE, "Invalid input value");
 				System.err.println(rout.toString());
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
-			} /*else { //DEBUG ONLY
-				e.printStackTrace();
-			}*/
+			} else {
+				System.err.println("No transition to step " + (asmS.getSimulatorTable().get(id).getContSim() + 1)
+						+ " for model "
+						+ asmS.getSimulatorTable().get(id).getModelPath().substring(modelPath.lastIndexOf("/") + 1));
+				rout = new RunOutput(Esit.UNSAFE, "Invalid input or domain value");
+				System.err.println(rout.toString());
+				try {
+					simulationRunning=SimStatus.ROLLINGBACK;
+					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
+				} catch (NullPointerException e1) {
+					System.out.println("No previous state!");
+				}finally {
+					simulationRunning=SimStatus.RUNNING;
+				}
+			}
 		}
 		simulationRunning = SimStatus.READY;
 		return rout; 
@@ -357,32 +395,34 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	public RunOutput runStepTimeout(int id,Map<String, String> locationValue,int timeout) {	
 		//Timer timer = new Timer(false);
 		
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 	    routTO = rout;
 	    PrintStream sysOut = System.out;
 	    PrintStream sysErr = System.err;
 		Thread t = new Thread() {
 			public void run() {
 				try {
-			    System.setOut(new PrintStream(new OutputStream() {
-				  public void write(int b) {}})); //temporarily blocks system.out prints to console to remove overwhelming messages
-			    System.setErr(new PrintStream(new OutputStream() {
-				  public void write(int b) {}})); //temporarily blocks system.err prints to console to remove overwhelming messages
-				SimulationContainer clone = new SimulationContainer();	//instantiation of a cloned execution
-				clone.init(1);
-				String modelPath = asmS.getSimulatorTable().get(id).getModelPath();
-				org.asmeta.simulator.State stateOrig = asmS.getSimulatorTable().get(id).getSim().getCurrentState();
-				org.asmeta.simulator.State stateClon = new org.asmeta.simulator.State(stateOrig); //clone constructor
-				if (stateClon.previousLocationValues==null)
-					stateClon.previousLocationValues = new HashMap<Location, Value>();
-				int id;
-				if (stateClon.locationMap.isEmpty())
-					id = clone.startExecution(modelPath);
-				else
-					id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
-           		routTO = clone.runStep(id, locationValue);	//the cloned simulation tries to do the operation
-           		routTO.setTimeoutFlag(true); //once finished, signal the original with the RunOutput object that simulation has stopped, probably deprecated
-				}catch(Exception e) {}
+					System.setOut(new PrintStream(new OutputStream() {
+						public void write(int b) {}})); //temporarily blocks system.out prints to console to remove overwhelming messages
+				    System.setErr(new PrintStream(new OutputStream() {
+					  public void write(int b) {}})); //temporarily blocks system.err prints to console to remove overwhelming messages
+					SimulationContainer clone = new SimulationContainer();	//instantiation of a cloned execution
+					clone.init(1);
+					String modelPath = asmS.getSimulatorTable().get(id).getModelPath();
+					org.asmeta.simulator.State stateOrig = asmS.getSimulatorTable().get(id).getSim().getCurrentState();
+					org.asmeta.simulator.State stateClon = new org.asmeta.simulator.State(stateOrig); //clone constructor
+					if (stateClon.previousLocationValues==null)
+						stateClon.previousLocationValues = new HashMap<Location, Value>();
+					int id;
+					if (stateClon.locationMap.isEmpty())
+						id = clone.startExecution(modelPath);
+					else
+						id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
+	           		routTO = clone.runStep(id, locationValue);	//the cloned simulation tries to do the operation
+	           		routTO.setTimeoutFlag(true); //once finished, signal the original with the RunOutput object that simulation has stopped, probably deprecated
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
 			}
 		};
 		try {
@@ -404,6 +444,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				System.setOut(sysOut);
 				System.setErr(sysErr);
 				rout=this.runStep(id,locationValue);
+				rout.setTimeoutFlag(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -464,7 +505,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //	public RunOutput runStepTimeout(int id,Map<String, String> locationValue,int timeout) {	
 //		Timer timer = new Timer(false);
 //		
-//		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+//		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 //	    routTO = rout;
 //	    
 //	    MyState pre;
@@ -542,7 +583,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //					if (!rolledbackQ)
 //						printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 //				} catch (NullPointerException e1) {
-//					System.out.println("no previous state");
+//					System.out.println("No previous state!");
 //				}/* catch (EmptyStackException e1) {
 //					System.out.println("empty stack exception dal simulator");
 //				}*/
@@ -554,7 +595,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //			/*try {
 //				printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 //			} catch (NullPointerException e1) {
-//				System.out.println("no previous state");
+//				System.out.println("No previous state!");
 //			}*/
 //	    }else
 //	    	rout=routTO;
@@ -570,7 +611,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	public RunOutput runUntilEmpty(int id, Map<String, String> locationValue, int max) {
 		simulationRunning = SimStatus.RUNNING;
 		//rollbStatus = rollbackStatus.NOTROLLED;
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");		
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");		
 		String modelPath=null;
 		try {
 			try {
@@ -581,7 +622,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			if (locationValue!=null)
 				rout = checkSafety(modelPath, locationValue);
 			
-			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not intialized"))) {
+			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not initialized"))) {
 				startRun = System.nanoTime();
 				ms = asmS.runUntilEmpty(id, locationValue, max);
 				endRun = System.nanoTime();
@@ -600,7 +641,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));					
 				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -622,7 +663,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -636,7 +677,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -672,7 +713,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) {
 		//Timer timer = new Timer(false);
 		
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 	    routTO = rout;
 	    PrintStream sysOut = System.out;
 	    PrintStream sysErr = System.err;
@@ -697,7 +738,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 					id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
            		routTO = clone.runUntilEmpty(id, locationValue, max);	//the cloned simulation tries to do the operation
            		routTO.setTimeoutFlag(true); //once finished, signal the original with the RunOutput object that simulation has stopped, probably deprecated
-				}catch(Exception e) {}
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
 			}
 		};
 		try {
@@ -719,6 +762,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				System.setOut(sysOut);
 				System.setErr(sysErr);
 				rout=this.runUntilEmpty(id,locationValue,max);
+				rout.setTimeoutFlag(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -734,7 +778,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) {
 //
 //        Timer timer = new Timer(false);
-//        RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+//        RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 //        routTO = rout;
 //		MyState pre;
 //		try {
@@ -800,7 +844,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //				try {
 //					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollbackToState(id));
 //				} catch (NullPointerException e1) {
-//					System.out.println("no previous state");
+//					System.out.println("No previous state!");
 //				}/* catch (EmptyStackException e1) {
 //					System.out.println("empty stack exception dal simulator");
 //				}*/
@@ -812,7 +856,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //			try {
 //				printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 //			} catch (NullPointerException e1) {
-//				System.out.println("no previous state");
+//				System.out.println("No previous state!");
 //			}/* catch (EmptyStackException e1) {
 //				System.out.println("empty stack exception dal simulator");
 //			}*/
@@ -917,7 +961,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	 */
 	private RunOutput checkSafety(String modelPath, Map<String, String> locationValue) {
 		List<String> nameL = new ArrayList<String>(); // monitored functions name list
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 		// AsmCollection asm = null;
 		String name = "";
 		try {
@@ -988,11 +1032,11 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 	}
 	
-	
-	/*public RunOutput runStepTransaction(int id,Queue<Map<String, String>> locationValue, String modelPath) { //da finalizzare?
+	//OLDTODO Federico Rebucini->da finalizzare? permette di eseguire n runstep con una lista di n input, se uno di questi fallisce viene rollbackato alla partenza
+	/*public RunOutput runStepTransaction(int id,Queue<Map<String, String>> locationValue, String modelPath) {
 		boolean unsafe = false;
-		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not intialized");
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not initialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 		Map<String,String> element = new HashMap<String, String>();
 		int statecount=0;
 		while (!locationValue.isEmpty() && unsafe == false) {
@@ -1015,8 +1059,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	}*/
 	/*public RunOutput runTransaction(int id,Queue<Map<String, String>> locationValue) { //da finalizzare?
 		boolean unsafe = false;
-		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not intialized");
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not initialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 		Map<String,String> element = new HashMap<String, String>();
 		int statecount=0;
 		while (!locationValue.isEmpty() && unsafe == false) {
@@ -1304,7 +1348,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			try {
 				Files.deleteIfExists(Paths.get(modelfile+"_old"));
 				Files.deleteIfExists(Paths.get(modelfile+"_to_overwrite"));
-			} catch (IOException e) {}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	simulationRunning=SimStatus.READY;
 	return start_output;
@@ -1380,7 +1426,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					Files.deleteIfExists(Paths.get(modelfile+"_old"));
 					Files.deleteIfExists(Paths.get(modelfile+"_to_overwrite"));
-				} catch (IOException e) {}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 			simulationRunning=SimStatus.READY;
 		return success;
@@ -1437,6 +1485,17 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			if (asmS.checkValidId(i))
 				ids.put(i, asmS.getSimulatorTable().get(i).getModelPath());
 		return ids;
+	}
+	
+	public Map<String, Integer> getLoadedModels() {
+		int max = asmS.getMaxInstances();
+		Map<String, Integer> models = new HashMap<String, Integer>();
+		for(int i = 1; i <= max; i++) {
+			if(asmS.checkValidId(i)) {
+				models.put(asmS.getSimulatorTable().get(i).getModelPath(), i);
+			}
+		}
+		return models;
 	}
 	
 	/*public MyState getStatus(int id) {

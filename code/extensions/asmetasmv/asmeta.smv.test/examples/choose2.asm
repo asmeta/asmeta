@@ -9,7 +9,7 @@ signature:
 	dynamic controlled var_b : MyDomain
 	
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	rule r_a($x in MyDomain, $y in MyDomain) =
 		var_b := 3

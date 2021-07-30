@@ -1,4 +1,4 @@
-asm forallRule
+asm forallRule4
 
 import ../../../../asm_examples/STDL/StandardLibrary
 

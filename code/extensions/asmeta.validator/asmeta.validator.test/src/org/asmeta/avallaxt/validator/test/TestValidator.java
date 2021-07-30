@@ -4,17 +4,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
+import java.util.List;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
 import org.junit.BeforeClass;
-import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 
 import asmeta.AsmCollection;
 
@@ -22,7 +18,7 @@ public class TestValidator {
 
 	static int i = 0;
 
-	static String pathname = "temp/temp/";
+	static String pathname = "temp/";
 
 	
 	public TestValidator() {
@@ -43,30 +39,38 @@ public class TestValidator {
 		    }
 		}
 	}
+
+	protected void test(String scenarioPath) throws IOException, Exception {
+		test(scenarioPath,false,false);
+		test(scenarioPath,true,false);
+	}
+
 	/**
 	 * 
 	 * @param scenarioPath
 	 * @param runValidator
+	 * @param computeCoverage TODO
 	 * @throws IOException
 	 * @throws Exception
 	 */
-	protected void test(String scenarioPath, boolean runValidator) throws IOException, Exception {
+	protected void test(String scenarioPath, boolean runValidator, boolean computeCoverage) throws IOException, Exception {
 		if (runValidator) {
+			System.out.println("executing " + scenarioPath);
 			// it should be runnable
-			AsmetaV.execValidation(scenarioPath, false);
+			List<String> result = AsmetaV.execValidation(scenarioPath, computeCoverage);
+			assertTrue("failed " + result, result.isEmpty());
 		} else {
 			//
-			System.out.println("transating " + scenarioPath);
-			String tempAsmPath = pathname + "temp_spec" + (i++) + ".asm";
+			System.out.println("translating " + scenarioPath);
+			File tempAsmPath = new File("temp"); //Files.createTempFile("__tempAsmetaV", ".asm").toFile();
 			// delete if exists
-			Path path_tempAsm = Paths.get(tempAsmPath);
-			assert ! Files.exists(path_tempAsm);
 			org.asmeta.xt.validator.AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(scenarioPath, tempAsmPath);
 			builder.save();
 			// the files exists
-			assertTrue(Files.exists(path_tempAsm));
+			assertTrue(tempAsmPath.exists());
+			assertTrue(builder.getTempAsmPath().exists() && builder.getTempAsmPath().isFile() && builder.getTempAsmPath().getName().endsWith(".asm"));
 			// it should be parsable:
-			AsmCollection asmc = ASMParser.setUpReadAsm(new File(tempAsmPath.toString()));
+			AsmCollection asmc = ASMParser.setUpReadAsm(builder.getTempAsmPath());
 			System.out.println(ASMParser.getResultLogger().errors);
 			assertNotNull(asmc);
 		}

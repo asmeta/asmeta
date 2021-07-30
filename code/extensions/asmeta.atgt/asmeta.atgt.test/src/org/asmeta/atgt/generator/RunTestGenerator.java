@@ -81,7 +81,7 @@ public class RunTestGenerator {
 	public void execute(String asmFile, boolean coverageTp, List<CriteriaEnum> criteria, List<FormatsEnum> formats) throws Exception {
 		String filename = coverageTp+criteria.toString()+formats.toString();
 		System.out.println("Executing .... "+filename);
-		AsmTestSuite result = new NuSMVtestGenerator(asmFile, coverageTp, CriteriaEnum.getCoverageCriteria(criteria)).generateAbstractTests(Integer.MAX_VALUE, ".*");
+		AsmTestSuite result = new NuSMVtestGenerator(asmFile, coverageTp).generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria),Integer.MAX_VALUE, ".*");
 		SaveResults.saveResults(result,asmFile,formats, filename);		
 	}
 	

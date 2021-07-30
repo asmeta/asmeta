@@ -50,3 +50,7 @@ maven-status
 *_flat.asm
 #extend binaries
 *.xtendbin
+*.versionsBackup
+
+/reports/*
+code/experimental/asmetal2cpp/asmetal2cpp_boostunit/temp/a.exe

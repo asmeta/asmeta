@@ -7,6 +7,10 @@ import org.asmeta.framework.managedSystem.ManagedSystem;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainer;	
+
+/**
+ * @author Federico Rebucini
+ */
 public class EnforcerAirConditioner_v2 extends Enforcer{
 
 	private static long SIM_TIMEOUT;	//solamente perchè nella superclasse è privata ma mi serve ad ogni run.

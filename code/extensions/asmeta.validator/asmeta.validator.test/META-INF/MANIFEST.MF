@@ -2,12 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test
 Bundle-SymbolicName: asmeta.validator.test
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 21.06
 Automatic-Module-Name: org.asmeta.avallaxt.validator.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: asmeta.validator;bundle-version="1.0.0",
+Require-Bundle: asmeta.validator,
  org.junit,
- asmeta.parser;bundle-version="1.0.2",
+ asmeta.parser,
  org.eclipse.core.resources,
- asmeta.emf;bundle-version="1.0.1"
+ asmeta.emf
 Import-Package: org.apache.log4j

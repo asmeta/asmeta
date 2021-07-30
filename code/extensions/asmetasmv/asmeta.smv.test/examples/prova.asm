@@ -17,7 +17,7 @@ signature:
 
 	
 definitions:
-	domain TidDomain = {1n..3n}
+	domain TidDomain = {1n:3n}
 	domain MoneyDomain = {0n, 5n, 10n}
 
 	main rule r_irule =

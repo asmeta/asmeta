@@ -10,7 +10,7 @@ signature:
 	dynamic controlled fooC: Boolean
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	CTLSPEC not(fooA) and ax(ag(fooA))  
 	CTLSPEC ag(not(fooB))

@@ -9,7 +9,7 @@ signature:
 	dynamic controlled var_b: MyDomain
 	dynamic monitored mon: Boolean
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	CTLSPEC ag(var_b = 3)	
 	

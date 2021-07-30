@@ -4,12 +4,13 @@ import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import org.asmeta.eclipse.AsmetaActionHandler;
 import org.asmeta.eclipse.AsmetaUtility;
-import org.asmeta.nusmv.AsmetaSMV;
-import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.nusmv.plugin.AsmetaSMVActivator;
 import org.asmeta.nusmv.plugin.AsmetaSMVConsole;
 import org.asmeta.nusmv.plugin.AsmetaSMVPreferencePage;
+import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -31,7 +32,8 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
-abstract class AsmetaSMVHandler extends AbstractHandler {
+abstract class AsmetaSMVHandler extends AsmetaActionHandler {
+	
 	abstract void exec(AsmetaSMV asmetaSMV) throws Exception;
 
 	/**
@@ -54,7 +56,7 @@ abstract class AsmetaSMVHandler extends AbstractHandler {
 		OutputStream out = myConsole.newOutputStream();
 		PrintStream printOut = new PrintStream(out);
 		System.setOut(printOut);
-		//System.setErr(printOut);
+		//System.setErr(printOut);		
 		try {
 			AsmetaSMV asmetaSMV = new AsmetaSMV(path);
 			IPreferenceStore store = AsmetaSMVActivator.getDefault().getPreferenceStore();
@@ -62,6 +64,8 @@ abstract class AsmetaSMVHandler extends AbstractHandler {
 			AsmetaSMVOptions.setCheckConcrete(!store.getBoolean(AsmetaSMVPreferencePage.P_NC));
 			AsmetaSMVOptions.simplify = !store.getBoolean(AsmetaSMVPreferencePage.P_NS);
 			AsmetaSMVOptions.setPrintCounterExample(!store.getBoolean(AsmetaSMVPreferencePage.P_DCX));
+			AsmetaSMVOptions.setUseNuXmvTime(store.getBoolean(AsmetaSMVPreferencePage.P_NUXMVTIME));
+			AsmetaSMVOptions.setUseNuXmv(store.getBoolean(AsmetaSMVPreferencePage.P_NUXMV));
 			String nusmvPath = store.getString(AsmetaSMVPreferencePage.P_NUSMV_PROGRAM);
 			if(!nusmvPath.equals("") && new File(nusmvPath).exists()) {
 				AsmetaSMVOptions.setSolverPath(nusmvPath);

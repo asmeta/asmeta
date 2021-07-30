@@ -14,6 +14,7 @@ import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
+import org.asmeta.xt.validator.AsmetaPrinterForAvalla;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,14 +32,10 @@ public class TestExampleInDir extends TestValidator {
 
 	@Test
 	public void testAllTest() throws Exception {
+		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);
 		testInDir("scenariosfortest");
 	}
 	
-	@Test
-	public void testAllTestPillbox() throws Exception {
-		testInDir("F:\\Dati-Andrea\\GitHub\\quasmed\\PillboxASM\\onlyred_level0");
-	}
-
 	
 	private void testInDir(String dirPath) throws IOException, Exception {
 		List<Path> failures = new ArrayList<>();
@@ -55,7 +52,7 @@ public class TestExampleInDir extends TestValidator {
 				continue;*/
 			if (scenarioName.endsWith(".avalla") && Files.isRegularFile(fileToRead)) {
 				try{
-					test(scenarioName, true);
+					test(scenarioName, true, false);
 				}catch (Throwable e) {
 					e.printStackTrace();
 					failures.add(fileToRead);

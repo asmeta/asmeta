@@ -14,56 +14,56 @@ import org.asmeta.nusmv.AsmetaSMVOptions;
 import tgtlib.definitions.expression.Expression;
 
 /**
- * generates the test by Nusmv 
+ * generates the test by Nusmv
  *
  */
-public class TestGenerationWithNuSMV {
-	
-	private String asmPath;
-	private Expression tp;
-	private AsmetaSMV asmetaSMV;
+public class TestGenerationWithNuSMV extends AsmetaSMV {
 
 	static private Logger logger = Logger.getLogger(TestGenerationWithNuSMV.class);
-	
+
 	public static boolean useLTLandBMC = false;
-	
+
 	/**
 	 * 
 	 * @param asmPath
 	 * @param expression
 	 * @throws Exception
 	 */
-	public TestGenerationWithNuSMV(String asmPath, Expression expression) throws Exception {
-		this.asmPath = asmPath;
-		this.tp = expression;
-		org.asmeta.nusmv.AsmetaSMVOptions.useCoi = false;
-	}
-
-	public Map<String, String> getVariablesMap() {
-		return asmetaSMV.mv.nusmvNameToLocation;
-	}
-
-	private void buildNuSMV() throws Exception {
-		logger.debug("building the asmetasmv");
-		asmetaSMV = new AsmetaSMV(asmPath);
+	public TestGenerationWithNuSMV(String asmPath) throws Exception {
+		super(asmPath);
+		// set the options (now statci, in the future could be an object)
 		AsmetaSMVOptions.keepNuSMVfile = true;
 		AsmetaSMVOptions.simplifyDerived = false;
 		AsmetaSMVOptions.setPrintCounterExample(true);
-		logger.debug("translate the maps");
-		asmetaSMV.translation();
-		logger.debug("add cex");
+		AsmetaSMVOptions.useCoi = false;
+		AsmetaSMVOptions.FLATTEN = false;
+		clearProperties();
+	}
+
+	private void clearProperties() {
+		// now remove all the properties of this ASM
+		asm.getBodySection().getProperty().clear();
+	}
+
+	public Map<String, String> getVariablesMap() {
+		return mv.nusmvNameToLocation;
+	}
+
+	private void buildNuSMV(Expression tp) throws Exception {
+		logger.debug("add cex and remove the other properties");
 		Set<String> trapProps = new HashSet<String>();
 		String tpS = tp.accept(ExpressionToSMV.EXPR_TO_SMV).toString();
 		if (useLTLandBMC) {
 			// use LTL
 			trapProps.add("G(!((" + tpS + ") & X(TRUE)))");
-			asmetaSMV.addLtlProperties(trapProps);
+			addLtlProperties(trapProps);
 		} else {
 			// normal trap property
-			trapProps.add("AG(!(" + tpS + "))");			
-			asmetaSMV.addCtlProperties(trapProps);
+			trapProps.add("AG(!(" + tpS + "))");
+			addCtlProperties(trapProps);
 		}
-		asmetaSMV.createNuSMVfile();
+		createNuSMVfile();
+		logger.debug("asmetasmv file built in " + getSmvFileName());
 	}
 
 	/**
@@ -74,13 +74,19 @@ public class TestGenerationWithNuSMV {
 	 * @return
 	 * @throws Exception
 	 */
-	public Counterexample checkTpWithModelChecker() throws Exception {
-		buildNuSMV();
-		// 
-		asmetaSMV.useBMC = useLTLandBMC;
-		asmetaSMV.executeNuSMV();
-		BufferedReader br = new BufferedReader(new StringReader(asmetaSMV.outputRunNuSMVreplace));
-		//System.err.println(asmetaSMV.outputRunNuSMVreplace);
+	public Counterexample checkTpWithModelChecker(Expression tp) throws Exception {
+		useBMC = useLTLandBMC;
+		// clear all the previous properties.
+		clearProperties();
+		translation();
+		//
+		buildNuSMV(tp);
+		//
+		executeNuSMV(); BufferedReader br = new BufferedReader(new
+		StringReader(outputRunNuSMVreplace));
+		/*
+		 * runNuXMV(); BufferedReader br = new BufferedReader(new StringReader(outputRunNuXMVreplace));
+		 */
 		return parseCounterExample(br);
 	}
 
@@ -92,50 +98,59 @@ public class TestGenerationWithNuSMV {
 	 * @throws IOException
 	 */
 	static Counterexample parseCounterExample(BufferedReader br) throws IOException {
-		br.readLine();
-		boolean result = br.readLine().contains("is true");
-		Counterexample counterexample = null;
-		if (result) {
-			br.close();
-		} else {
-			br.readLine();
-			br.readLine();
-			br.readLine();
-			String line;
-			counterexample = new Counterexample();
-			ModelCheckerState nusmvState = null;
-			boolean loopStart = false;
-			while ((line = br.readLine()) != null) {
-				if (line.matches(" *-> State: [0-9]+.[0-9]+ <-")) {
-					if (nusmvState != null) {
-						counterexample.addState(nusmvState);
-					}
-					nusmvState = new ModelCheckerState(loopStart);
-					loopStart = false;
-				} else if (line.contains("-- Loop starts here")) {
-					loopStart = true;
-				} else if (TestGenerationWithNuSMV.useLTLandBMC && line.startsWith("--")) {
-					continue;
-				} else {
-					String[] varValue = line.replaceAll(" ", "").split("=");
-					if (varValue.length == 2) {
-						nusmvState.addVarValue(varValue[0], varValue[1]);
-					} 
+		// skip first lines
+		for (;;) {
+			String line = br.readLine();
+			logger.debug(line);
+			if (line == null) {
+				br.close();
+				return Counterexample.EMPTY;
+			}	
+			if (line.contains("is true")) {
+				assert line.startsWith("-- specification");
+				br.close();
+				return Counterexample.INFEASIBLE;
+			}
+			if (line.contains("is false")) {
+				assert line.startsWith("-- specification");
+				break;
+			}
+		}
+		String line;
+		Counterexample counterexample = new Counterexample();
+		ModelCheckerState nusmvState = null;
+		boolean loopStart = false;
+		while ((line = br.readLine()) != null) {
+			if (line.matches(" *-> State: [0-9]+.[0-9]+ <-")) {
+				if (nusmvState != null) {
+					counterexample.addState(nusmvState);
+				}
+				nusmvState = new ModelCheckerState(loopStart);
+				loopStart = false;
+			} else if (line.contains("-- Loop starts here")) {
+				loopStart = true;
+			} else if (TestGenerationWithNuSMV.useLTLandBMC && line.startsWith("--")) {
+				continue;
+			} else {
+				String[] varValue = line.replaceAll(" ", "").split("=");
+				if (varValue.length == 2) {
+					assert nusmvState != null : "line \"" + line + "\"";
+					nusmvState.addVarValue(varValue[0], varValue[1]);
 				}
 			}
-			if (nusmvState != null) {
-				counterexample.addState(nusmvState);
-			}
-			br.close();
-			completeCounterExample(counterexample);
 		}
+		if (nusmvState != null) {
+			counterexample.addState(nusmvState);
+		}
+		br.close();
+		completeCounterExample(counterexample);
 		return counterexample;
 	}
 
 	/**
-	 * It completes a counterexample trace. Indeed, if the value of a variable
-	 * is unchanged passing from state s_{i} to state s_{i+1}, in state s_{i+1}
-	 * it is not printed.
+	 * It completes a counterexample trace. Indeed, if the value of a variable is
+	 * unchanged passing from state s_{i} to state s_{i+1}, in state s_{i+1} it is
+	 * not printed.
 	 * 
 	 * non so se è necessario che adesso il generatore può farlo lui ....
 	 */

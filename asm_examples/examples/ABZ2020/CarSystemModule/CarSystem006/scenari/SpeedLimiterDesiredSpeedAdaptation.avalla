@@ -1,0 +1,82 @@
+scenario SpeedLimiterDesiredSpeedAdaptation
+load ../CarSystem006main.asm
+//testing per regole r_UpwardDownward5EqualSpeed r_UpwardDownward7EqualSpeed che entrano in funzione quando la 
+//desiredspeed != setvehiclespeed, in scenari come la rilevazione di un segnale stradale (con annessa impostazione del
+//cruise o speedlimiter a quel valore di velocità)
+
+
+check keyState_Previous = NOKEYINSERTED;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 700;
+set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := true;
+set gasPedal := 0;
+set detectedTrafficSign := NOSIGNDETECTED;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check desiredSpeed = 0;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 700;
+set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := true;
+set gasPedal := 0;
+set detectedTrafficSign := UNLIMITED;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 1200;
+check speedLimitActive = false;
+check desiredSpeed = 0;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := DOWNWARD7_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 700;
+set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := true;
+set gasPedal := 0;
+set detectedTrafficSign := UNLIMITED;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 1100;
+check speedLimitActive = false;
+check desiredSpeed = 1100;
+check sCSLeve_Previous = DOWNWARD7_SCS;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 700;
+set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := true;
+set gasPedal := 0;
+set detectedTrafficSign := SIGNDETECTED;
+set speedLimitDetected := 1000;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 1000;
+check speedLimitActive = false;
+check desiredSpeed = 1100;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := DOWNWARD5_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 700;
+set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := true;
+set gasPedal := 0;
+set detectedTrafficSign := SIGNDETECTED;
+set speedLimitDetected := 1000;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 990;
+check speedLimitActive = false;
+check desiredSpeed = 990;
+check sCSLeve_Previous = DOWNWARD5_SCS;

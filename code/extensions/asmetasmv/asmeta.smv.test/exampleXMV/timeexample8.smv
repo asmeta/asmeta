@@ -1,0 +1,40 @@
+@TIME_DOMAIN continuous
+
+MODULE main
+	VAR timeunit : { s0, s1 };
+	VAR c2: Timer(1,s1);
+	VAR c: Timer(100,s0);	
+	VAR led: boolean;
+	VAR led2: boolean;
+	INIT led=FALSE & led2=FALSE; 
+	ASSIGN 
+	next(led) :=
+		case 
+			c.elapsed : ! led;
+			TRUE: led;
+		esac;
+	
+	next(led2) :=
+		case 
+			c2.elapsed : ! led2;
+			TRUE: led2;
+		esac;
+
+
+	LTLSPEC G (led = led2);
+	
+MODULE Timer(d,timeu)
+	DEFINE elapsed := case 
+			timeu = s0 : (mytimeSEC)>=d;
+			timeu = s1 : (mytimeMIN)>=d;
+		esac;
+	
+	VAR mytimeMIN: integer;
+	VAR mytimeSEC: clock;
+	ASSIGN 
+	init(mytimeSEC):=0;
+	init(mytimeMIN):=0;
+	TRANS elapsed -> (next(mytimeSEC) = 0 &  next(mytimeMIN) = 0) ;
+	TRANS ! elapsed -> (next(mytimeMIN) = floor(((mytimeSEC+1)/60)));
+	
+-- NOT CORRECT SOLUTION because the MIN is declared as integer domain and the MC checks also negative value

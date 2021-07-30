@@ -11,18 +11,19 @@ import java.util.Map;
 import org.asmeta.framework.enforcer.*;
 import org.asmeta.framework.managedSystem.*;
 import org.asmeta.framework.pillBox.PillBoxNotSing;
+import org.asmeta.framework.pillBox1.PillBox;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 
 public class FeedbackLoopPillBox extends FeedbackLoop{
 	KnowledgePB kPB; //casted version
-	PillBoxNotSing probePB, effectorPB;
+	PillBox probePB, effectorPB;
 		
 	public FeedbackLoopPillBox(Probe probe, Effector effector, Knowledge k){
 		super(probe, effector, k);
 		kPB= (KnowledgePB) this.getKnowledge();
-		probePB = (PillBoxNotSing) this.getProbe();
-		effectorPB = (PillBoxNotSing) this.getEffector();
+		probePB = (PillBox) this.getProbe();
+		effectorPB = (PillBox) this.getEffector();
 		
 	}
 

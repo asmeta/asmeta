@@ -11,7 +11,7 @@ signature:
 	dynamic controlled result3: Boolean
 
 definitions:
-	domain MyDomain = {1..3}
+	domain MyDomain = {1:3}
 	
 	invariant over result1, result2: result1 and result2 and not(result3)
 	

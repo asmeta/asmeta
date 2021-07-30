@@ -117,3 +117,11 @@ examples/pillbox_1.asm	AsmTSGeneratorByNuSMV	toNumSteps:159	nTests:52	maxLength:
 ../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem002/CarSystem002main.asm	AsmTestGeneratorBySimulation	toNumSteps:200	nTests:100	maxLength:2	time:3824	error
 ../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem007/CarSystem007main.asm	AsmTestGeneratorBySimulation	toNumSteps:0	nTests:0	maxLength:0	time:4133	error
 ../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem002/CarSystem002main.asm	AsmTestGeneratorBySimulation	toNumSteps:200	nTests:100	maxLength:2	time:3451	error
+../../../../asm_examples/examples/traffic_light/oneWayTrafficLight.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:1537	error
+D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:826	error
+D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:1008	error
+D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:598	error
+D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:605	error
+D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:1652	error
+D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:707	error
+D:\AgHome\progettidaSVNGIT\mvm-asmeta\VentilatoreASM\Ventilatore000.asm	AsmTestGeneratorBySimulation	toNumSteps:10	nTests:5	maxLength:2	time:705	error

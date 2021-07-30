@@ -1,0 +1,3 @@
+autosetup condTest.asm Square.asm
+if cond then runstep(condTest.asm) else runstep(Square.asm, {x=THREE})
+if cond then runstep(condTest.asm) else runstep(Square.asm, {x=FOUR})

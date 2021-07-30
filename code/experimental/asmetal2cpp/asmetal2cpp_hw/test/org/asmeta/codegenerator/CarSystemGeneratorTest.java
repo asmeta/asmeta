@@ -34,7 +34,7 @@ public class CarSystemGeneratorTest {
 		String asmFilePath = destinationFolder + "CarSystem004main.asm";
 		String jsonFilePath = destinationFolder + "CarSystem004main.u2c";
 		test_ino(asmFilePath,jsonFilePath, destinationFolder);
-	}
+	}	
 	
 	static void test_hw(String asmFilePath, String jsonFilePath, String destinationFolder) throws IOException, Exception {
 		File asmFile = new File(asmFilePath);

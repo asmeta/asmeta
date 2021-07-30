@@ -8,6 +8,9 @@ import org.asmeta.framework.managedSystem.*;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 
+/**
+ * @author Federico Rebucini
+ */
 public class FeedbackLoopAirConditionerExt extends FeedbackLoop{
 	KnowledgeAirConditioner kAC; //casted version
 		

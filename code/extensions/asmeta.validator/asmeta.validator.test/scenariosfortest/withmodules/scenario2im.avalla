@@ -1,0 +1,12 @@
+scenario example
+// 
+load mainasm2im.asm
+// set the monitored
+set m_f:= true;
+set m_f2:= true;
+set m_f3:= true;
+step
+
+check c_f = true;
+
+step

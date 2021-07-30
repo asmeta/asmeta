@@ -41,7 +41,7 @@ public static void main(String[] args)  {
 			//Forward s to the enforcer for output sanitisation 
 			System.out.println("Managed system reply message(s): ");
 			if (! e.sanitiseOutput(s)) 
-				System.out.println("Conditioner speed: "+s);
+				System.out.println(s);
 			else System.out.println(s + ". It is filtered out to avoid over speed!");
 			System.out.println(managedSystem.read()); 
 		  }

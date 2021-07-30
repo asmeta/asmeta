@@ -10,6 +10,7 @@ import org.asmeta.parser.Utility;
 import org.asmeta.simulator.NotCompatibleDomainsException;
 import org.asmeta.simulator.RuleEvaluator;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ActualParameterTest extends BaseTest {
@@ -23,6 +24,7 @@ public class ActualParameterTest extends BaseTest {
 	}
 
 	//viene sollevata giustamente l'eccezione
+	@Ignore // ANGELO, ignore this test, I'm not sure it is correct 2021.05
 	@Test(expected = NotCompatibleDomainsException.class)
 	public void test01() throws Throwable {
 		sim = Simulator.createSimulator(BASE + "test/simulator/wrongDomainAsActualParameter.asm");

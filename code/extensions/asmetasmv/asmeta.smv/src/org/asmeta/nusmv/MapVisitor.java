@@ -67,8 +67,10 @@ import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumElement;
 import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.IntegerDomain;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.ProductDomain;
+import asmeta.definitions.domains.RealDomain;
 import asmeta.definitions.domains.impl.ConcreteDomainImpl;
 import asmeta.structure.AgentInitialization;
 import asmeta.structure.Asm;
@@ -89,12 +91,12 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 /**
  * The Class MapVisitor.
  */
-public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
-	
+public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
+
 	// list of flatteners
-	public static Class<? extends AsmetaFlattener>[] ALL_SMV_FLATTENERS = new Class[] {
-			MacroCallRuleFlattener.class, ForallRuleFlattener.class, RemoveArgumentsFlattener.class, LetRuleFlattener.class, CaseRuleFlattener.class, RemoveNestingFlattener.class
-			};
+	public static Class<? extends AsmetaFlattener>[] ALL_SMV_FLATTENERS = new Class[] { MacroCallRuleFlattener.class,
+			ForallRuleFlattener.class, RemoveArgumentsFlattener.class, LetRuleFlattener.class, CaseRuleFlattener.class,
+			RemoveNestingFlattener.class };
 
 	private Map<Location, String> locationNameToNusmvVariableName;
 	RuleVisitor rv;
@@ -115,12 +117,14 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	public Map<String, Set<String>> contrFuncLocations, derFuncLocations, statFuncLocations, monFuncLocations,
 			sharedFuncLocations;
 	public SortedSet<String> monLocations, contrLocations;
-	private SortedSet<String> derived, sharedLocations;
+	protected SortedSet<String> derived;
+
+	protected SortedSet<String> sharedLocations;
 	private Map<Location, String> locationName;
 	SortedMap<String, Map<String, String>> derivedMap;
 	public UpdateMap updateMap;
 	public SortedMap<String, String> initMap;
-	private SortedMap<String, String> varsDecl;
+	protected SortedMap<String, String> varsDecl;
 	SortedMap<String, String> chooseVarsDecl;
 	/**
 	 * It contains the conditions found during the visit of the ASM.
@@ -203,8 +207,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * It checks if domName is an enumerative domain.
 	 * 
-	 * @param domName
-	 *            the domain name
+	 * @param domName the domain name
 	 * 
 	 * @return true if domName is an enumerative domain
 	 */
@@ -215,20 +218,24 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * Controlla se bisogna aggiungere il controllo sull'appartenenza al dominio.
 	 * 
-	 * @param domName
-	 *            the domain name
+	 * @param domName the domain name
 	 * 
 	 * @return true, if successful
 	 */
 	protected boolean needCheckOnDomain(String domName) {
-		return !(isEnumDomain(domName) || domName.equals("Boolean") || domName.equals("boolean") || !AsmetaSMVOptions.isCheckConcrete());
+		boolean checkCond = (isEnumDomain(domName) || domName.equals("Boolean") || domName.equals("boolean")
+				|| !AsmetaSMVOptions.isCheckConcrete());
+		if (AsmetaSMVOptions.isUseNuXmvTime() || AsmetaSMVOptions.isUseNuXmv())
+			return !(checkCond || domName.equals("Integer") || domName.equals("integer") || domName.equals("Real")
+					|| domName.equals("real"));
+		else
+			return !checkCond;
 	}
 
 	/**
 	 * It generates the NuSMV file.
 	 * 
-	 * @param smvFileName
-	 *            the name of the NuSMV file
+	 * @param smvFileName the name of the NuSMV file
 	 * @throws Exception
 	 */
 	public void printSmv(String smvFileName) throws Exception {
@@ -249,19 +256,29 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * It generates the NuSMV file.
 	 * 
-	 * @param smvFileName
-	 *            the name of the NuSMV file
+	 * @param smvFileName the name of the NuSMV file
 	 * @throws Exception
 	 */
 	public void printSmv(String smvFileName, PrintWriter smv) throws Exception {
+		printMainModule(smvFileName, smv);
+		smv.close();
+	}
+
+	void printMainModule(String smvFileName, PrintWriter smv) {
 		smv.println("--file " + smvFileName);
 		smv.println("-- options: flatten? " + AsmetaSMVOptions.FLATTEN);
+		if (AsmetaSMVOptions.isUseNuXmvTime() )
+			smv.println("@TIME_DOMAIN continuous");
 		smv.println("MODULE main");
 		smv.println("\tVAR");
 		for (String var : varsDecl.keySet()) {
 			// only variables that are actually used are defined in the NuSMV model
-			if (env.usedLoc.contains(var)) {
-				smv.print("\t\t" + var + ": " + varsDecl.get(var) + "; --");
+			if (env.usedLoc.contains(var)) { 
+				//Silvia 10/05/2021 -> automatically set clock type
+				if (AsmetaSMVOptions.isUseNuXmvTime()  && var.equalsIgnoreCase("TimeLibrarySimple_mCurrTimeSecs"))
+					smv.print("\t\t" + var + ": " + "clock" + "; --");
+				else
+					smv.print("\t\t" + var + ": " + varsDecl.get(var) + "; --");
 				if (contrLocations.contains(var)) {
 					smv.println("controlled");
 				} else if (monLocations.contains(var)) {
@@ -359,6 +376,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		// add the ASSIGN section
 		if ((initMap != null && initMap.size() > 0) || updateMap.getSize() > 0) {
 			smv.println("\tASSIGN");
+			if (AsmetaSMVOptions.isUseNuXmvTime()) //Silvia 10/05/2021: init clock to 0 if usenuxmv with time
+				smv.println("\t\tinit(" + "TimeLibrarySimple_mCurrTimeSecs" + ") := " + "0" + ";");
 			if (initMap != null) {
 				for (String var : initMap.keySet()) {
 					if (env.usedLoc.contains(var)) {
@@ -484,10 +503,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		}
 
 		printSmvPropertiesAndConstraints(smv);
-		smv.close();
 	}
 
-	private void printSmvPropertiesAndConstraints(PrintWriter smv) {
+	protected void printSmvPropertiesAndConstraints(PrintWriter smv) {
 		if (invarConstraintsList.size() > 0) {
 			smv.println("--INVAR constraints");
 			for (String invarConstr : invarConstraintsList) {
@@ -553,16 +571,12 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		}
 	}
 
-
-
 	/**
 	 * It visits an ASM module.
 	 * 
-	 * @param asm
-	 *            the asm
+	 * @param asm the asm
 	 * 
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	void visit(Asm asm) throws Exception {
 		if (AsmetaSMVOptions.FLATTEN) {
@@ -571,17 +585,20 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 			String name = asm.getName();
 			asm = AsmetaMultipleFlattener.flatten(asm, ALL_SMV_FLATTENERS);
 			asm.setName(name);
-			//System.out.println(AsmetaMultipleFlattener.printASM(asm));
+			// System.out.println(AsmetaMultipleFlattener.printASM(asm));
 
-			/*File tempFile = File.createTempFile("tmp", ".asm");
-			String printASM = AsmetaMultipleFlattener.printASM(asm);
-			printASM = printASM.replaceFirst(name, tempFile.toPath().getFileName().toString().replace(".asm", ""));
-			System.out.println(printASM);
-			Files.write(Paths.get(tempFile.getAbsolutePath()), printASM.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-			asm = ASMParser.setUpReadAsm(tempFile).getMain();
-			asm.setName(name);*/
+			/*
+			 * File tempFile = File.createTempFile("tmp", ".asm"); String printASM =
+			 * AsmetaMultipleFlattener.printASM(asm); printASM = printASM.replaceFirst(name,
+			 * tempFile.toPath().getFileName().toString().replace(".asm", ""));
+			 * System.out.println(printASM);
+			 * Files.write(Paths.get(tempFile.getAbsolutePath()),
+			 * printASM.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
+			 * StandardOpenOption.TRUNCATE_EXISTING); asm =
+			 * ASMParser.setUpReadAsm(tempFile).getMain(); asm.setName(name);
+			 */
 		}
-		ImportFlattener importFlattener = new ImportFlattener(asm,getDir());		
+		ImportFlattener importFlattener = new ImportFlattener(asm, getDir());
 		importFlattener.visit();
 		domains = importFlattener.getDomains();
 		functions = importFlattener.getFunctions();
@@ -590,7 +607,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		Initialization defaultInit = asm.getDefaultInitialState();
 		if (defaultInit != null) {
 			getDomainInitialization().addAll(defaultInit.getDomainInitialization());
-		}		
+		}
 		visitDomains();
 		visitFunctions();
 		visitDerivedFunctions();
@@ -615,19 +632,17 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 			getConditions().pop();// we remove the condition "TRUE" added before visiting the main rule
 			env.inMainRule = false;
 		}
-		visitProperties( asm.getBodySection().getProperty(),  asm.getBodySection().getFairnessConstraint(),  asm.getBodySection().getInvariantConstraint());
+		visitProperties(asm.getBodySection().getProperty(), asm.getBodySection().getFairnessConstraint(),
+				asm.getBodySection().getInvariantConstraint());
 	}
 
 	/**
 	 * It visits all the temporal properties, the fairness constraints, and the
 	 * invariant constraints.
 	 * 
-	 * @param properties
-	 *            temporal properties
-	 * @param fairnessConstraints
-	 *            fairness constraints
-	 * @param invariantConstraints
-	 *            invariant constraints
+	 * @param properties           temporal properties
+	 * @param fairnessConstraints  fairness constraints
+	 * @param invariantConstraints invariant constraints
 	 */
 	protected void visitProperties(List<Property> properties, List<FairnessConstraint> fairnessConstraints,
 			List<InvarConstraint> invariantConstraints) {
@@ -682,7 +697,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 						map = dv.visit(location);
 						if (map.size() == 1) {
 							Entry<String, String> entrySet = map.entrySet().iterator().next();
-							assert entrySet.getKey().equals(Util.trueString): entrySet.getKey() + "\t" + entrySet.getValue();
+							assert entrySet.getKey().equals(Util.trueString)
+									: entrySet.getKey() + "\t" + entrySet.getValue();
 							env.inLineFunctions.put(locName, entrySet.getValue());
 						}
 					} catch (Exception e) {
@@ -697,8 +713,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * It visits derived functions.
 	 * 
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	protected void visitDerivedFunctions() throws Exception {
 		if (AsmetaSMVOptions.simplify) {
@@ -736,8 +751,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * It visits the domains.
 	 * 
-	 * @throws AsmNotSupportedException
-	 *             the asm not supported exception
+	 * @throws AsmNotSupportedException the asm not supported exception
 	 */
 	protected void visitDomains() throws AsmNotSupportedException {
 		List<Value[]> values = new ArrayList<Value[]>();
@@ -767,6 +781,12 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		domainSmv.put("Boolean", "boolean");// associa al nome AsmetaL il nome NuSMV
 		domainSet.put("Boolean", set);// associa al dominio AsmetaL un insieme con tutti i valori NuSMV
 		domainValues.put("Boolean", values);
+
+		// Silvia: 03/05/2021: allow integer and real domains translation if nuXmv
+		if (AsmetaSMVOptions.isUseNuXmvTime() || AsmetaSMVOptions.isUseNuXmv() ) {
+			domainSmv.put("Real", "real");
+			domainSmv.put("Integer", "integer");
+		}
 
 		set = new TreeSet<String>();
 		values = new ArrayList<Value[]>();
@@ -972,8 +992,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * Visit.
 	 * 
-	 * @param setTerm
-	 *            the set term
+	 * @param setTerm the set term
 	 * 
 	 * @return the sorted set< string>
 	 */
@@ -997,8 +1016,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * It visits the invariants. Invariants become properties in the form AG().
 	 * 
-	 * @param invariants
-	 *            the ASM invariants
+	 * @param invariants the ASM invariants
 	 */
 
 	private void visitInvariants(List<Invariant> invariants) {
@@ -1081,6 +1099,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 		derived = new TreeSet<String>();
 		locationNameToNusmvVariableName = new HashMap<Location, String>();
 
+		
+		
 		SortedSet<String> locationSet = null;
 		for (Function func : functions) {
 			codomain = func.getCodomain();
@@ -1101,6 +1121,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 			} else if (Defs.isStatic(func)) {
 				statFuncLocations.put(functionName, locationSet);
 			}
+
 			// some domains permit to model the undef value
 			if ((Defs.isEnumDomain(codomain) || Defs.isConcreteDomain(codomain) || Defs.isAbstractDomain(codomain))
 					&& (Defs.isControlled(func) || Defs.isOut(func))) {
@@ -1154,8 +1175,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * Visita l'inizializzazione di default.
 	 * 
-	 * @param init
-	 *            the init
+	 * @param init the init
 	 */
 	protected void visitDefault(Initialization init) {
 		String undef;
@@ -1182,8 +1202,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * Visita le inizializzazioni degli agenti.
 	 * 
-	 * @param agentInit
-	 *            l'inizializzazione degli agenti
+	 * @param agentInit l'inizializzazione degli agenti
 	 */
 	private void visitAgents(List<AgentInitialization> agentInit) {
 		for (AgentInitialization ag : agentInit) {
@@ -1194,8 +1213,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * Visit a collection of FunctionInitialization
 	 * 
-	 * @param funcs
-	 *            the collection of FunctionInitialization
+	 * @param funcs the collection of FunctionInitialization
 	 */
 	private void visitFuncInits(Collection<FunctionInitialization> funcs) {
 		if (funcs != null) {
@@ -1208,8 +1226,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * Visit the initialization of functions.
 	 * 
-	 * @param init
-	 *            the FunctionInitialization section
+	 * @param init the FunctionInitialization section
 	 */
 	private void visitInit(FunctionInitialization init) {
 		List<VariableTerm> vars = init.getVariable();
@@ -1245,8 +1262,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * Gets all the locations of a function.
 	 * 
-	 * @param func
-	 *            the func
+	 * @param func the func
 	 * 
 	 * @return the list of locations of the function
 	 */
@@ -1266,8 +1282,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * Visit of a location.
 	 * 
-	 * @param location
-	 *            a location
+	 * @param location a location
 	 * 
 	 * @return the string that represents the location
 	 */
@@ -1289,8 +1304,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * Visit.
 	 * 
-	 * @param pD
-	 *            the p d
+	 * @param pD the p d
 	 * 
 	 * @return the string
 	 */
@@ -1301,8 +1315,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * As value list.
 	 * 
-	 * @param d
-	 *            the d
+	 * @param d the d
 	 * 
 	 * @return the object
 	 */
@@ -1320,14 +1333,10 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * Combine values.
 	 * 
-	 * @param domains
-	 *            the domains
-	 * @param index
-	 *            the index
-	 * @param result
-	 *            the result
-	 * @param tupla
-	 *            the tupla
+	 * @param domains the domains
+	 * @param index   the index
+	 * @param result  the result
+	 * @param tupla   the tupla
 	 */
 	public void combineValues(List<Domain> domains, int index, ArrayList<Value[]> result, Stack<Value> tupla) {
 		Domain domain = domains.get(index);
@@ -1350,7 +1359,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 			}
 		}
 	}
-
+	
 	public List<Value[]> asValueList(BooleanDomain domain) {
 		return domainValues.get("Boolean");
 	}
@@ -1381,8 +1390,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	 * stata smentita dalle esecuzioni fino ad ora) e' che l'ordine della proprieta'
 	 * nel modello NuSMV e' lo stesso nell'output dell'esecuzione del modello.
 	 * 
-	 * @param outputRunNuSMV
-	 *            l'output dell'esecuzione del modello NuSMV
+	 * @param outputRunNuSMV l'output dell'esecuzione del modello NuSMV
 	 * 
 	 */
 	public void getPropertiesResults(String outputRunNuSMV) {
@@ -1473,8 +1481,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	 * modello NuSMV usando i metodi di ordinamento preimpostati (ad esempio con
 	 * l'opzione "-dynamic").
 	 * 
-	 * @param orderFileName
-	 *            nome del file di ordinamento
+	 * @param orderFileName nome del file di ordinamento
 	 * @throws AsmNotSupportedException
 	 */
 	private void printOrderFile(String orderFileName) throws AsmNotSupportedException {
@@ -1580,8 +1587,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * Visit main rule all mons.
 	 * 
-	 * @param mainRuleBody
-	 *            the main rule body
+	 * @param mainRuleBody the main rule body
 	 */
 	/*
 	 * private void visitMainRuleAllMons(Rule mainRuleBody) {
@@ -1598,16 +1604,11 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor{
 	/**
 	 * Combine mons.
 	 * 
-	 * @param input
-	 *            the input
-	 * @param index
-	 *            the index
-	 * @param conds
-	 *            the conds
-	 * @param values
-	 *            the values
-	 * @param result
-	 *            the result
+	 * @param input  the input
+	 * @param index  the index
+	 * @param conds  the conds
+	 * @param values the values
+	 * @param result the result
 	 */
 	/*
 	 * private void combineMons(Map<String,Map<String, String>> input, int index,

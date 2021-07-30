@@ -12,7 +12,7 @@ signature:
 	dynamic controlled fooA: MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	//CTLSPEC ag(fooA<=4)
 	//CTLSPEC foo=1 and ax(ag(foo = 1 + fooA))

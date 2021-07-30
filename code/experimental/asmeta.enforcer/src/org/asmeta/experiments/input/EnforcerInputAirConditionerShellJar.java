@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Scanner;
 
+/**
+ * @author Federico Rebucini
+ */
 public class EnforcerInputAirConditionerShellJar {
 	//ma effettivamente perchè sto usando 2 jar, non posso usare direttamente RUNTIMECONTAINER come imodelexecution???????
 	public static void main(String[] args) {

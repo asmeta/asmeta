@@ -3,18 +3,18 @@ Automatic-Module-Name: org.asmeta.avallaxt
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.avallaxt
 Bundle-Vendor: My Company
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 21.06
 Bundle-SymbolicName: org.asmeta.avallaxt; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,
  org.eclipse.equinox.common,
  org.eclipse.emf.ecore,
- org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
- org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ org.eclipse.xtext.xbase.lib,
+ org.antlr.runtime,
  org.eclipse.xtext.util,
  org.eclipse.emf.common,
- org.eclipse.xtend.lib;bundle-version="2.14.0",
+ org.eclipse.xtend.lib,
  asmeta.parser,
  asmeta.emf,
  org.eclipse.core.resources

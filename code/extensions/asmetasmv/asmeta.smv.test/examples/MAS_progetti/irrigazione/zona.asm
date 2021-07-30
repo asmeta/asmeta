@@ -1,6 +1,6 @@
 asm zona
 
-import ../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../asm_examples/STDL/StandardLibrary
 export *
 
 
@@ -33,9 +33,9 @@ signature:
 
 definitions:
 
-	domain RandomRange = {1..2}
-	domain UsedWater = {0..1}
-	domain Position = {0..5}
+	domain RandomRange = {1:2}
+	domain UsedWater = {0:1}
+	domain Position = {0:5}
 		
 	function utilizzo($c in ZoneAgent) =
 		if (state_valvola($c) = OPEN) then

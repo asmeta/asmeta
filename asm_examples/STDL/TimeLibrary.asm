@@ -15,40 +15,37 @@ signature:
 	//Timer unit
 	controlled timerUnit: Timer -> TimerUnit
 	
-	//init start time to current time --> static???????????????????????? forse meglio derived
-	static initStart : Timer-> Integer
+	//get the current time for the timer
+	derived currentTime : Timer-> Integer
 	// is the timer expired?
 	derived expired: Timer -> Boolean
-			
-	/*----------- Java time  as monitored function (experimental) --------------*/
+	
+	
+/*----------- Java time  as monitored function (experimental) --------------*/
 	monitored mCurrTimeNanosecs: Integer
 	monitored mCurrTimeMillisecs: Integer
 	monitored mCurrTimeSecs: Integer
 	monitored mCurrTimeMins: Integer
 	monitored mCurrTimeHours: Integer
+
 	
 definitions:
 														
 	
 	/*******************************************************/	
-	function initStart($t in Timer) = if (timerUnit($t)=NANOSEC) then mCurrTimeNanosecs
+	function currentTime($t in Timer) = if (timerUnit($t)=NANOSEC) then mCurrTimeNanosecs
 										else if (timerUnit($t)=MILLISEC) then mCurrTimeMillisecs
 										else if (timerUnit($t)=SEC) then mCurrTimeSecs
 										else if (timerUnit($t)=MIN) then mCurrTimeMins
 										else if (timerUnit($t)=HOUR) then mCurrTimeHours
 										endif endif endif endif endif
 														
-	function expired($t in Timer) = if (timerUnit($t)=NANOSEC) then (mCurrTimeNanosecs >= start($t) + duration($t))
-										else if (timerUnit($t)=MILLISEC) then (mCurrTimeMillisecs >= start($t) + duration($t))
-										else if (timerUnit($t)=SEC) then (mCurrTimeSecs >= start($t) + duration($t))
-										else if (timerUnit($t)=MIN) then (mCurrTimeMins >= start($t) + duration($t))
-										else if (timerUnit($t)=HOUR) then (mCurrTimeHours >= start($t) + duration($t))
-									endif endif endif endif endif
+	function expired($t in Timer) = (currentTime($t) >= start($t) + duration($t))
 	
 	
 	/*******************************************************/
 	// restart the timer
-	macro rule r_reset_timer($t in Timer) =	start($t) := initStart($t)					
+	macro rule r_reset_timer($t in Timer) =	start($t) := currentTime($t)					
 														
     
     

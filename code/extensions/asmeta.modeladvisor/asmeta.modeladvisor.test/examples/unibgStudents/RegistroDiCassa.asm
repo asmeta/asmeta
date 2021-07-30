@@ -1,7 +1,7 @@
 // ALDO BIZIAK
 asm RegistroDiCassa
 
-import ../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	domain PrezzoPizza subsetof Integer
@@ -41,8 +41,8 @@ signature:
 	dynamic controlled attendiOrdinazioni: Boolean
 
 definitions:
-	domain PrezzoPizza = {3..5}
-	domain Quantita = {1..2}
+	domain PrezzoPizza = {3:5}
+	domain Quantita = {1:2}
 	domain TotaleDomain = {0:36}
 	
 	function getPrezzo($c in Pizza) = 	//$c per ricevere come input unastringa

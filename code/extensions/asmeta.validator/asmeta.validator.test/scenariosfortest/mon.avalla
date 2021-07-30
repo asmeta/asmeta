@@ -1,0 +1,11 @@
+scenario mon
+
+load mon.asm
+
+set mon:= true;
+
+step
+
+check con = false;
+
+step

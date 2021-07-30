@@ -1,7 +1,10 @@
-scenario example
 
+scenario example
+// spec with a monitored initialized, change the init value
 load spec.asm
 
 set a:= 1;
+
+check a = 1;
 
 step

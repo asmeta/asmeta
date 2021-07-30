@@ -1,0 +1,13 @@
+scenario mixedtime1
+load mixedtime1.asm
+
+set mCurrTimeMillisecs := 1000;
+
+step
+
+set mCurrTimeMillisecs := 1500;
+
+step
+
+check timeMS = 1500;
+check timeS = 1;

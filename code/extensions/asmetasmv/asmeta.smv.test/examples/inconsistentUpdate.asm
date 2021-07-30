@@ -11,7 +11,7 @@ signature:
 	dynamic controlled fooB: SubDom -> Boolean
 
 definitions:
-	domain SubDom = {1..4}
+	domain SubDom = {1:4}
 
 	main  rule r_Main =
 		par

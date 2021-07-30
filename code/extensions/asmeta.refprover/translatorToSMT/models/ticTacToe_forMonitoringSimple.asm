@@ -12,7 +12,7 @@ signature:
     monitored userChoice: Coord
 
 definitions:
-    domain Coord = {1..2}
+    domain Coord = {1:2}
 
     rule r_moveUser =
         if board(userChoice) = EMPTY then

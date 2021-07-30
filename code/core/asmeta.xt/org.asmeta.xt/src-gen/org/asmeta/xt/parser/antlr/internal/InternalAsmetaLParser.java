@@ -320,7 +320,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                               					if (current==null) {
                               						current = createModelElement(grammarAccess.getAsmRule());
                               					}
-                              					setWithLastConsumed(current, "isAsynchr", true, "asyncr");
+                              					setWithLastConsumed(current, "isAsynchr", lv_isAsynchr_0_0 != null, "asyncr");
                               				
                             }
 
@@ -1672,7 +1672,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                       						if (current==null) {
                       							current = createModelElement(grammarAccess.getExportClauseRule());
                       						}
-                      						setWithLastConsumed(current, "exportAll", true, "*");
+                      						setWithLastConsumed(current, "exportAll", lv_exportAll_4_0 != null, "*");
                       					
                     }
 
@@ -7152,7 +7152,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getConcreteDomainRule());
                       					}
-                      					setWithLastConsumed(current, "dynamic", true, "dynamic");
+                      					setWithLastConsumed(current, "dynamic", lv_dynamic_0_0 != null, "dynamic");
                       				
                     }
 
@@ -9344,7 +9344,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getGenericAbstractTDRule());
                       					}
-                      					setWithLastConsumed(current, "dynamic", true, "dynamic");
+                      					setWithLastConsumed(current, "dynamic", lv_dynamic_0_0 != null, "dynamic");
                       				
                     }
 
@@ -9507,7 +9507,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getAgentDomainRule());
                       					}
-                      					setWithLastConsumed(current, "dynamic", true, "dynamic");
+                      					setWithLastConsumed(current, "dynamic", lv_dynamic_0_0 != null, "dynamic");
                       				
                     }
 
@@ -9666,7 +9666,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getReserveDomainRule());
                       					}
-                      					setWithLastConsumed(current, "dynamic", true, "dynamic");
+                      					setWithLastConsumed(current, "dynamic", lv_dynamic_0_0 != null, "dynamic");
                       				
                     }
 
@@ -13050,7 +13050,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getLocalFunctionRule());
                       					}
-                      					setWithLastConsumed(current, "dynamic", true, "dynamic");
+                      					setWithLastConsumed(current, "dynamic", lv_dynamic_0_0 != null, "dynamic");
                       				
                     }
 
@@ -13313,7 +13313,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getControlledFunctionRule());
                       					}
-                      					setWithLastConsumed(current, "dynamic", true, "dynamic");
+                      					setWithLastConsumed(current, "dynamic", lv_dynamic_0_0 != null, "dynamic");
                       				
                     }
 
@@ -13576,7 +13576,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getSharedFunctionRule());
                       					}
-                      					setWithLastConsumed(current, "dynamic", true, "dynamic");
+                      					setWithLastConsumed(current, "dynamic", lv_dynamic_0_0 != null, "dynamic");
                       				
                     }
 
@@ -13839,7 +13839,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getMonitoredFunctionRule());
                       					}
-                      					setWithLastConsumed(current, "dynamic", true, "dynamic");
+                      					setWithLastConsumed(current, "dynamic", lv_dynamic_0_0 != null, "dynamic");
                       				
                     }
 
@@ -14102,7 +14102,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getOutFunctionRule());
                       					}
-                      					setWithLastConsumed(current, "dynamic", true, "dynamic");
+                      					setWithLastConsumed(current, "dynamic", lv_dynamic_0_0 != null, "dynamic");
                       				
                     }
 

@@ -2,6 +2,7 @@ module CarSystem000CommonFunctions
 import ../../StandardLibrary
 import CarSystem000CommonDomains
 export *
+//export currentSpeed
 
 signature:
 	//FUNCTIONS

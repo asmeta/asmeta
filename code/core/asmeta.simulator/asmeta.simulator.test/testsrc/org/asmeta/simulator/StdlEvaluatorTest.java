@@ -47,12 +47,12 @@ public class StdlEvaluatorTest {
 	}
 
 	@Test
-	public void testAbs2() {
+	public void testAbsInteger() {
 		String expectedName = "abs";
 		Class<?>[] expectedTypes = new Class<?>[]{IntegerValue.class};
 		String actualName = "abs";
 		Class<?>[] actualTypes = new Class<?>[]{IntegerValue.class}; 
-		testResolve(expectedName, expectedTypes, actualName, actualTypes,RealValue.class);
+		testResolve(expectedName, expectedTypes, actualName, actualTypes,IntegerValue.class);
 	}
 
 	@Test

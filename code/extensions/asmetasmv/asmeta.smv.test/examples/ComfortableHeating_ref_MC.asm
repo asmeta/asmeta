@@ -58,7 +58,7 @@ signature:
 	controlled loopCompletedIT: IntTempMgA -> Boolean
 
 definitions:
-	domain Temperature = {0..100}
+	domain Temperature = {0 : 100}
 	
 	function avgTemp($a in MainCHMgA) =
 		idiv((roomTempSaved(h0) + roomTempSaved(h1)),2)

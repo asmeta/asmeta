@@ -21,6 +21,8 @@ import org.asmeta.avallaxt.avallaXt.Scenario;
 import org.asmeta.avallaxt.avallaXt.Set;
 import org.asmeta.avallaxt.avallaXt.Step;
 import org.asmeta.avallaxt.avallaXt.StepUntil;
+import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -76,6 +78,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avallaXt.util.A
 		this.scenarioDir = scenarioDir;
 	}
 
+	// the set that must be set in the init state (initial set of the scencario)
 	ArrayList<Set> monitoredInitState;
 	List<ArrayList<Set>> allMonitored;
 	int state;
@@ -270,6 +273,9 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avallaXt.util.A
 	 */
 	@Override
 	public Void caseSet(Set setCmd) {
+		//26/04/2021 -> Silvia: if simulation time is set to auto increment or use java time and the user has set the time function in the scenario, do not add its assignment in the .asm model
+		if ((Environment.timeMngt == TimeMngt.auto_increment || Environment.timeMngt == TimeMngt.use_java_time) && Environment.monTimeFunctions.containsKey(setCmd.getLocation().trim()))
+			return null;
 		String loc = setCmd.getLocation().trim();
 		String value = setCmd.getValue().trim();
 		append(loc + " := " + value);

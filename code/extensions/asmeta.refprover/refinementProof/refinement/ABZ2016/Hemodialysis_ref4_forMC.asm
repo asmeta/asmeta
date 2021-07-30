@@ -183,7 +183,7 @@ signature:
 	
 definitions:
 // DOMAIN DEFINITIONS
-	domain SADLimit = {1..4}
+	domain SADLimit = {1 : 4}
 	domain LMHlimit = {0:2} //L low 0 limit M into limit 1 H hight limit 2
 	domain Airlimit = {0:3}
 

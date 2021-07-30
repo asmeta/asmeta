@@ -26,8 +26,8 @@ signature:
 	derived mettiRosso : Semaforo -> Boolean
 definitions:
 	// DOMAIN DEFINITIONS
-	domain Semaforo = {0..1}
-    domain StatoSemaforo = {0..2}
+	domain Semaforo = {0:1}
+    domain StatoSemaforo = {0:2}
     
 	// FUNCTION DEFINITIONS
 	function statiUguali($s in StatoSemaforo, $s2 in StatoSemaforo) = (if $s = $s2 then true else false endif)

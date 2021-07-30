@@ -3,6 +3,7 @@ package org.asmeta.atgt.generator.ui;
 import java.util.Arrays;
 import java.util.List;
 
+import org.asmeta.eclipse.AsmetaUtility;
 import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -18,6 +19,10 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunchShortcut {
@@ -37,7 +42,14 @@ public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunc
 				// IProject prj = ((org.eclipse.core.internal.resources.File)
 				// select).getProject();
 				IPath filePath = ((File) select).getLocation();
-				new AsmTSGeneratorLaunchConfiguration(configuration).generateTests(filePath);
+				IWorkbench workbench = PlatformUI.getWorkbench();
+				IWorkbenchWindow window = workbench == null ? null : workbench.getActiveWorkbenchWindow();
+				try {
+					new AsmTSGeneratorLaunchConfiguration(configuration).generateTests(filePath,window);
+				} catch (PartInitException | Error e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -50,7 +62,16 @@ public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunc
 		// application in the specified mode. This launch configuration shortcut is
 		// responsible for progress reporting as well as error handling, in the event
 		// that a launchable entity cannot be found, or launching fails.
-		new AsmTSGeneratorLaunchConfiguration(configuration).generateTests(editor);
+		IPath fullPath = AsmetaUtility.getEditorIFile(editor).getFullPath();
+		try {
+			new AsmTSGeneratorLaunchConfiguration(configuration).generateTests(fullPath,editor.getSite().getWorkbenchWindow());
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Error e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	protected ILaunchConfiguration chooseConfiguration(List<ILaunchConfiguration> configList) {

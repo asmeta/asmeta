@@ -23,7 +23,8 @@ public class GeneratorCompilerTestMVM extends GeneratorCompilerTest2 {
 	@Test
 	public void testMVM() throws IOException, Exception {
 		TranslatorOptions options= new TranslatorOptions(false, true, true, true);
-		options.compilerType = CompilerType.DesktopCompiler;
+		//options.compilerType = CompilerType.DesktopCompiler;
+		options.compilerType = CompilerType.ArduinoCompiler;
 		String asmspec = "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm";
 		if (!test(asmspec,options).success)
 			fail();
