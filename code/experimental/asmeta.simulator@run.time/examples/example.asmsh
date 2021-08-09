@@ -1,2 +1,0 @@
-autosetup Square.asm
-runstep -id 1 -locationvalue {x=FOUR}

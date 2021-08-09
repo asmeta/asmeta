@@ -1,4 +1,4 @@
-package org.asmeta.runtime_commander;
+package org.asmeta.runtime_composer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,8 +81,8 @@ public class CompositionTreeNode {
 	}
 	
 	// symbolsPriority is a "clean" list (List<String[]>). Its structure should look like:
-	// [["S1", "0"], ["S2", "1"], ...] -> [[symbol1, priority1], [symbol2, priority2], ..., [symbolN, priorityN]]
-	// Example: S1 | ((S2 | S3) || S4) | S5 -> [[S1, 0], [|, 0], [S2, 2], [|, 2], [S3, 2], [||, 1], [S4, 1], [|, 0], [S5, 0]]
+	// [["S1", "0", "1"], ["S2", "1", "2"], ...] -> [[symbol1, priority1, id1], [symbol2, priority2, id2], ..., [symbolN, priorityN, idN]]
+	// Example: S1 | ((S2 | S3) || S4) | S5 -> [[S1, 0, 2], [|, 0, 1], [S2, 2, 7], [|, 2, 5], [S3, 2, 8], [||, 1, 3], [S4, 1, 6], [|, 0], [S5, 0, 4]]
 	// This function has to build a CommanderTree from the provided symbolsPriority list
 	// Tests: autosetup S1 | (S2 | S3 | S4 | S5) | S6
 	// 		  autosetup S1 | ((S2 | S3) || S4) | S5

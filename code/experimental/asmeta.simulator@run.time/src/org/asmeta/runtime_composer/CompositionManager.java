@@ -1,4 +1,4 @@
-package org.asmeta.simulationUI;
+package org.asmeta.runtime_composer;
 
 /**
  * @author Michele Zenoni
@@ -14,19 +14,23 @@ import java.util.List;
 import java.util.Map;
 
 import org.asmeta.runtime_commander.Commander;
-import org.asmeta.runtime_commander.CompositionTreeNode;
-import org.asmeta.runtime_commander.CompositionTreeNodeType;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.simulationUI.CompositionType;
+import org.asmeta.simulationUI.SimGUI;
 
 public class CompositionManager implements IModelComposition {
+	// SimulationContainer ID is set to 0 for testing purposes only.
+	// The architecture is ready to be distributed (not implemented yet).
+	private static final int TEST_ID = 0;
+	
 	private List<AsmetaModel> compositionModelList;
 	private CompositionTreeNode compositionTree;
 	private RunOutput lastOutput;
 	private Map<String, String> lastParLocationValue;
 	private boolean multiConsole;
 	static ByteArrayOutputStream initialConsole;
+	private long remainingExecutionTime;
 	
 	public CompositionManager(CompositionTreeNode compositionTree, boolean multiConsole) {
 		this.compositionTree = compositionTree;
@@ -35,7 +39,7 @@ public class CompositionManager implements IModelComposition {
 		lastParLocationValue = null;
 		lastOutput = null;
 		initialConsole = null;
-		initialize();
+		compositionModelList = compositionModelsLookUp();
 	}
 	
 	public CompositionManager(CompositionTreeNode compositionTree, ByteArrayOutputStream initialConsole, boolean multiConsole) {
@@ -45,31 +49,88 @@ public class CompositionManager implements IModelComposition {
 		lastParLocationValue = null;
 		lastOutput = null;
 		CompositionManager.initialConsole = initialConsole;
-		initialize();
-	}
-	
-	private void initialize() {
-		SimulationContainer contInstance1 = SimGUI.containerInstance;
-		SimulationContainer contInstance2 = new SimulationContainer();
-		
 		compositionModelList = compositionModelsLookUp();
 	}
 	
 	// Execute one step of the models composed in the compositionTree (id just for checking)
 	public void runStep(int id, Map<String, String> locationValue) throws ModelCreationException, CompositionException {
-		evaluateCompositionTree(compositionTree, locationValue);
+		boolean correct = false;
+		for(AsmetaModel model: compositionModelList) {
+			if(model.getModelId() == id) {
+				correct = true;
+				break;
+			}
+		}
+		
+		if(correct) {
+			evaluateCompositionTree(compositionTree, locationValue, -1, -1);
+		}
 		lastOutput = null;
 		lastParLocationValue = null;
 	}
 	
-	// TODO: implementare per sistema distribuito: check di tutti le istanze di SimulationContainer e unione delle List<AsmetaModel> loadedModels
-	private List<AsmetaModel> compositionModelsLookUp() {
-		//List<AsmetaModel> unionModelList = Commander.containerInstance.loadedModels;
-		//unionModelList.addAll(SimGUI.containerInstance.loadedModels);
-		return SimGUI.containerInstance.loadedModels;
+	// TODO: testare anche runUntilEmpty, runStepTimeout e runUntilEmptyTimeout per la composizione
+	public void runUntilEmpty(int id, Map<String, String> locationValue, int max) throws CompositionException, ModelCreationException {
+		boolean correct = false;
+		for(AsmetaModel model: compositionModelList) {
+			if(model.getModelId() == id) {
+				correct = true;
+				break;
+			}
+		}
+		
+		if(correct) {
+			evaluateCompositionTree(compositionTree, locationValue, max, -1);
+		}
+		lastOutput = null;
+		lastParLocationValue = null;
 	}
-
-	private void runCompositionStep(List<AsmetaModel> modelList, CompositionType compType, Map<String, String> locationValue) throws CompositionException {
+	
+	public void runStepTimeout(int id, Map<String, String> locationValue, int timeout) throws CompositionException, ModelCreationException {
+		boolean correct = false;
+		for(AsmetaModel model: compositionModelList) {
+			if(model.getModelId() == id) {
+				correct = true;
+				break;
+			}
+		}
+		
+		if(correct) {
+			this.remainingExecutionTime = timeout;
+			evaluateCompositionTree(compositionTree, locationValue, -1, timeout);
+		}
+		lastOutput = null;
+		lastParLocationValue = null;
+	}
+	
+	public void runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) throws CompositionException, ModelCreationException {
+		boolean correct = false;
+		for(AsmetaModel model: compositionModelList) {
+			if(model.getModelId() == id) {
+				correct = true;
+				break;
+			}
+		}
+		
+		if(correct) {
+			this.remainingExecutionTime = timeout;
+			evaluateCompositionTree(compositionTree, locationValue, max, timeout);
+		}
+		lastOutput = null;
+		lastParLocationValue = null;
+	}
+		
+	private List<AsmetaModel> compositionModelsLookUp() {
+		if(SimGUI.containerInstance != null) {
+			return SimGUI.containerInstance.loadedModels;
+		} else if(Commander.containerInstance != null) {
+			return Commander.containerInstance.loadedModels;
+		}
+		
+		return null;
+	}
+	
+	private void runTreeFromRunOutput(List<AsmetaModel> modelList, CompositionType compType, Map<String, String> locationValue, int max, int timeout) throws CompositionException {
 		if(modelList.isEmpty()) {
 			lastOutput = null;
 			lastParLocationValue = null;
@@ -94,16 +155,24 @@ public class CompositionManager implements IModelComposition {
 						model.outputConsole = null;
 					}
 					if(model == modelList.get(0)) {
-						compositionOutput = model.runStep(locationValue);
+						compositionOutput = model.run(locationValue, max, timeout);
 						model.output = compositionOutput;
+						timeout -= (int) model.getExecutionTime();
+						this.remainingExecutionTime -= model.getExecutionTime();
 					} else {
 						if(compositionOutput.getEsit() == Esit.SAFE) {
 							Map<String, String> modelOutput = compositionOutput.getControlledvalues();
-							compositionOutput = model.runStep(modelOutput);
+							compositionOutput = model.run(modelOutput, max, timeout);
 							model.output = compositionOutput;
+							timeout -= (int) model.getExecutionTime();
+							this.remainingExecutionTime -= model.getExecutionTime();
 						} else {
-							System.err.println("Composition model rollback!\n");
-							compositionRollback();
+							System.err.println("Composition rollback!\n");
+							if(max < 0) {
+								compositionRollback();
+							} else {
+								compositionRollbackToState();
+							}
 						}
 					}
 				}
@@ -113,7 +182,7 @@ public class CompositionManager implements IModelComposition {
 					AsmetaModel first = modelList.get(0);
 					AsmetaModel second = modelList.get(1);
 					if(multiConsole) {
-						if(initialConsole != null) {
+						if(first.getModelName().equals(compositionTree.getSource().getModelName()) && initialConsole != null) {
 							first.outputConsole = initialConsole;
 						} else {
 							System.setErr(new PrintStream(first.outputConsole));
@@ -122,8 +191,9 @@ public class CompositionManager implements IModelComposition {
 					} else {
 						first.outputConsole = null;
 					}
-					compositionOutput = first.runStep(locationValue);
+					compositionOutput = first.run(locationValue, max, timeout);
 					first.output = compositionOutput;
+					this.remainingExecutionTime -= first.getExecutionTime();
 					if(multiConsole) {
 						System.setErr(new PrintStream(second.outputConsole));
 						System.setOut(new PrintStream(second.outputConsole));
@@ -132,11 +202,17 @@ public class CompositionManager implements IModelComposition {
 					}
 					if(compositionOutput.getEsit() == Esit.SAFE) {
 						assertTrue(compositionOutput == first.getLastOutput());
-						compositionOutput = second.runStep(first.getLastOutput().getControlledvalues());
+						timeout -= (int) first.getExecutionTime();
+						compositionOutput = second.run(first.getLastOutput().getControlledvalues(), max, timeout);
 						second.output = compositionOutput;
+						this.remainingExecutionTime -= second.getExecutionTime();
 					} else {
-						System.err.println("Composition model rollback!\n");
-						compositionRollback();
+						System.err.println("Composition rollback!\n");
+						if(max < 0) {
+							compositionRollback();
+						} else {
+							compositionRollbackToState();
+						}
 					}
 					if(multiConsole) {
 						System.setErr(new PrintStream(first.outputConsole));
@@ -144,11 +220,17 @@ public class CompositionManager implements IModelComposition {
 					}
 					if(compositionOutput.getEsit() == Esit.SAFE) {
 						assertTrue(compositionOutput == second.getLastOutput());
-						compositionOutput = first.runStep(second.getLastOutput().getControlledvalues());
+						timeout -= (int) second.getExecutionTime();
+						compositionOutput = first.run(second.getLastOutput().getControlledvalues(), max, timeout);
 						first.output = compositionOutput;
+						this.remainingExecutionTime -= first.getExecutionTime();
 					} else {
-						System.err.println("Composition model rollback!\n");
-						compositionRollback();
+						System.err.println("Composition rollback!\n");
+						if(max < 0) {
+							compositionRollback();
+						} else {
+							compositionRollbackToState();
+						}
 					}
 				} else {
 					throw new CompositionException("Bidirectional pipe error, too many models!");
@@ -163,13 +245,20 @@ public class CompositionManager implements IModelComposition {
 						} else {
 							modelList.get(i).outputConsole = null;
 						}
-						modelList.get(i).output = modelList.get(i).runStep(locationValue);
+						modelList.get(i).output = modelList.get(i).run(locationValue, max, timeout);
+						timeout -= (int) modelList.get(i).getExecutionTime();
+						this.remainingExecutionTime -= modelList.get(i).getExecutionTime();
 					}
 					
 					Map<String, String> finalOutput = new HashMap<>();
 					for(int i = 0; i < modelList.size(); i++) {
 						if(modelList.get(i).output.getEsit() != Esit.SAFE) {
-							compositionRollback();
+							System.err.println("Composition rollback!\n");
+							if(max < 0) {
+								compositionRollback();
+							} else {
+								compositionRollbackToState();
+							}
 						}
 						finalOutput.putAll(modelList.get(i).output.getControlledvalues());
 					}
@@ -191,13 +280,18 @@ public class CompositionManager implements IModelComposition {
 			if(modelList.size() == 1) {
 				AsmetaModel model = modelList.get(0);
 				if(multiConsole) {
-					System.setErr(new PrintStream(model.outputConsole));
-					System.setOut(new PrintStream(model.outputConsole));
+					if(model.getModelName().equals(compositionTree.getSource().getModelName()) && initialConsole != null) {
+						model.outputConsole = initialConsole;
+					} else {
+						System.setErr(new PrintStream(model.outputConsole));
+						System.setOut(new PrintStream(model.outputConsole));
+					}
 				} else {
 					model.outputConsole = null;
 				}
-				compositionOutput = model.runStep(locationValue);
+				compositionOutput = model.run(locationValue, max, timeout);
 				model.output = compositionOutput;
+				this.remainingExecutionTime -= model.getExecutionTime();
 			} else {
 				throw new CompositionException("Undefined composition type!");
 			}
@@ -206,11 +300,11 @@ public class CompositionManager implements IModelComposition {
 		lastOutput = compositionOutput;
 	}
 	
-	private void runCompositionStep(List<AsmetaModel> modelList, CompositionType compType) throws CompositionException {
-		runCompositionStep(modelList, compType, null);
+	private void runTreeFromRunOutput(List<AsmetaModel> modelList, CompositionType compType, int max, int timeout) throws CompositionException {
+		runTreeFromRunOutput(modelList, compType, null, max, timeout);
 	}
 	
-	private void runCompositionStep(List<CompositionTreeNode> nodeList, CompositionType compType, RunOutput input) throws CompositionException {
+	private void runTreeFromRunOutput(List<CompositionTreeNode> nodeList, CompositionType compType, RunOutput input, int max, int timeout) throws CompositionException {
 		if(nodeList == null || nodeList.isEmpty()) {
 			return;
 		}
@@ -220,12 +314,12 @@ public class CompositionManager implements IModelComposition {
 			if(node.getType() != CompositionTreeNodeType.MODEL) {
 				return;
 			}
-			modelList.add(getModelFromModelList(node.getModelName(), SimGUI.containerInstance.getSimulatorId()));
+			modelList.add(getModelFromModelList(node.getModelName(), TEST_ID));
 		}
-		runCompositionStep(modelList, compType, input.getControlledvalues());
+		runTreeFromRunOutput(modelList, compType, input.getControlledvalues(), max, timeout);
 	}
 	
-	private void runTreeFromLocationValue(List<CompositionTreeNode> nodeList, CompositionType compType, Map<String, String> locationValue) throws CompositionException {
+	private void runTreeFromLocationValue(List<CompositionTreeNode> nodeList, CompositionType compType, Map<String, String> locationValue, int max, int timeout) throws CompositionException {
 		if(nodeList == null || nodeList.isEmpty()) {
 			return;
 		}
@@ -235,9 +329,9 @@ public class CompositionManager implements IModelComposition {
 			if(node.getType() != CompositionTreeNodeType.MODEL) {
 				return;
 			}
-			modelList.add(getModelFromModelList(node.getModelName(), SimGUI.containerInstance.getSimulatorId()));
+			modelList.add(getModelFromModelList(node.getModelName(), TEST_ID));
 		}
-		runCompositionStep(modelList, compType, locationValue);
+		runTreeFromRunOutput(modelList, compType, locationValue, max, timeout);
 	}
 	
 	private List<AsmetaModel> convertBidToPipe(List<AsmetaModel> modelList1, List<AsmetaModel> modelList2) { // Ottimizzazione
@@ -253,26 +347,26 @@ public class CompositionManager implements IModelComposition {
 		List<AsmetaModel> modelList1 = new ArrayList<>();
 		List<AsmetaModel> modelList2 = new ArrayList<>();
 		if(bidNode.getChildren().get(0).getType() == CompositionTreeNodeType.MODEL) {
-			modelList1.add(getModelFromModelList(bidNode.getChildren().get(0).getModelName(), SimGUI.containerInstance.getSimulatorId()));
+			modelList1.add(getModelFromModelList(bidNode.getChildren().get(0).getModelName(), TEST_ID));
 		} else if(bidNode.getChildren().get(0).getType() == CompositionTreeNodeType.PIPE_OPERATOR) {
 			for(CompositionTreeNode child: bidNode.getChildren().get(0).getChildren()) {
 				if(child.getType() != CompositionTreeNodeType.MODEL) {
 					return null;
 				}
-				modelList1.add(getModelFromModelList(child.getModelName(), SimGUI.containerInstance.getSimulatorId()));
+				modelList1.add(getModelFromModelList(child.getModelName(), Commander.containerInstance.getSimulatorId()));
 			}
 		} else {
 			return null;
 		}
 		
 		if(bidNode.getChildren().get(1).getType() == CompositionTreeNodeType.MODEL) {
-			modelList2.add(getModelFromModelList(bidNode.getChildren().get(1).getModelName(), SimGUI.containerInstance.getSimulatorId()));
+			modelList2.add(getModelFromModelList(bidNode.getChildren().get(1).getModelName(), TEST_ID));
 		} else if(bidNode.getChildren().get(1).getType() == CompositionTreeNodeType.PIPE_OPERATOR) {
 			for(CompositionTreeNode child: bidNode.getChildren().get(1).getChildren()) {
 				if(child.getType() != CompositionTreeNodeType.MODEL) {
 					return null;
 				}
-				modelList2.add(getModelFromModelList(child.getModelName(), SimGUI.containerInstance.getSimulatorId()));
+				modelList2.add(getModelFromModelList(child.getModelName(), TEST_ID));
 			}
 		} else {
 			return null;
@@ -282,7 +376,7 @@ public class CompositionManager implements IModelComposition {
 	}
 	
 	// Recursive function to evaluate complex composition trees
-	private void evaluateCompositionTree(CompositionTreeNode node, Map<String, String> locationValue) throws CompositionException, ModelCreationException { 
+	private void evaluateCompositionTree(CompositionTreeNode node, Map<String, String> locationValue, int max, int timeout) throws CompositionException, ModelCreationException { 
 		if(node == null) {
 			lastOutput = null;
 			lastParLocationValue = null;
@@ -298,16 +392,16 @@ public class CompositionManager implements IModelComposition {
 			}
 			if(simplePipe) {
 				if(lastOutput != null) {
-					runCompositionStep(node.getChildren(), CompositionType.PIPE, lastOutput);
+					runTreeFromRunOutput(node.getChildren(), CompositionType.PIPE, lastOutput, max, (int) Math.ceil(this.remainingExecutionTime));
 				} else {
-					runTreeFromLocationValue(node.getChildren(), CompositionType.PIPE, locationValue);
+					runTreeFromLocationValue(node.getChildren(), CompositionType.PIPE, locationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 				}
 			} else {
 				for(CompositionTreeNode child: node.getChildren()) {
 					if(lastOutput == null) {
-						evaluateCompositionTree(child, locationValue);
+						evaluateCompositionTree(child, locationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 					} else {
-						evaluateCompositionTree(child);
+						evaluateCompositionTree(child, max, (int) Math.ceil(this.remainingExecutionTime));
 					}
 				}
 			} 
@@ -321,35 +415,35 @@ public class CompositionManager implements IModelComposition {
 			}
 			if(simpleBid) {
 				if(lastOutput != null) {
-					runCompositionStep(node.getChildren(), CompositionType.BID_PIPE, lastOutput);
+					runTreeFromRunOutput(node.getChildren(), CompositionType.BID_PIPE, lastOutput, max, (int) Math.ceil(this.remainingExecutionTime));
 				} else {
-					runTreeFromLocationValue(node.getChildren(), CompositionType.BID_PIPE, locationValue);
+					runTreeFromLocationValue(node.getChildren(), CompositionType.BID_PIPE, locationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 				}
 				
 			} else {
 				List<AsmetaModel> resultList = convertBidToPipe(node);
 				if(resultList != null) {
 					if(lastOutput != null) {
-						runCompositionStep(resultList, CompositionType.PIPE, lastOutput.getControlledvalues());
+						runTreeFromRunOutput(resultList, CompositionType.PIPE, lastOutput.getControlledvalues(), max, (int) Math.ceil(this.remainingExecutionTime));
 					} else {
-						runCompositionStep(resultList, CompositionType.PIPE, locationValue);
+						runTreeFromRunOutput(resultList, CompositionType.PIPE, locationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 					}
 				} else {
 					for(CompositionTreeNode child: node.getChildren()) {
 						if(lastParLocationValue != null) {
-							evaluateCompositionTree(child, lastParLocationValue);
+							evaluateCompositionTree(child, lastParLocationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 							lastParLocationValue = null;
 						} else if(lastOutput == null) {
-							evaluateCompositionTree(child, locationValue);
+							evaluateCompositionTree(child, locationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 						} else {
-							evaluateCompositionTree(child);
+							evaluateCompositionTree(child, max, (int) Math.ceil(this.remainingExecutionTime));
 						}
 					}
 					if(lastParLocationValue != null) {
-						evaluateCompositionTree(node.getChildren().get(0), lastParLocationValue);
+						evaluateCompositionTree(node.getChildren().get(0), lastParLocationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 						lastParLocationValue = null;
 					} else {
-						evaluateCompositionTree(node.getChildren().get(0));
+						evaluateCompositionTree(node.getChildren().get(0), max, (int) Math.ceil(this.remainingExecutionTime));
 					}
 				}
 			}
@@ -364,16 +458,16 @@ public class CompositionManager implements IModelComposition {
 			if(simplePar) {
 				List<CompositionTreeNode> resultList = node.getChildren();
 				if(lastOutput != null) {
-					runCompositionStep(resultList, CompositionType.PARALLEL, lastOutput);
+					runTreeFromRunOutput(resultList, CompositionType.PARALLEL, lastOutput, max, (int) Math.ceil(this.remainingExecutionTime));
 				} else {
-					runTreeFromLocationValue(resultList, CompositionType.PARALLEL, locationValue);
+					runTreeFromLocationValue(resultList, CompositionType.PARALLEL, locationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 				}
 			} else {
 				for(CompositionTreeNode child: node.getChildren()) {
 					if(lastOutput == null) {
-						evaluateCompositionTree(child, locationValue);
+						evaluateCompositionTree(child, locationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 					} else {
-						evaluateCompositionTree(child);
+						evaluateCompositionTree(child, max, (int) Math.ceil(this.remainingExecutionTime));
 					}
 				}
 			}
@@ -382,38 +476,40 @@ public class CompositionManager implements IModelComposition {
 			List<CompositionTreeNode> singleModelList = new ArrayList<>(); 
 			singleModelList.add(node);
 			if(lastParLocationValue != null) {
-				runTreeFromLocationValue(singleModelList, null, lastParLocationValue);
+				runTreeFromLocationValue(singleModelList, null, lastParLocationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 				lastParLocationValue = null;
 			} else if(lastOutput != null) {
-				runCompositionStep(singleModelList, null, lastOutput);
+				runTreeFromRunOutput(singleModelList, null, lastOutput, max, (int) Math.ceil(this.remainingExecutionTime));
 			} else {
-				runTreeFromLocationValue(singleModelList, null, locationValue);
+				runTreeFromLocationValue(singleModelList, null, locationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 			}
 		break;
 		default: throw new CompositionException("Undefined composition type!");
 		}
 	}
 	
-	private void evaluateCompositionTree(CompositionTreeNode node) throws CompositionException, ModelCreationException {
-		evaluateCompositionTree(node, null);
+	private void evaluateCompositionTree(CompositionTreeNode node, int max, int timeout) throws CompositionException, ModelCreationException {
+		evaluateCompositionTree(node, null, max, timeout);
 	}
 	
-	// TODO: da implementare
-	private void compositionRollback() {
-		return;
+	public void compositionRollback() throws CompositionRollbackException {
+		if(compositionModelList != null && !compositionModelList.isEmpty()) {
+			for(AsmetaModel model: compositionModelList) {
+				model.getSimulationContainer().rollback(model.getModelId());
+			}
+		} else {
+			throw new CompositionRollbackException("The composition model list is undefined or empty!");
+		}
 	}
 	
-	// TODO: implementare anche runUntilEmpty, runStepTimeout e runUntilEmptyTimeout per la composizione
-	public void runUntilEmpty(int id, Map<String, String> locationValue) {
-		
-	}
-	
-	public void runStepTimeout(int id, Map<String, String> locationValue, int timeout) {
-		
-	}
-	
-	public void runUntilEmptyTimeout(int id, Map<String, String> locationValue, int timeout) {
-		
+	public void compositionRollbackToState() throws CompositionRollbackException {
+		if(compositionModelList != null && !compositionModelList.isEmpty()) {
+			for(AsmetaModel model: compositionModelList) {
+				model.getSimulationContainer().rollbackToState(model.getModelId());
+			}
+		} else {
+			throw new CompositionRollbackException("The composition model list is undefined or empty!");
+		}
 	}
 	
 	public AsmetaModel getModelFromModelList(String modelName, int simContainerID) {

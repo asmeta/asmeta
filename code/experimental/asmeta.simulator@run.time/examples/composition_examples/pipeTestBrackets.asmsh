@@ -1,0 +1,2 @@
+pipe(Square.asm, ComposeSquare.asm)
+run -id 1 -locationvalue {x=FOUR}

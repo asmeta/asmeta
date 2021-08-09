@@ -6,6 +6,7 @@ import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import org.asmeta.runtime_commander.Commander;
 import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.InvariantData;
 import org.asmeta.simulationUI.SimGUI;
@@ -38,7 +39,12 @@ public class InvariantManager {
 	}
 	
 	public String chooseModel() throws Exception {
-		fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); // fileChooser opens in the current working directory
+		Commander.initializeConfiguration();
+		if(Commander.getDefaultModelDir() != null && !Commander.getDefaultModelDir().isEmpty()) {
+			fileChooser.setCurrentDirectory(new File(Commander.getDefaultModelDir()));
+		} else {
+			fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); // fileChooser opens in the current working directory
+		}
 		if(fileChooser.showOpenDialog(SimGUI.contentPane) == JFileChooser.APPROVE_OPTION)
 		{
 			file = fileChooser.getSelectedFile();

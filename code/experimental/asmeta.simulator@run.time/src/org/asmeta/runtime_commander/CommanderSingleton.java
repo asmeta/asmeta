@@ -17,11 +17,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.runtime_composer.CompositionException;
+import org.asmeta.runtime_composer.CompositionManager;
+import org.asmeta.runtime_composer.CompositionTreeNode;
+import org.asmeta.runtime_composer.CompositionTreeNodeType;
+import org.asmeta.runtime_composer.ModelCreationException;
 import org.asmeta.runtime_container.Esit;
-import org.asmeta.runtime_container.SimulationContainer;
-import org.asmeta.simulationUI.CompositionManager;
-import org.asmeta.simulationUI.ModelCreationException;
-import org.asmeta.simulationUI.CompositionException;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -37,7 +39,7 @@ public class CommanderSingleton {
 	private static final String CONFIG_FILE_PATH = "src/org/asmeta/runtime_commander/.config"; 					// Configuration file path
 	public static boolean debugMode = false;																	// Default value for the debug mode is false
 	public static CommanderOutput out = new CommanderOutput(CommanderStatus.FAILURE, "Nothing initialized");	// CommanderOutput initialization
-	public static SimulationContainer containerInstance;														// SimulationContainer declaration 
+	public static SimulationContainerSingleton containerInstance;														// SimulationContainerSingleton declaration 
 	public static CompositionManager compManager;															// CompositionContainer declaration
 	private static String defaultModelDir;																		// defaultModelDir config file property
 	private static boolean initConfigRequired = true;															// Configuration required on startup flag
@@ -341,11 +343,11 @@ public class CommanderSingleton {
 	/**
 	 * Reads the operation and executes it.
 	 *
-	 * @param crt: SimulationContainer instance
+	 * @param crt: SimulationContainerSingleton instance
 	 * @param input: string with the command and parameter to parse
 	 * @return a CommanderOutput instance representing the result of the command executed
 	 */
-	public static CommanderOutput parseInput(SimulationContainer crt, String input) {
+	public static CommanderOutput parseInput(SimulationContainerSingleton crt, String input) {
 		containerInstance = crt;
 		String command = "";
 		
@@ -854,7 +856,7 @@ public class CommanderSingleton {
 					}
 				}
 			}
-			SimulationContainer containerInstance = new SimulationContainer();
+			SimulationContainerSingleton containerInstance = new SimulationContainerSingleton();
 			for(String command: fileContent) {
 				parseInput(containerInstance, command);
 			}
@@ -917,7 +919,7 @@ public class CommanderSingleton {
 			CompositionTreeNode aux = null;
 			for(int i = 1; i <= CompositionTreeNode.getNodeNumber(); i++) {
 				aux = compositionTree.getNodeById(i);
-				if(aux.nodeType == CompositionTreeNodeType.MODEL) {
+				if(aux.getType() == CompositionTreeNodeType.MODEL) {
 					cmdStart("-modelpath \"" + defaultModelDir + "/" + aux.getModelName() + "\"");
 				}
 			}

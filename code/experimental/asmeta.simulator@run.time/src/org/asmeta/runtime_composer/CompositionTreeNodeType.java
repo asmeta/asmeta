@@ -1,4 +1,4 @@
-package org.asmeta.runtime_commander;
+package org.asmeta.runtime_composer;
 
 public enum CompositionTreeNodeType {
 	PIPE_OPERATOR,

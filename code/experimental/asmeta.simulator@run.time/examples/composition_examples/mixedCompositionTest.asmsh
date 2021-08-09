@@ -1,0 +1,2 @@
+setup parS0.asm <|> (parS1.asm || parS2.asm)
+run(parS0.asm, {x=13,y=14})

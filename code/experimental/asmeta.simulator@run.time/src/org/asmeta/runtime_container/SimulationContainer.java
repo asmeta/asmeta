@@ -34,10 +34,10 @@ import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
 import org.asmeta.parser.util.AsmPrinter;
+import org.asmeta.runtime_composer.AsmetaModel;
 import org.asmeta.runtime_simulator.AsmetaSservice;
 import org.asmeta.runtime_simulator.IdNotFoundException;
 import org.asmeta.runtime_simulator.InfoAsmetaService;
-import org.asmeta.simulationUI.AsmetaModel;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -101,7 +101,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		loadedModels = new ArrayList<>();
 	}
 
-	// TODO: da stabilire per la gestione di SimulationContainer distribuiti
+	// TODO: da stabilire per la gestione di SimulationContainer distribuiti (RMI, REST, Google RPC?)
 	public int getSimulatorId() {
 		return 0;
 	}
@@ -126,6 +126,34 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			}
 		}
 		return false;
+	}
+	
+	private void setModelExecutionTime(int id, long duration2) {
+		if(loadedModels != null && !loadedModels.isEmpty()) {
+			for(AsmetaModel model: loadedModels) {
+				if(model.getModelId() == id) {
+					model.setExecutionTime(duration2);
+				}
+			}
+		}
+	}
+	
+	public void rollback(int id) {
+		try {
+			asmS.rollback(id);
+		} catch(EmptyStackException e) {
+			// Da scrivere su LOG, l'esecuzione è corretta
+			return;
+		}
+	}
+	
+	public void rollbackToState(int id) {
+		try {
+			asmS.rollbackToState(id);
+		} catch(EmptyStackException e) {
+			// Da scrivere su LOG, l'esecuzione è corretta
+			return;
+		}
 	}
 	/**
 	 * return the id of the simulator if the simulator is full return -1;.
@@ -270,6 +298,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				ms = asmS.run(id, locationValue); //run ASM with id and monitored locations locationValue
 				endRun = System.nanoTime();
 				duration = (endRun - startRun);
+				setModelExecutionTime(id, duration);
 				if (locationValue!=null) 
 					rout = new RunOutput(Esit.SAFE, asmS.getCurrentState(id).getMonitoredValues(), ms);
 				else
@@ -627,6 +656,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				ms = asmS.runUntilEmpty(id, locationValue, max);
 				endRun = System.nanoTime();
 				duration = (endRun - startRun);
+				setModelExecutionTime(id, duration);
 				rout = new RunOutput(Esit.SAFE, asmS.getCurrentState(id).getMonitoredValues(), ms);
 				printState(asmS.getSimulatorTable().get(id).getContSim(), rout, duration, id);
 			}

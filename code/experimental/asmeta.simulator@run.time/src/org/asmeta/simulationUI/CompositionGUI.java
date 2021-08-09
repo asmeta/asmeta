@@ -3,6 +3,7 @@ package org.asmeta.simulationUI;
 /**
  * @author Michele Zenoni
  */
+
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -17,7 +18,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
-import org.asmeta.runtime_commander.CompositionTreeNode;
+import org.asmeta.runtime_composer.AsmetaModel;
+import org.asmeta.runtime_composer.CompositionManager;
+import org.asmeta.runtime_composer.CompositionTreeNode;
 import org.asmeta.runtime_container.SimulationContainer;
 
 public class CompositionGUI extends JFrame {
@@ -45,7 +48,7 @@ public class CompositionGUI extends JFrame {
 	}
 
 	/**
-	 * Initialize first tab (CompositionPanel) of the tabbed pane.
+	 * Initialize tabs (CompositionPanel) of the tabbed pane.
 	 */
 	public CompositionGUI(SimulationContainer contInstance, CompositionTreeNode compositionTree) {
 		containerInstance = contInstance;
