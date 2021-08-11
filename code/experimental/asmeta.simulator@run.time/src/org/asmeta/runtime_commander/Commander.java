@@ -31,7 +31,7 @@ import asmeta.structure.Initialization;
 import asmeta.terms.basicterms.impl.BooleanTermImpl;
 
 /**
- * @author Federico Rebucini
+ * @author Federico Rebucini, Michele Zenoni
  * Command line interface main class
  */
 public class Commander {
@@ -45,6 +45,7 @@ public class Commander {
 	private static boolean initConfigRequired = true;															// Configuration required on startup flag
 	public static String lastInput = null;																		// Last executed input
 	public static String prompt;																				// Command line prompt text
+	private static Map<String, String> aliases;
 	
 	// Argument regular expressions
 	private static final String RUNSTEP_REGEX = "\\s*RUN\\(\\s*([^,]+)\\s*,?\\s*(\\{(\\p{Alnum}+\\s*=\\s*\\p{Alnum}+,?)*\\})?\\)";
@@ -63,7 +64,7 @@ public class Commander {
 	private static final Pattern IF_THEN_PATTERN = Pattern.compile("\\s*IF\\s+(\\p{Alnum}+)\\s+THEN\\s+(\\p{Alnum}+.asm|" + RUNSTEP_REGEX + ")");
 	private static final Pattern IF_THEN_ELSE_PATTERN = Pattern.compile("\\s*IF\\s+(\\p{Alnum}+)\\s+THEN\\s+(\\p{Alnum}+.asm|" + RUNSTEP_REGEX + ")\\s+ELSE\\s+(\\p{Alnum}+.asm|" + RUNSTEP_REGEX + ")");
 	private static final Pattern WHILE_DO_PATTERN = Pattern.compile("\\s*WHILE\\s+(\\p{Alnum}+)\\s+DO\\s+(" + RUNSTEP_REGEX + ")");
-	
+	private static final Pattern ALIAS_PATTERN = Pattern.compile("\\s*SETUP\\s+(\\p{Alnum}+)\\s+AS\\s+(.+)");
 	
 	
 	// Support function to parse numbers 
@@ -146,13 +147,14 @@ public class Commander {
 		return parenthesesCounter;
 	}
 	
-	private static boolean validateModels(String line) { // TODO: check files in defaultModelDir and add support for aliases
+	private static boolean validateModels(String line) {
 		boolean valid = true;
 		String symbols[] = line.split("\\s+");
 		for(String symbol: symbols) {
 			if(!symbol.toLowerCase().equals("setup") && !symbol.equals("|") && !symbol.equals("||") && !symbol.equals("<|>")) {
 				if(!symbol.contains(".asm")) {
 					valid = false;
+					break;
 				}
 			}
 		}
@@ -223,8 +225,22 @@ public class Commander {
 	//			setup (S1 <|> S2) | S3 			 
 	//			setup S1 | ((S2 | S3) || S4) | S5 
 	public static CompositionTreeNode parseComplex(String argument) {
-		CompositionTreeNode compositionTree = null;
+		argument = argument.replace("setup ", "SETUP ");
+		argument = argument.replace(" as ", " AS ");
+		Matcher aliasMatcher = ALIAS_PATTERN.matcher(argument);
+		String aliasName = null;
 		
+		if(aliasMatcher.find()) {
+			if(aliasMatcher.groupCount() == 2) {
+				// group(0) is the entire expression
+				// group(1) is the alias name
+				// group(2) is the composition expression
+				aliasName = aliasMatcher.group(1);
+				argument = "setup " + aliasMatcher.group(2);
+			}
+		}
+		
+		CompositionTreeNode compositionTree = null;
 		if(!argument.contains("(") && !argument.contains(")")) {
 			if(argument.contains(" | ")) {
 				if(argument.contains(" || ") || argument.contains(" <|> ")) {
@@ -240,14 +256,15 @@ public class Commander {
 		}
 		int parenthesesCounter = checkParentheses(argument);
 		if(parenthesesCounter != 0) {
-			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command: invalid syntax (check parentheses)!");
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid syntax (check parentheses)!");
 			return null;
 		}
-		// TODO: togliere commento quando finito di testare
-		/*if(!validateModels(argument)) {
-			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+		
+		if(!validateModels(argument)) {
+			System.out.println(argument);
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension or model name!");
 			return null;
-		}*/
+		}
 		
 		argument = argument.substring(6); // remove "setup "
 		String[] symbols = argument.split("\\s+");
@@ -323,7 +340,12 @@ public class Commander {
 		
 		try {
 			compositionTree = CompositionTreeNode.buildTree(symbolsPriority);
-			
+			if(aliasName != null) {
+				if(aliases == null) {
+					aliases = new HashMap<>();
+				}
+				aliases.put(aliasName, compositionTree.getRoot().getSource().getModelName());
+			}
 			if(debugMode) {
 				compositionTree.printTree();
 			}
@@ -899,16 +921,34 @@ public class Commander {
 			String[] tokens = argument.split("\\s+");
 			ArrayList<String> params = new ArrayList<>();
 			if(tokens.length <= 1) {
-				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid arguments!");
-				return;
+				try {
+					if(out.getErrorMessage().contains("parentheses") || out.getErrorMessage().contains("model name")) {
+						return;
+					} else {
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid arguments!");
+						return;
+					}
+				} catch (CommanderException e) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid arguments!");
+					e.printStackTrace();
+				}
 			}
 			for(String token: tokens) {
 				if(!token.toUpperCase().equals("SETUP")) {
 					if(token.contains(".asm")) {
 						params.add(token);
 					} else {
-						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
-						return;
+						try {
+							if(out.getErrorMessage().contains("parentheses") || out.getErrorMessage().contains("model name")) {
+								return;
+							} else {
+								out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+								return;
+							}
+						} catch (CommanderException e) {
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -996,9 +1036,10 @@ public class Commander {
 					out = new CommanderOutput(CommanderStatus.RUNOUTPUT, containerInstance.runStep(idp));
 				}
 			}
-		} else { // Alternative syntaxes examples: RUN(1, {x=FOUR,y=TWO}) 	  <-> RUN -id 1 -locationvalue {x=FOUR,y=TWO}
+		} else { // Alternative syntaxes examples: RUN(1, {x=FOUR,y=TWO}) 	 <-> RUN -id 1 -locationvalue {x=FOUR,y=TWO}
 				 // 							   RUN(Square.asm, {x=FOUR}) <-> RUN -id <id of Square.asm> -locationvalue {x=FOUR}
-			argument = argument.replace("run", "RUN");
+				 //								   RUN(alias, {x=THREE}) 	 <-> RUN -id <id of the aliased model> -locationvalue {x=THREE}
+			argument = argument.replace("run(", "RUN(");
 			Matcher exprMatcher = Pattern.compile(RUNSTEP_REGEX).matcher(argument);
 			if(exprMatcher.find()) {
 				String firstParam = exprMatcher.group(1);
@@ -1017,8 +1058,10 @@ public class Commander {
 						} else {
 							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, try to setup the model: '" + firstParam + "' first!");
 						}
-					} else {
+					} else if(firstParam.matches("\\d+")) {
 						cmdRunStep("RUN -id " + firstParam);
+					} else if(aliases != null && !aliases.isEmpty() && aliases.containsKey(firstParam)) {
+						cmdRunStep("RUN(" + aliases.get(firstParam) + ")");
 					}
 				} else if(exprMatcher.groupCount() == 3) {
 					// In the example: RUN(1, {x=FOUR,y=TWO}) <-> RUN -id 1 -locationvalue {x=FOUR,y=TWO}
@@ -1036,8 +1079,10 @@ public class Commander {
 						} else {
 							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, try to setup the model: '" + firstParam + "' first!");
 						}
-					} else {
+					} else if(firstParam.matches("\\d+")) {
 						cmdRunStep("RUN -id " + firstParam + " -locationvalue " + exprMatcher.group(2));
+					} else if(aliases != null && !aliases.isEmpty() && aliases.containsKey(firstParam)) {
+						cmdRunStep("RUN(" + aliases.get(firstParam) + ", " + exprMatcher.group(2) + ")");
 					}
 				} else {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid syntax!");

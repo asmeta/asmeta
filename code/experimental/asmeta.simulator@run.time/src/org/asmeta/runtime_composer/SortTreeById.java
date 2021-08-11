@@ -1,5 +1,9 @@
 package org.asmeta.runtime_composer;
 
+/**
+ * @author Michele Zenoni
+ */
+
 import java.util.Comparator;
 
 public class SortTreeById implements Comparator<CompositionTreeNode>{

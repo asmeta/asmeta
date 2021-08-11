@@ -1,5 +1,9 @@
 package org.asmeta.runtime_composer;
 
+/**
+ * @author Michele Zenoni
+ */
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -315,7 +319,7 @@ public class CompositionTreeNode {
 	}
 	
 	public CompositionTreeNode getSource() {
-		if(this.isRoot() && this.childrenCount() != 0) {
+		if(this.childrenCount() != 0) {
 			if(this.getChildren().get(0).getType() == CompositionTreeNodeType.MODEL) {
 				return this.getChildren().get(0);
 			} else {

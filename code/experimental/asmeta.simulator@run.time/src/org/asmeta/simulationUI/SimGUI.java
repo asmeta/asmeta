@@ -79,7 +79,7 @@ import asmeta.definitions.impl.MonitoredFunctionImpl;
 import javax.swing.JSeparator;
 
 /**
- * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano, Michele Zenoni
  */
 public class SimGUI extends JFrame {
 	public static JPanel contentPane;
@@ -1171,21 +1171,7 @@ public class SimGUI extends JFrame {
 							if(f.getArity() == 0) {
 								monitoredList.add(f.getName());
 							} else {
-								String domainValue = (String) JOptionPane.showInputDialog( // expected input syntax: x,y,z,... -> ex. 50,120 or just 50
-										contentPane, 												// parent component
-										"Insert '" + f.getName() + "' domain value/values:\n" + 
-										"Domain type: [ " + f.getDomain().getName() + " ]", 		// message
-										"Domain input", 											// title
-										JOptionPane.PLAIN_MESSAGE, 									// message type
-										null, 														// icon
-										null, 														// options
-										null														// initial default value
-								);
-								if(domainValue != null && !domainValue.isEmpty()) {
-									monitoredList.add(f.getName() + "(" + domainValue + ")");
-								} else {
-									throw new Exception();
-								}
+								monitoredList.add(f.getName() + "(" + f.getDomain().getName() + ")");
 							}
 						}
 					}
@@ -1202,6 +1188,10 @@ public class SimGUI extends JFrame {
 		Map<String, String> input = new HashMap<>();
 		Map<String, Object[]> enumDomainFunction = new HashMap<>();
 		String inputValue = new String();
+		String domainValue = new String();
+		String monitoredName = new String();
+		String domainName = new String();
+		boolean nArity = false;
 		Object[] options;
 		
 		if(monitoredList == null || monitoredList.isEmpty()) {
@@ -1229,7 +1219,38 @@ public class SimGUI extends JFrame {
 		}
 		
 		for(String monitored: monitoredList) {
-			options = enumDomainFunction.get(monitored);
+			if(monitored.contains("(") && monitored.contains(")")) {
+				nArity = true;
+				monitoredName = monitored.substring(0, monitored.indexOf('('));
+				domainName = monitored.substring(monitored.indexOf('(') + 1, monitored.indexOf(')'));
+				domainValue = (String) JOptionPane.showInputDialog( // expected input syntax: x,y,z,... -> ex.: 50,120 or just 50
+							contentPane, 												// parent component
+							"Insert '" + monitoredName + "' domain value/values:\n" + 
+							"Domain type: [ " + domainName + " ]", 						// message
+							"Domain input", 											// title
+							JOptionPane.PLAIN_MESSAGE, 									// message type
+							null, 														// icon
+							null, 														// options
+							null														// initial default value
+				);
+			}
+			
+			if(nArity) {
+				options = enumDomainFunction.get(monitoredName);
+				try {
+					if(domainValue != null && !domainValue.isEmpty()) {
+						monitored = monitoredName + "(" + domainValue + ")";
+					} else {
+						throw new Exception();
+					}
+				} catch(Exception e) {
+					monitoredList = null;
+					JOptionPane.showMessageDialog(contentPane, "Error: check the model and the input!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			} else {
+				options = enumDomainFunction.get(monitored);
+			}
+			
 			if(options != null) {
 				if(options.length == 0) {
 					options = null;
@@ -1240,7 +1261,6 @@ public class SimGUI extends JFrame {
 				inputValue = (String) options[seed.nextInt(options.length)];
 				System.out.println("Generated input for '" + monitored + "': " + inputValue);
 			} else {
-				
 				inputValue = (String) JOptionPane.showInputDialog(
 						contentPane, 								// parent component
 						"Insert " + monitored + " value:", 			// message
@@ -1252,6 +1272,7 @@ public class SimGUI extends JFrame {
 				);
 			}
 			input.put(monitored, inputValue);
+			nArity = false;
 		}
 		return input;
 	}
