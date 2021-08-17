@@ -10,9 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CompositionTreeNode {
-	CompositionTreeNodeType nodeType;
-	CompositionTreeNode parent;
-	List<CompositionTreeNode> children;
+	private CompositionTreeNodeType nodeType;
+	private CompositionTreeNode parent;
+	private List<CompositionTreeNode> children;
 	private final int ID;
 	private static int nodeCounter = 0;
 	private String modelName;

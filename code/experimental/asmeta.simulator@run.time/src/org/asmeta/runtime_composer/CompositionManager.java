@@ -25,6 +25,7 @@ public class CompositionManager implements IModelComposition {
 	private static final int TEST_ID = 0;
 	
 	private List<AsmetaModel> compositionModelList;
+	private Map<AsmetaModel, RunOutput> outputMap;
 	private CompositionTreeNode compositionTree;
 	private RunOutput lastOutput;
 	private Map<String, String> lastParLocationValue;
@@ -35,20 +36,24 @@ public class CompositionManager implements IModelComposition {
 	public CompositionManager(CompositionTreeNode compositionTree, boolean multiConsole) {
 		this.compositionTree = compositionTree;
 		compositionModelList = new ArrayList<>();
+		outputMap = new HashMap<>();
 		this.multiConsole = multiConsole;
 		lastParLocationValue = null;
 		lastOutput = null;
 		initialConsole = null;
+		
 		compositionModelList = compositionModelsLookUp();
 	}
 	
 	public CompositionManager(CompositionTreeNode compositionTree, ByteArrayOutputStream initialConsole, boolean multiConsole) {
 		this.compositionTree = compositionTree;
 		compositionModelList = new ArrayList<>();
+		outputMap = new HashMap<>();
 		this.multiConsole = multiConsole;
 		lastParLocationValue = null;
 		lastOutput = null;
 		CompositionManager.initialConsole = initialConsole;
+		
 		compositionModelList = compositionModelsLookUp();
 	}
 	
@@ -69,7 +74,7 @@ public class CompositionManager implements IModelComposition {
 		lastParLocationValue = null;
 	}
 	
-	// TODO: testare anche runUntilEmpty, runStepTimeout e runUntilEmptyTimeout per la composizione
+	// TODO: testare anche runUntilEmpty, runStepTimeout, runUntilEmptyTimeout e rollback per la composizione
 	public void runUntilEmpty(int id, Map<String, String> locationValue, int max) throws CompositionException, ModelCreationException {
 		boolean correct = false;
 		for(AsmetaModel model: compositionModelList) {
@@ -139,6 +144,12 @@ public class CompositionManager implements IModelComposition {
 		if(modelList.size() == 1 && compType != null) {
 			compType = null;
 		}
+		
+		outputMap.clear();
+		for(AsmetaModel model: modelList) {
+			outputMap.put(model, model.getLastOutput());
+		}
+		
 		RunOutput compositionOutput = new RunOutput(Esit.UNSAFE, "rout not intialized");
 		if(compType != null) {
 			switch(compType) {
@@ -493,9 +504,13 @@ public class CompositionManager implements IModelComposition {
 	}
 	
 	public void compositionRollback() throws CompositionRollbackException {
-		if(compositionModelList != null && !compositionModelList.isEmpty()) {
+		if(outputMap != null && !outputMap.isEmpty()) {
 			for(AsmetaModel model: compositionModelList) {
-				model.getSimulationContainer().rollback(model.getModelId());
+				if(outputMap.containsKey(model)) {
+					if(outputMap.get(model) != model.getLastOutput()) {
+						model.getSimulationContainer().rollback(model.getModelId());
+					}
+				}
 			}
 		} else {
 			throw new CompositionRollbackException("The composition model list is undefined or empty!");
@@ -503,9 +518,13 @@ public class CompositionManager implements IModelComposition {
 	}
 	
 	public void compositionRollbackToState() throws CompositionRollbackException {
-		if(compositionModelList != null && !compositionModelList.isEmpty()) {
+		if(outputMap != null && !outputMap.isEmpty()) {
 			for(AsmetaModel model: compositionModelList) {
-				model.getSimulationContainer().rollbackToState(model.getModelId());
+				if(outputMap.containsKey(model)) {
+					if(outputMap.get(model) != model.getLastOutput()) {
+						model.getSimulationContainer().rollbackToState(model.getModelId());
+					}
+				}
 			}
 		} else {
 			throw new CompositionRollbackException("The composition model list is undefined or empty!");
