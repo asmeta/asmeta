@@ -64,7 +64,6 @@ import org.asmeta.runtime_commander.Commander;
 import org.asmeta.runtime_composer.AsmetaModel;
 import org.asmeta.runtime_composer.CompositionException;
 import org.asmeta.runtime_composer.CompositionTreeNode;
-import org.asmeta.runtime_composer.ModelCreationException;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.RunOutput;
@@ -895,8 +894,6 @@ public class SimGUI extends JFrame {
 								Map<String, String> input = getInput(monitored, false);
 								CompositionGUI.compositionManager.runUntilEmpty(currentLoadedID, input, 0);
 							}
-						} catch(ModelCreationException e) {
-							JOptionPane.showMessageDialog(contentPane, "Error: the creation of the composition models failed!", "Error", JOptionPane.ERROR_MESSAGE);
 						} catch(CompositionException e) {
 							JOptionPane.showMessageDialog(contentPane, "Error: invalid composition!", "Error", JOptionPane.ERROR_MESSAGE);
 						}
@@ -961,8 +958,6 @@ public class SimGUI extends JFrame {
 								Map<String, String> input = getInput(monitored, false);
 								CompositionGUI.compositionManager.runUntilEmptyTimeout(currentLoadedID, input, 0, timeout);
 							}
-						} catch(ModelCreationException e) {
-							JOptionPane.showMessageDialog(contentPane, "Error: the creation of the composition models failed!", "Error", JOptionPane.ERROR_MESSAGE);
 						} catch(CompositionException e) {
 							JOptionPane.showMessageDialog(contentPane, "Error: invalid composition!", "Error", JOptionPane.ERROR_MESSAGE);
 						}
@@ -1017,8 +1012,6 @@ public class SimGUI extends JFrame {
 								Map<String, String> input = getInput(monitored, false);
 								CompositionGUI.compositionManager.runStep(currentLoadedID, input);
 							}
-						} catch(ModelCreationException e) {
-							JOptionPane.showMessageDialog(contentPane, "Error: the creation of the composition models failed!", "Error", JOptionPane.ERROR_MESSAGE);
 						} catch(CompositionException e) {
 							JOptionPane.showMessageDialog(contentPane, "Error: invalid composition!", "Error", JOptionPane.ERROR_MESSAGE);
 						}
@@ -1085,8 +1078,6 @@ public class SimGUI extends JFrame {
 								Map<String, String> input = getInput(monitored, false);
 								CompositionGUI.compositionManager.runStepTimeout(currentLoadedID, input, timeout);
 							}
-						} catch(ModelCreationException e) {
-							JOptionPane.showMessageDialog(contentPane, "Error: the creation of the composition models failed!", "Error", JOptionPane.ERROR_MESSAGE);
 						} catch(CompositionException e) {
 							JOptionPane.showMessageDialog(contentPane, "Error: invalid composition!", "Error", JOptionPane.ERROR_MESSAGE);
 						}

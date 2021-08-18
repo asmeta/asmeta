@@ -24,46 +24,50 @@ public interface IModelComposition {
 	public RunOutput getLastOutput();
 	
 	/**
-	 * Simulation container's Run Step function on the composed simulation.
-	 * @param initialOutput: the output of the first model.
-	 * @param multiConsole: support for multiple consoles execution.
-	 * @throws CompositionException: when the bidirectional pipe is not called only on two models.
-	 * @throws ModelCreationException 
+	 * Simulation container's runStep(...) method on the composed simulation.
+	 * @param id: the id of the first model of the composition.
+	 * @param locationValue: the composition input.
+	 * @throws CompositionException: when an error occurs while evaluating the composition tree.
 	 */
-	public void runStep(int id, Map<String, String> locationValue) throws CompositionException, ModelCreationException;
+	public void runStep(int id, Map<String, String> locationValue) throws CompositionException;
 	
 	/**
-	 * Simulation container's Run Until Empty function on the composed simulation.
-	 * @param initialOutput: the output of the first model.
-	 * @param multiConsole: support for multiple consoles execution.
+	 * Simulation container's runUntilEmpty(...) method on the composed simulation.
+	 * @param id: the id of the first model of the composition.
+	 * @param locationValue: the composition input.
+	 * @param max: the maximum number of steps for each model to finisch its execution.
+	 * @throws CompositionException: when an error occurs while evaluating the composition tree.
 	 */
-	public void runUntilEmpty(int id, Map<String, String> locationValue, int max) throws CompositionException, ModelCreationException;
+	public void runUntilEmpty(int id, Map<String, String> locationValue, int max) throws CompositionException;
 	
 	/**
-	 * Simulation container's Run Step with Timeout function on the composed simulation.
-	 * @param initialOutput: the output of the first model.
-	 * @param timeout: the positive integer timeout value.
-	 * @param multiConsole: support for multiple consoles execution.
+	 * Simulation container's runStepTimeout(...) method on the composed simulation.
+	 * @param id: the id of the first model of the composition.
+	 * @param locationValue: the composition input.
+	 * @param timeout: the maximum time for the whole composition to finish the execution.
+	 * @throws CompositionException: when an error occurs while evaluating the composition tree.
 	 */
-	public void runStepTimeout(int id, Map<String, String> locationValue, int timeout) throws CompositionException, ModelCreationException;
+	public void runStepTimeout(int id, Map<String, String> locationValue, int timeout) throws CompositionException;
 	
 	/**
-	 * Simulation container's Run Until Empty with Timeout function on the composed simulation.
-	 * @param initialOutput: the output of the first model.
-	 * @param timeout: the positive integer timeout value. 
-	 * @param multiConsole: support for multiple consoles execution.
+	 * Simulation container's runUntilEmptyTimeout(...) method on the composed simulation.
+	 * @param id: the id of the first model of the composition.
+	 * @param locationValue: the composition input.
+	 * @param max: the maximum number of steps for each model to finish its execution.
+	 * @param timeout: the maximum time for the whole composition to finish the execution.
+	 * @throws CompositionException: when an error occurs while evaluating the composition tree.
 	 */
-	public void runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) throws CompositionException, ModelCreationException;
+	public void runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) throws CompositionException;
 	
 	/**
-	 * Invoke the Simulation container's rollback() method for each model
+	 * Invoke the Simulation container's rollback method for each model
 	 * in the composition model list.
 	 * @throws CompositionRollbackException: if the composition model list is undefined or empty.
 	 */
 	public void compositionRollback() throws CompositionRollbackException;
 	
 	/**
-	 * Invoke the Simulation container's rollbackToState() method for each model
+	 * Invoke the Simulation container's rollbackToState method for each model
 	 * in the composition model list.
 	 * @throws CompositionRollbackException: if the composition model list is undefined or empty.
 	 */

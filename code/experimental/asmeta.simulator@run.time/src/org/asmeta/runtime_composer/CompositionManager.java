@@ -58,7 +58,7 @@ public class CompositionManager implements IModelComposition {
 	}
 	
 	// Execute one step of the models composed in the compositionTree (id just for checking)
-	public void runStep(int id, Map<String, String> locationValue) throws ModelCreationException, CompositionException {
+	public void runStep(int id, Map<String, String> locationValue) throws CompositionException {
 		boolean correct = false;
 		for(AsmetaModel model: compositionModelList) {
 			if(model.getModelId() == id) {
@@ -75,7 +75,7 @@ public class CompositionManager implements IModelComposition {
 	}
 	
 	// TODO: testare anche runUntilEmpty, runStepTimeout, runUntilEmptyTimeout e rollback per la composizione
-	public void runUntilEmpty(int id, Map<String, String> locationValue, int max) throws CompositionException, ModelCreationException {
+	public void runUntilEmpty(int id, Map<String, String> locationValue, int max) throws CompositionException {
 		boolean correct = false;
 		for(AsmetaModel model: compositionModelList) {
 			if(model.getModelId() == id) {
@@ -91,7 +91,7 @@ public class CompositionManager implements IModelComposition {
 		lastParLocationValue = null;
 	}
 	
-	public void runStepTimeout(int id, Map<String, String> locationValue, int timeout) throws CompositionException, ModelCreationException {
+	public void runStepTimeout(int id, Map<String, String> locationValue, int timeout) throws CompositionException {
 		boolean correct = false;
 		for(AsmetaModel model: compositionModelList) {
 			if(model.getModelId() == id) {
@@ -108,7 +108,7 @@ public class CompositionManager implements IModelComposition {
 		lastParLocationValue = null;
 	}
 	
-	public void runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) throws CompositionException, ModelCreationException {
+	public void runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) throws CompositionException {
 		boolean correct = false;
 		for(AsmetaModel model: compositionModelList) {
 			if(model.getModelId() == id) {
@@ -387,7 +387,7 @@ public class CompositionManager implements IModelComposition {
 	}
 	
 	// Recursive function to evaluate complex composition trees
-	private void evaluateCompositionTree(CompositionTreeNode node, Map<String, String> locationValue, int max, int timeout) throws CompositionException, ModelCreationException { 
+	private void evaluateCompositionTree(CompositionTreeNode node, Map<String, String> locationValue, int max, int timeout) throws CompositionException { 
 		if(node == null) {
 			lastOutput = null;
 			lastParLocationValue = null;
@@ -499,7 +499,7 @@ public class CompositionManager implements IModelComposition {
 		}
 	}
 	
-	private void evaluateCompositionTree(CompositionTreeNode node, int max, int timeout) throws CompositionException, ModelCreationException {
+	private void evaluateCompositionTree(CompositionTreeNode node, int max, int timeout) throws CompositionException {
 		evaluateCompositionTree(node, null, max, timeout);
 	}
 	

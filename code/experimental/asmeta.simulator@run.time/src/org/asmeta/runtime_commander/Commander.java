@@ -21,7 +21,6 @@ import org.asmeta.runtime_composer.CompositionException;
 import org.asmeta.runtime_composer.CompositionManager;
 import org.asmeta.runtime_composer.CompositionTreeNode;
 import org.asmeta.runtime_composer.CompositionTreeNodeType;
-import org.asmeta.runtime_composer.ModelCreationException;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.SimulationContainer;
 
@@ -339,6 +338,9 @@ public class Commander {
 		assertTrue(availableIds.isEmpty());
 		
 		try {
+			if(debugMode) {
+				printList(symbolsPriority);
+			}
 			compositionTree = CompositionTreeNode.buildTree(symbolsPriority);
 			if(aliasName != null) {
 				if(aliases == null) {
@@ -1010,7 +1012,7 @@ public class Commander {
 					try {
 						compManager.runStep(idp, locationvaluep);
 						out = new CommanderOutput(CommanderStatus.SUCCESS);
-					} catch (CompositionException | ModelCreationException e) {
+					} catch (CompositionException e) {
 						e.printStackTrace();
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
 					} catch (Exception e) {
@@ -1025,7 +1027,7 @@ public class Commander {
 					try {
 						compManager.runStep(idp, null);
 						out = new CommanderOutput(CommanderStatus.SUCCESS);
-					} catch (CompositionException | ModelCreationException e) {
+					} catch (CompositionException e) {
 						e.printStackTrace();
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
 					} catch (Exception e) {
@@ -1113,7 +1115,7 @@ public class Commander {
 					try {
 						compManager.runStepTimeout(idp, locationvaluep, timeoutp);
 						out = new CommanderOutput(CommanderStatus.SUCCESS);
-					} catch (CompositionException | ModelCreationException e) {
+					} catch (CompositionException e) {
 						e.printStackTrace();
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
 					} catch (Exception e) {
@@ -1128,7 +1130,7 @@ public class Commander {
 					try {
 						compManager.runStepTimeout(idp, null, timeoutp);
 						out = new CommanderOutput(CommanderStatus.SUCCESS);
-					} catch (CompositionException | ModelCreationException e) {
+					} catch (CompositionException e) {
 						e.printStackTrace();
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
 					} catch (Exception e) {
@@ -1167,7 +1169,7 @@ public class Commander {
 						try {
 							compManager.runUntilEmpty(idp, locationvaluep, maxp);
 							out = new CommanderOutput(CommanderStatus.SUCCESS);
-						} catch (CompositionException | ModelCreationException e) {
+						} catch (CompositionException e) {
 							e.printStackTrace();
 							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
 						} catch (Exception e) {
@@ -1182,7 +1184,7 @@ public class Commander {
 						try {
 							compManager.runUntilEmpty(idp, null, maxp);
 							out = new CommanderOutput(CommanderStatus.SUCCESS);
-						} catch (CompositionException | ModelCreationException e) {
+						} catch (CompositionException e) {
 							e.printStackTrace();
 							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
 						} catch (Exception e) {
@@ -1199,7 +1201,7 @@ public class Commander {
 						try {
 							compManager.runUntilEmpty(idp, locationvaluep, 0);
 							out = new CommanderOutput(CommanderStatus.SUCCESS);
-						} catch (CompositionException | ModelCreationException e) {
+						} catch (CompositionException e) {
 							e.printStackTrace();
 							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
 						} catch (Exception e) {
@@ -1214,7 +1216,7 @@ public class Commander {
 						try {
 							compManager.runUntilEmpty(idp, null, 0);
 							out = new CommanderOutput(CommanderStatus.SUCCESS);
-						} catch (CompositionException | ModelCreationException e) {
+						} catch (CompositionException e) {
 							e.printStackTrace();
 							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
 						} catch (Exception e) {
@@ -1255,7 +1257,7 @@ public class Commander {
 						try {
 							compManager.runUntilEmptyTimeout(idp, locationvaluep, maxp, timeoutp);
 							out = new CommanderOutput(CommanderStatus.SUCCESS);
-						} catch (CompositionException | ModelCreationException e) {
+						} catch (CompositionException e) {
 							e.printStackTrace();
 							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
 						} catch (Exception e) {
@@ -1270,7 +1272,7 @@ public class Commander {
 						try {
 							compManager.runUntilEmptyTimeout(idp, null, maxp, timeoutp);
 							out = new CommanderOutput(CommanderStatus.SUCCESS);
-						} catch (CompositionException | ModelCreationException e) {
+						} catch (CompositionException e) {
 							e.printStackTrace();
 							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
 						} catch (Exception e) {
@@ -1287,7 +1289,7 @@ public class Commander {
 						try {
 							compManager.runUntilEmptyTimeout(idp, locationvaluep, 0, timeoutp);
 							out = new CommanderOutput(CommanderStatus.SUCCESS);
-						} catch (CompositionException | ModelCreationException e) {
+						} catch (CompositionException e) {
 							e.printStackTrace();
 							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
 						} catch (Exception e) {
@@ -1302,7 +1304,7 @@ public class Commander {
 						try {
 							compManager.runUntilEmptyTimeout(idp, null, 0, timeoutp);
 							out = new CommanderOutput(CommanderStatus.SUCCESS);
-						} catch (CompositionException | ModelCreationException e) {
+						} catch (CompositionException e) {
 							e.printStackTrace();
 							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, composition error!");
 						} catch (Exception e) {

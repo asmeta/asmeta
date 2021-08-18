@@ -35,6 +35,7 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
 import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.runtime_composer.AsmetaModel;
+import org.asmeta.runtime_composer.ModelCreationException;
 import org.asmeta.runtime_simulator.AsmetaSservice;
 import org.asmeta.runtime_simulator.IdNotFoundException;
 import org.asmeta.runtime_simulator.InfoAsmetaService;
@@ -128,11 +129,11 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		return false;
 	}
 	
-	private void setModelExecutionTime(int id, long duration2) {
+	private void setModelExecutionTime(int id, long duration) {
 		if(loadedModels != null && !loadedModels.isEmpty()) {
 			for(AsmetaModel model: loadedModels) {
 				if(model.getModelId() == id) {
-					model.setExecutionTime(duration2);
+					model.setExecutionTime(duration);
 				}
 			}
 		}
@@ -190,10 +191,12 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				sout = new StartOutput(-5, "The model name " + modelPath.substring(modelPath.lastIndexOf("/") + 1)
 						+ " Does not match:" + " Check for case sensitive in <<modelname.asm>>");
 				System.err.println(sout.toString());
+			} else if (e instanceof ModelCreationException) {
+				sout = new StartOutput(-6, "Error in the AsmetaModel creation");
+				System.err.println(sout.toString());
 			}
-
 			else {
-				sout = new StartOutput(-6, "General Exception: Please report the problem");
+				sout = new StartOutput(-6, "General Exception: please report the problem");
 				System.err.println(sout.toString());
 			}
 
@@ -236,8 +239,12 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				sout = new StartOutput(-7, "Invalid invariant on initial state, please check the updated model again");
 				System.err.println(sout.toString());
 			}
+			else if (e instanceof ModelCreationException) {
+				sout = new StartOutput(-6, "Error in the AsmetaModel creation");
+				System.err.println(sout.toString());
+			}
 			else {
-				sout = new StartOutput(-6, "General Exception: Please report the problem");
+				sout = new StartOutput(-6, "General Exception: please report the problem");
 				System.err.println(sout.toString());
 			}
 		}

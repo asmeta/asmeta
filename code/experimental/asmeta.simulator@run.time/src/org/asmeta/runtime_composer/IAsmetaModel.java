@@ -87,4 +87,16 @@ public interface IAsmetaModel {
 	 * @return the model's SimulationContainer instance ID.
 	 */
 	public int getSimulatorId();
+	
+	/**
+	 * Set the AsmetaModel remaining execution time.
+	 * @param duration: the execution time in milliseconds (ms).
+	 */
+	public void setExecutionTime(long duration);
+	
+	/**
+	 * Getter method for the AsmetaModel remaining execution time.
+	 * @return the model's remaining execution time.
+	 */
+	public long getExecutionTime();
 }
