@@ -135,7 +135,7 @@ public class CompositionManager implements IModelComposition {
 		return null;
 	}
 	
-	private void runTreeFromRunOutput(List<AsmetaModel> modelList, CompositionType compType, Map<String, String> locationValue, int max, int timeout) throws CompositionException {
+	private void runComposedModels(List<AsmetaModel> modelList, CompositionType compType, Map<String, String> locationValue, int max, int timeout) throws CompositionException {
 		if(modelList.isEmpty()) {
 			lastOutput = null;
 			lastParLocationValue = null;
@@ -311,8 +311,8 @@ public class CompositionManager implements IModelComposition {
 		lastOutput = compositionOutput;
 	}
 	
-	private void runTreeFromRunOutput(List<AsmetaModel> modelList, CompositionType compType, int max, int timeout) throws CompositionException {
-		runTreeFromRunOutput(modelList, compType, null, max, timeout);
+	private void runComposedModels(List<AsmetaModel> modelList, CompositionType compType, int max, int timeout) throws CompositionException {
+		runComposedModels(modelList, compType, null, max, timeout);
 	}
 	
 	private void runTreeFromRunOutput(List<CompositionTreeNode> nodeList, CompositionType compType, RunOutput input, int max, int timeout) throws CompositionException {
@@ -327,7 +327,7 @@ public class CompositionManager implements IModelComposition {
 			}
 			modelList.add(getModelFromModelList(node.getModelName(), TEST_ID));
 		}
-		runTreeFromRunOutput(modelList, compType, input.getControlledvalues(), max, timeout);
+		runComposedModels(modelList, compType, input.getControlledvalues(), max, timeout);
 	}
 	
 	private void runTreeFromLocationValue(List<CompositionTreeNode> nodeList, CompositionType compType, Map<String, String> locationValue, int max, int timeout) throws CompositionException {
@@ -342,7 +342,7 @@ public class CompositionManager implements IModelComposition {
 			}
 			modelList.add(getModelFromModelList(node.getModelName(), TEST_ID));
 		}
-		runTreeFromRunOutput(modelList, compType, locationValue, max, timeout);
+		runComposedModels(modelList, compType, locationValue, max, timeout);
 	}
 	
 	private List<AsmetaModel> convertBidToPipe(List<AsmetaModel> modelList1, List<AsmetaModel> modelList2) { // Ottimizzazione
@@ -435,9 +435,9 @@ public class CompositionManager implements IModelComposition {
 				List<AsmetaModel> resultList = convertBidToPipe(node);
 				if(resultList != null) {
 					if(lastOutput != null) {
-						runTreeFromRunOutput(resultList, CompositionType.PIPE, lastOutput.getControlledvalues(), max, (int) Math.ceil(this.remainingExecutionTime));
+						runComposedModels(resultList, CompositionType.PIPE, lastOutput.getControlledvalues(), max, (int) Math.ceil(this.remainingExecutionTime));
 					} else {
-						runTreeFromRunOutput(resultList, CompositionType.PIPE, locationValue, max, (int) Math.ceil(this.remainingExecutionTime));
+						runComposedModels(resultList, CompositionType.PIPE, locationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 					}
 				} else {
 					for(CompositionTreeNode child: node.getChildren()) {

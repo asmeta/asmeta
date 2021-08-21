@@ -39,7 +39,7 @@ public class Commander {
 	public static boolean debugMode = false;																	// Default value for the debug mode is false
 	public static CommanderOutput out = new CommanderOutput(CommanderStatus.FAILURE, "Nothing initialized");	// CommanderOutput initialization
 	public static SimulationContainer containerInstance;														// SimulationContainer declaration 
-	public static CompositionManager compManager;															// CompositionContainer declaration
+	public static CompositionManager compManager;																// CompositionContainer declaration
 	private static String defaultModelDir;																		// defaultModelDir config file property
 	private static boolean initConfigRequired = true;															// Configuration required on startup flag
 	public static String lastInput = null;																		// Last executed input
