@@ -28,7 +28,7 @@ public class AsmetaLcTest {
 		log.setLevel(Level.INFO);
 	}
 
-	public static final String FILE_BASE = "../../../asm_examples/";
+	public static final String FILE_BASE = "../../../../asm_examples/";
 
 	protected void testOneSpec(String spec) {
 		String[] args = { "-xmi", spec };
