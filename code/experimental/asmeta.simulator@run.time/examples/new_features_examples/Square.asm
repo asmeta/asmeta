@@ -9,7 +9,7 @@ signature:
 
 definitions:
 
-	invariant over square:square < 20
+	//invariant over square:square < 20
 
 	main rule r_Main =
 		par	

@@ -2,10 +2,10 @@ package org.asmeta.simulationUI;
 
 import java.util.Scanner;
 
-import org.asmeta.runtime_commander.Commander;
+import org.asmeta.runtime_commander.CommanderSingleton;
 import org.asmeta.runtime_commander.CommanderException;
 import org.asmeta.runtime_commander.CommanderOutput;
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 
 /**
  * @author Federico Rebucini
@@ -13,20 +13,20 @@ import org.asmeta.runtime_container.SimulationContainer;
 public class SimShellSingleton {
 
 	public static void main(String[] args) {
-		String userInput = String.join(" ", args); // SimShell works as a command line tool as well
-		SimulationContainer containerInstance = new SimulationContainer();
-		Commander.debugMode = false;
-		Commander.parseInput(containerInstance, userInput);
+		String userInput = String.join(" ", args); // SimShellSingleton works as a command line tool as well
+		SimulationContainerSingleton containerInstance = new SimulationContainerSingleton();
+		CommanderSingleton.debugMode = false;
+		CommanderSingleton.parseInput(containerInstance, userInput);
 		CommanderOutput CO;
 		Scanner keyboard = new Scanner(System.in);
 		do {
-			if(Commander.prompt == null) {
-				Commander.prompt = "> ";
+			if(CommanderSingleton.prompt == null) {
+				CommanderSingleton.prompt = "> ";
 			}
-			System.out.print(Commander.prompt);
+			System.out.print(CommanderSingleton.prompt);
 			userInput = keyboard.nextLine();
 			if (!userInput.equals("qqq") && !userInput.equals("quit")) {
-				CO = Commander.parseInput(containerInstance, userInput);
+				CO = CommanderSingleton.parseInput(containerInstance, userInput);
 				try {
 					switch (CO.getStatus()) {
 					case SIM_ID:

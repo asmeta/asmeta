@@ -39,7 +39,7 @@ public class CommanderSingleton {
 	public static boolean debugMode = false;																	// Default value for the debug mode is false
 	public static CommanderOutput out = new CommanderOutput(CommanderStatus.FAILURE, "Nothing initialized");	// CommanderOutput initialization
 	public static SimulationContainerSingleton containerInstance;														// SimulationContainerSingleton declaration 
-	public static CompositionManager compManager;															// CompositionContainer declaration
+	public static CompositionManager compManager;																// CompositionContainer declaration
 	private static String defaultModelDir;																		// defaultModelDir config file property
 	private static boolean initConfigRequired = true;															// Configuration required on startup flag
 	public static String lastInput = null;																		// Last executed input
@@ -392,9 +392,9 @@ public class CommanderSingleton {
 				case "START": 		 		 cmdStart(input); 		 		 break;
 				case "STOP": 		 		 cmdStop(input); 		 		 break;
 				case "RUN": 			 	 cmdRunStep(input);				 break;
-				case "RUNSTEPTIMEOUT": 		 cmdRunStepTimeout(input);		 break;
-				case "RUNUNTILEMPTY":		 cmdRunUntilEmpty(input);		 break;
-				case "RUNUNTILEMPTYTIMEOUT": cmdRunUntilEmptyTimeout(input); break;
+				case "RUNTO": 		 		 cmdRunStepTimeout(input);		 break;
+				case "RUNMAX":		 		 cmdRunUntilEmpty(input);		 break;
+				case "RUNMAXTO": 			 cmdRunUntilEmptyTimeout(input); break;
 				case "VIEWINV": 	 		 cmdViewInvariants(input);	 	 break;
 				case "ADDINV": 		 		 cmdAddInvariant(input);		 break;
 				case "REMOVEINV": 	 		 cmdRemoveInvariant(input); 	 break;
@@ -1425,20 +1425,20 @@ public class CommanderSingleton {
 		System.out.println("\t\t\t\tAlternative syntax: RUN(<simulation ID>[, <locationvalue>])");
 		System.out.println("\t\t\t\tAlternative syntax: RUN(<asm model in the default model directory>[, <locationvalue>])");
 		
-		//RUNSTEPTIMEOUT
-		System.out.println("RUNSTEPTIMEOUT\t\tExecutes one step on a model simulation with a given timeout.");
+		//RUNTO
+		System.out.println("RUNTO\t\t\tExecutes one step on a model simulation with a given timeout.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: [-locationvalue <Hash map with monitored variables and their value>]");
 		System.out.println("\t\t\t\tParameter: -t <timeout in milliseconds>");
 		
-		//RUNUNTILEMPTY
-		System.out.println("RUNUNTILEMPTY\t\tExecutes the simulation until the main rule is empty.");
+		//RUNMAX
+		System.out.println("RUNMAX\t\t\tExecutes the simulation until the main rule is empty.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: [-locationvalue <Hash map with monitored variables and their value>]");
 		System.out.println("\t\t\t\tParameter: [-max <max steps to take>]");
 		
-		//RUNUNTILEMPTYTIMEOUT
-		System.out.println("RUNUNTILEMPTYTIMEOUT\tExecutes the simulation until the main rule is empty with a given timeout.");
+		//RUNMAXTO
+		System.out.println("RUNMAXTO\t\tExecutes the simulation until the main rule is empty with a given timeout.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: [-locationvalue <Hash map with monitored variables and their value>]");
 		System.out.println("\t\t\t\tParameter: [-max <max steps to take>]");
@@ -1448,17 +1448,17 @@ public class CommanderSingleton {
 		System.out.println("VIEWINV\t\t\tShows a list with all the variables and invariants in the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		
-		//ADDINVARIANT
+		//ADDINV
 		System.out.println("ADDINV\t\t\tAdds another invariant to the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: -inv <new invariant>");
 		
-		//REMOVEINVARIANT
+		//REMOVEINV
 		System.out.println("REMOVEINV\t\tRemoves the given invariant from the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: -inv <removed invariant>");
 		
-		//UPDATEINVARIANT
+		//UPDATEINV
 		System.out.println("UPDATEINV\t\tUpdates the given invariant from the model.");
 		System.out.println("\t\t\t\tParameter: -id <simulation ID>");
 		System.out.println("\t\t\t\tParameter: -inv <updated invariant>");
@@ -1470,7 +1470,7 @@ public class CommanderSingleton {
 		System.out.println("\t\t\t\tParameter: -prompt <custom command line prompt>");
 				
 		//SETUP
-		System.out.println("SETUP\t\tAuto-setup single or multiple asmeta models in the default models directory.");
+		System.out.println("SETUP\t\t\tAuto-setup single or multiple asmeta models in the default models directory.");
 		System.out.println("\t\t\t\tArguments: <model1> [<model2> ...]\t\t\t-> No model composition");
 		System.out.println("\t\t\t\tArguments: <model1> | <model2> [| <model3> ...]\t\t-> Unidirectional cascade pipe composition");
 		System.out.println("\t\t\t\tArguments: <model1> <|> <model2>\t\t\t-> (Partial) Bidirectional pipe composition");
@@ -1504,18 +1504,14 @@ public class CommanderSingleton {
 		System.out.println("\t\t\t\tSyntax: PIPE(<model1>, <model2>[, <model3> ...]) equivalent to:\n\t\t\t\t\tAUTOSETUP <model1> | <model2> [| <model3> ...]");
 		
 		//BID
-		System.out.println("PIPE\t\t\tSetup two models in the default models directory for a bidirectional pipe composition.");
+		System.out.println("BID\t\t\tSetup two models in the default models directory for a bidirectional pipe composition.");
 		System.out.println("\t\t\t\tSyntax: BID(<model1>, <model2>) equivalent to:\n\t\t\t\t\tAUTOSETUP <model1> <|> <model2>");
-				
-		//PAR
-		System.out.println("PAR\t\t\tSetup models in the default models directory for a (coupled) for-join execution.");
-		System.out.println("\t\t\t\tSyntax: PAR(<model1>, <model2>[, <model3> ...]) equivalent to:\n\t\t\t\t\tAUTOSETUP <model1> || <model2> [|| <model3> ...]");
 		
 		//RERUN
 		System.out.println("RR\t\t\tRe-run the previous command.");
 		
-		//GETLOADEDIDS
-		System.out.println("GETLOADEDIDS\t\tShow all the running simulations' IDs.");
+		//IDS
+		System.out.println("IDS\t\t\tShow all the running simulations' IDs.");
 		
 		//HELP
 		System.out.println("HELP\t\t\tShow this help menu.");
