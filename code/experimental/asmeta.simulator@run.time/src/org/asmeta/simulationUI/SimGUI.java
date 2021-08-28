@@ -875,7 +875,7 @@ public class SimGUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				System.setErr(new PrintStream(simConsole));
 				System.setOut(new PrintStream(simConsole));
-				List<String> monitored = getMonitored();
+				List<String> monitored = getAllMonitored(new ArrayList<>(), currentLoadedModel);
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				if(monitored == null) {
 					textAreaLog.append("Couldn't execute operation.\n");
@@ -928,7 +928,7 @@ public class SimGUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				System.setErr(new PrintStream(simConsole));
 				System.setOut(new PrintStream(simConsole));
-				List<String> monitored = getMonitored();
+				List<String> monitored = getAllMonitored(new ArrayList<>(), currentLoadedModel);
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				int timeout=-1;
 				String num=JOptionPane.showInputDialog(contentPane, "Insert timeout (milliseconds):", "Timeout", JOptionPane.PLAIN_MESSAGE);
@@ -993,7 +993,7 @@ public class SimGUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				System.setErr(new PrintStream(simConsole));
 				System.setOut(new PrintStream(simConsole));
-				List<String> monitored = getMonitored();
+				List<String> monitored = getAllMonitored(new ArrayList<>(), currentLoadedModel);
 				RunOutput out = new RunOutput(Esit.UNSAFE, "rout not intialized");
 				if(monitored == null) {
 					textAreaLog.append("Couldn't execute operation.\n");
@@ -1047,7 +1047,7 @@ public class SimGUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				System.setErr(new PrintStream(simConsole));
 				System.setOut(new PrintStream(simConsole));
-				List<String> monitored = getMonitored();
+				List<String> monitored = getAllMonitored(new ArrayList<>(), currentLoadedModel);
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				int timeout=-1;
 				String num=JOptionPane.showInputDialog(contentPane, "Insert timeout (milliseconds):", "Timeout", JOptionPane.PLAIN_MESSAGE);
@@ -1148,10 +1148,13 @@ public class SimGUI extends JFrame {
 		invManagerMenuItem.setEnabled(enable);
 	}
 	
-	private List<String> getMonitored(){
-		ArrayList<String> monitoredList = new ArrayList<String>();
-		if (!currentLoadedModel.equals("")) {
-			File asmFile = new File(currentLoadedModel);
+	private List<String> getAllMonitored(List<String> monitoredList, String modelPath){
+		String root = modelPath.substring(0, modelPath.lastIndexOf("/") + 1);
+		if(root.isEmpty()) {
+			root = modelPath.substring(0, modelPath.lastIndexOf("\\") + 1);
+		}
+		if (!modelPath.equals("")) {
+			File asmFile = new File(modelPath);
 			if (asmFile.exists()) {
 				AsmCollection asm;
 				try {
@@ -1164,6 +1167,14 @@ public class SimGUI extends JFrame {
 							} else {
 								monitoredList.add(f.getName() + "(" + f.getDomain().getName() + ")");
 							}
+						}
+					}
+					
+					int importSize = asm.getMain().getHeaderSection().getImportClause().size();
+					for (int i = 0; i < importSize; i++) {
+						String moduleName = asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
+						if(!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
+							monitoredList = getAllMonitored(monitoredList, root + moduleName + ".asm");
 						}
 					}
 				} catch (Exception e) {

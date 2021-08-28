@@ -4,7 +4,9 @@ import StandardLibrary
 
 signature:
 	enum domain Int = {ZERO | ONE | TWO | THREE | FOUR | FIVE}
-	dynamic out cube: Integer 
+	enum domain State = {ON | OFF}
+	dynamic out cube: Integer
+	dynamic out y: State
 	dynamic monitored x: Int
 definitions:
 
@@ -13,24 +15,43 @@ definitions:
 	main rule r_Main =
 		par	
 			if x = ZERO then
-				cube := 0
+				par
+					cube := 0
+					y := ON
+				endpar
 			endif
 			if x = ONE then
-				cube := 1
+				par
+					cube := 1
+					y := OFF
+				endpar
 			endif
 			if x = TWO then
-				cube := 8
+				par
+					cube := 8
+					y := ON
+				endpar
 			endif
 			if x = THREE then
-				cube := 27
+				par
+					cube := 27
+					y := OFF
+				endpar
 			endif
 			if x = FOUR then
-				cube := 64
+				par
+					cube := 64
+					y := ON
+				endpar
 			endif
 			if x = FIVE then
-				cube := 125
+				par
+					cube := 125
+					y := OFF
+				endpar
 			endif
 	endpar
 
 default init s0:
 	function cube = 0
+	function y = OFF

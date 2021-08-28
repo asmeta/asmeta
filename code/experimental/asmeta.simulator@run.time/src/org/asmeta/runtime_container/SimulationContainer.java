@@ -954,8 +954,10 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	 * @throws Exception from ASMParser
 	 */
 	private List<String> findAllMonitored(List<String> monNames, String modelPath) throws Exception{
-		String root="";
-		root=modelPath.substring(0,modelPath.lastIndexOf("/")+1);
+		String root = modelPath.substring(0, modelPath.lastIndexOf("/") + 1);
+		if(root.isEmpty()) {
+			root = modelPath.substring(0, modelPath.lastIndexOf("\\") + 1);
+		}
 		File asmFile = new File(modelPath);
 		try {
 			if (!asmFile.exists()) {
@@ -966,7 +968,6 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			System.out.println("CheckSafety: "+ex.getMessage());
 		}
 		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
-		// cerco di prendere la classe delle monitorate  NON LEGGE LE MONITORATE NEI FILE DI IMPORT
 		for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
 			if (asm.getMain().getHeaderSection().getSignature().getFunction()
 					.get(i) instanceof MonitoredFunctionImpl)
@@ -975,8 +976,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		int c = asm.getMain().getHeaderSection().getImportClause().size();
 		for (int i=0;i<c;i++) {
 			String moduleName=asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
-			if (!moduleName.toLowerCase().endsWith("standardlibrary"))	//Skips the StandardLibrary.asm
+			if (!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
 				monNames=findAllMonitored(monNames, root+moduleName+".asm");
+			}
 		}
 		return monNames;
 	}
