@@ -47,7 +47,7 @@ public class Commander {
 	private static Map<String, String> aliases;
 	
 	// Argument regular expressions
-	private static final String RUNSTEP_REGEX = "\\s*RUN\\(\\s*([^,]+)\\s*,?\\s*(\\{(\\p{Alnum}+\\s*=\\s*\\p{Alnum}+,?)*\\})?\\)";
+	private static final String RUNSTEP_REGEX = "\\s*RUN\\(\\s*([^,]+)\\s*,?\\s*(\\{(.+\\s*=\\s*.+;?)*\\})?\\)";
 	
 	// Argument regex patterns
 	private static final Pattern N_PATTERN = Pattern.compile("(-n\\s+\\d+)");
@@ -104,7 +104,7 @@ public class Commander {
 		if(m.find()) {
 			locationvaluep = new HashMap<String, String>();
 			Scanner scan = new Scanner(m.group(1).substring(m.group(1).indexOf('{')+1,m.group(1).length()-1));
-			scan.useDelimiter(",");
+			scan.useDelimiter(";");
 			int count=0;
 			while (scan.hasNext()) {
 				count++;

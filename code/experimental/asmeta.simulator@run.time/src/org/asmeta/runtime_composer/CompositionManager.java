@@ -74,7 +74,7 @@ public class CompositionManager implements IModelComposition {
 		lastParLocationValue = null;
 	}
 	
-	// TODO: testare anche runUntilEmpty, runStepTimeout, runUntilEmptyTimeout e rollback per la composizione
+	// runUntilEmpty, runStepTimeout, runUntilEmptyTimeout e rollback per la composizione
 	public void runUntilEmpty(int id, Map<String, String> locationValue, int max) throws CompositionException {
 		boolean correct = false;
 		for(AsmetaModel model: compositionModelList) {
