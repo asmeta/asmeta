@@ -508,6 +508,8 @@ public class CompositionManager implements IModelComposition {
 			for(AsmetaModel model: compositionModelList) {
 				if(outputMap.containsKey(model)) {
 					if(outputMap.get(model) != model.getLastOutput()) {
+						System.out.println("Composed model single-step-rollback:");
+						System.out.println("Model ID: " + model.getModelId() + " | Model name: " + model.getModelName() + "\n");
 						model.getSimulationContainer().rollback(model.getModelId());
 					}
 				}
@@ -522,6 +524,8 @@ public class CompositionManager implements IModelComposition {
 			for(AsmetaModel model: compositionModelList) {
 				if(outputMap.containsKey(model)) {
 					if(outputMap.get(model) != model.getLastOutput()) {
+						System.out.println("Composed model multi-step-rollback:");
+						System.out.println("Model ID: " + model.getModelId() + " | Model name: " + model.getModelName() + "\n");
 						model.getSimulationContainer().rollbackToState(model.getModelId());
 					}
 				}

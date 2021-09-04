@@ -8,7 +8,7 @@ import org.asmeta.runtime_commander.CommanderOutput;
 import org.asmeta.runtime_container.SimulationContainer;
 
 /**
- * @author Federico Rebucini
+ * @author Federico Rebucini, Michele Zenoni
  */
 public class SimShell {
 
@@ -23,6 +23,12 @@ public class SimShell {
 			if(Commander.prompt == null) {
 				Commander.prompt = "> ";
 			}
+			System.err.flush();					// TODO: this is to avoid System.err and System.out overlapping.
+			try {								//		 The output management should be improved by replacing
+				Thread.sleep(10);	 			//		 the standard print streams (System.out and System.err)
+			} catch (InterruptedException e) {	//		 with a console object (see: https://docs.oracle.com/javase/7/docs/api/java/io/Console.html).
+				e.printStackTrace();			
+			}									
 			System.out.print(Commander.prompt);
 			userInput = keyboard.nextLine();
 			if (!userInput.equals("qqq") && !userInput.equals("quit")) {

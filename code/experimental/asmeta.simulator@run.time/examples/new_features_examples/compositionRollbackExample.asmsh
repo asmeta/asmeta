@@ -1,0 +1,3 @@
+setup BidPipeCube1.asm <|> BidPipeCube2.asm
+run(1, {x=THREE})
+run(1, {x=FIVE})

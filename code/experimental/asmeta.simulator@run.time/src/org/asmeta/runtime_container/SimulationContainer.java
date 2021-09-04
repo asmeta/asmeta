@@ -143,7 +143,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		try {
 			asmS.rollback(id);
 		} catch(EmptyStackException e) {
-			// Da scrivere su LOG, l'esecuzione è corretta
+			// TODO: Da scrivere su LOG, l'esecuzione è corretta
 			return;
 		}
 	}
@@ -152,7 +152,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		try {
 			asmS.rollbackToState(id);
 		} catch(EmptyStackException e) {
-			// Da scrivere su LOG, l'esecuzione è corretta
+			// TODO: Da scrivere su LOG, l'esecuzione è corretta
 			return;
 		}
 	}

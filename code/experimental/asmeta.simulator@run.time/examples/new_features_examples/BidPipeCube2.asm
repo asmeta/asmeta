@@ -10,8 +10,8 @@ signature:
 	dynamic monitored y: State
 definitions:
 
-	//invariant over x:x < 20
-
+	invariant inv_test over x:x != FOUR
+	
 	main rule r_Main =
 		par	
 			if (cube >= 30 and y = OFF) then
