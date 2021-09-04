@@ -11,7 +11,7 @@ signature:
 	dynamic monitored x: Int
 definitions:
 
-	//invariant over cube:cube < 70
+	//invariant inv_cube over cube:cube < 70
 
 	main rule r_Main =
 		par	

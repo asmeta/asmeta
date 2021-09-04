@@ -10,7 +10,7 @@ signature:
 	dynamic monitored y: State
 definitions:
 
-	invariant inv_test over x:x != FOUR
+	invariant inv_x over x:x != FOUR
 	
 	main rule r_Main =
 		par	

@@ -181,8 +181,10 @@ public class CompositionManager implements IModelComposition {
 							System.err.println("Composition rollback!\n");
 							if(max < 0) {
 								compositionRollback();
+								return;
 							} else {
 								compositionRollbackToState();
+								return;
 							}
 						}
 					}
@@ -221,8 +223,10 @@ public class CompositionManager implements IModelComposition {
 						System.err.println("Composition rollback!\n");
 						if(max < 0) {
 							compositionRollback();
+							return;
 						} else {
 							compositionRollbackToState();
+							return;
 						}
 					}
 					if(multiConsole) {
@@ -239,8 +243,10 @@ public class CompositionManager implements IModelComposition {
 						System.err.println("Composition rollback!\n");
 						if(max < 0) {
 							compositionRollback();
+							return;
 						} else {
 							compositionRollbackToState();
+							return;
 						}
 					}
 				} else {
@@ -267,8 +273,10 @@ public class CompositionManager implements IModelComposition {
 							System.err.println("Composition rollback!\n");
 							if(max < 0) {
 								compositionRollback();
+								return;
 							} else {
 								compositionRollbackToState();
+								return;
 							}
 						}
 						finalOutput.putAll(modelList.get(i).output.getControlledvalues());
