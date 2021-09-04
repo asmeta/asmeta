@@ -456,9 +456,10 @@ public class Commander {
 	private static void cmdPipe(String argument) {
 		StringBuffer parsedCommand = new StringBuffer();
 		boolean end = false;
-		 
+		String[] tokens = argument.substring(5).split(",");
+		
 		parsedCommand.append("setup ");
-		for(String token: argument.substring(5).split(",")) {
+		for(String token: tokens) {
 			if(token.contains(")")) {
 				token = token.replace(")", "");
 				end = true;
@@ -474,6 +475,7 @@ public class Commander {
 		if(debugMode)
 			System.out.println(parsedCommand);
 		
+		cmdInit("init -n " + tokens.length);
 		cmdSetup(parsedCommand.toString());
 	}
 	
@@ -503,7 +505,8 @@ public class Commander {
 		}
 		if(debugMode)
 			System.out.println(parsedCommand);
-	
+		
+		cmdInit("init -n 2");
 		cmdSetup(parsedCommand.toString());
 	}
 	
@@ -902,21 +905,20 @@ public class Commander {
 		}
 	}
 	
-	/* Syntax:	setup model1.asm model2.asm ... 	-> init all + start all
-				setup model1.asm | model2.asm | ... -> init all + compose (PIPE) in order
-				setup model1.asm <|> model2.asm		-> init all (must be only 2) + compose (BID_PIPE) in order
-				setup model1.asm || model2.asm ...	-> init all + compose (PARALLEL) in order
+	/* Syntax: setup [<composition alias> as] <composition formula>
 	   model1.asm, model2.asm, ... have to be in the defaultModelDir folder. */
 	private static void cmdSetup(String argument) {
 		CompositionTreeNode compositionTree = parseComplex(argument);
 		if(compositionTree != null) {
 			compManager = new CompositionManager(compositionTree, false);
-			cmdInit("-n " + CompositionTreeNode.getNodeNumber());
+			//cmdInit("-n " + CompositionTreeNode.getNodeNumber());
 			CompositionTreeNode aux = null;
 			for(int i = 1; i <= CompositionTreeNode.getNodeNumber(); i++) {
 				aux = compositionTree.getNodeById(i);
 				if(aux.getType() == CompositionTreeNodeType.MODEL) {
-					cmdStart("-modelpath \"" + defaultModelDir + "/" + aux.getModelName() + "\"");
+					if(!containerInstance.getLoadedModels().containsKey(defaultModelDir + "/" + aux.getModelName())) {
+						cmdStart("-modelpath \"" + defaultModelDir + "/" + aux.getModelName() + "\"");
+					}
 				}
 			}
 		} else { // No composition
@@ -954,9 +956,11 @@ public class Commander {
 					}
 				}
 			}
-			cmdInit("-n " + Integer.toString(params.size()));
+			//cmdInit("-n " + Integer.toString(params.size()));
 			for(String param: params) {
-				cmdStart("-modelpath \"" + defaultModelDir + "/" + param + "\"");
+				if(!containerInstance.getLoadedModels().containsKey(defaultModelDir + "/" + param)) {
+					cmdStart("-modelpath \"" + defaultModelDir + "/" + param + "\"");
+				}
 			}
 		}
 		
@@ -1470,11 +1474,8 @@ public class Commander {
 		System.out.println("\t\t\t\tParameter: -prompt <custom command line prompt>");
 				
 		//SETUP
-		System.out.println("SETUP\t\t\tAuto-setup single or multiple asmeta models in the default models directory.");
-		System.out.println("\t\t\t\tArguments: <model1> [<model2> ...]\t\t\t-> No model composition");
-		System.out.println("\t\t\t\tArguments: <model1> | <model2> [| <model3> ...]\t\t-> Unidirectional cascade pipe composition");
-		System.out.println("\t\t\t\tArguments: <model1> <|> <model2>\t\t\t-> (Partial) Bidirectional pipe composition");
-		System.out.println("\t\t\t\tArguments: <model1> || <model2> [|| <model3> ...]\t-> (Coupled) For-join composition");
+		System.out.println("SETUP\t\t\tAuto-setup (add) single or multiple asmeta models in the default models directory.");
+		System.out.println("\t\t\t\tSyntax: SETUP [<composition alias> AS] <composition formula>");
 		
 		//OPEN
 		System.out.println("OPEN\t\t\tRun a sequence of commands specified in an asmeta shell (.asmsh) file.");
@@ -1520,7 +1521,7 @@ public class Commander {
 		System.out.println("\nParameter examples:\t-n 5");
 		System.out.println("\t\t\t-id 1");
 		System.out.println("\t\t\t-modelpath \"C:/Users/...\"");
-		System.out.println("\t\t\t-locationvalue {monitored1=value1,monitored2=value2,...}");
+		System.out.println("\t\t\t-locationvalue {monitored1=value1;monitored2(domain1,domain2)=value2;...}");
 		System.out.println("\t\t\t-t 1000");
 		System.out.println("\t\t\t-max 50");
 		System.out.println("\t\t\t-inv \"invariant inv_name over ...\"");

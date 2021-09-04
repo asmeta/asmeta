@@ -1,3 +1,4 @@
+init -n 2
 setup condTest.asm Square.asm
 if cond then run(condTest.asm) else run(Square.asm, {x=THREE})
 if cond then run(condTest.asm) else run(Square.asm, {x=FOUR})
