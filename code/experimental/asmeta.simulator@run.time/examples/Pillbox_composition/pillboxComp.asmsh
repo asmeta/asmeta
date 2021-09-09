@@ -1,0 +1,2 @@
+setup pillboxComposition as pillbox.asm <|> safePillbox.asm
+run(pillboxComposition, {openSwitch(compartment2)=false;systemTime=100;setNewTime(compartment2)=false;newTime(compartment2)=105;skipNextPill(compartment2,compartment3)=false})

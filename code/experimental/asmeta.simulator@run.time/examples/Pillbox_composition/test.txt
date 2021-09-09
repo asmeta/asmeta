@@ -1,0 +1,27 @@
+Default models directory: C:/Users/Michele/Desktop/MICHELE/Università/Tesi/asmeta/code/experimental/asmeta.simulator@run.time/examples/Pillbox2
+
+run(safePillbox.asm, {isPillMissed(compartment2)=false;pillTakenWithDelay(compartment2)=false;actual_time_consumption(compartment2)=[20];pillBoxSystemTime=100;day=0;time_consumption(compartment2)=[30];name(compartment2)="moment";drugIndex(compartment2)=1;redLed(compartment2)=OFF;nextDrugIndex(compartment2)=2;opened(compartment2)=false;outMess(compartment2)=nope;logMess(compartment2)=lognope;skipPill(compartment2)=[false];compartmentTimer(compartment2)=200})
+
+run(safePillbox.asm, {isPillMissed(compartment2)=false;pillTakenWithDelay(compartment2)=false;actual_time_consumption(compartment2)=[10, 20];systemTime=100;day=0;time_consumption(compartment2)=[10, 20];name(compartment2)="moment";drugIndex(compartment2)=1;redLed(compartment2)=OFF;nextDrugIndex(compartment2)=2})
+
+setup safePillbox.asm
+run(safePillbox.asm, {isPillMissed(compartment2)=false;pillTakenWithDelay(compartment2)=false;actual_time_consumption(compartment2)=[10, 20];systemTime=100;day=0})
+
+=== OK (BUT INVALID INVARIANT) ===
+run(safePillbox.asm, {isPillMissed(compartment1)=false;redLed(compartment2)=OFF;redLed(compartment1)=OFF;time_consumption(compartment2)=[780,1140];time_consumption(compartment1)=[410];drugIndex(compartment1)=0;drugIndex(compartment2)=0;name(compartment1)="fosamax";name(compartment2)="moment";day=0})
+
+run(safePillbox.asm, {redLed(compartment2)=OFF;time_consumption(compartment1)=[350];time_consumption(compartment2)=[780,1140];redLed(compartment1)=ON;drugIndex(compartment1)=0;isPillMissed(compartment1)=false;pillTakenWithDelay(compartment2)=false;systemTime=351;pillTakenWithDelay(compartment1)=false;drugIndex(compartment2)=0;name(compartment2)="moment";name(compartment1)="fosamax";isPillMissed(compartment2)=false;day=0})
+
+run(safePillbox.asm, {redLed(compartment2)=OFF;name(compartment2)="moment";name(compartment1)="fosamax";time_consumption(compartment1)=[350];time_consumption(compartment2)=[780,1140];redLed(compartment1)=OFF;drugIndex(compartment1)=0;drugIndex(compartment2)=0})
+
+
+run(pillbox.asm, {openSwitch(compartment2)=false;openSwitch(compartment4)=false;openSwitch(compartment1)=false;openSwitch(compartment3)=false;systemTime=351;setNewTime(compartment1)=false;setNewTime(compartment2)=false;setNewTime(compartment3)=false;setNewTime(compartment4)=false;newTime(compartment1)=1351;newTime(compartment2)=1351;newTime(compartment3)=1351;newTime(compartment4)=1351;skipNextPill(compartment2,compartment3)=false})
+
+Pillbox output:
+{skipPill(compartment2)=[false], time_consumption(compartment4)=[410], opened(compartment4)=false, skipPill(compartment4)=[false], redLed(compartment2)=OFF, skipPill(compartment3)=[false,false], redLed(compartment3)=OFF, day=0, redLed(compartment4)=OFF, opened(compartment2)=false, drugIndex(compartment2)=0, opened(compartment3)=false, drugIndex(compartment3)=0, time_consumption(compartment3)=[780,1140], time_consumption(compartment2)=[960], drugIndex(compartment4)=0, compartmentTimer(compartment4)=0, compartmentTimer(compartment3)=0, compartmentTimer(compartment2)=0}
+
+
+=== OK! ===
+run(safePillbox.asm, {redLed(compartment2)=OFF;redLed(compartment3)=OFF;redLed(compartment4)=OFF;name(compartment2)="aspirine";name(compartment3)="moment";name(compartment4)="fosamax";time_consumption(compartment2)=[960];time_consumption(compartment3)=[780, 1140];time_consumption(compartment4)=[410];drugIndex(compartment2)=0;drugIndex(compartment3)=0;drugIndex(compartment4)=0;nextDrugIndex(compartment2)=0;nextDrugIndex(compartment3)=1})
+
+run(1, {name(compartment4)="fosamax";name(compartment2)="aspirine";name(compartment3)="moment";skipPill(compartment2)=[false];time_consumption(compartment4)=[410];opened(compartment4)=false;skipPill(compartment4)=[false];redLed(compartment2)=OFF;skipPill(compartment3)=[false,false];redLed(compartment3)=OFF;day=0;redLed(compartment4)=OFF;opened(compartment2)=false;drugIndex(compartment2)=0;opened(compartment3)=false;drugIndex(compartment3)=0;time_consumption(compartment3)=[780,1140];time_consumption(compartment2)=[960];drugIndex(compartment4)=0;compartmentTimer(compartment4)=0;compartmentTimer(compartment3)=0;compartmentTimer(compartment2)=0;nextDrugIndex(compartment2)=0;nextDrugIndex(compartment3)=1})
