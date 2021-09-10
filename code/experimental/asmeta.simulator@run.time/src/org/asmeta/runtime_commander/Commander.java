@@ -834,6 +834,8 @@ public class Commander {
 				token = token.replace("\"", "");
 				if(!token.toUpperCase().equals("OPEN") && token.toLowerCase().contains(".asmsh")) {
 					File runFile = new File(token);
+					
+					//System.out.println(token);
 					if(runFile.exists() && runFile.isFile()) {
 						try {
 							String line = "";
@@ -862,7 +864,8 @@ public class Commander {
 			}
 		} else { // file already in defaultModelDir
 			if(argument.toUpperCase().contains("OPEN ")) {
-				argument = argument.toUpperCase().replace("OPEN ", "");
+				//argument = argument.toUpperCase().replace("OPEN ", "");
+				argument = argument.substring(5);
 			}
 			argument = defaultModelDir + "/" + argument.trim();
 			cmdOpen(argument);
