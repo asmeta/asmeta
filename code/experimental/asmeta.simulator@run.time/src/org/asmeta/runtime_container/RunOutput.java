@@ -1,6 +1,5 @@
 package org.asmeta.runtime_container;
 
-import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -98,7 +97,7 @@ public class RunOutput implements Serializable {
 		if (!message.equals(""))
 			sb.append("Reason: " + message + "\n");
 		if (ms!=null)
-			sb.append("Updated locations: " + ms.getControlledValues());
+			sb.append("Updated locations: " + ms.getControlledValuesToString());
 
 		return sb.toString();
 	}
@@ -126,8 +125,16 @@ public class RunOutput implements Serializable {
 			HashMap<String, String> controlled = new HashMap<String, String>();
 			for (Location key : set.keySet()) {
 			    Value val = set.get(key);
-			    controlled.put(key.toString(), val.toString());
+			    
+			    // TODO: finire di sistemare problema pillbox (apici già sistemati -> sistemare la stampa?)
+			    if(val instanceof org.asmeta.simulator.value.StringValue) {
+			    	// System.out.println(val.toString() + " -> " + val.getClass().toString());
+			    	controlled.put(key.toString(), "\"" + val.toString() + "\"");
+			    } else {
+			    	controlled.put(key.toString(), val.toString());
+			    }
 			}
+			//System.out.println(controlled.toString());
 			return controlled;
 		}
 		return new HashMap<String,String>();

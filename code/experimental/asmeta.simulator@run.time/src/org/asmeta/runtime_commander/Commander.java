@@ -431,6 +431,7 @@ public class Commander {
 	public static void initializeConfiguration() {
 		try {
 			File configFile = new File(CONFIG_FILE_PATH);
+			//InputStream configStream = Commander.class.getResourceAsStream(CONFIG_FILE_PATH);
 			Scanner reader = new Scanner(configFile);
 			while(reader.hasNextLine()) {
 				String data = reader.nextLine();
@@ -448,6 +449,9 @@ public class Commander {
 			reader.close();
 		} catch(Exception e) {
 			System.err.println("Error while reading the configuration file!");
+			if(debugMode) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
