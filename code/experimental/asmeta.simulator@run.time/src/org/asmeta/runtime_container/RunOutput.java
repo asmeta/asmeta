@@ -140,7 +140,25 @@ public class RunOutput implements Serializable {
 //prova
 	
 	//TODO: Sistemare qui quando ci sono le 'out' nello stato [getOutvalues()]
-
+	public  Map<String, String> getOutvalues(){
+		if (ms!=null && ms.getOutValues()!=null) {
+			Map<Location, Value> set=ms.getOutValues();
+			HashMap<String, String> out = new HashMap<String, String>();
+			for (Location key : set.keySet()) {
+			    Value val = set.get(key);
+			    
+			    if(val instanceof org.asmeta.simulator.value.StringValue) {
+			    	out.put(key.toString(), "\"" + val.toString() + "\"");
+			    } else {
+			    	out.put(key.toString(), val.toString());
+			    }
+			}
+			//System.out.println(controlled.toString());
+			return out;
+		}
+		return new HashMap<String,String>();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		    
