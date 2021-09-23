@@ -1,23 +1,24 @@
 package org.asmeta.runtime_composer;
 
-import java.io.BufferedReader;
-
 /**
  * @author Michele Zenoni
  */
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import org.asmeta.parser.ASMParser;
 import org.asmeta.runtime_commander.Commander;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainer;
+
+import asmeta.AsmCollection;
+import asmeta.definitions.Function;
+import asmeta.definitions.impl.OutFunctionImpl;
 
 public class AsmetaModel implements IAsmetaModel {
 	private final int[] ID = new int[2]; // [containerInstanceID, modelID]
@@ -62,61 +63,65 @@ public class AsmetaModel implements IAsmetaModel {
 		this.outputConsole = new ByteArrayOutputStream();
 	}
 	
-	// TODO: da rivedere (spostare in RunOutput?) PROVVISORIO
+	// TODO: da rivedere quando è sistemato lo stato di RunOutput (soluzione PROVVISORIA)
 	public Map<String, String> getOutValues(){
 		Map<String, String> controlled = output.getControlledvalues();
 		Map<String, String> out = new HashMap<>();
+		List<String> names = new ArrayList<>();
 		
-		ArrayList<String> names = new ArrayList<>();
-		ArrayList<String> functionContent = new ArrayList<>();
-		BufferedReader reader;
-		Pattern outPattern = Pattern.compile("\\s*out\\s+(.*)\\s*:.*");
+		names = getAllOut(names, getModelPath());
 		
-		Matcher matcher;
-		boolean commented = false;
-		
-		if(!getModelPath().equals("")) {
-			File asmFile = new File(getModelPath());
-			if(asmFile.exists()) {
-				//AsmCollection asm;
-				try {
-					String line = "";
-					reader = new BufferedReader(new FileReader(asmFile));
-					while((line = reader.readLine()) != null) {
-						if(line.contains("/*")) {
-							commented = true;
-						}
-						if(line.contains("*/")) {
-							commented = false;
-						}
-						if(line.contains("out") && !line.startsWith("//") && !commented) {
-							line = line.trim();
-							functionContent.add(line);
-							System.out.println("\n" + line + "\n");
-						}	
-					}
-					for(String function: functionContent) {
-						matcher = outPattern.matcher(function);
-						// DEBUG: System.out.println(enumDomain);
-						if(matcher.find() && matcher.groupCount() == 1) {
-							function = matcher.group(1).trim();
-							function = function.replaceAll(" ", "");
-							// DEBUG: System.out.println("\n" + enumDomain + "\n");
-							names.add(function);
+		if(names != null) {
+			for(String function: names) {
+				if(controlled.containsKey(function)) {
+					out.put(function, controlled.get(function));
+				} else {
+					for(String functionName: controlled.keySet()) {
+						if(functionName.contains(function)) {
+							out.put(functionName, controlled.get(functionName));
 						}
 					}
-					reader.close();
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 		}
-		for(String function: names) {
-			if(controlled.containsKey(function)) {
-				out.put(function, controlled.get(function));
+		// DEBUG: System.out.println(controlled.toString());
+		// DEBUG: System.out.println(names.toString());
+		// DEBUG: System.out.println(out.toString());
+		return out;
+	}
+	
+	private List<String> getAllOut(List<String> outList, String modelPath){
+		String root = modelPath.substring(0, modelPath.lastIndexOf("/") + 1);
+		if(root.isEmpty()) {
+			root = modelPath.substring(0, modelPath.lastIndexOf("\\") + 1);
+		}
+		if (!modelPath.equals("")) {
+			File asmFile = new File(modelPath);
+			if (asmFile.exists()) {
+				AsmCollection asm;
+				try {
+					asm = ASMParser.setUpReadAsm(asmFile);
+					for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
+						Function f = asm.getMain().getHeaderSection().getSignature().getFunction().get(i);
+						if (f instanceof OutFunctionImpl) {
+							outList.add(f.getName());
+						}
+					}
+					
+					int importSize = asm.getMain().getHeaderSection().getImportClause().size();
+					for (int i = 0; i < importSize; i++) {
+						String moduleName = asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
+						if(!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
+							outList = getAllOut(outList, root + moduleName + ".asm");
+						}
+					}
+				} catch (Exception e) {
+					outList = null;
+					e.printStackTrace();
+				}			
 			}
 		}
-		return out;
+		return outList;
 	}
 	
 	public RunOutput runStep(Map<String, String> input) { // input can be null

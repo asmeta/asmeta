@@ -1,4 +1,0 @@
-init -n 1
-setup safePillbox.asm
-run(safePillbox.asm, {redLed(compartment1)=OFF;redLed(compartment2)=OFF;name(compartment1)="fosamax";name(compartment2)="moment";time_consumption(compartment1)=[350];time_consumption(compartment2)=[780,1140];drugIndex(compartment1)=0;drugIndex(compartment2)=0})
-run(safePillbox.asm, {systemTime=351;pillTakenWithDelay(compartment2)=false;isPillMissed(compartment2)=false;pillTakenWithDelay(compartment1)=false;isPillMissed(compartment1)=false;name(compartment2)="moment";skipPill(compartment2)=[false,false];skipPill(compartment1)=[false];logMess(compartment1)="";redLed(compartment1)=ON;redLed(compartment2)=OFF;day=0;outMess(compartment1)="Take fosamax";drugIndex(compartment1)=0;time_consumption(compartment1)=[350];compartmentTimer(compartment1)=351;opened(compartment2)=false;drugIndex(compartment2)=0;opened(compartment1)=false;time_consumption(compartment2)=[780,1140];name(compartment1)="fosamax";compartmentTimer(compartment2)=0})

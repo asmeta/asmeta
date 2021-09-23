@@ -139,7 +139,8 @@ public class RunOutput implements Serializable {
 	}
 //prova
 	
-	//TODO: Sistemare qui quando ci sono le 'out' nello stato [getOutvalues()]
+	//TODO: Sistemare qui quando ci sono le 'out' nello stato [getOutvalues()].
+	//		Sistemare poi AsmetaModel e CompositionManager seguendo la TODO list
 
 	@Override
 	public boolean equals(Object obj) {

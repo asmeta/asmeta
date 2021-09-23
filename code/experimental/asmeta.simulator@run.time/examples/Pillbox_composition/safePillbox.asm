@@ -36,6 +36,7 @@ signature:
 	
 	//COMPOSITION
 	monitored pillboxSystemTime: Natural
+	out systemTime: Natural
 	
 definitions:
 	//*************************************************
@@ -126,10 +127,12 @@ definitions:
 	  //transition from INIT to NORMAL
 		if state = INIT then
 			r_INIT[] //Medicine knowledge initialization depending on how the pillbox has been filled
-		else		
-			r_NORMAL_FUNCT[]
+		else
+			par	
+				r_NORMAL_FUNCT[]
+				systemTime := pillboxSystemTime
+			endpar
 		endif
-	  
 
 
 		
