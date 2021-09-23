@@ -25,14 +25,17 @@ signature:
 	out skipNextPill: Compartment -> Boolean //SafePillbox detected that pill taken with delay
 	
 	//Time management
-	// The systemTime is expressed as the number of hours passed since the 01/01/1970
-	monitored systemTime: Natural //Time in minutes since midnight
+	// The pillboxSystemTime is expressed as the number of hours passed since the 01/01/1970
+	//monitored pillboxSystemTime: Natural //Time in minutes since midnight
 	
 	//*************************************************
 	// STATIC VARIABLES
 	//*************************************************
 	static compartment1: Compartment
 	static compartment2: Compartment	
+	
+	//COMPOSITION
+	monitored pillboxSystemTime: Natural
 	
 definitions:
 	//*************************************************
@@ -78,22 +81,23 @@ definitions:
 	 	if pillTakenWithDelay($compartment) then
 			//pill taken later compared the timecompartment
 			//for all next pills that cause invariant violation because the current has been taken after set time -> skip pill
-			forall $c2 in next($compartment) with 
-			   	(  ((iton(at(time_consumption($c2),drugIndex($c2)) - (systemTime mod 1440n)) //it should be actual_time_consumption, but since it is updated in the next state I use systemTime here
-				<= (minToInterferer(name($compartment),name($c2)))) and $c2!=$compartment) or ((iton(at(time_consumption($c2),nextDrugIndex($c2)) - (systemTime mod 1440n))
+			forall $c2 in next($compartment) do 
+			   if	(((iton(at(time_consumption($c2),drugIndex($c2)) - (pillboxSystemTime mod 1440n)) //it should be actual_time_consumption, but since it is updated in the next state I use pillboxSystemTime here
+				<= (minToInterferer(name($compartment),name($c2)))) and $c2!=$compartment) or ((iton(at(time_consumption($c2),nextDrugIndex($c2)) - (pillboxSystemTime mod 1440n))
 				<= (minToInterferer(name($compartment),name($c2)))) and $c2=$compartment)
-				) do
+				) then
 					par
 						skipNextPill($compartment, $c2):= true
 						skipNextPill($compartment) := true
 					endpar
 					//skip next pill -> rule must be in pillbox
+				endif
 		endif
 		endpar
 	
 	//Reset all skipPill to false
 	rule r_resetMidnight =
-		if (rtoi(systemTime/1440n))> day then
+		if (rtoi(pillboxSystemTime/1440n))> day then
 			forall $c in Compartment do
 				par
 					setNewTime($c) := false 
@@ -101,8 +105,16 @@ definitions:
 						skipNextPill ($c, $c2) := false
 				endpar
 		endif
+	
+	rule r_evaluate_output_pill=
+		 forall $compartment in Compartment do 
+			 forall $c2 in next($compartment) do 
+				 if setNewTime($compartment) and skipNextPill($compartment) and skipNextPill($compartment, $c2) then
+					skip
+				 endif
+	
 				
-	rule r_NORMAL_FUNCT =  par r_keepPrevLiths[] r_enforce[] r_resetMidnight[] endpar //r_CompartmentMgmt[] 
+	rule r_NORMAL_FUNCT =  par r_keepPrevLiths[] r_enforce[] r_resetMidnight[] r_evaluate_output_pill[] endpar //r_CompartmentMgmt[] 
     
   
 		
@@ -121,7 +133,7 @@ definitions:
 
 
 		
- init s0:	//This init state is correct, it does not generate any invariant violation
+default init s0:	//This init state is correct, it does not generate any invariant violation
 	//Controlled function that indicates the status of the system
 	function state = INIT
 	
@@ -136,8 +148,8 @@ definitions:
 		
 	function time($m in String) =
 		switch($m)
-			case "moment" : [780n, 1140n]
-			case "fosamax" : [410n]//[180n] modificato per far si che si riprogrammi una volta sola e poi non può più essere riprogrammato
+			case "moment" : [730n, 1140n]
+			case "fosamax" : [360n]
 		endswitch
 	
 	function minTimeToIntake($medicine in String) =
@@ -173,15 +185,15 @@ definitions:
 	//Initialization of day
 	function day = 0	
 	// Initialization of the SystemTime
-	function systemTime = 0n
+	function pillboxSystemTime = 0n
 
 	// Turn-off all the led of the Compartments
 	function redLed($compartment in Compartment) = OFF
 	// Initialization of the time consumption for a compartment
 	function time_consumption($compartment in Compartment) = //time(name($compartment))
 		switch($compartment)
-			case compartment1 : [410n]
-			case compartment2 : [780n, 1140n]
+			case compartment1 : [360n]
+			case compartment2 : [730n, 1140n]
 		endswitch 
 	// Insert a drug in each compartment	
 	function name($compartment in Compartment) = //id(medicineIn($compartment))
@@ -198,161 +210,4 @@ definitions:
 			case compartment1 : [0n]
 			case compartment2 : [0n, 0n]
 		endswitch 	
-
- default init s1:	//This init state is correct, it does not generate any invariant violation
-	//Controlled function that indicates the status of the system
-	function state = INIT
-	
 		
-	/* Medicine knowledge initialization from an external prescription (e.g., a JSON file)*/
-	 function medicine_list = ["moment","fosamax"]
-	 function amount($medicine in String) =
-		switch($medicine)
-			case "moment" : 2n
-			case "fosamax" : 1n
-		endswitch	
-		
-	function time($m in String) =
-		switch($m)
-			case "moment" : [780n, 1140n]
-			case "fosamax" : [350n]
-		endswitch
-	
-	function minTimeToIntake($medicine in String) =
-		switch($medicine)
-			case "moment" : 120n
-			case "fosamax" : 360n
-			otherwise 0n
-		endswitch 
-	
-	function minToInterferer($m in String, $n in String) =
- 	 if ($m = $n) then
- 			minTimeToIntake($m)
-	 else
-		switch ($m,$n)//(($m,$n))
-			case ("fosamax","moment") : 360n
-			case ("moment","fosamax") : 360n
-			otherwise 0n
-		endswitch 	
-	 endif
-	
-	function deltaDelay($medicine in String) =
-		switch($medicine)
-			case "moment" : 60n
-			case "fosamax" : 60n
-			otherwise 0n
-		endswitch 
-		
-	function setNewTime($c in Compartment) = false
-	function newTime($c in Compartment) = 0n
-	function skipNextPill($c in Compartment, $c2 in Compartment) = false
-	function skipNextPill($c in Compartment) = false
-	
-	//Initialization of day
-	function day = 0	
-	// Initialization of the SystemTime
-	function systemTime = 0n
-
-	// Turn-off all the led of the Compartments
-	function redLed($compartment in Compartment) = OFF
-	// Initialization of the time consumption for a compartment
-	function time_consumption($compartment in Compartment) = //time(name($compartment))
-		switch($compartment)
-			case compartment1 : [350n]
-			case compartment2 : [780n, 1140n]
-		endswitch 
-	// Insert a drug in each compartment	
-	function name($compartment in Compartment) = //id(medicineIn($compartment))
-		switch($compartment)
-			case compartment2 : "moment"
-			case compartment1 : "fosamax"
-		endswitch
-	// Every compartment has an index starting from 0
-	function drugIndex($compartment in Compartment) = 0n
-
-	// Initialization of the actual time consumption for a compartment
-	function actual_time_consumption($compartment in Compartment) = //time(name($compartment))
-		switch($compartment)
-			case compartment1 : [0n]
-			case compartment2 : [0n, 0n]
-		endswitch 	
-				
- init s2:	//This init state is correct, it does not generate any invariant violation
-	//Controlled function that indicates the status of the system
-	function state = INIT
-	
-		
-	/* Medicine knowledge initialization from an external prescription (e.g., a JSON file)*/
-	 function medicine_list = ["moment","fosamax"]
-	 function amount($medicine in String) =
-		switch($medicine)
-			case "moment" : 2n
-			case "fosamax" : 1n
-		endswitch	
-		
-	function time($m in String) =
-		switch($m)
-			case "moment" : [780n, 1140n]
-			case "fosamax" : [410n]
-		endswitch
-	
-	function minTimeToIntake($medicine in String) =
-		switch($medicine)
-			case "moment" : 120n
-			case "fosamax" : 360n
-			otherwise 0n
-		endswitch 
-	
-	function minToInterferer($m in String, $n in String) =
- 	 if ($m = $n) then
- 			minTimeToIntake($m)
-	 else
-		switch ($m,$n)//(($m,$n))
-			case ("fosamax","moment") : 360n
-			case ("moment","fosamax") : 360n
-			otherwise 0n
-		endswitch 	
-	 endif
-	
-	function deltaDelay($medicine in String) =
-		switch($medicine)
-			case "moment" : 60n
-			case "fosamax" : 60n
-			otherwise 0n
-		endswitch 
-		
-	function setNewTime($c in Compartment) = false
-	function newTime($c in Compartment) = 0n
-	function skipNextPill($c in Compartment, $c2 in Compartment) = false
-	function skipNextPill($c in Compartment) = false
-	
-	//Initialization of day
-	function day = 0	
-	// Initialization of the SystemTime
-	function systemTime = 0n
-
-	// Turn-off all the led of the Compartments
-	function redLed($compartment in Compartment) = OFF
-	// Initialization of the time consumption for a compartment
-	function time_consumption($compartment in Compartment) = //time(name($compartment))
-		switch($compartment)
-			case compartment2 : [780n, 1140n]
-			case compartment1 : [410n]
-		endswitch 
-	// Insert a drug in each compartment	
-	function name($compartment in Compartment) = //id(medicineIn($compartment))
-		switch($compartment)
-			case compartment2 : "moment"
-			case compartment1 : "fosamax"
-		endswitch
-	// Every compartment has an index starting from 0
-	function drugIndex($compartment in Compartment) = 0n
-
-	// Initialization of the actual time consumption for a compartment
-	function actual_time_consumption($compartment in Compartment) = //time(name($compartment))
-		switch($compartment)
-			case compartment1 : [0n]
-			case compartment2 : [0n, 0n]
-		endswitch 			
-	
-	

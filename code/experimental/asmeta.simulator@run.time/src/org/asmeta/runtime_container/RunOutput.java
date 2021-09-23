@@ -126,9 +126,7 @@ public class RunOutput implements Serializable {
 			for (Location key : set.keySet()) {
 			    Value val = set.get(key);
 			    
-			    // TODO: finire di sistemare problema pillbox (apici già sistemati -> sistemare la stampa?)
 			    if(val instanceof org.asmeta.simulator.value.StringValue) {
-			    	// System.out.println(val.toString() + " -> " + val.getClass().toString());
 			    	controlled.put(key.toString(), "\"" + val.toString() + "\"");
 			    } else {
 			    	controlled.put(key.toString(), val.toString());
@@ -141,6 +139,7 @@ public class RunOutput implements Serializable {
 	}
 //prova
 	
+	//TODO: Sistemare qui quando ci sono le 'out' nello stato [getOutvalues()]
 
 	@Override
 	public boolean equals(Object obj) {

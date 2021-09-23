@@ -1,17 +1,12 @@
 === PILLBOX - SAFEPILLBOX COMPOSITION TESTS ===
 TODOs:
 1) Aggiungere SimShell a file jar eseguibile da riga di comando -> DONE!
-2) Aggiungere README per utilizzare SimShell da riga di comando
+2) Aggiungere README per utilizzare SimShell da riga di comando -> DONE!
 3) Provare composizione di pillbox/safePillbox (con script):
 	- Eseguire 1 passo di inizializzazione del pillbox -> DONE!
 	- Comporre i modelli -> DONE!
 	- Seguire MPscenario1InputTrace.txt
 4) Sistemare composizione di pillbox/safePillbox:
 	- Problema nel passaggio di parametri di tipo stringa, mancano doppi apici ("") -> DONE!
-	- Problema delle coppie locazione-valore mancanti nell'output del pillbox (vedi sotto)
-	
-Pillbox output: {skipPill(compartment2)=[false,false];skipPill(compartment1)=[false];logMess(compartment1)="";redLed(compartment1)=ON;redLed(compartment2)=OFF;day=0;outMess(compartment1)="Take fosamax";drugIndex(compartment1)=0;time_consumption(compartment1)=[350], compartmentTimer(compartment1)=351, opened(compartment2)=false;drugIndex(compartment2)=0;opened(compartment1)=false;time_consumption(compartment2)=[780,1140];name(compartment1)="fosamax";compartmentTimer(compartment2)=0}
-
-Expected: {systemTime=351;pillTakenWithDelay(compartment2)=false;isPillMissed(compartment2)=false;pillTakenWithDelay(compartment1)=false;isPillMissed(compartment1)=false;name(compartment2)="moment";skipPill(compartment2)=[false,false];skipPill(compartment1)=[false];logMess(compartment1)="";redLed(compartment1)=ON;redLed(compartment2)=OFF;day=0;outMess(compartment1)="Take fosamax";drugIndex(compartment1)=0;time_consumption(compartment1)=[350];compartmentTimer(compartment1)=351;opened(compartment2)=false;drugIndex(compartment2)=0;opened(compartment1)=false;time_consumption(compartment2)=[780,1140];name(compartment1)="fosamax";compartmentTimer(compartment2)=0}
-
-Missing: systemTime=351;pillTakenWithDelay(compartment2)=false;isPillMissed(compartment2)=false;pillTakenWithDelay(compartment1)=false;isPillMissed(compartment1)=false;name(compartment2)="moment";
+	- Problema delle coppie locazione-valore mancanti nell'output del pillbox -> DONE!
+5) Sistemare getControlledValues() con filtro per funzioni 'out' [getOutvalues()]

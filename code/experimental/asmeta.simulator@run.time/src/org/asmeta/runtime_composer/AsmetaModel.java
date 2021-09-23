@@ -1,11 +1,19 @@
 package org.asmeta.runtime_composer;
 
+import java.io.BufferedReader;
+
 /**
  * @author Michele Zenoni
  */
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.asmeta.runtime_commander.Commander;
 import org.asmeta.runtime_container.RunOutput;
@@ -52,6 +60,63 @@ public class AsmetaModel implements IAsmetaModel {
 		this.executionTime = 0L;
 		this.output = null;
 		this.outputConsole = new ByteArrayOutputStream();
+	}
+	
+	// TODO: da rivedere (spostare in RunOutput?) PROVVISORIO
+	public Map<String, String> getOutValues(){
+		Map<String, String> controlled = output.getControlledvalues();
+		Map<String, String> out = new HashMap<>();
+		
+		ArrayList<String> names = new ArrayList<>();
+		ArrayList<String> functionContent = new ArrayList<>();
+		BufferedReader reader;
+		Pattern outPattern = Pattern.compile("\\s*out\\s+(.*)\\s*:.*");
+		
+		Matcher matcher;
+		boolean commented = false;
+		
+		if(!getModelPath().equals("")) {
+			File asmFile = new File(getModelPath());
+			if(asmFile.exists()) {
+				//AsmCollection asm;
+				try {
+					String line = "";
+					reader = new BufferedReader(new FileReader(asmFile));
+					while((line = reader.readLine()) != null) {
+						if(line.contains("/*")) {
+							commented = true;
+						}
+						if(line.contains("*/")) {
+							commented = false;
+						}
+						if(line.contains("out") && !line.startsWith("//") && !commented) {
+							line = line.trim();
+							functionContent.add(line);
+							System.out.println("\n" + line + "\n");
+						}	
+					}
+					for(String function: functionContent) {
+						matcher = outPattern.matcher(function);
+						// DEBUG: System.out.println(enumDomain);
+						if(matcher.find() && matcher.groupCount() == 1) {
+							function = matcher.group(1).trim();
+							function = function.replaceAll(" ", "");
+							// DEBUG: System.out.println("\n" + enumDomain + "\n");
+							names.add(function);
+						}
+					}
+					reader.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		for(String function: names) {
+			if(controlled.containsKey(function)) {
+				out.put(function, controlled.get(function));
+			}
+		}
+		return out;
 	}
 	
 	public RunOutput runStep(Map<String, String> input) { // input can be null

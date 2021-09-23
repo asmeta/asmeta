@@ -172,6 +172,7 @@ public class CompositionManager implements IModelComposition {
 						this.remainingExecutionTime -= model.getExecutionTime();
 					} else {
 						if(compositionOutput.getEsit() == Esit.SAFE) {
+							// TODO: cambiare con getOutValues()
 							Map<String, String> modelOutput = compositionOutput.getControlledvalues();
 							compositionOutput = model.run(modelOutput, max, timeout);
 							model.output = compositionOutput;
