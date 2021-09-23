@@ -1,2 +1,0 @@
-autosetup parS0.asm || parS1.asm || parS2.asm
-runstep -id 1 -locationvalue {x=10, y=100}

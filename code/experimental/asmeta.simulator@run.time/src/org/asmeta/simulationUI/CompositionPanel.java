@@ -3,6 +3,7 @@ package org.asmeta.simulationUI;
 /**
  * @author Michele Zenoni
  */
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
@@ -32,6 +33,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import org.asmeta.assertion_catalog.InvariantGUI;
+import org.asmeta.runtime_composer.AsmetaModel;
 
 public class CompositionPanel extends JPanel {
 	JLabel lblModel;

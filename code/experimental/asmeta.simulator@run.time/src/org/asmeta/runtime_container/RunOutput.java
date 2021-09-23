@@ -1,6 +1,5 @@
 package org.asmeta.runtime_container;
 
-import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -98,7 +97,7 @@ public class RunOutput implements Serializable {
 		if (!message.equals(""))
 			sb.append("Reason: " + message + "\n");
 		if (ms!=null)
-			sb.append("Updated locations: " + ms.getControlledValues());
+			sb.append("Updated locations: " + ms.getControlledValuesToString());
 
 		return sb.toString();
 	}
@@ -126,14 +125,21 @@ public class RunOutput implements Serializable {
 			HashMap<String, String> controlled = new HashMap<String, String>();
 			for (Location key : set.keySet()) {
 			    Value val = set.get(key);
-			    controlled.put(key.toString(), val.toString());
+			    
+			    if(val instanceof org.asmeta.simulator.value.StringValue) {
+			    	controlled.put(key.toString(), "\"" + val.toString() + "\"");
+			    } else {
+			    	controlled.put(key.toString(), val.toString());
+			    }
 			}
+			//System.out.println(controlled.toString());
 			return controlled;
 		}
 		return new HashMap<String,String>();
 	}
 //prova
 	
+	//TODO: Sistemare qui quando ci sono le 'out' nello stato [getOutvalues()]
 
 	@Override
 	public boolean equals(Object obj) {

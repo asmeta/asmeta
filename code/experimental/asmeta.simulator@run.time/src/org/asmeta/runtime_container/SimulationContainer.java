@@ -34,10 +34,11 @@ import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
 import org.asmeta.parser.util.AsmPrinter;
+import org.asmeta.runtime_composer.AsmetaModel;
+import org.asmeta.runtime_composer.ModelCreationException;
 import org.asmeta.runtime_simulator.AsmetaSservice;
 import org.asmeta.runtime_simulator.IdNotFoundException;
 import org.asmeta.runtime_simulator.InfoAsmetaService;
-import org.asmeta.simulationUI.AsmetaModel;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -101,7 +102,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		loadedModels = new ArrayList<>();
 	}
 
-	// TODO: da stabilire per la gestione di SimulationContainer distribuiti
+	// TODO: da stabilire per la gestione di SimulationContainer distribuiti (RMI, REST, Google RPC?)
 	public int getSimulatorId() {
 		return 0;
 	}
@@ -126,6 +127,34 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			}
 		}
 		return false;
+	}
+	
+	private void setModelExecutionTime(int id, long duration) {
+		if(loadedModels != null && !loadedModels.isEmpty()) {
+			for(AsmetaModel model: loadedModels) {
+				if(model.getModelId() == id) {
+					model.setExecutionTime(duration);
+				}
+			}
+		}
+	}
+	
+	public void rollback(int id) {
+		try {
+			asmS.rollback(id);
+		} catch(EmptyStackException e) {
+			// TODO: Da scrivere su LOG, l'esecuzione è corretta
+			return;
+		}
+	}
+	
+	public void rollbackToState(int id) {
+		try {
+			asmS.rollbackToState(id);
+		} catch(EmptyStackException e) {
+			// TODO: Da scrivere su LOG, l'esecuzione è corretta
+			return;
+		}
 	}
 	/**
 	 * return the id of the simulator if the simulator is full return -1;.
@@ -162,10 +191,12 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				sout = new StartOutput(-5, "The model name " + modelPath.substring(modelPath.lastIndexOf("/") + 1)
 						+ " Does not match:" + " Check for case sensitive in <<modelname.asm>>");
 				System.err.println(sout.toString());
+			} else if (e instanceof ModelCreationException) {
+				sout = new StartOutput(-6, "Error in the AsmetaModel creation");
+				System.err.println(sout.toString());
 			}
-
 			else {
-				sout = new StartOutput(-6, "General Exception: Please report the problem");
+				sout = new StartOutput(-6, "General Exception: please report the problem");
 				System.err.println(sout.toString());
 			}
 
@@ -208,8 +239,12 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				sout = new StartOutput(-7, "Invalid invariant on initial state, please check the updated model again");
 				System.err.println(sout.toString());
 			}
+			else if (e instanceof ModelCreationException) {
+				sout = new StartOutput(-6, "Error in the AsmetaModel creation");
+				System.err.println(sout.toString());
+			}
 			else {
-				sout = new StartOutput(-6, "General Exception: Please report the problem");
+				sout = new StartOutput(-6, "General Exception: please report the problem");
 				System.err.println(sout.toString());
 			}
 		}
@@ -270,6 +305,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				ms = asmS.run(id, locationValue); //run ASM with id and monitored locations locationValue
 				endRun = System.nanoTime();
 				duration = (endRun - startRun);
+				setModelExecutionTime(id, duration);
 				if (locationValue!=null) 
 					rout = new RunOutput(Esit.SAFE, asmS.getCurrentState(id).getMonitoredValues(), ms);
 				else
@@ -286,7 +322,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
+				} catch (NullPointerException | EmptyStackException e1) {
 					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
@@ -310,7 +346,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
+				} catch (NullPointerException | EmptyStackException e1) {
 					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
@@ -325,7 +361,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
+				} catch (NullPointerException | EmptyStackException e1) {
 					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
@@ -339,7 +375,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
+				} catch (NullPointerException | EmptyStackException e1) {
 					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
@@ -627,6 +663,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				ms = asmS.runUntilEmpty(id, locationValue, max);
 				endRun = System.nanoTime();
 				duration = (endRun - startRun);
+				setModelExecutionTime(id, duration);
 				rout = new RunOutput(Esit.SAFE, asmS.getCurrentState(id).getMonitoredValues(), ms);
 				printState(asmS.getSimulatorTable().get(id).getContSim(), rout, duration, id);
 			}
@@ -640,7 +677,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));					
-				} catch (NullPointerException e1) {
+				} catch (NullPointerException | EmptyStackException e1) {
 					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
@@ -662,7 +699,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
+				} catch (NullPointerException | EmptyStackException e1) {
 					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
@@ -676,7 +713,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
+				} catch (NullPointerException | EmptyStackException e1) {
 					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
@@ -917,8 +954,10 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	 * @throws Exception from ASMParser
 	 */
 	private List<String> findAllMonitored(List<String> monNames, String modelPath) throws Exception{
-		String root="";
-		root=modelPath.substring(0,modelPath.lastIndexOf("/")+1);
+		String root = modelPath.substring(0, modelPath.lastIndexOf("/") + 1);
+		if(root.isEmpty()) {
+			root = modelPath.substring(0, modelPath.lastIndexOf("\\") + 1);
+		}
 		File asmFile = new File(modelPath);
 		try {
 			if (!asmFile.exists()) {
@@ -929,7 +968,6 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			System.out.println("CheckSafety: "+ex.getMessage());
 		}
 		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
-		// cerco di prendere la classe delle monitorate  NON LEGGE LE MONITORATE NEI FILE DI IMPORT
 		for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
 			if (asm.getMain().getHeaderSection().getSignature().getFunction()
 					.get(i) instanceof MonitoredFunctionImpl)
@@ -938,8 +976,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		int c = asm.getMain().getHeaderSection().getImportClause().size();
 		for (int i=0;i<c;i++) {
 			String moduleName=asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
-			if (!moduleName.toLowerCase().endsWith("standardlibrary"))	//Skips the StandardLibrary.asm
+			if (!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
 				monNames=findAllMonitored(monNames, root+moduleName+".asm");
+			}
 		}
 		return monNames;
 	}

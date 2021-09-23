@@ -4,3 +4,6 @@
 *.ino
 *.u2c
 *.o
+
+# exported by the parser
+*.xmi

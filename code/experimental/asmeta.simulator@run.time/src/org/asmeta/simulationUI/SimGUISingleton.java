@@ -17,13 +17,17 @@ import java.awt.event.WindowFocusListener;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -32,6 +36,7 @@ import java.util.regex.Pattern;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -53,10 +58,16 @@ import javax.swing.text.StyleConstants;
 import org.asmeta.assertion_catalog.InvariantGUI;
 import org.asmeta.assertion_catalog.LoadComboItem;
 import org.asmeta.assertion_catalog.LoadDialog;
+import org.asmeta.assertion_catalog.LoadSelectedSimulation;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.runtime_commander.Commander;
+import org.asmeta.runtime_composer.AsmetaModel;
+import org.asmeta.runtime_composer.CompositionException;
+import org.asmeta.runtime_composer.CompositionTreeNode;
 import org.asmeta.runtime_container.Esit;
+import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.RunOutput;
-import org.asmeta.runtime_container.SimulationContainer;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -64,15 +75,19 @@ import com.formdev.flatlaf.FlatLightLaf;
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
 import asmeta.definitions.impl.MonitoredFunctionImpl;
+import javax.swing.JSeparator;
 
 /**
- * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano, Michele Zenoni
  */
 public class SimGUISingleton extends JFrame {
 	public static JPanel contentPane;
 	public static boolean darkMode;
 	public static int fontSize;
 	public static List<Image> icons;
+	public static List<Integer> loadedIDs;
+	public static ByteArrayOutputStream simConsole;
+	private PrintStream previousConsole;
 	
 	static JScrollPane scrollPane;
 	static JTextPane textPaneID;
@@ -97,19 +112,36 @@ public class SimGUISingleton extends JFrame {
 	static JCheckBoxMenuItem darkModeCheckItem;
 	static JMenuItem invManagerMenuItem;
 	static ButtonGroup fontSizeGroup;
-	static SimulationContainer containerInstance;
-	static int currentLoadedID;
-	static int currentMaxInstances;
-	static String currentLoadedModel;
+	static JMenu simulationMenu;
+	static JMenuItem currentSimulationMenuItem;
+	static JMenuItem saveMenuItem;
+	static JMenuItem clearMenuItem;
+	static JSeparator separator;
+	static JMenuItem compositionMenuItem;
+	static JMenu compositionTypeMenu;
+	static JRadioButtonMenuItem pipeRadioItem;
+	static JRadioButtonMenuItem bidPipeRadioItem;
+	static JRadioButtonMenuItem complexRadioItem;
+	static ButtonGroup compositionTypeGroup;
+	
+	public static SimulationContainerSingleton containerInstance;
+	private static int currentLoadedID;
+	private static int currentMaxInstances;
+	private static String currentLoadedModel;
+	private static CompositionType selectedCompType;
 	
 	static final String PROPERTIES_FILE_PATH = "src/org/asmeta/simulationUI/.properties";
 
 	/**
 	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		SimulationContainer contInstance = new SimulationContainer();
-		
+	 */	
+	public static void main(IModelAdaptation containerInstance) {
+		SimulationContainerSingleton contInstance;
+		if(containerInstance == null) {
+			contInstance = new SimulationContainerSingleton();
+		} else {
+			contInstance = (SimulationContainerSingleton) containerInstance;
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -151,7 +183,7 @@ public class SimGUISingleton extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SimGUISingleton(SimulationContainer contInstance) {
+	public SimGUISingleton(SimulationContainerSingleton contInstance) {
 		initialize();
 		enableLoadSimButtons(false);
 		containerInstance=contInstance;
@@ -162,14 +194,16 @@ public class SimGUISingleton extends JFrame {
 	
 	
 	private void initialize() {
-		PrintStream previousConsole = System.out;
-		 
-        // Set the standard output to use newConsole.
-        ByteArrayOutputStream newConsole = new ByteArrayOutputStream();
+		previousConsole = System.out;
+		if(selectedCompType == null) {
+			selectedCompType = CompositionType.PIPE;
+		}
+        // Set the standard output to use simConsole.
+        simConsole = new ByteArrayOutputStream();
         icons = new Vector<Image>();
         
         icons.add(Toolkit.getDefaultToolkit().getImage(SimGUISingleton.class.getResource("/org/asmeta/animator/icona_circolare_16.png")));
-        icons.add(Toolkit.getDefaultToolkit().getImage(SimGUISingleton.class.getResource("/org/asmeta/animator/icona_circolare_40.png")));
+        icons.add(Toolkit.getDefaultToolkit().getImage(SimGUISingleton.class.getResource("/org/asmeta/animator/icona_circolare_64.png")));
         
         UIManager.put("OptionPane.messageFont", new Font("Segoe UI", Font.PLAIN, fontSize));
         UIManager.put("OptionPane.buttonFont", new Font("Segoe UI", Font.PLAIN, fontSize));
@@ -242,7 +276,7 @@ public class SimGUISingleton extends JFrame {
 				scrollPane.setBounds(new Rectangle(47, 93, frameWidth - 114, frameHeight - 273));
 				
 				// Handle btnStop, btnRunStep, btnRunStepTimeout, btnRunUntilEmpty, btnRunUntilEmptyTimeout replacement
-				if(frameWidth < (163*5 + 10*6 + 57*2)) {
+				if(frameWidth < 989) {
 					btnRunStep.setBounds(new Rectangle(57, frameHeight - 155, 163, 40));
 					btnRunStepTimeout.setBounds(new Rectangle(57, frameHeight - 105, 163, 40));
 					btnRunUntilEmpty.setBounds(new Rectangle(230, frameHeight - 155, 163, 40));
@@ -255,7 +289,6 @@ public class SimGUISingleton extends JFrame {
 					btnRunUntilEmptyTimeout.setBounds(new Rectangle(576, frameHeight - 155, 163, 50));
 					btnStop.setBounds(new Rectangle(frameWidth - 230, frameHeight - 165, 163, 70));
 				}
-				
 			}
 
 			@Override
@@ -398,10 +431,62 @@ public class SimGUISingleton extends JFrame {
 		openMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		fileMenu.add(openMenuItem);
 		
+		saveMenuItem = new JMenuItem("Save");
+		saveMenuItem.setEnabled(false);
+		saveMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		fileMenu.add(saveMenuItem);
+		
+		simulationMenu = new JMenu("Simulation");
+		simulationMenu.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		menuBar.add(simulationMenu);
+		
 		invManagerMenuItem = new JMenuItem("Open assertion catalog");
 		invManagerMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
 		invManagerMenuItem.setEnabled(false);
-		fileMenu.add(invManagerMenuItem);
+		simulationMenu.add(invManagerMenuItem);
+		
+		currentSimulationMenuItem = new JMenuItem("Select simulation");
+		currentSimulationMenuItem.setEnabled(false);
+		currentSimulationMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		simulationMenu.add(currentSimulationMenuItem);
+		
+		compositionTypeMenu = new JMenu("Select composition pattern");
+		compositionTypeMenu.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		compositionTypeMenu.setEnabled(false);
+		simulationMenu.add(compositionTypeMenu);
+		
+		compositionTypeGroup = new ButtonGroup();
+		
+		pipeRadioItem = new JRadioButtonMenuItem("Simple pipe");
+		pipeRadioItem.setEnabled(false);
+		pipeRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		pipeRadioItem.setSelected(true);
+		compositionTypeGroup.add(pipeRadioItem);
+		compositionTypeMenu.add(pipeRadioItem);
+		
+		bidPipeRadioItem = new JRadioButtonMenuItem("Simple bidirectional pipe");
+		bidPipeRadioItem.setEnabled(false);
+		bidPipeRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		compositionTypeGroup.add(bidPipeRadioItem);
+		compositionTypeMenu.add(bidPipeRadioItem);
+		
+		complexRadioItem = new JRadioButtonMenuItem("Complex");
+		complexRadioItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		compositionTypeGroup.add(complexRadioItem);
+		compositionTypeMenu.add(complexRadioItem);
+		
+		compositionMenuItem = new JMenuItem("Compose models");
+		compositionMenuItem.setEnabled(false);
+		compositionMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		simulationMenu.add(compositionMenuItem);
+		
+		separator = new JSeparator();
+		simulationMenu.add(separator);
+		
+		clearMenuItem = new JMenuItem("Clear output");
+		clearMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
+		clearMenuItem.setEnabled(false);
+		simulationMenu.add(clearMenuItem);
 		
 		windowMenu = new JMenu("Window");
 		windowMenu.setFont(new Font("Segoe UI", Font.PLAIN, fontSize));
@@ -473,6 +558,25 @@ public class SimGUISingleton extends JFrame {
 			}
 		});
 		
+		pipeRadioItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectedCompType = CompositionType.PIPE;
+			}
+		});
+		
+		bidPipeRadioItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectedCompType = CompositionType.BID_PIPE;
+			}
+		});
+		
+		complexRadioItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectedCompType = CompositionType.PARALLEL;
+				compositionMenuItem.doClick();
+			}
+		});
+		
 		darkModeCheckItem.addActionListener(new ActionListener() {	
 			public void actionPerformed(ActionEvent e) {
 				if(darkModeCheckItem.getState()) {
@@ -484,14 +588,185 @@ public class SimGUISingleton extends JFrame {
 				}
 			}
 		});
-
 		
+		compositionMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					loadedIDs = new ArrayList<>(containerInstance.getLoadedIDs().keySet());
+					loadedIDs.remove((Object) currentLoadedID);
+					CompositionTreeNode compositionTree = null;
+					
+					if(selectedCompType == CompositionType.PIPE || selectedCompType == CompositionType.BID_PIPE) {
+						int receiverID = (int) JOptionPane.showInputDialog(contentPane, 
+								   					"  Select the ID of the model that will be\ncomposed with the current loaded model:",
+								   					"Model ID",
+								   					JOptionPane.QUESTION_MESSAGE,
+								   					null,
+								   					loadedIDs.toArray(),
+								   					null);
+						
+						// DEBUG: System.out.println(receiverID);
+						if(selectedCompType == CompositionType.PIPE) {
+							compositionTree = Commander.parseComplex("setup " + 
+													CompositionGUI.clearPath(containerInstance.getLoadedIDs().get(currentLoadedID)) +
+													" | " + CompositionGUI.clearPath(containerInstance.getLoadedIDs().get(receiverID)));
+						} else {
+							compositionTree = Commander.parseComplex("setup " + 
+													CompositionGUI.clearPath(containerInstance.getLoadedIDs().get(currentLoadedID)) +
+													" <|> " + CompositionGUI.clearPath(containerInstance.getLoadedIDs().get(receiverID)));
+						}
+					} else { // Complex composition
+						String compositionString = (String) JOptionPane.showInputDialog(contentPane, 
+			   										"  Insert the composition operation for the loaded models:",
+			   										"Composition",
+			   										JOptionPane.QUESTION_MESSAGE,
+			   										null,
+			   										null,
+			   										null);
+						compositionTree = Commander.parseComplex("setup " + compositionString);
+					}
+					
+					if(compositionTree != null) {
+						// TODO: CompositionGUI is not intended to be used with Singleton
+						//CompositionGUI.main(containerInstance, compositionTree);
+					} else {
+						JOptionPane.showMessageDialog(contentPane, "Error: composition error!", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+					if(loadedIDs.size() <= 1) {
+						compositionMenuItem.setEnabled(false);
+					}
+					compositionTypeMenu.setEnabled(false);
+					currentSimulationMenuItem.setEnabled(false);
+					compositionMenuItem.setEnabled(false);
+				} catch(Exception ex) {
+					ex.printStackTrace();
+					return;
+				}
+			}
+		});
+		
+		clearMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(currentLoadedID >= 1 && textAreaLog.getText() != null) {
+					if(JOptionPane.showConfirmDialog(contentPane, 
+												  "Do you want to save the current simulation output?",
+												  "Save",
+												  JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						saveMenuItem.doClick();
+					}
+					textAreaLog.setText("");
+				}
+				return;
+			}
+		});
+		
+		saveMenuItem.addActionListener(new ActionListener() {
+			public String toTxt(String s) {
+				if(s.length() < 4) {
+					return null;
+				}
+				if(s.substring(s.length() - 4, s.length()).equals(".txt")) {
+					return s;
+				}
+				return (s + ".txt");
+			}
+			
+			public void actionPerformed(ActionEvent e) {
+				if(currentLoadedID >= 1 && textAreaLog.getText() != null) {
+					JFileChooser fileChooser = new JFileChooser();
+					fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+					fileChooser.setApproveButtonText("Save");
+					fileChooser.setSelectedFile(new File("simulation_output.txt"));
+					
+					String filePath;
+					File outputFile;
+					FileWriter writer;
+					StringBuilder infoData = new StringBuilder();
+					SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+					SimpleDateFormat dateTimeFormatter_ = new SimpleDateFormat("dd_MM_yyyy_HHmmss");
+					
+					if(fileChooser.showSaveDialog(contentPane) == JFileChooser.APPROVE_OPTION) {
+						try {
+							filePath = fileChooser.getSelectedFile().getAbsolutePath();
+							outputFile = new File(toTxt(filePath));
+							
+							if(outputFile.isDirectory()) {
+								throw new FileNotFoundException();
+							}
+							if(outputFile.exists()) {
+								if(JOptionPane.showConfirmDialog(contentPane, 
+																 "Do you want to overwrite the existing file?", 
+																 "Overwrite", 
+																 JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+									outputFile = new File(fileChooser.getSelectedFile().getParent(), 
+														  toTxt("simulation_output_" + dateTimeFormatter_.format(new Date())));
+								}
+							}
+							outputFile.createNewFile();
+							infoData.append("Simulation Output timestamp: " + dateTimeFormatter.format(new Date()) + "\n");
+							infoData.append("Model path: " + currentLoadedModel + "\n");
+							infoData.append("Simulation ID: " + Integer.toString(currentLoadedID) + "\n");
+							infoData.append("------------------------------------------------\n\n");
+							
+							writer = new FileWriter(outputFile);
+							writer.write(infoData.toString());
+							writer.write(textAreaLog.getText());
+							writer.close();
+							JOptionPane.showMessageDialog(contentPane, "Simulation output saved to file!", "Success", JOptionPane.INFORMATION_MESSAGE);
+						} catch(Exception ex) {
+							JOptionPane.showMessageDialog(contentPane, "Error: could not save the file!", "Error", JOptionPane.ERROR_MESSAGE);
+							//ex.printStackTrace();
+						}
+					} else {
+						fileChooser.cancelSelection();
+					}
+				}
+			}
+		});
+		
+		currentSimulationMenuItem.addActionListener(new ActionListener() {
+			   public void actionPerformed(ActionEvent e) {
+				   try {	
+					   Map<Integer, String> ids = containerInstance.getLoadedIDs();
+					   LoadComboItem ci=null;
+					   if(!ids.isEmpty()) {
+						   ci = new LoadSelectedSimulation(ids).showDialog();
+					   }
+					   if(ci!=null) {
+						   currentLoadedID = ci.getInt();
+						   currentLoadedModel = ci.getStr();
+						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(".asm")!=-1){
+							   if (currentLoadedModel.indexOf("\\")>=0) {
+								   textPaneModel.setText(currentLoadedModel.substring(currentLoadedModel.lastIndexOf("\\")+1));
+								   textPaneID.setText(Integer.toString(currentLoadedID));
+							   } else {
+								   textPaneModel.setText(currentLoadedModel);
+								   textPaneID.setText(Integer.toString(currentLoadedID));
+							   }
+							   clearMenuItem.doClick();
+							   textAreaLog.setText("Simulation ready.\n");
+						   }
+						   else if(currentLoadedModel.indexOf(".asm")==-1 && !currentLoadedModel.isEmpty())
+							   JOptionPane.showMessageDialog(contentPane, "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
+					   }
+				   } catch (Exception ex) {
+			    		if(ex instanceof java.io.FileNotFoundException)
+				    		JOptionPane.showMessageDialog(contentPane, "Error: no file selected!", "Error", JOptionPane.ERROR_MESSAGE);
+				    	else if(ex instanceof java.lang.NullPointerException) {
+				    		JOptionPane.showMessageDialog(contentPane, "Error: parser error!", "Error", JOptionPane.ERROR_MESSAGE);
+				    		ex.printStackTrace();
+				    	} 	
+				    	else {
+				    		ex.printStackTrace();
+				    	}
+				   }
+			   }
+		});
+
 		openMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(currentMaxInstances<1)
 				{
-					//String num=JOptionPane.showInputDialog("How many simulations do you want to instantiate?", "1");
-					//Object[] options = {"1", "2", "3"};
 					String num = (String) JOptionPane.showInputDialog(
 							contentPane, 											// parent component
 							"How many simulations do you want to instantiate?", 	// message
@@ -514,20 +789,21 @@ public class SimGUISingleton extends JFrame {
 						}
 					}
 				} else { // currentMaxInstances>=1
+					LoadComboItem ci = null;
+					LoadDialog ld = null;
 					Map<Integer, String> ids = containerInstance.getLoadedIDs();
-				
-		    		LoadComboItem ci=null;
-		    		if (!ids.isEmpty()) {
-		    			// setAllEnabled(1);
-		    			ci = new LoadDialog(containerInstance,ids).showDialog();
-		    			//JOptionPane.showMessageDialog(null, ci.getStr());
-		    		}else
-		    		{
-		    			LoadDialog ld = new LoadDialog(containerInstance,ids);
-		    			ld.disablebutton();
-		    			ci=new LoadDialog(containerInstance,ids).showDialog();
-		    			
-		    		}
+						
+			    	if (!ids.isEmpty()) {
+			    		// setAllEnabled(1);
+			    		ci = new LoadDialog(containerInstance,ids).showDialog();
+			    		//JOptionPane.showMessageDialog(null, ci.getStr());
+			    	} else {
+			    		ld = new LoadDialog(containerInstance,ids);
+			    		ld.disablebutton();
+			    		ci = new LoadDialog(containerInstance,ids).showDialog();
+			    	}
+					
+					
 		    		if (ci!=null) {
 		    			currentLoadedID = ci.getInt();
 		    			currentLoadedModel = ci.getStr();
@@ -540,9 +816,22 @@ public class SimGUISingleton extends JFrame {
 		    			enableLoadSimButtons(true);
 		    			textAreaLog.setText("Simulation ready.\n");
 		    			invManagerMenuItem.setEnabled(true);
-		    			/*JTextPane jj=(JTextPane)contentPane.getComponent(1);
-		    			jj.setText(currentLoadedModel);
-		    			jj=(JTextPane)contentPane.getComponent(2);*/
+		    			saveMenuItem.setEnabled(true);
+		    			clearMenuItem.setEnabled(true);
+		    			
+		    			if(currentMaxInstances >= 2) {
+		    				if(currentMaxInstances == 2) {
+					    		pipeRadioItem.setEnabled(true);			
+		    					bidPipeRadioItem.setEnabled(true);
+		    				}
+		    				currentSimulationMenuItem.setEnabled(true);
+		    				compositionMenuItem.setEnabled(true);
+		    				compositionTypeMenu.setEnabled(true);
+		    			}
+		    			
+		    			if(containerInstance.getLoadedIDs().size() >= currentMaxInstances) {
+		    				openMenuItem.setEnabled(false);
+		    			}
 		    		}
 				}
 			}
@@ -575,40 +864,71 @@ public class SimGUISingleton extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(currentLoadedID<1)
 					JOptionPane.showMessageDialog(contentPane, "Error: no simulation selected!", "Error", JOptionPane.ERROR_MESSAGE);
-				else
-					new InvariantGUI(containerInstance,currentLoadedID,currentLoadedModel).setVisible();
+				else {
+					InvariantGUI invGUI = new InvariantGUI(containerInstance,currentLoadedID,currentLoadedModel);
+					invGUI.setVisible();
+					InvariantGUI.frame.setLocationRelativeTo(contentPane);
+				}	
 			}
 		});
 		
 		btnRunUntilEmpty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.setErr(new PrintStream(newConsole));
-				System.setOut(new PrintStream(newConsole));
+				System.setErr(new PrintStream(simConsole));
+				System.setOut(new PrintStream(simConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
-				if (monitored.size()<1)
-					out=containerInstance.runUntilEmpty(currentLoadedID);
-				else {
-					Map<String, String> input = getInput(monitored);
-					out=containerInstance.runUntilEmpty(currentLoadedID, input);
+				if(monitored == null) {
+					textAreaLog.append("Couldn't execute operation.\n");
+				} else {
+					// Supporting multi-model mixed composition (unidirectional cascade pipe, partial bidirectional pipe, (coupled) fork-join execution)
+					CompositionPanel tab = null;
+					if(CompositionGUI.getConPane() != null && CompositionGUI.compositionManager != null) {
+						btnRunStep.setEnabled(false);
+						btnRunStepTimeout.setEnabled(false);
+						btnRunUntilEmptyTimeout.setEnabled(false);
+						// Logic is handled entirely by the Composition Manager
+						try {
+							if(monitored.size() < 1) {
+								CompositionGUI.compositionManager.runUntilEmpty(currentLoadedID, null, 0);
+							} else {
+								Map<String, String> input = getInput(monitored, false);
+								CompositionGUI.compositionManager.runUntilEmpty(currentLoadedID, input, 0);
+							}
+						} catch(CompositionException e) {
+							JOptionPane.showMessageDialog(contentPane, "Error: invalid composition!", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+						
+						// Graphics (GUI) is updated with a simple loop separated from the logic.
+						for(AsmetaModel model: CompositionGUI.getCompositionTabs().keySet()) {
+							tab = CompositionGUI.getCompositionTabs().get(model);
+							previousConsole.println(model.outputConsole.toString());
+							tab.textAreaLog.append("");
+							tab.textAreaLog.append(model.outputConsole.toString());
+							model.outputConsole.reset();
+						}
+					} else if(monitored.size() < 1) {
+						out = containerInstance.runUntilEmpty(currentLoadedID);
+					} else {
+						Map<String, String> input = getInput(monitored, false);
+						out = containerInstance.runUntilEmpty(currentLoadedID, input);
+					}
 				}
-				//JOptionPane.showMessageDialog(null, out.toString());	
-				//textAreaLog.append("Runstep executed with current result:\n"+out.MytoString()+"\n");
-				previousConsole.println(newConsole.toString()); // Display output of newConsole.
+				previousConsole.println(simConsole.toString()); // Display output of simConsole.
 				 
 		        // Restore back the standard console output.
 		        System.setOut(previousConsole);
 		        System.setErr(previousConsole);
 		        textAreaLog.append("");
-		        textAreaLog.append(newConsole.toString());
-		        newConsole.reset();
+		        textAreaLog.append(simConsole.toString());
+		        simConsole.reset();
 			}
 		});
 		
 		btnRunUntilEmptyTimeout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.setErr(new PrintStream(newConsole));
-				System.setOut(new PrintStream(newConsole));
+			public void actionPerformed(ActionEvent arg0) {
+				System.setErr(new PrintStream(simConsole));
+				System.setOut(new PrintStream(simConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				int timeout=-1;
@@ -624,58 +944,110 @@ public class SimGUISingleton extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "Error: not a valid number!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
-				if(timeout >= 0) {
-					if (monitored.size()<1)
-						out=containerInstance.runUntilEmptyTimeout(currentLoadedID,timeout);
-					else {
-						Map<String, String> input = getInput(monitored);
-						out=containerInstance.runUntilEmptyTimeout(currentLoadedID, input,timeout);
+				if(timeout >= 0 && monitored != null) {
+					// Supporting multi-model mixed composition (unidirectional cascade pipe, partial bidirectional pipe, (coupled) fork-join execution)
+					CompositionPanel tab = null;
+					if(CompositionGUI.getConPane() != null && CompositionGUI.compositionManager != null) {
+						btnRunStep.setEnabled(false);
+						btnRunUntilEmpty.setEnabled(false);
+						btnRunStepTimeout.setEnabled(false);
+						// Logic is handled entirely by the Composition Manager
+						try {
+							if(monitored.size() < 1) {
+								CompositionGUI.compositionManager.runUntilEmptyTimeout(currentLoadedID, null, 0, timeout);
+							} else {
+								Map<String, String> input = getInput(monitored, false);
+								CompositionGUI.compositionManager.runUntilEmptyTimeout(currentLoadedID, input, 0, timeout);
+							}
+						} catch(CompositionException e) {
+							JOptionPane.showMessageDialog(contentPane, "Error: invalid composition!", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+						
+						// Graphics (GUI) is updated with a simple loop separated from the logic.
+						for(AsmetaModel model: CompositionGUI.getCompositionTabs().keySet()) {
+							tab = CompositionGUI.getCompositionTabs().get(model);
+							previousConsole.println(model.outputConsole.toString());
+							tab.textAreaLog.append("");
+							tab.textAreaLog.append(model.outputConsole.toString());
+							model.outputConsole.reset();
+						}
+					} else if(monitored.size() < 1) {
+						out = containerInstance.runUntilEmptyTimeout(currentLoadedID, timeout);
+					} else {
+						Map<String, String> input = getInput(monitored, false);
+						out = containerInstance.runUntilEmptyTimeout(currentLoadedID, input, timeout);
 					}
-					//JOptionPane.showMessageDialog(null, out.toString());	
-					//textAreaLog.append("Runstep with timeout executed with current result:\n"+out.MytoString()+"\n");
 				} else
 					textAreaLog.append("Couldn't execute operation.\n");
-				previousConsole.println(newConsole.toString()); // Display output of newConsole.
+				previousConsole.println(simConsole.toString()); // Display output of simConsole.
 				 
 		        // Restore back the standard console output.
 		        System.setOut(previousConsole);
 		        System.setErr(previousConsole);
 		        textAreaLog.append("");
-		        textAreaLog.append(newConsole.toString());
-		        newConsole.reset();
+		        textAreaLog.append(simConsole.toString());
+		        simConsole.reset();
 			}
 		});
 		
 		btnRunStep.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.setErr(new PrintStream(newConsole));
-				System.setOut(new PrintStream(newConsole));
+				System.setErr(new PrintStream(simConsole));
+				System.setOut(new PrintStream(simConsole));
 				List<String> monitored = getMonitored();
-				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
-				if (monitored.size()<1)
-					out=containerInstance.runStep(currentLoadedID);
-				else {
-					Map<String, String> input = getInput(monitored);
-					out=containerInstance.runStep(currentLoadedID, input);
+				RunOutput out = new RunOutput(Esit.UNSAFE, "rout not intialized");
+				if(monitored == null) {
+					textAreaLog.append("Couldn't execute operation.\n");
+				} else {
+					// Supporting multi-model mixed composition (unidirectional cascade pipe, partial bidirectional pipe, (coupled) fork-join execution)
+					CompositionPanel tab = null;
+					if(CompositionGUI.getConPane() != null && CompositionGUI.compositionManager != null) {
+						btnRunStepTimeout.setEnabled(false);
+						btnRunUntilEmpty.setEnabled(false);
+						btnRunUntilEmptyTimeout.setEnabled(false);
+						// Logic is handled entirely by the Composition Manager
+						try {
+							if(monitored.size() < 1) {
+								CompositionGUI.compositionManager.runStep(currentLoadedID, null);
+							} else {
+								Map<String, String> input = getInput(monitored, false);
+								CompositionGUI.compositionManager.runStep(currentLoadedID, input);
+							}
+						} catch(CompositionException e) {
+							JOptionPane.showMessageDialog(contentPane, "Error: invalid composition!", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+						
+						// Graphics (GUI) is updated with a simple loop separated from the logic.
+						for(AsmetaModel model: CompositionGUI.getCompositionTabs().keySet()) {
+							tab = CompositionGUI.getCompositionTabs().get(model);
+							previousConsole.println(model.outputConsole.toString());
+							tab.textAreaLog.append("");
+							tab.textAreaLog.append(model.outputConsole.toString());
+							model.outputConsole.reset();
+						}
+					} else if(monitored.size() < 1) {
+						out = containerInstance.runStep(currentLoadedID);
+					} else {
+						Map<String, String> input = getInput(monitored, false);
+						out = containerInstance.runStep(currentLoadedID, input);
+					}
 				}
-				//JOptionPane.showMessageDialog(null, out.toString());	
-				//textAreaLog.append("Runstep executed with current result:\n"+out.MytoString()+"\n");
 				 
-		        previousConsole.println(newConsole.toString()); // Display output of newConsole.
-		 
+		        previousConsole.println(simConsole.toString()); // Display output of simConsole.
+		        
 		        // Restore back the standard console output.
 		        System.setOut(previousConsole);
 		        System.setErr(previousConsole);
 		        textAreaLog.append("");
-		        textAreaLog.append(newConsole.toString());
-		        newConsole.reset();
+		        textAreaLog.append(simConsole.toString());
+		        simConsole.reset();
 			}
 		});
 		
 		btnRunStepTimeout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.setErr(new PrintStream(newConsole));
-				System.setOut(new PrintStream(newConsole));
+				System.setErr(new PrintStream(simConsole));
+				System.setOut(new PrintStream(simConsole));
 				List<String> monitored = getMonitored();
 				RunOutput out=new RunOutput(Esit.UNSAFE, "rout not intialized");
 				int timeout=-1;
@@ -691,25 +1063,51 @@ public class SimGUISingleton extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "Error: not a valid number!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
-				if(timeout >= 0) {
-					if (monitored.size()<1)
-						out=containerInstance.runStepTimeout(currentLoadedID,timeout);
-					else {
-						Map<String, String> input = getInput(monitored);
-						out=containerInstance.runStepTimeout(currentLoadedID, input,timeout);
+				
+				if(timeout >= 0 && monitored != null) {
+					// Supporting multi-model mixed composition (unidirectional cascade pipe, partial bidirectional pipe, (coupled) fork-join execution)
+					CompositionPanel tab = null;
+					if(CompositionGUI.getConPane() != null && CompositionGUI.compositionManager != null) {
+						btnRunStep.setEnabled(false);
+						btnRunUntilEmpty.setEnabled(false);
+						btnRunUntilEmptyTimeout.setEnabled(false);
+						// Logic is handled entirely by the Composition Manager
+						try {
+							if(monitored.size() < 1) {
+								CompositionGUI.compositionManager.runStepTimeout(currentLoadedID, null, timeout);
+							} else {
+								Map<String, String> input = getInput(monitored, false);
+								CompositionGUI.compositionManager.runStepTimeout(currentLoadedID, input, timeout);
+							}
+						} catch(CompositionException e) {
+							JOptionPane.showMessageDialog(contentPane, "Error: invalid composition!", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+						
+						// Graphics (GUI) is updated with a simple loop separated from the logic.
+						for(AsmetaModel model: CompositionGUI.getCompositionTabs().keySet()) {
+							tab = CompositionGUI.getCompositionTabs().get(model);
+							previousConsole.println(model.outputConsole.toString());
+							tab.textAreaLog.append("");
+							tab.textAreaLog.append(model.outputConsole.toString());
+							model.outputConsole.reset();
+						}
+					} else if (monitored.size() < 1) {
+						out = containerInstance.runStepTimeout(currentLoadedID, timeout);
+					} else {
+						Map<String, String> input = getInput(monitored, false);
+						out = containerInstance.runStepTimeout(currentLoadedID, input, timeout);
 					}
-					//JOptionPane.showMessageDialog(null, out.toString());	
-					//textAreaLog.append("Runstep with timeout executed with current result:\n"+out.MytoString()+"\n");
 				} else
 					textAreaLog.append("Couldn't execute operation.\n");
-				previousConsole.println(newConsole.toString()); // Display output of newConsole.
+				
+				previousConsole.println(simConsole.toString()); // Display output of simConsole.
 				 
 		        // Restore back the standard console output.
 		        System.setOut(previousConsole);
 		        System.setErr(previousConsole);
 		        textAreaLog.append("");
-		        textAreaLog.append(newConsole.toString());
-		        newConsole.reset();
+		        textAreaLog.append(simConsole.toString());
+		        simConsole.reset();
 			}
 		});
 	}
@@ -758,26 +1156,39 @@ public class SimGUISingleton extends JFrame {
 			if (asmFile.exists()) {
 				AsmCollection asm;
 				try {
-					asm = ASMParser.setUpReadAsm(asmFile);// cerco di prendere la classe delle monitorate
+					asm = ASMParser.setUpReadAsm(asmFile);
 					for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
-						if (asm.getMain().getHeaderSection().getSignature().getFunction()
-								.get(i) instanceof MonitoredFunctionImpl)
-							monitoredList.add(asm.getMain().getHeaderSection().getSignature().getFunction().get(i).getName());
-				
+						Function f = asm.getMain().getHeaderSection().getSignature().getFunction().get(i);
+						if (f instanceof MonitoredFunctionImpl) {
+							if(f.getArity() == 0) {
+								monitoredList.add(f.getName());
+							} else {
+								monitoredList.add(f.getName() + "(" + f.getDomain().getName() + ")");
+							}
+						}
 					}
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(contentPane, "Error: asm parsing error!", "Error", JOptionPane.ERROR_MESSAGE);
+					monitoredList = null;
+					JOptionPane.showMessageDialog(contentPane, "Error: check the model and the input!", "Error", JOptionPane.ERROR_MESSAGE);
 				}			
 			}
 		}
 		return monitoredList;
 	}
 	
-	private Map<String, String> getInput(List<String> monitoredList) {
+	private Map<String, String> getInput(List<String> monitoredList, boolean auto) {
 		Map<String, String> input = new HashMap<>();
 		Map<String, Object[]> enumDomainFunction = new HashMap<>();
 		String inputValue = new String();
+		String domainValue = new String();
+		String monitoredName = new String();
+		String domainName = new String();
+		boolean nArity = false;
 		Object[] options;
+		
+		if(monitoredList == null || monitoredList.isEmpty()) {
+			return null;
+		}
 		
 		if(!currentLoadedModel.equals("")) {
 			File asmFile = new File(currentLoadedModel);
@@ -788,7 +1199,7 @@ public class SimGUISingleton extends JFrame {
 					for(int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
 						Function f = asm.getMain().getHeaderSection().getSignature().getFunction().get(i);
 						if(monitoredList.contains(f.getName())) {
-							if(f.getCodomain() != null) // supporto per le funzioni a 0 area: solo codominio
+							if(f.getCodomain() != null) // supporto per le funzioni 0-arie: solo codominio
 								enumDomainFunction.put(f.getName(), getEnumDomain(f.getCodomain().getName()).toArray());
 						}
 					}
@@ -799,21 +1210,61 @@ public class SimGUISingleton extends JFrame {
 			}
 		}
 		
-		for (String monitored: monitoredList) {
-			options = enumDomainFunction.get(monitored);
-			if(options.length == 0) {
-				options = null;
+		for(String monitored: monitoredList) {
+			if(monitored.contains("(") && monitored.contains(")")) {
+				nArity = true;
+				monitoredName = monitored.substring(0, monitored.indexOf('('));
+				domainName = monitored.substring(monitored.indexOf('(') + 1, monitored.indexOf(')'));
+				domainValue = (String) JOptionPane.showInputDialog( // expected input syntax: x,y,z,... -> ex.: 50,120 or just 50
+							contentPane, 												// parent component
+							"Insert '" + monitoredName + "' domain value/values:\n" + 
+							"Domain type: [ " + domainName + " ]", 						// message
+							"Domain input", 											// title
+							JOptionPane.PLAIN_MESSAGE, 									// message type
+							null, 														// icon
+							null, 														// options
+							null														// initial default value
+				);
 			}
-			inputValue = (String) JOptionPane.showInputDialog(
-					contentPane, 											// parent component
-					"Insert " + monitored + " value:", 						// message
-					"Input", 												// title
-					JOptionPane.PLAIN_MESSAGE, 								// message type
-					null, 													// icon
-					options, 												// options
-					null													// initial default value
-			);
+			
+			if(nArity) {
+				options = enumDomainFunction.get(monitoredName);
+				try {
+					if(domainValue != null && !domainValue.isEmpty()) {
+						monitored = monitoredName + "(" + domainValue + ")";
+					} else {
+						throw new Exception();
+					}
+				} catch(Exception e) {
+					monitoredList = null;
+					JOptionPane.showMessageDialog(contentPane, "Error: check the model and the input!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			} else {
+				options = enumDomainFunction.get(monitored);
+			}
+			
+			if(options != null) {
+				if(options.length == 0) {
+					options = null;
+				}
+			}
+			if(auto && options != null) {
+				Random seed = new Random();
+				inputValue = (String) options[seed.nextInt(options.length)];
+				System.out.println("Generated input for '" + monitored + "': " + inputValue);
+			} else {
+				inputValue = (String) JOptionPane.showInputDialog(
+						contentPane, 								// parent component
+						"Insert " + monitored + " value:", 			// message
+						"Input", 									// title
+						JOptionPane.PLAIN_MESSAGE, 					// message type
+						null, 										// icon
+						options, 									// options
+						null										// initial default value
+				);
+			}
 			input.put(monitored, inputValue);
+			nArity = false;
 		}
 		return input;
 	}
@@ -832,6 +1283,7 @@ public class SimGUISingleton extends JFrame {
 		Pattern domainPattern = Pattern.compile("\\{.*?\\}");
 		//Pattern enumPattern = Pattern.compile(".*?\\|.*|[^\\||^\" \"]*");
 		Matcher matcher;
+		boolean commented = false;
 		
 		if(!currentLoadedModel.equals("")) {
 			File asmFile = new File(currentLoadedModel);
@@ -841,7 +1293,13 @@ public class SimGUISingleton extends JFrame {
 					String line = "";
 					reader = new BufferedReader(new FileReader(asmFile));
 					while((line = reader.readLine()) != null) {
-						if(line.contains("enum") && line.contains("domain") && line.contains(domainName) && !line.contains("//")) {
+						if(line.contains("/*")) {
+							commented = true;
+						}
+						if(line.contains("*/")) {
+							commented = false;
+						}
+						if(line.contains("enum") && line.contains("domain") && line.contains(domainName) && !line.startsWith("//") && !commented) {
 							line = line.trim();
 							enumDomainContent.add(line);
 							// DEBUG: System.out.println("\n" + line + "\n");
@@ -874,5 +1332,9 @@ public class SimGUISingleton extends JFrame {
 			}
 		}
 		return values;
+	}
+	
+	public static int getMaxInstances() {
+		return SimGUISingleton.currentMaxInstances;
 	}
 }

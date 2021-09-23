@@ -36,6 +36,31 @@ public class MyState {
 		return monitoredValues;
 	}
 	
-
+	public String getControlledValuesToString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		int i = 0;
+		if(this.getControlledValues() != null && !this.getControlledValues().isEmpty()) {
+			for(Location loc: this.getControlledValues().keySet()) {
+				sb.append(loc.toString() + "=");
+				Value val = this.getControlledValues().get(loc);
+				if(val instanceof org.asmeta.simulator.value.StringValue) {
+					sb.append("\"" + val.toString() + "\"");
+				} else {
+					sb.append(val.toString());
+				}
+				i++;
+				if(this.getControlledValues().size() == i) {
+					sb.append("}");
+				} else {
+					sb.append(";");
+				}
+			}
+		} else {
+			sb.append("}");
+		}
+		
+		return sb.toString();
+	}
 }
  
