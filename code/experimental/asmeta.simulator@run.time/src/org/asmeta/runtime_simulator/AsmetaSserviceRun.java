@@ -73,11 +73,11 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 		State previousState = sim.previousState;
 		
 		//Set previous state
-		simulatorMap.get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null));
+		simulatorMap.get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null, previousState.getOutLocs(false)));
 		//System.out.println("\nPatrizia: monitored locs in the current state: "+state.getMonLocsState().toString());
 		
 		//Update current State
-		simulatorMap.get(id).setState(new MyState(state.getContrLocs(false), monitored));
+		simulatorMap.get(id).setState(new MyState(state.getContrLocs(false), monitored, state.getOutLocs(false)));
 		//System.out.println("\nPatrizia: monitored locs in the current state: "+state.getMonLocsState().toString());
 		//System.out.println("\nPatrizia: monitored locs in the current state (as re-built): "+monitored.toString());
 	}

@@ -10,4 +10,4 @@ TODOs:
 	- Problema nel passaggio di parametri di tipo stringa, mancano doppi apici ("") -> DONE!
 	- Problema delle coppie locazione-valore mancanti nell'output del pillbox -> DONE!
 5) Sistemare getControlledValues() con filtro per funzioni 'out' [getOutValues()] -> DONE!
-6) Portare getOutValues() in RunOutput dopo aver modificato lo stato
+6) Portare getOutValues() in RunOutput dopo aver modificato lo stato -> DONE!
