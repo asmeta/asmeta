@@ -2,6 +2,7 @@ package org.asmeta.framework.enforcerAirConditioner;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.asmeta.framework.auxiliary.Utility;
 import org.asmeta.framework.enforcer.*;
 import org.asmeta.framework.managedSystem.ManagedSystem;
 import org.asmeta.runtime_container.Esit;

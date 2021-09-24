@@ -24,7 +24,7 @@ signature:
 	out day: Integer //Controlled
 	//Patient has missed the pill
 	out isPillMissed: Compartment -> Boolean
-	out pillTakenWithpillTakenWithDelayDelay: Compartment -> Boolean // is true if the patient takes the pill (compartment opened) 
+	out pillTakenWithDelay: Compartment -> Boolean // is true if the patient takes the pill (compartment opened) 
 	
 	//IN from Safe Pillbox
 	monitored setNewTime: Compartment -> Boolean //if true set new time when pill is missed 

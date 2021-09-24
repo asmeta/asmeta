@@ -12,7 +12,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 //import java.io.PrintWriter;
 
-import org.asmeta.framework.enforcer.Utility;
+
+import org.asmeta.framework.auxiliary.Utility;
 
 
 //The managed system is a local process but external to the JVM where the enforcer runs.

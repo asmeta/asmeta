@@ -18,10 +18,10 @@ public class EnforcerPillBox extends Enforcer{
 	}
 	
 	public EnforcerPillBox(ManagedSystem system, Knowledge k, FeedbackLoop l) {
-
 		super(system, k, l);
+		
 	}
-
+	
 	
 	//First init step for the ASM SafePillbox used as enforcement model by the enforcer
 	public Map<String, String> initStep (String input) {
