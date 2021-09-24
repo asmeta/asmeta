@@ -9,17 +9,29 @@ import org.asmeta.simulator.value.Value;
 // monitored --> in previous state
 public class MyState {
 
-	@Deprecated // use get methods instead
 	public Map<Location, Value> controlledValues;
-	@Deprecated // use get methods instead
 	public Map<Location, Value> monitoredValues;
+	
+	public Map<Location, Value> outValues;
 
 	public MyState(Map<Location, Value> controlledValues, Map<Location, Value> monitoredValues) {
 		this.controlledValues = controlledValues;
 		this.monitoredValues = monitoredValues;
 	}
 
+	public MyState(Map<Location, Value> controlledValues, Map<Location, Value> monitoredValues, Map<Location, Value> outValues) {
+		this(controlledValues,monitoredValues);
+		this.outValues=outValues;
+	}
+	
+	void setOutValues(Map<Location, Value> outValues) {
+		this.outValues = outValues;
+	}
 
+	public Map<Location, Value> getOutValues() {
+		return outValues;
+	}
+	
 	void setControlledValues(Map<Location, Value> controlledValues) {
 		this.controlledValues = controlledValues;
 	}
@@ -51,6 +63,33 @@ public class MyState {
 				}
 				i++;
 				if(this.getControlledValues().size() == i) {
+					sb.append("}");
+				} else {
+					sb.append(";");
+				}
+			}
+		} else {
+			sb.append("}");
+		}
+		
+		return sb.toString();
+	}
+	
+	public String getOutValuesToString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		int i = 0;
+		if(this.getOutValues() != null && !this.getOutValues().isEmpty()) {
+			for(Location loc: this.getOutValues().keySet()) {
+				sb.append(loc.toString() + "=");
+				Value val = this.getOutValues().get(loc);
+				if(val instanceof org.asmeta.simulator.value.StringValue) {
+					sb.append("\"" + val.toString() + "\"");
+				} else {
+					sb.append(val.toString());
+				}
+				i++;
+				if(this.getOutValues().size() == i) {
 					sb.append("}");
 				} else {
 					sb.append(";");

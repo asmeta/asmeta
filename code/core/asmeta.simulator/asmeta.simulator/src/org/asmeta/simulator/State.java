@@ -327,6 +327,29 @@ public class State extends LocationSet {
 	}
 
 	/**
+	 * 
+	 * @return the out part of the state
+	 */
+	public Map<Location, Value> getOutLocs(boolean retrieveSelf) {
+		Map<Location, Value> outLocationMap = new HashMap<Location, Value>();
+		Function function;
+		for (Location location : locationMap.keySet()) {
+			function = location.getSignature();
+			if (!retrieveSelf && Defs.isSelf(function)) {
+				continue;
+			}
+			if (Defs.isOut(function)) {
+				outLocationMap.put(location, locationMap.get(location));
+			}
+		}
+		return outLocationMap;
+	}
+
+	public Map<Location, Value> getOutLocs() {
+		return getOutLocs(true);
+	}
+	
+	/**
 	 * It prints the monitored part of the state.
 	 * 
 	 * @return
