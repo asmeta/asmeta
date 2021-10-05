@@ -119,7 +119,7 @@ public class RunOutput implements Serializable {
 	
 	//NEEDED TO GET OUT FUNCTIONS VALUES
 	//TODO Federico Rebucini->ho messo l'output in string per isolare location e value al simulator, non so se è meglio importarli nell'enforcer
-	public  Map<String, String> getControlledvalues(){
+	public Map<String, String> getControlledvalues(){
 		if (ms!=null && ms.getControlledValues()!=null) {
 			Map<Location, Value> set=ms.getControlledValues();
 			HashMap<String, String> controlled = new HashMap<String, String>();
@@ -137,11 +137,25 @@ public class RunOutput implements Serializable {
 		}
 		return new HashMap<String,String>();
 	}
-//prova
-	
-	//TODO: Sistemare qui quando ci sono le 'out' nello stato [getOutvalues()].
-	//		Sistemare poi AsmetaModel e CompositionManager seguendo la TODO list
 
+	public Map<String, String> getOutvalues(){
+		if (ms!=null && ms.getOutValues()!=null) {
+			Map<Location, Value> set=ms.getOutValues();
+			HashMap<String, String> out = new HashMap<String, String>();
+			for (Location key : set.keySet()) {
+			    Value val = set.get(key);
+
+			    if(val instanceof org.asmeta.simulator.value.StringValue) {
+			    	out.put(key.toString(), "\"" + val.toString() + "\"");
+			    } else {
+			    	out.put(key.toString(), val.toString());
+			    }
+			}
+			return out;
+		}
+		return new HashMap<String,String>();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		    

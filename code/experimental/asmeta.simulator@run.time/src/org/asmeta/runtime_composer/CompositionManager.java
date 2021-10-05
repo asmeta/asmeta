@@ -172,9 +172,8 @@ public class CompositionManager implements IModelComposition {
 						this.remainingExecutionTime -= model.getExecutionTime();
 					} else {
 						if(compositionOutput.getEsit() == Esit.SAFE) {
-							// TODO: soluzione provvisoria con getOutValues() implementata in AsmetaModel
-							//Map<String, String> modelOutput = compositionOutput.getControlledvalues();
-							Map<String, String> modelOutput = model.getOutValues();
+							Map<String, String> modelOutput = compositionOutput.getOutvalues();
+							//Map<String, String> modelOutput = model.getOutValues();
 							compositionOutput = model.run(modelOutput, max, timeout);
 							model.output = compositionOutput;
 							timeout -= (int) model.getExecutionTime();
@@ -218,9 +217,8 @@ public class CompositionManager implements IModelComposition {
 					if(compositionOutput.getEsit() == Esit.SAFE) {
 						assertTrue(compositionOutput == first.getLastOutput());
 						timeout -= (int) first.getExecutionTime();
-						// TODO: soluzione provvisoria con getOutValues() implementata in AsmetaModel
-						//compositionOutput = second.run(first.getLastOutput().getControlledvalues(), max, timeout);
-						compositionOutput = second.run(first.getOutValues(), max, timeout);
+						compositionOutput = second.run(first.getLastOutput().getOutvalues(), max, timeout);
+						//compositionOutput = second.run(first.getOutValues(), max, timeout);
 						second.output = compositionOutput;
 						this.remainingExecutionTime -= second.getExecutionTime();
 					} else {
@@ -240,9 +238,8 @@ public class CompositionManager implements IModelComposition {
 					if(compositionOutput.getEsit() == Esit.SAFE) {
 						assertTrue(compositionOutput == second.getLastOutput());
 						timeout -= (int) second.getExecutionTime();
-						// TODO: soluzione provvisoria con getOutValues() implementata in AsmetaModel
-						//compositionOutput = first.run(second.getLastOutput().getControlledvalues(), max, timeout);
-						compositionOutput = first.run(second.getOutValues(), max, timeout);
+						compositionOutput = first.run(second.getLastOutput().getOutvalues(), max, timeout);
+						//compositionOutput = first.run(second.getOutValues(), max, timeout);
 						first.output = compositionOutput;
 						this.remainingExecutionTime -= first.getExecutionTime();
 					} else {
@@ -285,9 +282,8 @@ public class CompositionManager implements IModelComposition {
 								return;
 							}
 						}
-						// TODO: soluzione provvisoria con getOutValues() implementata in AsmetaModel
-						//finalOutput.putAll(modelList.get(i).output.getControlledvalues());
-						finalOutput.putAll(modelList.get(i).getOutValues());
+						finalOutput.putAll(modelList.get(i).output.getOutvalues());
+						//finalOutput.putAll(modelList.get(i).getOutValues());
 					}
 					if(multiConsole) {
 						System.setErr(new PrintStream(initialConsole));
@@ -343,8 +339,7 @@ public class CompositionManager implements IModelComposition {
 			}
 			modelList.add(getModelFromModelList(node.getModelName(), TEST_ID));
 		}
-		// TODO: cambiare con input.getOutValues() quando è sistemato lo stato di RunOutput
-		runComposedModels(modelList, compType, input.getControlledvalues(), max, timeout);
+		runComposedModels(modelList, compType, input.getOutvalues(), max, timeout);
 	}
 	
 	private void runTreeFromLocationValue(List<CompositionTreeNode> nodeList, CompositionType compType, Map<String, String> locationValue, int max, int timeout) throws CompositionException {
@@ -452,8 +447,7 @@ public class CompositionManager implements IModelComposition {
 				List<AsmetaModel> resultList = convertBidToPipe(node);
 				if(resultList != null) {
 					if(lastOutput != null) {
-						// TODO: cambiare con lastOutput.getOutValues() quando è sistemato lo stato di RunOutput
-						runComposedModels(resultList, CompositionType.PIPE, lastOutput.getControlledvalues(), max, (int) Math.ceil(this.remainingExecutionTime));
+						runComposedModels(resultList, CompositionType.PIPE, lastOutput.getOutvalues(), max, (int) Math.ceil(this.remainingExecutionTime));
 					} else {
 						runComposedModels(resultList, CompositionType.PIPE, locationValue, max, (int) Math.ceil(this.remainingExecutionTime));
 					}

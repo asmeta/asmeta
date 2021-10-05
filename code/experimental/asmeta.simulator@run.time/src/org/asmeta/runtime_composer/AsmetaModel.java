@@ -63,7 +63,9 @@ public class AsmetaModel implements IAsmetaModel {
 		this.outputConsole = new ByteArrayOutputStream();
 	}
 	
-	// TODO: da rivedere quando è sistemato lo stato di RunOutput (soluzione PROVVISORIA)
+	/**
+	 * @deprecated use RunOutput getOutvalues() instead
+	 */
 	public Map<String, String> getOutValues(){
 		Map<String, String> controlled = output.getControlledvalues();
 		Map<String, String> out = new HashMap<>();
@@ -84,12 +86,12 @@ public class AsmetaModel implements IAsmetaModel {
 				}
 			}
 		}
-		// DEBUG: System.out.println(controlled.toString());
-		// DEBUG: System.out.println(names.toString());
-		// DEBUG: System.out.println(out.toString());
 		return out;
 	}
 	
+	/**
+	 * @deprecated use RunOutput getOutvalues() instead
+	 */
 	private List<String> getAllOut(List<String> outList, String modelPath){
 		String root = modelPath.substring(0, modelPath.lastIndexOf("/") + 1);
 		if(root.isEmpty()) {
