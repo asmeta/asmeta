@@ -28,6 +28,8 @@ signature:
 	// The systemTime is expressed as the number of hours passed since the 01/01/1970
 	monitored systemTime: Natural //Time in minutes since midnight
 	
+	controlled previousTime: Natural
+	
 	//*************************************************
 	// STATIC VARIABLES
 	//*************************************************
@@ -79,8 +81,8 @@ definitions:
 			//pill taken later compared the timecompartment
 			//for all next pills that cause invariant violation because the current has been taken after set time -> skip pill
 			forall $c2 in next($compartment) do 
-			   if	(((iton(at(time_consumption($c2),drugIndex($c2)) - (systemTime mod 1440n)) //it should be actual_time_consumption, but since it is updated in the next state I use systemTime here
-				<= (minToInterferer(name($compartment),name($c2)))) and $c2!=$compartment) or ((iton(at(time_consumption($c2),nextDrugIndex($c2)) - (systemTime mod 1440n))
+			   if	(((iton(at(time_consumption($c2),drugIndex($c2)) - (systemTime)) //it should be actual_time_consumption, but since it is updated in the next state I use systemTime here
+				<= (minToInterferer(name($compartment),name($c2)))) and $c2!=$compartment) or ((iton(at(time_consumption($c2),nextDrugIndex($c2)) - (systemTime))
 				<= (minToInterferer(name($compartment),name($c2)))) and $c2=$compartment)
 				) then
 					par
@@ -94,7 +96,8 @@ definitions:
 	
 	//Reset all skipPill to false
 	rule r_resetMidnight =
-		if (rtoi(systemTime/1440n))> day then
+		//if (rtoi(systemTime/1440n))> day then
+		if (previousTime>systemTime) then
 			forall $c in Compartment do
 				par
 					setNewTime($c) := false 
@@ -102,16 +105,8 @@ definitions:
 						skipNextPill ($c, $c2) := false
 				endpar
 		endif
-	
-	rule r_evaluate_output_pill=
-		 forall $compartment in Compartment do 
-			 forall $c2 in next($compartment) do 
-				 if setNewTime($compartment) and skipNextPill($compartment) and skipNextPill($compartment, $c2) then
-					skip
-				 endif
-	
 				
-	rule r_NORMAL_FUNCT =  par r_keepPrevLiths[] r_enforce[] r_resetMidnight[] r_evaluate_output_pill[] endpar //r_CompartmentMgmt[] 
+	rule r_NORMAL_FUNCT =  par r_keepPrevLiths[] r_enforce[] r_resetMidnight[] endpar //r_CompartmentMgmt[] 
     
   
 		
@@ -121,11 +116,14 @@ definitions:
 	//*************************************************	
 	main rule r_Main =  
 	  //transition from INIT to NORMAL
+	  par
+	  previousTime:=systemTime
 		if state = INIT then
 			r_INIT[] //Medicine knowledge initialization depending on how the pillbox has been filled
 		else		
 			r_NORMAL_FUNCT[]
 		endif
+	endpar
 	  
 
 
@@ -184,6 +182,7 @@ default init s0:	//This init state is correct, it does not generate any invarian
 	// Initialization of the SystemTime
 	function systemTime = 0n
 
+	function previousTime = 0n
 	// Turn-off all the led of the Compartments
 	function redLed($compartment in Compartment) = OFF
 	// Initialization of the time consumption for a compartment
@@ -207,4 +206,3 @@ default init s0:	//This init state is correct, it does not generate any invarian
 			case compartment1 : [0n]
 			case compartment2 : [0n, 0n]
 		endswitch 	
-		
