@@ -50,11 +50,9 @@ definitions:
 						id($m) := $s
 			state := NORMAL
 		endpar
-		
-	rule r_enforce = 
-	  forall $compartment in Compartment do 
-	  par
-	  	if isPillMissed($compartment) then //M
+	
+	rule r_pillOnTime ($compartmnet in Compartment) =
+		if isPillMissed($compartment) then //M
 	  	par
 	  	setNewTime ($compartment):= true
 			//Missed pill check if the new time causes invariant violation
@@ -75,7 +73,9 @@ definitions:
 			 endif
 		endpar
 		endif
-	 	if pillTakenWithDelay($compartment) then
+		
+	rule r_noOverlapping ($compartmnet in Compartment) =
+		if pillTakenWithDelay($compartment) then
 			//pill taken later compared the timecompartment
 			//for all next pills that cause invariant violation because the current has been taken after set time -> skip pill
 			forall $c2 in next($compartment) do 
@@ -90,7 +90,13 @@ definitions:
 					//skip next pill -> rule must be in pillbox
 				endif
 		endif
-		endpar
+	
+	rule r_enforce = 
+	  forall $compartment in Compartment do 
+	  par
+		  r_pillOnTime[$compartment]
+		  r_noOverlapping[$compartment]
+	  endpar
 	
 	//Reset all skipPill to false
 	rule r_resetMidnight =
