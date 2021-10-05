@@ -21,6 +21,11 @@ public class EnforcerPillBox extends Enforcer{
 
 		super(system, k, l);
 	}
+	
+	public EnforcerPillBox(ManagedSystem system, Knowledge k, FeedbackLoop l, String path) {
+
+		super(system, k, l, path);
+	}
 
 	
 	//First init step for the ASM SafePillbox used as enforcement model by the enforcer
