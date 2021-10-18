@@ -100,7 +100,7 @@ public abstract class ReflectiveVisitor<T> {
 						"Unknown function " + this + " " + methodName + "(" + anInterface + ")");
 						//"Unknown function " + this + " visit(" + anInterface + ")");
 			} catch (IllegalAccessException e) {
-				throw new RuntimeException(e);
+				throw new RuntimeException(e + " method: " + methodName + "(" + anInterface + ")");
 			} catch (InvocationTargetException e) {
 				Throwable cause = e.getCause();
 				if (cause instanceof RuntimeException) {

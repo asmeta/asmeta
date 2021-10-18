@@ -1,4 +1,4 @@
-package org.asmeta.tocpp.abstracttestgenerator;
+package org.asmeta.atgt.generator2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +12,7 @@ import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
+import org.asmeta.simulator.readers.RandomMFReader;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.AsmCollection;
@@ -34,7 +35,9 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	private IdExpressionCreator icc;
 	private int testNumer;
 
-	static tgtlib.definitions.expression.type.Type dummyType = new DummyType("dummy");
+	public static tgtlib.definitions.expression.type.Type dummyType = new DummyType("dummy");
+
+	RandomMFReaderMemory randomMFReader;
 
 	/**
 	 * 
@@ -43,11 +46,23 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	 * @param testNumber
 	 */
 	public AsmTestGeneratorBySimulation(AsmCollection asm, int stepNumber, int testNumber) {
+		this(asm, stepNumber, testNumber, new RandomMFReaderMemory());
+	}
+
+	/**
+	 * 
+	 * @param asm
+	 * @param stepNumber
+	 * @param testNumber
+	 */
+	public AsmTestGeneratorBySimulation(AsmCollection asm, int stepNumber, int testNumber, RandomMFReaderMemory rnd) {
 		this.stepNumber = stepNumber;
 		this.asm = asm;
 		this.testNumer = testNumber;
 		// to collect info about the spec
 		icc = new IdExpressionCreator();
+		//
+		randomMFReader = rnd;		
 		// TODO add variables
 	}
 
@@ -59,7 +74,6 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				// get the name
 				String modelName = asm.getMain().getName();
 				// build the random environment
-				RandomMFReaderMemory randomMFReader = new RandomMFReaderMemory();
 				Environment env = new Environment(randomMFReader);
 				// build the simulator
 				Simulator simulator = new Simulator(modelName, asm, env);
@@ -67,7 +81,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				simulator.setShuffleFlag(false);
 				// simulator.createSimulatorRnd(modelName);
 				//
-				AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition("test", null));
+				AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition("test" + test, null));
 				State state;
 				int currentStep = 0;
 				while (true) {
@@ -136,15 +150,22 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				else
 					var.setControlled();
 				testsequence.addAssignment(var, stateValues.getValue().toString());
-			} else {				
+			} else {
 				assert elements.length >= 1 : Arrays.toString(elements);
-				List<IdExpression> args = new ArrayList<>();				
-				for(Value v: elements)
-					args.add(icc.createIdExpression(v.toString(), null));
-				IdExpression name = icc.createIdExpression(location.getSignature().getName(), null);
-				FunctionTerm ft = new FunctionTerm(name, null, args);
-				testsequence.addAssignment(ft, stateValues.getValue().toString(),
-						monitored ? VarKind.MONITORED : VarKind.CONTROLLED);
+				List<IdExpression> args = new ArrayList<>();
+				for (Value v : elements)
+					args.add(icc.createIdExpression(v.toString(), dummyType));
+				IdExpression name = icc.createIdExpression(location.getSignature().getName(), dummyType);
+				// type
+
+				FunctionTerm ft = new FunctionTerm(name, dummyType, args);
+				try {
+					testsequence.addAssignment(ft, stateValues.getValue().toString(),
+							monitored ? VarKind.MONITORED : VarKind.CONTROLLED);
+				} catch (NullPointerException npe) {
+					npe.printStackTrace();
+					System.err.println(" ft " + ft + " id " + ft.getFunction() + " domain " + ft.getCoDomain());
+				}
 			}
 			// System.out.println("PRINT STATE" +
 			// System.identityHashCode(simulator.getCurrentState()));

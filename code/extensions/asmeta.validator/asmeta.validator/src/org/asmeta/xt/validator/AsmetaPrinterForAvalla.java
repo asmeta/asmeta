@@ -404,7 +404,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			LOG.debug("function " + funcName + (functions.stream().anyMatch(t -> t.getName().equals(funcName)) ? " found" :  " not found"));
 			// get the signature if there is one
 			Optional<Function> func = functions.stream().filter(x -> x.getName().equals(funcName)).findFirst();
-			if (func.isEmpty()) continue;
+			if (!func.isPresent()) continue;
 			// only if the the function is declared in this asm
 			/*//AG 5/2021: questo adesso lo ignoro, non guardo le ASM, potrei settare qualcosa che importo
 			// if (Defs.getAsm(func.get())!= model) {

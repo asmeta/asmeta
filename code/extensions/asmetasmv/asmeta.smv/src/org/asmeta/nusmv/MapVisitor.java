@@ -356,7 +356,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 						smv.println("\t\t\t\t" + trueString + ": " + falseString + ";");
 					} else {
 						String undefValue = this.getUndefValue().get(domName);
-						assert undefValue != null : domName + " does not provide a representation for the undef value.";
+						//assert undefValue != null : domName + " does not provide a representation for the undef value.";
 						smv.println("\t\t\t\t" + trueString + ": " + undefValue + ";");
 					}
 					smv.println("\t\t\tesac;");
@@ -1407,7 +1407,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			String[] strRes = lines[0].split("  is ");
 			String prop = strRes[0];
 			getPropertiesForPrinting().put(index, prop);
-			if (strRes[1].equals("true")) {
+			if (strRes[1].trim().equals("true")) {
 				result = true;
 			} else {
 				assert strRes[1].equals("false") : strRes[1];
