@@ -20,6 +20,7 @@ import org.asmeta.avallaxt.avallaXt.Invariant;
 import org.asmeta.avallaxt.avallaXt.Set;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
+import org.asmeta.parser.Utility;
 import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.util.StandardLibrary;
@@ -160,9 +161,10 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 				String name = importClause.getModuleName();
 				// now build the path
 				// the asm to be imported
-				Path importedAsmPath = asmPath.getParent().resolve(name + ".asm").toAbsolutePath().normalize();
+				File importFile = Utility.importFile(asmPath.getParent().toString(), importClause);
+				Path importedAsmPath = importFile.toPath().normalize();
 				assert Files.exists(importedAsmPath)
-						: " path (imported ASM) " + importedAsmPath.toString() + " does not exist";
+					: " path (imported ASM) " + importedAsmPath.toString() + " does not exist";
 				if (StandardLibrary.isAStandardLibrary(name)) {
 					printImport(importedAsmPath);
 				} else {

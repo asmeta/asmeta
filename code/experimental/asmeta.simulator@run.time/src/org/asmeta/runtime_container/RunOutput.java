@@ -1,6 +1,5 @@
 package org.asmeta.runtime_container;
 
-import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -98,7 +97,7 @@ public class RunOutput implements Serializable {
 		if (!message.equals(""))
 			sb.append("Reason: " + message + "\n");
 		if (ms!=null)
-			sb.append("Updated locations: " + ms.getControlledValues());
+			sb.append("Updated locations: " + ms.getControlledValuesToString());
 
 		return sb.toString();
 	}
@@ -120,21 +119,43 @@ public class RunOutput implements Serializable {
 	
 	//NEEDED TO GET OUT FUNCTIONS VALUES
 	//TODO Federico Rebucini->ho messo l'output in string per isolare location e value al simulator, non so se è meglio importarli nell'enforcer
-	public  Map<String, String> getControlledvalues(){
+	public Map<String, String> getControlledvalues(){
 		if (ms!=null && ms.getControlledValues()!=null) {
 			Map<Location, Value> set=ms.getControlledValues();
 			HashMap<String, String> controlled = new HashMap<String, String>();
 			for (Location key : set.keySet()) {
 			    Value val = set.get(key);
-			    controlled.put(key.toString(), val.toString());
+			    
+			    if(val instanceof org.asmeta.simulator.value.StringValue) {
+			    	controlled.put(key.toString(), "\"" + val.toString() + "\"");
+			    } else {
+			    	controlled.put(key.toString(), val.toString());
+			    }
 			}
+			//System.out.println(controlled.toString());
 			return controlled;
 		}
 		return new HashMap<String,String>();
 	}
-//prova
-	
 
+	public Map<String, String> getOutvalues(){
+		if (ms!=null && ms.getOutValues()!=null) {
+			Map<Location, Value> set=ms.getOutValues();
+			HashMap<String, String> out = new HashMap<String, String>();
+			for (Location key : set.keySet()) {
+			    Value val = set.get(key);
+
+			    if(val instanceof org.asmeta.simulator.value.StringValue) {
+			    	out.put(key.toString(), "\"" + val.toString() + "\"");
+			    } else {
+			    	out.put(key.toString(), val.toString());
+			    }
+			}
+			return out;
+		}
+		return new HashMap<String,String>();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		    

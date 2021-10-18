@@ -102,16 +102,8 @@ definitions:
 						skipNextPill ($c, $c2) := false
 				endpar
 		endif
-	
-	rule r_evaluate_output_pill=
-		 forall $compartment in Compartment do 
-			 forall $c2 in next($compartment) do 
-				 if setNewTime($compartment) and skipNextPill($compartment) and skipNextPill($compartment, $c2) then
-					skip
-				 endif
-	
 				
-	rule r_NORMAL_FUNCT =  par r_keepPrevLiths[] r_enforce[] r_resetMidnight[] r_evaluate_output_pill[] endpar //r_CompartmentMgmt[] 
+	rule r_NORMAL_FUNCT =  par r_keepPrevLiths[] r_enforce[] r_resetMidnight[] endpar //r_CompartmentMgmt[] 
     
   
 		
@@ -207,4 +199,3 @@ default init s0:	//This init state is correct, it does not generate any invarian
 			case compartment1 : [0n]
 			case compartment2 : [0n, 0n]
 		endswitch 	
-		

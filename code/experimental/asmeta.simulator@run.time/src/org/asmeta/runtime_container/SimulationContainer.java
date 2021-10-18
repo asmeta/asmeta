@@ -34,6 +34,8 @@ import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
 import org.asmeta.parser.util.AsmPrinter;
+import org.asmeta.runtime_composer.AsmetaModel;
+import org.asmeta.runtime_composer.ModelCreationException;
 import org.asmeta.runtime_simulator.AsmetaSservice;
 import org.asmeta.runtime_simulator.IdNotFoundException;
 import org.asmeta.runtime_simulator.InfoAsmetaService;
@@ -64,7 +66,7 @@ import asmeta.terms.basicterms.Term;
  */
 public class SimulationContainer implements IModelExecution, IModelAdaptation {
     
-	private int id; // returning the id of the simulator generated if everything goes well
+	private int id; // returning the id of the simulatorRT generated if everything goes well
 
 	/** The ids. */
 	private int ids; //the id for the method start to check if is full o not
@@ -88,6 +90,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	private long duration = 0L;
 	
 	private List<String> invarNames;
+	public List<AsmetaModel> loadedModels;
 	//private List<String> variables;
 	
 	private RunOutput routTO=null;	//support variable for the timeout methods
@@ -96,11 +99,63 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	
 	public SimulationContainer() {
 		asmS = new AsmetaSservice();
+		loadedModels = new ArrayList<>();
 	}
 
-	
-	
+	// TODO: da stabilire per la gestione di SimulationContainer distribuiti (RMI, REST, Google RPC?)
+	public int getSimulatorId() {
+		return 0;
+	}
 
+	public AsmetaModel getAsmetaModel(int id) {
+		if(loadedModels != null && !loadedModels.isEmpty()) {
+			for(AsmetaModel model: loadedModels) {
+				if(model.getModelId() == id) {
+					return model;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public boolean removeAsmetaModel(int id) {
+		if(loadedModels != null && !loadedModels.isEmpty()) {
+			for(AsmetaModel model: loadedModels) {
+				if(model.getModelId() == id) {
+					return loadedModels.remove(model);
+				}
+			}
+		}
+		return false;
+	}
+	
+	private void setModelExecutionTime(int id, long duration) {
+		if(loadedModels != null && !loadedModels.isEmpty()) {
+			for(AsmetaModel model: loadedModels) {
+				if(model.getModelId() == id) {
+					model.setExecutionTime(duration);
+				}
+			}
+		}
+	}
+	
+	public void rollback(int id) {
+		try {
+			asmS.rollback(id);
+		} catch(EmptyStackException e) {
+			// TODO: Da scrivere su LOG, l'esecuzione è corretta
+			return;
+		}
+	}
+	
+	public void rollbackToState(int id) {
+		try {
+			asmS.rollbackToState(id);
+		} catch(EmptyStackException e) {
+			// TODO: Da scrivere su LOG, l'esecuzione è corretta
+			return;
+		}
+	}
 	/**
 	 * return the id of the simulator if the simulator is full return -1;.
 	 *
@@ -112,7 +167,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		try {
 			id = asmS.start(modelPath);
 			ids = checkStartId(id);
-			
+			loadedModels.add(new AsmetaModel(ids, this));
 
 			sout = new StartOutput(ids, "The id " + ids + " is successfully created");
 			//System.out.println(sout.toString());
@@ -124,7 +179,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 			} else if (e instanceof AsmModelNotFoundException) {
 				sout = new StartOutput(-3,
-						"The Model " + modelPath.substring(modelPath.lastIndexOf("/") + 1) + " Doesn't esist");
+						"The Model " + modelPath.substring(modelPath.lastIndexOf("/") + 1) + " doesn't exist!");
 				System.err.println(sout.toString());
 
 			} else if (e instanceof FullMapException) {
@@ -136,10 +191,12 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				sout = new StartOutput(-5, "The model name " + modelPath.substring(modelPath.lastIndexOf("/") + 1)
 						+ " Does not match:" + " Check for case sensitive in <<modelname.asm>>");
 				System.err.println(sout.toString());
+			} else if (e instanceof ModelCreationException) {
+				sout = new StartOutput(-6, "Error in the AsmetaModel creation");
+				System.err.println(sout.toString());
 			}
-
 			else {
-				sout = new StartOutput(-6, "General Exception: Please report the problem");
+				sout = new StartOutput(-6, "General Exception: please report the problem");
 				System.err.println(sout.toString());
 			}
 
@@ -152,7 +209,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		StartOutput sout = null;
 		try {
 			id = asmS.restart(modelPath,oldId, state);
+			removeAsmetaModel(oldId);
 			ids = checkStartId(id);
+			loadedModels.add(new AsmetaModel(ids, this));
 			sout = new StartOutput(ids, "The id " + ids + " is successfully created");
 			simulationRunning = SimStatus.READY;
 			System.out.println(sout.toString());
@@ -180,8 +239,12 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				sout = new StartOutput(-7, "Invalid invariant on initial state, please check the updated model again");
 				System.err.println(sout.toString());
 			}
+			else if (e instanceof ModelCreationException) {
+				sout = new StartOutput(-6, "Error in the AsmetaModel creation");
+				System.err.println(sout.toString());
+			}
 			else {
-				sout = new StartOutput(-6, "General Exception: Please report the problem");
+				sout = new StartOutput(-6, "General Exception: please report the problem");
 				System.err.println(sout.toString());
 			}
 		}
@@ -198,6 +261,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		try {
 			System.out.println("Model " + asmS.getModelName(id) + " successfully stopped");
 			asmS.stop(id);
+			removeAsmetaModel(id);
 			id = 1;
 		} catch (RuntimeException e) {
 			if (e instanceof IdNotFoundException) {
@@ -241,6 +305,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				ms = asmS.run(id, locationValue); //run ASM with id and monitored locations locationValue
 				endRun = System.nanoTime();
 				duration = (endRun - startRun);
+				setModelExecutionTime(id, duration);
 				if (locationValue!=null) 
 					rout = new RunOutput(Esit.SAFE, asmS.getCurrentState(id).getMonitoredValues(), ms);
 				else
@@ -257,8 +322,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -281,8 +346,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -291,19 +356,31 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				System.err.println("No transition to step " + (asmS.getSimulatorTable().get(id).getContSim() + 1)
 						+ " for model "
 						+ asmS.getSimulatorTable().get(id).getModelPath().substring(modelPath.lastIndexOf("/") + 1));
-				rout = new RunOutput(Esit.UNSAFE, "Invalid Input value");
+				rout = new RunOutput(Esit.UNSAFE, "Invalid input value");
 				System.err.println(rout.toString());
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
-			} /*else { //DEBUG ONLY
-				e.printStackTrace();
-			}*/
+			} else {
+				System.err.println("No transition to step " + (asmS.getSimulatorTable().get(id).getContSim() + 1)
+						+ " for model "
+						+ asmS.getSimulatorTable().get(id).getModelPath().substring(modelPath.lastIndexOf("/") + 1));
+				rout = new RunOutput(Esit.UNSAFE, "Invalid input or domain value");
+				System.err.println(rout.toString());
+				try {
+					simulationRunning=SimStatus.ROLLINGBACK;
+					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
+				}finally {
+					simulationRunning=SimStatus.RUNNING;
+				}
+			}
 		}
 		simulationRunning = SimStatus.READY;
 		return rout; 
@@ -542,7 +619,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //					if (!rolledbackQ)
 //						printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 //				} catch (NullPointerException e1) {
-//					System.out.println("no previous state");
+//					System.out.println("No previous state!");
 //				}/* catch (EmptyStackException e1) {
 //					System.out.println("empty stack exception dal simulator");
 //				}*/
@@ -554,7 +631,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //			/*try {
 //				printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 //			} catch (NullPointerException e1) {
-//				System.out.println("no previous state");
+//				System.out.println("No previous state!");
 //			}*/
 //	    }else
 //	    	rout=routTO;
@@ -586,6 +663,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				ms = asmS.runUntilEmpty(id, locationValue, max);
 				endRun = System.nanoTime();
 				duration = (endRun - startRun);
+				setModelExecutionTime(id, duration);
 				rout = new RunOutput(Esit.SAFE, asmS.getCurrentState(id).getMonitoredValues(), ms);
 				printState(asmS.getSimulatorTable().get(id).getContSim(), rout, duration, id);
 			}
@@ -599,8 +677,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));					
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -621,8 +699,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -635,8 +713,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -803,7 +881,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //				try {
 //					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollbackToState(id));
 //				} catch (NullPointerException e1) {
-//					System.out.println("no previous state");
+//					System.out.println("No previous state!");
 //				}/* catch (EmptyStackException e1) {
 //					System.out.println("empty stack exception dal simulator");
 //				}*/
@@ -815,7 +893,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //			try {
 //				printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
 //			} catch (NullPointerException e1) {
-//				System.out.println("no previous state");
+//				System.out.println("No previous state!");
 //			}/* catch (EmptyStackException e1) {
 //				System.out.println("empty stack exception dal simulator");
 //			}*/
@@ -876,8 +954,10 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	 * @throws Exception from ASMParser
 	 */
 	private List<String> findAllMonitored(List<String> monNames, String modelPath) throws Exception{
-		String root="";
-		root=modelPath.substring(0,modelPath.lastIndexOf("/")+1);
+		String root = modelPath.substring(0, modelPath.lastIndexOf("/") + 1);
+		if(root.isEmpty()) {
+			root = modelPath.substring(0, modelPath.lastIndexOf("\\") + 1);
+		}
 		File asmFile = new File(modelPath);
 		try {
 			if (!asmFile.exists()) {
@@ -888,7 +968,6 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			System.out.println("CheckSafety: "+ex.getMessage());
 		}
 		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
-		// cerco di prendere la classe delle monitorate  NON LEGGE LE MONITORATE NEI FILE DI IMPORT
 		for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
 			if (asm.getMain().getHeaderSection().getSignature().getFunction()
 					.get(i) instanceof MonitoredFunctionImpl)
@@ -897,8 +976,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		int c = asm.getMain().getHeaderSection().getImportClause().size();
 		for (int i=0;i<c;i++) {
 			String moduleName=asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
-			if (!moduleName.toLowerCase().endsWith("standardlibrary"))	//Skips the StandardLibrary.asm
+			if (!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
 				monNames=findAllMonitored(monNames, root+moduleName+".asm");
+			}
 		}
 		return monNames;
 	}
@@ -1444,6 +1524,17 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			if (asmS.checkValidId(i))
 				ids.put(i, asmS.getSimulatorTable().get(i).getModelPath());
 		return ids;
+	}
+	
+	public Map<String, Integer> getLoadedModels() {
+		int max = asmS.getMaxInstances();
+		Map<String, Integer> models = new HashMap<String, Integer>();
+		for(int i = 1; i <= max; i++) {
+			if(asmS.checkValidId(i)) {
+				models.put(asmS.getSimulatorTable().get(i).getModelPath(), i);
+			}
+		}
+		return models;
 	}
 	
 	/*public MyState getStatus(int id) {

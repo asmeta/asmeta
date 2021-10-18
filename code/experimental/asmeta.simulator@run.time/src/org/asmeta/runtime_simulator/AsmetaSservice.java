@@ -268,8 +268,8 @@ public class AsmetaSservice implements IAsmetaSservice{
 		State state = simulatorMap.get(id).getSim().getCurrentState();
 		State previousState = simulatorMap.get(id).getSim().previousState;
 		
-		this.getSimulatorTable().get(id).setState(new MyState(state.getContrLocs(false), null));
-		this.getSimulatorTable().get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null));
+		this.getSimulatorTable().get(id).setState(new MyState(state.getContrLocs(false), null, state.getOutLocs(false)));
+		this.getSimulatorTable().get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null, state.getOutLocs(false)));
 		
 		return simulatorMap.get(id).getState();
 	}
@@ -285,8 +285,8 @@ public class AsmetaSservice implements IAsmetaSservice{
 		State state = simulatorMap.get(id).getSim().getCurrentState();
 		State previousState = simulatorMap.get(id).getSim().previousState;
 		
-		this.getSimulatorTable().get(id).setState(new MyState(state.getContrLocs(false), null));
-		this.getSimulatorTable().get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null));
+		this.getSimulatorTable().get(id).setState(new MyState(state.getContrLocs(false), null, state.getOutLocs(false)));
+		this.getSimulatorTable().get(id).setPreviousState(new MyState(previousState.getContrLocs(false), null, previousState.getOutLocs(false)));
 		
 		return simulatorMap.get(id).getState();
 	}

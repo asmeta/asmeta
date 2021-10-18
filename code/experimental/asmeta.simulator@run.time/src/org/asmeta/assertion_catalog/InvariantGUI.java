@@ -44,7 +44,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 /**
- * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano, Michele Zenoni
  */
 public class InvariantGUI {
 	public static JFrame frame;

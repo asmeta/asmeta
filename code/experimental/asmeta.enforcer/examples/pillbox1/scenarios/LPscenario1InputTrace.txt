@@ -4,7 +4,7 @@
 
 //SafePillbox used as enforcement model by the enforcer
 //First input (initialization)
-drugIndex(compartment1) 0 drugIndex(compartment2) 0 name(compartment1) "fosamax" name(compartment2) "moment" redLed(compartment1) OFF redLed(compartment2) OFF redLed(compartment2) OFF time_consumption(compartment1) [410] time_consumption(compartment2) [780,1140] time_consumption(compartment2) [780,1140]
+drugIndex(compartment1) 0 drugIndex(compartment2) 0 name(compartment1) "fosamax" name(compartment2) "moment" redLed(compartment1) OFF redLed(compartment2) OFF redLed(compartment2) OFF time_consumption(compartment1) [360] time_consumption(compartment2) [780,1140] time_consumption(compartment2) [780,1140]
 
 Output to pillbox: {}
 
