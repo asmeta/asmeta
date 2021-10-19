@@ -12,7 +12,7 @@ import org.asmeta.framework.managedSystem.ManagedSystem;
 import org.asmeta.framework.managedSystem.Probe;
 
 
-//Java class for the causal connection with the Arduino prototype of the MVM
+//Component (handle) for the causal connection with the Arduino prototype of the MVM
 public class MVM extends ManagedSystem implements Probe, Effector{
 
 	public Map<String, String> getOutputForProbing() {
@@ -21,8 +21,8 @@ public class MVM extends ManagedSystem implements Probe, Effector{
 	}
 
 	@Override
-	public Probe getProbe() {
-		return this;
+	public Probe getProbe() { 
+		return this; 
 	}
 
 	@Override
