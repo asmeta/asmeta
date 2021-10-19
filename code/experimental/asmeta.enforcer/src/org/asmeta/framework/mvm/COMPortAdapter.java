@@ -10,7 +10,7 @@ public class COMPortAdapter {
 		comPort.setBaudRate(9600);
 		if (!comPort.openPort())
 			System.err.println(
-					"Errore nell'apertura della porta COM. \nLa porta potrebbe essere già aperta in un'altra applicazione");
+					"Error in opening the COM port. \nAnother application may have opened it.");
 
 	}
 

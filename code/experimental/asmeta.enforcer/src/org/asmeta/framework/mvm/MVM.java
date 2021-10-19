@@ -22,14 +22,12 @@ public class MVM extends ManagedSystem implements Probe, Effector{
 
 	@Override
 	public Probe getProbe() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 	@Override
 	public Effector getEffector() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 	@Override
