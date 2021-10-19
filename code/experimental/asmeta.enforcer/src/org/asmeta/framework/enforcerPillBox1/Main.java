@@ -9,7 +9,6 @@ import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 import org.asmeta.framework.enforcer.*;
-import org.asmeta.framework.pillBox.PillBoxNotSing;
 import org.asmeta.framework.pillBox1.PillBox;
 
 
