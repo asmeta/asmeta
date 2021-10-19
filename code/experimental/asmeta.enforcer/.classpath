@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.simulator@run.time"/>
+	<classpathentry kind="lib" path="jars/jSerialComm-2.7.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
