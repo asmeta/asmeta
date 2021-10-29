@@ -9,8 +9,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.AnyDomain;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.DomainsFactory;
+import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.NaturalDomain;
 
 public class OCL_CheckerTest {
@@ -59,5 +61,21 @@ public class OCL_CheckerTest {
 		assertTrue(OCL_Checker.compatible(l2,l1));
 	}
 
-	
+	@Test
+	public void testCompatibleAny() {
+		AnyDomain any = df.createAnyDomain(OCL_Checker.SUPER_ANYDOMAIN);
+		EnumTd enumDom = df.createEnumTd();
+		enumDom.setName("Colors");		
+		assertTrue(OCL_Checker.compatible(any, enumDom));
+		// with a different name
+		AnyDomain myany = df.createAnyDomain("MyAnyDomain");
+		assertTrue(OCL_Checker.compatible(myany, enumDom));
+		// if subset of any 
+		ConcreteDomain anysubset = df.createConcreteDomain();
+		anysubset.setTypeDomain(any);
+		anysubset.setName("MyAnyDomainSubset");
+		assertTrue(OCL_Checker.compatible(anysubset, enumDom));
+		
+	}
+
 }

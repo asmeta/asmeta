@@ -25,15 +25,17 @@ public class TestAssignementConcretedomain {
 		sim.run(1);		
 	}
 
-	@Test
-	public void testAny2() throws Exception {
+	@Test(expected = NullPointerException.class)
+	public void testAnyWrong() throws Exception {
 		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/anydomain/AssignmentAny.asm");
 		sim.run(1);		
 	}
 
 	@Test
-	public void testAnyLib() throws Exception {
-		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/anydomain/AssignAnyFromLib.asm");
+	public void testAnyCorrect() throws Exception {
+		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/anydomain/AssignmentAny2.asm");
+		sim.run(1);		
+		sim = Util.getSimulatorForTestSpec("test/simulator/anydomain/AssignmentAny3.asm");
 		sim.run(1);		
 	}
 	
