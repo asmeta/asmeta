@@ -1,7 +1,7 @@
 // a simple example with an enum derived fron an AnyDomain
-// pareses but it fails because   MessageType as subset is not defined
+// it parses and simulates - it is simulated
 
-asm AssignmentAny
+asm AssignmentAny3
 import ../../../STDL/StandardLibrary
 
 signature:
@@ -11,11 +11,12 @@ signature:
 	controlled protocolMessage: MessageType
 
 definitions:
+    domain MessageType =  {NAK, NNK, NK}
 
 
 	// MAIN RULE
 	main rule r_Main =
-			protocolMessage := NAK
+			protocolMessage:= NAK
 
 
 // INITIAL STATE

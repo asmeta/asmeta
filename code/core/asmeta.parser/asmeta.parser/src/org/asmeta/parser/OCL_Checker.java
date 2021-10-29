@@ -788,12 +788,13 @@ public class OCL_Checker {
 		if ((self == d)
 				|| (d instanceof UndefDomain)
 				|| (self instanceof UndefDomain)
-				|| ((d instanceof AnyDomain) && d.getName().equals("Any"))
-				|| ((self instanceof AnyDomain) && self.getName().equals("Any"))) // NEW
-																					// by
-																					// Patrizia
-																					// Added
-																					// AnyDomain
+// modified Angelo 29/10/21
+// any AnyDomain is compatible
+				|| (d instanceof AnyDomain) 
+				|| (self instanceof AnyDomain) 				
+//				|| ((d instanceof AnyDomain) && d.getName().equals(SUPER_ANYDOMAIN))
+//				|| ((self instanceof AnyDomain) && self.getName().equals(SUPER_ANYDOMAIN))
+						) 
 			return true;
 		/*
 		 * OCL SYNTAX: -- one is a ConcreteDomain (
