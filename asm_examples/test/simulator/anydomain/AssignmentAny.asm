@@ -10,7 +10,7 @@ signature:
 	controlled protocolMessage: MessageType
 
 definitions:
-
+    domain MessageType =  {NAK, NNK, NK}
 
 
 	// MAIN RULE

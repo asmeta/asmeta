@@ -31,6 +31,11 @@ public class TestAssignementConcretedomain {
 		sim.run(1);		
 	}
 
+	@Test
+	public void testAnyLib() throws Exception {
+		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/anydomain/AssignAnyFromLib.asm");
+		sim.run(1);		
+	}
 	
 	
 }
