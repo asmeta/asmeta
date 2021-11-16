@@ -1,4 +1,18 @@
 asm c_controller
+//Third refinement: transition from inspiration to expiration and vice versa 
+
+import CTLlibrary
+import LTLlibrary
+import TimeLibrary 
+
+signature:
+	//*************************************************
+	// DOMAINS
+	//*************************************************
+	enum domain States = {STARTUP | SELFTEST | VENTILATIONOFF | PCV_STATE | PSV_STATE}
+
+	enum domain Modes = {PCV | PSV}
+	
 	enum domain Ventilation = {INSPIRATION | EXPIRATION | INPAUSE | EXPAUSE | RM}
 
 	enum domain ValveStatus = {OPEN | CLOSED}
