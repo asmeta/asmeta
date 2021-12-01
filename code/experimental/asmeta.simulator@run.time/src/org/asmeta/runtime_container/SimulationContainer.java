@@ -288,6 +288,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 	@Override
 	public RunOutput runStep(int id, Map<String, String> locationValue) {
+		//System.err.println(id +  " " + locationValue.toString()+"\n");
 		simulationRunning=SimStatus.RUNNING;
 		//rollbStatus = rollbackStatus.NOTROLLED;
 		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
