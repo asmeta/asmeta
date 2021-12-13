@@ -96,8 +96,11 @@ public class RunOutput implements Serializable {
 		sb.append("Model execution outcome: " + esit + "\n");
 		if (!message.equals(""))
 			sb.append("Reason: " + message + "\n");
-		if (ms!=null)
+		if (ms!=null) {
 			sb.append("Updated locations: " + ms.getControlledValuesToString());
+			sb.append("\nOut locations: " + ms.getOutValuesToString()); //2021_12_13 SILVIA: print out functions
+		}	
+		
 
 		return sb.toString();
 	}
