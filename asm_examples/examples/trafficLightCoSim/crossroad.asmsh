@@ -1,6 +1,6 @@
 init -n 4
 
-setup comp as controller.asm | (trafficlightA.asm || trafficlightA.asm || trafficlightB.asm || trafficlightB.asm) | controlAB.asm
+setup comp as controller.asm | (trafficlightA.asm || trafficlightA.asm || trafficlightB.asm || trafficlightB.asm) | emptyModel.asm
  
 run(comp, {mCurrTimeSecs=1;transitionC=TURN_ON})
 run(comp, {mCurrTimeSecs=2;transitionC=OPERATE_T})

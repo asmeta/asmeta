@@ -13,7 +13,6 @@ signature:
 	monitored statusC: ControllerStatus
 	monitored operateMode : ControllerOperateMode
 	
-	out workingB: Boolean
 	
 definitions:
 
@@ -41,7 +40,6 @@ definitions:
 			if (statusC = OPERATE) then
 			 	r_operateSubState[]
 			endif
-			workingB := true
 		endpar
 		
 // INITIAL STATE
