@@ -9,7 +9,7 @@ signature:
 	enum domain ControllerStatus = {CONTR_OFF | STANDBY | OPERATE}
 	enum domain ControllerOperateMode = {RED_AB | GREEN_A_RED_B | YELLOW_A_RED_B | RED_BA | GREEN_B_RED_A | YELLOW_B_RED_A}
 	
-	controlled lightsA: Lights // traffic light A
+	out lightsA: Lights // traffic light A
 	monitored statusC: ControllerStatus
 	monitored operateMode : ControllerOperateMode
 	
