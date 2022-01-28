@@ -353,6 +353,12 @@ public class AsmetaSMVtestTranslate {
 		testOneSpec("C:\\Users\\garganti\\Dropbox\\Documenti\\progetti\\quasmed_git\\PillboxASM\\pillbox_for_PropertyVerification.asm");
 	}
 
+	@Test
+	public void testDivision() {
+		testOneSpec("examples/division.asm");
+	}
+	
+	
 
 	
 	/*
