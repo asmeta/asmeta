@@ -47,7 +47,7 @@ public class AsmetaSMVtestTranslate {
 				return false;
 			System.out.println(Paths.get(a.smvFileName));
 			// TODO parse the file with nusmv
-			a.executeNuSMV();
+			if (options.isRunNuSMV()) a.executeNuSMV();
 			return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -355,7 +355,14 @@ public class AsmetaSMVtestTranslate {
 
 	@Test
 	public void testDivision() {
-		testOneSpec("examples/division.asm");
+		// nuxmv
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		options.setUseNuXmv(true);
+		options.FLATTEN = false;
+		options.setRunNuSMV(false);
+		//AsmetaSMVOptions.FLATTEN = false;
+		testOneSpec("examples/division.asm", options);
 	}
 	
 	
