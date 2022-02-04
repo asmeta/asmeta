@@ -193,7 +193,7 @@ public class CompositionManager implements IModelComposition {
 						if (compositionOutput.getEsit() == Esit.SAFE) {
 							Map<String, String> modelOutput = compositionOutput.getOutvalues();
 							// Map<String, String> modelOutput = model.getOutValues();
-							compositionOutput = model.run(modelOutput, max, timeout);
+							compositionOutput = model.run(modelOutput, max, timeout); //TODO DA MODIFICARE: oltre agli output deve prendere le monitorate unbound
 							model.output = compositionOutput;
 							timeout -= (int) model.getExecutionTime();
 							this.remainingExecutionTime -= model.getExecutionTime();
