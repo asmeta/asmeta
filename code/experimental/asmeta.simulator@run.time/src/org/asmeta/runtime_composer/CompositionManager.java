@@ -193,6 +193,7 @@ public class CompositionManager implements IModelComposition {
 						if (compositionOutput.getEsit() == Esit.SAFE) {
 							Map<String, String> modelOutput = compositionOutput.getOutvalues();
 							// Map<String, String> modelOutput = model.getOutValues();
+							//TODO UNBOUND MAPPAVUOTA tutte le monitorate del modello, cerco in out e le init, le altre le chiedo all'ambiente
 							compositionOutput = model.run(modelOutput, max, timeout);
 							model.output = compositionOutput;
 							timeout -= (int) model.getExecutionTime();
@@ -240,6 +241,7 @@ public class CompositionManager implements IModelComposition {
 						timeout -= (int) first.getExecutionTime();
 						//System.err.println("RUN SECOND " + second.getModelName() + "\n");
 						compositionOutput = second.run(first.getLastOutput().getOutvalues(), max, timeout);
+						//TODO UNBOUND
 						// compositionOutput = second.run(first.getOutValues(), max, timeout);
 						second.output = compositionOutput;
 						//System.err.println(compositionOutput.getEsit() + " " + compositionOutput.getOutvalues().toString() + "\n");
