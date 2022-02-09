@@ -20,4 +20,4 @@ default init s0:
 	function funcS = 0
 	function funcH = 0
 	
-	//asmH <|> (asmC | asmS)
+	//asmH.asm <|> (asmC.asm <|> asmS.asm)
