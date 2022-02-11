@@ -38,7 +38,7 @@ public class CompositionTest {
 		BiPipe b1 = new BiPipe(new LeafAsm(path2 + "MVMHardware.asm"), asm2);
 		b1.eval();
 		System.out.println(" ===== new step =====");
-		asm2.eval();
+		b1.eval();
 	}
 
 	
