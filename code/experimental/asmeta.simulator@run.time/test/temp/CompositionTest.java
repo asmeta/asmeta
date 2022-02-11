@@ -10,6 +10,7 @@ import org.junit.Test;
 public class CompositionTest {
 
 	String path = "examples/testUnbound/";
+	String path2 = "examples/MVM/";
 
 	@Test
 	public void test3() throws Exception {
@@ -26,6 +27,16 @@ public class CompositionTest {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		BiPipe asm2 = new BiPipe(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
 		asm2.eval();
+		System.out.println(" ===== new step =====");
+		asm2.eval();
+	}
+	
+	@Test
+	public void testMVM() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		BiPipe asm2 = new BiPipe(new LeafAsm(path2 + "MVMcontroller04.asm"), new LeafAsm(path2 + "supervisor03.asm"));
+		BiPipe b1 = new BiPipe(new LeafAsm(path2 + "MVMHardware.asm"), asm2);
+		b1.eval();
 		System.out.println(" ===== new step =====");
 		asm2.eval();
 	}
