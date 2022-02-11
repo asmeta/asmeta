@@ -58,6 +58,7 @@ class MFReaderWithSettableMon extends MonFuncReader {
 	public Value readValue(Location location, State state) {
 		// check if already stored by another execution
 		if (monStoredValues.get(location.toString())!=null) {
+			System.out.println("taking " + location + " from another asm");
 			return monStoredValues.get(location.toString());
 		}
 		return interact.read(location, state);
