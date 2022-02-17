@@ -36,7 +36,7 @@ abstract class BiComposition extends Composition {
 	}
 
 	protected void copyMonitored(UpdateSet up) {
-		System.out.println("copying update set " + up + " in " + c1.toString() + " and in " + c2.toString());
+		//System.out.println("copying update set " + up + " in " + c1.toString() + " and in " + c2.toString());
 		c1.copyMonitored(up);
 		c2.copyMonitored(up);
 	}
@@ -58,14 +58,14 @@ class MFReaderWithSettableMon extends MonFuncReader {
 	public Value readValue(Location location, State state) {
 		// check if already stored by another execution
 		if (monStoredValues.get(location.toString())!=null) {
-			System.out.println("taking " + location + " from another asm");
+			//System.out.println(location + " INPUT from another asm");
 			return monStoredValues.get(location.toString());
 		}
 		return interact.read(location, state);
 	}
 	// add the location set by another asm
 	public void add(Entry<Location, Value> l) {
-		System.out.println("storing " + l.getKey() + " = " + l.getValue());
+		//System.out.println("storing " + l.getKey() + " = " + l.getValue());
 		monStoredValues.put(l.getKey().toString(), l.getValue());
 	}
 
@@ -87,20 +87,24 @@ class LeafAsm extends Composition {
 
 	@Override
 	UpdateSet eval() {
-		System.out.println("running asm " + name + " current state" + s1.getCurrentState());
+		System.out.println("Running " + name);// + " current state" + s1.getCurrentState());
 		return s1.run(1);
 	}
 
 	// dall'update set copia in s2
 	protected void copyMonitored(UpdateSet up) {
-		System.out.println("copying " + up + " in " + name);
+		//System.out.println("copying " + up + " in " + name);
 		LeafAsm lc = this;
+		String out="";
+		out+="UpdateSet = {";
 		for (Entry<Location, Value> l : up) {
 			Location loc = l.getKey();
 			String locName = loc.getSignature().getName();
 			// set the mon funtion to the mon func reader
 			mon.add(l);
+			out+=l+"; ";
 		}
+		System.out.println(out.substring(0, out.length()-2)+"}");
 	}
 
 	@Override

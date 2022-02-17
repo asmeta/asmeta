@@ -30,17 +30,18 @@ public class CompositionTest {
 		System.out.println(" ===== new step =====");
 		asm2.eval();
 	}
-	
+
 	@Test
 	public void testMVM() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		BiPipe asm2 = new BiPipe(new LeafAsm(path2 + "MVMcontroller04.asm"), new LeafAsm(path2 + "supervisor03.asm"));
 		BiPipe b1 = new BiPipe(new LeafAsm(path2 + "MVMHardware.asm"), asm2);
-		b1.eval();
-		System.out.println(" ===== new step =====");
-		b1.eval();
+		int count = 1;
+		while (true) {
+			System.out.println(" ===== I/O  ASM  assembly "+ count +" =====");
+			b1.eval();
+			count++;
+		}
 	}
 
-	
-	
 }
