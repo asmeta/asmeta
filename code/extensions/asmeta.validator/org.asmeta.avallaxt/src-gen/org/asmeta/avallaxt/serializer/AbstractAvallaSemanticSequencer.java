@@ -5,15 +5,15 @@ package org.asmeta.avallaxt.serializer;
 
 import com.google.inject.Inject;
 import java.util.Set;
-import org.asmeta.avallaxt.avallaXt.AvallaXtPackage;
-import org.asmeta.avallaxt.avallaXt.Block;
-import org.asmeta.avallaxt.avallaXt.Check;
-import org.asmeta.avallaxt.avallaXt.Exec;
-import org.asmeta.avallaxt.avallaXt.ExecBlock;
-import org.asmeta.avallaxt.avallaXt.Invariant;
-import org.asmeta.avallaxt.avallaXt.Scenario;
-import org.asmeta.avallaxt.avallaXt.Step;
-import org.asmeta.avallaxt.avallaXt.StepUntil;
+import org.asmeta.avallaxt.avalla.AvallaPackage;
+import org.asmeta.avallaxt.avalla.Block;
+import org.asmeta.avallaxt.avalla.Check;
+import org.asmeta.avallaxt.avalla.Exec;
+import org.asmeta.avallaxt.avalla.ExecBlock;
+import org.asmeta.avallaxt.avalla.Invariant;
+import org.asmeta.avallaxt.avalla.Scenario;
+import org.asmeta.avallaxt.avalla.Step;
+import org.asmeta.avallaxt.avalla.StepUntil;
 import org.asmeta.avallaxt.services.AvallaGrammarAccess;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -37,33 +37,33 @@ public abstract class AbstractAvallaSemanticSequencer extends AbstractDelegating
 		ParserRule rule = context.getParserRule();
 		Action action = context.getAssignedAction();
 		Set<Parameter> parameters = context.getEnabledBooleanParameters();
-		if (epackage == AvallaXtPackage.eINSTANCE)
+		if (epackage == AvallaPackage.eINSTANCE)
 			switch (semanticObject.eClass().getClassifierID()) {
-			case AvallaXtPackage.BLOCK:
+			case AvallaPackage.BLOCK:
 				sequence_Block(context, (Block) semanticObject); 
 				return; 
-			case AvallaXtPackage.CHECK:
+			case AvallaPackage.CHECK:
 				sequence_Check(context, (Check) semanticObject); 
 				return; 
-			case AvallaXtPackage.EXEC:
+			case AvallaPackage.EXEC:
 				sequence_Exec(context, (Exec) semanticObject); 
 				return; 
-			case AvallaXtPackage.EXEC_BLOCK:
+			case AvallaPackage.EXEC_BLOCK:
 				sequence_ExecBlock(context, (ExecBlock) semanticObject); 
 				return; 
-			case AvallaXtPackage.INVARIANT:
+			case AvallaPackage.INVARIANT:
 				sequence_Invariant(context, (Invariant) semanticObject); 
 				return; 
-			case AvallaXtPackage.SCENARIO:
+			case AvallaPackage.SCENARIO:
 				sequence_Scenario(context, (Scenario) semanticObject); 
 				return; 
-			case AvallaXtPackage.SET:
-				sequence_Set(context, (org.asmeta.avallaxt.avallaXt.Set) semanticObject); 
+			case AvallaPackage.SET:
+				sequence_Set(context, (org.asmeta.avallaxt.avalla.Set) semanticObject); 
 				return; 
-			case AvallaXtPackage.STEP:
+			case AvallaPackage.STEP:
 				sequence_Command(context, (Step) semanticObject); 
 				return; 
-			case AvallaXtPackage.STEP_UNTIL:
+			case AvallaPackage.STEP_UNTIL:
 				sequence_StepUntil(context, (StepUntil) semanticObject); 
 				return; 
 			}
@@ -99,8 +99,8 @@ public abstract class AbstractAvallaSemanticSequencer extends AbstractDelegating
 	 */
 	protected void sequence_Check(ISerializationContext context, Check semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, AvallaXtPackage.Literals.CHECK__EXPRESSION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaXtPackage.Literals.CHECK__EXPRESSION));
+			if (transientValues.isValueTransient(semanticObject, AvallaPackage.Literals.CHECK__EXPRESSION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaPackage.Literals.CHECK__EXPRESSION));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getCheckAccess().getExpressionSentenceParserRuleCall_1_0(), semanticObject.getExpression());
@@ -152,8 +152,8 @@ public abstract class AbstractAvallaSemanticSequencer extends AbstractDelegating
 	 */
 	protected void sequence_Exec(ISerializationContext context, Exec semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, AvallaXtPackage.Literals.EXEC__RULE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaXtPackage.Literals.EXEC__RULE));
+			if (transientValues.isValueTransient(semanticObject, AvallaPackage.Literals.EXEC__RULE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaPackage.Literals.EXEC__RULE));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getExecAccess().getRuleSentencePlusAssignParserRuleCall_1_0(), semanticObject.getRule());
@@ -172,10 +172,10 @@ public abstract class AbstractAvallaSemanticSequencer extends AbstractDelegating
 	 */
 	protected void sequence_Invariant(ISerializationContext context, Invariant semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, AvallaXtPackage.Literals.INVARIANT__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaXtPackage.Literals.INVARIANT__NAME));
-			if (transientValues.isValueTransient(semanticObject, AvallaXtPackage.Literals.INVARIANT__EXPRESSION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaXtPackage.Literals.INVARIANT__EXPRESSION));
+			if (transientValues.isValueTransient(semanticObject, AvallaPackage.Literals.INVARIANT__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaPackage.Literals.INVARIANT__NAME));
+			if (transientValues.isValueTransient(semanticObject, AvallaPackage.Literals.INVARIANT__EXPRESSION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaPackage.Literals.INVARIANT__EXPRESSION));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getInvariantAccess().getNameGOOD_CHARS_NO_COLONTerminalRuleCall_1_0(), semanticObject.getName());
@@ -209,12 +209,12 @@ public abstract class AbstractAvallaSemanticSequencer extends AbstractDelegating
 	 *     (location=sentence value=sentence)
 	 * </pre>
 	 */
-	protected void sequence_Set(ISerializationContext context, org.asmeta.avallaxt.avallaXt.Set semanticObject) {
+	protected void sequence_Set(ISerializationContext context, org.asmeta.avallaxt.avalla.Set semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, AvallaXtPackage.Literals.SET__LOCATION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaXtPackage.Literals.SET__LOCATION));
-			if (transientValues.isValueTransient(semanticObject, AvallaXtPackage.Literals.SET__VALUE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaXtPackage.Literals.SET__VALUE));
+			if (transientValues.isValueTransient(semanticObject, AvallaPackage.Literals.SET__LOCATION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaPackage.Literals.SET__LOCATION));
+			if (transientValues.isValueTransient(semanticObject, AvallaPackage.Literals.SET__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaPackage.Literals.SET__VALUE));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getSetAccess().getLocationSentenceParserRuleCall_1_0(), semanticObject.getLocation());
@@ -236,8 +236,8 @@ public abstract class AbstractAvallaSemanticSequencer extends AbstractDelegating
 	 */
 	protected void sequence_StepUntil(ISerializationContext context, StepUntil semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, AvallaXtPackage.Literals.STEP_UNTIL__EXPRESSION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaXtPackage.Literals.STEP_UNTIL__EXPRESSION));
+			if (transientValues.isValueTransient(semanticObject, AvallaPackage.Literals.STEP_UNTIL__EXPRESSION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaPackage.Literals.STEP_UNTIL__EXPRESSION));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getStepUntilAccess().getExpressionSentenceParserRuleCall_2_0(), semanticObject.getExpression());

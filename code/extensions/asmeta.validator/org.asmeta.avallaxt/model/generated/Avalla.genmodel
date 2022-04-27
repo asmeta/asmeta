@@ -4,7 +4,7 @@
     modelPluginID="org.asmeta.avallaxt" forceOverwrite="true" modelName="Avalla" updateClasspath="false"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" complianceLevel="8.0"
     copyrightFields="false" runtimeVersion="2.20">
-  <genPackages prefix="AvallaXt" basePackage="org.asmeta.avallaxt" disposableProviderFactory="true"
+  <genPackages prefix="Avalla" basePackage="org.asmeta.avallaxt" disposableProviderFactory="true"
       fileExtensions="avalla" ecorePackage="Avalla.ecore#/">
     <genClasses ecoreClass="Avalla.ecore#//Scenario">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Avalla.ecore#//Scenario/name"/>

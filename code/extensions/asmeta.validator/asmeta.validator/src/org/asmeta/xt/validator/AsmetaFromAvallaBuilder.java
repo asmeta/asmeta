@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
-import org.asmeta.avallaxt.avallaXt.Scenario;
-import org.asmeta.avallaxt.avallaXt.Set;
+import org.asmeta.avallaxt.avalla.Scenario;
+import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.avallaxt.validation.ScenarioUtility;
 import org.asmeta.parser.ASMParser;
 import org.eclipse.emf.common.util.URI;

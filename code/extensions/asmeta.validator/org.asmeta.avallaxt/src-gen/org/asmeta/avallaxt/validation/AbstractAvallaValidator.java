@@ -13,7 +13,7 @@ public abstract class AbstractAvallaValidator extends AbstractDeclarativeValidat
 	@Override
 	protected List<EPackage> getEPackages() {
 		List<EPackage> result = new ArrayList<EPackage>();
-		result.add(org.asmeta.avallaxt.avallaXt.AvallaXtPackage.eINSTANCE);
+		result.add(org.asmeta.avallaxt.avalla.AvallaPackage.eINSTANCE);
 		return result;
 	}
 }

@@ -8,8 +8,8 @@ import com.google.inject.Inject
 import org.asmeta.avallaxt.services.AvallaGrammarAccess
 import org.eclipse.xtext.formatting2.AbstractFormatter2
 import org.eclipse.xtext.formatting2.IFormattableDocument
-import org.asmeta.avallaxt.avallaXt.Block
-import org.asmeta.avallaxt.avallaXt.Command
+import org.asmeta.avallaxt.avalla.Block
+import org.asmeta.avallaxt.avalla.Command
 
 class AvallaFormatter extends AbstractFormatter2 {
 	

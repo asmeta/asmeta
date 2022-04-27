@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AsmetaTGT Ui
 Bundle-SymbolicName: asmeta.atgt.ui;singleton:=true
-Bundle-Version: 21.06
+Bundle-Version: 22.04
 Automatic-Module-Name: asmeta.atgt.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: asmeta.atgt,
