@@ -11,11 +11,11 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.asmeta.avallaxt.tests.AvallaInjectorProvider
-import org.asmeta.avallaxt.avallaXt.Scenario
-import org.asmeta.avallaxt.avallaXt.ExecBlock
-import org.asmeta.avallaxt.avallaXt.Step
-import org.asmeta.avallaxt.avallaXt.Block
-import org.asmeta.avallaxt.avallaXt.Set
+import org.asmeta.avallaxt.avalla.Scenario
+import org.asmeta.avallaxt.avalla.ExecBlock
+import org.asmeta.avallaxt.avalla.Step
+import org.asmeta.avallaxt.avalla.Block
+import org.asmeta.avallaxt.avalla.Set
 
 @RunWith(XtextRunner)
 @InjectWith(AvallaInjectorProvider)

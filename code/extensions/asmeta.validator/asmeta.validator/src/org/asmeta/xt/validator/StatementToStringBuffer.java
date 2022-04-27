@@ -11,16 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
-import org.asmeta.avallaxt.avallaXt.Block;
-import org.asmeta.avallaxt.avallaXt.Check;
-import org.asmeta.avallaxt.avallaXt.Command;
-import org.asmeta.avallaxt.avallaXt.Element;
-import org.asmeta.avallaxt.avallaXt.Exec;
-import org.asmeta.avallaxt.avallaXt.ExecBlock;
-import org.asmeta.avallaxt.avallaXt.Scenario;
-import org.asmeta.avallaxt.avallaXt.Set;
-import org.asmeta.avallaxt.avallaXt.Step;
-import org.asmeta.avallaxt.avallaXt.StepUntil;
+import org.asmeta.avallaxt.avalla.Block;
+import org.asmeta.avallaxt.avalla.Check;
+import org.asmeta.avallaxt.avalla.Command;
+import org.asmeta.avallaxt.avalla.Element;
+import org.asmeta.avallaxt.avalla.Exec;
+import org.asmeta.avallaxt.avalla.ExecBlock;
+import org.asmeta.avallaxt.avalla.Scenario;
+import org.asmeta.avallaxt.avalla.Set;
+import org.asmeta.avallaxt.avalla.Step;
+import org.asmeta.avallaxt.avalla.StepUntil;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.eclipse.emf.common.util.EList;
@@ -34,7 +34,7 @@ import com.google.inject.Injector;
  * The Class StatementToStringBuffer transform a scenario to a list of ASM
  * instructions
  */
-public class StatementToStringBuffer extends org.asmeta.avallaxt.avallaXt.util.AvallaXtSwitch<Void> {
+public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.AvallaSwitch<Void> {
 
 	private static final String SCENARIO_EXT = ".avalla";
 

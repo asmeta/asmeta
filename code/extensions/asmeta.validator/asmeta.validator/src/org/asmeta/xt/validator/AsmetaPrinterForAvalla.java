@@ -16,8 +16,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
-import org.asmeta.avallaxt.avallaXt.Invariant;
-import org.asmeta.avallaxt.avallaXt.Set;
+import org.asmeta.avallaxt.avalla.Invariant;
+import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
 import org.asmeta.parser.Utility;
