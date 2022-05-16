@@ -3,6 +3,8 @@ package org.asmeta.animator;
 import java.io.File;
 //Usare collections -> scrivere un wrapper ! gestione thread concorrenti
 import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -20,8 +22,11 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
@@ -42,11 +47,14 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import asmeta.AsmCollection;
+import asmeta.definitions.Function;
+import asmeta.definitions.domains.StringDomain;
+import asmeta.structure.Asm;
 
-public class VisualizationSimulation implements VisualizationSimulationI {	
+public class VisualizationSimulation implements VisualizationSimulationI {
 
 	// get the logger form the simulator
-	static Logger log = Logger.getLogger(Simulator.class);
+	static private final Logger simulatorLogger = Logger.getLogger(Simulator.class);
 
 	static final int rowHeight = 30;
 	static final String CONTROLLED = "C";
@@ -57,15 +65,29 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	final Shell shlAsmetaa = new Shell(display);
 
 	protected Table table_functions_left_up, table_states_right_up, table_functions_left_down, table_states_right_down;
-	private Text textStepNumber, textError, textInvariant;
+	private Text textStepNumber, textInvError;
 	private AsmCollection asm;
 	private Label lblInvariant, lblInsertStepNumber;
-	private Button btnStep, btnStep2, btnMoveControlledUp, btnMoveControlledDown, btnMoveMonitoredUp,
-			btnMoveMonitoredDown;
+	private Button btnRndStep, btnInterStep, btnMoveControlledUp, btnMoveControlledDown,
+			btnMoveMonitoredUp, btnMoveMonitoredDown;
 	private Color updateColor, newFunctionColor, red;
 	private Image arrowUp, arrowDown;
 	private String lastMonitoredInteractiveValue;
 
+	
+	/** build the viewer from a path 
+	 * sort of a factory */
+	public static void showView(File asmPath) throws Exception {
+		// PARSE THE SPECIFICATION (ASM)
+		// parse using the asmeta parser
+		assert asmPath.exists();
+		final AsmCollection model = ASMParser.setUpReadAsm(asmPath);
+		// System.out.println(System.getProperty("user.dir"));
+		simulatorLogger.debug("animating " + asmPath);
+		new VisualizationSimulation(model);
+	}
+
+	
 	/**
 	 * Launch the application. Open the window for interactive simulation.
 	 * 
@@ -110,6 +132,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		runMixedSimulation();
 	}
 
+	// init the graphical parts and the listeners of the buttons.
 	private void runMixedSimulation() {
 		AsmTestGeneratorMixedSimulation tg = new AsmTestGeneratorMixedSimulation(asm, this);
 		try {
@@ -128,10 +151,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			e1.printStackTrace();
 		}
 		/* Execute one step when push the button "Do one step" */
-		btnStep.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
+		btnRndStep.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -139,25 +159,21 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 				tg.setRandom();
 				// System.out.println("RANDOM SIMULATION");
 				for (int i = 0; i < stepNumber; i++) {
-					MyState state = tg.runSimulation(stepNumber);
-					showFunctionsRandomSimulation(table_functions_left_up, table_states_right_up,
-							table_functions_left_down, table_states_right_down, state);
+					MyState state = tg.runSimulation(true);
+					showFunctionsRandomSimulation(state);
 				}
 			}
 		});
-		btnStep2.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
-
+		btnInterStep.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				tg.setInteractive();
 				// System.out.println("INTERACTIVE SIMULATION");
-				MyState state = tg.runSimulation(); // TODO: get initial state
+				MyState state = tg.runSimulation(false); // TODO: get initial state
 				showFunctionsInteractiveSimulation(state);
 			}
 		});
+
 	}
 
 	private void generateGraphicalElements(Display display, Shell shlAsmetaa) {
@@ -204,21 +220,19 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		composite.setLayout(new GridLayout(1, false));
 		new Label(composite, SWT.NONE);
 		// add the button for interactive
-		btnStep2 = new Button(composite, SWT.NONE);
-		btnStep2.setForeground(SWTResourceManager.getColor(255, 255, 255));
-		btnStep2.setBackground(SWTResourceManager.getColor(0, 0, 255));
-		btnStep2.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		btnInterStep = new Button(composite, SWT.NONE);
+		btnInterStep.setForeground(SWTResourceManager.getColor(255, 255, 255));
+		btnInterStep.setBackground(SWTResourceManager.getColor(0, 0, 255));
+		btnInterStep.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
 		// only text
-		btnStep2.setText("Do one interactive step");
-
-		new Label(composite, SWT.NONE);
+		btnInterStep.setText("Do one interactive step");
 		new Label(composite, SWT.NONE);
 		// Show button to perform simulation steps
-		btnStep = new Button(composite, SWT.NONE);
-		btnStep.setForeground(SWTResourceManager.getColor(255, 255, 255));
-		btnStep.setBackground(SWTResourceManager.getColor(0, 0, 255));
-		btnStep.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
-		btnStep.setText("Do random step/s");
+		btnRndStep = new Button(composite, SWT.NONE);
+		btnRndStep.setForeground(SWTResourceManager.getColor(255, 255, 255));
+		btnRndStep.setBackground(SWTResourceManager.getColor(0, 0, 255));
+		btnRndStep.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		btnRndStep.setText("Do random step/s");
 		lblInsertStepNumber = new Label(composite, SWT.NONE);
 		lblInsertStepNumber.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
 		lblInsertStepNumber.setBackground(SWTResourceManager.getColor(255, 255, 255));
@@ -233,36 +247,31 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		gd_textStepNumber.widthHint = 175;
 		textStepNumber.setLayoutData(gd_textStepNumber);
 		// allow only numbers
-		textStepNumber.addListener(SWT.Verify, new Listener() {
+		textStepNumber.addVerifyListener(new VerifyListener() {
 			@Override
-			public void handleEvent(Event e) {
-				String string = e.text;
-				char[] chars = new char[string.length()];
-				string.getChars(0, chars.length, chars, 0);
-				for (int i = 0; i < chars.length; i++) {
-					if (!('0' <= chars[i] && chars[i] <= '9')) {
-						e.doit = false;
-						return;
-					}
+			public void verifyText(VerifyEvent e) {
+				try {
+					Integer.valueOf(((Text) e.widget).getText());
+				} catch (NumberFormatException ex) {
+					e.doit = false;
 				}
 			}
 		});
 		new Label(composite, SWT.NONE);
-		new Label(composite, SWT.NONE);
-		// TODO
+		// invariant checker
 		lblInvariant = new Label(composite, SWT.WRAP);
 		lblInvariant.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
 		lblInvariant.setBackground(SWTResourceManager.getColor(255, 255, 255));
 		lblInvariant.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false, 1, 1));
-		lblInvariant.setText("Inviariant violation");
-		textInvariant = new Text(composite, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
-		textInvariant.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
-		textInvariant.setEditable(false);
+		lblInvariant.setText("Inviariant violation / exceptions");
+		textInvError = new Text(composite, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+		textInvError.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		textInvError.setEditable(false);
 		GridData gd_textInvariant = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_textInvariant.heightHint = 66;
 		gd_textInvariant.widthHint = 178;
-		textInvariant.setLayoutData(gd_textInvariant);
-		textInvariant.setForeground(red);
+		textInvError.setLayoutData(gd_textInvariant);
+		textInvError.setForeground(red);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 
@@ -309,6 +318,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 		// add listener to show functions
 		btnMoveMonitoredDown.addSelectionListener(new SelectionListener() {
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
@@ -320,10 +330,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			}
 
 		});
-		btnMoveControlledUp.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
+		btnMoveControlledUp.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -331,21 +338,15 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 						table_states_right_up, CONTROLLED, arrowDown, true);
 			}
 		});
-		btnMoveControlledDown.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
-
+		btnMoveControlledDown.addSelectionListener(new SelectionAdapter() {
+			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				moveMultipleFunctions(table_functions_left_up, table_states_right_up, table_functions_left_down,
 						table_states_right_down, CONTROLLED, arrowUp, false);
 			}
 		});
-		btnMoveMonitoredUp.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
+		btnMoveMonitoredUp.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -373,39 +374,65 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	/** export the table content to avalla */
 	protected void exportToAvalla() {
-		log.info("scenario " + "SCENARIO_NAME");
-		log.info("load " + "SPEC_NAME.asm");
-		// DOWN 
-		// TODO UP 
+		simulatorLogger.info("//// starting scenario");
+		simulatorLogger.info("scenario " + "SCENARIO_NAME");
+		simulatorLogger.info("load " + asm.getMain().getName() + ".asm");
 		// TODO create new file/document
-		TableItem[] states = table_states_right_down.getItems();
-		TableItem[] functions = table_functions_left_down.getItems();		
+		// DOWN
+		TableItem[] states_down = table_states_right_down.getItems();
+		TableItem[] functions_down = table_functions_left_down.getItems();
+		// UP
+		TableItem[] states_up = table_states_right_up.getItems();
+		TableItem[] functions_up = table_functions_left_up.getItems();
 		// get the states in items
 		for (int column = 0; column < table_states_right_down.getColumnCount(); column++) {
-			// controlled and then monitored
+			// all the controlled and then monitored
 			String functionTypes[] = { CONTROLLED, MONITORED };
 			for (String functionT : functionTypes) {
-				for (int i = 0; i < states.length; i++) {
-					// get the value of i-th state
-					String text = states[i].getText(column);
-					if (text.length() > 0) {
-						// get function name
-						TableItem left = functions[i];
-						String functionName = left.getText(2);
-						// function type
-						String functionType = left.getText(1);
-						if (!functionType.equals(functionT))
-							continue;
-						// print
-						if (functionType.equals("M"))
-							log.info("set " + functionName + " := " + text + ";");
-						else
-							log.info("check " + functionName + " = " + text+ ";");
-					}
-				}
+				addStateToAvalla(states_down, functions_down, column, functionT);
+				addStateToAvalla(states_up, functions_up, column, functionT);
 			}
 			// new step
-			log.info("step");
+			simulatorLogger.info("step");
+		}
+	}
+
+
+	/**
+	 * @param states_down
+	 * @param functions_down
+	 * @param column
+	 * @param functionT
+	 */
+	private void addStateToAvalla(TableItem[] states_down, TableItem[] functions_down, int column, String functionT) {
+		for (int i = 0; i < states_down.length; i++) {
+			// get the value of i-th state
+			String text = states_down[i].getText(column);
+			if (text.length() > 0) {
+				// get function name
+				TableItem left = functions_down[i];
+				String functionName = left.getText(2);
+				// function type (C for controlled and so on)
+				String functionType = left.getText(1);
+				if (!functionType.equals(functionT))
+					continue;
+				// if the type is a string add the quotes
+				// get the functions of this ASM
+				Collection<Function> functions = new ArrayList<>();
+				for (Asm a: this.asm) {
+					functions.addAll(a.getHeaderSection().getSignature().getFunction());
+				}
+				// add the quotes AG 04-2022
+				Function function = org.asmeta.parser.Utility.search_funcName(functions, functionName);				
+				if (function != null && function.getCodomain() instanceof StringDomain) {
+					text = "\""+ text + "\"";
+				}
+				// print
+				if (functionType.equals(VisualizationSimulation.MONITORED))
+					simulatorLogger.info("set " + functionName + " := " + text + ";");
+				else
+					simulatorLogger.info("check " + functionName + " = " + text + ";");
+			}
 		}
 	}
 
@@ -547,10 +574,6 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		spacerData.heightHint = hBarRightC.getSize().y;
 		spacer.setVisible(false);
 		sash_tables_up.setBackground(table_functions_left.getBackground());
-	}
-
-	public void setTextError(String text) {
-		this.textError.setText(text);
 	}
 
 	public Shell getShell() {
@@ -707,18 +730,15 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	}
 
 	// Show value of function when interactive simulation is performed
-	void showFunctionsRandomSimulation(Table table_functions_left_up, Table table_states_right_up,
-			Table table_functions_left_down, Table table_states_right_down, MyState state) {
+	void showFunctionsRandomSimulation(MyState state) {
 		TableColumn column1_up = new TableColumn(table_states_right_up, SWT.NONE);
 		column1_up.setText("State " + (table_states_right_up.getColumnCount() - 1));
 		TableColumn column1_down = new TableColumn(table_states_right_down, SWT.NONE);
 		column1_down.setText("State " + (table_states_right_down.getColumnCount() - 1));
 		addResizeListener(table_states_right_up, table_states_right_down, table_states_right_down.getColumnCount() - 1);
 		addResizeListener(table_states_right_down, table_states_right_up, table_states_right_down.getColumnCount() - 1);
-		showControlled(table_functions_left_up, table_states_right_up, table_functions_left_down,
-				table_states_right_down, state);
-		showMonitoredRandomSimulation(table_functions_left_up, table_states_right_up, table_functions_left_down,
-				table_states_right_down, state);
+		showControlled(state.getControlledValues());
+		showMonitored(state.getMonitoredValues());
 		table_states_right_up.getColumn(table_states_right_up.getColumnCount() - 1).pack();
 		table_states_right_down.getColumn(table_states_right_down.getColumnCount() - 1).pack();
 		table_states_right_down
@@ -739,8 +759,8 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		column1_down.setText("State " + (table_states_right_down.getColumnCount() - 1));
 		addResizeListener(table_states_right_up, table_states_right_down, table_states_right_down.getColumnCount() - 1);
 		addResizeListener(table_states_right_down, table_states_right_up, table_states_right_down.getColumnCount() - 1);
-		showControlled(table_functions_left_up, table_states_right_up, table_functions_left_down,
-				table_states_right_down, state);
+		showControlled(state.getControlledValues());
+		showMonitored(state.getMonitoredValues());
 		addMissingValueMoniotrFunctions(table_states_right_up);
 		addMissingValueMoniotrFunctions(table_states_right_down);
 		table_states_right_up.getColumn(table_states_right_up.getColumnCount() - 1).pack();
@@ -751,9 +771,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	}
 
 	// Show controlled functions
-	void showControlled(Table table_functions_left_up, Table table_states_right_up, Table table_functions_left_down,
-			Table table_states_right_down, MyState state) {
-		Map<Location, Value> location = state.getControlledValues();
+	void showControlled(Map<Location, Value> location) {
 		Set<Location> listKey = location.keySet();
 		for (Iterator<Location> it = listKey.iterator(); it.hasNext();) {
 			Location key = it.next();
@@ -806,9 +824,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	}
 
 	// Show monitored functions random simulation
-	void showMonitoredRandomSimulation(Table table_functions_left_up, Table table_states_right_up,
-			Table table_functions_left_down, Table table_states_right_down, MyState state) {
-		Map<Location, Value> location = state.getMonitoredValues();
+	void showMonitored(Map<Location, Value> location) {
 		Set<Location> listKey = location.keySet();
 		for (Iterator<Location> it = listKey.iterator(); it.hasNext();) {
 			Location key = it.next();
@@ -888,24 +904,10 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		return -1;
 	}
 
-	/** build the viewer from a path */
-	public static void showView(String path) throws Exception {
-		String example = path;
-		// PARSE THE SPECIFICATION (ASM)
-		// parse using the asmeta parser
-		File asmFile1 = new File(example);
-		assert asmFile1.exists();
-		File asmFile = asmFile1;
-		final AsmCollection model = ASMParser.setUpReadAsm(asmFile);
-		AsmCollection asm = model;
-		// System.out.println(System.getProperty("user.dir"));
-		log.debug("animating " + path);
-		new VisualizationSimulation(asm);
-	}
 
 	@Override
 	public void setInvalidIvariantText(String s) {
-		textInvariant.setText(s);
+		textInvError.setText(s == null? "null" : s);
 	}
 
 	@Override

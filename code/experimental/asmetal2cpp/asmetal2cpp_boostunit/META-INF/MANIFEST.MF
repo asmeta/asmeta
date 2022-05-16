@@ -2,18 +2,20 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: asmetal2cpp_boostunit
 Bundle-SymbolicName: asmetal2cpp_boostunit
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 22.04
 Export-Package: org.asmeta.tocpp.mwe2
-Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
- org.eclipse.equinox.common;bundle-version="3.8.0",
- asmeta.emf;bundle-version="1.0.0",
- asmeta.parser;bundle-version="1.0.0",
- asmeta.simulator;bundle-version="1.0.0",
- asmeta.asm2cpp;bundle-version="1.0.0",
- asmeta.smv;bundle-version="1.0.0",
+Require-Bundle: org.apache.log4j,
+ org.eclipse.equinox.common,
+ asmeta.emf,
+ asmeta.parser,
+ asmeta.simulator,
+ asmeta.asm2cpp,
+ asmeta.smv,
  org.eclipse.emf.mwe2.runtime,
- org.eclipse.emf.mwe2.launch
+ org.eclipse.emf.mwe2.launch,
+ asmeta.atgt
 Import-Package: org.apache.log4j,
  org.asmeta.simulator.main,
  org.asmeta.simulator.readers,
  org.junit
+Automatic-Module-Name: asmetal2cpp.boostunit

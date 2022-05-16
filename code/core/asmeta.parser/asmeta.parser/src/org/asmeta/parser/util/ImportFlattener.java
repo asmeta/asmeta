@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.Utility;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -25,7 +26,7 @@ import asmeta.structure.Signature;
  * takes an ASM and recursively call the imports and build the entire set of
  * functions and domains
  * 
- * used in model advisor - in altre parti non server perchè ho controllato che
+ * used in model advisor/ model checker - in altre parti non serve perche' ho controllato che
  * se import e poi import, vengono aggiunte a quelle dell'ultimo livello quindi
  * basta un import (almeno per avalla) AG 9/1/20
  */
@@ -102,8 +103,8 @@ public class ImportFlattener {
 				moduleName = ic.getModuleName();
 				if (!moduleName.endsWith("StandardLibrary") && !moduleName.endsWith("CTLlibrary")
 						&& !moduleName.endsWith("LTLlibrary")) {
-					// file = new File(path + moduleName + ".asm");
-					file = new File(folder + "/" + moduleName + ".asm");
+					// Import the file
+					file = Utility.importFile(folder, ic);
 					asms = null;
 					try {
 						asms = ASMParser.setUpReadAsm(file);

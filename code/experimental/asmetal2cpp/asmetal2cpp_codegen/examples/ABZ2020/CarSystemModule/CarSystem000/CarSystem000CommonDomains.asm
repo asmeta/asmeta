@@ -1,6 +1,6 @@
 module CarSystem000CommonDomains
 import ../../StandardLibrary
-export *
+export * 
 
 signature:
 	enum domain KeyPosition = {NOKEYINSERTED | KEYINSERTED | KEYINIGNITIONONPOSITION} // Key state

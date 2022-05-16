@@ -10,7 +10,7 @@ signature:
 	dynamic monitored mon2: Boolean
 	
 definitions:
-	domain MyDomain = {1..10}
+	domain MyDomain = {1:10}
 
 	//proprieta' CTL con la vecchia interpretazione delle monitorate: le monitorate
 	//appartengono al nuovo updateSet

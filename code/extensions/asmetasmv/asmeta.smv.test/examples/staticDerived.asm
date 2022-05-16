@@ -10,7 +10,7 @@ signature:
 	derived der: Boolean
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	function stat = 2
 	function der = mon1 and mon2

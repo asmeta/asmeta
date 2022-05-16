@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 class AsmInfo {
 	String outputRunNuSMV;
@@ -13,8 +14,8 @@ class AsmInfo {
 		as.translation();
 		as.createNuSMVfile();
 		String[] cmdarray = { "NuSMV", "-is", "-r", as.smvFileName};
-		as.runNuSMV(cmdarray);
-		outputRunNuSMV = as.getOutput();
+		as.runNuSMV(Arrays.asList(cmdarray));
+		outputRunNuSMV = as.getOutput(Arrays.asList(cmdarray));
 	}
 
 	void getNumberOfReachableStates() {

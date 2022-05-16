@@ -6,7 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="src" output="target/classes" path="testsrc">
+	<classpathentry kind="src" output="target/test-classes" path="testsrc">
 		<attributes>
 			<attribute name="test" value="true"/>
 			<attribute name="optional" value="true"/>
@@ -22,5 +22,11 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.emf"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.parser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.simulator"/>
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -2,25 +2,25 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: asm2cpp_project
 Bundle-SymbolicName: uasm2code_inoproject;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 22.04
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.ui,
- org.eclipse.xtext.xbase.lib;bundle-version="2.10.0",
- org.junit;bundle-version="4.12.0",
- org.eclipse.xtext.junit4;bundle-version="2.10.0",
- org.eclipse.xtext;bundle-version="2.10.0",
- org.eclipse.ui.ide;bundle-version="3.12.0",
- com.google.gson;bundle-version="2.2.4",
- asmeta.emf;bundle-version="1.0.0",
- asmeta.asm2cpp;bundle-version="1.0.0",
- org.eclipse.xtend.ide;bundle-version="2.16.0"
+ org.eclipse.xtext.xbase.lib,
+ org.junit,
+ org.eclipse.xtext.junit4,
+ org.eclipse.xtext,
+ org.eclipse.ui.ide,
+ com.google.gson,
+ asmeta.emf,
+ asmeta.asm2cpp,
+ org.eclipse.xtend.ide
 Import-Package: asmeta.structure,
  org.asmeta.codegenerator,
  org.asmeta.codegenerator.arduino,
  org.asmeta.codegenerator.configuration,
  org.asmeta.parser,
  org.eclipse.core.resources,
- org.eclipse.core.runtime;version="3.5.0",
+ org.eclipse.core.runtime,
  org.eclipse.xtext.generator,
  org.eclipse.xtext.ui.resource
 Bundle-ClassPath: gson-2.2.2.jar,

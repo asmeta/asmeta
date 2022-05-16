@@ -51,8 +51,10 @@ definitions:
 
 	//AsmetaL invariants
 	//Se la capra (GOAT) e il cavolo (CABBAGE) sono sulla stessa sponda, allora deve essere presente anche il FERRYMAN
+	invariant over position: position(GOAT)=position(CABBAGE) implies position(GOAT)=position(FERRYMAN)
 	//Se il lupo (WOLF) e la capra (GOAT) sono sulla stessa sponda, allora deve essere presente anche il FERRYMAN
-	invariant over position:position(WOLF)=position(GOAT) implies position(WOLF)=position(FERRYMAN)
+	invariant over position: position(WOLF)=position(GOAT) implies position(WOLF)=position(FERRYMAN)
+
 
 	main rule r_Main =
 		if(not(allOnRightSide)) then

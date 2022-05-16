@@ -1,7 +1,7 @@
 package org.asmeta.runtime_container;
 
-import java.io.PrintStream;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.asmeta.animator.MyState;
@@ -73,22 +73,35 @@ public class RunOutput implements Serializable {
 	}
 
 	/** Changes the timeout flag value */
-	public void setResult(boolean result) {
+	public void setTimeoutFlag(boolean result) {
 		timeoutFlag = result;
 	}
 
-	/** Shows the timeout flag value */
-	public boolean getResult() {
+	/**
+	 * Shows the timeout flag value, for the timeout methods
+	 * @return true if run finished, false if it's still running
+	 */
+	public boolean getTimeoutFlag() {
 		return timeoutFlag;
 	}
 	
+	/** Shows the outcome SAFE or UNSAFE */
+	public Esit getEsit() {
+		return esit;
+	}
 	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("The Esit of the running is: " + esit + "\n");
+		sb.append("Model execution outcome: " + esit + "\n");
 		if (!message.equals(""))
 			sb.append("Reason: " + message + "\n");
+		if (ms!=null) {
+			sb.append("Updated locations: " + ms.getControlledValuesToString());
+			sb.append("\nOut locations: " + ms.getOutValuesToString()); //2021_12_13 SILVIA: print out functions
+		}	
+		
+
 		return sb.toString();
 	}
 	
@@ -96,19 +109,56 @@ public class RunOutput implements Serializable {
 	//JUST IN USE FOR TESTING
 	public String MytoString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("The esit of the running is: " + esit + "\n");
+		sb.append("The outcome of the running is: " + esit + "\n");
 		if (!message.equals(""))
 			sb.append("Reason: " + message + "\n");
 		if (locationValue!=null)
-			sb.append("The monitored is: " + locationValue + "\n");
+			sb.append("The monitored locations are: " + locationValue + "\n");
 		if (ms!=null)
-			sb.append("The new state is: " + ms.getControlledValues() + "\n");
-		sb.append("-----------------------------------\n");
+			sb.append("The new state is: " + ms.getControlledValues());
+		//sb.append("-----------------------------------\n");
 		return sb.toString();
 	}
-
 	
+	//NEEDED TO GET OUT FUNCTIONS VALUES
+	//TODO Federico Rebucini->ho messo l'output in string per isolare location e value al simulator, non so se è meglio importarli nell'enforcer
+	public Map<String, String> getControlledvalues(){
+		if (ms!=null && ms.getControlledValues()!=null) {
+			Map<Location, Value> set=ms.getControlledValues();
+			HashMap<String, String> controlled = new HashMap<String, String>();
+			for (Location key : set.keySet()) {
+			    Value val = set.get(key);
+			    
+			    if(val instanceof org.asmeta.simulator.value.StringValue) {
+			    	controlled.put(key.toString(), "\"" + val.toString() + "\"");
+			    } else {
+			    	controlled.put(key.toString(), val.toString());
+			    }
+			}
+			//System.out.println(controlled.toString());
+			return controlled;
+		}
+		return new HashMap<String,String>();
+	}
 
+	public Map<String, String> getOutvalues(){
+		if (ms!=null && ms.getOutValues()!=null) {
+			Map<Location, Value> set=ms.getOutValues();
+			HashMap<String, String> out = new HashMap<String, String>();
+			for (Location key : set.keySet()) {
+			    Value val = set.get(key);
+
+			    if(val instanceof org.asmeta.simulator.value.StringValue) {
+			    	out.put(key.toString(), "\"" + val.toString() + "\"");
+			    } else {
+			    	out.put(key.toString(), val.toString());
+			    }
+			}
+			return out;
+		}
+		return new HashMap<String,String>();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		    
@@ -129,7 +179,7 @@ public class RunOutput implements Serializable {
 	}
 	
 	public boolean equalsMessage(Object obj) {
-        return equals(obj) && this.message == ((RunOutput)obj).message;
+        return equals(obj) && this.message.equals(((RunOutput)obj).message);
 	}
 	
 

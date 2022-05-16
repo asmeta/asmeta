@@ -8,4 +8,4 @@ signature:
 	dynamic controlled fooEnum: EnumDomain -> Boolean
 		
 definitions:
-	domain ImportedDomain = {1..3}
+	domain ImportedDomain = {1: 3}

@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.atgt.feature"
       label="Asmeta test generator"
-      version="0.0.3">
+      version="22.04">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -18,11 +18,11 @@ See http://asmeta.sourceforge.net/
    </license>
 
    <url>
-      <update label="Asmeta" url="http://svn.code.sf.net/p/asmeta/code/code/stable/asmeta_update"/>
+      <update label="Asmeta" url="https://raw.githubusercontent.com/asmeta/asmeta_update_site"/>
    </url>
 
    <requires>
-      <import plugin="asmeta.atgt" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="asmeta.atgt"/>
       <import plugin="org.eclipse.equinox.registry"/>
       <import plugin="org.eclipse.debug.core"/>
       <import plugin="org.eclipse.ui.workbench"/>
@@ -42,6 +42,7 @@ See http://asmeta.sourceforge.net/
       <import plugin="asmeta.parser"/>
       <import plugin="asmeta.simulator"/>
       <import plugin="org.eclipse.core.resources"/>
+      <import feature="org.asmeta.asmetasmv.feature"/>
    </requires>
 
    <plugin

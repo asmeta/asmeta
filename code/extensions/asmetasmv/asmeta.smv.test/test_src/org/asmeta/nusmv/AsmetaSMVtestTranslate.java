@@ -25,10 +25,19 @@ public class AsmetaSMVtestTranslate {
 	static final String FILE_BASE = "../../../../asm_examples/";
 
 	protected boolean testOneSpec(String spec) {
-		String[] args = { spec };
-		System.out.println(args[0]);
 		AsmetaSMVOptions options = new AsmetaSMVOptions();
 		AsmetaSMVOptions.keepNuSMVfile = true;
+		//AsmetaSMVOptions.FLATTEN = false;
+		return testOneSpec(spec, options);
+	}
+
+	/**
+	 * @param args
+	 * @param options
+	 * @return
+	 */
+	protected boolean testOneSpec(String spec, AsmetaSMVOptions options) {
+		String[] args = { spec };
 		try {
 			AsmetaSMV a = new AsmetaSMV(new File(args[0]),options);
 			a.translation();
@@ -38,7 +47,7 @@ public class AsmetaSMVtestTranslate {
 				return false;
 			System.out.println(Paths.get(a.smvFileName));
 			// TODO parse the file with nusmv
-			a.executeNuSMV();
+			if (options.isRunNuSMV()) a.executeNuSMV();
 			return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -64,7 +73,7 @@ public class AsmetaSMVtestTranslate {
 
 	private Collection<File> testSpecInSubFolder(String dirname) {
 		Collection<File> failedSpec = new ArrayList<File>();
-		File dir = new File(FILE_BASE + dirname);
+		File dir = new File(dirname);
 		assertTrue("example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
 				+ new File(".").getAbsolutePath(), dir.isDirectory());
 		// read all the specs
@@ -82,7 +91,8 @@ public class AsmetaSMVtestTranslate {
 		return failedSpec;
 
 	}
-
+	
+		
 	@Test
 	public void testFSM_hooking() {
 		testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking.asm");
@@ -155,6 +165,11 @@ public class AsmetaSMVtestTranslate {
 		testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm");
 	}
 
+	@Test
+	public void testasm1() {
+		testOneSpec("examples/asm1.asm");
+	}
+	
 	@Test
 	public void testAxioms() {
 		testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm");
@@ -310,6 +325,7 @@ public class AsmetaSMVtestTranslate {
 		assertTrue(testOneSpec("examples/caseTerm2.asm"));
 		assertTrue(testOneSpec("examples/caseTerm3.asm"));
 		assertTrue(testOneSpec("examples/caseTerm4.asm"));
+		assertTrue(testOneSpec("examples/caseTerm5.asm"));
 	}
 
 	
@@ -337,6 +353,19 @@ public class AsmetaSMVtestTranslate {
 		testOneSpec("C:\\Users\\garganti\\Dropbox\\Documenti\\progetti\\quasmed_git\\PillboxASM\\pillbox_for_PropertyVerification.asm");
 	}
 
+	@Test
+	public void testDivision() {
+		// nuxmv
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		options.setUseNuXmv(true);
+		options.FLATTEN = false;
+		options.setRunNuSMV(false);
+		//AsmetaSMVOptions.FLATTEN = false;
+		testOneSpec("examples/division.asm", options);
+	}
+	
+	
 
 	
 	/*

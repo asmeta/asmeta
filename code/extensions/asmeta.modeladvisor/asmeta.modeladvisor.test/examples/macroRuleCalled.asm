@@ -12,7 +12,7 @@ signature:
 	dynamic controlled fooE: EnumDom
 
 definitions:
-	domain SubDom = {1..2}
+	domain SubDom = {1:2}
 
 	macro rule r_a =
 		fooA := AA

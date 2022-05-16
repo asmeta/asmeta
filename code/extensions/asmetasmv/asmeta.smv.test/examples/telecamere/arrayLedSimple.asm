@@ -10,7 +10,7 @@ signature:
 	monitored scelta: Led
 
 definitions:
-	domain Led = {1..2}
+	domain Led = {1:2}
 
 	rule r_cambiaStato($l in Led)  =
 		if $l > 1 then

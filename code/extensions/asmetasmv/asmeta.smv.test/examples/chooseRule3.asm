@@ -8,7 +8,7 @@ signature:
 	dynamic controlled fooB: MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	rule r_a =
 		choose $x in MyDomain with $x = fooA - 1 do

@@ -36,6 +36,12 @@ public class AsmetaPrintInfoTest {
 	public void testSCP2017() throws Exception {
 		printStatsDirOfASMs(AsmParserTest.FILE_BASE + "//examples/hemodialysisDevice/SCP2017/");
 	}
+	
+	@Test
+	public void testMVM() throws Exception {
+		printStatsDirOfASMs("../../../../../mvm-asmeta\\asm_models\\MVM APPFM");
+	}
+	
 
 	private static void statsASM(String asmPath) throws Exception {
 		AsmetaPrintInfo pi = new AsmetaPrintInfo(asmPath);

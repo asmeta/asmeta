@@ -2,16 +2,20 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Animator UI plugin
 Bundle-SymbolicName: asmeta.animator.ui;singleton:=true
-Bundle-Version: 0.0.10
+Bundle-Version: 22.04
 Bundle-Activator: asmeta.animator.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.ide,
  asmeta.animator,
- org.eclipse.equinox.p2.ui
+ org.eclipse.equinox.p2.ui,
+ asmeta.simulator.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Bundle-Vendor: fmse.di.unimi.it
-Import-Package: org.asmeta.animator
+Bundle-Vendor: foselab.unibg.it
+Import-Package: org.apache.log4j,
+ org.asmeta.animator,
+ org.asmeta.simulator.main,
+ org.eclipse.ui.console
 Automatic-Module-Name: asmeta.animator.ui
 Bundle-ClassPath: .

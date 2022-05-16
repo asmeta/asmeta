@@ -1,3 +1,4 @@
+// spec with a monitored initialized
 asm spec
 
 import ../StandardLibrary

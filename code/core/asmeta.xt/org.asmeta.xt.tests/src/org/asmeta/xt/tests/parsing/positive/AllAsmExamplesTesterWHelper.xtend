@@ -48,6 +48,10 @@ class AllAsmExamplesTesterWHelper {
 			}
 		}
 	}
+	@Test
+	def void testSingleExample() {
+		testAsmetaXtFile(Paths.get("../../../../asm_examples/PillBox/Level0/pillbox_0.asm"))		
+	}
 
 	protected def void testAsmetaXtFile(Path fileToRead) {
 		System.out.print(fileToRead)

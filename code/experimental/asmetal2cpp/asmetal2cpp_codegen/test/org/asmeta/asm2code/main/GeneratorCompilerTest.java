@@ -98,7 +98,7 @@ public class GeneratorCompilerTest {
 			return new CompileResult(false, e.getMessage());
 		}
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
-		CompileResult result = CppCompiler.compile(cppFile.getName(), destinationFolder, true, false);
+		CompileResult result = CppCompiler.compile(cppFile.getName(), destinationFolder, true, false, true);
 		assertTrue(result.toString(), result.success);
 		return result;
 	}

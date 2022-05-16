@@ -1,5 +1,8 @@
 package org.asmeta.runtime_commander;
 
+/**
+ * @author Federico Rebucini
+ */
 public class CommanderException extends Exception{
 	/**
 	 * 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.asmeta.atgt.generator.combinatorial.AsmDataExtractor;
@@ -20,12 +19,14 @@ import atgt.coverage.CompleteRuleVisitor;
 import atgt.coverage.MCDCCoverage;
 import atgt.coverage.RuleGuardVisitor;
 import atgt.coverage.RuleUpdateVisitor;
-import atgt.generator.AsmMonitoredDataExtractor;
 import atgt.specification.ASMSpecification;
 import extgt.coverage.combinatorial.NWiseCovBuilder;
-import extgt.coverage.combinatorial.PairwiseCovBuilder;
 
-/** enumeration form coverage criteria */
+/** enumeration form coverage criteria 
+ * 
+ * Wrapppers arounf 
+ * 
+ * */
 public enum CriteriaEnum {
 	
 	BASIC_RULE("BasicRule",new BasicRuleVisitor()), 
@@ -34,8 +35,8 @@ public enum CriteriaEnum {
 	RULE_UPDATE("RuleUpdate",new RuleUpdateVisitor()),
 	MCDC("MCDC",MCDCCoverage.getCoverage()),
 	// combinatorial
-	COMBINATORIAL_MON("combinatorial", AsmCombCovBuilder.get(AsmCombCovBuilder.makePairwiseCovBuilder())),
-	COMBINATORIAL_ALL("combinatorial", org.asmeta.atgt.generator.combinatorial.AsmDataExtractor.getAsmCombCovBuilder()),
+	COMBINATORIAL_MON("pairwise monitored", AsmCombCovBuilder.get(AsmCombCovBuilder.makePairwiseCovBuilder())),
+	COMBINATORIAL_ALL("pairwise all", org.asmeta.atgt.generator.combinatorial.AsmDataExtractor.getAsmCombCovBuilder()),
 	
 	THREEWISE("3wise", triwiseCoveBuilder());
 
@@ -49,7 +50,7 @@ public enum CriteriaEnum {
 
 			@Override
 			public String getCoveragePrefix() {
-				return cov.getCoveragePrefix();
+				return"3-WISE";
 			}
 
 			@Override

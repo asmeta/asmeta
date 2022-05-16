@@ -618,5 +618,6 @@ public class AsmetaMATestAll {
 		assertArrayEquals(new String[]{"fooA", "TRUE", "AA"}, asmetaMA.trivialUpdate.trivialUpdate.get(3));
 		assertArrayEquals(new String[]{"fooD", "(TRUE & !(fooA = BB))", "AA"}, asmetaMA.trivialUpdate.trivialUpdate.get(4));
 		assertArrayEquals(new String[]{"fooE", "TRUE", "fooA"}, asmetaMA.trivialUpdate.trivialUpdate.get(5));
-	}
+	}	
+	
 }

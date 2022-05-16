@@ -13,7 +13,7 @@ signature:
 	dynamic controlled fooF: MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 	
 	CTLSPEC fooB = 1 and ax(fooB=1 and ax(ag(fooB=3)))
 	CTLSPEC fooC = 2 and ax(fooC=4 and ax(ag(fooC=3)))

@@ -2,10 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AsmetaTGT Ui
 Bundle-SymbolicName: asmeta.atgt.ui;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 22.04
 Automatic-Module-Name: asmeta.atgt.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: asmeta.atgt;bundle-version="1.0.0",
+Require-Bundle: asmeta.atgt,
  org.eclipse.equinox.registry,
  org.eclipse.debug.core,
  org.eclipse.ui.workbench,
@@ -15,5 +15,12 @@ Require-Bundle: asmeta.atgt;bundle-version="1.0.0",
  org.eclipse.swt,
  javax.inject,
  org.eclipse.ui.ide,
- org.junit
+ org.junit,
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.apache.log4j
 Export-Package: org.asmeta.atgt.generator.ui
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.asmeta.atgt.generator.ui.ATGTActivator
+Import-Package: org.asmeta.eclipse,
+ org.eclipse.ui.console

@@ -10,6 +10,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.Arrays
 import java.nio.charset.StandardCharsets
+import org.asmeta.codegenerator.configuration.LCD
 
 class InoGenerator implements IGenerator {
 	public static String Ext = ".ino"
@@ -31,8 +32,7 @@ class InoGenerator implements IGenerator {
 
 		return '''
 			#include"«asmName».h"
-			«if(config.lcd !== null)
-				return "#include <LiquidCrystal.h>\nLiquidCrystal lcd(7, 8, 9, 10, 11, 12);"»
+			«getLcdDeclaration(config.lcd)»
 			«setup.getSetupFunction(asm)»
 			
 			«asmName» «asmInstance»;
@@ -43,14 +43,40 @@ class InoGenerator implements IGenerator {
 			  «ENDIF»
 			  «asmInstance».getInputs();
 			  «asmInstance».«asm.mainrule.name»();
-			  «asmInstance».fireUpdateSet();
 			  «asmInstance».setOutputs();
+			  «asmInstance».fireUpdateSet();
 			  «IF (config.stepTime > 0)»
 			  	delay(«config.stepTime»-(millis()-cicleStart));
 			  «ENDIF»
 			}
 			
 		'''
+	}
+	
+	def String getLcdDeclaration(LCD lcd)
+	{
+		var StringBuffer sb = new StringBuffer
+		
+		if (lcd !== null)
+		{
+			if (lcd.isi2c)
+			{
+				sb.append(System.lineSeparator)
+				sb.append('''LiquidCrystal_I2C «config.lcd.name»(«config.lcd.address.toString», «config.lcd.numberofcolumns», «config.lcd.numberofrows»);''')
+				sb.append(System.lineSeparator)
+				sb.append(System.lineSeparator)
+			}
+			else
+			{
+				sb.append(System.lineSeparator)
+				sb.append('''LiquidCrystal «config.lcd.name»(«config.lcd.pin0», «config.lcd.pin1», «config.lcd.pin2»,
+											«config.lcd.pin3», «config.lcd.pin4», «config.lcd.pin5»);''')
+				sb.append(System.lineSeparator)
+				sb.append(System.lineSeparator)
+			}
+		}	
+
+		return sb.toString
 	}
 	
 	override doGenerate(Resource input, IFileSystemAccess fsa) {

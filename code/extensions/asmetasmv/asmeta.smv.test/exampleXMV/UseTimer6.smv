@@ -1,0 +1,34 @@
+@TIME_DOMAIN continuous
+MODULE main
+	VAR
+		currentTime: clock; -- the clock
+		timerstep: TimeLibrary(20,currentTime);
+		current: {LIGHT_UNDEF, OFF, ON}; --controlled
+	DEFINE
+	CONSTANTS LIGHT_UNDEF, OFF, ON, TIMERSTEP, TIMELIBRARY_TIMER_UNDEF;
+	ASSIGN
+		init(currentTime):=0;
+		init(current) := ON;
+		next(timerstep.start) :=
+			case
+				(timerstep.expired): currentTime;
+				TRUE: timerstep.start;
+			esac;
+		next(current) :=
+			case
+				(timerstep.expired & !(current = ON) & (current = OFF)): ON;
+				((current = ON) & timerstep.expired): OFF;
+				TRUE: current;
+			esac;
+--LTL properties
+LTLSPEC NAME ltl0 := F((current = OFF));
+
+MODULE TimeLibrary(d,ct)
+	VAR 
+	 	start: real; -- when reset init the start
+		
+	DEFINE expired := (ct)>=(start+d); -- timer expired 
+	
+	ASSIGN 
+		init(start):=ct; -- init start to the init time
+

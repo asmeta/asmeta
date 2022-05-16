@@ -1,6 +1,7 @@
 package org.asmeta.parser;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -30,7 +31,7 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 	@BeforeClass
 	public static void setUpLogger() {
 		//AsmParserTest.setUpLogger();
-		Logger.getLogger("org.asmeta.parser").setLevel(Level.ALL);
+		//Logger.getLogger("org.asmeta.parser").setLevel(Level.ALL);
 	}
 
 	@Test
@@ -186,11 +187,13 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 
 	@Test
 	public void testNull() {
-		testOneSpec("test/parser/null/null.asm");
+		AsmCollection asm = testOneAsmFile("test/parser/null/null.asm");
+		assertFalse(asm.iterator().hasNext());
 	}
 	@Test
 	public void testonlyComments() {
-		testOneSpec("test/parser/null/comment.asm");
+		AsmCollection asm = testOneAsmFile("test/parser/null/comment.asm");
+		assertFalse(asm.iterator().hasNext());
 	}
 	
 	@Test
@@ -207,9 +210,7 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 	@Test
 	public void testPhilo1() {
 		Logger log = Logger.getLogger("org.asmeta.parser");
-		if (!log.getAllAppenders().hasMoreElements())
-		log.addAppender(new ConsoleAppender(new SimpleLayout()));
-		 log.setLevel(Level.ALL);
+		//log.setLevel(Level.ALL);
 		String file = "examples/philosophers/philosophers1.asm";
 		testOneSpec(file);
 	}

@@ -1,0 +1,94 @@
+scenario CalculateSafetyDistance
+load ../CarSystem007main.asm
+//questo scenario testa il corretto funzionamento del plan per il calcolo della distanza di sicurezza a velocità inferiori di 20km/h
+//a queste velocità il cruise adattivo non è attivo
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM0;
+set stationaryObstacle := false;
+set movingObstacle := false;
+step
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check speedVehicleAhead_Prec = 0;
+check setSafetyDistance = 2;
+check desiredSpeed = 0;
+set sCSLever := FORWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 3;
+set speedVehicleAhead := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
+step
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = FORWARD_SCS;
+check speedVehicleAhead_Prec = 0;
+check setSafetyDistance = 2;
+check desiredSpeed = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 150;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 15;
+set speedVehicleAhead := 170;
+set stationaryObstacle := false;
+set movingObstacle := false;
+step
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check speedVehicleAhead_Prec = 170;
+check setSafetyDistance = 12;
+check desiredSpeed = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 150;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 12;
+set speedVehicleAhead := 170;
+set stationaryObstacle := false;
+set movingObstacle := false;
+step
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check speedVehicleAhead_Prec = 170;
+check setSafetyDistance = 10;
+check desiredSpeed = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 120;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 19;
+set speedVehicleAhead := 190;
+set stationaryObstacle := false;
+set movingObstacle := false;
+step
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check speedVehicleAhead_Prec = 190;
+check setSafetyDistance = 10;
+check desiredSpeed = 0;
+step

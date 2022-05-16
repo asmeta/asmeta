@@ -1,0 +1,27 @@
+scenario keyOffBlinkOff
+load ../CarSystem001main.asm
+
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINIGNITIONONPOSITION;
+set pitmanArmUpDown := DOWNWARD5;
+step
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = DOWNWARD5;
+check hazardWarningSwitchOn_Start = false;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check blinkLeftPulseRatio = PULSE11;
+check blinkLeft = 100;
+set hazardWarningSwitchOn := false;
+set keyState := KEYINSERTED;
+set pitmanArmUpDown := DOWNWARD5;
+step
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check blinkLeftPulseRatio = NOPULSE;
+check blinkLeft = 0;
+step

@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 
 import org.asmeta.simulator.StdlEvaluator.WrappedMethod;
 import org.asmeta.simulator.util.UnresolvedReferenceException;
+import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.RealValue;
 import org.asmeta.simulator.value.UndefValue;
@@ -42,16 +43,16 @@ public class StdlEvaluatorTest {
 		Class<?>[] expectedTypes = new Class<?>[]{RealValue.class};
 		String actualName = "abs";
 		Class<?>[] actualTypes = new Class<?>[]{RealValue.class}; 
-		testResolve(expectedName, expectedTypes, actualName, actualTypes);
+		testResolve(expectedName, expectedTypes, actualName, actualTypes,RealValue.class);
 	}
 
 	@Test
-	public void testAbs2() {
+	public void testAbsInteger() {
 		String expectedName = "abs";
 		Class<?>[] expectedTypes = new Class<?>[]{IntegerValue.class};
 		String actualName = "abs";
 		Class<?>[] actualTypes = new Class<?>[]{IntegerValue.class}; 
-		testResolve(expectedName, expectedTypes, actualName, actualTypes);
+		testResolve(expectedName, expectedTypes, actualName, actualTypes,IntegerValue.class);
 	}
 
 	@Test
@@ -60,7 +61,7 @@ public class StdlEvaluatorTest {
 		Class<?>[] expectedTypes = new Class<?>[]{Value.class, UndefValue.class};
 		String actualName = "eq";
 		Class<?>[] actualTypes = new Class<?>[]{IntegerValue.class, UndefValue.class}; 
-		testResolve(expectedName, expectedTypes, actualName, actualTypes);
+		testResolve(expectedName, expectedTypes, actualName, actualTypes,BooleanValue.class);
 	}
 
 	@Test (expected = UnresolvedReferenceException.class)
@@ -69,18 +70,38 @@ public class StdlEvaluatorTest {
 		Class<?>[] expectedTypes = new Class<?>[]{IntegerValue.class, Value.class};
 		String actualName = "foo";
 		Class<?>[] actualTypes = new Class<?>[]{IntegerValue.class, IntegerValue.class}; 
-		testResolve(expectedName, expectedTypes, actualName, actualTypes);
+		testResolve(expectedName, expectedTypes, actualName, actualTypes,String.class);
 	}
 	
-	@Test (expected = UnresolvedReferenceException.class)
+
+	@Test(expected = UnresolvedReferenceException.class)
 	public void testBar() {
 		String expectedName = "bar";
 		Class<?>[] expectedTypes = new Class<?>[]{};
 		String actualName = "bar";
 		Class<?>[] actualTypes = new Class<?>[]{}; 
-		testResolve(expectedName, expectedTypes, actualName, actualTypes);
+		testResolve(expectedName, expectedTypes, actualName, actualTypes,String.class);
 	}
 
+	@Test 
+	public void testTime() {
+		String expectedName = "currTimeMillisecs";
+		Class<?>[] expectedTypes = new Class<?>[]{};
+		String actualName = "currTimeMillisecs";
+		Class<?>[] actualTypes = new Class<?>[]{}; 
+		testResolve(expectedName, expectedTypes, actualName, actualTypes,IntegerValue.class);
+	}
+	
+	@Test 
+	public void testTime2() {
+		String expectedName = "currTimeMillisecs";
+		Class<?>[] expectedTypes = new Class<?>[]{};
+		String actualName = "currTimeMillisecs";
+		Class<?>[] actualTypes = new Class<?>[]{}; 
+		testResolve(expectedName, expectedTypes, actualName, actualTypes,IntegerValue.class);
+		// now visit it
+	}
+	
 	/**
 	 * Searches a function with a given name and parameter types and checks that
 	 * the method returned by the name resolution procedure has the expected 
@@ -92,9 +113,10 @@ public class StdlEvaluatorTest {
 	 * @param actualTypes the parameter types of the function to search
 	 */
 	private void testResolve(String expectedName, Class<?>[] expectedTypes,
-			String actualName, Class<?>[] actualTypes) {
+			String actualName, Class<?>[] actualTypes, Class<?> returnType) {
 		Method m = eval.resolve(actualName, actualTypes);
 		Assert.assertEquals(expectedName, m.getName());
+		Assert.assertEquals(returnType,m.getReturnType());
 		Assert.assertArrayEquals(expectedTypes, m.getParameterTypes());
 	}
 

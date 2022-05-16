@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta model advisor
 Bundle-SymbolicName: asmeta.modeladvisor
-Bundle-Version: 0.0.13
+Bundle-Version: 22.04
 Bundle-ClassPath: args4j.jar,
  .
 Require-Bundle: asmeta.emf,
@@ -13,5 +13,6 @@ Require-Bundle: asmeta.emf,
 Export-Package: org.asmeta.modeladvisor,
  org.asmeta.modeladvisor.metaproperties,
  org.asmeta.modeladvisor.texpr
-Bundle-Vendor: fmse.di.unimi.it
+Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.modeladvisor
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

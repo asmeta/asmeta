@@ -5,6 +5,7 @@ import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.LocationSet;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.AsmetaSimulatorWR;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
@@ -33,13 +34,29 @@ public class SimulatorRT extends AsmetaSimulatorWR{
 	public SimulatorRT(String modelName, AsmCollection asmp, Environment env)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		super(modelName, asmp, env);
+		env.timeMngt=TimeMngt.ask_user; //2021_12_01 Silvia: Aggiunto per simulare il tempo usando quello settato dall'utente 
 	}
 	
 	public SimulatorRT(String modelName, AsmCollection asmp, Environment env, State s)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		super(modelName, asmp, env, s);
+		env.timeMngt=TimeMngt.ask_user; //2021_12_01 Silvia: Aggiunto per simulare il tempo usando quello settato dall'utente 
 		checkInvariantRestart();
 	}
+	
+	private void checkInvariantRestart() {
+		logger.debug("<Run>");
+		UpdateSet updateSet = new UpdateSet();
+		getContrMonInvariants();
+		Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);
+		//System.out.println("Controllo invariants controllati nello stato iniziale.");
+		if (invariant != null) {
+			System.out.println("Invariant violation!");
+			throw new InvalidInvariantException(invariant, updateSet);
+		}
+		logger.debug("</Run>");
+	}
+
 	
 	/**
 	 * Return an InvalidInvariantException or UpdateClashException if it occurs
@@ -60,7 +77,7 @@ public class SimulatorRT extends AsmetaSimulatorWR{
 		
 		UpdateSet updateSet = new UpdateSet();
 		getContrMonInvariants();
-		if (checkInvariants) {
+		if (checkInvariants != InvariantTreament.NO_CHECK) {
 			Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);
 			if (invariant != null) {
 				throw new InvalidInvariantException(invariant, updateSet);

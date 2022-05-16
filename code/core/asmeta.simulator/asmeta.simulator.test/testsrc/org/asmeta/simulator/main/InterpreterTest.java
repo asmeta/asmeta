@@ -27,6 +27,7 @@ import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.UpdateClashException;
+import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.simulator.util.UnresolvedReferenceException;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.EnumValue;
@@ -38,6 +39,7 @@ import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.TupleValue;
 import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import asmeta.AsmCollection;
@@ -69,12 +71,11 @@ public class InterpreterTest extends BaseTest {
 	
 	@Test(expected=ParseException.class)
 	public void test02() throws Exception {
-		sim = Util.getSimulatorForTestSpec("test/simulator/ArithmeticExpr02.asm");
-		
-		/*sim.run(1);	
+		sim = Util.getSimulatorForTestSpec("test/errors/np/ArithmeticExpr02.asm");		
+		sim.run(1);	
 		f = searchFunction("f");
 		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new IntegerValue(40), v);*/
+		assertEquals(new IntegerValue(40), v);
 	}
 	
 	@Test
@@ -288,6 +289,7 @@ public class InterpreterTest extends BaseTest {
 		assertEquals(BooleanValue.TRUE, v);	
 	}
 
+	@Ignore // ANGELO, ignore this test, I'm not sure it is correct 2021.05
 	@Test
 	public void test21() throws Exception {
 		sim = Util.getSimulatorForTestSpec("test/simulator/ForallTerm01.asm");
@@ -627,14 +629,18 @@ public class InterpreterTest extends BaseTest {
 	
 	@Test(expected=ParseException.class)
 	public void test48() throws Exception {
-		AsmCollection p = ASMParser.setUpReadAsm(new File("../../../asm_examples/test/simulator/macro/macro06.asm"));
+		File f2 = new File(TestOneSpec.FILE_BASE +  "/test/errors/np/macro06.asm");
+		assertTrue(f2.exists());
+		AsmCollection p = ASMParser.setUpReadAsm(f2);
 		// ERROR: Unresolved reference to r_write(Integer, Chan)
 		assertTrue(p == null);
 	}
 
 	@Test
 	public void test49() throws Exception {
-		AsmCollection p = ASMParser.setUpReadAsm(new File("../../../asm_examples/test/simulator/macro/macro07.asm"));
+		File f2 = new File(TestOneSpec.FILE_BASE + "/test/simulator/macro/macro07.asm");
+		assertTrue(f2.exists());
+		AsmCollection p = ASMParser.setUpReadAsm(f2);
 		assertTrue(p != null);
 	}
 
@@ -653,8 +659,7 @@ public class InterpreterTest extends BaseTest {
 		sim = Util.getSimulatorForTestSpec("test/simulator/StringExpr01.asm");
 		f = searchFunction("name");
 		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new StringValue("\"pippo\""), v);//se le stringhe sono ritornate con i doppi apici
-		//assertEquals(new StringValue("pippo"), v);//se le stringhe sono ritornate senza doppi apici
+		assertEquals(new StringValue("pippo"), v);//se le stringhe sono ritornate senza doppi apici
 		sim.run(1);
 		f = searchFunction("f");
 		v = sim.currentState.read(new Location(f, new Value[0]));
@@ -668,8 +673,7 @@ public class InterpreterTest extends BaseTest {
 		assertTrue(me.getClass().toString(),me instanceof ReserveValue);
 		f = searchFunction("name");
 		v = sim.currentState.read(new Location(f, new Value[] {me}));
-		assertEquals(new StringValue("\"angelo\""), v);//se le stringhe sono ritornate con i doppi apici
-		//assertEquals(new StringValue("angelo"), v);//se le stringhe sono ritornate senza i doppi apici
+		assertEquals(new StringValue("angelo"), v);//se le stringhe sono ritornate senza i doppi apici
 	}
 
 	@Test
@@ -685,9 +689,7 @@ public class InterpreterTest extends BaseTest {
 		v = sim.currentState.read(new Location(f, new Value[] {cs}));
 		assertNotNull(v);
 		assertTrue(v.getClass().toString(), v instanceof StringValue);
-		assertEquals(new StringValue("\"even\""), v);//se le stringhe sono ritornate con i doppi apici
-		//assertEquals(new StringValue("even"), v);//se le stringhe sono ritornate senza i doppi apici
-		
+		assertEquals(new StringValue("even"), v);//se le stringhe sono ritornate senza i doppi apici		
 	}
 
 	@Test
@@ -727,7 +729,7 @@ public class InterpreterTest extends BaseTest {
 	@Test
 	public void testConcrDomDef() throws Exception {
 		sim = Util.getSimulatorForTestSpec("test/parser/concrDomDef.asm");
-		Simulator.checkInvariants = true;
+		Simulator.checkInvariants = InvariantTreament.CHECK_STOP;
 		try {
 			sim.run(10);
 		}

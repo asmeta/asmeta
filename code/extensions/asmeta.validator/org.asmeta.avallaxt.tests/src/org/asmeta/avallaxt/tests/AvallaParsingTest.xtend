@@ -4,7 +4,7 @@
 package org.asmeta.avallaxt.tests
 
 import com.google.inject.Inject
-import org.asmeta.avallaxt.avallaXt.Scenario
+import org.asmeta.avallaxt.avalla.Scenario
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper

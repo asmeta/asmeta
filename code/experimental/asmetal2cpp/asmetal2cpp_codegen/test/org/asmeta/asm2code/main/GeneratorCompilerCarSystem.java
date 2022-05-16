@@ -237,7 +237,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem001Domains.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem001";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -246,7 +246,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem001Functions.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem001";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -255,7 +255,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem001Blink.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem001";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -264,7 +264,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem001HW.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem001";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -273,7 +273,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem001main.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem001";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 
@@ -283,7 +283,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem002Domains.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem002";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -292,7 +292,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem002Functions.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem002";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -301,7 +301,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem002LowBeam.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem002";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -310,7 +310,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem002Cornering.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem002";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -319,7 +319,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem002main.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem002";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -328,7 +328,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "Prova.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem002";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -338,7 +338,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem003HighBeam.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem003";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -347,7 +347,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem003main.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem003";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -357,7 +357,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem004Blink.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem004";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -366,7 +366,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem004HighBeam.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem004";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -375,7 +375,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem004main.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem004";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -385,7 +385,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem005Domains.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem005";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -394,7 +394,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem005main.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem005";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -409,7 +409,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem007AdaptiveCruiseC.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem007";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 
@@ -419,7 +419,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem008main.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem008";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 	
@@ -428,7 +428,7 @@ public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String name = "CarSystem009EmergencyBrakeLights.cpp";
 		String dir = "examples/ABZ2020/CarSystemModule/CarSystem009";
-		if(!CppCompiler.compile(name, dir, true, true).success)
+		if(!CppCompiler.compile(name, dir, true, true, true).success)
 			fail();
 	}
 }

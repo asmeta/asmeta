@@ -207,4 +207,18 @@ public class RefinementTest {
 		assertTrue(result[1]);
 	}
 
+	@Test
+	public void testMVM() throws Exception {
+		String path = "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\";
+		RefinementProof proof = new RefinementProof(path+"Ventilatore0.asm", path +"Ventilatore1.asm");
+		boolean[] result = proof.buildProof();
+		assertTrue(result[0]);
+		assertTrue(result[1]);
+		proof = new RefinementProof(path+"Ventilatore1.asm", path +"Ventilatore2.asm");
+		result = proof.buildProof();
+		assertTrue(result[0]);
+		assertTrue(result[1]);
+	}
+
+	
 }

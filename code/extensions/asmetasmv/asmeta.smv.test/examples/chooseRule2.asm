@@ -7,7 +7,7 @@ signature:
 	dynamic controlled foo: MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	CTLSPEC ag(foo=4 iff ax(foo=3))
 	CTLSPEC ag(foo=3 iff ax(foo=2))

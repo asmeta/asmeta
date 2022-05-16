@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta simulator plugin
-Bundle-SymbolicName: org.asmeta.simulator.ui;singleton:=true
-Bundle-Version: 0.9.11
+Bundle-SymbolicName: asmeta.simulator.ui;singleton:=true
+Bundle-Version: 22.04
 Bundle-Activator: org.asmeta.eclipse.AsmeeActivator
 Bundle-ClassPath: .
-Bundle-Vendor: fmse.di.unimi.it
+Bundle-Vendor: foselab.unibg.it
 Bundle-ActivationPolicy: lazy
 Require-Bundle: asmeta.emf,
  asmeta.parser,
@@ -23,5 +23,6 @@ Require-Bundle: asmeta.emf,
  org.asmeta.xt.ui,
  org.asmeta.xt.ide
 Automatic-Module-Name: org.asmeta.asmee
-Export-Package: org.asmeta.eclipse
+Export-Package: org.asmeta.eclipse,
+ org.asmeta.eclipse.simulator.actions
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

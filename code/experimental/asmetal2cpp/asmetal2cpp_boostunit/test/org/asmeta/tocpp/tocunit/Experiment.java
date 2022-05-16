@@ -11,15 +11,15 @@ import java.util.StringTokenizer;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.asm2code.compiler.CppCompiler;
+import org.asmeta.atgt.generator2.AsmTestGenerator;
 import org.asmeta.simulator.main.Simulator;
-import org.asmeta.tocpp.abstracttestgenerator.AsmTestGenerator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
 
-public class Experiment extends AsmToBoostModuleTest{
+public class Experiment extends AsmToUnitModuleTest{
 
 	@BeforeClass
 	public static void setUpLogger() {
@@ -44,7 +44,7 @@ public class Experiment extends AsmToBoostModuleTest{
 		//testSpec("examples/coffeeVendingMachineNC.asm", NuSMV);
 		//testSpec("../asmetal2cpp_codegen/examples/coffeeVendingMachineNC.asm", SIMULATOR,"8","7");
 		//testSpec("examples/pillbox_FULL.asm", SIMULATOR,"8","10");
-		testSpec("examples/pillbox_1.asm", NuSMV,"8","10");
+		testSpec(UNITFM.BOOST, "examples/pillbox_1.asm",NuSMV,"8", "10");
 		//testSpec("D:\\AgHome\\Dropbox\\Documenti\\progetti\\quasmed_git\\PillboxASM\\pillbox.asm", NuSMV ,"8","7");
 		//testSpec("examples/coffeeVendingMachineNC.asm", SIMULATOR,"26","7");
 		//** sluiceGateGround --- non funziona to CPP

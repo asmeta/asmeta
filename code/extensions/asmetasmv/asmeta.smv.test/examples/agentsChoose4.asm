@@ -14,7 +14,7 @@ signature:
 	static agent3: SubAgent
 	
 definitions:
-	domain MyDomain = {1..3}
+	domain MyDomain = {1:3}
 	function id($a in SubAgent) = at({agent1 -> 1, agent2 -> 2, agent3 -> 3}, $a)
 	
 	rule r_rule =

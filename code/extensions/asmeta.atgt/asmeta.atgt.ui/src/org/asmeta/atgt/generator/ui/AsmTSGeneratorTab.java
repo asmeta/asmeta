@@ -106,7 +106,7 @@ public class AsmTSGeneratorTab extends AbstractLaunchConfigurationTab {
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		System.out.println("Setting defaults...");
 		configuration.setAttribute(CONFIG_COMPUTE_COVERAGE, true);
-		configuration.setAttribute(CONFIG_CRITERIA, AsmTestGenerator.DEFAULT_CRITERIA);
+		configuration.setAttribute(CONFIG_CRITERIA, AsmTestGenerator.DEFAULT_COV_BUILDER);
 		configuration.setAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS);
 	}
 	

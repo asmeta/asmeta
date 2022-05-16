@@ -8,7 +8,7 @@ signature:
 	dynamic controlled foo: MyDomain -> MyDomain
 
 definitions:
-	domain MyDomain = {1..10}
+	domain MyDomain = {1:10}
 
 	main rule r_main = 
 		forall $x in MyDomain with $x > 5 do

@@ -1,0 +1,180 @@
+--file D:\GitHub\ASMETA\mvm-asmeta\VentilatoreASM_NewTime\Ventilatore4SimpleTime.smv
+-- options: flatten? false
+@TIME_DOMAIN continuous
+MODULE main
+	VAR
+		currentTime: clock;
+	
+		time_TIMERAPNEALAG: TimeLibrary(10.0,currentTime); --controlled
+		time_TIMEREXPIRATIONDUR: TimeLibrary(4.0,currentTime); --controlled
+		time_TIMERINSPIRATIONDUR: TimeLibrary(2.0,currentTime); --controlled
+		time_TIMERMAXEXPPAUSE: TimeLibrary(60.0,currentTime); --controlled
+		time_TIMERMAXINPAUSE: TimeLibrary(40.0,currentTime); --controlled
+		time_TIMERMAXINSPTIMEPSV: TimeLibrary(7.0,currentTime); --controlled
+		time_TIMERMAXRMTIME: TimeLibrary(10.0,currentTime); --controlled
+		time_TIMERMINEXPTIMEPSV:TimeLibrary(1.0,currentTime) ; --controlled
+		time_TIMERPAUSETIMEOUT: TimeLibrary(120.0,currentTime); --controlled
+		time_TIMERTRIGGERWINDOWDELAY: TimeLibrary(0.7,currentTime); --controlled
+		
+		apneaAlarm: boolean; --controlled
+		apneaBackupMode: boolean; --controlled
+		dropPAW_ITS_PCV: boolean; --monitored
+		dropPAW_ITS_PSV: boolean; --monitored
+		expPause: boolean; --monitored
+		flowDropPSV: boolean; --monitored
+		iValve: {CLOSED, OPEN, VALVESTATUS_UNDEF}; --controlled
+		inPause: boolean; --monitored
+		oValve: {CLOSED, OPEN, VALVESTATUS_UNDEF}; --controlled
+		pauseOff: boolean; --controlled
+		pawGTMaxPinsp: boolean; --monitored
+		respirationMode: {PCV, PSV}; --monitored
+		resume: boolean; --monitored
+		rm: boolean; --monitored
+		selfTestPassed: boolean; --monitored
+		startVentilation: boolean; --monitored
+		startupEnded: boolean; --monitored
+		state: {OFF, PCV_EXP, PCV_EXP_PAUSE, PCV_INSP, PCV_IN_PAUSE, PCV_RM, PSV_EXP, PSV_EXP_PAUSE, PSV_INSP, PSV_IN_PAUSE, PSV_RM, SELFTEST, STARTUP, STATES_UNDEF, VENTILATIONOFF}; --controlled
+		stopRequested: boolean; --monitored
+		stopVentilation: boolean; --controlled
+		turnOFFbtn: boolean; --monitored
+		turnOffApneaAlarm: {NO, YES}; --monitored
+	DEFINE
+	CONSTANTS MODES_UNDEF, PCV, PSV, VALVESTATUS_UNDEF, CLOSED, OPEN, YESORNO_UNDEF, NO, YES, TIMERINSPIRATIONDUR, TIMEREXPIRATIONDUR, TIMERMAXINSPTIMEPSV, TIMERMINEXPTIMEPSV, TIMERAPNEALAG, TIMERMAXINPAUSE, TIMERMAXRMTIME, TIMERMAXEXPPAUSE, TIMERTRIGGERWINDOWDELAY, TIMERPAUSETIMEOUT, TIMELIBRARYSIMPLE_TIMER_UNDEF, STATES_UNDEF, OFF, PCV_EXP, PCV_EXP_PAUSE, PCV_INSP, PCV_IN_PAUSE, PCV_RM, PSV_EXP, PSV_EXP_PAUSE, PSV_INSP, PSV_IN_PAUSE, PSV_RM, SELFTEST, STARTUP, VENTILATIONOFF;
+	ASSIGN
+		init(currentTime):=0; -- init clock TODO
+		init(apneaAlarm) := FALSE;
+		init(apneaBackupMode) := FALSE;
+		init(iValve) := CLOSED;
+		init(oValve) := OPEN;
+		init(pauseOff) := FALSE;
+		init(state) := STARTUP;
+		init(stopVentilation) := FALSE;
+		next(time_TIMERAPNEALAG.start) :=
+			case
+				(((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & !(inPause) & (state = PSV_IN_PAUSE) & !(time_TIMERMAXINPAUSE.expired)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_IN_PAUSE)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & pawGTMaxPinsp & (state = PSV_INSP) & !(time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV)) | ((!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP)) | (!(stopRequested & (state = PSV_EXP)) & (time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV) & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_INSP)))))) | ((state = PSV_RM) & !(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (rm | time_TIMERMAXRMTIME.expired))): currentTime;
+				TRUE: time_TIMERAPNEALAG.start;
+			esac;
+		next(time_TIMEREXPIRATIONDUR.start) :=
+			case
+				(((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_IN_PAUSE) & !(inPause) & !(time_TIMERMAXINPAUSE.expired)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_IN_PAUSE)) | ((!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(respirationMode = PSV)) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(time_TIMERINSPIRATIONDUR.expired) & pawGTMaxPinsp)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (state = PCV_RM) & !(stopRequested & (state = PCV_EXP)) & (rm | time_TIMERMAXRMTIME.expired))): currentTime;
+				TRUE: time_TIMEREXPIRATIONDUR.start;
+			esac;
+		next(time_TIMERINSPIRATIONDUR.start) :=
+			case
+				(((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP) & (time_TIMERAPNEALAG.expired) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired))) | (((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP_PAUSE) & (time_TIMERMAXEXPPAUSE.expired)) | (((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP) & !(!(pauseOff) & expPause) & (time_TIMEREXPIRATIONDUR.expired)) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & startVentilation & (respirationMode = PCV) & !(stopRequested & (state = PCV_EXP)) & (state = VENTILATIONOFF))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & dropPAW_ITS_PCV & (state = PCV_EXP) & (time_TIMERTRIGGERWINDOWDELAY.expired) & !(time_TIMEREXPIRATIONDUR.expired)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(expPause) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP_PAUSE) & !(time_TIMERMAXEXPPAUSE.expired)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !((((respirationMode = PSV) & (time_TIMERMINEXPTIMEPSV.expired)) & expPause) & !(pauseOff)) & !(time_TIMERAPNEALAG.expired) & !(stopRequested & (state = PCV_EXP)) & ((respirationMode = PCV) & (time_TIMERMINEXPTIMEPSV.expired)) & (state = PSV_EXP) & !(stopVentilation) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired)))): currentTime;
+				TRUE: time_TIMERINSPIRATIONDUR.start;
+			esac;
+		next(time_TIMERMAXEXPPAUSE.start) :=
+			case
+				((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(time_TIMERAPNEALAG.expired) & ((((respirationMode = PSV) & (time_TIMERMINEXPTIMEPSV.expired)) & expPause) & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP) & (!(pauseOff) & expPause) & (time_TIMEREXPIRATIONDUR.expired))): currentTime;
+				TRUE: time_TIMERMAXEXPPAUSE.start;
+			esac;
+		next(time_TIMERMAXINPAUSE.start) :=
+			case
+				(((inPause & !(pauseOff)) & !(stopRequested & (state = PSV_EXP)) & (time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_INSP)) | (((inPause & !(pauseOff)) & !(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(respirationMode = PSV)) | ((inPause & !(pauseOff)) & !(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP)))): currentTime;
+				TRUE: time_TIMERMAXINPAUSE.start;
+			esac;
+		next(time_TIMERMAXINSPTIMEPSV.start) :=
+			case
+				((((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & startVentilation & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & !(respirationMode = PCV) & (state = VENTILATIONOFF)) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP_PAUSE) & (time_TIMERMAXEXPPAUSE.expired))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(expPause) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP_PAUSE) & !(time_TIMERMAXEXPPAUSE.expired))): currentTime;
+				TRUE: time_TIMERMAXINSPTIMEPSV.start;
+			esac;
+		next(time_TIMERMAXRMTIME.start) :=
+			case
+				(((!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(respirationMode = PSV) & rm) | (!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(inPause & !(pauseOff)) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & rm)) | (!(stopRequested & (state = PSV_EXP)) & (time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV) & !(turnOFFbtn) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_INSP) & rm)): currentTime;
+				TRUE: time_TIMERMAXRMTIME.start;
+			esac;
+		next(time_TIMERMINEXPTIMEPSV.start) :=
+			case
+				(((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & !(inPause) & (state = PSV_IN_PAUSE) & !(time_TIMERMAXINPAUSE.expired)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_IN_PAUSE)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & pawGTMaxPinsp & (state = PSV_INSP) & !(time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV)) | ((!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP)) | (!(stopRequested & (state = PSV_EXP)) & (time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV) & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_INSP)))))) | ((state = PSV_RM) & !(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (rm | time_TIMERMAXRMTIME.expired))): currentTime;
+				TRUE: time_TIMERMINEXPTIMEPSV.start;
+			esac;
+		next(time_TIMERPAUSETIMEOUT.start) :=
+			case
+				(((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_IN_PAUSE)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_IN_PAUSE)) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP_PAUSE) & (time_TIMERMAXEXPPAUSE.expired)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP_PAUSE) & (time_TIMERMAXEXPPAUSE.expired))): currentTime;
+				TRUE: time_TIMERPAUSETIMEOUT.start;
+			esac;
+		next(time_TIMERTRIGGERWINDOWDELAY.start) :=
+			case
+				(((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & !(inPause) & (state = PSV_IN_PAUSE) & !(time_TIMERMAXINPAUSE.expired)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_IN_PAUSE)) | (((((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_IN_PAUSE) & !(inPause) & !(time_TIMERMAXINPAUSE.expired)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_IN_PAUSE)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(time_TIMERINSPIRATIONDUR.expired) & pawGTMaxPinsp) | ((!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(respirationMode = PSV)) | (!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP)))))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (state = PCV_RM) & !(stopRequested & (state = PCV_EXP)) & (rm | time_TIMERMAXRMTIME.expired))) | (!(stopRequested & (state = PSV_EXP)) & (time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV) & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_INSP))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & pawGTMaxPinsp & (state = PSV_INSP) & !(time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV))))) | ((state = PSV_RM) & !(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (rm | time_TIMERMAXRMTIME.expired))): currentTime;
+				TRUE: time_TIMERTRIGGERWINDOWDELAY.start;
+			esac;
+		next(apneaAlarm) :=
+			case
+				(!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP) & (time_TIMERAPNEALAG.expired) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired))): TRUE;
+				(!(stopRequested & (state = PSV_EXP)) & apneaAlarm & !(turnOFFbtn) & ((turnOffApneaAlarm = YES) & ((state = PCV_INSP) | (state = PCV_EXP))) & !(stopRequested & (state = PCV_EXP))): FALSE;
+				TRUE: apneaAlarm;
+			esac;
+		next(apneaBackupMode) :=
+			case
+				(!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP) & (time_TIMERAPNEALAG.expired) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired))): TRUE;
+				((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & !(time_TIMERTRIGGERWINDOWDELAY.expired) & stopVentilation & (state = PCV_EXP) & !(time_TIMEREXPIRATIONDUR.expired)) | (((!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP)) | ((!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(inPause & !(pauseOff)) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & rm) | ((!(turnOFFbtn) & (stopRequested & (state = PCV_EXP))) | ((inPause & !(pauseOff)) & !(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP))))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(dropPAW_ITS_PCV) & !(stopRequested & (state = PCV_EXP)) & stopVentilation & (state = PCV_EXP) & (time_TIMERTRIGGERWINDOWDELAY.expired) & !(time_TIMEREXPIRATIONDUR.expired)))): FALSE;
+				TRUE: apneaBackupMode;
+			esac;
+		next(iValve) :=
+			case
+				(((((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP) & (time_TIMERAPNEALAG.expired) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired))) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(expPause) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP_PAUSE) & !(time_TIMERMAXEXPPAUSE.expired)) | ((((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP) & !(!(pauseOff) & expPause) & (time_TIMEREXPIRATIONDUR.expired)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & startVentilation & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & !(respirationMode = PCV) & (state = VENTILATIONOFF)) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & startVentilation & (respirationMode = PCV) & !(stopRequested & (state = PCV_EXP)) & (state = VENTILATIONOFF)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & dropPAW_ITS_PCV & (state = PCV_EXP) & (time_TIMERTRIGGERWINDOWDELAY.expired) & !(time_TIMEREXPIRATIONDUR.expired))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP_PAUSE) & (time_TIMERMAXEXPPAUSE.expired)))))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !((((respirationMode = PSV) & (time_TIMERMINEXPTIMEPSV.expired)) & expPause) & !(pauseOff)) & !(time_TIMERAPNEALAG.expired) & !(stopRequested & (state = PCV_EXP)) & ((respirationMode = PCV) & (time_TIMERMINEXPTIMEPSV.expired)) & (state = PSV_EXP) & !(stopVentilation) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP_PAUSE) & (time_TIMERMAXEXPPAUSE.expired))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(expPause) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP_PAUSE) & !(time_TIMERMAXEXPPAUSE.expired))): OPEN;
+				(((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & pawGTMaxPinsp & (state = PSV_INSP) & !(time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV)) | (((((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(time_TIMERINSPIRATIONDUR.expired) & pawGTMaxPinsp) | ((!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(respirationMode = PSV)) | (((inPause & !(pauseOff)) & !(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(respirationMode = PSV)) | ((turnOFFbtn | ((inPause & !(pauseOff)) & !(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP))) | (!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP)))))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (state = PCV_RM) & !(stopRequested & (state = PCV_EXP)) & (rm | time_TIMERMAXRMTIME.expired))) | ((inPause & !(pauseOff)) & !(stopRequested & (state = PSV_EXP)) & (time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_INSP))) | (!(stopRequested & (state = PSV_EXP)) & (time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV) & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_INSP)))) | ((state = PSV_RM) & !(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (rm | time_TIMERMAXRMTIME.expired))): CLOSED;
+				TRUE: iValve;
+			esac;
+		next(oValve) :=
+			case
+				(((state = PSV_RM) & !(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (rm | time_TIMERMAXRMTIME.expired)) | (((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_IN_PAUSE)) | (((!(stopRequested & (state = PSV_EXP)) & (time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV) & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_INSP)) | (((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_IN_PAUSE) & !(inPause) & !(time_TIMERMAXINPAUSE.expired)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_IN_PAUSE)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(time_TIMERINSPIRATIONDUR.expired) & pawGTMaxPinsp) | ((!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(respirationMode = PSV)) | (turnOFFbtn | (!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP))))))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (state = PCV_RM) & !(stopRequested & (state = PCV_EXP)) & (rm | time_TIMERMAXRMTIME.expired)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & pawGTMaxPinsp & (state = PSV_INSP) & !(time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & !(inPause) & (state = PSV_IN_PAUSE) & !(time_TIMERMAXINPAUSE.expired)))): OPEN;
+				((((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP) & (time_TIMERAPNEALAG.expired) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired))) | ((((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP) & !(!(pauseOff) & expPause) & (time_TIMEREXPIRATIONDUR.expired)) | (((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & startVentilation & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & !(respirationMode = PCV) & (state = VENTILATIONOFF)) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & startVentilation & (respirationMode = PCV) & !(stopRequested & (state = PCV_EXP)) & (state = VENTILATIONOFF))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP) & (!(pauseOff) & expPause) & (time_TIMEREXPIRATIONDUR.expired)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & dropPAW_ITS_PCV & (state = PCV_EXP) & (time_TIMERTRIGGERWINDOWDELAY.expired) & !(time_TIMEREXPIRATIONDUR.expired))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(time_TIMERAPNEALAG.expired) & ((((respirationMode = PSV) & (time_TIMERMINEXPTIMEPSV.expired)) & expPause) & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !((((respirationMode = PSV) & (time_TIMERMINEXPTIMEPSV.expired)) & expPause) & !(pauseOff)) & !(time_TIMERAPNEALAG.expired) & !(stopRequested & (state = PCV_EXP)) & ((respirationMode = PCV) & (time_TIMERMINEXPTIMEPSV.expired)) & (state = PSV_EXP) & !(stopVentilation) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired)))): CLOSED;
+				TRUE: oValve;
+			esac;
+		next(pauseOff) :=
+			case
+				(((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_IN_PAUSE)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_IN_PAUSE)) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP_PAUSE) & (time_TIMERMAXEXPPAUSE.expired)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP_PAUSE) & (time_TIMERMAXEXPPAUSE.expired))): TRUE;
+				(!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & ((((state != PSV_IN_PAUSE) & ((state != PCV_IN_PAUSE) & time_TIMERPAUSETIMEOUT.expired)) & (state != PCV_EXP_PAUSE)) & (state != PSV_EXP_PAUSE))): FALSE;
+				TRUE: pauseOff;
+			esac;
+		next(state) :=
+			case
+				(!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(respirationMode = PSV) & rm): PCV_RM;
+				((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !((((respirationMode = PSV) & (time_TIMERMINEXPTIMEPSV.expired)) & expPause) & !(pauseOff)) & !(time_TIMERAPNEALAG.expired) & !(stopRequested & (state = PCV_EXP)) & stopVentilation & (state = PSV_EXP) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired))) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & !(time_TIMERTRIGGERWINDOWDELAY.expired) & stopVentilation & (state = PCV_EXP) & !(time_TIMEREXPIRATIONDUR.expired)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(dropPAW_ITS_PCV) & !(stopRequested & (state = PCV_EXP)) & stopVentilation & (state = PCV_EXP) & (time_TIMERTRIGGERWINDOWDELAY.expired) & !(time_TIMEREXPIRATIONDUR.expired)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = SELFTEST) & (resume | selfTestPassed)) | ((!(turnOFFbtn) & (stopRequested & (state = PCV_EXP))) | (!(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (stopRequested & (state = PSV_EXP)))))))): VENTILATIONOFF;
+				((inPause & !(pauseOff)) & !(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(respirationMode = PSV)): PCV_IN_PAUSE;
+				(turnOFFbtn): OFF;
+				(((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & !(inPause) & (state = PSV_IN_PAUSE) & !(time_TIMERMAXINPAUSE.expired)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_IN_PAUSE)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & pawGTMaxPinsp & (state = PSV_INSP) & !(time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV)) | ((!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP)) | (!(stopRequested & (state = PSV_EXP)) & (time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV) & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_INSP)))))) | ((state = PSV_RM) & !(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (rm | time_TIMERMAXRMTIME.expired))): PSV_EXP;
+				(((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP) & (time_TIMERAPNEALAG.expired) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired))) | (((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP_PAUSE) & (time_TIMERMAXEXPPAUSE.expired)) | (((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP) & !(!(pauseOff) & expPause) & (time_TIMEREXPIRATIONDUR.expired)) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & startVentilation & (respirationMode = PCV) & !(stopRequested & (state = PCV_EXP)) & (state = VENTILATIONOFF))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & dropPAW_ITS_PCV & (state = PCV_EXP) & (time_TIMERTRIGGERWINDOWDELAY.expired) & !(time_TIMEREXPIRATIONDUR.expired)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(expPause) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP_PAUSE) & !(time_TIMERMAXEXPPAUSE.expired)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !((((respirationMode = PSV) & (time_TIMERMINEXPTIMEPSV.expired)) & expPause) & !(pauseOff)) & !(time_TIMERAPNEALAG.expired) & !(stopRequested & (state = PCV_EXP)) & ((respirationMode = PCV) & (time_TIMERMINEXPTIMEPSV.expired)) & (state = PSV_EXP) & !(stopVentilation) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired)))): PCV_INSP;
+				(!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (state = STARTUP) & !(stopRequested & (state = PCV_EXP)) & startupEnded): SELFTEST;
+				((((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & startVentilation & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & !(respirationMode = PCV) & (state = VENTILATIONOFF)) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP_PAUSE) & (time_TIMERMAXEXPPAUSE.expired))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(expPause) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP_PAUSE) & !(time_TIMERMAXEXPPAUSE.expired))): PSV_INSP;
+				((!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(inPause & !(pauseOff)) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & rm) | (!(stopRequested & (state = PSV_EXP)) & (time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV) & !(turnOFFbtn) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_INSP) & rm)): PSV_RM;
+				(((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_IN_PAUSE) & !(inPause) & !(time_TIMERMAXINPAUSE.expired)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (time_TIMERMAXINPAUSE.expired) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_IN_PAUSE)) | ((!(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & !(rm) & !(inPause & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(respirationMode = PSV)) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP) & !(time_TIMERINSPIRATIONDUR.expired) & pawGTMaxPinsp)))) | (!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & (state = PCV_RM) & !(stopRequested & (state = PCV_EXP)) & (rm | time_TIMERMAXRMTIME.expired))): PCV_EXP;
+				(((inPause & !(pauseOff)) & !(stopRequested & (state = PSV_EXP)) & (time_TIMERMAXINSPTIMEPSV.expired | flowDropPSV) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_INSP)) | ((inPause & !(pauseOff)) & !(stopRequested & (state = PSV_EXP)) & time_TIMERINSPIRATIONDUR.expired & !(turnOFFbtn) & (respirationMode = PSV) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_INSP))): PSV_IN_PAUSE;
+				(!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(time_TIMERAPNEALAG.expired) & ((((respirationMode = PSV) & (time_TIMERMINEXPTIMEPSV.expired)) & expPause) & !(pauseOff)) & !(stopRequested & (state = PCV_EXP)) & (state = PSV_EXP) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired))): PSV_EXP_PAUSE;
+				(!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (state = PCV_EXP) & (!(pauseOff) & expPause) & (time_TIMEREXPIRATIONDUR.expired)): PCV_EXP_PAUSE;
+				TRUE: state;
+			esac;
+		next(stopVentilation) :=
+			case
+				(!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & ((state != VENTILATIONOFF) & ((stopRequested & (state != STARTUP)) & (state != SELFTEST)))): TRUE;
+				((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !((((respirationMode = PSV) & (time_TIMERMINEXPTIMEPSV.expired)) & expPause) & !(pauseOff)) & !(time_TIMERAPNEALAG.expired) & !(stopRequested & (state = PCV_EXP)) & stopVentilation & (state = PSV_EXP) & !(dropPAW_ITS_PSV & (time_TIMERTRIGGERWINDOWDELAY.expired))) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & !(time_TIMERTRIGGERWINDOWDELAY.expired) & stopVentilation & (state = PCV_EXP) & !(time_TIMEREXPIRATIONDUR.expired)) | ((!(stopRequested & (state = PSV_EXP)) & !(turnOFFbtn) & !(dropPAW_ITS_PCV) & !(stopRequested & (state = PCV_EXP)) & stopVentilation & (state = PCV_EXP) & (time_TIMERTRIGGERWINDOWDELAY.expired) & !(time_TIMEREXPIRATIONDUR.expired)) | ((!(turnOFFbtn) & (stopRequested & (state = PCV_EXP))) | (!(turnOFFbtn) & !(stopRequested & (state = PCV_EXP)) & (stopRequested & (state = PSV_EXP))))))): FALSE;
+				TRUE: stopVentilation;
+			esac;
+--CTL properties
+--LTLSPEC NAME ltl0 :=  G(iValve = CLOSED);
+--LTLSPEC NAME ltl1 :=  G!((((state != PSV_EXP_PAUSE) & ((((state != PCV_IN_PAUSE) & ((oValve = CLOSED) & (iValve = CLOSED))) & (state != PCV_EXP_PAUSE)) & (state != PSV_IN_PAUSE)))));
+LTLSPEC NAME ltl2 :=  G(!(state = PSV_EXP));
+
+CTLSPEC NAME ctl0 := (AG(!(turnOFFbtn)) -> EF(((oValve = CLOSED) & (iValve = CLOSED))));
+CTLSPEC NAME ctl1 := (AG(!(turnOFFbtn)) -> EF(((oValve = OPEN) & (iValve = OPEN))));
+CTLSPEC NAME ctl2 := !(EF(((state != PSV_EXP_PAUSE) & ((((state != PCV_IN_PAUSE) & ((oValve = CLOSED) & (iValve = CLOSED))) & (state != PCV_EXP_PAUSE)) & (state != PSV_IN_PAUSE)))));
+CTLSPEC NAME ctl3 := !(EF((((state != PSV_IN_PAUSE) & ((state != PCV_EXP_PAUSE) & ((state != PCV_IN_PAUSE) & ((oValve = OPEN) & (iValve = OPEN))))) & (state != PSV_EXP_PAUSE))));
+CTLSPEC NAME ctl4 := AG((((oValve = CLOSED) & (iValve = CLOSED)) -> ((((state = PCV_IN_PAUSE) | (state = PCV_EXP_PAUSE)) | (state = PSV_IN_PAUSE)) | (state = PSV_EXP_PAUSE))));
+CTLSPEC NAME ctl5 := AG(((state = VENTILATIONOFF) -> ((oValve = OPEN) & (iValve = CLOSED))));
+CTLSPEC NAME ctl6 := (AG(!(turnOFFbtn)) -> AG(EF((state = VENTILATIONOFF))));
+CTLSPEC NAME ctl7 := AG(((state = OFF) -> AG((state = OFF))));
+
+
+MODULE TimeLibrary(d,ct)
+	VAR 
+	 	start: real; -- when reset init the start
+		duration : real;
+		
+	DEFINE expired := (ct)>=(start+duration); -- timer expired 
+	
+	ASSIGN 
+		init(start):=ct; -- init start to the init time
+		init(duration):=d;
+		next(duration):=duration;

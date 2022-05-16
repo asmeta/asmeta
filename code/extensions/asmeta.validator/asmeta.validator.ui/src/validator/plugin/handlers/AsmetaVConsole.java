@@ -6,7 +6,9 @@ import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
 public class AsmetaVConsole extends IOConsole {
-	private static final String CONSOLE_NAME = "ASMETAV_CONSOLE";
+	
+	
+	static final String CONSOLE_NAME = "ASMETAV_CONSOLE";
 
 	public AsmetaVConsole() {
 		super(CONSOLE_NAME, null);			

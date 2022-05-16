@@ -8,7 +8,7 @@ signature:
 	dynamic controlled foo: MyDomain
 	
 definitions:
-	domain MyDomain = {1..3}
+	domain MyDomain = {1:3}
 
 	JUSTICE foo = 2
 

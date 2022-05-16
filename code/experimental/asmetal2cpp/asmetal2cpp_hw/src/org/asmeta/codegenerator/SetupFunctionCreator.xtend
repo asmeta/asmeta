@@ -7,6 +7,7 @@ import asmeta.structure.Asm
 import asmeta.definitions.MonitoredFunction
 import asmeta.transitionrules.basictransitionrules.TermAsRule
 import asmeta.definitions.OutFunction
+import asmeta.definitions.ControlledFunction
 
 /**
  * Generate the code for the setInputFunction.
@@ -22,7 +23,12 @@ class SetupFunctionCreator {
 	def String getSetupFunction(Asm asm) {
 		var String setupFunction = ""
 		for (Binding binding : config.bindings) {
-			if (asm.bodySection.functionDefinition.exists[x|(x == binding.function)]) {
+			if (asm.headerSection.signature.function.exists[x|
+				if (binding.function.contains("("))
+					return x.name == binding.function.substring(0, binding.function.indexOf("("))
+				else
+					return x.name == binding.function	
+			]) {
 				// PWM and ANALOGLINEAROUT are only for output
 				switch (binding.configMode) {
 					// TODO PROVARE CON ARDUINO QUALI SETUP SONO NECESSARI!!
@@ -38,6 +44,8 @@ class SetupFunctionCreator {
 						setupFunction += getPWMSetup(asm, binding)
 					case ANALOGLINEAROUT:
 						setupFunction += getAnalogLinearOutSetup(asm, binding)
+					case SWITCH: 
+						setupFunction += getSwitchSetup(asm, binding)
 				}
 			}
 		}
@@ -52,11 +60,24 @@ class SetupFunctionCreator {
 
 	def getLCDSetup() {
 		if (config.lcd !== null)
-			return '''
-				«config.lcd.name».begin(«config.lcd.numberofcolumns»,«config.lcd.numberofrows»);
-				«config.lcd.name».clear();
-				
-			'''
+		{
+			if (config.lcd.isi2c)
+			{
+				return '''
+					«config.lcd.name».init();
+					«config.lcd.name».clear();
+					«config.lcd.name».backlight();
+				'''
+			}
+			else
+			{
+				return '''
+					«config.lcd.name».begin(«config.lcd.numberofcolumns»,«config.lcd.numberofrows»);
+					«config.lcd.name».clear();
+					
+				'''
+			}
+		}
 	}
 
 	def String getRandomSeed(Asm asm) {
@@ -70,11 +91,21 @@ class SetupFunctionCreator {
 	}
 
 	def String getStandardSetup(Asm asm, Binding binding) {
-		if (asm.bodySection.functionDefinition.filter(OutFunction).exists[x|x == binding.function])
+		if (asm.headerSection.signature.function.filter(ControlledFunction).exists[x|
+				if (binding.function.contains("("))
+					return x.name == binding.function.substring(0, binding.function.indexOf("("))
+				else
+					return x.name == binding.function
+		])
 			return '''
 				pinMode(«Util.arduinoPinToString(binding.pin)», OUTPUT);
 			'''
-		else if (asm.bodySection.functionDefinition.filter(MonitoredFunction).exists[x|x == binding.function])
+		else if (asm.headerSection.signature.function.filter(MonitoredFunction).exists[x|
+				if (binding.function.contains("("))
+					return x.name == binding.function.substring(0, binding.function.indexOf("("))
+				else
+					return x.name == binding.function
+		])
 			return '''
 				pinMode(«Util.arduinoPinToString(binding.pin)», INPUT);
 			'''
@@ -112,4 +143,9 @@ class SetupFunctionCreator {
 		'''
 	}
 
+	def String getSwitchSetup(Asm asm, Binding binding) {
+		return '''
+			«getStandardSetup(asm, binding)»
+		'''
+	}
 }

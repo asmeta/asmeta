@@ -2,7 +2,7 @@
 
 asm Prova
 
-import ../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	enum domain State = { ACCESO | SPENTO }

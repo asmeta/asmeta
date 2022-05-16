@@ -83,9 +83,15 @@ public class AsmParserTest {
 	 * Test one spec. as file name, fail if not corrected
 	 *
 	 * @param spec the spec
-	 * @return the asm collection
+	 * @return the asm collection (at least one spec)
 	 */
 	protected AsmCollection testOneSpec(String spec) {
+		AsmCollection x = testOneAsmFile(spec);
+		assertNotNull(x.getMain());
+		return x;
+	}
+
+	protected AsmCollection testOneAsmFile(String spec) {
 		File f = new File(FILE_BASE + spec);
 		assertTrue("file " + f.getAbsolutePath()
 				+ " does not exist, current dir: "
@@ -93,6 +99,7 @@ public class AsmParserTest {
 		ASMFileFilter filter = new ASMFileFilter();
 		assertTrue("not a valid asm", (filter.accept(f)));
 		AsmCollection x = testOneSpec(f, true, false);
+		assertNotNull(x);
 		return x;
 	}
 

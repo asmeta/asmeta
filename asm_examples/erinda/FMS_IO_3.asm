@@ -370,11 +370,11 @@ function label_3_5($v in Real, $l in Label_IN3_validity) =
 //rules
 //assegnazione valori alle label di uscita gruppo1(mandate sul bus arinc canale 1 ogni 20 ms)                                  
 macro rule r_read_grouplabel1 = 
-                          par 
-                           switch_label(GROUP_LABEL_1)                                                                                                      
-                           cpm_label_group_1_1(CPM_116_CROSS_TRACK_DISTANCE) := label_1_1(first(label_group_1_1(CROSS_TRACK_DISTANCE)), second(label_group_1_1(CROSS_TRACK_DISTANCE)))
-                           cpm_label_group_1_1(CPM_117_VERTICAL_LINEAR_DEVIATION) := label_1_1(first(label_group_1_1(VERTICAL_LINEAR_DEVIATION)), second(label_group_1_1(VERTICAL_LINEAR_DEVIATION)))                                                 
-                           cpm_label_group_1_1(CPM_326_LATERAL_SCALE_FACTOR) := label_1_1(first(label_group_1_1(LATERAL_SCALE_FACTOR)), second(label_group_1_1(LATERAL_SCALE_FACTOR)))
+                      par 
+                      //switch_label(GROUP_LABEL_1)                                                                                                      
+                      cpm_label_group_1_1(CPM_116_CROSS_TRACK_DISTANCE) := label_1_1(first(label_group_1_1(CROSS_TRACK_DISTANCE)), second(label_group_1_1(CROSS_TRACK_DISTANCE)))
+                      cpm_label_group_1_1(CPM_117_VERTICAL_LINEAR_DEVIATION) := label_1_1(first(label_group_1_1(VERTICAL_LINEAR_DEVIATION)), second(label_group_1_1(VERTICAL_LINEAR_DEVIATION)))                                                 
+                      cpm_label_group_1_1(CPM_326_LATERAL_SCALE_FACTOR) := label_1_1(first(label_group_1_1(LATERAL_SCALE_FACTOR)), second(label_group_1_1(LATERAL_SCALE_FACTOR)))
                            cpm_label_group_1_1(CPM_327_VERTICAL_SCALE_FACTOR) := label_1_1(first(label_group_1_1(VERTICAL_SCALE_FACTOR)), second(label_group_1_1(VERTICAL_SCALE_FACTOR)))                          
 
                            cpm_label_group_1_2(CPM_275_OPERATING_MODE_PHASE) := label_1_2(first(label_group_1_2(OPERATING_MODE_PHASE)), second(label_group_1_2(OPERATING_MODE_PHASE)))
@@ -392,7 +392,7 @@ macro rule r_read_grouplabel1 =
 
 //assegnazione valori alle label in uscita gruppo2(mandate sul bus afdx ogni 40 ms)                           
 macro rule r_read_grouplabel2 = par
-                            switch_label(GROUP_LABEL_2)
+                            //switch_label(GROUP_LABEL_2)
                             cpm_label_group_2_1(CPM_FMS_BUS_INDICATED_AIRSPEED) := label_2_1(first(label_group_2_1(SEL_ADU_COMPUTED_AIRSPEED)), second(label_group_2_1(SEL_ADU_COMPUTED_AIRSPEED)))                           
                             
                             cpm_label_group_2_2(CPM_FMS_BUS_VERTICAL_SPEED) := label_2_2(first(label_group_2_2(BEST_VELOCITY_VERT)), second(label_group_2_2(BEST_VELOCITY_VERT)))
@@ -414,7 +414,7 @@ macro rule r_read_grouplabel2 = par
 
 //assegnazione valori label in uscita gruppo3(mandate sul bus arinc canale 2 ogni 320 ms)                      	 
 macro rule r_read_grouplabel3 = par
-                            switch_label(GROUP_LABEL_3)
+                            //switch_label(GROUP_LABEL_3)
                             cpm_label_group_3_1(CPM_MON_ST_GPS1_LONGITUDE_DATA) := label_3_1(first(label_group_3_1(CIVIL_GPS1_LONGITUDE)), second(label_group_3_1(CIVIL_GPS1_LONGITUDE)))
                             cpm_label_group_3_1(CPM_MON_ST_GPS2_LONGITUDE_DATA) := label_3_1(first(label_group_3_1(CIVIL_GPS2_LONGITUDE)), second(label_group_3_1(CIVIL_GPS2_LONGITUDE)))
                             cpm_label_group_3_1(CPM_MON_ST_INIT_LONGITUDE_DATA) := label_3_1(first(label_group_3_1(INIT_LONG)), second(label_group_3_1(INIT_LONG)))

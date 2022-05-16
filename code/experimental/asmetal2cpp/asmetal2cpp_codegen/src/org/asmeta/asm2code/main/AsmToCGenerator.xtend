@@ -10,11 +10,15 @@ import org.eclipse.xtext.generator.IGenerator
  * the real generator
  */
 abstract class AsmToCGenerator implements IGenerator {
-	public TranslatorOptions options
+	protected TranslatorOptions options
 	public static String Ext = ".asm"
 
 	new () {
 		options = new TranslatorOptions(true, false, false,false)
+	}
+
+	new (TranslatorOptions options) {
+		this.options = options
 	}
 
 	// compile and write to a file

@@ -9,11 +9,11 @@ signature:
 	derived der_func: MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	function der_func =
-		choose $x in MyDomain with $x<3
-			$x
+/*NO RULE		choose $x in MyDomain with $x<3 	$x*/
+		chooseone({$x in MyDomain| $x < 3: $x}) 
 	
 	main rule r_Main =
 		foo := der_func

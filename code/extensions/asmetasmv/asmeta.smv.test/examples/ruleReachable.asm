@@ -7,7 +7,7 @@ signature:
 	dynamic controlled var_a : MyDomain -> MyDomain
 	
 definitions:
-	domain MyDomain = {1..10}
+	domain MyDomain = {1:10}
 
 	rule r_a($x in MyDomain) =
 		var_a($x) := $x + 2

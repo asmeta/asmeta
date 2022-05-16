@@ -1,23 +1,9 @@
 package org.asmeta.xt.tests.parsing.positive
 
-import com.google.inject.Inject
-import org.asmeta.xt.asmetal.Asm
-import org.asmeta.xt.tests.AsmetaLInjectorProvider
-import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
-import org.eclipse.xtext.testing.util.ParseHelper
-import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.eclipse.xtext.validation.Issue
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(XtextRunner)
-@InjectWith(AsmetaLInjectorProvider)
-class AbstractAndAgentDomain {
-
-	@Inject ParseHelper<Asm> parseHelper
-	@Inject extension ValidationTestHelper
+class AbstractAndAgentDomain extends ParserTest{
 
 	@Test
 	def void test1() {
@@ -32,7 +18,7 @@ class AbstractAndAgentDomain {
 				
 			definitions: 
 				function x($x in Student) = 4
-		''')
+		''',"blankpage")
 		// asm test
 		// header test																			
 		Assert.assertEquals(0, result.headerSection.importClause.size)
@@ -44,7 +30,7 @@ class AbstractAndAgentDomain {
 
 	@Test
 	def void testCashPoint() {
-		var result = test('''
+		var result =  test('''
 asm CashPoint
 
 import StandardLibrary
@@ -178,7 +164,7 @@ default init s_0:
     function balance($a in Account) = chooseone({1000,2000,3000})
     function daily_withdraw_sum($c in Card) = 0
     function cardLastUseDate($c in Card) = monday
-		''')
+		''', "CashPoint")
 		// asm test
 		// header test																			
 		Assert.assertEquals(1, result.headerSection.importClause.size)
@@ -191,18 +177,5 @@ default init s_0:
 		println(result.headerSection.signature.domain.get(4).class)
 	}
 	
-	def test(String s){
-		var result = parseHelper.parse(s)
-		result.assertNoErrors
-		// validiazione
-		// now apply the validation rules
-		val issues = validate(result);
-		for (Object o : issues) {
-			val Issue issue = o as Issue;
-			System.out.println(
-				issue.getSeverity() + " " + issue.getMessage() + " (Line " + issue.getLineNumber() + ")");
-		}
-		return result;
-	}
 
 }

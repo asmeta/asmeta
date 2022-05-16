@@ -8,7 +8,7 @@ signature:
 	
 definitions:
 	
-	domain MyDomain = {1..10}
+	domain MyDomain = {1:10}
 	
 	main  rule r_Main = 
 		skip

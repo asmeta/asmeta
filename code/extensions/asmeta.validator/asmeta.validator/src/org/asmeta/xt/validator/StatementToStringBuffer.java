@@ -11,16 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
-import org.asmeta.avallaxt.avallaXt.Block;
-import org.asmeta.avallaxt.avallaXt.Check;
-import org.asmeta.avallaxt.avallaXt.Command;
-import org.asmeta.avallaxt.avallaXt.Element;
-import org.asmeta.avallaxt.avallaXt.Exec;
-import org.asmeta.avallaxt.avallaXt.ExecBlock;
-import org.asmeta.avallaxt.avallaXt.Scenario;
-import org.asmeta.avallaxt.avallaXt.Set;
-import org.asmeta.avallaxt.avallaXt.Step;
-import org.asmeta.avallaxt.avallaXt.StepUntil;
+import org.asmeta.avallaxt.avalla.Block;
+import org.asmeta.avallaxt.avalla.Check;
+import org.asmeta.avallaxt.avalla.Command;
+import org.asmeta.avallaxt.avalla.Element;
+import org.asmeta.avallaxt.avalla.Exec;
+import org.asmeta.avallaxt.avalla.ExecBlock;
+import org.asmeta.avallaxt.avalla.Scenario;
+import org.asmeta.avallaxt.avalla.Set;
+import org.asmeta.avallaxt.avalla.Step;
+import org.asmeta.avallaxt.avalla.StepUntil;
+import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -32,7 +34,7 @@ import com.google.inject.Injector;
  * The Class StatementToStringBuffer transform a scenario to a list of ASM
  * instructions
  */
-public class StatementToStringBuffer extends org.asmeta.avallaxt.avallaXt.util.AvallaXtSwitch<Void> {
+public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.AvallaSwitch<Void> {
 
 	private static final String SCENARIO_EXT = ".avalla";
 
@@ -76,6 +78,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avallaXt.util.A
 		this.scenarioDir = scenarioDir;
 	}
 
+	// the set that must be set in the init state (initial set of the scencario)
 	ArrayList<Set> monitoredInitState;
 	List<ArrayList<Set>> allMonitored;
 	int state;
@@ -166,7 +169,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avallaXt.util.A
 	 */
 	@Override
 	public Void caseStepUntil(StepUntil untilCmd) {
-		// group the rules before step
+		// group the rules before stepuntil
 		enclose();
 		// add the step
 		String cond = untilCmd.getExpression().trim();
@@ -270,6 +273,9 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avallaXt.util.A
 	 */
 	@Override
 	public Void caseSet(Set setCmd) {
+		//26/04/2021 -> Silvia: if simulation time is set to auto increment or use java time and the user has set the time function in the scenario, do not add its assignment in the .asm model
+		if ((Environment.timeMngt == TimeMngt.auto_increment || Environment.timeMngt == TimeMngt.use_java_time) && Environment.monTimeFunctions.containsKey(setCmd.getLocation().trim()))
+			return null;
 		String loc = setCmd.getLocation().trim();
 		String value = setCmd.getValue().trim();
 		append(loc + " := " + value);

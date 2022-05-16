@@ -2,7 +2,7 @@
 
 asm Rubrica
 
-import ../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
     abstract domain Contact

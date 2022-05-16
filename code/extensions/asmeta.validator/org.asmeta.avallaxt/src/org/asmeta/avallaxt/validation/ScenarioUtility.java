@@ -6,9 +6,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.asmeta.avallaxt.avallaXt.Block;
-import org.asmeta.avallaxt.avallaXt.Element;
-import org.asmeta.avallaxt.avallaXt.Scenario;
+import org.asmeta.avallaxt.avalla.Block;
+import org.asmeta.avallaxt.avalla.Element;
+import org.asmeta.avallaxt.avalla.Scenario;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
@@ -43,7 +43,7 @@ public class ScenarioUtility {
 	}
 
 	// return the path for the asm spec to be loaded for this scenario
-	public static String getAsmPath(Scenario scenario) {
+	public static java.nio.file.Path getAsmPath(Scenario scenario) {
 		String spec = scenario.getSpec();
 		// remove "" if necessary
 		if (spec.startsWith("\"")) {
@@ -52,12 +52,12 @@ public class ScenarioUtility {
 		}
 		// assuming absolute
 		if (Files.exists(Paths.get(spec)))
-			return Paths.get(spec).toString();
+			return Paths.get(spec);
 		// IT MUST BE relative then
 		// check if the file exists
 		String baseDir = getBaseDir(scenario);		
 		// try relative
-		return baseDir + File.separator + spec;
+		return Paths.get(baseDir,spec);
 	}
 
 	// return the names of blocks in this scenario

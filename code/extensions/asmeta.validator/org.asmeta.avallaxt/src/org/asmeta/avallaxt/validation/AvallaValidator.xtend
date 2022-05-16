@@ -6,9 +6,12 @@ package org.asmeta.avallaxt.validation
 import asmeta.AsmCollection
 import asmeta.definitions.Function;
 import java.util.List
-import org.asmeta.avallaxt.avallaXt.Scenario
-import org.asmeta.avallaxt.avallaXt.Check
-import org.asmeta.avallaxt.avallaXt.AvallaXtPackage
+import org.asmeta.avallaxt.avalla.Scenario
+import org.asmeta.avallaxt.avalla.Check
+import org.asmeta.avallaxt.avalla.AvallaPackage
+import org.asmeta.avallaxt.avalla.ExecBlock
+import org.asmeta.avallaxt.avalla.Element
+import org.asmeta.avallaxt.avalla.Set
 import java.nio.file.Paths
 import java.nio.file.Files
 import org.asmeta.parser.ASMParser
@@ -17,11 +20,8 @@ import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.SharedFunction
 import java.io.File
 import asmeta.definitions.ControlledFunction
-import org.asmeta.avallaxt.avallaXt.Block
+import org.asmeta.avallaxt.avalla.Block
 import java.util.ArrayList
-import org.asmeta.avallaxt.avallaXt.ExecBlock
-import org.asmeta.avallaxt.avallaXt.Element
-import org.asmeta.avallaxt.avallaXt.Set
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.asmeta.avallaxt.AvallaStandaloneSetup
 import org.eclipse.emf.common.util.URI
@@ -60,25 +60,25 @@ class AvallaValidator extends AbstractAvallaValidator {
 			return
 		}
 		if (! scenario.spec.endsWith(".asm")) {
-			error('Asm spec should end with asm', AvallaXtPackage.Literals.SCENARIO__SPEC)
+			error('Asm spec should end with asm', AvallaPackage.Literals.SCENARIO__SPEC)
 			return;
 		}
 		// get the path for the 
 		val asmPath = ScenarioUtility.getAsmPath(scenario)
-		if (! (Files.exists(Paths.get(asmPath)) && Files.isRegularFile(Paths.get(asmPath)))) {
-			error('File ' + scenario.spec + " does not exist as " + asmPath, AvallaXtPackage.Literals.SCENARIO__SPEC)
+		if (! (Files.exists(asmPath) && Files.isRegularFile(asmPath))) {
+			error('File ' + scenario.spec + " does not exist as " + asmPath, AvallaPackage.Literals.SCENARIO__SPEC)
 			return;
 		}
 		// parse the ASM if requested ? - now it pareses every time - one could check if only it has been modified
 		try {
-			setAsmCollection(ASMParser.setUpReadAsm(new File(asmPath)))
+			setAsmCollection(ASMParser.setUpReadAsm(asmPath.toFile))
 		} catch (ParseException pe) {
-			warning('Error in parsing asm in ' + asmPath, AvallaXtPackage.Literals.SCENARIO__SPEC)
+			warning('Error in parsing asm in ' + asmPath, AvallaPackage.Literals.SCENARIO__SPEC)
 		} catch (org.asmeta.parser.ImportNotFoundException infe) {
 			warning('Error in parsing asm in ' + asmPath + " cause:" + infe.message,
-				AvallaXtPackage.Literals.SCENARIO__SPEC)
+				AvallaPackage.Literals.SCENARIO__SPEC)
 		} catch (Throwable t) {
-			error('error ' + t.message, AvallaXtPackage.Literals.SCENARIO__SPEC)
+			error('error ' + t.message, AvallaPackage.Literals.SCENARIO__SPEC)
 		}
 	}
 
@@ -109,9 +109,9 @@ class AvallaValidator extends AbstractAvallaValidator {
 				set.location;
 		if (! monFunNames.contains(locationName) && ! sharedFunNames.contains(locationName)) {
 			if (! controlledFunNames.contains(locationName)) {
-				error('location ' + locationName + " does not exist", AvallaXtPackage.Literals.SET__LOCATION)
+				error('location ' + locationName + " does not exist", AvallaPackage.Literals.SET__LOCATION)
 			} else {
-				error('location ' + locationName + " is controlled cannot be set", AvallaXtPackage.Literals.SET__LOCATION)
+				error('location ' + locationName + " is controlled cannot be set", AvallaPackage.Literals.SET__LOCATION)
 			}
 		}
 	}
@@ -123,7 +123,7 @@ class AvallaValidator extends AbstractAvallaValidator {
 		val List<String> duplicated = new ArrayList
 		ScenarioUtility.addBlockNames(names, duplicated, s.elements)
 		if (duplicated.contains(b.name))
-			error('block ' + b.name + " declared multiple times", AvallaXtPackage.Literals.BLOCK__NAME)
+			error('block ' + b.name + " declared multiple times", AvallaPackage.Literals.BLOCK__NAME)
 	}
 
 	// get the scenario of the block or command in general
@@ -145,7 +145,7 @@ class AvallaValidator extends AbstractAvallaValidator {
 			val blockNames = ScenarioUtility.getBlockNames(s)
 			if (!blockNames.contains(eb.block))
 				error('block ' + eb.block + " does not exist in this scenario",
-					AvallaXtPackage.Literals.EXEC_BLOCK__BLOCK)
+					AvallaPackage.Literals.EXEC_BLOCK__BLOCK)
 		} else {
 			// check in another scenario
 			// check that the file exists
@@ -153,7 +153,7 @@ class AvallaValidator extends AbstractAvallaValidator {
 			val scenarioPath = ScenarioUtility.getBaseDir(getScenario(eb)) +  File.separator + scenario + ".avalla"
 			//println(scenarioPath)
 			if (!Files.exists(Paths.get(scenarioPath)))
-				error('scenario ' + scenario + " does not exist", AvallaXtPackage.Literals.EXEC_BLOCK__SCENARIO)
+				error('scenario ' + scenario + " does not exist", AvallaPackage.Literals.EXEC_BLOCK__SCENARIO)
 			else {
 				// open and parse the file
 				val injector = new AvallaStandaloneSetup().createInjectorAndDoEMFRegistration();
@@ -165,7 +165,7 @@ class AvallaValidator extends AbstractAvallaValidator {
 				// get the blocks in it
 				if (!ScenarioUtility.getBlockNames(sc).contains(eb.block))
 					error('scenario ' + scenario + " does not contain block " + eb.block,
-						AvallaXtPackage.Literals.EXEC_BLOCK__BLOCK)
+						AvallaPackage.Literals.EXEC_BLOCK__BLOCK)
 			}
 		}
 	}

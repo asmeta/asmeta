@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Runtime Simulator
 Bundle-SymbolicName: asmeta.simulator@runtime;singleton:=true
-Bundle-Version: 0.0.1
+Bundle-Version: 22.04
 Export-Package: org.asmeta.runtime_container,
  org.asmeta.runtime_simulator
 Require-Bundle: org.apache.log4j,
@@ -18,5 +18,5 @@ Import-Package:
 Bundle-ClassPath: .
 Automatic-Module-Name: asmeta.simulator@runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: fmse.di.unimi.it
+Bundle-Vendor: foselab.unibg.it
 Bundle-ActivationPolicy: lazy

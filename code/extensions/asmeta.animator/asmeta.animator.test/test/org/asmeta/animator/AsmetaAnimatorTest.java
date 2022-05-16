@@ -1,5 +1,6 @@
 package org.asmeta.animator;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -17,6 +18,13 @@ public class AsmetaAnimatorTest {
 		testMixHemodialysis();
 	}
 
+	@Test
+	public  void testLight() throws FileNotFoundException, IOException, InterruptedException, Exception {
+		String asmspec = "examples/light.asm";
+		testAnimator(asmspec);
+	}
+
+	
 	@Test
 	public  void testMixCoffeeVendingMachineNC() throws FileNotFoundException, IOException, InterruptedException, Exception {
 		String asmspec = "examples/coffeeVendingMachineNC.asm";
@@ -121,7 +129,7 @@ public class AsmetaAnimatorTest {
 		//AsmCollection asm = ExampleTaker.getExample(specpath);
 	//	String asmPath = ExampleTaker.getAsmFile(specpath).getAbsolutePath();
 
-		VisualizationSimulation.showView(specpath);
+		VisualizationSimulation.showView(new File(specpath));
 		// geneate the unit test
 		//AsmToGraphicalR trans = new AsmToGraphicalR();
 		// test name

@@ -54,7 +54,7 @@ public class GetDomainTest {
 		SetTerm domain6 = (SetTerm)domsDef.get(6).getBody();
 		SetTerm domain7 = (SetTerm)domsDef.get(7).getBody();
 		SetTerm domain8 = (SetTerm)domsDef.get(8).getBody();
-		AsmetaTermPrinter tp = new AsmetaTermPrinter(false);
+		AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 		String str0 = tp.visit(domain0);
 		String str1 = tp.visit(domain1);
 		String str2 = tp.visit(domain2);

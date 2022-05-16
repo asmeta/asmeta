@@ -44,7 +44,7 @@ public class AsmetaSMVcli extends AsmetaCLI {
 		AsmetaSMVcli as = new AsmetaSMVcli();
 		as.run(args);
 		if(as.asmFile != null) {
-			AsmetaSMV asmetaSMV = new AsmetaSMV(as.asmFile, !as.doNotSimplify, as.executeNuSMVmodel, !as.doNotCheckConcrete, false);
+			AsmetaSMV asmetaSMV = new AsmetaSMV(as.asmFile, !as.doNotSimplify, as.executeNuSMVmodel, !as.doNotCheckConcrete, false,false);
 			asmetaSMV.translation();
 			asmetaSMV.createNuSMVfile();
 			if(as.executeNuSMVmodel) {

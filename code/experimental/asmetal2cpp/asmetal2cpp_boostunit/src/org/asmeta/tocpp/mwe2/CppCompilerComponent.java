@@ -19,7 +19,7 @@ public class CppCompilerComponent implements IWorkflowComponent {
 
 	@Override
 	public void invoke(IWorkflowContext ctx) {
-		CppCompiler.compile(name, directory.getAbsolutePath(), true, false);
+		CppCompiler.compile(name, directory.getAbsolutePath(), true, false, true);
 
 	}
 

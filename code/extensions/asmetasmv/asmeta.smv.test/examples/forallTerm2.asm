@@ -11,7 +11,7 @@ signature:
 	dynamic controlled result3: Boolean
 
 definitions:
-	domain MyDomain = {1..2}
+	domain MyDomain = {1:2}
 	
 	main rule r_Main = 
 		par

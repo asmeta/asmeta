@@ -1,0 +1,57 @@
+//First pill taken but with delay, actualtimeconsumption+deltadelay violate mintointerfer
+//use init s1 as default
+//input trace events for scenario LPSafePillbox1 in Avalla
+
+//SafePillbox used as enforcement model by the enforcer
+//First input (initialization)
+drugIndex(compartment1) 0 drugIndex(compartment2) 0 name(compartment1) "fosamax" name(compartment2) "moment" redLed(compartment1) OFF redLed(compartment2) OFF redLed(compartment2) OFF time_consumption(compartment1) [360] time_consumption(compartment2) [780,1140] time_consumption(compartment2) [780,1140]
+
+Output to pillbox: {}
+
+//Second input
+redLed(compartment2) OFF time_consumption(compartment1) [360] time_consumption(compartment2) [730,1140] redLed(compartment1) ON drugIndex(compartment1) 0 isPillMissed(compartment1) false pillTakenWithDelay(compartment2) false systemTime 361 pillTakenWithDelay(compartment1) false drugIndex(compartment2) 0 name(compartment2) "moment" name(compartment1) "fosamax" isPillMissed(compartment2) false day 0}
+
+Output to pillbox: {}
+
+//Third input:
+redLed(compartment2) OFF time_consumption(compartment1) [360] time_consumption(compartment2) [730,1140] redLed(compartment1) BLINKING drugIndex(compartment1) 0 isPillMissed(compartment1) false pillTakenWithDelay(compartment2) false systemTime 375 pillTakenWithDelay(compartment1) false drugIndex(compartment2) 0 name(compartment2) "moment" name(compartment1) "fosamax" isPillMissed(compartment2) false day 0}
+
+Output to pillbox: {}
+
+//Fourth input:
+redLed(compartment2) OFF time_consumption(compartment1) [360] time_consumption(compartment2) [730,1140] redLed(compartment1) OFF drugIndex(compartment1) 0 isPillMissed(compartment1) false pillTakenWithDelay(compartment2) false actual_time_consumption(compartment1) [376] systemTime 376 pillTakenWithDelay(compartment1) true drugIndex(compartment2) 0 name(compartment2) "moment" name(compartment1) "fosamax" isPillMissed(compartment2) false day 0}
+
+Output to pillbox: {skipNextPill(compartment1,compartment2)=true, skipNextPill(compartment1)=true}
+
+------------------------------------------------------------------------------------------
+//First pill taken but with delay, actualtimeconsumption+deltadelay violate mintointerfer
+//use init s1
+//input trace events for scenario LPPillbox1 in Avalla
+
+//Pillbox
+//First input
+systemTime 361 openSwitch(compartment1) false openSwitch(compartment2) false
+
+Output to patient: {redLed(compartment2)=OFF, redLed(compartment1)=ON, outMess(compartment1)=Take fosamax}
+Output for probing: {redLed(compartment2)=OFF, time_consumption(compartment1)=[360], time_consumption(compartment2)=[730,1140], redLed(compartment1)=ON, drugIndex(compartment1)=0, isPillMissed(compartment1)=false, pillTakenWithDelay(compartment2)=false, systemTime=361, pillTakenWithDelay(compartment1)=false, drugIndex(compartment2)=0, name(compartment2)="moment", name(compartment1)="fosamax", isPillMissed(compartment2)=false, day=0}
+
+//Second input:
+systemTime 375 openSwitch(compartment1) true openSwitch(compartment2) false
+
+Output to patient: {redLed(compartment2)=OFF, redLed(compartment1)=BLINKING, outMess(compartment1)=Close fosamax in 10 minutes}
+Output for probing: {redLed(compartment2)=OFF, time_consumption(compartment1)=[360], time_consumption(compartment2)=[730,1140], redLed(compartment1)=BLINKING, drugIndex(compartment1)=0, isPillMissed(compartment1)=false, pillTakenWithDelay(compartment2)=false, systemTime=375, pillTakenWithDelay(compartment1)=false, drugIndex(compartment2)=0, name(compartment2)="moment", name(compartment1)="fosamax", isPillMissed(compartment2)=false, day=0}
+
+//Third input:
+systemTime 376 openSwitch(compartment1) false openSwitch(compartment2) false
+
+Output to patient: {redLed(compartment2)=OFF, redLed(compartment1)=OFF, outMess(compartment1)=fosamax taken}
+Output for probing: {redLed(compartment2)=OFF, time_consumption(compartment1)=[360], time_consumption(compartment2)=[730,1140], redLed(compartment1)=OFF, drugIndex(compartment1)=0, isPillMissed(compartment1)=false, pillTakenWithDelay(compartment2)=false, actual_time_consumption(compartment1)=[376], systemTime=376, pillTakenWithDelay(compartment1)=true, drugIndex(compartment2)=0, name(compartment2)="moment", name(compartment1)="fosamax", isPillMissed(compartment2)=false, day=0}
+
+//Forth input:
+skipNextPill(compartment1) true systemTime 376 openSwitch(compartment1) false openSwitch(compartment2) false skipNextPill(compartment1,compartment2) true
+	
+Output to patient: {redLed(compartment2)=OFF, redLed(compartment1)=OFF, outMess(compartment1)=moment skipped}
+Output for probing: {redLed(compartment2)=OFF, time_consumption(compartment1)=[360], time_consumption(compartment2)=[730,1140], redLed(compartment1)=OFF, drugIndex(compartment1)=0, isPillMissed(compartment1)=false, pillTakenWithDelay(compartment2)=false, actual_time_consumption(compartment1)=[376], systemTime=376, pillTakenWithDelay(compartment1)=false, drugIndex(compartment2)=1, name(compartment2)="moment", name(compartment1)="fosamax", isPillMissed(compartment2)=false, day=0}
+
+
+

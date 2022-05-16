@@ -1,9 +1,5 @@
 package org.asmeta.test;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +21,7 @@ public class TestMonitorateNarie {
 		Map<String,String> m=new HashMap<String, String>(); //prova per invalid invariant su aggiunta
 		m.put("carry", "GOAT");
 		System.out.println(i.runStep(3,m));*/
-		SimulationContainer i=SimulationContainer.getInstance();
+		SimulationContainer i=new SimulationContainer();
 		i.init(5);
 		int id;
 		//id=i.startExecution(model);
@@ -56,8 +52,8 @@ public class TestMonitorateNarie {
 			mLIFTREAL.put("outsideCall", "(1, DOWN) = false");
 			mLIFTREAL.put("outsideCall", "(2, DOWN) = false");
 		}
-		Map<String,String> mLIFTREAL2=new HashMap<String, String>(); //mappa 2 per modello LIFT (checksafety non prende le parentesi, errore solo fino a lì?)
-		{								
+		Map<String,String> mLIFTREAL2=new HashMap<String, String>(); //mappa 2 per modello LIFT (checksafety non prende le parentesi)
+		{								//checksafety non prende le parentesi perchè può controllare solo il nome della funzione,funziona
 			mLIFTREAL2.put("insideCall(lift1, 0)", "false");
 			mLIFTREAL2.put("insideCall(lift1, 1)", "true");
 			mLIFTREAL2.put("insideCall(lift1, 2)", "false");

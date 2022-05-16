@@ -7,7 +7,7 @@ signature:
 	domain SubDom subsetof Integer
 	
 definitions:
-	domain SubDom = {1..4}
+	domain SubDom = {1 : 4}
 
 	macro rule r_SubDom($x in SubDom) = 
 		skip

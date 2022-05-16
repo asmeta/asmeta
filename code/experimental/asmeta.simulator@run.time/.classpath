@@ -8,5 +8,14 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.parser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.emf"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="com/formdev/flatlaf/1.2/flatlaf-1.2.jar" sourcepath="com/formdev/flatlaf/1.1.2/flatlaf-1.1.2-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="com.formdev"/>
+			<attribute name="maven.artifactId" value="flatlaf"/>
+			<attribute name="maven.version" value="1.2"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

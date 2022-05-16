@@ -1,0 +1,52 @@
+scenario TrafficSignDetected
+load ../CarSystem006main.asm
+//questo scenario tratta anche il funzionamento dello speedlimit quando il traffic sign detection è attivo, mostrando
+//come lo speedlimit si adatta ai cartelli rilevati
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM0;
+set trafficSignDetectionOn := false;
+step
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 0;
+set sCSLever := HEAD;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := true;
+set gasPedal := 0;
+set detectedTrafficSign := NOSIGNDETECTED;
+step
+check setVehicleSpeed = 500;
+check speedLimitActive = true;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = HEAD;
+check desiredSpeed = 500;
+check orangeLed = true;
+check speedLimitTempDeacti = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := true;
+set gasPedal := 0;
+set detectedTrafficSign := SIGNDETECTED;
+set speedLimitDetected := 700;
+step
+check setVehicleSpeed = 700;
+check speedLimitActive = true;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 500;
+check orangeLed = true;
+check speedLimitTempDeacti = false;
+step

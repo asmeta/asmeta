@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -24,11 +26,16 @@ import java.util.Queue;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.ScheduledExecutorService;
 
 import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
 import org.asmeta.parser.util.AsmPrinter;
+import org.asmeta.runtime_composer.AsmetaModel;
+import org.asmeta.runtime_composer.ModelCreationException;
 import org.asmeta.runtime_simulator.AsmetaSservice;
 import org.asmeta.runtime_simulator.IdNotFoundException;
 import org.asmeta.runtime_simulator.InfoAsmetaService;
@@ -41,6 +48,7 @@ import org.asmeta.simulator.main.*;
 import org.asmeta.simulator.util.InputMismatchException;
 import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.value.Value;
+import org.eclipse.emf.ecore.xml.type.internal.RegEx;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Invariant;
@@ -50,24 +58,22 @@ import asmeta.structure.Asm;
 import asmeta.structure.Body;
 import asmeta.terms.basicterms.Term;
 
-
 /**
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
  * The Class  SimulationContainer. 
  * It is a container for managing the execution of an ASM model at runtime.
  * It provides methods for instantiating, starting, running and stopping a model execution
  */
 public class SimulationContainer implements IModelExecution, IModelAdaptation {
     
-	private int id; // returning the id of the simulator generated if everything goes welcl
+	private int id; // returning the id of the simulatorRT generated if everything goes well
 
 	/** The ids. */
 	private int ids; //the id for the method start to check if is full o not
 
 	/** The asm S. */
-	static AsmetaSservice asmS = AsmetaSservice.getInstance();
+	protected AsmetaSservice asmS;
 
-	/** The instance. */
-	private static SimulationContainer instance = null;
 
 	/** The ms. */
 	MyState ms;
@@ -84,25 +90,72 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	private long duration = 0L;
 	
 	private List<String> invarNames;
+	public List<AsmetaModel> loadedModels;
 	//private List<String> variables;
 	
 	private RunOutput routTO=null;	//support variable for the timeout methods
 
 
-
-	/**
-	 * Gets the single instance of ImpModelExecute.
-	 *
-	 * @return single instance of ImpModelExecute
-	 */
-	public static SimulationContainer getInstance() {
-		if (instance == null)
-			instance = new SimulationContainer();
-		return instance;
+	
+	public SimulationContainer() {
+		asmS = new AsmetaSservice();
+		loadedModels = new ArrayList<>();
 	}
 
+	// TODO: da stabilire per la gestione di SimulationContainer distribuiti (RMI, REST, Google RPC?)
+	public int getSimulatorId() {
+		return 0;
+	}
 
-
+	public AsmetaModel getAsmetaModel(int id) {
+		if(loadedModels != null && !loadedModels.isEmpty()) {
+			for(AsmetaModel model: loadedModels) {
+				if(model.getModelId() == id) {
+					return model;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public boolean removeAsmetaModel(int id) {
+		if(loadedModels != null && !loadedModels.isEmpty()) {
+			for(AsmetaModel model: loadedModels) {
+				if(model.getModelId() == id) {
+					return loadedModels.remove(model);
+				}
+			}
+		}
+		return false;
+	}
+	
+	private void setModelExecutionTime(int id, long duration) {
+		if(loadedModels != null && !loadedModels.isEmpty()) {
+			for(AsmetaModel model: loadedModels) {
+				if(model.getModelId() == id) {
+					model.setExecutionTime(duration);
+				}
+			}
+		}
+	}
+	
+	public void rollback(int id) {
+		try {
+			asmS.rollback(id);
+		} catch(EmptyStackException e) {
+			// TODO: Da scrivere su LOG, l'esecuzione è corretta
+			return;
+		}
+	}
+	
+	public void rollbackToState(int id) {
+		try {
+			asmS.rollbackToState(id);
+		} catch(EmptyStackException e) {
+			// TODO: Da scrivere su LOG, l'esecuzione è corretta
+			return;
+		}
+	}
 	/**
 	 * return the id of the simulator if the simulator is full return -1;.
 	 *
@@ -114,9 +167,10 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		try {
 			id = asmS.start(modelPath);
 			ids = checkStartId(id);
+			loadedModels.add(new AsmetaModel(ids, this));
 
 			sout = new StartOutput(ids, "The id " + ids + " is successfully created");
-			System.out.println(sout.toString());
+			//System.out.println(sout.toString());
 
 		} catch (Exception e) {
 			if (e instanceof MainRuleNotFoundException) {
@@ -125,7 +179,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 			} else if (e instanceof AsmModelNotFoundException) {
 				sout = new StartOutput(-3,
-						"The Model " + modelPath.substring(modelPath.lastIndexOf("/") + 1) + " Doesn't esist");
+						"The Model " + modelPath.substring(modelPath.lastIndexOf("/") + 1) + " doesn't exist!");
 				System.err.println(sout.toString());
 
 			} else if (e instanceof FullMapException) {
@@ -137,10 +191,12 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				sout = new StartOutput(-5, "The model name " + modelPath.substring(modelPath.lastIndexOf("/") + 1)
 						+ " Does not match:" + " Check for case sensitive in <<modelname.asm>>");
 				System.err.println(sout.toString());
+			} else if (e instanceof ModelCreationException) {
+				sout = new StartOutput(-6, "Error in the AsmetaModel creation");
+				System.err.println(sout.toString());
 			}
-
 			else {
-				sout = new StartOutput(-6, "General Exception: Please report the problem");
+				sout = new StartOutput(-6, "General Exception: please report the problem");
 				System.err.println(sout.toString());
 			}
 
@@ -153,7 +209,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		StartOutput sout = null;
 		try {
 			id = asmS.restart(modelPath,oldId, state);
+			removeAsmetaModel(oldId);
 			ids = checkStartId(id);
+			loadedModels.add(new AsmetaModel(ids, this));
 			sout = new StartOutput(ids, "The id " + ids + " is successfully created");
 			simulationRunning = SimStatus.READY;
 			System.out.println(sout.toString());
@@ -181,8 +239,12 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				sout = new StartOutput(-7, "Invalid invariant on initial state, please check the updated model again");
 				System.err.println(sout.toString());
 			}
+			else if (e instanceof ModelCreationException) {
+				sout = new StartOutput(-6, "Error in the AsmetaModel creation");
+				System.err.println(sout.toString());
+			}
 			else {
-				sout = new StartOutput(-6, "General Exception: Please report the problem");
+				sout = new StartOutput(-6, "General Exception: please report the problem");
 				System.err.println(sout.toString());
 			}
 		}
@@ -197,12 +259,13 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	// @Override
 	public int stopExecution(int id) {
 		try {
-			System.out.println("the model " + asmS.getModelName(id) + " is successfully stop");
+			System.out.println("Model " + asmS.getModelName(id) + " successfully stopped");
 			asmS.stop(id);
+			removeAsmetaModel(id);
 			id = 1;
 		} catch (RuntimeException e) {
 			if (e instanceof IdNotFoundException) {
-				System.out.println("the " + id + " is not found");
+				System.out.println("Id " + id + " not found");
 				id = -1;
 			}
 		}
@@ -217,7 +280,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			maxSimInstance = scan.nextInt();
 			scan.close();
 		}
-		System.out.printf("max number of simulators %d" + " successfully instantiated:\n", maxSimInstance);
+		//System.out.printf("Max number of simulators instantiated: %d" + "\n", maxSimInstance);
 		asmS.init(maxSimInstance);
 		return maxSimInstance;
 
@@ -225,9 +288,10 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 	@Override
 	public RunOutput runStep(int id, Map<String, String> locationValue) {
+		//System.err.println(id +  " " + locationValue.toString()+"\n");
 		simulationRunning=SimStatus.RUNNING;
 		//rollbStatus = rollbackStatus.NOTROLLED;
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 		String modelPath=null;
 		try {
 			try {
@@ -237,11 +301,12 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			}
 			if (locationValue!=null) 
 				rout = checkSafety(modelPath, locationValue);
-			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not intialized"))) {
+			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not initialized"))) {
 				startRun = System.nanoTime();
-				ms = asmS.run(id, locationValue);
+				ms = asmS.run(id, locationValue); //run ASM with id and monitored locations locationValue
 				endRun = System.nanoTime();
 				duration = (endRun - startRun);
+				setModelExecutionTime(id, duration);
 				if (locationValue!=null) 
 					rout = new RunOutput(Esit.SAFE, asmS.getCurrentState(id).getMonitoredValues(), ms);
 				else
@@ -258,8 +323,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -282,8 +347,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -292,20 +357,34 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				System.err.println("No transition to step " + (asmS.getSimulatorTable().get(id).getContSim() + 1)
 						+ " for model "
 						+ asmS.getSimulatorTable().get(id).getModelPath().substring(modelPath.lastIndexOf("/") + 1));
-				rout = new RunOutput(Esit.UNSAFE, "Invalid Input value");
+				rout = new RunOutput(Esit.UNSAFE, "Invalid input value");
 				System.err.println(rout.toString());
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
+				}finally {
+					simulationRunning=SimStatus.RUNNING;
+				}
+			} else {
+				System.err.println("No transition to step " + (asmS.getSimulatorTable().get(id).getContSim() + 1)
+						+ " for model "
+						+ asmS.getSimulatorTable().get(id).getModelPath().substring(modelPath.lastIndexOf("/") + 1));
+				rout = new RunOutput(Esit.UNSAFE, "Invalid input or domain value");
+				System.err.println(rout.toString());
+				try {
+					simulationRunning=SimStatus.ROLLINGBACK;
+					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
 			}
 		}
 		simulationRunning = SimStatus.READY;
-		return rout; // can be use for Json
+		return rout; 
 
 	}
 	
@@ -350,91 +429,217 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	public RunOutput runStepTimeout(int id,int timeout) {
 		return runStepTimeout(id,null,timeout);
 	}
-	
 	public RunOutput runStepTimeout(int id,Map<String, String> locationValue,int timeout) {	
-		Timer timer = new Timer(false);
+		//Timer timer = new Timer(false);
 		
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 	    routTO = rout;
-	    
-	    MyState pre = asmS.getCurrentState(id);
-	    
-        TimerTask timeoutTask = new TimerTask() {
+	    PrintStream sysOut = System.out;
+	    PrintStream sysErr = System.err;
+		Thread t = new Thread() {
+			public void run() {
+				try {
+					System.setOut(new PrintStream(new OutputStream() {
+						public void write(int b) {}})); //temporarily blocks system.out prints to console to remove overwhelming messages
+				    System.setErr(new PrintStream(new OutputStream() {
+					  public void write(int b) {}})); //temporarily blocks system.err prints to console to remove overwhelming messages
+					SimulationContainer clone = new SimulationContainer();	//instantiation of a cloned execution
+					clone.init(1);
+					String modelPath = asmS.getSimulatorTable().get(id).getModelPath();
+					org.asmeta.simulator.State stateOrig = asmS.getSimulatorTable().get(id).getSim().getCurrentState();
+					org.asmeta.simulator.State stateClon = new org.asmeta.simulator.State(stateOrig); //clone constructor
+					if (stateClon.previousLocationValues==null)
+						stateClon.previousLocationValues = new HashMap<Location, Value>();
+					int id;
+					if (stateClon.locationMap.isEmpty())
+						id = clone.startExecution(modelPath);
+					else
+						id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
+	           		routTO = clone.runStep(id, locationValue);	//the cloned simulation tries to do the operation
+	           		routTO.setTimeoutFlag(true); //once finished, signal the original with the RunOutput object that simulation has stopped, probably deprecated
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		try {
+			t.start();
+			try {
+				t.join(timeout);
+				//Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// DEBUG
+				System.out.println("TIMEOUT ERROR");
+				e.printStackTrace();
+			}
+			
+			if (t.isAlive()) { //timeout triggered
+				//t.stop();
+				t.interrupt();
+				rout = new RunOutput(Esit.UNSAFE, "Run timed out");
+			}else {	//finished before the timeout
+				System.setOut(sysOut);
+				System.setErr(sysErr);
+				rout=this.runStep(id,locationValue);
+				rout.setTimeoutFlag(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			System.setOut(sysOut); //must restore system.out functionality
+			System.setErr(sysErr); // and system.err
+		}
+		return rout;
+        /*TimerTask timeoutTask = new TimerTask() {
         	@Override  
             public void run() {  
             	 //System.out.println("Timer task started at:"+new Date());
         		try {
-               		routTO = runStep(id, locationValue);
+        			SimulationContainer mirror = new SimulationContainer();	//instantiation of a mirrored execution
+        			mirror.init(1);
+        			String modelPath = asmS.getSimulatorTable().get(id).getModelPath();
+        			State state = asmS.getSimulatorTable().get(id).getSim().getCurrentState();
+        			if (state.previousLocationValues==null)
+        				state.previousLocationValues = new HashMap<Location, Value>();
+        			mirror.restartExecution(modelPath,1, state);	//after getting the model file path and current state, the mirrored simulation is started to be at the same state of the original
+               		routTO = mirror.runStep(1, locationValue);	//the mirrored simulation tries to do the operation
         		}catch (Exception e) {}
         		finally {
-               		routTO.setResult(true);
-        			timer.cancel();
+               		routTO.setTimeoutFlag(true); //once finished, signal with the RunOutput object that simulation has stopped
+        			timer.cancel(); //->"Note that calling this method from within the run method of a timer task that was invoked by this timer absolutely guarantees that the ongoing task execution is the last task execution that will ever be performed by this timer."
         		}
 
                  //System.out.println("Timer task finished at:"+new Date());
             }; 
         };  
-	    //running timer task as daemon thread (no start delay, no period) but with timeout (thanks to Thread.sleep(timeout))
 	    timer.schedule(timeoutTask, 0);
 	    //System.out.println("TimerTask started");
-	    //cancel after timeout if the task has not terminated
 	    if (timeout<0)
-	    	timeout=1;
+	    	timeout=1;	//negative timeout values -> sets minimum timeout time (1ms as int)
 	    try {
-	        Thread.sleep(timeout);
+	    	int splits=10;	//10ms time splits waited before controlling if task is finished
+	    	for (int i=0;splits*i<timeout && !routTO.getTimeoutFlag();i++)	//keep going until timeout exceeded or task (run) finished
+	    		Thread.sleep(splits);
 	    } catch (InterruptedException e) {
+	    	//DEBUG
 	        e.printStackTrace();
 	    }
-	    /*if (! taskTerminated.getResult()) { 
-	    	timer.cancel();
-	    	System.out.println("TimerTask cancelled"+" -- flag TaskTerminated: "+taskTerminated.getResult());
+	    if (!routTO.getTimeoutFlag()) {
+	    	timer.cancel();	//task didn't finish, i can cancel the run without repercussions as the simulation object inside is different and doesn't affect the original
+	    	//in the original timeout method, cancelling the task meant that execution on the simulator was only temporarily paused, not halted nor reversed, so on the next execution it would continue to finish before processing the new order. Without the removal of singleton patter this was made possible 
+	    	rout = new RunOutput(Esit.UNSAFE, "Run timed out");
+	    }else {
+	    	//if the mirrored run was good (inside timeout) i can push the real simulation to the correct state and return the RunOutput
+	    	rout=runStep(id,locationValue);
 	    }
-	    else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
 	    
-	    if (!routTO.getResult()) {	//if the thread is still going after time runs out  
-    		while (simulationRunning==SimStatus.ROLLINGBACK) {	//cannot stop the timertask while it's doing a rollback
-    			try {
-    				Thread.sleep(10);	//how often the program check for the rollback to finish before killing the thread
-        		} catch (InterruptedException e) {
-                    e.printStackTrace();}
-    		}
-    		while (!routTO.getResult()) {
-    			try {
-    				Thread.sleep(10);	
-        		} catch (InterruptedException e) {
-                    e.printStackTrace();}
-    		}
-    		timer.cancel();
-	    	rout = new RunOutput(Esit.UNSAFE, "Run timed out");	//returns that the operation couldn't be finished in time
-	    	System.err.println(rout.toString());
-
-	    	MyState after = asmS.getCurrentState(id);
-	    	
-			if (/*rollbStatus!=rollbackStatus.ROLLOK &&*/ after!=null && !after.equals(pre))	//do a rollback if it has not already been done 
-			{
-				try {
-					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
-				}/* catch (EmptyStackException e1) {
-					System.out.println("empty stack exception dal simulator");
-				}*/
-			}
-	    	
-	    	/*timer.cancel();
-	    	routTO = new RunOutput(Esit.UNSAFE, "Run timed out");
-			System.err.println(routTO.toString());
-			/*try {
-				printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-			} catch (NullPointerException e1) {
-				System.out.println("no previous state");
-			}*/
-	    }else
-	    	rout=routTO;
-	    //else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+routTO.getResult());	
-	        
-	 	return rout;
+	    return rout;*/
 	}
+	
+//	//Rimane comunque il problema che se allo scadere non ha finito il programma restituirà run timed out con rollback della sim
+//	//ma la simulazione deve comunque finire altrimenti tutte le run successive non funzioneranno (forse mettendo il timeout direttamente
+//	//nella parte del simulator invece del container in modo tale di almeno arginare il finish forzato su uno step)
+//	public RunOutput runStepTimeout(int id,Map<String, String> locationValue,int timeout) {	
+//		Timer timer = new Timer(false);
+//		
+//		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
+//	    routTO = rout;
+//	    
+//	    MyState pre;
+//	    
+//		try {
+//			pre = asmS.getCurrentState(id);
+//			if (pre!=null)
+//				pre.monitoredValues=null;
+//		} catch (IdNotFoundException e) {
+//			rout = new RunOutput(Esit.UNSAFE, "the id is not found");
+//			System.err.println(rout.toString());
+//			return rout;
+//		}
+//	    
+//        TimerTask timeoutTask = new TimerTask() {
+//        	@Override  
+//            public void run() {  
+//            	 //System.out.println("Timer task started at:"+new Date());
+//        		try {
+//               		routTO = runStep(id, locationValue);
+//        		}catch (Exception e) {}
+//        		finally {
+//               		routTO.setTimeoutFlag(true);
+//        			timer.cancel();
+//        		}
+//
+//                 //System.out.println("Timer task finished at:"+new Date());
+//            }; 
+//        };  
+//	    //running timer task as daemon thread (no start delay, no period) but with timeout (thanks to Thread.sleep(timeout))
+//	    timer.schedule(timeoutTask, 0);
+//	    //System.out.println("TimerTask started");
+//	    //cancel after timeout if the task has not terminated
+//	    if (timeout<0)
+//	    	timeout=1;
+//	    try {//soluzione brutta per far finire il timeout prima
+//	    	int splits=10;
+//	    	for (int i=0;splits*i<timeout && !routTO.getTimeoutFlag();i++)
+//	    		Thread.sleep(splits);
+//	    } catch (InterruptedException e) {
+//	        e.printStackTrace();
+//	    }
+//	    /*if (! taskTerminated.getResult()) { 
+//	    	timer.cancel();
+//	    	System.out.println("TimerTask cancelled"+" -- flag TaskTerminated: "+taskTerminated.getResult());
+//	    }
+//	    else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
+//	    
+//	    if (!routTO.getTimeoutFlag()) {	//if the thread is still going after time runs out  
+//	    	boolean rolledbackQ=false;
+//    		while (simulationRunning==SimStatus.ROLLINGBACK) {	//cannot stop the timertask while it's doing a rollback
+//    			rolledbackQ=true;
+//    			try {
+//    				Thread.sleep(10);	//how often the program check for the rollback to finish before killing the thread
+//        		} catch (InterruptedException e) {
+//                    e.printStackTrace();}
+//    		}
+//    		while (!routTO.getTimeoutFlag()) {	//se non ho ancora rOut vuol dire che non ha ancora finito, devo aspettare altrimenti non funziona più nulla successivamente
+//    			try {
+//    				Thread.sleep(10);	
+//        		} catch (InterruptedException e) {
+//                    e.printStackTrace();}
+//    		}
+//    		timer.cancel();
+//    		if (new RunOutput(Esit.UNSAFE, "").equals(routTO))
+//    			rolledbackQ=true;
+//	    	rout = new RunOutput(Esit.UNSAFE, "Run timed out");	//returns that the operation couldn't be finished in time
+//	    	System.err.println(rout.toString());
+//
+//	    	MyState after = asmS.getCurrentState(id);
+//	    	
+//			if (/*rollbStatus!=rollbackStatus.ROLLOK &&*/ after!=null && !after.equals(pre))	//do a rollback if it has not already been done 
+//			{	//OLDtodo se il rollback è già stato fatto lo fa di nuovo perchè l'equals di mystate non esiste (provato a sistemare con variabile rolledbackQ)
+//				try {
+//					if (!rolledbackQ)
+//						printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
+//				} catch (NullPointerException e1) {
+//					System.out.println("No previous state!");
+//				}/* catch (EmptyStackException e1) {
+//					System.out.println("empty stack exception dal simulator");
+//				}*/
+//			}
+//	    	
+//	    	/*timer.cancel();
+//	    	routTO = new RunOutput(Esit.UNSAFE, "Run timed out");
+//			System.err.println(routTO.toString());
+//			/*try {
+//				printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
+//			} catch (NullPointerException e1) {
+//				System.out.println("No previous state!");
+//			}*/
+//	    }else
+//	    	rout=routTO;
+//	    //else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+routTO.getResult());	
+//	        
+//	 	return rout;
+//	}
 	
 
 
@@ -443,7 +648,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	public RunOutput runUntilEmpty(int id, Map<String, String> locationValue, int max) {
 		simulationRunning = SimStatus.RUNNING;
 		//rollbStatus = rollbackStatus.NOTROLLED;
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");		
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");		
 		String modelPath=null;
 		try {
 			try {
@@ -454,11 +659,12 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			if (locationValue!=null)
 				rout = checkSafety(modelPath, locationValue);
 			
-			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not intialized"))) {
+			if (rout.equalsMessage(new RunOutput(Esit.UNSAFE, "rout not initialized"))) {
 				startRun = System.nanoTime();
 				ms = asmS.runUntilEmpty(id, locationValue, max);
 				endRun = System.nanoTime();
 				duration = (endRun - startRun);
+				setModelExecutionTime(id, duration);
 				rout = new RunOutput(Esit.SAFE, asmS.getCurrentState(id).getMonitoredValues(), ms);
 				printState(asmS.getSimulatorTable().get(id).getContSim(), rout, duration, id);
 			}
@@ -472,8 +678,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));					
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -494,8 +700,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -508,8 +714,8 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					simulationRunning=SimStatus.ROLLINGBACK;
 					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
+				} catch (NullPointerException | EmptyStackException e1) {
+					System.out.println("No previous state!");
 				}finally {
 					simulationRunning=SimStatus.RUNNING;
 				}
@@ -541,91 +747,163 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	 	return runUntilEmptyTimeout(id, null, max, timeout);
 	}
 	
-	//same logic as the one with runstep but using runUntilEmpty and rollbacktostate instead
+	//same logic as the one with runstep but using runUntilEmpty
 	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) {
-
-        Timer timer = new Timer(false);
-        RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
-        routTO = rout;
-		MyState pre = asmS.getCurrentState(id);
+		//Timer timer = new Timer(false);
 		
-        TimerTask timeoutTask = new TimerTask() {
-        	@Override  
-            public void run() {  
-            	 //System.out.println("Timer task started at:"+new Date());
-        		try {
-        			routTO = runUntilEmpty(id, locationValue, max);
-        		}catch (Exception e) {}
-        		finally {
-               		routTO.setResult(true);
-        			timer.cancel();
-        		}
-                 //System.out.println("Timer task finished at:"+new Date());
-            }; 
-        };  
-
-        //running timer task as daemon thread (no start delay, no period) but with timeout (thanks to Thread.sleep(timeout))
-        timer.schedule(timeoutTask, 0);
-        //System.out.println("TimerTask started");
-        //cancel after timeout if the task has not terminated
-	    if (timeout<0)
-	    	timeout=1;
-        try {
-            Thread.sleep(timeout);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        /*if (! taskTerminated.getResult()) { 
-        	timer.cancel();
-        	System.out.println("TimerTask cancelled"+" -- flag TaskTerminated: "+taskTerminated.getResult());
-        }
-        else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
-        if (!routTO.getResult()) {	//if the thread is still going after time runs out  
-    		while (simulationRunning==SimStatus.ROLLINGBACK) {	//cannot stop the timertask while it's doing a rollback
-    			try {
-    				Thread.sleep(10);	//how often the program check for the rollback to finish before killing the thread
-        		} catch (InterruptedException e) {
-                    e.printStackTrace();}
-    		}
-    		while (!routTO.getResult()) {
-    			try {
-    				Thread.sleep(10);	
-        		} catch (InterruptedException e) {
-                    e.printStackTrace();}
-    		}
-    		timer.cancel();
-	    	rout = new RunOutput(Esit.UNSAFE, "Run timed out");	//returns that the operation couldn't be finished in time
-	    	System.err.println(rout.toString());
-
-	    	MyState after = asmS.getCurrentState(id);
-	    	
-			if (/*rollbStatus!=rollbackStatus.ROLLOK &&*/ after!=null && !after.equals(pre))	//do a rollback if it has not already been done 
-			{
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
+	    routTO = rout;
+	    PrintStream sysOut = System.out;
+	    PrintStream sysErr = System.err;
+		Thread t = new Thread() {
+			public void run() {
 				try {
-					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollbackToState(id));
-				} catch (NullPointerException e1) {
-					System.out.println("no previous state");
-				}/* catch (EmptyStackException e1) {
-					System.out.println("empty stack exception dal simulator");
-				}*/
+			    System.setOut(new PrintStream(new OutputStream() {
+				  public void write(int b) {}})); //temporarily blocks system.out prints to console to remove overwhelming messages
+			    System.setErr(new PrintStream(new OutputStream() {
+				  public void write(int b) {}})); //temporarily blocks system.err prints to console to remove overwhelming messages
+				SimulationContainer clone = new SimulationContainer();	//instantiation of a cloned execution
+				clone.init(1);
+				String modelPath = asmS.getSimulatorTable().get(id).getModelPath();
+				org.asmeta.simulator.State stateOrig = asmS.getSimulatorTable().get(id).getSim().getCurrentState();
+				org.asmeta.simulator.State stateClon = new org.asmeta.simulator.State(stateOrig); //clone constructor
+				if (stateClon.previousLocationValues==null)
+					stateClon.previousLocationValues = new HashMap<Location, Value>();
+				int id;
+				if (stateClon.locationMap.isEmpty())
+					id = clone.startExecution(modelPath);
+				else
+					id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
+           		routTO = clone.runUntilEmpty(id, locationValue, max);	//the cloned simulation tries to do the operation
+           		routTO.setTimeoutFlag(true); //once finished, signal the original with the RunOutput object that simulation has stopped, probably deprecated
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
 			}
-        	
-        	/*timer.cancel();
-        	routTO = new RunOutput(Esit.UNSAFE, "Run timed out");
-			System.err.println(routTO.toString());
+		};
+		try {
+			t.start();
 			try {
-				printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
-			} catch (NullPointerException e1) {
-				System.out.println("no previous state");
-			}/* catch (EmptyStackException e1) {
-				System.out.println("empty stack exception dal simulator");
-			}*/
-        }else
-        	rout=routTO;
-        
-        //else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+routTO.getResult());	  
-	 	return rout;
+				t.join(timeout);
+				//Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// DEBUG
+				System.out.println("TIMEOUT ERROR");
+				e.printStackTrace();
+			}
+			
+			if (t.isAlive()) { //timeout triggered
+				//t.stop();
+				t.interrupt();
+				rout = new RunOutput(Esit.UNSAFE, "Run timed out");
+			}else {	//finished before the timeout
+				System.setOut(sysOut);
+				System.setErr(sysErr);
+				rout=this.runUntilEmpty(id,locationValue,max);
+				rout.setTimeoutFlag(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			System.setOut(sysOut); //must restore system.out functionality
+			System.setErr(sysErr); // and system.err
+		}
+		return rout;
 	}
+	
+//	//same logic as the one with runstep but using runUntilEmpty and rollbacktostate instead
+//	//OLD sistemare problema della sleep come in runstep
+//	public RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int max, int timeout) {
+//
+//        Timer timer = new Timer(false);
+//        RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
+//        routTO = rout;
+//		MyState pre;
+//		try {
+//			pre = asmS.getCurrentState(id);
+//		} catch (IdNotFoundException e) {
+//			rout = new RunOutput(Esit.UNSAFE, "the id is not found");
+//			System.err.println(rout.toString());
+//			return rout;
+//		}
+//		
+//        TimerTask timeoutTask = new TimerTask() {
+//        	@Override  
+//            public void run() {  
+//            	 //System.out.println("Timer task started at:"+new Date());
+//        		try {
+//        			routTO = runUntilEmpty(id, locationValue, max);
+//        		}catch (Exception e) {}
+//        		finally {
+//               		routTO.setTimeoutFlag(true);
+//        			timer.cancel();
+//        		}
+//                 //System.out.println("Timer task finished at:"+new Date());
+//            }; 
+//        };  
+//
+//        //running timer task as daemon thread (no start delay, no period) but with timeout (thanks to Thread.sleep(timeout))
+//        timer.schedule(timeoutTask, 0);
+//        //System.out.println("TimerTask started");
+//        //cancel after timeout if the task has not terminated
+//	    if (timeout<0)
+//	    	timeout=1;
+//        try {
+//            Thread.sleep(timeout);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        /*if (! taskTerminated.getResult()) { 
+//        	timer.cancel();
+//        	System.out.println("TimerTask cancelled"+" -- flag TaskTerminated: "+taskTerminated.getResult());
+//        }
+//        else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+taskTerminated.getResult());*/
+//        if (!routTO.getTimeoutFlag()) {	//if the thread is still going after time runs out  
+//    		while (simulationRunning==SimStatus.ROLLINGBACK) {	//cannot stop the timertask while it's doing a rollback
+//    			try {
+//    				Thread.sleep(10);	//how often the program check for the rollback to finish before killing the thread
+//        		} catch (InterruptedException e) {
+//                    e.printStackTrace();}
+//    		}
+//    		while (!routTO.getTimeoutFlag()) {
+//    			try {
+//    				Thread.sleep(10);	
+//        		} catch (InterruptedException e) {
+//                    e.printStackTrace();}
+//    		}
+//    		timer.cancel();
+//	    	rout = new RunOutput(Esit.UNSAFE, "Run timed out");	//returns that the operation couldn't be finished in time
+//	    	System.err.println(rout.toString());
+//
+//	    	MyState after = asmS.getCurrentState(id);
+//	    	
+//			if (/*rollbStatus!=rollbackStatus.ROLLOK &&*/ after!=null && !after.equals(pre))	//do a rollback if it has not already been done 
+//			{
+//				try {
+//					printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollbackToState(id));
+//				} catch (NullPointerException e1) {
+//					System.out.println("No previous state!");
+//				}/* catch (EmptyStackException e1) {
+//					System.out.println("empty stack exception dal simulator");
+//				}*/
+//			}
+//        	
+//        	/*timer.cancel();
+//        	routTO = new RunOutput(Esit.UNSAFE, "Run timed out");
+//			System.err.println(routTO.toString());
+//			try {
+//				printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
+//			} catch (NullPointerException e1) {
+//				System.out.println("No previous state!");
+//			}/* catch (EmptyStackException e1) {
+//				System.out.println("empty stack exception dal simulator");
+//			}*/
+//        }else
+//        	rout=routTO;
+//        
+//        //else System.out.println("TimerTask alive"+" -- flag TaskTerminated: "+routTO.getResult());	  
+//	 	return rout;
+//	}
 	
 
 	public RunOutput runUntilEmptyTimeout(int id, int timeout) {
@@ -637,26 +915,26 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		return runUntilEmptyTimeout(id, locationValue, 0, timeout);
 	}
 
-	private static void printState(int step, RunOutput r1, long time, int id) {
+	private  void printState(int step, RunOutput r1, long time, int id) {
 		System.out.println(
-				"[step:" + asmS.getSimulatorTable().get(id).getContSim() + " of model " + asmS.getModelName(id) + "]");
-		System.out.println(r1.MytoString());
-		System.out.println("time execution :" + time + " nT");
-		System.out.println(
-				"number of steps for the transition: " + asmS.getSimulatorTable().get(id).getSim().getCurrentStep());
+				"[step:" + asmS.getSimulatorTable().get(id).getContSim() + " of " + asmS.getModelName(id) + "]");
+		System.out.println(r1.toString());
+		System.out.println("Execution time (in milliseconds): " + time/ 1000000 +" ms");
+		//System.out.println(
+		//		"Number of steps for the transition: " + asmS.getSimulatorTable().get(id).getSim().getCurrentStep());
 		/*
 		 * System.out.println("Maximum number of state before rollBackToState: " +
 		 * asmS.getSimulatorTable().get(id).getSim().getMax() );
 		 */
 
 		System.out.println("                                 ");
-
-		System.out.println("=====================");
+		//System.out.println("=====================");
+		
 	}
 
-	private static void printRollback(int step, MyState state) {
+	private  void printRollback(int step, MyState state) {
 
-		System.out.println("<Model rollback to previous step: " + step + ">");
+		System.out.println("Model rollback to previous step: " + step);
 
 		if (state.controlledValues.size() != 0)
 			System.out.println("< Controlled function >");
@@ -668,44 +946,97 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 	}
 
+	/**
+	 * findAllMonitored: Search recursively for monitored function names in the model and all imported ones
+	 *
+	 * @param monNames: starting list (starts empty)
+	 * @param modelPath: Path file root (starts at the same directory the main .asm is located) and goes deep as each module is opened
+	 * @return list with all monitored function names in the ASM model
+	 * @throws Exception from ASMParser
+	 */
+	private List<String> findAllMonitored(List<String> monNames, String modelPath) throws Exception{
+		String root = modelPath.substring(0, modelPath.lastIndexOf("/") + 1);
+		if(root.isEmpty()) {
+			root = modelPath.substring(0, modelPath.lastIndexOf("\\") + 1);
+		}
+		File asmFile = new File(modelPath);
+		try {
+			if (!asmFile.exists()) {
+				throw new AsmModelNotFoundException(modelPath);
+			}
+		}catch (AsmModelNotFoundException ex){
+			//DEBUG
+			System.out.println("CheckSafety: "+ex.getMessage());
+		}
+		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
+		for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
+			if (asm.getMain().getHeaderSection().getSignature().getFunction()
+					.get(i) instanceof MonitoredFunctionImpl)
+				monNames.add(asm.getMain().getHeaderSection().getSignature().getFunction().get(i).getName());
+		}
+		int c = asm.getMain().getHeaderSection().getImportClause().size();
+		for (int i=0;i<c;i++) {
+			String moduleName=asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
+			if (!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
+				monNames=findAllMonitored(monNames, root+moduleName+".asm");
+			}
+		}
+		return monNames;
+	}
+	//Could be improved by adding a List<String> moduleNames to skip multiple imports of the same .asm (if it's possible to create import cycles)
 
 	/**
-	 * Check safety: Verifica se il nome del input è corretto
+	 * Check safety: Checks if given monitored function names are correct
+	 *
+	 * @param modelPath     the model path
+	 * @param locationValue Change to CheckInputName Safety
+	 * @return the array list
+	 */
+	/**
+	 * Check safety: Checks if given monitored function names are correct
 	 *
 	 * @param modelPath     the model path
 	 * @param locationValue Change to CheckInputName Safety
 	 * @return the array list
 	 */
 	private RunOutput checkSafety(String modelPath, Map<String, String> locationValue) {
-		ArrayList<String> nomi = new ArrayList<String>(); // per salvare i nomi di quelli che sono monitorate
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		List<String> nameL = new ArrayList<String>(); // monitored functions name list
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 		// AsmCollection asm = null;
 		String name = "";
 		try {
+			nameL = findAllMonitored(nameL, modelPath);
+			//System.out.println("Patrizia modelpath: "+ modelPath + " nanmeL: "+nameL.toString()+"\nlocations: "+locationValue.toString());
+			
+			/*
 			File asmFile = new File(modelPath);
 			if (!asmFile.exists()) {
 				throw new AsmModelNotFoundException(modelPath);
 			}
 
 			AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
-			// cerco di prendere la classe delle monitorate
+			// cerco di prendere la classe delle monitorate  NON LEGGE LE MONITORATE NEI FILE DI IMPORT
 			for (int i = 0; i < asm.getMain().getHeaderSection().getSignature().getFunction().size(); i++) {
 				if (asm.getMain().getHeaderSection().getSignature().getFunction()
 						.get(i) instanceof MonitoredFunctionImpl)
 					nomi.add(asm.getMain().getHeaderSection().getSignature().getFunction().get(i).getName());
-
-			}
+			}*/
 
 	
 			boolean found = false;
 			for (String s : locationValue.keySet()) {
-				for (int i = 0; i < nomi.size(); i++) {
-					if (s.equals(nomi.get(i))) {
+				//This part lets multiple parameters monitored functions name pass if at least the name is correct
+				String monName = "".concat(s);
+				if (monName.contains("(") && monName.endsWith(")"))
+					monName=monName.substring(0,monName.indexOf("("));
+				
+				for (int i = 0; i < nameL.size(); i++) {
+					if (monName.equals(nameL.get(i))) {
 						found = true;
 					}
 				}
 				if (!found) {
-					name = s;
+					name = monName;
 					throw new NameMistMatchException("Name <<" + s + ">> Not Found");
 				} else
 					found = true;
@@ -716,7 +1047,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				//System.err.println("No transition to step " 
 						//+ "  for model " + asmS.getSimulatorTable().get(id).getModelPath()
 							//	.substring(asmS.getSimulatorTable().get(id).getModelPath().lastIndexOf("/") + 1));
-				rout = new RunOutput(Esit.UNSAFE, "monitored name <<" + name + ">> not found");
+				rout = new RunOutput(Esit.UNSAFE, "monitored location name <<" + name + ">> not found");
 				System.err.println(rout.toString());
 			}
 
@@ -724,7 +1055,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 		return rout;
 	}
-
+	
 	/**
 	 * Check start id.
 	 *
@@ -741,11 +1072,11 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 
 	}
 	
-	
-	/*public RunOutput runStepTransaction(int id,Queue<Map<String, String>> locationValue, String modelPath) { //TODO da finalizzare?
+	//OLDTODO Federico Rebucini->da finalizzare? permette di eseguire n runstep con una lista di n input, se uno di questi fallisce viene rollbackato alla partenza
+	/*public RunOutput runStepTransaction(int id,Queue<Map<String, String>> locationValue, String modelPath) {
 		boolean unsafe = false;
-		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not intialized");
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not initialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 		Map<String,String> element = new HashMap<String, String>();
 		int statecount=0;
 		while (!locationValue.isEmpty() && unsafe == false) {
@@ -766,10 +1097,10 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		return rout;	
 		
 	}*/
-	/*public RunOutput runTransaction(int id,Queue<Map<String, String>> locationValue) { //TODO da finalizzare?
+	/*public RunOutput runTransaction(int id,Queue<Map<String, String>> locationValue) { //da finalizzare?
 		boolean unsafe = false;
-		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not intialized");
-		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not intialized");
+		RunOutput routTR = new RunOutput(Esit.UNSAFE, "rout not initialized");
+		RunOutput rout = new RunOutput(Esit.UNSAFE, "rout not initialized");
 		Map<String,String> element = new HashMap<String, String>();
 		int statecount=0;
 		while (!locationValue.isEmpty() && unsafe == false) {
@@ -1052,13 +1383,14 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			}
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Couldn't open and read the given model");
 		} finally {
 			try {
 				Files.deleteIfExists(Paths.get(modelfile+"_old"));
 				Files.deleteIfExists(Paths.get(modelfile+"_to_overwrite"));
-			} catch (IOException e) {}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	simulationRunning=SimStatus.READY;
 	return start_output;
@@ -1120,7 +1452,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				File file2 = new File(modelfile+"_to_overwrite");
 				success = file2.renameTo(file);*/
 				overwrite(modelfile,"_to_overwrite");
-				if (restartSim(id, state)<0) { // TODO sistemare controllo restartsim come in add
+				if (restartSim(id, state)<0) {
 					//Files.copy(Paths.get(modelfile+"_old"), Paths.get(modelfile), StandardCopyOption.REPLACE_EXISTING);
 					overwrite(modelfile,"_old");
 					restartExecution(modelfile,id,state);
@@ -1134,7 +1466,9 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				try {
 					Files.deleteIfExists(Paths.get(modelfile+"_old"));
 					Files.deleteIfExists(Paths.get(modelfile+"_to_overwrite"));
-				} catch (IOException e) {}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 			simulationRunning=SimStatus.READY;
 		return success;
@@ -1155,6 +1489,15 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			state.previousLocationValues = new HashMap<Location, Value>();
 		stopExecution(id);		
 		int res = restartExecution(modelPath,id, state);
+		/*// DEBUG CONOSCENZA DELLO STATO
+		if (res>0) {
+			//MyState control=asmS.getSimulatorTable().get(res).getState();
+			//asmS.getSimulatorTable().get(res).getSim().getCurrentState().;
+			MyState control = new MyState(asmS.getSimulatorTable().get(res).getSim().getCurrentState().getContrLocs(false), null);
+			if (control!=null)
+				System.out.println("::::CONTROL:::::The new state is: " + control.getControlledValues());
+		}
+		//end DEBUG*/
 		return res;
 	}
 	
@@ -1182,6 +1525,17 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			if (asmS.checkValidId(i))
 				ids.put(i, asmS.getSimulatorTable().get(i).getModelPath());
 		return ids;
+	}
+	
+	public Map<String, Integer> getLoadedModels() {
+		int max = asmS.getMaxInstances();
+		Map<String, Integer> models = new HashMap<String, Integer>();
+		for(int i = 1; i <= max; i++) {
+			if(asmS.checkValidId(i)) {
+				models.put(asmS.getSimulatorTable().get(i).getModelPath(), i);
+			}
+		}
+		return models;
 	}
 	
 	/*public MyState getStatus(int id) {

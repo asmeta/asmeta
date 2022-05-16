@@ -3,6 +3,9 @@ package org.asmeta.simulator.main;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import org.apache.log4j.Logger;
+import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.UpdateClashException;
 import org.kohsuke.args4j.CmdLineException;
@@ -35,6 +38,10 @@ public class AsmetaS extends AsmetaCLI {
 
 	@Option(name = "-n", usage = "run for n steps (100 default)")
 	private int nSteps = 100;
+	
+	
+	@Option(name = "-systemtime", usage = "use the time from the system")
+	private boolean systemtime = false;
 
 	/**
 	 * Entry point of the program.
@@ -78,6 +85,8 @@ public class AsmetaS extends AsmetaCLI {
 				sim.setShuffleFlag(true);
 			else
 				sim.setShuffleFlag(false);
+			//
+			if (systemtime) Environment.timeMngt = TimeMngt.use_java_time;
 			// run
 			if (runUntilEmpty) {
 				sim.runUntilEmpty();
@@ -92,7 +101,7 @@ public class AsmetaS extends AsmetaCLI {
 					// Simulator.logger.fatal("<UpdateSet>" + iae.us
 					// + "</UpdateSet>");
 				} catch (UpdateClashException uce) {
-					Simulator.logger.fatal(uce.loc + " updated to " + uce.c1 + " and " + uce.c2);
+					Logger.getLogger(Simulator.class).fatal(uce.getMessage());
 				}
 				System.out.println("Final state:\n" + sim.getCurrentState().getContrLocsState());
 			}

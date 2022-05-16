@@ -14,7 +14,7 @@ function sum($x in Integer) =
 
 main rule r_main =
 	f :=
-		let ($d = {1..5}) in
+		let ($d = {1 : 5}) in
 			(forall $x in $d with ($x*($x+1))/2 = sum($x))
 		endlet
 		

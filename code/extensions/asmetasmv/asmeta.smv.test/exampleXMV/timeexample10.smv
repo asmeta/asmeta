@@ -1,0 +1,33 @@
+@TIME_DOMAIN continuous
+
+MODULE main
+	VAR c: Timer(10); -- 10 secondi	
+	VAR c2: Timer(1*60); -- 1 minuto convertito in secondi
+	VAR led: boolean;
+	VAR led2: boolean;
+	INIT led=FALSE & led2=FALSE; 
+	ASSIGN 
+	next(led) :=
+		case 
+			c.elapsed : ! led;
+			TRUE: led;
+		esac;
+	
+	next(led2) :=
+		case 
+			c2.elapsed : ! led2;
+			TRUE: led2;
+		esac;
+
+
+	LTLSPEC G (led = led2);
+	
+MODULE Timer(d)
+	DEFINE elapsed (mytime)>=d;
+	
+	VAR mytime: clock;
+	ASSIGN 
+	init(mytime):=0;
+	TRANS elapsed -> next(mytime) = 0 ;
+	
+-- FINAL SOLUTION: convert all timer in one basic time unit

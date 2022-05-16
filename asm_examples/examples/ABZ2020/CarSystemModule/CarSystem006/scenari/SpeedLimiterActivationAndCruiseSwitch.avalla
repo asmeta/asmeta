@@ -1,0 +1,71 @@
+scenario SpeedLimiterActivationAndCruise
+load ../CarSystem006main.asm
+// in questa implementazione lo speedlimiter si avvale della funzione del cruise per la funzione di limitatore di velocità
+//questa funzionalità era già implementata in CarSystem005 ed è stata evoluta per funzionare anche alla pressione della testa della pitman arm
+//qui testiamo lo switch tra cruise e speedlimiter
+
+check keyState_Previous = NOKEYINSERTED;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := false;
+
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check desiredSpeed = 0;
+check sCSLeve_Previous = NEUTRAL;
+set sCSLever := HEAD;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := false;
+
+
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 500;
+check speedLimitActive = true;
+check desiredSpeed = 500;
+check sCSLeve_Previous = HEAD;
+check orangeLed = true;
+set sCSLever := HEAD;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := false;
+
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 500;
+check speedLimitActive = false;
+//il cruise è attivo ma lo speedlimiter no
+check desiredSpeed = 500;
+check sCSLeve_Previous = HEAD;
+check orangeLed = false;
+check speedLimitTempDeacti = false;
+set sCSLever := BACKWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set trafficSignDetectionOn := false;
+
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check setVehicleSpeed = 0;
+check speedLimitActive = false;
+check desiredSpeed = 500;
+check sCSLeve_Previous = BACKWARD_SCS;
+check orangeLed = false;
+check speedLimitTempDeacti = false;
+check trafficSignDetectionOn = false;
+
+step

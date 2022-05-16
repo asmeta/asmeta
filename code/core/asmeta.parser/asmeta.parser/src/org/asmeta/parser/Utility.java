@@ -58,6 +58,7 @@ import asmeta.definitions.domains.RuleDomain;
 import asmeta.definitions.domains.SequenceDomain;
 import asmeta.definitions.domains.StructuredTd;
 import asmeta.definitions.domains.TypeDomain;
+import asmeta.structure.ImportClause;
 import asmeta.structure.Signature;
 import asmeta.terms.TermsFactory;
 import asmeta.terms.basicterms.ConstantTerm;
@@ -88,6 +89,10 @@ public class Utility {
 	public static boolean selectFirstBestRanking = true;
 
 	private static Logger logger = Logger.getLogger(Utility.class);
+	
+	static {
+		logger.setLevel(Level.OFF);
+	}
 
 	// ================================================= appendInKey
 	/*
@@ -1625,14 +1630,27 @@ public class Utility {
 	}
 
 	/**
-	 * read an import file it can be relative to the asmDirLib or absolute
-	 * 
+	 * read an imported file it can be relative to the asmDirLib or absolute.
+	 *
 	 * @param asmDirLib    can be null, in case "." is taken or absolute is
 	 *                     considered
-	 * @param moduleName
-	 * @param asmExtension
+	 * @param importclause the module name as String (it can be relative or absolute, with .asm o rwithout)
+	 * @return the imported file - it must exists 
+	 */	
+	public static File importFile(String asmDirLib, ImportClause importclause) {
+		return importFile(asmDirLib, importclause.getModuleName());
+	}
+	
+	
+	/**
+	 * read an imported file it can be relative to the asmDirLib or absolute.
+	 *
+	 * @param asmDirLib    can be null, in case "." is taken or absolute is
+	 *                     considered
+	 * @param moduleName the module name as String (it can be relative or absolute, with .asm o rwithout)
+	 * @return the imported file - it must exists 
 	 */
-	static File importFile(String asmDirLib, String moduleName) {
+	public static File importFile(String asmDirLib, String moduleName) {
 		// it should compute again asmLibPath relatively the import ...??
 		File res;
 		if (asmDirLib == null) {

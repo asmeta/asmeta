@@ -3,6 +3,9 @@ package org.asmeta.runtime_container;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano
+ */
 public interface IModelAdaptation {
 	 /**
 	 * Add one invariant to the model.

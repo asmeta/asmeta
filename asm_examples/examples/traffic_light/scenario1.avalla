@@ -1,0 +1,26 @@
+scenario scenario1
+load oneWayTrafficLight.asm
+
+set passed(50) := true;
+
+step
+
+check phase = GO2STOP1;
+check goLight(lightUnit2) = true;
+check goLight(lightUnit1) = false;
+
+set passed(120) := false;
+
+step 
+
+check phase = GO2STOP1;
+check goLight(lightUnit2) = true;
+check goLight(lightUnit1) = false;
+
+set passed(120) := true;
+
+step 
+
+check phase = STOP2STOP1;
+check goLight(lightUnit2) = false;
+check goLight(lightUnit1) = false;

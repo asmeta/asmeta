@@ -1,5 +1,6 @@
 asm example
 import ../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/CTLlibrary
 
 signature:
 	enum domain EnumDom = {AA | BB}

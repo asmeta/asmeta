@@ -20,7 +20,7 @@ import org.asmeta.simulator.util.Parser;
 import org.asmeta.simulator.value.EnumValue;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.Value;
-
+import org.eclipse.swt.widgets.Shell;
 import asmeta.definitions.Function;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.ConcreteDomain;

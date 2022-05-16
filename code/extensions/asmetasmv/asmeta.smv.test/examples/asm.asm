@@ -13,7 +13,7 @@ signature:
 	
 definitions:
 	
-	domain MyDomain = {1..10}
+	domain MyDomain = {1:10}
 	
 	invariant over aa, c: aa = c and (c != 2)
 	invariant over d: d(1,1) > d(2,2)

@@ -7,7 +7,7 @@ signature:
 	dynamic controlled foo: MyDomain
 
 definitions:
-	domain MyDomain = {1..4}
+	domain MyDomain = {1:4}
 
 	rule r_a =
 		foo := 1

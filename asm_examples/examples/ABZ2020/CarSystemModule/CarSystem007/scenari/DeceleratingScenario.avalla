@@ -1,0 +1,51 @@
+scenario DeceleratingScenario
+load ../CarSystem007main.asm
+//speculare ad AcceleratingScenario.avalla
+check setVehicleSpeed = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set currentSpeed := 0;
+set cruiseControlMode := CCM0;
+set brakePedal := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
+step
+check setVehicleSpeed = 0;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 0;
+check setSafetyDistance = 2;
+set sCSLever := FORWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 3;
+set brakePedal := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
+step
+check setVehicleSpeed = 500;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = FORWARD_SCS;
+check desiredSpeed = 500;
+check setSafetyDistance = 2;
+check acceleration = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set rangeRadarState := READY;
+set rangeRadarSensor := 1;
+set setTargetFromAccDec := 500;
+set brakePedal := 0;
+set stationaryObstacle := false;
+set movingObstacle := false;
+step
+check setVehicleSpeed = 500;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 500;
+check setSafetyDistance = 2;
+check acceleration = -5;
+step

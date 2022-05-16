@@ -28,6 +28,15 @@ class HeaderGenerator extends AsmToCGenerator {
 
 	List<Rule> seqCalledRules;
 
+	new () {
+		super()
+	}
+
+	new (TranslatorOptions options) {
+		super(options)
+	}
+
+
 	override String compileAsm(Asm asm) {
 		if (options.optimizeSeqMacroRule) {
 			seqCalledRules = new ArrayList
@@ -49,9 +58,11 @@ class HeaderGenerator extends AsmToCGenerator {
 					#include <map>
 					#include <list>
 					#include <boost/tuple/tuple.hpp>
+					#include <LiquidCrystal.h>
+					#include <LiquidCrystal_I2C.h>
+					#include <DS3231.h>
 					using namespace std;
 					/*Arduino.h uses WString instead... */
-					#include <string.h>
 				'''
 			else
 				'''
@@ -62,6 +73,8 @@ class HeaderGenerator extends AsmToCGenerator {
 				#include <set>
 				#include <map>
 				#include <list>
+				//Andrea Belotti
+				#include <chrono>
 				//#include <tuple>
 				//#include <bits/stl_tree.h>
 				
@@ -85,13 +98,13 @@ class HeaderGenerator extends AsmToCGenerator {
 				
 			/* DOMAIN DEFINITIONS */
 			namespace «asmName»namespace{
-				«domainSignature(asm)»
+				«domainSignature(asm)» //devo togliere questo in Timer perché non serve
 				}
 			
 				
 				using namespace «asmName»namespace;
 				
-				«abstractClassDef(asm)»
+				«abstractClassDef(asm)» //devo togliere questo in Timer perché non serve
 				
 				class «asmName» «addExtension(asm)»{
 				  
@@ -148,8 +161,8 @@ class HeaderGenerator extends AsmToCGenerator {
  				&& !s.contains("CTLlibrary")
  				&& !s.contains("LTLlibrary")) {// Ignore StandardLibrary, CTllibrary and LTLlibrary import.
  				if (options.compilerType != CompilerType.ArduinoCompiler)
-	 				sb.append('#include "'  + new ImportToH(asm).visit(i) + '.h" \n')
-	 			else{
+	 					sb.append('#include "'  + new ImportToH(asm).visit(i) + '.h" \n')
+	 			else {
 	 				var String[] buffer = new ImportToH(asm).visit(i).split('/');
 	 				sb.append('#include "' + buffer.get(buffer.size - 1 ) + '.h" \n')
 	 			} 
@@ -237,7 +250,7 @@ class HeaderGenerator extends AsmToCGenerator {
 	def functionSignature(Asm asm) {
 		var sb = new StringBuffer;
 		for (fd : asm.headerSection.signature.function) {
-			sb.append(new FunctionToH(asm).visit(fd) + "\n")
+			sb.append(new FunctionToH(asm, options).visit(fd) + "\n")
 		}
 		return sb.toString
 	}

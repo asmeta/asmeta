@@ -1,0 +1,61 @@
+--file D:\GitHub\ASMETA\mvm-asmeta\newTime\sluiceGateMotorCtl2.smv
+-- options: flatten? false
+@TIME_DOMAIN continuous
+MODULE main
+	VAR
+		TimeLibrarySimple_duration_TIMER10MINPASSED: real; --controlled
+		TimeLibrarySimple_duration_TIMER170MINPASSED: real; --controlled
+		TimeLibrarySimple_mCurrTimeSecs: clock; --monitored
+		TimeLibrarySimple_start_TIMER10MINPASSED: real; --controlled
+		TimeLibrarySimple_start_TIMER170MINPASSED: real; --controlled
+		dir: {ANTICLOCKWISE, CLOCKWISE, DIRECTIONDOMAIN_UNDEF}; --controlled
+		event_BOTTOM: boolean; --monitored
+		event_TOP: boolean; --monitored
+		motor: {MOTORDOMAIN_UNDEF, OFF, ON}; --controlled
+		phase: {CLOSING, FULLYCLOSED, FULLYOPEN, OPENING, PHASEDOMAIN_UNDEF}; --controlled
+	DEFINE
+		TimeLibrarySimple_expired_TIMER10MINPASSED := (TimeLibrarySimple_mCurrTimeSecs >= (TimeLibrarySimple_start_TIMER10MINPASSED + TimeLibrarySimple_duration_TIMER10MINPASSED));
+	CONSTANTS TIMER10MINPASSED, TIMER170MINPASSED, TIMELIBRARYSIMPLE_TIMER_UNDEF, PHASEDOMAIN_UNDEF, CLOSING, FULLYCLOSED, FULLYOPEN, OPENING, TOP, BOTTOM, POSITION_UNDEF, MOTORDOMAIN_UNDEF, OFF, ON, DIRECTIONDOMAIN_UNDEF, ANTICLOCKWISE, CLOCKWISE;
+	ASSIGN
+		init(TimeLibrarySimple_mCurrTimeSecs) := 0;
+		init(TimeLibrarySimple_duration_TIMER10MINPASSED) := 10.0;
+		init(TimeLibrarySimple_duration_TIMER170MINPASSED) := 170.0;
+		init(TimeLibrarySimple_start_TIMER10MINPASSED) := TimeLibrarySimple_mCurrTimeSecs;
+		init(TimeLibrarySimple_start_TIMER170MINPASSED) := TimeLibrarySimple_mCurrTimeSecs;
+		init(dir) := ANTICLOCKWISE;
+		init(motor) := OFF;
+		init(phase) := FULLYCLOSED;
+		next(TimeLibrarySimple_duration_TIMER10MINPASSED) := TimeLibrarySimple_duration_TIMER10MINPASSED;
+		next(TimeLibrarySimple_duration_TIMER170MINPASSED) := TimeLibrarySimple_duration_TIMER170MINPASSED;
+		next(TimeLibrarySimple_start_TIMER10MINPASSED) :=
+			case
+				(event_TOP & (phase = OPENING)): TimeLibrarySimple_mCurrTimeSecs;
+				TRUE: TimeLibrarySimple_start_TIMER10MINPASSED;
+			esac;
+		next(TimeLibrarySimple_start_TIMER170MINPASSED) :=
+			case
+				(event_BOTTOM & (phase = CLOSING)): TimeLibrarySimple_mCurrTimeSecs;
+				TRUE: TimeLibrarySimple_start_TIMER170MINPASSED;
+			esac;
+		next(dir) :=
+			case
+				((phase = FULLYOPEN) & TimeLibrarySimple_expired_TIMER10MINPASSED): ANTICLOCKWISE;
+				((phase = FULLYCLOSED) & (TimeLibrarySimple_mCurrTimeSecs >= (TimeLibrarySimple_start_TIMER170MINPASSED + TimeLibrarySimple_duration_TIMER170MINPASSED))): CLOCKWISE;
+				TRUE: dir;
+			esac;
+		next(motor) :=
+			case
+				(((phase = FULLYOPEN) & TimeLibrarySimple_expired_TIMER10MINPASSED) | ((phase = FULLYCLOSED) & (TimeLibrarySimple_mCurrTimeSecs >= (TimeLibrarySimple_start_TIMER170MINPASSED + TimeLibrarySimple_duration_TIMER170MINPASSED)))): ON;
+				((event_BOTTOM & (phase = CLOSING)) | (event_TOP & (phase = OPENING))): OFF;
+				TRUE: motor;
+			esac;
+		next(phase) :=
+			case
+				((phase = FULLYOPEN) & TimeLibrarySimple_expired_TIMER10MINPASSED): CLOSING;
+				((phase = FULLYCLOSED) & (TimeLibrarySimple_mCurrTimeSecs >= (TimeLibrarySimple_start_TIMER170MINPASSED + TimeLibrarySimple_duration_TIMER170MINPASSED))): OPENING;
+				(event_BOTTOM & (phase = CLOSING)): FULLYCLOSED;
+				(event_TOP & (phase = OPENING)): FULLYOPEN;
+				TRUE: phase;
+			esac;
+--CTL properties
+LTLSPEC NAME ltl0 := G((phase = FULLYCLOSED));

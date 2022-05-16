@@ -6,7 +6,6 @@ signature:
 	domain SubDom subsetof Integer
 	dynamic controlled fooG: SubDom
 	dynamic monitored mon: Boolean
-	dynamic monitored mon2: Boolean
 
 definitions:
 	domain SubDom = {1 : 2}
@@ -14,7 +13,10 @@ definitions:
 	main  rule r_Main =
 			//inconsistent update
 			if mon then 
-				 if not mon then fooG := 1 endif
+				 par
+				  fooG := 1
+				  fooG := 2
+				endpar
 			endif
 			
 default init s0:

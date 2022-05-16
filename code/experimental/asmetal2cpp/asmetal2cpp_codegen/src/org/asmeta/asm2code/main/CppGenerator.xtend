@@ -31,6 +31,14 @@ class CppGenerator extends AsmToCGenerator {
 	public static String Ext = ".cpp"
 	String initConrolledMonitored
 
+	new () {
+		super()
+	}
+
+	new (TranslatorOptions options) {
+		super(options)
+	}
+	
 	// all the rules that must translate in two versions seq and not seq
 	// if null, translate all
 	List<Rule> seqCalledRules;
@@ -228,14 +236,8 @@ class CppGenerator extends AsmToCGenerator {
 	def updateSet(AsmCollection asmCol){
 		var StringBuffer updateset = new StringBuffer
 		var asm = asmCol.main
-		/* 
-		for (cf : asm.headerSection.signature.function)
-			if (cf instanceof ControlledFunction)
-				updateset.append('''«cf.name»[0] = «cf.name»[1];
-				''')*/
-				
-	
-		if(asm.name.contains("main"))
+		// check if the main asm has a main rule
+		if(asm.mainrule !== null)
 		for(asm1 : asmCol)
 			if(!asm1.name.contains("StandardLibrary"))
 			for (cf : asm1.headerSection.signature.function)
@@ -362,11 +364,11 @@ class CppGenerator extends AsmToCGenerator {
 
 				if (containsMonitored == false)
 					initial.append(
-		  					'''«new FunctionToCpp(asm).visit(fd.initializedFunction)»
+		  					'''«new FunctionToCpp(asm, options).visit(fd.initializedFunction)»
 					''')
 				else
 					initialMonitored.append(
-		  					'''«new FunctionToCpp(asm).visit(fd.initializedFunction)»
+		  					'''«new FunctionToCpp(asm, options).visit(fd.initializedFunction)»
 					''')
 			}
 		}

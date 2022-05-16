@@ -1,0 +1,80 @@
+scenario CorneringLightONforCornering
+load ../CarSystem002main.asm
+//testiamo l'accesione della sinistra ma la destra è speculare con steering angle> 613
+// marcia rettilinea se 411 <= steeringAngle <= 613
+check keyState_Previous = undef;
+check brakeLampRight = 0;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check parkingLightON = false;
+check hazardWarningSwitchOn_Start = false;
+check lowBeamRight = 0;
+check lowBeamLeft = 0;
+set hazardWarningSwitchOn := false;
+set pitmanArmUpDown := NEUTRAL_UD;
+set darknessModeSwitchOn := false;
+set brightnessSensor := 200;
+set reverseGear := false;
+set brakePedal := 0;
+set lightRotarySwitch := ON;
+set keyState := KEYINIGNITIONONPOSITION;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check brakeLampRight = 0;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check parkingLightON = false;
+check hazardWarningSwitchOn_Start = false;
+check reverseLight = 0;
+check tailLampRightFixValue = 100;
+check tailLampLeftFixValue = 100;
+check lightRotarySwitchPrevious = ON;
+check corneringLightLeft = 0;
+check corneringLightRight = 0;
+check lowBeamRight = 100;
+check lowBeamLeft = 100;
+set hazardWarningSwitchOn := false;
+set pitmanArmUpDown := NEUTRAL_UD;
+set darknessModeSwitchOn := false;
+set brightnessSensor := 200;
+set reverseGear := false;
+set brakePedal := 0;
+set passed5Sec := false;
+set currentSpeed := 100;
+set steeringAngle := 300;
+set lightRotarySwitch := ON;
+set keyState := KEYINIGNITIONONPOSITION;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check brakeLampRight = 0;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check parkingLightON = false;
+check hazardWarningSwitchOn_Start = false;
+check reverseLight = 0;
+check tailLampRightFixValue = 100;
+check tailLampLeftFixValue = 100;
+check lightRotarySwitchPrevious = ON;
+check corneringLightLeft = 100;
+check corneringLightRight = 0;
+check lowBeamRight = 100;
+check lowBeamLeft = 100;
+step
+
+
+
+
+
+

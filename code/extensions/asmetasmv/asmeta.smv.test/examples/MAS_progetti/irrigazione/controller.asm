@@ -1,6 +1,6 @@
 asm controller
 
-import ../../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../../../asm_examples/STDL/StandardLibrary
 import zona
 
 export *
@@ -16,7 +16,7 @@ signature:
 	
 definitions:
 
-	domain AcquaDisponibile = {0..2}
+	domain AcquaDisponibile = {0:2}
 	
 	
 	function availablewater = 2 - utilizzo(zone01) - utilizzo(zone02) - utilizzo(zone03) - utilizzo(zone04) - utilizzo(zone05)

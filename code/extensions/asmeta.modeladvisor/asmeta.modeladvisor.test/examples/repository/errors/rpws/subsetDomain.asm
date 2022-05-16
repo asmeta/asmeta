@@ -10,7 +10,7 @@ signature:
 	dynamic controlled a : SubDomain
 	
 definitions:
-	domain SubDomain = {1..6}
+	domain SubDomain = {1 : 6}
 
 	main rule r_Main =
 		a := a + 1

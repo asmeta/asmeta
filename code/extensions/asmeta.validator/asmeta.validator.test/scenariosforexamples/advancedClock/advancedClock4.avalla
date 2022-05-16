@@ -1,0 +1,23 @@
+// using step until
+scenario advancedClock4
+
+load ../../../../../../asm_examples/examples/simple_example/AdvancedClock.asm
+
+//controllo che siano le 02:02:00
+check hours = 0;
+check minutes = 0;
+check seconds = 0; 
+
+step until seconds = 1;
+
+check hours = 0;
+check minutes = 0;
+check seconds = 3; 
+
+step
+
+check hours = 0;
+check minutes = 0;
+check seconds = 4; 
+
+step

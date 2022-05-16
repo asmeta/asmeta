@@ -8,7 +8,7 @@ signature:
     dynamic controlled foo: ConcrDom
 
 definitions:
-    domain ConcrDom = {1..4}
+    domain ConcrDom = {1:4}
 
 	CTLSPEC ag(foo != 2)
 

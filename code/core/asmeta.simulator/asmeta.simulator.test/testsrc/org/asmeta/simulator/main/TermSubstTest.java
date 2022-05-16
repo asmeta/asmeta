@@ -47,7 +47,7 @@ public class TermSubstTest {
 		TermSubstitution.varSuffix = 0;
 		TermSubstitution.ruleFactory = new RuleFactory();
 		Term newTerm = subst.visit(term);
-		return new AsmetaTermPrinter(false).visit(newTerm);
+		return AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(newTerm);
 	}
 	
 	@Test
@@ -86,7 +86,7 @@ public class TermSubstTest {
 	public void test05() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst05.asm");
 		assertEquals(
-				"let($x!1=$x,$y!2=$y,$z!3=$z)in plus($x!1,$z) endlet", 
+				"let($x!1=$x,$y!2=$y,$z!3=$z) in plus($x!1,$z) endlet", 
 				actual);
 	}
 
@@ -110,7 +110,7 @@ public class TermSubstTest {
 	public void test08() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst08.asm");
 		assertEquals(
-				"let($x!1=$y,$y!2=plus($x,$y))in {$z!3 in Integer| iff(eq($x!1,$z!3),eq(plus($x,$y),$z)) : $z!3} endlet", 
+				"let($x!1=$y,$y!2=plus($x,$y)) in {$z!3 in Integer| iff(eq($x!1,$z!3),eq(plus($x,$y),$z)) : $z!3} endlet", 
 				actual);
 	}
 

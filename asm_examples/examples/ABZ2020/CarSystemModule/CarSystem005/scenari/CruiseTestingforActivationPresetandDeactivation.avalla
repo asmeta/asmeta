@@ -1,0 +1,77 @@
+scenario CruiseTestingforActivationPreset
+load ../CarSystem005main.asm
+//attivazione core del cruise
+//questo scenario verifica l'attivazione con velocità <200
+//e velocità preimpostata
+//cosi come la sua attivazione a velocità >=200 sempre con velocità
+//preimpostata
+
+check setVehicleSpeed = 0;
+set sCSLever := NEUTRAL;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 0;
+set cruiseControlMode := CCM0;
+step
+check setVehicleSpeed = 0;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = NEUTRAL;
+check desiredSpeed = 0;
+set sCSLever := FORWARD_SCS;
+//attiviamo il cruise per salvare una velocità (quella attuale)
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 700;
+set cruiseControlMode := CCM2;
+step
+check setVehicleSpeed = 700;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = FORWARD_SCS;
+check desiredSpeed = 700;
+set sCSLever := BACKWARD_SCS;
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 199;
+//disattiviamo il cruise con BACKWARD il cruise e portarci a <200
+set cruiseControlMode := CCM2;
+step
+check setVehicleSpeed = 0;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = BACKWARD_SCS;
+check desiredSpeed = 700;
+set sCSLever := FORWARD_SCS;
+//attiviamo il cruise e verifichiamo il funzionamento a <200
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 199;
+set cruiseControlMode := CCM2;
+step
+check setVehicleSpeed = 700;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = FORWARD_SCS;
+check desiredSpeed = 700;
+set sCSLever := BACKWARD_SCS;
+//disattiviamo di nuovo il cruise
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+step
+check setVehicleSpeed = 0;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = BACKWARD_SCS;
+check desiredSpeed = 700;
+set sCSLever := FORWARD_SCS;
+//attiviamo il cruise e verifichiamo il funzionamento a >=200
+set keyState := KEYINIGNITIONONPOSITION;
+set brakePedal := 0;
+set currentSpeed := 500;
+set cruiseControlMode := CCM2;
+set passed2Sec := true;
+step
+check setVehicleSpeed = 700;
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check sCSLeve_Previous = FORWARD_SCS;
+check desiredSpeed = 700;
+step
+

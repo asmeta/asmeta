@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.validator.feature"
       label="Asmeta validator"
-      version="1.0.10"
+      version="22.04"
       provider-name="fmse.di.unimi.it">
 
    <description>
@@ -19,7 +19,7 @@ See http://asmeta.sourceforge.net/
    </license>
 
    <url>
-      <update label="Asmeta" url="http://svn.code.sf.net/p/asmeta/code/code/stable/asmeta_update"/>
+      <update label="Asmeta" url="https://raw.githubusercontent.com/asmeta/asmeta_update_site"/>
    </url>
 
    <includes
@@ -53,52 +53,11 @@ See http://asmeta.sourceforge.net/
       <import plugin="org.eclipse.xtext.builder"/>
       <import plugin="org.eclipse.xtext.ide"/>
       <import plugin="org.eclipse.xtext.xbase.ide"/>
+      <import feature="org.asmeta.simulator.feature"/>
    </requires>
 
    <plugin
          id="asmeta.validator.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="asmeta.simulator"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="asmeta.parser"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="asmeta.emf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.asmeta.avallaxt"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.asmeta.avallaxt.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.asmeta.avallaxt.ide"
          download-size="0"
          install-size="0"
          version="0.0.0"

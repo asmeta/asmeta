@@ -10,7 +10,7 @@ signature:
 	dynamic controlled foo3: Dom -> Dom
 
 definitions:
-	domain Dom ={1..3}
+	domain Dom ={1:3}
 
 	CTLSPEC ag(foo=3)
 	CTLSPEC ag(foo2!=3)

@@ -1,0 +1,3 @@
+init -n 3
+setup myComposition as parS0.asm <|> (parS1.asm || parS2.asm)
+run(myComposition, {x=13;y=14})

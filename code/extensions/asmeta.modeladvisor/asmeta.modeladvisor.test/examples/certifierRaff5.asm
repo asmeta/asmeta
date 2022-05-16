@@ -40,8 +40,8 @@ signature:
   
 definitions:
 // DOMAIN DEFINITIONS
-	domain Level={1..6}
-	domain Certificate={1..7} //7 non certificato 1..6 livello certificato
+	domain Level={1 : 6}
+	domain Certificate={1 : 7} //7 non certificato 1..6 livello certificato
 	domain RightAnswer={0:2}
 
 

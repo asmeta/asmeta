@@ -1,0 +1,114 @@
+scenario LowBeamOFFonAmbientLight
+load ../CarSystem002main.asm
+//prima accendo la macchina e le luci con ambientLight settato a true
+//testato funzionante
+//
+// 5/10/21 A
+// CHECK FAILED: tailLampLeftFixValue = 0 at step 3 
+// CHECK FAILED: tailLampRightFixValue = 0 at step 3 
+// CHECK FAILED: lowBeamLeft = 0 at step 3 
+// CHECK FAILED: lowBeamRight = 0 at step 3 
+
+check keyState_Previous = undef;
+check brakeLampRight = 0;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check lowBeamLeft = 0;
+check lowBeamRight = 0;
+set keyState := KEYINIGNITIONONPOSITION;
+set lightRotarySwitch := AUTO;
+set hazardWarningSwitchOn := false;
+set pitmanArmUpDown := NEUTRAL_UD;
+set darknessModeSwitchOn := false;
+set brightnessSensor := 150;
+set reverseGear := false;
+set brakePedal := 0;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check brakeLampRight = 0;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check reverseLight = 0;
+check lightRotarySwitchPrevious = AUTO;
+check corneringLightLeft = 0;
+check corneringLightRight = 0;
+	check tailLampLeftFixValue = 100;
+	check tailLampRightFixValue = 100;
+	check lowBeamLeft = 100;
+	check lowBeamRight = 100;
+set keyState := KEYINIGNITIONONPOSITION;
+set lightRotarySwitch := AUTO;
+set hazardWarningSwitchOn := false;
+set pitmanArmUpDown := NEUTRAL_UD;
+set darknessModeSwitchOn := false;
+set brightnessSensor := 150;
+set reverseGear := false;
+set brakePedal := 0;
+set currentSpeed := 0;
+set steeringAngle := 500;
+set passed5Sec := false;
+step
+check keyState_Previous = KEYINIGNITIONONPOSITION;
+check brakeLampRight = 0;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check reverseLight = 0;
+check lightRotarySwitchPrevious = AUTO;
+check corneringLightLeft = 0;
+check corneringLightRight = 0;
+	check tailLampLeftFixValue = 100;
+	check tailLampRightFixValue = 100;
+	check lowBeamLeft = 100;
+	check lowBeamRight = 100;
+//questo aggiunto manualmente
+	//check lowBeamLightingOn=true ;
+	//check parkingLight=false;
+//spengo la macchina
+	set keyState := KEYINSERTED;
+set lightRotarySwitch := AUTO;
+set hazardWarningSwitchOn := false;
+set pitmanArmUpDown := NEUTRAL_UD;
+set darknessModeSwitchOn := false;
+set brightnessSensor := 150;
+set reverseGear := false;
+set brakePedal := 0;
+set currentSpeed := 0;
+set steeringAngle := 500;
+set passed5Sec := false;
+//è spenta da almeno 30sce
+	set passed30Sec := true;
+step
+	check keyState_Previous = KEYINSERTED;
+check brakeLampRight = 0;
+check pitmanArmUpDown_Buff = NEUTRAL_UD;
+check brakeLampCenter = 0;
+check brakeLampLeft = 0;
+check brakeLampCenterStatus = FIX;
+check hazardWarningSwitchOn_Runn = false;
+check pitmanArmUpDown_RunnReq = NEUTRAL_UD;
+check hazardWarningSwitchOn_Start = false;
+check reverseLight = 0;
+check lightRotarySwitchPrevious = AUTO;
+check corneringLightLeft = 0;
+check corneringLightRight = 0;
+//le luci sono spente
+	check tailLampLeftFixValue = 0;
+	check tailLampRightFixValue = 0;
+	check lowBeamLeft = 0;
+	check lowBeamRight = 0;
+step
