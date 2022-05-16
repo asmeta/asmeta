@@ -44,3 +44,4 @@ test-bin/
 #maven stuff
 surefire-reports
 maven-status
+*.versionsBackup
