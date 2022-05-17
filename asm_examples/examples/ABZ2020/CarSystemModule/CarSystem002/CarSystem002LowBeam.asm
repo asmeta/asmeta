@@ -190,6 +190,7 @@ definitions:
 		//ELS-17
 		//LowBeamONWithDaylight.avalla
 			if (daytimeLight) then
+			//	if ((not ambientLightingAvailable) or (not (ambientLightingAvailable and ambientLightingConditionOn)))  then 			
 				if (not ambientLightingAvailable or not ambientLightingConditionOn)  then 
 					//if ((keyState = KEYINSERTED or keyState = KEYINIGNITIONONPOSITION) and ((not engineOn(keyState_Previous)) and engineOn = true)) then
 					if ((not engineOn(keyState_Previous)) and engineOn(keyState)) then
