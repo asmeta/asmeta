@@ -33,6 +33,8 @@ import org.asmeta.atgt.generator.FormatsEnum;
 import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.atgt.generator.TestGenerationWithNuSMV;
+import org.asmeta.atgt.generator.coverage.AsmetaAsSpec;
+import org.asmeta.atgt.generator.coverage.AsmetaCoverageBuilder;
 import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
 import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
 import org.asmeta.atgt.testoptimizer.UnchangedRemover;
@@ -104,14 +106,14 @@ public class ExperimentsMVM_ICTSS2021 {
 
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
 
-		List<Collection<AsmCoverageBuilder>> criteria = new ArrayList<>();
-		List<AsmCoverageBuilder> allcriteria = new ArrayList<>();
+		List<Collection<AsmetaCoverageBuilder>> criteria = new ArrayList<>();
+		List<AsmetaCoverageBuilder> allcriteria = new ArrayList<>();
 		for (CriteriaEnum c : CriteriaEnum.values()) {
 			// skip 3 wise and two wise monitored
-			if (c == CriteriaEnum.COMBINATORIAL_ALL)
-				continue;
-			if (c == CriteriaEnum.THREEWISE)
-				continue;
+//			if (c == CriteriaEnum.COMBINATORIAL_ALL)
+//				continue;
+//			if (c == CriteriaEnum.THREEWISE)
+//				continue;
 			criteria.add(Collections.singleton(c.criteria));
 			allcriteria.add(c.criteria);
 		}
@@ -119,7 +121,7 @@ public class ExperimentsMVM_ICTSS2021 {
 
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
 
-		for (Collection<AsmCoverageBuilder> asmcb : criteria) {
+		for (Collection<AsmetaCoverageBuilder> asmcb : criteria) {
 			String name = asmcb.stream().map(x -> x.getCoveragePrefix()).collect(Collectors.joining());
 			if (name.length() > 8)
 				name = "ALL";
@@ -153,13 +155,13 @@ public class ExperimentsMVM_ICTSS2021 {
 	@Test
 	public void generateMVM1atatime() throws Exception {
 		// build all the criteria needed for the experiment
-		List<AsmCoverageBuilder> coverageCriteria = new ArrayList<>();
+		List<AsmetaCoverageBuilder> coverageCriteria = new ArrayList<>();
 		for (CriteriaEnum c : CriteriaEnum.values()) {
-			// skip 3 wise and two wise monitored
-			if (c == CriteriaEnum.COMBINATORIAL_ALL)
-				continue;
-			if (c == CriteriaEnum.THREEWISE)
-				continue;
+//			// skip 3 wise and two wise monitored
+//			if (c == CriteriaEnum.COMBINATORIAL_ALL)
+//				continue;
+//			if (c == CriteriaEnum.THREEWISE)
+//				continue;
 			coverageCriteria.add(c.criteria);
 		}
 		// build the generator
@@ -328,18 +330,19 @@ public class ExperimentsMVM_ICTSS2021 {
 
 	private AsmCoverage buildCT() throws Exception, ParseException {
 		// build all the criteria needed for the experiment
-		List<AsmCoverageBuilder> coverageCriteria = new ArrayList<>();
+		List<AsmetaCoverageBuilder> coverageCriteria = new ArrayList<>();
 		for (CriteriaEnum c : CriteriaEnum.values()) {
 			// skip 3 wise and two wise monitored
-			if (c == CriteriaEnum.COMBINATORIAL_ALL)
-				continue;
-			if (c == CriteriaEnum.THREEWISE)
-				continue;
+//			if (c == CriteriaEnum.COMBINATORIAL_ALL)
+//				continue;
+//			if (c == CriteriaEnum.THREEWISE)
+//				continue;
 			coverageCriteria.add(c.criteria);
 		}
 		// read and transform the spec
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
-		ASMSpecification spec = new AsmetaLLoader().read(new File(ex));
+		//ASMSpecification spec = new AsmetaLLoader().read(new File(ex));
+		AsmetaAsSpec spec = new AsmetaAsSpec(asms.getMain());
 		// build the generator
 		// build the tree depending on the criteria
 		AsmCoverage ct = new MBTCoverage(coverageCriteria).getTPTree(spec);

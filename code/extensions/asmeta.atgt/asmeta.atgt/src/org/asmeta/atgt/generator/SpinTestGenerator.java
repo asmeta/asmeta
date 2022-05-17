@@ -15,7 +15,7 @@ import tgtlib.specification.ParseException;
  */
 public class SpinTestGenerator extends AsmTestGenerator {
 
-	public SpinTestGenerator(String asmfile, boolean coverageTp) throws ParseException {
+	public SpinTestGenerator(String asmfile, boolean coverageTp) throws Exception {
 		super(asmfile, coverageTp);
 	}
 

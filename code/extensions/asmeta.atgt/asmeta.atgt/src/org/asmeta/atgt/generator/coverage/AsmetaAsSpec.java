@@ -4,11 +4,9 @@ import asmeta.structure.Asm;
 import atgt.specification.ASMSpecification;
 
 // should implement Specification
-class AsmetaAsSpec extends ASMSpecification{
-	
-	
+// WRAPPER CLASS FOR ASMETA/ATGT
+public class AsmetaAsSpec extends ASMSpecification{
 	Asm asm;
-
 	public AsmetaAsSpec(Asm asm) {
 		this.asm = asm;
 	}

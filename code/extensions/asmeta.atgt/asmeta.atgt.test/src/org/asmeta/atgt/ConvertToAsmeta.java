@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+// NON LO USO PIU
 public class ConvertToAsmeta {
 
 	@Test

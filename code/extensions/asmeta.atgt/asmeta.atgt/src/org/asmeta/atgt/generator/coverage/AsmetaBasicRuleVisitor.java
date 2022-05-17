@@ -9,13 +9,15 @@ import atgt.coverage.Coverage;
 import tgtlib.definitions.NamedTerm;
 
 
-public class AsmetaBasicRuleVisitor implements AsmetaCoverageBuilder {
+public class AsmetaBasicRuleVisitor implements AsmetaCoverageBuilder {	
+	
+	public static AsmetaBasicRuleVisitor eInstance = new AsmetaBasicRuleVisitor();
 
 	/**
 	 * costruisce un nuovo basic rule visitor messo public per permettere la
 	 * creazione da parte del plugin di eclipse.
 	 */
-	public AsmetaBasicRuleVisitor() {
+	private AsmetaBasicRuleVisitor() {
 	}
 
 	@Override

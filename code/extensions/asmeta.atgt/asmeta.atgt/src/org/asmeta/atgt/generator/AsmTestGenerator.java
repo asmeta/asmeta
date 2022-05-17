@@ -3,10 +3,17 @@ package org.asmeta.atgt.generator;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.asmeta.atgt.generator.coverage.AsmetaAsSpec;
+import org.asmeta.atgt.generator.coverage.AsmetaBasicRuleVisitor;
+import org.asmeta.atgt.generator.coverage.AsmetaCoverageBuilder;
+import org.asmeta.parser.ASMParser;
+
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmCoverageTree;
@@ -25,15 +32,16 @@ public abstract class AsmTestGenerator {
 	/** compute coverage??? */
 	protected final boolean coverageTp;
 
-	protected final ASMSpecification spec;
+	protected final AsmetaAsSpec spec;
 
 	protected ASMSpecification getSpec() {
 		return spec;
 	}
 
-	public static final List<CriteriaEnum> DEFAULT_CRITERIA = Arrays.asList(CriteriaEnum.BASIC_RULE,CriteriaEnum.COMPLETE_RULE, CriteriaEnum.RULE_UPDATE);
+	//public static final List<CriteriaEnum> DEFAULT_CRITERIA = Arrays.asList(CriteriaEnum.BASIC_RULE,CriteriaEnum.COMPLETE_RULE, CriteriaEnum.RULE_UPDATE);
+	public static final List<CriteriaEnum> DEFAULT_CRITERIA = Arrays.asList(CriteriaEnum.BASIC_RULE);
 	
-	public static final List<AsmCoverageBuilder> DEFAULT_COV_BUILDER = CriteriaEnum.getCoverageCriteria(DEFAULT_CRITERIA);
+	public static final List<AsmetaCoverageBuilder> DEFAULT_COV_BUILDER = CriteriaEnum.getCoverageCriteria(DEFAULT_CRITERIA);
 	
 	
 	public static final List<String> DEFAULT_FORMATS = FormatsEnum
@@ -41,13 +49,14 @@ public abstract class AsmTestGenerator {
 
 	public static final boolean DEFAULT_COMPUTE_COVERAGE = true;
 
-	public AsmTestGenerator(String asmfile, boolean coverageTp) throws ParseException {
+	public AsmTestGenerator(String asmfile, boolean coverageTp) throws Exception {
 		assert new File(asmfile).exists();
 		// read the spec
-		spec = new AsmetaLLoader().read(new File(asmfile));
+		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(asmfile));
+		spec = new AsmetaAsSpec(asms.getMain());
 		// should never happen because read will throw its own exception
 		if (spec == null)
-			throw new RuntimeException("errors in converting the asmeta for ATGT");
+			throw new RuntimeException("errors reading the asm specification");
 		this.coverageTp = coverageTp;
 	}
 
@@ -96,11 +105,14 @@ public abstract class AsmTestGenerator {
 	 */
 	public AsmTestSuite generateAbstractTests(int maxTests, String regex) throws Exception {
 		// collect the coverage criteria
-		return generateAbstractTests(new MBTCoverage(DEFAULT_COV_BUILDER), maxTests, regex);
+		//return generateAbstractTests(new MBTCoverage(DEFAULT_COV_BUILDER), maxTests, regex);
+		//only rul coverage for now		
+		Set<AsmetaCoverageBuilder> criterion = Collections.singleton(AsmetaBasicRuleVisitor.eInstance);
+		return generateAbstractTests(new MBTCoverage(criterion), maxTests, regex);
 	}
 
 
-	public AsmTestSuite generateAbstractTests(Collection<AsmCoverageBuilder> coverageCriteria, int maxTests, String regex) throws Exception {
+	public AsmTestSuite generateAbstractTests(Collection<AsmetaCoverageBuilder> coverageCriteria, int maxTests, String regex) throws Exception {
 		return generateAbstractTests(new MBTCoverage(coverageCriteria), maxTests, regex);
 	}
 
@@ -132,12 +144,12 @@ public abstract class AsmTestGenerator {
 	 * Structural except MCDC which is difficult to use because there is an equal
 	 * and Booleans
 	 */
-	public static class MBTCoverage extends CovBuilderBySubCov<ASMSpecification, AsmTestCondition, AsmCoverage> {
+	public static class MBTCoverage extends CovBuilderBySubCov<AsmetaAsSpec, AsmTestCondition, AsmCoverage> {
 
-		public MBTCoverage(Collection<AsmCoverageBuilder> criteria) {
+		public MBTCoverage(Collection<AsmetaCoverageBuilder> criteria) {
 			super("MBT Coverage", AsmCoverageTree.factory);
 
-			for (AsmCoverageBuilder c : criteria)
+			for (AsmetaCoverageBuilder c : criteria)
 				register(c);
 
 			// Aggiunge i visitor di default
