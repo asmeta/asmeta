@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,6 +80,27 @@ public class GenerateTestsFromFSM {
 				+ criteria.stream().map(n -> n.getAbbrvName()).collect(Collectors.joining("_")) + ".avalla";
 		return getFSMWithTestsFromFSMAndASMfromAvalla(new File(fileOutputName).getAbsolutePath(),
 				new File(asmPath).getAbsolutePath(), useMonitoring, criteria, destinationPath);
+	}
+	
+	/**
+	 * generate a set of FSM from an ASM using different criteria and producing
+	 * several avalla scenario files
+	 * 
+	 * @param inputASMName 		the name of the model
+	 * @param asmPath      		the path of the asm
+	 * @param criteria     		the list of criteria
+	 * @param destinationPath	the destination path for the abstract tests 
+	 * 
+	 */
+	public void saveAbstractTests(String inputASMName, String asmPath, boolean useMonitoring, 
+			List<CriteriaEnum> criteria, String destinationPath) throws Exception {
+		String fileOutputName = inputASMName + "_"
+				+ criteria.stream().map(n -> n.getAbbrvName()).collect(Collectors.joining("_")) + ".avalla";
+		TestGenerationWithNuSMV.useLTLandBMC = true;
+		AsmTestSuite result = new NuSMVtestGenerator(asmPath, useMonitoring)
+				.generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria),Integer.MAX_VALUE, ".*");
+		SaveResults.saveResults(result, new File(asmPath).getAbsolutePath(), Collections.singletonList(FormatsEnum.AVALLA), fileOutputName, destinationPath);
+		//String[] tests = SaveResults.getAvallaResults(result, fsmPath, asmPath, destinationPath);
 	}
 
 	/**

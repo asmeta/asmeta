@@ -24,7 +24,7 @@ public class SaveResults {
 	 * @param formats XML, Avalla
 	 */
 	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String config) {
-		saveResults(result, asmetaSpecPath, formats, "", config, new File(asmetaSpecPath).getParent());
+		saveResults(result, asmetaSpecPath, formats, "abstractests", config, new File(asmetaSpecPath).getParent());
 	}
 	
 	/**
@@ -51,14 +51,16 @@ public class SaveResults {
 		if (outputDir==null) outputDir = ".";
 		//System.out.println("Parent: "+parent);		
 		// find new dir where to put files
-		String dirPath = Paths.get(outputDir,"abstractests"+foldersuffix).toString();
+		String dirPath = Paths.get(outputDir, foldersuffix).toString();
 		// find new dir where to put files
 		File testFile = new File(dirPath);
 		int i = 1;
-		while (testFile.exists()) {
-			testFile = new File(dirPath + i++);
+		if (!foldersuffix.equals("")) { 
+			while (testFile.exists()) {
+				testFile = new File(dirPath + i++);
+			}
+			testFile.mkdir();
 		}
-		testFile.mkdir();
 		//System.out.println("saving tests to " + testFile.getAbsolutePath());
 		// save to output files
 		String allSequences = ""; // used for ProTest, to create a single file with all the sequences
@@ -79,6 +81,11 @@ public class SaveResults {
 						asm_to_import = ftc.toPath().getParent().relativize(new File(asmetaSpecPath).toPath());
 					} catch(IllegalArgumentException  ie) {
 						asm_to_import = new File(asmetaSpecPath).toPath().normalize();
+						
+						try {
+							asm_to_import = new File(ftc.getAbsolutePath()).toPath().getParent().relativize(asm_to_import);
+						} catch(IllegalArgumentException  ie2) {}
+							
 					}	
 					new toAvalla(ftc,tc,asm_to_import.toString()).save();
 				}
