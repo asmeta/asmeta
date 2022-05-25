@@ -1,5 +1,7 @@
 package org.asmeta.atgt;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Collections;
@@ -117,6 +119,24 @@ public class AsmTestGeneratorTest {
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(
 				Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria),Integer.MAX_VALUE, ".*");
 	}
+
+	@Test
+	public void generateTLCS() throws Exception {
+		Logger.getLogger(AsmTestGeneratorTest.class).setLevel(Level.DEBUG);
+		String ex = "examples\\TLCS\\TrafficLight_1.asm";
+		NuSMVtestGenerator.removeUnaskedChanges = false;
+		NuSMVtestGenerator.removeUnChangedControlles = false;
+		ConverterCounterExample.IncludeUnchangedVariables = false;
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),Integer.MAX_VALUE, ".*");
+		AsmTestSequence x = result.getTests().get(0);
+		System.out.println(x.allInstructions().get(0));
+		System.out.println(x.allInstructions().get(1));
+		// every step has the same number of variables (add also those that are unchanged)
+		assertEquals(x.allInstructions().get(0).size(), x.allInstructions().get(1).size());
+	}
+
+	
 	
 	@Test
 	public void generateMVM() throws Exception {
@@ -157,7 +177,6 @@ public class AsmTestGeneratorTest {
 			eucr.optimize(tests.get(i));
 		}
 		SaveResults.saveResults(result,ex,Collections.singleton(FormatsEnum.AVALLA), "");
-
 	}
 
 	@Test
