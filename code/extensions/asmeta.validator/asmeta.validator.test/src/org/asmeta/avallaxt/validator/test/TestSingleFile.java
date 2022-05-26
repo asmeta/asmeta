@@ -1,6 +1,7 @@
 package org.asmeta.avallaxt.validator.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -197,6 +198,20 @@ public class TestSingleFile extends TestValidator {
 		test("D:\\AgHome\\progettidaSVNGIT\\asmeta\\asmeta\\asm_examples\\PillBox\\Level0\\pillbox_0_scenario1.avalla", false, false);		
 	}
 
+	@Test
+	public void testlampada() throws Exception {
+		ASMParser.getResultLogger().setLevel(Level.OFF);
+		// questo mi dà errori strani
+		try {
+//			test("D:\\AgHome\\Dropbox\\code\\didattica\\tvsw\\unibg_tvsw\\codice_lezioni\\6_atgt\\test.avalla", false, false);		
+			test("scenariosfortest\\u_dir\\test.avalla", false, false);
+		} catch(IllegalStateException ise) {
+			System.out.println(ise.getMessage());
+			fail();
+		}
+	}
+
+	
 	@BeforeClass
 	static public void setuplogger() throws Exception {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
