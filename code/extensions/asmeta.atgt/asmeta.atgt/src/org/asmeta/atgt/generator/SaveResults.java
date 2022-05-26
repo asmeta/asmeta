@@ -28,10 +28,13 @@ public class SaveResults {
 	}
 	
 	/**
-	 * 
+	 * Save results.
+	 *
 	 * @param result the already generated test suite
 	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
 	 * @param formats XML, Avalla
+	 * @param foldersuffix the foldersuffix
+	 * @param config the config
 	 */
 	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String foldersuffix, String config) {
 		if (formats==null || formats.size()==0) {
