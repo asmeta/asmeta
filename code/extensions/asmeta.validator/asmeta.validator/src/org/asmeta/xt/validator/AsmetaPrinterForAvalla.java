@@ -93,7 +93,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	public void visit(Asm asm) {
 		// add a comment - careful, since the "u" cannot be escaped even in the comments,
 		// if there is a directory staring with it gets an error
-		String filename = asmPath.normalize().toString();
+		String filename = asmPath.normalize().toUri().toString();
 		println("// translation of the asm (for avalla) " + filename);
 		System.err.println(filename);
 		super.visit(asm);
