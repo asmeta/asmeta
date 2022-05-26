@@ -24,3 +24,4 @@ Import-Package: org.eclipse.xtend.ide.builder,
  org.eclipse.xtext.generator,
  org.eclipse.xtext.resource,
  org.eclipse.xtext.util
+Automatic-Module-Name: asmeta.asm2cpp

@@ -36,13 +36,13 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
-import asm2code_inoproject.asm2code;
+import asm2code_inoproject.Asmeta2Project;
 import asmeta.structure.Asm;
 
 import org.eclipse.ui.part.FileEditorInput;
 
 public class GeneratorHandler extends AbstractHandler implements IHandler {
-	private asm2code uasm2code;
+	private Asmeta2Project uasm2code;
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -95,7 +95,7 @@ public class GeneratorHandler extends AbstractHandler implements IHandler {
 		}
 		// Perform the u2cFile reading and asm conversion in Arduino project files
 		HWConfiguration config = readJSON(u2cFile.getPath());
-		uasm2code = new asm2code(config);
+		uasm2code = new Asmeta2Project(config);
 		// Check if .ino file already exists, in case I ask to proceed or cancel the
 		// operation
 		if (Files.exists(Paths.get(path + destName + InoGenerator.Ext))) {
