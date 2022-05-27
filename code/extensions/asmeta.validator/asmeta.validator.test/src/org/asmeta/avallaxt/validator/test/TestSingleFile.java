@@ -4,15 +4,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.util.AsmetaPrintInfo;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaPrinterForAvalla;
 import org.junit.BeforeClass;
@@ -208,6 +213,42 @@ public class TestSingleFile extends TestValidator {
 		} catch(IllegalStateException ise) {
 			System.out.println(ise.getMessage());
 			fail();
+		}
+	}
+	@Test
+	public void testCarSystem() throws Exception {
+		String baseDIR = "D:\\AgHome\\Dropbox\\Documenti\\ricerca\\asm\\asmeta_papers_github\\ABZ2020_casestudy\\Casestudy\\ASM model";
+		String scenarios =  baseDIR +"\\Car System\\scenarios";
+		//String asmetaFile = "\\ASM model\\Car System";
+		String models = baseDIR + "\\Car System module";
+		// stampo per ogni asmeta
+		List<Path> result;
+        try (Stream<Path> walk = Files.walk(Path.of(models))) {
+            result = walk.filter(Files::isRegularFile)
+                    .collect(Collectors.toList());
+        }
+		for(Path asm: result){
+			String filename = asm.toString();
+			if (!filename.endsWith(".asm")) continue;
+			System.out.println(filename);
+			AsmetaPrintInfo info = new AsmetaPrintInfo(filename);
+			System.out.println(info.getInfo().ruleNamesList);
+		}
+		// stampo per ogni scenario
+		result.clear();
+		try (Stream<Path> walk = Files.walk(Path.of(scenarios))) {
+            result = walk.filter(Files::isRegularFile)
+                    .collect(Collectors.toList());
+        }
+		for(Path asm: result){
+			String filename = asm.toString();
+			if (!filename.endsWith(".avalla")) continue;
+			System.out.println(filename);
+			try{
+				test(filename, true, true);		
+			} catch(Throwable e) {
+				System.out.println("skipping " + filename);
+			}
 		}
 	}
 

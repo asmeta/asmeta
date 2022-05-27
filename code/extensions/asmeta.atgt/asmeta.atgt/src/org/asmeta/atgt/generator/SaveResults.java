@@ -83,8 +83,7 @@ public class SaveResults {
 					try {
 						asm_to_import = ftc.toPath().getParent().relativize(new File(asmetaSpecPath).toPath());
 					} catch(IllegalArgumentException  ie) {
-						asm_to_import = new File(asmetaSpecPath).toPath().normalize();
-						
+						asm_to_import = new File(asmetaSpecPath).toPath().normalize();						
 						try {
 							asm_to_import = new File(ftc.getAbsolutePath()).toPath().getParent().relativize(asm_to_import);
 						} catch(IllegalArgumentException  ie2) {}
