@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 
-class asm2code implements IGenerator {
+class Asmeta2Project implements IGenerator {
 	var CppGenerator cppGen
 	var HeaderGenerator hGen
 	var HWIntegrationGenerator hwGen

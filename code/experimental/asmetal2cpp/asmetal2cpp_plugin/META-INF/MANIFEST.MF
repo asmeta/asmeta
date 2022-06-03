@@ -25,4 +25,5 @@ Import-Package: asmeta.structure,
  org.eclipse.xtext.ui.resource
 Bundle-ClassPath: gson-2.2.2.jar,
  .
+Automatic-Module-Name: uasm2code.inoproject
 

@@ -28,10 +28,13 @@ public class SaveResults {
 	}
 	
 	/**
-	 * 
+	 * Save results.
+	 *
 	 * @param result the already generated test suite
 	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
 	 * @param formats XML, Avalla
+	 * @param foldersuffix the foldersuffix
+	 * @param config the config
 	 */
 	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String config, String outputDir) {
 		saveResults(result, asmetaSpecPath, formats, "", config, outputDir);
@@ -80,8 +83,7 @@ public class SaveResults {
 					try {
 						asm_to_import = ftc.toPath().getParent().relativize(new File(asmetaSpecPath).toPath());
 					} catch(IllegalArgumentException  ie) {
-						asm_to_import = new File(asmetaSpecPath).toPath().normalize();
-						
+						asm_to_import = new File(asmetaSpecPath).toPath().normalize();						
 						try {
 							asm_to_import = new File(ftc.getAbsolutePath()).toPath().getParent().relativize(asm_to_import);
 						} catch(IllegalArgumentException  ie2) {}

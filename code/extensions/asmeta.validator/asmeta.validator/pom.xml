@@ -80,10 +80,5 @@
 			<artifactId>asmeta.simulator</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>org.asmeta</groupId>
-			<artifactId>org.asmeta.avallaxt</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 </project>

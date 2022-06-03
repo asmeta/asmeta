@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.asmeta.parser.ASMParser;
 import org.eclipse.emf.common.util.EList;
@@ -30,6 +31,8 @@ public class AsmetaPrintInfo {
 
 		public Map<String, Integer> infoMap = new HashMap<String, Integer>();
 
+		public List<String> ruleNamesList;
+
 		void inc(String s) {
 			int val;
 			if (infoMap.containsKey(s)) {
@@ -48,13 +51,13 @@ public class AsmetaPrintInfo {
 		File asmFile = new File(asmPath);
 		if (asmFile.isDirectory()) {
 			System.out.println("reading all the asm in the path");
-			File[] files = asmFile.listFiles(new FilenameFilter() {				
+			File[] files = asmFile.listFiles(new FilenameFilter() {
 				@Override
 				public boolean accept(File arg0, String arg1) {
 					return arg1.endsWith(".asm");
 				}
 			});
-			for(File f:files) {
+			for (File f : files) {
 				asms.add(ASMParser.setUpReadAsm(f).getMain());
 			}
 		} else {
@@ -86,6 +89,8 @@ public class AsmetaPrintInfo {
 			// rule declaration
 			Body bodySection = asm.getBodySection();
 			info.infoMap.put("nrulesdeclarations", bodySection.getRuleDeclaration().size());
+			// rule names
+			info.ruleNamesList = bodySection.getRuleDeclaration().stream().map(x -> x.getName()).collect(Collectors.toList());
 			// properties
 			info.infoMap.put("nproperties", bodySection.getProperty().size());
 		}

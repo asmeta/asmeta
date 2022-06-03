@@ -22,3 +22,4 @@ Export-Package: org.asmeta.codegenerator,
  org.asmeta.codegenerator.configuration
 Bundle-ClassPath: gson-2.2.2.jar,
  .
+Automatic-Module-Name: asmeta.asmetal2cpp.hw
