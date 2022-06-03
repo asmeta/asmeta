@@ -42,7 +42,7 @@ public abstract class AsmTestGenerator {
 	public static final boolean DEFAULT_COMPUTE_COVERAGE = true;
 
 	public AsmTestGenerator(String asmfile, boolean coverageTp) throws ParseException {
-		assert new File(asmfile).exists();
+		assert new File(asmfile).exists() : asmfile + "not existing";
 		// read the spec
 		spec = new AsmetaLLoader().read(new File(asmfile));
 		// should never happen because read will throw its own exception
