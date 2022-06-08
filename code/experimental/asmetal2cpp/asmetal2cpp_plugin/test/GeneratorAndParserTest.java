@@ -29,7 +29,7 @@ import org.junit.runners.Parameterized.Parameters;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-import asm2code_inoproject.asm2code;
+import asm2code_inoproject.Asmeta2Project;
 import asmeta.structure.Asm;
 
 /*
@@ -90,7 +90,7 @@ public class GeneratorAndParserTest {
 		System.out.println("Parsing " + asmFile.getName() + " in " + specName);
 		// 1)
 		final Asm model = ASMParser.setUpReadAsm(asmFile).getMain();
-		asm2code a2c;
+		Asmeta2Project a2c;
 		try {
 			// 2)
 			Gson gson = new Gson();
@@ -104,7 +104,7 @@ public class GeneratorAndParserTest {
 			HWConfiguration config = gson.fromJson(reader, HWConfiguration.class);
 			assertTrue("Configurazione non valida", config.isValid());
 			String modelName = asmFile.getName().replace(AsmToCGenerator.Ext, "");
-			a2c = new asm2code(config);
+			a2c = new Asmeta2Project(config);
 			a2c.generateAll(model, destinationFolder, modelName);
 
 			// copia dei file nella cartella del progetto arduino

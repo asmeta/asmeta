@@ -2,10 +2,11 @@ package org.asmeta.atgt.generator.ui;
 
 import java.util.List;
 
+import javax.naming.InitialContext;
+
 import org.asmeta.atgt.generator.AsmTestGenerator;
 import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.FormatsEnum;
-import org.asmeta.eclipse.AsmeeConsole;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -16,19 +17,13 @@ import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.model.ILaunchConfigurationDelegate;
+import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.console.IConsoleConstants;
-import org.eclipse.ui.console.IConsoleView;
 
 /**
  * http://www.vogella.com/tutorials/EclipseLauncherFramework/article.html
@@ -36,16 +31,18 @@ import org.eclipse.ui.console.IConsoleView;
  * @author garganti
  *
  */
-public class AsmTSGeneratorLaunchConfiguration implements ILaunchConfigurationDelegate {
+public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelegate /*implements ILaunchConfigurationDelegate */{
 
 	public boolean computeCoverage;
 	public List<CriteriaEnum> coverageCriteria;
 	public IPath asmetaSpecPath;
 	public List<FormatsEnum> formats;
 
+	// necessario perchè ha bisogno del costruttore senza parametri
 	public AsmTSGeneratorLaunchConfiguration() {
 	}
 
+	
 	public AsmTSGeneratorLaunchConfiguration(ILaunchConfiguration configuration) {
 		try {
 			setConfiguration(configuration);
@@ -53,18 +50,24 @@ public class AsmTSGeneratorLaunchConfiguration implements ILaunchConfigurationDe
 			e.printStackTrace();
 		}
 	}
-
+	
+	
+	@Override
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor)
 			throws CoreException {
 		System.out.println("AsmTSGeneratorLaunchConfiguration:launch");
 		setConfiguration(configuration);
 		// get the current ASM file if any
 		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchWindow window = workbench == null ? null : workbench.getActiveWorkbenchWindow();
+		if (workbench == null) {
+			System.err.println("Call generateTests with workbench null");
+			return;
+		}
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		// get the file
 		IFile path = AsmetaUtility.getEditorIFile(window);
 		// open the simulator console
-		// generate the tests 
+		// generate the tests
 		generateTests(path.getFullPath(), window);
 	}
 
@@ -82,8 +85,7 @@ public class AsmTSGeneratorLaunchConfiguration implements ILaunchConfigurationDe
 		return this;
 	}
 
-
-	//
+	// generate the tests
 	void generateTests(IPath asmetaSpecPath, IWorkbenchWindow window) throws Error, PartInitException {
 		if (asmetaSpecPath == null) {
 			System.err.println("Call generateTests with path null");
@@ -95,7 +97,6 @@ public class AsmTSGeneratorLaunchConfiguration implements ILaunchConfigurationDe
 		Job generation = new SafeGeneratorRunnable(AsmTSGeneratorLaunchConfiguration.this, window);
 		// run as job
 		BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
-
 			@Override
 			public void run() {
 				ISafeRunnable runnable = new ISafeRunnable() {
@@ -103,7 +104,6 @@ public class AsmTSGeneratorLaunchConfiguration implements ILaunchConfigurationDe
 					public void handleException(Throwable exception) {
 						System.out.println("Exception in client");
 					}
-
 					@Override
 					public void run() throws Exception {
 						generation.setPriority(Job.SHORT);
@@ -112,6 +112,10 @@ public class AsmTSGeneratorLaunchConfiguration implements ILaunchConfigurationDe
 					}
 				};
 				SafeRunner.run(runnable);
+				System.err.println("Call generateTests");
+				// now refresh the project
+				//window.ge
+				//project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 			}
 		});
 

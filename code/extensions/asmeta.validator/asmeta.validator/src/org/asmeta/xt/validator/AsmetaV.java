@@ -78,7 +78,7 @@ public class AsmetaV {
 	/**
 	 * Exec validation.
 	 *
-	 * @param scenarioPath file containing the scenario or directory containign all
+	 * @param scenarioPath file containing the scenario or directory containing all
 	 *                     the scenarios
 	 * @param coverage     the coverage
 	 * @return true, if successful

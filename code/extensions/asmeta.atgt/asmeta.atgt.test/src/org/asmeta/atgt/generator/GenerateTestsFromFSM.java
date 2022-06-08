@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.asmeta.atgt.ConvertToAsmeta;
+import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.AsmetaSMVOptions;
 
 import atgt.coverage.AsmTestSuite;
 
@@ -97,6 +99,35 @@ public class GenerateTestsFromFSM {
 		String fileOutputName = inputASMName + "_"
 				+ criteria.stream().map(n -> n.getAbbrvName()).collect(Collectors.joining("_")) + ".avalla";
 		TestGenerationWithNuSMV.useLTLandBMC = true;
+		NuSMVtestGenerator.removeUnaskedChanges = false;
+		NuSMVtestGenerator.removeUnChangedControlles = false;
+		ConverterCounterExample.IncludeUnchangedVariables = true;
+		AsmTestSuite result = new NuSMVtestGenerator(asmPath, useMonitoring)
+				.generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria),Integer.MAX_VALUE, ".*");
+		SaveResults.saveResults(result, new File(asmPath).getAbsolutePath(), Collections.singletonList(FormatsEnum.AVALLA), fileOutputName, destinationPath);
+		//String[] tests = SaveResults.getAvallaResults(result, fsmPath, asmPath, destinationPath);
+	}
+	
+	/**
+	 * generate a set of FSM from an ASM using different criteria and producing
+	 * several avalla scenario files
+	 * 
+	 * @param inputASMName 		the name of the model
+	 * @param asmPath      		the path of the asm
+	 * @param criteria     		the list of criteria
+	 * @param destinationPath	the destination path for the abstract tests 
+	 * 
+	 */
+	public void saveAbstractTests(String inputASMName, String asmPath, boolean useMonitoring, 
+			List<CriteriaEnum> criteria, String destinationPath, boolean removeUnaskedChanges, boolean removeUnChangedControlles) throws Exception {
+		String fileOutputName = inputASMName + "_"
+				+ criteria.stream().map(n -> n.getAbbrvName()).collect(Collectors.joining("_")) + ".avalla";
+		TestGenerationWithNuSMV.useLTLandBMC = true;
+		NuSMVtestGenerator.removeUnaskedChanges = removeUnaskedChanges;
+		NuSMVtestGenerator.removeUnChangedControlles = removeUnChangedControlles;
+		ConverterCounterExample.IncludeUnchangedVariables = true;
+		AsmetaSMV.BMCLength = 100;
+		AsmetaSMVOptions.useCoi = true;
 		AsmTestSuite result = new NuSMVtestGenerator(asmPath, useMonitoring)
 				.generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria),Integer.MAX_VALUE, ".*");
 		SaveResults.saveResults(result, new File(asmPath).getAbsolutePath(), Collections.singletonList(FormatsEnum.AVALLA), fileOutputName, destinationPath);
