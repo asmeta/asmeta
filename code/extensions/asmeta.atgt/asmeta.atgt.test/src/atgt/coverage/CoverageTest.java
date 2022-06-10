@@ -30,7 +30,7 @@ public class CoverageTest {
 			// skip 3 wise and two wise monitored
 			if (c == CriteriaEnum.COMBINATORIAL_ALL)
 				continue;
-			if (c == CriteriaEnum.THREEWISE)
+			if (c == CriteriaEnum.THREEWISE_ALL)
 				continue;
 			coverageCriteria.add(c.criteria);
 		}
