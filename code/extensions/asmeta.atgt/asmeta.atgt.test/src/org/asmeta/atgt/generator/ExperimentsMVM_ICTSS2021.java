@@ -98,7 +98,7 @@ public class ExperimentsMVM_ICTSS2021 {
 			// skip 3 wise and two wise monitored
 			if (c == CriteriaEnum.COMBINATORIAL_ALL)
 				continue;
-			if (c == CriteriaEnum.THREEWISE)
+			if (c == CriteriaEnum.THREEWISE_ALL)
 				continue;
 			criteria.add(Collections.singleton(c.criteria));
 			allcriteria.add(c.criteria);
@@ -159,7 +159,7 @@ public class ExperimentsMVM_ICTSS2021 {
 			// skip 3 wise and two wise monitored
 			if (c == CriteriaEnum.COMBINATORIAL_ALL)
 				continue;
-			if (c == CriteriaEnum.THREEWISE)
+			if (c == CriteriaEnum.THREEWISE_ALL)
 				continue;
 			coverageCriteria.add(c.criteria);
 		}
@@ -335,7 +335,7 @@ public class ExperimentsMVM_ICTSS2021 {
 			// skip 3 wise and two wise monitored
 			if (c == CriteriaEnum.COMBINATORIAL_ALL)
 				continue;
-			if (c == CriteriaEnum.THREEWISE)
+			if (c == CriteriaEnum.THREEWISE_ALL)
 				continue;
 			coverageCriteria.add(c.criteria);
 		}
