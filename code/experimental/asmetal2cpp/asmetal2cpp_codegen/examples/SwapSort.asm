@@ -3,14 +3,17 @@ asm SwapSort
 import  STDL/StandardLibrary
 	
 signature:
-	static n: Integer
 	domain VectDomain subsetof Integer
+
+	static n: Integer
 	controlled vect: Integer -> Integer
 	controlled vect2: VectDomain -> Integer
 		
 definitions:
+	domain VectDomain={0 : 9}
+	
 	function n = 10
-	domain VectDomain={0 :9}
+	
 	/* Note that no temporary variable is needed to swap two variables, if the
 	 swap is performed in a par rule */
 	macro rule r_swap($x in Integer, $y in Integer) =
