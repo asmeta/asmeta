@@ -74,6 +74,7 @@ public class ConverterCounterExample {
 						continue;
 					}
 				} 
+				// with arguments
 				if (var.contains("(")) {
 					String funName = var.substring(0, var.indexOf('('));
 					Function function = spec.getFunction(funName);
@@ -146,6 +147,7 @@ public class ConverterCounterExample {
 		} else {
 			argId = ENUM_CONST_CREATOR.createIdExpression(argument, IntegerType.INTEGER_TYPE);
 		}
+		System.err.println(" creating " + argId);
 		assert argId != null : argument + " not found in " + et;
 		FunctionTerm ft = new FunctionTerm(f.getIdExpression(), f.getCodomain(), Collections.singletonList(argId));
 		return ft;
