@@ -23,9 +23,9 @@ import tgtlib.definitions.expression.type.Type;
  * 
  * standard: only finite domains of type EnumType
  */
-public class AsmDataExtractor extends AsmMonitoredDataExtractor {
+public class AsmAllDataExtractor extends AsmMonitoredDataExtractor {
 
-	static private AsmDataExtractor INSTANCE = new AsmDataExtractor();
+	static public AsmAllDataExtractor INSTANCE = new AsmAllDataExtractor();
 
 	static public AsmCoverageBuilder getAsmCombCovBuilder() {
 		StdPairwiseCovBuild<ASMSpecification, AsmTestCondition, AsmCoverage> cov = new StdPairwiseCovBuild<ASMSpecification, AsmTestCondition, AsmCoverage>(
@@ -44,11 +44,10 @@ public class AsmDataExtractor extends AsmMonitoredDataExtractor {
 		};
 	}
 
-	protected AsmDataExtractor() {
-	}
+	private AsmAllDataExtractor() {}
 
 	/** Logger for this class. */
-	private static final Logger logger = Logger.getLogger(AsmDataExtractor.class);
+	private static final Logger logger = Logger.getLogger(AsmAllDataExtractor.class);
 
 	/*
 	 * (non-Javadoc)
