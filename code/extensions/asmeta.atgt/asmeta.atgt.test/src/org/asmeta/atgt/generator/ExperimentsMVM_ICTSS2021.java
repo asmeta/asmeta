@@ -484,8 +484,11 @@ public class ExperimentsMVM_ICTSS2021 {
 	
 	@Test
 	public void test() throws Exception {
+		// questop fallisce perchè creo due volte il test generator
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
-		List<CriteriaEnum> singletonList = Arrays.asList(CriteriaEnum.COMPLETE_RULE,CriteriaEnum.BASIC_RULE);
+		List<CriteriaEnum> singletonList = Arrays.asList(CriteriaEnum.COMPLETE_RULE);
+		new GenerateTestsFromFSM().saveAbstractTests("mvm0", "examples/mvm0.asm", true, singletonList, "temp");
+		singletonList = Arrays.asList(CriteriaEnum.MCDC);
 		new GenerateTestsFromFSM().saveAbstractTests("mvm0", "examples/mvm0.asm", true, singletonList, "temp");
 	}
 	
