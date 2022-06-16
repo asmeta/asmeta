@@ -14,9 +14,16 @@ import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.eclipse.AsmeeConsole;
 import org.asmeta.eclipse.AsmetaUtility;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
@@ -27,6 +34,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.console.IConsoleConstants;
 import org.eclipse.ui.console.IConsoleView;
+import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
 import atgt.coverage.AsmCoverageBuilder;
@@ -46,9 +54,10 @@ public class SafeGeneratorRunnable extends Job {
 		this.config = config;
 		// build/open the console
 		if (mc == null) {
-			IConsoleView view = (IConsoleView) window.getActivePage().showView(IConsoleConstants.ID_CONSOLE_VIEW);			
-			mc = AsmetaUtility.findDefaultConsole();
-			view.display(mc);
+			//IConsoleView view = (IConsoleView) window.getActivePage().showView(IConsoleConstants.ID_CONSOLE_VIEW);	
+			//view.display(mc);
+			mc = org.asmeta.eclipse.AsmetaUtility.findDefaultConsole();
+			mc.activate();
 			// add the console as appender to the 
 			// set the outstream
 			IOConsoleOutputStream out = mc.newOutputStream();
@@ -92,12 +101,19 @@ public class SafeGeneratorRunnable extends Job {
 					 */
 					// compute where to save the results
 					SaveResults.saveResults(result, config.asmetaSpecPath.toString(), config.formats, SaveResults
-							.toStringForFile(config.computeCoverage, config.coverageCriteria, config.formats));
+							.toStringForFile(config.computeCoverage, config.coverageCriteria, config.formats));					
 				} catch (Exception e) {
 					Logger.getLogger(NuSMVtestGenerator.class).error("ATGT error: "+ e.getMessage());
 					e.printStackTrace();
 				}
-				System.out.println("End of safe runner ");
+				System.out.println("refershing project");
+				try {
+					IProject project = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(config.asmetaSpecPath)[0].getProject();
+					project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				System.out.println("generation finished");
 			}
 		};
 

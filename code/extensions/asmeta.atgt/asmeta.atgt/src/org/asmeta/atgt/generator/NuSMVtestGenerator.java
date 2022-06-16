@@ -32,8 +32,6 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 
 	public static boolean removeUnaskedChanges = true;
 
-	protected String asmFile;
-
 	private AsmCollection asmCollection;
 	public static Logger logger = Logger.getLogger(NuSMVtestGenerator.class);
 
@@ -44,24 +42,24 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 		this(asmFilePath, true);
 	}
 
-	public NuSMVtestGenerator(String asmFilePath, boolean coverageTp) throws Exception {
+	TestGenerationWithNuSMV generator;
+	
+	public NuSMVtestGenerator(String asmFilePath, boolean coverageTp) throws Exception {		
 		super(asmFilePath, coverageTp);
 		//Logger.getLogger(AsmetaLLoader.class).setLevel(Level.OFF);
 		//Logger.getLogger(CoverageEvaluatorC.class).setLevel(Level.OFF);
-		this.asmFile = asmFilePath;
+		assert new File(asmFilePath).exists();
 		asmCollection = ASMParser.setUpReadAsm(new File(asmFilePath));
+		generator = new TestGenerationWithNuSMV(asmFilePath); 
 	}
 
 	@Override
-	protected AsmTestSuite generateTestforASM(AsmCoverage ct) throws Exception{
-		return generateTestforASM(ct, null);
+	protected AsmTestSuite generateTestforASM() throws Exception{
+		return generateTestforASM(null);
 	}
 	
 	
-	protected AsmTestSuite generateTestforASM(AsmCoverage ct, FileWriter fw) throws Exception {
-		assert new File(asmFile).exists();
-		///
-		TestGenerationWithNuSMV n = new TestGenerationWithNuSMV(asmFile); 
+	protected AsmTestSuite generateTestforASM(FileWriter fw) throws Exception {		
 		// specific to NUSMV
 		AsmTestSuite asmTestSuite = new AsmTestSuite();
 		logger.info("generating tests for tps (" + ct.getNumberofTPs()+")");
@@ -69,7 +67,7 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 			logger.info("generation for TP " + tp.getName() + " -" + tp.getCondition() + " " + tp.getStatusDescription());
 			if (tp.getStatus() == TestConditionState.Queued) {
 				//
-				Counterexample test = n.checkTpWithModelChecker(tp.getCondition());
+				Counterexample test = generator.checkTpWithModelChecker(tp.getCondition());
 				if (test == null) {
 					String msg="test generation failed - show never happen";
 					logger.error(msg);

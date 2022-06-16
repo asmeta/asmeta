@@ -1,6 +1,9 @@
 package org.asmeta.atgt.generator;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -37,6 +40,7 @@ public class ConverterCounterExample {
 	public static AsmTestSequence convert(Counterexample test, ASMSpecification spec, AsmTestCondition tc) {
 		return convert(test, spec, tc, IncludeUnchangedVariables);
 	}
+//	static List<IdExpression> functions = new ArrayList<>();
 	
 	public static AsmTestSequence convert(Counterexample test, ASMSpecification spec, AsmTestCondition tc, boolean includeUnchangedVariables) {
 		//
@@ -63,7 +67,9 @@ public class ConverterCounterExample {
 				// it can be a function
 				if (var.contains("_")) {
 					String funName = var.substring(0, var.indexOf('_'));
-					if (spec.getFunction(funName) != null){						
+					if (spec.getFunction(funName) != null){
+						// cannot be a function
+						assert !funName.contains("(");
 						asmTestSequence.addAssignment(var, val, Location.VarKind.CONTROLLED);
 						continue;
 					}
@@ -71,9 +77,16 @@ public class ConverterCounterExample {
 				if (var.contains("(")) {
 					String funName = var.substring(0, var.indexOf('('));
 					Function function = spec.getFunction(funName);
+//					IdExpression id = function.getIdExpression();
+//					System.err.println(id.getIdString() + " " + System.identityHashCode(id));
+//					functions.add(id);
+//					System.out.println(functions);
+//					functions.stream().forEach(x -> System.out.println(x.hashCode()));
+//					functions.stream().forEach(x -> System.out.println(System.identityHashCode(x)));
+//					functions.stream().forEach(x -> System.out.println(System.identityHashCode(x.getType())));
 					if (function != null){
 						FunctionTerm ft = ConverterCounterExample.extractFunctionTerm(var, spec);
-						// TODO let asmtest sequence accept also function
+						// TODO let asmtest sequence accept also function		
 						asmTestSequence.addAssignment(ft, val, function.getVarKind());
 						continue;
 					}

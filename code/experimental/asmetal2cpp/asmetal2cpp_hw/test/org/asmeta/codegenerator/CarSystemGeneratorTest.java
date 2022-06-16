@@ -20,9 +20,11 @@ import asmeta.structure.Asm;
 
 public class CarSystemGeneratorTest {
 
+	final static String EXAMPLE_DIR = "../asmetal2cpp_codegen/examples/ABZ2020_FOR_TESTS/"; 
+	
 	@Test
 	public void CarSystem004_hw_test() throws IOException,Exception {
-		String destinationFolder = "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem004/";
+		String destinationFolder = EXAMPLE_DIR + "CarSystemModule/CarSystem004/";
 		String jsonFilePath = destinationFolder + "CarSystem004main.u2c";
 		String asmFilePath = destinationFolder + "CarSystem004main.asm";
 		test_hw(asmFilePath,jsonFilePath,destinationFolder);
@@ -30,7 +32,7 @@ public class CarSystemGeneratorTest {
 	
 	@Test
 	public void CarSystem004_ino_test() throws IOException,Exception {
-		String destinationFolder = "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem004/";
+		String destinationFolder =  EXAMPLE_DIR + "CarSystemModule/CarSystem004/";
 		String asmFilePath = destinationFolder + "CarSystem004main.asm";
 		String jsonFilePath = destinationFolder + "CarSystem004main.u2c";
 		test_ino(asmFilePath,jsonFilePath, destinationFolder);

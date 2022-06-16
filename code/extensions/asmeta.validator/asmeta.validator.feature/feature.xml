@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.validator.feature"
       label="Asmeta validator"
-      version="21.06"
+      version="22.04"
       provider-name="fmse.di.unimi.it">
 
    <description>

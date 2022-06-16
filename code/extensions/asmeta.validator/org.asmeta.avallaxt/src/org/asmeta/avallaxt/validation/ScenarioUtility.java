@@ -6,9 +6,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.asmeta.avallaxt.avallaXt.Block;
-import org.asmeta.avallaxt.avallaXt.Element;
-import org.asmeta.avallaxt.avallaXt.Scenario;
+import org.asmeta.avallaxt.avalla.Block;
+import org.asmeta.avallaxt.avalla.Element;
+import org.asmeta.avallaxt.avalla.Scenario;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;

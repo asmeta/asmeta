@@ -60,7 +60,7 @@ public class AsmTSGeneratorTab extends AbstractLaunchConfigurationTab {
 		composite_uses.setLayout(null);
 		btnCoverageTp = new Button(composite_uses, SWT.CHECK);
 		btnCoverageTp.setBounds(3, 3, 200, 16);
-		btnCoverageTp.setText("Enable coverage");
+		btnCoverageTp.setText("Enable monitoring (skip covered)");
 		btnCoverageTp.addSelectionListener(defaultSelectionListener);
 
 		// Create the coverage criteria options

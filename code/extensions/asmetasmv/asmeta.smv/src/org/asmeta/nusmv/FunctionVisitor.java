@@ -49,7 +49,9 @@ public class FunctionVisitor {
 			function.equals("-") || function.equals("!") || function.equals("&")
 			|| function.equals("|") || function.equals("xor") || function.equals("->")
 			|| function.equals("<->") || function.equals("mod")
-			|| function.equals("+") || function.equals("*")|| function.equals("idiv");
+			|| function.equals("+") || function.equals("*")|| function.equals("idiv")
+			// real division "div" is supported in nuxmsv
+			|| function.equals("div")|| function.equals("/");
 	}
 
 	/**
@@ -390,10 +392,11 @@ public class FunctionVisitor {
 			else {
 				return minusBinary(argsTerm);
 			}
+		} 
+		if(function.equals("div") || function.equals("/")) {
+			return div(argsTerm);
 		}
-		else {
-			return "";
-		}
+		throw new RuntimeException(function + " not translable");
 	}
 
 	/**
@@ -725,6 +728,22 @@ public class FunctionVisitor {
 		}
 		return Util.setPars(left + " + " + right);
 	}
+	
+	/**
+	 * Executes the implies function.
+	 * 
+	 * @param argsTerm the args term
+	 * 
+	 * @return the string
+	 * 
+	 * @throws Exception the exception
+	 */
+	private String div(List<Term> argsTerm) throws Exception {
+		String left = env.tv.visit(argsTerm.get(0));
+		String right = env.tv.visit(argsTerm.get(1));
+		return Util.setPars(left + " / " + right);
+	}
+
 
 	/**
 	 * Executes the multiply function.

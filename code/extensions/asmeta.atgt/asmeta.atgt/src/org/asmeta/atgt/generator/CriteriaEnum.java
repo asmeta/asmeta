@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.asmeta.atgt.generator.combinatorial.AsmDataExtractor;
+import org.asmeta.atgt.generator.combinatorial.AsmAllDataExtractor;
 
 import atgt.combinatorial.AsmCombCovBuilder;
 import atgt.combinatorial.NWiseCoverage;
@@ -19,6 +19,7 @@ import atgt.coverage.CompleteRuleVisitor;
 import atgt.coverage.MCDCCoverage;
 import atgt.coverage.RuleGuardVisitor;
 import atgt.coverage.RuleUpdateVisitor;
+import atgt.generator.AsmMonitoredDataExtractor;
 import atgt.specification.ASMSpecification;
 import extgt.coverage.combinatorial.NWiseCovBuilder;
 
@@ -36,21 +37,24 @@ public enum CriteriaEnum {
 	MCDC("MCDC",MCDCCoverage.getCoverage()),
 	// combinatorial
 	COMBINATORIAL_MON("pairwise monitored", AsmCombCovBuilder.get(AsmCombCovBuilder.makePairwiseCovBuilder())),
-	COMBINATORIAL_ALL("pairwise all", org.asmeta.atgt.generator.combinatorial.AsmDataExtractor.getAsmCombCovBuilder()),
+	COMBINATORIAL_ALL("pairwise all", org.asmeta.atgt.generator.combinatorial.AsmAllDataExtractor.getAsmCombCovBuilder()),
 	
-	THREEWISE("3wise", triwiseCoveBuilder());
+	THREEWISE_ALL("3wise", triwiseCoveBuilder(true)),
+	THREEWISE_MON("3wise", triwiseCoveBuilder(false));
 
-	/** TOFIX: temp per avere una AsmCoverageBuilder a partrie da una sottoclasse generica*/
-	private static AsmCoverageBuilder triwiseCoveBuilder() {
+	/** TOFIX: temp per avere una AsmCoverageBuilder a partrie da una sottoclasse generica
+	 * @param all (monitored and controlled)  if false only monitroed*/
+	private static AsmCoverageBuilder triwiseCoveBuilder(final boolean all) {
+		AsmMonitoredDataExtractor extractor = all? AsmAllDataExtractor.INSTANCE : AsmMonitoredDataExtractor.getMonitoredDataExtractor();
 		NWiseCovBuilder<ASMSpecification, AsmTestCondition, NWiseCoverage> cov = new NWiseCovBuilder<ASMSpecification, AsmTestCondition, NWiseCoverage>(
-				3, new AsmDataExtractor(){},
+				3, extractor,
 				NWiseCoverage.factory, NWiseEqTestCondition.factory);
 		
 		return new AsmCoverageBuilder() {
 
 			@Override
 			public String getCoveragePrefix() {
-				return"3-WISE";
+				return"3-WISE" + (all? "w all" : "mon");
 			}
 
 			@Override

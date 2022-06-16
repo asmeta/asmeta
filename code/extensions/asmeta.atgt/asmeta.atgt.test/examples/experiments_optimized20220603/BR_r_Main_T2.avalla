@@ -1,0 +1,28 @@
+scenario BR_r_Main_T2
+
+load ./examples\mvm0.asm
+
+//// test name test@BR_r_Main_T2
+//// generated for (test goal): BR_r_Main_T2: poweroff
+check durationTIMER_INSPIRATION_DURATION_MS = 2;
+check durationTIMER_TRIGGERWINDOWDELAY_MS = 1;
+check expiredTIMER_EXPIRATION_DURATION_MS = false;
+check start(TIMER_TRIGGERWINDOWDELAY_MS) = 0;
+check expiredTIMER_INSPIRATION_DURATION_MS = false;
+check start(TIMER_EXPIRATION_DURATION_MS) = 0;
+check oValve = OPEN;
+check durationTIMER_EXPIRATION_DURATION_MS = 4;
+check iValve = CLOSED;
+check stopVentilationRequested = false;
+check state = MAIN_REGION_STARTUP;
+check start(TIMER_INSPIRATION_DURATION_MS) = 0;
+check expiredTIMER_TRIGGERWINDOWDELAY_MS = false;
+check time = 0;
+set poweroff := true;
+step
+check state = OFF;
+check expiredTIMER_TRIGGERWINDOWDELAY_MS = true;
+check time = 1;
+set poweroff := false;
+set stopVentilation := false;
+step

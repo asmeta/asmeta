@@ -3,8 +3,8 @@
 <plugin>
 	<extension point="org.eclipse.emf.ecore.generated_package">
 		<package
-			uri = "http://www.asmeta.org/AvallaXt"
-			class = "org.asmeta.avallaxt.avallaXt.AvallaXtPackage"
+			uri = "http://www.asmeta.org/avallaxt/Avalla"
+			class = "org.asmeta.avallaxt.avalla.AvallaPackage"
 			genModel = "model/generated/Avalla.genmodel" />
 	</extension>
 </plugin>

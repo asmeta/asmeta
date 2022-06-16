@@ -27,6 +27,9 @@ public abstract class AsmTestGenerator {
 
 	protected final ASMSpecification spec;
 
+	// the coverage tree built according to some criteria
+	protected AsmCoverage ct;
+
 	protected ASMSpecification getSpec() {
 		return spec;
 	}
@@ -42,7 +45,7 @@ public abstract class AsmTestGenerator {
 	public static final boolean DEFAULT_COMPUTE_COVERAGE = true;
 
 	public AsmTestGenerator(String asmfile, boolean coverageTp) throws ParseException {
-		assert new File(asmfile).exists();
+		assert new File(asmfile).exists() : asmfile + "not existing";
 		// read the spec
 		spec = new AsmetaLLoader().read(new File(asmfile));
 		// should never happen because read will throw its own exception
@@ -62,29 +65,37 @@ public abstract class AsmTestGenerator {
 	 * @return the asm test suite
 	 * @throws Exception
 	 */
-	abstract protected AsmTestSuite generateTestforASM(AsmCoverage ct) throws Exception;
+	abstract protected AsmTestSuite generateTestforASM() throws Exception;
 
 	/**
-	 * 
-	 * @param maxTests
-	 * @param regex
+	 * generate the test starting from the CovergaeTree fo tps already generated
 	 * @return
 	 * @throws Exception
 	 */
-	public AsmTestSuite generateAbstractTests(MBTCoverage criteria, int maxTests, String regex) throws Exception {
+	public AsmTestSuite generateTests() throws Exception {
+		// generate tests
+		AsmTestSuite ts = generateTestforASM();
+		assert ts != null;
+		return ts;
+	}
+
+	/**
+	 * Builds the TP tree and queue all the tp according to the regex
+	 *
+	 * @param criteria the criteria
+	 * @param maxTests the max tests
+	 * @param regex the regex
+	 */
+	public void buildTPTree(MBTCoverage criteria, int maxTests, String regex) {
 		logger.debug("generating the tp tree for criteria " + criteria.getCoveragePrefix());
 		// build the tree depending on the criteria
-		AsmCoverage ct = criteria.getTPTree(spec);
+		ct = criteria.getTPTree(spec);
 		// queue tps
-		quequeTPs(maxTests, ct, regex);
+		quequeTPs(maxTests, regex);
 		// print them
 		for (AsmTestCondition tp : ct.allTPs()) {
 			logger.debug(tp.getName() + "\t" + tp.getCondition());
 		}
-		// generate tests
-		AsmTestSuite ts = generateTestforASM(ct);
-		assert ts != null;
-		return ts;		
 	}
 	
 	/**
@@ -96,12 +107,14 @@ public abstract class AsmTestGenerator {
 	 */
 	public AsmTestSuite generateAbstractTests(int maxTests, String regex) throws Exception {
 		// collect the coverage criteria
-		return generateAbstractTests(new MBTCoverage(DEFAULT_COV_BUILDER), maxTests, regex);
+		buildTPTree(new MBTCoverage(DEFAULT_COV_BUILDER), maxTests, regex);
+		return generateTests();
 	}
 
 
 	public AsmTestSuite generateAbstractTests(Collection<AsmCoverageBuilder> coverageCriteria, int maxTests, String regex) throws Exception {
-		return generateAbstractTests(new MBTCoverage(coverageCriteria), maxTests, regex);
+		buildTPTree(new MBTCoverage(coverageCriteria), maxTests, regex);
+		return generateTests();
 	}
 
 	
@@ -111,7 +124,7 @@ public abstract class AsmTestGenerator {
 	 * @param ct
 	 * @param regex
 	 */
-	protected void quequeTPs(int maxNTP, AsmCoverage ct, String regex) {
+	protected void quequeTPs(int maxNTP, String regex) {
 		// queue all TPs
 		int i = 1;
 		for (Iterator<AsmTestCondition> iterator = ct.allTPs().iterator(); iterator.hasNext() && i <= maxNTP;) {

@@ -4,8 +4,8 @@
 package org.asmeta.avallaxt.tests.syntax
 
 import com.google.inject.Inject
-import org.asmeta.avallaxt.avallaXt.Exec
-import org.asmeta.avallaxt.avallaXt.Scenario
+import org.asmeta.avallaxt.avalla.Exec
+import org.asmeta.avallaxt.avalla.Scenario
 import org.asmeta.avallaxt.tests.AvallaInjectorProvider
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner

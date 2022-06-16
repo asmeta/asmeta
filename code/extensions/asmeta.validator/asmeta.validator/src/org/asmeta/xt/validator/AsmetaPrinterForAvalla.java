@@ -2,6 +2,7 @@ package org.asmeta.xt.validator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,8 +17,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
-import org.asmeta.avallaxt.avallaXt.Invariant;
-import org.asmeta.avallaxt.avallaXt.Set;
+import org.asmeta.avallaxt.avalla.Invariant;
+import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
 import org.asmeta.parser.Utility;
@@ -89,11 +90,12 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	}
 
 	
-	
-	
 	public void visit(Asm asm) {
-		// add a comment
-		println("// translation of the asm (for avalla) " + asmPath.normalize().toString());
+		// add a comment - careful, since the "u" cannot be escaped even in the comments,
+		// if there is a directory staring with it gets an error
+		String filename = asmPath.normalize().toUri().toString();
+		println("// translation of the asm (for avalla) " + filename);
+		System.err.println(filename);
 		super.visit(asm);
 	}
 	
