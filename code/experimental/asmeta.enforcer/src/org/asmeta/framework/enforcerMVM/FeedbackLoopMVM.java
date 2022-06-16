@@ -21,15 +21,15 @@ public class FeedbackLoopMVM extends FeedbackLoop{
 	public FeedbackLoopMVM(Probe probe, Effector effector, Knowledge k){
 		super(probe, effector, k);
 		kMVM= (KnowledgeMVM) this.getKnowledge();
-		probe = (MVM) this.getProbe();  //TODO
-		effector = (MVM) this.getEffector(); //TODO
-		
+		this.probe = (MVM) this.getProbe();  //TODO
+		this.effector = (MVM) this.getEffector(); //TODO	
 	}
 
 	@Override
 	public void monitor() {
 		//Read and save the observed probe values from the PillBox into the knowledge
 		//and check if system changed
+		
 		if (kMVM.systemStateChanged(probe.getOutputForProbing())) 
 			//if system changed, perform analysis (enforcement by adaptation)
 			analysis();
@@ -67,19 +67,9 @@ public class FeedbackLoopMVM extends FeedbackLoop{
 			Map<String, String> tmp = new HashMap<>();
 			//iterating over keys only and selects those location values for the effectors 
 		    for (String key : result.getControlledvalues().keySet()) {
-		        if ( key.startsWith("setNewTime") || key.startsWith("newTime") || key.startsWith("skipNextPill") || key.startsWith("setOriginalTime")) 
+		        if ( key.startsWith("watchdog_st") || key.startsWith("status_selftest") || key.startsWith("al_bit") || key.startsWith("respirationMode_out")|| key.startsWith("exp_valve")|| key.startsWith("insp_valve")) 
 		        	tmp.put(key,result.getControlledvalues().get(key));	
 		     }
-		    if (! tmp.isEmpty()) { //to add the other monitored locations as required in input by the Pillbox
-	    	//iterating over keys of the input stored into the knowledge and selects those starting with "systemTime" and "openSwitch"
-		    for (String key : kMVM.getInput().keySet()) {
-		        if (key.startsWith("openSwitch") || key.startsWith("systemTime") )
-		        	tmp.put(key,kMVM.getInput().get(key));	
-	        }
-  		    //Add locations in the effectors (they are monitored for Pillbox!) only if not changed! 
-		    //Namely: setNewTime, newTime, skipNextPill, setOriginalTime
-		    //TODO Patrizia: forse non necessario qui, ma nel metodo run della classe PillBoxNotSing.java
-		    }
 		    
 			kMVM.setEffectors(tmp);
 			System.out.println("Enforcer output for effectors:~$ "+ tmp.toString());
@@ -90,12 +80,10 @@ public class FeedbackLoopMVM extends FeedbackLoop{
 		
 		}
 	}
-	
-	
-	
+		
 	@Override
 	public void execution() {
-		//If enforcement is required, force the system as planned by actuating the Pillbox effectors 
+		//If enforcement is required, force the system as planned by actuating the MVM effectors 
   	    if (! kMVM.getEffectors().isEmpty()) {
   	  	   System.out.println("The MVM returns into a safe state with the enforced input:~$ "+kMVM.getEffectors().toString());
   	       effector.run(kMVM.getEffectors()); //the managed system runs again to return in a safe region

@@ -17,7 +17,6 @@ public class EnforcerMVM extends Enforcer {
 		super(system, k, l);
 		
 	}
-
 	
 	//First init step for the ASM enforcement model with the actual knowledge of the MVM state 
 		public Map<String, String> initStep (String input) {
