@@ -146,6 +146,10 @@ public class GenerateTestsFromFSM {
 		List<AsmCoverageBuilder> covBuilders = CriteriaEnum.getCoverageCriteria(criteria);
 		generator.buildTPTree(new MBTCoverage(covBuilders),0,"");
 	}
+	
+	public void setAllTpToBeCovered() {
+		this.generator.setAllTpToBeCovered();
+	}
 
 	public void generate(String destinationPath, String regexTp, int maxNTP) throws Exception {
 //		String fileOutputName = inputASMName + "_"

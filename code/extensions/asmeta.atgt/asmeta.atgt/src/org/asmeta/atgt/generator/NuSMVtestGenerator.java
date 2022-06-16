@@ -151,4 +151,10 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 		fw.flush();
 		System.out.println(s);
 	}
+	
+	public void setAllTpToBeCovered() {
+		for (AsmTestCondition tp : ct.allTPs()) {
+			tp.reset();
+		}
+	}
 }
