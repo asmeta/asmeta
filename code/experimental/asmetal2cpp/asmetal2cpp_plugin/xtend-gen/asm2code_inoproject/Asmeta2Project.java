@@ -14,13 +14,13 @@ import org.eclipse.xtext.generator.IGenerator;
 @SuppressWarnings("all")
 public class Asmeta2Project implements IGenerator {
   private CppGenerator cppGen;
-  
+
   private HeaderGenerator hGen;
-  
+
   private HWIntegrationGenerator hwGen;
-  
+
   private InoGenerator inoGen;
-  
+
   public Asmeta2Project(final HWConfiguration config) {
     CppGenerator _cppGenerator = new CppGenerator();
     this.cppGen = _cppGenerator;
@@ -31,7 +31,7 @@ public class Asmeta2Project implements IGenerator {
     InoGenerator _inoGenerator = new InoGenerator(config);
     this.inoGen = _inoGenerator;
   }
-  
+
   public Path generateAll(final Asm model, final String destinationPath, final String destinationName) {
     Path _xblockexpression = null;
     {
@@ -42,7 +42,7 @@ public class Asmeta2Project implements IGenerator {
     }
     return _xblockexpression;
   }
-  
+
   @Override
   public void doGenerate(final Resource input, final IFileSystemAccess fsa) {
     throw new UnsupportedOperationException("TODO: auto-generated method stub");

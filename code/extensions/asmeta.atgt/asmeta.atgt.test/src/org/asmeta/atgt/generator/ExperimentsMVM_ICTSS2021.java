@@ -189,7 +189,7 @@ public class ExperimentsMVM_ICTSS2021 {
 			Timer timer = new java.util.Timer();
 			timer.schedule(task, TIMEOUT_MS);
 			// run nusmv
-			AsmTestSuite ts = nuSMVtestGenerator.generateTestforASM(ct, fw);
+			AsmTestSuite ts = nuSMVtestGenerator.generateTestforASM(fw);
 			assert ts != null;
 			assert ts.getTests().size() == 1;
 			Instant finish = Instant.now();
@@ -484,12 +484,13 @@ public class ExperimentsMVM_ICTSS2021 {
 	
 	@Test
 	public void test() throws Exception {
-		// questop fallisce perchè creo due volte il test generator
+		// questo falliva perchè creo due volte il test generator
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
-		List<CriteriaEnum> singletonList = Arrays.asList(CriteriaEnum.COMPLETE_RULE);
-		new GenerateTestsFromFSM().saveAbstractTests("mvm0", "examples/mvm0.asm", true, singletonList, "temp");
-		singletonList = Arrays.asList(CriteriaEnum.MCDC);
-		new GenerateTestsFromFSM().saveAbstractTests("mvm0", "examples/mvm0.asm", true, singletonList, "temp");
+		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.DEBUG);
+		List<CriteriaEnum> criteria = Arrays.asList(CriteriaEnum.COMPLETE_RULE,CriteriaEnum.MCDC);		
+		GenerateTestsFromFSM gen = new GenerateTestsFromFSM("mvm0", "examples/mvm0.asm",true,false, false, criteria);
+		//
+		gen.generate("temp", CriteriaEnum.COMPLETE_RULE.getAbbrvName()+".*", Integer.MAX_VALUE);
 	}
 	
 }

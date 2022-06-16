@@ -54,12 +54,12 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 	}
 
 	@Override
-	protected AsmTestSuite generateTestforASM(AsmCoverage ct) throws Exception{
-		return generateTestforASM(ct, null);
+	protected AsmTestSuite generateTestforASM() throws Exception{
+		return generateTestforASM(null);
 	}
 	
 	
-	protected AsmTestSuite generateTestforASM(AsmCoverage ct, FileWriter fw) throws Exception {		
+	protected AsmTestSuite generateTestforASM(FileWriter fw) throws Exception {		
 		// specific to NUSMV
 		AsmTestSuite asmTestSuite = new AsmTestSuite();
 		logger.info("generating tests for tps (" + ct.getNumberofTPs()+")");
