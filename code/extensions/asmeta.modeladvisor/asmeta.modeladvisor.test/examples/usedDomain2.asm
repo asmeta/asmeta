@@ -1,6 +1,6 @@
 asm usedDomain2
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	enum domain EnumDom = {AA | BB | CC}//AA e CC usati nel dominio di funzioni

@@ -2,7 +2,7 @@
 
 asm exampleWrongFail
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	// DOMAINS

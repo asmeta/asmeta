@@ -1,7 +1,7 @@
 //il trivial update e il couldBeStatic coincidono?
 asm trivialUpdate
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	enum domain EnumDom = {AA | BB | CC}

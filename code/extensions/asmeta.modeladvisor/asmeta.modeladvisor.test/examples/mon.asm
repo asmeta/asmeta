@@ -1,7 +1,7 @@
 asm mon
 
-import ../../../../asm_examples/STDL/StandardLibrary
-import ../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/CTLlibrary
 
 signature:
 	dynamic controlled fooA : Boolean

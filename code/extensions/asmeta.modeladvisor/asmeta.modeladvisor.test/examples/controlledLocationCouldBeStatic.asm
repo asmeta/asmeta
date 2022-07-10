@@ -2,7 +2,7 @@
 //La locazione deve essere letta almeno una volta; in caso contrario pensiamo che debba essere eliminata.
 asm controlledLocationCouldBeStatic
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	enum domain EnumDom = {AA | BB | CC}
