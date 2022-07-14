@@ -24,7 +24,7 @@ public class AvallaFormatter extends AbstractFormatter2 {
   @Inject
   @Extension
   private AvallaGrammarAccess _avallaGrammarAccess;
-  
+
   /**
    * def dispatch void format(Scenario scenario, extension IFormattableDocument document) {
    * // TODO: format HiddenRegions around keywords, attributes, cross references, etc.
@@ -59,14 +59,14 @@ public class AvallaFormatter extends AbstractFormatter2 {
       document.<Element>format(element);
     }
   }
-  
+
   protected void _format(final Command command, @Extension final IFormattableDocument document) {
     final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
       it.newLine();
     };
     document.<Command>prepend(command, _function);
   }
-  
+
   public void format(final Object block, final IFormattableDocument document) {
     if (block instanceof XtextResource) {
       _format((XtextResource)block, document);

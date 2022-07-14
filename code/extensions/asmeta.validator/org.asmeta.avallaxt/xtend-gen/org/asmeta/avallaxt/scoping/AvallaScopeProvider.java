@@ -3,8 +3,6 @@
  */
 package org.asmeta.avallaxt.scoping;
 
-import org.asmeta.avallaxt.scoping.AbstractAvallaScopeProvider;
-
 /**
  * This class contains custom scoping description.
  * 

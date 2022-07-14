@@ -3,8 +3,6 @@
  */
 package org.asmeta.avallaxt.serializer;
 
-import org.asmeta.avallaxt.serializer.AbstractAvallaSemanticSequencer;
-
 @SuppressWarnings("all")
 public class AvallaSemanticSequencer extends AbstractAvallaSemanticSequencer {
 }

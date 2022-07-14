@@ -3,8 +3,6 @@
  */
 package org.asmeta.avallaxt;
 
-import org.asmeta.avallaxt.AbstractAvallaRuntimeModule;
-
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */

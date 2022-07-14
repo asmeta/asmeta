@@ -27,8 +27,6 @@ import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.ExecBlock;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.avalla.Set;
-import org.asmeta.avallaxt.validation.AbstractAvallaValidator;
-import org.asmeta.avallaxt.validation.ScenarioUtility;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ImportNotFoundException;
 import org.asmeta.parser.ParseException;
@@ -48,13 +46,13 @@ import org.eclipse.xtext.xbase.lib.InputOutput;
 @SuppressWarnings("all")
 public class AvallaValidator extends AbstractAvallaValidator {
   private AsmCollection asmCollection;
-  
+
   private List<String> monFunNames;
-  
+
   private List<String> controlledFunNames;
-  
+
   private List<String> sharedFunNames;
-  
+
   @Check
   public void checkLoadASMexists(final Scenario scenario) {
     boolean _startsWith = scenario.getSpec().startsWith("\"");
@@ -98,7 +96,7 @@ public class AvallaValidator extends AbstractAvallaValidator {
       }
     }
   }
-  
+
   public List<String> setAsmCollection(final AsmCollection collection) {
     List<String> _xblockexpression = null;
     {
@@ -132,7 +130,7 @@ public class AvallaValidator extends AbstractAvallaValidator {
     }
     return _xblockexpression;
   }
-  
+
   @Check
   public void checkSetLocation(final Set set) {
     if ((this.asmCollection == null)) {
@@ -156,7 +154,7 @@ public class AvallaValidator extends AbstractAvallaValidator {
       }
     }
   }
-  
+
   @Check
   public void checkBlock(final Block b) {
     final Scenario s = this.getScenario(b);
@@ -171,7 +169,7 @@ public class AvallaValidator extends AbstractAvallaValidator {
       this.error(_plus_1, AvallaPackage.Literals.BLOCK__NAME);
     }
   }
-  
+
   public Scenario getScenario(final Element b) {
     EObject _eContainer = b.eContainer();
     if ((_eContainer instanceof Scenario)) {
@@ -182,7 +180,7 @@ public class AvallaValidator extends AbstractAvallaValidator {
       return this.getScenario(((Element) _eContainer_2));
     }
   }
-  
+
   @Check
   public void checkExecBlock(final ExecBlock eb) {
     try {

@@ -3,8 +3,6 @@
  */
 package org.asmeta.avallaxt;
 
-import org.asmeta.avallaxt.AvallaStandaloneSetupGenerated;
-
 /**
  * Initialization support for running Xtext languages without Equinox extension registry.
  */
