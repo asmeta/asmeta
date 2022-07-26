@@ -17,24 +17,24 @@ import org.asmeta.parser.util.ReflectiveVisitor;
 @SuppressWarnings("all")
 public class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
   Integer numStaticParam;
-  
+
   private Asm res;
-  
+
   private boolean leftHandSide;
-  
+
   public TermToJavaSupportoProdMap(final Asm resource) {
     this(resource, false);
   }
-  
+
   public TermToJavaSupportoProdMap(final Asm resource, final boolean leftHandSide) {
     this.res = resource;
     this.leftHandSide = leftHandSide;
   }
-  
+
   public String visit(final VariableTerm term) {
     return term.getName();
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE
    * def String visit(ComplexTerm term) {
@@ -54,7 +54,7 @@ public class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
   public String visit(final LocationTerm term) {
     return this.visit(((FunctionTerm) term));
   }
-  
+
   public String visit(final FunctionTerm term) {
     Object _xblockexpression = null;
     {
@@ -83,7 +83,7 @@ public class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
     }
     return ((String)_xblockexpression);
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE
    * def dispatch String caseFunctionTermSupp(FunctionDefinition fd, FunctionTerm ft) {
@@ -190,7 +190,7 @@ public class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
     }
     return null;
   }
-  
+
   public Boolean controllo(final Domain dom) {
     if ((dom instanceof ConcreteDomain)) {
       return Boolean.valueOf(true);

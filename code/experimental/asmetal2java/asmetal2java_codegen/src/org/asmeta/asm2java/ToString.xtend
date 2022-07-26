@@ -54,7 +54,7 @@ class ToString extends ReflectiveVisitor<String> {
 		return "Integer"
 	}
 	
-	//Non cambio il tipo perchè non trovo una classe come NAtural, però se ASM compila la conseguenza è che 
+	//Non cambio il tipo perchÂ» non trovo una classe come NAtural, perÂ» se ASM compila la conseguenza Â» che 
 	//tutti i valori sono >=0
 	def String visit(NaturalDomain domain) {
 		return "Integer"
@@ -68,21 +68,21 @@ class ToString extends ReflectiveVisitor<String> {
 	
 	def String visit(PowersetDomain object) {
 		var StringBuffer sb = new StringBuffer
-			sb.append('''«new DomainToJavaSigDef(res).visit(object)»''')
+			sb.append('''Â«new DomainToJavaSigDef(res).visit(object)Â»''')
 		return sb.toString
 	}
 
 	
 	def String visit(SequenceDomain object) {
 		var StringBuffer sb = new StringBuffer
-			sb.append('''«new DomainToJavaSigDef(res).visit(object)»''')
+			sb.append('''Â«new DomainToJavaSigDef(res).visit(object)Â»''')
 		return sb.toString
 	}
 	
 	def String visit(AbstractTd object) {
 		var StringBuffer sb = new StringBuffer
-		     sb.append('''«object.name»''')
-			//sb.append('''«new DomainToJava(res,pointer).visit(object)»''')
+		     sb.append('''Â«object.nameÂ»''')
+			//sb.append('''Â«new DomainToJava(res,pointer).visit(object)Â»''')
 		return sb.toString
 	}
 	
@@ -110,13 +110,13 @@ class ToString extends ReflectiveVisitor<String> {
 
 	def String visit(RuleDomain object) {
 		var StringBuffer sb = new StringBuffer
-			sb.append('''«new DomainToJavaSigDef(res).visit(object)»''')
+			sb.append('''Â«new DomainToJavaSigDef(res).visit(object)Â»''')
 		return sb.toString
 	}
 	
 	def String visit(ProductDomain object) {
 		var StringBuffer sb = new StringBuffer
-			sb.append('''«new DomainToJavaSigDef(res).visit(object)»''')
+			sb.append('''Â«new DomainToJavaSigDef(res).visit(object)Â»''')
 		return sb.toString
 	}
 	
@@ -147,14 +147,14 @@ class ToString extends ReflectiveVisitor<String> {
 	
 	def String visit(BagDomain object) {
 		var StringBuffer sb = new StringBuffer
-			sb.append('''«new DomainToH(res).visit(object)»''')
+			sb.append('''Â«new DomainToH(res).visit(object)Â»''')
 		return sb.toString
 	}
 	
 	
 	def String visit(MapDomain object) {
 		var StringBuffer sb = new StringBuffer
-			sb.append('''«new DomainToH(res).visit(object)»''')
+			sb.append('''Â«new DomainToH(res).visit(object)Â»''')
 		return sb.toString
 	}
 	*/

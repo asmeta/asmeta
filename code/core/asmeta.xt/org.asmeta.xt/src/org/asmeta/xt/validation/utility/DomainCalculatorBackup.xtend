@@ -115,7 +115,7 @@ class DomainCalculatorBackup {
 		var domain_term = Utility.getDomain( term.functionName )
 		if ( domain_term !== null ) return domain_term
 		
-		// TODO non basterà solo il metodo naive
+		// TODO non bastera' solo il metodo naive
 		var function = Utility.getFunctionByName( term.functionName )
 		
 		if ( function === null ) return null

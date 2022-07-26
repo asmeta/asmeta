@@ -23,7 +23,7 @@ class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
 		this(resource, false)
 	}
 
-    //Il boolean identifica se il termine è a sx o dx del :=
+    //Il boolean identifica se il termine Â» a sx o dx del :=
 	new(Asm resource, boolean leftHandSide) {
 		this.res = resource
 		this.leftHandSide = leftHandSide
@@ -65,13 +65,13 @@ class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
 		var StringBuffer functionTerm = new StringBuffer
 		var name = new Util().parseFunction(term.function.name)
 		
-		//Controllo se l'operatore è del tipo: &,|,<=,>=,<,>...
+		//Controllo se l'operatore Â» del tipo: &,|,<=,>=,<,>...
 		if (ExpressionToJava.hasEvaluateVisitor(name)) {
 			 
 
 		}
 		
-		//In questo caso l'operatore rilevato è := 
+		//In questo caso l'operatore rilevato Â» := 
 		 else {
             
             

@@ -27,20 +27,20 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 @SuppressWarnings("all")
 public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
   Integer numStaticParam;
-  
+
   private Asm res;
-  
+
   private boolean leftHandSide;
-  
+
   public TermToJavaSupportoConfronto(final Asm resource) {
     this(resource, false);
   }
-  
+
   public TermToJavaSupportoConfronto(final Asm resource, final boolean leftHandSide) {
     this.res = resource;
     this.leftHandSide = leftHandSide;
   }
-  
+
   public String visit(final VariableTerm term) {
     Domain _domain = term.getDomain();
     if ((_domain instanceof ConcreteDomain)) {
@@ -50,48 +50,48 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
       return term.getName();
     }
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE
    * def String visit(ComplexTerm term) {
-   * return "TODO"
+   * 	return "TODO"
    * }
    * 
    * def String visit(CharTerm term) {
-   * return term.symbol
+   * 	return term.symbol
    * }
    * 
    * 
    * 
    * def String visit(RealTerm term) {
-   * return term.symbol
+   * 	return term.symbol
    * }
    */
   public String visit(final IntegerTerm term) {
     return term.getSymbol();
   }
-  
+
   public String visit(final NaturalTerm term) {
     String _symbol = term.getSymbol();
     int _length = term.getSymbol().length();
     int _minus = (_length - 1);
     return _symbol.substring(0, _minus);
   }
-  
+
   public String visit(final StringTerm term) {
     String supp = new String("\"");
     String _symbol = term.getSymbol();
     String _plus = (supp + _symbol);
     return (_plus + supp);
   }
-  
+
   public String visit(final BooleanTerm term) {
     return term.getSymbol();
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE 	def String visit(UndefTerm term) {
-   * throw new Exception("Undefined term not supported");
+   * 		throw new Exception("Undefined term not supported");
    * }
    */
   public String visit(final EnumTerm term) {
@@ -100,11 +100,11 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
     String _symbol = term.getSymbol();
     return (_plus + _symbol);
   }
-  
+
   public String visit(final LocationTerm term) {
     return this.visit(((FunctionTerm) term));
   }
-  
+
   public String visit(final FunctionTerm term) {
     try {
       StringBuffer functionTerm = new StringBuffer();
@@ -130,35 +130,35 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE
-   * def dispatch String caseFunctionTermSupp(FunctionDefinition fd, FunctionTerm ft) {
-   * println("Warning: Function Definition not handled! function name: " + fd.definedFunction.name)
-   * return ""
-   * }
+   *  	def dispatch String caseFunctionTermSupp(FunctionDefinition fd, FunctionTerm ft) {
+   * 		println("Warning: Function Definition not handled! function name: " + fd.definedFunction.name)
+   * 		return ""
+   * 	}
    * 
    * 
    * 
-   * def dispatch String caseFunctionTermSupp(OutFunction fd, FunctionTerm ft) {
-   * var StringBuffer functionTerm = new StringBuffer
-   * if (ft.arguments !== null) {
-   * if (ft.arguments.terms.size == 1)
-   * functionTerm.append("[" + visit(ft.arguments.terms.get(0)) + "]")
-   * else {
-   * functionTerm.append("[make_tuple(")
-   * for (var i = 0; i < ft.arguments.terms.size; i++)
-   * functionTerm.append(visit(ft.arguments.terms.get(i)) + ", ")
+   * 	def dispatch String caseFunctionTermSupp(OutFunction fd, FunctionTerm ft) {
+   * 		var StringBuffer functionTerm = new StringBuffer
+   * 		if (ft.arguments !== null) {
+   * 			if (ft.arguments.terms.size == 1)
+   * 				functionTerm.append("[" + visit(ft.arguments.terms.get(0)) + "]")
+   * 			else {
+   * 				functionTerm.append("[make_tuple(")
+   * 				for (var i = 0; i < ft.arguments.terms.size; i++)
+   * 					functionTerm.append(visit(ft.arguments.terms.get(i)) + ", ")
    * 
-   * functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")]")
-   * }
-   * }
-   * return functionTerm.toString
-   * }
+   * 				functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")]")
+   * 			}
+   * 		}
+   * 		return functionTerm.toString
+   * 	}
    * 
-   * def dispatch String caseFunctionTermSupp(SharedFunction fd, FunctionTerm ft) {
-   * throw new RuntimeException("Shared Functions not yet supported")
-   * }
+   * 	def dispatch String caseFunctionTermSupp(SharedFunction fd, FunctionTerm ft) {
+   * 		throw new RuntimeException("Shared Functions not yet supported")
+   * 	}
    */
   public String caseFunctionTermSuppCont(final Function fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
@@ -207,7 +207,8 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
             String _plus_8 = (_plus_7 + "_s = new ");
             String _name_6 = ft.getDomain().getName();
             String _plus_9 = (_plus_8 + _name_6);
-            String _plus_10 = (_plus_9 + "();\n");
+            String _plus_10 = (_plus_9 + 
+              "();\n");
             functionTerm.append(_plus_10);
             String _name_7 = ft.getDomain().getName();
             String _plus_11 = (_name_7 + "_s.value = (//");
@@ -384,7 +385,7 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
     }
     return functionTerm.toString();
   }
-  
+
   protected String _caseFunctionTermSupp(final ControlledFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -457,7 +458,7 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
     }
     return functionTerm.toString();
   }
-  
+
   protected String _caseFunctionTermSupp(final MonitoredFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -512,7 +513,7 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
     }
     return functionTerm.toString();
   }
-  
+
   protected String _caseFunctionTermSupp(final DerivedFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -544,7 +545,7 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
     }
     return functionTerm.toString();
   }
-  
+
   protected String _caseFunctionTermSupp(final StaticFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -576,7 +577,7 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
     }
     return functionTerm.toString();
   }
-  
+
   public Boolean controllo(final Domain dom) {
     if ((dom instanceof ConcreteDomain)) {
       return Boolean.valueOf(true);
@@ -584,7 +585,7 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
       return Boolean.valueOf(false);
     }
   }
-  
+
   public String caseFunctionTermSupp(final Function fd, final FunctionTerm ft) {
     if (fd instanceof ControlledFunction) {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);

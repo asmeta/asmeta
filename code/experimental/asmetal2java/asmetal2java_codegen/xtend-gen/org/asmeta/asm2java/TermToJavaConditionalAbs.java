@@ -33,24 +33,24 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 @SuppressWarnings("all")
 public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
   Integer numStaticParam;
-  
+
   private Asm res;
-  
+
   private boolean leftHandSide;
-  
+
   public TermToJavaConditionalAbs(final Asm resource) {
     this(resource, false);
   }
-  
+
   public TermToJavaConditionalAbs(final Asm resource, final boolean leftHandSide) {
     this.res = resource;
     this.leftHandSide = leftHandSide;
   }
-  
+
   public String visit(final VariableTerm term) {
     return term.getName();
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE
    * def String visit(ComplexTerm term) {
@@ -71,7 +71,7 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
     String _symbol = term.getSymbol();
     return (" = " + _symbol);
   }
-  
+
   public String visit(final NaturalTerm term) {
     String _symbol = term.getSymbol();
     int _length = term.getSymbol().length();
@@ -79,17 +79,17 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
     String _substring = _symbol.substring(0, _minus);
     return (" = " + _substring);
   }
-  
+
   public String visit(final StringTerm term) {
     String _symbol = term.getSymbol();
     return (" = " + _symbol);
   }
-  
+
   public String visit(final BooleanTerm term) {
     String _symbol = term.getSymbol();
     return (" = " + _symbol);
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE 	def String visit(UndefTerm term) {
    * throw new Exception("Undefined term not supported");
@@ -102,11 +102,11 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
     String _symbol = term.getSymbol();
     return (_plus_1 + _symbol);
   }
-  
+
   public String visit(final ConditionalTerm object) {
     return null;
   }
-  
+
   public String visit(final CaseTerm object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -213,11 +213,11 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   public String visit(final TupleTerm object) {
     return null;
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE
    * def String visit(SequenceTerm object) {
@@ -234,11 +234,11 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
    * s = list.substring(0, list.length - 2) + "}"
    * return type+s
    * return '''
-   * «""»
+   * Â«""Â»
    * 
    * [](){
-   * auto v = «s»;
-   * list<decltype(«visit(object.terms.get(0))»)> l(v.begin(), v.end());
+   * auto v = Â«sÂ»;
+   * list<decltype(Â«visit(object.terms.get(0))Â»)> l(v.begin(), v.end());
    * return l;
    * }()'''
    * }
@@ -246,7 +246,7 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
   public String visit(final SetTerm object) {
     return null;
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE 	def String visit(BagTerm object) {
    * var StringBuffer type = new StringBuffer("")
@@ -257,11 +257,11 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
    * var s = bag.substring(0, bag.length - 2) + "}"
    * return type+s
    * return '''
-   * «""»
+   * Â«""Â»
    * 
    * [](){
-   * auto v = «s»;
-   * multiset<decltype(«visit(object.term.get(0))»)> ms(v.begin(), v.end());
+   * auto v = Â«sÂ»;
+   * multiset<decltype(Â«visit(object.term.get(0))Â»)> ms(v.begin(), v.end());
    * return ms;
    * }()'''
    * }
@@ -269,11 +269,11 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
   public String visit(final MapTerm object) {
     return null;
   }
-  
+
   public String visit(final ExistTerm object) {
     return null;
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE def String visit(ExistUniqueTerm object) {
    * return "TODO ExistTerm"
@@ -282,22 +282,22 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
   public String visit(final ForallTerm object) {
     return null;
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE 	def String visit(LetTerm object) {
    * var StringBuffer let = new StringBuffer
    * let.append(
    * '''
-   * «"\n"»
+   * Â»"\n"Â«
    * [&](){    **<--- letTerm
    * ''')
    * for (var int i = 0; i < object.variable.size; i++) {
-   * let.append('''	auto «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
+   * let.append('''	auto Â«visit(object.variable.get(i))Â» = Â«visit(object.assignmentTerm.get(i))Â»;
    * ''')
    * }
    * let.append(
    * '''
-   * return «visit(object.body)»;
+   * return Â«visit(object.body)Â»;
    * }()
    * ''')
    * 
@@ -307,7 +307,7 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
   public String visit(final SetCt term) {
     return null;
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE
    * def String visit(RuleAsTerm term) {
@@ -317,7 +317,7 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
   public String visit(final LocationTerm term) {
     return this.visit(((FunctionTerm) term));
   }
-  
+
   public String visit(final FunctionTerm term) {
     try {
       StringBuffer functionTerm = new StringBuffer();
@@ -334,7 +334,7 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   /**
    * TODO: DELETE FOR COVERAGE
    * def dispatch String caseFunctionTermSupp(FunctionDefinition fd, FunctionTerm ft) {
@@ -403,15 +403,15 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
     }
     return functionTerm.toString();
   }
-  
+
   protected String _caseFunctionTermSupp(final MonitoredFunction fd, final FunctionTerm ft) {
     return null;
   }
-  
+
   protected String _caseFunctionTermSupp(final DerivedFunction fd, final FunctionTerm ft) {
     return null;
   }
-  
+
   protected String _caseFunctionTermSupp(final StaticFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -439,7 +439,7 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
     }
     return functionTerm.toString();
   }
-  
+
   public String caseFunctionTermSupp(final Function fd, final FunctionTerm ft) {
     if (fd instanceof ControlledFunction) {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);

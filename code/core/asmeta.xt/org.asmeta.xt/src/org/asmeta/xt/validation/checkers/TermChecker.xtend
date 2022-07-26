@@ -560,7 +560,7 @@ class TermChecker {
 	}
 	
 	/**
-	 * Controllo che quello che c'è dentro lo switch abbia un dominio compatibile con quello che ho subito dopo il case
+	 * Controllo che quello che c'Ã¨ dentro lo switch abbia un dominio compatibile con quello che ho subito dopo il case
 	 */
 	def static isComparingTermOK(CaseTerm case_term) {
 		var String code = ErrorCode.CASE_TERM__COMPARED_AND_COMPARING_DOMAIN_NOT_COMPATIBLE

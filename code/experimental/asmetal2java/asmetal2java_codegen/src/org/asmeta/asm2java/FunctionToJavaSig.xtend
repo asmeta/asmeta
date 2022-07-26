@@ -38,36 +38,36 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			
 			
 			if (object.codomain instanceof AbstractTd)
-			    function.append('''static «returnDomain(object.codomain,true)» «object.name»;
+			    function.append('''static Â«returnDomain(object.codomain,true)Â» Â«object.nameÂ»;
 				''')
 			   
 			//Metodo per tradurre i comandi di tipo: static nomeFunzione: Prod(Tipo1,Tipo2,...)
 			else if(object.codomain instanceof ProductDomain)
-			    function.append('''static «new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»;
+			    function.append('''static Â«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»;
 			    ''') 
 			    
 		    //Metodo per tradurre i comandi di tipo: static nomeFunzione: Seq(Tipo)
 			else if(object.codomain instanceof SequenceDomain)
-			    function.append('''static List«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name» = new ArrayList«new DomainToJavaSigDef(res).visit(object.codomain)»();
+			    function.append('''static ListÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ» = new ArrayListÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 			    ''')
 			    
 			//Metodo per tradurre i comandi di tipo: static nomeFunzione: Powerset(Tipo)
 			else if(object.codomain instanceof PowersetDomain)
-			    function.append('''static Set«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name» = new HashSet«new DomainToJavaSigDef(res).visit(object.codomain)»();
+			    function.append('''static SetÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ» = new HashSetÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 			    ''')
 			    
 			//Metodo per tradurre i comandi di tipo: static nomeFunzione: Bag(Tipo)
 			else if(object.codomain instanceof BagDomain)
-			    function.append('''static Bag«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name» = new HashBag«new DomainToJavaSigDef(res).visit(object.codomain)»();
+			    function.append('''static BagÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ» = new HashBagÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 			    ''')
 			    
 		    //Metodo per tradurre i comandi di tipo: static nomeFunzione: Map(Tipo1,Tipo2)
 			else if(object.codomain instanceof MapDomain)
-			    function.append('''static Map«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name» = new HashMap«new DomainToJavaSigDef(res).visit(object.codomain)»();
+			    function.append('''static MapÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ» = new HashMapÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 			    ''')
 			
 			else
-				function.append('''abstract «returnDomain(object.codomain,false)» «object.name»();
+				function.append('''abstract Â«returnDomain(object.codomain,false)Â» Â«object.nameÂ»();
 				''')
 		} 
 		
@@ -75,15 +75,15 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		else {
 			if (object.domain instanceof ProductDomain)
 				function.
-					append('''abstract «returnDomain(object.codomain,false)» «object.name» («adaptProdDomain(object.domain as ProductDomain, object.name, true)»);
+					append('''abstract Â«returnDomain(object.codomain,false)Â» Â«object.nameÂ» (Â«adaptProdDomain(object.domain as ProductDomain, object.name, true)Â»);
 					''')
 		    else if (object.domain instanceof SequenceDomain)
 				function.
-					append('''abstract ArrayList«returnDomain(object.codomain,false)» «object.name» (ArrayList«returnParamDefinition(object.domain, object.name,true)»);
+					append('''abstract ArrayListÂ«returnDomain(object.codomain,false)Â» Â«object.nameÂ» (ArrayListÂ«returnParamDefinition(object.domain, object.name,true)Â»);
 					''')
 			else
 				function.
-					append('''abstract «returnDomain(object.codomain,false)» «object.name» («returnParamDefinition(object.domain, object.name,true)»);
+					append('''abstract Â«returnDomain(object.codomain,false)Â» Â«object.nameÂ» (Â«returnParamDefinition(object.domain, object.name,true)Â»);
 					''')
 		
 		}
@@ -94,7 +94,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		
 		var int countparameters = 0;
 		var sb = new StringBuffer;
-		sb.append('''«new ToString(res,pointer).visit(domain)» param«countparameters»_«name», ''')
+		sb.append('''Â«new ToString(res,pointer).visit(domain)Â» paramÂ«countparametersÂ»_Â«nameÂ», ''')
 		countparameters++
 		return sb.toString.substring(0, sb.toString.length - 2)
 
@@ -106,7 +106,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		paramDef.append("");
 		for (var i = 0; i < domain.domains.size; i++) {
 
-			paramDef.append('''«new ToString(res,pointer).visit(domain.domains.get(i))» param«countparameters»_«name», ''')
+			paramDef.append('''Â«new ToString(res,pointer).visit(domain.domains.get(i))Â» paramÂ«countparametersÂ»_Â«nameÂ», ''')
 			countparameters++
 		}
 		return paramDef.substring(0, paramDef.length - 2)
@@ -116,9 +116,9 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 	def String returnDomain(Domain domain, boolean pointer) {
 		var sb = new StringBuffer;
 		if (domain instanceof StructuredTd || domain instanceof StructuredTdImpl)
-			sb.append('''«new DomainToJavaSigDef(res,pointer).visit(domain)»''')
+			sb.append('''Â«new DomainToJavaSigDef(res,pointer).visit(domain)Â»''')
 		else 
-			sb.append('''«new ToString(res,pointer).visit(domain)»''')
+			sb.append('''Â«new ToString(res,pointer).visit(domain)Â»''')
 		return sb.toString
 	}
 
@@ -134,11 +134,11 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		   
 			 if(object.codomain instanceof ProductDomain)
 			 {
-			    function.append('''«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem;
+			    function.append('''Â«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem;
 			    ''') 
 			    
 			    function.append('''				
-				zeroC<«returnDomain(object.codomain,false)»> «object.name» = new zeroC<>();
+				zeroC<Â«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zeroC<>();
 				
 				''')
 			
@@ -149,12 +149,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 				if(object.codomain instanceof SequenceDomain)
 				{
 					
-				function.append('''List«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem = new ArrayList«new DomainToJavaSigDef(res).visit(object.codomain)»();
+				function.append('''ListÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem = new ArrayListÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 				
 			    ''')
 			    
 			    function.append('''				
-				zeroC<List«returnDomain(object.codomain,false)»> «object.name» = new zeroC<>();
+				zeroC<ListÂ«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zeroC<>();
 				
 				''')
 			    
@@ -164,12 +164,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else if(object.codomain instanceof PowersetDomain)
 				{
 					
-				function.append('''Set«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem = new HashSet«new DomainToJavaSigDef(res).visit(object.codomain)»();
+				function.append('''SetÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem = new HashSetÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 				
 			    ''')
 			    
 			    function.append('''				
-				zeroC<Set«returnDomain(object.codomain,false)»> «object.name» = new zeroC<>();
+				zeroC<SetÂ«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zeroC<>();
 				
 				''')
 			    
@@ -178,12 +178,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else if(object.codomain instanceof BagDomain)
 				{
 					
-				function.append('''Bag«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem = new HashBag«new DomainToJavaSigDef(res).visit(object.codomain)»();
+				function.append('''BagÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem = new HashBagÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 				
 			    ''')
 			    
 			    function.append('''				
-				zeroC<Bag«returnDomain(object.codomain,false)»> «object.name» = new zeroC<>();
+				zeroC<BagÂ«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zeroC<>();
 				
 				''')
 			    
@@ -192,12 +192,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else if(object.codomain instanceof MapDomain)
 				{
 					
-				function.append('''Map«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem = new HashMap«new DomainToJavaSigDef(res).visit(object.codomain)»();
+				function.append('''MapÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem = new HashMapÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 				
 			    ''')
 			    
 			    function.append('''				
-				zeroC<Map«returnDomain(object.codomain,false)»> «object.name» = new zeroC<>();
+				zeroC<MapÂ«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zeroC<>();
 				
 				''')
 			    
@@ -206,7 +206,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else {
 			    
 				function.append('''				
-				zeroC <«returnDomain(object.codomain,false)»> «object.name» = new zeroC<>();
+				zeroC <Â«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zeroC<>();
 				
 				''')
 				
@@ -219,12 +219,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			
 			if(object.domain instanceof ProductDomain && object.codomain !== null)
 			{
-			    function.append('''«new DomainToJavaSigDef(res).visit(object.domain)» «object.name»_elem;
+			    function.append('''Â«new DomainToJavaSigDef(res).visit(object.domain)Â» Â«object.nameÂ»_elem;
 			    ''')
 			    
 		     }
 			function.append('''
-				nC<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name» = new nC<>();
+				nC<Â«returnDomain(object.domain,true)Â», Â«returnDomain(object.codomain,true)Â»> Â«object.nameÂ» = new nC<>();
 				
 				''')
 
@@ -246,10 +246,10 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		//Metodo per tradurre i comandi di tipo: monitored nomeFunzione: Prod(Tipo1,Tipo2,...)
 	    if(object.codomain instanceof ProductDomain)
 	    {
-		    function.append('''«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem;
+		    function.append('''Â«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem;
 		    ''') 
 		    function.append('''				
-				zero<«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<Â«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
 				''')
 		}
@@ -260,12 +260,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		   if(object.codomain instanceof SequenceDomain)
 				{
 					
-				function.append('''List«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem = new ArrayList«new DomainToJavaSigDef(res).visit(object.codomain)»();
+				function.append('''ListÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem = new ArrayListÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 				
 			    ''')
 			    
 			    function.append('''				
-				zero<List«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<ListÂ«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
 				''')
 			    
@@ -274,12 +274,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else if(object.codomain instanceof PowersetDomain)
 				{
 					
-				function.append('''Set«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem = new HashSet«new DomainToJavaSigDef(res).visit(object.codomain)»();
+				function.append('''SetÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem = new HashSetÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 				
 			    ''')
 			    
 			    function.append('''				
-				zero<Set«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<SetÂ«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
 				''')
 			    
@@ -288,12 +288,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else if(object.codomain instanceof BagDomain)
 				{
 					
-				function.append('''Bag«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem = new HashBag«new DomainToJavaSigDef(res).visit(object.codomain)»();
+				function.append('''BagÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem = new HashBagÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 				
 			    ''')
 			    
 			    function.append('''				
-				zero<Bag«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<BagÂ«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
 				''')
 			    
@@ -302,12 +302,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else if(object.codomain instanceof MapDomain)
 				{
 					
-				function.append('''Map«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem = new HashMap«new DomainToJavaSigDef(res).visit(object.codomain)»();
+				function.append('''MapÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem = new HashMapÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 				
 			    ''')
 			    
 			    function.append('''				
-				zero<Map«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<MapÂ«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
 				''')
 			    
@@ -316,16 +316,16 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else if (object.codomain instanceof ConcreteDomain)
 			    {
 			    	function.append('''
-				zero<«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<Â«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
-				«returnDomain(object.codomain,false)» «object.name»_supporto = new «returnDomain(object.codomain,false)»();
+				Â«returnDomain(object.codomain,false)Â» Â«object.nameÂ»_supporto = new Â«returnDomain(object.codomain,false)Â»();
 				''')
 				
 			    }
 		else
 		{
 			function.append('''
-				zero<«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<Â«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
 				''')
 				
@@ -338,11 +338,11 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		 else {
 		 	
 		 	   	if(object.domain instanceof ProductDomain)
-			    function.append('''«new DomainToJavaSigDef(res).visit(object.domain)» «object.name»_elem;
+			    function.append('''Â«new DomainToJavaSigDef(res).visit(object.domain)Â» Â«object.nameÂ»_elem;
 			    ''') 
 		 	
 			   function.append('''
-				n<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name» = new n<>();
+				n<Â«returnDomain(object.domain,true)Â», Â«returnDomain(object.codomain,true)Â»> Â«object.nameÂ» = new n<>();
 				
 				''')
 		}
@@ -362,11 +362,11 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		//Metodo per tradurre i comandi di tipo: out nomeFunzione: Prod(Tipo1,Tipo2,...)
 		if(object.codomain instanceof ProductDomain)
 		{
-		    function.append('''«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem;
+		    function.append('''Â«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem;
 		    ''') 
 		    
 		    function.append('''				
-				zero<«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<Â«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
 				''')
 		}
@@ -376,12 +376,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		 if(object.codomain instanceof SequenceDomain)
 				{
 					
-				function.append('''List«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem = new ArrayList«new DomainToJavaSigDef(res).visit(object.codomain)»();
+				function.append('''ListÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem = new ArrayListÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 				
 			    ''')
 			    
 			    function.append('''				
-				zero<List«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<ListÂ«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
 				''')
 			    
@@ -390,12 +390,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else if(object.codomain instanceof PowersetDomain)
 				{
 					
-				function.append('''Set«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem = new HashSet«new DomainToJavaSigDef(res).visit(object.codomain)»();
+				function.append('''SetÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem = new HashSetÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 				
 			    ''')
 			    
 			    function.append('''				
-				zero<Set«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<SetÂ«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
 				''')
 			    
@@ -404,12 +404,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else if(object.codomain instanceof BagDomain)
 				{
 					
-				function.append('''Bag«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem = new HashBag«new DomainToJavaSigDef(res).visit(object.codomain)»();
+				function.append('''BagÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem = new HashBagÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 				
 			    ''')
 			    
 			    function.append('''				
-				zero<Bag«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<BagÂ«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
 				''')
 			    
@@ -418,12 +418,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else if(object.codomain instanceof MapDomain)
 				{
 					
-				function.append('''Map«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem = new HashMap«new DomainToJavaSigDef(res).visit(object.codomain)»();
+				function.append('''MapÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»_elem = new HashMapÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 				
 			    ''')
 			    
 			    function.append('''				
-				zero<Map«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<MapÂ«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
 				''')
 			    
@@ -431,7 +431,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		else
 		{
 			function.append('''
-				zero<«returnDomain(object.codomain,false)»> «object.name» = new zero<>();
+				zero<Â«returnDomain(object.codomain,false)Â»> Â«object.nameÂ» = new zero<>();
 				
 				''')
 				
@@ -445,11 +445,11 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		else {
 		
 		        if(object.domain instanceof ProductDomain)
-			    function.append('''«new DomainToJavaSigDef(res).visit(object.domain)» «object.name»_elem;
+			    function.append('''Â«new DomainToJavaSigDef(res).visit(object.domain)Â» Â«object.nameÂ»_elem;
 			    ''') 	    
 			
 			   function.append('''
-				n<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name» = new n<>();
+				n<Â«returnDomain(object.domain,true)Â», Â«returnDomain(object.codomain,true)Â»> Â«object.nameÂ» = new n<>();
 				
 				''')
 			
@@ -472,46 +472,46 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			
 		if (object.codomain instanceof AbstractTd)
 			
-			function.append('''«returnDomain(object.codomain,true)» «object.name»;
+			function.append('''Â«returnDomain(object.codomain,true)Â» Â«object.nameÂ»;
 			''')
 			
 		//Metodo per tradurre i comandi di tipo: derived nomeFunzione: Prod(Tipo1,Tipo2,...)
 		else if(object.codomain instanceof ProductDomain)
-		    function.append('''«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»;
+		    function.append('''Â«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ»;
 		    ''') 
 		    
 		//Metodo per tradurre i comandi di tipo: derived nomeFunzione: Seq(Tipo)
 		else if(object.codomain instanceof SequenceDomain)
-		    function.append('''List«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name» = new ArrayList«new DomainToJavaSigDef(res).visit(object.codomain)»();
+		    function.append('''ListÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ» = new ArrayListÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 		    ''')
 			    
 		//Metodo per tradurre i comandi di tipo: derived nomeFunzione: Powerset(Tipo)
 		else if(object.codomain instanceof PowersetDomain)
-		    function.append('''Set«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name» = new HashSet«new DomainToJavaSigDef(res).visit(object.codomain)»();
+		    function.append('''SetÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ» = new HashSetÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 		    ''')
 		    
 		//Metodo per tradurre i comandi di tipo: derived nomeFunzione: Bag(Tipo)
 		else if(object.codomain instanceof BagDomain)
-		    function.append('''Bag«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name» = new HashBag«new DomainToJavaSigDef(res).visit(object.codomain)»();
+		    function.append('''BagÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ» = new HashBagÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 		    ''')
 		    
 		//Metodo per tradurre i comandi di tipo: derived nomeFunzione: Map(Tipo1,Tipo2)
 		else if(object.codomain instanceof MapDomain)
-		    function.append('''Map«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name» = new HashMap«new DomainToJavaSigDef(res).visit(object.codomain)»();
+		    function.append('''MapÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â» Â«object.nameÂ» = new HashMapÂ«new DomainToJavaSigDef(res).visit(object.codomain)Â»();
 		    ''')
 			
 			
 			else
-			function.append('''abstract «returnDomain(object.codomain,false)» «object.name»();
+			function.append('''abstract Â«returnDomain(object.codomain,false)Â» Â«object.nameÂ»();
 			''')
 		} else {
 			if (object.domain instanceof ProductDomain)
 				function.
-					append('''abstract «returnDomain(object.codomain,true)» «object.name» («adaptProdDomain(object.domain as ProductDomain, object.name,true)»);
+					append('''abstract Â«returnDomain(object.codomain,true)Â» Â«object.nameÂ» (Â«adaptProdDomain(object.domain as ProductDomain, object.name,true)Â»);
 					''')
 			else
 				function.
-					append('''abstract «returnDomain(object.codomain,true)» «object.name» («returnParamDefinition(object.domain, object.name,true)»);
+					append('''abstract Â«returnDomain(object.codomain,true)Â» Â«object.nameÂ» (Â«returnParamDefinition(object.domain, object.name,true)Â»);
 					''')
 		}
 		return function.toString

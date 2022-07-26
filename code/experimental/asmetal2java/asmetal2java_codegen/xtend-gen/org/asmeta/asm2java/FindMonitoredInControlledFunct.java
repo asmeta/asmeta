@@ -25,39 +25,39 @@ import org.eclipse.emf.common.util.EList;
 @SuppressWarnings("all")
 public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
   private Asm res;
-  
+
   public FindMonitoredInControlledFunct(final Asm resource) {
     this.res = resource;
   }
-  
+
   public boolean visit(final LocationTerm object) {
     return this.visit(((FunctionTerm) object));
   }
-  
+
   public boolean visit(final StringTerm term) {
     return false;
   }
-  
+
   public boolean visit(final IntegerTerm term) {
     return false;
   }
-  
+
   public boolean visit(final NaturalTerm term) {
     return false;
   }
-  
+
   public boolean visit(final BooleanTerm term) {
     return false;
   }
-  
+
   public boolean visit(final EnumTerm term) {
     return false;
   }
-  
+
   public boolean visit(final VariableTerm term) {
     return false;
   }
-  
+
   public boolean visit(final FunctionTerm term) {
     boolean found = false;
     TupleTerm _arguments = term.getArguments();
@@ -77,7 +77,7 @@ public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
     }
     return found;
   }
-  
+
   public boolean visit(final CaseTerm term) {
     boolean found = false;
     EList<Term> _comparingTerm = term.getComparingTerm();
@@ -96,14 +96,14 @@ public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
     }
     return found;
   }
-  
+
   public boolean visit(final ConditionalTerm term) {
     boolean found = false;
     found = (found || (this.visit(term.getThenTerm())).booleanValue());
     found = (found || (this.visit(term.getElseTerm())).booleanValue());
     return found;
   }
-  
+
   public boolean visit(final SetTerm term) {
     boolean found = false;
     EList<Term> _term = term.getTerm();

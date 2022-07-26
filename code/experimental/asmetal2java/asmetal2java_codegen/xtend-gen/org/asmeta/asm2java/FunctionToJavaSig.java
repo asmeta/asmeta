@@ -22,11 +22,11 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 @SuppressWarnings("all")
 public class FunctionToJavaSig extends ReflectiveVisitor<String> {
   private Asm res;
-  
+
   public FunctionToJavaSig(final Asm resource) {
     this.res = resource;
   }
-  
+
   public String visit(final StaticFunction object) {
     StringBuffer function = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -194,7 +194,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     }
     return function.toString();
   }
-  
+
   public String returnParamDefinition(final Domain domain, final String name, final boolean pointer) {
     int countparameters = 0;
     StringBuffer sb = new StringBuffer();
@@ -213,7 +213,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     int _minus = (_length - 2);
     return _string.substring(0, _minus);
   }
-  
+
   public String adaptProdDomain(final ProductDomain domain, final String name, final boolean pointer) {
     StringBuffer paramDef = new StringBuffer();
     int countparameters = 0;
@@ -236,7 +236,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     int _minus = (_length - 2);
     return paramDef.substring(0, _minus);
   }
-  
+
   public String returnDomain(final Domain domain, final boolean pointer) {
     StringBuffer sb = new StringBuffer();
     if (((domain instanceof StructuredTd) || (domain instanceof StructuredTdImpl))) {
@@ -252,7 +252,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   public String visit(final ControlledFunction object) {
     StringBuffer function = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -446,7 +446,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     }
     return function.toString();
   }
-  
+
   public String visit(final MonitoredFunction object) {
     StringBuffer function = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -666,7 +666,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     }
     return function.toString();
   }
-  
+
   public String visit(final OutFunction object) {
     StringBuffer function = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -861,7 +861,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     }
     return function.toString();
   }
-  
+
   public String visit(final DerivedFunction object) {
     StringBuffer function = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();

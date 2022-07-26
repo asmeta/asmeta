@@ -43,53 +43,53 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 @SuppressWarnings("all")
 public class TermToJava extends ReflectiveVisitor<String> {
   Integer numStaticParam;
-  
+
   private Asm res;
-  
+
   private boolean leftHandSide;
-  
+
   public TermToJava(final Asm resource) {
     this(resource, false);
   }
-  
+
   public TermToJava(final Asm resource, final boolean leftHandSide) {
     this.res = resource;
     this.leftHandSide = leftHandSide;
   }
-  
+
   public String visit(final VariableTerm term) {
     return term.getName();
   }
-  
+
   public String visit(final IntegerTerm term) {
     return term.getSymbol();
   }
-  
+
   public String visit(final NaturalTerm term) {
     String _symbol = term.getSymbol();
     int _length = term.getSymbol().length();
     int _minus = (_length - 1);
     return _symbol.substring(0, _minus);
   }
-  
+
   public String visit(final StringTerm term) {
     String supp = new String("\"");
     String _symbol = term.getSymbol();
     String _plus = (supp + _symbol);
     return (_plus + supp);
   }
-  
+
   public String visit(final BooleanTerm term) {
     return term.getSymbol();
   }
-  
+
   public String visit(final EnumTerm term) {
     String _name = term.getDomain().getName();
     String _plus = (_name + ".");
     String _symbol = term.getSymbol();
     return (_plus + _symbol);
   }
-  
+
   public String visit(final ConditionalTerm object) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("/*conditionalTerm*/");
@@ -116,7 +116,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     _builder.newLineIfNotEmpty();
     return _builder.toString();
   }
-  
+
   public String visit(final CaseTerm object) {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < object.getComparingTerm().size()); i++) {
@@ -176,7 +176,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     sb.append(_builder_1);
     return sb.toString();
   }
-  
+
   public String visit(final TupleTerm object) {
     int _size = object.getTerms().size();
     boolean _equals = (_size == 0);
@@ -204,7 +204,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     String _substring = initial.substring(0, _minus);
     return (_substring + ")");
   }
-  
+
   public String visit(final SequenceTerm object) {
     StringBuffer list = new StringBuffer("");
     for (int i = 0; (i < object.getTerms().size()); i++) {
@@ -222,7 +222,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     list.append(")");
     return list.toString();
   }
-  
+
   public String visit(final SetTerm object) {
     StringBuffer type = new StringBuffer("");
     String s = "";
@@ -244,7 +244,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     s = (_s_2 + ")");
     return (type + s);
   }
-  
+
   public String visit(final MapTerm object) {
     StringBuffer map = new StringBuffer("{{\n");
     for (int i = 0; (i < object.getPair().size()); i++) {
@@ -300,7 +300,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
       return _builder.toString();
     }
   }
-  
+
   public String visit(final ExistTerm object) {
     StringBuffer sb = new StringBuffer();
     StringBuffer app = new StringBuffer();
@@ -366,7 +366,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   public String visit(final ForallTerm object) {
     StringBuffer sb = new StringBuffer();
     StringBuffer supp = new StringBuffer();
@@ -412,7 +412,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   public String visit(final LetTerm object) {
     StringBuffer let = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -446,7 +446,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     let.append(_builder_1);
     return let.toString();
   }
-  
+
   public String visit(final SetCt term) {
     try {
       throw new Exception("SetCt not implemented");
@@ -454,21 +454,21 @@ public class TermToJava extends ReflectiveVisitor<String> {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   public String visit(final SequenceCt object) {
     StringBuffer seq = new StringBuffer();
     seq.append("caso sequenza da trattare \n\n");
     return seq.toString();
   }
-  
+
   public String visit(final RuleAsTerm term) {
     return "RuleAsRTerm";
   }
-  
+
   public String visit(final LocationTerm term) {
     return this.visit(((FunctionTerm) term));
   }
-  
+
   public String visit(final FunctionTerm term) {
     try {
       StringBuffer functionTerm = new StringBuffer();
@@ -494,7 +494,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   public String caseFunctionTermSuppCont(final Function fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -719,7 +719,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     }
     return functionTerm.toString();
   }
-  
+
   protected String _caseFunctionTermSupp(final ControlledFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -797,7 +797,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     }
     return functionTerm.toString();
   }
-  
+
   protected String _caseFunctionTermSupp(final MonitoredFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -844,7 +844,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     }
     return functionTerm.toString();
   }
-  
+
   protected String _caseFunctionTermSupp(final DerivedFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -872,7 +872,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     }
     return functionTerm.toString();
   }
-  
+
   protected String _caseFunctionTermSupp(final StaticFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -900,7 +900,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     }
     return functionTerm.toString();
   }
-  
+
   public Boolean controllo(final Domain dom) {
     if ((dom instanceof ConcreteDomain)) {
       return Boolean.valueOf(true);
@@ -908,7 +908,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
       return Boolean.valueOf(false);
     }
   }
-  
+
   public String caseFunctionTermSupp(final Function fd, final FunctionTerm ft) {
     if (fd instanceof ControlledFunction) {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);

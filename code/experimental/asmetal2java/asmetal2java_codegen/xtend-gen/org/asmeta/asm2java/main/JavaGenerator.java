@@ -35,16 +35,16 @@ import org.junit.Assert;
 @SuppressWarnings("all")
 public class JavaGenerator extends AsmToJavaGenerator {
   private String initConrolledMonitored;
-  
+
   public void compileAndWrite(final Asm asm, final String writerPath, final TranslatorOptions userOptions) {
     Assert.assertTrue(writerPath.endsWith(".java"));
     this.compileAndWrite(asm, writerPath, "JAVA", userOptions);
   }
-  
+
   private List<Rule> seqCalledRules;
-  
+
   private String supp;
-  
+
   @Override
   public String compileAsm(final Asm asm) {
     if (this.options.optimizeSeqMacroRule) {
@@ -506,7 +506,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     return _builder.toString();
   }
-  
+
   public String abstractClassDef(final Asm asm) {
     StringBuffer sb = new StringBuffer();
     EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
@@ -520,7 +520,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     }
     return sb.toString();
   }
-  
+
   public String domainSignature(final Asm asm) {
     StringBuffer sb = new StringBuffer();
     EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
@@ -534,7 +534,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     }
     return sb.toString();
   }
-  
+
   public String functionSignature(final Asm asm) {
     StringBuffer sb = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
@@ -545,7 +545,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     }
     return sb.toString();
   }
-  
+
   public String ruleDefinition(final Asm asm) {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < asm.getBodySection().getRuleDeclaration().size()); i++) {
@@ -553,7 +553,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     }
     return sb.toString();
   }
-  
+
   public String ruleDeclaration(final RuleDeclaration r, final Asm asm) {
     Set<Boolean> bb = Collections.<Boolean>unmodifiableSet(CollectionLiterals.<Boolean>newHashSet(Boolean.valueOf(true), Boolean.valueOf(false)));
     StringBuffer result = new StringBuffer();
@@ -565,7 +565,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     result.append(this.foo(r, r.getName(), asm));
     return result.toString();
   }
-  
+
   protected String foo(final RuleDeclaration r, final String methodName, final Asm asm) {
     Integer _arity = r.getArity();
     boolean _equals = ((_arity).intValue() == 0);
@@ -590,7 +590,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       return _builder_1.toString();
     }
   }
-  
+
   public String initialStaticDomainDefinition(final Asm asm) {
     StringBuffer initial = new StringBuffer();
     if (((asm.getBodySection() != null) && (asm.getBodySection().getDomainDefinition() != null))) {
@@ -643,7 +643,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       return "";
     }
   }
-  
+
   public String initialDynamicDomainDefinition(final Asm asm) {
     StringBuffer initial = new StringBuffer();
     if (((asm.getDefaultInitialState() != null) && (asm.getDefaultInitialState().getDomainInitialization() != null))) {
@@ -668,7 +668,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       return "";
     }
   }
-  
+
   public String functionAbstractDom(final Asm asm) {
     StringBuffer sb = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
@@ -706,7 +706,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     }
     return sb.toString();
   }
-  
+
   public String functionInitialization(final Asm asm) {
     StringBuffer initial = new StringBuffer();
     StringBuffer initialMonitored = new StringBuffer();
@@ -735,7 +735,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     this.initConrolledMonitored = initialMonitored.toString().replaceAll("\\$", "_");
     return initial.toString().replaceAll("\\$", "_");
   }
-  
+
   public String functionDefinition(final Asm asm) {
     StringBuffer sb = new StringBuffer();
     if (((asm.getBodySection() != null) && (asm.getBodySection().getFunctionDefinition() != null))) {
@@ -751,7 +751,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     }
     return "";
   }
-  
+
   public String ruleDefinitions(final Asm e) {
     StringBuffer sb = new StringBuffer();
     EList<RuleDeclaration> _ruleDeclaration = e.getBodySection().getRuleDeclaration();
@@ -760,7 +760,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     }
     return sb.toString();
   }
-  
+
   public String ruleImplementation(final RuleDeclaration r, final Asm asm) {
     StringBuffer result = new StringBuffer();
     if (((this.seqCalledRules == null) || this.seqCalledRules.contains(r.getRuleBody()))) {
@@ -771,7 +771,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     result.append(this.foo2(r, r.getName(), asm));
     return result.toString();
   }
-  
+
   public String foo2(final RuleDeclaration r, final String methodName, final Asm asm) {
     Integer _arity = r.getArity();
     boolean _equals = ((_arity).intValue() == 0);
@@ -813,7 +813,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       return _builder_1.toString();
     }
   }
-  
+
   public String updateSet(final Asm asm) {
     StringBuffer updateset = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();

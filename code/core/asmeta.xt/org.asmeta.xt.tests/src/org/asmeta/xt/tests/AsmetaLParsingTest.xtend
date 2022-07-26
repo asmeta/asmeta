@@ -25,6 +25,6 @@ class AsmetaLParsingTest {
 		''')
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: Â«errors.join(", ")Â»''', errors.isEmpty)
 	}
 }
