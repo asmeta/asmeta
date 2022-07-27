@@ -48,8 +48,8 @@ class BasicDomain_Exe {
 		  	   printControlled(esecuzione);
 		  	   
 		  	   
-		       System.out.print("Vuoi continuare? (yes/no)  "); 
-		       Scanner input = new Scanner(System.in);
+		  	    System.out.print("Vuoi continuare? (yes/no)  "); 
+		  	    Scanner input = new Scanner(System.in);
 		  	   continuare = input.next();
 		  	              
 		  	   stato++;

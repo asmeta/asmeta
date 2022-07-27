@@ -176,9 +176,9 @@ public class BasicDomain_Win {
 				
 				
 				//"traduzione" della funzione askMonitored(esecuzione) del file _Exe
-			    
-			    //Aggiornamento dell'ASM
-			    esecuzione.UpdateASM();
+				   
+				   //Aggiornamento dell'ASM
+				   esecuzione.UpdateASM();
 		
 		    }});
 	}

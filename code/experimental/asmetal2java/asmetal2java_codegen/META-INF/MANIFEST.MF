@@ -17,7 +17,6 @@ Require-Bundle: org.junit;bundle-version="4.12.0",
  asmeta.simulator,
  asmeta.parser,
  org.apache.log4j,
- org.eclipse.cdt.core,
  org.eclipse.text,
  org.eclipse.core.resources
 Import-Package: org.eclipse.xtext.generator,
