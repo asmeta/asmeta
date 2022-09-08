@@ -1,5 +1,7 @@
 /*
-* version 05/03/2020
+* version 08/09/2022
+*  08/09/2022 - added in problems some explanation 
+*
 */
 options
 {
@@ -467,7 +469,7 @@ TOKEN :
 /*                         GRAMMAR START                       */
 /***************************************************************/
 /***** MAIN OK!
-se il file è vuoto non restituisce nulla
+se il file ï¿½ vuoto non restituisce nulla
 *****/
 Optional<Asm > Asm() :
 {
@@ -481,7 +483,7 @@ Optional<Asm > Asm() :
   Asm asmMachine = null;
 }
 {
-  // il tutto è opzionale
+  // il tutto ï¿½ opzionale
   [
     [
       < ASYNCR >
@@ -3175,7 +3177,7 @@ Term unaryExpr(HashMap localVar, boolean areAllowedNewVar) :
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createSingle(arg, termsPack, defPack, header.getSignature());
       //assert tupleT.getTerms().size() == tupleT.getArity();      t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
-      if (t == null) throw new ParseException("Problems in creating unary espressions.");
+      if (t == null) throw new ParseException("Problems in creating unary espressions (" + funcName + ")");
       return t;
     }
   | t = basicExpr(localVar, areAllowedNewVar)
@@ -3271,7 +3273,8 @@ FunctionTerm FunctionTerm(HashMap localVar, boolean areAllowedNewVar) :
         //assert tupleT.getTerms().size() == tupleT.getArity();      }
       else tupleT.getTerms().add(0, agent_funT);
     }
-    if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Problems in creating Function Term");
+    if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) 
+    	throw new ParseException("Problems in creating Function Term (" + funcName + ")");
     Logger.logDebug("\t\t\tFunctionTerm end, D=" + t.getDomain().getName());
     return t;
   }
@@ -3323,7 +3326,7 @@ LocationTerm LocationTerm(HashMap localVar, boolean areAllowedNewVar) :
     }
     FunctionTerm f = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
     t = (LocationTerm) f;
-    if (t == null) throw new ParseException("Problems in creating Location Term");
+    if (t == null) throw new ParseException("Problems in creating Location Term ("+ funcName + ")");
     Logger.logDebug("\t\t\tLocationTerm end, TD=" + t.getDomain().getName());
     return t;
   }
