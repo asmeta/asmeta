@@ -1,0 +1,42 @@
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class TestTir1 {
+
+	
+	//Testo il metodo assegnaCodice_merce(int typeMerc)
+	//Il metodo prende un intero e restituisce un codice identificativo che assegna l'azienda in riferimento al tipo di prodotto da spedire
+	@Test
+	public void test1() {
+		OrgViaggio v = new OrgViaggio();
+		assertNotNull(v);
+		assertEquals(v.assegnaCodice_merce(1), 1);
+		assertEquals(v.assegnaCodice_merce(2), 2);
+		assertEquals(v.assegnaCodice_merce(50), 3);
+		assertEquals(v.assegnaCodice_merce(-5), 0);
+	}
+	
+	//Testo il metodo assegnaCodice_zona(int typeZone)
+	//Il metodo prende un intero e restituisce un codice identificativo che assegna l'azienda in riferimento alla zona d'Italia in cui spedire
+	@Test
+	public void test2() {
+		OrgViaggio vi = new OrgViaggio();
+		assertNotNull(vi);
+		assertEquals(vi.assegnaCodice_zona(4), 4);
+		assertEquals(vi.assegnaCodice_zona(5), 5);
+		assertEquals(vi.assegnaCodice_zona(90), 6);
+		
+	}
+	
+	//Testo il metodo flagViaggio(int code_merce,int code_zone)
+	//Il metodo prende in input i codici che l'azienda ha precedentemente assegnato (Cod. merce e Cod. zona) ed abilita un flag 
+	//Fisicamente in azienda c'è un pulsante che rispecchia un lascia passare al camion affinchè parta al più presto possibile
+	@Test
+	public void test3() {
+		OrgViaggio vi = new OrgViaggio();
+		assertNotNull(vi);
+		assertTrue(vi.flagViaggio(1,4));
+		assertFalse(vi.flagViaggio(1,6));
+		assertFalse(vi.flagViaggio(1,8));
+	}
