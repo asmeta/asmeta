@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.xtend.XTEND_CONTAINER"/>
 	<classpathentry kind="src" output="target/classes" path="src">
 		<attributes>
 			<attribute name="optional" value="true"/>
@@ -15,56 +14,25 @@
 	</classpathentry>
 	<classpathentry kind="src" output="target/test-classes" path="test">
 		<attributes>
+			<attribute name="test" value="true"/>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.xtend.XTEND_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/aless/.p2/pool/plugins/org.eclipse.text_3.12.100.v20220506-1404.jar" sourcepath="C:/Users/aless/.p2/pool/plugins/org.eclipse.text_3.12.100.v20220506-1404.jar">
-		<accessrules>
-			<accessrule kind="accessible" pattern="org/eclipse/jface/text/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/jface/text/link/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/jface/text/projection/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/jface/text/source/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/jface/text/templates/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/text/edits/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/text/templates/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/text/undo/*"/>
-			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
-		</accessrules>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="/asmeta.parser"/>
-	<classpathentry kind="lib" path="C:/Users/aless/.p2/pool/plugins/org.apache.log4j_1.2.19.v20220208-1728.jar" sourcepath="C:/Users/aless/.p2/pool/plugins/org.apache.log4j_1.2.19.v20220208-1728.jar">
-		<accessrules>
-			<accessrule kind="accessible" pattern="org/apache/log4j/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/config/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/helpers/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/jdbc/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/lf5/config/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/lf5/viewer/images/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/net/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/or/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/or/jms/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/or/sax/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/pattern/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/rewrite/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/spi/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/varia/*"/>
-			<accessrule kind="accessible" pattern="org/apache/log4j/xml/*"/>
-			<accessrule kind="discouraged" pattern="org/eclipse/xtext/logging/*"/>
-			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
-		</accessrules>
-	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.asmeta.avallaxt"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmetal2java_codegen"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

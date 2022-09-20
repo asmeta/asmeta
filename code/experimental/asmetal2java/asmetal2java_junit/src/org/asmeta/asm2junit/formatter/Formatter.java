@@ -1,11 +1,5 @@
 package org.asmeta.asm2junit.formatter;
 
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.text.edits.MalformedTreeException;
-import org.eclipse.text.edits.TextEdit;
-
 public class Formatter {
 
 	public static String formatCode(String source ) {
