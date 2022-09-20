@@ -55,3 +55,4 @@ maven-status
 /reports/*
 code/experimental/asmetal2cpp/asmetal2cpp_boostunit/temp/a.exe
 code/experimental/asmeta.simulator@run.time/src/org/asmeta/runtime_commander/paths.txt
+*._trace
