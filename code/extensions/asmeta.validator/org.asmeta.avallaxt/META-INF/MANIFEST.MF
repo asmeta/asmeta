@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.xtext,
  asmeta.parser,
  asmeta.emf,
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.asmeta.avallaxt,
  org.asmeta.avallaxt.avalla,
  org.asmeta.avallaxt.avalla.impl,

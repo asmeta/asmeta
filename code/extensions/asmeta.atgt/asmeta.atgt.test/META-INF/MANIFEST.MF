@@ -4,7 +4,7 @@ Bundle-Name: AsmetaTGT Test
 Bundle-SymbolicName: asmeta.atgt.test
 Bundle-Version: 22.04
 Automatic-Module-Name: asmeta.atgt.test
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: asmeta.atgt,
  org.junit,
  asmeta.flattener,

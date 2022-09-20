@@ -22,5 +22,5 @@ Export-Package: org.asmeta.xt.validator;
    asmeta,
    org.asmeta.simulator.wrapper"
 Automatic-Module-Name: org.asmeta.avallaxt.validator
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.eclipse.ui.console

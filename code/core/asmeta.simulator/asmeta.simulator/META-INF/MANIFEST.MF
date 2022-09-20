@@ -59,4 +59,4 @@ Export-Package: org.asmeta.simulator;
    asmeta.terms.basicterms"
 Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.simulator
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11

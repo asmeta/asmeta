@@ -19,7 +19,7 @@ Require-Bundle: org.asmeta.xt,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib;resolution:=optional
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.asmeta.xt.ui.quickfix,
  org.asmeta.xt.ui.contentassist,
  org.asmeta.xt.ui.internal
