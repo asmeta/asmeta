@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Xtext Model
 Bundle-Vendor: foselab.unibg.it
-Bundle-Version: 22.04
+Bundle-Version: 22.09
 Bundle-SymbolicName: org.asmeta.xt;singleton:=true
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,

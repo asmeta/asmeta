@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.visualizer.feature"
       label="Asmeta visualizer"
-      version="22.04"
+      version="22.09"
       provider-name="fmse.di.unimi.it">
 
    <description url="fmse.di.unimi.it/asmetavisualizer/description">
