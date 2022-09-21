@@ -5,12 +5,14 @@
       version="22.09"
       provider-name="fmse.di.unimi.it">
 
-   <description url="fmse.di.unimi.it/asmetaanimator/description">
-      See http://asmeta.sourceforge.net/
+   <description url="https://asmeta.github.io/download/asmetaA.html">
+      AsmetaA (Asmeta Animator) can be used to simulate in graphical way AsmetaL models.
+See
+https://asmeta.github.io/download/asmetaA.html
    </description>
 
    <copyright url="http://fmse.di.unimi.it/asmetaanimator/copyright">
-      See http://asmeta.sourceforge.net/
+      See https://asmeta.github.io
    </copyright>
 
    <license url="http://fmse.di.unimi.it/asmetaanimator/license">
