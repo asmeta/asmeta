@@ -1,12 +1,14 @@
 package org.asmeta.atgt.generator;
 
 import java.io.File;
+import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmCoverageTree;
@@ -15,9 +17,11 @@ import atgt.coverage.AsmTestSuite;
 import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.specification.ASMSpecification;
 import tgtlib.coverage.CovBuilderBySubCov;
+import tgtlib.coverage.CoverageBuilder;
 import tgtlib.specification.ParseException;
+import tgtlib.specification.Specification;
 
-public abstract class AsmTestGenerator {
+public abstract class AsmTestGenerator<SPEC extends Specification> {
 
 
 	static private Logger logger = Logger.getLogger(AsmTestGenerator.class);
@@ -25,12 +29,12 @@ public abstract class AsmTestGenerator {
 	/** compute coverage??? */
 	protected final boolean coverageTp;
 
-	protected final ASMSpecification spec;
+	protected final SPEC spec;
 
 	// the coverage tree built according to some criteria
 	protected AsmCoverage ct;
 
-	protected ASMSpecification getSpec() {
+	protected SPEC getSpec() {
 		return spec;
 	}
 
@@ -47,10 +51,16 @@ public abstract class AsmTestGenerator {
 	public AsmTestGenerator(String asmfile, boolean coverageTp) throws ParseException {
 		assert new File(asmfile).exists() : asmfile + "not existing";
 		// read the spec
-		spec = new AsmetaLLoader().read(new File(asmfile));
-		// should never happen because read will throw its own exception
-		if (spec == null)
+		ParameterizedType t = (ParameterizedType) AsmTestGenerator.class.getGenericSuperclass(); // OtherClass<String>
+		Class<?> clazz = (Class<?>) t.getActualTypeArguments()[0];
+		if (clazz == ASMSpecification.class) {
+			spec = (SPEC) new AsmetaLLoader().read(new File(asmfile));
+			// should never happen because read will throw its own exception
+			if (spec == null)
+				throw new RuntimeException("errors in converting the asmeta for ATGT");
+		} else {
 			throw new RuntimeException("errors in converting the asmeta for ATGT");
+		}
 		this.coverageTp = coverageTp;
 	}
 
@@ -86,7 +96,7 @@ public abstract class AsmTestGenerator {
 	 * @param maxTests the max tests
 	 * @param regex the regex
 	 */
-	public void buildTPTree(MBTCoverage criteria, int maxTests, String regex) {
+	public void buildTPTree(MBTCoverage<SPEC> criteria, int maxTests, String regex) {
 		logger.debug("generating the tp tree for criteria " + criteria.getCoveragePrefix());
 		// build the tree depending on the criteria
 		ct = criteria.getTPTree(spec);
@@ -112,8 +122,8 @@ public abstract class AsmTestGenerator {
 	}
 
 
-	public AsmTestSuite generateAbstractTests(Collection<AsmCoverageBuilder> coverageCriteria, int maxTests, String regex) throws Exception {
-		buildTPTree(new MBTCoverage(coverageCriteria), maxTests, regex);
+	public AsmTestSuite generateAbstractTests(Collection<CoverageBuilder<SPEC, AsmCoverage>> coverageCriteria, int maxTests, String regex) throws Exception {
+		buildTPTree(new MBTCoverage<SPEC>(coverageCriteria), maxTests, regex);
 		return generateTests();
 	}
 
@@ -145,12 +155,12 @@ public abstract class AsmTestGenerator {
 	 * Structural except MCDC which is difficult to use because there is an equal
 	 * and Booleans
 	 */
-	public static class MBTCoverage extends CovBuilderBySubCov<ASMSpecification, AsmTestCondition, AsmCoverage> {
+	public static  class MBTCoverage<SPEC extends Specification> extends CovBuilderBySubCov<SPEC, AsmTestCondition, AsmCoverage> {
 
-		public MBTCoverage(Collection<AsmCoverageBuilder> criteria) {
+		public MBTCoverage(Collection<CoverageBuilder<SPEC, AsmCoverage>> criteria) {
 			super("MBT Coverage", AsmCoverageTree.factory);
 
-			for (AsmCoverageBuilder c : criteria)
+			for (CoverageBuilder<SPEC, AsmCoverage> c : criteria)
 				register(c);
 
 			// Aggiunge i visitor di default

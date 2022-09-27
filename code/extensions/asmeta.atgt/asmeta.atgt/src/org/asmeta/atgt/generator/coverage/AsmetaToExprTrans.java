@@ -1,6 +1,7 @@
 package org.asmeta.atgt.generator.coverage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.asmeta.parser.util.AsmetaTermPrinter;
 
+import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.Domain;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.DomainTerm;
@@ -29,6 +31,7 @@ import tgtlib.definitions.expression.NumericLiteral;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.Type;
+import tgtlib.definitions.expression.type.TypeVisitorI;
 
 /**
  * 
@@ -49,7 +52,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * @return the string
 	 */
 	public Expression visit(Term term) {
-		System.out.println("visit term "+AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(term));
+		System.out.println("visit term " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(term));
 		return visit((Object) term);
 	}
 
@@ -67,12 +70,40 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	}
 
 	private Type getType(Domain domain) {
+		assert domain != null;
 		Type t = types.get(domain);
 		if (t == null) {
-			t = AsmetaLLoader.convertDomainToType(domain, icc);
-			types.put(domain,t);
+			// if abstract, use abstract type
+			if (domain instanceof AbstractTd) {
+				t = new AbstractType(domain.getName());
+			} else {
+				try {
+					t = AsmetaLLoader.convertDomainToType(domain, icc);
+				} catch (Exception e) {
+					System.err.println("TYPE " + domain.getClass());
+					throw new RuntimeException("XXX");
+				}
+			}
+			types.put(domain, t);
 		}
 		return t;
+	}
+
+	static class AbstractType extends Type {
+
+		public AbstractType(String _name) {
+			super(_name);
+		}
+
+		@Override
+		public int range() {
+			throw new RuntimeException("not implemented");
+		}
+
+		@Override
+		public <T> T accept(TypeVisitorI<T> ask) {
+			throw new RuntimeException("not implemented");
+		}
 	}
 
 	/**
@@ -84,14 +115,19 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * 
 	 * @throws Exception the exception
 	 */
-	public Expression visit(FunctionTerm funcTerm) throws Exception {	
-		assert !(funcTerm.getArguments() == null): "function term without arguments " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(funcTerm);
-		assert !(funcTerm.getArguments().getTerms().isEmpty());
-		List<Expression> args = funcTerm.getArguments().getTerms().stream().map( x -> this.visit(x)).collect(Collectors.toList());
-		// dominio o codominio?? 
+	public Expression visit(FunctionTerm funcTerm) throws Exception {
+		List<Expression> args;
+		if (funcTerm.getArguments() != null) {
+			args = funcTerm.getArguments().getTerms().stream().map(x -> this.visit(x)).collect(Collectors.toList());
+		} else {
+			args = Collections.EMPTY_LIST;
+		}
+		// dominio o codominio??
 		Type t = getType(funcTerm.getDomain());
+		//
+		t = null;
 		IdExpression fid = icc.createIdExpression(funcTerm.getFunction().getName(), t);
-		return  new tgtlib.definitions.expression.FunctionTerm(fid, t, args);
+		return new tgtlib.definitions.expression.FunctionTerm(fid, t, args);
 	}
 
 	/**
@@ -145,13 +181,18 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 			// convert to type AsmetaLLoader.
 			return icc.createIdExpression(location.getFunction().getName(), getType(location.getDomain()));
 		}
-		//throw new RuntimeException("not implemented yet location: " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location));				
+		// throw new RuntimeException("not implemented yet location: " +
+		// AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location));
 		IdExpression funName = icc.createIdExpression(location.getFunction().getName(), getType(location.getDomain()));
 		Type type = getType(location.getFunction().getCodomain());
 		List<Expression> args = new ArrayList<>();
-		for(Term t: location.getArguments().getTerms()) {
-			System.out.println("t" + t);
-			args.add(visit(t));
+		for (Term t : location.getArguments().getTerms()) {
+			// transform to id
+			// args are enum terms in asmeta?
+			//Type type2 = getType(t.getDomain());
+			// t.getDomain is null???
+			IdExpression termToAdd = icc.createIdExpression(((EnumTerm)t).getSymbol(), null);			
+			args.add(termToAdd);
 		}
 		return new tgtlib.definitions.expression.FunctionTerm(funName, type, args);
 //		if(func.getName().equals("self")) {
@@ -226,7 +267,13 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * @return the string
 	 */
 	public Expression visit(EnumTerm term) {
-		return icc.createEnumConst(term.getSymbol());
+		System.err.println("enum term " + term);
+		try {
+			return icc.createEnumConst(term.getSymbol());
+		} catch (Exception e) {
+			System.out.println("creating as id");
+			return icc.createIdExpression(term.getSymbol(), null);
+		}
 	}
 
 	/**
@@ -237,12 +284,12 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * @return the string
 	 */
 	public Expression visit(BooleanTerm bool) {
-		String s = bool.getSymbol();		
+		String s = bool.getSymbol();
 		if (s.equalsIgnoreCase("true"))
 			return BoolType.TRUE_CONST;
 		if (s.equalsIgnoreCase("false"))
 			return BoolType.FALSE_CONST;
-		throw new RuntimeException("not implemented yet");		
+		throw new RuntimeException("not implemented yet");
 	}
 
 	/**
