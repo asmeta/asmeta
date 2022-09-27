@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.asmeta.parser.util.AsmetaTermPrinter;
+
 import asmeta.definitions.domains.Domain;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.DomainTerm;
@@ -140,7 +142,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 			// convert to type AsmetaLLoader.
 			return icc.createIdExpression(location.getFunction().getName(), getType(location.getDomain()));
 		}
-		throw new RuntimeException("not implemented yet");
+		throw new RuntimeException("not implemented yet location: " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location));
 //		Function func = location.getFunction();
 //		if(func.getName().equals("self")) {
 //			return env.self;

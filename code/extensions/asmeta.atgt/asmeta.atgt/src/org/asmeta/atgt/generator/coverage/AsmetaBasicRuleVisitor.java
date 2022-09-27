@@ -27,10 +27,11 @@ public class AsmetaBasicRuleVisitor implements AsmetaCoverageBuilder {
 	public AsmCoverage getTPTree(AsmetaAsSpec spec) {
 		AsmetaConditionExtractor ce = new AsmetaConditionExtractor();
 		List<AsmTestCondition> list = new Vector<AsmTestCondition>();
-		for (NamedTerm ne : ce.visit(spec.asm.getMainrule().getRuleBody())) {
+		List<NamedTerm> conditions = ce.visit(spec.asm.getMainrule().getRuleBody());
+		for (NamedTerm ne : conditions) {
 				list.add(new AsmTestCondition(ne.getName(), ne.getCondition()));
 		}
-		return new Coverage("BBR", list);
+		return new Coverage("ABR", list);
 	}
 }
 
