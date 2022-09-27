@@ -1,5 +1,6 @@
 package org.asmeta.atgt.generator.coverage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +84,9 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * 
 	 * @throws Exception the exception
 	 */
-	public Expression visit(FunctionTerm funcTerm) throws Exception {		
+	public Expression visit(FunctionTerm funcTerm) throws Exception {
+		assert !(funcTerm.getArguments()!= null): "function term without arguments " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(funcTerm);
+		assert !(funcTerm.getArguments().getTerms().isEmpty());
 		List<Expression> args = funcTerm.getArguments().getTerms().stream().map( x -> this.visit(x)).collect(Collectors.toList());
 		// dominio o codominio?? 
 		Type t = getType(funcTerm.getDomain());
@@ -142,8 +145,15 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 			// convert to type AsmetaLLoader.
 			return icc.createIdExpression(location.getFunction().getName(), getType(location.getDomain()));
 		}
-		throw new RuntimeException("not implemented yet location: " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location));
-//		Function func = location.getFunction();
+		//throw new RuntimeException("not implemented yet location: " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location));				
+		IdExpression funName = icc.createIdExpression(location.getFunction().getName(), getType(location.getDomain()));
+		Type type = getType(location.getFunction().getCodomain());
+		List<Expression> args = new ArrayList<>();
+		for(Term t: location.getArguments().getTerms()) {
+			System.out.println("t" + t);
+			args.add(visit(t));
+		}
+		return new tgtlib.definitions.expression.FunctionTerm(funName, type, args);
 //		if(func.getName().equals("self")) {
 //			return env.self;
 //		}
