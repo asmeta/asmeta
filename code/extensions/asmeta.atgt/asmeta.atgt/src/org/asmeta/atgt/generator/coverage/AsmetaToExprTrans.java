@@ -49,7 +49,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * @return the string
 	 */
 	public Expression visit(Term term) {
-		// System.out.println("visit term "+term);
+		System.out.println("visit term "+AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(term));
 		return visit((Object) term);
 	}
 
@@ -84,8 +84,8 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * 
 	 * @throws Exception the exception
 	 */
-	public Expression visit(FunctionTerm funcTerm) throws Exception {
-		assert !(funcTerm.getArguments()!= null): "function term without arguments " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(funcTerm);
+	public Expression visit(FunctionTerm funcTerm) throws Exception {	
+		assert !(funcTerm.getArguments() == null): "function term without arguments " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(funcTerm);
 		assert !(funcTerm.getArguments().getTerms().isEmpty());
 		List<Expression> args = funcTerm.getArguments().getTerms().stream().map( x -> this.visit(x)).collect(Collectors.toList());
 		// dominio o codominio?? 
