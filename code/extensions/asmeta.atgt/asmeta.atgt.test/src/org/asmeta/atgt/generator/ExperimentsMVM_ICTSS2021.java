@@ -92,7 +92,7 @@ public class ExperimentsMVM_ICTSS2021 {
 
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
 
-		List<Collection<AsmCoverageBuilder>> criteria = new ArrayList<>();
+		List<List<AsmCoverageBuilder>> criteria = new ArrayList<>();
 		List<AsmCoverageBuilder> allcriteria = new ArrayList<>();
 		for (CriteriaEnum c : CriteriaEnum.values()) {
 			// skip 3 wise and two wise monitored
@@ -100,14 +100,14 @@ public class ExperimentsMVM_ICTSS2021 {
 				continue;
 			if (c == CriteriaEnum.THREEWISE_ALL)
 				continue;
-			criteria.add(Collections.singleton(c.criteria));
+			criteria.add(Collections.singletonList(c.criteria));
 			allcriteria.add(c.criteria);
 		}
 		criteria.add(allcriteria);
 
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
 
-		for (Collection<AsmCoverageBuilder> asmcb : criteria) {
+		for (List<AsmCoverageBuilder> asmcb : criteria) {
 			String name = asmcb.stream().map(x -> x.getCoveragePrefix()).collect(Collectors.joining());
 			if (name.length() > 8)
 				name = "ALL";
@@ -484,7 +484,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	
 	@Test
 	public void test() throws Exception {
-		// questo falliva perchè creo due volte il test generator
+		// questo falliva perchï¿½ creo due volte il test generator
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
 		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.DEBUG);
 		List<CriteriaEnum> criteria = Arrays.asList(CriteriaEnum.COMPLETE_RULE,CriteriaEnum.MCDC);		

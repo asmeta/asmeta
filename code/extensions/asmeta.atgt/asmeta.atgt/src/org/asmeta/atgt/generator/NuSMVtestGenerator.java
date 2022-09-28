@@ -27,7 +27,7 @@ import tgtlib.specification.Specification;
  * using NuSMV
  *
  */
-public class NuSMVtestGenerator extends AsmTestGenerator<ASMSpecification>{
+public class NuSMVtestGenerator extends AsmTestGenerator{
 
 	public static boolean removeUnChangedControlles = true;
 

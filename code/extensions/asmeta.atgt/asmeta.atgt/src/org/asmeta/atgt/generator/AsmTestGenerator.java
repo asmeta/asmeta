@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.asmeta.atgt.generator.coverage.AsmetaAsSpec;
+import org.asmeta.parser.ASMParser;
 
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
@@ -21,7 +23,7 @@ import tgtlib.coverage.CoverageBuilder;
 import tgtlib.specification.ParseException;
 import tgtlib.specification.Specification;
 
-public abstract class AsmTestGenerator<SPEC extends Specification> {
+public abstract class AsmTestGenerator {
 
 
 	static private Logger logger = Logger.getLogger(AsmTestGenerator.class);
@@ -29,12 +31,13 @@ public abstract class AsmTestGenerator<SPEC extends Specification> {
 	/** compute coverage??? */
 	protected final boolean coverageTp;
 
-	protected final SPEC spec;
+	// TODO metti ASMETAASSPEC
+	protected final ASMSpecification spec;
 
 	// the coverage tree built according to some criteria
 	protected AsmCoverage ct;
 
-	protected SPEC getSpec() {
+	protected ASMSpecification getSpec() {
 		return spec;
 	}
 
@@ -48,19 +51,20 @@ public abstract class AsmTestGenerator<SPEC extends Specification> {
 
 	public static final boolean DEFAULT_COMPUTE_COVERAGE = true;
 
-	public AsmTestGenerator(String asmfile, boolean coverageTp) throws ParseException {
+	// prende il file in vecchio reader
+	protected AsmTestGenerator(String asmfile, boolean coverageTp) throws Exception{
 		assert new File(asmfile).exists() : asmfile + "not existing";
 		// read the spec
-		ParameterizedType t = (ParameterizedType) AsmTestGenerator.class.getGenericSuperclass(); // OtherClass<String>
-		Class<?> clazz = (Class<?>) t.getActualTypeArguments()[0];
-		if (clazz == ASMSpecification.class) {
-			spec = (SPEC) new AsmetaLLoader().read(new File(asmfile));
-			// should never happen because read will throw its own exception
-			if (spec == null)
-				throw new RuntimeException("errors in converting the asmeta for ATGT");
-		} else {
-			throw new RuntimeException("errors in converting the asmeta for ATGT");
+		//TODO if asmeta use another reader
+		ASMSpecification spectemp;
+		try{
+			spectemp =  new AsmetaLLoader().read(new File(asmfile));
+		} catch (Exception e) {
+			System.err.println("errors in converting the asmeta for ATGT");
+			asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(asmfile));
+			spectemp = new AsmetaAsSpec(asms);
 		}
+		spec = spectemp;
 		this.coverageTp = coverageTp;
 	}
 
@@ -96,7 +100,7 @@ public abstract class AsmTestGenerator<SPEC extends Specification> {
 	 * @param maxTests the max tests
 	 * @param regex the regex
 	 */
-	public void buildTPTree(MBTCoverage<SPEC> criteria, int maxTests, String regex) {
+	public void buildTPTree(MBTCoverage criteria, int maxTests, String regex) {
 		logger.debug("generating the tp tree for criteria " + criteria.getCoveragePrefix());
 		// build the tree depending on the criteria
 		ct = criteria.getTPTree(spec);
@@ -122,8 +126,8 @@ public abstract class AsmTestGenerator<SPEC extends Specification> {
 	}
 
 
-	public AsmTestSuite generateAbstractTests(Collection<CoverageBuilder<SPEC, AsmCoverage>> coverageCriteria, int maxTests, String regex) throws Exception {
-		buildTPTree(new MBTCoverage<SPEC>(coverageCriteria), maxTests, regex);
+	public AsmTestSuite generateAbstractTests(List<AsmCoverageBuilder> coverageCriteria, int maxTests, String regex) throws Exception {
+		buildTPTree(new MBTCoverage(coverageCriteria), maxTests, regex);
 		return generateTests();
 	}
 
@@ -155,12 +159,12 @@ public abstract class AsmTestGenerator<SPEC extends Specification> {
 	 * Structural except MCDC which is difficult to use because there is an equal
 	 * and Booleans
 	 */
-	public static  class MBTCoverage<SPEC extends Specification> extends CovBuilderBySubCov<SPEC, AsmTestCondition, AsmCoverage> {
+	public static  class MBTCoverage extends CovBuilderBySubCov<ASMSpecification, AsmTestCondition, AsmCoverage> {
 
-		public MBTCoverage(Collection<CoverageBuilder<SPEC, AsmCoverage>> criteria) {
+		public MBTCoverage(List<AsmCoverageBuilder> criteria) {
 			super("MBT Coverage", AsmCoverageTree.factory);
 
-			for (CoverageBuilder<SPEC, AsmCoverage> c : criteria)
+			for (CoverageBuilder<ASMSpecification, AsmCoverage> c : criteria)
 				register(c);
 
 			// Aggiunge i visitor di default

@@ -7,15 +7,12 @@ import org.asmeta.nusmv.MapVisitor;
 
 import asmeta.AsmCollection;
 import asmeta.structure.Asm;
-import tgtlib.definitions.expression.type.Variable;
+import atgt.specification.ASMSpecification;
+import atgt.specification.location.Function;
 import tgtlib.specification.Axiom;
-import tgtlib.specification.Specification;
 
 // should implement Specification
-//class AsmetaAsSpec extends ASMSpecification{
-	
-class AsmetaAsSpec implements Specification{
-	
+public class AsmetaAsSpec extends ASMSpecification{	
 	
 	Asm asm;
 
@@ -30,12 +27,18 @@ class AsmetaAsSpec implements Specification{
 	}
 
 	@Override
-	public Collection<? extends Variable> getVariables() {
+	public Collection<atgt.specification.location.Variable> getVariables() {
 		throw new RuntimeException("not implemented");
 	}
 
 	@Override
 	public Collection<Axiom> getAxiom() {
 		throw new RuntimeException("not implemented");
-	}	
+	}
+	
+	@Override
+	public Function getFunction(String var) {
+		throw new RuntimeException("not implemented");
+	}
+	
 }

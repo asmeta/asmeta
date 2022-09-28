@@ -40,7 +40,7 @@ public class AsmetaBasicRuleVisitorTest {
 		// String ex =
 		// "C:\\Users\\garganti\\code_from_repos\\asmeta\\mvm-asmeta\\asm_models\\VentilatoreASM_NewTime\\Ventilatore4SimpleTimeLtd.asm";
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
-		AsmetaBasicRuleVisitor tpbuilder = new AsmetaBasicRuleVisitor();
+		AsmetaBasicRuleCoverageBuilder tpbuilder = new AsmetaBasicRuleCoverageBuilder();
 		AsmCoverage tp = tpbuilder.getTPTree(new AsmetaAsSpec(asms));
 		tp.allTPs().forEach(x -> System.out.println(x.getCondition()));
 	}

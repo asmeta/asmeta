@@ -1,6 +1,8 @@
 package org.asmeta.atgt.generator.coverage;
 
 import atgt.coverage.AsmCoverage;
+import atgt.coverage.AsmCoverageBuilder;
+import atgt.specification.ASMSpecification;
 import tgtlib.coverage.CoverageBuilder;
 
 /**
@@ -11,11 +13,16 @@ import tgtlib.coverage.CoverageBuilder;
  */
 
 
-public interface AsmetaCoverageBuilder extends CoverageBuilder<AsmetaAsSpec, AsmCoverage>{
+//public interface AsmetaCoverageBuilder extends CoverageBuilder<AsmetaAsSpec, AsmCoverage>{
+public abstract class AsmetaCoverageBuilder implements AsmCoverageBuilder{
 	
 	
 	@Override
-	public AsmCoverage getTPTree(AsmetaAsSpec spec);
+	public AsmCoverage getTPTree(ASMSpecification spec) {
+		return getTPTree((AsmetaAsSpec)spec);
+	}
+		
+	public abstract AsmCoverage getTPTree(AsmetaAsSpec spec);
 	
 
 }

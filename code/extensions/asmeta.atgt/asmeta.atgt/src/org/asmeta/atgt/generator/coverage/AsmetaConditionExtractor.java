@@ -18,18 +18,24 @@ import asmeta.transitionrules.basictransitionrules.SkipRule;
 import asmeta.transitionrules.basictransitionrules.TermAsRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
+import atgt.parser.asmeta.TermCoverterWrapper;
+import atgt.specification.ASMSpecification;
 import extgt.coverage.mcdc.ShallowExpressionNegator;
 import tgtlib.definitions.NamedTerm;
 import tgtlib.definitions.expression.AndExpression;
 import tgtlib.definitions.expression.Expression;
+import tgtlib.definitions.expression.type.EnumConstCreator;
 
 public class AsmetaConditionExtractor extends  ReflectiveVisitor<List<NamedTerm>> implements IRuleVisitor<List<NamedTerm>>{
 	
 	
-	public AsmetaConditionExtractor() {
+	public AsmetaConditionExtractor(EnumConstCreator icc, ASMSpecification spec) {
+		translator = new TermCoverterWrapper(spec, icc);	
 	}
 	
-	AsmetaToExprTrans translator = new AsmetaToExprTrans(); 
+	
+	//AsmetaToExprTrans translator = new AsmetaToExprTrans();
+	TermCoverterWrapper translator;
 
 	@Override
 	public List<NamedTerm> visit(Rule rule) {

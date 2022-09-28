@@ -99,7 +99,7 @@ public class AsmTestGeneratorTest {
 		Logger.getLogger(AsmTestGeneratorTest.class).setLevel(Level.DEBUG);
 		String asmPath = "examples/asmenum.asm";
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, true);
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria),Integer.MAX_VALUE, ".*");
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singletonList(CriteriaEnum.COMBINATORIAL_ALL.criteria),Integer.MAX_VALUE, ".*");
 	}
 
 	@Test
@@ -108,7 +108,7 @@ public class AsmTestGeneratorTest {
 		String asmPath = "examples/phd_master_flat2_v00.asm";
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, true);
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(
-				Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),Integer.MAX_VALUE, ".*");
+				Collections.singletonList(CriteriaEnum.BASIC_RULE.criteria),Integer.MAX_VALUE, ".*");
 	}
 
 	@Test
@@ -117,7 +117,7 @@ public class AsmTestGeneratorTest {
 		String ex = "D:\\AgDocuments\\progettiDaSVN\\Rate4PHD\\ASM\\newPHD\\phd_master_flat2_v0.asm";
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(
-				Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria),Integer.MAX_VALUE, ".*");
+				Collections.singletonList(CriteriaEnum.COMBINATORIAL_ALL.criteria),Integer.MAX_VALUE, ".*");
 	}
 
 	@Test
@@ -128,7 +128,7 @@ public class AsmTestGeneratorTest {
 		NuSMVtestGenerator.removeUnChangedControlles = false;
 		ConverterCounterExample.IncludeUnchangedVariables = false;
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),Integer.MAX_VALUE, ".*");
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singletonList(CriteriaEnum.BASIC_RULE.criteria),Integer.MAX_VALUE, ".*");
 		AsmTestSequence x = result.getTests().get(0);
 		System.out.println(x.allInstructions().get(0));
 		System.out.println(x.allInstructions().get(1));
@@ -199,7 +199,7 @@ public class AsmTestGeneratorTest {
 				
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
 
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),1, ".*");
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singletonList(CriteriaEnum.BASIC_RULE.criteria),1, ".*");
 		
 	}
 	

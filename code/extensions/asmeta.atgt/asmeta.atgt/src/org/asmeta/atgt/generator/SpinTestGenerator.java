@@ -14,9 +14,9 @@ import tgtlib.specification.ParseException;
  * generate a JUnit test case for a given Java SUT. It generates the asmeta tests using SPIN
  *
  */
-public class SpinTestGenerator extends AsmTestGenerator<ASMSpecification> {
+public class SpinTestGenerator extends AsmTestGenerator {
 
-	public SpinTestGenerator(String asmfile, boolean coverageTp) throws ParseException {
+	public SpinTestGenerator(String asmfile, boolean coverageTp) throws Exception {
 		super(asmfile, coverageTp);
 	}
 

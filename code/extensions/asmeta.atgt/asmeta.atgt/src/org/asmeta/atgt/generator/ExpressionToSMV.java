@@ -1,5 +1,7 @@
 package org.asmeta.atgt.generator;
 
+import org.asmeta.parser.util.AsmetaTermPrinter;
+
 import tgtlib.definitions.expression.AndExpression;
 import tgtlib.definitions.expression.CaseExpression;
 import tgtlib.definitions.expression.CondExpression;
@@ -130,7 +132,8 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 
 	@Override
 	public StringBuffer forFunctionTerm(FunctionTerm ft) {
-		throw new RuntimeException("operator next not supported in NUSMV - to flatten??");
+		//throw new RuntimeException("term not supported in NUSMV - to flatten??" + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(ft));
+		throw new RuntimeException("generic function term not supported : " + ft);
 	}
 	
 	@Override

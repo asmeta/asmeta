@@ -25,6 +25,7 @@ import asmeta.terms.furtherterms.LetTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
 import atgt.parser.asmeta.AsmetaLLoader;
+import atgt.parser.asmeta.TermCoverterWrapper;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.NumericLiteral;
@@ -116,6 +117,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * @throws Exception the exception
 	 */
 	public Expression visit(FunctionTerm funcTerm) throws Exception {
+		
 		List<Expression> args;
 		if (funcTerm.getArguments() != null) {
 			args = funcTerm.getArguments().getTerms().stream().map(x -> this.visit(x)).collect(Collectors.toList());

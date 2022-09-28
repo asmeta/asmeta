@@ -7,15 +7,16 @@ import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.Coverage;
 import tgtlib.definitions.NamedTerm;
+import tgtlib.definitions.expression.type.EnumConstCreator;
 
 
-public class AsmetaBasicRuleVisitor implements AsmetaCoverageBuilder {
+public class AsmetaBasicRuleCoverageBuilder extends AsmetaCoverageBuilder {
 
 	/**
 	 * costruisce un nuovo basic rule visitor messo public per permettere la
 	 * creazione da parte del plugin di eclipse.
 	 */
-	public AsmetaBasicRuleVisitor() {
+	public AsmetaBasicRuleCoverageBuilder() {
 	}
 
 	@Override
@@ -25,7 +26,8 @@ public class AsmetaBasicRuleVisitor implements AsmetaCoverageBuilder {
 
 	@Override
 	public AsmCoverage getTPTree(AsmetaAsSpec spec) {
-		AsmetaConditionExtractor ce = new AsmetaConditionExtractor();
+		EnumConstCreator icc = new EnumConstCreator();
+		AsmetaConditionExtractor ce = new AsmetaConditionExtractor(icc, spec);
 		List<AsmTestCondition> list = new Vector<AsmTestCondition>();
 		List<NamedTerm> conditions = ce.visit(spec.asm.getMainrule().getRuleBody());
 		for (NamedTerm ne : conditions) {
