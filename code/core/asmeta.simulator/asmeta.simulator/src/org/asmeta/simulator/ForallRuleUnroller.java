@@ -1,9 +1,15 @@
 package org.asmeta.simulator;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.log4j.Logger;
 import org.asmeta.simulator.wrapper.RuleFactory;
 import org.eclipse.emf.common.util.EList;
 
+import asmeta.definitions.Function;
+import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumElement;
 import asmeta.definitions.domains.EnumTd;
@@ -49,43 +55,82 @@ public class ForallRuleUnroller extends RuleTransformer{
 		Domain domain = ((DomainTerm) range).getDomain();
 		// only powerset domains
 		PowersetDomain pw = (PowersetDomain) domain;
-		if (!(pw.getBaseDomain() instanceof EnumTd))
-			throw new RuntimeException("only enums are supported");
-		EnumTd enumtd = (EnumTd) pw.getBaseDomain();
-		// do rule
-		Rule doRule = fr.getDoRule();
-		// condition 
-		Term condition = fr.getGuard();
-		// the resulting rule
-		Rule firstConditional = null;
-		ConditionalRule mostInner = null;
-		// get the elements
-		EList<EnumElement> element = enumtd.getElement();
-		for (int i = 0; i < element.size()-1; i++) {
-			EnumElement e = element.get(i);
-			RuleSubstitution substitution = buildSubstituion(var, e, enumtd);
-			// build new rule
-			Rule newRule =  substitution.visit(doRule);
-			// build the new condition
-			Term newGurd = substitution.visit(condition);
-			// add new condition
-			ConditionalRule cr = ruleFactory.createConditionalRule();
-			cr.setGuard(newGurd);
-			cr.setThenRule(newRule);
-			// if it is the firs
-			if (firstConditional == null){
-				firstConditional = cr;
-			} else{
-				// the secondo and so on
-				mostInner.setElseRule(cr);
+		if (!(pw.getBaseDomain() instanceof EnumTd)) {
+			if (pw.getBaseDomain() instanceof AbstractTd) {
+				AbstractTd abstractDomain = (AbstractTd) pw.getBaseDomain();
+				// do rule
+				Rule doRule = fr.getDoRule();
+				// condition 
+				Term condition = fr.getGuard();
+				// the resulting rule
+				Rule firstConditional = null;
+				ConditionalRule mostInner = null;
+				// get the possible functions
+				List<Function> list = pw.getBaseDomain().getSignature().getFunction().stream().filter(x -> x.getCodomain().equals(abstractDomain)).collect(Collectors.toList());
+				for (Function f : list.subList(0, list.size()-1)) {		
+					RuleSubstitution substitution = buildSubstituion(var, f, abstractDomain);
+					// build new rule
+					Rule newRule =  substitution.visit(doRule);
+					// build the new condition
+					Term newGurd = substitution.visit(condition);
+					// add new condition
+					ConditionalRule cr = ruleFactory.createConditionalRule();
+					cr.setGuard(newGurd);
+					cr.setThenRule(newRule);
+					// if it is the firs
+					if (firstConditional == null){
+						firstConditional = cr;
+					} else{
+						// the secondo and so on
+						mostInner.setElseRule(cr);
+					}
+					mostInner = cr;
+				}
+				// add the last one without condition
+				RuleSubstitution substitution = buildSubstituion(var, list.get(list.size()-1), abstractDomain);
+				// build new rule and set as final else
+				mostInner.setElseRule(substitution.visit(doRule));
+				return firstConditional;		
 			}
-			mostInner = cr;
+			else 
+				throw new RuntimeException("only enums and abstract domains are supported: " + pw.getBaseDomain().getName());
+		} else {
+			EnumTd enumtd = (EnumTd) pw.getBaseDomain();
+			// do rule
+			Rule doRule = fr.getDoRule();
+			// condition 
+			Term condition = fr.getGuard();
+			// the resulting rule
+			Rule firstConditional = null;
+			ConditionalRule mostInner = null;
+			// get the elements
+			EList<EnumElement> element = enumtd.getElement();
+			for (int i = 0; i < element.size()-1; i++) {
+				EnumElement e = element.get(i);
+				RuleSubstitution substitution = buildSubstituion(var, e, enumtd);
+				// build new rule
+				Rule newRule =  substitution.visit(doRule);
+				// build the new condition
+				Term newGurd = substitution.visit(condition);
+				// add new condition
+				ConditionalRule cr = ruleFactory.createConditionalRule();
+				cr.setGuard(newGurd);
+				cr.setThenRule(newRule);
+				// if it is the firs
+				if (firstConditional == null){
+					firstConditional = cr;
+				} else{
+					// the secondo and so on
+					mostInner.setElseRule(cr);
+				}
+				mostInner = cr;
+			}
+			// add the last one without condition
+			RuleSubstitution substitution = buildSubstituion(var, element.get(element.size()-1), enumtd);
+			// build new rule and set as final else
+			mostInner.setElseRule(substitution.visit(doRule));
+			return firstConditional;
 		}
-		// add the last one without condition
-		RuleSubstitution substitution = buildSubstituion(var, element.get(element.size()-1), enumtd);
-		// build new rule and set as final else
-		mostInner.setElseRule(substitution.visit(doRule));
-		return firstConditional;
 	}
 
 	private RuleSubstitution buildSubstituion(VariableTerm var, EnumElement e, EnumTd enumtd) {
@@ -94,6 +139,18 @@ public class ForallRuleUnroller extends RuleTransformer{
 		EnumTerm et = ruleFactory.createEnumTerm();
 		et.setSymbol(e.getSymbol());
 		et.setDomain(enumtd);
+		macroAssignment.put(var, et);
+		RuleSubstitution substitution = 
+			new RuleSubstitution(macroAssignment);
+		return substitution;
+	}
+	
+	private RuleSubstitution buildSubstituion(VariableTerm var, Function f, AbstractTd abstractDomain) {
+		logger.debug("replace " + var.getName()  + " with " + f.getName());
+		TermAssignment macroAssignment = new TermAssignment();
+		EnumTerm et = ruleFactory.createEnumTerm();
+		et.setSymbol(f.getName());
+		et.setDomain(abstractDomain);
 		macroAssignment.put(var, et);
 		RuleSubstitution substitution = 
 			new RuleSubstitution(macroAssignment);

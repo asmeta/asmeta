@@ -4,6 +4,7 @@ import tgtlib.definitions.expression.AndExpression;
 import tgtlib.definitions.expression.CaseExpression;
 import tgtlib.definitions.expression.CondExpression;
 import tgtlib.definitions.expression.EqualsExpression;
+import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.FunctionTerm;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.ImpliesExpression;
@@ -130,7 +131,14 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 
 	@Override
 	public StringBuffer forFunctionTerm(FunctionTerm ft) {
-		throw new RuntimeException("operator next not supported in NUSMV - to flatten??");
+		if (ft.getArguments().size() == 1) {
+			String ftToString = ft.toString();
+			String[] ftArray = ftToString.split("\\[");
+			String res = ftArray[0] + "_" + ftArray[1].replace("]", "").toUpperCase();
+			return new StringBuffer(res);
+		} else {
+			return new StringBuffer(ft.toString());
+		}
 	}
 	
 	@Override

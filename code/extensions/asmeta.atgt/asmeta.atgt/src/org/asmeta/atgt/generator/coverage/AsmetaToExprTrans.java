@@ -84,14 +84,14 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * 
 	 * @throws Exception the exception
 	 */
-	public Expression visit(FunctionTerm funcTerm) throws Exception {	
+	public Expression visit(FunctionTerm funcTerm) throws Exception {
 		assert !(funcTerm.getArguments() == null): "function term without arguments " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(funcTerm);
 		assert !(funcTerm.getArguments().getTerms().isEmpty());
 		List<Expression> args = funcTerm.getArguments().getTerms().stream().map( x -> this.visit(x)).collect(Collectors.toList());
 		// dominio o codominio?? 
 		Type t = getType(funcTerm.getDomain());
 		IdExpression fid = icc.createIdExpression(funcTerm.getFunction().getName(), t);
-		return  new tgtlib.definitions.expression.FunctionTerm(fid, t, args);
+		return new tgtlib.definitions.expression.FunctionTerm(fid, t, args);
 	}
 
 	/**

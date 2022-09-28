@@ -17,23 +17,10 @@ Require-Bundle: asmeta.smv,
  asmeta.simulator,
  org.eclipse.core.resources,
  asmeta.flattener
-Bundle-ClassPath: atgt4asmeta.jar,
- .
-Export-Package: atgt.combinatorial,
- atgt.coverage,
- atgt.coverage.tpstatus,
- atgt.generator,
- atgt.parser.asmeta,
- atgt.specification,
- atgt.specification.location,
- atgt.testseqexport,
- extgt.coverage.combinatorial,
+Bundle-ClassPath: .
+Export-Package: 
  org.asmeta.atgt.generator,
  org.asmeta.atgt.generator.combinatorial,
  org.asmeta.atgt.generator.coverage,
  org.asmeta.atgt.generator2,
- org.asmeta.atgt.testoptimizer,
- tgtlib.coverage,
- tgtlib.definitions,
- tgtlib.definitions.expression,
- tgtlib.specification
+ org.asmeta.atgt.testoptimizer

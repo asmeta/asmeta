@@ -16,12 +16,14 @@ import atgt.specification.location.DerivedFunction;
 import atgt.specification.location.Function;
 import atgt.specification.location.Location;
 import atgt.specification.location.Variable;
+import atgt.specification.type.DummyType;
 import tgtlib.definitions.expression.FunctionTerm;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.EnumerableType;
 import tgtlib.definitions.expression.type.IntegerType;
+import tgtlib.definitions.expression.type.Type;
 
 /** convert a counter example of the model checker to a test sequence
  */
@@ -140,10 +142,17 @@ public class ConverterCounterExample {
 		 * new FunctionTerm(f.getIdExpression(), f.getCodomain(),
 		 * Collections.singletonList(argId)); return ft;
 		 */
-		EnumerableType et = (EnumerableType) f.getDomain();
+		Type et = f.getDomain();
 		if (et instanceof EnumType) {
 			argId = ((EnumType) et).getEnumConst(argument);
-		} else {
+		} else if (et instanceof DummyType) { 
+			if (spec.getVariable(argument) != null)
+				argId = spec.getVariable(argument).getIdExpression();
+			else if (spec.getVariable(argument.toLowerCase()) != null)
+				argId = spec.getVariable(argument.toLowerCase()).getIdExpression();
+			else
+				throw new RuntimeException("No variable found with name " + argument);
+		} else {			
 			argId = ENUM_CONST_CREATOR.createIdExpression(argument, IntegerType.INTEGER_TYPE);
 		}
 		assert argId != null : argument + " not found in " + et;
