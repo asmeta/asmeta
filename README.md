@@ -45,10 +45,13 @@ https://asmeta.github.io/
 
 ### eclispe with asmeta:
 
-https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2022_04.zip
+new version! - some improvements regarding the parsing and some minor bugs are fixed:
+
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2022_09.zip
 
 #### old versions
 
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2022_04.zip
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2021_06.zip
 
 
