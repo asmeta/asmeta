@@ -1,7 +1,6 @@
 asm controller
  
-import ../../STDL/TimeLibrarySimple
-import ../../STDL/CTLlibrary
+import ../TimeLibrarySimple
 
 signature:
 	// DOMAINS

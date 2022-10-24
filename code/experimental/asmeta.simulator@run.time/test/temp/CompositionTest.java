@@ -11,6 +11,7 @@ public class CompositionTest {
 
 	String path = "examples/testUnbound/";
 	String path2 = "examples/MVM/";
+	String pathTrafficLight = "examples/trafficLightCoSim/";
 
 	@Test
 	public void test3() throws Exception {
@@ -32,13 +33,39 @@ public class CompositionTest {
 	}
 
 	@Test
+	public void testTrafficLight() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		Par asm2 = new Par(new LeafAsm(pathTrafficLight + "trafficlightA.asm"),
+				new LeafAsm(pathTrafficLight + "trafficlightB.asm"));
+		Pipe b1 = new Pipe(new LeafAsm(pathTrafficLight + "controller.asm"), asm2);
+		while (true) {
+			b1.eval();
+			System.out.println(" ===== new step =====");
+		}
+	}
+	
+	@Test
+	public void testTrafficLight2() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		Par asm1 = new Par(new LeafAsm(pathTrafficLight + "trafficlightB.asm"),
+				new LeafAsm(pathTrafficLight + "trafficlightB.asm"));
+		Par asm2 = new Par(new LeafAsm(pathTrafficLight + "trafficlightA.asm"),asm1);
+		Par asm3 = new Par(new LeafAsm(pathTrafficLight + "trafficlightA.asm"),asm2);
+		Pipe b1 = new Pipe(new LeafAsm(pathTrafficLight + "controller.asm"), asm3);
+		while (true) {
+			b1.eval();
+			System.out.println(" ===== new step =====");
+		}
+	}
+
+	@Test
 	public void testMVM() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		BiPipe asm2 = new BiPipe(new LeafAsm(path2 + "MVMcontroller04.asm"), new LeafAsm(path2 + "supervisor03.asm"));
 		BiPipe b1 = new BiPipe(new LeafAsm(path2 + "MVMHardware.asm"), asm2);
 		int count = 1;
 		while (true) {
-			System.out.println(" ===== I/O  ASM  assembly "+ count +" =====");
+			System.out.println(" ===== I/O  ASM  assembly " + count + " =====");
 			b1.eval();
 			count++;
 		}
