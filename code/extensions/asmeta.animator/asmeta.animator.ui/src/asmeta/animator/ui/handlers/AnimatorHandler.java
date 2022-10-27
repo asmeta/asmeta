@@ -64,6 +64,7 @@ public class AnimatorHandler extends AsmetaActionHandler {
 		IConsoleView view = (IConsoleView) window.getActivePage().showView(IConsoleConstants.ID_CONSOLE_VIEW);
 		AsmeeConsole mc = AsmetaUtility.findDefaultConsole();
 		view.display(mc);
+		if (path == null) mc.writeMessage("path not found");
 //		mc.writeMessage("PATH " + path);
 		return path;
 	}
