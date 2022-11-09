@@ -480,8 +480,10 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("{");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("r_Main();");
-    _builder.newLine();
+    String _name = asm.getMainrule().getName();
+    _builder.append(_name, "\t\t");
+    _builder.append("();");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
     _builder.append("fireUpdateSet();");
     _builder.newLine();

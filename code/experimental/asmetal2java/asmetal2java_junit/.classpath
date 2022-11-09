@@ -6,16 +6,17 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="target/classes" path="xtend-gen">
-		<attributes>
-			<attribute name="optional" value="true"/>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="src" output="target/test-classes" path="test">
 		<attributes>
 			<attribute name="test" value="true"/>
 			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src-gen"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
+		<attributes>
+			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
@@ -26,13 +27,105 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
+	<classpathentry kind="lib" path="C:/Users/aless/.p2/pool/plugins/com.google.inject_5.0.1.v20210324-2015.jar" sourcepath="C:/Users/aless/.p2/pool/plugins/com.google.inject_5.0.1.v20210324-2015.jar">
+		<accessrules>
+			<accessrule kind="discouraged" pattern="com/google/inject/internal/*"/>
+			<accessrule kind="discouraged" pattern="com/google/inject/internal/aop/*"/>
+			<accessrule kind="discouraged" pattern="com/google/inject/internal/asm/*"/>
+			<accessrule kind="discouraged" pattern="com/google/inject/internal/util/*"/>
+			<accessrule kind="accessible" pattern="com/google/inject/*"/>
+			<accessrule kind="accessible" pattern="com/google/inject/binder/*"/>
+			<accessrule kind="accessible" pattern="com/google/inject/matcher/*"/>
+			<accessrule kind="accessible" pattern="com/google/inject/multibindings/*"/>
+			<accessrule kind="accessible" pattern="com/google/inject/name/*"/>
+			<accessrule kind="accessible" pattern="com/google/inject/spi/*"/>
+			<accessrule kind="accessible" pattern="com/google/inject/util/*"/>
+			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
+		</accessrules>
 	</classpathentry>
-	<classpathentry kind="src" path="/asmeta.parser"/>
+	<classpathentry kind="lib" path="C:/Users/aless/.p2/pool/plugins/org.eclipse.xtext_2.27.0.v20220530-0355.jar" sourcepath="C:/Users/aless/.p2/pool/plugins/org.eclipse.xtext.source_2.27.0.v20220530-0355.jar">
+		<accessrules>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/build/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/common/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/common/parser/packrat/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/common/parser/packrat/consumers/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/common/services/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/conversion/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/conversion/impl/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/debug/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/diagnostics/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/documentation/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/documentation/impl/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/findReferences/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/formatting/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/formatting/impl/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/formatting2/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/formatting2/debug/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/formatting2/internal/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/formatting2/regionaccess/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/formatting2/regionaccess/internal/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/generator/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/generator/trace/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/generator/trace/internal/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/generator/trace/node/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/grammaranalysis/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/grammaranalysis/impl/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/impl/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/internal/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/linking/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/linking/impl/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/linking/lazy/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/mwe/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/naming/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/nodemodel/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/nodemodel/impl/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/nodemodel/serialization/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/nodemodel/util/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/parser/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/parser/antlr/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/parser/antlr/internal/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/parser/impl/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/parser/packrat/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/parser/packrat/consumers/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/parser/packrat/debug/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/parser/packrat/internal/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/parser/packrat/matching/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/parser/packrat/tokens/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/parsetree/reconstr/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/parsetree/reconstr/impl/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/preferences/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/resource/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/resource/clustering/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/resource/containers/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/resource/generic/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/resource/impl/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/resource/persistence/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/scoping/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/scoping/impl/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/serializer/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/serializer/acceptor/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/serializer/analysis/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/serializer/diagnostic/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/serializer/impl/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/serializer/sequencer/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/serializer/tokens/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/service/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/services/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/tasks/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/util/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/validation/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/xtext/validation/impl/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/workspace/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/xtext/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/xtext/ecoreInference/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/xtext/xtext/parser/*"/>
+			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="src" path="/asmeta.simulator"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.asmeta.avallaxt"/>
+	<classpathentry kind="src" path="/asmeta.parser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/asmetal2java_codegen"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

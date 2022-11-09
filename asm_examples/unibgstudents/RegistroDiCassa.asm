@@ -83,7 +83,7 @@ definitions:
 			endif
 			if(sceltaDiAggiuntaPizza=NO) then
 				seq
-				outMess := "Il totale è:"
+				outMess := "Il totale ï¿½:"
 				outMess := totale
 				statoCassa := ATTENDI_ORDINAZIONI
 				endseq
@@ -123,7 +123,7 @@ definitions:
 				endseq
 			else 
 				seq
-				outMess := "Questa pizza non è presente in elenco!"
+				outMess := "Questa pizza non ï¿½ presente in elenco!"
 				statoCassa := SCEGLI_SE_AGGIUNGERE_PIZZA
 				endseq
 			endif

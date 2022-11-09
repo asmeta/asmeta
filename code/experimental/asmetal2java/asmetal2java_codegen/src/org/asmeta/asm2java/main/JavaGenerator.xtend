@@ -30,7 +30,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 	String initConrolledMonitored
 
-	def compileAndWrite(Asm asm, String writerPath, TranslatorOptions userOptions) {
+	def compileAndWrite(Asm asm , String writerPath, TranslatorOptions userOptions) {
 		Assert.assertTrue(writerPath.endsWith(".java"));
 		compileAndWrite(asm, writerPath, "JAVA", userOptions)
 	}
@@ -215,7 +215,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 					//Metodo per l'aggiornamento dell'asm
 					void UpdateASM()
 					{
-						r_Main();
+						«asm.mainrule.name»();
 						fireUpdateSet();
 						initControlledWithMonitored();
 					}

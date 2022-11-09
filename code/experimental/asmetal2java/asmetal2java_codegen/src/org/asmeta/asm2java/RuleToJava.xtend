@@ -47,15 +47,19 @@ class RuleToJava extends RuleVisitor<String> {
 	override String visit(BlockRule object) {
 		return '''
 		{ //par
-			«new RuleToJava(res,false,options).printRules(object.getRules())»
+			«new RuleToJava(res,false,options).printRules(object.getRules(), false)»
 		}//endpar'''
 	}
 
     //Metodo di supporto per tradurre le singole righe di un blocco regole
-	def private String printRules(EList<Rule> rules) {
+	def private String printRules(EList<Rule> rules, boolean addFire) {
 		var StringBuffer sb = new StringBuffer
 		for (var int i = 0; i < rules.size(); i++) {
 			sb.append(new RuleToJava(res, seqBlock, options).visit(rules.get(i)))
+			if (addFire){
+				sb.append("\nfireUpdateSet();\n")
+			}
+			
 		}
 		return sb.toString()
 	}
@@ -92,7 +96,7 @@ class RuleToJava extends RuleVisitor<String> {
 		
 		return '''
 			{//seq
-				«new RuleToJava(res,true,options).printRules(object.rules)»
+				«new RuleToJava(res,true,options).printRules(object.rules,true)»
 			}//endseq
 		'''
 	}

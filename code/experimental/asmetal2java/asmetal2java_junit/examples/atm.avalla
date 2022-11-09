@@ -1,0 +1,42 @@
+scenario atm
+load ATM3.asm
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+set insertedCard := card2;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card2;
+check accessible(card2) = true;
+set insertedCard := card2;
+set insertedPin := 1435264932;
+step
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check currCard = card2;
+check accessible(card2) = true;
+set insertedCard := card3;
+set insertedPin := 1435264932;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card3;
+check accessible(card2) = true;
+check accessible(card3) = true;
+set insertedCard := card3;
+set insertedPin := -1417768097;
+step
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check currCard = card3;
+check accessible(card2) = true;
+check accessible(card3) = true;
+set insertedCard := card1;
+set insertedPin := -1417768097;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card1;
+check accessible(card2) = true;
+check accessible(card3) = true;
+step

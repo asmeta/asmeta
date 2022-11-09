@@ -52,17 +52,22 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder.append("{ //par");
     _builder.newLine();
     _builder.append("\t");
-    String _printRules = new RuleToJava(this.res, false, this.options).printRules(object.getRules());
+    String _printRules = new RuleToJava(this.res, false, this.options).printRules(object.getRules(), false);
     _builder.append(_printRules, "\t");
     _builder.newLineIfNotEmpty();
     _builder.append("}//endpar");
     return _builder.toString();
   }
 
-  private String printRules(final EList<Rule> rules) {
+  private String printRules(final EList<Rule> rules, final boolean addFire) {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < rules.size()); i++) {
-      sb.append(new RuleToJava(this.res, this.seqBlock, this.options).visit(rules.get(i)));
+      {
+        sb.append(new RuleToJava(this.res, this.seqBlock, this.options).visit(rules.get(i)));
+        if (addFire) {
+          sb.append("\nfireUpdateSet();\n");
+        }
+      }
     }
     return sb.toString();
   }
@@ -122,7 +127,7 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder.append("{//seq");
     _builder.newLine();
     _builder.append("\t");
-    String _printRules = new RuleToJava(this.res, true, this.options).printRules(object.getRules());
+    String _printRules = new RuleToJava(this.res, true, this.options).printRules(object.getRules(), true);
     _builder.append(_printRules, "\t");
     _builder.newLineIfNotEmpty();
     _builder.append("}//endseq");

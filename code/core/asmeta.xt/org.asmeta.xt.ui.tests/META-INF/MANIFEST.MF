@@ -7,7 +7,6 @@ Bundle-Version: 22.04
 Bundle-SymbolicName: org.asmeta.xt.ui.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.xt.ui,
- org.junit.jupiter.api;bundle-version="[5.0.0,6.0.0)",
  org.eclipse.xtext.testing,
  org.eclipse.xtext.xbase.testing,
  org.eclipse.xtext.xbase.junit,

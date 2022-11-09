@@ -1,7 +1,7 @@
 package org.asmeta.asm2java;
 
 import java.util.List;
-
+import org.asmeta.asm2code.Util;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.Term;
 
