@@ -1,6 +1,7 @@
 package org.asmeta.asm2code.main;
 
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -35,22 +36,15 @@ public class GeneratorCompilerTest {
 	//-----
 	//-----
 	//-------------------------------------------------------------------------------------------------------------------------------------------------
-	
-	 
      @Test 
      public void testBasicDomain() throws IOException, Exception { 
          String asmspec = "examples/BasicDomain.asm"; 
-         if (!test(asmspec, options).success) fail(); 
+         assertTrue(test(asmspec, options).success); 
      } 
 
- 	/*
- 	 * 
- 	 * 
- 	 * 
-     
      @Test public void testAdvancedClock() throws IOException, Exception { 
          String asmspec = "examples/AdvancedClock.asm"; 
-         if (!test(asmspec, options).success) fail();
+         assertTrue(test(asmspec, options).success); 
      }
      
 
@@ -58,8 +52,7 @@ public class GeneratorCompilerTest {
 	@Test
 	public void testSignature() throws IOException, Exception {
 		String asmspec = "examples/testSignature.asm";
-		if (!test(asmspec,options).success)
-			fail();
+        assertTrue(test(asmspec, options).success); 
 	}
 	
 	
@@ -67,66 +60,57 @@ public class GeneratorCompilerTest {
 	@Test
 	public void testCoffeeVendingMachineNC() throws IOException, Exception {
 		String asmspec = "examples/coffeeVendingMachineNC.asm";
-		if (!test(asmspec, options).success)
-			fail();
+        assertTrue(test(asmspec, options).success); 
 	}
 	
 	
 	@Test
 	public void testtestDefinition() throws IOException, Exception {
 		String asmspec = "examples/testDefinition.asm";
-		if (!test(asmspec, options).success)
-			fail();
+        assertTrue(test(asmspec, options).success); 
 	}
 	
 	@Test
 	public void testtestDefinition2() throws IOException, Exception {
 		String asmspec = "examples/testDefinition2.asm";
-		if (!test(asmspec, options).success)
-			fail();
+        assertTrue(test(asmspec, options).success); 
 	}
 	
 	@Test
 	public void testtestDefinition3() throws IOException, Exception {
 		String asmspec = "examples/testDefinition3.asm";
-		if (!test(asmspec, options).success)
-			fail();
+        assertTrue(test(asmspec, options).success); 
 	}
 	
 	@Test
 	public void testtestDefinition4() throws IOException, Exception {
 		String asmspec = "examples/testDefinition4.asm";
-		if (!test(asmspec, options).success)
-			fail();
+        assertTrue(test(asmspec, options).success); 
 	}
 	
 	@Test
 	public void testStaticFun() throws IOException, Exception {
 		String asmspec = "examples/testStaticFun.asm";
-		if (!test(asmspec, options).success)
-			fail();
+        assertTrue(test(asmspec, options).success); 
 	}
 	
 	@Test
 	public void testCoffeeVendingMachine() throws IOException, Exception {
 		String asmspec = "examples/coffeeVendingMachine.asm";
-		if (!test(asmspec,options).success)
-			fail();
+        assertTrue(test(asmspec, options).success); 
 	}
 
 
 	@Test
 	public void testSIS() throws IOException, Exception {
 		String asmspec = "examples/SIS.asm";
-		if (!test(asmspec, options).success)
-			fail();
+        assertTrue(test(asmspec, options).success); 
 	}
 
 	@Test
 	public void testATM3() throws IOException, Exception {
 		String asmspec = "examples/ATM3.asm";
-		if (!test(asmspec, options).success)
-			fail();
+        assertTrue(test(asmspec, options).success); 
 	}
 	
 	@Test
@@ -218,7 +202,10 @@ public class GeneratorCompilerTest {
 		if (!test(asmspec, options).success)
 			fail();
 	}
-	*/
+	
+	
+	
+	
 	
 	/* 
 	 //Da sistemare, scrive il codice ma sbagliato!
@@ -416,7 +403,7 @@ public class GeneratorCompilerTest {
 		File javaFileExeT = new File(dirTraduzione + File.separator + name + "_Exe.java");
 		File javaFileWinT = new File(dirTraduzione + File.separator + name + "_Win.java");
 
-		// Se il file java esiste di già, lo cancella 
+		// Se il file java esiste di giï¿½, lo cancella 
 		
 		if (javaFile.exists())
 			javaFile.delete();
