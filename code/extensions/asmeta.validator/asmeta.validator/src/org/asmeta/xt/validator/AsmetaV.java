@@ -42,24 +42,20 @@ public class AsmetaV {
 		return asmetaV.execValidation(new File(scenarioPath), coverage);
 	}
 
-	private AsmetaV() {
-
-	}
-
+	private AsmetaV(){}
+	
+	/** setup the logger**/
 	private static void setLogger() {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
 		// BasicConfigurator.configure();
 		Logger log = Logger.getRootLogger();
 		// log.setLevel(Level.INFO);
-		Enumeration<?> it = log.getAllAppenders();
-
 		// 03/03/2021 - Andrea
 		// Delete all the appenders of the root logger except a single ConsoleAppender
-		if (Collections.list(log.getAllAppenders()).stream().filter(x -> (x instanceof ConsoleAppender)).count() > 1) {
-
-			java.util.Optional app = Collections.list(log.getAllAppenders()).stream()
+		Enumeration allAppenders = log.getAllAppenders();
+		if (Collections.list(allAppenders).stream().filter(x -> (x instanceof ConsoleAppender)).count() > 1) {
+			java.util.Optional app = Collections.list(allAppenders).stream()
 					.filter(x -> (x instanceof ConsoleAppender)).findFirst();
-
 			if (app != null) {
 				ConsoleAppender consoleApp = (ConsoleAppender) app.get();
 				ConsoleAppender newConsoleApp = new ConsoleAppender(consoleApp.getLayout(), consoleApp.getTarget());
