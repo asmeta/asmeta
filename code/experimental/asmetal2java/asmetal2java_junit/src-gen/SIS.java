@@ -35,7 +35,7 @@ abstract class SIS_sig {
 					
 				      static List<Integer> elems = new ArrayList<Integer>();
 	
-	                  int value;
+	                  Integer value;
 					}
 					
 					WaterpressureType WaterpressureType_elem = new WaterpressureType();
@@ -48,7 +48,7 @@ abstract class SIS_sig {
 					
 				      static List<Integer> elems = new ArrayList<Integer>();
 	
-	                  int value;
+	                  Integer value;
 					}
 					
 					Delta Delta_elem = new Delta();

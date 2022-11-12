@@ -35,7 +35,7 @@ abstract class ascensore_sig {
 					
 				      static List<Integer> elems = new ArrayList<Integer>();
 	
-	                  int value;
+	                  Integer value;
 					}
 					
 					Piano Piano_elem = new Piano();

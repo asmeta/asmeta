@@ -47,7 +47,7 @@ abstract class coffeeVendingMachine_sig {
 					
 				      static List<Integer> elems = new ArrayList<Integer>();
 	
-	                  int value;
+	                  Integer value;
 					}
 					
 					QuantityDomain QuantityDomain_elem = new QuantityDomain();
@@ -60,7 +60,7 @@ abstract class coffeeVendingMachine_sig {
 					
 				      static List<Integer> elems = new ArrayList<Integer>();
 	
-	                  int value;
+	                  Integer value;
 					}
 					
 					CoinDomain CoinDomain_elem = new CoinDomain();

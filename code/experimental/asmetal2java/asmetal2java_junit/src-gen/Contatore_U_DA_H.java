@@ -35,7 +35,7 @@ abstract class Contatore_U_DA_H_sig {
 					
 				      static List<Integer> elems = new ArrayList<Integer>();
 	
-	                  int value;
+	                  Integer value;
 					}
 					
 					Unita Unita_elem = new Unita();
@@ -48,7 +48,7 @@ abstract class Contatore_U_DA_H_sig {
 					
 				      static List<Integer> elems = new ArrayList<Integer>();
 	
-	                  int value;
+	                  Integer value;
 					}
 					
 					Decine Decine_elem = new Decine();
@@ -61,7 +61,7 @@ abstract class Contatore_U_DA_H_sig {
 					
 				      static List<Integer> elems = new ArrayList<Integer>();
 	
-	                  int value;
+	                  Integer value;
 					}
 					
 					Centinaia Centinaia_elem = new Centinaia();
@@ -74,7 +74,7 @@ abstract class Contatore_U_DA_H_sig {
 					
 				      static List<Integer> elems = new ArrayList<Integer>();
 	
-	                  int value;
+	                  Integer value;
 					}
 					
 					Migliaia Migliaia_elem = new Migliaia();
