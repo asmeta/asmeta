@@ -1,5 +1,6 @@
 package asmetal2java_junit;
 import static asmetal2java_junit.Formatter.formatCode;
+import static org.junit.Assert.assertTrue;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -41,6 +42,8 @@ public class AvallaToString extends org.asmeta.avallaxt.avalla.util.AvallaSwitch
 	public static final String JUnit_EXT = ".java";
 	
 	public String temp3 = "";
+	//Get location for set/exec
+	public String s_Gl = "";
 	public FileWriter file;
 
 	
@@ -96,8 +99,11 @@ public class AvallaToString extends org.asmeta.avallaxt.avalla.util.AvallaSwitch
 				
 			}else if(s1 instanceof Exec) {
 				String execForm = formatCode(caseExec((Exec) s1));
-				file.write(execForm);
+				file.write(execForm + "\n");
 			}
+//			else if(s1 instanceof StepUntil) {
+//				
+//			}
 			
 		}
 		String endDoc = formatCode(" }\n}");
@@ -123,9 +129,7 @@ public class AvallaToString extends org.asmeta.avallaxt.avalla.util.AvallaSwitch
 	///////////////////////////////////////////
 	//@Override
 	public String caseScenario(Scenario s,int i){
-		// + 
-		//formatCode("@Test\n") + formatCode("public void" + temp3 + "_Test(){\n\n")
- //+  createConstr(s);
+
 		return "public class " + temp3 + "_Test_" + i + "{\n" + "@Test\n" + 
 				"public void " + temp3 + "_Test(){\n" + createConstr(s);
 
@@ -148,9 +152,6 @@ public class AvallaToString extends org.asmeta.avallaxt.avalla.util.AvallaSwitch
 	 
 	@Override
 	public String caseCheck(Check s1) {
-//		if(s1.toString().contains("outmex") || s1.toString().contains("outMess")) {
-//			return "\n";
-//		}
 		
 		//suppongo ci sia check
 		String beforeEqu = s1.getExpression().split("\\=")[0].trim();
@@ -170,10 +171,7 @@ public class AvallaToString extends org.asmeta.avallaxt.avalla.util.AvallaSwitch
 			}
 		}
 		else {
-			//int temp = Integer.valueOf(afterEqu);
-			//assertTrue(sis.waterpressure.get().value == 3);
 			return "//Check\n" + "assertTrue(" + nameSce + "." + beforeEqu + ".get().value == " + afterEqu + ");\n";
-			//Integer.parseInt(afterEqu) + ");\n";
 		}
 	}
 	
@@ -183,11 +181,11 @@ public class AvallaToString extends org.asmeta.avallaxt.avalla.util.AvallaSwitch
 	public String caseSet(Set s1) {
 		String leftAssign = nameSce + "." + s1.getLocation() + "." +  "Value" ;
 		String s1_V = s1.getValue();
-		String s1_GetLoc = StringUtils.capitalize(s1.getLocation());
+		String s_Gl = StringUtils.capitalize(s1.getLocation());
 		
 		
 		if(!isInteger(s1_V)){
-			if(s1.getValue().contains("false") || s1.getValue().contains("true")) {
+			if(s1.getValue().equals("false") || s1.getValue().equals("true")) {
 				return "//Set\n" + leftAssign + "=" + s1_V + ";\n";
 			}
 			else {
@@ -196,24 +194,36 @@ public class AvallaToString extends org.asmeta.avallaxt.avalla.util.AvallaSwitch
 		}
 		else {
 			
-			return "//Set\n" + leftAssign + "= new " + temp3 +"_sig." + s1_GetLoc + "();\n" +
+			return "//Set\n" + leftAssign + "= new " + temp3 +"_sig." + s_Gl + "();\n" +
 					leftAssign + ".value = " + s1_V + ";\n";
 			
 		}
-		
-		
-		//sis.delta.Value = new SIS_sig.Delta();
-		//sis.delta.Value.value = -1;
 	}
 	
 	@Override
 	public String caseExec(Exec s1) {
-		
 		String beforeEqu = s1.getRule().split("\\:=")[0].trim();
 		String afterEqu = s1.getRule().split("\\:=")[1].trim();
+		String leftAssign = nameSce + "." + beforeEqu + "." +  "Value" ;
 		
-		return "//Exec\n" + nameSce + "." + beforeEqu + ".set("+ nameSce + "." + beforeEqu +".newValue."+ afterEqu + ");\n" +
-				nameSce + ".fireUpdateSet();\n";
+		if(!isInteger(afterEqu)){
+			if(afterEqu.equals("false") || afterEqu.equals("true")) {
+				return "//Exec\n" + leftAssign + "=" + afterEqu + ";\n" +
+						nameSce + ".fireUpdateSet();\n";
+			}
+			else {
+				
+				return "//Exec\n" + leftAssign + "=" + leftAssign + "." + afterEqu + ";\n" +
+						nameSce + ".fireUpdateSet();\n";
+			}
+		}
+		else {
+			
+			return "//Exec\n" + nameSce + "." + beforeEqu + ".newValue = " + afterEqu + ";\n" +
+					nameSce + ".fireUpdateSet();\n";
+			
+		}
+		
 	}
 	
 	@Override
@@ -223,9 +233,8 @@ public class AvallaToString extends org.asmeta.avallaxt.avalla.util.AvallaSwitch
 	}
 	
 //	@Override
-//	public String caseStepUntil(StepUntil object) {
-//		// TODO Auto-generated method stub
-//		return super.caseStepUntil(object);
+//	public String caseStepUntil(StepUntil s1) {
+//		return "//Step Until\n";
 //	}
 	
 	public boolean isInteger(String s) {

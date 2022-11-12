@@ -89,6 +89,15 @@ public class Asmetal2JUnit_Generator {
 		String avaTest = "examples/cm.avalla";
 		extracted(asmspec,avaTest);
 	}
+	//Test su euclideMCD
+	@Test
+	public void testAsmToJunit_euclide() throws Exception {
+		String asmspec = "examples/euclideMCD.asm";
+		String avaTest = "examples/euclide.avalla";
+		extracted(asmspec,avaTest);
+	}
+
+	
 
 	private void extracted(String asmspec,String avaTest) throws Exception, IOException {
 		GeneratorCompilerTest gen = new GeneratorCompilerTest();

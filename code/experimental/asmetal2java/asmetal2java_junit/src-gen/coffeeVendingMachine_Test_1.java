@@ -1,7 +1,7 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import static coffeeVendingMachine_sig.Product;
+
 public class coffeeVendingMachine_Test_1{
 @Test
 public void coffeeVendingMachine_Test(){
