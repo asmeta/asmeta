@@ -1,52 +1,57 @@
 package asmeta.mutation;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class IteratorOfIterator<T> implements Iterator<T> {
-//private final Queue<Iterator<T>> iterQueue;
-	private Iterator<T> currentIter;
-	private T nextValue;
+public class IteratorOfIterator<E> implements Iterator<E> {
 
-	public IteratorOfIterator(Iterator<Iterator<T>> iters) {
-		//this.iterQueue = new LinkedList<Iterator<T>>(iters);
-		this.currentIter = null;
-		this.nextValue = null;
+	private final Iterator<Iterator<E>> iteratorOfIterator;
+	private Iterator<E> currentIterator = null;
+	private E next = null;
+	private boolean isvalid = false;
+
+	public IteratorOfIterator(Iterator<Iterator<E>> iterator) {
+		this.iteratorOfIterator = iterator;
+		// call advance from the constructor!!
+		advance();
+	}
+
+	private void advance() {
+		if (currentIterator != null && currentIterator.hasNext()) {
+			isvalid = true;
+			next = currentIterator.next();
+			return;
+		}
+		currentIterator = null;
+		while (currentIterator == null && iteratorOfIterator.hasNext()) {
+			currentIterator = iteratorOfIterator.next();
+			if (currentIterator != null && currentIterator.hasNext()) {
+				next = currentIterator.next();
+				isvalid = true;
+				return;
+			}
+		}
+		next = null;
+		isvalid = false;
 	}
 
 	@Override
 	public boolean hasNext() {
-		return this.nextValue != null || setNext();
+		return isvalid;
 	}
 
 	@Override
-	public T next() {
-		if (this.nextValue != null) {
-			T next = this.nextValue;
-			this.nextValue = null;
-			setNext();
-			return next;
+	public E next() {
+		if (! isvalid) {
+			throw new NoSuchElementException("the stuff cannot be null.");
 		}
-		return null;
+		E val = next;
+		advance();
+		return val;
 	}
 
-private boolean setNext() {
-    while (true) {
-        if (currentIter == null && iterQueue.isEmpty()) {
-            return false;
-        }
-        if (currentIter == null && !iterQueue.isEmpty()) {
-            currentIter = iterQueue.poll();
-        }
-        if (currentIter != null && currentIter.hasNext()) {
-            this.nextValue = currentIter.next();
-            return true;
-        }
-        if (currentIter != null && !currentIter.hasNext()) {
-            if (!iterQueue.isEmpty()) {
-                currentIter = iterQueue.poll();
-            } else {
-                currentIter = null;
-            }
-        }
-    }
+	@Override
+	public void remove() {
+		throw new UnsupportedOperationException("The remove operation is not supported.");
+	}
 }

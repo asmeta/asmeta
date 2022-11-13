@@ -45,5 +45,4 @@ public class RuleMutator extends ReflectiveVisitor<Iterator<Rule>>{
 			}
 		};
 	}
-
 }

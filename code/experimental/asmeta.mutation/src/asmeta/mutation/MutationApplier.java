@@ -1,6 +1,7 @@
 package asmeta.mutation;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
@@ -22,18 +23,38 @@ public class MutationApplier {
 		this.asm = asm;
 	}
 
-	public void mutate() {
-		// mutate all the rules declared in the ASM
-		EList<RuleDeclaration> rules = asm.getMain().getBodySection().getRuleDeclaration();
-		for(RuleDeclaration rd: rules ) {
-			logger.debug("mutating rule in " + rd.getName());
-			Rule tobemutated = rd.getRuleBody();
-			Iterator<Rule> it = rmut.visit(tobemutated);
-		}
-		
+	public IteratorOfIterator<AsmCollection> mutate() {
+		// iterate over all the rule declarations
+		Iterator<RuleDeclaration> x = asm.getMain().getBodySection().getRuleDeclaration().iterator();
+		Iterator<Iterator<AsmCollection>> ioi = new Iterator<Iterator<AsmCollection>>() {
+			@Override
+			public boolean hasNext() {
+				return x.hasNext();
+			}
+			@Override
+			public Iterator<AsmCollection> next() {
+				RuleDeclaration currentRDecl = x.next();
+				logger.debug("mutating rule in " + currentRDecl.getName());
+				Rule tobemutated = currentRDecl.getRuleBody();
+				Iterator<Rule> it = rmut.visit(tobemutated);
+				return new Iterator<AsmCollection>() {
+					@Override
+					public boolean hasNext() {
+						return it.hasNext();
+					}
+					@Override
+					public AsmCollection next() {
+						Rule newrule = it.next();
+						currentRDecl.setRuleBody(newrule);
+						return asm;
+					}
+				};
+			}
+		};
+		return new IteratorOfIterator<AsmCollection>(ioi);
 	}
-	
-	
-	
 
+	
+	
 }
+
