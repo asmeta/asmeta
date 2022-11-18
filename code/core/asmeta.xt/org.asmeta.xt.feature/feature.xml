@@ -13,10 +13,10 @@
       [Enter Copyright Description here.]
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="http://fmse.di.unimi.it/asmetaanimator/license">
+      Eclipse Public License
+See https://asmeta.github.io
    </license>
-
    <requires>
       <import plugin="org.eclipse.xtext"/>
       <import plugin="org.eclipse.xtext.xbase"/>

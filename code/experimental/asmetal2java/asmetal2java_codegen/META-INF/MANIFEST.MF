@@ -19,5 +19,6 @@ Require-Bundle: org.junit;bundle-version="4.12.0",
  org.apache.log4j,
  org.eclipse.text,
  org.eclipse.core.resources
-Import-Package: org.eclipse.xtext.generator,
+Import-Package: org.eclipse.jdt.core.formatter,
+ org.eclipse.xtext.generator,
  org.eclipse.xtext.resource
