@@ -11,15 +11,15 @@ import org.asmeta.simulator.value.Value;
 @SuppressWarnings("rawtypes")
 public class ViewReader extends MonFuncReader {
 
-	Map<Location, Value> locationMemory;
+	Map<String, Value> locationMemory;
 
 	public ViewReader() {
-		locationMemory = new HashMap<Location, Value>();
+		locationMemory = new HashMap<String, Value>();
 	}
 
 	@Override
 	public Value readValue(Location location, State state) {
-		return (locationMemory.get(location));
+		return (locationMemory.get(location.getSignature().getName()));
 	}
 
 	/**
@@ -28,8 +28,7 @@ public class ViewReader extends MonFuncReader {
 	 * @param location the ASM location
 	 * @param value    the location value
 	 */
-	public void addValue(Location location, Value value) {
-		System.out.println("Adding " + location.getSignature().getName() + " with value " + value.toString());
-		this.locationMemory.put(location, value);
+	public void addValue(String locationName, Value value) {
+		this.locationMemory.put(locationName, value);
 	}
 }

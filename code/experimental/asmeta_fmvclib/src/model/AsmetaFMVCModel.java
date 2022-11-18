@@ -109,25 +109,9 @@ public class AsmetaFMVCModel extends Observable {
 			// Now add the value to the location map
 			LocationType locationType = f.getAnnotation(AsmetaModelParameter.class).asmLocationType();
 			Value val = getValueFromString(value, locationType);
-			Location loc = getLocationByName(f.getAnnotation(AsmetaModelParameter.class).asmLocationName());
+			String loc = f.getAnnotation(AsmetaModelParameter.class).asmLocationName();
 			reader.addValue(loc, val);
 		}
-	}
-
-	/**
-	 * Returns a location object given its name
-	 * 
-	 * @param asmLocationName the name of the asm location
-	 * @return
-	 */
-	@SuppressWarnings("rawtypes")
-	private Location getLocationByName(String asmLocationName) {
-		Map<Location, Value> monitored = sim.getCurrentState().getMonLocs();
-		for (Entry<Location, Value> entry : monitored.entrySet()) {
-			if (entry.getKey().getSignature().getName().equals(asmLocationName))
-				return entry.getKey();
-		}
-		return null;
 	}
 
 	/**
