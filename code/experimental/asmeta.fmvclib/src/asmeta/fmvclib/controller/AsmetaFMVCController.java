@@ -1,13 +1,13 @@
-package controller;
+package asmeta.fmvclib.controller;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 
-import annotations.AsmetaRunStep;
-import model.AsmetaFMVCModel;
-import view.AsmetaFMVCView;
+import asmeta.fmvclib.annotations.AsmetaRunStep;
+import asmeta.fmvclib.model.AsmetaFMVCModel;
+import asmeta.fmvclib.view.AsmetaFMVCView;
 
 /**
  * The AsmetaFMVCController is a controller to be used when the pattern fMVC is

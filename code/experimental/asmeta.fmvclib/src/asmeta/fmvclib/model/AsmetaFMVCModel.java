@@ -1,4 +1,4 @@
-package model;
+package asmeta.fmvclib.model;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -21,8 +21,8 @@ import org.asmeta.simulator.value.RealValue;
 import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.Value;
 
-import annotations.AsmetaModelParameter;
-import annotations.AsmetaModelParameter.LocationType;
+import asmeta.fmvclib.annotations.AsmetaModelParameter;
+import asmeta.fmvclib.annotations.AsmetaModelParameter.LocationType;
 
 @SuppressWarnings("deprecation")
 public class AsmetaFMVCModel extends Observable {

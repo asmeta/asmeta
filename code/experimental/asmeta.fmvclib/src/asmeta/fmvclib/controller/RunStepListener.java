@@ -1,10 +1,10 @@
-package controller;
+package asmeta.fmvclib.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import model.AsmetaFMVCModel;
-import view.AsmetaFMVCView;
+import asmeta.fmvclib.model.AsmetaFMVCModel;
+import asmeta.fmvclib.view.AsmetaFMVCView;
 
 /**
  * RunStepListener is used for performing a single step in the simulator. First,

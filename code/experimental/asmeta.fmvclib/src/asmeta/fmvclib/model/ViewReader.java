@@ -1,4 +1,4 @@
-package model;
+package asmeta.fmvclib.model;
 
 import java.util.HashMap;
 import java.util.Map;

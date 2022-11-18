@@ -1,6 +1,6 @@
-package view;
+package asmeta.fmvclib.view;
 
-import controller.RunStepListener;
+import asmeta.fmvclib.controller.RunStepListener;
 
 /**
  * This interface is used to keep a link of the view inside the controller
