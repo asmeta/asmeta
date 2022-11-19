@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import asmetal2java_junit.*;
 import org.asmeta.asm2code.main.GeneratorCompilerTest;
 import org.asmeta.asm2java.main.TranslatorOptions;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
@@ -20,9 +20,14 @@ import org.eclipse.text.edits.TextEdit;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.junit.Test;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+
 import com.google.inject.Injector;
 import asmetal2java_junit.AvallaToString;
 import asmetal2java_junit.Formatter;
+import static asmetal2java_junit.Formatter.formatCode;
 
 public class Asmetal2JUnit_Generator {
 	
@@ -31,8 +36,7 @@ public class Asmetal2JUnit_Generator {
 	public static final String pathTF = "src-gen/";
 	//estensione file JUnit
 	public static final String JUnit_EXT = ".java";
-	public String temp3 = "";
-	public FileWriter file;
+	public String spec = "";
 	
 	//Test su ascensore
 	@Test
@@ -96,6 +100,8 @@ public class Asmetal2JUnit_Generator {
 		String avaTest = "examples/euclide.avalla";
 		extracted(asmspec,avaTest);
 	}
+	
+
 
 	
 
@@ -119,12 +125,24 @@ public class Asmetal2JUnit_Generator {
 		// a questo punto lo converto in caso di test
 		// Al costruttore passo sia lo scenario che la specifica
 		
-		AvallaToString converter = new AvallaToString(sc, sc.getSpec());
-		converter.parseCommands(sc, 1);
-	}	
+		
+		if(sc.getSpec().trim().contains("./..")) {
+			String temp1 = sc.getSpec().replace("./..","");
+			String temp2 = temp1.substring(1);
+			spec = temp2.replace(".asm","");
+		}
+		else {
+			spec = sc.getSpec().replace(".asm","");
+		}
+		
+		AvallaToString converter = new AvallaToString(sc,spec);
+		String fileTestForm = converter.parseCommands(sc, 1);
+		FileWriter fileTest = new FileWriter(pathTF + spec + "_Test" + "_" + 1 + JUnit_EXT);
+		fileTest.write(formatCode(fileTestForm));
+		fileTest.close();
+
+	}	 
 }
-	
-	
 	
 	
 	

@@ -80,7 +80,7 @@ abstract class ATM3_sig {
 					
 				      static List<Integer> elems = new ArrayList<Integer>();
 	
-	                  int value;
+	                  Integer value;
 					}
 					
 					MoneySize MoneySize_elem = new MoneySize();

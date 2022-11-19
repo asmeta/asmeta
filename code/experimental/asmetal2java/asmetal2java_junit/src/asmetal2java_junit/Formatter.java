@@ -1,6 +1,7 @@
 package asmetal2java_junit;
 import java.util.Map;
 
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 //import org.eclipse.cdt.core.formatter.CodeFormatter;
@@ -33,6 +34,7 @@ public class Formatter {
 //		options.put( JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_1_5 );
 //		options.put( JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM,	JavaCore.VERSION_1_5 );
 //		options.put( JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_5 );
+		options.put( JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_8);
 
 		// instantiate the default code formatter with the given options
 		final CodeFormatter codeFormatter = org.eclipse.jdt.core.ToolFactory.createCodeFormatter(options);
