@@ -11,9 +11,9 @@ import java.util.List;
 
 import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.asm2java.compiler.CompilatoreJava;
-import org.asmeta.asm2java.main.JavaExeGenerator;
-import org.asmeta.asm2java.main.JavaGenerator;
-import org.asmeta.asm2java.main.JavaWindowGenerator;
+import org.asmeta.asm2java.main.*;
+//import org.asmeta.asm2java.main.JavaGenerator;
+//import org.asmeta.asm2java.main.JavaWindowGenerator;
 import org.asmeta.asm2java.main.TranslatorOptions;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;

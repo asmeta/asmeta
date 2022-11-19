@@ -26,8 +26,7 @@ import org.junit.runner.notification.Failure;
 
 import com.google.inject.Injector;
 import asmetal2java_junit.AvallaToString;
-import asmetal2java_junit.Formatter;
-import static asmetal2java_junit.Formatter.formatCode;
+import org.asmeta.asm2java.formatter.Formatter;
 
 public class Asmetal2JUnit_Generator {
 	
@@ -138,7 +137,7 @@ public class Asmetal2JUnit_Generator {
 		AvallaToString converter = new AvallaToString(sc,spec);
 		String fileTestForm = converter.parseCommands(sc, 1);
 		FileWriter fileTest = new FileWriter(pathTF + spec + "_Test" + "_" + 1 + JUnit_EXT);
-		fileTest.write(formatCode(fileTestForm));
+		fileTest.write(Formatter.formatCode(fileTestForm));
 		fileTest.close();
 
 	}	 
