@@ -1,27 +1,9 @@
+
 // ATM3_Exe.java automatically generated from ASM2CODE
 //Classe per l'esecuzione dei file java generati dalla traduzione di un programma ASM
-
 import java.util.Scanner;
 
 class ATM3_Exe {
-	
-	static void printControlled(ATM3 esecuzione) {
-		
-		System.out.print("NumCard"+ " = {");
-		for(int i=0 ; i< esecuzione.NumCard_lista.size(); i++)
-		if(i!= esecuzione.NumCard_lista.size()-1)
-		System.out.print(esecuzione.NumCard_lista.get(i) +", ");
-		else
-		System.out.print(esecuzione.NumCard_lista.get(i));	
-		System.out.println("}");
-		System.out.println("atmState = " + esecuzione.atmState.oldValue.name());
-		System.out.println("moneyLeft = " + esecuzione.moneyLeft.get());
-		
-		System.out.println("numOfBalanceChecks = " + esecuzione.numOfBalanceChecks.get());
-		
-		
-		}
-		
 	static void printControlled(ATM3 esecuzione) {
 		System.out.print("NumCard" + " = {");
 		for (int i = 0; i < esecuzione.NumCard_lista.size(); i++)
@@ -148,5 +130,4 @@ class ATM3_Exe {
 		printControlled(esecuzione);
 		System.out.println("esecuzione terminata");
 	}
-
-
+}

@@ -3,13 +3,13 @@ Automatic-Module-Name: org.asmeta.xt.ide
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.xt.ide
 Bundle-Vendor: foselab.unibg.it
-Bundle-Version: 22.04
+Bundle-Version: 22.09
 Bundle-SymbolicName: org.asmeta.xt.ide; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.xt,
  org.eclipse.xtext.ide,
  org.eclipse.xtext.xbase.ide,
- org.antlr.runtime
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.asmeta.xt.ide.contentassist.antlr,
  org.asmeta.xt.ide.contentassist.antlr.internal

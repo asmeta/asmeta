@@ -2,20 +2,20 @@
 <feature
       id="org.asmeta.asmetama.feature"
       label="Asmeta model advisor"
-      version="22.04"
+      version="22.09"
       provider-name="fmse.di.unimi.it">
 
    <description>
-      See http://asmeta.sourceforge.net/
+      See https://asmeta.github.io
    </description>
 
    <copyright>
-      See http://asmeta.sourceforge.net/
+      See https://asmeta.github.io
    </copyright>
 
    <license url="">
       Eclipse Public License
-See http://asmeta.sourceforge.net/
+See https://asmeta.github.io
    </license>
 
    <url>

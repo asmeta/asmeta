@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.avallaxt.feature"
       label="AvallaXt Feature "
-      version="22.04">
+      version="22.09">
 
    <plugin
          id="org.asmeta.avallaxt"

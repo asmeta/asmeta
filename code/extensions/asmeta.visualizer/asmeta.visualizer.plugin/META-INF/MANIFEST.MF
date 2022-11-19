@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta visualizer plugin
 Bundle-SymbolicName: asmeta.visualizer.plugin;singleton:=true
-Bundle-Version: 22.04
+Bundle-Version: 22.09
 Bundle-Activator: asmeta.visualizer.plugin.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.intro,
  asmeta.visualizer,
  asmeta.simulator.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.visualizer.plugin

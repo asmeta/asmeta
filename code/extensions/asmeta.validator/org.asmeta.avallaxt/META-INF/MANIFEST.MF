@@ -3,7 +3,7 @@ Automatic-Module-Name: org.asmeta.avallaxt
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.avallaxt
 Bundle-Vendor: foselab.unibg.it
-Bundle-Version: 22.04
+Bundle-Version: 22.09
 Bundle-SymbolicName: org.asmeta.avallaxt; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.xtext,
  asmeta.parser,
  asmeta.emf,
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.asmeta.avallaxt,
  org.asmeta.avallaxt.avalla,
  org.asmeta.avallaxt.avalla.impl,

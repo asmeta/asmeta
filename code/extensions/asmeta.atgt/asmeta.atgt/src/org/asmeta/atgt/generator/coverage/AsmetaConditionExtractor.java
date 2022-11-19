@@ -3,9 +3,11 @@ package org.asmeta.atgt.generator.coverage;
 import java.util.List;
 import java.util.Vector;
 
+import org.asmeta.flattener.rule.ForallRuleFlattener;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.IRuleVisitor;
 
+import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ExtendRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
@@ -23,6 +25,9 @@ import tgtlib.definitions.expression.Expression;
 
 public class AsmetaConditionExtractor extends  ReflectiveVisitor<List<NamedTerm>> implements IRuleVisitor<List<NamedTerm>>{
 	
+	
+	public AsmetaConditionExtractor() {
+	}
 	
 	AsmetaToExprTrans translator = new AsmetaToExprTrans(); 
 

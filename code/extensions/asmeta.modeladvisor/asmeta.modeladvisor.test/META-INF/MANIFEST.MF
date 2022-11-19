@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta model advisor test
 Bundle-SymbolicName: asmeta.modeladvisor.test
-Bundle-Version: 22.04
+Bundle-Version: 22.09
 Bundle-ClassPath: asmetama.jar,
   org.eclipse.emf.common.jar,
   org.eclipse.emf.ecore.jar,

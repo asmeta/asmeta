@@ -1,6 +1,6 @@
 asm tombola
 
-import StandardLibrary
+import STDL/StandardLibrary
 
 signature:
 	domain Numero subsetof Integer
