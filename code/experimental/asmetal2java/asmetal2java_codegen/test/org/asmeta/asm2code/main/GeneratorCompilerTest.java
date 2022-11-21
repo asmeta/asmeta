@@ -11,19 +11,21 @@ import org.asmeta.asm2java.main.TranslatorOptions;
 import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.asm2java.compiler.CompilatoreJava;
 import org.asmeta.asm2java.main.*;
-//JavaGenerator;
+//import org.asmeta.asm2java.main.JavaGenerator;
 //import org.asmeta.asm2java.main.JavaExeGenerator;
 //import org.asmeta.asm2java.main.JavaWindowGenerator;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 import asmeta.AsmCollection;
+
+
 public class GeneratorCompilerTest {
 
 	
 	// the generator for the code 
 	static private JavaGenerator jGenerator = new JavaGenerator();
-	static private JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
-	static private JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
+	//static private JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
+	//static private JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
 	
 	private TranslatorOptions options = new TranslatorOptions(true, true, true);
 

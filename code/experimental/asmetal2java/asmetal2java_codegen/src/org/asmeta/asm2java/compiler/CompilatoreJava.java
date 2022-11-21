@@ -1,6 +1,8 @@
 package org.asmeta.asm2java.compiler;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -26,7 +28,7 @@ public class CompilatoreJava {
 		String messaggio = "non compilato";
 
 		File sourceFile = new File("examples/compilazione/" + name);
-
+		
 		if (compileOnly) {
 			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 			assert compiler != null;
@@ -58,5 +60,4 @@ public class CompilatoreJava {
 		return new CompileResult(true, messaggio);
 
 	}
-
 }

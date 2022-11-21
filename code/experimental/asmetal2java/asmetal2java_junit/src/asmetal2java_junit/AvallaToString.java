@@ -6,12 +6,15 @@ import java.lang.Enum.EnumDesc;
 
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.asmeta.asm2java.compiler.CompilatoreJava;
+import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.avallaxt.avalla.Check;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.Exec;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.avallaxt.avalla.Step;
+import org.asmeta.avallaxt.avalla.StepUntil;
 import org.asmeta.avallaxt.avalla.util.AvallaSwitch;
 import org.asmeta.simulator.value.EnumValue;
 //import org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.TypeOfDependentExpression;
@@ -34,11 +37,8 @@ public class AvallaToString extends AvallaSwitch<String> {
 	// Get location for set/exec
 	public String s_Gl = "";
 
-
 	// In fase di test viene invocata questa funzione che cicla sugli elementi
 	public String parseCommands(Scenario s, int i) throws IOException {
-		
-
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("import static org.junit.Assert.*;\n");
@@ -56,6 +56,8 @@ public class AvallaToString extends AvallaSwitch<String> {
 				sb.append(caseSet((Set) s1));
 			} else if (s1 instanceof Exec) {
 				sb.append(caseExec((Exec) s1));	
+			} else if (s1 instanceof StepUntil) {
+				sb.append(caseStepUntil((StepUntil) s1));
 			}
 		}
 			sb.append(" }\n}");
@@ -72,14 +74,15 @@ public class AvallaToString extends AvallaSwitch<String> {
 	}
 
 	public String createConstr(Scenario s) {
-		String temp = nameSce.substring(0, 3).toLowerCase();
+		//Variabile che contiene i primi 3 caratteri del nome dello scenario
+		String nameSce_lc = nameSce.substring(0, 3).toLowerCase();
 		String createN = createNotNull(s);
-		return nameSce + " " + temp + " = new " + nameSce + "();\n" + createN;
+		return nameSce + " " + nameSce_lc + " = new " + nameSce + "();\n" + createN;
 	}
 
 	public String createNotNull(Scenario s) {
-		String temp = nameSce.substring(0, 3).toLowerCase();
-		return "assertNotNull(" + temp + ");\n";
+		String nameSce_lc = nameSce.substring(0, 3).toLowerCase();
+		return "assertNotNull(" + nameSce_lc + ");\n";
 	}
 	///////////////////////////////////////////
 	///////////////////////////////////////////
@@ -95,8 +98,10 @@ public class AvallaToString extends AvallaSwitch<String> {
 			if ((afterEqu.equals("false"))) {
 				return "//Check\n" + "assertFalse(" + spec_lc + "." + beforeEqu + ".oldValue);\n";
 			} else if (afterEqu.equals("true")) {
-				return "//Check\n" + "assertTrue(" + spec_lc + "." + beforeEqu + ".oldValue);\n";
-			} else if(afterEqu.matches(".*\\s.*") || afterEqu.matches("[a-z]*")) { //contains space || lower case
+				return "//Check\n" + "assertTrue(" + spec_lc + "." + beforeEqu + ".oldValue);\n";	
+			} 
+			//Contains space || Lower case
+			else if(afterEqu.matches(".*\\s.*") || afterEqu.matches("[a-z]*")) { 
 				return "//Check\n" + "assertEquals(" + spec_lc + "." + beforeEqu + ".oldValue," +" \"" + afterEqu + "\");\n";
 			}
 			else {					
@@ -104,7 +109,7 @@ public class AvallaToString extends AvallaSwitch<String> {
 						+ beforeEqu + ".oldValue." + afterEqu +");\n";
 			}
 		} else {
-			return "//Check\n" + "assertEquals(" + spec_lc + "." + beforeEqu + ".oldValue.value," + "Integer.valueOf("
+			return "//Check\n" + "assertEquals(" + spec_lc + "." + beforeEqu + ".oldValue.value ," + "Integer.valueOf("
 					+ afterEqu + "));\n";
 		}
 	}
@@ -124,6 +129,7 @@ public class AvallaToString extends AvallaSwitch<String> {
 				return "//Set\n" + leftAssign + " = " + leftAssign + "." + s1_V + ";\n";
 			}
 		} else {
+			//Set un valore intero 
 			return "//Set\n" + leftAssign + " = new " + spec_UC + "_sig." + s_Gl + "();\n" + leftAssign + ".value = "
 					+ s1_V + ";\n";
 		}
@@ -154,7 +160,19 @@ public class AvallaToString extends AvallaSwitch<String> {
 		String spec_lc = nameSce.substring(0, 3).toLowerCase();
 		return "//Step\n" + spec_lc + ".UpdateASM();\n";
 	}
-
+	
+	
+	@Override
+	public String caseStepUntil(StepUntil s1) {
+		String beforeEqu = s1.getExpression().split("\\=")[0].trim();
+		String afterEqu = s1.getExpression().split("\\=")[1].trim();
+		String spec_lc = nameSce.substring(0, 3).toLowerCase();
+		
+		
+		return "//Step\n" + "while(" + spec_lc + "." + beforeEqu + ".oldValue"
+				+ " != " + spec_lc + "." + afterEqu + ".oldValue){\n" 
+				+ spec_lc + ".UpdateASM();\n " + "}\n";
+	}
 
 	public boolean isInteger(String s) {
 		try {

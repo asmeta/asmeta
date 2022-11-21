@@ -4,25 +4,24 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import asmetal2java_junit.*;
+import java.net.URL;
+import java.net.URLClassLoader;
 import org.asmeta.asm2code.main.GeneratorCompilerTest;
 import org.asmeta.asm2java.main.TranslatorOptions;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Scenario;
-import org.eclipse.cdt.core.formatter.CodeFormatter;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.text.edits.MalformedTreeException;
-import org.eclipse.text.edits.TextEdit;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
+import org.junit.runner.Request;
 import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
+import org.junit.runner.Runner;
+import org.junit.runner.notification.RunListener;
+import org.junit.runner.notification.RunNotifier;
 
 import com.google.inject.Injector;
 import asmetal2java_junit.AvallaToString;
@@ -30,12 +29,15 @@ import org.asmeta.asm2java.formatter.Formatter;
 
 public class Asmetal2JUnit_Generator {
 	
-	//NEW
 	//pathTF - path test Folder
 	public static final String pathTF = "src-gen/";
 	//estensione file JUnit
 	public static final String JUnit_EXT = ".java";
+	//nome specifica
 	public String spec = "";
+	
+	
+	
 	
 	//Test su ascensore
 	@Test
@@ -101,8 +103,27 @@ public class Asmetal2JUnit_Generator {
 	}
 	
 
-
 	
+	
+	//********************************************************************************************************************
+	//Questo test permette di eseguire in modo automatico tutti i casi di test
+	//sotto la folder "src-gen/"
+	@Test
+	public void testRun_all_test() throws Exception {
+		File dir = new File("src-gen/");
+		File[] files = dir.listFiles();
+		for(File f : files) {
+			if(f.toString().contains("_Test_") && !f.toString().contains(".class")) {
+				String temp = f.toString().replace("src-gen", "").substring(1).replace(".java", "");
+				JUnitCore junitCore = new JUnitCore();
+				junitCore.addListener(new RunListener());
+				Result result = junitCore.run(getClassFromFile(temp));
+				System.out.println("Test name: " + temp);
+				System.out.println("Test run: " + result.getRunCount() + " Test fail: " + result.getFailureCount() + "\n");
+			}
+		}
+	}
+	//********************************************************************************************************************
 
 	private void extracted(String asmspec,String avaTest) throws Exception, IOException {
 		GeneratorCompilerTest gen = new GeneratorCompilerTest();
@@ -139,8 +160,16 @@ public class Asmetal2JUnit_Generator {
 		FileWriter fileTest = new FileWriter(pathTF + spec + "_Test" + "_" + 1 + JUnit_EXT);
 		fileTest.write(Formatter.formatCode(fileTestForm));
 		fileTest.close();
+		
+	}
 
-	}	 
+
+	private static final String CLASS_FOLDER ="src-gen/";
+
+	private static Class getClassFromFile(String fullClassName) throws Exception {
+	    URLClassLoader loader = new URLClassLoader(new URL[] { new URL("file://" + CLASS_FOLDER) });
+	    return loader.loadClass(fullClassName);
+	}
 }
 	
 	
