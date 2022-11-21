@@ -66,25 +66,24 @@ public class AsmetaFMVCController implements Observer, RunStepListener {
 	public void update(Observable o, Object arg) {
 		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
 				AsmetaControlledLocation.class);
-		System.out.println(fieldList.size());
-//		for (Field f : fieldList) {
-//			f.setAccessible(true);
-//			// First, get the value
-//			String value = m_model.getValue(f.getAnnotation(AsmetaControlledLocation.class).asmLocationName());
-//			try {
-//				if (f.get(m_view) instanceof JTextField) {
-//					((JTextField) (f.get(m_view))).setText(value);
-//				} else {
-//					if (f.get(m_view) instanceof JLabel) {
-//						((JLabel) (f.get(m_view))).setText(value);
-//					} else {
-//						throw new RuntimeException("This type of component is not yet managed by the fMVC framework");
-//					}
-//				}
-//			} catch (IllegalArgumentException | IllegalAccessException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		for (Field f : fieldList) {
+			f.setAccessible(true);
+			// First, get the value
+			String value = m_model.getValue(f.getAnnotation(AsmetaControlledLocation.class).asmLocationName());
+			try {
+				if (f.get(m_view) instanceof JTextField) {
+					((JTextField) (f.get(m_view))).setText(value);
+				} else {
+					if (f.get(m_view) instanceof JLabel) {
+						((JLabel) (f.get(m_view))).setText(value);
+					} else {
+						throw new RuntimeException("This type of component is not yet managed by the fMVC framework");
+					}
+				}
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**

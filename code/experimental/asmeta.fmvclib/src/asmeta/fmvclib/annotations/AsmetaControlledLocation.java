@@ -1,5 +1,8 @@
 package asmeta.fmvclib.annotations;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * Field annotated with this annotation are used to show the value of the
  * controlled variables
@@ -8,6 +11,7 @@ package asmeta.fmvclib.annotations;
  *
  */
 
+@Retention(RetentionPolicy.RUNTIME)
 public @interface AsmetaControlledLocation {
 
 	/**
