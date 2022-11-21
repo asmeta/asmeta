@@ -22,7 +22,7 @@ import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.fmvclib.annotations.AsmetaModelParameter;
-import asmeta.fmvclib.annotations.AsmetaModelParameter.LocationType;
+import asmeta.fmvclib.annotations.LocationType;
 
 @SuppressWarnings("deprecation")
 public class AsmetaFMVCModel extends Observable {
