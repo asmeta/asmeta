@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -27,7 +28,7 @@ import asmeta.fmvclib.view.RunStepListener;
  * @author Andrea Bombarda
  *
  */
-public class AsmetaFMVCController implements Observer, RunStepListener{
+public class AsmetaFMVCController implements Observer, RunStepListener {
 	/**
 	 * The model to be used
 	 */
@@ -55,19 +56,15 @@ public class AsmetaFMVCController implements Observer, RunStepListener{
 			f.setAccessible(true);
 			m_view.addListener(this);
 		}
-		//
+		// The controller is used as observer for the model
 		m_model.addObserver(this);
 	}
 
+	/**
+	 * Method automatically called when the controller is modified by the model
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		/**
-		 * 
-		 * @param obj the annotated obj
-		 * @throws IllegalAccessException
-		 * @throws IllegalArgumentException
-		 */
-		@SuppressWarnings("rawtypes")
 		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
 				AsmetaControlledLocation.class);
 		for (Field f : fieldList) {
@@ -78,18 +75,28 @@ public class AsmetaFMVCController implements Observer, RunStepListener{
 				if (f.get(m_view) instanceof JTextField) {
 					((JTextField) (f.get(m_view))).setText(value);
 				} else {
-					throw new RuntimeException("This type of component is not yet managed by the fMVC framework");
+					if (f.get(m_view) instanceof JLabel) {
+						((JLabel) (f.get(m_view))).setText(value);
+					} else {
+						throw new RuntimeException("This type of component is not yet managed by the fMVC framework");
+					}
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/**
+	 * Listener when an action is performer
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		try {
+			m_model.updateMonitored(m_view);
+			m_model.runSimulator();
+		} catch (IllegalArgumentException | IllegalAccessException e1) {
+			e1.printStackTrace();
+		}
 	}
 }
