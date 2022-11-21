@@ -14,10 +14,6 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AsmetaModelParameter {
 
-	enum LocationType {
-		INTEGER, ENUM, REAL, STRING, BOOLEAN, CHAR, BAG, SEQ, SET, TUPLE, MAP, UNDEF
-	}
-
 	/**
 	 * The name of the location in the ASM
 	 * 

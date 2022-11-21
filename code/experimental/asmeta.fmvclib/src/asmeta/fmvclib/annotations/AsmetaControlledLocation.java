@@ -1,7 +1,5 @@
 package asmeta.fmvclib.annotations;
 
-import asmeta.fmvclib.annotations.AsmetaModelParameter.LocationType;
-
 /**
  * Field annotated with this annotation are used to show the value of the
  * controlled variables
