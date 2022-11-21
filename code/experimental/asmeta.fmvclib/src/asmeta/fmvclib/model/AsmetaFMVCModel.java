@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.Simulator;
@@ -47,6 +48,7 @@ public class AsmetaFMVCModel extends Observable {
 	public AsmetaFMVCModel(String asmPath) throws Exception {
 		reader = new ViewReader();
 		sim = Simulator.createSimulator(asmPath, new Environment(reader));
+		Environment.timeMngt = TimeMngt.use_java_time;
 	}
 
 	/**
