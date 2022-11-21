@@ -105,6 +105,13 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		updateAndSimulate();
+	}
+
+	/**
+	 * Updates and simulate the asmeta model
+	 */
+	private void updateAndSimulate() {
 		try {
 			m_model.updateMonitored(m_view);
 			m_model.runSimulator();
@@ -118,11 +125,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		try {
-			m_model.updateMonitored(m_view);
-			m_model.runSimulator();
-		} catch (IllegalArgumentException | IllegalAccessException e1) {
-			e1.printStackTrace();
-		}
+		updateAndSimulate();
 	}
 }
