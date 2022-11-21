@@ -1,22 +1,21 @@
 package asmeta.fmvclib.controller;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.asmeta.simulator.value.Value;
 
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
-import asmeta.fmvclib.annotations.AsmetaModelParameter;
 import asmeta.fmvclib.annotations.AsmetaRunStep;
 import asmeta.fmvclib.model.AsmetaFMVCModel;
 import asmeta.fmvclib.view.AsmetaFMVCView;
@@ -46,8 +45,10 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 * 
 	 * @param model the ASMETA model
 	 * @param view  the view
+	 * @throws IllegalAccessException 
+	 * @throws IllegalArgumentException 
 	 */
-	public AsmetaFMVCController(AsmetaFMVCModel model, AsmetaFMVCView view) {
+	public AsmetaFMVCController(AsmetaFMVCModel model, AsmetaFMVCView view) throws IllegalArgumentException, IllegalAccessException {
 		// Store the reference to the model and view
 		m_model = model;
 		m_view = view;
@@ -56,8 +57,14 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaRunStep.class);
 		for (Field f : fieldList) {
 			f.setAccessible(true);
-			m_view.addActionListener(this);
-			m_view.addChangeListener(this);
+			if (f.get(m_view) instanceof JButton)
+				((JButton)f.get(m_view)).addActionListener(this);
+			else if (f.get(m_view) instanceof Timer)
+				((Timer)f.get(m_view)).addActionListener(this);
+			else if (f.get(m_view) instanceof JSlider)
+				((JSlider)f.get(m_view)).addChangeListener(this);
+			else
+				throw new RuntimeException("Component not yet supported: " + f.get(m_view).getClass());
 		}
 		// The controller is used as observer for the model
 		m_model.addObserver(this);
