@@ -172,13 +172,13 @@ public class AvallaToString extends AvallaSwitch<String> {
 		
 	}
 
+	//Verifica se la stringa è un integer
 	public boolean isInteger(String s) {
 		try {
 			Integer.parseInt(s);
 		} catch (NumberFormatException e) {
 			return false;
 		}
-		// only got here if we didn't return false
 		return true;
 	}
 
