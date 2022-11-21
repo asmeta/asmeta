@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 
@@ -63,6 +64,8 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 				((Timer)f.get(m_view)).addActionListener(this);
 			else if (f.get(m_view) instanceof JSlider)
 				((JSlider)f.get(m_view)).addChangeListener(this);
+			else if (f.get(m_view) instanceof JToggleButton)
+				((JToggleButton)f.get(m_view)).addActionListener(this);			
 			else
 				throw new RuntimeException("Component not yet supported: " + f.get(m_view).getClass());
 		}

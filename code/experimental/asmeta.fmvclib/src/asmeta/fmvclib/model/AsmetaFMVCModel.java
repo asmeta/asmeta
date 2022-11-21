@@ -8,6 +8,7 @@ import java.util.Observable;
 
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.asmeta.simulator.Environment;
@@ -102,15 +103,14 @@ public class AsmetaFMVCModel extends Observable {
 			if (!f.getAnnotation(AsmetaModelParameter.class).asmLocationValue().equals("")) {
 				value = f.getAnnotation(AsmetaModelParameter.class).asmLocationValue();
 			} else {
-				if (f.get(obj) instanceof JTextField) {
+				if (f.get(obj) instanceof JTextField)
 					value = ((JTextField) (f.get(obj))).getText();
-				} else {
-					if (f.get(obj) instanceof JSlider) {
-						value = String.valueOf(((JSlider) (f.get(obj))).getValue());
-					} else {
-						throw new RuntimeException("This type of component is not yet managed by the fMVC framework: " + f.get(obj).getClass());
-					}
-				}
+				else if (f.get(obj) instanceof JSlider) 
+					value = String.valueOf(((JSlider) (f.get(obj))).getValue());
+				else if (f.get(obj) instanceof JToggleButton) 
+					value = String.valueOf(((JToggleButton) (f.get(obj))).isSelected());
+				else
+					throw new RuntimeException("This type of component is not yet managed by the fMVC framework: " + f.get(obj).getClass());
 			}
 
 			// Now add the value to the location map
