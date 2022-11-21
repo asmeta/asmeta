@@ -111,7 +111,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	/**
 	 * Updates and simulate the asmeta model
 	 */
-	private void updateAndSimulate() {
+	public void updateAndSimulate() {
 		try {
 			m_model.updateMonitored(m_view);
 			m_model.runSimulator();
