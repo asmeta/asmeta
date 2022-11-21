@@ -1,0 +1,24 @@
+scenario sluice
+load sluiceGateGround.asm
+check phase = FULLYCLOSED;
+set passed(170) := false;
+step
+check phase = FULLYCLOSED;
+set passed(170) := false;
+step
+check phase = FULLYCLOSED;
+set passed(170) := false;
+step
+check phase = FULLYCLOSED;
+set passed(170) := true;
+step
+check phase = FULLYOPEN;
+set passed(170) := true;
+set passed(10) := false;
+step
+check phase = FULLYOPEN;
+set passed(170) := true;
+set passed(10) := true;
+step
+check phase = FULLYCLOSED;
+step

@@ -102,8 +102,26 @@ public class Asmetal2JUnit_Generator {
 		extracted(asmspec,avaTest);
 	}
 	
-
+	@Test
+	public void testAsmToJunit_advanceClock() throws Exception {
+		String asmspec = "examples/AdvancedClock.asm";
+		String avaTest = "examples/advance.avalla";
+		extracted(asmspec,avaTest);
+	}
 	
+	@Test
+	public void testAsmToJunit_sluice() throws Exception {
+		String asmspec = "examples/sluiceGateGround.asm";
+		String avaTest = "examples/sluice.avalla";
+		extracted(asmspec,avaTest);
+	}
+	
+	@Test
+	public void testAsmToJunit_forno() throws Exception {
+		String asmspec = "examples/forno.asm";
+		String avaTest = "examples/scenario1_forno.avalla";
+		extracted(asmspec,avaTest);
+	}
 	
 	//********************************************************************************************************************
 	//Questo test permette di eseguire in modo automatico tutti i casi di test

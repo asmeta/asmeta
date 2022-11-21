@@ -74,15 +74,12 @@ public class AvallaToString extends AvallaSwitch<String> {
 	}
 
 	public String createConstr(Scenario s) {
-		//Variabile che contiene i primi 3 caratteri del nome dello scenario
-		String nameSce_lc = nameSce.substring(0, 3).toLowerCase();
 		String createN = createNotNull(s);
-		return nameSce + " " + nameSce_lc + " = new " + nameSce + "();\n" + createN;
+		return nameSce + " " + nameSce.toLowerCase() + " = new " + nameSce + "();\n" + createN;
 	}
 
 	public String createNotNull(Scenario s) {
-		String nameSce_lc = nameSce.substring(0, 3).toLowerCase();
-		return "assertNotNull(" + nameSce_lc + ");\n";
+		return "assertNotNull(" + nameSce.toLowerCase() + ");\n";
 	}
 	///////////////////////////////////////////
 	///////////////////////////////////////////
@@ -92,33 +89,30 @@ public class AvallaToString extends AvallaSwitch<String> {
 	public String caseCheck(Check s1) {
 		String beforeEqu = s1.getExpression().split("\\=")[0].trim();
 		String afterEqu = s1.getExpression().split("\\=")[1].trim();
-		String spec_lc = nameSce.substring(0, 3).toLowerCase();
 		
 		if (!isInteger(afterEqu)) {
 			if ((afterEqu.equals("false"))) {
-				return "//Check\n" + "assertFalse(" + spec_lc + "." + beforeEqu + ".oldValue);\n";
+				return "//Check\n" + "assertFalse(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue);\n";
 			} else if (afterEqu.equals("true")) {
-				return "//Check\n" + "assertTrue(" + spec_lc + "." + beforeEqu + ".oldValue);\n";	
+				return "//Check\n" + "assertTrue(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue);\n";	
 			} 
 			//Contains space || Lower case
 			else if(afterEqu.matches(".*\\s.*") || afterEqu.matches("[a-z]*")) { 
-				return "//Check\n" + "assertEquals(" + spec_lc + "." + beforeEqu + ".oldValue," +" \"" + afterEqu + "\");\n";
+				return "//Check\n" + "assertEquals(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue," +" \"" + afterEqu + "\");\n";
 			}
 			else {					
-				return "//Check\n" + "assertEquals(" + spec_lc + "." + beforeEqu + ".oldValue," + spec_lc + "."
+				return "//Check\n" + "assertEquals(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue," + nameSce.toLowerCase() + "."
 						+ beforeEqu + ".oldValue." + afterEqu +");\n";
 			}
 		} else {
-			return "//Check\n" + "assertEquals(" + spec_lc + "." + beforeEqu + ".oldValue.value ," + "Integer.valueOf("
+			return "//Check\n" + "assertEquals(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue.value ," + "Integer.valueOf("
 					+ afterEqu + "));\n";
 		}
 	}
 
 	@Override
 	public String caseSet(Set s1) {
-		String spec_lc = nameSce.substring(0, 3).toLowerCase();
-		String spec_UC = nameSce.substring(0, 3).toUpperCase();
-		String leftAssign = spec_lc + "." + s1.getLocation() + "." + "Value";
+		String leftAssign = nameSce.toLowerCase() + "." + s1.getLocation() + "." + "Value";
 		String s1_V = s1.getValue();
 		String s_Gl = StringUtils.capitalize(s1.getLocation());
 
@@ -130,7 +124,7 @@ public class AvallaToString extends AvallaSwitch<String> {
 			}
 		} else {
 			//Set un valore intero 
-			return "//Set\n" + leftAssign + " = new " + spec_UC + "_sig." + s_Gl + "();\n" + leftAssign + ".value = "
+			return "//Set\n" + leftAssign + " = new " + nameSce.toUpperCase() + "_sig." + s_Gl + "();\n" + leftAssign + ".value = "
 					+ s1_V + ";\n";
 		}
 	}
@@ -139,26 +133,24 @@ public class AvallaToString extends AvallaSwitch<String> {
 	public String caseExec(Exec s1) {
 		String beforeEqu = s1.getRule().split("\\:=")[0].trim();
 		String afterEqu = s1.getRule().split("\\:=")[1].trim();
-		String spec_lc = nameSce.substring(0, 3).toLowerCase();
-		String leftAssign = spec_lc + "." + beforeEqu + "." + "newValue";
+		String leftAssign = nameSce.toLowerCase() + "." + beforeEqu + "." + "newValue";
 		
 		if (!isInteger(afterEqu)) {
 			if (afterEqu.equals("false") || afterEqu.equals("true")) {
-				return "//Exec\n" + leftAssign + "=" + afterEqu + ";\n" + spec_lc + ".fireUpdateSet();\n";
+				return "//Exec\n" + leftAssign + "=" + afterEqu + ";\n" + nameSce.toLowerCase() + ".fireUpdateSet();\n";
 			} else {
-				return "//Exec\n" + leftAssign + "=" + leftAssign + "." + afterEqu + ";\n" + spec_lc
+				return "//Exec\n" + leftAssign + "=" + leftAssign + "." + afterEqu + ";\n" + nameSce.toLowerCase()
 						+ ".fireUpdateSet();\n";
 			}
 		} else {
-			return "//Exec\n" + spec_lc + "." + beforeEqu + ".newValue = " + afterEqu + ";\n" + spec_lc
-					+ ".fireUpdateSet();\n";
+			return "//Exec\n" + nameSce.toLowerCase() + "." + beforeEqu + ".newValue.value = " + afterEqu + ";\n" + 
+					nameSce.toLowerCase() + ".fireUpdateSet();\n";
 		}
 	}
 
 	@Override
 	public String caseStep(Step s1) {
-		String spec_lc = nameSce.substring(0, 3).toLowerCase();
-		return "//Step\n" + spec_lc + ".UpdateASM();\n";
+		return "//Step\n" + nameSce.toLowerCase() + ".UpdateASM();\n";
 	}
 	
 	
@@ -166,12 +158,18 @@ public class AvallaToString extends AvallaSwitch<String> {
 	public String caseStepUntil(StepUntil s1) {
 		String beforeEqu = s1.getExpression().split("\\=")[0].trim();
 		String afterEqu = s1.getExpression().split("\\=")[1].trim();
-		String spec_lc = nameSce.substring(0, 3).toLowerCase();
 		
+		if (!isInteger(afterEqu)) {
+			return "//Step Until\n" + "while(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue"
+					+ " != " + nameSce.toLowerCase() + "." + afterEqu + ".oldValue){\n" 
+					+ nameSce.toLowerCase() + ".UpdateASM();\n " + "}\n";
+		}
+		else {
+			return "//Step Until\n" + "while(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue.value"
+					+ " != " + afterEqu + "){\n" 
+					+ nameSce.toLowerCase() + ".UpdateASM();\n " + "}\n";
+		}
 		
-		return "//Step\n" + "while(" + spec_lc + "." + beforeEqu + ".oldValue"
-				+ " != " + spec_lc + "." + afterEqu + ".oldValue){\n" 
-				+ spec_lc + ".UpdateASM();\n " + "}\n";
 	}
 
 	public boolean isInteger(String s) {

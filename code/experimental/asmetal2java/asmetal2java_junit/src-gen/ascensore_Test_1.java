@@ -4,32 +4,32 @@ import org.junit.Test;
 public class ascensore_Test_1 {
 	@Test
 	public void ascensore_Test() {
-		ascensore asc = new ascensore();
-		assertNotNull(asc);
+		ascensore ascensore = new ascensore();
+		assertNotNull(ascensore);
 		//Check
-		assertEquals(asc.statoPiano.oldValue.value, Integer.valueOf(1));
+		assertEquals(ascensore.statoPiano.oldValue.value, Integer.valueOf(1));
 		//Check
-		assertEquals(asc.statoPorta.oldValue, asc.statoPorta.oldValue.CHIUSA);
+		assertEquals(ascensore.statoPorta.oldValue, ascensore.statoPorta.oldValue.CHIUSA);
 		//Set
-		asc.signalPorta.Value = false;
+		ascensore.signalPorta.Value = false;
 		//Step
-		asc.UpdateASM();
+		ascensore.UpdateASM();
 		//Check
-		assertEquals(asc.statoPiano.oldValue.value, Integer.valueOf(2));
+		assertEquals(ascensore.statoPiano.oldValue.value, Integer.valueOf(2));
 		//Check
-		assertEquals(asc.statoPorta.oldValue, asc.statoPorta.oldValue.CHIUSA);
+		assertEquals(ascensore.statoPorta.oldValue, ascensore.statoPorta.oldValue.CHIUSA);
 		//Exec
-		asc.statoPorta.newValue = asc.statoPorta.newValue.APERTA;
-		asc.fireUpdateSet();
+		ascensore.statoPorta.newValue = ascensore.statoPorta.newValue.APERTA;
+		ascensore.fireUpdateSet();
 		//Set
-		asc.signalPorta.Value = false;
+		ascensore.signalPorta.Value = false;
 		//Check
-		assertEquals(asc.statoPorta.oldValue, asc.statoPorta.oldValue.APERTA);
+		assertEquals(ascensore.statoPorta.oldValue, ascensore.statoPorta.oldValue.APERTA);
 		//Step
-		asc.UpdateASM();
+		ascensore.UpdateASM();
 		//Check
-		assertEquals(asc.statoPiano.oldValue.value, Integer.valueOf(1));
+		assertEquals(ascensore.statoPiano.oldValue.value, Integer.valueOf(1));
 		//Check
-		assertEquals(asc.statoPorta.oldValue, asc.statoPorta.oldValue.CHIUSA);
+		assertEquals(ascensore.statoPorta.oldValue, ascensore.statoPorta.oldValue.CHIUSA);
 	}
 }

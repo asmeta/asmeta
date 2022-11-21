@@ -4,37 +4,37 @@ import org.junit.Test;
 public class LGS_GM_Test_1 {
 	@Test
 	public void LGS_GM_Test() {
-		LGS_GM lgs = new LGS_GM();
-		assertNotNull(lgs);
+		LGS_GM lgs_gm = new LGS_GM();
+		assertNotNull(lgs_gm);
 		//Check
-		assertEquals(lgs.gears.oldValue, lgs.gears.oldValue.EXTENDED);
+		assertEquals(lgs_gm.gears.oldValue, lgs_gm.gears.oldValue.EXTENDED);
 		//Check
-		assertEquals(lgs.doors.oldValue, lgs.doors.oldValue.CLOSED);
+		assertEquals(lgs_gm.doors.oldValue, lgs_gm.doors.oldValue.CLOSED);
 		//Set
-		lgs.handle.Value = lgs.handle.Value.DOWN;
+		lgs_gm.handle.Value = lgs_gm.handle.Value.DOWN;
 		//Step
-		lgs.UpdateASM();
+		lgs_gm.UpdateASM();
 		//Set
-		lgs.handle.Value = lgs.handle.Value.UP;
+		lgs_gm.handle.Value = lgs_gm.handle.Value.UP;
 		//Step
-		lgs.UpdateASM();
+		lgs_gm.UpdateASM();
 		//Check
-		assertEquals(lgs.doors.oldValue, lgs.doors.oldValue.OPENING);
+		assertEquals(lgs_gm.doors.oldValue, lgs_gm.doors.oldValue.OPENING);
 		//Set
-		lgs.handle.Value = lgs.handle.Value.UP;
+		lgs_gm.handle.Value = lgs_gm.handle.Value.UP;
 		//Step
-		lgs.UpdateASM();
+		lgs_gm.UpdateASM();
 		//Check
-		assertEquals(lgs.doors.oldValue, lgs.doors.oldValue.OPEN);
+		assertEquals(lgs_gm.doors.oldValue, lgs_gm.doors.oldValue.OPEN);
 		//Set
-		lgs.handle.Value = lgs.handle.Value.UP;
+		lgs_gm.handle.Value = lgs_gm.handle.Value.UP;
 		//Step
-		lgs.UpdateASM();
+		lgs_gm.UpdateASM();
 		//Check
-		assertEquals(lgs.gears.oldValue, lgs.gears.oldValue.RETRACTING);
+		assertEquals(lgs_gm.gears.oldValue, lgs_gm.gears.oldValue.RETRACTING);
 		//Set
-		lgs.handle.Value = lgs.handle.Value.UP;
+		lgs_gm.handle.Value = lgs_gm.handle.Value.UP;
 		//Step
-		lgs.UpdateASM();
+		lgs_gm.UpdateASM();
 	}
 }
