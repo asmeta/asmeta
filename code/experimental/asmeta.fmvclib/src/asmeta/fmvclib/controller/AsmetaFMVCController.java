@@ -9,6 +9,8 @@ import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.asmeta.simulator.value.Value;
@@ -19,6 +21,7 @@ import asmeta.fmvclib.annotations.AsmetaRunStep;
 import asmeta.fmvclib.model.AsmetaFMVCModel;
 import asmeta.fmvclib.view.AsmetaFMVCView;
 import asmeta.fmvclib.view.RunStepListener;
+import asmeta.fmvclib.view.RunStepListenerChangeValue;
 
 /**
  * The AsmetaFMVCController is a controller to be used when the pattern fMVC is
@@ -27,7 +30,7 @@ import asmeta.fmvclib.view.RunStepListener;
  * @author Andrea Bombarda
  *
  */
-public class AsmetaFMVCController implements Observer, RunStepListener {
+public class AsmetaFMVCController implements Observer, RunStepListener, RunStepListenerChangeValue {
 	/**
 	 * The model to be used
 	 */
@@ -53,7 +56,8 @@ public class AsmetaFMVCController implements Observer, RunStepListener {
 		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaRunStep.class);
 		for (Field f : fieldList) {
 			f.setAccessible(true);
-			m_view.addListener(this);
+			m_view.addActionListener(this);
+			m_view.addChangeListener(this);
 		}
 		// The controller is used as observer for the model
 		m_model.addObserver(this);
@@ -91,6 +95,19 @@ public class AsmetaFMVCController implements Observer, RunStepListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		try {
+			m_model.updateMonitored(m_view);
+			m_model.runSimulator();
+		} catch (IllegalArgumentException | IllegalAccessException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	/**
+	 * Listener when the value changes
+	 */
+	@Override
+	public void stateChanged(ChangeEvent e) {
 		try {
 			m_model.updateMonitored(m_view);
 			m_model.runSimulator();

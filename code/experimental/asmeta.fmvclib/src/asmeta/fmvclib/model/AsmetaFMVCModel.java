@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Observable;
 
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -102,7 +103,11 @@ public class AsmetaFMVCModel extends Observable {
 				if (f.get(obj) instanceof JTextField) {
 					value = ((JTextField) (f.get(obj))).getText();
 				} else {
-					throw new RuntimeException("This type of component is not yet managed by the fMVC framework");
+					if (f.get(obj) instanceof JSlider) {
+						value = String.valueOf(((JSlider) (f.get(obj))).getValue());
+					} else {
+						throw new RuntimeException("This type of component is not yet managed by the fMVC framework: " + f.get(obj).getClass());
+					}
 				}
 			}
 
