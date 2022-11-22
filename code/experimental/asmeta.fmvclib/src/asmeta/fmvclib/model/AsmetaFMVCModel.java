@@ -1,10 +1,13 @@
 package asmeta.fmvclib.model;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.swing.JSlider;
 import javax.swing.JTextField;
@@ -61,12 +64,17 @@ public class AsmetaFMVCModel extends Observable {
 	@SuppressWarnings("rawtypes")
 	public String getValue(String locationName) {
 		State s = sim.getCurrentState();
-		String result = "";
+		//String result = "";
+		SortedMap<String, String> result = new TreeMap<>();
 		for (Entry<Location, Value> x : s.getContrLocs().entrySet()) {
-			if (x.getKey().getSignature().getName().equals(locationName))
-				return x.getValue().toString();
+			System.out.println(x.getKey().getSignature().getName() + " " + Arrays.toString(x.getKey().getElements()));
+			if (x.getKey().getSignature().getName().equals(locationName)) {
+				result.put(Arrays.toString(x.getKey().getElements()),  x.getValue().toString());
+			}
 		}
-		return result;
+		String string = result.toString();
+		System.out.println(string);
+		return string;
 	}
 
 	/**

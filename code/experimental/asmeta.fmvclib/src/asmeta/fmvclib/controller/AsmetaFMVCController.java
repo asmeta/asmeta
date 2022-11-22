@@ -9,6 +9,7 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.Timer;
@@ -18,6 +19,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
 import asmeta.fmvclib.annotations.AsmetaRunStep;
+import asmeta.fmvclib.annotations.LocationType;
 import asmeta.fmvclib.model.AsmetaFMVCModel;
 import asmeta.fmvclib.view.AsmetaFMVCView;
 import asmeta.fmvclib.view.RunStepListener;
@@ -47,10 +49,11 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 * 
 	 * @param model the ASMETA model
 	 * @param view  the view
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
 	 */
-	public AsmetaFMVCController(AsmetaFMVCModel model, AsmetaFMVCView view) throws IllegalArgumentException, IllegalAccessException {
+	public AsmetaFMVCController(AsmetaFMVCModel model, AsmetaFMVCView view)
+			throws IllegalArgumentException, IllegalAccessException {
 		// Store the reference to the model and view
 		m_model = model;
 		m_view = view;
@@ -60,13 +63,13 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		for (Field f : fieldList) {
 			f.setAccessible(true);
 			if (f.get(m_view) instanceof JButton)
-				((JButton)f.get(m_view)).addActionListener(this);
+				((JButton) f.get(m_view)).addActionListener(this);
 			else if (f.get(m_view) instanceof Timer)
-				((Timer)f.get(m_view)).addActionListener(this);
+				((Timer) f.get(m_view)).addActionListener(this);
 			else if (f.get(m_view) instanceof JSlider)
-				((JSlider)f.get(m_view)).addChangeListener(this);
+				((JSlider) f.get(m_view)).addChangeListener(this);
 			else if (f.get(m_view) instanceof JToggleButton)
-				((JToggleButton)f.get(m_view)).addActionListener(this);			
+				((JToggleButton) f.get(m_view)).addActionListener(this);
 			else
 				throw new RuntimeException("Component not yet supported: " + f.get(m_view).getClass());
 		}
@@ -84,16 +87,22 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		for (Field f : fieldList) {
 			f.setAccessible(true);
 			// First, get the value
-			String value = m_model.getValue(f.getAnnotation(AsmetaControlledLocation.class).asmLocationName());
+			AsmetaControlledLocation annotation = f.getAnnotation(AsmetaControlledLocation.class);
+			String value = m_model.getValue(annotation.asmLocationName());
+			System.out.println(annotation.asmLocationName() + " = " + value );
 			try {
 				if (f.get(m_view) instanceof JTextField) {
 					((JTextField) (f.get(m_view))).setText(value);
+				} else if (f.get(m_view) instanceof JLabel) {
+					((JLabel) (f.get(m_view))).setText(value);
+				} else if (f.get(m_view) instanceof JTable) {
+					assert annotation.asmLocationType() == LocationType.MAP;
+					JTable table = ((JTable) (f.get(m_view)));
+					table.getModel().setValueAt(value, 0, 0);
 				} else {
-					if (f.get(m_view) instanceof JLabel) {
-						((JLabel) (f.get(m_view))).setText(value);
-					} else {
-						throw new RuntimeException("This type of component is not yet supported by the fMVC framework: " + f.get(m_view).getClass());
-					}
+					throw new RuntimeException("This type of component is not yet supported by the fMVC framework: "
+							+ f.get(m_view).getClass());
+
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
