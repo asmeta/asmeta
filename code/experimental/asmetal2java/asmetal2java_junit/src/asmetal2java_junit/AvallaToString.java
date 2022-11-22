@@ -160,9 +160,15 @@ public class AvallaToString extends AvallaSwitch<String> {
 		String afterEqu = s1.getExpression().split("\\=")[1].trim();
 		
 		if (!isInteger(afterEqu)) {
-			return "//Step Until\n" + "while(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue"
-					+ " != " + nameSce.toLowerCase() + "." + afterEqu + ".oldValue){\n" 
-					+ nameSce.toLowerCase() + ".UpdateASM();\n " + "}\n";
+			if (afterEqu.equals("false") || afterEqu.equals("true")) {
+				return "//Step Until\n" + "while(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue"
+						+ " != " + afterEqu + "){\n" 
+						+ nameSce.toLowerCase() + ".UpdateASM();\n " + "}\n";
+			}else {
+				return "//Step Until\n" + "while(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue"
+						+ " != " + nameSce.toLowerCase() + "." + ".oldValue."+ afterEqu + "){\n" 
+						+ nameSce.toLowerCase() + ".UpdateASM();\n " + "}\n";
+			}
 		}
 		else {
 			return "//Step Until\n" + "while(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue.value"
