@@ -30,6 +30,7 @@ import asmeta.fmvclib.view.RunStepListenerChangeValue;
  * @author Andrea Bombarda
  *
  */
+@SuppressWarnings("deprecation")
 public class AsmetaFMVCController implements Observer, RunStepListener, RunStepListenerChangeValue {
 	/**
 	 * The model to be used
