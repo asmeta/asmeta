@@ -7,11 +7,4 @@ package asmeta.fmvclib.view;
  */
 public interface AsmetaFMVCView {
 
-	/**
-	 * Adds a listener to a component of the view
-	 * 
-	 * @param runStepListener the listener to be added
-	 */
-	void addListener(RunStepListener runStepListener);
-
 }

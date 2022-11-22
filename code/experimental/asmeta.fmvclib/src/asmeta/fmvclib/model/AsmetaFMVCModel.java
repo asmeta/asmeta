@@ -1,15 +1,18 @@
 package asmeta.fmvclib.model;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Observable;
 
+import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.Simulator;
@@ -46,6 +49,7 @@ public class AsmetaFMVCModel extends Observable {
 	public AsmetaFMVCModel(String asmPath) throws Exception {
 		reader = new ViewReader();
 		sim = Simulator.createSimulator(asmPath, new Environment(reader));
+		Environment.timeMngt = TimeMngt.use_java_time;
 	}
 
 	/**
@@ -99,11 +103,13 @@ public class AsmetaFMVCModel extends Observable {
 			if (!f.getAnnotation(AsmetaModelParameter.class).asmLocationValue().equals("")) {
 				value = f.getAnnotation(AsmetaModelParameter.class).asmLocationValue();
 			} else {
-				if (f.get(obj) instanceof JTextField) {
-					value = ((JTextField) (f.get(obj))).getText();
-				} else {
-					throw new RuntimeException("This type of component is not yet managed by the fMVC framework");
-				}
+				if (f.get(obj) instanceof HashMap)
+					value = "";
+				else
+					value = getValueFromSingleField(f, obj);
+				if (value == null)
+					throw new RuntimeException("This type of component is not yet managed by the fMVC framework: "
+							+ f.get(obj).getClass());
 			}
 
 			// Now add the value to the location map
@@ -112,6 +118,29 @@ public class AsmetaFMVCModel extends Observable {
 			String loc = f.getAnnotation(AsmetaModelParameter.class).asmLocationName();
 			reader.addValue(loc, val);
 		}
+	}
+
+	/**
+	 * Returns the value of a fied
+	 * 
+	 * @param f   the field
+	 * @param obj the object annotated with the corresponding field
+	 * @return the value of a fied
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
+	public String getValueFromSingleField(Field f, Object obj) throws IllegalArgumentException, IllegalAccessException {
+		String value = "";
+		if (f.get(obj) instanceof JTextField)
+			value = ((JTextField) (f.get(obj))).getText();
+		else if (f.get(obj) instanceof JSlider)
+			value = String.valueOf(((JSlider) (f.get(obj))).getValue());
+		else if (f.get(obj) instanceof JToggleButton)
+			value = String.valueOf(((JToggleButton) (f.get(obj))).isSelected());
+		else
+			return null;
+
+		return value;
 	}
 
 	/**

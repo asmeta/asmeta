@@ -1,6 +1,6 @@
 package asmeta.fmvclib.view;
 
-import java.awt.event.ActionListener;
+import javax.swing.event.ChangeListener;
 
 /**
  * RunStepListener is used for performing a single step in the simulator. First,
@@ -10,6 +10,6 @@ import java.awt.event.ActionListener;
  * @author Andrea Bombarda
  *
  */
-public interface RunStepListener extends ActionListener {
+public interface RunStepListenerChangeValue extends ChangeListener {
 
 }
