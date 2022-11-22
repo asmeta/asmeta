@@ -89,7 +89,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			// First, get the value
 			AsmetaControlledLocation annotation = f.getAnnotation(AsmetaControlledLocation.class);
 			String value = m_model.getValue(annotation.asmLocationName(), annotation.mapKeyType());
-			System.out.println(annotation.asmLocationName() + " = " + value );
 			try {
 				if (f.get(m_view) instanceof JTextField) {
 					((JTextField) (f.get(m_view))).setText(value);
@@ -98,16 +97,16 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 				} else if (f.get(m_view) instanceof JTable) {
 					assert annotation.asmLocationType() == LocationType.MAP;
 					JTable table = ((JTable) (f.get(m_view)));
-					// Iterate over the results 
+					// Iterate over the results
 					String[] assignments = value.split(", ");
 					int counter = 0;
 					for (String assignment : assignments) {
-						if (!assignment.split("=")[1].equals("undef"))
+						if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
 							table.getModel().setValueAt(assignment.split("=")[1], counter, 0);
 						else
 							table.getModel().setValueAt("", counter, 0);
 						counter++;
-					}					
+					}
 				} else {
 					throw new RuntimeException("This type of component is not yet supported by the fMVC framework: "
 							+ f.get(m_view).getClass());
@@ -124,15 +123,16 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		updateAndSimulate();
+		Object source = e.getSource();
+		updateAndSimulate(source);
 	}
 
 	/**
 	 * Updates and simulate the asmeta model
 	 */
-	public void updateAndSimulate() {
+	public void updateAndSimulate(Object source) {
 		try {
-			m_model.updateMonitored(m_view);
+			m_model.updateMonitored(m_view, source);
 			m_model.runSimulator();
 		} catch (IllegalArgumentException | IllegalAccessException e1) {
 			e1.printStackTrace();
@@ -144,6 +144,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		updateAndSimulate();
+		updateAndSimulate(e.getSource());
 	}
 }
