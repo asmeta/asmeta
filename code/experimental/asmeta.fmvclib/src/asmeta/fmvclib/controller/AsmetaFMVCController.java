@@ -92,7 +92,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					if (f.get(m_view) instanceof JLabel) {
 						((JLabel) (f.get(m_view))).setText(value);
 					} else {
-						throw new RuntimeException("This type of component is not yet managed by the fMVC framework");
+						throw new RuntimeException("This type of component is not yet supported by the fMVC framework: " + f.get(m_view).getClass());
 					}
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
