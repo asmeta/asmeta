@@ -160,7 +160,7 @@ public class AsmetaFMVCModel extends Observable {
 					int selectedColumn = guiTable.getSelectedColumn();
 					if (selectedRow != -1 && selectedColumn != -1) {
 						Object selectedValue = guiTable.getModel().getValueAt(selectedRow, selectedColumn);
-						value = (selectedValue == null) ? "undef" : selectedValue.toString();
+						value = (selectedValue == null || selectedValue.toString().equals("")) ? "undef" : selectedValue.toString();
 					} else
 						value = "undef";
 				}
@@ -204,7 +204,7 @@ public class AsmetaFMVCModel extends Observable {
 						int selectedColumn = guiTable.getSelectedColumn();
 						if (selectedRow != -1 && selectedColumn != -1) {
 							Object selectedValue = guiTable.getModel().getValueAt(selectedRow, selectedColumn);
-							value = (selectedValue == null) ? "undef" : selectedValue.toString();
+							value = (selectedValue == null || selectedValue.toString().equals("")) ? "undef" : selectedValue.toString();
 						} else
 							value = "undef";
 					}
