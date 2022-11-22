@@ -62,19 +62,45 @@ public class AsmetaFMVCModel extends Observable {
 	 * @return the value of the specified location in the current state
 	 */
 	@SuppressWarnings("rawtypes")
-	public String getValue(String locationName) {
+	public String getValue(String locationName, LocationType keyType) {
 		State s = sim.getCurrentState();
-		//String result = "";
-		SortedMap<String, String> result = new TreeMap<>();
+		SortedMap<String, String> resultStr = new TreeMap<>();
+		SortedMap<Long, String> resultInt = new TreeMap<>();
+		SortedMap<Float, String> resultFloat = new TreeMap<>();
+		SortedMap<Boolean, String> resultBoolean = new TreeMap<>();
+
 		for (Entry<Location, Value> x : s.getContrLocs().entrySet()) {
 			System.out.println(x.getKey().getSignature().getName() + " " + Arrays.toString(x.getKey().getElements()));
 			if (x.getKey().getSignature().getName().equals(locationName)) {
-				result.put(Arrays.toString(x.getKey().getElements()),  x.getValue().toString());
+				if (keyType == LocationType.UNDEF || keyType == LocationType.STRING || keyType == LocationType.ENUM
+						|| keyType == LocationType.CHAR)
+					resultStr.put(Arrays.toString(x.getKey().getElements()), x.getValue().toString());
+				else if (keyType == LocationType.INTEGER)
+					resultInt.put((x.getKey().getElements().length > 0 ? (Long)(x.getKey().getElements()[0].getValue()) : 0), x.getValue().toString());
+				else if (keyType == LocationType.REAL)
+					resultFloat.put((x.getKey().getElements().length > 0 ? (Float)(x.getKey().getElements()[0].getValue()) : 0), x.getValue().toString());
+				else if (keyType == LocationType.BOOLEAN)
+					resultBoolean.put((x.getKey().getElements().length > 0 ? (Boolean)(x.getKey().getElements()[0].getValue()) : true), x.getValue().toString());
 			}
 		}
-		String string = result.toString();
-		System.out.println(string);
-		return string;
+
+		// Keep the right map
+		String strResult = "";
+		if (keyType == LocationType.UNDEF || keyType == LocationType.STRING || keyType == LocationType.ENUM
+				|| keyType == LocationType.CHAR)
+			strResult = resultStr.toString().replace("{", "").replace("}", "");
+		else if (keyType == LocationType.INTEGER)
+			strResult = resultInt.toString().replace("{", "").replace("}", "");
+		else if (keyType == LocationType.REAL)
+			strResult = resultFloat.toString().replace("{", "").replace("}", "");
+		else if (keyType == LocationType.BOOLEAN)
+			strResult = resultBoolean.toString().replace("{", "").replace("}", "");
+
+		// If it has a single value only
+		if (strResult.split("=").length == 2)
+			strResult = strResult.split("=")[1];
+		System.out.println(strResult);
+		return strResult;
 	}
 
 	/**

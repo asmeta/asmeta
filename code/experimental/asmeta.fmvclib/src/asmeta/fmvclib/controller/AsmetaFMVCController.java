@@ -88,7 +88,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			f.setAccessible(true);
 			// First, get the value
 			AsmetaControlledLocation annotation = f.getAnnotation(AsmetaControlledLocation.class);
-			String value = m_model.getValue(annotation.asmLocationName());
+			String value = m_model.getValue(annotation.asmLocationName(), annotation.mapKeyType());
 			System.out.println(annotation.asmLocationName() + " = " + value );
 			try {
 				if (f.get(m_view) instanceof JTextField) {
@@ -98,7 +98,16 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 				} else if (f.get(m_view) instanceof JTable) {
 					assert annotation.asmLocationType() == LocationType.MAP;
 					JTable table = ((JTable) (f.get(m_view)));
-					table.getModel().setValueAt(value, 0, 0);
+					// Iterate over the results 
+					String[] assignments = value.split(", ");
+					int counter = 0;
+					for (String assignment : assignments) {
+						if (!assignment.split("=")[1].equals("undef"))
+							table.getModel().setValueAt(assignment.split("=")[1], counter, 0);
+						else
+							table.getModel().setValueAt("", counter, 0);
+						counter++;
+					}					
 				} else {
 					throw new RuntimeException("This type of component is not yet supported by the fMVC framework: "
 							+ f.get(m_view).getClass());

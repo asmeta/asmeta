@@ -19,13 +19,20 @@ public @interface AsmetaControlledLocation {
 	 * 
 	 * @return the name of the location in the ASM
 	 */
-	String asmLocationName();
+	String asmLocationName() default "";
 
 	/**
 	 * The type of the location in the ASM
 	 * 
 	 * @return the type of the location in the ASM
 	 */
-	LocationType asmLocationType();
+	LocationType asmLocationType() default LocationType.INTEGER;
+	
+	/**
+	 * If a MAP is used, the type of each key element
+	 * 
+	 * @return the type of each key element of a map
+	 */
+	LocationType mapKeyType() default LocationType.UNDEF;
 
 }
