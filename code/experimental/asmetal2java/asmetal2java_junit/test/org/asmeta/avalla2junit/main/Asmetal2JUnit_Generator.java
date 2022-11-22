@@ -102,6 +102,7 @@ public class Asmetal2JUnit_Generator {
 		extracted(asmspec,avaTest);
 	}
 	
+	//Test su AdvancedClock
 	@Test
 	public void testAsmToJunit_advanceClock() throws Exception {
 		String asmspec = "examples/AdvancedClock.asm";
@@ -109,6 +110,7 @@ public class Asmetal2JUnit_Generator {
 		extracted(asmspec,avaTest);
 	}
 	
+	//Test su sluiceGateGround
 	@Test
 	public void testAsmToJunit_sluice() throws Exception {
 		String asmspec = "examples/sluiceGateGround.asm";
@@ -116,6 +118,7 @@ public class Asmetal2JUnit_Generator {
 		extracted(asmspec,avaTest);
 	}
 	
+	//Test su forno
 	@Test
 	public void testAsmToJunit_forno() throws Exception {
 		String asmspec = "examples/forno.asm";
@@ -123,25 +126,7 @@ public class Asmetal2JUnit_Generator {
 		extracted(asmspec,avaTest);
 	}
 	
-	//********************************************************************************************************************
-	//Questo test permette di eseguire in modo automatico tutti i casi di test
-	//sotto la folder "src-gen/"
-	@Test
-	public void testRun_all_test() throws Exception {
-		File dir = new File("src-gen/");
-		File[] files = dir.listFiles();
-		for(File f : files) {
-			if(f.toString().contains("_Test_") && !f.toString().contains(".class")) {
-				String temp = f.toString().replace("src-gen", "").substring(1).replace(".java", "");
-				JUnitCore junitCore = new JUnitCore();
-				junitCore.addListener(new RunListener());
-				Result result = junitCore.run(getClassFromFile(temp));
-				System.out.println("Test name: " + temp);
-				System.out.println("Test run: " + result.getRunCount() + " Test fail: " + result.getFailureCount() + "\n");
-			}
-		}
-	}
-	//********************************************************************************************************************
+
 
 	private void extracted(String asmspec,String avaTest) throws Exception, IOException {
 		GeneratorCompilerTest gen = new GeneratorCompilerTest();
@@ -181,6 +166,25 @@ public class Asmetal2JUnit_Generator {
 		
 	}
 
+	//********************************************************************************************************************
+	//Questo test permette di eseguire in modo automatico tutti i casi di test
+	//sotto la folder "src-gen/"
+	@Test
+	public void testRun_all_test() throws Exception {
+		File dir = new File("src-gen/");
+		File[] files = dir.listFiles();
+		for(File f : files) {
+			if(f.toString().contains("_Test_") && !f.toString().contains(".class")) {
+				String temp = f.toString().replace("src-gen", "").substring(1).replace(".java", "");
+				JUnitCore junitCore = new JUnitCore();
+				junitCore.addListener(new RunListener());
+				Result result = junitCore.run(getClassFromFile(temp));
+				System.out.println("Test name: " + temp);
+				System.out.println("Test run: " + result.getRunCount() + " Test fail: " + result.getFailureCount() + "\n");
+			}
+		}
+	}
+	//********************************************************************************************************************
 
 	private static final String CLASS_FOLDER ="src-gen/";
 
@@ -192,45 +196,5 @@ public class Asmetal2JUnit_Generator {
 	
 	
 	
-//	@Test
-//	public void testLoop() throws Exception {
-//		GeneratorCompilerTest gen = new GeneratorCompilerTest();
-//		gen.testBasicDomain();
-//
-//		// Idea parsere tutti i file in una folder
-//		// Da asmeta -> avalla
-//		// Automaticamente converte tutti i file
-//		File dir = new File("examples/");
-//		File[] files = dir.listFiles();
-//		String pathInp = "examples/";
-//		// Loop sulla folder result
-//		int i = 1;
-//		for (File file : files) {
-//			if (file.isFile()) {
-//				// Controllo estensione
-//				String file2 = file.getName();
-//				String ext = file2.substring(file2.lastIndexOf(".") + 1, file2.length());
-//				if (ext.equals("avalla")) {
-//					assert file.exists();
-//					String pathResource = pathInp + file2;
-//
-//					// convertiamo .avalla in oggetto Scenario
-//					Injector injector = new AvallaStandaloneSetup().createInjectorAndDoEMFRegistration();
-//					XtextResourceSet rs = injector.getInstance(XtextResourceSet.class);
-//					rs.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
-//					Resource resource = rs.getResource(URI.createFileURI(pathResource), true);
-//					resource.load(rs.getLoadOptions());
-//					Scenario sc = (Scenario) resource.getContents().get(0);
-//					assertNotNull(resource);
-//					assertNotNull(sc);
-//					// a questo punto lo converto in caso di test
-//					// Al costruttore passo sia lo scenario che la specifica
-//					AvallaToString converter = new AvallaToString(sc, sc.getSpec());
-//					converter.parseCommands(sc, i);
-//					i += 1;
-//				}
-//			}
-//		}
-//		
-//	}
+
 
