@@ -16,6 +16,9 @@ import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.asmeta.simulator.State;
+import org.asmeta.simulator.main.Simulator;
+import org.eclipse.emf.common.util.EList;
 
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
 import asmeta.fmvclib.annotations.AsmetaRunStep;
@@ -24,6 +27,7 @@ import asmeta.fmvclib.model.AsmetaFMVCModel;
 import asmeta.fmvclib.view.AsmetaFMVCView;
 import asmeta.fmvclib.view.RunStepListener;
 import asmeta.fmvclib.view.RunStepListenerChangeValue;
+import asmeta.structure.Initialization;
 
 /**
  * The AsmetaFMVCController is a controller to be used when the pattern fMVC is
@@ -75,6 +79,19 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		}
 		// The controller is used as observer for the model
 		m_model.addObserver(this);
+		
+		// Update the initial state
+		initiInitalState();
+	}
+
+	/**
+	 * Initializes the initial state on the view
+	 */
+	private void initiInitalState() {
+		Simulator simulator = this.m_model.getSimulator();
+		Initialization initialization = simulator.getAsmModel().getDefaultInitialState();
+		State state = new State(initialization, this.m_model.getEnvironment());
+		System.out.println(state);
 	}
 
 	/**

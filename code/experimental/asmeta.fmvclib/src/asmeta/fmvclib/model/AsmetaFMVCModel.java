@@ -45,6 +45,11 @@ public class AsmetaFMVCModel extends Observable {
 	private ViewReader reader;
 
 	/**
+	 * The ASM environment
+	 */
+	private Environment environment;
+
+	/**
 	 * Creates the AsmetaFMVCModel instance for a given ASMETA model
 	 * 
 	 * @param asmPath the path of the ASMETA model
@@ -52,7 +57,8 @@ public class AsmetaFMVCModel extends Observable {
 	 */
 	public AsmetaFMVCModel(String asmPath) throws Exception {
 		reader = new ViewReader();
-		sim = Simulator.createSimulator(asmPath, new Environment(reader));
+		environment = new Environment(reader);
+		sim = Simulator.createSimulator(asmPath, environment);
 		Environment.timeMngt = TimeMngt.use_java_time;
 	}
 
@@ -76,11 +82,18 @@ public class AsmetaFMVCModel extends Observable {
 						|| keyType == LocationType.CHAR)
 					resultStr.put(Arrays.toString(x.getKey().getElements()), x.getValue().toString());
 				else if (keyType == LocationType.INTEGER)
-					resultInt.put((x.getKey().getElements().length > 0 ? (Long)(x.getKey().getElements()[0].getValue()) : 0), x.getValue().toString());
+					resultInt.put(
+							(x.getKey().getElements().length > 0 ? (Long) (x.getKey().getElements()[0].getValue()) : 0),
+							x.getValue().toString());
 				else if (keyType == LocationType.REAL)
-					resultFloat.put((x.getKey().getElements().length > 0 ? (Float)(x.getKey().getElements()[0].getValue()) : 0), x.getValue().toString());
+					resultFloat
+							.put((x.getKey().getElements().length > 0 ? (Float) (x.getKey().getElements()[0].getValue())
+									: 0), x.getValue().toString());
 				else if (keyType == LocationType.BOOLEAN)
-					resultBoolean.put((x.getKey().getElements().length > 0 ? (Boolean)(x.getKey().getElements()[0].getValue()) : true), x.getValue().toString());
+					resultBoolean.put(
+							(x.getKey().getElements().length > 0 ? (Boolean) (x.getKey().getElements()[0].getValue())
+									: true),
+							x.getValue().toString());
 			}
 		}
 
@@ -115,7 +128,7 @@ public class AsmetaFMVCModel extends Observable {
 	 * @param nStep the number of steps
 	 */
 	public void runSimulator(int nStep) {
-		try{ 
+		try {
 			sim.run(nStep);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -139,7 +152,8 @@ public class AsmetaFMVCModel extends Observable {
 
 	/**
 	 * Analyzes fields with single annotation
-	 * @param obj the object
+	 * 
+	 * @param obj    the object
 	 * @param source the source of the run event
 	 * @throws IllegalAccessException
 	 */
@@ -155,16 +169,16 @@ public class AsmetaFMVCModel extends Observable {
 					value = f.getAnnotation(AsmetaModelParameter.class).asmLocationValue();
 			} else {
 				if (f.get(obj) instanceof JTable) {
-					JTable guiTable = (JTable)f.get(obj);
+					JTable guiTable = (JTable) f.get(obj);
 					int selectedRow = guiTable.getSelectedRow();
 					int selectedColumn = guiTable.getSelectedColumn();
 					if (selectedRow != -1 && selectedColumn != -1) {
 						Object selectedValue = guiTable.getModel().getValueAt(selectedRow, selectedColumn);
-						value = (selectedValue == null || selectedValue.toString().equals("")) ? "undef" : selectedValue.toString();
+						value = (selectedValue == null || selectedValue.toString().equals("")) ? "undef"
+								: selectedValue.toString();
 					} else
 						value = "undef";
-				}
-				else
+				} else
 					value = getValueFromSingleField(f, obj);
 				if (value == null)
 					throw new RuntimeException("This type of component is not yet managed by the fMVC framework: "
@@ -179,16 +193,17 @@ public class AsmetaFMVCModel extends Observable {
 				reader.addValue(loc, val);
 		}
 	}
-	
+
 	/**
 	 * Analyzes fields with multiple annotations
-	 * @param obj the object
+	 * 
+	 * @param obj    the object
 	 * @param source the source of the run event
 	 * @throws IllegalAccessException
 	 */
 	@SuppressWarnings("rawtypes")
 	private void analyzeMultipleAnnotations(Object obj, Object source) throws IllegalAccessException {
-		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(obj.getClass(), AsmetaModelParameters.class);		
+		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(obj.getClass(), AsmetaModelParameters.class);
 		for (Field f : fieldList) {
 			f.setAccessible(true);
 			for (AsmetaModelParameter f1 : f.getAnnotation(AsmetaModelParameters.class).value()) {
@@ -199,22 +214,22 @@ public class AsmetaFMVCModel extends Observable {
 						value = f1.asmLocationValue();
 				} else {
 					if (f.get(obj) instanceof JTable) {
-						JTable guiTable = (JTable)f.get(obj);
+						JTable guiTable = (JTable) f.get(obj);
 						int selectedRow = guiTable.getSelectedRow();
 						int selectedColumn = guiTable.getSelectedColumn();
 						if (selectedRow != -1 && selectedColumn != -1) {
 							Object selectedValue = guiTable.getModel().getValueAt(selectedRow, selectedColumn);
-							value = (selectedValue == null || selectedValue.toString().equals("")) ? "undef" : selectedValue.toString();
+							value = (selectedValue == null || selectedValue.toString().equals("")) ? "undef"
+									: selectedValue.toString();
 						} else
 							value = "undef";
-					}
-					else
+					} else
 						value = getValueFromSingleField(f, obj);
 					if (value == null)
 						throw new RuntimeException("This type of component is not yet managed by the fMVC framework: "
 								+ f.get(obj).getClass());
 				}
-	
+
 				// Now add the value to the location map
 				LocationType locationType = f1.asmLocationType();
 				Value val = getValueFromString(value, locationType);
@@ -282,5 +297,23 @@ public class AsmetaFMVCModel extends Observable {
 			throw new RuntimeException("Location type not yet managed by the fMVC framework");
 		}
 		return val;
+	}
+
+	/**
+	 * Returns the simulator used by the model
+	 * 
+	 * @return the simulator used by the model
+	 */
+	public Simulator getSimulator() {
+		return this.sim;
+	}
+	
+	/**
+	 * Returns the environment used by the model
+	 * 
+	 * @return the environment used by the model
+	 */
+	public Environment getEnvironment() {
+		return this.environment;
 	}
 }
