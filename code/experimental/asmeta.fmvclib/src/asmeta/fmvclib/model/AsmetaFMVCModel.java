@@ -1,5 +1,6 @@
 package asmeta.fmvclib.model;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +49,11 @@ public class AsmetaFMVCModel extends Observable {
 	 * The ASM environment
 	 */
 	private Environment environment;
+	
+	/**
+	 * The path of the ASM model
+	 */
+	public static String ASM_PATH; 
 
 	/**
 	 * Creates the AsmetaFMVCModel instance for a given ASMETA model
@@ -56,6 +62,7 @@ public class AsmetaFMVCModel extends Observable {
 	 * @throws Exception
 	 */
 	public AsmetaFMVCModel(String asmPath) throws Exception {
+		ASM_PATH = new File(asmPath).getParent();
 		reader = new ViewReader();
 		environment = new Environment(reader);
 		sim = Simulator.createSimulator(asmPath, environment);

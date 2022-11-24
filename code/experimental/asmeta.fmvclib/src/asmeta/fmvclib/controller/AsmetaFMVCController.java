@@ -2,9 +2,13 @@ package asmeta.fmvclib.controller;
 
 import java.awt.event.ActionEvent;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,17 +20,20 @@ import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.Simulator;
-import org.eclipse.emf.common.util.EList;
+import org.asmeta.simulator.value.Value;
 
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
 import asmeta.fmvclib.annotations.AsmetaRunStep;
 import asmeta.fmvclib.annotations.LocationType;
 import asmeta.fmvclib.model.AsmetaFMVCModel;
+import asmeta.fmvclib.model.InitialStateVisitor;
 import asmeta.fmvclib.view.AsmetaFMVCView;
 import asmeta.fmvclib.view.RunStepListener;
 import asmeta.fmvclib.view.RunStepListenerChangeValue;
+import asmeta.structure.FunctionInitialization;
 import asmeta.structure.Initialization;
 
 /**
@@ -90,8 +97,16 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	private void initiInitalState() {
 		Simulator simulator = this.m_model.getSimulator();
 		Initialization initialization = simulator.getAsmModel().getDefaultInitialState();
-		State state = new State(initialization, this.m_model.getEnvironment());
-		System.out.println(state);
+		InitialStateVisitor visitor = new InitialStateVisitor();
+		// Visit the function initialization part
+		for (FunctionInitialization init : initialization.getFunctionInitialization()) {
+			visitor.visitInit(init);
+		}
+		
+		// Assign the initialization values to the annotated component
+		// TODO: Remove println
+		System.out.println(visitor.initMap);
+		updateView(visitor.initMap);		
 	}
 
 	/**
@@ -99,13 +114,21 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
+		updateView(null);
+	}
+
+	private void updateView(SortedMap<String, String> initialAssignments) {
 		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
 				AsmetaControlledLocation.class);
 		for (Field f : fieldList) {
 			f.setAccessible(true);
-			// First, get the value
+			// First, get the value (it can be in the initial assignments or in the current state)
 			AsmetaControlledLocation annotation = f.getAnnotation(AsmetaControlledLocation.class);
-			String value = m_model.getValue(annotation.asmLocationName(), annotation.mapKeyType());
+			String value = "";
+			if (initialAssignments == null) 
+				value = m_model.getValue(annotation.asmLocationName(), annotation.mapKeyType());
+			else
+				value = getValueFromInitialAssignments(initialAssignments, annotation);
 			try {
 				if (f.get(m_view) instanceof JTextField) {
 					((JTextField) (f.get(m_view))).setText(value);
@@ -113,16 +136,18 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					((JLabel) (f.get(m_view))).setText(value);
 				} else if (f.get(m_view) instanceof JTable) {
 					assert annotation.asmLocationType() == LocationType.MAP;
-					JTable table = ((JTable) (f.get(m_view)));
-					// Iterate over the results
-					String[] assignments = value.split(", ");
-					int counter = 0;
-					for (String assignment : assignments) {
-						if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
-							table.getModel().setValueAt(assignment.split("=")[1], counter, 0);
-						else
-							table.getModel().setValueAt("", counter, 0);
-						counter++;
+					if (value != null) {
+						JTable table = ((JTable) (f.get(m_view)));
+						// Iterate over the results
+						String[] assignments = value.split(", ");
+						int counter = 0;
+						for (String assignment : assignments) {
+							if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
+								table.getModel().setValueAt(assignment.split("=")[1], counter, 0);
+							else
+								table.getModel().setValueAt("", counter, 0);
+							counter++;
+						}
 					}
 				} else {
 					throw new RuntimeException("This type of component is not yet supported by the fMVC framework: "
@@ -133,6 +158,58 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private String getValueFromInitialAssignments(SortedMap<String, String> initialAssignments,
+			AsmetaControlledLocation annotation) {
+			
+		SortedMap<String, String> resultStr = new TreeMap<>();
+		SortedMap<Long, String> resultInt = new TreeMap<>();
+		SortedMap<Float, String> resultFloat = new TreeMap<>();
+		SortedMap<Boolean, String> resultBoolean = new TreeMap<>();
+		LocationType keyType = annotation.mapKeyType();
+		String locationName = annotation.asmLocationName();
+
+		for (Entry<String, String> x : initialAssignments.entrySet()) {
+			
+//			if (x.getKey().getSignature().getName().equals(locationName)) {
+//				if (keyType == LocationType.UNDEF || keyType == LocationType.STRING || keyType == LocationType.ENUM
+//						|| keyType == LocationType.CHAR)
+//					resultStr.put(Arrays.toString(x.getKey().getElements()), x.getValue().toString());
+//				else if (keyType == LocationType.INTEGER)
+//					resultInt.put(
+//							(x.getKey().getElements().length > 0 ? (Long) (x.getKey().getElements()[0].getValue()) : 0),
+//							x.getValue().toString());
+//				else if (keyType == LocationType.REAL)
+//					resultFloat
+//							.put((x.getKey().getElements().length > 0 ? (Float) (x.getKey().getElements()[0].getValue())
+//									: 0), x.getValue().toString());
+//				else if (keyType == LocationType.BOOLEAN)
+//					resultBoolean.put(
+//							(x.getKey().getElements().length > 0 ? (Boolean) (x.getKey().getElements()[0].getValue())
+//									: true),
+//							x.getValue().toString());
+//			}
+		}
+//
+//		// Keep the right map
+//		String strResult = "";
+//		if (keyType == LocationType.UNDEF || keyType == LocationType.STRING || keyType == LocationType.ENUM
+//				|| keyType == LocationType.CHAR)
+//			strResult = resultStr.toString().replace("{", "").replace("}", "");
+//		else if (keyType == LocationType.INTEGER)
+//			strResult = resultInt.toString().replace("{", "").replace("}", "");
+//		else if (keyType == LocationType.REAL)
+//			strResult = resultFloat.toString().replace("{", "").replace("}", "");
+//		else if (keyType == LocationType.BOOLEAN)
+//			strResult = resultBoolean.toString().replace("{", "").replace("}", "");
+//
+//		// If it has a single value only
+//		if (strResult.split("=").length == 2)
+//			strResult = strResult.split("=")[1];
+//		return strResult;
+		
+		return initialAssignments.get(annotation.asmLocationName());
 	}
 
 	/**
