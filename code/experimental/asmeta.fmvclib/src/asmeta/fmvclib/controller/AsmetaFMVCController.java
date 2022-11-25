@@ -2,13 +2,12 @@ package asmeta.fmvclib.controller;
 
 import java.awt.event.ActionEvent;
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,10 +19,7 @@ import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.asmeta.simulator.Location;
-import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.Simulator;
-import org.asmeta.simulator.value.Value;
 
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
 import asmeta.fmvclib.annotations.AsmetaRunStep;
@@ -104,7 +100,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		}
 		
 		// Assign the initialization values to the annotated component
-		// TODO: Remove println
 		System.out.println(visitor.initMap);
 		updateView(visitor.initMap);		
 	}
@@ -142,11 +137,13 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 						String[] assignments = value.split(", ");
 						int counter = 0;
 						for (String assignment : assignments) {
-							if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
-								table.getModel().setValueAt(assignment.split("=")[1], counter, 0);
-							else
-								table.getModel().setValueAt("", counter, 0);
-							counter++;
+							if (counter < table.getRowCount()) {
+								if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
+									table.getModel().setValueAt(assignment.split("=")[1], counter, 0);
+								else
+									table.getModel().setValueAt("", counter, 0);
+								counter++;
+							}
 						}
 					}
 				} else {
@@ -172,44 +169,42 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 
 		for (Entry<String, String> x : initialAssignments.entrySet()) {
 			
-//			if (x.getKey().getSignature().getName().equals(locationName)) {
-//				if (keyType == LocationType.UNDEF || keyType == LocationType.STRING || keyType == LocationType.ENUM
-//						|| keyType == LocationType.CHAR)
-//					resultStr.put(Arrays.toString(x.getKey().getElements()), x.getValue().toString());
-//				else if (keyType == LocationType.INTEGER)
-//					resultInt.put(
-//							(x.getKey().getElements().length > 0 ? (Long) (x.getKey().getElements()[0].getValue()) : 0),
-//							x.getValue().toString());
-//				else if (keyType == LocationType.REAL)
-//					resultFloat
-//							.put((x.getKey().getElements().length > 0 ? (Float) (x.getKey().getElements()[0].getValue())
-//									: 0), x.getValue().toString());
-//				else if (keyType == LocationType.BOOLEAN)
-//					resultBoolean.put(
-//							(x.getKey().getElements().length > 0 ? (Boolean) (x.getKey().getElements()[0].getValue())
-//									: true),
-//							x.getValue().toString());
-//			}
+			if (x.getKey().equals(locationName) || x.getKey().startsWith(locationName + "_")) {
+				if (keyType == LocationType.UNDEF || keyType == LocationType.STRING || keyType == LocationType.ENUM
+						|| keyType == LocationType.CHAR)
+					resultStr.put(x.getKey(), x.getValue());
+				else if (keyType == LocationType.INTEGER)
+					resultInt.put(
+							x.getKey().split("_").length > 0 ? Long.parseLong(x.getKey().split("_")[x.getKey().split("_").length-1]) : 0,
+							x.getValue());
+				else if (keyType == LocationType.REAL)
+					resultFloat.put(
+							x.getKey().split("_").length > 0 ? Float.parseFloat(x.getKey().split("_")[x.getKey().split("_").length-1]) : 0,
+									x.getValue());
+				else if (keyType == LocationType.BOOLEAN)
+					resultBoolean.put(
+							x.getKey().split("_").length > 0 ? Boolean.parseBoolean(x.getKey().split("_")[x.getKey().split("_").length-1]) : true,
+									x.getValue());
+			}
 		}
-//
-//		// Keep the right map
-//		String strResult = "";
-//		if (keyType == LocationType.UNDEF || keyType == LocationType.STRING || keyType == LocationType.ENUM
-//				|| keyType == LocationType.CHAR)
-//			strResult = resultStr.toString().replace("{", "").replace("}", "");
-//		else if (keyType == LocationType.INTEGER)
-//			strResult = resultInt.toString().replace("{", "").replace("}", "");
-//		else if (keyType == LocationType.REAL)
-//			strResult = resultFloat.toString().replace("{", "").replace("}", "");
-//		else if (keyType == LocationType.BOOLEAN)
-//			strResult = resultBoolean.toString().replace("{", "").replace("}", "");
-//
-//		// If it has a single value only
-//		if (strResult.split("=").length == 2)
-//			strResult = strResult.split("=")[1];
-//		return strResult;
+
+		// Keep the right map
+		String strResult = "";
+		if (keyType == LocationType.UNDEF || keyType == LocationType.STRING || keyType == LocationType.ENUM
+				|| keyType == LocationType.CHAR)
+			strResult = resultStr.toString().replace("{", "").replace("}", "");
+		else if (keyType == LocationType.INTEGER)
+			strResult = resultInt.toString().replace("{", "").replace("}", "");
+		else if (keyType == LocationType.REAL)
+			strResult = resultFloat.toString().replace("{", "").replace("}", "");
+		else if (keyType == LocationType.BOOLEAN)
+			strResult = resultBoolean.toString().replace("{", "").replace("}", "");
+
+		// If it has a single value only
+		if (strResult.split("=").length == 2)
+			strResult = strResult.split("=")[1];
 		
-		return initialAssignments.get(annotation.asmLocationName());
+		return strResult;
 	}
 
 	/**

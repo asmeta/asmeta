@@ -176,6 +176,18 @@ public class InitialStateVisitor extends org.asmeta.parser.util.ReflectiveVisito
 			}
 
 			if (termStr != null) {
+				if (termStr.contains("=") && termStr.contains("?") && termStr.contains(":")) {
+					// Conditional assignment
+					String condition = termStr.split("\\?")[0].trim().replace(")", "").replace("(", "").replace(" ", "");
+					String assignment = termStr.split("\\?")[1].trim().replace(" ", "");
+					if (condition.split("=")[0].equals(condition.split("=")[1])) {
+						// True part 
+						termStr = assignment.split(":")[0];
+					} else {
+						// False part
+						termStr = assignment.split(":")[1];
+					}
+				}
 				initMap.put(locStr, termStr);
 			}
 		}
