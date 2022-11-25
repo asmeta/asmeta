@@ -147,14 +147,6 @@ public class Util {
 	 */
 	public static String getFunctionName(Function function) {
 		String functionName = function.getName();
-		String asmName = getAsmName(function);
-		if (notBelongsToMainAsm(function) && !asmName.equals("StandardLibrary")
-				&& !asmName.equals("CTLlibrary")
-				&& !asmName.equals("LTLlibrary")) {
-			//functionName = asmName + "_" + functionName;
-			// For fMVC we don't need the asmName
-			functionName = functionName;
-		}
 		return functionName;
 	}
 

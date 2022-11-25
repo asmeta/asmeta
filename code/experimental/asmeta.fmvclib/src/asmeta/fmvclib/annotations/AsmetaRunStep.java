@@ -13,5 +13,10 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AsmetaRunStep {
-
+	/**
+	 * If it is true, it fires a refresh of the GUI
+	 * 
+	 * @return whether the GUI is refreshed before step execution
+	 */
+	public boolean refreshGui() default false;
 }

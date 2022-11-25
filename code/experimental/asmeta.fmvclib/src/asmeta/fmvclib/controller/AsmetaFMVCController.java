@@ -50,7 +50,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 * The view to which the listener has to be attached
 	 */
 	private AsmetaFMVCView m_view;
-
 	/**
 	 * Builds a new controller to be used when the pattern fMVC is chosen
 	 * 
@@ -233,6 +232,16 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		updateAndSimulate(e.getSource());
+		if (e.getSource() instanceof JSlider && !((JSlider) (e.getSource())).getValueIsAdjusting()) {
+			updateAndSimulate(e.getSource());
+			List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaRunStep.class);
+			for (Field f : fieldList) {
+				f.setAccessible(true);
+				if (f.getAnnotation(AsmetaRunStep.class).refreshGui()) {
+					m_view.refreshView(false);
+					updateView(null);
+				}
+			}
+		}
 	}
 }
