@@ -175,20 +175,26 @@ public class InitialStateVisitor extends org.asmeta.parser.util.ReflectiveVisito
 					termStr = undef;
 				}
 			} else if (new Expression(termStr).checkSyntax()) {
-				termStr = String.valueOf((int)(new Expression(termStr).calculate()));
+				termStr = String.valueOf((int) (new Expression(termStr).calculate()));
 			}
 
 			if (termStr != null) {
-				if (termStr.contains("=") && termStr.contains("?") && termStr.contains(":")) {
-					// Conditional assignment
-					String condition = termStr.split("\\?")[0].trim().replace(")", "").replace("(", "").replace(" ", "");
-					String assignment = termStr.split("\\?")[1].trim().replace(" ", "");
-					if (condition.split("=")[0].equals(condition.split("=")[1])) {
-						// True part 
-						termStr = assignment.split(":")[0];
-					} else {
-						// False part
-						termStr = assignment.split(":")[1];
+				termStr = termStr.trim().replace(")", "").replace("(", "").replace(" ", "");
+				int conditionsCount = termStr.split("\\?").length;
+				for (int i = 0; i < conditionsCount; i++) {
+					if (termStr.contains("=") && termStr.contains("?") && termStr.contains(":")) {
+						// Conditional assignment
+
+						String condition = termStr.split("\\?")[0];
+						if (condition.split("=")[0].equals(condition.split("=")[1])) {
+							// True part
+							String assignment = termStr.split("\\?")[1];
+							termStr = assignment.split(":")[0];
+							break;
+						} else {
+							// False part, visit the remaining part
+							termStr = termStr.substring(termStr.split(":")[0].length() + 1);
+						}
 					}
 				}
 				initMap.put(locStr, termStr);
