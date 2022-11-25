@@ -6,5 +6,5 @@ package asmeta.fmvclib.annotations;
  * @author Andrea Bombarda
  */
 public enum LocationType {
-	INTEGER, ENUM, REAL, STRING, BOOLEAN, CHAR, BAG, SEQ, SET, TUPLE, MAP, UNDEF
+	INTEGER, ENUM, REAL, STRING, BOOLEAN, CHAR, BAG, SEQ, SET, TUPLE, MAP, UNDEF, RESERVE
 }

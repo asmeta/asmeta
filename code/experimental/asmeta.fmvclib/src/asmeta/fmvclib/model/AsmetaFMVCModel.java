@@ -25,6 +25,7 @@ import org.asmeta.simulator.value.CharValue;
 import org.asmeta.simulator.value.EnumValue;
 import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.RealValue;
+import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.Value;
 
@@ -299,6 +300,9 @@ public class AsmetaFMVCModel extends Observable {
 			break;
 		case REAL:
 			val = new RealValue(value);
+			break;
+		case RESERVE:
+			val = new ReserveValue(value);
 			break;
 		default:
 			throw new RuntimeException("Location type not yet managed by the fMVC framework");
