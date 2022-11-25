@@ -21,6 +21,7 @@ import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.EnumValue;
 import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.Value;
+import org.mariuszgromada.math.mxparser.Expression;
 
 import asmeta.definitions.DynamicFunction;
 import asmeta.definitions.Function;
@@ -173,6 +174,8 @@ public class InitialStateVisitor extends org.asmeta.parser.util.ReflectiveVisito
 				if (undef != null) {
 					termStr = undef;
 				}
+			} else if (new Expression(termStr).checkSyntax()) {
+				termStr = String.valueOf((int)(new Expression(termStr).calculate()));
 			}
 
 			if (termStr != null) {
