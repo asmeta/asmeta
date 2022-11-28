@@ -20,6 +20,7 @@ import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.main.Simulator;
 
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
@@ -58,6 +59,11 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	SortedMap<String, String> initMap;
 
 	/**
+	 * The last Update Set
+	 */
+	protected UpdateSet updateSet;
+
+	/**
 	 * Builds a new controller to be used when the pattern fMVC is chosen
 	 * 
 	 * @param model the ASMETA model
@@ -70,6 +76,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		// Store the reference to the model and view
 		m_model = model;
 		m_view = view;
+		updateSet = null;
 
 		// Attach the ActionListener to components annotated with @AsmetaRunStep
 		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaRunStep.class);
@@ -137,33 +144,9 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 				value = getValueFromInitialAssignments(initialAssignments, annotation);
 			try {
 				if (f.get(m_view) instanceof JTextField) {
-					switch (annotation.propertyName()) {
-					case VALUE:
-						((JTextField) (f.get(m_view))).setText(value);
-						break;
-					case BG_COLOR:
-						((JTextField) (f.get(m_view))).setBackground(Color.getColor(value));
-						break;
-					case TEXT_COLOR:
-						((JTextField) (f.get(m_view))).setForeground(Color.getColor(value));
-						break;
-					default:
-						throw new RuntimeException("Property not yet supported by the fMVC framework");
-					}
+					((JTextField) (f.get(m_view))).setText(value);
 				} else if (f.get(m_view) instanceof JLabel) {
-					switch (annotation.propertyName()) {
-					case VALUE:
-						((JLabel) (f.get(m_view))).setText(value);
-						break;
-					case BG_COLOR:
-						((JLabel) (f.get(m_view))).setBackground(Color.getColor(value));
-						break;
-					case TEXT_COLOR:
-						((JLabel) (f.get(m_view))).setForeground(Color.getColor(value));
-						break;
-					default:
-						throw new RuntimeException("Property not yet supported by the fMVC framework");
-					}
+					((JLabel) (f.get(m_view))).setText(value);
 				} else if (f.get(m_view) instanceof JTable) {
 					assert annotation.asmLocationType() == LocationType.MAP;
 					if (value != null) {
@@ -171,20 +154,14 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 						// Iterate over the results
 						String[] assignments = value.split(", ");
 						int counter = 0;
-						switch (annotation.propertyName()) {
-						case VALUE:
-							for (String assignment : assignments) {
-								if (counter < table.getRowCount()) {
-									if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
-										table.getModel().setValueAt(assignment.split("=")[1], counter, 0);
-									else
-										table.getModel().setValueAt("", counter, 0);
-									counter++;
-								}
+						for (String assignment : assignments) {
+							if (counter < table.getRowCount()) {
+								if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
+									table.getModel().setValueAt(assignment.split("=")[1], counter, 0);
+								else
+									table.getModel().setValueAt("", counter, 0);
+								counter++;
 							}
-							break;
-						default:
-							throw new RuntimeException("Property not yet supported by the fMVC framework");
 						}
 					}
 				} else {
@@ -198,6 +175,13 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		}
 	}
 
+	/**
+	 * Get tge value of a location in the initial assignments
+	 * 
+	 * @param initialAssignments the map of the initial assignments
+	 * @param annotation         the annotation to be processed
+	 * @return the string containing the val
+	 */
 	private String getValueFromInitialAssignments(SortedMap<String, String> initialAssignments,
 			AsmetaControlledLocation annotation) {
 
@@ -263,7 +247,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	public void updateAndSimulate(Object source) {
 		try {
 			m_model.updateMonitored(m_view, source);
-			m_model.runSimulator();
+			updateSet = m_model.runSimulator();
 		} catch (IllegalArgumentException | IllegalAccessException e1) {
 			e1.printStackTrace();
 		}

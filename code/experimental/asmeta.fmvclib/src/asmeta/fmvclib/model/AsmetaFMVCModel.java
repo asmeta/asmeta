@@ -19,6 +19,7 @@ import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
+import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.CharValue;
@@ -125,24 +126,28 @@ public class AsmetaFMVCModel extends Observable {
 
 	/**
 	 * Runs the simulator for a single step
+	 * @return 
 	 */
-	public void runSimulator() {
-		this.runSimulator(1);
+	public UpdateSet runSimulator() {
+		return this.runSimulator(1);
 	}
 
 	/**
 	 * Runs the simulator for nStep steps
 	 * 
 	 * @param nStep the number of steps
+	 * @return 
 	 */
-	public void runSimulator(int nStep) {
+	public UpdateSet runSimulator(int nStep) {
+		UpdateSet updateSet = null;
 		try {
-			sim.run(nStep);
+			updateSet = sim.run(nStep);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		setChanged();
 		notifyObservers();
+		return updateSet;
 	}
 
 	/**

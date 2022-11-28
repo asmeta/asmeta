@@ -37,13 +37,6 @@ public @interface AsmetaControlledLocation {
 	 */
 	LocationType mapKeyType() default LocationType.UNDEF;
 
-	/**
-	 * The name of the property to be changed in the view
-	 * 
-	 * @return the name of the property to be changed in the view
-	 */
-	PropertyName propertyName() default PropertyName.VALUE;
-
 }
 
 @Retention(RetentionPolicy.RUNTIME)
