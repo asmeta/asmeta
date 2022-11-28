@@ -126,6 +126,12 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		updateView(null);
 	}
 
+	/**
+	 * Updates the view by setting the value of controlled variables
+	 * 
+	 * @param initialAssignments the possible initial assignmets. It may be null if
+	 *                           it is not the first initial set operation
+	 */
 	private void updateView(SortedMap<String, String> initialAssignments) {
 		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
 				AsmetaControlledLocation.class);
@@ -177,7 +183,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	}
 
 	/**
-	 * Get tge value of a location in the initial assignments
+	 * Get the value of a location in the initial assignments
 	 * 
 	 * @param initialAssignments the map of the initial assignments
 	 * @param annotation         the annotation to be processed
@@ -249,7 +255,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		try {
 			m_model.updateMonitored(m_view, source);
 			updateSet = m_model.runSimulator();
-			updateSet.forEach(x -> { 
+			updateSet.forEach(x -> {
 				this.updateSetMap.put(x.getKey().toString(), x.getValue().toString());
 			});
 		} catch (IllegalArgumentException | IllegalAccessException e1) {
