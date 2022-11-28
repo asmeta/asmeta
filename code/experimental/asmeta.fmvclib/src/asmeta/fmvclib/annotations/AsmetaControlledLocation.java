@@ -29,13 +29,20 @@ public @interface AsmetaControlledLocation {
 	 * @return the type of the location in the ASM
 	 */
 	LocationType asmLocationType() default LocationType.INTEGER;
-	
+
 	/**
 	 * If a MAP is used, the type of each key element
 	 * 
 	 * @return the type of each key element of a map
 	 */
 	LocationType mapKeyType() default LocationType.UNDEF;
+
+	/**
+	 * The name of the property to be changed in the view
+	 * 
+	 * @return the name of the property to be changed in the view
+	 */
+	PropertyName propertyName() default PropertyName.VALUE;
 
 }
 

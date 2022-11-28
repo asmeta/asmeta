@@ -24,6 +24,7 @@ import org.asmeta.simulator.main.Simulator;
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
 import asmeta.fmvclib.annotations.AsmetaRunStep;
 import asmeta.fmvclib.annotations.LocationType;
+import asmeta.fmvclib.annotations.PropertyName;
 import asmeta.fmvclib.model.AsmetaFMVCModel;
 import asmeta.fmvclib.model.InitialStateVisitor;
 import asmeta.fmvclib.view.AsmetaFMVCView;
@@ -50,6 +51,12 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 * The view to which the listener has to be attached
 	 */
 	private AsmetaFMVCView m_view;
+	
+	/**
+	 * The map containing the initial assignments
+	 */
+	SortedMap<String, String> initMap;
+	
 	/**
 	 * Builds a new controller to be used when the pattern fMVC is chosen
 	 * 
@@ -83,13 +90,13 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		m_model.addObserver(this);
 		
 		// Update the initial state
-		initiInitalState();
+		initInitialState();
 	}
 
 	/**
 	 * Initializes the initial state on the view
 	 */
-	private void initiInitalState() {
+	private void initInitialState() {
 		Simulator simulator = this.m_model.getSimulator();
 		Initialization initialization = simulator.getAsmModel().getDefaultInitialState();
 		InitialStateVisitor visitor = new InitialStateVisitor();
@@ -99,8 +106,8 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		}
 		
 		// Assign the initialization values to the annotated component
-		System.out.println(visitor.initMap);
-		updateView(visitor.initMap);		
+		initMap = visitor.initMap;
+		updateView(initMap);		
 	}
 
 	/**
@@ -119,8 +126,13 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			// First, get the value (it can be in the initial assignments or in the current state)
 			AsmetaControlledLocation annotation = f.getAnnotation(AsmetaControlledLocation.class);
 			String value = "";
-			if (initialAssignments == null) 
+			if (initialAssignments == null) {
 				value = m_model.getValue(annotation.asmLocationName(), annotation.mapKeyType());
+				// If value is not valorized, it means that it has never been changed w.r.t. its value
+				// in the initial state, so we load the value from the initMap
+				if (value.equals(""))
+					value = getValueFromInitialAssignments(initMap, annotation);
+			}
 			else
 				value = getValueFromInitialAssignments(initialAssignments, annotation);
 			try {
@@ -135,14 +147,22 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 						// Iterate over the results
 						String[] assignments = value.split(", ");
 						int counter = 0;
-						for (String assignment : assignments) {
-							if (counter < table.getRowCount()) {
-								if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
-									table.getModel().setValueAt(assignment.split("=")[1], counter, 0);
-								else
-									table.getModel().setValueAt("", counter, 0);
-								counter++;
+						switch (annotation.propertyName()) {
+						case VALUE:						
+							for (String assignment : assignments) {
+								if (counter < table.getRowCount()) {
+									if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
+										table.getModel().setValueAt(assignment.split("=")[1], counter, 0);
+									else
+										table.getModel().setValueAt("", counter, 0);
+									counter++;
+								}
 							}
+							break;
+						case COLOR:
+							break;
+						default:
+							throw new RuntimeException("Property not yet supported by the fMVC framework");		
 						}
 					}
 				} else {
