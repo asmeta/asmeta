@@ -51,12 +51,12 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 * The view to which the listener has to be attached
 	 */
 	private AsmetaFMVCView m_view;
-	
+
 	/**
 	 * The map containing the initial assignments
 	 */
 	SortedMap<String, String> initMap;
-	
+
 	/**
 	 * Builds a new controller to be used when the pattern fMVC is chosen
 	 * 
@@ -88,7 +88,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		}
 		// The controller is used as observer for the model
 		m_model.addObserver(this);
-		
+
 		// Update the initial state
 		initInitialState();
 	}
@@ -104,10 +104,10 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		for (FunctionInitialization init : initialization.getFunctionInitialization()) {
 			visitor.visitInit(init);
 		}
-		
+
 		// Assign the initialization values to the annotated component
 		initMap = visitor.initMap;
-		updateView(initMap);		
+		updateView(initMap);
 	}
 
 	/**
@@ -123,23 +123,36 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 				AsmetaControlledLocation.class);
 		for (Field f : fieldList) {
 			f.setAccessible(true);
-			// First, get the value (it can be in the initial assignments or in the current state)
+			// First, get the value (it can be in the initial assignments or in the current
+			// state)
 			AsmetaControlledLocation annotation = f.getAnnotation(AsmetaControlledLocation.class);
 			String value = "";
 			if (initialAssignments == null) {
 				value = m_model.getValue(annotation.asmLocationName(), annotation.mapKeyType());
-				// If value is not valorized, it means that it has never been changed w.r.t. its value
+				// If value is not valorized, it means that it has never been changed w.r.t. its
+				// value
 				// in the initial state, so we load the value from the initMap
 				if (value.equals(""))
 					value = getValueFromInitialAssignments(initMap, annotation);
-			}
-			else
+			} else
 				value = getValueFromInitialAssignments(initialAssignments, annotation);
 			try {
 				if (f.get(m_view) instanceof JTextField) {
-					((JTextField) (f.get(m_view))).setText(value);
+					switch (annotation.propertyName()) {
+					case VALUE:
+						((JTextField) (f.get(m_view))).setText(value);
+						break;
+					default:
+						throw new RuntimeException("Property not yet supported by the fMVC framework");
+					}
 				} else if (f.get(m_view) instanceof JLabel) {
-					((JLabel) (f.get(m_view))).setText(value);
+					switch (annotation.propertyName()) {
+					case VALUE:
+						((JLabel) (f.get(m_view))).setText(value);
+						break;
+					default:
+						throw new RuntimeException("Property not yet supported by the fMVC framework");
+					}					
 				} else if (f.get(m_view) instanceof JTable) {
 					assert annotation.asmLocationType() == LocationType.MAP;
 					if (value != null) {
@@ -148,7 +161,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 						String[] assignments = value.split(", ");
 						int counter = 0;
 						switch (annotation.propertyName()) {
-						case VALUE:						
+						case VALUE:
 							for (String assignment : assignments) {
 								if (counter < table.getRowCount()) {
 									if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
@@ -162,7 +175,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 						case COLOR:
 							break;
 						default:
-							throw new RuntimeException("Property not yet supported by the fMVC framework");		
+							throw new RuntimeException("Property not yet supported by the fMVC framework");
 						}
 					}
 				} else {
@@ -178,7 +191,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 
 	private String getValueFromInitialAssignments(SortedMap<String, String> initialAssignments,
 			AsmetaControlledLocation annotation) {
-			
+
 		SortedMap<String, String> resultStr = new TreeMap<>();
 		SortedMap<Long, String> resultInt = new TreeMap<>();
 		SortedMap<Float, String> resultFloat = new TreeMap<>();
@@ -187,23 +200,23 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		String locationName = annotation.asmLocationName();
 
 		for (Entry<String, String> x : initialAssignments.entrySet()) {
-			
+
 			if (x.getKey().equals(locationName) || x.getKey().startsWith(locationName + "_")) {
 				if (keyType == LocationType.UNDEF || keyType == LocationType.STRING || keyType == LocationType.ENUM
 						|| keyType == LocationType.CHAR)
 					resultStr.put(x.getKey(), x.getValue());
 				else if (keyType == LocationType.INTEGER)
-					resultInt.put(
-							x.getKey().split("_").length > 0 ? Long.parseLong(x.getKey().split("_")[x.getKey().split("_").length-1]) : 0,
-							x.getValue());
+					resultInt.put(x.getKey().split("_").length > 0
+							? Long.parseLong(x.getKey().split("_")[x.getKey().split("_").length - 1])
+							: 0, x.getValue());
 				else if (keyType == LocationType.REAL)
-					resultFloat.put(
-							x.getKey().split("_").length > 0 ? Float.parseFloat(x.getKey().split("_")[x.getKey().split("_").length-1]) : 0,
-									x.getValue());
+					resultFloat.put(x.getKey().split("_").length > 0
+							? Float.parseFloat(x.getKey().split("_")[x.getKey().split("_").length - 1])
+							: 0, x.getValue());
 				else if (keyType == LocationType.BOOLEAN)
-					resultBoolean.put(
-							x.getKey().split("_").length > 0 ? Boolean.parseBoolean(x.getKey().split("_")[x.getKey().split("_").length-1]) : true,
-									x.getValue());
+					resultBoolean.put(x.getKey().split("_").length > 0
+							? Boolean.parseBoolean(x.getKey().split("_")[x.getKey().split("_").length - 1])
+							: true, x.getValue());
 			}
 		}
 
@@ -222,7 +235,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		// If it has a single value only
 		if (strResult.split("=").length == 2)
 			strResult = strResult.split("=")[1];
-		
+
 		return strResult;
 	}
 
