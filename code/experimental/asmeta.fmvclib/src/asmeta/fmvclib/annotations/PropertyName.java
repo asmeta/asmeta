@@ -6,5 +6,5 @@ package asmeta.fmvclib.annotations;
  * @author Andrea Bombarda
  */
 public enum PropertyName {
-	COLOR, VALUE
+	BG_COLOR, VALUE, TEXT_COLOR
 }

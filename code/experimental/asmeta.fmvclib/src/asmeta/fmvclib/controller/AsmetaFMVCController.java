@@ -1,5 +1,6 @@
 package asmeta.fmvclib.controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -24,7 +25,6 @@ import org.asmeta.simulator.main.Simulator;
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
 import asmeta.fmvclib.annotations.AsmetaRunStep;
 import asmeta.fmvclib.annotations.LocationType;
-import asmeta.fmvclib.annotations.PropertyName;
 import asmeta.fmvclib.model.AsmetaFMVCModel;
 import asmeta.fmvclib.model.InitialStateVisitor;
 import asmeta.fmvclib.view.AsmetaFMVCView;
@@ -130,8 +130,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			if (initialAssignments == null) {
 				value = m_model.getValue(annotation.asmLocationName(), annotation.mapKeyType());
 				// If value is not valorized, it means that it has never been changed w.r.t. its
-				// value
-				// in the initial state, so we load the value from the initMap
+				// value in the initial state, so we load the value from the initMap
 				if (value.equals(""))
 					value = getValueFromInitialAssignments(initMap, annotation);
 			} else
@@ -142,6 +141,12 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					case VALUE:
 						((JTextField) (f.get(m_view))).setText(value);
 						break;
+					case BG_COLOR:
+						((JTextField) (f.get(m_view))).setBackground(Color.getColor(value));
+						break;
+					case TEXT_COLOR:
+						((JTextField) (f.get(m_view))).setForeground(Color.getColor(value));
+						break;
 					default:
 						throw new RuntimeException("Property not yet supported by the fMVC framework");
 					}
@@ -150,9 +155,15 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					case VALUE:
 						((JLabel) (f.get(m_view))).setText(value);
 						break;
+					case BG_COLOR:
+						((JLabel) (f.get(m_view))).setBackground(Color.getColor(value));
+						break;
+					case TEXT_COLOR:
+						((JLabel) (f.get(m_view))).setForeground(Color.getColor(value));
+						break;
 					default:
 						throw new RuntimeException("Property not yet supported by the fMVC framework");
-					}					
+					}
 				} else if (f.get(m_view) instanceof JTable) {
 					assert annotation.asmLocationType() == LocationType.MAP;
 					if (value != null) {
@@ -172,7 +183,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 								}
 							}
 							break;
-						case COLOR:
+						case BG_COLOR:
 							break;
 						default:
 							throw new RuntimeException("Property not yet supported by the fMVC framework");
