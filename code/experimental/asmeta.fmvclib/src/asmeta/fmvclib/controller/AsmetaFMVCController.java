@@ -1,6 +1,5 @@
 package asmeta.fmvclib.controller;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -61,7 +60,8 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	/**
 	 * The last Update Set
 	 */
-	protected UpdateSet updateSet;
+	UpdateSet updateSet;
+	protected SortedMap<String, String> updateSetMap;
 
 	/**
 	 * Builds a new controller to be used when the pattern fMVC is chosen
@@ -77,6 +77,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		m_model = model;
 		m_view = view;
 		updateSet = null;
+		updateSetMap = new TreeMap<String, String>();
 
 		// Attach the ActionListener to components annotated with @AsmetaRunStep
 		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaRunStep.class);
@@ -248,6 +249,9 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		try {
 			m_model.updateMonitored(m_view, source);
 			updateSet = m_model.runSimulator();
+			updateSet.forEach(x -> { 
+				this.updateSetMap.put(x.getKey().toString(), x.getValue().toString());
+			});
 		} catch (IllegalArgumentException | IllegalAccessException e1) {
 			e1.printStackTrace();
 		}
