@@ -183,8 +183,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 								}
 							}
 							break;
-						case BG_COLOR:
-							break;
 						default:
 							throw new RuntimeException("Property not yet supported by the fMVC framework");
 						}
