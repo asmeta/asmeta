@@ -45,12 +45,12 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	/**
 	 * The model to be used
 	 */
-	private AsmetaFMVCModel m_model;
+	protected AsmetaFMVCModel m_model;
 
 	/**
 	 * The view to which the listener has to be attached
 	 */
-	private AsmetaFMVCView m_view;
+	protected AsmetaFMVCView m_view;
 
 	/**
 	 * The map containing the initial assignments
@@ -164,7 +164,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 						for (String assignment : assignments) {
 							if (counter < table.getRowCount()) {
 								if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
-									table.getModel().setValueAt(assignment.split("=")[1], counter, 0);
+									table.getModel().setValueAt(assignment.split("=")[1].toLowerCase(), counter, 0);
 								else
 									table.getModel().setValueAt("", counter, 0);
 								counter++;
