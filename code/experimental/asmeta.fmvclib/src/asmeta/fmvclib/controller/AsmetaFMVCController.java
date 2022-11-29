@@ -255,9 +255,10 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		try {
 			m_model.updateMonitored(m_view, source);
 			updateSet = m_model.runSimulator();
+			// Convert the map of locations in map of strings
 			updateSet.forEach(x -> {
 				this.updateSetMap.put(x.getKey().toString(), x.getValue().toString());
-			});
+			});			
 		} catch (IllegalArgumentException | IllegalAccessException e1) {
 			e1.printStackTrace();
 		}
