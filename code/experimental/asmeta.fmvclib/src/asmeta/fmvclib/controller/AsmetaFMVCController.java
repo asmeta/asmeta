@@ -55,7 +55,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	/**
 	 * The map containing the initial assignments
 	 */
-	SortedMap<String, String> initMap;
+	protected SortedMap<String, String> initMap;
 
 	/**
 	 * The last Update Set

@@ -152,8 +152,6 @@ public class InitialStateVisitor extends org.asmeta.parser.util.ReflectiveVisito
 		importFlattener.visit();
 		domains = importFlattener.getDomains();
 		functions = importFlattener.getFunctions();
-		domains = importFlattener.getDomains();
-		functions = importFlattener.getFunctions();
 		setDomainDefinition(importFlattener.getDomainDefinitions());
 		setDomainInitialization(importFlattener.getDomainInitializations());
 		visitDomains();
