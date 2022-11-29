@@ -170,6 +170,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 								counter++;
 							}
 						}
+						System.out.println(value);
 					}
 				} else {
 					throw new RuntimeException("This type of component is not yet supported by the fMVC framework: "
@@ -256,9 +257,12 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			m_model.updateMonitored(m_view, source);
 			updateSet = m_model.runSimulator();
 			// Convert the map of locations in map of strings
-			updateSet.forEach(x -> {
-				this.updateSetMap.put(x.getKey().toString(), x.getValue().toString());
-			});			
+			if (updateSet != null)
+				updateSet.forEach(x -> {
+					this.updateSetMap.put(x.getKey().toString(), x.getValue().toString());
+				});	
+			else
+				updateSetMap.clear();
 		} catch (IllegalArgumentException | IllegalAccessException e1) {
 			e1.printStackTrace();
 		}
