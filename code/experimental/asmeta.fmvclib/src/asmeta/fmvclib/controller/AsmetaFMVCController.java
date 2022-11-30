@@ -94,17 +94,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			else if (f.get(m_view) instanceof JToggleButton)
 				((JToggleButton) f.get(m_view)).addActionListener(this);
 			else if (f.get(m_view) instanceof ButtonColumn) {
-				// Get the other annotation of the field
-				Stream<Field> fieldListMonitored = FieldUtils
-						.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class).stream()
-						.filter(x -> x.getName().equals(f.getName()));
-				if (fieldListMonitored.count() == 0)
-					throw new RuntimeException("Missing @AsmetaModelParameter annotation for the field " + f.getName());
-				String locationName = FieldUtils
-						.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class).stream()
-						.filter(x -> x.getName().equals(f.getName())).findFirst().orElse(null)
-						.getAnnotation(AsmetaModelParameter.class).asmLocationName();
-				((ButtonColumn) f.get(m_view)).setAction(new GetRowAction(locationName, m_model));
+				setButtonColumnListener(f);
 			} else
 				throw new RuntimeException("Component not yet supported: " + f.get(m_view).getClass());
 		}
@@ -113,6 +103,25 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 
 		// Update the initial state
 		initInitialState();
+	}
+
+	/**
+	 * Set the listener for a ButtonColumn object
+	 * 
+	 * @param f the field
+	 * @throws IllegalAccessException
+	 */
+	public void setButtonColumnListener(Field f) throws IllegalAccessException {
+		// Get the other annotation of the field
+		Stream<Field> fieldListMonitored = FieldUtils
+				.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class).stream()
+				.filter(x -> x.getName().equals(f.getName()));
+		if (fieldListMonitored.count() == 0)
+			throw new RuntimeException("Missing @AsmetaModelParameter annotation for the field " + f.getName());
+		String locationName = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class)
+				.stream().filter(x -> x.getName().equals(f.getName())).findFirst().orElse(null)
+				.getAnnotation(AsmetaModelParameter.class).asmLocationName();
+		((ButtonColumn) f.get(m_view)).setAction(new GetRowAction(locationName, m_model));
 	}
 
 	/**
