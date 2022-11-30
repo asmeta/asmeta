@@ -145,7 +145,7 @@ public class AvallaToString extends AvallaSwitch<String> {
 			}
 		} else {
 			return "//Exec\n" + nameSce.toLowerCase() + "." + beforeEqu 
-					+ ".newValue.value = " + afterEqu + ";\n" + 
+					+ ".newValue = " + afterEqu + ";\n" + 
 					nameSce.toLowerCase() + ".fireUpdateSet();\n";
 		}
 	}
@@ -160,7 +160,6 @@ public class AvallaToString extends AvallaSwitch<String> {
 	public String caseStepUntil(StepUntil s1) {
 		String beforeEqu = s1.getExpression().split("\\=")[0].trim();
 		String afterEqu = s1.getExpression().split("\\=")[1].trim();
-		
 		if (!isInteger(afterEqu)) {
 			if (afterEqu.equals("false") || afterEqu.equals("true")) {
 				return "//Step Until\n" + "while(" + nameSce.toLowerCase() 
@@ -170,15 +169,18 @@ public class AvallaToString extends AvallaSwitch<String> {
 			}else {
 				return "//Step Until\n" + "while(" + nameSce.toLowerCase() 
 						+ "." + beforeEqu + ".oldValue"
-						+ " != " + nameSce.toLowerCase() + "." + ".oldValue." + afterEqu + "){\n" 
+						+ " != " + nameSce.toLowerCase() + "." + afterEqu + ".newValue" + "){\n" 
 						+ nameSce.toLowerCase() + ".UpdateASM();\n " + "}\n";
 			}
 		}
 		else {
 			return "//Step Until\n" + "while(" + nameSce.toLowerCase() + "." 
-					+ beforeEqu + ".oldValue.value"
+					+ beforeEqu + ".newValue"
 					+ " != " + afterEqu + "){\n" 
 					+ nameSce.toLowerCase() + ".UpdateASM();\n " + "}\n";
+			
+			
+				
 		}
 	}
 
