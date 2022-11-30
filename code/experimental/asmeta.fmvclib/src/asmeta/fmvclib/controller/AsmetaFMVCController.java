@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -23,6 +24,7 @@ import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.main.Simulator;
 
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
+import asmeta.fmvclib.annotations.AsmetaModelParameter;
 import asmeta.fmvclib.annotations.AsmetaRunStep;
 import asmeta.fmvclib.annotations.LocationType;
 import asmeta.fmvclib.model.AsmetaFMVCModel;
@@ -91,7 +93,9 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 				((JSlider) f.get(m_view)).addChangeListener(this);
 			else if (f.get(m_view) instanceof JToggleButton)
 				((JToggleButton) f.get(m_view)).addActionListener(this);
-			else
+			else if (f.get(m_view) instanceof ButtonColumn) {
+				setButtonColumnListener(f);
+			} else
 				throw new RuntimeException("Component not yet supported: " + f.get(m_view).getClass());
 		}
 		// The controller is used as observer for the model
@@ -99,6 +103,25 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 
 		// Update the initial state
 		initInitialState();
+	}
+
+	/**
+	 * Set the listener for a ButtonColumn object
+	 * 
+	 * @param f the field
+	 * @throws IllegalAccessException
+	 */
+	public void setButtonColumnListener(Field f) throws IllegalAccessException {
+		// Get the other annotation of the field
+		Stream<Field> fieldListMonitored = FieldUtils
+				.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class).stream()
+				.filter(x -> x.getName().equals(f.getName()));
+		if (fieldListMonitored.count() == 0)
+			throw new RuntimeException("Missing @AsmetaModelParameter annotation for the field " + f.getName());
+		String locationName = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class)
+				.stream().filter(x -> x.getName().equals(f.getName())).findFirst().orElse(null)
+				.getAnnotation(AsmetaModelParameter.class).asmLocationName();
+		((ButtonColumn) f.get(m_view)).setAction(new GetRowAction(locationName, m_model));
 	}
 
 	/**
@@ -132,7 +155,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 * @param initialAssignments the possible initial assignmets. It may be null if
 	 *                           it is not the first initial set operation
 	 */
-	private void updateView(SortedMap<String, String> initialAssignments) {
+	protected void updateView(SortedMap<String, String> initialAssignments) {
 		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
 				AsmetaControlledLocation.class);
 		for (Field f : fieldList) {
@@ -143,12 +166,15 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			String value = "";
 			if (initialAssignments == null) {
 				value = m_model.getValue(annotation.asmLocationName(), annotation.mapKeyType());
+				if (value.split("=").length == 2)
+					value = value.split("=")[1];
 				// If value is not valorized, it means that it has never been changed w.r.t. its
 				// value in the initial state, so we load the value from the initMap
 				if (value.equals(""))
 					value = getValueFromInitialAssignments(initMap, annotation);
 			} else
 				value = getValueFromInitialAssignments(initialAssignments, annotation);
+			
 			try {
 				if (f.get(m_view) instanceof JTextField) {
 					((JTextField) (f.get(m_view))).setText(value);
@@ -170,7 +196,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 								counter++;
 							}
 						}
-						System.out.println(value);
 					}
 				} else {
 					throw new RuntimeException("This type of component is not yet supported by the fMVC framework: "
@@ -193,12 +218,25 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	private String getValueFromInitialAssignments(SortedMap<String, String> initialAssignments,
 			AsmetaControlledLocation annotation) {
 
+		LocationType keyType = annotation.mapKeyType();
+		String locationName = annotation.asmLocationName();
+		return getValueFromInitialAssignments(initialAssignments, keyType, locationName);
+	}
+
+	/**
+	 * Get the value of a location in the initial assignments
+	 * 
+	 * @param initialAssignments the map of the initial assignments
+	 * @param keyType            the type of the location
+	 * @param locationName       the name of the loaction
+	 * @return the string containing the val
+	 */
+	public String getValueFromInitialAssignments(SortedMap<String, String> initialAssignments, LocationType keyType,
+			String locationName) {
 		SortedMap<String, String> resultStr = new TreeMap<>();
 		SortedMap<Long, String> resultInt = new TreeMap<>();
 		SortedMap<Float, String> resultFloat = new TreeMap<>();
 		SortedMap<Boolean, String> resultBoolean = new TreeMap<>();
-		LocationType keyType = annotation.mapKeyType();
-		String locationName = annotation.asmLocationName();
 
 		for (Entry<String, String> x : initialAssignments.entrySet()) {
 
@@ -260,7 +298,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			if (updateSet != null)
 				updateSet.forEach(x -> {
 					this.updateSetMap.put(x.getKey().toString(), x.getValue().toString());
-				});	
+				});
 			else
 				updateSetMap.clear();
 		} catch (IllegalArgumentException | IllegalAccessException e1) {

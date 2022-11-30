@@ -6,6 +6,7 @@ import java.util.Map;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.readers.MonFuncReader;
+import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
 
 @SuppressWarnings("rawtypes")
@@ -19,7 +20,10 @@ public class ViewReader extends MonFuncReader {
 
 	@Override
 	public Value readValue(Location location, State state) {
-		return (locationMemory.get(location.getSignature().getName()));
+		if (locationMemory.get(location.getSignature().getName()) != null)
+			return (locationMemory.get(location.getSignature().getName()));
+		else
+			return UndefValue.UNDEF;
 	}
 
 	/**

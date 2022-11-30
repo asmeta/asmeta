@@ -10,6 +10,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -33,6 +34,7 @@ import org.asmeta.simulator.value.Value;
 import asmeta.fmvclib.annotations.AsmetaModelParameter;
 import asmeta.fmvclib.annotations.AsmetaModelParameters;
 import asmeta.fmvclib.annotations.LocationType;
+import asmeta.fmvclib.controller.ButtonColumn;
 
 @SuppressWarnings("deprecation")
 public class AsmetaFMVCModel extends Observable {
@@ -51,11 +53,11 @@ public class AsmetaFMVCModel extends Observable {
 	 * The ASM environment
 	 */
 	private Environment environment;
-	
+
 	/**
 	 * The path of the ASM model
 	 */
-	public static String ASM_PATH; 
+	public static String ASM_PATH;
 
 	/**
 	 * Creates the AsmetaFMVCModel instance for a given ASMETA model
@@ -77,7 +79,7 @@ public class AsmetaFMVCModel extends Observable {
 	 * @param locationName the name of the location
 	 * @return the value of the specified location in the current state
 	 */
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes" })
 	public String getValue(String locationName, LocationType keyType) {
 		State s = sim.getCurrentState();
 		SortedMap<String, String> resultStr = new TreeMap<>();
@@ -118,15 +120,13 @@ public class AsmetaFMVCModel extends Observable {
 		else if (keyType == LocationType.BOOLEAN)
 			strResult = resultBoolean.toString().replace("{", "").replace("}", "");
 
-		// If it has a single value only
-		if (strResult.split("=").length == 2)
-			strResult = strResult.split("=")[1];
 		return strResult;
 	}
 
 	/**
 	 * Runs the simulator for a single step
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public UpdateSet runSimulator() {
 		return this.runSimulator(1);
@@ -136,7 +136,7 @@ public class AsmetaFMVCModel extends Observable {
 	 * Runs the simulator for nStep steps
 	 * 
 	 * @param nStep the number of steps
-	 * @return 
+	 * @return
 	 */
 	public UpdateSet runSimulator(int nStep) {
 		UpdateSet updateSet = null;
@@ -191,19 +191,22 @@ public class AsmetaFMVCModel extends Observable {
 								: selectedValue.toString();
 					} else
 						value = "undef";
-				} else
+				} else {
 					value = getValueFromSingleField(f, obj);
-				if (value == null)
+				}
+				if (value == null && !(f.get(obj) instanceof ButtonColumn))
 					throw new RuntimeException("This type of component is not yet managed by the fMVC framework: "
 							+ f.get(obj).getClass());
 			}
 
-			// Now add the value to the location map
-			LocationType locationType = f.getAnnotation(AsmetaModelParameter.class).asmLocationType();
-			Value val = getValueFromString(value, locationType);
-			String loc = f.getAnnotation(AsmetaModelParameter.class).asmLocationName();
-			if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
-				reader.addValue(loc, val);
+			if (value != null) {
+				// Now add the value to the location map
+				LocationType locationType = f.getAnnotation(AsmetaModelParameter.class).asmLocationType();
+				Value val = getValueFromString(value, locationType);
+				String loc = f.getAnnotation(AsmetaModelParameter.class).asmLocationName();
+				if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
+					reader.addValue(loc, val);
+			}
 		}
 	}
 
@@ -270,6 +273,8 @@ public class AsmetaFMVCModel extends Observable {
 			value = String.valueOf(((JSlider) (f.get(obj))).getValue());
 		else if (f.get(obj) instanceof JToggleButton)
 			value = String.valueOf(((JToggleButton) (f.get(obj))).isSelected());
+		else if (f.get(obj) instanceof JSpinner) 
+			value = ((JSpinner)f.get(obj)).getValue().toString();
 		else
 			return null;
 
@@ -323,7 +328,7 @@ public class AsmetaFMVCModel extends Observable {
 	public Simulator getSimulator() {
 		return this.sim;
 	}
-	
+
 	/**
 	 * Returns the environment used by the model
 	 * 
@@ -331,5 +336,14 @@ public class AsmetaFMVCModel extends Observable {
 	 */
 	public Environment getEnvironment() {
 		return this.environment;
+	}
+
+	/**
+	 * Returns the reader used by the model
+	 * 
+	 * @return the reader used by the model
+	 */
+	public ViewReader getReader() {
+		return this.reader;
 	}
 }
