@@ -174,6 +174,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					value = getValueFromInitialAssignments(initMap, annotation);
 			} else
 				value = getValueFromInitialAssignments(initialAssignments, annotation);
+			
 			try {
 				if (f.get(m_view) instanceof JTextField) {
 					((JTextField) (f.get(m_view))).setText(value);

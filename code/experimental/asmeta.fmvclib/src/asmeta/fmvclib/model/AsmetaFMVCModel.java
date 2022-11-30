@@ -10,6 +10,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -272,6 +273,8 @@ public class AsmetaFMVCModel extends Observable {
 			value = String.valueOf(((JSlider) (f.get(obj))).getValue());
 		else if (f.get(obj) instanceof JToggleButton)
 			value = String.valueOf(((JToggleButton) (f.get(obj))).isSelected());
+		else if (f.get(obj) instanceof JSpinner) 
+			value = ((JSpinner)f.get(obj)).getValue().toString();
 		else
 			return null;
 
