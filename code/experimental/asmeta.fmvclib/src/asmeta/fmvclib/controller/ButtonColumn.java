@@ -83,7 +83,7 @@ public class ButtonColumn extends AbstractCellEditor
 		editButton.setFocusPainted(false);
 		editButton.addActionListener(this);
 		setFocusBorder(new LineBorder(Color.BLUE));
-
+		
 		TableColumnModel columnModel = table.getColumnModel();
 		columnModel.getColumn(column).setCellRenderer(this);
 		columnModel.getColumn(column).setCellEditor(this);

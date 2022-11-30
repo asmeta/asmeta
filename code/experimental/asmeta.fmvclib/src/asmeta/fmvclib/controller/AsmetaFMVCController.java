@@ -155,7 +155,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 * @param initialAssignments the possible initial assignmets. It may be null if
 	 *                           it is not the first initial set operation
 	 */
-	private void updateView(SortedMap<String, String> initialAssignments) {
+	protected void updateView(SortedMap<String, String> initialAssignments) {
 		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
 				AsmetaControlledLocation.class);
 		for (Field f : fieldList) {
