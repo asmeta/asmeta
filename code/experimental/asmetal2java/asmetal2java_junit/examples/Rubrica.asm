@@ -10,7 +10,7 @@ signature:
 	enum domain Service = { INS | DEL }
 	dynamic controlled rubricaState : State
 	dynamic controlled contacts: Seq(String)
-	dynamic controlled outmex: Any
+	dynamic controlled outmex: String
 	dynamic monitored selectedService: Service
 	dynamic monitored selectedContact: Contact
 	

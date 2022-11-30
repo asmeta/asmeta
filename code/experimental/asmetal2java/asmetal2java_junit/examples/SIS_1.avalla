@@ -1,0 +1,34 @@
+scenario SIS_1
+
+load ./SIS
+
+//// test name test@test1
+//// generated for (test goal): test1: NULL
+check pressure = TOOLOW;
+check waterpressure = 3;
+check overridden = false;
+set delta := -2;
+set block := ON;
+set reset := OFF;
+step
+check safetyInjection = ON;
+check overridden = true;
+check waterpressure = 1;
+check pressure = TOOLOW;
+set reset := OFF;
+set delta := -1;
+set block := OFF;
+step
+check pressure = TOOLOW;
+check overridden = true;
+check safetyInjection = OFF;
+check waterpressure = 0;
+set delta := -1;
+set block := ON;
+set reset := ON;
+step
+check waterpressure = 0;
+check overridden = false;
+check pressure = TOOLOW;
+check safetyInjection = OFF;
+step

@@ -1,23 +1,20 @@
 scenario rubrica
 load Rubrica.asm
-set selectedService := DEL;
-step
-check rubricaState = SCELTA;
-check outmex = Contact deleted!;
-set selectedService := DEL;
-step
-check rubricaState = SCELTA;
-check outmex = Contact deleted!;
 set selectedService := INS;
 step
 check rubricaState = SCELTA;
-check outmex = Contact inserted!;
+check outmex = "Contact inserted!";
 set selectedService := DEL;
 step
 check rubricaState = SCELTA;
-check outmex = Contact deleted!;
+check outmex = "Contact deleted!";
+set selectedService := DEL;
+step
+check rubricaState = SCELTA;
+check outmex = "Contact deleted!";
 set selectedService := INS;
 step
 check rubricaState = SCELTA;
-check outmex = Contact inserted!;
+check outmex = "Contact inserted!";
 step
+

@@ -10,19 +10,14 @@ import org.asmeta.asm2code.main.GeneratorCompilerTest;
 import org.asmeta.asm2java.main.TranslatorOptions;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Scenario;
-import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
-import org.junit.runner.Request;
 import org.junit.runner.Result;
-import org.junit.runner.Runner;
 import org.junit.runner.notification.RunListener;
-import org.junit.runner.notification.RunNotifier;
-
 import com.google.inject.Injector;
 import asmetal2java_junit.AvallaToString;
 import org.asmeta.asm2java.formatter.Formatter;
@@ -44,7 +39,7 @@ public class Asmetal2JUnit_Generator {
 	public void testAsmToJunit_asc() throws Exception {
 		String asmspec = "examples/ascensore.asm";
 		String avaTest = "examples/scenario2.avalla";
-		extracted(asmspec,avaTest);
+		generateTest(asmspec,avaTest);
 	}
 	
 	//Test su rubrica
@@ -52,7 +47,7 @@ public class Asmetal2JUnit_Generator {
 	public void testAsmToJunit_r() throws Exception {
 		String asmspec = "examples/Rubrica.asm";
 		String avaTest = "examples/rubrica.avalla";
-		extracted(asmspec,avaTest);
+		generateTest(asmspec,avaTest);
 	}
 	
 	//Test su sis
@@ -60,7 +55,7 @@ public class Asmetal2JUnit_Generator {
 	public void testAsmToJunit_sis() throws Exception {
 		String asmspec = "examples/SIS.asm";
 		String avaTest = "examples/sis.avalla";
-		extracted(asmspec,avaTest);
+		generateTest(asmspec,avaTest);
 	}
 	
 	//Test su LGS_GM
@@ -68,7 +63,7 @@ public class Asmetal2JUnit_Generator {
 	public void testAsmToJunit() throws Exception {
 		String asmspec = "examples/LGS_GM.asm";
 		String avaTest = "examples/testBR.avalla";
-		extracted(asmspec,avaTest);
+		generateTest(asmspec,avaTest);
 	}
 
 	//Test su Contatore_U_DA_H
@@ -76,7 +71,7 @@ public class Asmetal2JUnit_Generator {
 	public void testAsmToJunit_contU() throws Exception {
 		String asmspec = "examples/Contatore_U_DA_H.asm";
 		String avaTest = "examples/contatore.avalla";
-		extracted(asmspec,avaTest);
+		generateTest(asmspec,avaTest);
 	}
 	
 	//Test su tombola
@@ -84,7 +79,7 @@ public class Asmetal2JUnit_Generator {
 	public void testAsmToJunit_tomb() throws Exception {
 		String asmspec = "examples/tombola.asm";
 		String avaTest = "examples/test1.avalla";
-		extracted(asmspec,avaTest);
+		generateTest(asmspec,avaTest);
 	}
 	
 	//Test su coffeeVendingMachine
@@ -92,14 +87,14 @@ public class Asmetal2JUnit_Generator {
 	public void testAsmToJunit_coffeeV() throws Exception {
 		String asmspec = "examples/coffeeVendingMachine.asm";
 		String avaTest = "examples/cm.avalla";
-		extracted(asmspec,avaTest);
+		generateTest(asmspec,avaTest);
 	}
 	//Test su euclideMCD
 	@Test
 	public void testAsmToJunit_euclide() throws Exception {
 		String asmspec = "examples/euclideMCD.asm";
 		String avaTest = "examples/euclide.avalla";
-		extracted(asmspec,avaTest);
+		generateTest(asmspec,avaTest);
 	}
 	
 	//Test su AdvancedClock
@@ -107,35 +102,28 @@ public class Asmetal2JUnit_Generator {
 	public void testAsmToJunit_advanceClock() throws Exception {
 		String asmspec = "examples/AdvancedClock.asm";
 		String avaTest = "examples/advance.avalla";
-		extracted(asmspec,avaTest);
+		generateTest(asmspec,avaTest);
 	}
 	
-	//Test su sluiceGateGround
-	@Test
-	public void testAsmToJunit_sluice() throws Exception {
-		String asmspec = "examples/sluiceGateGround.asm";
-		String avaTest = "examples/sluice.avalla";
-		extracted(asmspec,avaTest);
-	}
 	
 	//Test su forno
 	@Test
 	public void testAsmToJunit_forno() throws Exception {
 		String asmspec = "examples/forno.asm";
 		String avaTest = "examples/scenario1_forno.avalla";
-		extracted(asmspec,avaTest);
+		generateTest(asmspec,avaTest);
 	}
 	
 
 
-	private void extracted(String asmspec,String avaTest) throws Exception, IOException {
+	private void generateTest(String asmspec,String avaTest) throws Exception, IOException {
+		
 		GeneratorCompilerTest gen = new GeneratorCompilerTest();
 		TranslatorOptions options = new TranslatorOptions(true, true, true);
 		gen.test(asmspec, options);
 		
-		//String avallaSpec = "examples/rubrica.avalla";
-		assert new File(avaTest).exists();
 
+		assert new File(avaTest).exists();
 		// convertiamo .avalla in oggetto Scenario
 		Injector injector = new AvallaStandaloneSetup().createInjectorAndDoEMFRegistration();
 		XtextResourceSet rs = injector.getInstance(XtextResourceSet.class);
@@ -145,6 +133,7 @@ public class Asmetal2JUnit_Generator {
 		Scenario sc = (Scenario) resource.getContents().get(0);
 		assertNotNull(resource);
 		assertNotNull(sc);
+		
 		// a questo punto lo converto in caso di test
 		// Al costruttore passo sia lo scenario che la specifica
 		
@@ -158,8 +147,12 @@ public class Asmetal2JUnit_Generator {
 			spec = sc.getSpec().replace(".asm","");
 		}
 		
+		
 		AvallaToString converter = new AvallaToString(sc,spec);
 		String fileTestForm = converter.parseCommands(sc, 1);
+		
+		
+		
 		FileWriter fileTest = new FileWriter(pathTF + spec + "_Test" + "_" + 1 + JUnit_EXT);
 		fileTest.write(Formatter.formatCode(fileTestForm));
 		fileTest.close();
@@ -167,6 +160,7 @@ public class Asmetal2JUnit_Generator {
 	}
 
 	//********************************************************************************************************************
+	
 	//Questo test permette di eseguire in modo automatico tutti i casi di test
 	//sotto la folder "src-gen/"
 	@Test
@@ -180,10 +174,12 @@ public class Asmetal2JUnit_Generator {
 				junitCore.addListener(new RunListener());
 				Result result = junitCore.run(getClassFromFile(temp));
 				System.out.println("Test name: " + temp);
-				System.out.println("Test run: " + result.getRunCount() + " Test fail: " + result.getFailureCount() + "\n");
+				System.out.println("Test run: " + result.getRunCount() + " Test fail: " + 
+				result.getFailureCount() + "\n");
 			}
 		}
 	}
+	
 	//********************************************************************************************************************
 
 	private static final String CLASS_FOLDER ="src-gen/";

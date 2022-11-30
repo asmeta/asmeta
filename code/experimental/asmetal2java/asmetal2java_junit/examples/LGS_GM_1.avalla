@@ -1,0 +1,21 @@
+scenario LGS_GM_1
+
+load ./LGS_GM
+
+//// test name test@test1
+//// generated for (test goal): test1: NULL
+check gears = EXTENDED;
+check doors = CLOSED;
+set handle := UP;
+step
+check gears = EXTENDED;
+check doors = OPENING;
+set handle := UP;
+step
+check doors = OPEN;
+check gears = EXTENDED;
+set handle := UP;
+step
+check gears = RETRACTING;
+check doors = OPEN;
+step

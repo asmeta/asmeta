@@ -130,7 +130,7 @@ abstract class Rubrica_sig {
 	List<String> contacts_elem = new ArrayList<String>();
 	zeroC<List<String>> contacts = new zeroC<>();
 	//Funzione di tipo Controlled
-	zeroC<Object> outmex = new zeroC<>();
+	zeroC<String> outmex = new zeroC<>();
 	//Funzione di tipo monitored
 	zero<Service> selectedService = new zero<>();
 	//Funzione di tipo monitored

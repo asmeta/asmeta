@@ -1,0 +1,20 @@
+scenario java.io.FileWriter@6c8909c30
+
+load ./ascensore
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+check statoPiano = 1;
+set signalPorta := true;
+step
+check statoPiano = 1;
+check statoPorta = APERTA;
+set signalPorta := true;
+step
+check statoPorta = APERTA;
+check statoPiano = 1;
+set signalPorta := true;
+step
+check statoPorta = APERTA;
+check statoPiano = 1;
+step

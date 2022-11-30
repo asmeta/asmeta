@@ -1,7 +1,7 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class AdvancedClock_Test_1 {
+public class AdvancedClock_Test_0 {
 	@Test
 	public void AdvancedClock_Test() {
 		AdvancedClock advancedclock = new AdvancedClock();

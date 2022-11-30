@@ -41,7 +41,6 @@ public class GeneratorCompilerTest {
      @Test 
      public void testBasicDomain() throws IOException, Exception { 
     	 String asmspec = "examples/RegistroDiCassa.asm"; 
-    	 System.out.println(asmspec);
     	 if (!test(asmspec,options).success) fail(); 
      } 
 

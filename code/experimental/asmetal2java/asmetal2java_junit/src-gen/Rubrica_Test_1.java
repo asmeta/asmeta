@@ -4,49 +4,41 @@ import org.junit.Test;
 public class Rubrica_Test_1 {
 	@Test
 	public void Rubrica_Test() {
-		Rubrica rub = new Rubrica();
-		assertNotNull(rub);
+		Rubrica rubrica = new Rubrica();
+		assertNotNull(rubrica);
 		//Set
-		rub.selectedService.Value = rub.selectedService.Value.DEL;
+		rubrica.selectedService.Value = rubrica.selectedService.Value.INS;
 		//Step
-		rub.UpdateASM();
+		rubrica.UpdateASM();
 		//Check
-		assertEquals(rub.rubricaState.oldValue, rub.rubricaState.oldValue.SCELTA);
+		assertEquals(rubrica.rubricaState.oldValue, rubrica.rubricaState.oldValue.SCELTA);
 		//Check
-		assertEquals(rub.outmex.oldValue, "Contact deleted!");
+		assertEquals(rubrica.outmex.oldValue, "Contact inserted!");
 		//Set
-		rub.selectedService.Value = rub.selectedService.Value.DEL;
+		rubrica.selectedService.Value = rubrica.selectedService.Value.DEL;
 		//Step
-		rub.UpdateASM();
+		rubrica.UpdateASM();
 		//Check
-		assertEquals(rub.rubricaState.oldValue, rub.rubricaState.oldValue.SCELTA);
+		assertEquals(rubrica.rubricaState.oldValue, rubrica.rubricaState.oldValue.SCELTA);
 		//Check
-		assertEquals(rub.outmex.oldValue, "Contact deleted!");
+		assertEquals(rubrica.outmex.oldValue, "Contact deleted!");
 		//Set
-		rub.selectedService.Value = rub.selectedService.Value.INS;
+		rubrica.selectedService.Value = rubrica.selectedService.Value.DEL;
 		//Step
-		rub.UpdateASM();
+		rubrica.UpdateASM();
 		//Check
-		assertEquals(rub.rubricaState.oldValue, rub.rubricaState.oldValue.SCELTA);
+		assertEquals(rubrica.rubricaState.oldValue, rubrica.rubricaState.oldValue.SCELTA);
 		//Check
-		assertEquals(rub.outmex.oldValue, "Contact inserted!");
+		assertEquals(rubrica.outmex.oldValue, "Contact deleted!");
 		//Set
-		rub.selectedService.Value = rub.selectedService.Value.DEL;
+		rubrica.selectedService.Value = rubrica.selectedService.Value.INS;
 		//Step
-		rub.UpdateASM();
+		rubrica.UpdateASM();
 		//Check
-		assertEquals(rub.rubricaState.oldValue, rub.rubricaState.oldValue.SCELTA);
+		assertEquals(rubrica.rubricaState.oldValue, rubrica.rubricaState.oldValue.SCELTA);
 		//Check
-		assertEquals(rub.outmex.oldValue, "Contact deleted!");
-		//Set
-		rub.selectedService.Value = rub.selectedService.Value.INS;
+		assertEquals(rubrica.outmex.oldValue, "Contact inserted!");
 		//Step
-		rub.UpdateASM();
-		//Check
-		assertEquals(rub.rubricaState.oldValue, rub.rubricaState.oldValue.SCELTA);
-		//Check
-		assertEquals(rub.outmex.oldValue, "Contact inserted!");
-		//Step
-		rub.UpdateASM();
+		rubrica.UpdateASM();
 	}
 }

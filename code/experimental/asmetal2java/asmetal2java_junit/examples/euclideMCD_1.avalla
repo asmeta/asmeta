@@ -1,0 +1,18 @@
+scenario euclideMCD_1
+
+load ./euclideMCD
+
+//// test name test@test1
+//// generated for (test goal): test1: NULL
+check numB = 3289;
+check numA = 6409;
+step
+check numA = 3120;
+check numB = 3289;
+step
+check numB = 169;
+check numA = 3120;
+step
+check numB = 169;
+check numA = 2951;
+step

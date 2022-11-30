@@ -1,13 +1,7 @@
 package asmetal2java_junit;
 
-
 import java.io.IOException;
-import java.lang.Enum.EnumDesc;
-
-import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.asmeta.asm2java.compiler.CompilatoreJava;
-import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.avallaxt.avalla.Check;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.Exec;
@@ -16,12 +10,7 @@ import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.avallaxt.avalla.Step;
 import org.asmeta.avallaxt.avalla.StepUntil;
 import org.asmeta.avallaxt.avalla.util.AvallaSwitch;
-import org.asmeta.simulator.value.EnumValue;
-//import org.eclipse.cdt.internal.core.dom.parser.cpp.semantics.TypeOfDependentExpression;
-import org.junit.BeforeClass;
-import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.impl.EnumTermImpl;
-import asmeta.definitions.domains.EnumElement;
+
 
 public class AvallaToString extends AvallaSwitch<String> {
 
@@ -32,13 +21,15 @@ public class AvallaToString extends AvallaSwitch<String> {
 		this.scenario = s;
 		this.nameSce = nameSce;
 	}
-	
 
 	// Get location for set/exec
 	public String s_Gl = "";
 
+	
+	
 	// In fase di test viene invocata questa funzione che cicla sugli elementi
 	public String parseCommands(Scenario s, int i) throws IOException {
+		
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("import static org.junit.Assert.*;\n");
@@ -67,20 +58,24 @@ public class AvallaToString extends AvallaSwitch<String> {
 	///////////////////////////////////////////
 	// Crea intestazione file + call construct
 	///////////////////////////////////////////
+	
 	//@Override
 	public String caseScenario(Scenario s, int i) {
-		return "public class " + nameSce + "_Test_" + i + "{\n" + "@Test\n" + "public void " + nameSce + "_Test(){\n"
-				+ createConstr(s);
+		return "public class " + nameSce + "_Test_" + i + "{\n" + "@Test\n" + "public void "
+				+ nameSce + "_Test(){\n"
+					+ createConstr(s);
 	}
 
 	public String createConstr(Scenario s) {
 		String createN = createNotNull(s);
-		return nameSce + " " + nameSce.toLowerCase() + " = new " + nameSce + "();\n" + createN;
+		return nameSce + " " + nameSce.toLowerCase() + " = new " + nameSce + "();\n" 
+				+ createN;
 	}
 
 	public String createNotNull(Scenario s) {
 		return "assertNotNull(" + nameSce.toLowerCase() + ");\n";
 	}
+	
 	///////////////////////////////////////////
 	///////////////////////////////////////////
 	///////////////////////////////////////////
@@ -89,24 +84,27 @@ public class AvallaToString extends AvallaSwitch<String> {
 	public String caseCheck(Check s1) {
 		String beforeEqu = s1.getExpression().split("\\=")[0].trim();
 		String afterEqu = s1.getExpression().split("\\=")[1].trim();
-		
 		if (!isInteger(afterEqu)) {
 			if ((afterEqu.equals("false"))) {
-				return "//Check\n" + "assertFalse(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue);\n";
+				return "//Check\n" + "assertFalse(" + nameSce.toLowerCase() + "." 
+						+ beforeEqu + ".oldValue);\n";
 			} else if (afterEqu.equals("true")) {
-				return "//Check\n" + "assertTrue(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue);\n";	
+				return "//Check\n" + "assertTrue(" + nameSce.toLowerCase() + "." 
+						+ beforeEqu + ".oldValue);\n";	
 			} 
-			//Contains space || Lower case
-			else if(afterEqu.matches(".*\\s.*") || afterEqu.matches("[a-z]*")) { 
-				return "//Check\n" + "assertEquals(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue," +" \"" + afterEqu + "\");\n";
+			else if(afterEqu.matches(".*\".*")) {
+				return "//Check\n" + "assertEquals(" + nameSce.toLowerCase() 
+					+ "." + beforeEqu + ".oldValue," + afterEqu + ");\n";
 			}
 			else {					
-				return "//Check\n" + "assertEquals(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue," + nameSce.toLowerCase() + "."
+				return "//Check\n" + "assertEquals(" + nameSce.toLowerCase() + "." 
+						+ beforeEqu + ".oldValue," + nameSce.toLowerCase() + "."
 						+ beforeEqu + ".oldValue." + afterEqu +");\n";
 			}
 		} else {
-			return "//Check\n" + "assertEquals(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue.value ," + "Integer.valueOf("
-					+ afterEqu + "));\n";
+			return "//Check\n" + "assertEquals(" + nameSce.toLowerCase() + "." 
+						+ beforeEqu + ".oldValue.value ," + "Integer.valueOf("
+						+ afterEqu + "));\n";
 		}
 	}
 
@@ -124,7 +122,8 @@ public class AvallaToString extends AvallaSwitch<String> {
 			}
 		} else {
 			//Set un valore intero 
-			return "//Set\n" + leftAssign + " = new " + nameSce.toUpperCase() + "_sig." + s_Gl + "();\n" + leftAssign + ".value = "
+			return "//Set\n" + leftAssign + " = new " + nameSce.toUpperCase() + "_sig." + s_Gl 
+					+ "();\n" + leftAssign + ".value = "
 					+ s1_V + ";\n";
 		}
 	}
@@ -137,13 +136,16 @@ public class AvallaToString extends AvallaSwitch<String> {
 		
 		if (!isInteger(afterEqu)) {
 			if (afterEqu.equals("false") || afterEqu.equals("true")) {
-				return "//Exec\n" + leftAssign + "=" + afterEqu + ";\n" + nameSce.toLowerCase() + ".fireUpdateSet();\n";
+				return "//Exec\n" + leftAssign + "=" + afterEqu + ";\n" 
+						+ nameSce.toLowerCase() + ".fireUpdateSet();\n";
 			} else {
-				return "//Exec\n" + leftAssign + "=" + leftAssign + "." + afterEqu + ";\n" + nameSce.toLowerCase()
+				return "//Exec\n" + leftAssign + "=" + leftAssign + "." 
+						+ afterEqu + ";\n" + nameSce.toLowerCase()
 						+ ".fireUpdateSet();\n";
 			}
 		} else {
-			return "//Exec\n" + nameSce.toLowerCase() + "." + beforeEqu + ".newValue.value = " + afterEqu + ";\n" + 
+			return "//Exec\n" + nameSce.toLowerCase() + "." + beforeEqu 
+					+ ".newValue.value = " + afterEqu + ";\n" + 
 					nameSce.toLowerCase() + ".fireUpdateSet();\n";
 		}
 	}
@@ -161,21 +163,23 @@ public class AvallaToString extends AvallaSwitch<String> {
 		
 		if (!isInteger(afterEqu)) {
 			if (afterEqu.equals("false") || afterEqu.equals("true")) {
-				return "//Step Until\n" + "while(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue"
+				return "//Step Until\n" + "while(" + nameSce.toLowerCase() 
+						+ "." + beforeEqu + ".oldValue"
 						+ " != " + afterEqu + "){\n" 
 						+ nameSce.toLowerCase() + ".UpdateASM();\n " + "}\n";
 			}else {
-				return "//Step Until\n" + "while(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue"
-						+ " != " + nameSce.toLowerCase() + "." + ".oldValue."+ afterEqu + "){\n" 
+				return "//Step Until\n" + "while(" + nameSce.toLowerCase() 
+						+ "." + beforeEqu + ".oldValue"
+						+ " != " + nameSce.toLowerCase() + "." + ".oldValue." + afterEqu + "){\n" 
 						+ nameSce.toLowerCase() + ".UpdateASM();\n " + "}\n";
 			}
 		}
 		else {
-			return "//Step Until\n" + "while(" + nameSce.toLowerCase() + "." + beforeEqu + ".oldValue.value"
+			return "//Step Until\n" + "while(" + nameSce.toLowerCase() + "." 
+					+ beforeEqu + ".oldValue.value"
 					+ " != " + afterEqu + "){\n" 
 					+ nameSce.toLowerCase() + ".UpdateASM();\n " + "}\n";
 		}
-		
 	}
 
 	//Verifica se la stringa è un integer

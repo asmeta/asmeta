@@ -16,7 +16,6 @@
 	<classpathentry kind="src" path="src-gen"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
 		<attributes>
-			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
@@ -123,10 +122,6 @@
 			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="src" path="/asmeta.simulator"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.asmeta.avallaxt"/>
-	<classpathentry kind="src" path="/asmeta.parser"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/asmetal2java_codegen"/>
 	<classpathentry kind="lib" path="C:/Users/aless/.p2/pool/plugins/org.eclipse.cdt.core_7.4.200.202205302218.jar" sourcepath="C:/Users/aless/.p2/pool/plugins/org.eclipse.cdt.core_7.4.200.202205302218.jar">
 		<accessrules>
 			<accessrule kind="accessible" pattern="org/eclipse/cdt/core/*"/>
@@ -235,5 +230,10 @@
 			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
 		</accessrules>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmetal2java_codegen"/>
+	<classpathentry kind="src" path="/asmeta.parser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.asmeta.avallaxt"/>
+	<classpathentry kind="src" path="/asmeta.simulator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.atgt"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
