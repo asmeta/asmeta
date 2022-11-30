@@ -7,4 +7,9 @@ package asmeta.fmvclib.view;
  */
 public interface AsmetaFMVCView {
 
+	/**
+	 * Method used for refreshing the view
+	 */
+	void refreshView(boolean firstTime);
+
 }

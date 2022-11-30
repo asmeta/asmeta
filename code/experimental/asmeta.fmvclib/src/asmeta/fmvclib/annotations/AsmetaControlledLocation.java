@@ -1,5 +1,6 @@
 package asmeta.fmvclib.annotations;
 
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -12,6 +13,7 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 @Retention(RetentionPolicy.RUNTIME)
+@Repeatable(AsmetaControlledLocations.class)
 public @interface AsmetaControlledLocation {
 
 	/**
@@ -19,13 +21,25 @@ public @interface AsmetaControlledLocation {
 	 * 
 	 * @return the name of the location in the ASM
 	 */
-	String asmLocationName();
+	String asmLocationName() default "";
 
 	/**
 	 * The type of the location in the ASM
 	 * 
 	 * @return the type of the location in the ASM
 	 */
-	LocationType asmLocationType();
+	LocationType asmLocationType() default LocationType.INTEGER;
 
+	/**
+	 * If a MAP is used, the type of each key element
+	 * 
+	 * @return the type of each key element of a map
+	 */
+	LocationType mapKeyType() default LocationType.UNDEF;
+
+}
+
+@Retention(RetentionPolicy.RUNTIME)
+@interface AsmetaControlledLocations {
+	AsmetaControlledLocation[] value();
 }

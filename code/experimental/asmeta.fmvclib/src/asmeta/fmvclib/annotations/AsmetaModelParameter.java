@@ -1,5 +1,6 @@
 package asmeta.fmvclib.annotations;
 
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -12,6 +13,7 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 @Retention(RetentionPolicy.RUNTIME)
+@Repeatable(AsmetaModelParameters.class)
 public @interface AsmetaModelParameter {
 
 	/**
