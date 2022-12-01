@@ -87,7 +87,7 @@ public class AsmetaFMVCModel extends Observable {
 		SortedMap<Float, String> resultFloat = new TreeMap<>();
 		SortedMap<Boolean, String> resultBoolean = new TreeMap<>();
 
-		for (Entry<Location, Value> x : s.getContrLocs().entrySet()) {
+		for (Entry<Location, Value> x : s.getContrLocs(true).entrySet()) {
 			if (x.getKey().getSignature().getName().equals(locationName)) {
 				if (keyType == LocationType.UNDEF || keyType == LocationType.STRING || keyType == LocationType.ENUM
 						|| keyType == LocationType.CHAR)
@@ -151,8 +151,10 @@ public class AsmetaFMVCModel extends Observable {
 	}
 
 	/**
+	 * Updates the monitored location using annotations
 	 * 
 	 * @param obj the annotated obj
+	 * @param source the source object
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 */
@@ -241,17 +243,19 @@ public class AsmetaFMVCModel extends Observable {
 							value = "undef";
 					} else
 						value = getValueFromSingleField(f, obj);
-					if (value == null)
+					if (value == null && !(f.get(obj) instanceof ButtonColumn))
 						throw new RuntimeException("This type of component is not yet managed by the fMVC framework: "
 								+ f.get(obj).getClass());
 				}
 
-				// Now add the value to the location map
-				LocationType locationType = f1.asmLocationType();
-				Value val = getValueFromString(value, locationType);
-				String loc = f1.asmLocationName();
-				if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
-					reader.addValue(loc, val);
+				if (value != null) {
+					// Now add the value to the location map
+					LocationType locationType = f1.asmLocationType();
+					Value val = getValueFromString(value, locationType);
+					String loc = f1.asmLocationName();
+					if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
+						reader.addValue(loc, val);
+				}
 			}
 		}
 	}
@@ -273,8 +277,8 @@ public class AsmetaFMVCModel extends Observable {
 			value = String.valueOf(((JSlider) (f.get(obj))).getValue());
 		else if (f.get(obj) instanceof JToggleButton)
 			value = String.valueOf(((JToggleButton) (f.get(obj))).isSelected());
-		else if (f.get(obj) instanceof JSpinner) 
-			value = ((JSpinner)f.get(obj)).getValue().toString();
+		else if (f.get(obj) instanceof JSpinner)
+			value = ((JSpinner) f.get(obj)).getValue().toString();
 		else
 			return null;
 

@@ -1,6 +1,7 @@
 package asmeta.fmvclib.controller;
 
 import java.awt.event.ActionEvent;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map.Entry;
@@ -25,6 +26,7 @@ import org.asmeta.simulator.main.Simulator;
 
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
 import asmeta.fmvclib.annotations.AsmetaModelParameter;
+import asmeta.fmvclib.annotations.AsmetaModelParameters;
 import asmeta.fmvclib.annotations.AsmetaRunStep;
 import asmeta.fmvclib.annotations.LocationType;
 import asmeta.fmvclib.model.AsmetaFMVCModel;
@@ -112,16 +114,43 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 * @throws IllegalAccessException
 	 */
 	public void setButtonColumnListener(Field f) throws IllegalAccessException {
+		String locationName = "";
+
 		// Get the other annotation of the field
-		Stream<Field> fieldListMonitored = FieldUtils
+		List<Field> fieldListMonitoredLst = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
+				AsmetaModelParameter.class);
+		Stream<Field> fieldListMonitored = fieldListMonitoredLst.stream().filter(x -> x.getName().equals(f.getName()));
+		Field locationNameAnnotation = FieldUtils
 				.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class).stream()
-				.filter(x -> x.getName().equals(f.getName()));
+				.filter(x -> x.getName().equals(f.getName())).findFirst().orElse(null);
+		if (locationNameAnnotation != null)
+			locationName = locationNameAnnotation.getAnnotation(AsmetaModelParameter.class).asmLocationName();
+
+		// If multiple annotations
+		if (fieldListMonitored.count() == 0) {
+			fieldListMonitoredLst = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
+					AsmetaModelParameters.class);
+			fieldListMonitored = fieldListMonitoredLst.stream().filter(x -> x.getName().equals(f.getName()));
+			locationNameAnnotation = FieldUtils
+					.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameters.class).stream()
+					.filter(x -> x.getName().equals(f.getName())).findFirst().orElse(null);
+			if (locationNameAnnotation != null) {
+				// More annotations are available. The one of interest is the one that is used
+				// in only this case, while the others may be repeated
+				for (AsmetaModelParameter annotation : locationNameAnnotation.getAnnotation(AsmetaModelParameters.class).value()) {
+					if (FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class).stream().filter(x -> x.getAnnotation(AsmetaModelParameter.class).asmLocationName().equals(annotation.asmLocationName())).count()==0) {
+						locationName = annotation.asmLocationName();
+						break;
+					}
+				}
+			}
+		}
+
+		// No annotation is found
 		if (fieldListMonitored.count() == 0)
 			throw new RuntimeException("Missing @AsmetaModelParameter annotation for the field " + f.getName());
-		String locationName = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class)
-				.stream().filter(x -> x.getName().equals(f.getName())).findFirst().orElse(null)
-				.getAnnotation(AsmetaModelParameter.class).asmLocationName();
-		((ButtonColumn) f.get(m_view)).setAction(new GetRowAction(locationName, m_model));
+
+		((ButtonColumn) f.get(m_view)).setAction(new GetRowAction(locationName, m_model, m_view));
 	}
 
 	/**
@@ -174,7 +203,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					value = getValueFromInitialAssignments(initMap, annotation);
 			} else
 				value = getValueFromInitialAssignments(initialAssignments, annotation);
-			
+
 			try {
 				if (f.get(m_view) instanceof JTextField) {
 					((JTextField) (f.get(m_view))).setText(value);
