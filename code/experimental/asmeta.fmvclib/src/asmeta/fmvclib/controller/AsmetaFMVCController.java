@@ -203,8 +203,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					value = getValueFromInitialAssignments(initMap, annotation);
 			} else
 				value = getValueFromInitialAssignments(initialAssignments, annotation);
-			
-			System.out.println(value);
 
 			try {
 				if (f.get(m_view) instanceof JTextField) {
@@ -221,9 +219,9 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 						for (String assignment : assignments) {
 							if (counter < table.getRowCount()) {
 								if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
-									table.getModel().setValueAt(assignment.split("=")[1].toLowerCase(), Integer.parseInt(assignment.split("=")[0]), 0);
-								else if (assignment.contains("=") && assignment.split("=")[1].equals("undef"))
-									table.getModel().setValueAt("", Integer.parseInt(assignment.split("=")[0]), 0);
+									table.getModel().setValueAt(assignment.split("=")[1].toLowerCase(), counter, 0);
+								else
+									table.getModel().setValueAt("", counter, 0);
 								counter++;
 							}
 						}
