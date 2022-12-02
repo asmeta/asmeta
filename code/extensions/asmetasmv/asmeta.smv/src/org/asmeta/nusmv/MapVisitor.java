@@ -60,9 +60,6 @@ import asmeta.definitions.LtlSpec;
 import asmeta.definitions.Property;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.definitions.TemporalProperty;
-import asmeta.definitions.domains.AbstractTd;
-import asmeta.definitions.domains.AgentDomain;
-import asmeta.definitions.domains.BooleanDomain;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumElement;
@@ -1135,7 +1132,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				throw new AsmNotSupportedException("Domain " + codomainName + " not supported.");
 			}
 			functionDomain.put(functionName, codomainName);
-			for (Location location : getLocations(func)) {
+			for (Location location : getLocations(func, domainValues)) {
 				locName = visit(location);
 				if (getAgentsDomains().contains(codomainName) && func.getArity() == 0) {
 					locName = locName.toUpperCase();
@@ -1233,13 +1230,13 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	private void visitInit(FunctionInitialization init) {
 		List<VariableTerm> vars = init.getVariable();
 		DynamicFunction func = init.getInitializedFunction();
-		List<Location> locations = getLocations(func);
+		List<Location> locations = getLocations(func, domainValues);
 		Term term = init.getBody();
 		String locStr, termStr;
-
+		
 		for (Location loc : locations) {
 			env.setVarsValues(vars, loc.getElements());
-			locStr = visit(loc);
+			locStr = this.visit(loc);
 			termStr = tp.visit(term);
 			// per l'inizializzazione esplicita ad undef
 			if (termStr == null || termStr.equals("undef")) {
@@ -1248,11 +1245,10 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 					termStr = undef;
 				}
 			}
-
 			if (termStr != null) {
 				// env.usedLocation.add(locStr);
 				initMap.put(locStr, termStr);
-
+		
 				// AsmetaMA: segnala che la locazione locStr viene inizializzata
 				if (AsmetaSMVOptions.doAsmetaMA) {
 					controlledLocationInitialized.add(locStr);
@@ -1268,13 +1264,14 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * 
 	 * @return the list of locations of the function
 	 */
-	public ArrayList<Location> getLocations(Function func) {
+	static public ArrayList<Location> getLocations(Function func, Map<String, List<Value[]>> domainValues) {
 		Domain domain = func.getDomain();
 		ArrayList<Location> locations = new ArrayList<Location>();
 		if (domain == null) {
 			locations.add(new Location(func, new Value[0]));
 		} else {
-			for (Value[] v : (List<Value[]>) asValueList(domain)) {
+			AsValueListVisitor avlv = new AsValueListVisitor(domainValues);
+			for (Value[] v : (List<Value[]>) avlv.visit(domain)) {
 				locations.add(new Location(func, v));
 			}
 		}
@@ -1321,9 +1318,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * 
 	 * @return the object
 	 */
-	public Object asValueList(Domain d) {
-		return invokeMethod(d, "asValueList");
-	}
+//	public Object asValueList(Domain d) {
+//		return invokeMethod(d, "asValueList");
+//	}
 
 	public List<Value[]> asValueList(ProductDomain domain) {
 		List<Domain> domains = domain.getDomains();
@@ -1342,7 +1339,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 */
 	public void combineValues(List<Domain> domains, int index, ArrayList<Value[]> result, Stack<Value> tupla) {
 		Domain domain = domains.get(index);
-		List<Value[]> values = (ArrayList<Value[]>) asValueList(domain);
+		AsValueListVisitor avls = new AsValueListVisitor(domainValues);
+		List<Value[]> values = avls.visit(domain);
 		for (Value[] value : values) {
 			for (Value v : value) {
 				tupla.push(v);
@@ -1361,28 +1359,6 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			}
 		}
 	}
-	
-	public List<Value[]> asValueList(BooleanDomain domain) {
-		return domainValues.get("Boolean");
-	}
-
-	public List<Value[]> asValueList(ConcreteDomain domain) throws AsmNotSupportedException {
-		return domainValues.get(getDomainName(domain));
-	}
-
-	public List<Value[]> asValueList(AgentDomain domain) throws AsmNotSupportedException {
-		return domainValues.get("Agent");
-	}
-
-	public List<Value[]> asValueList(EnumTd domain) throws AsmNotSupportedException {
-		return domainValues.get(getDomainName(domain));
-	}
-
-	public List<Value[]> asValueList(AbstractTd domain) throws AsmNotSupportedException {
-		// System.out.println(domainValues.get(getDomainName(domain)));
-		return domainValues.get(getDomainName(domain));
-	}
-
 	/**
 	 * Cerca nell'output dell'esecuzione del modello NuSMV i risultati della
 	 * verifica delle singole proprieta'. I risultati vengono memorizzati in
