@@ -1,7 +1,6 @@
 package asmeta.fmvclib.controller;
 
 import java.awt.event.ActionEvent;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map.Entry;

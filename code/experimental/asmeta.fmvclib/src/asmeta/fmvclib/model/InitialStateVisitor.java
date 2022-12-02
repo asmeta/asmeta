@@ -486,6 +486,7 @@ public class InitialStateVisitor extends org.asmeta.parser.util.ReflectiveVisito
 
 	public List<Value[]> asValueList(ConcreteDomain domain) {
 		String domainName = Util.getDomainName(domain);
+		System.out.println(domainValues.get(domainName));
 		return domainValues.get(domainName);
 	}
 

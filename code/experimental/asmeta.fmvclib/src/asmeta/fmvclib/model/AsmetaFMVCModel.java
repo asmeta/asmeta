@@ -145,6 +145,7 @@ public class AsmetaFMVCModel extends Observable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		InitialStateFiller.fillSimulatorState(sim);
 		setChanged();
 		notifyObservers();
 		return updateSet;
