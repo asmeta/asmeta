@@ -1,6 +1,5 @@
 package org.asmeta.nusmv;
 
-import static java.lang.System.out;
 import static org.asmeta.nusmv.util.Util.checkDomain;
 import static org.asmeta.nusmv.util.Util.checkTypeDomain;
 import static org.asmeta.nusmv.util.Util.falseString;
@@ -29,6 +28,7 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.log4j.Logger;
 import org.asmeta.flattener.AsmetaMultipleFlattener;
 import org.asmeta.flattener.FlattenerSetting;
 import org.asmeta.flattener.RemoveArgumentsFlattener;
@@ -92,6 +92,8 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule;
  * The Class MapVisitor.
  */
 public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
+	
+	final static Logger log = Logger.getLogger(MapVisitor.class); 
 
 	// list of flatteners
 	public static Class<? extends AsmetaFlattener>[] ALL_SMV_FLATTENERS = new Class[] { MacroCallRuleFlattener.class,
@@ -1461,12 +1463,12 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	private void printUnusedLocations() {
 		for (String location : varsDecl.keySet()) {
 			if (!env.usedLoc.contains(location)) {
-				out.println("Location " + location + Util.notUsedMess);
+				log.debug("Location " + location + Util.notUsedMess);
 			}
 		}
 		for (String location : derived) {
 			if (!env.usedDerLoc.contains(location)) {
-				out.println("Derived location " + location + notUsedMess);
+				log.debug("Derived location " + location + notUsedMess);
 			}
 		}
 	}
