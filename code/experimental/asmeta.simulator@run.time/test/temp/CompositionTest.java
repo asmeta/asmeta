@@ -70,5 +70,35 @@ public class CompositionTest {
 			count++;
 		}
 	}
+	
+	//nuovo Codice
+	@Test
+	public void testFullDup() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		BiPipeFullDup asmTest = new BiPipeFullDup(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
+		asmTest.evalbis();
+	}
+	
+	@Test
+	public void testParN() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		ParN asm = new ParN(new LeafAsm(path + "asmC.asm"),new LeafAsm(path + "asmS.asm"),new LeafAsm(path + "asmH.asm"));
+		asm.eval();
+	}
+	
+	@Test
+	public void testPipeN() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		PipeN asm = new PipeN(new LeafAsm(path + "asmC.asm"),new LeafAsm(path + "asmS.asm"),new LeafAsm(path + "asmH.asm"));
+		asm.eval();
+	}
+	
+	@Test
+	public void testPipe() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		Pipe asm = new Pipe(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
+		asm.eval();
+	}
+
 
 }
