@@ -73,6 +73,15 @@ public class CompositionTest {
 	
 	//nuovo Codice
 	@Test
+	public void testHalfDup() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
+		asm2.eval();
+		System.out.println(" ===== new step =====");
+		asm2.eval();
+	}
+	
+	@Test
 	public void testFullDup() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		BiPipeFullDup asmTest = new BiPipeFullDup(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
@@ -86,6 +95,8 @@ public class CompositionTest {
 		asm.eval();
 	}
 	
+	//Per quanto riguarda l'uso libero come operatore n-ario ovvero C|S|H abbiamo deciso di (come per il cout in C++) implementare l'associatività a sinistra.
+	//Quindi C|S|H deve essere eseguita come se avessimo (C|S)|H.
 	@Test
 	public void testPipeN() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
@@ -98,6 +109,22 @@ public class CompositionTest {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		Pipe asm = new Pipe(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
 		asm.eval();
+	}
+	
+	@Test // C|(S|H)
+	public void testPipe1() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		Pipe asm1 = new Pipe(new LeafAsm(path + "asmS.asm"),new LeafAsm(path + "asmH.asm"));
+		Pipe asm2 = new Pipe(new LeafAsm(path + "asmC.asm"),asm1);
+		asm2.eval();		
+	}
+	
+	@Test // (C|S)|H //problema: viene ritornato 2 volte funcC durante l'esecuzione
+	public void testPipe2() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		Pipe asm1 = new Pipe(new LeafAsm(path + "asmC.asm"),new LeafAsm(path + "asmS.asm"));
+		Pipe asm2 = new Pipe(asm1,new LeafAsm(path + "asmH.asm"));
+		asm2.eval();		
 	}
 
 
