@@ -85,13 +85,13 @@ public class AsmetaFMVCModel extends Observable {
 	}
 
 	/**
-	 * Gets the value (as a String) of a location in the current state
+	 * Compute the value (as a String) of a location in the current state
 	 * 
 	 * @param locationName the name of the location
-	 * @return the value of the specified location in the current state
+	 * @param keyType the type of the value
 	 */
 	@SuppressWarnings({ "rawtypes" })
-	public String getValue(String locationName, LocationType keyType) {
+	public void computeValue(String locationName, LocationType keyType) {
 		State s = sim.getCurrentState();
 		Boolean assigned = false;
 		SortedMap<String, String> resultStr = new TreeMap<>();
@@ -136,10 +136,6 @@ public class AsmetaFMVCModel extends Observable {
 		// Store the updated result
 		if (assigned)
 			updateCurrentAssignments(locationName, strResult);
-
-		System.out.println(controlledAssignments);
-		
-		return strResult;
 	}
 
 	/**
@@ -152,7 +148,7 @@ public class AsmetaFMVCModel extends Observable {
 		if (controlledAssignments.get(locationName) == null) {
 			throw new RuntimeException("This should never happen");
 		} else {
-			if (strResult.split(",").length > 1)
+			if (controlledAssignments.get(locationName).size() > 1)
 				updateNAryFunction(locationName, strResult);
 			else
 				update0AryFunction(locationName, strResult);
@@ -166,7 +162,6 @@ public class AsmetaFMVCModel extends Observable {
 	 * @param strResult the string containing the assignment
 	 */
 	public void updateNAryFunction(String locationName, String strResult) {
-		System.out.println(locationName);
 		for (String str : strResult.split(",")) {
 			ArrayList<Entry<String, String>> locationValues = ((ArrayList<Entry<String, String>>) controlledAssignments
 					.get(locationName));
@@ -232,7 +227,6 @@ public class AsmetaFMVCModel extends Observable {
 		reader.locationMemory.clear();
 		analyzeSingleAnnotations(obj, source);
 		analyzeMultipleAnnotations(obj, source);
-		System.out.println("LOCATION MEMORY: " + reader.locationMemory);
 	}
 
 	/**
@@ -450,5 +444,15 @@ public class AsmetaFMVCModel extends Observable {
 			controlledAssignments.put(init.getInitializedFunction().getName(), assignments);
 			visitor.initMap.clear();
 		}
+	}
+	
+	/**
+	 * Returns the value of a controlled function in the current state
+	 * 
+	 * @param locationName the name of the location
+	 * @return the value of a controlled function in the current state
+	 */
+	public List<Entry<String, String>> getValue(String locationName) {
+		return controlledAssignments.get(locationName);
 	}
 }

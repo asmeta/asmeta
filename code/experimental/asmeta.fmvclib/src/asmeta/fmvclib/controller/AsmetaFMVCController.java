@@ -21,7 +21,6 @@ import javax.swing.event.ChangeEvent;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.asmeta.simulator.UpdateSet;
-import org.asmeta.simulator.main.Simulator;
 
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
 import asmeta.fmvclib.annotations.AsmetaModelParameter;
@@ -29,12 +28,9 @@ import asmeta.fmvclib.annotations.AsmetaModelParameters;
 import asmeta.fmvclib.annotations.AsmetaRunStep;
 import asmeta.fmvclib.annotations.LocationType;
 import asmeta.fmvclib.model.AsmetaFMVCModel;
-import asmeta.fmvclib.model.InitialStateVisitor;
 import asmeta.fmvclib.view.AsmetaFMVCView;
 import asmeta.fmvclib.view.RunStepListener;
 import asmeta.fmvclib.view.RunStepListenerChangeValue;
-import asmeta.structure.FunctionInitialization;
-import asmeta.structure.Initialization;
 
 /**
  * The AsmetaFMVCController is a controller to be used when the pattern fMVC is
@@ -54,11 +50,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 * The view to which the listener has to be attached
 	 */
 	protected AsmetaFMVCView m_view;
-
-	/**
-	 * The map containing the initial assignments
-	 */
-	protected SortedMap<String, String> initMap;
 
 	/**
 	 * The last Update Set
@@ -136,8 +127,12 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			if (locationNameAnnotation != null) {
 				// More annotations are available. The one of interest is the one that is used
 				// in only this case, while the others may be repeated
-				for (AsmetaModelParameter annotation : locationNameAnnotation.getAnnotation(AsmetaModelParameters.class).value()) {
-					if (FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class).stream().filter(x -> x.getAnnotation(AsmetaModelParameter.class).asmLocationName().equals(annotation.asmLocationName())).count()==0) {
+				for (AsmetaModelParameter annotation : locationNameAnnotation.getAnnotation(AsmetaModelParameters.class)
+						.value()) {
+					if (FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class).stream()
+							.filter(x -> x.getAnnotation(AsmetaModelParameter.class).asmLocationName()
+									.equals(annotation.asmLocationName()))
+							.count() == 0) {
 						locationName = annotation.asmLocationName();
 						break;
 					}
@@ -157,17 +152,8 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 */
 	private void initInitialState() {
 		this.m_model.initInitalState();
-		Simulator simulator = this.m_model.getSimulator();
-		Initialization initialization = simulator.getAsmModel().getDefaultInitialState();
-		InitialStateVisitor visitor = new InitialStateVisitor();
-		// Visit the function initialization part
-		for (FunctionInitialization init : initialization.getFunctionInitialization()) {
-			visitor.visitInit(init);
-		}
 
-		// Assign the initialization values to the annotated component
-		initMap = visitor.initMap;
-		updateView(initMap);
+		updateView();
 	}
 
 	/**
@@ -175,16 +161,13 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		updateView(null);
+		updateView();
 	}
 
 	/**
 	 * Updates the view by setting the value of controlled variables
-	 * 
-	 * @param initialAssignments the possible initial assignmets. It may be null if
-	 *                           it is not the first initial set operation
 	 */
-	protected void updateView(SortedMap<String, String> initialAssignments) {
+	protected void updateView() {
 		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
 				AsmetaControlledLocation.class);
 		for (Field f : fieldList) {
@@ -192,37 +175,38 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			// First, get the value (it can be in the initial assignments or in the current
 			// state)
 			AsmetaControlledLocation annotation = f.getAnnotation(AsmetaControlledLocation.class);
-			String value = "";
-			if (initialAssignments == null) {
-				value = m_model.getValue(annotation.asmLocationName(), annotation.mapKeyType());
-				if (value.split("=").length == 2)
-					value = value.split("=")[1];
-				// If value is not valorized, it means that it has never been changed w.r.t. its
-				// value in the initial state, so we load the value from the initMap
-				if (value.equals(""))
-					value = getValueFromInitialAssignments(initMap, annotation);
-			} else
-				value = getValueFromInitialAssignments(initialAssignments, annotation);
+			List<Entry<String, String>> value;
+
+			m_model.computeValue(annotation.asmLocationName(), annotation.mapKeyType());
+			value = m_model.getValue(annotation.asmLocationName());
 
 			try {
 				if (f.get(m_view) instanceof JTextField) {
-					((JTextField) (f.get(m_view))).setText(value);
+					assert value.size() == 1;
+					((JTextField) (f.get(m_view))).setText(value.get(0).getValue());
 				} else if (f.get(m_view) instanceof JLabel) {
-					((JLabel) (f.get(m_view))).setText(value);
+					assert value.size() == 1;
+					((JLabel) (f.get(m_view))).setText(value.get(0).getValue());
 				} else if (f.get(m_view) instanceof JTable) {
 					assert annotation.asmLocationType() == LocationType.MAP;
 					if (value != null) {
 						JTable table = ((JTable) (f.get(m_view)));
 						// Iterate over the results
-						String[] assignments = value.split(", ");
 						int counter = 0;
-						for (String assignment : assignments) {
+						for (Entry<String, String> entry : value) {
 							if (counter < table.getRowCount()) {
-								if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
-									table.getModel().setValueAt(assignment.split("=")[1].toLowerCase(), counter, 0);
-								else
-									table.getModel().setValueAt("", counter, 0);
-								counter++;
+								try {
+									if (!entry.getValue().equals("undef"))
+										table.getModel().setValueAt(entry.getValue().toLowerCase(),
+												Integer.parseInt(entry.getKey().split("_")[1]), 0);
+									else
+										table.getModel().setValueAt("", Integer.parseInt(entry.getKey().split("_")[1]),
+												0);
+									counter++;
+								} catch (ArrayIndexOutOfBoundsException e) {
+									// Sometimes it may happen that the view is not yet correctly updated and it
+									// seems that we have more rows than the actually available
+								}
 							}
 						}
 					}
@@ -235,21 +219,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 				e.printStackTrace();
 			}
 		}
-	}
-
-	/**
-	 * Get the value of a location in the initial assignments
-	 * 
-	 * @param initialAssignments the map of the initial assignments
-	 * @param annotation         the annotation to be processed
-	 * @return the string containing the val
-	 */
-	private String getValueFromInitialAssignments(SortedMap<String, String> initialAssignments,
-			AsmetaControlledLocation annotation) {
-
-		LocationType keyType = annotation.mapKeyType();
-		String locationName = annotation.asmLocationName();
-		return getValueFromInitialAssignments(initialAssignments, keyType, locationName);
 	}
 
 	/**
@@ -347,7 +316,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 				f.setAccessible(true);
 				if (f.getAnnotation(AsmetaRunStep.class).refreshGui()) {
 					m_view.refreshView(false);
-					updateView(null);
+					updateView();
 				}
 			}
 		}
