@@ -57,9 +57,9 @@ abstract class NComposition extends Composition {
 	}
 	
 	protected void copyMonitored(UpdateSet up){
-		while(c.iterator().hasNext())
+		for(int i=0; i<c.size(); i++)
 		{
-			c.iterator().next().copyMonitored(up);
+			c.get(i).copyMonitored(up);
 		}
 	}
 }
