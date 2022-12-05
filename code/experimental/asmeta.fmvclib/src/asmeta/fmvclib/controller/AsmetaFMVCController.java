@@ -156,6 +156,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 * Initializes the initial state on the view
 	 */
 	private void initInitialState() {
+		this.m_model.initInitalState();
 		Simulator simulator = this.m_model.getSimulator();
 		Initialization initialization = simulator.getAsmModel().getDefaultInitialState();
 		InitialStateVisitor visitor = new InitialStateVisitor();

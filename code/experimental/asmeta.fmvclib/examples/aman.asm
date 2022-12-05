@@ -241,7 +241,7 @@ default init s0:
 	function selectedAirplane = undef
 	function timeShown($t in Time) = ($t + 1)
 	function lastTimeUpdated = mCurrTimeMins
-	function statusOutput($t in Airplane) = if $t = a1 then UNSTABLE else if $t = a2 then FREEZE else STABLE endif endif	
+	//function statusOutput($t in Airplane) = if $t = a1 then UNSTABLE else if $t = a2 then FREEZE else STABLE endif endif	
 	function landingSequenceColor($t in Time) = if $t = 5 then YELLOW else
 												if $t = 2 then CYAN else
 												WHITE

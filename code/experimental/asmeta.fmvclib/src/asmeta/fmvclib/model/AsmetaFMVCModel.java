@@ -2,7 +2,9 @@ package asmeta.fmvclib.model;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
@@ -16,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.Location;
@@ -35,6 +38,8 @@ import asmeta.fmvclib.annotations.AsmetaModelParameter;
 import asmeta.fmvclib.annotations.AsmetaModelParameters;
 import asmeta.fmvclib.annotations.LocationType;
 import asmeta.fmvclib.controller.ButtonColumn;
+import asmeta.structure.FunctionInitialization;
+import asmeta.structure.Initialization;
 
 @SuppressWarnings("deprecation")
 public class AsmetaFMVCModel extends Observable {
@@ -60,6 +65,11 @@ public class AsmetaFMVCModel extends Observable {
 	public static String ASM_PATH;
 
 	/**
+	 * The assignments for all the controlled locations
+	 */
+	private HashMap<String, List<Entry<String, String>>> controlledAssignments;
+
+	/**
 	 * Creates the AsmetaFMVCModel instance for a given ASMETA model
 	 * 
 	 * @param asmPath the path of the ASMETA model
@@ -71,6 +81,7 @@ public class AsmetaFMVCModel extends Observable {
 		environment = new Environment(reader);
 		sim = Simulator.createSimulator(asmPath, environment);
 		Environment.timeMngt = TimeMngt.use_java_time;
+		controlledAssignments = new HashMap<String, List<Entry<String, String>>>();
 	}
 
 	/**
@@ -82,6 +93,7 @@ public class AsmetaFMVCModel extends Observable {
 	@SuppressWarnings({ "rawtypes" })
 	public String getValue(String locationName, LocationType keyType) {
 		State s = sim.getCurrentState();
+		Boolean assigned = false;
 		SortedMap<String, String> resultStr = new TreeMap<>();
 		SortedMap<Long, String> resultInt = new TreeMap<>();
 		SortedMap<Float, String> resultFloat = new TreeMap<>();
@@ -105,6 +117,7 @@ public class AsmetaFMVCModel extends Observable {
 							(x.getKey().getElements().length > 0 ? (Boolean) (x.getKey().getElements()[0].getValue())
 									: true),
 							x.getValue().toString());
+				assigned = true;
 			}
 		}
 
@@ -120,7 +133,64 @@ public class AsmetaFMVCModel extends Observable {
 		else if (keyType == LocationType.BOOLEAN)
 			strResult = resultBoolean.toString().replace("{", "").replace("}", "");
 
+		// Store the updated result
+		if (assigned)
+			updateCurrentAssignments(locationName, strResult);
+
+		System.out.println(controlledAssignments);
+		
 		return strResult;
+	}
+
+	/**
+	 * Updates the current assignments
+	 * 
+	 * @param locationName the name of the location
+	 * @param strResult the string containing the assignment
+	 */
+	public void updateCurrentAssignments(String locationName, String strResult) {
+		if (controlledAssignments.get(locationName) == null) {
+			throw new RuntimeException("This should never happen");
+		} else {
+			if (strResult.split(",").length > 1)
+				updateNAryFunction(locationName, strResult);
+			else
+				update0AryFunction(locationName, strResult);
+		}
+	}
+
+	/**
+	 * Updates a N-ary function
+	 * 
+	 * @param locationName the name of the location
+	 * @param strResult the string containing the assignment
+	 */
+	public void updateNAryFunction(String locationName, String strResult) {
+		System.out.println(locationName);
+		for (String str : strResult.split(",")) {
+			ArrayList<Entry<String, String>> locationValues = ((ArrayList<Entry<String, String>>) controlledAssignments
+					.get(locationName));
+			for (Entry<String, String> value : locationValues) {
+				if (value.getKey().equals(locationName + "_" + str.split("=")[0].trim())) {
+					value.setValue(str.split("=")[1]);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Updates a 0-ary function
+	 * 
+	 * @param locationName the name of the location
+	 * @param strResult the string containing the assignment
+	 */
+	private void update0AryFunction(String locationName, String strResult) {
+		if (strResult.contains("="))
+			((ArrayList<Entry<String, String>>) controlledAssignments.get(locationName)).set(0,
+					new MutablePair<String, String>(locationName, strResult.split("=")[1]));
+		else
+			((ArrayList<Entry<String, String>>) controlledAssignments.get(locationName)).set(0,
+					new MutablePair<String, String>(locationName, strResult));
 	}
 
 	/**
@@ -145,7 +215,6 @@ public class AsmetaFMVCModel extends Observable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		InitialStateFiller.fillSimulatorState(sim);
 		setChanged();
 		notifyObservers();
 		return updateSet;
@@ -154,7 +223,7 @@ public class AsmetaFMVCModel extends Observable {
 	/**
 	 * Updates the monitored location using annotations
 	 * 
-	 * @param obj the annotated obj
+	 * @param obj    the annotated obj
 	 * @param source the source object
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
@@ -350,5 +419,36 @@ public class AsmetaFMVCModel extends Observable {
 	 */
 	public ViewReader getReader() {
 		return this.reader;
+	}
+
+	/**
+	 * Get the map of the controlled locations
+	 * 
+	 * @return the map of the controlled locations
+	 */
+	public HashMap<String, List<Entry<String, String>>> getControlledAssignments() {
+		return controlledAssignments;
+	}
+
+	/**
+	 * Initializes the controlledAssignments map with initial values
+	 */
+	public void initInitalState() {
+		Simulator simulator = this.getSimulator();
+		Initialization initialization = simulator.getAsmModel().getDefaultInitialState();
+		InitialStateVisitor visitor = new InitialStateVisitor();
+		// Visit the function initialization part
+		for (FunctionInitialization init : initialization.getFunctionInitialization()) {
+			visitor.visitInit(init);
+			List<Entry<String, String>> assignments = new ArrayList<Entry<String, String>>();
+			for (Entry<String, String> entry : visitor.initMap.entrySet()) {
+				MutablePair<String, String> pair = new MutablePair<String, String>();
+				pair.setLeft(entry.getKey());
+				pair.setRight(entry.getValue());
+				assignments.add(pair);
+			}
+			controlledAssignments.put(init.getInitializedFunction().getName(), assignments);
+			visitor.initMap.clear();
+		}
 	}
 }

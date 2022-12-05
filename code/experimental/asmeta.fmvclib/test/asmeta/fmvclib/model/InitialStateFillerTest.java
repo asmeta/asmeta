@@ -17,14 +17,15 @@ public class InitialStateFillerTest {
 	
 	private static final String ASM_FILE = "examples/aman.asm";
 
-	@Test
-	public void testFiller() throws Exception {
-		ViewReader reader = new ViewReader();
-		Environment environment = new Environment(reader);
-		Simulator sim = Simulator.createSimulator(ASM_FILE, environment);
-		sim.run(0);
-		InitialStateFiller.fillSimulatorState(sim);
-	}
+//	@Test
+//	public void testFiller() throws Exception {
+//		RandomMFReader reader = new RandomMFReader();
+//		Environment.timeMngt = TimeMngt.use_java_time;
+//		Environment environment = new Environment(reader);
+//		Simulator sim = Simulator.createSimulator(ASM_FILE, environment);
+//		sim.run(0);
+//		InitialStateFiller.fillSimulatorState(sim, environment);
+//	}
 	
 	@Test	
 	public void testState() throws Exception {
