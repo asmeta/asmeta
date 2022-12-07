@@ -21,6 +21,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
+import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
@@ -207,11 +208,13 @@ public class AsmetaFMVCModel extends Observable {
 		UpdateSet updateSet = null;
 		try {
 			updateSet = sim.run(nStep);
-		} catch (Exception e) {
-			e.printStackTrace();
+			setChanged();
+			notifyObservers();			
+		} catch (InvalidInvariantException e) {
+			System.err.println("Invariant violation");
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
-		setChanged();
-		notifyObservers();
 		return updateSet;
 	}
 
