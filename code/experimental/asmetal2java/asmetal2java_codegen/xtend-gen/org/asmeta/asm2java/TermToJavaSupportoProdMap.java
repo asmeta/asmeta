@@ -1,5 +1,6 @@
 package org.asmeta.asm2java;
 
+import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
@@ -55,8 +56,32 @@ public class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
   }
 
   public String visit(final FunctionTerm term) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method parseFunction(String) is undefined for the type Util");
+    Object _xblockexpression = null;
+    {
+      StringBuffer functionTerm = new StringBuffer();
+      String name = new Util().parseFunction(term.getFunction().getName());
+      Object _xifexpression = null;
+      boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
+      if (_hasEvaluateVisitor) {
+        _xifexpression = null;
+      } else {
+        if ((((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain)) && (!(term.getFunction().getDomain() instanceof ProductDomain)))) {
+          functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
+        }
+        if ((((term.getFunction() instanceof ControlledFunction) && (term.getFunction().getDomain() instanceof ProductDomain)) && (term.getDomain() instanceof ConcreteDomain))) {
+          functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
+        }
+        if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof MapDomain))) {
+          functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
+        }
+        if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof SequenceDomain))) {
+          functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
+        }
+        return functionTerm.toString();
+      }
+      _xblockexpression = _xifexpression;
+    }
+    return ((String)_xblockexpression);
   }
 
   /**
