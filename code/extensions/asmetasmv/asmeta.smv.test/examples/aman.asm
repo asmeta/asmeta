@@ -28,7 +28,9 @@ definitions:
 			if m_airplane = undef then c_airplane := a1 endif
 			// this is correct
 			if isUndef(m_airplane) then c_airplane := a3 endif
-			if isUndef(m_status) then c_airplane := a2 endif
+			// 
+			if m_status = undef then c_airplane := a2 endif
+			if isUndef(m_status) then c_airplane := a1 endif
 		endpar
 
 // INITIAL STATE

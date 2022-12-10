@@ -361,7 +361,7 @@ public class AsmetaSMVtestTranslate {
 		testOneSpec("examples/aman.asm");
 		Path fileName = Path.of("examples/aman.smv");
 		String str = Files.readString(fileName);
-		//System.out.println(str);
+		System.out.println(str);
 		//it should not translate this as undef
 		assertFalse(str.contains("m_airplane = undef"));
 	}
