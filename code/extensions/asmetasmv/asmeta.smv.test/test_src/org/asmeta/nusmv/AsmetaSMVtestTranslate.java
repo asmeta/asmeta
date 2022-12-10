@@ -1,9 +1,12 @@
 package org.asmeta.nusmv;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -353,6 +356,17 @@ public class AsmetaSMVtestTranslate {
 		testOneSpec("C:\\Users\\garganti\\Dropbox\\Documenti\\progetti\\quasmed_git\\PillboxASM\\pillbox_for_PropertyVerification.asm");
 	}
 
+	@Test
+	public void testAmanUndef() throws IOException {
+		testOneSpec("examples/aman.asm");
+		Path fileName = Path.of("examples/aman.smv");
+		String str = Files.readString(fileName);
+		//System.out.println(str);
+		//it should not translate this as undef
+		assertFalse(str.contains("m_airplane = undef"));
+	}
+
+	
 	@Test
 	public void testDivision() {
 		// nuxmv
