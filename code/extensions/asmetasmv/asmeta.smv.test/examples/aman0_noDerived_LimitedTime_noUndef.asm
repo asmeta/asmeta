@@ -1,6 +1,6 @@
 // ABZ 2023 - fMVC
 
-asm aman0_noDerived
+asm aman0_noDerived_LimitedTime_noUndef
 
 import ../../../../../asm_examples/STDL/StandardLibrary
 import ../../../../../asm_examples/STDL/CTLlibrary
@@ -70,15 +70,16 @@ definitions:
 	// The function searches the airplane with the specified landing time
 	function search($a in Airplane, $t in Time) = 
 		if landingSequence($t) = $a then $t else 
-		if $t > zoomValue then -1
-		else search($a, $t+1) endif endif
+		if $t >= 10 then -1 else 
+		if $t < 10 then search($a, $t+1) 
+		else -1 endif endif endif
 	
 	function canBeMovedUp($airplane in Airplane, $nMov in Time) =
 		let ($currentLT = search($airplane, 0)) in
-			if ($currentLT + $nMov) <= 45 then if not isUndef(landingSequence($currentLT + $nMov)) then false
-			else if ($currentLT + $nMov + 1) <= 45 then if not isUndef(landingSequence($currentLT + $nMov + 1)) then false
-			else if ($currentLT + $nMov + 2) <= 45 then if not isUndef(landingSequence($currentLT + $nMov + 2)) then false
-			else if ($currentLT + $nMov + 3) <= 45 then if not isUndef(landingSequence($currentLT + $nMov + 3)) then false 
+			if ($currentLT + $nMov) <= 10 then if not isUndef(landingSequence($currentLT + $nMov)) then false
+			else if ($currentLT + $nMov + 1) <= 10 then if not isUndef(landingSequence($currentLT + $nMov + 1)) then false
+			else if ($currentLT + $nMov + 2) <= 10 then if not isUndef(landingSequence($currentLT + $nMov + 2)) then false
+			else if ($currentLT + $nMov + 3) <= 10 then if not isUndef(landingSequence($currentLT + $nMov + 3)) then false 
 			else true endif endif endif endif endif endif endif endif
 			endlet
 		
@@ -190,20 +191,38 @@ definitions:
 			
 			// Move airplanes
 			//if toString(selectedAirplane) != "undef" then
-			if not isUndef(selectedAirplane) then
+			/*if not isUndef(selectedAirplane) then
 				if action = UP then r_moveUp[selectedAirplane, true, numMoves] else
 				if action = DOWN then r_moveDown[selectedAirplane, true, numMoves] else
 				if action = HOLD then r_hold[selectedAirplane] endif endif endif 
+			endif*/
+			if selectedAirplane = a1 then
+				if action = UP then r_moveUp[a1, true, numMoves] else
+				if action = DOWN then r_moveDown[a1, true, numMoves] else
+				if action = HOLD then r_hold[a1] endif endif endif 
+			endif
+			if selectedAirplane = a2 then
+				if action = UP then r_moveUp[a2, true, numMoves] else
+				if action = DOWN then r_moveDown[a2, true, numMoves] else
+				if action = HOLD then r_hold[a2] endif endif endif 
+			endif
+			if selectedAirplane = a3 then
+				if action = UP then r_moveUp[a3, true, numMoves] else
+				if action = DOWN then r_moveDown[a3, true, numMoves] else
+				if action = HOLD then r_hold[a3] endif endif endif 
+			endif
+			if selectedAirplane = a4 then
+				if action = UP then r_moveUp[a4, true, numMoves] else
+				if action = DOWN then r_moveDown[a4, true, numMoves] else
+				if action = HOLD then r_hold[a4] endif endif endif 
 			endif
 		endpar
 
 // INITIAL STATE
 default init s0:
 	function landingSequence($t in Time) = if $t = 5 then a1 else 
-										   if $t = 2 then a2 /*else
-										   if $t = 18 then a3 else
-										   if $t = 35 then a4 else 
-										   undef endif endif */endif endif
+										   if $t = 2 then a2 else 
+										   undef endif endif
 	function zoomValue = 30
 	function action = NONE
 	function selectedAirplane = undef

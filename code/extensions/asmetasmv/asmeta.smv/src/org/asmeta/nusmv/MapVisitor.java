@@ -1123,7 +1123,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 
 			// some domains permit to model the undef value
 			if ((Defs.isEnumDomain(codomain) || Defs.isConcreteDomain(codomain) || Defs.isAbstractDomain(codomain))
-					&& (Defs.isControlled(func) || Defs.isOut(func))) {
+					&& (Defs.isControlled(func) || Defs.isOut(func) || Defs.isMonitored(func))) {
 				codomainDefinition = domainSmvWithUndef.get(codomainName);
 			} else {
 				codomainDefinition = domainSmv.get(codomainName);

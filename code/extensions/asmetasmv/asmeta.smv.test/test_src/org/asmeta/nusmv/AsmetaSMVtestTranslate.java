@@ -368,16 +368,17 @@ public class AsmetaSMVtestTranslate {
 	
 	@Test
 	public void testAmanNull() throws IOException {
-		AsmetaSMVOptions.keepNuSMVfile = true;
-		AsmetaSMVOptions.setUseNuXmv(true);
-		AsmetaSMVOptions.FLATTEN = false;
-		AsmetaSMVOptions.setRunNuSMV(false);
-		testOneSpec("examples/aman0_noDerived.asm");
-		Path fileName = Path.of("examples/aman0_noDerived.smv");
+		AsmetaSMVOptions option = new AsmetaSMVOptions(true, true, false, true, false);
+		option.keepNuSMVfile = true;
+		option.setUseNuXmv(true);
+		option.FLATTEN = false;
+		option.setRunNuSMV(true);
+		testOneSpec("examples/aman0.asm", option);
+		Path fileName = Path.of("examples/aman0.smv");
 		String str = Files.readString(fileName);
-		System.out.println(str);
 		//it should not translate this as undef
 		assertFalse(str.contains("null"));
+		assertFalse(str.contains("is false"));
 	}
 
 	
