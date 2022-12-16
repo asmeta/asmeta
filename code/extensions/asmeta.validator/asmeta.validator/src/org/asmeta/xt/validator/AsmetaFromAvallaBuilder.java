@@ -111,6 +111,7 @@ public class AsmetaFromAvallaBuilder {
 		oldMainName = mainrule.getName();
 		// create a temp file in the directory
 		File tempAsmPath = File.createTempFile("__tempAsmetaV", ".asm", tempAsmPathDir);
+		logger.debug("to file " + tempAsmPath.getAbsolutePath());
 		//
 		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath,modelPath, this);
 	}
