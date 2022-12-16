@@ -13,8 +13,8 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 @Retention(RetentionPolicy.RUNTIME)
-@Repeatable(AsmetaModelParameters.class)
-public @interface AsmetaModelParameter {
+@Repeatable(AsmetaMonitoredLocations.class)
+public @interface AsmetaMonitoredLocation {
 
 	/**
 	 * The name of the location in the ASM

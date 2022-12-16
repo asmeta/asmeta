@@ -23,8 +23,8 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.asmeta.simulator.UpdateSet;
 
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
-import asmeta.fmvclib.annotations.AsmetaModelParameter;
-import asmeta.fmvclib.annotations.AsmetaModelParameters;
+import asmeta.fmvclib.annotations.AsmetaMonitoredLocation;
+import asmeta.fmvclib.annotations.AsmetaMonitoredLocations;
 import asmeta.fmvclib.annotations.AsmetaRunStep;
 import asmeta.fmvclib.annotations.LocationType;
 import asmeta.fmvclib.model.AsmetaFMVCModel;
@@ -108,29 +108,29 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 
 		// Get the other annotation of the field
 		List<Field> fieldListMonitoredLst = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
-				AsmetaModelParameter.class);
+				AsmetaMonitoredLocation.class);
 		Stream<Field> fieldListMonitored = fieldListMonitoredLst.stream().filter(x -> x.getName().equals(f.getName()));
 		Field locationNameAnnotation = FieldUtils
-				.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class).stream()
+				.getFieldsListWithAnnotation(m_view.getClass(), AsmetaMonitoredLocation.class).stream()
 				.filter(x -> x.getName().equals(f.getName())).findFirst().orElse(null);
 		if (locationNameAnnotation != null)
-			locationName = locationNameAnnotation.getAnnotation(AsmetaModelParameter.class).asmLocationName();
+			locationName = locationNameAnnotation.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName();
 
 		// If multiple annotations
 		if (fieldListMonitored.count() == 0) {
 			fieldListMonitoredLst = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
-					AsmetaModelParameters.class);
+					AsmetaMonitoredLocations.class);
 			fieldListMonitored = fieldListMonitoredLst.stream().filter(x -> x.getName().equals(f.getName()));
 			locationNameAnnotation = FieldUtils
-					.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameters.class).stream()
+					.getFieldsListWithAnnotation(m_view.getClass(), AsmetaMonitoredLocations.class).stream()
 					.filter(x -> x.getName().equals(f.getName())).findFirst().orElse(null);
 			if (locationNameAnnotation != null) {
 				// More annotations are available. The one of interest is the one that is used
 				// in only this case, while the others may be repeated
-				for (AsmetaModelParameter annotation : locationNameAnnotation.getAnnotation(AsmetaModelParameters.class)
+				for (AsmetaMonitoredLocation annotation : locationNameAnnotation.getAnnotation(AsmetaMonitoredLocations.class)
 						.value()) {
-					if (FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class).stream()
-							.filter(x -> x.getAnnotation(AsmetaModelParameter.class).asmLocationName()
+					if (FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaMonitoredLocation.class).stream()
+							.filter(x -> x.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName()
 									.equals(annotation.asmLocationName()))
 							.count() == 0) {
 						locationName = annotation.asmLocationName();

@@ -35,8 +35,8 @@ import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.Value;
 
-import asmeta.fmvclib.annotations.AsmetaModelParameter;
-import asmeta.fmvclib.annotations.AsmetaModelParameters;
+import asmeta.fmvclib.annotations.AsmetaMonitoredLocation;
+import asmeta.fmvclib.annotations.AsmetaMonitoredLocations;
 import asmeta.fmvclib.annotations.LocationType;
 import asmeta.fmvclib.controller.ButtonColumn;
 import asmeta.structure.FunctionInitialization;
@@ -241,14 +241,14 @@ public class AsmetaFMVCModel extends Observable {
 	 */
 	@SuppressWarnings("rawtypes")
 	private void analyzeSingleAnnotations(Object obj, Object source) throws IllegalAccessException {
-		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(obj.getClass(), AsmetaModelParameter.class);
+		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(obj.getClass(), AsmetaMonitoredLocation.class);
 		for (Field f : fieldList) {
 			f.setAccessible(true);
 			// First, get the value
 			String value = "";
-			if (!f.getAnnotation(AsmetaModelParameter.class).asmLocationValue().equals("")) {
+			if (!f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationValue().equals("")) {
 				if (f.get(obj).equals(source))
-					value = f.getAnnotation(AsmetaModelParameter.class).asmLocationValue();
+					value = f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationValue();
 			} else {
 				if (f.get(obj) instanceof JTable) {
 					JTable guiTable = (JTable) f.get(obj);
@@ -270,9 +270,9 @@ public class AsmetaFMVCModel extends Observable {
 
 			if (value != null) {
 				// Now add the value to the location map
-				LocationType locationType = f.getAnnotation(AsmetaModelParameter.class).asmLocationType();
+				LocationType locationType = f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationType();
 				Value val = getValueFromString(value, locationType);
-				String loc = f.getAnnotation(AsmetaModelParameter.class).asmLocationName();
+				String loc = f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName();
 				if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
 					reader.addValue(loc, val);
 			}
@@ -288,10 +288,10 @@ public class AsmetaFMVCModel extends Observable {
 	 */
 	@SuppressWarnings("rawtypes")
 	private void analyzeMultipleAnnotations(Object obj, Object source) throws IllegalAccessException {
-		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(obj.getClass(), AsmetaModelParameters.class);
+		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(obj.getClass(), AsmetaMonitoredLocations.class);
 		for (Field f : fieldList) {
 			f.setAccessible(true);
-			for (AsmetaModelParameter f1 : f.getAnnotation(AsmetaModelParameters.class).value()) {
+			for (AsmetaMonitoredLocation f1 : f.getAnnotation(AsmetaMonitoredLocations.class).value()) {
 				// First, get the value
 				String value = "";
 				if (!f1.asmLocationValue().equals("")) {
