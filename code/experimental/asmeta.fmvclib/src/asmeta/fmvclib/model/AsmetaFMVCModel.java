@@ -19,6 +19,7 @@ import javax.swing.JToggleButton;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
+import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.InvalidInvariantException;
@@ -35,6 +36,8 @@ import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.Value;
 
+import asmeta.AsmCollection;
+import asmeta.definitions.Function;
 import asmeta.fmvclib.annotations.AsmetaMonitoredLocation;
 import asmeta.fmvclib.annotations.AsmetaMonitoredLocations;
 import asmeta.fmvclib.annotations.LocationType;
@@ -89,7 +92,7 @@ public class AsmetaFMVCModel extends Observable {
 	 * Compute the value (as a String) of a location in the current state
 	 * 
 	 * @param locationName the name of the location
-	 * @param keyType the type of the value
+	 * @param keyType      the type of the value
 	 */
 	@SuppressWarnings({ "rawtypes" })
 	public void computeValue(String locationName, LocationType keyType) {
@@ -143,7 +146,7 @@ public class AsmetaFMVCModel extends Observable {
 	 * Updates the current assignments
 	 * 
 	 * @param locationName the name of the location
-	 * @param strResult the string containing the assignment
+	 * @param strResult    the string containing the assignment
 	 */
 	public void updateCurrentAssignments(String locationName, String strResult) {
 		if (controlledAssignments.get(locationName) == null) {
@@ -160,7 +163,7 @@ public class AsmetaFMVCModel extends Observable {
 	 * Updates a N-ary function
 	 * 
 	 * @param locationName the name of the location
-	 * @param strResult the string containing the assignment
+	 * @param strResult    the string containing the assignment
 	 */
 	public void updateNAryFunction(String locationName, String strResult) {
 		for (String str : strResult.split(",")) {
@@ -178,7 +181,7 @@ public class AsmetaFMVCModel extends Observable {
 	 * Updates a 0-ary function
 	 * 
 	 * @param locationName the name of the location
-	 * @param strResult the string containing the assignment
+	 * @param strResult    the string containing the assignment
 	 */
 	private void update0AryFunction(String locationName, String strResult) {
 		if (strResult.contains("="))
@@ -209,7 +212,7 @@ public class AsmetaFMVCModel extends Observable {
 		try {
 			updateSet = sim.run(nStep);
 			setChanged();
-			notifyObservers();			
+			notifyObservers();
 		} catch (InvalidInvariantException e) {
 			System.err.println("Invariant violation");
 		} catch (Exception e1) {
@@ -269,12 +272,43 @@ public class AsmetaFMVCModel extends Observable {
 			}
 
 			if (value != null) {
-				// Now add the value to the location map
-				LocationType locationType = f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationType();
-				Value val = getValueFromString(value, locationType);
-				String loc = f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName();
-				if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
-					reader.addValue(loc, val);
+				// Look for the type of the monitored function in the ASM model
+				LocationType locationType = null;
+				ArrayList<Function> functions = new ArrayList<Function>();
+				AsmCollection asms;
+				try {
+					asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ".asm"));
+					asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
+							.filter(fn -> fn.getName().equals(f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName()))
+							.forEach(y -> functions.add(y)));
+					assert functions.size() == 1
+							: "The function " + f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName() + " has not been found in the ASM";
+
+					switch (functions.get(0).getCodomain().getClass().getSimpleName()) {
+						case "EnumTdImpl":
+							locationType = LocationType.ENUM;
+							break;
+						case "AbstractTdImpl":
+							locationType = LocationType.RESERVE;
+							break;
+						case "ConcreteDomainImpl":
+							// TODO: Other types may be instead of integer
+							locationType = LocationType.INTEGER;
+							break;
+						default:
+							throw new RuntimeException(
+									"The type of Codomain " + functions.get(0).getCodomain().getClass().getSimpleName()
+											+ " is not yet managed by the AsmetaFMVCLib");
+					}
+					// Now add the value to the location map
+					Value val = getValueFromString(value, locationType);
+					String loc = f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName();
+					if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
+						reader.addValue(loc, val);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -316,12 +350,44 @@ public class AsmetaFMVCModel extends Observable {
 				}
 
 				if (value != null) {
-					// Now add the value to the location map
-					LocationType locationType = f1.asmLocationType();
-					Value val = getValueFromString(value, locationType);
-					String loc = f1.asmLocationName();
-					if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
-						reader.addValue(loc, val);
+					// Look for the type of the monitored function in the ASM model
+					LocationType locationType = null;
+					ArrayList<Function> functions = new ArrayList<Function>();
+					AsmCollection asms;
+					try {
+						asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ".asm"));
+						asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
+								.filter(fn -> fn.getName().equals(f1.asmLocationName()))
+								.forEach(y -> functions.add(y)));
+						assert functions.size() == 1
+								: "The function " + f1.asmLocationName() + " has not been found in the ASM";
+
+						switch (functions.get(0).getCodomain().getClass().getSimpleName()) {
+							case "EnumTdImpl":
+								locationType = LocationType.ENUM;
+								break;
+							case "AbstractTdImpl":
+								locationType = LocationType.RESERVE;
+								break;
+							case "ConcreteDomainImpl":
+								// TODO: Other types may be instead of integer
+								locationType = LocationType.INTEGER;
+								break;
+							default:
+								throw new RuntimeException(
+										"The type of Codomain " + functions.get(0).getCodomain().getClass().getSimpleName()
+												+ " is not yet managed by the AsmetaFMVCLib");
+						}
+
+						// Now add the value to the location map
+						Value val = getValueFromString(value, locationType);
+						String loc = f1.asmLocationName();
+						if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
+							reader.addValue(loc, val);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -448,7 +514,7 @@ public class AsmetaFMVCModel extends Observable {
 			visitor.initMap.clear();
 		}
 	}
-	
+
 	/**
 	 * Returns the value of a controlled function in the current state
 	 * 

@@ -23,20 +23,6 @@ public @interface AsmetaControlledLocation {
 	 */
 	String asmLocationName() default "";
 
-	/**
-	 * The type of the location in the ASM
-	 * 
-	 * @return the type of the location in the ASM
-	 */
-	LocationType asmLocationType() default LocationType.INTEGER;
-
-	/**
-	 * If a MAP is used, the type of each key element
-	 * 
-	 * @return the type of each key element of a map
-	 */
-	LocationType domainType() default LocationType.UNDEF;
-
 }
 
 @Retention(RetentionPolicy.RUNTIME)

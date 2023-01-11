@@ -24,13 +24,6 @@ public @interface AsmetaMonitoredLocation {
 	public String asmLocationName() default "";
 
 	/**
-	 * The type of the location in the ASM
-	 * 
-	 * @return the type of the location in the ASM
-	 */
-	public LocationType asmLocationType() default LocationType.INTEGER;
-
-	/**
 	 * The value of the location in the ASM
 	 * 
 	 * @return the value of the location in the ASM

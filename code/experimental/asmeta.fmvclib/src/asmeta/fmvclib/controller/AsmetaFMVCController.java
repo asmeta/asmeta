@@ -1,7 +1,9 @@
 package asmeta.fmvclib.controller;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
@@ -20,8 +22,11 @@ import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.UpdateSet;
 
+import asmeta.AsmCollection;
+import asmeta.definitions.Function;
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
 import asmeta.fmvclib.annotations.AsmetaMonitoredLocation;
 import asmeta.fmvclib.annotations.AsmetaMonitoredLocations;
@@ -176,8 +181,41 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			// state)
 			AsmetaControlledLocation annotation = f.getAnnotation(AsmetaControlledLocation.class);
 			List<Entry<String, String>> value;
+			
+			// Look for the domain type of the map (if present) in the ASM
+			LocationType locationType = LocationType.UNDEF;
+			ArrayList<Function> functions = new ArrayList<Function>();
+			AsmCollection asms;
+			try {
+				asms = ASMParser.setUpReadAsm(new File(AsmetaFMVCModel.ASM_PATH + "/" + m_model.getSimulator().getAsmModel().getName() + ".asm"));
+				asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
+						.filter(fn -> fn.getName().equals(annotation.asmLocationName()))
+						.forEach(y -> functions.add(y)));
+				assert functions.size() == 1
+						: "The function " + annotation.asmLocationName() + " has not been found in the ASM";
 
-			m_model.computeValue(annotation.asmLocationName(), annotation.domainType());
+				if (functions.get(0).getArity() >= 1) {
+					switch (functions.get(0).getDomain().getClass().getSimpleName()) {
+						case "EnumTdImpl":
+							locationType = LocationType.ENUM;
+							break;
+						case "AbstractTdImpl":
+							locationType = LocationType.RESERVE;
+							break;
+						case "ConcreteDomainImpl":
+							// TODO: Other types may be instead of integer
+							locationType = LocationType.INTEGER;
+							break;
+						default:
+							locationType = LocationType.UNDEF;
+					}
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			m_model.computeValue(annotation.asmLocationName(), locationType);
 			value = m_model.getValue(annotation.asmLocationName());
 
 			try {
@@ -188,7 +226,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					assert value.size() == 1;
 					((JLabel) (f.get(m_view))).setText(value.get(0).getValue());
 				} else if (f.get(m_view) instanceof JTable) {
-					assert annotation.asmLocationType() == LocationType.MAP;
 					if (value != null) {
 						JTable table = ((JTable) (f.get(m_view)));
 						// Iterate over the results
