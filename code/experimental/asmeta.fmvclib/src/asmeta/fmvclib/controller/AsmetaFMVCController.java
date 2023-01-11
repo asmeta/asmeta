@@ -177,7 +177,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			AsmetaControlledLocation annotation = f.getAnnotation(AsmetaControlledLocation.class);
 			List<Entry<String, String>> value;
 
-			m_model.computeValue(annotation.asmLocationName(), annotation.mapKeyType());
+			m_model.computeValue(annotation.asmLocationName(), annotation.domainType());
 			value = m_model.getValue(annotation.asmLocationName());
 
 			try {
@@ -314,8 +314,8 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaRunStep.class);
 			for (Field f : fieldList) {
 				f.setAccessible(true);
-				if (f.getAnnotation(AsmetaRunStep.class).refreshGui()) {
-					m_view.refreshView(false);
+				if (f.getAnnotation(AsmetaRunStep.class).repaintView()) {
+					m_view.repaintView(false);
 					updateView();
 				}
 			}

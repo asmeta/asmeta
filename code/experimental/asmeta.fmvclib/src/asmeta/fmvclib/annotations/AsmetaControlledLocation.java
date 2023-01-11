@@ -35,7 +35,7 @@ public @interface AsmetaControlledLocation {
 	 * 
 	 * @return the type of each key element of a map
 	 */
-	LocationType mapKeyType() default LocationType.UNDEF;
+	LocationType domainType() default LocationType.UNDEF;
 
 }
 

@@ -8,8 +8,8 @@ package asmeta.fmvclib.view;
 public interface AsmetaFMVCView {
 
 	/**
-	 * Method used for refreshing the view
+	 * Method used for repainting the view
 	 */
-	void refreshView(boolean firstTime);
+	void repaintView(boolean firstTime);
 
 }
