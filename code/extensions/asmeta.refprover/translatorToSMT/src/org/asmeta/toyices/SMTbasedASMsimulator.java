@@ -148,76 +148,18 @@ public class SMTbasedASMsimulator {
 		//As undef value for integers, we use the integer minimum value.
 		//The model, therefore, cannot use that value. 
 		yicesModel.domainUndefValue.put("Integer", String.valueOf(Integer.MIN_VALUE));
-		TermVisitor tv = new TermVisitor(yicesModel);
+		
+		DomainToYicesType domainToType = new DomainToYicesType(yicesModel, domainWithoutUndef, signature);
 		for(Domain domain: domains) {
-			if(domain instanceof EnumTd) {
-				String domainName = domain.getName();
-				StringBuilder commandParts = new StringBuilder("(define-type " + domainName + "(scalar");
-				List<EnumElement> elementTerms = ((EnumTd)domain).getElement();
-				String[] enumValues = new String[elementTerms.size()];
-				String symbol;
-				for(int i = 0; i < elementTerms.size(); i++) {
-					symbol = elementTerms.get(i).getSymbol();
-					commandParts.append(" " + symbol);
-					enumValues[i] = symbol;
-					yicesModel.allEnumAndAgentsValues.add(symbol);
-				}
-				//commandParts.append("))");
-				String undefValue = domainName + "UNDEF";
-				yicesModel.domainUndefValue.put(domainName, undefValue);
-				domainWithoutUndef.put(domainName, "(subtype (v::" + domainName + ") (/= v " + undefValue + "))");
-				commandParts.append(" " + undefValue + "))");
-				int result = parseCommand(commandParts.toString());
-				assert result == 1: "Command\n" + commandParts.toString() + "\nexited with error.";
-				yicesModel.enumValues.put(domainName, enumValues);
-			}
-			else if(domain instanceof ConcreteDomain) {
-				String domainName = domain.getName();
-				ConcreteDomain concrDom = (ConcreteDomain)domain;
-				TypeDomain typeDomain = concrDom.getTypeDomain();
-				if(typeDomain instanceof AgentDomain) {
-					ArrayList<String> agents = new ArrayList<String>();
-					for(Function func: signature.getFunction()) {
-						String codomainName = func.getCodomain().getName();
-						if(Defs.isStatic(func) && func.getArity() == 0 && codomainName.equals(domainName)) {
-							agents.add(func.getName());
-							yicesModel.allEnumAndAgentsValues.add(func.getName());
-						}
-					}
-					if(agents.size() > 0) {
-						StringBuilder domainDeclSB = new StringBuilder("(define-type " + domainName + "(scalar");
-						for(int i = 0; i < agents.size(); i++) {
-							domainDeclSB.append(" ").append(agents.get(i));
-						}
-						//domainDeclSB.append("))");
-						String undefValue = domainName + "UNDEF";
-						yicesModel.domainUndefValue.put(domainName, undefValue);
-						domainWithoutUndef.put(domainName, "(subtype (v::" + domainName + ") (/= v " + undefValue + "))");
-						domainDeclSB.append(" " + undefValue + "))");
-						parseCommand(domainDeclSB.toString());
-						yicesModel.agentValues.put(domainName, agents);
-					}
-				}
-				else {
-					Term defDomainBody = concrDom.getDefinition().getBody();
-					if(defDomainBody instanceof SetTerm) {
-						SetTerm set = (SetTerm)defDomainBody;
-						String setAsStr = tv.visit(set);
-						yicesModel.intDomainsDeclaration.put(domainName, setAsStr);
-						Integer[] setValues = TermVisitor.getSetValues(set);
-						yicesModel.intValues.put(domainName, setValues);
-						yicesModel.domainIntValues.put(domain, setValues);
-						String undefValue = String.valueOf(Integer.MIN_VALUE);
-						yicesModel.domainUndefValue.put(domainName, undefValue);
-					}
-					else {
-						throw new Error();
-					}
-				}
-			}
+			String yices_commands = domainToType.visit(domain);
+			int result = parseCommand(yices_commands);
+			assert result == 1: "Command\n" + yices_commands + "\nexited with error.";
 		}
 	}
 
+	/**
+	 * @param domain
+	 */
 	public void visitFunctions(Collection<Function> functions) {
 		yicesModel.contrFuncsDeclarations = new HashSet<String[]>();
 		yicesModel.monDerFuncsDeclarations = new HashSet<String[]>();

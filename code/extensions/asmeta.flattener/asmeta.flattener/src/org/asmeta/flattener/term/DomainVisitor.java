@@ -94,7 +94,6 @@ public class DomainVisitor {
 				AbstractTd abstractDomain = (AbstractTd) domain;
 				EnumTerm enumTerm = null;
 				set = new HashSet<Term>();
-
 				// find the abstract domain elements from the functions of the signature
 				for (Function f : functions) {
 					// the criterion is: static, without arguments, its codomain is the abstract

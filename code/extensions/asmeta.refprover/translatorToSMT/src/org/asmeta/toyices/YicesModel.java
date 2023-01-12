@@ -22,6 +22,7 @@ public class YicesModel {
 	Pointer ctx;
 	static YicesLibrary yices;
 	public Set<String[]> contrFuncsDeclarations;
+	// enum values and abstract ones for a given domain name
 	Map<String, String[]> enumValues;
 	Set<String> allEnumAndAgentsValues;
 	Map<String, Integer[]> intValues;
