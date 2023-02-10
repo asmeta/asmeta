@@ -81,6 +81,7 @@ public class CompositionTest {
 		asm2.eval();
 	}
 	
+
 	/*
 	 * @Test// asmC <|> asmS <|> asmH //ok, ma nel tornare indietro rimangono i
 	 * copyMonitored dell'andata: problema? public void testHalfDupN() throws
@@ -111,8 +112,8 @@ public class CompositionTest {
 		BiPipeFullDup asmTest2 = new BiPipeFullDup(new LeafAsm(path + "asmH.asm"), asmTest1);
 		asmTest2.eval();
 	}
-	
-	@Test//asmC || asmS || asmH
+
+	@Test
 	public void testParN() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		ParN asm = new ParN(new LeafAsm(path + "asmC.asm"),new LeafAsm(path + "asmS.asm"),new LeafAsm(path + "asmH.asm"));
@@ -121,6 +122,7 @@ public class CompositionTest {
 	
 	//Per quanto riguarda l'uso libero come operatore n-ario ovvero C|S|H abbiamo deciso di (come per il cout in C++) implementare l'associatività a sinistra.
 	//Quindi C|S|H deve essere eseguita come se avessimo (C|S)|H.
+
 	@Test//asmC | asmS | asmH
 	public void testPipeN() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
@@ -128,6 +130,7 @@ public class CompositionTest {
 		asm.eval();
 	}
 	
+
 	/*
 	 * @Test public void testPipe() throws Exception {
 	 * Logger.getLogger(Simulator.class).setLevel(Level.DEBUG); Pipe asm = new

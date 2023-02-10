@@ -44,6 +44,26 @@ abstract class BiComposition extends Composition {
 
 }
 
+//nuovo codice
+abstract class NComposition extends Composition {
+	ArrayList<Composition> c=new ArrayList<>();
+	
+	NComposition(Composition...c)
+	{
+		for(Composition i:c)
+		{
+			this.c.add(i);
+		}
+	}
+	
+	protected void copyMonitored(UpdateSet up){
+		for(int i=0; i<c.size(); i++)
+		{
+			c.get(i).copyMonitored(up);
+		}
+	}
+}
+
 class MFReaderWithSettableMon extends MonFuncReader {
 
 	// Map<Location,Value> monStoredValues = new HashMap<>();
@@ -139,7 +159,37 @@ class Pipe extends BiComposition {
 	}
 }
 
-class BiPipe extends BiComposition {
+//nuovo Codice
+class PipeN extends NComposition {
+	PipeN(Composition...asm) throws Exception{
+		super(asm);
+	}
+
+	@Override
+	UpdateSet eval() {
+		UpdateSet up =c.get(0).eval();
+		//for parte da 2° elemento pipe
+		for(int i=1; i<c.size(); i++)
+		{
+			c.get(i).copyMonitored(up);
+			up=c.get(i).eval();	
+		}
+		return up;
+	}
+	
+	@Override
+	public String toString() {
+		String string=c.get(0).toString();
+		//for parte da secondo elemento in parallelo
+		for(int i=1; i<c.size(); i++)
+		{
+			string=string+"|"+c.get(i).toString();
+		}
+		return string;
+	}
+}
+
+class BiPipeHalfDup extends BiComposition {
 
 	BiPipe(Composition asm1, Composition asm2) throws Exception {
 		super(asm1, asm2);
@@ -164,6 +214,42 @@ class BiPipe extends BiComposition {
 	}
 }
 
+//nuovo codice <||>
+class BiPipeFullDup extends BiComposition {
+
+	BiPipeFullDup(Composition asm1, Composition asm2) throws Exception {
+		super(asm1, asm2);
+	}
+	
+	UpdateSet[] evalbis() {
+		UpdateSet[]up=new UpdateSet[2];
+		
+		//full duplex pag. 9 CompositionalSimulationConfPaper
+		// 1° run
+		up[0] = c1.eval();
+		up[1] = c2.eval();
+		
+		// copio i riusltati
+		c2.copyMonitored(up[0]);
+		c1.copyMonitored(up[1]);
+		//UpdateSet ris=eval(up[0],c2)+(up[1],c1);
+		
+		return up;
+	}
+	
+	@Override
+	public String toString() {
+		return c1.toString() + "<||>" + c2.toString();
+	}
+
+	//metodo non utilizzato
+	@Override
+	UpdateSet eval() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}
+
 class Par extends BiComposition {
 
 	Par(Composition asm1, Composition asm2) throws Exception {
@@ -185,4 +271,33 @@ class Par extends BiComposition {
 		return c1.toString() + "||" + c2.toString();
 	}
 
+}
+
+//nuovo codice
+class ParN extends NComposition{
+	ParN(Composition...asm) throws Exception{
+		super(asm);
+	}
+
+	@Override
+	UpdateSet eval() {
+		UpdateSet up=c.get(0).eval();
+		for(int i = 1; i<c.size();i++)
+		{
+			UpdateSet upAppo=c.get(i).eval();
+			up.union(upAppo);
+		}
+		System.out.println(up.toString());
+		return up;
+	}
+	
+	@Override
+	public String toString() {
+		String stringa=c.get(0).toString();
+		for(int i=1; i<c.size(); i++)
+		{
+			stringa=stringa+"||"+c.get(i);
+		}
+		return stringa;
+	}
 }
