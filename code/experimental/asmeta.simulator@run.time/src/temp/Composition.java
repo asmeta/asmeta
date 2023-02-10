@@ -1,6 +1,7 @@
 package temp;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,10 +22,10 @@ import asmeta.structure.FunctionDefinition;
 
 public abstract class Composition {
 
+	//evalbis aggiunta per return multipli
 	abstract UpdateSet eval();
 
-	abstract void copyMonitored(UpdateSet u);
-
+	abstract void copyMonitored(UpdateSet update);
 }
 
 abstract class BiComposition extends Composition {
@@ -46,10 +47,11 @@ abstract class BiComposition extends Composition {
 
 //nuovo codice
 abstract class NComposition extends Composition {
-	ArrayList<Composition> c=new ArrayList<>();
+	ArrayList<Composition> c;
 	
 	NComposition(Composition...c)
 	{
+		this.c=new ArrayList<>();
 		for(Composition i:c)
 		{
 			this.c.add(i);
@@ -111,10 +113,12 @@ class LeafAsm extends Composition {
 	@Override
 	UpdateSet eval() {
 		System.out.println("Running " + name);// + " current state" + s1.getCurrentState());
-		return s1.run(1);
+		//UpdateSet[]up=new UpdateSet[1];
+		UpdateSet up=s1.run(1);
+		return up;
 	}
 
-	// dall'update set copia in s2
+	// copy from updateSet to s2
 	protected void copyMonitored(UpdateSet up) {
 		// System.out.println("copying " + up + " in " + name);
 		LeafAsm lc = this;
@@ -134,77 +138,74 @@ class LeafAsm extends Composition {
 	public String toString() {
 		return "ASM:" + name;
 	}
+
 }
 
-class Pipe extends BiComposition {
-
-	Pipe(Composition asm1, Composition asm2) throws Exception {
-		super(asm1, asm2);
-	}
-
-	@Override
-	UpdateSet eval() {
-		// run della prima
-		UpdateSet up = c1.eval();
-		// copio i riulstati
-		c2.copyMonitored(up);
-		// eseguo s2
-		c2.eval();
-		return up;
-	}
-
-	@Override
-	public String toString() {
-		return c1.toString() + "|" + c2.toString();
-	}
-}
-
-//nuovo Codice
+/*
+ * class Pipe extends BiComposition {
+ * 
+ * Pipe(Composition asm1, Composition asm2) throws Exception { super(asm1,
+ * asm2); }
+ * 
+ * @Override UpdateSet eval() { // run della prima UpdateSet up[0] = c1.eval();
+ * // copio i riulstati c2.copyMonitored(up[0]); // eseguo s2 c2.eval(); return
+ * up; }
+ * 
+ * @Override public String toString() { return c1.toString() + "|" +
+ * c2.toString(); } }
+ */
+//new code |
 class PipeN extends NComposition {
+	//we don't know in advance the number of arguments
+	//so we use varargs
 	PipeN(Composition...asm) throws Exception{
 		super(asm);
 	}
-
-	@Override
+	
+	@Override //probabilmente giusto
 	UpdateSet eval() {
 		UpdateSet up =c.get(0).eval();
-		//for parte da 2° elemento pipe
+		//for starts from 2nd pipe element
 		for(int i=1; i<c.size(); i++)
 		{
 			c.get(i).copyMonitored(up);
 			up=c.get(i).eval();	
 		}
+		c.get(c.size()-1).copyMonitored(up);//così update corretto
 		return up;
 	}
 	
 	@Override
 	public String toString() {
 		String string=c.get(0).toString();
-		//for parte da secondo elemento in parallelo
+		//for starts from 2nd pipe element
 		for(int i=1; i<c.size(); i++)
 		{
 			string=string+"|"+c.get(i).toString();
 		}
 		return string;
 	}
+	
 }
 
+//<|>
 class BiPipeHalfDup extends BiComposition {
 
-	BiPipe(Composition asm1, Composition asm2) throws Exception {
+	BiPipeHalfDup(Composition asm1, Composition asm2) throws Exception {
 		super(asm1, asm2);
 	}
-
+	
 	@Override
 	UpdateSet eval() {
-		// run della prima
+		// run first node
 		UpdateSet up = c1.eval();
-		// copio i riulstati
+		// result copied in the second node
 		c2.copyMonitored(up);
-		// eseguo s2
+		// run second node
 		up = c2.eval();
 		// dalla seconda alla prima
 		c1.copyMonitored(up);
+		// result copied in the first node
 		return up;
 	}
 
@@ -214,64 +215,66 @@ class BiPipeHalfDup extends BiComposition {
 	}
 }
 
+//inserisci nella parte finale tesi come possibilità di nuove implementazioni
+//<|>
+/*
+ * class NPipeHalfDup extends NComposition {
+ * 
+ * NPipeHalfDup(Composition...asm) throws Exception { super(asm); }
+ * 
+ * @Override UpdateSet eval() { UpdateSet up=c.get(0).eval(); //andata for(int
+ * i=1; i<c.size(); i++) { c.get(i).copyMonitored(up); up=c.get(i).eval(); }
+ * //ritorno for(int i=c.size()-2; i>0; i--) { c.get(i).copyMonitored(up);
+ * up=c.get(i).eval(); } c.get(0).copyMonitored(up);
+ * 
+ * return up; }
+ * 
+ * @Override public String toString() { String stringa=c.get(0).toString();
+ * for(int i=1; i<c.size(); i++) { stringa=stringa+"<|>"+c.get(i); } return
+ * stringa; } }
+ */
+
 //nuovo codice <||>
 class BiPipeFullDup extends BiComposition {
 
 	BiPipeFullDup(Composition asm1, Composition asm2) throws Exception {
 		super(asm1, asm2);
 	}
-	
-	UpdateSet[] evalbis() {
-		UpdateSet[]up=new UpdateSet[2];
 		
-		//full duplex pag. 9 CompositionalSimulationConfPaper
-		// 1° run
-		up[0] = c1.eval();
-		up[1] = c2.eval();
-		
-		// copio i riusltati
-		c2.copyMonitored(up[0]);
-		c1.copyMonitored(up[1]);
-		//UpdateSet ris=eval(up[0],c2)+(up[1],c1);
-		
-		return up;
+	@Override
+	UpdateSet eval() {
+		//double eval to simulate parallel
+		UpdateSet up1=c1.eval();
+		UpdateSet up2=c2.eval();
+		c2.copyMonitored(up1);
+		c1.copyMonitored(up2);
+		//results union
+		up1.union(up2);
+		return up1;
 	}
 	
 	@Override
 	public String toString() {
 		return c1.toString() + "<||>" + c2.toString();
 	}
-
-	//metodo non utilizzato
-	@Override
-	UpdateSet eval() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-}
-
-class Par extends BiComposition {
-
-	Par(Composition asm1, Composition asm2) throws Exception {
-		super(asm1, asm2);
-	}
-
-	@Override
-	UpdateSet eval() {
-		// run della prima
-		UpdateSet up1 = c1.eval();
-		UpdateSet up2 = c2.eval();
-		up1.union(up2);
-		System.out.println(up1.toString());
-		return up1;//up1 unione up2;
-	}
 	
-	@Override
-	public String toString() {
-		return c1.toString() + "||" + c2.toString();
-	}
-
 }
+
+/*
+ * class Par extends BiComposition {
+ * 
+ * Par(Composition asm1, Composition asm2) throws Exception { super(asm1, asm2);
+ * }
+ * 
+ * @Override UpdateSet eval() { // run della prima UpdateSet up1 = c1.eval();
+ * UpdateSet up2 = c2.eval(); up1.union(up2);
+ * System.out.println(up1.toString()); return up1;//up1 unione up2; }
+ * 
+ * @Override public String toString() { return c1.toString() + "||" +
+ * c2.toString(); }
+ * 
+ * }
+ */
 
 //nuovo codice
 class ParN extends NComposition{
@@ -284,10 +287,11 @@ class ParN extends NComposition{
 		UpdateSet up=c.get(0).eval();
 		for(int i = 1; i<c.size();i++)
 		{
-			UpdateSet upAppo=c.get(i).eval();
-			up.union(upAppo);
+			UpdateSet tempUp=c.get(i).eval();
+			up.union(tempUp);
 		}
-		System.out.println(up.toString());
+		c.get(c.size()-1).copyMonitored(up);
+		//System.out.println(up.toString());
 		return up;
 	}
 	
