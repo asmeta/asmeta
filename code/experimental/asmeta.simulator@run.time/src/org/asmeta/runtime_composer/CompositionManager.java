@@ -29,6 +29,7 @@ import asmeta.AsmCollection;
 import asmeta.definitions.Function;
 import asmeta.definitions.impl.MonitoredFunctionImpl;
 
+
 public class CompositionManager implements IModelComposition {
 	// SimulationContainer ID is set to 0 for testing purposes only.
 	// The architecture is ready to be distributed (not implemented yet).
@@ -38,7 +39,7 @@ public class CompositionManager implements IModelComposition {
 
 	private Map<AsmetaModel, RunOutput> outputMap;
 	private Map<String, Map<String, String>> myLastOutput;
-	private CompositionTreeNode compositionTree;
+	private Composition compositionTree;
 	private RunOutput lastOutput;
 	private Map<String, String> lastParLocationValue;
 	private boolean multiConsole;
@@ -55,8 +56,20 @@ public class CompositionManager implements IModelComposition {
 	CompositionRunType compRunType; //is the user using GUI or commander?
 	JPanel contentPane;
 	
+	/*
+	 * public CompositionManager(Composition compositionTree, boolean multiConsole,
+	 * CompositionRunType compRunType) { this.compositionT = compositionTree;
+	 * this.compRunType=compRunType; compositionModelList = new ArrayList<>();
+	 * outputMap = new HashMap<>(); this.multiConsole = multiConsole;
+	 * lastParLocationValue = null; lastOutput = null; initialConsole = null;
+	 * 
+	 * compositionModelList = compositionModelsLookUp(); // SILVIA 09/02/2022 -> get
+	 * all monitored for all the models monitoredModelsMap =
+	 * getMonitoredForModels(); }
+	 */
 
-	public CompositionManager(CompositionTreeNode compositionTree, boolean multiConsole, CompositionRunType compRunType) {
+
+	public CompositionManager(Composition compositionTree, boolean multiConsole, CompositionRunType compRunType) {
 		this.compositionTree = compositionTree;
 		this.compRunType=compRunType;
 		compositionModelList = new ArrayList<>();
@@ -71,8 +84,8 @@ public class CompositionManager implements IModelComposition {
 		monitoredModelsMap = getMonitoredForModels();
 	}
 
-	public CompositionManager(CompositionTreeNode compositionTree, ByteArrayOutputStream initialConsole,
-			boolean multiConsole, CompositionRunType compRunType, JPanel contentPane) {
+	public CompositionManager(Composition compositionTree, ByteArrayOutputStream initialConsole,
+			boolean multiConsole, CompositionRunType compRunType) {
 		this.contentPane=contentPane;
 		this.compositionTree = compositionTree;
 		this.compRunType=compRunType;
@@ -144,31 +157,35 @@ public class CompositionManager implements IModelComposition {
 		}
 		return monitoredList;
 	}
-
+	
+	//new code
+	public void run(int idComposition, Map<Integer, Composition> asmCompositions) {
+		asmCompositions.get(idComposition).eval();
+	}
+	
 	// Execute one step of the models composed in the compositionTree (id just for
 	// checking)
 	public void runStep(int id, Map<String, String> locationValue) throws CompositionException {
-		boolean correct = false;
-		for (AsmetaModel model : compositionModelList) {
-			if (model.getModelId() == id) {
-				correct = true;
-				break;
-			}
-		}
+		/*
+		 * boolean correct = false; for (AsmetaModel model : compositionModelList) { if
+		 * (model.getModelId() == id) { correct = true; break; } }
+		 */
 
-		if (correct) {
-			// 2021_12_01 Silvia: If there is the output of the second model in bid pipe use
-			// it as input of the first model in the next run
-			if (compositionTree.getType() == CompositionTreeNodeType.BID_PIPE_OPERATOR && outputPreviousRun != null) {
-				for (Map.Entry<String, String> pair : outputPreviousRun.entrySet()) {
-					locationValue.put(pair.getKey(), pair.getValue());
-				}
-				evaluateCompositionTree(compositionTree, locationValue, -1, -1);
-			} else
-				evaluateCompositionTree(compositionTree, locationValue, -1, -1);
-		}
-		lastOutput = null;
-		lastParLocationValue = null;
+		/*
+		 * if (correct) { // 2021_12_01 Silvia: If there is the output of the second
+		 * model in bid pipe use // it as input of the first model in the next run if
+		 * (compositionTree.getType() == CompositionTreeNodeType.HALF_BID_PIPE_OPERATOR
+		 * && outputPreviousRun != null) { for (Map.Entry<String, String> pair :
+		 * outputPreviousRun.entrySet()) { locationValue.put(pair.getKey(),
+		 * pair.getValue()); } evaluateCompositionTree(compositionTree, locationValue,
+		 * -1, -1); } else if (compositionTree.getType() ==
+		 * CompositionTreeNodeType.FULL_BID_PIPE_OPERATOR && outputPreviousRun != null)
+		 * { //new code for (Map.Entry<String, String> pair :
+		 * outputPreviousRun.entrySet()) { locationValue.put(pair.getKey(),
+		 * pair.getValue()); } evaluateCompositionTree(compositionTree, locationValue,
+		 * -1, -1); } else evaluateCompositionTree(compositionTree, locationValue, -1,
+		 * -1); } lastOutput = null; lastParLocationValue = null;
+		 */
 	}
 
 	// runUntilEmpty, runStepTimeout, runUntilEmptyTimeout e rollback per la
@@ -300,7 +317,7 @@ public class CompositionManager implements IModelComposition {
 					}
 				}
 				break;
-			case BID_PIPE:
+			case HALF_BID_PIPE:
 				if (modelList.size() == 2) {
 					AsmetaModel first = modelList.get(0);
 					AsmetaModel second = modelList.get(1);
@@ -572,7 +589,7 @@ public class CompositionManager implements IModelComposition {
 	}
 
 	private List<AsmetaModel> convertBidToPipe(CompositionTreeNode bidNode) { // Ottimizzazione
-		if (bidNode == null || bidNode.getType() != CompositionTreeNodeType.BID_PIPE_OPERATOR
+		if (bidNode == null || bidNode.getType() != CompositionTreeNodeType.HALF_BID_PIPE_OPERATOR
 				|| bidNode.childrenCount() != 2) {
 			return null;
 		}
@@ -643,7 +660,7 @@ public class CompositionManager implements IModelComposition {
 				}
 			}
 			break;
-		case BID_PIPE_OPERATOR:
+		case HALF_BID_PIPE_OPERATOR:
 			boolean simpleBid = true;
 			for (CompositionTreeNode child : node.getChildren()) {
 				if (child.getType() != CompositionTreeNodeType.MODEL) {
@@ -652,10 +669,10 @@ public class CompositionManager implements IModelComposition {
 			}
 			if (simpleBid) {
 				if (lastOutput != null) {
-					runTreeFromRunOutput(node.getChildren(), CompositionType.BID_PIPE, lastOutput, max,
+					runTreeFromRunOutput(node.getChildren(), CompositionType.HALF_BID_PIPE, lastOutput, max,
 							(int) Math.ceil(this.remainingExecutionTime));
 				} else {
-					runTreeFromLocationValue(node.getChildren(), CompositionType.BID_PIPE, locationValue, max,
+					runTreeFromLocationValue(node.getChildren(), CompositionType.HALF_BID_PIPE, locationValue, max,
 							(int) Math.ceil(this.remainingExecutionTime));
 				}
 
@@ -791,7 +808,7 @@ public class CompositionManager implements IModelComposition {
 		return null;
 	}
 
-	public AsmetaModel getModelFromModelList(int asmetaModelID, int simContainerID) {
+	public Composition getModelFromModelList(int asmetaModelID, int simContainerID) {
 		if (compositionModelList == null || compositionModelList.isEmpty()) {
 			return null;
 		}
@@ -804,9 +821,10 @@ public class CompositionManager implements IModelComposition {
 		return null;
 	}
 
-	public CompositionTreeNode getCompositionTreeRoot() {
-		return this.compositionTree.getRoot();
-	}
+	/*
+	 * public CompositionTreeNode getCompositionTreeRoot() { return
+	 * this.compositionTree.getRoot(); }
+	 */
 
 	public RunOutput getLastOutput() {
 		return this.lastOutput;
