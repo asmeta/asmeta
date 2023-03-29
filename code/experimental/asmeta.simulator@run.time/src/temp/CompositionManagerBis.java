@@ -1,4 +1,4 @@
-package org.asmeta.runtime_composer;
+package temp;
 
 /**
  * @author Michele Zenoni
@@ -20,6 +20,10 @@ import javax.swing.JPanel;
 
 import org.asmeta.parser.ASMParser;
 import org.asmeta.runtime_commander.Commander;
+import org.asmeta.runtime_composer.AsmetaModel;
+import org.asmeta.runtime_composer.Composition;
+import org.asmeta.runtime_composer.CompositionTreeNode;
+import org.asmeta.runtime_composer.IModelComposition;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.simulationUI.CompositionType;
@@ -29,8 +33,7 @@ import asmeta.AsmCollection;
 import asmeta.definitions.Function;
 import asmeta.definitions.impl.MonitoredFunctionImpl;
 
-
-public class CompositionManager implements IModelComposition {
+public class CompositionManagerBis implements IModelComposition {
 	// SimulationContainer ID is set to 0 for testing purposes only.
 	// The architecture is ready to be distributed (not implemented yet).
 	private static final int TEST_ID = 0;
@@ -39,7 +42,8 @@ public class CompositionManager implements IModelComposition {
 
 	private Map<AsmetaModel, RunOutput> outputMap;
 	private Map<String, Map<String, String>> myLastOutput;
-	private Composition compositionTree;
+	private CompositionTreeNode compositionTree;
+	private Composition compositionT;
 	private RunOutput lastOutput;
 	private Map<String, String> lastParLocationValue;
 	private boolean multiConsole;
@@ -69,7 +73,7 @@ public class CompositionManager implements IModelComposition {
 	 */
 
 
-	public CompositionManager(Composition compositionTree, boolean multiConsole, CompositionRunType compRunType) {
+	public CompositionManagerBis(CompositionTreeNode compositionTree, boolean multiConsole, CompositionRunType compRunType) {
 		this.compositionTree = compositionTree;
 		this.compRunType=compRunType;
 		compositionModelList = new ArrayList<>();
@@ -84,8 +88,8 @@ public class CompositionManager implements IModelComposition {
 		monitoredModelsMap = getMonitoredForModels();
 	}
 
-	public CompositionManager(Composition compositionTree, ByteArrayOutputStream initialConsole,
-			boolean multiConsole, CompositionRunType compRunType) {
+	public CompositionManagerBis(CompositionTreeNode compositionTree, ByteArrayOutputStream initialConsole,
+			boolean multiConsole, CompositionRunType compRunType, JPanel contentPane) {
 		this.contentPane=contentPane;
 		this.compositionTree = compositionTree;
 		this.compRunType=compRunType;
@@ -94,7 +98,7 @@ public class CompositionManager implements IModelComposition {
 		this.multiConsole = multiConsole;
 		lastParLocationValue = null;
 		lastOutput = null;
-		CompositionManager.initialConsole = initialConsole;
+		CompositionManagerBis.initialConsole = initialConsole;
 
 		compositionModelList = compositionModelsLookUp();
 		// SILVIA 09/02/2022 -> get all monitored for all the models
@@ -157,35 +161,39 @@ public class CompositionManager implements IModelComposition {
 		}
 		return monitoredList;
 	}
-	
-	//new code
-	public void run(int idComposition, Map<Integer, Composition> asmCompositions) {
-		asmCompositions.get(idComposition).eval();
-	}
-	
+
 	// Execute one step of the models composed in the compositionTree (id just for
 	// checking)
 	public void runStep(int id, Map<String, String> locationValue) throws CompositionException {
-		/*
-		 * boolean correct = false; for (AsmetaModel model : compositionModelList) { if
-		 * (model.getModelId() == id) { correct = true; break; } }
-		 */
+		boolean correct = false;
+		for (AsmetaModel model : compositionModelList) {
+			if (model.getModelId() == id) {
+				correct = true;
+				break;
+			}
+		}
 
-		/*
-		 * if (correct) { // 2021_12_01 Silvia: If there is the output of the second
-		 * model in bid pipe use // it as input of the first model in the next run if
-		 * (compositionTree.getType() == CompositionTreeNodeType.HALF_BID_PIPE_OPERATOR
-		 * && outputPreviousRun != null) { for (Map.Entry<String, String> pair :
-		 * outputPreviousRun.entrySet()) { locationValue.put(pair.getKey(),
-		 * pair.getValue()); } evaluateCompositionTree(compositionTree, locationValue,
-		 * -1, -1); } else if (compositionTree.getType() ==
-		 * CompositionTreeNodeType.FULL_BID_PIPE_OPERATOR && outputPreviousRun != null)
-		 * { //new code for (Map.Entry<String, String> pair :
-		 * outputPreviousRun.entrySet()) { locationValue.put(pair.getKey(),
-		 * pair.getValue()); } evaluateCompositionTree(compositionTree, locationValue,
-		 * -1, -1); } else evaluateCompositionTree(compositionTree, locationValue, -1,
-		 * -1); } lastOutput = null; lastParLocationValue = null;
-		 */
+		if (correct) {
+			// 2021_12_01 Silvia: If there is the output of the second model in bid pipe use
+			// it as input of the first model in the next run
+			if (compositionTree.getType() == CompositionTreeNodeType.HALF_BID_PIPE_OPERATOR && outputPreviousRun != null) {
+				for (Map.Entry<String, String> pair : outputPreviousRun.entrySet()) {
+					locationValue.put(pair.getKey(), pair.getValue());
+				}
+				evaluateCompositionTree(compositionTree, locationValue, -1, -1);
+			} 
+			else if (compositionTree.getType() == CompositionTreeNodeType.FULL_BID_PIPE_OPERATOR && outputPreviousRun != null) {
+				//new code
+				for (Map.Entry<String, String> pair : outputPreviousRun.entrySet()) {
+					locationValue.put(pair.getKey(), pair.getValue());
+				}
+				evaluateCompositionTree(compositionTree, locationValue, -1, -1);
+			}		
+			else
+				evaluateCompositionTree(compositionTree, locationValue, -1, -1);
+		}
+		lastOutput = null;
+		lastParLocationValue = null;
 	}
 
 	// runUntilEmpty, runStepTimeout, runUntilEmptyTimeout e rollback per la
@@ -808,7 +816,7 @@ public class CompositionManager implements IModelComposition {
 		return null;
 	}
 
-	public Composition getModelFromModelList(int asmetaModelID, int simContainerID) {
+	public AsmetaModel getModelFromModelList(int asmetaModelID, int simContainerID) {
 		if (compositionModelList == null || compositionModelList.isEmpty()) {
 			return null;
 		}
@@ -821,10 +829,9 @@ public class CompositionManager implements IModelComposition {
 		return null;
 	}
 
-	/*
-	 * public CompositionTreeNode getCompositionTreeRoot() { return
-	 * this.compositionTree.getRoot(); }
-	 */
+	public CompositionTreeNode getCompositionTreeRoot() {
+		return this.compositionTree.getRoot();
+	}
 
 	public RunOutput getLastOutput() {
 		return this.lastOutput;

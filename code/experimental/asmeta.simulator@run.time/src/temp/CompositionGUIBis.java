@@ -1,4 +1,4 @@
-package org.asmeta.simulationUI;
+package temp;
 
 /**
  * @author Michele Zenoni
@@ -26,13 +26,13 @@ import org.asmeta.runtime_composer.CompositionRunType;
 import org.asmeta.runtime_composer.CompositionTreeNode;
 import org.asmeta.runtime_container.SimulationContainer;
 
-public class CompositionGUI extends JFrame {
+public class CompositionGUIBis extends JFrame {
 	static JTabbedPane tabbedPane;
 	static SimulationContainer containerInstance;
 	static CompositionManager compositionManager;
 	static int modelCounter;
 
-	private static Map<Composition, CompositionPanel> compositionTabs;
+	private static Map<AsmetaModel, CompositionPanel> compositionTabs;
 
 	/**
 	 * Launch the application.
@@ -41,7 +41,7 @@ public class CompositionGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CompositionGUI window = new CompositionGUI(contInstance, compositionTree, contentPane);
+					CompositionGUIBis window = new CompositionGUIBis(contInstance, compositionTree, contentPane);
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,90 +53,11 @@ public class CompositionGUI extends JFrame {
 	/**
 	 * Initialize tabs (CompositionPanel) of the tabbed pane.
 	 */
-	public CompositionGUI(SimulationContainer contInstance, Composition compositionTree, JPanel contentPane) {
+	public CompositionGUIBis(SimulationContainer contInstance, Composition compositionTree, JPanel contentPane) {
 		containerInstance = contInstance;
-		//compositionTabs = new HashMap<AsmetaModel, CompositionPanel>();
-		compositionTabs = new HashMap<Composition, CompositionPanel>();
+		compositionTabs = new HashMap<AsmetaModel, CompositionPanel>();
 		compositionManager = new CompositionManager(compositionTree, SimGUI.simConsole, true,
 				CompositionRunType.SimGUI, contentPane);
-		//compositionManager = new CompositionManager(compositionTree, SimGUI.simConsole, false,
-		//		CompositionRunType.SimGUI, contentPane);
-		modelCounter = 0;
-
-		setTitle("Composition Monitor");
-		setIconImages(SimGUI.icons);
-		setBounds(100, 100, 700, 545);
-		setMinimumSize(new Dimension(650, 350));
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLocationRelativeTo(SimGUI.contentPane);
-
-		UIManager.put("OptionPane.messageFont", new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
-		UIManager.put("OptionPane.buttonFont", new Font("Segoe UI", Font.PLAIN, SimGUI.fontSize));
-
-		tabbedPane = new JTabbedPane();
-		tabbedPane.setFont(new Font("Segoe UI", Font.BOLD, SimGUI.fontSize));
-		setContentPane(tabbedPane);
-
-		/*
-		 * for (int i = 1; i < compositionTree.getAllChildrenModels().size(); i++) {
-		 * AsmetaModel compositionModel = compositionManager.getModelFromModelList(
-		 * compositionTree.getAllChildrenModels().get(i).getModelName(),
-		 * contInstance.getSimulatorId()); if (compositionModel != null) {
-		 * addTab(compositionModel.getModelId(), compositionModel.getSimulatorId()); } }
-		 */
-		addWindowListener(new WindowListener() {
-
-			@Override
-			public void windowOpened(WindowEvent e) {
-				return;
-			}
-
-			@Override
-			public void windowIconified(WindowEvent e) {
-				return;
-			}
-
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				return;
-			}
-
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-				return;
-			}
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-				SimGUI.loadedIDs = new ArrayList<>(containerInstance.getLoadedIDs().keySet());
-				if (SimGUI.loadedIDs.size() > 1) {
-					SimGUI.compositionMenuItem.setEnabled(true);
-					SimGUI.currentSimulationMenuItem.setEnabled(true);
-					SimGUI.compositionTypeMenu.setEnabled(true);
-				}
-			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				return;
-			}
-
-			@Override
-			public void windowActivated(WindowEvent e) {
-				return;
-			}
-		});
-	}
-	
-	/**
-	 * Initialize tabs (CompositionPanel) of the tabbed pane.
-	 */
-	public CompositionGUI(SimulationContainer contInstance, Composition compositionTree) {
-		containerInstance = contInstance;
-		//compositionTabs = new HashMap<AsmetaModel, CompositionPanel>();
-		compositionTabs = new HashMap<Composition, CompositionPanel>();
-		compositionManager = new CompositionManager(compositionTree, SimGUI.simConsole, true,
-				CompositionRunType.SimGUI);
 		//compositionManager = new CompositionManager(compositionTree, SimGUI.simConsole, false,
 		//		CompositionRunType.SimGUI, contentPane);
 		modelCounter = 0;
@@ -240,7 +161,7 @@ public class CompositionGUI extends JFrame {
 	}
 	
 	//public static Map<AsmetaModel, CompositionPanel> getCompositionTabs()
-	public static Map<Composition, CompositionPanel> getCompositionTabs() {
+	public static Map<AsmetaModel, CompositionPanel> getCompositionTabs() {
 		return compositionTabs;
 	}
 
