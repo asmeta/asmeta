@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.runtime_composer.CompositionException;
 import org.asmeta.runtime_composer.CompositionManager;
+import org.asmeta.runtime_composer.CompositionRunType;
 import org.asmeta.runtime_composer.CompositionTreeNode;
 import org.asmeta.runtime_composer.CompositionTreeNodeType;
 import org.asmeta.runtime_container.Esit;
@@ -917,7 +918,7 @@ public class Commander {
 	private static void cmdSetup(String argument) {
 		CompositionTreeNode compositionTree = parseComplex(argument);
 		if(compositionTree != null) {
-			compManager = new CompositionManager(compositionTree, false);
+			compManager = new CompositionManager(compositionTree, false, CompositionRunType.Commander);
 			//cmdInit("-n " + CompositionTreeNode.getNodeNumber());
 			CompositionTreeNode aux = null;
 			for(int i = 1; i <= CompositionTreeNode.getNodeNumber(); i++) {
