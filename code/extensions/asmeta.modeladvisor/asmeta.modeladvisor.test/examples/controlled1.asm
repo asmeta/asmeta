@@ -1,7 +1,7 @@
 // a controled that never takes a value
 asm controlled1
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 //bip

@@ -1377,11 +1377,11 @@ class Utility {
 
 		} else {
 
-			// se uno dei due è un Undef e l'altro no, ritorno quello non Undef
+			// se uno dei due Ã¨ un Undef e l'altro no, ritorno quello non Undef
 			if(dom1.name.equals("Undef") && !dom2.name.equals("Undef")) return dom2;
 			if(dom2.name.equals("Undef") && !dom1.name.equals("Undef")) return dom1;
 
-			// se uno dei due è concrete, allora scelgo il type domain 
+			// se uno dei due Ã¨ concrete, allora scelgo il type domain 
 			if (dom1 instanceof ConcreteDomain) {
 				if(dom1.typeDomain.name.equals(dom2.name)) return dom2
 			}
@@ -1402,7 +1402,7 @@ class Utility {
 
 		if(dom1 === dom2) return dom2
 
-		// Se uno dei due è undefDomain, ritorno l'altro
+		// Se uno dei due Ã¨ undefDomain, ritorno l'altro
 		if(dom1.name.equals("Undef")) return dom2
 		if(dom2.name.equals("Undef")) return dom1
 
@@ -1419,7 +1419,7 @@ class Utility {
 
 		} else {
 
-			// se uno dei due è concrete, allora scelgo il type domain 
+			// se uno dei due Ã¨ concrete, allora scelgo il type domain 
 			if (dom1 instanceof ConcreteDomain) {
 				if(dom1.typeDomain.name.equals(dom2.name)) return dom2
 			}

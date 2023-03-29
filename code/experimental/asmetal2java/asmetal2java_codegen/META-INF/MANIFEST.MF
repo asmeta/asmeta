@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: asmeta.asm2java
 Bundle-SymbolicName: asmeta.asm2java
-Bundle-Version: 21.06
+Bundle-Version: 22.04
 Export-Package: .,
  org.asmeta.asm2java,
  org.asmeta.asm2java.compiler,
@@ -17,8 +17,8 @@ Require-Bundle: org.junit;bundle-version="4.12.0",
  asmeta.simulator,
  asmeta.parser,
  org.apache.log4j,
- org.eclipse.cdt.core,
  org.eclipse.text,
  org.eclipse.core.resources
-Import-Package: org.eclipse.xtext.generator,
+Import-Package: org.eclipse.jdt.core.formatter,
+ org.eclipse.xtext.generator,
  org.eclipse.xtext.resource

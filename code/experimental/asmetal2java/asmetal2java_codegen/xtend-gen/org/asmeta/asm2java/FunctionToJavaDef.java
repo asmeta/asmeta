@@ -22,13 +22,13 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 @SuppressWarnings("all")
 public class FunctionToJavaDef extends ReflectiveVisitor<String> {
   private Asm asm;
-  
+
   private int i;
-  
+
   public FunctionToJavaDef(final Asm asm) {
     this.asm = asm;
   }
-  
+
   public String visit(final ControlledFunction object) {
     StringBuffer sb = new StringBuffer();
     if (((object.getCodomain() instanceof SequenceDomain) || (object.getDomain() instanceof SequenceDomain))) {
@@ -459,7 +459,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   public String visit(final MonitoredFunction object) {
     StringBuffer sb = new StringBuffer();
     Domain _domain = object.getDomain();
@@ -814,7 +814,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   public String visit(final DerivedFunction object) {
     StringBuffer sb = new StringBuffer();
     Domain _domain = object.getDomain();
@@ -987,7 +987,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   public String visit(final StaticFunction object) {
     StringBuffer sb = new StringBuffer();
     Domain _domain = object.getDomain();
@@ -1184,7 +1184,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   public String printVariables(final EList<VariableTerm> list) {
     StringBuffer sb = new StringBuffer();
     int _size = list.size();
@@ -1213,7 +1213,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
       return (_substring + ")");
     }
   }
-  
+
   public Boolean controllo(final String dominio) {
     if (((dominio.equals("Integer") || dominio.equals("String")) || dominio.equals("Boolean"))) {
       return Boolean.valueOf(true);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.asmeta.eclipse.AsmetaUtility;
 import org.eclipse.core.internal.resources.File;
+import org.eclipse.core.internal.runtime.Log;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.debug.core.DebugPlugin;

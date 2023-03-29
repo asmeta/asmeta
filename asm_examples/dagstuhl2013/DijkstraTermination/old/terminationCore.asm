@@ -47,7 +47,6 @@ function pred($m in Machine) =  (($m + 1) mod 4)
 //function isMaster(m) = (index(m)=0)
 function isMaster($m in Machine) = ($m = 0)
 
-
 main rule r_machine =
     forall $m in Machine with true do 
     par

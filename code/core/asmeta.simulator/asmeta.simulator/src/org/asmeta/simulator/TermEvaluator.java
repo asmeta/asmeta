@@ -634,7 +634,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 			ExistUniqueTerm existUniqueTerm) {
 		if (varIndex < existUniqueTerm.getVariable().size()) {
 			Term rangeTerm = (Term) domains[varIndex];
-			CollectionValue<?> range = (CollectionValue) visit(rangeTerm);
+			CollectionValue<?> range = (CollectionValue<?>) visit(rangeTerm);
 			int trueCounter = 0;
 			for (Value<?> value : range) {
 				boundValues[varIndex] = value;

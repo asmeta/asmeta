@@ -9,11 +9,11 @@ public class KnowledgeMVM extends Knowledge {
     /** Keeps the times when the MAPE loop completes*/
     //public List<Double> endTimeList = new ArrayList<Double>();    
 	
-	/** Monitored values from the PillBox*/ 
-	Map<String, String> input; //user input for the PillBox, and eventually sanitised by the enforcer
-	Map<String, String> probes; //probing values as exposed by the PillBox
-	Map<String, String> effectors; //effector values for the PillBox
-	Map<String, String> output; //output as computed by the PillBox, and eventually sanitised by the enforcer
+	/** Monitored values from the Controller*/ 
+	Map<String, String> input; //user input for the Controller, and eventually sanitised by the enforcer
+	Map<String, String> probes; //probing values as exposed by the Controller
+	Map<String, String> effectors; //effector values for the Controller
+	Map<String, String> output; //output as computed by the Controller, and eventually sanitised by the enforcer
 	   
 
 	public KnowledgeMVM() {

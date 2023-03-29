@@ -31,7 +31,7 @@ import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
 import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesFactory;
 
 /**
- * A rule factory.
+ * A rule factory. TODO to move into emf, since a project not depending on simulator may need it
  */
 public class RuleFactory extends TermFactory {
 	private BasictransitionrulesFactory rulePackage;

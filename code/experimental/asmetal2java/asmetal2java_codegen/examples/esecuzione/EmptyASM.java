@@ -1,5 +1,5 @@
-// EmptyASM.java automatically generated from ASM2CODE
 
+// EmptyASM.java automatically generated from ASM2CODE
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,73 +23,58 @@ import org.javatuples.Sextet;
 import org.javatuples.Triplet;
 
 abstract class EmptyASM_sig {
-
 	/////////////////////////////////////////////////
 	/// DOMAIN CONTAINERS
 	/////////////////////////////////////////////////
 	/* Domain containers here */
-
 	//Metodi di supporto per l'implementazione delle funzioni controlled
 	class zeroC<Domain> {
-
 		Domain oldValue;
 		Domain newValue;
 
 		void set(Domain d) {
-
 			newValue = d;
 		}
 
 		Domain get() {
-
 			return oldValue;
 		}
 	}
 
 	static class nC<Domain, Codomain> {
-
 		Map<Domain, Codomain> oldValues = new HashMap<>();
 		Map<Domain, Codomain> newValues = new HashMap<>();
 
 		void set(Domain d, Codomain c) {
-
 			newValues.put(d, c);
 		}
 
 		Codomain get(Domain d) {
-
 			return oldValues.get(d);
 		}
 	}
 
 	//Metodi di supporto per l'implementazione delle funzioni non controlled
-
 	class zero<Domain> {
-
 		Domain Value;
 
 		void set(Domain d) {
-
 			Value = d;
 		}
 
 		Domain get() {
-
 			return Value;
 		}
 	}
 
 	class n<Domain, Codomain> {
-
 		Map<Domain, Codomain> Values = new HashMap<>();
 
 		void set(Domain d, Codomain c) {
-
 			Values.put(d, c);
 		}
 
 		Codomain get(Domain d) {
-
 			return Values.get(d);
 		}
 	}
@@ -97,37 +82,24 @@ abstract class EmptyASM_sig {
 	/////////////////////////////////////////////////
 	/// FUNCTIONS
 	/////////////////////////////////////////////////
-
 	////////////////////////////////////////////////
 	/// RULE DEFINITION
 	/////////////////////////////////////////////////
 	/* Rule definition here */
-
-	abstract
-	void r_Main();
-
+	abstract void r_Main();
 }
 
 class EmptyASM extends EmptyASM_sig {
-
 	// Inizializzazione di funzioni e domini
-
 	EmptyASM() {
-
 		//Definizione iniziale dei domini statici
-
 		//Definizione iniziale dei domini dinamici
-
 		//Definizione iniziale dei domini astratti con funzini statiche
-
 		//Inizializzazione delle funzioni
-
 	}
 
 	// Definizione delle funzioni statiche
-
 	// Conversione delle regole ASM in metodi java
-
 	@Override
 	void r_Main() {
 		;
@@ -139,20 +111,15 @@ class EmptyASM extends EmptyASM_sig {
 
 	// applicazione dell'aggiornamento del set
 	void fireUpdateSet() {
-
 	}
 
 	//Metodo per l'aggiornamento dell'asm
-	void UpdateASM()
-	{
+	void UpdateASM() {
 		r_Main();
 		fireUpdateSet();
 		initControlledWithMonitored();
 	}
 
-public static void main(String[] args) {
+	public static void main(String[] args) {
 	}
-
 }
-
-

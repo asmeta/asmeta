@@ -1,5 +1,5 @@
-// AbstractDom.java automatically generated from ASM2CODE
 
+// AbstractDom.java automatically generated from ASM2CODE
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,14 +23,12 @@ import org.javatuples.Sextet;
 import org.javatuples.Triplet;
 
 abstract class AbstractDom_sig {
-
 	/////////////////////////////////////////////////
 	/// DOMAIN CONTAINERS
 	/////////////////////////////////////////////////
 	/* Domain containers here */
 	//Variabile di tipo astratto
 	static class NumCard {
-
 		static List<NumCard> elems = new ArrayList<NumCard>();
 		static List<String> val = new ArrayList<String>();
 
@@ -42,89 +40,69 @@ abstract class AbstractDom_sig {
 		String ToString(NumCard a) {
 			if (elems.contains(a)) {
 				return val.get(elems.lastIndexOf(a));
-			}
-
-			else
+			} else
 				return null;
 		}
 
 		static NumCard get(String a) {
 			if (val.contains(a)) {
-
 				return elems.get(val.lastIndexOf(a));
-			}
-
-			else
+			} else
 				return null;
 		}
-
 	}
 
 	List<String> NumCard_lista = new ArrayList<String>();
 	List<NumCard> NumCard_Class = new ArrayList<NumCard>();
 
 	//Metodi di supporto per l'implementazione delle funzioni controlled
-
 	class zeroC<Domain> {
-
 		Domain oldValue;
 		Domain newValue;
 
 		void set(Domain d) {
-
 			newValue = d;
 		}
 
 		Domain get() {
-
 			return oldValue;
 		}
 	}
 
 	static class nC<Domain, Codomain> {
-
 		Map<Domain, Codomain> oldValues = new HashMap<>();
 		Map<Domain, Codomain> newValues = new HashMap<>();
 
 		void set(Domain d, Codomain c) {
-
 			newValues.put(d, c);
 		}
 
 		Codomain get(Domain d) {
-
 			return oldValues.get(d);
 		}
 	}
 
 	//Metodi di supporto per l'implementazione delle funzioni non controlled
-
 	class zero<Domain> {
-
 		Domain Value;
 
 		void set(Domain d) {
-
 			Value = d;
 		}
 
 		Domain get() {
-
 			return Value;
 		}
 	}
 
 	class n<Domain, Codomain> {
-
 		Map<Domain, Codomain> Values = new HashMap<>();
 
 		void set(Domain d, Codomain c) {
-
 			Values.put(d, c);
 		}
 
 		Codomain get(Domain d) {
-
 			return Values.get(d);
 		}
 	}
@@ -139,36 +117,23 @@ abstract class AbstractDom_sig {
 	/// RULE DEFINITION
 	/////////////////////////////////////////////////
 	/* Rule definition here */
-
-	abstract
-	void r_Main();
-
+	abstract void r_Main();
 }
 
 class AbstractDom extends AbstractDom_sig {
-
 	// Inizializzazione di funzioni e domini
-
 	AbstractDom() {
-
 		//Definizione iniziale dei domini statici
-
 		//Definizione iniziale dei domini dinamici
-
 		//Definizione iniziale dei domini astratti con funzini statiche
-
 		card1 = new NumCard("card1");
 		NumCard_lista.add("card1");
 		NumCard_Class.add(card1);
-
 		//Inizializzazione delle funzioni
-
 	}
 
 	// Definizione delle funzioni statiche
-
 	// Conversione delle regole ASM in metodi java
-
 	@Override
 	void r_Main() {
 		;
@@ -180,20 +145,15 @@ class AbstractDom extends AbstractDom_sig {
 
 	// applicazione dell'aggiornamento del set
 	void fireUpdateSet() {
-
 	}
 
 	//Metodo per l'aggiornamento dell'asm
-	void UpdateASM()
-	{
+	void UpdateASM() {
 		r_Main();
 		fireUpdateSet();
 		initControlledWithMonitored();
 	}
 
-public static void main(String[] args) {
+	public static void main(String[] args) {
 	}
-
 }
-
-

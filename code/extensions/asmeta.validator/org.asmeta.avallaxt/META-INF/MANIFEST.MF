@@ -2,37 +2,27 @@ Manifest-Version: 1.0
 Automatic-Module-Name: org.asmeta.avallaxt
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.avallaxt
-Bundle-Vendor: My Company
-Bundle-Version: 21.06
+Bundle-Vendor: foselab.unibg.it
+Bundle-Version: 22.09
 Bundle-SymbolicName: org.asmeta.avallaxt; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,
  org.eclipse.equinox.common,
  org.eclipse.emf.ecore,
- org.eclipse.xtext.xbase.lib,
- org.antlr.runtime,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
  org.eclipse.xtext.util,
  org.eclipse.emf.common,
- org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib;bundle-version="2.14.0",
  asmeta.parser,
  asmeta.emf,
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.asmeta.avallaxt,
- org.asmeta.avallaxt.avallaXt;uses:="org.eclipse.emf.ecore,org.eclipse.emf.common.util",
- org.asmeta.avallaxt.avallaXt.impl;
-  uses:="org.eclipse.emf.ecore,
-   org.eclipse.emf.ecore.impl,
-   org.eclipse.emf.common.util,
-   org.asmeta.avallaxt.avallaXt,
-   org.eclipse.emf.common.notify",
- org.asmeta.avallaxt.avallaXt.util;
-  uses:="org.eclipse.emf.ecore,
-   org.asmeta.avallaxt.avallaXt,
-   org.eclipse.emf.common.notify,
-   org.eclipse.emf.common.notify.impl,
-   org.eclipse.emf.ecore.util",
+ org.asmeta.avallaxt.avalla,
+ org.asmeta.avallaxt.avalla.impl,
+ org.asmeta.avallaxt.avalla.util,
  org.asmeta.avallaxt.formatting2;uses:="org.asmeta.avallaxt.avallaXt,org.eclipse.xtext.formatting2",
  org.asmeta.avallaxt.generator,
  org.asmeta.avallaxt.parser.antlr;uses:="org.asmeta.avallaxt.parser.antlr.internal,org.asmeta.avallaxt.services,org.eclipse.xtext.parser.antlr",

@@ -12,6 +12,7 @@ import java.util.Set;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
@@ -42,28 +43,29 @@ public class AsmetaV {
 		return asmetaV.execValidation(new File(scenarioPath), coverage);
 	}
 
-	private AsmetaV() {
-
-	}
-
+	private AsmetaV(){}
+	
+	/** setup the logger**/
 	private static void setLogger() {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
 		// BasicConfigurator.configure();
 		Logger log = Logger.getRootLogger();
 		// log.setLevel(Level.INFO);
-		Enumeration<?> it = log.getAllAppenders();
-
 		// 03/03/2021 - Andrea
 		// Delete all the appenders of the root logger except a single ConsoleAppender
-		if (Collections.list(log.getAllAppenders()).stream().filter(x -> (x instanceof ConsoleAppender)).count() > 1) {
-
-			java.util.Optional app = Collections.list(log.getAllAppenders()).stream()
+		Enumeration<ConsoleAppender> allAppenders = log.getAllAppenders();
+		if (Collections.list(allAppenders).stream().filter(x -> (x instanceof ConsoleAppender)).count() > 1) {
+			java.util.Optional<ConsoleAppender> app = Collections.list(allAppenders).stream()
 					.filter(x -> (x instanceof ConsoleAppender)).findFirst();
-
 			if (app != null) {
-				ConsoleAppender consoleApp = (ConsoleAppender) app.get();
-				ConsoleAppender newConsoleApp = new ConsoleAppender(consoleApp.getLayout(), consoleApp.getTarget());
-				newConsoleApp.setLayout(new org.apache.log4j.PatternLayout());
+				ConsoleAppender newConsoleApp;
+				if (!app.isEmpty()) {
+					ConsoleAppender consoleApp = app.get();
+					newConsoleApp = new ConsoleAppender(consoleApp.getLayout(), consoleApp.getTarget());					
+				} else {
+					PatternLayout l = new org.apache.log4j.PatternLayout();
+					newConsoleApp = new ConsoleAppender(l);
+				}
 				log.removeAllAppenders();
 				log.addAppender(newConsoleApp);
 			}
@@ -78,7 +80,7 @@ public class AsmetaV {
 	/**
 	 * Exec validation.
 	 *
-	 * @param scenarioPath file containing the scenario or directory containign all
+	 * @param scenarioPath file containing the scenario or directory containing all
 	 *                     the scenarios
 	 * @param coverage     the coverage
 	 * @return true, if successful
@@ -123,7 +125,9 @@ public class AsmetaV {
 		System.out.println("\n** Simulation " + path + " **\n");
 		AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(path);
 		builder.save();
-		Simulator sim = Simulator.createSimulator(builder.getTempAsmPath().getPath());
+		File tempAsmPath = builder.getTempAsmPath();
+		System.out.println("** temp ASMETA saved in " + tempAsmPath.getAbsolutePath() + " **\n");
+		Simulator sim = Simulator.createSimulator(tempAsmPath.getPath());
 		sim.setShuffleFlag(true);
 		if (coverage) {
 			RuleEvaluator.COMPUTE_COVERAGE = true;

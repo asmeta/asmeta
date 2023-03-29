@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
-import org.asmeta.avallaxt.avallaXt.Scenario;
-import org.asmeta.avallaxt.avallaXt.Set;
+import org.asmeta.avallaxt.avalla.Scenario;
+import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.avallaxt.validation.ScenarioUtility;
 import org.asmeta.parser.ASMParser;
 import org.eclipse.emf.common.util.URI;
@@ -111,6 +111,7 @@ public class AsmetaFromAvallaBuilder {
 		oldMainName = mainrule.getName();
 		// create a temp file in the directory
 		File tempAsmPath = File.createTempFile("__tempAsmetaV", ".asm", tempAsmPathDir);
+		logger.debug("to file " + tempAsmPath.getAbsolutePath());
 		//
 		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath,modelPath, this);
 	}

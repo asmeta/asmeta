@@ -11,11 +11,11 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 @SuppressWarnings("all")
 public class AsmTsToCatch2Test extends TestSuiteTranslator {
   private int counter = 0;
-  
+
   public AsmTsToCatch2Test(final AsmCollection asm) {
     super(asm, "REQUIRE");
   }
-  
+
   @Override
   public CharSequence convertTestSuite(final AsmTestSuite testSuite) {
     StringConcatenation _builder = new StringConcatenation();
@@ -49,7 +49,7 @@ public class AsmTsToCatch2Test extends TestSuiteTranslator {
     }
     return _builder;
   }
-  
+
   public CharSequence printTestCase(final AsmTestSequence test) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("TEST_CASE( \"my_test_");

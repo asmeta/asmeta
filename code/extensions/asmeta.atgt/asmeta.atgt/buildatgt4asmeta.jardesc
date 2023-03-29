@@ -14,10 +14,10 @@
         <javaElement handleIdentifier="=tglib"/>
         <javaElement handleIdentifier="=atgt/src"/>
         <javaElement handleIdentifier="=atgt/experiments"/>
-        <folder path="/atgt/atgt_examples"/>
-        <javaElement handleIdentifier="=cov_combinatorial"/>
-        <folder path="/atgt/dist"/>
-        <javaElement handleIdentifier="=cov_mcdc"/>
         <javaElement handleIdentifier="=atgt/test"/>
+        <javaElement handleIdentifier="=cov_combinatorial"/>
+        <javaElement handleIdentifier="=cov_mcdc"/>
+        <folder path="/atgt/dist"/>
+        <folder path="/atgt/atgt_examples"/>
     </selectedElements>
 </jardesc>

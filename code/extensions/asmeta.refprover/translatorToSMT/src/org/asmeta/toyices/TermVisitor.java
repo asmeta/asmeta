@@ -51,6 +51,8 @@ public class TermVisitor extends ReflectiveVisitor<String> {
 	}
 
 	public String visit(Term term) {
+		if (term instanceof UndefTerm)
+			return null;
 		return visit((Object) term);
 	}
 

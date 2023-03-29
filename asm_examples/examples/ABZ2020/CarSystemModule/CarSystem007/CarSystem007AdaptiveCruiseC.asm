@@ -114,7 +114,7 @@ definitions:
 	
 	//@P_MAPE_CC
 	macro rule r_AcceleratePlan_CC =
-	   	if (currentSpeed < setVehicleSpeed) then
+	   	if currentSpeed < setVehicleSpeed then
 	   	par
 	   	  	acceleration := 2
 	   	  	//Assumption: The scs lever has the priority when modifing setvehiclespeed

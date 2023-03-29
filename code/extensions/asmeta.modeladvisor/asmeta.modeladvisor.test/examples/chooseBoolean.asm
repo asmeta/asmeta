@@ -1,6 +1,6 @@
 asm chooseBoolean
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	dynamic controlled foo: Boolean

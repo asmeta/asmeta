@@ -25,15 +25,15 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     Assert.assertTrue(writerPath.endsWith(".java"));
     this.compileAndWrite(asm, writerPath, "JAVA", userOptions);
   }
-  
+
   private List<Rule> seqCalledRules;
-  
+
   private String supp;
-  
+
   private int NvarC = 1;
-  
+
   private int NvarM = 1;
-  
+
   @Override
   public String compileAsm(final Asm asm) {
     if (this.options.optimizeSeqMacroRule) {
@@ -492,16 +492,16 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     _builder.append("\t\t\t\t");
     _builder.append("//\"traduzione\" della funzione askMonitored(esecuzione) del file _Exe");
     _builder.newLine();
-    _builder.append("\t\t\t    ");
+    _builder.append("\t\t\t\t   ");
     String _MonitoredUpdate = this.MonitoredUpdate(asm);
-    _builder.append(_MonitoredUpdate, "\t\t\t    ");
+    _builder.append(_MonitoredUpdate, "\t\t\t\t   ");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t\t\t    ");
+    _builder.append("\t\t\t\t   ");
     _builder.newLine();
-    _builder.append("\t\t\t    ");
+    _builder.append("\t\t\t\t   ");
     _builder.append("//Aggiornamento dell\'ASM");
     _builder.newLine();
-    _builder.append("\t\t\t    ");
+    _builder.append("\t\t\t\t   ");
     _builder.append("esecuzione.UpdateASM();");
     _builder.newLine();
     _builder.append("\t\t");
@@ -517,7 +517,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     return _builder.toString();
   }
-  
+
   public String ControlledDeclaration(final Asm asm) {
     StringBuffer sb = new StringBuffer();
     EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
@@ -1006,7 +1006,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_3.append(this.NvarC, " ");
             _builder_3.append("_4);");
             _builder_3.newLineIfNotEmpty();
-            _builder_3.append(" \t\t\t\t    \t\t ");
+            _builder_3.append("\t\t\t\t    \t\t ");
             _builder_3.newLine();
             _builder_3.append(" ");
             _builder_3.append("JTextField VariabileControlled_Valore_");
@@ -1043,7 +1043,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     this.NvarC = 1;
     return sb.toString();
   }
-  
+
   public String MonitoredDeclaration(final Asm asm) {
     StringBuffer sb = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
@@ -1578,7 +1578,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_5.append(this.NvarM, "\t\t");
             _builder_5.append("_2.setText(\"Insert Boolean\");");
             _builder_5.newLineIfNotEmpty();
-            _builder_5.append("    ");
+            _builder_5.append("\t\t  ");
             _builder_5.append("}");
             _builder_5.newLine();
             _builder_5.newLine();
@@ -1810,7 +1810,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     this.NvarM = 1;
     return sb.toString();
   }
-  
+
   public String ControlledUpdate(final Asm asm) {
     StringBuffer sb = new StringBuffer();
     EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
@@ -1898,9 +1898,15 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
           Domain _codomain = ((ControlledFunction)fd).getCodomain();
           if ((_codomain instanceof ConcreteDomain)) {
             StringConcatenation _builder_1 = new StringConcatenation();
+            _builder_1.append("\t\t\t\t\t\t\t");
             _builder_1.newLine();
+            _builder_1.append("\t\t\t\t\t\t\t");
+            _builder_1.newLine();
+            _builder_1.append("\t\t\t\t\t\t\t");
             _builder_1.newLine();
             _builder_1.append("try{");
+            _builder_1.newLine();
+            _builder_1.append("\t\t\t\t\t\t\t");
             _builder_1.newLine();
             _builder_1.append("VariabileControlled_Valore_");
             _builder_1.append(this.NvarC);
@@ -1909,25 +1915,40 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_1.append(_name_8);
             _builder_1.append(".get().value.toString());");
             _builder_1.newLineIfNotEmpty();
+            _builder_1.append("\t\t\t\t\t\t\t");
+            _builder_1.newLine();
             _builder_1.append("} catch( NullPointerException errC");
             _builder_1.append(this.NvarC);
             _builder_1.append(")");
             _builder_1.newLineIfNotEmpty();
+            _builder_1.append("\t\t\t\t\t\t\t");
+            _builder_1.newLine();
             _builder_1.append("{");
+            _builder_1.newLine();
+            _builder_1.append("\t\t\t\t\t\t\t");
             _builder_1.newLine();
             _builder_1.append(" ");
             _builder_1.append("VariabileControlled_Valore_");
             _builder_1.append(this.NvarC, " ");
             _builder_1.append(".setText(\"null\");");
             _builder_1.newLineIfNotEmpty();
+            _builder_1.append("\t\t\t\t\t\t\t");
+            _builder_1.newLine();
+            _builder_1.append("\t\t\t\t    \t\t");
             _builder_1.append("}");
             _builder_1.newLine();
+            _builder_1.append("\t\t\t\t\t\t\t");
             _builder_1.newLine();
+            _builder_1.append("\t\t\t\t\t\t\t");
+            _builder_1.newLine();
+            _builder_1.newLine();
+            _builder_1.append("\t\t\t\t\t\t");
             _builder_1.newLine();
             sb.append(_builder_1);
             this.NvarC++;
           }
-          if (((((ControlledFunction)fd).getCodomain().getName().equals("Integer") || ((ControlledFunction)fd).getCodomain().getName().equals("Boolean")) || ((ControlledFunction)fd).getCodomain().getName().equals("String"))) {
+          if (((((ControlledFunction)fd).getCodomain().getName().equals("Integer") || ((ControlledFunction)fd).getCodomain().getName().equals("Boolean")) || 
+            ((ControlledFunction)fd).getCodomain().getName().equals("String"))) {
             StringConcatenation _builder_2 = new StringConcatenation();
             _builder_2.newLine();
             _builder_2.newLine();
@@ -2128,9 +2149,9 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.append(" ");
             _builder_6.append("{");
             _builder_6.newLine();
-            _builder_6.append("  ");
+            _builder_6.append(" ");
             _builder_6.append("VariabileControlled_Text_");
-            _builder_6.append(this.NvarC, "  ");
+            _builder_6.append(this.NvarC, " ");
             _builder_6.append("_1.setText(\"null\");");
             _builder_6.newLineIfNotEmpty();
             _builder_6.append(" ");
@@ -2247,9 +2268,9 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_7.append(" ");
             _builder_7.append("{");
             _builder_7.newLine();
-            _builder_7.append("  ");
+            _builder_7.append(" ");
             _builder_7.append("VariabileControlled_Valore_");
-            _builder_7.append(this.NvarC, "  ");
+            _builder_7.append(this.NvarC, " ");
             _builder_7.append("_2.setText(\"null\");");
             _builder_7.newLineIfNotEmpty();
             _builder_7.append(" ");
@@ -2325,7 +2346,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     this.NvarC = 1;
     return sb.toString();
   }
-  
+
   public String MonitoredUpdate(final Asm asm) {
     StringBuffer sb = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();

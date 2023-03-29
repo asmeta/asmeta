@@ -1,6 +1,6 @@
 asm usedDomain
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	domain SubDom subsetof Integer //could be reduced in size. Elements {6, 5} could be removed.

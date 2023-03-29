@@ -220,5 +220,22 @@ public class RefinementTest {
 		assertTrue(result[1]);
 	}
 
+	@Test
+	public void testMVM_2() throws Exception {
+		String path = "F:\\Dati-Andrea\\GitHub\\RATE\\Case_studies\\MVM\\ASM\\";
+		RefinementProof proof = new RefinementProof(path+"MVM_00\\Ventilatore0.asm", path +"MVM_01\\Ventilatore1.asm");
+		boolean[] result = proof.buildProof();
+		assertTrue(result[0]);
+		assertTrue(result[1]);
+		proof = new RefinementProof(path+"MVM_01\\Ventilatore1.asm", path +"MVM_02\\Ventilatore2.asm");
+		result = proof.buildProof();
+		assertTrue(result[0]);
+		assertTrue(result[1]);
+		proof = new RefinementProof(path+"MVM_02\\Ventilatore2.asm", path +"MVM_3\\Ventilatore4SimpleTimeLtdY.asm");
+		result = proof.buildProof();
+		assertTrue(result[0]);
+		assertTrue(result[1]);
+	}
+
 	
 }

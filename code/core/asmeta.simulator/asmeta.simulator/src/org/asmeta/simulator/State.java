@@ -219,7 +219,7 @@ public class State extends LocationSet {
 			newAssignment.put(variables, arguments);
 			TermEvaluator newTermEvaluator = new TermEvaluator(this, environment, newAssignment);
 //			// FIXME does this code work?
-			// I get the null pointer since it sets the nev to null !!!
+			// I get the null pointer since it sets the env to null !!!
 //			TermEvaluator newTermEvaluator = 
 //				new TermEvaluator(null, null, newAssignment);
 			Term body = funcInit.getBody();

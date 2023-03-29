@@ -17,12 +17,12 @@ import org.eclipse.xtext.xbase.lib.InputOutput;
 @SuppressWarnings("all")
 public abstract class AsmToJavaGenerator implements IGenerator {
   protected TranslatorOptions options;
-  
+
   @Override
   public void doGenerate(final Resource input, final IFileSystemAccess fsa) {
     throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
-  
+
   protected void compileAndWrite(final Asm asm, final String writerPath, final String msg, final TranslatorOptions userOptions) {
     try {
       InputOutput.<String>println(((msg + " file generation in ") + writerPath));
@@ -46,9 +46,9 @@ public abstract class AsmToJavaGenerator implements IGenerator {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   protected abstract String compileAsm(final Asm asm);
-  
+
   public final String compileAsm(final Asm asm, final TranslatorOptions options) {
     String _xblockexpression = null;
     {

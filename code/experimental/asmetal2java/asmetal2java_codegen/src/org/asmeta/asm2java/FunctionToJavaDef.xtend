@@ -59,31 +59,31 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					
 					sb.append('''
 					    
-					    for(int «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»=0; «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))» < «new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems.size(); «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»++ ){
+					    for(int Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»=0; Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â» < Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â».elems.size(); Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»++ ){
 					    	
 					    	
-					    	«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)»_elem.value = «new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems.get(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»);
+					    	Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â»_elem.value = Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â».elems.get(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»);
 					    
 					''')
-				    //Controllo se il dominio è di tipo Astratto
+				    //Controllo se il dominio Â» di tipo Astratto
 					else if (object.initialization.get(0).variable.get(i).domain instanceof AbstractTd)
 					
 					sb.append('''
-						for(«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»: «new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems){
+						for(Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â» Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»: Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â».elems){
 					''')
 					
 					
 					else if (object.initialization.get(0).variable.get(i).domain instanceof EnumTd)
 					
 					sb.append('''
-						for(«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»: «new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)».values()){
+						for(Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â» Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»: Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â».values()){
 					''')
 	
 					
-					//Se il dominio è astratto
+					//Se il dominio Â» astratto
 					else
                     sb.append('''
-						for(«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»: «new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems){
+						for(Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â» Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»: Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â».elems){
 					''')
 					
 			}
@@ -96,15 +96,15 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
                if(a.equals(b))
 			   sb.append('''
-			   				      «object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-			   				      «object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
+			   				      Â«object.nameÂ».oldValues.put(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»,Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â»);
+			   				      Â«object.nameÂ».newValues.put(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»,Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â»);
 			   				''')
                else
-			   sb.append('''«new ToString(asm).visit(object.codomain)» «new TermToJava(asm).visit(object.initialization.get(0).body)» = new «new ToString(asm).visit(object.codomain)»("«new TermToJava(asm).visit(object.initialization.get(0).body)»");
+			   sb.append('''Â«new ToString(asm).visit(object.codomain)Â» Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â» = new Â«new ToString(asm).visit(object.codomain)Â»("Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â»");
 				
 
-				      «object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-				      «object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
+				      Â«object.nameÂ».oldValues.put(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»,Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â»);
+				      Â«object.nameÂ».newValues.put(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»,Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â»);
 				''')
 				
 		
@@ -113,16 +113,16 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			else if(controllo(object.codomain.name) || object.codomain instanceof EnumTd)
 			{
 			   if(object.domain instanceof ConcreteDomain && controllo(object.codomain.name))
-			   sb.append('''«new ToString(asm).visit(object.codomain)» a «new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)»;
+			   sb.append('''Â«new ToString(asm).visit(object.codomain)Â» a Â«new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)Â»;
 				
-				      «object.name».oldValues.put(«object.domain.name»_elem,a);
-				      «object.name».newValues.put(«object.domain.name»_elem,a);
+				      Â«object.nameÂ».oldValues.put(Â«object.domain.nameÂ»_elem,a);
+				      Â«object.nameÂ».newValues.put(Â«object.domain.nameÂ»_elem,a);
 				''')
 			   else
-			   sb.append('''«new ToString(asm).visit(object.codomain)» a «new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)»;
+			   sb.append('''Â«new ToString(asm).visit(object.codomain)Â» a Â«new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)Â»;
 				
-				      «object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
-				      «object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
+				      Â«object.nameÂ».oldValues.put(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»,a);
+				      Â«object.nameÂ».newValues.put(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»,a);
 				''')
 			}
 			
@@ -131,14 +131,14 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			{
 			//In ogni caso si studia lo sviluppo delle definizioni delle funzioni
 			
-			    sb.append('''«new ToString(asm).visit(object.codomain)» a = new «new ToString(asm).visit(object.codomain)»();
+			    sb.append('''Â«new ToString(asm).visit(object.codomain)Â» a = new Â«new ToString(asm).visit(object.codomain)Â»();
 			    
-			           a.value «new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)»;
+			           a.value Â«new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)Â»;
 			           ''')
 				      
 				  if(object.domain instanceof ProductDomain)
 				  {
-				    sb.append(''' «object.name»_elem = new ''')
+				    sb.append(''' Â«object.nameÂ»_elem = new ''')
 				    
 				    switch(object.initialization.get(0).variable.size)
 		            {
@@ -191,33 +191,33 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 		            for(var i =0; i<object.initialization.get(0).variable.size;i++)
 		            {
 		             if(i != object.initialization.get(0).variable.size-1)
-		             sb.append('''«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)»,''')
+		             sb.append('''Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â»,''')
 		             else
-		             sb.append('''«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)»>(''')
+		             sb.append('''Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â»>(''')
 		             
 		            }
 		            
 		            for(var i =0; i<object.initialization.get(0).variable.size;i++)
 		            {
 		             if(i != object.initialization.get(0).variable.size-1)
-		             sb.append('''«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)»_elem,''')
+		             sb.append('''Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â»_elem,''')
 		             else
-		             sb.append('''«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)»_elem);
+		             sb.append('''Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â»_elem);
 		             ''')
 		             
 		            }
 		        
 		          sb.append('''    
-				      «object.name».oldValues.put(«object.name»_elem,a);
-				      «object.name».newValues.put(«object.name»_elem,a);
+				      Â«object.nameÂ».oldValues.put(Â«object.nameÂ»_elem,a);
+				      Â«object.nameÂ».newValues.put(Â«object.nameÂ»_elem,a);
 				''')  
 		            
 				      
 				  }
 				 else 
 				 sb.append('''    
-				      «object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
-				      «object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
+				      Â«object.nameÂ».oldValues.put(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»,a);
+				      Â«object.nameÂ».newValues.put(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»,a);
 				''')
 			
 
@@ -228,7 +228,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				sb.append('''}''')
 		}
 		
-		//Caso nel quale il dominio è nullo, quindi presente solo il codominio
+		//Caso nel quale il dominio Â» nullo, quindi presente solo il codominio
          else {
          	
          	
@@ -237,7 +237,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
          	{
          		sb.
 			    append('''
-			    «object.name».oldValue = «object.name».newValue = «new TermToJava(asm).visit(object.initialization.get(0).body)»;
+			    Â«object.nameÂ».oldValue = Â«object.nameÂ».newValue = Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â»;
 			    ''')
          	}
          	
@@ -245,9 +245,9 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			else sb.
 			    append('''		
 			    
-			    «object.codomain.name»_elem.value = «new TermToJava(asm).visit(object.initialization.get(0).body)»;
+			    Â«object.codomain.nameÂ»_elem.value = Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â»;
 			    
-			    «object.name».oldValue = «object.name».newValue = «object.codomain.name»_elem;
+			    Â«object.nameÂ».oldValue = Â«object.nameÂ».newValue = Â«object.codomain.nameÂ»_elem;
 			    
 			    ''')
 		}
@@ -269,17 +269,17 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					
 					sb.append('''
 					    
-					    for(int «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»=0; «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))» < «new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems.size()-1; «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»++ ){
+					    for(int Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»=0; Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â» < Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â».elems.size()-1; Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»++ ){
 					    	
-					    	«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»Val = new «new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)»();
-					    	«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»Val.value = «new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems.get(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»);
+					    	Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â» Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»Val = new Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â»();
+					    	Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»Val.value = Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â».elems.get(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»);
 					    
 					''')
 				
 				else if (object.initialization.get(0).variable.get(i).domain instanceof AbstractTd)
 				{
 						sb.append('''
-						for(«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»: «new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems){
+						for(Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â» Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»: Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â».elems){
 					''')
 
 				}
@@ -287,11 +287,11 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				else if (object.initialization.get(0).variable.get(i).domain instanceof EnumTd)
 					
 					sb.append('''
-						for(«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»: «new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)».values()){
+						for(Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â» Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»: Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â».values()){
 					''')
 				else
                     sb.append('''
-						for(«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»: «new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems){
+						for(Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â» Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»: Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â».elems){
 					''')
 				}
 				
@@ -302,26 +302,26 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				
 
                if(a.equals(b))
-			   sb.append('''«object.name».Values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
+			   sb.append('''Â«object.nameÂ».Values.put(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»,Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â»);
 			   				''')
                else
-			         sb.append('''«new ToString(asm).visit(object.codomain)» «new TermToJava(asm).visit(object.initialization.get(0).body)» = new «new ToString(asm).visit(object.codomain)»("«new TermToJava(asm).visit(object.initialization.get(0).body)»");
+			         sb.append('''Â«new ToString(asm).visit(object.codomain)Â» Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â» = new Â«new ToString(asm).visit(object.codomain)Â»("Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â»");
 				
 				      
 
 				      
-				      «object.name».Values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
+				      Â«object.nameÂ».Values.put(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»,Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â»);
 				''')				
 			   }
 			   
 			   else if(controllo(object.codomain.name) || object.codomain instanceof EnumTd)
 			{
-			   sb.append('''«new ToString(asm).visit(object.codomain)» a «new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)»;
+			   sb.append('''Â«new ToString(asm).visit(object.codomain)Â» a Â«new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)Â»;
 				
 				      
 
 				      
-				      «object.name».Values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
+				      Â«object.nameÂ».Values.put(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»,a);
 				''')
 			}
 				
@@ -329,14 +329,14 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			{
 			//In ogni caso si studia lo sviluppo delle definizioni delle funzioni
 			
-			    sb.append('''«new ToString(asm).visit(object.codomain)» a = new «new ToString(asm).visit(object.codomain)»();
+			    sb.append('''Â«new ToString(asm).visit(object.codomain)Â» a = new Â«new ToString(asm).visit(object.codomain)Â»();
 			    
-			           a.value «new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)»;
+			           a.value Â«new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)Â»;
 			           ''')
 				
 				 if(object.domain instanceof ProductDomain)
 				  {
-				    sb.append(''' «object.name»_elem = new ''')
+				    sb.append(''' Â«object.nameÂ»_elem = new ''')
 				    
 				    switch(object.initialization.get(0).variable.size)
 		            {
@@ -389,31 +389,31 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 		            for(var i =0; i<object.initialization.get(0).variable.size;i++)
 		            {
 		             if(i != object.initialization.get(0).variable.size-1)
-		             sb.append('''«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)»,''')
+		             sb.append('''Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â»,''')
 		             else
-		             sb.append('''«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)»>(''')
+		             sb.append('''Â«new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)Â»>(''')
 		             
 		            }
 		            
 		            for(var i =0; i<object.initialization.get(0).variable.size;i++)
 		            {
 		             if(i != object.initialization.get(0).variable.size-1)
-		             sb.append('''«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»Val,''')
+		             sb.append('''Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»Val,''')
 		             else
-		             sb.append('''«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»Val);
+		             sb.append('''Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»Val);
 		             ''')
 		             
 		            }
 		        
 		          sb.append('''    
-				      «object.name».Values.put(«object.name»_elem,a);
+				      Â«object.nameÂ».Values.put(Â«object.nameÂ»_elem,a);
 				''')  
 		            
 				      
 				  }     
 
 				 sb.append('''    
-				      «object.name».Values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
+				      Â«object.nameÂ».Values.put(Â«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))Â»,a);
 				''')	
 			}
 			
@@ -431,7 +431,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
          	{
          		sb.
 			    append('''
-			    «object.name».Value = «new TermToJava(asm).visit(object.initialization.get(0).body)»;
+			    Â«object.nameÂ».Value = Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â»;
 			    ''')
          	}
          	
@@ -441,9 +441,9 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				sb.
 			    append('''		
 			    
-			    «object.codomain.name»_elem.value = «new TermToJava(asm).visit(object.initialization.get(0).body)»;
+			    Â«object.codomain.nameÂ»_elem.value = Â«new TermToJava(asm).visit(object.initialization.get(0).body)Â»;
 			    
-			    «object.name».Value = «object.name».Value = «object.codomain.name»_elem;
+			    Â«object.nameÂ».Value = Â«object.nameÂ».Value = Â«object.codomain.nameÂ»_elem;
 			    
 			    ''')
 							
@@ -464,11 +464,11 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			
 			if(object.definition.body instanceof CaseTerm)
 			{
-				sb.append('''«new ToString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ «new TermToJava(asm).visit(object.definition.body)»}''')
+				sb.append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(Â«new Util().adaptRuleParam(object.definition.variable,asm)Â»){ Â«new TermToJava(asm).visit(object.definition.body)Â»}''')
 			}
 				else if(object.definition.body instanceof ForallTerm)
 			{
-				sb.append('''«new ToString(asm).visit(object.codomain)» «object.name»( return «new Util().adaptRuleParam(object.definition.variable,asm)»){ «new TermToJava(asm).visit(object.definition.body)»}''')
+				sb.append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»( return Â«new Util().adaptRuleParam(object.definition.variable,asm)Â»){ Â«new TermToJava(asm).visit(object.definition.body)Â»}''')
 			}
 			else 
 			{
@@ -476,10 +476,10 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			 if(object.codomain instanceof ConcreteDomain)
 			{
 				sb.
-				append('''«new ToString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){
+				append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(Â«new Util().adaptRuleParam(object.definition.variable,asm)Â»){
 					
-					«object.codomain.name» supp = new «object.codomain.name»();
-					supp.value = «new TermToJava(asm).visit(object.definition.body)»;
+					Â«object.codomain.nameÂ» supp = new Â«object.codomain.nameÂ»();
+					supp.value = Â«new TermToJava(asm).visit(object.definition.body)Â»;
 					
 					return supp;
 				}''')
@@ -487,7 +487,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			}
 			else
 			 sb.
-				append('''«new ToString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
+				append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(Â«new Util().adaptRuleParam(object.definition.variable,asm)Â»){return Â«new TermToJava(asm).visit(object.definition.body)Â»;}''')
 		
 		
             }
@@ -495,11 +495,11 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			
 				if(object.definition.body instanceof CaseTerm)
 			{
-				sb.append('''«new ToString(asm).visit(object.codomain)» «object.name»(){ «new TermToJava(asm).visit(object.definition.body)»}''')
+				sb.append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(){ Â«new TermToJava(asm).visit(object.definition.body)Â»}''')
 			}
 				else if(object.definition.body instanceof ForallTerm)
 			{
-				sb.append('''«new ToString(asm).visit(object.codomain)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»}''')
+				sb.append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(){ return Â«new TermToJava(asm).visit(object.definition.body)Â»}''')
 			}
 			else 
 			{
@@ -507,17 +507,17 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			 if(object.codomain instanceof ConcreteDomain)
 			{
 				sb.
-				append('''«new ToString(asm).visit(object.codomain)» «object.name»(){
+				append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(){
 					
-					«object.codomain.name»_elem.value = «new TermToJava(asm).visit(object.definition.body)»;
+					Â«object.codomain.nameÂ»_elem.value = Â«new TermToJava(asm).visit(object.definition.body)Â»;
 					
-					return «object.codomain.name»_elem;
+					return Â«object.codomain.nameÂ»_elem;
 				}''')
 		
 			}
 			else	
 			 sb.
-				append('''«new ToString(asm).visit(object.codomain)» «object.name»(){return «new TermToJava(asm).visit(object.definition.body)»;}''')
+				append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(){return Â«new TermToJava(asm).visit(object.definition.body)Â»;}''')
 		
 		
             } 	
@@ -534,11 +534,11 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			
 				if(object.definition.body instanceof CaseTerm)
 			{
-				sb.append('''«new ToString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ «new TermToJava(asm).visit(object.definition.body)»}''')
+				sb.append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(Â«new Util().adaptRuleParam(object.definition.variable,asm)Â»){ Â«new TermToJava(asm).visit(object.definition.body)Â»}''')
 			}
 				else if(object.definition.body instanceof ForallTerm)
 			{
-				sb.append('''«new ToString(asm).visit(object.codomain)» «object.name»( return «new Util().adaptRuleParam(object.definition.variable,asm)»){ «new TermToJava(asm).visit(object.definition.body)»}''')
+				sb.append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»( return Â«new Util().adaptRuleParam(object.definition.variable,asm)Â»){ Â«new TermToJava(asm).visit(object.definition.body)Â»}''')
 			}			
 			else 
 			{
@@ -546,10 +546,10 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			 if(object.codomain instanceof ConcreteDomain)
 			{
 				sb.
-				append('''«new ToString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){
+				append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(Â«new Util().adaptRuleParam(object.definition.variable,asm)Â»){
 					
-					«object.codomain.name» supp = new «object.codomain.name»();
-					supp.value = «new TermToJava(asm).visit(object.definition.body)»;
+					Â«object.codomain.nameÂ» supp = new Â«object.codomain.nameÂ»();
+					supp.value = Â«new TermToJava(asm).visit(object.definition.body)Â»;
 					
 					return supp;
 				}''')
@@ -559,12 +559,12 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			else if (object.codomain instanceof SequenceDomain)
 			{
 				sb.
-				append('''ArrayList«new ToString(asm).visit(object.codomain)» «object.name»(ArrayList«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
+				append('''ArrayListÂ«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(ArrayListÂ«new Util().adaptRuleParam(object.definition.variable,asm)Â»){return Â«new TermToJava(asm).visit(object.definition.body)Â»;}''')
 			}
 			
 			else
 			 sb.
-				append('''«new ToString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
+				append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(Â«new Util().adaptRuleParam(object.definition.variable,asm)Â»){return Â«new TermToJava(asm).visit(object.definition.body)Â»;}''')
 		
 		
             } 		
@@ -575,11 +575,11 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			
 				if(object.definition.body instanceof CaseTerm)
 			{
-				sb.append('''«new ToString(asm).visit(object.codomain)» «object.name»(){ «new TermToJava(asm).visit(object.definition.body)»}''')
+				sb.append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(){ Â«new TermToJava(asm).visit(object.definition.body)Â»}''')
 			}
 				else if(object.definition.body instanceof ForallTerm)
 			{
-				sb.append('''«new ToString(asm).visit(object.codomain)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»}''')
+				sb.append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(){ return Â«new TermToJava(asm).visit(object.definition.body)Â»}''')
 			}
 			else 
 			{
@@ -587,11 +587,11 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			 if(object.codomain instanceof ConcreteDomain)
 			{
 				sb.
-				append('''«new ToString(asm).visit(object.codomain)» «object.name»(){
+				append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(){
 					
-					«object.codomain.name» supp = new «object.codomain.name»();
+					Â«object.codomain.nameÂ» supp = new Â«object.codomain.nameÂ»();
 					
-					supp.value = «new TermToJava(asm).visit(object.definition.body)»;
+					supp.value = Â«new TermToJava(asm).visit(object.definition.body)Â»;
 					
 					return supp;
 				}''')
@@ -599,7 +599,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			}
 			else	
 			 sb.
-				append('''«new ToString(asm).visit(object.codomain)» «object.name»(){return «new TermToJava(asm).visit(object.definition.body)»;}''')
+				append('''Â«new ToString(asm).visit(object.codomain)Â» Â«object.nameÂ»(){return Â«new TermToJava(asm).visit(object.definition.body)Â»;}''')
 		
 		
             } 		
@@ -610,12 +610,12 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 	def printVariables(EList<VariableTerm> list) {
 		var StringBuffer sb = new StringBuffer
 		if (list.size == 1) {
-			sb.append('''«new TermToJava(asm).visit(list.get(i))»''')
+			sb.append('''Â«new TermToJava(asm).visit(list.get(i))Â»''')
 			return sb.toString
 		} else {
 			sb.append('''make_tuple(''')
 			for (var i = 0; i < list.size; i++) {
-				sb.append('''«new TermToJava(asm).visit(list.get(i))»,''')
+				sb.append('''Â«new TermToJava(asm).visit(list.get(i))Â»,''')
 			}
 			return sb.toString.substring(0, sb.length - 1) + ")"
 		}

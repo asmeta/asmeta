@@ -3,6 +3,8 @@ package org.asmeta.animator;
 import java.io.File;
 //Usare collections -> scrivere un wrapper ! gestione thread concorrenti
 import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -45,6 +47,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import asmeta.AsmCollection;
+import asmeta.definitions.Function;
+import asmeta.definitions.domains.StringDomain;
+import asmeta.structure.Asm;
 
 public class VisualizationSimulation implements VisualizationSimulationI {
 
@@ -407,10 +412,21 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 				// get function name
 				TableItem left = functions_down[i];
 				String functionName = left.getText(2);
-				// function type
+				// function type (C for controlled and so on)
 				String functionType = left.getText(1);
 				if (!functionType.equals(functionT))
 					continue;
+				// if the type is a string add the quotes
+				// get the functions of this ASM
+				Collection<Function> functions = new ArrayList<>();
+				for (Asm a: this.asm) {
+					functions.addAll(a.getHeaderSection().getSignature().getFunction());
+				}
+				// add the quotes AG 04-2022
+				Function function = org.asmeta.parser.Utility.search_funcName(functions, functionName);				
+				if (function != null && function.getCodomain() instanceof StringDomain) {
+					text = "\""+ text + "\"";
+				}
 				// print
 				if (functionType.equals(VisualizationSimulation.MONITORED))
 					simulatorLogger.info("set " + functionName + " := " + text + ";");

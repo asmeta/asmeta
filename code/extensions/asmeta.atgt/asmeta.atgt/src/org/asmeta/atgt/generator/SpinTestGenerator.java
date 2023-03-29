@@ -33,7 +33,7 @@ public class SpinTestGenerator extends AsmTestGenerator {
 	 * @throws Exception 
 	 */
 	@Override
-	protected AsmTestSuite generateTestforASM(AsmCoverage ct) throws Exception {
+	protected AsmTestSuite generateTestforASM() throws Exception {
 		// specific to SPIN
 		AsmProject pro = new AsmProject(getSpec(), ct);
 		// ATGToolPreferences.BFS.setChecked(true);

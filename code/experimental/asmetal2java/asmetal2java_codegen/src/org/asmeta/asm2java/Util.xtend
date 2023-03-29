@@ -37,7 +37,7 @@ class Util {
 		for (var i = 0; i < variables.size; i++) {
 
 			paramDef.
-				append('''«new ToString(res,true).visit(variables.get(i).domain)» «variables.get(i).name», ''')
+				append('''Â«new ToString(res,true).visit(variables.get(i).domain)Â» Â«variables.get(i).nameÂ», ''')
 		}
 		return paramDef.substring(0, paramDef.length - 2)
 	}

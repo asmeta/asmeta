@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta simulator test
 Bundle-SymbolicName: asmeta.simulator.test
-Bundle-Version: 21.06
+Bundle-Version: 22.09
 Bundle-ClassPath: org.eclipse.emf.common.jar,
  org.eclipse.emf.ecore.jar,
  log4j.jar
@@ -11,5 +11,5 @@ Require-Bundle: asmeta.simulator,
  asmeta.parser,
  asmeta.parser.test,
  org.eclipse.emf.common
-Bundle-Vendor: fmse.di.unimi.it
+Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.simulator.test

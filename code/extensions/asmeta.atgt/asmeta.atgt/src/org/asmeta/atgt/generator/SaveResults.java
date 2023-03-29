@@ -24,7 +24,20 @@ public class SaveResults {
 	 * @param formats XML, Avalla
 	 */
 	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String config) {
-		saveResults(result, asmetaSpecPath, formats, "", config);
+		saveResults(result, asmetaSpecPath, formats, "abstractests", config, new File(asmetaSpecPath).getParent());
+	}
+	
+	/**
+	 * Save results.
+	 *
+	 * @param result the already generated test suite
+	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
+	 * @param formats XML, Avalla
+	 * @param foldersuffix the foldersuffix
+	 * @param config the config
+	 */
+	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String config, String outputDir) {
+		saveResults(result, asmetaSpecPath, formats, "", config, outputDir);
 	}
 	
 	/**
@@ -33,23 +46,24 @@ public class SaveResults {
 	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
 	 * @param formats XML, Avalla
 	 */
-	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String foldersuffix, String config) {
+	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String foldersuffix, String config, String outputDir) {
 		if (formats==null || formats.size()==0) {
 			System.err.println("No formats specified");
 			return;
 		}
-		String parent = new File(asmetaSpecPath).getParent(); //.uptoSegment(config.asmetaSpecPath.segmentCount()-1);
-		if (parent==null) parent = ".";
+		if (outputDir==null) outputDir = ".";
 		//System.out.println("Parent: "+parent);		
 		// find new dir where to put files
-		String dirPath = Paths.get(parent,"abstractests"+foldersuffix).toString();
+		String dirPath = Paths.get(outputDir, foldersuffix).toString();
 		// find new dir where to put files
 		File testFile = new File(dirPath);
 		int i = 1;
-		while (testFile.exists()) {
-			testFile = new File(dirPath + i++);
+		if (!foldersuffix.equals("")) { 
+			while (testFile.exists()) {
+				testFile = new File(dirPath + i++);
+			}
+			testFile.mkdir();
 		}
-		testFile.mkdir();
 		//System.out.println("saving tests to " + testFile.getAbsolutePath());
 		// save to output files
 		String allSequences = ""; // used for ProTest, to create a single file with all the sequences
@@ -69,7 +83,11 @@ public class SaveResults {
 					try {
 						asm_to_import = ftc.toPath().getParent().relativize(new File(asmetaSpecPath).toPath());
 					} catch(IllegalArgumentException  ie) {
-						asm_to_import = new File(asmetaSpecPath).toPath().normalize();
+						asm_to_import = new File(asmetaSpecPath).toPath().normalize();						
+						try {
+							asm_to_import = new File(ftc.getAbsolutePath()).toPath().getParent().relativize(asm_to_import);
+						} catch(IllegalArgumentException  ie2) {}
+							
 					}	
 					new toAvalla(ftc,tc,asm_to_import.toString()).save();
 				}
@@ -122,6 +140,24 @@ public class SaveResults {
 			// Create the new avalla file
 			new toAvalla(new File(baseAvallaName.split("\\.avalla")[0] + counter + ".avalla"), tc, asmName).save();
 			avallaPath[counter] = baseAvallaName.split("\\.avalla")[0] + counter + ".avalla";
+			
+			counter++;
+		}
+		
+		return avallaPath;
+	}
+	
+	/** Results in Avalla format */
+	public static String[] getAvallaResults(AsmTestSuite result, String baseAvallaName, String asmName, String destinationPath) {
+		String[] avallaPath = new String[result.getTests().size()]; 
+		File f = new File(baseAvallaName);
+		baseAvallaName = f.getName();
+		int counter = 0;
+		
+		for (AsmTestSequence tc : result.getTests()) {
+			// Create the new avalla file
+			new toAvalla(new File(destinationPath + baseAvallaName.split("\\.avalla")[0] + counter + ".avalla"), tc, asmName).save();
+			avallaPath[counter] = destinationPath + baseAvallaName.split("\\.avalla")[0] + counter + ".avalla";
 			
 			counter++;
 		}

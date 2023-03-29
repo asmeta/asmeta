@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.asmeta.avallaxt.avallaXt.Command;
-import org.asmeta.avallaxt.avallaXt.Element;
-import org.asmeta.avallaxt.avallaXt.ExecBlock;
-import org.asmeta.avallaxt.avallaXt.Scenario;
+import org.asmeta.avallaxt.avalla.Command;
+import org.asmeta.avallaxt.avalla.Element;
+import org.asmeta.avallaxt.avalla.ExecBlock;
+import org.asmeta.avallaxt.avalla.Scenario;
 
 
 

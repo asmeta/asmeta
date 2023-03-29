@@ -1,0 +1,11 @@
+////
+//
+scenario accensionelampada
+load lampada.asm
+check lampStatus = OFF;
+set poweron := true;
+step
+check lampStatus = STANDBY;
+set pushbutton := true;
+step
+check lampStatus = ON;

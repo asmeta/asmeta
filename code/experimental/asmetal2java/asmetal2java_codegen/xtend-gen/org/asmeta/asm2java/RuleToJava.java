@@ -32,11 +32,11 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 @SuppressWarnings("all")
 public class RuleToJava extends RuleVisitor<String> {
   private Asm res;
-  
+
   private boolean seqBlock;
-  
+
   private TranslatorOptions options;
-  
+
   /**
    * seqBlock iff it is called in a seq rule
    */
@@ -45,7 +45,7 @@ public class RuleToJava extends RuleVisitor<String> {
     this.seqBlock = seqBlock;
     this.options = options;
   }
-  
+
   @Override
   public String visit(final BlockRule object) {
     StringConcatenation _builder = new StringConcatenation();
@@ -58,7 +58,7 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder.append("}//endpar");
     return _builder.toString();
   }
-  
+
   private String printRules(final EList<Rule> rules) {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < rules.size()); i++) {
@@ -66,7 +66,7 @@ public class RuleToJava extends RuleVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   @Override
   public String visit(final MacroCallRule object) {
     String methodName = object.getCalledMacro().getName();
@@ -93,7 +93,7 @@ public class RuleToJava extends RuleVisitor<String> {
       return _builder_1.toString();
     }
   }
-  
+
   private String printListTerm(final EList<Term> term) {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < term.size()); i++) {
@@ -115,7 +115,7 @@ public class RuleToJava extends RuleVisitor<String> {
     int _minus = (_length - 2);
     return sb.substring(0, _minus);
   }
-  
+
   @Override
   public String visit(final SeqRule object) {
     StringConcatenation _builder = new StringConcatenation();
@@ -129,7 +129,7 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder.newLine();
     return _builder.toString();
   }
-  
+
   @Override
   public String visit(final UpdateRule object) {
     StringBuffer result = new StringBuffer();
@@ -189,12 +189,12 @@ public class RuleToJava extends RuleVisitor<String> {
     }
     return result.toString();
   }
-  
+
   @Override
   public String visit(final SkipRule object) {
     return "; \n";
   }
-  
+
   @Override
   public String visit(final CaseRule object) {
     StringBuffer sb = new StringBuffer();
@@ -243,7 +243,7 @@ public class RuleToJava extends RuleVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   public String compareTerms(final Term leftTerm, final Term rightTerm) {
     int _compareTo = leftTerm.getDomain().toString().compareTo(rightTerm.getDomain().toString());
     boolean _notEquals = (_compareTo != 0);
@@ -272,7 +272,7 @@ public class RuleToJava extends RuleVisitor<String> {
       }
     }
   }
-  
+
   @Override
   public String visit(final ChooseRule object) {
     int counter = 0;
@@ -494,7 +494,7 @@ public class RuleToJava extends RuleVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   @Override
   public String visit(final ForallRule object) {
     StringBuffer sb = new StringBuffer();
@@ -568,7 +568,7 @@ public class RuleToJava extends RuleVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   @Override
   public String visit(final LetRule object) {
     StringBuffer let = new StringBuffer();
@@ -593,7 +593,7 @@ public class RuleToJava extends RuleVisitor<String> {
     let.append(_builder);
     return let.toString();
   }
-  
+
   public String visit(final IterativeWhileRule object) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("while (");
@@ -608,7 +608,7 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder.append("}");
     return _builder.toString();
   }
-  
+
   /**
    * TODO: iterateRule
    */
@@ -619,7 +619,7 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder.newLine();
     return _builder.toString();
   }
-  
+
   @Override
   public String visit(final ConditionalRule object) {
     Rule _elseRule = object.getElseRule();
@@ -681,12 +681,12 @@ public class RuleToJava extends RuleVisitor<String> {
       }
     }
   }
-  
+
   @Override
   public String visit(final TermAsRule rule) {
     return "Caso TermAs rule";
   }
-  
+
   @Override
   public String visit(final ExtendRule rule) {
     StringBuffer string = new StringBuffer();
@@ -705,7 +705,7 @@ public class RuleToJava extends RuleVisitor<String> {
     String _visit = new RuleToJava(this.res, this.seqBlock, this.options).visit(rule.getDoRule());
     return (_string + _visit);
   }
-  
+
   public Boolean controllo(final String nome) {
     if (((nome.equals("Integer") || nome.equals("Boolean")) || nome.equals("String"))) {
       return Boolean.valueOf(true);

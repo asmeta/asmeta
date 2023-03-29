@@ -9,23 +9,14 @@
     <resources>
       <resource>
         <directory>src</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
       </resource>
       <resource>
         <directory>xtend-gen</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
       </resource>
     </resources>
     <testResources>
       <testResource>
         <directory>test</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
       </testResource>
     </testResources>
     <plugins>
@@ -48,7 +39,7 @@
 <dependency>
     <groupId>net.lingala.zip4j</groupId>
     <artifactId>zip4j</artifactId>
-    <version>2.6.1</version>
+    <version>2.10.0</version>
 </dependency>
 
   	<dependency>

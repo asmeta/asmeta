@@ -1,5 +1,5 @@
-// testStaticFun.java automatically generated from ASM2CODE
 
+// testStaticFun.java automatically generated from ASM2CODE
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,14 +23,12 @@ import org.javatuples.Sextet;
 import org.javatuples.Triplet;
 
 abstract class testStaticFun_sig {
-
 	/////////////////////////////////////////////////
 	/// DOMAIN CONTAINERS
 	/////////////////////////////////////////////////
 	/* Domain containers here */
 	//Variabile di tipo astratto
 	static class NumCard {
-
 		static List<NumCard> elems = new ArrayList<NumCard>();
 		static List<String> val = new ArrayList<String>();
 
@@ -42,31 +40,23 @@ abstract class testStaticFun_sig {
 		String ToString(NumCard a) {
 			if (elems.contains(a)) {
 				return val.get(elems.lastIndexOf(a));
-			}
-
-			else
+			} else
 				return null;
 		}
 
 		static NumCard get(String a) {
 			if (val.contains(a)) {
-
 				return elems.get(val.lastIndexOf(a));
-			}
-
-			else
+			} else
 				return null;
 		}
-
 	}
 
 	List<String> NumCard_lista = new ArrayList<String>();
 	List<NumCard> NumCard_Class = new ArrayList<NumCard>();
 
 	//Variabile di tipo astratto
-
 	static class Account {
-
 		static List<Account> elems = new ArrayList<Account>();
 		static List<String> val = new ArrayList<String>();
 
@@ -78,31 +68,23 @@ abstract class testStaticFun_sig {
 		String ToString(Account a) {
 			if (elems.contains(a)) {
 				return val.get(elems.lastIndexOf(a));
-			}
-
-			else
+			} else
 				return null;
 		}
 
 		static Account get(String a) {
 			if (val.contains(a)) {
-
 				return elems.get(val.lastIndexOf(a));
-			}
-
-			else
+			} else
 				return null;
 		}
-
 	}
 
 	List<String> Account_lista = new ArrayList<String>();
 	List<Account> Account_Class = new ArrayList<Account>();
 
 	//Variabile di tipo astratto
-
 	static class Card {
-
 		static List<Card> elems = new ArrayList<Card>();
 		static List<String> val = new ArrayList<String>();
 
@@ -114,31 +96,23 @@ abstract class testStaticFun_sig {
 		String ToString(Card a) {
 			if (elems.contains(a)) {
 				return val.get(elems.lastIndexOf(a));
-			}
-
-			else
+			} else
 				return null;
 		}
 
 		static Card get(String a) {
 			if (val.contains(a)) {
-
 				return elems.get(val.lastIndexOf(a));
-			}
-
-			else
+			} else
 				return null;
 		}
-
 	}
 
 	List<String> Card_lista = new ArrayList<String>();
 	List<Card> Card_Class = new ArrayList<Card>();
 
 	//Variabile di tipo astratto
-
 	static class Till {
-
 		static List<Till> elems = new ArrayList<Till>();
 		static List<String> val = new ArrayList<String>();
 
@@ -150,31 +124,23 @@ abstract class testStaticFun_sig {
 		String ToString(Till a) {
 			if (elems.contains(a)) {
 				return val.get(elems.lastIndexOf(a));
-			}
-
-			else
+			} else
 				return null;
 		}
 
 		static Till get(String a) {
 			if (val.contains(a)) {
-
 				return elems.get(val.lastIndexOf(a));
-			}
-
-			else
+			} else
 				return null;
 		}
-
 	}
 
 	List<String> Till_lista = new ArrayList<String>();
 	List<Till> Till_Class = new ArrayList<Till>();
 
 	//Variabile di tipo astratto
-
 	static class Date {
-
 		static List<Date> elems = new ArrayList<Date>();
 		static List<String> val = new ArrayList<String>();
 
@@ -186,29 +152,22 @@ abstract class testStaticFun_sig {
 		String ToString(Date a) {
 			if (elems.contains(a)) {
 				return val.get(elems.lastIndexOf(a));
-			}
-
-			else
+			} else
 				return null;
 		}
 
 		static Date get(String a) {
 			if (val.contains(a)) {
-
 				return elems.get(val.lastIndexOf(a));
-			}
-
-			else
+			} else
 				return null;
 		}
-
 	}
 
 	List<String> Date_lista = new ArrayList<String>();
 	List<Date> Date_Class = new ArrayList<Date>();
 
 	//Variabile di tipo Concreto o Enumerativo
-
 	static enum Side {
 		LEFT, RIGHT
 	}
@@ -216,67 +175,53 @@ abstract class testStaticFun_sig {
 	List<Side> Side_lista = new ArrayList<Side>();
 
 	//Metodi di supporto per l'implementazione delle funzioni controlled
-
 	class zeroC<Domain> {
-
 		Domain oldValue;
 		Domain newValue;
 
 		void set(Domain d) {
-
 			newValue = d;
 		}
 
 		Domain get() {
-
 			return oldValue;
 		}
 	}
 
 	static class nC<Domain, Codomain> {
-
 		Map<Domain, Codomain> oldValues = new HashMap<>();
 		Map<Domain, Codomain> newValues = new HashMap<>();
 
 		void set(Domain d, Codomain c) {
-
 			newValues.put(d, c);
 		}
 
 		Codomain get(Domain d) {
-
 			return oldValues.get(d);
 		}
 	}
 
 	//Metodi di supporto per l'implementazione delle funzioni non controlled
-
 	class zero<Domain> {
-
 		Domain Value;
 
 		void set(Domain d) {
-
 			Value = d;
 		}
 
 		Domain get() {
-
 			return Value;
 		}
 	}
 
 	class n<Domain, Codomain> {
-
 		Map<Domain, Codomain> Values = new HashMap<>();
 
 		void set(Domain d, Codomain c) {
-
 			Values.put(d, c);
 		}
 
 		Codomain get(Domain d) {
-
 			return Values.get(d);
 		}
 	}
@@ -288,54 +233,40 @@ abstract class testStaticFun_sig {
 	nC<NumCard, Integer> balance = new nC<>();
 
 	//Funzione di tipo statico
-	abstract
-	Integer minMoney();
+	abstract Integer minMoney();
 
 	//Funzione di tipo statico
-	abstract
-	Integer maxPrelievo();
+	abstract Integer maxPrelievo();
 
 	//Funzione di tipo derived
-	abstract
-	Boolean allowed(NumCard param0_allowed, Integer param1_allowed);
+	abstract Boolean allowed(NumCard param0_allowed, Integer param1_allowed);
 
 	//Funzione di tipo statico
-	abstract
-	Integer withdrawLimit();
+	abstract Integer withdrawLimit();
 
 	//Funzione di tipo statico
-	abstract
-	Integer encodedPin(Card param0_encodedPin);
+	abstract Integer encodedPin(Card param0_encodedPin);
 
 	//Funzione di tipo statico
-	abstract
-	Account cardAccount(Card param0_cardAccount);
+	abstract Account cardAccount(Card param0_cardAccount);
 
 	//Funzione di tipo derived
-	abstract
-	Side oppositeSide(Side param0_oppositeSide);
+	abstract Side oppositeSide(Side param0_oppositeSide);
 
 	//Funzione di tipo statico
 	static Card card1;
-
 	//Funzione di tipo statico
 	static Card card2;
-
 	//Funzione di tipo statico
 	static Card card3;
-
 	//Funzione di tipo statico
 	static Till till1;
-
 	//Funzione di tipo statico
 	static Account account1;
-
 	//Funzione di tipo statico
 	static Date monday;
-
 	//Funzione di tipo statico
 	static Date tuesday;
-
 	//Funzione di tipo statico
 	static NumCard car1;
 
@@ -343,28 +274,18 @@ abstract class testStaticFun_sig {
 	/// RULE DEFINITION
 	/////////////////////////////////////////////////
 	/* Rule definition here */
-
-	abstract
-	void r_main();
-
+	abstract void r_main();
 }
 
 class testStaticFun extends testStaticFun_sig {
-
 	// Inizializzazione di funzioni e domini
-
 	testStaticFun() {
-
 		//Definizione iniziale dei domini statici
-
 		//setto la lista di elementi di supporto della classe enumerativa
-		for(Side i : Side.values())
-		Side_lista.add(i);
-
+		for (Side i : Side.values())
+			Side_lista.add(i);
 		//Definizione iniziale dei domini dinamici
-
 		//Definizione iniziale dei domini astratti con funzini statiche
-
 		card1 = new Card("card1");
 		Card_lista.add("card1");
 		Card_Class.add(card1);
@@ -389,38 +310,48 @@ class testStaticFun extends testStaticFun_sig {
 		car1 = new NumCard("car1");
 		NumCard_lista.add("car1");
 		NumCard_Class.add(car1);
-
 		//Inizializzazione delle funzioni
-
 	}
 
 	// Definizione delle funzioni statiche
-	Integer encodedPin(Card _c) {if(_c==card1)
-		return 1;
-		else if(_c==card2)
-		return 2;
+	Integer encodedPin(Card _c) {
+		if (_c == card1)
+			return 1;
+		else if (_c == card2)
+			return 2;
 		return null;
 	}
-	Account cardAccount(Card _c) {if(_c==card1)
-		return account1;
-		else if(_c==card2)
-		return account1;
+
+	Account cardAccount(Card _c) {
+		if (_c == card1)
+			return account1;
+		else if (_c == card2)
+			return account1;
 		return null;
 	}
-	Integer withdrawLimit() {return 1000;}
-	Integer minMoney() {return 200;}
-	Integer maxPrelievo() {return 1000;}
-	Boolean allowed(NumCard _c, Integer _m) {return (balance.get(_c) >= _m);}
-	Side oppositeSide(Side _s) {return /*conditionalTerm*/
-		((_s == Side.LEFT))
-		?
-		Side.RIGHT
-		:
-		Side.LEFT
-		;}
+
+	Integer withdrawLimit() {
+		return 1000;
+	}
+
+	Integer minMoney() {
+		return 200;
+	}
+
+	Integer maxPrelievo() {
+		return 1000;
+	}
+
+	Boolean allowed(NumCard _c, Integer _m) {
+		return (balance.get(_c) >= _m);
+	}
+
+	Side oppositeSide(Side _s) {
+		return /*conditionalTerm*/
+		((_s == Side.LEFT)) ? Side.RIGHT : Side.LEFT;
+	}
 
 	// Conversione delle regole ASM in metodi java
-
 	@Override
 	void r_main() {
 		;
@@ -432,21 +363,16 @@ class testStaticFun extends testStaticFun_sig {
 
 	// applicazione dell'aggiornamento del set
 	void fireUpdateSet() {
-
 		balance.oldValues = balance.newValues;
 	}
 
 	//Metodo per l'aggiornamento dell'asm
-	void UpdateASM()
-	{
+	void UpdateASM() {
 		r_Main();
 		fireUpdateSet();
 		initControlledWithMonitored();
 	}
 
-public static void main(String[] args) {
+	public static void main(String[] args) {
 	}
-
 }
-
-

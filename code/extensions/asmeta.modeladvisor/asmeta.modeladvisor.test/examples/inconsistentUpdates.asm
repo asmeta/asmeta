@@ -1,6 +1,6 @@
 asm inconsistentUpdates
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	domain SubDom subsetof Integer

@@ -1,8 +1,8 @@
 // derivata and function
 asm SensorVotingFuncWrong
 
-import ../../../../asm_examples/STDL/StandardLibrary
-import ../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/CTLlibrary
 
 signature:
     enum domain Channel = {ONE | TWO | THREE}

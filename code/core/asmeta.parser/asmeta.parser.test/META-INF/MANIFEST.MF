@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta parser test
 Bundle-SymbolicName: asmeta.parser.test
-Bundle-Version: 21.06
+Bundle-Version: 22.09
 Bundle-ClassPath: org.eclipse.emf.common.jar,
  org.eclipse.emf.ecore.jar,
  log4j.jar
@@ -10,6 +10,6 @@ Require-Bundle: asmeta.emf,
  asmeta.parser
 Export-Package: org.asmeta.parser;x-friends:="asmeta.atgt.test"
 Import-Package: org.junit.runners
-Bundle-Vendor: fmse.di.unimi.it
+Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.parser.test
 

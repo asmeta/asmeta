@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AsmetaATGT
 Bundle-SymbolicName: asmeta.atgt;singleton:=true
-Bundle-Version: 21.06
+Bundle-Version: 22.09
 Automatic-Module-Name: asmeta.atgt
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: asmeta.smv,
  org.apache.log4j,
  org.eclipse.ui,
@@ -15,13 +15,17 @@ Require-Bundle: asmeta.smv,
  asmeta.emf,
  asmeta.parser,
  asmeta.simulator,
- org.eclipse.core.resources
+ org.eclipse.core.resources,
+ asmeta.flattener
 Bundle-ClassPath: atgt4asmeta.jar,
  .
 Export-Package: atgt.combinatorial,
  atgt.coverage,
+ atgt.coverage.tpstatus,
+ atgt.generator,
  atgt.parser.asmeta,
  atgt.specification,
+ atgt.specification.location,
  atgt.testseqexport,
  extgt.coverage.combinatorial,
  org.asmeta.atgt.generator,
@@ -30,4 +34,6 @@ Export-Package: atgt.combinatorial,
  org.asmeta.atgt.generator2,
  org.asmeta.atgt.testoptimizer,
  tgtlib.coverage,
- tgtlib.definitions
+ tgtlib.definitions,
+ tgtlib.definitions.expression,
+ tgtlib.specification

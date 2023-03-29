@@ -18,19 +18,19 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 @SuppressWarnings("all")
 public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
   private Asm res;
-  
+
   private boolean pointer;
-  
+
   public DomainToJavaSigDef(final Asm resource) {
     this.res = resource;
     this.pointer = false;
   }
-  
+
   public DomainToJavaSigDef(final Asm resource, final boolean pointer) {
     this.res = resource;
     this.pointer = pointer;
   }
-  
+
   /**
    * Domain Signature
    */
@@ -259,7 +259,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   public String visit(final ConcreteDomain object) {
     StringBuffer sb = new StringBuffer();
     Boolean _isDynamic = object.getIsDynamic();
@@ -368,7 +368,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     }
     return sb.toString();
   }
-  
+
   public String visit(final EnumTd object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -413,7 +413,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     sb.append(_builder_1);
     return sb.toString();
   }
-  
+
   public String visit(final ProductDomain object) {
     StringBuffer sb = new StringBuffer();
     int _size = object.getDomains().size();
@@ -532,7 +532,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     int _minus = (_length - 2);
     return _string.substring(0, _minus).concat(">");
   }
-  
+
   public String visit(final SequenceDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -543,7 +543,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     sb.append(_builder);
     return sb.toString();
   }
-  
+
   public String visit(final PowersetDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -554,7 +554,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     sb.append(_builder);
     return sb.toString();
   }
-  
+
   public String visit(final BagDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -565,7 +565,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     sb.append(_builder);
     return sb.toString();
   }
-  
+
   public String visit(final MapDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -582,15 +582,15 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     sb.append(_builder_2);
     return sb.toString().substring(0, sb.length()).concat(">");
   }
-  
+
   public String visit(final DomainDefinition object) {
     return new TermToJava(this.res).visit(object.getBody());
   }
-  
+
   public String visit(final DomainInitialization object) {
     return new TermToJava(this.res).visit(object.getBody());
   }
-  
+
   public String visit(final RuleDomain object) {
     StringBuffer sb = new StringBuffer();
     sb.append("Caso relativo ai RuleDomain");

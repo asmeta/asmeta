@@ -47,7 +47,7 @@ class RuleToJava extends RuleVisitor<String> {
 	override String visit(BlockRule object) {
 		return '''
 		{ //par
-			«new RuleToJava(res,false,options).printRules(object.getRules())»
+			Â«new RuleToJava(res,false,options).printRules(object.getRules())Â»
 		}//endpar'''
 	}
 
@@ -66,10 +66,10 @@ class RuleToJava extends RuleVisitor<String> {
 		// if it is inside a seq, use the seq variant
 		if(seqBlock) methodName += ""
 		if (object.parameters.size() == 0)
-			return '''«methodName»();
+			return '''Â«methodNameÂ»();
 '''
 		else
-			return '''«methodName»(«printListTerm(object.parameters)»);
+			return '''Â«methodNameÂ»(Â«printListTerm(object.parameters)Â»);
 '''
 	}
 
@@ -78,9 +78,9 @@ class RuleToJava extends RuleVisitor<String> {
 		var sb = new StringBuffer
 		for (var int i = 0; i < term.size(); i++) {
 			if(i==0 && term.get(0).domain instanceof ConcreteDomain)
-			sb.append('''«new TermToJava(res).visit(term.get(i))».value, ''')
+			sb.append('''Â«new TermToJava(res).visit(term.get(i))Â».value, ''')
 			else
-			sb.append('''«new TermToJava(res).visit(term.get(i))», ''')
+			sb.append('''Â«new TermToJava(res).visit(term.get(i))Â», ''')
 		}
 		return sb.substring(0, sb.length - 2)
 	}
@@ -92,7 +92,7 @@ class RuleToJava extends RuleVisitor<String> {
 		
 		return '''
 			{//seq
-				«new RuleToJava(res,true,options).printRules(object.rules)»
+				Â«new RuleToJava(res,true,options).printRules(object.rules)Â»
 			}//endseq
 		'''
 	}
@@ -107,24 +107,24 @@ class RuleToJava extends RuleVisitor<String> {
 		
 		if( object.location instanceof VariableTerm) 
 		result.
-			append('''«new TermToJava(res,true).visit(object.location)» = («new TermToJava(res,false).visit(object.updatingTerm)»);
+			append('''Â«new TermToJava(res,true).visit(object.location)Â» = (Â«new TermToJava(res,false).visit(object.updatingTerm)Â»);
 			   
 			''')
 
 		else if(object.updatingTerm.domain instanceof ConcreteDomain)
 		result.
-			append('''«new TermToJava(res,true).visit(object.location)»«new TermToJava(res,false).visit(object.updatingTerm)».value);
-			   «new TermToJavaSupportoProdMap(res,false).visit(object.location)»
+			append('''Â«new TermToJava(res,true).visit(object.location)Â»Â«new TermToJava(res,false).visit(object.updatingTerm)Â».value);
+			   Â«new TermToJavaSupportoProdMap(res,false).visit(object.location)Â»
 			''')
 		else
 		result.
-			append('''«new TermToJava(res,true).visit(object.location)»«new TermToJava(res,false).visit(object.updatingTerm)»);
-			   «new TermToJavaSupportoProdMap(res,false).visit(object.location)»
+			append('''Â«new TermToJava(res,true).visit(object.location)Â»Â«new TermToJava(res,false).visit(object.updatingTerm)Â»);
+			   Â«new TermToJavaSupportoProdMap(res,false).visit(object.location)Â»
 			''')
 		if (seqBlock) {
 			// add the fire update
 			result.
-				append('''«new TermToJavaConditionalAbs(res,true).visit(object.location)».oldValues = «new TermToJavaConditionalAbs(res,true).visit(object.location)».newValues;
+				append('''Â«new TermToJavaConditionalAbs(res,true).visit(object.location)Â».oldValues = Â«new TermToJavaConditionalAbs(res,true).visit(object.location)Â».newValues;
 				''')
 		}
 		return result.toString
@@ -143,21 +143,21 @@ class RuleToJava extends RuleVisitor<String> {
 			if (i == 0)
 				sb.append(
 					'''
-				if(«compareTerms(object.getTerm,object.getCaseTerm.get(i))»){
-					«new RuleToJava(res,seqBlock,options).visit(object.getCaseBranches.get(i))»
+				if(Â«compareTerms(object.getTerm,object.getCaseTerm.get(i))Â»){
+					Â«new RuleToJava(res,seqBlock,options).visit(object.getCaseBranches.get(i))Â»
 				}''')
 			else
 				sb.append(
 					'''
-				else if(«compareTerms(object.getTerm,object.getCaseTerm.get(i))»){
-					«new RuleToJava(res,seqBlock,options).visit(object.getCaseBranches().get(i))»
+				else if(Â«compareTerms(object.getTerm,object.getCaseTerm.get(i))Â»){
+					Â«new RuleToJava(res,seqBlock,options).visit(object.getCaseBranches().get(i))Â»
 				}''')
 		}
 		if (object.getOtherwiseBranch() !== null)
 			sb.append(
 			'''
 				else{ 
-				 	«new RuleToJava(res,seqBlock,options).visit(object.getOtherwiseBranch())»
+				 	Â«new RuleToJava(res,seqBlock,options).visit(object.getOtherwiseBranch())Â»
 				}
 			''')
 		return sb.toString
@@ -168,9 +168,9 @@ class RuleToJava extends RuleVisitor<String> {
 		if (leftTerm.domain.toString.compareTo(rightTerm.domain.toString) != 0)
 			return '''Impossible to compare Terms'''
 		else if (leftTerm instanceof StringDomain)
-			return '''«new TermToJava(res).visit(leftTerm)».compareTo(«new TermToJava(res).visit(rightTerm)»)==0'''
+			return '''Â«new TermToJava(res).visit(leftTerm)Â».compareTo(Â«new TermToJava(res).visit(rightTerm)Â»)==0'''
 		else /* This is valid also for complex term*/
-			return '''«new TermToJava(res).visit(leftTerm)»==«new TermToJava(res).visit(rightTerm)»'''
+			return '''Â«new TermToJava(res).visit(leftTerm)Â»==Â«new TermToJava(res).visit(rightTerm)Â»'''
 	}
 
 	override String visit(ChooseRule object) {
@@ -179,7 +179,7 @@ class RuleToJava extends RuleVisitor<String> {
 		for (var i = 0; i < object.getRanges.size; i++)
 			if (object.getRanges.get(i).domain instanceof PowersetDomain)
 				sb.append('''
-					List<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»> point«i» = new ArrayList<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»>();
+					List<Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â»> pointÂ«iÂ» = new ArrayList<Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â»>();
 				''')
 			// println("Object ranges: " + (object.getRanges.get(i).domain as PowersetDomain).baseDomain)
 			else
@@ -191,19 +191,19 @@ class RuleToJava extends RuleVisitor<String> {
 				// devo dichiarare il set di valori nel caso si metta un dominio diverso da un nome di un dominio definito, per esempio: {0..5} {1,5,9} 
 				if (new Util().isNotNumerable((object.getRanges.get(i).domain as PowersetDomain).baseDomain)) {
 					sb.append('''
-						point«i» = Collections.unmodifiableList(Arrays.asList «new TermToJava(res).visit(object.getRanges.get(i))»);
+						pointÂ«iÂ» = Collections.unmodifiableList(Arrays.asList Â«new TermToJava(res).visit(object.getRanges.get(i))Â»);
 					''')
 					counter = counter + 1
 					sb.append('''
-						for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : point«i»){
+						for(Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â» Â«new TermToJava(res).visit(object.getVariable.get(i))Â» : pointÂ«iÂ»){
 					''')
 				} else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd)
 					sb.append('''
-						for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
+						for(Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â» Â«new TermToJava(res).visit(object.getVariable.get(i))Â» : Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â».elems)
 					''')
 				else
 					sb.append('''
-						for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_lista)
+						for(Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â» Â«new TermToJava(res).visit(object.getVariable.get(i))Â» : Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â»_lista)
 					''')
 			} else
 				sb.append('''
@@ -211,7 +211,7 @@ class RuleToJava extends RuleVisitor<String> {
 						''')
 		if (object.getGuard !== null)
 			sb.append('''
-				if(«new TermToJava(res).visit(object.getGuard)»){
+				if(Â«new TermToJava(res).visit(object.getGuard)Â»){
 			''')
 		else
 			sb.append('''{
@@ -221,14 +221,14 @@ class RuleToJava extends RuleVisitor<String> {
 			if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd){
 				var termName= new TermToJava(res).visit(object.getVariable.get(i))
 				sb.append('''
-					point«i».add(«termName»);
+					pointÂ«iÂ».add(Â«termNameÂ»);
 				''')
 				/*println("TERM: " + termName)
 				pointerTerms.add(termName)*/
 				}
 			else
 				sb.append('''
-					point«i».add(«new TermToJava(res).visit(object.getVariable.get(i))»);
+					pointÂ«iÂ».add(Â«new TermToJava(res).visit(object.getVariable.get(i))Â»);
 				''')
 		for (var i = 0; i < counter; i++)
 			sb.append('''
@@ -250,7 +250,7 @@ class RuleToJava extends RuleVisitor<String> {
 		''')
 		for (var i = 0; i < object.getVariable.size; i++)
 			sb.append('''
-				«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» = point«i».get(rndm);
+				Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â» Â«new TermToJava(res).visit(object.getVariable.get(i))Â» = pointÂ«iÂ».get(rndm);
 			''')
 		if (object.getIfnone !== null)
 		{
@@ -260,9 +260,9 @@ class RuleToJava extends RuleVisitor<String> {
 				}*/
 			sb.append('''
 			  if(point0.size()>0){
-				«doRule»
+				Â«doRuleÂ»
 				 }else{
-				 	«visit(object.getIfnone)»
+				 	Â«visit(object.getIfnone)Â»
 				 }
 			}''')
 			}
@@ -273,7 +273,7 @@ class RuleToJava extends RuleVisitor<String> {
 			}*/
 			sb.append('''
 			  if(point0.size()>0){
-				«doRule»
+				Â«doRuleÂ»
 				 }
 			}''')
 		}
@@ -286,27 +286,27 @@ class RuleToJava extends RuleVisitor<String> {
 		if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd)
 				sb.append(
 			'''
-					for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_lista)
+					for(Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â» Â«new TermToJava(res).visit(object.getVariable.get(i))Â» : Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â»_lista)
 				''')
 			else
 				sb.append(
 			'''
-					for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
+					for(Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â» Â«new TermToJava(res).visit(object.getVariable.get(i))Â» : Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â».elems)
 				''')
 			
 
 
 		if (object.getGuard !== null)
 			sb.append('''
-				«""»
-					if(«new TermToJava(res).visit(object.getGuard)»){	
-						«visit(object.getDoRule)»
+				Â«""Â»
+					if(Â«(new TermToJava(res)).visit(object.getGuard)Â»){	
+						Â«visit(object.getDoRule)Â»
 					}
 			''')
 		else
 			sb.append('''
 				{
-					«visit(object.getDoRule)»
+					Â«visit(object.getDoRule)Â»
 				}
 			''')
 		return sb.toString
@@ -318,18 +318,18 @@ class RuleToJava extends RuleVisitor<String> {
 
 		for (var int i = 0; i < object.getVariable.size; i++) {
 			let.
-				append('''auto «new TermToJava(res).visit(object.getVariable.get(i))» = «new TermToJava(res).visit(object.getInitExpression.get(i))»;
+				append('''auto Â«new TermToJava(res).visit(object.getVariable.get(i))Â» = Â«new TermToJava(res).visit(object.getInitExpression.get(i))Â»;
 				''')
 		}
-		let.append('''«new RuleToJava(res,seqBlock,options).visit(object.getInRule)»
+		let.append('''Â«new RuleToJava(res,seqBlock,options).visit(object.getInRule)Â»
 }''')
 		return let.toString
 	}
 
 	def String visit(IterativeWhileRule object) {
 		return '''
-		while («new TermToJava(res,false).visit(object.guard)»){
-			«new RuleToJava(res,true,options).visit(object.rule)»
+		while (Â«new TermToJava(res,false).visit(object.guard)Â»){
+			Â«new RuleToJava(res,true,options).visit(object.rule)Â»
 		}'''
 	}
 
@@ -344,22 +344,22 @@ class RuleToJava extends RuleVisitor<String> {
 	override String visit(ConditionalRule object) {
 		if (object.getElseRule() === null)
 			return '''
-				if («new TermToJava(res).visit(object.guard)»){ 
-					«new RuleToJava(res,seqBlock,options).visit(object.thenRule)»
+				if (Â«new TermToJava(res).visit(object.guard)Â»){ 
+					Â«new RuleToJava(res,seqBlock,options).visit(object.thenRule)Â»
 				}
 			'''
 		else if (object.elseRule instanceof ConditionalRule)
 			return '''
-				if («new TermToJava(res).visit(object.getGuard)»){ 
-						«new RuleToJava(res,seqBlock,options).visit(object.thenRule)»
-				} else «new RuleToJava(res,seqBlock,options).visit(object.elseRule)»
+				if (Â«new TermToJava(res).visit(object.getGuard)Â»){ 
+						Â«new RuleToJava(res,seqBlock,options).visit(object.thenRule)Â»
+				} else Â«new RuleToJava(res,seqBlock,options).visit(object.elseRule)Â»
 			'''
 		else
 			return '''
-					if («new TermToJava(res).visit(object.getGuard)»){ 
-					«new RuleToJava(res,seqBlock,options).visit(object.thenRule)»
+					if (Â«new TermToJava(res).visit(object.getGuard)Â»){ 
+					Â«new RuleToJava(res,seqBlock,options).visit(object.thenRule)Â»
 					}else{
-					«new RuleToJava(res,seqBlock,options).visit(object.elseRule)»
+					Â«new RuleToJava(res,seqBlock,options).visit(object.elseRule)Â»
 				}
 			'''
 	}

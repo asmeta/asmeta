@@ -2,20 +2,20 @@
 <feature
       id="org.asmeta.validator.feature"
       label="Asmeta validator"
-      version="21.06"
+      version="22.09"
       provider-name="fmse.di.unimi.it">
 
    <description>
-      See http://asmeta.sourceforge.net/
+      See https://asmeta.github.io
    </description>
 
    <copyright>
-      See http://asmeta.sourceforge.net/
+      See https://asmeta.github.io
    </copyright>
 
    <license url="">
       Eclipse Public License
-See http://asmeta.sourceforge.net/
+See https://asmeta.github.io
    </license>
 
    <url>
@@ -53,7 +53,7 @@ See http://asmeta.sourceforge.net/
       <import plugin="org.eclipse.xtext.builder"/>
       <import plugin="org.eclipse.xtext.ide"/>
       <import plugin="org.eclipse.xtext.xbase.ide"/>
-      <import feature="org.asmeta.simulator.feature"/>
+      <import feature="org.asmeta.simulator.feature" version="22.09"/>
    </requires>
 
    <plugin

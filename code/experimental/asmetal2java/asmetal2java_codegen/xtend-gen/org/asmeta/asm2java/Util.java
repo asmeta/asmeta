@@ -17,22 +17,22 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 @SuppressWarnings("all")
 public class Util {
   private int counter;
-  
+
   private Object c;
-  
+
   private int i;
-  
+
   public Util() {
   }
-  
+
   public static String getElemsSetName(final String domainName) {
     return (domainName + "_elems");
   }
-  
+
   public static String getExtendSetName(final String domainName) {
     return (domainName + "_extend");
   }
-  
+
   public String adaptRuleParam(final EList<VariableTerm> variables, final Asm res) {
     StringBuffer paramDef = new StringBuffer();
     paramDef.append("");
@@ -50,7 +50,7 @@ public class Util {
     int _minus = (_length - 2);
     return paramDef.substring(0, _minus);
   }
-  
+
   public String parseFunction(final String s) {
     boolean _equals = s.equals("and");
     if (_equals) {
@@ -124,11 +124,11 @@ public class Util {
       }
     }
   }
-  
+
   public String equals(final String left, final String right) {
     return this.setPars(((left + " == ") + right));
   }
-  
+
   public Boolean isNumber(final String str) {
     try {
       Integer.parseInt(str);
@@ -141,11 +141,11 @@ public class Util {
       }
     }
   }
-  
+
   public String notEquals(final String left, final String right) {
     return this.setPars(((left + " != ") + right));
   }
-  
+
   public String setPars(final String expr) {
     boolean _hasFirstLastPars = this.hasFirstLastPars(expr);
     if (_hasFirstLastPars) {
@@ -154,7 +154,7 @@ public class Util {
       return (("(" + expr) + ")");
     }
   }
-  
+
   public boolean hasFirstLastPars(final String str) {
     if ((str.startsWith("(") && str.endsWith(")"))) {
       this.counter = 1;
@@ -181,7 +181,7 @@ public class Util {
       return false;
     }
   }
-  
+
   public boolean isNotNumerable(final Domain domain) {
     if (((((((domain instanceof StringDomain) || (domain instanceof CharDomain)) || (domain instanceof IntegerDomain)) || 
       (domain instanceof RealDomain)) || (domain instanceof NaturalDomain)) || (domain instanceof BooleanDomain))) {

@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Automatic-Module-Name: org.asmeta.avallaxt.ui.tests
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.avallaxt.ui.tests
-Bundle-Vendor: My Company
-Bundle-Version: 21.06
+Bundle-Vendor: foselab.unibg.it
+Bundle-Version: 22.09
 Bundle-SymbolicName: org.asmeta.avallaxt.ui.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.avallaxt.ui,
@@ -15,5 +15,5 @@ Require-Bundle: org.asmeta.avallaxt.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.workbench;resolution:=optional,
  org.eclipse.xtext.ui.testing
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.asmeta.avallaxt.ui.tests;x-internal=true
