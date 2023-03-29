@@ -627,7 +627,7 @@ public class SimGUI extends JFrame {
 					}
 					
 					if(compositionTree != null) {
-						CompositionGUI.main(containerInstance, compositionTree, contentPane);
+						CompositionGUI.main(containerInstance, compositionTree);
 					} else {
 						JOptionPane.showMessageDialog(contentPane, "Error: composition error!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
@@ -1186,7 +1186,7 @@ public class SimGUI extends JFrame {
 		return monitoredList;
 	}
 	
-	protected Map<String, String> getInput(List<String> monitoredList, boolean auto) {
+	private Map<String, String> getInput(List<String> monitoredList, boolean auto) {
 		Map<String, String> input = new HashMap<>();
 		Map<String, Object[]> enumDomainFunction = new HashMap<>();
 		String inputValue = new String();
@@ -1195,7 +1195,7 @@ public class SimGUI extends JFrame {
 		String domainName = new String();
 		boolean nArity = false;
 		Object[] options;
-		/*
+		
 		if(monitoredList == null || monitoredList.isEmpty()) {
 			return null;
 		}
@@ -1275,7 +1275,7 @@ public class SimGUI extends JFrame {
 			}
 			input.put(monitored, inputValue);
 			nArity = false;
-		}*/
+		}
 		return input;
 	}
 	
