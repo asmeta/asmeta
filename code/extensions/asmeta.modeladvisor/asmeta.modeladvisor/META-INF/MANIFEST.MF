@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta model advisor
 Bundle-SymbolicName: asmeta.modeladvisor
-Bundle-Version: 22.09
+Bundle-Version: 23.03
 Bundle-ClassPath: args4j.jar,
  .
 Require-Bundle: asmeta.emf,

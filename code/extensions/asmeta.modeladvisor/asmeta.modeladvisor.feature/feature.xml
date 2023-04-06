@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.asmetama.feature"
       label="Asmeta model advisor"
-      version="22.09"
+      version="23.03"
       provider-name="fmse.di.unimi.it">
 
    <description>

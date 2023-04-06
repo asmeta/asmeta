@@ -37,6 +37,26 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- altro plugin
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+			<artifactId>javacc-maven-plugin</artifactId>
+			<version>3.0.1</version>
+				<executions>
+					<execution>
+			<id>javacc</id>
+						<goals>
+							<goal>javacc</goal>
+						</goals>
+			<configuration>
+							<lookAhead>2</lookAhead>
+			<isStatic>false</isStatic>
+			<sourceDirectory>src\org\asmeta\parser\</sourceDirectory>
+			</configuration>
+					</execution>
+				</executions>
+			</plugin>
+-->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta animator
 Bundle-SymbolicName: asmeta.animator
-Bundle-Version: 22.09
+Bundle-Version: 23.03
 Automatic-Module-Name: asmeta.animator
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: asmeta.emf,

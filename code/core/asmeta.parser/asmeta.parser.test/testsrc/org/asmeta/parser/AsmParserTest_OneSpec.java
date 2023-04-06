@@ -46,6 +46,12 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 		String file = "test/parser/bagCT.asm";
 		testOneSpec(file);
 	}
+	@Test
+	public void testDF() {
+		String file = "test/parser/Dragonfly_verification.asm";
+		testOneSpec(file);
+	}
+	
 	
 	@Test
 	public void testOneSpec2() {
