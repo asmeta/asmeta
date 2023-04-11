@@ -47,9 +47,11 @@ https://asmeta.github.io/
 
 new version! - some improvements regarding the parsing and some minor bugs are fixed:
 
-https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2022_09.zip
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2023_03.zip
 
 #### old versions
+
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2022_09.zip
 
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2022_04.zip
 
