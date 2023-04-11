@@ -2870,7 +2870,7 @@ Term Expression(HashMap localVar, boolean areAllowedNewVar) :
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
       //assert tupleT.getTerms().size() == tupleT.getArity();
-      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ", token);
     }
   )*
   {
@@ -2904,7 +2904,7 @@ Term or_xorLogicExpr(HashMap localVar, boolean areAllowedNewVar) :
       String funcName = Utility.getFunctionName(op.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
       //assert tupleT.getTerms().size() == tupleT.getArity();      arg1 = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
-      if (arg1 == null) throw new ParseException("");
+      if (arg1 == null) throw new ParseException("Error at ", token);
     }
   )*
   {
@@ -2931,7 +2931,7 @@ Term andLogicExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg1 = t;
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ", token);
     }
   )*
   {
@@ -2967,7 +2967,7 @@ Term includesExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg1 = t;
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ", token);
     }
   )?
   {
@@ -3021,7 +3021,9 @@ Term relationalExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg1 = t;
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      //assert tupleT.getTerms().size() == tupleT.getArity();
+      t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());      if (t == null) 
+      		throw new ParseException("Error reading relationalExpr ", token);
     }
   )*
   {
@@ -3048,7 +3050,7 @@ Term notLogicExpr(HashMap localVar, boolean areAllowedNewVar) :
       String funcName = Utility.getFunctionName(op.image);
       TupleTerm tupleT = Utility.createSingle(arg, termsPack, defPack, header.getSignature());
       //assert tupleT.getTerms().size() == tupleT.getArity();
-      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ", token);
     }
   | t = additiveExpr(localVar, areAllowedNewVar)
   )
@@ -3085,7 +3087,7 @@ Term additiveExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg1 = t;
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ", token);
     }
   )*
   {
@@ -3127,7 +3129,7 @@ Term multiplicativeExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg1 = t;
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ", token);
     }
   )*
   {
@@ -3152,7 +3154,7 @@ Term powerExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg1 = t;
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ", token);
     }
   )*
   {
@@ -3264,14 +3266,14 @@ FunctionTerm FunctionTerm(HashMap localVar, boolean areAllowedNewVar) :
       FunctionTerm agent_funT;
       if (agentName.equals("self"))
       {
-        if ((agent_funT = Utility.createFunctionTerm("self", null, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+        if ((agent_funT = Utility.createFunctionTerm("self", null, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ", token);
       }
       else
       {
         Term arg = Utility.createStringT(agentName, termsPack, domainsFactory);
         TupleTerm agentArg = Utility.createSingle(arg, termsPack, defPack, header.getSignature());
         //assert agentArg.getTerms().size() == agentArg.getArity();
-        if ((agent_funT = Utility.createFunctionTerm("getAgent", agentArg, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+        if ((agent_funT = Utility.createFunctionTerm("getAgent", agentArg, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ", token);
       }
       //insert the functionTerm created as first element of tupleT
       if (tupleT == null)
@@ -3316,13 +3318,13 @@ LocationTerm LocationTerm(HashMap localVar, boolean areAllowedNewVar) :
       FunctionTerm agent_funT;
       if (agentName.equals("self"))
       {
-        if ((agent_funT = Utility.createFunctionTerm("self", null, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+        if ((agent_funT = Utility.createFunctionTerm("self", null, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ", token);
       }
       else
       {
         Term arg = Utility.createStringT(agentName, termsPack, domainsFactory);
         TupleTerm agentArg = Utility.createPair(arg, null, termsPack, defPack, header.getSignature());
-        if ((agent_funT = Utility.createFunctionTerm("getAgent", agentArg, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+        if ((agent_funT = Utility.createFunctionTerm("getAgent", agentArg, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ", token);
       }
       //insert the functionTerm created as first element of tupleT
       if (tupleT == null)
