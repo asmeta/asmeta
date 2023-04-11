@@ -150,7 +150,9 @@ public class ASMParser
   {
     // ho un problema con la nuova implementazione di javacc e JavaCharStream
     // usando la versione vecchia e il plugin di eclipse funziona
+    // versione per ph-javacc-maven-plugin
     // this (new java.io.FileInputStream(f),Charset.forName("UTF-8"));
+    // versione per javacc-maven-plugin
     this (new java.io.FileInputStream(f),"UTF-8");
     //Check the file name
     if (!f.exists() || !f.isFile())

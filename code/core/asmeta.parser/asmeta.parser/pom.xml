@@ -16,47 +16,47 @@
 			</resource>
 		</resources>
 		<plugins>
-			<plugin>
-				<groupId>com.helger.maven</groupId>
-				<artifactId>ph-javacc-maven-plugin</artifactId>
-				<version>4.1.4</version>
+			<!-- plugin per javacc ma ha problemi con charstream			
+		<plugin>
+			<groupId>com.helger.maven</groupId>
+			<artifactId>ph-javacc-maven-plugin</artifactId>
+			<version>4.1.4</version>
 				<executions>
 					<execution>
-						<id>jjc1</id>
+			<id>jjc1</id>
 						<phase>generate-sources</phase>
+						<goals>
+			<goal>javacc</goal>
+						</goals>
+						<configuration>
+			<jdkVersion>1.8</jdkVersion>
+			<javadocFriendlyComments>true</javadocFriendlyComments>
+			<packageName>org.asmeta.parser</packageName>
+			<sourceDirectory>src/org/asmeta/parser</sourceDirectory>
+			<outputDirectory>src</outputDirectory>
+						</configuration>
+			</execution>
+				</executions>
+			</plugin>-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>javacc-maven-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>javacc</id>
 						<goals>
 							<goal>javacc</goal>
 						</goals>
 						<configuration>
-							<jdkVersion>1.8</jdkVersion>
-							<javadocFriendlyComments>true</javadocFriendlyComments>
-							<packageName>org.asmeta.parser</packageName>
-							<sourceDirectory>src/org/asmeta/parser</sourceDirectory>
-							<outputDirectory>src</outputDirectory>
+							<lookAhead>2</lookAhead>
+							<isStatic>false</isStatic>
+							<sourceDirectory>src\org\asmeta\parser\</sourceDirectory>
+							<outputDirectory>src\</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-			<!-- altro plugin
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-			<artifactId>javacc-maven-plugin</artifactId>
-			<version>3.0.1</version>
-				<executions>
-					<execution>
-			<id>javacc</id>
-						<goals>
-							<goal>javacc</goal>
-						</goals>
-			<configuration>
-							<lookAhead>2</lookAhead>
-			<isStatic>false</isStatic>
-			<sourceDirectory>src\org\asmeta\parser\</sourceDirectory>
-			</configuration>
-					</execution>
-				</executions>
-			</plugin>
--->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
@@ -77,6 +77,12 @@
 			<groupId>org.eclipse.emf</groupId>
 			<artifactId>org.eclipse.emf.common</artifactId>
 			<version>2.26.0</version>
+		</dependency>
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.emf</artifactId>
+			<type>pom</type>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
