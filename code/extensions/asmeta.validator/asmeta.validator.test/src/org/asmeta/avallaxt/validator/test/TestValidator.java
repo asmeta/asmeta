@@ -32,7 +32,7 @@ public class TestValidator {
 		assert dir.exists() && dir.isDirectory();
 		// clean directory
 		for(File file: dir.listFiles()) {
-		    if (file.getName().endsWith(".asm")) 
+		    if (file.getName().endsWith(ASMParser.asmExtension)) 
 		        file.delete();
 		    if (file.isDirectory()) {
 		    	file.delete();
@@ -62,13 +62,13 @@ public class TestValidator {
 		} else {
 			//
 			System.out.println("translating " + scenarioPath);
-			File tempAsmPath = new File("temp"); //Files.createTempFile("__tempAsmetaV", ".asm").toFile();
+			File tempAsmPath = new File("temp"); //Files.createTempFile("__tempAsmetaV", ASMParser.asmExtension).toFile();
 			// delete if exists
 			org.asmeta.xt.validator.AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(scenarioPath, tempAsmPath);
 			builder.save();
 			// the files exists
 			assertTrue(tempAsmPath.exists());
-			assertTrue(builder.getTempAsmPath().exists() && builder.getTempAsmPath().isFile() && builder.getTempAsmPath().getName().endsWith(".asm"));
+			assertTrue(builder.getTempAsmPath().exists() && builder.getTempAsmPath().isFile() && builder.getTempAsmPath().getName().endsWith(ASMParser.asmExtension));
 			// it should be parsable:
 			AsmCollection asmc = ASMParser.setUpReadAsm(builder.getTempAsmPath());
 			System.out.println(ASMParser.getResultLogger().errors);

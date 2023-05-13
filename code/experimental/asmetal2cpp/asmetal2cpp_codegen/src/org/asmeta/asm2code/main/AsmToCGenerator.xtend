@@ -5,13 +5,14 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import org.asmeta.asm2code.formatter.Formatter
 import org.eclipse.xtext.generator.IGenerator
+import org.asmeta.parser.ASMParser
 
 /** 
  * the real generator
  */
 abstract class AsmToCGenerator implements IGenerator {
 	protected TranslatorOptions options
-	public static String Ext = ".asm"
+	public static String Ext = ASMParser.asmExtension
 
 	new () {
 		options = new TranslatorOptions(true, false, false,false)

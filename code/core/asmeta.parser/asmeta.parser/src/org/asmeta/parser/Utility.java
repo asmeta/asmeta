@@ -803,7 +803,7 @@ public class Utility {
 		logger.debug("Checking applicability...");
 		// FIXME 1/4/2009 code commented
 		if (!OCL_Checker.applicable(term)) {
-			logger.fatal("not applicable! " + OCL_Checker.getMSG_ERR());
+			logger.fatal("not applicable! " + OCL_Checker.getMsgErr());
 			return null;
 		}
 		return term;

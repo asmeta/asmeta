@@ -114,7 +114,7 @@ public class AsmetaModel implements IAsmetaModel {
 					for (int i = 0; i < importSize; i++) {
 						String moduleName = asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
 						if(!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
-							outList = getAllOut(outList, root + moduleName + ".asm");
+							outList = getAllOut(outList, root + moduleName + ASMParser.asmExtension);
 						}
 					}
 				} catch (Exception e) {
@@ -216,9 +216,9 @@ public class AsmetaModel implements IAsmetaModel {
 	 * @return: the filename of the asm model 
 	 */
 	public static String clearPath(String path) {
-		if(!path.isEmpty() && path.indexOf(".asm") != -1 && path.indexOf("\\") >= 0) {
+		if(!path.isEmpty() && path.indexOf(ASMParser.asmExtension) != -1 && path.indexOf("\\") >= 0) {
 			return (path.substring(path.lastIndexOf("\\") + 1));
-		 } else if(!path.isEmpty() && path.indexOf(".asm") != -1 && path.indexOf("/") >= 0) {
+		 } else if(!path.isEmpty() && path.indexOf(ASMParser.asmExtension) != -1 && path.indexOf("/") >= 0) {
 			 return (path.substring(path.lastIndexOf("/") + 1));
 		 }
 		return path;

@@ -67,7 +67,7 @@ public abstract class HWIntegratorAbstractClass {
 			//System.out.println(jsonGen.compile(model,true));
 			//Check if the U2C file has to be exported
 			if (export) {
-				String filePath = uasmFile.getPath().replace(".asm", ".u2c");
+				String filePath = uasmFile.getPath().replace(ASMParser.asmExtension, ".u2c");
 				String separator = (filePath.indexOf("\\") >= 0) ? "\\" : "/";
 				int index = filePath.lastIndexOf(separator) + 1;
 				filePath = filePath.substring(0, index) + dateFormat.format(new Date()) + "_" + filePath.substring(index, filePath.length());

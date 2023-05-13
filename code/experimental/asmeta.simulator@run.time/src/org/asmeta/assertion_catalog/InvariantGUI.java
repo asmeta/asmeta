@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
-
+import org.asmeta.parser.ASMParser;
 import org.asmeta.runtime_container.IModelAdaptation;
 import org.asmeta.runtime_container.InvariantData;
 import org.asmeta.simulationUI.SimGUI;
@@ -360,7 +360,7 @@ public class InvariantGUI {
 					   if (ci!=null) {
 						   currentLoadedID = ci.getInt();
 						   currentLoadedModel = ci.getStr();
-						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(".asm")!=-1 && showInvariants())
+						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(ASMParser.asmExtension)!=-1 && showInvariants())
 						   {
 							   add.setEnabled(true);
 							   refresh.setEnabled(true);
@@ -370,7 +370,7 @@ public class InvariantGUI {
 							   else
 								   modelpath.setText(currentLoadedModel);
 						   }
-						   else if(currentLoadedModel.indexOf(".asm")==-1 && !currentLoadedModel.isEmpty())
+						   else if(currentLoadedModel.indexOf(ASMParser.asmExtension)==-1 && !currentLoadedModel.isEmpty())
 							   JOptionPane.showMessageDialog(getContentPane(), "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
 					   }
 				   } catch (Exception ex) {

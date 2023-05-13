@@ -386,7 +386,7 @@ class JsonGenerator implements IGenerator {
 				lock = false
 				currentFolder = folderPath
 			}
-			var File asmDir = new File(currentFolder + imp + ".asm")
+			var File asmDir = new File(currentFolder + imp + ASMParser.asmExtension)
 			//println("Path: " + asmDir.path)
 			if(!asmDir.exists) throw new Exception("File Path Not Found")
 			var Asm model = ASMParser.setUpReadAsm(asmDir).getMain()

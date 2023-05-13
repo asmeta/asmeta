@@ -111,7 +111,7 @@ public class AsmParserTest {
 	 * @param visitParsedSpec visits the parse spec to check if the visitor works
 	 * @return the asm collection
 	 */
-	private AsmCollection testOneSpec(File spec, boolean failOnError, boolean visitParsedSpec) {
+	protected AsmCollection testOneSpec(File spec, boolean failOnError, boolean visitParsedSpec) {
 		try {
 			AsmCollection x = ASMParser.setUpReadAsm(spec);
 			if (failOnError) assertNotNull(x);

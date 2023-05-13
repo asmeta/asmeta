@@ -35,7 +35,6 @@ import java.nio.charset.Charset;
 
 public class ASMParser
 {
-  public static final String VERSION = "2.0.0";
 
   public static final String asmExtension = ".asm";
 
@@ -64,19 +63,20 @@ public class ASMParser
   //the structured domains created during parsing. It associates domain names to the corresponding object. Its tuples are of kind(String,StructuredTD)
   // NO LONGER USED
   //private static HashMap<String,Domain> predefined_Dom = new HashMap<String,Domain>();    //the domains created during parsing. It associates domain names to the corresponding object. Its tuples are of kind(String,TypeDomain)
-  private Map < String, EnumTd > enumElem = new HashMap(); //It associates enumeration element names to their enumeration domain. Its tuples are of kind(String,EnumTD)
+  private Map < String, EnumTd > enumElem = new HashMap<>(); //It associates enumeration element names to their enumeration domain. Its tuples are of kind(String,EnumTD)
 
   //These hashMap associate the hashcode of the element name to the element name itself. Its tuples are of kind (Integer,String)
-  private HashMap exported_Rules;
+ 
+  private HashMap<Integer, String> exported_Rules;
 
-  private HashMap exported_Func;
+  private HashMap<Integer, String> exported_Func;
 
-  private HashMap exported_Dom;
+  private HashMap<Integer, String> exported_Dom;
 
   private boolean exportAll; //the value "true" indicates all functions and rule are exported
 
   // forse si puo' eliminare - non serve piu' AG
-  private HashMap programs = new HashMap(); //the hashmap associating names of rule declarations (programs for agents) to the corresponding agent. Its tuples are of kind (Sting,AgentInitialization)
+  // private HashMap programs = new HashMap(); //the hashmap associating names of rule declarations (programs for agents) to the corresponding agent. Its tuples are of kind (Sting,AgentInitialization)
 
   // these are no longer static because if it reads another (imported ASM)
   // this information must be shared. are shared by passing the argument to the new parser
@@ -116,7 +116,7 @@ public class ASMParser
     Logger.resetForParsing(f);
     assert (f.exists() && f.isFile());
     assert (f.getName().endsWith(asmExtension));
-    Logger.logInfo("parsing file " + f.getAbsolutePath());
+    Logger.logInfo("parsing file " + f.getCanonicalPath());
     // reset the domains
     DomainsFactory.eINSTANCE.resetDomains();
     Utility.reset();
@@ -126,19 +126,24 @@ public class ASMParser
     // get the asmetafactory instance
     AsmetaFactory mainpackage = AsmetaFactory.eINSTANCE;
     // builds the parser
-    asmParser = new ASMParser(f, mainpackage);
-    // parses  the main Asm
-    Optional<asmeta.structure.Asm> asm = asmParser.Asm();
-    // build the collection of ASM
-    AsmCollection allAsms = new AsmCollection(alreadyImported.values());
-    // add this one as first one
-    if (asm.isPresent()) {
-      allAsms.addMain(asm.get());
-      Logger.logInfo("file successfully parsed for asm " + asm.get().getName());
-    } else {
-      Logger.logInfo("file successfully parsed but empty");
-    }
-    return allAsms;
+    try{
+    	asmParser = new ASMParser(f, mainpackage);
+    	// parses  the main Asm
+    	Optional<asmeta.structure.Asm> asm = asmParser.Asm();
+    	// build the collection of ASM
+    	AsmCollection allAsms = new AsmCollection(alreadyImported.values());
+    	// add this one as first one
+    	if (asm.isPresent()) {
+      		allAsms.addMain(asm.get());
+      		Logger.logInfo("file successfully parsed for asm " + asm.get().getName());
+    	} else {
+      		Logger.logInfo("file successfully parsed but empty");
+    	}
+    	return allAsms;    	
+    } finally{
+    	asmParser.jj_input_stream.inputStream.close();
+    	System.out.println("CIAOOOO");
+    }    
   }
 
   /* The input file must have the same name of the ASM spec.

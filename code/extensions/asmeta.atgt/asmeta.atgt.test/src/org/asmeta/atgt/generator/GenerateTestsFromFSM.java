@@ -15,6 +15,7 @@ import org.asmeta.atgt.ConvertToAsmeta;
 import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
 import org.asmeta.nusmv.AsmetaSMV;
 import org.asmeta.nusmv.AsmetaSMVOptions;
+import org.asmeta.parser.ASMParser;
 
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
@@ -180,7 +181,7 @@ public class GenerateTestsFromFSM {
 		}
 		String asm = new ConvertToAsmeta().getASMETAFlatFromFSM(fsmPath, newAsmName);
 		String asmFile = fsmPath.replace("\\", "/").substring(0, fsmPath.lastIndexOf("\\")) + "\\" + newAsmName
-				+ ".asm";
+				+ ASMParser.asmExtension;
 		PrintWriter fout = new PrintWriter(new FileWriter(asmFile));
 		fout.println(asm);
 		fout.close();

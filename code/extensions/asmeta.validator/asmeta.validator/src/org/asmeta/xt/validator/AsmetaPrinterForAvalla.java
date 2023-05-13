@@ -75,11 +75,11 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	public AsmetaPrinterForAvalla(File tempAsmPath, Path asmPath, AsmetaFromAvallaBuilder builder)
 			throws FileNotFoundException {
 		super(tempAsmPath);
-		assert tempAsmPath.getName().endsWith(".asm");
+		assert tempAsmPath.getName().endsWith(ASMParser.asmExtension);
 		this.tempAsmPath = tempAsmPath;
 		tempAsmName = tempAsmPath.getName();
 		tempAsmName = tempAsmName.substring(0, tempAsmName.length() - 4);
-		assert asmPath.toString().endsWith(".asm");
+		assert asmPath.toString().endsWith(ASMParser.asmExtension);
 		this.asmPath = asmPath;
 		this.builder = builder;
 	}
@@ -184,13 +184,13 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 						} else {
 							// get the name form the file, not from the ASM which must be read after
 							String fileName = importedAsmPath.getFileName().toString();
-							assert fileName.endsWith(".asm");
+							assert fileName.endsWith(ASMParser.asmExtension);
 							String asmName = fileName.substring(0, fileName.length()-4);
 							// build the temp asm file and store in the table
 							// in the same directory 
 							File folder = tempAsmPath.getParentFile();
 							assert folder.exists() && folder.isDirectory();
-							importedFile = File.createTempFile("_" + asmName +"_", ".asm", tempAsmPath.getParentFile()).toPath();
+							importedFile = File.createTempFile("_" + asmName +"_", ASMParser.asmExtension, tempAsmPath.getParentFile()).toPath();
 							LOG.debug(importedAsmPath + " to be translated into "  + importedFile);
 							translatedFiles.put(importedAsmPath, importedFile);
 							// call recursively
@@ -232,7 +232,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	 */
 	static String printImport(String tempAsmPath, Path importedAsm) {		
 		assert importedAsm.toFile().exists() : "imported file with path " + importedAsm + " does not exists";
-		assert importedAsm.toFile().getName().endsWith(".asm");
+		assert importedAsm.toFile().getName().endsWith(ASMParser.asmExtension);
 		// convert to a relative path with the current file
 		assert new File(tempAsmPath).exists();
 		Path tempAsmPathParent = new File(tempAsmPath).getParentFile().toPath();

@@ -19,7 +19,7 @@ public class ParseAllExampleTest {
 	public void testParseOnExamples() throws IOException {
 
 		Files.walk(new File("examples").toPath()).forEach(x -> {
-			if (x.toString().endsWith(".asm") && !x.toString().contains("repository")) {
+			if (x.toString().endsWith(ASMParser.asmExtension) && !x.toString().contains("repository")) {
 				System.out.println(x);
 				try {
 					AsmCollection asmcollection = ASMParser.setUpReadAsm(x.toFile());

@@ -187,7 +187,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			ArrayList<Function> functions = new ArrayList<Function>();
 			AsmCollection asms;
 			try {
-				asms = ASMParser.setUpReadAsm(new File(AsmetaFMVCModel.ASM_PATH + "/" + m_model.getSimulator().getAsmModel().getName() + ".asm"));
+				asms = ASMParser.setUpReadAsm(new File(AsmetaFMVCModel.ASM_PATH + "/" + m_model.getSimulator().getAsmModel().getName() + ASMParser.asmExtension));
 				asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
 						.filter(fn -> fn.getName().equals(annotation.asmLocationName()))
 						.forEach(y -> functions.add(y)));

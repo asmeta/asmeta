@@ -20,6 +20,7 @@ public class ParserTest {
 	 * @return the asm 
 	 */
 	protected Asm test(final String content, final String filename) {
+//		File tempFile = new File((("temp/" + filename) + ASMParser.asmExtension));
 		File tempFile = new File((("temp/" + filename) + ".asm"));
 		boolean _exists = tempFile.exists();
 		if (_exists) {

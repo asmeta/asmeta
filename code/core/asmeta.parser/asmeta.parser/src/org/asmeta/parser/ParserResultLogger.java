@@ -93,7 +93,7 @@ public class ParserResultLogger { // DO NOT EXTEND LOGGER !!! USE COMPOSITION TO
 	}
 	// DEBUG
 	public void logDebug(String s){
-		log.debug("LOGGGER " + log.getName() + " " + log.getLevel());
+		//log.debug("LOGGGER " + log.getName() + " " + log.getLevel());
 		log.debug(s);
 	}
 

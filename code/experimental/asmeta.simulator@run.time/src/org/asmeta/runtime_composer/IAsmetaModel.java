@@ -65,7 +65,7 @@ public interface IAsmetaModel {
 	public SimulationContainer getSimulationContainer();
 	
 	/**
-	 * Getter method for the model name (it should end with ".asm").
+	 * Getter method for the model name (it should end with ASMParser.asmExtension).
 	 * @return the model name.
 	 */
 	public String getModelName();

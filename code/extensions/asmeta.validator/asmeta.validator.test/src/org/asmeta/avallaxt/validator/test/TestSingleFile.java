@@ -206,7 +206,7 @@ public class TestSingleFile extends TestValidator {
 	@Test
 	public void testlampada() throws Exception {
 		ASMParser.getResultLogger().setLevel(Level.OFF);
-		// questo mi dà errori strani
+		// questo mi dï¿½ errori strani
 		try {
 //			test("D:\\AgHome\\Dropbox\\code\\didattica\\tvsw\\unibg_tvsw\\codice_lezioni\\6_atgt\\test.avalla", false, false);		
 			test("scenariosfortest\\u_dir\\test.avalla", false, false);
@@ -229,7 +229,7 @@ public class TestSingleFile extends TestValidator {
         }
 		for(Path asm: result){
 			String filename = asm.toString();
-			if (!filename.endsWith(".asm")) continue;
+			if (!filename.endsWith(ASMParser.asmExtension)) continue;
 			System.out.println(filename);
 			AsmetaPrintInfo info = new AsmetaPrintInfo(filename);
 			System.out.println(info.getInfo().ruleNamesList);

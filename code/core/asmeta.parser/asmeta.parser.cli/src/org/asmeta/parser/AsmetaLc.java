@@ -57,7 +57,7 @@ public class AsmetaLc extends AsmetaCLI {
 							.put(Resource.Factory.Registry.DEFAULT_EXTENSION,
 									new XMIResourceFactoryImpl());
 					// Viene creato l'URI per il file.
-					int i = f.getPath().lastIndexOf(".asm");
+					int i = f.getPath().lastIndexOf(ASMParser.asmExtension);
 					// String s = new String (f.getPath().substring(0,i));
 					String s = f.getPath().substring(0, i);
 					URI fileURI = URI.createFileURI(new File(s + ".xmi")

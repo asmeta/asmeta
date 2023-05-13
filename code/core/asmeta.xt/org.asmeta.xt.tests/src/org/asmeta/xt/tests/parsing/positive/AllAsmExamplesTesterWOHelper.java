@@ -348,7 +348,7 @@ public class AllAsmExamplesTesterWOHelper {
 	};
 
 	static ArrayList<String> errors_path = new ArrayList<String> () {{
-		// File da saltare perchè sbagliati
+		// File da saltare perchï¿½ sbagliati
 		add("..\\..\\..\\asm_examples\\test\\simulator\\ArithmeticExpr02.asm");
 		add("..\\..\\..\\asm_examples\\test\\errors\\np\\m1.asm");
 		add("..\\..\\..\\asm_examples\\dagstuhl2013\\DijkstraTermination\\old\\terminationFinished20170108.asm");
@@ -548,6 +548,7 @@ public class AllAsmExamplesTesterWOHelper {
 				continue;
 
 			// parse and validate them
+//			if (specName.endsWith(ASMParser.asmExtension)) {
 			if (specName.endsWith(".asm")) {
 				if (!testAsmetaXtFile(specName, true)) {
 					System.err.println(specName);

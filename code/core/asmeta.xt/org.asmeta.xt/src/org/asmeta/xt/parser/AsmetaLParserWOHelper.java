@@ -12,6 +12,7 @@ import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.asmeta.parser.ASMParser;
 import org.asmeta.xt.AsmetaLStandaloneSetup;
 import org.asmeta.xt.asmetal.Asm;
 import org.asmeta.xt.asmetal.ImportClause;
@@ -79,13 +80,13 @@ public class AsmetaLParserWOHelper {
 				String newPath = path.replace("\\", "/");
 				newPath = newPath.substring(0, newPath.lastIndexOf("/")) + "/";
 					
-				if (!importedAsm.contains(newPath + i.getModuleName() + ".asm")) {	
+				if (!importedAsm.contains(newPath + i.getModuleName() + ASMParser.asmExtension)) {	
 				
-					importedAsm.add(newPath + i.getModuleName() + ".asm");
+					importedAsm.add(newPath + i.getModuleName() + ASMParser.asmExtension);
 					
 					System.out.println("Checking imported ASMs");
 					
-					ParseAndValidateResult otherAsmResults = new AsmetaLParserWOHelper().parseAndValidateFile(newPath + i.getModuleName() + ".asm", verifyWithOldParser);
+					ParseAndValidateResult otherAsmResults = new AsmetaLParserWOHelper().parseAndValidateFile(newPath + i.getModuleName() + ASMParser.asmExtension, verifyWithOldParser);
 					if (otherAsmResults.errors.size()>0)
 						return otherAsmResults;		
 				}

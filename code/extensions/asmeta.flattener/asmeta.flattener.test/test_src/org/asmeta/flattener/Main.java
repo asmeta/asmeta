@@ -20,8 +20,8 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		String filename = "chooseRule";
-		Asm asm = ASMParser.setUpReadAsm(new File("./examples/" + filename + ".asm")).getMain();
-		Asm flattenedAsm = ASMParser.setUpReadAsm(new File("./examples/" + filename + ".asm")).getMain();
+		Asm asm = ASMParser.setUpReadAsm(new File("./examples/" + filename + ASMParser.asmExtension)).getMain();
+		Asm flattenedAsm = ASMParser.setUpReadAsm(new File("./examples/" + filename + ASMParser.asmExtension)).getMain();
 
 		// Refactoring -----------------
 		AsmetaFlattener refactorer;

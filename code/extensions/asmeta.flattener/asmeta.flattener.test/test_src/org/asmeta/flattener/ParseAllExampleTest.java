@@ -20,7 +20,7 @@ public class ParseAllExampleTest {
 	public void testParseOnExamples() throws IOException {
 		Files.walk(Paths.get("examples"))
 			.filter(Files::isRegularFile)
-			.filter(x -> x.getFileName().toString().endsWith(".asm"))
+			.filter(x -> x.getFileName().toString().endsWith(ASMParser.asmExtension))
 			.filter(x -> !(x.getFileName().toString().contains("_flat.asm")))
 			.filter(x -> !(x.getFileName().toString().contains("_flattened.asm")))
 			.forEach(x -> {

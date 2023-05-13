@@ -277,7 +277,7 @@ public class AsmetaFMVCModel extends Observable {
 				ArrayList<Function> functions = new ArrayList<Function>();
 				AsmCollection asms;
 				try {
-					asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ".asm"));
+					asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ASMParser.asmExtension));
 					asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
 							.filter(fn -> fn.getName().equals(f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName()))
 							.forEach(y -> functions.add(y)));
@@ -355,7 +355,7 @@ public class AsmetaFMVCModel extends Observable {
 					ArrayList<Function> functions = new ArrayList<Function>();
 					AsmCollection asms;
 					try {
-						asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ".asm"));
+						asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ASMParser.asmExtension));
 						asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
 								.filter(fn -> fn.getName().equals(f1.asmLocationName()))
 								.forEach(y -> functions.add(y)));

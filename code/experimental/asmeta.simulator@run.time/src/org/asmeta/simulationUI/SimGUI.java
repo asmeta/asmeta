@@ -734,7 +734,7 @@ public class SimGUI extends JFrame {
 					   if(ci!=null) {
 						   currentLoadedID = ci.getInt();
 						   currentLoadedModel = ci.getStr();
-						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(".asm")!=-1){
+						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(ASMParser.asmExtension)!=-1){
 							   if (currentLoadedModel.indexOf("\\")>=0) {
 								   textPaneModel.setText(currentLoadedModel.substring(currentLoadedModel.lastIndexOf("\\")+1));
 								   textPaneID.setText(Integer.toString(currentLoadedID));
@@ -745,7 +745,7 @@ public class SimGUI extends JFrame {
 							   clearMenuItem.doClick();
 							   textAreaLog.setText("Simulation ready.\n");
 						   }
-						   else if(currentLoadedModel.indexOf(".asm")==-1 && !currentLoadedModel.isEmpty())
+						   else if(currentLoadedModel.indexOf(ASMParser.asmExtension)==-1 && !currentLoadedModel.isEmpty())
 							   JOptionPane.showMessageDialog(contentPane, "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
 					   }
 				   } catch (Exception ex) {
@@ -1174,7 +1174,7 @@ public class SimGUI extends JFrame {
 					for (int i = 0; i < importSize; i++) {
 						String moduleName = asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
 						if(!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
-							monitoredList = getAllMonitored(monitoredList, root + moduleName + ".asm");
+							monitoredList = getAllMonitored(monitoredList, root + moduleName + ASMParser.asmExtension);
 						}
 					}
 				} catch (Exception e) {

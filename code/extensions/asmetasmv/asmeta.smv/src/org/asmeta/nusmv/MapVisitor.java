@@ -587,9 +587,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			// System.out.println(AsmetaMultipleFlattener.printASM(asm));
 
 			/*
-			 * File tempFile = File.createTempFile("tmp", ".asm"); String printASM =
+			 * File tempFile = File.createTempFile("tmp", ASMParser.asmExtension); String printASM =
 			 * AsmetaMultipleFlattener.printASM(asm); printASM = printASM.replaceFirst(name,
-			 * tempFile.toPath().getFileName().toString().replace(".asm", ""));
+			 * tempFile.toPath().getFileName().toString().replace(ASMParser.asmExtension, ""));
 			 * System.out.println(printASM);
 			 * Files.write(Paths.get(tempFile.getAbsolutePath()),
 			 * printASM.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,

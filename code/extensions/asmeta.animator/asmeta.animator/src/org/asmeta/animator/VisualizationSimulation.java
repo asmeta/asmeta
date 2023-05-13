@@ -376,7 +376,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	protected void exportToAvalla() {
 		simulatorLogger.info("//// starting scenario");
 		simulatorLogger.info("scenario " + "SCENARIO_NAME");
-		simulatorLogger.info("load " + asm.getMain().getName() + ".asm");
+		simulatorLogger.info("load " + asm.getMain().getName() + ASMParser.asmExtension);
 		// TODO create new file/document
 		// DOWN
 		TableItem[] states_down = table_states_right_down.getItems();
