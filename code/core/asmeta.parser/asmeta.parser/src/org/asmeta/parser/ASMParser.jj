@@ -146,7 +146,7 @@ public class ASMParser
      */
   private ASMParser(File f, AsmetaFactory asmPack) throws Exception
   {
-    this (new java.io.FileInputStream(f),Charset.forName("UTF-8"));
+    this (new java.io.FileInputStream(f),"UTF-8");
     //Check the file name
     if (!f.exists() || !f.isFile())
     {
