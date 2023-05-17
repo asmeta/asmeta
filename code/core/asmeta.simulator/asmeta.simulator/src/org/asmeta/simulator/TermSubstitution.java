@@ -37,8 +37,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.terms.basicterms.ConstantTerm;

@@ -1,15 +1,12 @@
 package org.asmeta.xt.parser;
 
 import java.io.File;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.asmeta.parser.ASMParser;
 import org.asmeta.xt.asmetal.Asm;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.validation.Issue;
 

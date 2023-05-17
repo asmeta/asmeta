@@ -11,7 +11,6 @@ import org.asmeta.eclipse.AsmeeActivator;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParserResultLogger;
-import org.asmeta.parser.TokenMgrException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;

@@ -3,9 +3,10 @@
  */
 package org.asmeta.avallaxt.ui.tests;
 
-import com.google.inject.Injector;
 import org.asmeta.avallaxt.ui.internal.AvallaxtActivator;
 import org.eclipse.xtext.testing.IInjectorProvider;
+
+import com.google.inject.Injector;
 
 public class AvallaUiInjectorProvider implements IInjectorProvider {
 

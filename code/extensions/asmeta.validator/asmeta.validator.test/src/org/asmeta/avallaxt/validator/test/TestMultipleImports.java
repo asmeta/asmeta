@@ -1,20 +1,9 @@
 package org.asmeta.avallaxt.validator.test;
 
-import java.io.File;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.asmeta.parser.ParserResultLogger;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaPrinterForAvalla;
-import org.asmeta.xt.validator.AsmetaV;
-import org.asmeta.xt.validator.SimulatorWCov;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

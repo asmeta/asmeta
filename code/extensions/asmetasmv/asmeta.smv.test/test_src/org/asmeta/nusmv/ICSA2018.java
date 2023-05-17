@@ -1,7 +1,5 @@
 package org.asmeta.nusmv;
 
-import org.asmeta.nusmv.util.Util;
-
 public class ICSA2018 {
 
 	public static void main(String[] args) throws Exception {

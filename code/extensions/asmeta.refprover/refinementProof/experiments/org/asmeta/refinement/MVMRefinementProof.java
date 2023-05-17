@@ -2,7 +2,6 @@ package org.asmeta.refinement;
 
 import static org.junit.Assert.assertTrue;
 
-import org.asmeta.refinement.RefinementProof;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

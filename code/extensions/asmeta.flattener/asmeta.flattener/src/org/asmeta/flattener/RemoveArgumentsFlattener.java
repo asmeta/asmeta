@@ -3,6 +3,7 @@ package org.asmeta.flattener;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.LinkedHashMap;
+
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -13,6 +14,7 @@ import org.asmeta.flattener.rule.AsmetaFlattener;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.simulator.wrapper.RuleFactory;
+
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
 import asmeta.structure.FunctionDefinition;

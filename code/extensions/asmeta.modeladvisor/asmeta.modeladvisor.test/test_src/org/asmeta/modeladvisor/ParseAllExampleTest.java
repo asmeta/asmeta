@@ -1,12 +1,11 @@
 package org.asmeta.modeladvisor;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;

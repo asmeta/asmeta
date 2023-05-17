@@ -2,7 +2,9 @@ package org.asmeta.xt.validation.utility;
 
 import java.util.ArrayList;
 
-import org.asmeta.xt.asmetal.*;
+import org.asmeta.xt.asmetal.AsmetalFactory;
+import org.asmeta.xt.asmetal.Domain;
+import org.asmeta.xt.asmetal.StandardDomain;
 
 public class BasicDomains {
 

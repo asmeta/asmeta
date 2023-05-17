@@ -26,7 +26,6 @@ package org.asmeta.simulator;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

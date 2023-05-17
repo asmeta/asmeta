@@ -10,6 +10,7 @@ import org.asmeta.flattener.term.TermSimplifier;
 import org.asmeta.flattener.util.StdlFunction;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.wrapper.RuleFactory;
+
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.Term;

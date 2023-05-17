@@ -18,7 +18,6 @@ import org.asmeta.flattener.rule.ChooseRuleFlattener;
 import org.asmeta.flattener.rule.ForallRuleFlattener;
 import org.asmeta.flattener.rule.LetRuleFlattener;
 import org.asmeta.flattener.rule.MacroCallRuleFlattener;
-import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.preference.IPreferenceStore;

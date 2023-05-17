@@ -14,7 +14,6 @@ import java.util.Collection;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.flattener.nesting.RemoveNestingFlattener;
-import org.asmeta.nusmv.util.Util;
 import org.asmeta.parser.ASMFileFilter;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.junit.Test;

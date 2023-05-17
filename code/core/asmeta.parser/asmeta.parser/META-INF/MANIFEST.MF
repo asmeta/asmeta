@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta parser
 Bundle-SymbolicName: asmeta.parser;singleton:=true
-Bundle-Version: 23.03
+Bundle-Version: 23.05
 Bundle-ClassPath: .
 Require-Bundle: asmeta.emf,
  org.apache.log4j,

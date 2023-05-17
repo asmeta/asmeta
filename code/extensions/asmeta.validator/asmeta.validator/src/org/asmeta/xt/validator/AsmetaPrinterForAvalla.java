@@ -2,10 +2,8 @@ package org.asmeta.xt.validator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,10 +21,10 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
 import org.asmeta.parser.Utility;
 import org.asmeta.parser.util.AsmPrinter;
+import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.util.StandardLibrary;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.xtext.util.internal.Log;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -42,8 +40,6 @@ import asmeta.structure.ImportClause;
 import asmeta.structure.Initialization;
 import asmeta.terms.basicterms.Term;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
-import org.asmeta.simulator.Environment;
-import org.asmeta.simulator.Environment.TimeMngt;
 
 public class AsmetaPrinterForAvalla extends AsmPrinter {
 	

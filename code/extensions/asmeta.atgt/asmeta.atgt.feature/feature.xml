@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.atgt.feature"
       label="Asmeta test generator"
-      version="23.03">
+      version="23.05">
 
    <description>
       Asmeta Test generator

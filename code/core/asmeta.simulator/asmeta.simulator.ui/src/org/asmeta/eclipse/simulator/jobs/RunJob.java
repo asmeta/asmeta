@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import org.apache.log4j.Appender;
-import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
 import org.asmeta.eclipse.AsmeeConsoleParticipant;

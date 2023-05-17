@@ -3,11 +3,9 @@
  */
 package org.asmeta.avallaxt.ui.internal;
 
-import com.google.common.collect.Maps;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import java.util.Collections;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.asmeta.avallaxt.AvallaRuntimeModule;
 import org.asmeta.avallaxt.ui.AvallaUiModule;
@@ -15,6 +13,10 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.ui.shared.SharedStateModule;
 import org.eclipse.xtext.util.Modules2;
 import org.osgi.framework.BundleContext;
+
+import com.google.common.collect.Maps;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 /**
  * This class was generated. Customizations should only happen in a newly

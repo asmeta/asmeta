@@ -1,10 +1,7 @@
 package org.asmeta.avallaxt.validator.test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -22,8 +19,6 @@ import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaPrinterForAvalla;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import asmeta.AsmCollection;
 
 public class TestSingleFile extends TestValidator {
 

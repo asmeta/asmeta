@@ -5,7 +5,6 @@ import java.io.PrintStream;
 
 import org.asmeta.eclipse.AsmetaActionHandler;
 import org.asmeta.eclipse.AsmetaUtility;
-import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.swt.widgets.Display;

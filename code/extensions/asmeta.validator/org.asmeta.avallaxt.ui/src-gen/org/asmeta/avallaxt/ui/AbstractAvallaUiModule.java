@@ -3,9 +3,6 @@
  */
 package org.asmeta.avallaxt.ui;
 
-import com.google.inject.Binder;
-import com.google.inject.Provider;
-import com.google.inject.name.Names;
 import org.asmeta.avallaxt.ide.contentassist.antlr.AvallaParser;
 import org.asmeta.avallaxt.ide.contentassist.antlr.PartialAvallaContentAssistParser;
 import org.asmeta.avallaxt.ide.contentassist.antlr.internal.InternalAvallaLexer;
@@ -80,6 +77,10 @@ import org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferences;
 import org.eclipse.xtext.ui.resource.ResourceServiceDescriptionLabelProvider;
 import org.eclipse.xtext.ui.shared.Access;
 import org.eclipse.xtext.ui.validation.AbstractValidatorConfigurationBlock;
+
+import com.google.inject.Binder;
+import com.google.inject.Provider;
+import com.google.inject.name.Names;
 
 /**
  * Manual modifications go to {@link AvallaUiModule}.

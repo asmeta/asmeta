@@ -1,7 +1,5 @@
 package org.asmeta.eclipse.editor.preferences;
 
-import java.time.temporal.ChronoUnit;
-
 /**
  * Constant definitions for plug-in preferences
  */

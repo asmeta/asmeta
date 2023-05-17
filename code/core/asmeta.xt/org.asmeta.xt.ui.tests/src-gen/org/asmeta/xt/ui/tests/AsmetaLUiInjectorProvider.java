@@ -3,9 +3,10 @@
  */
 package org.asmeta.xt.ui.tests;
 
-import com.google.inject.Injector;
 import org.asmeta.xt.ui.internal.XtActivator;
 import org.eclipse.xtext.testing.IInjectorProvider;
+
+import com.google.inject.Injector;
 
 public class AsmetaLUiInjectorProvider implements IInjectorProvider {
 

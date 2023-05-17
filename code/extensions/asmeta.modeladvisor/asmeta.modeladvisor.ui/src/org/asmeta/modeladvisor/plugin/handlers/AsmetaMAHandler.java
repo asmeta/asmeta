@@ -2,9 +2,6 @@ package org.asmeta.modeladvisor.plugin.handlers;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.net.URI;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.asmeta.eclipse.AsmetaActionHandler;
 import org.asmeta.eclipse.AsmetaUtility;
@@ -13,7 +10,6 @@ import org.asmeta.modeladvisor.plugin.AsmetaMAActivator;
 import org.asmeta.modeladvisor.plugin.AsmetaMAConsole;
 import org.asmeta.modeladvisor.plugin.AsmetaMAPreferencePage;
 import org.asmeta.nusmv.AsmetaSMVOptions;
-import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
@@ -21,7 +17,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.console.ConsolePlugin;
