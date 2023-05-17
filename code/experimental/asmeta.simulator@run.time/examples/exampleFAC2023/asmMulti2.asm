@@ -5,15 +5,19 @@ asm asmMulti
 import StandardLibrary
 
 signature:
+	monitored funcInc: Integer
+	monitored funcDec: Integer
 	monitored myinput: Integer //unbound input
 	out funcMulti: Integer
 
 definitions:
 
 	main rule r_Main = 
-		funcMulti := myinput *2
+		funcMulti := (funcInc + funcDec + myinput) *2
 
 
 default init s0:
+	function funcInc = 0
+	function funcDec = 0
 	
-	// asmMulti.asm | (asmInc.asm <|> asmDec.asm)
+	//asmDec.asm <|> (asmMulti.asm <|> asmInc.asm)

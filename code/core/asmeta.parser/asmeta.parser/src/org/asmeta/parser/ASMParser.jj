@@ -146,7 +146,13 @@ public class ASMParser
      */
   private ASMParser(File f, AsmetaFactory asmPack) throws Exception
   {
-    this (new java.io.FileInputStream(f),"UTF-8");
+    // ho un problema con la nuova implementazione di javacc e JavaCharStream
+    // usando la versione vecchia e il plugin di eclipse funziona
+    // versione per ph-javacc-maven-plugin
+    this (new java.io.FileInputStream(f),Charset.forName("UTF-8"));
+    // versione per javacc-maven-plugin
+    //this (new java.io.FileInputStream(f),"UTF-8");
+    
     //Check the file name
     if (!f.exists() || !f.isFile())
     {
@@ -467,7 +473,7 @@ TOKEN :
 /*                         GRAMMAR START                       */
 /***************************************************************/
 /***** MAIN OK!
-se il file è vuoto non restituisce nulla
+se il file ï¿½ vuoto non restituisce nulla
 *****/
 Optional<Asm > Asm() :
 {
@@ -481,7 +487,7 @@ Optional<Asm > Asm() :
   Asm asmMachine = null;
 }
 {
-  // il tutto è opzionale
+  // il tutto ï¿½ opzionale
   [
     [
       < ASYNCR >
