@@ -23,8 +23,6 @@ public interface IModelComposition {
 	 */
 	public RunOutput getLastOutput();
 	
-	public void run(int idComposition, Map<Integer, Composition> asmCompositions) throws CompositionException;
-	
 	/**
 	 * Simulation container's runStep(...) method on the composed simulation.
 	 * @param id: the id of the first model of the composition.

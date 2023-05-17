@@ -12,7 +12,7 @@ import org.asmeta.runtime_container.SimulationContainer;
  */
 public class SimShell {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		String userInput = String.join(" ", args); // SimShell works as a command line tool as well
 		SimulationContainer containerInstance = new SimulationContainer();
 		Commander.debugMode = false;
@@ -31,12 +31,7 @@ public class SimShell {
 			}									
 			System.out.print(Commander.prompt);
 			userInput = keyboard.nextLine();
-			//new code
-			if(userInput.contains("compose") || userInput.contains("exe") || userInput.contains("runasm")) {
-				CO = Commander.parseInput(containerInstance, userInput);
-			}
-					
-			else if (!userInput.equals("qqq") && !userInput.equals("quit")) {
+			if (!userInput.equals("qqq") && !userInput.equals("quit")) {
 				CO = Commander.parseInput(containerInstance, userInput);
 				try {
 					switch (CO.getStatus()) {

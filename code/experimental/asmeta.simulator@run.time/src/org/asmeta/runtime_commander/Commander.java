@@ -17,37 +17,24 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.asmeta.parser.ASMParser;
-import org.asmeta.runtime_composer.BiPipeFullDup;
-import org.asmeta.runtime_composer.BiPipeHalfDup;
-import org.asmeta.runtime_composer.Composition;
 import org.asmeta.runtime_composer.CompositionException;
 import org.asmeta.runtime_composer.CompositionManager;
 import org.asmeta.runtime_composer.CompositionRunType;
 import org.asmeta.runtime_composer.CompositionTreeNode;
 import org.asmeta.runtime_composer.CompositionTreeNodeType;
-import org.asmeta.runtime_composer.LeafAsm;
-import org.asmeta.runtime_composer.ParN;
-import org.asmeta.runtime_composer.PipeN;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.SimulationContainer;
-import org.asmeta.simulator.UpdateSet;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
 import asmeta.structure.Initialization;
 import asmeta.terms.basicterms.impl.BooleanTermImpl;
 
-
 /**
  * @author Federico Rebucini, Michele Zenoni
  * Command line interface main class
  */
 public class Commander {
-	
-	public static Map<Integer, Composition> asmCompositions=new HashMap<>();//salvo composizioni con id e contenuto
-	//
-	public static Integer counter=1;//conto id
-	//
 	private static final int DEFAULT_VALUE = -10;																// Default value to check if user has inserted integer values
 	private static final String CONFIG_FILE_PATH = "src/org/asmeta/runtime_commander/.config"; 					// Configuration file path
 	public static boolean debugMode = false;																	// Default value for the debug mode is false
@@ -160,13 +147,12 @@ public class Commander {
 		return parenthesesCounter;
 	}
 	
-	//trasformo da setup a compose
 	private static boolean validateModels(String line) {
 		boolean valid = true;
 		String symbols[] = line.split("\\s+");
 		for(String symbol: symbols) {
-			if(!symbol.toLowerCase().equals("compose") && !symbol.equals("|") && !symbol.equals("||") && !symbol.equals("<|>") && !symbol.equals("(") && !symbol.equals(")")) {
-				if(!symbol.contains(".asm")) {
+			if(!symbol.toLowerCase().equals("setup") && !symbol.equals("|") && !symbol.equals("||") && !symbol.equals("<|>")) {
+				if(!symbol.contains(ASMParser.asmExtension)) {
 					valid = false;
 					break;
 				}
@@ -234,6 +220,146 @@ public class Commander {
 		return list;
 	}
 	
+	// Support function to parse complex commands. White spaces are mandatory.
+	// Example: setup S1 | (S2 || S3) | S4
+	//			setup (S1 <|> S2) | S3 			 
+	//			setup S1 | ((S2 | S3) || S4) | S5 
+	public static CompositionTreeNode parseComplex(String argument) {
+		argument = argument.replace("setup ", "SETUP ");
+		argument = argument.replace(" as ", " AS ");
+		Matcher aliasMatcher = ALIAS_PATTERN.matcher(argument);
+		String aliasName = null;
+		
+		if(aliasMatcher.find()) {
+			if(aliasMatcher.groupCount() == 2) {
+				// group(0) is the entire expression
+				// group(1) is the alias name
+				// group(2) is the composition expression
+				aliasName = aliasMatcher.group(1);
+				argument = "setup " + aliasMatcher.group(2);
+			}
+		}
+		
+		CompositionTreeNode compositionTree = null;
+		if(!argument.contains("(") && !argument.contains(")")) {
+			if(argument.contains(" | ")) {
+				if(argument.contains(" || ") || argument.contains(" <|> ")) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, operands precedence must be declared using parentheses!");
+					return null;
+				}
+			} else if(argument.contains(" || ")) {
+				if(argument.contains(" <|> ")) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, operands precedence must be declared using parentheses!");
+					return null;
+				}
+			}
+		}
+		int parenthesesCounter = checkParentheses(argument);
+		if(parenthesesCounter != 0) {
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid syntax (check parentheses)!");
+			return null;
+		}
+		
+		if(!validateModels(argument)) {
+			System.out.println(argument);
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension or model name!");
+			return null;
+		}
+		
+		argument = argument.substring(6); // remove "setup "
+		String[] symbols = argument.split("\\s+");
+		List<String[]> symbolsPriority = new ArrayList<>();
+		int currentPriority = 0;
+		int operatorId = 0;
+		int maxPriority = 0;
+		
+		for(int i = 0; i < symbols.length; i++) {
+			currentPriority += charCount(symbols[i], '(');
+			maxPriority = Math.max(currentPriority, maxPriority);
+			String[] symbolPriority = {symbols[i], String.valueOf(currentPriority), ""};
+			symbolsPriority.add(symbolPriority);
+			currentPriority -= charCount(symbols[i], ')');			
+		}
+		
+		symbolsPriority = clearList(symbolsPriority);
+		
+		for(int i = 0; i < symbolsPriority.size(); i++) {
+			operatorId = 1;
+			String[] symbolPriority = symbolsPriority.get(i);
+			if(symbolPriority[0].contains("|") || symbolPriority[0].contains("<|>") || symbolPriority[0].contains("||")) {
+				for(int j = 0; j < symbolsPriority.size(); j++) {
+					if(Integer.valueOf(symbolPriority[1]) == 0) {
+						operatorId = 1;
+					}
+					if(Integer.valueOf(symbolPriority[1]) > Integer.valueOf(symbolsPriority.get(j)[1])) {
+						if(i < j && (symbolsPriority.get(j)[0].contains("|") || 
+								   	 symbolsPriority.get(j)[0].contains("<|>") || 
+								   	 symbolsPriority.get(j)[0].contains("||") ||
+								   	 Integer.valueOf(symbolPriority[1]) > Integer.valueOf(symbolsPriority.get(j)[1]) + 1)) {
+							operatorId++;
+						} else if(i > j) {
+							operatorId++;
+						}
+					} else if(Integer.valueOf(symbolPriority[1]) == Integer.valueOf(symbolsPriority.get(j)[1]) && i > j &&
+							  (symbolsPriority.get(j)[0].contains("|") || 
+							   symbolsPriority.get(j)[0].contains("<|>") || 
+							   symbolsPriority.get(j)[0].contains("||"))) {
+						operatorId++;
+					}
+				}
+				symbolPriority[2] = String.valueOf(operatorId);
+			}
+		}
+		
+		LinkedList<Integer> availableIds = new LinkedList<>();
+		for(int i = 1; i <= symbolsPriority.size(); i++) {
+			availableIds.add(i);
+		}
+		
+		for(int i = 0; i < symbolsPriority.size(); i++) {
+			if(!symbolsPriority.get(i)[2].equals("")) {
+				availableIds.remove(Integer.valueOf(symbolsPriority.get(i)[2]));
+			}
+		}
+		
+		for(currentPriority = 0; currentPriority <= maxPriority; currentPriority++) {
+			for(int i = 0; i < symbolsPriority.size(); i++) {
+				String[] symbolPriority = symbolsPriority.get(i);
+				if(!symbolPriority[0].contains("|") &&
+				   !symbolPriority[0].contains("<|>") && 
+				   !symbolPriority[0].contains("||") &&
+				   Integer.valueOf(symbolPriority[1]) == currentPriority &&
+				   symbolPriority[2].equals("")) {
+					symbolPriority[2] = String.valueOf(availableIds.get(0));
+					availableIds.remove(0);
+				}
+			}
+		}
+		
+		assertTrue(availableIds.isEmpty());
+		
+		try {
+			if(debugMode) {
+				printList(symbolsPriority);
+			}
+			compositionTree = CompositionTreeNode.buildTree(symbolsPriority);
+			if(aliasName != null) {
+				if(aliases == null) {
+					aliases = new HashMap<>();
+				}
+				aliases.put(aliasName, compositionTree.getRoot().getSource().getModelName());
+			}
+			if(debugMode) {
+				compositionTree.printTree();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			out = new CommanderOutput(CommanderStatus.FAILURE, e.getMessage());
+			return null;
+		}
+		
+		return compositionTree;
+	}
 
 	/**
 	 * Reads the operation and executes it.
@@ -241,9 +367,8 @@ public class Commander {
 	 * @param crt: SimulationContainer instance
 	 * @param input: string with the command and parameter to parse
 	 * @return a CommanderOutput instance representing the result of the command executed
-	 * @throws Exception 
 	 */
-	public static CommanderOutput parseInput(SimulationContainer crt, String input) throws Exception {
+	public static CommanderOutput parseInput(SimulationContainer crt, String input) {
 		containerInstance = crt;
 		String command = "";
 		
@@ -265,21 +390,19 @@ public class Commander {
 			}
 			switch (command.toUpperCase()) {
 				case "INIT": 				 cmdInit(input); 				 break;
-				case "RUNASM": 		 		 cmdRunAsm(input); 		 		 break;
-				case "STOP": 		 		 cmdStop(input); 		 		 break;//delete
-				case "RUN": 			 	 cmdRunStep(input);				 break;//delete
-				case "RUNTO": 		 		 cmdRunStepTimeout(input);		 break;//delete
-				case "RUNMAX":		 		 cmdRunUntilEmpty(input);		 break;//delete
-				case "RUNMAXTO": 			 cmdRunUntilEmptyTimeout(input); break;//delete
+				case "START": 		 		 cmdStart(input); 		 		 break;
+				case "STOP": 		 		 cmdStop(input); 		 		 break;
+				case "RUN": 			 	 cmdRunStep(input);				 break;
+				case "RUNTO": 		 		 cmdRunStepTimeout(input);		 break;
+				case "RUNMAX":		 		 cmdRunUntilEmpty(input);		 break;
+				case "RUNMAXTO": 			 cmdRunUntilEmptyTimeout(input); break;
 				case "VIEWINV": 	 		 cmdViewInvariants(input);	 	 break;
 				case "ADDINV": 		 		 cmdAddInvariant(input);		 break;
 				case "REMOVEINV": 	 		 cmdRemoveInvariant(input); 	 break;
 				case "UPDATEINV": 	 		 cmdUpdateInvariant(input); 	 break;
 				case "IDS": 		 		 cmdGetLoadedIDs(); 			 break;
 				case "HELP": 				 cmdHelp(); 					 break;
-				case "COMPOSE":				 cmdCompose(input);				 break;//new code
-				case "EXE":					 cmdExe(input);					 break;//new code
-				case "LOAD":				 cmdLoad(input);				 break;//new code delete?
+				case "SETUP":	 	 		 cmdSetup(input);			 	 break;
 				case "CONFIG":				 cmdConfig(input);				 break;
 				case "RR":					 cmdRerun();					 break;
 				case "OPEN":				 cmdOpen(input);				 break;
@@ -294,12 +417,9 @@ public class Commander {
 						cmdWhile(input);
 					} else if(command.toUpperCase().startsWith("PIPE(")) {
 						cmdPipe(input);
-					} else if(command.toUpperCase().startsWith("HALF(")) {
-						cmdBidHalf(input);
-					} else if(command.toUpperCase().startsWith("FULL(")) {
-						cmdBidFull(input);
-					}
-					else {
+					} else if(command.toUpperCase().startsWith("BID(")) {
+						cmdBid(input);
+					} else {
 						out = new CommanderOutput(CommanderStatus.FAILURE, "Function \"" + command + "\" is not a correct command!");
 					}
 			}
@@ -309,9 +429,6 @@ public class Commander {
 		return out;
 	}
 	
-	
-	
-
 	public static void initializeConfiguration() {
 		try {
 			File configFile = new File(CONFIG_FILE_PATH);
@@ -341,7 +458,7 @@ public class Commander {
 	
 	// Syntax: pipe(file1.asm, file2.asm, ..., fineN.asm) <-> setup file1.asm | file2.asm | ... | fileN.asm
 	// file1.asm, file2.asm, ..., fileN.asm MUST be in the defaultModelDir
-	private static void cmdPipe(String argument) throws Exception {
+	private static void cmdPipe(String argument) {
 		StringBuffer parsedCommand = new StringBuffer();
 		boolean end = false;
 		String[] tokens = argument.substring(5).split(",");
@@ -352,7 +469,7 @@ public class Commander {
 				token = token.replace(")", "");
 				end = true;
 			}
-			if(token.contains(".asm")) {
+			if(token.contains(ASMParser.asmExtension)) {
 				if(!end) {
 					parsedCommand.append(token + " | ");
 				} else {
@@ -369,7 +486,7 @@ public class Commander {
 	
 	// Syntax: bid(file1.asm, file2.asm) <-> setup file1.asm <|> file2.asm
 	// file1.asm, file2.asm MUST be in the defaultModelDir
-	private static void cmdBidHalf(String argument) throws Exception {
+	private static void cmdBid(String argument) {
 		StringBuffer parsedCommand = new StringBuffer();
 		boolean end = false;
 		
@@ -383,36 +500,7 @@ public class Commander {
 				token = token.replace(")", "");
 				end = true;
 			}
-			if(token.contains(".asm")) {
-				if(!end) {
-					parsedCommand.append(token + " <|> ");
-				} else {
-					parsedCommand.append(token);
-				}
-			}
-		}
-		if(debugMode)
-			System.out.println(parsedCommand);
-		
-		cmdInit("init -n 2");
-		cmdSetup(parsedCommand.toString());
-	}
-	
-	private static void cmdBidFull(String argument) throws Exception {
-		StringBuffer parsedCommand = new StringBuffer();
-		boolean end = false;
-		
-		parsedCommand.append("setup ");
-		for(String token: argument.substring(4).split(",")) {
-			if(argument.substring(4).split(",").length != 2) {
-				out = new CommanderOutput(CommanderStatus.FAILURE, "Bidirectional pipe composition requires only two models!");
-				return;
-			}
-			if(token.contains(")")) {
-				token = token.replace(")", "");
-				end = true;
-			}
-			if(token.contains(".asm")) {
+			if(token.contains(ASMParser.asmExtension)) {
 				if(!end) {
 					parsedCommand.append(token + " <|> ");
 				} else {
@@ -437,13 +525,13 @@ public class Commander {
 		
 		String[] tokens = argument.split(",");
 		if(tokens.length == 2) {
-			if(tokens[1].contains(".asm") && tokens[1].toUpperCase().contains("RUN(")) {
+			if(tokens[1].contains(ASMParser.asmExtension) && tokens[1].toUpperCase().contains("RUN(")) {
 				cmdWhileDo("WHILE " + tokens[0] + " DO " + tokens[1]);
 			} else {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 			}
 		} else if(tokens.length == 3){
-			if(tokens[1].contains(".asm") && tokens[1].toUpperCase().contains("RUN(")) {
+			if(tokens[1].contains(ASMParser.asmExtension) && tokens[1].toUpperCase().contains("RUN(")) {
 				cmdWhileDo("WHILE " + tokens[0] + " DO " + tokens[1] + "," + tokens[2]);
 			} else {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
@@ -496,13 +584,13 @@ public class Commander {
 		
 		String[] tokens = argument.split(",");
 		if(tokens.length == 2) {
-			if(tokens[1].contains(".asm")) {
+			if(tokens[1].contains(ASMParser.asmExtension)) {
 				cmdIf("IF " + tokens[0] + " THEN " + tokens[1]);
 			} else {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 			}
 		} else if(tokens.length == 3) {
-			if(tokens[1].contains(".asm") && tokens[2].contains(".asm")) {
+			if(tokens[1].contains(ASMParser.asmExtension) && tokens[2].contains(ASMParser.asmExtension)) {
 				cmdIf("IF " + tokens[0] + " THEN " + tokens[1] + " ELSE " + tokens[2]);
 			} else {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
@@ -548,7 +636,7 @@ public class Commander {
 				for(int i = 0; i <= ifThenElseMatcher.groupCount(); i++) {
 					if(ifThenElseMatcher.group(i) != null) {
 						if(i > 1) {
-							if(ifThenElseMatcher.group(i).contains(".asm")) {
+							if(ifThenElseMatcher.group(i).contains(ASMParser.asmExtension)) {
 								groups.add(ifThenElseMatcher.group(i));
 							}
 						} else {
@@ -579,7 +667,7 @@ public class Commander {
 					functionOnS2 = groups.get(4);
 					modelS2 = groups.get(5);
 				}
-				if(!modelS1.contains(".asm") || !modelS2.contains(".asm")) {
+				if(!modelS1.contains(ASMParser.asmExtension) || !modelS2.contains(ASMParser.asmExtension)) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 					return;
 				}
@@ -666,7 +754,7 @@ public class Commander {
 					modelS1 = groups.get(3);
 				}
 				
-				if(!modelS1.contains(".asm")) {
+				if(!modelS1.contains(ASMParser.asmExtension)) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 					return;
 				}
@@ -738,7 +826,7 @@ public class Commander {
 		}
 	}
 	
-	private static void cmdOpen(String argument) throws Exception {
+	private static void cmdOpen(String argument) {
 		String[] tokens;
 		ArrayList<String> fileContent = new ArrayList<>();
 		if(argument.contains("/")) { // file path
@@ -790,7 +878,7 @@ public class Commander {
 		out = new CommanderOutput(CommanderStatus.SUCCESS);
 	}
 	
-	private static void cmdRerun() throws Exception {
+	private static void cmdRerun() {
 		if(lastInput != null && containerInstance != null) {
 			parseInput(containerInstance, lastInput);
 		}
@@ -825,61 +913,67 @@ public class Commander {
 		}
 	}
 	
-	private static void cmdLoad(String argument) {
-		/*
-		 * Matcher matcher = MODELPATH_PATTERN.matcher(argument); String modelpathp =
-		 * parseText(matcher, "modelpath"); if (modelpathp != null) out = new
-		 * CommanderOutput(CommanderStatus.SIM_ID,
-		 * containerInstance.startExecution(modelpathp)); else out = new
-		 * CommanderOutput(CommanderStatus.FAILURE,
-		 * "Couldn't launch command, missing required parameter 'modelpath' !");
-		 * loadedAsmModels.put(counter.toString(), argument); counter++;
-		 */
-	}
-	
-	
-	public static void cmdCompose(String argument) throws Exception {
+	/* Syntax: setup [<composition alias> as] <composition formula>
+	   model1.asm, model2.asm, ... have to be in the defaultModelDir folder. */
+	private static void cmdSetup(String argument) {
+		CompositionTreeNode compositionTree = parseComplex(argument);
+		if(compositionTree != null) {
+			compManager = new CompositionManager(compositionTree, false, CompositionRunType.Commander);
+			//cmdInit("-n " + CompositionTreeNode.getNodeNumber());
+			CompositionTreeNode aux = null;
+			for(int i = 1; i <= CompositionTreeNode.getNodeNumber(); i++) {
+				aux = compositionTree.getNodeById(i);
+				if(aux.getType() == CompositionTreeNodeType.MODEL) {
+					if(!containerInstance.getLoadedModels().containsKey(defaultModelDir + "/" + aux.getModelName())) {
+						cmdStart("-modelpath \"" + defaultModelDir + "/" + aux.getModelName() + "\"");
+					}
+				}
+			}
+		} else { // No composition
+			String[] tokens = argument.split("\\s+");
+			ArrayList<String> params = new ArrayList<>();
+			if(tokens.length <= 1) {
+				try {
+					if(out.getErrorMessage().contains("parentheses") || out.getErrorMessage().contains("model name")) {
+						return;
+					} else {
+						out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid arguments!");
+						return;
+					}
+				} catch (CommanderException e) {
+					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid arguments!");
+					e.printStackTrace();
+				}
+			}
+			for(String token: tokens) {
+				if(!token.toUpperCase().equals("SETUP")) {
+					if(token.contains(ASMParser.asmExtension)) {
+						params.add(token);
+					} else {
+						try {
+							if(out.getErrorMessage().contains("parentheses") || out.getErrorMessage().contains("model name")) {
+								return;
+							} else {
+								out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+								return;
+							}
+						} catch (CommanderException e) {
+							out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			//cmdInit("-n " + Integer.toString(params.size()));
+			for(String param: params) {
+				if(!containerInstance.getLoadedModels().containsKey(defaultModelDir + "/" + param)) {
+					cmdStart("-modelpath \"" + defaultModelDir + "/" + param + "\"");
+				}
+			}
+		}
 		
-		//checking composition formula's parentheses
-		if(checkParentheses(argument)!=0)
-		{
-			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid syntax (check parentheses)!");
-			return;
-		}
-		String temp[]=argument.split(" ");
-		int c=-1;//counter
-		for(String i:temp)
-		{
-			if(i!="(" && i!=")" && i!="<|>" && i!="<||>" && i!="|"&& i!="||")
-			{
-				c++;
-			}
-		}
-		String formula=temp[1];//temp[0] contains "compose"
-		for(int i=1; i<temp.length; i++)
-		{
-			if(temp[i]!="(" && temp[i]!=")" && temp[i]!="<|>" && temp[i]!="<||>" && temp[i]!="|"&& temp[i]!="||")
-			{
-				//temp[i]=defaultModelDir+"/"+temp[i];
-			}
-			if(i>1)
-			{
-				formula=formula.concat(" ");
-				formula=formula.concat(temp[i]);
-			}
-		}
-		System.out.println("");
-		Parser parser=new Parser(formula);
-		Composition composition = parser.toComposition();
-		asmCompositions.put(composition.hashCode(), composition);
-		System.out.println("");
-		System.out.println("Composition id: " + composition.hashCode());
-	}
-	
-	private static void cmdExe(String input) {
-		String[] temp=input.split(" ");//"delete" the word exe from the string
-		compManager = new CompositionManager(asmCompositions.get(Integer.parseInt(temp[1])), false, CompositionRunType.Commander);
-		compManager.run(Integer.parseInt(temp[1]),asmCompositions);	
+		System.out.println("Setup finished, type 'help' for more commands!\nLoaded simulations:");
+		cmdGetLoadedIDs();
 	}
 	
 	private static void cmdInit(String argument) {
@@ -893,17 +987,15 @@ public class Commander {
 			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter 'n' !");
 	}
 	
-	private static void cmdRunAsm(String argument) throws Exception {
+	private static void cmdStart(String argument) {
 		//parsing MODELPATH
-		//Matcher matcher = MODELPATH_PATTERN.matcher(argument);
-	
-		String[] temp=argument.split(" ");
-			
-		temp[1]="( "+defaultModelDir+"/"+temp[1]+" )"; //add brackets to the argument to be red by the parser
-		Parser asm=new Parser(temp[1]);
-		Composition asmI = asm.toComposition();
-		UpdateSet ris = asmI.eval();
-		asmI.copyMonitored(ris);
+		Matcher matcher = MODELPATH_PATTERN.matcher(argument);
+		String modelpathp = parseText(matcher, "modelpath");
+		
+		if (modelpathp != null)
+			out = new CommanderOutput(CommanderStatus.SIM_ID, containerInstance.startExecution(modelpathp));
+		else 
+			out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, missing required parameter 'modelpath' !");
 	}
 
 	private static void cmdStop(String argument) {
@@ -970,7 +1062,7 @@ public class Commander {
 					// In the example: RUN(1) <-> RUN -id 1 or RUN(Square.asm, {x=FOUR}) <-> RUN -id <id of Square.asm> -locationvalue {x=FOUR}
 					// group(0) -> the entire expression
 					// group(1) -> the model id -> 1
-					if(firstParam.contains(".asm")) {
+					if(firstParam.contains(ASMParser.asmExtension)) {
 						if(containerInstance != null && containerInstance.getLoadedIDs().containsValue(defaultModelDir + "/" + firstParam)) {
 							for(int id: containerInstance.getLoadedIDs().keySet()) {
 								if(containerInstance.getLoadedIDs().get(id).equals(defaultModelDir + "/" + firstParam)) {
@@ -991,7 +1083,7 @@ public class Commander {
 					// group(1) -> the model id -> 1
 					// group(2) -> the whole location-value set -> {x=FOUR,y=TWO}
 					// group(3) -> the last expression of the location-value set -> y=TWO
-					if(firstParam.contains(".asm")) {
+					if(firstParam.contains(ASMParser.asmExtension)) {
 						if(containerInstance != null && containerInstance.getLoadedIDs().containsValue(defaultModelDir + "/" + firstParam)) {
 							for(int id: containerInstance.getLoadedIDs().keySet()) {
 								if(containerInstance.getLoadedIDs().get(id).equals(defaultModelDir + "/" + firstParam)) {
@@ -1478,4 +1570,3 @@ public class Commander {
 		return defaultModelDir;
 	}
 }
-
