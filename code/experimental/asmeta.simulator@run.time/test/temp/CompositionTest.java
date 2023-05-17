@@ -461,11 +461,19 @@ public class CompositionTest {
 	@Test
 	public void testFAC() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		String comp = pathFAC + "asmMulti.asm | (" + pathFAC + "asmInc.asm <|> " + pathFAC + "asmDec.asm)";
-		System.out.println(comp);
-		Parser asm = new Parser(comp);
-		Composition asmI = asm.toComposition();
-		asmI.eval();
+//		String comp = pathFAC + "asmMulti.asm | (" + pathFAC + "asmInc.asm <|> " + pathFAC + "asmDec.asm)";
+//		System.out.println(comp);
+//		Parser asm = new Parser(comp);
+//		Composition asmI = asm.toComposition();
+//		asmI.eval();		
+		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(pathFAC + "asmInc.asm"), new LeafAsm(pathFAC + "asmDec.asm"));
+		PipeN asmF = new PipeN(new LeafAsm(pathFAC + "asmMulti.asm"), asm2);		
+		asmF.eval();
+		System.out.println(" ===== new step =====");
+		asmF.eval();
+		
+		
+		
 	}
 
 }
