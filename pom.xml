@@ -10,21 +10,36 @@
 		<jacoco.destFile>${project.basedir}/reports/coverage/jacoco/jacoco.exec</jacoco.destFile>
 	</properties>
 	<modules>
-		<module>code/core/asmeta.emf</module>
-		<module>code/core/asmeta.parser/asmeta.parser</module>
-		<module>code/core/asmeta.simulator/asmeta.simulator</module>
-		<module>code/core/asmeta.cli</module>
+		<module>code/core</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener</module>
 		<module>code/extensions/asmetasmv/asmeta.smv</module>
-		<module>code/core/asmeta.parser/asmeta.parser.test</module>
-		<module>code/core/asmeta.simulator/asmeta.simulator.test</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener.test</module> 
 		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
 		<module>reports/coverage/report.aggregate</module>
 		<module>
 			code/extensions/asmeta.flattener/asmeta.flattener.cli
 		</module>
-		<module>code/core/asmeta.parser/asmeta.parser.cli</module>
+		<module>
+			code/extensions/asmeta.modeladvisor/asmeta.modeladvisor
+		</module>
+		<module>
+			code/extensions/asmeta.modeladvisor/asmeta.modeladvisor.test
+		</module>
+		<module>
+			code/extensions/asmeta.refprover/refinementProof
+		</module>
+		<module>
+			code/extensions/asmeta.refprover/translatorToSMT
+		</module>
+		<module>
+			code/extensions/asmeta.validator/asmeta.validator
+		</module>
+		<module>
+			code/extensions/asmeta.visualizer/asmeta.visualizer
+		</module>
+		<module>
+			code/experimental/asmetal2cpp/asmetal2cpp_codegen
+		</module>
 	</modules>
 	<build>
 		<plugins>
@@ -57,7 +72,7 @@
 		<dependency>
 			<groupId>com.formdev</groupId>
 			<artifactId>flatlaf</artifactId>
-			<version>2.6</version>
+			<version>3.1.1</version>
 		</dependency>
 	</dependencies>
 </project>

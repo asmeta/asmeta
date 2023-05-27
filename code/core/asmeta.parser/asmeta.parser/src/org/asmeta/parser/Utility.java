@@ -100,7 +100,6 @@ public class Utility {
 	 * key = "" -> t = 10 : returns "10" key "[3," -> t = {3,4} returns "[3,{3,4}"
 	 */
 	public static StringBuffer appendInKey(StringBuffer key, Term t) {
-
 		if (t instanceof FunctionTerm) {
 			FunctionTerm ft = (FunctionTerm) t;
 			key.append(ft.getFunction().getName());

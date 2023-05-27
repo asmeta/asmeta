@@ -3,7 +3,7 @@ Automatic-Module-Name: org.asmeta.avallaxt.ui.tests
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.avallaxt.ui.tests
 Bundle-Vendor: foselab.unibg.it
-Bundle-Version: 23.05
+Bundle-Version: 23.06
 Bundle-SymbolicName: org.asmeta.avallaxt.ui.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.avallaxt.ui,

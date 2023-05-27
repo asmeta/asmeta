@@ -2,9 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>asmeta</groupId>
 	<artifactId>asmetal2cpp_codegen</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
@@ -56,7 +54,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
+			<version>4.13.2</version>
 		</dependency>
 		<dependency>
 		    <groupId>log4j</groupId>
@@ -71,7 +69,7 @@
 		<dependency>
 		    <groupId>org.eclipse.xtext</groupId>
 		    <artifactId>org.eclipse.xtext.generator</artifactId>
-		    <version>2.22.0</version>
+		    <version>2.31.0.M3</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
@@ -84,4 +82,10 @@
 		    <version>5.11.0</version>
 		</dependency>
 	</dependencies>
+	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.all</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../../..</relativePath>
+	</parent>
 </project>

@@ -681,7 +681,7 @@ public class AsmetaMATest {
 
 	@Test
 	public void testIncosistentUpdate2() throws Exception {
-		// questo è corretto
+		// this is correct
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/inconsistentUpdatesSimple2.asm");
 		asmetaMA.execInconsistentUpdates = true;
 		AsmetaSMVOptions.setPrintNuSMVoutput(true);

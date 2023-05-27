@@ -81,7 +81,6 @@
 		<dependency>
 			<groupId>asmeta</groupId>
 			<artifactId>asmeta.emf</artifactId>
-			<type>pom</type>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

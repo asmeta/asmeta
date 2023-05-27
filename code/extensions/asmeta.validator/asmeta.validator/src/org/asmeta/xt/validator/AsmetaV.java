@@ -53,14 +53,17 @@ public class AsmetaV {
 		// log.setLevel(Level.INFO);
 		// 03/03/2021 - Andrea
 		// Delete all the appenders of the root logger except a single ConsoleAppender
-		Enumeration<ConsoleAppender> allAppenders = log.getAllAppenders();
+		// org.eclipse.xtext.logging.EclipseLogAppender
+		Enumeration<?> allAppenders = log.getAllAppenders();
+		// if there is one ConsoleAppender
 		if (Collections.list(allAppenders).stream().filter(x -> (x instanceof ConsoleAppender)).count() > 1) {
-			java.util.Optional<ConsoleAppender> app = Collections.list(allAppenders).stream()
+			// should a ConsoleAppendere
+			java.util.Optional<?> app = Collections.list(allAppenders).stream()
 					.filter(x -> (x instanceof ConsoleAppender)).findFirst();
 			if (app != null) {
 				ConsoleAppender newConsoleApp;
 				if (!app.isEmpty()) {
-					ConsoleAppender consoleApp = app.get();
+					ConsoleAppender consoleApp = (ConsoleAppender) app.get();
 					newConsoleApp = new ConsoleAppender(consoleApp.getLayout(), consoleApp.getTarget());					
 				} else {
 					PatternLayout l = new org.apache.log4j.PatternLayout();
