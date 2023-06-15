@@ -78,6 +78,15 @@ import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.StringTerm;
 
 public class Utility {
+	
+	// names of the libraries 
+	public static final String LTL_LIBRARY_NAME = "LTLlibrary";
+	public static final String CTL_LIBRARY_NAME = "CTLlibrary";
+	public static final String STANDARD_LIBRARY_NAME = "StandardLibrary";
+
+	
+	
+	
 	// PA 12/11/2011. Fabio Albani, in method resolve, needs to import just the the
 	// first rule with
 	// the best ranking. The static field "selectFirstBestRanking" can be used

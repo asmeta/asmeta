@@ -17,7 +17,7 @@ public class ImportFlattenerTest {
 		String asmpath = "../../../../asm_examples/examples\\ABZ2020\\CarSystemModule\\CarSystem001\\";
 		Asm main = ASMParser.setUpReadAsm(new File(asmpath + "CarSystem001main.asm")).getMain();
 		ImportFlattener ifl = new ImportFlattener(main, asmpath);
-		// FIXME ifl.visit();
+		ifl.visit();
 		spr.visit(main);
 		spr.close();
 	}

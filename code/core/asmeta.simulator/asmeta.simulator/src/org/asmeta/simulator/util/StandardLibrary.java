@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.asmeta.parser.Utility;
 import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.BagValue;
 import org.asmeta.simulator.value.BooleanValue;
@@ -45,25 +46,16 @@ import asmeta.transitionrules.basictransitionrules.Rule;
  * 
  */
 public class StandardLibrary {
-	// -------------------
-	
-	// this name is reserved 
-	public static final String STANDARD_LIBARY_NAME = "StandardLibrary";
-	
-	
-	public static final String CTL_LIBARY_NAME = "CTLlibrary";
 
-	public static final String LTL_LIBARY_NAME = "LTLlibrary";
-	
 	/**
 	 * 
 	 * @param asmname (with or without .asm) with or without path (the names are reserved)
 	 * @return  return if it refers to a standard library (CTL and LTL included)
 	 */
 	public static boolean isAStandardLibrary(String asmname) {
-		return (asmname.contains(StandardLibrary.STANDARD_LIBARY_NAME) ||
-				asmname.contains(StandardLibrary.CTL_LIBARY_NAME) ||
-				asmname.contains(StandardLibrary.LTL_LIBARY_NAME));
+		return (asmname.contains(Utility.STANDARD_LIBRARY_NAME) ||
+				asmname.contains(Utility.CTL_LIBRARY_NAME) ||
+				asmname.contains(Utility.LTL_LIBRARY_NAME));
 	} 
 	
 

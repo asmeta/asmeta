@@ -102,8 +102,8 @@ public class ImportFlattener {
 		if (list != null) {
 			for (ImportClause ic : list) {
 				moduleName = ic.getModuleName();
-				if (!moduleName.endsWith("StandardLibrary") && !moduleName.endsWith("CTLlibrary")
-						&& !moduleName.endsWith("LTLlibrary")) {
+				if (!moduleName.endsWith(Utility.STANDARD_LIBRARY_NAME) && !moduleName.endsWith(Utility.CTL_LIBRARY_NAME)
+						&& !moduleName.endsWith(Utility.LTL_LIBRARY_NAME)) {
 					// Import the file
 					file = Utility.importFile(folder, ic);
 					asms = null;
