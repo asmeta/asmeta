@@ -91,44 +91,12 @@ public class SimulatorAllUpdateSets extends Simulator {
 
 	private static BufferedReader in;
 
-	/**
-	 * Package of the model to simulate.
-	 */
-	protected AsmCollection asmetaPackage;
-
-	/**
-	 * The model to simulate.
-	 *
-	 */
-	//Asm asmModel;
-
-	/**
-	 * The state.
-	 *
-	 */
-	State currentState;
-
-	/**
-	 * The environment.
-	 *
-	 */
-	protected Environment environment;
 
 	/**
 	 * The rule evaluator.
 	 */
 	protected RuleEvaluatorAllUpdateSets ruleEvaluator;
 	
-	/**
-	 * The main rule of the model.
-	 *
-	 */
-	private Rule mainRule;
-
-	/**
-	 * The number of the current state.
-	 */
-	private int numOfState;//PA: 10 giugno 2010
 	
 	/**
 	 * Constructor.

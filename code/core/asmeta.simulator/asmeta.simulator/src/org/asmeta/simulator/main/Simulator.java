@@ -172,12 +172,12 @@ public class Simulator {
 	 * The main rule of the model.
 	 *
 	 */
-	private Rule mainRule;
+	protected Rule mainRule;
 
 	/**
 	 * The number of the current state.
 	 */
-	private int numOfState;// PA: 10 giugno 2010
+	protected int numOfState;// PA: 10 giugno 2010
 
 	/**
 	 * Constructor.

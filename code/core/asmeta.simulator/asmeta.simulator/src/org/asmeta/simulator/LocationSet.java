@@ -378,6 +378,5 @@ public class LocationSet implements Iterable<Map.Entry<Location, Value>> {
 	@Override
 	public Iterator<Entry<Location, Value>> iterator() {
 		return locationMap.entrySet().iterator();
-	}
-
+	}	
 }

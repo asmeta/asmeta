@@ -152,8 +152,18 @@ public class UpdateSet extends LocationSet {
 		else {
 			return false;
 		}
+		// AG 2023 why abstracts sets are ignored????
 	}
 
+	@Override
+	public int hashCode() {
+	    //internal consistency: the value of hashCode() may only change if a property that is in equals() changes
+	    //equals consistency: objects that are equal to each other must return the same hashCode
+	    //collisions: unequal objects may have the same hashCode
+		return locationMap.hashCode() + abstractSets.hashCode();
+	}
+	
+	
 	public Set<Location> getLocationsUpdated() {
 		return locationMap.keySet();
 	}
@@ -183,8 +193,7 @@ public class UpdateSet extends LocationSet {
 					if(!(previousStateValue instanceof UndefValue)) {
 						return false;
 					}
-				}
-				
+				}				
 			}
 			return true;
 		}
