@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.asmeta.eclipse.AsmetaActionHandler;
+import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.flattener.AsmetaMultipleFlattener;
 import org.asmeta.flattener.RemoveArgumentsFlattener;
 import org.asmeta.flattener.nesting.RemoveNestingFlattener;
@@ -53,7 +54,7 @@ public class AsmetaFlatHandler extends AsmetaActionHandler {
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		AsmetaFlatConsole myConsole = findConsole(AsmetaFlatConsole.CONSOLE_NAME);
+		AsmetaFlatConsole myConsole = AsmetaUtility.findConsole(AsmetaFlatConsole.class);
 		view.display(myConsole);
 		myConsole.activate();
 		OutputStream out = myConsole.newOutputStream();
@@ -107,23 +108,5 @@ public class AsmetaFlatHandler extends AsmetaActionHandler {
 			message.open();
 		}
 		return null;
-	}
-
-
-	private AsmetaFlatConsole findConsole(String name) {
-		ConsolePlugin plugin = ConsolePlugin.getDefault();
-		IConsoleManager conMan = plugin.getConsoleManager();
-		IConsole[] existing = conMan.getConsoles();
-		for (int i = 0; i < existing.length; i++) {
-			if (name.equals(existing[i].getName())) {
-				AsmetaFlatConsole console = (AsmetaFlatConsole) existing[i];
-				console.clearConsole();
-				return console;
-			}
-		}
-		// no console found, so create a new one
-		AsmetaFlatConsole myConsole = new AsmetaFlatConsole();
-		conMan.addConsoles(new IConsole[] { myConsole });
-		return myConsole;
 	}
 }

@@ -48,7 +48,7 @@ public class AsmetaMAHandler extends AsmetaActionHandler {
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		AsmetaMAConsole myConsole = findConsole(AsmetaMAConsole.CONSOLE_NAME);
+		AsmetaMAConsole myConsole = AsmetaUtility.findConsole(AsmetaMAConsole.class);
 		view.display(myConsole);
 		myConsole.activate();
 		OutputStream out = myConsole.newOutputStream();
@@ -89,22 +89,5 @@ public class AsmetaMAHandler extends AsmetaActionHandler {
 			message.open();
 		}
 		return null;
-	}
-	// TODO use find console do AsmetaUtility instead
-	private AsmetaMAConsole findConsole(String name) {
-		ConsolePlugin plugin = ConsolePlugin.getDefault();
-		IConsoleManager conMan = plugin.getConsoleManager();
-		IConsole[] existing = conMan.getConsoles();
-		for (int i = 0; i < existing.length; i++) {
-			if (name.equals(existing[i].getName())) {
-				AsmetaMAConsole console = (AsmetaMAConsole) existing[i];
-				console.clearConsole();
-				return console;
-			}
-		}
-		// no console found, so create a new one
-		AsmetaMAConsole myConsole = new AsmetaMAConsole();
-		conMan.addConsoles(new IConsole[] { myConsole });
-		return myConsole;
 	}
 }

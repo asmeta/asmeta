@@ -50,7 +50,7 @@ abstract class ValidatorHandler extends AsmetaActionHandler {
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		AsmetaVConsole myConsole = findConsole(AsmetaVConsole.CONSOLE_NAME);
+		AsmetaVConsole myConsole = AsmetaUtility.findConsole(AsmetaVConsole.class);
 		view.display(myConsole);
 		myConsole.activate();
 		if (out == null) {
@@ -74,21 +74,4 @@ abstract class ValidatorHandler extends AsmetaActionHandler {
 		return null;
 	}
 
-	/** find the console given its name
-	 * 
-	 * @param name
-	 * @return
-	 */
-	private AsmetaVConsole findConsole(String name) {
-		ConsolePlugin plugin = ConsolePlugin.getDefault();
-		IConsoleManager conMan = plugin.getConsoleManager();
-		IConsole[] existing = conMan.getConsoles();
-		for (int i = 0; i < existing.length; i++)
-			if (name.equals(existing[i].getName()))
-				return (AsmetaVConsole) existing[i];
-		// no console found, so create a new one
-		AsmetaVConsole myConsole = new AsmetaVConsole();
-		conMan.addConsoles(new IConsole[] { myConsole });
-		return myConsole;
-	}
 }

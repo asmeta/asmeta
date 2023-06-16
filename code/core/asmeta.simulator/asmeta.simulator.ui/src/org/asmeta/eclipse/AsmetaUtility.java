@@ -1,5 +1,7 @@
 package org.asmeta.eclipse;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.eclipse.editor.preferences.PreferenceConstants;
@@ -21,22 +23,40 @@ public class AsmetaUtility {
 	 * not ASMEE console yet, it creates a new one.
 	 */
 	public static AsmeeConsole findDefaultConsole() {
+		return findConsole(AsmeeConsole.class);
+	}
+
+
+	/**
+	 *  find the console given its name and its class (subclass of asmeta console). 
+	 * if it does not exist it will create one (with the empty constructor) and activate it
+	 *
+	 * @param <T> the generic type
+	 * @param name the name
+	 * @param clazz the clazz
+	 * @return the t
+	 */
+	public static <T extends AsmetaConsole> T findConsole(Class<T> clazz) {
 		ConsolePlugin plugin = ConsolePlugin.getDefault();
 		IConsoleManager conMan = plugin.getConsoleManager();
 		IConsole[] existing = conMan.getConsoles();
-		for (int i = 0; i < existing.length; i++) {
-			if (existing[i] instanceof AsmeeConsole) {
-				return (AsmeeConsole) existing[i];
-			}
-		}
+		for (IConsole element : existing)
+			if (element.getClass().equals(clazz))
+				return (T) element;
 		// no console found, so create a new one
 		// not that message console could be enough, but it is not writable !!!
-		AsmeeConsole myConsole = new AsmeeConsole();
-		conMan.addConsoles(new IConsole[] { myConsole });
-		myConsole.activate();
-		return myConsole;
+		T myConsole = null;
+		try {
+			myConsole = clazz.getDeclaredConstructor().newInstance();			
+			conMan.addConsoles(new IConsole[] { myConsole });
+			myConsole.activate();
+			return myConsole;
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
-
+	
+	
 	public static void setUpLogger(IPreferenceStore store) {
 		// for debugging
 		// get the preference

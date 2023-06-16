@@ -2,17 +2,12 @@ package org.asmeta.xt.validator;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
@@ -27,6 +22,9 @@ import org.asmeta.simulator.value.Value;
  *
  */
 public class AsmetaV {
+	
+	
+	private static Logger logger = Logger.getLogger(AsmetaV.class);
 
 	/**
 	 * Exec validation.
@@ -38,48 +36,12 @@ public class AsmetaV {
 	 * @throws Exception the exception
 	 */
 	public static List<String> execValidation(String scenarioPath, boolean coverage) throws Exception {
-		setLogger();
 		AsmetaV asmetaV = new AsmetaV();
 		return asmetaV.execValidation(new File(scenarioPath), coverage);
 	}
 
 	private AsmetaV(){}
 	
-	/** setup the logger**/
-	private static void setLogger() {
-		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
-		// BasicConfigurator.configure();
-		Logger log = Logger.getRootLogger();
-		// log.setLevel(Level.INFO);
-		// 03/03/2021 - Andrea
-		// Delete all the appenders of the root logger except a single ConsoleAppender
-		// org.eclipse.xtext.logging.EclipseLogAppender
-		Enumeration<?> allAppenders = log.getAllAppenders();
-		// if there is one ConsoleAppender
-		if (Collections.list(allAppenders).stream().filter(x -> (x instanceof ConsoleAppender)).count() > 1) {
-			// should a ConsoleAppendere
-			java.util.Optional<?> app = Collections.list(allAppenders).stream()
-					.filter(x -> (x instanceof ConsoleAppender)).findFirst();
-			if (app != null) {
-				ConsoleAppender newConsoleApp;
-				if (!app.isEmpty()) {
-					ConsoleAppender consoleApp = (ConsoleAppender) app.get();
-					newConsoleApp = new ConsoleAppender(consoleApp.getLayout(), consoleApp.getTarget());					
-				} else {
-					PatternLayout l = new org.apache.log4j.PatternLayout();
-					newConsoleApp = new ConsoleAppender(l);
-				}
-				log.removeAllAppenders();
-				log.addAppender(newConsoleApp);
-			}
-		}
-
-		/*
-		 * while(it.hasMoreElements()) { ((Appender)it.nextElement()).setLayout(new
-		 * PatternLayout()); }
-		 */
-	}
-
 	/**
 	 * Exec validation.
 	 *
@@ -103,16 +65,16 @@ public class AsmetaV {
 						failedScenarios.add(path);
 					}
 				} else {
-					System.out.println(element.getName() + " is not a file!!");
+					logger.info(element.getName() + " is not a file!!");
 				}
 		} else { // if the file is not a directory but a file
 			if (!validateSingleFile(coverage, all_rules, scenarioPath.getAbsolutePath()))
 				failedScenarios.add(scenarioPath.getCanonicalPath());
 		}
 		if (coverage) { // print all covered rules
-			System.out.println("\n** Coverage Info: **\n");
+			logger.info("\n** Coverage Info: **\n");
 			for (String rule : all_rules)
-				System.out.println(rule);
+				logger.info(rule);
 		}
 		return failedScenarios;
 	}
@@ -125,11 +87,11 @@ public class AsmetaV {
 	 * @throws Exception
 	 */
 	private boolean validateSingleFile(boolean coverage, Set<String> coveredRules, String path) throws Exception {
-		System.out.println("\n** Simulation " + path + " **\n");
+		logger.info("\n** Simulation " + path + " **\n");
 		AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(path);
 		builder.save();
 		File tempAsmPath = builder.getTempAsmPath();
-		System.out.println("** temp ASMETA saved in " + tempAsmPath.getAbsolutePath() + " **\n");
+		logger.info("** temp ASMETA saved in " + tempAsmPath.getAbsolutePath() + " **\n");
 		Simulator sim = Simulator.createSimulator(tempAsmPath.getPath());
 		sim.setShuffleFlag(true);
 		if (coverage) {
@@ -139,7 +101,7 @@ public class AsmetaV {
 			sim.runUntilEmpty();
 		} catch (InvalidInvariantException iie) {
 			AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
-			System.out.println("invariant violation found " + iie.getInvariant().getName() + " "
+			logger.info("invariant violation found " + iie.getInvariant().getName() + " "
 					+ tp.visit(iie.getInvariant().getBody()));
 		}
 		// check now the value of step
@@ -150,7 +112,7 @@ public class AsmetaV {
 				if (Integer.parseInt(cons.getValue().toString()) > 0)
 					check_succeded = true;
 				else
-					System.out.println("some checks failed");
+					logger.info("some checks failed");
 				break;
 			}
 		}

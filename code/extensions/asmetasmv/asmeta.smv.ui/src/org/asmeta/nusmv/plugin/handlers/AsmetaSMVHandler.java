@@ -48,7 +48,7 @@ abstract class AsmetaSMVHandler extends AsmetaActionHandler {
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		AsmetaSMVConsole myConsole = findConsole(AsmetaSMVConsole.CONSOLE_NAME);
+		AsmetaSMVConsole myConsole = AsmetaUtility.findConsole(AsmetaSMVConsole.class);
 		view.display(myConsole);
 		myConsole.activate();
 		OutputStream out = myConsole.newOutputStream();
@@ -57,6 +57,7 @@ abstract class AsmetaSMVHandler extends AsmetaActionHandler {
 		//System.setErr(printOut);		
 		try {
 			AsmetaSMV asmetaSMV = new AsmetaSMV(path);
+			myConsole.writeMessage("translating to NuSMV file: " + path);
 			IPreferenceStore store = AsmetaSMVActivator.getDefault().getPreferenceStore();
 			AsmetaSMVOptions.keepNuSMVfile =  store.getBoolean(AsmetaSMVPreferencePage.P_KF);
 			AsmetaSMVOptions.setCheckConcrete(!store.getBoolean(AsmetaSMVPreferencePage.P_NC));
@@ -84,21 +85,4 @@ abstract class AsmetaSMVHandler extends AsmetaActionHandler {
 		}
 		return null;
 	}
-
-	private AsmetaSMVConsole findConsole(String name) {
-		ConsolePlugin plugin = ConsolePlugin.getDefault();
-		IConsoleManager conMan = plugin.getConsoleManager();
-		IConsole[] existing = conMan.getConsoles();
-		for (int i = 0; i < existing.length; i++) {
-			if (name.equals(existing[i].getName())) {
-				AsmetaSMVConsole console = (AsmetaSMVConsole) existing[i];
-				console.clearConsole();
-				return console;
-			}
-		}
-		// no console found, so create a new one
-		AsmetaSMVConsole myConsole = new AsmetaSMVConsole();
-		conMan.addConsoles(new IConsole[] { myConsole });
-		return myConsole;
-   }
 }

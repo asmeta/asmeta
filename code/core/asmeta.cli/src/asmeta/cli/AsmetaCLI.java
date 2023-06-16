@@ -20,6 +20,7 @@ import org.kohsuke.args4j.ExampleMode;
 import org.kohsuke.args4j.Option;
 
 public abstract class AsmetaCLI {
+	
 	@Option(name = "-log", usage = "log4j configuration file")
 	protected String logConfFile;
 
@@ -29,6 +30,10 @@ public abstract class AsmetaCLI {
 	@Argument
 	private List<String> arguments = new ArrayList<String>();
 
+	
+	
+	
+	
 	/**
 	 * executes the application with the arguments args
 	 * 
