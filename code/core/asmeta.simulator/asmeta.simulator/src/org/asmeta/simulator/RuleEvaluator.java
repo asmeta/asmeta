@@ -796,7 +796,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				logger.debug("<Substitution>");
 				TermAssignment macroAssignment = new TermAssignment();
 				macroAssignment.put(variables, arguments);
-				RuleSubstitution substitution = new RuleSubstitution(macroAssignment);
+				RuleSubstitution substitution = new RuleSubstitution(macroAssignment,TermSubstitution.ruleFactory);
 				newRule = substitution.visit(body);
 				logger.debug("</Substitution>");
 				macros.put(signature, newRule);
