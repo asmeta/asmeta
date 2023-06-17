@@ -9,6 +9,10 @@ import org.asmeta.nusmv.AsmetaSMVOptions;
  */
 public class AsmetaSMVtranslateAndExecHandler extends AsmetaSMVHandler {
 
+	public AsmetaSMVtranslateAndExecHandler() {
+		super("model checking (w execution)");
+	}
+
 	@Override
 	void exec(AsmetaSMV asmetaSMV) throws Exception {
 		AsmetaSMVOptions.setPrintNuSMVoutput(true);

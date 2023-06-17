@@ -6,10 +6,7 @@ import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
 /** 
- * Asmeta Console to be used for all the ASMETA Plugins
- * 
- * 
- * */
+ * Asmeta Console: superclass of all the consoles for Asmeta*/
 public abstract class AsmetaConsole extends IOConsole {
 
 	public AsmetaConsole(String CONSOLE_NAME) {

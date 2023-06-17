@@ -1,5 +1,8 @@
 package asmeta.visualizer.plugin.handlers;
 
+import java.io.File;
+
+import org.asmeta.visualizer.graphViewer.AsmGraphViewerVisualizer;
 import org.asmeta.visualizer.graphViewer.GraphEdgesAdder;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -16,14 +19,10 @@ public class SemanticVisualizerHandler extends VisualizerHandler {
 	public SemanticVisualizerHandler() {
 	}
 
-	/**
-	 * the command has been executed, so extract extract the needed information
-	 * from the application context.
-	 */
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	protected void executeAction(File path) throws Exception {
 		GraphEdgesAdder.detectSemanticPatterns = true;
-		loadModel(event);
-		return null;
+		AsmGraphViewerVisualizer.showGraph(path.getAbsolutePath());		
 	}
+
 }

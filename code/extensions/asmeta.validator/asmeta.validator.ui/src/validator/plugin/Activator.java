@@ -35,17 +35,17 @@ public class Activator extends AbstractUIPlugin {
 
 	private void setupLogging() {
 		// set the log4j levels
-		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
-		Logger.getLogger(AsmetaV.class).setLevel(Level.ALL);
-		// BasicConfigurator.configure();
-		Logger log = Logger.getRootLogger();
+//		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
+//		Logger.getLogger(AsmetaV.class).setLevel(Level.ALL);
+//		// BasicConfigurator.configure();
+//		Logger log = Logger.getRootLogger();
 		// log.setLevel(Level.INFO);
 		// get the console and activate it
-		AsmetaVConsole myConsole = AsmetaUtility.findConsole(AsmetaVConsole.class);
-		// set the outstream
-		IOConsoleOutputStream out = myConsole.newOutputStream();
-		Appender consoleApp = new WriterAppender(new SimpleLayout(),out);
-		log.addAppender(consoleApp);		
+//		AsmetaVConsole myConsole = AsmetaUtility.findConsole(AsmetaVConsole.class);
+//		// set the outstream
+//		IOConsoleOutputStream out = myConsole.newOutputStream();
+//		Appender consoleApp = new WriterAppender(new SimpleLayout(),out);
+//		log.addAppender(consoleApp);		
 		
 		
 /*		// 03/03/2021 - Andrea

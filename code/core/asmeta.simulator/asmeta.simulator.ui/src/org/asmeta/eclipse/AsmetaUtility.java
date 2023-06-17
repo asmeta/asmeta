@@ -1,11 +1,13 @@
 package org.asmeta.eclipse;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.eclipse.editor.preferences.PreferenceConstants;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IEditorInput;
@@ -26,17 +28,19 @@ public class AsmetaUtility {
 		return findConsole(AsmeeConsole.class);
 	}
 
-
 	/**
-	 *  find the console given its name and its class (subclass of asmeta console). 
-	 * if it does not exist it will create one (with the empty constructor) and activate it
+	 * find the console given its name and its class (subclass of asmeta console).
+	 * if it does not exist it will create one (with the empty constructor) and
+	 * activate it
 	 *
-	 * @param <T> the generic type
-	 * @param name the name
+	 * @param <T>   the generic type
+	 * @param name  the name
 	 * @param clazz the clazz
 	 * @return the t
 	 */
 	public static <T extends AsmetaConsole> T findConsole(Class<T> clazz) {
+		// must be a proper subclass
+		assert clazz != AsmetaConsole.class;
 		ConsolePlugin plugin = ConsolePlugin.getDefault();
 		IConsoleManager conMan = plugin.getConsoleManager();
 		IConsole[] existing = conMan.getConsoles();
@@ -47,16 +51,16 @@ public class AsmetaUtility {
 		// not that message console could be enough, but it is not writable !!!
 		T myConsole = null;
 		try {
-			myConsole = clazz.getDeclaredConstructor().newInstance();			
+			myConsole = clazz.getDeclaredConstructor().newInstance();
 			conMan.addConsoles(new IConsole[] { myConsole });
 			myConsole.activate();
 			return myConsole;
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
-	
-	
+
 	public static void setUpLogger(IPreferenceStore store) {
 		// for debugging
 		// get the preference
@@ -78,10 +82,10 @@ public class AsmetaUtility {
 
 	// this method is to find the path of the active window
 	// it also saves the content of the window
-	// return null if an editro path is not found
+	// return null if an editor path is not found
 	// TODO merge with the followgin one
-	public static String getEditorPath(IWorkbenchWindow window) throws Error {
-		String path = null;
+	public static IFile getEditorPath(IWorkbenchWindow window) throws Error {
+		IFile path = null;
 		IWorkbenchPage page = window.getActivePage();
 		if (page != null) {
 			IEditorPart activeEditor = page.getActiveEditor();
@@ -91,11 +95,17 @@ public class AsmetaUtility {
 				// get the path
 				IEditorInput editorInput = activeEditor.getEditorInput();
 				if (editorInput instanceof org.eclipse.ui.part.FileEditorInput) {
-					path = ((org.eclipse.ui.part.FileEditorInput) editorInput).getURI().getPath();
+					path = ((org.eclipse.ui.part.FileEditorInput) editorInput).getFile();
 				} else if (editorInput instanceof org.eclipse.ui.ide.FileStoreEditorInput) {
 					// Implements an IEditorInput instance appropriate for IFileStore elements that
 					// represent files that are not part of the current workspace.
-					path = ((org.eclipse.ui.ide.FileStoreEditorInput) editorInput).getURI().getPath();
+					URI uri = (((org.eclipse.ui.ide.FileStoreEditorInput) editorInput).getURI());
+					IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(uri);
+					if (files.length == 1) {
+						return files[0];
+					} else {
+						throw new Error("URI to file " + uri.getPath());
+					}
 				} else {
 					throw new Error("Unknown editor " + editorInput.getClass().getSimpleName());
 				}
@@ -118,7 +128,6 @@ public class AsmetaUtility {
 		return getEditorIFile(activeEditor);
 	}
 
-	
 	/**
 	 * @param activeEditor
 	 * @return

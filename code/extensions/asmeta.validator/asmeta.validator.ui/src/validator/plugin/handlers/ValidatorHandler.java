@@ -1,10 +1,16 @@
 package validator.plugin.handlers;
 
+import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.asmeta.eclipse.AsmetaActionHandler;
+import org.asmeta.eclipse.AsmetaConsole;
 import org.asmeta.eclipse.AsmetaUtility;
+import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
+import org.asmeta.xt.validator.AsmetaV;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.swt.widgets.Display;
@@ -26,52 +32,24 @@ import org.eclipse.ui.console.IConsoleView;
  */
 abstract class ValidatorHandler extends AsmetaActionHandler {
 
-	private OutputStream out;
+	protected ValidatorHandler(String action) {
+		super(AsmetaVConsole.class, action);
+	}
+
 
 	abstract void execValidation(String path) throws Exception;
 
-	/**
-	 * the command has been executed, so extract extract the needed information from
-	 * the application context.
-	 */
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {		
-		// get the path for the current editor file asmeta
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		// IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		IWorkbenchWindow window = workbench == null ? null : workbench.getActiveWorkbenchWindow();		
-		String path = AsmetaUtility.getEditorPath(window);
+	
+	protected void executeAction(File path) throws Exception{
+		execValidation(path.getAbsolutePath());
+	}
+
+	protected void setUpLoggers() {
 		// set the simulator preferences
 		org.asmeta.eclipse.simulator.actions.RunAction.setSimulationPrecerences();
-		// get the console
-		IConsoleView view = null;
-		try {
-			view = (IConsoleView) window.getActivePage().showView(IConsoleConstants.ID_CONSOLE_VIEW);
-		} catch (PartInitException e) {
-			e.printStackTrace();
-		}
-		AsmetaVConsole myConsole = AsmetaUtility.findConsole(AsmetaVConsole.class);
-		view.display(myConsole);
-		myConsole.activate();
-		if (out == null) {
-			out = myConsole.newOutputStream();
-			PrintStream printOut = new PrintStream(out);
-			System.setOut(printOut);
-			System.setErr(printOut);
-			System.out.println("path " + path);
-		}
-		try {
-			execValidation(path);
-		} catch (Exception e) {
-			Display d = Display.getDefault();
-			Shell shell = new Shell(d);
-			MessageBox message = new MessageBox(shell);
-			message.setMessage("Error while parsing " + path + "\n\n" + e.getLocalizedMessage());
-			message.setText("Parsing error");
-			message.open();
-			e.printStackTrace();
-		}
-		return null;
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.INFO);
+		Logger.getLogger(AsmetaV.class).setLevel(Level.INFO);
+
 	}
 
 }
