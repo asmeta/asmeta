@@ -4,7 +4,12 @@ import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 
+import org.apache.log4j.Appender;
+import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
 import org.asmeta.simulator.main.Simulator;
@@ -115,23 +120,67 @@ abstract public class AsmetaActionHandler extends AbstractHandler {
 		return path;
 	}
 
-	private WriterAppender outputfromSim;
+	// to distiinughis with the other appenders
+	class AsmetaWriterAppender extends WriterAppender{
+		public AsmetaWriterAppender(PatternLayout patternLayout, OutputStream out) {
+			super(patternLayout,out);
+		}
+		
+	}
+	
+	private AsmetaWriterAppender consoleAppender;
 
 	// set the right output to the logger
 	private void setOutput(AsmetaConsole mc) {
 		// SET THE RIGHT OUTPUT
-		if (outputfromSim == null) {
+		if (consoleAppender == null) {
 			OutputStream out = mc.newOutputStream();
 			// redirect std output to this console
 			// non è chiaro se serva o meno
 			// alcuni plugin assumon che venga fatto altri no!
-			PrintStream printOut = new PrintStream(out);
-			System.setOut(printOut);
-			System.setErr(printOut);
-			outputfromSim = new WriterAppender(new PatternLayout("%m%n"), out);
+//			PrintStream printOut = new PrintStream(out);
+//			System.setOut(printOut);
+//			System.setErr(printOut);
+			consoleAppender = new AsmetaWriterAppender(new PatternLayout("%m%n"), out);
+// 			only the simulator ... why?
 //			Logger.getLogger("org.asmeta.simulator").addAppender(outputfromSim);
 //			Simulator.logger.addAppender(outputfromSim);
-			Simulator.logger.addAppender(outputfromSim);
+			Logger log = Logger.getRootLogger();
+			log.addAppender(consoleAppender);					
+		} else {			
+			// change the appenders
+			Logger log = Logger.getRootLogger();
+			// Delete all the appenders of the root logger except a single ConsoleAppender
+			// org.eclipse.xtext.logging.EclipseLogAppender
+			Enumeration<Appender> allAppenders = log.getAllAppenders();
+			// if there is one ConsoleAppender
+/*			if (Collections.list(allAppenders).stream().filter(x -> (x instanceof ConsoleAppender)).count() > 1) {
+				// should a ConsoleAppendere
+				java.util.Optional<?> app = Collections.list(allAppenders).stream()
+						.filter(x -> (x instanceof ConsoleAppender)).findFirst();
+				if (app != null) {
+					ConsoleAppender newConsoleApp;
+					if (!app.isEmpty()) {
+						ConsoleAppender consoleApp = (ConsoleAppender) app.get();
+						newConsoleApp = new ConsoleAppender(consoleApp.getLayout(), consoleApp.getTarget());					
+					} else {
+						PatternLayout l = new org.apache.log4j.PatternLayout();
+						newConsoleApp = new ConsoleAppender(l);
+					}
+					log.removeAllAppenders();
+					log.addAppender(newConsoleApp);
+				}
+			}*/
+			ArrayList<Appender> list = Collections.list(allAppenders);
+			// if it contains already the appender ok
+			if (list.contains(consoleAppender)) return;
+			// remove all the console appenders to avoid cross messages among cosoles
+			for(Appender a: list) {
+				if (a instanceof AsmetaWriterAppender) {
+					log.removeAppender(a);					
+				}
+			}
+			log.addAppender(consoleAppender);
 		}
 	}
 

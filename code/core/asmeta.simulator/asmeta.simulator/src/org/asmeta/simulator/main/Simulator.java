@@ -44,6 +44,7 @@ import java.util.Map.Entry;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.WriterAppender;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
 import org.asmeta.parser.util.AsmetaTermPrinter;
@@ -88,6 +89,7 @@ public class Simulator {
 	protected List<Invariant> controlledInvariants;
 	private List<Invariant> monitoredInvariants;
 
+	/** simulator logger with only ONE appender */
 	public static class SimulatorLogger {
 		public static Logger logger = Logger.getLogger(Simulator.class);
 

@@ -49,7 +49,7 @@ abstract class ValidatorHandler extends AsmetaActionHandler {
 		org.asmeta.eclipse.simulator.actions.RunAction.setSimulationPrecerences();
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.INFO);
 		Logger.getLogger(AsmetaV.class).setLevel(Level.INFO);
-
+		
 	}
 
 }
