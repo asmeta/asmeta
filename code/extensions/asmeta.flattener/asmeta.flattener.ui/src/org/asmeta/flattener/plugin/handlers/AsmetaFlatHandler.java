@@ -43,7 +43,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 public class AsmetaFlatHandler extends AsmetaActionHandler {
 
 	public AsmetaFlatHandler() {
-		super(AsmetaFlatConsole.class, "flattening");
+		super(AsmetaFlatConsole.class, "flattening", false);
 	}
 
 	/**

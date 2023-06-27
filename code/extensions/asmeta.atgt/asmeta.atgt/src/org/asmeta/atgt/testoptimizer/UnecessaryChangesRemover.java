@@ -136,7 +136,7 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 				if (e.getSymbol().equals(s))
 					return new EnumValue(s);
 			}
-			throw new RuntimeException("enum not found in domain");
+			throw new RuntimeException("enum " + s +  " not found in domain "+ en.getName() + " elements " + en.getElement());
 		}
 
 	}

@@ -17,7 +17,7 @@ import org.asmeta.simulator.main.Simulator;
 public class AnimatorHandler extends AsmetaActionHandler {
 
 	public AnimatorHandler() {
-		super(AsmeeConsole.class,"animating");
+		super(AsmeeConsole.class,"animating", false);
 	}
 
 	@Override

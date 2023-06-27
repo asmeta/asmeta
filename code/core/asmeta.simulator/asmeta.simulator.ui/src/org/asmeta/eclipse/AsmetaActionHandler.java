@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 
 import org.apache.log4j.Appender;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
@@ -34,6 +35,7 @@ abstract public class AsmetaActionHandler extends AbstractHandler {
 	protected AsmetaConsole console;
 	private Class<? extends AsmetaConsole> consoleClass;
 	private String action;
+	private boolean addStdOut;
 	
 	/**
 	 * Instantiates a new asmeta action handler.
@@ -41,9 +43,10 @@ abstract public class AsmetaActionHandler extends AbstractHandler {
 	 * @param consoleClass the console class
 	 * @param action the action for messages - use gerund like validationg...
 	 */
-	protected AsmetaActionHandler(Class<? extends AsmetaConsole> consoleClass, String action) {
+	protected AsmetaActionHandler(Class<? extends AsmetaConsole> consoleClass, String action, boolean addStdOut) {
 		this.consoleClass = consoleClass;
 		this.action = action;
+		this.addStdOut = addStdOut;
 	}
 	
 
@@ -73,6 +76,8 @@ abstract public class AsmetaActionHandler extends AbstractHandler {
 			return null;
 		}
 //		mc.writeMessage("PATH " + path);
+		// set off the messages so every plugin with activate what it wants
+		Logger.getRootLogger().setLevel(Level.OFF);
 		setUpLoggers();
 		// execute action
 		try {
@@ -127,63 +132,67 @@ abstract public class AsmetaActionHandler extends AbstractHandler {
 		}
 		
 	}
-	
+	// the appender for this action
 	private AsmetaWriterAppender consoleAppender;
 
 	// set the right output to the logger
 	private void setOutput(AsmetaConsole mc) {
 		// SET THE RIGHT OUTPUT
+		// find all the appenders
+		Logger log = Logger.getRootLogger();
+		// Delete all the appenders of the root logger except a single ConsoleAppender
+		// org.eclipse.xtext.logging.EclipseLogAppender
+		Enumeration<Appender> allAppenders = log.getAllAppenders();
+		// if there is one ConsoleAppender
+/*			if (Collections.list(allAppenders).stream().filter(x -> (x instanceof ConsoleAppender)).count() > 1) {
+			// should a ConsoleAppendere
+			java.util.Optional<?> app = Collections.list(allAppenders).stream()
+					.filter(x -> (x instanceof ConsoleAppender)).findFirst();
+			if (app != null) {
+				ConsoleAppender newConsoleApp;
+				if (!app.isEmpty()) {
+					ConsoleAppender consoleApp = (ConsoleAppender) app.get();
+					newConsoleApp = new ConsoleAppender(consoleApp.getLayout(), consoleApp.getTarget());					
+				} else {
+					PatternLayout l = new org.apache.log4j.PatternLayout();
+					newConsoleApp = new ConsoleAppender(l);
+				}
+				log.removeAllAppenders();
+				log.addAppender(newConsoleApp);
+			}
+		}*/
+		ArrayList<Appender> list = Collections.list(allAppenders);
+		// if it is the first time, set up the appender
 		if (consoleAppender == null) {
 			OutputStream out = mc.newOutputStream();
 			// redirect std output to this console
 			// non è chiaro se serva o meno
 			// alcuni plugin assumon che venga fatto altri no!
-//			PrintStream printOut = new PrintStream(out);
-//			System.setOut(printOut);
-//			System.setErr(printOut);
+			if (addStdOut) {
+				PrintStream printOut = new PrintStream(out);
+				System.setOut(printOut);
+//				System.setErr(printOut);
+			}
 			consoleAppender = new AsmetaWriterAppender(new PatternLayout("%m%n"), out);
 // 			only the simulator ... why?
 //			Logger.getLogger("org.asmeta.simulator").addAppender(outputfromSim);
 //			Simulator.logger.addAppender(outputfromSim);
-			Logger log = Logger.getRootLogger();
-			log.addAppender(consoleAppender);					
 		} else {			
-			// change the appenders
-			Logger log = Logger.getRootLogger();
-			// Delete all the appenders of the root logger except a single ConsoleAppender
-			// org.eclipse.xtext.logging.EclipseLogAppender
-			Enumeration<Appender> allAppenders = log.getAllAppenders();
-			// if there is one ConsoleAppender
-/*			if (Collections.list(allAppenders).stream().filter(x -> (x instanceof ConsoleAppender)).count() > 1) {
-				// should a ConsoleAppendere
-				java.util.Optional<?> app = Collections.list(allAppenders).stream()
-						.filter(x -> (x instanceof ConsoleAppender)).findFirst();
-				if (app != null) {
-					ConsoleAppender newConsoleApp;
-					if (!app.isEmpty()) {
-						ConsoleAppender consoleApp = (ConsoleAppender) app.get();
-						newConsoleApp = new ConsoleAppender(consoleApp.getLayout(), consoleApp.getTarget());					
-					} else {
-						PatternLayout l = new org.apache.log4j.PatternLayout();
-						newConsoleApp = new ConsoleAppender(l);
-					}
-					log.removeAllAppenders();
-					log.addAppender(newConsoleApp);
-				}
-			}*/
-			ArrayList<Appender> list = Collections.list(allAppenders);
 			// if it contains already the appender ok
-			if (list.contains(consoleAppender)) return;
-			// remove all the console appenders to avoid cross messages among cosoles
-			for(Appender a: list) {
-				if (a instanceof AsmetaWriterAppender) {
-					log.removeAppender(a);					
-				}
-			}
-			log.addAppender(consoleAppender);
+			// if (list.contains(consoleAppender)) return;
 		}
+		// remove all the console appenders to avoid cross messages among cosoles
+		for(Appender a: list) {
+			System.err.println("appender " +  a + a.getClass());
+			if (a instanceof AsmetaWriterAppender) {
+				log.removeAppender(a);					
+			}
+		}
+		log.addAppender(consoleAppender);		
 	}
 
+	// decide which logger must be activated.
+	// this is done at every action, so if the user changes the preferences
 	protected abstract void setUpLoggers();
 
 }

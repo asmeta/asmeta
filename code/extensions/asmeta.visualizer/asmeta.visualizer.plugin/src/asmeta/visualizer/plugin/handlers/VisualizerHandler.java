@@ -18,7 +18,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 public abstract class VisualizerHandler extends AsmetaActionHandler {
 
 	protected VisualizerHandler() {
-		super(AsmeeConsole.class, "visualazing");
+		super(AsmeeConsole.class, "visualazing", false);
 	}
 
 	@Override

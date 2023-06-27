@@ -18,7 +18,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 abstract class AsmetaSMVHandler extends AsmetaActionHandler {
 
 	protected AsmetaSMVHandler(String action) {
-		super(AsmetaSMVConsole.class, action);
+		super(AsmetaSMVConsole.class, action, true);
 	}
 
 	abstract void exec(AsmetaSMV asmetaSMV) throws Exception;
@@ -45,6 +45,7 @@ abstract class AsmetaSMVHandler extends AsmetaActionHandler {
 	}
 
 	@Override
-	protected void setUpLoggers() {		
+	protected void setUpLoggers() {	
+		
 	}
 }

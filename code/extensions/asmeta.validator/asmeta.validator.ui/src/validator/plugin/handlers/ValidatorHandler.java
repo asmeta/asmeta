@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.asmeta.eclipse.AsmetaActionHandler;
 import org.asmeta.eclipse.AsmetaConsole;
 import org.asmeta.eclipse.AsmetaUtility;
+import org.asmeta.simulator.main.Simulator;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -33,7 +34,7 @@ import org.eclipse.ui.console.IConsoleView;
 abstract class ValidatorHandler extends AsmetaActionHandler {
 
 	protected ValidatorHandler(String action) {
-		super(AsmetaVConsole.class, action);
+		super(AsmetaVConsole.class, action,true);
 	}
 
 
@@ -49,7 +50,7 @@ abstract class ValidatorHandler extends AsmetaActionHandler {
 		org.asmeta.eclipse.simulator.actions.RunAction.setSimulationPrecerences();
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.INFO);
 		Logger.getLogger(AsmetaV.class).setLevel(Level.INFO);
-		
+		Simulator.logger.setLevel(Level.INFO);		
 	}
 
 }
