@@ -1,6 +1,8 @@
 package asmeta.visualizer.plugin.handlers;
 
+import org.asmeta.eclipse.AsmeeConsole;
 import org.asmeta.eclipse.AsmetaActionHandler;
+import org.asmeta.eclipse.AsmetaConsole;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.visualizer.graphViewer.AsmGraphViewerVisualizer;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -15,9 +17,14 @@ import org.eclipse.ui.handlers.HandlerUtil;
  */
 public abstract class VisualizerHandler extends AsmetaActionHandler {
 
-	protected void loadModel(ExecutionEvent event) throws ExecutionException {
-		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		String path = AsmetaUtility.getEditorPath(window);
-		AsmGraphViewerVisualizer.showGraph(path);
+	protected VisualizerHandler() {
+		super(AsmeeConsole.class, "visualazing", false);
 	}
+
+	@Override
+	protected void setUpLoggers() {
+		// TODO Auto-generated method stub
+	}
+
+	
 }

@@ -248,7 +248,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		// TODO the path should be OS independent
 		importedName = importedName.replace("\\", "\\\\");
 		// if the name contains spaces, add the double quotes
-		if (importedName.contains(" ")) {
+		if (importedName.contains(" ") || importedName.contains("(") || importedName.contains(")")){
 			assert !importedName.contains("\"");
 			importedName = "\"" + importedName + "\"";
 		}

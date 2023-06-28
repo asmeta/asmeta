@@ -1,7 +1,5 @@
 package temp;
 
-import static org.junit.Assert.*;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.simulator.main.Simulator;

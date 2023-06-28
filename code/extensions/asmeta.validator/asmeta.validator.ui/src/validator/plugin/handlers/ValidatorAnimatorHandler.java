@@ -14,6 +14,10 @@ import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
  */
 public class ValidatorAnimatorHandler extends ValidatorHandler {
 
+	public ValidatorAnimatorHandler() {
+		super("validating (w animator)");
+	}
+
 	@Override
 	void execValidation(String path) throws Exception {
 		// build the ASM for the avalla

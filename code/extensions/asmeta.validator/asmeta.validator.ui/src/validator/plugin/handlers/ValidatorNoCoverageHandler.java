@@ -8,6 +8,10 @@ import org.asmeta.xt.validator.AsmetaV;
  */
 public class ValidatorNoCoverageHandler extends ValidatorHandler {
 
+	public ValidatorNoCoverageHandler() {
+		super("validating");
+	}
+
 	@Override
 	void execValidation(String path) throws Exception {
 		AsmetaV.execValidation(path, false);

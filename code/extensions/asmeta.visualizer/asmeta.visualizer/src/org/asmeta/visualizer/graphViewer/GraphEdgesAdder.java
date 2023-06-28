@@ -49,6 +49,7 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 public class GraphEdgesAdder extends RuleVisitor<Node> {
 	static AsmetaTermPrinter tp = new AdvancedTermPrinter(false);
 	// static TermDecod tp = new TermDecod(false);
+	// FIXME, do not put static
 	public static boolean detectSemanticPatterns = false;
 
 	static public class Edge {
