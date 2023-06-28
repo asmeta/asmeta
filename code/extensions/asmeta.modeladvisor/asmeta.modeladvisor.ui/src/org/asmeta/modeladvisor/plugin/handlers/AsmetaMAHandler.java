@@ -35,7 +35,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 public class AsmetaMAHandler extends AsmetaActionHandler {
 
 	public AsmetaMAHandler() {
-		super(AsmetaMAConsole.class, "model advising", false);
+		super(AsmetaMAConsole.class, "model advising", true);
 	}
 
 	@Override
@@ -54,6 +54,7 @@ public class AsmetaMAHandler extends AsmetaActionHandler {
 
 	@Override
 	protected void setUpLoggers() {
+		
 		// TODO Auto-generated method stub
 		
 	}

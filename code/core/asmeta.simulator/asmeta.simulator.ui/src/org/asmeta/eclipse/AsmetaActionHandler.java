@@ -161,19 +161,12 @@ abstract public class AsmetaActionHandler extends AbstractHandler {
 				log.addAppender(newConsoleApp);
 			}
 		}*/
+		OutputStream out = mc.newOutputStream();
 		ArrayList<Appender> list = Collections.list(allAppenders);
 		// if it is the first time, set up the appender
 		if (consoleAppender == null) {
-			OutputStream out = mc.newOutputStream();
-			// redirect std output to this console
-			// non è chiaro se serva o meno
-			// alcuni plugin assumon che venga fatto altri no!
-			if (addStdOut) {
-				PrintStream printOut = new PrintStream(out);
-				System.setOut(printOut);
-//				System.setErr(printOut);
-			}
 			consoleAppender = new AsmetaWriterAppender(new PatternLayout("%m%n"), out);
+			consoleAppender.setName(this.action);
 // 			only the simulator ... why?
 //			Logger.getLogger("org.asmeta.simulator").addAppender(outputfromSim);
 //			Simulator.logger.addAppender(outputfromSim);
@@ -183,12 +176,24 @@ abstract public class AsmetaActionHandler extends AbstractHandler {
 		}
 		// remove all the console appenders to avoid cross messages among cosoles
 		for(Appender a: list) {
-			System.err.println("appender " +  a + a.getClass());
-			if (a instanceof AsmetaWriterAppender) {
+			System.err.println("appender " +  a.getName() +  " " +a.getClass());
+			// remove all the appenders that are asmeta appenders exepct this one
+			if ((a instanceof AsmetaWriterAppender) && (a != consoleAppender)) {
 				log.removeAppender(a);					
 			}
 		}
-		log.addAppender(consoleAppender);		
+		// stronger version: remove all the appenders except this one
+//		if (list.size() > 0) log.removeAllAppenders();
+		// add this one
+		if (!list.contains(consoleAppender)) log.addAppender(consoleAppender);
+		// to be done every time? It seems so 
+		// redirect std output to this console
+		// alcuni plugin scrivono sullo standard output quindi va catturato
+		if (addStdOut) {
+			PrintStream printOut = new PrintStream(out);
+			System.setOut(printOut);
+//			System.setErr(printOut);
+		}
 	}
 
 	// decide which logger must be activated.

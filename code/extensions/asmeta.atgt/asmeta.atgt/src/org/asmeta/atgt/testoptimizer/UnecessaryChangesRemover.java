@@ -15,6 +15,7 @@ import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.EnumValue;
 import org.asmeta.simulator.value.IntegerValue;
+import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.AsmCollection;
@@ -24,6 +25,7 @@ import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.IntegerDomain;
 import asmeta.definitions.domains.util.DomainsSwitch;
 import atgt.coverage.AsmTestSequence;
+import tgtlib.definitions.expression.Undef;
 import tgtlib.definitions.expression.type.Variable;
 
 // removes changes of monitored values that are unnecessary
@@ -136,6 +138,9 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 				if (e.getSymbol().equals(s))
 					return new EnumValue(s);
 			}
+			// if it is undef
+			if (s.equals(Undef.UNDEF.toString()))
+				return UndefValue.UNDEF;
 			throw new RuntimeException("enum " + s +  " not found in domain "+ en.getName() + " elements " + en.getElement());
 		}
 
