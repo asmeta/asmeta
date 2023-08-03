@@ -32,6 +32,9 @@
 			code/extensions/asmeta.refprover/translatorToSMT
 		</module>
 		<module>
+			code/extensions/asmeta.validator/org.asmeta.avallaxt
+		</module>
+		<module>
 			code/extensions/asmeta.validator/asmeta.validator
 		</module>
 		<module>
