@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>asmeta.xt</artifactId>
+  <packaging>pom</packaging>
+  <build>
+    <plugins>
+    <plugin>
+        <groupId>org.eclipse.xtend</groupId>
+        <artifactId>xtend-maven-plugin</artifactId>
+        <version>2.26.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>testCompile</goal>
+              <goal>xtend-install-debug-info</goal>
+              <goal>xtend-test-install-debug-info</goal>
+            </goals>
+            <configuration>
+              <xtendAsPrimaryDebugSource>true</xtendAsPrimaryDebugSource>
+              <outputDirectory>${basedir}/xtend-gen</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+    </plugin>
+    </plugins>
+  </build>
+  
+  <modules>
+  	<module>org.asmeta.xt</module>
+  	<module>org.asmeta.xt.feature</module>
+  	<module>org.asmeta.xt.ide</module>
+  	<module>org.asmeta.xt.tests</module>
+  	<module>org.asmeta.xt.ui</module>
+  	<module>org.asmeta.xt.ui.tests</module>
+  </modules>
+  <parent>
+  	<groupId>asmeta</groupId>
+  	<artifactId>asmeta.core</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<relativePath>..</relativePath>
+  </parent>
+</project>

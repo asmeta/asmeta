@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AsmetaTGT Ui
 Bundle-SymbolicName: asmeta.atgt.ui;singleton:=true
-Bundle-Version: 23.07
+Bundle-Version: 23.07.0.qualifier
 Automatic-Module-Name: asmeta.atgt.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: asmeta.atgt,

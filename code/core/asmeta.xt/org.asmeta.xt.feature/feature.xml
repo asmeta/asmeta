@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.xt.feature"
       label="Asmeta xtext editor"
-      version="23.07"
+      version="23.7.0.qualifier"
       provider-name="fmse.di.unimi.it">
 
    <description url="asmeta.sf.net">
@@ -17,6 +17,7 @@
       Eclipse Public License
 See https://asmeta.github.io
    </license>
+
    <requires>
       <import plugin="org.eclipse.xtext"/>
       <import plugin="org.eclipse.xtext.xbase"/>

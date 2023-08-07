@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="asmetal2cpp.feature"
+      label="Asmetal2cpp"
+      version="1.0.0.qualifier">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.junit" version="4.12.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.junit4" version="2.9.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore" version="2.12.0" match="greaterOrEqual"/>
+      <import plugin="com.google.inject" version="3.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.mwe.utils" version="1.3.20" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.xbase.lib" version="2.10.0" match="greaterOrEqual"/>
+      <import plugin="asmeta.emf"/>
+      <import plugin="asmeta.simulator"/>
+      <import plugin="asmeta.parser"/>
+      <import plugin="org.apache.log4j"/>
+      <import plugin="org.eclipse.cdt.core"/>
+      <import plugin="org.eclipse.text"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.xtend.ide"/>
+      <import plugin="org.eclipse.xtext"/>
+      <import plugin="org.eclipse.emf.mwe2.runtime" version="2.9.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.mwe2.launch" version="2.9.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.log4j" version="1.2.15" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.11.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.equinox.common"/>
+      <import plugin="asmeta.smv"/>
+      <import plugin="asmeta.atgt"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="com.google.gson"/>
+      <import plugin="org.eclipse.xtext.ui"/>
+      <import feature="org.eclipse.cdt" version="10.7.0.202206081808"/>
+      <import plugin="org.eclipse.emf.mwe2.language" version="2.9.0" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="asmeta.asm2cpp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="asmeta.asmetal2cpp.hw"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="asmetal2cpp_boostunit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uasm2code_inoproject"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.google.gson"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

@@ -38,7 +38,9 @@ test-bin/
 
 .DS_Store
 *.smv
-/target/
+**/target/
+**/dist/
+**/xtend-gen
 *.dumpstream
 .metadata/
 

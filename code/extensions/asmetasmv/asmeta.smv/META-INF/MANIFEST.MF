@@ -2,8 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta model checker
 Bundle-SymbolicName: asmeta.smv;singleton:=true
-Bundle-Version: 23.07
-Bundle-ClassPath: args4j.jar,
+Bundle-Version: 23.07.0.qualifier
+Bundle-ClassPath: lib/args4j.jar,
+ lib/asmeta.cli.jar,
  .
 Require-Bundle: asmeta.emf,
  asmeta.parser,
