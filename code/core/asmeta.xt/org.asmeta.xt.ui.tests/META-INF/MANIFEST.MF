@@ -3,7 +3,7 @@ Automatic-Module-Name: org.asmeta.xt.ui.tests
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.xt.ui.tests
 Bundle-Vendor: foselab.unibg.it
-Bundle-Version: 23.07
+Bundle-Version: 23.07.0.qualifier
 Bundle-SymbolicName: org.asmeta.xt.ui.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.xt.ui,

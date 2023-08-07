@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/asmetal2cpp.feature_1.0.0.qualifier.jar" id="asmetal2cpp.feature" version="1.0.0.qualifier">
+      <category name="asmeta_experimental"/>
+   </feature>
+   <feature url="features/org.asmeta.animator.feature_23.7.0.jar" id="org.asmeta.animator.feature" version="23.07">
+      <category name="asmeta_extensions"/>
+   </feature>
+   <feature url="features/org.asmeta.asmetama.feature_23.7.0.jar" id="org.asmeta.asmetama.feature" version="23.07">
+      <category name="asmeta_extensions"/>
+   </feature>
+   <feature url="features/org.asmeta.asmetasmv.feature_23.7.0.jar" id="org.asmeta.asmetasmv.feature" version="23.07">
+      <category name="asmeta_extensions"/>
+   </feature>
+   <feature url="features/org.asmeta.atgt.feature_23.7.0.jar" id="org.asmeta.atgt.feature" version="23.07">
+      <category name="asmeta_extensions"/>
+   </feature>
+   <feature url="features/org.asmeta.avallaxt.feature_23.7.0.jar" id="org.asmeta.avallaxt.feature" version="23.07">
+      <category name="asmeta_extensions"/>
+   </feature>
+   <feature url="features/org.asmeta.simulator.feature_23.7.0.jar" id="org.asmeta.simulator.feature" version="23.07">
+      <category name="asmeta_core"/>
+   </feature>
+   <feature url="features/org.asmeta.validator.feature_23.7.0.jar" id="org.asmeta.validator.feature" version="23.07">
+      <category name="asmeta_extensions"/>
+   </feature>
+   <feature url="features/org.asmeta.visualizer.feature_23.7.0.jar" id="org.asmeta.visualizer.feature" version="23.07">
+      <category name="asmeta_extensions"/>
+   </feature>
+   <feature url="features/org.asmeta.xt.feature_23.7.0.jar" id="org.asmeta.xt.feature" version="23.07">
+      <category name="asmeta_core"/>
+   </feature>
+   <category-def name="asmeta_core" label="ASMeta core"/>
+   <category-def name="asmeta_extensions" label="ASMeta extensions"/>
+   <category-def name="asmeta_experimental" label="ASMeta experimental"/>
+</site>

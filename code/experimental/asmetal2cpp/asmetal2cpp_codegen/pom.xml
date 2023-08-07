@@ -2,22 +2,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>asmetal2cpp_codegen</artifactId>
+	<artifactId>asmeta.asm2cpp</artifactId>
+	<version>22.4.0-SNAPSHOT</version>
+	<packaging>eclipse-plugin</packaging>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
 		<resources>
 			<resource>
 				<directory>src</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
 			</resource>
 			<resource>
 				<directory>xtend-gen</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
 			</resource>
 		</resources>
 		<plugins>
@@ -29,6 +25,26 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+    <plugin>
+        <groupId>org.eclipse.xtend</groupId>
+        <artifactId>xtend-maven-plugin</artifactId>
+        <version>2.26.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>testCompile</goal>
+              <goal>xtend-install-debug-info</goal>
+              <goal>xtend-test-install-debug-info</goal>
+            </goals>
+            <configuration>
+              <xtendAsPrimaryDebugSource>true</xtendAsPrimaryDebugSource>
+              <outputDirectory>${basedir}/xtend-gen</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+    </plugin>
+
 			<plugin>
 			    <groupId>org.codehaus.mojo</groupId>
 			    <artifactId>build-helper-maven-plugin</artifactId>
@@ -50,42 +66,10 @@
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
-		</dependency>
-		<dependency>
-		    <groupId>log4j</groupId>
-		    <artifactId>log4j</artifactId>
-		    <version>1.2.17</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.parser</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.eclipse.xtext</groupId>
-		    <artifactId>org.eclipse.xtext.generator</artifactId>
-		    <version>2.31.0</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.simulator</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.github.mhoffrog.attached</groupId>
-		    <artifactId>org.eclipse.cdt.core</artifactId>
-		    <version>5.11.0</version>
-		</dependency>
-	</dependencies>
 	<parent>
 		<groupId>asmeta</groupId>
 		<artifactId>asmeta.all</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>23.7.0-SNAPSHOT</version>
 		<relativePath>../../../..</relativePath>
 	</parent>
 </project>
