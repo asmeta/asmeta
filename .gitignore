@@ -59,3 +59,4 @@ code/experimental/asmetal2cpp/asmetal2cpp_boostunit/temp/a.exe
 code/experimental/asmeta.simulator@run.time/src/org/asmeta/runtime_commander/paths.txt
 *._trace
 code/experimental/asmetal2cpp/asmetal2cpp_boostunit/xtend-gen/org/asmeta/tocpp/tocunit/AsmTsToCatch2Test.java
+**/jacoco-exec

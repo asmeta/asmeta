@@ -4,6 +4,49 @@
   <artifactId>org.asmeta.avallaxt.ui</artifactId>
   <version>23.7.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.xtend</groupId>
+        <artifactId>xtend-maven-plugin</artifactId>
+        <version>2.26.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>testCompile</goal>
+              <goal>xtend-install-debug-info</goal>
+              <goal>xtend-test-install-debug-info</goal>
+            </goals>
+            <configuration>
+              <xtendAsPrimaryDebugSource>true</xtendAsPrimaryDebugSource>
+              <outputDirectory>${basedir}/xtend-gen</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>build-helper-maven-plugin</artifactId>
+	<version>3.0.0</version>
+	<executions>
+	  <execution>
+	    <phase>generate-sources</phase>
+	    <goals>
+	      <goal>add-source</goal>
+	    </goals>
+	    <configuration>
+	      <sources>
+		<source>xtend-gen</source>
+		<source>src-gen</source>
+	      </sources>
+	    </configuration>
+	  </execution>
+	</executions>
+      </plugin>
+    </plugins>
+  </build>
   <parent>
   	<groupId>asmeta</groupId>
   	<artifactId>asmeta.core</artifactId>
