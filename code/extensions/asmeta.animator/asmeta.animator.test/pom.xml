@@ -6,8 +6,8 @@
   <packaging>eclipse-test-plugin</packaging>
   <parent>
   	<groupId>asmeta</groupId>
-  	<artifactId>asmeta.core</artifactId>
-  	<version>0.0.1-SNAPSHOT</version>
-  	<relativePath>../../..</relativePath>
+  	<artifactId>asmeta.all</artifactId>
+  	<version>23.7.0-SNAPSHOT</version>
+  	<relativePath>../../../..</relativePath>
   </parent>
 </project>
