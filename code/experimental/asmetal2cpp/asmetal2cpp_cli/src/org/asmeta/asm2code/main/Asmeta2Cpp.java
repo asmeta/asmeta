@@ -19,8 +19,11 @@ import asmeta.cli.AsmetaCLI;
 /** main class to build the program Asmeta2Cpp */
 
 public class Asmeta2Cpp extends AsmetaCLI {
-
 	
+	private static final boolean SHUFFLE_RANDOM = false;
+
+	private static final boolean FORMATTER = true;
+
 	@Option(name = "-optimizeseq", usage = "optimize the tranlsation of seq rule")
 	boolean optmizeSeqRule;
 	
@@ -87,7 +90,7 @@ public class Asmeta2Cpp extends AsmetaCLI {
 				Logger.getLogger("org.asmeta.parser").setLevel(Level.ALL);
 				Logger.getLogger("org.asmeta.asm2code").setLevel(Level.ALL);				
 			}
-			TranslatorOptions options = new TranslatorOptions(false, true, optmizeSeqRule, arduinoCompiler);
+			TranslatorOptions options = new TranslatorOptions(FORMATTER, SHUFFLE_RANDOM, optmizeSeqRule, arduinoCompiler);
 			AsmetaL2CppGeneratorMain.test(asmFile.toString(),options);
 		} catch (FileNotFoundException e) {
 			error("Error: file not found " + e.getMessage());
