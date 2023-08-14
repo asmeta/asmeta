@@ -124,6 +124,9 @@
       code/experimental/asmetal2cpp/asmetal2cpp.feature
     </module>
     <module>
+      code/experimental/asmetal2cpp/asmetal2cpp_cli
+    </module>
+    <module>
       asmeta.updatesite
     </module>
   </modules>
