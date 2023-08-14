@@ -56,29 +56,14 @@
 			<version>1.2.17</version>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.common</artifactId>
-			<version>2.28.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.ecore</artifactId>
-			<version>2.34.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
-			<version>2.18.0</version>
-		</dependency>
-		<dependency>
 			<groupId>asmeta</groupId>
 			<artifactId>asmeta.cli</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>23.7.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
-			<artifactId>asmetal2cpp_codegen</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<artifactId>asmeta.asm2cpp</artifactId>
+			<version>22.4.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<parent>
