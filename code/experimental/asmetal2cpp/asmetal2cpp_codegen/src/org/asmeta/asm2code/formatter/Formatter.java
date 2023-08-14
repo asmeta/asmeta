@@ -8,7 +8,7 @@ import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 
 /**
- * formates the C++ code according to the eclipse formatter
+ * formats the C++ code according to the eclipse formatter
  */
 public class Formatter {
 
