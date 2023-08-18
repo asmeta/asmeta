@@ -3,6 +3,9 @@
   <groupId>asmeta</groupId>
   <artifactId>asmetal2cpp_hw</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+	</properties>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
