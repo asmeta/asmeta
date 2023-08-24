@@ -23,11 +23,12 @@ public class AsmetaL2CppGeneratorMain {
 	 * 
 	 * @param asmspec
 	 *            the path of the spec
+	 * @param compile try to compile the sources
 	 * @return true if success
 	 * 
 	 * @throws Exception
 	 */
-	static public CompileResult test(String asmspec, TranslatorOptions userOptions) throws Exception {
+	static public CompileResult translate(String asmspec, TranslatorOptions userOptions, boolean compile) throws Exception {
 		//
 		// PARSE THE SPECIFICATION
 		// parse using the asmeta parser
@@ -38,11 +39,18 @@ public class AsmetaL2CppGeneratorMain {
 		String name = asmname.substring(0, asmname.lastIndexOf("."));
 	
 		final AsmCollection model = ASMParser.setUpReadAsm(asmFile);
+		// get directory containing the file
+		String currentAsmPath; 
 		File dir = asmFile.getParentFile();
-		assert dir.exists() && dir.isDirectory();
+		if (dir == null) {
+			currentAsmPath = "";
+		} else {
+			assert dir!=null && dir.exists() && dir.isDirectory();
+			currentAsmPath = dir.getPath() + File.separator;
+		}
 		//
-		File cppFile = new File(dir.getPath() + File.separator + name + ".cpp");
-		File hFile = new File(dir.getPath() + File.separator + name + ".h");
+		File cppFile = new File(currentAsmPath + name + ".cpp");
+		File hFile = new File(currentAsmPath + name + ".h");
 	
 		// delete cpp if exists
 		if (cppFile.exists())
@@ -77,11 +85,8 @@ public class AsmetaL2CppGeneratorMain {
 		System.out.println("Generated h file: " + hFile.getCanonicalPath());
 		System.out.println("Generated cpp file: " + cppFile.getCanonicalPath());
 		CompileResult result =  new CompileResult(true,"");
-		if(opt.compilerType != CompilerType.ArduinoCompiler)//se il codice � per arduino, non compila. 
-			result = CppCompiler.compile(name + ".cpp", dir.getAbsolutePath(), true, false, true);
-	
-		
-	
+		if(opt.compilerType != CompilerType.ArduinoCompiler && compile)//se il codice � per arduino, non compila. 
+			result = CppCompiler.compile(name + ".cpp", currentAsmPath, true, false, true);
 		// clean the produced files
 		// delete h file
 		// hFile.delete();

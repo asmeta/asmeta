@@ -11,10 +11,19 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src-gen"/>
-	<classpathentry excluding="main/resources/|test/resources/|test/java/" kind="src" path="src"/>
-	<classpathentry kind="src" path="xtend-gen"/>
-	<classpathentry kind="src" output="target/classes" path="src, src-gen, xtend-gen">
+	<classpathentry kind="src" output="target/classes" path="src-gen">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry including="**/*.java" kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="target/classes" path="xtend-gen">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
