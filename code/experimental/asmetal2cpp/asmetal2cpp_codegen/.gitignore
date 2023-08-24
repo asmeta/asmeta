@@ -4,3 +4,7 @@
 
 *.cpp
 *.h
+
+
+*.java._trace
+*.xtendbin
