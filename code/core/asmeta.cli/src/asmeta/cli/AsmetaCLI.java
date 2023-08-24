@@ -79,17 +79,20 @@ public abstract class AsmetaCLI {
 			// handling of wrong arguments
 			System.err.println(e.getMessage());
 			String jarName = getJar();
-			System.err.println("java -jar " + jarName + " [options...] file." + getExtension());
+			System.err.println("java -jar " + jarName + " [options...] " + getExampleArgument());
 			// print the list of available options
 			parser.printUsage(System.err);
 			System.err.println();
 
 			// print option sample. This is useful some time
-			System.err.println("  Example: java -jar " + jarName + parser.printExample(ExampleMode.ALL) + " file."
-					+ getExtension());
+			System.err.println("  Example: java -jar " + jarName + parser.printExample(ExampleMode.ALL) + " " + getExampleArgument());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected String getExampleArgument() {
+		return "file." + getExtension();
 	}
 
 	protected String getExtension() {
