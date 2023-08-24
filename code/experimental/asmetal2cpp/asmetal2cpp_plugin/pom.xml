@@ -11,15 +11,6 @@
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
-		<resources>
-			<resource>
-				<directory>src</directory>
-			</resource>
-			<resource>
-				<directory>xtend-gen</directory>
-				<filtering>false</filtering>
-			</resource>
-		</resources>
 		<testResources>
 			<testResource>
 				<directory>test</directory>
@@ -34,6 +25,25 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			 <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>xtend-gen</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 	<dependencies>

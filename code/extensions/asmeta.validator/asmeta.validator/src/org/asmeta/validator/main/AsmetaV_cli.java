@@ -52,7 +52,7 @@ public class AsmetaV_cli extends AsmetaCLI {
 	}
 	
 	protected String getExampleArgument() {
-		return super.getExampleArgument() + " dir (containing all the avalla)";
+		return super.getExampleArgument() + " OR dir (containing all the avalla)";
 	}
 
 }
