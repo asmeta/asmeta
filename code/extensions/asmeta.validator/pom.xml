@@ -10,5 +10,7 @@
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 	</properties>
 	<modules>
+	<module>asmeta.validator</module>
+	<module>org.asmeta.avallaxt</module>
 	</modules>
 </project>
