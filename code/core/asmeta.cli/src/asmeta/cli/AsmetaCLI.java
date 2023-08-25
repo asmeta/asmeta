@@ -31,9 +31,6 @@ public abstract class AsmetaCLI {
 	private List<String> arguments = new ArrayList<String>();
 
 	
-	
-	
-	
 	/**
 	 * executes the application with the arguments args
 	 * 
@@ -92,11 +89,12 @@ public abstract class AsmetaCLI {
 	}
 
 	protected String getExampleArgument() {
-		return "file." + getExtension();
+		return "file" + getExtension();
 	}
 
 	protected String getExtension() {
-		return "asm";
+		//return ASMParser.ASM_EXTENSION;
+		return ".asm";
 	}
 
 	protected String getJar() {

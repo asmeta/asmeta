@@ -1642,7 +1642,7 @@ public class Utility {
 	 *
 	 * @param asmDirLib    can be null, in case "." is taken or absolute is
 	 *                     considered
-	 * @param importclause the module name as String (it can be relative or absolute, with .asm o rwithout)
+	 * @param importclause the module name as String (it can be relative or absolute, with .asm or without)
 	 * @return the imported file - it must exists 
 	 */	
 	public static File importFile(String asmDirLib, ImportClause importclause) {
@@ -1663,7 +1663,7 @@ public class Utility {
 		File res;
 		if (asmDirLib == null) {
 			// with asm extesion
-			res = checkExistsAsmFile(moduleName + ASMParser.asmExtension);
+			res = checkExistsAsmFile(moduleName + ASMParser.ASM_EXTENSION);
 			if (res != null)
 				return res;
 			// without asm extension
@@ -1671,7 +1671,7 @@ public class Utility {
 			if (res != null)
 				return res;
 			// with asm extesion
-			res = checkExistsAsmFile("." + moduleName + ASMParser.asmExtension);
+			res = checkExistsAsmFile("." + moduleName + ASMParser.ASM_EXTENSION);
 			if (res != null)
 				return res;
 			// without asm extension
@@ -1681,7 +1681,7 @@ public class Utility {
 		}
 		assert asmDirLib != null;
 		// build the complete module name
-		res = checkExistsAsmFile(asmDirLib + File.separatorChar + moduleName + ASMParser.asmExtension);
+		res = checkExistsAsmFile(asmDirLib + File.separatorChar + moduleName + ASMParser.ASM_EXTENSION);
 		if (res != null)
 			return res;
 		// without asm extension
@@ -1692,7 +1692,7 @@ public class Utility {
 		res = checkExistsAsmFile(moduleName);
 		if (res != null)
 			return res;
-		res = checkExistsAsmFile(moduleName + ASMParser.asmExtension);
+		res = checkExistsAsmFile(moduleName + ASMParser.ASM_EXTENSION);
 		if (res != null)
 			return res;
 		//
@@ -1701,7 +1701,7 @@ public class Utility {
 	}
 
 	static private File checkExistsAsmFile(String fileName) {
-		if (!fileName.endsWith(ASMParser.asmExtension))
+		if (!fileName.endsWith(ASMParser.ASM_EXTENSION))
 			return null;
 		File moduleFile = new java.io.File(fileName);
 		if (moduleFile.exists() && moduleFile.isFile())

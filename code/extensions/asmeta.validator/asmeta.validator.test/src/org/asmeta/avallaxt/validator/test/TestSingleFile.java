@@ -224,7 +224,7 @@ public class TestSingleFile extends TestValidator {
         }
 		for(Path asm: result){
 			String filename = asm.toString();
-			if (!filename.endsWith(ASMParser.asmExtension)) continue;
+			if (!filename.endsWith(ASMParser.ASM_EXTENSION)) continue;
 			System.out.println(filename);
 			AsmetaPrintInfo info = new AsmetaPrintInfo(filename);
 			System.out.println(info.getInfo().ruleNamesList);

@@ -360,7 +360,7 @@ public class InvariantGUI {
 					   if (ci!=null) {
 						   currentLoadedID = ci.getInt();
 						   currentLoadedModel = ci.getStr();
-						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(ASMParser.asmExtension)!=-1 && showInvariants())
+						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(ASMParser.ASM_EXTENSION)!=-1 && showInvariants())
 						   {
 							   add.setEnabled(true);
 							   refresh.setEnabled(true);
@@ -370,7 +370,7 @@ public class InvariantGUI {
 							   else
 								   modelpath.setText(currentLoadedModel);
 						   }
-						   else if(currentLoadedModel.indexOf(ASMParser.asmExtension)==-1 && !currentLoadedModel.isEmpty())
+						   else if(currentLoadedModel.indexOf(ASMParser.ASM_EXTENSION)==-1 && !currentLoadedModel.isEmpty())
 							   JOptionPane.showMessageDialog(getContentPane(), "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
 					   }
 				   } catch (Exception ex) {

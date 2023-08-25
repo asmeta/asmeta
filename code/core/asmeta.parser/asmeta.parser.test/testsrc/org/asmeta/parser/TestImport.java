@@ -106,7 +106,7 @@ public class TestImport {
 	
 	
 	private static File buildtempAsm(File root, String asmnameprefix, String importedAsm) throws IOException, Exception {
-		File builtAsm = File.createTempFile(asmnameprefix, ASMParser.asmExtension, root);
+		File builtAsm = File.createTempFile(asmnameprefix, ASMParser.ASM_EXTENSION, root);
 		String asmname = builtAsm.getName();
 		asmname = asmname.substring(0, asmname.lastIndexOf('.'));
 		// write something into it

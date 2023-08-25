@@ -59,7 +59,7 @@ public class AvallaValidator extends AbstractAvallaValidator {
     if (_startsWith) {
       return;
     }
-    boolean _endsWith = scenario.getSpec().endsWith(ASMParser.asmExtension);
+    boolean _endsWith = scenario.getSpec().endsWith(ASMParser.ASM_EXTENSION);
     boolean _not = (!_endsWith);
     if (_not) {
       this.error("Asm spec should end with asm", AvallaPackage.Literals.SCENARIO__SPEC);

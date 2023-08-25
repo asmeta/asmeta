@@ -32,7 +32,7 @@ public class TestValidator {
 		assert dir.exists() && dir.isDirectory();
 		// clean directory
 		for(File file: dir.listFiles()) {
-		    if (file.getName().endsWith(ASMParser.asmExtension)) 
+		    if (file.getName().endsWith(ASMParser.ASM_EXTENSION)) 
 		        file.delete();
 		    if (file.isDirectory()) {
 		    	file.delete();
@@ -68,7 +68,7 @@ public class TestValidator {
 			builder.save();
 			// the files exists
 			assertTrue(tempAsmPath.exists());
-			assertTrue(builder.getTempAsmPath().exists() && builder.getTempAsmPath().isFile() && builder.getTempAsmPath().getName().endsWith(ASMParser.asmExtension));
+			assertTrue(builder.getTempAsmPath().exists() && builder.getTempAsmPath().isFile() && builder.getTempAsmPath().getName().endsWith(ASMParser.ASM_EXTENSION));
 			// it should be parsable:
 			AsmCollection asmc = ASMParser.setUpReadAsm(builder.getTempAsmPath());
 			System.out.println(ASMParser.getResultLogger().errors);

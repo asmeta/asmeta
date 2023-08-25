@@ -16,7 +16,7 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 public abstract class AsmToCGenerator implements IGenerator {
   protected TranslatorOptions options;
 
-  public static String Ext = ASMParser.asmExtension;
+  public static String Ext = ASMParser.ASM_EXTENSION;
 
   public AsmToCGenerator() {
     TranslatorOptions _translatorOptions = new TranslatorOptions(true, false, false, false);
