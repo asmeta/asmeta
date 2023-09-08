@@ -10,7 +10,8 @@ Require-Bundle: org.asmeta.avallaxt,
  asmeta.parser,
  com.google.inject,
  org.eclipse.xtext
-Export-Package: org.asmeta.xt.validator;
+Export-Package: org.asmeta.validator.main,
+ org.asmeta.xt.validator;
   uses:="org.asmeta.avallaXt.util,
    org.asmeta.parser.util,
    asmeta.definitions,
