@@ -54,7 +54,7 @@ public class AsmetaPrintInfo {
 			File[] files = asmFile.listFiles(new FilenameFilter() {
 				@Override
 				public boolean accept(File arg0, String arg1) {
-					return arg1.endsWith(ASMParser.asmExtension);
+					return arg1.endsWith(ASMParser.ASM_EXTENSION);
 				}
 			});
 			for (File f : files) {

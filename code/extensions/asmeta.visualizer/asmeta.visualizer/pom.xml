@@ -29,6 +29,11 @@
 			<artifactId>asmeta.parser</artifactId>
 			<version>23.7.0-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.simulator</artifactId>
+			<version>23.7.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<parent>
 		<groupId>asmeta</groupId>

@@ -23,6 +23,7 @@ import org.asmeta.simulator.value.Value;
  */
 public class AsmetaV {
 	
+	public static final String SCENARIO_EXTENSION = ".avalla";
 	
 	private static Logger logger = Logger.getLogger(AsmetaV.class);
 
@@ -59,15 +60,19 @@ public class AsmetaV {
 		if (scenarioPath.isDirectory()) {
 			File[] listFile = scenarioPath.listFiles();
 			for (File element : listFile)
-				if (element.isFile()) {
+				if (element.isFile() && element.getName().endsWith(SCENARIO_EXTENSION)) {
 					String path = element.getPath();
 					if (!validateSingleFile(coverage, all_rules, path)) {
 						failedScenarios.add(path);
 					}
 				} else {
-					logger.info(element.getName() + " is not a file!!");
+					logger.info(element.getName() + " is not a valid file!!");
 				}
-		} else { // if the file is not a directory but a file
+		} else {
+			if (!scenarioPath.getName().endsWith(SCENARIO_EXTENSION)) {
+				throw new RuntimeException("invalid file, the validator works with "+SCENARIO_EXTENSION+" files");
+			}
+			// if the file is not a directory but a file
 			if (!validateSingleFile(coverage, all_rules, scenarioPath.getAbsolutePath()))
 				failedScenarios.add(scenarioPath.getCanonicalPath());
 		}
@@ -83,10 +88,11 @@ public class AsmetaV {
 	 * @param coverage
 	 * @param coveredRules
 	 * @param path
-	 * @return true if the check have succeded
+	 * @return true if the check have succeeded
 	 * @throws Exception
 	 */
 	private boolean validateSingleFile(boolean coverage, Set<String> coveredRules, String path) throws Exception {
+		assert path.endsWith(SCENARIO_EXTENSION) : " the validator works only with "+SCENARIO_EXTENSION+" files";		
 		logger.info("\n** Simulation " + path + " **\n");
 		AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(path);
 		builder.save();

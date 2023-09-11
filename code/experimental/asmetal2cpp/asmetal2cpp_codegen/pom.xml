@@ -5,6 +5,9 @@
   <artifactId>asmeta.asm2cpp</artifactId>
   <version>22.4.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
+	<properties>
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+	</properties>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>

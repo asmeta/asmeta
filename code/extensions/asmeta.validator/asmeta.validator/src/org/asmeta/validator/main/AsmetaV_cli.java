@@ -10,6 +10,7 @@ import asmeta.cli.AsmetaCLI;
 
 /**
  * main class of AsmetaV
+ * It can take also a directory, in that case 
  * 
  * @author garganti
  *
@@ -47,6 +48,11 @@ public class AsmetaV_cli extends AsmetaCLI {
 
 	@Override
 	protected String getExtension() {
-		return "test";
+		return AsmetaV.SCENARIO_EXTENSION;
 	}
+	
+	protected String getExampleArgument() {
+		return super.getExampleArgument() + " OR dir (containing all the avalla)";
+	}
+
 }

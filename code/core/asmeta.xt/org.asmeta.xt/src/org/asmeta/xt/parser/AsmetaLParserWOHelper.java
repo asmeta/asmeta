@@ -80,13 +80,13 @@ public class AsmetaLParserWOHelper {
 				String newPath = path.replace("\\", "/");
 				newPath = newPath.substring(0, newPath.lastIndexOf("/")) + "/";
 					
-				if (!importedAsm.contains(newPath + i.getModuleName() + ASMParser.asmExtension)) {	
+				if (!importedAsm.contains(newPath + i.getModuleName() + ASMParser.ASM_EXTENSION)) {	
 				
-					importedAsm.add(newPath + i.getModuleName() + ASMParser.asmExtension);
+					importedAsm.add(newPath + i.getModuleName() + ASMParser.ASM_EXTENSION);
 					
 					System.out.println("Checking imported ASMs");
 					
-					ParseAndValidateResult otherAsmResults = new AsmetaLParserWOHelper().parseAndValidateFile(newPath + i.getModuleName() + ASMParser.asmExtension, verifyWithOldParser);
+					ParseAndValidateResult otherAsmResults = new AsmetaLParserWOHelper().parseAndValidateFile(newPath + i.getModuleName() + ASMParser.ASM_EXTENSION, verifyWithOldParser);
 					if (otherAsmResults.errors.size()>0)
 						return otherAsmResults;		
 				}

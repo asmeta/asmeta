@@ -41,8 +41,7 @@ import asmeta.structure.Initialization;
 import asmeta.terms.basicterms.Term;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
-public class AsmetaPrinterForAvalla extends AsmPrinter {
-	
+public class AsmetaPrinterForAvalla extends AsmPrinter {	
 	
 	// ASMs already translated (to avoid over translation
 	// asm path (absolute) of the original asm -> where (path) it has been translated
@@ -71,11 +70,11 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	public AsmetaPrinterForAvalla(File tempAsmPath, Path asmPath, AsmetaFromAvallaBuilder builder)
 			throws FileNotFoundException {
 		super(tempAsmPath);
-		assert tempAsmPath.getName().endsWith(ASMParser.asmExtension);
+		assert tempAsmPath.getName().endsWith(ASMParser.ASM_EXTENSION);
 		this.tempAsmPath = tempAsmPath;
 		tempAsmName = tempAsmPath.getName();
 		tempAsmName = tempAsmName.substring(0, tempAsmName.length() - 4);
-		assert asmPath.toString().endsWith(ASMParser.asmExtension);
+		assert asmPath.toString().endsWith(ASMParser.ASM_EXTENSION);
 		this.asmPath = asmPath;
 		this.builder = builder;
 	}
@@ -159,7 +158,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 				String name = importClause.getModuleName();
 				// now build the path
 				// the asm to be imported
-				File importFile = Utility.importFile(asmPath.getParent().toString(), importClause);
+				String asmDirbase = asmPath.getParent() == null? null : asmPath.getParent().toString();								
+				File importFile = Utility.importFile(asmDirbase, importClause);
 				Path importedAsmPath = importFile.toPath().normalize();
 				assert Files.exists(importedAsmPath)
 					: " path (imported ASM) " + importedAsmPath.toString() + " does not exist";
@@ -180,13 +180,13 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 						} else {
 							// get the name form the file, not from the ASM which must be read after
 							String fileName = importedAsmPath.getFileName().toString();
-							assert fileName.endsWith(ASMParser.asmExtension);
+							assert fileName.endsWith(ASMParser.ASM_EXTENSION);
 							String asmName = fileName.substring(0, fileName.length()-4);
 							// build the temp asm file and store in the table
 							// in the same directory 
 							File folder = tempAsmPath.getParentFile();
 							assert folder.exists() && folder.isDirectory();
-							importedFile = File.createTempFile("_" + asmName +"_", ASMParser.asmExtension, tempAsmPath.getParentFile()).toPath();
+							importedFile = File.createTempFile("_" + asmName +"_", ASMParser.ASM_EXTENSION, tempAsmPath.getParentFile()).toPath();
 							LOG.debug(importedAsmPath + " to be translated into "  + importedFile);
 							translatedFiles.put(importedAsmPath, importedFile);
 							// call recursively
@@ -228,7 +228,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	 */
 	static String printImport(String tempAsmPath, Path importedAsm) {		
 		assert importedAsm.toFile().exists() : "imported file with path " + importedAsm + " does not exists";
-		assert importedAsm.toFile().getName().endsWith(ASMParser.asmExtension);
+		assert importedAsm.toFile().getName().endsWith(ASMParser.ASM_EXTENSION);
 		// convert to a relative path with the current file
 		assert new File(tempAsmPath).exists();
 		Path tempAsmPathParent = new File(tempAsmPath).getParentFile().toPath();
