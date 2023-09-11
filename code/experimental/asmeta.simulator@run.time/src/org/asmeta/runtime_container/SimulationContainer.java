@@ -978,7 +978,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		for (int i=0;i<c;i++) {
 			String moduleName=asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
 			if (!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
-				monNames=findAllMonitored(monNames, root+moduleName+ASMParser.asmExtension);
+				monNames=findAllMonitored(monNames, root+moduleName+ASMParser.ASM_EXTENSION);
 			}
 		}
 		return monNames;

@@ -181,7 +181,7 @@ public class GenerateTestsFromFSM {
 		}
 		String asm = new ConvertToAsmeta().getASMETAFlatFromFSM(fsmPath, newAsmName);
 		String asmFile = fsmPath.replace("\\", "/").substring(0, fsmPath.lastIndexOf("\\")) + "\\" + newAsmName
-				+ ASMParser.asmExtension;
+				+ ASMParser.ASM_EXTENSION;
 		PrintWriter fout = new PrintWriter(new FileWriter(asmFile));
 		fout.println(asm);
 		fout.close();

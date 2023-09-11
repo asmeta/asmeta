@@ -30,6 +30,9 @@ public class Asmeta2Cpp extends AsmetaCLI {
 	@Option(name = "-arduino", usage = "generate the code for arduino")
 	boolean arduinoCompiler;
 	
+	@Option(name = "-compile", usage = "try to compile the generated sources")
+	boolean compile;
+	
 /*	private boolean shuffle;
 
 	@Option(name = "-rnd", usage = "random simulation")
@@ -91,7 +94,7 @@ public class Asmeta2Cpp extends AsmetaCLI {
 				Logger.getLogger("org.asmeta.asm2code").setLevel(Level.ALL);				
 			}
 			TranslatorOptions options = new TranslatorOptions(FORMATTER, SHUFFLE_RANDOM, optmizeSeqRule, arduinoCompiler);
-			AsmetaL2CppGeneratorMain.test(asmFile.toString(),options);
+			CompileResult result = AsmetaL2CppGeneratorMain.translate(asmFile.toString(),options, compile);
 		} catch (FileNotFoundException e) {
 			error("Error: file not found " + e.getMessage());
 /*		} catch (AsmModelNotFoundException e) {

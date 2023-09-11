@@ -12,7 +12,7 @@ import org.asmeta.parser.ASMParser
  */
 abstract class AsmToCGenerator implements IGenerator {
 	protected TranslatorOptions options
-	public static String Ext = ASMParser.asmExtension
+	public static String Ext = ASMParser.ASM_EXTENSION
 
 	new () {
 		options = new TranslatorOptions(true, false, false,false)

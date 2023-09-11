@@ -26,3 +26,9 @@ asmeta.validator.ui -> versione identica a quello vecchio solo che chiama il val
 locali?
 
 avallaprj
+
+
+
+AUGUST 2023
+Angelo: la maggior parte dei plugin viene compilata solo con PDS, con maven non funziona, questo validatore è un esempio
+- l aprima soluzione è duplicare le dipendenze sia nel manifest che nel pom, in questo mode entrambi andranno

@@ -74,7 +74,7 @@ public class AsmRefProver {
 		String abstractModelName = arguments.get(0);
 		String refinedModelName = arguments.get(1);
 		RefinementProof rp = new RefinementProof(abstractModelName, refinedModelName);
-		String proofFileName = "proof_" + new File(abstractModelName).getName().replaceAll(ASMParser.asmExtension, "") + "_" + new File(refinedModelName).getName().replaceAll(ASMParser.asmExtension, "") + ".txt" ;
+		String proofFileName = "proof_" + new File(abstractModelName).getName().replaceAll(ASMParser.ASM_EXTENSION, "") + "_" + new File(refinedModelName).getName().replaceAll(ASMParser.ASM_EXTENSION, "") + ".txt" ;
 		if(saveProof) {
 			File proofFile = new File(proofFileName);
 			if(proofFile.exists()) {

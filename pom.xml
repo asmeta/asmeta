@@ -8,6 +8,7 @@
   <packaging>pom</packaging>
   <properties>
     <jacoco.destFile>${project.basedir}/reports/coverage/jacoco/jacoco.exec</jacoco.destFile>
+    <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
   </properties>
   <modules>
     <module>code/core</module>

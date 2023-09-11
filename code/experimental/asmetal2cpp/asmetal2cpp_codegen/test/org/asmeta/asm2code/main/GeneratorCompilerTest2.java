@@ -16,7 +16,7 @@ public class GeneratorCompilerTest2 {
 		// get all the files from a directory
 		File[] fList = directory.listFiles();
 		for (File file : fList) {
-			if (file.isFile() && file.getName().endsWith(ASMParser.asmExtension)) {
+			if (file.isFile() && file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
 				files.add(file);
 			} else if (file.isDirectory()) {
 				listf(file.getAbsolutePath(), files);

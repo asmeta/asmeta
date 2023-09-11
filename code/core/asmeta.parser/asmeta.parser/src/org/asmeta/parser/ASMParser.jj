@@ -36,7 +36,8 @@ import java.nio.charset.Charset;
 public class ASMParser
 {
 
-  public static final String asmExtension = ".asm";
+  // asm extension including the . 
+  public static final String ASM_EXTENSION = ".asm";
 
   private String filename; // file name without extension, needed to check that the name of the machine is the same
 
@@ -115,7 +116,7 @@ public class ASMParser
   {
     Logger.resetForParsing(f);
     assert (f.exists() && f.isFile());
-    assert (f.getName().endsWith(asmExtension));
+    assert (f.getName().endsWith(ASM_EXTENSION));
     Logger.logInfo("parsing file " + f.getCanonicalPath());
     // reset the domains
     DomainsFactory.eINSTANCE.resetDomains();

@@ -172,11 +172,11 @@ public class CompositionGUI extends JFrame {
 	 * @return: the filename of the asm model
 	 */
 	public static String clearPath(String path) {
-		if (!path.isEmpty() && path.indexOf(ASMParser.asmExtension) != -1 && path.indexOf("\\") >= 0) {
+		if (!path.isEmpty() && path.indexOf(ASMParser.ASM_EXTENSION) != -1 && path.indexOf("\\") >= 0) {
 			return (path.substring(path.lastIndexOf("\\") + 1));
-		} else if (!path.isEmpty() && path.indexOf(ASMParser.asmExtension) != -1 && path.indexOf("/") >= 0) {
+		} else if (!path.isEmpty() && path.indexOf(ASMParser.ASM_EXTENSION) != -1 && path.indexOf("/") >= 0) {
 			return (path.substring(path.lastIndexOf("/") + 1));
-		} else if (path.indexOf(ASMParser.asmExtension) == -1 && !path.isEmpty()) {
+		} else if (path.indexOf(ASMParser.ASM_EXTENSION) == -1 && !path.isEmpty()) {
 			JOptionPane.showMessageDialog(tabbedPane, "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		return path;
