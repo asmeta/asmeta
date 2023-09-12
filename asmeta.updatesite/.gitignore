@@ -1,0 +1,4 @@
+*.jar
+features/*
+plugins/*
+target/*

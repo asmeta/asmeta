@@ -182,7 +182,7 @@ public class ASMParser implements ASMParserConstants {
 /*                         GRAMMAR START                       */
 /***************************************************************/
 /***** MAIN OK!
-se il file � vuoto non restituisce nulla
+se il file ï¿½ vuoto non restituisce nulla
 *****/
   final public Optional<Asm > Asm() throws ParseException {boolean isAsm = true; // true states an ASM, false states a module
   String name;
@@ -2679,8 +2679,8 @@ Logger.logDebug("\t/\t\toperator");
       } else if (getToken(1).kind == ID_FUNCTION && getToken(1).image.equals("mod")) {
         tok = jj_consume_token(ID_FUNCTION);
 Logger.logDebug("\tmod\t\toperator");
-        // se definisco il token mod non posso più usarlo come funzione,
-              // invece mod è definito nella standard library anche come funzione
+        // se definisco il token mod non posso piÃ¹ usarlo come funzione,
+              // invece mod Ã¨ definito nella standard library anche come funzione
               // quindi quando trova <MOD> invece che function protesta
               // tok = <MOD> {Logger.logDebug("\tmod\t\toperator");}
               arg2 = powerExpr(localVar, areAllowedNewVar);

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Animator
 Bundle-SymbolicName: asmeta.animator.test
-Bundle-Version: 23.07
+Bundle-Version: 23.07.0.qualifier
 Export-Package: org.asmeta.animator
 Require-Bundle: org.eclipse.emf.mwe.utils,
  org.eclipse.emf.mwe2.launch,
@@ -10,6 +10,7 @@ Require-Bundle: org.eclipse.emf.mwe.utils,
  org.apache.log4j,
  org.eclipse.equinox.common,
  org.eclipse.swt,
+ org.eclipse.ui,
  asmeta.emf,
  asmeta.parser,
  asmeta.simulator,
@@ -17,7 +18,6 @@ Require-Bundle: org.eclipse.emf.mwe.utils,
 Import-Package: org.asmeta.animator,
  org.eclipse.jface.dialogs,
  org.eclipse.swt.widgets,
- org.eclipse.ui,
  org.junit
 Bundle-ClassPath: .
 Automatic-Module-Name: asmeta.animator.test

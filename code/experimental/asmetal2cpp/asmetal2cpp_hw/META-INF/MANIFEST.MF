@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: uasm2code_hw
 Bundle-SymbolicName: asmeta.asmetal2cpp.hw
-Bundle-Version: 22.04
+Bundle-Version: 22.04.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.emf.mwe2.language;bundle-version="2.9.0",
  org.eclipse.emf.mwe2.runtime;bundle-version="2.9.0",
@@ -11,15 +11,17 @@ Require-Bundle: org.eclipse.emf.mwe2.language;bundle-version="2.9.0",
  org.eclipse.xtext.xbase.lib;bundle-version="2.10.0",
  org.eclipse.core.runtime;bundle-version="3.11.1",
  org.eclipse.xtext.junit4,
+ org.apache.commons.io,
  org.junit,
+ com.google.gson,
  asmeta.emf,
  asmeta.asm2cpp,
- asmeta.parser
+ asmeta.parser,
+ asmeta.flattener
 Import-Package: asmeta.structure,
  org.eclipse.xtext.junit4.util
 Export-Package: org.asmeta.codegenerator,
  org.asmeta.codegenerator.arduino,
  org.asmeta.codegenerator.configuration
-Bundle-ClassPath: gson-2.2.2.jar,
- .
+Bundle-ClassPath: .
 Automatic-Module-Name: asmeta.asmetal2cpp.hw

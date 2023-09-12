@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.avallaxt.feature"
       label="AvallaXt Feature "
-      version="23.07">
+      version="23.7.0.qualifier">
 
    <plugin
          id="org.asmeta.avallaxt"

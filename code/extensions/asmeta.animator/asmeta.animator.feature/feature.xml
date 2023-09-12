@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.animator.feature"
       label="Asmeta Animator"
-      version="23.07"
+      version="23.7.0.qualifier"
       provider-name="fmse.di.unimi.it">
 
    <description url="https://asmeta.github.io/download/asmetaA.html">

@@ -30,7 +30,7 @@ class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
 		this(resource, false)
 	}
 
-	// Il boolean identifica se il termine Â» a sx o dx del :=
+	// Il boolean identifica se il termine » a sx o dx del :=
 	new(Asm resource, boolean leftHandSide) {
 		this.res = resource
 		this.leftHandSide = leftHandSide
@@ -98,11 +98,11 @@ class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
 		var StringBuffer functionTerm = new StringBuffer
 		var name = new Util().parseFunction(term.function.name)
 
-		// Controllo se l'operatore Â» del tipo: &,|,<=,>=,<,>...
+		// Controllo se l'operatore » del tipo: &,|,<=,>=,<,>...
 		if (ExpressionToJava.hasEvaluateVisitor(name)) {
 			// if the funcion is an expression
 			return new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);
-		} // In questo caso l'operatore rilevato Â» := 
+		} // In questo caso l'operatore rilevato » := 
 		else {
 
 			if (term.function instanceof ControlledFunction && term.domain instanceof ConcreteDomain)

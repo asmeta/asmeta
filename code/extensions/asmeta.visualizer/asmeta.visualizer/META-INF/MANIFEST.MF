@@ -2,11 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta visualizer
 Bundle-SymbolicName: asmeta.visualizer;singleton:=true
-Bundle-Version: 23.07
+Bundle-Version: 23.07.0.qualifier
 Require-Bundle: org.eclipse.zest.core,
  org.eclipse.zest.layouts,
  org.eclipse.ui,
  org.junit,
+ org.apache.log4j,
  asmeta.emf,
  asmeta.simulator,
  asmeta.parser
