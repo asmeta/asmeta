@@ -311,7 +311,7 @@ public class GeneratorCompilerTest {
 		for (File file : fList) {
 
 			if (!file.getName().equals("StandardLibrary.asm")) {
-				if (file.isFile() && file.getName().endsWith(ASMParser.asmExtension)) {
+				if (file.isFile() && file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
 					files.add(file);
 				} else if (file.isDirectory()) {
 					listf(file.getAbsolutePath(), files);
@@ -361,7 +361,7 @@ public class GeneratorCompilerTest {
 		File javaFileExeT = new File(dirTraduzione + File.separator + name + "_Exe.java");
 		File javaFileWinT = new File(dirTraduzione + File.separator + name + "_Win.java");
 
-		// Se il file java esiste di gi�, lo cancella
+		// Se il file java esiste di gi, lo cancella
 
 		if (javaFile.exists())
 			javaFile.delete();

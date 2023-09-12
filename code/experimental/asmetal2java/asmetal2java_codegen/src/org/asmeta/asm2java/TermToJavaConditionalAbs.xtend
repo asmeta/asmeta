@@ -33,7 +33,7 @@ class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
 		this(resource, false)
 	}
 
-    //Il boolean identifica se il termine Â» a sx o dx del :=
+    //Il boolean identifica se il termine » a sx o dx del :=
 	new(Asm resource, boolean leftHandSide) {
 		this.res = resource
 		this.leftHandSide = leftHandSide
@@ -99,14 +99,14 @@ class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
 				sb.append(
 						'''
 						
-					Â«""Â»	if(Â«visit(object.comparedTerm)Â».ToString(Â«visit(object.comparedTerm)Â»).equals("Â«visit(object.comparingTerm.get(i))Â»"))
-							a  Â«visit(object.resultTerms.get(i))Â»;
+					«""»	if(«visit(object.comparedTerm)».ToString(«visit(object.comparedTerm)»).equals("«visit(object.comparingTerm.get(i))»"))
+							a  «visit(object.resultTerms.get(i))»;
 				''')
 			else
 				sb.append(
 							'''
-					Â«""Â»	else if(Â«visit(object.comparedTerm)Â».ToString(Â«visit(object.comparedTerm)Â»).equals("Â«visit(object.comparingTerm.get(i))Â»"))
-							a  Â«visit(object.resultTerms.get(i))Â»;
+					«""»	else if(«visit(object.comparedTerm)».ToString(«visit(object.comparedTerm)»).equals("«visit(object.comparingTerm.get(i))»"))
+							a  «visit(object.resultTerms.get(i))»;
 				''')
 		}
 		
@@ -122,14 +122,14 @@ class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
 				sb.append(
 						'''
 						
-					Â«""Â»	if(Â«object.comparedTerm.domain.nameÂ»_elem.value.equals(Â«visit(object.comparingTerm.get(i)).substring(3,visit(object.comparingTerm.get(i)).length)Â»))
-							a  Â«visit(object.resultTerms.get(i))Â»;
+					«""»	if(«object.comparedTerm.domain.name»_elem.value.equals(«visit(object.comparingTerm.get(i)).substring(3,visit(object.comparingTerm.get(i)).length)»))
+							a  «visit(object.resultTerms.get(i))»;
 				''')
 			else
 				sb.append(
 							'''
-					Â«""Â»	else if(Â«object.comparedTerm.domain.nameÂ»_elem.value.equals(Â«visit(object.comparingTerm.get(i)).substring(3,visit(object.comparingTerm.get(i)).length)Â»))
-							a  Â«visit(object.resultTerms.get(i))Â»;
+					«""»	else if(«object.comparedTerm.domain.name»_elem.value.equals(«visit(object.comparingTerm.get(i)).substring(3,visit(object.comparingTerm.get(i)).length)»))
+							a  «visit(object.resultTerms.get(i))»;
 				''')
 		}
 		
@@ -137,7 +137,7 @@ class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
 		if ((object.otherwiseTerm !== null))
 			sb.append(
 			'''
-				Â«""Â»	else return Â«visit(object.otherwiseTerm)Â»; 
+				«""»	else return «visit(object.otherwiseTerm)»; 
 			''')
 
 		return sb.toString
@@ -162,11 +162,11 @@ class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
 		s = list.substring(0, list.length - 2) + "}"
 		return type+s
 		return '''
-		Â«""Â»
+		«""»
 		
 		  [](){
-		    auto v = Â«sÂ»;
-		    list<decltype(Â«visit(object.terms.get(0))Â»)> l(v.begin(), v.end());
+		    auto v = «s»;
+		    list<decltype(«visit(object.terms.get(0))»)> l(v.begin(), v.end());
 		    return l;
 		  }()'''
 	}*/
@@ -186,11 +186,11 @@ def String visit(SetTerm object) {}
 		var s = bag.substring(0, bag.length - 2) + "}"
 		return type+s
 		**return '''
-		Â«""Â»
+		«""»
 		
 		  [](){
-		    auto v = Â«sÂ»;
-		    multiset<decltype(Â«visit(object.term.get(0))Â»)> ms(v.begin(), v.end());
+		    auto v = «s»;
+		    multiset<decltype(«visit(object.term.get(0))»)> ms(v.begin(), v.end());
 		    return ms;
 		  }()'''**
 	}*/
@@ -214,16 +214,16 @@ def String visit(SetTerm object) {}
 		var StringBuffer let = new StringBuffer
 		let.append(
 		'''
-			Â»"\n"Â«
+			»"\n"«
 			  [&](){    **<--- letTerm**
 		''')
 		for (var int i = 0; i < object.variable.size; i++) {
-			let.append('''	auto Â«visit(object.variable.get(i))Â» = Â«visit(object.assignmentTerm.get(i))Â»;
+			let.append('''	auto «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
 			''')
 		}
 		let.append(
 			'''
-				return Â«visit(object.body)Â»; 
+				return «visit(object.body)»; 
 			}()
 		''')
 
@@ -249,10 +249,10 @@ def String visit(SetTerm object) {}
 /** TODO: DELETE FOR COVERAGE 	def String visit(DomainTerm term) {
 		var StringBuffer sb = new StringBuffer
 		if (term.domain instanceof StructuredTd || term.domain instanceof StructuredTdImpl)
-			sb.append('''Â«new DomainToH(res).visit(term.domain)Â» Â«term.domain.nameÂ»;
+			sb.append('''«new DomainToH(res).visit(term.domain)» «term.domain.name»;
 			''')
 		else
-			sb.append('''Â«new ToString(res).visit(term.domain)Â» Â«term.domain.nameÂ»;
+			sb.append('''«new ToString(res).visit(term.domain)» «term.domain.name»;
 			''')
 		return sb.toString
 	}*/
@@ -288,13 +288,13 @@ def String visit(SetTerm object) {}
 		var StringBuffer functionTerm = new StringBuffer
 		var name = new Util().parseFunction(term.function.name)
 		
-		//Controllo se l'operatore Â» del tipo: &,|,<=,>=,<,>...
+		//Controllo se l'operatore » del tipo: &,|,<=,>=,<,>...
 		if (ExpressionToJava.hasEvaluateVisitor(name)) {
 			 //if the funcion is an expression
 			return new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);
 		}
 		
-		//In questo caso l'operatore rilevato Â» := 
+		//In questo caso l'operatore rilevato » := 
 		 else {
 		 	
 			functionTerm.append(term.function.name)

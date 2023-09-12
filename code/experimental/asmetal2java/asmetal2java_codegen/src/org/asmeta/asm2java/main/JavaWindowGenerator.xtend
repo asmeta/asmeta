@@ -58,9 +58,9 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 			import javax.swing.ScrollPaneConstants;
 			import javax.swing.SwingConstants;
 			
-			public class Â«asm.nameÂ»_Win {
+			public class «asm.name»_Win {
 			
-			    Â«asm.nameÂ» esecuzione;
+			    «asm.name» esecuzione;
 			    int stato = 0;
 			    JFrame frame;
 			    JPanel panel_destro = new JPanel();
@@ -89,7 +89,7 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 					EventQueue.invokeLater(new Runnable() {
 						public void run() {
 							try {
-								Â«asm.nameÂ»_Win window = new Â«asm.nameÂ»_Win();
+								«asm.name»_Win window = new «asm.name»_Win();
 								window.frame.setVisible(true);
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -101,9 +101,9 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 				/**
 				 * Create the application.
 				 */
-				public Â«asm.nameÂ»_Win() {
+				public «asm.name»_Win() {
 					
-					esecuzione = new Â«asm.nameÂ»();
+					esecuzione = new «asm.name»();
 					initialize();
 				}
 			
@@ -115,7 +115,7 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 					    //Pannello principale
 					    frame = new JFrame();
 						//Titolo 
-						frame.setTitle("Â«asm.nameÂ» ASM -> Java");
+						frame.setTitle("«asm.name» ASM -> Java");
 						frame.setBounds(100, 100, 1500, 1000);
 						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 						frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
@@ -180,9 +180,9 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 						
 						//funzione per la dichiarazione iniziale delle variabili
 						
-						Â«ControlledDeclaration(asm)Â»
+						«ControlledDeclaration(asm)»
 						
-						Â«MonitoredDeclaration(asm)Â»
+						«MonitoredDeclaration(asm)»
 						
 						btnEsegui.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
@@ -199,10 +199,10 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 							btnEsegui.setText("Esegui");
 							
 							//"traduzione" della funzione printControlled(esecuzione) del file _Exe
-							Â«ControlledUpdate(asm)Â»
+							«ControlledUpdate(asm)»
 							
 							//"traduzione" della funzione askMonitored(esecuzione) del file _Exe
-							   Â«MonitoredUpdate(asm)Â»
+							   «MonitoredUpdate(asm)»
 							   
 							   //Aggiornamento dell'ASM
 							   esecuzione.UpdateASM();
@@ -224,15 +224,15 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 
 				sb.append('''
 					
-							JLabel VariabileControlled_Text_Â«NvarCÂ» = new JLabel("Â«dd.nameÂ»");
-							VariabileControlled_Text_Â«NvarCÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_dx.add(VariabileControlled_Text_Â«NvarCÂ» );
+							JLabel VariabileControlled_Text_«NvarC» = new JLabel("«dd.name»");
+							VariabileControlled_Text_«NvarC».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_dx.add(VariabileControlled_Text_«NvarC» );
 							
-							JTextField VariabileControlled_Valore_Â«NvarCÂ» = new JTextField();
-							VariabileControlled_Valore_Â«NvarCÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							VariabileControlled_Valore_Â«NvarCÂ».setEditable(false);
-							panel_dx.add(VariabileControlled_Valore_Â«NvarCÂ»);
-							VariabileControlled_Valore_Â«NvarCÂ».setColumns(10);
+							JTextField VariabileControlled_Valore_«NvarC» = new JTextField();
+							VariabileControlled_Valore_«NvarC».setHorizontalAlignment(SwingConstants.CENTER);
+							VariabileControlled_Valore_«NvarC».setEditable(false);
+							panel_dx.add(VariabileControlled_Valore_«NvarC»);
+							VariabileControlled_Valore_«NvarC».setColumns(10);
 							
 						''')
 
@@ -247,15 +247,15 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 				if (fd.domain === null) {
 					sb.append('''
 						
-						JLabel VariabileControlled_Text_Â«NvarCÂ» = new JLabel("Â«fd.nameÂ»");
-						VariabileControlled_Text_Â«NvarCÂ».setHorizontalAlignment(SwingConstants.CENTER);
-						panel_dx.add(VariabileControlled_Text_Â«NvarCÂ» );
+						JLabel VariabileControlled_Text_«NvarC» = new JLabel("«fd.name»");
+						VariabileControlled_Text_«NvarC».setHorizontalAlignment(SwingConstants.CENTER);
+						panel_dx.add(VariabileControlled_Text_«NvarC» );
 						
-						JTextField VariabileControlled_Valore_Â«NvarCÂ» = new JTextField();
-						VariabileControlled_Valore_Â«NvarCÂ».setHorizontalAlignment(SwingConstants.CENTER);
-						VariabileControlled_Valore_Â«NvarCÂ».setEditable(false);
-						panel_dx.add(VariabileControlled_Valore_Â«NvarCÂ»);
-						VariabileControlled_Valore_Â«NvarCÂ».setColumns(10);
+						JTextField VariabileControlled_Valore_«NvarC» = new JTextField();
+						VariabileControlled_Valore_«NvarC».setHorizontalAlignment(SwingConstants.CENTER);
+						VariabileControlled_Valore_«NvarC».setEditable(false);
+						panel_dx.add(VariabileControlled_Valore_«NvarC»);
+						VariabileControlled_Valore_«NvarC».setColumns(10);
 						
 					''')
 
@@ -265,46 +265,46 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 					if ((fd.domain instanceof EnumTd && fd.codomain instanceof ConcreteDomain)) {
 						sb.append('''
 							
-							JLabel VariabileControlled_Text_Â«NvarCÂ» = new JLabel("Â«fd.nameÂ»");
-							VariabileControlled_Text_Â«NvarCÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_dx.add(VariabileControlled_Text_Â«NvarCÂ» );
+							JLabel VariabileControlled_Text_«NvarC» = new JLabel("«fd.name»");
+							VariabileControlled_Text_«NvarC».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_dx.add(VariabileControlled_Text_«NvarC» );
 							
-							JTextField VariabileControlled_Valore_Â«NvarCÂ» = new JTextField();
-							VariabileControlled_Valore_Â«NvarCÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							VariabileControlled_Valore_Â«NvarCÂ».setEditable(false);
-							panel_dx.add(VariabileControlled_Valore_Â«NvarCÂ»);
-							VariabileControlled_Valore_Â«NvarCÂ».setColumns(10);
+							JTextField VariabileControlled_Valore_«NvarC» = new JTextField();
+							VariabileControlled_Valore_«NvarC».setHorizontalAlignment(SwingConstants.CENTER);
+							VariabileControlled_Valore_«NvarC».setEditable(false);
+							panel_dx.add(VariabileControlled_Valore_«NvarC»);
+							VariabileControlled_Valore_«NvarC».setColumns(10);
 							
 							
-							 JLabel VariabileControlled_Text_Â«NvarCÂ»_1 = new JLabel(esecuzione.Â«fd.domain.nameÂ»_lista.get(0).toString());
-							 VariabileControlled_Text_Â«NvarCÂ»_1.setHorizontalAlignment(SwingConstants.CENTER);
-							 panel_dx.add(VariabileControlled_Text_Â«NvarCÂ»_1);
+							 JLabel VariabileControlled_Text_«NvarC»_1 = new JLabel(esecuzione.«fd.domain.name»_lista.get(0).toString());
+							 VariabileControlled_Text_«NvarC»_1.setHorizontalAlignment(SwingConstants.CENTER);
+							 panel_dx.add(VariabileControlled_Text_«NvarC»_1);
 							 
-							 JTextField VariabileControlled_Valore_Â«NvarCÂ»_1 = new JTextField();
-							 VariabileControlled_Valore_Â«NvarCÂ»_1.setHorizontalAlignment(SwingConstants.CENTER);
-							 VariabileControlled_Valore_Â«NvarCÂ»_1.setEditable(false);
-							 panel_dx.add(VariabileControlled_Valore_Â«NvarCÂ»_1);
-							 VariabileControlled_Valore_Â«NvarCÂ»_1.setColumns(10);
+							 JTextField VariabileControlled_Valore_«NvarC»_1 = new JTextField();
+							 VariabileControlled_Valore_«NvarC»_1.setHorizontalAlignment(SwingConstants.CENTER);
+							 VariabileControlled_Valore_«NvarC»_1.setEditable(false);
+							 panel_dx.add(VariabileControlled_Valore_«NvarC»_1);
+							 VariabileControlled_Valore_«NvarC»_1.setColumns(10);
 							
-							 JLabel VariabileControlled_Text_Â«NvarCÂ»_2 = new JLabel(esecuzione.Â«fd.domain.nameÂ»_lista.get(1).toString());
-							 VariabileControlled_Text_Â«NvarCÂ»_2.setHorizontalAlignment(SwingConstants.CENTER);
-							 panel_dx.add(VariabileControlled_Text_Â«NvarCÂ»_2);
+							 JLabel VariabileControlled_Text_«NvarC»_2 = new JLabel(esecuzione.«fd.domain.name»_lista.get(1).toString());
+							 VariabileControlled_Text_«NvarC»_2.setHorizontalAlignment(SwingConstants.CENTER);
+							 panel_dx.add(VariabileControlled_Text_«NvarC»_2);
 							 
-							 JTextField VariabileControlled_Valore_Â«NvarCÂ»_2 = new JTextField();
-							 VariabileControlled_Valore_Â«NvarCÂ»_2.setHorizontalAlignment(SwingConstants.CENTER);
-							 VariabileControlled_Valore_Â«NvarCÂ»_2.setEditable(false);
-							 panel_dx.add(VariabileControlled_Valore_Â«NvarCÂ»_2);
-							 VariabileControlled_Valore_Â«NvarCÂ»_2.setColumns(10);			
+							 JTextField VariabileControlled_Valore_«NvarC»_2 = new JTextField();
+							 VariabileControlled_Valore_«NvarC»_2.setHorizontalAlignment(SwingConstants.CENTER);
+							 VariabileControlled_Valore_«NvarC»_2.setEditable(false);
+							 panel_dx.add(VariabileControlled_Valore_«NvarC»_2);
+							 VariabileControlled_Valore_«NvarC»_2.setColumns(10);			
 							 
-							 JLabel VariabileControlled_Text_Â«NvarCÂ»_3 = new JLabel(esecuzione.Â«fd.domain.nameÂ»_lista.get(2).toString());
-							 VariabileControlled_Text_Â«NvarCÂ»_3.setHorizontalAlignment(SwingConstants.CENTER);
-							 panel_dx.add(VariabileControlled_Text_Â«NvarCÂ»_3);
+							 JLabel VariabileControlled_Text_«NvarC»_3 = new JLabel(esecuzione.«fd.domain.name»_lista.get(2).toString());
+							 VariabileControlled_Text_«NvarC»_3.setHorizontalAlignment(SwingConstants.CENTER);
+							 panel_dx.add(VariabileControlled_Text_«NvarC»_3);
 							 
-							 JTextField VariabileControlled_Valore_Â«NvarCÂ»_3 = new JTextField();
-							 VariabileControlled_Valore_Â«NvarCÂ»_3.setHorizontalAlignment(SwingConstants.CENTER);
-							 VariabileControlled_Valore_Â«NvarCÂ»_3.setEditable(false);
-							 panel_dx.add(VariabileControlled_Valore_Â«NvarCÂ»_3);
-							 VariabileControlled_Valore_Â«NvarCÂ»_3.setColumns(10);
+							 JTextField VariabileControlled_Valore_«NvarC»_3 = new JTextField();
+							 VariabileControlled_Valore_«NvarC»_3.setHorizontalAlignment(SwingConstants.CENTER);
+							 VariabileControlled_Valore_«NvarC»_3.setEditable(false);
+							 panel_dx.add(VariabileControlled_Valore_«NvarC»_3);
+							 VariabileControlled_Valore_«NvarC»_3.setColumns(10);
 							
 						''')
 						NvarC++;
@@ -314,56 +314,56 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 					if ((fd.codomain instanceof EnumTd && fd.domain instanceof EnumTd)) {
 						sb.append('''
 							
-							JLabel VariabileControlled_Text_Â«NvarCÂ» = new JLabel("Â«fd.nameÂ»");
-							VariabileControlled_Text_Â«NvarCÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_dx.add(VariabileControlled_Text_Â«NvarCÂ» );
+							JLabel VariabileControlled_Text_«NvarC» = new JLabel("«fd.name»");
+							VariabileControlled_Text_«NvarC».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_dx.add(VariabileControlled_Text_«NvarC» );
 							
-							JTextField VariabileControlled_Valore_Â«NvarCÂ» = new JTextField();
-							VariabileControlled_Valore_Â«NvarCÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							VariabileControlled_Valore_Â«NvarCÂ».setEditable(false);
-							panel_dx.add(VariabileControlled_Valore_Â«NvarCÂ»);
-							VariabileControlled_Valore_Â«NvarCÂ».setColumns(10);
+							JTextField VariabileControlled_Valore_«NvarC» = new JTextField();
+							VariabileControlled_Valore_«NvarC».setHorizontalAlignment(SwingConstants.CENTER);
+							VariabileControlled_Valore_«NvarC».setEditable(false);
+							panel_dx.add(VariabileControlled_Valore_«NvarC»);
+							VariabileControlled_Valore_«NvarC».setColumns(10);
 							
 							
-							 JLabel VariabileControlled_Text_Â«NvarCÂ»_1 = new JLabel(esecuzione.Â«fd.domain.nameÂ»_lista.get(0).toString());
-							 VariabileControlled_Text_Â«NvarCÂ»_1.setHorizontalAlignment(SwingConstants.CENTER);
-							 panel_dx.add(VariabileControlled_Text_Â«NvarCÂ»_1);
+							 JLabel VariabileControlled_Text_«NvarC»_1 = new JLabel(esecuzione.«fd.domain.name»_lista.get(0).toString());
+							 VariabileControlled_Text_«NvarC»_1.setHorizontalAlignment(SwingConstants.CENTER);
+							 panel_dx.add(VariabileControlled_Text_«NvarC»_1);
 							 
-							 JTextField VariabileControlled_Valore_Â«NvarCÂ»_1 = new JTextField();
-							 VariabileControlled_Valore_Â«NvarCÂ»_1.setHorizontalAlignment(SwingConstants.CENTER);
-							 VariabileControlled_Valore_Â«NvarCÂ»_1.setEditable(false);
-							 panel_dx.add(VariabileControlled_Valore_Â«NvarCÂ»_1);
-							 VariabileControlled_Valore_Â«NvarCÂ»_1.setColumns(10);
+							 JTextField VariabileControlled_Valore_«NvarC»_1 = new JTextField();
+							 VariabileControlled_Valore_«NvarC»_1.setHorizontalAlignment(SwingConstants.CENTER);
+							 VariabileControlled_Valore_«NvarC»_1.setEditable(false);
+							 panel_dx.add(VariabileControlled_Valore_«NvarC»_1);
+							 VariabileControlled_Valore_«NvarC»_1.setColumns(10);
 							
-							 JLabel VariabileControlled_Text_Â«NvarCÂ»_2 = new JLabel(esecuzione.Â«fd.domain.nameÂ»_lista.get(1).toString());
-							 VariabileControlled_Text_Â«NvarCÂ»_2.setHorizontalAlignment(SwingConstants.CENTER);
-							 panel_dx.add(VariabileControlled_Text_Â«NvarCÂ»_2);
+							 JLabel VariabileControlled_Text_«NvarC»_2 = new JLabel(esecuzione.«fd.domain.name»_lista.get(1).toString());
+							 VariabileControlled_Text_«NvarC»_2.setHorizontalAlignment(SwingConstants.CENTER);
+							 panel_dx.add(VariabileControlled_Text_«NvarC»_2);
 							 
-							 JTextField VariabileControlled_Valore_Â«NvarCÂ»_2 = new JTextField();
-							 VariabileControlled_Valore_Â«NvarCÂ»_2.setHorizontalAlignment(SwingConstants.CENTER);
-							 VariabileControlled_Valore_Â«NvarCÂ»_2.setEditable(false);
-							 panel_dx.add(VariabileControlled_Valore_Â«NvarCÂ»_2);
-							 VariabileControlled_Valore_Â«NvarCÂ»_2.setColumns(10);
+							 JTextField VariabileControlled_Valore_«NvarC»_2 = new JTextField();
+							 VariabileControlled_Valore_«NvarC»_2.setHorizontalAlignment(SwingConstants.CENTER);
+							 VariabileControlled_Valore_«NvarC»_2.setEditable(false);
+							 panel_dx.add(VariabileControlled_Valore_«NvarC»_2);
+							 VariabileControlled_Valore_«NvarC»_2.setColumns(10);
 							 
-							 JLabel VariabileControlled_Text_Â«NvarCÂ»_3 = new JLabel(esecuzione.Â«fd.domain.nameÂ»_lista.get(2).toString());
-							 VariabileControlled_Text_Â«NvarCÂ»_3.setHorizontalAlignment(SwingConstants.CENTER);
-							 panel_dx.add(VariabileControlled_Text_Â«NvarCÂ»_3);
+							 JLabel VariabileControlled_Text_«NvarC»_3 = new JLabel(esecuzione.«fd.domain.name»_lista.get(2).toString());
+							 VariabileControlled_Text_«NvarC»_3.setHorizontalAlignment(SwingConstants.CENTER);
+							 panel_dx.add(VariabileControlled_Text_«NvarC»_3);
 							 
-							 JTextField VariabileControlled_Valore_Â«NvarCÂ»_3 = new JTextField();
-							 VariabileControlled_Valore_Â«NvarCÂ»_3.setHorizontalAlignment(SwingConstants.CENTER);
-							 VariabileControlled_Valore_Â«NvarCÂ»_3.setEditable(false);
-							 panel_dx.add(VariabileControlled_Valore_Â«NvarCÂ»_3);
-							 VariabileControlled_Valore_Â«NvarCÂ»_3.setColumns(10);
+							 JTextField VariabileControlled_Valore_«NvarC»_3 = new JTextField();
+							 VariabileControlled_Valore_«NvarC»_3.setHorizontalAlignment(SwingConstants.CENTER);
+							 VariabileControlled_Valore_«NvarC»_3.setEditable(false);
+							 panel_dx.add(VariabileControlled_Valore_«NvarC»_3);
+							 VariabileControlled_Valore_«NvarC»_3.setColumns(10);
 							 
-							 JLabel VariabileControlled_Text_Â«NvarCÂ»_4 = new JLabel(esecuzione.Â«fd.domain.nameÂ»_lista.get(3).toString());
-							 VariabileControlled_Text_Â«NvarCÂ»_4.setHorizontalAlignment(SwingConstants.CENTER);
-							 panel_dx.add(VariabileControlled_Text_Â«NvarCÂ»_4);
+							 JLabel VariabileControlled_Text_«NvarC»_4 = new JLabel(esecuzione.«fd.domain.name»_lista.get(3).toString());
+							 VariabileControlled_Text_«NvarC»_4.setHorizontalAlignment(SwingConstants.CENTER);
+							 panel_dx.add(VariabileControlled_Text_«NvarC»_4);
 											    		 
-							 JTextField VariabileControlled_Valore_Â«NvarCÂ»_4 = new JTextField();
-							 VariabileControlled_Valore_Â«NvarCÂ»_4.setHorizontalAlignment(SwingConstants.CENTER);
-							 VariabileControlled_Valore_Â«NvarCÂ»_4.setEditable(false);
-							 panel_dx.add(VariabileControlled_Valore_Â«NvarCÂ»_4);
-							 VariabileControlled_Valore_Â«NvarCÂ»_4.setColumns(10);
+							 JTextField VariabileControlled_Valore_«NvarC»_4 = new JTextField();
+							 VariabileControlled_Valore_«NvarC»_4.setHorizontalAlignment(SwingConstants.CENTER);
+							 VariabileControlled_Valore_«NvarC»_4.setEditable(false);
+							 panel_dx.add(VariabileControlled_Valore_«NvarC»_4);
+							 VariabileControlled_Valore_«NvarC»_4.setColumns(10);
 							
 						''')
 
@@ -387,27 +387,27 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 		for (fd : asm.headerSection.signature.function) {
 
 			if (fd instanceof MonitoredFunction) {
-				// Solo se il dominio Â» nullo, quindi funzioni che ricadono nella struttura zero<Valore> 
+				// Solo se il dominio » nullo, quindi funzioni che ricadono nella struttura zero<Valore> 
 				if (fd.domain === null) {
 					// Caso relativo alle variabili booleane non concrete
 					if (fd.codomain.name.equals("Boolean") && !(fd.codomain instanceof ConcreteDomain)) {
 						sb.append('''
-							JLabel VariabileMonitored_text_Â«NvarMÂ» = new JLabel("Â«fd.nameÂ»");
-							VariabileMonitored_text_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_text_Â«NvarMÂ»);
+							JLabel VariabileMonitored_text_«NvarM» = new JLabel("«fd.name»");
+							VariabileMonitored_text_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_text_«NvarM»);
 							
-							JTextField VariabileMonitored_Valore_Â«NvarMÂ» = new JTextField();
-							VariabileMonitored_Valore_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_Valore_Â«NvarMÂ»);
-							VariabileMonitored_Valore_Â«NvarMÂ».setColumns(10);
+							JTextField VariabileMonitored_Valore_«NvarM» = new JTextField();
+							VariabileMonitored_Valore_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_Valore_«NvarM»);
+							VariabileMonitored_Valore_«NvarM».setColumns(10);
 							
 							
 									try {
-									VariabileMonitored_Valore_Â«NvarMÂ».setText(esecuzione.Â«fd.nameÂ».Value.toString());
+									VariabileMonitored_Valore_«NvarM».setText(esecuzione.«fd.name».Value.toString());
 									}
 									catch (NullPointerException errM1)
 									{
-										VariabileMonitored_Valore_Â«NvarMÂ».setText("Insert Boolean");
+										VariabileMonitored_Valore_«NvarM».setText("Insert Boolean");
 									}
 							
 						''')
@@ -418,21 +418,21 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 
 					if (fd.codomain.name.equals("Integer") && !(fd.codomain instanceof ConcreteDomain)) {
 						sb.append('''
-							JLabel VariabileMonitored_text_Â«NvarMÂ» = new JLabel("Â«fd.nameÂ»");
-							VariabileMonitored_text_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_text_Â«NvarMÂ»);
+							JLabel VariabileMonitored_text_«NvarM» = new JLabel("«fd.name»");
+							VariabileMonitored_text_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_text_«NvarM»);
 							
-							JTextField VariabileMonitored_Valore_Â«NvarMÂ» = new JTextField();
-							VariabileMonitored_Valore_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_Valore_Â«NvarMÂ»);
-							VariabileMonitored_Valore_Â«NvarMÂ».setColumns(10);
+							JTextField VariabileMonitored_Valore_«NvarM» = new JTextField();
+							VariabileMonitored_Valore_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_Valore_«NvarM»);
+							VariabileMonitored_Valore_«NvarM».setColumns(10);
 							
 									try {
-									VariabileMonitored_Valore_Â«NvarMÂ».setText(esecuzione.Â«fd.nameÂ».Value.toString());
+									VariabileMonitored_Valore_«NvarM».setText(esecuzione.«fd.name».Value.toString());
 									}
 									catch (NullPointerException errM1)
 									{
-										VariabileMonitored_Valore_Â«NvarMÂ».setText("Insert Integer");
+										VariabileMonitored_Valore_«NvarM».setText("Insert Integer");
 									}
 							
 						''')
@@ -444,25 +444,25 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 					if (fd.codomain instanceof EnumTd) {
 						sb.append('''
 							
-							System.out.println("\nElenco valori per Â«fd.nameÂ» :");
-							for(int i=0; i< esecuzione.Â«fd.codomain.nameÂ»_lista.size(); i++)
-							System.out.println( (i+1) + " -> " +esecuzione.Â«fd.codomain.nameÂ»_lista.get(i));
+							System.out.println("\nElenco valori per «fd.name» :");
+							for(int i=0; i< esecuzione.«fd.codomain.name»_lista.size(); i++)
+							System.out.println( (i+1) + " -> " +esecuzione.«fd.codomain.name»_lista.get(i));
 							
-							JLabel VariabileMonitored_text_Â«NvarMÂ» = new JLabel("Â«fd.nameÂ»");
-							VariabileMonitored_text_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_text_Â«NvarMÂ»);
+							JLabel VariabileMonitored_text_«NvarM» = new JLabel("«fd.name»");
+							VariabileMonitored_text_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_text_«NvarM»);
 							
-							JTextField VariabileMonitored_Valore_Â«NvarMÂ» = new JTextField();
-							VariabileMonitored_Valore_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_Valore_Â«NvarMÂ»);
-							VariabileMonitored_Valore_Â«NvarMÂ».setColumns(10);				    		
+							JTextField VariabileMonitored_Valore_«NvarM» = new JTextField();
+							VariabileMonitored_Valore_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_Valore_«NvarM»);
+							VariabileMonitored_Valore_«NvarM».setColumns(10);				    		
 							
 									try {
-									VariabileMonitored_Valore_Â«NvarMÂ».setText("Insert Integer");
+									VariabileMonitored_Valore_«NvarM».setText("Insert Integer");
 									}
 									catch (NullPointerException errM1)
 									{
-										VariabileMonitored_Valore_Â«NvarMÂ».setText("Insert Integer");
+										VariabileMonitored_Valore_«NvarM».setText("Insert Integer");
 									}
 							
 						''')
@@ -474,21 +474,21 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 					if (fd.codomain instanceof ConcreteDomain) {
 						sb.append('''
 							
-							JLabel VariabileMonitored_text_Â«NvarMÂ» = new JLabel("Â«fd.nameÂ»");
-							VariabileMonitored_text_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_text_Â«NvarMÂ»);
+							JLabel VariabileMonitored_text_«NvarM» = new JLabel("«fd.name»");
+							VariabileMonitored_text_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_text_«NvarM»);
 							
-							JTextField VariabileMonitored_Valore_Â«NvarMÂ» = new JTextField();
-							VariabileMonitored_Valore_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_Valore_Â«NvarMÂ»);
-							VariabileMonitored_Valore_Â«NvarMÂ».setColumns(10);				    		
+							JTextField VariabileMonitored_Valore_«NvarM» = new JTextField();
+							VariabileMonitored_Valore_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_Valore_«NvarM»);
+							VariabileMonitored_Valore_«NvarM».setColumns(10);				    		
 							
 									try {
-									VariabileMonitored_Valore_Â«NvarMÂ».setText(esecuzione.Â«fd.nameÂ».Value.value.toString());
+									VariabileMonitored_Valore_«NvarM».setText(esecuzione.«fd.name».Value.value.toString());
 									}
 									catch (NullPointerException errM1)
 									{
-										VariabileMonitored_Valore_Â«NvarMÂ».setText("Insert Integer");
+										VariabileMonitored_Valore_«NvarM».setText("Insert Integer");
 									}
 							
 						''')
@@ -499,26 +499,26 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 					if (fd.codomain instanceof AbstractTd) {
 						sb.append('''
 							
-							System.out.println("\nElenco valori per Â«fd.nameÂ» :");
-							for(int i=0; i< esecuzione.Â«fd.codomain.nameÂ»_lista.size(); i++)
-							System.out.println( (i+1) + " -> " +esecuzione.Â«fd.codomain.nameÂ»_lista.get(i));
+							System.out.println("\nElenco valori per «fd.name» :");
+							for(int i=0; i< esecuzione.«fd.codomain.name»_lista.size(); i++)
+							System.out.println( (i+1) + " -> " +esecuzione.«fd.codomain.name»_lista.get(i));
 							
 							
-							JLabel VariabileMonitored_text_Â«NvarMÂ» = new JLabel("Â«fd.nameÂ»");
-							VariabileMonitored_text_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_text_Â«NvarMÂ»);
+							JLabel VariabileMonitored_text_«NvarM» = new JLabel("«fd.name»");
+							VariabileMonitored_text_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_text_«NvarM»);
 							
-							JTextField VariabileMonitored_Valore_Â«NvarMÂ» = new JTextField();
-							VariabileMonitored_Valore_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_Valore_Â«NvarMÂ»);
-							VariabileMonitored_Valore_Â«NvarMÂ».setColumns(10);				    		
+							JTextField VariabileMonitored_Valore_«NvarM» = new JTextField();
+							VariabileMonitored_Valore_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_Valore_«NvarM»);
+							VariabileMonitored_Valore_«NvarM».setColumns(10);				    		
 							
 							try {
-									VariabileMonitored_Valore_Â«NvarMÂ».setText(esecuzione.Â«fd.nameÂ».Value.toString());
+									VariabileMonitored_Valore_«NvarM».setText(esecuzione.«fd.name».Value.toString());
 									}
 									catch (NullPointerException errM1)
 									{
-										VariabileMonitored_Valore_Â«NvarMÂ».setText("Insert Integer");
+										VariabileMonitored_Valore_«NvarM».setText("Insert Integer");
 									}
 							
 						''')
@@ -533,49 +533,49 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 
 						sb.append('''
 							
-							JLabel VariabileMonitored_text_Â«NvarMÂ» = new JLabel("Â«fd.nameÂ»");
-							VariabileMonitored_text_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_text_Â«NvarMÂ»);
+							JLabel VariabileMonitored_text_«NvarM» = new JLabel("«fd.name»");
+							VariabileMonitored_text_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_text_«NvarM»);
 												   						   	
-							JTextField VariabileMonitored_Valore_Â«NvarMÂ» = new JTextField();
-							VariabileMonitored_Valore_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_Valore_Â«NvarMÂ»);
-							VariabileMonitored_Valore_Â«NvarMÂ».setEditable(false);
-							VariabileMonitored_Valore_Â«NvarMÂ».setColumns(10);
+							JTextField VariabileMonitored_Valore_«NvarM» = new JTextField();
+							VariabileMonitored_Valore_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_Valore_«NvarM»);
+							VariabileMonitored_Valore_«NvarM».setEditable(false);
+							VariabileMonitored_Valore_«NvarM».setColumns(10);
 							
 							
-							JLabel VariabileMonitored_text_Â«NvarMÂ»_1 = new JLabel(esecuzione.Â«fd.domain.nameÂ»_elems.get(0).toString());
-							VariabileMonitored_text_Â«NvarMÂ»_1.setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_text_Â«NvarMÂ»_1);
+							JLabel VariabileMonitored_text_«NvarM»_1 = new JLabel(esecuzione.«fd.domain.name»_elems.get(0).toString());
+							VariabileMonitored_text_«NvarM»_1.setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_text_«NvarM»_1);
 												   	
-							JTextField VariabileMonitored_Valore_Â«NvarMÂ»_1 = new JTextField();
-							VariabileMonitored_Valore_Â«NvarMÂ»_1.setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_Valore_Â«NvarMÂ»_1);
-							VariabileMonitored_Valore_Â«NvarMÂ»_1.setColumns(10);
+							JTextField VariabileMonitored_Valore_«NvarM»_1 = new JTextField();
+							VariabileMonitored_Valore_«NvarM»_1.setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_Valore_«NvarM»_1);
+							VariabileMonitored_Valore_«NvarM»_1.setColumns(10);
 												   	
 							try {
-									VariabileMonitored_Valore_Â«NvarMÂ»_1.setText("Insert Boolean");
+									VariabileMonitored_Valore_«NvarM»_1.setText("Insert Boolean");
 								}
 							catch (NullPointerException errM1)
 								{
-									VariabileMonitored_Valore_Â«NvarMÂ»_1.setText("Insert Boolean");
+									VariabileMonitored_Valore_«NvarM»_1.setText("Insert Boolean");
 							}
 							
-							JLabel VariabileMonitored_text_Â«NvarMÂ»_2 = new JLabel(esecuzione.Â«fd.domain.nameÂ»_elems.get(1).toString());
-							VariabileMonitored_text_Â«NvarMÂ»_2.setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_text_Â«NvarMÂ»_2);
+							JLabel VariabileMonitored_text_«NvarM»_2 = new JLabel(esecuzione.«fd.domain.name»_elems.get(1).toString());
+							VariabileMonitored_text_«NvarM»_2.setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_text_«NvarM»_2);
 												   	
-							JTextField VariabileMonitored_Valore_Â«NvarMÂ»_2 = new JTextField();
-							VariabileMonitored_Valore_Â«NvarMÂ»_2.setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_Valore_Â«NvarMÂ»_2);
-							VariabileMonitored_Valore_Â«NvarMÂ»_2.setColumns(10);
+							JTextField VariabileMonitored_Valore_«NvarM»_2 = new JTextField();
+							VariabileMonitored_Valore_«NvarM»_2.setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_Valore_«NvarM»_2);
+							VariabileMonitored_Valore_«NvarM»_2.setColumns(10);
 							
 							try {
-									VariabileMonitored_Valore_Â«NvarMÂ»_2.setText("Insert Boolean");
+									VariabileMonitored_Valore_«NvarM»_2.setText("Insert Boolean");
 								}
 							catch (NullPointerException errM1)
 								{
-									VariabileMonitored_Valore_Â«NvarMÂ»_2.setText("Insert Boolean");
+									VariabileMonitored_Valore_«NvarM»_2.setText("Insert Boolean");
 									  }
 							
 						''')
@@ -588,67 +588,67 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 
 						sb.append('''
 							
-							JLabel VariabileMonitored_text_Â«NvarMÂ» = new JLabel("Â«fd.nameÂ»");
-							VariabileMonitored_text_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_text_Â«NvarMÂ»);
+							JLabel VariabileMonitored_text_«NvarM» = new JLabel("«fd.name»");
+							VariabileMonitored_text_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_text_«NvarM»);
 												   						   	
-							JTextField VariabileMonitored_Valore_Â«NvarMÂ» = new JTextField();
-							VariabileMonitored_Valore_Â«NvarMÂ».setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_Valore_Â«NvarMÂ»);
-							VariabileMonitored_Valore_Â«NvarMÂ».setEditable(false);
-							VariabileMonitored_Valore_Â«NvarMÂ».setColumns(10);
+							JTextField VariabileMonitored_Valore_«NvarM» = new JTextField();
+							VariabileMonitored_Valore_«NvarM».setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_Valore_«NvarM»);
+							VariabileMonitored_Valore_«NvarM».setEditable(false);
+							VariabileMonitored_Valore_«NvarM».setColumns(10);
 							
 							
 							
-							JLabel VariabileMonitored_text_Â«NvarMÂ»_1 = new JLabel(esecuzione.Â«fd.domain.nameÂ»_lista.get(0).toString());
-							VariabileMonitored_text_Â«NvarMÂ»_1.setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_text_Â«NvarMÂ»_1);
+							JLabel VariabileMonitored_text_«NvarM»_1 = new JLabel(esecuzione.«fd.domain.name»_lista.get(0).toString());
+							VariabileMonitored_text_«NvarM»_1.setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_text_«NvarM»_1);
 												   	
-							JTextField VariabileMonitored_Valore_Â«NvarMÂ»_1 = new JTextField();
-							VariabileMonitored_Valore_Â«NvarMÂ»_1.setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_Valore_Â«NvarMÂ»_1);
-							VariabileMonitored_Valore_Â«NvarMÂ»_1.setColumns(10);
+							JTextField VariabileMonitored_Valore_«NvarM»_1 = new JTextField();
+							VariabileMonitored_Valore_«NvarM»_1.setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_Valore_«NvarM»_1);
+							VariabileMonitored_Valore_«NvarM»_1.setColumns(10);
 							
 							try {
-									VariabileMonitored_Valore_Â«NvarMÂ»_1.setText("Insert Boolean");
+									VariabileMonitored_Valore_«NvarM»_1.setText("Insert Boolean");
 								}
 							catch (NullPointerException errM1)
 								{
-									VariabileMonitored_Valore_Â«NvarMÂ»_1.setText("Insert Boolean");
+									VariabileMonitored_Valore_«NvarM»_1.setText("Insert Boolean");
 								}
 							
-							JLabel VariabileMonitored_text_Â«NvarMÂ»_2 = new JLabel(esecuzione.Â«fd.domain.nameÂ»_lista.get(1).toString());
-							VariabileMonitored_text_Â«NvarMÂ»_2.setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_text_Â«NvarMÂ»_2);
+							JLabel VariabileMonitored_text_«NvarM»_2 = new JLabel(esecuzione.«fd.domain.name»_lista.get(1).toString());
+							VariabileMonitored_text_«NvarM»_2.setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_text_«NvarM»_2);
 												   	
-							JTextField VariabileMonitored_Valore_Â«NvarMÂ»_2 = new JTextField();
-							VariabileMonitored_Valore_Â«NvarMÂ»_2.setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_Valore_Â«NvarMÂ»_2);
-							VariabileMonitored_Valore_Â«NvarMÂ»_2.setColumns(10);
+							JTextField VariabileMonitored_Valore_«NvarM»_2 = new JTextField();
+							VariabileMonitored_Valore_«NvarM»_2.setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_Valore_«NvarM»_2);
+							VariabileMonitored_Valore_«NvarM»_2.setColumns(10);
 							
 							try {
-									VariabileMonitored_Valore_Â«NvarMÂ»_2.setText("Insert Boolean");
+									VariabileMonitored_Valore_«NvarM»_2.setText("Insert Boolean");
 								}
 							catch (NullPointerException errM1)
 								{
-									VariabileMonitored_Valore_Â«NvarMÂ»_2.setText("Insert Boolean");
+									VariabileMonitored_Valore_«NvarM»_2.setText("Insert Boolean");
 								}					   	
 							
-							JLabel VariabileMonitored_text_Â«NvarMÂ»_3 = new JLabel(esecuzione.Â«fd.domain.nameÂ»_lista.get(2).toString());
-							VariabileMonitored_text_Â«NvarMÂ»_3.setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_text_Â«NvarMÂ»_3);
+							JLabel VariabileMonitored_text_«NvarM»_3 = new JLabel(esecuzione.«fd.domain.name»_lista.get(2).toString());
+							VariabileMonitored_text_«NvarM»_3.setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_text_«NvarM»_3);
 												   	
-							JTextField VariabileMonitored_Valore_Â«NvarMÂ»_3 = new JTextField();
-							VariabileMonitored_Valore_Â«NvarMÂ»_3.setHorizontalAlignment(SwingConstants.CENTER);
-							panel_sx.add(VariabileMonitored_Valore_Â«NvarMÂ»_3);
-							VariabileMonitored_Valore_Â«NvarMÂ»_3.setColumns(10);
+							JTextField VariabileMonitored_Valore_«NvarM»_3 = new JTextField();
+							VariabileMonitored_Valore_«NvarM»_3.setHorizontalAlignment(SwingConstants.CENTER);
+							panel_sx.add(VariabileMonitored_Valore_«NvarM»_3);
+							VariabileMonitored_Valore_«NvarM»_3.setColumns(10);
 							
 							try {
-									VariabileMonitored_Valore_Â«NvarMÂ»_3.setText("Insert Boolean");
+									VariabileMonitored_Valore_«NvarM»_3.setText("Insert Boolean");
 								}
 							catch (NullPointerException errM1)
 								{
-									VariabileMonitored_Valore_Â«NvarMÂ»_3.setText("Insert Boolean");
+									VariabileMonitored_Valore_«NvarM»_3.setText("Insert Boolean");
 								}					   	
 							''')
 
@@ -677,18 +677,18 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 				// Caso particolare da gestire
 				sb.append('''
 					
-							String Â«dd.nameÂ»_val="";
-							for(int i=0 ; i< esecuzione.Â«dd.nameÂ»_lista.size(); i++)
-							if(i!= esecuzione.Â«dd.nameÂ»_lista.size()-1)
-							Â«dd.nameÂ»_val += esecuzione.Â«dd.nameÂ»_lista.get(i) +", ";
+							String «dd.name»_val="";
+							for(int i=0 ; i< esecuzione.«dd.name»_lista.size(); i++)
+							if(i!= esecuzione.«dd.name»_lista.size()-1)
+							«dd.name»_val += esecuzione.«dd.name»_lista.get(i) +", ";
 							else
-							Â«dd.nameÂ»_val += esecuzione.Â«dd.nameÂ»_lista.get(i);	
+							«dd.name»_val += esecuzione.«dd.name»_lista.get(i);	
 					
 							try{
-							VariabileControlled_Valore_Â«NvarCÂ».setText(Â«dd.nameÂ»_val);
-							} catch( NullPointerException errCÂ«NvarCÂ»)
+							VariabileControlled_Valore_«NvarC».setText(«dd.name»_val);
+							} catch( NullPointerException errC«NvarC»)
 							{
-							 VariabileControlled_Valore_Â«NvarCÂ».setText("null");
+							 VariabileControlled_Valore_«NvarC».setText("null");
 							}
 							
 						''')
@@ -710,13 +710,13 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 							
 try{
 							
-VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.toString());
+VariabileControlled_Valore_«NvarC».setText(esecuzione.«fd.name».get().value.toString());
 							
-} catch( NullPointerException errCÂ«NvarCÂ»)
+} catch( NullPointerException errC«NvarC»)
 							
 {
 							
- VariabileControlled_Valore_Â«NvarCÂ».setText("null");
+ VariabileControlled_Valore_«NvarC».setText("null");
 							
 				    		}
 							
@@ -734,10 +734,10 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 							
 							
 							try{
-							VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().toString());
-							} catch( NullPointerException errCÂ«NvarCÂ»)
+							VariabileControlled_Valore_«NvarC».setText(esecuzione.«fd.name».get().toString());
+							} catch( NullPointerException errC«NvarC»)
 							{
-							 VariabileControlled_Valore_Â«NvarCÂ».setText("null");
+							 VariabileControlled_Valore_«NvarC».setText("null");
 							}
 							
 							
@@ -751,10 +751,10 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 							
 							
 							try{
-							VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().toString());
-							} catch( NullPointerException errCÂ«NvarCÂ»)
+							VariabileControlled_Valore_«NvarC».setText(esecuzione.«fd.name».get().toString());
+							} catch( NullPointerException errC«NvarC»)
 							{
-							 VariabileControlled_Valore_Â«NvarCÂ».setText("null");
+							 VariabileControlled_Valore_«NvarC».setText("null");
 							}
 							
 						''')
@@ -768,10 +768,10 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 							
 							
 							try{
-							VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().toString());
-							} catch( NullPointerException errCÂ«NvarCÂ»)
+							VariabileControlled_Valore_«NvarC».setText(esecuzione.«fd.name».get().toString());
+							} catch( NullPointerException errC«NvarC»)
 							{
-							 VariabileControlled_Valore_Â«NvarCÂ».setText("null");
+							 VariabileControlled_Valore_«NvarC».setText("null");
 							}
 							
 						''')
@@ -784,10 +784,10 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 							
 							
 							try{
-							VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».oldValue.name());
-							} catch( NullPointerException errCÂ«NvarCÂ»)
+							VariabileControlled_Valore_«NvarC».setText(esecuzione.«fd.name».oldValue.name());
+							} catch( NullPointerException errC«NvarC»)
 							{
-							VariabileControlled_Valore_Â«NvarCÂ».setText("null");
+							VariabileControlled_Valore_«NvarC».setText("null");
 							}
 							
 						''')
@@ -802,32 +802,32 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 							
 							
 							try{
-							VariabileControlled_Valore_Â«NvarCÂ».setText("");
-							} catch( NullPointerException errCÂ«NvarCÂ»)
+							VariabileControlled_Valore_«NvarC».setText("");
+							} catch( NullPointerException errC«NvarC»)
 							{
-							VariabileControlled_Valore_Â«NvarCÂ».setText("null");
+							VariabileControlled_Valore_«NvarC».setText("null");
 							}
 							
 							
 							 try{
-							 VariabileControlled_Valore_Â«NvarCÂ»_1.setText(esecuzione.Â«fd.nameÂ».oldValues.get(esecuzione.Â«fd.domain.nameÂ»_lista.get(0)).value.toString());
-							 } catch( NullPointerException errC0Â«NvarCÂ»)
+							 VariabileControlled_Valore_«NvarC»_1.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_lista.get(0)).value.toString());
+							 } catch( NullPointerException errC0«NvarC»)
 							 {
-							  VariabileControlled_Text_Â«NvarCÂ»_1.setText("null");
+							  VariabileControlled_Text_«NvarC»_1.setText("null");
 							 }
 							
 							 try{
-							 VariabileControlled_Valore_Â«NvarCÂ»_2.setText(esecuzione.Â«fd.nameÂ».oldValues.get(esecuzione.Â«fd.domain.nameÂ»_lista.get(1)).value.toString());
-							 } catch( NullPointerException errC0Â«NvarCÂ»)
+							 VariabileControlled_Valore_«NvarC»_2.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_lista.get(1)).value.toString());
+							 } catch( NullPointerException errC0«NvarC»)
 							 {
-							 VariabileControlled_Text_Â«NvarCÂ»_1.setText("null");
+							 VariabileControlled_Text_«NvarC»_1.setText("null");
 							 }
 							 
 							 try{
-							 VariabileControlled_Valore_Â«NvarCÂ»_3.setText(esecuzione.Â«fd.nameÂ».oldValues.get(esecuzione.Â«fd.domain.nameÂ»_lista.get(2)).value.toString());
-							 } catch( NullPointerException errC0Â«NvarCÂ»)
+							 VariabileControlled_Valore_«NvarC»_3.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_lista.get(2)).value.toString());
+							 } catch( NullPointerException errC0«NvarC»)
 							 {
-							  VariabileControlled_Text_Â«NvarCÂ»_1.setText("null");
+							  VariabileControlled_Text_«NvarC»_1.setText("null");
 							 }
 						''')
 
@@ -838,38 +838,38 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 							
 							
 							try{
-							VariabileControlled_Valore_Â«NvarCÂ».setText("");
-							} catch( NullPointerException errCÂ«NvarCÂ»)
+							VariabileControlled_Valore_«NvarC».setText("");
+							} catch( NullPointerException errC«NvarC»)
 							{
-							VariabileControlled_Text_Â«NvarCÂ».setText("null");
+							VariabileControlled_Text_«NvarC».setText("null");
 							}
 							
 							
 							 try{
-							 VariabileControlled_Valore_Â«NvarCÂ»_1.setText(esecuzione.Â«fd.nameÂ».oldValues.get(esecuzione.Â«fd.domain.nameÂ»_lista.get(0)).toString());
-							 } catch( NullPointerException errC0Â«NvarCÂ»)
+							 VariabileControlled_Valore_«NvarC»_1.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_lista.get(0)).toString());
+							 } catch( NullPointerException errC0«NvarC»)
 							 {
-							  VariabileControlled_Valore_Â«NvarCÂ»_1.setText("null");
+							  VariabileControlled_Valore_«NvarC»_1.setText("null");
 							 }
 							
 							 try{
-							 VariabileControlled_Valore_Â«NvarCÂ»_2.setText(esecuzione.Â«fd.nameÂ».oldValues.get(esecuzione.Â«fd.domain.nameÂ»_lista.get(1)).toString());
-							 } catch( NullPointerException errC0Â«NvarCÂ»)
+							 VariabileControlled_Valore_«NvarC»_2.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_lista.get(1)).toString());
+							 } catch( NullPointerException errC0«NvarC»)
 							 {
-							 VariabileControlled_Valore_Â«NvarCÂ»_2.setText("null");
+							 VariabileControlled_Valore_«NvarC»_2.setText("null");
 							 }
 							 try{
-							 VariabileControlled_Valore_Â«NvarCÂ»_3.setText(esecuzione.Â«fd.nameÂ».oldValues.get(esecuzione.Â«fd.domain.nameÂ»_lista.get(2)).toString());
-							 } catch( NullPointerException errC0Â«NvarCÂ»)
+							 VariabileControlled_Valore_«NvarC»_3.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_lista.get(2)).toString());
+							 } catch( NullPointerException errC0«NvarC»)
 							 {
-							  VariabileControlled_Valore_Â«NvarCÂ»_3.setText("null");
+							  VariabileControlled_Valore_«NvarC»_3.setText("null");
 							 }
 							
 							 try{
-							 VariabileControlled_Valore_Â«NvarCÂ»_4.setText(esecuzione.Â«fd.nameÂ».oldValues.get(esecuzione.Â«fd.domain.nameÂ»_lista.get(3)).toString());
-							 } catch( NullPointerException errC0Â«NvarCÂ»)
+							 VariabileControlled_Valore_«NvarC»_4.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_lista.get(3)).toString());
+							 } catch( NullPointerException errC0«NvarC»)
 							 {
-							  VariabileControlled_Valore_Â«NvarCÂ»_4.setText("null");
+							  VariabileControlled_Valore_«NvarC»_4.setText("null");
 							 }
 						''')
 
@@ -893,16 +893,16 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 		for (fd : asm.headerSection.signature.function) {
 
 			if (fd instanceof MonitoredFunction) {
-				// Solo se il dominio Â» nullo, quindi funzioni che ricadono nella struttura zero<Valore> 
+				// Solo se il dominio » nullo, quindi funzioni che ricadono nella struttura zero<Valore> 
 				if (fd.domain === null) {
 					// Caso relativo alle variabili booleane non concrete
 					if (fd.codomain.name.equals("Boolean") && !(fd.codomain instanceof ConcreteDomain)) {
 						sb.append('''
 							
-							if(VariabileMonitored_Valore_Â«NvarMÂ».getText().contentEquals("true"))
-							esecuzione.Â«fd.nameÂ».Value = true;
+							if(VariabileMonitored_Valore_«NvarM».getText().contentEquals("true"))
+							esecuzione.«fd.name».Value = true;
 							else
-								esecuzione.Â«fd.nameÂ».Value = false;
+								esecuzione.«fd.name».Value = false;
 								
 						''')
 						NvarM++
@@ -913,11 +913,11 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 							
 							try
 							{
-								esecuzione.Â«fd.nameÂ».Value = Integer.parseInt(VariabileMonitored_Valore_Â«NvarMÂ».getText().toString());
+								esecuzione.«fd.name».Value = Integer.parseInt(VariabileMonitored_Valore_«NvarM».getText().toString());
 							}
 							catch ( NumberFormatException err)
 							{
-								esecuzione.Â«fd.nameÂ».Value = 0;
+								esecuzione.«fd.name».Value = 0;
 							}
 							
 							''')
@@ -927,20 +927,20 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 					if (fd.codomain instanceof EnumTd) {
 						sb.append('''
 							
-							int supÂ«NvarMÂ»;
+							int sup«NvarM»;
 							try
 							{
-							    supÂ«NvarMÂ» = Integer.parseInt(VariabileMonitored_Valore_Â«NvarMÂ».getText().toString());
+							    sup«NvarM» = Integer.parseInt(VariabileMonitored_Valore_«NvarM».getText().toString());
 							}
 							catch ( NumberFormatException err)
 							{
-								supÂ«NvarMÂ» = 1;
+								sup«NvarM» = 1;
 							}
 							
-							if(supÂ«NvarMÂ»<= 0 || supÂ«NvarMÂ»> esecuzione.Â«fd.codomain.nameÂ»_lista.size())
-							esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.codomain.nameÂ»_lista.get(0));
+							if(sup«NvarM»<= 0 || sup«NvarM»> esecuzione.«fd.codomain.name»_lista.size())
+							esecuzione.«fd.name».set(esecuzione.«fd.codomain.name»_lista.get(0));
 							else
-							esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.codomain.nameÂ»_lista.get(supÂ«NvarMÂ»-1));
+							esecuzione.«fd.name».set(esecuzione.«fd.codomain.name»_lista.get(sup«NvarM»-1));
 							        
 						''')
 						NvarM++
@@ -950,15 +950,15 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 						sb.append('''
 							try
 							{
-								esecuzione.Â«fd.nameÂ»_supporto.value = Integer.parseInt(VariabileMonitored_Valore_Â«NvarMÂ».getText().toString());
+								esecuzione.«fd.name»_supporto.value = Integer.parseInt(VariabileMonitored_Valore_«NvarM».getText().toString());
 							}
 							catch ( NumberFormatException err)
 							{
-							     esecuzione.Â«fd.nameÂ»_supporto.value = 0;
+							     esecuzione.«fd.name»_supporto.value = 0;
 							}
 							
 							
-							esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.nameÂ»_supporto);
+							esecuzione.«fd.name».set(esecuzione.«fd.name»_supporto);
 							
 							
 							
@@ -969,20 +969,20 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 					if (fd.codomain instanceof AbstractTd) {
 						sb.append('''
 							
-							int supÂ«NvarMÂ»;
+							int sup«NvarM»;
 							try
 							{
-							    supÂ«NvarMÂ» = Integer.parseInt(VariabileMonitored_Valore_Â«NvarMÂ».getText().toString());
+							    sup«NvarM» = Integer.parseInt(VariabileMonitored_Valore_«NvarM».getText().toString());
 							}
 							catch ( NumberFormatException err)
 							{
-								supÂ«NvarMÂ» = 1;
+								sup«NvarM» = 1;
 							}
 							
-							if(supÂ«NvarMÂ»<= 0 || supÂ«NvarMÂ»> esecuzione.Â«fd.codomain.nameÂ»_Class.size())
-							esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.codomain.nameÂ»_Class.get(0));
+							if(sup«NvarM»<= 0 || sup«NvarM»> esecuzione.«fd.codomain.name»_Class.size())
+							esecuzione.«fd.name».set(esecuzione.«fd.codomain.name»_Class.get(0));
 							else
-							esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.codomain.nameÂ»_Class.get(supÂ«NvarMÂ»-1));
+							esecuzione.«fd.name».set(esecuzione.«fd.codomain.name»_Class.get(sup«NvarM»-1));
 							        
 						''')
 						NvarM++
@@ -993,19 +993,19 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 					if (fd.domain instanceof ConcreteDomain && fd.codomain.name.equals("Boolean")) {
 						sb.append('''
 							
-							if(VariabileMonitored_Valore_Â«NvarMÂ»_1.getText().contentEquals("true"))
-							esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.domain.nameÂ»_elem,true);
+							if(VariabileMonitored_Valore_«NvarM»_1.getText().contentEquals("true"))
+							esecuzione.«fd.name».set(esecuzione.«fd.domain.name»_elem,true);
 							else
-							esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.domain.nameÂ»_elem,false);
+							esecuzione.«fd.name».set(esecuzione.«fd.domain.name»_elem,false);
 								
 						''')
 
 						sb.append('''
 							
-							if(VariabileMonitored_Valore_Â«NvarMÂ»_2.getText().contentEquals("true"))
-							esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.domain.nameÂ»_elem,true);
+							if(VariabileMonitored_Valore_«NvarM»_2.getText().contentEquals("true"))
+							esecuzione.«fd.name».set(esecuzione.«fd.domain.name»_elem,true);
 							else
-							esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.domain.nameÂ»_elem,false);
+							esecuzione.«fd.name».set(esecuzione.«fd.domain.name»_elem,false);
 								
 						''')
 
@@ -1015,28 +1015,28 @@ VariabileControlled_Valore_Â«NvarCÂ».setText(esecuzione.Â«fd.nameÂ».get().value.
 
 						sb.append('''
 							
-							if(VariabileMonitored_Valore_Â«NvarMÂ»_1.getText().contentEquals("true"))
-							esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.domain.nameÂ»_lista.get(0), true);
+							if(VariabileMonitored_Valore_«NvarM»_1.getText().contentEquals("true"))
+							esecuzione.«fd.name».set(esecuzione.«fd.domain.name»_lista.get(0), true);
 							else
-								esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.domain.nameÂ»_lista.get(0), false);
+								esecuzione.«fd.name».set(esecuzione.«fd.domain.name»_lista.get(0), false);
 								
 						''')
 
 						sb.append('''
 							
-							if(VariabileMonitored_Valore_Â«NvarMÂ»_2.getText().contentEquals("true"))
-							esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.domain.nameÂ»_lista.get(1), true);
+							if(VariabileMonitored_Valore_«NvarM»_2.getText().contentEquals("true"))
+							esecuzione.«fd.name».set(esecuzione.«fd.domain.name»_lista.get(1), true);
 							else
-								esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.domain.nameÂ»_lista.get(1), false);
+								esecuzione.«fd.name».set(esecuzione.«fd.domain.name»_lista.get(1), false);
 								
 						''')
 
 						sb.append('''
 							
-							if(VariabileMonitored_Valore_Â«NvarMÂ»_3.getText().contentEquals("true"))
-							esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.domain.nameÂ»_lista.get(2), true);
+							if(VariabileMonitored_Valore_«NvarM»_3.getText().contentEquals("true"))
+							esecuzione.«fd.name».set(esecuzione.«fd.domain.name»_lista.get(2), true);
 							else
-								esecuzione.Â«fd.nameÂ».set(esecuzione.Â«fd.domain.nameÂ»_lista.get(2), false);
+								esecuzione.«fd.name».set(esecuzione.«fd.domain.name»_lista.get(2), false);
 								
 						''')
 
