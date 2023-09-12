@@ -52,7 +52,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 		functionSignature(asm)
 		// TODO fix include list
 		return '''
-				// Â«asmNameÂ».java automatically generated from ASM2CODE
+				// «asmName».java automatically generated from ASM2CODE
 				
 				import java.util.ArrayList;
 				import java.util.Arrays;
@@ -77,14 +77,14 @@ class JavaGenerator extends AsmToJavaGenerator {
 				import org.javatuples.Triplet;
 				
 				
-				abstract class Â«asmNameÂ»_sig {
+				abstract class «asmName»_sig {
 					
 					/////////////////////////////////////////////////
 					/// DOMAIN CONTAINERS
 					/////////////////////////////////////////////////
 					/* Domain containers here */
-					Â«abstractClassDef(asm)Â»
-					Â«domainSignature(asm)Â»
+					«abstractClassDef(asm)»
+					«domainSignature(asm)»
 					
 					//Metodi di supporto per l'implementazione delle funzioni controlled
 					
@@ -158,58 +158,58 @@ class JavaGenerator extends AsmToJavaGenerator {
 					/////////////////////////////////////////////////
 					/// FUNCTIONS
 					/////////////////////////////////////////////////
-					Â«functionSignature(asm)Â»
+					«functionSignature(asm)»
 					
 					////////////////////////////////////////////////
 					/// RULE DEFINITION
 					/////////////////////////////////////////////////
 					/* Rule definition here */
 					
-					Â«ruleDefinition(asm)Â»
+					«ruleDefinition(asm)»
 				}
 				
 				
 				
-				class Â«asmNameÂ» extends Â«asmNameÂ»_sig {
+				class «asmName» extends «asmName»_sig {
 					
 					// Inizializzazione di funzioni e domini
 					
-					Â«asmNameÂ»(){
+					«asmName»(){
 					
 				     //Definizione iniziale dei domini statici
 				     
-					 Â«initialStaticDomainDefinition(asm)Â»
+					 «initialStaticDomainDefinition(asm)»
 					
 					 //Definizione iniziale dei domini dinamici
 					 
-					 Â«initialDynamicDomainDefinition(asm)Â»
+					 «initialDynamicDomainDefinition(asm)»
 					
 					 //Definizione iniziale dei domini astratti con funzini statiche
 					 
-					 Â«functionAbstractDom(asm)Â»
+					 «functionAbstractDom(asm)»
 					
 					 //Inizializzazione delle funzioni
 					 
-					 Â«functionInitialization(asm)Â»
+					 «functionInitialization(asm)»
 					
 					}
 					
 				    // Definizione delle funzioni statiche
-					Â«functionDefinition(asm)Â»
+					«functionDefinition(asm)»
 					
 					// Conversione delle regole ASM in metodi java
 					
-					Â«ruleDefinitions(asm)Â»
+					«ruleDefinitions(asm)»
 					
 					// inizializazzione delle funzioni controllate che contengono metodi monitorati nei temini iniziali
 					void initControlledWithMonitored(){
-					  Â«initConrolledMonitoredÂ»
+					  «initConrolledMonitored»
 				    }
 					
 					// applicazione dell'aggiornamento del set
 					void fireUpdateSet(){
 						
-					  Â«updateSet(asm)Â»
+					  «updateSet(asm)»
 					}
 					
 					//Metodo per l'aggiornamento dell'asm
@@ -297,12 +297,12 @@ class JavaGenerator extends AsmToJavaGenerator {
 	def protected String foo(RuleDeclaration r, String methodName, Asm asm) {
 		if (r.arity == 0)
 			return(''' 
-				abstract void Â«methodNameÂ»();
+				abstract void «methodName»();
 				
 			''')
 		else {
 			return('''
-				abstract void Â«methodNameÂ» (Â«new Util().adaptRuleParam(r.variable, asm).replaceAll("\\$","_")Â»);
+				abstract void «methodName» («new Util().adaptRuleParam(r.variable, asm).replaceAll("\\$","_")»);
 				
 			''')
 		}
@@ -403,12 +403,12 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 				if (containsMonitored == false)
 					initial.append(
-		  					'''Â«new FunctionToJavaDef(asm).visit(fd.initializedFunction)Â»
+		  					'''«new FunctionToJavaDef(asm).visit(fd.initializedFunction)»
 					''')
 				else
 
 					initialMonitored.append(
-		  					'''Â«new FunctionToJavaDef(asm).visit(fd.initializedFunction)Â»
+		  					'''«new FunctionToJavaDef(asm).visit(fd.initializedFunction)»
 					''')
 			}
 		}
@@ -427,7 +427,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 			
 			for (fd : asm.bodySection.functionDefinition)
 				sb.append(
-		  					'''Â«new FunctionToJavaDef(asm).visit(fd.definedFunction)Â»
+		  					'''«new FunctionToJavaDef(asm).visit(fd.definedFunction)»
 				''')
 			return sb.toString.replaceAll("\\$", "_")
 		}
@@ -466,16 +466,16 @@ class JavaGenerator extends AsmToJavaGenerator {
 		if (r.arity == 0)
 				return ('''
 					@Override
-					void Â«methodNameÂ»(){
-						Â«new RuleToJava(asm,false,options).visit(r.ruleBody as Rule)Â»
+					void «methodName»(){
+						«new RuleToJava(asm,false,options).visit(r.ruleBody as Rule)»
 					}
 					
 				''')
 			else 
 				return( '''
 					@Override
-					void Â«methodNameÂ» (Â«new Util().adaptRuleParam(r.variable, asm)Â»){
-						Â«new RuleToJava(asm,false,options).visit(r.ruleBody)Â»
+					void «methodName» («new Util().adaptRuleParam(r.variable, asm)»){
+						«new RuleToJava(asm,false,options).visit(r.ruleBody)»
 					}
 					
 				''')
@@ -488,10 +488,10 @@ class JavaGenerator extends AsmToJavaGenerator {
 		var StringBuffer updateset = new StringBuffer
 		for (cf : asm.headerSection.signature.function)
 			if (cf instanceof ControlledFunction && cf.domain !== null)
-				updateset.append('''Â«cf.nameÂ».oldValues = Â«cf.nameÂ».newValues;
+				updateset.append('''«cf.name».oldValues = «cf.name».newValues;
 				''')
 			else if(cf instanceof ControlledFunction && cf.domain === null)
-				updateset.append('''Â«cf.nameÂ».oldValue = Â«cf.nameÂ».newValue;
+				updateset.append('''«cf.name».oldValue = «cf.name».newValue;
 				''')		
 		return updateset.toString
 	}

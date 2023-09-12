@@ -45,7 +45,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 		this(resource, false)
 	}
 
-    //Il boolean identifica se il termine Â» a sx o dx del :=
+    //Il boolean identifica se il termine » a sx o dx del :=
 	new(Asm resource, boolean leftHandSide) {
 		this.res = resource
 		this.leftHandSide = leftHandSide
@@ -82,11 +82,11 @@ class TermToJava extends ReflectiveVisitor<String> {
 	def String visit(ConditionalTerm object) {
 		return '''
 			/*conditionalTerm*/
-				(Â«visit(object.guard)Â»)
+				(«visit(object.guard)»)
 				?
-					Â«visit(object.thenTerm)Â»
+					«visit(object.thenTerm)»
 				:
-					Â«visit(object.elseTerm)Â»
+					«visit(object.elseTerm)»
 		'''
 	}
 
@@ -98,23 +98,23 @@ class TermToJava extends ReflectiveVisitor<String> {
 			    
 				sb.append(
 						'''
-					Â«""Â»	if(Â«visit(object.comparedTerm)Â»==Â«visit(object.comparingTerm.get(i))Â») 
-							return Â«visit(object.resultTerms.get(i))Â»;
+					«""»	if(«visit(object.comparedTerm)»==«visit(object.comparingTerm.get(i))») 
+							return «visit(object.resultTerms.get(i))»;
 				''')
 			else
 				sb.append(
 							'''
-					Â«""Â»	else if(Â«visit(object.comparedTerm)Â»==Â«visit(object.comparingTerm.get(i))Â»)
-							return Â«visit(object.resultTerms.get(i))Â»;
+					«""»	else if(«visit(object.comparedTerm)»==«visit(object.comparingTerm.get(i))»)
+							return «visit(object.resultTerms.get(i))»;
 				''')
 		}
 		if ((object.otherwiseTerm !== null))
 			sb.append(
 			'''
-				Â«""Â»	else return Â«visit(object.otherwiseTerm)Â»; 
+				«""»	else return «visit(object.otherwiseTerm)»; 
 			''')
 		sb.append(	''' return null;
-		Â«""Â»   ''')
+		«""»   ''')
 		return sb.toString
 	}
 
@@ -123,7 +123,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 			throw new RuntimeException("Error: a tuple term with size 0 has been found... why?? **BUG** ")
 
 		if (object.terms.size == 1)
-			return '''(Â«visit(object.terms.get(0))Â»)'''
+			return '''(«visit(object.terms.get(0))»)'''
 
 		var StringBuffer initial = new StringBuffer("make_tuple(")
 
@@ -180,11 +180,11 @@ def String visit(SetTerm object) {
 			throw new RuntimeException("Empty map is not yet implemented")
 		else
 			return '''
-			Â«""Â»
+			«""»
 			
 			  
-			    Map<Â«domain.substring(0,domain.length-2)Â»> supporto = new HashMap<Â«domain.substring(0,domain.length-2)Â»>()
-			    Â«sÂ»;
+			    Map<«domain.substring(0,domain.length-2)»> supporto = new HashMap<«domain.substring(0,domain.length-2)»>()
+			    «s»;
 			   
 			  //'''
 			      
@@ -195,7 +195,7 @@ def String visit(SetTerm object) {
 		var StringBuffer sb = new StringBuffer
 		var StringBuffer app = new StringBuffer
 		
-		app.append('''Â«visit(object.guard)Â»''')
+		app.append('''«visit(object.guard)»''')
 		
 		var limiteS = app.toString.indexOf(")")
 		var partenza = app.toString.indexOf("(")
@@ -209,19 +209,19 @@ def String visit(SetTerm object) {
 			if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd)
 			sb.append(
 			'''
-				Â«""Â»	Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â».elems.stream().anyMatch(c -> c.ToString(c).equals(Â«app.substring(7,app.length-1)Â».ToString(c)))
+				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.ToString(c).equals(«app.substring(7,app.length-1)».ToString(c)))
 			''')
 
 			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd)
 			sb.append(
 			'''
-				Â«""Â»	Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â»_lista.stream().anyMatch(c -> Â«valoreÂ»c))
+				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_lista.stream().anyMatch(c -> «valore»c))
 			''')
 			else
 			
 			sb.append(
 			'''
-				Â«""Â»	Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â».elems.stream().anyMatch(c -> c.equals(Â«app.substring(13,app.length-1)Â»))
+				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(13,app.length-1)»))
 			''')
 		}
 		
@@ -233,22 +233,22 @@ def String visit(SetTerm object) {
 		
 		var StringBuffer supp = new StringBuffer
 		
-		supp.append('''Â«visit(object.guard)Â»''')
+		supp.append('''«visit(object.guard)»''')
 		
 		sb.append('''
 			
-			Â«""Â»  /*<--- forAllTerm*/
+			«""»  /*<--- forAllTerm*/
 		''')
 		for (var i = 0; i < object.variable.size; i++) {
 			if((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd)
 			sb.append(
 				'''
-					Â«""Â»	for(auto Â«visit(object.variable.get(i))Â» : Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â»::elems)
+					«""»	for(auto «visit(object.variable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»::elems)
 				''')
 				else
 				sb.append(
 			'''
-				Â«""Â»	Â«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)Â»_lista.stream().allMatch(c -> Â«supp.substring(0,supp.length-3)Â»c));
+				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_lista.stream().allMatch(c -> «supp.substring(0,supp.length-3)»c));
 			''')
 			
 			}
@@ -260,16 +260,16 @@ def String visit(LetTerm object) {
 		var StringBuffer let = new StringBuffer
 		let.append(
 		'''
-			Â«"\n"Â»
+			«"\n"»
 			  [&](){    **<--- letTerm**
 		''')
 		for (var int i = 0; i < object.variable.size; i++) {
-			let.append('''	auto Â«visit(object.variable.get(i))Â» = Â«visit(object.assignmentTerm.get(i))Â»;
+			let.append('''	auto «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
 			''')
 		}
 		let.append(
 			'''
-				return Â«visit(object.body)Â»; 
+				return «visit(object.body)»; 
 				}()
 		''')
 
@@ -309,13 +309,13 @@ def String visit(LetTerm object) {
 		var StringBuffer functionTerm = new StringBuffer
 		var name = new Util().parseFunction(term.function.name)
 		
-		//Controllo se l'operatore Â» del tipo: &,|,<=,>=,<,>...
+		//Controllo se l'operatore » del tipo: &,|,<=,>=,<,>...
 		if (ExpressionToJava.hasEvaluateVisitor(name)) {
 			 //if the funcion is an expression
 			return new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);
 		}
 		
-		//In questo caso l'operatore rilevato Â» := 
+		//In questo caso l'operatore rilevato » := 
 		 else {
 		 	
             if(term.function instanceof ControlledFunction && term.domain instanceof ConcreteDomain)   	 	

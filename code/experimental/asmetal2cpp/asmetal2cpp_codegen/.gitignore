@@ -1,4 +1,5 @@
 /target/
+/xtend-gen/**
 
 # ignore generated files 
 

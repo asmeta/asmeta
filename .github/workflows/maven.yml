@@ -33,3 +33,9 @@ jobs:
         name: asmeta-update-site
         path: asmeta.updatesite/target/asmeta.updatesite-*-SNAPSHOT-bin.zip
         retention-days: 7
+    - name: Upload Asm2C++ CLI JAR
+      uses: actions/upload-artifact@v3
+      with:
+        name: asm2cpp-cli
+        path: code/experimental/asmetal2cpp/asmetal2cpp_cli/dist/Asmeta2Cpp.jar
+        retention-days: 7
