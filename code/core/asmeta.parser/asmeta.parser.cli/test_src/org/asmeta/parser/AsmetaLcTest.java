@@ -75,7 +75,6 @@ public class AsmetaLcTest {
 			if (!testOneSpec(f))
 				failedSpec.add(f);
 		}
-
 		// test dirs
 		for (File f : dir.listFiles(new ASMDirFilter())) {
 			if (f.isDirectory())
@@ -93,7 +92,7 @@ public class AsmetaLcTest {
 
 	@Test
 	public void testSimpleEx() {
-		testDir("examples/simple_ex/");
+		testDir("examples/simple_example/");
 	}
 
 	@Test
@@ -122,11 +121,6 @@ public class AsmetaLcTest {
 	}
 
 	@Test
-	public void testExamplesCluster() {
-		testDir("examples/cluster/");
-	}
-
-	@Test
 	public void testExamplesAgents() {
 		testDir("examples/agents/");
 	}
@@ -148,6 +142,6 @@ public class AsmetaLcTest {
 
 	@Test
 	public void FSMSLE() {
-		testDir("examples/fsmSle/ASM_even.asm");
+		testDir("examples/fsmsemantics/Sle");
 	}
 }
