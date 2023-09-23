@@ -28,13 +28,23 @@ public class AsmParserTestErrors extends AsmParserTest {
 	}
 
 	// all these specs must fail but with a right exception
-	@Test(expected = ParseException.class)
+	@Test
 	public void testCircularA() {
-		ASMParser.getResultLogger().setLevel(Level.DEBUG);
-		testOneSpec("test/errors/circular/SpecA.asm");
+		testCircular("test/errors/circular/SpecA.asm");
 	}
-	@Test(expected = ParseException.class)
+	@Test
 	public void testCircularB() {
-		testOneSpec("test/errors/circular/SpecB.asm");
+		testCircular("test/errors/circular/SpecB.asm");
+	}
+
+	private void testCircular(String spec) {
+		ASMParser.getResultLogger().setLevel(Level.DEBUG);
+		try{
+			// pass false false, to avoid the capture of the exception
+			testOneSpec(new File(FILE_BASE+ spec),false,false);
+		} catch (Exception e) {
+			if (e.getMessage().contains("circular import found")) return;
+			fail("wrong message");
+		}
 	}
 }

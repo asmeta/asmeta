@@ -658,8 +658,15 @@ ImportClause ImportClause() :
       {
         ASMParser nestedParser = new ASMParser(moduleFile, asmPk);
         Logger.logDebug("---------------------------- Beginning of " + moduleName + " parsing----------------------------");
+        // to check if already imported
+        if (alreadyImported.keySet().contains(moduleFileName)) {
+        	Logger.logErr("circular import found in " + moduleFileName);
+        	// it cannot use subclasses since the parser captures the exception and modify it (add number of line and so on)
+        	throw new ParseException("circular import found in " + moduleFileName);
+        }        	
+        // parser started, add null for now
+        alreadyImported.put(moduleFileName, null);
         module_asm = nestedParser.Asm().get();
-        // check if already imported
         Logger.logDebug("---------------------------- End of " + moduleName + " parsing----------------------------\n");
         alreadyImported.put(moduleFileName, module_asm);
       }
