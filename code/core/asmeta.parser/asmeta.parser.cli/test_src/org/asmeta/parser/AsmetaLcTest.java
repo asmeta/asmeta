@@ -22,10 +22,10 @@ public class AsmetaLcTest {
 	@BeforeClass
 	public static void setUpLogger() {
 		//
-		Logger log = Logger.getLogger("org.asmeta.parser");
-		if (!log.getAllAppenders().hasMoreElements())
-			log.addAppender(new ConsoleAppender(new SimpleLayout()));
-		log.setLevel(Level.INFO);
+//		Logger log = Logger.getLogger("org.asmeta.parser");
+//		if (!log.getAllAppenders().hasMoreElements())
+//			log.addAppender(new ConsoleAppender(new SimpleLayout()));
+//		log.setLevel(Level.INFO);
 	}
 
 	public static final String FILE_BASE = "../../../../asm_examples/";
@@ -144,4 +144,5 @@ public class AsmetaLcTest {
 	public void FSMSLE() {
 		testDir("examples/fsmsemantics/Sle");
 	}
+		
 }

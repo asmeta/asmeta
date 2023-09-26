@@ -39,7 +39,11 @@ public class AsmetaPrintInfoTest {
 	
 	@Test
 	public void testMVM() throws Exception {
-		printStatsDirOfASMs("../../../../../mvm-asmeta\\asm_models\\MVM APPFM");
+		// works only on developers machine with the MVM repo
+		// added the check to avoid to fail on machine without MVM repo
+		String dirPathMVMExternalRepo = "../../../../../mvm-asmeta\\asm_models\\MVM APPFM";
+		if (Files.exists(Paths.get(dirPathMVMExternalRepo)))
+				printStatsDirOfASMs(dirPathMVMExternalRepo);
 	}
 	
 
