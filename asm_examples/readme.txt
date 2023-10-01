@@ -1,4 +1,4 @@
-asm_examples: all the examples under different subdirectories
+## asm_examples: all the examples under different subdirectories
 
 examples: real examples (parser OK, simulator all OK). 
           it can contain sub directories - distributed as examples on the web site
