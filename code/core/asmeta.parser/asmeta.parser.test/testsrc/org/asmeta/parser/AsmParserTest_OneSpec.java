@@ -188,7 +188,7 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 
 	@Test
 	public void test2() {
-		testOneSpec("examples\\NeedhamSchroeder\\oldVersion\\NeedhamSchroederWithSpy.asm");
+		testOneSpec("examples/NeedhamSchroeder/oldVersion/NeedhamSchroederWithSpy.asm");
 	}
 
 	@Test

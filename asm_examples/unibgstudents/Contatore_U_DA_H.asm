@@ -52,7 +52,7 @@ definitions:
 		endpar
                       
 
-//regola che incrementa le unità, modulo 10 per resettare il valore
+//regola che incrementa le unitï¿½, modulo 10 per resettare il valore
 	macro rule r_upUnita =
 		par
 			if unit=9 then

@@ -21,7 +21,7 @@ public class AsmParserTestCloseFile extends AsmParserTest{
 	@Test
 	public void testWithError(){
 		// un file a caso con errore
-		String spec = "test\\errors\\np\\genericError.asm";
+		String spec = "test/errors/np/genericError.asm";
 		File errfile = new File(FILE_BASE + spec);
 		AsmCollection asms = testOneSpec(errfile, true, false);
 		assertNull(asms);

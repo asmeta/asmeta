@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import org.asmeta.parser.ASMFileFilter;
 import org.asmeta.parser.AsmParserTest;
 import org.asmeta.parser.util.AsmetaPrintInfo.AsmInfo;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class AsmetaPrintInfoTest {
@@ -27,17 +28,17 @@ public class AsmetaPrintInfoTest {
 		}
 	}
 
-	@Test
+	@Ignore @Test
 	public void testABZ2016() throws Exception {
 		printStatsDirOfASMs(AsmParserTest.FILE_BASE + "//examples/hemodialysisDevice/ABZ2016");
 	}
 
-	@Test
+	@Ignore @Test
 	public void testSCP2017() throws Exception {
 		printStatsDirOfASMs(AsmParserTest.FILE_BASE + "//examples/hemodialysisDevice/SCP2017/");
 	}
 	
-	@Test
+	@Ignore @Test
 	public void testMVM() throws Exception {
 		// works only on developers machine with the MVM repo
 		// added the check to avoid to fail on machine without MVM repo

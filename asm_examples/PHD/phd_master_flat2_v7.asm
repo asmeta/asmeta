@@ -1,6 +1,6 @@
-// a simple example with a tic tac toe game
+// last version of the PHD
 
-asm phd_master_flat2_v6
+asm phd_master_flat2_v7
 
 import ../STDL/StandardLibrary
 

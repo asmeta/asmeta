@@ -1,5 +1,6 @@
 package org.asmeta.parser;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -14,6 +15,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
@@ -21,6 +23,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.util.AsmPrinter;
+import org.junit.Before;
 import org.junit.BeforeClass;
 
 import asmeta.AsmCollection;
@@ -42,6 +45,19 @@ public class AsmParserTest {
 		Logger.getLogger(Utility.class).setLevel(Level.ALL);
 		PropertyConfigurator.configure("log4j.properties");*/
 	}
+	
+	@Before
+	public void checkLogger() {
+		// check that there is only one appender  
+		Logger log = Logger.getLogger("org.asmeta.parser");		
+		Enumeration allAppenders = log.getAllAppenders();
+		// skip the first appender
+		if (allAppenders.hasMoreElements()) allAppenders.nextElement();
+		// no more appenders !!!
+		assertFalse(allAppenders.hasMoreElements());
+	}
+	
+	
 
 	public static final String FILE_BASE = "../../../../asm_examples/";
 
@@ -55,7 +71,7 @@ public class AsmParserTest {
 	 * called dirname if it contains a directory, all the specs in it will be
 	 * tested. DO not stop if one fails.
 	 * */
-	private Collection<File> testSpecInSubFolder(String dirname) {
+	protected Collection<File> testSpecInSubFolder(String dirname) {
 		Collection<File> failedSpec = new ArrayList<File>();
 		File dir = new File(FILE_BASE + dirname);
 		assertTrue("example dir " + dir.getAbsolutePath()
