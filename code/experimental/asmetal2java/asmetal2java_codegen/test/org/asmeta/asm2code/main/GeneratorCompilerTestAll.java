@@ -36,7 +36,7 @@ public class GeneratorCompilerTestAll {
 		walk.forEach(x -> {
 			try {
 				String fileName = x.toFile().toString();
-				if (fileName.endsWith(ASMParser.asmExtension))
+				if (fileName.endsWith(ASMParser.ASM_EXTENSION))
 					if (!GeneratorCompilerTest.test(fileName, options).success){
 							failures.add(fileName);
 							System.err.println("failing for "+ fileName);

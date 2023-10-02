@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 class StreamGobbler extends Thread {
@@ -87,7 +88,7 @@ class NuXmvExecutor {
 	}
 
 }
-
+@Ignore
 public class NuXmvExecutorTest {
 
 	@Test

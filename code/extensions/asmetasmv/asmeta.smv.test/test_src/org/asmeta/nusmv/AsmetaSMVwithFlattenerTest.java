@@ -9,7 +9,10 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -17,11 +20,20 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 
-	@Before
-	public void setFlattener() {
+	private static boolean old;
+
+	@BeforeClass
+	public static void setFlattener() {
+		old = AsmetaSMVOptions.FLATTEN;
 		AsmetaSMVOptions.FLATTEN = true;
 	}
+		
+	@AfterClass
+	public static void setFlattenerOld() {
+		AsmetaSMVOptions.FLATTEN = old;
+	}
 
+	
 	@Test
 	public void dirFilesTest() {
 		testAllCtlPropsAreTrue("examples/files/agentsMain.asm", 1);
