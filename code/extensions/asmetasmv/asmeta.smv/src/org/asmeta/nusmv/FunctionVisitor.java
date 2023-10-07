@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.asmeta.nusmv.util.AsmNotSupportedException;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.Util;
 
 import asmeta.terms.basicterms.Term;

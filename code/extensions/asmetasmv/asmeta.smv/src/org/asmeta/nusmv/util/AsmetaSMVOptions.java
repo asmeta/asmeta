@@ -1,4 +1,4 @@
-package org.asmeta.nusmv;
+package org.asmeta.nusmv.util;
 
 // all the options regarding translating and running AsmetaSMV
 public class AsmetaSMVOptions {
@@ -6,7 +6,7 @@ public class AsmetaSMVOptions {
 	// add the case construct when modifying an integer
 	// e.g. x = e --> CASE e in Dom(x) : e ; TRUE: x ESAC
 	static boolean checkConcrete;
-	boolean execute; // check is it the same as runNusmv?
+	public boolean execute; // check is it the same as runNusmv?
 	private static boolean printNuSMVoutput;
 	public static String solverPath;
 	public static boolean simplifyDerived = true;

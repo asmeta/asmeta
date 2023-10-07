@@ -6,3 +6,5 @@
 *.o
 # exported by the parser
 *.xmi
+# produced by the model checker asmetasmv
+*.smv

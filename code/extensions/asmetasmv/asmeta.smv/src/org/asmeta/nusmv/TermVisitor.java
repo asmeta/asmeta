@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import org.asmeta.nusmv.util.AsmNotSupportedException;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.Util;
 import org.asmeta.parser.Defs;
 

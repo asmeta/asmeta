@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.asmeta.nusmv.AsmetaSMVOptions;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.Test;
 
 import asmeta.transitionrules.basictransitionrules.ChooseRule;

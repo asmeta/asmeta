@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

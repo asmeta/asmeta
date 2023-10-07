@@ -39,6 +39,7 @@ import org.asmeta.flattener.rule.ForallRuleFlattener;
 import org.asmeta.flattener.rule.LetRuleFlattener;
 import org.asmeta.flattener.rule.MacroCallRuleFlattener;
 import org.asmeta.nusmv.util.AsmNotSupportedException;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.Util;
 import org.asmeta.parser.Defs;
 import org.asmeta.parser.util.ImportFlattener;

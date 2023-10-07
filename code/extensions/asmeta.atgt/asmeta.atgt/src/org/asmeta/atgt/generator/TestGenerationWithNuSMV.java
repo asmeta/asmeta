@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.asmeta.nusmv.AsmetaSMV;
-import org.asmeta.nusmv.AsmetaSMVOptions;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 
 import tgtlib.definitions.expression.Expression;
 
@@ -152,7 +152,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 	 * unchanged passing from state s_{i} to state s_{i+1}, in state s_{i+1} it is
 	 * not printed.
 	 * 
-	 * non so se è necessario che adesso il generatore può farlo lui ....
+	 * non so se ï¿½ necessario che adesso il generatore puï¿½ farlo lui ....
 	 */
 	static protected void completeCounterExample(Counterexample counterexample) {
 		for (int i = 1; i < counterexample.length(); i++) {
