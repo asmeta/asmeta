@@ -32,6 +32,7 @@ abstract class BiComposition extends Composition {
 	Composition c1, c2;
 
 	BiComposition(Composition c1, Composition c2) {
+
 		this.c1 = c1;
 		this.c2 = c2;
 	}
@@ -244,7 +245,10 @@ class BiPipeFullDup extends BiComposition {
 	@Override
 	UpdateSet eval() {
 		//double eval to simulate parallel
+
 		UpdateSet up1=c1.eval();
+		//TODO: COPIO LE MONITORATE ACQUISITE PER C1 IN C2
+		//POI FA STEP C1 E STEP C2
 		UpdateSet up2=c2.eval();
 		c2.copyMonitored(up1);
 		c1.copyMonitored(up2);

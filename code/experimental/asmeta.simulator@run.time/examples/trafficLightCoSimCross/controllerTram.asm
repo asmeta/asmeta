@@ -5,13 +5,13 @@ import ../TimeLibrarySimple
 signature:
 	// DOMAINS
 	enum domain ControllerTramStatus = {STOP | GO}	
-	enum domain MasterStatus = {NORMAL | PEDESTRIAN | TRAM}
+	enum domain CorssManagerStatus = {NORMAL | PEDESTRIAN | TRAM}
 	
 	//FUNCTIONS
-	monitored masterController: MasterStatus
+	monitored crossManagerController: CorssManagerStatus
 	monitored newTramComing: Boolean
 	
-	out tramComing_out: Boolean	
+	out tramComing: Boolean	
 	out controllerTramSignal: ControllerTramStatus
 	
 	//TIMER
@@ -20,17 +20,19 @@ definitions:
 
 	 	
 main rule r_Main =
-	par
-		tramComing_out := newTramComing
-		if masterController = TRAM then
-			controllerTramSignal := GO
-		else
+	if crossManagerController = TRAM then
+		controllerTramSignal := GO
+	else
+		par
 			controllerTramSignal := STOP
-		endif
-	endpar
+			if (newTramComing) then
+				tramComing := newTramComing
+			endif
+		endpar
+	endif
 
 // INITIAL STATE
 default init s0:	
- function tramComing_out = false	
+ function tramComing = false	
  function controllerTramSignal = STOP
 

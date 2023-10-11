@@ -9,15 +9,15 @@ signature:
 	enum domain ControllerTransition = {TURN_ON | TURN_OFF | OPERATE_T | STANDBY_T}
 	
 	
-	enum domain MasterStatus = {NORMAL | PEDESTRIAN | TRAM}
+	enum domain CorssManagerStatus = {NORMAL | PEDESTRIAN | TRAM}
 	
 	//FUNCTIONS
 	monitored transitionC: ControllerTransition	
 	out statusC: ControllerStatus
 	out operateMode : ControllerOperateMode
 	
-	monitored masterController: MasterStatus
-	controlled masterController_previous: MasterStatus
+	monitored crossManagerController: CorssManagerStatus
+	controlled crossManagerController_previous: CorssManagerStatus
 	
 	//TIMER
 	static timeRED: Timer
@@ -27,9 +27,9 @@ signature:
 definitions:	
 
 rule r_operateSubState =
-		if masterController = TRAM or masterController = PEDESTRIAN then
+		if crossManagerController = TRAM or crossManagerController = PEDESTRIAN then
 			par
-				masterController_previous := masterController
+				crossManagerController_previous := crossManagerController
 		 		if (operateMode = GREEN_B_RED_A or operateMode = YELLOW_B_RED_A) then
 		 			operateMode := RED_AB
 		 		endif
@@ -39,9 +39,9 @@ rule r_operateSubState =
 	 		endpar
 	 	else
 		par
-			masterController_previous := masterController
+			crossManagerController_previous := crossManagerController
 	 		if operateMode = RED_AB then	
-	 			if expired(timeRED) or masterController_previous = TRAM or masterController_previous = PEDESTRIAN then
+	 			if expired(timeRED) or crossManagerController_previous = TRAM or crossManagerController_previous = PEDESTRIAN then
 		 			par	
 		 				operateMode := GREEN_A_RED_B
 						r_reset_timer[timeGREEN]
@@ -65,7 +65,7 @@ rule r_operateSubState =
 	 			endif
 	 		endif
 	 		if operateMode = RED_BA then
-	 			if expired(timeRED) or masterController_previous = TRAM or masterController_previous = PEDESTRIAN then
+	 			if expired(timeRED) or crossManagerController_previous = TRAM or crossManagerController_previous = PEDESTRIAN then
 		 			par	
 		 				operateMode := GREEN_B_RED_A
 						r_reset_timer[timeGREEN]
@@ -123,9 +123,9 @@ main rule r_Main =
 default init s0:		
 	function statusC = CONTR_OFF
 	function operateMode = RED_AB
-	function masterController_previous = NORMAL
+	function crossManagerController_previous = NORMAL
 	function duration($t in Timer) = switch $t
-		case timeRED: 5
-		case timeGREEN: 5
-		case timeYELLOW: 2
-		endswitch
+		case timeRED: 3
+		case timeGREEN: 3
+		case timeYELLOW: 1
+	endswitch

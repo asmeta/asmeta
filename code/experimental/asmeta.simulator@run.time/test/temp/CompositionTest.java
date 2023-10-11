@@ -10,6 +10,7 @@ public class CompositionTest {
 	String path = "examples/testUnbound/";
 	String path2 = "examples/MVM/";
 	String pathTrafficLight = "examples/trafficLightCoSim/";
+	String pathTrafficLightCrossManager = "examples/trafficLightCoSimCross/";
 	String pathFAC = "examples/exampleFAC2023/";
 
 	@Test
@@ -58,6 +59,24 @@ public class CompositionTest {
 	}
 
 	@Test
+	public void testTrafficLightCrossManager() throws Exception {
+		ParN tram = new ParN(new LeafAsm(pathTrafficLightCrossManager + "pedestrian.asm"),
+				new LeafAsm(pathTrafficLightCrossManager + "controllerTram.asm"));
+		BiPipeHalfDup manager = new BiPipeHalfDup(tram, new LeafAsm(pathTrafficLightCrossManager + "crossManager.asm"));
+		ParN trafficLights = new ParN(new LeafAsm(pathTrafficLightCrossManager + "trafficlightB.asm"),
+				new LeafAsm(pathTrafficLightCrossManager + "trafficlightB.asm"),
+				new LeafAsm(pathTrafficLightCrossManager + "trafficlightA.asm"),
+				new LeafAsm(pathTrafficLightCrossManager + "trafficlightA.asm"));
+		PipeN trafficlightcross = new PipeN(new LeafAsm(pathTrafficLightCrossManager + "controller.asm"),
+				trafficLights);
+		BiPipeFullDup cross = new BiPipeFullDup(manager, trafficlightcross);
+		while (true) {
+			cross.eval();
+			System.out.println(" ===== new step =====");
+		}
+	}
+
+	@Test
 	public void testMVM() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(path2 + "MVMcontroller04.asm"),
@@ -93,6 +112,7 @@ public class CompositionTest {
 	public void testFullDup() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		BiPipeFullDup asmTest = new BiPipeFullDup(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
+		asmTest.eval();
 		asmTest.eval();
 	}
 
@@ -464,14 +484,13 @@ public class CompositionTest {
 //		Parser asm = new Parser(comp);
 //		Composition asmI = asm.toComposition();
 //		asmI.eval();		
-		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(pathFAC + "asmInc.asm"), new LeafAsm(pathFAC + "asmDec.asm"));
-		PipeN asmF = new PipeN(new LeafAsm(pathFAC + "asmMulti.asm"), asm2);		
+		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(pathFAC + "asmInc.asm"),
+				new LeafAsm(pathFAC + "asmDec.asm"));
+		PipeN asmF = new PipeN(new LeafAsm(pathFAC + "asmMulti.asm"), asm2);
 		asmF.eval();
 		System.out.println(" ===== new step =====");
 		asmF.eval();
-		
-		
-		
+
 	}
 
 }
