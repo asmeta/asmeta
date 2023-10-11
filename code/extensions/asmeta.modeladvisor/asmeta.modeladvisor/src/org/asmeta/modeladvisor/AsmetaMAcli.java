@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.asmeta.nusmv.AsmetaSMVOptions;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;

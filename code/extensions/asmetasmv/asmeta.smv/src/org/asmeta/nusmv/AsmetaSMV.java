@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.Util;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
@@ -78,7 +79,7 @@ public class AsmetaSMV {
 	 * @param useNuXmv
 	 * @throws Exception
 	 */
-	public AsmetaSMV(File file, AsmetaSMVOptions options) throws Exception {
+	AsmetaSMV(File file, AsmetaSMVOptions options) throws Exception {
 		asmFile = file;
 		if (asmFile.exists()) {
 			try {

@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
+
 public class AsmetaSMVtest {
 
 	protected AsmetaSMV execNuSMV(String file) {

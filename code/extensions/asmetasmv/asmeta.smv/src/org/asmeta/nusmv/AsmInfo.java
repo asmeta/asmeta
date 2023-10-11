@@ -13,6 +13,9 @@ class AsmInfo {
 		AsmetaSMV as = new AsmetaSMV(asm);
 		as.translation();
 		as.createNuSMVfile();
+		// -is Does not check SPEC properties. Sets to “1” the ignore spec environment variable
+		// -r Prints the number of reachable states before exiting. If the -f option is not used, 
+		//     the set of reachable states is computed.
 		String[] cmdarray = { "NuSMV", "-is", "-r", as.smvFileName};
 		as.runNuSMV(Arrays.asList(cmdarray));
 		outputRunNuSMV = as.getOutput(Arrays.asList(cmdarray));

@@ -32,9 +32,9 @@ import org.asmeta.modeladvisor.metaproperties.StatDerIsUsed;
 import org.asmeta.modeladvisor.metaproperties.TrivialUpdate;
 import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.nusmv.AsmetaSMV;
-import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.nusmv.Environment;
 import org.asmeta.nusmv.MapVisitor;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 
 /**
  * La classe AsmetaMA. Contiene tutti i metodi per la costruzione e

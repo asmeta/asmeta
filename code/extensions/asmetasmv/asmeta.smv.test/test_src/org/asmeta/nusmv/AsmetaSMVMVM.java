@@ -3,6 +3,7 @@ package org.asmeta.nusmv;
 import java.io.File;
 import java.util.Arrays;
 
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
