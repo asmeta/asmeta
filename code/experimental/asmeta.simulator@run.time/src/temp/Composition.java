@@ -124,7 +124,7 @@ class LeafAsm extends Composition {
 		// System.out.println("copying " + up + " in " + name);
 		LeafAsm lc = this;
 		String out = "";
-		out += "UpdateSet = {";
+		out += "UpdateSet " + name + "= {";
 		for (Entry<Location, Value> l : up) {
 			Location loc = l.getKey();
 			String locName = loc.getSignature().getName();
@@ -132,7 +132,10 @@ class LeafAsm extends Composition {
 			mon.add(l);
 			out += l + "; ";
 		}
-		System.out.println(out.substring(0, out.length() - 2) + "}");
+		if (!up.isEmpty())
+			System.out.println(out.substring(0, out.length() - 2) + "}");
+		else
+			System.out.println(out.substring(0, out.length() - 2)+ "{}");
 	}
 
 	@Override

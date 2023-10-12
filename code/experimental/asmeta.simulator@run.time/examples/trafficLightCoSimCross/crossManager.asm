@@ -59,6 +59,6 @@ definitions:
 default init s0:	
 	function duration($t in Timer) = switch $t
 		case timeTRAM: 2
-		case timePEDESTRIAN: 4
+		case timePEDESTRIAN: 2
 	endswitch
 	function crossManagerController = NORMAL

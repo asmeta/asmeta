@@ -13,7 +13,7 @@ signature:
 	
 	
 	out pedestrianCall: Boolean
-	out light: Lights	
+	out pedestrianLight: Lights	
 	
 	//TIMER
 
@@ -22,18 +22,17 @@ definitions:
 	 	
 main rule r_Main =
 	if crossManagerController = PEDESTRIAN then
-		light := GREEN
+		pedestrianLight := GREEN
 	else
 		par
-			light := RED
-			if pedestrianComing then
-				pedestrianCall := pedestrianComing
-			endif
+			pedestrianLight := RED
+			pedestrianCall := pedestrianComing
 		endpar
 	endif 
 
 // INITIAL STATE
 default init s0:	
- function light = RED	
+ function pedestrianLight = RED	
  function pedestrianCall = false
+ function crossManagerController = NORMAL
 

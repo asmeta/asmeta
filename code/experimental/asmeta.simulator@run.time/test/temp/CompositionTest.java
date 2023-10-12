@@ -67,11 +67,13 @@ public class CompositionTest {
 				new LeafAsm(pathTrafficLightCrossManager + "trafficlightB.asm"),
 				new LeafAsm(pathTrafficLightCrossManager + "trafficlightA.asm"),
 				new LeafAsm(pathTrafficLightCrossManager + "trafficlightA.asm"));
-		PipeN trafficlightcross = new PipeN(new LeafAsm(pathTrafficLightCrossManager + "controller.asm"),
+		/*PipeN trafficlightcross = new PipeN(new LeafAsm(pathTrafficLightCrossManager + "controller.asm"),
 				trafficLights);
-		BiPipeFullDup cross = new BiPipeFullDup(manager, trafficlightcross);
+		BiPipeFullDup cross = new BiPipeFullDup(manager, trafficlightcross);*/
+		BiPipeFullDup cross = new BiPipeFullDup(manager, new LeafAsm(pathTrafficLightCrossManager + "controller.asm"));
+		PipeN trafficlightcross = new PipeN(cross, trafficLights);
 		while (true) {
-			cross.eval();
+			trafficlightcross.eval();
 			System.out.println(" ===== new step =====");
 		}
 	}
@@ -212,7 +214,10 @@ public class CompositionTest {
 		System.out.println(a);
 		Parser asm = new Parser(a);
 		Composition asmI = asm.toComposition();
-		asmI.eval();
+		while (true) {
+			asmI.eval();
+			System.out.println(" ===== new step =====");
+		}
 	}
 
 	@Test // ( asmC <||> ( asmS <||> asmH ) )

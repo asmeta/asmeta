@@ -25,9 +25,7 @@ main rule r_Main =
 	else
 		par
 			controllerTramSignal := STOP
-			if (newTramComing) then
-				tramComing := newTramComing
-			endif
+			tramComing := newTramComing
 		endpar
 	endif
 
@@ -35,4 +33,5 @@ main rule r_Main =
 default init s0:	
  function tramComing = false	
  function controllerTramSignal = STOP
+ function crossManagerController = NORMAL
 
