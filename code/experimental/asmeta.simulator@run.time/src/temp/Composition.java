@@ -139,8 +139,8 @@ class LeafAsm extends Composition {
 	}
 
 	@Override
-	public String toString() {
-		return "ASM:" + name;
+	public String toString() { //TODO: sistemare qui per stampa update set: controlled e out e monitored
+		return "ASM: " + name + " "+ s1.getCurrentState().getOutLocs();
 	}
 
 }
