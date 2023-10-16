@@ -53,7 +53,7 @@ public class AsmetaSMV {
 		this(new File(file));
 	}
 
-	public AsmetaSMV(String file, boolean simplify) throws Exception {
+	AsmetaSMV(String file, boolean simplify) throws Exception {
 		this(new File(file), simplify);
 	}
 
@@ -61,7 +61,7 @@ public class AsmetaSMV {
 		this(file, new AsmetaSMVOptions()); // true, false, true, false);
 	}
 
-	public AsmetaSMV(File file, boolean simplify) throws Exception {
+	private AsmetaSMV(File file, boolean simplify) throws Exception {
 		this(file, simplify, false, true, false, false);
 	}
 
@@ -120,7 +120,7 @@ public class AsmetaSMV {
 		mv.printSmv(smvFileName);
 	}
 
-	public void createNuSMVfile(String smvFileName) throws Exception {
+	void createNuSMVfile(String smvFileName) throws Exception {
 		assert mv != null : "An instance of MapVisitor must have been created previously";
 		this.smvFileName = smvFileName + ".smv";
 		mv.printSmv(this.smvFileName);
@@ -341,7 +341,6 @@ public class AsmetaSMV {
 	 * It executes the NuSMV model with the provided set of options.
 	 *
 	 * 
-	 * @param cmdarray an array of options for NuSMV. The first one is the solver
 	 * @param cmdarray an array of options for NuSMV. The first one is the solver
 	 *                 name and the last one the file name.
 	 * 

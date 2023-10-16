@@ -134,9 +134,4 @@ public class AsmetaF extends AsmetaCLI {
 			bw.close();
 		}
 	}
-
-	@Override
-	protected String getJar() {
-		return "AsmetaF.jar";
-	}
 }

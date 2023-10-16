@@ -7,12 +7,12 @@ import java.nio.file.Path;
 
 import org.junit.Test;
 
-public class AsmetaV_cliTest {
+public class AsmetaV_CLITest {
 	
 	
 	private Path avallaPath;
 
-	public AsmetaV_cliTest(){
+	public AsmetaV_CLITest(){
 		String string = "scenariosforexamples/advancedClock/advancedClock1.avalla";
 		avallaPath = Path.of(string);
 		assertTrue(Files.exists(avallaPath));
@@ -22,7 +22,7 @@ public class AsmetaV_cliTest {
 	public void testMainRelDirExample() {
 		// run main with an example given as relative path
 		assertEquals("scenariosforexamples\\advancedClock\\advancedClock1.avalla", avallaPath.toString());
-		AsmetaV_cli.main(new String[] {avallaPath.toString()});
+		AsmetaV_CLI.main(new String[] {avallaPath.toString()});
 	}
 
 	@Test
@@ -31,7 +31,7 @@ public class AsmetaV_cliTest {
 		assertNotEquals("scenariosforexamples\\advancedClock\\advancedClock1.avalla", avallaPath.toAbsolutePath());
 		// something like:
 		//<C:\Users\angel\codicefromrepos\ricerca\asmeta\asmeta\code\extensions\asmeta.validator\asmeta.validator.test\scenariosforexamples\advancedClock\advancedClock1.avalla>
-		AsmetaV_cli.main(new String[] {avallaPath.toString()});
+		AsmetaV_CLI.main(new String[] {avallaPath.toString()});
 	}
 
 	@Test

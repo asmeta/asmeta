@@ -31,7 +31,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										org.asmeta.validator.main.AsmetaV_cli
+										org.asmeta.validator.main.AsmetaV_CLI
 									</mainClass>
 								</manifest>
 							</archive>

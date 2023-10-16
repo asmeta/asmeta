@@ -16,7 +16,7 @@ import asmeta.cli.AsmetaCLI;
  * @author garganti
  *
  */
-public class AsmetaV_cli extends AsmetaCLI {
+public class AsmetaV_CLI extends AsmetaCLI {
 
 	@Option(name = "-cov", usage = "collect coverage info")
 	private boolean coverage;
@@ -26,7 +26,7 @@ public class AsmetaV_cli extends AsmetaCLI {
 	 * @throws Throwable
 	 */
 	public static void main(String[] args) {
-		new AsmetaV_cli().run(args);
+		new AsmetaV_CLI().run(args);
 	}
 
 	@Override

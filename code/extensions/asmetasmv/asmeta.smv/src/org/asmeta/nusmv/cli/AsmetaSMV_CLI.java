@@ -12,11 +12,11 @@ import asmeta.cli.ASMFileFilter;
 import asmeta.cli.AsmetaCLI;
 
 /**
- * The Class AsmetaSMVcli
+ * The Class AsmetaSMV_CLI
  * The class must be public. Otherwise the jar does not work.
  * 
  */
-public class AsmetaSMVcli extends AsmetaCLI {
+public class AsmetaSMV_CLI extends AsmetaCLI {
 	@Option(name = "-en", usage = "execute the NuSMV model after the translation")
 	public boolean executeNuSMVmodel;
 
@@ -32,6 +32,9 @@ public class AsmetaSMVcli extends AsmetaCLI {
 	@Option(name = "-kf", usage = "keep the NuSMV file. To be used with the -en option enabled. If the -en option is not enabled, the option -kf is enabled by default.")
 	public boolean keepFile;
 	
+	@Option(name="-nusmvpath", usage =  "nusmv path", required = false)
+	public String nusmvPath;
+	
 
 	/**
 	 * The main method.
@@ -40,7 +43,7 @@ public class AsmetaSMVcli extends AsmetaCLI {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		AsmetaSMVcli as = new AsmetaSMVcli();
+		AsmetaSMV_CLI as = new AsmetaSMV_CLI();
 		as.run(args);
 	}
 
@@ -58,6 +61,9 @@ public class AsmetaSMVcli extends AsmetaCLI {
 		AsmetaSMVOptions.setPrintNuSMVoutput(AsmetaSMVOptions.isRunNuSMV()); //stampa l'ouput solo se il modello viene eseguito (ovviamente)
 		Util.setPath(asmFile.getPath());//percorso relativo del file asm comprensivo del nome del file
 		Util.setDir(asmFile.getParent());//percorso relativo del file senza il nome del file
+		// set the path if needed
+		if (nusmvPath!= null)
+			AsmetaSMVOptions.setSolverPath(nusmvPath);		
 		if(asmFile != null) {
 			AsmetaSMV asmetaSMV = new AsmetaSMV(asmFile, !doNotSimplify, executeNuSMVmodel, !doNotCheckConcrete, false,false);
 			asmetaSMV.translation();
@@ -68,10 +74,5 @@ public class AsmetaSMVcli extends AsmetaCLI {
 			return RunCLIResult.SUCCESS;
 		}
 		return RunCLIResult.FATAL;
-	}
-
-	@Override
-	protected String getJar() {
-		return "AsmetaSMV.jar";
 	}
 }

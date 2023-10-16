@@ -17,11 +17,8 @@ import org.kohsuke.args4j.Option;
 
 import asmeta.cli.AsmetaCLI;
 
-public class AsmetaMAcli extends AsmetaCLI {
-	private static final String ASMETAL_FILE_NAME_ASM = "asmetalFileName.asm";
-
-	private static final String ASMETA_MA_JAR_NAME = "AsmetaMA.jar";
-
+public class AsmetaMA_CLI extends AsmetaCLI {
+	
 	@Option(name = "-kf", usage = "keep the NuSMV file.")
 	private boolean keepFile;
 
@@ -55,10 +52,13 @@ public class AsmetaMAcli extends AsmetaCLI {
 	@Option(name = "-smvSimpl", usage = "Use the simplification facility of AsmetaSMV")
 	private boolean useAsmetaSMVsimpl;
 
+	@Option(name="-nusmvpath", usage =  "nusmv path", required = false)
+	public String nusmvPath;
+	
 
 	public static void main(String[] args) throws Exception {
 		Logger.getRootLogger().setLevel(Level.OFF);
-		new AsmetaMAcli().run(args);
+		new AsmetaMA_CLI().run(args);
 	}
 
 	// it is useless now
@@ -114,10 +114,12 @@ public class AsmetaMAcli extends AsmetaCLI {
 		AsmetaMA.USE_ASMETASMV_SIMPL = useAsmetaSMVsimpl;
 		asmetaMA.setMetapropertiesExecution(execMp1, execMp2, execMp3, execMp4,
 				execMp5, execMp6, execMp7);
+		// set the path if needed
+		if (nusmvPath!= null)
+			AsmetaSMVOptions.setSolverPath(nusmvPath);		
 		Map<String, Boolean> result = asmetaMA.runCheck();
 		// check if any meta property is violated
 		if (result.containsValue(Boolean.FALSE)) return RunCLIResult.WARNING;
 		else return RunCLIResult.SUCCESS;
-
-	}
+	}	
 }

@@ -115,8 +115,12 @@ public abstract class AsmetaCLI {
 		return ASMParser.ASM_EXTENSION;
 	}
 
-	protected String getJar() {
-		return this.getClass().getSimpleName() + ".jar";
+	// return the name of the JAR. it assumes that the name of the jar is equal to the name of the class
+	// or it has a _CLI appended
+	private String getJar() {
+		String jarName = this.getClass().getSimpleName();
+		jarName = jarName.replace("_CLI", "");
+		return jarName + ".jar";
 	}
 
 	/**

@@ -32,7 +32,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										org.asmeta.nusmv.cli.AsmetaSMVcli
+										org.asmeta.nusmv.cli.AsmetaSMV_CLI
 									</mainClass>
 								</manifest>
 							</archive>
