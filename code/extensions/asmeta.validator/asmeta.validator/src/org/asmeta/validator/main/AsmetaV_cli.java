@@ -1,6 +1,7 @@
 package org.asmeta.validator.main;
 
 import java.io.File;
+import java.util.List;
 
 import org.asmeta.xt.validator.AsmetaV;
 import org.kohsuke.args4j.CmdLineException;
@@ -25,25 +26,26 @@ public class AsmetaV_cli extends AsmetaCLI {
 	 * @throws Throwable
 	 */
 	public static void main(String[] args) {
-		runAsmetaV(args);
-	}
-
-	public static void runAsmetaV(String[] args) {
 		new AsmetaV_cli().run(args);
 	}
 
 	@Override
-	protected void runWith(File file) throws CmdLineException {
+	protected RunCLIResult runWith(File file) throws CmdLineException {
 		// after parsing arguments, you should check
 		// if enough arguments are given.
 		// String scriptPath = file.getAbsolutePath();
 		// use relative path instead to allow the use under windows
 		String scriptPath = file.getPath();
 		try {
-			AsmetaV.execValidation(scriptPath, coverage);
+			List<String> failingScenerios = AsmetaV.execValidation(scriptPath, coverage);
+			if (failingScenerios.isEmpty())
+				return RunCLIResult.SUCCESS;
+			else
+				return RunCLIResult.WARNING;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return RunCLIResult.FATAL;
 	}
 
 	@Override

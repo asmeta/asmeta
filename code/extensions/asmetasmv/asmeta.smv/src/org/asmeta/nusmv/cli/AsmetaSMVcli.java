@@ -32,7 +32,6 @@ public class AsmetaSMVcli extends AsmetaCLI {
 	@Option(name = "-kf", usage = "keep the NuSMV file. To be used with the -en option enabled. If the -en option is not enabled, the option -kf is enabled by default.")
 	public boolean keepFile;
 	
-	private File asmFile;
 
 	/**
 	 * The main method.
@@ -43,34 +42,32 @@ public class AsmetaSMVcli extends AsmetaCLI {
 	public static void main(String[] args) throws Exception {
 		AsmetaSMVcli as = new AsmetaSMVcli();
 		as.run(args);
-		if(as.asmFile != null) {
-			AsmetaSMV asmetaSMV = new AsmetaSMV(as.asmFile, !as.doNotSimplify, as.executeNuSMVmodel, !as.doNotCheckConcrete, false,false);
-			asmetaSMV.translation();
-			asmetaSMV.createNuSMVfile();
-			if(as.executeNuSMVmodel) {
-				asmetaSMV.executeNuSMV();
-			}
-		}
 	}
 
 	@Override
-	protected void runWith(File asmFile) throws CmdLineException {
+	protected RunCLIResult runWith(File asmFile) throws Exception {
 		ASMFileFilter filter = new ASMFileFilter();
 		if (! filter.accept(asmFile)) {
-			throw new CmdLineException("Error:  " + asmFile.toString()
-					+ " is not an asm file.");
+			throw new CmdLineException("Error:  " + asmFile.toString() + " is not an asm file.");
 		}
-		else {
-			this.asmFile = asmFile;
-			AsmetaSMVOptions.simplify = !doNotSimplify;
-			AsmetaSMVOptions.setCheckConcrete(!doNotCheckConcrete);
-			AsmetaSMVOptions.setRunNuSMV(executeNuSMVmodel); //execute the NuSMV model after the mapping
-			AsmetaSMVOptions.setPrintCounterExample(!disableCounterExampleComputation);
-			AsmetaSMVOptions.keepNuSMVfile = !executeNuSMVmodel || keepFile;
-			AsmetaSMVOptions.setPrintNuSMVoutput(AsmetaSMVOptions.isRunNuSMV()); //stampa l'ouput solo se il modello viene eseguito (ovviamente)
-			Util.setPath(asmFile.getPath());//percorso relativo del file asm comprensivo del nome del file
-			Util.setDir(asmFile.getParent());//percorso relativo del file senza il nome del file	
+		AsmetaSMVOptions.simplify = !doNotSimplify;
+		AsmetaSMVOptions.setCheckConcrete(!doNotCheckConcrete);
+		AsmetaSMVOptions.setRunNuSMV(executeNuSMVmodel); //execute the NuSMV model after the mapping
+		AsmetaSMVOptions.setPrintCounterExample(!disableCounterExampleComputation);
+		AsmetaSMVOptions.keepNuSMVfile = !executeNuSMVmodel || keepFile;
+		AsmetaSMVOptions.setPrintNuSMVoutput(AsmetaSMVOptions.isRunNuSMV()); //stampa l'ouput solo se il modello viene eseguito (ovviamente)
+		Util.setPath(asmFile.getPath());//percorso relativo del file asm comprensivo del nome del file
+		Util.setDir(asmFile.getParent());//percorso relativo del file senza il nome del file
+		if(asmFile != null) {
+			AsmetaSMV asmetaSMV = new AsmetaSMV(asmFile, !doNotSimplify, executeNuSMVmodel, !doNotCheckConcrete, false,false);
+			asmetaSMV.translation();
+			asmetaSMV.createNuSMVfile();
+			if(executeNuSMVmodel) {
+				asmetaSMV.executeNuSMV();
+			}
+			return RunCLIResult.SUCCESS;
 		}
+		return RunCLIResult.FATAL;
 	}
 
 	@Override

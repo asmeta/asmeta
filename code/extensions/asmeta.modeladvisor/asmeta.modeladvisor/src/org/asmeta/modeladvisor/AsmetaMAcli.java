@@ -2,8 +2,10 @@ package org.asmeta.modeladvisor;
 
 import static org.kohsuke.args4j.ExampleMode.ALL;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -13,7 +15,9 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
-public class AsmetaMAcli {
+import asmeta.cli.AsmetaCLI;
+
+public class AsmetaMAcli extends AsmetaCLI {
 	private static final String ASMETAL_FILE_NAME_ASM = "asmetalFileName.asm";
 
 	private static final String ASMETA_MA_JAR_NAME = "AsmetaMA.jar";
@@ -51,59 +55,57 @@ public class AsmetaMAcli {
 	@Option(name = "-smvSimpl", usage = "Use the simplification facility of AsmetaSMV")
 	private boolean useAsmetaSMVsimpl;
 
-	private String asmetalFileName;
-
-	// receives command line parameters other than options
-	@Argument
-	private List<String> arguments = new ArrayList<String>();
-
-	private AsmetaMA asmetaMA;
 
 	public static void main(String[] args) throws Exception {
 		Logger.getRootLogger().setLevel(Level.OFF);
-		new AsmetaMAcli().doMain(args);
+		new AsmetaMAcli().run(args);
 	}
 
-	public void doMain(String[] args) throws Exception {
-		CmdLineParser parser = new CmdLineParser(this);
+	// it is useless now
+//	public void doMain(String[] args) throws Exception {
+//		CmdLineParser parser = new CmdLineParser(this);
+//
+//		// if you have a wider console, you could increase the value;
+//		// here 80 is also the default
+//		parser.setUsageWidth(80);
+//
+//		try {
+//			// parse the arguments.
+//			parser.parseArgument(args);
+//
+//			// you can parse additional arguments if you want.
+//			// parser.parseArgument("more","args");
+//
+//			// after parsing arguments, you should check
+//			// if enough arguments are given.
+//			if (arguments.isEmpty())
+//				throw new CmdLineException("No argument is given");
+//
+//		} catch (CmdLineException e) {
+//			// if there's a problem in the command line,
+//			// you'll get this exception. this will report
+//			// an error message.
+//			System.err.println(e.getMessage());
+//			System.err.println("java -jar " + ASMETA_MA_JAR_NAME
+//					+ " [options...] "+ASMETAL_FILE_NAME_ASM);
+//			// print the list of available options
+//			parser.printUsage(System.err);
+//			System.err.println();
+//
+//			// print option sample. This is useful sometime
+//			System.err.println("  Example: java -jar " + ASMETA_MA_JAR_NAME
+//					+ parser.printExample(ALL) + " " + ASMETAL_FILE_NAME_ASM );
+//			return;
+//		}
+//
+//		// this will redirect the output to the specified output
+//		// System.out.println(out);
+//		//asmetalFileName = arguments.get(0);
+//	}
 
-		// if you have a wider console, you could increase the value;
-		// here 80 is also the default
-		parser.setUsageWidth(80);
-
-		try {
-			// parse the arguments.
-			parser.parseArgument(args);
-
-			// you can parse additional arguments if you want.
-			// parser.parseArgument("more","args");
-
-			// after parsing arguments, you should check
-			// if enough arguments are given.
-			if (arguments.isEmpty())
-				throw new CmdLineException("No argument is given");
-
-		} catch (CmdLineException e) {
-			// if there's a problem in the command line,
-			// you'll get this exception. this will report
-			// an error message.
-			System.err.println(e.getMessage());
-			System.err.println("java -jar " + ASMETA_MA_JAR_NAME
-					+ " [options...] "+ASMETAL_FILE_NAME_ASM);
-			// print the list of available options
-			parser.printUsage(System.err);
-			System.err.println();
-
-			// print option sample. This is useful sometime
-			System.err.println("  Example: java -jar " + ASMETA_MA_JAR_NAME
-					+ parser.printExample(ALL) + " " + ASMETAL_FILE_NAME_ASM );
-			return;
-		}
-
-		// this will redirect the output to the specified output
-		// System.out.println(out);
-		asmetalFileName = arguments.get(0);
-		asmetaMA = AsmetaMA.buildAsmetaMA(asmetalFileName);
+	@Override
+	protected RunCLIResult runWith(File asmFile) throws Exception {
+		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA(asmFile.getAbsolutePath());
 		if (execMpAll) {
 			execMp1 = execMp2 = execMp3 = execMp4 = execMp5 = execMp6 = execMp7 = true;
 		}
@@ -112,6 +114,10 @@ public class AsmetaMAcli {
 		AsmetaMA.USE_ASMETASMV_SIMPL = useAsmetaSMVsimpl;
 		asmetaMA.setMetapropertiesExecution(execMp1, execMp2, execMp3, execMp4,
 				execMp5, execMp6, execMp7);
-		asmetaMA.runCheck();
+		Map<String, Boolean> result = asmetaMA.runCheck();
+		// check if any meta property is violated
+		if (result.containsValue(Boolean.FALSE)) return RunCLIResult.WARNING;
+		else return RunCLIResult.SUCCESS;
+
 	}
 }
