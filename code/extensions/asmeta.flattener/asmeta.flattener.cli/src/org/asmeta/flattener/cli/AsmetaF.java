@@ -54,6 +54,10 @@ public class AsmetaF extends AsmetaCLI {
 	@Option(name = "-ALL", usage = "apply all the flatteners")
 	public boolean all = false;
 
+	
+	private AsmetaF() {}
+	
+	
 	/**
 	 * The main method.
 	 * 
@@ -70,7 +74,7 @@ public class AsmetaF extends AsmetaCLI {
 	}
 
 	@Override
-	protected void runWith(File asmFile) throws CmdLineException {
+	protected RunCLIResult runWith(File asmFile) throws CmdLineException {
 		ASMFileFilter filter = new ASMFileFilter();
 		if (!filter.accept(asmFile)) {
 			throw new CmdLineException("Error:  " + asmFile.toString() + " is not an ASM file.");
@@ -102,8 +106,10 @@ public class AsmetaF extends AsmetaCLI {
 				String flattenedAsm = AsmetaMultipleFlattener.flattenAsStr(path, flatteners);
 				System.out.println(flattenedAsm);
 				writeFlattenedAsm(flattenedAsm, path);
+				return RunCLIResult.SUCCESS;
 			} catch (Exception e) {
 				e.printStackTrace();
+				return RunCLIResult.FATAL;
 			}
 		}
 	}
@@ -127,10 +133,5 @@ public class AsmetaF extends AsmetaCLI {
 			// f.delete();
 			bw.close();
 		}
-	}
-
-	@Override
-	protected String getJar() {
-		return "AsmetaF.jar";
 	}
 }

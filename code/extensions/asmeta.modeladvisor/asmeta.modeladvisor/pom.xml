@@ -30,7 +30,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										org.asmeta.modeladvisor.AsmetaMAcli
+										org.asmeta.modeladvisor.AsmetaMA_CLI
 									</mainClass>
 								</manifest>
 							</archive>

@@ -83,7 +83,7 @@ public class Asmeta2Cpp extends AsmetaCLI {
 	}
 
 	@Override
-	protected void runWith(File asmFile) throws CmdLineException {
+	protected RunCLIResult runWith(File asmFile) throws CmdLineException {
 		ASMFileFilter filter = new ASMFileFilter();
 		if (!filter.accept(asmFile)) {
 			throw new CmdLineException("Error:  " + asmFile.toString() + " is not an asm file.");
@@ -95,6 +95,7 @@ public class Asmeta2Cpp extends AsmetaCLI {
 			}
 			TranslatorOptions options = new TranslatorOptions(FORMATTER, SHUFFLE_RANDOM, optmizeSeqRule, arduinoCompiler);
 			CompileResult result = AsmetaL2CppGeneratorMain.translate(asmFile.toString(),options, compile);
+			return RunCLIResult.SUCCESS;
 		} catch (FileNotFoundException e) {
 			error("Error: file not found " + e.getMessage());
 /*		} catch (AsmModelNotFoundException e) {
@@ -105,5 +106,6 @@ public class Asmeta2Cpp extends AsmetaCLI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return RunCLIResult.FATAL;
 	}
 }
