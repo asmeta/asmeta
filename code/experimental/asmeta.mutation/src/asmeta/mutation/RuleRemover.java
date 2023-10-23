@@ -1,14 +1,19 @@
 package asmeta.mutation;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.asmeta.simulator.IRuleVisitor;
 import org.asmeta.simulator.RuleVisitor;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.RuleDeclaration;
+import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.BasictransitionrulesFactory;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
@@ -29,16 +34,26 @@ public class RuleRemover extends AsmetaMutationOperator {
 
 	@Override
 	List<AsmCollection> mutatate(AsmCollection asmeta) {
+		// clone the asmeta
+		List<Asm> newAsms = new ArrayList<>();
+		for( Iterator<Asm> i = asmeta.iterator(); i.hasNext();) {
+			Asm asm = i.next();
+			if (asm == asmeta.getMain())
+				newAsms.add(EcoreUtil.copy(asm));
+			else
+				newAsms.add(asm);
+		}
+		AsmCollection asmc = new AsmCollection(newAsms);
 		List<AsmCollection> result = new ArrayList<>();
 		// traverse every rule declaration
-		EList<RuleDeclaration> rds = asmeta.getMain().getBodySection().getRuleDeclaration();
+		EList<RuleDeclaration> rds = asmc.getMain().getBodySection().getRuleDeclaration();
 		for(RuleDeclaration rd : rds) {
 			List<Rule> mutRules = r2s.visit(rd.getRuleBody());
 			// build the new asmetas
 			for(Rule mr: mutRules) {
 				// clone TODO
 				rd.setRuleBody(mr);
-				result.add(asmeta);
+				result.add(asmc);
 			}			
 		}		
 		return result;
@@ -68,11 +83,12 @@ public class RuleRemover extends AsmetaMutationOperator {
 			List<Rule> mutatedRules = new ArrayList<>();
 			EList<Rule> rules = block.getRules();
 			for (int i = 0; i < rules.size(); i++) {
+				List<Rule> rulesN = new ArrayList<>(EcoreUtil.copyAll(rules));
 				// TODO call recursively
 				// create a skip rule (or it can be reused?) to check
-				rules.set(i,BasictransitionrulesFactory.eINSTANCE.createSkipRule());
+				rulesN.set(i,BasictransitionrulesFactory.eINSTANCE.createSkipRule());
 				BlockRule newBlock = BasictransitionrulesFactory.eINSTANCE.createBlockRule();
-				newBlock.getRules().addAll(rules);
+				newBlock.getRules().addAll(rulesN);
 				mutatedRules.add(newBlock);
 			}
 			return mutatedRules;
