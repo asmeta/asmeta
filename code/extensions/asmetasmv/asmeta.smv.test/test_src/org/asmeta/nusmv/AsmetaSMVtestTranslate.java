@@ -17,6 +17,7 @@ import org.asmeta.flattener.nesting.RemoveNestingFlattener;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.parser.ASMFileFilter;
 import org.asmeta.parser.util.ReflectiveVisitor;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -27,6 +28,15 @@ import org.junit.Test;
 public class AsmetaSMVtestTranslate {
 
 	static final String FILE_BASE = "../../../../asm_examples/";
+	
+	@BeforeClass
+	public static void checkFileBase() {
+		File f = new File(FILE_BASE);
+		assertTrue(f.getAbsolutePath() + " does not exist", f.exists());
+		assertTrue(f.getAbsolutePath() + " does not exist", f.isDirectory());
+	} 
+	
+	
 
 	protected boolean testOneSpec(String spec) {
 		AsmetaSMVOptions options = new AsmetaSMVOptions();
