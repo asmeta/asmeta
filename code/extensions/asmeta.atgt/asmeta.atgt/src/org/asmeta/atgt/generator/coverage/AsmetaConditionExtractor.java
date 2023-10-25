@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import org.asmeta.flattener.rule.ForallRuleFlattener;
 import org.asmeta.parser.util.ReflectiveVisitor;
-import org.asmeta.simulator.IRuleVisitor;
+import org.asmeta.simulator.RuleVisitor;
 
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
@@ -23,7 +23,7 @@ import tgtlib.definitions.NamedTerm;
 import tgtlib.definitions.expression.AndExpression;
 import tgtlib.definitions.expression.Expression;
 
-public class AsmetaConditionExtractor extends  ReflectiveVisitor<List<NamedTerm>> implements IRuleVisitor<List<NamedTerm>>{
+public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 	
 	
 	public AsmetaConditionExtractor() {
@@ -31,10 +31,6 @@ public class AsmetaConditionExtractor extends  ReflectiveVisitor<List<NamedTerm>
 	
 	AsmetaToExprTrans translator = new AsmetaToExprTrans(); 
 
-	@Override
-	public List<NamedTerm> visit(Rule rule) {
-		return visit((Object) rule);
-	}
 
 	@Override
 	public List<NamedTerm> visit(SkipRule rule) {
@@ -105,7 +101,7 @@ public class AsmetaConditionExtractor extends  ReflectiveVisitor<List<NamedTerm>
 	 * @param block 
 	 * @return
 	 */
-	private List<NamedTerm> addResults(IRuleVisitor<List<NamedTerm>> visitor, BlockRule block) {
+	private List<NamedTerm> addResults(RuleVisitor<List<NamedTerm>> visitor, BlockRule block) {
 		Vector<NamedTerm> list = new Vector<NamedTerm>();
 		int i = 1;
 		for (Rule r : block.getRules()) {

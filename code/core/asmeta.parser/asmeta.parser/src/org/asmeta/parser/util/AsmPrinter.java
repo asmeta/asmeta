@@ -344,9 +344,19 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		return rules;
 	}
 
+	public void visit(RuleDeclaration rd) {
+		//if it is the main rule (it can be called wven without the model)
+		if (model!= null && rd == model.getMainrule()) {
+			visitMain((MacroDeclaration) rd);
+		} else
+			visitDef(rd);
+	}
+	
+	
 	/** print a rule declaration (not main rule) **/
 	public void visitDef(RuleDeclaration dcl) {
-		// assert model.getMainrule() != dcl;
+		// if model is not null, then check that is not the 
+		assert model == null || model.getMainrule() != dcl;
 		if (dcl instanceof MacroDeclaration) {
 			print("macro ");
 		} else {
@@ -354,7 +364,7 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		}
 		visitDef2(dcl);
 	}
-
+	// common part bewteen main and other rules
 	void visitDef2(RuleDeclaration dcl) {
 		String name = dcl.getName();
 		List<VariableTerm> vars = dcl.getVariable();

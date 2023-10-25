@@ -29,7 +29,7 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
  * @author garganti
  *
  */
-public class RuleTransformer extends ReflectiveVisitor<Rule> implements IRuleVisitor<Rule>{
+public class RuleTransformer extends RuleVisitor<Rule>{
 
 	RuleFactory ruleFactory;
 	
@@ -37,11 +37,6 @@ public class RuleTransformer extends ReflectiveVisitor<Rule> implements IRuleVis
 		ruleFactory = rf;
 	}
 	
-	@Override
-	public Rule visit(Rule rule) {
-		return visit((Object) rule);
-	}
-
 	@Override
 	public Rule visit(SkipRule rule) {
 		return rule;
