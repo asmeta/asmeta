@@ -34,7 +34,27 @@ public class RuleRemover extends AsmetaMutationOperator {
 
 	@Override
 	List<AsmCollection> mutatate(AsmCollection asmeta) {
-		// clone the asmeta
+		List<AsmCollection> result = new ArrayList<>();
+		// traverse every rule declaration
+		EList<RuleDeclaration> rds = asmeta.getMain().getBodySection().getRuleDeclaration();
+		for (int i = 0; i < rds.size(); i++) {
+			// get the i-the rule in the original ASM 
+			Rule rd = rds.get(i).getRuleBody();
+			// mutate that rule
+			List<Rule> mutRules = r2s.visit(rd);
+			// build the new asmetas
+			for(Rule mr: mutRules) {
+				// clone the original ASM
+				AsmCollection asmc = cloneAsmeta(asmeta);
+				// set as i-th rule that mutated
+				asmc.getMain().getBodySection().getRuleDeclaration().get(i).setRuleBody(mr);
+				result.add(asmc);
+			}
+		}		
+		return result;
+	}
+	// clone the asmeta (it clones only the main ASM)
+	private AsmCollection cloneAsmeta(AsmCollection asmeta) {
 		List<Asm> newAsms = new ArrayList<>();
 		for( Iterator<Asm> i = asmeta.iterator(); i.hasNext();) {
 			Asm asm = i.next();
@@ -44,19 +64,7 @@ public class RuleRemover extends AsmetaMutationOperator {
 				newAsms.add(asm);
 		}
 		AsmCollection asmc = new AsmCollection(newAsms);
-		List<AsmCollection> result = new ArrayList<>();
-		// traverse every rule declaration
-		EList<RuleDeclaration> rds = asmc.getMain().getBodySection().getRuleDeclaration();
-		for(RuleDeclaration rd : rds) {
-			List<Rule> mutRules = r2s.visit(rd.getRuleBody());
-			// build the new asmetas
-			for(Rule mr: mutRules) {
-				// clone TODO
-				rd.setRuleBody(mr);
-				result.add(asmc);
-			}			
-		}		
-		return result;
+		return asmc;
 	}
 
 	RuleToSkip r2s = new RuleToSkip();
