@@ -13,6 +13,7 @@ import org.kohsuke.args4j.Option;
 
 import asmeta.cli.ASMFileFilter;
 import asmeta.cli.AsmetaCLI;
+import asmeta.cli.AsmetaCLI.RunCLIResult;
 
 /** main class to build the program AsmetaS */
 
@@ -69,7 +70,7 @@ public class AsmetaS extends AsmetaCLI {
 	}
 
 	@Override
-	protected void runWith(File asmFile) throws CmdLineException {
+	protected RunCLIResult runWith(File asmFile) throws CmdLineException {
 		ASMFileFilter filter = new ASMFileFilter();
 		if (!filter.accept(asmFile)) {
 			throw new CmdLineException("Error:  " + asmFile.toString() + " is not an asm file.");
@@ -105,6 +106,7 @@ public class AsmetaS extends AsmetaCLI {
 				}
 				System.out.println("Final state:\n" + sim.getCurrentState().getContrLocsState());
 			}
+			return RunCLIResult.SUCCESS;
 		} catch (FileNotFoundException e) {
 			error("Error: file not found " + e.getMessage());
 		} catch (AsmModelNotFoundException e) {
@@ -115,5 +117,6 @@ public class AsmetaS extends AsmetaCLI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return RunCLIResult.FATAL;
 	}
 }

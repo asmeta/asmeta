@@ -21,24 +21,28 @@ import org.kohsuke.args4j.ExampleMode;
 import org.kohsuke.args4j.Option;
 
 public abstract class AsmetaCLI {
-	
+
 	@Option(name = "-log", usage = "log4j configuration file")
 	protected String logConfFile;
 
 	@Option(name = "-debug", usage = "set log4j level to debug")
 	protected boolean debug = false;
 
+	@Option(name = "-exit", usage = "use system.exit at the end")
+	protected boolean exit = false;
+
 	@Argument
 	private List<String> arguments = new ArrayList<String>();
 
-	
 	/**
-	 * executes the application with the arguments args
+	 * executes the application with the arguments args MUST be the last action of
+	 * the CLI
 	 * 
 	 * @param args
 	 */
 	protected final void run(String... args) {
 		CmdLineParser parser = null;
+		RunCLIResult runresult;
 		try {
 			parser = new CmdLineParser(this);
 			parser.parseArgument(args);
@@ -46,7 +50,7 @@ public abstract class AsmetaCLI {
 				throw new CmdLineException("No file is given" + Arrays.toString(args));
 			String asmPath = arguments.get(0);
 			if (asmPath.startsWith("/") || asmPath.startsWith("\\")) {
-
+				// TODO
 			}
 			if (logConfFile != null) {
 				LogManager.resetConfiguration();
@@ -69,7 +73,7 @@ public abstract class AsmetaCLI {
 			}
 			File f = new File(asmPath);
 			if (f.exists() && (f.isFile() || (f.isDirectory()))) {
-				runWith(f);
+				runresult = runWith(f);
 			} else {
 				throw new CmdLineException("Error:  file " + f.toString() + " does not exist!");
 			}
@@ -81,11 +85,25 @@ public abstract class AsmetaCLI {
 			// print the list of available options
 			parser.printUsage(System.err);
 			System.err.println();
-
 			// print option sample. This is useful some time
-			System.err.println("  Example: java -jar " + jarName + parser.printExample(ExampleMode.ALL) + " " + getExampleArgument());
+			System.err.println("  Example: java -jar " + jarName + parser.printExample(ExampleMode.ALL) + " "
+					+ getExampleArgument());
+			runresult = RunCLIResult.FATAL;
 		} catch (Exception e) {
 			e.printStackTrace();
+			runresult = RunCLIResult.FATAL;
+		}
+		// perform the system exit if required
+		if (exit) {
+			switch (runresult) {
+			case SUCCESS:
+				System.exit(0);
+			case FATAL:
+				System.exit(1);
+			case WARNING:
+				System.exit(2);
+			}
+
 		}
 	}
 
@@ -97,16 +115,26 @@ public abstract class AsmetaCLI {
 		return ASMParser.ASM_EXTENSION;
 	}
 
-	protected String getJar() {
-		return this.getClass().getSimpleName() + ".jar";
+	// return the name of the JAR. it assumes that the name of the jar is equal to the name of the class
+	// or it has a _CLI appended
+	private String getJar() {
+		String jarName = this.getClass().getSimpleName();
+		jarName = jarName.replace("_CLI", "");
+		return jarName + ".jar";
 	}
 
 	/**
 	 * specific method for subclasses: run the application with the file
 	 * 
 	 * @param asmFile
-	 * @throws CmdLineException
+	 * @throws Exception
 	 */
-	abstract protected void runWith(File asmFile) throws CmdLineException;
+	abstract protected RunCLIResult runWith(File asmFile) throws Exception;
+
+	public enum RunCLIResult {
+		SUCCESS, // everything went well
+		WARNING, // some possible errors has been found
+		FATAL // the analisys could not be completed
+	}
 
 }

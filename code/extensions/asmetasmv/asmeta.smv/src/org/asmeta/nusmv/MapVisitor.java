@@ -236,7 +236,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * @param smvFileName the name of the NuSMV file
 	 * @throws Exception
 	 */
-	public void printSmv(String smvFileName) throws Exception {
+	void printSmv(String smvFileName) throws Exception {
 		File smvFile = new File(smvFileName);
 		PrintWriter smv = null;
 		try {
@@ -249,6 +249,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			// System.out.println("destroy");
 			smvFile.deleteOnExit();// it should be "delete" (but not here). "delete" here is too early
 		}
+		smv.close();
 	}
 
 	/**

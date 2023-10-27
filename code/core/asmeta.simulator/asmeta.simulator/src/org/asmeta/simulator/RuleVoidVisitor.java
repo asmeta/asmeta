@@ -34,12 +34,8 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
  * @author garganti
  *
  */
-public class RuleVoidVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor<Void>{
+public class RuleVoidVisitor extends RuleVisitor<Void>{
 	
-	@Override
-	public Void visit(Rule rule) {
-		return visit((Object) rule);
-	}
 	
 	@Override
 	public Void visit(SkipRule rule) {
