@@ -8,7 +8,7 @@ public class AsmetaSMVOptions {
 	static boolean checkConcrete;
 	public boolean execute; // check is it the same as runNusmv?
 	private static boolean printNuSMVoutput;
-	public static String solverPath;
+	private static String solverPath;
 	public static boolean simplifyDerived = true;
 	// for AsmetaMA
 	public static boolean doAsmetaMA = false;

@@ -9,13 +9,13 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
+import org.asmeta.annotations.TestToMavenSkip;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

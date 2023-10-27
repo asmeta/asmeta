@@ -285,25 +285,8 @@ public class AsmetaSMV {
 	}
 
 	private List<String> buildCommandLine(String smvFileName) {
-		String solverName;
-		// nuXmv also accepts standard NuSMV files
-		if (AsmetaSMVOptions.getSolverPath() == null) {
-			// if (AsmetaSMVOptions.isUseNuXmv()) {
-			// solverName = "nuXmv";
-			// } else {
-			solverName = "NuSMV";
-			// }
-		} else {
-			solverName = AsmetaSMVOptions.getSolverPath();
-		}
 		List<String> commands = new ArrayList<>();
-		// to run NuSMV also on MacOS X
-		boolean isMac = System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0;
-		if (isMac) {
-			// commands.add("/bin/sh");
-			// commands.add("-c");
-			solverName = "/Applications/NuSMV/bin/NuSMV";
-		}
+		String solverName = getSolverName();
 		commands.add(solverName);
 		if (!AsmetaSMVOptions.isPrintCounterExample()) {
 			commands.add("-dcx");
@@ -335,6 +318,38 @@ public class AsmetaSMV {
 			commands.add("\"" + nusmvCommand + "\"");
 		}
 		return commands;
+	}
+	/** 
+	 * @return the solver name (with the path if necessary)
+	 */
+	static public String getSolverName() {
+		String solverName;
+		// nuXmv also accepts standard NuSMV files
+		if (AsmetaSMVOptions.getSolverPath() == null) {
+			// if (AsmetaSMVOptions.isUseNuXmv()) {
+			// solverName = "nuXmv";
+			// } else {
+			// to run NuSMV also on MacOS X
+			String os_name = System.getProperty("os.name");
+			String os_version = System.getProperty("os.version");
+			boolean isMac = os_name.toLowerCase().contains("mac");
+			boolean isWSL = os_name.contains("Linux") && os_version.contains("WSL");
+			if (isMac) {
+				// commands.add("/bin/sh");
+				// commands.add("-c");
+				solverName = "/Applications/NuSMV/bin/NuSMV";
+			} else if (isWSL){
+				// assume windows with WSL - exe is needed
+				solverName = "NuSMV.exe";
+			} else {
+				// assume windows
+				solverName = "NuSMV";
+			}
+			// }
+		} else {
+			solverName = AsmetaSMVOptions.getSolverPath();
+		}
+		return solverName;
 	}
 
 	/**

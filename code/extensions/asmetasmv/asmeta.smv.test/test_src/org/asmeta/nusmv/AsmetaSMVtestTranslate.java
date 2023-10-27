@@ -20,11 +20,13 @@ import org.asmeta.parser.util.ReflectiveVisitor;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * test all the examples in a directory parse and translate DO NOT PROVE
  * 
  */
+@Category(org.asmeta.annotations.TestToMavenSkip.class)
 public class AsmetaSMVtestTranslate {
 
 	static final String FILE_BASE = "../../../../asm_examples/";
@@ -122,32 +124,33 @@ public class AsmetaSMVtestTranslate {
 		testOneSpec(FILE_BASE + "examples/fsmsemantics/Sle/ASM_even.asm");
 	}
 
-	@Test
-	public void testExamples() {
-		testDir("examples/");
-	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testfsmsemanticsmeta_hooking() {
 		testDir("examples/fsmsemantics/meta_hooking/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testfsmsemantics() {
 		testDir("examples/fsmsemantics/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testSimpleEx() {
-		testDir("examples/simple_ex/");
+		testDir("examples/examples/simple_example/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testsluicegate() {
 		testDir("examples/sluicegate/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testtraffic_light() {
 		testDir("examples/traffic_light/");
 	}
@@ -230,16 +233,19 @@ public class AsmetaSMVtestTranslate {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testFSM() {
 		testDir("examples/fsmsemantics/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testTrafficLight() {
 		testDir("examples/traffic_light/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testExamplesModels() {
 		testDir("examples/models/");
 	}
@@ -260,11 +266,13 @@ public class AsmetaSMVtestTranslate {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testExamplesPhilo() {
 		testDir("examples/philosophers/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testProductionCell() {
 		testDir("examples/production_cell/");
 	}
@@ -275,38 +283,45 @@ public class AsmetaSMVtestTranslate {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testExamplesCluster() {
 		testDir("examples/cluster/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testExamplesAgents() {
 		testDir("examples/agents/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testExamplesSG() {
 		testDir("examples/sluicegate/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testLibrary() {
 		testDir("examples/library");
 	}
 
-	@Ignore@Test
+	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testSystemC() {
 		//some of these files are not translable
 		testDir("systemc");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void FSMSLE() {
 		testDir("examples/fsmSle/ASM_even.asm");
 	}
 
 	// examples in the current project
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAllExamples() {
 		Collection<File> testSpecInSubFolder = testSpecInSubFolder("examples");
 		assertTrue(testSpecInSubFolder.toString(), testSpecInSubFolder.isEmpty());
@@ -346,30 +361,36 @@ public class AsmetaSMVtestTranslate {
 	
 	
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testTelecamereV2() {
 		RemoveNestingFlattener.PROPAGATE_EQ = true;
 		assertTrue(testOneSpec("examples/telecamere/telecamere_v2.asm"));
 	}
-	
+		
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testPillBOX() {
 		Logger.getLogger(ReflectiveVisitor.class).setLevel(Level.ALL);
 		testOneSpec("F:\\Dati-Andrea\\GitHub\\quasmed\\PillboxASM\\pillbox_for_PropertyVerification.asm");
 	}
 	
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testPillBOX2() {
 		Logger.getLogger(ReflectiveVisitor.class).setLevel(Level.ALL);
 		testOneSpec("F:\\Dati-Andrea\\GitHub\\quasmed\\PillboxASM\\pillbox_for_PropertyVerification_1.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testpillBoxTestAG() {
 		testOneSpec("C:\\Users\\garganti\\Dropbox\\Documenti\\progetti\\quasmed_git\\PillboxASM\\pillbox_for_PropertyVerification.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAmanUndef() throws IOException {
+		// it is worng when tralsating undef .. why itis using undef and not UNDEF????
 		testOneSpec("examples/aman.asm");
 		Path fileName = Path.of("examples/aman.smv");
 		String str = Files.readString(fileName);

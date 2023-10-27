@@ -1,19 +1,44 @@
 package org.asmeta.nusmv;
 
+import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
+import org.junit.BeforeClass;
 
 public class AsmetaSMVtest {
 
+	@BeforeClass
+	public static void testNuSMVInstallation(){
+		// try to execute NUSMV
+		String solverName = AsmetaSMV.getSolverName();
+		Process proc = null;
+		try {
+			List<String> cmdarray = Arrays.asList(solverName, "-h");
+			ProcessBuilder pb = new ProcessBuilder(cmdarray);			
+			proc = pb.start();
+			// outputRunNuSMV = getOutput(smvFileName);
+		} catch (Exception e) {
+			out.println("Execution error\n" + e);
+			System.out.println("OS " + System.getProperty("os.name") + " " + System.getProperty("os.version"));
+			fail("execution of NuSMV failed");
+		} finally {
+			if (proc != null) proc.destroy();
+		}
+
+	}
+	
+	
+	
 	protected AsmetaSMV execNuSMV(String file) {
 		AsmetaSMV as = null;
 		AsmetaSMVOptions asmetaOptions = new AsmetaSMVOptions();
