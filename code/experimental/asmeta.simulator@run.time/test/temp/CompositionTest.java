@@ -58,53 +58,38 @@ public class CompositionTest {
 		}
 	}
 
-	@Test
-	public void testTrafficLightCrossManager() throws Exception {
-		//	SBAGLIATA (pedestrian || controllerTram) <|> crossmanager <||> (controller | (trafficlightA || trafficlightA || trafficlightB || trafficlightB))
-		//(pedestrian || controllerTram) <|> crossmanager <||> controller | (trafficlightA || trafficlightA || trafficlightB || trafficlightB)
-		ParN tram = new ParN(new LeafAsm(pathTrafficLightCrossManager + "pedestrian.asm"),
-				new LeafAsm(pathTrafficLightCrossManager + "controllerTram.asm"));
-		BiPipeHalfDup manager = new BiPipeHalfDup(tram, new LeafAsm(pathTrafficLightCrossManager + "crossManager.asm"));
-		ParN trafficLights = new ParN(new LeafAsm(pathTrafficLightCrossManager + "trafficlightB.asm"),
-				new LeafAsm(pathTrafficLightCrossManager + "trafficlightB.asm"),
-				new LeafAsm(pathTrafficLightCrossManager + "trafficlightA.asm"),
-				new LeafAsm(pathTrafficLightCrossManager + "trafficlightA.asm"));
-		/*PipeN trafficlightcross = new PipeN(new LeafAsm(pathTrafficLightCrossManager + "controller.asm"),
-				trafficLights);
-		BiPipeFullDup cross = new BiPipeFullDup(manager, trafficlightcross);*/
-		BiPipeFullDup cross = new BiPipeFullDup(manager, new LeafAsm(pathTrafficLightCrossManager + "controller.asm"));
-		PipeN trafficlightcross = new PipeN(cross, trafficLights);
-		while (true) {
-			trafficlightcross.eval();
-			System.out.println(" ===== new step =====");
-		}
-	}
 	
 	@Test
 	public void testTrafficLightCrossManager2() throws Exception {
 		//	SBAGLIATA (pedestrian || controllerTram) <|> crossmanager <||> (controller | (trafficlightA || trafficlightA || trafficlightB || trafficlightB))
 		//(pedestrian || controllerTram) <|> crossmanager <||> controller | (trafficlightA || trafficlightA || trafficlightB || trafficlightB)
 		LeafAsm pedestrian = new LeafAsm(pathTrafficLightCrossManager + "pedestrian.asm");
-		LeafAsm controllerTram = new LeafAsm(pathTrafficLightCrossManager + "controllerTram.asm");
-		ParN tram = new ParN(pedestrian, controllerTram);
+		LeafAsm controllerTram = new LeafAsm(pathTrafficLightCrossManager + "tram.asm");
 		LeafAsm crossManager = new LeafAsm(pathTrafficLightCrossManager + "crossManager.asm"); 
-		BiPipeHalfDup manager = new BiPipeHalfDup(tram, crossManager);
 		LeafAsm trafficLightA1 = new LeafAsm(pathTrafficLightCrossManager + "trafficlightA.asm");
 		LeafAsm trafficLightA2 = new LeafAsm(pathTrafficLightCrossManager + "trafficlightA.asm");
 		LeafAsm trafficLightB1 = new LeafAsm(pathTrafficLightCrossManager + "trafficlightB.asm");
 		LeafAsm trafficLightB2 = new LeafAsm(pathTrafficLightCrossManager + "trafficlightB.asm");
+		LeafAsm controller = new LeafAsm(pathTrafficLightCrossManager + "controller.asm");
+		ParN tram = new ParN(pedestrian, controllerTram);
+		BiPipeHalfDup manager = new BiPipeHalfDup(tram, crossManager);
 		ParN trafficLights = new ParN(trafficLightA1,trafficLightA2,trafficLightB1,trafficLightB2);
 		/*PipeN trafficlightcross = new PipeN(new LeafAsm(pathTrafficLightCrossManager + "controller.asm"),
 				trafficLights);
 		BiPipeFullDup cross = new BiPipeFullDup(manager, trafficlightcross);*/
-		LeafAsm controller = new LeafAsm(pathTrafficLightCrossManager + "controller.asm");
 		BiPipeFullDup cross = new BiPipeFullDup(manager, controller);
 		PipeN trafficlightcross = new PipeN(cross, trafficLights);
 		while (true) {
 			trafficlightcross.eval();
 			System.out.println("OUTPUT");
-			System.out.println(controller.toString());
 			System.out.println(crossManager.toString());
+			System.out.println(controller.toString());
+			System.out.println(pedestrian.toString());
+			System.out.println(controllerTram.toString());
+			System.out.println(trafficLightA1.toString());
+			System.out.println(trafficLightA2.toString());
+			System.out.println(trafficLightB1.toString());
+			System.out.println(trafficLightB2.toString());
 			System.out.println(" ===== new step =====");
 		}
 	}
