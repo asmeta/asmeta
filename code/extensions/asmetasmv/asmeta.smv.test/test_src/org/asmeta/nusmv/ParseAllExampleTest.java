@@ -12,6 +12,9 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 
+//
+// check that all the examples parse correctly
+//
 public class ParseAllExampleTest {
 
 	@Test
@@ -19,7 +22,7 @@ public class ParseAllExampleTest {
 
 		Files.walk(new File("examples").toPath()).forEach(x -> {
 			if (x.toString().endsWith(ASMParser.ASM_EXTENSION)) {
-				System.out.println(x);
+				//System.out.println(x);
 				try {
 					AsmCollection asmcollection = ASMParser.setUpReadAsm(x.toFile());
 					assertNotNull(asmcollection);

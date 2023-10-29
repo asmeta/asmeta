@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 
-public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest2 {
+public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest {
 
 
 	/*

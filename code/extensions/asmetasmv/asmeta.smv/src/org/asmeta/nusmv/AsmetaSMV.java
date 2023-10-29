@@ -122,6 +122,7 @@ public class AsmetaSMV {
 
 	void createNuSMVfile(String smvFileName) throws Exception {
 		assert mv != null : "An instance of MapVisitor must have been created previously";
+		assert ! smvFileName.endsWith(".smv");
 		this.smvFileName = smvFileName + ".smv";
 		mv.printSmv(this.smvFileName);
 	}
@@ -150,7 +151,17 @@ public class AsmetaSMV {
 			runNuXMV();
 		else {
 			List<String> commands = buildCommandLine(smvFileName);
-			runNuSMV(commands);
+			// try to get the dir 
+			// for example it can be absoplute or relative
+			File smvFile = new File(smvFileName);
+			if (smvFile.exists() && smvFile.getParentFile()!=null) {
+				smvFileName = smvFile.getName();
+				commands = buildCommandLine(smvFileName);
+				runNuSMV(commands,smvFile.getParentFile());
+			} else { 
+				commands = buildCommandLine(smvFileName);
+				runNuSMV(commands);
+			}
 			/*
 			 * if (Util.isPrintNuSMVoutput()) { c.run = false;// it stops the counter try {
 			 * t.join(); } catch (InterruptedException e) { e.printStackTrace(); } }
@@ -362,9 +373,16 @@ public class AsmetaSMV {
 	 * @throws Exception
 	 */
 	void runNuSMV(List<String> cmdarray) throws Exception {
+		// use the current dir as working dir 
+		runNuSMV(cmdarray, null);
+	}
+	// working dir since sometimes running in a different dir may cause some problems
+	// like in WSL
+	void runNuSMV(List<String> cmdarray, File workingDir) throws Exception {
 		// System.out.println(Arrays.toString(cmdarray));
 		try {
-			ProcessBuilder pb = new ProcessBuilder(cmdarray);			
+			ProcessBuilder pb = new ProcessBuilder(cmdarray);
+			pb.directory(workingDir);
 			proc = pb.start();
 			// outputRunNuSMV = getOutput(smvFileName);
 		} catch (Exception e) {

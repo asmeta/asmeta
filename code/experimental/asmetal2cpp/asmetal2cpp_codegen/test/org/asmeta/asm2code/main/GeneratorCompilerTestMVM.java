@@ -20,7 +20,7 @@ import org.junit.Test;
 import asmeta.AsmCollection;
 
 // to test with MVM 
-public class GeneratorCompilerTestMVM extends GeneratorCompilerTest2 {
+public class GeneratorCompilerTestMVM extends GeneratorCompilerTest {
 
 	@Test
 	public void testMVM() throws IOException, Exception {

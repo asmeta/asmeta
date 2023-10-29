@@ -1,5 +1,8 @@
 package org.asmeta.asm2code.compiler;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +31,7 @@ public class CppCompiler {
 
 	public static String extraOptionsWhenCompiling = "";
 
-	private static String OS = System.getProperty("os.name").toLowerCase();
+	private static String OS = System.getProperty("os.name").toLowerCase();	
 
 	// set the compiler. If it cannot find the compiler, it will return false
 	// compiler can be like:
@@ -38,15 +41,19 @@ public class CppCompiler {
 	// and will throw an exception
 	public static boolean setCompiler(String compiler) {
 		logger.debug("setting the compiler to " + compiler);
-		//if it is 
+		//if it is a complete path, no problem
 		if (Files.isExecutable(Paths.get(compiler))){
 			G_EXE = compiler;
 	       return true;
 	    }
-		// serach in the path
-		final String compilerName = compiler += (isWindows() && ! compiler.endsWith(".exe")) ? ".exe": "";
+		// only the command like g++....
+		// add exe if needed
+		final String compilerName = compiler += (isWindows() && ! compiler.endsWith(".exe")) ? ".exe": "";		
+		// search in the path
 		Map<String, String> env = System.getenv();
-		String path = env.get("Path");
+		// windows
+		String path = isWindows()?env.get("Path") : env.get("PATH");
+		assertNotNull(path);
 		logger.debug("searching the compiler in the path " + path);
 		for(String dirInPath: path.split(File.pathSeparator)){
 			File f = new File(dirInPath);
@@ -60,7 +67,11 @@ public class CppCompiler {
 		}		
 		return false;
 	}
-
+	// returns true if the compile has been set
+	public static boolean isCompilerSet() {
+		return G_EXE != null;
+	}
+	
 	private static boolean isWindows() {
 		return (OS.indexOf("win") >= 0);
 	}

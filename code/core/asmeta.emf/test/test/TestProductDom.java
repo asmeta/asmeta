@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -30,8 +31,8 @@ public class TestProductDom {
 		AbstractTd atd = DomainsFactory.eINSTANCE.createAbstractTd();
 		atd.setName("A");
 		ProductDomain pdm = DomainsFactory.eINSTANCE.createProductDomain();
-		System.out.println(pdm.getDomains().add(atd));
-		System.out.println(pdm.getDomains().add(atd));
+		assertTrue(pdm.getDomains().add(atd));
+		assertTrue(pdm.getDomains().add(atd));
 		assertEquals(2, pdm.getDomains().size());
 	}
 

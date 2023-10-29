@@ -25,6 +25,8 @@ include:
 # Job for checking wether the mvn build succeeds
 build:
   stage: build
+  # lo metto per farlo eseguire manualmente
+  allow_failure: false
   script:
     - mvn compile
 
@@ -34,8 +36,10 @@ build:
 #   To make it so that when a test fails, the pipeline job also fails.
 test-jdk8:
   stage: test
+  # lo metto per farlo eseguire manualmente
+  allow_failure: false
   script:
-    - 'mvn -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
+    - 'mvn -Dassembly.skipAssembly=true -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
   artifacts:
     when: always
     reports: # Upload the info for the job report artifact (artifact:reports:junit in this case)
@@ -52,13 +56,17 @@ test-jdk8:
 # Job for uploading the json report as artifact to gitlab.
 # Will show up in the pipeline report.
 code_quality:
+  # lo metto per farlo eseguire manualmente
+  allow_failure: false
   stage: post-test
   artifacts:
     paths: [gl-code-quality-report.json]
 
 # Job for uploading the html report as artifact to gitlab
 code_quality_html:
-  stage: post-test
+ # lo metto per farlo eseguire manualmente
+ allow_failure: false
+ stage: post-test
   extends: code_quality
   variables:
     REPORT_FORMAT: html

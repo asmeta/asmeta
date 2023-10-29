@@ -243,6 +243,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			smv = new PrintWriter(smvFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return;
 		}
 		printSmv(smvFileName, smv);
 		if (!AsmetaSMVOptions.keepNuSMVfile) {

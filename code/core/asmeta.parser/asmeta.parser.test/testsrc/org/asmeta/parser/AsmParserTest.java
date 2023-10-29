@@ -34,12 +34,15 @@ import asmeta.AsmCollection;
  *
  */
 public class AsmParserTest {
+	
 	private static final boolean CHECK_EQUALITY = false;
 
-	//@BeforeClass
+	static Logger log;
+	
+	@BeforeClass
 	public static void setUpLogger() {
-		/*Logger log = Logger.getLogger("org.asmeta.parser");
-		if (!log.getAllAppenders().hasMoreElements())
+		log = Logger.getLogger("org.asmeta.parser");
+		/*if (!log.getAllAppenders().hasMoreElements())
 		log.addAppender(new ConsoleAppender(new SimpleLayout()));
 		log.setLevel(Level.ALL);
 		Logger.getLogger(Utility.class).setLevel(Level.ALL);
@@ -82,7 +85,7 @@ public class AsmParserTest {
 			AsmCollection testOneSpec = testOneSpec(f, false, false);
 			if (testOneSpec == null){
 				 failedSpec.add(f);
-				 System.err.println(" failed " + f);
+				 log.error(" failed " + f);
 			}	
 		}
 		// test recursively dirs
@@ -140,7 +143,7 @@ public class AsmParserTest {
 				try {
 					printer.visit(x.getMain());
 				} catch (Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 					fail("errors when visiting the spec "+ spec);
 				} finally{
 					System.out.println(writer.getString());					
@@ -152,12 +155,12 @@ public class AsmParserTest {
 			}
 			return x;
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("in file " + spec.getPath());
+			//e.printStackTrace();
+			log.error("in file " + spec.getPath() + "exception " + e.getMessage());
 			return null;
 		} catch (Error e) {
-			e.printStackTrace();
-			System.err.println("in file " + spec.getPath());
+			//e.printStackTrace();
+			log.error("in file " + spec.getPath() + " error " + e.getMessage());
 			return null;
 		}
 	}

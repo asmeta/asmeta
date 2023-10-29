@@ -51,7 +51,7 @@ public class JsonGeneratorTest {
 
 	static void test(String asmFilePath) throws IOException, Exception {
 		File asmFile = new File(asmFilePath);
-		File jsonFile = new File(asmFile.getPath().replace(AsmToCGenerator.Ext, JsonGenerator.Ext));
+		File jsonFile = new File(asmFile.getPath().replace(ASMParser.ASM_EXTENSION, JsonGenerator.Ext));
 		assert asmFile.exists();
 		try {
 			Asm model = ASMParser.setUpReadAsm(asmFile).getMain();
@@ -70,7 +70,7 @@ public class JsonGeneratorTest {
 		assert directory.exists();
 		File[] fList = directory.listFiles();
 		for (File file : fList) {
-			if (file.isFile() && file.getName().endsWith(AsmToCGenerator.Ext)) {
+			if (file.isFile() && file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
 				allAsmFiles.add(file);
 			} else if (file.isDirectory() && level > 0) {
 				listf(file.getPath(), allAsmFiles, --level);
