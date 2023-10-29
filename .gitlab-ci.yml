@@ -64,7 +64,9 @@ code_quality:
 
 # Job for uploading the html report as artifact to gitlab
 code_quality_html:
- stage: post-test
+  # lo metto per farlo eseguire manualmente
+  allow_failure: false
+  stage: post-test
   extends: code_quality
   variables:
     REPORT_FORMAT: html
