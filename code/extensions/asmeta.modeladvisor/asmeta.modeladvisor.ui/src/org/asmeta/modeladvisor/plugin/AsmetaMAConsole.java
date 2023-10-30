@@ -2,28 +2,17 @@ package org.asmeta.modeladvisor.plugin;
 
 import java.io.IOException;
 
+import org.asmeta.eclipse.AsmetaConsole;
 import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
-public class AsmetaMAConsole extends IOConsole {
+public class AsmetaMAConsole extends AsmetaConsole {
+	
+	
 	public static final String CONSOLE_NAME = "AsmetaMA console";
 
 	public AsmetaMAConsole() {
-		super(CONSOLE_NAME, null);			
+		super(CONSOLE_NAME);			
 	}	
 	
-	/** write a simple string message
-	 * 
-	 * @param s
-	 */
-	public void writeMessage(String s){
-		IOConsoleOutputStream output = newOutputStream();
-		try {
-			output.write(s + "\n");
-			output.flush();
-			output.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
-	}
 }

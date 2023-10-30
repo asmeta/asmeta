@@ -93,7 +93,7 @@ public class ParserResultLogger { // DO NOT EXTEND LOGGER !!! USE COMPOSITION TO
 	}
 	// DEBUG
 	public void logDebug(String s){
-		log.debug("LOGGGER " + log.getName() + " " + log.getLevel());
+		//log.debug("LOGGGER " + log.getName() + " " + log.getLevel());
 		log.debug(s);
 	}
 
@@ -111,7 +111,7 @@ public class ParserResultLogger { // DO NOT EXTEND LOGGER !!! USE COMPOSITION TO
 	
 	// add appender	
 	public void addAppender(Appender arg0){
-		// I don't want to many appenders
+		// I don't want too many appenders
 		if (Collections.list(log.getAllAppenders()).size()==0)
 			log.addAppender(arg0);
 	}

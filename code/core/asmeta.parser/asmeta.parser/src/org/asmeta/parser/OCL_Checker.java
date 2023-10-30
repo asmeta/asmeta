@@ -131,6 +131,7 @@ public class OCL_Checker {
 
 	private static String MSG_ERR = "";
 
+	// when the OCL checker returns false, to know the error use this method
 	public static String getMsgErr() {
 		return MSG_ERR;
 	}
@@ -2965,13 +2966,4 @@ public class OCL_Checker {
 		}
 		return true;
 	}
-
-	public static void setMSG_ERR(String mSG_ERR) {
-		MSG_ERR = mSG_ERR;
-	}
-
-	public static String getMSG_ERR() {
-		return MSG_ERR;
-	}
-
 }// Class end

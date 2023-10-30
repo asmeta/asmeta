@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.animator.feature"
       label="Asmeta Animator"
-      version="22.09"
+      version="23.07"
       provider-name="fmse.di.unimi.it">
 
    <description url="https://asmeta.github.io/download/asmetaA.html">
@@ -25,15 +25,17 @@ See https://asmeta.github.io
    </url>
 
    <requires>
+      <import plugin="org.eclipse.swt"/>
       <import plugin="org.eclipse.ui" version="3.107.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore" version="2.11.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.xtext.xbase.lib"/>
-      <import plugin="org.eclipse.xtend.lib"/>
-      <import plugin="org.eclipse.xtend.lib.macro"/>
-      <import plugin="org.eclipse.swt"/>
-      <import feature="org.asmeta.simulator.feature"/>
+      <import plugin="asmeta.emf"/>
+      <import plugin="asmeta.simulator"/>
+      <import plugin="asmeta.parser"/>
+      <import plugin="org.apache.log4j"/>
+      <import plugin="org.eclipse.equinox.p2.ui"/>
+      <import plugin="asmeta.simulator.ui"/>
+      <import plugin="org.eclipse.ui.console"/>
    </requires>
 
    <plugin

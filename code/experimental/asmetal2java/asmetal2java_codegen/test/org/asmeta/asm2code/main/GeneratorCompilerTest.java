@@ -363,14 +363,13 @@ public class GeneratorCompilerTest {
 		File[] fList = directory.listFiles();
 		
 		for (File file : fList) {
-			
-			if(!file.getName().equals("StandardLibrary.asm"))
-			{
-			if (file.isFile() && file.getName().endsWith(".asm")) {
-				files.add(file);
-			} else if (file.isDirectory()) {
-				listf(file.getAbsolutePath(), files);
-			}
+
+			if (!file.getName().equals("StandardLibrary.asm")) {
+				if (file.isFile() && file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
+					files.add(file);
+				} else if (file.isDirectory()) {
+					listf(file.getAbsolutePath(), files);
+				}
 			}
 		}
 		

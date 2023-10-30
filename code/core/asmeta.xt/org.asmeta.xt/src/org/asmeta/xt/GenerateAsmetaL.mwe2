@@ -42,6 +42,9 @@ Workflow {
 			validator = {
 			// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
 			}
+			contentAssist = {
+				generateStub = true
+			}			
 			parserGenerator = {
 				debugGrammar = true
 				options = {

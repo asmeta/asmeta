@@ -15,6 +15,7 @@ import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
@@ -162,6 +163,10 @@ public class GetMonitoredFunctionsUsedInTerm extends ReflectiveVisitor<Set<Funct
 	}
 
 	public Set<Function> visit(SkipRule r) {
+		return Collections.EMPTY_SET;
+	}
+	
+	public Set<Function> visit(UndefTerm r) {
 		return Collections.EMPTY_SET;
 	}
 

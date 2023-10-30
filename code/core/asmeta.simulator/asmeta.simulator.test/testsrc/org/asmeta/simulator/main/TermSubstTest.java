@@ -43,9 +43,8 @@ public class TermSubstTest {
 		Term term = uRule.getUpdatingTerm();
 		TermAssignment macroAssignment = new TermAssignment();
 		macroAssignment.put(rBar.getCalledMacro().getVariable(), rBar.getParameters());
-		TermSubstitution subst = new TermSubstitution(macroAssignment);
+		TermSubstitution subst = new TermSubstitution(macroAssignment, new RuleFactory());
 		TermSubstitution.varSuffix = 0;
-		TermSubstitution.ruleFactory = new RuleFactory();
 		Term newTerm = subst.visit(term);
 		return AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(newTerm);
 	}

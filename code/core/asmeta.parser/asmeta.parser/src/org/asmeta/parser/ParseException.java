@@ -50,20 +50,13 @@ public class ParseException extends Exception {
   /** Constructor with message. */
   public ParseException(String message) {
     super(message);
-  }
-
-  /** ASMETA TEAM:
-   *  Constructor with message and current token - added for convenience */
-  public ParseException(String message, final Token currentToken) {
-	    super(message +  (currentToken !=null? "Line: " + currentToken.beginLine + " column: " + currentToken.beginColumn : ""));
-  }
-  
-  
+  }  
+ 
 
   /**
    * This is the last token that has been consumed successfully.  If
    * this object has been created due to a parse error, the token
-   * followng this token will (therefore) be the first error token.
+   * following this token will (therefore) be the first error token.
    */
   public Token currentToken;
 

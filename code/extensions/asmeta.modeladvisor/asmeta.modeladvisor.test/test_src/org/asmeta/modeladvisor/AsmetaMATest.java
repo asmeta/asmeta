@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.asmeta.nusmv.AsmetaSMVOptions;
+import org.asmeta.modeladvisor.AsmetaMA.ExecCheck;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
@@ -23,9 +25,10 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 public class AsmetaMATest {
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testCaseRuleIsComplete() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/caseIsComplete.asm");
-		asmetaMA.execCaseRuleIsComplete = true;
+		asmetaMA.activateExecCheck(ExecCheck.execCaseRuleIsComplete,true);
 		asmetaMA.runCheck();
 		int numOfComplete = 0;
 		for(boolean result: asmetaMA.caseRuleIsCompl.getCaseRuleComplete().values()) {
@@ -42,15 +45,17 @@ public class AsmetaMATest {
 		// used to work but now it does not produce anything
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/certifierRaff5.asm");
 		asmetaMA.setAllMetapropertiesExecution();
-		asmetaMA.runCheck();
+		Map<String, Boolean> result = asmetaMA.runCheck();
+		System.out.println(result);
 	}
 
 	
 	@Test
 	public void testChooseBoolean() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/chooseBoolean.asm");
-		asmetaMA.execRuleIsReached = true;
-		asmetaMA.runCheck();
+		asmetaMA.activateExecCheck(ExecCheck.execRuleIsReached,true);
+		Map<String, Boolean> result = asmetaMA.runCheck();
+		System.out.println(result);
 		assertEquals(0, asmetaMA.ruleIsReached.neverReachedRule.size());
 		assertEquals(2, asmetaMA.ruleIsReached.notAlwaysReachedRule.size());
 	}
@@ -60,7 +65,7 @@ public class AsmetaMATest {
 		Set<String> expectedAlwaysNot = new HashSet<String>();
 		expectedAlwaysNot.add("$x");
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/chooseAlwaysNotEmpty.asm");
-		asmetaMA.execChooseRuleEmpty = true;
+		asmetaMA.activateExecCheck(ExecCheck.execChooseRuleEmpty,true);
 		asmetaMA.runCheck();
 		Set<ChooseRule> alwaysNot = asmetaMA.chooseRuleIsEmpty.chooseRuleAlwaysNotEmpty;
 		Set<ChooseRule> notAlways = asmetaMA.chooseRuleIsEmpty.chooseRuleNotAlwaysEmpty;
@@ -80,7 +85,7 @@ public class AsmetaMATest {
 		Set<String> expectedAlways = new HashSet<String>();
 		expectedAlways.add("$x");
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/chooseAlwaysEmpty.asm");
-		asmetaMA.execChooseRuleEmpty = true;
+		asmetaMA.activateExecCheck(ExecCheck.execChooseRuleEmpty,true);
 		asmetaMA.runCheck();
 		Set<ChooseRule> alwaysNot = asmetaMA.chooseRuleIsEmpty.chooseRuleAlwaysNotEmpty;
 		Set<ChooseRule> notAlways = asmetaMA.chooseRuleIsEmpty.chooseRuleNotAlwaysEmpty;
@@ -100,6 +105,7 @@ public class AsmetaMATest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testChooseRuleIsEmpty() throws Exception {
 		Set<String> expectedAlwaysNot = new HashSet<String>();
 		expectedAlwaysNot.add("$o");
@@ -114,7 +120,7 @@ public class AsmetaMATest {
 		Set<String> expectedNeverExecuted = new HashSet<String>();
 		expectedNeverExecuted.add("$y");
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/chooseEmpty.asm");
-		asmetaMA.execChooseRuleEmpty = true;
+		asmetaMA.activateExecCheck(ExecCheck.execChooseRuleEmpty,true);
 		asmetaMA.runCheck();
 		Set<ChooseRule> alwaysNot = asmetaMA.chooseRuleIsEmpty.chooseRuleAlwaysNotEmpty;
 		Set<ChooseRule> notAlways = asmetaMA.chooseRuleIsEmpty.chooseRuleNotAlwaysEmpty;
@@ -143,7 +149,7 @@ public class AsmetaMATest {
 		Set<String> expectedAlwaysNot = new HashSet<String>();
 		expectedAlwaysNot.add("$x");
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/chooseNeverExecuted.asm");
-		asmetaMA.execChooseRuleEmpty = true;
+		asmetaMA.activateExecCheck(ExecCheck.execChooseRuleEmpty,true);
 		asmetaMA.runCheck();
 		Set<ChooseRule> alwaysNot = asmetaMA.chooseRuleIsEmpty.chooseRuleAlwaysNotEmpty;
 		Set<ChooseRule> notAlways = asmetaMA.chooseRuleIsEmpty.chooseRuleNotAlwaysEmpty;
@@ -154,9 +160,10 @@ public class AsmetaMATest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testCondRuleEvalToTrue() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/condIsEvalToTrue.asm");
-		asmetaMA.execCondRuleEvalToTrue = true;
+		asmetaMA.activateExecCheck(ExecCheck.execCondRuleEvalToTrue,true);
 		asmetaMA.runCheck();
 		assertEquals(3, asmetaMA.condRuleEval.getNeverThen().size());
 		assertEquals(1, asmetaMA.condRuleEval.getNeverElse().size());
@@ -164,9 +171,10 @@ public class AsmetaMATest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testCondRuleIsComplete() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/condIsComplete.asm");
-		asmetaMA.execCondRuleIsComplete = true;
+		asmetaMA.activateExecCheck(ExecCheck.execCondRuleIsComplete,true);
 		asmetaMA.runCheck();
 		int numTrue = 0;
 		int numFalse = 0;
@@ -198,7 +206,7 @@ public class AsmetaMATest {
 		funcCouldBeStaticExpected.add("fooE");
 		funcCouldBeStaticExpected.add("fooG");
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/controlledLocationCouldBeStatic.asm");
-		asmetaMA.execContrLocCouldBeStatic = true;
+		asmetaMA.activateExecCheck(ExecCheck.execContrLocCouldBeStatic,true);
 		asmetaMA.runCheck();
 		assertEquals(asmetaMA.contrLocStatic.locCouldBeStatic.size(), locCouldBeStaticExpected.size());
 		for(String location: asmetaMA.contrLocStatic.locCouldBeStatic) {
@@ -218,7 +226,7 @@ public class AsmetaMATest {
 		neverUpdated.add("fooF_BB");
 		neverUpdated.add("fooG");
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/contrLocIsUpdated.asm");
-		asmetaMA.execContrLocIsUpdated = true;
+		asmetaMA.activateExecCheck(ExecCheck.execContrLocIsUpdated,true);
 		asmetaMA.runCheck();
 		for(String location: asmetaMA.contrLocIsUpdated.neverUpdatedLocation) {
 			assertTrue(neverUpdated.contains(location));
@@ -228,7 +236,7 @@ public class AsmetaMATest {
 	@Test
 	public void testContrLocTakesEveryValue() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/contrLocAllValues.asm");
-		asmetaMA.execContrLocTakesEveryValue = true;
+		asmetaMA.activateExecCheck(ExecCheck.execContrLocTakesEveryValue,true);
 		asmetaMA.runCheck();
 
 		Map<String, List<Integer>> funcCouldBeResized = new HashMap<String, List<Integer>>();
@@ -290,9 +298,10 @@ public class AsmetaMATest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testDomainAllUsed() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/usedDomain.asm");
-		asmetaMA.execDomainAllUsed = true;
+		asmetaMA.activateExecCheck(ExecCheck.execDomainAllUsed,true);
 		asmetaMA.runCheck();
 		Map<String, Set<String>> expectedUsedVals = new HashMap<String, Set<String>>();
 		expectedUsedVals.put("EnumDom", new HashSet<String>());
@@ -359,7 +368,7 @@ public class AsmetaMATest {
 	@Test
 	public void testDomainAllUsed2() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/usedDomain2.asm");
-		asmetaMA.execDomainAllUsed = true;
+		asmetaMA.activateExecCheck(ExecCheck.execDomainAllUsed,true);
 		asmetaMA.runCheck();
 		Map<String, Set<String>> expectedUsedVals = new HashMap<String, Set<String>>();
 		expectedUsedVals.put("EnumDom", new HashSet<String>());
@@ -403,6 +412,7 @@ public class AsmetaMATest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testForallRuleIsEmpty() throws Exception {
 		Set<String> expectedAlwaysNot = new HashSet<String>();
 		expectedAlwaysNot.add("$x");
@@ -416,7 +426,7 @@ public class AsmetaMATest {
 		expectedAlways.add("$y");
 		expectedAlways.add("$d");
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/forallEmpty.asm");
-		asmetaMA.execForallRuleEmpty = true;
+		asmetaMA.activateExecCheck(ExecCheck.execForallRuleEmpty,true);
 		asmetaMA.runCheck();
 		Set<ForallRule> alwaysNot = asmetaMA.forallRuleIsEmpty.forallRuleAlwaysNotEmpty;
 		Set<ForallRule> notAlways = asmetaMA.forallRuleIsEmpty.forallRuleNotAlwaysEmpty;
@@ -438,7 +448,7 @@ public class AsmetaMATest {
 	@Test
 	public void testInconsistentUpdate() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/inconsistentUpdates.asm");
-		asmetaMA.execInconsistentUpdates = true;
+		asmetaMA.activateExecCheck(ExecCheck.execInconsistentUpdates,true);
 		asmetaMA.runCheck();
 		Map<String, Integer> exptectedInconUpdate = new HashMap<String, Integer>();
 		exptectedInconUpdate.put("fooA", 6);
@@ -457,7 +467,7 @@ public class AsmetaMATest {
 	@Test
 	public void testLocationCouldBeRemoved() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/locationCouldBeRemoved.asm");
-		asmetaMA.execLocationCouldBeRemoved = true;
+		asmetaMA.activateExecCheck(ExecCheck.execLocationCouldBeRemoved,true);
 		asmetaMA.runCheck();
 		Set<String> initButNeverUsedControlledLocation = new HashSet<String>();
 		initButNeverUsedControlledLocation.add("fooA");
@@ -495,7 +505,7 @@ public class AsmetaMATest {
 	@Test
 	public void testMacroCallRuleIsReached() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/macroRuleReached.asm");
-		asmetaMA.execMacroCallRuleIsReached = true;
+		asmetaMA.activateExecCheck(ExecCheck.execMacroCallRuleIsReached,true);
 		asmetaMA.runCheck();
 		Set<String> neverReachedRule = new HashSet<String>();
 		neverReachedRule.add("r_e");
@@ -512,7 +522,7 @@ public class AsmetaMATest {
 	@Test
 	public void testMacroRuleCalled() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/macroRuleCalled.asm");
-		asmetaMA.execMacroRuleCalled = true;
+		asmetaMA.activateExecCheck(ExecCheck.execMacroRuleCalled,true);
 		asmetaMA.runCheck();
 		String ruleName;
 		Map<MacroDeclaration, Integer> numOfCalls = asmetaMA.macroRuleCalled.numOfCalls;
@@ -539,16 +549,17 @@ public class AsmetaMATest {
 	@Test
 	public void testRuleIsReached() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/ruleIsReached.asm");
-		asmetaMA.execRuleIsReached = true;
+		asmetaMA.activateExecCheck(ExecCheck.execRuleIsReached,true);
 		asmetaMA.runCheck();
 		assertEquals(1, asmetaMA.ruleIsReached.neverReachedRule.size());
 		assertEquals(1, asmetaMA.ruleIsReached.notAlwaysReachedRule.size());
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testStatDerIsUsed() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/statDerIsUsed.asm");
-		asmetaMA.execStatDerIsUsed = true;
+		asmetaMA.activateExecCheck(ExecCheck.execStatDerIsUsed,true);
 		asmetaMA.runCheck();
 
 		Set<String> expectedDerFuncNeverUsed = new HashSet<String>();
@@ -620,7 +631,7 @@ public class AsmetaMATest {
 	@Test
 	public void testTrivialUpdate() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/trivialUpdate.asm");
-		asmetaMA.execNoTrivialUpdate = true;
+		asmetaMA.activateExecCheck(ExecCheck.execNoTrivialUpdate,true);
 		asmetaMA.runCheck();
 		assertEquals(asmetaMA.trivialUpdate.trivialUpdate.size(), 6);
 		assertArrayEquals(new String[]{"fooF", "(TRUE & !(fooB = AA))", "BB"}, asmetaMA.trivialUpdate.trivialUpdate.get(0));
@@ -635,7 +646,7 @@ public class AsmetaMATest {
 	/*@Test
 	public void testTrivialUpdate2() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/trivialUpdate2.asm");
-		asmetaMA.execNoTrivialUpdate = true;
+		asmetaMA.activateExecCheck(ExecCheck.execNoTrivialUpdate,true);
 		asmetaMA.runCheck();
 		assertEquals(asmetaMA.trivialUpdate.trivialUpdate.size(), 1);
 		String[] res = asmetaMA.trivialUpdate.trivialUpdate.get(0);
@@ -645,22 +656,25 @@ public class AsmetaMATest {
 	/*@Test
 	public void testRuleIsssssReached() throws Exception {
 		Smv4Val asmetaMA = new Smv4Val("../tosmv/examples/MAS_progetti/irrigazione/mine3agents/main.asm");
-		asmetaMA.execInconsistentUpdates = true;
+		asmetaMA.activateExecCheck(ExecCheck.execInconsistentUpdates,true);
 		asmetaMA.runCheck();
 	}*/
 	
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testLet() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("../../../../asm_examples/Casestudy/ASM model/CarSystem_adaptive_high_beam2.asm");
-		asmetaMA.execInconsistentUpdates = true;
+		asmetaMA.activateExecCheck(ExecCheck.execInconsistentUpdates,true);
 		AsmetaSMVOptions.setPrintNuSMVoutput(true);
 		asmetaMA.runCheck();
 	}
 	
 	@Test
-	public void main() throws Exception {
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	public void testTrafficMonitor() throws Exception {
 		Set<String> funcNamesForMP1 = new HashSet<String>();
 		funcNamesForMP1.add("stateSHC");
+		// not sure where this file is
 		AsmetaMA s =  AsmetaMA.buildAsmetaMA("trafficMonitoringForExperimentsModelReview4.asm");		
 		//, funcNamesForMP1
 		s.setMetapropertiesExecution(true, false, false, false, false, false, false);
@@ -673,7 +687,7 @@ public class AsmetaMATest {
 		// questo elimina lil consiteupdate durante la traduzione
 		//TOFIX
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/inconsistentUpdatesSimple.asm");
-		asmetaMA.execInconsistentUpdates = true;
+		asmetaMA.activateExecCheck(ExecCheck.execInconsistentUpdates,true);
 		AsmetaSMVOptions.setPrintNuSMVoutput(true);
 		asmetaMA.runCheck();		
 		System.out.println(asmetaMA.inconUpd.inconUpdate);
@@ -681,9 +695,9 @@ public class AsmetaMATest {
 
 	@Test
 	public void testIncosistentUpdate2() throws Exception {
-		// questo è corretto
+		// this is correct
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/inconsistentUpdatesSimple2.asm");
-		asmetaMA.execInconsistentUpdates = true;
+		asmetaMA.activateExecCheck(ExecCheck.execInconsistentUpdates,true);
 		AsmetaSMVOptions.setPrintNuSMVoutput(true);
 		asmetaMA.runCheck();		
 		assertTrue(asmetaMA.inconUpd.inconUpdate.containsKey("fooG"));

@@ -39,12 +39,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.WriterAppender;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
 import org.asmeta.parser.util.AsmetaTermPrinter;
@@ -89,6 +89,7 @@ public class Simulator {
 	protected List<Invariant> controlledInvariants;
 	private List<Invariant> monitoredInvariants;
 
+	/** simulator logger with only ONE appender */
 	public static class SimulatorLogger {
 		public static Logger logger = Logger.getLogger(Simulator.class);
 
@@ -173,12 +174,12 @@ public class Simulator {
 	 * The main rule of the model.
 	 *
 	 */
-	private Rule mainRule;
+	protected Rule mainRule;
 
 	/**
 	 * The number of the current state.
 	 */
-	private int numOfState;// PA: 10 giugno 2010
+	protected int numOfState;// PA: 10 giugno 2010
 
 	/**
 	 * Constructor.

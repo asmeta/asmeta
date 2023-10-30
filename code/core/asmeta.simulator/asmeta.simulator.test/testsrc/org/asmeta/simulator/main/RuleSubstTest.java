@@ -40,10 +40,9 @@ public class RuleSubstTest {
 		TermAssignment macroAssignment = new TermAssignment();
 		macroAssignment.put(rBar.getCalledMacro().getVariable(),
 				rBar.getParameters());
-		RuleSubstitution subst = new RuleSubstitution(macroAssignment);
+		RuleSubstitution subst = new RuleSubstitution(macroAssignment,new RuleFactory());
 		// NOTE: remember to reset class variables
 		TermSubstitution.varSuffix = 0;
-		TermSubstitution.ruleFactory = new RuleFactory();
 		Rule newRule = subst.visit(rule);
 		return new RulePrinter(false).visit(newRule);
 	}

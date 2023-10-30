@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.validator.feature"
       label="Asmeta validator"
-      version="22.09"
+      version="23.07"
       provider-name="fmse.di.unimi.it">
 
    <description>
@@ -53,7 +53,7 @@ See https://asmeta.github.io
       <import plugin="org.eclipse.xtext.builder"/>
       <import plugin="org.eclipse.xtext.ide"/>
       <import plugin="org.eclipse.xtext.xbase.ide"/>
-      <import feature="org.asmeta.simulator.feature" version="22.09"/>
+      <import feature="org.asmeta.simulator.feature" version="23.07"/>
    </requires>
 
    <plugin

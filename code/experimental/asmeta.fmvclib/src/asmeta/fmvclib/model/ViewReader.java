@@ -35,4 +35,13 @@ public class ViewReader extends MonFuncReader {
 	public void addValue(String locationName, Value value) {
 		this.locationMemory.put(locationName, value);
 	}
+	
+	/**
+	 * Returns the location memory of the reader
+	 * 
+	 * @return the location memory
+	 */
+	public Map<String, Value> getLocationMemory() {
+		return this.locationMemory;
+	}
 }

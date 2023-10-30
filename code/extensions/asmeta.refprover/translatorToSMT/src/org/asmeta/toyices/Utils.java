@@ -10,6 +10,7 @@ import java.util.Stack;
 import org.asmeta.parser.Defs;
 
 import asmeta.definitions.Function;
+import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.AgentDomain;
 import asmeta.definitions.domains.BooleanDomain;
 import asmeta.definitions.domains.ConcreteDomain;
@@ -117,37 +118,38 @@ public class Utils {
 		}
 	}
 
-	public static void combineValues(List<Domain> domains, int index, ArrayList<String[]> result, Stack<String> tupla, YicesModel yicesModel) {
-		assert domains.size() > index: "domains.size() = " + domains.size() + " index = " + index;
+	public static void combineValues(List<Domain> domains, int index, ArrayList<String[]> result, Stack<String> tupla,
+			YicesModel yicesModel) {
+		assert domains.size() > index : "domains.size() = " + domains.size() + " index = " + index;
 		Domain domain = domains.get(index);
 		List<String> values = new ArrayList<String>();
-		if(domain instanceof BooleanDomain) { 
+		if (domain instanceof BooleanDomain) {
 			values.add("false");
 			values.add("true");
-		}
-		else {
+		} else {
 			String domainName = domain.getName();
-			if(domain instanceof EnumTd) {
+			if (domain instanceof EnumTd) {
 				Map<String, String[]> enumValues = yicesModel.enumValues;
-				for(String v: enumValues.get(domainName)) {
+				for (String v : enumValues.get(domainName)) {
 					values.add(v);
 				}
-			}
-			else if(domain instanceof ConcreteDomain) {
+			} else if (domain instanceof ConcreteDomain) {
 				TypeDomain typeDomain = ((ConcreteDomain) domain).getTypeDomain();
-				if(typeDomain instanceof IntegerDomain) {
+				if (typeDomain instanceof IntegerDomain) {
 					Map<String, Integer[]> intValues = yicesModel.intValues;
-					assert intValues.get(domainName) != null: "We do not have the values of " + domainName + "\navailable concrete domains: " + yicesModel.domainIntValues;
-					for(Integer v: intValues.get(domainName)) {
+					assert intValues.get(domainName) != null : "We do not have the values of " + domainName
+							+ "\navailable concrete domains: " + yicesModel.domainIntValues;
+					for (Integer v : intValues.get(domainName)) {
 						values.add(String.valueOf(v));
 					}
-				}
-				else if(typeDomain instanceof AgentDomain) {
+				} else if (typeDomain instanceof AgentDomain) {
 					Map<String, List<String>> agentValues = yicesModel.agentValues;
 					values.addAll(agentValues.get(domainName));
 				}
-			}
-			else {
+			} else if (domain instanceof AbstractTd) {
+				// no value to combine
+			} else {
+
 				System.err.println(domain.getClass().getSimpleName());
 				throw new Error(domain.getName() + " not supported");
 			}

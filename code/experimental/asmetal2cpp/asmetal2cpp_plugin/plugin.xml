@@ -51,7 +51,7 @@
                id="uasm2code_inoproject.toolbars.sampleToolbar">
             <command
                   commandId="uasm2code_inoproject.commands.sampleCommand"
-                  icon="icons/sample.gif"
+                  icon="icons/asmeta2c++.gif"
                   tooltip="Generate Arduino code!"
                   id="uasm2code_inoproject.toolbars.sampleCommand">
             </command>

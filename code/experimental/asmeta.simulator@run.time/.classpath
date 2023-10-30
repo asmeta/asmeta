@@ -3,6 +3,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.animator"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.simulator"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.parser"/>

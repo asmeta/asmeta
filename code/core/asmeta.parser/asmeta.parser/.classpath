@@ -17,6 +17,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="/asmeta.emf"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

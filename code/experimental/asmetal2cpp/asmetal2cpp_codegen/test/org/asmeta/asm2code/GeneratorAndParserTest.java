@@ -1,9 +1,12 @@
 package org.asmeta.asm2code;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 import org.asmeta.asm2code.main.HeaderGenerator;
 import org.asmeta.parser.ASMParser;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.inject.Inject;
@@ -15,14 +18,22 @@ import asmeta.structure.Asm;
 
 public class GeneratorAndParserTest {
 
-	String path = "../asm_examples/examples/";
+	static String path = "../../../../asm_examples/examples/";
 	// String arduinoMakeFolder =
 	// "D:/modeling-mars-codegen/eclipse/arduinoPlugin/tools/make/";
-	String pathToArduinoProject = "ArduinoGeneratedProject/";
+	static String pathToArduinoProject = "ArduinoGeneratedProject/";
 
 	@Inject
 	private HeaderGenerator underTest;
 
+	@BeforeClass
+	public static void checkPath() throws Exception {
+		assertTrue(new File(path).exists());
+		assertTrue(new File(path).isDirectory());
+	}
+
+	
+	
 	@Test
 	public void testcards() throws Exception {
 		testAsm(path + "cards.asm");

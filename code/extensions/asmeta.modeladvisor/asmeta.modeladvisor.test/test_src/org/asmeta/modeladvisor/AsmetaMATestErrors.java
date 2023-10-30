@@ -1,6 +1,7 @@
 package org.asmeta.modeladvisor;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 public class AsmetaMATestErrors {
 
@@ -12,6 +13,7 @@ public class AsmetaMATestErrors {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testABZ20CaseStudy() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("/Users/parcaini/Desktop/testiAsmeta/ABZ2020_casestudy/Casestudy/ASM model/Car System MC/CarSystem007.asm");
 		asmetaMA.setMetapropertiesExecution(true, false, false, false, false, false, false);

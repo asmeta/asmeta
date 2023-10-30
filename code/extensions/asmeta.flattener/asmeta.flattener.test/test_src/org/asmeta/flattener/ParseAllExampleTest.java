@@ -1,12 +1,10 @@
 package org.asmeta.flattener;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
-import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.asmeta.parser.ASMParser;
@@ -20,7 +18,7 @@ public class ParseAllExampleTest {
 	public void testParseOnExamples() throws IOException {
 		Files.walk(Paths.get("examples"))
 			.filter(Files::isRegularFile)
-			.filter(x -> x.getFileName().toString().endsWith(".asm"))
+			.filter(x -> x.getFileName().toString().endsWith(ASMParser.ASM_EXTENSION))
 			.filter(x -> !(x.getFileName().toString().contains("_flat.asm")))
 			.filter(x -> !(x.getFileName().toString().contains("_flattened.asm")))
 			.forEach(x -> {

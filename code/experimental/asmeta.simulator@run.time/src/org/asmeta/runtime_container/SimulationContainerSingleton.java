@@ -355,7 +355,7 @@ public class SimulationContainerSingleton implements IModelExecution, IModelAdap
 		return runStepTimeout(id,null,timeout);
 	}
 	
-	//Rimane comunque il problema che se allo scadere non ha finito il programma restituirà run timed out con rollback della sim
+	//Rimane comunque il problema che se allo scadere non ha finito il programma restituirï¿½ run timed out con rollback della sim
 	//ma la simulazione deve comunque finire altrimenti tutte le run successive non funzioneranno (forse mettendo il timeout direttamente
 	//nella parte del simulator invece del container in modo tale di almeno arginare il finish forzato su uno step)
 	public RunOutput runStepTimeout(int id,Map<String, String> locationValue,int timeout) {	
@@ -415,7 +415,7 @@ public class SimulationContainerSingleton implements IModelExecution, IModelAdap
         		} catch (InterruptedException e) {
                     e.printStackTrace();}
     		}
-    		while (!routTO.getTimeoutFlag()) {	//se non ho ancora rOut vuol dire che non ha ancora finito, devo aspettare altrimenti non funziona più nulla successivamente
+    		while (!routTO.getTimeoutFlag()) {	//se non ho ancora rOut vuol dire che non ha ancora finito, devo aspettare altrimenti non funziona piï¿½ nulla successivamente
     			try {
     				Thread.sleep(10);	
         		} catch (InterruptedException e) {
@@ -724,7 +724,7 @@ public class SimulationContainerSingleton implements IModelExecution, IModelAdap
 		for (int i=0;i<c;i++) {
 			String moduleName=asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
 			if (!moduleName.toLowerCase().endsWith("standardlibrary"))	//Skips the StandardLibrary.asm
-				monNames=findAllMonitored(monNames, root+moduleName+".asm");
+				monNames=findAllMonitored(monNames, root+moduleName+ASMParser.ASM_EXTENSION);
 		}
 		return monNames;
 	}

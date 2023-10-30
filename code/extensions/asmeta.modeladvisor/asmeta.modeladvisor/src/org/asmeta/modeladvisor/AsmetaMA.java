@@ -32,9 +32,9 @@ import org.asmeta.modeladvisor.metaproperties.StatDerIsUsed;
 import org.asmeta.modeladvisor.metaproperties.TrivialUpdate;
 import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.nusmv.AsmetaSMV;
-import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.nusmv.Environment;
 import org.asmeta.nusmv.MapVisitor;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 
 /**
  * La classe AsmetaMA. Contiene tutti i metodi per la costruzione e
@@ -64,22 +64,23 @@ public class AsmetaMA {
 	public Map<Checker, Set<Expression>> nuSmvProperties;
 	public static boolean LOG_COUNTEREXAMPLES = false;
 
-	// indicate whether a metaproperty must be checked
-	// TODO: substitute with a List of Booleans
-	boolean execMacroCallRuleIsReached, execInconsistentUpdates, execContrLocTakesEveryValue;
-	public boolean execMacroRuleCalled;
-	boolean execContrLocCouldBeStatic;
-	boolean execNoTrivialUpdate;
-	boolean execDomainAllUsed;
-	boolean execChooseRuleEmpty;
-	public boolean execRuleIsReached;
-	boolean execForallRuleEmpty;
-	boolean execCondRuleIsComplete;
-	boolean execCaseRuleIsComplete;
-	boolean execContrLocIsUpdated;
-	boolean execStatDerIsUsed;
-	boolean execCondRuleEvalToTrue;
-	boolean execLocationCouldBeRemoved;
+	// indicate the metaproperty to be checked
+	static public enum ExecCheck {
+		// MP1
+		execInconsistentUpdates,
+		// other MPs
+		execMacroCallRuleIsReached, execContrLocTakesEveryValue, execMacroRuleCalled,
+		execContrLocCouldBeStatic, execNoTrivialUpdate, execDomainAllUsed, execChooseRuleEmpty, execRuleIsReached,
+		execForallRuleEmpty, execCondRuleIsComplete, execCaseRuleIsComplete, execContrLocIsUpdated, execStatDerIsUsed,
+		execCondRuleEvalToTrue, execLocationCouldBeRemoved
+	}
+	// the check to be performed
+	private Map<ExecCheck, Boolean> execCheck = new HashMap<AsmetaMA.ExecCheck, Boolean>();
+
+	// activate or deactivate a check
+	public void activateExecCheck(ExecCheck s, boolean b) {
+		execCheck.put(s, b);
+	}
 
 	public MapVisitor mv;
 	private Environment env;
@@ -90,22 +91,21 @@ public class AsmetaMA {
 	public static AsmetaMA buildAsmetaMA(String asmFile) throws Exception {
 		return buildAsmetaMA(Paths.get(asmFile));
 	}
-	
+
 	public static AsmetaMA buildAsmetaMA(Path asmFile) throws Exception {
 		AsmetaMA asmetaMA = null;
 		String forMp1FilePath = asmFile.toString();
 		forMp1FilePath = forMp1FilePath.substring(0, forMp1FilePath.length() - 4);
-		forMp1FilePath = forMp1FilePath +  ".forMP1";
-		//System.out.println(forMp1FilePath);
-		if(new File(forMp1FilePath).exists()) {
+		forMp1FilePath = forMp1FilePath + ".forMP1";
+		// System.out.println(forMp1FilePath);
+		if (new File(forMp1FilePath).exists()) {
 			Set<String> funcsForMP1 = new HashSet<>();
-			for(String func: Files.readAllLines(Paths.get(forMp1FilePath))) {
+			for (String func : Files.readAllLines(Paths.get(forMp1FilePath))) {
 				funcsForMP1.add(func);
 			}
 			System.out.println("checking MP1 only for " + funcsForMP1);
 			asmetaMA = new AsmetaMA(asmFile.toString(), funcsForMP1);
-		}
-		else {
+		} else {
 			asmetaMA = new AsmetaMA(asmFile.toString());
 		}
 		return asmetaMA;
@@ -117,23 +117,26 @@ public class AsmetaMA {
 
 		// checks whether a rule is executed.
 		// Too generic: it refers to ALL the rules
-		execRuleIsReached = false;
-
-		execContrLocIsUpdated = false;
-		execInconsistentUpdates = false;
-		execContrLocCouldBeStatic = false;
-		execLocationCouldBeRemoved = false;
-		execNoTrivialUpdate = false;
-		execCondRuleEvalToTrue = false;
-		execMacroCallRuleIsReached = false;
-		execMacroRuleCalled = false;
-		execDomainAllUsed = false;
-		execContrLocTakesEveryValue = false;
-		execCondRuleIsComplete = false;
-		execCaseRuleIsComplete = false;
-		execStatDerIsUsed = false;
-		execChooseRuleEmpty = false;
-		execForallRuleEmpty = false;
+//		execCheck.put(ExecCheck.execRuleIsReached,false);
+//		execCheck.put(ExecCheck.execContrLocIsUpdated,false);
+//		execCheck.put(ExecCheck.execInconsistentUpdates,false);
+//		execCheck.put(ExecCheck.execContrLocCouldBeStatic,false);
+//		execCheck.put(ExecCheck.execLocationCouldBeRemoved,false);
+//		execCheck.put(ExecCheck.execNoTrivialUpdate,false);
+//		execCheck.put(ExecCheck.execCondRuleEvalToTrue,false);
+//		execCheck.put(ExecCheck.execMacroCallRuleIsReached,false);
+//		execCheck.put(ExecCheck.execMacroRuleCalled = false;
+//		execCheck.put(ExecCheck.execDomainAllUsed = false;
+//		execCheck.put(ExecCheck.execContrLocTakesEveryValue = false;
+//		execCheck.put(ExecCheck.execCondRuleIsComplete = false;
+//		execCheck.put(ExecCheck.execCaseRuleIsComplete = false;
+//		execCheck.put(ExecCheck.execStatDerIsUsed = false;
+//		execCheck.put(ExecCheck.execChooseRuleEmpty = false;
+//		execCheck.put(ExecCheck.execForallRuleEmpty = false;
+		// initially no check is enables
+		for (ExecCheck c : ExecCheck.values()) {
+			execCheck.put(c, false);
+		}
 		AsmetaSMVOptions.doAsmetaMA = true;
 	}
 
@@ -142,11 +145,13 @@ public class AsmetaMA {
 		this.funcNamesForMP1 = funcNamesForMP1;
 	}
 
-	public void runCheck() throws Exception {
+	// run the check of all the desired meta properties and return if there is a
+	// violation or not
+	public Map<String, Boolean> runCheck() throws Exception {
 		AsmetaSMV asmetaSMV = loadAsmetaSMV();
 		setCheckers();
 		execCheck(asmetaSMV);
-		readResults(asmetaSMV);
+		return readResults(asmetaSMV);
 	}
 
 	public void execCheck(AsmetaSMV asmetaSMV) throws Exception {
@@ -172,73 +177,73 @@ public class AsmetaMA {
 	}
 
 	public void setCheckers() {
-		if (execRuleIsReached) {
+		if (execCheck.get(ExecCheck.execRuleIsReached)) {
 			ruleIsReached = new RuleIsReached(mv.ruleCond);
 			nuSmvProperties.put(ruleIsReached, ruleIsReached.createNuSmvProperties());
 		}
-		if (execContrLocIsUpdated) {
+		if (execCheck.get(ExecCheck.execContrLocIsUpdated)) {
 			contrLocIsUpdated = new ContrLocIsUpdated(mv.contrLocations, mv.updateMap, mv.nusmvNameToLocation);
 			nuSmvProperties.put(contrLocIsUpdated, contrLocIsUpdated.createNuSmvProperties());
 		}
-		if (execInconsistentUpdates) {
+		if (execCheck.get(ExecCheck.execInconsistentUpdates)) {
 			inconUpd = new InconsistentUpdate(mv.updateMap, mv.nusmvNameToLocation, funcNamesForMP1);
 			nuSmvProperties.put(inconUpd, inconUpd.createNuSmvProperties());
 		}
-		if (execContrLocCouldBeStatic) {
+		if (execCheck.get(ExecCheck.execContrLocCouldBeStatic)) {
 			contrLocStatic = new ContrLocCouldBeStatic(mv.env.usedLoc, mv.initMap, mv.contrFuncLocations);
 			nuSmvProperties.put(contrLocStatic, contrLocStatic.createNuSmvProperties());
 		}
-		if (execLocationCouldBeRemoved) {
+		if (execCheck.get(ExecCheck.execLocationCouldBeRemoved)) {
 			locCouldBeRem = new LocationCouldBeRemoved(mv);
 			nuSmvProperties.put(locCouldBeRem, locCouldBeRem.createNuSmvProperties());
 		}
-		if (execNoTrivialUpdate) {
+		if (execCheck.get(ExecCheck.execNoTrivialUpdate)) {
 			trivialUpdate = new TrivialUpdate(mv.updateMap, mv.nusmvNameToLocation);
 			nuSmvProperties.put(trivialUpdate, trivialUpdate.createNuSmvProperties());
 		}
-		if (execCondRuleEvalToTrue) {
+		if (execCheck.get(ExecCheck.execCondRuleEvalToTrue)) {
 			condRuleEval = new CondRuleEvalToTrue(mv.condRuleEvalToTrueThen, mv.condRuleEvalToTrueElse, env);
 			nuSmvProperties.put(condRuleEval, condRuleEval.createNuSmvProperties());
 		}
-		if (execMacroCallRuleIsReached) {
+		if (execCheck.get(ExecCheck.execMacroCallRuleIsReached)) {
 			mcrIsReached = new MacroCallRuleIsReached(mv.ruleCond);
 			nuSmvProperties.put(mcrIsReached, mcrIsReached.createNuSmvProperties());
 		}
-		if (execMacroRuleCalled) {
+		if (execCheck.get(ExecCheck.execMacroRuleCalled)) {
 			macroRuleCalled = new MacroRuleCalled(mv.macroRuleCalled);
 		}
-		if (execDomainAllUsed) {
+		if (execCheck.get(ExecCheck.execDomainAllUsed)) {
 			domainAllUsed = new DomainAllUsed(mv);
 			nuSmvProperties.put(domainAllUsed, domainAllUsed.createNuSmvProperties());
 		}
-		if (execContrLocTakesEveryValue) {
+		if (execCheck.get(ExecCheck.execContrLocTakesEveryValue)) {
 			contrLocTakes = new ContrLocTakesEveryValue(mv);
 			nuSmvProperties.put(contrLocTakes, contrLocTakes.createNuSmvProperties());
 		}
-		if (execCondRuleIsComplete) {
+		if (execCheck.get(ExecCheck.execCondRuleIsComplete)) {
 			condRuleIsCompl = new CondRuleIsComplete(mv.condRuleIsComplete, env);
 			nuSmvProperties.put(condRuleIsCompl, condRuleIsCompl.createNuSmvProperties());
 		}
-		if (execCaseRuleIsComplete) {
+		if (execCheck.get(ExecCheck.execCaseRuleIsComplete)) {
 			caseRuleIsCompl = new CaseRuleIsComplete(mv.caseRuleIsComplete, env);
 			nuSmvProperties.put(caseRuleIsCompl, caseRuleIsCompl.createNuSmvProperties());
 		}
-		if (execStatDerIsUsed) {
+		if (execCheck.get(ExecCheck.execStatDerIsUsed)) {
 			statDerIsUsed = new StatDerIsUsed(mv.derFuncLocations, mv.statFuncLocations, mv.nusmvNameToLocation,
 					mv.statDerReachabilityConds, mv.usedStatDerInDer);
 			nuSmvProperties.put(statDerIsUsed, statDerIsUsed.createNuSmvProperties());
 		}
-		if (execChooseRuleEmpty) {
+		if (execCheck.get(ExecCheck.execChooseRuleEmpty)) {
 			chooseRuleIsEmpty = new ChooseRuleIsEmpty(mv.chooseRuleSetIsEmpty, env);
 			nuSmvProperties.put(chooseRuleIsEmpty, chooseRuleIsEmpty.createNuSmvProperties());
 		}
-		if (execForallRuleEmpty) {
+		if (execCheck.get(ExecCheck.execForallRuleEmpty)) {
 			forallRuleIsEmpty = new ForallRuleIsEmpty(mv.forallRuleSetIsEmpty, env);
 			nuSmvProperties.put(forallRuleIsEmpty, forallRuleIsEmpty.createNuSmvProperties());
 		}
 	}
 
-	private void readResults(AsmetaSMV asmetaSMV) throws Exception, IOException {
+	private Map<String, Boolean> readResults(AsmetaSMV asmetaSMV) throws Exception, IOException {
 
 		if (LOG_COUNTEREXAMPLES) {
 			HashMap<Integer, String> cexs = asmetaSMV.getPropertiesCounterExample();
@@ -258,69 +263,70 @@ public class AsmetaMA {
 			}
 			bw.close();
 		}
-
+		Map<String, Boolean> globalResult = new HashMap<>();
 		// MP1: No inconsistent update is ever performed
-		if (execInconsistentUpdates) {
-			check(asmetaSMV, inconUpd);
+		if (execCheck.get(ExecCheck.execInconsistentUpdates)) {
+			check(asmetaSMV, inconUpd, globalResult);
 		}
 		// MP2: Every conditional rule must be complete
-		if (execCondRuleIsComplete) {
-			check(asmetaSMV, condRuleIsCompl);
+		if (execCheck.get(ExecCheck.execCondRuleIsComplete)) {
+			check(asmetaSMV, condRuleIsCompl, globalResult);
 		}
 		// MP2: Every case rule without otherwise must be complete
-		if (execCaseRuleIsComplete) {
-			check(asmetaSMV, caseRuleIsCompl);
+		if (execCheck.get(ExecCheck.execCaseRuleIsComplete)) {
+			check(asmetaSMV, caseRuleIsCompl, globalResult);
 		}
 		// MP3: Choose rule is always/sometimes/never not empty
-		if (execChooseRuleEmpty) {
-			check(asmetaSMV, chooseRuleIsEmpty);
+		if (execCheck.get(ExecCheck.execChooseRuleEmpty)) {
+			check(asmetaSMV, chooseRuleIsEmpty, globalResult);
 		}
 		// MP3: Forall rule is always/sometimes/never not empty
-		if (execForallRuleEmpty) {
-			check(asmetaSMV, forallRuleIsEmpty);
+		if (execCheck.get(ExecCheck.execForallRuleEmpty)) {
+			check(asmetaSMV, forallRuleIsEmpty, globalResult);
 		}
 		// MP3: Conditional rule eval to true
-		if (execCondRuleEvalToTrue) {
-			check(asmetaSMV, condRuleEval);
+		if (execCheck.get(ExecCheck.execCondRuleEvalToTrue)) {
+			check(asmetaSMV, condRuleEval, globalResult);
 		}
 		// MP4: No assignment is always trivial
-		if (execNoTrivialUpdate) {
-			check(asmetaSMV, trivialUpdate);
+		if (execCheck.get(ExecCheck.execNoTrivialUpdate)) {
+			check(asmetaSMV, trivialUpdate, globalResult);
 		}
 		// MP5: For every domain element e, there exists a location which has value e
-		if (execDomainAllUsed) {
-			check(asmetaSMV, domainAllUsed);
+		if (execCheck.get(ExecCheck.execDomainAllUsed)) {
+			check(asmetaSMV, domainAllUsed, globalResult);
 		}
 		// MP6: Every controlled location can take any value in its codomain
-		if (execContrLocTakesEveryValue) {
-			check(asmetaSMV, contrLocTakes);
+		if (execCheck.get(ExecCheck.execContrLocTakesEveryValue)) {
+			check(asmetaSMV, contrLocTakes, globalResult);
 		}
 		// MP7: a location could be removed
-		if (execLocationCouldBeRemoved) {
-			check(asmetaSMV, locCouldBeRem);
+		if (execCheck.get(ExecCheck.execLocationCouldBeRemoved)) {
+			check(asmetaSMV, locCouldBeRem, globalResult);
 		}
 		// MP7: a controlled location is never updated
-		if (execContrLocIsUpdated) {
-			check(asmetaSMV, contrLocIsUpdated);
+		if (execCheck.get(ExecCheck.execContrLocIsUpdated)) {
+			check(asmetaSMV, contrLocIsUpdated, globalResult);
 		}
 		// MP7: a controlled location could be static
-		if (execContrLocCouldBeStatic) {
-			check(asmetaSMV, contrLocStatic);
+		if (execCheck.get(ExecCheck.execContrLocCouldBeStatic)) {
+			check(asmetaSMV, contrLocStatic, globalResult);
 		}
 
 		// should the following evaluations be executed?
-		if (execRuleIsReached) {
-			check(asmetaSMV, ruleIsReached);
+		if (execCheck.get(ExecCheck.execRuleIsReached)) {
+			check(asmetaSMV, ruleIsReached, globalResult);
 		}
-		if (execMacroCallRuleIsReached) {
-			check(asmetaSMV, mcrIsReached);
+		if (execCheck.get(ExecCheck.execMacroCallRuleIsReached)) {
+			check(asmetaSMV, mcrIsReached, globalResult);
 		}
-		if (execMacroRuleCalled) {
+		if (execCheck.get(ExecCheck.execMacroRuleCalled)) {
 			macroRuleCalled.evaluation();
 		}
-		if (execStatDerIsUsed) {
-			check(asmetaSMV, statDerIsUsed);
+		if (execCheck.get(ExecCheck.execStatDerIsUsed)) {
+			check(asmetaSMV, statDerIsUsed, globalResult);
 		}
+		return globalResult;
 	}
 
 	public AsmetaSMV loadAsmetaSMV() throws Exception {
@@ -335,16 +341,15 @@ public class AsmetaMA {
 		return asmetaSMV;
 	}
 
-	private void check(AsmetaSMV asmetaSMV, Checker checker) {
+	// ehck and updates the results
+	private void check(AsmetaSMV asmetaSMV, Checker checker, Map<String, Boolean> partialResult) {
 		Set<Expression> properties = nuSmvProperties.get(checker);
 		Set<String> translatedProperties = translate(properties);
 		// System.out.println(translatedProperties);
-		checker.evaluation(results(asmetaSMV, translatedProperties));
+		Map<String, Boolean> results = asmetaSMV.getResults(translatedProperties);
+		checker.evaluation(results);
 		checker.printResults();
-	}
-
-	public Map<String, Boolean> results(AsmetaSMV asmetaSMV, Set<String> translatedProps) {
-		return asmetaSMV.getResults(translatedProps);
+		partialResult.putAll(results);
 	}
 
 	// given a set of temp properties, builds the set of their CTL translation
@@ -362,17 +367,17 @@ public class AsmetaMA {
 
 	public void setMetapropertiesExecution(boolean execMp1, boolean execMp2, boolean execMp3, boolean execMp4,
 			boolean execMp5, boolean execMp6, boolean execMp7) {
-		this.execInconsistentUpdates = execMp1;
-		this.execCondRuleIsComplete = execMp2;
-		this.execCaseRuleIsComplete = execMp2;
-		this.execChooseRuleEmpty = execMp3;
-		this.execForallRuleEmpty = execMp3;
-		this.execCondRuleEvalToTrue = execMp3;
-		this.execNoTrivialUpdate = execMp4;
-		this.execDomainAllUsed = execMp5;
-		this.execContrLocTakesEveryValue = execMp6;
-		this.execContrLocCouldBeStatic = execMp7;
-		this.execLocationCouldBeRemoved = execMp7;
-		this.execContrLocIsUpdated = execMp7;
+		activateExecCheck(ExecCheck.execInconsistentUpdates, execMp1);
+		activateExecCheck(ExecCheck.execCondRuleIsComplete, execMp2);
+		activateExecCheck(ExecCheck.execCaseRuleIsComplete, execMp2);
+		activateExecCheck(ExecCheck.execChooseRuleEmpty, execMp3);
+		activateExecCheck(ExecCheck.execForallRuleEmpty, execMp3);
+		activateExecCheck(ExecCheck.execCondRuleEvalToTrue, execMp3);
+		activateExecCheck(ExecCheck.execNoTrivialUpdate, execMp4);
+		activateExecCheck(ExecCheck.execDomainAllUsed, execMp5);
+		activateExecCheck(ExecCheck.execContrLocTakesEveryValue, execMp6);
+		activateExecCheck(ExecCheck.execContrLocCouldBeStatic, execMp7);
+		activateExecCheck(ExecCheck.execLocationCouldBeRemoved, execMp7);
+		activateExecCheck(ExecCheck.execContrLocIsUpdated, execMp7);
 	}
 }

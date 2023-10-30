@@ -4,7 +4,7 @@ variables:
   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true  -Djava.awt.headless=true"
 
 # Specify the version of java to use
-image: maven:3-jdk-8
+image: maven:3.8.5-openjdk-17
 
 # Specify the stages that will make up the pipeline
 stages:
@@ -25,6 +25,8 @@ include:
 # Job for checking wether the mvn build succeeds
 build:
   stage: build
+  # lo metto per farlo eseguire manualmente
+  allow_failure: false
   script:
     - mvn compile
 
@@ -34,8 +36,10 @@ build:
 #   To make it so that when a test fails, the pipeline job also fails.
 test-jdk8:
   stage: test
+  # lo metto per farlo eseguire manualmente
+  allow_failure: false
   script:
-    - 'mvn -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
+    - 'mvn -Dassembly.skipAssembly=true -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
   artifacts:
     when: always
     reports: # Upload the info for the job report artifact (artifact:reports:junit in this case)
@@ -52,12 +56,16 @@ test-jdk8:
 # Job for uploading the json report as artifact to gitlab.
 # Will show up in the pipeline report.
 code_quality:
+  # lo metto per farlo eseguire manualmente
+  allow_failure: false
   stage: post-test
   artifacts:
     paths: [gl-code-quality-report.json]
 
 # Job for uploading the html report as artifact to gitlab
 code_quality_html:
+  # lo metto per farlo eseguire manualmente
+  allow_failure: false
   stage: post-test
   extends: code_quality
   variables:

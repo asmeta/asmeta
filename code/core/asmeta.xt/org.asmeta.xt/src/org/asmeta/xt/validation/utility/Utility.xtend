@@ -85,6 +85,7 @@ import org.asmeta.xt.asmetal.LocalFunction
 import org.asmeta.xt.asmetal.AgentDomain
 import org.asmeta.xt.asmetal.ReserveDomain
 import javax.swing.tree.TreeNode
+import org.asmeta.parser.ASMParser
 
 class Utility {
 
@@ -132,10 +133,10 @@ class Utility {
 		if(new File(relative_path).exists) return relative_path
 		// muts be relative
 		var String res
-		if (relative_path.endsWith('.asm'))
+		if (relative_path.endsWith(ASMParser.ASM_EXTENSION))
 			res = relative_path
 		else
-			res = relative_path + ".asm"
+			res = relative_path + ASMParser.ASM_EXTENSION
 		// search for  relative_path in resource_abs_path
 		// combination
 		// var address =  resolvedPath.normalize();

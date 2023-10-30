@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.simulator.feature"
       label="Asmeta simulator"
-      version="22.09"
+      version="23.07"
       provider-name="fmse.di.unimi.it">
 
    <description>
@@ -25,13 +25,18 @@ See https://asmeta.github.io
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.ui.console"/>
       <import plugin="org.apache.log4j"/>
+      <import plugin="org.eclipse.ui.console"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.emf.common"/>
+      <import plugin="org.eclipse.ui.workbench"/>
+      <import plugin="org.asmeta.xt"/>
+      <import plugin="org.asmeta.xt.ui"/>
+      <import plugin="org.asmeta.xt.ide"/>
    </requires>
 
    <plugin

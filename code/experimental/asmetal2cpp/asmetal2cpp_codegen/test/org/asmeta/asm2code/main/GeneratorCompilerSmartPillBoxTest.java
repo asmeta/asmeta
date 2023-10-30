@@ -12,13 +12,13 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 
-public class GeneratorCompilerSmartPillBoxTest extends GeneratorCompilerTest2{
+public class GeneratorCompilerSmartPillBoxTest extends GeneratorCompilerTest{
 
 	@Test
 	public void SmartPillBoxLevel0Test() throws Exception, IOException
 	{
 		String asmspec = "..//..//..//..//asm_examples//PillBox//Level0//pillbox_0.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
@@ -26,7 +26,7 @@ public class GeneratorCompilerSmartPillBoxTest extends GeneratorCompilerTest2{
 	public void SmartPillBoxLevel1Test() throws Exception, IOException
 	{
 		String asmspec = "..//..//..//..//asm_examples//PillBox//Level1//pillbox_1.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
@@ -34,7 +34,7 @@ public class GeneratorCompilerSmartPillBoxTest extends GeneratorCompilerTest2{
 	public void SmartPillBoxLevel2Test() throws Exception, IOException
 	{
 		String asmspec = "..//..//..//..//asm_examples//PillBox//Level2//pillbox_2.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 
@@ -42,7 +42,7 @@ public class GeneratorCompilerSmartPillBoxTest extends GeneratorCompilerTest2{
 	public void SmartPillBoxLevel3Test() throws Exception, IOException
 	{
 		String asmspec = "..//..//..//..//asm_examples//PillBox//Level3//pillbox_FULL.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 }

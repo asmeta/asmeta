@@ -78,6 +78,15 @@ import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.StringTerm;
 
 public class Utility {
+	
+	// names of the libraries 
+	public static final String LTL_LIBRARY_NAME = "LTLlibrary";
+	public static final String CTL_LIBRARY_NAME = "CTLlibrary";
+	public static final String STANDARD_LIBRARY_NAME = "StandardLibrary";
+
+	
+	
+	
 	// PA 12/11/2011. Fabio Albani, in method resolve, needs to import just the the
 	// first rule with
 	// the best ranking. The static field "selectFirstBestRanking" can be used
@@ -100,7 +109,6 @@ public class Utility {
 	 * key = "" -> t = 10 : returns "10" key "[3," -> t = {3,4} returns "[3,{3,4}"
 	 */
 	public static StringBuffer appendInKey(StringBuffer key, Term t) {
-
 		if (t instanceof FunctionTerm) {
 			FunctionTerm ft = (FunctionTerm) t;
 			key.append(ft.getFunction().getName());
@@ -803,7 +811,7 @@ public class Utility {
 		logger.debug("Checking applicability...");
 		// FIXME 1/4/2009 code commented
 		if (!OCL_Checker.applicable(term)) {
-			logger.fatal("not applicable! " + OCL_Checker.getMSG_ERR());
+			logger.fatal("not applicable! " + OCL_Checker.getMsgErr());
 			return null;
 		}
 		return term;
@@ -1634,7 +1642,7 @@ public class Utility {
 	 *
 	 * @param asmDirLib    can be null, in case "." is taken or absolute is
 	 *                     considered
-	 * @param importclause the module name as String (it can be relative or absolute, with .asm o rwithout)
+	 * @param importclause the module name as String (it can be relative or absolute, with .asm or without)
 	 * @return the imported file - it must exists 
 	 */	
 	public static File importFile(String asmDirLib, ImportClause importclause) {
@@ -1655,7 +1663,7 @@ public class Utility {
 		File res;
 		if (asmDirLib == null) {
 			// with asm extesion
-			res = checkExistsAsmFile(moduleName + ASMParser.asmExtension);
+			res = checkExistsAsmFile(moduleName + ASMParser.ASM_EXTENSION);
 			if (res != null)
 				return res;
 			// without asm extension
@@ -1663,7 +1671,7 @@ public class Utility {
 			if (res != null)
 				return res;
 			// with asm extesion
-			res = checkExistsAsmFile("." + moduleName + ASMParser.asmExtension);
+			res = checkExistsAsmFile("." + moduleName + ASMParser.ASM_EXTENSION);
 			if (res != null)
 				return res;
 			// without asm extension
@@ -1673,7 +1681,7 @@ public class Utility {
 		}
 		assert asmDirLib != null;
 		// build the complete module name
-		res = checkExistsAsmFile(asmDirLib + File.separatorChar + moduleName + ASMParser.asmExtension);
+		res = checkExistsAsmFile(asmDirLib + File.separatorChar + moduleName + ASMParser.ASM_EXTENSION);
 		if (res != null)
 			return res;
 		// without asm extension
@@ -1684,7 +1692,7 @@ public class Utility {
 		res = checkExistsAsmFile(moduleName);
 		if (res != null)
 			return res;
-		res = checkExistsAsmFile(moduleName + ASMParser.asmExtension);
+		res = checkExistsAsmFile(moduleName + ASMParser.ASM_EXTENSION);
 		if (res != null)
 			return res;
 		//
@@ -1693,7 +1701,7 @@ public class Utility {
 	}
 
 	static private File checkExistsAsmFile(String fileName) {
-		if (!fileName.endsWith(ASMParser.asmExtension))
+		if (!fileName.endsWith(ASMParser.ASM_EXTENSION))
 			return null;
 		File moduleFile = new java.io.File(fileName);
 		if (moduleFile.exists() && moduleFile.isFile())

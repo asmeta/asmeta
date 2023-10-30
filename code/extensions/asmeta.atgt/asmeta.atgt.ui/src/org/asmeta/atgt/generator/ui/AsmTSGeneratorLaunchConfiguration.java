@@ -2,8 +2,6 @@ package org.asmeta.atgt.generator.ui;
 
 import java.util.List;
 
-import javax.naming.InitialContext;
-
 import org.asmeta.atgt.generator.AsmTestGenerator;
 import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.FormatsEnum;
@@ -38,7 +36,7 @@ public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelega
 	public IPath asmetaSpecPath;
 	public List<FormatsEnum> formats;
 
-	// necessario perchè ha bisogno del costruttore senza parametri
+	// necessario perchï¿½ ha bisogno del costruttore senza parametri
 	public AsmTSGeneratorLaunchConfiguration() {
 	}
 

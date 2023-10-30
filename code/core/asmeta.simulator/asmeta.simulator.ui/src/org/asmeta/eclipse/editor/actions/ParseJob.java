@@ -10,8 +10,8 @@ import org.apache.log4j.WriterAppender;
 import org.asmeta.eclipse.AsmeeActivator;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.ParseException;
 import org.asmeta.parser.ParserResultLogger;
-import org.asmeta.parser.TokenMgrException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -83,7 +83,14 @@ public class ParseJob extends Job {
 			// DO NOT CLOSE; IT WILL BE REUSED
 			// out.close();
 			return Status.OK_STATUS;
+		} catch (ParseException t) {
+			parseResult = ASMParser.getResultLogger();
+			new PrintStream(out).print("Error in parsing: " + t.getMessage());
+			// TODO metti lo status con errore
+			asm = null;
+			return Status.CANCEL_STATUS;			
 		} catch (Exception t) {
+			// generic exception
 			parseResult = ASMParser.getResultLogger();
 			t.printStackTrace(new PrintStream(out));
 			// TODO metti lo status con errore

@@ -10,6 +10,7 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.StringPrintWriter;
 import org.junit.Test;
 
+import asmeta.AsmCollection;
 import asmeta.structure.Asm;
 import asmeta.structure.Header;
 import asmeta.structure.Signature;
@@ -45,7 +46,9 @@ public class AsmPrinterTest {
 		StringPrintWriter out = new StringPrintWriter();
 		System.out.println(out.getString());
 		AsmPrinter spr = new AsmPrinter(out);
-		spr.visit(ASMParser.setUpReadAsm(new File("../../../../asm_examples/test/simulator/StringExpr01.asm")).getMain());	
+		File f = new File("../../../../asm_examples/test/simulator/StringExpr01.asm");
+		AsmCollection setUpReadAsm = ASMParser.setUpReadAsm(f);
+		spr.visit(setUpReadAsm.getMain());	
 		// check that the strings have \" \" aorund them
 		assertTrue(out.getString().contains("\"pippo\""));
 		spr.close();

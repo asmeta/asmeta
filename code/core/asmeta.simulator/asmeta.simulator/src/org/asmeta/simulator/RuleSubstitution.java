@@ -39,6 +39,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.util.RulePrinter;
+import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
@@ -71,8 +72,7 @@ import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
 public class RuleSubstitution extends TermSubstitution {
 
 	private static Logger logger = Logger.getLogger(RuleSubstitution.class);
-	
-	
+		
 	/**
 	 * Returns a string representation of a rule.
 	 * 
@@ -84,10 +84,10 @@ public class RuleSubstitution extends TermSubstitution {
      *
      * @param params term assignment
      */
-    public RuleSubstitution(TermAssignment params) {
-    	super(params);
+    public RuleSubstitution(TermAssignment params,RuleFactory ruleFactory) {
+    	super(params,ruleFactory);
     }
-
+    
     /**
      * Copy constructor.
      * 
@@ -95,6 +95,7 @@ public class RuleSubstitution extends TermSubstitution {
     public RuleSubstitution(RuleSubstitution substitution) {
     	super(substitution);
     }
+
 
 	/**
 	 * Does substitutions on the rule.

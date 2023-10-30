@@ -1,7 +1,7 @@
 /*
 * version 08/09/2022
 *  08/09/2022 - added in problems some explanation 
-*
+*  05/27/2023 - added other explainstions AG
 */
 options
 {
@@ -35,9 +35,9 @@ import java.nio.charset.Charset;
 
 public class ASMParser
 {
-  public static final String VERSION = "2.0.0";
 
-  public static final String asmExtension = ".asm";
+  // asm extension including the . 
+  public static final String ASM_EXTENSION = ".asm";
 
   private String filename; // file name without extension, needed to check that the name of the machine is the same
 
@@ -64,19 +64,20 @@ public class ASMParser
   //the structured domains created during parsing. It associates domain names to the corresponding object. Its tuples are of kind(String,StructuredTD)
   // NO LONGER USED
   //private static HashMap<String,Domain> predefined_Dom = new HashMap<String,Domain>();    //the domains created during parsing. It associates domain names to the corresponding object. Its tuples are of kind(String,TypeDomain)
-  private Map < String, EnumTd > enumElem = new HashMap(); //It associates enumeration element names to their enumeration domain. Its tuples are of kind(String,EnumTD)
+  private Map < String, EnumTd > enumElem = new HashMap<>(); //It associates enumeration element names to their enumeration domain. Its tuples are of kind(String,EnumTD)
 
   //These hashMap associate the hashcode of the element name to the element name itself. Its tuples are of kind (Integer,String)
-  private HashMap exported_Rules;
+ 
+  private HashMap<Integer, String> exported_Rules;
 
-  private HashMap exported_Func;
+  private HashMap<Integer, String> exported_Func;
 
-  private HashMap exported_Dom;
+  private HashMap<Integer, String> exported_Dom;
 
   private boolean exportAll; //the value "true" indicates all functions and rule are exported
 
   // forse si puo' eliminare - non serve piu' AG
-  private HashMap programs = new HashMap(); //the hashmap associating names of rule declarations (programs for agents) to the corresponding agent. Its tuples are of kind (Sting,AgentInitialization)
+  // private HashMap programs = new HashMap(); //the hashmap associating names of rule declarations (programs for agents) to the corresponding agent. Its tuples are of kind (Sting,AgentInitialization)
 
   // these are no longer static because if it reads another (imported ASM)
   // this information must be shared. are shared by passing the argument to the new parser
@@ -115,30 +116,42 @@ public class ASMParser
   {
     Logger.resetForParsing(f);
     assert (f.exists() && f.isFile());
-    assert (f.getName().endsWith(asmExtension));
-    Logger.logInfo("parsing file " + f.getAbsolutePath());
+    assert (f.getName().endsWith(ASM_EXTENSION));
+    Logger.logInfo("parsing file " + f.getCanonicalPath());
     // reset the domains
     DomainsFactory.eINSTANCE.resetDomains();
     Utility.reset();
     // BUILD THE MODEL
     // init all imported so far
-    alreadyImported = new HashMap < String, Asm > ();
+    alreadyImported = new HashMap<String,Asm>();
     // get the asmetafactory instance
     AsmetaFactory mainpackage = AsmetaFactory.eINSTANCE;
     // builds the parser
-    asmParser = new ASMParser(f, mainpackage);
-    // parses  the main Asm
-    Optional<asmeta.structure.Asm> asm = asmParser.Asm();
-    // build the collection of ASM
-    AsmCollection allAsms = new AsmCollection(alreadyImported.values());
-    // add this one as first one
-    if (asm.isPresent()) {
-      allAsms.addMain(asm.get());
-      Logger.logInfo("file successfully parsed for asm " + asm.get().getName());
-    } else {
-      Logger.logInfo("file successfully parsed but empty");
-    }
-    return allAsms;
+    try{
+    	asmParser = new ASMParser(f, mainpackage);
+    	// parses  the main Asm
+    	Optional<asmeta.structure.Asm> asm = asmParser.Asm();
+    	// build the collection of ASM
+    	AsmCollection allAsms = new AsmCollection(alreadyImported.values());
+    	// add this one as first one
+    	if (asm.isPresent()) {
+      		allAsms.addMain(asm.get());
+      		Logger.logInfo("file successfully parsed for asm " + asm.get().getName());
+    	} else {
+      		Logger.logInfo("file successfully parsed but empty");
+    	}
+    	return allAsms;
+    } catch(org.asmeta.parser.ParseException pe) {
+        String message = pe.getMessage();
+        // get the token
+        Token tk = asmParser.token;
+        // add token message and re throw
+        message = message +  (tk !=null? " Line: " + tk.beginLine + " column: " + tk.beginColumn : "");
+        // there is also        
+      	throw new ParseException(message);   	
+    } finally{
+    	asmParser.jj_input_stream.inputStream.close();
+    }    
   }
 
   /* The input file must have the same name of the ASM spec.
@@ -148,7 +161,12 @@ public class ASMParser
      */
   private ASMParser(File f, AsmetaFactory asmPack) throws Exception
   {
-    this (new java.io.FileInputStream(f),Charset.forName("UTF-8"));
+    // ho un problema con la nuova implementazione di javacc e JavaCharStream
+    // usando la versione vecchia e il plugin di eclipse funziona
+    // versione per ph-javacc-maven-plugin
+    // this (new java.io.FileInputStream(f),Charset.forName("UTF-8"));
+    // versione per javacc-maven-plugin
+    this (new java.io.FileInputStream(f),"UTF-8");
     //Check the file name
     if (!f.exists() || !f.isFile())
     {
@@ -502,7 +520,7 @@ Optional<Asm > Asm() :
     {
       asmMachine = structurePack.createAsm(name, isAsyncr);
       Logger.logDebug("ASM " + name);
-      if ((filename != null) && !filename.equals(name)) throw new ParseException("Error: The file name \"" + filename + "\" is not equal to the asm name \"" + name + "\".\n", token);
+      if ((filename != null) && !filename.equals(name)) throw new ParseException("Error: The file name \"" + filename + "\" is not equal to the asm name \"" + name + "\".\n");
     }
     h = Header(asmMachine)
     { //set the reference
@@ -640,6 +658,14 @@ ImportClause ImportClause() :
       {
         ASMParser nestedParser = new ASMParser(moduleFile, asmPk);
         Logger.logDebug("---------------------------- Beginning of " + moduleName + " parsing----------------------------");
+        // to check if already imported
+        if (alreadyImported.keySet().contains(moduleFileName)) {
+        	Logger.logErr("circular import found in " + moduleFileName);
+        	// it cannot use subclasses since the parser captures the exception and modify it (add number of line and so on)
+        	throw new ParseException("circular import found in " + moduleFileName);
+        }        	
+        // parser started, add null for now
+        alreadyImported.put(moduleFileName, null);
         module_asm = nestedParser.Asm().get();
         Logger.logDebug("---------------------------- End of " + moduleName + " parsing----------------------------\n");
         alreadyImported.put(moduleFileName, module_asm);
@@ -653,7 +679,7 @@ ImportClause ImportClause() :
     catch (Exception e)
     {
       e.printStackTrace(System.err);
-      throw new ParseException("Error: File " + filename + " has errors when importing " + moduleFileName + ":" + e.getMessage(), token);
+      throw new ParseException("Error: File " + filename + " has errors when importing " + moduleFileName + ":" + e.getMessage());
     }
     ExportClause module_expCl = module_asm.getHeaderSection().getExportClause();
     Collection < Function > impFunctions = impClause.getImportedFunction();
@@ -981,7 +1007,7 @@ Signature Signature(Signature signature) :
         declared_Dom.put(d_name, d);
         if (d instanceof StructuredTd) Logger.logDebug(d_name);
       }
-      else throw new ParseException("Error: The domain " + d_name + " has been declared twice.", token);
+      else throw new ParseException("Error: The domain " + d_name + " has been declared twice.");
       //check if the domain can be exported
       //Remark: the HashMap exported_Dom is initialized within the ExportClause method so if exported_Dom!=null => expClause!=null
       if (((exported_Dom != null) && exported_Dom.containsKey(new Integer(d_name.hashCode()))) || (exportAll == true))
@@ -1005,7 +1031,7 @@ Signature Signature(Signature signature) :
         functions.add(f);
         //X ASignFunc.add(signature,f);
       }
-      else throw new ParseException("Error: The function " + f.getName() + ":" + ((f.getDomain() == null) ? "" : (f.getDomain().getName() + "->")) + f.getCodomain().getName() + " has been declared twice.", token);
+      else throw new ParseException("Error: The function " + f.getName() + ":" + ((f.getDomain() == null) ? "" : (f.getDomain().getName() + "->")) + f.getCodomain().getName() + " has been declared twice.");
       //check if the function can be exported
       //Remark: the HashMap exported_Func is initialized within the ExportClause method so if exported_Func!=null => expClause!=null
       if (((exported_Func != null) && exported_Func.containsKey(new Integer(f.getName().hashCode()))) || (exportAll == true))
@@ -1015,7 +1041,7 @@ Signature Signature(Signature signature) :
         //X AExpClFunc.add(expClause,f);
       }
       //check OCL constraint U7: function->forAll(f:Function | not f.oclIsTypeOf(LocalFunction))
-      if (OCL_Checker.isLocal(f)) throw new ParseException("Error: A local dynamic function cannot be declared in the signature.\n" + "       At the declaration of the function " + f.getName() + ".", token);
+      if (OCL_Checker.isLocal(f)) throw new ParseException("Error: A local dynamic function cannot be declared in the signature.\n" + "       At the declaration of the function " + f.getName() + ".");
     }
   )*
   {
@@ -1081,9 +1107,9 @@ DomainInitialization DomainInitialization(Initialization initState) :
   {
     Domain dom = (Domain) declared_Dom.get(name);
     //check if the domain has been declared
-    if (dom == null) throw new ParseException("Error: The domain " + name + " has not been declared. It cannot be initialized.", token);
+    if (dom == null) throw new ParseException("Error: The domain " + name + " has not been declared. It cannot be initialized.");
     //check if the domain is a concrete-domain
-    if (!(dom instanceof ConcreteDomain)) throw new ParseException("Error: The domain " + name + " is not a concrete-domain. It cannot be initialized.", token);
+    if (!(dom instanceof ConcreteDomain)) throw new ParseException("Error: The domain " + name + " is not a concrete-domain. It cannot be initialized.");
     //create the object
     DomainInitialization dom_init = structurePack.createDomainInitialization();
     dom_init.setInitialState(initState);
@@ -1093,7 +1119,7 @@ DomainInitialization DomainInitialization(Initialization initState) :
     //set the reference to the body
     dom_init.setBody(body);
     //check ocl constraints
-    if (!OCL_Checker.checkDomainInitialization(dom_init)) throw new ParseException(OCL_Checker.getMsgErr() + "\n       At the initialization of the domain " + dom.getName() + ".", token);
+    if (!OCL_Checker.checkDomainInitialization(dom_init)) throw new ParseException(OCL_Checker.getMsgErr() + "\n       At the initialization of the domain " + dom.getName() + ".");
     return dom_init;
   }
 }
@@ -1142,7 +1168,7 @@ FunctionInitialization FunctionInitialization(Initialization initState) :
       ","
       { //check if the next variable is already used (look for it in the localVar HashMap)
         String nextVar = getToken(1).image;
-        if (localVar.get(nextVar) != null) throw new ParseException("Error: The variable " + nextVar + " cannot be used as parameter of the initialization of function " + func_name + ". It is already used.", token);
+        if (localVar.get(nextVar) != null) throw new ParseException("Error: The variable " + nextVar + " cannot be used as parameter of the initialization of function " + func_name + ". It is already used.");
       }
       v = VariableTerm(localVar, true) < IN > inDom = getDomainByID()
       { //set the reference
@@ -1180,19 +1206,19 @@ FunctionInitialization FunctionInitialization(Initialization initState) :
       if (func_dom == null) func_dom = Utility.getBasicDomain(domainsFactory, dom_name);
       if (func_dom == null) func_dom = Utility.getPredefinedAbstractDomain(domainsFactory, dom_name);
       if (func_dom == null) func_dom = Utility.getStructuredDomain(domainsFactory, dom_name, header.getSignature());
-      if (func_dom == null) throw new ParseException("Error: The domain" + dom_name + " has not been declared. There not exists a function with this domain.", token);
+      if (func_dom == null) throw new ParseException("Error: The domain" + dom_name + " has not been declared. There not exists a function with this domain.");
     }
     else
     {
       dom_name = "Prod(".concat(dom_name).concat(")");
       func_dom = (Domain) Utility.getStructuredDomain(domainsFactory, dom_name, header.getSignature());
-      if (func_dom == null) throw new ParseException("Error: The domain" + dom_name + " has not been declared. There not exists a function with this domain.", token);
+      if (func_dom == null) throw new ParseException("Error: The domain" + dom_name + " has not been declared. There not exists a function with this domain.");
     }
     //check if the function has been declared
     /// attenzione non trova le funzioni importate !!!!
     Function f = Utility.getFunction(func_name, func_dom, false, new HashMap(), declared_Func);
-    if (f == null) throw new ParseException("Error: The function " + func_name + "(" + dom_name + ")" + " has not been declared. It cannot be initialized", token);
-    if (!(f instanceof DynamicFunction)) throw new ParseException("Error: The function " + func_name + "(" + dom_name + ")" + " is not a dynamic function. It cannot be initialized", token);
+    if (f == null) throw new ParseException("Error: The function " + func_name + "(" + dom_name + ")" + " has not been declared. It cannot be initialized");
+    if (!(f instanceof DynamicFunction)) throw new ParseException("Error: The function " + func_name + "(" + dom_name + ")" + " is not a dynamic function. It cannot be initialized");
     //set the reference to the function to initialize
     func_init.setInitializedFunction((DynamicFunction) f);
     ((DynamicFunction) f).getInitialization().add(func_init);
@@ -1204,7 +1230,7 @@ FunctionInitialization FunctionInitialization(Initialization initState) :
     //if(!OCL_Checker.body_ok(f,body))
     //      throw new ParseException(OCL_Checker.getMsgErr()+"\n       At the initialization of the function "+ func_name +"("+dom_name+")"+".");
     //
-    if (!OCL_Checker.checkFunctionInitialization(func_init)) throw new ParseException(OCL_Checker.getMsgErr() + "\n       At the initialization of the function " + func_name + "(" + dom_name + ")" + ".", token);
+    if (!OCL_Checker.checkFunctionInitialization(func_init)) throw new ParseException(OCL_Checker.getMsgErr() + "\n       At the initialization of the function " + func_name + "(" + dom_name + ")" + ".");
     return func_init;
   }
 }
@@ -1226,7 +1252,7 @@ AgentInitialization AgentInitialization(Initialization initState) :
     Logger.logDebug("\tagent domain: " + id_dom);
     dom = (Domain) declared_Dom.get(id_dom);
     if (dom == null) dom = Utility.getPredefinedAbstractDomain(domainsFactory, id_dom);
-    if (dom == null) throw new ParseException("Error: The domain " + id_dom + " has not been declared. Invariant declaration failed.", token);
+    if (dom == null) throw new ParseException("Error: The domain " + id_dom + " has not been declared. Invariant declaration failed.");
     AgentInitialization agent_init = structurePack.createAgentInitialization();
     agent_init.setInitialState(initState);
     agent_init.setDomain(dom);
@@ -1235,7 +1261,7 @@ AgentInitialization AgentInitialization(Initialization initState) :
   { //set the reference
     agent_init.setProgram(r);
     //check OCL constraints
-    if (!OCL_Checker.checkAgentInitialization(agent_init)) throw new ParseException(OCL_Checker.getMsgErr() + "\n       At the initialization of the agent set " + id_dom + ".", token);
+    if (!OCL_Checker.checkAgentInitialization(agent_init)) throw new ParseException(OCL_Checker.getMsgErr() + "\n       At the initialization of the agent set " + id_dom + ".");
   }
   {
     Logger.logDebug("\tagent initialization ends");
@@ -1355,7 +1381,7 @@ Body Body(Asm m) :
       else
       {
         Logger.logDebug("\trule alredy declared");
-        throw new ParseException("Error: The rule " + rule_name + " has been declared twice with the same parameters.", token);
+        throw new ParseException("Error: The rule " + rule_name + " has been declared twice with the same parameters.");
       }
       //check if the rule can be exported
       //Remark: the HashMap exported_Rules is initialized within the ExportClause method so if exported_Rules!=null => expClause!=null
@@ -1401,7 +1427,7 @@ Body Body(Asm m) :
           {
             if (p2 instanceof CtlSpec && p2.getName() != null && p2.getName().equals(name))
             {
-              throw new ParseException("Two CTL specifications can not have the same name.", token);
+              throw new ParseException("Two CTL specifications can not have the same name.");
             }
           }
         }
@@ -1411,7 +1437,7 @@ Body Body(Asm m) :
           {
             if (p2 instanceof LtlSpec && p2.getName() != null && p2.getName().equals(name))
             {
-              throw new ParseException("Two LTL specifications can not have the same name.", token);
+              throw new ParseException("Two LTL specifications can not have the same name.");
             }
           }
         }
@@ -1468,11 +1494,11 @@ DomainDefinition DomainDefinition() :
   {
     Domain dom = declared_Dom.get(name);
     //check if the domain has been declared
-    if (dom == null) throw new ParseException("Error: The domain " + name + " has not been declared. It cannot be defined.", token);
+    if (dom == null) throw new ParseException("Error: The domain " + name + " has not been declared. It cannot be defined.");
     //check if the domain is a concrete-domain
-    if (!(dom instanceof ConcreteDomain)) throw new ParseException("Error: The domain " + name + " is not a concrete-domain. It cannot be defined.", token);
+    if (!(dom instanceof ConcreteDomain)) throw new ParseException("Error: The domain " + name + " is not a concrete-domain. It cannot be defined.");
     //check if the domain has already been defined
-    if (((ConcreteDomain) dom).getDefinition() != null) throw new ParseException("Error: The domain " + name + " has been defined twice.", token);
+    if (((ConcreteDomain) dom).getDefinition() != null) throw new ParseException("Error: The domain " + name + " has been defined twice.");
     //create the object
     DomainDefinition dom_def = structurePack.createDomainDefinition();
     //set the reference to the defined domain
@@ -1487,7 +1513,7 @@ DomainDefinition DomainDefinition() :
     //X ADomainDefinitionBody ADefbody = structurePack.getADomainDefinitionBody();
     //X ADefbody.add(dom_def,body);
     //check ocl constraints
-    if (!OCL_Checker.checkDomainDefinition(dom_def)) throw new ParseException(OCL_Checker.getMsgErr() + "\n       At the definition of the " + (((ConcreteDomain) dom).getIsDynamic() ? "dynamic" : "static") + " domain " + dom.getName() + ".", token);
+    if (!OCL_Checker.checkDomainDefinition(dom_def)) throw new ParseException(OCL_Checker.getMsgErr() + "\n       At the definition of the " + (((ConcreteDomain) dom).getIsDynamic() ? "dynamic" : "static") + " domain " + dom.getName() + ".");
     return dom_def;
   }
 }
@@ -1527,7 +1553,7 @@ FunctionDefinition FunctionDefinition(Asm m) :
       ","
       { //check if the next variable is already used (look for it in the localVar HashMap)
         String nextVar = getToken(1).image;
-        if (localVar.get(nextVar) != null) throw new ParseException("Error: The variable " + nextVar + " cannot be used as parameter of the definition of function " + func_name + ". It is already used.", token);
+        if (localVar.get(nextVar) != null) throw new ParseException("Error: The variable " + nextVar + " cannot be used as parameter of the definition of function " + func_name + ". It is already used.");
       }
       v = VariableTerm(localVar, true) < IN > inDom = getDomainByID()
       { //set the reference
@@ -1556,19 +1582,19 @@ FunctionDefinition FunctionDefinition(Asm m) :
       if (func_dom == null) func_dom = Utility.getBasicDomain(domainsFactory, dom_name);
       if (func_dom == null) func_dom = Utility.getPredefinedAbstractDomain(domainsFactory, dom_name);
       if (func_dom == null) func_dom = Utility.getStructuredDomain(domainsFactory, dom_name, header.getSignature());
-      if (func_dom == null) throw new ParseException("Error: The domain" + dom_name + " has not been declared. There not exists a function with this domain.", token);
+      if (func_dom == null) throw new ParseException("Error: The domain" + dom_name + " has not been declared. There not exists a function with this domain.");
     }
     else
     {
       dom_name = "Prod(".concat(dom_name).concat(")");
       func_dom = Utility.getStructuredDomain(domainsFactory, dom_name, header.getSignature());
-      if (func_dom == null) throw new ParseException("Error: The domain" + dom_name + " has not been declared. There not exists a function with this domain.", token);
+      if (func_dom == null) throw new ParseException("Error: The domain" + dom_name + " has not been declared. There not exists a function with this domain.");
     }
     //check if the function has been declared
     Function f = Utility.getFunction(func_name, func_dom, false, new HashMap < String, Domain > (), declared_Func);
-    if (f == null) throw new ParseException("Error: The function " + func_name + "(" + dom_name + ")" + " has not been declared. It cannot be defined!", token);
+    if (f == null) throw new ParseException("Error: The function " + func_name + "(" + dom_name + ")" + " has not been declared. It cannot be defined!");
     //check if the function has already been defined
-    if (f.getDefinition() != null) throw new ParseException("Error: The function " + func_name + "(" + dom_name + ")" + " has been defined twice.", token);
+    if (f.getDefinition() != null) throw new ParseException("Error: The function " + func_name + "(" + dom_name + ")" + " has been defined twice.");
     //set the reference to the function to define
     func_def.setDefinedFunction(f);
     f.setDefinition(func_def);
@@ -1576,8 +1602,8 @@ FunctionDefinition FunctionDefinition(Asm m) :
     //X ADefinitionDefinedFunction a_FuncDef_Func = structurePack.getADefinitionDefinedFunction();
     //X a_FuncDef_Func.add(f,func_def);
     //check ocl constraint 1
-    if (!((f instanceof StaticFunction) || (f instanceof DerivedFunction))) throw new ParseException("Error: Only static and derived functions can be defined.\n" + "       At the definition of the function " + func_name + "(" + dom_name + ")" + ".", token);
-    if (!OCL_Checker.checkFunctionDefinition(func_def)) throw new ParseException(OCL_Checker.getMsgErr() + "\n       At the definition of the function " + func_name + "(" + dom_name + ")" + ".", token);
+    if (!((f instanceof StaticFunction) || (f instanceof DerivedFunction))) throw new ParseException("Error: Only static and derived functions can be defined.\n" + "       At the definition of the function " + func_name + "(" + dom_name + ")" + ".");
+    if (!OCL_Checker.checkFunctionDefinition(func_def)) throw new ParseException(OCL_Checker.getMsgErr() + "\n       At the definition of the function " + func_name + "(" + dom_name + ")" + ".");
     return func_def;
   }
 }
@@ -1638,7 +1664,7 @@ MacroDeclaration MacroDeclaration() :
       ","
       { //check if the next variable is already used (look for it in the localVar HashMap)
         String nextVar = getToken(1).image;
-        if (localVar.get(nextVar) != null) throw new ParseException("Error: The variable " + nextVar + " cannot be used because it is already used.", token);
+        if (localVar.get(nextVar) != null) throw new ParseException("Error: The variable " + nextVar + " cannot be used because it is already used.");
       }
       v = VariableTerm(localVar, true)  //LOOKAHEAD( {getToken(1).kind == ID_FUNCTION && getToken(1).image.equals("in")})<ID_FUNCTION>
       < IN > inDom = getDomainByID()
@@ -1728,7 +1754,7 @@ TurboDeclaration TurboDeclaration() :
       ","
       { //check if the next variable is already used (look for it in the localVar HashMap)
         String nextVar = getToken(1).image;
-        if (localVar.get(nextVar) != null) throw new ParseException("Error: The variable " + nextVar + " cannot be used because it is already used.", token);
+        if (localVar.get(nextVar) != null) throw new ParseException("Error: The variable " + nextVar + " cannot be used because it is already used.");
       }
       v = VariableTerm(localVar, true)  //LOOKAHEAD( {getToken(1).kind == ID_FUNCTION && getToken(1).image.equals("in")})<ID_FUNCTION>
       < IN > inDom = getDomainByID()
@@ -1830,7 +1856,7 @@ Invariant Invariant(Asm m) :
       if (dom == null) dom = Utility.getBasicDomain(domainsFactory, idElement);
       if (dom == null) dom = Utility.getPredefinedAbstractDomain(domainsFactory, idElement);
       if (dom == null) dom = Utility.getStructuredDomain(domainsFactory, idElement, header.getSignature());
-      if (dom == null) throw new ParseException("Error: The domain " + idElement + " has not been declared. Invariant declaration failed ", token);
+      if (dom == null) throw new ParseException("Error: The domain " + idElement + " has not been declared. Invariant declaration failed ");
       domains.add(dom);
       dom.getConstraint().add(invariant);
       //create the association
@@ -1849,14 +1875,14 @@ Invariant Invariant(Asm m) :
       if (!funHasArg)
       {
         LinkedList f_list = (LinkedList) declared_Func.get(idElement);
-        if (f_list == null) throw new ParseException("Error: The function " + idElement + " has not been declared. Invariant declaration failed.", token);
+        if (f_list == null) throw new ParseException("Error: The function " + idElement + " has not been declared. Invariant declaration failed.");
         else if (f_list.size() == 1) func = (Function) f_list.getFirst();
-        else throw new ParseException("Error: The function " + idElement + " is overloaded. Specify its domain in the invariant declaration.", token);
+        else throw new ParseException("Error: The function " + idElement + " is overloaded. Specify its domain in the invariant declaration.");
       }
       else
       {
         func = Utility.getFunction(idElement, dom, false, new HashMap(), declared_Func);
-        if (func == null) throw new ParseException("Error: The function " + idElement + "(" + dom.getName() + ") has not been declared. Invariant declaration failed ", token);
+        if (func == null) throw new ParseException("Error: The function " + idElement + "(" + dom.getName() + ") has not been declared. Invariant declaration failed ");
       }
       functions.add(func);
       func.getConstraint().add(invariant);
@@ -1883,7 +1909,7 @@ Invariant Invariant(Asm m) :
         if (dom == null) dom = Utility.getBasicDomain(domainsFactory, idElement);
         if (dom == null) dom = Utility.getPredefinedAbstractDomain(domainsFactory, idElement);
         if (dom == null) dom = Utility.getStructuredDomain(domainsFactory, idElement, header.getSignature());
-        if (dom == null) throw new ParseException("Error: The domain " + idElement + " has not been declared. Invariant declaration failed.", token);
+        if (dom == null) throw new ParseException("Error: The domain " + idElement + " has not been declared. Invariant declaration failed.");
         domains.add(dom);
         dom.getConstraint().add(invariant);
         //create the association
@@ -1899,14 +1925,14 @@ Invariant Invariant(Asm m) :
         if (!funHasArg)
         {
           LinkedList f_list = (LinkedList) declared_Func.get(idElement);
-          if (f_list == null) throw new ParseException("Error: The function " + idElement + " has not been declared. Invariant declaration failed.", token);
+          if (f_list == null) throw new ParseException("Error: The function " + idElement + " has not been declared. Invariant declaration failed.");
           else if (f_list.size() == 1) func = (Function) f_list.getFirst();
-          else throw new ParseException("Error: The function " + idElement + " is overloaded. Specify its domain in the invariant declaration.", token);
+          else throw new ParseException("Error: The function " + idElement + " is overloaded. Specify its domain in the invariant declaration.");
         }
         else
         {
           func = Utility.getFunction(idElement, dom, false, new HashMap(), declared_Func);
-          if (func == null) throw new ParseException("Error: The function " + idElement + "(" + dom.getName() + ") has not been declared. Invariant declaration failed.", token);
+          if (func == null) throw new ParseException("Error: The function " + idElement + "(" + dom.getName() + ") has not been declared. Invariant declaration failed.");
         }
         functions.add(func);
         func.getConstraint().add(invariant);
@@ -1947,7 +1973,7 @@ Invariant Invariant(Asm m) :
     {
       Logger.logErr("Error: The expression specifying an invariant must be a term whose associated type-domain is Boolean.");
       //PA 2 feb 2011: aggiunta ParseException  
-      throw new ParseException("Error: The expression specifying an invariant must be a term whose associated type-domain is Boolean.", token);
+      throw new ParseException("Error: The expression specifying an invariant must be a term whose associated type-domain is Boolean.");
     }
   }
   {
@@ -2493,7 +2519,7 @@ Domain getDomainByID() :
       domain = declared_Dom.get(domName);
       if (domain == null) domain = Utility.getPredefinedDomain(domainsFactory, domName);
       if (domain == null) {
-          	  throw new ParseException("Error: " + domName + " domain is not declared.", token);      
+          	  throw new ParseException("Error: " + domName + " domain is not declared.");      
       }
     }
   | domain = StructuredTD()
@@ -2865,7 +2891,7 @@ Term Expression(HashMap localVar, boolean areAllowedNewVar) :
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
       //assert tupleT.getTerms().size() == tupleT.getArity();
-      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   )*
   {
@@ -2899,7 +2925,7 @@ Term or_xorLogicExpr(HashMap localVar, boolean areAllowedNewVar) :
       String funcName = Utility.getFunctionName(op.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
       //assert tupleT.getTerms().size() == tupleT.getArity();      arg1 = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
-      if (arg1 == null) throw new ParseException("");
+      if (arg1 == null) throw new ParseException("Error at ");
     }
   )*
   {
@@ -2926,7 +2952,7 @@ Term andLogicExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg1 = t;
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   )*
   {
@@ -2962,7 +2988,7 @@ Term includesExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg1 = t;
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   )?
   {
@@ -3016,7 +3042,9 @@ Term relationalExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg1 = t;
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      //assert tupleT.getTerms().size() == tupleT.getArity();
+      t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());      if (t == null) 
+      		throw new ParseException("Error reading relationalExpr ");
     }
   )*
   {
@@ -3043,7 +3071,7 @@ Term notLogicExpr(HashMap localVar, boolean areAllowedNewVar) :
       String funcName = Utility.getFunctionName(op.image);
       TupleTerm tupleT = Utility.createSingle(arg, termsPack, defPack, header.getSignature());
       //assert tupleT.getTerms().size() == tupleT.getArity();
-      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   | t = additiveExpr(localVar, areAllowedNewVar)
   )
@@ -3080,7 +3108,7 @@ Term additiveExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg1 = t;
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   )*
   {
@@ -3122,7 +3150,7 @@ Term multiplicativeExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg1 = t;
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   )*
   {
@@ -3147,7 +3175,7 @@ Term powerExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg1 = t;
       String funcName = Utility.getFunctionName(tok.image);
       TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   )*
   {
@@ -3259,14 +3287,14 @@ FunctionTerm FunctionTerm(HashMap localVar, boolean areAllowedNewVar) :
       FunctionTerm agent_funT;
       if (agentName.equals("self"))
       {
-        if ((agent_funT = Utility.createFunctionTerm("self", null, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+        if ((agent_funT = Utility.createFunctionTerm("self", null, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
       }
       else
       {
         Term arg = Utility.createStringT(agentName, termsPack, domainsFactory);
         TupleTerm agentArg = Utility.createSingle(arg, termsPack, defPack, header.getSignature());
         //assert agentArg.getTerms().size() == agentArg.getArity();
-        if ((agent_funT = Utility.createFunctionTerm("getAgent", agentArg, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+        if ((agent_funT = Utility.createFunctionTerm("getAgent", agentArg, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
       }
       //insert the functionTerm created as first element of tupleT
       if (tupleT == null)
@@ -3311,13 +3339,13 @@ LocationTerm LocationTerm(HashMap localVar, boolean areAllowedNewVar) :
       FunctionTerm agent_funT;
       if (agentName.equals("self"))
       {
-        if ((agent_funT = Utility.createFunctionTerm("self", null, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+        if ((agent_funT = Utility.createFunctionTerm("self", null, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
       }
       else
       {
         Term arg = Utility.createStringT(agentName, termsPack, domainsFactory);
         TupleTerm agentArg = Utility.createPair(arg, null, termsPack, defPack, header.getSignature());
-        if ((agent_funT = Utility.createFunctionTerm("getAgent", agentArg, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("");
+        if ((agent_funT = Utility.createFunctionTerm("getAgent", agentArg, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
       }
       //insert the functionTerm created as first element of tupleT
       if (tupleT == null)
@@ -3356,7 +3384,7 @@ VariableTerm VariableTerm(HashMap < String, VariableTerm > localVar, boolean are
       localVar.put(name, variable);
       //set TypeDomain
       AnyDomain anyDomain = Utility.getAnyDomain(domainsFactory, anyDomainAnyName);
-      if (anyDomain == null) throw new ParseException("Error: The AnyDomain is not defined", token);
+      if (anyDomain == null) throw new ParseException("Error: The AnyDomain is not defined");
       variable.setDomain(anyDomain);
     } //else use the variable found in the HashMap
     //OCL constraints are granted for construction.
@@ -3903,7 +3931,7 @@ SequenceTerm SequenceTerm(HashMap localVar, boolean areAllowedNewVar) :
     if (size == 0) //empty collection
     {
       AnyDomain anyDomain = Utility.getAnyDomain(domainsFactory, anyDomainAnyName);
-      if (anyDomain == null) throw new ParseException("Error: The genric AnyDomain is not defined");
+      if (anyDomain == null) throw new ParseException("Error: The genric Anydomain is not defined");
       elemTD = anyDomain;
     }
     else
@@ -4006,7 +4034,7 @@ SetTerm SetTerm(HashMap localVar, boolean areAllowedNewVar) :
     if (size == 0) //empty collection
     {
       AnyDomain anyDomain = Utility.getAnyDomain(domainsFactory, anyDomainAnyName);
-      if (anyDomain == null) throw new ParseException("Error: The generic AnyDomain is not defined");
+      if (anyDomain == null) throw new ParseException("Error: The generic Anydomain is not defined");
       elemTD = anyDomain;
     }
     else
@@ -4109,7 +4137,7 @@ MapTerm MapTerm(HashMap localVar, boolean areAllowedNewVar) :
     if (size == 0) //empty collection
     {
       AnyDomain anyDomain = Utility.getAnyDomain(domainsFactory, anyDomainAnyName);
-      if (anyDomain == null) throw new ParseException("Error: The AnyDomain is not defined");
+      if (anyDomain == null) throw new ParseException("Error: The Anydomain is not defined");
       sourceTD = targetTD = anyDomain;
     }
     MapDomain mapDom = Utility.getMap(sourceTD, targetTD, defPack, header.getSignature());
@@ -5878,9 +5906,9 @@ TurboCallRule TurboCallRule(HashMap localVar, RuleDeclaration c) :
       List < Domain > domains = Utility.buildDomains(actualParamList);
       Logger.logErr("rules already declared: " + Utility.toString(declared_Rules));
       //Logger.logErr("Asbtract domains:" + Utility.toString(Utility.abstractTds.values()));
-      throw new ParseException("Error: Unresolved reference to " + ruleName + Utility.toString(domains), token);
+      throw new ParseException("Error: Unresolved reference to " + ruleName + Utility.toString(domains));
     }
-    if (!(r instanceof TurboDeclaration)) throw new ParseException("Error: The rule " + ruleName + " is not declared as turbo, but it is called as it was.", token);
+    if (!(r instanceof TurboDeclaration)) throw new ParseException("Error: The rule " + ruleName + " is not declared as turbo, but it is called as it was.");
     //set reference
     rule.setCalledRule((TurboDeclaration) r);
     if (ruleName.equals(c.getName()))  //***NEW by Patrizia - in case of recursion, don't check OCL constraints
@@ -5889,7 +5917,7 @@ TurboCallRule TurboCallRule(HashMap localVar, RuleDeclaration c) :
     if (!OCL_Checker.checkTurboCallRule(rule))
     { //For debugging
       Logger.logDebug(rule.getParameters().size() + " " + rule.getCalledRule().getArity());
-      throw new ParseException(OCL_Checker.getMsgErr() + "\n       At the application of the rule " + ruleName + " as a submachine.", token);
+      throw new ParseException(OCL_Checker.getMsgErr() + "\n       At the application of the rule " + ruleName + " as a submachine.");
     }
     return rule;
   }
@@ -5920,7 +5948,7 @@ TurboReturnRule TurboReturnRule(HashMap localVar, RuleDeclaration c) :
         locVar.setKind(VariableKind.LOCATION_VAR);
         Logger.logDebug("\t\t\t" + locVar.getName() + " updated: TD=" + locVar.getDomain().getName() + ", kind=" + locVar.getKind().toString());
       }
-      else if (locVar.getKind() == VariableKind.RULE_VAR) throw new ParseException("Error: In a turbo-return rule, the variable to update must be a location variable, not a rule variable.", token);
+      else if (locVar.getKind() == VariableKind.RULE_VAR) throw new ParseException("Error: In a turbo-return rule, the variable to update must be a location variable, not a rule variable.");
     }
   )
   "<-"

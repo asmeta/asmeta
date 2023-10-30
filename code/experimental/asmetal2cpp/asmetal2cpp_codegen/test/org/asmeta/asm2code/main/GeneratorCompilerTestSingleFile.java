@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 
-public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest2 {
+public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest {
 
 
 	/*
@@ -33,56 +33,56 @@ public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest2 {
 	@Test
 	public void testCoffeeVendingMachine() throws IOException, Exception {
 		String asmspec = "examples/coffeeVendingMachine.asm";
-		if (!test(asmspec,options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec,testOptions, false).success)
 			fail();
 	}
 
 	@Test
 	public void testCoffeeVendingMachineNC() throws IOException, Exception {
 		String asmspec = "examples/coffeeVendingMachineNC.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 
 	@Test
 	public void testSIS() throws IOException, Exception {
 		String asmspec = "examples/SIS.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 
 	@Test
 	public void testATM3() throws IOException, Exception {
 		String asmspec = "examples/ATM3.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
 	@Test
 	public void testmoncontr() throws IOException, Exception {
 		String asmspec = "examples/moncontr.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
 	@Test
 	public void testFLIPFLOP() throws IOException, Exception {
 		String asmspec = "examples/FLIP_FLOP_0.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
 	@Test
 	public void testSetDomain() throws IOException, Exception {
 		String asmspec = "examples/SetDomain.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
 	@Test
 	public void testMapDomain() throws IOException, Exception {
 		String asmspec = "examples/MapDomain.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
@@ -91,63 +91,63 @@ public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest2 {
 	@Test
 	public void testFlipFlop() throws IOException, Exception {
 		String asmspec = "examples/FLIP_FLOP_0.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 
 	@Test
 	public void testHemodialysis() throws IOException, Exception {
 		String asmspec = "examples/Hemodialysis_ref4_forMC.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 
 	@Test
 	public void testEuclide() throws IOException, Exception {
 		String asmspec = "examples/euclideMCD.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 
 	@Test
 	public void testFattoriale() throws IOException, Exception {
 		String asmspec = "examples/fattoriale.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 
 	@Test
 	public void testFibonacci() throws IOException, Exception {
 		String asmspec = "examples/fibonacci.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 
 	@Test
 	public void testPopulation_raff1_twoPersons() throws IOException, Exception {
 		String asmspec = "examples/population_raff1_twoPersons.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 
 	@Test
 	public void testsluiceGate() throws IOException, Exception {
 		String asmspec = "examples/sluiceGateGround.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
 	@Test
 	public void testSort() throws IOException, Exception {
 		String asmspec = "examples/QuickSort.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
 	@Test
 	public void testExtend() throws IOException, Exception {
 		String asmspec = "examples/ExtendRule1.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
@@ -155,7 +155,7 @@ public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest2 {
 	@Test
 	public void testRoulette() throws IOException, Exception {
 		String asmspec = "examples/roulette.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
@@ -163,7 +163,7 @@ public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest2 {
 	@Test
 	public void testSwapSort() throws IOException, Exception {
 		String asmspec = "examples/SwapSort.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
@@ -171,14 +171,14 @@ public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest2 {
 	@Test
 	public void testPopulation() throws IOException, Exception {
 		String asmspec = "examples/population.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
 	@Test
 	public void testAbstractDom() throws IOException, Exception {
 		String asmspec = "examples/AbstractDom.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
@@ -186,14 +186,14 @@ public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest2 {
 	@Test
 	public void testProdDomain() throws IOException, Exception {
 		String asmspec = "examples/ProdDomain.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
 	@Test
 	public void testgameOfLife() throws IOException, Exception {
 		String asmspec = "examples/gameOfLife.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
@@ -201,28 +201,28 @@ public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest2 {
 	@Test
 	public void testLGSHM() throws IOException, Exception {
 		String asmspec = "examples/LGS_HM.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
 	@Test
 	public void testLGS3L() throws IOException, Exception {
 		String asmspec = "examples/LGS_3L.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
 	@Test
 	public void testcounter() throws IOException, Exception {
 		String asmspec = "examples/asmeta_examples/Counter.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
 	@Test
 	public void testPB() throws IOException, Exception {
 		String asmspec = "../../../../asm_examples/PillBox/Level0/pillbox_0.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 	
@@ -230,7 +230,7 @@ public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest2 {
 	@Test
 	public void testNot() throws IOException, Exception {
 		String asmspec = "examples/notTest.asm";
-		if (!test(asmspec, options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
 
@@ -246,7 +246,7 @@ public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest2 {
 		List<CompileResult> results = new ArrayList<>();
 		listf("examples", allUasmFiles);
 		for (File f : allUasmFiles) {
-			results.add(test(f.getPath(),options));
+			results.add(AsmetaL2CppGeneratorMain.translate(f.getPath(),testOptions, false));
 		}
 		for (int i = 0; i < allUasmFiles.size(); i++) {
 			File f = allUasmFiles.get(i);

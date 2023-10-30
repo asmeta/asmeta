@@ -89,7 +89,13 @@ public class SaveResults {
 						} catch(IllegalArgumentException  ie2) {}
 							
 					}	
-					new toAvalla(ftc,tc,asm_to_import.toString()).save();
+					String asmtoImportPath = asm_to_import.toString();
+					// sometimes the path can contain spaces or (1) 
+					if (asmtoImportPath.contains(" ") || asmtoImportPath.contains("(")|| asmtoImportPath.contains(")")) {
+						assert  ! asmtoImportPath.startsWith("\"");
+						asmtoImportPath = "\""+ asmtoImportPath  + "\""; 
+					}
+					new toAvalla(ftc,tc,asmtoImportPath).save();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

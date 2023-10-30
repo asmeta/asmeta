@@ -29,10 +29,12 @@ public class MacroEvaluatorTest {
 
 	@Test
 	public void test01() throws Throwable {
+		// ge the macros before
+		HashMap<String, Rule> macros = RuleEvaluator.macros;
+		int oldSize = macros.size();
 		sim = Util.getSimulatorForTestSpec("test/simulator/macro/macro09.asm");
 		sim.run(1);
-		HashMap<String, Rule> macros = RuleEvaluator.macros;
-		Assert.assertEquals(4, macros.size());
+		Assert.assertEquals(4 + oldSize, macros.size());
 		Assert.assertTrue(macros.containsKey("macro09::r_foo[\"hello\"]"));
 		Assert.assertTrue(macros.containsKey("macro09::r_bar[\"hello\",macro10::punc]"));
 		Assert.assertTrue(macros.containsKey("macro09::r_odd[macro10::func(\"hello\"),macro10::punc,true]"));

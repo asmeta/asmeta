@@ -59,7 +59,7 @@ class AvallaValidator extends AbstractAvallaValidator {
 			// TODO
 			return
 		}
-		if (! scenario.spec.endsWith(".asm")) {
+		if (! scenario.spec.endsWith(ASMParser.ASM_EXTENSION)) {
 			error('Asm spec should end with asm', AvallaPackage.Literals.SCENARIO__SPEC)
 			return;
 		}

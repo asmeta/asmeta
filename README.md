@@ -36,10 +36,10 @@ asmeta main repository with code and examples
 
 To use the asmeta framework in Eclipse IDE you need to install:
 
-* Zest SDK 1.7
 * XText SDK >= 2.20
+* GEF Classic Zest SDK (for the visualizer)
 * Eclipse Plug-in Development Environment
-* JavaCC Eclipse Plug-in
+* JavaCC Eclipse Plug-in (optional)
 
 https://asmeta.github.io/
 
@@ -47,9 +47,15 @@ https://asmeta.github.io/
 
 new version! - some improvements regarding the parsing and some minor bugs are fixed:
 
-https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2022_09.zip
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2023_06.zip
 
 #### old versions
+
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2023_05.zip
+
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2023_03.zip
+
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2022_09.zip
 
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2022_04.zip
 

@@ -58,6 +58,7 @@ import asmeta.terms.furtherterms.ComprehensionTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
 import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistUniqueTerm;
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
@@ -167,7 +168,12 @@ public class TermXMIVisitor extends ReflectiveVisitor {
 	public String visit(ExistTerm exist) {
 		return visitQuant(exist, "exist");
 	}
+
 	
+	public String visit(ExistUniqueTerm exist) {
+		return visitQuant(exist, "exist unique");
+	}
+
     
 	public String visit(ForallTerm forall) {
 		return visitQuant(forall, "forall");

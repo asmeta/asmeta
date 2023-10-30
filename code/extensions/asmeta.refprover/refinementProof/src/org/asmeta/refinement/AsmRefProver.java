@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.asmeta.parser.ASMParser;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -73,7 +74,7 @@ public class AsmRefProver {
 		String abstractModelName = arguments.get(0);
 		String refinedModelName = arguments.get(1);
 		RefinementProof rp = new RefinementProof(abstractModelName, refinedModelName);
-		String proofFileName = "proof_" + new File(abstractModelName).getName().replaceAll(".asm", "") + "_" + new File(refinedModelName).getName().replaceAll(".asm", "") + ".txt" ;
+		String proofFileName = "proof_" + new File(abstractModelName).getName().replaceAll(ASMParser.ASM_EXTENSION, "") + "_" + new File(refinedModelName).getName().replaceAll(ASMParser.ASM_EXTENSION, "") + ".txt" ;
 		if(saveProof) {
 			File proofFile = new File(proofFileName);
 			if(proofFile.exists()) {

@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.runtime_composer.CompositionException;
 import org.asmeta.runtime_composer.CompositionManager;
+import org.asmeta.runtime_composer.CompositionRunType;
 import org.asmeta.runtime_composer.CompositionTreeNode;
 import org.asmeta.runtime_composer.CompositionTreeNodeType;
 import org.asmeta.runtime_container.Esit;
@@ -151,7 +152,7 @@ public class Commander {
 		String symbols[] = line.split("\\s+");
 		for(String symbol: symbols) {
 			if(!symbol.toLowerCase().equals("setup") && !symbol.equals("|") && !symbol.equals("||") && !symbol.equals("<|>")) {
-				if(!symbol.contains(".asm")) {
+				if(!symbol.contains(ASMParser.ASM_EXTENSION)) {
 					valid = false;
 					break;
 				}
@@ -468,7 +469,7 @@ public class Commander {
 				token = token.replace(")", "");
 				end = true;
 			}
-			if(token.contains(".asm")) {
+			if(token.contains(ASMParser.ASM_EXTENSION)) {
 				if(!end) {
 					parsedCommand.append(token + " | ");
 				} else {
@@ -499,7 +500,7 @@ public class Commander {
 				token = token.replace(")", "");
 				end = true;
 			}
-			if(token.contains(".asm")) {
+			if(token.contains(ASMParser.ASM_EXTENSION)) {
 				if(!end) {
 					parsedCommand.append(token + " <|> ");
 				} else {
@@ -524,13 +525,13 @@ public class Commander {
 		
 		String[] tokens = argument.split(",");
 		if(tokens.length == 2) {
-			if(tokens[1].contains(".asm") && tokens[1].toUpperCase().contains("RUN(")) {
+			if(tokens[1].contains(ASMParser.ASM_EXTENSION) && tokens[1].toUpperCase().contains("RUN(")) {
 				cmdWhileDo("WHILE " + tokens[0] + " DO " + tokens[1]);
 			} else {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 			}
 		} else if(tokens.length == 3){
-			if(tokens[1].contains(".asm") && tokens[1].toUpperCase().contains("RUN(")) {
+			if(tokens[1].contains(ASMParser.ASM_EXTENSION) && tokens[1].toUpperCase().contains("RUN(")) {
 				cmdWhileDo("WHILE " + tokens[0] + " DO " + tokens[1] + "," + tokens[2]);
 			} else {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
@@ -583,13 +584,13 @@ public class Commander {
 		
 		String[] tokens = argument.split(",");
 		if(tokens.length == 2) {
-			if(tokens[1].contains(".asm")) {
+			if(tokens[1].contains(ASMParser.ASM_EXTENSION)) {
 				cmdIf("IF " + tokens[0] + " THEN " + tokens[1]);
 			} else {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 			}
 		} else if(tokens.length == 3) {
-			if(tokens[1].contains(".asm") && tokens[2].contains(".asm")) {
+			if(tokens[1].contains(ASMParser.ASM_EXTENSION) && tokens[2].contains(ASMParser.ASM_EXTENSION)) {
 				cmdIf("IF " + tokens[0] + " THEN " + tokens[1] + " ELSE " + tokens[2]);
 			} else {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
@@ -635,7 +636,7 @@ public class Commander {
 				for(int i = 0; i <= ifThenElseMatcher.groupCount(); i++) {
 					if(ifThenElseMatcher.group(i) != null) {
 						if(i > 1) {
-							if(ifThenElseMatcher.group(i).contains(".asm")) {
+							if(ifThenElseMatcher.group(i).contains(ASMParser.ASM_EXTENSION)) {
 								groups.add(ifThenElseMatcher.group(i));
 							}
 						} else {
@@ -666,7 +667,7 @@ public class Commander {
 					functionOnS2 = groups.get(4);
 					modelS2 = groups.get(5);
 				}
-				if(!modelS1.contains(".asm") || !modelS2.contains(".asm")) {
+				if(!modelS1.contains(ASMParser.ASM_EXTENSION) || !modelS2.contains(ASMParser.ASM_EXTENSION)) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 					return;
 				}
@@ -753,7 +754,7 @@ public class Commander {
 					modelS1 = groups.get(3);
 				}
 				
-				if(!modelS1.contains(".asm")) {
+				if(!modelS1.contains(ASMParser.ASM_EXTENSION)) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 					return;
 				}
@@ -917,7 +918,7 @@ public class Commander {
 	private static void cmdSetup(String argument) {
 		CompositionTreeNode compositionTree = parseComplex(argument);
 		if(compositionTree != null) {
-			compManager = new CompositionManager(compositionTree, false);
+			compManager = new CompositionManager(compositionTree, false, CompositionRunType.Commander);
 			//cmdInit("-n " + CompositionTreeNode.getNodeNumber());
 			CompositionTreeNode aux = null;
 			for(int i = 1; i <= CompositionTreeNode.getNodeNumber(); i++) {
@@ -946,7 +947,7 @@ public class Commander {
 			}
 			for(String token: tokens) {
 				if(!token.toUpperCase().equals("SETUP")) {
-					if(token.contains(".asm")) {
+					if(token.contains(ASMParser.ASM_EXTENSION)) {
 						params.add(token);
 					} else {
 						try {
@@ -1061,7 +1062,7 @@ public class Commander {
 					// In the example: RUN(1) <-> RUN -id 1 or RUN(Square.asm, {x=FOUR}) <-> RUN -id <id of Square.asm> -locationvalue {x=FOUR}
 					// group(0) -> the entire expression
 					// group(1) -> the model id -> 1
-					if(firstParam.contains(".asm")) {
+					if(firstParam.contains(ASMParser.ASM_EXTENSION)) {
 						if(containerInstance != null && containerInstance.getLoadedIDs().containsValue(defaultModelDir + "/" + firstParam)) {
 							for(int id: containerInstance.getLoadedIDs().keySet()) {
 								if(containerInstance.getLoadedIDs().get(id).equals(defaultModelDir + "/" + firstParam)) {
@@ -1082,7 +1083,7 @@ public class Commander {
 					// group(1) -> the model id -> 1
 					// group(2) -> the whole location-value set -> {x=FOUR,y=TWO}
 					// group(3) -> the last expression of the location-value set -> y=TWO
-					if(firstParam.contains(".asm")) {
+					if(firstParam.contains(ASMParser.ASM_EXTENSION)) {
 						if(containerInstance != null && containerInstance.getLoadedIDs().containsValue(defaultModelDir + "/" + firstParam)) {
 							for(int id: containerInstance.getLoadedIDs().keySet()) {
 								if(containerInstance.getLoadedIDs().get(id).equals(defaultModelDir + "/" + firstParam)) {

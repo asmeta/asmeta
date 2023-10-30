@@ -1,9 +1,3 @@
-/.AsmToCGenerator.java._trace
-/.AsmToCGenerator.xtendbin
-/.CppGenerator.java._trace
-/.CppGenerator.xtendbin
-/.HeaderGenerator.java._trace
-/.HeaderGenerator.xtendbin
 /AsmToCGenerator.java
 /CppGenerator.java
 /HeaderGenerator.java

@@ -67,7 +67,7 @@ public abstract class HWIntegratorAbstractClass {
 			//System.out.println(jsonGen.compile(model,true));
 			//Check if the U2C file has to be exported
 			if (export) {
-				String filePath = uasmFile.getPath().replace(".asm", ".u2c");
+				String filePath = uasmFile.getPath().replace(ASMParser.ASM_EXTENSION, ".u2c");
 				String separator = (filePath.indexOf("\\") >= 0) ? "\\" : "/";
 				int index = filePath.lastIndexOf(separator) + 1;
 				filePath = filePath.substring(0, index) + dateFormat.format(new Date()) + "_" + filePath.substring(index, filePath.length());
@@ -90,7 +90,7 @@ public abstract class HWIntegratorAbstractClass {
 	 */
 	public void generateHWIntegrationLibrary(String asmFilePath) throws IOException, Exception {
 		File asmFile = new File(asmFilePath);
-		File hwFile = new File(asmFile.getParent() + "/" + asmFile.getName().replace(AsmToCGenerator.Ext, HWIntegrationGenerator.Ext));
+		File hwFile = new File(asmFile.getParent() + "/" + asmFile.getName().replace(ASMParser.ASM_EXTENSION, HWIntegrationGenerator.Ext));
 		File u2cFile = getLastU2CFile(asmFile.getParentFile());
 		
 		assertTrue(asmFile.exists() && u2cFile.exists());
@@ -117,7 +117,7 @@ public abstract class HWIntegratorAbstractClass {
 	public void generateInoProject(String asmFilePath,final Boolean createProjectFolderFlag ) throws IOException, Exception{
 		File asmFile = new File(asmFilePath);
 		File u2cFile = getLastU2CFile(asmFile.getParentFile());
-		File inoFile = new File(asmFile.getParent() + "/" + asmFile.getName().replace(AsmToCGenerator.Ext, InoGenerator.Ext));
+		File inoFile = new File(asmFile.getParent() + "/" + asmFile.getName().replace(ASMParser.ASM_EXTENSION, InoGenerator.Ext));
 		
 		assertTrue(asmFile.exists() && u2cFile.exists());
 		

@@ -2,26 +2,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>asmeta</groupId>
 	<artifactId>asmetal2cpp_codegen</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
-		<resources>
-			<resource>
-				<directory>src</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>xtend-gen</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -32,23 +19,22 @@
 				</configuration>
 			</plugin>
 			<plugin>
-			    <groupId>org.codehaus.mojo</groupId>
-			    <artifactId>build-helper-maven-plugin</artifactId>
-			    <version>3.0.0</version>
-			    <executions>
-			        <execution>
-			            <phase>generate-sources</phase>
-			            <goals>
-			                <goal>add-source</goal>
-			            </goals>
-			            <configuration>
-			                <sources>
-			                    <source>xtend-gen</source>
-			                    <source>test</source>
-			                </sources>
-			            </configuration>
-			        </execution>
-			    </executions>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>xtend-gen</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -56,12 +42,12 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
+			<version>4.13.2</version>
 		</dependency>
 		<dependency>
-		    <groupId>log4j</groupId>
-		    <artifactId>log4j</artifactId>
-		    <version>1.2.17</version>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
@@ -69,9 +55,9 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.eclipse.xtext</groupId>
-		    <artifactId>org.eclipse.xtext.generator</artifactId>
-		    <version>2.22.0</version>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext.generator</artifactId>
+			<version>2.32.0</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
@@ -79,9 +65,15 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.github.mhoffrog.attached</groupId>
-		    <artifactId>org.eclipse.cdt.core</artifactId>
-		    <version>5.11.0</version>
+			<groupId>com.github.mhoffrog.attached</groupId>
+			<artifactId>org.eclipse.cdt.core</artifactId>
+			<version>5.11.0</version>
 		</dependency>
 	</dependencies>
+	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.all</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../../..</relativePath>
+	</parent>
 </project>

@@ -1,6 +1,5 @@
 package org.asmeta.refinement;
 
-import org.asmeta.refinement.RefinementProof;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

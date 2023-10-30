@@ -49,6 +49,7 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 public class GraphEdgesAdder extends RuleVisitor<Node> {
 	static AsmetaTermPrinter tp = new AdvancedTermPrinter(false);
 	// static TermDecod tp = new TermDecod(false);
+	// FIXME, do not put static
 	public static boolean detectSemanticPatterns = false;
 
 	static public class Edge {
@@ -351,7 +352,7 @@ public class GraphEdgesAdder extends RuleVisitor<Node> {
 
 	@Override
 	public Node visit(SeqRule rule) {
-		throw new RuntimeException(" not implemented");
+		throw new RuntimeException(rule.getClass() + " not implemented");
 		/*
 		 * List<Edge> edges = new ArrayList<Edge>(); List<org.eclipse.gef4.graph.Node>
 		 * nodes = new ArrayList<org.eclipse.gef4.graph.Node>(); HashMap<String, Object>

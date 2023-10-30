@@ -8,7 +8,7 @@ public class ASMFileFilter implements java.io.FileFilter {
 	public boolean accept(File f) {
 		return (!f.getName().equalsIgnoreCase("standardlibrary.asm") && !f.getName().equalsIgnoreCase("ctllibrary.asm")
 				&& !f.getName().equalsIgnoreCase("ltllibrary.asm") && !f.isDirectory()
-				&& f.getName().toLowerCase().endsWith(".asm"));
+				&& f.getName().toLowerCase().endsWith(ASMParser.ASM_EXTENSION));
 	}
 
 	public String getDescription() {

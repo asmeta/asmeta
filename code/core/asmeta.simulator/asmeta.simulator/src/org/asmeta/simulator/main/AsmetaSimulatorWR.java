@@ -7,7 +7,6 @@ import org.asmeta.simulator.LocationSet;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
-import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.AsmCollection;

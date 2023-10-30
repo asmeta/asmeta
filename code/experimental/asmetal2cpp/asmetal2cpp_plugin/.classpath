@@ -14,6 +14,7 @@
 	</classpathentry>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="xtend-gen">
 		<attributes>
+			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>

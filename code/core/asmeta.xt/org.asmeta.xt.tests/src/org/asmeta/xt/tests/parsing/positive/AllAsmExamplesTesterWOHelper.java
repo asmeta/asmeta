@@ -1,34 +1,16 @@
 package org.asmeta.xt.tests.parsing.positive;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
-import org.asmeta.xt.AsmetaLStandaloneSetup;
 import org.asmeta.xt.parser.AsmetaLParserWOHelper;
 import org.asmeta.xt.parser.ParseAndValidateResult;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.xtext.nodemodel.INode;
-import org.eclipse.xtext.parser.IParseResult;
-import org.eclipse.xtext.parser.IParser;
-import org.eclipse.xtext.service.OperationCanceledError;
-import org.eclipse.xtext.util.CancelIndicator;
-import org.eclipse.xtext.validation.CheckMode;
-import org.eclipse.xtext.validation.IResourceValidator;
-import org.eclipse.xtext.validation.Issue;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.google.inject.Injector;
 
 /**
  * test for all the examples in asm_examples
@@ -348,7 +330,7 @@ public class AllAsmExamplesTesterWOHelper {
 	};
 
 	static ArrayList<String> errors_path = new ArrayList<String> () {{
-		// File da saltare perchè sbagliati
+		// File da saltare perchï¿½ sbagliati
 		add("..\\..\\..\\asm_examples\\test\\simulator\\ArithmeticExpr02.asm");
 		add("..\\..\\..\\asm_examples\\test\\errors\\np\\m1.asm");
 		add("..\\..\\..\\asm_examples\\dagstuhl2013\\DijkstraTermination\\old\\terminationFinished20170108.asm");
@@ -548,6 +530,7 @@ public class AllAsmExamplesTesterWOHelper {
 				continue;
 
 			// parse and validate them
+//			if (specName.endsWith(ASMParser.asmExtension)) {
 			if (specName.endsWith(".asm")) {
 				if (!testAsmetaXtFile(specName, true)) {
 					System.err.println(specName);
