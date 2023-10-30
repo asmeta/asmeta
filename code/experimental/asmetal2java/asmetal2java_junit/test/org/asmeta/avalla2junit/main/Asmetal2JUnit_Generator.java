@@ -6,7 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import org.asmeta.asm2code.main.GeneratorCompilerTest;
+
+import org.asmeta.asm2java.main.GeneratorCompilerTest;
 import org.asmeta.asm2java.main.TranslatorOptions;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Scenario;
@@ -18,9 +19,10 @@ import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;
-import com.google.inject.Injector;
 import asmetal2java_junit.AvallaToString;
 import org.asmeta.asm2java.formatter.Formatter;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class Asmetal2JUnit_Generator {
 	
