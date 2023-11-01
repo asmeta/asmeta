@@ -150,13 +150,14 @@ public class AsmetaSMV {
 		else if (AsmetaSMVOptions.isUseNuXmv())
 			runNuXMV();
 		else {
-			List<String> commands = buildCommandLine(smvFileName);
+			List<String> commands;
 			// try to get the dir 
-			// for example it can be absoplute or relative
+			// for example it can be absolute or relative like /tmp/kkkk or example/...
 			File smvFile = new File(smvFileName);
 			if (smvFile.exists() && smvFile.getParentFile()!=null) {
 				smvFileName = smvFile.getName();
 				commands = buildCommandLine(smvFileName);
+				//System.out.println("*** executic " + commands + "  " + smvFile.getParentFile() );
 				runNuSMV(commands,smvFile.getParentFile());
 			} else { 
 				commands = buildCommandLine(smvFileName);
