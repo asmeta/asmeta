@@ -67,9 +67,6 @@ code_quality:
   stage: post-test
   artifacts:
     paths: [gl-code-quality-report.json]
-  # run the CI only on the branch gitlab_ci
-  only:
-    - gitlab_ci
 
 # Job for uploading the html report as artifact to gitlab
 code_quality_html:
@@ -81,9 +78,6 @@ code_quality_html:
     REPORT_FORMAT: html
   artifacts:
     paths: [gl-code-quality-report.html]
-  # run the CI only on the branch gitlab_ci
-  only:
-    - gitlab_ci
 
 # Job to translate the JaCoCo xml into a cobertura xml
 # coverage:
