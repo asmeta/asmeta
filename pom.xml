@@ -9,6 +9,8 @@
 	<properties>
 		<jacoco.destFile>${project.basedir}/reports/coverage/jacoco/jacoco.exec</jacoco.destFile>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+    	<maven.compiler.source>17</maven.compiler.source>
+    	<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 	<modules>
 		<module>code/core</module>
@@ -48,7 +50,7 @@
 		</module>
 	</modules>
 	<build>
-		<plugins>
+		<plugins>			
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
