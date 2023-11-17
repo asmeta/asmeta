@@ -521,7 +521,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	}
 
 	private void listenerMoveUpDown(Table table_functions_left_origin, Table table_states_right_origin,
-			Table table_functions_left_dest, Table table_states_right_dest, Image arrow, boolean check) {
+			Table table_functions_left_dest, Table table_states_right_dest, final Image arrow, final boolean check) {
 		table_functions_left_origin.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event arg0) {
@@ -715,7 +715,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	// Add listener: when resize table_moved resize table_follower
 	void addResizeListener(Table table_moved, Table table_follower, int i) {
-		TableColumn column_up = table_moved.getColumn(i);
+		final TableColumn column_up = table_moved.getColumn(i);
 		column_up.addControlListener(new ControlListener() { // Listener dimensione colonna
 			@Override
 			public void controlResized(ControlEvent arg0) {
