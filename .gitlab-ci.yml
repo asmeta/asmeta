@@ -43,7 +43,8 @@ test-jdk8:
   allow_failure: false
   script:
 # install nusmv  
-    - './install.sh'
+    - chmod +x ./install.sh
+    - source ./install.sh
 #    - 'mvn -Dassembly.skipAssembly=true -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
     - 'mvn --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
   artifacts:
