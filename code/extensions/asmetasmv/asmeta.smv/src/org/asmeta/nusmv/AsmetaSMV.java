@@ -334,7 +334,7 @@ public class AsmetaSMV {
 	/** 
 	 * @return the solver name (with the path if necessary)
 	 */
-	static public String getSolverName() {
+	public static String getSolverName() {
 		String solverName;
 		// nuXmv also accepts standard NuSMV files
 		if (AsmetaSMVOptions.getSolverPath() == null) {
