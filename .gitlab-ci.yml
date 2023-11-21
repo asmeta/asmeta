@@ -42,7 +42,11 @@ test-jdk8:
   # lo metto per farlo eseguire manualmente
   allow_failure: false
   script:
-    - 'mvn -Dassembly.skipAssembly=true -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
+# install nusmv  
+    - chmod +x ./install.sh
+    - ./install.sh
+#    - 'mvn -Dassembly.skipAssembly=true -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
+    - 'mvn --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
   artifacts:
     when: always
     reports: # Upload the info for the job report artifact (artifact:reports:junit in this case)

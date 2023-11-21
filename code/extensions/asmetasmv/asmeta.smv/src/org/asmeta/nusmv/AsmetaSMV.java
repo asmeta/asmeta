@@ -342,10 +342,10 @@ public class AsmetaSMV {
 			// solverName = "nuXmv";
 			// } else {
 			// to run NuSMV also on MacOS X
-			String os_name = System.getProperty("os.name");
+			String osName = System.getProperty("os.name");
 			String os_version = System.getProperty("os.version");
-			boolean isMac = os_name.toLowerCase().contains("mac");
-			boolean isWSL = os_name.contains("Linux") && os_version.contains("WSL");
+			boolean isMac = osName.toLowerCase().contains("mac");
+			boolean isWSL = osName.contains("Linux") && os_version.contains("WSL");
 			if (isMac) {
 				// commands.add("/bin/sh");
 				// commands.add("-c");
@@ -354,7 +354,7 @@ public class AsmetaSMV {
 				// assume windows with WSL - exe is needed
 				solverName = "NuSMV.exe";
 			} else {
-				// assume windows
+				// assume windows or Linux
 				solverName = "NuSMV";
 			}
 			// }
