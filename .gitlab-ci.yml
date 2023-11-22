@@ -42,7 +42,7 @@ test:
   # lo metto per farlo eseguire manualmente
   allow_failure: false
   variables:
-        NUSMV_URL: "http://nusmv.fbk.eu/distrib"
+        NUSMV_URL: "https://nusmv.fbk.eu/distrib"
         NUSMV_FILE: "NuSMV-2.6.0-linux64.tar.gz"
   before_script:
 #    - apt-get update -y
@@ -50,7 +50,7 @@ test:
 #    - apt-get install wget -y        
   # install nusmv  
 #    - wget -O "$NUSMV_FILE" "${NUSMV_URL}/${NUSMV_FILE}"
-    - curl "${NUSMV_URL}/${NUSMV_FILE}"
+    - curl "${NUSMV_URL}/${NUSMV_FILE}" --output ${NUSMV_FILE}
     - tar -xf "$NUSMV_FILE"
     #- chmod +x NuSMV-2.6.0-Linux\bin
     #    - chown root:root monteur
