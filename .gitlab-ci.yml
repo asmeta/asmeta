@@ -1,7 +1,8 @@
 variables:
   # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
   # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
-  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true  -Djava.awt.headless=true"
+  # MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true  -Djava.awt.headless=true"
+  MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
 # Specify the version of java to use
 image: maven:3.8.5-openjdk-17
@@ -10,13 +11,14 @@ image: maven:3.8.5-openjdk-17
 stages:
   - build
   - test
-  - post-test
+  #- post-test
     
 # Cache downloaded dependencies and plugins between builds.
 # To keep cache across branches add 'key: "$CI_JOB_NAME"'
 cache:
   paths:
     - .m2/repository
+    - target
 
 # Template for running a code quality analyzer 
 include:
@@ -59,11 +61,12 @@ test:
     #    - mv ./tmp/monteur "${MONTEUR_FS}/."
     #    - rm -rf tmp/
     #    - ls -la "${PWD}/${MONTEUR_FS}"
-    - export PATH="PATH:NuSMV-2.6.0-Linux/bin/"
+    - export PATH="${PATH}:NuSMV-2.6.0-Linux/bin/"
     #- NuSMV -help
   script:
-    - 'mvn -Dassembly.skipAssembly=true -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
-    - 'mvn --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
+#    - mvn -Dassembly.skipAssembly=true -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate
+#    - mvn --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate
+     - mvn test
   artifacts:
     when: always
     reports: # Upload the info for the job report artifact (artifact:reports:junit in this case)
