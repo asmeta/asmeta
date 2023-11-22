@@ -45,11 +45,12 @@ test:
         NUSMV_URL: "http://nusmv.fbk.eu/distrib"
         NUSMV_FILE: "NuSMV-2.6.0-linux64.tar.gz"
   before_script:
-    - apt-get update -y
-    - apt-get upgrade -y
-    - apt-get install wget -y        
+#    - apt-get update -y
+#    - apt-get upgrade -y
+#    - apt-get install wget -y        
   # install nusmv  
-    - wget -O "$NUSMV_FILE" "${NUSMV_URL}/${NUSMV_FILE}"
+#    - wget -O "$NUSMV_FILE" "${NUSMV_URL}/${NUSMV_FILE}"
+    - curl "${NUSMV_URL}/${NUSMV_FILE}"
     - tar -xf "$NUSMV_FILE"
     #- chmod +x NuSMV-2.6.0-Linux\bin
     #    - chown root:root monteur
