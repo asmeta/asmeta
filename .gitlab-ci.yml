@@ -37,14 +37,27 @@ build:
 # TODO:
 # - Remove the failure.ignore=true AFTER fixing all the tests.
 #   To make it so that when a test fails, the pipeline job also fails.
-test-jdk8:
+test:
   stage: test
   # lo metto per farlo eseguire manualmente
   allow_failure: false
+  variables:
+        NUSMV_URL: "http://nusmv.fbk.eu/distrib"
+        NUSMV_FILE: "NuSMV-2.6.0-linux64.tar.gz"
+  before_script:        
+  # install nusmv  
+    - wget -O "$NUSMV_FILE" "${NUSMV_URL}/${NUSMV_FILE}"
+    - tar -xf "$NUSMV_FILE"
+    #- chmod +x NuSMV-2.6.0-Linux\bin
+    #    - chown root:root monteur
+    #    - cd ..
+    #    - mkdir -p "$MONTEUR_FS"
+    #    - mv ./tmp/monteur "${MONTEUR_FS}/."
+    #    - rm -rf tmp/
+    #    - ls -la "${PWD}/${MONTEUR_FS}"
+    - export PATH="PATH:NuSMV-2.6.0-Linux/bin/"
+    - NuSMV -help
   script:
-# install nusmv  
-    - chmod +x ./install.sh
-    - ./install.sh
 #    - 'mvn -Dassembly.skipAssembly=true -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
     - 'mvn --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
   artifacts:
