@@ -34,9 +34,9 @@ public class AsmetaSMVtest {
 			// outputRunNuSMV = getOutput(smvFileName);
 		} catch (Exception e) {
 			out.println("Execution error\n" + e);
-			out.println("OS " + System.getProperty("os.name") + " VERSION: " + System.getProperty("os.version"));
-			failed = true; 
-			
+			out.println("OS: " + System.getProperty("os.name") + " VERSION: " + System.getProperty("os.version"));
+			out.println("path: " + System.getProperty("PATH"));			
+			failed = true; 			
 		} finally {
 			if (proc != null) proc.destroy();
 		}

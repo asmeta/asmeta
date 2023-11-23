@@ -61,8 +61,8 @@ test:
     #    - mv ./tmp/monteur "${MONTEUR_FS}/."
     #    - rm -rf tmp/
     #    - ls -la "${PWD}/${MONTEUR_FS}"
-    - export PATH="$PATH:NuSMV-2.6.0-Linux/bin/"
-    #- NuSMV -help
+    - export PATH="$PATH:$PWD/NuSMV-2.6.0-Linux/bin/"
+    - NuSMV -help
   script:
 #    - mvn -Dassembly.skipAssembly=true -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate
 #    - mvn --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate
