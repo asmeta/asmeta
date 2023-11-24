@@ -52,7 +52,7 @@ public class CppCompiler {
 		// search in the path
 		Map<String, String> env = System.getenv();
 		// windows
-		String path = isWindows()?env.get("Path") : env.get("PATH");
+		String path = isWindows()? env.get("Path") : env.get("PATH");
 		assertNotNull(path);
 		logger.debug("searching the compiler in the path " + path);
 		for(String dirInPath: path.split(File.pathSeparator)){
