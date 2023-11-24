@@ -7,7 +7,7 @@ variables:
 # Specify the version of java to use
 # image: maven:3.8.5-openjdk-17
 # provo questa che poi magari riesco ad installare g++
-image: eclipse-temurin:17-jdk-alpine
+image: maven:3.9.5-eclipse-temurin-17-alpine
 
 # Specify the stages that will make up the pipeline
 stages:
