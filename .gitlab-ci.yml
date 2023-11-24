@@ -63,6 +63,8 @@ test:
     #    - ls -la "${PWD}/${MONTEUR_FS}"
     - export PATH="$PATH:$PWD/NuSMV-2.6.0-Linux/bin/"
     # - NuSMV -help
+    # installiano il g++ per asmeta2gcc
+    - apk add --no-cache g++ make
   script:
 #    - mvn -Dassembly.skipAssembly=true -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate
 #    - mvn --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate
