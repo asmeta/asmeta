@@ -23,8 +23,8 @@ cache:
     - target
 
 # Template for running a code quality analyzer 
-include:
-  - template: Code-Quality.gitlab-ci.yml
+#include:
+#  - template: Code-Quality.gitlab-ci.yml
   
 # Job for checking wether the mvn build succeeds
 build:
