@@ -518,7 +518,7 @@ public class RuleEvaluatorAllUpdateSets extends RuleVisitor<SetUpdateSet> {
 		} else {
 			ValueAssignment newAssignment = new ValueAssignment(termEval.assignment);
 			newAssignment.put(chooseRule.getVariable(), boundContent);
-			RuleEvaluator newEvaluator = new RuleEvaluator(termEval.state, termEval.environment, newAssignment);
+			RuleEvaluator newEvaluator = RuleEvaluatorFactory.RULE_EVAL_FACT.createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
 			BooleanValue guard = null;
 			if (chooseRule.getGuard() != null) {
 				guard = (BooleanValue) newEvaluator.visitTerm(chooseRule.getGuard());

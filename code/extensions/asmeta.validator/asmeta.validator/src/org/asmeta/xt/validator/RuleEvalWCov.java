@@ -10,8 +10,10 @@ import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.ValueAssignment;
+import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
@@ -33,12 +35,17 @@ public class RuleEvalWCov extends RuleEvaluator {
 	public RuleEvalWCov(State state, Environment environment,
 			RuleFactory factory) {
 		super(state, environment, factory);
-		coveredMacros = new HashSet<MacroDeclaration>();
+		coveredMacros = new HashSet<>();
 	}
 	
 	public RuleEvalWCov(State state, Environment environment,
 			ValueAssignment assignment) {
 		super(state, environment, assignment);
+	}
+	
+	protected BooleanValue evalGuard(ConditionalRule condRule) {
+		BooleanValue eval = super.evalGuard(condRule);
+		return eval;
 	}
  
 	
@@ -49,6 +56,9 @@ public class RuleEvalWCov extends RuleEvaluator {
 		logger.debug("addding coverage " + macroRule.getCalledMacro().getName());
 		return super.visit(macroRule);
 	}
+	
+	
+	
 
 	/**public void printCoveredMacro(PrintStream ps){
 		for (MacroDeclaration md: coveredMacros){
