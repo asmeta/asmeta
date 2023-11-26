@@ -7,7 +7,7 @@ Bundle-Version: 23.07
 Bundle-SymbolicName: org.asmeta.avallaxt.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.avallaxt,
- org.junit,
+ org.junit;bundle-version="4.13.2",
  org.eclipse.xtext.testing,
  org.eclipse.xtext.xbase.testing,
  org.eclipse.xtext.xbase.lib;bundle-version="2.14.0"

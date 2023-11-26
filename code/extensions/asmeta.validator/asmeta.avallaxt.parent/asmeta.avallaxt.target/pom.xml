@@ -9,5 +9,10 @@
 	<artifactId>asmeta.avallaxt.target</artifactId>
 	<packaging>eclipse-target-definition</packaging>
 	<dependencies>
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.emf</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

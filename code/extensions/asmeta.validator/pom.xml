@@ -9,6 +9,7 @@
 	</properties>
 	<modules>
 	<module>org.asmeta.avallaxt</module>
+	<module>org.asmeta.avallaxt.tests</module>
 	<module>asmeta.validator</module>
 	<module>asmeta.validator.test</module>
 	</modules>

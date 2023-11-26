@@ -40,7 +40,7 @@ public class TestSingleScenario extends TestParserAndValidation {
 
 	@Test
 	public void checkSLE() {
-		assertTrue(test("..\\..\\..\\..\\asm_examples\\examples\\fsmsemantics\\Sle\\testEven1.avalla",PossibleFaults.NONE));
+		assertTrue(test("../../../../../asm_examples\\examples\\fsmsemantics\\Sle\\testEven1.avalla",PossibleFaults.NONE));
 		assertTrue(test("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla",PossibleFaults.NONE));
 	}
 
