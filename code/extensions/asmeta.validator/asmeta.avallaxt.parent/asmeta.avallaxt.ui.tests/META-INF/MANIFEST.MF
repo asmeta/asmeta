@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: asmeta.avallaxt.ui.tests
+Bundle-ManifestVersion: 2
+Bundle-Name: asmeta.avallaxt.ui.tests
+Bundle-Vendor: foselab.unibg.it
+Bundle-Version: 23.07
+Bundle-SymbolicName: asmeta.avallaxt.ui.tests; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: asmeta.avallaxt.ui,
+ org.junit;bundle-version="4.13.2",
+ org.eclipse.xtext.testing,
+ org.eclipse.xtext.ui.testing,
+ org.eclipse.xtext.xbase.testing,
+ org.eclipse.xtext.xbase.ui.testing,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.workbench;resolution:=optional
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: asmeta.avallaxt.ui.tests;x-internal=true
+

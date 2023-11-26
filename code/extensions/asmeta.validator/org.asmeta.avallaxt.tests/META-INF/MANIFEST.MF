@@ -12,6 +12,4 @@ Require-Bundle: org.asmeta.avallaxt,
  org.eclipse.xtext.xbase.testing,
  org.eclipse.xtext.xbase.lib;bundle-version="2.14.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Export-Package: org.asmeta.avallaxt.tests;x-internal=true,
- org.asmeta.avallaxt.tests.syntax,
- org.asmeta.avallaxt.tests.validation
+Export-Package: org.asmeta.avallaxt.tests;x-internal=true

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: asmeta.avallaxt.ide
+Bundle-ManifestVersion: 2
+Bundle-Name: asmeta.avallaxt.ide
+Bundle-Vendor: foselab.unibg.it
+Bundle-Version: 23.07
+Bundle-SymbolicName: asmeta.avallaxt.ide;singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: asmeta.avallaxt,
+ org.eclipse.xtext.ide,
+ org.eclipse.xtext.xbase.ide,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: asmeta.avallaxt.ide.contentassist.antlr.internal,
+ asmeta.avallaxt.ide.contentassist.antlr

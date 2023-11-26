@@ -48,6 +48,7 @@ import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.LocationSet;
+import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.RuleEvaluatorAllUpdateSets;
 import org.asmeta.simulator.SetUpdateSet;
 import org.asmeta.simulator.State;
@@ -90,13 +91,13 @@ public class SimulatorAllUpdateSets extends Simulator {
 	public static boolean checkAxioms = true;
 
 	private static BufferedReader in;
-
-
+	
+	
 	/**
-	 * The rule evaluator.
+	 * The rule evaluator: be careful, this shadows a filed in the superclass with the same name
+	 * it is need becuase this Reuls valutaor return a set of update sets 
 	 */
 	protected RuleEvaluatorAllUpdateSets ruleEvaluator;
-	
 	
 	/**
 	 * Constructor.

@@ -23,7 +23,7 @@ import org.junit.Test;
 public class TestSingleFile extends TestValidator {
 
 	@Test
-	public void testBuilder() throws Exception {		
+	public void testLift() throws Exception {		
 		test("scenariosfortest/lift.avalla", false, false);
 	}
 

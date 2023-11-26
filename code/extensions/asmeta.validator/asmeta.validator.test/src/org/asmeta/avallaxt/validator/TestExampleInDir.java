@@ -38,7 +38,7 @@ public class TestExampleInDir extends TestValidator {
 	private void testInDir(String dirPath) throws IOException, Exception {
 		List<Path> failures = new ArrayList<>();
 		Path examplePath = Paths.get(dirPath);
-		Assert.assertTrue(Files.isDirectory(examplePath));
+		Assert.assertTrue("dir not found "+  Paths.get(".").toAbsolutePath(),Files.isDirectory(examplePath));
 		Iterator<Path> files = Files.walk(examplePath).iterator();
 		while (files.hasNext()) {
 			Path fileToRead = files.next();

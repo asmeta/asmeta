@@ -26,7 +26,7 @@ import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 /**
- * AsmPrinter that takes avalla script and produces an Asmeta Spec
+ * AsmPrinter that takes avalla script and produces an Asmeta Spec representing the semantics of the script
  * 
  * @author garganti
  */

@@ -1,0 +1,11 @@
+scenario lift
+load Lift.asm
+
+set insideCall(1):= true;
+
+step
+
+check direction = UP;
+
+
+step

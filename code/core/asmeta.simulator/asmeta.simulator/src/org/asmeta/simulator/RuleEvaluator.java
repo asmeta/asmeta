@@ -280,6 +280,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		return updateSet;
 	}
 
+	// used by condittional rule to evaluate the guard
 	protected BooleanValue evalGuard(ConditionalRule condRule) {
 		logger.debug("<Guard>");
 		Value value = visitTerm(condRule.getGuard());
@@ -377,7 +378,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				// all the value changes are committed, clear them
 				// nextUpdateSet.resetValueChanges();
 			}
-			RuleEvaluator newRuleEvaluator = RuleEvaluatorFactory.RULE_EVAL_FACT.createRuleEvaluator(nextState,termEval.environment,termEval.assignment);
+			RuleEvaluator newRuleEvaluator = createRuleEvaluator(nextState,termEval.environment,termEval.assignment);
 			nextUpdateSet = newRuleEvaluator.visit(nextRule);
 			updateSet.merge(nextUpdateSet);
 		}
@@ -404,7 +405,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		State nextState = new State(termEval.state);
 		// TODO controllare che sia corretto
 		while (guardValue.getValue()) {
-			RuleEvaluator newRuleEvaluator = RuleEvaluatorFactory.RULE_EVAL_FACT.createRuleEvaluator(nextState,termEval.environment,termEval.assignment);
+			RuleEvaluator newRuleEvaluator = createRuleEvaluator(nextState,termEval.environment,termEval.assignment);
 			nextUpdateSet = newRuleEvaluator.visit(rule);
 			updateSet.merge(nextUpdateSet);
 			// PA 2014/01/16: il seguente if prima era all'inizio del ciclo.
@@ -444,7 +445,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		}
 		logger.debug("</InitList>");
 		logger.debug("<InRule>");
-		RuleEvaluator newRuleEvaluator = RuleEvaluatorFactory.RULE_EVAL_FACT.createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
+		RuleEvaluator newRuleEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
 		UpdateSet updateSet = newRuleEvaluator.visit(letRule.getInRule());
 		logger.debug("</InRule>");
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
@@ -507,7 +508,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		} else {
 			ValueAssignment newAssignment = new ValueAssignment(termEval.assignment);
 			newAssignment.put(forRule.getVariable(), boundValues);
-			RuleEvaluator newEvaluator = RuleEvaluatorFactory.RULE_EVAL_FACT.createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
+			RuleEvaluator newEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
 			logger.debug("<Guard>");
 			BooleanValue guard = (BooleanValue) newEvaluator.visitTerm(forRule.getGuard());
 			logger.debug("</Guard>");
@@ -603,7 +604,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			// all variables are fixed
 			ValueAssignment newAssignment = new ValueAssignment(termEval.assignment);
 			newAssignment.put(chooseRule.getVariable(), boundContent);
-			RuleEvaluator newEvaluator = RuleEvaluatorFactory.RULE_EVAL_FACT.createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
+			RuleEvaluator newEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
 			logger.debug("<Guard>");
 			BooleanValue guard = null;
 			if (chooseRule.getGuard() != null)
@@ -699,7 +700,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		EList<VariableTerm> vars = dcl.getVariable();
 		ValueAssignment newAssignment = new ValueAssignment();
 		newAssignment.put(vars, values);
-		RuleEvaluator newEval = RuleEvaluatorFactory.RULE_EVAL_FACT.createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
+		RuleEvaluator newEval = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
 		UpdateSet updates = newEval.visit(dcl.getRuleBody());
 		logger.debug("</TurboCallRule>");
 		return updates;
@@ -841,7 +842,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			updateSet.add(dom, newValue);
 			newAssignment.put(var, newValue);
 		}
-		RuleEvaluator newEvaluator = RuleEvaluatorFactory.RULE_EVAL_FACT.createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
+		RuleEvaluator newEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
 		UpdateSet doSet = newEvaluator.visit(extendRule.getDoRule());
 		updateSet.union(doSet);
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
@@ -897,6 +898,17 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		}
 		logger.debug("</Domains>");
 		return values;
+	}
+
+	/** make a new rule evaluator similar to this but with a different parts
+	 * 
+	 * @param state
+	 * @param environment
+	 * @param assignment
+	 * @return
+	 */
+	protected RuleEvaluator createRuleEvaluator(State state, Environment environment, ValueAssignment assignment) {
+		return new RuleEvaluator(state, environment, assignment);
 	}
 
 	/**

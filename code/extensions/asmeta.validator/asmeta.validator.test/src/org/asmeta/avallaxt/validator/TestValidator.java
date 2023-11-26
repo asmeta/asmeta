@@ -16,7 +16,6 @@ import asmeta.AsmCollection;
 
 public class TestValidator {
 
-	static int i = 0;
 
 	static String pathname = "temp/";
 
@@ -26,9 +25,14 @@ public class TestValidator {
 	}
 
 	@BeforeClass
-	public static void cleanup(){
-		i = 0;
+	public static void cleanup() throws IOException{
 		File dir = new File(pathname);
+		// if it exists is a directory
+		assert ! dir.exists() || dir.isDirectory();
+		// if it does not exist, create it
+		if (!dir.exists()) {
+			assertTrue(dir.mkdir());
+		}
 		assert dir.exists() && dir.isDirectory();
 		// clean directory
 		for(File file: dir.listFiles()) {

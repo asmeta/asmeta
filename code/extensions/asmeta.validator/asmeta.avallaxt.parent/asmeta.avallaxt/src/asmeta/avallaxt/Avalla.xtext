@@ -1,0 +1,90 @@
+grammar asmeta.avallaxt.Avalla /*with org.eclipse.xtext.common.Terminals*/ hidden(WS, ML_COMMENT, SL_COMMENT)
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+generate avalla "http://www.asmeta.org/avallaxt/Avalla"
+
+// PROVIAMO METODO BARBARICO
+Scenario:
+	'scenario' name= GOOD_CHARS_NO_COLON
+	'load' spec=Path
+	invariants+=Invariant*
+	elements+=Element*;
+
+Invariant:
+	'invariant' name=GOOD_CHARS_NO_COLON ':' expression=sentence ";";
+
+Element:
+	Command | Block;
+
+Command:
+	Check | Set | {Step} Step | StepUntil | Exec | ExecBlock;
+
+Check:
+	'check' expression=sentence ";";
+
+Set:
+	'set' location=sentence ':=' value=sentence ";";
+
+Step:
+	'step';
+
+StepUntil:
+	'step' 'until' expression=sentence ";";
+
+Exec:
+	'exec' rule=sentencePlusAssign ";";
+
+Block:
+	'begin' name= GOOD_CHARS_NO_COLON
+	elements+=Element*
+	'end';
+
+	// example sc:bl -> search block bl in the scenario sc
+// a block bl2 can be defined inside another block bll
+// begin bl1
+//    begin bl2
+//    end 
+// end
+// we refer to bl2 only with bl2 (NOT bl1:bl2)
+
+// example scanrio:block -> search block in the scenario
+// if a block is inside the same scenario, scenario can be skipped 
+ExecBlock:
+	'execblock' (scenario=GOOD_CHARS_NO_COLON ':')? block=GOOD_CHARS_NO_COLON ';';
+
+	// or a word or a string (with spaces in it)
+Path: (GOOD_CHARS_NO_COLON | ':')+ | STRING;
+
+	// a string between double quotes
+terminal STRING:
+	'"' (!('"'))* '"';
+
+	// standard
+terminal ML_COMMENT:
+	'/*'->'*/';
+
+terminal SL_COMMENT:
+	'//' !('\n' | '\r')* ('\r'? '\n')?;
+
+terminal WS:
+	(' ' | '\t' | '\r' | '\n')+;
+
+// a sequence of char string terminated by ; or by : semicolon
+// it can be also a string like "even"
+// it can be found also assignments in case of exec, like c:=y
+// it can be f( "pippo" ) = "jjj"
+sentence:
+	(GOOD_CHARS_NO_COLON | STRING)+;
+
+sentencePlusAssign:
+	(GOOD_CHARS_NO_COLON | ':=' | STRING)+;
+
+
+terminal GOOD_CHAR_NO_COLON:
+//
+	('\u0021'..'\u0039' // da ! (0021) - spazio escluso a 9 (0039) // skip ':' ';'
+	| '\u003C'..'\u007E' // da < a ~
+);
+
+terminal GOOD_CHARS_NO_COLON:
+	GOOD_CHAR_NO_COLON+;	

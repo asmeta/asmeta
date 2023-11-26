@@ -98,11 +98,15 @@ public class AsmetaV {
 		builder.save();
 		File tempAsmPath = builder.getTempAsmPath();
 		logger.info("** temp ASMETA saved in " + tempAsmPath.getAbsolutePath() + " **\n");
-		Simulator sim = Simulator.createSimulator(tempAsmPath.getPath());
-		sim.setShuffleFlag(true);
+		// create the simulator with the coverage
+		Simulator sim;
 		if (coverage) {
-			RuleEvaluator.COMPUTE_COVERAGE = true;
+			sim = SimulatorWCov.createSimulator(tempAsmPath.getPath());
+			//RuleEvaluator.COMPUTE_COVERAGE = true;
+		} else {
+			sim = Simulator.createSimulator(tempAsmPath.getPath());
 		}
+		sim.setShuffleFlag(true);
 		try {
 			sim.runUntilEmpty();
 		} catch (InvalidInvariantException iie) {
