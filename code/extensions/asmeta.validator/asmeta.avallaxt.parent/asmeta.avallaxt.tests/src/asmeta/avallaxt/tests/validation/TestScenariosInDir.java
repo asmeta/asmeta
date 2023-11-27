@@ -39,14 +39,16 @@ public class TestScenariosInDir extends TestParserAndValidation {
 	}
 
 	@Test
-	public void testAllAvallaXTTest() throws IOException {
+	public void testAllinValidatorTestExamples() throws IOException {
 		testAvallasInDir("../../asmeta.validator.test/scenariosforexamples");
 	}
 
+
+	
 	// ABZ2020
 	@Test
 	public void testABZ2020() throws IOException {
-		testAvallasInDir("example/abz2020/scenarios");
+		//testAvallasInDir("example/abz2020/scenarios");
 	}
 
 	

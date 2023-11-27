@@ -55,19 +55,28 @@ public class AvallaValidator extends AbstractAvallaValidator {
 
   @Check
   public void checkLoadASMexists(final Scenario scenario) {
-    boolean _startsWith = scenario.getSpec().startsWith("\"");
+    String specName = scenario.getSpec();
+    boolean _startsWith = specName.startsWith("\"");
     if (_startsWith) {
-      return;
+      boolean _endsWith = specName.endsWith("\"");
+      boolean _not = (!_endsWith);
+      if (_not) {
+        this.error("should end with the quote as well", AvallaPackage.Literals.SCENARIO__SPEC);
+        return;
+      }
+      int _length = specName.length();
+      int _minus = (_length - 1);
+      specName = specName.substring(1, _minus);
     }
-    boolean _endsWith = scenario.getSpec().endsWith(ASMParser.ASM_EXTENSION);
-    boolean _not = (!_endsWith);
-    if (_not) {
+    boolean _endsWith_1 = specName.endsWith(ASMParser.ASM_EXTENSION);
+    boolean _not_1 = (!_endsWith_1);
+    if (_not_1) {
       this.error("Asm spec should end with asm", AvallaPackage.Literals.SCENARIO__SPEC);
       return;
     }
     final Path asmPath = ScenarioUtility.getAsmPath(scenario);
-    boolean _not_1 = (!(Files.exists(asmPath) && Files.isRegularFile(asmPath)));
-    if (_not_1) {
+    boolean _not_2 = (!(Files.exists(asmPath) && Files.isRegularFile(asmPath)));
+    if (_not_2) {
       String _spec = scenario.getSpec();
       String _plus = ("File " + _spec);
       String _plus_1 = (_plus + " does not exist as ");

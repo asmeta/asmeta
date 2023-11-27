@@ -1,6 +1,7 @@
 package asmeta.avallaxt.tests.validation;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -11,7 +12,7 @@ public class TestSingleScenario extends TestParserAndValidation {
 
 	@Test
 	public void checkExampleBlockNoError() {
-		assertTrue(checkPossibleFaults("example/block1.avalla") == PossibleFaults_NONE);
+		assertSame(checkPossibleFaults("example/block1.avalla"),PossibleFaults_NONE);
 		assertTrue(checkPossibleFaults("example/block2.avalla") == PossibleFaults_NONE);
 		assertTrue(checkPossibleFaults("example/block3.avalla") == PossibleFaults_NONE);
 	}
@@ -19,17 +20,17 @@ public class TestSingleScenario extends TestParserAndValidation {
 	@Test
 	public void checkExampleBlockErrors() {
 		// with semantic errors
-		assertEquals(checkPossibleFaults("example/block_w1.avalla"),"ERROR block blocco5 does not exist in this scenario");
-		assertEquals(checkPossibleFaults("example/block_w2.avalla"),"ERROR block blocco1 declared multiple times");
-		assertEquals(checkPossibleFaults("example/block_w3.avalla"),"ERROR block blocco1 declared multiple times");
-		assertEquals(checkPossibleFaults("example/block_w4.avalla"),"ERROR scenario blockNOTEXISTS does not exist");
-		assertEquals(checkPossibleFaults("example/block_w5.avalla"),"ERROR scenario block1 does not contain block blocco5");
+		assertEquals("ERROR block blocco5 does not exist in this scenario",checkPossibleFaults("example/block_w1.avalla"));
+		assertEquals("ERROR block blocco1 declared multiple times",checkPossibleFaults("example/block_w2.avalla"));
+		assertEquals("ERROR block blocco1 declared multiple times",checkPossibleFaults("example/block_w3.avalla"));
+		assertEquals("ERROR scenario blockNOTEXISTS does not exist",checkPossibleFaults("example/block_w4.avalla"));
+		assertEquals("ERROR scenario block1 does not contain block blocco5",checkPossibleFaults("example/block_w5.avalla"));
 	}
 
 	@Test
 	public void checkExampleLift() {
-		assertEquals(checkPossibleFaults("example/lift_wrong1.avalla"),"ERROR Asm spec should end with asm");
-		assertEquals(checkPossibleFaults("example/lift_wrong2.avalla"),"ERROR File LiftNotExists.asm does not exist as example\\LiftNotExists.asm");
+		assertEquals("ERROR Asm spec should end with asm",checkPossibleFaults("example/lift_wrong1.avalla"));
+		assertEquals("ERROR File LiftNotExists.asm does not exist as example\\LiftNotExists.asm",checkPossibleFaults("example/lift_wrong2.avalla"));
 		assertEquals(checkPossibleFaults("example/lift_shared.avalla"),PossibleFaults_NONE);
 	}
 
@@ -37,6 +38,7 @@ public class TestSingleScenario extends TestParserAndValidation {
 	public void checkBattleShip() {
 		assertEquals(checkPossibleFaults("example/battleship1.avalla"),PossibleFaults_NONE);
 		assertEquals(checkPossibleFaults("example/battleship2.avalla"),PossibleFaults_NONE);
+		assertEquals(checkPossibleFaults("example/battleship3.avalla"),PossibleFaults_NONE);
 	}
 
 	@Test

@@ -47,7 +47,7 @@ public class TestParserAndValidation {
 			IParser parser = injector.getInstance(IParser.class);
 			IParseResult pResult = parser.parse(new FileReader(path));
 			if (!pResult.hasSyntaxErrors())
-				System.out.println("parser ok");
+				System.out.print("parser ok ");
 			else {
 				System.out.print("parser errors: ");
 				// print errors		
@@ -60,7 +60,7 @@ public class TestParserAndValidation {
 			IResourceValidator validator = injector.getInstance(IResourceValidator.class);
 			List<Issue> issues = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
 			if (issues.isEmpty()) {
-				System.out.println(" validation ok");
+				System.out.println("validation ok");
 				return PossibleFaults_NONE;
 			} else {
 				// use set of strings to avoid suplicates
