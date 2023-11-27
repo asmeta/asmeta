@@ -81,10 +81,11 @@
 			<artifactId>org.asmeta.avallaxt</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- be careful - xtext is built using 3.2.0-->
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr-runtime</artifactId>
-			<version>3.5.3</version>
+			<version>3.2</version>
 		</dependency>
 	</dependencies>
 	<parent>
