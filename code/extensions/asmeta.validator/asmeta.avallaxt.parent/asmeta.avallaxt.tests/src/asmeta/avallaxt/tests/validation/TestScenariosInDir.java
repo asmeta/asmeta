@@ -34,12 +34,13 @@ public class TestScenariosInDir extends TestParserAndValidation {
 
 	@Test
 	public void testAllAvallaXTTestExamples() throws IOException {
-		testAvallasInDir("example");
+		// skip these beasue they contain errors for testing
+		//testAvallasInDir("example");
 	}
 
 	@Test
 	public void testAllAvallaXTTest() throws IOException {
-		testAvallasInDir("../../asmeta.avallaxt.validator.test\\scenarios.avalla");
+		testAvallasInDir("../../asmeta.validator.test/scenariosforexamples");
 	}
 
 	// ABZ2020
@@ -58,7 +59,7 @@ public class TestScenariosInDir extends TestParserAndValidation {
 			Path fileToRead = files.next();
 			String scenarioName = fileToRead.toString();
 			if (scenarioName.endsWith(".avalla") && Files.isRegularFile(fileToRead)) {
-				if (!test(scenarioName, PossibleFaults.NONE)) {
+				if (checkPossibleFaults(scenarioName) != PossibleFaults_NONE) {
 					filexWithErrors.add(scenarioName);
 				}
 			}

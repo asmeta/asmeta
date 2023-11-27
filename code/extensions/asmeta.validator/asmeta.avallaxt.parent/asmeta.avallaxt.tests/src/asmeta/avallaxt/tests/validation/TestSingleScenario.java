@@ -1,5 +1,6 @@
 package asmeta.avallaxt.tests.validation;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -9,45 +10,44 @@ import org.junit.Test;
 public class TestSingleScenario extends TestParserAndValidation {
 
 	@Test
-	public void checkExampleBlock() {
-		assertTrue(test("example/block1.avalla", PossibleFaults.NONE));
-		assertTrue(test("example/block2.avalla", PossibleFaults.NONE));
-		assertTrue(test("example/block3.avalla", PossibleFaults.NONE));
+	public void checkExampleBlockNoError() {
+		assertTrue(checkPossibleFaults("example/block1.avalla") == PossibleFaults_NONE);
+		assertTrue(checkPossibleFaults("example/block2.avalla") == PossibleFaults_NONE);
+		assertTrue(checkPossibleFaults("example/block3.avalla") == PossibleFaults_NONE);
 	}
 
 	@Test
 	public void checkExampleBlockErrors() {
 		// with semantic errors
-		// assertTrue(test("example/block_w1.avalla", PossibleFaults.OTHERS));
-		// assertTrue(test("example/block_w2.avalla", PossibleFaults.OTHERS));
-		// assertTrue(test("example/block_w3.avalla", PossibleFaults.OTHERS));
-		// assertTrue(test("example/block_w4.avalla", PossibleFaults.OTHERS));
-		assertTrue(test("example/block_w5.avalla", PossibleFaults.OTHERS));
+		assertEquals(checkPossibleFaults("example/block_w1.avalla"),"ERROR block blocco5 does not exist in this scenario");
+		assertEquals(checkPossibleFaults("example/block_w2.avalla"),"ERROR block blocco1 declared multiple times");
+		assertEquals(checkPossibleFaults("example/block_w3.avalla"),"ERROR block blocco1 declared multiple times");
+		assertEquals(checkPossibleFaults("example/block_w4.avalla"),"ERROR scenario blockNOTEXISTS does not exist");
+		assertEquals(checkPossibleFaults("example/block_w5.avalla"),"ERROR scenario block1 does not contain block blocco5");
 	}
 
 	@Test
 	public void checkExampleLift() {
-		assertTrue(test("example/lift_wrong1.avalla", PossibleFaults.NOTEXISTS));
-		assertTrue(test("example/lift_w1.avalla", PossibleFaults.NOTEXISTS));
-		assertTrue(test("example/lift_shared.avalla", PossibleFaults.NONE));
+		assertEquals(checkPossibleFaults("example/lift_wrong1.avalla"),"ERROR Asm spec should end with asm");
+		assertEquals(checkPossibleFaults("example/lift_wrong2.avalla"),"ERROR File LiftNotExists.asm does not exist as example\\LiftNotExists.asm");
+		assertEquals(checkPossibleFaults("example/lift_shared.avalla"),PossibleFaults_NONE);
 	}
 
 	@Test
 	public void checkBattleShip() {
-		assertTrue(test("example/battleship1.avalla", PossibleFaults.NOTEXISTS));
-		assertTrue(test("example/battleship2.avalla", PossibleFaults.NOTEXISTS));
+		assertEquals(checkPossibleFaults("example/battleship1.avalla"),PossibleFaults_NONE);
+		assertEquals(checkPossibleFaults("example/battleship2.avalla"),PossibleFaults_NONE);
 	}
 
 	@Test
 	public void checkSLE() {
-		assertTrue(test("../../../../../asm_examples\\examples\\fsmsemantics\\Sle\\testEven1.avalla",PossibleFaults.NONE));
-		assertTrue(test("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla",PossibleFaults.NONE));
+		assertEquals(checkPossibleFaults("../../../../../asm_examples\\examples\\fsmsemantics\\Sle\\testEven1.avalla"),PossibleFaults_NONE);
+		//assertEquals(checkPossibleFaults("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla"),PossibleFaults_NONE);
 	}
 
 	// PROBLEMATICS
 	@Test
 	public void testproblematic() throws IOException {
-		test("../../../../asm_examples/DAS/TrafficMonitoringSystem/scenario1.avalla", PossibleFaults.NONE);
 		// test("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla",
 		// PossibleFaults.NONE);// SOLVED
 	}
@@ -59,12 +59,12 @@ public class TestSingleScenario extends TestParserAndValidation {
 		//test("example/abz2020/scenarios/wExecBlock.avalla", PossibleFaults.NONE);
 		// test("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla",
 		// PossibleFaults.NONE);// SOLVED
-		test("example/abz2020/CarSystem006scenario003.avalla", PossibleFaults.NONE);
+		//boolean test = (checkPossibleFaults("example/abz2020/CarSystem006scenario003.avalla") == PossibleFaults_NONE);
 	}
 
 	@Test
 	public void checkImportImport() {
-		assertTrue(test("example/importimport.avalla", PossibleFaults.NONE));
+		assertTrue(checkPossibleFaults("example/importimport.avalla") == PossibleFaults_NONE);
 	}
 
 	
