@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Automatic-Module-Name: asmeta.avallaxt.ide
 Bundle-ManifestVersion: 2
 Bundle-Name: asmeta.avallaxt.ide
-Bundle-Vendor: foselab.unibg.it
-Bundle-Version: 23.07
-Bundle-SymbolicName: asmeta.avallaxt.ide;singleton:=true
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: asmeta.avallaxt.ide; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: asmeta.avallaxt,
  org.eclipse.xtext.ide,

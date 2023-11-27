@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='1'>
-  <artifact classifier='org.eclipse.update.feature' id='asmeta.avallaxt.feature' version='1.0.0.202311260812'>
+  <artifact classifier='org.eclipse.update.feature' id='asmeta.avallaxt.feature' version='1.0.0.202311270553'>
     <properties size='7'>
-      <property name='artifact.size' value='611'/>
-      <property name='download.size' value='611'/>
+      <property name='artifact.size' value='615'/>
+      <property name='download.size' value='615'/>
       <property name='maven-groupId' value='asmeta.avallaxt'/>
       <property name='maven-artifactId' value='asmeta.avallaxt.feature'/>
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>

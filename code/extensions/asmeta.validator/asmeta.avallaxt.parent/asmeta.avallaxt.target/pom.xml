@@ -4,15 +4,12 @@
 	<parent>
 		<groupId>asmeta.avallaxt</groupId>
 		<artifactId>asmeta.avallaxt.parent</artifactId>
-		<version>23.7.0</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>asmeta.avallaxt.target</artifactId>
 	<packaging>eclipse-target-definition</packaging>
+
+
 	<dependencies>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.emf</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 </project>

@@ -17,8 +17,6 @@ import asmeta.avallaxt.validation.AvallaValidator;
 import com.google.inject.Binder;
 import com.google.inject.Provider;
 import com.google.inject.name.Names;
-
-import java.util.Observable;
 import java.util.Properties;
 import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.IGrammarAccess;
@@ -71,7 +69,6 @@ public abstract class AbstractAvallaRuntimeModule extends DefaultRuntimeModule {
 	public void configure(Binder binder) {
 		properties = tryBindProperties(binder, "asmeta/avallaxt/Avalla.properties");
 		super.configure(binder);
-		Observable o;
 	}
 	
 	public void configureLanguageName(Binder binder) {
