@@ -1,51 +1,51 @@
-<?xml version="1.0" encoding="windows-1252"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
 	<extension
 		point="org.eclipse.ui.editors">
 		<editor
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
 			contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
 			default="true"
 			extensions="avalla"
-			id="asmeta.avallaxt.Avalla"
+			id="org.asmeta.avallaxt.Avalla"
 			name="Avalla Editor">
 		</editor>
 	</extension>
 	<extension
 		point="org.eclipse.ui.handlers">
 		<handler
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
 			commandId="org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclaration">
 			<activeWhen>
 				<reference
-					definitionId="asmeta.avallaxt.Avalla.Editor.opened">
+					definitionId="org.asmeta.avallaxt.Avalla.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
 		<handler
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
-			commandId="asmeta.avallaxt.Avalla.validate">
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
+			commandId="org.asmeta.avallaxt.Avalla.validate">
 			<activeWhen>
 				<reference
-					definitionId="asmeta.avallaxt.Avalla.Editor.opened">
+					definitionId="org.asmeta.avallaxt.Avalla.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
 		<!-- copy qualified name -->
 		<handler
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedNameHandler"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedNameHandler"
 			commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName">
 			<activeWhen>
-				<reference definitionId="asmeta.avallaxt.Avalla.Editor.opened" />
+				<reference definitionId="org.asmeta.avallaxt.Avalla.Editor.opened" />
 			</activeWhen>
 		</handler>
 		<handler
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedNameHandler"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedNameHandler"
 			commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName">
 			<activeWhen>
 				<and>
-					<reference definitionId="asmeta.avallaxt.Avalla.XtextEditor.opened" />
+					<reference definitionId="org.asmeta.avallaxt.Avalla.XtextEditor.opened" />
 					<iterate>
 						<adapt type="org.eclipse.xtext.ui.editor.outline.IOutlineNode" />
 					</iterate>
@@ -54,22 +54,22 @@
 		</handler>
 	</extension>
 	<extension point="org.eclipse.core.expressions.definitions">
-		<definition id="asmeta.avallaxt.Avalla.Editor.opened">
+		<definition id="org.asmeta.avallaxt.Avalla.Editor.opened">
 			<and>
 				<reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
 				<with variable="activeEditor">
 					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
-						value="asmeta.avallaxt.Avalla"
+						value="org.asmeta.avallaxt.Avalla"
 						forcePluginActivation="true"/>
 				</with>
 			</and>
 		</definition>
-		<definition id="asmeta.avallaxt.Avalla.XtextEditor.opened">
+		<definition id="org.asmeta.avallaxt.Avalla.XtextEditor.opened">
 			<and>
 				<reference definitionId="isXtextEditorActive"/>
 				<with variable="activeEditor">
 					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
-						value="asmeta.avallaxt.Avalla"
+						value="org.asmeta.avallaxt.Avalla"
 						forcePluginActivation="true"/>
 				</with>
 			</and>
@@ -78,33 +78,33 @@
 	<extension
 			point="org.eclipse.ui.preferencePages">
 		<page
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
-			id="asmeta.avallaxt.Avalla"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+			id="org.asmeta.avallaxt.Avalla"
 			name="Avalla">
-			<keywordReference id="asmeta.avallaxt.ui.keyword_Avalla"/>
+			<keywordReference id="org.asmeta.avallaxt.ui.keyword_Avalla"/>
 		</page>
 		<page
-			category="asmeta.avallaxt.Avalla"
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
-			id="asmeta.avallaxt.Avalla.coloring"
+			category="org.asmeta.avallaxt.Avalla"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
+			id="org.asmeta.avallaxt.Avalla.coloring"
 			name="Syntax Coloring">
-			<keywordReference id="asmeta.avallaxt.ui.keyword_Avalla"/>
+			<keywordReference id="org.asmeta.avallaxt.ui.keyword_Avalla"/>
 		</page>
 		<page
-			category="asmeta.avallaxt.Avalla"
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
-			id="asmeta.avallaxt.Avalla.templates"
+			category="org.asmeta.avallaxt.Avalla"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
+			id="org.asmeta.avallaxt.Avalla.templates"
 			name="Templates">
-			<keywordReference id="asmeta.avallaxt.ui.keyword_Avalla"/>
+			<keywordReference id="org.asmeta.avallaxt.ui.keyword_Avalla"/>
 		</page>
 	</extension>
 	<extension
 			point="org.eclipse.ui.propertyPages">
 		<page
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
-			id="asmeta.avallaxt.Avalla"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+			id="org.asmeta.avallaxt.Avalla"
 			name="Avalla">
-			<keywordReference id="asmeta.avallaxt.ui.keyword_Avalla"/>
+			<keywordReference id="org.asmeta.avallaxt.ui.keyword_Avalla"/>
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
 			</enabledWhen>
@@ -114,14 +114,14 @@
 	<extension
 		point="org.eclipse.ui.keywords">
 		<keyword
-			id="asmeta.avallaxt.ui.keyword_Avalla"
+			id="org.asmeta.avallaxt.ui.keyword_Avalla"
 			label="Avalla"/>
 	</extension>
 	<extension
 		point="org.eclipse.ui.commands">
 		<command
 			description="Trigger expensive validation"
-			id="asmeta.avallaxt.Avalla.validate"
+			id="org.asmeta.avallaxt.Avalla.validate"
 			name="Validate">
 		</command>
 		<!-- copy qualified name -->
@@ -142,12 +142,12 @@
 		<menuContribution
 			locationURI="popup:#TextEditorContext?after=group.edit">
 			<command
-				commandId="asmeta.avallaxt.Avalla.validate"
+				commandId="org.asmeta.avallaxt.Avalla.validate"
 				style="push"
 				tooltip="Trigger expensive validation">
 				<visibleWhen checkEnabled="false">
 					<reference
-						definitionId="asmeta.avallaxt.Avalla.Editor.opened">
+						definitionId="org.asmeta.avallaxt.Avalla.Editor.opened">
 					</reference>
 				</visibleWhen>
 			</command>
@@ -157,7 +157,7 @@
 			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="asmeta.avallaxt.Avalla.Editor.opened" />
+					<reference definitionId="org.asmeta.avallaxt.Avalla.Editor.opened" />
 				</visibleWhen>
 			</command>
 		</menuContribution>
@@ -165,7 +165,7 @@
 			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="asmeta.avallaxt.Avalla.Editor.opened" />
+					<reference definitionId="org.asmeta.avallaxt.Avalla.Editor.opened" />
 				</visibleWhen>
 			</command>
 		</menuContribution>
@@ -174,7 +174,7 @@
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
 					<and>
-						<reference definitionId="asmeta.avallaxt.Avalla.XtextEditor.opened" />
+						<reference definitionId="org.asmeta.avallaxt.Avalla.XtextEditor.opened" />
 						<iterate>
 							<adapt type="org.eclipse.xtext.ui.editor.outline.IOutlineNode" />
 						</iterate>
@@ -187,7 +187,7 @@
 		<menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
 			<command commandId="org.eclipse.xtext.ui.editor.FindReferences">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="asmeta.avallaxt.Avalla.Editor.opened">
+					<reference definitionId="org.asmeta.avallaxt.Avalla.Editor.opened">
 					</reference>
 				</visibleWhen>
 			</command>
@@ -195,11 +195,11 @@
 	</extension>
 	<extension point="org.eclipse.ui.handlers">
 		<handler
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
 			commandId="org.eclipse.xtext.ui.editor.FindReferences">
 			<activeWhen>
 				<reference
-					definitionId="asmeta.avallaxt.Avalla.Editor.opened">
+					definitionId="org.asmeta.avallaxt.Avalla.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
@@ -208,7 +208,7 @@
 		<content-type
 			base-type="org.eclipse.core.runtime.text"
 			file-extensions="avalla"
-			id="asmeta.avallaxt.Avalla.contenttype"
+			id="org.asmeta.avallaxt.Avalla.contenttype"
 			name="Avalla File"
 			priority="normal">
 		</content-type>
@@ -217,17 +217,17 @@
 	<extension
 		point="org.eclipse.emf.ecore.extension_parser">
 		<parser
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
 			type="avalla">
 		</parser>
 	</extension>
 	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
 		<resourceServiceProvider
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
 			uriExtension="avalla">
 		</resourceServiceProvider>
 	</extension>
-	<!-- marker definitions for asmeta.avallaxt.Avalla -->
+	<!-- marker definitions for org.asmeta.avallaxt.Avalla -->
 	<extension
 			id="avalla.check.fast"
 			name="Avalla Problem"
@@ -251,34 +251,34 @@
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
-			category="asmeta.avallaxt.Avalla"
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.validation.ValidatorPreferencePage"
-			id="asmeta.avallaxt.Avalla.validator.preferencePage"
+			category="org.asmeta.avallaxt.Avalla"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.validation.ValidatorPreferencePage"
+			id="org.asmeta.avallaxt.Avalla.validator.preferencePage"
 			name="Errors/Warnings">
-			<keywordReference id="asmeta.avallaxt.ui.keyword_Avalla"/>
+			<keywordReference id="org.asmeta.avallaxt.ui.keyword_Avalla"/>
 		</page>
 	</extension>
 	<extension point="org.eclipse.xtext.builder.participant">
 		<participant
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
 			fileExtensions="avalla"/>
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
-			category="asmeta.avallaxt.Avalla"
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-			id="asmeta.avallaxt.Avalla.compiler.preferencePage"
+			category="org.asmeta.avallaxt.Avalla"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+			id="org.asmeta.avallaxt.Avalla.compiler.preferencePage"
 			name="Compiler">
-			<keywordReference id="asmeta.avallaxt.ui.keyword_Avalla"/>
+			<keywordReference id="org.asmeta.avallaxt.ui.keyword_Avalla"/>
 		</page>
 	</extension>
 	<extension point="org.eclipse.ui.propertyPages">
 		<page
-			category="asmeta.avallaxt.Avalla"
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-			id="asmeta.avallaxt.Avalla.compiler.propertyPage"
+			category="org.asmeta.avallaxt.Avalla"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+			id="org.asmeta.avallaxt.Avalla.compiler.propertyPage"
 			name="Compiler">
-			<keywordReference id="asmeta.avallaxt.ui.keyword_Avalla"/>
+			<keywordReference id="org.asmeta.avallaxt.ui.keyword_Avalla"/>
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
 			</enabledWhen>
@@ -289,20 +289,20 @@
 		<menuContribution locationURI="popup:#TextEditorContext?after=xtext.ui.openDeclaration">
 			<command
 				commandId="org.eclipse.xtext.ui.OpenGeneratedFileCommand"
-				id="asmeta.avallaxt.Avalla.OpenGeneratedCode"
+				id="org.asmeta.avallaxt.Avalla.OpenGeneratedCode"
 				style="push">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="asmeta.avallaxt.Avalla.Editor.opened" />
+					<reference definitionId="org.asmeta.avallaxt.Avalla.Editor.opened" />
 				</visibleWhen>
 			</command>
 		</menuContribution>
 	</extension>
 	<extension point="org.eclipse.ui.handlers">
 		<handler
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.generator.trace.OpenGeneratedFileHandler"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.generator.trace.OpenGeneratedFileHandler"
 			commandId="org.eclipse.xtext.ui.OpenGeneratedFileCommand">
 			<activeWhen>
-				<reference definitionId="asmeta.avallaxt.Avalla.Editor.opened" />
+				<reference definitionId="org.asmeta.avallaxt.Avalla.Editor.opened" />
 			</activeWhen>
 		</handler>
 	</extension>
@@ -310,11 +310,11 @@
 	<extension
 		point="org.eclipse.ui.handlers">
 		<handler
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
 			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
 			<activeWhen>
 				<reference
-					definitionId="asmeta.avallaxt.Avalla.Editor.opened">
+					definitionId="org.asmeta.avallaxt.Avalla.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
@@ -334,16 +334,16 @@
 				style="push"
 				tooltip="Open Quick Outline">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="asmeta.avallaxt.Avalla.Editor.opened"/>
+					<reference definitionId="org.asmeta.avallaxt.Avalla.Editor.opened"/>
 				</visibleWhen>
 			</command>
 		</menuContribution>
 	</extension>
-	<!-- quickfix marker resolution generator for asmeta.avallaxt.Avalla -->
+	<!-- quickfix marker resolution generator for org.asmeta.avallaxt.Avalla -->
 	<extension
 			point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
 			markerType="asmeta.avallaxt.ui.avalla.check.fast">
 			<attribute
 				name="FIXABLE_KEY"
@@ -351,7 +351,7 @@
 			</attribute>
 		</markerResolutionGenerator>
 		<markerResolutionGenerator
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
 			markerType="asmeta.avallaxt.ui.avalla.check.normal">
 			<attribute
 				name="FIXABLE_KEY"
@@ -359,7 +359,7 @@
 			</attribute>
 		</markerResolutionGenerator>
 		<markerResolutionGenerator
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
 			markerType="asmeta.avallaxt.ui.avalla.check.expensive">
 			<attribute
 				name="FIXABLE_KEY"
@@ -370,11 +370,11 @@
 	<!-- Rename Refactoring -->
 	<extension point="org.eclipse.ui.handlers">
 		<handler
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.DefaultRenameElementHandler"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.DefaultRenameElementHandler"
 			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
 			<activeWhen>
 				<reference
-					definitionId="asmeta.avallaxt.Avalla.Editor.opened">
+					definitionId="org.asmeta.avallaxt.Avalla.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
@@ -386,7 +386,7 @@
 				style="push">
 				<visibleWhen checkEnabled="false">
 					<reference
-						definitionId="asmeta.avallaxt.Avalla.Editor.opened">
+						definitionId="org.asmeta.avallaxt.Avalla.Editor.opened">
 					</reference>
 				</visibleWhen>
 			</command>
@@ -394,34 +394,34 @@
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
-			category="asmeta.avallaxt.Avalla"
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
-			id="asmeta.avallaxt.Avalla.refactoring"
+			category="org.asmeta.avallaxt.Avalla"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
+			id="org.asmeta.avallaxt.Avalla.refactoring"
 			name="Refactoring">
-			<keywordReference id="asmeta.avallaxt.ui.keyword_Avalla"/>
+			<keywordReference id="org.asmeta.avallaxt.ui.keyword_Avalla"/>
 		</page>
 	</extension>
 	<extension point="org.eclipse.compare.contentViewers">
-		<viewer id="asmeta.avallaxt.Avalla.compare.contentViewers"
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+		<viewer id="org.asmeta.avallaxt.Avalla.compare.contentViewers"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="avalla">
 		</viewer>
 		<contentTypeBinding
-			contentTypeId="asmeta.avallaxt.Avalla.contenttype"
-			contentViewerId="asmeta.avallaxt.Avalla.compare.contentViewers" />
+			contentTypeId="org.asmeta.avallaxt.Avalla.contenttype"
+			contentViewerId="org.asmeta.avallaxt.Avalla.compare.contentViewers" />
 	</extension>
 	<extension point="org.eclipse.compare.contentMergeViewers">
-		<viewer id="asmeta.avallaxt.Avalla.compare.contentMergeViewers"
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+		<viewer id="org.asmeta.avallaxt.Avalla.compare.contentMergeViewers"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="avalla" label="Avalla Compare">
 		</viewer>
 		<contentTypeBinding
-			contentTypeId="asmeta.avallaxt.Avalla.contenttype"
-			contentMergeViewerId="asmeta.avallaxt.Avalla.compare.contentMergeViewers" />
+			contentTypeId="org.asmeta.avallaxt.Avalla.contenttype"
+			contentMergeViewerId="org.asmeta.avallaxt.Avalla.compare.contentMergeViewers" />
 	</extension>
 	<extension point="org.eclipse.ui.editors.documentProviders">
-		<provider id="asmeta.avallaxt.Avalla.editors.documentProviders"
-			class="asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
+		<provider id="org.asmeta.avallaxt.Avalla.editors.documentProviders"
+			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
 			extensions="avalla">
 		</provider>
 	</extension>

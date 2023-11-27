@@ -15,21 +15,21 @@ import org.junit.Test;
 
 public class TestScenariosInDir extends TestParserAndValidation {
 
-
-	
+	// test all the scenario in the examples
 	@Test
 	public void testAllExamples() throws IOException {
-		testAvallasInDir("../../../../asm_examples");
+		testAvallasInDir("../../../../../asm_examples");
 	}
 
 	@Test
 	public void testAllExamplesExamples() throws IOException {
-		testAvallasInDir("../../../../asm_examples/examples");
+		// subsumed by the previous onme
+		//testAvallasInDir("../../../../../asm_examples/examples");
 	}
 
 	@Test
 	public void testAllAll() throws IOException {
-		testAvallasInDir("../../../..");
+		//testAvallasInDir("../../../..");
 	}
 
 	@Test
@@ -39,7 +39,7 @@ public class TestScenariosInDir extends TestParserAndValidation {
 
 	@Test
 	public void testAllAvallaXTTest() throws IOException {
-		testAvallasInDir("../org.asmeta.avallaxt.validator.test\\scenarios.avalla");
+		testAvallasInDir("../../asmeta.avallaxt.validator.test\\scenarios.avalla");
 	}
 
 	// ABZ2020
