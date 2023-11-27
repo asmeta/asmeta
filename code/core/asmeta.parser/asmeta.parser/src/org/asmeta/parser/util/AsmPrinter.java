@@ -345,7 +345,7 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	}
 
 	public void visit(RuleDeclaration rd) {
-		//if it is the main rule (it can be called wven without the model)
+		//if it is the main rule (it can be called even without the model)
 		if (model!= null && rd == model.getMainrule()) {
 			visitMain((MacroDeclaration) rd);
 		} else
@@ -355,7 +355,8 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	
 	/** print a rule declaration (not main rule) **/
 	public void visitDef(RuleDeclaration dcl) {
-		// if model is not null, then check that is not the 
+		// if model is not null, then check that is not the main rule 
+		// main rule is translate by the visit Main
 		assert model == null || model.getMainrule() != dcl;
 		if (dcl instanceof MacroDeclaration) {
 			print("macro ");

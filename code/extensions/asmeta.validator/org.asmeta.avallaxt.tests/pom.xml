@@ -2,6 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>asmeta</groupId>
 	<artifactId>org.asmeta.avallaxt.tests</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
@@ -38,39 +39,14 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.common</artifactId>
-			<version>2.29.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.ecore</artifactId>
-			<version>2.35.0</version>
-		</dependency>
-		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext</artifactId>
 			<version>2.32.0</version>
 		</dependency>
 		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.cli</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>args4j</groupId>
-			<artifactId>args4j</artifactId>
-			<version>2.33</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.simulator</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
@@ -78,28 +54,14 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.antlr</groupId>
-			<artifactId>antlr-runtime</artifactId>
-			<version>3.5.3</version>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.emf</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.xtext</groupId>
-			<artifactId>org.eclipse.xtext.testing</artifactId>
-			<version>2.33.0</version>
-			<scope>test</scope>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.parser</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
-			<version>7.0.0</version>
-		</dependency>
-
 	</dependencies>
-	<groupId>asmeta</groupId>
 </project>
