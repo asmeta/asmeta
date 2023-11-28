@@ -1,0 +1,25 @@
+// a block inside another block
+// both are called
+scenario lift
+load Lift.asm
+
+begin blocco1
+
+set insideCall(1):= true;
+
+	begin blocco2
+	set insideCall(1):= true;
+	step
+	
+	end	
+step
+
+end 
+
+check direction = UP;
+
+step
+
+execblock blocco1;
+
+execblock blocco2;

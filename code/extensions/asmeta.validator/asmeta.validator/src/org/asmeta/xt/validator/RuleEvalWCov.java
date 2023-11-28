@@ -1,10 +1,7 @@
 package org.asmeta.xt.validator;
 
-import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.asmeta.simulator.Environment;
@@ -22,7 +19,7 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 /** Questa classe valuta le regole
  * pero' tiene traccia delle macro valutate
- * it is now used!! nov 2023 
+ * it is now used!! nov 2023
  * @author AG
  *
  */
@@ -44,21 +41,21 @@ public class RuleEvalWCov extends RuleEvaluator {
 		// TODO check that coverage is not lost - since the rule evaluator is rebuilt e new one
 		coveredMacros = new HashSet<>();
 	}
-	
+
 	// this is called when a new state requires a new wvaluator
 	private RuleEvalWCov(State state, Environment environment,
 			ValueAssignment assignment) {
 		super(state, environment, assignment);
 	}
-	
+
 	@Override
 	protected BooleanValue evalGuard(ConditionalRule condRule) {
 		BooleanValue eval = super.evalGuard(condRule);
 		//TODO store info about the coverage
 		return eval;
 	}
- 
-	
+
+
 	@Override
 	public UpdateSet visit(MacroCallRule macroRule) throws NotCompatibleDomainsException {
 		// keep track of all the macro evaluated
@@ -66,10 +63,10 @@ public class RuleEvalWCov extends RuleEvaluator {
 		logger.debug("adding coverage " + macroRule.getCalledMacro().getName());
 		return super.visit(macroRule);
 	}
-	
+
 	@Override
 	protected RuleEvalWCov createRuleEvaluator(State nextState, Environment environment, ValueAssignment assignment){
 		RuleEvalWCov newREC =  new RuleEvalWCov(nextState,environment, assignment);
 		return newREC;
-	}		
+	}
 }

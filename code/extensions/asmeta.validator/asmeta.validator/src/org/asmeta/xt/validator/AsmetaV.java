@@ -5,36 +5,30 @@ import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
-import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
-import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.RuleDeclaration;
 
 /**
  * main class of AsmetaV
- * 
+ *
  * @author garganti
  *
  */
 public class AsmetaV {
-	
+
 	public static final String SCENARIO_EXTENSION = ".avalla";
-	
+
 	private static Logger logger = Logger.getLogger(AsmetaV.class);
 
 	/**
@@ -54,7 +48,7 @@ public class AsmetaV {
 	}
 
 	private AsmetaV(){}
-	
+
 	/**
 	 * Exec validation.
 	 *
@@ -97,8 +91,8 @@ public class AsmetaV {
 				if (Boolean.TRUE.equals(rule.getValue())) logger.info(rule.getKey());
 			logger.info("** NOT covered rules: **");
 			for (Entry<String, Boolean> rule : allCoveredRules.entrySet())
-				if (Boolean.FALSE.equals(rule.getValue())) logger.info(rule.getKey());			
-		}		
+				if (Boolean.FALSE.equals(rule.getValue())) logger.info(rule.getKey());
+		}
 		return failedScenarios;
 	}
 
@@ -112,7 +106,7 @@ public class AsmetaV {
 	 * @throws Exception the exception
 	 */
 	private boolean validateSingleFile(boolean coverage, Map<String,Boolean> coveredRules, String path) throws Exception {
-		assert path.endsWith(SCENARIO_EXTENSION) : " the validator works only with "+SCENARIO_EXTENSION+" files";		
+		assert path.endsWith(SCENARIO_EXTENSION) : " the validator works only with "+SCENARIO_EXTENSION+" files";
 		logger.info("\n** Simulation " + path + " **\n");
 		AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(path);
 		builder.save();
@@ -155,12 +149,12 @@ public class AsmetaV {
 			// for each rule which is declared in the current ASM
 			ruleDeclaration.forEach(rd->
 			{
-				String ruleName = rd.getName();				
+				String ruleName = rd.getName();
 				String ruleCompleteName = asmName + "::"+ ruleName;
-				// skip the artificial name of the 
+				// skip the artificial name of the
 				if (!ruleName.equals(AsmetaPrinterForAvalla.R_MAIN)) {
 					boolean rdIsCovered = false;
-					// check if it is covered as it is present in the covered rules 
+					// check if it is covered as it is present in the covered rules
 					for (Iterator<SimpleEntry<String, String>> iterator = coveredThisTime.iterator(); iterator.hasNext();) {
 						AbstractMap.SimpleEntry<String, String> rule = iterator.next();
 						// check if this rule ruleName is covered
@@ -171,7 +165,7 @@ public class AsmetaV {
 							rdIsCovered = true;
 							break;
 						}
-					}					
+					}
 					// if it is not covered put it in the false part
 					if (!rdIsCovered) {
 						if (!coveredRules.containsKey(ruleCompleteName))
@@ -192,6 +186,6 @@ public class AsmetaV {
 	}
 
 
-	
-	
+
+
 }

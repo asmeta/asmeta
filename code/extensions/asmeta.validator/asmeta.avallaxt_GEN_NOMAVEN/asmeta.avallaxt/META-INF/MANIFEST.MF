@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: asmeta.avallaxt
+Bundle-ManifestVersion: 2
+Bundle-Name: asmeta.avallaxt
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: asmeta.avallaxt; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.16.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.eclipse.emf.common,
+ org.eclipse.xtend.lib;bundle-version="2.14.0",
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ org.eclipse.core.resources,
+ asmeta.emf;bundle-version="23.7.0",
+ asmeta.parser;bundle-version="23.7.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: asmeta.avallaxt,
+ asmeta.avallaxt.avalla,
+ asmeta.avallaxt.formatting2,
+ asmeta.avallaxt.generator,
+ asmeta.avallaxt.parser.antlr.internal,
+ asmeta.avallaxt.scoping,
+ asmeta.avallaxt.serializer,
+ asmeta.avallaxt.services,
+ asmeta.avallaxt.validation
+Import-Package: org.apache.log4j

@@ -2,27 +2,21 @@ package org.asmeta.xt.validator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Environment;
-import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.readers.InteractiveMFReader;
 import org.asmeta.simulator.wrapper.RuleFactory;
-import org.eclipse.emf.common.util.EList;
 
 import asmeta.AsmCollection;
-import asmeta.definitions.RuleDeclaration;
-import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 public class SimulatorWCov extends Simulator {
@@ -53,7 +47,7 @@ public class SimulatorWCov extends Simulator {
 	/**
 	 * Inizializza il valutatore delle regole con quello che valuta anche la
 	 * copertura
-	 * 
+	 *
 	 * @param state
 	 *            stato iniziale
 	 * @return il valutatore delle regole inizializzato
@@ -71,7 +65,7 @@ public class SimulatorWCov extends Simulator {
 	 */
 	public List<AbstractMap.SimpleEntry<String, String>> getCoveredMacro() {
 		ArrayList<AbstractMap.SimpleEntry<String, String>> s = new ArrayList<>();
-		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {			
+		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
 			s.add(new AbstractMap.SimpleEntry<>(md.getAsmBody().getAsm().getName(),md.getName()));
 		}
 		return s;

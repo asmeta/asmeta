@@ -1,0 +1,7 @@
+scenario lift
+load Lift.asm
+
+// correct, shared can be set
+set existsCallFromTo(0,UP):=true;
+
+step

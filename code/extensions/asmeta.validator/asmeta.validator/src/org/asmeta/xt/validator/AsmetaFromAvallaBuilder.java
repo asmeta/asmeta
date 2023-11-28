@@ -27,7 +27,7 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 /**
  * AsmPrinter that takes avalla script and produces an Asmeta Spec representing the semantics of the script
- * 
+ *
  * @author garganti
  */
 public class AsmetaFromAvallaBuilder {
@@ -61,11 +61,11 @@ public class AsmetaFromAvallaBuilder {
 	List<ArrayList<Set>> allMonitored;// PA: 2017/12/29
 
 	private AsmetaPrinterForAvalla asmetaPrinterforAvalla;
-	
+
 	// for the scenario itself (the AsmPrinter has another model)
 	Asm asm;
 
-	
+
 	/**
 	 * Instantiates a new asmeta from avalla  in a temporary file
 	 *
@@ -76,14 +76,14 @@ public class AsmetaFromAvallaBuilder {
 		this(scenarioPath, Files.createTempDirectory("asms_foravalla").toFile());
 	}
 
-	
+
 	/**
 	 * Instantiates a new builder.
-	 * 
+	 *
 	 * @param scenarioPath the scenario path
 	 * @param tempAsmPath  the complete name (including the path and the asm file)
 	 *                     where to save the temporary asm
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public AsmetaFromAvallaBuilder(String scenarioPath, File tempAsmPathDir) throws Exception {
@@ -135,7 +135,7 @@ public class AsmetaFromAvallaBuilder {
 
 	/**
 	 * Builds the new main.
-	 * 
+	 *
 	 * @param statements
 	 */
 	StringBuilder buildNewMain(List<String> statements) {

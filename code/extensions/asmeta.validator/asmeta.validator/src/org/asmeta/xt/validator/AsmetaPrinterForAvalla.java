@@ -101,7 +101,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.asmeta.parser.util.AsmPrinter#visitDefault(asmeta.structure.
 	 * Initialization)
 	 */
@@ -127,7 +127,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.asmeta.parser.util.AsmPrinter#sort(java.util.Collection)
 	 */
 	// @Override //PA: commentato il 13 set 10 per eliminare l'errore: "The
@@ -142,7 +142,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.asmeta.parser.util.AsmPrinter#getAsmName()
 	 */
 	@Override
@@ -152,7 +152,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	/**
 	 * add the path.
-	 * 
+	 *
 	 * @param imports the imports
 	 */
 	@Override
@@ -279,7 +279,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.asmeta.parser.util.AsmPrinter#visitMain(asmeta.transitionrules.
 	 * basictransitionrules.MacroDeclaration)
 	 */
@@ -301,8 +301,9 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		indent();
 		println(this.builder.newMain);
 	}
-	
+
 	/** print a rule declaration (not main rule) **/
+	@Override
 	protected void visitDef(RuleDeclaration dcl) {
 		if (model == null || model.getMainrule() != dcl) {
 			super.visitDef(dcl);
@@ -323,7 +324,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.asmeta.parser.util.AsmPrinter#visitFunctions(java.util.Collection)
 	 */
 	@Override
@@ -359,7 +360,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.asmeta.parser.util.AsmPrinter#visitDcl(asmeta.definitions.
 	 * MonitoredFunction)
 	 */
@@ -371,7 +372,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.asmeta.parser.util.AsmPrinter#visitDcl(asmeta.definitions.
 	 * SharedFunction )
 	 */
@@ -383,7 +384,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.asmeta.parser.util.AsmPrinter#visitFuncInits(java.util.Collection)
 	 */
 	@Override
@@ -436,7 +437,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			if (ido >= 0) {
 				// a n-ray function
 				String args = location.substring(ido); // including the (
-				Map<String, String> map = monitoredInit.get(func);
+				Map<String, String> map = monitoredInit.get(func.get());
 				if (map == null) {
 					map = new HashMap<>();
 					monitoredInit.put(func.get(), map);
@@ -451,7 +452,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			Function func = e.getKey();
 			// get the domains
 			Domain domain = func.getDomain();
-			List<String> domainNames = new ArrayList<String>();
+			List<String> domainNames = new ArrayList<>();
 			if (domain instanceof ProductDomain) {
 				domainNames.addAll(((ProductDomain) domain).getDomains().stream().map(x -> x.getName())
 						.collect(Collectors.toList()));

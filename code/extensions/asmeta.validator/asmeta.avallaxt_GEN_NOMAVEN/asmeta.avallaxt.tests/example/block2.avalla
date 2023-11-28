@@ -1,0 +1,10 @@
+scenario lift
+load Lift.asm
+
+// a block in another scenario
+execblock block1:blocco1;
+
+
+check direction = UP;
+
+step
