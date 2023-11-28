@@ -101,8 +101,6 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 
 	private static final Random RAND = new Random();
 
-	public static boolean COMPUTE_COVERAGE = false;
-
 	public static final Logger logger = Logger.getLogger(RuleEvaluator.class);
 
 	/**
@@ -123,15 +121,11 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 */
 	static HashMap<String, Rule> macros = new HashMap<String, Rule>();
 
-	// covered macros
-	// FIXME: l'uso di static is due to the fact that several RuleEvaluator
-	// are created for the same run;
-	private static Collection<MacroDeclaration> coveredMacros;
-
 	public final TermEvaluator termEval;
 
 	/**
 	 * Constructs an evaluator: reuses the covered macros
+	 * to be used in the same run
 	 * 
 	 * @param state
 	 *            state
@@ -157,7 +151,6 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	public RuleEvaluator(State state, Environment environment, RuleFactory factory) {
 		this(state, environment, new ValueAssignment());
 		TermSubstitution.ruleFactory = factory;
-		coveredMacros = new HashSet<MacroDeclaration>();
 	}
 
 	Value visitTerm(Term t) {
@@ -648,13 +641,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			 * NotCompatibleDomainsException(actualParameterDomain, formalDomain); }
 			 */
 		}
-		// PA 10/11/2011 - Fine
-
 		UpdateSet updates = visit(dcl, actualParameters);
-		// keep track of all the macro evaluated
-		if (COMPUTE_COVERAGE) {
-			coveredMacros.add(macroRule.getCalledMacro());
-		}
 		logger.debug("</MacroCallRule>");
 		return updates;
 	}
@@ -911,27 +898,6 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		return new RuleEvaluator(state, environment, assignment);
 	}
 
-	/**
-	 * print the macros that were covered
-	 * 
-	 */
-	public static void printCoveredMacro(PrintStream ps) {
-		for (MacroDeclaration md : coveredMacros) {
-			ps.println(md.getName());
-		}
-	}
-
-	/**
-	 * get the macros that were covered
-	 * 
-	 */
-	public static ArrayList<String> getCoveredMacro() {
-		ArrayList<String> s = new ArrayList<String>();
-		for (MacroDeclaration md : coveredMacros) {
-			s.add(md.getName());
-		}
-		return s;
-	}
 }
 
 

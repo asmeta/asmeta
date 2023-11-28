@@ -20,7 +20,7 @@ public class TestExampleInDir extends TestValidator {
 	
 	@Test
 	public void testAllAvallaInAsmExamples() throws Exception {
-		testInDir("../../../../asm_examples");
+		testInDir(ASM_EXAMPLES_EXAMPLES);
 	}
 
 	@Test

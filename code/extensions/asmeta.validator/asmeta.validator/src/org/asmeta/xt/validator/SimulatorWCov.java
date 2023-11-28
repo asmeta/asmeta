@@ -3,6 +3,10 @@ package org.asmeta.xt.validator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
@@ -14,8 +18,12 @@ import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.readers.InteractiveMFReader;
 import org.asmeta.simulator.wrapper.RuleFactory;
+import org.eclipse.emf.common.util.EList;
 
 import asmeta.AsmCollection;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.structure.Asm;
+import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 public class SimulatorWCov extends Simulator {
 	/**
@@ -23,11 +31,12 @@ public class SimulatorWCov extends Simulator {
 	 */
 	private static final Logger logger = Logger.getLogger(SimulatorWCov.class);
 
-	public SimulatorWCov(String modelName, AsmCollection asmp, Environment env)
+	private SimulatorWCov(String modelName, AsmCollection asmp, Environment env)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		super(modelName, asmp, env);
 	}
 
+	// create a new Simulator with the coverage tracing
 	public static SimulatorWCov createSimulatorWC(String modelPath)
 			throws Exception {
 		File modelFile = new File(modelPath);
@@ -56,8 +65,15 @@ public class SimulatorWCov extends Simulator {
 		ruleEvaluator = new RuleEvalWCov(state, environment, factory);
 		return;
 	}
-
-	public void printCoveredMacro(PrintStream ps) {
-		RuleEvaluator.printCoveredMacro(ps);
+	/**
+	 * get the macros that were covered
+	 * return the ASMETA name - which is modified becuas ethe validator rebuils the ASM
+	 */
+	public List<AbstractMap.SimpleEntry<String, String>> getCoveredMacro() {
+		ArrayList<AbstractMap.SimpleEntry<String, String>> s = new ArrayList<>();
+		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {			
+			s.add(new AbstractMap.SimpleEntry<>(md.getAsmBody().getAsm().getName(),md.getName()));
+		}
+		return s;
 	}
 }

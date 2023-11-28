@@ -12,4 +12,4 @@ Export-Package: org.asmeta.parser,
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.parser
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17

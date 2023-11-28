@@ -17,11 +17,23 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.util.AsmetaPrintInfo;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaPrinterForAvalla;
+import org.asmeta.xt.validator.RuleEvalWCov;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestSingleFile extends TestValidator {
 
+	@BeforeClass
+	static public void setuplogger() throws Exception {
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
+		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);		
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
+		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ALL);		
+	}
+
+	
+	
 	@Test
 	public void testLift() throws Exception {		
 		test("scenariosfortest/lift.avalla", false, false);
@@ -36,12 +48,18 @@ public class TestSingleFile extends TestValidator {
 	public void testLiftMonitored() throws Exception {		
 		test("scenariosfortest/lift_extramon.avalla", false, false);
 	}
-
+	
+	@Test
+	public void testError() throws Exception {		
+		test("../../../../asm_examples/examples/ABZ2020/CarSystemModule/CarSystem002/scenari/LowBeamOFFonAmbientLight.avalla", true, false);
+		test("../../../../asm_examples/examples/ABZ2020/CarSystemModule/CarSystem002/scenari/LowBeamOFFPowerOFFKey.avalla", true, false);
+		test("scenariosfortest/u_dir/test.avalla", true, false);
+	}
 	
 	@Test
 	public void testBuilerWithSpaces() throws Exception {		
 		//
-		Path model = Paths.get("scenariosfortest\\sub dir\\Lift.asm");
+		Path model = Paths.get("scenariosfortest/sub dir/Lift.asm");
 		assert Files.exists(model);
 		// transform to absolute
 		String modelAbsPath = model.toAbsolutePath().toString();
@@ -50,13 +68,13 @@ public class TestSingleFile extends TestValidator {
 		System.out.println(modelAbsPath);
 		modelAbsPath = modelAbsPath.replace("\\", "\\\\\\\\");
 		// put in the lift2.avalla
-		Path templateAvalla = Paths.get("scenariosfortest\\lift2_avalla.template");
+		Path templateAvalla = Paths.get("scenariosfortest/lift2_avalla.template");
 		assert Files.exists(templateAvalla);
 		Charset charset = StandardCharsets.UTF_8;
 		String content = new String(Files.readAllBytes(templateAvalla), charset);
 		content = content.replaceAll("LIFTASM_AS_ABSPATH", "\"" +modelAbsPath + "\"");
 		System.out.println(content);
-		Path avalla = Paths.get("scenariosfortest\\lift2.avalla");
+		Path avalla = Paths.get("scenariosfortest/lift2.avalla");
 		assert Files.exists(avalla);
 		Files.write(avalla, content.getBytes(charset));
 		test(avalla.toString(), false, false);
@@ -96,34 +114,33 @@ public class TestSingleFile extends TestValidator {
 
 	
 	@Test
-	public void testCipher() throws Exception {
-		
-		test("example/fh/extend.avalla", false, false);
+	public void testCipher() throws Exception {		
+		test("scenariosfortest/fh/extend.avalla", false, false);
 	}
 	
 	@Test
-	public void testInvariant() throws Exception {
-		
-		test("scenariosfortest\\invariants\\scenario_inv.avalla");
+	public void testInvariant() throws Exception {		
+		test("scenariosfortest/invariants/scenario_inv.avalla");
 	}
 
+	@Test
+	public void testCarInclude() throws Exception {		
+		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem003/scenari/AdaptativeHighBeamDecreasing.avalla", true, true);
+	}
 	
 	
 	@Test
-	public void testSLE() throws Exception {
-		
-		test("..\\..\\..\\..\\asm_examples\\examples\\fsmsemantics\\Sle\\testEven1.avalla", false, false);
+	public void testSLE() throws Exception {		
+		test(ASM_EXAMPLES_EXAMPLES +"fsmsemantics/Sle/testEven1.avalla", false, false);
 	}
 	@Test
 	public void testATM1() throws Exception {
-		
-		test("scenariosforexamples\\atm\\atm1.avalla", false, false);
+		test("scenariosforexamples/atm/atm1.avalla", false, false);
 	}
 
 	@Test
-	public void testModule1() throws Exception {
-		
-		test("scenariosfortest\\lift.avalla", false, false);
+	public void testModule1() throws Exception {		
+		test("scenariosfortest/lift.avalla", false, false);
 	}
 
 
@@ -131,7 +148,7 @@ public class TestSingleFile extends TestValidator {
 	public void testABZ2020CruiseCtrl() throws Exception {		
 		//Logger.getLogger(Simulator.class).setLevel(Level.ALL);
 		//test("C:\\Users\\garganti\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\scenarios\\CarSystem004scenario001.avalla", true);
-		test("D:\\AgHome\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\Car System\\scenarios\\CarSystem006scenario003.avalla",true, false);
+		//test("D:\\AgHome\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\Car System\\scenarios\\CarSystem006scenario003.avalla",true, false);
 	}
 
 	@Test
@@ -140,7 +157,7 @@ public class TestSingleFile extends TestValidator {
 		//Logger.getLogger(Simulator.class).setLevel(Level.ALL);
 		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);
 		//test("C:\\Users\\garganti\\Dropbox\\Documenti\\ricerca\\asm\\ABZ2020_casestudy\\Casestudy\\ASM model\\scenarios\\CarSystem004scenario001.avalla", true);
-		test("..\\..\\..\\..\\asm_examples\\examples\\ABZ2020\\CarSystemModule\\CarSystem001\\scenari\\HWExecutedRunning.avalla");
+		test(ASM_EXAMPLES_EXAMPLES +  "ABZ2020/CarSystemModule/CarSystem001/scenari/HWExecutedRunning.avalla");
 	}
 
 	
@@ -148,54 +165,54 @@ public class TestSingleFile extends TestValidator {
 	public void testMon1() throws Exception {
 		//TODO a way to check that the scenario succeeds
 		// monitored set in the avalla AND in the initial state
-		test("scenariosfortest\\mon\\scenario.avalla"); // ->check succeeded: a = 1
+		test("scenariosfortest/mon/scenario.avalla"); // ->check succeeded: a = 1
 	}
 
 	@Test
 	public void testMon2() throws Exception {
 		// monitored set only in the avalla - no intial state
-		test("scenariosfortest\\mon\\scenario2.avalla"); //->check succeeded: a = 1 
+		test("scenariosfortest/mon/scenario2.avalla"); //->check succeeded: a = 1 
 	}
 
 	
 	// with the use of import/modules
 	@Test
 	public void testMod1() throws Exception {
-		test("scenariosfortest\\withmodules\\scenario1.avalla");		
+		test("scenariosfortest/withmodules/scenario1.avalla");		
 	}
 	
 	@Test
 	public void testMod2() throws Exception {
-		test("scenariosfortest\\withmodules\\scenarios\\scenario2.avalla");		
+		test("scenariosfortest/withmodules/scenarios/scenario2.avalla");		
 	}
 	// import nested
 	@Test
 	public void testMod3() throws Exception {
-		test("scenariosfortest\\withmodules\\scenario2i.avalla");		
+		test("scenariosfortest/withmodules/scenario2i.avalla");		
 	}
 
 	@Test
 	public void testMod3bis() throws Exception {
-		test("scenariosfortest\\withmodules\\scenario2im.avalla");		
+		test("scenariosfortest/withmodules/scenario2im.avalla");		
 	}
 	
 	// import from a subdir
 	@Test
 	public void testMod4() throws Exception {
-		test("scenariosfortest\\withmodules\\scenario3.avalla", false, false);		
+		test("scenariosfortest/withmodules/scenario3.avalla", false, false);		
 	}
 
 	// diamond
 	@Test
 	public void testDiamond() throws Exception {
-		test("scenariosfortest\\diamondimport\\scenario1.avalla", false, false);
-		// check the only 1 file for teh common root is tralsated
+		test("scenariosfortest/diamondimport/scenario1.avalla", false, false);
+		// check the only 1 file for the common root is translated
 	}
 
 	
 	@Test
 	public void testPillbox() throws Exception {
-		test("D:\\AgHome\\progettidaSVNGIT\\asmeta\\asmeta\\asm_examples\\PillBox\\Level0\\pillbox_0_scenario1.avalla", false, false);		
+		test(ASM_EXAMPLES + "PillBox/Level0/pillbox_0_scenario1.avalla", false, false);		
 	}
 
 	@Test
@@ -203,18 +220,19 @@ public class TestSingleFile extends TestValidator {
 		ASMParser.getResultLogger().setLevel(Level.OFF);
 		// questo mi d� errori strani
 		try {
-//			test("D:\\AgHome\\Dropbox\\code\\didattica\\tvsw\\unibg_tvsw\\codice_lezioni\\6_atgt\\test.avalla", false, false);		
-			test("scenariosfortest\\u_dir\\test.avalla", false, false);
+//			test("D:/AgHome\\Dropbox\\code\\didattica\\tvsw\\unibg_tvsw\\codice_lezioni\\6_atgt\\test.avalla", false, false);		
+			test("scenariosfortest/u_dir/test.avalla", false, false);
 		} catch(IllegalStateException ise) {
 			System.out.println(ise.getMessage());
 			fail();
 		}
 	}
 	@Test
+	@Ignore // works onlyon Angelo's PC
 	public void testCarSystem() throws Exception {
 		String baseDIR = "D:\\AgHome\\Dropbox\\Documenti\\ricerca\\asm\\asmeta_papers_github\\ABZ2020_casestudy\\Casestudy\\ASM model";
 		String scenarios =  baseDIR +"\\Car System\\scenarios";
-		//String asmetaFile = "\\ASM model\\Car System";
+		//String asmetaFile = "\ASM model\Car System";
 		String models = baseDIR + "\\Car System module";
 		// stampo per ogni asmeta
 		List<Path> result;
@@ -245,15 +263,6 @@ public class TestSingleFile extends TestValidator {
 				System.out.println("skipping " + filename);
 			}
 		}
-	}
-
-	
-	@BeforeClass
-	static public void setuplogger() throws Exception {
-		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
-		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);		
-		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
-	}
-	
+	}	
 	
 }

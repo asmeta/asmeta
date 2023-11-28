@@ -117,7 +117,7 @@ public class SimulatorAllUpdateSets extends Simulator {
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		super(modelName,asmp,env);
 		assert env != null;
-		asmetaPackage = asmp;
+		asmCollection = asmp;
 		initAsmModel(modelName);
 		environment = env;
 		currentState = initState();
@@ -396,7 +396,7 @@ public class SimulatorAllUpdateSets extends Simulator {
 		// enable use of pre
 		//eval.isPreEnabled = true;
 		// get all the invariants for every ASm in the AsmCollection
-		for (Iterator<Asm> i = asmetaPackage.iterator(); i.hasNext();) {
+		for (Iterator<Asm> i = asmCollection.iterator(); i.hasNext();) {
 			Asm asm_i = i.next();
 			Collection<Property> propertiesList = asm_i.getBodySection().getProperty();
 			if (propertiesList != null) {
@@ -432,7 +432,7 @@ public class SimulatorAllUpdateSets extends Simulator {
 	private void initAsmModel(String modelName) throws AsmModelNotFoundException,
 			MainRuleNotFoundException {
 		// get the model
-		asmModel = asmetaPackage.getMain();
+		asmModel = asmCollection.getMain();
 		// 
 		assert asmModel.getName().equals(modelName);
 		// check the main rule
@@ -456,7 +456,7 @@ public class SimulatorAllUpdateSets extends Simulator {
 		initAgents(state);
 		// search the self function in the StandardLibrary,
 		// then assign it to the static attribute of TermEvaluator
-		for (Asm asm : asmetaPackage) {
+		for (Asm asm : asmCollection) {
 			String name = asm.getName();
 			if (!name.equals("StandardLibrary")) {
 				continue;
@@ -498,7 +498,7 @@ public class SimulatorAllUpdateSets extends Simulator {
 	 *            the initial state
 	 */
 	private void initAbstractConstants(State state) {
-		for (Asm asm : asmetaPackage) {
+		for (Asm asm : asmCollection) {
 			Collection<Function> functions = 
 				asm.getHeaderSection().getSignature().getFunction();
 			for (Function func : functions) {

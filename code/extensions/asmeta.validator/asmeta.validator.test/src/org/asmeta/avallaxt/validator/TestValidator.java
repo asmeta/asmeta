@@ -16,14 +16,24 @@ import asmeta.AsmCollection;
 
 public class TestValidator {
 
+	protected static final String ASM_EXAMPLES = "../../../../asm_examples/";
 
-	static String pathname = "temp/";
+	protected static final String ASM_EXAMPLES_EXAMPLES = ASM_EXAMPLES +"examples/";
+	
+	private static String pathname = "temp/";
 
 	
 	public TestValidator() {
 		super();
 	}
 
+	@BeforeClass
+	public static void testExamplesDir() throws IOException{
+		assertTrue(new File(ASM_EXAMPLES).exists());
+		assertTrue(new File(ASM_EXAMPLES_EXAMPLES).exists());
+	}
+
+	
 	@BeforeClass
 	public static void cleanup() throws IOException{
 		File dir = new File(pathname);
@@ -45,7 +55,9 @@ public class TestValidator {
 	}
 
 	protected void test(String scenarioPath) throws IOException, Exception {
+		// without the execution
 		test(scenarioPath,false,false);
+		//( with the execution of the validator
 		test(scenarioPath,true,false);
 	}
 

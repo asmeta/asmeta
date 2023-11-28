@@ -32,6 +32,8 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
  */
 public class AsmetaFromAvallaBuilder {
 
+	public static final String TEMP_ASMETA_V = "__tempAsmetaV";
+
 	private static final Logger logger = Logger.getLogger(AsmetaFromAvallaBuilder.class);
 
 	/** The scenario. */
@@ -86,7 +88,8 @@ public class AsmetaFromAvallaBuilder {
 	 */
 	public AsmetaFromAvallaBuilder(String scenarioPath, File tempAsmPathDir) throws Exception {
 		//
-		assert Paths.get(scenarioPath).toFile().exists();
+		File fileScenario = Paths.get(scenarioPath).toFile();
+		assert fileScenario.exists(): fileScenario.getCanonicalPath()+ " does not exits";
 		assert tempAsmPathDir.exists() && tempAsmPathDir.isDirectory();
 		//
 		scenarioDirectoryPath = new File(scenarioPath).getAbsoluteFile().getParent();
@@ -110,7 +113,7 @@ public class AsmetaFromAvallaBuilder {
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
 		oldMainName = mainrule.getName();
 		// create a temp file in the directory
-		File tempAsmPath = File.createTempFile("__tempAsmetaV", ASMParser.ASM_EXTENSION, tempAsmPathDir);
+		File tempAsmPath = File.createTempFile(TEMP_ASMETA_V, ASMParser.ASM_EXTENSION, tempAsmPathDir);
 		logger.debug("to file " + tempAsmPath.getAbsolutePath());
 		//
 		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath,modelPath, this);
