@@ -38,13 +38,17 @@ public class AsmetaV_CLI extends AsmetaCLI {
 		String scriptPath = file.getPath();
 		try {
 			List<String> failingScenerios = AsmetaV.execValidation(scriptPath, coverage);
-			if (failingScenerios.isEmpty())
+			if (failingScenerios.isEmpty()) {
+				System.out.println("validation successfully completed");
 				return RunCLIResult.SUCCESS;
-			else
+			} else {
+				System.out.println("some check failed");
 				return RunCLIResult.WARNING;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("cirtical error");
 		return RunCLIResult.FATAL;
 	}
 

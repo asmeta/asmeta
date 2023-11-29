@@ -1,6 +1,5 @@
 package org.asmeta.toyices;
 
-import static org.asmeta.toyices.Utils.currentStateSymbol;
 import static org.asmeta.toyices.Utils.getFuncName;
 import static org.asmeta.toyices.Utils.isAgentConstant;
 import static org.asmeta.toyices.Utils.nextStateSymbol;
@@ -8,6 +7,7 @@ import static org.asmeta.toyices.Utils.parseDomainNameOrDef;
 import static org.asmeta.toyices.Utils.renameOverloadFunctions;
 import static org.asmeta.toyices.Utils.replaceCurrentNextSymbol;
 import static org.asmeta.toyices.Utils.splitDomains;
+import static org.asmeta.toyices.Utils.currentStateSymbol;
 
 import java.io.File;
 import java.util.ArrayList;

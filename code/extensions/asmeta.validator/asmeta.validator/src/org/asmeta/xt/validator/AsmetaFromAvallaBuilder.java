@@ -102,6 +102,7 @@ public class AsmetaFromAvallaBuilder {
 		scenario = (Scenario) resource.getContents().get(0);
 		// get the specification loaded by the script
 		modelPath = ScenarioUtility.getAsmPath(scenario);
+		if (!Files.exists(modelPath)) throw new RuntimeException("the loaded asmeta file " + modelPath + " does not exists");
 		assert Files.exists(modelPath);
 		logger.debug("build the asm from scenario " + modelPath);
 		File modelFile = modelPath.toFile();
