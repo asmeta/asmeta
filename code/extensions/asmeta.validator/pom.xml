@@ -2,15 +2,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>asmeta</groupId>
 	<artifactId>asmeta.validator.parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 	</properties>
 	<modules>
-	<module>asmeta.validator</module>
 	<module>org.asmeta.avallaxt</module>
+	<module>org.asmeta.avallaxt.tests</module>
+	<module>asmeta.validator</module>
+	<module>asmeta.validator.test</module>
 	</modules>
+	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.all</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 </project>

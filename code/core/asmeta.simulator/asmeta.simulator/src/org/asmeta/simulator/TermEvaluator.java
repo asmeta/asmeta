@@ -43,7 +43,9 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.simulator.util.UnresolvedReferenceException;
 import org.asmeta.simulator.value.BagValue;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.CollectionValue;
@@ -256,18 +258,24 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 		assert terms == null || terms.getArity() == args.length;
 		// logger.debug("<Args>" + Arrays.asList(args) + "</Args>");
 		// PA: 17 giugno 10 - inizio modifiche
-		Value value = evalFunc(functionTerm.getFunction(), args);
-		/*
-		 * Value value; if(functionTerm.getFunction().getName().equals("pre")) {
-		 * if(isPreEnabled) { value =
-		 * evalFuncPreviousState((FunctionTerm)terms.getTerms().get(0)); } else { throw
-		 * new Error("The pre function can be used only in invariants."); } } else {
-		 * value = evalFunc(functionTerm.getFunction(), args); }
-		 */
-		// PA: 17 giugno 10 - fine modifiche
-		logger.debug("<Value>" + value + "</Value>");
-		logger.debug("</FunctionTerm>");
-		return value;
+		try{
+			Value value = evalFunc(functionTerm.getFunction(), args);
+			/*
+			 * Value value; if(functionTerm.getFunction().getName().equals("pre")) {
+			 * if(isPreEnabled) { value =
+			 * evalFuncPreviousState((FunctionTerm)terms.getTerms().get(0)); } else { throw
+			 * new Error("The pre function can be used only in invariants."); } } else {
+			 * value = evalFunc(functionTerm.getFunction(), args); }
+			 */
+			// PA: 17 giugno 10 - fine modifiche
+			logger.debug("<Value>" + value + "</Value>");
+			logger.debug("</FunctionTerm>");
+			return value;
+		} catch (UnresolvedReferenceException e) {			
+			// add some extra info
+			String message = functionTerm.getFunction().getName() + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(terms);
+			throw new UnresolvedReferenceException(e.getMessage() + " as in  " + message);
+		}
 	}
 
 	/**

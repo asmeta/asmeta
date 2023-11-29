@@ -4,6 +4,8 @@ scenario accensionelampada
 load lampada.asm
 check lampStatus = OFF;
 set poweron := true;
+set pushbutton := false;
+set poweroff := false;
 step
 check lampStatus = STANDBY;
 set pushbutton := true;

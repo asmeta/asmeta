@@ -3,7 +3,7 @@ load ../CarSystem002main.asm
 //prima accendo la macchina e le luci con ambientLight settato a true
 //testato funzionante
 //
-// 5/10/21 A
+// 5/10/21 A TOFIX
 // CHECK FAILED: tailLampLeftFixValue = 0 at step 3 
 // CHECK FAILED: tailLampRightFixValue = 0 at step 3 
 // CHECK FAILED: lowBeamLeft = 0 at step 3 
@@ -42,10 +42,10 @@ check reverseLight = 0;
 check lightRotarySwitchPrevious = AUTO;
 check corneringLightLeft = 0;
 check corneringLightRight = 0;
-	check tailLampLeftFixValue = 100;
-	check tailLampRightFixValue = 100;
-	check lowBeamLeft = 100;
-	check lowBeamRight = 100;
+check tailLampLeftFixValue = 100;
+check tailLampRightFixValue = 100;
+check lowBeamLeft = 100;
+check lowBeamRight = 100;
 set keyState := KEYINIGNITIONONPOSITION;
 set lightRotarySwitch := AUTO;
 set hazardWarningSwitchOn := false;
@@ -90,7 +90,7 @@ set brakePedal := 0;
 set currentSpeed := 0;
 set steeringAngle := 500;
 set passed5Sec := false;
-//è spenta da almeno 30sce
+//ï¿½ spenta da almeno 30sce
 	set passed30Sec := true;
 step
 	check keyState_Previous = KEYINSERTED;
