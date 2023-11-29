@@ -1,5 +1,0 @@
-// a block that refer to another scenario that does not exists
-scenario lift
-load Lift.asm
-
-execblock blockNOTEXISTS:blocco5;

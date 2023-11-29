@@ -1,6 +1,0 @@
-scenario lift
-// when loading the asm spec, the should end with .asm
-load Lift.llll
-
-check x = 0;
-
