@@ -12,20 +12,20 @@ public class TestMultipleImports extends TestValidator {
 	@Test
 	public void testMultipleImports1() throws Exception {
 		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem003/scenari/HighBeamFlasherONOFF.avalla", true,
-				false);
+				false, true);
 	}
 
 	@Test
 	public void testMultipleImports2() throws Exception {
 		test(ASM_EXAMPLES_EXAMPLES + 
 				"ABZ2020/CarSystemModule/CarSystem003/scenari/HighBeamFixedONOFF.avalla", true,
-				false);
+				false, true);
 	}
 
 	@Test
 	public void testMultipleImports3() throws Exception {
 		test(ASM_EXAMPLES_EXAMPLES
-				+ "ABZ2020/CarSystemModule/CarSystem003/scenari/HighBeamFlasherONOFF.avalla", true, false);
+				+ "ABZ2020/CarSystemModule/CarSystem003/scenari/HighBeamFlasherONOFF.avalla", true, false, true);
 	}
 
 	@Test
@@ -37,7 +37,7 @@ public class TestMultipleImports extends TestValidator {
 
 	@Test
 	public void testMultipleCarSystem1() throws Exception {
-		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem001/scenari/", true, true);
+		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem001/scenari/", true, true, true);
 	}
 
 	@Test
@@ -49,12 +49,12 @@ public class TestMultipleImports extends TestValidator {
 
 	@Test
 	public void testMultipleCarSystem() throws Exception {
-		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem003/scenari/", true, true);
-		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem004/scenari/", true, true);
-		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem005/scenari/", true, true);
-		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem006/scenari/", true, true);
-		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem007/scenari/", true, true);
-		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem009/scenari/", true, true);
+		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem003/scenari/", true, true, true);
+		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem004/scenari/", true, true, true);
+		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem005/scenari/", true, true, true);
+		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem006/scenari/", true, true, true);
+		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem007/scenari/", true, true, true);
+		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem009/scenari/", true, true, true);
 	}
 
 	@BeforeClass

@@ -556,9 +556,9 @@ ruleExec returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getExecAccess().getRuleSentencePlusAssignParserRuleCall_1_0());
+					newCompositeNode(grammarAccess.getExecAccess().getRuleSentencePlusAssignAndColonParserRuleCall_1_0());
 				}
-				lv_rule_1_0=rulesentencePlusAssign
+				lv_rule_1_0=rulesentencePlusAssignAndColon
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getExecRule());
@@ -567,7 +567,7 @@ ruleExec returns [EObject current=null]
 						$current,
 						"rule",
 						lv_rule_1_0,
-						"org.asmeta.avallaxt.Avalla.sentencePlusAssign");
+						"org.asmeta.avallaxt.Avalla.sentencePlusAssignAndColon");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -778,25 +778,31 @@ rulesentence returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken(
 			newLeafNode(this_GOOD_CHARS_NO_COLON_0, grammarAccess.getSentenceAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_0());
 		}
 		    |
-		this_STRING_1=RULE_STRING
+		kw=':'
 		{
-			$current.merge(this_STRING_1);
+			$current.merge(kw);
+			newLeafNode(kw, grammarAccess.getSentenceAccess().getColonKeyword_1());
+		}
+		    |
+		this_STRING_2=RULE_STRING
+		{
+			$current.merge(this_STRING_2);
 		}
 		{
-			newLeafNode(this_STRING_1, grammarAccess.getSentenceAccess().getSTRINGTerminalRuleCall_1());
+			newLeafNode(this_STRING_2, grammarAccess.getSentenceAccess().getSTRINGTerminalRuleCall_2());
 		}
 	)+
 ;
 
-// Entry rule entryRulesentencePlusAssign
-entryRulesentencePlusAssign returns [String current=null]:
-	{ newCompositeNode(grammarAccess.getSentencePlusAssignRule()); }
-	iv_rulesentencePlusAssign=rulesentencePlusAssign
-	{ $current=$iv_rulesentencePlusAssign.current.getText(); }
+// Entry rule entryRulesentencePlusAssignAndColon
+entryRulesentencePlusAssignAndColon returns [String current=null]:
+	{ newCompositeNode(grammarAccess.getSentencePlusAssignAndColonRule()); }
+	iv_rulesentencePlusAssignAndColon=rulesentencePlusAssignAndColon
+	{ $current=$iv_rulesentencePlusAssignAndColon.current.getText(); }
 	EOF;
 
-// Rule sentencePlusAssign
-rulesentencePlusAssign returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+// Rule sentencePlusAssignAndColon
+rulesentencePlusAssignAndColon returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
 @init {
 	enterRule();
 }
@@ -809,21 +815,27 @@ rulesentencePlusAssign returns [AntlrDatatypeRuleToken current=new AntlrDatatype
 			$current.merge(this_GOOD_CHARS_NO_COLON_0);
 		}
 		{
-			newLeafNode(this_GOOD_CHARS_NO_COLON_0, grammarAccess.getSentencePlusAssignAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_0());
+			newLeafNode(this_GOOD_CHARS_NO_COLON_0, grammarAccess.getSentencePlusAssignAndColonAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_0());
 		}
 		    |
 		kw=':='
 		{
 			$current.merge(kw);
-			newLeafNode(kw, grammarAccess.getSentencePlusAssignAccess().getColonEqualsSignKeyword_1());
+			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonEqualsSignKeyword_1());
 		}
 		    |
-		this_STRING_2=RULE_STRING
+		kw=':'
 		{
-			$current.merge(this_STRING_2);
+			$current.merge(kw);
+			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonKeyword_2());
+		}
+		    |
+		this_STRING_3=RULE_STRING
+		{
+			$current.merge(this_STRING_3);
 		}
 		{
-			newLeafNode(this_STRING_2, grammarAccess.getSentencePlusAssignAccess().getSTRINGTerminalRuleCall_2());
+			newLeafNode(this_STRING_3, grammarAccess.getSentencePlusAssignAndColonAccess().getSTRINGTerminalRuleCall_3());
 		}
 	)+
 ;

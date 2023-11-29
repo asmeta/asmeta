@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.Test;
@@ -30,7 +31,8 @@ public class TestSingleScenario extends TestParserAndValidation {
 	@Test
 	public void checkExampleLift() {
 		assertEquals("ERROR Asm spec should end with asm",checkPossibleFaults("example/lift_wrong1.avalla"));
-		assertEquals("ERROR File LiftNotExists.asm does not exist as example\\LiftNotExists.asm",checkPossibleFaults("example/lift_wrong2.avalla"));
+		// it may be \\ instead of / in windows - use dth strandrd name
+		assertEquals("ERROR File LiftNotExists.asm does not exist as example"+ File.separator+"LiftNotExists.asm",checkPossibleFaults("example/lift_wrong2.avalla"));
 		assertEquals(checkPossibleFaults("example/lift_shared.avalla"),PossibleFaults_NONE);
 	}
 
@@ -43,8 +45,7 @@ public class TestSingleScenario extends TestParserAndValidation {
 
 	@Test
 	public void checkSLE() {
-		assertEquals(checkPossibleFaults("../../../../asm_examples\\examples\\fsmsemantics\\Sle\\testEven1.avalla"),PossibleFaults_NONE);
-		//assertEquals(checkPossibleFaults("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla"),PossibleFaults_NONE);
+		assertEquals(checkPossibleFaults("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla"),PossibleFaults_NONE);
 	}
 
 	// PROBLEMATICS
@@ -70,6 +71,10 @@ public class TestSingleScenario extends TestParserAndValidation {
 	}
 
 	
+	@Test
+	public void checkForall() {
+		assertTrue(checkPossibleFaults("example/lift_forall.avalla") == PossibleFaults_NONE);
+	}
 	
 	
 	

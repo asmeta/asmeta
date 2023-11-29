@@ -1,5 +1,5 @@
 scenario lift
-// the spec is in teh same directory 
+// the spec is in the same directory 
 load Lift.asm
 
 set insideCall(1):= true;

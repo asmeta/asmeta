@@ -27,7 +27,7 @@ public class TestSomeErrors extends TestValidator {
 	public void testWithAsmeta(){
 		// common error : try to run the validator with and asmeta file
 		try {
-			test("scenariosfortest/Lift_extramon.asm", true, false);
+			test("scenariosfortest/Lift_extramon.asm", true, false, true);
 		} catch (RuntimeException e) {
 			assertEquals("invalid file, the validator works with .avalla files", e.getMessage());
 		} catch (Exception e) {
@@ -40,7 +40,7 @@ public class TestSomeErrors extends TestValidator {
 	public void testWithWrongDirectory() throws Exception {		
 		// common error : try to run the validator with and asmeta file
 		try {
-			test("inexistingdir/", true, false);
+			test("inexistingdir/", true, false, true);
 		} catch (RuntimeException e) {
 			assertEquals("path inexistingdir/ does not exist", e.getMessage());
 		} catch (Exception e) {

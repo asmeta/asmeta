@@ -294,24 +294,25 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cExecKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cRuleAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cRuleSentencePlusAssignParserRuleCall_1_0 = (RuleCall)cRuleAssignment_1.eContents().get(0);
+		private final RuleCall cRuleSentencePlusAssignAndColonParserRuleCall_1_0 = (RuleCall)cRuleAssignment_1.eContents().get(0);
 		private final Keyword cSemicolonKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		
+		////in exec also colon is allowed - for example for a choose or for a forall
 		//Exec:
-		//    'exec' rule=sentencePlusAssign ";";
+		//    'exec' rule=sentencePlusAssignAndColon ";";
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'exec' rule=sentencePlusAssign ";"
+		//'exec' rule=sentencePlusAssignAndColon ";"
 		public Group getGroup() { return cGroup; }
 		
 		//'exec'
 		public Keyword getExecKeyword_0() { return cExecKeyword_0; }
 		
-		//rule=sentencePlusAssign
+		//rule=sentencePlusAssignAndColon
 		public Assignment getRuleAssignment_1() { return cRuleAssignment_1; }
 		
-		//sentencePlusAssign
-		public RuleCall getRuleSentencePlusAssignParserRuleCall_1_0() { return cRuleSentencePlusAssignParserRuleCall_1_0; }
+		//sentencePlusAssignAndColon
+		public RuleCall getRuleSentencePlusAssignAndColonParserRuleCall_1_0() { return cRuleSentencePlusAssignAndColonParserRuleCall_1_0; }
 		
 		//";"
 		public Keyword getSemicolonKeyword_2() { return cSemicolonKeyword_2; }
@@ -438,37 +439,43 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.sentence");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cGOOD_CHARS_NO_COLONTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cSTRINGTerminalRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final Keyword cColonKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
+		private final RuleCall cSTRINGTerminalRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		//// a sequence of char string terminated by ; or by : semicolon
 		//// it can be also a string like "even"
 		//// it can be found also assignments in case of exec, like c:=y
 		//// it can be f( "pippo" ) = "jjj"
+		//// it can be aslo with some colon check (forall $k in {0 : 4} with
 		//sentence:
-		//    (GOOD_CHARS_NO_COLON | STRING)+;
+		//    (GOOD_CHARS_NO_COLON | ':' | STRING)+;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//(GOOD_CHARS_NO_COLON | STRING)+
+		//(GOOD_CHARS_NO_COLON | ':' | STRING)+
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//GOOD_CHARS_NO_COLON
 		public RuleCall getGOOD_CHARS_NO_COLONTerminalRuleCall_0() { return cGOOD_CHARS_NO_COLONTerminalRuleCall_0; }
 		
+		//':'
+		public Keyword getColonKeyword_1() { return cColonKeyword_1; }
+		
 		//STRING
-		public RuleCall getSTRINGTerminalRuleCall_1() { return cSTRINGTerminalRuleCall_1; }
+		public RuleCall getSTRINGTerminalRuleCall_2() { return cSTRINGTerminalRuleCall_2; }
 	}
-	public class SentencePlusAssignElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.sentencePlusAssign");
+	public class SentencePlusAssignAndColonElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.sentencePlusAssignAndColon");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cGOOD_CHARS_NO_COLONTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final Keyword cColonEqualsSignKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
-		private final RuleCall cSTRINGTerminalRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final Keyword cColonKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
+		private final RuleCall cSTRINGTerminalRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
-		//sentencePlusAssign:
-		//    (GOOD_CHARS_NO_COLON | ':=' | STRING)+;
+		//sentencePlusAssignAndColon:
+		//    (GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//(GOOD_CHARS_NO_COLON | ':=' | STRING)+
+		//(GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//GOOD_CHARS_NO_COLON
@@ -477,8 +484,11 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		//':='
 		public Keyword getColonEqualsSignKeyword_1() { return cColonEqualsSignKeyword_1; }
 		
+		//":"
+		public Keyword getColonKeyword_2() { return cColonKeyword_2; }
+		
 		//STRING
-		public RuleCall getSTRINGTerminalRuleCall_2() { return cSTRINGTerminalRuleCall_2; }
+		public RuleCall getSTRINGTerminalRuleCall_3() { return cSTRINGTerminalRuleCall_3; }
 	}
 	
 	
@@ -499,7 +509,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	private final TerminalRule tSL_COMMENT;
 	private final TerminalRule tWS;
 	private final SentenceElements pSentence;
-	private final SentencePlusAssignElements pSentencePlusAssign;
+	private final SentencePlusAssignAndColonElements pSentencePlusAssignAndColon;
 	private final TerminalRule tGOOD_CHAR_NO_COLON;
 	private final TerminalRule tGOOD_CHARS_NO_COLON;
 	
@@ -525,7 +535,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		this.tSL_COMMENT = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.SL_COMMENT");
 		this.tWS = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.WS");
 		this.pSentence = new SentenceElements();
-		this.pSentencePlusAssign = new SentencePlusAssignElements();
+		this.pSentencePlusAssignAndColon = new SentencePlusAssignAndColonElements();
 		this.tGOOD_CHAR_NO_COLON = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.GOOD_CHAR_NO_COLON");
 		this.tGOOD_CHARS_NO_COLON = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.GOOD_CHARS_NO_COLON");
 	}
@@ -637,8 +647,9 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		return getStepUntilAccess().getRule();
 	}
 	
+	////in exec also colon is allowed - for example for a choose or for a forall
 	//Exec:
-	//    'exec' rule=sentencePlusAssign ";";
+	//    'exec' rule=sentencePlusAssignAndColon ";";
 	public ExecElements getExecAccess() {
 		return pExec;
 	}
@@ -718,8 +729,9 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	//// it can be also a string like "even"
 	//// it can be found also assignments in case of exec, like c:=y
 	//// it can be f( "pippo" ) = "jjj"
+	//// it can be aslo with some colon check (forall $k in {0 : 4} with
 	//sentence:
-	//    (GOOD_CHARS_NO_COLON | STRING)+;
+	//    (GOOD_CHARS_NO_COLON | ':' | STRING)+;
 	public SentenceElements getSentenceAccess() {
 		return pSentence;
 	}
@@ -728,14 +740,14 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		return getSentenceAccess().getRule();
 	}
 	
-	//sentencePlusAssign:
-	//    (GOOD_CHARS_NO_COLON | ':=' | STRING)+;
-	public SentencePlusAssignElements getSentencePlusAssignAccess() {
-		return pSentencePlusAssign;
+	//sentencePlusAssignAndColon:
+	//    (GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+;
+	public SentencePlusAssignAndColonElements getSentencePlusAssignAndColonAccess() {
+		return pSentencePlusAssignAndColon;
 	}
 	
-	public ParserRule getSentencePlusAssignRule() {
-		return getSentencePlusAssignAccess().getRule();
+	public ParserRule getSentencePlusAssignAndColonRule() {
+		return getSentencePlusAssignAndColonAccess().getRule();
 	}
 	
 	//terminal GOOD_CHAR_NO_COLON:

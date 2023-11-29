@@ -46,13 +46,13 @@ public class TestCoverage extends TestValidator {
 		Layout layout = new PatternLayout();
 		WriterAppender writerAppender = new WriterAppender(layout, stringWriter);
 		Logger.getLogger(AsmetaV.class).addAppender(writerAppender);
-		test(scenario, true, false);
+		test(scenario, true, false, true);
 		// it does not contain coverage info
 		String string = stringWriter.toString();
 		assertFalse(string.contains("** Coverage Info: **"));
 		// reset the
 		stringWriter.getBuffer().setLength(0);
-		test(scenario, true, true);
+		test(scenario, true, true, true);
 		// it does contain coverage info now
 	    List<String> outputs = Arrays.asList(stringWriter.toString().split("\n")).stream().map(x -> x.trim()).collect(Collectors.toList());
 		assertTrue(outputs.contains("** Coverage Info: **"));

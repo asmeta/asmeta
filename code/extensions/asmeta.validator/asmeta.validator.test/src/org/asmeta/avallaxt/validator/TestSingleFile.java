@@ -21,6 +21,7 @@ import org.asmeta.xt.validator.RuleEvalWCov;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 public class TestSingleFile extends TestValidator {
 
@@ -36,7 +37,7 @@ public class TestSingleFile extends TestValidator {
 	
 	@Test
 	public void testLift() throws Exception {		
-		test("scenariosfortest/lift.avalla", false, false);
+		test("scenariosfortest/lift.avalla", false, false, true);
 	}
 
 	@Test
@@ -46,7 +47,7 @@ public class TestSingleFile extends TestValidator {
 
 	@Test
 	public void testLiftMonitored() throws Exception {		
-		test("scenariosfortest/lift_extramon.avalla", false, false);
+		test("scenariosfortest/lift_extramon.avalla", false, false, true);
 	}
 	
 	@Test
@@ -54,7 +55,7 @@ public class TestSingleFile extends TestValidator {
 		// these two should be fixed - as the are are not 
 		//test("../../../../asm_examples/examples/ABZ2020/CarSystemModule/CarSystem002/scenari/LowBeamOFFonAmbientLight.avalla", true, false);
 		//test("../../../../asm_examples/examples/ABZ2020/CarSystemModule/CarSystem002/scenari/LowBeamOFFPowerOFFKey.avalla", true, false);
-		test("scenariosfortest/u_dir/test.avalla", true, false);
+		test("scenariosfortest/u_dir/test.avalla", true, false, true);
 	}
 	
 	@Test
@@ -78,45 +79,45 @@ public class TestSingleFile extends TestValidator {
 		Path avalla = Paths.get("scenariosfortest/lift2.avalla");
 		assert Files.exists(avalla);
 		Files.write(avalla, content.getBytes(charset));
-		test(avalla.toString(), false, false);
+		test(avalla.toString(), false, false, true);
 	}
 
 	@Test
 	public void testBuilerAbs() throws Exception {
 		
-		test("scenariosfortest/lift3.avalla", false, false);
+		test("scenariosfortest/lift3.avalla", false, false, true);
 	}
 
 	@Test
 	public void testBuilerSameDir() throws Exception {
 		
-		test("scenariosfortest/lift4.avalla", false, false);
+		test("scenariosfortest/lift4.avalla", false, false, true);
 	}
 
 	
 	@Test
 	public void testBuilerblock() throws Exception {
 		
-		test("scenariosfortest/block.avalla", false, false);
+		test("scenariosfortest/block.avalla", false, false, true);
 	}
 
 	@Test
 	public void testBuilerExecblock() throws Exception {
 		
-		test("scenariosfortest/block2.avalla", false, false);
+		test("scenariosfortest/block2.avalla", false, false, true);
 	}
 
 	@Test
 	public void testBuilerExternalExecblock() throws Exception {
 		
-		test("scenariosfortest/block3.avalla", false, false);
+		test("scenariosfortest/block3.avalla", false, false, true);
 	}
 
 
 	
 	@Test
 	public void testCipher() throws Exception {		
-		test("scenariosfortest/fh/extend.avalla", false, false);
+		test("scenariosfortest/fh/extend.avalla", false, false, true);
 	}
 	
 	@Test
@@ -126,22 +127,22 @@ public class TestSingleFile extends TestValidator {
 
 	@Test
 	public void testCarInclude() throws Exception {		
-		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem003/scenari/AdaptativeHighBeamDecreasing.avalla", true, true);
+		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem003/scenari/AdaptativeHighBeamDecreasing.avalla", true, true, true);
 	}
 	
 	
 	@Test
 	public void testSLE() throws Exception {		
-		test(ASM_EXAMPLES_EXAMPLES +"fsmsemantics/Sle/testEven1.avalla", false, false);
+		test(ASM_EXAMPLES_EXAMPLES +"fsmsemantics/Sle/testEven1.avalla", false, false, true);
 	}
 	@Test
 	public void testATM1() throws Exception {
-		test("scenariosforexamples/atm/atm1.avalla", false, false);
+		test("scenariosforexamples/atm/atm1.avalla", false, false, true);
 	}
 
 	@Test
 	public void testModule1() throws Exception {		
-		test("scenariosfortest/lift.avalla", false, false);
+		test("scenariosfortest/lift.avalla", false, false, true);
 	}
 
 
@@ -183,6 +184,7 @@ public class TestSingleFile extends TestValidator {
 	}
 	
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testMod2() throws Exception {
 		test("scenariosfortest/withmodules/scenarios/scenario2.avalla");		
 	}
@@ -200,20 +202,20 @@ public class TestSingleFile extends TestValidator {
 	// import from a subdir
 	@Test
 	public void testMod4() throws Exception {
-		test("scenariosfortest/withmodules/scenario3.avalla", false, false);		
+		test("scenariosfortest/withmodules/scenario3.avalla", false, false, true);		
 	}
 
 	// diamond
 	@Test
 	public void testDiamond() throws Exception {
-		test("scenariosfortest/diamondimport/scenario1.avalla", false, false);
+		test("scenariosfortest/diamondimport/scenario1.avalla", false, false, true);
 		// check the only 1 file for the common root is translated
 	}
 
 	
 	@Test
 	public void testPillbox() throws Exception {
-		test(ASM_EXAMPLES + "PillBox/Level0/pillbox_0_scenario1.avalla", false, false);		
+		test(ASM_EXAMPLES + "PillBox/Level0/pillbox_0_scenario1.avalla", false, false, true);		
 	}
 
 	@Test
@@ -222,7 +224,7 @@ public class TestSingleFile extends TestValidator {
 		// questo mi d� errori strani
 		try {
 //			test("D:/AgHome\\Dropbox\\code\\didattica\\tvsw\\unibg_tvsw\\codice_lezioni\\6_atgt\\test.avalla", false, false);		
-			test("scenariosfortest/u_dir/test.avalla", false, false);
+			test("scenariosfortest/u_dir/test.avalla", false, false, true);
 		} catch(IllegalStateException ise) {
 			System.out.println(ise.getMessage());
 			fail();
@@ -259,7 +261,7 @@ public class TestSingleFile extends TestValidator {
 			if (!filename.endsWith(".avalla")) continue;
 			System.out.println(filename);
 			try{
-				test(filename, true, true);		
+				test(filename, true, true, true);		
 			} catch(Throwable e) {
 				System.out.println("skipping " + filename);
 			}

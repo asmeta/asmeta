@@ -7,7 +7,8 @@ Bundle-ClassPath: .
 Require-Bundle: org.apache.log4j,
  org.eclipse.emf.common,
  asmeta.emf
-Export-Package: org.asmeta.parser,
+Export-Package: org.asmeta.annotations,
+ org.asmeta.parser,
  org.asmeta.parser.util
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: foselab.unibg.it

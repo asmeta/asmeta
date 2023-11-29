@@ -1,5 +1,6 @@
 package org.asmeta.avallaxt.validator;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -53,12 +54,12 @@ public class TestValidator {
 		    }
 		}
 	}
-
+	// test with and wthout the validator
 	protected void test(String scenarioPath) throws IOException, Exception {
 		// without the execution
-		test(scenarioPath,false,false);
+		test(scenarioPath,false,false, true);
 		//( with the execution of the validator
-		test(scenarioPath,true,false);
+		test(scenarioPath,true,false, true);
 	}
 
 	/**
@@ -66,15 +67,17 @@ public class TestValidator {
 	 * @param scenarioPath
 	 * @param runValidator
 	 * @param computeCoverage TODO
+	 * @param expectedSuccess TODO
 	 * @throws IOException
 	 * @throws Exception
 	 */
-	protected void test(String scenarioPath, boolean runValidator, boolean computeCoverage) throws IOException, Exception {
+	protected void test(String scenarioPath, boolean runValidator, boolean computeCoverage, boolean expectedSuccess) throws IOException, Exception {
 		if (runValidator) {
 			System.out.println("executing " + scenarioPath);
 			// it should be runnable
 			List<String> result = AsmetaV.execValidation(scenarioPath, computeCoverage);
-			assertTrue("failed " + result, result.isEmpty());
+			if (expectedSuccess) assertTrue("failed " + result, result.isEmpty());
+			else assertFalse(scenarioPath + " must fail but it is not", result.isEmpty()); 
 		} else {
 			//
 			System.out.println("translating " + scenarioPath);
