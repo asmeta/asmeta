@@ -1,13 +1,13 @@
 scenario completeTherapyGround
 
-load ../../../../../../../asm_examples/examples/hemodialysisDevice/ABZ2016\Hemodialysis_GM.asm
+load ../../../../../../../asm_examples/examples/hemodialysisDevice/ABZ2016/Hemodialysis_GM.asm
 
-check phase = PREPARATION;
-
-step
-
-check phase = INITIATION;
+check phaseTherapy = PREPARATION;
 
 step
 
-check phase = ENDING;
+check phaseTherapy = INITIATION;
+
+step
+
+check phaseTherapy = ENDING;

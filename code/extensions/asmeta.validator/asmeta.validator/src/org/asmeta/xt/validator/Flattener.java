@@ -29,7 +29,7 @@ public class Flattener {
 	}
 
 	private void parseCommands() {
-		commands = new ArrayList<Command>();
+		commands = new ArrayList<>();
 		for (Element command : scenario.getElements()) {
 			assert command != null;
 			commands.addAll(getCommands(command));

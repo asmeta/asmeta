@@ -344,11 +344,11 @@ public class InternalAvallaLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAvalla.g:831:13: ( '\"' (~ ( '\"' ) )* '\"' )
-            // InternalAvalla.g:831:15: '\"' (~ ( '\"' ) )* '\"'
+            // InternalAvalla.g:843:13: ( '\"' (~ ( '\"' ) )* '\"' )
+            // InternalAvalla.g:843:15: '\"' (~ ( '\"' ) )* '\"'
             {
             match('\"'); 
-            // InternalAvalla.g:831:19: (~ ( '\"' ) )*
+            // InternalAvalla.g:843:19: (~ ( '\"' ) )*
             loop1:
             do {
                 int alt1=2;
@@ -361,7 +361,7 @@ public class InternalAvallaLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // InternalAvalla.g:831:19: ~ ( '\"' )
+            	    // InternalAvalla.g:843:19: ~ ( '\"' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -398,12 +398,12 @@ public class InternalAvallaLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAvalla.g:833:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // InternalAvalla.g:833:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // InternalAvalla.g:845:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // InternalAvalla.g:845:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // InternalAvalla.g:833:24: ( options {greedy=false; } : . )*
+            // InternalAvalla.g:845:24: ( options {greedy=false; } : . )*
             loop2:
             do {
                 int alt2=2;
@@ -428,7 +428,7 @@ public class InternalAvallaLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // InternalAvalla.g:833:52: .
+            	    // InternalAvalla.g:845:52: .
             	    {
             	    matchAny(); 
 
@@ -458,12 +458,12 @@ public class InternalAvallaLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAvalla.g:835:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // InternalAvalla.g:835:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // InternalAvalla.g:847:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // InternalAvalla.g:847:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // InternalAvalla.g:835:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // InternalAvalla.g:847:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop3:
             do {
                 int alt3=2;
@@ -476,7 +476,7 @@ public class InternalAvallaLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // InternalAvalla.g:835:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // InternalAvalla.g:847:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -496,7 +496,7 @@ public class InternalAvallaLexer extends Lexer {
                 }
             } while (true);
 
-            // InternalAvalla.g:835:40: ( ( '\\r' )? '\\n' )?
+            // InternalAvalla.g:847:40: ( ( '\\r' )? '\\n' )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -505,9 +505,9 @@ public class InternalAvallaLexer extends Lexer {
             }
             switch (alt5) {
                 case 1 :
-                    // InternalAvalla.g:835:41: ( '\\r' )? '\\n'
+                    // InternalAvalla.g:847:41: ( '\\r' )? '\\n'
                     {
-                    // InternalAvalla.g:835:41: ( '\\r' )?
+                    // InternalAvalla.g:847:41: ( '\\r' )?
                     int alt4=2;
                     int LA4_0 = input.LA(1);
 
@@ -516,7 +516,7 @@ public class InternalAvallaLexer extends Lexer {
                     }
                     switch (alt4) {
                         case 1 :
-                            // InternalAvalla.g:835:41: '\\r'
+                            // InternalAvalla.g:847:41: '\\r'
                             {
                             match('\r'); 
 
@@ -548,10 +548,10 @@ public class InternalAvallaLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAvalla.g:837:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // InternalAvalla.g:837:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalAvalla.g:849:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // InternalAvalla.g:849:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // InternalAvalla.g:837:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalAvalla.g:849:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt6=0;
             loop6:
             do {
@@ -603,8 +603,8 @@ public class InternalAvallaLexer extends Lexer {
     // $ANTLR start "RULE_GOOD_CHAR_NO_COLON"
     public final void mRULE_GOOD_CHAR_NO_COLON() throws RecognitionException {
         try {
-            // InternalAvalla.g:839:34: ( ( '!' .. '9' | '<' .. '~' ) )
-            // InternalAvalla.g:839:36: ( '!' .. '9' | '<' .. '~' )
+            // InternalAvalla.g:851:34: ( ( '!' .. '9' | '<' .. '~' ) )
+            // InternalAvalla.g:851:36: ( '!' .. '9' | '<' .. '~' )
             {
             if ( (input.LA(1)>='!' && input.LA(1)<='9')||(input.LA(1)>='<' && input.LA(1)<='~') ) {
                 input.consume();
@@ -629,10 +629,10 @@ public class InternalAvallaLexer extends Lexer {
         try {
             int _type = RULE_GOOD_CHARS_NO_COLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAvalla.g:841:26: ( ( RULE_GOOD_CHAR_NO_COLON )+ )
-            // InternalAvalla.g:841:28: ( RULE_GOOD_CHAR_NO_COLON )+
+            // InternalAvalla.g:853:26: ( ( RULE_GOOD_CHAR_NO_COLON )+ )
+            // InternalAvalla.g:853:28: ( RULE_GOOD_CHAR_NO_COLON )+
             {
-            // InternalAvalla.g:841:28: ( RULE_GOOD_CHAR_NO_COLON )+
+            // InternalAvalla.g:853:28: ( RULE_GOOD_CHAR_NO_COLON )+
             int cnt7=0;
             loop7:
             do {
@@ -646,7 +646,7 @@ public class InternalAvallaLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // InternalAvalla.g:841:28: RULE_GOOD_CHAR_NO_COLON
+            	    // InternalAvalla.g:853:28: RULE_GOOD_CHAR_NO_COLON
             	    {
             	    mRULE_GOOD_CHAR_NO_COLON(); 
 

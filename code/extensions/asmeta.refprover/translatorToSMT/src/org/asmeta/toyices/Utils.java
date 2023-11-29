@@ -21,7 +21,7 @@ import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.TypeDomain;
 
 public class Utils {
-	public final static String currentStateSymbol = "ยง";
+	public final static String currentStateSymbol = "ง";
 	public final static String nextStateSymbol = "#";
 
 	public static List<Domain> splitDomains(Domain domain) {

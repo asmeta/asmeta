@@ -12,9 +12,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.asmeta.avallaxt.tests.AvallaInjectorProvider
 import org.asmeta.avallaxt.avalla.Scenario
-import org.asmeta.avallaxt.avalla.ExecBlock
-import org.asmeta.avallaxt.avalla.Step
-import org.asmeta.avallaxt.avalla.Block
 
 @RunWith(XtextRunner)
 @InjectWith(AvallaInjectorProvider)
@@ -45,7 +42,7 @@ class AvallaXtParsingInvariantTest {
 		val result = parseHelper.parse(scenario)
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
 		Assert.assertEquals((result as Scenario).invariants.get(0).expression,i)
 		
 	}

@@ -31,7 +31,7 @@ class AvallaXtParsingExecTest {
 		''')
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
 		println((result as Scenario).elements.get(0))
 		Assert.assertTrue((result as Scenario).elements.get(0) instanceof Exec);
 		Assert.assertEquals("sc1:=1",((result as Scenario).elements.get(0) as Exec).rule)
@@ -49,7 +49,7 @@ class AvallaXtParsingExecTest {
 		''')
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
 	}
 	
 }

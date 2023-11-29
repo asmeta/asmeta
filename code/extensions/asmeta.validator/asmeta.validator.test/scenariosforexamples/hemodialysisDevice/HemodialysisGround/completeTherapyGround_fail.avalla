@@ -1,0 +1,14 @@
+scenario completeTherapyGround
+
+load ../../../../../../../asm_examples/examples/hemodialysisDevice/ABZ2016/Hemodialysis_GM.asm
+
+// wrong variable
+check phase = PREPARATION;
+
+step
+
+check phase = INITIATION;
+
+step
+
+check phase = ENDING;

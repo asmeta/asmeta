@@ -9,11 +9,14 @@
 	<properties>
 		<jacoco.destFile>${project.basedir}/reports/coverage/jacoco/jacoco.exec</jacoco.destFile>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-    	<maven.compiler.source>17</maven.compiler.source>
-    	<maven.compiler.target>17</maven.compiler.target>
+		<xtext.version>2.33.0</xtext.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 	<modules>
 		<module>code/core</module>
+		
+		<module>code/extensions/asmeta.validator</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener</module>
 		<module>code/extensions/asmetasmv/asmeta.smv</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener.test</module>
@@ -33,11 +36,6 @@
 		<module>
 			code/extensions/asmeta.refprover/translatorToSMT
 		</module>
-		
-		<module>
-			code/extensions/asmeta.validator/asmeta.validator
-		</module>
-		
 		<module>
 			code/experimental/asmetal2cpp/asmetal2cpp_codegen
 		</module>
@@ -45,12 +43,9 @@
 			code/experimental/asmetal2cpp/asmetal2cpp_cli
 		</module>
 		<module>reports/coverage/report.aggregate</module>
-		<module>
-			code/extensions/asmeta.validator/org.asmeta.avallaxt
-		</module>
 	</modules>
 	<build>
-		<plugins>			
+		<plugins>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>

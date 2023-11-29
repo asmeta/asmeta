@@ -4,30 +4,31 @@
 package org.asmeta.avallaxt.validation
 
 import asmeta.AsmCollection
-import asmeta.definitions.Function;
-import java.util.List
-import org.asmeta.avallaxt.avalla.Scenario
-import org.asmeta.avallaxt.avalla.Check
+import org.asmeta.avallaxt.AvallaStandaloneSetup
 import org.asmeta.avallaxt.avalla.AvallaPackage
-import org.asmeta.avallaxt.avalla.ExecBlock
+import org.asmeta.avallaxt.avalla.Block
+import org.asmeta.avallaxt.avalla.Check
 import org.asmeta.avallaxt.avalla.Element
+import org.asmeta.avallaxt.avalla.ExecBlock
+import org.asmeta.avallaxt.avalla.Scenario
 import org.asmeta.avallaxt.avalla.Set
-import java.nio.file.Paths
-import java.nio.file.Files
-import org.asmeta.parser.ASMParser
-import org.asmeta.parser.ParseException
+import asmeta.definitions.ControlledFunction
+import asmeta.definitions.Function
 import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.SharedFunction
 import java.io.File
-import asmeta.definitions.ControlledFunction
-import org.asmeta.avallaxt.avalla.Block
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.ArrayList
-import org.eclipse.emf.ecore.resource.ResourceSet
-import org.asmeta.avallaxt.AvallaStandaloneSetup
-import org.eclipse.emf.common.util.URI
-import static java.util.stream.Collectors.toList
-import org.eclipse.emf.common.util.EList
 import java.util.HashSet
+import java.util.List
+import org.asmeta.parser.ASMParser
+import org.asmeta.parser.ParseException
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.ResourceSet
+
+import static java.util.stream.Collectors.toList
 
 /**
  * This class contains custom validation rules. 
@@ -55,11 +56,15 @@ class AvallaValidator extends AbstractAvallaValidator {
 	@org.eclipse.xtext.validation.Check
 	def checkLoadASMexists(Scenario scenario) {
 		//
-		if (scenario.spec.startsWith("\"")) {
-			// TODO
-			return
+		var specName = scenario.spec
+		if (specName.startsWith("\"")) {
+			if (!specName.endsWith("\"")){
+				error('should end with the quote as well',AvallaPackage.Literals.SCENARIO__SPEC)
+				return;				
+			}  
+			specName = specName.substring(1,specName.length() - 1)			
 		}
-		if (! scenario.spec.endsWith(ASMParser.ASM_EXTENSION)) {
+		if (! specName.endsWith(ASMParser.ASM_EXTENSION)) {
 			error('Asm spec should end with asm', AvallaPackage.Literals.SCENARIO__SPEC)
 			return;
 		}

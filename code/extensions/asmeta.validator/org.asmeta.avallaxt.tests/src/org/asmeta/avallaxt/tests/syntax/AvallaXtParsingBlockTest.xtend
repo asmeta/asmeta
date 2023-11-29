@@ -33,7 +33,7 @@ class AvallaXtParsingBlockTest {
 		''')
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
 		println((result as Scenario).elements.get(0))
 		Assert.assertEquals("sc1",((result as Scenario).elements.get(0) as ExecBlock).scenario)
 		Assert.assertEquals("blocco1",((result as Scenario).elements.get(0) as ExecBlock).block)
@@ -48,7 +48,7 @@ class AvallaXtParsingBlockTest {
 		''')
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
 		println((result as Scenario).elements.get(0))
 		Assert.assertNull(((result as Scenario).elements.get(0) as ExecBlock).scenario)
 		Assert.assertEquals("blocco1",((result as Scenario).elements.get(0) as ExecBlock).block)
@@ -66,7 +66,7 @@ class AvallaXtParsingBlockTest {
 		''')
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
 		val element = ((result as Scenario).elements.get(0) as Block).elements
 		Assert.assertEquals(1,element.size);
 		println(element)
@@ -86,7 +86,7 @@ class AvallaXtParsingBlockTest {
 		''')
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
 		println(((result as Scenario).elements.get(0) as Block).elements)
 	}
 }
