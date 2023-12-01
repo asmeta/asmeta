@@ -49,7 +49,13 @@ public class AsmetaV_CLITest {
 
 	@Test
 	public void testFailingTest() {
-		AsmetaV_CLI.main(new String[] {"scenariosforexamples\\advancedClock\\advancedClock5_fail.avalla" });
+		AsmetaV_CLI.main(new String[] {"scenariosforexamples/advancedClock/advancedClock5_fail.avalla" });
+	}
+
+	
+	@Test
+	public void testCoverage() {
+		AsmetaV_CLI.main(new String[]{ "-cov", avallaPath.toString() });
 	}
 
 	

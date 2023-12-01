@@ -43,6 +43,8 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 public class AsmetaPrinterForAvalla extends AsmPrinter {
 
+	private static final String STEP = "step__";
+
 	public static final String R_MAIN = "r_main__";
 
 	// ASMs already translated (to avoid over translation
@@ -331,7 +333,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	public void visitFunctions(Collection<Function> funcs) {
 		if (model.getMainrule() != null) {
 			println("// added by validator");
-			println("controlled step__: Integer");
+			println("controlled " + STEP + ": Integer");
 		}
 		super.visitFunctions(funcs);
 	}

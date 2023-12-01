@@ -40,6 +40,11 @@ public class AsmetaV_CLI extends AsmetaCLI {
 		//super.setUpLogger();
 //		// reset
 		Logger.getRootLogger().getLoggerRepository().resetConfiguration();
+		// TODO - this ignores the debug option - see the super method
+//		// now set the levels
+		Logger.getRootLogger().setLevel(Level.OFF);
+		Logger.getLogger(Simulator.class).setLevel(Level.INFO);
+		Logger.getLogger(AsmetaV.class).setLevel(Level.INFO);
 		// create appender
 		ConsoleAppender console = new ConsoleAppender(); // create appender
 		// configure the appender
@@ -50,10 +55,6 @@ public class AsmetaV_CLI extends AsmetaCLI {
 		console.activateOptions();
 		// add appender to any Logger (here is root)
 		Logger.getRootLogger().addAppender(console);
-//		// now set the levels
-		// TODO - this ignored the debug option - see the super mathod
-		Logger.getRootLogger().setLevel(Level.OFF);
-		Logger.getLogger(Simulator.class).setLevel(Level.INFO);
 	}
 
 	@Override

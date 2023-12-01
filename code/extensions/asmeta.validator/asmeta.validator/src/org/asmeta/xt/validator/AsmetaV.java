@@ -92,6 +92,7 @@ public class AsmetaV {
 			logger.info("** NOT covered rules: **");
 			for (Entry<String, Boolean> rule : allCoveredRules.entrySet())
 				if (Boolean.FALSE.equals(rule.getValue())) logger.info(rule.getKey());
+			logger.info("");
 		}
 		return failedScenarios;
 	}
