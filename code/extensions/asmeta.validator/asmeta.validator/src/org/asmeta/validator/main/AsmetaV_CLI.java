@@ -26,6 +26,8 @@ public class AsmetaV_CLI extends AsmetaCLI {
 	@Option(name = "-cov", usage = "collect coverage info")
 	private boolean coverage;
 
+	
+	
 	/**
 	 * @param args
 	 * @throws Throwable
@@ -67,10 +69,8 @@ public class AsmetaV_CLI extends AsmetaCLI {
 		try {
 			List<String> failingScenerios = AsmetaV.execValidation(scriptPath, coverage);
 			if (failingScenerios.isEmpty()) {
-				System.out.println("validation successfully completed");
 				return RunCLIResult.SUCCESS;
 			} else {
-				System.out.println("some check failed");
 				return RunCLIResult.WARNING;
 			}
 		} catch (Exception e) {

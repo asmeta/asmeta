@@ -94,6 +94,9 @@ public class AsmetaV {
 				if (Boolean.FALSE.equals(rule.getValue())) logger.info(rule.getKey());
 			logger.info("");
 		}
+		// print a recap of the result
+		if (failedScenarios.isEmpty()) logger.info("validation terminated without errors");
+		else logger.info("WARNING: some check failed");
 		return failedScenarios;
 	}
 
