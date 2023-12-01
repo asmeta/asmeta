@@ -26,19 +26,17 @@ Angelo: la maggior parte dei plugin viene compilata solo con PDS, con maven non 
 
 NOVEMBRE 23:
 
-asmeta.avallaxt.parent --> questo è un tentativo si usar ela nuova piattaforma xtext + tyco per il build nella sudir ci sono tutti i codici
-
 == validatore vero e proprio ==
-asmeta.validator
-asmeta.validator.feature
+asmeta.validator   POM e CI
+asmeta.validator.feature POM e CI
 asmeta.validator.test
 asmeta.validator.ui  ==> interfaccia per eclipse
 
 == definizione del linguaggio per avalla con xtext ==
-org.asmeta.avallaxt
+org.asmeta.avallaxt   POM e CI
 org.asmeta.avallaxt.feature
 org.asmeta.avallaxt.ide
 org.asmeta.avallaxt.repository
-org.asmeta.avallaxt.tests
+org.asmeta.avallaxt.tests  POM e CI
 org.asmeta.avallaxt.ui
 org.asmeta.avallaxt.ui.tests

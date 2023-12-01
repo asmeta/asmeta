@@ -3,6 +3,12 @@ package org.asmeta.validator.main;
 import java.io.File;
 import java.util.List;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.asmeta.simulator.main.Simulator;
 import org.asmeta.xt.validator.AsmetaV;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
@@ -10,8 +16,7 @@ import org.kohsuke.args4j.Option;
 import asmeta.cli.AsmetaCLI;
 
 /**
- * main class of AsmetaV
- * It can take also a directory, in that case
+ * main class of AsmetaV It can take also a directory, in that case
  *
  * @author garganti
  *
@@ -26,7 +31,29 @@ public class AsmetaV_CLI extends AsmetaCLI {
 	 * @throws Throwable
 	 */
 	public static void main(String[] args) {
-		new AsmetaV_CLI().run(args);
+		AsmetaV_CLI asmetaV_CLI = new AsmetaV_CLI();
+		asmetaV_CLI.run(args);
+	}
+
+	@Override
+	protected void setUpLogger() {
+		//super.setUpLogger();
+//		// reset
+		Logger.getRootLogger().getLoggerRepository().resetConfiguration();
+		// create appender
+		ConsoleAppender console = new ConsoleAppender(); // create appender
+		// configure the appender
+		//String PATTERN = "%d [%p|%c|%C{1}] %m%n";
+		String PATTERN = "%m%n";
+		console.setLayout(new PatternLayout(PATTERN));
+		console.setThreshold(Level.ALL);
+		console.activateOptions();
+		// add appender to any Logger (here is root)
+		Logger.getRootLogger().addAppender(console);
+//		// now set the levels
+		// TODO - this ignored the debug option - see the super mathod
+		Logger.getRootLogger().setLevel(Level.OFF);
+		Logger.getLogger(Simulator.class).setLevel(Level.INFO);
 	}
 
 	@Override
