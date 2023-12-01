@@ -99,7 +99,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		this.asm = asm;
 		// Display display = PlatformUI.getWorkbench().getDisplay();
 		// String filePath = System.getProperty("user.dir");
-		// rea dthe images: in thsi way they msut be inside the code
+		// read the images: in this way they must be inside the code
 		// TODO put them in images directory
 		arrowUp = new Image(display, getClass().getResourceAsStream("arrowUp.png"));
 		arrowDown = new Image(display, getClass().getResourceAsStream("arrowDown.png"));

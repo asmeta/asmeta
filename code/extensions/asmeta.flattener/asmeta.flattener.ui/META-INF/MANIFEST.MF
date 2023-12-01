@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta flattener plugin
 Bundle-SymbolicName: asmeta.flattener.ui;singleton:=true
-Bundle-Version: 23.07
+Bundle-Version: 23.12
 Bundle-Activator: org.asmeta.flattener.plugin.AsmetaFlatActivator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.console,
  asmeta.flattener,
  asmeta.simulator.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: foselab.unibg.it
 Bundle-ClassPath: .

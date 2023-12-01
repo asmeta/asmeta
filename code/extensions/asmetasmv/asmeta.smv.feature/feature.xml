@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.asmetasmv.feature"
       label="Asmeta model checker"
-      version="23.07"
+      version="23.12"
       provider-name="fmse.di.unimi.it">
 
    <description>
