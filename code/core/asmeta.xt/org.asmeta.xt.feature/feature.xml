@@ -3,7 +3,7 @@
       id="org.asmeta.xt.feature"
       label="Asmeta xtext editor"
       version="23.12"
-      provider-name="fmse.di.unimi.it">
+      provider-name="https://foselab.unibg.it/">
 
    <description url="asmeta.sf.net">
       Asmeta Xtext-based editor
@@ -17,6 +17,11 @@
       Eclipse Public License
 See https://asmeta.github.io
    </license>
+
+   <url>
+      <update label="Asmeta" url="https://raw.githubusercontent.com/asmeta/asmeta_update_site"/>
+   </url>
+
    <requires>
       <import plugin="org.eclipse.xtext"/>
       <import plugin="org.eclipse.xtext.xbase"/>
@@ -44,23 +49,14 @@ See https://asmeta.github.io
 
    <plugin
          id="org.asmeta.xt"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.asmeta.xt.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.asmeta.xt.ide"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>

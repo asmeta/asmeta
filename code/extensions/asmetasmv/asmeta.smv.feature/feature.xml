@@ -3,7 +3,7 @@
       id="org.asmeta.asmetasmv.feature"
       label="Asmeta model checker"
       version="23.12"
-      provider-name="fmse.di.unimi.it">
+      provider-name="https://foselab.unibg.it/">
 
    <description>
       See https://asmeta.github.io
@@ -29,28 +29,18 @@ See https://asmeta.github.io
 
    <plugin
          id="asmeta.asmetasmv.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="asmeta.smv"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="asmeta.flattener"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="asmeta.flattener.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>
