@@ -13,8 +13,8 @@ on: push
 
 jobs:
   build:
-    # Pin to Ubuntu 22.04
-    runs-on: ubuntu-jammy
+    # Pin to Ubuntu 22.04, see https://github.com/actions/runner-images#available-images
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -30,6 +30,8 @@ jobs:
         export PATH=$PWD/NuSMV-2.6.0-Linux/bin:$PATH
         mvn -B compile --file pom.xml
         mvn -B package --file pom.xml
+    # An example of how to pass artifacts between jobs is here:
+    # https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#passing-data-between-jobs-in-a-workflow
     - name: Upload CLI binarier
       uses: actions/upload-artifact@v3
       with:
