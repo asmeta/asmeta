@@ -31,7 +31,6 @@ jobs:
         wget https://nusmv.fbk.eu/distrib/NuSMV-2.6.0-linux64.tar.gz
         tar -xvzf NuSMV-2.6.0-linux64.tar.gz
         export PATH=$PWD/NuSMV-2.6.0-Linux/bin:$PATH
-        NuSMV
         mvn -B compile --file pom.xml
         mvn -B package --file pom.xml
 
