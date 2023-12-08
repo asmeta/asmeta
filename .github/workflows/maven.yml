@@ -27,13 +27,12 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: |
+        find . -name "*.jar"
         wget https://nusmv.fbk.eu/distrib/NuSMV-2.6.0-linux64.tar.gz
         tar -xvzf NuSMV-2.6.0-linux64.tar.gz
         export PATH=$PWD/NuSMV-2.6.0-Linux/bin:$PATH
         mvn -B compile --file pom.xml
         mvn -B package --file pom.xml
-        pwd
-        ls -l
         find . -name "*.jar"
     # An example of how to pass artifacts between jobs is here:
     # https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#passing-data-between-jobs-in-a-workflow
@@ -41,16 +40,17 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Asmeta CLI Distribution
+        # NOTE: are the new binaries in `target` directory?
         path:
-          ./code/extensions/asmeta.validator/asmeta.validator/dist/AsmetaV.jar
-          ./code/extensions/asmeta.flattener/asmeta.flattener.cli/dist/AsmetaF.jar
-          ./code/extensions/asmetasmv/asmeta.smv/dist/AsmetaSMV.jar
-          ./code/extensions/asmeta.modeladvisor/asmeta.modeladvisor/dist/AsmetaMA.jar
-          ./code/extensions/asmeta.refprover/translatorToSMT/dist/AsmetaToSMT.jar
-          ./code/extensions/asmeta.refprover/refinementProof/dist/AsmetaRefProver.jar
-          ./code/core/asmeta.parser/asmeta.parser.cli/dist/AsmetaLc.jar
-          ./code/core/asmeta.simulator/asmeta.simulator.cli/dist/AsmetaS.jar
-          ./code/experimental/asmetal2cpp/asmetal2cpp_cli/dist/Asmeta2Cpp.jar
+          code/extensions/asmeta.validator/asmeta.validator/dist/AsmetaV.jar
+          code/extensions/asmeta.flattener/asmeta.flattener.cli/dist/AsmetaF.jar
+          code/extensions/asmetasmv/asmeta.smv/dist/AsmetaSMV.jar
+          code/extensions/asmeta.modeladvisor/asmeta.modeladvisor/dist/AsmetaMA.jar
+          code/extensions/asmeta.refprover/translatorToSMT/dist/AsmetaToSMT.jar
+          code/extensions/asmeta.refprover/refinementProof/dist/AsmetaRefProver.jar
+          code/core/asmeta.parser/asmeta.parser.cli/dist/AsmetaLc.jar
+          code/core/asmeta.simulator/asmeta.simulator.cli/dist/AsmetaS.jar
+          code/experimental/asmetal2cpp/asmetal2cpp_cli/dist/Asmeta2Cpp.jar
         # Keep only for one day now
         retention-days: 1
         
