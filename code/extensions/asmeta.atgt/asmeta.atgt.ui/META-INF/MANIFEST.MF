@@ -13,12 +13,12 @@ Require-Bundle: asmeta.atgt,
  org.eclipse.debug.ui,
  org.eclipse.core.jobs,
  org.eclipse.swt,
- javax.inject,
  org.eclipse.ui.ide,
  org.junit,
  org.eclipse.core.runtime,
  org.eclipse.ui,
- org.apache.log4j
+ org.apache.log4j,
+ jakarta.inject.jakarta.inject-api
 Export-Package: org.asmeta.atgt.generator.ui
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.asmeta.atgt.generator.ui.ATGTActivator

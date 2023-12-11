@@ -31,7 +31,6 @@ See https://asmeta.github.io
       <import plugin="org.eclipse.debug.ui"/>
       <import plugin="org.eclipse.core.jobs"/>
       <import plugin="org.eclipse.swt"/>
-      <import plugin="javax.inject"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.junit"/>
       <import plugin="asmeta.smv"/>
