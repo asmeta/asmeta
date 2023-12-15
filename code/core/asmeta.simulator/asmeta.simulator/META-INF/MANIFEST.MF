@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta simulator
 Bundle-SymbolicName: asmeta.simulator;singleton:=true
-Bundle-Version: 23.07
+Bundle-Version: 23.12
 Bundle-ClassPath: .
 Require-Bundle: asmeta.emf,
  asmeta.parser,
@@ -59,4 +59,4 @@ Export-Package: org.asmeta.simulator;
    asmeta.terms.basicterms"
 Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.simulator
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17

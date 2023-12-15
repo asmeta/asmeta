@@ -2,8 +2,6 @@ package org.asmeta.atgt.generator.ui;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -33,6 +31,7 @@ import org.eclipse.ui.console.IOConsoleOutputStream;
 import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmTestSuite;
 import atgt.parser.asmeta.AsmetaLLoader;
+import jakarta.inject.Inject;
 
 public class SafeGeneratorRunnable extends Job {
 

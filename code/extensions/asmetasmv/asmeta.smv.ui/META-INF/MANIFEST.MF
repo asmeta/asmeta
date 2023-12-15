@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta model checker plugin
 Bundle-SymbolicName: asmeta.asmetasmv.ui;singleton:=true
-Bundle-Version: 23.07
+Bundle-Version: 23.12
 Bundle-Activator: org.asmeta.nusmv.plugin.AsmetaSMVActivator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.ui,
  asmeta.smv,
  asmeta.flattener,
  asmeta.simulator.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: foselab.unibg.it
 Bundle-ClassPath: .

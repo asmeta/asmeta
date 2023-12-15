@@ -1,0 +1,6 @@
+scenario lift
+// when loading the asm spec, it must exist
+load LiftNotExists.asm
+
+check x = 0;
+

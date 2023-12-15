@@ -48,7 +48,7 @@ import asmeta.terms.furtherterms.NaturalTerm;
  */
 public class DerivedVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String> {
 	private Node currentNode;
-	private Node root;
+	
 	private Environment env;
 	Set<String> usedStatDer, usedContrMon;
 	private RuleVisitor rv;
@@ -60,7 +60,7 @@ public class DerivedVisitor extends org.asmeta.parser.util.ReflectiveVisitor<Str
 		Map<String, Node> children;
 
 		Node() {
-			children = new HashMap<String, Node>();
+			children = new HashMap<>();
 		}
 
 		Node(String value) {
@@ -87,7 +87,8 @@ public class DerivedVisitor extends org.asmeta.parser.util.ReflectiveVisitor<Str
 	 * @throws Exception the exception
 	 */
 	public Map<String, String> visit(Location loc) throws Exception {
-		SortedMap<String, String> updateMap = new TreeMap<String, String>();
+  Node root;
+		SortedMap<String, String> updateMap = new TreeMap<>();
 		FunctionDefinition func = loc.getSignature().getDefinition();
 		if(func != null) {
 			currentFunction = func.getDefinedFunction();
@@ -95,7 +96,7 @@ public class DerivedVisitor extends org.asmeta.parser.util.ReflectiveVisitor<Str
 			root = new Node(null);
 			currentNode = root;
 			root.value = visit(func.getBody());
-			createUpdateMap(root, new Stack<String>(), updateMap);
+			createUpdateMap(root, new Stack<>(), updateMap);
 			currentFunction = null;
 		}
 		else {
@@ -126,7 +127,7 @@ public class DerivedVisitor extends org.asmeta.parser.util.ReflectiveVisitor<Str
 			}
 		}
 		else {
-			if(conds.size() > 0) { 
+			if(!conds.isEmpty()) { 
 				updateMap.put(Util.and(conds), node.value);
 			}
 			else {

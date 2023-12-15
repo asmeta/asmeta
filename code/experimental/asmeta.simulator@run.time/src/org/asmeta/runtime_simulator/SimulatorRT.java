@@ -103,7 +103,7 @@ public class SimulatorRT extends AsmetaSimulatorWR{
 	}
 	
 	public AsmCollection getAsmCollection() {
-		return asmetaPackage;
+		return asmCollection;
 	}
 	
 	public int getCurrentStep() {

@@ -142,7 +142,7 @@ public class Simulator {
 	/**
 	 * Package of the model to simulate.
 	 */
-	protected AsmCollection asmetaPackage;
+	protected AsmCollection asmCollection;
 
 	/**
 	 * The model to simulate.
@@ -193,7 +193,7 @@ public class Simulator {
 	public Simulator(String modelName, AsmCollection asmp, Environment env)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		assert env != null;
-		asmetaPackage = asmp;
+		asmCollection = asmp;
 		initAsmModel(modelName);
 		environment = env;
 		currentState = initState();
@@ -217,7 +217,7 @@ public class Simulator {
 	public Simulator(String modelName, AsmCollection asmp, Environment env, State s)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		assert env != null;
-		asmetaPackage = asmp;
+		asmCollection = asmp;
 		initAsmModel(modelName);
 		environment = env;
 		currentState = s;
@@ -555,7 +555,7 @@ public class Simulator {
 	 */
 	private void initAsmModel(String modelName) throws AsmModelNotFoundException, MainRuleNotFoundException {
 		// get the model
-		asmModel = asmetaPackage.getMain();
+		asmModel = asmCollection.getMain();
 		//
 		assert asmModel.getName().equals(modelName);
 		// check the main rule
@@ -578,7 +578,7 @@ public class Simulator {
 		initAgents(state);
 		// search the self function in the StandardLibrary,
 		// then assign it to the static attribute of TermEvaluator
-		for (Asm asm : asmetaPackage) {
+		for (Asm asm : asmCollection) {
 			String name = asm.getName();
 			if (!name.equals("StandardLibrary")) {
 				continue;
@@ -616,7 +616,7 @@ public class Simulator {
 	 * @param state the initial state
 	 */
 	private void initAbstractConstants(State state) {
-		for (Asm asm : asmetaPackage) {
+		for (Asm asm : asmCollection) {
 			Collection<Function> functions = asm.getHeaderSection().getSignature().getFunction();
 			for (Function func : functions) {
 				// NOTE the order of controls does matter, because an agent is
@@ -677,7 +677,7 @@ public class Simulator {
 	protected void getContrMonInvariants() {
 		MonitoredFinder mf = new MonitoredFinder();
 		boolean isMonitoredInvariant;
-		for (Iterator<Asm> i = asmetaPackage.iterator(); i.hasNext();) {
+		for (Iterator<Asm> i = asmCollection.iterator(); i.hasNext();) {
 			Asm asm_i = i.next();
 			Body b = asm_i.getBodySection();
 			Collection<Property> propertiesList = b.getProperty();

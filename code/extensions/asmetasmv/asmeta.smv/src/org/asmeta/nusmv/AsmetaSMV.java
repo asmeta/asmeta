@@ -150,13 +150,14 @@ public class AsmetaSMV {
 		else if (AsmetaSMVOptions.isUseNuXmv())
 			runNuXMV();
 		else {
-			List<String> commands = buildCommandLine(smvFileName);
+			List<String> commands;
 			// try to get the dir 
-			// for example it can be absoplute or relative
+			// for example it can be absolute or relative like /tmp/kkkk or example/...
 			File smvFile = new File(smvFileName);
 			if (smvFile.exists() && smvFile.getParentFile()!=null) {
 				smvFileName = smvFile.getName();
 				commands = buildCommandLine(smvFileName);
+				//System.out.println("*** executic " + commands + "  " + smvFile.getParentFile() );
 				runNuSMV(commands,smvFile.getParentFile());
 			} else { 
 				commands = buildCommandLine(smvFileName);
@@ -333,7 +334,7 @@ public class AsmetaSMV {
 	/** 
 	 * @return the solver name (with the path if necessary)
 	 */
-	static public String getSolverName() {
+	public static String getSolverName() {
 		String solverName;
 		// nuXmv also accepts standard NuSMV files
 		if (AsmetaSMVOptions.getSolverPath() == null) {
@@ -341,10 +342,10 @@ public class AsmetaSMV {
 			// solverName = "nuXmv";
 			// } else {
 			// to run NuSMV also on MacOS X
-			String os_name = System.getProperty("os.name");
+			String osName = System.getProperty("os.name");
 			String os_version = System.getProperty("os.version");
-			boolean isMac = os_name.toLowerCase().contains("mac");
-			boolean isWSL = os_name.contains("Linux") && os_version.contains("WSL");
+			boolean isMac = osName.toLowerCase().contains("mac");
+			boolean isWSL = osName.contains("Linux") && os_version.contains("WSL");
 			if (isMac) {
 				// commands.add("/bin/sh");
 				// commands.add("-c");
@@ -353,7 +354,7 @@ public class AsmetaSMV {
 				// assume windows with WSL - exe is needed
 				solverName = "NuSMV.exe";
 			} else {
-				// assume windows
+				// assume windows or Linux
 				solverName = "NuSMV";
 			}
 			// }

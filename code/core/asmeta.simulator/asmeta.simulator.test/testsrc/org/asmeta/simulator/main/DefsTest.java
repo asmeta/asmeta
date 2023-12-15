@@ -108,7 +108,7 @@ public class DefsTest {
 	}
 	
 	Asm getModule(String name) {
-		for (Asm asm : sim.asmetaPackage) {
+		for (Asm asm : sim.asmCollection) {
 			if (asm.getName().equals(name)) {
 				return asm;
 			}

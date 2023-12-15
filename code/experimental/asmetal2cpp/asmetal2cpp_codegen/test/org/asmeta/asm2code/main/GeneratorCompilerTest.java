@@ -10,16 +10,18 @@ import org.asmeta.asm2code.compiler.CppCompiler;
 import org.asmeta.parser.ASMParser;
 import org.junit.BeforeClass;
 
-public class GeneratorCompilerTest {
+abstract public class GeneratorCompilerTest {
 
 	
+	private static final String GCC_COMPILER = "g++";
 	static protected TranslatorOptions testOptions = new TranslatorOptions(false, true, true, true);
 	
 	@BeforeClass
 	public static void checkandsetCompiler() {
 		if (!CppCompiler.isCompilerSet()) {
 			// set a standard compiler
-			assertTrue(CppCompiler.setCompiler("g++"));
+			boolean setCompiler = CppCompiler.setCompiler(GCC_COMPILER);
+			assertTrue("compiler "+GCC_COMPILER+" not found in " + System.getenv().get("PATH"), setCompiler);
 		}
 	}
 

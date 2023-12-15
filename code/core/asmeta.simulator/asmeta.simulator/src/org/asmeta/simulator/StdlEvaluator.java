@@ -73,9 +73,9 @@ public class StdlEvaluator {
 		String name = function.getName();
 		Class<?>[] argTypes = getClasses(arguments);
 		Method m = resolve(name, argTypes);
-		Object result;
 		try {
-			result = m.invoke(null, arguments);
+			Object result = m.invoke(null, arguments);
+			return (Value) result;
 		} catch (IllegalArgumentException e) {
 			throw e;
 		} catch (IllegalAccessException e) {
@@ -88,8 +88,7 @@ public class StdlEvaluator {
 			} else {
 				throw new RuntimeException(e.getCause());
 			}
-		}			
-		return (Value) result;
+		} 		
 	}
 		
 	/**

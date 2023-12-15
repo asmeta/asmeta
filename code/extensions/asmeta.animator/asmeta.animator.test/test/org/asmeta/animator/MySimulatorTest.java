@@ -6,8 +6,6 @@ import java.io.File;
 import java.util.Map;
 
 import org.asmeta.parser.ASMParser;
-import org.asmeta.animator.SimulatorForAnimator;
-import org.asmeta.animator.VisualizationSimulationI;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.readers.RandomMFReader;
