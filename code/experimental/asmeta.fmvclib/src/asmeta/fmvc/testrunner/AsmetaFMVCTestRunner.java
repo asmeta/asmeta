@@ -80,6 +80,10 @@ public class AsmetaFMVCTestRunner {
 				// ASM loading instruction, skip
 				continue;
 			
+			if (line.startsWith("step"))
+				// Step instruction, skip
+				continue;
+			
 			if (line.startsWith("check "))
 				// Check instruction
 				runCheck(line.replace("check ", "").replace(";", ""));
