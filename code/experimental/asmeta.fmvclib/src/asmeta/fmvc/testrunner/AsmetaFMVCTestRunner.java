@@ -1,4 +1,4 @@
-package testrunner;
+package asmeta.fmvc.testrunner;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -106,7 +106,10 @@ public class AsmetaFMVCTestRunner {
 		// TODO: Find the object annotated with the locationName 
 		List<Field> fieldListMonitoredLst = FieldUtils.getFieldsListWithAnnotation(view.getClass(),
 				AsmetaMonitoredLocation.class);
-		Stream<Field> fieldListMonitored = fieldListMonitoredLst.stream().filter(x -> x.getName().equals(locationName));
+		for (Field f : fieldListMonitoredLst) {
+			f.setAccessible(true);
+			
+		}
 		
 	}
 	
