@@ -1,0 +1,23 @@
+//// starting scenario
+scenario SCENARIO_NAME
+load asmimporting.asm
+check c_1 = 0;
+step
+check c_1 = 0;
+check c_2 = 0;
+step
+check c_1 = 0;
+check c_2 = 0;
+step
+check c_1 = 0;
+check c_2 = 0;
+step
+check c_1 = 0;
+check c_2 = 0;
+step
+check c_1 = 0;
+check c_2 = 0;
+step
+check c_1 = 0;
+check c_2 = 0;
+step

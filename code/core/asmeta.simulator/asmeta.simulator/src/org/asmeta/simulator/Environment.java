@@ -170,7 +170,7 @@ public final class Environment {
 					return firstTimeValue;
 				} 
 			} else {
-				assert timeMngt == TimeMngt.auto_increment;
+				assert timeMngt == TimeMngt.auto_increment : "Time managment is " + timeMngt;
 				assert auto_increment_delta > 0;
 				currentStateInstant = currentStateInstant.plus(auto_increment_delta, currentTimeUnit);
 			}
