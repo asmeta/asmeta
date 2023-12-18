@@ -256,7 +256,7 @@ public class AsmetaFMVCModel extends Observable {
 				if (f.get(obj) instanceof JTable) {
 					JTable guiTable = (JTable) f.get(obj);
 					int selectedRow = guiTable.getSelectedRow();
-					int selectedColumn = guiTable.getSelectedColumn();
+					int selectedColumn = guiTable.getSelectedColumn();					
 					if (selectedRow != -1 && selectedColumn != -1) {
 						Object selectedValue = guiTable.getModel().getValueAt(selectedRow, selectedColumn);
 						value = (selectedValue == null || selectedValue.toString().equals("")) ? "undef"
