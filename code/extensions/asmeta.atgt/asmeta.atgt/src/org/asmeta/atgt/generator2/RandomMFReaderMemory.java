@@ -9,12 +9,12 @@ import org.asmeta.simulator.readers.RandomMFReader;
 import org.asmeta.simulator.value.Value;
 
 
-/** keep the memory of the monitored variables
- * 
+/** 
+ * keep the memory of the monitored variables
  */
 public class RandomMFReaderMemory extends RandomMFReader{
 
-	Map<Location,Value> values = new HashMap<Location, Value>();
+	protected Map<Location,Value> values = new HashMap<Location, Value>();
 		
 	@Override
 	public Value readValue(Location location, State state) {
@@ -22,7 +22,14 @@ public class RandomMFReaderMemory extends RandomMFReader{
 		values.put(location, v);
 		return v;
 	}
-	
-	
-	
+
+	// returns the values stored so far
+	public Map<? extends Location, ? extends Value> getValues() {
+		// TODO make unmodifiable
+		return values;
+	}
+	// clear the values
+	public void clear() {
+		values.clear();
+	}
 }
