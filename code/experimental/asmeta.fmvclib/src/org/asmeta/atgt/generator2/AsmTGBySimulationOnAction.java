@@ -31,8 +31,7 @@ import tgtlib.definitions.expression.IdExpressionCreator;
 public class AsmTGBySimulationOnAction extends AsmTestGeneratorBySimulation {
 
 	public AsmTGBySimulationOnAction(AsmCollection asm, int stepNumber, int testNumber) {
-		super(asm, stepNumber, testNumber);
-		// TODO Auto-generated constructor stub
+		super(asm, stepNumber, testNumber, new RandomMFReaderMemoryOneAction());
 	}
 
 }
