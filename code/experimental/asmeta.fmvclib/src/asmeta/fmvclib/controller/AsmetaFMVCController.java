@@ -250,7 +250,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 				} else {
 					throw new RuntimeException("This type of component is not yet supported by the fMVC framework: "
 							+ f.get(m_view).getClass());
-
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
