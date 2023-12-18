@@ -1,4 +1,4 @@
-package testrunner;
+package asmeta.testrunner;
 
 import java.io.BufferedReader;
 import java.io.File;
