@@ -48,7 +48,7 @@ import asmeta.definitions.domains.StringDomain;
 public class RandomMFReader extends MonFuncReader {
 	
 	
-	private final static Random random = new Random();
+	protected static final Random random = new Random();
 
 	public RandomMFReader() {
 		this(System.out);

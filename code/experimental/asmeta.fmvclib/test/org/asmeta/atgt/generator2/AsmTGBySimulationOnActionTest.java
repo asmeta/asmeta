@@ -13,20 +13,26 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 import atgt.coverage.AsmTestSuite;
+import atgt.testseqexport.toAvalla;
 
 public class AsmTGBySimulationOnActionTest {
 
 	@Test
 	public void test() throws Exception {
-		String Aman0 = "../../../../asmeta_based_applications/fMVC/AMAN/model/aman0.asm";
+		String Aman0 = "../../../../asmeta_based_applications/fMVC/AMAN/model/aman0_wActionUndef.asm";
 		
 		Environment.timeMngt = TimeMngt.auto_increment;
 		AsmCollection asm = ASMParser.setUpReadAsm(new File(Aman0));
-		List<String> asList = Arrays.asList("action");
-		AsmTestGeneratorBySimulation atgt = new AsmTGBySimulationOnAction(asm,3,3, asList);
+		List<String> stepActions = Arrays.asList("action","zoom","timeToLock");
+		// azione -> (azione,valore)		
+		/*
+		zoom != UNDEF ==>  action == UNDEF AND timeToLock == UNDEF
+		*/
+		AsmTestGeneratorBySimulation atgt = new AsmTGBySimulationOnAction(asm,3,5, stepActions);
 		AsmTestSuite tests = atgt.getTestSuite();
 		System.out.println(tests);
-		
+		toAvalla export =  new toAvalla(System.out,tests.getTests().get(0), Aman0, "test1");
+		export.saveToStream();
 	}
 
 }
