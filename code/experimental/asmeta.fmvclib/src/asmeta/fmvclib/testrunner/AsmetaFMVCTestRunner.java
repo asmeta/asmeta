@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
@@ -244,11 +245,14 @@ public class AsmetaFMVCTestRunner {
 				((JSpinner) obj).setValue(Integer.parseInt(locationValue));
 			} else if (obj instanceof JSlider) {
 				((JSlider) obj).setValue(Integer.parseInt(locationValue));
+				for (int i=0; i<((JSlider) obj).getChangeListeners().length; i++) {
+					((JSlider) obj).getChangeListeners()[i].stateChanged(new ChangeEvent(obj));
+				}				
 			} else if (obj instanceof JButton) {
 				((JButton) obj).doClick();
 			} else if (obj instanceof Timer) {
-				if (((Timer) obj).getActionListeners().length > 0) {
-					((Timer) obj).getActionListeners()[0].actionPerformed(null);
+				for (int i=0; i<((Timer) obj).getActionListeners().length; i++) {
+					((Timer) obj).getActionListeners()[i].actionPerformed(null);
 				}
 			} else if (obj instanceof ButtonColumn) {
 				// TODO: How to handle the ButtonColumn?
@@ -273,6 +277,7 @@ public class AsmetaFMVCTestRunner {
 							table.setColumnSelectionInterval(0, 0);
 						}
 					}
+					System.out.println("Row " + table.getSelectedRow() + " - Column " + table.getSelectedColumn());
 				}
 			} else {
 				throw new RuntimeException(
