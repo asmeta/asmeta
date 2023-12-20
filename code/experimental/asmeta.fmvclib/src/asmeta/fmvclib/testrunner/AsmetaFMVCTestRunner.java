@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
+import javax.swing.table.TableModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
@@ -26,6 +27,7 @@ import asmeta.fmvclib.annotations.AsmetaMonitoredLocations;
 import asmeta.fmvclib.controller.AsmetaFMVCController;
 import asmeta.fmvclib.controller.ButtonColumn;
 import asmeta.fmvclib.view.AsmetaFMVCView;
+import asmeta.fmvclib.view.XButtonModel;
 
 /**
  * The AsmetaFMVCTestRunner class
@@ -268,7 +270,14 @@ public class AsmetaFMVCTestRunner {
 					((Timer) obj).getActionListeners()[i].actionPerformed(null);
 				}
 			} else if (obj instanceof ButtonColumn) {
-				// TODO: How to handle the ButtonColumn?
+				TableModel model = ((ButtonColumn) obj).getTable().getModel();
+				if (model instanceof XButtonModel) {
+					XButtonModel modelX = (XButtonModel) model;
+					modelX.updateValue(Integer.parseInt(locationValue));
+				} else {
+					throw new RuntimeException(
+							"This type of TableModel is not yet supported by the fMVC framework: " + model.getClass());
+				}
 			} else if (obj instanceof JTable) {
 				JTable table = ((JTable) obj);
 

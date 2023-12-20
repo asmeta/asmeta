@@ -264,4 +264,11 @@ public class ButtonColumn extends AbstractCellEditor
 	public void setAction(Action action) {
 		this.action = action;
 	}
+	
+	/**
+	 * Get the table in which the ButtonColumn object is added
+	 */
+	public JTable getTable() {
+		return table;
+	}
 }
