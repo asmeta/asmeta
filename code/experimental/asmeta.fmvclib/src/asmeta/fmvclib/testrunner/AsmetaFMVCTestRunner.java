@@ -16,9 +16,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.asmeta.parser.ASMParser;
+
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
 import asmeta.fmvclib.annotations.AsmetaMonitoredLocation;
 import asmeta.fmvclib.annotations.AsmetaMonitoredLocations;
+import asmeta.fmvclib.controller.AsmetaFMVCController;
 import asmeta.fmvclib.controller.ButtonColumn;
 import asmeta.fmvclib.view.AsmetaFMVCView;
 
@@ -43,6 +48,11 @@ public class AsmetaFMVCTestRunner {
 	 * The list of values to be ignored
 	 */
 	List<String> ignoreValues;
+	
+	/**
+	 * Step duration
+	 */
+	int stepDuration;
 
 	/**
 	 * The constructor
@@ -50,11 +60,14 @@ public class AsmetaFMVCTestRunner {
 	 * @param view     the view
 	 * @param scenario the path of the scenario
 	 */
-	public AsmetaFMVCTestRunner(AsmetaFMVCView view, String scenario, List<String> ignoreValues) {
+	public AsmetaFMVCTestRunner(AsmetaFMVCView view, String scenario, List<String> ignoreValues, int stepDuration) {
 		super();
 		this.view = view;
 		this.scenario = scenario;
 		this.ignoreValues = ignoreValues;
+		this.stepDuration = stepDuration;
+		ASMParser.getResultLogger().setLevel(Level.OFF);
+		Logger.getLogger(ASMParser.class).setLevel(Level.OFF);
 	}
 
 	/**
@@ -95,7 +108,7 @@ public class AsmetaFMVCTestRunner {
 				// Set instruction
 				runSet(line.replace("set ", "").replace(";", ""));
 			
-			Thread.sleep(500);
+			Thread.sleep(stepDuration);			
 		}
 
 		scanner.close();
@@ -146,7 +159,7 @@ public class AsmetaFMVCTestRunner {
 
 					// Extract the index
 					int index = Integer.parseInt(locationName.split("\\(")[1].split("\\)")[0]);
-					assert (locationValue.equals(table.getModel().getValueAt(index, 0)))
+					assert (locationValue.equals(table.getModel().getValueAt(index, 0)) || (table.getModel().getValueAt(index, 0) == null && locationValue.equals("")))
 							: "Expected " + locationValue + " - Found: " + table.getModel().getValueAt(index, 0);
 				} else {
 					throw new RuntimeException(
@@ -247,7 +260,7 @@ public class AsmetaFMVCTestRunner {
 				((JSlider) obj).setValue(Integer.parseInt(locationValue));
 				for (int i=0; i<((JSlider) obj).getChangeListeners().length; i++) {
 					((JSlider) obj).getChangeListeners()[i].stateChanged(new ChangeEvent(obj));
-				}				
+				}		
 			} else if (obj instanceof JButton) {
 				((JButton) obj).doClick();
 			} else if (obj instanceof Timer) {

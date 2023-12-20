@@ -303,8 +303,10 @@ public class AsmetaFMVCModel extends Observable {
 					// Now add the value to the location map
 					Value val = getValueFromString(value, locationType);
 					String loc = f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName();
-					if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
+					if (!reader.locationMemory.containsKey(loc) && !value.equals("")) {
 						reader.addValue(loc, val);
+						System.out.println("--- Taking " + val + " for " + loc);
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
