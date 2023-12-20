@@ -42,6 +42,11 @@ public class AsmetaFMVCTestRunner {
 	AsmetaFMVCView view;
 
 	/**
+	 * The controller
+	 */
+	AsmetaFMVCController controller;
+	
+	/**
 	 * The path of the AVALLA scenario to be executed
 	 */
 	String scenario;
@@ -61,13 +66,15 @@ public class AsmetaFMVCTestRunner {
 	 * 
 	 * @param view     the view
 	 * @param scenario the path of the scenario
+	 * @param controller the controller
 	 */
-	public AsmetaFMVCTestRunner(AsmetaFMVCView view, String scenario, List<String> ignoreValues, int stepDuration) {
+	public AsmetaFMVCTestRunner(AsmetaFMVCView view, AsmetaFMVCController controller, String scenario, List<String> ignoreValues, int stepDuration) {
 		super();
 		this.view = view;
 		this.scenario = scenario;
 		this.ignoreValues = ignoreValues;
 		this.stepDuration = stepDuration;
+		this.controller = controller;
 		ASMParser.getResultLogger().setLevel(Level.OFF);
 		Logger.getLogger(ASMParser.class).setLevel(Level.OFF);
 	}
@@ -274,6 +281,7 @@ public class AsmetaFMVCTestRunner {
 				if (model instanceof XButtonModel) {
 					XButtonModel modelX = (XButtonModel) model;
 					modelX.updateValue(Integer.parseInt(locationValue));
+					controller.updateButtonColumnStatus("blocked", ((ButtonColumn) obj).getTable());
 				} else {
 					throw new RuntimeException(
 							"This type of TableModel is not yet supported by the fMVC framework: " + model.getClass());

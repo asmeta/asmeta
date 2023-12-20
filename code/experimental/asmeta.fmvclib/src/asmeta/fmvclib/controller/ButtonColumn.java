@@ -271,4 +271,5 @@ public class ButtonColumn extends AbstractCellEditor
 	public JTable getTable() {
 		return table;
 	}
+
 }

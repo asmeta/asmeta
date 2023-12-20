@@ -36,6 +36,7 @@ import asmeta.fmvclib.model.AsmetaFMVCModel;
 import asmeta.fmvclib.view.AsmetaFMVCView;
 import asmeta.fmvclib.view.RunStepListener;
 import asmeta.fmvclib.view.RunStepListenerChangeValue;
+import asmeta.fmvclib.view.XButtonModel;
 
 /**
  * The AsmetaFMVCController is a controller to be used when the pattern fMVC is
@@ -356,5 +357,36 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Updates the blocked status by using an X on the time instants which are
+	 * locked
+	 * 
+	 * @param functionName the name of the function
+	 * @param table the JTable containint the ButtonColumn
+	 */
+	public void updateButtonColumnStatus(String functionName, JTable table) {
+		m_model.computeValue(functionName, LocationType.INTEGER);
+		List<Entry<String, String>> value = m_model.getValue(functionName);
+		XButtonModel model = (XButtonModel) table.getModel();
+
+		// Iterate over the results
+		int counter = 0;
+		for (Entry<String, String> assignment : value) {
+			if (counter < model.getRowCount()) {
+				if (!assignment.getValue().equals("undef")) {
+					if (assignment.getValue().toLowerCase().equals("true")
+							&& model.getValueAt(Integer.parseInt(assignment.getKey().split("_")[1]), 0).equals(""))
+						model.updateValue(Integer.parseInt(assignment.getKey().split("_")[1]));
+					else if (assignment.getValue().toLowerCase().equals("false")
+							&& model.getValueAt(Integer.parseInt(assignment.getKey().split("_")[1]), 0).equals("X"))
+						model.updateValue(Integer.parseInt(assignment.getKey().split("_")[1]));
+				}
+
+				counter++;
+			}
+		}
+		table.repaint();
 	}
 }
