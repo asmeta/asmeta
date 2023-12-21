@@ -196,9 +196,10 @@ public class AsmetaFMVCTestRunner {
 
 					// Extract the index
 					int index = Integer.parseInt(locationName.split("\\(")[1].split("\\)")[0]);
-					assert (locationValue.equals(table.getModel().getValueAt(index, 0))
-							|| (table.getModel().getValueAt(index, 0) == null && locationValue.equals("")))
-							: "Expected " + locationValue + " - Found: " + table.getModel().getValueAt(index, 0);
+					if (index < table.getModel().getRowCount())
+						assert (locationValue.equals(table.getModel().getValueAt(index, 0))
+								|| (table.getModel().getValueAt(index, 0) == null && locationValue.equals("")))
+								: "Expected " + locationValue + " - Found: " + table.getModel().getValueAt(index, 0);
 				} else {
 					throw new RuntimeException(
 							"This type of component is not yet supported by the fMVC framework: " + obj.getClass());
@@ -287,6 +288,8 @@ public class AsmetaFMVCTestRunner {
 	 * @param locationName  the name of the location
 	 */
 	private void setObject(Object obj, String locationValue, String locationName) {
+		if (locationValue.equals("undef"))  
+			return;
 		try {
 			if (obj instanceof JTextField) {
 				((JTextField) obj).setText(locationValue);
@@ -295,12 +298,11 @@ public class AsmetaFMVCTestRunner {
 			} else if (obj instanceof JSpinner) {
 				((JSpinner) obj).setValue(Integer.parseInt(locationValue));
 			} else if (obj instanceof JSlider) {
-				if (!locationValue.equals("undef")) {
-					((JSlider) obj).setValue(Integer.parseInt(locationValue));
-					for (int i = 0; i < ((JSlider) obj).getChangeListeners().length; i++) {
-						((JSlider) obj).getChangeListeners()[i].stateChanged(new ChangeEvent(obj));
-					}
+				((JSlider) obj).setValue(Integer.parseInt(locationValue));
+				for (int i = 0; i < ((JSlider) obj).getChangeListeners().length; i++) {
+					((JSlider) obj).getChangeListeners()[i].stateChanged(new ChangeEvent(obj));
 				}
+
 			} else if (obj instanceof JButton) {
 				((JButton) obj).doClick();
 			} else if (obj instanceof Timer) {
