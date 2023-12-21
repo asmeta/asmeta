@@ -295,9 +295,11 @@ public class AsmetaFMVCTestRunner {
 			} else if (obj instanceof JSpinner) {
 				((JSpinner) obj).setValue(Integer.parseInt(locationValue));
 			} else if (obj instanceof JSlider) {
-				((JSlider) obj).setValue(Integer.parseInt(locationValue));
-				for (int i = 0; i < ((JSlider) obj).getChangeListeners().length; i++) {
-					((JSlider) obj).getChangeListeners()[i].stateChanged(new ChangeEvent(obj));
+				if (!locationValue.equals("undef")) {
+					((JSlider) obj).setValue(Integer.parseInt(locationValue));
+					for (int i = 0; i < ((JSlider) obj).getChangeListeners().length; i++) {
+						((JSlider) obj).getChangeListeners()[i].stateChanged(new ChangeEvent(obj));
+					}
 				}
 			} else if (obj instanceof JButton) {
 				((JButton) obj).doClick();
