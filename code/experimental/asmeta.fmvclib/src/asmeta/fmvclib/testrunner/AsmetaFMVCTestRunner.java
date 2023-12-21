@@ -308,8 +308,6 @@ public class AsmetaFMVCTestRunner {
 			} else if (obj instanceof ButtonColumn) {
 				TableModel model = ((ButtonColumn) obj).getTable().getModel();
 				if (model instanceof XButtonModel) {
-					XButtonModel modelX = (XButtonModel) model;
-					modelX.updateValue(Integer.parseInt(locationValue));
 					((ButtonColumn) obj).getTable().setEditingRow(Integer.parseInt(locationValue));
 					((ButtonColumn) obj).actionPerformed(null);
 					((ButtonColumn) obj).getTable().repaint();
