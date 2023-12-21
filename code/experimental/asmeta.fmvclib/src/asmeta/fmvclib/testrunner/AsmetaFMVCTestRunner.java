@@ -336,7 +336,6 @@ public class AsmetaFMVCTestRunner {
 							table.setColumnSelectionInterval(0, 0);
 						}
 					}
-					System.out.println("Row " + table.getSelectedRow() + " - Column " + table.getSelectedColumn());
 				}
 			} else {
 				throw new RuntimeException(
