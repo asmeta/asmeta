@@ -27,6 +27,8 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunchShortcut {
 
+	private static final String NEW = "New configuration";
+
 	@Override
 	public void launch(ISelection selection, String mode) {
 		System.out.println("AsmTSGeneratorLaunchShortcut:launch ISelection");
@@ -107,7 +109,7 @@ public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunc
 				configuration = chooseConfiguration(Arrays.asList(configurations));
 
 			} else if (candidateCount == 0) {
-				workingCopy = type.newInstance(null, "new");
+				workingCopy = type.newInstance(null, NEW);
 				//workingCopy.setAttribute(ATTR_FILEPATH, filepath);
 				// workingCopy.setMappedResources(new IResource[] { file });
 				configuration = workingCopy.doSave();
@@ -123,5 +125,4 @@ public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunc
 			return null;
 		}
 	}
-
 }

@@ -12,7 +12,9 @@ import org.asmeta.simulator.Environment.TimeMngt;
 import org.junit.Test;
 
 import asmeta.AsmCollection;
+import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
+import atgt.testseqexport.ToAvallaLastAction;
 import atgt.testseqexport.toAvalla;
 
 public class AsmTGBySimulationOnActionTest {
@@ -31,8 +33,14 @@ public class AsmTGBySimulationOnActionTest {
 		AsmTestGeneratorBySimulation atgt = new AsmTGBySimulationOnAction(asm,3,5, stepActions);
 		AsmTestSuite tests = atgt.getTestSuite();
 		System.out.println(tests);
-		toAvalla export =  new toAvalla(System.out,tests.getTests().get(0), Aman0, "test1");
+		AsmTestSequence ts = tests.getTests().get(0);
+		toAvalla export =  new ToAvallaLastAction(System.out,ts, Aman0, "test1",stepActions);
 		export.saveToStream();
 	}
 
+	
+	
+	
+	
+	
 }
