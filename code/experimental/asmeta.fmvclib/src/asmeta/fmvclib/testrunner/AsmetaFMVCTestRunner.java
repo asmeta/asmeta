@@ -1,5 +1,6 @@
 package asmeta.fmvclib.testrunner;
 
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -45,7 +46,7 @@ public class AsmetaFMVCTestRunner {
 	 * The controller
 	 */
 	AsmetaFMVCController controller;
-	
+
 	/**
 	 * The path of the AVALLA scenario to be executed
 	 */
@@ -55,7 +56,7 @@ public class AsmetaFMVCTestRunner {
 	 * The list of values to be ignored
 	 */
 	List<String> ignoreValues;
-	
+
 	/**
 	 * Step duration
 	 */
@@ -64,11 +65,12 @@ public class AsmetaFMVCTestRunner {
 	/**
 	 * The constructor
 	 * 
-	 * @param view     the view
-	 * @param scenario the path of the scenario
+	 * @param view       the view
+	 * @param scenario   the path of the scenario
 	 * @param controller the controller
 	 */
-	public AsmetaFMVCTestRunner(AsmetaFMVCView view, AsmetaFMVCController controller, String scenario, List<String> ignoreValues, int stepDuration) {
+	public AsmetaFMVCTestRunner(AsmetaFMVCView view, AsmetaFMVCController controller, String scenario,
+			List<String> ignoreValues, int stepDuration) {
 		super();
 		this.view = view;
 		this.scenario = scenario;
@@ -85,7 +87,7 @@ public class AsmetaFMVCTestRunner {
 	 * @throws IOException
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
 	public void runTest() throws IOException, IllegalArgumentException, IllegalAccessException, InterruptedException {
 		Scanner scanner = new Scanner(new File(this.scenario));
@@ -116,8 +118,8 @@ public class AsmetaFMVCTestRunner {
 			if (line.startsWith("set "))
 				// Set instruction
 				runSet(line.replace("set ", "").replace(";", ""));
-			
-			Thread.sleep(stepDuration);			
+
+			Thread.sleep(stepDuration);
 		}
 
 		scanner.close();
@@ -160,26 +162,30 @@ public class AsmetaFMVCTestRunner {
 				} else if (obj instanceof ButtonColumn) {
 					// Since it is a table, the location name must contain the index
 					assert locationName.contains("(");
-					
-					TableModel model = ((ButtonColumn)obj).getTable().getModel();
+
+					TableModel model = ((ButtonColumn) obj).getTable().getModel();
 					if (model instanceof XButtonModel) {
 						XButtonModel xModel = (XButtonModel) model;
-						
+
 						// ASMETA undef is Java empty string
 						if (locationValue.equals("undef"))
-							locationValue = "false";
-						
-						Boolean locationBool = Boolean.parseBoolean(locationValue); 
-						
+							locationValue = "";
+						else if (locationValue.equalsIgnoreCase("true"))
+							locationValue = "X";
+						else if (locationValue.equalsIgnoreCase("false"))
+							locationValue = "";
+
 						// Extract the index
 						int index = Integer.parseInt(locationName.split("\\(")[1].split("\\)")[0]);
-						assert (locationBool.equals(xModel.getValueAt(index, 0))) : "Expected " + locationValue + " - Found: " + xModel.getValueAt(index, 0);
+						assert (locationValue.equals(xModel.getValueAt(index, 0)))
+								: "Expected " + locationValue + " - Found: " + xModel.getValueAt(index, 0);
 					} else {
 						throw new RuntimeException(
-								"This type of TableModel is not yet supported by the fMVC framework: " + model.getClass());
+								"This type of TableModel is not yet supported by the fMVC framework: "
+										+ model.getClass());
 					}
 				} else if (obj instanceof JTable) {
-					
+
 					// Since it is a table, the location name must contain the index
 					assert locationName.contains("(");
 					JTable table = ((JTable) obj);
@@ -190,7 +196,8 @@ public class AsmetaFMVCTestRunner {
 
 					// Extract the index
 					int index = Integer.parseInt(locationName.split("\\(")[1].split("\\)")[0]);
-					assert (locationValue.equals(table.getModel().getValueAt(index, 0)) || (table.getModel().getValueAt(index, 0) == null && locationValue.equals("")))
+					assert (locationValue.equals(table.getModel().getValueAt(index, 0))
+							|| (table.getModel().getValueAt(index, 0) == null && locationValue.equals("")))
 							: "Expected " + locationValue + " - Found: " + table.getModel().getValueAt(index, 0);
 				} else {
 					throw new RuntimeException(
@@ -216,7 +223,7 @@ public class AsmetaFMVCTestRunner {
 		// Extract the name and the value of the location
 		String locationName = line.split(" := ")[0];
 		String locationValue = line.split(" := ")[1];
-		
+
 		// If the value is to be ignored, end the evaluation
 		if (ignoreValues.contains(locationValue))
 			return;
@@ -252,7 +259,7 @@ public class AsmetaFMVCTestRunner {
 			if (FieldUtils.getFieldsListWithAnnotation(view.getClass(), AsmetaMonitoredLocation.class).stream()
 					.filter(x -> x.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName()
 							.equals(locationName.split("\\(")[0]))
-					.count() > 1) {				
+					.count() > 1) {
 				// Get the right component
 				Field f = FieldUtils.getFieldsListWithAnnotation(view.getClass(), AsmetaMonitoredLocation.class)
 						.stream()
@@ -289,22 +296,22 @@ public class AsmetaFMVCTestRunner {
 				((JSpinner) obj).setValue(Integer.parseInt(locationValue));
 			} else if (obj instanceof JSlider) {
 				((JSlider) obj).setValue(Integer.parseInt(locationValue));
-				for (int i=0; i<((JSlider) obj).getChangeListeners().length; i++) {
+				for (int i = 0; i < ((JSlider) obj).getChangeListeners().length; i++) {
 					((JSlider) obj).getChangeListeners()[i].stateChanged(new ChangeEvent(obj));
-				}		
+				}
 			} else if (obj instanceof JButton) {
 				((JButton) obj).doClick();
 			} else if (obj instanceof Timer) {
-				for (int i=0; i<((Timer) obj).getActionListeners().length; i++) {
+				for (int i = 0; i < ((Timer) obj).getActionListeners().length; i++) {
 					((Timer) obj).getActionListeners()[i].actionPerformed(null);
 				}
 			} else if (obj instanceof ButtonColumn) {
 				TableModel model = ((ButtonColumn) obj).getTable().getModel();
 				if (model instanceof XButtonModel) {
 					XButtonModel modelX = (XButtonModel) model;
-					System.out.println("Setting row " + Integer.parseInt(locationValue));
 					modelX.updateValue(Integer.parseInt(locationValue));
-					controller.updateButtonColumnStatus("blocked", ((ButtonColumn) obj).getTable());
+					((ButtonColumn) obj).getTable().setEditingRow(Integer.parseInt(locationValue));
+					((ButtonColumn) obj).actionPerformed(null);
 					((ButtonColumn) obj).getTable().repaint();
 				} else {
 					throw new RuntimeException(
