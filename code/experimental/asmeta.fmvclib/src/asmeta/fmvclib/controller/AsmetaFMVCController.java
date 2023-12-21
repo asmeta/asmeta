@@ -148,7 +148,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 
 		// No annotation is found
 		if (fieldListMonitored.count() == 0)
-			throw new RuntimeException("Missing @AsmetaModelParameter annotation for the field " + f.getName());
+			throw new RuntimeException("Missing @AsmetaMonitoredLocations annotation for the field " + f.getName());
 
 		((ButtonColumn) f.get(m_view)).setAction(new GetRowAction(locationName, m_model, m_view));
 	}
@@ -212,7 +212,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					}
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -248,7 +247,32 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 							}
 						}
 					}
-				} else {
+				} else if (f.get(m_view) instanceof ButtonColumn) {
+					ButtonColumn column = (ButtonColumn) f.get(m_view);
+					if (column.getTable().getModel() instanceof XButtonModel) {
+						XButtonModel xModel = (XButtonModel) column.getTable().getModel();
+						int counter = 0;
+						// Iterate over all rows
+						for (Entry<String, String> entry : value) {
+							if (counter < column.getTable().getRowCount()) {
+								try {
+									if (entry.getValue().equals("undef") || entry.getValue().equalsIgnoreCase("false"))
+										xModel.setValueAt(counter, false);
+									else
+										xModel.setValueAt(counter, true);
+									counter++;
+								} catch (ArrayIndexOutOfBoundsException e) {
+									// Sometimes it may happen that the view is not yet correctly updated and it
+									// seems that we have more rows than the actually available
+								}
+							}
+						}
+					} else {
+						throw new RuntimeException("This type of TableModel is not yet supported by the fMVC framework: "
+								+ column.getTable().getModel().getClass());
+					}
+				}
+				else {
 					throw new RuntimeException("This type of component is not yet supported by the fMVC framework: "
 							+ f.get(m_view).getClass());
 				}

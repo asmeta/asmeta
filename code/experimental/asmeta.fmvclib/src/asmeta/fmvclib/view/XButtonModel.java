@@ -53,6 +53,11 @@ public class XButtonModel extends AbstractTableModel {
 		return values.get(row) ? "X" : "";
 	}
 	
+	public void setValueAt(int row, Boolean value) {
+		if (row < values.size())
+			values.set(row, value);
+	}
+	
 	public void removeRow(int row) {
         values.remove(row);
         this.nItems--;

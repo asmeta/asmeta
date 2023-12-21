@@ -157,7 +157,29 @@ public class AsmetaFMVCTestRunner {
 				} else if (obj instanceof JLabel) {
 					assert ((JLabel) obj).getText().equals(locationValue)
 							: "Expected " + locationValue + " - Found: " + ((JLabel) obj).getText();
+				} else if (obj instanceof ButtonColumn) {
+					// Since it is a table, the location name must contain the index
+					assert locationName.contains("(");
+					
+					TableModel model = ((ButtonColumn)obj).getTable().getModel();
+					if (model instanceof XButtonModel) {
+						XButtonModel xModel = (XButtonModel) model;
+						
+						// ASMETA undef is Java empty string
+						if (locationValue.equals("undef"))
+							locationValue = "false";
+						
+						Boolean locationBool = Boolean.parseBoolean(locationValue); 
+						
+						// Extract the index
+						int index = Integer.parseInt(locationName.split("\\(")[1].split("\\)")[0]);
+						assert (locationBool.equals(xModel.getValueAt(index, 0))) : "Expected " + locationValue + " - Found: " + xModel.getValueAt(index, 0);
+					} else {
+						throw new RuntimeException(
+								"This type of TableModel is not yet supported by the fMVC framework: " + model.getClass());
+					}
 				} else if (obj instanceof JTable) {
+					
 					// Since it is a table, the location name must contain the index
 					assert locationName.contains("(");
 					JTable table = ((JTable) obj);
@@ -280,8 +302,10 @@ public class AsmetaFMVCTestRunner {
 				TableModel model = ((ButtonColumn) obj).getTable().getModel();
 				if (model instanceof XButtonModel) {
 					XButtonModel modelX = (XButtonModel) model;
+					System.out.println("Setting row " + Integer.parseInt(locationValue));
 					modelX.updateValue(Integer.parseInt(locationValue));
 					controller.updateButtonColumnStatus("blocked", ((ButtonColumn) obj).getTable());
+					((ButtonColumn) obj).getTable().repaint();
 				} else {
 					throw new RuntimeException(
 							"This type of TableModel is not yet supported by the fMVC framework: " + model.getClass());
