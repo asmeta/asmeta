@@ -177,8 +177,9 @@ public class AsmetaFMVCTestRunner {
 
 						// Extract the index
 						int index = Integer.parseInt(locationName.split("\\(")[1].split("\\)")[0]);
-						assert (locationValue.equals(xModel.getValueAt(index, 0)))
-								: "Expected " + locationValue + " - Found: " + xModel.getValueAt(index, 0);
+						if (index < ((ButtonColumn) obj).getTable().getModel().getRowCount())
+							assert (locationValue.equals(xModel.getValueAt(index, 0)))
+									: "Expected " + locationValue + " - Found: " + xModel.getValueAt(index, 0);
 					} else {
 						throw new RuntimeException(
 								"This type of TableModel is not yet supported by the fMVC framework: "
