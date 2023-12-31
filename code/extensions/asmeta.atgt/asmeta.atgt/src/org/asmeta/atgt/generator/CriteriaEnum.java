@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.asmeta.atgt.generator.combinatorial.AsmAllDataExtractor;
+import org.asmeta.atgt.generator.coverage.AsmetaAsSpec;
+import org.asmeta.atgt.generator.coverage.AsmetaBasicRuleVisitor;
+import org.asmeta.atgt.generator.coverage.AsmetaCoverageBuilder;
 
 import atgt.combinatorial.AsmCombCovBuilder;
 import atgt.combinatorial.NWiseCoverage;
@@ -21,6 +24,7 @@ import atgt.coverage.RuleGuardVisitor;
 import atgt.coverage.RuleUpdateVisitor;
 import atgt.generator.AsmMonitoredDataExtractor;
 import atgt.specification.ASMSpecification;
+import extgt.coverage.combinatorial.MonitorDataExtractor;
 import extgt.coverage.combinatorial.NWiseCovBuilder;
 
 /** enumeration form coverage criteria 
@@ -30,27 +34,27 @@ import extgt.coverage.combinatorial.NWiseCovBuilder;
  * */
 public enum CriteriaEnum {
 	
-	BASIC_RULE("BasicRule",new BasicRuleVisitor()), 
-	COMPLETE_RULE("CompleteRule",new CompleteRuleVisitor()),
-	RULE_GUARD("RuleGuard",new RuleGuardVisitor()),
-	RULE_UPDATE("RuleUpdate",new RuleUpdateVisitor()),
-	MCDC("MCDC",MCDCCoverage.getCoverage()),
+	BASIC_RULE("BasicRule",new AsmetaBasicRuleVisitor()), 
+//	COMPLETE_RULE("CompleteRule",new CompleteRuleVisitor()),
+//	RULE_GUARD("RuleGuard",new RuleGuardVisitor()),
+//	RULE_UPDATE("RuleUpdate",new RuleUpdateVisitor()),
+//	MCDC("MCDC",MCDCCoverage.getCoverage()),
 	// combinatorial
-	COMBINATORIAL_MON("pairwise monitored", AsmCombCovBuilder.get(AsmCombCovBuilder.makePairwiseCovBuilder())),
-	COMBINATORIAL_ALL("pairwise all", org.asmeta.atgt.generator.combinatorial.AsmAllDataExtractor.getAsmCombCovBuilder()),
+//	COMBINATORIAL_MON("pairwise monitored", AsmCombCovBuilder.get(AsmCombCovBuilder.makePairwiseCovBuilder())),
+//	COMBINATORIAL_ALL("pairwise all", org.asmeta.atgt.generator.combinatorial.AsmAllDataExtractor.getAsmCombCovBuilder()),
 	
 	THREEWISE_ALL("3wise", triwiseCoveBuilder(true)),
 	THREEWISE_MON("3wise", triwiseCoveBuilder(false));
 
 	/** TOFIX: temp per avere una AsmCoverageBuilder a partrie da una sottoclasse generica
 	 * @param all (monitored and controlled)  if false only monitroed*/
-	private static AsmCoverageBuilder triwiseCoveBuilder(final boolean all) {
-		AsmMonitoredDataExtractor extractor = all? AsmAllDataExtractor.INSTANCE : AsmMonitoredDataExtractor.getMonitoredDataExtractor();
-		NWiseCovBuilder<ASMSpecification, AsmTestCondition, NWiseCoverage> cov = new NWiseCovBuilder<ASMSpecification, AsmTestCondition, NWiseCoverage>(
+	private static AsmetaCoverageBuilder triwiseCoveBuilder(final boolean all) {
+		MonitorDataExtractor<AsmetaAsSpec> extractor = all? AsmAllDataExtractor.INSTANCE : AsmetaMonitoredDataExtractor.getMonitoredDataExtractor();
+		NWiseCovBuilder<AsmetaAsSpec, AsmTestCondition, NWiseCoverage> cov = new NWiseCovBuilder<AsmetaAsSpec, AsmTestCondition, NWiseCoverage>(
 				3, extractor,
 				NWiseCoverage.factory, NWiseEqTestCondition.factory);
 		
-		return new AsmCoverageBuilder() {
+		return new AsmetaCoverageBuilder() {
 
 			@Override
 			public String getCoveragePrefix() {
@@ -58,15 +62,15 @@ public enum CriteriaEnum {
 			}
 
 			@Override
-			public AsmCoverage getTPTree(ASMSpecification spec) {
+			public AsmCoverage getTPTree(AsmetaAsSpec spec) {
 				return cov.getTPTree(spec);
 			}
-			
-		} ;
+
+		};
 	}
 
 	
-	CriteriaEnum(String name, AsmCoverageBuilder criteria) {
+	CriteriaEnum(String name, AsmetaCoverageBuilder criteria) {
 		this.name=name;
 		this.criteria=criteria;
 	}
@@ -76,7 +80,7 @@ public enum CriteriaEnum {
 	}
 	
 	public String name;
-	public AsmCoverageBuilder criteria;
+	public AsmetaCoverageBuilder criteria;
 	
 	
 	// ******** UTILITIES *************
@@ -96,13 +100,13 @@ public enum CriteriaEnum {
 		return res;
 	}
 	
-	public static List<AsmCoverageBuilder> getCoverageCriteria(Collection<CriteriaEnum> criteria) {
-		List<AsmCoverageBuilder> res = new ArrayList<>();
+	public static List<AsmetaCoverageBuilder> getCoverageCriteria(Collection<CriteriaEnum> criteria) {
+		List<AsmetaCoverageBuilder> res = new ArrayList<>();
 		if (criteria==null || criteria.size()==0) return res;
 		for (CriteriaEnum c : criteria) res.add(c.criteria);
 		return res;
 	}
-	public static List<AsmCoverageBuilder> getCoverageCriteria(CriteriaEnum ... criteria) {
+	public static List<AsmetaCoverageBuilder> getCoverageCriteria(CriteriaEnum ... criteria) {
 		return Arrays.asList(criteria).stream().map(c  -> c.criteria).collect(Collectors.toList());
 	}
 	

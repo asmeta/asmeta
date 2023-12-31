@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.asmeta.atgt.generator.coverage.AsmetaAsSpec;
 import org.asmeta.atgt.testoptimizer.UnchangedRemover;
 import org.asmeta.atgt.testoptimizer.UnecessaryChangesRemover;
 import org.asmeta.parser.ASMParser;
@@ -93,7 +94,7 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 				asmTestSuite.addTest(asmTest);
 				// To avoid errors while translating in C to compute coverage: 
 				// TODO to fix ATGT and build a new JAR, or reference ATGT projects.
-				// attenzione che questo modifica il test che è passato, meglio fare una copia
+				// attenzione che questo modifica il test che ï¿½ passato, meglio fare una copia
 				if(coverageTp) {
 					computeCoverage(ct, asmTest, spec);
 				}
@@ -125,12 +126,12 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 	 * @param asmTest
 	 * @param spec 
 	 */
-	static public void computeCoverage(AsmCoverage ct, AsmTestSequence asmTest, ASMSpecification spec) {
+	static public void computeCoverage(AsmCoverage ct, AsmTestSequence asmTest, AsmetaAsSpec spec) {
 		// avoid the use of C code
 		//AsmCoverageEvaluatorC coverageEval = new AsmCoverageEvaluatorC(getSpec(), ct);
 		//
 		AsmCoverageEvaluator coverageEval = new AsmCoverageEvaluator(ct);
-		NavigableAsmInputs inputs = new NavigableAsmInputs(asmTest, spec);
+		NavigableAsmetaInputs inputs = new NavigableAsmetaInputs(asmTest, spec);
 		Vector<AsmTestCondition> covered = coverageEval.computeCoverage(inputs);
 		logger.info("binding the tp covered (" + covered.size() + ")");
 		for (AsmTestCondition tc : covered) {

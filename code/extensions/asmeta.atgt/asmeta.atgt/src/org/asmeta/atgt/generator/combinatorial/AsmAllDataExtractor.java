@@ -3,6 +3,9 @@ package org.asmeta.atgt.generator.combinatorial;
 import java.util.Enumeration;
 
 import org.apache.log4j.Logger;
+import org.asmeta.atgt.generator.AsmetaMonitoredDataExtractor;
+import org.asmeta.atgt.generator.coverage.AsmetaAsSpec;
+import org.asmeta.atgt.generator.coverage.AsmetaCoverageBuilder;
 
 import atgt.combinatorial.NWiseCoverage;
 import atgt.combinatorial.PairEqTestCondition;
@@ -23,21 +26,21 @@ import tgtlib.definitions.expression.type.Type;
  * 
  * standard: only finite domains of type EnumType
  */
-public class AsmAllDataExtractor extends AsmMonitoredDataExtractor {
+public class AsmAllDataExtractor extends AsmetaMonitoredDataExtractor {
 
 	static public AsmAllDataExtractor INSTANCE = new AsmAllDataExtractor();
 
-	static public AsmCoverageBuilder getAsmCombCovBuilder() {
-		StdPairwiseCovBuild<ASMSpecification, AsmTestCondition, AsmCoverage> cov = new StdPairwiseCovBuild<ASMSpecification, AsmTestCondition, AsmCoverage>(
+	static public AsmetaCoverageBuilder getAsmCombCovBuilder() {
+		StdPairwiseCovBuild<AsmetaAsSpec, AsmTestCondition, AsmCoverage> cov = new StdPairwiseCovBuild<AsmetaAsSpec, AsmTestCondition, AsmCoverage>(
 				INSTANCE, PairEqTestCondition.factory, NWiseCoverage.factory);
-		return new AsmCoverageBuilder() {
+		return new AsmetaCoverageBuilder() {
 			@Override
 			public String getCoveragePrefix() {
 				return cov.getCoveragePrefix();
 			}
 
 			@Override
-			public AsmCoverage getTPTree(ASMSpecification spec) {
+			public AsmCoverage getTPTree(AsmetaAsSpec spec) {
 				return cov.getTPTree(spec);
 			}
 
@@ -65,7 +68,7 @@ public class AsmAllDataExtractor extends AsmMonitoredDataExtractor {
 	 * @return the monitored data
 	 */
 	@Override
-	public MonitoredData analyze(ASMSpecification SP) {
+	public MonitoredData analyze(AsmetaAsSpec SP) {
 		//
 		MonitoredData result = new MonitoredData();
 		// take the monitored variables

@@ -7,6 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.asmeta.atgt.generator.coverage.AsmetaAsSpec;
+import org.asmeta.atgt.generator.coverage.AsmetaCoverageBuilder;
+
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmCoverageTree;
@@ -15,8 +18,8 @@ import atgt.coverage.AsmTestSuite;
 import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.specification.ASMSpecification;
 import tgtlib.coverage.CovBuilderBySubCov;
-import tgtlib.specification.ParseException;
 
+//public abstract class AsmTestGenerator {
 public abstract class AsmTestGenerator {
 
 
@@ -25,18 +28,20 @@ public abstract class AsmTestGenerator {
 	/** compute coverage??? */
 	protected final boolean coverageTp;
 
-	protected final ASMSpecification spec;
+	// CAMBIO NON E' pù questa ma 
+	//protected final ASMSpecification spec;
+	protected final AsmetaAsSpec spec;
 
 	// the coverage tree built according to some criteria
 	protected AsmCoverage ct;
 
-	protected ASMSpecification getSpec() {
+	protected AsmetaAsSpec getSpec() {
 		return spec;
 	}
 
-	public static final List<CriteriaEnum> DEFAULT_CRITERIA = Arrays.asList(CriteriaEnum.BASIC_RULE,CriteriaEnum.COMPLETE_RULE, CriteriaEnum.RULE_UPDATE);
+	public static final List<CriteriaEnum> DEFAULT_CRITERIA = Arrays.asList(CriteriaEnum.BASIC_RULE);//,CriteriaEnum.COMPLETE_RULE, CriteriaEnum.RULE_UPDATE);
 	
-	public static final List<AsmCoverageBuilder> DEFAULT_COV_BUILDER = CriteriaEnum.getCoverageCriteria(DEFAULT_CRITERIA);
+	public static final List<AsmetaCoverageBuilder> DEFAULT_COV_BUILDER = CriteriaEnum.getCoverageCriteria(DEFAULT_CRITERIA);
 	
 	
 	public static final List<String> DEFAULT_FORMATS = FormatsEnum
@@ -44,10 +49,11 @@ public abstract class AsmTestGenerator {
 
 	public static final boolean DEFAULT_COMPUTE_COVERAGE = true;
 
-	public AsmTestGenerator(String asmfile, boolean coverageTp) throws ParseException {
+	public AsmTestGenerator(String asmfile, boolean coverageTp) throws Exception {
 		assert new File(asmfile).exists() : asmfile + "not existing";
 		// read the spec
-		spec = new AsmetaLLoader().read(new File(asmfile));
+		//spec = new AsmetaLLoader().read(new File(asmfile));
+		spec = AsmetaAsSpec.read(new File(asmfile));
 		// should never happen because read will throw its own exception
 		if (spec == null)
 			throw new RuntimeException("errors in converting the asmeta for ATGT");
@@ -112,7 +118,7 @@ public abstract class AsmTestGenerator {
 	}
 
 
-	public AsmTestSuite generateAbstractTests(Collection<AsmCoverageBuilder> coverageCriteria, int maxTests, String regex) throws Exception {
+	public AsmTestSuite generateAbstractTests(Collection<AsmetaCoverageBuilder> coverageCriteria, int maxTests, String regex) throws Exception {
 		buildTPTree(new MBTCoverage(coverageCriteria), maxTests, regex);
 		return generateTests();
 	}
@@ -145,12 +151,12 @@ public abstract class AsmTestGenerator {
 	 * Structural except MCDC which is difficult to use because there is an equal
 	 * and Booleans
 	 */
-	public static class MBTCoverage extends CovBuilderBySubCov<ASMSpecification, AsmTestCondition, AsmCoverage> {
+	public static class MBTCoverage extends CovBuilderBySubCov<AsmetaAsSpec, AsmTestCondition, AsmCoverage> {
 
-		public MBTCoverage(Collection<AsmCoverageBuilder> criteria) {
+		public MBTCoverage(Collection<AsmetaCoverageBuilder> criteria) {
 			super("MBT Coverage", AsmCoverageTree.factory);
 
-			for (AsmCoverageBuilder c : criteria)
+			for (AsmetaCoverageBuilder c : criteria)
 				register(c);
 
 			// Aggiunge i visitor di default
