@@ -38,7 +38,7 @@ public class RandomMFReaderMemoryOneAction extends RandomMFReaderMemory{
 					Value val = super.readValue(location, state);
 					values.put(location, val);
 				}
-				System.err.println("this action "+ locName +"is chosen been returning " + values.get(location));
+				System.err.println("this action "+ locName + " is chosen been returning " + values.get(location));
 				// read from values
 				return values.get(location);
 			} else {

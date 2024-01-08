@@ -268,6 +268,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 			 * value = evalFunc(functionTerm.getFunction(), args); }
 			 */
 			// PA: 17 giugno 10 - fine modifiche
+			logger.debug("<Name>" + functionTerm.getFunction().getName() + "</Name>");
 			logger.debug("<Value>" + value + "</Value>");
 			logger.debug("</FunctionTerm>");
 			return value;
