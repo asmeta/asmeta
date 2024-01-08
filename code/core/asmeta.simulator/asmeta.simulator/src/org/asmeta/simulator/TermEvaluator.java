@@ -306,10 +306,13 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 		if (Defs.isDynamic(func)) {
 			Location location = new Location(func, arguments);
 			value = state.read(location);
-			if (Defs.isMonitored(func) && value == null) {
-				value = environment.read(location, state);
+			if (value == null) {
+				if (Defs.isMonitored(func))
+					value = environment.read(location, state);
+				else
+					value = UndefValue.UNDEF;
 			}
-			assert value != null;
+			assert value != null : "Function " + func.getName() + " has not been found nor in environment or state, or it is null";
 		} else if (Defs.isAbstractConst(func) || Defs.isAgentConst(func)) {
 			value = state.readAbstractConst(func.getName());
 		} else if (Defs.isBuiltIn(func)) {
