@@ -45,6 +45,7 @@ public final class Environment {
 	
 	public static final Logger LOG = Logger.getLogger(Environment.class); 
 
+	private static final String M_CURR_TIME_LOC_NAME_PREFIX = "mCurrTime";
 	
 	private static final Object[][] OBJECTS = new Object[][] { 
 		{ "mCurrTimeNanosecs", ChronoUnit.NANOS },
@@ -109,10 +110,10 @@ public final class Environment {
 	 */
 	public Value<?> read(Location location, State state) {
 		// state does not contain location value otherwise must not be asked
-		assert state.locationMap.get(location) == null;
+		assert state.getCurrentValue(location) == null;
 		// if it is time, read in a special way
 		// check is the location refers to time quantities (special monitored functions)
-		if (location.getName().startsWith("mCurrTime")) {
+		if (location.getName().startsWith(M_CURR_TIME_LOC_NAME_PREFIX)) {
 			assert monTimeFunctions.keySet().contains(location.getName());
 			// check if a time is already set in the state
 			// convert if possible

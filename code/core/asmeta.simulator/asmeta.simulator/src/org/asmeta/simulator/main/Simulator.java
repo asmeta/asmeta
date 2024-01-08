@@ -199,7 +199,7 @@ public class Simulator {
 		currentState = initState();
 		initEvaluator(currentState);
 		numOfState = 0;// PA: 10 giugno 2010
-		currentState.previousLocationValues.putAll(currentState.locationMap);// PA: 10 giugno 2010
+		currentState.previousLocationValues.putAll(currentState.getLocationMap());// PA: 10 giugno 2010
 		controlledInvariants = new ArrayList<Invariant>();
 		monitoredInvariants = new ArrayList<Invariant>();
 	}
@@ -223,7 +223,7 @@ public class Simulator {
 		currentState = s;
 		initEvaluator(currentState);
 		numOfState = 0;// PA: 10 giugno 2010
-		currentState.previousLocationValues.putAll(currentState.locationMap);// PA: 10 giugno 2010
+		currentState.previousLocationValues.putAll(currentState.getLocationMap());// PA: 10 giugno 2010
 		controlledInvariants = new ArrayList<Invariant>();
 		monitoredInvariants = new ArrayList<Invariant>();
 	}

@@ -96,9 +96,9 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 						break;
 					}
 					// get previous controlled part
-					state.locationMap.putAll(simulator.previousState.locationMap);
+					state.applyLocationUpdates(simulator.previousState.getLocationMap());
 					// get the monitored value of the previous step
-					state.locationMap.putAll(randomMFReader.getValues());
+					state.applyLocationUpdates(randomMFReader.getValues());
 					// add this (previous) state to the sequence
 					addState(testsequence, state);
 					// go to the next state
@@ -133,7 +133,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	// add this state to the test sequence
 	private void addState(AsmTestSequence testsequence, State state) {
 		testsequence.addState();
-		for (Entry<Location, Value> stateValues : state.locationMap.entrySet()) {
+		for (Entry<Location, Value> stateValues : state.getLocationMap().entrySet()) {
 			Location location = stateValues.getKey();
 			// TODO store the variables somewhere
 			// check if monitored or controlled

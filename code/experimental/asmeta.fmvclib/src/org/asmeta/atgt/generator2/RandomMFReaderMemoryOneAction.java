@@ -2,6 +2,7 @@ package org.asmeta.atgt.generator2;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.value.UndefValue;
@@ -14,7 +15,7 @@ import org.asmeta.simulator.value.Value;
 
 public class RandomMFReaderMemoryOneAction extends RandomMFReaderMemory{
 
-	//static Logger log = new Logger	
+	private static Logger logger = Logger.getLogger(RandomMFReaderMemoryOneAction.class);
 	
 	private String chosenAction;
 	private List<String> actions;
@@ -36,20 +37,25 @@ public class RandomMFReaderMemoryOneAction extends RandomMFReaderMemory{
 			if (chosenAction.equals(locName)) {
 				if (values.get(location) == null) {
 					Value val = super.readValue(location, state);
+					assert val != null; 
 					values.put(location, val);
 				}
-				System.err.println("this action "+ locName + " is chosen been returning " + values.get(location));
+				Value val = values.get(location);
+				assert val != null;
+				logger.debug("this action "+ locName + " is chosen been returning " + val);
 				// read from values
-				return values.get(location);
+				return val;
 			} else {
-				System.err.println("action "+ locName + " is not the chosen one ("+chosenAction+"). returning undef");
+				logger.debug("action "+ locName + " is not the chosen one ("+chosenAction+"). returning undef");
 				// action has not been set
+				// values.put(location, UndefValue.UNDEF);
 				return UndefValue.UNDEF;
 			}
 		} else {
 			// take a random value (and store in the values)
 			Value rndValue = super.readValue(location, state);
-			System.err.println("not an action " + locName);
+			logger.debug("not an action " + locName);
+			assert rndValue != null;
 			return rndValue;
 		}
 	}
