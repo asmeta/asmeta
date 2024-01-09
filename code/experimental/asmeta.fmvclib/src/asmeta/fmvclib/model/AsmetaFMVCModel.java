@@ -20,6 +20,7 @@ import javax.swing.JToggleButton;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.InvalidInvariantException;
@@ -38,6 +39,10 @@ import org.asmeta.simulator.value.Value;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
+import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.IntegerDomain;
 import asmeta.fmvclib.annotations.AsmetaMonitoredLocation;
 import asmeta.fmvclib.annotations.AsmetaMonitoredLocations;
 import asmeta.fmvclib.annotations.LocationType;
@@ -284,18 +289,9 @@ public class AsmetaFMVCModel extends Observable {
 					assert functions.size() == 1
 							: "The function " + f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName() + " has not been found in the ASM";
 
-					switch (functions.get(0).getCodomain().getClass().getSimpleName()) {
-						case "EnumTdImpl":
-							locationType = LocationType.ENUM;
-							break;
-						case "AbstractTdImpl":
-							locationType = LocationType.RESERVE;
-							break;
-						case "ConcreteDomainImpl":
-							// TODO: Other types may be instead of integer
-							locationType = LocationType.INTEGER;
-							break;
-						default:
+					LocationTypeForDomain visitor = new LocationTypeForDomain();
+					locationType = visitor.visit(functions.get(0).getCodomain());
+					if (locationType == null) {
 							throw new RuntimeException(
 									"The type of Codomain " + functions.get(0).getCodomain().getClass().getSimpleName()
 											+ " is not yet managed by the AsmetaFMVCLib");
@@ -313,8 +309,8 @@ public class AsmetaFMVCModel extends Observable {
 				}
 			}
 		}
-	}
-
+	}	
+	
 	/**
 	 * Analyzes fields with multiple annotations
 	 * 
@@ -526,4 +522,32 @@ public class AsmetaFMVCModel extends Observable {
 	public List<Entry<String, String>> getValue(String locationName) {
 		return controlledAssignments.get(locationName);
 	}
+	
+	
+	public class LocationTypeForDomain extends ReflectiveVisitor<LocationType>{
+
+		public LocationType visit(EnumTd e){
+			return LocationType.ENUM; 
+		}
+
+		public LocationType visit(AbstractTd object) {
+			return LocationType.RESERVE;
+		}
+
+		public LocationType visit(ConcreteDomain object) {
+			// assuming that it is an integer
+			return LocationType.INTEGER;
+		}
+		
+		public LocationType visit(IntegerDomain object) {
+			return LocationType.INTEGER;
+		}
+		
+
+	}
+
+	
 }
+
+
+
