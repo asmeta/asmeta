@@ -302,7 +302,6 @@ public class AsmetaFMVCTestRunner {
 				for (int i = 0; i < ((JSlider) obj).getChangeListeners().length; i++) {
 					((JSlider) obj).getChangeListeners()[i].stateChanged(new ChangeEvent(obj));
 				}
-
 			} else if (obj instanceof JButton) {
 				((JButton) obj).doClick();
 			} else if (obj instanceof Timer) {
