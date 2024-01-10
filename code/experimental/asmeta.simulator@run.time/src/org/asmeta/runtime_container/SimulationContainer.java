@@ -451,7 +451,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 					if (stateClon.previousLocationValues==null)
 						stateClon.previousLocationValues = new HashMap<Location, Value>();
 					int id;
-					if (stateClon.locationMap.isEmpty())
+					if (stateClon.getLocationMap().isEmpty())
 						id = clone.startExecution(modelPath);
 					else
 						id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
@@ -770,7 +770,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				if (stateClon.previousLocationValues==null)
 					stateClon.previousLocationValues = new HashMap<Location, Value>();
 				int id;
-				if (stateClon.locationMap.isEmpty())
+				if (stateClon.getLocationMap().isEmpty())
 					id = clone.startExecution(modelPath);
 				else
 					id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
