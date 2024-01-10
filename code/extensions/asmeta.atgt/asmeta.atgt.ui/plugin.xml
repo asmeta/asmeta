@@ -58,6 +58,62 @@
          class="org.asmeta.atgt.ui.preferences.PreferenceInitializer">
    </initializer>
 </extension>
+<extension
+      point="org.eclipse.ui.commands">
+   <category
+         id="asmeta.atgt.ui.commands.category"
+         name="Asmeta Category">
+   </category>
+   <command
+         categoryId="asmeta.atgt.ui.commands.category"
+         id="asmeta.atgt.ui.commands.sampleCommand"
+         name="Run ATGT Command">
+   </command>
+</extension>
+<extension
+      point="org.eclipse.ui.handlers">
+   <handler
+         class="org.asmeta.atgt.ui.handlers.ATGTCommandRunner"
+         commandId="asmeta.atgt.ui.commands.sampleCommand">
+   </handler>
+</extension>
+<extension
+      point="org.eclipse.ui.bindings">
+   <key
+         commandId="asmeta.atgt.ui.commands.sampleCommand"
+         contextId="org.eclipse.ui.contexts.window"
+         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+         sequence="M1+6">
+   </key>
+</extension>
+<extension
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+      <menu
+            id="asmeta.atgt.ui.menus.sampleMenu"
+            label="Sample Menu"
+            mnemonic="M">
+         <command
+               commandId="asmeta.atgt.ui.commands.sampleCommand"
+               id="asmeta.atgt.ui.menus.sampleCommand"
+               mnemonic="S">
+         </command>
+      </menu>
+   </menuContribution>
+   <menuContribution
+         locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+      <toolbar
+            id="asmeta.atgt.ui.toolbars.sampleToolbar">
+         <command
+               commandId="asmeta.atgt.ui.commands.sampleCommand"
+               icon="icons/sample.png"
+               id="asmeta.atgt.ui.toolbars.sampleCommand"
+               tooltip="Say hello world">
+         </command>
+      </toolbar>
+   </menuContribution>
+</extension>
 
 
 </plugin>

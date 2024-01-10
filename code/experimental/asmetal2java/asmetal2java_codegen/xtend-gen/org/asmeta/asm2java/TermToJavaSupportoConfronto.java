@@ -22,6 +22,7 @@ import asmeta.terms.furtherterms.StringTerm;
 import java.util.Arrays;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 
 @SuppressWarnings("all")
 public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
@@ -105,8 +106,29 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
   }
 
   public String visit(final FunctionTerm term) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method parseFunction(String) is undefined for the type Util");
+    try {
+      StringBuffer functionTerm = new StringBuffer();
+      String name = new Util().parseFunction(term.getFunction().getName());
+      boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
+      if (_hasEvaluateVisitor) {
+        return new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
+      } else {
+        if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain))) {
+          functionTerm.append(this.caseFunctionTermSuppCont(term.getFunction(), term));
+        }
+        if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof MapDomain))) {
+          functionTerm.append(this.caseFunctionTermSuppCont(term.getFunction(), term));
+        }
+        functionTerm.append(term.getFunction().getName());
+        functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
+        if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain))) {
+          functionTerm.append("\n");
+        }
+        return functionTerm.toString();
+      }
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
   }
 
   /**
