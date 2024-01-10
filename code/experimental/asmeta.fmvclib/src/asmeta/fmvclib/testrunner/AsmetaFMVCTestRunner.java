@@ -112,7 +112,7 @@ public class AsmetaFMVCTestRunner {
 
 			if (line.startsWith("check "))
 				// Check instruction
-				runCheck(line.replace("check ", "").replace(";", ""));
+				runCheck(line.replace("check ", "").replace(";", ""), this.scenario);
 
 			if (line.startsWith("set "))
 				// Set instruction
@@ -127,11 +127,12 @@ public class AsmetaFMVCTestRunner {
 	/**
 	 * Executes the check
 	 * 
-	 * @param line
+	 * @param line     the check instruction
+	 * @param scenario the name of the scenario
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 */
-	private void runCheck(String line) throws IllegalArgumentException, IllegalAccessException {
+	private void runCheck(String line, String scenario) throws IllegalArgumentException, IllegalAccessException {
 		// Check execution
 		System.out.println("Executing check: " + line);
 
@@ -153,11 +154,11 @@ public class AsmetaFMVCTestRunner {
 
 			try {
 				if (obj instanceof JTextField) {
-					assert ((JTextField) obj).getText().equals(locationValue)
-							: "Expected " + locationValue + " - Found: " + ((JTextField) obj).getText();
+					assert ((JTextField) obj).getText().equals(locationValue) : "Expected " + locationValue
+							+ " - Found: " + ((JTextField) obj).getText() + " in scenario " + scenario;
 				} else if (obj instanceof JLabel) {
-					assert ((JLabel) obj).getText().equals(locationValue)
-							: "Expected " + locationValue + " - Found: " + ((JLabel) obj).getText();
+					assert ((JLabel) obj).getText().equals(locationValue) : "Expected " + locationValue + " - Found: "
+							+ ((JLabel) obj).getText() + " in scenario " + scenario;
 				} else if (obj instanceof ButtonColumn) {
 					// Since it is a table, the location name must contain the index
 					assert locationName.contains("(");
@@ -177,8 +178,8 @@ public class AsmetaFMVCTestRunner {
 						// Extract the index
 						int index = Integer.parseInt(locationName.split("\\(")[1].split("\\)")[0]);
 						if (index < ((ButtonColumn) obj).getTable().getModel().getRowCount())
-							assert (locationValue.equals(xModel.getValueAt(index, 0)))
-									: "Expected " + locationValue + " - Found: " + xModel.getValueAt(index, 0);
+							assert (locationValue.equals(xModel.getValueAt(index, 0))) : "Expected " + locationValue
+									+ " - Found: " + xModel.getValueAt(index, 0) + " in scenario " + scenario;
 					} else {
 						throw new RuntimeException(
 								"This type of TableModel is not yet supported by the fMVC framework: "
@@ -199,7 +200,8 @@ public class AsmetaFMVCTestRunner {
 					if (index < table.getModel().getRowCount())
 						assert (locationValue.equals(table.getModel().getValueAt(index, 0))
 								|| (table.getModel().getValueAt(index, 0) == null && locationValue.equals("")))
-								: "Expected " + locationValue + " - Found: " + table.getModel().getValueAt(index, 0);
+								: "Expected " + locationValue + " - Found: " + table.getModel().getValueAt(index, 0)
+										+ " in scenario " + scenario;
 				} else {
 					throw new RuntimeException(
 							"This type of component is not yet supported by the fMVC framework: " + obj.getClass());
@@ -213,7 +215,7 @@ public class AsmetaFMVCTestRunner {
 	/**
 	 * Executes the set
 	 * 
-	 * @param line
+	 * @param line the set instruction
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 */
@@ -288,7 +290,7 @@ public class AsmetaFMVCTestRunner {
 	 * @param locationName  the name of the location
 	 */
 	private void setObject(Object obj, String locationValue, String locationName) {
-		if (locationValue.equals("undef"))  
+		if (locationValue.equals("undef"))
 			return;
 		try {
 			if (obj instanceof JTextField) {
