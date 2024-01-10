@@ -27,6 +27,7 @@ import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
+import org.asmeta.simulator.main.AsmetaSimulatorWR;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.CharValue;
@@ -56,7 +57,8 @@ public class AsmetaFMVCModel extends Observable {
 	/**
 	 * The ASMETA simulator
 	 */
-	private Simulator sim;
+	//private Simulator sim;
+	private AsmetaSimulatorWR sim;
 
 	/**
 	 * The reader
@@ -88,7 +90,8 @@ public class AsmetaFMVCModel extends Observable {
 		ASM_PATH = new File(asmPath).getParent();
 		reader = new ViewReader();
 		environment = new Environment(reader);
-		sim = Simulator.createSimulator(asmPath, environment);
+		//sim = Simulator.createSimulator(asmPath, environment);
+		sim = AsmetaSimulatorWR.createSimulator(asmPath, environment);
 		Environment.timeMngt = TimeMngt.use_java_time;
 		controlledAssignments = new HashMap<String, List<Entry<String, String>>>();
 	}
@@ -219,7 +222,9 @@ public class AsmetaFMVCModel extends Observable {
 			setChanged();
 			notifyObservers();
 		} catch (InvalidInvariantException e) {
-			System.err.println("Invariant violation");
+			System.err.println("Invariant violation - rolling back");
+			assert nStep == 1;
+			sim.rollBack();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
