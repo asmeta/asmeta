@@ -434,6 +434,8 @@ public class AsmetaFMVCModel extends Observable {
 		Value val;
 		switch (locationType) {
 		case INTEGER:
+			if (value.equals(""))
+				value = "0";
 			val = new IntegerValue(value);
 			break;
 		case STRING:
