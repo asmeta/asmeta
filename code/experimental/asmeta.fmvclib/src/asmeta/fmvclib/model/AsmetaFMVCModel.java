@@ -222,9 +222,13 @@ public class AsmetaFMVCModel extends Observable {
 			setChanged();
 			notifyObservers();
 		} catch (InvalidInvariantException e) {
-			System.err.println("Invariant violation - rolling back");
+			System.err.println("Invariant violation - rolling back :" + e.getMessage());
 			assert nStep == 1;
 			sim.rollBack();
+		} catch (org.asmeta.simulator.UpdateClashException e) { 
+			System.err.println("Incosistent update - rolling back :" + e.getMessage());
+			assert nStep == 1;
+			sim.rollBack();		
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
