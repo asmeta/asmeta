@@ -401,9 +401,8 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 		XButtonModel model = (XButtonModel) table.getModel();
 
 		// Iterate over the results
-		int counter = 0;
 		for (Entry<String, String> assignment : value) {
-			if (counter < model.getRowCount()) {
+			if (Integer.parseInt(assignment.getKey().split("_")[1]) < model.getRowCount()) {
 				if (!assignment.getValue().equals("undef")) {
 					if (assignment.getValue().toLowerCase().equals("true")
 							&& model.getValueAt(Integer.parseInt(assignment.getKey().split("_")[1]), 0).equals(""))
@@ -412,8 +411,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 							&& model.getValueAt(Integer.parseInt(assignment.getKey().split("_")[1]), 0).equals("X"))
 						model.updateValue(Integer.parseInt(assignment.getKey().split("_")[1]));
 				}
-
-				counter++;
 			}
 		}
 		table.repaint();

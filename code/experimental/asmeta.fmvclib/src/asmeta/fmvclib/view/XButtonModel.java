@@ -14,10 +14,11 @@ public class XButtonModel extends AbstractTableModel {
 
 	public void updateValue(int row) {
 		if (row < values.size())
-			if (values.get(row))
+			if (values.get(row)) {
 				values.set(row, false);
-			else
+			} else {
 				values.set(row, true);
+			}
 		fireTableCellUpdated(row, 0);
 	}
 
