@@ -51,7 +51,7 @@ public class ToAvallaLastAction extends toAvalla {
 				Location v = p.getKey();
 				String value = p.getValue();
 				// monitored and (not action or (action and) undef) 
-				if (v.isMonitored() && ! stepActions.contains(v.getIdExpression().getIdString()) || value.equals("undef")) {
+				if (v.isMonitored() && (! stepActions.contains(v.getIdExpression().getIdString()) || value.equals("undef"))) {
 					dst.println("set " + v.toString() + " := " + value + ";");
 				} 
 			}

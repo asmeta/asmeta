@@ -316,7 +316,14 @@ public class AsmetaFMVCTestRunner {
 			} else if (obj instanceof JSpinner) {
 				((JSpinner) obj).setValue(Integer.parseInt(locationValue));
 			} else if (obj instanceof JSlider) {
-				((JSlider) obj).setValue(Integer.parseInt(locationValue));
+				int min = ((JSlider) obj).getMinimum();
+				float step = ((JSlider) obj).getMinorTickSpacing();
+				if (isInteger(Float.toString((Integer.parseInt(locationValue) - min) / step)) || isInteger(Float.toString((Integer.parseInt(locationValue) - min) / step).split("\\.")[1]))
+					((JSlider) obj).setValue(Integer.parseInt(locationValue));
+				else {
+					System.err.println("Not expected value: " + Float.toString((Integer.parseInt(locationValue) - min) / step));
+					System.err.println(isInteger(Float.toString((Integer.parseInt(locationValue) - min) / step)));
+				}
 				for (int i = 0; i < ((JSlider) obj).getChangeListeners().length; i++) {
 					((JSlider) obj).getChangeListeners()[i].stateChanged(new ChangeEvent(obj));
 				}
