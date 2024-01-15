@@ -157,8 +157,15 @@ public class AsmetaFMVCTestRunner {
 					assert ((JTextField) obj).getText().equals(locationValue) : "Expected " + locationValue
 							+ " - Found: " + ((JTextField) obj).getText() + " in scenario " + scenario;
 				} else if (obj instanceof JLabel) {
-					assert ((JLabel) obj).getText().equals(locationValue) : "Expected " + locationValue + " - Found: "
-							+ ((JLabel) obj).getText() + " in scenario " + scenario;
+					boolean equals;
+					if (isInteger(locationValue)) {
+						equals = Integer.parseInt(((JLabel) obj).getText()) 
+								== Integer.parseInt(locationValue);
+					} else {
+						equals = ((JLabel) obj).getText().equals(locationValue);
+					}					 
+					assert equals : "Expected " + locationValue + " - Found: "
+					+ ((JLabel) obj).getText() + " in scenario " + scenario;
 				} else if (obj instanceof ButtonColumn) {
 					// Since it is a table, the location name must contain the index
 					assert locationName.contains("(");
@@ -209,6 +216,15 @@ public class AsmetaFMVCTestRunner {
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	static private boolean isInteger(String locationValue) {
+		try {
+			Integer.valueOf(locationValue);
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 

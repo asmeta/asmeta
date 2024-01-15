@@ -24,6 +24,7 @@ import javax.swing.event.ChangeEvent;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.UpdateSet;
+import org.asmeta.simulator.value.UndefValue;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -219,12 +220,16 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			value = m_model.getValue(annotation.asmLocationName());
 
 			try {
+				String firstValue = value.get(0).getValue();
 				if (f.get(m_view) instanceof JTextField) {
 					assert value.size() == 1;
-					((JTextField) (f.get(m_view))).setText(value.get(0).getValue());
+					// of undef then do not show anything
+					if (firstValue.equals(UndefValue.UNDEF.toString())) 
+						firstValue = "";
+					((JTextField) (f.get(m_view))).setText(firstValue);
 				} else if (f.get(m_view) instanceof JLabel) {
 					assert value.size() == 1;
-					((JLabel) (f.get(m_view))).setText(value.get(0).getValue());
+					((JLabel) (f.get(m_view))).setText(firstValue);
 				} else if (f.get(m_view) instanceof JTable) {
 					if (value != null) {
 						JTable table = ((JTable) (f.get(m_view)));
