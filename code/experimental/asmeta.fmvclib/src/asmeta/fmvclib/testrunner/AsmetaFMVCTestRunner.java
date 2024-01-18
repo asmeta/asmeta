@@ -52,11 +52,6 @@ public class AsmetaFMVCTestRunner {
 	String scenario;
 
 	/**
-	 * The list of values to be ignored
-	 */
-	List<String> ignoreValues;
-
-	/**
 	 * Step duration
 	 */
 	int stepDuration;
@@ -68,12 +63,10 @@ public class AsmetaFMVCTestRunner {
 	 * @param scenario   the path of the scenario
 	 * @param controller the controller
 	 */
-	public AsmetaFMVCTestRunner(AsmetaFMVCView view, AsmetaFMVCController controller, String scenario,
-			List<String> ignoreValues, int stepDuration) {
+	public AsmetaFMVCTestRunner(AsmetaFMVCView view, AsmetaFMVCController controller, String scenario, int stepDuration) {
 		super();
 		this.view = view;
 		this.scenario = scenario;
-		this.ignoreValues = ignoreValues;
 		this.stepDuration = stepDuration;
 		this.controller = controller;
 		ASMParser.getResultLogger().setLevel(Level.OFF);
@@ -242,10 +235,6 @@ public class AsmetaFMVCTestRunner {
 		// Extract the name and the value of the location
 		String locationName = line.split(" := ")[0];
 		String locationValue = line.split(" := ")[1];
-
-		// If the value is to be ignored, end the evaluation
-		if (ignoreValues.contains(locationValue))
-			return;
 
 		// Find the object annotated with the locationName
 		Field locationNameAnnotation = FieldUtils
