@@ -145,11 +145,11 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					}
 				}
 			}
+			
+			// No annotation is found
+			if (fieldListMonitored.count() == 0)
+				throw new RuntimeException("Missing @AsmetaMonitoredLocation annotation for the field " + f.getName());
 		}
-
-		// No annotation is found
-		if (fieldListMonitored.count() == 0)
-			throw new RuntimeException("Missing @AsmetaMonitoredLocation annotation for the field " + f.getName());
 
 		((ButtonColumn) f.get(m_view)).setAction(new GetRowAction(locationName, m_model, m_view));
 	}
