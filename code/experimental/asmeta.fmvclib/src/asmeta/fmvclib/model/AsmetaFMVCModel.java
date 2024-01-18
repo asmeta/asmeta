@@ -36,6 +36,7 @@ import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.RealValue;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.StringValue;
+import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.AsmCollection;
@@ -278,7 +279,15 @@ public class AsmetaFMVCModel extends Observable {
 					} else
 						value = "undef";
 				} else {
-					value = getValueFromSingleField(f, obj);
+					if (f.get(obj) instanceof ButtonColumn) {
+						if (f.get(obj).equals(source) || source == null) {
+							value = getValueFromSingleField(f, obj);
+						} else {
+							value = "undef";
+						}							
+					} else {
+						value = getValueFromSingleField(f, obj);
+					}
 				}
 				if (value == null && !(f.get(obj) instanceof ButtonColumn))
 					throw new RuntimeException("This type of component is not yet managed by the fMVC framework: "
@@ -440,7 +449,10 @@ public class AsmetaFMVCModel extends Observable {
 		case INTEGER:
 			if (value.equals(""))
 				value = "0";
-			val = new IntegerValue(value);
+			if (value.equals("undef"))
+				val = UndefValue.UNDEF;
+			else
+				val = new IntegerValue(value);
 			break;
 		case STRING:
 			val = new StringValue(value);

@@ -256,16 +256,15 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					ButtonColumn column = (ButtonColumn) f.get(m_view);
 					if (column.getTable().getModel() instanceof XButtonModel) {
 						XButtonModel xModel = (XButtonModel) column.getTable().getModel();
-						int counter = 0;
 						// Iterate over all rows
 						for (Entry<String, String> entry : value) {
-							if (counter < column.getTable().getRowCount()) {
+							int row = Integer.valueOf(entry.getKey().split("_")[1]);
+							if (row < column.getTable().getRowCount()) {
 								try {
 									if (entry.getValue().equals("undef") || entry.getValue().equalsIgnoreCase("false"))
-										xModel.setValueAt(counter, false);
+										xModel.setValueAt(row, false);
 									else
-										xModel.setValueAt(counter, true);
-									counter++;
+										xModel.setValueAt(row, true);
 								} catch (ArrayIndexOutOfBoundsException e) {
 									// Sometimes it may happen that the view is not yet correctly updated and it
 									// seems that we have more rows than the actually available
