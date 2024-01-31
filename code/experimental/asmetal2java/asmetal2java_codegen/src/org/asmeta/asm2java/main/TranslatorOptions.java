@@ -5,9 +5,8 @@ package org.asmeta.asm2java.main;
  */
 public class TranslatorOptions {
 	
-	// the dialect 
+	// the dialect - TODO add new options 
 	enum CompilerType {
-		ArduinoCompiler,
 		DesktopCompiler
 	}
 	public CompilerType compilerType;

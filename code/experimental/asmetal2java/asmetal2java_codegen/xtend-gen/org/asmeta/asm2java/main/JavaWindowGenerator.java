@@ -502,7 +502,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     _builder.append("//Aggiornamento dell\'ASM");
     _builder.newLine();
     _builder.append("\t\t\t\t   ");
-    _builder.append("esecuzione.UpdateASM();");
+    _builder.append("esecuzione.updateASM();");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();

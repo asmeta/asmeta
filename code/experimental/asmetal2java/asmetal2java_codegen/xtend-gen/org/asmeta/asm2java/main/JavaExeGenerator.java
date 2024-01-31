@@ -161,7 +161,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
     _builder.append("askMonitored(esecuzione);");
     _builder.newLine();
     _builder.append("\t\t  \t   ");
-    _builder.append("esecuzione.UpdateASM();");
+    _builder.append("esecuzione.updateASM();");
     _builder.newLine();
     _builder.append("\t\t  \t   ");
     _builder.newLine();

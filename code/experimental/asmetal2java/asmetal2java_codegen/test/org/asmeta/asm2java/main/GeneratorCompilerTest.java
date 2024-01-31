@@ -1,5 +1,6 @@
 package org.asmeta.asm2java.main;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -15,10 +16,13 @@ import org.asmeta.asm2java.main.*;
 //import org.asmeta.asm2java.main.JavaExeGenerator;
 //import org.asmeta.asm2java.main.JavaWindowGenerator;
 import org.asmeta.parser.ASMParser;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import asmeta.AsmCollection;
 
 public class GeneratorCompilerTest {
+
+	private static final String SRC_GEN = "src-gen-examples/";
 
 	// the generator for the code
 	static private JavaGenerator jGenerator = new JavaGenerator();
@@ -280,6 +284,13 @@ public class GeneratorCompilerTest {
 		}
 
 	}
+	
+	@BeforeClass
+	static public void checkExistsPath() {
+		File dest = new File(SRC_GEN);
+		assertTrue(dest.exists() && dest.isDirectory());
+	}
+	
 
 	/**
 	 * 
@@ -310,8 +321,9 @@ public class GeneratorCompilerTest {
 //		
 //		String dirTraduzione = asmFile.getParentFile().getPath() + "/Traduzione";
 
+		
 		// AC
-		File javaFile = new File("src-gen/" + File.separator + name + ".java");
+		File javaFile = new File(SRC_GEN + File.separator + name + ".java");
 //		File javaFile = new File(dir.getPath() + File.separator + name + ".java");
 		File javaFileCompilazione = new File(dirCompilazione + File.separator + name + ".java");
 //		File javaFileExe = new File(dirEsecuzione + File.separator + name + "_Exe.java");

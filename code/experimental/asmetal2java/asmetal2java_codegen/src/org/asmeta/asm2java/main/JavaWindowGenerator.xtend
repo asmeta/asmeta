@@ -205,7 +205,7 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 							   «MonitoredUpdate(asm)»
 							   
 							   //Aggiornamento dell'ASM
-							   esecuzione.UpdateASM();
+							   esecuzione.updateASM();
 					
 					    }});
 				}

@@ -81,7 +81,7 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 					  	   
 					  	   printControlled(esecuzione);
 					  	   askMonitored(esecuzione);
-					  	   esecuzione.UpdateASM();
+					  	   esecuzione.updateASM();
 					  	   
 					  	   System.out.println("</State "+ stato +" (controlled)>");
 					  	   

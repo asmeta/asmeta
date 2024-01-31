@@ -213,7 +213,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 					}
 					
 					//Metodo per l'aggiornamento dell'asm
-					void UpdateASM()
+					void updateASM()
 					{
 						«asm.mainrule.name»();
 						fireUpdateSet();

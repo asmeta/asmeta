@@ -474,7 +474,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("//Metodo per l\'aggiornamento dell\'asm");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("void UpdateASM()");
+    _builder.append("void updateASM()");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("{");

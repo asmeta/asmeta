@@ -1,6 +1,7 @@
 package org.asmeta.asm2java.main;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,9 +28,10 @@ public class GeneratorCompilerTestAll {
 			try {
 				String fileName = x.toFile().toString();
 				if (fileName.endsWith(ASMParser.ASM_EXTENSION))
-					if (!GeneratorCompilerTest.test(fileName, options).success){
-							failures.add(fileName);
-							System.err.println("failing for "+ fileName);
+					if (!GeneratorCompilerTest.test(fileName, options).success) {
+						fail();
+						failures.add(fileName);
+						System.err.println("failing for " + fileName);
 					}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
