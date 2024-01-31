@@ -19,7 +19,7 @@ import tgtlib.definitions.expression.Expression;
  */
 public class TestGenerationWithNuSMV extends AsmetaSMV {
 
-	static private Logger logger = Logger.getLogger(TestGenerationWithNuSMV.class);
+	private static Logger logger = Logger.getLogger(TestGenerationWithNuSMV.class);
 
 	public static boolean useLTLandBMC = false;
 
@@ -154,7 +154,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 	 * 
 	 * non so se � necessario che adesso il generatore pu� farlo lui ....
 	 */
-	static protected void completeCounterExample(Counterexample counterexample) {
+	protected static void completeCounterExample(Counterexample counterexample) {
 		for (int i = 1; i < counterexample.length(); i++) {
 			ModelCheckerState currentState = counterexample.getState(i);
 			ModelCheckerState nextState = counterexample.getState(i + 1);

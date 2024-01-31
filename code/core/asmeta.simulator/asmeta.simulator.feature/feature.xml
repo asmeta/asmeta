@@ -2,8 +2,8 @@
 <feature
       id="org.asmeta.simulator.feature"
       label="Asmeta simulator"
-      version="23.07"
-      provider-name="fmse.di.unimi.it">
+      version="23.12"
+      provider-name="https://foselab.unibg.it/">
 
    <description>
       See https://asmeta.github.io
@@ -41,28 +41,18 @@ See https://asmeta.github.io
 
    <plugin
          id="asmeta.emf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="asmeta.parser"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="asmeta.simulator"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="asmeta.simulator.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>

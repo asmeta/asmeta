@@ -26,6 +26,7 @@ public class AsmetaSMVtest {
 		// try to execute NUSMV
 		String solverName = AsmetaSMV.getSolverName();
 		Process proc = null;
+		boolean failed = false;
 		try {
 			List<String> cmdarray = Arrays.asList(solverName, "-h");
 			ProcessBuilder pb = new ProcessBuilder(cmdarray);			
@@ -33,12 +34,13 @@ public class AsmetaSMVtest {
 			// outputRunNuSMV = getOutput(smvFileName);
 		} catch (Exception e) {
 			out.println("Execution error\n" + e);
-			System.out.println("OS " + System.getProperty("os.name") + " " + System.getProperty("os.version"));
-			fail("execution of NuSMV failed");
+			out.println("OS: " + System.getProperty("os.name") + " VERSION: " + System.getProperty("os.version"));
+			out.println("path: " + System.getProperty("PATH"));			
+			failed = true; 			
 		} finally {
 			if (proc != null) proc.destroy();
 		}
-
+		if (failed) fail("execution of " + solverName + " failed");
 	}
 	
 	

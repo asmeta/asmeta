@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
+Automatic-Module-Name: asmeta.asm2java
 Bundle-Name: asmeta.asm2java
 Bundle-SymbolicName: asmeta.asm2java
 Bundle-Version: 22.04

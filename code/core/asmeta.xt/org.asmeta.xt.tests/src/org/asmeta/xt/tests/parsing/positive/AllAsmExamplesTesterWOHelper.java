@@ -544,6 +544,14 @@ public class AllAsmExamplesTesterWOHelper {
 				+ checked_examples + " to be checked");
 	}
 
+	
+	@Test
+	public void testAllALLExamples() throws IOException {
+		Path examplePath = Paths.get("../../../asm_examples/examples");
+		
+	}
+	
+	
 	/**
 	 * 
 	 * @param path

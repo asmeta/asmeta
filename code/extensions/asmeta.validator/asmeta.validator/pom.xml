@@ -9,10 +9,6 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
 			</plugin>
 
 			<plugin>
@@ -63,7 +59,7 @@
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext</artifactId>
-			<version>2.32.0</version>
+			<version>2.33.0</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
@@ -85,16 +81,16 @@
 			<artifactId>org.asmeta.avallaxt</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- be careful - xtext is built using 3.2.0-->
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr-runtime</artifactId>
-			<version>3.5.3</version>
+			<version>3.2</version>
 		</dependency>
 	</dependencies>
 	<parent>
+		<artifactId>asmeta.validator.parent</artifactId>
 		<groupId>asmeta</groupId>
-		<artifactId>asmeta.all</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../../../..</relativePath>
 	</parent>
 </project>

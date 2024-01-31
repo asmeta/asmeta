@@ -13,12 +13,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 class MyDialogBooleanInsert extends MyDialog {
+
 	private String message;
 
 	private String input;
-	private Shell shell_1;
-	private GridData gd_btnTrue;
-	private GridData gd_btnFalse;
 	
 
 	public MyDialogBooleanInsert(Shell parent) {
@@ -43,6 +41,7 @@ class MyDialogBooleanInsert extends MyDialog {
 
 	@Override
 	public String open() {
+  Shell shell_1;
 		shell_1 = new Shell(getParent(), getStyle());
 		shell_1.setText(getText());
 		createContents(shell_1);
@@ -59,6 +58,8 @@ class MyDialogBooleanInsert extends MyDialog {
 
 	@Override
 	protected void createContents(final Shell shell) {
+  GridData gd_btnFalse;
+  GridData gd_btnTrue;
 		shell.setLayout(new GridLayout(2, true));
 
 		Label label = new Label(shell, SWT.NONE);

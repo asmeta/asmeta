@@ -12,9 +12,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.asmeta.avallaxt.tests.AvallaInjectorProvider
 import org.asmeta.avallaxt.avalla.Scenario
-import org.asmeta.avallaxt.avalla.ExecBlock
-import org.asmeta.avallaxt.avalla.Step
-import org.asmeta.avallaxt.avalla.Block
 import org.asmeta.avallaxt.avalla.Set
 
 @RunWith(XtextRunner)
@@ -42,7 +39,7 @@ class AvallaXtParsingSetTest {
 		val result = parseHelper.parse(scenario)
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
 		Assert.assertEquals(((result as Scenario).elements.get(0) as Set).location,location.trim);
 		Assert.assertEquals(((result as Scenario).elements.get(0) as Set).value,value);		
 	}

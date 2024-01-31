@@ -27,6 +27,7 @@ import atgt.specification.type.DummyType;
 import tgtlib.definitions.expression.FunctionTerm;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
+import tgtlib.definitions.expression.type.IntegerType;
 
 public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 
@@ -95,9 +96,9 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 						break;
 					}
 					// get previous controlled part
-					state.locationMap.putAll(simulator.previousState.locationMap);
+					state.applyLocationUpdates(simulator.previousState.getLocationMap());
 					// get the monitored value of the previous step
-					state.locationMap.putAll(randomMFReader.values);
+					state.applyLocationUpdates(randomMFReader.getValues());
 					// add this (previous) state to the sequence
 					addState(testsequence, state);
 					// go to the next state
@@ -108,7 +109,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 						break;
 					}
 					// restart the env
-					randomMFReader.values.clear();
+					randomMFReader.clear();
 				}
 				testSuite.addTest(testsequence);
 			}
@@ -132,7 +133,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	// add this state to the test sequence
 	private void addState(AsmTestSequence testsequence, State state) {
 		testsequence.addState();
-		for (Entry<Location, Value> stateValues : state.locationMap.entrySet()) {
+		for (Entry<Location, Value> stateValues : state.getLocationMap().entrySet()) {
 			Location location = stateValues.getKey();
 			// TODO store the variables somewhere
 			// check if monitored or controlled
@@ -153,8 +154,13 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			} else {
 				assert elements.length >= 1 : Arrays.toString(elements);
 				List<IdExpression> args = new ArrayList<>();
-				for (Value v : elements)
-					args.add(icc.createIdExpression(v.toString(), dummyType));
+				for (Value v : elements) {
+					Number n = IdExpressionCreator.parse(v.toString());
+					if (v == null)
+						args.add(icc.createIdExpression(v.toString(), dummyType));
+					else
+						args.add(icc.createIdExpression(v.toString(), IntegerType.INTEGER_TYPE));
+				}
 				IdExpression name = icc.createIdExpression(location.getSignature().getName(), dummyType);
 				// type
 

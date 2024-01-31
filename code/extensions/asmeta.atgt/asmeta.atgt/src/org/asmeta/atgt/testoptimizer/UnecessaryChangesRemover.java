@@ -15,11 +15,15 @@ import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.EnumValue;
 import org.asmeta.simulator.value.IntegerValue;
+import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.AsmCollection;
+import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.BooleanDomain;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumElement;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.IntegerDomain;
@@ -58,6 +62,9 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 		} // o size +1???
 	}
 
+	//
+	// leave only the functions required by the simulator
+	//
 	class CheckWhatAsked extends MonFuncReader {
 
 		private AsmTestSequence asmTest;
@@ -78,10 +85,18 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 			String val = lastvalues.get(location.toString());
 			assert val != null;
 			log.debug("asking for " + location  + " value " + val);
-			StringToValue sv = new StringToValue(val);
 			asked.add(location.toString());
-			log.debug("domain " + location.getSignature().getCodomain());
-			return sv.doSwitch(location.getSignature().getCodomain());
+			// if it is undef
+			if (val.equals(UndefValue.UNDEF.toString())) { 
+				return UndefValue.UNDEF;
+			}
+			//
+			StringToValue sv = new StringToValue(val);
+			Domain codomain = location.getSignature().getCodomain();
+			log.debug("domain " + codomain);
+			Value doSwitch = sv.doSwitch(codomain);
+			assert doSwitch != null : "location " +  location + " value as string " +  val + " in codomain " + codomain.getClass();
+			return doSwitch;
 		}
 
 		void nextState() {
@@ -120,8 +135,23 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 
 		StringToValue(String s) {
 			this.s = s;
-		}
+		}				
+		
+		
 
+		@Override
+		public Value caseConcreteDomain(ConcreteDomain cd) {
+			Value val = doSwitch(cd.getTypeDomain());
+			assert val != null;
+			return val;
+		}
+		
+		@Override
+		public Value caseAbstractTd(AbstractTd atd) {
+			return new ReserveValue(s);
+		}
+		
+		
 		@Override
 		public Value caseIntegerDomain(IntegerDomain object) {
 			return new IntegerValue(Integer.parseInt(s));

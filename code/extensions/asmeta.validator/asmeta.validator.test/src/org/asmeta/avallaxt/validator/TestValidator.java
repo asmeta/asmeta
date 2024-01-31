@@ -1,5 +1,6 @@
 package org.asmeta.avallaxt.validator;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -16,9 +17,15 @@ import asmeta.AsmCollection;
 
 public class TestValidator {
 
-	static int i = 0;
+	protected static final String ASM_EXAMPLES = "../../../../asm_examples/";
 
-	static String pathname = "temp/";
+	protected static final String ASM_EXAMPLES_EXAMPLES = ASM_EXAMPLES +"examples/";
+	
+	private static String pathname = "temp/";
+	
+	// keep the trsnslation local for inspection
+	protected static File tempAsmPath = new File(pathname); //Files.createTempFile("__tempAsmetaV", ASMParser.asmExtension).toFile();
+
 
 	
 	public TestValidator() {
@@ -26,9 +33,21 @@ public class TestValidator {
 	}
 
 	@BeforeClass
-	public static void cleanup(){
-		i = 0;
+	public static void testExamplesDir() throws IOException{
+		assertTrue(new File(ASM_EXAMPLES).exists());
+		assertTrue(new File(ASM_EXAMPLES_EXAMPLES).exists());
+	}
+
+	
+	@BeforeClass
+	public static void cleanup() throws IOException{
 		File dir = new File(pathname);
+		// if it exists is a directory
+		assert ! dir.exists() || dir.isDirectory();
+		// if it does not exist, create it
+		if (!dir.exists()) {
+			assertTrue(dir.mkdir());
+		}
 		assert dir.exists() && dir.isDirectory();
 		// clean directory
 		for(File file: dir.listFiles()) {
@@ -39,10 +58,12 @@ public class TestValidator {
 		    }
 		}
 	}
-
+	// test with and wthout the validator
 	protected void test(String scenarioPath) throws IOException, Exception {
-		test(scenarioPath,false,false);
-		test(scenarioPath,true,false);
+		// without the execution
+		test(scenarioPath,false,false, true);
+		//( with the execution of the validator
+		test(scenarioPath,true,false, true);
 	}
 
 	/**
@@ -50,19 +71,20 @@ public class TestValidator {
 	 * @param scenarioPath
 	 * @param runValidator
 	 * @param computeCoverage TODO
+	 * @param expectedSuccess TODO
 	 * @throws IOException
 	 * @throws Exception
 	 */
-	protected void test(String scenarioPath, boolean runValidator, boolean computeCoverage) throws IOException, Exception {
+	protected void test(String scenarioPath, boolean runValidator, boolean computeCoverage, boolean expectedSuccess) throws IOException, Exception {
 		if (runValidator) {
 			System.out.println("executing " + scenarioPath);
 			// it should be runnable
 			List<String> result = AsmetaV.execValidation(scenarioPath, computeCoverage);
-			assertTrue("failed " + result, result.isEmpty());
+			if (expectedSuccess) assertTrue("failed " + result, result.isEmpty());
+			else assertFalse(scenarioPath + " must fail but it is not", result.isEmpty()); 
 		} else {
 			//
 			System.out.println("translating " + scenarioPath);
-			File tempAsmPath = new File("temp"); //Files.createTempFile("__tempAsmetaV", ASMParser.asmExtension).toFile();
 			// delete if exists
 			org.asmeta.xt.validator.AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(scenarioPath, tempAsmPath);
 			builder.save();

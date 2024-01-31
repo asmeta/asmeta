@@ -18,7 +18,7 @@ class MixedMFReader extends  MonFuncReader{
 	RandomMFReaderMemory random;
 	private InteractiveMFReaderMemory interactive;	
 	
-	enum Mode {RANDOM, INTERACTIVE}; 
+	enum Mode {RANDOM, INTERACTIVE} 
 	
 	private Mode mode;
 

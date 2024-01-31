@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.xt.tests
 Bundle-Vendor: foselab.unibg.it
-Bundle-Version: 23.07
+Bundle-Version: 23.12
 Bundle-SymbolicName: org.asmeta.xt.tests;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.xt,
@@ -13,7 +13,7 @@ Require-Bundle: org.asmeta.xt,
  org.eclipse.core.resources,
  org.eclipse.core.runtime,
  org.eclipse.xtext.junit4
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.asmeta.xt.tests;x-internal=true
 Import-Package: org.hamcrest.core,
  org.junit;version="4.5.0",

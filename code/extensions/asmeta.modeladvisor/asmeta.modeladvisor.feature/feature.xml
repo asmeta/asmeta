@@ -2,8 +2,8 @@
 <feature
       id="org.asmeta.asmetama.feature"
       label="Asmeta model advisor"
-      version="23.07"
-      provider-name="fmse.di.unimi.it">
+      version="23.12"
+      provider-name="https://foselab.unibg.it/">
 
    <description>
       See https://asmeta.github.io
@@ -28,15 +28,10 @@ See https://asmeta.github.io
 
    <plugin
          id="asmeta.modeladvisor"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="asmeta.modeladvisor.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>
