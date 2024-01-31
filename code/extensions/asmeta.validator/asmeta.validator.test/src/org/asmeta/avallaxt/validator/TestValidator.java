@@ -22,6 +22,10 @@ public class TestValidator {
 	protected static final String ASM_EXAMPLES_EXAMPLES = ASM_EXAMPLES +"examples/";
 	
 	private static String pathname = "temp/";
+	
+	// keep the trsnslation local for inspection
+	protected static File tempAsmPath = new File(pathname); //Files.createTempFile("__tempAsmetaV", ASMParser.asmExtension).toFile();
+
 
 	
 	public TestValidator() {
@@ -81,7 +85,6 @@ public class TestValidator {
 		} else {
 			//
 			System.out.println("translating " + scenarioPath);
-			File tempAsmPath = new File("temp"); //Files.createTempFile("__tempAsmetaV", ASMParser.asmExtension).toFile();
 			// delete if exists
 			org.asmeta.xt.validator.AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(scenarioPath, tempAsmPath);
 			builder.save();

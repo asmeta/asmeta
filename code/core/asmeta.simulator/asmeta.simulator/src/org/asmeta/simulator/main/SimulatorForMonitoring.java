@@ -32,10 +32,4 @@ public class SimulatorForMonitoring extends Simulator {
 		Environment env = new Environment(new ListMonFuncReaderNew(map));
 		return createSimulator(modelPath, env);
 	}
-
-	public static Simulator createSimulator(String asmPath, MonitoredValues listMonsForAsmSimulator,
-			AsmCollection asmetaPackage) throws Exception {
-		Environment env = new Environment(new ListMonFuncReaderNew(listMonsForAsmSimulator));
-		return createSimulator(asmPath, env, asmetaPackage);
-	}
 }

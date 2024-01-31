@@ -63,7 +63,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	private AsmetaFromAvallaBuilder builder;
 
 	private static Logger LOG = Logger.getLogger(AsmetaPrinterForAvalla.class);
-
+	
 	/**
 	 * Instantiates a new asmeta printer for avalla.
 	 *
@@ -84,13 +84,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		this.asmPath = asmPath;
 		this.builder = builder;
 	}
-
-	private AsmetaPrinterForAvalla(File tempAsmPath, Path asmPath, AsmetaFromAvallaBuilder builder,
-			HashMap<Path, Path> fileNames) throws FileNotFoundException {
-		this(tempAsmPath, asmPath, builder);
-		this.translatedFiles = fileNames;
-	}
-
+	
 	@Override
 	public void visit(Asm asm) {
 		// add a comment - careful, since the "u" cannot be escaped even in the
@@ -197,9 +191,9 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 									tempAsmPath.getParentFile()).toPath();
 							LOG.debug(importedAsmPath + " to be translated into " + importedFile);
 							translatedFiles.put(importedAsmPath, importedFile);
+							AsmetaPrinterForAvalla newprinter =  new AsmetaImportedPrinterForAvalla(importedFile.toFile(), importedAsmPath, builder);
+							newprinter.translatedFiles = this.translatedFiles;
 							// call recursively
-							AsmetaPrinterForAvalla newprinter = new AsmetaPrinterForAvalla(importedFile.toFile(),
-									importedAsmPath, builder, this.translatedFiles);
 							// import the ASM
 							AsmCollection pack = ASMParser.setUpReadAsm(importedAsmPath.toFile());
 							// now visit this imported asm
@@ -266,6 +260,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		return importedName;
 	}
 
+
 	// PA 2017/12/29
 	@Override
 	protected void visitInvariantBody(asmeta.definitions.Invariant invariant) {
@@ -331,10 +326,14 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	 */
 	@Override
 	public void visitFunctions(Collection<Function> funcs) {
+		// add the main if necessary (it has the main rule)
 		if (model.getMainrule() != null) {
 			println("// added by validator");
 			println("controlled " + STEP + ": Integer");
 		}
+		visitDeclaredFunctions(funcs);
+	}
+	protected void visitDeclaredFunctions(Collection<Function> funcs) {
 		super.visitFunctions(funcs);
 	}
 

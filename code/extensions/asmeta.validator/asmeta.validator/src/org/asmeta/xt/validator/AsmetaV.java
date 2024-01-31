@@ -163,7 +163,7 @@ public class AsmetaV {
 						AbstractMap.SimpleEntry<String, String> rule = iterator.next();
 						// check if this rule ruleName is covered
 						// if the rule is the same and the ASM is the main ASM
-						if (rule.getValue().equals(ruleName) && rule.getKey().startsWith(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) {
+						if (rule.getValue().equals(ruleName) && rule.getKey().contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) {
 							coveredRules.put(ruleCompleteName, Boolean.TRUE);
 							iterator.remove();
 							rdIsCovered = true;
@@ -181,7 +181,7 @@ public class AsmetaV {
 			for ( SimpleEntry<String, String> r: coveredThisTime) {
 				String key = r.getKey();
 				String asmname = key.substring(1,key.lastIndexOf('_'));
-				if (asmname.startsWith(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) continue;
+				if (asmname.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) continue;
 				String ruleCompleteName = asmname + "::" + r.getValue();
 				coveredRules.put(ruleCompleteName , Boolean.TRUE);
 			}

@@ -123,7 +123,7 @@ public class SimulatorAllUpdateSets extends Simulator {
 		currentState = initState();
 		initEvaluator(currentState);
 		numOfState = 0;//PA: 10 giugno 2010
-		currentState.previousLocationValues.putAll(currentState.locationMap);//PA: 10 giugno 2010
+		currentState.previousLocationValues.putAll(currentState.getLocationMap());//PA: 10 giugno 2010
 	}
 
 	/**
