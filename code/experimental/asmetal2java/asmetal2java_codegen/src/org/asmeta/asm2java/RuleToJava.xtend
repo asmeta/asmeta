@@ -128,7 +128,7 @@ class RuleToJava extends RuleVisitor<String> {
 		if (seqBlock) {
 			// add the fire update
 			result.
-				append('''«new TermToJavaConditionalAbs(res,true).visit(object.location)».oldValues = «new TermToJavaConditionalAbs(res,true).visit(object.location)».newValues;
+				append('''«new TermToJavaConditionalAbs(res,true).visit(object.location)».oldValue = «new TermToJavaConditionalAbs(res,true).visit(object.location)».newValue;
 				''')
 		}
 		return result.toString
