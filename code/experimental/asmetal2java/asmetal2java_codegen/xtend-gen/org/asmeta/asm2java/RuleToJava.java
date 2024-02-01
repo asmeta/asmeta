@@ -1,5 +1,7 @@
 package org.asmeta.asm2java;
 
+import asmeta.definitions.ControlledFunction;
+import asmeta.definitions.Function;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
@@ -182,15 +184,42 @@ public class RuleToJava extends RuleVisitor<String> {
       }
     }
     if (this.seqBlock) {
-      StringConcatenation _builder_3 = new StringConcatenation();
-      String _visit_8 = new TermToJavaConditionalAbs(this.res, true).visit(object.getLocation());
-      _builder_3.append(_visit_8);
-      _builder_3.append(".oldValues = ");
-      String _visit_9 = new TermToJavaConditionalAbs(this.res, true).visit(object.getLocation());
-      _builder_3.append(_visit_9);
-      _builder_3.append(".newValues;");
-      _builder_3.newLineIfNotEmpty();
-      result.append(_builder_3);
+      String functionName = new TermToJavaConditionalAbs(this.res, true).visit(object.getLocation());
+      boolean isZeroC = false;
+      EList<Function> _function = this.res.getHeaderSection().getSignature().getFunction();
+      for (final Function cf : _function) {
+        boolean _equals = cf.getName().equals(functionName);
+        if (_equals) {
+          if (((cf instanceof ControlledFunction) && (cf.getDomain() != null))) {
+            isZeroC = false;
+          } else {
+            if (((cf instanceof ControlledFunction) && (cf.getDomain() == null))) {
+              isZeroC = true;
+            }
+          }
+        }
+      }
+      if (isZeroC) {
+        StringConcatenation _builder_3 = new StringConcatenation();
+        String _visit_8 = new TermToJavaConditionalAbs(this.res, true).visit(object.getLocation());
+        _builder_3.append(_visit_8);
+        _builder_3.append(".oldValue = ");
+        String _visit_9 = new TermToJavaConditionalAbs(this.res, true).visit(object.getLocation());
+        _builder_3.append(_visit_9);
+        _builder_3.append(".newValue;");
+        _builder_3.newLineIfNotEmpty();
+        result.append(_builder_3);
+      } else {
+        StringConcatenation _builder_4 = new StringConcatenation();
+        String _visit_10 = new TermToJavaConditionalAbs(this.res, true).visit(object.getLocation());
+        _builder_4.append(_visit_10);
+        _builder_4.append(".oldValues = ");
+        String _visit_11 = new TermToJavaConditionalAbs(this.res, true).visit(object.getLocation());
+        _builder_4.append(_visit_11);
+        _builder_4.append(".newValues;");
+        _builder_4.newLineIfNotEmpty();
+        result.append(_builder_4);
+      }
     }
     return result.toString();
   }
