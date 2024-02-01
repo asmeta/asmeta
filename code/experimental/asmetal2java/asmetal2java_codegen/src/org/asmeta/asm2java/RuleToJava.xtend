@@ -26,7 +26,7 @@ import org.asmeta.asm2java.main.TranslatorOptions
 import asmeta.definitions.domains.ConcreteDomain
 import asmeta.terms.basicterms.VariableTerm
 import asmeta.definitions.domains.EnumTd
-
+import asmeta.definitions.ControlledFunction
 
 class RuleToJava extends RuleVisitor<String> {
 
@@ -127,9 +127,26 @@ class RuleToJava extends RuleVisitor<String> {
 			''')
 		if (seqBlock) {
 			// add the fire update
-			result.
-				append('''«new TermToJavaConditionalAbs(res,true).visit(object.location)».oldValue = «new TermToJavaConditionalAbs(res,true).visit(object.location)».newValue;
-				''')
+			var functionName = new TermToJavaConditionalAbs(res,true).visit(object.location)
+			var isZeroC = false
+			for (cf : res.headerSection.signature.function)
+				if (cf.name.equals(functionName))
+					if (cf instanceof ControlledFunction && cf.domain !== null)
+						isZeroC = false
+					else if(cf instanceof ControlledFunction && cf.domain === null)
+						isZeroC = true		
+			
+			if (isZeroC)
+				result.
+					append('''«new TermToJavaConditionalAbs(res,true).visit(object.location)».oldValue = «new TermToJavaConditionalAbs(res,true).visit(object.location)».newValue;
+					''')
+			else
+				result.
+					append('''«new TermToJavaConditionalAbs(res,true).visit(object.location)».oldValues = «new TermToJavaConditionalAbs(res,true).visit(object.location)».newValues;
+					''')
+				
+			
+				
 		}
 		return result.toString
 	}
