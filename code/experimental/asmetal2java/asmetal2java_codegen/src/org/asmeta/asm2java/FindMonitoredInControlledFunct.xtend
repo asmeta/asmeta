@@ -15,7 +15,7 @@ import asmeta.terms.furtherterms.CaseTerm
 import asmeta.terms.basicterms.VariableTerm
 import asmeta.terms.basicterms.SetTerm
 
-/*Check if the init function term contains monitored functions */
+/* Check if the init function term contains monitored functions */
 class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
 
 	def boolean visit(LocationTerm object) {

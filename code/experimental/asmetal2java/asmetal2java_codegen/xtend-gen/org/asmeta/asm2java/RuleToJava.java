@@ -739,12 +739,4 @@ public class RuleToJava extends RuleVisitor<String> {
     String _visit = new RuleToJava(this.res, this.seqBlock, this.options).visit(rule.getDoRule());
     return (_string + _visit);
   }
-
-  public Boolean controllo(final String nome) {
-    if (((nome.equals("Integer") || nome.equals("Boolean")) || nome.equals("String"))) {
-      return Boolean.valueOf(true);
-    } else {
-      return Boolean.valueOf(false);
-    }
-  }
 }

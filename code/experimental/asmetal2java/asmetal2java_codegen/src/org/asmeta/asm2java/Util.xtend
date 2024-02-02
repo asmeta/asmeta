@@ -30,18 +30,14 @@ class Util {
 		return domainName + "_extend"
 	}
 
-
 	def String adaptRuleParam(EList<VariableTerm> variables, Asm res) {
 		var StringBuffer paramDef = new StringBuffer
 		paramDef.append("");
 		for (var i = 0; i < variables.size; i++) {
-
-			paramDef.
-				append('''«new ToString(res).visit(variables.get(i).domain)» «variables.get(i).name», ''')
+			paramDef.append('''«new ToString(res).visit(variables.get(i).domain)» «variables.get(i).name», ''')
 		}
 		return paramDef.substring(0, paramDef.length - 2)
 	}
-
 
 	def String parseFunction(String s) {
 		if (s.equals("and")) {
@@ -70,20 +66,16 @@ class Util {
 			return "=";
 		} else if (s.equals("neq")) {
 			return "!=";
-		}
-		else if (s.equals("pwr")) {
+		} else if (s.equals("pwr")) {
 			return "^";
 		} else {
 			return s;
 		}
 	}
 
-
 	def String equals(String left, String right) {
-
-			return setPars(left + " == " + right);
+		return setPars(left + " == " + right);
 	}
-
 
 	def Boolean isNumber(String str) {
 		try {
@@ -94,57 +86,48 @@ class Util {
 		}
 	}
 
-
 	def String notEquals(String left, String right) {
-
 		return setPars(left + " != " + right);
 	}
-	
-	
 
 	def String setPars(String expr) {
 		if (hasFirstLastPars(expr)) {
-			
 			return expr;
 		} else {
-			
+
 			return "(" + expr + ")";
 		}
 	}
 
-
 	def boolean hasFirstLastPars(String str) {
-
 		if (str.startsWith("(") && str.endsWith(")")) {
-			counter = 1; // aggiungo la parentesi iniziale
+			counter = 1; // Starting parenthesis
 			for (i = 1; i < str.length() - 1; i++) {
 				c = str.charAt(i);
 				if (c == '(') {
-					counter++; // trovata una parentesi aperta
+					counter++; // A new starting parenthesis is found
 				} else if (c == ')') {
-					counter--; // trovata una parentesi chiusa
+					counter--; // A closing parenthesis is found
 				}
-				if (counter == 0) { // si e' chiusa la parentesi iniziale
-					return false; // la parentesi iniziale non e' in coppia con quella finale
+				if (counter == 0) { // Initial parenthesis is closed
+					return false; // There is no correspondence between initial and closing parenthesis
 				}
 			}
-			counter--; // rimuovo la parentesi finale
-			// se il contatore vale 0 vuol dire che la parentesi iniziale e' accoppiata
-			// con quella finale
+			counter--; // Removing final parenthesis
+			// If the counter is 0, it means that the initial and final parenthesis are coupled
 			return counter == 0;
 		} else {
 			return false;
 		}
 	}
-	
-	
-	//return true if domain is one of those listed in the condition
+
+	// Return true if domain is one of those listed in the condition
 	def boolean isNotNumerable(Domain domain) {
 		if (domain instanceof StringDomain || domain instanceof CharDomain || domain instanceof IntegerDomain ||
-			domain instanceof RealDomain || domain instanceof NaturalDomain  || domain instanceof BooleanDomain)
+			domain instanceof RealDomain || domain instanceof NaturalDomain || domain instanceof BooleanDomain)
 			return true
 		else
 			return false
 	}
-	
+
 }

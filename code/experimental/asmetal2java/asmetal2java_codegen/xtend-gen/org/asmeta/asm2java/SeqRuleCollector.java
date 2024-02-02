@@ -25,7 +25,7 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
   private boolean seqBlock;
 
   /**
-   * seqBlock iff it is called in a seq rule
+   * SeqBlock iff it is called in a seq rule
    */
   public SeqRuleCollector(final boolean seqBlock) {
     this.seqBlock = seqBlock;

@@ -403,11 +403,4 @@ class RuleToJava extends RuleVisitor<String> {
 
 	}
 
-          def Boolean controllo(String nome)
-    {
-    	if(nome.equals("Integer") || nome.equals("Boolean") || nome.equals("String"))
-    	return true
-    	else return false
-    }
-
 }
