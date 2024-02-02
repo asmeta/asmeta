@@ -2,7 +2,6 @@ package org.asmeta.asm2java;
 
 import org.asmeta.parser.util.ReflectiveVisitor;
 
-import asmeta.structure.Asm;
 import asmeta.definitions.MonitoredFunction
 import asmeta.terms.basicterms.LocationTerm
 import asmeta.terms.basicterms.FunctionTerm
@@ -18,12 +17,6 @@ import asmeta.terms.basicterms.SetTerm
 
 /*Check if the init function term contains monitored functions */
 class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
-
-	Asm res;
-
-	new(Asm resource) {
-		this.res = resource
-	}
 
 	def boolean visit(LocationTerm object) {
 		return visit(object as FunctionTerm)
@@ -48,7 +41,7 @@ class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
 	def boolean visit(EnumTerm term) {
 		return false
 	}
-	
+
 	def boolean visit(VariableTerm term) {
 		return false
 	}
@@ -73,21 +66,18 @@ class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
 		for (result : term.resultTerms)
 			found = (found || visit(result));
 		found = (found || visit(term.comparedTerm));
-		if (term.otherwiseTerm!==null)
-		found = (found || visit(term.otherwiseTerm));
+		if (term.otherwiseTerm !== null)
+			found = (found || visit(term.otherwiseTerm));
 		return found
 	}
-	
-	
-	
-def boolean visit(ConditionalTerm term) {
+
+	def boolean visit(ConditionalTerm term) {
 		var boolean found = false
 		found = (found || visit(term.thenTerm));
 		found = (found || visit(term.elseTerm));
 		return found
 	}
-	
-	
+
 	def boolean visit(SetTerm term) {
 		var boolean found = false
 		for (comparing : term.term)

@@ -187,11 +187,4 @@ class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
 	}
    }
 
-    def Boolean controllo(Domain dom)
-    {
-    	if(dom instanceof ConcreteDomain)
-    	return true
-    	else return false
-    }
-
 }

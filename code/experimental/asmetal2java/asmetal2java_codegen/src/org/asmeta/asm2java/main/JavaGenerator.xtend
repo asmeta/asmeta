@@ -399,7 +399,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 		
 		for (fd : asm.defaultInitialState.functionInitialization) {
 
-			containsMonitored = new FindMonitoredInControlledFunct(asm).visit(fd.body);
+			containsMonitored = new FindMonitoredInControlledFunct().visit(fd.body);
 
 				if (containsMonitored == false)
 					initial.append(

@@ -717,7 +717,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       EList<FunctionInitialization> _functionInitialization = asm.getDefaultInitialState().getFunctionInitialization();
       for (final FunctionInitialization fd : _functionInitialization) {
         {
-          containsMonitored = (new FindMonitoredInControlledFunct(asm).visit(fd.getBody())).booleanValue();
+          containsMonitored = (new FindMonitoredInControlledFunct().visit(fd.getBody())).booleanValue();
           if ((containsMonitored == false)) {
             StringConcatenation _builder = new StringConcatenation();
             String _visit = new FunctionToJavaDef(asm).visit(fd.getInitializedFunction());

@@ -2,7 +2,6 @@ package org.asmeta.asm2java;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
-import asmeta.structure.Asm;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
@@ -24,12 +23,6 @@ import org.eclipse.emf.common.util.EList;
  */
 @SuppressWarnings("all")
 public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
-  private Asm res;
-
-  public FindMonitoredInControlledFunct(final Asm resource) {
-    this.res = resource;
-  }
-
   public boolean visit(final LocationTerm object) {
     return this.visit(((FunctionTerm) object));
   }
