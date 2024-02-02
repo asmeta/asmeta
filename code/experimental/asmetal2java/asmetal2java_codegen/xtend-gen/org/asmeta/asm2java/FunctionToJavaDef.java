@@ -12,11 +12,9 @@ import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.SequenceDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.Term;
-import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import org.asmeta.parser.util.ReflectiveVisitor;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
@@ -1183,35 +1181,6 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
       }
     }
     return sb.toString();
-  }
-
-  public String printVariables(final EList<VariableTerm> list) {
-    StringBuffer sb = new StringBuffer();
-    int _size = list.size();
-    boolean _equals = (_size == 1);
-    if (_equals) {
-      StringConcatenation _builder = new StringConcatenation();
-      String _visit = new TermToJava(this.asm).visit(list.get(this.i));
-      _builder.append(_visit);
-      sb.append(_builder);
-      return sb.toString();
-    } else {
-      StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("make_tuple(");
-      sb.append(_builder_1);
-      for (int i = 0; (i < list.size()); i++) {
-        StringConcatenation _builder_2 = new StringConcatenation();
-        String _visit_1 = new TermToJava(this.asm).visit(list.get(i));
-        _builder_2.append(_visit_1);
-        _builder_2.append(",");
-        sb.append(_builder_2);
-      }
-      String _string = sb.toString();
-      int _length = sb.length();
-      int _minus = (_length - 1);
-      String _substring = _string.substring(0, _minus);
-      return (_substring + ")");
-    }
   }
 
   public Boolean controllo(final String dominio) {

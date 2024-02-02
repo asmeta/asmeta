@@ -3,8 +3,6 @@ package org.asmeta.asm2java
 import asmeta.structure.Asm
 import org.asmeta.parser.util.ReflectiveVisitor
 import asmeta.definitions.ControlledFunction
-import org.eclipse.emf.common.util.EList
-import asmeta.terms.basicterms.VariableTerm
 import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.DerivedFunction
@@ -607,23 +605,8 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 		return sb.toString
 	}
 
-	def printVariables(EList<VariableTerm> list) {
-		var StringBuffer sb = new StringBuffer
-		if (list.size == 1) {
-			sb.append('''«new TermToJava(asm).visit(list.get(i))»''')
-			return sb.toString
-		} else {
-			sb.append('''make_tuple(''')
-			for (var i = 0; i < list.size; i++) {
-				sb.append('''«new TermToJava(asm).visit(list.get(i))»,''')
-			}
-			return sb.toString.substring(0, sb.length - 1) + ")"
-		}
-
-	}
 	
-	
-	    def Boolean controllo(String dominio)
+	def Boolean controllo(String dominio)
     {
     	if(dominio.equals("Integer") || dominio.equals("String") || dominio.equals("Boolean"))
     	return true
