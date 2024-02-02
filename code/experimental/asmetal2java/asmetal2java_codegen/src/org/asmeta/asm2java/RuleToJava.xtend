@@ -27,31 +27,30 @@ import asmeta.definitions.domains.ConcreteDomain
 import asmeta.terms.basicterms.VariableTerm
 import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.ControlledFunction
+import asmeta.definitions.domains.Domain
 
 class RuleToJava extends RuleVisitor<String> {
 
-	// private static final Logger LOGGER = Logger.getLogger(RuleToCpp.name);
 	Asm res;
 	boolean seqBlock;
 	TranslatorOptions options
 
-	/**  seqBlock iff it is called in a seq rule*/
+	/**  SeqBlock iff it is called in a seq rule*/
 	new(Asm resource, boolean seqBlock, TranslatorOptions options) {
 		this.res = resource
 		this.seqBlock = seqBlock
 		this.options = options
 	}
-	
 
-    //Metodo per studiare e tradurre i blocchi di regole par/endpar
+    // Method translating the par block
 	override String visit(BlockRule object) {
 		return '''
 		{ //par
 			«new RuleToJava(res,false,options).printRules(object.getRules(), false)»
-		}//endpar'''
+		} //endpar'''
 	}
 
-    //Metodo di supporto per tradurre le singole righe di un blocco regole
+    // Method writing the rules called in a block
 	def private String printRules(EList<Rule> rules, boolean addFire) {
 		var StringBuffer sb = new StringBuffer
 		for (var int i = 0; i < rules.size(); i++) {
@@ -63,21 +62,87 @@ class RuleToJava extends RuleVisitor<String> {
 		}
 		return sb.toString()
 	}
-
-    //Metodo per le macro rule, identifica l'eventuale presenza di variabili in ingresso
+	
+	// Method translating the SkipRule
+	override String visit(SkipRule object) {
+		return "; \n"
+	}
+	
+	// Method translating the Seq blocks
+	override String visit(SeqRule object) {
+		return '''
+			{ //seq
+				«new RuleToJava(res,true,options).printRules(object.rules,true)»
+			} //endseq
+		'''
+	}
+	
+	// Method translating the conditional rules
+	override String visit(ConditionalRule object) {
+		if (object.getElseRule() === null)
+			return '''
+				if («new TermToJava(res).visit(object.guard)»){ 
+					«new RuleToJava(res,seqBlock,options).visit(object.thenRule)»
+				}
+			'''
+		else
+			return '''
+				if («new TermToJava(res).visit(object.getGuard)»){ 
+					«new RuleToJava(res,seqBlock,options).visit(object.thenRule)»
+				} else {
+						«new RuleToJava(res,seqBlock,options).visit(object.elseRule)»
+				}
+			'''
+	}
+	
+	//Method translating the CaseRules
+	override String visit(CaseRule object) {
+		var StringBuffer sb = new StringBuffer
+		for (var i = 0; i < object.getCaseBranches().size; i++) {
+			if (i == 0)
+				sb.append('''
+				if(«compareTerms(object.getTerm,object.getCaseTerm.get(i))»){
+					«new RuleToJava(res,seqBlock,options).visit(object.getCaseBranches.get(i))»
+				}''')
+			else
+				sb.append('''
+				else if(«compareTerms(object.getTerm,object.getCaseTerm.get(i))»){
+					«new RuleToJava(res,seqBlock,options).visit(object.getCaseBranches().get(i))»
+				}''')
+		}
+		if (object.getOtherwiseBranch() !== null)
+			sb.append('''
+				else{ 
+				 	«new RuleToJava(res,seqBlock,options).visit(object.getOtherwiseBranch())»
+				}
+			''')
+		return sb.toString
+	}
+	
+	// Method translating the MacroCallRule as a call of function
 	override String visit(MacroCallRule object) {
 		var String methodName = object.calledMacro.name
 		// if it is inside a seq, use the seq variant
 		if(seqBlock) methodName += ""
 		if (object.parameters.size() == 0)
 			return '''«methodName»();
-'''
+			'''
 		else
 			return '''«methodName»(«printListTerm(object.parameters)»);
-'''
+			'''
 	}
 
-    //Metodo che identifica le variabili in ingresso alla macro rule
+	// Method translating the comparison between terms in a Case Rule
+	def String compareTerms(Term leftTerm, Term rightTerm) {
+		if (leftTerm.domain.toString.compareTo(rightTerm.domain.toString) != 0)
+			throw new RuntimeException("Terms with different domains are not comparable") 
+		else if (leftTerm instanceof StringDomain)
+			return '''«new TermToJava(res).visit(leftTerm)».compareTo(«new TermToJava(res).visit(rightTerm)»)==0'''
+		else 
+			return '''«new TermToJava(res).visit(leftTerm)»==«new TermToJava(res).visit(rightTerm)»'''
+	}
+	
+	// Method translating the list of parameters given as input to a macro rule
 	def private String printListTerm(EList<Term> term) {
 		var sb = new StringBuffer
 		for (var int i = 0; i < term.size(); i++) {
@@ -90,16 +155,20 @@ class RuleToJava extends RuleVisitor<String> {
 	}
 
 
-	 
-	//Meto per tradurre delle sequenze di regole nel blocco par/endpar
-	override String visit(SeqRule object) {
-		
-		return '''
-			{//seq
-				«new RuleToJava(res,true,options).printRules(object.rules,true)»
-			}//endseq
-		'''
-	}
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    
 
 	 
 	 
@@ -151,48 +220,11 @@ class RuleToJava extends RuleVisitor<String> {
 		return result.toString
 	}
 	
-	
-    //Metodo per identificare la regola di "salto"
-	override String visit(SkipRule object) {
-		return "; \n"
-	}
 
-    //Metodo per tradurre una sequenza da 1 a n if
-	override String visit(CaseRule object) {
-		var StringBuffer sb = new StringBuffer
-		for (var i = 0; i < object.getCaseBranches().size; i++) {
-			if (i == 0)
-				sb.append(
-					'''
-				if(«compareTerms(object.getTerm,object.getCaseTerm.get(i))»){
-					«new RuleToJava(res,seqBlock,options).visit(object.getCaseBranches.get(i))»
-				}''')
-			else
-				sb.append(
-					'''
-				else if(«compareTerms(object.getTerm,object.getCaseTerm.get(i))»){
-					«new RuleToJava(res,seqBlock,options).visit(object.getCaseBranches().get(i))»
-				}''')
-		}
-		if (object.getOtherwiseBranch() !== null)
-			sb.append(
-			'''
-				else{ 
-				 	«new RuleToJava(res,seqBlock,options).visit(object.getOtherwiseBranch())»
-				}
-			''')
-		return sb.toString
-	}
+   
 
     //Metodo di supporto per tradurre gli elementi di un confronto nella classe precedente
-	def String compareTerms(Term leftTerm, Term rightTerm) {
-		if (leftTerm.domain.toString.compareTo(rightTerm.domain.toString) != 0)
-			return '''Impossible to compare Terms'''
-		else if (leftTerm instanceof StringDomain)
-			return '''«new TermToJava(res).visit(leftTerm)».compareTo(«new TermToJava(res).visit(rightTerm)»)==0'''
-		else /* This is valid also for complex term*/
-			return '''«new TermToJava(res).visit(leftTerm)»==«new TermToJava(res).visit(rightTerm)»'''
-	}
+	
 
 	override String visit(ChooseRule object) {
 		var counter = 0
@@ -303,17 +335,19 @@ class RuleToJava extends RuleVisitor<String> {
 
 	override String visit(ForallRule object) {
 		var StringBuffer sb = new StringBuffer
-		for (var i = 0; i < object.getRanges.size; i++)
-		if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd)
+		for (var i = 0; i < object.getRanges.size; i++) {
+			var Domain baseDomain = (object.getRanges.get(i).domain as PowersetDomain).baseDomain
+			if (baseDomain instanceof EnumTd)
 				sb.append(
 			'''
-					for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_lista)
+					for(«new ToString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit(baseDomain)»_lista)
 				''')
 			else
 				sb.append(
 			'''
-					for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
+					for(«new ToString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit(baseDomain)».elems)
 				''')
+		}
 			
 
 
@@ -360,29 +394,6 @@ class RuleToJava extends RuleVisitor<String> {
 			//#iterate rule not yet implemented
 			
 		'''
-	}
-
-	override String visit(ConditionalRule object) {
-		if (object.getElseRule() === null)
-			return '''
-				if («new TermToJava(res).visit(object.guard)»){ 
-					«new RuleToJava(res,seqBlock,options).visit(object.thenRule)»
-				}
-			'''
-		else if (object.elseRule instanceof ConditionalRule)
-			return '''
-				if («new TermToJava(res).visit(object.getGuard)»){ 
-						«new RuleToJava(res,seqBlock,options).visit(object.thenRule)»
-				} else «new RuleToJava(res,seqBlock,options).visit(object.elseRule)»
-			'''
-		else
-			return '''
-					if («new TermToJava(res).visit(object.getGuard)»){ 
-					«new RuleToJava(res,seqBlock,options).visit(object.thenRule)»
-					}else{
-					«new RuleToJava(res,seqBlock,options).visit(object.elseRule)»
-				}
-			'''
 	}
 
 

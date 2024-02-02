@@ -456,9 +456,11 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   public String visit(final SequenceCt object) {
-    StringBuffer seq = new StringBuffer();
-    seq.append("caso sequenza da trattare \n\n");
-    return seq.toString();
+    try {
+      throw new Exception("SequenceCt not implemented");
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
   }
 
   public String visit(final RuleAsTerm term) {

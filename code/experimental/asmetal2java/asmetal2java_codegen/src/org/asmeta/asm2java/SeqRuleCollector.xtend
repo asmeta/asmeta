@@ -71,7 +71,7 @@ class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 	}
 
 	override visit(TermAsRule rule) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		throw new UnsupportedOperationException("TermAsRule not implemented")
 	}
 
 	override visit(ExtendRule rule) {

@@ -40,7 +40,7 @@ public class RuleToJava extends RuleVisitor<String> {
   private TranslatorOptions options;
 
   /**
-   * seqBlock iff it is called in a seq rule
+   * SeqBlock iff it is called in a seq rule
    */
   public RuleToJava(final Asm resource, final boolean seqBlock, final TranslatorOptions options) {
     this.res = resource;
@@ -57,7 +57,7 @@ public class RuleToJava extends RuleVisitor<String> {
     String _printRules = new RuleToJava(this.res, false, this.options).printRules(object.getRules(), false);
     _builder.append(_printRules, "\t");
     _builder.newLineIfNotEmpty();
-    _builder.append("}//endpar");
+    _builder.append("} //endpar");
     return _builder.toString();
   }
 
@@ -70,6 +70,115 @@ public class RuleToJava extends RuleVisitor<String> {
           sb.append("\nfireUpdateSet();\n");
         }
       }
+    }
+    return sb.toString();
+  }
+
+  @Override
+  public String visit(final SkipRule object) {
+    return "; \n";
+  }
+
+  @Override
+  public String visit(final SeqRule object) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("{ //seq");
+    _builder.newLine();
+    _builder.append("\t");
+    String _printRules = new RuleToJava(this.res, true, this.options).printRules(object.getRules(), true);
+    _builder.append(_printRules, "\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("} //endseq");
+    _builder.newLine();
+    return _builder.toString();
+  }
+
+  @Override
+  public String visit(final ConditionalRule object) {
+    Rule _elseRule = object.getElseRule();
+    boolean _tripleEquals = (_elseRule == null);
+    if (_tripleEquals) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("if (");
+      String _visit = new TermToJava(this.res).visit(object.getGuard());
+      _builder.append(_visit);
+      _builder.append("){ ");
+      _builder.newLineIfNotEmpty();
+      _builder.append("\t");
+      String _visit_1 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getThenRule());
+      _builder.append(_visit_1, "\t");
+      _builder.newLineIfNotEmpty();
+      _builder.append("}");
+      _builder.newLine();
+      return _builder.toString();
+    } else {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("if (");
+      String _visit_2 = new TermToJava(this.res).visit(object.getGuard());
+      _builder_1.append(_visit_2);
+      _builder_1.append("){ ");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("\t");
+      String _visit_3 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getThenRule());
+      _builder_1.append(_visit_3, "\t");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("} else {");
+      _builder_1.newLine();
+      _builder_1.append("\t\t");
+      String _visit_4 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getElseRule());
+      _builder_1.append(_visit_4, "\t\t");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("}");
+      _builder_1.newLine();
+      return _builder_1.toString();
+    }
+  }
+
+  @Override
+  public String visit(final CaseRule object) {
+    StringBuffer sb = new StringBuffer();
+    for (int i = 0; (i < object.getCaseBranches().size()); i++) {
+      if ((i == 0)) {
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("if(");
+        String _compareTerms = this.compareTerms(object.getTerm(), object.getCaseTerm().get(i));
+        _builder.append(_compareTerms);
+        _builder.append("){");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        String _visit = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
+        _builder.append(_visit, "\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("}");
+        sb.append(_builder);
+      } else {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        _builder_1.append("else if(");
+        String _compareTerms_1 = this.compareTerms(object.getTerm(), object.getCaseTerm().get(i));
+        _builder_1.append(_compareTerms_1);
+        _builder_1.append("){");
+        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("\t");
+        String _visit_1 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
+        _builder_1.append(_visit_1, "\t");
+        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("}");
+        sb.append(_builder_1);
+      }
+    }
+    Rule _otherwiseBranch = object.getOtherwiseBranch();
+    boolean _tripleNotEquals = (_otherwiseBranch != null);
+    if (_tripleNotEquals) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("else{ ");
+      _builder.newLine();
+      _builder.append(" \t");
+      String _visit = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getOtherwiseBranch());
+      _builder.append(_visit, " \t");
+      _builder.newLineIfNotEmpty();
+      _builder.append("}");
+      _builder.newLine();
+      sb.append(_builder);
     }
     return sb.toString();
   }
@@ -101,6 +210,33 @@ public class RuleToJava extends RuleVisitor<String> {
     }
   }
 
+  public String compareTerms(final Term leftTerm, final Term rightTerm) {
+    int _compareTo = leftTerm.getDomain().toString().compareTo(rightTerm.getDomain().toString());
+    boolean _notEquals = (_compareTo != 0);
+    if (_notEquals) {
+      throw new RuntimeException("Terms with different domains are not comparable");
+    } else {
+      if ((leftTerm instanceof StringDomain)) {
+        StringConcatenation _builder = new StringConcatenation();
+        String _visit = new TermToJava(this.res).visit(leftTerm);
+        _builder.append(_visit);
+        _builder.append(".compareTo(");
+        String _visit_1 = new TermToJava(this.res).visit(rightTerm);
+        _builder.append(_visit_1);
+        _builder.append(")==0");
+        return _builder.toString();
+      } else {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        String _visit_2 = new TermToJava(this.res).visit(leftTerm);
+        _builder_1.append(_visit_2);
+        _builder_1.append("==");
+        String _visit_3 = new TermToJava(this.res).visit(rightTerm);
+        _builder_1.append(_visit_3);
+        return _builder_1.toString();
+      }
+    }
+  }
+
   private String printListTerm(final EList<Term> term) {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < term.size()); i++) {
@@ -121,20 +257,6 @@ public class RuleToJava extends RuleVisitor<String> {
     int _length = sb.length();
     int _minus = (_length - 2);
     return sb.substring(0, _minus);
-  }
-
-  @Override
-  public String visit(final SeqRule object) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("{//seq");
-    _builder.newLine();
-    _builder.append("\t");
-    String _printRules = new RuleToJava(this.res, true, this.options).printRules(object.getRules(), true);
-    _builder.append(_printRules, "\t");
-    _builder.newLineIfNotEmpty();
-    _builder.append("}//endseq");
-    _builder.newLine();
-    return _builder.toString();
   }
 
   @Override
@@ -222,89 +344,6 @@ public class RuleToJava extends RuleVisitor<String> {
       }
     }
     return result.toString();
-  }
-
-  @Override
-  public String visit(final SkipRule object) {
-    return "; \n";
-  }
-
-  @Override
-  public String visit(final CaseRule object) {
-    StringBuffer sb = new StringBuffer();
-    for (int i = 0; (i < object.getCaseBranches().size()); i++) {
-      if ((i == 0)) {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("if(");
-        String _compareTerms = this.compareTerms(object.getTerm(), object.getCaseTerm().get(i));
-        _builder.append(_compareTerms);
-        _builder.append("){");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        String _visit = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
-        _builder.append(_visit, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("}");
-        sb.append(_builder);
-      } else {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("else if(");
-        String _compareTerms_1 = this.compareTerms(object.getTerm(), object.getCaseTerm().get(i));
-        _builder_1.append(_compareTerms_1);
-        _builder_1.append("){");
-        _builder_1.newLineIfNotEmpty();
-        _builder_1.append("\t");
-        String _visit_1 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
-        _builder_1.append(_visit_1, "\t");
-        _builder_1.newLineIfNotEmpty();
-        _builder_1.append("}");
-        sb.append(_builder_1);
-      }
-    }
-    Rule _otherwiseBranch = object.getOtherwiseBranch();
-    boolean _tripleNotEquals = (_otherwiseBranch != null);
-    if (_tripleNotEquals) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("else{ ");
-      _builder.newLine();
-      _builder.append(" \t");
-      String _visit = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getOtherwiseBranch());
-      _builder.append(_visit, " \t");
-      _builder.newLineIfNotEmpty();
-      _builder.append("}");
-      _builder.newLine();
-      sb.append(_builder);
-    }
-    return sb.toString();
-  }
-
-  public String compareTerms(final Term leftTerm, final Term rightTerm) {
-    int _compareTo = leftTerm.getDomain().toString().compareTo(rightTerm.getDomain().toString());
-    boolean _notEquals = (_compareTo != 0);
-    if (_notEquals) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("Impossible to compare Terms");
-      return _builder.toString();
-    } else {
-      if ((leftTerm instanceof StringDomain)) {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        String _visit = new TermToJava(this.res).visit(leftTerm);
-        _builder_1.append(_visit);
-        _builder_1.append(".compareTo(");
-        String _visit_1 = new TermToJava(this.res).visit(rightTerm);
-        _builder_1.append(_visit_1);
-        _builder_1.append(")==0");
-        return _builder_1.toString();
-      } else {
-        StringConcatenation _builder_2 = new StringConcatenation();
-        String _visit_2 = new TermToJava(this.res).visit(leftTerm);
-        _builder_2.append(_visit_2);
-        _builder_2.append("==");
-        String _visit_3 = new TermToJava(this.res).visit(rightTerm);
-        _builder_2.append(_visit_3);
-        return _builder_2.toString();
-      }
-    }
   }
 
   @Override
@@ -533,40 +572,38 @@ public class RuleToJava extends RuleVisitor<String> {
   public String visit(final ForallRule object) {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < object.getRanges().size()); i++) {
-      Domain _domain = object.getRanges().get(i).getDomain();
-      Domain _baseDomain = ((PowersetDomain) _domain).getBaseDomain();
-      if ((_baseDomain instanceof EnumTd)) {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("for(");
-        Domain _domain_1 = object.getRanges().get(i).getDomain();
-        String _visit = new ToString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
-        _builder.append(_visit);
-        _builder.append(" ");
-        String _visit_1 = new TermToJava(this.res).visit(object.getVariable().get(i));
-        _builder.append(_visit_1);
-        _builder.append(" : ");
-        Domain _domain_2 = object.getRanges().get(i).getDomain();
-        String _visit_2 = new ToString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
-        _builder.append(_visit_2);
-        _builder.append("_lista)");
-        _builder.newLineIfNotEmpty();
-        sb.append(_builder);
-      } else {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("for(");
-        Domain _domain_3 = object.getRanges().get(i).getDomain();
-        String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
-        _builder_1.append(_visit_3);
-        _builder_1.append(" ");
-        String _visit_4 = new TermToJava(this.res).visit(object.getVariable().get(i));
-        _builder_1.append(_visit_4);
-        _builder_1.append(" : ");
-        Domain _domain_4 = object.getRanges().get(i).getDomain();
-        String _visit_5 = new ToString(this.res).visit(((PowersetDomain) _domain_4).getBaseDomain());
-        _builder_1.append(_visit_5);
-        _builder_1.append(".elems)");
-        _builder_1.newLineIfNotEmpty();
-        sb.append(_builder_1);
+      {
+        Domain _domain = object.getRanges().get(i).getDomain();
+        Domain baseDomain = ((PowersetDomain) _domain).getBaseDomain();
+        if ((baseDomain instanceof EnumTd)) {
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("for(");
+          String _visit = new ToString(this.res).visit(((EnumTd)baseDomain));
+          _builder.append(_visit);
+          _builder.append(" ");
+          String _visit_1 = new TermToJava(this.res).visit(object.getVariable().get(i));
+          _builder.append(_visit_1);
+          _builder.append(" : ");
+          String _visit_2 = new ToString(this.res).visit(((EnumTd)baseDomain));
+          _builder.append(_visit_2);
+          _builder.append("_lista)");
+          _builder.newLineIfNotEmpty();
+          sb.append(_builder);
+        } else {
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("for(");
+          String _visit_3 = new ToString(this.res).visit(baseDomain);
+          _builder_1.append(_visit_3);
+          _builder_1.append(" ");
+          String _visit_4 = new TermToJava(this.res).visit(object.getVariable().get(i));
+          _builder_1.append(_visit_4);
+          _builder_1.append(" : ");
+          String _visit_5 = new ToString(this.res).visit(baseDomain);
+          _builder_1.append(_visit_5);
+          _builder_1.append(".elems)");
+          _builder_1.newLineIfNotEmpty();
+          sb.append(_builder_1);
+        }
       }
     }
     Term _guard = object.getGuard();
@@ -652,68 +689,6 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder.newLine();
     _builder.newLine();
     return _builder.toString();
-  }
-
-  @Override
-  public String visit(final ConditionalRule object) {
-    Rule _elseRule = object.getElseRule();
-    boolean _tripleEquals = (_elseRule == null);
-    if (_tripleEquals) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("if (");
-      String _visit = new TermToJava(this.res).visit(object.getGuard());
-      _builder.append(_visit);
-      _builder.append("){ ");
-      _builder.newLineIfNotEmpty();
-      _builder.append("\t");
-      String _visit_1 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getThenRule());
-      _builder.append(_visit_1, "\t");
-      _builder.newLineIfNotEmpty();
-      _builder.append("}");
-      _builder.newLine();
-      return _builder.toString();
-    } else {
-      Rule _elseRule_1 = object.getElseRule();
-      if ((_elseRule_1 instanceof ConditionalRule)) {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("if (");
-        String _visit_2 = new TermToJava(this.res).visit(object.getGuard());
-        _builder_1.append(_visit_2);
-        _builder_1.append("){ ");
-        _builder_1.newLineIfNotEmpty();
-        _builder_1.append("\t\t");
-        String _visit_3 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getThenRule());
-        _builder_1.append(_visit_3, "\t\t");
-        _builder_1.newLineIfNotEmpty();
-        _builder_1.append("} else ");
-        String _visit_4 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getElseRule());
-        _builder_1.append(_visit_4);
-        _builder_1.newLineIfNotEmpty();
-        return _builder_1.toString();
-      } else {
-        StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("\t");
-        _builder_2.append("if (");
-        String _visit_5 = new TermToJava(this.res).visit(object.getGuard());
-        _builder_2.append(_visit_5, "\t");
-        _builder_2.append("){ ");
-        _builder_2.newLineIfNotEmpty();
-        _builder_2.append("\t");
-        String _visit_6 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getThenRule());
-        _builder_2.append(_visit_6, "\t");
-        _builder_2.newLineIfNotEmpty();
-        _builder_2.append("\t");
-        _builder_2.append("}else{");
-        _builder_2.newLine();
-        _builder_2.append("\t");
-        String _visit_7 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getElseRule());
-        _builder_2.append(_visit_7, "\t");
-        _builder_2.newLineIfNotEmpty();
-        _builder_2.append("}");
-        _builder_2.newLine();
-        return _builder_2.toString();
-      }
-    }
   }
 
   @Override

@@ -280,13 +280,11 @@ def String visit(LetTerm object) {
 		throw new Exception("SetCt not implemented");
 	}
 	
-	def String visit(SequenceCt object)
-	{
-		var StringBuffer seq = new StringBuffer
-		
-		seq.append("caso sequenza da trattare \n\n")
-		
-		return seq.toString
+	def String visit(SequenceCt object)	{
+		//var StringBuffer seq = new StringBuffer
+		//seq.append("caso sequenza da trattare \n\n")
+		throw new Exception("SequenceCt not implemented");
+		//return seq.toString
 	}
 
 
