@@ -243,7 +243,7 @@ def String visit(SetTerm object) {
 			if((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd)
 			sb.append(
 				'''
-					«""»	for(auto «visit(object.variable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»::elems)
+					«""»	for(Object «visit(object.variable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»::elems)
 				''')
 				else
 				sb.append(
@@ -264,7 +264,7 @@ def String visit(LetTerm object) {
 			  [&](){    **<--- letTerm**
 		''')
 		for (var int i = 0; i < object.variable.size; i++) {
-			let.append('''	auto «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
+			let.append('''	Object «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
 			''')
 		}
 		let.append(

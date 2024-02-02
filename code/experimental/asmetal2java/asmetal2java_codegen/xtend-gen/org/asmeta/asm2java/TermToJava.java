@@ -384,7 +384,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
       Domain _baseDomain = ((PowersetDomain) _domain).getBaseDomain();
       if ((_baseDomain instanceof AbstractTd)) {
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("\tfor(auto ");
+        _builder_2.append("\tfor(Object ");
         String _visit_1 = this.visit(object.getVariable().get(i));
         _builder_2.append(_visit_1);
         _builder_2.append(" : ");
@@ -425,7 +425,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     for (int i = 0; (i < object.getVariable().size()); i++) {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("\t");
-      _builder_1.append("auto ");
+      _builder_1.append("Object ");
       String _visit = this.visit(object.getVariable().get(i));
       _builder_1.append(_visit, "\t");
       _builder_1.append(" = ");

@@ -339,7 +339,7 @@ class RuleToJava extends RuleVisitor<String> {
 
 		for (var int i = 0; i < object.getVariable.size; i++) {
 			let.
-				append('''auto «new TermToJava(res).visit(object.getVariable.get(i))» = «new TermToJava(res).visit(object.getInitExpression.get(i))»;
+				append('''Object «new TermToJava(res).visit(object.getVariable.get(i))» = «new TermToJava(res).visit(object.getInitExpression.get(i))»;
 				''')
 		}
 		let.append('''«new RuleToJava(res,seqBlock,options).visit(object.getInRule)»

@@ -609,7 +609,7 @@ public class RuleToJava extends RuleVisitor<String> {
     let.append("{\n");
     for (int i = 0; (i < object.getVariable().size()); i++) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("auto ");
+      _builder.append("Object ");
       String _visit = new TermToJava(this.res).visit(object.getVariable().get(i));
       _builder.append(_visit);
       _builder.append(" = ");
