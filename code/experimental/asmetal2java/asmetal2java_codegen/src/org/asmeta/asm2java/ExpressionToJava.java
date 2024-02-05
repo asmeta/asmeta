@@ -23,9 +23,7 @@ public class ExpressionToJava {
 		return function.equals("<") || function.equals("<=") || function.equals(">") || function.equals(">=")
 				|| function.equals("=") || function.equals("!=") || function.equals("-") || function.equals("!")
 				|| function.equals("&") || function.equals("|") || function.equals("xor")
-				|| /*
-					 * function.equals("->") ||
-					 */ function.equals("mod") || function.equals("isDef") ||function.equals("+") || function.equals("*") || function.equals("/")
+				|| function.equals("mod") || function.equals("isDef") ||function.equals("+") || function.equals("*") || function.equals("/")
 				|| function.equals("^") || function.equals("iton");
 	}
 
@@ -51,6 +49,9 @@ public class ExpressionToJava {
 		}
 		if (function.equals(">=")) {
 			return ge(argsTerm);
+		}
+		if (function.equals("->")) {
+			return implies(argsTerm);
 		}
 		if (function.equals("iton")) {
 			return iton(argsTerm);
@@ -324,6 +325,19 @@ public class ExpressionToJava {
 		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
 		return new Util().setPars(left + " * " + right);
+	}
+	
+	/**
+	 * Executes the implies function.
+	 * 
+	 * @param argsTerm the args term
+	 * 
+	 * @return the string
+	 */
+	String implies(List<Term> argsTerm) {
+		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		return new Util().setPars("(!" + left + " || " + right + ")");
 	}
 
 	/**

@@ -206,18 +206,18 @@ class RuleToJava extends RuleVisitor<String> {
 		for (var i = 0; i < object.getRanges.size; i++)
 			if (object.getRanges.get(i).domain instanceof PowersetDomain) {
 				if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain &&
-						(((object.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).typeDomain instanceof BasicTd
+					(((object.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).
+						typeDomain instanceof BasicTd
 					)) {
 					sb.append('''
 						List<«new ToString(res).visit(((object.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).typeDomain)»> point«i» = new ArrayList<«new ToString(res).visit(((object.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).typeDomain)»>();
 					''')
 				} else {
-				sb.append('''
-					List<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»> point«i» = new ArrayList<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»>();
-				''')
+					sb.append('''
+						List<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»> point«i» = new ArrayList<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»>();
+					''')
 				}
-			}
-			// println("Object ranges: " + (object.getRanges.get(i).domain as PowersetDomain).baseDomain)
+			} // println("Object ranges: " + (object.getRanges.get(i).domain as PowersetDomain).baseDomain)
 			else
 				sb.append('''
 					NOT IMPLEMENTED IN JAVA
@@ -233,22 +233,29 @@ class RuleToJava extends RuleVisitor<String> {
 					sb.append('''
 						for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : point«i»){
 					''')
-				} else 
-				if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd ||
+				} else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd ||
 					((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain &&
-						(((object.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).typeDomain instanceof BasicTd
-					)))
-					sb.append('''
-						for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
-					''')
-				else
+						(((object.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).
+							typeDomain instanceof BasicTd
+						))) {
+					if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd) {
+						sb.append('''
+							for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
+						''')
+					} else {
+						sb.append('''
+							for(«new ToString(res).visit(((object.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).
+							typeDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
+						''')
+					}
+				} else
 					sb.append('''
 						for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_lista)
 					''')
 			} else
 				sb.append('''
 					//NOT IMPLEMENTED IN JAVA	
-					''')
+				''')
 		if (object.getGuard !== null)
 			sb.append('''
 				if(«new TermToJava(res).visit(object.getGuard)»){
