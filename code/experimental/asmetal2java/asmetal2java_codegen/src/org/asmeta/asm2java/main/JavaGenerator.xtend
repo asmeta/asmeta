@@ -367,7 +367,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 			  
 			  sb.append(fd.name + " = new " + fd.codomain.name+"("+ supp +fd.name+ supp+")" + ";\n")
 			  
-			  sb.append(fd.codomain.name+"_lista.add("+ supp + fd.name + supp +");\n")
+			  sb.append(fd.codomain.name+"_elemsList.add("+ supp + fd.name + supp +");\n")
 			  sb.append(fd.codomain.name+"_Class.add(" + fd.name + ");\n")
 		
 			}

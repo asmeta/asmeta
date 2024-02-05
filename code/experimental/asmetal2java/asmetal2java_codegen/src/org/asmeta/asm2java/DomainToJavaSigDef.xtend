@@ -183,7 +183,7 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 			      }
 			      }
 			      
-			      List<String> «object.name»_lista = new ArrayList<String>();
+			      List<String> «object.name»_elemsList = new ArrayList<String>();
 			      List<«object.name»> «object.name»_Class = new ArrayList<«object.name»>();
 		''')
 		return sb.toString

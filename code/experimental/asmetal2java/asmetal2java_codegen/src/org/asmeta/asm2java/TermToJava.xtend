@@ -264,7 +264,7 @@ def String visit(SetTerm object) {
 			else
 				sb.append(
 			'''
-				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_lista.stream().allMatch(c -> «supp.substring(0,supp.length-3)»c));
+				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_elemsList.stream().allMatch(c -> «supp.substring(0,supp.length-3)»c));
 			''')
 			
 			}
@@ -325,7 +325,7 @@ def String visit(LetTerm object) {
 			else
 				sb.append(
 			'''
-				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)»_lista.stream().allMatch(c -> «supp.substring(0,supp.length-3)»));
+				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)»_elemsList.stream().allMatch(c -> «supp.substring(0,supp.length-3)»));
 			''')
 			
 			}

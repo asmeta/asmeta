@@ -670,7 +670,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
         String _plus_7 = (_plus_6 + ";\n");
         sb.append(_plus_7);
         String _name_3 = fd.getCodomain().getName();
-        String _plus_8 = (_name_3 + "_lista.add(");
+        String _plus_8 = (_name_3 + "_elemsList.add(");
         String _plus_9 = (_plus_8 + this.supp);
         String _name_4 = fd.getName();
         String _plus_10 = (_plus_9 + _name_4);

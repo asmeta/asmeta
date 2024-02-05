@@ -123,11 +123,11 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 
 				sb.append('''
 					System.out.print("«dd.name»"+ " = {");
-					for(int i=0 ; i< esecuzione.«dd.name»_lista.size(); i++)
-					if(i!= esecuzione.«dd.name»_lista.size()-1)
-					System.out.print(esecuzione.«dd.name»_lista.get(i) +", ");
+					for(int i=0 ; i< esecuzione.«dd.name»_elemsList.size(); i++)
+					if(i!= esecuzione.«dd.name»_elemsList.size()-1)
+					System.out.print(esecuzione.«dd.name»_elemsList.get(i) +", ");
 					else
-					System.out.print(esecuzione.«dd.name»_lista.get(i));	
+					System.out.print(esecuzione.«dd.name»_elemsList.get(i));	
 					System.out.println("}");
 				''')
 
@@ -165,20 +165,20 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 
 					if (fd.domain instanceof EnumTd && fd.codomain instanceof ConcreteDomain) {
 						sb.append('''
-							for(int i=0; i < esecuzione.«fd.domain.name»_lista.size(); i++)
+							for(int i=0; i < esecuzione.«fd.domain.name»_elemsList.size(); i++)
 									{
-										System.out.println(" «fd.name» =>  (" + esecuzione.«fd.domain.name»_lista.get(i) +") 
-										= " + esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_lista.get(i)).value );
+										System.out.println(" «fd.name» =>  (" + esecuzione.«fd.domain.name»_elemsList.get(i) +") 
+										= " + esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(i)).value );
 									}
 						''')
 					}
 
 					if (fd.domain instanceof EnumTd && fd.codomain instanceof EnumTd) {
 						sb.append('''
-							for(int i=0; i < esecuzione.«fd.domain.name»_lista.size(); i++)
+							for(int i=0; i < esecuzione.«fd.domain.name»_elemsList.size(); i++)
 									{
-										System.out.println("«fd.name» =>  (" + esecuzione.«fd.domain.name»_lista.get(i) +") 
-										= "+ esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_lista.get(i)));
+										System.out.println("«fd.name» =>  (" + esecuzione.«fd.domain.name»_elemsList.get(i) +") 
+										= "+ esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(i)));
 									}
 						''')
 					}
@@ -252,7 +252,7 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 					if (fd.codomain instanceof EnumTd) {
 						sb.append('''
 							System.out.print("Inserire un numero per indicare l'enumerativo per «fd.name» "+ 
-							esecuzione.«fd.codomain.name»_lista.toString() +":  ");
+							esecuzione.«fd.codomain.name»_elemsList.toString() +":  ");
 							Scanner «fd.name»input = new Scanner(System.in);
 							
 							for(;;) {
@@ -266,7 +266,7 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 								                continue;
 								            }
 								            
-								            esecuzione.«fd.name».set(esecuzione.«fd.codomain.name»_lista.get(x-1));
+								            esecuzione.«fd.name».set(esecuzione.«fd.codomain.name»_elemsList.get(x-1));
 								            break;
 							         }				    		
 						''')
@@ -338,10 +338,10 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 					if (fd.domain instanceof EnumTd && fd.codomain.name.equals("Boolean")) {
 
 						sb.append('''
-							for(int i=0; i < esecuzione.«fd.domain.name»_lista.size(); i++)
+							for(int i=0; i < esecuzione.«fd.domain.name»_elemsList.size(); i++)
 							{
 							  System.out.print("Inserire un valore booleano per il dato enumerativo " + 
-							  esecuzione.«fd.domain.name»_lista.get(i) +" della lista «fd.name» (true/false):  ");
+							  esecuzione.«fd.domain.name»_elemsList.get(i) +" della lista «fd.name» (true/false):  ");
 							  Scanner «fd.name»input = new Scanner(System.in);
 							 for(;;) {
 							          Boolean y;
@@ -354,7 +354,7 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 							                 continue;
 							             }
 							             // setti la variabile
-							              esecuzione.«fd.name».set(esecuzione.«fd.domain.name»_lista.get(i), y);
+							              esecuzione.«fd.name».set(esecuzione.«fd.domain.name»_elemsList.get(i), y);
 							             break;
 							         }				    		
 							}				    		  

@@ -441,7 +441,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
             Domain _domain_6 = object.getRanges().get(i).getDomain();
             String _visit_5 = new ToString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
             _builder_5.append(_visit_5);
-            _builder_5.append("_lista.stream().allMatch(c -> ");
+            _builder_5.append("_elemsList.stream().allMatch(c -> ");
             int _length_2 = supp.length();
             int _minus_2 = (_length_2 - 3);
             String _substring_2 = supp.substring(0, _minus_2);
@@ -548,7 +548,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
           Domain _domain_6 = object.getRanges().get(i).getDomain();
           String _visit_4 = new ToString(this.res).visit(((SequenceDomain) _domain_6).getDomain());
           _builder_4.append(_visit_4);
-          _builder_4.append("_lista.stream().allMatch(c -> ");
+          _builder_4.append("_elemsList.stream().allMatch(c -> ");
           int _length_1 = supp.length();
           int _minus_1 = (_length_1 - 3);
           String _substring_1 = supp.substring(0, _minus_1);
