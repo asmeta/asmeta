@@ -479,11 +479,67 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   public String visit(final SequenceCt object) {
-    try {
-      throw new Exception("SequenceCt not implemented");
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+    StringBuffer sb = new StringBuffer();
+    StringBuffer supp = new StringBuffer();
+    StringConcatenation _builder = new StringConcatenation();
+    String _visit = this.visit(object.getGuard());
+    _builder.append(_visit);
+    supp.append(_builder);
+    StringConcatenation _builder_1 = new StringConcatenation();
+    _builder_1.newLine();
+    _builder_1.append("  /*<--- forAllTerm*/");
+    _builder_1.newLineIfNotEmpty();
+    sb.append(_builder_1);
+    for (int i = 0; (i < object.getVariable().size()); i++) {
+      Domain _domain = object.getRanges().get(i).getDomain();
+      Domain _domain_1 = ((SequenceDomain) _domain).getDomain();
+      if ((_domain_1 instanceof AbstractTd)) {
+        StringConcatenation _builder_2 = new StringConcatenation();
+        _builder_2.append("\tfor(Object ");
+        String _visit_1 = this.visit(object.getVariable().get(i));
+        _builder_2.append(_visit_1);
+        _builder_2.append(" : ");
+        Domain _domain_2 = object.getRanges().get(i).getDomain();
+        String _visit_2 = new ToString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
+        _builder_2.append(_visit_2);
+        _builder_2.append("::elems)");
+        _builder_2.newLineIfNotEmpty();
+        sb.append(_builder_2);
+      } else {
+        Domain _domain_3 = object.getRanges().get(i).getDomain();
+        Domain _domain_4 = ((SequenceDomain) _domain_3).getDomain();
+        if ((_domain_4 instanceof ConcreteDomain)) {
+          StringConcatenation _builder_3 = new StringConcatenation();
+          _builder_3.append("\t");
+          Domain _domain_5 = object.getRanges().get(i).getDomain();
+          String _visit_3 = new ToString(this.res).visit(((SequenceDomain) _domain_5).getDomain());
+          _builder_3.append(_visit_3);
+          _builder_3.append(".elems.stream().allMatch(c -> ");
+          int _length = supp.length();
+          int _minus = (_length - 3);
+          String _substring = supp.substring(0, _minus);
+          _builder_3.append(_substring);
+          _builder_3.append("));");
+          _builder_3.newLineIfNotEmpty();
+          sb.append(_builder_3);
+        } else {
+          StringConcatenation _builder_4 = new StringConcatenation();
+          _builder_4.append("\t");
+          Domain _domain_6 = object.getRanges().get(i).getDomain();
+          String _visit_4 = new ToString(this.res).visit(((SequenceDomain) _domain_6).getDomain());
+          _builder_4.append(_visit_4);
+          _builder_4.append("_lista.stream().allMatch(c -> ");
+          int _length_1 = supp.length();
+          int _minus_1 = (_length_1 - 3);
+          String _substring_1 = supp.substring(0, _minus_1);
+          _builder_4.append(_substring_1);
+          _builder_4.append("));");
+          _builder_4.newLineIfNotEmpty();
+          sb.append(_builder_4);
+        }
+      }
     }
+    return sb.toString();
   }
 
   public String visit(final RuleAsTerm term) {

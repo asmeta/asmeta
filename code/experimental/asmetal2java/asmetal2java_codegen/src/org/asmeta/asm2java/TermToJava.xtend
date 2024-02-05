@@ -292,9 +292,43 @@ def String visit(LetTerm object) {
 	}
 	
 	def String visit(SequenceCt object)	{
+		
+		
+		var StringBuffer sb = new StringBuffer
+		
+		var StringBuffer supp = new StringBuffer
+		
+		supp.append('''«visit(object.guard)»''')
+		
+		sb.append('''
+			
+			«""»  /*<--- forAllTerm*/
+		''')
+		for (var i = 0; i < object.variable.size; i++) {
+			if((object.getRanges.get(i).domain as SequenceDomain).domain instanceof AbstractTd)
+			sb.append(
+				'''
+					«""»	for(Object «visit(object.variable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»::elems)
+				''')
+				else
+			if((object.getRanges.get(i).domain as SequenceDomain).domain instanceof ConcreteDomain)
+			
+				sb.append(
+			'''
+				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)».elems.stream().allMatch(c -> «supp.substring(0,supp.length-3)»));
+			''')
+			else
+				sb.append(
+			'''
+				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)»_lista.stream().allMatch(c -> «supp.substring(0,supp.length-3)»));
+			''')
+			
+			}
+
+		return sb.toString
 		//var StringBuffer seq = new StringBuffer
 		//seq.append("caso sequenza da trattare \n\n")
-		throw new Exception("SequenceCt not implemented");
+		//throw new Exception("SequenceCt not implemented");
 		//return seq.toString
 	}
 
