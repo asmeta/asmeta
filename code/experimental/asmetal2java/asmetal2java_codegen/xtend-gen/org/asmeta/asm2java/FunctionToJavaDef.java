@@ -1217,8 +1217,8 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
     return sb.toString();
   }
 
-  public Boolean controllo(final String dominio) {
-    if (((dominio.equals("Integer") || dominio.equals("String")) || dominio.equals("Boolean"))) {
+  public Boolean controllo(final String domain) {
+    if (((domain.equals("Integer") || domain.equals("String")) || domain.equals("Boolean"))) {
       return Boolean.valueOf(true);
     } else {
       return Boolean.valueOf(false);

@@ -507,7 +507,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     supp.append(_builder);
     StringConcatenation _builder_1 = new StringConcatenation();
     _builder_1.newLine();
-    _builder_1.append("  /*<--- forAllTerm*/");
+    _builder_1.append("  /*<--- SequenceCt*/");
     _builder_1.newLineIfNotEmpty();
     sb.append(_builder_1);
     for (int i = 0; (i < object.getVariable().size()); i++) {

@@ -307,7 +307,7 @@ def String visit(LetTerm object) {
 		
 		sb.append('''
 			
-			«""»  /*<--- forAllTerm*/
+			«""»  /*<--- SequenceCt*/
 		''')
 		for (var i = 0; i < object.variable.size; i++) {
 			if((object.getRanges.get(i).domain as SequenceDomain).domain instanceof AbstractTd)
@@ -331,10 +331,6 @@ def String visit(LetTerm object) {
 			}
 
 		return sb.toString
-		//var StringBuffer seq = new StringBuffer
-		//seq.append("caso sequenza da trattare \n\n")
-		//throw new Exception("SequenceCt not implemented");
-		//return seq.toString
 	}
 
 
