@@ -8,12 +8,14 @@ import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.StringTerm;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.emf.common.util.EList;
@@ -28,6 +30,10 @@ public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
   }
 
   public boolean visit(final StringTerm term) {
+    return false;
+  }
+
+  public boolean visit(final UndefTerm term) {
     return false;
   }
 
@@ -101,6 +107,24 @@ public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
     boolean found = false;
     EList<Term> _term = term.getTerm();
     for (final Term comparing : _term) {
+      found = (found || (this.visit(comparing)).booleanValue());
+    }
+    return found;
+  }
+
+  public boolean visit(final SequenceTerm term) {
+    boolean found = false;
+    EList<Term> _terms = term.getTerms();
+    for (final Term comparing : _terms) {
+      found = (found || (this.visit(comparing)).booleanValue());
+    }
+    return found;
+  }
+
+  public boolean visit(final TupleTerm term) {
+    boolean found = false;
+    EList<Term> _terms = term.getTerms();
+    for (final Term comparing : _terms) {
       found = (found || (this.visit(comparing)).booleanValue());
     }
     return found;

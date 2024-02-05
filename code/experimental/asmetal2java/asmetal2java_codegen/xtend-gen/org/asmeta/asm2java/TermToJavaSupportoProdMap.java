@@ -12,6 +12,7 @@ import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.EnumTerm;
 import org.asmeta.parser.util.ReflectiveVisitor;
 
 @SuppressWarnings("all")
@@ -189,5 +190,12 @@ public class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
       return functionTerm.toString();
     }
     return null;
+  }
+
+  public String visit(final EnumTerm term) {
+    String _name = term.getDomain().getName();
+    String _plus = (_name + ".");
+    String _symbol = term.getSymbol();
+    return (_plus + _symbol);
   }
 }

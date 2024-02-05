@@ -25,8 +25,8 @@ public class ExpressionToJava {
 				|| function.equals("&") || function.equals("|") || function.equals("xor")
 				|| /*
 					 * function.equals("->") ||
-					 */ function.equals("mod") || function.equals("+") || function.equals("*") || function.equals("/")
-				|| function.equals("^");
+					 */ function.equals("mod") || function.equals("isDef") ||function.equals("+") || function.equals("*") || function.equals("/")
+				|| function.equals("^") || function.equals("iton");
 	}
 
 	/**
@@ -52,6 +52,9 @@ public class ExpressionToJava {
 		if (function.equals(">=")) {
 			return ge(argsTerm);
 		}
+		if (function.equals("iton")) {
+			return iton(argsTerm);
+		}
 		if (function.equals("=")) {
 			return equals(argsTerm);
 		}
@@ -69,6 +72,9 @@ public class ExpressionToJava {
 		}
 		if (function.equals("mod")) {
 			return mod(argsTerm);
+		}
+		if (function.equals("isDef")) {
+			return isDef(argsTerm);
 		}
 		if (function.equals("+")) {
 			if (argsTerm.size() == 1) {
@@ -89,6 +95,18 @@ public class ExpressionToJava {
 		} else {
 			return "";
 		}
+	}
+
+	/**
+	 * Executes the iton function.
+	 * 
+	 * @param argsTerm the args term
+	 * 
+	 * @return the string
+	 */
+	private String iton(List<Term> argsTerm) {
+		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		return first;
 	}
 
 	private String or(List<Term> argsTerm) throws Exception {
@@ -227,6 +245,18 @@ public class ExpressionToJava {
 		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
 		return new Util().setPars(left + " % " + right);
+	}
+	
+	/**
+	 * Executes the isDef function
+	 * 
+	 * @param argsTerm the args term
+	 * 
+	 * @return the string
+	 */
+	private String isDef(List<Term> argsTerm) {
+		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		return new Util().setPars(left + " != null");
 	}
 
 	/**

@@ -34,6 +34,7 @@ import asmeta.definitions.domains.MapDomain
 import asmeta.terms.furtherterms.SequenceTerm
 import asmeta.definitions.domains.SequenceDomain
 import asmeta.terms.basicterms.RuleAsTerm
+import asmeta.terms.basicterms.UndefTerm
 
 class TermToJava extends ReflectiveVisitor<String> {
 
@@ -52,8 +53,11 @@ class TermToJava extends ReflectiveVisitor<String> {
 	}
 
 	def String visit(VariableTerm term) {
-		
 		return term.name
+	}
+	
+	def String visit(UndefTerm term) {
+		return "null";
 	}
 
 	def String visit(IntegerTerm term) {

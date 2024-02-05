@@ -1,6 +1,7 @@
 package org.asmeta.asm2java;
 
 import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.AgentDomain;
 import asmeta.definitions.domains.AnyDomain;
 import asmeta.definitions.domains.BagDomain;
 import asmeta.definitions.domains.BooleanDomain;
@@ -69,6 +70,14 @@ public class ToString extends ReflectiveVisitor<String> {
 
   public String visit(final CharDomain domain) {
     return "char";
+  }
+
+  public String visit(final AgentDomain domain) {
+    try {
+      throw new Exception("Agent domain not supported");
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
   }
 
   public String visit(final UndefDomain domain) {

@@ -354,25 +354,44 @@ public class RuleToJava extends RuleVisitor<String> {
     for (int i = 0; (i < object.getRanges().size()); i++) {
       Domain _domain = object.getRanges().get(i).getDomain();
       if ((_domain instanceof PowersetDomain)) {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("List<");
-        Domain _domain_1 = object.getRanges().get(i).getDomain();
-        String _visit = new ToString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
-        _builder.append(_visit);
-        _builder.append("> point");
-        _builder.append(i);
-        _builder.append(" = new ArrayList<");
-        Domain _domain_2 = object.getRanges().get(i).getDomain();
-        String _visit_1 = new ToString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
-        _builder.append(_visit_1);
-        _builder.append(">();");
-        _builder.newLineIfNotEmpty();
-        sb.append(_builder);
+        if (((((PowersetDomain) object.getRanges().get(i).getDomain()).getBaseDomain() instanceof ConcreteDomain) && (((ConcreteDomain) ((PowersetDomain) object.getRanges().get(i).getDomain()).getBaseDomain()).getTypeDomain() instanceof BasicTd))) {
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("List<");
+          Domain _domain_1 = object.getRanges().get(i).getDomain();
+          Domain _baseDomain = ((PowersetDomain) _domain_1).getBaseDomain();
+          String _visit = new ToString(this.res).visit(((ConcreteDomain) _baseDomain).getTypeDomain());
+          _builder.append(_visit);
+          _builder.append("> point");
+          _builder.append(i);
+          _builder.append(" = new ArrayList<");
+          Domain _domain_2 = object.getRanges().get(i).getDomain();
+          Domain _baseDomain_1 = ((PowersetDomain) _domain_2).getBaseDomain();
+          String _visit_1 = new ToString(this.res).visit(((ConcreteDomain) _baseDomain_1).getTypeDomain());
+          _builder.append(_visit_1);
+          _builder.append(">();");
+          _builder.newLineIfNotEmpty();
+          sb.append(_builder);
+        } else {
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("List<");
+          Domain _domain_3 = object.getRanges().get(i).getDomain();
+          String _visit_2 = new ToString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
+          _builder_1.append(_visit_2);
+          _builder_1.append("> point");
+          _builder_1.append(i);
+          _builder_1.append(" = new ArrayList<");
+          Domain _domain_4 = object.getRanges().get(i).getDomain();
+          String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_4).getBaseDomain());
+          _builder_1.append(_visit_3);
+          _builder_1.append(">();");
+          _builder_1.newLineIfNotEmpty();
+          sb.append(_builder_1);
+        }
       } else {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("NOT IMPLEMENTED IN JAVA");
-        _builder_1.newLine();
-        sb.append(_builder_1);
+        StringConcatenation _builder_2 = new StringConcatenation();
+        _builder_2.append("NOT IMPLEMENTED IN JAVA");
+        _builder_2.newLine();
+        sb.append(_builder_2);
       }
     }
     for (int i = 0; (i < object.getRanges().size()); i++) {

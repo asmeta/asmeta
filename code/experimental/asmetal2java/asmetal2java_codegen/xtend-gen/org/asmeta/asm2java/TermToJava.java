@@ -20,6 +20,7 @@ import asmeta.terms.basicterms.RuleAsTerm;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
+import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
@@ -59,6 +60,10 @@ public class TermToJava extends ReflectiveVisitor<String> {
 
   public String visit(final VariableTerm term) {
     return term.getName();
+  }
+
+  public String visit(final UndefTerm term) {
+    return "null";
   }
 
   public String visit(final IntegerTerm term) {

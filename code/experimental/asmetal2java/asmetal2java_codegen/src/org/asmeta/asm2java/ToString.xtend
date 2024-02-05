@@ -22,6 +22,7 @@ import asmeta.definitions.domains.UndefDomain
 import asmeta.structure.Asm
 import asmeta.terms.basicterms.FunctionTerm
 import org.asmeta.parser.util.ReflectiveVisitor
+import asmeta.definitions.domains.AgentDomain
 
 class ToString extends ReflectiveVisitor<String> {
 
@@ -66,6 +67,10 @@ class ToString extends ReflectiveVisitor<String> {
 	
 	def String visit(CharDomain domain) {
 		return "char"
+	}
+	
+	def String visit(AgentDomain domain) {
+		throw new Exception("Agent domain not supported");
 	}
 	
 	def String visit(UndefDomain domain) {

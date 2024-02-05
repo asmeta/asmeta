@@ -14,6 +14,9 @@ import asmeta.terms.furtherterms.EnumTerm
 import asmeta.terms.furtherterms.CaseTerm
 import asmeta.terms.basicterms.VariableTerm
 import asmeta.terms.basicterms.SetTerm
+import asmeta.terms.basicterms.UndefTerm
+import asmeta.terms.furtherterms.SequenceTerm
+import asmeta.terms.basicterms.TupleTerm
 
 /* Check if the init function term contains monitored functions */
 class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
@@ -23,6 +26,10 @@ class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
 	}
 
 	def boolean visit(StringTerm term) {
+		return false
+	}
+	
+	def boolean visit(UndefTerm term) {
 		return false
 	}
 
@@ -81,6 +88,20 @@ class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
 	def boolean visit(SetTerm term) {
 		var boolean found = false
 		for (comparing : term.term)
+			found = (found || visit(comparing));
+		return found
+	}
+
+	def boolean visit(SequenceTerm term) {
+		var boolean found = false
+		for (comparing : term.terms)
+			found = (found || visit(comparing));
+		return found
+	}
+	
+	def boolean visit(TupleTerm term) {
+		var boolean found = false
+		for (comparing : term.terms)
 			found = (found || visit(comparing));
 		return found
 	}

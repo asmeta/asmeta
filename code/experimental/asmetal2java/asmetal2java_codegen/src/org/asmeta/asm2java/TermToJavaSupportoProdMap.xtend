@@ -12,6 +12,7 @@ import asmeta.definitions.domains.ProductDomain
 import asmeta.definitions.domains.MapDomain
 import asmeta.definitions.domains.Domain
 import asmeta.definitions.domains.SequenceDomain
+import asmeta.terms.furtherterms.EnumTerm
 
 class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
 	
@@ -186,5 +187,9 @@ class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
 		return functionTerm.toString
 	}
    }
+   
+   def String visit(EnumTerm term) {
+		return term.domain.name+"."+term.symbol
+	}
 
 }
