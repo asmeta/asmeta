@@ -242,7 +242,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     StringBuffer sb = new StringBuffer();
     if (((domain instanceof StructuredTd) || (domain instanceof StructuredTdImpl))) {
       StringConcatenation _builder = new StringConcatenation();
-      String _visit = new DomainToJavaSigDef(this.res, pointer).visit(domain);
+      String _visit = new DomainToJavaSigDef(this.res).visit(domain);
       _builder.append(_visit);
       sb.append(_builder);
     } else {

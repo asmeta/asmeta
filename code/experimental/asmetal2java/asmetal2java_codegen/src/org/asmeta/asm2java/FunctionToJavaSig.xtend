@@ -118,7 +118,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 	def String returnDomain(Domain domain, boolean pointer) {
 		var sb = new StringBuffer;
 		if (domain instanceof StructuredTd || domain instanceof StructuredTdImpl)
-			sb.append('''«new DomainToJavaSigDef(res,pointer).visit(domain)»''')
+			sb.append('''«new DomainToJavaSigDef(res).visit(domain)»''')
 		else 
 			sb.append('''«new ToString(res).visit(domain)»''')
 		return sb.toString

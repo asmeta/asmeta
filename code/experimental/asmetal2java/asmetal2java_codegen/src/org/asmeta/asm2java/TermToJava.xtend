@@ -219,7 +219,7 @@ def String visit(SetTerm object) {
 			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd)
 			sb.append(
 			'''
-				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_lista.stream().anyMatch(c -> «valore»c))
+				«"Arrays.stream("»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values()).anyMatch(c -> «valore»c))
 			''')
 			else
 			
@@ -255,6 +255,11 @@ def String visit(SetTerm object) {
 				sb.append(
 			'''
 				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().allMatch(c -> «supp.substring(0,supp.length-3)»c));
+			''')
+			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd)
+				sb.append(
+			'''
+				«"Arrays.stream("»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values()).allMatch(c -> «supp.substring(0,supp.length-3)»c));
 			''')
 			else
 				sb.append(

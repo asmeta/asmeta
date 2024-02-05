@@ -6,7 +6,6 @@ import asmeta.definitions.RuleDeclaration;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.Domain;
-import asmeta.definitions.domains.EnumTd;
 import asmeta.structure.Asm;
 import asmeta.structure.DomainDefinition;
 import asmeta.structure.DomainInitialization;
@@ -612,26 +611,6 @@ public class JavaGenerator extends AsmToJavaGenerator {
           String _plus_4 = (_plus_3 + _visit_1);
           String _plus_5 = (_plus_4 + 
             ");\n");
-          initial.append(_plus_5);
-        }
-      }
-    }
-    if ((((asm.getHeaderSection() != null) && (asm.getHeaderSection().getSignature() != null)) && 
-      (asm.getHeaderSection().getSignature().getDomain() != null))) {
-      EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
-      for (final Domain ed : _domain) {
-        if ((ed instanceof EnumTd)) {
-          initial.append(("//setto la lista di elementi di supporto della classe enumerativa" + "\n"));
-          String _name = ((EnumTd)ed).getName();
-          String _plus = ("for(" + _name);
-          String _plus_1 = (_plus + " i : ");
-          String _name_1 = ((EnumTd)ed).getName();
-          String _plus_2 = (_plus_1 + _name_1);
-          String _plus_3 = (_plus_2 + ".values())");
-          String _plus_4 = (_plus_3 + "\n");
-          initial.append(_plus_4);
-          String _name_2 = ((EnumTd)ed).getName();
-          String _plus_5 = (_name_2 + "_lista.add(i);\n");
           initial.append(_plus_5);
         }
       }

@@ -249,9 +249,15 @@ class RuleToJava extends RuleVisitor<String> {
 						''')
 					}
 				} else
-					sb.append('''
-						for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_lista)
-					''')
+					if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd) {
+						sb.append('''
+							for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values())
+						''')
+					} else {
+						sb.append('''
+							for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_lista)
+						''')
+					}
 			} else
 				sb.append('''
 					//NOT IMPLEMENTED IN JAVA	
@@ -331,7 +337,7 @@ class RuleToJava extends RuleVisitor<String> {
 			if (baseDomain instanceof EnumTd)
 				sb.append(
 			'''
-					for(«new ToString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit(baseDomain)»_lista)
+					for(«new ToString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit(baseDomain)».values())
 				''')
 			else
 				sb.append(
@@ -395,7 +401,7 @@ class RuleToJava extends RuleVisitor<String> {
 		var string = new StringBuffer
 		for (var i = 0; i < rule.boundVar.size; i++)
 			string.append(
-				new DomainToJavaSigDef(res, true).visit(rule.extendedDomain) + " " +
+				new DomainToJavaSigDef(res).visit(rule.extendedDomain) + " " +
 					new TermToJava(res).visit(rule.boundVar.get(i)) + " = new " +
 					new DomainToJavaSigDef(res).visit(rule.extendedDomain) + "();\n");
 		return string.toString + new RuleToJava(res, seqBlock, options).visit(rule.doRule)

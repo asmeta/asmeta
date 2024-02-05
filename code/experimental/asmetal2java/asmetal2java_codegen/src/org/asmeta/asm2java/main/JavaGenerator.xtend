@@ -327,17 +327,6 @@ class JavaGenerator extends AsmToJavaGenerator {
 			          ");\n")
 		}
 	}
-	
-	if (asm.headerSection !== null && asm.headerSection.signature !== null &&
-		asm.headerSection.signature.domain !== null) {
-		for (ed : asm.headerSection.signature.domain) {
-			if (ed instanceof EnumTd) {
-				initial.append("//setto la lista di elementi di supporto della classe enumerativa" + "\n")
-				initial.append("for("+ ed.name + " i : "+ ed.name+".values())"+ "\n")
-				initial.append(ed.name + "_lista.add(i);\n")
-			}
-		}
-	}
 		
 	if (initial.toString.length != 0)
 		return  initial.toString + "\n"

@@ -15,20 +15,226 @@ import asmeta.structure.DomainInitialization;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
+/**
+ * Translates the signature and the definition of the domains
+ */
 @SuppressWarnings("all")
 public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
   private Asm res;
 
-  private boolean pointer;
-
   public DomainToJavaSigDef(final Asm resource) {
     this.res = resource;
-    this.pointer = false;
   }
 
-  public DomainToJavaSigDef(final Asm resource, final boolean pointer) {
-    this.res = resource;
-    this.pointer = pointer;
+  public String visit(final ProductDomain object) {
+    StringBuffer sb = new StringBuffer();
+    int _size = object.getDomains().size();
+    switch (_size) {
+      case 2:
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("Pair<");
+        sb.append(_builder);
+        for (int i = 0; (i < object.getDomains().size()); i++) {
+          StringConcatenation _builder_1 = new StringConcatenation();
+          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
+          _builder_1.append(_visit);
+          _builder_1.append(", ");
+          sb.append(_builder_1);
+        }
+        break;
+      case 3:
+        StringConcatenation _builder_1 = new StringConcatenation();
+        _builder_1.append("Triplet<");
+        sb.append(_builder_1);
+        for (int i = 0; (i < object.getDomains().size()); i++) {
+          StringConcatenation _builder_2 = new StringConcatenation();
+          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
+          _builder_2.append(_visit);
+          _builder_2.append(", ");
+          sb.append(_builder_2);
+        }
+        break;
+      case 4:
+        StringConcatenation _builder_2 = new StringConcatenation();
+        _builder_2.append("Quartet<");
+        sb.append(_builder_2);
+        for (int i = 0; (i < object.getDomains().size()); i++) {
+          StringConcatenation _builder_3 = new StringConcatenation();
+          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
+          _builder_3.append(_visit);
+          _builder_3.append(", ");
+          sb.append(_builder_3);
+        }
+        break;
+      case 5:
+        StringConcatenation _builder_3 = new StringConcatenation();
+        _builder_3.append("Quintet<");
+        sb.append(_builder_3);
+        for (int i = 0; (i < object.getDomains().size()); i++) {
+          StringConcatenation _builder_4 = new StringConcatenation();
+          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
+          _builder_4.append(_visit);
+          _builder_4.append(", ");
+          sb.append(_builder_4);
+        }
+        break;
+      case 6:
+        StringConcatenation _builder_4 = new StringConcatenation();
+        _builder_4.append("Sextet<");
+        sb.append(_builder_4);
+        for (int i = 0; (i < object.getDomains().size()); i++) {
+          StringConcatenation _builder_5 = new StringConcatenation();
+          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
+          _builder_5.append(_visit);
+          _builder_5.append(", ");
+          sb.append(_builder_5);
+        }
+        break;
+      case 7:
+        StringConcatenation _builder_5 = new StringConcatenation();
+        _builder_5.append("Septet<");
+        sb.append(_builder_5);
+        for (int i = 0; (i < object.getDomains().size()); i++) {
+          StringConcatenation _builder_6 = new StringConcatenation();
+          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
+          _builder_6.append(_visit);
+          _builder_6.append(", ");
+          sb.append(_builder_6);
+        }
+        break;
+      case 8:
+        StringConcatenation _builder_6 = new StringConcatenation();
+        _builder_6.append("Octet<");
+        sb.append(_builder_6);
+        for (int i = 0; (i < object.getDomains().size()); i++) {
+          StringConcatenation _builder_7 = new StringConcatenation();
+          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
+          _builder_7.append(_visit);
+          _builder_7.append(", ");
+          sb.append(_builder_7);
+        }
+        break;
+      case 9:
+        StringConcatenation _builder_7 = new StringConcatenation();
+        _builder_7.append("Ennead<");
+        sb.append(_builder_7);
+        for (int i = 0; (i < object.getDomains().size()); i++) {
+          StringConcatenation _builder_8 = new StringConcatenation();
+          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
+          _builder_8.append(_visit);
+          _builder_8.append(", ");
+          sb.append(_builder_8);
+        }
+        break;
+      case 10:
+        StringConcatenation _builder_8 = new StringConcatenation();
+        _builder_8.append("Decade<");
+        sb.append(_builder_8);
+        for (int i = 0; (i < object.getDomains().size()); i++) {
+          StringConcatenation _builder_9 = new StringConcatenation();
+          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
+          _builder_9.append(_visit);
+          _builder_9.append(", ");
+          sb.append(_builder_9);
+        }
+        break;
+    }
+    String _string = sb.toString();
+    int _length = sb.length();
+    int _minus = (_length - 2);
+    return _string.substring(0, _minus).concat(">");
+  }
+
+  public String visit(final DomainDefinition object) {
+    return new TermToJava(this.res).visit(object.getBody());
+  }
+
+  public String visit(final DomainInitialization object) {
+    return new TermToJava(this.res).visit(object.getBody());
+  }
+
+  public String visit(final RuleDomain object) {
+    throw new RuntimeException("RuleDomain not supported");
+  }
+
+  public String visit(final SequenceDomain object) {
+    StringBuffer sb = new StringBuffer();
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("<");
+    String _visit = new ToString(this.res).visit(object.getDomain());
+    _builder.append(_visit);
+    _builder.append("> ");
+    sb.append(_builder);
+    return sb.toString();
+  }
+
+  public String visit(final PowersetDomain object) {
+    StringBuffer sb = new StringBuffer();
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("<");
+    String _visit = new ToString(this.res).visit(object.getBaseDomain());
+    _builder.append(_visit);
+    _builder.append("> ");
+    sb.append(_builder);
+    return sb.toString();
+  }
+
+  public String visit(final BagDomain object) {
+    StringBuffer sb = new StringBuffer();
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("<");
+    String _visit = new ToString(this.res).visit(object.getDomain());
+    _builder.append(_visit);
+    _builder.append("> ");
+    sb.append(_builder);
+    return sb.toString();
+  }
+
+  public String visit(final MapDomain object) {
+    StringBuffer sb = new StringBuffer();
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("<");
+    sb.append(_builder);
+    StringConcatenation _builder_1 = new StringConcatenation();
+    String _visit = new ToString(this.res).visit(object.getSourceDomain());
+    _builder_1.append(_visit);
+    _builder_1.append(",");
+    sb.append(_builder_1);
+    StringConcatenation _builder_2 = new StringConcatenation();
+    String _visit_1 = new ToString(this.res).visit(object.getTargetDomain());
+    _builder_2.append(_visit_1);
+    sb.append(_builder_2);
+    return sb.toString().substring(0, sb.length()).concat(">");
+  }
+
+  public String visit(final EnumTd object) {
+    StringBuffer sb = new StringBuffer();
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("static enum ");
+    String _name = object.getName();
+    _builder.append(_name);
+    _builder.append(" {");
+    sb.append(_builder);
+    for (int i = 0; (i < object.getElement().size()); i++) {
+      int _size = object.getElement().size();
+      int _minus = (_size - 1);
+      boolean _notEquals = (i != _minus);
+      if (_notEquals) {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        String _visit = new ToString(this.res).visit(object.getElement().get(i));
+        _builder_1.append(_visit);
+        _builder_1.append(", ");
+        sb.append(_builder_1);
+      } else {
+        StringConcatenation _builder_2 = new StringConcatenation();
+        String _visit_1 = new ToString(this.res).visit(object.getElement().get(i));
+        _builder_2.append(_visit_1);
+        _builder_2.append("}");
+        _builder_2.newLineIfNotEmpty();
+        sb.append(_builder_2);
+      }
+    }
+    return sb.toString();
   }
 
   /**
@@ -366,234 +572,6 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       _builder_1.newLineIfNotEmpty();
       sb.append(_builder_1);
     }
-    return sb.toString();
-  }
-
-  public String visit(final EnumTd object) {
-    StringBuffer sb = new StringBuffer();
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("static enum ");
-    String _name = object.getName();
-    _builder.append(_name);
-    _builder.append(" {");
-    sb.append(_builder);
-    for (int i = 0; (i < object.getElement().size()); i++) {
-      int _size = object.getElement().size();
-      int _minus = (_size - 1);
-      boolean _notEquals = (i != _minus);
-      if (_notEquals) {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        String _visit = new ToString(this.res).visit(object.getElement().get(i));
-        _builder_1.append(_visit);
-        _builder_1.append(", ");
-        sb.append(_builder_1);
-      } else {
-        StringConcatenation _builder_2 = new StringConcatenation();
-        String _visit_1 = new ToString(this.res).visit(object.getElement().get(i));
-        _builder_2.append(_visit_1);
-        _builder_2.append("}");
-        _builder_2.newLineIfNotEmpty();
-        _builder_2.append("\t\t\t");
-        _builder_2.newLine();
-        sb.append(_builder_2);
-      }
-    }
-    StringConcatenation _builder_1 = new StringConcatenation();
-    _builder_1.append("List<");
-    String _name_1 = object.getName();
-    _builder_1.append(_name_1);
-    _builder_1.append("> ");
-    String _name_2 = object.getName();
-    _builder_1.append(_name_2);
-    _builder_1.append("_lista = new ArrayList<");
-    String _name_3 = object.getName();
-    _builder_1.append(_name_3);
-    _builder_1.append(">();");
-    _builder_1.newLineIfNotEmpty();
-    sb.append(_builder_1);
-    return sb.toString();
-  }
-
-  public String visit(final ProductDomain object) {
-    StringBuffer sb = new StringBuffer();
-    int _size = object.getDomains().size();
-    switch (_size) {
-      case 2:
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("Pair<");
-        sb.append(_builder);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_1 = new StringConcatenation();
-          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
-          _builder_1.append(_visit);
-          _builder_1.append(", ");
-          sb.append(_builder_1);
-        }
-        break;
-      case 3:
-        StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("Triplet<");
-        sb.append(_builder_1);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_2 = new StringConcatenation();
-          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
-          _builder_2.append(_visit);
-          _builder_2.append(", ");
-          sb.append(_builder_2);
-        }
-        break;
-      case 4:
-        StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("Quartet<");
-        sb.append(_builder_2);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_3 = new StringConcatenation();
-          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
-          _builder_3.append(_visit);
-          _builder_3.append(", ");
-          sb.append(_builder_3);
-        }
-        break;
-      case 5:
-        StringConcatenation _builder_3 = new StringConcatenation();
-        _builder_3.append("Quintet<");
-        sb.append(_builder_3);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_4 = new StringConcatenation();
-          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
-          _builder_4.append(_visit);
-          _builder_4.append(", ");
-          sb.append(_builder_4);
-        }
-        break;
-      case 6:
-        StringConcatenation _builder_4 = new StringConcatenation();
-        _builder_4.append("Sextet<");
-        sb.append(_builder_4);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_5 = new StringConcatenation();
-          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
-          _builder_5.append(_visit);
-          _builder_5.append(", ");
-          sb.append(_builder_5);
-        }
-        break;
-      case 7:
-        StringConcatenation _builder_5 = new StringConcatenation();
-        _builder_5.append("Septet<");
-        sb.append(_builder_5);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_6 = new StringConcatenation();
-          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
-          _builder_6.append(_visit);
-          _builder_6.append(", ");
-          sb.append(_builder_6);
-        }
-        break;
-      case 8:
-        StringConcatenation _builder_6 = new StringConcatenation();
-        _builder_6.append("Octet<");
-        sb.append(_builder_6);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_7 = new StringConcatenation();
-          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
-          _builder_7.append(_visit);
-          _builder_7.append(", ");
-          sb.append(_builder_7);
-        }
-        break;
-      case 9:
-        StringConcatenation _builder_7 = new StringConcatenation();
-        _builder_7.append("Ennead<");
-        sb.append(_builder_7);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_8 = new StringConcatenation();
-          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
-          _builder_8.append(_visit);
-          _builder_8.append(", ");
-          sb.append(_builder_8);
-        }
-        break;
-      case 10:
-        StringConcatenation _builder_8 = new StringConcatenation();
-        _builder_8.append("Decade<");
-        sb.append(_builder_8);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_9 = new StringConcatenation();
-          String _visit = new ToString(this.res).visit(object.getDomains().get(i));
-          _builder_9.append(_visit);
-          _builder_9.append(", ");
-          sb.append(_builder_9);
-        }
-        break;
-    }
-    String _string = sb.toString();
-    int _length = sb.length();
-    int _minus = (_length - 2);
-    return _string.substring(0, _minus).concat(">");
-  }
-
-  public String visit(final SequenceDomain object) {
-    StringBuffer sb = new StringBuffer();
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("<");
-    String _visit = new ToString(this.res).visit(object.getDomain());
-    _builder.append(_visit);
-    _builder.append("> ");
-    sb.append(_builder);
-    return sb.toString();
-  }
-
-  public String visit(final PowersetDomain object) {
-    StringBuffer sb = new StringBuffer();
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("<");
-    String _visit = new ToString(this.res).visit(object.getBaseDomain());
-    _builder.append(_visit);
-    _builder.append("> ");
-    sb.append(_builder);
-    return sb.toString();
-  }
-
-  public String visit(final BagDomain object) {
-    StringBuffer sb = new StringBuffer();
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("<");
-    String _visit = new ToString(this.res).visit(object.getDomain());
-    _builder.append(_visit);
-    _builder.append("> ");
-    sb.append(_builder);
-    return sb.toString();
-  }
-
-  public String visit(final MapDomain object) {
-    StringBuffer sb = new StringBuffer();
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("<");
-    sb.append(_builder);
-    StringConcatenation _builder_1 = new StringConcatenation();
-    String _visit = new ToString(this.res).visit(object.getSourceDomain());
-    _builder_1.append(_visit);
-    _builder_1.append(",");
-    sb.append(_builder_1);
-    StringConcatenation _builder_2 = new StringConcatenation();
-    String _visit_1 = new ToString(this.res).visit(object.getTargetDomain());
-    _builder_2.append(_visit_1);
-    sb.append(_builder_2);
-    return sb.toString().substring(0, sb.length()).concat(">");
-  }
-
-  public String visit(final DomainDefinition object) {
-    return new TermToJava(this.res).visit(object.getBody());
-  }
-
-  public String visit(final DomainInitialization object) {
-    return new TermToJava(this.res).visit(object.getBody());
-  }
-
-  public String visit(final RuleDomain object) {
-    StringBuffer sb = new StringBuffer();
-    sb.append("Caso relativo ai RuleDomain");
     return sb.toString();
   }
 }
