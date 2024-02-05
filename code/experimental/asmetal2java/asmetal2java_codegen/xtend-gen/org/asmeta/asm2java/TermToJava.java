@@ -395,19 +395,37 @@ public class TermToJava extends ReflectiveVisitor<String> {
         _builder_2.newLineIfNotEmpty();
         sb.append(_builder_2);
       } else {
-        StringConcatenation _builder_3 = new StringConcatenation();
-        _builder_3.append("\t");
         Domain _domain_2 = object.getRanges().get(i).getDomain();
-        String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
-        _builder_3.append(_visit_3);
-        _builder_3.append("_lista.stream().allMatch(c -> ");
-        int _length = supp.length();
-        int _minus = (_length - 3);
-        String _substring = supp.substring(0, _minus);
-        _builder_3.append(_substring);
-        _builder_3.append("c));");
-        _builder_3.newLineIfNotEmpty();
-        sb.append(_builder_3);
+        Domain _baseDomain_1 = ((PowersetDomain) _domain_2).getBaseDomain();
+        if ((_baseDomain_1 instanceof ConcreteDomain)) {
+          StringConcatenation _builder_3 = new StringConcatenation();
+          _builder_3.append("\t");
+          Domain _domain_3 = object.getRanges().get(i).getDomain();
+          String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
+          _builder_3.append(_visit_3);
+          _builder_3.append(".elems.stream().allMatch(c -> ");
+          int _length = supp.length();
+          int _minus = (_length - 3);
+          String _substring = supp.substring(0, _minus);
+          _builder_3.append(_substring);
+          _builder_3.append("c));");
+          _builder_3.newLineIfNotEmpty();
+          sb.append(_builder_3);
+        } else {
+          StringConcatenation _builder_4 = new StringConcatenation();
+          _builder_4.append("\t");
+          Domain _domain_4 = object.getRanges().get(i).getDomain();
+          String _visit_4 = new ToString(this.res).visit(((PowersetDomain) _domain_4).getBaseDomain());
+          _builder_4.append(_visit_4);
+          _builder_4.append("_lista.stream().allMatch(c -> ");
+          int _length_1 = supp.length();
+          int _minus_1 = (_length_1 - 3);
+          String _substring_1 = supp.substring(0, _minus_1);
+          _builder_4.append(_substring_1);
+          _builder_4.append("c));");
+          _builder_4.newLineIfNotEmpty();
+          sb.append(_builder_4);
+        }
       }
     }
     return sb.toString();

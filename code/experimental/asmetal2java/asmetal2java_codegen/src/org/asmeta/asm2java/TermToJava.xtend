@@ -246,6 +246,13 @@ def String visit(SetTerm object) {
 					«""»	for(Object «visit(object.variable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»::elems)
 				''')
 				else
+			if((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain)
+			
+				sb.append(
+			'''
+				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().allMatch(c -> «supp.substring(0,supp.length-3)»c));
+			''')
+			else
 				sb.append(
 			'''
 				«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_lista.stream().allMatch(c -> «supp.substring(0,supp.length-3)»c));
