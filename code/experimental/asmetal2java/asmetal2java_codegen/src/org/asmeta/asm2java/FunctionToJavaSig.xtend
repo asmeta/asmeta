@@ -6,6 +6,8 @@ import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.OutFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
+import asmeta.definitions.domains.BasicTd
+import asmeta.definitions.domains.ConcreteDomain
 import asmeta.definitions.domains.Domain
 import asmeta.definitions.domains.ProductDomain
 import asmeta.definitions.domains.StructuredTd
@@ -221,13 +223,18 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			{
 			    function.append('''«new DomainToJavaSigDef(res).visit(object.domain)» «object.name»_elem;
 			    ''')
-			    
-		     }
+		    }
+		    if (object.domain instanceof ConcreteDomain && (object.domain as ConcreteDomain).getTypeDomain() instanceof BasicTd) {
+		    		function.append('''
+				nC<«returnDomain((object.domain as ConcreteDomain).getTypeDomain(),true)», «returnDomain(object.codomain,true)»> «object.name» = new nC<>();
+				
+				''')	    	
+		    } else {
 			function.append('''
 				nC<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name» = new nC<>();
 				
 				''')
-
+			}
 				
 		}
 

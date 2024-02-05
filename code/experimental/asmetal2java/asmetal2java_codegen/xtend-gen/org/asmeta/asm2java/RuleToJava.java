@@ -3,6 +3,7 @@ package org.asmeta.asm2java;
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.BasicTd;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
@@ -404,20 +405,18 @@ public class RuleToJava extends RuleVisitor<String> {
           _builder_1.newLineIfNotEmpty();
           sb.append(_builder_1);
         } else {
-          Domain _domain_3 = object.getRanges().get(i).getDomain();
-          Domain _baseDomain = ((PowersetDomain) _domain_3).getBaseDomain();
-          if ((_baseDomain instanceof AbstractTd)) {
+          if (((((PowersetDomain) object.getRanges().get(i).getDomain()).getBaseDomain() instanceof AbstractTd) || ((((PowersetDomain) object.getRanges().get(i).getDomain()).getBaseDomain() instanceof ConcreteDomain) && (((ConcreteDomain) ((PowersetDomain) object.getRanges().get(i).getDomain()).getBaseDomain()).getTypeDomain() instanceof BasicTd)))) {
             StringConcatenation _builder_2 = new StringConcatenation();
             _builder_2.append("for(");
-            Domain _domain_4 = object.getRanges().get(i).getDomain();
-            String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_4).getBaseDomain());
+            Domain _domain_3 = object.getRanges().get(i).getDomain();
+            String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
             _builder_2.append(_visit_3);
             _builder_2.append(" ");
             String _visit_4 = new TermToJava(this.res).visit(object.getVariable().get(i));
             _builder_2.append(_visit_4);
             _builder_2.append(" : ");
-            Domain _domain_5 = object.getRanges().get(i).getDomain();
-            String _visit_5 = new ToString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
+            Domain _domain_4 = object.getRanges().get(i).getDomain();
+            String _visit_5 = new ToString(this.res).visit(((PowersetDomain) _domain_4).getBaseDomain());
             _builder_2.append(_visit_5);
             _builder_2.append(".elems)");
             _builder_2.newLineIfNotEmpty();
@@ -425,15 +424,15 @@ public class RuleToJava extends RuleVisitor<String> {
           } else {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.append("for(");
-            Domain _domain_6 = object.getRanges().get(i).getDomain();
-            String _visit_6 = new ToString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
+            Domain _domain_5 = object.getRanges().get(i).getDomain();
+            String _visit_6 = new ToString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
             _builder_3.append(_visit_6);
             _builder_3.append(" ");
             String _visit_7 = new TermToJava(this.res).visit(object.getVariable().get(i));
             _builder_3.append(_visit_7);
             _builder_3.append(" : ");
-            Domain _domain_7 = object.getRanges().get(i).getDomain();
-            String _visit_8 = new ToString(this.res).visit(((PowersetDomain) _domain_7).getBaseDomain());
+            Domain _domain_6 = object.getRanges().get(i).getDomain();
+            String _visit_8 = new ToString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
             _builder_3.append(_visit_8);
             _builder_3.append("_lista)");
             _builder_3.newLineIfNotEmpty();

@@ -391,7 +391,8 @@ class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
 						functionTerm.append(".set(" + visit(ft.arguments.terms.get(0)) + ", ")
 
 					} else {
-						functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
+							functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
+						
 						if (controllo(fd.codomain)) {
 							functionTerm.append(".value")
 						}

@@ -7,6 +7,7 @@ import asmeta.definitions.OutFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.BagDomain;
+import asmeta.definitions.domains.BasicTd;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.MapDomain;
@@ -429,20 +430,38 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
         _builder_12.newLineIfNotEmpty();
         function.append(_builder_12);
       }
-      StringConcatenation _builder_13 = new StringConcatenation();
-      _builder_13.append("nC<");
-      String _returnDomain_6 = this.returnDomain(object.getDomain(), true);
-      _builder_13.append(_returnDomain_6);
-      _builder_13.append(", ");
-      String _returnDomain_7 = this.returnDomain(object.getCodomain(), true);
-      _builder_13.append(_returnDomain_7);
-      _builder_13.append("> ");
-      String _name_12 = object.getName();
-      _builder_13.append(_name_12);
-      _builder_13.append(" = new nC<>();");
-      _builder_13.newLineIfNotEmpty();
-      _builder_13.newLine();
-      function.append(_builder_13);
+      if (((object.getDomain() instanceof ConcreteDomain) && (((ConcreteDomain) object.getDomain()).getTypeDomain() instanceof BasicTd))) {
+        StringConcatenation _builder_13 = new StringConcatenation();
+        _builder_13.append("nC<");
+        Domain _domain_1 = object.getDomain();
+        String _returnDomain_6 = this.returnDomain(((ConcreteDomain) _domain_1).getTypeDomain(), true);
+        _builder_13.append(_returnDomain_6);
+        _builder_13.append(", ");
+        String _returnDomain_7 = this.returnDomain(object.getCodomain(), true);
+        _builder_13.append(_returnDomain_7);
+        _builder_13.append("> ");
+        String _name_12 = object.getName();
+        _builder_13.append(_name_12);
+        _builder_13.append(" = new nC<>();");
+        _builder_13.newLineIfNotEmpty();
+        _builder_13.newLine();
+        function.append(_builder_13);
+      } else {
+        StringConcatenation _builder_14 = new StringConcatenation();
+        _builder_14.append("nC<");
+        String _returnDomain_8 = this.returnDomain(object.getDomain(), true);
+        _builder_14.append(_returnDomain_8);
+        _builder_14.append(", ");
+        String _returnDomain_9 = this.returnDomain(object.getCodomain(), true);
+        _builder_14.append(_returnDomain_9);
+        _builder_14.append("> ");
+        String _name_13 = object.getName();
+        _builder_14.append(_name_13);
+        _builder_14.append(" = new nC<>();");
+        _builder_14.newLineIfNotEmpty();
+        _builder_14.newLine();
+        function.append(_builder_14);
+      }
     }
     return function.toString();
   }
