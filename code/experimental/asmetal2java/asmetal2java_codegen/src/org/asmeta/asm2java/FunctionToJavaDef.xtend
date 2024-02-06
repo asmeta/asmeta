@@ -84,14 +84,21 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 							«object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
 						''')
 					else
+						if (object.initialization.get(0).body instanceof CaseTerm) {
+							sb.
+							append('''«new ToString(asm).visit(object.codomain)» «new TermToJava(asm).visit(object.initialization.get(0).body)» = new «new ToString(asm).visit(object.codomain)»("«new TermToJava(asm).visit(object.initialization.get(0).body)»");
+				
+				      «object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,() -> {«new TermToJava(asm).visit(object.initialization.get(0).body)»});
+				      «object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,() -> {«new TermToJava(asm).visit(object.initialization.get(0).body)»});
+				''')
+						} else {
 						sb.
 							append('''«new ToString(asm).visit(object.codomain)» «new TermToJava(asm).visit(object.initialization.get(0).body)» = new «new ToString(asm).visit(object.codomain)»("«new TermToJava(asm).visit(object.initialization.get(0).body)»");
 				
-
 				      «object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
 				      «object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
 				''')
-
+						}
 				} else if (controllo(object.codomain.name) || object.codomain instanceof EnumTd) {
 					if (object.domain instanceof ConcreteDomain && controllo(object.codomain.name)) {
 						if ((object.domain as ConcreteDomain).typeDomain instanceof BasicTd) {
