@@ -20,6 +20,7 @@ import asmeta.definitions.domains.Domain
 import asmeta.definitions.Function
 import asmeta.definitions.domains.MapDomain
 import asmeta.terms.basicterms.ConstantTerm
+import asmeta.definitions.domains.EnumTd
 
 class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
 
@@ -392,7 +393,7 @@ class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
 						functionTerm.append(".set(" + visit(ft.arguments.terms.get(0)) + ", ")
 
 					} else {
-						if (ft.arguments.terms.get(0) instanceof ConstantTerm)
+						if (ft.arguments.terms.get(0) instanceof ConstantTerm && !((ft.arguments.eContainer as LocationTerm).function.domain instanceof EnumTd))
 							functionTerm.append(".get(" + (ft.arguments.eContainer as LocationTerm).function.domain.name + ".valueOf(" + visit(ft.arguments.terms.get(0)) + "))"
 							)
 						else

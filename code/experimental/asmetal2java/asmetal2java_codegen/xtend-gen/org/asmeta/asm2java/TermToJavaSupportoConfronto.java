@@ -8,13 +8,13 @@ import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.MapDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
-import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.EnumTerm;
@@ -446,8 +446,7 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
             String _plus_3 = (_plus_2 + ", ");
             functionTerm.append(_plus_3);
           } else {
-            Term _get = ft.getArguments().getTerms().get(0);
-            if ((_get instanceof ConstantTerm)) {
+            if (((ft.getArguments().getTerms().get(0) instanceof ConstantTerm) && (!(((LocationTerm) ft.getArguments().eContainer()).getFunction().getDomain() instanceof EnumTd)))) {
               EObject _eContainer = ft.getArguments().eContainer();
               String _name = ((LocationTerm) _eContainer).getFunction().getDomain().getName();
               String _plus_4 = (".get(" + _name);
