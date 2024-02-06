@@ -23,6 +23,7 @@ import asmeta.definitions.domains.SequenceDomain
 import asmeta.definitions.MonitoredFunction
 import java.util.Collections
 import java.util.Arrays
+import asmeta.definitions.DerivedFunction
 
 /**Generates .cpp ASM file */
 class JavaGenerator extends AsmToJavaGenerator {
@@ -264,7 +265,13 @@ class JavaGenerator extends AsmToJavaGenerator {
 	def functionSignature(Asm asm) {
 		var sb = new StringBuffer;
 		for (fd : asm.headerSection.signature.function) {
-			sb.append(new FunctionToJavaSig(asm).visit(fd) + "\n")
+			if (fd instanceof DerivedFunction)
+				for (fDef : asm.bodySection.functionDefinition) {
+					if (fDef.definedFunction.name.equals(fd.name))
+						sb.append(new FunctionToJavaSig(asm).visit(fd) + "\n")
+				}
+			else
+				sb.append(new FunctionToJavaSig(asm).visit(fd) + "\n")
 		}
 		return sb.toString
 	}

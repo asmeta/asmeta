@@ -1,6 +1,7 @@
 package org.asmeta.asm2java.main;
 
 import asmeta.definitions.ControlledFunction;
+import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.definitions.StaticFunction;
@@ -540,9 +541,21 @@ public class JavaGenerator extends AsmToJavaGenerator {
     StringBuffer sb = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
-      String _visit = new FunctionToJavaSig(asm).visit(fd);
-      String _plus = (_visit + "\n");
-      sb.append(_plus);
+      if ((fd instanceof DerivedFunction)) {
+        EList<FunctionDefinition> _functionDefinition = asm.getBodySection().getFunctionDefinition();
+        for (final FunctionDefinition fDef : _functionDefinition) {
+          boolean _equals = fDef.getDefinedFunction().getName().equals(((DerivedFunction)fd).getName());
+          if (_equals) {
+            String _visit = new FunctionToJavaSig(asm).visit(((DerivedFunction)fd));
+            String _plus = (_visit + "\n");
+            sb.append(_plus);
+          }
+        }
+      } else {
+        String _visit_1 = new FunctionToJavaSig(asm).visit(fd);
+        String _plus_1 = (_visit_1 + "\n");
+        sb.append(_plus_1);
+      }
     }
     return sb.toString();
   }
