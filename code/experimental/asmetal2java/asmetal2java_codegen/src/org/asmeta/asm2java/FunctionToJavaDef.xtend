@@ -100,21 +100,12 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 						}
 				} else if (controllo(object.codomain.name) || object.codomain instanceof EnumTd) {
 					if (object.domain instanceof ConcreteDomain && controllo(object.codomain.name)) {
-						if ((object.domain as ConcreteDomain).typeDomain instanceof BasicTd) {
-							sb.
-								append('''«new ToString(asm).visit(object.codomain)» a «new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)»;
-					
-					      «object.name».oldValues.put(«object.domain.name»_elem.value,a);
-					      «object.name».newValues.put(«object.domain.name»_elem.value,a);
-					''')
-						} else {
-							sb.
+						sb.
 								append('''«new ToString(asm).visit(object.codomain)» a «new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)»;
 					
 					      «object.name».oldValues.put(«object.domain.name»_elem,a);
 					      «object.name».newValues.put(«object.domain.name»_elem,a);
 					''')
-						}
 					}
 					else
 						sb.

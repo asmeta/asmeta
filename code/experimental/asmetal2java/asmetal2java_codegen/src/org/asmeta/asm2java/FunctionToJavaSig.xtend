@@ -224,17 +224,12 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    function.append('''«new DomainToJavaSigDef(res).visit(object.domain)» «object.name»_elem;
 			    ''')
 		    }
-		    if (object.domain instanceof ConcreteDomain && (object.domain as ConcreteDomain).getTypeDomain() instanceof BasicTd) {
-		    		function.append('''
-				nC<«returnDomain((object.domain as ConcreteDomain).getTypeDomain(),true)», «returnDomain(object.codomain,true)»> «object.name» = new nC<>();
-				
-				''')	    	
-		    } else {
+
 			function.append('''
 				nC<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name» = new nC<>();
 				
 				''')
-			}
+			
 				
 		}
 

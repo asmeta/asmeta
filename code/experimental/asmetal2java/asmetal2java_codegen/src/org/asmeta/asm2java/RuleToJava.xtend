@@ -205,18 +205,9 @@ class RuleToJava extends RuleVisitor<String> {
 		var StringBuffer sb = new StringBuffer
 		for (var i = 0; i < object.getRanges.size; i++)
 			if (object.getRanges.get(i).domain instanceof PowersetDomain) {
-				if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain &&
-					(((object.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).
-						typeDomain instanceof BasicTd
-					)) {
-					sb.append('''
-						List<«new ToString(res).visit(((object.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).typeDomain)»> point«i» = new ArrayList<«new ToString(res).visit(((object.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).typeDomain)»>();
-					''')
-				} else {
-					sb.append('''
+				sb.append('''
 						List<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»> point«i» = new ArrayList<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»>();
 					''')
-				}
 			} // println("Object ranges: " + (object.getRanges.get(i).domain as PowersetDomain).baseDomain)
 			else
 				sb.append('''
