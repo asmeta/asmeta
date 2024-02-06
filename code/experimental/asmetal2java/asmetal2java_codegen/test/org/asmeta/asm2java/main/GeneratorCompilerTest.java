@@ -22,7 +22,7 @@ import asmeta.AsmCollection;
 
 public class GeneratorCompilerTest {
 
-	private static final String SRC_GEN = "src-gen-examples/";
+	private static final String SRC_GEN = "../asmetal2java_examples/src/";
 
 	// the generator for the code
 	static private JavaGenerator jGenerator = new JavaGenerator();
