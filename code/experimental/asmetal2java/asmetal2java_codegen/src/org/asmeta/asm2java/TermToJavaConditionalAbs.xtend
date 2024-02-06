@@ -291,7 +291,7 @@ def String visit(SetTerm object) {}
 		//Controllo se l'operatore » del tipo: &,|,<=,>=,<,>...
 		if (ExpressionToJava.hasEvaluateVisitor(name)) {
 			 //if the funcion is an expression
-			return new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);
+			return "=" + new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);
 		}
 		
 		//In questo caso l'operatore rilevato » := 

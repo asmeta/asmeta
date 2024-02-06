@@ -324,7 +324,8 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
       String name = new Util().parseFunction(term.getFunction().getName());
       boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
       if (_hasEvaluateVisitor) {
-        return new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
+        String _evaluateFunction = new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
+        return ("=" + _evaluateFunction);
       } else {
         functionTerm.append(term.getFunction().getName());
         functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
