@@ -33,6 +33,8 @@
 			<groupId>asmeta</groupId>
 			<artifactId>asmetal2java_codegen</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<type>test-jar</type>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

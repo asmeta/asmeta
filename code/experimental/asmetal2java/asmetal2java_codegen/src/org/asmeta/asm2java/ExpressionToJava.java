@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.asmeta.asm2code.Util;
-
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.SetTerm;

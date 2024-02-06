@@ -20,8 +20,8 @@ Require-Bundle: org.junit;bundle-version="4.12.0",
  org.apache.log4j,
  org.eclipse.text,
  org.eclipse.core.resources,
- asmeta.asm2cpp,
- asmeta.asm2java
+ asmeta.asm2java,
+ org.eclipse.jdt.core
 Import-Package: org.eclipse.jdt.core.formatter,
  org.eclipse.xtext.generator,
  org.eclipse.xtext.resource
