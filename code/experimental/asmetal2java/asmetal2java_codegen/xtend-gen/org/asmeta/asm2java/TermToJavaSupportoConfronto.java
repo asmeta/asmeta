@@ -11,8 +11,10 @@ import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.MapDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.EnumTerm;
@@ -21,6 +23,7 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.StringTerm;
 import java.util.Arrays;
 import org.asmeta.parser.util.ReflectiveVisitor;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 
@@ -443,10 +446,22 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
             String _plus_3 = (_plus_2 + ", ");
             functionTerm.append(_plus_3);
           } else {
-            String _visit_2 = this.visit(ft.getArguments().getTerms().get(0));
-            String _plus_4 = (".get(" + _visit_2);
-            String _plus_5 = (_plus_4 + ")");
-            functionTerm.append(_plus_5);
+            Term _get = ft.getArguments().getTerms().get(0);
+            if ((_get instanceof ConstantTerm)) {
+              EObject _eContainer = ft.getArguments().eContainer();
+              String _name = ((LocationTerm) _eContainer).getFunction().getDomain().getName();
+              String _plus_4 = (".get(" + _name);
+              String _plus_5 = (_plus_4 + ".valueOf(");
+              String _visit_2 = this.visit(ft.getArguments().getTerms().get(0));
+              String _plus_6 = (_plus_5 + _visit_2);
+              String _plus_7 = (_plus_6 + "))");
+              functionTerm.append(_plus_7);
+            } else {
+              String _visit_3 = this.visit(ft.getArguments().getTerms().get(0));
+              String _plus_8 = (".get(" + _visit_3);
+              String _plus_9 = (_plus_8 + ")");
+              functionTerm.append(_plus_9);
+            }
             Boolean _controllo_3 = this.controllo(fd.getCodomain());
             if ((_controllo_3).booleanValue()) {
               functionTerm.append(".value");

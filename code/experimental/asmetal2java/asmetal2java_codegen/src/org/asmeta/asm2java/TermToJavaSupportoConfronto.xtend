@@ -19,6 +19,7 @@ import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.Domain
 import asmeta.definitions.Function
 import asmeta.definitions.domains.MapDomain
+import asmeta.terms.basicterms.ConstantTerm
 
 class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
 
@@ -391,6 +392,10 @@ class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
 						functionTerm.append(".set(" + visit(ft.arguments.terms.get(0)) + ", ")
 
 					} else {
+						if (ft.arguments.terms.get(0) instanceof ConstantTerm)
+							functionTerm.append(".get(" + (ft.arguments.eContainer as LocationTerm).function.domain.name + ".valueOf(" + visit(ft.arguments.terms.get(0)) + "))"
+							)
+						else
 							functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
 						
 						if (controllo(fd.codomain)) {
