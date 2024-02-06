@@ -1,18 +1,26 @@
 package org.asmeta.atgt.generator.ui;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.debug.ui.CommonTab;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.debug.ui.ILaunchConfigurationTabGroup;
 
 public class AsmTSGeneratorLaunchTabGroup implements ILaunchConfigurationTabGroup {
 
-	private ILaunchConfigurationTab[] tabs = new ILaunchConfigurationTab[1];
+	private ILaunchConfigurationTab[] tabs;
 
 	public AsmTSGeneratorLaunchTabGroup() {
-		tabs[0] = new AsmTSGeneratorTab(); // new org.eclipse.jdt.debug.ui.launchConfigurations.JavaMainTab();
+		tabs = new ILaunchConfigurationTab[]{ 
+				new AsmTSGeneratorTab(), // new org.eclipse.jdt.debug.ui.launchConfigurations.JavaMainTab();
+				new AsmTGSimulatorGenTab()};
+				//new CommonTab();
+		
 	}
 
 	@Override

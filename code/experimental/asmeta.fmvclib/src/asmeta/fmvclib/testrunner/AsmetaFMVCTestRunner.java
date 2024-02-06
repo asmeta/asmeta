@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.table.TableModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
@@ -15,11 +17,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.asmeta.parser.ASMParser;
+
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
 import asmeta.fmvclib.annotations.AsmetaMonitoredLocation;
 import asmeta.fmvclib.annotations.AsmetaMonitoredLocations;
+import asmeta.fmvclib.controller.AsmetaFMVCController;
 import asmeta.fmvclib.controller.ButtonColumn;
 import asmeta.fmvclib.view.AsmetaFMVCView;
+import asmeta.fmvclib.view.XButtonModel;
 
 /**
  * The AsmetaFMVCTestRunner class
@@ -34,26 +42,35 @@ public class AsmetaFMVCTestRunner {
 	AsmetaFMVCView view;
 
 	/**
+	 * The controller
+	 */
+	AsmetaFMVCController controller;
+
+	/**
 	 * The path of the AVALLA scenario to be executed
 	 */
 	String scenario;
 
 	/**
-	 * The list of values to be ignored
+	 * Step duration
 	 */
-	List<String> ignoreValues;
+	int stepDuration;
 
 	/**
 	 * The constructor
 	 * 
-	 * @param view     the view
-	 * @param scenario the path of the scenario
+	 * @param view       the view
+	 * @param scenario   the path of the scenario
+	 * @param controller the controller
 	 */
-	public AsmetaFMVCTestRunner(AsmetaFMVCView view, String scenario, List<String> ignoreValues) {
+	public AsmetaFMVCTestRunner(AsmetaFMVCView view, AsmetaFMVCController controller, String scenario, int stepDuration) {
 		super();
 		this.view = view;
 		this.scenario = scenario;
-		this.ignoreValues = ignoreValues;
+		this.stepDuration = stepDuration;
+		this.controller = controller;
+		ASMParser.getResultLogger().setLevel(Level.OFF);
+		Logger.getLogger(ASMParser.class).setLevel(Level.OFF);
 	}
 
 	/**
@@ -62,7 +79,7 @@ public class AsmetaFMVCTestRunner {
 	 * @throws IOException
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
 	public void runTest() throws IOException, IllegalArgumentException, IllegalAccessException, InterruptedException {
 		Scanner scanner = new Scanner(new File(this.scenario));
@@ -88,13 +105,13 @@ public class AsmetaFMVCTestRunner {
 
 			if (line.startsWith("check "))
 				// Check instruction
-				runCheck(line.replace("check ", "").replace(";", ""));
+				runCheck(line.replace("check ", "").replace(";", ""), this.scenario);
 
 			if (line.startsWith("set "))
 				// Set instruction
 				runSet(line.replace("set ", "").replace(";", ""));
-			
-			Thread.sleep(500);
+
+			Thread.sleep(stepDuration);
 		}
 
 		scanner.close();
@@ -103,11 +120,12 @@ public class AsmetaFMVCTestRunner {
 	/**
 	 * Executes the check
 	 * 
-	 * @param line
+	 * @param line     the check instruction
+	 * @param scenario the name of the scenario
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 */
-	private void runCheck(String line) throws IllegalArgumentException, IllegalAccessException {
+	private void runCheck(String line, String scenario) throws IllegalArgumentException, IllegalAccessException {
 		// Check execution
 		System.out.println("Executing check: " + line);
 
@@ -129,12 +147,46 @@ public class AsmetaFMVCTestRunner {
 
 			try {
 				if (obj instanceof JTextField) {
-					assert ((JTextField) obj).getText().equals(locationValue)
-							: "Expected " + locationValue + " - Found: " + ((JTextField) obj).getText();
+					assert ((JTextField) obj).getText().equals(locationValue) : "Expected " + locationValue
+							+ " - Found: " + ((JTextField) obj).getText() + " in scenario " + scenario;
 				} else if (obj instanceof JLabel) {
-					assert ((JLabel) obj).getText().equals(locationValue)
-							: "Expected " + locationValue + " - Found: " + ((JLabel) obj).getText();
+					boolean equals;
+					if (isInteger(locationValue)) {
+						equals = Integer.parseInt(((JLabel) obj).getText()) 
+								== Integer.parseInt(locationValue);
+					} else {
+						equals = ((JLabel) obj).getText().equals(locationValue);
+					}					 
+					assert equals : "Expected " + locationValue + " - Found: "
+					+ ((JLabel) obj).getText() + " in scenario " + scenario;
+				} else if (obj instanceof ButtonColumn) {
+					// Since it is a table, the location name must contain the index
+					assert locationName.contains("(");
+
+					TableModel model = ((ButtonColumn) obj).getTable().getModel();
+					if (model instanceof XButtonModel) {
+						XButtonModel xModel = (XButtonModel) model;
+
+						// ASMETA undef is Java empty string
+						if (locationValue.equals("undef"))
+							locationValue = "";
+						else if (locationValue.equalsIgnoreCase("true"))
+							locationValue = "X";
+						else if (locationValue.equalsIgnoreCase("false"))
+							locationValue = "";
+
+						// Extract the index
+						int index = Integer.parseInt(locationName.split("\\(")[1].split("\\)")[0]);
+						if (index < ((ButtonColumn) obj).getTable().getModel().getRowCount())
+							assert (locationValue.equals(xModel.getValueAt(index, 0))) : "Expected " + locationValue
+									+ " - Found: " + xModel.getValueAt(index, 0) + " in scenario " + scenario;
+					} else {
+						throw new RuntimeException(
+								"This type of TableModel is not yet supported by the fMVC framework: "
+										+ model.getClass());
+					}
 				} else if (obj instanceof JTable) {
+
 					// Since it is a table, the location name must contain the index
 					assert locationName.contains("(");
 					JTable table = ((JTable) obj);
@@ -145,8 +197,11 @@ public class AsmetaFMVCTestRunner {
 
 					// Extract the index
 					int index = Integer.parseInt(locationName.split("\\(")[1].split("\\)")[0]);
-					assert (locationValue.equals(table.getModel().getValueAt(index, 0)))
-							: "Expected " + locationValue + " - Found: " + table.getModel().getValueAt(index, 0);
+					if (index < table.getModel().getRowCount())
+						assert (locationValue.equals(table.getModel().getValueAt(index, 0))
+								|| (table.getModel().getValueAt(index, 0) == null && locationValue.equals("")))
+								: "Expected " + locationValue + " - Found: " + table.getModel().getValueAt(index, 0)
+										+ " in scenario " + scenario;
 				} else {
 					throw new RuntimeException(
 							"This type of component is not yet supported by the fMVC framework: " + obj.getClass());
@@ -157,10 +212,19 @@ public class AsmetaFMVCTestRunner {
 		}
 	}
 
+	static private boolean isInteger(String locationValue) {
+		try {
+			Integer.valueOf(locationValue);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	/**
 	 * Executes the set
 	 * 
-	 * @param line
+	 * @param line the set instruction
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 */
@@ -171,10 +235,6 @@ public class AsmetaFMVCTestRunner {
 		// Extract the name and the value of the location
 		String locationName = line.split(" := ")[0];
 		String locationValue = line.split(" := ")[1];
-		
-		// If the value is to be ignored, end the evaluation
-		if (ignoreValues.contains(locationValue))
-			return;
 
 		// Find the object annotated with the locationName
 		Field locationNameAnnotation = FieldUtils
@@ -207,7 +267,7 @@ public class AsmetaFMVCTestRunner {
 			if (FieldUtils.getFieldsListWithAnnotation(view.getClass(), AsmetaMonitoredLocation.class).stream()
 					.filter(x -> x.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName()
 							.equals(locationName.split("\\(")[0]))
-					.count() > 1) {				
+					.count() > 1) {
 				// Get the right component
 				Field f = FieldUtils.getFieldsListWithAnnotation(view.getClass(), AsmetaMonitoredLocation.class)
 						.stream()
@@ -235,6 +295,8 @@ public class AsmetaFMVCTestRunner {
 	 * @param locationName  the name of the location
 	 */
 	private void setObject(Object obj, String locationValue, String locationName) {
+		if (locationValue.equals("undef"))
+			return;
 		try {
 			if (obj instanceof JTextField) {
 				((JTextField) obj).setText(locationValue);
@@ -243,15 +305,27 @@ public class AsmetaFMVCTestRunner {
 			} else if (obj instanceof JSpinner) {
 				((JSpinner) obj).setValue(Integer.parseInt(locationValue));
 			} else if (obj instanceof JSlider) {
-				((JSlider) obj).setValue(Integer.parseInt(locationValue));
+				if (Float.valueOf(locationValue) % 5 == 0)
+					((JSlider) obj).setValue(Integer.parseInt(locationValue));
+				for (int i = 0; i < ((JSlider) obj).getChangeListeners().length; i++) {
+					((JSlider) obj).getChangeListeners()[i].stateChanged(new ChangeEvent(obj));
+				}
 			} else if (obj instanceof JButton) {
 				((JButton) obj).doClick();
 			} else if (obj instanceof Timer) {
-				if (((Timer) obj).getActionListeners().length > 0) {
-					((Timer) obj).getActionListeners()[0].actionPerformed(null);
+				for (int i = 0; i < ((Timer) obj).getActionListeners().length; i++) {
+					((Timer) obj).getActionListeners()[i].actionPerformed(null);
 				}
 			} else if (obj instanceof ButtonColumn) {
-				// TODO: How to handle the ButtonColumn?
+				TableModel model = ((ButtonColumn) obj).getTable().getModel();
+				if (model instanceof XButtonModel) {
+					((ButtonColumn) obj).getTable().setEditingRow(Integer.parseInt(locationValue));
+					((ButtonColumn) obj).actionPerformed(null);
+					((ButtonColumn) obj).getTable().repaint();
+				} else {
+					throw new RuntimeException(
+							"This type of TableModel is not yet supported by the fMVC framework: " + model.getClass());
+				}
 			} else if (obj instanceof JTable) {
 				JTable table = ((JTable) obj);
 

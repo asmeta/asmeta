@@ -114,7 +114,9 @@ public class AsmetaFromAvallaBuilder {
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
 		oldMainName = mainrule.getName();
 		// create a temp file in the directory
-		File tempAsmPath = File.createTempFile(TEMP_ASMETA_V, ASMParser.ASM_EXTENSION, tempAsmPathDir);
+		//File tempAsmPath = File.createTempFile(TEMP_ASMETA_V, ASMParser.ASM_EXTENSION, tempAsmPathDir);
+		// use also the name of the original ASM instead
+		File tempAsmPath = File.createTempFile(asm.getName() + TEMP_ASMETA_V, ASMParser.ASM_EXTENSION, tempAsmPathDir);
 		logger.debug("to file " + tempAsmPath.getAbsolutePath());
 		//
 		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath,modelPath, this);

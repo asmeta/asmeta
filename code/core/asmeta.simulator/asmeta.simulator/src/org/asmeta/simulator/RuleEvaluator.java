@@ -859,7 +859,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		RuleDeclaration dcl = ruleValue.getRule();
 		List<Term> arguments = termAsRule.getParameters();
 		// set the self location
-		termEval.state.locationMap.put(TermEvaluator.self, agent);
+		termEval.state.applyLocationUpdate(TermEvaluator.self, agent);
 		UpdateSet updateSet = visit(dcl, arguments);
 		logger.debug("</TermAsRule>");
 		return updateSet;

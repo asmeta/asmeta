@@ -1,0 +1,18 @@
+//
+// scenario with time: ASSUMING AUTO INCREMENT
+//
+scenario SCENARIO_NAME
+load asmwithtime.asm
+check mCurrTimeSecs = 1;
+step
+check mCurrTimeSecs = 2;
+step
+check mCurrTimeSecs = 3;
+step
+check mCurrTimeSecs = 4;
+step
+check mCurrTimeSecs = 5;
+check count5Secs = 0;
+step
+check mCurrTimeSecs = 6;
+check count5Secs = 1;

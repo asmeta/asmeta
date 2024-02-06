@@ -1,5 +1,6 @@
 package org.asmeta.avallaxt.validator;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.nio.charset.Charset;
@@ -7,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,6 +17,8 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.util.AsmetaPrintInfo;
+import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaPrinterForAvalla;
 import org.asmeta.xt.validator.RuleEvalWCov;
@@ -33,7 +37,26 @@ public class TestSingleFile extends TestValidator {
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ALL);		
 	}
 
-	
+	@Test
+	public void testASMWithTime() throws Exception {
+		// translation
+		test("scenariosfortest/usingtime/scenario.avalla", false, false, true);
+		// the TimeLibrabry is not translated
+		String[] fileNames = tempAsmPath.list();
+		assertFalse(Arrays.toString(fileNames),Arrays.asList(fileNames).stream().anyMatch(fn ->fn.contains("TimeLibrary")));
+		// execution
+		Environment.timeMngt = TimeMngt.auto_increment;
+		test("scenariosfortest/usingtime/scenario.avalla", true, false, true);		
+	}
+
+	@Test
+	public void testASMImportewithmain() throws Exception {		
+		// translation
+		test("scenariosfortest/asmwithmain/test.avalla", false, false, true);
+		// execution of the validation
+		test("scenariosfortest/asmwithmain/test.avalla", true, false, true);
+	}
+
 	
 	@Test
 	public void testLift() throws Exception {		

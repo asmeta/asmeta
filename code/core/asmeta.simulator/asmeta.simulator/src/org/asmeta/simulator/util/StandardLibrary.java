@@ -55,7 +55,8 @@ public class StandardLibrary {
 	public static boolean isAStandardLibrary(String asmname) {
 		return (asmname.contains(Utility.STANDARD_LIBRARY_NAME) ||
 				asmname.contains(Utility.CTL_LIBRARY_NAME) ||
-				asmname.contains(Utility.LTL_LIBRARY_NAME));
+				asmname.contains(Utility.LTL_LIBRARY_NAME)||
+				asmname.contains(Utility.TIME_LIBRARY_NAME));
 	} 
 	
 

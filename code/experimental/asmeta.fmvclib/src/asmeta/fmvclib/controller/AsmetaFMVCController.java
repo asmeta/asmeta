@@ -24,6 +24,7 @@ import javax.swing.event.ChangeEvent;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.UpdateSet;
+import org.asmeta.simulator.value.UndefValue;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -36,6 +37,7 @@ import asmeta.fmvclib.model.AsmetaFMVCModel;
 import asmeta.fmvclib.view.AsmetaFMVCView;
 import asmeta.fmvclib.view.RunStepListener;
 import asmeta.fmvclib.view.RunStepListenerChangeValue;
+import asmeta.fmvclib.view.XButtonModel;
 
 /**
  * The AsmetaFMVCController is a controller to be used when the pattern fMVC is
@@ -143,11 +145,11 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					}
 				}
 			}
+			
+			// No annotation is found
+			if (fieldListMonitored.count() == 0)
+				throw new RuntimeException("Missing @AsmetaMonitoredLocation annotation for the field " + f.getName());
 		}
-
-		// No annotation is found
-		if (fieldListMonitored.count() == 0)
-			throw new RuntimeException("Missing @AsmetaModelParameter annotation for the field " + f.getName());
 
 		((ButtonColumn) f.get(m_view)).setAction(new GetRowAction(locationName, m_model, m_view));
 	}
@@ -211,7 +213,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 					}
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -219,12 +220,16 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			value = m_model.getValue(annotation.asmLocationName());
 
 			try {
+				String firstValue = value.get(0).getValue();
 				if (f.get(m_view) instanceof JTextField) {
 					assert value.size() == 1;
-					((JTextField) (f.get(m_view))).setText(value.get(0).getValue());
+					// of undef then do not show anything
+					if (firstValue.equals(UndefValue.UNDEF.toString())) 
+						firstValue = "";
+					((JTextField) (f.get(m_view))).setText(firstValue);
 				} else if (f.get(m_view) instanceof JLabel) {
 					assert value.size() == 1;
-					((JLabel) (f.get(m_view))).setText(value.get(0).getValue());
+					((JLabel) (f.get(m_view))).setText(firstValue);
 				} else if (f.get(m_view) instanceof JTable) {
 					if (value != null) {
 						JTable table = ((JTable) (f.get(m_view)));
@@ -247,7 +252,31 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 							}
 						}
 					}
-				} else {
+				} else if (f.get(m_view) instanceof ButtonColumn) {
+					ButtonColumn column = (ButtonColumn) f.get(m_view);
+					if (column.getTable().getModel() instanceof XButtonModel) {
+						XButtonModel xModel = (XButtonModel) column.getTable().getModel();
+						// Iterate over all rows
+						for (Entry<String, String> entry : value) {
+							int row = Integer.valueOf(entry.getKey().split("_")[1]);
+							if (row < column.getTable().getRowCount()) {
+								try {
+									if (entry.getValue().equals("undef") || entry.getValue().equalsIgnoreCase("false"))
+										xModel.setValueAt(row, false);
+									else
+										xModel.setValueAt(row, true);
+								} catch (ArrayIndexOutOfBoundsException e) {
+									// Sometimes it may happen that the view is not yet correctly updated and it
+									// seems that we have more rows than the actually available
+								}
+							}
+						}
+					} else {
+						throw new RuntimeException("This type of TableModel is not yet supported by the fMVC framework: "
+								+ column.getTable().getModel().getClass());
+					}
+				}
+				else {
 					throw new RuntimeException("This type of component is not yet supported by the fMVC framework: "
 							+ f.get(m_view).getClass());
 				}
@@ -356,5 +385,33 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Updates the blocked status by using an X on the time instants which are
+	 * locked
+	 * 
+	 * @param functionName the name of the function
+	 * @param table the JTable containint the ButtonColumn
+	 */
+	public void updateButtonColumnStatus(String functionName, JTable table) {
+		m_model.computeValue(functionName, LocationType.INTEGER);
+		List<Entry<String, String>> value = m_model.getValue(functionName);
+		XButtonModel model = (XButtonModel) table.getModel();
+
+		// Iterate over the results
+		for (Entry<String, String> assignment : value) {
+			if (Integer.parseInt(assignment.getKey().split("_")[1]) < model.getRowCount()) {
+				if (!assignment.getValue().equals("undef")) {
+					if (assignment.getValue().toLowerCase().equals("true")
+							&& model.getValueAt(Integer.parseInt(assignment.getKey().split("_")[1]), 0).equals(""))
+						model.updateValue(Integer.parseInt(assignment.getKey().split("_")[1]));
+					else if (assignment.getValue().toLowerCase().equals("false")
+							&& model.getValueAt(Integer.parseInt(assignment.getKey().split("_")[1]), 0).equals("X"))
+						model.updateValue(Integer.parseInt(assignment.getKey().split("_")[1]));
+				}
+			}
+		}
+		table.repaint();
 	}
 }

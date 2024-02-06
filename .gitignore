@@ -58,3 +58,4 @@ code/experimental/asmeta.simulator@run.time/src/org/asmeta/runtime_commander/pat
 *._trace
 code/experimental/asmetal2cpp/asmetal2cpp_boostunit/xtend-gen/org/asmeta/tocpp/tocunit/AsmTsToCatch2Test.java
 code/extensions/asmeta.validator/asmeta.validator/dist/pillbox_0_scenario1.avalla
+code/extensions/asmeta.validator/asmeta.validator.test/scenariosfortest/lift2.avalla

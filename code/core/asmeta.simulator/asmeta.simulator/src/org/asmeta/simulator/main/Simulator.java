@@ -184,7 +184,7 @@ public class Simulator {
 	/**
 	 * Constructor.
 	 *
-	 * @param modelName the model name
+	 * @param modelName the model name (without extension)
 	 * @param asmp      the package of the model
 	 * @param env       the environment
 	 * @throws AsmModelNotFoundException if the model has not been found
@@ -193,13 +193,14 @@ public class Simulator {
 	public Simulator(String modelName, AsmCollection asmp, Environment env)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		assert env != null;
+		assert !modelName.endsWith(ASMParser.ASM_EXTENSION);
 		asmCollection = asmp;
 		initAsmModel(modelName);
 		environment = env;
 		currentState = initState();
 		initEvaluator(currentState);
 		numOfState = 0;// PA: 10 giugno 2010
-		currentState.previousLocationValues.putAll(currentState.locationMap);// PA: 10 giugno 2010
+		currentState.previousLocationValues.putAll(currentState.getLocationMap());// PA: 10 giugno 2010
 		controlledInvariants = new ArrayList<Invariant>();
 		monitoredInvariants = new ArrayList<Invariant>();
 	}
@@ -223,7 +224,7 @@ public class Simulator {
 		currentState = s;
 		initEvaluator(currentState);
 		numOfState = 0;// PA: 10 giugno 2010
-		currentState.previousLocationValues.putAll(currentState.locationMap);// PA: 10 giugno 2010
+		currentState.previousLocationValues.putAll(currentState.getLocationMap());// PA: 10 giugno 2010
 		controlledInvariants = new ArrayList<Invariant>();
 		monitoredInvariants = new ArrayList<Invariant>();
 	}
@@ -272,7 +273,7 @@ public class Simulator {
 	}
 
 	/**
-	 * Returns a simulator ready to execute the given model.
+	 * Returns a simulator ready to execute the given model. TODO use factory instead
 	 *
 	 * @param modelPath path name of the model file
 	 * @param env       environment
@@ -280,32 +281,16 @@ public class Simulator {
 	 * @throws Exception
 	 */
 	public static Simulator createSimulator(String modelPath, Environment env) throws Exception {
+		// check that the file exists 
 		File modelFile = new File(modelPath);
 		if (!modelFile.exists()) {
 			throw new FileNotFoundException(modelPath);
 		}
 		AsmCollection asmetaPackage = ASMParser.setUpReadAsm(modelFile);
-		String fileName = modelFile.getName().split("\\.")[0];
-		Simulator sim = new Simulator(fileName, asmetaPackage, env);
-		return sim;
-	}
-
-	/**
-	 * Creates the simulator.
-	 *
-	 * @param modelPath     the model path
-	 * @param env           the env
-	 * @param asmetaPackage the asmeta package
-	 * @return the simulator
-	 * @throws Exception the exception
-	 */
-	public static Simulator createSimulator(String modelPath, Environment env, AsmCollection asmetaPackage)
-			throws Exception {
-		File modelFile = new File(modelPath);
-		if (!modelFile.exists()) {
-			throw new FileNotFoundException(modelPath);
-		}
-		String fileName = modelFile.getName().split("\\.")[0];
+		// take the name without extension
+		assert  modelFile.getName().endsWith(ASMParser.ASM_EXTENSION);
+		// remove the extension (allow also a point the the name?) 
+		String fileName = modelFile.getName().replaceFirst("[.][^.]+$", "");
 		Simulator sim = new Simulator(fileName, asmetaPackage, env);
 		return sim;
 	}
