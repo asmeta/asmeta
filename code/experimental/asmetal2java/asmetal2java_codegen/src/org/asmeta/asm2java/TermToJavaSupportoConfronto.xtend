@@ -112,7 +112,7 @@ class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
 			if (term.function instanceof ControlledFunction && term.domain instanceof MapDomain)
 				functionTerm.append(caseFunctionTermSuppCont(term.function, term))
 
-			functionTerm.append(term.function.name)
+			functionTerm.append(term.function.name)		
 
 			functionTerm.append(caseFunctionTermSupp(term.function, term))
 			if (term.function instanceof ControlledFunction && term.domain instanceof ConcreteDomain)
