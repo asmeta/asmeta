@@ -428,6 +428,13 @@ public class AsmetaSMVtestTranslate {
 	}
 	
 	
+	@Test
+	public void testStudente24() {
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		//AsmetaSMVOptions.FLATTEN = false;
+		testOneSpec("examples/student2/fraioli.asm", options);
+	}
 
 	
 	/*

@@ -1272,13 +1272,15 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			locations.add(new Location(func, new Value[0]));
 		} else {
 			AsValueListVisitor avlv = new AsValueListVisitor(domainValues);
-			for (Value[] v : (List<Value[]>) avlv.visit(domain)) {
+			List<Value[]> visit = (List<Value[]>) avlv.visit(domain);
+			assert visit != null : " unable to visit domain " + domain.getName() + " of class " + domain.getClass();
+			for (Value[] v : visit) {
 				locations.add(new Location(func, v));
 			}
 		}
 		return locations;
-	}
-
+	}	
+	
 	/**
 	 * Visit of a location.
 	 * 

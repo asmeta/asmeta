@@ -40,7 +40,9 @@ public class AsValueListVisitor extends org.asmeta.parser.util.ReflectiveVisitor
 	}
 
 	public List<Value[]> visit(AgentDomain domain) throws AsmNotSupportedException {
-		return domainValues.get("Agent");
+		List<Value[]> agents = domainValues.get("Agent");
+		assert agents != null : "no agent found in " + domainValues;
+		return agents;
 	}
 
 	public List<Value[]> visit(EnumTd domain) throws AsmNotSupportedException {
