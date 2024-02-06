@@ -364,8 +364,9 @@ class RuleToJava extends RuleVisitor<String> {
 		let.append("{\n");
 
 		for (var int i = 0; i < object.getVariable.size; i++) {
+			object.getVariable.get(i).domain.name
 			let.
-				append('''Object «new TermToJava(res).visit(object.getVariable.get(i))» = «new TermToJava(res).visit(object.getInitExpression.get(i))»;
+				append('''«object.getVariable.get(i).domain.name + " " + new TermToJava(res).visit(object.getVariable.get(i))» = «new TermToJava(res).visit(object.getInitExpression.get(i))»;
 				''')
 		}
 		let.append('''«new RuleToJava(res,seqBlock,options).visit(object.getInRule)»

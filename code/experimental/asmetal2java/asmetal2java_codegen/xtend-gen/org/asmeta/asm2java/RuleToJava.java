@@ -703,16 +703,21 @@ public class RuleToJava extends RuleVisitor<String> {
     StringBuffer let = new StringBuffer();
     let.append("{\n");
     for (int i = 0; (i < object.getVariable().size()); i++) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("Object ");
-      String _visit = new TermToJava(this.res).visit(object.getVariable().get(i));
-      _builder.append(_visit);
-      _builder.append(" = ");
-      String _visit_1 = new TermToJava(this.res).visit(object.getInitExpression().get(i));
-      _builder.append(_visit_1);
-      _builder.append(";");
-      _builder.newLineIfNotEmpty();
-      let.append(_builder);
+      {
+        object.getVariable().get(i).getDomain().getName();
+        StringConcatenation _builder = new StringConcatenation();
+        String _name = object.getVariable().get(i).getDomain().getName();
+        String _plus = (_name + " ");
+        String _visit = new TermToJava(this.res).visit(object.getVariable().get(i));
+        String _plus_1 = (_plus + _visit);
+        _builder.append(_plus_1);
+        _builder.append(" = ");
+        String _visit_1 = new TermToJava(this.res).visit(object.getInitExpression().get(i));
+        _builder.append(_visit_1);
+        _builder.append(";");
+        _builder.newLineIfNotEmpty();
+        let.append(_builder);
+      }
     }
     StringConcatenation _builder = new StringConcatenation();
     String _visit = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getInRule());
