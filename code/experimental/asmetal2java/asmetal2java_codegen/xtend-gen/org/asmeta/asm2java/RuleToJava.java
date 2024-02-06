@@ -517,15 +517,33 @@ public class RuleToJava extends RuleVisitor<String> {
         _builder_2.newLineIfNotEmpty();
         sb.append(_builder_2);
       } else {
-        StringConcatenation _builder_3 = new StringConcatenation();
-        _builder_3.append("point");
-        _builder_3.append(i);
-        _builder_3.append(".add(");
-        String _visit_1 = new TermToJava(this.res).visit(object.getVariable().get(i));
-        _builder_3.append(_visit_1);
-        _builder_3.append(");");
-        _builder_3.newLineIfNotEmpty();
-        sb.append(_builder_3);
+        Domain _domain_1 = object.getRanges().get(i).getDomain();
+        Domain _baseDomain_1 = ((PowersetDomain) _domain_1).getBaseDomain();
+        if ((_baseDomain_1 instanceof ConcreteDomain)) {
+          StringConcatenation _builder_3 = new StringConcatenation();
+          _builder_3.append("point");
+          _builder_3.append(i);
+          _builder_3.append(".add(");
+          Domain _domain_2 = object.getRanges().get(i).getDomain();
+          String _name = ((PowersetDomain) _domain_2).getBaseDomain().getName();
+          String _plus = (_name + ".valueOf(");
+          String _visit_1 = new TermToJava(this.res).visit(object.getVariable().get(i));
+          String _plus_1 = (_plus + _visit_1);
+          _builder_3.append(_plus_1);
+          _builder_3.append("));");
+          _builder_3.newLineIfNotEmpty();
+          sb.append(_builder_3);
+        } else {
+          StringConcatenation _builder_4 = new StringConcatenation();
+          _builder_4.append("point");
+          _builder_4.append(i);
+          _builder_4.append(".add(");
+          String _visit_2 = new TermToJava(this.res).visit(object.getVariable().get(i));
+          _builder_4.append(_visit_2);
+          _builder_4.append(");");
+          _builder_4.newLineIfNotEmpty();
+          sb.append(_builder_4);
+        }
       }
     }
     for (int i = 0; (i < counter); i++) {

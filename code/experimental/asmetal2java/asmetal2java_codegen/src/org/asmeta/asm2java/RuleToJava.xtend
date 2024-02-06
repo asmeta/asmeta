@@ -269,10 +269,16 @@ class RuleToJava extends RuleVisitor<String> {
 				''')
 			/*println("TERM: " + termName)
 			 pointerTerms.add(termName)*/
-			} else
-				sb.append('''
-					point«i».add(«new TermToJava(res).visit(object.getVariable.get(i))»);
-				''')
+			} else {
+				if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain)
+					sb.append('''
+						point«i».add(«(object.getRanges.get(i).domain as PowersetDomain).baseDomain.name + ".valueOf(" + new TermToJava(res).visit(object.getVariable.get(i))»));
+					''')
+				else
+					sb.append('''
+						point«i».add(«new TermToJava(res).visit(object.getVariable.get(i))»);
+					''')
+			}
 		for (var i = 0; i < counter; i++)
 			sb.append('''
 				}
