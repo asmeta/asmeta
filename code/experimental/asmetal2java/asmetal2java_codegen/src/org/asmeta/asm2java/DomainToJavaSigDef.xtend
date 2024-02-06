@@ -220,6 +220,10 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
                 	return n;
 				}
 				
+				static «object.name» valueOf(«object.name» val) {
+				                	return val;
+								}
+				
 				@Override
 					public boolean equals(Object obj) {
 						if (!(obj instanceof «object.name»)) return false;

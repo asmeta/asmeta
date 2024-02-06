@@ -6,15 +6,16 @@ import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.BasicTd;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.MapDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
-import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.EnumTerm;
@@ -446,8 +447,7 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
             String _plus_3 = (_plus_2 + ", ");
             functionTerm.append(_plus_3);
           } else {
-            Term _get = ft.getArguments().getTerms().get(0);
-            if ((_get instanceof ConstantTerm)) {
+            if (((ft.getArguments().getTerms().get(0) instanceof ConstantTerm) && (!(((LocationTerm) ft.getArguments().eContainer()).getFunction().getDomain() instanceof EnumTd)))) {
               EObject _eContainer = ft.getArguments().eContainer();
               String _name = ((LocationTerm) _eContainer).getFunction().getDomain().getName();
               String _plus_4 = (".get(" + _name);
@@ -457,10 +457,20 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
               String _plus_7 = (_plus_6 + "))");
               functionTerm.append(_plus_7);
             } else {
-              String _visit_3 = this.visit(ft.getArguments().getTerms().get(0));
-              String _plus_8 = (".get(" + _visit_3);
-              String _plus_9 = (_plus_8 + ")");
-              functionTerm.append(_plus_9);
+              if (((fd.getDomain() instanceof ConcreteDomain) && (((ConcreteDomain) fd.getDomain()).getTypeDomain() instanceof BasicTd))) {
+                String _name_1 = fd.getDomain().getName();
+                String _plus_8 = (".get(" + _name_1);
+                String _plus_9 = (_plus_8 + ".valueOf(");
+                String _replace = this.visit(ft.getArguments().getTerms().get(0)).replace(".value", "");
+                String _plus_10 = (_plus_9 + _replace);
+                String _plus_11 = (_plus_10 + "))");
+                functionTerm.append(_plus_11);
+              } else {
+                String _visit_3 = this.visit(ft.getArguments().getTerms().get(0));
+                String _plus_12 = (".get(" + _visit_3);
+                String _plus_13 = (_plus_12 + ")");
+                functionTerm.append(_plus_13);
+              }
             }
             Boolean _controllo_3 = this.controllo(fd.getCodomain());
             if ((_controllo_3).booleanValue()) {
