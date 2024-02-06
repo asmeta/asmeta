@@ -1,8 +1,14 @@
 package org.asmeta.asm2java;
 
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.asmeta.asm2code.Util;
+
+import asmeta.definitions.domains.PowersetDomain;
 import asmeta.structure.Asm;
+import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
 
 public class ExpressionToJava {
@@ -24,7 +30,7 @@ public class ExpressionToJava {
 				|| function.equals("=") || function.equals("!=") || function.equals("-") || function.equals("!")
 				|| function.equals("&") || function.equals("|") || function.equals("xor")
 				|| function.equals("mod") || function.equals("isDef") ||function.equals("+") || function.equals("*") || function.equals("/")
-				|| function.equals("^") || function.equals("iton");
+				|| function.equals("^") || function.equals("iton") || function.equals("at") || function.equals("chooseone");
 	}
 
 	/**
@@ -53,11 +59,17 @@ public class ExpressionToJava {
 		if (function.equals("->")) {
 			return implies(argsTerm);
 		}
+		if (function.equals("chooseone")) {
+			return chooseone(argsTerm);
+		}
 		if (function.equals("iton")) {
 			return iton(argsTerm);
 		}
 		if (function.equals("=")) {
 			return equals(argsTerm);
+		}
+		if (function.equals("at")) {
+			return at(argsTerm);
 		}
 		if (function.equals("!=")) {
 			return notEquals(argsTerm);
@@ -109,6 +121,12 @@ public class ExpressionToJava {
 		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
 		return first;
 	}
+	
+	private String chooseone(List<Term> argsTerm) {
+		SetTerm term = (SetTerm) argsTerm.get(0);
+		String res = "Collections.unmodifiableList(Arrays.asList"+ new TermToJava(asm).visit(term) + ").get(ThreadLocalRandom.current().nextInt(0, Collections.unmodifiableList(Arrays.asList"+ new TermToJava(asm).visit(term) + ").size()))";
+		return res;
+	}
 
 	private String or(List<Term> argsTerm) throws Exception {
 		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
@@ -116,6 +134,12 @@ public class ExpressionToJava {
 		return first + " || " + second;
 	}
 
+	private String at(List<Term> argsTerm) throws Exception {
+		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String second = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		return first + ".get(" + second + ")";
+	}
+	
 	private String and(List<Term> argsTerm) throws Exception {
 		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
 		String second = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
