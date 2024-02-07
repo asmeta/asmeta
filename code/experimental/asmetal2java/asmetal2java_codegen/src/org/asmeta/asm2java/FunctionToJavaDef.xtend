@@ -1,19 +1,20 @@
 package org.asmeta.asm2java
 
-import asmeta.structure.Asm
-import org.asmeta.parser.util.ReflectiveVisitor
 import asmeta.definitions.ControlledFunction
+import asmeta.definitions.DerivedFunction
 import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.StaticFunction
-import asmeta.definitions.DerivedFunction
 import asmeta.definitions.domains.AbstractTd
-import asmeta.definitions.domains.EnumTd
-import asmeta.definitions.domains.SequenceDomain
 import asmeta.definitions.domains.ConcreteDomain
+import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.domains.ProductDomain
+import asmeta.definitions.domains.SequenceDomain
+import asmeta.structure.Asm
+import asmeta.terms.basicterms.Term
 import asmeta.terms.furtherterms.CaseTerm
 import asmeta.terms.furtherterms.ForallTerm
-import asmeta.definitions.domains.BasicTd
+import asmeta.terms.furtherterms.SequenceTerm
+import org.asmeta.parser.util.ReflectiveVisitor
 
 class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
@@ -24,13 +25,21 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 	new(Asm asm) {
 		this.asm = asm
 	}
+	
+	def String visit(SequenceTerm object) {
+		var StringBuffer sb = new StringBuffer
+		for (Term t : object.terms) {
+			sb.append(new TermToJava(asm).visit(t) + ",")
+		}
+		return sb.toString().substring(0, sb.toString().length()-1)
+	}
 
 	def String visit(ControlledFunction object) {
 		var StringBuffer sb = new StringBuffer
 
-		if (object.codomain instanceof SequenceDomain || object.domain instanceof SequenceDomain) {
+		if (object.codomain instanceof SequenceDomain || object.domain instanceof SequenceDomain) {			
 			sb.append('''
-				controllo lista
+				«object.name».set(new ArrayList<>(Arrays.asList(«visit(object.initialization.get(0).body)»)));
 			''')
 		} else {
 			if (object.domain !== null) {
