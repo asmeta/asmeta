@@ -22,7 +22,7 @@ signature:
 
     dynamic domain NumeriD subsetof Integer
     //domain TF subsetof Boolean
-    //non funziona un sottotipo di boolean, perchè non esiste un insieme ristretto di true/false
+    //non funziona un sottotipo di boolean, perchï¿½ non esiste un insieme ristretto di true/false
 
     //Enumerativi
     enum domain Color={RED | GREEN | BLUE}
@@ -223,7 +223,8 @@ definitions:
 
 
 	// FUNCTION DEFINITIONS
-
+	function funS1 = 4
+	function funS2 = RED
 
 
 

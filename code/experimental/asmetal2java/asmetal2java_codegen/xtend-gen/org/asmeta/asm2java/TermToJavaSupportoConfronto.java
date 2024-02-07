@@ -55,22 +55,6 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
     }
   }
 
-  /**
-   * TODO: DELETE FOR COVERAGE
-   * def String visit(ComplexTerm term) {
-   * 	return "TODO"
-   * }
-   * 
-   * def String visit(CharTerm term) {
-   * 	return term.symbol
-   * }
-   * 
-   * 
-   * 
-   * def String visit(RealTerm term) {
-   * 	return term.symbol
-   * }
-   */
   public String visit(final IntegerTerm term) {
     return term.getSymbol();
   }
@@ -93,11 +77,6 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
     return term.getSymbol();
   }
 
-  /**
-   * TODO: DELETE FOR COVERAGE 	def String visit(UndefTerm term) {
-   * 		throw new Exception("Undefined term not supported");
-   * }
-   */
   public String visit(final EnumTerm term) {
     String _name = term.getDomain().getName();
     String _plus = (_name + ".");
@@ -135,35 +114,6 @@ public class TermToJavaSupportoConfronto extends ReflectiveVisitor<String> {
     }
   }
 
-  /**
-   * TODO: DELETE FOR COVERAGE
-   *  	def dispatch String caseFunctionTermSupp(FunctionDefinition fd, FunctionTerm ft) {
-   * 		println("Warning: Function Definition not handled! function name: " + fd.definedFunction.name)
-   * 		return ""
-   * 	}
-   * 
-   * 
-   * 
-   * 	def dispatch String caseFunctionTermSupp(OutFunction fd, FunctionTerm ft) {
-   * 		var StringBuffer functionTerm = new StringBuffer
-   * 		if (ft.arguments !== null) {
-   * 			if (ft.arguments.terms.size == 1)
-   * 				functionTerm.append("[" + visit(ft.arguments.terms.get(0)) + "]")
-   * 			else {
-   * 				functionTerm.append("[make_tuple(")
-   * 				for (var i = 0; i < ft.arguments.terms.size; i++)
-   * 					functionTerm.append(visit(ft.arguments.terms.get(i)) + ", ")
-   * 
-   * 				functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")]")
-   * 			}
-   * 		}
-   * 		return functionTerm.toString
-   * 	}
-   * 
-   * 	def dispatch String caseFunctionTermSupp(SharedFunction fd, FunctionTerm ft) {
-   * 		throw new RuntimeException("Shared Functions not yet supported")
-   * 	}
-   */
   public String caseFunctionTermSuppCont(final Function fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
