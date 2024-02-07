@@ -53,11 +53,10 @@ public class Formatter {
 			return document.get();
 		}
 	}
-	
+
+	// replace some extra new lines or spaces that are no longer useful
 	private static final Pattern SPACES_BETWEEN_NL = Pattern.compile("\n[\\s]*\n*");
 	private static final Pattern DOUBLE_NL = Pattern.compile("[\r\n]+");
-
-	
 	static String replaceDoubleNL(String code){
 		code = code.trim();
 		// ci potrebbe essere qualche spazio tra due a capo

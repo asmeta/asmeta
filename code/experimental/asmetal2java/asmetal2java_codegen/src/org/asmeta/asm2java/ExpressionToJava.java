@@ -1,10 +1,7 @@
 package org.asmeta.asm2java;
 
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
-import asmeta.definitions.domains.PowersetDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
@@ -171,8 +168,7 @@ public class ExpressionToJava {
 		try {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-		}
+		} catch (NumberFormatException e) {}
 		return new Util().setPars(left + " <= " + right);
 
 	}
