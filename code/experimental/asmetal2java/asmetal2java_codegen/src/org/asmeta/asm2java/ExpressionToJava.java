@@ -1,10 +1,7 @@
 package org.asmeta.asm2java;
 
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
-import asmeta.definitions.domains.PowersetDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
@@ -26,9 +23,10 @@ public class ExpressionToJava {
 	public static boolean hasEvaluateVisitor(String function) {
 		return function.equals("<") || function.equals("<=") || function.equals(">") || function.equals(">=")
 				|| function.equals("=") || function.equals("!=") || function.equals("-") || function.equals("!")
-				|| function.equals("&") || function.equals("|") || function.equals("xor")
-				|| function.equals("mod") || function.equals("isDef") ||function.equals("+") || function.equals("*") || function.equals("/")
-				|| function.equals("^") || function.equals("iton") || function.equals("at") || function.equals("chooseone");
+				|| function.equals("&") || function.equals("|") || function.equals("xor") || function.equals("mod")
+				|| function.equals("isDef") || function.equals("+") || function.equals("*") || function.equals("/")
+				|| function.equals("^") || function.equals("iton") || function.equals("at")
+				|| function.equals("chooseone");
 	}
 
 	/**
@@ -42,70 +40,55 @@ public class ExpressionToJava {
 	 * @throws Exception the exception
 	 */
 	String evaluateFunction(String function, List<Term> argsTerm) throws Exception {
-		if (function.equals("<")) {
+		switch (function) {
+		case "<":
 			return lt(argsTerm);
-		}
-		if (function.equals("<=")) {
+		case ("<="):
 			return le(argsTerm);
-		}
-		if (function.equals(">")) {
+		case (">"):
 			return gt(argsTerm);
-		}
-		if (function.equals(">=")) {
+		case (">="):
 			return ge(argsTerm);
-		}
-		if (function.equals("->")) {
+		case ("->"):
 			return implies(argsTerm);
-		}
-		if (function.equals("chooseone")) {
+		case ("chooseone"):
 			return chooseone(argsTerm);
-		}
-		if (function.equals("iton")) {
+		case ("iton"):
 			return iton(argsTerm);
-		}
-		if (function.equals("=")) {
+		case ("="):
 			return equals(argsTerm);
-		}
-		if (function.equals("at")) {
+		case ("at"):
 			return at(argsTerm);
-		}
-		if (function.equals("!=")) {
+		case ("!="):
 			return notEquals(argsTerm);
-		}
-		if (function.equals("!")) {
+		case ("!"):
 			return not(argsTerm);
-		}
-		if (function.equals("&")) {
+		case ("&"):
 			return and(argsTerm);
-		}
-		if (function.equals("|")) {
+		case ("|"):
 			return or(argsTerm);
-		}
-		if (function.equals("mod")) {
+		case ("mod"):
 			return mod(argsTerm);
-		}
-		if (function.equals("isDef")) {
+		case ("isDef"):
 			return isDef(argsTerm);
-		}
-		if (function.equals("+")) {
+		case ("+"):
 			if (argsTerm.size() == 1) {
 				return plusUnary(argsTerm);
 			} else {
 				return sum(argsTerm);
 			}
-		}
-		if (function.equals("*")) {
+		case ("*"):
 			return mult(argsTerm);
-		}
-		if (function.equals("-")) {
+		case ("-"):
 			if (argsTerm.size() == 1) {
 				return minusUnary(argsTerm);
 			} else {
 				return minusBinary(argsTerm);
 			}
-		} else {
-			return "";
+		default:
+			throw new RuntimeException(function + "not found");
 		}
+
 	}
 
 	/**
@@ -119,10 +102,12 @@ public class ExpressionToJava {
 		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
 		return first;
 	}
-	
+
 	private String chooseone(List<Term> argsTerm) {
 		SetTerm term = (SetTerm) argsTerm.get(0);
-		String res = "Collections.unmodifiableList(Arrays.asList"+ new TermToJava(asm).visit(term) + ").get(ThreadLocalRandom.current().nextInt(0, Collections.unmodifiableList(Arrays.asList"+ new TermToJava(asm).visit(term) + ").size()))";
+		String res = "Collections.unmodifiableList(Arrays.asList" + new TermToJava(asm).visit(term)
+				+ ").get(ThreadLocalRandom.current().nextInt(0, Collections.unmodifiableList(Arrays.asList"
+				+ new TermToJava(asm).visit(term) + ").size()))";
 		return res;
 	}
 
@@ -137,7 +122,7 @@ public class ExpressionToJava {
 		String second = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
 		return first + ".get(" + second + ")";
 	}
-	
+
 	private String and(List<Term> argsTerm) throws Exception {
 		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
 		String second = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
@@ -183,8 +168,7 @@ public class ExpressionToJava {
 		try {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-		}
+		} catch (NumberFormatException e) {}
 		return new Util().setPars(left + " <= " + right);
 
 	}
@@ -269,7 +253,7 @@ public class ExpressionToJava {
 		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
 		return new Util().setPars(left + " % " + right);
 	}
-	
+
 	/**
 	 * Executes the isDef function
 	 * 
@@ -348,7 +332,7 @@ public class ExpressionToJava {
 		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
 		return new Util().setPars(left + " * " + right);
 	}
-	
+
 	/**
 	 * Executes the implies function.
 	 * 

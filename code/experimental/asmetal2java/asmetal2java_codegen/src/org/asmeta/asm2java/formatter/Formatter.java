@@ -1,6 +1,7 @@
 package org.asmeta.asm2java.formatter;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
@@ -17,14 +18,9 @@ public class Formatter {
 	static int initialIndent = 0;
 	
 	public static String formatCode(String code) {
-		String newLine = System.getProperty("line.separator");
 		// first remove double new lines
 		if (REMOVE_DOUBLE_NEW_LINES) {
-			//code = code.trim().replaceAll("["+newLine +"]{2,}", "\n");		
-			//code = code.trim().replaceAll(newLine + newLine, newLine);
-			// ci potrebbe essere qualche spazio tra due a capo
-			code = code.trim().replaceAll("\n[\\s]*\n", "\n");
-			code = code.trim().replaceAll("\n\n", "\n");
+			code = replaceDoubleNL(code);
 		}
 		
 		// take default Eclipse formatting options
@@ -57,4 +53,17 @@ public class Formatter {
 			return document.get();
 		}
 	}
+
+	// replace some extra new lines or spaces that are no longer useful
+	private static final Pattern SPACES_BETWEEN_NL = Pattern.compile("\n[\\s]*\n*");
+	private static final Pattern DOUBLE_NL = Pattern.compile("[\r\n]+");
+	static String replaceDoubleNL(String code){
+		code = code.trim();
+		// ci potrebbe essere qualche spazio tra due a capo
+		code = SPACES_BETWEEN_NL.matcher(code).replaceAll("\n");
+		// remove double space
+		code = DOUBLE_NL.matcher(code).replaceAll("\n");
+		return code;
+	}
+
 }

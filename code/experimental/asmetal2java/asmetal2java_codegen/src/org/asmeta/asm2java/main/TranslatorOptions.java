@@ -7,7 +7,7 @@ public class TranslatorOptions {
 	
 	// the dialect - TODO add new options 
 	enum CompilerType {
-		DesktopCompiler
+		DESKTOP_COMPILER
 	}
 	public CompilerType compilerType;
 	
@@ -25,7 +25,7 @@ public class TranslatorOptions {
 	}
 	
 	public TranslatorOptions(boolean formatter, boolean shuffleRandom, boolean optmizeSeqRule){
-		compilerType = CompilerType.DesktopCompiler;
+		compilerType = CompilerType.DESKTOP_COMPILER;
 		this.formatter = formatter;
 		this.shuffleRandom = shuffleRandom;
 		this.optimizeSeqMacroRule = optmizeSeqRule;

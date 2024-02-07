@@ -48,16 +48,13 @@ public class CompilatoreJava {
 
 			if (compiler.getTask(null, fileManager, null, null, null,
 					fileManager.getJavaFileObjectsFromFiles(Arrays.asList(sourceFile))).call() == true) {
-				System.out.println("\nCompilazione del file " + name + " riuscita\n");
 				messaggio = "\nCompilazione del file " + name + " riuscita\n";
-			} else {
-
-				System.out.println("\nCompilazione del file " + name + " non riuscita\n");
+				logger.debug(messaggio);
+			} else {;
 				messaggio = "\nCompilazione del file " + name + " non riuscita\n";
-			}
+				logger.debug(messaggio);
+			}			
 		}
-
 		return new CompileResult(true, messaggio);
-
 	}
 }
