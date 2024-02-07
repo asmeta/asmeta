@@ -87,6 +87,8 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("import java.util.concurrent.ThreadLocalRandom;");
     _builder.newLine();
+    _builder.append("import java.util.function.Function;");
+    _builder.newLine();
     _builder.append("import org.javatuples.Decade;");
     _builder.newLine();
     _builder.append("import org.javatuples.Ennead;");

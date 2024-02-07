@@ -87,8 +87,8 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 						if (object.initialization.get(0).body instanceof CaseTerm) {
 							sb.
 							append('''
-				      «object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,() -> {«new TermToJava(asm).visit(object.initialization.get(0).body)»});
-				      «object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,() -> {«new TermToJava(asm).visit(object.initialization.get(0).body)»});
+				      «object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,new Function<Void,«new ToString(asm).visit(object.codomain)»>(){@Override public «new ToString(asm).visit(object.codomain)» apply(Void input) {«new TermToJava(asm).visit(object.initialization.get(0).body)»}}.apply(null));
+				      «object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,new Function<Void,«new ToString(asm).visit(object.codomain)»>(){@Override public «new ToString(asm).visit(object.codomain)» apply(Void input) {«new TermToJava(asm).visit(object.initialization.get(0).body)»}}.apply(null));
 				''')
 						} else {
 						sb.
