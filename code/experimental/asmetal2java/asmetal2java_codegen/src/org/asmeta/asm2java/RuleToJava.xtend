@@ -170,11 +170,13 @@ class RuleToJava extends RuleVisitor<String> {
 				append('''«new TermToJava(res,true).visit(object.location)»«new TermToJava(res,false).visit(object.updatingTerm)».value);
 			   «new TermToJavaSupportoProdMap(res,false).visit(object.location)»
 			''')
-		else
+		else {
+			var String varName = object.hashCode.toString
 			result.
-				append('''«new TermToJava(res,true).visit(object.location)»«new TermToJava(res,false).visit(object.updatingTerm)»);
-			   «new TermToJavaSupportoProdMap(res,false).visit(object.location)»
+				append('''«new TermToJava(res,true,varName).visit(object.location)»«new TermToJava(res,false).visit(object.updatingTerm)»);
+			   «new TermToJavaSupportoProdMap(res,false,varName).visit(object.location)»
 			''')
+		}
 		if (seqBlock) {
 			// add the fire update
 			var functionName = new TermToJavaConditionalAbs(res, true).visit(object.location)

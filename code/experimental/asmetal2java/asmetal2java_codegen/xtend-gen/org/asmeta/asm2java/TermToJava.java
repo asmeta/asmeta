@@ -49,6 +49,8 @@ public class TermToJava extends ReflectiveVisitor<String> {
 
   private boolean leftHandSide;
 
+  private String varName;
+
   public TermToJava(final Asm resource) {
     this(resource, false);
   }
@@ -56,6 +58,13 @@ public class TermToJava extends ReflectiveVisitor<String> {
   public TermToJava(final Asm resource, final boolean leftHandSide) {
     this.res = resource;
     this.leftHandSide = leftHandSide;
+    this.varName = "";
+  }
+
+  public TermToJava(final Asm resource, final boolean leftHandSide, final String varName) {
+    this.res = resource;
+    this.leftHandSide = leftHandSide;
+    this.varName = varName;
   }
 
   public String visit(final VariableTerm term) {
@@ -609,14 +618,16 @@ public class TermToJava extends ReflectiveVisitor<String> {
           String _plus = (_name + " ");
           String _name_1 = ft.getDomain().getName();
           String _plus_1 = (_plus + _name_1);
-          String _plus_2 = (_plus_1 + "_s = new ");
+          String _plus_2 = (_plus_1 + this.varName);
+          String _plus_3 = (_plus_2 + "_s = new ");
           String _name_2 = ft.getDomain().getName();
-          String _plus_3 = (_plus_2 + _name_2);
-          String _plus_4 = (_plus_3 + "();\n");
-          functionTerm.append(_plus_4);
-          String _name_3 = ft.getDomain().getName();
-          String _plus_5 = (_name_3 + "_s.value = (//");
+          String _plus_4 = (_plus_3 + _name_2);
+          String _plus_5 = (_plus_4 + "();\n");
           functionTerm.append(_plus_5);
+          String _name_3 = ft.getDomain().getName();
+          String _plus_6 = (_name_3 + this.varName);
+          String _plus_7 = (_plus_6 + "_s.value = (//");
+          functionTerm.append(_plus_7);
         }
       }
       Domain _domain_1 = ft.getDomain();
@@ -637,36 +648,38 @@ public class TermToJava extends ReflectiveVisitor<String> {
           if (this.leftHandSide) {
             this.leftHandSide = false;
             String _name_4 = ft.getDomain().getName();
-            String _plus_6 = (_name_4 + " ");
+            String _plus_8 = (_name_4 + " ");
             String _name_5 = ft.getDomain().getName();
-            String _plus_7 = (_plus_6 + _name_5);
-            String _plus_8 = (_plus_7 + "_s = new ");
+            String _plus_9 = (_plus_8 + _name_5);
+            String _plus_10 = (_plus_9 + this.varName);
+            String _plus_11 = (_plus_10 + "_s = new ");
             String _name_6 = ft.getDomain().getName();
-            String _plus_9 = (_plus_8 + _name_6);
-            String _plus_10 = (_plus_9 + "();\n");
-            functionTerm.append(_plus_10);
+            String _plus_12 = (_plus_11 + _name_6);
+            String _plus_13 = (_plus_12 + "();\n");
+            functionTerm.append(_plus_13);
             String _name_7 = ft.getDomain().getName();
-            String _plus_11 = (_name_7 + "_s.value = (//");
-            functionTerm.append(_plus_11);
+            String _plus_14 = (_name_7 + this.varName);
+            String _plus_15 = (_plus_14 + "_s.value = (//");
+            functionTerm.append(_plus_15);
           }
         }
       } else {
         if ((fd instanceof ControlledFunction)) {
           if (this.leftHandSide) {
             String _name_8 = ((ControlledFunction)fd).getName();
-            String _plus_12 = (_name_8 + "_elem = null;\n");
-            functionTerm.append(_plus_12);
+            String _plus_16 = (_name_8 + "_elem = null;\n");
+            functionTerm.append(_plus_16);
             for (int i = 0; (i < ((ControlledFunction)fd).getInitialization().get(0).getVariable().size()); i++) {
               String _name_9 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
-              String _plus_13 = (_name_9 + "_elem.value = ");
+              String _plus_17 = (_name_9 + "_elem.value = ");
               String _visit = this.visit(ft.getArguments().getTerms().get(i));
-              String _plus_14 = (_plus_13 + _visit);
-              String _plus_15 = (_plus_14 + ";\n");
-              functionTerm.append(_plus_15);
+              String _plus_18 = (_plus_17 + _visit);
+              String _plus_19 = (_plus_18 + ";\n");
+              functionTerm.append(_plus_19);
             }
             String _name_9 = ((ControlledFunction)fd).getName();
-            String _plus_13 = (_name_9 + "_elem = new ");
-            functionTerm.append(_plus_13);
+            String _plus_17 = (_name_9 + "_elem = new ");
+            functionTerm.append(_plus_17);
             int _size_1 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().size();
             switch (_size_1) {
               case 2:
@@ -703,12 +716,12 @@ public class TermToJava extends ReflectiveVisitor<String> {
               boolean _notEquals = (i != _minus);
               if (_notEquals) {
                 String _name_10 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
-                String _plus_14 = (_name_10 + ",");
-                functionTerm.append(_plus_14);
+                String _plus_18 = (_name_10 + ",");
+                functionTerm.append(_plus_18);
               } else {
                 String _name_11 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
-                String _plus_15 = (_name_11 + ">(");
-                functionTerm.append(_plus_15);
+                String _plus_19 = (_name_11 + ">(");
+                functionTerm.append(_plus_19);
               }
             }
             for (int i = 0; (i < ((ControlledFunction)fd).getInitialization().get(0).getVariable().size()); i++) {
@@ -717,38 +730,38 @@ public class TermToJava extends ReflectiveVisitor<String> {
               boolean _notEquals = (i != _minus);
               if (_notEquals) {
                 String _name_10 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
-                String _plus_14 = (_name_10 + "_elem,");
-                functionTerm.append(_plus_14);
+                String _plus_18 = (_name_10 + "_elem,");
+                functionTerm.append(_plus_18);
               } else {
                 String _name_11 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
-                String _plus_15 = (_name_11 + "_elem);\n");
-                functionTerm.append(_plus_15);
+                String _plus_19 = (_name_11 + "_elem);\n");
+                functionTerm.append(_plus_19);
               }
             }
             String _name_10 = ft.getDomain().getName();
-            String _plus_14 = (_name_10 + " sup = new ");
+            String _plus_18 = (_name_10 + " sup = new ");
             String _name_11 = ft.getDomain().getName();
-            String _plus_15 = (_plus_14 + _name_11);
-            String _plus_16 = (_plus_15 + "();\n");
-            functionTerm.append(_plus_16);
+            String _plus_19 = (_plus_18 + _name_11);
+            String _plus_20 = (_plus_19 + "();\n");
+            functionTerm.append(_plus_20);
             functionTerm.append("sup.value = (//");
           } else {
             functionTerm.append("true))\n");
             functionTerm.append("System.out.println();\n");
             String _name_12 = ((ControlledFunction)fd).getName();
-            String _plus_17 = (_name_12 + "_elem = null;\n");
-            functionTerm.append(_plus_17);
+            String _plus_21 = (_name_12 + "_elem = null;\n");
+            functionTerm.append(_plus_21);
             for (int i = 0; (i < ((ControlledFunction)fd).getInitialization().get(0).getVariable().size()); i++) {
               String _name_13 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
-              String _plus_18 = (_name_13 + "_elem.value = ");
+              String _plus_22 = (_name_13 + "_elem.value = ");
               String _visit = this.visit(ft.getArguments().getTerms().get(i));
-              String _plus_19 = (_plus_18 + _visit);
-              String _plus_20 = (_plus_19 + ";\n");
-              functionTerm.append(_plus_20);
+              String _plus_23 = (_plus_22 + _visit);
+              String _plus_24 = (_plus_23 + ";\n");
+              functionTerm.append(_plus_24);
             }
             String _name_13 = ((ControlledFunction)fd).getName();
-            String _plus_18 = (_name_13 + "_elem = new ");
-            functionTerm.append(_plus_18);
+            String _plus_22 = (_name_13 + "_elem = new ");
+            functionTerm.append(_plus_22);
             int _size_2 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().size();
             switch (_size_2) {
               case 2:
@@ -785,12 +798,12 @@ public class TermToJava extends ReflectiveVisitor<String> {
               boolean _notEquals = (i != _minus);
               if (_notEquals) {
                 String _name_14 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
-                String _plus_19 = (_name_14 + ",");
-                functionTerm.append(_plus_19);
+                String _plus_23 = (_name_14 + ",");
+                functionTerm.append(_plus_23);
               } else {
                 String _name_15 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
-                String _plus_20 = (_name_15 + ">(");
-                functionTerm.append(_plus_20);
+                String _plus_24 = (_name_15 + ">(");
+                functionTerm.append(_plus_24);
               }
             }
             for (int i = 0; (i < ((ControlledFunction)fd).getInitialization().get(0).getVariable().size()); i++) {
@@ -799,21 +812,21 @@ public class TermToJava extends ReflectiveVisitor<String> {
               boolean _notEquals = (i != _minus);
               if (_notEquals) {
                 String _name_14 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
-                String _plus_19 = (_name_14 + "_elem,");
-                functionTerm.append(_plus_19);
+                String _plus_23 = (_name_14 + "_elem,");
+                functionTerm.append(_plus_23);
               } else {
                 String _name_15 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
-                String _plus_20 = (_name_15 + "_elem);\n");
-                functionTerm.append(_plus_20);
+                String _plus_24 = (_name_15 + "_elem);\n");
+                functionTerm.append(_plus_24);
               }
             }
             String _name_14 = ((ControlledFunction)fd).getName();
-            String _plus_19 = ("if((" + _name_14);
-            String _plus_20 = (_plus_19 + ".get(");
+            String _plus_23 = ("if((" + _name_14);
+            String _plus_24 = (_plus_23 + ".get(");
             String _name_15 = ((ControlledFunction)fd).getName();
-            String _plus_21 = (_plus_20 + _name_15);
-            String _plus_22 = (_plus_21 + "_elem).value //");
-            functionTerm.append(_plus_22);
+            String _plus_25 = (_plus_24 + _name_15);
+            String _plus_26 = (_plus_25 + "_elem).value //");
+            functionTerm.append(_plus_26);
           }
         }
       }

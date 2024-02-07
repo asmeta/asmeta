@@ -19,6 +19,7 @@ class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
 	package Integer numStaticParam
 	Asm res
 	boolean leftHandSide
+	String varName
 
 	new(Asm resource) {
 		this(resource, false)
@@ -28,6 +29,14 @@ class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
 	new(Asm resource, boolean leftHandSide) {
 		this.res = resource
 		this.leftHandSide = leftHandSide
+		this.varName = ""
+	}
+	
+	//Il boolean identifica se il termine » a sx o dx del :=
+	new(Asm resource, boolean leftHandSide, String varName) {
+		this.res = resource
+		this.leftHandSide = leftHandSide
+		this.varName = varName
 	}
 
 	def String visit(VariableTerm term) {
@@ -54,10 +63,6 @@ class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
     // Metodo richiamato in presenza di due termini ed un operatore da identificare
 	def String visit(LocationTerm term) {
 		return visit(term as FunctionTerm)
-		/*if (term.arguments)
-			return visit(term as FunctionTerm)
-		else
-	 		return (term.function.name + "(" + visit(term.arguments)+")")*/
 	}
 
 
@@ -155,7 +160,7 @@ class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
 			if(ft.domain instanceof ConcreteDomain)
 		//Identifico Dx o Sx
 		    if (!leftHandSide)
-			functionTerm.append(fd.name+".set("+ft.domain.name+"_s);")
+			functionTerm.append(fd.name+".set("+ft.domain.name+ varName+"_s);")
 			
 			return functionTerm.toString
 		
@@ -172,7 +177,7 @@ class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
 					if (!leftHandSide)
 					{
 			          
-			          functionTerm.append(fd.name+".set("+visit(ft.arguments.terms.get(0))+", "+ft.domain.name+"_s);")
+			          functionTerm.append(fd.name+".set("+visit(ft.arguments.terms.get(0))+", "+ft.domain.name+ varName+"_s);")
 			            
 			       
 			}

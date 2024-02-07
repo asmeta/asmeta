@@ -41,6 +41,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 	package Integer numStaticParam
 	Asm res
 	boolean leftHandSide
+	String varName
 
 	new(Asm resource) {
 		this(resource, false)
@@ -50,6 +51,14 @@ class TermToJava extends ReflectiveVisitor<String> {
 	new(Asm resource, boolean leftHandSide) {
 		this.res = resource
 		this.leftHandSide = leftHandSide
+		this.varName = ""
+	}
+	
+	//Il boolean identifica se il termine » a sx o dx del :=
+	new(Asm resource, boolean leftHandSide, String varName) {
+		this.res = resource
+		this.leftHandSide = leftHandSide
+		this.varName = varName
 	}
 
 	def String visit(VariableTerm term) {
@@ -399,8 +408,8 @@ def String visit(LetTerm object) {
 					if (leftHandSide)
 					{
 			          leftHandSide = false
-			          functionTerm.append(ft.domain.name+" "+ ft.domain.name+"_s = new " + ft.domain.name + "();\n")
-			          functionTerm.append(ft.domain.name+"_s.value = (//")
+			          functionTerm.append(ft.domain.name+" "+ ft.domain.name + varName +"_s = new " + ft.domain.name + "();\n")
+			          functionTerm.append(ft.domain.name+ varName +"_s.value = (//")
 			            
 			        }
 					
@@ -426,8 +435,8 @@ def String visit(LetTerm object) {
 					if (leftHandSide)
 					{
 			          leftHandSide = false
-			          functionTerm.append(ft.domain.name+" "+ ft.domain.name+"_s = new " + ft.domain.name + "();\n")
-			          functionTerm.append(ft.domain.name+"_s.value = (//")
+			          functionTerm.append(ft.domain.name+" "+ ft.domain.name+ varName +"_s = new " + ft.domain.name + "();\n")
+			          functionTerm.append(ft.domain.name+ varName +"_s.value = (//")
 			            
 			        }
 		            

@@ -23,6 +23,8 @@ public class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
 
   private boolean leftHandSide;
 
+  private String varName;
+
   public TermToJavaSupportoProdMap(final Asm resource) {
     this(resource, false);
   }
@@ -30,6 +32,13 @@ public class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
   public TermToJavaSupportoProdMap(final Asm resource, final boolean leftHandSide) {
     this.res = resource;
     this.leftHandSide = leftHandSide;
+    this.varName = "";
+  }
+
+  public TermToJavaSupportoProdMap(final Asm resource, final boolean leftHandSide, final String varName) {
+    this.res = resource;
+    this.leftHandSide = leftHandSide;
+    this.varName = varName;
   }
 
   public String visit(final VariableTerm term) {
@@ -159,8 +168,9 @@ public class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
           String _plus_10 = (_name_7 + ".set(");
           String _name_8 = ft.getDomain().getName();
           String _plus_11 = (_plus_10 + _name_8);
-          String _plus_12 = (_plus_11 + "_s);");
-          functionTerm.append(_plus_12);
+          String _plus_12 = (_plus_11 + this.varName);
+          String _plus_13 = (_plus_12 + "_s);");
+          functionTerm.append(_plus_13);
         }
       }
       return functionTerm.toString();
@@ -175,14 +185,15 @@ public class TermToJavaSupportoProdMap extends ReflectiveVisitor<String> {
         if ((_domain_5 instanceof ConcreteDomain)) {
           if ((!this.leftHandSide)) {
             String _name_9 = fd.getName();
-            String _plus_13 = (_name_9 + ".set(");
+            String _plus_14 = (_name_9 + ".set(");
             String _visit = this.visit(ft.getArguments().getTerms().get(0));
-            String _plus_14 = (_plus_13 + _visit);
-            String _plus_15 = (_plus_14 + ", ");
+            String _plus_15 = (_plus_14 + _visit);
+            String _plus_16 = (_plus_15 + ", ");
             String _name_10 = ft.getDomain().getName();
-            String _plus_16 = (_plus_15 + _name_10);
-            String _plus_17 = (_plus_16 + "_s);");
-            functionTerm.append(_plus_17);
+            String _plus_17 = (_plus_16 + _name_10);
+            String _plus_18 = (_plus_17 + this.varName);
+            String _plus_19 = (_plus_18 + "_s);");
+            functionTerm.append(_plus_19);
           } else {
           }
         }

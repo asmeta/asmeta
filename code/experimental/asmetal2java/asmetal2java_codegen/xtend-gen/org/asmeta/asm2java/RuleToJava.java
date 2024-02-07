@@ -292,15 +292,16 @@ public class RuleToJava extends RuleVisitor<String> {
         _builder_1.newLineIfNotEmpty();
         result.append(_builder_1);
       } else {
+        String varName = Integer.valueOf(object.hashCode()).toString();
         StringConcatenation _builder_2 = new StringConcatenation();
-        String _visit_5 = new TermToJava(this.res, true).visit(object.getLocation());
+        String _visit_5 = new TermToJava(this.res, true, varName).visit(object.getLocation());
         _builder_2.append(_visit_5);
         String _visit_6 = new TermToJava(this.res, false).visit(object.getUpdatingTerm());
         _builder_2.append(_visit_6);
         _builder_2.append(");");
         _builder_2.newLineIfNotEmpty();
         _builder_2.append("\t\t\t   ");
-        String _visit_7 = new TermToJavaSupportoProdMap(this.res, false).visit(object.getLocation());
+        String _visit_7 = new TermToJavaSupportoProdMap(this.res, false, varName).visit(object.getLocation());
         _builder_2.append(_visit_7, "\t\t\t   ");
         _builder_2.newLineIfNotEmpty();
         result.append(_builder_2);
