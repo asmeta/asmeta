@@ -9,9 +9,10 @@ import asmeta.definitions.domains.SequenceDomain
 import asmeta.structure.Asm
 import asmeta.terms.basicterms.FunctionTerm
 
+/**
+ * This class is used in Update Rules
+ */
 class TermToJavaInUpdateRule extends TermToJava {
-
-	package Integer numStaticParam
 
 	new(Asm resource) {
 		this(resource, false)

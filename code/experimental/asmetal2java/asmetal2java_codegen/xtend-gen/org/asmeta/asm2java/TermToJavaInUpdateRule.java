@@ -11,10 +11,11 @@ import asmeta.structure.Asm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.TupleTerm;
 
+/**
+ * This class is used in Update Rules
+ */
 @SuppressWarnings("all")
 public class TermToJavaInUpdateRule extends TermToJava {
-  Integer numStaticParam;
-
   public TermToJavaInUpdateRule(final Asm resource) {
     this(resource, false);
   }
