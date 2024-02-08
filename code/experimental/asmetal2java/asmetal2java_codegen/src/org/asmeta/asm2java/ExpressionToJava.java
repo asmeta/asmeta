@@ -99,7 +99,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String iton(List<Term> argsTerm) {
-		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		return first;
 	}
 
@@ -112,25 +112,25 @@ public class ExpressionToJava {
 	}
 
 	private String or(List<Term> argsTerm) throws Exception {
-		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String second = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return first + " || " + second;
 	}
 
 	private String at(List<Term> argsTerm) throws Exception {
-		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String second = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return first + ".get(" + second + ")";
 	}
 
 	private String and(List<Term> argsTerm) throws Exception {
-		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String second = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return first + " && " + second;
 	}
 
 	private String not(List<Term> argsTerm) throws Exception {
-		String arg = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String arg = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		return "! " + arg;
 	}
 
@@ -142,8 +142,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String lt(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 
 		// return left + " < " + right;
 		try {
@@ -162,8 +162,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String le(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		// return left + " <= " + right;
 		try {
 			Integer.parseInt(left);
@@ -181,8 +181,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String gt(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		// return left + " > " + right;
 		try {
 			Integer.parseInt(left);
@@ -201,8 +201,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String ge(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		// return left + " >= " + right;
 		try {
 			Integer.parseInt(left);
@@ -221,8 +221,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String equals(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		// System.out.println(argsTerm.get(0) + " = " + argsTerm.get(1));
 		// System.out.println(left + " = " + right);
 		return new Util().equals(left, right);
@@ -236,8 +236,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String notEquals(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return new Util().notEquals(left, right);
 	}
 
@@ -249,8 +249,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String mod(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return new Util().setPars(left + " % " + right);
 	}
 
@@ -262,7 +262,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String isDef(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		return new Util().setPars(left + " != null");
 	}
 
@@ -275,11 +275,11 @@ public class ExpressionToJava {
 	 * @throws AsmNotSupportedException
 	 */
 	String minusUnary(List<Term> argsTerm) {
-		String str = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String str = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		if (new Util().isNumber(str)) {
 			return String.valueOf(Integer.valueOf(str) * (-1));
 		} else {
-			return new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+			return new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		}
 	}
 
@@ -291,8 +291,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String minusBinary(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return new Util().setPars(left + " - " + right);
 	}
 
@@ -304,7 +304,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String plusUnary(List<Term> argsTerm) {
-		return new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		return new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 	}
 
 	/**
@@ -315,8 +315,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String sum(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return new Util().setPars(left + " + " + right);
 	}
 
@@ -328,8 +328,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String mult(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return new Util().setPars(left + " * " + right);
 	}
 
@@ -341,8 +341,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String implies(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return new Util().setPars("(!" + left + " || " + right + ")");
 	}
 
@@ -354,8 +354,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String idiv(List<Term> argsTerm) {
-		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return new Util().setPars(left + " / " + right);
 	}
 }

@@ -24,12 +24,12 @@ import org.eclipse.emf.ecore.EObject;
  * This class is used when implementing operations of the StandardLibrary
  */
 @SuppressWarnings("all")
-public class TermToJavaSupportoConfronto extends TermToJava {
-  public TermToJavaSupportoConfronto(final Asm resource) {
+public class TermToJavaStandardLibrary extends TermToJava {
+  public TermToJavaStandardLibrary(final Asm resource) {
     this(resource, false);
   }
 
-  public TermToJavaSupportoConfronto(final Asm resource, final boolean leftHandSide) {
+  public TermToJavaStandardLibrary(final Asm resource, final boolean leftHandSide) {
     super(resource, leftHandSide, "");
   }
 

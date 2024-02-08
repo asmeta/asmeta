@@ -17,7 +17,7 @@ import asmeta.terms.basicterms.VariableTerm
 /**
  * This class is used when implementing operations of the StandardLibrary
  */
-class TermToJavaSupportoConfronto extends TermToJava {
+class TermToJavaStandardLibrary extends TermToJava {
 
 	new(Asm resource) {
 		this(resource, false)
