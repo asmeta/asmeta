@@ -308,7 +308,7 @@ public class RuleToJava extends RuleVisitor<String> {
       }
     }
     if (this.seqBlock) {
-      String functionName = new TermToJavaConditionalAbs(this.res, true).visit(object.getLocation());
+      String functionName = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
       boolean isZeroC = false;
       EList<Function> _function = this.res.getHeaderSection().getSignature().getFunction();
       for (final Function cf : _function) {
@@ -325,20 +325,20 @@ public class RuleToJava extends RuleVisitor<String> {
       }
       if (isZeroC) {
         StringConcatenation _builder_3 = new StringConcatenation();
-        String _visit_8 = new TermToJavaConditionalAbs(this.res, true).visit(object.getLocation());
+        String _visit_8 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
         _builder_3.append(_visit_8);
         _builder_3.append(".oldValue = ");
-        String _visit_9 = new TermToJavaConditionalAbs(this.res, true).visit(object.getLocation());
+        String _visit_9 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
         _builder_3.append(_visit_9);
         _builder_3.append(".newValue;");
         _builder_3.newLineIfNotEmpty();
         result.append(_builder_3);
       } else {
         StringConcatenation _builder_4 = new StringConcatenation();
-        String _visit_10 = new TermToJavaConditionalAbs(this.res, true).visit(object.getLocation());
+        String _visit_10 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
         _builder_4.append(_visit_10);
         _builder_4.append(".oldValues = ");
-        String _visit_11 = new TermToJavaConditionalAbs(this.res, true).visit(object.getLocation());
+        String _visit_11 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
         _builder_4.append(_visit_11);
         _builder_4.append(".newValues;");
         _builder_4.newLineIfNotEmpty();

@@ -179,7 +179,7 @@ class RuleToJava extends RuleVisitor<String> {
 		}
 		if (seqBlock) {
 			// add the fire update
-			var functionName = new TermToJavaConditionalAbs(res, true).visit(object.location)
+			var functionName = new TermToJavaInAssignments(res, true).visit(object.location)
 			var isZeroC = false
 			for (cf : res.headerSection.signature.function)
 				if (cf.name.equals(functionName))
@@ -190,11 +190,11 @@ class RuleToJava extends RuleVisitor<String> {
 
 			if (isZeroC)
 				result.
-					append('''«new TermToJavaConditionalAbs(res,true).visit(object.location)».oldValue = «new TermToJavaConditionalAbs(res,true).visit(object.location)».newValue;
+					append('''«new TermToJavaInAssignments(res,true).visit(object.location)».oldValue = «new TermToJavaInAssignments(res,true).visit(object.location)».newValue;
 					''')
 			else
 				result.
-					append('''«new TermToJavaConditionalAbs(res,true).visit(object.location)».oldValues = «new TermToJavaConditionalAbs(res,true).visit(object.location)».newValues;
+					append('''«new TermToJavaInAssignments(res,true).visit(object.location)».oldValues = «new TermToJavaInAssignments(res,true).visit(object.location)».newValues;
 					''')
 
 		}

@@ -110,7 +110,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				} else if (controllo(object.codomain.name) || object.codomain instanceof EnumTd) {
 					if (object.domain instanceof ConcreteDomain && controllo(object.codomain.name)) {
 						sb.
-								append('''«new ToString(asm).visit(object.codomain)» a «new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)»;
+								append('''«new ToString(asm).visit(object.codomain)» a «new TermToJavaInAssignments(asm).visit(object.initialization.get(0).body)»;
 					
 					      «object.name».oldValues.put(«object.domain.name»_elem,a);
 					      «object.name».newValues.put(«object.domain.name»_elem,a);
@@ -118,7 +118,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					}
 					else
 						sb.
-							append('''«new ToString(asm).visit(object.codomain)» a «new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)»;
+							append('''«new ToString(asm).visit(object.codomain)» a «new TermToJavaInAssignments(asm).visit(object.initialization.get(0).body)»;
 				
 				      «object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
 				      «object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
@@ -128,7 +128,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					sb.
 						append('''«new ToString(asm).visit(object.codomain)» a = new «new ToString(asm).visit(object.codomain)»();
 			    
-			           a.value «new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)»;
+			           a.value «new TermToJavaInAssignments(asm).visit(object.initialization.get(0).body)»;
 			           ''')
 
 					if (object.domain instanceof ProductDomain) {
@@ -279,7 +279,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				''')
 			} else if (controllo(object.codomain.name) || object.codomain instanceof EnumTd) {
 				sb.
-					append('''«new ToString(asm).visit(object.codomain)» a «new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)»;
+					append('''«new ToString(asm).visit(object.codomain)» a «new TermToJavaInAssignments(asm).visit(object.initialization.get(0).body)»;
 				
 				      
 
@@ -291,7 +291,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				sb.
 					append('''«new ToString(asm).visit(object.codomain)» a = new «new ToString(asm).visit(object.codomain)»();
 			    
-			           a.value «new TermToJavaConditionalAbs(asm).visit(object.initialization.get(0).body)»;
+			           a.value «new TermToJavaInAssignments(asm).visit(object.initialization.get(0).body)»;
 			           ''')
 
 				if (object.domain instanceof ProductDomain) {

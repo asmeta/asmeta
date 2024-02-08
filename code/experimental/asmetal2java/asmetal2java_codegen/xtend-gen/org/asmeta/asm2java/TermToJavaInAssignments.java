@@ -11,102 +11,61 @@ import asmeta.structure.Asm;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
-import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
-import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
-import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
-import asmeta.terms.furtherterms.MapTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
-import asmeta.terms.furtherterms.SetCt;
 import asmeta.terms.furtherterms.StringTerm;
 import java.util.Arrays;
-import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 
+/**
+ * This class is used to translate Asmeta Terms in assignments
+ */
 @SuppressWarnings("all")
-public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
-  Integer numStaticParam;
-
-  private Asm res;
-
-  private boolean leftHandSide;
-
-  public TermToJavaConditionalAbs(final Asm resource) {
+public class TermToJavaInAssignments extends TermToJava {
+  public TermToJavaInAssignments(final Asm resource) {
     this(resource, false);
   }
 
-  public TermToJavaConditionalAbs(final Asm resource, final boolean leftHandSide) {
-    this.res = resource;
-    this.leftHandSide = leftHandSide;
+  public TermToJavaInAssignments(final Asm resource, final boolean leftHandSide) {
+    super(resource, leftHandSide);
   }
 
-  public String visit(final VariableTerm term) {
-    return term.getName();
-  }
-
-  /**
-   * TODO: DELETE FOR COVERAGE
-   * def String visit(ComplexTerm term) {
-   * return "TODO"
-   * }
-   * 
-   * def String visit(CharTerm term) {
-   * return term.symbol
-   * }
-   * 
-   * 
-   * 
-   * def String visit(RealTerm term) {
-   * return term.symbol
-   * }
-   */
+  @Override
   public String visit(final IntegerTerm term) {
-    String _symbol = term.getSymbol();
-    return (" = " + _symbol);
+    String _visit = super.visit(term);
+    return (" = " + _visit);
   }
 
+  @Override
   public String visit(final NaturalTerm term) {
-    String _symbol = term.getSymbol();
-    int _length = term.getSymbol().length();
-    int _minus = (_length - 1);
-    String _substring = _symbol.substring(0, _minus);
-    return (" = " + _substring);
+    String _visit = super.visit(term);
+    return (" = " + _visit);
   }
 
+  @Override
   public String visit(final StringTerm term) {
-    String _symbol = term.getSymbol();
-    return (" = " + _symbol);
+    String _visit = super.visit(term);
+    return (" = " + _visit);
   }
 
+  @Override
   public String visit(final BooleanTerm term) {
-    String _symbol = term.getSymbol();
-    return (" = " + _symbol);
+    String _visit = super.visit(term);
+    return (" = " + _visit);
   }
 
-  /**
-   * TODO: DELETE FOR COVERAGE 	def String visit(UndefTerm term) {
-   * throw new Exception("Undefined term not supported");
-   * }
-   */
+  @Override
   public String visit(final EnumTerm term) {
-    String _name = term.getDomain().getName();
-    String _plus = (" = " + _name);
-    String _plus_1 = (_plus + ".");
-    String _symbol = term.getSymbol();
-    return (_plus_1 + _symbol);
+    String _visit = super.visit(term);
+    return (" = " + _visit);
   }
 
-  public String visit(final ConditionalTerm object) {
-    return null;
-  }
-
+  @Override
   public String visit(final CaseTerm object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -214,110 +173,12 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
     return sb.toString();
   }
 
-  public String visit(final TupleTerm object) {
-    return null;
-  }
-
-  /**
-   * TODO: DELETE FOR COVERAGE
-   * def String visit(SequenceTerm object) {
-   * var StringBuffer type = new StringBuffer("")
-   * type.append(new DomainToH(res).visit(object.domain))
-   * var StringBuffer list = new StringBuffer("{")
-   * for (var i = 0; i < object.terms.size; i++){
-   * list.append(visit(object.terms.get(i)) + ", ")
-   * }
-   * var String s
-   * if (list.length==1)
-   * return type+""
-   * else
-   * s = list.substring(0, list.length - 2) + "}"
-   * return type+s
-   * return '''
-   * «""»
-   * 
-   * [](){
-   * auto v = «s»;
-   * list<decltype(«visit(object.terms.get(0))»)> l(v.begin(), v.end());
-   * return l;
-   * }()'''
-   * }
-   */
-  public String visit(final SetTerm object) {
-    return null;
-  }
-
-  /**
-   * TODO: DELETE FOR COVERAGE 	def String visit(BagTerm object) {
-   * var StringBuffer type = new StringBuffer("")
-   * type.append(new DomainToH(res).visit(object.domain))
-   * var StringBuffer bag = new StringBuffer("{")
-   * for (var i = 0; i < object.term.size; i++)
-   * bag.append(visit(object.term.get(i)) + ", ")
-   * var s = bag.substring(0, bag.length - 2) + "}"
-   * return type+s
-   * return '''
-   * «""»
-   * 
-   * [](){
-   * auto v = «s»;
-   * multiset<decltype(«visit(object.term.get(0))»)> ms(v.begin(), v.end());
-   * return ms;
-   * }()'''
-   * }
-   */
-  public String visit(final MapTerm object) {
-    return null;
-  }
-
-  public String visit(final ExistTerm object) {
-    return null;
-  }
-
-  /**
-   * TODO: DELETE FOR COVERAGE def String visit(ExistUniqueTerm object) {
-   * return "TODO ExistTerm"
-   * }
-   */
-  public String visit(final ForallTerm object) {
-    return null;
-  }
-
-  /**
-   * TODO: DELETE FOR COVERAGE 	def String visit(LetTerm object) {
-   * var StringBuffer let = new StringBuffer
-   * let.append(
-   * '''
-   * »"\n"«
-   * [&](){    **<--- letTerm
-   * ''')
-   * for (var int i = 0; i < object.variable.size; i++) {
-   * let.append('''	auto «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
-   * ''')
-   * }
-   * let.append(
-   * '''
-   * return «visit(object.body)»;
-   * }()
-   * ''')
-   * 
-   * return let.toString
-   * }
-   */
-  public String visit(final SetCt term) {
-    return null;
-  }
-
-  /**
-   * TODO: DELETE FOR COVERAGE
-   * def String visit(RuleAsTerm term) {
-   * throw new Exception("RuleAsTerm not implemented");
-   * }
-   */
+  @Override
   public String visit(final LocationTerm term) {
     return this.visit(((FunctionTerm) term));
   }
 
+  @Override
   public String visit(final FunctionTerm term) {
     try {
       StringBuffer functionTerm = new StringBuffer();
@@ -336,35 +197,7 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
     }
   }
 
-  /**
-   * TODO: DELETE FOR COVERAGE
-   * def dispatch String caseFunctionTermSupp(FunctionDefinition fd, FunctionTerm ft) {
-   * println("Warning: Function Definition not handled! function name: " + fd.definedFunction.name)
-   * return ""
-   * }
-   * 
-   * 
-   * 
-   * def dispatch String caseFunctionTermSupp(OutFunction fd, FunctionTerm ft) {
-   * var StringBuffer functionTerm = new StringBuffer
-   * if (ft.arguments !== null) {
-   * if (ft.arguments.terms.size == 1)
-   * functionTerm.append("[" + visit(ft.arguments.terms.get(0)) + "]")
-   * else {
-   * functionTerm.append("[make_tuple(")
-   * for (var i = 0; i < ft.arguments.terms.size; i++)
-   * functionTerm.append(visit(ft.arguments.terms.get(i)) + ", ")
-   * 
-   * functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")]")
-   * }
-   * }
-   * return functionTerm.toString
-   * }
-   * 
-   * def dispatch String caseFunctionTermSupp(SharedFunction fd, FunctionTerm ft) {
-   * throw new RuntimeException("Shared Functions not yet supported")
-   * }
-   */
+  @Override
   protected String _caseFunctionTermSupp(final ControlledFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -405,14 +238,7 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
     return functionTerm.toString();
   }
 
-  protected String _caseFunctionTermSupp(final MonitoredFunction fd, final FunctionTerm ft) {
-    return null;
-  }
-
-  protected String _caseFunctionTermSupp(final DerivedFunction fd, final FunctionTerm ft) {
-    return null;
-  }
-
+  @Override
   protected String _caseFunctionTermSupp(final StaticFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -441,6 +267,7 @@ public class TermToJavaConditionalAbs extends ReflectiveVisitor<String> {
     return functionTerm.toString();
   }
 
+  @Override
   public String caseFunctionTermSupp(final Function fd, final FunctionTerm ft) {
     if (fd instanceof ControlledFunction) {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);

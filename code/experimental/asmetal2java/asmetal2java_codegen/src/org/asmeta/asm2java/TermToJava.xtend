@@ -39,8 +39,8 @@ import asmeta.terms.basicterms.UndefTerm
 class TermToJava extends ReflectiveVisitor<String> {
 
 	package Integer numStaticParam
-	Asm res
-	boolean leftHandSide
+	protected Asm res
+	protected boolean leftHandSide
 	String varName
 
 	new(Asm resource) {

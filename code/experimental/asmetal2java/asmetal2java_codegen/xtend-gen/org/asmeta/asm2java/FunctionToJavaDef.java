@@ -269,7 +269,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
               String _visit_21 = new ToString(this.asm).visit(object.getCodomain());
               _builder_4.append(_visit_21);
               _builder_4.append(" a ");
-              String _visit_22 = new TermToJavaConditionalAbs(this.asm).visit(object.getInitialization().get(0).getBody());
+              String _visit_22 = new TermToJavaInAssignments(this.asm).visit(object.getInitialization().get(0).getBody());
               _builder_4.append(_visit_22);
               _builder_4.append(";");
               _builder_4.newLineIfNotEmpty();
@@ -297,7 +297,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
               String _visit_23 = new ToString(this.asm).visit(object.getCodomain());
               _builder_5.append(_visit_23);
               _builder_5.append(" a ");
-              String _visit_24 = new TermToJavaConditionalAbs(this.asm).visit(object.getInitialization().get(0).getBody());
+              String _visit_24 = new TermToJavaInAssignments(this.asm).visit(object.getInitialization().get(0).getBody());
               _builder_5.append(_visit_24);
               _builder_5.append(";");
               _builder_5.newLineIfNotEmpty();
@@ -334,7 +334,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
             _builder_6.newLine();
             _builder_6.append("\t\t\t           ");
             _builder_6.append("a.value ");
-            String _visit_29 = new TermToJavaConditionalAbs(this.asm).visit(object.getInitialization().get(0).getBody());
+            String _visit_29 = new TermToJavaInAssignments(this.asm).visit(object.getInitialization().get(0).getBody());
             _builder_6.append(_visit_29, "\t\t\t           ");
             _builder_6.append(";");
             _builder_6.newLineIfNotEmpty();
@@ -675,7 +675,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
           String _visit_8 = new ToString(this.asm).visit(object.getCodomain());
           _builder_2.append(_visit_8);
           _builder_2.append(" a ");
-          String _visit_9 = new TermToJavaConditionalAbs(this.asm).visit(object.getInitialization().get(0).getBody());
+          String _visit_9 = new TermToJavaInAssignments(this.asm).visit(object.getInitialization().get(0).getBody());
           _builder_2.append(_visit_9);
           _builder_2.append(";");
           _builder_2.newLineIfNotEmpty();
@@ -708,7 +708,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
           _builder_3.newLine();
           _builder_3.append("\t\t\t           ");
           _builder_3.append("a.value ");
-          String _visit_13 = new TermToJavaConditionalAbs(this.asm).visit(object.getInitialization().get(0).getBody());
+          String _visit_13 = new TermToJavaInAssignments(this.asm).visit(object.getInitialization().get(0).getBody());
           _builder_3.append(_visit_13, "\t\t\t           ");
           _builder_3.append(";");
           _builder_3.newLineIfNotEmpty();

@@ -45,9 +45,9 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 public class TermToJava extends ReflectiveVisitor<String> {
   Integer numStaticParam;
 
-  private Asm res;
+  protected Asm res;
 
-  private boolean leftHandSide;
+  protected boolean leftHandSide;
 
   private String varName;
 
