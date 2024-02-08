@@ -97,7 +97,12 @@ class TermToJavaStandardLibrary extends TermToJava {
 							)
 						else {
 							if (fd.domain instanceof ConcreteDomain && (fd.domain as ConcreteDomain).typeDomain instanceof BasicTd) {
-								functionTerm.append(".get(" +fd.domain.name + ".valueOf(" + visit(ft.arguments.terms.get(0)).replace(".value","") + "))")
+								var String visitedFunction = visit(ft.arguments.terms.get(0))
+								if (visitedFunction.contains(".value.value"))
+									visitedFunction  = visitedFunction.replace(".value.value",".value")
+								else
+									visitedFunction = visitedFunction.replace(".value","")
+								functionTerm.append(".get(" +fd.domain.name + ".valueOf(" + visitedFunction + "))")
 							} else {
 								functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
 							}

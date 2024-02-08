@@ -115,11 +115,17 @@ public class TermToJavaStandardLibrary extends TermToJava {
               functionTerm.append(_plus_7);
             } else {
               if (((fd.getDomain() instanceof ConcreteDomain) && (((ConcreteDomain) fd.getDomain()).getTypeDomain() instanceof BasicTd))) {
+                String visitedFunction = this.visit(ft.getArguments().getTerms().get(0));
+                boolean _contains = visitedFunction.contains(".value.value");
+                if (_contains) {
+                  visitedFunction = visitedFunction.replace(".value.value", ".value");
+                } else {
+                  visitedFunction = visitedFunction.replace(".value", "");
+                }
                 String _name_1 = fd.getDomain().getName();
                 String _plus_8 = (".get(" + _name_1);
                 String _plus_9 = (_plus_8 + ".valueOf(");
-                String _replace = this.visit(ft.getArguments().getTerms().get(0)).replace(".value", "");
-                String _plus_10 = (_plus_9 + _replace);
+                String _plus_10 = (_plus_9 + visitedFunction);
                 String _plus_11 = (_plus_10 + "))");
                 functionTerm.append(_plus_11);
               } else {

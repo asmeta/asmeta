@@ -2,6 +2,7 @@ package org.asmeta.asm2java;
 
 import java.util.List;
 
+import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
@@ -168,7 +169,8 @@ public class ExpressionToJava {
 		try {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
-		} catch (NumberFormatException e) {}
+		} catch (NumberFormatException e) {
+		}
 		return new Util().setPars(left + " <= " + right);
 
 	}
@@ -293,6 +295,7 @@ public class ExpressionToJava {
 	String minusBinary(List<Term> argsTerm) {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+
 		return new Util().setPars(left + " - " + right);
 	}
 
@@ -317,6 +320,7 @@ public class ExpressionToJava {
 	String sum(List<Term> argsTerm) {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+
 		return new Util().setPars(left + " + " + right);
 	}
 
