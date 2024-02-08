@@ -11,7 +11,9 @@ import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.MapDomain;
 import asmeta.definitions.domains.PowersetDomain;
+import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.SequenceDomain;
+import asmeta.definitions.domains.StructuredTd;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.FunctionTerm;
@@ -267,7 +269,8 @@ public class TermToJava extends ReflectiveVisitor<String> {
       String _plus_1 = (_plus + ",");
       String _visit_1 = this.visit(object.getPair().get(i).getTerms().get(1));
       String _plus_2 = (_plus_1 + _visit_1);
-      String _plus_3 = (_plus_2 + ");\n     ");
+      String _plus_3 = (_plus_2 + 
+        ");\n     ");
       map.append(_plus_3);
     }
     int _length = map.length();
@@ -618,7 +621,8 @@ public class TermToJava extends ReflectiveVisitor<String> {
           String _plus_3 = (_plus_2 + "_s = new ");
           String _name_2 = ft.getDomain().getName();
           String _plus_4 = (_plus_3 + _name_2);
-          String _plus_5 = (_plus_4 + "();\n");
+          String _plus_5 = (_plus_4 + 
+            "();\n");
           functionTerm.append(_plus_5);
           String _name_3 = ft.getDomain().getName();
           String _plus_6 = (_name_3 + this.varName);
@@ -962,9 +966,34 @@ public class TermToJava extends ReflectiveVisitor<String> {
     if (_tripleNotEquals) {
       functionTerm.append("(");
       for (int i = 0; (i < ft.getArguments().getTerms().size()); i++) {
-        String _visit = this.visit(ft.getArguments().getTerms().get(i));
-        String _plus = (_visit + ", ");
-        functionTerm.append(_plus);
+        {
+          String visitedTerm = this.visit(ft.getArguments().getTerms().get(i));
+          Domain _domain = ft.getFunction().getDomain();
+          if ((_domain instanceof StructuredTd)) {
+            Domain _domain_1 = ft.getFunction().getDomain();
+            if ((_domain_1 instanceof ProductDomain)) {
+              Domain _domain_2 = ft.getFunction().getDomain();
+              boolean _equals = ((ProductDomain) _domain_2).getDomains().get(i).equals(ft.getArguments().getTerms().get(i).getDomain());
+              if (_equals) {
+                visitedTerm = visitedTerm.replaceAll("\\.value", "");
+              }
+            }
+          } else {
+            boolean _equals_1 = ft.getDomain().equals(ft.getArguments().getTerms().get(i).getDomain());
+            if (_equals_1) {
+              visitedTerm = visitedTerm.replaceAll("\\.value", "");
+            } else {
+              if (((fd.getDomain() instanceof ConcreteDomain) && (ft.getArguments().getTerms().get(i).getDomain() instanceof ConcreteDomain))) {
+                String _visit = new ToString(this.res).visit(fd.getDomain());
+                String _plus = (_visit + ".valueOf(");
+                String _plus_1 = (_plus + visitedTerm);
+                String _plus_2 = (_plus_1 + ")");
+                visitedTerm = _plus_2;
+              }
+            }
+          }
+          functionTerm.append((visitedTerm + ", "));
+        }
       }
       int _length = functionTerm.length();
       int _minus = (_length - 2);
@@ -996,9 +1025,11 @@ public class TermToJava extends ReflectiveVisitor<String> {
           if ((_get instanceof SequenceTerm)) {
             Term _get_1 = ft.getArguments().getTerms().get(i);
             Domain _domain = ((SequenceTerm) _get_1).getDomain();
-            String _visit = new ToString(this.res).visit(((SequenceDomain) _domain).getDomain());
+            String _visit = new ToString(this.res).visit(
+              ((SequenceDomain) _domain).getDomain());
             String _plus = ("(ArrayList<" + _visit);
-            String _plus_1 = (_plus + ">)Arrays.asList(");
+            String _plus_1 = (_plus + 
+              ">)Arrays.asList(");
             String _plus_2 = (_plus_1 + parameter);
             String _plus_3 = (_plus_2 + ")");
             parameter = _plus_3;
