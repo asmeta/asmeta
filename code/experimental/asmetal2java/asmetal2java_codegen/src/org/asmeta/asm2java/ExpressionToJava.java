@@ -27,7 +27,7 @@ public class ExpressionToJava {
 				|| function.equals("&") || function.equals("|") || function.equals("xor") || function.equals("mod")
 				|| function.equals("isDef") || function.equals("+") || function.equals("*") || function.equals("/")
 				|| function.equals("^") || function.equals("iton") || function.equals("at")
-				|| function.equals("chooseone");
+				|| function.equals("chooseone") || function.equals("first");
 	}
 
 	/**
@@ -72,6 +72,8 @@ public class ExpressionToJava {
 			return mod(argsTerm);
 		case ("isDef"):
 			return isDef(argsTerm);
+		case ("first"):
+			return first(argsTerm);
 		case ("+"):
 			if (argsTerm.size() == 1) {
 				return plusUnary(argsTerm);
@@ -102,6 +104,18 @@ public class ExpressionToJava {
 	private String iton(List<Term> argsTerm) {
 		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		return first;
+	}
+	
+	/**
+	 * Executes the first function.
+	 * 
+	 * @param argsTerm the args term
+	 * 
+	 * @return the string
+	 */
+	private String first(List<Term> argsTerm) {
+		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		return first + ".get(0)";
 	}
 
 	private String chooseone(List<Term> argsTerm) {

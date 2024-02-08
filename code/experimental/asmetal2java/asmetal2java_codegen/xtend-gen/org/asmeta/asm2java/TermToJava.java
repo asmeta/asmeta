@@ -467,8 +467,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("\n");
     _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("[&](){    **<--- letTerm**");
+    _builder.append("new Function<Void, Object>(){@Override public Object apply(Void input) {    /**<--- letTerm**/");
     _builder.newLine();
     let.append(_builder);
     for (int i = 0; (i < object.getVariable().size()); i++) {
@@ -490,7 +489,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     _builder_1.append(_visit);
     _builder_1.append("; ");
     _builder_1.newLineIfNotEmpty();
-    _builder_1.append("}()");
+    _builder_1.append("}}.apply(null)");
     _builder_1.newLine();
     let.append(_builder_1);
     return let.toString();
@@ -540,12 +539,10 @@ public class TermToJava extends ReflectiveVisitor<String> {
           Domain _domain_5 = object.getRanges().get(i).getDomain();
           String _visit_3 = new ToString(this.res).visit(((SequenceDomain) _domain_5).getDomain());
           _builder_3.append(_visit_3);
-          _builder_3.append(".elems.stream().allMatch(c -> ");
-          int _length = supp.length();
-          int _minus = (_length - 3);
-          String _substring = supp.substring(0, _minus);
-          _builder_3.append(_substring);
-          _builder_3.append("));");
+          _builder_3.append(".elems.stream().filter(c -> ");
+          String _replace = supp.toString().replace(object.getVariable().get(i).getName(), "c");
+          _builder_3.append(_replace);
+          _builder_3.append(").collect(Collectors.toList())");
           _builder_3.newLineIfNotEmpty();
           sb.append(_builder_3);
         } else {
@@ -554,12 +551,10 @@ public class TermToJava extends ReflectiveVisitor<String> {
           Domain _domain_6 = object.getRanges().get(i).getDomain();
           String _visit_4 = new ToString(this.res).visit(((SequenceDomain) _domain_6).getDomain());
           _builder_4.append(_visit_4);
-          _builder_4.append("_elemsList.stream().allMatch(c -> ");
-          int _length_1 = supp.length();
-          int _minus_1 = (_length_1 - 3);
-          String _substring_1 = supp.substring(0, _minus_1);
-          _builder_4.append(_substring_1);
-          _builder_4.append("));");
+          _builder_4.append("_elemsList.stream().filter(c -> ");
+          String _replace_1 = supp.toString().replace(object.getVariable().get(i).getName(), "c");
+          _builder_4.append(_replace_1);
+          _builder_4.append(").collect(Collectors.toList())");
           _builder_4.newLineIfNotEmpty();
           sb.append(_builder_4);
         }

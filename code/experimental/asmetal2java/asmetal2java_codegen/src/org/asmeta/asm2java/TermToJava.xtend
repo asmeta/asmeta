@@ -276,10 +276,13 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 	def String visit(LetTerm object) {
 		var StringBuffer let = new StringBuffer
+		
+		
+		//new Function<Void,«new ToString(asm).visit(object.codomain)»>(){@Override public «new ToString(asm).visit(object.codomain)» apply(Void input) {«new TermToJava(asm).visit(object.initialization.get(0).body)»}}.apply(null));
 		let.append(
 		'''
 			«"\n"»
-			  [&](){    **<--- letTerm**
+			new Function<Void, Object>(){@Override public Object apply(Void input) {    /**<--- letTerm**/
 		''')
 		for (var int i = 0; i < object.variable.size; i++) {
 			let.append('''	Object «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
@@ -288,7 +291,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 		let.append(
 			'''
 			return «visit(object.body)»; 
-			}()
+			}}.apply(null)
 		''')
 
 		return let.toString
@@ -319,12 +322,12 @@ class TermToJava extends ReflectiveVisitor<String> {
 			else if ((object.getRanges.get(i).domain as SequenceDomain).domain instanceof ConcreteDomain)
 				sb.append(
 			'''
-					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)».elems.stream().allMatch(c -> «supp.substring(0,supp.length-3)»));
+					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)».elems.stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList())
 				''')
 			else
 				sb.append(
 			'''
-					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)»_elemsList.stream().allMatch(c -> «supp.substring(0,supp.length-3)»));
+					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)»_elemsList.stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList())
 				''')
 
 		}
