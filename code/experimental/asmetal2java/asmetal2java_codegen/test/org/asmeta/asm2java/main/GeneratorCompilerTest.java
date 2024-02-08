@@ -48,7 +48,7 @@ public class GeneratorCompilerTest {
 
 	@Test
 	public void testDado() throws IOException, Exception {
-		String asmspec = "examples/dado.asm";
+		String asmspec = "examples/QuickSort.asm";
 		if (!test(asmspec, options).success)
 			fail();
 	}

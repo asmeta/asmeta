@@ -804,9 +804,13 @@ def String visit(LetTerm object) {
 		var StringBuffer functionTerm = new StringBuffer
 		if (ft.arguments !== null) {
 				functionTerm.append("(")
-				for (var i = 0; i < ft.arguments.terms.size; i++)
-					functionTerm.append(visit(ft.arguments.terms.get(i)) + ", ")
-
+				for (var i = 0; i < ft.arguments.terms.size; i++) {
+					var String parameter = visit(ft.arguments.terms.get(i))
+					if (ft.arguments.terms.get(i) instanceof SequenceTerm) {
+						 parameter = "(ArrayList<" + new ToString(res).visit(((ft.arguments.terms.get(i) as SequenceTerm).domain as SequenceDomain).domain) + ">)Arrays.asList(" + parameter + ")"
+					}
+					functionTerm.append(parameter + ", ")
+				}
 				functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")")
 		}else
 			if (ft.domain instanceof AbstractTd)

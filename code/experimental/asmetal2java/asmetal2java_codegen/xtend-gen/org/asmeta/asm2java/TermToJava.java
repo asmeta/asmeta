@@ -994,9 +994,21 @@ public class TermToJava extends ReflectiveVisitor<String> {
     if (_tripleNotEquals) {
       functionTerm.append("(");
       for (int i = 0; (i < ft.getArguments().getTerms().size()); i++) {
-        String _visit = this.visit(ft.getArguments().getTerms().get(i));
-        String _plus = (_visit + ", ");
-        functionTerm.append(_plus);
+        {
+          String parameter = this.visit(ft.getArguments().getTerms().get(i));
+          Term _get = ft.getArguments().getTerms().get(i);
+          if ((_get instanceof SequenceTerm)) {
+            Term _get_1 = ft.getArguments().getTerms().get(i);
+            Domain _domain = ((SequenceTerm) _get_1).getDomain();
+            String _visit = new ToString(this.res).visit(((SequenceDomain) _domain).getDomain());
+            String _plus = ("(ArrayList<" + _visit);
+            String _plus_1 = (_plus + ">)Arrays.asList(");
+            String _plus_2 = (_plus_1 + parameter);
+            String _plus_3 = (_plus_2 + ")");
+            parameter = _plus_3;
+          }
+          functionTerm.append((parameter + ", "));
+        }
       }
       int _length = functionTerm.length();
       int _minus = (_length - 2);
