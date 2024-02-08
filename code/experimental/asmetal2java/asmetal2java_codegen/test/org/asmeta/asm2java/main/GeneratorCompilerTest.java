@@ -46,6 +46,13 @@ public class GeneratorCompilerTest {
 			fail();
 	}
 
+	@Test
+	public void testDado() throws IOException, Exception {
+		String asmspec = "examples/dado.asm";
+		if (!test(asmspec, options).success)
+			fail();
+	}
+	
 	/*
 	 * 
 	 * 

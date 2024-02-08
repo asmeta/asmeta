@@ -11,6 +11,8 @@ import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.MapDomain;
+import asmeta.definitions.domains.ProductDomain;
+import asmeta.definitions.domains.StructuredTd;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.FunctionTerm;
@@ -203,9 +205,26 @@ public class TermToJavaStandardLibrary extends TermToJava {
     if (_tripleNotEquals) {
       functionTerm.append("(");
       for (int i = 0; (i < ft.getArguments().getTerms().size()); i++) {
-        String _visit = this.visit(ft.getArguments().getTerms().get(i));
-        String _plus = (_visit + ", ");
-        functionTerm.append(_plus);
+        {
+          String param = this.visit(ft.getArguments().getTerms().get(i));
+          Domain _domain = ft.getFunction().getDomain();
+          if ((_domain instanceof StructuredTd)) {
+            Domain _domain_1 = ft.getFunction().getDomain();
+            if ((_domain_1 instanceof ProductDomain)) {
+              Domain _domain_2 = ft.getFunction().getDomain();
+              boolean _equals = ((ProductDomain) _domain_2).getDomains().get(i).equals(ft.getArguments().getTerms().get(i).getDomain());
+              if (_equals) {
+                param = param.replaceAll("\\.value", "");
+              }
+            }
+          } else {
+            boolean _equals_1 = ft.getDomain().equals(ft.getArguments().getTerms().get(i).getDomain());
+            if (_equals_1) {
+              param = param.replaceAll("\\.value", "");
+            }
+          }
+          functionTerm.append((param + ", "));
+        }
       }
       int _length = functionTerm.length();
       int _minus = (_length - 2);

@@ -13,6 +13,9 @@ import asmeta.terms.basicterms.ConstantTerm
 import asmeta.terms.basicterms.FunctionTerm
 import asmeta.terms.basicterms.LocationTerm
 import asmeta.terms.basicterms.VariableTerm
+import asmeta.definitions.domains.StructuredTd
+import asmeta.definitions.domains.PowersetDomain
+import asmeta.definitions.domains.ProductDomain
 
 /**
  * This class is used when implementing operations of the StandardLibrary
@@ -158,9 +161,21 @@ class TermToJavaStandardLibrary extends TermToJava {
 		var StringBuffer functionTerm = new StringBuffer
 		if (ft.arguments !== null) {
 			functionTerm.append("(")
-			for (var i = 0; i < ft.arguments.terms.size; i++)
-				functionTerm.append(visit(ft.arguments.terms.get(i)) + ", ")
-
+			for (var i = 0; i < ft.arguments.terms.size; i++) {
+				var String param = visit(ft.arguments.terms.get(i))
+				if (ft.function.domain instanceof StructuredTd) {
+					// The domain is structured. Check whether the i-th parameter has the domain as expected
+					if ((ft.function.domain instanceof ProductDomain)) {
+						if ((ft.function.domain as ProductDomain).domains.get(i).equals(ft.arguments.terms.get(i).domain))
+							param = param.replaceAll("\\.value","")	
+					}					
+				} else {
+					// The domain is not structured. Check whether the parameter has the domain as expected
+					if (ft.domain.equals(ft.arguments.terms.get(i).domain))
+							param = param.replaceAll("\\.value","")	
+				}
+				functionTerm.append(param + ", ")
+			}
 			functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")")
 		} else if (ft.domain instanceof AbstractTd) {
 			functionTerm.append("")
