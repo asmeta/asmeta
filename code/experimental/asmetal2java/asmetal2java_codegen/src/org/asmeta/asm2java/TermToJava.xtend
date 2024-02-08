@@ -41,7 +41,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 	package Integer numStaticParam
 	protected Asm res
 	protected boolean leftHandSide
-	String varName
+	protected String varName
 
 	new(Asm resource) {
 		this(resource, false)

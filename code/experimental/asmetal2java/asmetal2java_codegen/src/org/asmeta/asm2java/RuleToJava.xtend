@@ -168,13 +168,13 @@ class RuleToJava extends RuleVisitor<String> {
 		else if (object.updatingTerm.domain instanceof ConcreteDomain)
 			result.
 				append('''«new TermToJava(res,true).visit(object.location)»«new TermToJava(res,false).visit(object.updatingTerm)».value);
-			   «new TermToJavaSupportoProdMap(res,false).visit(object.location)»
+			   «new TermToJavaInUpdateRule(res,false).visit(object.location)»
 			''')
 		else {
 			var String varName = object.hashCode.toString
 			result.
 				append('''«new TermToJava(res,true,varName).visit(object.location)»«new TermToJava(res,false).visit(object.updatingTerm)»);
-			   «new TermToJavaSupportoProdMap(res,false,varName).visit(object.location)»
+			   «new TermToJavaInUpdateRule(res,false,varName).visit(object.location)»
 			''')
 		}
 		if (seqBlock) {

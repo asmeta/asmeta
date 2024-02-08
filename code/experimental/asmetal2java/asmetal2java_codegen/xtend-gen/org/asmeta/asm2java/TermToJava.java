@@ -49,7 +49,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
 
   protected boolean leftHandSide;
 
-  private String varName;
+  protected String varName;
 
   public TermToJava(final Asm resource) {
     this(resource, false);

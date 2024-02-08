@@ -287,7 +287,7 @@ public class RuleToJava extends RuleVisitor<String> {
         _builder_1.append(".value);");
         _builder_1.newLineIfNotEmpty();
         _builder_1.append("\t\t\t   ");
-        String _visit_4 = new TermToJavaSupportoProdMap(this.res, false).visit(object.getLocation());
+        String _visit_4 = new TermToJavaInUpdateRule(this.res, false).visit(object.getLocation());
         _builder_1.append(_visit_4, "\t\t\t   ");
         _builder_1.newLineIfNotEmpty();
         result.append(_builder_1);
@@ -301,7 +301,7 @@ public class RuleToJava extends RuleVisitor<String> {
         _builder_2.append(");");
         _builder_2.newLineIfNotEmpty();
         _builder_2.append("\t\t\t   ");
-        String _visit_7 = new TermToJavaSupportoProdMap(this.res, false, varName).visit(object.getLocation());
+        String _visit_7 = new TermToJavaInUpdateRule(this.res, false, varName).visit(object.getLocation());
         _builder_2.append(_visit_7, "\t\t\t   ");
         _builder_2.newLineIfNotEmpty();
         result.append(_builder_2);
