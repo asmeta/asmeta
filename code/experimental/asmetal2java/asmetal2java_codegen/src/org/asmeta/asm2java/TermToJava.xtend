@@ -37,6 +37,7 @@ import asmeta.terms.basicterms.RuleAsTerm
 import asmeta.terms.basicterms.UndefTerm
 import asmeta.definitions.domains.StructuredTd
 import asmeta.definitions.domains.ProductDomain
+import asmeta.definitions.domains.BagDomain
 
 class TermToJava extends ReflectiveVisitor<String> {
 
@@ -94,11 +95,17 @@ class TermToJava extends ReflectiveVisitor<String> {
 	}
 
 	def String visit(ConditionalTerm object) {
+		var String thenTerm = visit(object.thenTerm)
+		var String elseTerm = visit(object.elseTerm)
+		
+		if (thenTerm.equals(")")) thenTerm = "null"
+		if (elseTerm.equals(")")) elseTerm = "null"
+		
 		return '''
 			/*conditionalTerm*/
 				(«visit(object.guard)»)
 				?
-					«visit(object.thenTerm)»
+					«thenTerm»
 				:
 					«visit(object.elseTerm)»
 		'''
@@ -276,16 +283,27 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 	def String visit(LetTerm object) {
 		var StringBuffer let = new StringBuffer
+		var String structure=new ToString(res).visit(object.domain)
 		
+		if(object.domain instanceof StructuredTd) {
+			if (object.domain instanceof PowersetDomain)
+				structure = "HashSet" + structure 
+			else if (object.domain instanceof BagDomain)
+				structure = "HashBag" + structure 
+			else if (object.domain instanceof SequenceDomain)
+				structure = "ArrayList" + structure
+			else if (object.domain instanceof MapDomain)
+				structure = "HashMap" + structure  
+		}
 		
 		//new Function<Void,«new ToString(asm).visit(object.codomain)»>(){@Override public «new ToString(asm).visit(object.codomain)» apply(Void input) {«new TermToJava(asm).visit(object.initialization.get(0).body)»}}.apply(null));
 		let.append(
 		'''
 			«"\n"»
-			new Function<Void, Object>(){@Override public Object apply(Void input) {    /**<--- letTerm**/
+			new Function<Void, «structure»>(){@Override public «structure» apply(Void input) {    /**<--- letTerm**/
 		''')
 		for (var int i = 0; i < object.variable.size; i++) {
-			let.append('''	Object «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
+			let.append('''	«new ToString(res).visit(object.assignmentTerm.get(i).domain)» «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
 			''')
 		}
 		let.append(
@@ -322,12 +340,12 @@ class TermToJava extends ReflectiveVisitor<String> {
 			else if ((object.getRanges.get(i).domain as SequenceDomain).domain instanceof ConcreteDomain)
 				sb.append(
 			'''
-					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)».elems.stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList())
+					«""»	(ArrayList<«new ToString(res).visit(((object.getRanges.get(i).domain as SequenceDomain).domain as ConcreteDomain).typeDomain)»>)«visit(object.getRanges.get(i))».stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList())
 				''')
 			else
 				sb.append(
 			'''
-					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)»_elemsList.stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList())
+					«""»	(ArrayList<«new ToString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)»>)«visit(object.getRanges.get(i))».stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList())
 				''')
 
 		}

@@ -68,6 +68,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 			import org.apache.commons.collections4.Bag;
 			import java.util.concurrent.ThreadLocalRandom;
 			import java.util.function.Function;
+			import java.util.stream.Collectors;
 			import org.javatuples.Decade;
 			import org.javatuples.Ennead;
 			import org.javatuples.Octet;

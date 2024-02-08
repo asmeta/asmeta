@@ -6,6 +6,7 @@ import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.BagDomain;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
@@ -107,6 +108,16 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   public String visit(final ConditionalTerm object) {
+    String thenTerm = this.visit(object.getThenTerm());
+    String elseTerm = this.visit(object.getElseTerm());
+    boolean _equals = thenTerm.equals(")");
+    if (_equals) {
+      thenTerm = "null";
+    }
+    boolean _equals_1 = elseTerm.equals(")");
+    if (_equals_1) {
+      elseTerm = "null";
+    }
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("/*conditionalTerm*/");
     _builder.newLine();
@@ -120,15 +131,14 @@ public class TermToJava extends ReflectiveVisitor<String> {
     _builder.append("?");
     _builder.newLine();
     _builder.append("\t\t");
-    String _visit_1 = this.visit(object.getThenTerm());
-    _builder.append(_visit_1, "\t\t");
+    _builder.append(thenTerm, "\t\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append(":");
     _builder.newLine();
     _builder.append("\t\t");
-    String _visit_2 = this.visit(object.getElseTerm());
-    _builder.append(_visit_2, "\t\t");
+    String _visit_1 = this.visit(object.getElseTerm());
+    _builder.append(_visit_1, "\t\t");
     _builder.newLineIfNotEmpty();
     return _builder.toString();
   }
@@ -464,21 +474,50 @@ public class TermToJava extends ReflectiveVisitor<String> {
 
   public String visit(final LetTerm object) {
     StringBuffer let = new StringBuffer();
+    String structure = new ToString(this.res).visit(object.getDomain());
+    Domain _domain = object.getDomain();
+    if ((_domain instanceof StructuredTd)) {
+      Domain _domain_1 = object.getDomain();
+      if ((_domain_1 instanceof PowersetDomain)) {
+        structure = ("HashSet" + structure);
+      } else {
+        Domain _domain_2 = object.getDomain();
+        if ((_domain_2 instanceof BagDomain)) {
+          structure = ("HashBag" + structure);
+        } else {
+          Domain _domain_3 = object.getDomain();
+          if ((_domain_3 instanceof SequenceDomain)) {
+            structure = ("ArrayList" + structure);
+          } else {
+            Domain _domain_4 = object.getDomain();
+            if ((_domain_4 instanceof MapDomain)) {
+              structure = ("HashMap" + structure);
+            }
+          }
+        }
+      }
+    }
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("\n");
     _builder.newLineIfNotEmpty();
-    _builder.append("new Function<Void, Object>(){@Override public Object apply(Void input) {    /**<--- letTerm**/");
-    _builder.newLine();
+    _builder.append("new Function<Void, ");
+    _builder.append(structure);
+    _builder.append(">(){@Override public ");
+    _builder.append(structure);
+    _builder.append(" apply(Void input) {    /**<--- letTerm**/");
+    _builder.newLineIfNotEmpty();
     let.append(_builder);
     for (int i = 0; (i < object.getVariable().size()); i++) {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("\t");
-      _builder_1.append("Object ");
-      String _visit = this.visit(object.getVariable().get(i));
+      String _visit = new ToString(this.res).visit(object.getAssignmentTerm().get(i).getDomain());
       _builder_1.append(_visit, "\t");
-      _builder_1.append(" = ");
-      String _visit_1 = this.visit(object.getAssignmentTerm().get(i));
+      _builder_1.append(" ");
+      String _visit_1 = this.visit(object.getVariable().get(i));
       _builder_1.append(_visit_1, "\t");
+      _builder_1.append(" = ");
+      String _visit_2 = this.visit(object.getAssignmentTerm().get(i));
+      _builder_1.append(_visit_2, "\t");
       _builder_1.append(";");
       _builder_1.newLineIfNotEmpty();
       let.append(_builder_1);
@@ -535,11 +574,15 @@ public class TermToJava extends ReflectiveVisitor<String> {
         Domain _domain_4 = ((SequenceDomain) _domain_3).getDomain();
         if ((_domain_4 instanceof ConcreteDomain)) {
           StringConcatenation _builder_3 = new StringConcatenation();
-          _builder_3.append("\t");
+          _builder_3.append("\t(ArrayList<");
           Domain _domain_5 = object.getRanges().get(i).getDomain();
-          String _visit_3 = new ToString(this.res).visit(((SequenceDomain) _domain_5).getDomain());
+          Domain _domain_6 = ((SequenceDomain) _domain_5).getDomain();
+          String _visit_3 = new ToString(this.res).visit(((ConcreteDomain) _domain_6).getTypeDomain());
           _builder_3.append(_visit_3);
-          _builder_3.append(".elems.stream().filter(c -> ");
+          _builder_3.append(">)");
+          String _visit_4 = this.visit(object.getRanges().get(i));
+          _builder_3.append(_visit_4);
+          _builder_3.append(".stream().filter(c -> ");
           String _replace = supp.toString().replace(object.getVariable().get(i).getName(), "c");
           _builder_3.append(_replace);
           _builder_3.append(").collect(Collectors.toList())");
@@ -547,11 +590,14 @@ public class TermToJava extends ReflectiveVisitor<String> {
           sb.append(_builder_3);
         } else {
           StringConcatenation _builder_4 = new StringConcatenation();
-          _builder_4.append("\t");
-          Domain _domain_6 = object.getRanges().get(i).getDomain();
-          String _visit_4 = new ToString(this.res).visit(((SequenceDomain) _domain_6).getDomain());
-          _builder_4.append(_visit_4);
-          _builder_4.append("_elemsList.stream().filter(c -> ");
+          _builder_4.append("\t(ArrayList<");
+          Domain _domain_7 = object.getRanges().get(i).getDomain();
+          String _visit_5 = new ToString(this.res).visit(((SequenceDomain) _domain_7).getDomain());
+          _builder_4.append(_visit_5);
+          _builder_4.append(">)");
+          String _visit_6 = this.visit(object.getRanges().get(i));
+          _builder_4.append(_visit_6);
+          _builder_4.append(".stream().filter(c -> ");
           String _replace_1 = supp.toString().replace(object.getVariable().get(i).getName(), "c");
           _builder_4.append(_replace_1);
           _builder_4.append(").collect(Collectors.toList())");

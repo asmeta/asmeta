@@ -27,7 +27,7 @@ public class ExpressionToJava {
 				|| function.equals("&") || function.equals("|") || function.equals("xor") || function.equals("mod")
 				|| function.equals("isDef") || function.equals("+") || function.equals("*") || function.equals("/")
 				|| function.equals("^") || function.equals("iton") || function.equals("at")
-				|| function.equals("chooseone") || function.equals("first");
+				|| function.equals("chooseone") || function.equals("first") || function.equals("length") || function.equals("union");
 	}
 
 	/**
@@ -60,6 +60,8 @@ public class ExpressionToJava {
 			return equals(argsTerm);
 		case ("at"):
 			return at(argsTerm);
+		case ("length"):
+			return length(argsTerm);
 		case ("!="):
 			return notEquals(argsTerm);
 		case ("!"):
@@ -74,6 +76,8 @@ public class ExpressionToJava {
 			return isDef(argsTerm);
 		case ("first"):
 			return first(argsTerm);
+		case ("union"):
+			return union(argsTerm);
 		case ("+"):
 			if (argsTerm.size() == 1) {
 				return plusUnary(argsTerm);
@@ -92,6 +96,17 @@ public class ExpressionToJava {
 			throw new RuntimeException(function + "not found");
 		}
 
+	}
+
+	private String union(List<Term> argsTerm) {
+		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		return first + ".addAll(" + second +")";
+	}
+
+	private String length(List<Term> argsTerm) {
+		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		return first + ".size()";
 	}
 
 	/**
