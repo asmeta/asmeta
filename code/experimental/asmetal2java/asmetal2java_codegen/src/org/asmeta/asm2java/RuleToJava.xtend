@@ -29,6 +29,7 @@ import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.ControlledFunction
 import asmeta.definitions.domains.Domain
 import asmeta.definitions.domains.BasicTd
+import asmeta.definitions.domains.SequenceDomain
 
 class RuleToJava extends RuleVisitor<String> {
 
@@ -174,8 +175,8 @@ class RuleToJava extends RuleVisitor<String> {
 			var String varName = object.hashCode.toString
 			result.
 				append('''«new TermToJava(res,true,varName).visit(object.location)»«new TermToJava(res,false).visit(object.updatingTerm)»);
-			   «new TermToJavaInUpdateRule(res,false,varName).visit(object.location)»
-			''')
+				   «new TermToJavaInUpdateRule(res,false,varName).visit(object.location)»
+				''')
 		}
 		if (seqBlock) {
 			// add the fire update
@@ -208,8 +209,8 @@ class RuleToJava extends RuleVisitor<String> {
 		for (var i = 0; i < object.getRanges.size; i++)
 			if (object.getRanges.get(i).domain instanceof PowersetDomain) {
 				sb.append('''
-						List<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»> point«i» = new ArrayList<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»>();
-					''')
+					List<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»> point«i» = new ArrayList<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»>();
+				''')
 			} // println("Object ranges: " + (object.getRanges.get(i).domain as PowersetDomain).baseDomain)
 			else
 				sb.append('''
@@ -241,16 +242,15 @@ class RuleToJava extends RuleVisitor<String> {
 							typeDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
 						''')
 					}
-				} else
-					if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd) {
-						sb.append('''
-							for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values())
-						''')
-					} else {
-						sb.append('''
-							for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_elemsList)
-						''')
-					}
+				} else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd) {
+					sb.append('''
+						for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values())
+					''')
+				} else {
+					sb.append('''
+						for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_elemsList)
+					''')
+				}
 			} else
 				sb.append('''
 					//NOT IMPLEMENTED IN JAVA	

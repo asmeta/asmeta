@@ -450,11 +450,9 @@ public class TermToJava extends ReflectiveVisitor<String> {
             String _visit_5 = new ToString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
             _builder_5.append(_visit_5);
             _builder_5.append("_elemsList.stream().allMatch(c -> ");
-            int _length = supp.length();
-            int _minus = (_length - 3);
-            String _substring = supp.substring(0, _minus);
-            _builder_5.append(_substring);
-            _builder_5.append("c));");
+            String _replaceAll_2 = supp.toString().replaceAll("\\(\\$[^)]*\\)", "(c)");
+            _builder_5.append(_replaceAll_2);
+            _builder_5.append(");");
             _builder_5.newLineIfNotEmpty();
             sb.append(_builder_5);
           }

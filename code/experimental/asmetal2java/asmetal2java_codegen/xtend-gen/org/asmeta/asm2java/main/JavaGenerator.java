@@ -145,15 +145,15 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.append("class zeroC<Domain> {");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.append("Domain oldValue;");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.append("Domain newValue;");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("void set(Domain d) {");
@@ -238,12 +238,12 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.append("class zero<Domain> {");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.append("Domain Value;");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("void set(Domain d) {");
@@ -372,10 +372,10 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
-    _builder.append("     ");
+    _builder.append("\t    ");
     _builder.append("//Definizione iniziale dei domini statici");
     _builder.newLine();
-    _builder.append("     ");
+    _builder.append("\t    ");
     _builder.newLine();
     _builder.append("\t ");
     String _initialStaticDomainDefinition = this.initialStaticDomainDefinition(asm);
@@ -421,7 +421,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("\t");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.append("// Definizione delle funzioni statiche");
     _builder.newLine();
     _builder.append("\t");
@@ -450,7 +450,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t  ");
     _builder.append(this.initConrolledMonitored, "\t  ");
     _builder.newLineIfNotEmpty();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.append("}");
     _builder.newLine();
     _builder.append("\t");
@@ -463,9 +463,9 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
-    _builder.append("\t  ");
+    _builder.append("\t\t ");
     String _updateSet = this.updateSet(asm);
-    _builder.append(_updateSet, "\t  ");
+    _builder.append(_updateSet, "\t\t ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("}");
@@ -532,7 +532,8 @@ public class JavaGenerator extends AsmToJavaGenerator {
       if (((dd instanceof AbstractTd) == false)) {
         String _visit = new DomainToJavaSigDef(asm).visit(dd);
         String _plus = (("//Variabile di tipo Concreto o Enumerativo" + "\n\n") + _visit);
-        String _plus_1 = (_plus + "\n");
+        String _plus_1 = (_plus + 
+          "\n");
         sb.append(_plus_1);
       }
     }
@@ -617,15 +618,13 @@ public class JavaGenerator extends AsmToJavaGenerator {
           String _plus = (_name + ".elems = Collections.unmodifiableList(Arrays.asList");
           String _visit = new DomainToJavaSigDef(asm).visit(dd);
           String _plus_1 = (_plus + _visit);
-          String _plus_2 = (_plus_1 + 
-            ");\n");
+          String _plus_2 = (_plus_1 + ");\n");
           initial.append(_plus_2);
           String _name_1 = dd.getDefinedDomain().getName();
           String _plus_3 = (_name_1 + "_elems = Collections.unmodifiableList(Arrays.asList");
           String _visit_1 = new DomainToJavaSigDef(asm).visit(dd);
           String _plus_4 = (_plus_3 + _visit_1);
-          String _plus_5 = (_plus_4 + 
-            ");\n");
+          String _plus_5 = (_plus_4 + ");\n");
           initial.append(_plus_5);
         }
       }
