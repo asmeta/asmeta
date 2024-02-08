@@ -31,13 +31,6 @@ class TermToJavaStandardLibrary extends TermToJava {
 		super(resource, leftHandSide, "")
 	}
 
-	override String visit(VariableTerm term) {
-		if (term.domain instanceof ConcreteDomain)
-			return term.name + ".value"
-		else
-			return term.name
-	}
-
 	// Identifico la tipologia delle variabili e la loro posizione rispetto all'operatore
 	override dispatch String caseFunctionTermSupp(ControlledFunction fd, FunctionTerm ft) {
 
@@ -48,9 +41,6 @@ class TermToJavaStandardLibrary extends TermToJava {
 			if (ft.domain instanceof ConcreteDomain) {
 				if (!leftHandSide) {
 					functionTerm.append(".get()")
-					if (fd.codomain instanceof ConcreteDomain) {
-						functionTerm.append(".value")
-					}
 				}
 
 			} else if (ft.domain instanceof MapDomain) {
@@ -62,9 +52,6 @@ class TermToJavaStandardLibrary extends TermToJava {
 					functionTerm.append(".set(")
 				else {
 					functionTerm.append(".get()")
-					if (fd.codomain instanceof ConcreteDomain) {
-						functionTerm.append(".value")
-					}
 				}
 			}
 
@@ -80,9 +67,6 @@ class TermToJavaStandardLibrary extends TermToJava {
 					if (!leftHandSide) {
 
 						functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
-						if (fd.codomain instanceof ConcreteDomain) {
-							functionTerm.append(".value")
-						}
 					}
 
 				} else {
@@ -98,19 +82,10 @@ class TermToJavaStandardLibrary extends TermToJava {
 						else {
 							if (fd.domain instanceof ConcreteDomain && (fd.domain as ConcreteDomain).typeDomain instanceof BasicTd) {
 								var String visitedFunction = visit(ft.arguments.terms.get(0))
-								if (visitedFunction.contains(".value.value"))
-									visitedFunction  = visitedFunction.replace(".value.value",".value")
-								else
-									visitedFunction = visitedFunction.replace(".value","")
 								functionTerm.append(".get(" +fd.domain.name + ".valueOf(" + visitedFunction + "))")
 							} else {
 								functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
 							}
-						}
-							
-						
-						if (fd.codomain instanceof ConcreteDomain) {
-							functionTerm.append(".value")
 						}
 					}
 
@@ -132,10 +107,6 @@ class TermToJavaStandardLibrary extends TermToJava {
 			else {
 				functionTerm.append(".get()")
 
-				if (fd.codomain instanceof ConcreteDomain) {
-					functionTerm.append(".value")
-				}
-
 			}
 
 		if (ft.arguments !== null) {
@@ -147,9 +118,6 @@ class TermToJavaStandardLibrary extends TermToJava {
 
 				} else {
 					functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
-					if (fd.codomain instanceof ConcreteDomain) {
-						functionTerm.append(".value")
-					}
 				}
 
 			} else {
@@ -186,8 +154,6 @@ class TermToJavaStandardLibrary extends TermToJava {
 			functionTerm.append("")
 		} else {
 			functionTerm.append("()")
-			if (fd.codomain instanceof ConcreteDomain)
-				functionTerm.append(".value")
 		}
 		return functionTerm.toString
 	}

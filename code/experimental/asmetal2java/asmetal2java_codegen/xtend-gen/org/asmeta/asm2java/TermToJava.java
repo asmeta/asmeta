@@ -419,11 +419,9 @@ public class TermToJava extends ReflectiveVisitor<String> {
           String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
           _builder_3.append(_visit_3);
           _builder_3.append(".elems.stream().allMatch(c -> ");
-          int _length = supp.length();
-          int _minus = (_length - 3);
-          String _substring = supp.substring(0, _minus);
-          _builder_3.append(_substring);
-          _builder_3.append("c));");
+          String _replaceAll = supp.toString().replaceAll("\\(\\$[^)]*\\)", "(c)");
+          _builder_3.append(_replaceAll);
+          _builder_3.append(");");
           _builder_3.newLineIfNotEmpty();
           sb.append(_builder_3);
         } else {
@@ -437,11 +435,9 @@ public class TermToJava extends ReflectiveVisitor<String> {
             String _visit_4 = new ToString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
             _builder_4.append(_visit_4);
             _builder_4.append(".values()).allMatch(c -> ");
-            int _length_1 = supp.length();
-            int _minus_1 = (_length_1 - 3);
-            String _substring_1 = supp.substring(0, _minus_1);
-            _builder_4.append(_substring_1);
-            _builder_4.append("c));");
+            String _replaceAll_1 = supp.toString().replaceAll("\\(\\$[^)]*\\)", "(c)");
+            _builder_4.append(_replaceAll_1);
+            _builder_4.append(");");
             _builder_4.newLineIfNotEmpty();
             sb.append(_builder_4);
           } else {
@@ -451,10 +447,10 @@ public class TermToJava extends ReflectiveVisitor<String> {
             String _visit_5 = new ToString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
             _builder_5.append(_visit_5);
             _builder_5.append("_elemsList.stream().allMatch(c -> ");
-            int _length_2 = supp.length();
-            int _minus_2 = (_length_2 - 3);
-            String _substring_2 = supp.substring(0, _minus_2);
-            _builder_5.append(_substring_2);
+            int _length = supp.length();
+            int _minus = (_length - 3);
+            String _substring = supp.substring(0, _minus);
+            _builder_5.append(_substring);
             _builder_5.append("c));");
             _builder_5.newLineIfNotEmpty();
             sb.append(_builder_5);

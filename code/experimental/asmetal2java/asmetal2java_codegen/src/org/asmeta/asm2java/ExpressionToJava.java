@@ -152,6 +152,18 @@ public class ExpressionToJava {
 			Integer.parseInt(right);
 		} catch (NumberFormatException e) {
 		}
+
+		// The two domains are different. In order to make them comparable, we need to
+		// get the value of at least of them
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
+			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
+				left = left + ".value";
+			}
+
+			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
+				right = right + ".value";
+			}
+		}
 		return new Util().setPars(left + " < " + right);
 	}
 
@@ -171,6 +183,19 @@ public class ExpressionToJava {
 			Integer.parseInt(right);
 		} catch (NumberFormatException e) {
 		}
+
+		// The two domains are different. In order to make them comparable, we need to
+		// get the value of at least of them
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
+			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
+				left = left + ".value";
+			}
+
+			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
+				right = right + ".value";
+			}
+		}
+
 		return new Util().setPars(left + " <= " + right);
 
 	}
@@ -190,6 +215,18 @@ public class ExpressionToJava {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
 		} catch (NumberFormatException e) {
+		}
+
+		// The two domains are different. In order to make them comparable, we need to
+		// get the value of at least of them
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
+			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
+				left = left + ".value";
+			}
+
+			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
+				right = right + ".value";
+			}
 		}
 		return new Util().setPars(left + " > " + right);
 
@@ -211,6 +248,18 @@ public class ExpressionToJava {
 			Integer.parseInt(right);
 		} catch (NumberFormatException e) {
 		}
+
+		// The two domains are different. In order to make them comparable, we need to
+		// get the value of at least of them
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
+			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
+				left = left + ".value";
+			}
+
+			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
+				right = right + ".value";
+			}
+		}
 		return new Util().setPars(left + " >= " + right);
 
 	}
@@ -225,6 +274,19 @@ public class ExpressionToJava {
 	private String equals(List<Term> argsTerm) {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+
+		// The two domains are different. In order to make them comparable, we need to
+		// get the value of at least of them
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
+			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
+				left = left + ".value";
+			}
+
+			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
+				right = right + ".value";
+			}
+		}
+
 		// System.out.println(argsTerm.get(0) + " = " + argsTerm.get(1));
 		// System.out.println(left + " = " + right);
 		return new Util().equals(left, right);
@@ -240,6 +302,19 @@ public class ExpressionToJava {
 	private String notEquals(List<Term> argsTerm) {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+
+		// The two domains are different. In order to make them comparable, we need to
+		// get the value of at least of them
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
+			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
+				left = left + ".value";
+			}
+
+			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
+				right = right + ".value";
+			}
+		}
+
 		return new Util().notEquals(left, right);
 	}
 
@@ -296,6 +371,17 @@ public class ExpressionToJava {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 
+		// The two domains are different. In order to make them comparable, we need to
+		// get the value of at least of them
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
+			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
+				left = left + ".value";
+			}
+
+			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
+				right = right + ".value";
+			}
+		}
 		return new Util().setPars(left + " - " + right);
 	}
 
@@ -320,6 +406,18 @@ public class ExpressionToJava {
 	String sum(List<Term> argsTerm) {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+
+		// The two domains are different. In order to make them comparable, we need to
+		// get the value of at least of them
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
+			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
+				left = left + ".value";
+			}
+
+			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
+				right = right + ".value";
+			}
+		}
 
 		return new Util().setPars(left + " + " + right);
 	}

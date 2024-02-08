@@ -18,7 +18,6 @@ import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.TupleTerm;
-import asmeta.terms.basicterms.VariableTerm;
 import java.util.Arrays;
 import org.eclipse.emf.ecore.EObject;
 
@@ -36,17 +35,6 @@ public class TermToJavaStandardLibrary extends TermToJava {
   }
 
   @Override
-  public String visit(final VariableTerm term) {
-    Domain _domain = term.getDomain();
-    if ((_domain instanceof ConcreteDomain)) {
-      String _name = term.getName();
-      return (_name + ".value");
-    } else {
-      return term.getName();
-    }
-  }
-
-  @Override
   protected String _caseFunctionTermSupp(final ControlledFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
@@ -56,10 +44,6 @@ public class TermToJavaStandardLibrary extends TermToJava {
       if ((_domain instanceof ConcreteDomain)) {
         if ((!this.leftHandSide)) {
           functionTerm.append(".get()");
-          Domain _codomain = fd.getCodomain();
-          if ((_codomain instanceof ConcreteDomain)) {
-            functionTerm.append(".value");
-          }
         }
       } else {
         Domain _domain_1 = ft.getDomain();
@@ -70,10 +54,6 @@ public class TermToJavaStandardLibrary extends TermToJava {
             functionTerm.append(".set(");
           } else {
             functionTerm.append(".get()");
-            Domain _codomain_1 = fd.getCodomain();
-            if ((_codomain_1 instanceof ConcreteDomain)) {
-              functionTerm.append(".value");
-            }
           }
         }
       }
@@ -91,10 +71,6 @@ public class TermToJavaStandardLibrary extends TermToJava {
             String _plus = (".get(" + _visit);
             String _plus_1 = (_plus + ")");
             functionTerm.append(_plus_1);
-            Domain _codomain_2 = fd.getCodomain();
-            if ((_codomain_2 instanceof ConcreteDomain)) {
-              functionTerm.append(".value");
-            }
           }
         } else {
           if (this.leftHandSide) {
@@ -116,12 +92,6 @@ public class TermToJavaStandardLibrary extends TermToJava {
             } else {
               if (((fd.getDomain() instanceof ConcreteDomain) && (((ConcreteDomain) fd.getDomain()).getTypeDomain() instanceof BasicTd))) {
                 String visitedFunction = this.visit(ft.getArguments().getTerms().get(0));
-                boolean _contains = visitedFunction.contains(".value.value");
-                if (_contains) {
-                  visitedFunction = visitedFunction.replace(".value.value", ".value");
-                } else {
-                  visitedFunction = visitedFunction.replace(".value", "");
-                }
                 String _name_1 = fd.getDomain().getName();
                 String _plus_8 = (".get(" + _name_1);
                 String _plus_9 = (_plus_8 + ".valueOf(");
@@ -134,10 +104,6 @@ public class TermToJavaStandardLibrary extends TermToJava {
                 String _plus_13 = (_plus_12 + ")");
                 functionTerm.append(_plus_13);
               }
-            }
-            Domain _codomain_3 = fd.getCodomain();
-            if ((_codomain_3 instanceof ConcreteDomain)) {
-              functionTerm.append(".value");
             }
           }
         }
@@ -157,10 +123,6 @@ public class TermToJavaStandardLibrary extends TermToJava {
         functionTerm.append(".set(");
       } else {
         functionTerm.append(".get()");
-        Domain _codomain = fd.getCodomain();
-        if ((_codomain instanceof ConcreteDomain)) {
-          functionTerm.append(".value");
-        }
       }
     }
     TupleTerm _arguments_1 = ft.getArguments();
@@ -180,10 +142,6 @@ public class TermToJavaStandardLibrary extends TermToJava {
           String _plus_2 = (".get(" + _visit_1);
           String _plus_3 = (_plus_2 + ")");
           functionTerm.append(_plus_3);
-          Domain _codomain_1 = fd.getCodomain();
-          if ((_codomain_1 instanceof ConcreteDomain)) {
-            functionTerm.append(".value");
-          }
         }
       } else {
         functionTerm.append("[make_tuple(");
@@ -244,10 +202,6 @@ public class TermToJavaStandardLibrary extends TermToJava {
         functionTerm.append("");
       } else {
         functionTerm.append("()");
-        Domain _codomain = fd.getCodomain();
-        if ((_codomain instanceof ConcreteDomain)) {
-          functionTerm.append(".value");
-        }
       }
     }
     return functionTerm.toString();
