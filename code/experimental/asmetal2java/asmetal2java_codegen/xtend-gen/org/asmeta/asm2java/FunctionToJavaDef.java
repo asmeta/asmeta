@@ -625,7 +625,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
           StringConcatenation _builder = new StringConcatenation();
           String _name = object.getName();
           _builder.append(_name);
-          _builder.append(".Values.put(");
+          _builder.append(".values.put(");
           String _visit = new TermToJava(this.asm).visit(object.getInitialization().get(0).getVariable().get(this.i));
           _builder.append(_visit);
           _builder.append(",");
@@ -659,7 +659,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
           _builder_1.append("\t\t\t\t      ");
           String _name_1 = object.getName();
           _builder_1.append(_name_1, "\t\t\t\t      ");
-          _builder_1.append(".Values.put(");
+          _builder_1.append(".values.put(");
           String _visit_6 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getVariable().get(this.i));
           _builder_1.append(_visit_6, "\t\t\t\t      ");
           _builder_1.append(",");
@@ -689,7 +689,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
           _builder_2.append("\t\t\t\t      ");
           String _name_2 = object.getName();
           _builder_2.append(_name_2, "\t\t\t\t      ");
-          _builder_2.append(".Values.put(");
+          _builder_2.append(".values.put(");
           String _visit_10 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getVariable().get(this.i));
           _builder_2.append(_visit_10, "\t\t\t\t      ");
           _builder_2.append(",a);");
@@ -809,7 +809,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
             StringConcatenation _builder_14 = new StringConcatenation();
             String _name_4 = object.getName();
             _builder_14.append(_name_4);
-            _builder_14.append(".Values.put(");
+            _builder_14.append(".values.put(");
             String _name_5 = object.getName();
             _builder_14.append(_name_5);
             _builder_14.append("_elem,a);");
@@ -819,7 +819,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
           StringConcatenation _builder_15 = new StringConcatenation();
           String _name_6 = object.getName();
           _builder_15.append(_name_6);
-          _builder_15.append(".Values.put(");
+          _builder_15.append(".values.put(");
           String _visit_14 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getVariable().get(this.i));
           _builder_15.append(_visit_14);
           _builder_15.append(",a);");
@@ -837,7 +837,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
         StringConcatenation _builder_16 = new StringConcatenation();
         String _name_7 = object.getName();
         _builder_16.append(_name_7);
-        _builder_16.append(".Value = ");
+        _builder_16.append(".value = ");
         String _visit_15 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getBody());
         _builder_16.append(_visit_15);
         _builder_16.append(";");
@@ -856,10 +856,10 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
         _builder_17.newLine();
         String _name_9 = object.getName();
         _builder_17.append(_name_9);
-        _builder_17.append(".Value = ");
+        _builder_17.append(".value = ");
         String _name_10 = object.getName();
         _builder_17.append(_name_10);
-        _builder_17.append(".Value = ");
+        _builder_17.append(".value = ");
         String _name_11 = object.getCodomain().getName();
         _builder_17.append(_name_11);
         _builder_17.append("_elem;");

@@ -69,7 +69,7 @@ public class ToString extends ReflectiveVisitor<String> {
   }
 
   public String visit(final CharDomain domain) {
-    return "char";
+    return "Character";
   }
 
   public String visit(final AgentDomain domain) {
@@ -89,7 +89,7 @@ public class ToString extends ReflectiveVisitor<String> {
   }
 
   public String visit(final RealDomain domain) {
-    return "double";
+    return "Double";
   }
 
   public String visit(final PowersetDomain object) {

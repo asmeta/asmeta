@@ -210,7 +210,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
   public String visit(final EnumTd object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("static enum ");
+    _builder.append("enum ");
     String _name = object.getName();
     _builder.append(_name);
     _builder.append(" {");

@@ -294,10 +294,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
           _builder_3.append(" ");
           String _name_2 = object.getName();
           _builder_3.append(_name_2);
-          _builder_3.append("_elem = new ArrayList");
-          String _visit_2 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-          _builder_3.append(_visit_2);
-          _builder_3.append("();");
+          _builder_3.append("_elem = new ArrayList<>();");
           _builder_3.newLineIfNotEmpty();
           _builder_3.append("\t\t\t\t");
           _builder_3.newLine();
@@ -318,15 +315,12 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
           if ((_codomain_2 instanceof PowersetDomain)) {
             StringConcatenation _builder_5 = new StringConcatenation();
             _builder_5.append("Set");
-            String _visit_3 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-            _builder_5.append(_visit_3);
+            String _visit_2 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
+            _builder_5.append(_visit_2);
             _builder_5.append(" ");
             String _name_4 = object.getName();
             _builder_5.append(_name_4);
-            _builder_5.append("_elem = new HashSet");
-            String _visit_4 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-            _builder_5.append(_visit_4);
-            _builder_5.append("();");
+            _builder_5.append("_elem = new HashSet<>();");
             _builder_5.newLineIfNotEmpty();
             _builder_5.append("\t\t\t\t");
             _builder_5.newLine();
@@ -347,15 +341,12 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
             if ((_codomain_3 instanceof BagDomain)) {
               StringConcatenation _builder_7 = new StringConcatenation();
               _builder_7.append("Bag");
-              String _visit_5 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-              _builder_7.append(_visit_5);
+              String _visit_3 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
+              _builder_7.append(_visit_3);
               _builder_7.append(" ");
               String _name_6 = object.getName();
               _builder_7.append(_name_6);
-              _builder_7.append("_elem = new HashBag");
-              String _visit_6 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-              _builder_7.append(_visit_6);
-              _builder_7.append("();");
+              _builder_7.append("_elem = new HashBag<>();");
               _builder_7.newLineIfNotEmpty();
               _builder_7.append("\t\t\t\t");
               _builder_7.newLine();
@@ -376,15 +367,12 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
               if ((_codomain_4 instanceof MapDomain)) {
                 StringConcatenation _builder_9 = new StringConcatenation();
                 _builder_9.append("Map");
-                String _visit_7 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-                _builder_9.append(_visit_7);
+                String _visit_4 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
+                _builder_9.append(_visit_4);
                 _builder_9.append(" ");
                 String _name_8 = object.getName();
                 _builder_9.append(_name_8);
-                _builder_9.append("_elem = new HashMap");
-                String _visit_8 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-                _builder_9.append(_visit_8);
-                _builder_9.append("();");
+                _builder_9.append("_elem = new HashMap<>();");
                 _builder_9.newLineIfNotEmpty();
                 _builder_9.append("\t\t\t\t");
                 _builder_9.newLine();
@@ -420,8 +408,8 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     } else {
       if (((object.getDomain() instanceof ProductDomain) && (object.getCodomain() != null))) {
         StringConcatenation _builder_12 = new StringConcatenation();
-        String _visit_9 = new DomainToJavaSigDef(this.res).visit(object.getDomain());
-        _builder_12.append(_visit_9);
+        String _visit_5 = new DomainToJavaSigDef(this.res).visit(object.getDomain());
+        _builder_12.append(_visit_5);
         _builder_12.append(" ");
         String _name_11 = object.getName();
         _builder_12.append(_name_11);
@@ -488,10 +476,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
           _builder_3.append(" ");
           String _name_2 = object.getName();
           _builder_3.append(_name_2);
-          _builder_3.append("_elem = new ArrayList");
-          String _visit_2 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-          _builder_3.append(_visit_2);
-          _builder_3.append("();");
+          _builder_3.append("_elem = new ArrayList<>();");
           _builder_3.newLineIfNotEmpty();
           _builder_3.append("\t\t\t\t");
           _builder_3.newLine();
@@ -512,15 +497,12 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
           if ((_codomain_2 instanceof PowersetDomain)) {
             StringConcatenation _builder_5 = new StringConcatenation();
             _builder_5.append("Set");
-            String _visit_3 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-            _builder_5.append(_visit_3);
+            String _visit_2 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
+            _builder_5.append(_visit_2);
             _builder_5.append(" ");
             String _name_4 = object.getName();
             _builder_5.append(_name_4);
-            _builder_5.append("_elem = new HashSet");
-            String _visit_4 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-            _builder_5.append(_visit_4);
-            _builder_5.append("();");
+            _builder_5.append("_elem = new HashSet<>();");
             _builder_5.newLineIfNotEmpty();
             _builder_5.append("\t\t\t\t");
             _builder_5.newLine();
@@ -541,15 +523,12 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
             if ((_codomain_3 instanceof BagDomain)) {
               StringConcatenation _builder_7 = new StringConcatenation();
               _builder_7.append("Bag");
-              String _visit_5 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-              _builder_7.append(_visit_5);
+              String _visit_3 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
+              _builder_7.append(_visit_3);
               _builder_7.append(" ");
               String _name_6 = object.getName();
               _builder_7.append(_name_6);
-              _builder_7.append("_elem = new HashBag");
-              String _visit_6 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-              _builder_7.append(_visit_6);
-              _builder_7.append("();");
+              _builder_7.append("_elem = new HashBag<>();");
               _builder_7.newLineIfNotEmpty();
               _builder_7.append("\t\t\t\t");
               _builder_7.newLine();
@@ -570,15 +549,12 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
               if ((_codomain_4 instanceof MapDomain)) {
                 StringConcatenation _builder_9 = new StringConcatenation();
                 _builder_9.append("Map");
-                String _visit_7 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-                _builder_9.append(_visit_7);
+                String _visit_4 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
+                _builder_9.append(_visit_4);
                 _builder_9.append(" ");
                 String _name_8 = object.getName();
                 _builder_9.append(_name_8);
-                _builder_9.append("_elem = new HashMap");
-                String _visit_8 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-                _builder_9.append(_visit_8);
-                _builder_9.append("();");
+                _builder_9.append("_elem = new HashMap<>();");
                 _builder_9.newLineIfNotEmpty();
                 _builder_9.append("\t\t\t\t");
                 _builder_9.newLine();
@@ -640,8 +616,8 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
       Domain _domain_1 = object.getDomain();
       if ((_domain_1 instanceof ProductDomain)) {
         StringConcatenation _builder_13 = new StringConcatenation();
-        String _visit_9 = new DomainToJavaSigDef(this.res).visit(object.getDomain());
-        _builder_13.append(_visit_9);
+        String _visit_5 = new DomainToJavaSigDef(this.res).visit(object.getDomain());
+        _builder_13.append(_visit_5);
         _builder_13.append(" ");
         String _name_13 = object.getName();
         _builder_13.append(_name_13);
@@ -708,10 +684,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
           _builder_3.append(" ");
           String _name_2 = object.getName();
           _builder_3.append(_name_2);
-          _builder_3.append("_elem = new ArrayList");
-          String _visit_2 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-          _builder_3.append(_visit_2);
-          _builder_3.append("();");
+          _builder_3.append("_elem = new ArrayList<>();");
           _builder_3.newLineIfNotEmpty();
           _builder_3.append("\t\t\t\t");
           _builder_3.newLine();
@@ -732,15 +705,12 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
           if ((_codomain_2 instanceof PowersetDomain)) {
             StringConcatenation _builder_5 = new StringConcatenation();
             _builder_5.append("Set");
-            String _visit_3 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-            _builder_5.append(_visit_3);
+            String _visit_2 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
+            _builder_5.append(_visit_2);
             _builder_5.append(" ");
             String _name_4 = object.getName();
             _builder_5.append(_name_4);
-            _builder_5.append("_elem = new HashSet");
-            String _visit_4 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-            _builder_5.append(_visit_4);
-            _builder_5.append("();");
+            _builder_5.append("_elem = new HashSet<>();");
             _builder_5.newLineIfNotEmpty();
             _builder_5.append("\t\t\t\t");
             _builder_5.newLine();
@@ -761,15 +731,12 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
             if ((_codomain_3 instanceof BagDomain)) {
               StringConcatenation _builder_7 = new StringConcatenation();
               _builder_7.append("Bag");
-              String _visit_5 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-              _builder_7.append(_visit_5);
+              String _visit_3 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
+              _builder_7.append(_visit_3);
               _builder_7.append(" ");
               String _name_6 = object.getName();
               _builder_7.append(_name_6);
-              _builder_7.append("_elem = new HashBag");
-              String _visit_6 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-              _builder_7.append(_visit_6);
-              _builder_7.append("();");
+              _builder_7.append("_elem = new HashBag<>();");
               _builder_7.newLineIfNotEmpty();
               _builder_7.append("\t\t\t\t");
               _builder_7.newLine();
@@ -790,15 +757,12 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
               if ((_codomain_4 instanceof MapDomain)) {
                 StringConcatenation _builder_9 = new StringConcatenation();
                 _builder_9.append("Map");
-                String _visit_7 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-                _builder_9.append(_visit_7);
+                String _visit_4 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
+                _builder_9.append(_visit_4);
                 _builder_9.append(" ");
                 String _name_8 = object.getName();
                 _builder_9.append(_name_8);
-                _builder_9.append("_elem = new HashMap");
-                String _visit_8 = new DomainToJavaSigDef(this.res).visit(object.getCodomain());
-                _builder_9.append(_visit_8);
-                _builder_9.append("();");
+                _builder_9.append("_elem = new HashMap<>();");
                 _builder_9.newLineIfNotEmpty();
                 _builder_9.append("\t\t\t\t");
                 _builder_9.newLine();
@@ -835,8 +799,8 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
       Domain _domain_1 = object.getDomain();
       if ((_domain_1 instanceof ProductDomain)) {
         StringConcatenation _builder_12 = new StringConcatenation();
-        String _visit_9 = new DomainToJavaSigDef(this.res).visit(object.getDomain());
-        _builder_12.append(_visit_9);
+        String _visit_5 = new DomainToJavaSigDef(this.res).visit(object.getDomain());
+        _builder_12.append(_visit_5);
         _builder_12.append(" ");
         String _name_11 = object.getName();
         _builder_12.append(_name_11);

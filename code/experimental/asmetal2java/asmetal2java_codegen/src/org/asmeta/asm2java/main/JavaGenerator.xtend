@@ -91,33 +91,33 @@ class JavaGenerator extends AsmToJavaGenerator {
 				
 				//Metodi di supporto per l'implementazione delle funzioni controlled
 				
-				class zeroC<Domain> {
+				class zeroC<D> {
 				   
-				   Domain oldValue;
-				   Domain newValue;
+				   D oldValue;
+				   D newValue;
 				   
-				void set(Domain d) {
+				void set(D d) {
 					
 						newValue = d;
 				}
 				
-				Domain get() {
+				D get() {
 					
 						return oldValue;
 				}
 				}
 				
-				static class nC<Domain, Codomain> {
+				static class nC<D, C> {
 					
-				Map<Domain, Codomain> oldValues = new HashMap<>();
-				Map<Domain, Codomain> newValues = new HashMap<>();
+				Map<D, C> oldValues = new HashMap<>();
+				Map<D, C> newValues = new HashMap<>();
 				
-				void set(Domain d, Codomain c) {
+				void set(D d, C c) {
 					
 						newValues.put(d, c);
 				}
 				
-				Codomain get(Domain d) {
+				C get(D d) {
 					
 						return oldValues.get(d);
 				}
@@ -127,34 +127,34 @@ class JavaGenerator extends AsmToJavaGenerator {
 				
 				//Metodi di supporto per l'implementazione delle funzioni non controlled
 				
-				class zero<Domain> {
+				class zero<D> {
 				   
-				   Domain Value;
+				   D value;
 				   
-				void set(Domain d) {
+				void set(D d) {
 					
-						Value = d;
+						value = d;
 				}
 				
-				Domain get() {
+				D get() {
 					
-						return Value;
+						return value;
 				}
 				}
 				
 				
-				class n<Domain, Codomain> {
+				class n<D, C> {
 					
-				Map<Domain, Codomain> Values = new HashMap<>();
+				Map<D, C> values = new HashMap<>();
 				
-				void set(Domain d, Codomain c) {
+				void set(D d, C c) {
 					
-						Values.put(d, c);
+						values.put(d, c);
 				}
 				
-				Codomain get(Domain d) {
+				C get(D d) {
 					
-						return Values.get(d);
+						return values.get(d);
 				}
 				}					
 				

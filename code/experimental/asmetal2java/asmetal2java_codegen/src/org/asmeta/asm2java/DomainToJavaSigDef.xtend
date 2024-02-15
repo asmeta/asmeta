@@ -137,7 +137,7 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 	// Translate Enumerative domains
 	def String visit(EnumTd object) {
 		var StringBuffer sb = new StringBuffer
-		sb.append('''static enum «object.name» {''')
+		sb.append('''enum «object.name» {''')
 		for (var int i = 0; i < object.element.size; i++) {
 			if (i != object.element.size - 1)
 				sb.append('''«new ToString(res).visit(object.element.get(i))», ''')

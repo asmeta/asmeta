@@ -266,7 +266,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 				if (a.equals(b))
 					sb.
-						append('''«object.name».Values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
+						append('''«object.name».values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
 						''')
 				else
 					sb.
@@ -275,7 +275,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				      
 
 				      
-				      «object.name».Values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
+				      «object.name».values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
 				''')
 			} else if (controllo(object.codomain.name) || object.codomain instanceof EnumTd) {
 				sb.
@@ -284,7 +284,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				      
 
 				      
-				      «object.name».Values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
+				      «object.name».values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
 				''')
 			} else {
 				// In ogni caso si studia lo sviluppo delle definizioni delle funzioni
@@ -357,13 +357,13 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					}
 
 					sb.append('''    
-						«object.name».Values.put(«object.name»_elem,a);
+						«object.name».values.put(«object.name»_elem,a);
 					''')
 
 				}
 
 				sb.append('''    
-					«object.name».Values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
+					«object.name».values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
 				''')
 			}
 
@@ -373,14 +373,14 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 			if (controllo(object.codomain.name) || object.codomain instanceof EnumTd) {
 				sb.append('''
-					«object.name».Value = «new TermToJava(asm).visit(object.initialization.get(0).body)»;
+					«object.name».value = «new TermToJava(asm).visit(object.initialization.get(0).body)»;
 				''')
 			} else {
 				sb.append('''		
 					
 					«object.codomain.name»_elem.value = «new TermToJava(asm).visit(object.initialization.get(0).body)»;
 					
-					«object.name».Value = «object.name».Value = «object.codomain.name»_elem;
+					«object.name».value = «object.name».value = «object.codomain.name»_elem;
 					
 				''')
 

@@ -22,6 +22,7 @@ public class Formatter {
 	static int initialIndent = 0;
 	private static final ArrayList<String> TUPLE_NAMES = new ArrayList<>(Arrays.asList("Decade", "Ennead", "Octet", "Pair", "Quartet", "Quintet", "Septet", "Sextet", "Triplet"));
 	private static final ArrayList<String> UTILS_NAMES = new ArrayList<>(Arrays.asList("Collections", "Set", "Scanner", "List", "HashSet", "Arrays", "ArrayList"));
+	private static final ArrayList<String> NAMES = new ArrayList<>(Arrays.asList("org.apache.commons.collections4.bag.HashBag", "java.util.concurrent.ThreadLocalRandom", "java.util.function.Function", "java.util.stream.Collectors", "org.apache.commons.collections4.bag.Bag"));
 	
 	public static String formatCode(String code) {
 		// first remove double new lines
@@ -39,6 +40,12 @@ public class Formatter {
 		for (String s : UTILS_NAMES) {
 			if (StringUtils.countMatches(code, s)==1)
 				code = code.replace("import java.util." + s + ";", "");
+		}
+		
+		// Remove useless imports for other classes
+		for (String s : NAMES) {
+			if (StringUtils.countMatches(code, s.split("\\.")[s.split("\\.").length - 1])==1)
+				code = code.replace("import " + s + ";", "");
 		}
 		
 		// take default Eclipse formatting options

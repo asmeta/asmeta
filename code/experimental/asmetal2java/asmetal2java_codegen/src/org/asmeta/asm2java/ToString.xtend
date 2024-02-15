@@ -66,7 +66,7 @@ class ToString extends ReflectiveVisitor<String> {
 	}
 	
 	def String visit(CharDomain domain) {
-		return "char"
+		return "Character"
 	}
 	
 	def String visit(AgentDomain domain) {
@@ -78,7 +78,7 @@ class ToString extends ReflectiveVisitor<String> {
 	}
 	
 	def String visit(RealDomain domain) {
-		return "double"
+		return "Double"
 	}
 	
 	def String visit(PowersetDomain object) {
