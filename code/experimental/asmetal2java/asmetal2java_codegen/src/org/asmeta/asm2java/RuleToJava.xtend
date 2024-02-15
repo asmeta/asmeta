@@ -309,7 +309,7 @@ class RuleToJava extends RuleVisitor<String> {
 			 * 	doRule=doRule.replaceAll(pointerTerms.get(j), ("&"+pointerTerms.get(j)))
 			 }*/
 			sb.append('''
-			  if(point0.size()>0){
+			  if(!point0.isEmpty()){
 				«doRule»
 				 }else{
 				 	«visit(object.getIfnone)»
@@ -321,7 +321,7 @@ class RuleToJava extends RuleVisitor<String> {
 			 * 	doRule=(doRule.replaceAll(pointerTerms.get(j), ("&"+pointerTerms.get(j))))
 			 }*/
 			sb.append('''
-			  if(point0.size()>0){
+			  if(!point0.isEmpty()){
 				«doRule»
 				 }
 			}''')

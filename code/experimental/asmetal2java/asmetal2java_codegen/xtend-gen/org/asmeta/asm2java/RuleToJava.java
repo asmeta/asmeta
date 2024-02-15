@@ -592,7 +592,7 @@ public class RuleToJava extends RuleVisitor<String> {
       String doRule = this.visit(object.getDoRule());
       StringConcatenation _builder_6 = new StringConcatenation();
       _builder_6.append("  ");
-      _builder_6.append("if(point0.size()>0){");
+      _builder_6.append("if(!point0.isEmpty()){");
       _builder_6.newLine();
       _builder_6.append("\t");
       _builder_6.append(doRule, "\t");
@@ -613,7 +613,7 @@ public class RuleToJava extends RuleVisitor<String> {
       String doRule_1 = this.visit(object.getDoRule());
       StringConcatenation _builder_7 = new StringConcatenation();
       _builder_7.append("  ");
-      _builder_7.append("if(point0.size()>0){");
+      _builder_7.append("if(!point0.isEmpty()){");
       _builder_7.newLine();
       _builder_7.append("\t");
       _builder_7.append(doRule_1, "\t");
