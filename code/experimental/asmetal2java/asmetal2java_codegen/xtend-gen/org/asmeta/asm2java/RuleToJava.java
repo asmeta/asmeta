@@ -52,13 +52,13 @@ public class RuleToJava extends RuleVisitor<String> {
   @Override
   public String visit(final BlockRule object) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("{ //par");
+    _builder.append("//{ //par");
     _builder.newLine();
     _builder.append("\t");
     String _printRules = new RuleToJava(this.res, false, this.options).printRules(object.getRules(), false);
     _builder.append(_printRules, "\t");
     _builder.newLineIfNotEmpty();
-    _builder.append("} //endpar");
+    _builder.append("//} //endpar");
     return _builder.toString();
   }
 
@@ -268,10 +268,10 @@ public class RuleToJava extends RuleVisitor<String> {
       StringConcatenation _builder = new StringConcatenation();
       String _visit = new TermToJava(this.res, true).visit(object.getLocation());
       _builder.append(_visit);
-      _builder.append(" = (");
+      _builder.append(" = ");
       String _visit_1 = new TermToJava(this.res, false).visit(object.getUpdatingTerm());
       _builder.append(_visit_1);
-      _builder.append(");");
+      _builder.append(";");
       _builder.newLineIfNotEmpty();
       _builder.append("\t\t\t   ");
       _builder.newLine();

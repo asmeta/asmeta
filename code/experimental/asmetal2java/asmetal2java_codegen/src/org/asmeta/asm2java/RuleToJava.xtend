@@ -47,9 +47,9 @@ class RuleToJava extends RuleVisitor<String> {
 	// Method translating the par block
 	override String visit(BlockRule object) {
 		return '''
-		{ //par
+		//{ //par
 			«new RuleToJava(res,false,options).printRules(object.getRules(), false)»
-		} //endpar'''
+		//} //endpar'''
 	}
 
 	// Method writing the rules called in a block
@@ -163,7 +163,7 @@ class RuleToJava extends RuleVisitor<String> {
 
 		if (object.location instanceof VariableTerm)
 			result.
-				append('''«new TermToJava(res,true).visit(object.location)» = («new TermToJava(res,false).visit(object.updatingTerm)»);
+				append('''«new TermToJava(res,true).visit(object.location)» = «new TermToJava(res,false).visit(object.updatingTerm)»;
 			   
 			''')
 		else if (object.updatingTerm.domain instanceof ConcreteDomain)
