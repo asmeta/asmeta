@@ -206,7 +206,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				
 				// inizializazzione delle funzioni controllate che contengono metodi monitorati nei temini iniziali
 				void initControlledWithMonitored(){
-				  «initConrolledMonitored»
+				  «(initConrolledMonitored.length == 0 ? "// No controlled functions initialized with monitored ones have been found" : initConrolledMonitored)»
 				   }
 				
 				// applicazione dell'aggiornamento del set
@@ -224,7 +224,8 @@ class JavaGenerator extends AsmToJavaGenerator {
 				}
 				
 				public static void main(String[] args) {
-					}
+					// TODO: auto-generated main method by Asmeta2Java 
+				}
 				
 			}
 			

@@ -450,7 +450,15 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("void initControlledWithMonitored(){");
     _builder.newLine();
     _builder.append("\t  ");
-    _builder.append(this.initConrolledMonitored, "\t  ");
+    String _xifexpression = null;
+    int _length = this.initConrolledMonitored.length();
+    boolean _equals = (_length == 0);
+    if (_equals) {
+      _xifexpression = "// No controlled functions initialized with monitored ones have been found";
+    } else {
+      _xifexpression = this.initConrolledMonitored;
+    }
+    _builder.append(_xifexpression, "\t  ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t   ");
     _builder.append("}");
@@ -503,6 +511,9 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("public static void main(String[] args) {");
     _builder.newLine();
     _builder.append("\t\t");
+    _builder.append("// TODO: auto-generated main method by Asmeta2Java ");
+    _builder.newLine();
+    _builder.append("\t");
     _builder.append("}");
     _builder.newLine();
     _builder.append("\t");
