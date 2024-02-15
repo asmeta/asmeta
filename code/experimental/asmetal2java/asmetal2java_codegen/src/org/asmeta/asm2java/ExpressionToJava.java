@@ -8,6 +8,7 @@ import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
 
 public class ExpressionToJava {
+	private static final String VALUE_FIELD_NAME = ".value";
 	protected Asm asm;
 
 	public ExpressionToJava(Asm asm) {
@@ -186,11 +187,11 @@ public class ExpressionToJava {
 		// get the value of at least of them
 		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
 			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + ".value";
+				left = left + VALUE_FIELD_NAME;
 			}
 
 			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + ".value";
+				right = right + VALUE_FIELD_NAME;
 			}
 		}
 		return new Util().setPars(left + " < " + right);
@@ -217,11 +218,11 @@ public class ExpressionToJava {
 		// get the value of at least of them
 		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
 			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + ".value";
+				left = left + VALUE_FIELD_NAME;
 			}
 
 			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + ".value";
+				right = right + VALUE_FIELD_NAME;
 			}
 		}
 
@@ -250,11 +251,11 @@ public class ExpressionToJava {
 		// get the value of at least of them
 		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
 			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + ".value";
+				left = left + VALUE_FIELD_NAME;
 			}
 
 			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + ".value";
+				right = right + VALUE_FIELD_NAME;
 			}
 		}
 		return new Util().setPars(left + " > " + right);
@@ -275,18 +276,17 @@ public class ExpressionToJava {
 		try {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-		}
+		} catch (NumberFormatException e) {}
 
 		// The two domains are different. In order to make them comparable, we need to
 		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1).getDomain())) {
 			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + ".value";
+				left = left + VALUE_FIELD_NAME;
 			}
 
 			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + ".value";
+				right = right + VALUE_FIELD_NAME;
 			}
 		}
 		return new Util().setPars(left + " >= " + right);
@@ -306,13 +306,13 @@ public class ExpressionToJava {
 
 		// The two domains are different. In order to make them comparable, we need to
 		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1).getDomain())) {
 			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + ".value";
+				left = left + VALUE_FIELD_NAME;
 			}
 
 			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + ".value";
+				right = right + VALUE_FIELD_NAME;
 			}
 		}
 
@@ -336,11 +336,11 @@ public class ExpressionToJava {
 		// get the value of at least of them
 		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
 			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + ".value";
+				left = left + VALUE_FIELD_NAME;
 			}
 
 			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + ".value";
+				right = right + VALUE_FIELD_NAME;
 			}
 		}
 
@@ -404,11 +404,11 @@ public class ExpressionToJava {
 		// get the value of at least of them
 		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
 			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + ".value";
+				left = left + VALUE_FIELD_NAME;
 			}
 
 			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + ".value";
+				right = right + VALUE_FIELD_NAME;
 			}
 		}
 		return new Util().setPars(left + " - " + right);
@@ -440,11 +440,11 @@ public class ExpressionToJava {
 		// get the value of at least of them
 		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
 			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + ".value";
+				left = left + VALUE_FIELD_NAME;
 			}
 
 			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + ".value";
+				right = right + VALUE_FIELD_NAME;
 			}
 		}
 
