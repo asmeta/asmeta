@@ -56,13 +56,13 @@ class TermToJavaInAssignments extends TermToJava {
 					sb.append(
 							'''
 							
-						«""»	if(«visit(object.comparedTerm)».ToString(«visit(object.comparedTerm)»).equals("«visit(object.comparingTerm.get(i))»"))
+						«""»	if(«visit(object.comparedTerm)».toString(«visit(object.comparedTerm)»).equals("«visit(object.comparingTerm.get(i))»"))
 								a  «visit(object.resultTerms.get(i))»;
 					''')
 				else
 					sb.append(
 								'''
-						«""»	else if(«visit(object.comparedTerm)».ToString(«visit(object.comparedTerm)»).equals("«visit(object.comparingTerm.get(i))»"))
+						«""»	else if(«visit(object.comparedTerm)».toString(«visit(object.comparedTerm)»).equals("«visit(object.comparingTerm.get(i))»"))
 								a  «visit(object.resultTerms.get(i))»;
 					''')
 			}

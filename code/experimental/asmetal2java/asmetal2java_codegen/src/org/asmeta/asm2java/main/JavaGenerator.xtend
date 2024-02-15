@@ -50,6 +50,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 		}
 		//
 		val asmName = asm.name
+		var updateASMText = updateSet(asm)
 		functionSignature(asm)
 		// TODO fix include list
 		return '''
@@ -91,7 +92,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				
 				//Metodi di supporto per l'implementazione delle funzioni controlled
 				
-				class zeroC<D> {
+				class ZeroC<D> {
 				   
 				   D oldValue;
 				   D newValue;
@@ -107,7 +108,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				}
 				}
 				
-				static class nC<D, C> {
+				static class NC<D, C> {
 					
 				Map<D, C> oldValues = new HashMap<>();
 				Map<D, C> newValues = new HashMap<>();
@@ -127,7 +128,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				
 				//Metodi di supporto per l'implementazione delle funzioni non controlled
 				
-				class zero<D> {
+				class Zero<D> {
 				   
 				   D value;
 				   
@@ -143,7 +144,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				}
 				
 				
-				class n<D, C> {
+				class N<D, C> {
 					
 				Map<D, C> values = new HashMap<>();
 				
@@ -212,7 +213,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				// applicazione dell'aggiornamento del set
 				void fireUpdateSet(){
 					
-					 «updateSet(asm)»
+					 «updateASMText.length == 0 ? "// No update set has been found" : updateASMText»
 				}
 				
 				//Metodo per l'aggiornamento dell'asm

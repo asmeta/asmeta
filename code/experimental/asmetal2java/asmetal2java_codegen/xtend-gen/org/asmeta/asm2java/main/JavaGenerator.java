@@ -56,6 +56,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       }
     }
     final String asmName = asm.getName();
+    String updateASMText = this.updateSet(asm);
     this.functionSignature(asm);
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("// ");
@@ -145,7 +146,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("class zeroC<D> {");
+    _builder.append("class ZeroC<D> {");
     _builder.newLine();
     _builder.append("\t   ");
     _builder.newLine();
@@ -187,7 +188,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("static class nC<D, C> {");
+    _builder.append("static class NC<D, C> {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
@@ -238,7 +239,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("class zero<D> {");
+    _builder.append("class Zero<D> {");
     _builder.newLine();
     _builder.append("\t   ");
     _builder.newLine();
@@ -279,7 +280,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("class n<D, C> {");
+    _builder.append("class N<D, C> {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
@@ -474,8 +475,15 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t\t");
     _builder.newLine();
     _builder.append("\t\t ");
-    String _updateSet = this.updateSet(asm);
-    _builder.append(_updateSet, "\t\t ");
+    String _xifexpression_1 = null;
+    int _length_1 = updateASMText.length();
+    boolean _equals_1 = (_length_1 == 0);
+    if (_equals_1) {
+      _xifexpression_1 = "// No update set has been found";
+    } else {
+      _xifexpression_1 = updateASMText;
+    }
+    _builder.append(_xifexpression_1, "\t\t ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("}");

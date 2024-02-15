@@ -352,12 +352,12 @@ public class TermToJava extends ReflectiveVisitor<String> {
         Domain _domain_1 = object.getRanges().get(i).getDomain();
         String _visit_1 = new ToString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
         _builder_1.append(_visit_1);
-        _builder_1.append(".elems.stream().anyMatch(c -> c.ToString(c).equals(");
+        _builder_1.append(".elems.stream().anyMatch(c -> c.toString(c).equals(");
         int _length = app.length();
         int _minus = (_length - 1);
         String _substring = app.substring(7, _minus);
         _builder_1.append(_substring);
-        _builder_1.append(".ToString(c)))");
+        _builder_1.append(".toString(c)))");
         _builder_1.newLineIfNotEmpty();
         sb.append(_builder_1);
       } else {

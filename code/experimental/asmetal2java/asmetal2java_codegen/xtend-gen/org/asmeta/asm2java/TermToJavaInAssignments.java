@@ -81,7 +81,7 @@ public class TermToJavaInAssignments extends TermToJava {
           _builder_1.append("\tif(");
           String _visit = this.visit(object.getComparedTerm());
           _builder_1.append(_visit);
-          _builder_1.append(".ToString(");
+          _builder_1.append(".toString(");
           String _visit_1 = this.visit(object.getComparedTerm());
           _builder_1.append(_visit_1);
           _builder_1.append(").equals(\"");
@@ -101,7 +101,7 @@ public class TermToJavaInAssignments extends TermToJava {
           _builder_2.append("\telse if(");
           String _visit_4 = this.visit(object.getComparedTerm());
           _builder_2.append(_visit_4);
-          _builder_2.append(".ToString(");
+          _builder_2.append(".toString(");
           String _visit_5 = this.visit(object.getComparedTerm());
           _builder_2.append(_visit_5);
           _builder_2.append(").equals(\"");

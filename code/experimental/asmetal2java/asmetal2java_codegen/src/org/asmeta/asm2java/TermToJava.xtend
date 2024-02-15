@@ -226,7 +226,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 			if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd)
 				sb.append(
 			'''
-					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.ToString(c).equals(«app.substring(7,app.length-1)».ToString(c)))
+					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.toString(c).equals(«app.substring(7,app.length-1)».toString(c)))
 				''')
 			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd)
 				sb.append(
