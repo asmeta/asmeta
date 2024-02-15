@@ -1,8 +1,12 @@
 package org.asmeta.asm2java.formatter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 //import org.eclipse.cdt.core.formatter.CodeFormatter;
@@ -16,12 +20,18 @@ public class Formatter {
 
 	private static final boolean REMOVE_DOUBLE_NEW_LINES = true;	
 	static int initialIndent = 0;
+	private static final ArrayList<String> TUPLE_NAMES = new ArrayList<>(Arrays.asList("Decade", "Ennead", "Octet", "Pair", "Quartet", "Quintet", "Septet", "Sextet", "Triplet"));
 	
 	public static String formatCode(String code) {
 		// first remove double new lines
 		if (REMOVE_DOUBLE_NEW_LINES) {
 			code = replaceDoubleNL(code);
 		}
+		
+		// Remove useless imports for tuples
+		for (String s : TUPLE_NAMES)
+			if (StringUtils.countMatches(s, code)==1)
+				code = code.replace("import org.javatuples." + s + ";", "");
 		
 		// take default Eclipse formatting options
 		Map<String, String> options = DefaultCodeFormatterConstants.getEclipseDefaultSettings();

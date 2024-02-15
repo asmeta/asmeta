@@ -280,7 +280,7 @@ public class ExpressionToJava {
 
 		// The two domains are different. In order to make them comparable, we need to
 		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1).getDomain())) {
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
 			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
 				left = left + VALUE_FIELD_NAME;
 			}
@@ -306,7 +306,7 @@ public class ExpressionToJava {
 
 		// The two domains are different. In order to make them comparable, we need to
 		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1).getDomain())) {
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
 			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
 				left = left + VALUE_FIELD_NAME;
 			}

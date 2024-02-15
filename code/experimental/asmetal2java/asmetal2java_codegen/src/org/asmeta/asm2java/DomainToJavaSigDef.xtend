@@ -160,8 +160,8 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 
 		sb.append('''
 			static class «object.name» {
-				static List<«object.name»> elems = new ArrayList<«object.name»>();
-				«isStatic + " "»List<String> val = new ArrayList<String>();
+				static List<«object.name»> elems = new ArrayList<>();
+				«isStatic + " "»List<String> val = new ArrayList<>();
 			
 			«object.name» (String a) {
 			      elems.add(this);
@@ -183,8 +183,8 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 			      }
 			      }
 			      
-			      List<String> «object.name»_elemsList = new ArrayList<String>();
-			      List<«object.name»> «object.name»_Class = new ArrayList<«object.name»>();
+			      List<String> «object.name»_elemsList = new ArrayList<>();
+			      List<«object.name»> «object.name»_Class = new ArrayList<>();
 		''')
 		return sb.toString
 	}
@@ -198,20 +198,20 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 			sb.append('''
 				class  «object.name»{
 				
-				List<«new ToString(res).visit(object.typeDomain)»> elems = new ArrayList<«new ToString(res).visit(object.typeDomain)»>();			      
+				List<«new ToString(res).visit(object.typeDomain)»> elems = new ArrayList<>();			      
 				«new ToString(res).visit(object.typeDomain)» value;			      
 				«object.name»(«new ToString(res).visit(object.typeDomain)» i) { 
 				   value = i;
 				   }
 				   }
 				   
-				   List<«new ToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<«new ToString(res).visit(object.typeDomain)»>();
+				   List<«new ToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
 			''')
 
 		} // Static classes -> The list of elements is set after this definition 
 		else {
 			sb.append('''static class  «object.name» {
-				static List<«new ToString(res).visit(object.typeDomain)»> elems = new ArrayList<«new ToString(res).visit(object.typeDomain)»>();
+				static List<«new ToString(res).visit(object.typeDomain)»> elems = new ArrayList<>();
                 «new ToString(res).visit(object.typeDomain)» value;
                 
                 static «object.name» valueOf(«new ToString(res).visit(object.typeDomain)» val) {
@@ -239,7 +239,7 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 				}
 				
 				«object.name» «object.name»_elem = new «object.name»();
-				List<«new ToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<«new ToString(res).visit(object.typeDomain)»>();
+				List<«new ToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
 			''')
 		}
 		return sb.toString

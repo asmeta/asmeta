@@ -362,11 +362,7 @@ public class RuleToJava extends RuleVisitor<String> {
         _builder.append(_visit);
         _builder.append("> point");
         _builder.append(i);
-        _builder.append(" = new ArrayList<");
-        Domain _domain_2 = object.getRanges().get(i).getDomain();
-        String _visit_1 = new ToString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
-        _builder.append(_visit_1);
-        _builder.append(">();");
+        _builder.append(" = new ArrayList<>();");
         _builder.newLineIfNotEmpty();
         sb.append(_builder);
       } else {

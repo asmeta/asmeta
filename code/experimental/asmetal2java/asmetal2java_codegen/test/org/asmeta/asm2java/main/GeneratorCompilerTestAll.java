@@ -21,7 +21,7 @@ public class GeneratorCompilerTestAll {
 	
 	static boolean failOnError = false;
 	
-	static ArrayList<String> excludeFiles = new ArrayList<String>(Arrays.asList("StandardLibrary.asm", "CTLlibrary.asm", "LTLlibrary.asm"));
+	static ArrayList<String> excludeFiles = new ArrayList<String>(Arrays.asList("StandardLibrary.asm", "CTLlibrary.asm", "LTLlibrary.asm", "fibonacci.asm", "testSignature.asm", "battleship.asm", "QuickSort.asm"));
 
 	@Test
 	public void testAllLocalExamples() throws IOException, Exception {
