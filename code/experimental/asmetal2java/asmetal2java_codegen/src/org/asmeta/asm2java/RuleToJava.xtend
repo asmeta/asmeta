@@ -67,7 +67,7 @@ class RuleToJava extends RuleVisitor<String> {
 
 	// Method translating the SkipRule
 	override String visit(SkipRule object) {
-		return "; \n"
+		return "// Empty rule \n"
 	}
 
 	// Method translating the Seq blocks
@@ -83,13 +83,13 @@ class RuleToJava extends RuleVisitor<String> {
 	override String visit(ConditionalRule object) {
 		if (object.getElseRule() === null)
 			return '''
-				if («new TermToJava(res).visit(object.guard)»){ 
+				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.guard)»)){ 
 					«new RuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				}
 			'''
 		else
 			return '''
-				if («new TermToJava(res).visit(object.getGuard)»){ 
+				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.getGuard)»)){ 
 					«new RuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				} else {
 						«new RuleToJava(res,seqBlock,options).visit(object.elseRule)»
