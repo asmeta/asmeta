@@ -21,6 +21,7 @@ public class Formatter {
 	private static final boolean REMOVE_DOUBLE_NEW_LINES = true;	
 	static int initialIndent = 0;
 	private static final ArrayList<String> TUPLE_NAMES = new ArrayList<>(Arrays.asList("Decade", "Ennead", "Octet", "Pair", "Quartet", "Quintet", "Septet", "Sextet", "Triplet"));
+	private static final ArrayList<String> UTILS_NAMES = new ArrayList<>(Arrays.asList("Collections", "Set", "Scanner", "List", "HashSet", "Arrays", "ArrayList"));
 	
 	public static String formatCode(String code) {
 		// first remove double new lines
@@ -29,9 +30,16 @@ public class Formatter {
 		}
 		
 		// Remove useless imports for tuples
-		for (String s : TUPLE_NAMES)
-			if (StringUtils.countMatches(s, code)==1)
+		for (String s : TUPLE_NAMES) {
+			if (StringUtils.countMatches(code, s)==1)
 				code = code.replace("import org.javatuples." + s + ";", "");
+		}
+		
+		// Remove useless imports for utils
+		for (String s : UTILS_NAMES) {
+			if (StringUtils.countMatches(code, s)==1)
+				code = code.replace("import java.util." + s + ";", "");
+		}
 		
 		// take default Eclipse formatting options
 		Map<String, String> options = DefaultCodeFormatterConstants.getEclipseDefaultSettings();
