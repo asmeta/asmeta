@@ -223,8 +223,9 @@ definitions:
 
 
 	// FUNCTION DEFINITIONS
-	function funS1 = 4
-	function funS2 = RED
+	function funS1 = undef
+	function funS2 = undef
+	function funS3 = undef
 
 
 

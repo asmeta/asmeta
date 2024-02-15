@@ -419,7 +419,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
         Domain _domain_1 = object.getRanges().get(i).getDomain();
         String _visit_2 = new ToString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
         _builder_2.append(_visit_2);
-        _builder_2.append("::elems)");
+        _builder_2.append(".elems)");
         _builder_2.newLineIfNotEmpty();
         sb.append(_builder_2);
       } else {

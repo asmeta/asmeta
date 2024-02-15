@@ -258,7 +258,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 			if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd)
 				sb.append(
 				'''
-					«""»	for(Object «visit(object.variable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»::elems)
+					«""»	for(Object «visit(object.variable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
 				''')
 			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain)
 				sb.append(
@@ -296,7 +296,6 @@ class TermToJava extends ReflectiveVisitor<String> {
 				structure = "HashMap" + structure  
 		}
 		
-		//new Function<Void,«new ToString(asm).visit(object.codomain)»>(){@Override public «new ToString(asm).visit(object.codomain)» apply(Void input) {«new TermToJava(asm).visit(object.initialization.get(0).body)»}}.apply(null));
 		let.append(
 		'''
 			«"\n"»
