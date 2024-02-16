@@ -15,7 +15,7 @@ public class GeneratorCompilerFailingTest {
      @Test 
      public void testFibonacci() throws IOException, Exception { 
          String asmspec = "examples/fibonacci.asm"; 
-         assertTrue(GeneratorCompilerTest.test(asmspec, options).success); 
+         assertTrue(GeneratorCompilerTest.test(asmspec, options).getSuccess()); 
      } 
 
 }

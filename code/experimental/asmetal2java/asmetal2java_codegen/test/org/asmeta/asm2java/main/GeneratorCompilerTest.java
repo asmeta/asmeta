@@ -42,14 +42,14 @@ public class GeneratorCompilerTest {
 	@Test
 	public void testBasicDomain() throws IOException, Exception {
 		String asmspec = "examples/RegistroDiCassa.asm";
-		if (!test(asmspec, options).success)
+		if (!test(asmspec, options).getSuccess())
 			fail();
 	}
 
 	@Test
 	public void testDado() throws IOException, Exception {
 		String asmspec = "examples/QuickSort.asm";
-		if (!test(asmspec, options).success)
+		if (!test(asmspec, options).getSuccess())
 			fail();
 	}
 	
@@ -265,7 +265,7 @@ public class GeneratorCompilerTest {
 		}
 		double avg = 0;
 		for (int i = 0; i < results.size(); i++) {
-			if (results.get(i).success)
+			if (results.get(i).getSuccess())
 				avg = avg + 1;
 		}
 		System.out.println("\n\n\n");
@@ -417,7 +417,7 @@ public class GeneratorCompilerTest {
 
 //		System.out.println("All java files Generated in: " + javaFileT.getCanonicalPath());
 
-		CompileResult result = CompilatoreJava.compile(name + ".java", dir, true, false);
+		CompileResult result = CompilatoreJava.compile(name + ".java", dir, true);
 
 		return result;
 	}

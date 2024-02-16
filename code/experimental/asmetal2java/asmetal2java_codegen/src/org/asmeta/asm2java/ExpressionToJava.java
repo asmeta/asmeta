@@ -58,7 +58,7 @@ public class ExpressionToJava {
 		case ("iton"):
 			return iton(argsTerm);
 		case ("="):
-			return equals(argsTerm);
+			return eq(argsTerm);
 		case ("at"):
 			return at(argsTerm);
 		case ("length"):
@@ -118,8 +118,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String iton(List<Term> argsTerm) {
-		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		return first;
+		return new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 	}
 	
 	/**
@@ -136,31 +135,30 @@ public class ExpressionToJava {
 
 	private String chooseone(List<Term> argsTerm) {
 		SetTerm term = (SetTerm) argsTerm.get(0);
-		String res = "Collections.unmodifiableList(Arrays.asList" + new TermToJava(asm).visit(term)
+		return "Collections.unmodifiableList(Arrays.asList" + new TermToJava(asm).visit(term)
 				+ ").get(ThreadLocalRandom.current().nextInt(0, Collections.unmodifiableList(Arrays.asList"
 				+ new TermToJava(asm).visit(term) + ").size()))";
-		return res;
 	}
 
-	private String or(List<Term> argsTerm) throws Exception {
+	private String or(List<Term> argsTerm) {
 		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return first + " || " + second;
 	}
 
-	private String at(List<Term> argsTerm) throws Exception {
+	private String at(List<Term> argsTerm) {
 		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return first + ".get(" + second + ")";
 	}
 
-	private String and(List<Term> argsTerm) throws Exception {
+	private String and(List<Term> argsTerm) {
 		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return first + " && " + second;
 	}
 
-	private String not(List<Term> argsTerm) throws Exception {
+	private String not(List<Term> argsTerm) {
 		String arg = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		return "! " + arg;
 	}
@@ -175,12 +173,11 @@ public class ExpressionToJava {
 	private String lt(List<Term> argsTerm) {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// return left + " < " + right;
 		try {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
 		} catch (NumberFormatException e) {
+			// Ignore
 		}
 
 		// The two domains are different. In order to make them comparable, we need to
@@ -207,11 +204,11 @@ public class ExpressionToJava {
 	private String le(List<Term> argsTerm) {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		// return left + " <= " + right;
 		try {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
 		} catch (NumberFormatException e) {
+			// Ignore
 		}
 
 		// The two domains are different. In order to make them comparable, we need to
@@ -240,11 +237,11 @@ public class ExpressionToJava {
 	private String gt(List<Term> argsTerm) {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		// return left + " > " + right;
 		try {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
 		} catch (NumberFormatException e) {
+			// Ignore
 		}
 
 		// The two domains are different. In order to make them comparable, we need to
@@ -272,11 +269,12 @@ public class ExpressionToJava {
 	private String ge(List<Term> argsTerm) {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		// return left + " >= " + right;
 		try {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
-		} catch (NumberFormatException e) {}
+		} catch (NumberFormatException e) {
+			// Ignore
+		}
 
 		// The two domains are different. In order to make them comparable, we need to
 		// get the value of at least of them
@@ -300,7 +298,7 @@ public class ExpressionToJava {
 	 * 
 	 * @return the string
 	 */
-	private String equals(List<Term> argsTerm) {
+	private String eq(List<Term> argsTerm) {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 
@@ -316,8 +314,6 @@ public class ExpressionToJava {
 			}
 		}
 
-		// System.out.println(argsTerm.get(0) + " = " + argsTerm.get(1));
-		// System.out.println(left + " = " + right);
 		return new Util().equals(left, right);
 	}
 
@@ -382,7 +378,7 @@ public class ExpressionToJava {
 	 */
 	String minusUnary(List<Term> argsTerm) {
 		String str = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		if (new Util().isNumber(str)) {
+		if (Boolean.TRUE.equals(new Util().isNumber(str))) {
 			return String.valueOf(Integer.valueOf(str) * (-1));
 		} else {
 			return new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));

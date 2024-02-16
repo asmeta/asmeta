@@ -73,9 +73,9 @@ class RuleToJava extends RuleVisitor<String> {
 	// Method translating the Seq blocks
 	override String visit(SeqRule object) {
 		return '''
-			{ //seq
+			//{ //seq
 				«new RuleToJava(res,true,options).printRules(object.rules,true)»
-			} //endseq
+			//} //endseq
 		'''
 	}
 
@@ -288,7 +288,7 @@ class RuleToJava extends RuleVisitor<String> {
 		sb.append('''
 			}
 		''')
-		if (options.shuffleRandom)
+		if (options.getShuffleRandom)
 			sb.append('''
 				int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());
 			''')

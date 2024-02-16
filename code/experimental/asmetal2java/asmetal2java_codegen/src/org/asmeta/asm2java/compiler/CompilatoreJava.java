@@ -1,8 +1,6 @@
 package org.asmeta.asm2java.compiler;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -15,15 +13,15 @@ import org.apache.log4j.Logger;
 
 public class CompilatoreJava {
 
-	static private Logger logger = Logger.getLogger(CompilatoreJava.class);
+	private CompilatoreJava() {}
+	
+	private static Logger logger = Logger.getLogger(CompilatoreJava.class);
 
-	public static CompileResult compile(String name, File directory, boolean compileOnly, boolean evalCoverage) {
-
-		// System.setProperty("java.home", "C:\\Program Files\\Java\\jdk1.8.0_191");
-		// System.setProperty("java.home", "C:\\Program Files\\Java\\jdk-11.0.8");
-
-		assert directory.isDirectory();
-		assert !compileOnly || name.endsWith(".java") : name + " does not end with .java";
+	public static CompileResult compile(String name, File directory, boolean compileOnly) {
+		if (!directory.isDirectory())
+			throw new RuntimeException("The given path does not represent a proper directory");
+		if (compileOnly && !name.endsWith(".java"))
+			throw new RuntimeException(name + " does not end with .java");
 
 		String messaggio = "non compilato";
 
@@ -46,10 +44,10 @@ public class CompilatoreJava {
 			Boolean result = compiler.getTask(null, fileManager, null, null, null,
 					fileManager.getJavaFileObjectsFromFiles(Arrays.asList(sourceFile))).call();
 
-			if (result) {
+			if (Boolean.TRUE.equals(result)) {
 				messaggio = "\nCompilazione del file " + name + " riuscita\n";
 				logger.debug(messaggio);
-			} else {;
+			} else {
 				messaggio = "\nCompilazione del file " + name + " non riuscita\n";
 				logger.debug(messaggio);
 			}			

@@ -1,29 +1,22 @@
 package org.asmeta.asm2java.main;
 
 import asmeta.definitions.ControlledFunction
+import asmeta.definitions.DerivedFunction
 import asmeta.definitions.RuleDeclaration
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
-import asmeta.definitions.domains.EnumTd
 import asmeta.structure.Asm
 import asmeta.transitionrules.basictransitionrules.Rule
+import java.util.ArrayList
+import java.util.List
+import org.asmeta.asm2java.DomainToJavaSigDef
 import org.asmeta.asm2java.FindMonitoredInControlledFunct
+import org.asmeta.asm2java.FunctionToJavaDef
+import org.asmeta.asm2java.FunctionToJavaSig
+import org.asmeta.asm2java.RuleToJava
+import org.asmeta.asm2java.SeqRuleCollector
 import org.asmeta.asm2java.Util
 import org.junit.Assert
-import java.util.List
-import java.util.ArrayList
-import org.asmeta.asm2java.SeqRuleCollector
-import org.asmeta.asm2java.RuleToJava
-import org.asmeta.asm2java.FunctionToJavaSig
-import org.asmeta.asm2java.DomainToJavaSigDef
-import org.asmeta.asm2java.FunctionToJavaDef
-import asmeta.definitions.domains.ConcreteDomain
-import asmeta.definitions.domains.MapDomain
-import asmeta.definitions.domains.SequenceDomain
-import asmeta.definitions.MonitoredFunction
-import java.util.Collections
-import java.util.Arrays
-import asmeta.definitions.DerivedFunction
 
 /**Generates .cpp ASM file */
 class JavaGenerator extends AsmToJavaGenerator {

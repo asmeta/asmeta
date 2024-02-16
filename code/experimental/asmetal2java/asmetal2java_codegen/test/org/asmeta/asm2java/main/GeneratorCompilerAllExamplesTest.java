@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 
-public class GeneratorCompilerTestAll {
+public class GeneratorCompilerAllExamplesTest {
 
 	private TranslatorOptions options = new TranslatorOptions(true, true, true);
 	
@@ -33,7 +33,7 @@ public class GeneratorCompilerTestAll {
 			try {
 				String fileName = x.toFile().toString();				
 				if (fileName.endsWith(ASMParser.ASM_EXTENSION) && excludeFiles.stream().filter(tX -> fileName.contains(tX)).count() == 0)
-					if (!GeneratorCompilerTest.test(fileName, options).success) {
+					if (!GeneratorCompilerTest.test(fileName, options).getSuccess()) {
 						if (failOnError) fail();
 						failures.add(fileName);
 						System.err.println("failing for " + fileName);

@@ -83,13 +83,13 @@ public class RuleToJava extends RuleVisitor<String> {
   @Override
   public String visit(final SeqRule object) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("{ //seq");
+    _builder.append("//{ //seq");
     _builder.newLine();
     _builder.append("\t");
     String _printRules = new RuleToJava(this.res, true, this.options).printRules(object.getRules(), true);
     _builder.append(_printRules, "\t");
     _builder.newLineIfNotEmpty();
-    _builder.append("} //endseq");
+    _builder.append("//} //endseq");
     _builder.newLine();
     return _builder.toString();
   }
@@ -553,7 +553,8 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder_2.append("}");
     _builder_2.newLine();
     sb.append(_builder_2);
-    if (this.options.shuffleRandom) {
+    boolean _shuffleRandom = this.options.getShuffleRandom();
+    if (_shuffleRandom) {
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());");
       _builder_3.newLine();
