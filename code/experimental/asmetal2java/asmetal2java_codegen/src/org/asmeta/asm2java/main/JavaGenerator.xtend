@@ -74,7 +74,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 			import org.javatuples.Triplet;
 			
 			
-			abstract class «asmName»_sig {
+			abstract class «asmName»Sig {
 				
 				/////////////////////////////////////////////////
 				/// DOMAIN CONTAINERS
@@ -167,7 +167,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 			
 			
 			
-			class «asmName» extends «asmName»_sig {
+			class «asmName» extends «asmName»Sig {
 				
 				// Inizializzazione di funzioni e domini
 				

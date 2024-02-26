@@ -115,7 +115,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("abstract class ");
     _builder.append(asmName);
-    _builder.append("_sig {");
+    _builder.append("Sig {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
@@ -361,7 +361,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append(asmName);
     _builder.append(" extends ");
     _builder.append(asmName);
-    _builder.append("_sig {");
+    _builder.append("Sig {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
