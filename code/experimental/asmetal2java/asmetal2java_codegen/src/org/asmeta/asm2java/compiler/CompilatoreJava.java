@@ -10,6 +10,7 @@ import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
 import org.apache.log4j.Logger;
+import org.asmeta.asm2java.NotValidFileException;
 
 public class CompilatoreJava {
 
@@ -19,9 +20,9 @@ public class CompilatoreJava {
 
 	public static CompileResult compile(String name, File directory, boolean compileOnly) {
 		if (!directory.isDirectory())
-			throw new RuntimeException("The given path does not represent a proper directory");
+			throw new NotValidFileException("The given path does not represent a proper directory");
 		if (compileOnly && !name.endsWith(".java"))
-			throw new RuntimeException(name + " does not end with .java");
+			throw new NotValidFileException(name + " does not end with .java");
 
 		String messaggio = "non compilato";
 

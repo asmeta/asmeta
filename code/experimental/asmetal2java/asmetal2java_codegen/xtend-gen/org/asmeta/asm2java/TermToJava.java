@@ -618,28 +618,24 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   public String visit(final FunctionTerm term) {
-    try {
-      StringBuffer functionTerm = new StringBuffer();
-      String name = new Util().parseFunction(term.getFunction().getName());
-      boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
-      if (_hasEvaluateVisitor) {
-        return new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
-      } else {
-        if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain))) {
-          functionTerm.append(this.caseFunctionTermSuppCont(term.getFunction(), term));
-        }
-        if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof MapDomain))) {
-          functionTerm.append(this.caseFunctionTermSuppCont(term.getFunction(), term));
-        }
-        functionTerm.append(term.getFunction().getName());
-        functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
-        if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain))) {
-          functionTerm.append("\n");
-        }
-        return functionTerm.toString();
+    StringBuffer functionTerm = new StringBuffer();
+    String name = new Util().parseFunction(term.getFunction().getName());
+    boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
+    if (_hasEvaluateVisitor) {
+      return new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
+    } else {
+      if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain))) {
+        functionTerm.append(this.caseFunctionTermSuppCont(term.getFunction(), term));
       }
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+      if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof MapDomain))) {
+        functionTerm.append(this.caseFunctionTermSuppCont(term.getFunction(), term));
+      }
+      functionTerm.append(term.getFunction().getName());
+      functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
+      if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain))) {
+        functionTerm.append("\n");
+      }
+      return functionTerm.toString();
     }
   }
 

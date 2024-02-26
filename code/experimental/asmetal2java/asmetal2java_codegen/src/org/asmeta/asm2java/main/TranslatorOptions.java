@@ -5,12 +5,6 @@ package org.asmeta.asm2java.main;
  */
 public class TranslatorOptions {
 	
-	// the dialect - TODO add new options 
-	enum CompilerType {
-		DESKTOP_COMPILER
-	}
-	// TODO; private CompilerType compilerType;
-	
 	// code to be formatted?
 	private boolean formatter;
 	
@@ -25,7 +19,6 @@ public class TranslatorOptions {
 	}
 	
 	public TranslatorOptions(boolean formatter, boolean shuffleRandom, boolean optmizeSeqRule){
-		// TODO: compilerType may be set to DESKTOP_COMPILER;
 		this.formatter = formatter;
 		this.shuffleRandom = shuffleRandom;
 		this.optimizeSeqMacroRule = optmizeSeqRule;

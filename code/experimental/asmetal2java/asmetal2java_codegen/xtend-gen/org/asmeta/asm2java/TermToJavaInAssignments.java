@@ -20,7 +20,6 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.StringTerm;
 import java.util.Arrays;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.xbase.lib.Exceptions;
 
 /**
  * This class is used to translate Asmeta Terms in assignments
@@ -180,20 +179,16 @@ public class TermToJavaInAssignments extends TermToJava {
 
   @Override
   public String visit(final FunctionTerm term) {
-    try {
-      StringBuffer functionTerm = new StringBuffer();
-      String name = new Util().parseFunction(term.getFunction().getName());
-      boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
-      if (_hasEvaluateVisitor) {
-        String _evaluateFunction = new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
-        return ("=" + _evaluateFunction);
-      } else {
-        functionTerm.append(term.getFunction().getName());
-        functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
-        return functionTerm.toString();
-      }
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+    StringBuffer functionTerm = new StringBuffer();
+    String name = new Util().parseFunction(term.getFunction().getName());
+    boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
+    if (_hasEvaluateVisitor) {
+      String _evaluateFunction = new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
+      return ("=" + _evaluateFunction);
+    } else {
+      functionTerm.append(term.getFunction().getName());
+      functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
+      return functionTerm.toString();
     }
   }
 

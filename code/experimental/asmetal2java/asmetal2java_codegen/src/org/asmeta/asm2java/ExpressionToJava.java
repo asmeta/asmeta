@@ -41,7 +41,7 @@ public class ExpressionToJava {
 	 * 
 	 * @throws Exception the exception
 	 */
-	String evaluateFunction(String function, List<Term> argsTerm) throws Exception {
+	String evaluateFunction(String function, List<Term> argsTerm) throws InvalidFunctionException {
 		switch (function) {
 		case "<":
 			return lt(argsTerm);
@@ -94,7 +94,7 @@ public class ExpressionToJava {
 				return minusBinary(argsTerm);
 			}
 		default:
-			throw new RuntimeException(function + "not found");
+			throw new InvalidFunctionException(function + "not found");
 		}
 
 	}
