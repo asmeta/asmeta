@@ -147,7 +147,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("class ZeroC<D> {");
+    _builder.append("class Fun0Ctrl<D> {");
     _builder.newLine();
     _builder.append("\t   ");
     _builder.newLine();
@@ -189,7 +189,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("static class NC<D, C> {");
+    _builder.append("static class FunNCtrl<D, C> {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
@@ -240,7 +240,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("class Zero<D> {");
+    _builder.append("class Fun0<D> {");
     _builder.newLine();
     _builder.append("\t   ");
     _builder.newLine();
@@ -281,7 +281,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("class N<D, C> {");
+    _builder.append("class FunN<D, C> {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();

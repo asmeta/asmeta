@@ -85,7 +85,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				
 				//Metodi di supporto per l'implementazione delle funzioni controlled
 				
-				class ZeroC<D> {
+				class Fun0Ctrl<D> {
 				   
 				   D oldValue;
 				   D newValue;
@@ -101,7 +101,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				}
 				}
 				
-				static class NC<D, C> {
+				static class FunNCtrl<D, C> {
 					
 				Map<D, C> oldValues = new HashMap<>();
 				Map<D, C> newValues = new HashMap<>();
@@ -121,7 +121,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				
 				//Metodi di supporto per l'implementazione delle funzioni non controlled
 				
-				class Zero<D> {
+				class Fun0<D> {
 				   
 				   D value;
 				   
@@ -137,7 +137,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				}
 				
 				
-				class N<D, C> {
+				class FunN<D, C> {
 					
 				Map<D, C> values = new HashMap<>();
 				

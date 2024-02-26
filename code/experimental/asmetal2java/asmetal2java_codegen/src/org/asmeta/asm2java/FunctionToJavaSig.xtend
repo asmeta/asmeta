@@ -140,7 +140,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''') 
 			    
 			    function.append('''				
-				ZeroC<«returnDomain(object.codomain,false)»> «object.name» = new ZeroC<>();
+				Fun0Ctrl<«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
 				
 				''')
 			
@@ -156,7 +156,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 			    
 			    function.append('''				
-				ZeroC<List«returnDomain(object.codomain,false)»> «object.name» = new ZeroC<>();
+				Fun0Ctrl<List«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
 				
 				''')
 			    
@@ -171,7 +171,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 			    
 			    function.append('''				
-				ZeroC<Set«returnDomain(object.codomain,false)»> «object.name» = new ZeroC<>();
+				Fun0Ctrl<Set«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
 				
 				''')
 			    
@@ -185,7 +185,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 			    
 			    function.append('''				
-				ZeroC<Bag«returnDomain(object.codomain,false)»> «object.name» = new ZeroC<>();
+				Fun0Ctrl<Bag«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
 				
 				''')
 			    
@@ -199,7 +199,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 			    
 			    function.append('''				
-				ZeroC<Map«returnDomain(object.codomain,false)»> «object.name» = new ZeroC<>();
+				Fun0Ctrl<Map«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
 				
 				''')
 			    
@@ -208,7 +208,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else {
 			    
 				function.append('''				
-				ZeroC <«returnDomain(object.codomain,false)»> «object.name» = new ZeroC<>();
+				Fun0Ctrl <«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
 				
 				''')
 				
@@ -226,7 +226,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		    }
 
 			function.append('''
-				NC<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name» = new NC<>();
+				FunNCtrl<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name» = new FunNCtrl<>();
 				
 				''')
 			
@@ -251,7 +251,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		    function.append('''«new DomainToJavaSigDef(res).visit(object.codomain)» «object.name»_elem;
 		    ''') 
 		    function.append('''				
-				Zero<«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				''')
 		}
@@ -267,7 +267,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 			    
 			    function.append('''				
-				Zero<List«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<List«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				''')
 			    
@@ -281,7 +281,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 			    
 			    function.append('''				
-				Zero<Set«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<Set«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				''')
 			    
@@ -295,7 +295,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 			    
 			    function.append('''				
-				Zero<Bag«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<Bag«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				''')
 			    
@@ -309,7 +309,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 			    
 			    function.append('''				
-				Zero<Map«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<Map«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				''')
 			    
@@ -318,7 +318,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    else if (object.codomain instanceof ConcreteDomain)
 			    {
 			    	function.append('''
-				Zero<«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				«returnDomain(object.codomain,false)» «object.name»_supporto = new «returnDomain(object.codomain,false)»();
 				''')
@@ -327,7 +327,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		else
 		{
 			function.append('''
-				Zero<«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				''')
 				
@@ -344,7 +344,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''') 
 		 	
 			   function.append('''
-				N<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name» = new N<>();
+				FunN<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name» = new FunN<>();
 				
 				''')
 		}
@@ -368,7 +368,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		    ''') 
 		    
 		    function.append('''				
-				Zero<«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				''')
 		}
@@ -383,7 +383,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 			    
 			    function.append('''				
-				Zero<List«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<List«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				''')
 			    
@@ -397,7 +397,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 			    
 			    function.append('''				
-				Zero<Set«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<Set«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				''')
 			    
@@ -411,7 +411,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 			    
 			    function.append('''				
-				Zero<Bag«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<Bag«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				''')
 			    
@@ -425,7 +425,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 			    
 			    function.append('''				
-				Zero<Map«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<Map«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				''')
 			    
@@ -433,7 +433,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		else
 		{
 			function.append('''
-				Zero<«returnDomain(object.codomain,false)»> «object.name» = new Zero<>();
+				Fun0<«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 				
 				''')
 				
@@ -451,7 +451,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''') 	    
 			
 			   function.append('''
-				N<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name» = new N<>();
+				FunN<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name» = new FunN<>();
 				
 				''')
 			
