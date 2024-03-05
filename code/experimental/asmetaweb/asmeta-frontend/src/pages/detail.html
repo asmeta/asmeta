@@ -1,0 +1,136 @@
+<html>
+    <head>
+        <style> 
+        .variable-row {
+            margin-top: 8px !important;
+        }
+
+        #status-col1 {
+            margin-left: auto;
+        }
+        </style>
+
+        <title>Asmeta Web</title>
+        <link rel="icon" type="image/x-icon" href="../icon_asmeta.png">
+    </head>
+    <body class="bg-light">
+        <header>
+            <div class="navbar navbar-dark bg-primary shadow-sm">
+            <div class="container">
+                <a href="/index.html" class="navbar-brand d-flex align-items-center">
+                <strong>Model detail</strong>
+                </a>
+            </div>
+            </div>
+        </header>
+        <main class="mt-4">
+            <div class="container">
+                <div class="row">
+                    <h2 id="model-name">Model name:</h2>
+                </div>
+                <div class="row w-100">
+                    <div class="col text-end" >
+                        <h4 id="status">Status: </h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        <h4>Monitored keys</h4>
+                        <ul id="monitored-list">
+                        </ul>
+                    </div>
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col col-8">
+                                <h3>Insert locations</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-4">
+                                <select id="select-input-type" class="form-select" aria-label="Default select example">
+                                    <option disabled>Select input type</option>
+                                    <option value="1" selected>Multiple Variable</option>
+                                    <option value="2">Single string</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-4" id="insert-variables-container">
+                            <div class="row variable-row">
+                                <div class="col">
+                                    <input type="text" id="name-0" class="form-control" placeholder="Variable Name" aria-describedby="basic-addon3">
+                                </div>
+                                <div class="col">
+                                    <input type="text" id="value-0" class="form-control" placeholder="Value" aria-describedby="basic-addon3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4 d-none" id="insert-string-variable-container">
+                                <div class="col">
+                                    <textarea type="text" id="variables-string" class="form-control" placeholder="Variables string" aria-describedby="basic-addon3"></textarea>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="row">
+                            <button type="button" class="mt-4 btn btn-outline-primary w-100" id="add-variable">Add variable</button>
+                        </div>
+                        <div class="row">
+                            <button type="button" class="mt-4 btn btn-primary w-100" id="make-step">Next Step</button>
+                        </div>
+                        <div class="row">
+                            <button type="button" class="mt-4 btn btn-danger w-100" id="stop-model">Stop model</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col">
+                        <h4>Controlled locations</h4>
+                        <table id="monitored-table" class="table table-hover table-striped">
+                            <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Value</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col">
+                        <h4>Output</h4>
+                        <table id="output-table" class="table table-hover table-striped">
+                            <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Value</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div id="modal-error" class="modal" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header bg-danger">
+                  <h5 class="modal-title text-light">Unsafe step</h5>
+                </div>
+                <div class="modal-body">
+                  <p id="error-modal-text"></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </body>
+</html>

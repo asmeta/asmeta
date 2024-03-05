@@ -1609,6 +1609,33 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		return null;
 	}*/
 	
+	@Override
+	public RunOutput getCurrentState(int id) {
+		try {
+			InfoAsmetaService modelPath = asmS.getSimulatorTable().get(id);
+		} catch (NullPointerException e) {
+			throw new IdNotFoundException("Id not valid");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		RunOutput output = new RunOutput(Esit.SAFE, asmS.getCurrentState(id));
+		
+		return output;
+	}
+	
+	@Override
+	public List<String> getMonitored(String modelPath) {
+		List<String> monitored = new ArrayList<>();
+		try {
+			monitored = findAllMonitored(monitored, modelPath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return monitored;
+	}
 }
 
 

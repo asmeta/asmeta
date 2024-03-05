@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <style> 
+            .variable-row {
+                margin-top: 8px !important;
+            }
+
+            .dropzone {
+                background: white;
+                border-radius: 5px;
+                border: 2px dashed rgb(0, 135, 247);
+                border-image: none;
+                height: 250px;
+                width: auto;
+            }
+        </style>
+        <title>Asmeta Web</title>
+        <link rel="icon" type="image/x-icon" href="../icon_asmeta.png">
+        <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body class="bg-light">
+        <header>
+            <div class="navbar navbar-dark bg-primary shadow-sm">
+            <div class="container">
+                <a href="/index.html" class="navbar-brand d-flex align-items-center">
+                <strong>Insert new model</strong>
+                </a>
+            </div>
+            </div>
+        </header>
+        <main class="mt-4"> 
+            <div class="container">
+                <div class="row">
+                    <h4>Available Models</h4>
+                    <div class="col-sm-6">
+                        <ul class="list-group" id="models-list">
+                        </ul>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="dropzone dropzone-previews" id="drop-area">
+                                <div class="dz-message needsclick">    
+                                    Drop files here or click to upload a new model.    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <button type="submit" id="upload-models-button" class="btn btn-primary">Upload new model</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <h4>Available libraries</h4>
+                    <div class="col-sm-6">
+                        <ul class="list-group" id="libraries-list">
+                        </ul>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="dropzone dropzone-previews" id="libraries-drop-area">
+                                <div class="dz-message needsclick">    
+                                    Drop files here or click to upload a new library.    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <button type="submit" id="upload-libraries-button" class="btn btn-primary">Upload new library</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div id="modal-error" class="modal" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header bg-danger">
+                  <h5 class="modal-title text-light">Error</h5>
+                </div>
+                <div class="modal-body">
+                  <p id="error-modal-text">Error while trying to start a new model</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </body>
+</html>
