@@ -12,6 +12,9 @@ It need differents dependencies from the Asmeta project:
 ![Screenshot](./dependencyScreenshot.png)
 
 In the pom.xml file is explicited the **asmeta.simulator.run.time** dependency, but you need to add **asmeta.animator** in the Java Build Path to make it run.
+
+There is also a API documentation thanks to Swagger, reachable at http://localhost:8080/swagger-ui/index.html
+
 ## Frontend Setup
 
 The frontend is builded with HTML5, CSS and plain Javascript.
