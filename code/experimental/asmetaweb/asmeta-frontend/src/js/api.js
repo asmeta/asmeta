@@ -40,13 +40,18 @@ async function startModel(modelName) {
 }
 
 async function step(id, monitoredVariables) {
-    const resp = await axios.put("http://localhost:8080/step", {
-        id: id, 
-        monitoredVariables: monitoredVariables
-    })
-
-    if (resp.status == 200)
-        return resp.data
+    try {
+        const resp = await axios.put("http://localhost:8080/step", {
+            id: id, 
+            monitoredVariables: monitoredVariables
+        })
+    
+        if (resp.status == 200)
+            return resp.data
+    
+    } catch {
+        return false
+    }
 
     return false
 }

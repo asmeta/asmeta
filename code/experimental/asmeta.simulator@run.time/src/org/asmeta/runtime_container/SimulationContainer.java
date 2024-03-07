@@ -1613,6 +1613,10 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	public RunOutput getCurrentState(int id) {
 		try {
 			InfoAsmetaService modelPath = asmS.getSimulatorTable().get(id);
+
+			RunOutput output = new RunOutput(Esit.SAFE, asmS.getCurrentState(id));
+			
+			return output;
 		} catch (NullPointerException e) {
 			throw new IdNotFoundException("Id not valid");
 		} catch (Exception e) {
@@ -1620,9 +1624,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 			e.printStackTrace();
 		}
 		
-		RunOutput output = new RunOutput(Esit.SAFE, asmS.getCurrentState(id));
-		
-		return output;
+		return null;
 	}
 	
 	@Override

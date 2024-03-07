@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const pages = ['index', 'detail', 'new-model'];
 
@@ -30,11 +31,9 @@ module.exports = {
 	},
 	module: { 
 		rules: [{ 
-			test: /\.css$/, 
-			use: [ 
-				"style-loader", 
-				"css-loader" 
-			]},
+				test: /\.css$/, 
+				use: [MiniCssExtractPlugin.loader, "css-loader"],
+			},
 			{ 
 				test: /\.js$/, 
 				exclude: /node_modules/, 
@@ -51,11 +50,14 @@ module.exports = {
 			}, 
 		] 
 	},
-	plugins: pages.map(page => (
-		new HtmlWebpackPlugin({
-		  template: `./src/pages/${page}.html`,
-		  filename: `${page}.html`,
-		  chunks: [page],
-		})
-	)),
+	plugins: [
+		new MiniCssExtractPlugin(),
+		...pages.map(page => (
+		  new HtmlWebpackPlugin({
+			template: `./src/pages/${page}.html`,
+			filename: `${page}.html`,
+			chunks: [page],
+		  })
+		)),
+	],
 }

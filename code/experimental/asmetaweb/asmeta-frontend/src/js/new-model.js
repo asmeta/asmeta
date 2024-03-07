@@ -1,9 +1,8 @@
-import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
 import 'dropzone/dist/basic.css';
 import { Modal } from 'bootstrap';
 
-import '../pages/detail.html'
 import Dropzone from "dropzone";
 import api from './api.js'
 

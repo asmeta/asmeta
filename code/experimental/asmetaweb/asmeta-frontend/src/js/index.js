@@ -1,7 +1,6 @@
-import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
 
-import '../pages/index.html'
 import api from './api'
 
 addEventListener("DOMContentLoaded", async (event) => {

@@ -1,8 +1,7 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import { Modal } from 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
-import '../pages/detail.html'
 import VariableComponent from './variableComponent.js';
 
 import api from './api.js'
@@ -91,7 +90,7 @@ async function makeStep() {
 async function stopModel() {
     const resp = await api.stopModel(id)
     if (resp) {
-        console.log(resp)
+        window.location.href = "/index.html"   
     }
 }
 

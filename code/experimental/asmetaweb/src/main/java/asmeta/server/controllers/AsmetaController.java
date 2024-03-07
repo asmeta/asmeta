@@ -57,6 +57,7 @@ public class AsmetaController {
 		Map<String, Object> returnVal = new HashMap<>(); 
 		returnVal.put("id", id);
 		returnVal.put("runOutput", lastStepOutput);
+		
 		String modelName = Application.sim.getAsmetaModel(id).getModelName();
 		returnVal.put("modelName", modelName);
 		returnVal.put("monitored", Application.sim.getMonitored(modelsFolderPath + modelName));
