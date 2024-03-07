@@ -3,16 +3,13 @@
 
 This project expose the Simulator@Runtime functionality through a Spring Backend and a HTML5 Frontend.
 
-
-![Screenshot](./dependencyScreenshot.png)
-
-
 ## Backend Setup
 
 The backend is builded with Spring Boot Framework version 3.2.0.
 
 It need differents dependencies from the Asmeta project:
 
+![Screenshot](./dependencyScreenshot.png)
 
 In the pom.xml file is explicited the **asmeta.simulator.run.time** dependency, but you need to add **asmeta.animator** in the Java Build Path to make it run.
 ## Frontend Setup
