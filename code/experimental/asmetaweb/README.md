@@ -6,6 +6,7 @@ This project expose the Simulator@Runtime functionality through a Spring Backend
 ## Project Setup
 
 Install NodeJs version LTS 20.11.1.
+
 Install Java 17 and Eclipse.
 
 ## Backend Setup
