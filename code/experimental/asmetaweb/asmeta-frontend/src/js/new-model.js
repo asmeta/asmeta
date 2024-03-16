@@ -19,49 +19,14 @@ addEventListener("DOMContentLoaded", async (event) =>  {
         // Inizializza la lista di modelli
         let modelListContainer = document.getElementById("models-list")
         resp.models.forEach(modelName => {
-            var entry = document.createElement('li');
-            entry.dataset.value = modelName
-
-            var text = document.createElement('p')
-            text.classList.add("flex-grow-1")
-            text.dataset.value = modelName
-            text.innerHTML = modelName
-            entry.appendChild(text)
-
-            entry.classList.add('list-group-item', "d-flex");
-            entry.classList.add('list-group-item-action');
-            
-            var deleteButton = document.createElement("button")
-            deleteButton.classList.add("btn", "btn-danger", "btn-delete")
-            deleteButton.innerHTML = "X"
-            deleteButton.dataset.modelName = modelName
-            deleteButton.addEventListener('click', deleteModel);
-            entry.appendChild(deleteButton)
-        
+            var entry = createListItem(modelName, false)
             modelListContainer.appendChild(entry);
         });
 
         // Inizializza la lista di librerie
         let librariesListContainer = document.getElementById("libraries-list")
         resp.libraries.forEach(libraryName => {
-            var entry = document.createElement('li');
-            entry.dataset.value = libraryName
-
-            var text = document.createElement('p')
-            text.classList.add("flex-grow-1")
-            text.dataset.value = libraryName
-            text.innerHTML = libraryName
-            entry.appendChild(text)
-
-            entry.classList.add('list-group-item', "d-flex");
-            entry.classList.add('list-group-item-action');
-            
-            var deleteButton = document.createElement("button")
-            deleteButton.classList.add("btn", "btn-danger", "btn-delete")
-            deleteButton.innerHTML = "X"
-            deleteButton.dataset.libraryName = libraryName
-            deleteButton.addEventListener('click', deleteLibrary);
-            entry.appendChild(deleteButton)
+            var entry = createListItem(libraryName, true)
         
             librariesListContainer.appendChild(entry);
         });
@@ -104,6 +69,12 @@ function initFileDrop() {
         console.log(`File added: ${file.name}`);
     });
 
+    modelDropzone.on("queuecomplete", function (file) {
+        // setTimeout(function() {
+        //     location.reload()
+        // }, 500);
+    });
+
     libraryDropzone = new Dropzone("div#libraries-drop-area", { 
         url: "/upload-library",
         autoProcessQueue: false,
@@ -132,7 +103,7 @@ async function deleteModel(event) {
     event.preventDefault();
     event.stopPropagation();
     
-    const resp = await api.deleteModel(event.target.dataset.modelName)
+    const resp = await api.deleteModel(event.target.dataset.fileName)
     if (resp) 
         location.reload()
 }
@@ -141,7 +112,38 @@ async function deleteLibrary(event) {
     event.preventDefault();
     event.stopPropagation();
     
-    const resp = await api.deleteLibary(event.target.dataset.libraryName)
+    const resp = await api.deleteLibary(event.target.dataset.fileName)
     if (resp) 
         location.reload()
+}
+
+function createListItem(fileName, isLibrary) {
+    var entry = document.createElement('li');
+    entry.dataset.value = fileName
+
+    var text = document.createElement('p')
+    text.classList.add("flex-grow-1")
+    text.dataset.value = fileName
+    text.innerHTML = fileName
+    entry.appendChild(text)
+
+    entry.classList.add('list-group-item', "d-flex");
+    entry.classList.add('list-group-item-action');
+    
+    var deleteButton = document.createElement("button")
+    deleteButton.classList.add("btn", "btn-danger", "btn-delete")
+    var deleteIcon = document.createElement("img")
+    deleteIcon.src = "assets/icon_delete.svg"
+    deleteIcon.height = 15
+    deleteButton.appendChild(deleteIcon)
+    
+    deleteButton.dataset.fileName = fileName
+    if (isLibrary)
+        deleteButton.addEventListener('click', deleteLibrary);
+    else 
+        deleteButton.addEventListener('click', deleteModel);
+    
+    entry.appendChild(deleteButton)
+
+    return entry
 }

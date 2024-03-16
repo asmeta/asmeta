@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 const pages = ['index', 'detail', 'new-model'];
 
@@ -13,7 +14,8 @@ module.exports = {
 	output: {
 		filename: '[name].bundle.js',
 		path: path.resolve(__dirname, 'dist'),
-		clean: true
+		clean: true,
+		publicPath: "/"
 	},
 	devServer: { 
 		historyApiFallback: {
@@ -25,9 +27,7 @@ module.exports = {
 		static: {
 			directory: path.join(__dirname, 'dist')
 		},
-		devMiddleware: { 
-			writeToDisk: true 
-		} 
+		port: 9000,
 	},
 	module: { 
 		rules: [{ 
@@ -48,6 +48,13 @@ module.exports = {
 				test: /\.html$/,
 				use: ['html-loader'],
 			}, 
+			{
+				test: /\.(png|svg|jpg|gif)$/,
+				type: "asset/resource",
+				generator: {
+				  filename: "assets/[name][ext]"
+				}
+			},
 		] 
 	},
 	plugins: [
@@ -59,5 +66,10 @@ module.exports = {
 			chunks: [page],
 		  })
 		)),
+		new CopyPlugin({
+			patterns: [
+			  { from: "assets", to: "assets" },
+			],
+    	}),
 	],
 }

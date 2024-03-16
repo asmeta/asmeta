@@ -83,6 +83,7 @@ async function makeStep() {
             showModal(resp.runOutput.message)
         } else {
             updateUi(resp)
+            showSuccessAlert()
         }
     }
 }
@@ -123,4 +124,15 @@ function showModal(errorText) {
     modalTextError.appendChild(strongElement)
     
     modalError.show();
+}
+
+function showSuccessAlert() {
+    var successAlert = document.getElementById("alert-success")
+    successAlert.classList.add("show")
+    successAlert.classList.remove("fade")
+
+    setTimeout(() => {
+        successAlert.classList.add("fade")
+        successAlert.classList.remove("show")
+      }, 1500);
 }

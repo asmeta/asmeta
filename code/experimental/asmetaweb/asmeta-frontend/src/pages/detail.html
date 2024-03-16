@@ -11,7 +11,7 @@
         </style>
 
         <title>Asmeta Web</title>
-        <link rel="icon" type="image/x-icon" href="../icon_asmeta.png">
+        <link rel="icon" type="image/x-icon" href="../../assets/icon_asmeta.png">
     </head>
     <body class="bg-light">
         <header>
@@ -35,12 +35,12 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-2">
-                        <h4>Monitored keys</h4>
+                    <div class="col-3">
+                        <h4>Monitored locations:</h4>
                         <ul id="monitored-list">
                         </ul>
                     </div>
-                    <div class="col-8">
+                    <div class="col-7">
                         <div class="row">
                             <div class="col col-8">
                                 <h3>Insert locations</h3>
@@ -102,7 +102,7 @@
 
                 <div class="row mt-4">
                     <div class="col">
-                        <h4>Output</h4>
+                        <h4>Output locations</h4>
                         <table id="output-table" class="table table-hover table-striped">
                             <thead class="table-dark">
                             <tr>
@@ -131,6 +131,9 @@
                 </div>
               </div>
             </div>
+        </div>
+        <div id="alert-success" class="position-absolute bottom-0 end-0 me-4 w-25 alert alert-success fade" role="alert">
+            Step completed correctly
         </div>
     </body>
 </html>
