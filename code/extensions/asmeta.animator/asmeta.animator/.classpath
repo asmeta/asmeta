@@ -24,5 +24,17 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.simulator"/>
+	<classpathentry kind="src" path="/asmeta.emf"/>
+	<classpathentry kind="lib" path="/Users/luciomarcomaranta/.m2/repository/log4j/log4j/1.2.17/log4j-1.2.17.jar" sourcepath="/Users/luciomarcomaranta/.m2/repository/log4j/log4j/1.2.17/log4j-1.2.17-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="log4j"/>
+			<attribute name="maven.artifactId" value="log4j"/>
+			<attribute name="maven.version" value="1.2.17"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="/asmeta.parser"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
