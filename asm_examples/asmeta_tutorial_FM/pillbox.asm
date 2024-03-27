@@ -12,7 +12,6 @@ signature:
 	
 	enum domain LedLights = {OFF | ON }
 	enum domain Drugs = {TYLENOL | ASPIRINE | MOMENT}
-
 	//*************************************************
 	// MONITORED AND CONTROLLED FUNCTIONS
 	//*************************************************
@@ -26,20 +25,17 @@ signature:
 	// The systemTime is expressed as the number of hours passed since the 01/01/1970
 	dynamic monitored systemTime: Natural
 	dynamic controlled drawerTimer: Drawer -> Natural
-	static tenMinutes: Integer
-	
+	static tenMinutes: Integer	
 	//*************************************************
 	// DERIVED FUNCTIONS
 	//*************************************************
-	// It is true when the drawer has been previously opened and now it is closed
+	// Functions checking the status of a Drawer
 	derived drawerClosed: Drawer -> Boolean	
-	// It is true when the drawer has been previously closed and now it is opened
 	derived drawerOpened: Drawer -> Boolean	
 	// It is true when the time_consumption is exceeded by ten minutes
 	derived tenMinutesPassed: Drawer -> Boolean	
-	// It is true when the led corresponding to the drawer is ON
+	// Functions checking the status of a Led
 	derived isOn: Drawer -> Boolean
-	// It is true when the led corresponding to the drawer is OFF
 	derived isOff: Drawer -> Boolean
 	// It is true when the pill has to be taken
 	derived pillDeadlineHit: Drawer -> Boolean 
@@ -47,7 +43,6 @@ signature:
 	derived isThereAnyOtherDeadline: Drawer -> Boolean
 	// It is true when the drawer is the only one ON
 	derived areOthersOn: Drawer -> Boolean
-	
 	//*************************************************
 	// STATIC FUNCTIONS
 	//*************************************************
@@ -61,14 +56,12 @@ definitions:
 	//*************************************************
 	function tenMinutes = 600
 	
-	function drawerClosed($d in Drawer) = (not openSwitch($d) and opened($d))
-	
+	function drawerClosed($d in Drawer) = (not openSwitch($d) and opened($d))	
 	function drawerOpened($d in Drawer) = (openSwitch($d) and not opened($d))
 	
 	function tenMinutesPassed($d in Drawer) = (systemTime-drawerTimer($d)>tenMinutes)
 	
-	function isOn($d in Drawer) = (redLed($d) = ON)
-	
+	function isOn($d in Drawer) = (redLed($d) = ON)	
 	function isOff($d in Drawer) = (redLed($d) = OFF)
 	
 	function pillDeadlineHit ($d in Drawer) = (at(time_consumption($d),drugIndex($d))<=systemTime)
@@ -81,21 +74,19 @@ definitions:
 			case drawer2 : isOn(drawer1) or isOn(drawer3)
 			case drawer3 : isOn(drawer2) or isOn(drawer1)
 		endswitch
-
+		
 	//*************************************************
 	// RULE DEFINITIONS
 	//*************************************************
 	// Rule to reset the Drawer due to one of the possible reasons (Timeout, Pill taken, etc.)
-	rule r_reset($drawer in Drawer) =
-		par
+	rule r_reset($drawer in Drawer) = par
 			redLed($drawer) := OFF
 			drawerTimer($drawer) := systemTime
 			drugIndex($drawer) := drugIndex($drawer) + 1n
 		endpar
 	
 	// Rule to set the led red ON when the pill has to be taken
-	rule r_pillToBeTaken($drawer in Drawer) =
-		par
+	rule r_pillToBeTaken($drawer in Drawer) = par
 			if not isOn($drawer) then drawerTimer($drawer) := systemTime endif
 			redLed($drawer) := ON 
 		endpar	
@@ -120,16 +111,13 @@ definitions:
 	rule r_takeInTimeout($drawer in Drawer) = r_reset[$drawer]
 		
 	// Rule setting tge status of the drawer
-	rule r_set($drawer in Drawer) = 
-		par
+	rule r_set($drawer in Drawer) = par
 			if drawerOpened($drawer) then opened($drawer) := true endif
 			if drawerClosed($drawer) then opened($drawer) := false endif
 		endpar
 		
 	// System evolution starting from the ON State
-	rule r_ON($drawer in Drawer) =
-		if isOn($drawer) then
-			par
+	rule r_ON($drawer in Drawer) = if isOn($drawer) then par
 				// It is open, drug to be taken, it becomes closed
 				if tenMinutesPassed($drawer) and drawerClosed($drawer) then 
 					r_pillTaken_drawerOpened[$drawer] endif
@@ -144,30 +132,26 @@ definitions:
 		endif
 		
 	// Non-determinism: Only a single RedLight is to be on at a time, so choose randomly the order
-	// pf the pills
-	rule r_choosePillToTake =
-		choose $drawer in Drawer with 
+	// of the pills
+	rule r_choosePillToTake = choose $drawer in Drawer with 
 			pillDeadlineHit($drawer) and isOff($drawer) and not areOthersOn($drawer) do
 				r_pillToBeTaken[$drawer]
 	
 	// Set other drawers status		
-	rule r_setOtherDrawers =
-		forall $drawer in Drawer do
-			if (isThereAnyOtherDeadline($drawer)) then
-				par					
-					// Set the satus of the drawer
-					r_set[$drawer]
-						
-					// Handle the evolution of the System when starting from the ON state
-					r_ON[$drawer]
-				endpar
-			endif
+	rule r_setOtherDrawers = forall $drawer in Drawer do
+		if (isThereAnyOtherDeadline($drawer)) then par					
+				// Set the satus of the drawer
+				r_set[$drawer]
+					
+				// Handle the evolution of the System when starting from the ON state
+				r_ON[$drawer]
+			endpar
+		endif
 		
 	//*************************************************
 	// MAIN Rule
 	//*************************************************	
-	main rule r_Main =
-		par
+	main rule r_Main = par
 			// Non-determistic choice of the pill
 			r_choosePillToTake[]
 			
