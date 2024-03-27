@@ -8,8 +8,7 @@ signature:
 	//*************************************************
 	// DOMAINS
 	//*************************************************
-	abstract domain Drawer
-	
+	abstract domain Drawer	
 	enum domain LedLights = {OFF | ON }
 	enum domain Drugs = {TYLENOL | ASPIRINE | MOMENT}
 	//*************************************************
@@ -21,7 +20,6 @@ signature:
 	dynamic controlled time_consumption: Drawer -> Seq(Natural)
 	dynamic controlled name: Drawer -> Drugs
 	dynamic controlled drugIndex: Drawer -> Natural
-
 	// The systemTime is expressed as the number of hours passed since the 01/01/1970
 	dynamic monitored systemTime: Natural
 	dynamic controlled drawerTimer: Drawer -> Natural
@@ -54,11 +52,10 @@ definitions:
 	// STATIC AND DERIVED FUNCTIONS DEFINITIONS
 	//*************************************************
 	function tenMinutes = 600
+	function tenMinutesPassed($d in Drawer) = (systemTime-drawerTimer($d)>tenMinutes)
 	
 	function drawerClosed($d in Drawer) = (not openSwitch($d) and opened($d))	
 	function drawerOpened($d in Drawer) = (openSwitch($d) and not opened($d))
-	
-	function tenMinutesPassed($d in Drawer) = (systemTime-drawerTimer($d)>tenMinutes)
 	
 	function isOn($d in Drawer) = (redLed($d) = ON)	
 	function isOff($d in Drawer) = (redLed($d) = OFF)
@@ -68,10 +65,8 @@ definitions:
 			case drawer3 : isOn(drawer2) or isOn(drawer1)
 		endswitch
 	
-	function pillDeadlineHit ($d in Drawer) = (at(time_consumption($d),drugIndex($d))<=systemTime)
-	
-	function isThereAnyOtherDeadline ($d in Drawer) = (drugIndex($d)<iton(length(time_consumption($d))))
-		
+	function pillDeadlineHit ($d in Drawer) = (at(time_consumption($d),drugIndex($d))<=systemTime)	
+	function isThereAnyOtherDeadline ($d in Drawer) = (drugIndex($d)<iton(length(time_consumption($d))))		
 	//*************************************************
 	// RULE DEFINITIONS
 	//*************************************************
@@ -107,7 +102,7 @@ definitions:
 	// Rule to set the red led blinking, after the drawer opening
 	rule r_takeInTimeout($drawer in Drawer) = r_reset[$drawer]
 		
-	// Rule setting tge status of the drawer
+	// Rule setting the status of the drawer
 	rule r_set($drawer in Drawer) = par
 			if drawerOpened($drawer) then opened($drawer) := true endif
 			if drawerClosed($drawer) then opened($drawer) := false endif
@@ -140,7 +135,7 @@ definitions:
 				// Set the satus of the drawer
 				r_set[$drawer]
 					
-				// Handle the evolution of the System when starting from the ON state
+				// Handle the evolution of the System when the LED is in ON state
 				r_ON[$drawer]
 			endpar
 		endif
