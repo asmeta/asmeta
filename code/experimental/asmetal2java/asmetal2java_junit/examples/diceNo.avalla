@@ -1,0 +1,26 @@
+//// starting scenario
+scenario diceNo
+load diceNoProbability.asm
+check playerBudget = 5;
+check bankBudget = 5;
+set bet := 2;
+step
+check playerBudget = 7;
+check bankBudget = 3;
+set bet := 10;
+step
+check playerBudget = 6;
+check bankBudget = 4;
+set bet := 8;
+step
+check playerBudget = 7;
+check bankBudget = 3;
+set bet := 2;
+step
+check playerBudget = 9;
+check bankBudget = 1;
+set bet := 2;
+step
+check playerBudget = 9;
+check bankBudget = 1;
+step

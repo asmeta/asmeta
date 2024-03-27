@@ -19,7 +19,7 @@ asm gameOfLife
 //is sometimes called a tick (in other words, each generation is a pure function of the
 //preceding one). The rules continue to be applied repeatedly to create further generations.
 
-import STDL/StandardLibrary
+import StandardLibrary
 
 signature:
 	domain RowsWorld subsetof Natural
@@ -29,8 +29,8 @@ signature:
 	derived neighbours: Prod(RowsWorld, ColumnsWorld) -> Powerset(Prod(RowsWorld, ColumnsWorld))
 
 definitions:
-	domain RowsWorld = {1n .. 4n}
-	domain ColumnsWorld = {1n .. 4n}
+	domain RowsWorld = {1n : 4n}
+	domain ColumnsWorld = {1n : 4n}
 
 	function neighbours($r in RowsWorld, $c in ColumnsWorld) =
 		{$i in RowsWorld, $j in ColumnsWorld | (abs($r - $i) + abs($c - $j) = 1) or (abs($r - $i) = 1 and abs($c - $j) = 1): ($i , $j)}

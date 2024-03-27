@@ -29,7 +29,8 @@ public abstract class AsmToJavaGenerator implements IGenerator {
       final FileWriter file = new FileWriter(writerPath);
       final BufferedWriter writer = new BufferedWriter(file);
       final String javaCode = this.compileAsm(asm, userOptions);
-      if (this.options.formatter) {
+      boolean _formatter = this.options.getFormatter();
+      if (_formatter) {
         writer.write(Formatter.formatCode(javaCode));
       } else {
         writer.write(javaCode);

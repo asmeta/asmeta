@@ -10,30 +10,31 @@ import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
 import org.apache.log4j.Logger;
+import org.asmeta.asm2java.NotValidFileException;
 
 public class CompilatoreJava {
 
-	static private Logger logger = Logger.getLogger(CompilatoreJava.class);
+	private CompilatoreJava() {}
+	
+	private static Logger logger = Logger.getLogger(CompilatoreJava.class);
 
-	public static CompileResult compile(String name, File directory, boolean compileOnly, boolean evalCoverage) {
-
-		// System.setProperty("java.home", "C:\\Program Files\\Java\\jdk1.8.0_191");
-		// System.setProperty("java.home", "C:\\Program Files\\Java\\jdk-11.0.8");
-
-		assert directory.isDirectory();
-		assert !compileOnly || name.endsWith(".java") : name + " does not end with .java";
+	public static CompileResult compile(String name, File directory, boolean compileOnly) {
+		if (!directory.isDirectory())
+			throw new NotValidFileException("The given path does not represent a proper directory");
+		if (compileOnly && !name.endsWith(".java"))
+			throw new NotValidFileException(name + " does not end with .java");
 
 		String messaggio = "non compilato";
 
 		File sourceFile = new File("examples/compilazione/" + name);
-
+		
 		if (compileOnly) {
 			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 			assert compiler != null;
 			StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
 			File parent = sourceFile.getAbsoluteFile().getParentFile();
-			System.out.println("\nEsecuzione del file java presente nella destinazione - > " + parent);
-			System.out.println("\nGenerazione dei file .class ");
+			logger.info("\nEsecuzione del file java presente nella destinazione - > " + parent);
+			logger.info("\nGenerazione dei file .class ");
 			try {
 				fileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(parent));
 			} catch (IOException e) {
@@ -41,22 +42,17 @@ public class CompilatoreJava {
 				e.printStackTrace();
 			}
 
-			compiler.getTask(null, fileManager, null, null, null,
+			Boolean result = compiler.getTask(null, fileManager, null, null, null,
 					fileManager.getJavaFileObjectsFromFiles(Arrays.asList(sourceFile))).call();
 
-			if (compiler.getTask(null, fileManager, null, null, null,
-					fileManager.getJavaFileObjectsFromFiles(Arrays.asList(sourceFile))).call() == true) {
-				System.out.println("\nCompilazione del file " + name + " riuscita\n");
+			if (Boolean.TRUE.equals(result)) {
 				messaggio = "\nCompilazione del file " + name + " riuscita\n";
+				logger.debug(messaggio);
 			} else {
-
-				System.out.println("\nCompilazione del file " + name + " non riuscita\n");
 				messaggio = "\nCompilazione del file " + name + " non riuscita\n";
-			}
+				logger.debug(messaggio);
+			}			
 		}
-
 		return new CompileResult(true, messaggio);
-
 	}
-
 }
