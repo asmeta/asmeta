@@ -1,7 +1,7 @@
 package org.asmeta.asm2java.compiler;
 
 public class CompileResult {
-	public boolean success;
+	private boolean success;
 	String message;
 
 	public CompileResult(boolean r, String m) {
@@ -12,6 +12,10 @@ public class CompileResult {
 	@Override
 	public String toString() {
 		return (success ? "OK" : "FAIL:") + message;
+	}
+	
+	public boolean getSuccess() {
+		return success;
 	}
 	
 }
