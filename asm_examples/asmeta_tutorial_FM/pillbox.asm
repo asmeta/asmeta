@@ -37,12 +37,11 @@ signature:
 	// Functions checking the status of a Led
 	derived isOn: Drawer -> Boolean
 	derived isOff: Drawer -> Boolean
+	derived areOthersOn: Drawer -> Boolean
 	// It is true when the pill has to be taken
 	derived pillDeadlineHit: Drawer -> Boolean 
 	// It is true if there is any other pill in that drawer still to be taken
 	derived isThereAnyOtherDeadline: Drawer -> Boolean
-	// It is true when the drawer is the only one ON
-	derived areOthersOn: Drawer -> Boolean
 	//*************************************************
 	// STATIC FUNCTIONS
 	//*************************************************
@@ -63,17 +62,15 @@ definitions:
 	
 	function isOn($d in Drawer) = (redLed($d) = ON)	
 	function isOff($d in Drawer) = (redLed($d) = OFF)
-	
-	function pillDeadlineHit ($d in Drawer) = (at(time_consumption($d),drugIndex($d))<=systemTime)
-	
-	function isThereAnyOtherDeadline ($d in Drawer) = (drugIndex($d)<iton(length(time_consumption($d))))
-	
-	function areOthersOn($d in Drawer) =
-		switch($d)
+	function areOthersOn($d in Drawer) = switch($d)
 			case drawer1 : isOn(drawer2) or isOn(drawer3)
 			case drawer2 : isOn(drawer1) or isOn(drawer3)
 			case drawer3 : isOn(drawer2) or isOn(drawer1)
 		endswitch
+	
+	function pillDeadlineHit ($d in Drawer) = (at(time_consumption($d),drugIndex($d))<=systemTime)
+	
+	function isThereAnyOtherDeadline ($d in Drawer) = (drugIndex($d)<iton(length(time_consumption($d))))
 		
 	//*************************************************
 	// RULE DEFINITIONS
@@ -170,8 +167,7 @@ default init s0:
 	function drawerTimer($drawer in Drawer) = 0n
 
 	// Initialization of the time consumption
-	function time_consumption($drawer in Drawer) =
-		switch($drawer)
+	function time_consumption($drawer in Drawer) = switch($drawer)
 			case drawer1 : [1n, 20n, 30n]
 			case drawer2 : [40n, 50n, 60n]
 			case drawer3 : [9n, 20n, 30n]
@@ -181,8 +177,7 @@ default init s0:
 	function systemTime = 0n
 	
 	// Insert a drug in each drawer	
-	function name($drawer in Drawer) =
-		switch($drawer)
+	function name($drawer in Drawer) = switch($drawer)
 			case drawer1 : TYLENOL
 			case drawer2 : ASPIRINE
 			case drawer3 : MOMENT
