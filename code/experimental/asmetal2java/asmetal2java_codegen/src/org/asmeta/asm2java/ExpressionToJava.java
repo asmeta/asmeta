@@ -2,13 +2,10 @@ package org.asmeta.asm2java;
 
 import java.util.List;
 
-import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.structure.Asm;
-import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
 
 public class ExpressionToJava {
-	private static final String VALUE_FIELD_NAME = ".value";
 	protected Asm asm;
 
 	public ExpressionToJava(Asm asm) {
@@ -18,471 +15,325 @@ public class ExpressionToJava {
 	/**
 	 * Checks for evaluate visitor.
 	 * 
-	 * @param function the function
+	 * @param function
+	 *            the function
 	 * 
 	 * @return true, if successful
 	 */
 	public static boolean hasEvaluateVisitor(String function) {
 		return function.equals("<") || function.equals("<=") || function.equals(">") || function.equals(">=")
 				|| function.equals("=") || function.equals("!=") || function.equals("-") || function.equals("!")
-				|| function.equals("&") || function.equals("|") || function.equals("xor") || function.equals("mod")
-				|| function.equals("isDef") || function.equals("+") || function.equals("*") || function.equals("/")
-				|| function.equals("^") || function.equals("iton") || function.equals("at")
-				|| function.equals("chooseone") || function.equals("first") || function.equals("length") || function.equals("union");
+				|| function.equals("&") || function.equals("|") || function.equals("xor") || /*function.equals("->")
+				||*/ function.equals("mod") || function.equals("+") || function.equals("*") || function.equals("/")|| function.equals("^");
 	}
+
 
 	/**
 	 * Evaluate function.
 	 * 
-	 * @param function the function
-	 * @param argsTerm the args term
+	 * @param function
+	 *            the function
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 * 
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
-	String evaluateFunction(String function, List<Term> argsTerm) throws InvalidFunctionException {
-		switch (function) {
-		case "<":
+	String evaluateFunction(String function, List<Term> argsTerm) throws Exception {
+		if (function.equals("<")) {
 			return lt(argsTerm);
-		case ("<="):
+		}
+		if (function.equals("<=")) {
 			return le(argsTerm);
-		case (">"):
+		}
+		if (function.equals(">")) {
 			return gt(argsTerm);
-		case (">="):
+		}
+		if (function.equals(">=")) {
 			return ge(argsTerm);
-		case ("->"):
-			return implies(argsTerm);
-		case ("chooseone"):
-			return chooseone(argsTerm);
-		case ("iton"):
-			return iton(argsTerm);
-		case ("="):
-			return eq(argsTerm);
-		case ("at"):
-			return at(argsTerm);
-		case ("length"):
-			return length(argsTerm);
-		case ("!="):
+		}
+		if (function.equals("=")) {
+			return equals(argsTerm);
+		}
+		if (function.equals("!=")) {
 			return notEquals(argsTerm);
-		case ("!"):
+		}
+		if (function.equals("!")) {
 			return not(argsTerm);
-		case ("&"):
+		}
+		if (function.equals("&")) {
 			return and(argsTerm);
-		case ("|"):
+		}
+		if (function.equals("|")) {
 			return or(argsTerm);
-		case ("mod"):
+		}
+		if (function.equals("mod")) {
 			return mod(argsTerm);
-		case ("isDef"):
-			return isDef(argsTerm);
-		case ("first"):
-			return first(argsTerm);
-		case ("union"):
-			return union(argsTerm);
-		case ("+"):
+		}
+		if (function.equals("+")) {
 			if (argsTerm.size() == 1) {
 				return plusUnary(argsTerm);
 			} else {
 				return sum(argsTerm);
 			}
-		case ("*"):
+		}
+		if (function.equals("*")) {
 			return mult(argsTerm);
-		case ("-"):
+		}
+		if (function.equals("-")) {
 			if (argsTerm.size() == 1) {
 				return minusUnary(argsTerm);
 			} else {
 				return minusBinary(argsTerm);
 			}
-		default:
-			throw new InvalidFunctionException(function + "not found");
+		} else {
+			return "";
 		}
-
 	}
 
-	private String union(List<Term> argsTerm) {
-		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return first + ".addAll(" + second +")";
+
+	private String or(List<Term> argsTerm) throws Exception {
+		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String second = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		return updateVarName(first) + " || " + updateVarName(second);
 	}
 
-	private String length(List<Term> argsTerm) {
-		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		return first + ".size()";
+
+	private String and(List<Term> argsTerm) throws Exception {
+		String first = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String second = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		return updateVarName(first) + " && " + updateVarName(second);
+	}
+
+
+	private String not(List<Term> argsTerm) throws Exception {
+		String arg = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		return "! " + updateVarName(arg);
 	}
 
 	/**
-	 * Executes the iton function.
+	 * Executes the implies function.
 	 * 
-	 * @param argsTerm the args term
-	 * 
-	 * @return the string
-	 */
-	private String iton(List<Term> argsTerm) {
-		return new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-	}
-	
-	/**
-	 * Executes the first function.
-	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
+	 * 
+	 * @throws Exception
+	 *             the exception
 	 */
-	private String first(List<Term> argsTerm) {
-		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		return first + ".get(0)";
-	}
 
-	private String chooseone(List<Term> argsTerm) {
-		SetTerm term = (SetTerm) argsTerm.get(0);
-		return "Collections.unmodifiableList(Arrays.asList" + new TermToJava(asm).visit(term)
-				+ ").get(ThreadLocalRandom.current().nextInt(0, Collections.unmodifiableList(Arrays.asList"
-				+ new TermToJava(asm).visit(term) + ").size()))";
-	}
-
-	private String or(List<Term> argsTerm) {
-		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return first + " || " + second;
-	}
-
-	private String at(List<Term> argsTerm) {
-		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return first + ".get(" + second + ")";
-	}
-
-	private String and(List<Term> argsTerm) {
-		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return first + " && " + second;
-	}
-
-	private String not(List<Term> argsTerm) {
-		String arg = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		return "! " + arg;
-	}
 
 	/**
 	 * Executes the less than function.
 	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 */
 	private String lt(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		
+		//return left + " < " + right;
 		try {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-			// Ignore
 		}
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-		return new Util().setPars(left + " < " + right);
+		catch(NumberFormatException e) {}
+		return new Util().setPars(updateVarName(left) + " < " + updateVarName(right));
 	}
 
 	/**
 	 * Executes the less than or equal function.
 	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 */
 	private String le(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		//return left + " <= " + right;
 		try {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-			// Ignore
 		}
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-
-		return new Util().setPars(left + " <= " + right);
-
+		catch(NumberFormatException e) {}
+		return new Util().setPars(updateVarName(left) + " <= " + updateVarName(right));
+	
 	}
 
 	/**
 	 * Executes the greater than function.
 	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 */
 	private String gt(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		//return left + " > " + right;
 		try {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-			// Ignore
 		}
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-		return new Util().setPars(left + " > " + right);
-
+		catch(NumberFormatException e) {}
+		return new Util().setPars(updateVarName(left) + " > " + updateVarName(right));
+	
 	}
 
 	/**
 	 * Executes the greater than or equal function.
 	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 */
 	private String ge(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		//return left + " >= " + right;
 		try {
 			Integer.parseInt(left);
 			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-			// Ignore
 		}
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-		return new Util().setPars(left + " >= " + right);
-
+		catch(NumberFormatException e) {}
+		return new Util().setPars(updateVarName(left) + " >= " + updateVarName(right));
+	
 	}
 
 	/**
 	 * Executes the equal function.
 	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 */
-	private String eq(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-
-		return new Util().equals(left, right);
+	private String equals(List<Term> argsTerm) {
+		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		// System.out.println(argsTerm.get(0) + " = " + argsTerm.get(1));
+		// System.out.println(left + " = " + right);
+		return new Util().equals(updateVarName(left), updateVarName(right));
 	}
 
 	/**
 	 * Executes the not equal function.
 	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 */
 	private String notEquals(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-
-		return new Util().notEquals(left, right);
+		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		return new Util().notEquals(updateVarName(left), updateVarName(right));
 	}
 
 	/**
 	 * Executes the mod function.
 	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 */
 	private String mod(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return new Util().setPars(left + " % " + right);
+		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		return new Util().setPars(updateVarName(left) + " % " + updateVarName(right));
 	}
 
-	/**
-	 * Executes the isDef function
-	 * 
-	 * @param argsTerm the args term
-	 * 
-	 * @return the string
-	 */
-	private String isDef(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		return new Util().setPars(left + " != null");
+	private String updateVarName(String name) {
+		return name;
 	}
 
 	/**
 	 * Minus unary.
 	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 * @throws AsmNotSupportedException
 	 */
 	String minusUnary(List<Term> argsTerm) {
-		String str = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		if (Boolean.TRUE.equals(new Util().isNumber(str))) {
+		String str = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		if (new Util().isNumber(str)) {
 			return String.valueOf(Integer.valueOf(str) * (-1));
 		} else {
-			return new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+			return new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
 		}
 	}
 
 	/**
 	 * Minus binary.
 	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 */
 	String minusBinary(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-		return new Util().setPars(left + " - " + right);
+		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		return new Util().setPars(updateVarName(left) + " - " + updateVarName(right));
 	}
 
 	/**
 	 * Plus unary.
 	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 */
-	String plusUnary(List<Term> argsTerm) {
-		return new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+String plusUnary(List<Term> argsTerm) {
+		return new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
 	}
 
 	/**
 	 * Executes the sum function.
 	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 */
 	String sum(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-
-		return new Util().setPars(left + " + " + right);
+		// System.out.println("Terms " + argsTerm.size());
+		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		return new Util().setPars(updateVarName(left) + " + " + updateVarName(right));
 	}
 
 	/**
 	 * Executes the multiply function.
 	 * 
-	 * @param argsTerm the args term
+	 * @param argsTerm
+	 *            the args term
 	 * 
 	 * @return the string
 	 */
 	String mult(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return new Util().setPars(left + " * " + right);
+		String left = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(0));
+		String right = new TermToJavaSupportoConfronto(asm).visit(argsTerm.get(1));
+		return new Util().setPars(updateVarName(left) + " * " + updateVarName(right));
 	}
 
-	/**
-	 * Executes the implies function.
-	 * 
-	 * @param argsTerm the args term
-	 * 
-	 * @return the string
-	 */
-	String implies(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return new Util().setPars("(!" + left + " || " + right + ")");
-	}
-
-	/**
-	 * Executes the divide function.
-	 * 
-	 * @param argsTerm the args term
-	 * 
-	 * @return the string
-	 */
-	String idiv(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return new Util().setPars(left + " / " + right);
-	}
+	/** TODO: DELETE FOR COVERAGE 	String idiv(List<Term> argsTerm) {
+		String left = new TermToCpp(asm).visit(argsTerm.get(0));
+		String right = new TermToCpp(asm).visit(argsTerm.get(1));
+		return new Util().setPars(updateVarName(left) + " / " + updateVarName(right));
+	}*/
 }

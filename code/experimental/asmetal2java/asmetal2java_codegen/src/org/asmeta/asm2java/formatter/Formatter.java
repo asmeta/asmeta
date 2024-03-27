@@ -1,13 +1,10 @@
 package org.asmeta.asm2java.formatter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
-import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
+//import org.eclipse.cdt.core.formatter.CodeFormatter;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
@@ -18,31 +15,25 @@ public class Formatter {
 
 	private static final boolean REMOVE_DOUBLE_NEW_LINES = true;	
 	static int initialIndent = 0;
-	private static final ArrayList<String> TUPLE_NAMES = new ArrayList<>(Arrays.asList("Decade", "Ennead", "Octet", "Pair", "Quartet", "Quintet", "Septet", "Sextet", "Triplet"));
-	private static final ArrayList<String> NAMES = new ArrayList<>(Arrays.asList("java.util.Collections", "java.util.Set", "java.util.Scanner", "java.util.List", "java.util.HashSet", "java.util.Arrays", "java.util.ArrayList", "org.apache.commons.collections4.bag.HashBag", "java.util.concurrent.ThreadLocalRandom", "java.util.function.Function", "java.util.stream.Collectors", "org.apache.commons.collections4.bag.Bag"));
-	
-	private Formatter() {}
 	
 	public static String formatCode(String code) {
+		String newLine = System.getProperty("line.separator");
 		// first remove double new lines
 		if (REMOVE_DOUBLE_NEW_LINES) {
-			code = replaceDoubleNL(code);
-		}
-		
-		// Remove useless imports for tuples
-		for (String s : TUPLE_NAMES) {
-			if (StringUtils.countMatches(code, s)==1)
-				code = code.replace("import org.javatuples." + s + ";", "");
-		}
-		
-		// Remove useless imports for other classes
-		for (String s : NAMES) {
-			if (StringUtils.countMatches(code, s.split("\\.")[s.split("\\.").length - 1])==1)
-				code = code.replace("import " + s + ";", "");
+			//code = code.trim().replaceAll("["+newLine +"]{2,}", "\n");		
+			//code = code.trim().replaceAll(newLine + newLine, newLine);
+			// ci potrebbe essere qualche spazio tra due a capo
+			code = code.trim().replaceAll("\n[\\s]*\n", "\n");
+			code = code.trim().replaceAll("\n\n", "\n");
 		}
 		
 		// take default Eclipse formatting options
 		Map<String, String> options = DefaultCodeFormatterConstants.getEclipseDefaultSettings();
+
+		// initialize the compiler settings to be able to format 1.5 code
+//		options.put( JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_1_5 );
+//		options.put( JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM,	JavaCore.VERSION_1_5 );
+//		options.put( JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_5 );
 
 		// instantiate the default code formatter with the given options
 		final CodeFormatter codeFormatter = org.eclipse.jdt.core.ToolFactory.createCodeFormatter(options);
@@ -58,23 +49,12 @@ public class Formatter {
 			IDocument document = new Document(code);
 			try {
 				edit.apply(document);
-			} catch (MalformedTreeException | BadLocationException e) {
+			} catch (MalformedTreeException e) {
 				e.printStackTrace();
-			} 
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
 			return document.get();
 		}
 	}
-
-	// replace some extra new lines or spaces that are no longer useful
-	private static final Pattern SPACES_BETWEEN_NL = Pattern.compile("\n[\\s]*\n*");
-	private static final Pattern DOUBLE_NL = Pattern.compile("[\r\n]+");
-	static String replaceDoubleNL(String code){
-		code = code.trim();
-		// ci potrebbe essere qualche spazio tra due a capo
-		code = SPACES_BETWEEN_NL.matcher(code).replaceAll("\n");
-		// remove double space
-		code = DOUBLE_NL.matcher(code).replaceAll("\n");
-		return code;
-	}
-
 }

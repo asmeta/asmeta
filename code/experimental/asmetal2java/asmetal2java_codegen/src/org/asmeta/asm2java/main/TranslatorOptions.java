@@ -5,13 +5,20 @@ package org.asmeta.asm2java.main;
  */
 public class TranslatorOptions {
 	
-	// code to be formatted?
-	private boolean formatter;
+	// the dialect 
+	enum CompilerType {
+		ArduinoCompiler,
+		DesktopCompiler
+	}
+	public CompilerType compilerType;
 	
-	private boolean shuffleRandom;
+	// code to be formatted?
+	public boolean formatter;
+	
+	public boolean shuffleRandom;
 	
 	// if true -> only those used (to improve code coverage)
-	private boolean optimizeSeqMacroRule;
+	public boolean optimizeSeqMacroRule;
 	
 	/** default constructor */
 	TranslatorOptions(){
@@ -19,21 +26,12 @@ public class TranslatorOptions {
 	}
 	
 	public TranslatorOptions(boolean formatter, boolean shuffleRandom, boolean optmizeSeqRule){
+		compilerType = CompilerType.DesktopCompiler;
 		this.formatter = formatter;
 		this.shuffleRandom = shuffleRandom;
 		this.optimizeSeqMacroRule = optmizeSeqRule;
 	}
 
-	public boolean getShuffleRandom() {
-		return shuffleRandom;
-	}
-	
-	public boolean getFormatter() {
-		return formatter;
-	}
-	
-	public boolean getOptimizeSeqMacroRule() {
-		return optimizeSeqMacroRule;
-	}
+
 
 }

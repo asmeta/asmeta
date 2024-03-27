@@ -34,7 +34,6 @@ build
 
 bin/
 test-bin/
-target/
 
 
 .DS_Store

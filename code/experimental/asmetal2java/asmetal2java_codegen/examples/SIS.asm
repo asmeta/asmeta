@@ -25,8 +25,8 @@ signature:
 
 definitions:
 	
-	domain WaterpressureType = {0 : 100}
-	domain Delta = {-5 : +5}
+	domain WaterpressureType = {0 ..100}
+	domain Delta = {-5 .. +5}
 
 	function low = 9
 	function permit = 10
