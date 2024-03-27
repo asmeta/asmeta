@@ -25,7 +25,7 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
   private boolean seqBlock;
 
   /**
-   * SeqBlock iff it is called in a seq rule
+   * seqBlock iff it is called in a seq rule
    */
   public SeqRuleCollector(final boolean seqBlock) {
     this.seqBlock = seqBlock;
@@ -86,7 +86,7 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 
   @Override
   public List<Rule> visit(final TermAsRule rule) {
-    throw new UnsupportedOperationException("TermAsRule not implemented");
+    throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
 
   @Override
