@@ -21,7 +21,7 @@ public class AsmParseHelper extends org.eclipse.xtext.testing.util.ParseHelper<A
 		int to = s.indexOf('\n', from + 1);
 		CharSequence name = text.subSequence(from + 1, to-1);
 		// no space in the name
-		assert s.indexOf(' ') == -1;
+		assert name.toString().indexOf(' ') == -1: "index" + from + "->" + to + "name is" + name;
 		return parse(text, name.toString());
 	}
 
