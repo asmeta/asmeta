@@ -31,12 +31,13 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.asmeta.xt.tests.AsmParseHelper
 
 @RunWith(XtextRunner)
 @InjectWith(AsmetaLInjectorProvider)
 class HeaderParsingTest {
 	
-	@Inject	ParseHelper<Asm> parseHelper
+	@Inject	AsmParseHelper parseHelper
 	@Inject extension ValidationTestHelper
 	
 	
@@ -55,7 +56,7 @@ class HeaderParsingTest {
 			import StandardLibrary.asm (Integer, eq)
 			signature:
 			definitions:
-		''')
+		''',"only_imports")
 		// There will be an error because the import "../STDL/StandardLibrary" cannot be found. So, the following
 		// line cannot be executed
 		//result.assertNoErrors
@@ -86,7 +87,7 @@ class HeaderParsingTest {
 				anydomain Prova
 				controlled provafunzione1 : Prova -> Prova	
 			definitions:
-		''')
+		''', "export_all")
 		result.assertNoErrors
 		
 		Assert.assertEquals( 0, result.headerSection.importClause.size )	
@@ -105,7 +106,7 @@ class HeaderParsingTest {
 				anydomain Prova
 				controlled provafunzione : Prova -> Prova		
 			definitions:
-		''')
+		''',"single_export")
 		result.assertNoErrors
 		
 		Assert.assertEquals( result.headerSection.importClause.size, 0)	
@@ -274,7 +275,7 @@ class HeaderParsingTest {
 				domain Prova5 subsetof Bag( Complex )
 				domain Prova6 subsetof Map( String, String )
 			definitions:
-		''')
+		''',"structured_domain")
 		result.assertNoErrors
 		
 		var i = 0
@@ -424,7 +425,7 @@ class HeaderParsingTest {
 				static prova5 : Prod( Seq(Integer), Natural) -> Bag( Integer )
 				static program: Agent -> Rule	
 			definitions:
-		''')
+		''',"static_function")
 		result.assertNoErrors
 		
 		var i = 0

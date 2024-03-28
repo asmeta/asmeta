@@ -1,21 +1,38 @@
 package org.asmeta.xt.tests;
 
-import javax.management.RuntimeErrorException;
-
 import org.asmeta.xt.asmetal.Asm;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.xtext.resource.XtextResourceSet;
+
+import com.google.inject.Inject;
 
 // extension of the parser helper for the asmeta
 public class AsmParseHelper extends org.eclipse.xtext.testing.util.ParseHelper<Asm> {
-	
+
+	@Inject
+	AsmResourceHelper asmresourceHelper;
+
 	@Override
 	public Asm parse(CharSequence text) throws Exception {
-		// either sav eto file or somthing
-		throw new RuntimeException("cannot parse without file name");
+		// assuming asm name[newline]
+		String s = text.toString();
+		int from = s.indexOf(' ');
+		int to = s.indexOf('\n', from + 1);
+		CharSequence name = text.subSequence(from + 1, to-1);
+		// no space in the name
+		assert s.indexOf(' ') == -1;
+		return parse(text, name.toString());
 	}
-	
-	public Asm parse(CharSequence text, String specName) throws Exception {
-		 parse(text, resourceHelper.createResourceSet());
-	}
-	
-}
 
+	public Asm parse(CharSequence text, String specName) throws Exception {
+		asmresourceHelper.setSpecname(specName);
+		XtextResourceSet res = asmresourceHelper.createResourceSet();
+		return super.parse(text, res);
+	}
+
+	protected URI computeUnusedUri(ResourceSet resourceSet) {
+		return asmresourceHelper.computeUnusedUri(resourceSet);
+	}
+
+}
