@@ -3,7 +3,7 @@ asm pillbox_ground
 import StandardLibrary
 import CTLlibrary
 import LTLlibrary
-import TimeLibrary
+import ../STDL/TimeLibrarySimple
 
 signature:
 	//*************************************************
@@ -120,4 +120,4 @@ default init s0:
 	// Timer initialization
 	function duration($t in Timer) = 600
 	function start($t in Timer) = currentTime($t)
-	function timerUnit($t in Timer) = SEC
+	//function timerUnit($t in Timer) = SEC

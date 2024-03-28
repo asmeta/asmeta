@@ -89,6 +89,9 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule;
  */
 public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	
+	// name of current time (seconds)
+	private static final String M_CURR_TIME_SECS = "mCurrTimeSecs";
+
 	final static Logger log = Logger.getLogger(MapVisitor.class); 
 
 	// list of flatteners
@@ -275,8 +278,10 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			// only variables that are actually used are defined in the NuSMV model
 			if (env.usedLoc.contains(var)) { 
 				//Silvia 10/05/2021 -> automatically set clock type
-				if (AsmetaSMVOptions.isUseNuXmvTime()  && var.equalsIgnoreCase("TimeLibrarySimple_mCurrTimeSecs"))
+				if (AsmetaSMVOptions.isUseNuXmvTime()  && var.contains(M_CURR_TIME_SECS)) {
+					assert var.startsWith("TimeLibrary");
 					smv.print("\t\t" + var + ": " + "clock" + "; --");
+				}
 				else
 					smv.print("\t\t" + var + ": " + varsDecl.get(var) + "; --");
 				if (contrLocations.contains(var)) {
@@ -376,8 +381,15 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		// add the ASSIGN section
 		if ((initMap != null && initMap.size() > 0) || updateMap.getSize() > 0) {
 			smv.println("\tASSIGN");
-			if (AsmetaSMVOptions.isUseNuXmvTime()) //Silvia 10/05/2021: init clock to 0 if usenuxmv with time
-				smv.println("\t\tinit(" + "TimeLibrarySimple_mCurrTimeSecs" + ") := " + "0" + ";");
+			if (AsmetaSMVOptions.isUseNuXmvTime()) { //Silvia 10/05/2021: init clock to 0 if usenuxmv with time
+				// search for current time
+				for (String var : varsDecl.keySet()) {
+					if (var.contains(M_CURR_TIME_SECS)) {
+						assert var.startsWith("TimeLibrary"); // can be TimeLibrarySimple
+						smv.println("\t\tinit(" + var + ") := " + "0" + ";");
+					}
+				}
+			}
 			if (initMap != null) {
 				for (String var : initMap.keySet()) {
 					if (env.usedLoc.contains(var)) {
