@@ -89,7 +89,7 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule;
  */
 public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	
-	// name of current time (seconds)
+	// name of current time variable (seconds)
 	private static final String M_CURR_TIME_SECS = "mCurrTimeSecs";
 
 	final static Logger log = Logger.getLogger(MapVisitor.class); 
