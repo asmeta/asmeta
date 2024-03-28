@@ -139,7 +139,10 @@ definitions:
 				r_ON[$drawer]
 			endpar
 		endif
-		
+	//*************************************************
+	// INVARIANTS
+	//*************************************************	
+	invariant inv_drawer1 over Drawer: (forall $d in Drawer with isOn($d) implies not areOthersOn($d)) 
 	//*************************************************
 	// MAIN Rule
 	//*************************************************	
