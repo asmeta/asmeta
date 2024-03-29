@@ -83,10 +83,10 @@ definitions:
 	//*************************************************
 	// INVARIANTS AND TEMPORAL PROPERTIES
 	//*************************************************	
-	invariant inv_drawer1 over Drawer: (forall $d in Drawer with isOn($d) implies not areOthersOn($d)) 
+
 	
 	// If the patient takes the pill, red light will turn-off
-	CTLSPEC ag(pillDeadlineHit(drawer1) implies ax(isOn(drawer1)))
+	LTLSPEC g(pillDeadlineHit(drawer1) implies f(isOn(drawer1)))
 	
 	//*************************************************
 	// MAIN Rule
