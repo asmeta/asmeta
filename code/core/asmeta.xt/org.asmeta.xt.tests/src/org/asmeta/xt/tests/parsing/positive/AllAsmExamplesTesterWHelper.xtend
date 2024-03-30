@@ -21,6 +21,8 @@ import org.eclipse.xtext.validation.Issue
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.asmeta.xt.tests.AsmParseHelper
+import org.eclipse.xtext.diagnostics.Severity
 
 /**
  *  test for all the examples in asm_examples
@@ -32,7 +34,7 @@ import org.junit.runner.RunWith
 @InjectWith(AsmetaLInjectorProvider)
 class AllAsmExamplesTesterWHelper {
 
-	@Inject ParseHelper<Asm> parseHelper
+	@Inject AsmParseHelper parseHelper
 	@Inject extension ValidationTestHelper
 
 	@Test
@@ -54,20 +56,16 @@ class AllAsmExamplesTesterWHelper {
 	}
 
 	protected def void testAsmetaXtFile(Path fileToRead) {
-		System.out.print(fileToRead)
-		// trasform the path to test
-		val InputStream fis = Files.newInputStream(fileToRead)
-		val charset = Charset.forName("8859_1")
-		val BufferedReader br = new BufferedReader(new InputStreamReader(fis, charset))
-		val String spec = br.lines().collect(Collectors.joining(System.lineSeparator()));
-		fis.close
-		br.close
-		//
-		var result = parseHelper.parse(spec)
+		System.out.print("reading " + fileToRead)
+		var result = parseHelper.parse(fileToRead)
 		var List<Issue> validate = validate(result)
-		if (!validate.isEmpty) {
+		// filter all the real errors
+		var realError = validate.exists[Issue s | s.severity == Severity.ERROR]
+		// only warning ok
+		if (realError) {
 			System.err.println(" error")
-			System.out.println(validate.toString());
+			System.out.println(validate.toString())			
+			//Assert.fail(validate.toString())
 		} else {
 			System.out.println(" ok")
 		}

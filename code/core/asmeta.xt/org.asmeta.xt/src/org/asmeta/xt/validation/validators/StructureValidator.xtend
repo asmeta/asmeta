@@ -15,7 +15,7 @@ import org.asmeta.xt.validation.checkers.StructureChecker
 import org.asmeta.xt.validation.utility.ErrorType
 import org.asmeta.xt.validation.utility.WarningType
 import org.asmeta.xt.validation.utility.Utility
-import org.asmeta.xt.asmetal.AnyDomain
+import org.asmeta.xt.validation.utility.MessageType
 
 /** 
   * The class call the single validation rule and return the errors
@@ -79,17 +79,14 @@ class StructureValidator {
 		
 	}
 	
-	def static ErrorType checkError( ExportClause export_clause ) {
+	// it can return an error or a warning
+	// null if there is no error
+	def static MessageType checkError( ExportClause export_clause ) {
 		 
-		var ErrorType error = null
 		var Header header = export_clause.eContainer as Header
 		var Asm asm = header.eContainer as Asm
 
-		error = StructureChecker.isExportedListOK(export_clause, header.signature, asm.bodySection)
-		if ( error !== null ) return error
-		
-		return null
-		
+		return StructureChecker.isExportedListOK(export_clause, header.signature, asm.bodySection)
 	}
 	
 	def static ErrorType checkError( Signature signature ) {

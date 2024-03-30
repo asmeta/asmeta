@@ -44,6 +44,7 @@ class SimpleParsingTest extends ParserTest{
 		Assert.assertTrue(f.exists)
 		// relative path
 		var asmlib = f.path.replaceAll("\\\\","/")
+		// remove the extension
 		asmlib = asmlib.substring(0,asmlib.length-4)
 		testImport(asmlib)
 		// relative path with quotes

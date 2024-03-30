@@ -43,6 +43,7 @@
 			code/experimental/asmetal2cpp/asmetal2cpp_cli
 		</module>
 		<module>reports/coverage/report.aggregate</module>
+		<module>code/extensions/asmeta.animator/asmeta.animator</module>
 	</modules>
 	<build>
 		<plugins>

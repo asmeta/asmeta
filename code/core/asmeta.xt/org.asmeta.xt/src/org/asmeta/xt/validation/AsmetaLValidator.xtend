@@ -70,7 +70,10 @@ class AsmetaLValidator extends AbstractAsmetaLValidator {
 	def validateExportClause(ExportClause export_clause) {	
 		try {
 			var error = StructureValidator.checkError(export_clause)
-			if ( error !== null ) error(error.msg, error.feature, error.code)	
+			if (error !== null  && error instanceof ErrorType)
+				error(error.msg, error.feature, error.code)	
+			if (error !== null  && error instanceof WarningType)
+				warning(error.msg, error.feature, error.code)				
 		}
 		catch ( Exception e ) { 
 			println("[validateExportClause] Error in validation")
@@ -721,7 +724,7 @@ class AsmetaLValidator extends AbstractAsmetaLValidator {
 	}
 
 	def void launchWarning( WarningType warning ) {
-		warning(warning.message, warning.feature, warning.position, warning.code)
+		warning(warning.getMsg(), warning.feature, warning.position, warning.code)
 	}
 	
 }
