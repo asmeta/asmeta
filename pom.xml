@@ -15,7 +15,6 @@
 	</properties>
 	<modules>
 		<module>code/core</module>
-		
 		<module>code/extensions/asmeta.validator</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener</module>
 		<module>code/extensions/asmetasmv/asmeta.smv</module>
@@ -42,8 +41,8 @@
 		<module>
 			code/experimental/asmetal2cpp/asmetal2cpp_cli
 		</module>
-		<module>reports/coverage/report.aggregate</module>
 		<module>code/extensions/asmeta.animator/asmeta.animator</module>
+		<module>reports/coverage/report.aggregate</module>
 	</modules>
 	<build>
 		<plugins>
