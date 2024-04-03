@@ -1,8 +1,6 @@
 // 
 // complete specification with sequences
 // 
-// TODO: add isPillTobeTaken, which is set when time to take a pill is reached and it must be set to false when a pill is taken
-// or time 10 min is passed
 
 asm pillbox_final
 
@@ -83,7 +81,7 @@ definitions:
 				r_reset[$drawer] endif
 		endif
 		
-	// Non-determinism: Only a single RedLight is to be on at a time, so choose randomly the order
+	// Non-determinism: Only a single light is to be on at a time, so choose randomly the order
 	// of the pills
 	rule r_choosePillToTake = choose $drawer in Drawer with 
 			isPillTobeTaken($drawer) and isOff($drawer) and not areOthersOn($drawer) do
