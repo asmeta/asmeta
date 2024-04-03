@@ -6,10 +6,10 @@
 
 asm pillbox_final
 
-import StandardLibrary
-import CTLlibrary
-import LTLlibrary
-import TimeLibrary
+import ../STDL/StandardLibrary
+import ../STDL/CTLlibrary
+import ../STDL/LTLlibrary
+import ../STDL/TimeLibrary
 
 signature:
 	//*************************************************
