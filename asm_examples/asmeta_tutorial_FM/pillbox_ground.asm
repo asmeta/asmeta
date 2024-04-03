@@ -27,7 +27,6 @@ signature:
 	derived isOn: Drawer -> Boolean
 	derived isOff: Drawer -> Boolean
 	derived areOthersOn: Drawer -> Boolean
-	// It is true when the pill has to be taken
 	//*************************************************
 	// STATIC FUNCTIONS
 	//*************************************************

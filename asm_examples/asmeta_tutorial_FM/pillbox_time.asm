@@ -21,10 +21,10 @@ signature:
 	// MONITORED AND CONTROLLED FUNCTIONS
 	//*************************************************
 	dynamic monitored isPillTaken: Drawer -> Boolean
-	dynamic controlled isPillTobeTaken: Drawer -> Boolean
 	dynamic controlled drawerLed: Drawer -> LedLights
-	dynamic controlled time_consumption: Drawer -> Integer
 	dynamic controlled drug: Drawer -> Drugs
+	dynamic controlled isPillTobeTaken: Drawer -> Boolean
+	dynamic controlled time_consumption: Drawer -> Integer
 	static tenMinutes: Timer	
 	//*************************************************
 	// DERIVED FUNCTIONS
