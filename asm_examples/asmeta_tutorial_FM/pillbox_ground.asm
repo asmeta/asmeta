@@ -1,9 +1,9 @@
 // ground pillbox without time
 asm pillbox_ground
 
-import StandardLibrary
-import CTLlibrary
-import LTLlibrary
+import ../STDL/StandardLibrary
+import ../STDL/CTLlibrary
+import ../STDL/LTLlibrary
 
 signature:
 	//*************************************************
@@ -53,14 +53,6 @@ definitions:
 	// Rule to reset the Drawer due to one of the possible reasons (Timeout, Pill taken, etc.)
 	rule r_reset($drawer in Drawer) = 
 			drawerLed($drawer) := OFF
-	
-		
-	// System evolution starting from the ON State
-//	rule r_take($drawer in Drawer) = if isOn($drawer) then
-//			// The pill has been taken, or the timer expires
-//			if isPillTaken($drawer) then 
-//				r_reset[$drawer] endif
-//		endif
 		
 	// Non-determinism: Only a single RedLight is to be on at a time, so choose randomly the order
 	// of the pills
@@ -121,6 +113,3 @@ default init s0:
 			case drawer2 : ASPIRINE
 			case drawer3 : MOMENT
 		endswitch
-	
-	// Timer initialization
-	//function timerUnit($t in Timer) = SEC
