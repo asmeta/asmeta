@@ -1,6 +1,6 @@
 scenario scenario2
 
-load pillbox.asm
+load pillbox_final.asm
 
 step 
 

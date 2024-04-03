@@ -1,9 +1,14 @@
-// ground pillbox without time
-asm pillbox_ground
+// 
+// refined version with time (simple)
+// it refines pillDeadlineHit from monitored to derived (according to the time)
+//  TO BE INCLUDED 
+//
+asm pillbox_time
 
-import StandardLibrary
-import CTLlibrary
-import LTLlibrary
+import ../STDL/StandardLibrary
+import ../STDL/CTLlibrary
+import ../STDL/LTLlibrary
+import ../STDL/TimeLibrarySimple
 
 signature:
 	//*************************************************
@@ -16,10 +21,11 @@ signature:
 	// MONITORED AND CONTROLLED FUNCTIONS
 	//*************************************************
 	dynamic monitored isPillTaken: Drawer -> Boolean
-	dynamic controlled drawerLed: Drawer -> LedLights
-	dynamic controlled drug: Drawer -> Drugs
-	dynamic monitored pillDeadlineHit: Drawer -> Boolean 
 	dynamic controlled isPillTobeTaken: Drawer -> Boolean
+	dynamic controlled drawerLed: Drawer -> LedLights
+	dynamic controlled time_consumption: Drawer -> Integer
+	dynamic controlled drug: Drawer -> Drugs
+	static tenMinutes: Timer	
 	//*************************************************
 	// DERIVED FUNCTIONS
 	//*************************************************
@@ -28,6 +34,7 @@ signature:
 	derived isOff: Drawer -> Boolean
 	derived areOthersOn: Drawer -> Boolean
 	// It is true when the pill has to be taken
+	derived pillDeadlineHit: Drawer -> Boolean 
 	//*************************************************
 	// STATIC FUNCTIONS
 	//*************************************************
@@ -47,57 +54,48 @@ definitions:
 			case drawer3 : isOn(drawer2) or isOn(drawer1)
 		endswitch
 	
+	function pillDeadlineHit ($d in Drawer) = (time_consumption($d)<=mCurrTimeSecs)	
 	//*************************************************
 	// RULE DEFINITIONS
 	//*************************************************
 	// Rule to reset the Drawer due to one of the possible reasons (Timeout, Pill taken, etc.)
-	rule r_reset($drawer in Drawer) = 
+	rule r_reset($drawer in Drawer) = par
 			drawerLed($drawer) := OFF
+			isPillTobeTaken($drawer):= false
+			endpar
 	
+	// Rule to set the led red ON when the pill has to be taken
+	rule r_pillToBeTaken($drawer in Drawer) = par
+			if not isOn($drawer) then r_reset_timer[tenMinutes] endif
+			drawerLed($drawer) := ON 
+		endpar	
 		
 	// System evolution starting from the ON State
-//	rule r_take($drawer in Drawer) = if isOn($drawer) then
-//			// The pill has been taken, or the timer expires
-//			if isPillTaken($drawer) then 
-//				r_reset[$drawer] endif
-//		endif
+	rule r_take($drawer in Drawer) = if isOn($drawer) then
+			// The pill has been taken, or the timer expires
+			if expired(tenMinutes) or isPillTaken($drawer) then 
+				r_reset[$drawer] endif
+		endif
 		
 	// Non-determinism: Only a single RedLight is to be on at a time, so choose randomly the order
 	// of the pills
 	rule r_choosePillToTake = choose $drawer in Drawer with 
 			isPillTobeTaken($drawer) and isOff($drawer) and not areOthersOn($drawer) do
-				// Rule to set the led red ON when the pill has to be taken
-				drawerLed($drawer) := ON 
+				r_pillToBeTaken[$drawer]
 	
 	// Set the status for other drawers		
-	rule r_setOtherDrawers = forall $drawer in Drawer do
-		par		
-		if pillDeadlineHit($drawer) then  isPillTobeTaken($drawer) := true endif		
+	rule r_setOtherDrawers = forall $drawer in Drawer do par
+		if pillDeadlineHit($drawer) then isPillTobeTaken($drawer):= true endif				
 		// Handle the evolution of the System when the LED is in ON state
-		//r_take[$drawer]
-		if isOn($drawer) and
-			// The pill has been taken, or the timer expires
-			isPillTaken($drawer) then r_reset[$drawer] endif
+		r_take[$drawer]
 		endpar
 		
 	//*************************************************
 	// INVARIANTS AND TEMPORAL PROPERTIES
 	//*************************************************	
 
-	// max one led is ON
-	// TODO
-	CTLSPEC ag(isOn(drawer1) implies (isOff(drawer2) and isOff(drawer3)))
-	CTLSPEC ag(isOn(drawer1) implies (not areOthersOn(drawer1)))
-	
-	CTLSPEC ag((forall $d in Drawer with isOn($d) implies (not areOthersOn($d))))
 	
 	// If the patient takes the pill, red light will turn-off
-	CTLSPEC ag(pillDeadlineHit(drawer1) implies ef(isOn(drawer1)))
-	// with forall
-	CTLSPEC (forall $d in Drawer with ag(pillDeadlineHit($d) implies ef(not areOthersOn($d))))
-
-	// these are false (it may happen that a new pill is never taken
-	CTLSPEC ag(pillDeadlineHit(drawer1) implies af(isOn(drawer1)))
 	LTLSPEC g(pillDeadlineHit(drawer1) implies f(isOn(drawer1)))
 	
 	//*************************************************
@@ -115,6 +113,13 @@ default init s0:
 	// Turn-off all the led of the Drawers
 	function drawerLed($drawer in Drawer) = OFF
 
+	// Initialization of the time consumption
+	function time_consumption($drawer in Drawer) = switch($drawer)
+			case drawer1 : 60
+			case drawer2 : 2400
+			case drawer3 : 180
+		endswitch
+	
 	// Insert a drug in each drawer	
 	function drug($drawer in Drawer) = switch($drawer)
 			case drawer1 : TYLENOL
@@ -123,4 +128,6 @@ default init s0:
 		endswitch
 	
 	// Timer initialization
+	function duration($t in Timer) = 600
+	function start($t in Timer) = currentTime($t)
 	//function timerUnit($t in Timer) = SEC

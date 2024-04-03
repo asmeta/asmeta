@@ -1,0 +1,77 @@
+//// starting scenario
+scenario SCENARIO_NAME
+load pillbox_notime.asm
+check drawerLed(drawer1) = OFF;
+check drawerLed(drawer2) = OFF;
+check drawerLed(drawer3) = OFF;
+check isPillTobeTaken(drawer2) = undef;
+check isPillTobeTaken(drawer3) = undef;
+check isPillTobeTaken(drawer1) = undef;
+
+set isPillTaken(drawer1) := false;
+set isPillTaken(drawer3) := false;
+set isPillTaken(drawer2) := false;
+set pillDeadlineHit(drawer2) := true;
+set pillDeadlineHit(drawer3) := false;
+set pillDeadlineHit(drawer1) := true;
+step
+check drawerLed(drawer1) = OFF;
+check drawerLed(drawer3) = OFF;
+check drawerLed(drawer2) = OFF;
+check isPillTobeTaken(drawer1) = true;
+check isPillTobeTaken(drawer2) = true;
+check isPillTobeTaken(drawer3) = undef;
+
+set isPillTaken(drawer1) := false;
+set isPillTaken(drawer3) := false;
+set isPillTaken(drawer2) := false;
+set pillDeadlineHit(drawer2) := false;
+set pillDeadlineHit(drawer3) := false;
+set pillDeadlineHit(drawer1) := false;
+step
+check drawerLed(drawer1) = OFF;
+check isPillTobeTaken(drawer1) = true;
+check drawerLed(drawer3) = OFF;
+check isPillTobeTaken(drawer2) = true;
+check isPillTobeTaken(drawer3) = undef;
+check drawerLed(drawer2) = ON;
+set isPillTaken(drawer1) := false;
+set isPillTaken(drawer3) := false;
+set isPillTaken(drawer2) := true;
+set pillDeadlineHit(drawer2) := true;
+set pillDeadlineHit(drawer3) := false;
+set pillDeadlineHit(drawer1) := true;
+step
+check drawerLed(drawer1) = OFF;
+check isPillTobeTaken(drawer1) = true;
+check drawerLed(drawer3) = OFF;
+check isPillTobeTaken(drawer2) = true;
+check isPillTobeTaken(drawer3) = undef;
+check drawerLed(drawer2) = OFF;
+set isPillTaken(drawer1) := true;
+set isPillTaken(drawer3) := true;
+set isPillTaken(drawer2) := true;
+set pillDeadlineHit(drawer2) := false;
+set pillDeadlineHit(drawer3) := true;
+set pillDeadlineHit(drawer1) := false;
+step
+check drawerLed(drawer1) = OFF;
+check isPillTobeTaken(drawer1) = true;
+check drawerLed(drawer3) = OFF;
+check isPillTobeTaken(drawer2) = true;
+check isPillTobeTaken(drawer3) = true;
+check drawerLed(drawer2) = ON;
+set isPillTaken(drawer1) := false;
+set isPillTaken(drawer3) := true;
+set isPillTaken(drawer2) := true;
+set pillDeadlineHit(drawer2) := false;
+set pillDeadlineHit(drawer3) := true;
+set pillDeadlineHit(drawer1) := false;
+step
+check drawerLed(drawer1) = OFF;
+check isPillTobeTaken(drawer1) = true;
+check drawerLed(drawer3) = OFF;
+check isPillTobeTaken(drawer2) = true;
+check isPillTobeTaken(drawer3) = true;
+check drawerLed(drawer2) = OFF;
+step

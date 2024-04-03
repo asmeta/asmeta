@@ -114,7 +114,7 @@ definitions:
 					// time to take pill 
 					if redLed($drawer) = OFF 
 						and at(time_consumption($drawer),drugIndex($drawer))<=systemTime 
-						and systemTime-at(time_consumption($drawer),drugIndex($drawer))<tenMinutes
+						and systemTime-at(time_consumption($drawer),drugIndex($drawer)) < tenMinutes
 					then
 							r_pillToBeTaken[$drawer]
 					endif
