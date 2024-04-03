@@ -9,7 +9,7 @@ asm pillbox_final
 import ../STDL/StandardLibrary
 import ../STDL/CTLlibrary
 import ../STDL/LTLlibrary
-import ../STDL/TimeLibrary
+import ../STDL/TimeLibrarySimple
 
 signature:
 	//*************************************************
@@ -26,6 +26,7 @@ signature:
 	dynamic controlled time_consumption: Drawer -> Seq(Integer)
 	dynamic controlled drug: Drawer -> Drugs
 	dynamic controlled drugIndex: Drawer -> Natural
+	dynamic controlled isPillTobeTaken: Drawer -> Boolean
 	static tenMinutes: Timer	
 	//*************************************************
 	// DERIVED FUNCTIONS
@@ -66,6 +67,7 @@ definitions:
 	rule r_reset($drawer in Drawer) = par
 			drawerLed($drawer) := OFF
 			drugIndex($drawer) := drugIndex($drawer) + 1n
+			isPillTobeTaken($drawer):= false
 		endpar
 	
 	// Rule to set the led red ON when the pill has to be taken
@@ -84,15 +86,17 @@ definitions:
 	// Non-determinism: Only a single RedLight is to be on at a time, so choose randomly the order
 	// of the pills
 	rule r_choosePillToTake = choose $drawer in Drawer with 
-			pillDeadlineHit($drawer) and isOff($drawer) and not areOthersOn($drawer) do
+			isPillTobeTaken($drawer) and isOff($drawer) and not areOthersOn($drawer) do
 				r_pillToBeTaken[$drawer]
 	
 	// Set the status for other drawers		
-	rule r_setOtherDrawers = forall $drawer in Drawer do
-		if (isThereAnyOtherDeadline($drawer)) then 					
-			// Handle the evolution of the System when the LED is in ON state
-			r_ON[$drawer]
-		endif
+	rule r_setOtherDrawers = forall $drawer in Drawer do par
+			if pillDeadlineHit($drawer) then isPillTobeTaken($drawer):= true endif	
+			if (isThereAnyOtherDeadline($drawer)) then 					
+				// Handle the evolution of the System when the LED is in ON state
+				r_ON[$drawer]
+			endif
+		endpar
 	//*************************************************
 	// INVARIANTS
 	//*************************************************	
@@ -132,4 +136,3 @@ default init s0:
 	// Timer initialization
 	function duration($t in Timer) = 600
 	function start($t in Timer) = currentTime($t)
-	function timerUnit($t in Timer) = SEC

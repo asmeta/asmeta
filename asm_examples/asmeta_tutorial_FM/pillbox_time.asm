@@ -130,4 +130,3 @@ default init s0:
 	// Timer initialization
 	function duration($t in Timer) = 600
 	function start($t in Timer) = currentTime($t)
-	//function timerUnit($t in Timer) = SEC
