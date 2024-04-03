@@ -62,7 +62,7 @@ definitions:
 	rule r_reset($drawer in Drawer) = par
 			drawerLed($drawer) := OFF
 			isPillTobeTaken($drawer):= false
-			endpar
+		endpar
 	
 	// Rule to set the led red ON when the pill has to be taken
 	rule r_pillToBeTaken($drawer in Drawer) = par
