@@ -16,9 +16,9 @@ signature:
 	// MONITORED AND CONTROLLED FUNCTIONS
 	//*************************************************
 	dynamic monitored isPillTaken: Drawer -> Boolean
+	dynamic monitored pillDeadlineHit: Drawer -> Boolean 
 	dynamic controlled drawerLed: Drawer -> LedLights
 	dynamic controlled drug: Drawer -> Drugs
-	dynamic monitored pillDeadlineHit: Drawer -> Boolean 
 	dynamic controlled isPillTobeTaken: Drawer -> Boolean
 	//*************************************************
 	// DERIVED FUNCTIONS
@@ -50,9 +50,11 @@ definitions:
 	// RULE DEFINITIONS
 	//*************************************************
 	// Rule to reset the Drawer due to one of the possible reasons (Timeout, Pill taken, etc.)
-	rule r_reset($drawer in Drawer) = 
+	rule r_reset($drawer in Drawer) = par
 			drawerLed($drawer) := OFF
-		
+			isPillTobeTaken($drawer):= false
+	endpar	
+	
 	// Non-determinism: Only a single RedLight is to be on at a time, so choose randomly the order
 	// of the pills
 	rule r_choosePillToTake = choose $drawer in Drawer with 
@@ -112,3 +114,6 @@ default init s0:
 			case drawer2 : ASPIRINE
 			case drawer3 : MOMENT
 		endswitch
+		
+	// Reset the status for the isPillTobeTaken function
+	function isPillTobeTaken($drawer in Drawer) = false
