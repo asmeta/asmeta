@@ -3,6 +3,12 @@ package org.asmeta.refinement;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.asmeta.refinement.RefinementProof;
 import org.junit.Test;
 
@@ -236,6 +242,17 @@ public class RefinementTest {
 		assertTrue(result[0]);
 		assertTrue(result[1]);
 	}
-
 	
+	@Test
+	public void testPillboxTutorial() throws Exception {
+		String path = "../../../../asm_examples/asmeta_tutorial_FM/";
+		assertTrue(Files.exists(Path.of(path)));
+		RefinementProof proof = new RefinementProof(path+"pillbox_ground.asm", path +"pillbox_time.asm");
+		String proofFileName = "proofs/pillbox_time.proof";
+		FileAppender fileAppender = new FileAppender(new PatternLayout("%m\n"), proofFileName );
+		Logger.getRootLogger().addAppender(fileAppender);	
+		boolean[] result = proof.buildProof();
+		assertTrue(result[0]);
+		assertTrue(result[1]);		
+	}
 }

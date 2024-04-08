@@ -8,7 +8,7 @@ signature:
 	derived der: ConcrDom
 
 definitions:
-	domain ConcrDom = {0 .. 2}
+	domain ConcrDom = {0 : 2}
 
 	function der = (foo + 1) mod 3 
 

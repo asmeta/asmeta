@@ -1,14 +1,11 @@
 // 
-// refined version with time (simple)
-// it refines pillDeadlineHit from monitored to derived (according to the time)
-//  TO BE INCLUDED 
+// refined version with time as tick
 //
-asm pillbox_time
+asm pillbox_tick
 
 import ../STDL/StandardLibrary
 import ../STDL/CTLlibrary
 import ../STDL/LTLlibrary
-import ../STDL/TimeLibrarySimple
 
 signature:
 	//*************************************************
@@ -25,7 +22,9 @@ signature:
 	dynamic controlled drug: Drawer -> Drugs
 	dynamic controlled isPillTobeTaken: Drawer -> Boolean
 	dynamic controlled time_consumption: Drawer -> Integer
-	static tenMinutes: Timer	
+	// time
+	dynamic controlled tick: Integer
+	static tenMinutes: Integer
 	//*************************************************
 	// DERIVED FUNCTIONS
 	//*************************************************
@@ -45,7 +44,10 @@ signature:
 definitions:
 	//*************************************************
 	// STATIC AND DERIVED FUNCTIONS DEFINITIONS
-	//*************************************************	
+	//*************************************************
+
+	function tenMinutes  = 600
+
 	function isOn($d in Drawer) = (drawerLed($d) = ON)	
 	function isOff($d in Drawer) = (drawerLed($d) = OFF)
 	function areOthersOn($d in Drawer) = switch($d)
@@ -54,7 +56,7 @@ definitions:
 			case drawer3 : isOn(drawer2) or isOn(drawer1)
 		endswitch
 	
-	function pillDeadlineHit ($d in Drawer) = (time_consumption($d)<=mCurrTimeSecs)	
+	function pillDeadlineHit ($d in Drawer) = (time_consumption($d)<=tick)
 	//*************************************************
 	// RULE DEFINITIONS
 	//*************************************************
@@ -63,17 +65,11 @@ definitions:
 			drawerLed($drawer) := OFF
 			isPillTobeTaken($drawer):= false
 		endpar
-	
-	// Rule to set the led red ON when the pill has to be taken
-	rule r_pillToBeTaken($drawer in Drawer) = par
-			if not isOn($drawer) then r_reset_timer[tenMinutes] endif
-			drawerLed($drawer) := ON 
-		endpar	
-		
+
 	// System evolution starting from the ON State
 	rule r_take($drawer in Drawer) = if isOn($drawer) then
 			// The pill has been taken, or the timer expires
-			if expired(tenMinutes) or isPillTaken($drawer) then 
+			if time_consumption($drawer) + tenMinutes <= tick  or isPillTaken($drawer) then
 				r_reset[$drawer] endif
 		endif
 		
@@ -81,7 +77,8 @@ definitions:
 	// of the pills
 	rule r_choosePillToTake = choose $drawer in Drawer with 
 			isPillTobeTaken($drawer) and isOff($drawer) and not areOthersOn($drawer) do
-				r_pillToBeTaken[$drawer]
+				// Rule to set the led red ON when the pill has to be taken
+				drawerLed($drawer) := ON
 	
 	// Set the status for other drawers		
 	rule r_setOtherDrawers = forall $drawer in Drawer do par
@@ -104,9 +101,9 @@ definitions:
 	main rule r_Main = par
 			// Non-determistic choice of the pill
 			r_choosePillToTake[]
-			
 			// Handle other states
-			r_setOtherDrawers[]			
+			r_setOtherDrawers[]
+			tick := tick+1
 		endpar
 			
 default init s0:	
@@ -127,9 +124,7 @@ default init s0:
 			case drawer3 : MOMENT
 		endswitch
 	
-	// Timer initialization
-	function duration($t in Timer) = 600
-	function start($t in Timer) = currentTime($t)
-
+	// time
+	function tick = 0
 	function isPillTobeTaken($d in Drawer) = false
 

@@ -5,6 +5,7 @@
 	<artifactId>asmeta.traslatortosmt</artifactId>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test_src</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
