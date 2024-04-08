@@ -6358,13 +6358,13 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//// IDENTIFICATIVI
 		//// example of MOD_ID
 		//// win abs path
-		//MOD_ID         returns ecore::EString    : ((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)*))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
+		//MOD_ID         returns ecore::EString    : ((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.' PATH_SEP)*))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)*))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?
+		//((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.' PATH_SEP)*))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?
 		public Group getGroup() { return cGroup; }
 		
-		//((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)*))?
+		//((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.' PATH_SEP)*))?
 		public Alternatives getAlternatives_0() { return cAlternatives_0; }
 		
 		//(MAIUSC_ID ':' PATH_SEP )
@@ -6379,7 +6379,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//PATH_SEP
 		public RuleCall getPATH_SEPTerminalRuleCall_0_0_2() { return cPATH_SEPTerminalRuleCall_0_0_2; }
 		
-		//((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)*)
+		//((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.' PATH_SEP)*)
 		public Alternatives getAlternatives_0_1() { return cAlternatives_0_1; }
 		
 		//(ENUM_ID | ID)
@@ -6400,7 +6400,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//PATH_SEP
 		public RuleCall getPATH_SEPTerminalRuleCall_0_1_1_1() { return cPATH_SEPTerminalRuleCall_0_1_1_1; }
 		
-		//('.'PATH_SEP)*
+		//('.' PATH_SEP)*
 		public Group getGroup_0_1_2() { return cGroup_0_1_2; }
 		
 		//'.'
@@ -8294,7 +8294,8 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		return tENUM_ID;
 	}
 	
-	//terminal PATH_SEP		:  '\\' | '/' | '\\\\';
+	////terminal PATH_SEP        :  '\\' | '/' | '\\\\'; Single or double \\?
+	//terminal PATH_SEP        : '/' | '\\\\';
 	public TerminalRule getPATH_SEPRule() {
 		return tPATH_SEP;
 	}
@@ -8332,7 +8333,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	//// IDENTIFICATIVI
 	//// example of MOD_ID
 	//// win abs path
-	//MOD_ID         returns ecore::EString    : ((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)*))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
+	//MOD_ID         returns ecore::EString    : ((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.' PATH_SEP)*))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
 	public MOD_IDElements getMOD_IDAccess() {
 		return pMOD_ID;
 	}
