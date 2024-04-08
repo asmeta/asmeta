@@ -774,7 +774,7 @@ import a/b
 import \\AgHome\\progettidaSVNGIT\\asmeta\\asmeta_based_applications\\fMVC\\AMAN\\model\\CTLlibrary
 signature:
 			definitions:
-		''')
+		''', "__tempAsmetaV7859023612479832841")
 		result.assertNoErrors
 		Assert.assertEquals( 3, result.headerSection.importClause.size)
 	}

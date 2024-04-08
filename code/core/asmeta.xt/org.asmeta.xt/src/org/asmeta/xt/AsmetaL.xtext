@@ -161,7 +161,7 @@ Term  				: Expression | DomainTerm | ExtendedTerm  ;
 DomainTerm returns DomainTerm: getDomainByID;
 
 /*
- * Ordine delle espressioni (dalla meno prioritaria alla più prioritaria
+ * Ordine delle espressioni (dalla meno prioritaria alla piï¿½ prioritaria
  * /////////////// BINARI
  * ~ = (assegnazione)		OK
  * ~ or, xor				OK
@@ -300,7 +300,7 @@ LetTerm 			: 'let' "(" variable+=VariableTerm "=" assignmentTerm+=Term ( "," var
 
 ComprehensionTerm :  SetCT | MapCT | SequenceCT | BagCT;	
 
-// TODO vedere se MapCT va bene anche così
+// TODO vedere se MapCT va bene anche cosï¿½
 SetCT			:	"{" variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( "|" guard=Term )? ":" term=Term "}";
 MapCT			:	"{" variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( "|" guard=Term )? ":" term=Term "}";
 SequenceCT		:	"[" variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( "|" guard=Term )? ":" term=Term "]";
@@ -383,10 +383,10 @@ terminal REAL_NUMBER	: NUMBER_TOKEN "." NUMBER_TOKEN;
 // STRINGHE
 terminal MAIUSC_ID		: ('A'..'Z');
 terminal MIN_ID			: ('a'..'z');
-terminal ACCENT_CHR		: ('à'|'è'|'é'|'ò'|'ì'|'ù'|'Ã');
+terminal ACCENT_CHR		: ('Ã '|'Ã¨'|'Ã©'|'Ã²'|'Ã¬'|'Ã¹'|'Ãƒ');
 terminal ENUM_ID		: '^'?( MAIUSC_ID ) (MAIUSC_ID) ( MAIUSC_ID | DIGIT | '_' )*;
 terminal PATH_SEP		:  '\\' | '/';
-terminal SPECIAL_CHAR	: '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '¨' | '@' | '>' | '<' | '|' | PATH_SEP;
+terminal SPECIAL_CHAR	: '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | 'ï¿½' | '@' | '>' | '<' | '|' | PATH_SEP;
 terminal RULE_ID		: 'r_' ( MAIUSC_ID | MIN_ID | DIGIT | '_' )*;
 terminal ID				: '^'?( MAIUSC_ID | MIN_ID | '_' ) ( MAIUSC_ID | MIN_ID | DIGIT | '_' )*;
 terminal CHAR_LITERAL	: "'" (MAIUSC_ID | MIN_ID | DIGIT | SPECIAL_CHAR | ACCENT_CHR)? "'"; 
@@ -396,7 +396,7 @@ terminal STRING			: '"' (!('"'))* '"';
 // IDENTIFICATIVI
 // example of MOD_ID
 // win abs path 
-MOD_ID 		returns ecore::EString	: (((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)* ))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
+MOD_ID 		returns ecore::EString	: (MAIUSC_ID ':')? (((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)* ))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
 ID_VARIABLE returns ecore::EString	: '$' (ID | 'rule' | 'agent' | 'seq' );
 
 // COMPLEX NUMBER
