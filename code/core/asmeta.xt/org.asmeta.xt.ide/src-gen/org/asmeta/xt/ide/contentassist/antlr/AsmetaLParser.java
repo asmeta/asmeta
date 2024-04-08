@@ -294,6 +294,8 @@ public class AsmetaLParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getRecursiveWhileRuleAccess().getGroup(), "rule__RecursiveWhileRule__Group__0");
 			builder.put(grammarAccess.getIterativeWhileRuleAccess().getGroup(), "rule__IterativeWhileRule__Group__0");
 			builder.put(grammarAccess.getMOD_IDAccess().getGroup(), "rule__MOD_ID__Group__0");
+			builder.put(grammarAccess.getMOD_IDAccess().getGroup_0_1(), "rule__MOD_ID__Group_0_1__0");
+			builder.put(grammarAccess.getMOD_IDAccess().getGroup_0_2(), "rule__MOD_ID__Group_0_2__0");
 			builder.put(grammarAccess.getMOD_IDAccess().getGroup_1(), "rule__MOD_ID__Group_1__0");
 			builder.put(grammarAccess.getMOD_IDAccess().getGroup_3(), "rule__MOD_ID__Group_3__0");
 			builder.put(grammarAccess.getID_VARIABLEAccess().getGroup(), "rule__ID_VARIABLE__Group__0");

@@ -1856,9 +1856,15 @@ ruleMOD_ID:
 			RULE_ID
 		)
 		    |
-		'../'*
+		(
+			'..'
+			RULE_PATH_SEP
+		)*
 		    |
-		'./'*
+		(
+			'.'
+			RULE_PATH_SEP
+		)*
 	)?
 	(
 		(
@@ -1866,7 +1872,7 @@ ruleMOD_ID:
 			    |
 			RULE_ID
 		)
-		'/'
+		RULE_PATH_SEP
 	)*
 	(
 		RULE_ENUM_ID
@@ -1915,7 +1921,9 @@ fragment RULE_ACCENT_CHR : ('\u00E0'|'\u00E8'|'\u00E9'|'\u00F2'|'\u00EC'|'\u00F9
 
 RULE_ENUM_ID : '^'? RULE_MAIUSC_ID RULE_MAIUSC_ID (RULE_MAIUSC_ID|RULE_DIGIT|'_')*;
 
-fragment RULE_SPECIAL_CHAR : ('!'|'.'|','|':'|'-'|'+'|'$'|'%'|'('|')'|'['|']'|'='|'?'|'^'|'_'|';'|'\u00A8'|'@'|'>'|'<'|'|'|'\\'|'/');
+RULE_PATH_SEP : ('\\'|'/');
+
+fragment RULE_SPECIAL_CHAR : ('!'|'.'|','|':'|'-'|'+'|'$'|'%'|'('|')'|'['|']'|'='|'?'|'^'|'_'|';'|'\u00A8'|'@'|'>'|'<'|'|'|RULE_PATH_SEP);
 
 RULE_RULE_ID : 'r_' (RULE_MAIUSC_ID|RULE_MIN_ID|RULE_DIGIT|'_')*;
 

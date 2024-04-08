@@ -27,6 +27,7 @@ signature:
 	derived isOn: Drawer -> Boolean
 	derived isOff: Drawer -> Boolean
 	derived areOthersOn: Drawer -> Boolean
+	
 	//*************************************************
 	// STATIC FUNCTIONS
 	//*************************************************

@@ -753,4 +753,32 @@ class HeaderParsingTest {
 	}	
 	
 	
+	@Test
+	def void testImportsAbsPathWin() {		
+		var result = parseHelper.parse('''
+asm __tempAsmetaV7859023612479832841
+import D:\\AgHome\\progettidaSVNGIT\\asmeta\\asmeta_based_applications\\fMVC\\AMAN\\model\\StandardLibrary
+import D:\\AgHome\\progettidaSVNGIT\\asmeta\\asmeta_based_applications\\fMVC\\AMAN\\model\\CTLlibrary
+import D:\\AgHome\\progettidaSVNGIT\\asmeta\\asmeta_based_applications\\fMVC\\AMAN\\model\\TimeLibrary
+signature:
+			definitions:
+		''')
+		result.assertNoErrors
+		Assert.assertEquals( 3, result.headerSection.importClause.size)
+	}
+		@Test
+	def void testPathImports() {		
+		var result = parseHelper.parse('''
+asm __tempAsmetaV7859023612479832841
+import a/b
+import \\AgHome\\progettidaSVNGIT\\asmeta\\asmeta_based_applications\\fMVC\\AMAN\\model\\CTLlibrary
+signature:
+			definitions:
+		''')
+		result.assertNoErrors
+		Assert.assertEquals( 3, result.headerSection.importClause.size)
+	}
+	
+	
+	
 }

@@ -6329,13 +6329,17 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Alternatives cAlternatives_0_0 = (Alternatives)cAlternatives_0.eContents().get(0);
 		private final RuleCall cENUM_IDTerminalRuleCall_0_0_0 = (RuleCall)cAlternatives_0_0.eContents().get(0);
 		private final RuleCall cIDTerminalRuleCall_0_0_1 = (RuleCall)cAlternatives_0_0.eContents().get(1);
-		private final Keyword cFullStopFullStopSolidusKeyword_0_1 = (Keyword)cAlternatives_0.eContents().get(1);
-		private final Keyword cFullStopSolidusKeyword_0_2 = (Keyword)cAlternatives_0.eContents().get(2);
+		private final Group cGroup_0_1 = (Group)cAlternatives_0.eContents().get(1);
+		private final Keyword cFullStopFullStopKeyword_0_1_0 = (Keyword)cGroup_0_1.eContents().get(0);
+		private final RuleCall cPATH_SEPTerminalRuleCall_0_1_1 = (RuleCall)cGroup_0_1.eContents().get(1);
+		private final Group cGroup_0_2 = (Group)cAlternatives_0.eContents().get(2);
+		private final Keyword cFullStopKeyword_0_2_0 = (Keyword)cGroup_0_2.eContents().get(0);
+		private final RuleCall cPATH_SEPTerminalRuleCall_0_2_1 = (RuleCall)cGroup_0_2.eContents().get(1);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
 		private final Alternatives cAlternatives_1_0 = (Alternatives)cGroup_1.eContents().get(0);
 		private final RuleCall cENUM_IDTerminalRuleCall_1_0_0 = (RuleCall)cAlternatives_1_0.eContents().get(0);
 		private final RuleCall cIDTerminalRuleCall_1_0_1 = (RuleCall)cAlternatives_1_0.eContents().get(1);
-		private final Keyword cSolidusKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final RuleCall cPATH_SEPTerminalRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
 		private final RuleCall cENUM_IDTerminalRuleCall_2_0 = (RuleCall)cAlternatives_2.eContents().get(0);
 		private final RuleCall cIDTerminalRuleCall_2_1 = (RuleCall)cAlternatives_2.eContents().get(1);
@@ -6347,13 +6351,15 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cAsmKeyword_3_1_2 = (Keyword)cAlternatives_3_1.eContents().get(2);
 		
 		//// IDENTIFICATIVI
-		//MOD_ID         returns ecore::EString    : (((ENUM_ID | ID) | ('../')* | ('./')*))? ((ENUM_ID | ID) '/')* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
+		//// example of MOD_ID
+		//// win abs path
+		//MOD_ID         returns ecore::EString    : (((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)* ))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//(((ENUM_ID | ID) | ('../')* | ('./')*))? ((ENUM_ID | ID) '/')* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?
+		//(((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)* ))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?
 		public Group getGroup() { return cGroup; }
 		
-		//(((ENUM_ID | ID) | ('../')* | ('./')*))?
+		//(((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)* ))?
 		public Alternatives getAlternatives_0() { return cAlternatives_0; }
 		
 		//(ENUM_ID | ID)
@@ -6365,13 +6371,25 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//ID
 		public RuleCall getIDTerminalRuleCall_0_0_1() { return cIDTerminalRuleCall_0_0_1; }
 		
-		//('../')*
-		public Keyword getFullStopFullStopSolidusKeyword_0_1() { return cFullStopFullStopSolidusKeyword_0_1; }
+		//('..' PATH_SEP)*
+		public Group getGroup_0_1() { return cGroup_0_1; }
 		
-		//('./')*
-		public Keyword getFullStopSolidusKeyword_0_2() { return cFullStopSolidusKeyword_0_2; }
+		//'..'
+		public Keyword getFullStopFullStopKeyword_0_1_0() { return cFullStopFullStopKeyword_0_1_0; }
 		
-		//((ENUM_ID | ID) '/')*
+		//PATH_SEP
+		public RuleCall getPATH_SEPTerminalRuleCall_0_1_1() { return cPATH_SEPTerminalRuleCall_0_1_1; }
+		
+		//('.'PATH_SEP)*
+		public Group getGroup_0_2() { return cGroup_0_2; }
+		
+		//'.'
+		public Keyword getFullStopKeyword_0_2_0() { return cFullStopKeyword_0_2_0; }
+		
+		//PATH_SEP
+		public RuleCall getPATH_SEPTerminalRuleCall_0_2_1() { return cPATH_SEPTerminalRuleCall_0_2_1; }
+		
+		//((ENUM_ID | ID) PATH_SEP)*
 		public Group getGroup_1() { return cGroup_1; }
 		
 		//(ENUM_ID | ID)
@@ -6383,8 +6401,8 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//ID
 		public RuleCall getIDTerminalRuleCall_1_0_1() { return cIDTerminalRuleCall_1_0_1; }
 		
-		//'/'
-		public Keyword getSolidusKeyword_1_1() { return cSolidusKeyword_1_1; }
+		//PATH_SEP
+		public RuleCall getPATH_SEPTerminalRuleCall_1_1() { return cPATH_SEPTerminalRuleCall_1_1; }
 		
 		//(ENUM_ID | ID)
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
@@ -6601,6 +6619,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	private final TerminalRule tMIN_ID;
 	private final TerminalRule tACCENT_CHR;
 	private final TerminalRule tENUM_ID;
+	private final TerminalRule tPATH_SEP;
 	private final TerminalRule tSPECIAL_CHAR;
 	private final TerminalRule tRULE_ID;
 	private final TerminalRule tID;
@@ -6772,6 +6791,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		this.tMIN_ID = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.MIN_ID");
 		this.tACCENT_CHR = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.ACCENT_CHR");
 		this.tENUM_ID = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.ENUM_ID");
+		this.tPATH_SEP = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.PATH_SEP");
 		this.tSPECIAL_CHAR = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.SPECIAL_CHAR");
 		this.tRULE_ID = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.RULE_ID");
 		this.tID = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.ID");
@@ -8254,7 +8274,12 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		return tENUM_ID;
 	}
 	
-	//terminal SPECIAL_CHAR	: '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '¨' | '@' | '>' | '<' | '|' | '\\' | '/';
+	//terminal PATH_SEP		:  '\\' | '/';
+	public TerminalRule getPATH_SEPRule() {
+		return tPATH_SEP;
+	}
+	
+	//terminal SPECIAL_CHAR	: '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '¨' | '@' | '>' | '<' | '|' | PATH_SEP;
 	public TerminalRule getSPECIAL_CHARRule() {
 		return tSPECIAL_CHAR;
 	}
@@ -8285,7 +8310,9 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	}
 	
 	//// IDENTIFICATIVI
-	//MOD_ID         returns ecore::EString    : (((ENUM_ID | ID) | ('../')* | ('./')*))? ((ENUM_ID | ID) '/')* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
+	//// example of MOD_ID
+	//// win abs path
+	//MOD_ID         returns ecore::EString    : (((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)* ))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
 	public MOD_IDElements getMOD_IDAccess() {
 		return pMOD_ID;
 	}

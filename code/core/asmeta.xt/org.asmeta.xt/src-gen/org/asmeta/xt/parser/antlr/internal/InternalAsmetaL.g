@@ -11874,60 +11874,76 @@ ruleMOD_ID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
 			)
 			    |
 			(
-				kw='../'
+				kw='..'
 				{
 					$current.merge(kw);
-					newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopFullStopSolidusKeyword_0_1());
+					newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopFullStopKeyword_0_1_0());
+				}
+				this_PATH_SEP_3=RULE_PATH_SEP
+				{
+					$current.merge(this_PATH_SEP_3);
+				}
+				{
+					newLeafNode(this_PATH_SEP_3, grammarAccess.getMOD_IDAccess().getPATH_SEPTerminalRuleCall_0_1_1());
 				}
 			)*
 			    |
 			(
-				kw='./'
+				kw='.'
 				{
 					$current.merge(kw);
-					newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopSolidusKeyword_0_2());
+					newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopKeyword_0_2_0());
+				}
+				this_PATH_SEP_5=RULE_PATH_SEP
+				{
+					$current.merge(this_PATH_SEP_5);
+				}
+				{
+					newLeafNode(this_PATH_SEP_5, grammarAccess.getMOD_IDAccess().getPATH_SEPTerminalRuleCall_0_2_1());
 				}
 			)*
 		)?
 		(
 			(
-				this_ENUM_ID_4=RULE_ENUM_ID
+				this_ENUM_ID_6=RULE_ENUM_ID
 				{
-					$current.merge(this_ENUM_ID_4);
+					$current.merge(this_ENUM_ID_6);
 				}
 				{
-					newLeafNode(this_ENUM_ID_4, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_1_0_0());
+					newLeafNode(this_ENUM_ID_6, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_1_0_0());
 				}
 				    |
-				this_ID_5=RULE_ID
+				this_ID_7=RULE_ID
 				{
-					$current.merge(this_ID_5);
+					$current.merge(this_ID_7);
 				}
 				{
-					newLeafNode(this_ID_5, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_1_0_1());
+					newLeafNode(this_ID_7, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_1_0_1());
 				}
 			)
-			kw='/'
+			this_PATH_SEP_8=RULE_PATH_SEP
 			{
-				$current.merge(kw);
-				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getSolidusKeyword_1_1());
+				$current.merge(this_PATH_SEP_8);
+			}
+			{
+				newLeafNode(this_PATH_SEP_8, grammarAccess.getMOD_IDAccess().getPATH_SEPTerminalRuleCall_1_1());
 			}
 		)*
 		(
-			this_ENUM_ID_7=RULE_ENUM_ID
+			this_ENUM_ID_9=RULE_ENUM_ID
 			{
-				$current.merge(this_ENUM_ID_7);
+				$current.merge(this_ENUM_ID_9);
 			}
 			{
-				newLeafNode(this_ENUM_ID_7, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_2_0());
+				newLeafNode(this_ENUM_ID_9, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_2_0());
 			}
 			    |
-			this_ID_8=RULE_ID
+			this_ID_10=RULE_ID
 			{
-				$current.merge(this_ID_8);
+				$current.merge(this_ID_10);
 			}
 			{
-				newLeafNode(this_ID_8, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_2_1());
+				newLeafNode(this_ID_10, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_2_1());
 			}
 		)
 		(
@@ -11937,20 +11953,20 @@ ruleMOD_ID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
 				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopKeyword_3_0());
 			}
 			(
-				this_ENUM_ID_10=RULE_ENUM_ID
+				this_ENUM_ID_12=RULE_ENUM_ID
 				{
-					$current.merge(this_ENUM_ID_10);
+					$current.merge(this_ENUM_ID_12);
 				}
 				{
-					newLeafNode(this_ENUM_ID_10, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_3_1_0());
+					newLeafNode(this_ENUM_ID_12, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_3_1_0());
 				}
 				    |
-				this_ID_11=RULE_ID
+				this_ID_13=RULE_ID
 				{
-					$current.merge(this_ID_11);
+					$current.merge(this_ID_13);
 				}
 				{
-					newLeafNode(this_ID_11, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_3_1_1());
+					newLeafNode(this_ID_13, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_3_1_1());
 				}
 				    |
 				kw='asm'
@@ -12030,7 +12046,9 @@ fragment RULE_ACCENT_CHR : ('\u00E0'|'\u00E8'|'\u00E9'|'\u00F2'|'\u00EC'|'\u00F9
 
 RULE_ENUM_ID : '^'? RULE_MAIUSC_ID RULE_MAIUSC_ID (RULE_MAIUSC_ID|RULE_DIGIT|'_')*;
 
-fragment RULE_SPECIAL_CHAR : ('!'|'.'|','|':'|'-'|'+'|'$'|'%'|'('|')'|'['|']'|'='|'?'|'^'|'_'|';'|'\u00A8'|'@'|'>'|'<'|'|'|'\\'|'/');
+RULE_PATH_SEP : ('\\'|'/');
+
+fragment RULE_SPECIAL_CHAR : ('!'|'.'|','|':'|'-'|'+'|'$'|'%'|'('|')'|'['|']'|'='|'?'|'^'|'_'|';'|'\u00A8'|'@'|'>'|'<'|'|'|RULE_PATH_SEP);
 
 RULE_RULE_ID : 'r_' (RULE_MAIUSC_ID|RULE_MIN_ID|RULE_DIGIT|'_')*;
 
