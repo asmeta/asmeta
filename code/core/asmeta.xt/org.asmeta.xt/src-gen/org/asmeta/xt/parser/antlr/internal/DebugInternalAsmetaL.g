@@ -1850,21 +1850,27 @@ rulenameofDomain:
 // Rule MOD_ID
 ruleMOD_ID:
 	(
+		RULE_MAIUSC_ID
+		':'
+		RULE_PATH_SEP
+		    |
 		(
-			RULE_ENUM_ID
+			(
+				RULE_ENUM_ID
+				    |
+				RULE_ID
+			)
 			    |
-			RULE_ID
+			(
+				'..'
+				RULE_PATH_SEP
+			)*
+			    |
+			(
+				'.'
+				RULE_PATH_SEP
+			)*
 		)
-		    |
-		(
-			'..'
-			RULE_PATH_SEP
-		)*
-		    |
-		(
-			'.'
-			RULE_PATH_SEP
-		)*
 	)?
 	(
 		(
@@ -1913,17 +1919,17 @@ RULE_NATNUMBER : RULE_NUMBER_TOKEN 'n';
 
 RULE_REAL_NUMBER : RULE_NUMBER_TOKEN '.' RULE_NUMBER_TOKEN;
 
-fragment RULE_MAIUSC_ID : 'A'..'Z';
+RULE_MAIUSC_ID : 'A'..'Z';
 
 fragment RULE_MIN_ID : 'a'..'z';
 
-fragment RULE_ACCENT_CHR : ('\u00E0'|'\u00E8'|'\u00E9'|'\u00F2'|'\u00EC'|'\u00F9'|'\u00C3');
+fragment RULE_ACCENT_CHR : ('\u00C3\u00A0'|'\u00C3\u00A8'|'\u00C3\u00A9'|'\u00C3\u00B2'|'\u00C3\u00AC'|'\u00C3\u00B9'|'\u00C3\u0192');
 
 RULE_ENUM_ID : '^'? RULE_MAIUSC_ID RULE_MAIUSC_ID (RULE_MAIUSC_ID|RULE_DIGIT|'_')*;
 
-RULE_PATH_SEP : ('\\'|'/');
+RULE_PATH_SEP : ('\\'|'/'|'\\\\');
 
-fragment RULE_SPECIAL_CHAR : ('!'|'.'|','|':'|'-'|'+'|'$'|'%'|'('|')'|'['|']'|'='|'?'|'^'|'_'|';'|'\u00A8'|'@'|'>'|'<'|'|'|RULE_PATH_SEP);
+fragment RULE_SPECIAL_CHAR : ('!'|'.'|','|':'|'-'|'+'|'$'|'%'|'('|')'|'['|']'|'='|'?'|'^'|'_'|';'|'\u00EF\u00BF\u00BD'|'@'|'>'|'<'|'|'|RULE_PATH_SEP);
 
 RULE_RULE_ID : 'r_' (RULE_MAIUSC_ID|RULE_MIN_ID|RULE_DIGIT|'_')*;
 

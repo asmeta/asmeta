@@ -91,7 +91,8 @@ public class AsmetaLParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getDerivedRuleAccess().getAlternatives(), "rule__DerivedRule__Alternatives");
 			builder.put(grammarAccess.getTurboDerivedRuleAccess().getAlternatives(), "rule__TurboDerivedRule__Alternatives");
 			builder.put(grammarAccess.getMOD_IDAccess().getAlternatives_0(), "rule__MOD_ID__Alternatives_0");
-			builder.put(grammarAccess.getMOD_IDAccess().getAlternatives_0_0(), "rule__MOD_ID__Alternatives_0_0");
+			builder.put(grammarAccess.getMOD_IDAccess().getAlternatives_0_1(), "rule__MOD_ID__Alternatives_0_1");
+			builder.put(grammarAccess.getMOD_IDAccess().getAlternatives_0_1_0(), "rule__MOD_ID__Alternatives_0_1_0");
 			builder.put(grammarAccess.getMOD_IDAccess().getAlternatives_1_0(), "rule__MOD_ID__Alternatives_1_0");
 			builder.put(grammarAccess.getMOD_IDAccess().getAlternatives_2(), "rule__MOD_ID__Alternatives_2");
 			builder.put(grammarAccess.getMOD_IDAccess().getAlternatives_3_1(), "rule__MOD_ID__Alternatives_3_1");
@@ -294,8 +295,9 @@ public class AsmetaLParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getRecursiveWhileRuleAccess().getGroup(), "rule__RecursiveWhileRule__Group__0");
 			builder.put(grammarAccess.getIterativeWhileRuleAccess().getGroup(), "rule__IterativeWhileRule__Group__0");
 			builder.put(grammarAccess.getMOD_IDAccess().getGroup(), "rule__MOD_ID__Group__0");
-			builder.put(grammarAccess.getMOD_IDAccess().getGroup_0_1(), "rule__MOD_ID__Group_0_1__0");
-			builder.put(grammarAccess.getMOD_IDAccess().getGroup_0_2(), "rule__MOD_ID__Group_0_2__0");
+			builder.put(grammarAccess.getMOD_IDAccess().getGroup_0_0(), "rule__MOD_ID__Group_0_0__0");
+			builder.put(grammarAccess.getMOD_IDAccess().getGroup_0_1_1(), "rule__MOD_ID__Group_0_1_1__0");
+			builder.put(grammarAccess.getMOD_IDAccess().getGroup_0_1_2(), "rule__MOD_ID__Group_0_1_2__0");
 			builder.put(grammarAccess.getMOD_IDAccess().getGroup_1(), "rule__MOD_ID__Group_1__0");
 			builder.put(grammarAccess.getMOD_IDAccess().getGroup_3(), "rule__MOD_ID__Group_3__0");
 			builder.put(grammarAccess.getID_VARIABLEAccess().getGroup(), "rule__ID_VARIABLE__Group__0");
