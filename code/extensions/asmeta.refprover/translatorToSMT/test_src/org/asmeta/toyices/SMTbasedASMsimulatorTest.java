@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import org.junit.Test;
 
 public class SMTbasedASMsimulatorTest {
+	
 	private static boolean printOutput = true;
 
 	private void test(String asmFile) throws Exception {
@@ -249,5 +250,10 @@ public class SMTbasedASMsimulatorTest {
 	@Test
 	public void testTank() throws Exception {
 		test("models/Tank.asm");
+	}
+	@Test
+	public void testPillBoxTutorial() throws Exception {
+		SMTbasedASMsimulator.setLogger();
+		test("../../../../asm_examples/asmeta_tutorial_FM/pillbox_ground.asm");
 	}
 }
