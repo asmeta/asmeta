@@ -196,6 +196,8 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final RuleCall cImportedListImportDataParserRuleCall_2_2_1_0 = (RuleCall)cImportedListAssignment_2_2_1.eContents().get(0);
 		private final Keyword cRightParenthesisKeyword_2_3 = (Keyword)cGroup_2.eContents().get(3);
 		
+		//// import "pippo.asm" -> STRING with double guotes
+		//// import filepth -> MOD_ID
 		//ImportClause : 'import' moduleName=(MOD_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -6325,131 +6327,71 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	public class MOD_IDElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.MOD_ID");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
-		private final Group cGroup_0_0 = (Group)cAlternatives_0.eContents().get(0);
-		private final RuleCall cMAIUSC_IDTerminalRuleCall_0_0_0 = (RuleCall)cGroup_0_0.eContents().get(0);
-		private final Keyword cColonKeyword_0_0_1 = (Keyword)cGroup_0_0.eContents().get(1);
-		private final RuleCall cPATH_SEPTerminalRuleCall_0_0_2 = (RuleCall)cGroup_0_0.eContents().get(2);
-		private final Alternatives cAlternatives_0_1 = (Alternatives)cAlternatives_0.eContents().get(1);
-		private final Alternatives cAlternatives_0_1_0 = (Alternatives)cAlternatives_0_1.eContents().get(0);
-		private final RuleCall cENUM_IDTerminalRuleCall_0_1_0_0 = (RuleCall)cAlternatives_0_1_0.eContents().get(0);
-		private final RuleCall cIDTerminalRuleCall_0_1_0_1 = (RuleCall)cAlternatives_0_1_0.eContents().get(1);
-		private final Group cGroup_0_1_1 = (Group)cAlternatives_0_1.eContents().get(1);
-		private final Keyword cFullStopFullStopKeyword_0_1_1_0 = (Keyword)cGroup_0_1_1.eContents().get(0);
-		private final RuleCall cPATH_SEPTerminalRuleCall_0_1_1_1 = (RuleCall)cGroup_0_1_1.eContents().get(1);
-		private final Group cGroup_0_1_2 = (Group)cAlternatives_0_1.eContents().get(2);
-		private final Keyword cFullStopKeyword_0_1_2_0 = (Keyword)cGroup_0_1_2.eContents().get(0);
-		private final RuleCall cPATH_SEPTerminalRuleCall_0_1_2_1 = (RuleCall)cGroup_0_1_2.eContents().get(1);
-		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Alternatives cAlternatives_1_0 = (Alternatives)cGroup_1.eContents().get(0);
-		private final RuleCall cENUM_IDTerminalRuleCall_1_0_0 = (RuleCall)cAlternatives_1_0.eContents().get(0);
-		private final RuleCall cIDTerminalRuleCall_1_0_1 = (RuleCall)cAlternatives_1_0.eContents().get(1);
-		private final RuleCall cPATH_SEPTerminalRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
-		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
-		private final RuleCall cENUM_IDTerminalRuleCall_2_0 = (RuleCall)cAlternatives_2.eContents().get(0);
-		private final RuleCall cIDTerminalRuleCall_2_1 = (RuleCall)cAlternatives_2.eContents().get(1);
-		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
-		private final Keyword cFullStopKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
-		private final Alternatives cAlternatives_3_1 = (Alternatives)cGroup_3.eContents().get(1);
-		private final RuleCall cENUM_IDTerminalRuleCall_3_1_0 = (RuleCall)cAlternatives_3_1.eContents().get(0);
-		private final RuleCall cIDTerminalRuleCall_3_1_1 = (RuleCall)cAlternatives_3_1.eContents().get(1);
-		private final Keyword cAsmKeyword_3_1_2 = (Keyword)cAlternatives_3_1.eContents().get(2);
+		private final Group cGroup_0 = (Group)cGroup.eContents().get(0);
+		private final Alternatives cAlternatives_0_0 = (Alternatives)cGroup_0.eContents().get(0);
+		private final RuleCall cMIN_IDTerminalRuleCall_0_0_0 = (RuleCall)cAlternatives_0_0.eContents().get(0);
+		private final RuleCall cMAIUSC_IDTerminalRuleCall_0_0_1 = (RuleCall)cAlternatives_0_0.eContents().get(1);
+		private final Keyword cColonKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
+		private final Keyword cBackslashKeyword_1_0 = (Keyword)cAlternatives_1.eContents().get(0);
+		private final Keyword cSolidusKeyword_1_1 = (Keyword)cAlternatives_1.eContents().get(1);
+		private final RuleCall cMIN_IDTerminalRuleCall_1_2 = (RuleCall)cAlternatives_1.eContents().get(2);
+		private final RuleCall cMAIUSC_IDTerminalRuleCall_1_3 = (RuleCall)cAlternatives_1.eContents().get(3);
+		private final RuleCall cDIGITTerminalRuleCall_1_4 = (RuleCall)cAlternatives_1.eContents().get(4);
+		private final Keyword cFullStopKeyword_1_5 = (Keyword)cAlternatives_1.eContents().get(5);
+		private final Keyword c_Keyword_1_6 = (Keyword)cAlternatives_1.eContents().get(6);
+		private final Keyword cHyphenMinusKeyword_1_7 = (Keyword)cAlternatives_1.eContents().get(7);
 		
 		//// IDENTIFICATIVI
-		//// example of MOD_ID
-		//// win abs path
-		//MOD_ID         returns ecore::EString    : ((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.' PATH_SEP)*))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
+		//// module identifier when importing it
+		//// see javacc file
+		//MOD_ID         returns ecore::EString    :   (( MIN_ID | MAIUSC_ID ) ':')? ('\\' | '/'| MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+ ;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.' PATH_SEP)*))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?
+		//(( MIN_ID | MAIUSC_ID ) ':')? ('\\' | '/'| MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+
 		public Group getGroup() { return cGroup; }
 		
-		//((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.' PATH_SEP)*))?
-		public Alternatives getAlternatives_0() { return cAlternatives_0; }
+		//(( MIN_ID | MAIUSC_ID ) ':')?
+		public Group getGroup_0() { return cGroup_0; }
 		
-		//(MAIUSC_ID ':' PATH_SEP )
-		public Group getGroup_0_0() { return cGroup_0_0; }
+		//( MIN_ID | MAIUSC_ID )
+		public Alternatives getAlternatives_0_0() { return cAlternatives_0_0; }
+		
+		//MIN_ID
+		public RuleCall getMIN_IDTerminalRuleCall_0_0_0() { return cMIN_IDTerminalRuleCall_0_0_0; }
 		
 		//MAIUSC_ID
-		public RuleCall getMAIUSC_IDTerminalRuleCall_0_0_0() { return cMAIUSC_IDTerminalRuleCall_0_0_0; }
+		public RuleCall getMAIUSC_IDTerminalRuleCall_0_0_1() { return cMAIUSC_IDTerminalRuleCall_0_0_1; }
 		
 		//':'
-		public Keyword getColonKeyword_0_0_1() { return cColonKeyword_0_0_1; }
+		public Keyword getColonKeyword_0_1() { return cColonKeyword_0_1; }
 		
-		//PATH_SEP
-		public RuleCall getPATH_SEPTerminalRuleCall_0_0_2() { return cPATH_SEPTerminalRuleCall_0_0_2; }
+		//('\\' | '/'| MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+
+		public Alternatives getAlternatives_1() { return cAlternatives_1; }
 		
-		//((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.' PATH_SEP)*)
-		public Alternatives getAlternatives_0_1() { return cAlternatives_0_1; }
+		//'\\'
+		public Keyword getBackslashKeyword_1_0() { return cBackslashKeyword_1_0; }
 		
-		//(ENUM_ID | ID)
-		public Alternatives getAlternatives_0_1_0() { return cAlternatives_0_1_0; }
+		//'/'
+		public Keyword getSolidusKeyword_1_1() { return cSolidusKeyword_1_1; }
 		
-		//ENUM_ID
-		public RuleCall getENUM_IDTerminalRuleCall_0_1_0_0() { return cENUM_IDTerminalRuleCall_0_1_0_0; }
+		//MIN_ID
+		public RuleCall getMIN_IDTerminalRuleCall_1_2() { return cMIN_IDTerminalRuleCall_1_2; }
 		
-		//ID
-		public RuleCall getIDTerminalRuleCall_0_1_0_1() { return cIDTerminalRuleCall_0_1_0_1; }
+		//MAIUSC_ID
+		public RuleCall getMAIUSC_IDTerminalRuleCall_1_3() { return cMAIUSC_IDTerminalRuleCall_1_3; }
 		
-		//('..' PATH_SEP)*
-		public Group getGroup_0_1_1() { return cGroup_0_1_1; }
-		
-		//'..'
-		public Keyword getFullStopFullStopKeyword_0_1_1_0() { return cFullStopFullStopKeyword_0_1_1_0; }
-		
-		//PATH_SEP
-		public RuleCall getPATH_SEPTerminalRuleCall_0_1_1_1() { return cPATH_SEPTerminalRuleCall_0_1_1_1; }
-		
-		//('.' PATH_SEP)*
-		public Group getGroup_0_1_2() { return cGroup_0_1_2; }
+		//DIGIT
+		public RuleCall getDIGITTerminalRuleCall_1_4() { return cDIGITTerminalRuleCall_1_4; }
 		
 		//'.'
-		public Keyword getFullStopKeyword_0_1_2_0() { return cFullStopKeyword_0_1_2_0; }
+		public Keyword getFullStopKeyword_1_5() { return cFullStopKeyword_1_5; }
 		
-		//PATH_SEP
-		public RuleCall getPATH_SEPTerminalRuleCall_0_1_2_1() { return cPATH_SEPTerminalRuleCall_0_1_2_1; }
+		//'_'
+		public Keyword get_Keyword_1_6() { return c_Keyword_1_6; }
 		
-		//((ENUM_ID | ID) PATH_SEP)*
-		public Group getGroup_1() { return cGroup_1; }
-		
-		//(ENUM_ID | ID)
-		public Alternatives getAlternatives_1_0() { return cAlternatives_1_0; }
-		
-		//ENUM_ID
-		public RuleCall getENUM_IDTerminalRuleCall_1_0_0() { return cENUM_IDTerminalRuleCall_1_0_0; }
-		
-		//ID
-		public RuleCall getIDTerminalRuleCall_1_0_1() { return cIDTerminalRuleCall_1_0_1; }
-		
-		//PATH_SEP
-		public RuleCall getPATH_SEPTerminalRuleCall_1_1() { return cPATH_SEPTerminalRuleCall_1_1; }
-		
-		//(ENUM_ID | ID)
-		public Alternatives getAlternatives_2() { return cAlternatives_2; }
-		
-		//ENUM_ID
-		public RuleCall getENUM_IDTerminalRuleCall_2_0() { return cENUM_IDTerminalRuleCall_2_0; }
-		
-		//ID
-		public RuleCall getIDTerminalRuleCall_2_1() { return cIDTerminalRuleCall_2_1; }
-		
-		//('.' (ENUM_ID | ID | 'asm'))?
-		public Group getGroup_3() { return cGroup_3; }
-		
-		//'.'
-		public Keyword getFullStopKeyword_3_0() { return cFullStopKeyword_3_0; }
-		
-		//(ENUM_ID | ID | 'asm')
-		public Alternatives getAlternatives_3_1() { return cAlternatives_3_1; }
-		
-		//ENUM_ID
-		public RuleCall getENUM_IDTerminalRuleCall_3_1_0() { return cENUM_IDTerminalRuleCall_3_1_0; }
-		
-		//ID
-		public RuleCall getIDTerminalRuleCall_3_1_1() { return cIDTerminalRuleCall_3_1_1; }
-		
-		//'asm'
-		public Keyword getAsmKeyword_3_1_2() { return cAsmKeyword_3_1_2; }
+		//'-'
+		public Keyword getHyphenMinusKeyword_1_7() { return cHyphenMinusKeyword_1_7; }
 	}
 	public class ID_VARIABLEElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.ID_VARIABLE");
@@ -6461,7 +6403,17 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cAgentKeyword_1_2 = (Keyword)cAlternatives_1.eContents().get(2);
 		private final Keyword cSeqKeyword_1_3 = (Keyword)cAlternatives_1.eContents().get(3);
 		
-		//ID_VARIABLE returns ecore::EString	: '$' (ID | 'rule' | 'agent' | 'seq' );
+		///*     (
+		//    (MAIUSC_ID ':' PATH_SEP ) |  // beginning of the drive letter  -> D:/
+		//    ('..' PATH_SEP)* | // relative path -> ../
+		//    ('.' PATH_SEP)* | // relative path -> ./
+		//    PATH_SEP  // abs path with linux
+		//    )?
+		//    ((ENUM_ID | ID) PATH_SEP)* // -> sequence of strings and path sep
+		//    (ENUM_ID | ID) // -> name of the spec
+		//    ('.' (ENUM_ID | ID | 'asm'))?; // -> extension
+		//    */
+		//ID_VARIABLE returns ecore::EString    : '$' (ID | 'rule' | 'agent' | 'seq' );
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'$' (ID | 'rule' | 'agent' | 'seq' )
@@ -6874,6 +6826,8 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		return getHeaderAccess().getRule();
 	}
 	
+	//// import "pippo.asm" -> STRING with double guotes
+	//// import filepth -> MOD_ID
 	//ImportClause : 'import' moduleName=(MOD_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
 	public ImportClauseElements getImportClauseAccess() {
 		return pImportClause;
@@ -8284,7 +8238,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		return tMIN_ID;
 	}
 	
-	//terminal ACCENT_CHR		: ('Ã '|'Ã¨'|'Ã©'|'Ã²'|'Ã¬'|'Ã¹'|'Ãƒ');
+	//terminal ACCENT_CHR		: ('à'|'è'|'é'|'ò'|'ì'|'ù'|'Ã');
 	public TerminalRule getACCENT_CHRRule() {
 		return tACCENT_CHR;
 	}
@@ -8331,9 +8285,9 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	}
 	
 	//// IDENTIFICATIVI
-	//// example of MOD_ID
-	//// win abs path
-	//MOD_ID         returns ecore::EString    : ((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.' PATH_SEP)*))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
+	//// module identifier when importing it
+	//// see javacc file
+	//MOD_ID         returns ecore::EString    :   (( MIN_ID | MAIUSC_ID ) ':')? ('\\' | '/'| MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+ ;
 	public MOD_IDElements getMOD_IDAccess() {
 		return pMOD_ID;
 	}
@@ -8342,7 +8296,17 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		return getMOD_IDAccess().getRule();
 	}
 	
-	//ID_VARIABLE returns ecore::EString	: '$' (ID | 'rule' | 'agent' | 'seq' );
+	///*     (
+	//    (MAIUSC_ID ':' PATH_SEP ) |  // beginning of the drive letter  -> D:/
+	//    ('..' PATH_SEP)* | // relative path -> ../
+	//    ('.' PATH_SEP)* | // relative path -> ./
+	//    PATH_SEP  // abs path with linux
+	//    )?
+	//    ((ENUM_ID | ID) PATH_SEP)* // -> sequence of strings and path sep
+	//    (ENUM_ID | ID) // -> name of the spec
+	//    ('.' (ENUM_ID | ID | 'asm'))?; // -> extension
+	//    */
+	//ID_VARIABLE returns ecore::EString    : '$' (ID | 'rule' | 'agent' | 'seq' );
 	public ID_VARIABLEElements getID_VARIABLEAccess() {
 		return pID_VARIABLE;
 	}

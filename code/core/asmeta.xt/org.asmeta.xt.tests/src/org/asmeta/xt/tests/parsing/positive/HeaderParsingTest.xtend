@@ -766,7 +766,7 @@ signature:
 		result.assertNoErrors
 		Assert.assertEquals( 3, result.headerSection.importClause.size)
 	}
-		@Test
+	@Test
 	def void testPathImports() {		
 		var result = parseHelper.parse('''
 asm __tempAsmetaV7859023612479832841
@@ -778,6 +778,19 @@ signature:
 		result.assertNoErrors
 		Assert.assertEquals( 3, result.headerSection.importClause.size)
 	}
+
+	@Test
+	def void testRelative() {		
+		var result = parseHelper.parse('''
+asm prova
+import ../a/b
+signature:
+			definitions:
+		''')
+		result.assertNoErrors
+		Assert.assertEquals( 3, result.headerSection.importClause.size)
+	}
+
 	
 	
 	

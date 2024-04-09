@@ -11856,150 +11856,83 @@ ruleMOD_ID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
 	(
 		(
 			(
-				this_MAIUSC_ID_0=RULE_MAIUSC_ID
+				this_MIN_ID_0=RULE_MIN_ID
 				{
-					$current.merge(this_MAIUSC_ID_0);
+					$current.merge(this_MIN_ID_0);
 				}
 				{
-					newLeafNode(this_MAIUSC_ID_0, grammarAccess.getMOD_IDAccess().getMAIUSC_IDTerminalRuleCall_0_0_0());
+					newLeafNode(this_MIN_ID_0, grammarAccess.getMOD_IDAccess().getMIN_IDTerminalRuleCall_0_0_0());
 				}
-				kw=':'
+				    |
+				this_MAIUSC_ID_1=RULE_MAIUSC_ID
 				{
-					$current.merge(kw);
-					newLeafNode(kw, grammarAccess.getMOD_IDAccess().getColonKeyword_0_0_1());
-				}
-				this_PATH_SEP_2=RULE_PATH_SEP
-				{
-					$current.merge(this_PATH_SEP_2);
+					$current.merge(this_MAIUSC_ID_1);
 				}
 				{
-					newLeafNode(this_PATH_SEP_2, grammarAccess.getMOD_IDAccess().getPATH_SEPTerminalRuleCall_0_0_2());
+					newLeafNode(this_MAIUSC_ID_1, grammarAccess.getMOD_IDAccess().getMAIUSC_IDTerminalRuleCall_0_0_1());
 				}
 			)
-			    |
-			(
-				(
-					this_ENUM_ID_3=RULE_ENUM_ID
-					{
-						$current.merge(this_ENUM_ID_3);
-					}
-					{
-						newLeafNode(this_ENUM_ID_3, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_0_1_0_0());
-					}
-					    |
-					this_ID_4=RULE_ID
-					{
-						$current.merge(this_ID_4);
-					}
-					{
-						newLeafNode(this_ID_4, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_0_1_0_1());
-					}
-				)
-				    |
-				(
-					kw='..'
-					{
-						$current.merge(kw);
-						newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopFullStopKeyword_0_1_1_0());
-					}
-					this_PATH_SEP_6=RULE_PATH_SEP
-					{
-						$current.merge(this_PATH_SEP_6);
-					}
-					{
-						newLeafNode(this_PATH_SEP_6, grammarAccess.getMOD_IDAccess().getPATH_SEPTerminalRuleCall_0_1_1_1());
-					}
-				)*
-				    |
-				(
-					kw='.'
-					{
-						$current.merge(kw);
-						newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopKeyword_0_1_2_0());
-					}
-					this_PATH_SEP_8=RULE_PATH_SEP
-					{
-						$current.merge(this_PATH_SEP_8);
-					}
-					{
-						newLeafNode(this_PATH_SEP_8, grammarAccess.getMOD_IDAccess().getPATH_SEPTerminalRuleCall_0_1_2_1());
-					}
-				)*
-			)
+			kw=':'
+			{
+				$current.merge(kw);
+				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getColonKeyword_0_1());
+			}
 		)?
 		(
-			(
-				this_ENUM_ID_9=RULE_ENUM_ID
-				{
-					$current.merge(this_ENUM_ID_9);
-				}
-				{
-					newLeafNode(this_ENUM_ID_9, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_1_0_0());
-				}
-				    |
-				this_ID_10=RULE_ID
-				{
-					$current.merge(this_ID_10);
-				}
-				{
-					newLeafNode(this_ID_10, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_1_0_1());
-				}
-			)
-			this_PATH_SEP_11=RULE_PATH_SEP
+			kw='\\'
 			{
-				$current.merge(this_PATH_SEP_11);
-			}
-			{
-				newLeafNode(this_PATH_SEP_11, grammarAccess.getMOD_IDAccess().getPATH_SEPTerminalRuleCall_1_1());
-			}
-		)*
-		(
-			this_ENUM_ID_12=RULE_ENUM_ID
-			{
-				$current.merge(this_ENUM_ID_12);
-			}
-			{
-				newLeafNode(this_ENUM_ID_12, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_2_0());
+				$current.merge(kw);
+				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getBackslashKeyword_1_0());
 			}
 			    |
-			this_ID_13=RULE_ID
+			kw='/'
 			{
-				$current.merge(this_ID_13);
+				$current.merge(kw);
+				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getSolidusKeyword_1_1());
+			}
+			    |
+			this_MIN_ID_5=RULE_MIN_ID
+			{
+				$current.merge(this_MIN_ID_5);
 			}
 			{
-				newLeafNode(this_ID_13, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_2_1());
+				newLeafNode(this_MIN_ID_5, grammarAccess.getMOD_IDAccess().getMIN_IDTerminalRuleCall_1_2());
 			}
-		)
-		(
+			    |
+			this_MAIUSC_ID_6=RULE_MAIUSC_ID
+			{
+				$current.merge(this_MAIUSC_ID_6);
+			}
+			{
+				newLeafNode(this_MAIUSC_ID_6, grammarAccess.getMOD_IDAccess().getMAIUSC_IDTerminalRuleCall_1_3());
+			}
+			    |
+			this_DIGIT_7=RULE_DIGIT
+			{
+				$current.merge(this_DIGIT_7);
+			}
+			{
+				newLeafNode(this_DIGIT_7, grammarAccess.getMOD_IDAccess().getDIGITTerminalRuleCall_1_4());
+			}
+			    |
 			kw='.'
 			{
 				$current.merge(kw);
-				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopKeyword_3_0());
+				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopKeyword_1_5());
 			}
-			(
-				this_ENUM_ID_15=RULE_ENUM_ID
-				{
-					$current.merge(this_ENUM_ID_15);
-				}
-				{
-					newLeafNode(this_ENUM_ID_15, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_3_1_0());
-				}
-				    |
-				this_ID_16=RULE_ID
-				{
-					$current.merge(this_ID_16);
-				}
-				{
-					newLeafNode(this_ID_16, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_3_1_1());
-				}
-				    |
-				kw='asm'
-				{
-					$current.merge(kw);
-					newLeafNode(kw, grammarAccess.getMOD_IDAccess().getAsmKeyword_3_1_2());
-				}
-			)
-		)?
+			    |
+			kw='_'
+			{
+				$current.merge(kw);
+				newLeafNode(kw, grammarAccess.getMOD_IDAccess().get_Keyword_1_6());
+			}
+			    |
+			kw='-'
+			{
+				$current.merge(kw);
+				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getHyphenMinusKeyword_1_7());
+			}
+		)+
 	)
 ;
 
@@ -12054,7 +11987,7 @@ ruleID_VARIABLE returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleTok
 	)
 ;
 
-fragment RULE_DIGIT : '0'..'9';
+RULE_DIGIT : '0'..'9';
 
 RULE_NUMBER_TOKEN : RULE_DIGIT+;
 
@@ -12064,13 +11997,13 @@ RULE_REAL_NUMBER : RULE_NUMBER_TOKEN '.' RULE_NUMBER_TOKEN;
 
 RULE_MAIUSC_ID : 'A'..'Z';
 
-fragment RULE_MIN_ID : 'a'..'z';
+RULE_MIN_ID : 'a'..'z';
 
-fragment RULE_ACCENT_CHR : ('\u00C3\u00A0'|'\u00C3\u00A8'|'\u00C3\u00A9'|'\u00C3\u00B2'|'\u00C3\u00AC'|'\u00C3\u00B9'|'\u00C3\u0192');
+fragment RULE_ACCENT_CHR : ('\u00E0'|'\u00E8'|'\u00E9'|'\u00F2'|'\u00EC'|'\u00F9'|'\u00C3');
 
 RULE_ENUM_ID : '^'? RULE_MAIUSC_ID RULE_MAIUSC_ID (RULE_MAIUSC_ID|RULE_DIGIT|'_')*;
 
-RULE_PATH_SEP : ('/'|'\\\\');
+fragment RULE_PATH_SEP : ('/'|'\\\\');
 
 fragment RULE_SPECIAL_CHAR : ('!'|'.'|','|':'|'-'|'+'|'$'|'%'|'('|')'|'['|']'|'='|'?'|'^'|'_'|';'|'\u00EF\u00BF\u00BD'|'@'|'>'|'<'|'|'|RULE_PATH_SEP);
 

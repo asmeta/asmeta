@@ -22,11 +22,12 @@ import java.util.HashMap;
 @SuppressWarnings("all")
 public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_RULE_ID", "RULE_ENUM_ID", "RULE_COMPLEX_NUMBER", "RULE_NATNUMBER", "RULE_CHAR_LITERAL", "RULE_STRING_LITERAL", "RULE_NUMBER_TOKEN", "RULE_REAL_NUMBER", "RULE_MAIUSC_ID", "RULE_PATH_SEP", "RULE_DIGIT", "RULE_MIN_ID", "RULE_ACCENT_CHR", "RULE_SPECIAL_CHAR", "RULE_WS", "RULE_IMMAGINARY_NUMBER", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "'asyncr'", "'asm'", "'module'", "'main'", "'default'", "'import'", "'('", "','", "')'", "'export'", "'*'", "'signature'", "':'", "'init'", "'domain'", "'='", "'function'", "'in'", "'agent'", "'Agent'", "'definitions'", "'macro'", "'rule'", "'turbo'", "'invariant'", "'over'", "'CTL'", "'CTLSPEC'", "'LTL'", "'LTLSPEC'", "'JUSTICE'", "'COMPASSION'", "'INVAR'", "'dynamic'", "'subsetof'", "'anydomain'", "'basic'", "'Integer'", "'Real'", "'String'", "'Natural'", "'Char'", "'Complex'", "'Boolean'", "'Undef'", "'abstract'", "'Reserve'", "'enum'", "'{'", "'|'", "'}'", "'Rule'", "'Prod'", "'Seq'", "'Powerset'", "'Bag'", "'Map'", "'derived'", "'->'", "'static'", "'local'", "'controlled'", "'shared'", "'monitored'", "'out'", "'and'", "'or'", "'not'", "'xor'", "'mod'", "'iff'", "'implies'", "'while'", "'for'", "'!='", "'>'", "'<'", "'>='", "'<='", "'+'", "'-'", "'/'", "'^'", "'.'", "'true'", "'false'", "'undef'", "'if'", "'then'", "'else'", "'endif'", "'switch'", "'case'", "'otherwise'", "'endswitch'", "'['", "']'", "'exist'", "'unique'", "'with'", "'forall'", "'let'", "'endlet'", "'<<'", "'>>'", "'skip'", "':='", "'par'", "'endpar'", "'choose'", "'do'", "'ifnone'", "'extend'", "'seq'", "'endseq'", "'iterate'", "'enditerate'", "'<-'", "'whilerec'", "'..'", "'$'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_RULE_ID", "RULE_ENUM_ID", "RULE_COMPLEX_NUMBER", "RULE_NATNUMBER", "RULE_CHAR_LITERAL", "RULE_STRING_LITERAL", "RULE_NUMBER_TOKEN", "RULE_REAL_NUMBER", "RULE_MIN_ID", "RULE_MAIUSC_ID", "RULE_DIGIT", "RULE_ACCENT_CHR", "RULE_PATH_SEP", "RULE_SPECIAL_CHAR", "RULE_WS", "RULE_IMMAGINARY_NUMBER", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "'asyncr'", "'asm'", "'module'", "'main'", "'default'", "'import'", "'('", "','", "')'", "'export'", "'*'", "'signature'", "':'", "'init'", "'domain'", "'='", "'function'", "'in'", "'agent'", "'Agent'", "'definitions'", "'macro'", "'rule'", "'turbo'", "'invariant'", "'over'", "'CTL'", "'CTLSPEC'", "'LTL'", "'LTLSPEC'", "'JUSTICE'", "'COMPASSION'", "'INVAR'", "'dynamic'", "'subsetof'", "'anydomain'", "'basic'", "'Integer'", "'Real'", "'String'", "'Natural'", "'Char'", "'Complex'", "'Boolean'", "'Undef'", "'abstract'", "'Reserve'", "'enum'", "'{'", "'|'", "'}'", "'Rule'", "'Prod'", "'Seq'", "'Powerset'", "'Bag'", "'Map'", "'derived'", "'->'", "'static'", "'local'", "'controlled'", "'shared'", "'monitored'", "'out'", "'and'", "'or'", "'not'", "'xor'", "'mod'", "'iff'", "'implies'", "'while'", "'for'", "'!='", "'>'", "'<'", "'>='", "'<='", "'+'", "'-'", "'/'", "'^'", "'.'", "'true'", "'false'", "'undef'", "'if'", "'then'", "'else'", "'endif'", "'switch'", "'case'", "'otherwise'", "'endswitch'", "'['", "']'", "'exist'", "'unique'", "'with'", "'forall'", "'let'", "'endlet'", "'<<'", "'>>'", "'skip'", "':='", "'par'", "'endpar'", "'choose'", "'do'", "'ifnone'", "'extend'", "'seq'", "'endseq'", "'iterate'", "'enditerate'", "'<-'", "'whilerec'", "'\\\\'", "'_'", "'$'"
     };
     public static final int T__144=144;
     public static final int T__143=143;
     public static final int T__50=50;
+    public static final int T__145=145;
     public static final int T__140=140;
     public static final int T__142=142;
     public static final int T__141=141;
@@ -71,8 +72,8 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     public static final int T__127=127;
     public static final int RULE_SPECIAL_CHAR=19;
     public static final int RULE_ENUM_ID=7;
-    public static final int RULE_MIN_ID=17;
-    public static final int RULE_PATH_SEP=15;
+    public static final int RULE_MIN_ID=14;
+    public static final int RULE_PATH_SEP=18;
     public static final int T__37=37;
     public static final int T__38=38;
     public static final int T__39=39;
@@ -83,7 +84,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     public static final int T__30=30;
     public static final int T__31=31;
     public static final int T__32=32;
-    public static final int RULE_MAIUSC_ID=14;
+    public static final int RULE_MAIUSC_ID=15;
     public static final int T__48=48;
     public static final int T__49=49;
     public static final int T__44=44;
@@ -114,7 +115,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     public static final int T__28=28;
     public static final int T__29=29;
     public static final int RULE_NUMBER_TOKEN=12;
-    public static final int RULE_ACCENT_CHR=18;
+    public static final int RULE_ACCENT_CHR=17;
     public static final int T__24=24;
     public static final int T__25=25;
     public static final int T__122=122;
@@ -1113,7 +1114,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             int alt11=2;
             int LA11_0 = input.LA(1);
 
-            if ( (LA11_0==RULE_ID||LA11_0==RULE_ENUM_ID||LA11_0==RULE_MAIUSC_ID||LA11_0==107||LA11_0==143) ) {
+            if ( ((LA11_0>=RULE_MIN_ID && LA11_0<=RULE_DIGIT)||(LA11_0>=104 && LA11_0<=105)||LA11_0==107||(LA11_0>=143 && LA11_0<=144)) ) {
                 alt11=1;
             }
             else if ( (LA11_0==RULE_STRING) ) {
@@ -12731,6 +12732,11 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             case 57:
                 {
                 switch ( input.LA(2) ) {
+                case 85:
+                    {
+                    alt71=4;
+                    }
+                    break;
                 case 87:
                     {
                     alt71=2;
@@ -12749,11 +12755,6 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                 case 88:
                     {
                     alt71=1;
-                    }
-                    break;
-                case 85:
-                    {
-                    alt71=4;
                     }
                     break;
                 default:
@@ -17806,7 +17807,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             int alt102=2;
             int LA102_0 = input.LA(1);
 
-            if ( ((LA102_0>=RULE_ID && LA102_0<=RULE_REAL_NUMBER)||(LA102_0>=89 && LA102_0<=95)||(LA102_0>=103 && LA102_0<=104)||(LA102_0>=108 && LA102_0<=110)||LA102_0==144) ) {
+            if ( ((LA102_0>=RULE_ID && LA102_0<=RULE_REAL_NUMBER)||(LA102_0>=89 && LA102_0<=95)||(LA102_0>=103 && LA102_0<=104)||(LA102_0>=108 && LA102_0<=110)||LA102_0==145) ) {
                 alt102=1;
             }
             else if ( (LA102_0==30) ) {
@@ -19106,11 +19107,11 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                 {
                 int LA109_2 = input.LA(2);
 
-                if ( (LA109_2==RULE_REAL_NUMBER) ) {
-                    alt109=2;
-                }
-                else if ( (LA109_2==RULE_NUMBER_TOKEN) ) {
+                if ( (LA109_2==RULE_NUMBER_TOKEN) ) {
                     alt109=1;
+                }
+                else if ( (LA109_2==RULE_REAL_NUMBER) ) {
+                    alt109=2;
                 }
                 else {
                     if (state.backtracking>0) {state.failed=true; return current;}
@@ -21892,7 +21893,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             int alt123=2;
             int LA123_0 = input.LA(1);
 
-            if ( ((LA123_0>=RULE_ID && LA123_0<=RULE_REAL_NUMBER)||LA123_0==30||LA123_0==43||LA123_0==57||(LA123_0>=61 && LA123_0<=70)||LA123_0==72||(LA123_0>=75 && LA123_0<=80)||(LA123_0>=89 && LA123_0<=95)||LA123_0==100||(LA123_0>=103 && LA123_0<=104)||(LA123_0>=108 && LA123_0<=111)||LA123_0==115||LA123_0==119||LA123_0==125||LA123_0==127||LA123_0==144) ) {
+            if ( ((LA123_0>=RULE_ID && LA123_0<=RULE_REAL_NUMBER)||LA123_0==30||LA123_0==43||LA123_0==57||(LA123_0>=61 && LA123_0<=70)||LA123_0==72||(LA123_0>=75 && LA123_0<=80)||(LA123_0>=89 && LA123_0<=95)||LA123_0==100||(LA123_0>=103 && LA123_0<=104)||(LA123_0>=108 && LA123_0<=111)||LA123_0==115||LA123_0==119||LA123_0==125||LA123_0==127||LA123_0==145) ) {
                 alt123=1;
             }
             switch (alt123) {
@@ -22279,7 +22280,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             if ( (LA125_0==82) ) {
                 alt125=1;
             }
-            else if ( ((LA125_0>=RULE_ID && LA125_0<=RULE_REAL_NUMBER)||LA125_0==30||LA125_0==43||LA125_0==57||(LA125_0>=61 && LA125_0<=70)||LA125_0==72||(LA125_0>=75 && LA125_0<=80)||(LA125_0>=89 && LA125_0<=95)||LA125_0==100||(LA125_0>=103 && LA125_0<=104)||(LA125_0>=108 && LA125_0<=111)||LA125_0==115||LA125_0==119||LA125_0==125||LA125_0==127||LA125_0==144) ) {
+            else if ( ((LA125_0>=RULE_ID && LA125_0<=RULE_REAL_NUMBER)||LA125_0==30||LA125_0==43||LA125_0==57||(LA125_0>=61 && LA125_0<=70)||LA125_0==72||(LA125_0>=75 && LA125_0<=80)||(LA125_0>=89 && LA125_0<=95)||LA125_0==100||(LA125_0>=103 && LA125_0<=104)||(LA125_0>=108 && LA125_0<=111)||LA125_0==115||LA125_0==119||LA125_0==125||LA125_0==127||LA125_0==145) ) {
                 alt125=2;
             }
             else {
@@ -22626,7 +22627,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             int alt129=2;
             int LA129_0 = input.LA(1);
 
-            if ( ((LA129_0>=RULE_ID && LA129_0<=RULE_REAL_NUMBER)||LA129_0==30||LA129_0==43||LA129_0==57||(LA129_0>=61 && LA129_0<=70)||LA129_0==72||(LA129_0>=75 && LA129_0<=80)||(LA129_0>=89 && LA129_0<=95)||LA129_0==100||(LA129_0>=103 && LA129_0<=104)||(LA129_0>=108 && LA129_0<=111)||LA129_0==115||LA129_0==119||LA129_0==125||LA129_0==127||LA129_0==144) ) {
+            if ( ((LA129_0>=RULE_ID && LA129_0<=RULE_REAL_NUMBER)||LA129_0==30||LA129_0==43||LA129_0==57||(LA129_0>=61 && LA129_0<=70)||LA129_0==72||(LA129_0>=75 && LA129_0<=80)||(LA129_0>=89 && LA129_0<=95)||LA129_0==100||(LA129_0>=103 && LA129_0<=104)||(LA129_0>=108 && LA129_0<=111)||LA129_0==115||LA129_0==119||LA129_0==125||LA129_0==127||LA129_0==145) ) {
                 alt129=1;
             }
             switch (alt129) {
@@ -23009,7 +23010,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             int alt133=2;
             int LA133_0 = input.LA(1);
 
-            if ( ((LA133_0>=RULE_ID && LA133_0<=RULE_REAL_NUMBER)||(LA133_0>=89 && LA133_0<=95)||(LA133_0>=103 && LA133_0<=104)||(LA133_0>=108 && LA133_0<=110)||LA133_0==144) ) {
+            if ( ((LA133_0>=RULE_ID && LA133_0<=RULE_REAL_NUMBER)||(LA133_0>=89 && LA133_0<=95)||(LA133_0>=103 && LA133_0<=104)||(LA133_0>=108 && LA133_0<=110)||LA133_0==145) ) {
                 alt133=1;
             }
             switch (alt133) {
@@ -23557,7 +23558,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                 if ( (LA135_1==121) ) {
                     int LA135_2 = input.LA(3);
 
-                    if ( (LA135_2==144) ) {
+                    if ( (LA135_2==145) ) {
                         alt135=3;
                     }
                     else if ( (LA135_2==122) ) {
@@ -27516,7 +27517,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             if ( ((LA155_0>=RULE_ID && LA155_0<=RULE_ENUM_ID)||(LA155_0>=89 && LA155_0<=95)) ) {
                 alt155=1;
             }
-            else if ( (LA155_0==144) ) {
+            else if ( (LA155_0==145) ) {
                 alt155=2;
             }
             else {
@@ -28291,7 +28292,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             if ( ((LA159_0>=RULE_ID && LA159_0<=RULE_ENUM_ID)||(LA159_0>=89 && LA159_0<=95)) ) {
                 alt159=1;
             }
-            else if ( (LA159_0==144) ) {
+            else if ( (LA159_0==145) ) {
                 alt159=2;
             }
             else {
@@ -28544,7 +28545,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                 int alt160=2;
                 int LA160_0 = input.LA(1);
 
-                if ( ((LA160_0>=RULE_ID && LA160_0<=RULE_ENUM_ID)||LA160_0==57||LA160_0==84||(LA160_0>=89 && LA160_0<=96)||LA160_0==111||LA160_0==115||(LA160_0>=124 && LA160_0<=125)||LA160_0==129||LA160_0==131||LA160_0==133||(LA160_0>=136 && LA160_0<=137)||LA160_0==139||LA160_0==142||LA160_0==144) ) {
+                if ( ((LA160_0>=RULE_ID && LA160_0<=RULE_ENUM_ID)||LA160_0==57||LA160_0==84||(LA160_0>=89 && LA160_0<=96)||LA160_0==111||LA160_0==115||(LA160_0>=124 && LA160_0<=125)||LA160_0==129||LA160_0==131||LA160_0==133||(LA160_0>=136 && LA160_0<=137)||LA160_0==139||LA160_0==142||LA160_0==145) ) {
                     alt160=1;
                 }
 
@@ -30135,7 +30136,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             int alt168=2;
             int LA168_0 = input.LA(1);
 
-            if ( ((LA168_0>=RULE_ID && LA168_0<=RULE_REAL_NUMBER)||LA168_0==30||LA168_0==43||LA168_0==57||(LA168_0>=61 && LA168_0<=70)||LA168_0==72||(LA168_0>=75 && LA168_0<=80)||(LA168_0>=89 && LA168_0<=95)||LA168_0==100||(LA168_0>=103 && LA168_0<=104)||(LA168_0>=108 && LA168_0<=111)||LA168_0==115||LA168_0==119||LA168_0==125||LA168_0==127||LA168_0==144) ) {
+            if ( ((LA168_0>=RULE_ID && LA168_0<=RULE_REAL_NUMBER)||LA168_0==30||LA168_0==43||LA168_0==57||(LA168_0>=61 && LA168_0<=70)||LA168_0==72||(LA168_0>=75 && LA168_0<=80)||(LA168_0>=89 && LA168_0<=95)||LA168_0==100||(LA168_0>=103 && LA168_0<=104)||(LA168_0>=108 && LA168_0<=111)||LA168_0==115||LA168_0==119||LA168_0==125||LA168_0==127||LA168_0==145) ) {
                 alt168=1;
             }
             switch (alt168) {
@@ -30894,7 +30895,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                 int alt171=2;
                 int LA171_0 = input.LA(1);
 
-                if ( ((LA171_0>=RULE_ID && LA171_0<=RULE_ENUM_ID)||LA171_0==57||LA171_0==84||(LA171_0>=89 && LA171_0<=96)||LA171_0==111||LA171_0==115||(LA171_0>=124 && LA171_0<=125)||LA171_0==129||LA171_0==131||LA171_0==133||(LA171_0>=136 && LA171_0<=137)||LA171_0==139||LA171_0==142||LA171_0==144) ) {
+                if ( ((LA171_0>=RULE_ID && LA171_0<=RULE_ENUM_ID)||LA171_0==57||LA171_0==84||(LA171_0>=89 && LA171_0<=96)||LA171_0==111||LA171_0==115||(LA171_0>=124 && LA171_0<=125)||LA171_0==129||LA171_0==131||LA171_0==133||(LA171_0>=136 && LA171_0<=137)||LA171_0==139||LA171_0==142||LA171_0==145) ) {
                     alt171=1;
                 }
 
@@ -31211,7 +31212,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             int alt173=2;
             int LA173_0 = input.LA(1);
 
-            if ( ((LA173_0>=RULE_ID && LA173_0<=RULE_REAL_NUMBER)||LA173_0==30||LA173_0==43||LA173_0==57||(LA173_0>=61 && LA173_0<=70)||LA173_0==72||(LA173_0>=75 && LA173_0<=80)||(LA173_0>=89 && LA173_0<=95)||LA173_0==100||(LA173_0>=103 && LA173_0<=104)||(LA173_0>=108 && LA173_0<=111)||LA173_0==115||LA173_0==119||LA173_0==125||LA173_0==127||LA173_0==144) ) {
+            if ( ((LA173_0>=RULE_ID && LA173_0<=RULE_REAL_NUMBER)||LA173_0==30||LA173_0==43||LA173_0==57||(LA173_0>=61 && LA173_0<=70)||LA173_0==72||(LA173_0>=75 && LA173_0<=80)||(LA173_0>=89 && LA173_0<=95)||LA173_0==100||(LA173_0>=103 && LA173_0<=104)||(LA173_0>=108 && LA173_0<=111)||LA173_0==115||LA173_0==119||LA173_0==125||LA173_0==127||LA173_0==145) ) {
                 alt173=1;
             }
             switch (alt173) {
@@ -31430,7 +31431,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             if ( ((LA174_0>=RULE_ID && LA174_0<=RULE_ENUM_ID)||(LA174_0>=89 && LA174_0<=95)) ) {
                 alt174=1;
             }
-            else if ( (LA174_0==144) ) {
+            else if ( (LA174_0==145) ) {
                 alt174=2;
             }
             else {
@@ -33079,440 +33080,278 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMOD_ID"
-    // InternalAsmetaL.g:11849:1: ruleMOD_ID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( ( (this_MAIUSC_ID_0= RULE_MAIUSC_ID kw= ':' this_PATH_SEP_2= RULE_PATH_SEP ) | ( (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID ) | (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )* | (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )* ) )? ( (this_ENUM_ID_9= RULE_ENUM_ID | this_ID_10= RULE_ID ) this_PATH_SEP_11= RULE_PATH_SEP )* (this_ENUM_ID_12= RULE_ENUM_ID | this_ID_13= RULE_ID ) (kw= '.' (this_ENUM_ID_15= RULE_ENUM_ID | this_ID_16= RULE_ID | kw= 'asm' ) )? ) ;
+    // InternalAsmetaL.g:11849:1: ruleMOD_ID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( ( (this_MIN_ID_0= RULE_MIN_ID | this_MAIUSC_ID_1= RULE_MAIUSC_ID ) kw= ':' )? (kw= '\\\\' | kw= '/' | this_MIN_ID_5= RULE_MIN_ID | this_MAIUSC_ID_6= RULE_MAIUSC_ID | this_DIGIT_7= RULE_DIGIT | kw= '.' | kw= '_' | kw= '-' )+ ) ;
     public final AntlrDatatypeRuleToken ruleMOD_ID() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
-        Token this_MAIUSC_ID_0=null;
+        Token this_MIN_ID_0=null;
+        Token this_MAIUSC_ID_1=null;
         Token kw=null;
-        Token this_PATH_SEP_2=null;
-        Token this_ENUM_ID_3=null;
-        Token this_ID_4=null;
-        Token this_PATH_SEP_6=null;
-        Token this_PATH_SEP_8=null;
-        Token this_ENUM_ID_9=null;
-        Token this_ID_10=null;
-        Token this_PATH_SEP_11=null;
-        Token this_ENUM_ID_12=null;
-        Token this_ID_13=null;
-        Token this_ENUM_ID_15=null;
-        Token this_ID_16=null;
+        Token this_MIN_ID_5=null;
+        Token this_MAIUSC_ID_6=null;
+        Token this_DIGIT_7=null;
 
 
         	enterRule();
 
         try {
-            // InternalAsmetaL.g:11855:2: ( ( ( (this_MAIUSC_ID_0= RULE_MAIUSC_ID kw= ':' this_PATH_SEP_2= RULE_PATH_SEP ) | ( (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID ) | (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )* | (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )* ) )? ( (this_ENUM_ID_9= RULE_ENUM_ID | this_ID_10= RULE_ID ) this_PATH_SEP_11= RULE_PATH_SEP )* (this_ENUM_ID_12= RULE_ENUM_ID | this_ID_13= RULE_ID ) (kw= '.' (this_ENUM_ID_15= RULE_ENUM_ID | this_ID_16= RULE_ID | kw= 'asm' ) )? ) )
-            // InternalAsmetaL.g:11856:2: ( ( (this_MAIUSC_ID_0= RULE_MAIUSC_ID kw= ':' this_PATH_SEP_2= RULE_PATH_SEP ) | ( (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID ) | (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )* | (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )* ) )? ( (this_ENUM_ID_9= RULE_ENUM_ID | this_ID_10= RULE_ID ) this_PATH_SEP_11= RULE_PATH_SEP )* (this_ENUM_ID_12= RULE_ENUM_ID | this_ID_13= RULE_ID ) (kw= '.' (this_ENUM_ID_15= RULE_ENUM_ID | this_ID_16= RULE_ID | kw= 'asm' ) )? )
+            // InternalAsmetaL.g:11855:2: ( ( ( (this_MIN_ID_0= RULE_MIN_ID | this_MAIUSC_ID_1= RULE_MAIUSC_ID ) kw= ':' )? (kw= '\\\\' | kw= '/' | this_MIN_ID_5= RULE_MIN_ID | this_MAIUSC_ID_6= RULE_MAIUSC_ID | this_DIGIT_7= RULE_DIGIT | kw= '.' | kw= '_' | kw= '-' )+ ) )
+            // InternalAsmetaL.g:11856:2: ( ( (this_MIN_ID_0= RULE_MIN_ID | this_MAIUSC_ID_1= RULE_MAIUSC_ID ) kw= ':' )? (kw= '\\\\' | kw= '/' | this_MIN_ID_5= RULE_MIN_ID | this_MAIUSC_ID_6= RULE_MAIUSC_ID | this_DIGIT_7= RULE_DIGIT | kw= '.' | kw= '_' | kw= '-' )+ )
             {
-            // InternalAsmetaL.g:11856:2: ( ( (this_MAIUSC_ID_0= RULE_MAIUSC_ID kw= ':' this_PATH_SEP_2= RULE_PATH_SEP ) | ( (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID ) | (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )* | (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )* ) )? ( (this_ENUM_ID_9= RULE_ENUM_ID | this_ID_10= RULE_ID ) this_PATH_SEP_11= RULE_PATH_SEP )* (this_ENUM_ID_12= RULE_ENUM_ID | this_ID_13= RULE_ID ) (kw= '.' (this_ENUM_ID_15= RULE_ENUM_ID | this_ID_16= RULE_ID | kw= 'asm' ) )? )
-            // InternalAsmetaL.g:11857:3: ( (this_MAIUSC_ID_0= RULE_MAIUSC_ID kw= ':' this_PATH_SEP_2= RULE_PATH_SEP ) | ( (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID ) | (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )* | (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )* ) )? ( (this_ENUM_ID_9= RULE_ENUM_ID | this_ID_10= RULE_ID ) this_PATH_SEP_11= RULE_PATH_SEP )* (this_ENUM_ID_12= RULE_ENUM_ID | this_ID_13= RULE_ID ) (kw= '.' (this_ENUM_ID_15= RULE_ENUM_ID | this_ID_16= RULE_ID | kw= 'asm' ) )?
+            // InternalAsmetaL.g:11856:2: ( ( (this_MIN_ID_0= RULE_MIN_ID | this_MAIUSC_ID_1= RULE_MAIUSC_ID ) kw= ':' )? (kw= '\\\\' | kw= '/' | this_MIN_ID_5= RULE_MIN_ID | this_MAIUSC_ID_6= RULE_MAIUSC_ID | this_DIGIT_7= RULE_DIGIT | kw= '.' | kw= '_' | kw= '-' )+ )
+            // InternalAsmetaL.g:11857:3: ( (this_MIN_ID_0= RULE_MIN_ID | this_MAIUSC_ID_1= RULE_MAIUSC_ID ) kw= ':' )? (kw= '\\\\' | kw= '/' | this_MIN_ID_5= RULE_MIN_ID | this_MAIUSC_ID_6= RULE_MAIUSC_ID | this_DIGIT_7= RULE_DIGIT | kw= '.' | kw= '_' | kw= '-' )+
             {
-            // InternalAsmetaL.g:11857:3: ( (this_MAIUSC_ID_0= RULE_MAIUSC_ID kw= ':' this_PATH_SEP_2= RULE_PATH_SEP ) | ( (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID ) | (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )* | (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )* ) )?
-            int alt184=3;
-            switch ( input.LA(1) ) {
-                case RULE_MAIUSC_ID:
-                    {
-                    alt184=1;
-                    }
-                    break;
-                case RULE_ENUM_ID:
-                    {
-                    int LA184_2 = input.LA(2);
+            // InternalAsmetaL.g:11857:3: ( (this_MIN_ID_0= RULE_MIN_ID | this_MAIUSC_ID_1= RULE_MAIUSC_ID ) kw= ':' )?
+            int alt181=2;
+            int LA181_0 = input.LA(1);
 
-                    if ( (synpred278_InternalAsmetaL()) ) {
-                        alt184=2;
-                    }
-                    }
-                    break;
-                case RULE_ID:
-                    {
-                    int LA184_3 = input.LA(2);
+            if ( (LA181_0==RULE_MIN_ID) ) {
+                int LA181_1 = input.LA(2);
 
-                    if ( (synpred278_InternalAsmetaL()) ) {
-                        alt184=2;
-                    }
-                    }
-                    break;
-                case 107:
-                case 143:
-                    {
-                    alt184=2;
-                    }
-                    break;
+                if ( (LA181_1==36) ) {
+                    alt181=1;
+                }
             }
+            else if ( (LA181_0==RULE_MAIUSC_ID) ) {
+                int LA181_2 = input.LA(2);
 
-            switch (alt184) {
+                if ( (LA181_2==36) ) {
+                    alt181=1;
+                }
+            }
+            switch (alt181) {
                 case 1 :
-                    // InternalAsmetaL.g:11858:4: (this_MAIUSC_ID_0= RULE_MAIUSC_ID kw= ':' this_PATH_SEP_2= RULE_PATH_SEP )
+                    // InternalAsmetaL.g:11858:4: (this_MIN_ID_0= RULE_MIN_ID | this_MAIUSC_ID_1= RULE_MAIUSC_ID ) kw= ':'
                     {
-                    // InternalAsmetaL.g:11858:4: (this_MAIUSC_ID_0= RULE_MAIUSC_ID kw= ':' this_PATH_SEP_2= RULE_PATH_SEP )
-                    // InternalAsmetaL.g:11859:5: this_MAIUSC_ID_0= RULE_MAIUSC_ID kw= ':' this_PATH_SEP_2= RULE_PATH_SEP
-                    {
-                    this_MAIUSC_ID_0=(Token)match(input,RULE_MAIUSC_ID,FOLLOW_19); if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
+                    // InternalAsmetaL.g:11858:4: (this_MIN_ID_0= RULE_MIN_ID | this_MAIUSC_ID_1= RULE_MAIUSC_ID )
+                    int alt180=2;
+                    int LA180_0 = input.LA(1);
 
-                      					current.merge(this_MAIUSC_ID_0);
-                      				
+                    if ( (LA180_0==RULE_MIN_ID) ) {
+                        alt180=1;
                     }
-                    if ( state.backtracking==0 ) {
-
-                      					newLeafNode(this_MAIUSC_ID_0, grammarAccess.getMOD_IDAccess().getMAIUSC_IDTerminalRuleCall_0_0_0());
-                      				
+                    else if ( (LA180_0==RULE_MAIUSC_ID) ) {
+                        alt180=2;
                     }
-                    kw=(Token)match(input,36,FOLLOW_122); if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
-
-                      					current.merge(kw);
-                      					newLeafNode(kw, grammarAccess.getMOD_IDAccess().getColonKeyword_0_0_1());
-                      				
-                    }
-                    this_PATH_SEP_2=(Token)match(input,RULE_PATH_SEP,FOLLOW_123); if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
-
-                      					current.merge(this_PATH_SEP_2);
-                      				
-                    }
-                    if ( state.backtracking==0 ) {
-
-                      					newLeafNode(this_PATH_SEP_2, grammarAccess.getMOD_IDAccess().getPATH_SEPTerminalRuleCall_0_0_2());
-                      				
-                    }
-
-                    }
-
-
-                    }
-                    break;
-                case 2 :
-                    // InternalAsmetaL.g:11880:4: ( (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID ) | (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )* | (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )* )
-                    {
-                    // InternalAsmetaL.g:11880:4: ( (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID ) | (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )* | (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )* )
-                    int alt183=3;
-                    switch ( input.LA(1) ) {
-                    case RULE_ENUM_ID:
-                        {
-                        int LA183_1 = input.LA(2);
-
-                        if ( (LA183_1==RULE_ID||LA183_1==RULE_ENUM_ID) ) {
-                            alt183=1;
-                        }
-                        else if ( (synpred276_InternalAsmetaL()) ) {
-                            alt183=2;
-                        }
-                        else if ( (true) ) {
-                            alt183=3;
-                        }
-                        else {
-                            if (state.backtracking>0) {state.failed=true; return current;}
-                            NoViableAltException nvae =
-                                new NoViableAltException("", 183, 1, input);
-
-                            throw nvae;
-                        }
-                        }
-                        break;
-                    case RULE_ID:
-                        {
-                        int LA183_2 = input.LA(2);
-
-                        if ( (LA183_2==RULE_ID||LA183_2==RULE_ENUM_ID) ) {
-                            alt183=1;
-                        }
-                        else if ( (synpred276_InternalAsmetaL()) ) {
-                            alt183=2;
-                        }
-                        else if ( (true) ) {
-                            alt183=3;
-                        }
-                        else {
-                            if (state.backtracking>0) {state.failed=true; return current;}
-                            NoViableAltException nvae =
-                                new NoViableAltException("", 183, 2, input);
-
-                            throw nvae;
-                        }
-                        }
-                        break;
-                    case 143:
-                        {
-                        alt183=2;
-                        }
-                        break;
-                    case 107:
-                        {
-                        alt183=3;
-                        }
-                        break;
-                    default:
+                    else {
                         if (state.backtracking>0) {state.failed=true; return current;}
                         NoViableAltException nvae =
-                            new NoViableAltException("", 183, 0, input);
+                            new NoViableAltException("", 180, 0, input);
 
                         throw nvae;
                     }
-
-                    switch (alt183) {
+                    switch (alt180) {
                         case 1 :
-                            // InternalAsmetaL.g:11881:5: (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID )
+                            // InternalAsmetaL.g:11859:5: this_MIN_ID_0= RULE_MIN_ID
                             {
-                            // InternalAsmetaL.g:11881:5: (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID )
-                            int alt180=2;
-                            int LA180_0 = input.LA(1);
+                            this_MIN_ID_0=(Token)match(input,RULE_MIN_ID,FOLLOW_19); if (state.failed) return current;
+                            if ( state.backtracking==0 ) {
 
-                            if ( (LA180_0==RULE_ENUM_ID) ) {
-                                alt180=1;
+                              					current.merge(this_MIN_ID_0);
+                              				
                             }
-                            else if ( (LA180_0==RULE_ID) ) {
-                                alt180=2;
+                            if ( state.backtracking==0 ) {
+
+                              					newLeafNode(this_MIN_ID_0, grammarAccess.getMOD_IDAccess().getMIN_IDTerminalRuleCall_0_0_0());
+                              				
                             }
-                            else {
-                                if (state.backtracking>0) {state.failed=true; return current;}
-                                NoViableAltException nvae =
-                                    new NoViableAltException("", 180, 0, input);
-
-                                throw nvae;
-                            }
-                            switch (alt180) {
-                                case 1 :
-                                    // InternalAsmetaL.g:11882:6: this_ENUM_ID_3= RULE_ENUM_ID
-                                    {
-                                    this_ENUM_ID_3=(Token)match(input,RULE_ENUM_ID,FOLLOW_123); if (state.failed) return current;
-                                    if ( state.backtracking==0 ) {
-
-                                      						current.merge(this_ENUM_ID_3);
-                                      					
-                                    }
-                                    if ( state.backtracking==0 ) {
-
-                                      						newLeafNode(this_ENUM_ID_3, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_0_1_0_0());
-                                      					
-                                    }
-
-                                    }
-                                    break;
-                                case 2 :
-                                    // InternalAsmetaL.g:11890:6: this_ID_4= RULE_ID
-                                    {
-                                    this_ID_4=(Token)match(input,RULE_ID,FOLLOW_123); if (state.failed) return current;
-                                    if ( state.backtracking==0 ) {
-
-                                      						current.merge(this_ID_4);
-                                      					
-                                    }
-                                    if ( state.backtracking==0 ) {
-
-                                      						newLeafNode(this_ID_4, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_0_1_0_1());
-                                      					
-                                    }
-
-                                    }
-                                    break;
-
-                            }
-
 
                             }
                             break;
                         case 2 :
-                            // InternalAsmetaL.g:11899:5: (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )*
+                            // InternalAsmetaL.g:11867:5: this_MAIUSC_ID_1= RULE_MAIUSC_ID
                             {
-                            // InternalAsmetaL.g:11899:5: (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )*
-                            loop181:
-                            do {
-                                int alt181=2;
-                                int LA181_0 = input.LA(1);
+                            this_MAIUSC_ID_1=(Token)match(input,RULE_MAIUSC_ID,FOLLOW_19); if (state.failed) return current;
+                            if ( state.backtracking==0 ) {
 
-                                if ( (LA181_0==143) ) {
-                                    alt181=1;
-                                }
-
-
-                                switch (alt181) {
-                            	case 1 :
-                            	    // InternalAsmetaL.g:11900:6: kw= '..' this_PATH_SEP_6= RULE_PATH_SEP
-                            	    {
-                            	    kw=(Token)match(input,143,FOLLOW_122); if (state.failed) return current;
-                            	    if ( state.backtracking==0 ) {
-
-                            	      						current.merge(kw);
-                            	      						newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopFullStopKeyword_0_1_1_0());
-                            	      					
-                            	    }
-                            	    this_PATH_SEP_6=(Token)match(input,RULE_PATH_SEP,FOLLOW_124); if (state.failed) return current;
-                            	    if ( state.backtracking==0 ) {
-
-                            	      						current.merge(this_PATH_SEP_6);
-                            	      					
-                            	    }
-                            	    if ( state.backtracking==0 ) {
-
-                            	      						newLeafNode(this_PATH_SEP_6, grammarAccess.getMOD_IDAccess().getPATH_SEPTerminalRuleCall_0_1_1_1());
-                            	      					
-                            	    }
-
-                            	    }
-                            	    break;
-
-                            	default :
-                            	    break loop181;
-                                }
-                            } while (true);
-
-
+                              					current.merge(this_MAIUSC_ID_1);
+                              				
                             }
-                            break;
-                        case 3 :
-                            // InternalAsmetaL.g:11914:5: (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )*
-                            {
-                            // InternalAsmetaL.g:11914:5: (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )*
-                            loop182:
-                            do {
-                                int alt182=2;
-                                int LA182_0 = input.LA(1);
+                            if ( state.backtracking==0 ) {
 
-                                if ( (LA182_0==107) ) {
-                                    alt182=1;
-                                }
-
-
-                                switch (alt182) {
-                            	case 1 :
-                            	    // InternalAsmetaL.g:11915:6: kw= '.' this_PATH_SEP_8= RULE_PATH_SEP
-                            	    {
-                            	    kw=(Token)match(input,107,FOLLOW_122); if (state.failed) return current;
-                            	    if ( state.backtracking==0 ) {
-
-                            	      						current.merge(kw);
-                            	      						newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopKeyword_0_1_2_0());
-                            	      					
-                            	    }
-                            	    this_PATH_SEP_8=(Token)match(input,RULE_PATH_SEP,FOLLOW_125); if (state.failed) return current;
-                            	    if ( state.backtracking==0 ) {
-
-                            	      						current.merge(this_PATH_SEP_8);
-                            	      					
-                            	    }
-                            	    if ( state.backtracking==0 ) {
-
-                            	      						newLeafNode(this_PATH_SEP_8, grammarAccess.getMOD_IDAccess().getPATH_SEPTerminalRuleCall_0_1_2_1());
-                            	      					
-                            	    }
-
-                            	    }
-                            	    break;
-
-                            	default :
-                            	    break loop182;
-                                }
-                            } while (true);
-
+                              					newLeafNode(this_MAIUSC_ID_1, grammarAccess.getMOD_IDAccess().getMAIUSC_IDTerminalRuleCall_0_0_1());
+                              				
+                            }
 
                             }
                             break;
 
                     }
 
+                    kw=(Token)match(input,36,FOLLOW_122); if (state.failed) return current;
+                    if ( state.backtracking==0 ) {
+
+                      				current.merge(kw);
+                      				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getColonKeyword_0_1());
+                      			
+                    }
 
                     }
                     break;
 
             }
 
-            // InternalAsmetaL.g:11930:3: ( (this_ENUM_ID_9= RULE_ENUM_ID | this_ID_10= RULE_ID ) this_PATH_SEP_11= RULE_PATH_SEP )*
-            loop186:
+            // InternalAsmetaL.g:11881:3: (kw= '\\\\' | kw= '/' | this_MIN_ID_5= RULE_MIN_ID | this_MAIUSC_ID_6= RULE_MAIUSC_ID | this_DIGIT_7= RULE_DIGIT | kw= '.' | kw= '_' | kw= '-' )+
+            int cnt182=0;
+            loop182:
             do {
-                int alt186=2;
-                int LA186_0 = input.LA(1);
-
-                if ( (LA186_0==RULE_ENUM_ID) ) {
-                    int LA186_1 = input.LA(2);
-
-                    if ( (LA186_1==RULE_PATH_SEP) ) {
-                        alt186=1;
+                int alt182=9;
+                switch ( input.LA(1) ) {
+                case 143:
+                    {
+                    alt182=1;
                     }
-
+                    break;
+                case 105:
+                    {
+                    alt182=2;
+                    }
+                    break;
+                case RULE_MIN_ID:
+                    {
+                    alt182=3;
+                    }
+                    break;
+                case RULE_MAIUSC_ID:
+                    {
+                    alt182=4;
+                    }
+                    break;
+                case RULE_DIGIT:
+                    {
+                    alt182=5;
+                    }
+                    break;
+                case 107:
+                    {
+                    alt182=6;
+                    }
+                    break;
+                case 144:
+                    {
+                    alt182=7;
+                    }
+                    break;
+                case 104:
+                    {
+                    alt182=8;
+                    }
+                    break;
 
                 }
-                else if ( (LA186_0==RULE_ID) ) {
-                    int LA186_2 = input.LA(2);
 
-                    if ( (LA186_2==RULE_PATH_SEP) ) {
-                        alt186=1;
-                    }
-
-
-                }
-
-
-                switch (alt186) {
+                switch (alt182) {
             	case 1 :
-            	    // InternalAsmetaL.g:11931:4: (this_ENUM_ID_9= RULE_ENUM_ID | this_ID_10= RULE_ID ) this_PATH_SEP_11= RULE_PATH_SEP
+            	    // InternalAsmetaL.g:11882:4: kw= '\\\\'
             	    {
-            	    // InternalAsmetaL.g:11931:4: (this_ENUM_ID_9= RULE_ENUM_ID | this_ID_10= RULE_ID )
-            	    int alt185=2;
-            	    int LA185_0 = input.LA(1);
-
-            	    if ( (LA185_0==RULE_ENUM_ID) ) {
-            	        alt185=1;
-            	    }
-            	    else if ( (LA185_0==RULE_ID) ) {
-            	        alt185=2;
-            	    }
-            	    else {
-            	        if (state.backtracking>0) {state.failed=true; return current;}
-            	        NoViableAltException nvae =
-            	            new NoViableAltException("", 185, 0, input);
-
-            	        throw nvae;
-            	    }
-            	    switch (alt185) {
-            	        case 1 :
-            	            // InternalAsmetaL.g:11932:5: this_ENUM_ID_9= RULE_ENUM_ID
-            	            {
-            	            this_ENUM_ID_9=(Token)match(input,RULE_ENUM_ID,FOLLOW_122); if (state.failed) return current;
-            	            if ( state.backtracking==0 ) {
-
-            	              					current.merge(this_ENUM_ID_9);
-            	              				
-            	            }
-            	            if ( state.backtracking==0 ) {
-
-            	              					newLeafNode(this_ENUM_ID_9, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_1_0_0());
-            	              				
-            	            }
-
-            	            }
-            	            break;
-            	        case 2 :
-            	            // InternalAsmetaL.g:11940:5: this_ID_10= RULE_ID
-            	            {
-            	            this_ID_10=(Token)match(input,RULE_ID,FOLLOW_122); if (state.failed) return current;
-            	            if ( state.backtracking==0 ) {
-
-            	              					current.merge(this_ID_10);
-            	              				
-            	            }
-            	            if ( state.backtracking==0 ) {
-
-            	              					newLeafNode(this_ID_10, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_1_0_1());
-            	              				
-            	            }
-
-            	            }
-            	            break;
-
-            	    }
-
-            	    this_PATH_SEP_11=(Token)match(input,RULE_PATH_SEP,FOLLOW_123); if (state.failed) return current;
+            	    kw=(Token)match(input,143,FOLLOW_123); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
-            	      				current.merge(this_PATH_SEP_11);
+            	      				current.merge(kw);
+            	      				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getBackslashKeyword_1_0());
+            	      			
+            	    }
+
+            	    }
+            	    break;
+            	case 2 :
+            	    // InternalAsmetaL.g:11888:4: kw= '/'
+            	    {
+            	    kw=(Token)match(input,105,FOLLOW_123); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	      				current.merge(kw);
+            	      				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getSolidusKeyword_1_1());
+            	      			
+            	    }
+
+            	    }
+            	    break;
+            	case 3 :
+            	    // InternalAsmetaL.g:11894:4: this_MIN_ID_5= RULE_MIN_ID
+            	    {
+            	    this_MIN_ID_5=(Token)match(input,RULE_MIN_ID,FOLLOW_123); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	      				current.merge(this_MIN_ID_5);
             	      			
             	    }
             	    if ( state.backtracking==0 ) {
 
-            	      				newLeafNode(this_PATH_SEP_11, grammarAccess.getMOD_IDAccess().getPATH_SEPTerminalRuleCall_1_1());
+            	      				newLeafNode(this_MIN_ID_5, grammarAccess.getMOD_IDAccess().getMIN_IDTerminalRuleCall_1_2());
+            	      			
+            	    }
+
+            	    }
+            	    break;
+            	case 4 :
+            	    // InternalAsmetaL.g:11902:4: this_MAIUSC_ID_6= RULE_MAIUSC_ID
+            	    {
+            	    this_MAIUSC_ID_6=(Token)match(input,RULE_MAIUSC_ID,FOLLOW_123); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	      				current.merge(this_MAIUSC_ID_6);
+            	      			
+            	    }
+            	    if ( state.backtracking==0 ) {
+
+            	      				newLeafNode(this_MAIUSC_ID_6, grammarAccess.getMOD_IDAccess().getMAIUSC_IDTerminalRuleCall_1_3());
+            	      			
+            	    }
+
+            	    }
+            	    break;
+            	case 5 :
+            	    // InternalAsmetaL.g:11910:4: this_DIGIT_7= RULE_DIGIT
+            	    {
+            	    this_DIGIT_7=(Token)match(input,RULE_DIGIT,FOLLOW_123); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	      				current.merge(this_DIGIT_7);
+            	      			
+            	    }
+            	    if ( state.backtracking==0 ) {
+
+            	      				newLeafNode(this_DIGIT_7, grammarAccess.getMOD_IDAccess().getDIGITTerminalRuleCall_1_4());
+            	      			
+            	    }
+
+            	    }
+            	    break;
+            	case 6 :
+            	    // InternalAsmetaL.g:11918:4: kw= '.'
+            	    {
+            	    kw=(Token)match(input,107,FOLLOW_123); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	      				current.merge(kw);
+            	      				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopKeyword_1_5());
+            	      			
+            	    }
+
+            	    }
+            	    break;
+            	case 7 :
+            	    // InternalAsmetaL.g:11924:4: kw= '_'
+            	    {
+            	    kw=(Token)match(input,144,FOLLOW_123); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	      				current.merge(kw);
+            	      				newLeafNode(kw, grammarAccess.getMOD_IDAccess().get_Keyword_1_6());
+            	      			
+            	    }
+
+            	    }
+            	    break;
+            	case 8 :
+            	    // InternalAsmetaL.g:11930:4: kw= '-'
+            	    {
+            	    kw=(Token)match(input,104,FOLLOW_123); if (state.failed) return current;
+            	    if ( state.backtracking==0 ) {
+
+            	      				current.merge(kw);
+            	      				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getHyphenMinusKeyword_1_7());
             	      			
             	    }
 
@@ -33520,165 +33359,14 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop186;
+            	    if ( cnt182 >= 1 ) break loop182;
+            	    if (state.backtracking>0) {state.failed=true; return current;}
+                        EarlyExitException eee =
+                            new EarlyExitException(182, input);
+                        throw eee;
                 }
+                cnt182++;
             } while (true);
-
-            // InternalAsmetaL.g:11956:3: (this_ENUM_ID_12= RULE_ENUM_ID | this_ID_13= RULE_ID )
-            int alt187=2;
-            int LA187_0 = input.LA(1);
-
-            if ( (LA187_0==RULE_ENUM_ID) ) {
-                alt187=1;
-            }
-            else if ( (LA187_0==RULE_ID) ) {
-                alt187=2;
-            }
-            else {
-                if (state.backtracking>0) {state.failed=true; return current;}
-                NoViableAltException nvae =
-                    new NoViableAltException("", 187, 0, input);
-
-                throw nvae;
-            }
-            switch (alt187) {
-                case 1 :
-                    // InternalAsmetaL.g:11957:4: this_ENUM_ID_12= RULE_ENUM_ID
-                    {
-                    this_ENUM_ID_12=(Token)match(input,RULE_ENUM_ID,FOLLOW_126); if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
-
-                      				current.merge(this_ENUM_ID_12);
-                      			
-                    }
-                    if ( state.backtracking==0 ) {
-
-                      				newLeafNode(this_ENUM_ID_12, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_2_0());
-                      			
-                    }
-
-                    }
-                    break;
-                case 2 :
-                    // InternalAsmetaL.g:11965:4: this_ID_13= RULE_ID
-                    {
-                    this_ID_13=(Token)match(input,RULE_ID,FOLLOW_126); if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
-
-                      				current.merge(this_ID_13);
-                      			
-                    }
-                    if ( state.backtracking==0 ) {
-
-                      				newLeafNode(this_ID_13, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_2_1());
-                      			
-                    }
-
-                    }
-                    break;
-
-            }
-
-            // InternalAsmetaL.g:11973:3: (kw= '.' (this_ENUM_ID_15= RULE_ENUM_ID | this_ID_16= RULE_ID | kw= 'asm' ) )?
-            int alt189=2;
-            int LA189_0 = input.LA(1);
-
-            if ( (LA189_0==107) ) {
-                alt189=1;
-            }
-            switch (alt189) {
-                case 1 :
-                    // InternalAsmetaL.g:11974:4: kw= '.' (this_ENUM_ID_15= RULE_ENUM_ID | this_ID_16= RULE_ID | kw= 'asm' )
-                    {
-                    kw=(Token)match(input,107,FOLLOW_127); if (state.failed) return current;
-                    if ( state.backtracking==0 ) {
-
-                      				current.merge(kw);
-                      				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopKeyword_3_0());
-                      			
-                    }
-                    // InternalAsmetaL.g:11979:4: (this_ENUM_ID_15= RULE_ENUM_ID | this_ID_16= RULE_ID | kw= 'asm' )
-                    int alt188=3;
-                    switch ( input.LA(1) ) {
-                    case RULE_ENUM_ID:
-                        {
-                        alt188=1;
-                        }
-                        break;
-                    case RULE_ID:
-                        {
-                        alt188=2;
-                        }
-                        break;
-                    case 25:
-                        {
-                        alt188=3;
-                        }
-                        break;
-                    default:
-                        if (state.backtracking>0) {state.failed=true; return current;}
-                        NoViableAltException nvae =
-                            new NoViableAltException("", 188, 0, input);
-
-                        throw nvae;
-                    }
-
-                    switch (alt188) {
-                        case 1 :
-                            // InternalAsmetaL.g:11980:5: this_ENUM_ID_15= RULE_ENUM_ID
-                            {
-                            this_ENUM_ID_15=(Token)match(input,RULE_ENUM_ID,FOLLOW_2); if (state.failed) return current;
-                            if ( state.backtracking==0 ) {
-
-                              					current.merge(this_ENUM_ID_15);
-                              				
-                            }
-                            if ( state.backtracking==0 ) {
-
-                              					newLeafNode(this_ENUM_ID_15, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_3_1_0());
-                              				
-                            }
-
-                            }
-                            break;
-                        case 2 :
-                            // InternalAsmetaL.g:11988:5: this_ID_16= RULE_ID
-                            {
-                            this_ID_16=(Token)match(input,RULE_ID,FOLLOW_2); if (state.failed) return current;
-                            if ( state.backtracking==0 ) {
-
-                              					current.merge(this_ID_16);
-                              				
-                            }
-                            if ( state.backtracking==0 ) {
-
-                              					newLeafNode(this_ID_16, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_3_1_1());
-                              				
-                            }
-
-                            }
-                            break;
-                        case 3 :
-                            // InternalAsmetaL.g:11996:5: kw= 'asm'
-                            {
-                            kw=(Token)match(input,25,FOLLOW_2); if (state.failed) return current;
-                            if ( state.backtracking==0 ) {
-
-                              					current.merge(kw);
-                              					newLeafNode(kw, grammarAccess.getMOD_IDAccess().getAsmKeyword_3_1_2());
-                              				
-                            }
-
-                            }
-                            break;
-
-                    }
-
-
-                    }
-                    break;
-
-            }
 
 
             }
@@ -33705,7 +33393,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleID_VARIABLE"
-    // InternalAsmetaL.g:12007:1: entryRuleID_VARIABLE returns [String current=null] : iv_ruleID_VARIABLE= ruleID_VARIABLE EOF ;
+    // InternalAsmetaL.g:11940:1: entryRuleID_VARIABLE returns [String current=null] : iv_ruleID_VARIABLE= ruleID_VARIABLE EOF ;
     public final String entryRuleID_VARIABLE() throws RecognitionException {
         String current = null;
 
@@ -33713,8 +33401,8 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAsmetaL.g:12007:51: (iv_ruleID_VARIABLE= ruleID_VARIABLE EOF )
-            // InternalAsmetaL.g:12008:2: iv_ruleID_VARIABLE= ruleID_VARIABLE EOF
+            // InternalAsmetaL.g:11940:51: (iv_ruleID_VARIABLE= ruleID_VARIABLE EOF )
+            // InternalAsmetaL.g:11941:2: iv_ruleID_VARIABLE= ruleID_VARIABLE EOF
             {
             if ( state.backtracking==0 ) {
                newCompositeNode(grammarAccess.getID_VARIABLERule()); 
@@ -33745,7 +33433,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleID_VARIABLE"
-    // InternalAsmetaL.g:12014:1: ruleID_VARIABLE returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= '$' (this_ID_1= RULE_ID | kw= 'rule' | kw= 'agent' | kw= 'seq' ) ) ;
+    // InternalAsmetaL.g:11947:1: ruleID_VARIABLE returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= '$' (this_ID_1= RULE_ID | kw= 'rule' | kw= 'agent' | kw= 'seq' ) ) ;
     public final AntlrDatatypeRuleToken ruleID_VARIABLE() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -33756,53 +33444,53 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsmetaL.g:12020:2: ( (kw= '$' (this_ID_1= RULE_ID | kw= 'rule' | kw= 'agent' | kw= 'seq' ) ) )
-            // InternalAsmetaL.g:12021:2: (kw= '$' (this_ID_1= RULE_ID | kw= 'rule' | kw= 'agent' | kw= 'seq' ) )
+            // InternalAsmetaL.g:11953:2: ( (kw= '$' (this_ID_1= RULE_ID | kw= 'rule' | kw= 'agent' | kw= 'seq' ) ) )
+            // InternalAsmetaL.g:11954:2: (kw= '$' (this_ID_1= RULE_ID | kw= 'rule' | kw= 'agent' | kw= 'seq' ) )
             {
-            // InternalAsmetaL.g:12021:2: (kw= '$' (this_ID_1= RULE_ID | kw= 'rule' | kw= 'agent' | kw= 'seq' ) )
-            // InternalAsmetaL.g:12022:3: kw= '$' (this_ID_1= RULE_ID | kw= 'rule' | kw= 'agent' | kw= 'seq' )
+            // InternalAsmetaL.g:11954:2: (kw= '$' (this_ID_1= RULE_ID | kw= 'rule' | kw= 'agent' | kw= 'seq' ) )
+            // InternalAsmetaL.g:11955:3: kw= '$' (this_ID_1= RULE_ID | kw= 'rule' | kw= 'agent' | kw= 'seq' )
             {
-            kw=(Token)match(input,144,FOLLOW_128); if (state.failed) return current;
+            kw=(Token)match(input,145,FOLLOW_124); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
               			current.merge(kw);
               			newLeafNode(kw, grammarAccess.getID_VARIABLEAccess().getDollarSignKeyword_0());
               		
             }
-            // InternalAsmetaL.g:12027:3: (this_ID_1= RULE_ID | kw= 'rule' | kw= 'agent' | kw= 'seq' )
-            int alt190=4;
+            // InternalAsmetaL.g:11960:3: (this_ID_1= RULE_ID | kw= 'rule' | kw= 'agent' | kw= 'seq' )
+            int alt183=4;
             switch ( input.LA(1) ) {
             case RULE_ID:
                 {
-                alt190=1;
+                alt183=1;
                 }
                 break;
             case 46:
                 {
-                alt190=2;
+                alt183=2;
                 }
                 break;
             case 42:
                 {
-                alt190=3;
+                alt183=3;
                 }
                 break;
             case 137:
                 {
-                alt190=4;
+                alt183=4;
                 }
                 break;
             default:
                 if (state.backtracking>0) {state.failed=true; return current;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 190, 0, input);
+                    new NoViableAltException("", 183, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt190) {
+            switch (alt183) {
                 case 1 :
-                    // InternalAsmetaL.g:12028:4: this_ID_1= RULE_ID
+                    // InternalAsmetaL.g:11961:4: this_ID_1= RULE_ID
                     {
                     this_ID_1=(Token)match(input,RULE_ID,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -33819,7 +33507,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalAsmetaL.g:12036:4: kw= 'rule'
+                    // InternalAsmetaL.g:11969:4: kw= 'rule'
                     {
                     kw=(Token)match(input,46,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -33832,7 +33520,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalAsmetaL.g:12042:4: kw= 'agent'
+                    // InternalAsmetaL.g:11975:4: kw= 'agent'
                     {
                     kw=(Token)match(input,42,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -33845,7 +33533,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalAsmetaL.g:12048:4: kw= 'seq'
+                    // InternalAsmetaL.g:11981:4: kw= 'seq'
                     {
                     kw=(Token)match(input,137,FOLLOW_2); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
@@ -34222,23 +33910,23 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         // InternalAsmetaL.g:5348:8: (lv_op_2_1= 'implies' | lv_op_2_2= 'iff' )
         {
         // InternalAsmetaL.g:5348:8: (lv_op_2_1= 'implies' | lv_op_2_2= 'iff' )
-        int alt209=2;
-        int LA209_0 = input.LA(1);
+        int alt202=2;
+        int LA202_0 = input.LA(1);
 
-        if ( (LA209_0==95) ) {
-            alt209=1;
+        if ( (LA202_0==95) ) {
+            alt202=1;
         }
-        else if ( (LA209_0==94) ) {
-            alt209=2;
+        else if ( (LA202_0==94) ) {
+            alt202=2;
         }
         else {
             if (state.backtracking>0) {state.failed=true; return ;}
             NoViableAltException nvae =
-                new NoViableAltException("", 209, 0, input);
+                new NoViableAltException("", 202, 0, input);
 
             throw nvae;
         }
-        switch (alt209) {
+        switch (alt202) {
             case 1 :
                 // InternalAsmetaL.g:5349:9: lv_op_2_1= 'implies'
                 {
@@ -34329,23 +34017,23 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         // InternalAsmetaL.g:5454:8: (lv_op_2_1= 'xor' | lv_op_2_2= 'or' )
         {
         // InternalAsmetaL.g:5454:8: (lv_op_2_1= 'xor' | lv_op_2_2= 'or' )
-        int alt210=2;
-        int LA210_0 = input.LA(1);
+        int alt203=2;
+        int LA203_0 = input.LA(1);
 
-        if ( (LA210_0==92) ) {
-            alt210=1;
+        if ( (LA203_0==92) ) {
+            alt203=1;
         }
-        else if ( (LA210_0==90) ) {
-            alt210=2;
+        else if ( (LA203_0==90) ) {
+            alt203=2;
         }
         else {
             if (state.backtracking>0) {state.failed=true; return ;}
             NoViableAltException nvae =
-                new NoViableAltException("", 210, 0, input);
+                new NoViableAltException("", 203, 0, input);
 
             throw nvae;
         }
-        switch (alt210) {
+        switch (alt203) {
             case 1 :
                 // InternalAsmetaL.g:5455:9: lv_op_2_1= 'xor'
                 {
@@ -34510,37 +34198,37 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         // InternalAsmetaL.g:5759:8: (lv_op_2_1= '>' | lv_op_2_2= '<' | lv_op_2_3= '>=' | lv_op_2_4= '<=' )
         {
         // InternalAsmetaL.g:5759:8: (lv_op_2_1= '>' | lv_op_2_2= '<' | lv_op_2_3= '>=' | lv_op_2_4= '<=' )
-        int alt212=4;
+        int alt205=4;
         switch ( input.LA(1) ) {
         case 99:
             {
-            alt212=1;
+            alt205=1;
             }
             break;
         case 100:
             {
-            alt212=2;
+            alt205=2;
             }
             break;
         case 101:
             {
-            alt212=3;
+            alt205=3;
             }
             break;
         case 102:
             {
-            alt212=4;
+            alt205=4;
             }
             break;
         default:
             if (state.backtracking>0) {state.failed=true; return ;}
             NoViableAltException nvae =
-                new NoViableAltException("", 212, 0, input);
+                new NoViableAltException("", 205, 0, input);
 
             throw nvae;
         }
 
-        switch (alt212) {
+        switch (alt205) {
             case 1 :
                 // InternalAsmetaL.g:5760:9: lv_op_2_1= '>'
                 {
@@ -34646,32 +34334,32 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         // InternalAsmetaL.g:5995:8: (lv_op_2_1= '*' | lv_op_2_2= '/' | lv_op_2_3= 'mod' )
         {
         // InternalAsmetaL.g:5995:8: (lv_op_2_1= '*' | lv_op_2_2= '/' | lv_op_2_3= 'mod' )
-        int alt214=3;
+        int alt207=3;
         switch ( input.LA(1) ) {
         case 34:
             {
-            alt214=1;
+            alt207=1;
             }
             break;
         case 105:
             {
-            alt214=2;
+            alt207=2;
             }
             break;
         case 93:
             {
-            alt214=3;
+            alt207=3;
             }
             break;
         default:
             if (state.backtracking>0) {state.failed=true; return ;}
             NoViableAltException nvae =
-                new NoViableAltException("", 214, 0, input);
+                new NoViableAltException("", 207, 0, input);
 
             throw nvae;
         }
 
-        switch (alt214) {
+        switch (alt207) {
             case 1 :
                 // InternalAsmetaL.g:5996:9: lv_op_2_1= '*'
                 {
@@ -34756,32 +34444,32 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         // InternalAsmetaL.g:6164:6: (lv_op_0_1= 'not' | lv_op_0_2= '+' | lv_op_0_3= '-' )
         {
         // InternalAsmetaL.g:6164:6: (lv_op_0_1= 'not' | lv_op_0_2= '+' | lv_op_0_3= '-' )
-        int alt215=3;
+        int alt208=3;
         switch ( input.LA(1) ) {
         case 91:
             {
-            alt215=1;
+            alt208=1;
             }
             break;
         case 103:
             {
-            alt215=2;
+            alt208=2;
             }
             break;
         case 104:
             {
-            alt215=3;
+            alt208=3;
             }
             break;
         default:
             if (state.backtracking>0) {state.failed=true; return ;}
             NoViableAltException nvae =
-                new NoViableAltException("", 215, 0, input);
+                new NoViableAltException("", 208, 0, input);
 
             throw nvae;
         }
 
-        switch (alt215) {
+        switch (alt208) {
             case 1 :
                 // InternalAsmetaL.g:6165:7: lv_op_0_1= 'not'
                 {
@@ -35277,232 +34965,8 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     }
     // $ANTLR end synpred267_InternalAsmetaL
 
-    // $ANTLR start synpred276_InternalAsmetaL
-    public final void synpred276_InternalAsmetaL_fragment() throws RecognitionException {   
-        Token kw=null;
-        Token this_PATH_SEP_6=null;
-
-        // InternalAsmetaL.g:11899:5: ( (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )* )
-        // InternalAsmetaL.g:11899:5: (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )*
-        {
-        // InternalAsmetaL.g:11899:5: (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )*
-        loop236:
-        do {
-            int alt236=2;
-            int LA236_0 = input.LA(1);
-
-            if ( (LA236_0==143) ) {
-                alt236=1;
-            }
-
-
-            switch (alt236) {
-        	case 1 :
-        	    // InternalAsmetaL.g:11900:6: kw= '..' this_PATH_SEP_6= RULE_PATH_SEP
-        	    {
-        	    kw=(Token)match(input,143,FOLLOW_122); if (state.failed) return ;
-        	    this_PATH_SEP_6=(Token)match(input,RULE_PATH_SEP,FOLLOW_129); if (state.failed) return ;
-
-        	    }
-        	    break;
-
-        	default :
-        	    break loop236;
-            }
-        } while (true);
-
-
-        }
-    }
-    // $ANTLR end synpred276_InternalAsmetaL
-
-    // $ANTLR start synpred278_InternalAsmetaL
-    public final void synpred278_InternalAsmetaL_fragment() throws RecognitionException {   
-        Token this_ENUM_ID_3=null;
-        Token this_ID_4=null;
-        Token kw=null;
-        Token this_PATH_SEP_6=null;
-        Token this_PATH_SEP_8=null;
-
-        // InternalAsmetaL.g:11880:4: ( ( (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID ) | (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )* | (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )* ) )
-        // InternalAsmetaL.g:11880:4: ( (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID ) | (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )* | (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )* )
-        {
-        // InternalAsmetaL.g:11880:4: ( (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID ) | (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )* | (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )* )
-        int alt240=3;
-        switch ( input.LA(1) ) {
-        case RULE_ID:
-        case RULE_ENUM_ID:
-            {
-            alt240=1;
-            }
-            break;
-        case 143:
-            {
-            alt240=2;
-            }
-            break;
-        case EOF:
-            {
-            int LA240_3 = input.LA(2);
-
-            if ( (synpred276_InternalAsmetaL()) ) {
-                alt240=2;
-            }
-            else if ( (true) ) {
-                alt240=3;
-            }
-            else {
-                if (state.backtracking>0) {state.failed=true; return ;}
-                NoViableAltException nvae =
-                    new NoViableAltException("", 240, 3, input);
-
-                throw nvae;
-            }
-            }
-            break;
-        case 107:
-            {
-            alt240=3;
-            }
-            break;
-        default:
-            if (state.backtracking>0) {state.failed=true; return ;}
-            NoViableAltException nvae =
-                new NoViableAltException("", 240, 0, input);
-
-            throw nvae;
-        }
-
-        switch (alt240) {
-            case 1 :
-                // InternalAsmetaL.g:11881:5: (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID )
-                {
-                // InternalAsmetaL.g:11881:5: (this_ENUM_ID_3= RULE_ENUM_ID | this_ID_4= RULE_ID )
-                int alt237=2;
-                int LA237_0 = input.LA(1);
-
-                if ( (LA237_0==RULE_ENUM_ID) ) {
-                    alt237=1;
-                }
-                else if ( (LA237_0==RULE_ID) ) {
-                    alt237=2;
-                }
-                else {
-                    if (state.backtracking>0) {state.failed=true; return ;}
-                    NoViableAltException nvae =
-                        new NoViableAltException("", 237, 0, input);
-
-                    throw nvae;
-                }
-                switch (alt237) {
-                    case 1 :
-                        // InternalAsmetaL.g:11882:6: this_ENUM_ID_3= RULE_ENUM_ID
-                        {
-                        this_ENUM_ID_3=(Token)match(input,RULE_ENUM_ID,FOLLOW_2); if (state.failed) return ;
-
-                        }
-                        break;
-                    case 2 :
-                        // InternalAsmetaL.g:11890:6: this_ID_4= RULE_ID
-                        {
-                        this_ID_4=(Token)match(input,RULE_ID,FOLLOW_2); if (state.failed) return ;
-
-                        }
-                        break;
-
-                }
-
-
-                }
-                break;
-            case 2 :
-                // InternalAsmetaL.g:11899:5: (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )*
-                {
-                // InternalAsmetaL.g:11899:5: (kw= '..' this_PATH_SEP_6= RULE_PATH_SEP )*
-                loop238:
-                do {
-                    int alt238=2;
-                    int LA238_0 = input.LA(1);
-
-                    if ( (LA238_0==143) ) {
-                        alt238=1;
-                    }
-
-
-                    switch (alt238) {
-                	case 1 :
-                	    // InternalAsmetaL.g:11900:6: kw= '..' this_PATH_SEP_6= RULE_PATH_SEP
-                	    {
-                	    kw=(Token)match(input,143,FOLLOW_122); if (state.failed) return ;
-                	    this_PATH_SEP_6=(Token)match(input,RULE_PATH_SEP,FOLLOW_129); if (state.failed) return ;
-
-                	    }
-                	    break;
-
-                	default :
-                	    break loop238;
-                    }
-                } while (true);
-
-
-                }
-                break;
-            case 3 :
-                // InternalAsmetaL.g:11914:5: (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )*
-                {
-                // InternalAsmetaL.g:11914:5: (kw= '.' this_PATH_SEP_8= RULE_PATH_SEP )*
-                loop239:
-                do {
-                    int alt239=2;
-                    int LA239_0 = input.LA(1);
-
-                    if ( (LA239_0==107) ) {
-                        alt239=1;
-                    }
-
-
-                    switch (alt239) {
-                	case 1 :
-                	    // InternalAsmetaL.g:11915:6: kw= '.' this_PATH_SEP_8= RULE_PATH_SEP
-                	    {
-                	    kw=(Token)match(input,107,FOLLOW_122); if (state.failed) return ;
-                	    this_PATH_SEP_8=(Token)match(input,RULE_PATH_SEP,FOLLOW_126); if (state.failed) return ;
-
-                	    }
-                	    break;
-
-                	default :
-                	    break loop239;
-                    }
-                } while (true);
-
-
-                }
-                break;
-
-        }
-
-
-        }
-    }
-    // $ANTLR end synpred278_InternalAsmetaL
-
     // Delegated rules
 
-    public final boolean synpred278_InternalAsmetaL() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred278_InternalAsmetaL_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
     public final boolean synpred88_InternalAsmetaL() {
         state.backtracking++;
         int start = input.mark();
@@ -35774,20 +35238,6 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         int start = input.mark();
         try {
             synpred149_InternalAsmetaL_fragment(); // can never throw exception
-        } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
-        }
-        boolean success = !state.failed;
-        input.rewind(start);
-        state.backtracking--;
-        state.failed=false;
-        return success;
-    }
-    public final boolean synpred276_InternalAsmetaL() {
-        state.backtracking++;
-        int start = input.mark();
-        try {
-            synpred276_InternalAsmetaL_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -38221,11 +37671,11 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     }
     static final String dfa_7s = "\61\uffff";
     static final String dfa_8s = "\1\5\4\uffff\1\0\21\uffff\1\0\31\uffff";
-    static final String dfa_9s = "\1\u0090\4\uffff\1\0\21\uffff\1\0\31\uffff";
+    static final String dfa_9s = "\1\u0091\4\uffff\1\0\21\uffff\1\0\31\uffff";
     static final String dfa_10s = "\1\uffff\1\1\26\uffff\1\2\21\uffff\1\3\6\uffff";
     static final String dfa_11s = "\5\uffff\1\0\21\uffff\1\1\31\uffff}>";
     static final String[] dfa_12s = {
-            "\1\5\10\1\20\uffff\1\27\14\uffff\1\30\15\uffff\1\30\3\uffff\12\30\1\uffff\1\52\2\uffff\6\30\10\uffff\7\1\4\uffff\1\52\2\uffff\2\1\3\uffff\3\1\1\52\3\uffff\1\52\3\uffff\1\52\5\uffff\1\52\1\uffff\1\52\20\uffff\1\1",
+            "\1\5\10\1\20\uffff\1\27\14\uffff\1\30\15\uffff\1\30\3\uffff\12\30\1\uffff\1\52\2\uffff\6\30\10\uffff\7\1\4\uffff\1\52\2\uffff\2\1\3\uffff\3\1\1\52\3\uffff\1\52\3\uffff\1\52\5\uffff\1\52\1\uffff\1\52\21\uffff\1\1",
             "",
             "",
             "",
@@ -38344,11 +37794,11 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     static final String dfa_13s = "\102\uffff";
     static final String dfa_14s = "\1\1\101\uffff";
     static final String dfa_15s = "\1\5\52\uffff\2\0\25\uffff";
-    static final String dfa_16s = "\1\u0090\52\uffff\2\0\25\uffff";
+    static final String dfa_16s = "\1\u0091\52\uffff\2\0\25\uffff";
     static final String dfa_17s = "\1\uffff\1\2\77\uffff\1\1";
     static final String dfa_18s = "\53\uffff\1\0\1\1\25\uffff}>";
     static final String[] dfa_19s = {
-            "\3\1\23\uffff\2\1\2\uffff\2\1\3\uffff\3\1\1\uffff\1\1\1\uffff\1\1\2\uffff\4\1\1\uffff\10\1\17\uffff\2\1\7\uffff\1\1\1\uffff\1\1\4\uffff\5\1\1\53\1\54\1\1\2\uffff\1\1\13\uffff\10\1\1\uffff\1\1\2\uffff\4\1\2\uffff\1\1\1\uffff\12\1\1\uffff\1\1\1\uffff\1\1",
+            "\3\1\23\uffff\2\1\2\uffff\2\1\3\uffff\3\1\1\uffff\1\1\1\uffff\1\1\2\uffff\4\1\1\uffff\10\1\17\uffff\2\1\7\uffff\1\1\1\uffff\1\1\4\uffff\5\1\1\53\1\54\1\1\2\uffff\1\1\13\uffff\10\1\1\uffff\1\1\2\uffff\4\1\2\uffff\1\1\1\uffff\12\1\1\uffff\1\1\2\uffff\1\1",
             "",
             "",
             "",
@@ -38483,10 +37933,10 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         }
     }
     static final String dfa_20s = "\1\5\50\uffff\1\0\1\uffff\1\0\26\uffff";
-    static final String dfa_21s = "\1\u0090\50\uffff\1\0\1\uffff\1\0\26\uffff";
+    static final String dfa_21s = "\1\u0091\50\uffff\1\0\1\uffff\1\0\26\uffff";
     static final String dfa_22s = "\51\uffff\1\0\1\uffff\1\1\26\uffff}>";
     static final String[] dfa_23s = {
-            "\3\1\23\uffff\2\1\2\uffff\2\1\3\uffff\3\1\1\uffff\1\1\1\uffff\1\1\2\uffff\4\1\1\uffff\10\1\17\uffff\2\1\7\uffff\1\1\1\uffff\1\1\4\uffff\1\1\1\51\1\1\1\53\4\1\2\uffff\1\1\13\uffff\10\1\1\uffff\1\1\2\uffff\4\1\2\uffff\1\1\1\uffff\12\1\1\uffff\1\1\1\uffff\1\1",
+            "\3\1\23\uffff\2\1\2\uffff\2\1\3\uffff\3\1\1\uffff\1\1\1\uffff\1\1\2\uffff\4\1\1\uffff\10\1\17\uffff\2\1\7\uffff\1\1\1\uffff\1\1\4\uffff\1\1\1\51\1\1\1\53\4\1\2\uffff\1\1\13\uffff\10\1\1\uffff\1\1\2\uffff\4\1\2\uffff\1\1\1\uffff\12\1\1\uffff\1\1\2\uffff\1\1",
             "",
             "",
             "",
@@ -38617,10 +38067,10 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         }
     }
     static final String dfa_24s = "\1\5\51\uffff\1\0\27\uffff";
-    static final String dfa_25s = "\1\u0090\51\uffff\1\0\27\uffff";
+    static final String dfa_25s = "\1\u0091\51\uffff\1\0\27\uffff";
     static final String dfa_26s = "\52\uffff\1\0\27\uffff}>";
     static final String[] dfa_27s = {
-            "\3\1\23\uffff\2\1\2\uffff\2\1\3\uffff\3\1\1\uffff\1\1\1\uffff\1\1\2\uffff\4\1\1\uffff\10\1\17\uffff\2\1\7\uffff\1\1\1\uffff\1\1\4\uffff\1\52\7\1\2\uffff\1\1\13\uffff\10\1\1\uffff\1\1\2\uffff\4\1\2\uffff\1\1\1\uffff\12\1\1\uffff\1\1\1\uffff\1\1",
+            "\3\1\23\uffff\2\1\2\uffff\2\1\3\uffff\3\1\1\uffff\1\1\1\uffff\1\1\2\uffff\4\1\1\uffff\10\1\17\uffff\2\1\7\uffff\1\1\1\uffff\1\1\4\uffff\1\52\7\1\2\uffff\1\1\13\uffff\10\1\1\uffff\1\1\2\uffff\4\1\2\uffff\1\1\1\uffff\12\1\1\uffff\1\1\2\uffff\1\1",
             "",
             "",
             "",
@@ -38737,17 +38187,17 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     }
     static final String dfa_28s = "\1\1\1\uffff\1\1\3\uffff\1\3\17\uffff";
     static final String dfa_29s = "\1\5\1\uffff\1\5\1\uffff\1\36\1\0\1\5\7\0\2\5\6\0";
-    static final String dfa_30s = "\1\u0090\1\uffff\1\u0090\1\uffff\1\167\1\0\1\u0090\7\0\1\u0089\1\137\6\0";
+    static final String dfa_30s = "\1\u0091\1\uffff\1\u0091\1\uffff\1\167\1\0\1\u0091\7\0\1\u0089\1\137\6\0";
     static final String dfa_31s = "\1\uffff\1\2\1\uffff\1\1\22\uffff";
-    static final String dfa_32s = "\5\uffff\1\0\1\uffff\1\3\1\4\1\14\1\5\1\6\1\7\1\10\2\uffff\1\1\1\2\1\12\1\13\1\15\1\11}>";
+    static final String dfa_32s = "\5\uffff\1\12\1\uffff\1\2\1\3\1\11\1\4\1\5\1\6\1\7\2\uffff\1\13\1\14\1\15\1\0\1\1\1\10}>";
     static final String[] dfa_33s = {
-            "\3\1\23\uffff\2\1\2\uffff\2\1\3\uffff\5\1\1\uffff\1\1\2\uffff\4\1\1\uffff\10\1\17\uffff\2\1\7\uffff\1\1\1\uffff\1\1\4\uffff\10\1\1\uffff\1\1\1\2\3\3\10\uffff\10\1\1\uffff\1\1\2\uffff\4\1\2\uffff\1\1\1\uffff\12\1\1\uffff\1\1\1\uffff\1\1",
+            "\3\1\23\uffff\2\1\2\uffff\2\1\3\uffff\5\1\1\uffff\1\1\2\uffff\4\1\1\uffff\10\1\17\uffff\2\1\7\uffff\1\1\1\uffff\1\1\4\uffff\10\1\1\uffff\1\1\1\2\3\3\10\uffff\10\1\1\uffff\1\1\2\uffff\4\1\2\uffff\1\1\1\uffff\12\1\1\uffff\1\1\2\uffff\1\1",
             "",
-            "\1\5\1\4\1\6\6\3\15\uffff\2\1\1\uffff\1\3\2\1\3\uffff\3\1\1\uffff\1\1\1\uffff\1\1\2\uffff\4\1\1\uffff\10\1\17\uffff\2\1\7\uffff\1\1\1\uffff\1\1\4\uffff\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1\1\2\uffff\1\1\3\uffff\2\3\3\uffff\3\3\10\1\1\uffff\1\1\2\uffff\4\1\2\uffff\1\1\1\uffff\12\1\1\uffff\1\1\1\uffff\1\16",
+            "\1\5\1\4\1\6\6\3\15\uffff\2\1\1\uffff\1\3\2\1\3\uffff\3\1\1\uffff\1\1\1\uffff\1\1\2\uffff\4\1\1\uffff\10\1\17\uffff\2\1\7\uffff\1\1\1\uffff\1\1\4\uffff\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1\1\2\uffff\1\1\3\uffff\2\3\3\uffff\3\3\10\1\1\uffff\1\1\2\uffff\4\1\2\uffff\1\1\1\uffff\12\1\1\uffff\1\1\2\uffff\1\16",
             "",
             "\1\1\114\uffff\1\17\13\uffff\1\1",
             "\1\uffff",
-            "\3\3\23\uffff\2\3\2\uffff\2\3\1\uffff\1\3\1\uffff\5\3\1\uffff\1\3\2\uffff\4\3\1\uffff\10\3\17\uffff\2\3\7\uffff\1\3\1\uffff\1\3\4\uffff\10\3\1\uffff\11\3\1\17\3\uffff\10\3\1\1\1\3\2\uffff\4\3\2\uffff\1\3\1\uffff\12\3\1\uffff\1\3\1\uffff\1\3",
+            "\3\3\23\uffff\2\3\2\uffff\2\3\1\uffff\1\3\1\uffff\5\3\1\uffff\1\3\2\uffff\4\3\1\uffff\10\3\17\uffff\2\3\7\uffff\1\3\1\uffff\1\3\4\uffff\10\3\1\uffff\11\3\1\17\3\uffff\10\3\1\1\1\3\2\uffff\4\3\2\uffff\1\3\1\uffff\12\3\1\uffff\1\3\2\uffff\1\3",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
@@ -38792,171 +38242,6 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA94_5 = input.LA(1);
-
-                         
-                        int index94_5 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index94_5);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 1 : 
-                        int LA94_16 = input.LA(1);
-
-                         
-                        int index94_16 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index94_16);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 2 : 
-                        int LA94_17 = input.LA(1);
-
-                         
-                        int index94_17 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index94_17);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 3 : 
-                        int LA94_7 = input.LA(1);
-
-                         
-                        int index94_7 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index94_7);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 4 : 
-                        int LA94_8 = input.LA(1);
-
-                         
-                        int index94_8 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index94_8);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 5 : 
-                        int LA94_10 = input.LA(1);
-
-                         
-                        int index94_10 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index94_10);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 6 : 
-                        int LA94_11 = input.LA(1);
-
-                         
-                        int index94_11 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index94_11);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 7 : 
-                        int LA94_12 = input.LA(1);
-
-                         
-                        int index94_12 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index94_12);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 8 : 
-                        int LA94_13 = input.LA(1);
-
-                         
-                        int index94_13 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index94_13);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 9 : 
-                        int LA94_21 = input.LA(1);
-
-                         
-                        int index94_21 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index94_21);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 10 : 
-                        int LA94_18 = input.LA(1);
-
-                         
-                        int index94_18 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index94_18);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 11 : 
                         int LA94_19 = input.LA(1);
 
                          
@@ -38971,22 +38256,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                         input.seek(index94_19);
                         if ( s>=0 ) return s;
                         break;
-                    case 12 : 
-                        int LA94_9 = input.LA(1);
-
-                         
-                        int index94_9 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index94_9);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 13 : 
+                    case 1 : 
                         int LA94_20 = input.LA(1);
 
                          
@@ -39001,6 +38271,186 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                         input.seek(index94_20);
                         if ( s>=0 ) return s;
                         break;
+                    case 2 : 
+                        int LA94_7 = input.LA(1);
+
+                         
+                        int index94_7 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index94_7);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 3 : 
+                        int LA94_8 = input.LA(1);
+
+                         
+                        int index94_8 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index94_8);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 4 : 
+                        int LA94_10 = input.LA(1);
+
+                         
+                        int index94_10 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index94_10);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 5 : 
+                        int LA94_11 = input.LA(1);
+
+                         
+                        int index94_11 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index94_11);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 6 : 
+                        int LA94_12 = input.LA(1);
+
+                         
+                        int index94_12 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index94_12);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 7 : 
+                        int LA94_13 = input.LA(1);
+
+                         
+                        int index94_13 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index94_13);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 8 : 
+                        int LA94_21 = input.LA(1);
+
+                         
+                        int index94_21 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index94_21);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 9 : 
+                        int LA94_9 = input.LA(1);
+
+                         
+                        int index94_9 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index94_9);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 10 : 
+                        int LA94_5 = input.LA(1);
+
+                         
+                        int index94_5 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index94_5);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 11 : 
+                        int LA94_16 = input.LA(1);
+
+                         
+                        int index94_16 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index94_16);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 12 : 
+                        int LA94_17 = input.LA(1);
+
+                         
+                        int index94_17 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index94_17);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 13 : 
+                        int LA94_18 = input.LA(1);
+
+                         
+                        int index94_18 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred139_InternalAsmetaL()) ) {s = 3;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index94_18);
+                        if ( s>=0 ) return s;
+                        break;
             }
             if (state.backtracking>0) {state.failed=true; return -1;}
             NoViableAltException nvae =
@@ -39012,11 +38462,11 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     static final String dfa_34s = "\112\uffff";
     static final String dfa_35s = "\1\1\111\uffff";
     static final String dfa_36s = "\1\5\62\uffff\1\0\26\uffff";
-    static final String dfa_37s = "\1\u0090\62\uffff\1\0\26\uffff";
+    static final String dfa_37s = "\1\u0091\62\uffff\1\0\26\uffff";
     static final String dfa_38s = "\1\uffff\1\2\106\uffff\1\1\1\uffff";
     static final String dfa_39s = "\63\uffff\1\0\26\uffff}>";
     static final String[] dfa_40s = {
-            "\3\1\23\uffff\2\1\2\uffff\2\1\1\uffff\1\110\1\uffff\5\1\1\uffff\1\1\2\uffff\4\1\1\uffff\10\1\17\uffff\2\1\7\uffff\1\1\1\uffff\1\1\4\uffff\4\1\1\63\3\1\1\uffff\7\1\1\110\5\uffff\10\1\1\uffff\1\1\2\uffff\4\1\2\uffff\1\1\1\uffff\12\1\1\uffff\1\1\1\uffff\1\1",
+            "\3\1\23\uffff\2\1\2\uffff\2\1\1\uffff\1\110\1\uffff\5\1\1\uffff\1\1\2\uffff\4\1\1\uffff\10\1\17\uffff\2\1\7\uffff\1\1\1\uffff\1\1\4\uffff\4\1\1\63\3\1\1\uffff\7\1\1\110\5\uffff\10\1\1\uffff\1\1\2\uffff\4\1\2\uffff\1\1\1\uffff\12\1\1\uffff\1\1\2\uffff\1\1",
             "",
             "",
             "",
@@ -39145,11 +38595,11 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     }
     static final String dfa_41s = "\32\uffff";
     static final String dfa_42s = "\1\5\3\0\23\uffff\1\0\2\uffff";
-    static final String dfa_43s = "\1\u0090\3\0\23\uffff\1\0\2\uffff";
+    static final String dfa_43s = "\1\u0091\3\0\23\uffff\1\0\2\uffff";
     static final String dfa_44s = "\4\uffff\1\2\23\uffff\1\1\1\3";
     static final String dfa_45s = "\1\uffff\1\0\1\1\1\2\23\uffff\1\3\2\uffff}>";
     static final String[] dfa_46s = {
-            "\11\4\20\uffff\1\27\72\uffff\2\4\1\1\4\4\7\uffff\1\2\1\3\3\uffff\3\4\41\uffff\1\4",
+            "\11\4\20\uffff\1\27\72\uffff\2\4\1\1\4\4\7\uffff\1\2\1\3\3\uffff\3\4\42\uffff\1\4",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
@@ -39275,14 +38725,14 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     static final String dfa_47s = "\21\uffff";
     static final String dfa_48s = "\3\uffff\1\13\15\uffff";
     static final String dfa_49s = "\1\5\1\153\1\0\1\5\7\0\2\uffff\1\5\2\uffff\1\0";
-    static final String dfa_50s = "\1\u0090\1\153\1\0\1\u0090\7\0\2\uffff\1\137\2\uffff\1\0";
+    static final String dfa_50s = "\1\u0091\1\153\1\0\1\u0091\7\0\2\uffff\1\137\2\uffff\1\0";
     static final String dfa_51s = "\13\uffff\1\2\1\3\1\uffff\1\1\1\4\1\uffff";
-    static final String dfa_52s = "\2\uffff\1\6\1\uffff\1\7\1\4\1\2\1\0\1\10\1\5\1\1\5\uffff\1\3}>";
+    static final String dfa_52s = "\2\uffff\1\2\1\uffff\1\0\1\7\1\6\1\4\1\1\1\10\1\5\5\uffff\1\3}>";
     static final String[] dfa_53s = {
-            "\1\2\1\1\1\3\6\13\113\uffff\1\4\1\5\1\6\1\7\1\10\1\11\1\12\7\uffff\2\13\3\uffff\3\13\41\uffff\1\14",
+            "\1\2\1\1\1\3\6\13\113\uffff\1\4\1\5\1\6\1\7\1\10\1\11\1\12\7\uffff\2\13\3\uffff\3\13\42\uffff\1\14",
             "\1\15",
             "\1\uffff",
-            "\3\13\23\uffff\2\13\2\uffff\2\13\1\uffff\1\13\1\uffff\5\13\1\uffff\1\13\2\uffff\4\13\1\uffff\10\13\17\uffff\2\13\7\uffff\1\13\1\uffff\1\13\4\uffff\10\13\1\uffff\11\13\1\15\3\uffff\10\13\1\uffff\1\13\2\uffff\4\13\2\uffff\1\13\1\uffff\12\13\1\uffff\1\13\1\uffff\1\13",
+            "\3\13\23\uffff\2\13\2\uffff\2\13\1\uffff\1\13\1\uffff\5\13\1\uffff\1\13\2\uffff\4\13\1\uffff\10\13\17\uffff\2\13\7\uffff\1\13\1\uffff\1\13\4\uffff\10\13\1\uffff\11\13\1\15\3\uffff\10\13\1\uffff\1\13\2\uffff\4\13\2\uffff\1\13\1\uffff\12\13\1\uffff\1\13\2\uffff\1\13",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
@@ -39327,10 +38777,10 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA103_7 = input.LA(1);
+                        int LA103_4 = input.LA(1);
 
                          
-                        int index103_7 = input.index();
+                        int index103_4 = input.index();
                         input.rewind();
                         s = -1;
                         if ( (synpred157_InternalAsmetaL()) ) {s = 14;}
@@ -39338,14 +38788,14 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                         else if ( (true) ) {s = 15;}
 
                          
-                        input.seek(index103_7);
+                        input.seek(index103_4);
                         if ( s>=0 ) return s;
                         break;
                     case 1 : 
-                        int LA103_10 = input.LA(1);
+                        int LA103_8 = input.LA(1);
 
                          
-                        int index103_10 = input.index();
+                        int index103_8 = input.index();
                         input.rewind();
                         s = -1;
                         if ( (synpred157_InternalAsmetaL()) ) {s = 14;}
@@ -39353,14 +38803,14 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                         else if ( (true) ) {s = 15;}
 
                          
-                        input.seek(index103_10);
+                        input.seek(index103_8);
                         if ( s>=0 ) return s;
                         break;
                     case 2 : 
-                        int LA103_6 = input.LA(1);
+                        int LA103_2 = input.LA(1);
 
                          
-                        int index103_6 = input.index();
+                        int index103_2 = input.index();
                         input.rewind();
                         s = -1;
                         if ( (synpred157_InternalAsmetaL()) ) {s = 14;}
@@ -39368,7 +38818,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                         else if ( (true) ) {s = 15;}
 
                          
-                        input.seek(index103_6);
+                        input.seek(index103_2);
                         if ( s>=0 ) return s;
                         break;
                     case 3 : 
@@ -39387,6 +38837,51 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                         if ( s>=0 ) return s;
                         break;
                     case 4 : 
+                        int LA103_7 = input.LA(1);
+
+                         
+                        int index103_7 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred157_InternalAsmetaL()) ) {s = 14;}
+
+                        else if ( (true) ) {s = 15;}
+
+                         
+                        input.seek(index103_7);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 5 : 
+                        int LA103_10 = input.LA(1);
+
+                         
+                        int index103_10 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred157_InternalAsmetaL()) ) {s = 14;}
+
+                        else if ( (true) ) {s = 15;}
+
+                         
+                        input.seek(index103_10);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 6 : 
+                        int LA103_6 = input.LA(1);
+
+                         
+                        int index103_6 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred157_InternalAsmetaL()) ) {s = 14;}
+
+                        else if ( (true) ) {s = 15;}
+
+                         
+                        input.seek(index103_6);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 7 : 
                         int LA103_5 = input.LA(1);
 
                          
@@ -39401,7 +38896,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                         input.seek(index103_5);
                         if ( s>=0 ) return s;
                         break;
-                    case 5 : 
+                    case 8 : 
                         int LA103_9 = input.LA(1);
 
                          
@@ -39414,51 +38909,6 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
 
                          
                         input.seek(index103_9);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 6 : 
-                        int LA103_2 = input.LA(1);
-
-                         
-                        int index103_2 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred157_InternalAsmetaL()) ) {s = 14;}
-
-                        else if ( (true) ) {s = 15;}
-
-                         
-                        input.seek(index103_2);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 7 : 
-                        int LA103_4 = input.LA(1);
-
-                         
-                        int index103_4 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred157_InternalAsmetaL()) ) {s = 14;}
-
-                        else if ( (true) ) {s = 15;}
-
-                         
-                        input.seek(index103_4);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 8 : 
-                        int LA103_8 = input.LA(1);
-
-                         
-                        int index103_8 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred157_InternalAsmetaL()) ) {s = 14;}
-
-                        else if ( (true) ) {s = 15;}
-
-                         
-                        input.seek(index103_8);
                         if ( s>=0 ) return s;
                         break;
             }
@@ -39585,11 +39035,11 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     }
     static final String dfa_60s = "\35\uffff";
     static final String dfa_61s = "\1\5\13\0\21\uffff";
-    static final String dfa_62s = "\1\u0090\13\0\21\uffff";
+    static final String dfa_62s = "\1\u0091\13\0\21\uffff";
     static final String dfa_63s = "\14\uffff\1\3\6\uffff\1\5\3\uffff\1\6\2\uffff\1\1\1\2\1\4";
     static final String dfa_64s = "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\21\uffff}>";
     static final String[] dfa_65s = {
-            "\1\2\1\1\1\3\61\uffff\1\23\32\uffff\1\23\4\uffff\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\27\16\uffff\1\14\3\uffff\1\27\10\uffff\2\14\3\uffff\1\14\1\uffff\1\14\1\uffff\1\14\2\uffff\1\14\1\23\1\uffff\1\23\2\uffff\1\27\1\uffff\1\13",
+            "\1\2\1\1\1\3\61\uffff\1\23\32\uffff\1\23\4\uffff\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\27\16\uffff\1\14\3\uffff\1\27\10\uffff\2\14\3\uffff\1\14\1\uffff\1\14\1\uffff\1\14\2\uffff\1\14\1\23\1\uffff\1\23\2\uffff\1\27\2\uffff\1\13",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
@@ -39852,11 +39302,11 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     }
     static final String dfa_66s = "\33\uffff";
     static final String dfa_67s = "\1\5\24\uffff\2\0\4\uffff";
-    static final String dfa_68s = "\1\u0090\24\uffff\2\0\4\uffff";
+    static final String dfa_68s = "\1\u0091\24\uffff\2\0\4\uffff";
     static final String dfa_69s = "\1\uffff\1\2\30\uffff\1\1";
     static final String dfa_70s = "\25\uffff\1\0\1\1\4\uffff}>";
     static final String[] dfa_71s = {
-            "\3\1\61\uffff\1\25\32\uffff\1\26\4\uffff\10\1\16\uffff\1\1\3\uffff\1\1\10\uffff\2\1\3\uffff\1\1\1\uffff\1\1\1\uffff\1\1\2\uffff\2\1\1\uffff\1\1\2\uffff\1\1\1\uffff\1\1",
+            "\3\1\61\uffff\1\25\32\uffff\1\26\4\uffff\10\1\16\uffff\1\1\3\uffff\1\1\10\uffff\2\1\3\uffff\1\1\1\uffff\1\1\1\uffff\1\1\2\uffff\2\1\1\uffff\1\1\2\uffff\1\1\2\uffff\1\1",
             "",
             "",
             "",
@@ -39964,7 +39414,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000002010000000L});
     public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000002000000000L});
     public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000002000000002L});
-    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x00000000000040B0L,0x0000080000000000L,0x0000000000008000L});
+    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x000000000001C010L,0x00000B0000000000L,0x0000000000018000L});
     public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x0000000040000002L});
     public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x00000000000000E0L});
     public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000180000000L});
@@ -39978,10 +39428,10 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_24 = new BitSet(new long[]{0x0000040000000002L});
     public static final BitSet FOLLOW_25 = new BitSet(new long[]{0x0000000000000020L});
     public static final BitSet FOLLOW_26 = new BitSet(new long[]{0x0000008000000000L});
-    public static final BitSet FOLLOW_27 = new BitSet(new long[]{0xE200080040003FE0L,0xA088F190FE01F97FL,0x0000000000010000L});
+    public static final BitSet FOLLOW_27 = new BitSet(new long[]{0xE200080040003FE0L,0xA088F190FE01F97FL,0x0000000000020000L});
     public static final BitSet FOLLOW_28 = new BitSet(new long[]{0x00000000000000E0L,0x00000000FE000000L});
     public static final BitSet FOLLOW_29 = new BitSet(new long[]{0x0000008040000000L});
-    public static final BitSet FOLLOW_30 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_30 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000020000L});
     public static final BitSet FOLLOW_31 = new BitSet(new long[]{0x0000020000000000L});
     public static final BitSet FOLLOW_32 = new BitSet(new long[]{0xE200080000000020L,0x000000000001F87FL});
     public static final BitSet FOLLOW_33 = new BitSet(new long[]{0x0000080000000020L});
@@ -39995,7 +39445,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_41 = new BitSet(new long[]{0x0000000000000040L});
     public static final BitSet FOLLOW_42 = new BitSet(new long[]{0x0000028040000000L});
     public static final BitSet FOLLOW_43 = new BitSet(new long[]{0x0000028000000000L});
-    public static final BitSet FOLLOW_44 = new BitSet(new long[]{0x0200000000003FE0L,0x3008F181FFF80000L,0x0000000000014B2AL});
+    public static final BitSet FOLLOW_44 = new BitSet(new long[]{0x0200000000003FE0L,0x3008F181FFF80000L,0x0000000000024B2AL});
     public static final BitSet FOLLOW_45 = new BitSet(new long[]{0x0002000000000020L});
     public static final BitSet FOLLOW_46 = new BitSet(new long[]{0x0002000000000000L});
     public static final BitSet FOLLOW_47 = new BitSet(new long[]{0x0000001080000000L});
@@ -40019,7 +39469,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_65 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
     public static final BitSet FOLLOW_66 = new BitSet(new long[]{0x0000000000000000L,0x0000000001000000L});
     public static final BitSet FOLLOW_67 = new BitSet(new long[]{0x0000000000000002L,0x00000000C0000000L});
-    public static final BitSet FOLLOW_68 = new BitSet(new long[]{0x0000000040003FE0L,0x00007180FE000000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_68 = new BitSet(new long[]{0x0000000040003FE0L,0x00007180FE000000L,0x0000000000020000L});
     public static final BitSet FOLLOW_69 = new BitSet(new long[]{0x0000000000000002L,0x0000000014000000L});
     public static final BitSet FOLLOW_70 = new BitSet(new long[]{0x0000000000000002L,0x0000000002000000L});
     public static final BitSet FOLLOW_71 = new BitSet(new long[]{0x0000008000000002L,0x0000000400000000L});
@@ -40036,19 +39486,19 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_82 = new BitSet(new long[]{0x0000000000000000L,0x0010000000000000L});
     public static final BitSet FOLLOW_83 = new BitSet(new long[]{0x0000000000000000L,0x0070000000000000L});
     public static final BitSet FOLLOW_84 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_85 = new BitSet(new long[]{0xE200080040003FE0L,0xA188F190FE01F97FL,0x0000000000010000L});
+    public static final BitSet FOLLOW_85 = new BitSet(new long[]{0xE200080040003FE0L,0xA188F190FE01F97FL,0x0000000000020000L});
     public static final BitSet FOLLOW_86 = new BitSet(new long[]{0x0000001080000000L,0x0100000000000000L});
     public static final BitSet FOLLOW_87 = new BitSet(new long[]{0x0000000080000000L,0x0100000000000000L});
     public static final BitSet FOLLOW_88 = new BitSet(new long[]{0x0000000000003F80L,0x0000718000000000L});
     public static final BitSet FOLLOW_89 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
-    public static final BitSet FOLLOW_90 = new BitSet(new long[]{0xE200080040003FE0L,0xA088F190FE05F97FL,0x0000000000010000L});
+    public static final BitSet FOLLOW_90 = new BitSet(new long[]{0xE200080040003FE0L,0xA088F190FE05F97FL,0x0000000000020000L});
     public static final BitSet FOLLOW_91 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000400L});
     public static final BitSet FOLLOW_92 = new BitSet(new long[]{0x0000000080000000L,0x0000000000000400L});
-    public static final BitSet FOLLOW_93 = new BitSet(new long[]{0xE200080040003FE0L,0xA088F190FE01FD7FL,0x0000000000010000L});
+    public static final BitSet FOLLOW_93 = new BitSet(new long[]{0xE200080040003FE0L,0xA088F190FE01FD7FL,0x0000000000020000L});
     public static final BitSet FOLLOW_94 = new BitSet(new long[]{0x0000001080000000L,0x0000000000000400L});
-    public static final BitSet FOLLOW_95 = new BitSet(new long[]{0x0000000000003FE0L,0x00007188FE000000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_95 = new BitSet(new long[]{0x0000000000003FE0L,0x00007188FE000000L,0x0000000000020000L});
     public static final BitSet FOLLOW_96 = new BitSet(new long[]{0x0000001080000000L,0x0000000800000000L});
-    public static final BitSet FOLLOW_97 = new BitSet(new long[]{0x0000000000003FE0L,0x00007180FE000000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_97 = new BitSet(new long[]{0x0000000000003FE0L,0x00007180FE000000L,0x0000000000020000L});
     public static final BitSet FOLLOW_98 = new BitSet(new long[]{0x0000000080000000L,0x0000000800000000L});
     public static final BitSet FOLLOW_99 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L});
     public static final BitSet FOLLOW_100 = new BitSet(new long[]{0x0000000000000000L,0x0200000000000000L});
@@ -40061,7 +39511,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_107 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000001L});
     public static final BitSet FOLLOW_108 = new BitSet(new long[]{0x0000000000000002L,0x0080000000000000L});
     public static final BitSet FOLLOW_109 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000004L});
-    public static final BitSet FOLLOW_110 = new BitSet(new long[]{0x0200000000003FE0L,0x3008F181FFF80000L,0x0000000000014B3AL});
+    public static final BitSet FOLLOW_110 = new BitSet(new long[]{0x0200000000003FE0L,0x3008F181FFF80000L,0x0000000000024B3AL});
     public static final BitSet FOLLOW_111 = new BitSet(new long[]{0x0000000080000000L,0x0800000000000000L});
     public static final BitSet FOLLOW_112 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000040L});
     public static final BitSet FOLLOW_113 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000000080L});
@@ -40069,17 +39519,12 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_115 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L});
     public static final BitSet FOLLOW_116 = new BitSet(new long[]{0x0000000000000000L,0x0800000000000000L});
     public static final BitSet FOLLOW_117 = new BitSet(new long[]{0x0000000080000000L,0x0000000000000000L,0x0000000000000040L});
-    public static final BitSet FOLLOW_118 = new BitSet(new long[]{0x0200000000003FE0L,0x3008F181FFF80000L,0x0000000000014F2AL});
+    public static final BitSet FOLLOW_118 = new BitSet(new long[]{0x0200000000003FE0L,0x3008F181FFF80000L,0x0000000000024F2AL});
     public static final BitSet FOLLOW_119 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000001000L});
-    public static final BitSet FOLLOW_120 = new BitSet(new long[]{0xE200080140003FE0L,0xA088F190FE01F97FL,0x0000000000010000L});
+    public static final BitSet FOLLOW_120 = new BitSet(new long[]{0xE200080140003FE0L,0xA088F190FE01F97FL,0x0000000000020000L});
     public static final BitSet FOLLOW_121 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000002000L});
-    public static final BitSet FOLLOW_122 = new BitSet(new long[]{0x0000000000008000L});
-    public static final BitSet FOLLOW_123 = new BitSet(new long[]{0x00000000000000A0L});
-    public static final BitSet FOLLOW_124 = new BitSet(new long[]{0x00000000000000A0L,0x0000000000000000L,0x0000000000008000L});
-    public static final BitSet FOLLOW_125 = new BitSet(new long[]{0x00000000000000A0L,0x0000080000000000L});
-    public static final BitSet FOLLOW_126 = new BitSet(new long[]{0x0000000000000002L,0x0000080000000000L});
-    public static final BitSet FOLLOW_127 = new BitSet(new long[]{0x00000000020000A0L});
-    public static final BitSet FOLLOW_128 = new BitSet(new long[]{0x0000440000000020L,0x0000000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_129 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000008000L});
+    public static final BitSet FOLLOW_122 = new BitSet(new long[]{0x000000000001C000L,0x00000B0000000000L,0x0000000000018000L});
+    public static final BitSet FOLLOW_123 = new BitSet(new long[]{0x000000000001C002L,0x00000B0000000000L,0x0000000000018000L});
+    public static final BitSet FOLLOW_124 = new BitSet(new long[]{0x0000440000000020L,0x0000000000000000L,0x0000000000000200L});
 
 }

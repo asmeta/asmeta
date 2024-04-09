@@ -15,6 +15,8 @@ Asm :
 
 Header : importClause+=( ImportClause )* exportClause=( ExportClause )? signature=Signature;
 
+// import "pippo.asm" -> STRING with double guotes
+// import filepth -> MOD_ID 
 ImportClause : 'import' moduleName=(MOD_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
 importData : name=extendedName;
 
@@ -383,7 +385,7 @@ terminal REAL_NUMBER	: NUMBER_TOKEN "." NUMBER_TOKEN;
 // STRINGHE
 terminal MAIUSC_ID		: ('A'..'Z');
 terminal MIN_ID			: ('a'..'z');
-terminal ACCENT_CHR		: ('Ã '|'Ã¨'|'Ã©'|'Ã²'|'Ã¬'|'Ã¹'|'Ãƒ');
+terminal ACCENT_CHR		: ('à'|'è'|'é'|'ò'|'ì'|'ù'|'Ã');
 terminal ENUM_ID		: '^'?( MAIUSC_ID ) (MAIUSC_ID) ( MAIUSC_ID | DIGIT | '_' )*;
 //terminal PATH_SEP		:  '\\' | '/' | '\\\\'; Single or double \\?
 terminal PATH_SEP		: '/' | '\\\\';
@@ -395,9 +397,23 @@ terminal STRING_LITERAL	: '"' ( MAIUSC_ID | MIN_ID | DIGIT | WS | "'" | SPECIAL_
 terminal STRING			: '"' (!('"'))* '"';
 
 // IDENTIFICATIVI
-// example of MOD_ID
-// win abs path 
-MOD_ID 		returns ecore::EString	: ((MAIUSC_ID ':' PATH_SEP ) | ((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.' PATH_SEP)*))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
+// module identifier when importing it
+// see javacc file
+MOD_ID 		returns ecore::EString	:   (( MIN_ID | MAIUSC_ID ) ':')? ('\\' | '/'| MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+ ; 
+	
+/* this is stricter but sometimes it is too much strict  	
+  (
+	(MAIUSC_ID ':' PATH_SEP ) |  // beginning of the drive letter  -> D:/ 
+	('..' PATH_SEP)* | // relative path -> ../ 
+	('.' PATH_SEP)* | // relative path -> ./
+	PATH_SEP  // abs path with linux
+	)?   
+	((ENUM_ID | ID) PATH_SEP)* // -> sequence of strings and path sep 
+	(ENUM_ID | ID) // -> name of the spec
+	('.' (ENUM_ID | ID | 'asm'))?; // -> extension
+	
+	*/
+	
 ID_VARIABLE returns ecore::EString	: '$' (ID | 'rule' | 'agent' | 'seq' );
 
 // COMPLEX NUMBER
