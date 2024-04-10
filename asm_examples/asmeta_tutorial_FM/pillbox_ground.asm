@@ -66,9 +66,8 @@ definitions:
 	// Set the status for other drawers		
 	rule r_setOtherDrawers = forall $drawer in Drawer do
 		par		
-		if pillDeadlineHit($drawer) then  isPillTobeTaken($drawer) := true endif		
+		if pillDeadlineHit($drawer) and isOff($drawer) then isPillTobeTaken($drawer) := true endif		
 		// Handle the evolution of the System when the LED is in ON state
-		//r_take[$drawer]
 		if isOn($drawer) and
 			// The pill has been taken, or the timer expires
 			isPillTaken($drawer) then r_reset[$drawer] endif
