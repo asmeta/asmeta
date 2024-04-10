@@ -388,9 +388,9 @@ ruleImportClause returns [EObject current=null]
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getImportClauseAccess().getModuleNameMOD_IDParserRuleCall_1_0_0());
+						newCompositeNode(grammarAccess.getImportClauseAccess().getModuleNameMODULE_IDParserRuleCall_1_0_0());
 					}
-					lv_moduleName_1_1=ruleMOD_ID
+					lv_moduleName_1_1=ruleMODULE_ID
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getImportClauseRule());
@@ -399,7 +399,7 @@ ruleImportClause returns [EObject current=null]
 							$current,
 							"moduleName",
 							lv_moduleName_1_1,
-							"org.asmeta.xt.AsmetaL.MOD_ID");
+							"org.asmeta.xt.AsmetaL.MODULE_ID");
 						afterParserOrEnumRuleCall();
 					}
 					    |
@@ -11838,15 +11838,15 @@ rulenameofDomain returns [EObject current=null]
 	)
 ;
 
-// Entry rule entryRuleMOD_ID
-entryRuleMOD_ID returns [String current=null]:
-	{ newCompositeNode(grammarAccess.getMOD_IDRule()); }
-	iv_ruleMOD_ID=ruleMOD_ID
-	{ $current=$iv_ruleMOD_ID.current.getText(); }
+// Entry rule entryRuleMODULE_ID
+entryRuleMODULE_ID returns [String current=null]:
+	{ newCompositeNode(grammarAccess.getMODULE_IDRule()); }
+	iv_ruleMODULE_ID=ruleMODULE_ID
+	{ $current=$iv_ruleMODULE_ID.current.getText(); }
 	EOF;
 
-// Rule MOD_ID
-ruleMOD_ID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+// Rule MODULE_ID
+ruleMODULE_ID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
 @init {
 	enterRule();
 }
@@ -11854,86 +11854,50 @@ ruleMOD_ID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
 	leaveRule();
 }:
 	(
-		(
-			(
-				this_MIN_ID_0=RULE_MIN_ID
-				{
-					$current.merge(this_MIN_ID_0);
-				}
-				{
-					newLeafNode(this_MIN_ID_0, grammarAccess.getMOD_IDAccess().getMIN_IDTerminalRuleCall_0_0_0());
-				}
-				    |
-				this_MAIUSC_ID_1=RULE_MAIUSC_ID
-				{
-					$current.merge(this_MAIUSC_ID_1);
-				}
-				{
-					newLeafNode(this_MAIUSC_ID_1, grammarAccess.getMOD_IDAccess().getMAIUSC_IDTerminalRuleCall_0_0_1());
-				}
-			)
-			kw=':'
-			{
-				$current.merge(kw);
-				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getColonKeyword_0_1());
-			}
-		)?
-		(
-			kw='\\'
-			{
-				$current.merge(kw);
-				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getBackslashKeyword_1_0());
-			}
-			    |
-			kw='/'
-			{
-				$current.merge(kw);
-				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getSolidusKeyword_1_1());
-			}
-			    |
-			this_MIN_ID_5=RULE_MIN_ID
-			{
-				$current.merge(this_MIN_ID_5);
-			}
-			{
-				newLeafNode(this_MIN_ID_5, grammarAccess.getMOD_IDAccess().getMIN_IDTerminalRuleCall_1_2());
-			}
-			    |
-			this_MAIUSC_ID_6=RULE_MAIUSC_ID
-			{
-				$current.merge(this_MAIUSC_ID_6);
-			}
-			{
-				newLeafNode(this_MAIUSC_ID_6, grammarAccess.getMOD_IDAccess().getMAIUSC_IDTerminalRuleCall_1_3());
-			}
-			    |
-			this_DIGIT_7=RULE_DIGIT
-			{
-				$current.merge(this_DIGIT_7);
-			}
-			{
-				newLeafNode(this_DIGIT_7, grammarAccess.getMOD_IDAccess().getDIGITTerminalRuleCall_1_4());
-			}
-			    |
-			kw='.'
-			{
-				$current.merge(kw);
-				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopKeyword_1_5());
-			}
-			    |
-			kw='_'
-			{
-				$current.merge(kw);
-				newLeafNode(kw, grammarAccess.getMOD_IDAccess().get_Keyword_1_6());
-			}
-			    |
-			kw='-'
-			{
-				$current.merge(kw);
-				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getHyphenMinusKeyword_1_7());
-			}
-		)+
-	)
+		this_MAIUSC_ID_0=RULE_MAIUSC_ID
+		{
+			$current.merge(this_MAIUSC_ID_0);
+		}
+		{
+			newLeafNode(this_MAIUSC_ID_0, grammarAccess.getMODULE_IDAccess().getMAIUSC_IDTerminalRuleCall_0());
+		}
+		    |
+		this_MIN_ID_1=RULE_MIN_ID
+		{
+			$current.merge(this_MIN_ID_1);
+		}
+		{
+			newLeafNode(this_MIN_ID_1, grammarAccess.getMODULE_IDAccess().getMIN_IDTerminalRuleCall_1());
+		}
+		    |
+		kw='.'
+		{
+			$current.merge(kw);
+			newLeafNode(kw, grammarAccess.getMODULE_IDAccess().getFullStopKeyword_2());
+		}
+		    |
+		kw='..'
+		{
+			$current.merge(kw);
+			newLeafNode(kw, grammarAccess.getMODULE_IDAccess().getFullStopFullStopKeyword_3());
+		}
+		    |
+		this_DIGIT_4=RULE_DIGIT
+		{
+			$current.merge(this_DIGIT_4);
+		}
+		{
+			newLeafNode(this_DIGIT_4, grammarAccess.getMODULE_IDAccess().getDIGITTerminalRuleCall_4());
+		}
+		    |
+		this_PATH_SEP_5=RULE_PATH_SEP
+		{
+			$current.merge(this_PATH_SEP_5);
+		}
+		{
+			newLeafNode(this_PATH_SEP_5, grammarAccess.getMODULE_IDAccess().getPATH_SEPTerminalRuleCall_5());
+		}
+	)+
 ;
 
 // Entry rule entryRuleID_VARIABLE
@@ -11999,11 +11963,11 @@ RULE_MAIUSC_ID : 'A'..'Z';
 
 RULE_MIN_ID : 'a'..'z';
 
-fragment RULE_ACCENT_CHR : ('\u00E0'|'\u00E8'|'\u00E9'|'\u00F2'|'\u00EC'|'\u00F9'|'\u00C3');
+fragment RULE_ACCENT_CHR : ('\u00C3\u00A0'|'\u00C3\u00A8'|'\u00C3\u00A9'|'\u00C3\u00B2'|'\u00C3\u00AC'|'\u00C3\u00B9');
 
 RULE_ENUM_ID : '^'? RULE_MAIUSC_ID RULE_MAIUSC_ID (RULE_MAIUSC_ID|RULE_DIGIT|'_')*;
 
-fragment RULE_PATH_SEP : ('/'|'\\\\');
+RULE_PATH_SEP : ('/'|'\\\\');
 
 fragment RULE_SPECIAL_CHAR : ('!'|'.'|','|':'|'-'|'+'|'$'|'%'|'('|')'|'['|']'|'='|'?'|'^'|'_'|';'|'\u00EF\u00BF\u00BD'|'@'|'>'|'<'|'|'|RULE_PATH_SEP);
 

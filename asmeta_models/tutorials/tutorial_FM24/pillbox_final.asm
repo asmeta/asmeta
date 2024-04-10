@@ -4,10 +4,10 @@
 
 asm pillbox_final
 
-import ../STDL/StandardLibrary
-import ../STDL/CTLlibrary
-import ../STDL/LTLlibrary
-import ../STDL/TimeLibrarySimple
+import ../../STDL/StandardLibrary
+import ../../STDL/CTLlibrary
+import ../../STDL/LTLlibrary
+import ../../STDL/TimeLibrarySimple
 
 signature:
 	//*************************************************

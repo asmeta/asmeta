@@ -1460,7 +1460,7 @@ public class AsmetaLSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     ImportClause returns ImportClause
 	 *
 	 * Constraint:
-	 *     ((moduleName=MOD_ID | moduleName=STRING) (importedList+=importData importedList+=importData*)?)
+	 *     ((moduleName=MODULE_ID | moduleName=STRING) (importedList+=importData importedList+=importData*)?)
 	 * </pre>
 	 */
 	protected void sequence_ImportClause(ISerializationContext context, ImportClause semanticObject) {

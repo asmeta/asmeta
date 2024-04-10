@@ -1,8 +1,8 @@
 asm pillbox_complex
 
-import StandardLibrary
-import CTLlibrary
-import LTLlibrary
+import ../../STDL/StandardLibrary
+import ../../STDL/CTLlibrary
+import ../../STDL/LTLlibrary
 
 signature:
 	//*************************************************

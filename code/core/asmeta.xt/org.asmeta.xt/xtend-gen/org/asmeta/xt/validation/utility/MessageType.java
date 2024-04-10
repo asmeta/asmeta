@@ -40,6 +40,7 @@ public abstract class MessageType {
     return this.obj;
   }
 
+  @Override
   public String toString() {
     return ("Error: " + this.message);
   }

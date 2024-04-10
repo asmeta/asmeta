@@ -90,8 +90,7 @@ public class AsmetaLParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getTurboReturnRuleAccess().getLocationAlternatives_0_0(), "rule__TurboReturnRule__LocationAlternatives_0_0");
 			builder.put(grammarAccess.getDerivedRuleAccess().getAlternatives(), "rule__DerivedRule__Alternatives");
 			builder.put(grammarAccess.getTurboDerivedRuleAccess().getAlternatives(), "rule__TurboDerivedRule__Alternatives");
-			builder.put(grammarAccess.getMOD_IDAccess().getAlternatives_0_0(), "rule__MOD_ID__Alternatives_0_0");
-			builder.put(grammarAccess.getMOD_IDAccess().getAlternatives_1(), "rule__MOD_ID__Alternatives_1");
+			builder.put(grammarAccess.getMODULE_IDAccess().getAlternatives(), "rule__MODULE_ID__Alternatives");
 			builder.put(grammarAccess.getID_VARIABLEAccess().getAlternatives_1(), "rule__ID_VARIABLE__Alternatives_1");
 			builder.put(grammarAccess.getAsmAccess().getGroup(), "rule__Asm__Group__0");
 			builder.put(grammarAccess.getAsmAccess().getGroup_5(), "rule__Asm__Group_5__0");
@@ -290,8 +289,6 @@ public class AsmetaLParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getCaseRuleAccess().getGroup_3(), "rule__CaseRule__Group_3__0");
 			builder.put(grammarAccess.getRecursiveWhileRuleAccess().getGroup(), "rule__RecursiveWhileRule__Group__0");
 			builder.put(grammarAccess.getIterativeWhileRuleAccess().getGroup(), "rule__IterativeWhileRule__Group__0");
-			builder.put(grammarAccess.getMOD_IDAccess().getGroup(), "rule__MOD_ID__Group__0");
-			builder.put(grammarAccess.getMOD_IDAccess().getGroup_0(), "rule__MOD_ID__Group_0__0");
 			builder.put(grammarAccess.getID_VARIABLEAccess().getGroup(), "rule__ID_VARIABLE__Group__0");
 			builder.put(grammarAccess.getAsmAccess().getIsAsynchrAssignment_0(), "rule__Asm__IsAsynchrAssignment_0");
 			builder.put(grammarAccess.getAsmAccess().getTypeAssignment_1(), "rule__Asm__TypeAssignment_1");

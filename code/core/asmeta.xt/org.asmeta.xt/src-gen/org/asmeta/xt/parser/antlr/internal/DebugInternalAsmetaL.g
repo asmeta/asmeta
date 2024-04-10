@@ -47,7 +47,7 @@ ruleHeader:
 ruleImportClause:
 	'import'
 	(
-		ruleMOD_ID
+		ruleMODULE_ID
 		    |RULE_STRING
 	)
 	(
@@ -1847,32 +1847,20 @@ rulenameofDomain:
 	RULE_ID
 ;
 
-// Rule MOD_ID
-ruleMOD_ID:
+// Rule MODULE_ID
+ruleMODULE_ID:
 	(
-		(
-			RULE_MIN_ID
-			    |
-			RULE_MAIUSC_ID
-		)
-		':'
-	)?
-	(
-		'\\'
-		    |
-		'/'
+		RULE_MAIUSC_ID
 		    |
 		RULE_MIN_ID
 		    |
-		RULE_MAIUSC_ID
+		'.'
+		    |
+		'..'
 		    |
 		RULE_DIGIT
 		    |
-		'.'
-		    |
-		'_'
-		    |
-		'-'
+		RULE_PATH_SEP
 	)+
 ;
 
@@ -1902,11 +1890,11 @@ RULE_MAIUSC_ID : 'A'..'Z';
 
 RULE_MIN_ID : 'a'..'z';
 
-fragment RULE_ACCENT_CHR : ('\u00E0'|'\u00E8'|'\u00E9'|'\u00F2'|'\u00EC'|'\u00F9'|'\u00C3');
+fragment RULE_ACCENT_CHR : ('\u00C3\u00A0'|'\u00C3\u00A8'|'\u00C3\u00A9'|'\u00C3\u00B2'|'\u00C3\u00AC'|'\u00C3\u00B9');
 
 RULE_ENUM_ID : '^'? RULE_MAIUSC_ID RULE_MAIUSC_ID (RULE_MAIUSC_ID|RULE_DIGIT|'_')*;
 
-fragment RULE_PATH_SEP : ('/'|'\\\\');
+RULE_PATH_SEP : ('/'|'\\\\');
 
 fragment RULE_SPECIAL_CHAR : ('!'|'.'|','|':'|'-'|'+'|'$'|'%'|'('|')'|'['|']'|'='|'?'|'^'|'_'|';'|'\u00EF\u00BF\u00BD'|'@'|'>'|'<'|'|'|RULE_PATH_SEP);
 

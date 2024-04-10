@@ -1,6 +1,5 @@
 /* This ASMETA specification represents a PillBox with the following characteristics:
- * 
- * - The PillBox has 3 Drawers. In each drawer a specific type of Drug can be placed. Only a Pill type can 
+* - The PillBox has 3 Drawers. In each drawer a specific type of Drug can be placed. Only a Pill type can 
  * 	 be in a single Drawer.
  * 
  * - For each Drawer, the PillBox has a switch that signal the opening status of the drawer (true, when 

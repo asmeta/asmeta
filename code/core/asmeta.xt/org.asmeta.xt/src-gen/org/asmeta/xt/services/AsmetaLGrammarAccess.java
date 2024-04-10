@@ -184,7 +184,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cImportKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cModuleNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final Alternatives cModuleNameAlternatives_1_0 = (Alternatives)cModuleNameAssignment_1.eContents().get(0);
-		private final RuleCall cModuleNameMOD_IDParserRuleCall_1_0_0 = (RuleCall)cModuleNameAlternatives_1_0.eContents().get(0);
+		private final RuleCall cModuleNameMODULE_IDParserRuleCall_1_0_0 = (RuleCall)cModuleNameAlternatives_1_0.eContents().get(0);
 		private final RuleCall cModuleNameSTRINGTerminalRuleCall_1_0_1 = (RuleCall)cModuleNameAlternatives_1_0.eContents().get(1);
 		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
 		private final Keyword cLeftParenthesisKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
@@ -198,23 +198,23 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		
 		//// import "pippo.asm" -> STRING with double guotes
 		//// import filepth -> MOD_ID
-		//ImportClause : 'import' moduleName=(MOD_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
+		//ImportClause : 'import' moduleName=(MODULE_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'import' moduleName=(MOD_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?
+		//'import' moduleName=(MODULE_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?
 		public Group getGroup() { return cGroup; }
 		
 		//'import'
 		public Keyword getImportKeyword_0() { return cImportKeyword_0; }
 		
-		//moduleName=(MOD_ID | STRING)
+		//moduleName=(MODULE_ID | STRING)
 		public Assignment getModuleNameAssignment_1() { return cModuleNameAssignment_1; }
 		
-		//(MOD_ID | STRING)
+		//(MODULE_ID | STRING)
 		public Alternatives getModuleNameAlternatives_1_0() { return cModuleNameAlternatives_1_0; }
 		
-		//MOD_ID
-		public RuleCall getModuleNameMOD_IDParserRuleCall_1_0_0() { return cModuleNameMOD_IDParserRuleCall_1_0_0; }
+		//MODULE_ID
+		public RuleCall getModuleNameMODULE_IDParserRuleCall_1_0_0() { return cModuleNameMODULE_IDParserRuleCall_1_0_0; }
 		
 		//STRING
 		public RuleCall getModuleNameSTRINGTerminalRuleCall_1_0_1() { return cModuleNameSTRINGTerminalRuleCall_1_0_1; }
@@ -6324,74 +6324,46 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_0() { return cNameIDTerminalRuleCall_0; }
 	}
-	public class MOD_IDElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.MOD_ID");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Group cGroup_0 = (Group)cGroup.eContents().get(0);
-		private final Alternatives cAlternatives_0_0 = (Alternatives)cGroup_0.eContents().get(0);
-		private final RuleCall cMIN_IDTerminalRuleCall_0_0_0 = (RuleCall)cAlternatives_0_0.eContents().get(0);
-		private final RuleCall cMAIUSC_IDTerminalRuleCall_0_0_1 = (RuleCall)cAlternatives_0_0.eContents().get(1);
-		private final Keyword cColonKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
-		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
-		private final Keyword cBackslashKeyword_1_0 = (Keyword)cAlternatives_1.eContents().get(0);
-		private final Keyword cSolidusKeyword_1_1 = (Keyword)cAlternatives_1.eContents().get(1);
-		private final RuleCall cMIN_IDTerminalRuleCall_1_2 = (RuleCall)cAlternatives_1.eContents().get(2);
-		private final RuleCall cMAIUSC_IDTerminalRuleCall_1_3 = (RuleCall)cAlternatives_1.eContents().get(3);
-		private final RuleCall cDIGITTerminalRuleCall_1_4 = (RuleCall)cAlternatives_1.eContents().get(4);
-		private final Keyword cFullStopKeyword_1_5 = (Keyword)cAlternatives_1.eContents().get(5);
-		private final Keyword c_Keyword_1_6 = (Keyword)cAlternatives_1.eContents().get(6);
-		private final Keyword cHyphenMinusKeyword_1_7 = (Keyword)cAlternatives_1.eContents().get(7);
+	public class MODULE_IDElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.MODULE_ID");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cMAIUSC_IDTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cMIN_IDTerminalRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final Keyword cFullStopKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
+		private final Keyword cFullStopFullStopKeyword_3 = (Keyword)cAlternatives.eContents().get(3);
+		private final RuleCall cDIGITTerminalRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
+		private final RuleCall cPATH_SEPTerminalRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
 		
 		//// IDENTIFICATIVI
 		//// module identifier when importing it
 		//// see javacc file
-		//MOD_ID         returns ecore::EString    :   (( MIN_ID | MAIUSC_ID ) ':')? ('\\' | '/'| MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+ ;
+		//MODULE_ID         returns ecore::EString    :
+		//    // una serie di caratteri basta che non sia lo spazio - come si puÃ² mettere???
+		//    (MAIUSC_ID|MIN_ID|'.'|'..'|DIGIT|PATH_SEP)+
+		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//(( MIN_ID | MAIUSC_ID ) ':')? ('\\' | '/'| MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+
-		public Group getGroup() { return cGroup; }
-		
-		//(( MIN_ID | MAIUSC_ID ) ':')?
-		public Group getGroup_0() { return cGroup_0; }
-		
-		//( MIN_ID | MAIUSC_ID )
-		public Alternatives getAlternatives_0_0() { return cAlternatives_0_0; }
-		
-		//MIN_ID
-		public RuleCall getMIN_IDTerminalRuleCall_0_0_0() { return cMIN_IDTerminalRuleCall_0_0_0; }
+		//// una serie di caratteri basta che non sia lo spazio - come si puÃ² mettere???
+		//(MAIUSC_ID|MIN_ID|'.'|'..'|DIGIT|PATH_SEP)+
+		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//MAIUSC_ID
-		public RuleCall getMAIUSC_IDTerminalRuleCall_0_0_1() { return cMAIUSC_IDTerminalRuleCall_0_0_1; }
-		
-		//':'
-		public Keyword getColonKeyword_0_1() { return cColonKeyword_0_1; }
-		
-		//('\\' | '/'| MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+
-		public Alternatives getAlternatives_1() { return cAlternatives_1; }
-		
-		//'\\'
-		public Keyword getBackslashKeyword_1_0() { return cBackslashKeyword_1_0; }
-		
-		//'/'
-		public Keyword getSolidusKeyword_1_1() { return cSolidusKeyword_1_1; }
+		public RuleCall getMAIUSC_IDTerminalRuleCall_0() { return cMAIUSC_IDTerminalRuleCall_0; }
 		
 		//MIN_ID
-		public RuleCall getMIN_IDTerminalRuleCall_1_2() { return cMIN_IDTerminalRuleCall_1_2; }
-		
-		//MAIUSC_ID
-		public RuleCall getMAIUSC_IDTerminalRuleCall_1_3() { return cMAIUSC_IDTerminalRuleCall_1_3; }
-		
-		//DIGIT
-		public RuleCall getDIGITTerminalRuleCall_1_4() { return cDIGITTerminalRuleCall_1_4; }
+		public RuleCall getMIN_IDTerminalRuleCall_1() { return cMIN_IDTerminalRuleCall_1; }
 		
 		//'.'
-		public Keyword getFullStopKeyword_1_5() { return cFullStopKeyword_1_5; }
+		public Keyword getFullStopKeyword_2() { return cFullStopKeyword_2; }
 		
-		//'_'
-		public Keyword get_Keyword_1_6() { return c_Keyword_1_6; }
+		//'..'
+		public Keyword getFullStopFullStopKeyword_3() { return cFullStopFullStopKeyword_3; }
 		
-		//'-'
-		public Keyword getHyphenMinusKeyword_1_7() { return cHyphenMinusKeyword_1_7; }
+		//DIGIT
+		public RuleCall getDIGITTerminalRuleCall_4() { return cDIGITTerminalRuleCall_4; }
+		
+		//PATH_SEP
+		public RuleCall getPATH_SEPTerminalRuleCall_5() { return cPATH_SEPTerminalRuleCall_5; }
 	}
 	public class ID_VARIABLEElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.ID_VARIABLE");
@@ -6403,7 +6375,12 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final Keyword cAgentKeyword_1_2 = (Keyword)cAlternatives_1.eContents().get(2);
 		private final Keyword cSeqKeyword_1_3 = (Keyword)cAlternatives_1.eContents().get(3);
 		
-		///*     (
+		//// version originale pre marzo 24
+		////    (((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)* ))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?
+		//// questa non va bene, dovrebbe essere piÃ¹ larga ma non va
+		////(( MIN_ID | MAIUSC_ID ) ':')? ( PATH_SEP | MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+;
+		///* this is stricter but sometimes it is too much strict
+		//  (
 		//    (MAIUSC_ID ':' PATH_SEP ) |  // beginning of the drive letter  -> D:/
 		//    ('..' PATH_SEP)* | // relative path -> ../
 		//    ('.' PATH_SEP)* | // relative path -> ./
@@ -6598,7 +6575,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	private final TerminalRule tCHAR_LITERAL;
 	private final TerminalRule tSTRING_LITERAL;
 	private final TerminalRule tSTRING;
-	private final MOD_IDElements pMOD_ID;
+	private final MODULE_IDElements pMODULE_ID;
 	private final ID_VARIABLEElements pID_VARIABLE;
 	private final TerminalRule tCOMPLEX_NUMBER;
 	private final TerminalRule tIMMAGINARY_NUMBER;
@@ -6770,7 +6747,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		this.tCHAR_LITERAL = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.CHAR_LITERAL");
 		this.tSTRING_LITERAL = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.STRING_LITERAL");
 		this.tSTRING = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.STRING");
-		this.pMOD_ID = new MOD_IDElements();
+		this.pMODULE_ID = new MODULE_IDElements();
 		this.pID_VARIABLE = new ID_VARIABLEElements();
 		this.tCOMPLEX_NUMBER = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.COMPLEX_NUMBER");
 		this.tIMMAGINARY_NUMBER = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.IMMAGINARY_NUMBER");
@@ -6828,7 +6805,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	
 	//// import "pippo.asm" -> STRING with double guotes
 	//// import filepth -> MOD_ID
-	//ImportClause : 'import' moduleName=(MOD_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
+	//ImportClause : 'import' moduleName=(MODULE_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
 	public ImportClauseElements getImportClauseAccess() {
 		return pImportClause;
 	}
@@ -8238,7 +8215,8 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		return tMIN_ID;
 	}
 	
-	//terminal ACCENT_CHR		: ('à'|'è'|'é'|'ò'|'ì'|'ù'|'Ã');
+	//// do we really want to allow accented chars???
+	//terminal ACCENT_CHR        : ('Ã '|'Ã¨'|'Ã©'|'Ã²'|'Ã¬'| 'Ã¹');
 	public TerminalRule getACCENT_CHRRule() {
 		return tACCENT_CHR;
 	}
@@ -8287,16 +8265,24 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	//// IDENTIFICATIVI
 	//// module identifier when importing it
 	//// see javacc file
-	//MOD_ID         returns ecore::EString    :   (( MIN_ID | MAIUSC_ID ) ':')? ('\\' | '/'| MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+ ;
-	public MOD_IDElements getMOD_IDAccess() {
-		return pMOD_ID;
+	//MODULE_ID         returns ecore::EString    :
+	//    // una serie di caratteri basta che non sia lo spazio - come si puÃ² mettere???
+	//    (MAIUSC_ID|MIN_ID|'.'|'..'|DIGIT|PATH_SEP)+
+	//;
+	public MODULE_IDElements getMODULE_IDAccess() {
+		return pMODULE_ID;
 	}
 	
-	public ParserRule getMOD_IDRule() {
-		return getMOD_IDAccess().getRule();
+	public ParserRule getMODULE_IDRule() {
+		return getMODULE_IDAccess().getRule();
 	}
 	
-	///*     (
+	//// version originale pre marzo 24
+	////    (((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)* ))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?
+	//// questa non va bene, dovrebbe essere piÃ¹ larga ma non va
+	////(( MIN_ID | MAIUSC_ID ) ':')? ( PATH_SEP | MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+;
+	///* this is stricter but sometimes it is too much strict
+	//  (
 	//    (MAIUSC_ID ':' PATH_SEP ) |  // beginning of the drive letter  -> D:/
 	//    ('..' PATH_SEP)* | // relative path -> ../
 	//    ('.' PATH_SEP)* | // relative path -> ./

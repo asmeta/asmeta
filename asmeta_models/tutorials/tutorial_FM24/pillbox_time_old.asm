@@ -3,10 +3,10 @@
 //
 asm pillbox_ground
 
-import StandardLibrary
-import CTLlibrary
-import LTLlibrary
-import ../STDL/TimeLibrarySimple
+import ../../STDL/StandardLibrary
+import ../../STDL/CTLlibrary
+import ../../STDL/LTLlibrary
+import ../../STDL/TimeLibrarySimple
 
 signature:
 	//*************************************************

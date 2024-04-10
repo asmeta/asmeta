@@ -1,14 +1,9 @@
-//
 // ground pillbox without time
-// with userready for choose
-// TO BE DELETED
+asm pillbox_ground
 
-asm pillbox_notime2
-
-
-import StandardLibrary
-import CTLlibrary
-import LTLlibrary
+import ../../STDL/StandardLibrary
+import ../../STDL/CTLlibrary
+import ../../STDL/LTLlibrary
 
 signature:
 	//*************************************************
@@ -20,10 +15,11 @@ signature:
 	//*************************************************
 	// MONITORED AND CONTROLLED FUNCTIONS
 	//*************************************************
+	dynamic monitored isPillTaken: Drawer -> Boolean
+	dynamic monitored pillDeadlineHit: Drawer -> Boolean 
 	dynamic controlled drawerLed: Drawer -> LedLights
 	dynamic controlled drug: Drawer -> Drugs
-	dynamic monitored pillDeadlineHit: Drawer -> Boolean 
-	dynamic monitored userReady: Boolean 
+	dynamic controlled isPillTobeTaken: Drawer -> Boolean
 	//*************************************************
 	// DERIVED FUNCTIONS
 	//*************************************************
@@ -31,7 +27,7 @@ signature:
 	derived isOn: Drawer -> Boolean
 	derived isOff: Drawer -> Boolean
 	derived areOthersOn: Drawer -> Boolean
-	// It is true when the pill has to be taken
+	
 	//*************************************************
 	// STATIC FUNCTIONS
 	//*************************************************
@@ -55,28 +51,27 @@ definitions:
 	// RULE DEFINITIONS
 	//*************************************************
 	// Rule to reset the Drawer due to one of the possible reasons (Timeout, Pill taken, etc.)
-	rule r_reset($drawer in Drawer) = 
+	rule r_reset($drawer in Drawer) = par
 			drawerLed($drawer) := OFF
+			isPillTobeTaken($drawer):= false
+	endpar	
 	
-		
-	// System evolution starting from the ON State
-//	rule r_take($drawer in Drawer) = if isOn($drawer) then
-//			// The pill has been taken, or the timer expires
-//			if isPillTaken($drawer) then 
-//				r_reset[$drawer] endif
-//		endif
-		
 	// Non-determinism: Only a single RedLight is to be on at a time, so choose randomly the order
 	// of the pills
 	rule r_choosePillToTake = choose $drawer in Drawer with 
-			isOn($drawer) do
+			isPillTobeTaken($drawer) and isOff($drawer) and not areOthersOn($drawer) do
 				// Rule to set the led red ON when the pill has to be taken
-				drawerLed($drawer) := OFF 
+				drawerLed($drawer) := ON 
 	
 	// Set the status for other drawers		
 	rule r_setOtherDrawers = forall $drawer in Drawer do
-
-		if pillDeadlineHit($drawer) then  drawerLed($drawer) := ON endif		
+		par		
+		if pillDeadlineHit($drawer) and isOff($drawer) then isPillTobeTaken($drawer) := true endif		
+		// Handle the evolution of the System when the LED is in ON state
+		if isOn($drawer) and
+			// The pill has been taken, or the timer expires
+			isPillTaken($drawer) then r_reset[$drawer] endif
+		endpar
 		
 	//*************************************************
 	// INVARIANTS AND TEMPORAL PROPERTIES
@@ -103,7 +98,8 @@ definitions:
 	//*************************************************	
 	main rule r_Main = par
 			// Non-determistic choice of the pill
-			if userReady then r_choosePillToTake[] endif			
+			r_choosePillToTake[]
+			
 			// Handle other states
 			r_setOtherDrawers[]			
 		endpar
@@ -118,6 +114,6 @@ default init s0:
 			case drawer2 : ASPIRINE
 			case drawer3 : MOMENT
 		endswitch
-	
-	// Timer initialization
-	//function timerUnit($t in Timer) = SEC
+		
+	// Reset the status for the isPillTobeTaken function
+	function isPillTobeTaken($drawer in Drawer) = false

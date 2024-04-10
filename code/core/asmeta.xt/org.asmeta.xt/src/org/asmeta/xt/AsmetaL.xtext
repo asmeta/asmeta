@@ -17,7 +17,7 @@ Header : importClause+=( ImportClause )* exportClause=( ExportClause )? signatur
 
 // import "pippo.asm" -> STRING with double guotes
 // import filepth -> MOD_ID 
-ImportClause : 'import' moduleName=(MOD_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
+ImportClause : 'import' moduleName=(MODULE_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
 importData : name=extendedName;
 
 ExportClause : 'export' ( ( exportedList+=extendedName ( "," exportedList+=extendedName )* ) | exportAll?="*" );
@@ -385,7 +385,8 @@ terminal REAL_NUMBER	: NUMBER_TOKEN "." NUMBER_TOKEN;
 // STRINGHE
 terminal MAIUSC_ID		: ('A'..'Z');
 terminal MIN_ID			: ('a'..'z');
-terminal ACCENT_CHR		: ('à'|'è'|'é'|'ò'|'ì'|'ù'|'Ã');
+// do we really want to allow accented chars???
+terminal ACCENT_CHR		: ('Ã '|'Ã¨'|'Ã©'|'Ã²'|'Ã¬'| 'Ã¹');
 terminal ENUM_ID		: '^'?( MAIUSC_ID ) (MAIUSC_ID) ( MAIUSC_ID | DIGIT | '_' )*;
 //terminal PATH_SEP		:  '\\' | '/' | '\\\\'; Single or double \\?
 terminal PATH_SEP		: '/' | '\\\\';
@@ -399,7 +400,20 @@ terminal STRING			: '"' (!('"'))* '"';
 // IDENTIFICATIVI
 // module identifier when importing it
 // see javacc file
-MOD_ID 		returns ecore::EString	:   (( MIN_ID | MAIUSC_ID ) ':')? ('\\' | '/'| MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+ ; 
+terminal MODULE_ID		:
+	// una serie di caratteri basta che non sia lo spazio - come si puÃ² mettere???
+	(MAIUSC_ID|MIN_ID|'.'|'..'|DIGIT|PATH_SEP)+
+;
+
+// MODULE_ID 		returns ecore::EString	:  
+	
+// version originale pre marzo 24	
+//	(((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)* ))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?
+
+
+// questa non va bene, dovrebbe essere piÃ¹ larga ma non va	
+//(( MIN_ID | MAIUSC_ID ) ':')? ( PATH_SEP | MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+;
+
 	
 /* this is stricter but sometimes it is too much strict  	
   (
