@@ -62,7 +62,8 @@ public class StandardLibrary {
 
 	// //////////////////////////////////////////////////////////////////////
 	// Boolean
-
+	// ATTENTION: this does not allow lazy evaluation - they take a value which must be already computed
+	// TODO allow 
 	public static BooleanValue not(BooleanValue op1) {
 		if (!op1.getValue())
 			return BooleanValue.TRUE;
@@ -71,12 +72,13 @@ public class StandardLibrary {
 	}
 
 	public static BooleanValue and(BooleanValue op1, BooleanValue op2) {
+		// this && performs already the lazy evaluation
 		if (op1.getValue() && op2.getValue())
 			return BooleanValue.TRUE;
 		else
 			return BooleanValue.FALSE;
 	}
-
+	
 	public static BooleanValue and(UndefValue op1, BooleanValue op2) {
 		return BooleanValue.FALSE;
 	}

@@ -101,8 +101,7 @@ public class StdlEvaluator {
 	 * @throws UnresolvedReferenceException if no method is found or there
 	 * are too methods compatible with the given declaration
 	 */
-	protected Method resolve(String name, Class<?>[] argTypes)
-	throws UnresolvedReferenceException {
+	protected Method resolve(String name, Class<?>[] argTypes) throws UnresolvedReferenceException {
 		WrappedMethod m1 = new WrappedMethod(name, argTypes);
 		int[] jj = findCandidates(m1);
 		int j1 = jj[0], j2 = jj[1];

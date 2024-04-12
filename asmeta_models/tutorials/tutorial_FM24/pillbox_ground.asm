@@ -77,6 +77,9 @@ definitions:
 	// INVARIANTS AND TEMPORAL PROPERTIES
 	//*************************************************	
 
+	invariant inv_drawer1 over Drawer: 
+    (forall $d in Drawer with (isOn($d) implies not areOthersOn($d)))
+
 	// max one led is ON
 	// TODO
 	CTLSPEC ag(isOn(drawer1) implies (isOff(drawer2) and isOff(drawer3)))
