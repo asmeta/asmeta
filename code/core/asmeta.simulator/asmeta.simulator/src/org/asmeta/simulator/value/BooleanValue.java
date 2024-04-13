@@ -9,7 +9,10 @@
 
 package org.asmeta.simulator.value;
 
+import org.asmeta.simulator.TermEvaluator;
+
 import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.Term;
 
 /**
  * A boolean value.
@@ -31,7 +34,7 @@ public class BooleanValue extends Value<Boolean> {
 	/**
 	 * The value.
 	 */
-	private boolean boolValue;
+	private Boolean boolValue = null;
     
 
     /**
@@ -43,7 +46,15 @@ public class BooleanValue extends Value<Boolean> {
         boolValue = bool;
     }
 
-    /**
+    // the evaluator to be used to evaluate
+	private TermEvaluator lazyTermEv  = null;
+	private Term term = null;
+    public BooleanValue(Term term, TermEvaluator termEvaluator) {
+    	lazyTermEv = termEvaluator;
+    	this.term = term;
+	}
+
+	/**
      * Creates a new boolean.
      * 
      * @param term a boolean term
@@ -80,6 +91,8 @@ public class BooleanValue extends Value<Boolean> {
      */
     @Override
 	public Boolean getValue() {
+    	if (boolValue == null) 
+    		boolValue = (Boolean) lazyTermEv.visit(term).getValue();
         return boolValue;
     }
     

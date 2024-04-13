@@ -273,7 +273,8 @@ public class Simulator {
 	}
 
 	/**
-	 * Returns a simulator ready to execute the given model. TODO use factory instead
+	 * Returns a simulator ready to execute the given model. TODO use factory
+	 * instead
 	 *
 	 * @param modelPath path name of the model file
 	 * @param env       environment
@@ -281,16 +282,17 @@ public class Simulator {
 	 * @throws Exception
 	 */
 	public static Simulator createSimulator(String modelPath, Environment env) throws Exception {
-		// check that the file exists 
+		// check that the file exists
 		File modelFile = new File(modelPath);
 		if (!modelFile.exists()) {
 			throw new FileNotFoundException(modelPath);
 		}
 		AsmCollection asmetaPackage = ASMParser.setUpReadAsm(modelFile);
 		// take the name without extension
-		assert  modelFile.getName().endsWith(ASMParser.ASM_EXTENSION);
-		// remove the extension (allow also a point the the name?) 
+		assert modelFile.getName().endsWith(ASMParser.ASM_EXTENSION);
+		// remove the extension (allow also a point the the name?)
 		String fileName = modelFile.getName().replaceFirst("[.][^.]+$", "");
+		assert modelFile.getName().equals(fileName + ASMParser.ASM_EXTENSION);
 		Simulator sim = new Simulator(fileName, asmetaPackage, env);
 		return sim;
 	}
@@ -322,9 +324,8 @@ public class Simulator {
 	public UpdateSet run(int ntimes) {
 		// get the update set
 		return runUntil(x -> false, ntimes, checkInvariants).updateSet;
-	}	
-	
-	
+	}
+
 	// it checks invariants and throws exception
 	public UpdateSet runNoCatchInv(int ntimes) {
 		return runUntil(x -> false, ntimes, InvariantTreament.CHECK_STOP).updateSet;
@@ -334,10 +335,11 @@ public class Simulator {
 		LocationSet currentstate;
 		UpdateSet updateSet;
 	}
+
 	private interface StopCondition {
 		public boolean stop(UpdateSet us);
 	}
-	
+
 	// run until f becomes true
 	// throw exception only if check_stop
 	// f: stop condition

@@ -23,11 +23,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
+import org.asmeta.simulator.State;
 import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.UpdateClashException;
 import org.asmeta.simulator.main.Simulator.InvariantTreament;
+import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.util.UnresolvedReferenceException;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.EnumValue;
@@ -533,10 +536,30 @@ public class InterpreterTest extends BaseTest {
 		assertEquals(BooleanValue.TRUE, v);
 	}
 
+	// questo fallisce - è ancora da pensare come fare la lazy evaluation
 	@Test
-	public void test43() throws Exception {
-		sim = Util.getSimulatorForTestSpec(
-				"test/simulator/monitoredTest.asm",
+	public void testLazy() throws Exception {
+		// f1 --> TRUE
+		//main rule r_main =	g1 := f1 and f2
+		MonFuncReader monFuncReader = new MonFuncReader() {
+			@Override
+			public Value readValue(Location location, State state) {
+				System.out.println("location " + location);
+				if (location.toString().equals("f1")) return BooleanValue.FALSE;
+				//fail("do not ask other");
+				//return null;
+				return BooleanValue.FALSE;
+			}			
+		};
+		Environment env = new Environment(monFuncReader);
+		sim = Simulator.createSimulator(TestOneSpec.FILE_BASE + "test/simulator/monitoredLazy.asm", env);
+		sim.run(1);		
+		f = searchFunction("g1");
+	}
+
+	@Test
+	public void testLzy() throws Exception {
+		sim = Util.getSimulatorForTestSpec("test/simulator/monitoredTest.asm",
 				"test/simulator/monitoredTest01.env");
 		sim.run(1);		
 		f = searchFunction("g1");
@@ -560,6 +583,10 @@ public class InterpreterTest extends BaseTest {
 				new TupleValue(new IntegerValue(1), BooleanValue.TRUE)))), 
 				v);
 	}
+
+	
+	
+	
 	
 	@Test
 	public void test44() throws Exception {		

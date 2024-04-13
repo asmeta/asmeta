@@ -221,7 +221,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 	@Override
 	public TupleValue visit(TupleTerm tuple) {
 		logger.debug("<TupleTerm>");
-		List<Value> result = new ArrayList<Value>();
+		List<Value> result = new ArrayList<>();
 		if (tuple != null) {
 			assert tuple.getArity() == tuple.getTerms().size() : "tuple.getArity(): " + tuple.getArity()
 					+ "  tuple.getTerms().size(): " + tuple.getTerms().size();
@@ -229,6 +229,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 			for (Object o : termList) {
 				Term term = (Term) o;
 				Value newValue = visit(term);
+				//Value newValue = Value.lazy(term,this);
 				result.add(newValue);
 			}
 			assert tuple.getArity() == result.size();

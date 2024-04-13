@@ -70,6 +70,9 @@ public class StandardLibrary {
 		else
 			return BooleanValue.FALSE;
 	}
+	public static UndefValue not(UndefValue op1) {
+		return UndefValue.UNDEF;
+	}
 
 	public static BooleanValue and(BooleanValue op1, BooleanValue op2) {
 		// this && performs already the lazy evaluation
@@ -78,25 +81,37 @@ public class StandardLibrary {
 		else
 			return BooleanValue.FALSE;
 	}
-	
-	public static BooleanValue and(UndefValue op1, BooleanValue op2) {
-		return BooleanValue.FALSE;
+	// in case one is undef
+	public static Value and(UndefValue op1, BooleanValue op2) {
+		if (! op2.getValue()) return BooleanValue.FALSE;
+		else return  UndefValue.UNDEF;
 	}
-
+	public static Value and(BooleanValue op1, UndefValue op2) {
+		if (! op1.getValue()) return BooleanValue.FALSE;
+		else return  UndefValue.UNDEF;
+	}
+	public static UndefValue and(UndefValue op1, UndefValue op2) {
+		return UndefValue.UNDEF;
+	}
+	// OR
 	public static BooleanValue or(BooleanValue op1, BooleanValue op2) {
 		if (op1.getValue() || op2.getValue())
 			return BooleanValue.TRUE;
 		else
 			return BooleanValue.FALSE;
 	}
-
 	public static Value or(BooleanValue op1, UndefValue op2) {
 		if (op1.getValue())
 			return BooleanValue.TRUE;
 		else
 			return UndefValue.UNDEF;
 	}
-
+	public static Value or(UndefValue op1, BooleanValue op2) {
+		if (op2.getValue())
+			return BooleanValue.TRUE;
+		else
+			return UndefValue.UNDEF;
+	}
 	public static UndefValue or(UndefValue op1, UndefValue op2) {
 		return UndefValue.UNDEF;
 	}
@@ -109,7 +124,7 @@ public class StandardLibrary {
 		else
 			return BooleanValue.FALSE;
 	}
-
+	// xor undef TODO
 	public static BooleanValue implies(BooleanValue op1, BooleanValue op2) {
 		if (!op1.getValue())
 			return BooleanValue.TRUE;

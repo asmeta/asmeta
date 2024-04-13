@@ -2,6 +2,10 @@ package org.asmeta.simulator.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -200,4 +204,45 @@ public class StandardLibraryTest extends BaseTest {
 		UpdateSet us = sim.run(1);
 		assertTrue(true);
 	}
+
+	@Test
+	public void testSTDLUndefLogicalOp() throws Exception {
+		Simulator sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/STDL/STDL_funcsUndef.asm");
+		UpdateSet us = sim.run(1);
+		assertEquals("undef",getVal(us,"c1"));
+		// AND
+		assertEquals("undef",getVal(us,"c2"));
+		assertEquals("undef",getVal(us,"c3"));
+		assertEquals("false",getVal(us,"c4"));
+		assertEquals("false",getVal(us,"c5"));
+		assertEquals("undef",getVal(us,"c6"));
+		// OR
+		assertEquals("true",getVal(us,"d1"));
+		assertEquals("true",getVal(us,"d2"));
+		assertEquals("undef",getVal(us,"d3"));
+		assertEquals("undef",getVal(us,"d4"));
+		assertEquals("undef",getVal(us,"d5"));
+		assertEquals("false",getVal(us,"d6"));
+	}
+	
+	@Test
+	public void testSTDLUndefEq() throws Exception {
+		Simulator sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/STDL/STDL_funcsUndefEQ.asm");
+		UpdateSet us = sim.run(1);
+		assertEquals("false",getVal(us,"c1"));
+		assertEquals("false",getVal(us,"c2"));
+		assertEquals("false",getVal(us,"c3"));
+		assertEquals("false",getVal(us,"c4"));
+	}
+
+	private String getVal(UpdateSet us, String location) {
+		Map<Location, Value> locationMap = us.getLocationMap();
+		for( Entry<Location, Value> e: locationMap.entrySet()) {
+			if (e.getKey().toString().equals(location)) return e.getValue().toString();
+		}
+		fail(location + " not found");
+		return null;
+	}
+
+
 }
