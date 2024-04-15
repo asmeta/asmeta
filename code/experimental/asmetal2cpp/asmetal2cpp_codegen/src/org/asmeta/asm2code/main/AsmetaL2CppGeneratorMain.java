@@ -86,7 +86,7 @@ public class AsmetaL2CppGeneratorMain {
 		System.out.println("Generated cpp file: " + cppFile.getCanonicalPath());
 		CompileResult result =  new CompileResult(true,"");
 		if(opt.compilerType != CompilerType.ArduinoCompiler && compile)//se il codice � per arduino, non compila. 
-			result = CppCompiler.compile(name + ".cpp", currentAsmPath, true, false, true);
+			result = CppCompiler.compile(name + ".cpp", currentAsmPath, true, false, false);
 		// clean the produced files
 		// delete h file
 		// hFile.delete();

@@ -236,7 +236,7 @@ class RuleToCpp extends RuleVisitor<String> {
 		for (var i = 0; i < object.getRanges.size; i++)
 			if (object.getRanges.get(i).domain instanceof PowersetDomain)
 				sb.append('''
-					set<const «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»*> point«i»;
+					vector<const «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»*> point«i»;
 				''')
 			// println("Object ranges: " + (object.getRanges.get(i).domain as PowersetDomain).baseDomain)
 			else
@@ -273,15 +273,15 @@ class RuleToCpp extends RuleVisitor<String> {
 		else
 			sb.append('''{
 			''')
-	//	var ArrayList<String> pointerTerms = new ArrayList()
+		var ArrayList<String> pointerTerms = new ArrayList()
 		for (var i = 0; i < object.getVariable.size; i++)
 			if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd){
 				var termName= new TermToCpp(res).visit(object.getVariable.get(i))
 				sb.append('''
 					point«i».push_back(&(*«termName»));
 				''')
-				/*println("TERM: " + termName)
-				pointerTerms.add(termName)*/
+				/*println("TERM: " + termName)*/
+				pointerTerms.add(termName)
 				}
 			else
 				sb.append('''
@@ -312,9 +312,10 @@ class RuleToCpp extends RuleVisitor<String> {
 		if (object.getIfnone !== null)
 		{
 			var doRule= visit(object.getDoRule)
-			/*for (var j=0; j<pointerTerms.size; j++){
-				doRule=doRule.replaceAll(pointerTerms.get(j), ("&"+pointerTerms.get(j)))
-				}*/
+			for (var j=0; j<pointerTerms.size; j++){
+				var pointerName = pointerTerms.get(j)//.replace("$","_")
+				doRule=(doRule.replace(pointerName, "&" + pointerName))
+				}
 			sb.append('''
 			  if(point0.size()>0){
 				«doRule»
@@ -325,9 +326,10 @@ class RuleToCpp extends RuleVisitor<String> {
 			}
 		else {
 			var doRule= visit(object.getDoRule)		
-			/*for (var j=0; j<pointerTerms.size; j++){
-				doRule=(doRule.replaceAll(pointerTerms.get(j), ("&"+pointerTerms.get(j))))
-			}*/
+			for (var j=0; j<pointerTerms.size; j++){
+				var pointerName = pointerTerms.get(j)//.replace("$","_")
+				doRule=(doRule.replace(pointerName, "&" + pointerName))
+			}
 			sb.append('''
 			  if(point0.size()>0){
 				«doRule»
