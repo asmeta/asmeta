@@ -13,3 +13,4 @@ Require-Bundle: asmeta.simulator,
  org.eclipse.emf.common
 Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.simulator.test
+Import-Package: org.junit.runners;version="[4.13.0,5.0.0]"

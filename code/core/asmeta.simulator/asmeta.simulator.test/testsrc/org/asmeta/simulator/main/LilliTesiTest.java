@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.asmeta.simulator.Location;
+import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.Value;
 import org.junit.Test;
@@ -30,8 +31,11 @@ public class LilliTesiTest extends BaseTest {
 	public void test01() throws Exception {
 		// carica il simulatore
 		// con anche l'ambiente per le monitorate
-		sim = Simulator.createSimulator(BASE+"test/tesililli/zwaveProtocol_join_mitm_duplicate_signature.asm",
-				BASE+"test/tesililli/zwaveProtocol_join_mitm_duplicate_signature.env");
+		// dsiabilita la lazy evaluation
+		boolean old = TermEvaluator.allowLazyEval; 
+		TermEvaluator.allowLazyEval = false;
+		sim = Simulator.createSimulator(ASM_EXAMPLES+"test/tesililli/zwaveProtocol_join_mitm_duplicate_signature.asm",
+				ASM_EXAMPLES+"test/tesililli/zwaveProtocol_join_mitm_duplicate_signature.env");
 		// faccio un passo
 		sim.run(1);
 		// interrogo lo stato o col debugger o con il print
@@ -54,7 +58,6 @@ public class LilliTesiTest extends BaseTest {
 		for (Function f:grants0) {
 			System.out.println(f.getName() + " " + f.getDomain());
 			System.out.println(sim.currentState.read(f));
-
 		}
 		/*System.out.println(foo1.getDomain());
 		Value v1 = sim.currentState.read(new Location(foo1, new Value[0]));
@@ -62,6 +65,8 @@ public class LilliTesiTest extends BaseTest {
 		Value v2 = sim.currentState.read(new Location(foo2, new Value[0]));
 		assertEquals(BooleanValue.FALSE, v1);
 		assertEquals(BooleanValue.FALSE, v2);*/
+		// ripristina lazy
+		TermEvaluator.allowLazyEval = old;
 	}
 	
 }

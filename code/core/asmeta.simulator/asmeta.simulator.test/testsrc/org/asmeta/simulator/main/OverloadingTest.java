@@ -22,7 +22,7 @@ public class OverloadingTest extends BaseTest {
 
 	@Test
 	public void test01() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/parser/overloading/m1.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/parser/overloading/m1.asm");
 		sim.run(1);
 		State s = sim.getCurrentState();
 		Function f1 = searchFunction("f1");
@@ -41,7 +41,7 @@ public class OverloadingTest extends BaseTest {
 
 	@Test
 	public void test02() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/parser/overloading/m2.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/parser/overloading/m2.asm");
 		sim.run(1);
 		State s = sim.getCurrentState();
 		Function f = searchFunction("f");
@@ -56,7 +56,7 @@ public class OverloadingTest extends BaseTest {
 		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
 		Utility.selectFirstBestRanking = false;
 		// too many compatible macro declarations
-		sim = Simulator.createSimulator(BASE + "test/parser/overloading/m3.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/parser/overloading/m3.asm");
 	}
 
 	@Test
@@ -66,6 +66,6 @@ public class OverloadingTest extends BaseTest {
 		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
 		Utility.selectFirstBestRanking = true;
 		// too many compatible macro declarations
-		sim = Simulator.createSimulator(BASE + "test/parser/overloading/m3.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/parser/overloading/m3.asm");
 	}
 }

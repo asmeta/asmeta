@@ -22,7 +22,7 @@ public class CondTermTest extends BaseTest {
 
 	@Test
 	public void test01() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/incompleteCondTerm.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/incompleteCondTerm.asm");
 		sim.run(1);
 		State s = sim.getCurrentState();
 		Function f1 = searchFunction("result1");
