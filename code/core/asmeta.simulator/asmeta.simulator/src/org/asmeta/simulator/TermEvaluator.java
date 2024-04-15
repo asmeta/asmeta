@@ -106,6 +106,9 @@ import asmeta.terms.furtherterms.StringTerm;
  * 
  */
 public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisitor<Value> {
+	
+	// allow static evaluation of functions
+	public static boolean allowLazyEval = true;
 
 	private static Logger logger = Logger.getLogger(TermEvaluator.class);
 
@@ -228,14 +231,15 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 			List<?> termList = tuple.getTerms();
 			for (Object o : termList) {
 				Term term = (Term) o;
-				Value newValue = visit(term);
-				//Value newValue = Value.lazy(term,this);
+				// angelo aprile 2024
+				Value newValue = allowLazyEval ? Value.lazy(term,this) : visit(term);
 				result.add(newValue);
 			}
 			assert tuple.getArity() == result.size();
 		}
 		// assert tuple == null || tuple.getArity() == result.size();
-		logger.debug("<Value>" + result + "</Value>");
+		// careful : in case of lazy evaluation this would distruct lazyness, since it prints the actual value!
+		logger.debug("<Value>" + (allowLazyEval ? "lazy eval " : result) + "</Value>");
 		logger.debug("</TupleTerm>");
 		return new TupleValue(result);
 	}

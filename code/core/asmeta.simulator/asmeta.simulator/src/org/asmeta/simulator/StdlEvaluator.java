@@ -72,6 +72,7 @@ public class StdlEvaluator {
 		logger.debug("<StaticFunction>" + function.getName()+ "</StaticFunction>");
 		String name = function.getName();
 		Class<?>[] argTypes = getClasses(arguments);
+		logger.debug("<argTypes>" + Arrays.toString(argTypes) + "</argTypes>");
 		Method m = resolve(name, argTypes);
 		try {
 			Object result = m.invoke(null, arguments);
@@ -212,7 +213,15 @@ public class StdlEvaluator {
 	public static Class<?>[] getClasses(Object[] arguments) {
 		Class<?>[] classes = new Class[arguments.length];
 		for (int i = 0; i < arguments.length; i++) {
-			classes[i] = arguments[i].getClass();
+			// it allows the use of anonomus classes
+			Class<? extends Object> originalClass = arguments[i].getClass();
+			if (originalClass.isAnonymousClass()) {
+				classes[i] = originalClass.getSuperclass();
+			} else {
+				classes[i] = originalClass;
+			}
+			// do not allow anonymous classes
+			assert ! classes[i].isAnonymousClass();
 		}
 		return classes;
 	}

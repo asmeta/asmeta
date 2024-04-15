@@ -538,7 +538,9 @@ public class InterpreterTest extends BaseTest {
 
 	// questo fallisce - è ancora da pensare come fare la lazy evaluation
 	@Test
-	public void testLazy() throws Exception {
+	public void testLazy() throws Exception{
+		boolean old = TermEvaluator.allowLazyEval;
+		TermEvaluator.allowLazyEval = true;
 		// f1 --> TRUE
 		//main rule r_main =	g1 := f1 and f2
 		MonFuncReader monFuncReader = new MonFuncReader() {
@@ -546,15 +548,15 @@ public class InterpreterTest extends BaseTest {
 			public Value readValue(Location location, State state) {
 				System.out.println("location " + location);
 				if (location.toString().equals("f1")) return BooleanValue.FALSE;
-				//fail("do not ask other");
-				//return null;
-				return BooleanValue.FALSE;
+				fail("do not ask other");
+				return null;
 			}			
 		};
 		Environment env = new Environment(monFuncReader);
 		sim = Simulator.createSimulator(TestOneSpec.FILE_BASE + "test/simulator/monitoredLazy.asm", env);
 		sim.run(1);		
 		f = searchFunction("g1");
+		TermEvaluator.allowLazyEval = old;
 	}
 
 	@Test

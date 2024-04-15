@@ -38,7 +38,14 @@ public abstract class Value<T> {
 	// build the value with
 	public static Value lazy(Term term, final TermEvaluator termEvaluator) {
 		if (term.getDomain() instanceof BooleanDomain)
-			return new BooleanValue(term, termEvaluator);
-		throw new RuntimeException("lazy evaluation not supported");
-	}
-}
+			return new BooleanValue() {
+		    // the evaluator to be used to evaluate
+			@Override
+				public Boolean getValue() {
+				BooleanValue v = (BooleanValue) termEvaluator.visit(term);
+					return v.getValue();
+			}
+		};
+	// no lazy eval is possible
+	return termEvaluator.visit(term);
+}}

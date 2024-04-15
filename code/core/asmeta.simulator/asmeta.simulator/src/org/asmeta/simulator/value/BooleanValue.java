@@ -46,14 +46,10 @@ public class BooleanValue extends Value<Boolean> {
         boolValue = bool;
     }
 
-    // the evaluator to be used to evaluate
-	private TermEvaluator lazyTermEv  = null;
-	private Term term = null;
-    public BooleanValue(Term term, TermEvaluator termEvaluator) {
-    	lazyTermEv = termEvaluator;
-    	this.term = term;
-	}
-
+    BooleanValue() {
+    	// without the value to allow lazy evaluation
+    }
+    
 	/**
      * Creates a new boolean.
      * 
@@ -91,8 +87,7 @@ public class BooleanValue extends Value<Boolean> {
      */
     @Override
 	public Boolean getValue() {
-    	if (boolValue == null) 
-    		boolValue = (Boolean) lazyTermEv.visit(term).getValue();
+    	assert boolValue != null : "Boolean Value cannot be null";
         return boolValue;
     }
     
