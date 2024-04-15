@@ -11,12 +11,13 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.asmeta.xt.validation.ErrorCode
+import org.asmeta.xt.tests.AsmParseHelper
 
 @RunWith(XtextRunner)
 @InjectWith(AsmetaLInjectorProvider)
 class InizializationNegativeParsingTest {
 	
-	@Inject	ParseHelper<Asm> parseHelper
+	@Inject	AsmParseHelper parseHelper
 	@Inject extension ValidationTestHelper
 
 	@Test
@@ -43,8 +44,8 @@ class InizializationNegativeParsingTest {
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = {0 .. 3} 
-				domain NumOfCherries = {0 .. 5} 
+				domain NumOfCherries = {0 : 3} 
+				domain NumOfCherries = {0 : 5} 
 		''')
 		result.assertError(AsmetalPackage.Literals.DOMAIN_INITIALIZATION, ErrorCode.DOMAIN_INIZIALIZATION__DEFINED_TWICE)	
 			
@@ -53,7 +54,7 @@ class InizializationNegativeParsingTest {
 			signature:
 			definitions:
 			default init s0:
-				domain NumOfCherries = {0 .. 3} 
+				domain NumOfCherries = {0 : 3} 
 		''')
 		result.assertError(AsmetalPackage.Literals.DOMAIN_INITIALIZATION, ErrorCode.SIGNATURE__DOMAIN_NOT_FOUND)	
 		
@@ -64,7 +65,7 @@ class InizializationNegativeParsingTest {
 				domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = {0 .. 3}
+				domain NumOfCherries = {0 : 3}
 		''')
 		result.assertError(AsmetalPackage.Literals.DOMAIN_INITIALIZATION, ErrorCode.DOMAIN_INIZIALIZATION__IS_STATIC)	
 		
@@ -75,7 +76,7 @@ class InizializationNegativeParsingTest {
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = {0 .. 3} 
+				domain NumOfCherries = {0 : 3} 
 		''')
 		result.assertNoErrors
 		
@@ -97,7 +98,7 @@ class InizializationNegativeParsingTest {
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = { 1 .. "Z" }
+				domain NumOfCherries = { 1 : "Z" }
 		''')
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__DIFFERENT_DOMAINS)	
 		
@@ -108,7 +109,7 @@ class InizializationNegativeParsingTest {
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = { "A" .. 5 }
+				domain NumOfCherries = { "A" : 5 }
 		''')
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__DIFFERENT_DOMAINS)	
 		
@@ -130,7 +131,7 @@ class InizializationNegativeParsingTest {
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = { "A" .. "Z" }
+				domain NumOfCherries = { "A" : "Z" }
 		''')
 		result.assertError(AsmetalPackage.Literals.DOMAIN_INITIALIZATION, ErrorCode.DOMAIN_INIZIALIZATION__ILL_FORMED_BODY)		
 		
@@ -184,7 +185,7 @@ class InizializationNegativeParsingTest {
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = { 1 .. 1 }
+				domain NumOfCherries = { 1 : 1 }
 		''')	
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__ADDED_TWICE)	
 	
@@ -195,7 +196,7 @@ class InizializationNegativeParsingTest {
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = { 1 .. 15, 2 }
+				domain NumOfCherries = { 1 : 15, 2 }
 		''')
 		result.assertNoErrors	
 		

@@ -1,6 +1,5 @@
 package org.asmeta.tocpp.tocunit;
 
-import asmeta.AsmCollection;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
 import atgt.specification.location.Location;
@@ -12,42 +11,16 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 public class AsmTsToCatch2Test extends TestSuiteTranslator {
   private int counter = 0;
 
-  public AsmTsToCatch2Test(final AsmCollection asm) {
-    super(asm, "REQUIRE");
+  public AsmTsToCatch2Test(final /* AsmCollection */Object asm) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method super(AsmCollection, String) is undefined");
   }
 
   @Override
   public CharSequence convertTestSuite(final AsmTestSuite testSuite) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file");
-    _builder.newLine();
-    _builder.append("#include \"catch.hpp\"");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("#include <iostream>");
-    _builder.newLine();
-    _builder.append("#include \"");
-    _builder.append(this.asmName);
-    _builder.append(".h\"");
-    _builder.newLineIfNotEmpty();
-    _builder.append("using namespace std;");
-    _builder.newLine();
-    _builder.newLine();
-    this.getAbstractDomain(this.asm);
-    _builder.newLineIfNotEmpty();
-    _builder.newLine();
-    {
-      for(final AsmTestSequence t : testSuite) {
-        CharSequence _printTestCase = this.printTestCase(t);
-        _builder.append(_printTestCase);
-        _builder.newLineIfNotEmpty();
-        _builder.append("//");
-        int _plusPlus = this.counter++;
-        _builder.append(_plusPlus);
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    return _builder;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method getAbstractDomain(Object) is undefined"
+      + "\nThe method or field asm is undefined");
   }
 
   public CharSequence printTestCase(final AsmTestSequence test) {

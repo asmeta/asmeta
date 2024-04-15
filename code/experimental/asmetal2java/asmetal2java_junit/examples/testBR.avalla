@@ -1,0 +1,21 @@
+scenario testBR_r_Main_TBR_r_retractionSequence_T_OPEN_T_EXTENDED_F
+
+load ./..\LGS_GM.asm
+
+//// test name test@BR_r_Main_TBR_r_retractionSequence_T_OPEN_T_EXTENDED_F
+//// generated for (test goal): BR_r_Main_TBR_r_retractionSequence_T_OPEN_T_EXTENDED_F: (handle = UP) and ((gears != RETRACTED) and ((doors = OPEN) and (gears != EXTENDED)))
+check gears = EXTENDED;
+check doors = CLOSED;
+set handle := DOWN;
+step
+set handle := UP;
+step
+check doors = OPENING;
+set handle := UP;
+step
+check doors = OPEN;
+set handle := UP;
+step
+check gears = RETRACTING;
+set handle := UP;
+step

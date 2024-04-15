@@ -83,7 +83,7 @@ public class TestSingleFile extends TestValidator {
 	
 	@Test
 	public void testBuilerWithSpaces() throws Exception {		
-		//
+		// the path has a space in it
 		Path model = Paths.get("scenariosfortest/sub dir/Lift.asm");
 		assert Files.exists(model);
 		// transform to absolute
@@ -93,6 +93,7 @@ public class TestSingleFile extends TestValidator {
 		System.out.println(modelAbsPath);
 		modelAbsPath = modelAbsPath.replace("\\", "\\\\\\\\");
 		// put in the lift2.avalla
+		// tale the template
 		Path templateAvalla = Paths.get("scenariosfortest/lift2_avalla.template");
 		assert Files.exists(templateAvalla);
 		Charset charset = StandardCharsets.UTF_8;
@@ -100,6 +101,7 @@ public class TestSingleFile extends TestValidator {
 		content = content.replaceAll("LIFTASM_AS_ABSPATH", "\"" +modelAbsPath + "\"");
 		System.out.println(content);
 		Path avalla = Paths.get("scenariosfortest/lift2.avalla");
+		if (!Files.exists(avalla)) Files.createFile(avalla);
 		assert Files.exists(avalla);
 		Files.write(avalla, content.getBytes(charset));
 		test(avalla.toString(), false, false, true);

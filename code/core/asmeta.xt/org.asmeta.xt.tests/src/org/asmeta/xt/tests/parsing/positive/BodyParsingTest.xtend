@@ -31,12 +31,13 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.asmeta.xt.tests.AsmParseHelper
 
 @RunWith(XtextRunner)
 @InjectWith(AsmetaLInjectorProvider)
 class BodyParsingTest {
 	
-	@Inject	ParseHelper<Asm> parseHelper
+	@Inject	AsmParseHelper parseHelper
 	@Inject extension ValidationTestHelper
 	
 	@Test
@@ -45,9 +46,12 @@ class BodyParsingTest {
 		var result = parseHelper.parse('''
 			asm domain_function
 			
-			import StandardLibrary( Integer, Any )
+			//import StandardLibrary(Integer, Any)
 			
 			signature:
+				basic domain Integer
+				anydomain Any
+	
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
 			
@@ -61,7 +65,7 @@ class BodyParsingTest {
 				static philo5: Philosopher
 			
 			definitions:
-				domain NumOfCherries = {0 .. 3}
+				domain NumOfCherries = {0 : 3}
 			
 				function leftNeighbour($p in Philosopher) =
 					switch($p)
@@ -71,16 +75,16 @@ class BodyParsingTest {
 						case philo4: philo3
 						case philo5: philo4
 					endswitch
-		''')
+		''',"domain_function")
 		result.assertNoErrors
 		
 		// TODO manca controllo della rule declaration
 		
-		var i = 0
+		var i = 2
 		
 		// SIGNATURE
 		
-		Assert.assertEquals( 2, result.headerSection.signature.domain.size)	
+		Assert.assertEquals( 4, result.headerSection.signature.domain.size)	
 		Assert.assertEquals( 7, result.headerSection.signature.function.size)
 		
 		// abstract domain Philosopher
@@ -216,7 +220,7 @@ class BodyParsingTest {
 			
 				//Se la capra (GO) e il cavolo (CA) sono sulla stessa sponda, allora deve essere presente anche il FERRYMAN
 				invariant over position: position(GO)=position(CA) implies position(GO)=position(FERRYMAN)
-			''')
+			''', "invariant_asm")
 		result.assertNoErrors
 		
 		var i = 0
@@ -396,7 +400,7 @@ class BodyParsingTest {
 				INVAR 5 > 6
 				JUSTICE 5 > 6
 				COMPASSION(  5 > 6, 5 > 6 )
-		''')
+		''',"fairness")
 		result.assertNoErrors	
 	
 		var i = 0

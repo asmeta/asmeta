@@ -9,7 +9,10 @@
 
 package org.asmeta.simulator.value;
 
+import org.asmeta.simulator.TermEvaluator;
+
 import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.Term;
 
 /**
  * A boolean value.
@@ -31,7 +34,7 @@ public class BooleanValue extends Value<Boolean> {
 	/**
 	 * The value.
 	 */
-	private boolean boolValue;
+	protected Boolean boolValue = null;
     
 
     /**
@@ -43,7 +46,11 @@ public class BooleanValue extends Value<Boolean> {
         boolValue = bool;
     }
 
-    /**
+    BooleanValue() {
+    	// without the value to allow lazy evaluation
+    }
+    
+	/**
      * Creates a new boolean.
      * 
      * @param term a boolean term
@@ -80,6 +87,7 @@ public class BooleanValue extends Value<Boolean> {
      */
     @Override
 	public Boolean getValue() {
+    	assert boolValue != null : "Boolean Value cannot be null";
         return boolValue;
     }
     

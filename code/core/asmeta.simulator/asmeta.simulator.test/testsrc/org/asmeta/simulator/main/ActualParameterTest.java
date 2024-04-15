@@ -27,7 +27,7 @@ public class ActualParameterTest extends BaseTest {
 	@Ignore // ANGELO, ignore this test, I'm not sure it is correct 2021.05
 	@Test(expected = NotCompatibleDomainsException.class)
 	public void test01() throws Throwable {
-		sim = Simulator.createSimulator(BASE + "test/simulator/wrongDomainAsActualParameter.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/wrongDomainAsActualParameter.asm");
 		try {
 			sim.run(2);
 		}
@@ -40,7 +40,7 @@ public class ActualParameterTest extends BaseTest {
 	//l'eccezione viene sollevata ugualmente. Il termine non cambia il suo dominio runtime...
 	@Test
 	public void test02() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/correctDomainAsActualParameter.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/correctDomainAsActualParameter.asm");
 		try {
 			sim.run(2);
 		}

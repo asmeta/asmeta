@@ -72,6 +72,7 @@ public class StdlEvaluator {
 		logger.debug("<StaticFunction>" + function.getName()+ "</StaticFunction>");
 		String name = function.getName();
 		Class<?>[] argTypes = getClasses(arguments);
+		logger.debug("<argTypes>" + Arrays.toString(argTypes) + "</argTypes>");
 		Method m = resolve(name, argTypes);
 		try {
 			Object result = m.invoke(null, arguments);
@@ -101,8 +102,7 @@ public class StdlEvaluator {
 	 * @throws UnresolvedReferenceException if no method is found or there
 	 * are too methods compatible with the given declaration
 	 */
-	protected Method resolve(String name, Class<?>[] argTypes)
-	throws UnresolvedReferenceException {
+	protected Method resolve(String name, Class<?>[] argTypes) throws UnresolvedReferenceException {
 		WrappedMethod m1 = new WrappedMethod(name, argTypes);
 		int[] jj = findCandidates(m1);
 		int j1 = jj[0], j2 = jj[1];
@@ -213,7 +213,15 @@ public class StdlEvaluator {
 	public static Class<?>[] getClasses(Object[] arguments) {
 		Class<?>[] classes = new Class[arguments.length];
 		for (int i = 0; i < arguments.length; i++) {
-			classes[i] = arguments[i].getClass();
+			// it allows the use of anonomus classes
+			Class<? extends Object> originalClass = arguments[i].getClass();
+			if (originalClass.isAnonymousClass()) {
+				classes[i] = originalClass.getSuperclass();
+			} else {
+				classes[i] = originalClass;
+			}
+			// do not allow anonymous classes
+			assert ! classes[i].isAnonymousClass();
 		}
 		return classes;
 	}

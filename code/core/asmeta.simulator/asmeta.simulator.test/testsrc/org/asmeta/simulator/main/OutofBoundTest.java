@@ -19,7 +19,7 @@ public class OutofBoundTest extends BaseTest {
 
 	@Test
 	public void testOutOfBound() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/outofbound.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/outofbound.asm");
 		sim.run(3);
 		try {
 			sim.run(1);

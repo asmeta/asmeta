@@ -87,12 +87,10 @@ public class InteractiveMFReader extends MonFuncReader {
 	 * @param out output stream
 	 */
 	public InteractiveMFReader(InputStream in, PrintStream out) {
-		this.out = out;
-		this.in = new BufferedReader(new InputStreamReader(in));
-		domainPrinter = new DomainPrinter();
+		this(new BufferedReader(new InputStreamReader(in)), out);
 	}
 
-	public InteractiveMFReader(BufferedReader in, PrintStream out) {
+	protected InteractiveMFReader(BufferedReader in, PrintStream out) {
 		this.out = out;
 		this.in = in;
 		domainPrinter = new DomainPrinter();

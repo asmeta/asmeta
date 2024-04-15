@@ -233,6 +233,17 @@ public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest {
 		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
 			fail();
 	}
+	
+	@Test
+	public void testTutorialFM() throws Exception {
+		TranslatorOptions testOptions = new TranslatorOptions(false, true, true, false);
+		String asmspec = "../../../../asmeta_models/STDL/TimeLibrarySimple.asm";
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, false).success)
+			fail();
+		asmspec = "../../../../asmeta_models/tutorials/tutorial_FM24/pillbox_final.asm";
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec, testOptions, true).success)
+			fail();
+	}
 
 	
 	/*

@@ -28,7 +28,7 @@ public class RunOutput implements Serializable {
 	private Esit esit = Esit.SAFE; 
 	
 	/** The test. */
-	private String message = "";
+	public String message = "";
 	
 	/** Flag to check if the run has finished */
 	private boolean timeoutFlag = false;

@@ -1,0 +1,19 @@
+scenario Rubrica_0
+
+load ./Rubrica
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+set selectedService := INS;
+step
+check rubricaState = SCELTA;
+check outmex = Contact inserted!;
+set selectedService := DEL;
+step
+check rubricaState = SCELTA;
+check outmex = Contact deleted!;
+set selectedService := INS;
+step
+check rubricaState = SCELTA;
+check outmex = Contact inserted!;
+step

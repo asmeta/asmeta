@@ -1,0 +1,48 @@
+scenario scenario_ground
+
+load pillbox_ground.asm
+
+// Initially all deadlines are not hit
+set pillDeadlineHit(drawer1) := false;
+set pillDeadlineHit(drawer2) := false;
+set pillDeadlineHit(drawer2) := false;
+
+step
+
+// Check that all leds are off
+check drawerLed(drawer1) = OFF;
+check drawerLed(drawer2) = OFF;
+check drawerLed(drawer3) = OFF;
+
+// Now, the time for the pill in the drawer 1 comes
+set pillDeadlineHit(drawer1) := true;
+
+step
+
+// Check that the drawer has been marked as ready to be taken
+check isPillTobeTaken(drawer1) = true;
+check isPillTobeTaken(drawer2) = false;
+check isPillTobeTaken(drawer3) = false;
+
+step
+
+// Check that the led for the drawer 1 is on
+check drawerLed(drawer1) = ON;
+check drawerLed(drawer2) = OFF;
+check drawerLed(drawer3) = OFF;
+check isPillTobeTaken(drawer1) = true;
+check isPillTobeTaken(drawer2) = false;
+check isPillTobeTaken(drawer3) = false;
+
+// Now, take the pill 
+set isPillTaken(drawer1) := true;
+
+step
+
+// Check that the led is reset
+check drawerLed(drawer1) = OFF;
+check drawerLed(drawer2) = OFF;
+check drawerLed(drawer3) = OFF;
+check isPillTobeTaken(drawer1) = false;
+check isPillTobeTaken(drawer2) = false;
+check isPillTobeTaken(drawer3) = false;

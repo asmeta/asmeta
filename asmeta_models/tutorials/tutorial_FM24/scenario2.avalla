@@ -1,0 +1,23 @@
+scenario scenario2
+
+load pillbox_final.asm
+
+step 
+
+check drawerLed(drawer1) = OFF;
+check drawerLed(drawer2) = OFF;
+check drawerLed(drawer3) = OFF;
+
+step until drawerLed(drawer1) = ON;
+
+check drawerLed(drawer1) = ON;
+check drawerLed(drawer2) = OFF;
+check drawerLed(drawer3) = OFF;
+check start(tenMinutes) = 60;
+set isPillTaken(drawer1) := false;
+
+step until expired(tenMinutes);
+
+check drawerLed(drawer1) = OFF;
+check drawerLed(drawer2) = OFF;
+check drawerLed(drawer3) = OFF;

@@ -32,7 +32,7 @@ public abstract class AsmetaCLI {
 	protected boolean exit = false;
 
 	@Argument
-	private List<String> arguments = new ArrayList<String>();
+	private List<String> arguments = new ArrayList<>();
 
 	/**
 	 * executes the application with the arguments args MUST be the last action of

@@ -122,7 +122,7 @@ public class CppCompiler {
 				// add extra options
 				command.addAll(Arrays.asList(extraOptionsWhenCompiling.split(" ")));
 				//
-				command.add("-o" + nameNoExt + ".o");
+				command.add("-o " + nameNoExt + ".o");
 				command.add(nameNoExt + ".cpp");
 			} else {
 				// in this case, link !! (assume that boost is needed

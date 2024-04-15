@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
+import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
 
@@ -44,7 +45,13 @@ public class AsmetaV {
 		AsmetaV asmetaV = new AsmetaV();
 		File scenarioPathFile = new File(scenarioPath);
 		if (!scenarioPathFile.exists()) throw new RuntimeException("path " + scenarioPath + " does not exist" );
-		return asmetaV.execValidation(scenarioPathFile, coverage);
+		// disable lazy evaluation (it is not interavtive)
+		boolean old = TermEvaluator.allowLazyEval;
+		TermEvaluator.allowLazyEval = false;
+		List<String> result = asmetaV.execValidation(scenarioPathFile, coverage);
+		// ripristina il valore messo in precedenza
+		TermEvaluator.allowLazyEval = old;		
+		return result;
 	}
 
 	private AsmetaV(){}
@@ -188,8 +195,4 @@ public class AsmetaV {
 		}
 		return check_succeded;
 	}
-
-
-
-
 }

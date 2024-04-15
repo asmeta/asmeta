@@ -39,15 +39,18 @@ class SimpleParsingTest extends ParserTest{
 	}
 	
 	@Test
-	def void testImport() {	
+	def void testImport() {
+		// test all the possible imports	
 		val f = new File("../../../../asm_examples/STDL/StandardLibrary.asm")
 		Assert.assertTrue(f.exists)
-		// relative path
+		// relative path (from which directory???)
 		var asmlib = f.path.replaceAll("\\\\","/")
+		// remove the extension
 		asmlib = asmlib.substring(0,asmlib.length-4)
 		testImport(asmlib)
 		// relative path with quotes
-		testImport("\""+asmlib+"\"")				
+		testImport("\""+asmlib+"\"")
+		// TODO absolute path				
 	}
 	
 	def testImport(String toimport){
