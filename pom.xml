@@ -30,10 +30,10 @@
 			code/extensions/asmeta.modeladvisor/asmeta.modeladvisor.test
 		</module>
 		<module>
-			code/extensions/asmeta.refprover/refinementProof
+			code/extensions/asmeta.refprover/asmeta.translatortosmt
 		</module>
 		<module>
-			code/extensions/asmeta.refprover/translatorToSMT
+			code/extensions/asmeta.refprover/asmeta.refinementprover
 		</module>
 		<module>
 			code/experimental/asmetal2cpp/asmetal2cpp_codegen

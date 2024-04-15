@@ -121,7 +121,7 @@ public class SetValueTest {
 	@Test
 	public void testRushHour2() throws Exception {
 		SMTbasedASMsimulator visitor = new SMTbasedASMsimulator("models/RushHour2.asm");
-		visitor.setLogger();
+		SMTbasedASMsimulator.setLogger();
 		visitor.visitASM();
 		visitor.assertRules();
 		visitor.parseAndAssertCommand("(= " + location("board1", new String[]{"2", "0"}) + " 1)");
@@ -132,7 +132,7 @@ public class SetValueTest {
 	@Test
 	public void testRushHour3() throws Exception {
 		SMTbasedASMsimulator visitor = new SMTbasedASMsimulator("models/RushHour3.asm");
-		visitor.setLogger();
+		SMTbasedASMsimulator.setLogger();
 		visitor.visitASM();
 		visitor.assertRules();
 		visitor.parseAndAssertCommand("(= " + location("board1", new String[]{"0", "1"}) + " 1)");

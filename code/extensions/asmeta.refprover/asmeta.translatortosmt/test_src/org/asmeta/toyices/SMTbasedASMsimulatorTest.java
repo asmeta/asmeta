@@ -254,6 +254,6 @@ public class SMTbasedASMsimulatorTest {
 	@Test
 	public void testPillBoxTutorial() throws Exception {
 		SMTbasedASMsimulator.setLogger();
-		test("../../../../asm_examples/asmeta_tutorial_FM/pillbox_ground.asm");
+		test("../../../../asmeta_models/tutorials/tutorial_FM24/pillbox_ground.asm");
 	}
 }

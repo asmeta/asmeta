@@ -21,7 +21,7 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.parser"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.traslatortosmt"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.translatortosmt"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.emf"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
