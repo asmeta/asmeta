@@ -34,7 +34,7 @@ public class BooleanValue extends Value<Boolean> {
 	/**
 	 * The value.
 	 */
-	private Boolean boolValue = null;
+	protected Boolean boolValue = null;
     
 
     /**

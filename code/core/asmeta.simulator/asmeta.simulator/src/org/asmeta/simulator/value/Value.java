@@ -39,13 +39,16 @@ public abstract class Value<T> {
 	public static Value lazy(Term term, final TermEvaluator termEvaluator) {
 		if (term.getDomain() instanceof BooleanDomain)
 			return new BooleanValue() {
-		    // the evaluator to be used to evaluate
-			@Override
+				// the evaluator to be used to evaluate
+				@Override
 				public Boolean getValue() {
-				BooleanValue v = (BooleanValue) termEvaluator.visit(term);
-					return v.getValue();
-			}
-		};
-	// no lazy eval is possible
+					if (boolValue == null) {
+						BooleanValue v = (BooleanValue) termEvaluator.visit(term);
+						boolValue = v.getValue();
+					}
+					return boolValue;
+				}
+			};
+		// no lazy eval is possible
 	return termEvaluator.visit(term);
 }}
