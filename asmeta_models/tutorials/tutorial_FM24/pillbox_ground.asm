@@ -1,9 +1,9 @@
-// ground pillbox without time
+// Ground model for the Pill-Box. It considers the time only through a set of 
+// Boolean functions indicating the time passing
 asm pillbox_ground
 
 import ../../STDL/StandardLibrary
 import ../../STDL/CTLlibrary
-import ../../STDL/LTLlibrary
 
 signature:
 	//*************************************************
