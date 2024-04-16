@@ -1445,7 +1445,7 @@ public class CheckModelTest extends TestMethods {
 			ArrayList<String[]> state = new ArrayList<String[]>();
 			state.add(new String[]{"(= outMessage" + (i + 1) + " CERTIFICATE)", "unsat"});
 			commandsExpRes.add(state);
-			testAssertCommandsExpResult("../../../Asmeta/asm_examples/stereoacuity/certifierGround.asm", commandsExpRes, false);
+			testAssertCommandsExpResult("../../../../asm_examples/stereoacuity/certifierGround.asm", commandsExpRes, false);
 		}
 	}
 

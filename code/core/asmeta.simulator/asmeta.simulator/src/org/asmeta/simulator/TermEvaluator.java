@@ -107,8 +107,8 @@ import asmeta.terms.furtherterms.StringTerm;
  */
 public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisitor<Value> {
 	
-	// allow static evaluation of functions
-	public static boolean allowLazyEval = true;
+	// allow lazy evaluation of functions
+	public static boolean allowLazyEval = false;
 
 	private static Logger logger = Logger.getLogger(TermEvaluator.class);
 

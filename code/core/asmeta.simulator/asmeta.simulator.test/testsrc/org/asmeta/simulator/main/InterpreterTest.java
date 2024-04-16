@@ -19,6 +19,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -42,8 +43,13 @@ import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.TupleValue;
 import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -57,12 +63,38 @@ import org.asmeta.parser.ParseException;
  * Test for Simulator class.  
  *
  */
+@RunWith(Parameterized.class)
 public class InterpreterTest extends BaseTest {
 
 	Function f;
 	Domain d;
 	Value v;
 
+	@Parameters
+    public static Collection<Boolean> data() {
+        return Arrays.asList(Boolean.TRUE, Boolean.FALSE);
+    }
+
+    public InterpreterTest(boolean allowLazyEval) {
+        TermEvaluator.allowLazyEval = allowLazyEval;
+    }
+	
+    private static boolean allowLazyEvalOLD;
+    
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		//AsmParserTest.setUpLogger();
+		allowLazyEvalOLD = TermEvaluator.allowLazyEval;
+	}
+
+	@AfterClass
+	public static void ripristina() throws Exception {
+		//AsmParserTest.setUpLogger();
+		TermEvaluator.allowLazyEval = allowLazyEvalOLD;
+	}
+
+	
+	
 	@Test
 	public void test01() throws Exception {		
 		sim = Util.getSimulatorForTestSpec("test/simulator/ArithmeticExpr01.asm");

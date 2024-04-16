@@ -4,29 +4,55 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
+import org.asmeta.simulator.StdlEvaluator;
+import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.main.BaseTest;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import asmeta.definitions.Function;
 
+@RunWith(Parameterized.class)
 public class StandardLibraryTest extends BaseTest {
+	
+	@Parameters
+    public static Collection<Boolean> data() {
+        return Arrays.asList(Boolean.TRUE, Boolean.FALSE);
+    }
 
-	private static final String ASM_EXAMPLES = "../../../../asm_examples/";
-
+    public StandardLibraryTest(boolean allowLazyEval) {
+        TermEvaluator.allowLazyEval = allowLazyEval;
+    }
+	
+    private static boolean allowLazyEvalOLD;
+    
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		//AsmParserTest.setUpLogger();
+		allowLazyEvalOLD = TermEvaluator.allowLazyEval;
 	}
 
+	@AfterClass
+	public static void ripristina() throws Exception {
+		//AsmParserTest.setUpLogger();
+		TermEvaluator.allowLazyEval = allowLazyEvalOLD;
+	}
+
+	
 	@Test
 	public void testAppend() throws Exception {
 		// Scrivi caso di test per la library
@@ -222,7 +248,8 @@ public class StandardLibraryTest extends BaseTest {
 		assertEquals("undef",getVal(us,"d3"));
 		assertEquals("undef",getVal(us,"d4"));
 		assertEquals("undef",getVal(us,"d5"));
-		assertEquals("false",getVal(us,"d6"));
+		// NOT undef
+		assertEquals("undef",getVal(us,"d6"));
 	}
 	
 	@Test
