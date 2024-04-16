@@ -61,6 +61,7 @@ definitions:
 			isPillTobeTaken($drawer) and isOff($drawer) and not areOthersOn($drawer) do
 				// Rule to set the led red ON when the pill has to be taken
 				drawerLed($drawer) := ON 	
+
 	// Set the status for other drawers		
 	rule r_setOtherDrawers = forall $drawer in Drawer do par		
 			if pillDeadlineHit($drawer) and isOff($drawer) then isPillTobeTaken($drawer) := true endif		

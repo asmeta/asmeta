@@ -1,12 +1,8 @@
-// 
-// complete specification with sequences
-// 
-
+// Full Pill-Box specification, including timers and multiple deadlines for
+// for each drawer.
 asm pillbox_final
-
 import ../../STDL/StandardLibrary
 import ../../STDL/CTLlibrary
-import ../../STDL/LTLlibrary
 import ../../STDL/TimeLibrarySimple
 
 signature:
@@ -90,10 +86,9 @@ definitions:
 	// Set the status for other drawers		
 	rule r_setOtherDrawers = forall $drawer in Drawer do par
 			if pillDeadlineHit($drawer) then isPillTobeTaken($drawer):= true endif	
-			if (isThereAnyOtherDeadline($drawer)) then 					
-				// Handle the evolution of the System when the LED is in ON state
-				r_ON[$drawer]
-			endif
+			// Handle the evolution of the System when the LED is in ON state
+			// The pill has been taken, or the timer expires
+			if (isThereAnyOtherDeadline($drawer)) then r_ON[$drawer] endif
 		endpar
 	//*************************************************
 	// INVARIANTS
@@ -104,8 +99,7 @@ definitions:
 	//*************************************************	
 	main rule r_Main = par
 			// Non-determistic choice of the pill
-			r_choosePillToTake[]
-			
+			r_choosePillToTake[]			
 			// Handle other states
 			r_setOtherDrawers[]			
 		endpar
