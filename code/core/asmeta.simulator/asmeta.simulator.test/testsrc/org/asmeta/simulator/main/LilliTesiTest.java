@@ -32,8 +32,7 @@ public class LilliTesiTest extends BaseTest {
 		// carica il simulatore
 		// con anche l'ambiente per le monitorate
 		// dsiabilita la lazy evaluation
-		boolean old = TermEvaluator.allowLazyEval; 
-		TermEvaluator.allowLazyEval = false;
+		TermEvaluator.setAllowLazyEval(false);
 		sim = Simulator.createSimulator(ASM_EXAMPLES+"test/tesililli/zwaveProtocol_join_mitm_duplicate_signature.asm",
 				ASM_EXAMPLES+"test/tesililli/zwaveProtocol_join_mitm_duplicate_signature.env");
 		// faccio un passo
@@ -66,7 +65,7 @@ public class LilliTesiTest extends BaseTest {
 		assertEquals(BooleanValue.FALSE, v1);
 		assertEquals(BooleanValue.FALSE, v2);*/
 		// ripristina lazy
-		TermEvaluator.allowLazyEval = old;
+		TermEvaluator.recoverAllowLazyEval();
 	}
 	
 }

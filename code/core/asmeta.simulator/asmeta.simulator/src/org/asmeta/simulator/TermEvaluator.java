@@ -107,8 +107,6 @@ import asmeta.terms.furtherterms.StringTerm;
  */
 public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisitor<Value> {
 	
-	// allow lazy evaluation of functions
-	public static boolean allowLazyEval = false;
 
 	private static Logger logger = Logger.getLogger(TermEvaluator.class);
 
@@ -140,6 +138,23 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 
 	/** is the use of pre enabled */
 	// boolean isPreEnabled = false;
+
+	// allow lazy evaluation of functions
+	private static boolean allowLazyEval = false;
+	private static boolean allowLazyEvalOLD;
+	/**
+	 * @param allowLazyEval the allowLazyEval to set
+	 */
+	public static void setAllowLazyEval(boolean allowLazyEval) {
+		allowLazyEvalOLD = TermEvaluator.allowLazyEval;
+		TermEvaluator.allowLazyEval = allowLazyEval;
+	}
+	/**
+	 * @param allowLazyEval the allowLazyEval to set
+	 */
+	public static void recoverAllowLazyEval() {
+		TermEvaluator.allowLazyEval = allowLazyEvalOLD;
+	}
 
 	/**
 	 * Constructor.
@@ -369,11 +384,16 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 		List<?>/* <VariableTerm> */ variables = funcDef.getVariable();
 		Term body = funcDef.getBody();
 		assert body != null : function.getName() + " has null body.\nvars: " + variables;
-		ValueAssignment newAssignment = new ValueAssignment();
-		newAssignment.put(variables, arguments);
-		TermEvaluator newTermEvaluator = new TermEvaluator(state, environment, newAssignment);
+		// build the new term evaluator
+		TermEvaluator newTermEvaluator = buildNewInstance(variables, arguments); 
 		Value value = newTermEvaluator.visit(body);
 		return value;
+	}
+	// build the new term evaluator with the new bindings
+	private TermEvaluator buildNewInstance(List<?> variables, Value[] arguments) {
+		ValueAssignment newAssignment = new ValueAssignment(assignment);
+		newAssignment.put(variables, arguments);
+		return new TermEvaluator(state, environment, newAssignment);
 	}
 
 	/**
@@ -544,6 +564,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 	@Override
 	public Value visit(LetTerm letTerm) {
 		logger.debug("<LetTerm>");
+		// new assingment will be reused and update later
 		ValueAssignment newAssignment = new ValueAssignment(assignment);
 		TermEvaluator newEvaluator = new TermEvaluator(state, environment, newAssignment);
 		Iterator<?>/* <Term> */ initTermIt = letTerm.getAssignmentTerm().iterator();
@@ -606,9 +627,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 				}
 			}
 		} else {
-			ValueAssignment newAssignment = new ValueAssignment(assignment);
-			newAssignment.put(existTerm.getVariable(), boundValues);
-			TermEvaluator newEvaluator = new TermEvaluator(state, environment, newAssignment);
+			TermEvaluator newEvaluator = buildNewInstance(existTerm.getVariable(), boundValues) ;
 			logger.debug("<ExistTermGuard>");
 			Term existTermGuard = existTerm.getGuard();
 			BooleanValue guard = BooleanValue.TRUE;
@@ -666,9 +685,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 			}
 			return trueCounter == 1;
 		} else {
-			ValueAssignment newAssignment = new ValueAssignment(assignment);
-			newAssignment.put(existUniqueTerm.getVariable(), boundValues);
-			TermEvaluator newEvaluator = new TermEvaluator(state, environment, newAssignment);
+			TermEvaluator newEvaluator = buildNewInstance(existUniqueTerm.getVariable(), boundValues) ;
 			logger.debug("<ExistUniqueTermGuard>");
 			Term existTermGuard = existUniqueTerm.getGuard();
 			BooleanValue guard = BooleanValue.TRUE;
@@ -720,9 +737,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 				}
 			}
 		} else {
-			ValueAssignment newAssignment = new ValueAssignment(assignment);
-			newAssignment.put(forTerm.getVariable(), boundValues);
-			TermEvaluator newEvaluator = new TermEvaluator(state, environment, newAssignment);
+			TermEvaluator newEvaluator = buildNewInstance(forTerm.getVariable(), boundValues);
 			logger.debug("<Guard>");
 			BooleanValue guard = (BooleanValue) newEvaluator.visit(forTerm.getGuard());
 			logger.debug("</Guard>");
@@ -808,9 +823,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 				visitComprehension(varIndex + 1, boundVars, domains, boundValues, comprehension, result);
 			}
 		} else {
-			ValueAssignment newAssignment = new ValueAssignment(assignment);
-			newAssignment.put(comprehension.getVariable(), boundValues);
-			TermEvaluator newEvaluator = new TermEvaluator(state, environment, newAssignment);
+			TermEvaluator newEvaluator = buildNewInstance(comprehension.getVariable(), boundValues);
 			BooleanValue guard;
 			if (comprehension.getGuard() != null) {
 				logger.debug("<Guard>");

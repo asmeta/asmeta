@@ -61,7 +61,8 @@ public abstract class Value<T> {
 			}
 			if (term instanceof LocationTerm) {
 				LocationTerm ft = (LocationTerm) term;
-				System.err.println("***" + ft.getFunction().getName());
+				// can it happen that a location term is undef by definition?
+				//System.err.println("***" + ft.getFunction().getName());
 			}
 			return new BooleanValue() {
 				// the evaluator to be used to evaluate

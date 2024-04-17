@@ -109,5 +109,10 @@ public abstract class MonFuncReader extends ReflectiveVisitor<Value> {
 		}
 		return true;
 	}
+	
+	/** does it support lzy evaluation??? */
+	public boolean supportsLazyTermEval() {
+		return false;
+	} 
 
 }

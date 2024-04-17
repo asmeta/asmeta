@@ -46,11 +46,10 @@ public class AsmetaV {
 		File scenarioPathFile = new File(scenarioPath);
 		if (!scenarioPathFile.exists()) throw new RuntimeException("path " + scenarioPath + " does not exist" );
 		// disable lazy evaluation (it is not interavtive)
-		boolean old = TermEvaluator.allowLazyEval;
-		TermEvaluator.allowLazyEval = false;
+		TermEvaluator.setAllowLazyEval(false);
 		List<String> result = asmetaV.execValidation(scenarioPathFile, coverage);
 		// ripristina il valore messo in precedenza
-		TermEvaluator.allowLazyEval = old;		
+		TermEvaluator.recoverAllowLazyEval();		
 		return result;
 	}
 

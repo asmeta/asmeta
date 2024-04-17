@@ -76,21 +76,18 @@ public class InterpreterTest extends BaseTest {
     }
 
     public InterpreterTest(boolean allowLazyEval) {
-        TermEvaluator.allowLazyEval = allowLazyEval;
+        TermEvaluator.setAllowLazyEval(allowLazyEval);
     }
-	
-    private static boolean allowLazyEvalOLD;
-    
+	    
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		//AsmParserTest.setUpLogger();
-		allowLazyEvalOLD = TermEvaluator.allowLazyEval;
 	}
 
 	@AfterClass
 	public static void ripristina() throws Exception {
-		//AsmParserTest.setUpLogger();
-		TermEvaluator.allowLazyEval = allowLazyEvalOLD;
+		// rirèroinstin il valore standard
+		TermEvaluator.setAllowLazyEval(false);
 	}
 
 	
@@ -571,8 +568,7 @@ public class InterpreterTest extends BaseTest {
 	// questo fallisce - è ancora da pensare come fare la lazy evaluation
 	@Test
 	public void testLazy() throws Exception{
-		boolean old = TermEvaluator.allowLazyEval;
-		TermEvaluator.allowLazyEval = true;
+		TermEvaluator.setAllowLazyEval(true);
 		// f1 --> TRUE
 		//main rule r_main =	g1 := f1 and f2
 		MonFuncReader monFuncReader = new MonFuncReader() {
@@ -582,13 +578,17 @@ public class InterpreterTest extends BaseTest {
 				if (location.toString().equals("f1")) return BooleanValue.FALSE;
 				fail("do not ask other");
 				return null;
-			}			
+			}
+			@Override
+			public boolean supportsLazyTermEval() {
+				return true;
+			}
 		};
 		Environment env = new Environment(monFuncReader);
 		sim = Simulator.createSimulator(TestOneSpec.FILE_BASE + "test/simulator/monitoredLazy.asm", env);
 		sim.run(1);		
 		f = searchFunction("g1");
-		TermEvaluator.allowLazyEval = old;
+		TermEvaluator.recoverAllowLazyEval();
 	}
 
 	@Test

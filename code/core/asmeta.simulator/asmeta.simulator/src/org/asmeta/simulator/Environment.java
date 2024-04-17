@@ -189,4 +189,9 @@ public final class Environment {
 		return monTimeFunctions.get(location.getName());
 	}
 
+	public boolean supportsLazyTermEval(){
+		return monFuncReader.supportsLazyTermEval();
+	}
+	
+	
 }

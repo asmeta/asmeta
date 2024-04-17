@@ -339,4 +339,10 @@ public class InteractiveMFReader extends MonFuncReader {
 		return value;
 	}
 
+	/** does it support lzy evaluation??? */
+	public boolean supportsLazyTermEval() {
+		return true;
+	} 
+
+	
 }

@@ -35,21 +35,21 @@ public class StandardLibraryTest extends BaseTest {
     }
 
     public StandardLibraryTest(boolean allowLazyEval) {
-        TermEvaluator.allowLazyEval = allowLazyEval;
+        TermEvaluator.setAllowLazyEval(allowLazyEval);
     }
 	
-    private static boolean allowLazyEvalOLD;
+   // private static boolean allowLazyEvalOLD;
     
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		//AsmParserTest.setUpLogger();
-		allowLazyEvalOLD = TermEvaluator.allowLazyEval;
+		//allowLazyEvalOLD = TermEvaluator.allowLazyEval;
 	}
 
 	@AfterClass
 	public static void ripristina() throws Exception {
 		//AsmParserTest.setUpLogger();
-		TermEvaluator.allowLazyEval = allowLazyEvalOLD;
+		TermEvaluator.setAllowLazyEval(false);
 	}
 
 	

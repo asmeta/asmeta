@@ -192,19 +192,13 @@ public class Simulator {
 	 */
 	public Simulator(String modelName, AsmCollection asmp, Environment env)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
-		assert env != null;
-		assert !modelName.endsWith(ASMParser.ASM_EXTENSION);
-		asmCollection = asmp;
-		initAsmModel(modelName);
-		environment = env;
+		set(modelName,asmp,env);
+		//		
 		currentState = initState();
 		initEvaluator(currentState);
-		numOfState = 0;// PA: 10 giugno 2010
 		currentState.previousLocationValues.putAll(currentState.getLocationMap());// PA: 10 giugno 2010
-		controlledInvariants = new ArrayList<Invariant>();
-		monitoredInvariants = new ArrayList<Invariant>();
-	}
-
+	}	
+	
 	/**
 	 * Instantiates a new simulator.
 	 *
@@ -217,18 +211,29 @@ public class Simulator {
 	 */
 	public Simulator(String modelName, AsmCollection asmp, Environment env, State s)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
-		assert env != null;
-		asmCollection = asmp;
-		initAsmModel(modelName);
-		environment = env;
+		set(modelName,asmp,env);
+		//
 		currentState = s;
 		initEvaluator(currentState);
-		numOfState = 0;// PA: 10 giugno 2010
 		currentState.previousLocationValues.putAll(currentState.getLocationMap());// PA: 10 giugno 2010
-		controlledInvariants = new ArrayList<Invariant>();
-		monitoredInvariants = new ArrayList<Invariant>();
 	}
 
+	// common part of the simulator
+	// TODO build only two constructors
+	void set(String modelName, AsmCollection asmp, Environment env) throws AsmModelNotFoundException, MainRuleNotFoundException{
+		assert env != null;
+		assert !modelName.endsWith(ASMParser.ASM_EXTENSION);
+		asmCollection = asmp;
+		initAsmModel(modelName);
+		environment = env;		
+		numOfState = 0;// PA: 10 giugno 2010
+		controlledInvariants = new ArrayList<Invariant>();
+		monitoredInvariants = new ArrayList<Invariant>();
+		// if the MF readrs supports the lazy evaluation
+		TermEvaluator.setAllowLazyEval(env.supportsLazyTermEval());
+	}
+
+	
 	/**
 	 * Returns a simulator ready to execute the given model. The environment is read
 	 * by the standard input.
