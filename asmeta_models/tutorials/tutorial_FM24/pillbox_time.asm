@@ -66,7 +66,7 @@ definitions:
 	
 	// Rule to set the led red ON when the pill has to be taken
 	rule r_pillToBeTaken($drawer in Drawer) = par
-			if not isOn($drawer) then r_reset_timer[tenMinutes] endif
+			if isOff($drawer) then r_reset_timer[tenMinutes] endif
 			drawerLed($drawer) := ON 
 		endpar	
 		
