@@ -13,7 +13,7 @@ void pillbox_final::r_reset (Drawer* _drawer){
 }
 void pillbox_final::r_pillToBeTaken (Drawer* _drawer){
 	{ //par
-		if (! (isOn(_drawer))){ 
+		if (isOff(_drawer)){ 
 			r_reset_timer(tenMinutes);
 		}
 		drawerLed[1][_drawer] = ON;
