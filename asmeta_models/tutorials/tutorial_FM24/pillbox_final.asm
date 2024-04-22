@@ -71,7 +71,7 @@ definitions:
 		endpar	
 		
 	// System evolution starting from the ON State
-	rule r_ON($drawer in Drawer) = if isOn($drawer) then
+	rule r_take($drawer in Drawer) = if isOn($drawer) then
 			// The pill has been taken, or the timer expires
 			if expired(tenMinutes) or isPillTaken($drawer) then 
 				r_reset[$drawer] endif
@@ -88,7 +88,7 @@ definitions:
 			if pillDeadlineHit($drawer) then isPillTobeTaken($drawer):= true endif	
 			// Handle the evolution of the System when the LED is in ON state
 			// The pill has been taken, or the timer expires
-			if (isThereAnyOtherDeadline($drawer)) then r_ON[$drawer] endif
+			if (isThereAnyOtherDeadline($drawer)) then r_take[$drawer] endif
 		endpar
 	//*************************************************
 	// INVARIANTS
