@@ -279,10 +279,14 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			if (env.usedLoc.contains(var)) {
 				// Silvia 10/05/2021 -> automatically set clock type
 				if (AsmetaSMVOptions.isUseNuXmvTime()
-						&& (var.contains(M_CURR_TIME_SECS) || (var.startsWith("TimeLibrary")
-								&& var.contains("_start_")))) {
+						&& (var.contains(M_CURR_TIME_SECS))) {
 					assert var.startsWith("TimeLibrary");
 					smv.print("\t\t" + var + ": " + "clock" + "; --");
+				} else if (AsmetaSMVOptions.isUseNuXmvTime()
+						&& (var.startsWith("TimeLibrary")
+								&& var.contains("_start_"))) {
+					assert var.startsWith("TimeLibrary");
+					smv.print("\t\t" + var + ": " + "real" + "; --");
 				} else
 					smv.print("\t\t" + var + ": " + varsDecl.get(var) + "; --");
 				if (contrLocations.contains(var)) {
