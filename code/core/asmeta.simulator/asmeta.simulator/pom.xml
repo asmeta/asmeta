@@ -26,5 +26,6 @@
 		<groupId>asmeta</groupId>
 		<artifactId>asmeta.core</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../</relativePath>
 	</parent>
 </project>
