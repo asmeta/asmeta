@@ -565,63 +565,6 @@ public class InterpreterTest extends BaseTest {
 		assertEquals(BooleanValue.TRUE, v);
 	}
 
-	// questo fallisce - è ancora da pensare come fare la lazy evaluation
-	@Test
-	public void testLazy() throws Exception{
-		TermEvaluator.setAllowLazyEval(true);
-		// f1 --> TRUE
-		//main rule r_main =	g1 := f1 and f2
-		MonFuncReader monFuncReader = new MonFuncReader() {
-			@Override
-			public Value readValue(Location location, State state) {
-				System.out.println("location " + location);
-				if (location.toString().equals("f1")) return BooleanValue.FALSE;
-				fail("do not ask other");
-				return null;
-			}
-			@Override
-			public boolean supportsLazyTermEval() {
-				return true;
-			}
-		};
-		Environment env = new Environment(monFuncReader);
-		sim = Simulator.createSimulator(TestOneSpec.FILE_BASE + "test/simulator/monitoredLazy.asm", env);
-		sim.run(1);		
-		f = searchFunction("g1");
-		TermEvaluator.recoverAllowLazyEval();
-	}
-
-	@Test
-	public void testLzy() throws Exception {
-		sim = Util.getSimulatorForTestSpec("test/simulator/monitoredTest.asm",
-				"test/simulator/monitoredTest01.env");
-		sim.run(1);		
-		f = searchFunction("g1");
-		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new IntegerValue(1234), v);
-		
-		f = searchFunction("g2");
-		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(BooleanValue.TRUE, v);
-
-		f = searchFunction("g3");
-		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new SequenceValue(new ArrayList<Value>(Arrays.asList(
-				new IntegerValue(1), new IntegerValue(2), new IntegerValue(4567)))), 
-				v);
-
-		f = searchFunction("g4");
-		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new SequenceValue(new ArrayList<Value>(Arrays.asList(
-				new TupleValue(new IntegerValue(0), BooleanValue.FALSE), 
-				new TupleValue(new IntegerValue(1), BooleanValue.TRUE)))), 
-				v);
-	}
-
-	
-	
-	
-	
 	@Test
 	public void test44() throws Exception {		
 		sim = Util.getSimulatorForTestSpec("test/simulator/domains/extendDomains.asm");

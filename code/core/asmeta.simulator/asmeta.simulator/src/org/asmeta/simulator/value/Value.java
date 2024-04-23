@@ -10,6 +10,7 @@ import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.TermEvaluator;
 
 import asmeta.definitions.Function;
+import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.BooleanDomain;
 import asmeta.structure.FunctionDefinition;
@@ -44,42 +45,51 @@ public abstract class Value<T> {
 	// in case one wants to build a value with a lazy evaluation
 	// build the value with
 	public static Value lazy(Term term, final TermEvaluator termEvaluator) {
-		if (term.getDomain() instanceof BooleanDomain) {			
-			// it could be undef in any case
-			// simplest case: static function Boolean defined as UNDEF
-			// like 
-			// static ub : Boolean
-			// function ub = undef
+		// only for Boolean for now
+		if (term.getDomain() instanceof BooleanDomain) {
 			if (term instanceof FunctionTerm) {
 				FunctionTerm ft = (FunctionTerm) term;
-				if (ft.getFunction() instanceof StaticFunction) {
-					StaticFunction sf = (StaticFunction) ft.getFunction();
+				Function function = ft.getFunction();
+				// it could be undef in any case
+				// simplest case: static function Boolean defined as UNDEF
+				// like
+				// static ub : Boolean
+				// function ub = undef
+				if (function instanceof StaticFunction) {
+					StaticFunction sf = (StaticFunction) function;
 					FunctionDefinition definition = sf.getDefinition();
-					if (definition!= null && definition.getBody() instanceof UndefTerm)
+					if (definition != null && definition.getBody() instanceof UndefTerm)
 						return UndefValue.UNDEF;
 				}
+				// monitored function - activate the
+				if (function instanceof MonitoredFunction) {
+					return new BooleanValue() {
+						// the evaluator to be used to evaluate
+						@Override
+						public Boolean getValue() {
+							if (boolValue == null) {
+								Value v = termEvaluator.visit(term);
+								if (!(v instanceof BooleanValue)) {
+									AsmetaTermPrinter ap = AsmetaTermPrinter.getAsmetaTermPrinter(false);
+									throw new RuntimeException("this term " + ap.visit(term)
+											+ " is not a boolean value but " + v.getClass()
+											+ ": disable lazy evaluation" + "term class " + term.getClass());
+								}
+								boolValue = ((BooleanValue) v).getValue();
+							}
+							return boolValue;
+						}
+					};
+				}
 			}
+			//
 			if (term instanceof LocationTerm) {
 				LocationTerm ft = (LocationTerm) term;
 				// can it happen that a location term is undef by definition?
-				//System.err.println("***" + ft.getFunction().getName());
+				// System.err.println("***" + ft.getFunction().getName());
 			}
-			return new BooleanValue() {
-				// the evaluator to be used to evaluate
-				@Override
-				public Boolean getValue() {
-					if (boolValue == null) {
-						Value v = termEvaluator.visit(term);
-						if (!(v instanceof BooleanValue )) {
-							AsmetaTermPrinter ap = AsmetaTermPrinter.getAsmetaTermPrinter(false);
-							throw new RuntimeException("this term "+ ap.visit(term) + " is not a boolean value but " + v.getClass() + ": disable lazy evaluation" + "term class " + term.getClass());
-						}
-						boolValue = ((BooleanValue)v).getValue();
-					}
-					return boolValue;
-				}
-			};
 		}
 		// no lazy eval is possible
-	return termEvaluator.visit(term);
-}}
+		return termEvaluator.visit(term);
+	}
+}
