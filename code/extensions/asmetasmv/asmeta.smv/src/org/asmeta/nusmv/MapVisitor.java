@@ -88,11 +88,11 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule;
  * The Class MapVisitor.
  */
 public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
-	
+
 	// name of current time variable (seconds)
 	private static final String M_CURR_TIME_SECS = "mCurrTimeSecs";
 
-	final static Logger log = Logger.getLogger(MapVisitor.class); 
+	final static Logger log = Logger.getLogger(MapVisitor.class);
 
 	// list of flatteners
 	public static Class<? extends AsmetaFlattener>[] ALL_SMV_FLATTENERS = new Class[] { MacroCallRuleFlattener.class,
@@ -270,19 +270,20 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	void printMainModule(String smvFileName, PrintWriter smv) {
 		smv.println("--file " + smvFileName);
 		smv.println("-- options: flatten? " + AsmetaSMVOptions.FLATTEN);
-		if (AsmetaSMVOptions.isUseNuXmvTime() )
+		if (AsmetaSMVOptions.isUseNuXmvTime())
 			smv.println("@TIME_DOMAIN continuous");
 		smv.println("MODULE main");
 		smv.println("\tVAR");
 		for (String var : varsDecl.keySet()) {
 			// only variables that are actually used are defined in the NuSMV model
-			if (env.usedLoc.contains(var)) { 
-				//Silvia 10/05/2021 -> automatically set clock type
-				if (AsmetaSMVOptions.isUseNuXmvTime()  && var.contains(M_CURR_TIME_SECS)) {
+			if (env.usedLoc.contains(var)) {
+				// Silvia 10/05/2021 -> automatically set clock type
+				if (AsmetaSMVOptions.isUseNuXmvTime()
+						&& (var.contains(M_CURR_TIME_SECS) || (var.startsWith("TimeLibrary")
+								&& (var.contains("_duration_") || var.contains("_start_"))))) {
 					assert var.startsWith("TimeLibrary");
 					smv.print("\t\t" + var + ": " + "clock" + "; --");
-				}
-				else
+				} else
 					smv.print("\t\t" + var + ": " + varsDecl.get(var) + "; --");
 				if (contrLocations.contains(var)) {
 					smv.println("controlled");
@@ -361,7 +362,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 						smv.println("\t\t\t\t" + trueString + ": " + falseString + ";");
 					} else {
 						String undefValue = this.getUndefValue().get(domName);
-						//assert undefValue != null : domName + " does not provide a representation for the undef value.";
+						// assert undefValue != null : domName + " does not provide a representation for
+						// the undef value.";
 						smv.println("\t\t\t\t" + trueString + ": " + undefValue + ";");
 					}
 					smv.println("\t\t\tesac;");
@@ -381,7 +383,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		// add the ASSIGN section
 		if ((initMap != null && initMap.size() > 0) || updateMap.getSize() > 0) {
 			smv.println("\tASSIGN");
-			if (AsmetaSMVOptions.isUseNuXmvTime()) { //Silvia 10/05/2021: init clock to 0 if usenuxmv with time
+			if (AsmetaSMVOptions.isUseNuXmvTime()) { // Silvia 10/05/2021: init clock to 0 if usenuxmv with time
 				// search for current time
 				for (String var : varsDecl.keySet()) {
 					if (var.contains(M_CURR_TIME_SECS)) {
@@ -600,10 +602,11 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			// System.out.println(AsmetaMultipleFlattener.printASM(asm));
 
 			/*
-			 * File tempFile = File.createTempFile("tmp", ASMParser.asmExtension); String printASM =
-			 * AsmetaMultipleFlattener.printASM(asm); printASM = printASM.replaceFirst(name,
-			 * tempFile.toPath().getFileName().toString().replace(ASMParser.asmExtension, ""));
-			 * System.out.println(printASM);
+			 * File tempFile = File.createTempFile("tmp", ASMParser.asmExtension); String
+			 * printASM = AsmetaMultipleFlattener.printASM(asm); printASM =
+			 * printASM.replaceFirst(name,
+			 * tempFile.toPath().getFileName().toString().replace(ASMParser.asmExtension,
+			 * "")); System.out.println(printASM);
 			 * Files.write(Paths.get(tempFile.getAbsolutePath()),
 			 * printASM.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
 			 * StandardOpenOption.TRUNCATE_EXISTING); asm =
@@ -795,7 +798,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		domainValues.put("Boolean", values);
 
 		// Silvia: 03/05/2021: allow integer and real domains translation if nuXmv
-		if (AsmetaSMVOptions.isUseNuXmvTime() || AsmetaSMVOptions.isUseNuXmv() ) {
+		if (AsmetaSMVOptions.isUseNuXmvTime() || AsmetaSMVOptions.isUseNuXmv()) {
 			domainSmv.put("Real", "real");
 			domainSmv.put("Integer", "integer");
 		}
@@ -1111,8 +1114,6 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		derived = new TreeSet<String>();
 		locationNameToNusmvVariableName = new HashMap<Location, String>();
 
-		
-		
 		SortedSet<String> locationSet = null;
 		for (Function func : functions) {
 			codomain = func.getCodomain();
@@ -1246,7 +1247,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		List<Location> locations = getLocations(func, domainValues);
 		Term term = init.getBody();
 		String locStr, termStr;
-		
+
 		for (Location loc : locations) {
 			env.setVarsValues(vars, loc.getElements());
 			locStr = this.visit(loc);
@@ -1261,7 +1262,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			if (termStr != null) {
 				// env.usedLocation.add(locStr);
 				initMap.put(locStr, termStr);
-		
+
 				// AsmetaMA: segnala che la locazione locStr viene inizializzata
 				if (AsmetaSMVOptions.doAsmetaMA) {
 					controlledLocationInitialized.add(locStr);
@@ -1291,8 +1292,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			}
 		}
 		return locations;
-	}	
-	
+	}
+
 	/**
 	 * Visit of a location.
 	 * 
@@ -1374,6 +1375,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			}
 		}
 	}
+
 	/**
 	 * Cerca nell'output dell'esecuzione del modello NuSMV i risultati della
 	 * verifica delle singole proprieta'. I risultati vengono memorizzati in
