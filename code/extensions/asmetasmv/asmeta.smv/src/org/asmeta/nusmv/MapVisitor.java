@@ -280,7 +280,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				// Silvia 10/05/2021 -> automatically set clock type
 				if (AsmetaSMVOptions.isUseNuXmvTime()
 						&& (var.contains(M_CURR_TIME_SECS) || (var.startsWith("TimeLibrary")
-								&& (var.contains("_duration_") || var.contains("_start_"))))) {
+								&& var.contains("_start_")))) {
 					assert var.startsWith("TimeLibrary");
 					smv.print("\t\t" + var + ": " + "clock" + "; --");
 				} else
