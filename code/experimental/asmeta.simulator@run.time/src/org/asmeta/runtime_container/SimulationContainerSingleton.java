@@ -1260,6 +1260,20 @@ public class SimulationContainerSingleton implements IModelExecution, IModelAdap
 				ids.put(i, asmS.getSimulatorTable().get(i).getModelPath());
 		return ids;
 	}
+
+
+
+	@Override
+	public RunOutput getCurrentState(int id) {
+		throw new RuntimeException("not implemented yet");
+	}
+
+
+
+	@Override
+	public List<String> getMonitored(String modelPath) {
+		throw new RuntimeException("not implemented yet");
+	}
 	
 	/*public MyState getStatus(int id) {
 		if (!asmS.checkValidId(id))

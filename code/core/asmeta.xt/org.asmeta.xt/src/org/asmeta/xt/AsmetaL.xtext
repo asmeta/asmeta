@@ -17,7 +17,7 @@ Header : importClause+=( ImportClause )* exportClause=( ExportClause )? signatur
 
 // import "pippo.asm" -> STRING with double guotes
 // import filepth -> MOD_ID 
-ImportClause : 'import' moduleName=(MODULE_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
+ImportClause : 'import' moduleName = (MODULE_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
 importData : name=extendedName;
 
 ExportClause : 'export' ( ( exportedList+=extendedName ( "," exportedList+=extendedName )* ) | exportAll?="*" );
@@ -386,11 +386,11 @@ terminal REAL_NUMBER	: NUMBER_TOKEN "." NUMBER_TOKEN;
 terminal MAIUSC_ID		: ('A'..'Z');
 terminal MIN_ID			: ('a'..'z');
 // do we really want to allow accented chars???
-terminal ACCENT_CHR		: ('à'|'è'|'é'|'ò'|'ì'| 'ù');
+terminal ACCENT_CHR		: ('à'|'è'|'é'|'ò'|'ì'|'ù'|'Ã');
 terminal ENUM_ID		: '^'?( MAIUSC_ID ) (MAIUSC_ID) ( MAIUSC_ID | DIGIT | '_' )*;
 //terminal PATH_SEP		:  '\\' | '/' | '\\\\'; Single or double \\?
-terminal PATH_SEP		: '/' | '\\\\';
-terminal SPECIAL_CHAR	: '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '�' | '@' | '>' | '<' | '|' | PATH_SEP;
+//terminal PATH_SEP		: '\\' | '/';
+terminal SPECIAL_CHAR	: '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '¨' | '@' | '>' | '<' | '|' | '\\' | '/';
 terminal RULE_ID		: 'r_' ( MAIUSC_ID | MIN_ID | DIGIT | '_' )*;
 terminal ID				: '^'?( MAIUSC_ID | MIN_ID | '_' ) ( MAIUSC_ID | MIN_ID | DIGIT | '_' )*;
 terminal CHAR_LITERAL	: "'" (MAIUSC_ID | MIN_ID | DIGIT | SPECIAL_CHAR | ACCENT_CHR)? "'"; 
@@ -400,15 +400,14 @@ terminal STRING			: '"' (!('"'))* '"';
 // IDENTIFICATIVI
 // module identifier when importing it
 // see javacc file
-terminal MODULE_ID		:
-	// una serie di caratteri basta che non sia lo spazio - come si può mettere???
-	(MAIUSC_ID|MIN_ID|'.'|'..'|DIGIT|PATH_SEP)+
-;
-
-// MODULE_ID 		returns ecore::EString	:  
+MODULE_ID 		returns ecore::EString:   
+// modelliamo esplicitamente
+//  (( MIN_ID | MAIUSC_ID ) ':')? (MAIUSC_ID|MIN_ID|DIGIT|'./'|'../'|'.\\' | '..\\')+;
+//  	(MAIUSC_ID|MIN_ID|DIGIT|'./'|'../'|'.\\' | '..\\' | ':')+;
+ 	(((ENUM_ID | ID) | ('../')* | ('./')*))? ((ENUM_ID | ID) '/')* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
 	
 // version originale pre marzo 24	
-//	(((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)* ))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?
+//(((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)* ))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
 
 
 // questa non va bene, dovrebbe essere più larga ma non va	
