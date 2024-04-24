@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta model checker plugin
 Bundle-SymbolicName: asmeta.asmetasmv.ui;singleton:=true
-Bundle-Version: 23.12
+Bundle-Version: 24.04
 Bundle-Activator: org.asmeta.nusmv.plugin.AsmetaSMVActivator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
