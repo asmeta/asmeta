@@ -66,8 +66,10 @@ public class SimulatorForAnimator extends Simulator {
 		} catch (UpdateClashException uce) {
 			t.setInvalidIvariantText(uce.getMessage());
 		} catch (Exception e) {
-			t.setInvalidIvariantText("E	xception "+ e.getClass() + " "+ e.getMessage());
+			t.setInvalidIvariantText("Exception "+ e.getClass() + " "+ e.getMessage());
 		}
+		// reset the lazyness
+		TermEvaluator.recoverAllowLazyEval();
 		return updateSet;
 	}
 
