@@ -1,5 +1,8 @@
-// Full Pill-Box specification, including timers and multiple deadlines for
+//
+// Full Pill-Box specification, including TimeLibrary 
+// including timers and multiple deadlines for
 // for each drawer.
+//
 asm pillbox_final
 import ../../STDL/StandardLibrary
 import ../../STDL/CTLlibrary
@@ -121,6 +124,8 @@ default init s0:
 			case drawer2 : ASPIRINE
 			case drawer3 : MOMENT
 		endswitch
+		
+	function isPillTobeTaken($drawer in Drawer) = false	
 		
 	// Every drawer has an index starting from 0
 	function drugIndex($drawer in Drawer) = 0n

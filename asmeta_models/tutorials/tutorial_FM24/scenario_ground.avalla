@@ -1,3 +1,6 @@
+//
+// simulation of a basic scenario in which the pill in drawer1 is taken
+//
 scenario scenario_ground
 
 load pillbox_ground.asm
@@ -5,7 +8,7 @@ load pillbox_ground.asm
 // Initially all deadlines are not hit
 set pillDeadlineHit(drawer1) := false;
 set pillDeadlineHit(drawer2) := false;
-set pillDeadlineHit(drawer2) := false;
+set pillDeadlineHit(drawer3) := false;
 
 step
 

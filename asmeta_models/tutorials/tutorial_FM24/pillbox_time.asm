@@ -1,7 +1,7 @@
 // 
-// refined version with time (simple)
+// firt refined version with time (simple)
 // it refines pillDeadlineHit from monitored to derived (according to the time)
-//  TO BE INCLUDED 
+//  
 //
 asm pillbox_time
 

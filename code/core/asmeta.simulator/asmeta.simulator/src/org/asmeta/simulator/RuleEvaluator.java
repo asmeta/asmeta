@@ -597,8 +597,13 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			RuleEvaluator newEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
 			logger.debug("<Guard>");
 			BooleanValue guard = null;
-			if (chooseRule.getGuard() != null)
-				guard = (BooleanValue) newEvaluator.visitTerm(chooseRule.getGuard());
+			Term guardTerm = chooseRule.getGuard();
+			if (guardTerm != null) {				
+				Value termValue = newEvaluator.visitTerm(guardTerm);
+				if (termValue instanceof UndefValue)
+					throw new RuntimeException("Guard "+ printer.visit(guardTerm) +"is undef");
+				guard = (BooleanValue) termValue;
+			}
 			logger.debug("</Guard>");
 			if (guard != null && guard.getValue()) {
 				logger.debug("<DoRule>");

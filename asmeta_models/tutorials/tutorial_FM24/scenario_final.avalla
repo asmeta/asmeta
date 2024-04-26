@@ -1,8 +1,9 @@
-scenario scenario2
+//
+// scenario in which a led is set to OFF after 10 minutes 
+//
+scenario scenario_final
 
 load pillbox_final.asm
-
-step 
 
 check drawerLed(drawer1) = OFF;
 check drawerLed(drawer2) = OFF;
