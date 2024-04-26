@@ -1,7 +1,7 @@
 //
 // Ground model for the Pill-Box. 
-// It considers the time only through a set of 
-// Boolean functions (pillDeadlineHit) indicating the time passing
+// It considers the time only through a
+// Boolean function (pillDeadlineHit) indicating the time passing
 //
 asm pillbox_ground
 

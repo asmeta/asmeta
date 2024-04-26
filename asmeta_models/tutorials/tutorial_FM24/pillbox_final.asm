@@ -1,7 +1,6 @@
 //
 // Full Pill-Box specification, including TimeLibrary 
-// including timers and multiple deadlines for
-// for each drawer.
+// including timers and multiple deadlines for each drawer.
 //
 asm pillbox_final
 import ../../STDL/StandardLibrary
@@ -80,8 +79,7 @@ definitions:
 				r_reset[$drawer] endif
 		endif
 		
-	// Non-determinism: Only a single light is to be on at a time, so choose randomly the order
-	// of the pills
+	// Non-determinism: Only a single light is to be on at a time, so choose randomly one drawer
 	rule r_choosePillToTake = choose $drawer in Drawer with 
 			isPillTobeTaken($drawer) and isOff($drawer) and not areOthersOn($drawer) do
 				r_pillToBeTaken[$drawer]
