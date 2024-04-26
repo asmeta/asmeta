@@ -81,8 +81,7 @@ public abstract class MonFuncReader extends ReflectiveVisitor<Value> {
 	 * @return True se <i>value</i> appartiene a <i>domain</i>
 	 */
 	protected boolean checkEnum(EnumTd domain, EnumValue value) {
-		for (Object o : domain.getElement()) {
-			EnumElement element = (EnumElement) o;
+		for (EnumElement element : domain.getElement()) {
 			if (element.getSymbol().equals(value.getValue())) {
 				return true;
 			}
