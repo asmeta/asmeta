@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta visualizer plugin
 Bundle-SymbolicName: asmeta.visualizer.plugin;singleton:=true
-Bundle-Version: 23.12
+Bundle-Version: 24.04
 Bundle-Activator: asmeta.visualizer.plugin.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

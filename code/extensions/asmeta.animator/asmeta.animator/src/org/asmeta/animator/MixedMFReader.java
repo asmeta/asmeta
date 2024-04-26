@@ -49,4 +49,10 @@ class MixedMFReader extends  MonFuncReader{
 		mode = Mode.INTERACTIVE;		
 	}	
 	
+	@Override
+	public boolean supportsLazyTermEval() {
+		//only when interactive
+		return mode == Mode.INTERACTIVE;
+	}
+	
 }

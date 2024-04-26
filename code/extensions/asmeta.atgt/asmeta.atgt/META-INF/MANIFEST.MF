@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AsmetaATGT
 Bundle-SymbolicName: asmeta.atgt;singleton:=true
-Bundle-Version: 23.12
+Bundle-Version: 24.04
 Automatic-Module-Name: asmeta.atgt
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: asmeta.smv,

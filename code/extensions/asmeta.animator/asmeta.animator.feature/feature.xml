@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.animator.feature"
       label="Asmeta Animator"
-      version="23.12"
+      version="24.04"
       provider-name="https://foselab.unibg.it/">
 
    <description url="https://asmeta.github.io/download/asmetaA.html">

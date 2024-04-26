@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Validator
 Bundle-SymbolicName: asmeta.validator;singleton:=true
-Bundle-Version: 23.12
+Bundle-Version: 24.04
 Require-Bundle: org.asmeta.avallaxt,
  org.apache.log4j,
  asmeta.simulator,

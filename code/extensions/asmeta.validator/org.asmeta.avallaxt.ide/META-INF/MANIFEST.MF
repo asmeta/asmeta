@@ -3,7 +3,7 @@ Automatic-Module-Name: org.asmeta.avallaxt.ide
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.avallaxt.ide
 Bundle-Vendor: foselab.unibg.it
-Bundle-Version: 23.12
+Bundle-Version: 24.04
 Bundle-SymbolicName: org.asmeta.avallaxt.ide; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.avallaxt,

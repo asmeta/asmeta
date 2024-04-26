@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.simulator.feature"
       label="Asmeta simulator"
-      version="23.12"
+      version="24.04"
       provider-name="https://foselab.unibg.it/">
 
    <description>

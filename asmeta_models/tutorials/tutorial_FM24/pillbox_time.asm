@@ -66,7 +66,7 @@ definitions:
 	
 	// Rule to set the led red ON when the pill has to be taken
 	rule r_pillToBeTaken($drawer in Drawer) = par
-			if not isOn($drawer) then r_reset_timer[tenMinutes] endif
+			if isOff($drawer) then r_reset_timer[tenMinutes] endif
 			drawerLed($drawer) := ON 
 		endpar	
 		
@@ -92,12 +92,8 @@ definitions:
 		
 	//*************************************************
 	// INVARIANTS AND TEMPORAL PROPERTIES
-	//*************************************************	
-
-	
-	// If the patient takes the pill, red light will turn-off
-	LTLSPEC g(pillDeadlineHit(drawer1) implies f(isOn(drawer1)))
-	
+	//*************************************************
+	invariant inv_drawer1 over Drawer: (forall $d in Drawer with isOn($d) implies not areOthersOn($d)) 	
 	//*************************************************
 	// MAIN Rule
 	//*************************************************	

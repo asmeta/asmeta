@@ -224,7 +224,7 @@ public class AsmetaSMV {
 		String solverName = "nuXmv";
 		ProcessBuilder bp = new ProcessBuilder(solverName, "-int", "-time");
 		bp.redirectErrorStream(true);
-		Process proc = bp.start();
+		proc = bp.start();
 		//
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(proc.getOutputStream()));
 		//

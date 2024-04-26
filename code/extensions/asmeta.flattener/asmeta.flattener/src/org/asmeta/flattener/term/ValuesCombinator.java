@@ -21,7 +21,7 @@ public class ValuesCombinator {
 		ValuesCombinator.combineValues(domains, index, result, stack, domainSet);
 	}
 
-	public static void combineValues(List<Domain> domains, int index, ArrayList<Term[]> result, Stack<Term> stack,
+	private static void combineValues(List<Domain> domains, int index, ArrayList<Term[]> result, Stack<Term> stack,
 			Map<String, Set<Term>> domainSet) throws Exception {
 		Domain domain = domains.get(index);
 		Set<Term> values = domainSet.get(domain.getName());
