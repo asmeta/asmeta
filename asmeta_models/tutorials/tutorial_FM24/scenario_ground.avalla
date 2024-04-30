@@ -49,3 +49,5 @@ check drawerLed(drawer3) = OFF;
 check isPillTobeTaken(drawer1) = false;
 check isPillTobeTaken(drawer2) = false;
 check isPillTobeTaken(drawer3) = false;
+
+step

@@ -14,10 +14,12 @@ step until drawerLed(drawer1) = ON;
 check drawerLed(drawer1) = ON;
 check drawerLed(drawer2) = OFF;
 check drawerLed(drawer3) = OFF;
-check start(tenMinutes) = 60;
+check start(tenMinutes) = 61;
 set isPillTaken(drawer1) := false;
 
 step until expired(tenMinutes);
+
+step
 
 check drawerLed(drawer1) = OFF;
 check drawerLed(drawer2) = OFF;

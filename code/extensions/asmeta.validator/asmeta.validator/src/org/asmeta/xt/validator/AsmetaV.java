@@ -134,6 +134,7 @@ public class AsmetaV {
 		sim.setShuffleFlag(true);
 		try {
 			sim.runUntilEmpty();
+			//sim.runUntilStepNeg();
 		} catch (InvalidInvariantException iie) {
 			AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 			logger.info("invariant violation found " + iie.getInvariant().getName() + " "
@@ -143,7 +144,7 @@ public class AsmetaV {
 		//
 		boolean check_succeded = false;
 		for (Entry<Location, Value> cons : sim.getCurrentState().getContrLocs().entrySet()) {
-			if (cons.getKey().toString().equals("step__")) {
+			if (cons.getKey().toString().equals(StatementToStringBuffer.STEP_VAR)) {
 				if (Integer.parseInt(cons.getValue().toString()) > 0)
 					check_succeded = true;
 				else

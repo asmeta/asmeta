@@ -62,6 +62,7 @@ import org.asmeta.simulator.readers.RandomMFReader;
 import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.BooleanValue;
+import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.SetValue;
 import org.asmeta.simulator.value.Value;
@@ -344,6 +345,25 @@ public class Simulator {
 	private interface StopCondition {
 		public boolean stop(UpdateSet us);
 	}
+	
+// TODO
+// sun untile the variable step takes a value, useful for validation asmetaV
+//	public UpdateSet runUntilStepNeg() {
+//		StopCondition stepNegative = new StopCondition() {			
+//			@Override
+//			public boolean stop(UpdateSet us) {
+//				for (Entry<Location, Value> updates: us.getLocationMap().entrySet()) {
+//					if (updates.getKey().getSignature().getName().equals("step__")) {
+//						IntegerValue v = (IntegerValue) (updates.getValue());
+//						if (v.getValue() < 0) return true;
+//					}					
+//				}
+//				return false;
+//			}
+//		};
+//		return runUntil(stepNegative,  Integer.MAX_VALUE, InvariantTreament.CHECK_CONTINUE).updateSet;
+//	}
+	
 
 	// run until f becomes true
 	// throw exception only if check_stop

@@ -1,5 +1,5 @@
 // 
-// firt refined version with time (simple)
+// first refined version with time (simple)
 // it refines pillDeadlineHit from monitored to derived (according to the time)
 //  
 //

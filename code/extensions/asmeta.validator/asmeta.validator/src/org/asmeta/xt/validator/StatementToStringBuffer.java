@@ -38,7 +38,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	private static final String SCENARIO_EXT = ".avalla";
 
-	private static final String STEP_VAR = "step__";
+	static final String STEP_VAR = "step__";
 
 	/** The count. */
 	int count = 1;
@@ -207,6 +207,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		append("seq");
 		indent();
 		append("result := print(\"CHECK FAILED: " + cond.replace("\"", "\\\"") + " at step " + (count - 1) + "\")");
+		// -2 so plus 1 is still < 0
 		append("step__ := -2");
 		unIndent();
 		append("endseq");

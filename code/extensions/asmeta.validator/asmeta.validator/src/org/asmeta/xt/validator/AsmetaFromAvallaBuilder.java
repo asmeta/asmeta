@@ -150,6 +150,8 @@ public class AsmetaFromAvallaBuilder {
 			buff.append("\t\t\tcase " + i + ":\n");
 			buff.append("\t\t\t\t" + stm);
 		}
+		// TODO 
+		// buff.append("\t\t\t\t STEP := " + Integer.MAX_VALUE);
 		buff.append("\t\tendswitch");
 		return buff;
 	}
