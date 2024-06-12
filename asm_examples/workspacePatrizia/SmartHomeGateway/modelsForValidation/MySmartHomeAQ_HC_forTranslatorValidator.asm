@@ -10,7 +10,7 @@
 asm MySmartHomeAQ_HC_forTranslatorValidator
 
 import StandardLibrary
-import LTLlibrary
+import LTLLibrary
 
 signature:
 	//Hierarchical_AQ_HC_MAPE

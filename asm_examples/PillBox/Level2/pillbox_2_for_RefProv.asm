@@ -1,8 +1,8 @@
 asm pillbox_2_for_RefProv
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
-import ../../STDL/LTLlibrary
+import ../../STDL/CTLLibrary
+import ../../STDL/LTLLibrary
 
 // Third refinement level of the Pill Box: We consider three drawer, and time controlled By the pillbox 
 

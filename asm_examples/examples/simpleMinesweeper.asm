@@ -1,7 +1,7 @@
 asm simpleMinesweeper
 
 import ../STDL/StandardLibrary
-import ../STDL/CTLlibrary
+import ../STDL/CTLLibrary
 
 signature:
 	enum domain GameStatus = {PLAYING | WON | LOST}

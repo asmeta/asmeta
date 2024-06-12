@@ -8,7 +8,7 @@
 asm oneWayTrafficLight_refined_with_agents
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	enum domain LightUnit = {LIGHTUNIT1 | LIGHTUNIT2}

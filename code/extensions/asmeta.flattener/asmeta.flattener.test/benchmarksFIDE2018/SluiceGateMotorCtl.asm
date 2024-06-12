@@ -13,7 +13,7 @@
 asm SluiceGateMotorCtl
 
 import ./STDL/StandardLibrary
-import ./STDL/CTLlibrary
+import ./STDL/CTLLibrary
 
 signature:
 	domain Minutes subsetof Integer

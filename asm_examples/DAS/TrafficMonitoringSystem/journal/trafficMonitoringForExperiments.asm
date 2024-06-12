@@ -13,7 +13,7 @@ Here for the camera behavior, we give priority to the event stopCam from the env
 //while in the second sub-loop it is annotated by  @X_MAPEBIG_SUB2
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/LTLlibrary
+import ../../../STDL/LTLLibrary
 
 signature:
 	//CameraAgentSubsystem

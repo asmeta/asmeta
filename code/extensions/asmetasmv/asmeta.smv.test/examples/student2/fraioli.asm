@@ -1,7 +1,7 @@
 asm fraioli
 
 import ../../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 // Dichiaro il dominio dell'agente Gru

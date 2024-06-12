@@ -3,8 +3,8 @@
 asm Ascensore
 
 import StandardLibrary
-import CTLlibrary
-import LTLlibrary
+import CTLLibrary
+import LTLLibrary
 
 
 signature:

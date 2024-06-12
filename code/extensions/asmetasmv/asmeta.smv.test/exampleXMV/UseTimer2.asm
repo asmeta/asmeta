@@ -6,7 +6,7 @@
 asm UseTimer2
 
 import StandardLibrary
-import LTLlibrary
+import LTLLibrary
 import TimeLibrary
 signature:
 

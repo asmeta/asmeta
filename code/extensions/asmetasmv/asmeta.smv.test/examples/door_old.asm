@@ -1,7 +1,7 @@
 asm door_old
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 //vecchia versione con switch nella main.
 //piu' comprensibile? non credo...

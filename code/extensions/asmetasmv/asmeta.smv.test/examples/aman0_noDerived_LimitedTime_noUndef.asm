@@ -3,7 +3,7 @@
 asm aman0_noDerived_LimitedTime_noUndef
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 export *
 
 signature:

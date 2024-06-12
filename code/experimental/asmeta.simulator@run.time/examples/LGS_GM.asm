@@ -10,8 +10,8 @@
 asm LGS_GM
 
 import StandardLibrary
-//import ../../STDL/CTLlibrary
-//import ../../STDL/LTLlibrary
+//import ../../STDL/CTLLibrary
+//import ../../STDL/LTLLibrary
 
 // signature 
 signature:

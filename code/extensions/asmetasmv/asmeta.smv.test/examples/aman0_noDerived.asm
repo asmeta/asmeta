@@ -3,7 +3,7 @@
 asm aman0_noDerived
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 export *
 
 signature:

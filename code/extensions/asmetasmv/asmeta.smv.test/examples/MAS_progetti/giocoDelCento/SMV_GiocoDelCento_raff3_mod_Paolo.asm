@@ -1,7 +1,7 @@
 asm SMV_GiocoDelCento_raff3_mod_Paolo
 
 import ../../../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	

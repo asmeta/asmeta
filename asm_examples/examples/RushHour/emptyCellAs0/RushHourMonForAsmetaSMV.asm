@@ -1,7 +1,7 @@
 asm RushHourMonForAsmetaSMV
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	enum domain Dir = {NORTH | SOUTH | EAST | WEST}

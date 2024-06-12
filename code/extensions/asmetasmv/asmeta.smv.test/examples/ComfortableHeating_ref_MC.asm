@@ -2,7 +2,7 @@
 
 asm ComfortableHeating_ref_MC
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/LTLlibrary
+import ../../../../../asm_examples/STDL/LTLLibrary
 
 signature:
 	//ComfortableHeatingMAPE

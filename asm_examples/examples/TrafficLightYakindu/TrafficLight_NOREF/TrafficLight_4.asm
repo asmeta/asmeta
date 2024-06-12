@@ -2,7 +2,7 @@ asm TrafficLight_4
 // ANGELO
  
 import ../StandardLibrary
-import ../CTLlibrary
+import ../CTLLibrary
 
 signature:
 	// DOMAINS
@@ -94,7 +94,7 @@ definitions:
 			$l:= GREEN
 		endpar		
 	endif 
-	// le transizioni interne invece le metto come regole a sè
+	// le transizioni interne invece le metto come regole a sï¿½
 	rule r_TrafficLight($l in Lights, $s in LightStatus, $t in LightTransition) =
 		par
 			if $s = RELEASED and transitionC != STANDBY_T and $t = RELEASE_PERIOD then par

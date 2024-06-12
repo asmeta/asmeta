@@ -4,7 +4,7 @@
 //
 asm pillbox_final
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
+import ../../STDL/CTLLibrary
 import ../../STDL/TimeLibrarySimple
 
 signature:

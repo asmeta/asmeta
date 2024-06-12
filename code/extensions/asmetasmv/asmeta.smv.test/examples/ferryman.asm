@@ -13,7 +13,7 @@ asm ferryman
 //In realta' anche questo modello si ferma quando sono tutti sulla sponda destra.
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	enum domain Actors = {FERRYMAN | GOAT | CABBAGE | WOLF}

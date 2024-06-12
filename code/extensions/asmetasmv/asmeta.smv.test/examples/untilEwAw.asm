@@ -1,6 +1,6 @@
 asm untilEwAw
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	domain ConcrDom subsetof Integer
@@ -10,7 +10,7 @@ signature:
 definitions:
 	domain ConcrDom = {0 : 10}
 
-	CTLSPEC a(foo < 10, ax(fooA = 1))
+	CTLSPEC au(foo < 10, ax(fooA = 1))
 	
 	//ew(p, q) = E[p U q] | EGp
 	CTLSPEC ew(foo <= 10, ag(fooA = 1))

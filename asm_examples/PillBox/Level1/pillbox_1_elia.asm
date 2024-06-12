@@ -1,8 +1,8 @@
 asm pillbox_1_elia
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
-import ../../STDL/LTLlibrary
+import ../../STDL/CTLLibrary
+import ../../STDL/LTLLibrary
 
 // Second refinement level of the Pill Box: We consider only one kind of pill, and time controlled By the pillbox 
 

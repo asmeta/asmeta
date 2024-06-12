@@ -3,8 +3,8 @@
 asm aman0
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
-import ../../../../../asm_examples/STDL/LTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
+import ../../../../../asm_examples/STDL/LTLLibrary
 export *
 
 signature:

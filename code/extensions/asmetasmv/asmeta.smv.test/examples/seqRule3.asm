@@ -1,7 +1,7 @@
 asm seqRule3
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	domain MyDomain subsetof Integer
@@ -21,7 +21,7 @@ definitions:
 	CTLSPEC ag(mon implies ax(ag(fooA = 3)))
 	CTLSPEC mon implies ax(fooC=4 and ag(mon implies ax(fooC=3)))
 	CTLSPEC mon implies ax(fooE=4 and ag(mon implies ax(fooE=3)))
-	CTLSPEC e(fooE = 2, ex(fooE = 4))
+	CTLSPEC eu(fooE = 2, ex(fooE = 4))
 
 	main rule r_Main =
 		if(mon) then

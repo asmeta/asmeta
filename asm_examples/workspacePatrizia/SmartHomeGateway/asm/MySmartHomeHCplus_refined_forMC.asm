@@ -13,8 +13,8 @@
 asm MySmartHomeHCplus_refined_forMC
 
 import StandardLibrary
-import LTLlibrary
-import CTLlibrary
+import LTLLibrary
+import CTLLibrary
 
 signature:
 	//HC_MAPE

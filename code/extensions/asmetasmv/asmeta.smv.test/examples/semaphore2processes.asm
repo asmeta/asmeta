@@ -1,7 +1,7 @@
 asm semaphore2processes
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 //With two processes; the CTL properties predicate only on two processes (process1 and process2). 
 

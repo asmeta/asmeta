@@ -5,12 +5,12 @@
 asm certifierRaff4_noundef
 
 import ../STDL/StandardLibrary
-import ../STDL/CTLlibrary
+import ../STDL/CTLLibrary
 
 
 signature:
 // DOMAINS
-	enum domain Answers={ SKIP | EXIT | AA | BB | CC | DD}  //risoste che può dare l'utente: salta, esci, figura AA, BB, CC, DD
+	enum domain Answers={ SKIP | EXIT | AA | BB | CC | DD}  //risoste che puï¿½ dare l'utente: salta, esci, figura AA, BB, CC, DD
 	enum domain OutMessage={CERTIFICATE | NOTCERTIFICATE}
 	domain Level subsetof Integer //livello che sta certificando
 	domain Certificate subsetof Integer // livello certificato
@@ -26,15 +26,15 @@ signature:
 	dynamic controlled levelCertificate: Certificate //livello certificato
 	dynamic controlled rightAnswer: RightAnswer //per certificare un livello testalo 3 volte
 	dynamic controlled answerError: Boolean //risposte sbagliate durante la certificazione del livello se =2 salgo di un livello
-	dynamic controlled answerSkip: Boolean // non può fare più di uno skip per ogni livello, se fa più di uno skip esce con NON CERTIFICATO
+	dynamic controlled answerSkip: Boolean // non puï¿½ fare piï¿½ di uno skip per ogni livello, se fa piï¿½ di uno skip esce con NON CERTIFICATO
 	dynamic controlled loop: Boolean /*serve per evitare un ciclo infinito.
 									Esempio (senza var loop): se certifico il livello 6 passo al 5
 									dopo provo a certificare il 4 se non lo certifico ritorno al 5
-									certifico il 5 e passo al 4 se non lo certifico ritorno al 5 e così via
+									certifico il 5 e passo al 4 se non lo certifico ritorno al 5 e cosï¿½ via
 									Esempio (con var loop): se certifico il livello 6 passo al 5
 									dopo provo a certificare il livello 4 se non lo certifico la variabile loop diventa true
-									certifico il 5 la variabile loop è a true quindi mi fermo e visualizzo che ho
-									//certificato il 5 in quanto il 4 ho già provato e non riesco a certificarlo*/
+									certifico il 5 la variabile loop ï¿½ a true quindi mi fermo e visualizzo che ho
+									//certificato il 5 in quanto il 4 ho giï¿½ provato e non riesco a certificarlo*/
 
 
 definitions:
@@ -51,13 +51,13 @@ definitions:
 
 
 	// sceglie un'immagine che deve indovinare l'utente a caso tra quelle del dominio Answers eccetto SKIP ed EXIT
-	// l'immagine scelta nello stato N dovrà essere indovinata dall'utente al passo N+1
+	// l'immagine scelta nello stato N dovrï¿½ essere indovinata dall'utente al passo N+1
 	macro rule r_chooseshape=
 		choose $x in Answers with $x!=EXIT and $x!=SKIP do
 			shownImage := $x
 
 
-	// il test è terminato senza aver certificato un livello
+	// il test ï¿½ terminato senza aver certificato un livello
 	macro rule r_goOut=
 		par
 			test:=false
@@ -78,18 +78,18 @@ definitions:
 
 	
 	macro rule r_goUpCheckLevel=
-		// se l'utente sbaglia due volte ma non è a livello 6  esegui la regola r_2ErrorGoBack
+		// se l'utente sbaglia due volte ma non ï¿½ a livello 6  esegui la regola r_2ErrorGoBack
 		if levelTest<6 then
 			r_goUp[]
 		else
-			// se l'utente è a livello 6 e sbaglia due volte termina il test con NONCERTIFICATO
+			// se l'utente ï¿½ a livello 6 e sbaglia due volte termina il test con NONCERTIFICATO
 			test:=false
 		endif
 	
 
 	// se l'utente risponde in modo sbagliato o digita SKIP due volte nello stesso livello
 	macro rule r_wrong=
-		// se è il primo errore memorizza che sta risalendo (loop=true) e verifica a quale livello è con la regola r_wrongCheckLevel
+		// se ï¿½ il primo errore memorizza che sta risalendo (loop=true) e verifica a quale livello ï¿½ con la regola r_wrongCheckLevel
 		par
 			loop:=true
 			r_goUpCheckLevel[]
@@ -99,16 +99,16 @@ definitions:
 	
 	// se l'utente da la risposta sbagliata
 	macro rule r_wrongAnswer=
-		// se è il primo errore incrementa il contatore
+		// se ï¿½ il primo errore incrementa il contatore
 		if (answerError) then
-		// se è il secondo errore esegui r_wrong
+		// se ï¿½ il secondo errore esegui r_wrong
 			r_wrong[]
 		else
 			answerError:=true
 		endif
 
 
-	// se l'utente da la risposta corretta e non è mai tornato indietro di un livello passa al livello successivo
+	// se l'utente da la risposta corretta e non ï¿½ mai tornato indietro di un livello passa al livello successivo
 	// e certifica il livello appena testato
 	macro rule r_rightAnswNoLoop=
 		par
@@ -120,10 +120,10 @@ definitions:
 
 
 	
-	// se è al livello 1 e la risposta data è corretta, si deve certificare il livello 1
+	// se ï¿½ al livello 1 e la risposta data ï¿½ corretta, si deve certificare il livello 1
 	// per certificarlo l'utente deve indovinare per 3 volte le immagini scelte dall'asm
 	// certificato memorizza quante volte l'utente ha indovinato le immagini per certificare il livello
-	// una volta certificato pone test=false e al ciclo successivo viene esguita la regola r_exit che uscirà
+	// una volta certificato pone test=false e al ciclo successivo viene esguita la regola r_exit che uscirï¿½
 	// con risultato CERTIFICATO
 	macro rule r_certificate=
 		if rightAnswer<=1 then
@@ -136,19 +136,19 @@ definitions:
 		endif
 		
 		
-	// se non è alivello 1 e la risposta data è corretta vengono gestite due situazioni
+	// se non ï¿½ alivello 1 e la risposta data ï¿½ corretta vengono gestite due situazioni
 	macro rule r_goDown=
 		if loop=false then
 			// caso in cui si parte dal livello 6 e si sta scendendo
 			r_rightAnswNoLoop[]
 		else
-			// caso in cui si è sbagliato un livello e quindi si sale di uno per certificare quello precedente
+			// caso in cui si ï¿½ sbagliato un livello e quindi si sale di uno per certificare quello precedente
 			r_certificate[]
 		endif
 
 
 	
-	// se la risposta è giusta e non è al livello 1 esegui r_levelno1[] altrimenti r_level1[]
+	// se la risposta ï¿½ giusta e non ï¿½ al livello 1 esegui r_levelno1[] altrimenti r_level1[]
 	macro rule r_rightAnswer=
 		if levelTest>1 then
 			r_goDown[]
@@ -160,15 +160,15 @@ definitions:
 	// confronta la risposta dell'utente con quella scelta dall'asm
 	macro rule r_checkanswer($a in Answers)=
 		if ($a = shownImage) then
-			// se è corretta esegui la regola r_rightAnswer[]
+			// se ï¿½ corretta esegui la regola r_rightAnswer[]
 			r_rightAnswer[]
 		else
-			// se è sbagliata esegui la regola r_wrongAnswer[]
+			// se ï¿½ sbagliata esegui la regola r_wrongAnswer[]
 			r_wrongAnswer[]
 		endif
 
 
-	// all'utente è permesso digitare SKIP solo due volte
+	// all'utente ï¿½ permesso digitare SKIP solo due volte
 	// la seconda volta viene considerato come l'errore, quindi torna al livello precedente (regola: r_wrong[])
 	macro rule r_skip=
 		par
@@ -202,7 +202,7 @@ definitions:
 
 
 
-	// esce dal test con CERTIFICATO se è stato certificato un livello
+	// esce dal test con CERTIFICATO se ï¿½ stato certificato un livello
 	// NONCERTIFICATO se l'utente ha digitato EXIT oppure non ha certificato nessun livello (non indovina il livello 6) 
 	macro rule r_exit=
 		if isUndef(outMessage) then 
@@ -243,7 +243,7 @@ CTLSPEC not ef (not test and outMessage=CERTIFICATE)
 		
 		
 // INITIAL STATE
-// il test è iniziato, ma non ho certificato nessun livello
+// il test ï¿½ iniziato, ma non ho certificato nessun livello
 // inizio a certificare dal livello 6
 default init s0:
 	function test = true

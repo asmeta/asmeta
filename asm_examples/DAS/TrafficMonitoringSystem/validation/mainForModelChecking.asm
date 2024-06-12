@@ -2,7 +2,7 @@ asm mainForModelChecking
 //main ASM: Camera system of systems
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	//CameraAgentSubsystem
@@ -1061,7 +1061,7 @@ definitions:
 
 	//R2: when the slaves have detected a failure, their organization controllers will form a new organization
 	CTLSPEC ag((stateC(c1) = FAILED and slaves(c1,c2) and slaves(c1,c3)) implies
-				  e((congested(organizationController2) and congested(organizationController3)),
+				 eu(((congested(organizationController2) and congested(organizationController3)),
 				    (stateC(c2) = MASTERWITHSLAVES and stateC(c3) = SLAVE and slaves(c2,c3) and congested(organizationController2) and congested(organizationController3)))
 				)
 
