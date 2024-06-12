@@ -396,9 +396,9 @@ public class AllAsmExamplesTesterWOHelper {
 			// skip the files in the STDL folder, the CTLlibrary and LTLlibrary
 			if (specName.contains("STDL"))
 				continue;
-			if (specName.contains("CTCTLLibrary.asm)
+			if (specName.contains("CTLLibrary.asm"))
 				continue;
-			if (specName.contains("LTLTLLibrary.asm)
+			if (specName.contains("LTLLibrary.asm"))
 				continue;
 
 			// skip old version of examples that do not work with the previous parser too

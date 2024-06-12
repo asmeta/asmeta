@@ -5,7 +5,7 @@
 asm LandingGearSystemWithCylValvesAndSensors_NoStatePassing_wrong
 
 import ../../../STDL/StandardLibrary
-import ../../../STDLCTLLibraryy
+import ../../../STDL/CTLLibrary
 
 signature:
 	enum domain HandleStatus = {UP | DOWN}
