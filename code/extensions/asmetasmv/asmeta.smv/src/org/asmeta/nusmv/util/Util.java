@@ -218,7 +218,7 @@ public class Util {
 				|| s.equals("ag") || s.equals("ax") || s.equals("af")) {
 			return s.toUpperCase();
 		}
-		else if (s.equals("e") || s.equals("a")) {
+		else if (s.equals("eu") || s.equals("au")) {
 			return "U";
 		}
 		else if (s.equals("x") || s.equals("g") || s.equals("f")
@@ -444,7 +444,7 @@ public class Util {
 		if (locationName.equals("eg") || locationName.equals("ex")
 				|| locationName.equals("ef") || locationName.equals("ag")
 				|| locationName.equals("ax") || locationName.equals("af")
-				|| locationName.equals("e") || locationName.equals("a")
+				|| locationName.equals("eu") || locationName.equals("au")
 				|| locationName.equals("x") || locationName.equals("g")
 				|| locationName.equals("f") || locationName.equals("u")
 				|| locationName.equals("v") || locationName.equals("y")
