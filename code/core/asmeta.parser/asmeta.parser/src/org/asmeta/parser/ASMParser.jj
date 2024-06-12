@@ -241,7 +241,8 @@ TOKEN :
 | < AGENT : "agent" >
 | < INVARIANT : "invariant" >
   //PA 19/05/2014 in order to add the CTLSPEC, LTLSPEC, FAIRNESS, JUSTICE, COMPASSION, and INVAR keywords: START
-| < CTLSPEC : "CTLSPEC" >
+  // AG also lowercase TODO: add a test case
+| < CTLSPEC : "CTLSPEC" | "ctlspec">
 | < NAME : "NAME" >
 | < LTLSPEC : "LTLSPEC" >
 | < JUSTICE : "JUSTICE" > //A justice constraint consists of a formula f, which is assumed to be true infinitely often in all the fair paths

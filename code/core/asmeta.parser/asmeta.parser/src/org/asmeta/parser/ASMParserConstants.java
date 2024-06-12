@@ -253,7 +253,7 @@ public interface ASMParserConstants {
     "\"default\"",
     "\"agent\"",
     "\"invariant\"",
-    "\"CTLSPEC\"",
+    "<CTLSPEC>",
     "\"NAME\"",
     "\"LTLSPEC\"",
     "\"JUSTICE\"",

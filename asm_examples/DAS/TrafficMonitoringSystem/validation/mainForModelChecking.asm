@@ -1063,7 +1063,7 @@ definitions:
 	CTLSPEC ag((stateC(c1) = FAILED and slaves(c1,c2) and slaves(c1,c3)) implies
 				 eu(((congested(organizationController2) and congested(organizationController3)),
 				    (stateC(c2) = MASTERWITHSLAVES and stateC(c3) = SLAVE and slaves(c2,c3) and congested(organizationController2) and congested(organizationController3)))
-				)
+				))
 
 	//R3: implicata dalla R2?
 
