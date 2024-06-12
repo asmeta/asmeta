@@ -246,8 +246,8 @@ LTLSPEC g(isDef(outMessage) implies not test)
 
 //The message reporting the outcome of the test remains undefined since it becomes
 //defined with the outcome of the test and cannot become undefined again
-LTLSPEC u(isUndef(outMessage), g(isDef(outMessage)au( // isUndef(outMessage) U g(isDef(outMessage))
-CTLSPEC a(isUndef(outMessage), ag(isDef(outMessage))) // a[isUndef(outMessage) U g(isDef(outMessage))]
+LTLSPEC u(isUndef(outMessage), g(isDef(outMessage))) // isUndef(outMessage) U g(isDef(outMessage))
+CTLSPEC au(isUndef(outMessage), ag(isDef(outMessage))) // a[isUndef(outMessage) U g(isDef(outMessage))]
 
 CTLSPEC ef(outMessage = CERTIFICATE)
 CTLSPEC ef(outMessage = NOTCERTIFICATE)
