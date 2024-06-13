@@ -20,6 +20,11 @@ import asmeta.structure.Header;
 import asmeta.structure.Signature;
 
 public class Util {
+	
+	private static final String LTL_LIBRARY_NAME = "LTLLibrary";
+	private static final String CTL_LIBRARY_NAME = "CTLLibrary";
+	private static final String STANDARD_LIBRARY_NAME = "StandardLibrary";
+	
 	public static final String trueString = "TRUE";
 	public static final String falseString = "FALSE";
 	public final static String notUsedMess = " has not been exported in NuSMV since it is never used.";
@@ -132,7 +137,7 @@ public class Util {
 	public static String getDomainName(Domain domain) {
 		String domainName = domain.getName();
 		if (notBelongsToMainAsm(domain)
-				&& !getAsmName(domain).equals("StandardLibrary")) {
+				&& !getAsmName(domain).equals(STANDARD_LIBRARY_NAME)) {
 			domainName = Util.getAsmName(domain) + "_" + domainName;
 		}
 		return domainName;
@@ -149,9 +154,9 @@ public class Util {
 	public static String getFunctionName(Function function) {
 		String functionName = function.getName();
 		String asmName = getAsmName(function);
-		if (notBelongsToMainAsm(function) && !asmName.equals("StandardLibrary")
-				&& !asmName.equals("CTLlibrary")
-				&& !asmName.equals("LTLlibrary")) {
+		if (notBelongsToMainAsm(function) && !asmName.equals(STANDARD_LIBRARY_NAME)
+				&& !asmName.equals(CTL_LIBRARY_NAME)
+				&& !asmName.equals(LTL_LIBRARY_NAME)) {
 			functionName = asmName + "_" + functionName;
 		}
 		return functionName;

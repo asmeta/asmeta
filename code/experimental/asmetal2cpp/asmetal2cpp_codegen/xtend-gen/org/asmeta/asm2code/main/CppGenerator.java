@@ -18,12 +18,12 @@ import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
-import com.google.common.base.Objects;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.asmeta.asm2code.DomainToCpp;
 import org.asmeta.asm2code.DomainToH;
 import org.asmeta.asm2code.FindMonitoredInControlledFunct;
@@ -126,7 +126,7 @@ public class CppGenerator extends AsmToCGenerator {
     _builder.append(_functionDefinition, "\t");
     _builder.newLineIfNotEmpty();
     {
-      boolean _equals = Objects.equal(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
+      boolean _equals = Objects.equals(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
       if (_equals) {
         _builder.append("\t");
         _builder.newLine();
@@ -285,7 +285,7 @@ public class CppGenerator extends AsmToCGenerator {
     _builder.append(_functionDefinition, "\t");
     _builder.newLineIfNotEmpty();
     {
-      boolean _equals = Objects.equal(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
+      boolean _equals = Objects.equals(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
       if (_equals) {
         _builder.append("\t");
         _builder.newLine();
@@ -524,7 +524,7 @@ public class CppGenerator extends AsmToCGenerator {
           String _elemsSetName = Util.getElemsSetName(dd.getDefinedDomain().getName());
           String _visit = new DomainToCpp(asm).visit(dd);
           String _xifexpression = null;
-          boolean _equals = Objects.equal(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
+          boolean _equals = Objects.equals(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
           if (_equals) {
             _xifexpression = (("{&var" + n) + "_");
           } else {
@@ -532,7 +532,7 @@ public class CppGenerator extends AsmToCGenerator {
           }
           String _replace = _visit.replace("{", _xifexpression);
           String _xifexpression_1 = null;
-          boolean _equals_1 = Objects.equal(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
+          boolean _equals_1 = Objects.equals(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
           if (_equals_1) {
             _xifexpression_1 = ((",&var" + n) + "_");
           } else {
@@ -557,7 +557,7 @@ public class CppGenerator extends AsmToCGenerator {
           String _plus = (_elemsSetName + "(");
           String _visit = new DomainToCpp(asm).visit(((EnumTd)ed));
           String _xifexpression = null;
-          boolean _equals = Objects.equal(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
+          boolean _equals = Objects.equals(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
           if (_equals) {
             _xifexpression = (("{&var" + n) + "_");
           } else {
@@ -566,7 +566,7 @@ public class CppGenerator extends AsmToCGenerator {
           String _replace = _visit.replace(
             "{", _xifexpression);
           String _xifexpression_1 = null;
-          boolean _equals_1 = Objects.equal(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
+          boolean _equals_1 = Objects.equals(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
           if (_equals_1) {
             _xifexpression_1 = ((",&var_" + n) + "_");
           } else {
@@ -574,7 +574,7 @@ public class CppGenerator extends AsmToCGenerator {
           }
           String _replace_1 = _replace.replace(",", _xifexpression_1);
           String _plus_1 = (_plus + _replace_1);
-          String _plus_2 = (_plus_1 + "\r\n\t\t\t\t\t), \n");
+          String _plus_2 = (_plus_1 + "\n\t\t\t\t\t), \n");
           initial.append(_plus_2);
         }
       }

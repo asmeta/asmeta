@@ -180,8 +180,11 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 				s.append(funcSymbol);
 			}
 			else {
+				// found AU e EU
 				if(funcName.equals(AU_OP) || funcName.equals(EU_OP)){
-					s.append(funcName.toUpperCase() + "[");
+					// only the first letter A or E
+					char pathOp = funcName.toUpperCase().charAt(0);
+					s.append(pathOp + "[");
 				}
 				else if(arity >= 1) {
 					if(!funcName.equals("u")) {
