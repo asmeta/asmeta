@@ -1,6 +1,6 @@
 scenario CorneringLightONforCornering
 load ../CarSystem002main.asm
-//testiamo l'accesione della sinistra ma la destra è speculare con steering angle> 613
+//testiamo l'accesione della sinistra ma la destra Ã¨ speculare con steering angle> 613
 // marcia rettilinea se 411 <= steeringAngle <= 613
 check keyState_Previous = undef;
 check brakeLampRight = 0;
