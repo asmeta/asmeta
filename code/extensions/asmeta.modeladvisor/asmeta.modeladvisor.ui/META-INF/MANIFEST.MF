@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta model advisor Plugin
 Bundle-SymbolicName: asmeta.modeladvisor.ui;singleton:=true
-Bundle-Version: 24.04
+Bundle-Version: 24.06
 Bundle-Activator: org.asmeta.modeladvisor.plugin.AsmetaMAActivator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
