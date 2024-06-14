@@ -1,7 +1,7 @@
 asm RushHourMonSimplForAsmetaSMV
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	enum domain Dir = {FIRSTDIR | SECONDDIR}

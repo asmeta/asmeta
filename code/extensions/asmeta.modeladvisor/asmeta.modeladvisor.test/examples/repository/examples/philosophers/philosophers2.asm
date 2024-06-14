@@ -3,7 +3,7 @@
 asm philosophers2
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
+import ../../STDL/CTLLibrary
 
 //declare universes and functions
 	

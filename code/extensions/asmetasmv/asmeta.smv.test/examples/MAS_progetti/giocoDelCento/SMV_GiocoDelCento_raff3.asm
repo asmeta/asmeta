@@ -1,7 +1,7 @@
 asm SMV_GiocoDelCento_raff3
 
 import ../../../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	
@@ -179,9 +179,9 @@ definitions:
 	//Questa regola inoltre controlla che al termine di ogni giocata lo stato della vincita assume questa configurazione
 	invariant over statoVincita: ag(ef(ag(statoVincita(PLAYER1)=WIN and statoVincita(PLAYER2)=LOSE)))	
 
-	invariant over statoVincita: a(statoVincita(PLAYER1)=NONE and statoVincita(PLAYER2)=NONE, ag(statoVincita(PLAYER1)=WIN and statoVincita(PLAYER2)=LOSE))	
+	invariant over statoVincita: au(statoVincita(PLAYER1)=NONE and statoVincita(PLAYER2)=NONE, ag(statoVincita(PLAYER1)=WIN and statoVincita(PLAYER2)=LOSE))	
 
-	invariant over statoVincita: a(statoVincita(PLAYER1)=NONE and statoVincita(PLAYER2)=NONE, ag((statoVincita(PLAYER1)=WIN and statoVincita(PLAYER2)=LOSE)) or
+	invariant over statoVincita: au(statoVincita(PLAYER1)=NONE and statoVincita(PLAYER2)=NONE, ag((statoVincita(PLAYER1)=WIN and statoVincita(PLAYER2)=LOSE)) or
 																					ag(statoVincita(PLAYER1)=LOSE and statoVincita(PLAYER2)=WIN)
 	
 	)

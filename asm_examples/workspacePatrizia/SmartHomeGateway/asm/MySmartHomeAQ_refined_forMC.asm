@@ -10,7 +10,7 @@
 asm MySmartHomeAQ_refined_forMC
 
 import StandardLibrary
-import LTLlibrary
+import LTLLibrary
 
 signature:
 	//AQ_MAPE

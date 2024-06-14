@@ -319,7 +319,7 @@ public class StandardLibraryHardCoded {
 			"definitions:\n" + 
 			"";
 
-	public final static String CTLlibrary = "module CTLlibrary\n" + 
+	public final static String CTLLibrary = "module CTLLibrary\n" + 
 			"\n" + 
 			"export *\n" + 
 			"\n" + 
@@ -331,8 +331,8 @@ public class StandardLibraryHardCoded {
 			"	static ag: Boolean -> Boolean	//forall globally\n" + 
 			"	static ax: Boolean -> Boolean	//forall next state\n" + 
 			"	static af: Boolean -> Boolean	//forall finally\n" + 
-			"	static e: Prod(Boolean, Boolean) -> Boolean	//exists until\n" + 
-			"	static a: Prod(Boolean, Boolean) -> Boolean //forall until\n" + 
+			"	static eu: Prod(Boolean, Boolean) -> Boolean	//exists until\n" + 
+			"	static au: Prod(Boolean, Boolean) -> Boolean //forall until\n" + 
 			"\n" + 
 			"	/*-----------Patterns------------*/\n" + 
 			"	static ew: Prod(Boolean, Boolean) -> Boolean  //exists weak until -- E[p U q] | EGp.\n" + 

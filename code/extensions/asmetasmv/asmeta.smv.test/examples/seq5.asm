@@ -4,7 +4,7 @@ asm seq5
 //usare una choose rule in una seq rule
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	domain MyDomain subsetof Integer

@@ -1,8 +1,8 @@
 asm MVMcontroller03
 //Third refinement: transition from inspiration to expiration and vice versa 
 
-import CTLlibrary
-import LTLlibrary
+import CTLLibrary
+import LTLLibrary
 import TimeLibrary 
 
 signature:

@@ -10,7 +10,7 @@
 asm MySmartHomeHCplus_forTranslatorValidator
 
 import StandardLibrary
-import LTLlibrary
+import LTLLibrary
 
 signature:
 	//HC_MAPE

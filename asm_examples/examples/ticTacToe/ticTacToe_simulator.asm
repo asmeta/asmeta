@@ -1,7 +1,7 @@
 asm ticTacToe_simulator
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
+import ../../STDL/CTLLibrary
 
 signature:
 	domain Coord subsetof Integer

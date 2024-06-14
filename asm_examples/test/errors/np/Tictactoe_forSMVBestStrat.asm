@@ -3,7 +3,7 @@ asm Tictactoe_forSMVBestStrat
 //strategia che permette di non perdere mai
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 
 signature:

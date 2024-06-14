@@ -26,22 +26,21 @@ public class MySimulatorTest {
 		final AsmCollection asmp = ASMParser.setUpReadAsm(string);
 		Environment env = new Environment(new RandomMFReader());
 		
-		SimulatorForAnimator simulator = new SimulatorForAnimator("coffeeVendingMachineNC", asmp, env, new VisualizationSimulationI() {
+		VisualizationSimulationI vis = new VisualizationSimulationI() {
 
 			@Override
 			public void setInvalidIvariantText(String s) {
 				System.out.println("inavalid invariant " + s);
 				
 			}
-
 			@Override
 			public void setInitValues(Map<Location, Value> locationsPrevSet2) {
 				System.out.println(locationsPrevSet2);
 				// 
 				setInit(locationsPrevSet2.toString());
-			}
-			
-		});
+			}			
+		};
+		SimulatorForAnimator simulator = new SimulatorForAnimator("coffeeVendingMachineNC", asmp, env, vis);
 		simulator.run(1);
 		// check that all the variables have been inizialized
 		assertEquals("{available(TEA)=10, available(COFFEE)=10, available(MILK)=10, coins=0}", init);

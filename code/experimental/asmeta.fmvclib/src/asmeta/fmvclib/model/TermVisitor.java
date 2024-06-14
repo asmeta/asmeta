@@ -39,6 +39,12 @@ import asmeta.terms.furtherterms.StringTerm;
  *
  */
 public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String> {
+	
+	// eu and au operators in CTLLibrary
+	private static final String EU_OP = "eu";
+	private static final String AU_OP = "au";
+	
+	
 	InitialStateVisitor mv;
 	private Environment env;
 	protected FunctionVisitor fv;
@@ -127,7 +133,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 				s.append(funcSymbol);
 			}
 			else {
-				if(funcName.equals("a") || funcName.equals("e")){
+				if(funcName.equals(AU_OP) || funcName.equals(EU_OP)){
 					s.append(funcName.toUpperCase() + "[");
 				}
 				else if(arity >= 1) {
@@ -145,7 +151,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 						s.append(" " + funcSymbol + " " + visit(term));
 					}
 				}
-				if(funcName.equals("a") || funcName.equals("e")) {
+				if(funcName.equals(AU_OP) || funcName.equals(EU_OP)) {
 					s.append("]");
 				}
 				else {

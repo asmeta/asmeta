@@ -1,7 +1,7 @@
 asm semaphore
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 //It can contain any number n > 0 of processes. The CTL properties predicate
 //over all processes.

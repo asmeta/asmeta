@@ -7,10 +7,10 @@ import asmeta.definitions.domains.Domain;
 import asmeta.structure.Asm;
 import asmeta.structure.ImportClause;
 import asmeta.transitionrules.basictransitionrules.Rule;
-import com.google.common.base.Objects;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Logger;
 import org.asmeta.asm2code.DomainContainerToH;
@@ -68,7 +68,7 @@ public class HeaderGenerator extends AsmToCGenerator {
     }
     final String asmName = asm.getName();
     String _xifexpression = null;
-    boolean _equals = Objects.equal(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
+    boolean _equals = Objects.equals(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler);
     if (_equals) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("#define ARDUINOCOMPILER");
@@ -301,7 +301,7 @@ public class HeaderGenerator extends AsmToCGenerator {
       if ((i != null)) {
         String s = new ImportToH(asm).visit(i);
         if ((((!s.contains("StandardLibrary")) && (!s.contains("CTLlibrary"))) && (!s.contains("LTLlibrary")))) {
-          boolean _notEquals = (!Objects.equal(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler));
+          boolean _notEquals = (!Objects.equals(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler));
           if (_notEquals) {
             String _visit = new ImportToH(asm).visit(i);
             String _plus = ("#include \"" + _visit);

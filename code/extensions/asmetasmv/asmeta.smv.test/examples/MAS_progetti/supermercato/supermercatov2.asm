@@ -2,7 +2,7 @@
 asm supermercatov2  
 
 import ../../../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 

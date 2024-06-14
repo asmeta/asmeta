@@ -6,7 +6,7 @@ http://www.cdcc.faw.jku.at/ABZ2016/HD-CaseStudy.pdf
 */
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/LTLlibrary
+import ../../../STDL/LTLLibrary
 
 signature:
 	enum domain Phases = {PREPARATION | INITIATION | ENDING}

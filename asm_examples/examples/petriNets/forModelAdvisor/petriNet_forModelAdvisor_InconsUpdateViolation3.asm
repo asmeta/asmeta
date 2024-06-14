@@ -18,7 +18,7 @@ asm petriNet_forModelAdvisor_InconsUpdateViolation3
 //- 87,5% of the runs with three steps do not discover the inconsistency
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	abstract domain Place

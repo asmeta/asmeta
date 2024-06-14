@@ -37,7 +37,7 @@ asm ferryman_v2
 //quando non ci sono piu' aggiornamenti: vuol dire che sono arrivati tutti a destra).
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	enum domain Actors = {FERRYMAN | GOAT | CABBAGE | WOLF}

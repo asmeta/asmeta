@@ -40,7 +40,7 @@ asm petriNet_forNuSMV_notLive_bound1_deadlockFree
 //- moreover the net is deadlock-free
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	abstract domain Place

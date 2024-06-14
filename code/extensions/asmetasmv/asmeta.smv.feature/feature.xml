@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.asmetasmv.feature"
       label="Asmeta model checker"
-      version="24.04"
+      version="24.06"
       provider-name="https://foselab.unibg.it/">
 
    <description>

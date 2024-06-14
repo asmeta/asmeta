@@ -5,7 +5,7 @@
 asm LandingGearSystemWithCylValvesAndSensors3LandSets_NoStatePassing_wrong
 
 import ../../../../STDL/StandardLibrary
-import ../../../../STDL/CTLlibrary
+import ../../../../STDL/CTLLibrary
 
 signature:
 	enum domain LandingSet = {FRONT | LEFT | RIGHT}

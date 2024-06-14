@@ -5,7 +5,7 @@
 asm certifierRaff2
 
 import ../STDL/StandardLibrary
-import ../STDL/CTLlibrary
+import ../STDL/CTLLibrary
 
 
 signature:

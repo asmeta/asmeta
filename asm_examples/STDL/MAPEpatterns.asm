@@ -1,7 +1,7 @@
 module MAPEpatterns
 
 import StandardLibrary
-import LTLlibrary
+import LTLLibrary
 
 export *
 

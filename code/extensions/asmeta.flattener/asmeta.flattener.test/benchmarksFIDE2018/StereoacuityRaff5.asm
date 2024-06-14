@@ -1,8 +1,8 @@
 asm StereoacuityRaff5
 
 import ./STDL/StandardLibrary
-import ./STDL/CTLlibrary
-import ./STDL/LTLlibrary
+import ./STDL/CTLLibrary
+import ./STDL/LTLLibrary
 
 signature:
 	enum domain Answers={SKIP | EXIT | AA | BB | CC | DD}
@@ -164,7 +164,7 @@ definitions:
 	//The message reporting the outcome of the test remains undefined since it becomes
 	//defined with the outcome of the test and cannot become undefined again
 	LTLSPEC u(isUndef(outMessage), g(isDef(outMessage))) // isUndef(outMessage) U g(isDef(outMessage))
-	CTLSPEC a(isUndef(outMessage), ag(isDef(outMessage))) // a[isUndef(outMessage) U g(isDef(outMessage))]
+	CTLSPEC au(isUndef(outMessage), ag(isDef(outMessage))) // a[isUndef(outMessage) U g(isDef(outMessage))]
 	
 	CTLSPEC ef(outMessage = CERTIFICATE)
 	CTLSPEC ef(outMessage = NOTCERTIFICATE)

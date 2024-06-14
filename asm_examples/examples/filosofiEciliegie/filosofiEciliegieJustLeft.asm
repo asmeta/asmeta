@@ -1,7 +1,7 @@
 asm filosofiEciliegieJustLeft
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
+import ../../STDL/CTLLibrary
 
 signature:
 	abstract domain Philosopher

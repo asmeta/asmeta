@@ -1,8 +1,8 @@
 asm RushHourSimplForAsmetaSMV
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
-import ../../STDL/LTLlibrary
+import ../../STDL/CTLLibrary
+import ../../STDL/LTLLibrary
 
 //https://en.wikipedia.org/wiki/Rush_Hour_(puzzle)
 //simplified version of RushHourForAsmetaSMV

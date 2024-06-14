@@ -9,7 +9,8 @@
 			default="true"
 			extensions="asm"
 			id="org.asmeta.xt.AsmetaL"
-			name="AsmetaL Editor">
+			name="AsmetaL Editor"
+			icon="icons/asm_src.gif">
 		</editor>
 	</extension>
 	<extension

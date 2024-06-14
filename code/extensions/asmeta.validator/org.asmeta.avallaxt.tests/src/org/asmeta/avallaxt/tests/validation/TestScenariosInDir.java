@@ -67,6 +67,6 @@ public class TestScenariosInDir extends TestParserAndValidation {
 			}
 		}
 		System.err.println(filexWithErrors);
-		assertTrue(filexWithErrors.isEmpty());
+		assertTrue(filexWithErrors.toString(),filexWithErrors.isEmpty());
 	}	
 }

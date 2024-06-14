@@ -1,7 +1,7 @@
 asm parkingSimple
 
 import ../STDL/StandardLibrary
-import ../STDL/CTLlibrary
+import ../STDL/CTLLibrary
 
 signature:
 	domain AvailableSpaces subsetof Integer

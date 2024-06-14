@@ -241,13 +241,16 @@ TOKEN :
 | < AGENT : "agent" >
 | < INVARIANT : "invariant" >
   //PA 19/05/2014 in order to add the CTLSPEC, LTLSPEC, FAIRNESS, JUSTICE, COMPASSION, and INVAR keywords: START
-| < CTLSPEC : "CTLSPEC" >
-| < NAME : "NAME" >
-| < LTLSPEC : "LTLSPEC" >
-| < JUSTICE : "JUSTICE" > //A justice constraint consists of a formula f, which is assumed to be true infinitely often in all the fair paths
-| < FAIRNESS : "FAIRNESS" > //It indicates a justice constraint as well (in NuSMV it has been kept for backward compatibility)
-| < COMPASSION : "COMPASSION" > //. A compassion constraint consists of a pair of formulas (p,q); if property p is true infinitely often in a fair path, then also formula q has to be true infinitely often in the fair path
-| < INVAR : "INVAR" >
+  //AG 13/06/24 also lowercase TODO: add a test case
+  // AG also those below
+| < CTLSPEC : "CTLSPEC" | "ctlspec">
+//  AG 13/06/24 non viene usato 
+//| < NAME : "NAME" > 
+| < LTLSPEC : "LTLSPEC" | "ltlspec">
+| < JUSTICE : "JUSTICE" | "justice" > //A justice constraint consists of a formula f, which is assumed to be true infinitely often in all the fair paths
+| < FAIRNESS : "FAIRNESS"| "fairness" > //It indicates a justice constraint as well (in NuSMV it has been kept for backward compatibility)
+| < COMPASSION : "COMPASSION"| "compassion"> //. A compassion constraint consists of a pair of formulas (p,q); if property p is true infinitely often in a fair path, then also formula q has to be true infinitely often in the fair path
+| < INVAR : "INVAR" | "invar">
   //PA 19/05/2014 in order to add the CTLSPEC, LTLSPEC, FAIRNESS, JUSTICE, COMPASSION, and INVAR keywords: END
 | < OVER : "over" >
 | < DEFINITIONS : "definitions" >

@@ -1,8 +1,8 @@
 asm pillbox_0
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
-import ../../STDL/LTLlibrary
+import ../../STDL/CTLLibrary
+import ../../STDL/LTLLibrary
 
 /* First refinement level of the Pill Box: We consider only one kind of pill, no time (only some boolean functions that signal
    when the drugs have to be taken and the status of the red led) */

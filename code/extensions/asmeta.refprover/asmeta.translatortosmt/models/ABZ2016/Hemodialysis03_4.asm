@@ -1,7 +1,7 @@
 asm Hemodialysis03_4
 
 import ../StandardLibrary
-import ../CTLlibrary
+import ../CTLLibrary
 
 signature:
 // DOMAINS

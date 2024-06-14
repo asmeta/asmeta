@@ -33,199 +33,197 @@ public interface ASMParserConstants {
   /** RegularExpression Id. */
   int CTLSPEC = 17;
   /** RegularExpression Id. */
-  int NAME = 18;
+  int LTLSPEC = 18;
   /** RegularExpression Id. */
-  int LTLSPEC = 19;
+  int JUSTICE = 19;
   /** RegularExpression Id. */
-  int JUSTICE = 20;
+  int FAIRNESS = 20;
   /** RegularExpression Id. */
-  int FAIRNESS = 21;
+  int COMPASSION = 21;
   /** RegularExpression Id. */
-  int COMPASSION = 22;
+  int INVAR = 22;
   /** RegularExpression Id. */
-  int INVAR = 23;
+  int OVER = 23;
   /** RegularExpression Id. */
-  int OVER = 24;
+  int DEFINITIONS = 24;
   /** RegularExpression Id. */
-  int DEFINITIONS = 25;
+  int FUNCTION = 25;
   /** RegularExpression Id. */
-  int FUNCTION = 26;
+  int STATIC = 26;
   /** RegularExpression Id. */
-  int STATIC = 27;
+  int DYNAMIC = 27;
   /** RegularExpression Id. */
-  int DYNAMIC = 28;
+  int DERIVED = 28;
   /** RegularExpression Id. */
-  int DERIVED = 29;
+  int MONITORED = 29;
   /** RegularExpression Id. */
-  int MONITORED = 30;
+  int CONTROLLED = 30;
   /** RegularExpression Id. */
-  int CONTROLLED = 31;
+  int SHARED = 31;
   /** RegularExpression Id. */
-  int SHARED = 32;
+  int OUT = 32;
   /** RegularExpression Id. */
-  int OUT = 33;
+  int DOMAIN = 33;
   /** RegularExpression Id. */
-  int DOMAIN = 34;
+  int ANYDOMAIN = 34;
   /** RegularExpression Id. */
-  int ANYDOMAIN = 35;
+  int BASIC = 35;
   /** RegularExpression Id. */
-  int BASIC = 36;
+  int ABSTRACT = 36;
   /** RegularExpression Id. */
-  int ABSTRACT = 37;
+  int ENUM = 37;
   /** RegularExpression Id. */
-  int ENUM = 38;
+  int SUBSETOF = 38;
   /** RegularExpression Id. */
-  int SUBSETOF = 39;
+  int PROD = 39;
   /** RegularExpression Id. */
-  int PROD = 40;
+  int SEQ = 40;
   /** RegularExpression Id. */
-  int SEQ = 41;
+  int POWERSET = 41;
   /** RegularExpression Id. */
-  int POWERSET = 42;
+  int BAG = 42;
   /** RegularExpression Id. */
-  int BAG = 43;
+  int MAP = 43;
   /** RegularExpression Id. */
-  int MAP = 44;
+  int RULEDOM = 44;
   /** RegularExpression Id. */
-  int RULEDOM = 45;
+  int TRUE = 45;
   /** RegularExpression Id. */
-  int TRUE = 46;
+  int FALSE = 46;
   /** RegularExpression Id. */
-  int FALSE = 47;
+  int UNDEF = 47;
   /** RegularExpression Id. */
-  int UNDEF = 48;
+  int IM_PART = 48;
   /** RegularExpression Id. */
-  int IM_PART = 49;
+  int IF = 49;
   /** RegularExpression Id. */
-  int IF = 50;
+  int THEN = 50;
   /** RegularExpression Id. */
-  int THEN = 51;
+  int ELSE = 51;
   /** RegularExpression Id. */
-  int ELSE = 52;
+  int ENDIF = 52;
   /** RegularExpression Id. */
-  int ENDIF = 53;
+  int SWITCH = 53;
   /** RegularExpression Id. */
-  int SWITCH = 54;
+  int END_SWITCH = 54;
   /** RegularExpression Id. */
-  int END_SWITCH = 55;
+  int CASE = 55;
   /** RegularExpression Id. */
-  int CASE = 56;
+  int OTHERWISE = 56;
   /** RegularExpression Id. */
-  int OTHERWISE = 57;
+  int ENDCASE = 57;
   /** RegularExpression Id. */
-  int ENDCASE = 58;
+  int LET = 58;
   /** RegularExpression Id. */
-  int LET = 59;
+  int ENDLET = 59;
   /** RegularExpression Id. */
-  int ENDLET = 60;
+  int EXIST = 60;
   /** RegularExpression Id. */
-  int EXIST = 61;
+  int UNIQUE = 61;
   /** RegularExpression Id. */
-  int UNIQUE = 62;
+  int WITH = 62;
   /** RegularExpression Id. */
-  int WITH = 63;
+  int FORALL = 63;
   /** RegularExpression Id. */
-  int FORALL = 64;
+  int Skip = 64;
   /** RegularExpression Id. */
-  int Skip = 65;
+  int RULE = 65;
   /** RegularExpression Id. */
-  int RULE = 66;
+  int MACRO = 66;
   /** RegularExpression Id. */
-  int MACRO = 67;
+  int TURBO = 67;
   /** RegularExpression Id. */
-  int TURBO = 68;
+  int MAIN = 68;
   /** RegularExpression Id. */
-  int MAIN = 69;
+  int PAR = 69;
   /** RegularExpression Id. */
-  int PAR = 70;
+  int ENDPAR = 70;
   /** RegularExpression Id. */
-  int ENDPAR = 71;
+  int CHOOSE = 71;
   /** RegularExpression Id. */
-  int CHOOSE = 72;
+  int DO = 72;
   /** RegularExpression Id. */
-  int DO = 73;
+  int IFNONE = 73;
   /** RegularExpression Id. */
-  int IFNONE = 74;
+  int EXTEND = 74;
   /** RegularExpression Id. */
-  int EXTEND = 75;
+  int seq = 75;
   /** RegularExpression Id. */
-  int seq = 76;
+  int ENDSEQ = 76;
   /** RegularExpression Id. */
-  int ENDSEQ = 77;
+  int ITERATE = 77;
   /** RegularExpression Id. */
-  int ITERATE = 78;
+  int ENDITERATE = 78;
   /** RegularExpression Id. */
-  int ENDITERATE = 79;
+  int LOCAL = 79;
   /** RegularExpression Id. */
-  int LOCAL = 80;
+  int TRY = 80;
   /** RegularExpression Id. */
-  int TRY = 81;
+  int CATCH = 81;
   /** RegularExpression Id. */
-  int CATCH = 82;
+  int WHILE = 82;
   /** RegularExpression Id. */
-  int WHILE = 83;
+  int WHILEREC = 83;
   /** RegularExpression Id. */
-  int WHILEREC = 84;
+  int IN = 84;
   /** RegularExpression Id. */
-  int IN = 85;
+  int EQ = 85;
   /** RegularExpression Id. */
-  int EQ = 86;
+  int LT = 86;
   /** RegularExpression Id. */
-  int LT = 87;
+  int LE = 87;
   /** RegularExpression Id. */
-  int LE = 88;
+  int GT = 88;
   /** RegularExpression Id. */
-  int GT = 89;
+  int GE = 89;
   /** RegularExpression Id. */
-  int GE = 90;
+  int NEQ = 90;
   /** RegularExpression Id. */
-  int NEQ = 91;
+  int PLUS = 91;
   /** RegularExpression Id. */
-  int PLUS = 92;
+  int MINUS = 92;
   /** RegularExpression Id. */
-  int MINUS = 93;
+  int MULT = 93;
   /** RegularExpression Id. */
-  int MULT = 94;
+  int DIV = 94;
   /** RegularExpression Id. */
-  int DIV = 95;
+  int PWR = 95;
   /** RegularExpression Id. */
-  int PWR = 96;
+  int NUMBER = 96;
   /** RegularExpression Id. */
-  int NUMBER = 97;
+  int NATNUMBER = 97;
   /** RegularExpression Id. */
-  int NATNUMBER = 98;
+  int REAL_NUMBER = 98;
   /** RegularExpression Id. */
-  int REAL_NUMBER = 99;
+  int COMPLEX_NUMBER = 99;
   /** RegularExpression Id. */
-  int COMPLEX_NUMBER = 100;
+  int ID_VARIABLE = 100;
   /** RegularExpression Id. */
-  int ID_VARIABLE = 101;
+  int ID_ENUM = 101;
   /** RegularExpression Id. */
-  int ID_ENUM = 102;
+  int ID_DOMAIN = 102;
   /** RegularExpression Id. */
-  int ID_DOMAIN = 103;
+  int ID_RULE = 103;
   /** RegularExpression Id. */
-  int ID_RULE = 104;
+  int ID_AXIOM = 104;
   /** RegularExpression Id. */
-  int ID_AXIOM = 105;
+  int ID_CTL = 105;
   /** RegularExpression Id. */
-  int ID_CTL = 106;
+  int ID_LTL = 106;
   /** RegularExpression Id. */
-  int ID_LTL = 107;
+  int ID_FUNCTION = 107;
   /** RegularExpression Id. */
-  int ID_FUNCTION = 108;
+  int LETTER = 108;
   /** RegularExpression Id. */
-  int LETTER = 109;
+  int DIGIT = 109;
   /** RegularExpression Id. */
-  int DIGIT = 110;
+  int CHAR_LITERAL = 110;
   /** RegularExpression Id. */
-  int CHAR_LITERAL = 111;
+  int STRING_LITERAL = 111;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 112;
+  int ID = 112;
   /** RegularExpression Id. */
-  int ID = 113;
-  /** RegularExpression Id. */
-  int MOD_ID = 114;
+  int MOD_ID = 113;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -253,13 +251,12 @@ public interface ASMParserConstants {
     "\"default\"",
     "\"agent\"",
     "\"invariant\"",
-    "\"CTLSPEC\"",
-    "\"NAME\"",
-    "\"LTLSPEC\"",
-    "\"JUSTICE\"",
-    "\"FAIRNESS\"",
-    "\"COMPASSION\"",
-    "\"INVAR\"",
+    "<CTLSPEC>",
+    "<LTLSPEC>",
+    "<JUSTICE>",
+    "<FAIRNESS>",
+    "<COMPASSION>",
+    "<INVAR>",
     "\"over\"",
     "\"definitions\"",
     "\"function\"",

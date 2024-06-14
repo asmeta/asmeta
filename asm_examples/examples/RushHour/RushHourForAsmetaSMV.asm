@@ -7,8 +7,8 @@ asm RushHourForAsmetaSMV
 //is done (in the main rule) with a choose rule
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
-import ../../STDL/LTLlibrary
+import ../../STDL/CTLLibrary
+import ../../STDL/LTLLibrary
 
 signature:
 	enum domain Dir = {NORTH | SOUTH | EAST | WEST}

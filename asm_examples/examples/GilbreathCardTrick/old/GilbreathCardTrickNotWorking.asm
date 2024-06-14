@@ -1,7 +1,7 @@
 asm GilbreathCardTrickNotWorking
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	enum domain Suit = {SPADES | HEARTS | CLUBS | DIAMONDS}

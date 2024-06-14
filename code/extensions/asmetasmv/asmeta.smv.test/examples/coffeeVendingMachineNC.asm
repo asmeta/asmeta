@@ -20,7 +20,7 @@ asm coffeeVendingMachineNC
 
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	enum domain CoinType = {HALF | ONE}
@@ -50,7 +50,7 @@ definitions:
 				endif
 			else
 //				if chosenProduct != MILK and available(chosenProduct) > 0 then
-// non funziona il generatore così
+// non funziona il generatore cosï¿½
                 if (chosenProduct = TEA and available(TEA) > 0) or (chosenProduct = COFFEE and available(COFFEE) > 0) then
 					r_serveProduct[chosenProduct]
 				endif

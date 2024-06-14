@@ -4,7 +4,7 @@ asm sensorVotingSimpleVersion
 //http://www.irit.fr/ABZ2014/landing_system.pdf
 
 import ../STDL/StandardLibrary
-import ../STDL/CTLlibrary
+import ../STDL/CTLLibrary
 
 signature:
 	domain NumOfInvalidDom subsetof Integer

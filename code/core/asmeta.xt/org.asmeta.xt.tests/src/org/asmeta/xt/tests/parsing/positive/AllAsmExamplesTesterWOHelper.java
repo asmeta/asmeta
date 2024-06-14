@@ -42,10 +42,10 @@ public class AllAsmExamplesTesterWOHelper {
 
 			// ---------- LTL, CTL
 			// ---------- ALL CHECKED
-			add(ASM_EXAMPLES_PATH + "/flashProtocol/CTLlibrary.asm");
-			add(ASM_EXAMPLES_PATH + "/hemodialysisDevice/SCP2017/CTLlibrary.asm");
-			add(ASM_EXAMPLES_PATH + "/flashProtocol/LTLlibrary.asm");
-			add(ASM_EXAMPLES_PATH + "/hemodialysisDevice/SCP2017/LTLlibrary.asm");
+			add(ASM_EXAMPLES_PATH + "/flashProtocol/CTLLibrary.asm");
+			add(ASM_EXAMPLES_PATH + "/hemodialysisDevice/SCP2017/CTLLibrary.asm");
+			add(ASM_EXAMPLES_PATH + "/flashProtocol/LTLLibrary.asm");
+			add(ASM_EXAMPLES_PATH + "/hemodialysisDevice/SCP2017/LTLLibrary.asm");
 
 			// ---------- ERROR BECAUSE OF UNDEF DOMAIN
 			// ---------- ALL CHECKED
@@ -396,9 +396,9 @@ public class AllAsmExamplesTesterWOHelper {
 			// skip the files in the STDL folder, the CTLlibrary and LTLlibrary
 			if (specName.contains("STDL"))
 				continue;
-			if (specName.contains("CTLlibrary.asm"))
+			if (specName.contains("CTLLibrary.asm"))
 				continue;
-			if (specName.contains("LTLlibrary.asm"))
+			if (specName.contains("LTLLibrary.asm"))
 				continue;
 
 			// skip old version of examples that do not work with the previous parser too

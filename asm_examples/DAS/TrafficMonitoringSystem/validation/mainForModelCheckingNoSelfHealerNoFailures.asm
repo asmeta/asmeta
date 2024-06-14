@@ -4,7 +4,7 @@ asm mainForModelCheckingNoSelfHealerNoFailures
 //no self healer
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	//CameraAgentSubsystem

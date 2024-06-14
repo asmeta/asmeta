@@ -16,7 +16,7 @@ asm petriNet_forModelAdvisor_InconsUpdateViolation
 //Trivial example: it can be easily discovered with simulation in one step.
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	abstract domain Place

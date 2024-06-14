@@ -1,8 +1,8 @@
 asm pillbox_1_for_RefProv
 
 import StandardLibrary
-import CTLlibrary
-import LTLlibrary
+import CTLLibrary
+import LTLLibrary
 
 // Second refinement level of the Pill Box: We consider only one kind of pill, and time controlled By the pillbox 
 
