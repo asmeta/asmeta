@@ -45,11 +45,13 @@ https://asmeta.github.io/
 
 ### eclispe with asmeta:
 
-new version! - some improvements regarding the parsing and some minor bugs are fixed:
+new version! new TL operators names and minor fixes - multiple architecture (win, lin, macos):
+
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_multios.zip
+
+#### old versions (only for windows)
 
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_04.zip
-
-#### old versions
 
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2023_12.zip
 
