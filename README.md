@@ -52,7 +52,11 @@ https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_multios.zip
 #### for windows 64 bit:
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_win64.zip
 
-#### old versions (only for windows)
+#### for linux 64 bit:
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_linux_x86_64.zip
+
+
+### old versions (only for windows)
 
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_04.zip
 
