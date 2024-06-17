@@ -47,14 +47,12 @@ https://asmeta.github.io/
 
 new version 24.06! new TL operators names and minor fixes - multiple architecture (win, lin, macos):
 
-https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_multios.zip
-
 #### for windows 64 bit:
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_win64.zip
-
+#### for macOs aarch 64 bit:
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_macOs_aarch64.zip
 #### for linux 64 bit:
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_linux_x86_64.zip
-
 
 ### old versions (only for windows)
 
