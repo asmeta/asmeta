@@ -8,9 +8,8 @@ package org.asmeta.eclipse;
 public class AsmeeConsole extends AsmetaConsole {
 
 	private static final String CONSOLE_NAME = "Asmeta console";
-
+	
 	public AsmeeConsole() {
 		super(CONSOLE_NAME);
 	}
-
 }
