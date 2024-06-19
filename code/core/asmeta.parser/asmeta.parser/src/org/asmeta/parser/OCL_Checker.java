@@ -240,11 +240,11 @@ public class OCL_Checker {
 		while (iter.hasNext()) {
 			domName = ((DomainInitialization) iter.next())
 					.getInitializedDomain().getName();
-			if (domMap.containsKey(new Integer(domName.hashCode()))) {
+			if (domMap.containsKey(domName.hashCode())) {
 				MSG_ERR = "Error: Within an initial state a concrete domain can be initialized only once. Domain " + domName;
 				return false;
 			} else
-				domMap.put(new Integer(domName.hashCode()), domName);
+				domMap.put(domName.hashCode(), domName);
 		}
 		return true;
 	}
@@ -262,11 +262,11 @@ public class OCL_Checker {
 				// To distinguish among overloaded function names
 				funName = funName.concat("(").concat(fun.getDomain().getName())
 						.concat(")");
-			if (funMap.containsKey(new Integer(funName.hashCode()))) {
+			if (funMap.containsKey(funName.hashCode())) {
 				MSG_ERR = "Error: Within an initial state a dynamic function can be initialized only once. Function " + funName;
 				return false;
 			} else
-				funMap.put(new Integer(funName.hashCode()), funName);
+				funMap.put(funName.hashCode(), funName);
 		}
 		return true;
 	}
