@@ -35,7 +35,7 @@ build:
     - mvn compile
   # run the CI only on the branch gitlab_ci
   only:
-    - gitlab_ci
+    - temp_cli
 
 # Job to run all surefire tests and run the JaCoCo coverage plugin
 # TODO:
@@ -85,7 +85,7 @@ test:
       - reports/coverage/report.aggregate/index.html
   # run the CI only on the branch gitlab_ci
   only:
-    - gitlab_ci
+    - temp_cli
       
 # # Job for uploading the json report as artifact to gitlab.
 # # Will show up in the pipeline report.
