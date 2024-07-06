@@ -101,6 +101,32 @@ public class LazynessTest extends BaseTest {
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(BooleanValue.FALSE, v);
 	}
+	
+	@Test
+	public void testLazyDerived() throws Exception{
+		// f1 --> TRUE
+		//main rule r_main =	g1 := d1
+		MonFuncReader monFuncReader = new MonFuncReader() {
+			@Override
+			public Value readValue(Location location, State state) {
+				System.out.println("location " + location);
+				if (location.toString().equals("f1")) return BooleanValue.FALSE;
+				fail("do not ask other");
+				return null;
+			}
+			@Override
+			public boolean supportsLazyTermEval() {
+				return true;
+			}
+		};
+		Environment env = new Environment(monFuncReader);
+		sim = Simulator.createSimulator(TestOneSpec.FILE_BASE + "test/simulator/monitoredLazyDer.asm", env);
+		sim.run(1);		
+		Function f = searchFunction("g1");
+		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
+		assertEquals(BooleanValue.FALSE, v);
+	}
+	
 
 	// a test with the ennvironment--> No lazyness should be 
 	@Test
