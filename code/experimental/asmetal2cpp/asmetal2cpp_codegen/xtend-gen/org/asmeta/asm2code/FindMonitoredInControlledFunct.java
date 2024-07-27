@@ -13,6 +13,7 @@ import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.EnumTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.StringTerm;
 import org.asmeta.parser.util.ReflectiveVisitor;
@@ -42,6 +43,10 @@ public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
   }
 
   public boolean visit(final NaturalTerm term) {
+    return false;
+  }
+
+  public boolean visit(final RealTerm term) {
     return false;
   }
 
