@@ -2,8 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>asmeta.simulator.run.time</groupId>
   <artifactId>asmeta.simulator.run.time</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-   <properties>
+  <properties>
     <skipTests>true</skipTests>
   </properties>
   <build>
