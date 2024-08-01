@@ -111,17 +111,17 @@ public class AsmetaSMVtestTranslate {
 		
 	@Test
 	public void testFSM_hooking() {
-		testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking.asm"));
 	}
 
 	@Test
 	public void testFSM_hooking2() {
-		testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking2.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking2.asm"));
 	}
 
 	@Test
 	public void testASM_even() {
-		testOneSpec(FILE_BASE + "examples/fsmsemantics/Sle/ASM_even.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/Sle/ASM_even.asm"));
 	}
 
 
@@ -158,28 +158,28 @@ public class AsmetaSMVtestTranslate {
 
 	@Test
 	public void testSomeSingle() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock.asm");
-		testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock2.asm");
-		testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm");
-		testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm");
-		testOneSpec(FILE_BASE + "examples/simple_ex/fattoriale.asm");
-		testOneSpec(FILE_BASE + "examples/simple_ex/FLIP_FLOP_0.asm");
-		testOneSpec(FILE_BASE + "examples/simple_ex/IncosistentUpdate.asm");
-		testOneSpec(FILE_BASE + "examples/models/lift2.asm");
-		testOneSpec(FILE_BASE + "examples/models/SIS.asm");
-		testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking2.asm");
-		testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_map0_2.asm");
-		testOneSpec(FILE_BASE + "examples/sluicegate/sluiceGateGround.asm");
-		testOneSpec(FILE_BASE + "examples/sluicegate/sluiceGateMotorCtl.asm");
-		testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight.asm");
-		testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight2.asm");
-		testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight_refined.asm");
-		testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight_refined_with_agents.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock2.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/fattoriale.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/FLIP_FLOP_0.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/IncosistentUpdate.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/models/lift2.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/models/SIS.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking2.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_map0_2.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/sluicegate/sluiceGateGround.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/sluicegate/sluiceGateMotorCtl.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight2.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight_refined.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight_refined_with_agents.asm"));
 	}
 
 	@Test
 	public void testAtm() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm"));
 	}
 
 	@Test
@@ -189,47 +189,47 @@ public class AsmetaSMVtestTranslate {
 	
 	@Test
 	public void testAxioms() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm"));
 	}
 
 	@Test
 	public void testFattoriale() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/fattoriale.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/fattoriale.asm"));
 	}
 
 	@Test
 	public void testAdvancedClock() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock.asm"));
 	}
 
 	@Test
 	public void testAdvancedClock2() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock2.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock2.asm"));
 	}
 
 	@Test
 	public void testFLIP_FLOP_0() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/FLIP_FLOP_0.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/FLIP_FLOP_0.asm"));
 	}
 
 	@Test
 	public void testIncosistentUpdate() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/IncosistentUpdate.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/IncosistentUpdate.asm"));
 	}
 
 	@Test
 	public void testOrdersystem() {
-		testOneSpec(FILE_BASE + "examples/models/ordersystem.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/models/ordersystem.asm"));
 	}
 
 	@Test
 	public void testPhilo1() {
-		testOneSpec(FILE_BASE + "examples/philosophers/philosophers1.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/philosophers/philosophers1.asm"));
 	}
 
 	@Test
 	public void testPhilo2() {
-		testOneSpec(FILE_BASE + "examples/philosophers/philosophers2.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/philosophers/philosophers2.asm"));
 	}
 
 	@Test
@@ -252,17 +252,17 @@ public class AsmetaSMVtestTranslate {
 
 	@Test
 	public void testFlipFlop() {
-		testOneSpec(FILE_BASE + "examples/models/FlipFlop.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/models/FlipFlop.asm"));
 	}
 
 	@Test
 	public void testLift2() {
-		testOneSpec(FILE_BASE + "examples/models/lift2.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/models/lift2.asm"));
 	}
 
 	@Test
 	public void testSIS() {
-		testOneSpec(FILE_BASE + "examples/models/SIS.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/models/SIS.asm"));
 	}
 
 	@Test
@@ -279,7 +279,7 @@ public class AsmetaSMVtestTranslate {
 
 	@Test
 	public void testProduction_Cell_with_agents() {
-		testOneSpec(FILE_BASE + "examples/production_cell/Production_Cell_with_agents.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/production_cell/Production_Cell_with_agents.asm"));
 	}
 
 	@Test
@@ -435,28 +435,27 @@ public class AsmetaSMVtestTranslate {
 		//AsmetaSMVOptions.FLATTEN = false;
 		testOneSpec("examples/student2/fraioli.asm", options);
 	}
-
 	
 	/*
-	 * @Test public void testUnibgProva() { testOneSpec(FILE_BASE_UNIBG +
+	 * @Test public void testUnibgProva() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
 	 * "Prova.asm"); }
 	 * 
-	 * @Test public void testUnibgRegistroDiCassa() { testOneSpec(FILE_BASE_UNIBG +
+	 * @Test public void testUnibgRegistroDiCassa() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
 	 * "RegistroDiCassa.asm"); }
 	 * 
-	 * @Test public void testUnibgRubrica() { testOneSpec(FILE_BASE_UNIBG +
+	 * @Test public void testUnibgRubrica() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
 	 * "Rubrica.asm"); }
 	 * 
-	 * @Test public void teststufa() { testOneSpec(FILE_BASE_UNIBG + "stufa.asm"); }
+	 * @Test public void teststufa() { assertTrue(testOneSpec(FILE_BASE_UNIBG + "stufa.asm"); }
 	 * 
 	 * 
-	 * @Test public void testUnibgVideotecaASM() { testOneSpec(FILE_BASE_UNIBG +
+	 * @Test public void testUnibgVideotecaASM() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
 	 * "VideotecaASM.asm"); }
 	 * 
-	 * @Test public void testUnibg() { testOneSpec(FILE_BASE_UNIBG +
-	 * "Contatore_U_DA_H.asm"); testOneSpec(FILE_BASE_UNIBG + "Prova.asm");
-	 * testOneSpec(FILE_BASE_UNIBG + "RegistroDiCassa.asm");
-	 * testOneSpec(FILE_BASE_UNIBG + "Rubrica.asm"); testOneSpec(FILE_BASE_UNIBG +
-	 * "stufa.asm"); testOneSpec(FILE_BASE_UNIBG + "VideotecaASM.asm"); }
+	 * @Test public void testUnibg() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
+	 * "Contatore_U_DA_H.asm"); assertTrue(testOneSpec(FILE_BASE_UNIBG + "Prova.asm");
+	 * assertTrue(testOneSpec(FILE_BASE_UNIBG + "RegistroDiCassa.asm");
+	 * assertTrue(testOneSpec(FILE_BASE_UNIBG + "Rubrica.asm"); assertTrue(testOneSpec(FILE_BASE_UNIBG +
+	 * "stufa.asm"); assertTrue(testOneSpec(FILE_BASE_UNIBG + "VideotecaASM.asm"); }
 	 */
 }
