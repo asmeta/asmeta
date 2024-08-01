@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -165,6 +166,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	private ArrayList<String> justiceConstraintsList;
 	private ArrayList<String[]> compassionConstraintsList;
 	private ArrayList<String> invarConstraintsList;
+	// dominio --> il suo valore quando è undef
 	private Map<String, String> undefValue;
 	DerivedVisitor dv;
 	private HashMap<Integer, String> propertiesCounterExample;
@@ -179,6 +181,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	public Map<String, Set<String>> usedStatDerInDer, usedContrMonInDer;
 	public Map<ChooseRule, List<String[]>> chooseRuleSetIsEmpty;
 	public Map<ForallRule, List<String>> forallRuleSetIsEmpty;
+
+	private static String undefValueStr = "-2147483647";
 
 	protected MapVisitor() {
 		env = new Environment();
@@ -365,7 +369,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 					if (domName.equals("Boolean")) {
 						smv.println("\t\t\t\t" + trueString + ": " + falseString + ";");
 					} else {
-						String undefValue = this.getUndefValue().get(domName);
+						String undefValue = this.getUndefValue(domName);
 						// assert undefValue != null : domName + " does not provide a representation for
 						// the undef value.";
 						smv.println("\t\t\t\t" + trueString + ": " + undefValue + ";");
@@ -413,7 +417,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				// we include the undef in the domain definition
 				// The only domain that does not provide a representation for the undef
 				// value is the Boolean domain
-				if (getUndefValue().containsKey(domName)) {
+				if (getDomainswithUndef().contains(domName)) {
 					variableDomain = domainSmvWithUndef.get(domName);
 				} else {
 					variableDomain = domainSmv.get(domName);
@@ -712,7 +716,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 					// TODO bisogna rimuovere il try
 					// ora alcune funzioni possono contenere altre funzioni
 					try {
-						dv = new DerivedVisitor(env, getRv(), this.getUndefValue());
+						dv = new DerivedVisitor(env, getRv(), undefValue);
 						map = dv.visit(location);
 						if (map.size() == 1) {
 							Entry<String, String> entrySet = map.entrySet().iterator().next();
@@ -754,7 +758,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 					}
 				}
 			}
-			dv = new DerivedVisitor(env, getRv(), this.getUndefValue());
+			dv = new DerivedVisitor(env, getRv(), undefValue);
 			if (derived.contains(locName)) {
 				map = dv.visit(location);
 				if (map.size() > 0) {
@@ -777,12 +781,12 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		SortedSet<String> set = new TreeSet<String>();
 		SortedSet<String> setWithUndef;
 		Iterator<String> iterator;
-		String domName, str, funcName, undefValueStr;
+		String domName, str, funcName;
 		int first, last, number;
 		Value[] value = new BooleanValue[1];
 		domainSmv = new HashMap<String, String>();
 		domainSmvWithUndef = new HashMap<String, String>();
-		setUndefValue(new HashMap<String, String>());
+		undefValue = new  HashMap<String, String>();
 		domainSet = new HashMap<String, SortedSet<String>>();
 		domainValues = new HashMap<String, List<Value[]>>();
 		setAgentsDomains(new ArrayList<String>());
@@ -884,8 +888,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				domainValues.put(domName, values);
 
 				// undef representation
-				undefValueStr = "-2147483647";
-				getUndefValue().put(domName, undefValueStr);
+				putUndefValue(domName, undefValueStr);
 				setWithUndef = new TreeSet<String>(set);
 				setWithUndef.add(undefValueStr);
 				domainSmvWithUndef.put(domName, Util.asSet(setWithUndef));
@@ -902,7 +905,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				domainSmv.put(domName, Util.asSet(set));
 				// undef representation
 				undefValueStr = domName.toUpperCase() + "_UNDEF";
-				getUndefValue().put(domName, undefValueStr);
+				undefValue.put(domName, undefValueStr);
 				setWithUndef = new TreeSet<String>(set);
 				setWithUndef.add(undefValueStr);
 				domainSmvWithUndef.put(domName, Util.asSet(setWithUndef));
@@ -951,7 +954,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				domainSmv.put(domName, Util.asSet(set));
 				// undef representation
 				undefValueStr = domName.toUpperCase() + "_UNDEF";
-				getUndefValue().put(domName, undefValueStr);
+				undefValue.put(domName, undefValueStr);
 				setWithUndef = new TreeSet<String>(set);
 				setWithUndef.add(undefValueStr);
 				domainSmvWithUndef.put(domName, Util.asSet(setWithUndef));
@@ -988,7 +991,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 
 				// undef representation
 				undefValueStr = domName.toUpperCase() + "_UNDEF";
-				getUndefValue().put(domName, undefValueStr);
+				undefValue.put(domName, undefValueStr);
 				setWithUndef = new TreeSet<String>(set);
 				setWithUndef.add(undefValueStr);
 				domainSmvWithUndef.put(domName, Util.asSet(setWithUndef));
@@ -1208,7 +1211,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		// e che hanno l'undef per NuSMV sono inizializzate ad undef.
 		for (String location : contrLocations) {
 			if (!initMap.containsKey(location)) {
-				undef = getUndefValue().get(locationDomain.get(location));
+				undef = getUndefValue(locationDomain.get(location));
 				if (undef != null) {
 					initMap.put(location, undef);
 				}
@@ -1258,7 +1261,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			termStr = tp.visit(term);
 			// per l'inizializzazione esplicita ad undef
 			if (termStr == null || termStr.equals("undef")) {
-				String undef = getUndefValue().get(locationDomain.get(locStr));
+				String undef = getUndefValue(locationDomain.get(locStr));
 				if (undef != null) {
 					termStr = undef;
 				}
@@ -1496,14 +1499,24 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		}
 		order.close();
 	}
-
-	public Map<String, String> getUndefValue() {
-		return undefValue;
+	
+	public void putUndefValue(String dom, String undefVa) {
+		String prev = undefValue.put(dom, undefVa);
+		// cannot change
+		assert prev == null || prev.equals(undefVa);
 	}
 
-	public void setUndefValue(Map<String, String> undefValue) {
-		this.undefValue = undefValue;
+	public String getUndefValue(String dom) {
+		return  undefValue.get(dom);
 	}
+
+	public Set<String> getDomainswithUndef() {
+		return undefValue.keySet();
+	}
+	
+//	public void setUndefValue(Map<String, String> undefValue) {
+//		this.undefValue = undefValue;
+//	}
 
 	public Map<String, Boolean> getMapPropResult() {
 		return mapPropResult;

@@ -433,7 +433,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 		//String location = tp.visit(updateRule.getLocation());
 		String value = tp.visit(updateRule.getUpdatingTerm());
 		if(value!= null && value.equals("undef")) {
-			String undef = mv.getUndefValue().get(mv.locationDomain.get(location));
+			String undef = mv.getUndefValue(mv.locationDomain.get(location));
 			if(undef != null) {
 				value = undef;
 			}
