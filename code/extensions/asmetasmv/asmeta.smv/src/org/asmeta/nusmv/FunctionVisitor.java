@@ -311,17 +311,31 @@ public class FunctionVisitor {
 
 	private String visitIsUndefFunction(List<Term> argsTerm) {
 		String str = env.tv.visit(argsTerm.get(0));
-		String undefValue = env.tv.mv.getUndefValue().get(env.tv.mv.locationDomain.get(str));
+		String undefValue = getUndefValue(str);
 		return Util.setPars(str + " = " + undefValue);
 	}
 
 	private String visitIsDefFunction(List<Term> argsTerm) {
 		String str = env.tv.visit(argsTerm.get(0));
-		//assert env.tv.mv.locationDomain.get(str) != null: str + "\n" + env.tv.mv.locationDomain;
-		String undefValue = env.tv.mv.getUndefValue().get(env.tv.mv.locationDomain.get(str));
+		String undefValue = getUndefValue(str);
 		return Util.setPars(str + " != " + undefValue);
 	}
 
+	private String getUndefValue(String str) {
+		String dom = env.tv.mv.locationDomain.get(str);
+		String undefValue = env.tv.mv.getUndefValue(dom);
+		// continue in order to allow to get the output at least 
+		// ATTENZIONE 1/8/24: non funzion se ho un numero tipo una funzione
+		// non riesce a ricavare il dominio
+		// cannot find undef for 10 domain null
+		// cannot find undef for landingSequence_11 domain null
+		if (undefValue == null) {
+			System.err.println("cannot find undef for " + str + " domain " + dom);
+		}
+		return undefValue;
+	}
+
+	
 	/**
 	 * Evaluate function.
 	 * 

@@ -78,7 +78,6 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 	 * @return the string
 	 */
 	public String visit(Term term) {
-		//System.out.println("visit term "+term);
 		return visit((Object) term);
 	}
 
@@ -588,9 +587,9 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 			else {
 				Domain dom = caseTerm.getDomain();
 				assert dom != null;
-				Map<String, String> undefInDomains = mv.getUndefValue();
+				String undefInDomains = mv.getUndefValue(dom.getName());
 				assert undefInDomains != null : mv.toString();
-				rules.add(undefInDomains.get(dom.getName()));
+				rules.add(undefInDomains);
 			}
 		}
 		if(conds.contains(Util.trueString)) {
@@ -623,7 +622,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 		}
 		else {
 			Domain dom = condTerm.getDomain();
-			elseBranch = mv.getUndefValue().get(dom.getName());
+			elseBranch = mv.getUndefValue(dom.getName());
 		}
 		if(guard.equals(falseString)) {
 			return elseBranch;

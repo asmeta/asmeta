@@ -279,8 +279,8 @@ public class AsmetaSMV {
 		// Values representing the undef value for the different domains are
 		// substituted
 		// with the string "undef".
-		for (String domain : mv.getUndefValue().keySet()) {
-			output = output.replaceAll(mv.getUndefValue().get(domain), "undef");
+		for (String domain : mv.getDomainswithUndef()) {
+			output = output.replaceAll(mv.getUndefValue(domain), "undef");
 		}
 		output = output.replaceAll(" FALSE", " false");
 		output = output.replaceAll(" TRUE", " true");
