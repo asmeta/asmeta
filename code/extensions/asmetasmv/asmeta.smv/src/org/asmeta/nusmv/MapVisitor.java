@@ -182,7 +182,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	public Map<ChooseRule, List<String[]>> chooseRuleSetIsEmpty;
 	public Map<ForallRule, List<String>> forallRuleSetIsEmpty;
 
-	private static String undefValueStr = "-2147483647";
+	private final static String UNDEF_VAL_FOR_NUMBERS = "-2147483647";
 
 	protected MapVisitor() {
 		env = new Environment();
@@ -845,9 +845,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		for (DomainInitialization domInit : getDomainInitialization()) {
 			concrDoms.put(domInit.getInitializedDomain(), domInit.getBody());
 		}
-		ConcreteDomain concreteDomain;
+		// domain contrate 
 		for (Entry<ConcreteDomain, Term> concrDomsEntrySet : concrDoms.entrySet()) {
-			concreteDomain = concrDomsEntrySet.getKey();
+			ConcreteDomain concreteDomain = concrDomsEntrySet.getKey();
 			if (!concreteDomain.getTypeDomain().getName().equals("Agent")) {
 				checkTypeDomain(concreteDomain);
 				domName = getDomainName(concreteDomain);
@@ -888,9 +888,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				domainValues.put(domName, values);
 
 				// undef representation
-				putUndefValue(domName, undefValueStr);
+				putUndefValue(domName, UNDEF_VAL_FOR_NUMBERS);
 				setWithUndef = new TreeSet<String>(set);
-				setWithUndef.add(undefValueStr);
+				setWithUndef.add(UNDEF_VAL_FOR_NUMBERS);
 				domainSmvWithUndef.put(domName, Util.asSet(setWithUndef));
 			}
 		}
@@ -904,7 +904,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				domainSet.put(domName, set);
 				domainSmv.put(domName, Util.asSet(set));
 				// undef representation
-				undefValueStr = domName.toUpperCase() + "_UNDEF";
+				String undefValueStr = domName.toUpperCase() + "_UNDEF";
 				undefValue.put(domName, undefValueStr);
 				setWithUndef = new TreeSet<String>(set);
 				setWithUndef.add(undefValueStr);
@@ -953,7 +953,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				domainValues.put(domName, values);
 				domainSmv.put(domName, Util.asSet(set));
 				// undef representation
-				undefValueStr = domName.toUpperCase() + "_UNDEF";
+				String undefValueStr = domName.toUpperCase() + "_UNDEF";
 				undefValue.put(domName, undefValueStr);
 				setWithUndef = new TreeSet<String>(set);
 				setWithUndef.add(undefValueStr);
@@ -990,7 +990,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				domainValues.put(domName, values);
 
 				// undef representation
-				undefValueStr = domName.toUpperCase() + "_UNDEF";
+				String undefValueStr = domName.toUpperCase() + "_UNDEF";
 				undefValue.put(domName, undefValueStr);
 				setWithUndef = new TreeSet<String>(set);
 				setWithUndef.add(undefValueStr);
@@ -1510,6 +1510,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		return  undefValue.get(dom);
 	}
 
+	// returns all the domains that have defined an undef for its value
 	public Set<String> getDomainswithUndef() {
 		return undefValue.keySet();
 	}

@@ -330,7 +330,15 @@ public class FunctionVisitor {
 		// cannot find undef for 10 domain null
 		// cannot find undef for landingSequence_11 domain null
 		if (undefValue == null) {
-			System.err.println("cannot find undef for " + str + " domain " + dom);
+			System.err.print("cannot find undef for " + str + " domain " + dom);
+			// i'm trying a worksround, assuming that a variable has _ 
+			String varNameApprox = str.substring(0,str.indexOf('_'));
+			String approx = getUndefValue(varNameApprox);
+			if (approx == null)
+				System.err.println(" not even for " + varNameApprox);
+			else 
+				System.err.println(" found for " + varNameApprox);
+			return approx;
 		}
 		return undefValue;
 	}
