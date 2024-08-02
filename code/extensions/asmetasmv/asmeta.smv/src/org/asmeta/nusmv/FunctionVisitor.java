@@ -341,7 +341,7 @@ public class FunctionVisitor {
 				if (undefValue == null)
 					System.err.println(" not even for " + funNameApprox + " domain " + dom);
 				else
-					System.err.println(" found for " + funNameApprox);
+					System.err.println(" found for " + funNameApprox  + "->" + undefValue);
 				return undefValue;
 			}
 			System.err.println();
