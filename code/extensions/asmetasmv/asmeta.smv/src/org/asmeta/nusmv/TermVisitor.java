@@ -45,7 +45,7 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
 /**
  * 
- * returns the 
+ * returns the traslation in NUSMV of the term passed 
  *
  */
 public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String> {
@@ -53,6 +53,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 	// eu and au operators in CTLLibrary
 	private static final String EU_OP = "eu";
 	private static final String AU_OP = "au";
+	public static final String UNDEF_VALUE = "undef";
 	
 	MapVisitor mv;
 	private Environment env;
@@ -446,7 +447,9 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 	 * @return the string
 	 */
 	public String visit(UndefTerm undef) {
-		return "undef";
+		// sometimes it is impossible to know how to stralte undef
+		// like f := if true then undef else 5;
+		return UNDEF_VALUE;
 	}
 	
 	/**

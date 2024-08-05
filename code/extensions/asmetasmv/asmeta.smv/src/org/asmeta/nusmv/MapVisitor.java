@@ -77,6 +77,7 @@ import asmeta.structure.FunctionInitialization;
 import asmeta.structure.Initialization;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
@@ -1254,22 +1255,29 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		List<Location> locations = getLocations(func, domainValues);
 		Term term = init.getBody();
 		String locStr, termStr;
-
 		for (Location loc : locations) {
 			env.setVarsValues(vars, loc.getElements());
 			locStr = this.visit(loc);
-			termStr = tp.visit(term);
 			// per l'inizializzazione esplicita ad undef
-			if (termStr == null || termStr.equals("undef")) {
-				String undef = getUndefValue(locationDomain.get(locStr));
+			if (term instanceof UndefTerm) {
+				Domain domain = init.getInitializedFunction().getCodomain();
+				String undef = getUndefValue(domain.getName());
 				if (undef != null) {
 					termStr = undef;
+				} //else ???
+				else {
+					throw new RuntimeException("undef of " + locStr + " not found (domain:" + domain + ")");
+				}
+			} else {
+				termStr = tp.visit(term);
+				// sometimes it can happen : like a conditional or something
+				if (termStr == TermVisitor.UNDEF_VALUE) {
+					termStr = getUndefValue(locationDomain.get(locStr));
 				}
 			}
 			if (termStr != null) {
 				// env.usedLocation.add(locStr);
 				initMap.put(locStr, termStr);
-
 				// AsmetaMA: segnala che la locazione locStr viene inizializzata
 				if (AsmetaSMVOptions.doAsmetaMA) {
 					controlledLocationInitialized.add(locStr);

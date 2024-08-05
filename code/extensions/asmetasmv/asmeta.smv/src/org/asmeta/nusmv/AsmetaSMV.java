@@ -352,7 +352,9 @@ public class AsmetaSMV {
 				solverName = "/Applications/NuSMV/bin/NuSMV";
 			} else if (isWSL){
 				// assume windows with WSL - exe is needed
-				solverName = "NuSMV.exe";
+				// solverName = "NuSMV.exe";
+				// OR NOT??? now works without exe
+				solverName = "NuSMV";
 			} else {
 				// assume windows or Linux
 				solverName = "NuSMV";

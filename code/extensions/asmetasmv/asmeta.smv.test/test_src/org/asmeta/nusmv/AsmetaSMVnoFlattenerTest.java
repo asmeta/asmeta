@@ -665,9 +665,13 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void undefValueTest() {
 		testAllCtlPropsAreTrue("examples/undefValue.asm");
+	}
+
+	@Test
+	public void undefValueTest2() {
+		testAllCtlPropsAreTrue("examples/UseUndef.asm");
 	}
 
 	@Test

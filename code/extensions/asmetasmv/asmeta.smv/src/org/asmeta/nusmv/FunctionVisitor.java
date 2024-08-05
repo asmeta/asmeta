@@ -10,6 +10,7 @@ import org.asmeta.nusmv.util.Util;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.furtherterms.MapTerm;
 
 public class FunctionVisitor {
@@ -316,7 +317,7 @@ public class FunctionVisitor {
 				System.err.print("cannot find undef for " + str + " domain " + dom);
 				// NOW nusmv thinka that it is a term
 				if (str.contains("_")) {
-					//it can be a function
+					// it can be a function
 					// i'm trying a workaround, assuming that a variable has _
 					String funNameApprox = str.substring(0, str.indexOf('_'));
 					dom = env.tv.mv.functionDomain.get(funNameApprox);
@@ -324,7 +325,7 @@ public class FunctionVisitor {
 					if (undefValue == null)
 						System.err.println(" not even for " + funNameApprox + " domain " + dom);
 					else
-						System.err.println(" found for " + funNameApprox  + "->" + undefValue);
+						System.err.println(" found for " + funNameApprox + "->" + undefValue);
 					return undefValue;
 				}
 			}
@@ -618,11 +619,8 @@ public class FunctionVisitor {
 	 * @return the string
 	 */
 	private String equals(List<Term> argsTerm) {
-		String left = env.tv.visit(argsTerm.get(0));
-		String right = env.tv.visit(argsTerm.get(1));
-		// System.out.println(argsTerm.get(0) + " = " + argsTerm.get(1));
-		// System.out.println(left + " = " + right);
-		return Util.equals(left, right);
+		String[] res = twoEqNotEq(argsTerm);
+		return Util.equals(res[0], res[1]);
 	}
 
 	/**
@@ -633,9 +631,23 @@ public class FunctionVisitor {
 	 * @return the string
 	 */
 	private String notEquals(List<Term> argsTerm) {
+		String[] res = twoEqNotEq(argsTerm);
+		return Util.notEquals(res[0], res[1]);
+	}
+
+	private String[] twoEqNotEq(List<Term> argsTerm) {
 		String left = env.tv.visit(argsTerm.get(0));
-		String right = env.tv.visit(argsTerm.get(1));
-		return Util.notEquals(left, right);
+		String right;
+		// in case it is "a = undef"
+		if (argsTerm.get(1) instanceof UndefTerm) {
+			right = getUndefValue(argsTerm.get(0));
+		} else {
+			right = env.tv.visit(argsTerm.get(1));
+		}
+		// todo allow also unde = ....
+		// System.out.println(argsTerm.get(0) + " = " + argsTerm.get(1));
+		// System.out.println(left + " = " + right);
+		return new String[]{left,right};
 	}
 
 	/**
