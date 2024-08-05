@@ -313,7 +313,20 @@ public class FunctionVisitor {
 			// cannot find undef for 10 domain null
 			// cannot find undef for landingSequence_11 domain null
 			if (undefValue == null) {
-				System.err.print("cannot find undef for " + term + " domain " + dom);
+				System.err.print("cannot find undef for " + str + " domain " + dom);
+				// NOW nusmv thinka that it is a term
+				if (str.contains("_")) {
+					//it can be a function
+					// i'm trying a workaround, assuming that a variable has _
+					String funNameApprox = str.substring(0, str.indexOf('_'));
+					dom = env.tv.mv.functionDomain.get(funNameApprox);
+					undefValue = env.tv.mv.getUndefValue(dom);
+					if (undefValue == null)
+						System.err.println(" not even for " + funNameApprox + " domain " + dom);
+					else
+						System.err.println(" found for " + funNameApprox  + "->" + undefValue);
+					return undefValue;
+				}
 			}
 			return undefValue;
 		}
