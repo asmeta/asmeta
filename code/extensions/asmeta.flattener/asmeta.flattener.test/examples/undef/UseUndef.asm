@@ -13,8 +13,8 @@ definitions:
 
 	main rule r_Main =
 		par
-			if fooI = undef then skip endif
-			if fooE = undef then skip endif
+			if fooI = undef then fooI:=1 endif
+			if fooE = undef then fooE:=AA endif
 		endpar
 
 default init s0:

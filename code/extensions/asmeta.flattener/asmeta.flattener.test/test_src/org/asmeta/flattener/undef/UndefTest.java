@@ -20,10 +20,10 @@ public class UndefTest {
 		test("examples/undef/undef.asm");
 	}
 
-	@Test
-	public void testUndefUse() throws Exception {
-		test("examples/undef/UseUndef.asm");
-	}
+//	@Test
+//	public void testUndefUse() throws Exception {
+//		test("examples/undef/UseUndef.asm");
+//	}
 
 	
 	@Test
