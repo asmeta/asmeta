@@ -80,9 +80,9 @@ Invariant :	'invariant' name=(ID)? 'over' invar_list+=InvariantElement ( "," inv
 InvariantElement :  constrainedName=ID ( "(" ( domainList+=getDomainByID )? ")" )?;
 
 
-CtlSpec : ('CTL' | 'CTLSPEC') (name=ID ':')? body=Term;
+CtlSpec : ('CTLSPEC' | 'ctlspec') (name=ID ':')? body=Term;
 
-LtlSpec : ('LTL' | 'LTLSPEC' ) (name=ID ':')? body=Term;
+LtlSpec : ('LTLSPEC' | 'ltlspec') (name=ID ':')? body=Term;
 
 FairnessConstraint : JusticeConstraint | CompassionConstraint;
 JusticeConstraint 		: 'JUSTICE' 		body=Term;
