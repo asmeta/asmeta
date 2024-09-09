@@ -53,6 +53,8 @@ import asmeta.structure.Asm;
 
 public class VisualizationSimulation implements VisualizationSimulationI {
 
+	private static final int MAX_NUMBER_RND_STEPS = 10000;
+
 	// get the logger form the simulator
 	private static final Logger simulatorLogger = Logger.getLogger(Simulator.class);
 
@@ -246,7 +248,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		textStepNumber.setTouchEnabled(true);
 		textStepNumber.setText("1");
 		GridData gd_textStepNumber = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
-		gd_textStepNumber.widthHint = 175;
+		gd_textStepNumber.widthHint = 150;
 		textStepNumber.setLayoutData(gd_textStepNumber);
 		// allow only numbers
 		textStepNumber.addVerifyListener(new VerifyListener() {
@@ -256,8 +258,9 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 					// build the text as it would be after the event 
 					String text = textStepNumber.getText();
 					String newText = text.substring(0, e.start) + e.text + text.substring(e.end);
-					Integer.valueOf(newText);
-					e.doit = true;
+					Integer x = Integer.valueOf(newText);
+					// max number of steps ??
+					if (x > MAX_NUMBER_RND_STEPS) e.doit = false;
 				} catch (NumberFormatException ex) {
 					e.doit = false;
 				}
