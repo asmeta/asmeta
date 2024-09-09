@@ -253,8 +253,10 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			@Override
 			public void verifyText(VerifyEvent e) {
 				try {
-					System.out.println(" text: " + ((Text) e.widget).getText());
-					Integer.valueOf(((Text) e.widget).getText());
+					// build the text as it would be after the event 
+					String text = textStepNumber.getText();
+					String newText = text.substring(0, e.start) + e.text + text.substring(e.end);
+					Integer.valueOf(newText);
 					e.doit = true;
 				} catch (NumberFormatException ex) {
 					e.doit = false;
