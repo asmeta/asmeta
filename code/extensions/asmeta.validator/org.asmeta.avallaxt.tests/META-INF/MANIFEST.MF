@@ -7,9 +7,9 @@ Bundle-Version: 24.06
 Bundle-SymbolicName: org.asmeta.avallaxt.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.avallaxt,
- org.junit;bundle-version="4.13.2",
+ org.junit,
  org.eclipse.xtext.testing,
  org.eclipse.xtext.xbase.testing,
- org.eclipse.xtext.xbase.lib;bundle-version="2.14.0"
+ org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.asmeta.avallaxt.tests;x-internal=true

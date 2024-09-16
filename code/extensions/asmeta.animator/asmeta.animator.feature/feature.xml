@@ -26,7 +26,7 @@ See https://asmeta.github.io
 
    <requires>
       <import plugin="org.eclipse.swt"/>
-      <import plugin="org.eclipse.ui" version="3.107.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="asmeta.emf"/>
