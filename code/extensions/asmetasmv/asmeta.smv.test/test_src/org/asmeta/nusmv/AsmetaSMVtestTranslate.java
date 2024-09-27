@@ -436,6 +436,15 @@ public class AsmetaSMVtestTranslate {
 		testOneSpec("examples/student2/fraioli.asm", options);
 	}
 	
+	@Test
+	public void testStudente_sett24() {
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		//AsmetaSMVOptions.FLATTEN = false;
+		testOneSpec("examples/student2/LightArray2.asm", options);
+	}
+
+	
 	/*
 	 * @Test public void testUnibgProva() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
 	 * "Prova.asm"); }
