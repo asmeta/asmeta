@@ -376,19 +376,37 @@ public class TermToJava extends ReflectiveVisitor<String> {
           _builder_2.newLineIfNotEmpty();
           sb.append(_builder_2);
         } else {
-          StringConcatenation _builder_3 = new StringConcatenation();
-          _builder_3.append("\t");
           Domain _domain_4 = object.getRanges().get(i).getDomain();
-          String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_4).getBaseDomain());
-          _builder_3.append(_visit_3);
-          _builder_3.append(".elems.stream().anyMatch(c -> c.equals(");
-          int _length_1 = app.length();
-          int _minus_1 = (_length_1 - 1);
-          String _substring_1 = app.substring(13, _minus_1);
-          _builder_3.append(_substring_1);
-          _builder_3.append("))");
-          _builder_3.newLineIfNotEmpty();
-          sb.append(_builder_3);
+          Domain _baseDomain_2 = ((PowersetDomain) _domain_4).getBaseDomain();
+          if ((_baseDomain_2 instanceof ConcreteDomain)) {
+            StringConcatenation _builder_3 = new StringConcatenation();
+            _builder_3.append("\t");
+            Domain _domain_5 = object.getRanges().get(i).getDomain();
+            String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
+            _builder_3.append(_visit_3);
+            _builder_3.append(".elems.stream().anyMatch(c -> c.equals(");
+            int _length_1 = app.length();
+            int _minus_1 = (_length_1 - 7);
+            String _substring_1 = app.substring(13, _minus_1);
+            _builder_3.append(_substring_1);
+            _builder_3.append("))");
+            _builder_3.newLineIfNotEmpty();
+            sb.append(_builder_3);
+          } else {
+            StringConcatenation _builder_4 = new StringConcatenation();
+            _builder_4.append("\t");
+            Domain _domain_6 = object.getRanges().get(i).getDomain();
+            String _visit_4 = new ToString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
+            _builder_4.append(_visit_4);
+            _builder_4.append(".elems.stream().anyMatch(c -> c.equals(");
+            int _length_2 = app.length();
+            int _minus_2 = (_length_2 - 1);
+            String _substring_2 = app.substring(13, _minus_2);
+            _builder_4.append(_substring_2);
+            _builder_4.append("))");
+            _builder_4.newLineIfNotEmpty();
+            sb.append(_builder_4);
+          }
         }
       }
     }
@@ -622,7 +640,8 @@ public class TermToJava extends ReflectiveVisitor<String> {
     String name = new Util().parseFunction(term.getFunction().getName());
     boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
     if (_hasEvaluateVisitor) {
-      return new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
+      String expression = new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
+      return expression.replaceAll(".value.value", ".value");
     } else {
       if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain))) {
         functionTerm.append(this.caseFunctionTermSuppCont(term.getFunction(), term));
