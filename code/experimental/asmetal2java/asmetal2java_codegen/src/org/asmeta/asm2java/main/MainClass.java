@@ -59,8 +59,7 @@ public class MainClass {
 	public static CompileResult generate(
       String asmspec,
 			TranslatorOptions userOptions,
-			String outputFolder,
-			String[] finalStateConditions)
+			String outputFolder)
 			throws Exception {
 		//
 		// PARSE THE SPECIFICATION
@@ -77,7 +76,7 @@ public class MainClass {
 
 		String dirCompilazione = asmFile.getParentFile().getPath() + "/compilazione";
 		String dirEsecuzione = asmFile.getParentFile().getPath() + "/esecuzione";
-		String dirTraduzione = asmFile.getParentFile().getPath() + "/Traduzione";
+		String dirTraduzione = asmFile.getParentFile().getPath() + "/traduzione";
 
 		// AC
 		//File javaFile = new File(SRC_GEN + File.separator + name + ".java");
@@ -85,25 +84,16 @@ public class MainClass {
 		File javaFileCompilazione = new File(dirCompilazione + File.separator + name + ".java");
 		File javaFileExe = new File(dirEsecuzione + File.separator + name + "_Exe.java");
 		File javaFileExeN = new File(dirEsecuzione + File.separator + name + ".java");
-		File javaFileASM = new File(dirEsecuzione + File.separator + name + "_ASM.java");
-		File javaFileASMN = new File(dirEsecuzione + File.separator + name + ".java");
 
 		File javaFileT = new File(dirTraduzione + File.separator + name + ".java");
 		File javaFileExeT = new File(dirTraduzione + File.separator + name + "_Exe.java");
-		File javaFileASMT = new File(dirTraduzione + File.separator + name + "_ASM.java");
-
-		File stepFunctionArgs = new File(dir.getPath() + File.separator + "StepFunctionArgs" + ".txt");
 
 		deleteExisting(javaFile);
 		deleteExisting(javaFileCompilazione);
 		deleteExisting(javaFileExe);
 		deleteExisting(javaFileExeN);
-		deleteExisting(javaFileASM);
-		deleteExisting(javaFileASMN);
-		deleteExisting(javaFileASMT);
 		deleteExisting(javaFileT);
 		deleteExisting(javaFileExeT);
-		deleteExisting(stepFunctionArgs);
 
 		System.out.println("\n\n===" + name + " ===================");
 
@@ -128,8 +118,6 @@ public class MainClass {
 		System.out.println("Generated java file: " + javaFile.getCanonicalPath());
 		System.out.println("Generated java file: " + javaFileCompilazione.getCanonicalPath());
 		System.out.println("Generated java file: " + javaFileExeN.getCanonicalPath());
-		System.out.println("Generated ASM java file: " + javaFileASMN.getCanonicalPath());
-		System.out.println("Generated parser support file: " + stepFunctionArgs.getCanonicalPath());
 
 		System.out.println("Generated java file for the execution: " + javaFileExe.getCanonicalPath());
 
@@ -137,8 +125,6 @@ public class MainClass {
 
 		exportFile(javaFile, outputFolder);
 		exportFile(javaFileExe, outputFolder);
-		exportFile(javaFileASM, outputFolder);
-		exportFile(stepFunctionArgs, outputFolder);
 
 		CompileResult result = CompilatoreJava.compile(name + ".java", dir, true);
 
@@ -309,18 +295,12 @@ public class MainClass {
 		} else {
 			outputFolder = line.getOptionValue("output");
 		}
-
-		String[] finalStateConditions = null;
-		if(line.hasOption("finalState")){
-			finalStateConditions = line.getOptionValue("finalState").split(":");
-		}
-		
+	
 		try {
 			CompileResult compileResult = generate(
 					asmspec,
 					translatorOptions,
-					outputFolder,
-					finalStateConditions);
+					outputFolder);
 			if(compileResult.getSuccess()){
 				logger.info("Generation succeed : " + compileResult.toString());
 			}
