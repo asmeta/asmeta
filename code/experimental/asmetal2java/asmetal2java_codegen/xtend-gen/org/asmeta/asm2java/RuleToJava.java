@@ -284,7 +284,7 @@ public class RuleToJava extends RuleVisitor<String> {
         _builder_1.append(_visit_2);
         String _visit_3 = new TermToJava(this.res, false).visit(object.getUpdatingTerm());
         _builder_1.append(_visit_3);
-        _builder_1.append(".value);");
+        _builder_1.append(");");
         _builder_1.newLineIfNotEmpty();
         _builder_1.append("\t\t\t   ");
         String _visit_4 = new TermToJavaInUpdateRule(this.res, false).visit(object.getLocation());
