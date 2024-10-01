@@ -124,11 +124,11 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 				sb.append('''
 					System.out.print("«dd.name»"+ " = {");
 					for(int i=0 ; i< esecuzione.«dd.name»_elemsList.size(); i++)
-					if(i!= esecuzione.«dd.name»_elemsList.size()-1)
-					System.out.print(esecuzione.«dd.name»_elemsList.get(i) +", ");
-					else
-					System.out.print(esecuzione.«dd.name»_elemsList.get(i));	
-					System.out.println("}");
+					    if(i!= esecuzione.«dd.name»_elemsList.size()-1)
+					        System.out.print(esecuzione.«dd.name»_elemsList.get(i) +", ");
+					    else
+					        System.out.print(esecuzione.«dd.name»_elemsList.get(i));	
+					    System.out.println("}");
 				''')
 
 			}
@@ -167,8 +167,8 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 						sb.append('''
 							for(int i=0; i < esecuzione.«fd.domain.name»_elemsList.size(); i++)
 									{
-										System.out.println(" «fd.name» =>  (" + esecuzione.«fd.domain.name»_elemsList.get(i) +") 
-										= " + esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(i)).value );
+										System.out.println(" «fd.name» =>  (" + esecuzione.«fd.domain.name»_elemsList.get(i) +
+										") = " + esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(i)).value );
 									}
 						''')
 					}
@@ -177,8 +177,8 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 						sb.append('''
 							for(int i=0; i < esecuzione.«fd.domain.name»_elemsList.size(); i++)
 									{
-										System.out.println("«fd.name» =>  (" + esecuzione.«fd.domain.name»_elemsList.get(i) +") 
-										= "+ esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(i)));
+										System.out.println("«fd.name» =>  (" + esecuzione.«fd.domain.name»_elemsList.get(i) +
+										") = "+ esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(i)));
 									}
 						''')
 					}
