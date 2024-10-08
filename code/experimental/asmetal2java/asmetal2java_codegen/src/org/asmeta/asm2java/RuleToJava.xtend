@@ -166,9 +166,14 @@ class RuleToJava extends RuleVisitor<String> {
 				append('''«new TermToJava(res,true).visit(object.location)» = «new TermToJava(res,false).visit(object.updatingTerm)»;
 			   
 			''')
-		else if (object.updatingTerm.domain instanceof ConcreteDomain)
+		/*else if (object.updatingTerm.domain instanceof ConcreteDomain)
 			result.
 				append('''«new TermToJava(res,true).visit(object.location)»«new TermToJava(res,false).visit(object.updatingTerm)».value);
+			   «new TermToJavaInUpdateRule(res,false).visit(object.location)»
+			''')*/
+		else if (object.updatingTerm.domain instanceof ConcreteDomain)
+			result.
+				append('''«new TermToJava(res,true).visit(object.location)»«new TermToJava(res,false).visit(object.updatingTerm)»);
 			   «new TermToJavaInUpdateRule(res,false).visit(object.location)»
 			''')
 		else {

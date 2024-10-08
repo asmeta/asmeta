@@ -7,6 +7,7 @@ import asmeta.definitions.RuleDeclaration;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.EnumTd;
 import asmeta.structure.Asm;
 import asmeta.structure.DomainDefinition;
 import asmeta.structure.DomainInitialization;
@@ -23,6 +24,7 @@ import org.asmeta.asm2java.FunctionToJavaDef;
 import org.asmeta.asm2java.FunctionToJavaSig;
 import org.asmeta.asm2java.RuleToJava;
 import org.asmeta.asm2java.SeqRuleCollector;
+import org.asmeta.asm2java.ToString;
 import org.asmeta.asm2java.Util;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -60,6 +62,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     String updateASMText = this.updateSet(asm);
     this.functionSignature(asm);
     StringConcatenation _builder = new StringConcatenation();
+    _builder.newLine();
     _builder.append("// ");
     _builder.append(asmName);
     _builder.append(".java automatically generated from ASM2CODE");
@@ -376,7 +379,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
-    _builder.append("\t    ");
+    _builder.append("\t");
     _builder.append("//Definizione iniziale dei domini statici");
     _builder.newLine();
     _builder.append("\t    ");
@@ -384,6 +387,10 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t ");
     String _initialStaticDomainDefinition = this.initialStaticDomainDefinition(asm);
     _builder.append(_initialStaticDomainDefinition, "\t ");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t ");
+    String _initialStaticEnumDomainDefinition = this.initialStaticEnumDomainDefinition(asm);
+    _builder.append(_initialStaticEnumDomainDefinition, "\t ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
@@ -648,6 +655,53 @@ public class JavaGenerator extends AsmToJavaGenerator {
           String _plus_4 = (_plus_3 + _visit_1);
           String _plus_5 = (_plus_4 + ");\n");
           initial.append(_plus_5);
+        }
+      }
+    }
+    int _length = initial.toString().length();
+    boolean _notEquals = (_length != 0);
+    if (_notEquals) {
+      String _string = initial.toString();
+      return (_string + "\n");
+    } else {
+      return "";
+    }
+  }
+
+  public String initialStaticEnumDomainDefinition(final Asm asm) {
+    StringBuffer initial = new StringBuffer();
+    if (((asm.getBodySection() != null) && (asm.getBodySection().getDomainDefinition() != null))) {
+      EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
+      for (final Domain dd : _domain) {
+        if ((dd instanceof EnumTd)) {
+          String _name = ((EnumTd)dd).getName();
+          String _plus = (_name + "_elemsList = Collections.unmodifiableList(Arrays.asList(");
+          initial.append(_plus);
+          for (int i = 0; (i < ((EnumTd)dd).getElement().size()); i++) {
+            int _size = ((EnumTd)dd).getElement().size();
+            int _minus = (_size - 1);
+            boolean _notEquals = (i != _minus);
+            if (_notEquals) {
+              StringConcatenation _builder = new StringConcatenation();
+              String _name_1 = ((EnumTd)dd).getName();
+              _builder.append(_name_1);
+              _builder.append(".");
+              String _visit = new ToString(asm).visit(((EnumTd)dd).getElement().get(i));
+              _builder.append(_visit);
+              _builder.append(", ");
+              initial.append(_builder);
+            } else {
+              StringConcatenation _builder_1 = new StringConcatenation();
+              String _name_2 = ((EnumTd)dd).getName();
+              _builder_1.append(_name_2);
+              _builder_1.append(".");
+              String _visit_1 = new ToString(asm).visit(((EnumTd)dd).getElement().get(i));
+              _builder_1.append(_visit_1);
+              _builder_1.append(")");
+              initial.append(_builder_1);
+            }
+          }
+          initial.append(");\n");
         }
       }
     }

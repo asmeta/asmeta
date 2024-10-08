@@ -234,6 +234,16 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
         sb.append(_builder_2);
       }
     }
+    sb.append(System.lineSeparator());
+    StringConcatenation _builder_1 = new StringConcatenation();
+    _builder_1.append("List<");
+    String _name_1 = object.getName();
+    _builder_1.append(_name_1);
+    _builder_1.append("> ");
+    String _name_2 = object.getName();
+    _builder_1.append(_name_2);
+    _builder_1.append("_elemsList = new ArrayList<>();");
+    sb.append(_builder_1);
     return sb.toString();
   }
 

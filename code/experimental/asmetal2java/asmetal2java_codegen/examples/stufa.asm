@@ -1,7 +1,7 @@
 // LUGI SAVIO
 
 asm stufa
-import StandardLibrary
+import STDL/StandardLibrary
 signature:
        enum domain Stato = {STANBY | VERIFICA_PELLET_PREACCENSIONE |
 VERIFICA_SCARICO_FUMI | ACCESA | VERIFICA_PELLET_POSTACCENSIONE}

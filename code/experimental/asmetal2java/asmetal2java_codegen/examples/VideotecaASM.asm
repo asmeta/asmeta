@@ -4,7 +4,7 @@
 
 asm VideotecaASM
 
-import StandardLibrary
+import STDL/StandardLibrary
 
 //declare universes and functions
 
@@ -43,7 +43,7 @@ signature:
 
 definitions:
 
-//Funzione che si occupa di verificare l'effettiva disponibilit� di un film
+//Funzione che si occupa di verificare l'effettiva disponibilit  di un film
 	function dispOk($f in Film) =
 		dispFilm($f) > 0
 
@@ -88,7 +88,7 @@ definitions:
 			endpar
 		endif
 
-//Regola che si occupa di incrementare la disponibilit� del film restituito
+//Regola che si occupa di incrementare la disponibilit  del film restituito
 	macro rule r_aggiungiFilm($u in Utenti,$f in Film) =
 		if(associaOk($u,$f)) then
 		   	par
@@ -101,7 +101,7 @@ definitions:
 		endif
 
 
-//Regola che si occupa di decrementare la disponibilit� del film prestato
+//Regola che si occupa di decrementare la disponibilit  del film prestato
 	macro rule r_sottraiFilm($u in Utenti,$f in Film) =
 		if(dispOk($f)) then
 			if(associaOk($u,$f)=false) then
@@ -115,7 +115,7 @@ definitions:
 			stampaMessaggio := "Non ci sono copie del film voluto"
 		endif
 
-//Questa regola permette ad un utente di noleggiare un film (restituendo quello che eventualmente gi� possiede)
+//Questa regola permette ad un utente di noleggiare un film (restituendo quello che eventualmente gi  possiede)
 	rule r_noleggioFilm =
 		if(videotecaStato=NOLEGGIOINSERIMENTO) then
 			if(exist $u in Utenti with $u=utenteRiconosciuto) then
@@ -146,7 +146,7 @@ definitions:
 			endif
 		endif
 
-//Questa regola, dato un film, permette di verificarne la disponibilit�
+//Questa regola, dato un film, permette di verificarne la disponibilit 
 	rule r_disponibilita =
 		if(videotecaStato=FILMDISPONIBILI) then
 			if(exist $f in Film with $f=filmRiconosciuto) then
@@ -192,7 +192,7 @@ default init s0:
 			case utente3 : undef
 		endswitch
 
-	//Disponibilit� dei film (numero copie disponibili)
+	//Disponibilit  dei film (numero copie disponibili)
 	function dispFilm($f in Film) =
 		switch($f)
 			case film1 : 1

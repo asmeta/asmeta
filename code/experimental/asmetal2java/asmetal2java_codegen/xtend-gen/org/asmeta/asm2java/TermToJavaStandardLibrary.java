@@ -122,7 +122,12 @@ public class TermToJavaStandardLibrary extends TermToJava {
       if (this.leftHandSide) {
         functionTerm.append(".set(");
       } else {
-        functionTerm.append(".get()");
+        Domain _codomain = fd.getCodomain();
+        if ((_codomain instanceof ConcreteDomain)) {
+          functionTerm.append(".get().value");
+        } else {
+          functionTerm.append(".get()");
+        }
       }
     }
     TupleTerm _arguments_1 = ft.getArguments();
