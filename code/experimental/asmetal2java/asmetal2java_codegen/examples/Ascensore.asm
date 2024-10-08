@@ -2,9 +2,9 @@
 
 asm Ascensore
 
-import StandardLibrary
-import CTLLibrary
-import LTLLibrary
+import STDL/StandardLibrary
+import STDL/CTLLibrary
+import STDL/LTLLibrary
 
 
 signature:

@@ -273,7 +273,6 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
         _builder.append(_name_4, "        ");
         _builder.append("_elemsList.get(i));\t");
         _builder.newLineIfNotEmpty();
-        _builder.append("    ");
         _builder.append("System.out.println(\"}\");");
         _builder.newLine();
         sb.append(_builder);

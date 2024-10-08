@@ -2,7 +2,7 @@
 
 asm dado
 
-import StandardLibrary
+import STDL/StandardLibrary
 
 signature:
 	// DOMAINS

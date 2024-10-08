@@ -128,7 +128,7 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 					        System.out.print(esecuzione.«dd.name»_elemsList.get(i) +", ");
 					    else
 					        System.out.print(esecuzione.«dd.name»_elemsList.get(i));	
-					    System.out.println("}");
+					System.out.println("}");
 				''')
 
 			}
