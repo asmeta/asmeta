@@ -38,8 +38,8 @@ public class TestCoverage extends TestValidator {
 //				r_enterPin
 );
 	}
-
-	private void testWithCoverageAndWithout(String scenario, String ...coveredRules ) throws IOException, Exception {
+	// two test with coverage and without coverage enabled
+	private void testWithCoverageAndWithout(String scenario, String ...coveredRules) throws IOException, Exception {
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.DEBUG);
 		// get the logger output
 		StringWriter stringWriter = new StringWriter();
@@ -60,7 +60,7 @@ public class TestCoverage extends TestValidator {
 		assertNotEquals(-1, cov);
 		int nCov = outputs.indexOf("** NOT covered rules: **");
 		assertNotEquals(-1, nCov);
-		System.err.println(outputs);
+		System.err.println(outputs);						
 		List<String> coveredRulesOutput = outputs.subList(cov+1, nCov);
 		//
 		Arrays.asList(coveredRules).stream().forEach(x->
