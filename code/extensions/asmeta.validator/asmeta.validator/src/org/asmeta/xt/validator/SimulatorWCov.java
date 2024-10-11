@@ -19,6 +19,7 @@ import org.asmeta.simulator.wrapper.RuleFactory;
 import asmeta.AsmCollection;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
 
 public class SimulatorWCov extends Simulator {
 	/**
@@ -83,6 +84,19 @@ public class SimulatorWCov extends Simulator {
 			return macroName  +"::" + coveredT + "-" + coveredF + "/" + tot; 
 		}
 	}
+
+	public class UpdateCovData{
+		int covered = 0, tot = 0;
+		String macroName;
+		public UpdateCovData(String name) {
+			macroName = name;
+		}
+		@Override
+		public String toString() {
+			return macroName  +"::" + covered + "/" + tot; 
+		}
+	}
+
 	
 	// return the coverage of the branches (conditional rules)
 	public List<AbstractMap.SimpleEntry<String, BrancCovData>> getCoveredBranches() {
@@ -103,4 +117,22 @@ public class SimulatorWCov extends Simulator {
 		}
 		return s;
 	}
+	// return the coverage of the branches (conditional rules)
+	public List<AbstractMap.SimpleEntry<String, UpdateCovData>> getCoveredUpdateRules() {
+		ArrayList<AbstractMap.SimpleEntry<String, UpdateCovData>> s = new ArrayList<>();
+		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {			
+			// get all the 
+			final UpdateCovData cov = new UpdateCovData(md.getName());
+			md.getRuleBody().eAllContents().forEachRemaining( r-> {
+				if (r instanceof UpdateRule) {
+					System.out.println(" update rule");
+					cov.tot ++;
+					if (RuleEvalWCov.coveredUpdateRules.contains(r)) cov.covered++;
+				}					
+			});			
+			s.add(new AbstractMap.SimpleEntry<>(md.getAsmBody().getAsm().getName(),cov));
+		}
+		return s;
+	}
+
 }

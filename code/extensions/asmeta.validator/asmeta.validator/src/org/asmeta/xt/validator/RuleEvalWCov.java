@@ -16,6 +16,8 @@ import org.asmeta.simulator.wrapper.RuleFactory;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
 
 /** Questa classe valuta le regole
  * pero' tiene traccia delle macro valutate
@@ -36,6 +38,8 @@ public class RuleEvalWCov extends RuleEvaluator {
 	// covered guards in conditional rules
 	static Collection<ConditionalRule> coveredConRuleT;
 	static Collection<ConditionalRule> coveredConRuleF;
+	// covered updaterules
+	static Collection<UpdateRule> coveredUpdateRules;
 	
 
 	// this must be called only once for run
@@ -47,6 +51,7 @@ public class RuleEvalWCov extends RuleEvaluator {
 		if (coveredMacros == null) coveredMacros = new HashSet<>();
 		if (coveredConRuleT == null) coveredConRuleT = new HashSet<>();
 		if (coveredConRuleF == null) coveredConRuleF = new HashSet<>();
+		if (coveredUpdateRules == null) coveredUpdateRules = new HashSet<>();
 	}
 
 	// this is called when a new state requires a new evaluator
@@ -63,6 +68,13 @@ public class RuleEvalWCov extends RuleEvaluator {
 		return eval;
 	}
 
+	@Override
+	public UpdateSet visit(UpdateRule r){
+		coveredUpdateRules.add(r);
+		System.err.println("COVERGA EROF UPDATE");
+		return super.visit(r);
+	}
+	
 
 	@Override
 	public UpdateSet visit(MacroCallRule macroRule) throws NotCompatibleDomainsException {
@@ -77,4 +89,10 @@ public class RuleEvalWCov extends RuleEvaluator {
 		RuleEvalWCov newREC =  new RuleEvalWCov(nextState,environment, assignment);
 		return newREC;
 	}
+	
+	
+	
+	
+	
+	
 }
