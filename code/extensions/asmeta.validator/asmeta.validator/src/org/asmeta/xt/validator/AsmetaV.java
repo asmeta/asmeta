@@ -196,10 +196,10 @@ public class AsmetaV {
 			}
 			// branch coverage
 			List<SimpleEntry<String, BrancCovData>> res = ((SimulatorWCov)sim).getCoveredBranches();
-			System.out.println(res);
+			System.err.println(res);
 			// update rule coverage
 			List<SimpleEntry<String, UpdateCovData>> res2 = ((SimulatorWCov)sim).getCoveredUpdateRules();
-			System.out.println(res2);			
+			System.err.println(res2);			
 		}
 		return check_succeded;
 	}

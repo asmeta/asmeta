@@ -99,6 +99,7 @@ public class SimulatorWCov extends Simulator {
 
 	
 	// return the coverage of the branches (conditional rules)
+	// PROBLEM is the branches of the modified ASM not the original one.
 	public List<AbstractMap.SimpleEntry<String, BrancCovData>> getCoveredBranches() {
 		ArrayList<AbstractMap.SimpleEntry<String, BrancCovData>> s = new ArrayList<>();
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {			
@@ -112,7 +113,8 @@ public class SimulatorWCov extends Simulator {
 					if (RuleEvalWCov.coveredConRuleT.contains(r)) cov.coveredT++;
 				}
 					
-			});			
+			});
+			if (cov.tot == 0) System.err.println(md.getName()+ "NO FOUND");
 			s.add(new AbstractMap.SimpleEntry<>(md.getAsmBody().getAsm().getName(),cov));
 		}
 		return s;
