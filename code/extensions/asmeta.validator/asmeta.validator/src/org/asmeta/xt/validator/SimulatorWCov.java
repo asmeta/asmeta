@@ -19,6 +19,7 @@ import org.asmeta.simulator.wrapper.RuleFactory;
 import asmeta.AsmCollection;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
 
 public class SimulatorWCov extends Simulator {
@@ -105,7 +106,9 @@ public class SimulatorWCov extends Simulator {
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {			
 			// get all the 
 			final BrancCovData cov = new BrancCovData(md.getName());
-			md.getRuleBody().eAllContents().forEachRemaining( r-> {
+			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
+			// get all the			
+			rules.forEach( r ->{
 				if (r instanceof ConditionalRule) {
 					System.out.println(" cond rule");
 					cov.tot ++;
@@ -113,8 +116,8 @@ public class SimulatorWCov extends Simulator {
 					if (RuleEvalWCov.coveredConRuleT.contains(r)) cov.coveredT++;
 				}
 					
-			});
-			if (cov.tot == 0) System.err.println(md.getName()+ "NO FOUND");
+			}); 
+			if (cov.tot == 0) System.err.println(md.getName() + " NOT FOUND");
 			s.add(new AbstractMap.SimpleEntry<>(md.getAsmBody().getAsm().getName(),cov));
 		}
 		return s;
@@ -122,12 +125,12 @@ public class SimulatorWCov extends Simulator {
 	// return the coverage of the branches (conditional rules)
 	public List<AbstractMap.SimpleEntry<String, UpdateCovData>> getCoveredUpdateRules() {
 		ArrayList<AbstractMap.SimpleEntry<String, UpdateCovData>> s = new ArrayList<>();
-		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {			
-			// get all the 
+		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {	
 			final UpdateCovData cov = new UpdateCovData(md.getName());
-			md.getRuleBody().eAllContents().forEachRemaining( r-> {
+			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
+			// get all the			
+			rules.forEach( r ->{
 				if (r instanceof UpdateRule) {
-					System.out.println(" update rule");
 					cov.tot ++;
 					if (RuleEvalWCov.coveredUpdateRules.contains(r)) cov.covered++;
 				}					

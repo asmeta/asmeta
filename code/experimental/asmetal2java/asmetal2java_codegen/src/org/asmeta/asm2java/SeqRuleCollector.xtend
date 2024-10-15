@@ -20,7 +20,9 @@ import java.util.ArrayList
 import java.util.List
 import java.util.Collections
 
+
 // It collects all the macro rules that are called inside a seq rule
+// there ia an indetical class in asmeta2C .. to refactor
 class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 
 	boolean seqBlock
