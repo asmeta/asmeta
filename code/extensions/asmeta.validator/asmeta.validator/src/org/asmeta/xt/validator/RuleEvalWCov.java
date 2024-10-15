@@ -1,9 +1,12 @@
 package org.asmeta.xt.validator;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.HashSet;
 
 import org.apache.log4j.Logger;
+import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.NotCompatibleDomainsException;
 import org.asmeta.simulator.RuleEvaluator;
@@ -71,7 +74,13 @@ public class RuleEvalWCov extends RuleEvaluator {
 	@Override
 	public UpdateSet visit(UpdateRule r){
 		coveredUpdateRules.add(r);
-		System.err.println("COVERGA EROF UPDATE");
+		if (logger.isDebugEnabled()) {
+			StringWriter out = new StringWriter();
+			PrintWriter st = new PrintWriter(out);
+			AsmPrinter asmPrint = new AsmPrinter(st);
+			asmPrint.visit(r);
+			logger.debug("adding coverage update rule ==> " + out.toString());
+		}
 		return super.visit(r);
 	}
 	
