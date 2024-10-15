@@ -89,10 +89,4 @@ public class RuleEvalWCov extends RuleEvaluator {
 		RuleEvalWCov newREC =  new RuleEvalWCov(nextState,environment, assignment);
 		return newREC;
 	}
-	
-	
-	
-	
-	
-	
 }
