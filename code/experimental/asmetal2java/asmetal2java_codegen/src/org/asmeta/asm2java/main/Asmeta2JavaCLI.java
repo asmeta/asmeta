@@ -27,14 +27,14 @@ import org.asmeta.parser.ASMParser;
 import asmeta.AsmCollection;
 
 /**
- * The MainClass is the entry point for the Asmetal2Java tool,
+ * The Asmeta2JavaCLI is the entry point for the Asmetal2Java tool,
  * which translates ASM (Abstract State Machines) specifications into Java code.
  * This class provides methods to handle command-line arguments, parse ASM specifications,
  * generate Java code, and manage output directories.
  */
-public class MainClass {
+public class Asmeta2JavaCLI {
 	
-	private static final Logger logger = Logger.getLogger(MainClass.class);
+	private static final Logger logger = Logger.getLogger(Asmeta2JavaCLI.class);
 
 	// default output folder
 	private static final String SRC_GEN = "../asmetal2java_examples/src/";
@@ -326,7 +326,7 @@ public class MainClass {
 	public static void main(String[] args) {
 		
 		try {
-			MainClass main = new MainClass ();
+			Asmeta2JavaCLI main = new Asmeta2JavaCLI ();
 			Options options = getCommandLineOptions();
 			CommandLine line = main.parseCommandLine(args, options);
 			logger.info("Performing requested operation ...");
