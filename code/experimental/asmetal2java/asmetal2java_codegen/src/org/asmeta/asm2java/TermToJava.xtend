@@ -233,6 +233,11 @@ class TermToJava extends ReflectiveVisitor<String> {
 			'''
 					«"Arrays.stream("»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values()).anyMatch(c -> «valore»c))
 				''')
+			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain) // devo togliere il .value aggiunto in TermToJavaStandardLibrary.xtend (riga 102)  
+				sb.append(
+			'''
+					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(13,app.length-7)»))
+				''')
 			else
 				sb.append(
 			'''
@@ -371,9 +376,13 @@ class TermToJava extends ReflectiveVisitor<String> {
 		var name = new Util().parseFunction(term.function.name)
 
 		// Controllo se l'operatore » del tipo: &,|,<=,>=,<,>...
-		if (ExpressionToJava.hasEvaluateVisitor(name)) {
+		/*if (ExpressionToJava.hasEvaluateVisitor(name)) {
 			// if the funcion is an expression
-			return new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);
+			return new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);*/
+		if (ExpressionToJava.hasEvaluateVisitor(name)) { // utilizzo questo if per correggere il problema di avere due .value.value
+			// if the funcion is an expression
+			var expression = new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);
+			return expression.replaceAll(".value.value",".value")
 		} // In questo caso l'operatore rilevato » := 
 		else {
 

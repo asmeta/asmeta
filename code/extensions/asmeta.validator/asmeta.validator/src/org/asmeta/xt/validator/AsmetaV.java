@@ -17,6 +17,8 @@ import org.asmeta.simulator.Location;
 import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
+import org.asmeta.xt.validator.SimulatorWCov.BrancCovData;
+import org.asmeta.xt.validator.SimulatorWCov.UpdateCovData;
 
 import asmeta.definitions.RuleDeclaration;
 
@@ -184,14 +186,20 @@ public class AsmetaV {
 					}
 				}
 			});
-			// not put also all the extra rules (not belonging to this ASM
-			for ( SimpleEntry<String, String> r: coveredThisTime) {
+			// not put also all the extra rules (not belonging to this ASM)
+			for (SimpleEntry<String, String> r: coveredThisTime) {
 				String key = r.getKey();
 				String asmname = key.substring(1,key.lastIndexOf('_'));
 				if (asmname.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) continue;
 				String ruleCompleteName = asmname + "::" + r.getValue();
 				coveredRules.put(ruleCompleteName , Boolean.TRUE);
 			}
+			// branch coverage
+			List<SimpleEntry<String, BrancCovData>> res = ((SimulatorWCov)sim).getCoveredBranches();
+			System.err.println(res);
+			// update rule coverage
+			List<SimpleEntry<String, UpdateCovData>> res2 = ((SimulatorWCov)sim).getCoveredUpdateRules();
+			System.err.println(res2);			
 		}
 		return check_succeded;
 	}

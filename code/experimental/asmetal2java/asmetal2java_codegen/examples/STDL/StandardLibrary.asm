@@ -103,6 +103,8 @@ signature :
 	static minus: Integer -> Integer
 	static minus: Prod(Integer, Integer) -> Integer
 	static mult: Prod(Integer, Integer) -> Integer
+	static mult: Prod(Natural, Integer) -> Integer
+	static mult: Prod(Integer, Natural) -> Integer
 	static div: Prod(Integer, Integer) -> Real
 	static abs: Integer -> Integer
 	static idiv: Prod(Integer, Integer) -> Integer
@@ -114,16 +116,21 @@ signature :
 	static toString: Integer -> String
 	static lt: Prod(Integer, Integer) -> Boolean
 	static gt: Prod(Integer, Integer) -> Boolean
+	static gt: Prod(Natural, Integer) -> Boolean
+	static gt: Prod(Integer, Natural) -> Boolean
 	static le: Prod(Integer, Integer) -> Boolean
 	static ge: Prod(Integer, Integer) -> Boolean
 	//CONVERSION
 	static itor: Integer -> Real
 	static iton: Integer -> Natural
+	static ntor: Natural -> Real
+	static ntoi: Natural -> Integer
 
 /*----------- Basic Functions on Natural --------------*/
 	static plus: Prod(Natural, Natural) -> Natural
 	static minus: Prod(Natural, Natural) -> Integer
 	static mult: Prod(Natural, Natural) -> Natural
+	static abs: Natural -> Natural
 	static div: Prod(Natural, Natural) -> Real
 	static idiv: Prod(Natural, Natural) -> Natural
 	static mod: Prod(Natural, Natural) -> Natural
@@ -134,9 +141,6 @@ signature :
 	static gt: Prod(Natural, Natural) -> Boolean
 	static le: Prod(Natural, Natural) -> Boolean
 	static ge: Prod(Natural, Natural) -> Boolean
-	//CONVERSION
-	static ntoi: Natural -> Integer
-	static ntor: Natural -> Real
 
 /*----------- Basic Functions on Char --------------*/
 	static toString: Char -> String
@@ -173,6 +177,8 @@ signature :
 	static getAgent: String -> Agent
 	static program: Agent -> Rule
 	controlled self: Agent
+	static eq: Prod(Agent,Agent) -> Boolean
+	static neq: Prod(Agent,Agent) -> Boolean
 
 /*----------- Basic Functions on Sets--------------*/
 	static size: Powerset(D)-> Integer
@@ -185,6 +191,9 @@ signature :
 	static sum: Powerset(D) -> D
 	static union: Prod(Powerset(D), Powerset(D)) -> Powerset(D)
 	static union: Prod(Powerset(D), Bag(D)) -> Bag(D)
+	// add union with 2 different domanin 11/02/2021
+	static union: Prod(Powerset(D), Powerset(D1)) -> Powerset(D2)
+	// ANGELO 2018/7/31 perch� equality e non eq??? - parse rejects "a = {5}"
 	static equality: Prod(Powerset(D), Powerset(D)) -> Boolean
 	static intersection: Prod(Powerset(D), Powerset(D)) -> Powerset(D)
 	static intersection: Prod(Powerset(D), Bag(D)) -> Powerset(D)
@@ -192,11 +201,11 @@ signature :
 	static including: Prod(Powerset(D), D) -> Powerset(D)
 	static excluding: Prod(Powerset(D), D) -> Powerset(D)
 	static symmetricDifference: Prod(Powerset(D), Powerset(D)) -> Powerset(D)
-	//static count: Prod(Powerset(D),D) -> Natural // PA 18/12/2010 Forse non serve sui sets. Un elemento o appartiene o non appartiene ad un set. contains dovrebbe essere sufficiente. 
+	//static count: Prod(Powerset(D),D) -> Natural // PA 18/12/2010 Maybe not needed on sets. An element either belong or not belong to a set. contains should be enough. 
 	static asSequence: Powerset(D) -> Seq(D)
 	static asBag: Powerset(D) -> Bag(D)
 
-	//Return one element of the given set, behavior undefined if set is empty
+	//Return one element of the given set, value undefined if set is empty
 	static chooseone: Powerset(D) -> D
 
 /*----------- Basic Functions on Sequences--------------*/
@@ -205,6 +214,7 @@ signature :
 	static isEmpty: Seq(D) -> Boolean
 	static contains: Prod(Seq(D), D)-> Boolean
 	static union: Prod(Seq(D), Seq(D)) -> Seq(D)
+	// ANGELO 2018/7/31 equality is missing
 	static append: Prod(Seq(D), D) -> Seq(D)
 	static prepend: Prod(D, Seq(D)) -> Seq(D)
 	static insertAt: Prod(Seq(D), Natural, D) -> Seq(D)
@@ -230,7 +240,7 @@ signature :
 	static count: Prod(Bag(D),D) -> Natural
 	static asSequence: Bag(D) -> Seq(D)
 	static asSet: Bag(D) -> Powerset(D)
-	static sum: Bag(D) -> D//PA 2010/12/15 tenerla?
+	static sum: Bag(D) -> D
 
 /*----------- Basic Functions on Maps--------------*/
 	static merge: Prod(Map(D1,D2),Map(D1,D2)) -> Map(D1,D2)
@@ -303,5 +313,13 @@ signature :
 
 
 	static pre: D -> D
+
+/*----------- Java time  as static function--------------*/
+	static currTimeNanosecs: Integer	
+	static currTimeMillisecs: Integer
+	static currTimeSecs: Integer
+
+
+
 
 definitions:

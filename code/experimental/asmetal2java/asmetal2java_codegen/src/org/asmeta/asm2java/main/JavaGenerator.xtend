@@ -17,6 +17,8 @@ import org.asmeta.asm2java.RuleToJava
 import org.asmeta.asm2java.SeqRuleCollector
 import org.asmeta.asm2java.Util
 import org.junit.Assert
+import asmeta.definitions.domains.EnumTd
+import org.asmeta.asm2java.ToString
 
 /**Generates .cpp ASM file */
 class JavaGenerator extends AsmToJavaGenerator {
@@ -47,6 +49,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 		functionSignature(asm)
 		// TODO fix include list
 		return '''
+			
 			// «asmName».java automatically generated from ASM2CODE
 			
 			import java.util.ArrayList;
@@ -173,9 +176,10 @@ class JavaGenerator extends AsmToJavaGenerator {
 				
 				«asmName»(){
 				
-				    //Definizione iniziale dei domini statici
+				//Definizione iniziale dei domini statici
 				    
 				 «initialStaticDomainDefinition(asm)»
+				 «initialStaticEnumDomainDefinition(asm)»
 				
 				 //Definizione iniziale dei domini dinamici
 				 
@@ -329,6 +333,37 @@ class JavaGenerator extends AsmToJavaGenerator {
 		else
 			return ""
 	}
+	
+	// Metodo per inizializzare gli array _elemsList associati ai domini enumerativi
+	def initialStaticEnumDomainDefinition(Asm asm) {
+		
+		var StringBuffer initial = new StringBuffer
+		
+		if (asm.bodySection !== null && asm.bodySection.domainDefinition !== null) {
+			for (dd : asm.headerSection.signature.domain) {
+				if(dd instanceof EnumTd){
+					initial.append(
+						dd.name + "_elemsList = Collections.unmodifiableList(Arrays.asList(")
+						
+					for (var int i = 0; i < dd.element.size; i++) {
+						
+						if (i != dd.element.size - 1)
+							initial.append('''«dd.name».«new ToString(asm).visit(dd.element.get(i))», ''')
+						else
+							initial.append('''«dd.name».«new ToString(asm).visit(dd.element.get(i))»)''')
+					}
+
+					initial.append(");\n")
+				}
+			}
+		}
+
+		if (initial.toString.length != 0)
+			return initial.toString + "\n"
+		else
+			return ""
+	}
+	
 
 	// Metodo per settare i valori dei domini definiti Dynamic nel signature
 	// Da controllarne l'uso: Dynamic domains must be initialized, not defined!

@@ -1,7 +1,7 @@
 // ALDO BIZIAK
 asm RegistroDiCassa
 
-import StandardLibrary
+import STDL/StandardLibrary
 
 signature:
 

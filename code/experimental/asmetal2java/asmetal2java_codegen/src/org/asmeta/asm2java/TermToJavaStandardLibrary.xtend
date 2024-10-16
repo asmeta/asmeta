@@ -12,9 +12,7 @@ import asmeta.structure.Asm
 import asmeta.terms.basicterms.ConstantTerm
 import asmeta.terms.basicterms.FunctionTerm
 import asmeta.terms.basicterms.LocationTerm
-import asmeta.terms.basicterms.VariableTerm
 import asmeta.definitions.domains.StructuredTd
-import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.ProductDomain
 
 /**
@@ -102,11 +100,12 @@ class TermToJavaStandardLibrary extends TermToJava {
 	override dispatch String caseFunctionTermSupp(MonitoredFunction fd, FunctionTerm ft) {
 		var StringBuffer functionTerm = new StringBuffer
 		if (ft.arguments === null)
-			if (leftHandSide)
+			if (leftHandSide){
 				functionTerm.append(".set(")
-			else {
+			} else if(fd.codomain instanceof ConcreteDomain){
+					functionTerm.append(".get().value")
+			} else{
 				functionTerm.append(".get()")
-
 			}
 
 		if (ft.arguments !== null) {

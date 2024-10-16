@@ -5,9 +5,6 @@
 	<groupId>asmeta</groupId>
 	<artifactId>asmeta.validator.test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<properties>
-		<xtext.version>2.33.0</xtext.version>
-	</properties>
 	<build>
 		<testSourceDirectory>src</testSourceDirectory>
 		<plugins>
@@ -43,7 +40,7 @@
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext</artifactId>
-			<version>2.33.0</version>
+			<version>${xtextVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

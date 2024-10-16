@@ -4,7 +4,7 @@ asm groundModel_v2
 
 //è necessario che vengano creati due messaggi affinche' possa essere creata una commit dall'intruder
 
-import StandardLibrary
+import STDL/StandardLibrary
 
 signature:
 	domain Actors subsetof Agent

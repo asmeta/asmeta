@@ -19,7 +19,7 @@ asm gameOfLife
 //is sometimes called a tick (in other words, each generation is a pure function of the
 //preceding one). The rules continue to be applied repeatedly to create further generations.
 
-import StandardLibrary
+import STDL/StandardLibrary
 
 signature:
 	domain RowsWorld subsetof Natural

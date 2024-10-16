@@ -2,7 +2,7 @@
 
 asm Rubrica
 
-import StandardLibrary
+import STDL/StandardLibrary
 
 signature:
     abstract domain Contact
