@@ -17,7 +17,7 @@ import org.junit.Test;
 
 public class GeneratorCompilerAllExamplesTest {
 
-	private TranslatorOptions options = new TranslatorOptions(true, true, true, false, false, false, false);
+	private TranslatorOptions options = new TranslatorOptions(true, true, true, false, false, false, false, false, false, false);
 	
 	static boolean failOnError = false;
 	
