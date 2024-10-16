@@ -7,11 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -26,6 +24,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.compiler.CompilatoreJava;
 import org.asmeta.asm2java.compiler.CompileResult;
+import org.asmeta.asm2java.evosuite.JavaASMGenerator;
 import org.asmeta.parser.ASMParser;
 
 import asmeta.AsmCollection;
@@ -55,13 +54,19 @@ public class Asmeta2JavaCLI {
 
 	/** Executor folder */
 	private static final Path EXECUTION_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), "execution");
+	
+	/** TestGen folder */
+	private static final Path TESTGEN_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), "testGen");
 
 	/** Generator of the java class */
 	static private JavaGenerator jGenerator = new JavaGenerator();
 
 	/** Generator of the _Exe java class */
 	static private JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
-
+	
+	/** Generator of the _ASM java class */
+	static private JavaASMGenerator jGeneratorAsm = new JavaASMGenerator();
+	
 	/** Default translator options */
 	private static TranslatorOptions translatorOptions = new TranslatorOptions();
 
@@ -129,6 +134,20 @@ public class Asmeta2JavaCLI {
 				return false;
 			}
 		}
+		
+		// TODO: add win exe
+		
+		if (userOptions.getTestGen()) {
+			try {
+				File testGenJavaFile = generateFile(TESTGEN_DIR_PATH, asmName, "_ASM.java", model, userOptions);
+				// TODO: generate the java File with the modified rules
+				exportFile(testGenJavaFile, outputFolder);
+			} catch (Exception e) {
+				logger.error("TestGen operation completed with errors: " + e.getMessage());
+				e.printStackTrace();
+				return false;
+			}
+		}
 
 		return true;
 	}
@@ -157,6 +176,9 @@ public class Asmeta2JavaCLI {
 		} else if (extension.equals("_Exe.java")) {
 			logger.info("JavaExeGenerator: generating the _Exe.java class...");
 			jGeneratorExe.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
+		}else if (extension.equals("_ASM.java")) {
+			logger.info("JavaExeGenerator: generating the _ASM.java class...");
+			jGeneratorAsm.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 		} else {
 			logger.error("Extension " + extension + " not valid");
 			throw new RuntimeException("Extension " + extension + " not valid");
@@ -259,6 +281,7 @@ public class Asmeta2JavaCLI {
 				.desc("Set the behavior of the application:\n"
 						+ "-behavior translator : translate the asm file to a java file (default).\n"
 						+ "-behavior generateExe : translate the asm file to a java file and generate an executable java class\n"
+						+ "-behavior testGen: generate a test class suited for test generation with Evosuite\n"
 						+ "-behavior custom : set a custom behavior by adding properties with -D (see help)")
 				.build();
 
@@ -353,12 +376,19 @@ public class Asmeta2JavaCLI {
 				translatorOptions.setValue("translator", "true");
 				translatorOptions.setValue("compiler", "false");
 				translatorOptions.setValue("executable", "false");
+				translatorOptions.setValue("testGen", "false");
 				break;
 			case "generateExe":
 				translatorOptions.setValue("translator", "true");
 				translatorOptions.setValue("compiler", "false");
 				translatorOptions.setValue("executable", "true");
+				translatorOptions.setValue("testGen", "false");
 				break;
+			case "testGen":
+				translatorOptions.setValue("translator", "false");
+				translatorOptions.setValue("compiler", "false");
+				translatorOptions.setValue("executable", "false");
+				translatorOptions.setValue("testGen", "true");
 			case "custom":
 				break;
 			}
