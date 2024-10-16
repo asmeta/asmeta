@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import org.asmeta.asm2java.main.TranslatorOptions;
@@ -29,7 +30,7 @@ public class GeneratorCompilerTest {
 	// static private JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
 	// static private JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
 
-	private TranslatorOptions options = new TranslatorOptions(true, true, true);
+	private TranslatorOptions options = new TranslatorOptions(true, true, true, false, false, false, false);
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 	// -----
@@ -417,7 +418,7 @@ public class GeneratorCompilerTest {
 
 //		System.out.println("All java files Generated in: " + javaFileT.getCanonicalPath());
 
-		CompileResult result = CompilatoreJava.compile(name + ".java", dir, true);
+		CompileResult result = CompilatoreJava.compile(name + ".java", dir.toPath(), true);
 
 		return result;
 	}

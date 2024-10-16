@@ -2,6 +2,7 @@ package org.asmeta.asm2java.compiler;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 
 import javax.tools.JavaCompiler;
@@ -18,8 +19,8 @@ public class CompilatoreJava {
 	
 	private static Logger logger = Logger.getLogger(CompilatoreJava.class);
 
-	public static CompileResult compile(String name, File directory, boolean compileOnly) {
-		if (!directory.isDirectory())
+	public static CompileResult compile(String name, Path directory, boolean compileOnly) {
+		if (!directory.toFile().isDirectory())
 			throw new NotValidFileException("The given path does not represent a proper directory");
 		if (compileOnly && !name.endsWith(".java"))
 			throw new NotValidFileException(name + " does not end with .java");
@@ -27,8 +28,7 @@ public class CompilatoreJava {
 		String messaggio = "non compilato";
 
 		//File sourceFile = new File("examples/compilazione/" + name);
-		File sourceFile = new File(directory + File.separator + "compilazione" + File.separator + name);
-
+		File sourceFile = new File(directory + File.separator + name);
 		
 		if (compileOnly) {
 			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();

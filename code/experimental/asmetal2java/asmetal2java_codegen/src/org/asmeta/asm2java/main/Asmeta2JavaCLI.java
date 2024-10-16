@@ -3,10 +3,14 @@ package org.asmeta.asm2java.main;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Properties;
@@ -34,18 +38,32 @@ import asmeta.AsmCollection;
  */
 public class Asmeta2JavaCLI {
 	
+	/** Logger */
 	private static final Logger logger = Logger.getLogger(Asmeta2JavaCLI.class);
 
-	// default output folder
-	private static final String SRC_GEN = "../asmetal2java_examples/src/";
+	/** Input folder */
+	private static final Path INPUT_DIR_PATH = Paths.get(System.getProperty("user.dir"), "input");
 
-	// the generator for the code
+	/** Default output folder */
+	private static final Path DEFAULT_OUTPUT_DIR_PATH = Paths.get(System.getProperty("user.dir"), "output");
+	
+	/** Translator folder */
+	private static final Path TRANSLATION_DIR_PATH =  Paths.get(INPUT_DIR_PATH.toString(), "translation");
+	
+	/** Compile folder  */
+	private static final Path COMPILER_DIR_PATH =  Paths.get(INPUT_DIR_PATH.toString(), "compiler");
+	
+	/** Executor folder */
+	private static final Path EXECUTION_DIR_PATH =  Paths.get(INPUT_DIR_PATH.toString(), "execution");
+	
+	/** Generator of the java class */
 	static private JavaGenerator jGenerator = new JavaGenerator();
+	
+	/** Generator of the _Exe java class */
 	static private JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
 
-	// default translator options
-	private static TranslatorOptions translatorOptions =
-			new TranslatorOptions(false, false, false);
+	/** Default translator options */
+	private static TranslatorOptions translatorOptions = new TranslatorOptions();
 
 	/**
 	 * Generates Java code from an ASM specification.
@@ -56,112 +74,145 @@ public class Asmeta2JavaCLI {
 	 * @return             the result of the compilation process.
 	 * @throws Exception   if an error occurs during the generation or compilation process.
 	 */
-	public static CompileResult generate(
-      String asmspec,
+	public static boolean generate(
+			String asmspec,
 			TranslatorOptions userOptions,
-			String outputFolder)
+			Path outputFolder)
 			throws Exception {
-		//
-		// PARSE THE SPECIFICATION
-		// parse using the asmeta parser
 
 		File asmFile = new File(asmspec);
-		assert asmFile.exists();
-		String asmname = asmFile.getName();
-		String name = asmname.substring(0, asmname.lastIndexOf("."));
-
-		final AsmCollection model = ASMParser.setUpReadAsm(asmFile);
-		File dir = asmFile.getParentFile();
-		assert dir.exists() && dir.isDirectory();
-
-		String dirCompilazione = asmFile.getParentFile().getPath() + "/compilazione";
-		String dirEsecuzione = asmFile.getParentFile().getPath() + "/esecuzione";
-		String dirTraduzione = asmFile.getParentFile().getPath() + "/traduzione";
-
-		// AC
-		//File javaFile = new File(SRC_GEN + File.separator + name + ".java");
-		File javaFile = new File(dir.getPath() + File.separator + name + ".java");
-		File javaFileCompilazione = new File(dirCompilazione + File.separator + name + ".java");
-		File javaFileExe = new File(dirEsecuzione + File.separator + name + "_Exe.java");
-		File javaFileExeN = new File(dirEsecuzione + File.separator + name + ".java");
-
-		File javaFileT = new File(dirTraduzione + File.separator + name + ".java");
-		File javaFileExeT = new File(dirTraduzione + File.separator + name + "_Exe.java");
-
-		deleteExisting(javaFile);
-		deleteExisting(javaFileCompilazione);
-		deleteExisting(javaFileExe);
-		deleteExisting(javaFileExeN);
-		deleteExisting(javaFileT);
-		deleteExisting(javaFileExeT);
-
-		System.out.println("\n\n===" + name + " ===================");
-
-		// write java
-		try {
-			// Java Class
-			jGenerator.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
-			jGenerator.compileAndWrite(model.getMain(),
-					javaFileCompilazione.getCanonicalPath(),
-					userOptions);
-
-			// EXE Class
-			jGeneratorExe.compileAndWrite(model.getMain(), javaFileExe.getCanonicalPath(), userOptions);
-			jGenerator.compileAndWrite(model.getMain(), javaFileExeN.getCanonicalPath(), userOptions);
-			jGeneratorExe.compileAndWrite(model.getMain(), javaFileExeT.getCanonicalPath(), userOptions);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new CompileResult(false, e.getMessage());
+		if(!asmFile.exists()) {
+			logger.error("Failed to locate the input file:" + asmFile.toString());
+		    throw new RuntimeException("File doesn't exist: " + asmFile.toString());
 		}
-
-		System.out.println("Generated java file: " + javaFile.getCanonicalPath());
-		System.out.println("Generated java file: " + javaFileCompilazione.getCanonicalPath());
-		System.out.println("Generated java file: " + javaFileExeN.getCanonicalPath());
-
-		System.out.println("Generated java file for the execution: " + javaFileExe.getCanonicalPath());
-
-		System.out.println("All java files Generated in: " + javaFileT.getCanonicalPath());
-
-		exportFile(javaFile, outputFolder);
-		exportFile(javaFileExe, outputFolder);
-
-		CompileResult result = CompilatoreJava.compile(name + ".java", dir, true);
-
-		return result;
+		String asmFileName = asmFile.getName();
+		String asmName = asmFileName.substring(0, asmFileName.lastIndexOf("."));
+		
+		// Copy the asm file to the input folder
+		Path inputAsmPath = Paths.get(INPUT_DIR_PATH.toString(), asmFile.getName());
+		Files.copy(Paths.get(asmFile.getAbsolutePath()), inputAsmPath, StandardCopyOption.REPLACE_EXISTING);
+		
+		// Parse the specification using the Asmeta parser
+		final AsmCollection model = ASMParser.setUpReadAsm(asmFile);
+	
+		if(userOptions.getCompiler()) {
+			try {
+				File javaFile = generateFile(COMPILER_DIR_PATH, asmName , ".java", model ,userOptions);
+				CompileResult result = CompilatoreJava.compile(asmName + ".java", COMPILER_DIR_PATH, true);
+				if(result.getSuccess()) {
+					exportFile(javaFile, outputFolder);
+				}
+				else {
+					throw new Exception("The generated class has compilation errors." + result.toString());
+				}
+			} catch (Exception e) {
+				logger.error("Compilation operation completed with errors: " + e.getMessage());
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		if(userOptions.getTranslator()) {
+			try {
+				File javaFile = generateFile(TRANSLATION_DIR_PATH, asmName, ".java",  model ,userOptions);
+				exportFile(javaFile, outputFolder);
+			} catch (Exception e) {
+				logger.error("Translation operation complited with errors: " + e.getMessage());
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		if(userOptions.getExecutable()) {
+			try {
+				File executionJavaFile = generateFile(EXECUTION_DIR_PATH, asmName , "_Exe.java", model ,userOptions);
+				exportFile(executionJavaFile, outputFolder);
+			} catch (Exception e) {
+				logger.error("Execution operation completed with errors: " + e.getMessage());
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		return true;
 	}
+	
+	private static File generateFile(Path dirPath, String name, String extension, AsmCollection model, TranslatorOptions userOptions) throws IOException {
+		if (!checkPath(dirPath)) {
+	        createPath(dirPath);
+	      }
+	    File javaFile = new File(dirPath + File.separator + name + extension);
+	    deleteExisting(javaFile);
+	    if(extension.equals(".java")) {
+	    	logger.info("JavaGenerator: generating the .java class...");
+	    	jGenerator.compileAndWrite(model.getMain(),javaFile.getCanonicalPath(),userOptions);
+	    }
+	    else if(extension.equals("_Exe.java")) {
+	    	logger.info("JavaExeGenerator: generating the _Exe.java class...");
+	    	jGeneratorExe.compileAndWrite(model.getMain(),javaFile.getCanonicalPath(),userOptions);
+	    }
+	    else {
+	    	logger.error("Extension " + extension + " not valid");
+	    	throw new RuntimeException("Extension " + extension + " not valid");
+	    }
+	    logger.info("Generated java file: " + javaFile.getCanonicalPath());
+	    return javaFile;
+	}
+	
+	  /**
+	   * Checks if the given path exists.
+	   *
+	   * @param path The path to check.
+	   * @return {@code true} if the path exists, {@code false} otherwise.
+	   */
+	  private static boolean checkPath(Path path) {
+	    return Files.exists(path);
+	  }
+
+	  /**
+	   * Creates a directory at the specified path if it does not exist.
+	   *
+	   * @param path The path where the directory should be created.
+	   */
+	  private static void createPath(Path path) {
+	    try {
+	      logger.info("Path " + path + " doesn't exist.");
+	      logger.info("Creating path " + path + " ...");
+	      Files.createDirectories(path);
+	      logger.info("Path" + path + " created with success.");
+	    } catch (IOException e) {
+	      logger.error("Failed to create path: path");
+	      throw new RuntimeException("Failed to create path: " + path, e);
+	    }
+	  }
 
 	/**
 	 * Export (Copy) the file into the desired folder.
 	 *
 	 * @param javaInputFile the input java file to be copied.
-	 * @param outputFolder the output folder name (must exist).
+	 * @param outputFolder the output folder path.
 	 */
-  private static void exportFile(File javaInputFile, String outputFolder){
-		File javaOutFile =
-				new File(outputFolder + File.separator + javaInputFile.getName());
-		File dir = javaOutFile.getParentFile();
-		assert dir.exists() && dir.isDirectory();
-		try (
-				InputStream in = new BufferedInputStream(
-						Files.newInputStream(javaInputFile.toPath()));
-				OutputStream out = new BufferedOutputStream(
-						Files.newOutputStream(javaOutFile.toPath()))) {
-
-			byte[] buffer = new byte[1024];
-			int lengthRead;
-			while ((lengthRead = in.read(buffer)) > 0) {
-				out.write(buffer, 0, lengthRead);
-				out.flush();
+	  private static void exportFile(File javaInputFile, Path outputFolder){
+		  logger.info("Exporting " + javaInputFile + " to: " + outputFolder.toString());
+		  if(!checkPath(outputFolder)) {
+			  createPath(outputFolder);
+		  }
+		  File javaOutFile = new File(outputFolder + File.separator + javaInputFile.getName());
+		  try (
+				InputStream in = new BufferedInputStream(Files.newInputStream(javaInputFile.toPath()));
+				OutputStream out = new BufferedOutputStream(Files.newOutputStream(javaOutFile.toPath()))) {
+			  byte[] buffer = new byte[1024];
+			  int lengthRead;
+			  while ((lengthRead = in.read(buffer)) > 0) {
+				  out.write(buffer, 0, lengthRead);
+				  out.flush();
+				  }
+			  } catch (Exception e){
+				  logger.error("Export Failed.");
+				  e.printStackTrace();
 			}
-		} catch (NoSuchFileException e){
-			logger.error("Export Failed. Please specify an existing output folder...");
-			e.printStackTrace();
-		}
-		catch (Exception e){
-			e.printStackTrace();
-		}
-	}
+		  logger.info("Export completed.");
+	  }
 
 	/**
 	 * Check if the file exists and delete it.
@@ -171,7 +222,6 @@ public class Asmeta2JavaCLI {
 	private static void deleteExisting(File file){
 		if (file.exists())
 			file.delete();
-		assert !file.exists();
 	}
 
 	/**
@@ -185,7 +235,6 @@ public class Asmeta2JavaCLI {
 		// print help
 		Option help = new Option("help", "print this message");
 		
-
 		// input file
 		  Option input = Option.builder("input")
 				  .argName("input")
@@ -210,11 +259,7 @@ public class Asmeta2JavaCLI {
 				.required(false)
 				.optionalArg(false)
 				.type(String.class)
-				.desc("use value for given translator property (optional):\n"
-						+ "formatter=true/false (if you want the code to be formatted),\n"
-						+ " shuffleRandom=true/false (use random shuffle),\n"
-						+ " optimizeSeqMacroRule=true/false"
-						+ " (if true -> only those used (to improve code coverage))")
+				.desc(TranslatorOptions.getDescription())
 				.build();
 		
 		options.addOption(help);
@@ -251,7 +296,7 @@ public class Asmeta2JavaCLI {
 	private void setGlobalProperties(CommandLine line) {
 		Properties properties = line.getOptionProperties("D");
 		Set<String> propertyNames =
-				new HashSet<>(Arrays.asList("formatter", "shuffleRandom", "optimizeSeqMacroRule"));
+				new HashSet<>(TranslatorOptions.getPriopertyNames());
 
         for (String propertyName : properties.stringPropertyNames()) {
 
@@ -282,30 +327,31 @@ public class Asmeta2JavaCLI {
 		setGlobalProperties (line);
 		
 		String asmspec = "";
-
 		if (line.hasOption("input")) {
 			asmspec = line.getOptionValue("input");
 		}else {
 			logger.error("input option needs a path to the asm file");
 		}
 		
-		String outputFolder = "";
-		if(!line.hasOption("output")){
-			outputFolder = "output/";
-		} else {
-			outputFolder = line.getOptionValue("output");
+		Path outputFolder = DEFAULT_OUTPUT_DIR_PATH;
+		if(line.hasOption("output")){
+			outputFolder = Paths.get(line.getOptionValue("output"));
+			if(!translatorOptions.getExport()) {
+				logger.info("Warning: you selected an output folder but the export option is disabled!");
+				logger.info("Warning: to enable the export option type -Dexport=true");
+			}
 		}
 	
 		try {
-			CompileResult compileResult = generate(
+			Boolean result = generate(
 					asmspec,
 					translatorOptions,
 					outputFolder);
-			if(compileResult.getSuccess()){
-				logger.info("Generation succeed : " + compileResult.toString());
+			if(result){
+				logger.info("Generation succeed");
 			}
 			else{
-				logger.error("Generation failed : " + compileResult.toString());
+				logger.error("Generation failed");
 			}
 
 		} catch (Exception e) {
