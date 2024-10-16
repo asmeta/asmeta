@@ -16,13 +16,7 @@ public class TranslatorOptions {
 	/** Indicates whether a random shuffle should be applied. */
 	boolean shuffleRandom;
 
-	/**
-	 * Indicates whether to optimize the sequence macro rule.
-	 * <p>
-	 * If set to {@code true}, only the sequence macros that are actually used will be included,
-	 * which can improve code coverage.
-	 * </p>
-	 */
+	/** Indicates whether to optimize the sequence macro rule (remove unused seq rules). */
 	boolean optimizeSeqMacroRule;
 	
 	// these can be private
@@ -36,15 +30,26 @@ public class TranslatorOptions {
 	/** Indicates to generate an executable of the generated Java class */
 	private boolean executable;
 	
+	/** Indicates to generate a class designed for generating tests with Evosuite for the generated Java class */
+	private boolean testGen;
+	
+	/** Indicates to add methods to cover the outputs in the testgen class */
+	private boolean coverOutputs;
+	
+	/** Indicates to add methods to cover the rules in the testgen class */
+	private boolean coverRules;
+	
 	/** Indicates to export the generated Java files into the output folder */
 	private boolean export;
-	
 
+	
 	/**
-	 * Constructs a {@code TranslatorOptions} instance with the default settings.
+	 * Constructs a {@code TranslatorOptions} instance with the default settings: <p>
+	 * formatter, shuffleRandom, optimizeSeqRule, export = {@code true}.
+	 * All the others = {@code false}.
 	 */
 	TranslatorOptions(){
-		this(true,true,true,true,false,false,true);
+		this(true,true,true,true,false,false,false,false,false,true);
 	}
 
 	/**
@@ -54,8 +59,12 @@ public class TranslatorOptions {
 	 * @param shuffleRandom       whether a random shuffle should be applied.
 	 * @param optimizeSeqRule     whether to optimize the sequence macro rule.
 	 * @param compiler 		      whether to compile the generated java class.
-	 * @param optimizeSeqRule     whether to execute the generated java class.
-	 * @param optimizeSeqRule     whether to translate the generated java class.
+	 * @param executable    	  whether to execute the generated java class.
+	 * @param translator    	  whether to translate the generated java class.
+	 * @param testGen    		  whether to generate a class for test generation.
+	 * @param coverOutputs   	  whether to cover the outputs in the testGen class.
+	 * @param coverRules   		  whether to cover the rules in the testGen class.
+	 * @param export   	  		  whether to export the classes.
 	 */
 	public TranslatorOptions(boolean formatter,
 			boolean shuffleRandom, 
@@ -63,6 +72,9 @@ public class TranslatorOptions {
 			boolean translator, 
 			boolean executable, 
 			boolean compiler,
+			boolean testGen,
+			boolean coverOutputs,
+			boolean coverRules,
 			boolean export){
 		this.formatter = formatter;
 		this.shuffleRandom = shuffleRandom;
@@ -70,6 +82,9 @@ public class TranslatorOptions {
 		this.translator = translator;
 		this.executable = executable;
 		this.compiler = compiler;
+		this.testGen = testGen;
+		this.coverOutputs = coverOutputs;
+		this.coverRules = coverRules;
 		this.export = export;
 	}
 
@@ -128,6 +143,33 @@ public class TranslatorOptions {
 	}
 	
 	/**
+	 * Returns the testGen property.
+	 *
+	 * @return {@code true} if we want to generate a class designed for generating tests with Evosuite, {@code false} otherwise.
+	 */
+	public boolean getTestGen() {
+		return testGen;
+	}
+	
+	/**
+	 * Returns the coverOutputs property.
+	 *
+	 * @return {@code true} if we want to cover the outputs in the testGen class, {@code false} otherwise.
+	 */
+	public boolean getCoverOutputs() {
+		return coverOutputs;
+	}
+	
+	/**
+	 * Returns the coverRules property.
+	 *
+	 * @return {@code true} if we want to cover the rules in the testGen class, {@code false} otherwise.
+	 */
+	public boolean getCoverRules() {
+		return coverRules;
+	}
+	
+	/**
 	 * Returns the export property.
 	 *
 	 * @return {@code true} if the java class should be exported, {@code false} otherwise.
@@ -163,6 +205,15 @@ public class TranslatorOptions {
 		case "executable":
 			executable = Boolean.parseBoolean(propertyValue);
 			break;
+		case "testGen":
+			testGen = Boolean.parseBoolean(propertyValue);
+			break;
+		case "coverOutputs":
+			coverOutputs = Boolean.parseBoolean(propertyValue);
+			break;
+		case "coverRules":
+			coverRules = Boolean.parseBoolean(propertyValue);
+			break;
 		case "export":
 			export = Boolean.parseBoolean(propertyValue);
 			break;
@@ -182,6 +233,9 @@ public class TranslatorOptions {
 				"translator", 
 				"compiler", 
 				"executable", 
+				"testGen",
+				"coverOutputs",
+				"coverRules",
 				"export"
 				);
 	}
@@ -199,6 +253,9 @@ public class TranslatorOptions {
 				+ " -Dtranslator = true/false : translate the asm file into a java class.\n"
 				+ " -Dcompiler = true/false : translate and compile the asm file into a java class.\n"
 				+ " -Dexecutable = true/false : generate a java class for execution.\n"
+				+ " -testGen = true/false : generate a specific java class designed for test generation with Evosuite.\n"
+				+ " -coverOutputs = true/false : cover the outputs in the testGen class.\n"
+				+ " -coverRules = true/false : cover the rules in the testGen class.\n"
 				+ " -Dexport = true/false : export the generated file into the output folder.\n";
 	}
 
