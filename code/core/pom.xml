@@ -17,14 +17,15 @@
 	</build>
 	<packaging>pom</packaging>
 	<modules>
+		<module>asmeta.cli</module>
 		<module>asmeta.emf</module>
 		<module>asmeta.parser/asmeta.parser</module>
 		<module>asmeta.parser/asmeta.parser.test</module>
+		<module>asmeta.parser/asmeta.parser.cli</module>
 		<module>asmeta.simulator/asmeta.simulator</module>
 		<module>asmeta.simulator/asmeta.simulator.test</module>
-		<module>asmeta.cli</module>
-		<module>asmeta.parser/asmeta.parser.cli</module>
 		<module>asmeta.simulator/asmeta.simulator.cli</module>
+		<!-- missing asmeta.xt -->
 	</modules>
 	<parent>
 		<groupId>asmeta</groupId>

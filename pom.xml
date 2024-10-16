@@ -15,33 +15,21 @@
 	</properties>
 	<modules>
 		<module>code/core</module>
-		<module>code/extensions/asmeta.validator</module>
+		<module>code/extensions/asmeta.animator/asmeta.animator</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener</module>
+		<module>code/extensions/asmeta.flattener/asmeta.flattener.cli</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener.test</module>
+		<module>code/extensions/asmeta.modeladvisor/asmeta.modeladvisor</module>
+		<module>code/extensions/asmeta.modeladvisor/asmeta.modeladvisor.test</module>
+		<module>code/extensions/asmeta.refprover/asmeta.translatortosmt</module>
+		<module>code/extensions/asmeta.refprover/asmeta.refinementprover</module>
+		<!-- pom itself-->
+		<module>code/extensions/asmeta.validator</module>
+		<module>code/extensions/asmeta.visualizer/asmeta.visualizer</module>
 		<module>code/extensions/asmetasmv/asmeta.smv</module>
 		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
-		<module>
-			code/extensions/asmeta.flattener/asmeta.flattener.cli
-		</module>
-		<module>
-			code/extensions/asmeta.modeladvisor/asmeta.modeladvisor
-		</module>
-		<module>
-			code/extensions/asmeta.modeladvisor/asmeta.modeladvisor.test
-		</module>
-		<module>
-			code/extensions/asmeta.refprover/asmeta.translatortosmt
-		</module>
-		<module>
-			code/extensions/asmeta.refprover/asmeta.refinementprover
-		</module>
-		<module>
-			code/experimental/asmetal2cpp/asmetal2cpp_codegen
-		</module>
-		<module>
-			code/experimental/asmetal2cpp/asmetal2cpp_cli
-		</module>
-		<module>code/extensions/asmeta.animator/asmeta.animator</module>
+		<module>code/experimental/asmetal2cpp/asmetal2cpp_codegen</module>
+		<module>code/experimental/asmetal2cpp/asmetal2cpp_cli</module>
 		<module>reports/coverage/report.aggregate</module>
 	</modules>
 	<build>
