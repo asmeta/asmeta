@@ -251,6 +251,14 @@ public class Asmeta2JavaCLI {
 				.desc("The output folder (optional, defaults to `./output/`)")
 				.build();
 		
+		// clean the directories after use 
+		Option clean = Option.builder("clean")
+				.argName("clean")
+				.hasArg(false)
+				.desc("Delete the files used by the translator in the input folder, "
+						+ "please make sure you have enabled the export property -Dexport=true")
+				.build();
+		
 		// property
 		Option property = Option.builder("D")
 				.numberOfArgs(2)
@@ -265,6 +273,7 @@ public class Asmeta2JavaCLI {
 		options.addOption(help);
 		options.addOption(input);
 		options.addOption(output);
+		options.addOption(clean);
 		options.addOption(property);
 
 		return options;
@@ -360,8 +369,42 @@ public class Asmeta2JavaCLI {
 			System.exit(1);
 		}
 		
+		 if (line.hasOption("clean")) {
+			 if (INPUT_DIR_PATH.toFile().exists() && INPUT_DIR_PATH.toFile().isDirectory()) {
+				 for(File file : INPUT_DIR_PATH.toFile().listFiles()) {
+					if(!file.getName().equals("STDL") && !file.getName().equals(".gitignore")) {
+						cleanRecursively(file);
+					}
+				}
+			 }
+		}
+		
 	}
-
+	
+	/**
+	 * Delete all the files inside a directory and then delete the directory.
+	 * 
+	 * @param file or directory to delete.
+	 */
+	private void cleanRecursively(File file) {
+		
+		if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (File f : files) {
+                	cleanRecursively(f);
+                }
+            }
+        }
+		
+		if (file.delete()) {
+            logger.info("Deleted: " + file.getAbsolutePath());
+        } else {
+            logger.error("Failed to delete: " + file.getAbsolutePath());
+        }
+		
+	}
+	
 	/**
 	 * The main method, which is the entry point of the application.
 	 * It parses the command-line arguments, handles the help option,
