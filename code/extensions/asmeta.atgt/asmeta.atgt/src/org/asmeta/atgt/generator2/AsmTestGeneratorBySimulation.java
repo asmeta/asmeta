@@ -29,6 +29,9 @@ import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.IntegerType;
 
+/**
+ * random generation by random simulation 
+ */
 public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 
 	private int stepNumber;

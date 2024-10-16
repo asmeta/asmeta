@@ -2,7 +2,7 @@ package asmeta.evotest.experiments;
 
 import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
 
-public class TestExperimemts {
+public class TestExperiments {
 	
 	
 	
