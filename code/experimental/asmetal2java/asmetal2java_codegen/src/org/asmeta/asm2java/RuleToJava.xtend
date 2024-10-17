@@ -33,9 +33,9 @@ import asmeta.definitions.domains.SequenceDomain
 
 class RuleToJava extends RuleVisitor<String> {
 
-	Asm res;
-	boolean seqBlock;
-	TranslatorOptions options
+	protected Asm res;
+	protected boolean seqBlock;
+	protected TranslatorOptions options
 
 	/**  SeqBlock iff it is called in a seq rule*/
 	new(Asm resource, boolean seqBlock, TranslatorOptions options) {
@@ -53,7 +53,7 @@ class RuleToJava extends RuleVisitor<String> {
 	}
 
 	// Method writing the rules called in a block
-	def private String printRules(EList<Rule> rules, boolean addFire) {
+	def protected String printRules(EList<Rule> rules, boolean addFire) {
 		var StringBuffer sb = new StringBuffer
 		for (var int i = 0; i < rules.size(); i++) {
 			sb.append(new RuleToJava(res, seqBlock, options).visit(rules.get(i)))
@@ -135,7 +135,7 @@ class RuleToJava extends RuleVisitor<String> {
 	}
 
 	// Method translating the comparison between terms in a Case Rule
-	def String compareTerms(Term leftTerm, Term rightTerm) {
+	def protected String compareTerms(Term leftTerm, Term rightTerm) {
 		if (leftTerm.domain.toString.compareTo(rightTerm.domain.toString) != 0)
 			throw new RuntimeException("Terms with different domains are not comparable")
 		else if (leftTerm instanceof StringDomain)
@@ -145,7 +145,7 @@ class RuleToJava extends RuleVisitor<String> {
 	}
 
 	// Method translating the list of parameters given as input to a macro rule
-	def private String printListTerm(EList<Term> term) {
+	def protected String printListTerm(EList<Term> term) {
 		var sb = new StringBuffer
 		for (var int i = 0; i < term.size(); i++) {
 			if (i == 0 && term.get(0).domain instanceof ConcreteDomain)
@@ -381,7 +381,7 @@ class RuleToJava extends RuleVisitor<String> {
 		return let.toString
 	}
 
-	def String visit(IterativeWhileRule object) {
+	protected def String visit(IterativeWhileRule object) {
 		return '''
 		while («new TermToJava(res,false).visit(object.guard)»){
 			«new RuleToJava(res,true,options).visit(object.rule)»
@@ -389,7 +389,7 @@ class RuleToJava extends RuleVisitor<String> {
 	}
 
 	/** TODO: iterateRule */
-	def String visit(IterateRule object) {
+	protected def String visit(IterateRule object) {
 		return '''
 			//#iterate rule not yet implemented
 			

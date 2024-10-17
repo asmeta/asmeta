@@ -34,11 +34,11 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
 public class RuleToJava extends RuleVisitor<String> {
-  private Asm res;
+  protected Asm res;
 
-  private boolean seqBlock;
+  protected boolean seqBlock;
 
-  private TranslatorOptions options;
+  protected TranslatorOptions options;
 
   /**
    * SeqBlock iff it is called in a seq rule
@@ -62,7 +62,7 @@ public class RuleToJava extends RuleVisitor<String> {
     return _builder.toString();
   }
 
-  private String printRules(final EList<Rule> rules, final boolean addFire) {
+  protected String printRules(final EList<Rule> rules, final boolean addFire) {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < rules.size()); i++) {
       {
@@ -211,7 +211,7 @@ public class RuleToJava extends RuleVisitor<String> {
     }
   }
 
-  public String compareTerms(final Term leftTerm, final Term rightTerm) {
+  protected String compareTerms(final Term leftTerm, final Term rightTerm) {
     int _compareTo = leftTerm.getDomain().toString().compareTo(rightTerm.getDomain().toString());
     boolean _notEquals = (_compareTo != 0);
     if (_notEquals) {
@@ -238,7 +238,7 @@ public class RuleToJava extends RuleVisitor<String> {
     }
   }
 
-  private String printListTerm(final EList<Term> term) {
+  protected String printListTerm(final EList<Term> term) {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < term.size()); i++) {
       if (((i == 0) && (term.get(0).getDomain() instanceof ConcreteDomain))) {
@@ -726,7 +726,7 @@ public class RuleToJava extends RuleVisitor<String> {
     return let.toString();
   }
 
-  public String visit(final IterativeWhileRule object) {
+  protected String visit(final IterativeWhileRule object) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("while (");
     String _visit = new TermToJava(this.res, false).visit(object.getGuard());
@@ -744,7 +744,7 @@ public class RuleToJava extends RuleVisitor<String> {
   /**
    * TODO: iterateRule
    */
-  public String visit(final IterateRule object) {
+  protected String visit(final IterateRule object) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("//#iterate rule not yet implemented");
     _builder.newLine();
