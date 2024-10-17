@@ -23,8 +23,8 @@
 		<module>code/extensions/asmeta.modeladvisor/asmeta.modeladvisor.test</module>
 		<module>code/extensions/asmeta.refprover/asmeta.translatortosmt</module>
 		<module>code/extensions/asmeta.refprover/asmeta.refinementprover</module>
-		<!-- pom itself-->
-		<module>code/extensions/asmeta.validator</module>
+		<!-- asmeta.validator is a pom project itself-->
+		<module>code/extensions/</module>
 		<module>code/extensions/asmeta.visualizer/asmeta.visualizer</module>
 		<module>code/extensions/asmetasmv/asmeta.smv</module>
 		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
