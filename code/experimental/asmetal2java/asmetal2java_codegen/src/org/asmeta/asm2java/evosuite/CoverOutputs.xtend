@@ -67,9 +67,9 @@ class CoverOutputs {
 											var sd = fd.codomain
 											if(sd instanceof EnumTd){ // Abstract -> Enum
 												sb.append(System.lineSeparator)
-												sb.append("\t\t").append('''switch(this.esecuzione.«fd.name».get(
-												this.esecuzione.«fd.domain.name»_Class.get(
-												this.esecuzione.«fd.domain.name»_elemsList.indexOf("«sf.name»")))){''');
+												sb.append("\t\t").append('''switch(this.execution.«fd.name».get(
+												this.execution.«fd.domain.name»_Class.get(
+												this.execution.«fd.domain.name»_elemsList.indexOf("«sf.name»")))){''');
 												for (var int j = 0; j < sd.element.size; j++) {
 												var symbol = new ToString(asm).visit(sd.element.get(j))
 												sb.append(System.lineSeparator)
@@ -133,7 +133,7 @@ class CoverOutputs {
 				sb.append("\t\t\t\t" ).append('''/* final state condition */''')
 				sb.append(System.lineSeparator)
 				sb.append("\t\t\t\t" ).append('''if(isFinalState()){
-						System.out.println("\n<Stato finale>");
+						System.out.println("\n<Final State>");
 				}
 				else''')
 				sb.append(System.lineSeparator)

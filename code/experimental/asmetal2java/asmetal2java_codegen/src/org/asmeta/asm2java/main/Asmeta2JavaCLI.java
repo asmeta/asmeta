@@ -24,7 +24,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.compiler.CompilatoreJava;
 import org.asmeta.asm2java.compiler.CompileResult;
-import org.asmeta.asm2java.evosuite.JavaASMGenerator;
+import org.asmeta.asm2java.evosuite.JavaAtgGenerator;
 import org.asmeta.parser.ASMParser;
 
 import asmeta.AsmCollection;
@@ -64,8 +64,11 @@ public class Asmeta2JavaCLI {
 	/** Generator of the _Exe java class */
 	static private JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
 	
+	/** Generator of the _Win java class */
+	static private JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
+	
 	/** Generator of the _ASM java class */
-	static private JavaASMGenerator jGeneratorAsm = new JavaASMGenerator();
+	static private JavaAtgGenerator jGeneratorAtg = new JavaAtgGenerator();
 	
 	/** Default translator options */
 	private static TranslatorOptions translatorOptions = new TranslatorOptions();
@@ -135,11 +138,20 @@ public class Asmeta2JavaCLI {
 			}
 		}
 		
-		// TODO: add win exe
+		if (userOptions.getWindow()) {
+			try {
+				File winJavaFile = generateFile(EXECUTION_DIR_PATH, asmName, "_Win.java", model, userOptions);
+				exportFile(winJavaFile, outputFolder);
+			} catch (Exception e) {
+				logger.error("Window operation completed with errors: " + e.getMessage());
+				e.printStackTrace();
+				return false;
+			}
+		}
 		
 		if (userOptions.getTestGen()) {
 			try {
-				File testGenJavaFile = generateFile(TESTGEN_DIR_PATH, asmName, "_ASM.java", model, userOptions);
+				File testGenJavaFile = generateFile(TESTGEN_DIR_PATH, asmName, "_ATG.java", model, userOptions);
 				// TODO: generate the java File with the modified rules
 				exportFile(testGenJavaFile, outputFolder);
 			} catch (Exception e) {
@@ -176,9 +188,12 @@ public class Asmeta2JavaCLI {
 		} else if (extension.equals("_Exe.java")) {
 			logger.info("JavaExeGenerator: generating the _Exe.java class...");
 			jGeneratorExe.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
-		}else if (extension.equals("_ASM.java")) {
+		} else if (extension.equals("_Win.java")) {
+			logger.info("JavaExeGenerator: generating the _Win.java class...");
+			jGeneratorWin.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
+		} else if (extension.equals("_ATG.java")) {
 			logger.info("JavaExeGenerator: generating the _ASM.java class...");
-			jGeneratorAsm.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
+			jGeneratorAtg.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 		} else {
 			logger.error("Extension " + extension + " not valid");
 			throw new RuntimeException("Extension " + extension + " not valid");
@@ -277,15 +292,17 @@ public class Asmeta2JavaCLI {
 						+ "please make sure you have enabled the export property -Dexport=true")
 				.build();
 
+		// set the desired behavior
 		Option behavior = Option.builder("behavior").argName("behavior").type(String.class).hasArg(true)
 				.desc("Set the behavior of the application:\n"
 						+ "-behavior translator : translate the asm file to a java file (default).\n"
 						+ "-behavior generateExe : translate the asm file to a java file and generate an executable java class\n"
+						+ "-behavior generateWin : translate the asm file to a java file and generate an executable java class with a Grapical User Interace (GUI)\n"
 						+ "-behavior testGen: generate a test class suited for test generation with Evosuite\n"
 						+ "-behavior custom : set a custom behavior by adding properties with -D (see help)")
 				.build();
 
-		// property
+		// translator property
 		Option property = Option.builder("D").numberOfArgs(2).argName("property=value").valueSeparator('=')
 				.required(false).optionalArg(false).type(String.class).desc(TranslatorOptions.getDescription()).build();
 
@@ -376,18 +393,28 @@ public class Asmeta2JavaCLI {
 				translatorOptions.setValue("translator", "true");
 				translatorOptions.setValue("compiler", "false");
 				translatorOptions.setValue("executable", "false");
+				translatorOptions.setValue("window", "false");
 				translatorOptions.setValue("testGen", "false");
 				break;
 			case "generateExe":
 				translatorOptions.setValue("translator", "true");
 				translatorOptions.setValue("compiler", "false");
 				translatorOptions.setValue("executable", "true");
+				translatorOptions.setValue("window", "false");
+				translatorOptions.setValue("testGen", "false");
+				break;
+			case "generateWin":
+				translatorOptions.setValue("translator", "true");
+				translatorOptions.setValue("compiler", "false");
+				translatorOptions.setValue("executable", "false");
+				translatorOptions.setValue("window", "true");
 				translatorOptions.setValue("testGen", "false");
 				break;
 			case "testGen":
 				translatorOptions.setValue("translator", "false");
 				translatorOptions.setValue("compiler", "false");
 				translatorOptions.setValue("executable", "false");
+				translatorOptions.setValue("window", "false");
 				translatorOptions.setValue("testGen", "true");
 			case "custom":
 				break;
