@@ -31,6 +31,11 @@
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
+			<artifactId>asmeta.emf</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>asmeta</groupId>
 			<artifactId>asmeta.simulator</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
