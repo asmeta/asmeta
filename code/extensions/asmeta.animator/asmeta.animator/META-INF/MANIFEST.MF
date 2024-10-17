@@ -9,6 +9,8 @@ Require-Bundle: asmeta.emf,
  asmeta.simulator,
  asmeta.parser,
  org.apache.log4j,
- org.eclipse.swt
+ org.eclipse.swt,
+ org.eclipse.zest.core,
+ org.eclipse.zest.layouts
 Export-Package: org.asmeta.animator
 Bundle-Vendor: foselab.unibg.it

@@ -15,15 +15,13 @@
 		<resources>
 			<resource>
 				<directory>icons</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
 			</resource>
 		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>3.13.0</version>
+				
 			</plugin>
 		</plugins>
 	</build>
@@ -46,12 +44,12 @@
 		<dependency>
 			<groupId>org.eclipse.platform</groupId>
 			<artifactId>org.eclipse.swt</artifactId>
-			<version>3.125.0</version>
+			<version>3.127.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.platform</groupId>
 			<artifactId>org.eclipse.swt.win32.win32.x86_64</artifactId>
-			<version>3.125.0</version>
+			<version>3.127.0</version>
 		</dependency>
 
 	</dependencies>
