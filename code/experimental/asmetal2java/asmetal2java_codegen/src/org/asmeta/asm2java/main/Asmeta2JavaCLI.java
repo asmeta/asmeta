@@ -25,6 +25,8 @@ import org.apache.log4j.Logger;
 import org.asmeta.asm2java.compiler.CompilatoreJava;
 import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.asm2java.evosuite.JavaAtgGenerator;
+import org.asmeta.asm2java.evosuite.JavaTestGenerator;
+import org.asmeta.asm2java.evosuite.RulesImpl;
 import org.asmeta.parser.ASMParser;
 
 import asmeta.AsmCollection;
@@ -67,8 +69,14 @@ public class Asmeta2JavaCLI {
 	/** Generator of the _Win java class */
 	static private JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
 	
+	/** Instance of the RulesImpl, a Map {name:Rule} collection containing the rules of the Asmeta specification */
+	static private RulesImpl rulesImpl = new RulesImpl();
+	
+	/** Generator of the java class used for test generation */
+	static private JavaTestGenerator jGeneratorTest = new JavaTestGenerator(rulesImpl);
+	
 	/** Generator of the _ASM java class */
-	static private JavaAtgGenerator jGeneratorAtg = new JavaAtgGenerator();
+	static private JavaAtgGenerator jGeneratorAtg = new JavaAtgGenerator(rulesImpl);
 	
 	/** Default translator options */
 	private static TranslatorOptions translatorOptions = new TranslatorOptions();

@@ -14,6 +14,13 @@ import org.junit.Assert;
 
 @SuppressWarnings("all")
 public class JavaAtgGenerator extends AsmToJavaGenerator {
+  private Rules rules;
+
+  public JavaAtgGenerator(final Rules rules) {
+    super();
+    this.rules = rules;
+  }
+
   public void compileAndWrite(final Asm asm, final String writerPath, final TranslatorOptions userOptions) {
     Assert.assertTrue(writerPath.endsWith(".java"));
     this.compileAndWrite(asm, writerPath, "JAVA", userOptions);
@@ -22,10 +29,6 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
   private List<Rule> seqCalledRules;
 
   private String[] finalStateConditions;
-
-  public String[] setFinalStateConditions(final String[] finalStateConditions) {
-    return this.finalStateConditions = finalStateConditions;
-  }
 
   @Override
   public String compileAsm(final Asm asm) {
@@ -172,7 +175,6 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
       _builder_2.append("coverControlled();");
       sb.append(_builder_2);
       sb.append(System.lineSeparator());
-      CoverOutputs.ifFinalState(asm, sb, this.finalStateConditions);
     }
     StringBuffer _append = sb.append("\t\t\t\t\t\t");
     StringConcatenation _builder_3 = new StringConcatenation();

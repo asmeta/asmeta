@@ -11,6 +11,13 @@ import org.asmeta.asm2java.main.TranslatorOptions
 
 class JavaAtgGenerator extends AsmToJavaGenerator {
 
+	Rules rules;
+	
+	new(Rules rules){
+		super()
+		this.rules = rules
+	}
+
 	def compileAndWrite(Asm asm, String writerPath, TranslatorOptions userOptions) {
 		Assert.assertTrue(writerPath.endsWith(".java"));
 		compileAndWrite(asm, writerPath, "JAVA", userOptions)
@@ -18,13 +25,9 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 
 	// all the rules that must translate in two versions seq and not seq
 	// if null, translate all
-	List<Rule> seqCalledRules;
+	List<Rule> seqCalledRules; 
 
 	String [] finalStateConditions;
-
-	def setFinalStateConditions(String [] finalStateConditions){
-		this.finalStateConditions = finalStateConditions;
-	}
 
 	override compileAsm(Asm asm) {
 		// collect alla the seq rules if required
@@ -90,7 +93,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 
 			sb.append(System.lineSeparator)
 			
-			}
+		}
 			
 		if(options.coverOutputs){
 			sb.append('''
@@ -100,9 +103,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 
 			sb.append(System.lineSeparator)
 			
-			CoverOutputs.ifFinalState(asm, sb, this.finalStateConditions)
-			
-			}
+		}
 			
 		sb.append("\t\t\t\t\t\t" ).append('''state++;
 				}''')
