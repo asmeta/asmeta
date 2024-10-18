@@ -11,7 +11,7 @@ import java.util.Set;
 public final class RulesImpl implements Rules, RulesAdder {
 
 	/** rules map {name:Rule} */
-    private Map<String, Rule> rules;
+    private Map<String, JavaRule> rules;
 
     /**
      * Constructs an empty {@code RulesImpl} instance with an empty rule collection.
@@ -24,7 +24,7 @@ public final class RulesImpl implements Rules, RulesAdder {
      * {@inheritDoc}
      */
     @Override
-    public void addRule(String name, Rule rule) throws IllegalArgumentException {
+    public void addRule(String name, JavaRule rule) throws IllegalArgumentException {
         if (rules.containsKey(name)) {
             throw new IllegalArgumentException("Rule with the same name already exists: " + name);
         }

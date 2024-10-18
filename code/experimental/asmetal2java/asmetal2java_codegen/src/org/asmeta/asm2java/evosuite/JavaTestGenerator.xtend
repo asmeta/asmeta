@@ -16,23 +16,49 @@ class JavaTestGenerator extends JavaGenerator {
 	}
 	
 	override String foo2(RuleDeclaration r, String methodName, Asm asm) {
-		if (r.arity == 0)
-			return ('''
+		var rule = new JavaRuleImpl(methodName)
+		var sb = new StringBuffer();
+		if (r.arity == 0){
+			sb.append('''
 				@Override
 				void «methodName»(){
-					«new RuleToJavaEvosuite(asm, false, options, rules).visit(r.ruleBody as Rule)»
+					«rule.addNewBranch()» = true;
+					«new RuleToJavaEvosuite(asm, false, options, rule).visit(r.ruleBody as Rule)»
 				}
 				
-			''')
-		else
-			return ( '''
+			''');
+			} else {
+			sb.append('''
 				@Override
 				void «methodName» («new Util().adaptRuleParam(r.variable, asm)»){
-					«new RuleToJavaEvosuite(asm, false, options, rules).visit(r.ruleBody)»
+					«rule.addNewBranch()» = true;
+					«new RuleToJavaEvosuite(asm, false, options, rule).visit(r.ruleBody)»
 				}
 				
-			''')
+			''');
+			}
 
+		// initialize the branches flag
+		var flagInit = coverBranchesFlagInit(rule);
+		
+		// add the flag initialization to the top
+		sb.insert(0, flagInit)
+		
+		// add the Rule to the rules Map
+		rules.addRule(rule.getName(), rule)
+		
+		return sb.toString;
+		
+	}
+	
+	// initialize the cover branch flags (example: boolean cover_r_main = false;)
+	def coverBranchesFlagInit(JavaRule rule){
+		val sb = new StringBuffer();
+		for(String branch : rule.branches ){
+			sb.append('''boolean «branch» = false;''');
+			sb.append(System.lineSeparator);
+		}
+		return sb.toString();
 	}
 	
 }

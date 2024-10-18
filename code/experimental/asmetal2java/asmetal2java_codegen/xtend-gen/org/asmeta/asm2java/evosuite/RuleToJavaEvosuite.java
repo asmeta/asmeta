@@ -13,15 +13,16 @@ import org.asmeta.asm2java.DomainToJavaSigDef;
 import org.asmeta.asm2java.RuleToJava;
 import org.asmeta.asm2java.TermToJava;
 import org.asmeta.asm2java.main.TranslatorOptions;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
 public class RuleToJavaEvosuite extends RuleToJava {
-  private RulesAdder rules;
+  private JavaRule currRule;
 
-  public RuleToJavaEvosuite(final Asm resource, final boolean seqBlock, final TranslatorOptions options, final RulesAdder rules) {
+  public RuleToJavaEvosuite(final Asm resource, final boolean seqBlock, final TranslatorOptions options, final JavaRule currRule) {
     super(resource, seqBlock, options);
-    this.rules = rules;
+    this.currRule = currRule;
   }
 
   @Override
@@ -30,7 +31,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
     _builder.append("//{ //par");
     _builder.newLine();
     _builder.append("\t");
-    String _printRules = new RuleToJavaEvosuite(this.res, false, this.options, this.rules).printRules(object.getRules(), false);
+    String _printRules = new RuleToJavaEvosuite(this.res, false, this.options, this.currRule).printRules(object.getRules(), false);
     _builder.append(_printRules, "\t");
     _builder.newLineIfNotEmpty();
     _builder.append("//} //endpar");
@@ -43,7 +44,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
     _builder.append("//{ //seq");
     _builder.newLine();
     _builder.append("\t");
-    String _printRules = new RuleToJavaEvosuite(this.res, true, this.options, this.rules).printRules(object.getRules(), true);
+    String _printRules = new RuleToJavaEvosuite(this.res, true, this.options, this.currRule).printRules(object.getRules(), true);
     _builder.append(_printRules, "\t");
     _builder.newLineIfNotEmpty();
     _builder.append("//} //endseq");
@@ -63,7 +64,12 @@ public class RuleToJavaEvosuite extends RuleToJava {
       _builder.append(")){ ");
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
-      String _visit_1 = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.rules).visit(object.getThenRule());
+      String _addNewBranch = this.currRule.addNewBranch();
+      _builder.append(_addNewBranch, "\t");
+      _builder.append(" = true;");
+      _builder.newLineIfNotEmpty();
+      _builder.append("\t");
+      String _visit_1 = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.currRule).visit(object.getThenRule());
       _builder.append(_visit_1, "\t");
       _builder.newLineIfNotEmpty();
       _builder.append("}");
@@ -77,14 +83,24 @@ public class RuleToJavaEvosuite extends RuleToJava {
       _builder_1.append(")){ ");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t");
-      String _visit_3 = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.rules).visit(object.getThenRule());
+      String _addNewBranch_1 = this.currRule.addNewBranch();
+      _builder_1.append(_addNewBranch_1, "\t");
+      _builder_1.append(" = true;");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("\t");
+      String _visit_3 = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.currRule).visit(object.getThenRule());
       _builder_1.append(_visit_3, "\t");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("} else {");
       _builder_1.newLine();
-      _builder_1.append("\t\t");
-      String _visit_4 = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.rules).visit(object.getElseRule());
-      _builder_1.append(_visit_4, "\t\t");
+      _builder_1.append("\t");
+      String _addNewBranch_2 = this.currRule.addNewBranch();
+      _builder_1.append(_addNewBranch_2, "\t");
+      _builder_1.append(" = true;");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("\t");
+      String _visit_4 = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.currRule).visit(object.getElseRule());
+      _builder_1.append(_visit_4, "\t");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("}");
       _builder_1.newLine();
@@ -104,7 +120,12 @@ public class RuleToJavaEvosuite extends RuleToJava {
         _builder.append("){");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
-        String _visit = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.rules).visit(object.getCaseBranches().get(i));
+        String _addNewBranch = this.currRule.addNewBranch();
+        _builder.append(_addNewBranch, "\t");
+        _builder.append(" = true;");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        String _visit = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.currRule).visit(object.getCaseBranches().get(i));
         _builder.append(_visit, "\t");
         _builder.newLineIfNotEmpty();
         _builder.append("}");
@@ -117,7 +138,12 @@ public class RuleToJavaEvosuite extends RuleToJava {
         _builder_1.append("){");
         _builder_1.newLineIfNotEmpty();
         _builder_1.append("\t");
-        String _visit_1 = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.rules).visit(object.getCaseBranches().get(i));
+        String _addNewBranch_1 = this.currRule.addNewBranch();
+        _builder_1.append(_addNewBranch_1, "\t");
+        _builder_1.append(" = true;");
+        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("\t");
+        String _visit_1 = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.currRule).visit(object.getCaseBranches().get(i));
         _builder_1.append(_visit_1, "\t");
         _builder_1.newLineIfNotEmpty();
         _builder_1.append("}");
@@ -130,8 +156,13 @@ public class RuleToJavaEvosuite extends RuleToJava {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("else{ ");
       _builder.newLine();
+      _builder.append("\t");
+      String _addNewBranch = this.currRule.addNewBranch();
+      _builder.append(_addNewBranch, "\t");
+      _builder.append(" = true;");
+      _builder.newLineIfNotEmpty();
       _builder.append(" \t");
-      String _visit = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.rules).visit(object.getOtherwiseBranch());
+      String _visit = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.currRule).visit(object.getOtherwiseBranch());
       _builder.append(_visit, " \t");
       _builder.newLineIfNotEmpty();
       _builder.append("}");
@@ -163,7 +194,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
       }
     }
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.rules).visit(object.getInRule());
+    String _visit = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.currRule).visit(object.getInRule());
     _builder.append(_visit);
     _builder.newLineIfNotEmpty();
     _builder.append("}");
@@ -180,7 +211,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
     _builder.append("){");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
-    String _visit_1 = new RuleToJavaEvosuite(this.res, true, this.options, this.rules).visit(object.getRule());
+    String _visit_1 = new RuleToJavaEvosuite(this.res, true, this.options, this.currRule).visit(object.getRule());
     _builder.append(_visit_1, "\t");
     _builder.newLineIfNotEmpty();
     _builder.append("}");
@@ -202,7 +233,21 @@ public class RuleToJavaEvosuite extends RuleToJava {
       string.append(_plus_4);
     }
     String _string = string.toString();
-    String _visit = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.rules).visit(rule.getDoRule());
+    String _visit = new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.currRule).visit(rule.getDoRule());
     return (_string + _visit);
+  }
+
+  @Override
+  public String printRules(final EList<Rule> rules, final boolean addFire) {
+    StringBuffer sb = new StringBuffer();
+    for (int i = 0; (i < rules.size()); i++) {
+      {
+        sb.append(new RuleToJavaEvosuite(this.res, this.seqBlock, this.options, this.currRule).visit(rules.get(i)));
+        if (addFire) {
+          sb.append("\nfireUpdateSet();\n");
+        }
+      }
+    }
+    return sb.toString();
   }
 }

@@ -12,21 +12,23 @@ import asmeta.transitionrules.basictransitionrules.ExtendRule
 import org.asmeta.asm2java.DomainToJavaSigDef
 import asmeta.transitionrules.basictransitionrules.BlockRule
 import asmeta.transitionrules.turbotransitionrules.SeqRule
+import org.eclipse.emf.common.util.EList
+import asmeta.transitionrules.basictransitionrules.Rule
 
 class RuleToJavaEvosuite extends RuleToJava {
 	
-	RulesAdder rules;
+	JavaRule currRule;
 	
-	new(Asm resource, boolean seqBlock, TranslatorOptions options, RulesAdder rules) {
+	new(Asm resource, boolean seqBlock, TranslatorOptions options, JavaRule currRule) {
 		super(resource, seqBlock, options)
-		this.rules = rules
+		this.currRule = currRule;
 	}
 	
 	// Method translating the par block
 	override String visit(BlockRule object) {
 		return '''
 		//{ //par
-			«new RuleToJavaEvosuite(res,false,options,rules).printRules(object.getRules(), false)»
+			«new RuleToJavaEvosuite(res,false,options,currRule).printRules(object.getRules(), false)»
 		//} //endpar'''
 	}
 
@@ -34,25 +36,29 @@ class RuleToJavaEvosuite extends RuleToJava {
 	override String visit(SeqRule object) {
 		return '''
 			//{ //seq
-				«new RuleToJavaEvosuite(res,true,options,rules).printRules(object.rules,true)»
+				«new RuleToJavaEvosuite(res,true,options,currRule).printRules(object.rules,true)»
 			//} //endseq
 		'''
 	}
 
 	// Method translating the conditional rules
 	override String visit(ConditionalRule object) {
-		if (object.getElseRule() === null)
+		if (object.getElseRule() === null){
+			// TODO: set the branch flag to true
 			return '''
 				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.guard)»)){ 
-					«new RuleToJavaEvosuite(res,seqBlock,options,rules).visit(object.thenRule)»
+					«currRule.addNewBranch()» = true;
+					«new RuleToJavaEvosuite(res,seqBlock,options,currRule).visit(object.thenRule)»
 				}
 			'''
-		else
+		} else
 			return '''
 				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.getGuard)»)){ 
-					«new RuleToJavaEvosuite(res,seqBlock,options,rules).visit(object.thenRule)»
+					«currRule.addNewBranch()» = true;
+					«new RuleToJavaEvosuite(res,seqBlock,options,currRule).visit(object.thenRule)»
 				} else {
-						«new RuleToJavaEvosuite(res,seqBlock,options,rules).visit(object.elseRule)»
+					«currRule.addNewBranch()» = true;
+					«new RuleToJavaEvosuite(res,seqBlock,options,currRule).visit(object.elseRule)»
 				}
 			'''
 	}
@@ -64,18 +70,21 @@ class RuleToJavaEvosuite extends RuleToJava {
 			if (i == 0)
 				sb.append('''
 				if(«compareTerms(object.getTerm,object.getCaseTerm.get(i))»){
-					«new RuleToJavaEvosuite(res,seqBlock,options,rules).visit(object.getCaseBranches.get(i))»
+					«currRule.addNewBranch()» = true;
+					«new RuleToJavaEvosuite(res,seqBlock,options,currRule).visit(object.getCaseBranches.get(i))»
 				}''')
 			else
 				sb.append('''
 				else if(«compareTerms(object.getTerm,object.getCaseTerm.get(i))»){
-					«new RuleToJavaEvosuite(res,seqBlock,options,rules).visit(object.getCaseBranches().get(i))»
+					«currRule.addNewBranch()» = true;
+					«new RuleToJavaEvosuite(res,seqBlock,options,currRule).visit(object.getCaseBranches().get(i))»
 				}''')
 		}
 		if (object.getOtherwiseBranch() !== null)
 			sb.append('''
 				else{ 
-				 	«new RuleToJavaEvosuite(res,seqBlock,options,rules).visit(object.getOtherwiseBranch())»
+					«currRule.addNewBranch()» = true;
+				 	«new RuleToJavaEvosuite(res,seqBlock,options,currRule).visit(object.getOtherwiseBranch())»
 				}
 			''')
 		return sb.toString
@@ -91,7 +100,7 @@ class RuleToJavaEvosuite extends RuleToJava {
 				append('''«object.getVariable.get(i).domain.name + " " + new TermToJava(res).visit(object.getVariable.get(i))» = «new TermToJava(res).visit(object.getInitExpression.get(i))»;
 				''')
 		}
-		let.append('''«new RuleToJavaEvosuite(res,seqBlock,options,rules).visit(object.getInRule)»
+		let.append('''«new RuleToJavaEvosuite(res,seqBlock,options,currRule).visit(object.getInRule)»
 }''')
 		return let.toString
 	}
@@ -99,7 +108,7 @@ class RuleToJavaEvosuite extends RuleToJava {
 	override String visit(IterativeWhileRule object) {
 		return '''
 		while («new TermToJava(res,false).visit(object.guard)»){
-			«new RuleToJavaEvosuite(res,true,options,rules).visit(object.rule)»
+			«new RuleToJavaEvosuite(res,true,options,currRule).visit(object.rule)»
 		}'''
 	}
 
@@ -110,8 +119,21 @@ class RuleToJavaEvosuite extends RuleToJava {
 				new DomainToJavaSigDef(res).visit(rule.extendedDomain) + " " +
 					new TermToJava(res).visit(rule.boundVar.get(i)) + " = new " +
 					new DomainToJavaSigDef(res).visit(rule.extendedDomain) + "();\n");
-		return string.toString + new RuleToJavaEvosuite(res, seqBlock, options, rules).visit(rule.doRule)
+		return string.toString + new RuleToJavaEvosuite(res,seqBlock,options,currRule).visit(rule.doRule)
 
+	}
+	
+	// Method writing the rules called in a block
+	override String printRules(EList<Rule> rules, boolean addFire) {
+		var StringBuffer sb = new StringBuffer
+		for (var int i = 0; i < rules.size(); i++) {
+			sb.append(new RuleToJavaEvosuite(res, seqBlock, options, currRule).visit(rules.get(i)))
+			if (addFire) {
+				sb.append("\nfireUpdateSet();\n")
+			}
+
+		}
+		return sb.toString()
 	}
 
 }

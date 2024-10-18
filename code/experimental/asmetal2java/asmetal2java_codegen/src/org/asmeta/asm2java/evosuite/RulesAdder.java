@@ -12,6 +12,6 @@ public interface RulesAdder {
      * @param rule the {@code Rule} object to be added
      * @throws IllegalArgumentException if a rule with the same name already exists
      */
-    void addRule(String name, Rule rule) throws IllegalArgumentException;
+    void addRule(String name, JavaRule rule) throws IllegalArgumentException;
 
 }

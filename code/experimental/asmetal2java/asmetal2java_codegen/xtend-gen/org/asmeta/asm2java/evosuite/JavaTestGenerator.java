@@ -3,6 +3,7 @@ package org.asmeta.asm2java.evosuite;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.Rule;
+import java.util.List;
 import org.asmeta.asm2java.Util;
 import org.asmeta.asm2java.main.JavaGenerator;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -18,6 +19,8 @@ public class JavaTestGenerator extends JavaGenerator {
 
   @Override
   public String foo2(final RuleDeclaration r, final String methodName, final Asm asm) {
+    JavaRuleImpl rule = new JavaRuleImpl(methodName);
+    StringBuffer sb = new StringBuffer();
     Integer _arity = r.getArity();
     boolean _equals = ((_arity).intValue() == 0);
     if (_equals) {
@@ -29,14 +32,19 @@ public class JavaTestGenerator extends JavaGenerator {
       _builder.append("(){");
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
+      String _addNewBranch = rule.addNewBranch();
+      _builder.append(_addNewBranch, "\t");
+      _builder.append(" = true;");
+      _builder.newLineIfNotEmpty();
+      _builder.append("\t");
       Rule _ruleBody = r.getRuleBody();
-      String _visit = new RuleToJavaEvosuite(asm, false, this.options, this.rules).visit(((Rule) _ruleBody));
+      String _visit = new RuleToJavaEvosuite(asm, false, this.options, rule).visit(((Rule) _ruleBody));
       _builder.append(_visit, "\t");
       _builder.newLineIfNotEmpty();
       _builder.append("}");
       _builder.newLine();
       _builder.newLine();
-      return _builder.toString();
+      sb.append(_builder);
     } else {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("@Override");
@@ -49,13 +57,38 @@ public class JavaTestGenerator extends JavaGenerator {
       _builder_1.append("){");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t");
-      String _visit_1 = new RuleToJavaEvosuite(asm, false, this.options, this.rules).visit(r.getRuleBody());
+      String _addNewBranch_1 = rule.addNewBranch();
+      _builder_1.append(_addNewBranch_1, "\t");
+      _builder_1.append(" = true;");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("\t");
+      String _visit_1 = new RuleToJavaEvosuite(asm, false, this.options, rule).visit(r.getRuleBody());
       _builder_1.append(_visit_1, "\t");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("}");
       _builder_1.newLine();
       _builder_1.newLine();
-      return _builder_1.toString();
+      sb.append(_builder_1);
     }
+    String flagInit = this.coverBranchesFlagInit(rule);
+    sb.insert(0, flagInit);
+    this.rules.addRule(rule.getName(), rule);
+    return sb.toString();
+  }
+
+  public String coverBranchesFlagInit(final JavaRule rule) {
+    final StringBuffer sb = new StringBuffer();
+    List<String> _branches = rule.getBranches();
+    for (final String branch : _branches) {
+      {
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("boolean ");
+        _builder.append(branch);
+        _builder.append(" = false;");
+        sb.append(_builder);
+        sb.append(System.lineSeparator());
+      }
+    }
+    return sb.toString();
   }
 }

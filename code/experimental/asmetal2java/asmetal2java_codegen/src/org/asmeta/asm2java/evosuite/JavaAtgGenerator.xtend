@@ -27,8 +27,6 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 	// if null, translate all
 	List<Rule> seqCalledRules; 
 
-	String [] finalStateConditions;
-
 	override compileAsm(Asm asm) {
 		// collect alla the seq rules if required
 		if (options.optimizeSeqMacroRule) {
@@ -109,13 +107,28 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 				}''')
 		// End Step Function		
 		
+		if(options.coverRules){
+			
+			sb.append(System.lineSeparator);
+			sb.append("\t" ).append('''/* Cover the Rules */''')
+			sb.append(System.lineSeparator)
+			sb.append(System.lineSeparator)
+			
+			sb.append(System.lineSeparator)
+			sb.append(CoverRules.coverRulesFunction(rules))
+			sb.append(System.lineSeparator);
+			
+			sb.append(System.lineSeparator)
+			sb.append(CoverRules.coverAllRules(rules))
+			sb.append(System.lineSeparator);
+			
+		}
+		
 		// Cover Outputs
 		if(options.coverOutputs){
 			
-			sb.append("\t" ).append('''/* Cover the Outputs */''')
 			sb.append(System.lineSeparator)
-			
-			CoverOutputs.setIsFinalState(asm, sb, this.finalStateConditions)
+			sb.append("\t" ).append('''/* Cover the Outputs */''')
 			sb.append(System.lineSeparator)
 
 			sb.append("\t" ).append('''// Monitored getters''');
@@ -148,7 +161,8 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 		}
 
 		sb.append(System.lineSeparator)
-		sb.append('''// ASM Methods''');
+		sb.append('''/* ASM Methods */''');
+		sb.append(System.lineSeparator)
 		sb.append(System.lineSeparator)
 	
 		// Print controlled functions - unnecessary for test generation, can be removed

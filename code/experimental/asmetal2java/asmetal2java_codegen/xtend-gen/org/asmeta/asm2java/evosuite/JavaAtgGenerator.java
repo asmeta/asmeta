@@ -28,8 +28,6 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
 
   private List<Rule> seqCalledRules;
 
-  private String[] finalStateConditions;
-
   @Override
   public String compileAsm(final Asm asm) {
     boolean _optimizeSeqMacroRule = this.options.getOptimizeSeqMacroRule();
@@ -183,80 +181,96 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
     _builder_3.append("\t\t\t\t");
     _builder_3.append("}");
     _append.append(_builder_3);
-    boolean _coverOutputs_1 = this.options.getCoverOutputs();
-    if (_coverOutputs_1) {
+    boolean _coverRules_1 = this.options.getCoverRules();
+    if (_coverRules_1) {
+      sb.append(System.lineSeparator());
       StringBuffer _append_1 = sb.append("\t");
       StringConcatenation _builder_4 = new StringConcatenation();
-      _builder_4.append("/* Cover the Outputs */");
+      _builder_4.append("/* Cover the Rules */");
       _append_1.append(_builder_4);
       sb.append(System.lineSeparator());
-      CoverOutputs.setIsFinalState(asm, sb, this.finalStateConditions);
+      sb.append(System.lineSeparator());
+      sb.append(System.lineSeparator());
+      sb.append(CoverRules.coverRulesFunction(this.rules));
+      sb.append(System.lineSeparator());
+      sb.append(System.lineSeparator());
+      sb.append(CoverRules.coverAllRules(this.rules));
+      sb.append(System.lineSeparator());
+    }
+    boolean _coverOutputs_1 = this.options.getCoverOutputs();
+    if (_coverOutputs_1) {
       sb.append(System.lineSeparator());
       StringBuffer _append_2 = sb.append("\t");
       StringConcatenation _builder_5 = new StringConcatenation();
-      _builder_5.append("// Monitored getters");
+      _builder_5.append("/* Cover the Outputs */");
       _append_2.append(_builder_5);
-      AsmMethods.monitoredGetter(asm, sb);
       sb.append(System.lineSeparator());
       StringBuffer _append_3 = sb.append("\t");
       StringConcatenation _builder_6 = new StringConcatenation();
-      _builder_6.append("// Cover functions");
+      _builder_6.append("// Monitored getters");
       _append_3.append(_builder_6);
-      sb.append(System.lineSeparator());
+      AsmMethods.monitoredGetter(asm, sb);
       sb.append(System.lineSeparator());
       StringBuffer _append_4 = sb.append("\t");
       StringConcatenation _builder_7 = new StringConcatenation();
-      _builder_7.append("private void coverMonitored(){");
+      _builder_7.append("// Cover functions");
       _append_4.append(_builder_7);
-      CoverOutputs.coverFunctions(asm, sb, true);
+      sb.append(System.lineSeparator());
       sb.append(System.lineSeparator());
       StringBuffer _append_5 = sb.append("\t");
       StringConcatenation _builder_8 = new StringConcatenation();
-      _builder_8.append("}");
-      _builder_8.newLine();
-      _builder_8.newLine();
-      _builder_8.append("\t");
-      _builder_8.append("private void coverControlled(){");
+      _builder_8.append("private void coverMonitored(){");
       _append_5.append(_builder_8);
-      CoverOutputs.coverFunctions(asm, sb, false);
+      CoverOutputs.coverFunctions(asm, sb, true);
       sb.append(System.lineSeparator());
       StringBuffer _append_6 = sb.append("\t");
       StringConcatenation _builder_9 = new StringConcatenation();
       _builder_9.append("}");
+      _builder_9.newLine();
+      _builder_9.newLine();
+      _builder_9.append("\t");
+      _builder_9.append("private void coverControlled(){");
       _append_6.append(_builder_9);
+      CoverOutputs.coverFunctions(asm, sb, false);
+      sb.append(System.lineSeparator());
+      StringBuffer _append_7 = sb.append("\t");
+      StringConcatenation _builder_10 = new StringConcatenation();
+      _builder_10.append("}");
+      _append_7.append(_builder_10);
       sb.append(System.lineSeparator());
       sb.append(System.lineSeparator());
       CoverOutputs.coverBranches(asm, sb);
     }
     sb.append(System.lineSeparator());
-    StringConcatenation _builder_10 = new StringConcatenation();
-    _builder_10.append("// ASM Methods");
-    sb.append(_builder_10);
-    sb.append(System.lineSeparator());
-    StringBuffer _append_7 = sb.append("\t\t");
     StringConcatenation _builder_11 = new StringConcatenation();
-    _builder_11.append("// Print controlled");
-    _append_7.append(_builder_11);
+    _builder_11.append("/* ASM Methods */");
+    sb.append(_builder_11);
     sb.append(System.lineSeparator());
-    sb.append(AsmMethods.printControlled(asm));
     sb.append(System.lineSeparator());
     StringBuffer _append_8 = sb.append("\t\t");
     StringConcatenation _builder_12 = new StringConcatenation();
-    _builder_12.append("// Controlled getters");
+    _builder_12.append("// Print controlled");
     _append_8.append(_builder_12);
     sb.append(System.lineSeparator());
-    AsmMethods.controlledGetter(asm, sb);
+    sb.append(AsmMethods.printControlled(asm));
     sb.append(System.lineSeparator());
     StringBuffer _append_9 = sb.append("\t\t");
     StringConcatenation _builder_13 = new StringConcatenation();
-    _builder_13.append("// Monitored setters");
+    _builder_13.append("// Controlled getters");
     _append_9.append(_builder_13);
+    sb.append(System.lineSeparator());
+    AsmMethods.controlledGetter(asm, sb);
+    sb.append(System.lineSeparator());
+    StringBuffer _append_10 = sb.append("\t\t");
+    StringConcatenation _builder_14 = new StringConcatenation();
+    _builder_14.append("// Monitored setters");
+    _append_10.append(_builder_14);
     sb.append(System.lineSeparator());
     sb.append(AsmMethods.monitoredSetters(asm));
     sb.append(System.lineSeparator());
-    StringConcatenation _builder_14 = new StringConcatenation();
-    _builder_14.append("}");
-    sb.append(_builder_14);
+    StringConcatenation _builder_15 = new StringConcatenation();
+    _builder_15.append("}");
+    sb.append(_builder_15);
     return sb.toString();
   }
 }
