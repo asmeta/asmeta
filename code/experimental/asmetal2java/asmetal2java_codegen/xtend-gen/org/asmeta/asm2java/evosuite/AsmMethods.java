@@ -17,7 +17,8 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
 public class AsmMethods {
-  public static void controlledGetter(final Asm asm, final StringBuffer sb) {
+  public static String controlledGetter(final Asm asm) {
+    final StringBuffer sb = new StringBuffer();
     String asmName = asm.getName();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
@@ -395,9 +396,11 @@ public class AsmMethods {
         }
       }
     }
+    return sb.toString();
   }
 
-  public static void monitoredGetter(final Asm asm, final StringBuffer sb) {
+  public static String monitoredGetter(final Asm asm) {
+    final StringBuffer sb = new StringBuffer();
     String asmName = asm.getName();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
@@ -775,6 +778,7 @@ public class AsmMethods {
         }
       }
     }
+    return sb.toString();
   }
 
   public static String printControlled(final Asm asm) {

@@ -2,6 +2,7 @@ package org.asmeta.asm2java.evosuite
 
 class CoverRules {
 	
+	// create a method that calls all the cover rules functions
 	static def coverRulesFunction(Rules rules){
 		val sb = new StringBuffer();
 		
@@ -25,6 +26,7 @@ class CoverRules {
 		return sb.toString;
 	}
 	
+	// Create a method for the rule to cover all its branches
 	static def coverAllRules(Rules rules){
 				val sb = new StringBuffer();
 		

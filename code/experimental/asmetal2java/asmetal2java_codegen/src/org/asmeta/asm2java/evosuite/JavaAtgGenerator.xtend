@@ -85,28 +85,28 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 				printControlled();''');
 			
 		if(options.coverRules){
+			sb.append(System.lineSeparator)
 			sb.append('''
 				// Cover the rules
 				coverRules();''');
 
 			sb.append(System.lineSeparator)
-			
 		}
 			
 		if(options.coverOutputs){
+			sb.append(System.lineSeparator)
 			sb.append('''
 				// Cover the outputs
-				coverMonitored();
-				coverControlled();''');
+				coverOutputs();''');
 
 			sb.append(System.lineSeparator)
-			
 		}
 			
 		sb.append("\t\t\t\t\t\t" ).append('''state++;
 				}''')
 		// End Step Function		
 		
+		// Cover the rules
 		if(options.coverRules){
 			
 			sb.append(System.lineSeparator);
@@ -124,7 +124,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			
 		}
 		
-		// Cover Outputs
+		// Cover the outputs
 		if(options.coverOutputs){
 			
 			sb.append(System.lineSeparator)
@@ -132,34 +132,24 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			sb.append(System.lineSeparator)
 
 			sb.append("\t" ).append('''// Monitored getters''');
-			AsmMethods.monitoredGetter(asm, sb);
+			sb.append(CoverOutputs.monitoredGetter(asm));
 			sb.append(System.lineSeparator)
 
 			sb.append("\t").append('''// Cover functions''');
 			sb.append(System.lineSeparator)
 			sb.append(System.lineSeparator)
-			sb.append("\t").append('''
-		private void coverMonitored(){''');
 	
-			CoverOutputs.coverFunctions(asm,sb,true)
+			sb.append(CoverOutputs.coverOutputs(asm))
 			sb.append(System.lineSeparator)
-	
-			sb.append("\t").append('''
-		}
 		
-			private void coverControlled(){''');
-	
-			CoverOutputs.coverFunctions(asm,sb,false)
-	
-			sb.append(System.lineSeparator)
-			sb.append("\t").append('''}''');
 			sb.append(System.lineSeparator)
 			sb.append(System.lineSeparator)
 	
-			CoverOutputs.coverBranches(asm,sb);
+			sb.append(CoverOutputs.coverOutputBranches(asm));
 		
 		}
 
+		// Specific method for ASM work.
 		sb.append(System.lineSeparator)
 		sb.append('''/* ASM Methods */''');
 		sb.append(System.lineSeparator)
@@ -174,7 +164,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 		sb.append(System.lineSeparator)
 		sb.append("\t\t").append('''// Controlled getters''');
 		sb.append(System.lineSeparator)
-		AsmMethods.controlledGetter(asm,sb);
+		sb.append(AsmMethods.controlledGetter(asm));
 		
 		// Monitored public setters (to set the values)
 		sb.append(System.lineSeparator)
@@ -184,6 +174,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 		
 		sb.append(System.lineSeparator)
 		sb.append('''}''')
+		
 		return sb.toString();
 
 	}
