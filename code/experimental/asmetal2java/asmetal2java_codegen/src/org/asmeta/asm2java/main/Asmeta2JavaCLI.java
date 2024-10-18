@@ -301,13 +301,13 @@ public class Asmeta2JavaCLI {
 				.build();
 
 		// set the desired behavior
-		Option behavior = Option.builder("behavior").argName("behavior").type(String.class).hasArg(true)
-				.desc("Set the behavior of the application:\n"
-						+ "-behavior translator : translate the asm file to a java file (default).\n"
-						+ "-behavior generateExe : translate the asm file to a java file and generate an executable java class\n"
-						+ "-behavior generateWin : translate the asm file to a java file and generate an executable java class with a Grapical User Interace (GUI)\n"
-						+ "-behavior testGen: generate a test class suited for test generation with Evosuite\n"
-						+ "-behavior custom : set a custom behavior by adding properties with -D (see help)")
+		Option behavior = Option.builder("mode").argName("mode").type(String.class).hasArg(true)
+				.desc("Set the mode of the application:\n"
+						+ "-mode translator : translate the asm file to a java file (default).\n"
+						+ "-mode generateExe : translate the asm file to a java file and generate an executable java class\n"
+						+ "-mode generateWin : translate the asm file to a java file and generate an executable java class with a Grapical User Interace (GUI)\n"
+						+ "-mode testGen: generate a test class suited for test generation with Evosuite\n"
+						+ "-mode custom : set a custom behavior by adding properties with -D (see help)")
 				.build();
 
 		// translator property
@@ -395,8 +395,8 @@ public class Asmeta2JavaCLI {
 			}
 		}
 
-		if (line.hasOption("behavior")) {
-			switch (line.getOptionValue("behavior")) {
+		if (line.hasOption("mode")) {
+			switch (line.getOptionValue("mode")) {
 			case "translator":
 				translatorOptions.setValue("translator", "true");
 				translatorOptions.setValue("compiler", "false");
