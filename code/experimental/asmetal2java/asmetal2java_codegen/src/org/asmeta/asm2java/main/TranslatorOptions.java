@@ -48,11 +48,11 @@ public class TranslatorOptions {
 	
 	/**
 	 * Constructs a {@code TranslatorOptions} instance with the default settings: <p>
-	 * formatter, shuffleRandom, optimizeSeqRule, translator, export = {@code true}.
+	 * formatter, shuffleRandom, optimizeSeqRule, translator, coverRules, export = {@code true}.
 	 * All the others = {@code false}.
 	 */
 	TranslatorOptions(){
-		this(true,true,true,true,false,false,false,false,false,false,true);
+		this(true,true,true,true,false,false,false,false,false,true,true);
 	}
 
 	/**
@@ -264,18 +264,19 @@ public class TranslatorOptions {
 	 * @return a String containing the description of all the options.
 	 */
 	public static String getDescription() {
-		return "use value for given translator property (optional):\n"
-				+ " -Dformatter = true/false : to format the generated code.\n"
-				+ " -DshuffleRandom = true/false : use random shuffle.\n"
-				+ " -DoptimizeSeqMacroRule = true/false : remove unused seq rules.\n"
-				+ " -Dtranslator = true/false : translate the asm file to a java class.\n"
-				+ " -Dcompiler = true/false : translate and compile the generated java class.\n"
-				+ " -Dexecutable = true/false : generate a java class for execution.\n"
-				+ " -Dwindow = true/false : generate an executable java class with a GUI.\n"
-				+ " -DtestGen = true/false : generate a specific java class designed for test generation with Evosuite.\n"
-				+ " -DcoverOutputs = true/false : cover the outputs in the testGen class.\n"
-				+ " -DcoverRules = true/false : cover the rules in the testGen class.\n"
-				+ " -Dexport = true/false : export the generated file into the output folder.\n";
+		return "use value for given translator property (the default value is in brackets):\n"
+				+ " -Dformatter = (true)/false : to format the generated code.\n"
+				+ " -DshuffleRandom = (true)/false : use random shuffle.\n"
+				+ " -DoptimizeSeqMacroRule = (true)/false : remove unused seq rules.\n"
+				+ " -Dtranslator = (true)/false : translate the asm file to a java class.\n"
+				+ " -Dcompiler = true/(false) : translate and compile the generated java class.\n"
+				+ " -Dexecutable = true/(false) : generate a java class for execution.\n"
+				+ " -Dwindow = true/(false) : generate an executable java class with a GUI.\n"
+				+ " -DtestGen = true/(false) : generate a specific java class designed for test generation with Evosuite.\n"
+				+ " -DcoverOutputs = true/(false) : cover the outputs in the testGen class.\n"
+				+ " -DcoverRules = (true)/false : cover the rules in the testGen class.\n"
+				+ " -Dexport = (true)/false : export the generated file into the output folder.\n"
+				+ " Note: Please use translator, compiler, executable, window and testGen options only if you have selected the -mode custom option.";
 	}
 
 }

@@ -22,30 +22,6 @@ class AsmMethods {
 		for (fd : asm.headerSection.signature.function) {
 			if (fd instanceof ControlledFunction) {
 				if (fd.domain === null) {
-					if (fd.codomain.name.equals("Boolean") && !(fd.codomain instanceof ConcreteDomain)) {
-						sb.append('''
-
-								public boolean get_«fd.name»(){
-									return this.execution.«fd.name».get();
-								}
-						 	''');
-					}
-					if (fd.codomain.name.equals("Integer") && !(fd.codomain instanceof ConcreteDomain)) {
-						sb.append('''
-
-								public int get_«fd.name»(){
-									return this.execution.«fd.name».get();
-								}
-						 	''');
-					}
-					if (fd.codomain.name.equals("String") && !(fd.codomain instanceof ConcreteDomain)) {
-						sb.append('''
-
-								public String get_«fd.name»(){
-									return this.execution.«fd.name».get();
-								}
-						 	''');
-					}
 					if (fd.codomain instanceof ConcreteDomain) {
 						sb.append('''
 
@@ -53,18 +29,50 @@ class AsmMethods {
 									return this.execution.«fd.name».get().value;
 								}
 						 	''');
-					}
-					if (fd.codomain instanceof EnumTd ||
-						fd.codomain instanceof AbstractTd) {
+					} else if (fd.codomain instanceof EnumTd) {
 						sb.append('''
 
 								public «asmName».«fd.codomain.name» get_«fd.name»(){
 									return this.execution.«fd.name».get();
 								}
 						 	''');
+					} else if (fd.codomain instanceof AbstractTd) {
+						sb.append('''
+
+								public String get_«fd.name»(){
+									return «asmName».«fd.codomain.name».toString(this.execution.«fd.name».get());
+								}
+						 	''');
+					} else if (fd.codomain.name.equals("Boolean")) {
+						sb.append('''
+
+								public boolean get_«fd.name»(){
+									return this.execution.«fd.name».get();
+								}
+						 	''');
+					} else if (fd.codomain.name.equals("Integer")) {
+						sb.append('''
+
+								public int get_«fd.name»(){
+									return this.execution.«fd.name».get();
+								}
+						 	''');
+					} else if (fd.codomain.name.equals("String")) {
+						sb.append('''
+
+								public String get_«fd.name»(){
+									return this.execution.«fd.name».get();
+								}
+						 	''');
+					} else {
+						sb.append('''
+
+								public Object get_«fd.name»(){
+									return this.execution.«fd.name».get();
+								}
+					 		''');
 					}
-				}
-				else{ // getter per le funzioni con Dominio -> Codominio
+				} else { // getter per le funzioni con Dominio -> Codominio
 
 					for(dd : asm.headerSection.signature.domain){
 						if(dd.equals(fd.domain)){
@@ -165,30 +173,6 @@ class AsmMethods {
 		for (fd : asm.headerSection.signature.function) {
 			if (fd instanceof MonitoredFunction) {
 				if (fd.domain === null) {
-					if (fd.codomain.name.equals("Boolean") && !(fd.codomain instanceof ConcreteDomain)) {
-						sb.append('''
-
-							private boolean get_«fd.name»(){
-								return this.execution.«fd.name».get();
-							}
-					 	''');
-					}
-					if (fd.codomain.name.equals("Integer") && !(fd.codomain instanceof ConcreteDomain)) {
-						sb.append('''
-
-							private int get_«fd.name»(){
-								return this.execution.«fd.name».get();
-							}
-					 	''');
-					}
-					if (fd.codomain.name.equals("String") && !(fd.codomain instanceof ConcreteDomain)) {
-						sb.append('''
-
-							private String get_«fd.name»(){
-								return this.execution.«fd.name».get();
-							}
-					 	''');
-					}
 					if (fd.codomain instanceof ConcreteDomain) {
 						sb.append('''
 
@@ -197,11 +181,49 @@ class AsmMethods {
 							}
 					 	''');
 					}
-					if (fd.codomain instanceof EnumTd ||
-						fd.codomain instanceof AbstractTd) {
+					else if (fd.codomain instanceof EnumTd) {
 						sb.append('''
 
 							private «asmName».«fd.codomain.name» get_«fd.name»(){
+								return this.execution.«fd.name».get();
+							}
+					 	''');
+					}
+					else if (fd.codomain instanceof AbstractTd) {
+						sb.append('''
+
+							private String get_«fd.name»(){
+								return «asmName».«fd.codomain.name».toString(this.execution.«fd.name».get());
+							}
+					 	''');
+					}
+					else if (fd.codomain.name.equals("Boolean")) {
+						sb.append('''
+
+							private boolean get_«fd.name»(){
+								return this.execution.«fd.name».get();
+							}
+					 	''');
+					}
+					else if (fd.codomain.name.equals("Integer")) {
+						sb.append('''
+
+							private int get_«fd.name»(){
+								return this.execution.«fd.name».get();
+							}
+					 	''');
+					}
+					else if (fd.codomain.name.equals("String")) {
+						sb.append('''
+
+							private String get_«fd.name»(){
+								return this.execution.«fd.name».get();
+							}
+					 	''');
+					} else {
+						sb.append('''
+
+							private Object get_«fd.name»(){
 								return this.execution.«fd.name».get();
 							}
 					 	''');

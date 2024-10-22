@@ -124,7 +124,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			
 		}
 		
-		// Cover the outputs
+		// Cover the outputs 
 		if(options.coverOutputs){
 			
 			sb.append(System.lineSeparator)
