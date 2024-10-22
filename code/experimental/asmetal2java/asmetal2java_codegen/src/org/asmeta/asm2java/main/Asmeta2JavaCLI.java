@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -39,44 +40,72 @@ import asmeta.AsmCollection;
  */
 public class Asmeta2JavaCLI {
 
+	private static final String MODE = "mode";
+
+	private static final String CLEAN = "clean";
+
+	private static final String HELP = "help";
+
+	private static final String ATG_EXTENSION = "_ATG.java";
+
+	private static final String WIN_EXTENSION = "_Win.java";
+
+	private static final String EXE_EXTENSION = "_Exe.java";
+
+	private static final String JAVA_EXTENSION = ".java";
+
+	private static final String USER_DIR = "user.dir";
+
+	private static final String TEST_GEN = "testGen";
+
+	private static final String EXECUTION = "execution";
+
+	private static final String COMPILER = "compiler";
+
+	private static final String TRANSLATION = "translation";
+
+	private static final String OUTPUT = "output";
+
+	private static final String INPUT = "input";
+
 	/** Logger */
 	private static final Logger logger = Logger.getLogger(Asmeta2JavaCLI.class);
 
 	/** Input folder */
-	private static final Path INPUT_DIR_PATH = Paths.get(System.getProperty("user.dir"), "input");
+	private static final Path INPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), INPUT);
 
 	/** Default output folder */
-	private static final Path DEFAULT_OUTPUT_DIR_PATH = Paths.get(System.getProperty("user.dir"), "output");
+	private static final Path DEFAULT_OUTPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), OUTPUT);
 
 	/** Translator folder */
-	private static final Path TRANSLATION_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), "translation");
+	private static final Path TRANSLATION_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), TRANSLATION);
 
 	/** Compile folder */
-	private static final Path COMPILER_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), "compiler");
+	private static final Path COMPILER_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), COMPILER);
 
 	/** Executor folder */
-	private static final Path EXECUTION_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), "execution");
+	private static final Path EXECUTION_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), EXECUTION);
 	
 	/** TestGen folder */
-	private static final Path TESTGEN_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), "testGen");
+	private static final Path TESTGEN_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), TEST_GEN);
 
 	/** Generator of the java class */
-	static private JavaGenerator jGenerator = new JavaGenerator();
+	private static JavaGenerator jGenerator = new JavaGenerator();
 
 	/** Generator of the _Exe java class */
-	static private JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
+	private static JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
 	
 	/** Generator of the _Win java class */
-	static private JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
+	private static JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
 	
 	/** Instance of the RulesImpl, a Map {name:Rule} collection containing the rules of the Asmeta specification */
-	static private RulesImpl rulesImpl = new RulesImpl();
+	private static RulesImpl rulesImpl = new RulesImpl();
 	
 	/** Generator of the java class used for test generation */
-	static private JavaTestGenerator jGeneratorTest = new JavaTestGenerator(rulesImpl);
+	private static JavaTestGenerator jGeneratorTest = new JavaTestGenerator(rulesImpl);
 	
 	/** Generator of the _ASM java class */
-	static private JavaAtgGenerator jGeneratorAtg = new JavaAtgGenerator(rulesImpl);
+	private static JavaAtgGenerator jGeneratorAtg = new JavaAtgGenerator(rulesImpl);
 	
 	/** Default translator options */
 	private static TranslatorOptions translatorOptions = new TranslatorOptions();
@@ -110,8 +139,8 @@ public class Asmeta2JavaCLI {
 
 		if (userOptions.getCompiler()) {
 			try {
-				File javaFile = generateFile(COMPILER_DIR_PATH, asmName, ".java", model, userOptions);
-				CompileResult result = CompilatoreJava.compile(asmName + ".java", COMPILER_DIR_PATH, true);
+				File javaFile = generateFile(COMPILER_DIR_PATH, asmName, JAVA_EXTENSION, model, userOptions);
+				CompileResult result = CompilatoreJava.compile(asmName + JAVA_EXTENSION, COMPILER_DIR_PATH, true);
 				if (result.getSuccess()) {
 					exportFile(javaFile, outputFolder);
 				} else {
@@ -126,7 +155,7 @@ public class Asmeta2JavaCLI {
 
 		if (userOptions.getTranslator()) {
 			try {
-				File javaFile = generateFile(TRANSLATION_DIR_PATH, asmName, ".java", model, userOptions);
+				File javaFile = generateFile(TRANSLATION_DIR_PATH, asmName, JAVA_EXTENSION, model, userOptions);
 				exportFile(javaFile, outputFolder);
 			} catch (Exception e) {
 				logger.error("Translation operation complited with errors: " + e.getMessage());
@@ -137,7 +166,7 @@ public class Asmeta2JavaCLI {
 
 		if (userOptions.getExecutable()) {
 			try {
-				File executionJavaFile = generateFile(EXECUTION_DIR_PATH, asmName, "_Exe.java", model, userOptions);
+				File executionJavaFile = generateFile(EXECUTION_DIR_PATH, asmName, EXE_EXTENSION, model, userOptions);
 				exportFile(executionJavaFile, outputFolder);
 			} catch (Exception e) {
 				logger.error("Execution operation completed with errors: " + e.getMessage());
@@ -148,7 +177,7 @@ public class Asmeta2JavaCLI {
 		
 		if (userOptions.getWindow()) {
 			try {
-				File winJavaFile = generateFile(EXECUTION_DIR_PATH, asmName, "_Win.java", model, userOptions);
+				File winJavaFile = generateFile(EXECUTION_DIR_PATH, asmName, WIN_EXTENSION, model, userOptions);
 				exportFile(winJavaFile, outputFolder);
 			} catch (Exception e) {
 				logger.error("Window operation completed with errors: " + e.getMessage());
@@ -159,9 +188,22 @@ public class Asmeta2JavaCLI {
 		
 		if (userOptions.getTestGen()) {
 			try {
-				File testGenJavaFile = generateFile(TESTGEN_DIR_PATH, asmName, "_ATG.java", model, userOptions);
-				// TODO: generate the java File with the modified rules
+				
+				if (!checkPath(TESTGEN_DIR_PATH)) {
+					createPath(TESTGEN_DIR_PATH);
+				}
+								
+				File testGenJavaFile = new File(TESTGEN_DIR_PATH + File.separator + asmName + JAVA_EXTENSION);
+				deleteExisting(testGenJavaFile);
+				logger.info("JavaGenerator: generating the .java class...");
+				jGeneratorTest.compileAndWrite(model.getMain(), testGenJavaFile.getCanonicalPath(), userOptions);
+				logger.info("Generated java file: " + testGenJavaFile.getCanonicalPath());
+				
+				
+				File atgJavaFile = generateFile(TESTGEN_DIR_PATH, asmName, ATG_EXTENSION, model, userOptions);
+
 				exportFile(testGenJavaFile, outputFolder);
+				exportFile(atgJavaFile, outputFolder);
 			} catch (Exception e) {
 				logger.error("TestGen operation completed with errors: " + e.getMessage());
 				e.printStackTrace();
@@ -190,16 +232,16 @@ public class Asmeta2JavaCLI {
 		}
 		File javaFile = new File(dirPath + File.separator + name + extension);
 		deleteExisting(javaFile);
-		if (extension.equals(".java")) {
+		if (extension.equals(JAVA_EXTENSION)) {
 			logger.info("JavaGenerator: generating the .java class...");
 			jGenerator.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
-		} else if (extension.equals("_Exe.java")) {
+		} else if (extension.equals(EXE_EXTENSION)) {
 			logger.info("JavaExeGenerator: generating the _Exe.java class...");
 			jGeneratorExe.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
-		} else if (extension.equals("_Win.java")) {
+		} else if (extension.equals(WIN_EXTENSION)) {
 			logger.info("JavaExeGenerator: generating the _Win.java class...");
 			jGeneratorWin.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
-		} else if (extension.equals("_ATG.java")) {
+		} else if (extension.equals(ATG_EXTENSION)) {
 			logger.info("JavaExeGenerator: generating the _ASM.java class...");
 			jGeneratorAtg.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 		} else {
@@ -249,16 +291,19 @@ public class Asmeta2JavaCLI {
 			createPath(outputFolder);
 		}
 		File javaOutFile = new File(outputFolder + File.separator + javaInputFile.getName());
-		deleteExisting(javaOutFile);
 		try (InputStream in = new BufferedInputStream(Files.newInputStream(javaInputFile.toPath()));
 				OutputStream out = new BufferedOutputStream(Files.newOutputStream(javaOutFile.toPath()))) {
+			deleteExisting(javaOutFile);
 			byte[] buffer = new byte[1024];
 			int lengthRead;
 			while ((lengthRead = in.read(buffer)) > 0) {
 				out.write(buffer, 0, lengthRead);
 				out.flush();
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
+			logger.error("Export Failed.");
+            e.printStackTrace(); 
+        } catch (Exception e) {
 			logger.error("Export Failed.");
 			e.printStackTrace();
 		}
@@ -269,10 +314,16 @@ public class Asmeta2JavaCLI {
 	 * Check if the file exists and delete it.
 	 *
 	 * @param file the file to delete.
+	  @throws IOException if an IO error occurs (and execution should be stopped).
 	 */
-	private static void deleteExisting(File file) {
-		if (file.exists())
-			file.delete();
+	private static void deleteExisting(File file) throws IOException {
+		if (file.exists()) {
+			try {
+				Files.delete(file.toPath());
+			} catch (NoSuchFileException e) {
+                logger.error("File not found, skipping: " + file.getPath());
+			}
+		}
 	}
 
 	/**
@@ -284,30 +335,31 @@ public class Asmeta2JavaCLI {
 		Options options = new Options();
 
 		// print help
-		Option help = new Option("help", "print this message");
+		Option help = new Option(HELP, "print this message");
 
 		// input file
-		Option input = Option.builder("input").argName("input").type(String.class).hasArg(true)
+		Option input = Option.builder(INPUT).argName(INPUT).type(String.class).hasArg(true)
 				.desc("The ASM input file (required)").build();
 
 		// output directory
-		Option output = Option.builder("output").argName("output").type(String.class).hasArg(true)
+		Option output = Option.builder(OUTPUT).argName(OUTPUT).type(String.class).hasArg(true)
 				.desc("The output folder (optional, defaults to `./output/`)").build();
 
 		// clean the directories after use
-		Option clean = Option.builder("clean").hasArg(false)
+		Option clean = Option.builder(CLEAN).hasArg(false)
 				.desc("Delete the files used by the translator in the input folder, "
 						+ "please make sure you have enabled the export property -Dexport=true")
 				.build();
 
 		// set the desired behavior
-		Option behavior = Option.builder("mode").argName("mode").type(String.class).hasArg(true)
+		Option mode = Option.builder(MODE).argName(MODE).type(String.class).hasArg(true)
 				.desc("Set the mode of the application:\n"
 						+ "-mode translator : translate the asm file to a java file (default).\n"
 						+ "-mode generateExe : translate the asm file to a java file and generate an executable java class\n"
 						+ "-mode generateWin : translate the asm file to a java file and generate an executable java class with a Grapical User Interace (GUI)\n"
 						+ "-mode testGen: generate a test class suited for test generation with Evosuite\n"
-						+ "-mode custom : set a custom behavior by adding properties with -D (see help)")
+						+ "-mode custom : set a custom behavior by adding properties with -D (see help)\n"
+						+ "Note: Please use the properties: -Dtranslator, -Dexecutable, -Dwindow and -DtestGen only if you have selected the -mode custom option.")
 				.build();
 
 		// translator property
@@ -318,7 +370,7 @@ public class Asmeta2JavaCLI {
 		options.addOption(input);
 		options.addOption(output);
 		options.addOption(clean);
-		options.addOption(behavior);
+		options.addOption(mode);
 		options.addOption(property);
 
 		return options;
@@ -380,50 +432,50 @@ public class Asmeta2JavaCLI {
 		setGlobalProperties(line);
 
 		String asmspec = "";
-		if (line.hasOption("input")) {
-			asmspec = line.getOptionValue("input");
+		if (line.hasOption(INPUT)) {
+			asmspec = line.getOptionValue(INPUT);
 		} else {
 			logger.error("input option needs a path to the asm file");
 		}
 
 		Path outputFolder = DEFAULT_OUTPUT_DIR_PATH;
-		if (line.hasOption("output")) {
-			outputFolder = Paths.get(line.getOptionValue("output"));
+		if (line.hasOption(OUTPUT)) {
+			outputFolder = Paths.get(line.getOptionValue(OUTPUT));
 			if (!translatorOptions.getExport()) {
 				logger.info("Warning: you selected an output folder but the export option is disabled!");
 				logger.info("Warning: to enable the export option type -Dexport=true");
 			}
 		}
 
-		if (line.hasOption("mode")) {
-			switch (line.getOptionValue("mode")) {
+		if (line.hasOption(MODE)) {
+			switch (line.getOptionValue(MODE)) {
 			case "translator":
 				translatorOptions.setValue("translator", "true");
-				translatorOptions.setValue("compiler", "false");
+				//translatorOptions.setValue("compiler", "false");
 				translatorOptions.setValue("executable", "false");
 				translatorOptions.setValue("window", "false");
-				translatorOptions.setValue("testGen", "false");
+				translatorOptions.setValue(TEST_GEN, "false");
 				break;
 			case "generateExe":
 				translatorOptions.setValue("translator", "true");
-				translatorOptions.setValue("compiler", "false");
+				//translatorOptions.setValue("compiler", "false");
 				translatorOptions.setValue("executable", "true");
 				translatorOptions.setValue("window", "false");
-				translatorOptions.setValue("testGen", "false");
+				translatorOptions.setValue(TEST_GEN, "false");
 				break;
 			case "generateWin":
 				translatorOptions.setValue("translator", "true");
-				translatorOptions.setValue("compiler", "false");
+				//translatorOptions.setValue("compiler", "false");
 				translatorOptions.setValue("executable", "false");
 				translatorOptions.setValue("window", "true");
-				translatorOptions.setValue("testGen", "false");
+				translatorOptions.setValue(TEST_GEN, "false");
 				break;
-			case "testGen":
+			case TEST_GEN:
 				translatorOptions.setValue("translator", "false");
-				translatorOptions.setValue("compiler", "false");
+				//translatorOptions.setValue("compiler", "false");
 				translatorOptions.setValue("executable", "false");
 				translatorOptions.setValue("window", "false");
-				translatorOptions.setValue("testGen", "true");
+				translatorOptions.setValue(TEST_GEN, "true");
 			case "custom":
 				break;
 			}
@@ -443,7 +495,7 @@ public class Asmeta2JavaCLI {
 			System.exit(1);
 		}
 
-		if (line.hasOption("clean")) {
+		if (line.hasOption(CLEAN)) {
 			if (INPUT_DIR_PATH.toFile().exists() && INPUT_DIR_PATH.toFile().isDirectory()) {
 				for (File file : INPUT_DIR_PATH.toFile().listFiles()) {
 					if (!file.getName().equals("STDL") && !file.getName().equals(".gitignore")) {
@@ -499,7 +551,7 @@ public class Asmeta2JavaCLI {
 			Options options = getCommandLineOptions();
 			CommandLine line = main.parseCommandLine(args, options);
 			logger.info(asciiart);
-			if (line == null || line.hasOption("help") || line.getOptions().length == 0) {
+			if (line == null || line.hasOption(HELP) || line.getOptions().length == 0) {
 				HelpFormatter formatter = new HelpFormatter();
 				// Do not sort
 				formatter.setOptionComparator(null);
@@ -509,7 +561,7 @@ public class Asmeta2JavaCLI {
 						+ "for information or to report problems";
 
 				formatter.printHelp("Asmetal2java", header, options, footer, false);
-			} else if (!line.hasOption("input")) {
+			} else if (!line.hasOption(INPUT)) {
 				logger.error("Please specify the asm input file path");
 			} else {
 				main.execute(line, options);
