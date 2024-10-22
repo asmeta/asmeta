@@ -17,9 +17,12 @@ import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.xt.validator.AsmetaV;
 
 public class TestExperiments {
+	
+	private static final String RESOURCES = "resources";
 
 	public static void main(String[] args) throws Exception {
-		String asm = "./resources/vascaidro.asm";
+		String asm = "./" + RESOURCES + "/" + "vascaidro.asm";
+//		String asm = "./" + RESOURCES + "/" + "smarthome.asm";
 		AsmCollection asms = ASMParser.setUpReadAsm(new File(asm));
 		
 		System.out.println("RANDOM");
@@ -36,7 +39,7 @@ public class TestExperiments {
 	}
 	
 	private static void /*Coverage*/ computeCoverage(String asm, AsmTestSuite suite, String dir) {
-		String targetDir = "./resources/" + dir;
+		String targetDir = "./" + RESOURCES + "/" + dir;
 		new File(targetDir).mkdir();
 		SaveResults.saveResults(suite, asm, Collections.singleton(FormatsEnum.AVALLA), "", new File(targetDir).getAbsolutePath());
 		try {

@@ -6,10 +6,9 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.atgt.test"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.atgt"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.emf"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.parser"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.simulator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.emf"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.atgt"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.validator"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
