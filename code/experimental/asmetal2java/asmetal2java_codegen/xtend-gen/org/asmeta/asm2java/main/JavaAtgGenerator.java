@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.evosuite;
+package org.asmeta.asm2java.main;
 
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
@@ -6,8 +6,11 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 import java.util.ArrayList;
 import java.util.List;
 import org.asmeta.asm2java.SeqRuleCollector;
-import org.asmeta.asm2java.main.AsmToJavaGenerator;
-import org.asmeta.asm2java.main.TranslatorOptions;
+import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.evosuite.AsmMethods;
+import org.asmeta.asm2java.evosuite.CoverOutputs;
+import org.asmeta.asm2java.evosuite.CoverRules;
+import org.asmeta.asm2java.evosuite.Rules;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.junit.Assert;

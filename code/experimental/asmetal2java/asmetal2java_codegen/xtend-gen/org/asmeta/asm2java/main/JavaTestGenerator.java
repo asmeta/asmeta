@@ -1,11 +1,14 @@
-package org.asmeta.asm2java.evosuite;
+package org.asmeta.asm2java.main;
 
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import java.util.List;
 import org.asmeta.asm2java.Util;
-import org.asmeta.asm2java.main.JavaGenerator;
+import org.asmeta.asm2java.evosuite.JavaRule;
+import org.asmeta.asm2java.evosuite.JavaRuleImpl;
+import org.asmeta.asm2java.evosuite.RuleToJavaEvosuite;
+import org.asmeta.asm2java.evosuite.RulesAdder;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")

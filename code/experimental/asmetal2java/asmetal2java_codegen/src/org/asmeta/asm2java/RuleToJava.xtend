@@ -22,7 +22,7 @@ import asmeta.definitions.domains.StringDomain
 import asmeta.definitions.domains.PowersetDomain
 import org.asmeta.simulator.RuleVisitor
 import asmeta.definitions.domains.AbstractTd
-import org.asmeta.asm2java.main.TranslatorOptions
+import org.asmeta.asm2java.config.TranslatorOptions
 import asmeta.definitions.domains.ConcreteDomain
 import asmeta.terms.basicterms.VariableTerm
 import asmeta.definitions.domains.EnumTd
@@ -30,6 +30,7 @@ import asmeta.definitions.ControlledFunction
 import asmeta.definitions.domains.Domain
 import asmeta.definitions.domains.BasicTd
 import asmeta.definitions.domains.SequenceDomain
+
 
 class RuleToJava extends RuleVisitor<String> {
 

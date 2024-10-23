@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.compiler.CompileResult;
+import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.parser.ASMParser;
 
 import asmeta.AsmCollection;

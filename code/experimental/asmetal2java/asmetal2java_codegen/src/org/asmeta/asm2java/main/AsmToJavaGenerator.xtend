@@ -8,12 +8,13 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.asmeta.asm2java.formatter.Formatter
+import org.asmeta.asm2java.config.TranslatorOptions
 
 /** the real generator
  */
 abstract class AsmToJavaGenerator implements IGenerator {
 
-	protected TranslatorOptions options
+	protected TranslatorOptions options 
 	
 	override doGenerate(Resource input, IFileSystemAccess fsa) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")

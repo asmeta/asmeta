@@ -12,6 +12,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
+import org.asmeta.asm2java.config.TranslatorOptions;
 
 /**
  * The Asmeta2JavaCLI is the entry point for the Asmetal2Java tool, which

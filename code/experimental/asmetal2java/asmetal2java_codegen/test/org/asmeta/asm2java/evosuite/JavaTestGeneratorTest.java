@@ -2,7 +2,9 @@ package org.asmeta.asm2java.evosuite;
 
 import java.io.File;
 
-import org.asmeta.asm2java.main.TranslatorOptions;
+import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.main.JavaAtgGenerator;
+import org.asmeta.asm2java.main.JavaTestGenerator;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 

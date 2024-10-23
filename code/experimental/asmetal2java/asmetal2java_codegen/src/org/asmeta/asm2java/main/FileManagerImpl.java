@@ -15,8 +15,7 @@ import java.nio.file.StandardCopyOption;
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.compiler.CompilatoreJava;
 import org.asmeta.asm2java.compiler.CompileResult;
-import org.asmeta.asm2java.evosuite.JavaAtgGenerator;
-import org.asmeta.asm2java.evosuite.JavaTestGenerator;
+import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.evosuite.RulesImpl;
 
 import asmeta.AsmCollection;

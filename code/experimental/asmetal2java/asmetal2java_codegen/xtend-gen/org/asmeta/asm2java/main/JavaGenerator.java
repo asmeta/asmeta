@@ -26,6 +26,7 @@ import org.asmeta.asm2java.RuleToJava;
 import org.asmeta.asm2java.SeqRuleCollector;
 import org.asmeta.asm2java.ToString;
 import org.asmeta.asm2java.Util;
+import org.asmeta.asm2java.config.TranslatorOptions;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
@@ -49,7 +50,8 @@ public class JavaGenerator extends AsmToJavaGenerator {
 
   @Override
   public String compileAsm(final Asm asm) {
-    if (this.options.optimizeSeqMacroRule) {
+    boolean _optimizeSeqMacroRule = this.options.getOptimizeSeqMacroRule();
+    if (_optimizeSeqMacroRule) {
       ArrayList<Rule> _arrayList = new ArrayList<Rule>();
       this.seqCalledRules = _arrayList;
       EList<RuleDeclaration> _ruleDeclaration = asm.getBodySection().getRuleDeclaration();

@@ -27,7 +27,7 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
 import asmeta.transitionrules.turbotransitionrules.IterateRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
-import org.asmeta.asm2java.main.TranslatorOptions;
+import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.simulator.RuleVisitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;

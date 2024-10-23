@@ -15,6 +15,7 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 import java.util.ArrayList;
 import java.util.List;
 import org.asmeta.asm2java.SeqRuleCollector;
+import org.asmeta.asm2java.config.TranslatorOptions;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.junit.Assert;
@@ -36,7 +37,8 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
 
   @Override
   public String compileAsm(final Asm asm) {
-    if (this.options.optimizeSeqMacroRule) {
+    boolean _optimizeSeqMacroRule = this.options.getOptimizeSeqMacroRule();
+    if (_optimizeSeqMacroRule) {
       ArrayList<Rule> _arrayList = new ArrayList<Rule>();
       this.seqCalledRules = _arrayList;
       EList<RuleDeclaration> _ruleDeclaration = asm.getBodySection().getRuleDeclaration();

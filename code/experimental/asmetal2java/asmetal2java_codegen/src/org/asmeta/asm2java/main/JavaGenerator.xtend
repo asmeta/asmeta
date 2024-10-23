@@ -19,6 +19,7 @@ import org.asmeta.asm2java.Util
 import org.junit.Assert
 import asmeta.definitions.domains.EnumTd
 import org.asmeta.asm2java.ToString
+import org.asmeta.asm2java.config.TranslatorOptions
 
 /**Generates .java ASM file */
 class JavaGenerator extends AsmToJavaGenerator {

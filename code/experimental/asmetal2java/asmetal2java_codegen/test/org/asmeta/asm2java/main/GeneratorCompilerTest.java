@@ -9,8 +9,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import org.asmeta.asm2java.main.TranslatorOptions;
+
 import org.asmeta.asm2java.compiler.CompileResult;
+import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.compiler.CompilatoreJava;
 import org.asmeta.asm2java.main.*;
 //import org.asmeta.asm2java.main.JavaGenerator;

@@ -4,6 +4,7 @@ import asmeta.structure.Asm;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.formatter.Formatter;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.IFileSystemAccess;
@@ -29,7 +30,8 @@ public abstract class AsmToJavaGenerator implements IGenerator {
       final FileWriter file = new FileWriter(writerPath);
       final BufferedWriter writer = new BufferedWriter(file);
       final String javaCode = this.compileAsm(asm, userOptions);
-      if (this.options.formatter) {
+      boolean _formatter = this.options.getFormatter();
+      if (_formatter) {
         writer.write(Formatter.formatCode(javaCode));
       } else {
         writer.write(javaCode);

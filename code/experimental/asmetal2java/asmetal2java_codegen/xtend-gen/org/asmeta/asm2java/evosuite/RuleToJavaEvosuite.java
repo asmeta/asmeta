@@ -12,7 +12,7 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 import org.asmeta.asm2java.DomainToJavaSigDef;
 import org.asmeta.asm2java.RuleToJava;
 import org.asmeta.asm2java.TermToJava;
-import org.asmeta.asm2java.main.TranslatorOptions;
+import org.asmeta.asm2java.config.TranslatorOptions;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 

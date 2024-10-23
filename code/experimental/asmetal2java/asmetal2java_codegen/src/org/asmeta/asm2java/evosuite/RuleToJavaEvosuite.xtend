@@ -2,7 +2,7 @@ package org.asmeta.asm2java.evosuite
 
 import org.asmeta.asm2java.RuleToJava
 import asmeta.structure.Asm
-import org.asmeta.asm2java.main.TranslatorOptions
+import org.asmeta.asm2java.config.TranslatorOptions
 import asmeta.transitionrules.basictransitionrules.ConditionalRule
 import org.asmeta.asm2java.TermToJava
 import asmeta.transitionrules.derivedtransitionrules.CaseRule

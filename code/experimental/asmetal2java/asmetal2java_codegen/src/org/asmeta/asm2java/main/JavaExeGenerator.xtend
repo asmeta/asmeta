@@ -13,6 +13,7 @@ import asmeta.definitions.domains.MapDomain
 import asmeta.definitions.domains.SequenceDomain
 import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.MonitoredFunction
+import org.asmeta.asm2java.config.TranslatorOptions
 
 class JavaExeGenerator extends AsmToJavaGenerator {
 
