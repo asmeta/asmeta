@@ -1,8 +1,9 @@
-package org.asmeta.asm2java.evosuite;
+package org.asmeta.asm2java.main;
 
 import java.io.File;
 
 import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.evosuite.RulesImpl;
 import org.asmeta.asm2java.main.JavaAtgGenerator;
 import org.asmeta.asm2java.main.JavaTestGenerator;
 import org.asmeta.parser.ASMParser;
