@@ -191,8 +191,9 @@ public class TranslatorImpl implements Translator {
      * @param asmName the name of the ASM specification.
      * @param model the parsed ASM model.
      * @return {@code true} if the operation was successful, otherwise {@code false}.
+     * @throws IOException if an I/O error occurs during file generation.
      */
-	private boolean compileAndTranslate(String asmName, AsmCollection model) {
+	private boolean compileAndTranslate(String asmName, AsmCollection model) throws IOException {
 		File javaFile = null;
 		try {
 			javaFile = generateTranslation(asmName, model, Mode.COMPILER);

@@ -17,6 +17,8 @@ import org.asmeta.asm2java.compiler.CompilatoreJava;
 import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.evosuite.RulesImpl;
+import org.asmeta.asm2java.generator.Generator;
+import org.asmeta.asm2java.generator.GeneratorImpl;
 import org.asmeta.asm2java.generator.JavaAtgGenerator;
 import org.asmeta.asm2java.generator.JavaExeGenerator;
 import org.asmeta.asm2java.generator.JavaGenerator;
@@ -46,24 +48,6 @@ public class FileManagerImpl implements FileManager {
 	/** Logger */
 	private static final Logger logger = Logger.getLogger(FileManagerImpl.class);
 	
-	/** Generator of the java class */
-	private static final JavaGenerator jGenerator = new JavaGenerator();
-
-	/** Generator of the _Exe java class */
-	private static final JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
-	
-	/** Generator of the _Win java class */
-	private static final JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
-	
-	/** Instance of the RulesImpl, a Map {name:Rule} collection containing the rules of the Asmeta specification */
-	private static RulesImpl rulesImpl = new RulesImpl();
-	
-	/** Generator of the java class used for test generation */
-	private static JavaTestGenerator jGeneratorTest = new JavaTestGenerator(rulesImpl);
-	
-	/** Generator of the _ASM java class */
-	private static JavaAtgGenerator jGeneratorAtg = new JavaAtgGenerator(rulesImpl);
-	
 	/** Path to the input directory. */
 	private static final Path INPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), INPUT);
 	
@@ -82,6 +66,9 @@ public class FileManagerImpl implements FileManager {
     /** Path to the test generation folder. */
     private static final Path TESTGEN_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), TEST_GEN);
 	
+    /** Generator instance for generate the java translation */
+    private static final Generator generator = new GeneratorImpl();
+    
     /** Path to the output folder. */
     private Path outputFolder;
 
@@ -121,43 +108,37 @@ public class FileManagerImpl implements FileManager {
 			checkPath(TRANSLATION_DIR_PATH);
 			javaFile = new File(TRANSLATION_DIR_PATH + File.separator + name + JAVA_EXTENSION);
 			deleteExisting(javaFile);
-			logger.info("JavaGenerator: generating the .java class...");
-			jGenerator.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
+			generator.generateJava(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 			break;
 		case COMPILER:
 			checkPath(COMPILER_DIR_PATH);
 			javaFile = new File(COMPILER_DIR_PATH + File.separator + name + JAVA_EXTENSION);
 			deleteExisting(javaFile);
-			logger.info("JavaGenerator: generating the .java class...");
-			jGenerator.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
+			generator.generateJava(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 			break;
 		case GENERATE_EXE:
 			checkPath(EXECUTION_DIR_PATH);
 			javaFile = new File(EXECUTION_DIR_PATH + File.separator + name + EXE_EXTENSION);
 			deleteExisting(javaFile);
-			logger.info("JavaExeGenerator: generating the _Exe.java class...");
-			jGeneratorExe.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
+			generator.generateExe(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 			break;
 		case GENERATE_WIN:
 			checkPath(EXECUTION_DIR_PATH);
 			javaFile = new File(EXECUTION_DIR_PATH + File.separator + name + WIN_EXTENSION);
 			deleteExisting(javaFile);
-			logger.info("JavaWinGenerator: generating the _Win.java class...");
-			jGeneratorWin.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
+			generator.generateWin(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 			break;
 		case TRANSLATOR_TEST:
 			checkPath(TESTGEN_DIR_PATH);
 			javaFile = new File(TESTGEN_DIR_PATH + File.separator + name + JAVA_EXTENSION);
 			deleteExisting(javaFile);
-			logger.info("JavaAtgGenerator: generating the .java test class...");
-			jGeneratorTest.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
+			generator.generateTest(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 			break;
 		case TEST_GEN:
 			checkPath(TESTGEN_DIR_PATH);
 			javaFile = new File(TESTGEN_DIR_PATH + File.separator + name + ATG_EXTENSION);
 			deleteExisting(javaFile);
-			logger.info("JavaAtgGenerator: generating the _ATG.java class...");
-			jGeneratorAtg.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
+			generator.generateAtg(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 			break;
 		default:
 			break;
@@ -169,9 +150,10 @@ public class FileManagerImpl implements FileManager {
 	
 	/**
 	 * {@inheritDoc}
+	 * @throws IOException 
 	 */
 	@Override
-	public CompileResult compileFile(String asmName) {
+	public CompileResult compileFile(String asmName) throws IOException {
 		logger.info("JavaCompiler: compiling the .java class...");
 		checkPath(COMPILER_DIR_PATH);
 		return CompilatoreJava.compile(asmName + JAVA_EXTENSION, COMPILER_DIR_PATH, true);
@@ -182,11 +164,11 @@ public class FileManagerImpl implements FileManager {
 	 */
 	@Override
 	public void exportFile(File javaInputFile) {
-		logger.info("Exporting " + javaInputFile + " to: " + outputFolder.toString());
-		checkPath(outputFolder);
 		File javaOutFile = new File(outputFolder + File.separator + javaInputFile.getName());
+		logger.info("Exporting " + javaInputFile + " to: " + outputFolder.toString());
 		try (InputStream in = new BufferedInputStream(Files.newInputStream(javaInputFile.toPath()));
 				OutputStream out = new BufferedOutputStream(Files.newOutputStream(javaOutFile.toPath()))) {
+			checkPath(outputFolder);
 			byte[] buffer = new byte[1024];
 			int lengthRead;
 			while ((lengthRead = in.read(buffer)) > 0) {
@@ -239,11 +221,13 @@ public class FileManagerImpl implements FileManager {
 			}
 		}
 
-		if (file.delete()) {
+		try {
+			Files.delete(file.toPath());
 			logger.info("Deleted: " + file.getAbsolutePath());
-		} else {
-			logger.error("Failed to delete: " + file.getAbsolutePath());
+		} catch (IOException e) {
+			logger.error("Failed to delete: " + file.getAbsolutePath() + "\nError message: " + e.getMessage());
 		}
+		
 
 	}
 	
@@ -252,8 +236,9 @@ public class FileManagerImpl implements FileManager {
 	 * Checks whether the specified path exists, and if not, creates it.
 	 *
 	 * @param path the path to check.
+	 * @throws IOException if an IO error occurs.
 	 */
-	private void checkPath(Path path) {
+	private void checkPath(Path path) throws IOException {
 		if( !Files.exists(path) ) {
 			this.createPath(path);
 		}
@@ -263,24 +248,20 @@ public class FileManagerImpl implements FileManager {
 	 * Creates a directory at the specified path.
 	 *
 	 * @param path The path where the directory should be created.
+	 * @throws IOException if an IO error occurs.
 	 */
-	private void createPath(Path path) {
-		try {
-			logger.info("Path " + path + " doesn't exist.");
-			logger.info("Creating path " + path + " ...");
-			Files.createDirectories(path);
-			logger.info("Path" + path + " created with success.");
-		} catch (IOException e) {
-			logger.error("Failed to create path: path");
-			throw new RuntimeException("Failed to create path: " + path, e);
-		}
+	private void createPath(Path path) throws IOException {
+		logger.info("Path " + path + " doesn't exist.");
+		logger.info("Creating path " + path + " ...");
+		Files.createDirectories(path);
+		logger.info("Path" + path + " created with success.");
 	}
 	
 	/**
 	 * Check if the file exists and delete it.
 	 *
 	 * @param file the file to delete.
-	 * @throws IOException if an IO error occurs (and execution should be stopped).
+	 * @throws IOException if an IO error occurs.
 	 */
 	private void deleteExisting(File file) throws IOException {
 		if (file.exists()) {

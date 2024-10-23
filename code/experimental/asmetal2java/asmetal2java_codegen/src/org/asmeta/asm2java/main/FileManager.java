@@ -48,13 +48,15 @@ public interface FileManager {
      * 
      * @param asmName the name of the ASM file to compile.
      * @return the result of the compilation as a {@link CompileResult}.
+     * @throws IOException if an I/O error occurs.
      */
-	CompileResult compileFile(String asmName);
+	CompileResult compileFile(String asmName) throws IOException;
 	
     /**
      * Exports (copies) the specified Java file to a desired output folder.
      *
      * @param javaFile the Java file to be exported.
+     * @throws IOException if an I/O error occurs during the export.
      */
 	void exportFile(File javaFile);
 	
