@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.main
+package org.asmeta.asm2java.generator
 
 import asmeta.structure.Asm
 import java.util.List
@@ -6,7 +6,6 @@ import asmeta.transitionrules.basictransitionrules.Rule
 import org.junit.Assert
 import java.util.ArrayList
 import org.asmeta.asm2java.SeqRuleCollector
-import org.asmeta.asm2java.main.AsmToJavaGenerator
 import org.asmeta.asm2java.config.TranslatorOptions
 import org.asmeta.asm2java.evosuite.Rules
 import org.asmeta.asm2java.evosuite.CoverRules

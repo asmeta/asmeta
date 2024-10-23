@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import org.asmeta.asm2java.main.GeneratorCompilerTest;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.eclipse.emf.common.util.URI;
@@ -22,6 +21,8 @@ import asmetal2java_junit.AvallaToString;
 
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.formatter.Formatter;
+import org.asmeta.asm2java.generator.GeneratorCompilerTest;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 

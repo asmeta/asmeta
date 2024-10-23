@@ -17,6 +17,11 @@ import org.asmeta.asm2java.compiler.CompilatoreJava;
 import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.evosuite.RulesImpl;
+import org.asmeta.asm2java.generator.JavaAtgGenerator;
+import org.asmeta.asm2java.generator.JavaExeGenerator;
+import org.asmeta.asm2java.generator.JavaGenerator;
+import org.asmeta.asm2java.generator.JavaTestGenerator;
+import org.asmeta.asm2java.generator.JavaWindowGenerator;
 
 import asmeta.AsmCollection;
 

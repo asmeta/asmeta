@@ -1,6 +1,5 @@
-package org.asmeta.asm2java.main
+package org.asmeta.asm2java.generator
 
-import org.asmeta.asm2java.main.JavaGenerator
 import asmeta.definitions.RuleDeclaration
 import asmeta.structure.Asm
 import asmeta.transitionrules.basictransitionrules.Rule

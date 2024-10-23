@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.main;
+package org.asmeta.asm2java.generator;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;

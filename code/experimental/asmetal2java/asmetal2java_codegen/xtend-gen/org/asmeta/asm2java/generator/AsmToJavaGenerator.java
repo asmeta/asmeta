@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.main;
+package org.asmeta.asm2java.generator;
 
 import asmeta.structure.Asm;
 import java.io.BufferedWriter;
@@ -24,7 +24,7 @@ public abstract class AsmToJavaGenerator implements IGenerator {
     throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
 
-  protected void compileAndWrite(final Asm asm, final String writerPath, final String msg, final TranslatorOptions userOptions) {
+  public void compileAndWrite(final Asm asm, final String writerPath, final String msg, final TranslatorOptions userOptions) {
     try {
       InputOutput.<String>println(((msg + " file generation in ") + writerPath));
       final FileWriter file = new FileWriter(writerPath);
@@ -49,7 +49,7 @@ public abstract class AsmToJavaGenerator implements IGenerator {
     }
   }
 
-  protected abstract String compileAsm(final Asm asm);
+  public abstract String compileAsm(final Asm asm);
 
   public final String compileAsm(final Asm asm, final TranslatorOptions options) {
     String _xblockexpression = null;

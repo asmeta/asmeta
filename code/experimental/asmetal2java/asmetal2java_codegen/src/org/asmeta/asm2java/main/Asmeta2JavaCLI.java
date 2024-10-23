@@ -69,7 +69,6 @@ public class Asmeta2JavaCLI {
 			} else {
 				main.execute(line);
 			}
-			logger.info("Requested operation completed.");
 		} catch (Exception e) {
 			logger.error("Generation failed");
 			logger.error("An error occurred:\n" + e.getMessage());
@@ -77,6 +76,7 @@ public class Asmeta2JavaCLI {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();
 			}
+			logger.info("Requested operation completed.");
 		}
 	}
 	

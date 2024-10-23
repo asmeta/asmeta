@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.main
+package org.asmeta.asm2java.generator
 
 import asmeta.structure.Asm
 import java.util.List
