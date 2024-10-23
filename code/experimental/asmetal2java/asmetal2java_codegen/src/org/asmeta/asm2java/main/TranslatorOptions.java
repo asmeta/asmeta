@@ -28,10 +28,10 @@ public class TranslatorOptions {
 	private boolean compiler;
 	
 	/** Indicates to generate an executable of the generated Java class. */
-	private boolean executable;
+	private boolean generateExe;
 	
 	/** Indicates to generate an executable of the generated Java class with a Graphical User Interface (GUI). */
-	private boolean window;
+	private boolean generateWin;
 	
 	/** Indicates to generate a class designed for generating tests with Evosuite for the generated Java class. */
 	private boolean testGen;
@@ -62,8 +62,8 @@ public class TranslatorOptions {
 	 * @param shuffleRandom       whether a random shuffle should be applied.
 	 * @param optimizeSeqRule     whether to optimize the sequence macro rule.
 	 * @param translator    	  whether to translate the generated java class.
-	 * @param executable    	  whether to generate an executable Java class.
-	 * @param window    	 	  whether to generate an executable Java class with the GUI.
+	 * @param generateExe    	  whether to generate an executable Java class.
+	 * @param generateWin    	 	  whether to generate an executable Java class with the GUI.
 	 * @param compiler 		      whether to compile the generated java class.
 	 * @param testGen    		  whether to generate a class for test generation.
 	 * @param coverOutputs   	  whether to cover the outputs in the testGen class.
@@ -74,8 +74,8 @@ public class TranslatorOptions {
 			boolean shuffleRandom, 
 			boolean optimizeSeqRule, 
 			boolean translator, 
-			boolean executable, 
-			boolean window,
+			boolean generateExe, 
+			boolean generateWin,
 			boolean compiler,
 			boolean testGen,
 			boolean coverOutputs,
@@ -85,8 +85,8 @@ public class TranslatorOptions {
 		this.shuffleRandom = shuffleRandom;
 		this.optimizeSeqMacroRule = optimizeSeqRule;
 		this.translator = translator;
-		this.executable = executable;
-		this.window = window;
+		this.generateExe = generateExe;
+		this.generateWin = generateWin;
 		this.compiler = compiler;
 		this.testGen = testGen;
 		this.coverOutputs = coverOutputs;
@@ -145,7 +145,7 @@ public class TranslatorOptions {
 	 * @return {@code true} to generate an executable Java class, {@code false} otherwise.
 	 */
 	public boolean getExecutable() {
-		return executable;
+		return generateExe;
 	}
 	
 	/**
@@ -154,7 +154,7 @@ public class TranslatorOptions {
 	 * @return {@code true} to generate an executable Java class with the Graphical User Interface (GUI), {@code false} otherwise.
 	 */
 	public boolean getWindow() {
-		return window;
+		return generateWin;
 	}
 	
 	/**
@@ -197,42 +197,42 @@ public class TranslatorOptions {
 	 * Sets the value of the specified property.
 	 *
 	 * @param propertyName  the name of the property to set.
-	 * @param propertyValue the value to set the property to, interpreted as a boolean.
+	 * @param propertyValue the boolean value to set the property to.
 	 */
-	public void setValue(String propertyName, String propertyValue) {
+	public void setValue(String propertyName, boolean propertyValue) {
 		switch(propertyName) {
 		case "formatter":
-			formatter = Boolean.parseBoolean(propertyValue);
+			formatter = propertyValue;
 			break;
 		case "shuffleRandom":
-			shuffleRandom  = Boolean.parseBoolean(propertyValue);
+			shuffleRandom  = propertyValue;
 			break;
 		case "optimizeSeqMacroRule":
-			optimizeSeqMacroRule = Boolean.parseBoolean(propertyValue);
+			optimizeSeqMacroRule = propertyValue;
 			break;
 		case "translator":
-			translator = Boolean.parseBoolean(propertyValue);
+			translator = propertyValue;
 			break;
 		case "compiler":
-			compiler = Boolean.parseBoolean(propertyValue);
+			compiler = propertyValue;
 			break;
-		case "executable":
-			executable = Boolean.parseBoolean(propertyValue);
+		case "generateExe":
+			generateExe = propertyValue;
 			break;
-		case "window":
-			window = Boolean.parseBoolean(propertyValue);
+		case "generateWin":
+			generateWin =propertyValue;
 			break;
 		case "testGen":
-			testGen = Boolean.parseBoolean(propertyValue);
+			testGen = propertyValue;
 			break;
 		case "coverOutputs":
-			coverOutputs = Boolean.parseBoolean(propertyValue);
+			coverOutputs = propertyValue;
 			break;
 		case "coverRules":
-			coverRules = Boolean.parseBoolean(propertyValue);
+			coverRules = propertyValue;
 			break;
 		case "export":
-			export = Boolean.parseBoolean(propertyValue);
+			export = propertyValue;
 			break;
 		}
 	}
@@ -242,15 +242,15 @@ public class TranslatorOptions {
 	 * 
 	 * @return a List of String containing all the property names.
 	 */
-	public static List<String> getPriopertyNames() {
+	public static List<String> getPropertyNames() {
 		return List.of(
 				"formatter", 
 				"shuffleRandom", 
 				"optimizeSeqMacroRule", 
 				"translator", 
 				"compiler", 
-				"executable",
-				"window",
+				"generateExe",
+				"generateWin",
 				"testGen",
 				"coverOutputs",
 				"coverRules",
@@ -270,8 +270,8 @@ public class TranslatorOptions {
 				+ " -DoptimizeSeqMacroRule = (true)/false : remove unused seq rules.\n"
 				+ " -Dtranslator = (true)/false : translate the asm file to a java class.\n"
 				+ " -Dcompiler = true/(false) : translate and compile the generated java class.\n"
-				+ " -Dexecutable = true/(false) : generate a java class for execution.\n"
-				+ " -Dwindow = true/(false) : generate an executable java class with a GUI.\n"
+				+ " -DgenerateExe = true/(false) : generate a java class for execution.\n"
+				+ " -DgenerateWin = true/(false) : generate an executable java class with a GUI.\n"
 				+ " -DtestGen = true/(false) : generate a specific java class designed for test generation with Evosuite.\n"
 				+ " -DcoverOutputs = true/(false) : cover the outputs in the testGen class.\n"
 				+ " -DcoverRules = (true)/false : cover the rules in the testGen class.\n"

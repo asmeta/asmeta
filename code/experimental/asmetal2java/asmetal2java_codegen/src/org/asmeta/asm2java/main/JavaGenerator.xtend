@@ -20,7 +20,7 @@ import org.junit.Assert
 import asmeta.definitions.domains.EnumTd
 import org.asmeta.asm2java.ToString
 
-/**Generates .cpp ASM file */
+/**Generates .java ASM file */
 class JavaGenerator extends AsmToJavaGenerator {
 
 	String initConrolledMonitored

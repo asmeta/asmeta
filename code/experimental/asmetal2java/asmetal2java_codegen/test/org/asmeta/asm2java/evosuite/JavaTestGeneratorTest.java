@@ -29,8 +29,8 @@ public class JavaTestGeneratorTest {
 		
 		String asmspec = "examples/RegistroDiCassa.asm";
 		
-		options.setValue("coverRules", "true");
-		options.setValue("coverOutputs", "true");
+		options.setValue("coverRules", true);
+		options.setValue("coverOutputs", true);
 		
 		File asmFile = new File(asmspec);
 		assert asmFile.exists();
