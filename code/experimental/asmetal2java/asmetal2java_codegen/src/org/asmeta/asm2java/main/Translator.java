@@ -1,5 +1,7 @@
 package org.asmeta.asm2java.main;
 
+import java.io.IOException;
+
 /**
  * The {@code Translator} interface defines the contract for configuring and running 
  * a translation process.
@@ -39,9 +41,10 @@ public interface Translator {
      * Executes the translation process.
      *
      * @return {@code true} if the translation was successful, otherwise {@code false}.
-     * @throws Exception if an error occurs during the generation process.
+     * @throws AsmParsingException when an error occurs while parsing an ASM file. 
+     * @throws IOException if an I/O error occurs.
      */
-    boolean generate() throws Exception;
+    boolean generate() throws AsmParsingException, IOException;
     
     /**
      * Cleans up resources.

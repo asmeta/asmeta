@@ -120,7 +120,7 @@ public class TranslatorImpl implements Translator {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean generate() throws Exception {
+	public boolean generate() throws AsmParsingException, IOException {
 		
 		boolean result = true;
 		File asmFile = fileManager.retrieveInput(this.asmspec);
@@ -128,7 +128,14 @@ public class TranslatorImpl implements Translator {
 		String asmName = asmFileName.substring(0, asmFileName.lastIndexOf("."));
 		
 		// Parse the specification using the Asmeta parser
-		final AsmCollection model = ASMParser.setUpReadAsm(asmFile);
+		AsmCollection model = null;
+		try {
+			model = ASMParser.setUpReadAsm(asmFile);
+		}
+		catch (Exception e){
+			logger.error("Asm parsing failed: " + e.getMessage());
+			throw new AsmParsingException("Error while parsing ASM file: " + asmFile.getName(), e);
+		}
 	
 		if (translatorOptions.getCompiler()) {
 			result &= this.compileAndTranslate(asmName, model);
