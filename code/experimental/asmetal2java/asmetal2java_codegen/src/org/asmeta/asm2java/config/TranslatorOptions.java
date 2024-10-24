@@ -1,6 +1,8 @@
 package org.asmeta.asm2java.config;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
 
@@ -57,6 +59,14 @@ public class TranslatorOptions {
 	
 	/** Indicates to export the generated Java files into the output folder */
 	private boolean export;
+	
+	/**
+	 * A map that associates property names with actions that modify the corresponding boolean fields.
+	 *
+	 * This map is used to replace a switch-case block, simplifying the logic for setting 
+	 * property values by dynamically invoking the corresponding setter action.
+	 */
+	private HashMap<String,Consumer<Boolean>> propertyMapper;
 
 	
 	/**
@@ -76,10 +86,12 @@ public class TranslatorOptions {
 		this.coverOutputs = false;
 		this.coverRules = true;
 		this.export = true;
+		mapperSetup();
 	}
 
 	/**
-	 * Constructs a {@code TranslatorOptions} instance with the specified option values.
+	 * Constructs a {@code TranslatorOptions} instance with the specified option values
+	 * (Considering only the specific properties related to the translation process).
 	 *
 	 * @param formatter           whether the generated code should be formatted.
 	 * @param shuffleRandom       whether a random shuffle should be applied.
@@ -88,17 +100,47 @@ public class TranslatorOptions {
 	public TranslatorOptions(boolean formatter,
 			boolean shuffleRandom, 
 			boolean optimizeSeqRule) {
+		this();
 		this.formatter = formatter;
 		this.shuffleRandom = shuffleRandom;
 		this.optimizeSeqMacroRule = optimizeSeqRule;
-		this.translator = true;
-		this.generateExe = false;
-		this.generateWin = false;
-		this.compiler = false;
-		this.testGen = false;
-		this.coverOutputs = false;
-		this.coverRules = true;
-		this.export = true;
+	}
+	
+    /**
+     * Initializes the mapping between property names and their corresponding actions.
+     */
+	private void mapperSetup() {
+		this.propertyMapper = new HashMap<>();
+		this.propertyMapper.put(FORMATTER, value -> formatter = value);
+		this.propertyMapper.put(SHUFFLE_RANDOM, value -> shuffleRandom = value);
+		this.propertyMapper.put(OPTIMIZE_SEQ_MACRO_RULE, value -> optimizeSeqMacroRule = value);
+		this.propertyMapper.put(ModeConstantsConfig.TRANSLATOR, value -> translator = value);
+		this.propertyMapper.put(ModeConstantsConfig.COMPILER, value -> compiler = value);
+		this.propertyMapper.put(ModeConstantsConfig.GENERATE_EXE, value -> generateExe = value);
+		this.propertyMapper.put(ModeConstantsConfig.GENERATE_WIN, value -> generateWin = value);
+		this.propertyMapper.put(ModeConstantsConfig.TEST_GEN, value -> testGen = value);
+		this.propertyMapper.put(COVER_OUTPUTS, value -> coverOutputs = value);
+		this.propertyMapper.put(COVER_RULES, value -> coverRules = value);
+		this.propertyMapper.put(EXPORT, value -> export = value);
+	}
+	
+	/**
+	 * Sets the value of the specified property.
+	 *
+	 * @param propertyName  the name of the property to set.
+	 * @param propertyValue the boolean value to set the property to.
+	 * @throws IllegalArgumentException if the specified property name is not recognized
+	 */
+	public void setValue(String propertyName, boolean propertyValue) {
+		Consumer<Boolean> action = propertyMapper.get(propertyName);
+
+        if (action != null) {
+            action.accept(propertyValue);
+            logger.info("Setting the translator option " + propertyName + " to " + propertyValue + ".");
+        } else {
+            logger.error("Failed to set the value: " + propertyName);
+            throw new IllegalArgumentException("Unexpected value: " + propertyName);
+        }
 	}
 
 	/**
@@ -198,54 +240,6 @@ public class TranslatorOptions {
 	 */
 	public boolean getExport() {
 		return export;
-	}
-
-	/**
-	 * Sets the value of the specified property.
-	 *
-	 * @param propertyName  the name of the property to set.
-	 * @param propertyValue the boolean value to set the property to.
-	 */
-	public void setValue(String propertyName, boolean propertyValue) {
-		switch(propertyName) {
-		case FORMATTER:
-			formatter = propertyValue;
-			break;
-		case SHUFFLE_RANDOM:
-			shuffleRandom  = propertyValue;
-			break;
-		case OPTIMIZE_SEQ_MACRO_RULE:
-			optimizeSeqMacroRule = propertyValue;
-			break;
-		case ModeConstantsConfig.TRANSLATOR:
-			translator = propertyValue;
-			break;
-		case ModeConstantsConfig.COMPILER:
-			compiler = propertyValue;
-			break;
-		case ModeConstantsConfig.GENERATE_EXE:
-			generateExe = propertyValue;
-			break;
-		case ModeConstantsConfig.GENERATE_WIN:
-			generateWin =propertyValue;
-			break;
-		case ModeConstantsConfig.TEST_GEN:
-			testGen = propertyValue;
-			break;
-		case COVER_OUTPUTS:
-			coverOutputs = propertyValue;
-			break;
-		case COVER_RULES:
-			coverRules = propertyValue;
-			break;
-		case EXPORT:
-			export = propertyValue;
-			break;
-		default:
-			logger.error("Failed to set the value: " + propertyName);
-			throw new IllegalArgumentException("Unexpected value: " + propertyName);
-		}
-		logger.info("Setting the translator option " + propertyName + " to " + propertyValue + ".");
 	}
 	
 	/**
