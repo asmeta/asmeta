@@ -1,5 +1,6 @@
 package org.asmeta.asm2java.evosuite;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public final class RulesImpl implements Rules, RulesAdder {
         if (rules.containsKey(name)) {
             return rules.get(name).getBranches();
         }
-        return null;
+        return Collections.emptyList();
     }
 
 }
