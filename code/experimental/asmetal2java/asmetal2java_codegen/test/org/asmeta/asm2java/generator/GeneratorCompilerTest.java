@@ -11,9 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.asmeta.asm2java.compiler.CompileResult;
+import org.asmeta.asm2java.compiler.CompilerAsm2Java;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.generator.*;
-import org.asmeta.asm2java.compiler.CompilatoreJava;
+import org.asmeta.asm2java.compiler.CompilerAsm2JavaImpl;
 //import org.asmeta.asm2java.main.JavaGenerator;
 //import org.asmeta.asm2java.main.JavaExeGenerator;
 //import org.asmeta.asm2java.main.JavaWindowGenerator;
@@ -419,9 +420,8 @@ public class GeneratorCompilerTest {
 
 //		System.out.println("All java files Generated in: " + javaFileT.getCanonicalPath());
 
-		CompileResult result = CompilatoreJava.compile(name + ".java", dir.toPath(), true);
-
-		return result;
+		CompilerAsm2Java compiler = new CompilerAsm2JavaImpl();
+		return compiler.compile(name + ".java", dir.toPath(), true);
 	}
 
 }

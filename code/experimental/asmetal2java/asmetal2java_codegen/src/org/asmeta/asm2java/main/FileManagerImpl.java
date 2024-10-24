@@ -13,17 +13,12 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import org.apache.log4j.Logger;
-import org.asmeta.asm2java.compiler.CompilatoreJava;
+import org.asmeta.asm2java.compiler.CompilerAsm2JavaImpl;
 import org.asmeta.asm2java.compiler.CompileResult;
+import org.asmeta.asm2java.compiler.CompilerAsm2Java;
 import org.asmeta.asm2java.config.TranslatorOptions;
-import org.asmeta.asm2java.evosuite.RulesImpl;
 import org.asmeta.asm2java.generator.Generator;
 import org.asmeta.asm2java.generator.GeneratorImpl;
-import org.asmeta.asm2java.generator.JavaAtgGenerator;
-import org.asmeta.asm2java.generator.JavaExeGenerator;
-import org.asmeta.asm2java.generator.JavaGenerator;
-import org.asmeta.asm2java.generator.JavaTestGenerator;
-import org.asmeta.asm2java.generator.JavaWindowGenerator;
 
 import asmeta.AsmCollection;
 
@@ -68,6 +63,9 @@ public class FileManagerImpl implements FileManager {
 	
     /** Generator instance for generate the java translation */
     private static final Generator generator = new GeneratorImpl();
+    
+    /** Compiler instance for compiling the java translation */
+    private static final CompilerAsm2Java compilerJava = new CompilerAsm2JavaImpl();
     
     /** Path to the output folder. */
     private Path outputFolder;
@@ -156,7 +154,7 @@ public class FileManagerImpl implements FileManager {
 	public CompileResult compileFile(String asmName) throws IOException {
 		logger.info("JavaCompiler: compiling the .java class...");
 		checkPath(COMPILER_DIR_PATH);
-		return CompilatoreJava.compile(asmName + JAVA_EXTENSION, COMPILER_DIR_PATH, true);
+		return compilerJava.compile(asmName + JAVA_EXTENSION, COMPILER_DIR_PATH, true);
 	}
 
 	/**
