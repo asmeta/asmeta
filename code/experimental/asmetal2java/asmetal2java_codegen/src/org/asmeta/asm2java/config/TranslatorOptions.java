@@ -12,12 +12,12 @@ import org.apache.log4j.Logger;
 public class TranslatorOptions {
 
 	/* Constants */
-	private static final String FORMATTER = "formatter";
-	private static final String SHUFFLE_RANDOM = "shuffleRandom";
-	private static final String OPTIMIZE_SEQ_MACRO_RULE = "optimizeSeqMacroRule";
-	private static final String COVER_OUTPUTS = "coverOutputs";
-	private static final String COVER_RULES = "coverRules";
-	private static final String EXPORT = "export";
+	private static final String FORMATTER_OPTION = "formatter";
+	private static final String SHUFFLE_RANDOM_OPTION = "shuffleRandom";
+	private static final String OPTIMIZE_SEQ_MACRO_RULE_OPTION = "optimizeSeqMacroRule";
+	private static final String COVER_OUTPUTS_OPTION = "coverOutputs";
+	private static final String COVER_RULES_OPTION = "coverRules";
+	private static final String EXPORT_OPTION = "export";
 
 	/** Logger */
 	private static final Logger logger = Logger.getLogger(TranslatorOptions.class);
@@ -111,17 +111,17 @@ public class TranslatorOptions {
      */
 	private void mapperSetup() {
 		this.propertyMapper = new HashMap<>();
-		this.propertyMapper.put(FORMATTER, value -> formatter = value);
-		this.propertyMapper.put(SHUFFLE_RANDOM, value -> shuffleRandom = value);
-		this.propertyMapper.put(OPTIMIZE_SEQ_MACRO_RULE, value -> optimizeSeqMacroRule = value);
-		this.propertyMapper.put(ModeConstantsConfig.TRANSLATOR, value -> translator = value);
-		this.propertyMapper.put(ModeConstantsConfig.COMPILER, value -> compiler = value);
-		this.propertyMapper.put(ModeConstantsConfig.GENERATE_EXE, value -> generateExe = value);
-		this.propertyMapper.put(ModeConstantsConfig.GENERATE_WIN, value -> generateWin = value);
-		this.propertyMapper.put(ModeConstantsConfig.TEST_GEN, value -> testGen = value);
-		this.propertyMapper.put(COVER_OUTPUTS, value -> coverOutputs = value);
-		this.propertyMapper.put(COVER_RULES, value -> coverRules = value);
-		this.propertyMapper.put(EXPORT, value -> export = value);
+		this.propertyMapper.put(FORMATTER_OPTION, value -> this.formatter = value);
+		this.propertyMapper.put(SHUFFLE_RANDOM_OPTION, value -> this.shuffleRandom = value);
+		this.propertyMapper.put(OPTIMIZE_SEQ_MACRO_RULE_OPTION, value -> this.optimizeSeqMacroRule = value);
+		this.propertyMapper.put(ModeConstantsConfig.TRANSLATOR, value -> this.translator = value);
+		this.propertyMapper.put(ModeConstantsConfig.COMPILER, value -> this.compiler = value);
+		this.propertyMapper.put(ModeConstantsConfig.GENERATE_EXE, value -> this.generateExe = value);
+		this.propertyMapper.put(ModeConstantsConfig.GENERATE_WIN, value -> this.generateWin = value);
+		this.propertyMapper.put(ModeConstantsConfig.TEST_GEN, value -> this.testGen = value);
+		this.propertyMapper.put(COVER_OUTPUTS_OPTION, value -> this.coverOutputs = value);
+		this.propertyMapper.put(COVER_RULES_OPTION, value -> this.coverRules = value);
+		this.propertyMapper.put(EXPORT_OPTION, value -> this.export = value);	
 	}
 	
 	/**
@@ -132,15 +132,17 @@ public class TranslatorOptions {
 	 * @throws IllegalArgumentException if the specified property name is not recognized
 	 */
 	public void setValue(String propertyName, boolean propertyValue) {
+		
 		Consumer<Boolean> action = propertyMapper.get(propertyName);
-
-        if (action != null) {
+       
+		if (action != null) {
             action.accept(propertyValue);
             logger.info("Setting the translator option " + propertyName + " to " + propertyValue + ".");
         } else {
             logger.error("Failed to set the value: " + propertyName);
             throw new IllegalArgumentException("Unexpected value: " + propertyName);
         }
+        
 	}
 
 	/**
@@ -249,17 +251,17 @@ public class TranslatorOptions {
 	 */
 	public static List<String> getPropertyNames() {
 		return List.of(
-				FORMATTER, 
-				SHUFFLE_RANDOM, 
-				OPTIMIZE_SEQ_MACRO_RULE, 
+				FORMATTER_OPTION, 
+				SHUFFLE_RANDOM_OPTION, 
+				OPTIMIZE_SEQ_MACRO_RULE_OPTION, 
 				ModeConstantsConfig.TRANSLATOR, 
 				ModeConstantsConfig.COMPILER, 
 				ModeConstantsConfig.GENERATE_EXE,
 				ModeConstantsConfig.GENERATE_WIN,
 				ModeConstantsConfig.TEST_GEN,
-				COVER_OUTPUTS,
-				COVER_RULES,
-				EXPORT
+				COVER_OUTPUTS_OPTION,
+				COVER_RULES_OPTION,
+				EXPORT_OPTION
 				);
 	}
 	
@@ -270,17 +272,17 @@ public class TranslatorOptions {
 	 */
 	public static String getDescription() {
 		return "use value for given translator property (the default value is in brackets):\n"
-				+ " -D" + FORMATTER + " (true)/false : to format the generated code.\n"
-				+ " -D" + SHUFFLE_RANDOM + " = (true)/false : use random shuffle.\n"
-				+ " -D" + OPTIMIZE_SEQ_MACRO_RULE + " = (true)/false : remove unused seq rules.\n"
+				+ " -D" + FORMATTER_OPTION + " (true)/false : to format the generated code.\n"
+				+ " -D" + SHUFFLE_RANDOM_OPTION + " = (true)/false : use random shuffle.\n"
+				+ " -D" + OPTIMIZE_SEQ_MACRO_RULE_OPTION + " = (true)/false : remove unused seq rules.\n"
 				+ " -D" + ModeConstantsConfig.TRANSLATOR + " = (true)/false : translate the asm file to a java class.\n"
 				+ " -D" + ModeConstantsConfig.COMPILER + " = true/(false) : translate and compile the generated java class.\n"
 				+ " -D" + ModeConstantsConfig.GENERATE_EXE + " = true/(false) : generate a java class for execution.\n"
 				+ " -D" + ModeConstantsConfig.GENERATE_WIN + " = true/(false) : generate an executable java class with a GUI.\n"
 				+ " -D" + ModeConstantsConfig.TEST_GEN + " = true/(false) : generate a specific java class designed for test generation with Evosuite.\n"
-				+ " -D" + COVER_OUTPUTS + " = true/(false) : cover the outputs in the testGen class.\n"
-				+ " -D" + COVER_RULES + " = (true)/false : cover the rules in the testGen class.\n"
-				+ " -D" + EXPORT + " = (true)/false : export the generated file into the output folder.\n"
+				+ " -D" + COVER_OUTPUTS_OPTION + " = true/(false) : cover the outputs in the testGen class.\n"
+				+ " -D" + COVER_RULES_OPTION + " = (true)/false : cover the rules in the testGen class.\n"
+				+ " -D" + EXPORT_OPTION + " = (true)/false : export the generated file into the output folder.\n"
 				+ " Note: Please use " + ModeConstantsConfig.TRANSLATOR + ", " + ModeConstantsConfig.COMPILER + ", " + ModeConstantsConfig.GENERATE_EXE + ", " + ModeConstantsConfig.GENERATE_WIN + " and " + ModeConstantsConfig.TEST_GEN 
 				+ " options only if you have selected the -mode custom option.";
 	}
