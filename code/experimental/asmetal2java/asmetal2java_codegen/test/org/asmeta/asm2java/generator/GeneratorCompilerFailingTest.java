@@ -11,7 +11,7 @@ import org.junit.Test;
 public class GeneratorCompilerFailingTest {
 
 	
-	private TranslatorOptions options= new TranslatorOptions(true, true, true, false, false, false, false, false, false, false, false);
+	private TranslatorOptions options= new TranslatorOptions(true, true, true);
 
      @Test 
      public void testFibonacci() throws IOException, Exception { 

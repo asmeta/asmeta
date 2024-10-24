@@ -16,6 +16,8 @@ import org.apache.log4j.Logger;
 import org.asmeta.asm2java.compiler.CompilerAsm2JavaImpl;
 import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.asm2java.compiler.CompilerAsm2Java;
+import org.asmeta.asm2java.config.Mode;
+import org.asmeta.asm2java.config.ModeConstantsConfig;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.generator.Generator;
 import org.asmeta.asm2java.generator.GeneratorImpl;
@@ -35,10 +37,6 @@ public class FileManagerImpl implements FileManager {
 	private static final String USER_DIR = "user.dir";
 	private static final String INPUT = "input";
 	private static final String OUTPUT = "output";
-	private static final String TEST_GEN = "testGen";
-	private static final String EXECUTION = "execution";
-	private static final String COMPILER = "compiler";
-	private static final String TRANSLATION = "translation";
 	
 	/** Logger */
 	private static final Logger logger = Logger.getLogger(FileManagerImpl.class);
@@ -50,16 +48,19 @@ public class FileManagerImpl implements FileManager {
 	private static final Path DEFAULT_OUTPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), OUTPUT);
 
     /** Path to the translation folder. */
-    private static final Path TRANSLATION_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), TRANSLATION);
+    private static final Path TRANSLATION_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), ModeConstantsConfig.TRANSLATOR);
 
     /** Path to the compiler folder. */
-    private static final Path COMPILER_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), COMPILER);
+    private static final Path COMPILER_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), ModeConstantsConfig.COMPILER);
 
-    /** Path to the execution folder. */
-    private static final Path EXECUTION_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), EXECUTION);
+    /** Path to the exe folder. */
+    private static final Path EXE_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), ModeConstantsConfig.GENERATE_EXE);
+    
+    /** Path to the win folder. */
+    private static final Path WIN_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), ModeConstantsConfig.GENERATE_WIN);
 
     /** Path to the test generation folder. */
-    private static final Path TESTGEN_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), TEST_GEN);
+    private static final Path TESTGEN_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), ModeConstantsConfig.TEST_GEN);
 	
     /** Generator instance for generate the java translation */
     private static final Generator generator = new GeneratorImpl();
@@ -102,37 +103,37 @@ public class FileManagerImpl implements FileManager {
 		File javaFile = null;
 		
 		switch(mode) {
-		case TRANSLATOR:
+		case TRANSLATOR_MODE:
 			checkPath(TRANSLATION_DIR_PATH);
 			javaFile = new File(TRANSLATION_DIR_PATH + File.separator + name + JAVA_EXTENSION);
 			deleteExisting(javaFile);
 			generator.generateJava(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 			break;
-		case COMPILER:
+		case COMPILER_MODE:
 			checkPath(COMPILER_DIR_PATH);
 			javaFile = new File(COMPILER_DIR_PATH + File.separator + name + JAVA_EXTENSION);
 			deleteExisting(javaFile);
 			generator.generateJava(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 			break;
-		case GENERATE_EXE:
-			checkPath(EXECUTION_DIR_PATH);
-			javaFile = new File(EXECUTION_DIR_PATH + File.separator + name + EXE_EXTENSION);
+		case GENERATE_EXE_MODE:
+			checkPath(EXE_DIR_PATH);
+			javaFile = new File(EXE_DIR_PATH + File.separator + name + EXE_EXTENSION);
 			deleteExisting(javaFile);
 			generator.generateExe(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 			break;
-		case GENERATE_WIN:
-			checkPath(EXECUTION_DIR_PATH);
-			javaFile = new File(EXECUTION_DIR_PATH + File.separator + name + WIN_EXTENSION);
+		case GENERATE_WIN_MODE:
+			checkPath(WIN_DIR_PATH);
+			javaFile = new File(WIN_DIR_PATH + File.separator + name + WIN_EXTENSION);
 			deleteExisting(javaFile);
 			generator.generateWin(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 			break;
-		case TRANSLATOR_TEST:
+		case TRANSLATOR_TEST_MODE:
 			checkPath(TESTGEN_DIR_PATH);
 			javaFile = new File(TESTGEN_DIR_PATH + File.separator + name + JAVA_EXTENSION);
 			deleteExisting(javaFile);
 			generator.generateTest(model.getMain(), javaFile.getCanonicalPath(), userOptions);
 			break;
-		case TEST_GEN:
+		case TEST_GEN_MODE:
 			checkPath(TESTGEN_DIR_PATH);
 			javaFile = new File(TESTGEN_DIR_PATH + File.separator + name + ATG_EXTENSION);
 			deleteExisting(javaFile);

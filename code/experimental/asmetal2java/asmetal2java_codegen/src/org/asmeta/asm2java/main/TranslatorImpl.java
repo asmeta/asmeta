@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.compiler.CompileResult;
+import org.asmeta.asm2java.config.Mode;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.parser.ASMParser;
 
@@ -85,7 +86,7 @@ public class TranslatorImpl implements Translator {
 	 */
 	@Override
 	public void setMode(String value) {
-		Mode mode = Mode.CUSTOM;
+		Mode mode = Mode.CUSTOM_MODE;
 		try {
 			mode = Mode.fromValue(value);
 		}
@@ -93,26 +94,26 @@ public class TranslatorImpl implements Translator {
 			logger.error("Failed to parse the mode value: " + e.getMessage());
 			logger.error("Using the custom mode as default.");
 		}
+		logger.info("Translator mode setted to: " + mode.getValue());
 		switch (mode) {
-		case TRANSLATOR:
-			translatorOptions.setValue(Mode.TRANSLATOR.getValue(), true);
+		case TRANSLATOR_MODE:
+			translatorOptions.setValue(Mode.TRANSLATOR_MODE.getValue(), true);
 			break;
-		case GENERATE_EXE:
-			translatorOptions.setValue(Mode.TRANSLATOR.getValue(), true);
-			translatorOptions.setValue(Mode.GENERATE_EXE.getValue(), true);
+		case GENERATE_EXE_MODE:
+			translatorOptions.setValue(Mode.TRANSLATOR_MODE.getValue(), true);
+			translatorOptions.setValue(Mode.GENERATE_EXE_MODE.getValue(), true);
 			break;
-		case GENERATE_WIN:
-			translatorOptions.setValue(Mode.TRANSLATOR.getValue(), true);
-			translatorOptions.setValue(Mode.GENERATE_WIN.getValue(), true);
+		case GENERATE_WIN_MODE:
+			translatorOptions.setValue(Mode.TRANSLATOR_MODE.getValue(), true);
+			translatorOptions.setValue(Mode.GENERATE_WIN_MODE.getValue(), true);
 			break;
-		case TEST_GEN:
-			translatorOptions.setValue(Mode.TEST_GEN.getValue(), true);
+		case TEST_GEN_MODE:
+			translatorOptions.setValue(Mode.TEST_GEN_MODE.getValue(), true);
 			break;
 		default:
 			// CUSTOM mode, don't set any default options, leave the choice to the user.
 			break;
 		}
-		logger.info("Translator mode setted to: " + mode.getValue());
 	}
 	
 	/**
@@ -134,15 +135,15 @@ public class TranslatorImpl implements Translator {
 		}
 	
 		if (result && translatorOptions.getTranslator()) {
-			result &= this.translate(asmName, model, Mode.TRANSLATOR);
+			result &= this.translate(asmName, model, Mode.TRANSLATOR_MODE);
 		}
 	
 		if (result && translatorOptions.getExecutable()) {
-			result &= this.translate(asmName, model, Mode.GENERATE_EXE);
+			result &= this.translate(asmName, model, Mode.GENERATE_EXE_MODE);
 		}
 		
 		if (result && translatorOptions.getWindow()) {
-			result &= this.translate(asmName, model, Mode.GENERATE_WIN);
+			result &= this.translate(asmName, model, Mode.GENERATE_WIN_MODE);
 		}
 		
 		if (result && translatorOptions.getTestGen()) {
@@ -196,7 +197,7 @@ public class TranslatorImpl implements Translator {
 	private boolean compileAndTranslate(String asmName, AsmCollection model) throws IOException {
 		File javaFile = null;
 		try {
-			javaFile = generateTranslation(asmName, model, Mode.COMPILER);
+			javaFile = generateTranslation(asmName, model, Mode.COMPILER_MODE);
 		} catch (IOException e) {
 			logger.error("Failed to generate the Java translation: " + e.getMessage());
 			return false;
@@ -205,7 +206,7 @@ public class TranslatorImpl implements Translator {
 		if (result.getSuccess() && javaFile != null) {
 			exportJavaFile(javaFile);
 		} else {
-			logger.error("Failed to compile: " + javaFile.getName());
+			logger.error("Failed to compile.");
 			logger.error("Compilation errors: " + result.toString());
 			return false;
 		}
@@ -221,8 +222,8 @@ public class TranslatorImpl implements Translator {
      */
 	private boolean testGen(String asmName, AsmCollection model) {
 		try {				
-			File testGenJavaFile = generateTranslation(asmName, model, Mode.TRANSLATOR_TEST);			
-			File atgJavaFile = generateTranslation(asmName, model, Mode.TEST_GEN);
+			File testGenJavaFile = generateTranslation(asmName, model, Mode.TRANSLATOR_TEST_MODE);			
+			File atgJavaFile = generateTranslation(asmName, model, Mode.TEST_GEN_MODE);
 			exportJavaFile(testGenJavaFile);
 			exportJavaFile(atgJavaFile);
 		} catch (IOException e) {

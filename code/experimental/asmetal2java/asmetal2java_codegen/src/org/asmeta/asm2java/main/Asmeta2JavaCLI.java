@@ -12,6 +12,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
+import org.asmeta.asm2java.config.Mode;
 import org.asmeta.asm2java.config.TranslatorOptions;
 
 /**
@@ -61,7 +62,7 @@ public class Asmeta2JavaCLI {
 				// Header and footer strings
 				String header = "Asmetal2java\n\n";
 				String footer = "\nthis project is part of Asmeta, see https://github.com/asmeta/asmeta "
-						+ "for information or to report problems";
+						+ "for further information or to report an issue.";
 
 				formatter.printHelp("Asmetal2java", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
@@ -137,12 +138,9 @@ public class Asmeta2JavaCLI {
 		// set the desired behavior
 		Option mode = Option.builder(MODE).argName(MODE).type(String.class).hasArg(true)
 				.desc("Set the mode of the application:\n"
-						+ "-mode translator : translate the asm file to a java file (default).\n"
-						+ "-mode generateExe : translate the asm file to a java file and generate an executable java class\n"
-						+ "-mode generateWin : translate the asm file to a java file and generate an executable java class with a Grapical User Interace (GUI)\n"
-						+ "-mode testGen: generate a test class suited for test generation with Evosuite\n"
-						+ "-mode custom : set a custom behavior by adding properties with -D (see help)\n"
-						+ "Note: Please use the properties: -Dtranslator, -Dexecutable, -Dwindow and -DtestGen only if you have selected the -mode custom option.")
+						+ Mode.getDescription()
+						+ "Note: Please use the properties: -Dtranslator, -Dexecutable, -Dwindow and -DtestGen only if you have selected the -mode custom option."
+)
 				.build();
 
 		// translator property
@@ -183,6 +181,7 @@ public class Asmeta2JavaCLI {
 	 * @param line the parsed CommandLine object.
 	 */
 	private void setGlobalProperties(CommandLine line) {
+		logger.info("Parsing the global properties:");
 		Properties properties = line.getOptionProperties("D");
 		Set<String> propertyNames = new HashSet<>(TranslatorOptions.getPropertyNames());
 
@@ -190,6 +189,7 @@ public class Asmeta2JavaCLI {
 
 			if (!propertyNames.contains(propertyName)) {
 				logger.error("* Unknown property: " + propertyName);
+				continue;
 			}
 
 			String propertyValue = properties.getProperty(propertyName);

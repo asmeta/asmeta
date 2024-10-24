@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.asmeta.asm2java.compiler.CompileResult;
+import org.asmeta.asm2java.config.Mode;
 import org.asmeta.asm2java.config.TranslatorOptions;
 
 import asmeta.AsmCollection;

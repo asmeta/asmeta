@@ -15,7 +15,7 @@ public class JavaTestGeneratorTest {
 
 	private static final String SRC_GEN = "../asmetal2java_examples/src/";
 	
-	private TranslatorOptions options = new TranslatorOptions(true, true, true, false, false, false, false, false, false, false, false);
+	private TranslatorOptions options = new TranslatorOptions(true, true, true);
 	
 	/** Instance of the RulesImpl, a Map {name:Rule} collection containing the rules of the Asmeta specification */
 	private RulesImpl rulesImpl = new RulesImpl();

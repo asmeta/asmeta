@@ -32,7 +32,7 @@ public class GeneratorCompilerTest {
 	// static private JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
 	// static private JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
 
-	private TranslatorOptions options = new TranslatorOptions(true, true, true, false, false, false, false, false, false, false, false);
+	private TranslatorOptions options = new TranslatorOptions(true, true, true);
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 	// -----

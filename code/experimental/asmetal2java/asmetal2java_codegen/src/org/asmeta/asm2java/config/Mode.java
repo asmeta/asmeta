@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.main;
+package org.asmeta.asm2java.config;
 
 /**
  * The {@code Mode} enum represents different modes of operation for the translation process.
@@ -6,26 +6,26 @@ package org.asmeta.asm2java.main;
 public enum Mode {
     
     /** Mode for translating ASM specifications to Java code. */
-    TRANSLATOR("translator"),
+    TRANSLATOR_MODE(ModeConstantsConfig.TRANSLATOR),
     
     /** Mode for compiling the translated Java code. */
-    COMPILER("compiler"),
+    COMPILER_MODE(ModeConstantsConfig.COMPILER),
     
     /** Mode for generating an executable Java file from the translation. */
-    GENERATE_EXE("generateExe"),
+    GENERATE_EXE_MODE(ModeConstantsConfig.GENERATE_EXE),
     
     /** Mode for generating a Java application with a GUI from the translation. */
-    GENERATE_WIN("generateWin"),
+    GENERATE_WIN_MODE(ModeConstantsConfig.GENERATE_WIN),
     
     /** Mode for generating a wrapper class to test the generated translation. */
-    TEST_GEN("testGen"),
+    TEST_GEN_MODE(ModeConstantsConfig.TEST_GEN),
     
     /** Mode for generate a specific translation for test generation. */
-    TRANSLATOR_TEST("TranslatorTest"),
+    TRANSLATOR_TEST_MODE(ModeConstantsConfig.TRANSLATOR_TEST),
     
     /** Custom mode, allowing user-defined settings. */
-    CUSTOM("custom");
-
+    CUSTOM_MODE(ModeConstantsConfig.CUSTOM);
+	
     /** The string representation of the mode. */
     private final String value;
 
@@ -61,5 +61,18 @@ public enum Mode {
             }
         }
         throw new IllegalArgumentException("Not a valid value for mode: " + value);
+    }
+    
+    /**
+     * Get the description of the various modes of the application
+     * 
+     * @return a String containing the description of the modes.
+     */
+    public static String getDescription() {
+    	return "-mode " + TRANSLATOR_MODE.value + " : translate the asm file to a java file (default).\n"
+    			+ "-mode " + GENERATE_EXE_MODE.value + " : translate the asm file to a java file and generate an executable java class\n"
+    			+ "-mode " + GENERATE_WIN_MODE.value + " : translate the asm file to a java file and generate an executable java class with a Grapical User Interace (GUI)\n"
+    			+ "-mode " + TEST_GEN_MODE.value + " : generate a test class suited for test generation with Evosuite\n"
+    			+ "-mode " + CUSTOM_MODE.value + " : set a custom behavior by adding properties with -D (see help)";
     }
 }

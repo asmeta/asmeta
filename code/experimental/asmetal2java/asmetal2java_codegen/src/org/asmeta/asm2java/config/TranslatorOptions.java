@@ -2,10 +2,23 @@ package org.asmeta.asm2java.config;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 /** 
  * contains the translation options used by the generators to decide the behaviors of the generators
  */
 public class TranslatorOptions {
+
+	/* Constants */
+	private static final String FORMATTER = "formatter";
+	private static final String SHUFFLE_RANDOM = "shuffleRandom";
+	private static final String OPTIMIZE_SEQ_MACRO_RULE = "optimizeSeqMacroRule";
+	private static final String COVER_OUTPUTS = "coverOutputs";
+	private static final String COVER_RULES = "coverRules";
+	private static final String EXPORT = "export";
+
+	/** Logger */
+	private static final Logger logger = Logger.getLogger(TranslatorOptions.class);
 
 	// don't make private formatter, shuffleRandom and optimizeSeqMacroRule
 	// because the xtend classes access them directly
@@ -52,7 +65,17 @@ public class TranslatorOptions {
 	 * All the others = {@code false}.
 	 */
 	public TranslatorOptions(){
-		this(true,true,true,true,false,false,false,false,false,true,true);
+		this.formatter = true;
+		this.shuffleRandom = true;
+		this.optimizeSeqMacroRule = true;
+		this.translator = true;
+		this.generateExe = false;
+		this.generateWin = false;
+		this.compiler = false;
+		this.testGen = false;
+		this.coverOutputs = false;
+		this.coverRules = true;
+		this.export = true;
 	}
 
 	/**
@@ -61,37 +84,21 @@ public class TranslatorOptions {
 	 * @param formatter           whether the generated code should be formatted.
 	 * @param shuffleRandom       whether a random shuffle should be applied.
 	 * @param optimizeSeqRule     whether to optimize the sequence macro rule.
-	 * @param translator    	  whether to translate the generated java class.
-	 * @param generateExe    	  whether to generate an executable Java class.
-	 * @param generateWin    	 	  whether to generate an executable Java class with the GUI.
-	 * @param compiler 		      whether to compile the generated java class.
-	 * @param testGen    		  whether to generate a class for test generation.
-	 * @param coverOutputs   	  whether to cover the outputs in the testGen class.
-	 * @param coverRules   		  whether to cover the rules in the testGen class.
-	 * @param export   	  		  whether to export the classes.
 	 */
 	public TranslatorOptions(boolean formatter,
 			boolean shuffleRandom, 
-			boolean optimizeSeqRule, 
-			boolean translator, 
-			boolean generateExe, 
-			boolean generateWin,
-			boolean compiler,
-			boolean testGen,
-			boolean coverOutputs,
-			boolean coverRules,
-			boolean export){
+			boolean optimizeSeqRule) {
 		this.formatter = formatter;
 		this.shuffleRandom = shuffleRandom;
 		this.optimizeSeqMacroRule = optimizeSeqRule;
-		this.translator = translator;
-		this.generateExe = generateExe;
-		this.generateWin = generateWin;
-		this.compiler = compiler;
-		this.testGen = testGen;
-		this.coverOutputs = coverOutputs;
-		this.coverRules = coverRules;
-		this.export = export;
+		this.translator = true;
+		this.generateExe = false;
+		this.generateWin = false;
+		this.compiler = false;
+		this.testGen = false;
+		this.coverOutputs = false;
+		this.coverRules = true;
+		this.export = true;
 	}
 
 	/**
@@ -201,40 +208,44 @@ public class TranslatorOptions {
 	 */
 	public void setValue(String propertyName, boolean propertyValue) {
 		switch(propertyName) {
-		case "formatter":
+		case FORMATTER:
 			formatter = propertyValue;
 			break;
-		case "shuffleRandom":
+		case SHUFFLE_RANDOM:
 			shuffleRandom  = propertyValue;
 			break;
-		case "optimizeSeqMacroRule":
+		case OPTIMIZE_SEQ_MACRO_RULE:
 			optimizeSeqMacroRule = propertyValue;
 			break;
-		case "translator":
+		case ModeConstantsConfig.TRANSLATOR:
 			translator = propertyValue;
 			break;
-		case "compiler":
+		case ModeConstantsConfig.COMPILER:
 			compiler = propertyValue;
 			break;
-		case "generateExe":
+		case ModeConstantsConfig.GENERATE_EXE:
 			generateExe = propertyValue;
 			break;
-		case "generateWin":
+		case ModeConstantsConfig.GENERATE_WIN:
 			generateWin =propertyValue;
 			break;
-		case "testGen":
+		case ModeConstantsConfig.TEST_GEN:
 			testGen = propertyValue;
 			break;
-		case "coverOutputs":
+		case COVER_OUTPUTS:
 			coverOutputs = propertyValue;
 			break;
-		case "coverRules":
+		case COVER_RULES:
 			coverRules = propertyValue;
 			break;
-		case "export":
+		case EXPORT:
 			export = propertyValue;
 			break;
+		default:
+			logger.error("Failed to set the value: " + propertyName);
+			throw new IllegalArgumentException("Unexpected value: " + propertyName);
 		}
+		logger.info("Setting the translator option " + propertyName + " to " + propertyValue + ".");
 	}
 	
 	/**
@@ -244,17 +255,17 @@ public class TranslatorOptions {
 	 */
 	public static List<String> getPropertyNames() {
 		return List.of(
-				"formatter", 
-				"shuffleRandom", 
-				"optimizeSeqMacroRule", 
-				"translator", 
-				"compiler", 
-				"generateExe",
-				"generateWin",
-				"testGen",
-				"coverOutputs",
-				"coverRules",
-				"export"
+				FORMATTER, 
+				SHUFFLE_RANDOM, 
+				OPTIMIZE_SEQ_MACRO_RULE, 
+				ModeConstantsConfig.TRANSLATOR, 
+				ModeConstantsConfig.COMPILER, 
+				ModeConstantsConfig.GENERATE_EXE,
+				ModeConstantsConfig.GENERATE_WIN,
+				ModeConstantsConfig.TEST_GEN,
+				COVER_OUTPUTS,
+				COVER_RULES,
+				EXPORT
 				);
 	}
 	
@@ -265,18 +276,19 @@ public class TranslatorOptions {
 	 */
 	public static String getDescription() {
 		return "use value for given translator property (the default value is in brackets):\n"
-				+ " -Dformatter = (true)/false : to format the generated code.\n"
-				+ " -DshuffleRandom = (true)/false : use random shuffle.\n"
-				+ " -DoptimizeSeqMacroRule = (true)/false : remove unused seq rules.\n"
-				+ " -Dtranslator = (true)/false : translate the asm file to a java class.\n"
-				+ " -Dcompiler = true/(false) : translate and compile the generated java class.\n"
-				+ " -DgenerateExe = true/(false) : generate a java class for execution.\n"
-				+ " -DgenerateWin = true/(false) : generate an executable java class with a GUI.\n"
-				+ " -DtestGen = true/(false) : generate a specific java class designed for test generation with Evosuite.\n"
-				+ " -DcoverOutputs = true/(false) : cover the outputs in the testGen class.\n"
-				+ " -DcoverRules = (true)/false : cover the rules in the testGen class.\n"
-				+ " -Dexport = (true)/false : export the generated file into the output folder.\n"
-				+ " Note: Please use translator, compiler, executable, window and testGen options only if you have selected the -mode custom option.";
+				+ " -D" + FORMATTER + " (true)/false : to format the generated code.\n"
+				+ " -D" + SHUFFLE_RANDOM + " = (true)/false : use random shuffle.\n"
+				+ " -D" + OPTIMIZE_SEQ_MACRO_RULE + " = (true)/false : remove unused seq rules.\n"
+				+ " -D" + ModeConstantsConfig.TRANSLATOR + " = (true)/false : translate the asm file to a java class.\n"
+				+ " -D" + ModeConstantsConfig.COMPILER + " = true/(false) : translate and compile the generated java class.\n"
+				+ " -D" + ModeConstantsConfig.GENERATE_EXE + " = true/(false) : generate a java class for execution.\n"
+				+ " -D" + ModeConstantsConfig.GENERATE_WIN + " = true/(false) : generate an executable java class with a GUI.\n"
+				+ " -D" + ModeConstantsConfig.TEST_GEN + " = true/(false) : generate a specific java class designed for test generation with Evosuite.\n"
+				+ " -D" + COVER_OUTPUTS + " = true/(false) : cover the outputs in the testGen class.\n"
+				+ " -D" + COVER_RULES + " = (true)/false : cover the rules in the testGen class.\n"
+				+ " -D" + EXPORT + " = (true)/false : export the generated file into the output folder.\n"
+				+ " Note: Please use " + ModeConstantsConfig.TRANSLATOR + ", " + ModeConstantsConfig.COMPILER + ", " + ModeConstantsConfig.GENERATE_EXE + ", " + ModeConstantsConfig.GENERATE_WIN + " and " + ModeConstantsConfig.TEST_GEN 
+				+ " options only if you have selected the -mode custom option.";
 	}
 
 }
