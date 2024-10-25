@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.compiler;
+package org.asmeta.asm2java.compiler.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,19 +12,21 @@ import javax.tools.ToolProvider;
 
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.NotValidFileException;
+import org.asmeta.asm2java.compiler.CompileResult;
+import org.asmeta.asm2java.compiler.Compiler;
 
 /**
- * Implementation of the {@link CompilerAsm2Java} interface.
+ * Implementation of the {@link Compiler} interface.
  */
-public class CompilerAsm2JavaImpl implements CompilerAsm2Java {
+public class CompilerImpl implements Compiler {
 	
 	/** Logger */
-	private static Logger logger = Logger.getLogger(CompilerAsm2JavaImpl.class);
+	private static Logger logger = Logger.getLogger(CompilerImpl.class);
 	
 	/**
 	 * Default constructor.
 	 */
-	public CompilerAsm2JavaImpl() {
+	public CompilerImpl() {
 		// Empty constructor
 	}
 
@@ -67,7 +69,7 @@ public class CompilerAsm2JavaImpl implements CompilerAsm2Java {
 				logger.debug(message);
 			}			
 		}
-		return new CompileResult(true, message);
+		return new CompileResultImpl(true, message);
 	}
 }
 

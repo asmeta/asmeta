@@ -1,5 +1,7 @@
 package org.asmeta.asm2java.config;
 
+import org.asmeta.asm2java.config.impl.ModeConstantsConfig;
+
 /**
  * The {@code Mode} enum represents different modes of operation for the translation process.
  */

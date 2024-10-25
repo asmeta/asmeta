@@ -1,6 +1,9 @@
-package org.asmeta.asm2java.main;
+package org.asmeta.asm2java.translator;
 
 import java.io.IOException;
+import java.util.List;
+
+import org.asmeta.asm2java.exceptions.AsmParsingException;
 
 /**
  * The {@code Translator} interface defines the contract for configuring and running 
@@ -50,4 +53,26 @@ public interface Translator {
      * Cleans up resources.
      */
     void clean();
+    
+    /**
+     * Get the names of all the options of the translator.
+     * 
+     * @return list of string containing the names of all the translator options.
+     */
+    List<String> getOptionNames();
+    
+    /**
+     * Get the description of all the options of the translator.
+     * 
+     * @return string containing the description of all the translator options.
+     */
+    String getOptionsDescription();
+    
+    /**
+     * Get the description of all the modes of the translator.
+     * 
+     * @return string containing the description of all the translator modes
+     * .
+     */
+    String getModeDescription();
 }

@@ -1,11 +1,12 @@
 package org.asmeta.asm2java.generator;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 
 import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.config.impl.TranslatorOptionsImpl;
 import org.asmeta.asm2java.evosuite.RulesImpl;
-import org.asmeta.asm2java.generator.JavaAtgGenerator;
-import org.asmeta.asm2java.generator.JavaTestGenerator;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ public class JavaTestGeneratorTest {
 
 	private static final String SRC_GEN = "../asmetal2java_examples/src/";
 	
-	private TranslatorOptions options = new TranslatorOptions(true, true, true);
+	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
 	
 	/** Instance of the RulesImpl, a Map {name:Rule} collection containing the rules of the Asmeta specification */
 	private RulesImpl rulesImpl = new RulesImpl();
@@ -45,8 +46,11 @@ public class JavaTestGeneratorTest {
 		File javaFile = new File(SRC_GEN + File.separator + name + ".java");
 		if (javaFile.exists())
 			javaFile.delete();
-		
+
 		jGeneratorTest.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), options);
+		
+		assertTrue(javaFile.isFile());		
+		assertTrue(javaFile.exists());
 		
 		File javaATGFile = new File(SRC_GEN + File.separator + name + "_ATG.java");
 		if (javaATGFile.exists())
@@ -54,6 +58,8 @@ public class JavaTestGeneratorTest {
 		
 		jGeneratorAtg.compileAndWrite(model.getMain(), javaATGFile.getCanonicalPath(), options);
 		
+		assertTrue(javaATGFile.isFile());		
+		assertTrue(javaATGFile.exists());
 				
 	}
 	

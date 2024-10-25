@@ -13,12 +13,13 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.config.impl.TranslatorOptionsImpl;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 
 public class GeneratorCompilerAllExamplesTest {
 
-	private TranslatorOptions options = new TranslatorOptions(true, true, true);
+	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
 	
 	static boolean failOnError = false;
 	

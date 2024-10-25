@@ -32,7 +32,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 
 	override compileAsm(Asm asm) {
 		// collect alla the seq rules if required
-		if (options.optimizeSeqMacroRule) {
+		if (options.getOptimizeSeqMacroRule()) {
 			seqCalledRules = new ArrayList
 			for (r : asm.bodySection.ruleDeclaration)
 				seqCalledRules.addAll(new SeqRuleCollector(false).visit(r))

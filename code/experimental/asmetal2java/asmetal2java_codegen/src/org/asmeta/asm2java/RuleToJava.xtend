@@ -1,36 +1,34 @@
 package org.asmeta.asm2java
 
-import org.eclipse.emf.common.util.EList
-import asmeta.transitionrules.basictransitionrules.BlockRule
-import asmeta.transitionrules.basictransitionrules.Rule
-import asmeta.transitionrules.turbotransitionrules.SeqRule
-import asmeta.transitionrules.basictransitionrules.SkipRule
-import asmeta.transitionrules.basictransitionrules.MacroCallRule
-import asmeta.terms.basicterms.Term
-import asmeta.transitionrules.basictransitionrules.LetRule
-import asmeta.transitionrules.basictransitionrules.ConditionalRule
-import asmeta.transitionrules.derivedtransitionrules.CaseRule
+import asmeta.definitions.ControlledFunction
+import asmeta.definitions.domains.AbstractTd
+import asmeta.definitions.domains.BasicTd
+import asmeta.definitions.domains.ConcreteDomain
+import asmeta.definitions.domains.Domain
+import asmeta.definitions.domains.EnumTd
+import asmeta.definitions.domains.PowersetDomain
+import asmeta.definitions.domains.StringDomain
 import asmeta.structure.Asm
-import asmeta.transitionrules.basictransitionrules.ForallRule
-import asmeta.transitionrules.basictransitionrules.UpdateRule
+import asmeta.terms.basicterms.Term
+import asmeta.terms.basicterms.VariableTerm
+import asmeta.transitionrules.basictransitionrules.BlockRule
 import asmeta.transitionrules.basictransitionrules.ChooseRule
-import asmeta.transitionrules.basictransitionrules.TermAsRule
+import asmeta.transitionrules.basictransitionrules.ConditionalRule
 import asmeta.transitionrules.basictransitionrules.ExtendRule
+import asmeta.transitionrules.basictransitionrules.ForallRule
+import asmeta.transitionrules.basictransitionrules.LetRule
+import asmeta.transitionrules.basictransitionrules.MacroCallRule
+import asmeta.transitionrules.basictransitionrules.Rule
+import asmeta.transitionrules.basictransitionrules.SkipRule
+import asmeta.transitionrules.basictransitionrules.TermAsRule
+import asmeta.transitionrules.basictransitionrules.UpdateRule
+import asmeta.transitionrules.derivedtransitionrules.CaseRule
 import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule
 import asmeta.transitionrules.turbotransitionrules.IterateRule
-import asmeta.definitions.domains.StringDomain
-import asmeta.definitions.domains.PowersetDomain
-import org.asmeta.simulator.RuleVisitor
-import asmeta.definitions.domains.AbstractTd
+import asmeta.transitionrules.turbotransitionrules.SeqRule
 import org.asmeta.asm2java.config.TranslatorOptions
-import asmeta.definitions.domains.ConcreteDomain
-import asmeta.terms.basicterms.VariableTerm
-import asmeta.definitions.domains.EnumTd
-import asmeta.definitions.ControlledFunction
-import asmeta.definitions.domains.Domain
-import asmeta.definitions.domains.BasicTd
-import asmeta.definitions.domains.SequenceDomain
-
+import org.asmeta.simulator.RuleVisitor
+import org.eclipse.emf.common.util.EList
 
 class RuleToJava extends RuleVisitor<String> {
 
@@ -294,7 +292,7 @@ class RuleToJava extends RuleVisitor<String> {
 		sb.append('''
 			}
 		''')
-		if (options.getShuffleRandom)
+		if (options.getShuffleRandom())
 			sb.append('''
 				int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());
 			''')

@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.main;
+package org.asmeta.asm2java.translator;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -13,21 +13,21 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import org.apache.log4j.Logger;
-import org.asmeta.asm2java.compiler.CompilerAsm2JavaImpl;
 import org.asmeta.asm2java.compiler.CompileResult;
-import org.asmeta.asm2java.compiler.CompilerAsm2Java;
+import org.asmeta.asm2java.compiler.Compiler;
+import org.asmeta.asm2java.compiler.impl.CompilerImpl;
 import org.asmeta.asm2java.config.Mode;
-import org.asmeta.asm2java.config.ModeConstantsConfig;
 import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.config.impl.ModeConstantsConfig;
 import org.asmeta.asm2java.generator.Generator;
-import org.asmeta.asm2java.generator.GeneratorImpl;
+import org.asmeta.asm2java.generator.impl.GeneratorImpl;
 
 import asmeta.AsmCollection;
 
 /**
  * The {@code FileManagerImpl} class provides an implementation of the {@link FileManager} interface.
  */
-public class FileManagerImpl implements FileManager {
+public class FileManagerImpl {
 
 	/* constants */
 	private static final String ATG_EXTENSION = "_ATG.java";
@@ -66,7 +66,7 @@ public class FileManagerImpl implements FileManager {
     private static final Generator generator = new GeneratorImpl();
     
     /** Compiler instance for compiling the java translation */
-    private static final CompilerAsm2Java compilerJava = new CompilerAsm2JavaImpl();
+    private static final Compiler compilerJava = new CompilerImpl();
     
     /** Path to the output folder. */
     private Path outputFolder;
@@ -79,9 +79,13 @@ public class FileManagerImpl implements FileManager {
 	}
 	
 	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+     * Given a string containing the path to the input file, copies the file into the
+     * input directory and returns the newly generated file.
+     * 
+     * @param file the path to the input file (relative or absolute).
+     * @return the copied file.
+     * @throws IOException if an I/O error occurs during the file copying process.
+     */
 	public File retrieveInput(String asmspec) throws IOException {
 		File asmFile = new File(asmspec);
 		if (!asmFile.exists()) {
@@ -94,10 +98,17 @@ public class FileManagerImpl implements FileManager {
 		return asmFile;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * Generates a Java file in the specified directory, using the given name, extension, 
+     * model, and translator options.
+     * 
+     * @param name the name of the file to be generated.
+     * @param model the parsed ASM specification.
+     * @param userOptions the translator options to be applied.
+     * @param mode the mode for the translation process.
+     * @return the generated file.
+     * @throws IOException if an I/O error occurs during file generation.
+     */
 	public File generateFile(String name, AsmCollection model, TranslatorOptions userOptions, Mode mode) throws IOException {
 		
 		File javaFile = null;
@@ -147,21 +158,30 @@ public class FileManagerImpl implements FileManager {
 		return javaFile;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 * @throws IOException 
-	 */
-	@Override
-	public CompileResult compileFile(String asmName) throws IOException {
+    /**
+     * Compiles the file with the given name and returns the result of the compilation process.
+     * 
+     * @param asmName the name of the ASM file to compile.
+     * @return {@code true} if the the result of the compilation is successful, {@code false} otherwise.
+     * @throws IOException if an I/O error occurs.
+     */
+	public boolean compileFile(String asmName) throws IOException {
 		logger.info("JavaCompiler: compiling the .java class...");
 		checkPath(COMPILER_DIR_PATH);
-		return compilerJava.compile(asmName + JAVA_EXTENSION, COMPILER_DIR_PATH, true);
+		CompileResult result = compilerJava.compile(asmName + JAVA_EXTENSION, COMPILER_DIR_PATH, true);
+		if(result.getSuccess()) {
+			return true;
+		}
+		logger.error("Compilation errors: " + result.toString());
+		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * Exports (copies) the specified Java file to a desired output folder.
+     *
+     * @param javaFile the Java file to be exported.
+     * @throws IOException if an I/O error occurs during the export.
+     */
 	public void exportFile(File javaInputFile) {
 		File javaOutFile = new File(outputFolder + File.separator + javaInputFile.getName());
 		logger.info("Exporting " + javaInputFile + " to: " + outputFolder.toString());
@@ -182,10 +202,9 @@ public class FileManagerImpl implements FileManager {
 	}
 	
 	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * Cleans the input directory by removing execution-related files.
+     */
 	public void cleanInputDir() {
 		if (INPUT_DIR_PATH.toFile().exists() && INPUT_DIR_PATH.toFile().isDirectory()) {
 			for (File file : INPUT_DIR_PATH.toFile().listFiles()) {
@@ -196,10 +215,11 @@ public class FileManagerImpl implements FileManager {
 		}
 	}
 	
-	/**
-	 *  {@inheritDoc}
-	 */
-	@Override
+    /**
+     * Sets the output directory where the generated files will be stored.
+     * 
+     * @param outputDir the path of the output directory.
+     */
 	public void setOutputDir(String outputDir) {
 		this.outputFolder = Paths.get(outputDir);
 	}

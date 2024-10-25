@@ -12,8 +12,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
-import org.asmeta.asm2java.config.Mode;
-import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.translator.Translator;
+import org.asmeta.asm2java.translator.impl.TranslatorImpl;
 
 /**
  * The Asmeta2JavaCLI is the entry point for the Asmetal2Java tool, which
@@ -138,14 +138,14 @@ public class Asmeta2JavaCLI {
 		// set the desired behavior
 		Option mode = Option.builder(MODE).argName(MODE).type(String.class).hasArg(true)
 				.desc("Set the mode of the application:\n"
-						+ Mode.getDescription()
+						+ translator.getModeDescription()
 						+ "Note: Please use the properties: -Dtranslator, -Dexecutable, -Dwindow and -DtestGen only if you have selected the -mode custom option."
 )
 				.build();
 
 		// translator property
 		Option property = Option.builder("D").numberOfArgs(2).argName("property=value").valueSeparator('=')
-				.required(false).optionalArg(false).type(String.class).desc(TranslatorOptions.getDescription()).build();
+				.required(false).optionalArg(false).type(String.class).desc(translator.getOptionsDescription()).build();
 
 		options.addOption(help);
 		options.addOption(input);
@@ -183,7 +183,7 @@ public class Asmeta2JavaCLI {
 	private void setGlobalProperties(CommandLine line) {
 		logger.info("Parsing the global properties:");
 		Properties properties = line.getOptionProperties("D");
-		Set<String> propertyNames = new HashSet<>(TranslatorOptions.getPropertyNames());
+		Set<String> propertyNames = new HashSet<>(translator.getOptionNames());
 
 		for (String propertyName : properties.stringPropertyNames()) {
 

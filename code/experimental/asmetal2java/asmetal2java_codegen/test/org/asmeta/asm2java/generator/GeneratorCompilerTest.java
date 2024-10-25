@@ -11,13 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.asmeta.asm2java.compiler.CompileResult;
-import org.asmeta.asm2java.compiler.CompilerAsm2Java;
+import org.asmeta.asm2java.compiler.Compiler;
+import org.asmeta.asm2java.compiler.impl.CompileResultImpl;
+import org.asmeta.asm2java.compiler.impl.CompilerImpl;
 import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.config.impl.TranslatorOptionsImpl;
 import org.asmeta.asm2java.generator.*;
-import org.asmeta.asm2java.compiler.CompilerAsm2JavaImpl;
-//import org.asmeta.asm2java.main.JavaGenerator;
-//import org.asmeta.asm2java.main.JavaExeGenerator;
-//import org.asmeta.asm2java.main.JavaWindowGenerator;
 import org.asmeta.parser.ASMParser;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,7 +31,7 @@ public class GeneratorCompilerTest {
 	// static private JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
 	// static private JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
 
-	private TranslatorOptions options = new TranslatorOptions(true, true, true);
+	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 	// -----
@@ -389,7 +388,7 @@ public class GeneratorCompilerTest {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new CompileResult(false, e.getMessage());
+			return new CompileResultImpl(false, e.getMessage());
 		}
 
 		// write java
@@ -408,7 +407,7 @@ public class GeneratorCompilerTest {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new CompileResult(false, e.getMessage());
+			return new CompileResultImpl(false, e.getMessage());
 		}
 
 		System.out.println("Generated java file: " + javaFile.getCanonicalPath());
@@ -420,7 +419,7 @@ public class GeneratorCompilerTest {
 
 //		System.out.println("All java files Generated in: " + javaFileT.getCanonicalPath());
 
-		CompilerAsm2Java compiler = new CompilerAsm2JavaImpl();
+		Compiler compiler = new CompilerImpl();
 		return compiler.compile(name + ".java", dir.toPath(), true);
 	}
 

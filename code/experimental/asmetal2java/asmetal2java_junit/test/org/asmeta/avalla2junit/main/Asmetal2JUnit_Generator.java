@@ -20,7 +20,7 @@ import org.junit.runner.notification.RunListener;
 import asmetal2java_junit.AvallaToString;
 
 import org.asmeta.asm2java.config.TranslatorOptions;
-import org.asmeta.asm2java.formatter.Formatter;
+import org.asmeta.asm2java.formatter.impl.FormatterImpl;
 import org.asmeta.asm2java.generator.GeneratorCompilerTest;
 
 import com.google.inject.Guice;
@@ -158,7 +158,7 @@ public class Asmetal2JUnit_Generator {
 		
 		
 		FileWriter fileTest = new FileWriter(pathTF + spec + "_Test" + "_" + 1 + JUnit_EXT);
-		fileTest.write(Formatter.formatCode(fileTestForm));
+		fileTest.write(FormatterImpl.formatCode(fileTestForm));
 		fileTest.close();
 		
 	}

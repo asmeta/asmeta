@@ -1,8 +1,14 @@
-package org.asmeta.asm2java.generator;
+package org.asmeta.asm2java.generator.impl;
 
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.evosuite.RulesImpl;
+import org.asmeta.asm2java.generator.Generator;
+import org.asmeta.asm2java.generator.JavaAtgGenerator;
+import org.asmeta.asm2java.generator.JavaExeGenerator;
+import org.asmeta.asm2java.generator.JavaGenerator;
+import org.asmeta.asm2java.generator.JavaTestGenerator;
+import org.asmeta.asm2java.generator.JavaWindowGenerator;
 
 import asmeta.structure.Asm;
 

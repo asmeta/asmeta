@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.formatter.Formatter;
+import org.asmeta.asm2java.formatter.impl.FormatterImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
@@ -18,6 +19,13 @@ import org.eclipse.xtext.xbase.lib.InputOutput;
 @SuppressWarnings("all")
 public abstract class AsmToJavaGenerator implements IGenerator {
   protected TranslatorOptions options;
+
+  protected Formatter formatter;
+
+  public AsmToJavaGenerator() {
+    FormatterImpl _formatterImpl = new FormatterImpl();
+    this.formatter = _formatterImpl;
+  }
 
   @Override
   public void doGenerate(final Resource input, final IFileSystemAccess fsa) {
@@ -32,7 +40,7 @@ public abstract class AsmToJavaGenerator implements IGenerator {
       final String javaCode = this.compileAsm(asm, userOptions);
       boolean _formatter = this.options.getFormatter();
       if (_formatter) {
-        writer.write(Formatter.formatCode(javaCode));
+        writer.write(this.formatter.formatCode(javaCode));
       } else {
         writer.write(javaCode);
       }

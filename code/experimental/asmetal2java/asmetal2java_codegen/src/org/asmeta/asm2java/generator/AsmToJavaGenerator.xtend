@@ -7,14 +7,21 @@ import java.io.FileWriter
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
-import org.asmeta.asm2java.formatter.Formatter
 import org.asmeta.asm2java.config.TranslatorOptions
+import org.asmeta.asm2java.formatter.Formatter
+import org.asmeta.asm2java.formatter.impl.FormatterImpl
 
 /** the real generator
  */
 abstract class AsmToJavaGenerator implements IGenerator {
 
 	protected TranslatorOptions options 
+	
+	protected Formatter formatter
+	
+	new(){
+		this.formatter = new FormatterImpl();
+	}
 	
 	override doGenerate(Resource input, IFileSystemAccess fsa) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
@@ -27,8 +34,8 @@ abstract class AsmToJavaGenerator implements IGenerator {
 		val writer = new BufferedWriter(file)
 		val javaCode = compileAsm(asm, userOptions)
 		
-		if (options.formatter){
-			writer.write(Formatter.formatCode(javaCode));
+		if (options.getFormatter()){
+			writer.write(formatter.formatCode(javaCode));
 		} else{
 			writer.write(javaCode)			
 		}

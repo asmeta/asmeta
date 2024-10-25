@@ -1,12 +1,16 @@
-package org.asmeta.asm2java.main;
+package org.asmeta.asm2java.translator.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.asm2java.config.Mode;
 import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.config.impl.TranslatorOptionsImpl;
+import org.asmeta.asm2java.exceptions.AsmParsingException;
+import org.asmeta.asm2java.translator.FileManagerImpl;
+import org.asmeta.asm2java.translator.Translator;
 import org.asmeta.parser.ASMParser;
 
 import asmeta.AsmCollection;
@@ -26,15 +30,15 @@ public class TranslatorImpl implements Translator {
     private final TranslatorOptions translatorOptions;
 
     /** File manager instance for handling file operations. */
-    private final FileManager fileManager;
+    private final FileManagerImpl fileManager;
 
     /**
      * Constructs a {@code TranslatorImpl} with the specified translator options.
      *
      * @param translatorOptions the options used to configure the translation process.
      */
-	public TranslatorImpl(TranslatorOptions translatorOptions) {
-		this.translatorOptions = translatorOptions;
+	public TranslatorImpl(TranslatorOptionsImpl translatorOptionsImpl) {
+		this.translatorOptions = translatorOptionsImpl;
 		this.fileManager = new FileManagerImpl();
 	}
 	
@@ -42,7 +46,7 @@ public class TranslatorImpl implements Translator {
      * Constructs a {@code TranslatorImpl} with default {@link TranslatorOptions}.
      */
 	public TranslatorImpl() {
-		this(new TranslatorOptions());
+		this(new TranslatorOptionsImpl());
 	}
 	
 	/**
@@ -209,12 +213,11 @@ public class TranslatorImpl implements Translator {
 			logger.error("Failed to generate the Java translation: " + e.getMessage());
 			return false;
 		}
-		CompileResult result = fileManager.compileFile(asmName);
-		if (result.getSuccess() && javaFile != null) {
+		boolean result = fileManager.compileFile(asmName);
+		if (result && javaFile != null) {
 			exportJavaFile(javaFile);
 		} else {
 			logger.error("Failed to compile.");
-			logger.error("Compilation errors: " + result.toString());
 			return false;
 		}
 		return true;
@@ -249,6 +252,21 @@ public class TranslatorImpl implements Translator {
 		if(translatorOptions.getExport()) {
 			fileManager.exportFile(javaFile);
 		}
+	}
+
+	@Override
+	public List<String> getOptionNames() {
+		return translatorOptions.getPropertyNames();
+	}
+
+	@Override
+	public String getOptionsDescription() {
+		return translatorOptions.getDescription();
+	}
+
+	@Override
+	public String getModeDescription() {
+		return Mode.getDescription();
 	}
 
 
