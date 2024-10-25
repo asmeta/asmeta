@@ -3,7 +3,7 @@ package org.asmeta.asm2java.evosuite
 class CoverRules {
 	
 	// create a method that calls all the cover rules functions
-	static def coverRulesFunction(Rules rules){
+	static def coverRulesFunction(RulesGetter rules){
 		val sb = new StringBuffer();
 		
 		sb.append(
@@ -27,7 +27,7 @@ class CoverRules {
 	}
 	
 	// Create a method for the rule to cover all its branches
-	static def coverAllRules(Rules rules){
+	static def coverAllRules(RulesGetter rules){
 				val sb = new StringBuffer();
 		
 		for(String rule : rules.getRulesName()){

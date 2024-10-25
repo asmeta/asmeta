@@ -28,7 +28,6 @@ class CoverOutputs {
 										sb.append(System.lineSeparator)
 										sb.append("\t\t\t").append('''case «symbol» :
 										System.out.println("Branch «fd.codomain.name» «symbol» covered");
-										// Branch «fd.codomain.name» «symbol» covered
 										break;''');
 										sb.append(System.lineSeparator)
 									}

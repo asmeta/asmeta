@@ -61,14 +61,6 @@ public class CoverOutputs {
                       _builder_2.append(" covered\");");
                       _builder_2.newLineIfNotEmpty();
                       _builder_2.append("\t\t\t\t\t\t\t\t\t\t");
-                      _builder_2.append("// Branch ");
-                      String _name_3 = fd.getCodomain().getName();
-                      _builder_2.append(_name_3, "\t\t\t\t\t\t\t\t\t\t");
-                      _builder_2.append(" ");
-                      _builder_2.append(symbol, "\t\t\t\t\t\t\t\t\t\t");
-                      _builder_2.append(" covered");
-                      _builder_2.newLineIfNotEmpty();
-                      _builder_2.append("\t\t\t\t\t\t\t\t\t\t");
                       _builder_2.append("break;");
                       _append_2.append(_builder_2);
                       sb.append(System.lineSeparator());

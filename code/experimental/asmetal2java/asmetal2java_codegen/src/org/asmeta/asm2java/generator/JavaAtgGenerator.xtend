@@ -7,16 +7,16 @@ import org.junit.Assert
 import java.util.ArrayList
 import org.asmeta.asm2java.SeqRuleCollector
 import org.asmeta.asm2java.config.TranslatorOptions
-import org.asmeta.asm2java.evosuite.Rules
 import org.asmeta.asm2java.evosuite.CoverRules
 import org.asmeta.asm2java.evosuite.CoverOutputs
 import org.asmeta.asm2java.evosuite.AsmMethods
+import org.asmeta.asm2java.evosuite.RulesGetter
 
 class JavaAtgGenerator extends AsmToJavaGenerator {
 
-	Rules rules;
+	RulesGetter rules;
 	
-	new(Rules rules){
+	new(RulesGetter rules){
 		super()
 		this.rules = rules
 	}

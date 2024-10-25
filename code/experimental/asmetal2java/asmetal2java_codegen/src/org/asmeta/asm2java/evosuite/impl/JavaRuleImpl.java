@@ -1,7 +1,9 @@
-package org.asmeta.asm2java.evosuite;
+package org.asmeta.asm2java.evosuite.impl;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import org.asmeta.asm2java.evosuite.JavaRule;
 
 /**
  * The {@code Rule} class represents a java rule of the Asmeta specification,

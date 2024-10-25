@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * The {@code Rules} interface defines a set of operations for managing and retrieving rules.
+ * The {@code Rules} interface defines a set of operations for retrieving rules.
  */
-public interface Rules {
+public interface RulesGetter {
 
     /**
      * Checks if the rule collection is empty.

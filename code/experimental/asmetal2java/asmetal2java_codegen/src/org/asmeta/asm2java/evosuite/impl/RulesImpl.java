@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.evosuite;
+package org.asmeta.asm2java.evosuite.impl;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -6,10 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.asmeta.asm2java.evosuite.JavaRule;
+import org.asmeta.asm2java.evosuite.RulesGetter;
+import org.asmeta.asm2java.evosuite.RulesAdder;
+
 /**
  * The {@code RulesImpl} class is a concrete implementation of both the {@code Rules} and {@code RulesAdder} interfaces.
  */
-public final class RulesImpl implements Rules, RulesAdder {
+public final class RulesImpl implements RulesGetter, RulesAdder {
 
 	/** rules map {name:Rule} */
     private Map<String, JavaRule> rules;

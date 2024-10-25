@@ -6,7 +6,7 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
 public class CoverRules {
-  public static String coverRulesFunction(final Rules rules) {
+  public static String coverRulesFunction(final RulesGetter rules) {
     final StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("/**");
@@ -43,7 +43,7 @@ public class CoverRules {
     return sb.toString();
   }
 
-  public static String coverAllRules(final Rules rules) {
+  public static String coverAllRules(final RulesGetter rules) {
     final StringBuffer sb = new StringBuffer();
     Set<String> _rulesName = rules.getRulesName();
     for (final String rule : _rulesName) {

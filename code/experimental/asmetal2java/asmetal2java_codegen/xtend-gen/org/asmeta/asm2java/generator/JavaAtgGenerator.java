@@ -10,16 +10,16 @@ import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.evosuite.AsmMethods;
 import org.asmeta.asm2java.evosuite.CoverOutputs;
 import org.asmeta.asm2java.evosuite.CoverRules;
-import org.asmeta.asm2java.evosuite.Rules;
+import org.asmeta.asm2java.evosuite.RulesGetter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.junit.Assert;
 
 @SuppressWarnings("all")
 public class JavaAtgGenerator extends AsmToJavaGenerator {
-  private Rules rules;
+  private RulesGetter rules;
 
-  public JavaAtgGenerator(final Rules rules) {
+  public JavaAtgGenerator(final RulesGetter rules) {
     super();
     this.rules = rules;
   }

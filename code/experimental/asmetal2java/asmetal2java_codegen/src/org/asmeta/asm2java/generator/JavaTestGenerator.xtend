@@ -5,7 +5,7 @@ import asmeta.structure.Asm
 import asmeta.transitionrules.basictransitionrules.Rule
 import org.asmeta.asm2java.Util
 import org.asmeta.asm2java.evosuite.RulesAdder
-import org.asmeta.asm2java.evosuite.JavaRuleImpl
+import org.asmeta.asm2java.evosuite.impl.JavaRuleImpl
 import org.asmeta.asm2java.evosuite.RuleToJavaEvosuite
 import org.asmeta.asm2java.evosuite.JavaRule
 

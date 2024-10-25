@@ -2,7 +2,7 @@ package org.asmeta.asm2java.generator.impl;
 
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.config.TranslatorOptions;
-import org.asmeta.asm2java.evosuite.RulesImpl;
+import org.asmeta.asm2java.evosuite.impl.RulesImpl;
 import org.asmeta.asm2java.generator.Generator;
 import org.asmeta.asm2java.generator.JavaAtgGenerator;
 import org.asmeta.asm2java.generator.JavaExeGenerator;
