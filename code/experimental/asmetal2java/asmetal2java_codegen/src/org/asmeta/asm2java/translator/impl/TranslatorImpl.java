@@ -9,7 +9,6 @@ import org.asmeta.asm2java.config.Mode;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.config.impl.TranslatorOptionsImpl;
 import org.asmeta.asm2java.exceptions.AsmParsingException;
-import org.asmeta.asm2java.translator.FileManagerImpl;
 import org.asmeta.asm2java.translator.Translator;
 import org.asmeta.parser.ASMParser;
 

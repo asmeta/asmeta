@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.translator;
+package org.asmeta.asm2java.translator.impl;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -74,7 +74,7 @@ public class FileManagerImpl {
     /**
      * Constructs a {@code FileManagerImpl} instance with the default output directory.
      */
-	public FileManagerImpl() {
+	FileManagerImpl() {
 		this.outputFolder = DEFAULT_OUTPUT_DIR_PATH;
 	}
 	
@@ -86,7 +86,7 @@ public class FileManagerImpl {
      * @return the copied file.
      * @throws IOException if an I/O error occurs during the file copying process.
      */
-	public File retrieveInput(String asmspec) throws IOException {
+	File retrieveInput(String asmspec) throws IOException {
 		File asmFile = new File(asmspec);
 		if (!asmFile.exists()) {
 			logger.error("Failed to locate the input file:" + asmFile.toString());
@@ -109,7 +109,7 @@ public class FileManagerImpl {
      * @return the generated file.
      * @throws IOException if an I/O error occurs during file generation.
      */
-	public File generateFile(String name, AsmCollection model, TranslatorOptions userOptions, Mode mode) throws IOException {
+	File generateFile(String name, AsmCollection model, TranslatorOptions userOptions, Mode mode) throws IOException {
 		
 		File javaFile = null;
 		
@@ -165,7 +165,7 @@ public class FileManagerImpl {
      * @return {@code true} if the the result of the compilation is successful, {@code false} otherwise.
      * @throws IOException if an I/O error occurs.
      */
-	public boolean compileFile(String asmName) throws IOException {
+	boolean compileFile(String asmName) throws IOException {
 		logger.info("JavaCompiler: compiling the .java class...");
 		checkPath(COMPILER_DIR_PATH);
 		CompileResult result = compilerJava.compile(asmName + JAVA_EXTENSION, COMPILER_DIR_PATH, true);
@@ -182,7 +182,7 @@ public class FileManagerImpl {
      * @param javaFile the Java file to be exported.
      * @throws IOException if an I/O error occurs during the export.
      */
-	public void exportFile(File javaInputFile) {
+	void exportFile(File javaInputFile) {
 		File javaOutFile = new File(outputFolder + File.separator + javaInputFile.getName());
 		logger.info("Exporting " + javaInputFile + " to: " + outputFolder.toString());
 		try (InputStream in = new BufferedInputStream(Files.newInputStream(javaInputFile.toPath()));
@@ -205,7 +205,7 @@ public class FileManagerImpl {
     /**
      * Cleans the input directory by removing execution-related files.
      */
-	public void cleanInputDir() {
+	void cleanInputDir() {
 		if (INPUT_DIR_PATH.toFile().exists() && INPUT_DIR_PATH.toFile().isDirectory()) {
 			for (File file : INPUT_DIR_PATH.toFile().listFiles()) {
 				if (!file.getName().equals("STDL") && !file.getName().equals(".gitignore")) {
@@ -220,7 +220,7 @@ public class FileManagerImpl {
      * 
      * @param outputDir the path of the output directory.
      */
-	public void setOutputDir(String outputDir) {
+	void setOutputDir(String outputDir) {
 		this.outputFolder = Paths.get(outputDir);
 	}
 
