@@ -17,6 +17,8 @@ definitions:
 	// DOMAIN DEFINITIONS
 	domain Livello = {0:100, 25}
 
+	rule r_IncDec($b in Boolean) = if ($b) then statoLivello := statoLivello + 25 else statoLivello := statoLivello - 25 endif
+
 	// MAIN RULE
 	main rule r_Main =
 		if(riempi_completamente)
@@ -26,12 +28,12 @@ definitions:
 				else 	if(riempi_25_percento)
 						then 	if(statoLivello + 25 > 100) 
 								then skip
-								else statoLivello := statoLivello + 25
+								else r_IncDec[true]
 								endif
 						else 	if(svuota_25_percento)
 								then 	if(statoLivello - 25 < 0) 
 										then skip
-										else statoLivello := statoLivello - 25
+										else r_IncDec[false]
 										endif
 								else skip
 								endif

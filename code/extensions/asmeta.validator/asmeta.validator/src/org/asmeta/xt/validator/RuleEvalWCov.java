@@ -2,8 +2,14 @@ package org.asmeta.xt.validator;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.util.AsmPrinter;
@@ -15,7 +21,10 @@ import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.ValueAssignment;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.wrapper.RuleFactory;
+import org.asmeta.xt.validator.RuleExtractorFromMacroDecl.RuleExtractor;
 
+import asmeta.definitions.RuleDeclaration;
+import asmeta.terms.basicterms.Term;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
@@ -43,6 +52,8 @@ public class RuleEvalWCov extends RuleEvaluator {
 	static Collection<ConditionalRule> coveredConRuleF;
 	// covered updaterules
 	static Collection<UpdateRule> coveredUpdateRules;
+	// mapping between the original macro rules (with parameters) and the list of substitute rules created during the visit
+	static Map<Rule, Set<Rule>> ruleSubstitutions;
 	
 
 	// this must be called only once for run
@@ -55,6 +66,7 @@ public class RuleEvalWCov extends RuleEvaluator {
 		if (coveredConRuleT == null) coveredConRuleT = new HashSet<>();
 		if (coveredConRuleF == null) coveredConRuleF = new HashSet<>();
 		if (coveredUpdateRules == null) coveredUpdateRules = new HashSet<>();
+		if (ruleSubstitutions == null) ruleSubstitutions = new HashMap<>();
 	}
 
 	// this is called when a new state requires a new evaluator
@@ -66,6 +78,13 @@ public class RuleEvalWCov extends RuleEvaluator {
 	@Override
 	protected BooleanValue evalGuard(ConditionalRule condRule) {
 		BooleanValue eval = super.evalGuard(condRule);
+		if (logger.isDebugEnabled()) {
+			StringWriter out = new StringWriter();
+			PrintWriter st = new PrintWriter(out);
+			AsmPrinter asmPrint = new AsmPrinter(st);
+			asmPrint.visit(condRule);
+			logger.debug("adding coverage conditional rule ==> " + out.toString() + " --- " + condRule);
+		}
 		if (eval.getValue())   coveredConRuleT.add(condRule);
 		else coveredConRuleF.add(condRule);
 		return eval;
@@ -79,7 +98,7 @@ public class RuleEvalWCov extends RuleEvaluator {
 			PrintWriter st = new PrintWriter(out);
 			AsmPrinter asmPrint = new AsmPrinter(st);
 			asmPrint.visit(r);
-			logger.debug("adding coverage update rule ==> " + out.toString());
+			logger.debug("adding coverage update rule ==> " + out.toString() + " --- " + r);
 		}
 		return super.visit(r);
 	}
@@ -97,5 +116,26 @@ public class RuleEvalWCov extends RuleEvaluator {
 	protected RuleEvalWCov createRuleEvaluator(State nextState, Environment environment, ValueAssignment assignment){
 		RuleEvalWCov newREC =  new RuleEvalWCov(nextState,environment, assignment);
 		return newREC;
+	}
+	
+	@Override
+	public UpdateSet visit(RuleDeclaration dcl, List<Term> arguments) {		
+		UpdateSet updateSet = super.visit(dcl, arguments);
+		
+		//  Add, if not already present, the new rule substitution performed during the visit to the dictionary of rule substitutions
+		if (originalRule != null && substituteRule != null) {
+			List<Rule> oldRules = new RuleExtractor().visit(originalRule);
+			List<Rule> newRules = new RuleExtractor().visit(substituteRule);
+			for (int i = 0; i < oldRules.size(); i++) {
+				if (ruleSubstitutions.containsKey(oldRules.get(i)))
+					ruleSubstitutions.get(oldRules.get(i)).add(newRules.get(i));
+				else {
+					Set<Rule> n = new HashSet<>();
+					n.add(newRules.get(i));
+					ruleSubstitutions.put(oldRules.get(i), n);
+				}
+			}
+		}
+		return updateSet;
 	}
 }

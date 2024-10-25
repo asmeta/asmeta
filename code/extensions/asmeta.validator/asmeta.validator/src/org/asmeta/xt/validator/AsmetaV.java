@@ -17,7 +17,7 @@ import org.asmeta.simulator.Location;
 import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
-import org.asmeta.xt.validator.SimulatorWCov.BrancCovData;
+import org.asmeta.xt.validator.SimulatorWCov.BranchCovData;
 import org.asmeta.xt.validator.SimulatorWCov.UpdateCovData;
 
 import asmeta.definitions.RuleDeclaration;
@@ -190,13 +190,17 @@ public class AsmetaV {
 			for (SimpleEntry<String, String> r: coveredThisTime) {
 				String key = r.getKey();
 				String asmname = key.substring(1,key.lastIndexOf('_'));
-				if (asmname.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) continue;
+//				// Forse dovrebbe essere...
+//				String asmname = key.substring(0,key.lastIndexOf('_')-1);
+//				if (asmname.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) continue;
 				String ruleCompleteName = asmname + "::" + r.getValue();
 				coveredRules.put(ruleCompleteName , Boolean.TRUE);
 			}
 			// branch coverage
-			List<SimpleEntry<String, BrancCovData>> res = ((SimulatorWCov)sim).getCoveredBranches();
-			System.err.println(res);
+			Map<String, BranchCovData> res = ((SimulatorWCov)sim).getCoveredBranches();
+			for (Entry<String, BranchCovData> entry : res.entrySet()) {
+			    System.err.println(entry.getKey() + " " + entry.getValue());
+			}
 			// update rule coverage
 			List<SimpleEntry<String, UpdateCovData>> res2 = ((SimulatorWCov)sim).getCoveredUpdateRules();
 			System.err.println(res2);			

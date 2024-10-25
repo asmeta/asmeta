@@ -1,4 +1,4 @@
-module LTLlibrary
+module LTLLibrary
 
 export *
 

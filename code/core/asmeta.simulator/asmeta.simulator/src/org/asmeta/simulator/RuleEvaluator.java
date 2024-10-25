@@ -117,6 +117,18 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * 
 	 */
 	static HashMap<String, Rule> macros = new HashMap<String, Rule>();
+	
+	/**
+	 * The rule before the last performed substitution. For coverage purposes.
+	 * 
+	 */
+	protected Rule originalRule = null;
+	
+	/**
+	 * The rule after the last performed substitution. For coverage purposes.
+	 * 
+	 */
+	protected Rule substituteRule = null;
 
 	public final TermEvaluator termEval;
 
@@ -798,6 +810,9 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				macros.put(signature, newRule);
 			}
 			updateSet = visit(newRule);
+			// For coverage purposes, save the two objects representing the rule before and after the substitution
+			originalRule = body;
+			substituteRule = newRule;
 		}
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
 		return updateSet;
