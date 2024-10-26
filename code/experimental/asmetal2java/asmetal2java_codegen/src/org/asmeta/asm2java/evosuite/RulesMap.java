@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * The {@code RulesImpl} class is a concrete implementation of both the {@code Rules} and {@code RulesAdder} interfaces.
+ * The {@code RulesMap} class is a concrete implementation of both the {@code RulesGetter} and {@code RulesAdder} interfaces.
  */
-public final class RulesImpl implements RulesGetter, RulesAdder {
+public final class RulesMap implements RulesGetter, RulesAdder {
 
 	/** rules map {name:Rule} */
     private Map<String, JavaRule> rules;
@@ -17,7 +17,7 @@ public final class RulesImpl implements RulesGetter, RulesAdder {
     /**
      * Constructs an empty {@code RulesImpl} instance with an empty rule collection.
      */
-    public RulesImpl() {
+    public RulesMap() {
         this.rules = new HashMap<>();
     }
 
