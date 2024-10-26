@@ -838,13 +838,16 @@ public class JavaGenerator extends AsmToJavaGenerator {
     if (((this.seqCalledRules == null) || this.seqCalledRules.contains(r.getRuleBody()))) {
       String _name = r.getName();
       String _plus = (_name + "_seq");
-      result.append(this.foo2(r, _plus, asm));
+      result.append(this.ruleTranslation(r, _plus, asm));
     }
-    result.append(this.foo2(r, r.getName(), asm));
+    result.append(this.ruleTranslation(r, r.getName(), asm));
     return result.toString();
   }
 
-  public String foo2(final RuleDeclaration r, final String methodName, final Asm asm) {
+  /**
+   * Method to build rule body in Java. (former foo2)
+   */
+  public String ruleTranslation(final RuleDeclaration r, final String methodName, final Asm asm) {
     Integer _arity = r.getArity();
     boolean _equals = ((_arity).intValue() == 0);
     if (_equals) {

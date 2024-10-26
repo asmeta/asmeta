@@ -462,15 +462,18 @@ class JavaGenerator extends AsmToJavaGenerator {
 		var StringBuffer result = new StringBuffer
 
 		if (seqCalledRules === null || seqCalledRules.contains(r.ruleBody)) {
-			result.append(foo2(r, r.name + "_seq", asm))
+			result.append(ruleTranslation(r, r.name + "_seq", asm))
 		}
 
-		result.append(foo2(r, r.name, asm))
+		result.append(ruleTranslation(r, r.name, asm))
 		return result.toString
 	}
 
-	// Metodo per costruire il corpo della regola in Java
-	def String foo2(RuleDeclaration r, String methodName, Asm asm) {
+	/**
+	 * Method to build rule body in Java. (former foo2)
+	 * 
+	 */
+	def String ruleTranslation(RuleDeclaration r, String methodName, Asm asm) {
 		if (r.arity == 0)
 			return ('''
 				@Override

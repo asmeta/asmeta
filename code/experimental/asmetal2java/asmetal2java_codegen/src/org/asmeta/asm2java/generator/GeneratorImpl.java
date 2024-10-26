@@ -2,7 +2,7 @@ package org.asmeta.asm2java.generator;
 
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.config.TranslatorOptions;
-import org.asmeta.asm2java.evosuite.RulesImpl;
+import org.asmeta.asm2java.evosuite.RulesMap;
 
 import asmeta.structure.Asm;
 
@@ -24,7 +24,7 @@ public class GeneratorImpl implements Generator {
 	private static final JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
 	
 	/** Instance of the RulesImpl, a Map {name:Rule} collection containing the rules of the Asmeta specification */
-	private static RulesImpl rulesImpl = new RulesImpl();
+	private static RulesMap rulesImpl = new RulesMap();
 	
 	/** Generator of the java class used for test generation */
 	private static JavaTestGenerator jGeneratorTest = new JavaTestGenerator(rulesImpl);

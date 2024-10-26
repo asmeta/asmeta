@@ -12,6 +12,10 @@ import org.asmeta.asm2java.evosuite.CoverOutputs
 import org.asmeta.asm2java.evosuite.AsmMethods
 import org.asmeta.asm2java.evosuite.RulesGetter
 
+/**
+ * This generator creates a Java wrapper class that queries the translated java class 
+ * with the aim of generating tests with an external tool like Evosutie.
+ */
 class JavaAtgGenerator extends AsmToJavaGenerator {
 
 	RulesGetter rules;

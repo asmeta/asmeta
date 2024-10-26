@@ -15,6 +15,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.junit.Assert;
 
+/**
+ * This generator creates a Java wrapper class that queries the translated java class
+ * with the aim of generating tests with an external tool like Evosutie.
+ */
 @SuppressWarnings("all")
 public class JavaAtgGenerator extends AsmToJavaGenerator {
   private RulesGetter rules;

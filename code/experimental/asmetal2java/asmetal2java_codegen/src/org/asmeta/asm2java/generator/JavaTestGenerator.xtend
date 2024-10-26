@@ -8,6 +8,10 @@ import org.asmeta.asm2java.evosuite.RulesAdder
 import org.asmeta.asm2java.evosuite.RuleToJavaEvosuite
 import org.asmeta.asm2java.evosuite.JavaRule
 
+/**
+ * This generator creates a translated version of the Java class for testing purposes only,
+ *  in fact it creates the class that the _Atg class queries.
+ */
 class JavaTestGenerator extends JavaGenerator {
 	
 	RulesAdder rules;
@@ -16,8 +20,8 @@ class JavaTestGenerator extends JavaGenerator {
 		super()
 		this.rules = rules
 	}
-	
-	override String foo2(RuleDeclaration r, String methodName, Asm asm) {
+
+	override String ruleTranslation(RuleDeclaration r, String methodName, Asm asm) {
 		var rule = new JavaRule(methodName)
 		var sb = new StringBuffer();
 		if (r.arity == 0){

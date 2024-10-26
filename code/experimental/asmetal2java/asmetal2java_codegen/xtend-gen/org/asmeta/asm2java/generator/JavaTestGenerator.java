@@ -10,6 +10,10 @@ import org.asmeta.asm2java.evosuite.RuleToJavaEvosuite;
 import org.asmeta.asm2java.evosuite.RulesAdder;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
+/**
+ * This generator creates a translated version of the Java class for testing purposes only,
+ *  in fact it creates the class that the _Atg class queries.
+ */
 @SuppressWarnings("all")
 public class JavaTestGenerator extends JavaGenerator {
   private RulesAdder rules;
@@ -20,7 +24,7 @@ public class JavaTestGenerator extends JavaGenerator {
   }
 
   @Override
-  public String foo2(final RuleDeclaration r, final String methodName, final Asm asm) {
+  public String ruleTranslation(final RuleDeclaration r, final String methodName, final Asm asm) {
     JavaRule rule = new JavaRule(methodName);
     StringBuffer sb = new StringBuffer();
     Integer _arity = r.getArity();
