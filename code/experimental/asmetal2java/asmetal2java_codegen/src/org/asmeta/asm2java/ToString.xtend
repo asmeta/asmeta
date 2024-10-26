@@ -27,7 +27,7 @@ import asmeta.definitions.domains.AgentDomain
 class ToString extends ReflectiveVisitor<String> {
 
 	package Integer numStaticParam
-	Asm res
+	protected Asm res
 
 	new(Asm resource) {
 		this.res = resource

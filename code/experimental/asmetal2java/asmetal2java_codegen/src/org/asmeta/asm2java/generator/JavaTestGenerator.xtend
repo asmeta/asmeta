@@ -216,6 +216,65 @@ class JavaTestGenerator extends JavaGenerator {
 		return sb.toString
 	}
 	
+	// Definisce una variabile concreta o enumerativa
+	override domainSignature(Asm asm) {
+		var sb = new StringBuffer;
+		for (dd : asm.headerSection.signature.domain) {
+
+			if (dd instanceof AbstractTd == false)
+				sb.append(
+					"//Variabile di tipo Concreto o Enumerativo" + "\n\n" + new DomainToJavaEvosuiteSigDef(asm).visit(dd) +
+						"\n")
+
+		}
+		return sb.toString
+	}
+	
+	// Metodo per settare i valori dei domini definiti Dynamic nel signature
+	// Da controllarne l'uso: Dynamic domains must be initialized, not defined!
+	override initialDynamicDomainDefinition(Asm asm) {
+
+		var StringBuffer initial = new StringBuffer
+
+		if (asm.defaultInitialState !== null && asm.defaultInitialState.domainInitialization !== null) {
+
+			for (dd : asm.defaultInitialState.domainInitialization) {
+
+				val domaintojava = new DomainToJavaEvosuiteSigDef(asm).visit(dd)
+				initial.append(Util.getElemsSetName(dd.initializedDomain.name) + "=" + domaintojava + ";\n")
+			}
+		}
+		if (initial.length != 0)
+			return initial.toString + "\n"
+		else
+			return ""
+	}
+	
+	// Seconda parte dedicata allo studio dei metodi per la creazione della classe che rappresenta la parte
+	// definitions del programma ASM, nel progetto precedente era la classe destinata alla creazione del file cpp
+	// Metodo per settare i valori dei domini definiti static nel signature
+	override initialStaticDomainDefinition(Asm asm) {
+
+		var StringBuffer initial = new StringBuffer
+
+		if (asm.bodySection !== null && asm.bodySection.domainDefinition !== null) {
+			for (dd : asm.bodySection.domainDefinition) {
+
+				initial.append(
+					dd.definedDomain.name + ".elems = Collections.unmodifiableList(Arrays.asList" +
+						new DomainToJavaEvosuiteSigDef(asm).visit(dd) + ");\n")
+				initial.append(
+					dd.definedDomain.name + "_elems = Collections.unmodifiableList(Arrays.asList" +
+						new DomainToJavaEvosuiteSigDef(asm).visit(dd) + ");\n")
+			}
+		}
+
+		if (initial.toString.length != 0)
+			return initial.toString + "\n"
+		else
+			return ""
+	}
+	
 	// Metodo per studiare le function del programma ASM
 	override functionSignature(Asm asm) {
 		var sb = new StringBuffer;

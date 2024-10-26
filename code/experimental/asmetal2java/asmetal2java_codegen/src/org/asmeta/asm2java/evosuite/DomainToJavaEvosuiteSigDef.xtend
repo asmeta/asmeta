@@ -67,7 +67,7 @@ class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
 			sb.append('''
 				class  «object.name»{
 				
-				List<«new ToString(res).visit(object.typeDomain)»> elems = new ArrayList<>();			      
+				List<«new ToStringEvosuite(res).visit(object.typeDomain)»> elems = new ArrayList<>();			      
 				«new ToString(res).visit(object.typeDomain)» value;			      
 				«object.name»(«new ToString(res).visit(object.typeDomain)» i) { 
 				   value = i;
@@ -81,7 +81,7 @@ class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
 		else {
 			sb.append('''static class  «object.name» {
 				private static List<«new ToString(res).visit(object.typeDomain)»> elems = new ArrayList<>();
-                private «new ToString(res).visit(object.typeDomain)» value;
+                «new ToString(res).visit(object.typeDomain)» value;
                 
                 static «object.name» valueOf(«new ToString(res).visit(object.typeDomain)» val) {
                 	«object.name» n = new «object.name»();

@@ -102,7 +102,7 @@ class FunctionToJavaEvosuiteSig extends FunctionToJavaSig  {
 		if (domain instanceof StructuredTd || domain instanceof StructuredTdImpl)
 			sb.append('''«new DomainToJavaEvosuiteSigDef(res).visit(domain)»''')
 		else 
-			sb.append('''«new ToString(res).visit(domain)»''')
+			sb.append('''«new ToStringEvosuite(res).visit(domain)»''')
 		return sb.toString
 	}
 

@@ -78,7 +78,7 @@ class AsmMethods {
 						if(dd.equals(fd.domain)){
 							if(dd instanceof EnumTd){
 								for (var int i = 0; i < dd.element.size; i++) {
-									var symbol = new ToString(asm).visit(dd.element.get(i))
+									var symbol = new ToStringEvosuite(asm).visit(dd.element.get(i))
 									sb.append(System.lineSeparator)
 									if(fd.codomain instanceof ConcreteDomain){ // considero subsetOf Integer
 										sb.append("\t").append('''public int get_«fd.name»_«symbol»(){''');
@@ -235,7 +235,7 @@ class AsmMethods {
 						if(dd.equals(fd.domain)){
 							if(dd instanceof EnumTd){
 								for (var int i = 0; i < dd.element.size; i++) {
-									var symbol = new ToString(asm).visit(dd.element.get(i))
+									var symbol = new ToStringEvosuite(asm).visit(dd.element.get(i))
 									sb.append(System.lineSeparator)
 									if(fd.codomain instanceof ConcreteDomain){ // considero subsetOf Integer
 										sb.append("\t").append('''private int get_«fd.name»_«symbol»(){''');
@@ -457,7 +457,7 @@ class AsmMethods {
 					var dd = fd.domain
 					if(dd instanceof EnumTd){ // Enum -> ...
 						for (var int i = 0; i < dd.element.size; i++) {
-							var symbol = new ToString(asm).visit(dd.element.get(i))
+							var symbol = new ToStringEvosuite(asm).visit(dd.element.get(i))
 							if(fd.codomain instanceof ConcreteDomain){ // Enum -> ConcreteDomain 
 								sb.append(System.lineSeparator)
 								sb.append('''

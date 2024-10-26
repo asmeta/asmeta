@@ -6,6 +6,8 @@ import asmeta.definitions.RuleDeclaration;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.Domain;
 import asmeta.structure.Asm;
+import asmeta.structure.DomainDefinition;
+import asmeta.structure.DomainInitialization;
 import asmeta.structure.FunctionDefinition;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import java.util.ArrayList;
@@ -495,6 +497,80 @@ public class JavaTestGenerator extends JavaGenerator {
       }
     }
     return sb.toString();
+  }
+
+  @Override
+  public String domainSignature(final Asm asm) {
+    StringBuffer sb = new StringBuffer();
+    EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
+    for (final Domain dd : _domain) {
+      if (((dd instanceof AbstractTd) == false)) {
+        String _visit = new DomainToJavaEvosuiteSigDef(asm).visit(dd);
+        String _plus = (("//Variabile di tipo Concreto o Enumerativo" + "\n\n") + _visit);
+        String _plus_1 = (_plus + 
+          "\n");
+        sb.append(_plus_1);
+      }
+    }
+    return sb.toString();
+  }
+
+  @Override
+  public String initialDynamicDomainDefinition(final Asm asm) {
+    StringBuffer initial = new StringBuffer();
+    if (((asm.getDefaultInitialState() != null) && (asm.getDefaultInitialState().getDomainInitialization() != null))) {
+      EList<DomainInitialization> _domainInitialization = asm.getDefaultInitialState().getDomainInitialization();
+      for (final DomainInitialization dd : _domainInitialization) {
+        {
+          final String domaintojava = new DomainToJavaEvosuiteSigDef(asm).visit(dd);
+          String _elemsSetName = Util.getElemsSetName(dd.getInitializedDomain().getName());
+          String _plus = (_elemsSetName + "=");
+          String _plus_1 = (_plus + domaintojava);
+          String _plus_2 = (_plus_1 + ";\n");
+          initial.append(_plus_2);
+        }
+      }
+    }
+    int _length = initial.length();
+    boolean _notEquals = (_length != 0);
+    if (_notEquals) {
+      String _string = initial.toString();
+      return (_string + "\n");
+    } else {
+      return "";
+    }
+  }
+
+  @Override
+  public String initialStaticDomainDefinition(final Asm asm) {
+    StringBuffer initial = new StringBuffer();
+    if (((asm.getBodySection() != null) && (asm.getBodySection().getDomainDefinition() != null))) {
+      EList<DomainDefinition> _domainDefinition = asm.getBodySection().getDomainDefinition();
+      for (final DomainDefinition dd : _domainDefinition) {
+        {
+          String _name = dd.getDefinedDomain().getName();
+          String _plus = (_name + ".elems = Collections.unmodifiableList(Arrays.asList");
+          String _visit = new DomainToJavaEvosuiteSigDef(asm).visit(dd);
+          String _plus_1 = (_plus + _visit);
+          String _plus_2 = (_plus_1 + ");\n");
+          initial.append(_plus_2);
+          String _name_1 = dd.getDefinedDomain().getName();
+          String _plus_3 = (_name_1 + "_elems = Collections.unmodifiableList(Arrays.asList");
+          String _visit_1 = new DomainToJavaEvosuiteSigDef(asm).visit(dd);
+          String _plus_4 = (_plus_3 + _visit_1);
+          String _plus_5 = (_plus_4 + ");\n");
+          initial.append(_plus_5);
+        }
+      }
+    }
+    int _length = initial.toString().length();
+    boolean _notEquals = (_length != 0);
+    if (_notEquals) {
+      String _string = initial.toString();
+      return (_string + "\n");
+    } else {
+      return "";
+    }
   }
 
   @Override

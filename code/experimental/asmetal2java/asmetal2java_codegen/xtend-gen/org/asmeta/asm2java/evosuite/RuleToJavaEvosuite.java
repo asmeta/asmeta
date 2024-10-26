@@ -9,7 +9,6 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
-import org.asmeta.asm2java.DomainToJavaSigDef;
 import org.asmeta.asm2java.RuleToJava;
 import org.asmeta.asm2java.TermToJava;
 import org.asmeta.asm2java.config.TranslatorOptions;
@@ -222,12 +221,12 @@ public class RuleToJavaEvosuite extends RuleToJava {
   public String visit(final ExtendRule rule) {
     StringBuffer string = new StringBuffer();
     for (int i = 0; (i < rule.getBoundVar().size()); i++) {
-      String _visit = new DomainToJavaSigDef(this.res).visit(rule.getExtendedDomain());
+      String _visit = new DomainToJavaEvosuiteSigDef(this.res).visit(rule.getExtendedDomain());
       String _plus = (_visit + " ");
       String _visit_1 = new TermToJava(this.res).visit(rule.getBoundVar().get(i));
       String _plus_1 = (_plus + _visit_1);
       String _plus_2 = (_plus_1 + " = new ");
-      String _visit_2 = new DomainToJavaSigDef(this.res).visit(rule.getExtendedDomain());
+      String _visit_2 = new DomainToJavaEvosuiteSigDef(this.res).visit(rule.getExtendedDomain());
       String _plus_3 = (_plus_2 + _visit_2);
       String _plus_4 = (_plus_3 + "();\n");
       string.append(_plus_4);

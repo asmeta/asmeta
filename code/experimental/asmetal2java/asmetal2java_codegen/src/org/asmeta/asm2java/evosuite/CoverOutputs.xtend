@@ -1,6 +1,5 @@
 package org.asmeta.asm2java.evosuite
 
-import org.asmeta.asm2java.ToString
 import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.ControlledFunction
 import asmeta.definitions.MonitoredFunction
@@ -24,7 +23,7 @@ class CoverOutputs {
 							if(dd.equals(fd.codomain)){
 								if(dd instanceof EnumTd){
 									for (var int i = 0; i < dd.element.size; i++) {
-										var symbol = new ToString(asm).visit(dd.element.get(i))
+										var symbol = new ToStringEvosuite(asm).visit(dd.element.get(i))
 										sb.append(System.lineSeparator)
 										sb.append("\t\t\t").append('''case «symbol» :
 										System.out.println("Branch «fd.codomain.name» «symbol» covered");

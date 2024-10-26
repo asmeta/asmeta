@@ -30,7 +30,7 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 public class ToString extends ReflectiveVisitor<String> {
   Integer numStaticParam;
 
-  private Asm res;
+  protected Asm res;
 
   public ToString(final Asm resource) {
     this.res = resource;

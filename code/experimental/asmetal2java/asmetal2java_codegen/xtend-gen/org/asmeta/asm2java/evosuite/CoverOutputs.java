@@ -6,7 +6,6 @@ import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.structure.Asm;
-import org.asmeta.asm2java.ToString;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
@@ -44,7 +43,7 @@ public class CoverOutputs {
                 if ((dd instanceof EnumTd)) {
                   for (int i = 0; (i < ((EnumTd)dd).getElement().size()); i++) {
                     {
-                      String symbol = new ToString(asm).visit(((EnumTd)dd).getElement().get(i));
+                      String symbol = new ToStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
                       sb.append(System.lineSeparator());
                       StringBuffer _append_2 = sb.append("\t\t\t");
                       StringConcatenation _builder_2 = new StringConcatenation();

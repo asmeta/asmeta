@@ -17,7 +17,6 @@ import asmeta.definitions.domains.StructuredTd;
 import asmeta.definitions.domains.impl.StructuredTdImpl;
 import asmeta.structure.Asm;
 import org.asmeta.asm2java.FunctionToJavaSig;
-import org.asmeta.asm2java.ToString;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
@@ -153,7 +152,7 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
       sb.append(_builder);
     } else {
       StringConcatenation _builder_1 = new StringConcatenation();
-      String _visit_1 = new ToString(this.res).visit(domain);
+      String _visit_1 = new ToStringEvosuite(this.res).visit(domain);
       _builder_1.append(_visit_1);
       sb.append(_builder_1);
     }

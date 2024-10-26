@@ -143,7 +143,7 @@ public class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
       _builder.newLineIfNotEmpty();
       _builder.newLine();
       _builder.append("List<");
-      String _visit = new ToString(this.res).visit(object.getTypeDomain());
+      String _visit = new ToStringEvosuite(this.res).visit(object.getTypeDomain());
       _builder.append(_visit);
       _builder.append("> elems = new ArrayList<>();\t\t\t      ");
       _builder.newLineIfNotEmpty();
@@ -193,7 +193,6 @@ public class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
       _builder_1.append("> elems = new ArrayList<>();");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("                ");
-      _builder_1.append("private ");
       String _visit_5 = new ToString(this.res).visit(object.getTypeDomain());
       _builder_1.append(_visit_5, "                ");
       _builder_1.append(" value;");

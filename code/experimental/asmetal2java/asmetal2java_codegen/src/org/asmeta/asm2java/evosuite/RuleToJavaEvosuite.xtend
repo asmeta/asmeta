@@ -116,9 +116,9 @@ class RuleToJavaEvosuite extends RuleToJava {
 		var string = new StringBuffer
 		for (var i = 0; i < rule.boundVar.size; i++)
 			string.append(
-				new DomainToJavaSigDef(res).visit(rule.extendedDomain) + " " +
+				new DomainToJavaEvosuiteSigDef(res).visit(rule.extendedDomain) + " " +
 					new TermToJava(res).visit(rule.boundVar.get(i)) + " = new " +
-					new DomainToJavaSigDef(res).visit(rule.extendedDomain) + "();\n");
+					new DomainToJavaEvosuiteSigDef(res).visit(rule.extendedDomain) + "();\n");
 		return string.toString + new RuleToJavaEvosuite(res,seqBlock,options,currRule).visit(rule.doRule)
 
 	}
