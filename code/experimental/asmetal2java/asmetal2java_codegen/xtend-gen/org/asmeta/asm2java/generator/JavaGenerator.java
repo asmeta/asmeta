@@ -37,16 +37,16 @@ import org.junit.Assert;
  */
 @SuppressWarnings("all")
 public class JavaGenerator extends AsmToJavaGenerator {
-  private String initConrolledMonitored;
+  protected String initConrolledMonitored;
 
   public void compileAndWrite(final Asm asm, final String writerPath, final TranslatorOptions userOptions) {
     Assert.assertTrue(writerPath.endsWith(".java"));
     this.compileAndWrite(asm, writerPath, "JAVA", userOptions);
   }
 
-  private List<Rule> seqCalledRules;
+  protected List<Rule> seqCalledRules;
 
-  private String supp;
+  protected String supp;
 
   @Override
   public String compileAsm(final Asm asm) {

@@ -20,7 +20,7 @@ import org.eclipse.xtend2.lib.StringConcatenation;
  */
 @SuppressWarnings("all")
 public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
-  private Asm res;
+  protected Asm res;
 
   public DomainToJavaSigDef(final Asm resource) {
     this.res = resource;

@@ -12,7 +12,6 @@ import java.util.List
 import org.asmeta.asm2java.DomainToJavaSigDef
 import org.asmeta.asm2java.FindMonitoredInControlledFunct
 import org.asmeta.asm2java.FunctionToJavaDef
-import org.asmeta.asm2java.FunctionToJavaSig
 import org.asmeta.asm2java.RuleToJava
 import org.asmeta.asm2java.SeqRuleCollector
 import org.asmeta.asm2java.Util
@@ -20,11 +19,12 @@ import org.junit.Assert
 import asmeta.definitions.domains.EnumTd
 import org.asmeta.asm2java.ToString
 import org.asmeta.asm2java.config.TranslatorOptions
+import org.asmeta.asm2java.FunctionToJavaSig
 
 /**Generates .java ASM file */
 class JavaGenerator extends AsmToJavaGenerator {
 
-	String initConrolledMonitored
+	protected String initConrolledMonitored
 
 	def compileAndWrite(Asm asm, String writerPath, TranslatorOptions userOptions) {
 		Assert.assertTrue(writerPath.endsWith(".java"));
@@ -33,9 +33,9 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 	// all the rules that must translate in two versions seq and not seq
 	// if null, translate all
-	List<Rule> seqCalledRules;
+	protected List<Rule> seqCalledRules;
 
-	String supp
+	protected String supp
 
 	override compileAsm(Asm asm) {
 		// collect alla the seq rules if required

@@ -19,7 +19,7 @@ import org.asmeta.parser.util.ReflectiveVisitor
  */
 class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 
-	Asm res
+	protected Asm res
 
 	new(Asm resource) {
 		this.res = resource
