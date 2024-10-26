@@ -29,7 +29,7 @@ public class TranslatorImpl implements Translator {
     private final TranslatorOptions translatorOptions;
 
     /** File manager instance for handling file operations. */
-    private final FileManagerImpl fileManager;
+    private final FileManager fileManager;
 
     /**
      * Constructs a {@code TranslatorImpl} with the specified translator options.
@@ -38,7 +38,7 @@ public class TranslatorImpl implements Translator {
      */
 	public TranslatorImpl(TranslatorOptionsImpl translatorOptionsImpl) {
 		this.translatorOptions = translatorOptionsImpl;
-		this.fileManager = new FileManagerImpl();
+		this.fileManager = new FileManager();
 	}
 	
     /**

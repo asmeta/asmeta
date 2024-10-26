@@ -8,7 +8,6 @@ import org.asmeta.asm2java.Util;
 import org.asmeta.asm2java.evosuite.JavaRule;
 import org.asmeta.asm2java.evosuite.RuleToJavaEvosuite;
 import org.asmeta.asm2java.evosuite.RulesAdder;
-import org.asmeta.asm2java.evosuite.impl.JavaRuleImpl;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
@@ -22,7 +21,7 @@ public class JavaTestGenerator extends JavaGenerator {
 
   @Override
   public String foo2(final RuleDeclaration r, final String methodName, final Asm asm) {
-    JavaRuleImpl rule = new JavaRuleImpl(methodName);
+    JavaRule rule = new JavaRule(methodName);
     StringBuffer sb = new StringBuffer();
     Integer _arity = r.getArity();
     boolean _equals = ((_arity).intValue() == 0);

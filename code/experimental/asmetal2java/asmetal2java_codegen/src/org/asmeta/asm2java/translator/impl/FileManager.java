@@ -25,9 +25,9 @@ import org.asmeta.asm2java.generator.impl.GeneratorImpl;
 import asmeta.AsmCollection;
 
 /**
- * The {@code FileManagerImpl} class provides an implementation of the {@link FileManager} interface.
+ * The {@code FileManagerImpl} class provides methods for working with files.
  */
-public class FileManagerImpl {
+public class FileManager {
 
 	/* constants */
 	private static final String ATG_EXTENSION = "_ATG.java";
@@ -39,7 +39,7 @@ public class FileManagerImpl {
 	private static final String OUTPUT = "output";
 	
 	/** Logger */
-	private static final Logger logger = Logger.getLogger(FileManagerImpl.class);
+	private static final Logger logger = Logger.getLogger(FileManager.class);
 	
 	/** Path to the input directory. */
 	private static final Path INPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), INPUT);
@@ -72,9 +72,9 @@ public class FileManagerImpl {
     private Path outputFolder;
 
     /**
-     * Constructs a {@code FileManagerImpl} instance with the default output directory.
+     * Constructs a {@code FileManager} instance with the default output directory.
      */
-	FileManagerImpl() {
+	FileManager() {
 		this.outputFolder = DEFAULT_OUTPUT_DIR_PATH;
 	}
 	
