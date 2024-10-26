@@ -1,6 +1,4 @@
-package org.asmeta.asm2java.compiler.impl;
-
-import org.asmeta.asm2java.compiler.CompileResult;
+package org.asmeta.asm2java.compiler;
 
 public class CompileResultImpl implements CompileResult{
 	private boolean success;

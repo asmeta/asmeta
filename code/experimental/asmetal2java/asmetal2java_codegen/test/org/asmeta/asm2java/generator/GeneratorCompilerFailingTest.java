@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.asmeta.asm2java.config.TranslatorOptions;
-import org.asmeta.asm2java.config.impl.TranslatorOptionsImpl;
+import org.asmeta.asm2java.config.TranslatorOptionsImpl;
 import org.junit.Test;
 
 public class GeneratorCompilerFailingTest {

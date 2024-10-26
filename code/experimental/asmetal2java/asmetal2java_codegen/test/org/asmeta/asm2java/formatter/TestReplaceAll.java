@@ -1,7 +1,8 @@
-package org.asmeta.asm2java.formatter.impl;
+package org.asmeta.asm2java.formatter;
 
 import static org.junit.Assert.*;
 
+import org.asmeta.asm2java.formatter.FormatterImpl;
 import org.junit.Test;
 
 public class TestReplaceAll {

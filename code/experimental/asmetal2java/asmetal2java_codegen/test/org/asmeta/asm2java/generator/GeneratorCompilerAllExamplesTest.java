@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.asmeta.asm2java.config.TranslatorOptions;
-import org.asmeta.asm2java.config.impl.TranslatorOptionsImpl;
+import org.asmeta.asm2java.config.TranslatorOptionsImpl;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 

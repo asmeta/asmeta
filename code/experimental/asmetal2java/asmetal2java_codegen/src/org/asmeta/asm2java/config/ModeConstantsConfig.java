@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.config.impl;
+package org.asmeta.asm2java.config;
 
 /**
  * This class {@code ModeConstantsConfig} contains several constants that represent the translator's modes.

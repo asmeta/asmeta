@@ -9,7 +9,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.asmeta.asm2java.config.TranslatorOptions
 import org.asmeta.asm2java.formatter.Formatter
-import org.asmeta.asm2java.formatter.impl.FormatterImpl
+import org.asmeta.asm2java.formatter.FormatterImpl
 
 /** the real generator
  */

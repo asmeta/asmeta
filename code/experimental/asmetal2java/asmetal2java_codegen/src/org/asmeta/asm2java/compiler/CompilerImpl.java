@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.compiler.impl;
+package org.asmeta.asm2java.compiler;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +12,6 @@ import javax.tools.ToolProvider;
 
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.NotValidFileException;
-import org.asmeta.asm2java.compiler.CompileResult;
-import org.asmeta.asm2java.compiler.Compiler;
 
 /**
  * Implementation of the {@link Compiler} interface.

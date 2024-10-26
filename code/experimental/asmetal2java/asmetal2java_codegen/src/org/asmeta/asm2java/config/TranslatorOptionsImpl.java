@@ -1,11 +1,10 @@
-package org.asmeta.asm2java.config.impl;
+package org.asmeta.asm2java.config;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
-import org.asmeta.asm2java.config.TranslatorOptions;
 
 /** 
  * contains the translation options used by the generators to decide the behaviors of the generators

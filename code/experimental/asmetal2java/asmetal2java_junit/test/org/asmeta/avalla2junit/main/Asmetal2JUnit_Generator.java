@@ -20,7 +20,7 @@ import org.junit.runner.notification.RunListener;
 import asmetal2java_junit.AvallaToString;
 
 import org.asmeta.asm2java.config.TranslatorOptions;
-import org.asmeta.asm2java.formatter.impl.FormatterImpl;
+import org.asmeta.asm2java.formatter.FormatterImpl;
 import org.asmeta.asm2java.generator.GeneratorCompilerTest;
 
 import com.google.inject.Guice;

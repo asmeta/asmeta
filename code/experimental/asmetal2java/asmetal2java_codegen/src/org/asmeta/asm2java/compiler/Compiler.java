@@ -2,8 +2,6 @@ package org.asmeta.asm2java.compiler;
 
 import java.nio.file.Path;
 
-import org.asmeta.asm2java.compiler.impl.CompileResultImpl;
-
 /**
  * The {@code CompilerJava} interface defines the contract for compiling the generated Java class.
  */

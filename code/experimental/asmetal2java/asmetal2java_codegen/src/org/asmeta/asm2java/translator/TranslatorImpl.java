@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.translator.impl;
+package org.asmeta.asm2java.translator;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,9 +7,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.config.Mode;
 import org.asmeta.asm2java.config.TranslatorOptions;
-import org.asmeta.asm2java.config.impl.TranslatorOptionsImpl;
+import org.asmeta.asm2java.config.TranslatorOptionsImpl;
 import org.asmeta.asm2java.exceptions.AsmParsingException;
-import org.asmeta.asm2java.translator.Translator;
 import org.asmeta.parser.ASMParser;
 
 import asmeta.AsmCollection;

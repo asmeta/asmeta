@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.asmeta.asm2java.compiler.CompileResult;
+import org.asmeta.asm2java.compiler.CompileResultImpl;
 import org.asmeta.asm2java.compiler.Compiler;
-import org.asmeta.asm2java.compiler.impl.CompileResultImpl;
-import org.asmeta.asm2java.compiler.impl.CompilerImpl;
+import org.asmeta.asm2java.compiler.CompilerImpl;
 import org.asmeta.asm2java.config.TranslatorOptions;
-import org.asmeta.asm2java.config.impl.TranslatorOptionsImpl;
+import org.asmeta.asm2java.config.TranslatorOptionsImpl;
 import org.asmeta.asm2java.generator.*;
 import org.asmeta.parser.ASMParser;
 import org.junit.BeforeClass;

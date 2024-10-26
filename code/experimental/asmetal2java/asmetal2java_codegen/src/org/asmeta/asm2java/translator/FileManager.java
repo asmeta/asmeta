@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.translator.impl;
+package org.asmeta.asm2java.translator;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -15,12 +15,12 @@ import java.nio.file.StandardCopyOption;
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.asm2java.compiler.Compiler;
-import org.asmeta.asm2java.compiler.impl.CompilerImpl;
+import org.asmeta.asm2java.compiler.CompilerImpl;
 import org.asmeta.asm2java.config.Mode;
+import org.asmeta.asm2java.config.ModeConstantsConfig;
 import org.asmeta.asm2java.config.TranslatorOptions;
-import org.asmeta.asm2java.config.impl.ModeConstantsConfig;
 import org.asmeta.asm2java.generator.Generator;
-import org.asmeta.asm2java.generator.impl.GeneratorImpl;
+import org.asmeta.asm2java.generator.GeneratorImpl;
 
 import asmeta.AsmCollection;
 

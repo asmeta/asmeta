@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.asmeta.asm2java.config.TranslatorOptions;
-import org.asmeta.asm2java.config.impl.TranslatorOptionsImpl;
-import org.asmeta.asm2java.evosuite.impl.RulesImpl;
+import org.asmeta.asm2java.config.TranslatorOptionsImpl;
+import org.asmeta.asm2java.evosuite.RulesImpl;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 

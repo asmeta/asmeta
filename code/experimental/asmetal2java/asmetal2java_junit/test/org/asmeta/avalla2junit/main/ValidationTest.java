@@ -9,7 +9,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 import org.asmeta.asm2java.config.TranslatorOptions;
-import org.asmeta.asm2java.formatter.impl.FormatterImpl;
+import org.asmeta.asm2java.formatter.FormatterImpl;
 import org.asmeta.asm2java.generator.GeneratorCompilerTest;
 import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
