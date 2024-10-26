@@ -5,7 +5,6 @@ import asmeta.structure.Asm
 import asmeta.transitionrules.basictransitionrules.Rule
 import org.asmeta.asm2java.Util
 import org.asmeta.asm2java.evosuite.RulesAdder
-import org.asmeta.asm2java.evosuite.impl.JavaRuleImpl
 import org.asmeta.asm2java.evosuite.RuleToJavaEvosuite
 import org.asmeta.asm2java.evosuite.JavaRule
 
@@ -19,7 +18,7 @@ class JavaTestGenerator extends JavaGenerator {
 	}
 	
 	override String foo2(RuleDeclaration r, String methodName, Asm asm) {
-		var rule = new JavaRuleImpl(methodName)
+		var rule = new JavaRule(methodName)
 		var sb = new StringBuffer();
 		if (r.arity == 0){
 			sb.append('''
