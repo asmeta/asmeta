@@ -6,7 +6,7 @@ import java.io.File;
 
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.config.TranslatorOptionsImpl;
-import org.asmeta.asm2java.evosuite.RulesImpl;
+import org.asmeta.asm2java.evosuite.RulesMap;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ public class JavaTestGeneratorTest {
 	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
 	
 	/** Instance of the RulesImpl, a Map {name:Rule} collection containing the rules of the Asmeta specification */
-	private RulesImpl rulesImpl = new RulesImpl();
+	private RulesMap rulesImpl = new RulesMap();
 	
 	/** Generator of the java class used for test generation */
 	private JavaTestGenerator jGeneratorTest = new JavaTestGenerator(rulesImpl);

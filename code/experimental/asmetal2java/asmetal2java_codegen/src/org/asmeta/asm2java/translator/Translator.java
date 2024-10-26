@@ -3,8 +3,6 @@ package org.asmeta.asm2java.translator;
 import java.io.IOException;
 import java.util.List;
 
-import org.asmeta.asm2java.exceptions.AsmParsingException;
-
 /**
  * The {@code Translator} interface defines the contract for configuring and running 
  * a translation process.

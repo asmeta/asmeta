@@ -1,5 +1,6 @@
 package org.asmeta.asm2java.main;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -12,6 +13,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
+import org.asmeta.asm2java.translator.AsmParsingException;
 import org.asmeta.asm2java.translator.Translator;
 import org.asmeta.asm2java.translator.TranslatorImpl;
 
@@ -85,9 +87,11 @@ public class Asmeta2JavaCLI {
 	 * Executes the main process based on the command-line arguments.
 	 *
 	 * @param line the parsed CommandLine object.
+	 * @throws IOException 
+	 * @throws AsmParsingException 
 	 * @throws Exception 
 	 */
-	private void execute(CommandLine line) throws Exception {
+	private void execute(CommandLine line) throws AsmParsingException, IOException {
 
 		setGlobalProperties(line);
 
