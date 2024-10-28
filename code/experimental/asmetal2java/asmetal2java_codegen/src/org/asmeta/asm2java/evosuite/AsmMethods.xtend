@@ -6,7 +6,6 @@ import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.domains.ConcreteDomain
 import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.domains.AbstractTd
-import org.asmeta.asm2java.ToString
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.MapDomain
 import asmeta.definitions.domains.SequenceDomain

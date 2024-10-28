@@ -11,7 +11,7 @@ import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
 import org.apache.log4j.Logger;
-import org.asmeta.asm2java.NotValidFileException;
+import org.asmeta.asm2java.exceptions.NotValidFileException;
 
 /**
  * Implementation of the {@link Compiler} interface.

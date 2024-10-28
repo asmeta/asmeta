@@ -7,7 +7,7 @@ import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.RuleDomain;
 import asmeta.definitions.domains.SequenceDomain;
 import asmeta.structure.Asm;
-import org.asmeta.asm2java.ToString;
+import org.asmeta.asm2java.translator.ToString;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")

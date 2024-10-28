@@ -5,7 +5,7 @@ import java.util.List
 import asmeta.transitionrules.basictransitionrules.Rule
 import org.junit.Assert
 import java.util.ArrayList
-import org.asmeta.asm2java.SeqRuleCollector
+import org.asmeta.asm2java.translator.SeqRuleCollector
 import org.asmeta.asm2java.config.TranslatorOptions
 import org.asmeta.asm2java.evosuite.CoverRules
 import org.asmeta.asm2java.evosuite.CoverOutputs

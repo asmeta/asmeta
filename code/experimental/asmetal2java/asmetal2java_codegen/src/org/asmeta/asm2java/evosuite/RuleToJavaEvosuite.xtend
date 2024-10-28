@@ -1,15 +1,14 @@
 package org.asmeta.asm2java.evosuite
 
-import org.asmeta.asm2java.RuleToJava
+import org.asmeta.asm2java.translator.RuleToJava
 import asmeta.structure.Asm
 import org.asmeta.asm2java.config.TranslatorOptions
 import asmeta.transitionrules.basictransitionrules.ConditionalRule
-import org.asmeta.asm2java.TermToJava
+import org.asmeta.asm2java.translator.TermToJava
 import asmeta.transitionrules.derivedtransitionrules.CaseRule
 import asmeta.transitionrules.basictransitionrules.LetRule
 import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule
 import asmeta.transitionrules.basictransitionrules.ExtendRule
-import org.asmeta.asm2java.DomainToJavaSigDef
 import asmeta.transitionrules.basictransitionrules.BlockRule
 import asmeta.transitionrules.turbotransitionrules.SeqRule
 import org.eclipse.emf.common.util.EList

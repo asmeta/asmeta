@@ -12,13 +12,13 @@ import asmeta.structure.FunctionDefinition;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import java.util.ArrayList;
 import java.util.List;
-import org.asmeta.asm2java.SeqRuleCollector;
-import org.asmeta.asm2java.Util;
 import org.asmeta.asm2java.evosuite.DomainToJavaEvosuiteSigDef;
 import org.asmeta.asm2java.evosuite.FunctionToJavaEvosuiteSig;
 import org.asmeta.asm2java.evosuite.JavaRule;
 import org.asmeta.asm2java.evosuite.RuleToJavaEvosuite;
 import org.asmeta.asm2java.evosuite.RulesAdder;
+import org.asmeta.asm2java.translator.SeqRuleCollector;
+import org.asmeta.asm2java.translator.Util;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 

@@ -1,10 +1,10 @@
 package org.asmeta.asm2java.evosuite
 
-import org.asmeta.asm2java.DomainToJavaSigDef
+import org.asmeta.asm2java.translator.DomainToJavaSigDef
 import asmeta.structure.Asm
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.ConcreteDomain
-import org.asmeta.asm2java.ToString
+import org.asmeta.asm2java.translator.ToString
 
 class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
 	

@@ -9,9 +9,9 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
-import org.asmeta.asm2java.RuleToJava;
-import org.asmeta.asm2java.TermToJava;
 import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.translator.RuleToJava;
+import org.asmeta.asm2java.translator.TermToJava;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 

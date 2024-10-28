@@ -1,6 +1,5 @@
 package org.asmeta.asm2java.evosuite
 
-import org.asmeta.asm2java.ToString
 import asmeta.structure.Asm
 import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.SequenceDomain
@@ -8,6 +7,7 @@ import asmeta.definitions.domains.RuleDomain
 import asmeta.definitions.domains.ProductDomain
 import asmeta.definitions.domains.BagDomain
 import asmeta.definitions.domains.MapDomain
+import org.asmeta.asm2java.translator.ToString
 
 class ToStringEvosuite extends ToString{
 	

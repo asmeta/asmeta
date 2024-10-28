@@ -5,7 +5,6 @@ import java.util.List
 import asmeta.transitionrules.basictransitionrules.Rule
 import org.junit.Assert
 import java.util.ArrayList
-import org.asmeta.asm2java.SeqRuleCollector
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.ControlledFunction
 import asmeta.definitions.domains.ConcreteDomain
@@ -14,6 +13,7 @@ import asmeta.definitions.domains.SequenceDomain
 import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.MonitoredFunction
 import org.asmeta.asm2java.config.TranslatorOptions
+import org.asmeta.asm2java.translator.SeqRuleCollector
 
 class JavaExeGenerator extends AsmToJavaGenerator {
 

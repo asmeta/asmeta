@@ -3,12 +3,12 @@ package org.asmeta.asm2java.generator
 import asmeta.definitions.RuleDeclaration
 import asmeta.structure.Asm
 import asmeta.transitionrules.basictransitionrules.Rule
-import org.asmeta.asm2java.Util
+import org.asmeta.asm2java.translator.Util
 import org.asmeta.asm2java.evosuite.RulesAdder
 import org.asmeta.asm2java.evosuite.RuleToJavaEvosuite
 import org.asmeta.asm2java.evosuite.JavaRule
 import java.util.ArrayList
-import org.asmeta.asm2java.SeqRuleCollector
+import org.asmeta.asm2java.translator.SeqRuleCollector
 import asmeta.definitions.DerivedFunction
 import org.asmeta.asm2java.evosuite.FunctionToJavaEvosuiteSig
 import asmeta.definitions.domains.AbstractTd
