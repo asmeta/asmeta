@@ -8,6 +8,8 @@ import atgt.coverage.AsmTestSuite;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -28,6 +30,7 @@ public class TestExperiments {
 	public static void main(String[] args) throws Exception {
 		Logger.getLogger(RuleEvaluator.class).setLevel(Level.INFO);
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.INFO);
+		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
 
 		
 //		String targetDir = "./" + RESOURCES + "/mytest.avalla";
@@ -40,23 +43,28 @@ public class TestExperiments {
 		
 		System.out.println("RANDOM");
 		// Come decidere i parametri della random simulation?
-		AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asms, 3, 3);
+		AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asms, 1, 1);
 		AsmTestSuite randomSuite = randomTestGenerator.getTestSuite();
 		computeCoverage(asm, randomSuite, "randomtests");
-//		
-//		System.out.println("NuSMV");
-//		NuSMVtestGenerator nusmvTestGenerator = new NuSMVtestGenerator(asm, true);
-//		AsmTestSuite nusmvSuite = nusmvTestGenerator.generateAbstractTests(
-//				Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria), Integer.MAX_VALUE, ".*");
-//		computeCoverage(asm, nusmvSuite, "nusmvtests");
+		
+		System.out.println("NuSMV");
+		NuSMVtestGenerator nusmvTestGenerator = new NuSMVtestGenerator(asm, true);
+		AsmTestSuite nusmvSuite = nusmvTestGenerator.generateAbstractTests(
+				Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria), Integer.MAX_VALUE, ".*");
+		computeCoverage(asm, nusmvSuite, "nusmvtests");
+		
 	}
 	
-	private static void /*Coverage*/ computeCoverage(String asm, AsmTestSuite suite, String dir) {
+	private static void computeCoverage(String asm, AsmTestSuite suite, String dir) {
 		String targetDir = "./" + RESOURCES + "/" + dir;
 		new File(targetDir).mkdir();
+		// Genera gli avalla
 		SaveResults.saveResults(suite, asm, Collections.singleton(FormatsEnum.AVALLA), "", new File(targetDir).getAbsolutePath());
 		try {
+			// Esegui gli avalla generati (stampa info sulla coverage)
 			AsmetaV.execValidation(targetDir, true);
+			// Per evitare che i risultati ottenuti da una metodologia siano la base di partenza per la successiva
+			RuleEvalWCov.reset();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

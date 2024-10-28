@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.util.AsmetaTermPrinter;
@@ -46,16 +47,18 @@ public class AsmetaV {
 	public static List<String> execValidation(String scenarioPath, boolean coverage) throws Exception {
 		AsmetaV asmetaV = new AsmetaV();
 		File scenarioPathFile = new File(scenarioPath);
-		if (!scenarioPathFile.exists()) throw new RuntimeException("path " + scenarioPath + " does not exist" );
+		if (!scenarioPathFile.exists())
+			throw new RuntimeException("path " + scenarioPath + " does not exist");
 		// disable lazy evaluation (it is not interavtive)
 		TermEvaluator.setAllowLazyEval(false);
 		List<String> result = asmetaV.execValidation(scenarioPathFile, coverage);
 		// ripristina il valore messo in precedenza
-		TermEvaluator.recoverAllowLazyEval();		
+		TermEvaluator.recoverAllowLazyEval();
 		return result;
 	}
 
-	private AsmetaV(){}
+	private AsmetaV() {
+	}
 
 	/**
 	 * Exec validation.
@@ -71,54 +74,79 @@ public class AsmetaV {
 		// get all rules covered by a set of string
 		// contains also the name of the spec
 		// TRUE -> it is covered , FALSE -> it is not
-		Map<String,Boolean> allCoveredRules = new HashMap<>();
+		Map<String, Boolean> allCoveredRules = new HashMap<>();
 		// scenarios into directory
+		ValidationResult result = null;
 		if (scenarioPath.isDirectory()) {
 			File[] listFile = scenarioPath.listFiles();
-			for (File element : listFile)
+			for (int i = 0; i < listFile.length; i++) {
+				File element = listFile[i];
 				if (element.isFile() && element.getName().endsWith(SCENARIO_EXTENSION)) {
 					String path = element.getPath();
-					if (!validateSingleFile(coverage, allCoveredRules, path)) {
+					result = validateSingleFile(coverage, allCoveredRules, path);
+					if (!result.isCheckSucceded()) {
 						failedScenarios.add(path);
 					}
 				} else {
 					logger.info(element.getName() + " is not a valid file!!");
 				}
+			}
 		} else {
 			if (!scenarioPath.getName().endsWith(SCENARIO_EXTENSION)) {
-				throw new RuntimeException("invalid file, the validator works with "+SCENARIO_EXTENSION+" files");
+				throw new RuntimeException("invalid file, the validator works with " + SCENARIO_EXTENSION + " files");
 			}
 			// if the file is not a directory but a file
-			if (!validateSingleFile(coverage, allCoveredRules, scenarioPath.getCanonicalPath()))
+			result = validateSingleFile(coverage, allCoveredRules, scenarioPath.getCanonicalPath());
+			if (!result.isCheckSucceded())
 				failedScenarios.add(scenarioPath.getCanonicalPath());
 		}
-		if (coverage) { // print all covered rules
+		if (coverage) { // print all covered rules and branch and update rule coverage info
 			logger.info("\n** Coverage Info: **");
 			logger.info("** covered rules: **");
-			for (Entry<String, Boolean> rule : allCoveredRules.entrySet())
-				if (Boolean.TRUE.equals(rule.getValue())) logger.info(rule.getKey());
+			for (Entry<String, Boolean> rule : allCoveredRules.entrySet()) {
+				if (Boolean.TRUE.equals(rule.getValue())) {
+					logger.info(rule.getKey());
+					BranchCovData branchData = result.getBranchData()
+							.get(rule.getKey().substring(rule.getKey().lastIndexOf(':') + 1));
+					float branchCoverage = branchData.tot == 0 ? 0 
+							: ((float)branchData.coveredT.size()+branchData.coveredF.size())/(branchData.tot*2)*100;
+					logger.info("-> branch coverage: " + branchCoverage + "%");
+					UpdateCovData updateData = result.getUpdateData()
+							.get(rule.getKey().substring(rule.getKey().lastIndexOf(':') + 1));
+					float updateCoverage = updateData.tot == 0 ? 0
+							: ((float)updateData.covered.size()/updateData.tot) * 100;
+					logger.info("-> update rule coverage: " + updateCoverage + "%");
+				}
+			}
 			logger.info("** NOT covered rules: **");
 			for (Entry<String, Boolean> rule : allCoveredRules.entrySet())
-				if (Boolean.FALSE.equals(rule.getValue())) logger.info(rule.getKey());
+				if (Boolean.FALSE.equals(rule.getValue()))
+					logger.info(rule.getKey());
 			logger.info("");
+
 		}
 		// print a recap of the result
-		if (failedScenarios.isEmpty()) logger.info("validation terminated without errors");
-		else logger.info("WARNING: some check failed");
+		if (failedScenarios.isEmpty())
+			logger.info("validation terminated without errors");
+		else
+			logger.info("WARNING: some check failed");
 		return failedScenarios;
 	}
 
 	/**
 	 * Validate single file.
 	 *
-	 * @param coverage if required
-	 * @param coveredRules the covered rules (till now, once it is covered it is covered forever)
-	 * @param path scenario path
-	 * @return true if the check have succeeded
+	 * @param coverage     if required
+	 * @param coveredRules the covered rules (till now, once it is covered it is
+	 *                     covered forever)
+	 * @param path         scenario path
+	 * @return the result of the validation, i.e. if the check have succeeded and
+	 *         information about coverage (till now)
 	 * @throws Exception the exception
 	 */
-	private boolean validateSingleFile(boolean coverage, Map<String,Boolean> coveredRules, String path) throws Exception {
-		assert path.endsWith(SCENARIO_EXTENSION) : " the validator works only with "+SCENARIO_EXTENSION+" files";
+	private ValidationResult validateSingleFile(boolean coverage, Map<String, Boolean> coveredRules, String path)
+			throws Exception {
+		assert path.endsWith(SCENARIO_EXTENSION) : " the validator works only with " + SCENARIO_EXTENSION + " files";
 		logger.info("\n** Simulation " + path + " **\n");
 		AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(path);
 		builder.save();
@@ -136,7 +164,7 @@ public class AsmetaV {
 		sim.setShuffleFlag(true);
 		try {
 			sim.runUntilEmpty();
-			//sim.runUntilStepNeg();
+			// sim.runUntilStepNeg();
 		} catch (InvalidInvariantException iie) {
 			AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 			logger.info("invariant violation found " + iie.getInvariant().getName() + " "
@@ -154,25 +182,29 @@ public class AsmetaV {
 				break;
 			}
 		}
+		ValidationResult result = new ValidationResult();
+		result.setCheckSucceded(check_succeded);
 		if (coverage) { // for each scenario insert rules covered
 						// into list if they aren't covered
-			List<AbstractMap.SimpleEntry<String, String>> coveredThisTime = new ArrayList<>(((SimulatorWCov)sim).getCoveredMacro());
+			List<AbstractMap.SimpleEntry<String, String>> coveredThisTime = new ArrayList<>(
+					((SimulatorWCov) sim).getCoveredMacro());
 			String asmName = builder.asm.getName();
 			List<RuleDeclaration> ruleDeclaration = sim.getAsmModel().getBodySection().getRuleDeclaration();
 			// for each rule which is declared in the current ASM
-			ruleDeclaration.forEach(rd->
-			{
+			ruleDeclaration.forEach(rd -> {
 				String ruleName = rd.getName();
-				String ruleCompleteName = asmName + "::"+ ruleName;
+				String ruleCompleteName = asmName + "::" + ruleName;
 				// skip the artificial name of the
 				if (!ruleName.equals(AsmetaPrinterForAvalla.R_MAIN)) {
 					boolean rdIsCovered = false;
 					// check if it is covered as it is present in the covered rules
-					for (Iterator<SimpleEntry<String, String>> iterator = coveredThisTime.iterator(); iterator.hasNext();) {
+					for (Iterator<SimpleEntry<String, String>> iterator = coveredThisTime.iterator(); iterator
+							.hasNext();) {
 						AbstractMap.SimpleEntry<String, String> rule = iterator.next();
 						// check if this rule ruleName is covered
 						// if the rule is the same and the ASM is the main ASM
-						if (rule.getValue().equals(ruleName) && rule.getKey().contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) {
+						if (rule.getValue().equals(ruleName)
+								&& rule.getKey().contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) {
 							coveredRules.put(ruleCompleteName, Boolean.TRUE);
 							iterator.remove();
 							rdIsCovered = true;
@@ -187,24 +219,29 @@ public class AsmetaV {
 				}
 			});
 			// not put also all the extra rules (not belonging to this ASM)
-			for (SimpleEntry<String, String> r: coveredThisTime) {
+			for (SimpleEntry<String, String> r : coveredThisTime) {
 				String key = r.getKey();
-				String asmname = key.substring(1,key.lastIndexOf('_'));
-//				// Forse dovrebbe essere...
-//				String asmname = key.substring(0,key.lastIndexOf('_')-1);
-//				if (asmname.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) continue;
+//				String asmname = key.substring(1,key.lastIndexOf('_'));
+				String asmname = key.substring(0, key.lastIndexOf('_') - 1);
+				if (asmname.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V))
+					continue;
 				String ruleCompleteName = asmname + "::" + r.getValue();
-				coveredRules.put(ruleCompleteName , Boolean.TRUE);
+				coveredRules.put(ruleCompleteName, Boolean.TRUE);
 			}
-			// branch coverage
-			Map<String, BranchCovData> res = ((SimulatorWCov)sim).getCoveredBranches();
-			for (Entry<String, BranchCovData> entry : res.entrySet()) {
-			    System.err.println(entry.getKey() + " " + entry.getValue());
+			Map<String, BranchCovData> branchData = ((SimulatorWCov)sim).getCoveredBranches();
+			logger.debug("Covered conditional rules (branch coverage):");
+			for (Entry<String, BranchCovData> entry : branchData.entrySet()) {
+				logger.debug(entry.getKey() + " " + entry.getValue());
 			}
+			result.setBranchData(branchData);
 			// update rule coverage
-			List<SimpleEntry<String, UpdateCovData>> res2 = ((SimulatorWCov)sim).getCoveredUpdateRules();
-			System.err.println(res2);			
+			Map<String, UpdateCovData> updateData = ((SimulatorWCov)sim).getCoveredUpdateRules();
+			logger.debug("Covered update rules:");
+			for (Entry<String, UpdateCovData> entry : updateData.entrySet()) {
+				logger.debug(entry.getKey() + " " + entry.getValue());
+			}
+			result.setUpdateData(updateData);
 		}
-		return check_succeded;
+		return result;
 	}
 }

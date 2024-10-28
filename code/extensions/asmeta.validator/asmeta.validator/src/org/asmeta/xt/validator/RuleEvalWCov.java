@@ -44,7 +44,7 @@ public class RuleEvalWCov extends RuleEvaluator {
 	private static final Logger logger = Logger.getLogger(RuleEvalWCov.class);
 
 	// covered macros
-	// FIXME: l'uso di static is due to the fact that several RuleEvaluator
+	// FIXME: use of static is due to the fact that several RuleEvaluator
 	// are created for the same run;
 	static Collection<MacroDeclaration> coveredMacros;
 	// covered guards in conditional rules
@@ -60,7 +60,6 @@ public class RuleEvalWCov extends RuleEvaluator {
 	public RuleEvalWCov(State state, Environment environment,
 			RuleFactory factory) {
 		super(state, environment, factory);
-		// TODO check that coverage is not lost - since the rule evaluator is rebuilt e new one
 		// trying to build the new covered macro only if null (the first time)
 		if (coveredMacros == null) coveredMacros = new HashSet<>();
 		if (coveredConRuleT == null) coveredConRuleT = new HashSet<>();
@@ -73,6 +72,15 @@ public class RuleEvalWCov extends RuleEvaluator {
 	private RuleEvalWCov(State state, Environment environment,
 			ValueAssignment assignment) {
 		super(state, environment, assignment);
+	}
+	
+	// this can be called to start collecting coverage data from scratch without considering what has been covered before
+	public static void reset() {
+		coveredMacros = null;
+		coveredConRuleT = null;
+		coveredConRuleF = null;
+		coveredUpdateRules = null;
+		ruleSubstitutions = null;
 	}
 
 	@Override

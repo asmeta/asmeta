@@ -93,24 +93,28 @@ public class SimulatorWCov extends Simulator {
 
 		@Override
 		public String toString() {
-			String result = "(" + tot + " cond rules)\n";
-			result += "Covered true: " + coveredT.toString() + "\n";
-			result += "Covered false: " + coveredF.toString() + "\n";
+			String result = "(" + tot + " cond rules): ";
+			result += "Covered true: " + coveredT.toString() + " - ";
+			result += "Covered false: " + coveredF.toString();
 			return result;
 		}
 	}
 
+	// the coverage information about the branches inside a rule
 	public class UpdateCovData {
-		int covered = 0, tot = 0;
-		String macroName;
+		Set<Integer> covered;
+		int tot;
 
-		public UpdateCovData(String name) {
-			macroName = name;
+		public UpdateCovData() {
+			covered = new HashSet<>();
+			tot = 0;
 		}
 
 		@Override
 		public String toString() {
-			return macroName + "::" + covered + "/" + tot;
+			String result = "(" + tot + " update rules): ";
+			result += "Covered: " + covered.toString();
+			return result;
 		}
 	}
 
@@ -118,9 +122,7 @@ public class SimulatorWCov extends Simulator {
 	// PROBLEM is the branches of the modified ASM not the original one.
 	public Map<String, BranchCovData> getCoveredBranches() {
 		Map<String, BranchCovData> covData = new HashMap<>();
-		System.err.println("executing getCoveredBranches");
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-			System.err.println(md);
 			if (!covData.containsKey(md.getName())) {
 				covData.put(md.getName(), new BranchCovData());
 			}
@@ -131,14 +133,17 @@ public class SimulatorWCov extends Simulator {
 				r = rules.get(i);
 				if (r instanceof ConditionalRule) {
 					tot++;
-					if (RuleEvalWCov.coveredConRuleF.contains(r) 
-							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && 
-								RuleEvalWCov.coveredConRuleF.stream().anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
+
+					if (RuleEvalWCov.coveredConRuleF.contains(r)
+							// If a rule obtained after a substitution is covered, the original rule from
+							// which it was derived is considered covered
+							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredConRuleF.stream()
+									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
 						covData.get(md.getName()).coveredF.add(i);
 
 					if (RuleEvalWCov.coveredConRuleT.contains(r)
-							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && 
-								RuleEvalWCov.coveredConRuleT.stream().anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
+							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredConRuleT.stream()
+									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
 						covData.get(md.getName()).coveredT.add(i);
 				}
 			}
@@ -148,25 +153,28 @@ public class SimulatorWCov extends Simulator {
 	}
 
 	// return the coverage of the update rules
-	public List<AbstractMap.SimpleEntry<String, UpdateCovData>> getCoveredUpdateRules() {
-		AsmPrinter printer = new AsmPrinter(new PrintWriter(System.out, true));
-		ArrayList<AbstractMap.SimpleEntry<String, UpdateCovData>> s = new ArrayList<>();
+	public Map<String, UpdateCovData> getCoveredUpdateRules() {
+		Map<String, UpdateCovData> covData = new HashMap<>();
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-			final UpdateCovData cov = new UpdateCovData(md.getName());
+			if (!covData.containsKey(md.getName())) {
+				covData.put(md.getName(), new UpdateCovData());
+			}
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
-			// get all the
-			rules.forEach(r -> {
+			int tot = 0;
+			Rule r;
+			for (int i = 0; i < rules.size(); i++) {
+				r = rules.get(i);
 				if (r instanceof UpdateRule) {
-					cov.tot++;
-//					System.out.println(" update rule " + r.toString());
-//					printer.visit(r);
-					if (RuleEvalWCov.coveredUpdateRules.contains(r))
-						cov.covered++;
+					tot++;
+					if (RuleEvalWCov.coveredUpdateRules.contains(r)
+							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredUpdateRules
+									.stream().anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
+						covData.get(md.getName()).covered.add(i);
 				}
-			});
-			s.add(new AbstractMap.SimpleEntry<>(md.getAsmBody().getAsm().getName(), cov));
+			}
+			covData.get(md.getName()).tot = tot;
 		}
-		return s;
+		return covData;
 	}
 
 }
