@@ -579,7 +579,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
         for (final FunctionDefinition fDef : _functionDefinition) {
           boolean _equals = fDef.getDefinedFunction().getName().equals(((DerivedFunction)fd).getName());
           if (_equals) {
-            String _visit = new FunctionToJavaSig(asm).visit(((DerivedFunction)fd));
+            String _visit = new FunctionToJavaSig(asm).visit(fd);
             String _plus = (_visit + "\n");
             sb.append(_plus);
           }

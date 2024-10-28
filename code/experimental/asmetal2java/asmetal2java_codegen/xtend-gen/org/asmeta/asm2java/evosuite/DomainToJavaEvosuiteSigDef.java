@@ -4,13 +4,20 @@ import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.structure.Asm;
 import org.asmeta.asm2java.translator.DomainToJavaSigDef;
-import org.asmeta.asm2java.translator.ToString;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
 public class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
   public DomainToJavaEvosuiteSigDef(final Asm resource) {
     super(resource);
+  }
+
+  /**
+   * Create an instance of the {@code ToStringEvosuite} object.
+   */
+  @Override
+  public ToStringEvosuite createToString(final Asm resource) {
+    return new ToStringEvosuite(resource);
   }
 
   /**
@@ -147,14 +154,14 @@ public class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
       _builder.append(_visit);
       _builder.append("> elems = new ArrayList<>();\t\t\t      ");
       _builder.newLineIfNotEmpty();
-      String _visit_1 = new ToString(this.res).visit(object.getTypeDomain());
+      String _visit_1 = this.createToString(this.res).visit(object.getTypeDomain());
       _builder.append(_visit_1);
       _builder.append(" value;\t\t\t      ");
       _builder.newLineIfNotEmpty();
       String _name_1 = object.getName();
       _builder.append(_name_1);
       _builder.append("(");
-      String _visit_2 = new ToString(this.res).visit(object.getTypeDomain());
+      String _visit_2 = this.createToString(this.res).visit(object.getTypeDomain());
       _builder.append(_visit_2);
       _builder.append(" i) { ");
       _builder.newLineIfNotEmpty();
@@ -171,7 +178,7 @@ public class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
       _builder.newLine();
       _builder.append("   ");
       _builder.append("List<");
-      String _visit_3 = new ToString(this.res).visit(object.getTypeDomain());
+      String _visit_3 = this.createToString(this.res).visit(object.getTypeDomain());
       _builder.append(_visit_3, "   ");
       _builder.append("> ");
       String _name_2 = object.getName();
@@ -188,12 +195,12 @@ public class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t\t\t\t");
       _builder_1.append("private static List<");
-      String _visit_4 = new ToString(this.res).visit(object.getTypeDomain());
+      String _visit_4 = this.createToString(this.res).visit(object.getTypeDomain());
       _builder_1.append(_visit_4, "\t\t\t\t");
       _builder_1.append("> elems = new ArrayList<>();");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("                ");
-      String _visit_5 = new ToString(this.res).visit(object.getTypeDomain());
+      String _visit_5 = this.createToString(this.res).visit(object.getTypeDomain());
       _builder_1.append(_visit_5, "                ");
       _builder_1.append(" value;");
       _builder_1.newLineIfNotEmpty();
@@ -204,7 +211,7 @@ public class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
       String _name_4 = object.getName();
       _builder_1.append(_name_4, "                ");
       _builder_1.append(" valueOf(");
-      String _visit_6 = new ToString(this.res).visit(object.getTypeDomain());
+      String _visit_6 = this.createToString(this.res).visit(object.getTypeDomain());
       _builder_1.append(_visit_6, "                ");
       _builder_1.append(" val) {");
       _builder_1.newLineIfNotEmpty();
@@ -301,7 +308,7 @@ public class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t\t\t\t");
       _builder_1.append("List<");
-      String _visit_7 = new ToString(this.res).visit(object.getTypeDomain());
+      String _visit_7 = this.createToString(this.res).visit(object.getTypeDomain());
       _builder_1.append(_visit_7, "\t\t\t\t");
       _builder_1.append("> ");
       String _name_14 = object.getName();

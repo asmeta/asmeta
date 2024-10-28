@@ -1,20 +1,14 @@
 package org.asmeta.asm2java.evosuite;
 
-import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
-import asmeta.definitions.MonitoredFunction;
-import asmeta.definitions.OutFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.BagDomain;
-import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.MapDomain;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.SequenceDomain;
-import asmeta.definitions.domains.StructuredTd;
-import asmeta.definitions.domains.impl.StructuredTdImpl;
 import asmeta.structure.Asm;
 import org.asmeta.asm2java.translator.FunctionToJavaSig;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -23,6 +17,22 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
   public FunctionToJavaEvosuiteSig(final Asm resource) {
     super(resource);
+  }
+
+  /**
+   * Create an instance of the {@code DomainToJavaEvosuiteSigDef} object.
+   */
+  @Override
+  public DomainToJavaEvosuiteSigDef createDomainSigDef(final Asm resource) {
+    return new DomainToJavaEvosuiteSigDef(resource);
+  }
+
+  /**
+   * Create an instance of the {@code ToString} object.
+   */
+  @Override
+  public ToStringEvosuite createToString(final Asm resource) {
+    return new ToStringEvosuite(resource);
   }
 
   /**
@@ -56,7 +66,7 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
         if ((_codomain_1 instanceof ProductDomain)) {
           StringConcatenation _builder_2 = new StringConcatenation();
           _builder_2.append("static ");
-          String _visit = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+          String _visit = this.createDomainSigDef(this.res).visit(object.getCodomain());
           _builder_2.append(_visit);
           _builder_2.append(" ");
           String _name_1 = object.getName();
@@ -69,13 +79,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
           if ((_codomain_2 instanceof SequenceDomain)) {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.append("static List");
-            String _visit_1 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+            String _visit_1 = this.createDomainSigDef(this.res).visit(object.getCodomain());
             _builder_3.append(_visit_1);
             _builder_3.append(" ");
             String _name_2 = object.getName();
             _builder_3.append(_name_2);
             _builder_3.append(" = new ArrayList");
-            String _visit_2 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+            String _visit_2 = this.createDomainSigDef(this.res).visit(object.getCodomain());
             _builder_3.append(_visit_2);
             _builder_3.append("();");
             _builder_3.newLineIfNotEmpty();
@@ -85,13 +95,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
             if ((_codomain_3 instanceof PowersetDomain)) {
               StringConcatenation _builder_4 = new StringConcatenation();
               _builder_4.append("static Set");
-              String _visit_3 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+              String _visit_3 = this.createDomainSigDef(this.res).visit(object.getCodomain());
               _builder_4.append(_visit_3);
               _builder_4.append(" ");
               String _name_3 = object.getName();
               _builder_4.append(_name_3);
               _builder_4.append(" = new HashSet");
-              String _visit_4 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+              String _visit_4 = this.createDomainSigDef(this.res).visit(object.getCodomain());
               _builder_4.append(_visit_4);
               _builder_4.append("();");
               _builder_4.newLineIfNotEmpty();
@@ -101,13 +111,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
               if ((_codomain_4 instanceof BagDomain)) {
                 StringConcatenation _builder_5 = new StringConcatenation();
                 _builder_5.append("static Bag");
-                String _visit_5 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+                String _visit_5 = this.createDomainSigDef(this.res).visit(object.getCodomain());
                 _builder_5.append(_visit_5);
                 _builder_5.append(" ");
                 String _name_4 = object.getName();
                 _builder_5.append(_name_4);
                 _builder_5.append(" = new HashBag");
-                String _visit_6 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+                String _visit_6 = this.createDomainSigDef(this.res).visit(object.getCodomain());
                 _builder_5.append(_visit_6);
                 _builder_5.append("();");
                 _builder_5.newLineIfNotEmpty();
@@ -117,13 +127,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
                 if ((_codomain_5 instanceof MapDomain)) {
                   StringConcatenation _builder_6 = new StringConcatenation();
                   _builder_6.append("static Map");
-                  String _visit_7 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+                  String _visit_7 = this.createDomainSigDef(this.res).visit(object.getCodomain());
                   _builder_6.append(_visit_7);
                   _builder_6.append(" ");
                   String _name_5 = object.getName();
                   _builder_6.append(_name_5);
                   _builder_6.append(" = new HashMap");
-                  String _visit_8 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+                  String _visit_8 = this.createDomainSigDef(this.res).visit(object.getCodomain());
                   _builder_6.append(_visit_8);
                   _builder_6.append("();");
                   _builder_6.newLineIfNotEmpty();
@@ -135,610 +145,6 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
           }
         }
       }
-    }
-    return function.toString();
-  }
-
-  /**
-   * Return the domain calling DomainToJavaEvosuiteSigDef instead of DomainToJavaSigDef
-   */
-  @Override
-  public String returnDomain(final Domain domain, final boolean pointer) {
-    StringBuffer sb = new StringBuffer();
-    if (((domain instanceof StructuredTd) || (domain instanceof StructuredTdImpl))) {
-      StringConcatenation _builder = new StringConcatenation();
-      String _visit = new DomainToJavaEvosuiteSigDef(this.res).visit(domain);
-      _builder.append(_visit);
-      sb.append(_builder);
-    } else {
-      StringConcatenation _builder_1 = new StringConcatenation();
-      String _visit_1 = new ToStringEvosuite(this.res).visit(domain);
-      _builder_1.append(_visit_1);
-      sb.append(_builder_1);
-    }
-    return sb.toString();
-  }
-
-  /**
-   * Method to identify the controlled functions.
-   * Calls DomainToJavaEvosuiteSigDef instead of DomainToJavaSigDef.
-   */
-  @Override
-  public String visit(final ControlledFunction object) {
-    StringBuffer function = new StringBuffer();
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("//Funzione di tipo Controlled");
-    _builder.newLine();
-    function.append(_builder);
-    Domain _domain = object.getDomain();
-    boolean _tripleEquals = (_domain == null);
-    if (_tripleEquals) {
-      Domain _codomain = object.getCodomain();
-      if ((_codomain instanceof ProductDomain)) {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        String _visit = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-        _builder_1.append(_visit);
-        _builder_1.append(" ");
-        String _name = object.getName();
-        _builder_1.append(_name);
-        _builder_1.append("_elem;");
-        _builder_1.newLineIfNotEmpty();
-        function.append(_builder_1);
-        StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("Fun0Ctrl<");
-        String _returnDomain = this.returnDomain(object.getCodomain(), false);
-        _builder_2.append(_returnDomain);
-        _builder_2.append("> ");
-        String _name_1 = object.getName();
-        _builder_2.append(_name_1);
-        _builder_2.append(" = new Fun0Ctrl<>();");
-        _builder_2.newLineIfNotEmpty();
-        _builder_2.newLine();
-        function.append(_builder_2);
-      } else {
-        Domain _codomain_1 = object.getCodomain();
-        if ((_codomain_1 instanceof SequenceDomain)) {
-          StringConcatenation _builder_3 = new StringConcatenation();
-          _builder_3.append("List");
-          String _visit_1 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-          _builder_3.append(_visit_1);
-          _builder_3.append(" ");
-          String _name_2 = object.getName();
-          _builder_3.append(_name_2);
-          _builder_3.append("_elem = new ArrayList<>();");
-          _builder_3.newLineIfNotEmpty();
-          _builder_3.append("\t\t\t\t");
-          _builder_3.newLine();
-          function.append(_builder_3);
-          StringConcatenation _builder_4 = new StringConcatenation();
-          _builder_4.append("Fun0Ctrl<List");
-          String _returnDomain_1 = this.returnDomain(object.getCodomain(), false);
-          _builder_4.append(_returnDomain_1);
-          _builder_4.append("> ");
-          String _name_3 = object.getName();
-          _builder_4.append(_name_3);
-          _builder_4.append(" = new Fun0Ctrl<>();");
-          _builder_4.newLineIfNotEmpty();
-          _builder_4.newLine();
-          function.append(_builder_4);
-        } else {
-          Domain _codomain_2 = object.getCodomain();
-          if ((_codomain_2 instanceof PowersetDomain)) {
-            StringConcatenation _builder_5 = new StringConcatenation();
-            _builder_5.append("Set");
-            String _visit_2 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-            _builder_5.append(_visit_2);
-            _builder_5.append(" ");
-            String _name_4 = object.getName();
-            _builder_5.append(_name_4);
-            _builder_5.append("_elem = new HashSet<>();");
-            _builder_5.newLineIfNotEmpty();
-            _builder_5.append("\t\t\t\t");
-            _builder_5.newLine();
-            function.append(_builder_5);
-            StringConcatenation _builder_6 = new StringConcatenation();
-            _builder_6.append("Fun0Ctrl<Set");
-            String _returnDomain_2 = this.returnDomain(object.getCodomain(), false);
-            _builder_6.append(_returnDomain_2);
-            _builder_6.append("> ");
-            String _name_5 = object.getName();
-            _builder_6.append(_name_5);
-            _builder_6.append(" = new Fun0Ctrl<>();");
-            _builder_6.newLineIfNotEmpty();
-            _builder_6.newLine();
-            function.append(_builder_6);
-          } else {
-            Domain _codomain_3 = object.getCodomain();
-            if ((_codomain_3 instanceof BagDomain)) {
-              StringConcatenation _builder_7 = new StringConcatenation();
-              _builder_7.append("Bag");
-              String _visit_3 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-              _builder_7.append(_visit_3);
-              _builder_7.append(" ");
-              String _name_6 = object.getName();
-              _builder_7.append(_name_6);
-              _builder_7.append("_elem = new HashBag<>();");
-              _builder_7.newLineIfNotEmpty();
-              _builder_7.append("\t\t\t\t");
-              _builder_7.newLine();
-              function.append(_builder_7);
-              StringConcatenation _builder_8 = new StringConcatenation();
-              _builder_8.append("Fun0Ctrl<Bag");
-              String _returnDomain_3 = this.returnDomain(object.getCodomain(), false);
-              _builder_8.append(_returnDomain_3);
-              _builder_8.append("> ");
-              String _name_7 = object.getName();
-              _builder_8.append(_name_7);
-              _builder_8.append(" = new Fun0Ctrl<>();");
-              _builder_8.newLineIfNotEmpty();
-              _builder_8.newLine();
-              function.append(_builder_8);
-            } else {
-              Domain _codomain_4 = object.getCodomain();
-              if ((_codomain_4 instanceof MapDomain)) {
-                StringConcatenation _builder_9 = new StringConcatenation();
-                _builder_9.append("Map");
-                String _visit_4 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-                _builder_9.append(_visit_4);
-                _builder_9.append(" ");
-                String _name_8 = object.getName();
-                _builder_9.append(_name_8);
-                _builder_9.append("_elem = new HashMap<>();");
-                _builder_9.newLineIfNotEmpty();
-                _builder_9.append("\t\t\t\t");
-                _builder_9.newLine();
-                function.append(_builder_9);
-                StringConcatenation _builder_10 = new StringConcatenation();
-                _builder_10.append("Fun0Ctrl<Map");
-                String _returnDomain_4 = this.returnDomain(object.getCodomain(), false);
-                _builder_10.append(_returnDomain_4);
-                _builder_10.append("> ");
-                String _name_9 = object.getName();
-                _builder_10.append(_name_9);
-                _builder_10.append(" = new Fun0Ctrl<>();");
-                _builder_10.newLineIfNotEmpty();
-                _builder_10.newLine();
-                function.append(_builder_10);
-              } else {
-                StringConcatenation _builder_11 = new StringConcatenation();
-                _builder_11.append("Fun0Ctrl <");
-                String _returnDomain_5 = this.returnDomain(object.getCodomain(), false);
-                _builder_11.append(_returnDomain_5);
-                _builder_11.append("> ");
-                String _name_10 = object.getName();
-                _builder_11.append(_name_10);
-                _builder_11.append(" = new Fun0Ctrl<>();");
-                _builder_11.newLineIfNotEmpty();
-                _builder_11.newLine();
-                function.append(_builder_11);
-              }
-            }
-          }
-        }
-      }
-    } else {
-      if (((object.getDomain() instanceof ProductDomain) && (object.getCodomain() != null))) {
-        StringConcatenation _builder_12 = new StringConcatenation();
-        String _visit_5 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getDomain());
-        _builder_12.append(_visit_5);
-        _builder_12.append(" ");
-        String _name_11 = object.getName();
-        _builder_12.append(_name_11);
-        _builder_12.append("_elem;");
-        _builder_12.newLineIfNotEmpty();
-        function.append(_builder_12);
-      }
-      StringConcatenation _builder_13 = new StringConcatenation();
-      _builder_13.append("FunNCtrl<");
-      String _returnDomain_6 = this.returnDomain(object.getDomain(), true);
-      _builder_13.append(_returnDomain_6);
-      _builder_13.append(", ");
-      String _returnDomain_7 = this.returnDomain(object.getCodomain(), true);
-      _builder_13.append(_returnDomain_7);
-      _builder_13.append("> ");
-      String _name_12 = object.getName();
-      _builder_13.append(_name_12);
-      _builder_13.append(" = new FunNCtrl<>();");
-      _builder_13.newLineIfNotEmpty();
-      _builder_13.newLine();
-      function.append(_builder_13);
-    }
-    return function.toString();
-  }
-
-  /**
-   * Method to identify the monitored functions.
-   * Calls DomainToJavaEvosuiteSigDef instead of DomainToJavaSigDef.
-   */
-  @Override
-  public String visit(final MonitoredFunction object) {
-    StringBuffer function = new StringBuffer();
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("//Funzione di tipo monitored");
-    _builder.newLine();
-    function.append(_builder);
-    Domain _domain = object.getDomain();
-    boolean _tripleEquals = (_domain == null);
-    if (_tripleEquals) {
-      Domain _codomain = object.getCodomain();
-      if ((_codomain instanceof ProductDomain)) {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        String _visit = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-        _builder_1.append(_visit);
-        _builder_1.append(" ");
-        String _name = object.getName();
-        _builder_1.append(_name);
-        _builder_1.append("_elem;");
-        _builder_1.newLineIfNotEmpty();
-        function.append(_builder_1);
-        StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("Fun0<");
-        String _returnDomain = this.returnDomain(object.getCodomain(), false);
-        _builder_2.append(_returnDomain);
-        _builder_2.append("> ");
-        String _name_1 = object.getName();
-        _builder_2.append(_name_1);
-        _builder_2.append(" = new Fun0<>();");
-        _builder_2.newLineIfNotEmpty();
-        _builder_2.newLine();
-        function.append(_builder_2);
-      } else {
-        Domain _codomain_1 = object.getCodomain();
-        if ((_codomain_1 instanceof SequenceDomain)) {
-          StringConcatenation _builder_3 = new StringConcatenation();
-          _builder_3.append("List");
-          String _visit_1 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-          _builder_3.append(_visit_1);
-          _builder_3.append(" ");
-          String _name_2 = object.getName();
-          _builder_3.append(_name_2);
-          _builder_3.append("_elem = new ArrayList<>();");
-          _builder_3.newLineIfNotEmpty();
-          _builder_3.append("\t\t\t\t");
-          _builder_3.newLine();
-          function.append(_builder_3);
-          StringConcatenation _builder_4 = new StringConcatenation();
-          _builder_4.append("Fun0<List");
-          String _returnDomain_1 = this.returnDomain(object.getCodomain(), false);
-          _builder_4.append(_returnDomain_1);
-          _builder_4.append("> ");
-          String _name_3 = object.getName();
-          _builder_4.append(_name_3);
-          _builder_4.append(" = new Fun0<>();");
-          _builder_4.newLineIfNotEmpty();
-          _builder_4.newLine();
-          function.append(_builder_4);
-        } else {
-          Domain _codomain_2 = object.getCodomain();
-          if ((_codomain_2 instanceof PowersetDomain)) {
-            StringConcatenation _builder_5 = new StringConcatenation();
-            _builder_5.append("Set");
-            String _visit_2 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-            _builder_5.append(_visit_2);
-            _builder_5.append(" ");
-            String _name_4 = object.getName();
-            _builder_5.append(_name_4);
-            _builder_5.append("_elem = new HashSet<>();");
-            _builder_5.newLineIfNotEmpty();
-            _builder_5.append("\t\t\t\t");
-            _builder_5.newLine();
-            function.append(_builder_5);
-            StringConcatenation _builder_6 = new StringConcatenation();
-            _builder_6.append("Fun0<Set");
-            String _returnDomain_2 = this.returnDomain(object.getCodomain(), false);
-            _builder_6.append(_returnDomain_2);
-            _builder_6.append("> ");
-            String _name_5 = object.getName();
-            _builder_6.append(_name_5);
-            _builder_6.append(" = new Fun0<>();");
-            _builder_6.newLineIfNotEmpty();
-            _builder_6.newLine();
-            function.append(_builder_6);
-          } else {
-            Domain _codomain_3 = object.getCodomain();
-            if ((_codomain_3 instanceof BagDomain)) {
-              StringConcatenation _builder_7 = new StringConcatenation();
-              _builder_7.append("Bag");
-              String _visit_3 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-              _builder_7.append(_visit_3);
-              _builder_7.append(" ");
-              String _name_6 = object.getName();
-              _builder_7.append(_name_6);
-              _builder_7.append("_elem = new HashBag<>();");
-              _builder_7.newLineIfNotEmpty();
-              _builder_7.append("\t\t\t\t");
-              _builder_7.newLine();
-              function.append(_builder_7);
-              StringConcatenation _builder_8 = new StringConcatenation();
-              _builder_8.append("Fun0<Bag");
-              String _returnDomain_3 = this.returnDomain(object.getCodomain(), false);
-              _builder_8.append(_returnDomain_3);
-              _builder_8.append("> ");
-              String _name_7 = object.getName();
-              _builder_8.append(_name_7);
-              _builder_8.append(" = new Fun0<>();");
-              _builder_8.newLineIfNotEmpty();
-              _builder_8.newLine();
-              function.append(_builder_8);
-            } else {
-              Domain _codomain_4 = object.getCodomain();
-              if ((_codomain_4 instanceof MapDomain)) {
-                StringConcatenation _builder_9 = new StringConcatenation();
-                _builder_9.append("Map");
-                String _visit_4 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-                _builder_9.append(_visit_4);
-                _builder_9.append(" ");
-                String _name_8 = object.getName();
-                _builder_9.append(_name_8);
-                _builder_9.append("_elem = new HashMap<>();");
-                _builder_9.newLineIfNotEmpty();
-                _builder_9.append("\t\t\t\t");
-                _builder_9.newLine();
-                function.append(_builder_9);
-                StringConcatenation _builder_10 = new StringConcatenation();
-                _builder_10.append("Fun0<Map");
-                String _returnDomain_4 = this.returnDomain(object.getCodomain(), false);
-                _builder_10.append(_returnDomain_4);
-                _builder_10.append("> ");
-                String _name_9 = object.getName();
-                _builder_10.append(_name_9);
-                _builder_10.append(" = new Fun0<>();");
-                _builder_10.newLineIfNotEmpty();
-                _builder_10.newLine();
-                function.append(_builder_10);
-              } else {
-                Domain _codomain_5 = object.getCodomain();
-                if ((_codomain_5 instanceof ConcreteDomain)) {
-                  StringConcatenation _builder_11 = new StringConcatenation();
-                  _builder_11.append("Fun0<");
-                  String _returnDomain_5 = this.returnDomain(object.getCodomain(), false);
-                  _builder_11.append(_returnDomain_5);
-                  _builder_11.append("> ");
-                  String _name_10 = object.getName();
-                  _builder_11.append(_name_10);
-                  _builder_11.append(" = new Fun0<>();");
-                  _builder_11.newLineIfNotEmpty();
-                  _builder_11.newLine();
-                  String _returnDomain_6 = this.returnDomain(object.getCodomain(), false);
-                  _builder_11.append(_returnDomain_6);
-                  _builder_11.append(" ");
-                  String _name_11 = object.getName();
-                  _builder_11.append(_name_11);
-                  _builder_11.append("_supporto = new ");
-                  String _returnDomain_7 = this.returnDomain(object.getCodomain(), false);
-                  _builder_11.append(_returnDomain_7);
-                  _builder_11.append("();");
-                  _builder_11.newLineIfNotEmpty();
-                  function.append(_builder_11);
-                } else {
-                  StringConcatenation _builder_12 = new StringConcatenation();
-                  _builder_12.append("Fun0<");
-                  String _returnDomain_8 = this.returnDomain(object.getCodomain(), false);
-                  _builder_12.append(_returnDomain_8);
-                  _builder_12.append("> ");
-                  String _name_12 = object.getName();
-                  _builder_12.append(_name_12);
-                  _builder_12.append(" = new Fun0<>();");
-                  _builder_12.newLineIfNotEmpty();
-                  _builder_12.newLine();
-                  function.append(_builder_12);
-                }
-              }
-            }
-          }
-        }
-      }
-    } else {
-      Domain _domain_1 = object.getDomain();
-      if ((_domain_1 instanceof ProductDomain)) {
-        StringConcatenation _builder_13 = new StringConcatenation();
-        String _visit_5 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getDomain());
-        _builder_13.append(_visit_5);
-        _builder_13.append(" ");
-        String _name_13 = object.getName();
-        _builder_13.append(_name_13);
-        _builder_13.append("_elem;");
-        _builder_13.newLineIfNotEmpty();
-        function.append(_builder_13);
-      }
-      StringConcatenation _builder_14 = new StringConcatenation();
-      _builder_14.append("FunN<");
-      String _returnDomain_9 = this.returnDomain(object.getDomain(), true);
-      _builder_14.append(_returnDomain_9);
-      _builder_14.append(", ");
-      String _returnDomain_10 = this.returnDomain(object.getCodomain(), true);
-      _builder_14.append(_returnDomain_10);
-      _builder_14.append("> ");
-      String _name_14 = object.getName();
-      _builder_14.append(_name_14);
-      _builder_14.append(" = new FunN<>();");
-      _builder_14.newLineIfNotEmpty();
-      _builder_14.newLine();
-      function.append(_builder_14);
-    }
-    return function.toString();
-  }
-
-  @Override
-  public String visit(final OutFunction object) {
-    StringBuffer function = new StringBuffer();
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("//Funzione di tipo out");
-    _builder.newLine();
-    function.append(_builder);
-    Domain _domain = object.getDomain();
-    boolean _tripleEquals = (_domain == null);
-    if (_tripleEquals) {
-      Domain _codomain = object.getCodomain();
-      if ((_codomain instanceof ProductDomain)) {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        String _visit = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-        _builder_1.append(_visit);
-        _builder_1.append(" ");
-        String _name = object.getName();
-        _builder_1.append(_name);
-        _builder_1.append("_elem;");
-        _builder_1.newLineIfNotEmpty();
-        function.append(_builder_1);
-        StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("Fun0<");
-        String _returnDomain = this.returnDomain(object.getCodomain(), false);
-        _builder_2.append(_returnDomain);
-        _builder_2.append("> ");
-        String _name_1 = object.getName();
-        _builder_2.append(_name_1);
-        _builder_2.append(" = new Fun0<>();");
-        _builder_2.newLineIfNotEmpty();
-        _builder_2.newLine();
-        function.append(_builder_2);
-      } else {
-        Domain _codomain_1 = object.getCodomain();
-        if ((_codomain_1 instanceof SequenceDomain)) {
-          StringConcatenation _builder_3 = new StringConcatenation();
-          _builder_3.append("List");
-          String _visit_1 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-          _builder_3.append(_visit_1);
-          _builder_3.append(" ");
-          String _name_2 = object.getName();
-          _builder_3.append(_name_2);
-          _builder_3.append("_elem = new ArrayList<>();");
-          _builder_3.newLineIfNotEmpty();
-          _builder_3.append("\t\t\t\t");
-          _builder_3.newLine();
-          function.append(_builder_3);
-          StringConcatenation _builder_4 = new StringConcatenation();
-          _builder_4.append("Fun0<List");
-          String _returnDomain_1 = this.returnDomain(object.getCodomain(), false);
-          _builder_4.append(_returnDomain_1);
-          _builder_4.append("> ");
-          String _name_3 = object.getName();
-          _builder_4.append(_name_3);
-          _builder_4.append(" = new Fun0<>();");
-          _builder_4.newLineIfNotEmpty();
-          _builder_4.newLine();
-          function.append(_builder_4);
-        } else {
-          Domain _codomain_2 = object.getCodomain();
-          if ((_codomain_2 instanceof PowersetDomain)) {
-            StringConcatenation _builder_5 = new StringConcatenation();
-            _builder_5.append("Set");
-            String _visit_2 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-            _builder_5.append(_visit_2);
-            _builder_5.append(" ");
-            String _name_4 = object.getName();
-            _builder_5.append(_name_4);
-            _builder_5.append("_elem = new HashSet<>();");
-            _builder_5.newLineIfNotEmpty();
-            _builder_5.append("\t\t\t\t");
-            _builder_5.newLine();
-            function.append(_builder_5);
-            StringConcatenation _builder_6 = new StringConcatenation();
-            _builder_6.append("Fun0<Set");
-            String _returnDomain_2 = this.returnDomain(object.getCodomain(), false);
-            _builder_6.append(_returnDomain_2);
-            _builder_6.append("> ");
-            String _name_5 = object.getName();
-            _builder_6.append(_name_5);
-            _builder_6.append(" = new Fun0<>();");
-            _builder_6.newLineIfNotEmpty();
-            _builder_6.newLine();
-            function.append(_builder_6);
-          } else {
-            Domain _codomain_3 = object.getCodomain();
-            if ((_codomain_3 instanceof BagDomain)) {
-              StringConcatenation _builder_7 = new StringConcatenation();
-              _builder_7.append("Bag");
-              String _visit_3 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-              _builder_7.append(_visit_3);
-              _builder_7.append(" ");
-              String _name_6 = object.getName();
-              _builder_7.append(_name_6);
-              _builder_7.append("_elem = new HashBag<>();");
-              _builder_7.newLineIfNotEmpty();
-              _builder_7.append("\t\t\t\t");
-              _builder_7.newLine();
-              function.append(_builder_7);
-              StringConcatenation _builder_8 = new StringConcatenation();
-              _builder_8.append("Fun0<Bag");
-              String _returnDomain_3 = this.returnDomain(object.getCodomain(), false);
-              _builder_8.append(_returnDomain_3);
-              _builder_8.append("> ");
-              String _name_7 = object.getName();
-              _builder_8.append(_name_7);
-              _builder_8.append(" = new Fun0<>();");
-              _builder_8.newLineIfNotEmpty();
-              _builder_8.newLine();
-              function.append(_builder_8);
-            } else {
-              Domain _codomain_4 = object.getCodomain();
-              if ((_codomain_4 instanceof MapDomain)) {
-                StringConcatenation _builder_9 = new StringConcatenation();
-                _builder_9.append("Map");
-                String _visit_4 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
-                _builder_9.append(_visit_4);
-                _builder_9.append(" ");
-                String _name_8 = object.getName();
-                _builder_9.append(_name_8);
-                _builder_9.append("_elem = new HashMap<>();");
-                _builder_9.newLineIfNotEmpty();
-                _builder_9.append("\t\t\t\t");
-                _builder_9.newLine();
-                function.append(_builder_9);
-                StringConcatenation _builder_10 = new StringConcatenation();
-                _builder_10.append("Fun0<Map");
-                String _returnDomain_4 = this.returnDomain(object.getCodomain(), false);
-                _builder_10.append(_returnDomain_4);
-                _builder_10.append("> ");
-                String _name_9 = object.getName();
-                _builder_10.append(_name_9);
-                _builder_10.append(" = new Fun0<>();");
-                _builder_10.newLineIfNotEmpty();
-                _builder_10.newLine();
-                function.append(_builder_10);
-              } else {
-                StringConcatenation _builder_11 = new StringConcatenation();
-                _builder_11.append("Fun0<");
-                String _returnDomain_5 = this.returnDomain(object.getCodomain(), false);
-                _builder_11.append(_returnDomain_5);
-                _builder_11.append("> ");
-                String _name_10 = object.getName();
-                _builder_11.append(_name_10);
-                _builder_11.append(" = new Fun0<>();");
-                _builder_11.newLineIfNotEmpty();
-                _builder_11.newLine();
-                function.append(_builder_11);
-              }
-            }
-          }
-        }
-      }
-    } else {
-      Domain _domain_1 = object.getDomain();
-      if ((_domain_1 instanceof ProductDomain)) {
-        StringConcatenation _builder_12 = new StringConcatenation();
-        String _visit_5 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getDomain());
-        _builder_12.append(_visit_5);
-        _builder_12.append(" ");
-        String _name_11 = object.getName();
-        _builder_12.append(_name_11);
-        _builder_12.append("_elem;");
-        _builder_12.newLineIfNotEmpty();
-        function.append(_builder_12);
-      }
-      StringConcatenation _builder_13 = new StringConcatenation();
-      _builder_13.append("FunN<");
-      String _returnDomain_6 = this.returnDomain(object.getDomain(), true);
-      _builder_13.append(_returnDomain_6);
-      _builder_13.append(", ");
-      String _returnDomain_7 = this.returnDomain(object.getCodomain(), true);
-      _builder_13.append(_returnDomain_7);
-      _builder_13.append("> ");
-      String _name_12 = object.getName();
-      _builder_13.append(_name_12);
-      _builder_13.append(" = new FunN<>();");
-      _builder_13.newLineIfNotEmpty();
-      _builder_13.newLine();
-      function.append(_builder_13);
     }
     return function.toString();
   }
@@ -768,7 +174,7 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
         Domain _codomain_1 = object.getCodomain();
         if ((_codomain_1 instanceof ProductDomain)) {
           StringConcatenation _builder_2 = new StringConcatenation();
-          String _visit = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+          String _visit = this.createDomainSigDef(this.res).visit(object.getCodomain());
           _builder_2.append(_visit);
           _builder_2.append(" ");
           String _name_1 = object.getName();
@@ -781,13 +187,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
           if ((_codomain_2 instanceof SequenceDomain)) {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.append("List");
-            String _visit_1 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+            String _visit_1 = this.createDomainSigDef(this.res).visit(object.getCodomain());
             _builder_3.append(_visit_1);
             _builder_3.append(" ");
             String _name_2 = object.getName();
             _builder_3.append(_name_2);
             _builder_3.append(" = new ArrayList");
-            String _visit_2 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+            String _visit_2 = this.createDomainSigDef(this.res).visit(object.getCodomain());
             _builder_3.append(_visit_2);
             _builder_3.append("();");
             _builder_3.newLineIfNotEmpty();
@@ -797,13 +203,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
             if ((_codomain_3 instanceof PowersetDomain)) {
               StringConcatenation _builder_4 = new StringConcatenation();
               _builder_4.append("Set");
-              String _visit_3 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+              String _visit_3 = this.createDomainSigDef(this.res).visit(object.getCodomain());
               _builder_4.append(_visit_3);
               _builder_4.append(" ");
               String _name_3 = object.getName();
               _builder_4.append(_name_3);
               _builder_4.append(" = new HashSet");
-              String _visit_4 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+              String _visit_4 = this.createDomainSigDef(this.res).visit(object.getCodomain());
               _builder_4.append(_visit_4);
               _builder_4.append("();");
               _builder_4.newLineIfNotEmpty();
@@ -813,13 +219,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
               if ((_codomain_4 instanceof BagDomain)) {
                 StringConcatenation _builder_5 = new StringConcatenation();
                 _builder_5.append("Bag");
-                String _visit_5 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+                String _visit_5 = this.createDomainSigDef(this.res).visit(object.getCodomain());
                 _builder_5.append(_visit_5);
                 _builder_5.append(" ");
                 String _name_4 = object.getName();
                 _builder_5.append(_name_4);
                 _builder_5.append(" = new HashBag");
-                String _visit_6 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+                String _visit_6 = this.createDomainSigDef(this.res).visit(object.getCodomain());
                 _builder_5.append(_visit_6);
                 _builder_5.append("();");
                 _builder_5.newLineIfNotEmpty();
@@ -829,13 +235,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
                 if ((_codomain_5 instanceof MapDomain)) {
                   StringConcatenation _builder_6 = new StringConcatenation();
                   _builder_6.append("Map");
-                  String _visit_7 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+                  String _visit_7 = this.createDomainSigDef(this.res).visit(object.getCodomain());
                   _builder_6.append(_visit_7);
                   _builder_6.append(" ");
                   String _name_5 = object.getName();
                   _builder_6.append(_name_5);
                   _builder_6.append(" = new HashMap");
-                  String _visit_8 = new DomainToJavaEvosuiteSigDef(this.res).visit(object.getCodomain());
+                  String _visit_8 = this.createDomainSigDef(this.res).visit(object.getCodomain());
                   _builder_6.append(_visit_8);
                   _builder_6.append("();");
                   _builder_6.newLineIfNotEmpty();

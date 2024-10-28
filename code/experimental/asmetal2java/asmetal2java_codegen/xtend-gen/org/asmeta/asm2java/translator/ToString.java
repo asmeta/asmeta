@@ -36,6 +36,13 @@ public class ToString extends ReflectiveVisitor<String> {
     this.res = resource;
   }
 
+  /**
+   * Create an instance of the {@code DomainToJavaSigDef} object.
+   */
+  protected DomainToJavaSigDef createDomainSigDef(final Asm resource) {
+    return new DomainToJavaSigDef(resource);
+  }
+
   public String visit(final StringDomain domain) {
     return "String";
   }
@@ -95,7 +102,7 @@ public class ToString extends ReflectiveVisitor<String> {
   public String visit(final PowersetDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new DomainToJavaSigDef(this.res).visit(object);
+    String _visit = this.createDomainSigDef(this.res).visit(object);
     _builder.append(_visit);
     sb.append(_builder);
     return sb.toString();
@@ -104,7 +111,7 @@ public class ToString extends ReflectiveVisitor<String> {
   public String visit(final SequenceDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new DomainToJavaSigDef(this.res).visit(object);
+    String _visit = this.createDomainSigDef(this.res).visit(object);
     _builder.append(_visit);
     sb.append(_builder);
     return sb.toString();
@@ -122,7 +129,7 @@ public class ToString extends ReflectiveVisitor<String> {
   public String visit(final RuleDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new DomainToJavaSigDef(this.res).visit(object);
+    String _visit = this.createDomainSigDef(this.res).visit(object);
     _builder.append(_visit);
     sb.append(_builder);
     return sb.toString();
@@ -131,7 +138,7 @@ public class ToString extends ReflectiveVisitor<String> {
   public String visit(final ProductDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new DomainToJavaSigDef(this.res).visit(object);
+    String _visit = this.createDomainSigDef(this.res).visit(object);
     _builder.append(_visit);
     sb.append(_builder);
     return sb.toString();
@@ -140,7 +147,7 @@ public class ToString extends ReflectiveVisitor<String> {
   public String visit(final BagDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new DomainToJavaSigDef(this.res).visit(object);
+    String _visit = this.createDomainSigDef(this.res).visit(object);
     _builder.append(_visit);
     sb.append(_builder);
     return sb.toString();
@@ -149,7 +156,7 @@ public class ToString extends ReflectiveVisitor<String> {
   public String visit(final MapDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new DomainToJavaSigDef(this.res).visit(object);
+    String _visit = this.createDomainSigDef(this.res).visit(object);
     _builder.append(_visit);
     sb.append(_builder);
     return sb.toString();

@@ -25,6 +25,13 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 		this.res = resource
 
 	}
+	
+	/**
+	 * Create an instance of the {@code ToString} object.
+	 */
+	protected def ToString createToString(Asm resource) {
+		new ToString(resource)
+	}
 
 	// Translate product dmains
 	def String visit(ProductDomain object) {
@@ -34,57 +41,57 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 			case 2: {
 				sb.append('''Pair<''')
 				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«new ToString(res).visit(object.domains.get(i))», ''')
+					sb.append('''«createToString(res).visit(object.domains.get(i))», ''')
 
 				}
 			}
 			case 3: {
 				sb.append('''Triplet<''')
 				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«new ToString(res).visit(object.domains.get(i))», ''')
+					sb.append('''«createToString(res).visit(object.domains.get(i))», ''')
 				}
 			}
 			case 4: {
 				sb.append('''Quartet<''')
 				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«new ToString(res).visit(object.domains.get(i))», ''')
+					sb.append('''«createToString(res).visit(object.domains.get(i))», ''')
 				}
 			}
 			case 5: {
 				sb.append('''Quintet<''')
 				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«new ToString(res).visit(object.domains.get(i))», ''')
+					sb.append('''«createToString(res).visit(object.domains.get(i))», ''')
 				}
 			}
 			case 6: {
 				sb.append('''Sextet<''')
 				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«new ToString(res).visit(object.domains.get(i))», ''')
+					sb.append('''«createToString(res).visit(object.domains.get(i))», ''')
 				}
 			}
 			case 7: {
 				sb.append('''Septet<''')
 				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«new ToString(res).visit(object.domains.get(i))», ''')
+					sb.append('''«createToString(res).visit(object.domains.get(i))», ''')
 				}
 			}
 			case 8: {
 				sb.append('''Octet<''')
 				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«new ToString(res).visit(object.domains.get(i))», ''')
+					sb.append('''«createToString(res).visit(object.domains.get(i))», ''')
 				}
 			}
 			case 9: {
 				sb.append('''Ennead<''')
 				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«new ToString(res).visit(object.domains.get(i))», ''')
+					sb.append('''«createToString(res).visit(object.domains.get(i))», ''')
 				}
 
 			}
 			case 10: {
 				sb.append('''Decade<''')
 				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«new ToString(res).visit(object.domains.get(i))», ''')
+					sb.append('''«createToString(res).visit(object.domains.get(i))», ''')
 				}
 			}
 		}
@@ -107,21 +114,21 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 	// Translate Seq
 	def String visit(SequenceDomain object) {
 		var StringBuffer sb = new StringBuffer
-		sb.append('''<«new ToString(res).visit(object.domain)»> ''')
+		sb.append('''<«createToString(res).visit(object.domain)»> ''')
 		return sb.toString
 	}
 
 	// Translate Powerset
 	def String visit(PowersetDomain object) {
 		var StringBuffer sb = new StringBuffer
-		sb.append('''<«new ToString(res).visit(object.baseDomain)»> ''')
+		sb.append('''<«createToString(res).visit(object.baseDomain)»> ''')
 		return sb.toString
 	}
 
 	// Translate BagDomain
 	def String visit(BagDomain object) {
 		var StringBuffer sb = new StringBuffer
-		sb.append('''<«new ToString(res).visit(object.domain)»> ''')
+		sb.append('''<«createToString(res).visit(object.domain)»> ''')
 		return sb.toString
 	}
 
@@ -129,8 +136,8 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 	def String visit(MapDomain object) {
 		var StringBuffer sb = new StringBuffer
 		sb.append('''<''')
-		sb.append('''«new ToString(res).visit(object.sourceDomain)»,''')
-		sb.append('''«new ToString(res).visit(object.targetDomain)»''')
+		sb.append('''«createToString(res).visit(object.sourceDomain)»,''')
+		sb.append('''«createToString(res).visit(object.targetDomain)»''')
 		return sb.toString.substring(0, sb.length).concat(">")
 	}
 
@@ -140,9 +147,9 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 		sb.append('''enum «object.name» {''')
 		for (var int i = 0; i < object.element.size; i++) {
 			if (i != object.element.size - 1)
-				sb.append('''«new ToString(res).visit(object.element.get(i))», ''')
+				sb.append('''«createToString(res).visit(object.element.get(i))», ''')
 			else
-				sb.append('''«new ToString(res).visit(object.element.get(i))»}
+				sb.append('''«createToString(res).visit(object.element.get(i))»}
 				''')
 		}
 		
@@ -201,23 +208,23 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 			sb.append('''
 				class  «object.name»{
 				
-				List<«new ToString(res).visit(object.typeDomain)»> elems = new ArrayList<>();			      
-				«new ToString(res).visit(object.typeDomain)» value;			      
-				«object.name»(«new ToString(res).visit(object.typeDomain)» i) { 
+				List<«createToString(res).visit(object.typeDomain)»> elems = new ArrayList<>();			      
+				«createToString(res).visit(object.typeDomain)» value;			      
+				«object.name»(«createToString(res).visit(object.typeDomain)» i) { 
 				   value = i;
 				   }
 				   }
 				   
-				   List<«new ToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
+				   List<«createToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
 			''')
 
 		} // Static classes -> The list of elements is set after this definition 
 		else {
 			sb.append('''static class  «object.name» {
-				static List<«new ToString(res).visit(object.typeDomain)»> elems = new ArrayList<>();
-                «new ToString(res).visit(object.typeDomain)» value;
+				static List<«createToString(res).visit(object.typeDomain)»> elems = new ArrayList<>();
+                «createToString(res).visit(object.typeDomain)» value;
                 
-                static «object.name» valueOf(«new ToString(res).visit(object.typeDomain)» val) {
+                static «object.name» valueOf(«createToString(res).visit(object.typeDomain)» val) {
                 	«object.name» n = new «object.name»();
                 	n.value = val;
                 	return n;
@@ -242,7 +249,7 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 				}
 				
 				«object.name» «object.name»_elem = new «object.name»();
-				List<«new ToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
+				List<«createToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
 			''')
 		}
 		return sb.toString

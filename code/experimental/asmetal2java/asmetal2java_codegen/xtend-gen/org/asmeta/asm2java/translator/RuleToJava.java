@@ -49,13 +49,27 @@ public class RuleToJava extends RuleVisitor<String> {
     this.options = options;
   }
 
+  /**
+   * Create an instance of the {@code RuleToJava} object.
+   */
+  protected RuleToJava createRule(final Asm resource, final boolean seqBlock, final TranslatorOptions translatorOptions) {
+    return new RuleToJava(resource, seqBlock, translatorOptions);
+  }
+
+  /**
+   * Create an instance of the {@code DomainToJavaSigDef} object.
+   */
+  protected DomainToJavaSigDef createDomainSigDef(final Asm resource) {
+    return new DomainToJavaSigDef(resource);
+  }
+
   @Override
   public String visit(final BlockRule object) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("//{ //par");
     _builder.newLine();
     _builder.append("\t");
-    String _printRules = new RuleToJava(this.res, false, this.options).printRules(object.getRules(), false);
+    String _printRules = this.createRule(this.res, false, this.options).printRules(object.getRules(), false);
     _builder.append(_printRules, "\t");
     _builder.newLineIfNotEmpty();
     _builder.append("//} //endpar");
@@ -66,7 +80,7 @@ public class RuleToJava extends RuleVisitor<String> {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < rules.size()); i++) {
       {
-        sb.append(new RuleToJava(this.res, this.seqBlock, this.options).visit(rules.get(i)));
+        sb.append(this.createRule(this.res, this.seqBlock, this.options).visit(rules.get(i)));
         if (addFire) {
           sb.append("\nfireUpdateSet();\n");
         }
@@ -86,7 +100,7 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder.append("//{ //seq");
     _builder.newLine();
     _builder.append("\t");
-    String _printRules = new RuleToJava(this.res, true, this.options).printRules(object.getRules(), true);
+    String _printRules = this.createRule(this.res, true, this.options).printRules(object.getRules(), true);
     _builder.append(_printRules, "\t");
     _builder.newLineIfNotEmpty();
     _builder.append("//} //endseq");
@@ -106,7 +120,7 @@ public class RuleToJava extends RuleVisitor<String> {
       _builder.append(")){ ");
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
-      String _visit_1 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getThenRule());
+      String _visit_1 = this.createRule(this.res, this.seqBlock, this.options).visit(object.getThenRule());
       _builder.append(_visit_1, "\t");
       _builder.newLineIfNotEmpty();
       _builder.append("}");
@@ -120,13 +134,13 @@ public class RuleToJava extends RuleVisitor<String> {
       _builder_1.append(")){ ");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t");
-      String _visit_3 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getThenRule());
+      String _visit_3 = this.createRule(this.res, this.seqBlock, this.options).visit(object.getThenRule());
       _builder_1.append(_visit_3, "\t");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("} else {");
       _builder_1.newLine();
       _builder_1.append("\t\t");
-      String _visit_4 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getElseRule());
+      String _visit_4 = this.createRule(this.res, this.seqBlock, this.options).visit(object.getElseRule());
       _builder_1.append(_visit_4, "\t\t");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("}");
@@ -147,7 +161,7 @@ public class RuleToJava extends RuleVisitor<String> {
         _builder.append("){");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
-        String _visit = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
+        String _visit = this.createRule(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
         _builder.append(_visit, "\t");
         _builder.newLineIfNotEmpty();
         _builder.append("}");
@@ -160,7 +174,7 @@ public class RuleToJava extends RuleVisitor<String> {
         _builder_1.append("){");
         _builder_1.newLineIfNotEmpty();
         _builder_1.append("\t");
-        String _visit_1 = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
+        String _visit_1 = this.createRule(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
         _builder_1.append(_visit_1, "\t");
         _builder_1.newLineIfNotEmpty();
         _builder_1.append("}");
@@ -174,7 +188,7 @@ public class RuleToJava extends RuleVisitor<String> {
       _builder.append("else{ ");
       _builder.newLine();
       _builder.append(" \t");
-      String _visit = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getOtherwiseBranch());
+      String _visit = this.createRule(this.res, this.seqBlock, this.options).visit(object.getOtherwiseBranch());
       _builder.append(_visit, " \t");
       _builder.newLineIfNotEmpty();
       _builder.append("}");
@@ -718,7 +732,7 @@ public class RuleToJava extends RuleVisitor<String> {
       }
     }
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new RuleToJava(this.res, this.seqBlock, this.options).visit(object.getInRule());
+    String _visit = this.createRule(this.res, this.seqBlock, this.options).visit(object.getInRule());
     _builder.append(_visit);
     _builder.newLineIfNotEmpty();
     _builder.append("}");
@@ -734,7 +748,7 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder.append("){");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
-    String _visit_1 = new RuleToJava(this.res, true, this.options).visit(object.getRule());
+    String _visit_1 = this.createRule(this.res, true, this.options).visit(object.getRule());
     _builder.append(_visit_1, "\t");
     _builder.newLineIfNotEmpty();
     _builder.append("}");
@@ -761,18 +775,18 @@ public class RuleToJava extends RuleVisitor<String> {
   public String visit(final ExtendRule rule) {
     StringBuffer string = new StringBuffer();
     for (int i = 0; (i < rule.getBoundVar().size()); i++) {
-      String _visit = new DomainToJavaSigDef(this.res).visit(rule.getExtendedDomain());
+      String _visit = this.createDomainSigDef(this.res).visit(rule.getExtendedDomain());
       String _plus = (_visit + " ");
       String _visit_1 = new TermToJava(this.res).visit(rule.getBoundVar().get(i));
       String _plus_1 = (_plus + _visit_1);
       String _plus_2 = (_plus_1 + " = new ");
-      String _visit_2 = new DomainToJavaSigDef(this.res).visit(rule.getExtendedDomain());
+      String _visit_2 = this.createDomainSigDef(this.res).visit(rule.getExtendedDomain());
       String _plus_3 = (_plus_2 + _visit_2);
       String _plus_4 = (_plus_3 + "();\n");
       string.append(_plus_4);
     }
     String _string = string.toString();
-    String _visit = new RuleToJava(this.res, this.seqBlock, this.options).visit(rule.getDoRule());
+    String _visit = this.createRule(this.res, this.seqBlock, this.options).visit(rule.getDoRule());
     return (_string + _visit);
   }
 }

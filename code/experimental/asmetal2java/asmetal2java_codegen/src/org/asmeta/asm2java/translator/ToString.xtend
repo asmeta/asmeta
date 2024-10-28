@@ -32,6 +32,13 @@ class ToString extends ReflectiveVisitor<String> {
 	new(Asm resource) {
 		this.res = resource
 	}
+	
+	/**
+	 * Create an instance of the {@code DomainToJavaSigDef} object.
+	 */
+	protected def DomainToJavaSigDef createDomainSigDef(Asm resource) {
+		new DomainToJavaSigDef(resource)
+	} 
 
 	def String visit(StringDomain domain) {
 		return "String"
@@ -83,13 +90,13 @@ class ToString extends ReflectiveVisitor<String> {
 	
 	def String visit(PowersetDomain object) {
 		var StringBuffer sb = new StringBuffer
-			sb.append('''«new DomainToJavaSigDef(res).visit(object)»''')
+			sb.append('''«createDomainSigDef(res).visit(object)»''')
 		return sb.toString
 	}
 	
 	def String visit(SequenceDomain object) {
 		var StringBuffer sb = new StringBuffer
-			sb.append('''«new DomainToJavaSigDef(res).visit(object)»''')
+			sb.append('''«createDomainSigDef(res).visit(object)»''')
 		return sb.toString
 	}
 	
@@ -101,25 +108,25 @@ class ToString extends ReflectiveVisitor<String> {
 	
 	def String visit(RuleDomain object) {
 		var StringBuffer sb = new StringBuffer
-			sb.append('''«new DomainToJavaSigDef(res).visit(object)»''')
+			sb.append('''«createDomainSigDef(res).visit(object)»''')
 		return sb.toString
 	}
 	
 	def String visit(ProductDomain object) {
 		var StringBuffer sb = new StringBuffer
-			sb.append('''«new DomainToJavaSigDef(res).visit(object)»''')
+			sb.append('''«createDomainSigDef(res).visit(object)»''')
 		return sb.toString
 	}
 	
 	def String visit(BagDomain object) {
 		var StringBuffer sb = new StringBuffer
-			sb.append('''«new DomainToJavaSigDef(res).visit(object)»''')
+			sb.append('''«createDomainSigDef(res).visit(object)»''')
 		return sb.toString
 	}
 	
 	def String visit(MapDomain object) {
 		var StringBuffer sb = new StringBuffer
-			sb.append('''«new DomainToJavaSigDef(res).visit(object)»''')
+			sb.append('''«createDomainSigDef(res).visit(object)»''')
 		return sb.toString
 	}
 

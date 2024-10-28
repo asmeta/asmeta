@@ -4,12 +4,18 @@ import org.asmeta.asm2java.translator.DomainToJavaSigDef
 import asmeta.structure.Asm
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.ConcreteDomain
-import org.asmeta.asm2java.translator.ToString
 
 class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
 	
 	new(Asm resource) {
 		super(resource)
+	}
+	
+	/**
+	 * Create an instance of the {@code ToStringEvosuite} object.
+	 */
+	override ToStringEvosuite createToString(Asm resource) {
+		new ToStringEvosuite(resource)
 	}
 	
 	/**
@@ -68,22 +74,22 @@ class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
 				class  «object.name»{
 				
 				List<«new ToStringEvosuite(res).visit(object.typeDomain)»> elems = new ArrayList<>();			      
-				«new ToString(res).visit(object.typeDomain)» value;			      
-				«object.name»(«new ToString(res).visit(object.typeDomain)» i) { 
+				«createToString(res).visit(object.typeDomain)» value;			      
+				«object.name»(«createToString(res).visit(object.typeDomain)» i) { 
 				   value = i;
 				   }
 				   }
 				   
-				   List<«new ToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
+				   List<«createToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
 			''')
 
 		} // Static classes -> The list of elements is set after this definition 
 		else {
 			sb.append('''static class  «object.name» {
-				private static List<«new ToString(res).visit(object.typeDomain)»> elems = new ArrayList<>();
-                «new ToString(res).visit(object.typeDomain)» value;
+				private static List<«createToString(res).visit(object.typeDomain)»> elems = new ArrayList<>();
+                «createToString(res).visit(object.typeDomain)» value;
                 
-                static «object.name» valueOf(«new ToString(res).visit(object.typeDomain)» val) {
+                static «object.name» valueOf(«createToString(res).visit(object.typeDomain)» val) {
                 	«object.name» n = new «object.name»();
                 	n.value = val;
                 	return n;
@@ -108,7 +114,7 @@ class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
 				}
 				
 				«object.name» «object.name»_elem = new «object.name»();
-				List<«new ToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
+				List<«createToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
 			''')
 		}
 		return sb.toString
