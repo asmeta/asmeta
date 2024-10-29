@@ -100,16 +100,23 @@ public class TranslatorImpl implements Translator {
 		switch (mode) {
 		case TRANSLATOR_MODE:
 			translatorOptions.setValue(Mode.TRANSLATOR_MODE.getValue(), true);
+			translatorOptions.setValue(Mode.TEST_GEN_MODE.getValue(), false);
 			break;
 		case GENERATE_EXE_MODE:
 			translatorOptions.setValue(Mode.TRANSLATOR_MODE.getValue(), true);
 			translatorOptions.setValue(Mode.GENERATE_EXE_MODE.getValue(), true);
+			translatorOptions.setValue(Mode.TEST_GEN_MODE.getValue(), false);
 			break;
 		case GENERATE_WIN_MODE:
 			translatorOptions.setValue(Mode.TRANSLATOR_MODE.getValue(), true);
 			translatorOptions.setValue(Mode.GENERATE_WIN_MODE.getValue(), true);
+			translatorOptions.setValue(Mode.TEST_GEN_MODE.getValue(), false);
 			break;
 		case TEST_GEN_MODE:
+			translatorOptions.setValue(Mode.TRANSLATOR_MODE.getValue(), false);
+			translatorOptions.setValue(Mode.COMPILER_MODE.getValue(), false);
+			translatorOptions.setValue(Mode.GENERATE_EXE_MODE.getValue(), false);
+			translatorOptions.setValue(Mode.GENERATE_WIN_MODE.getValue(), false);
 			translatorOptions.setValue(Mode.TEST_GEN_MODE.getValue(), true);
 			break;
 		default:
