@@ -5,21 +5,22 @@ import asmeta.definitions.DerivedFunction
 import asmeta.definitions.RuleDeclaration
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
+import asmeta.definitions.domains.EnumTd
 import asmeta.structure.Asm
 import asmeta.transitionrules.basictransitionrules.Rule
-import java.util.ArrayList
-import java.util.List
 import org.asmeta.asm2java.translator.DomainToJavaSigDef
 import org.asmeta.asm2java.translator.FindMonitoredInControlledFunct
 import org.asmeta.asm2java.translator.FunctionToJavaDef
+import org.asmeta.asm2java.translator.FunctionToJavaSig
 import org.asmeta.asm2java.translator.RuleToJava
 import org.asmeta.asm2java.translator.SeqRuleCollector
 import org.asmeta.asm2java.translator.Util
-import org.junit.Assert
-import asmeta.definitions.domains.EnumTd
 import org.asmeta.asm2java.translator.ToString
 import org.asmeta.asm2java.config.TranslatorOptions
-import org.asmeta.asm2java.translator.FunctionToJavaSig
+import org.junit.Assert
+import java.util.ArrayList
+import java.util.List
+
 
 /**Generates .java ASM file */
 class JavaGenerator extends AsmToJavaGenerator {
@@ -296,7 +297,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 	}
 
 	// Metodo per riconoscere se la funzione ha o meno delle variabili in ingresso, traducendole
-	def protected String foo(RuleDeclaration r, String methodName, Asm asm) {
+	protected def String foo(RuleDeclaration r, String methodName, Asm asm) {
 		if (r.arity == 0)
 			return (''' 
 				abstract void «methodName»();

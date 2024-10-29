@@ -27,7 +27,6 @@ import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule
 import asmeta.transitionrules.turbotransitionrules.IterateRule
 import asmeta.transitionrules.turbotransitionrules.SeqRule
 import org.asmeta.asm2java.config.TranslatorOptions
-import org.asmeta.asm2java.translator.Util
 import org.asmeta.simulator.RuleVisitor
 import org.eclipse.emf.common.util.EList
 
@@ -422,7 +421,7 @@ class RuleToJava extends RuleVisitor<String> {
 			string.append(
 				createDomainSigDef(res).visit(rule.extendedDomain) + " " +
 					new TermToJava(res).visit(rule.boundVar.get(i)) + " = new " +
-					(createDomainSigDef(res)).visit(rule.extendedDomain) + "();\n");
+					createDomainSigDef(res).visit(rule.extendedDomain) + "();\n");
 		return string.toString + createRule(res, seqBlock, options).visit(rule.doRule)
 
 	}

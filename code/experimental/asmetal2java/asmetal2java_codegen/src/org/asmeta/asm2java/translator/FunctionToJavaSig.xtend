@@ -6,17 +6,19 @@ import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.OutFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
-import asmeta.definitions.domains.BagDomain
+import asmeta.definitions.domains.BasicTd
 import asmeta.definitions.domains.ConcreteDomain
 import asmeta.definitions.domains.Domain
-import asmeta.definitions.domains.MapDomain
-import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.ProductDomain
-import asmeta.definitions.domains.SequenceDomain
 import asmeta.definitions.domains.StructuredTd
 import asmeta.definitions.domains.impl.StructuredTdImpl
 import asmeta.structure.Asm
 import org.asmeta.parser.util.ReflectiveVisitor
+import asmeta.definitions.domains.PowersetDomain
+import asmeta.definitions.domains.SequenceDomain
+import asmeta.definitions.domains.BagDomain
+import asmeta.definitions.domains.MapDomain
+import asmeta.definitions.domains.ConcreteDomain
 
 class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 
@@ -39,9 +41,10 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 	protected def ToString createToString(Asm resource) {
 		new ToString(resource)
 	}
+	
 
     //Metodo per costruire le funzioni di tipo statico
-	protected def String visit(StaticFunction object) {
+	def String visit(StaticFunction object) {
 		
 		var StringBuffer function = new StringBuffer
 		function.append('''//Funzione di tipo statico
@@ -113,8 +116,6 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		return sb.toString.substring(0, sb.toString.length - 2)
 
 	}
-	
-
 
 	def String adaptProdDomain(ProductDomain domain, String name, boolean pointer) {
 		var StringBuffer paramDef = new StringBuffer
@@ -249,8 +250,6 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 
 		return function.toString
 	}
-	
-
 
 
 	def String visit(MonitoredFunction object) {
@@ -478,7 +477,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		return function.toString
 	}
 
-	protected def String visit(DerivedFunction object) {
+	def String visit(DerivedFunction object) {
 		
 		var StringBuffer function = new StringBuffer
 		

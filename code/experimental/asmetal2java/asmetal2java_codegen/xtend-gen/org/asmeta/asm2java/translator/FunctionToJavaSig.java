@@ -41,7 +41,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     return new ToString(resource);
   }
 
-  protected String visit(final StaticFunction object) {
+  public String visit(final StaticFunction object) {
     StringBuffer function = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("//Funzione di tipo statico");
@@ -840,7 +840,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     return function.toString();
   }
 
-  protected String visit(final DerivedFunction object) {
+  public String visit(final DerivedFunction object) {
     StringBuffer function = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("//Funzione di tipo derived");
