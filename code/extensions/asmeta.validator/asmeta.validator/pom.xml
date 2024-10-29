@@ -3,6 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>asmeta.validator</artifactId>
+	<parent>
+		<artifactId>asmeta.validator.parent</artifactId>
+		<groupId>asmeta</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -59,7 +64,7 @@
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext</artifactId>
-			<version>${xtextVersion}</version>
+			<version>${xtext.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
@@ -88,9 +93,4 @@
 			<version>3.2</version>
 		</dependency>
 	</dependencies>
-	<parent>
-		<artifactId>asmeta.validator.parent</artifactId>
-		<groupId>asmeta</groupId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
 </project>
