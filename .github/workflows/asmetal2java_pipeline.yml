@@ -31,14 +31,11 @@ jobs:
 
       - name: Build and test with Maven
         run: mvn --batch-mode clean verify
-        
-      - name: List files in dist directory
-        run: ls -l ./dist
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: asmetal2java.jar
-          path: ./dist/asmetal2java.jar
+          path: ./code/experimental/asmetal2java/asmetal2java_codegen/dist/asmetal2java.jar
           retention-days: 1
 
