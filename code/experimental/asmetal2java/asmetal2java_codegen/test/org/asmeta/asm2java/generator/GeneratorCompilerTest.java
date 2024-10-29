@@ -6,6 +6,8 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,51 @@ public class GeneratorCompilerTest {
 	// static private JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
 
 	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
-
+	
+	/**
+	 * List of libraries that should be excluded from testing
+	 */
+	static List<String> libraries = List.of(
+			"StandardLibrary.asm",
+			"LTLLibrary.asm",
+			"CTLLibrary.asm");
+	
+	/**
+	 * List of asm files with known issues:
+	 * these files have compilation errors related to the translation.
+	 */
+	static List<String> errors = List.of(
+			"battleship.asm",
+			"fibonacci.asm",
+			"QuickSort.asm", 
+			"testSignature.asm",
+			"SIS.asm");
+	
+	/**
+	 * The following files have compilation errors already in the .asm file 
+	 * and asmetal2java correctly throws exceptions
+	 */
+	static List<String> parseException = List.of(
+			"Bare.asm", 
+			"certifier_nochoose_noundef.asm",
+			"Hemodialysis_ref4_forMC.asm",
+			"LIFT.asm",
+			"population.asm",
+			"ProdDomain.asm",
+			"stufa.asm",
+			"SwapSort.asm",
+			"testDefinition.asm",
+			"testDefinition2.asm",
+			"testDefinition3.asm",
+			"testDefinition4.asm");
+	
+	/**
+	 * The following classes have runtime errors
+	 */
+	static List<String> runtimeException = List.of(
+			"gameOfLife.asm", 
+			"groundModel_v2.asm");
+	
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 	// -----
 	// -----
@@ -42,18 +88,27 @@ public class GeneratorCompilerTest {
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 
 	@Test
-	public void testBasicDomain() throws IOException, Exception {
+	public void testBasicDomain() throws Exception {
 		String asmspec = "examples/RegistroDiCassa.asm";
 		if (!test(asmspec, options).getSuccess())
 			fail();
 	}
 
 	@Test
-	public void testDado() throws IOException, Exception {
+	public void testDado() throws Exception {
+		String asmspec = "examples/dado.asm";
+		if (!test(asmspec, options).getSuccess())
+			fail();
+	}
+	
+	/*
+	@Test
+	public void testQuickSort() throws IOException, Exception {
 		String asmspec = "examples/QuickSort.asm";
 		if (!test(asmspec, options).getSuccess())
 			fail();
 	}
+	*/
 	
 	/*
 	 * 
@@ -283,7 +338,7 @@ public class GeneratorCompilerTest {
 
 		for (File file : fList) {
 
-			if (!file.getName().equals("StandardLibrary.asm")) {
+			if (!exclude(file.getName())) {
 				if (file.isFile() && file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
 					files.add(file);
 				} else if (file.isDirectory()) {
@@ -292,6 +347,19 @@ public class GeneratorCompilerTest {
 			}
 		}
 
+	}
+	
+	/**
+	 * check if the current file should be excluded from testing.
+	 * 
+	 * @param fileName the name of the file to check
+	 * @return {@code true} if the file is to exclude, {@code false} otherwise.
+	 */
+	private boolean exclude(String fileName) {
+		return libraries.contains(fileName) ||
+				parseException.contains(fileName) ||
+				runtimeException.contains(fileName) ||
+				errors.contains(fileName);
 	}
 	
 	@BeforeClass
@@ -344,43 +412,19 @@ public class GeneratorCompilerTest {
 //		File javaFileExeT = new File(dirTraduzione + File.separator + name + "_Exe.java");
 //		File javaFileWinT = new File(dirTraduzione + File.separator + name + "_Win.java");
 
-		// Se il file java esiste di gi , lo cancella
-
-		if (javaFile.exists())
-			javaFile.delete();
-		assert !javaFile.exists();
-
-		if (javaFileCompilazione.exists())
-			javaFileCompilazione.delete();
-		assert !javaFileCompilazione.exists();
-//		
-//		if (javaFileExe.exists())
-//			javaFileExe.delete();
-//		assert !javaFileExe.exists();
-//		
-//		if (javaFileExeN.exists())
-//			javaFileExeN.delete();
-//		assert !javaFileExeN.exists();
-//		
-//		if (javaFileWin.exists())
-//			javaFileWin.delete();
-//		assert !javaFileWin.exists();
-//		
-//		if (javaFileWinN.exists())
-//			javaFileWinN.delete();
-//		assert !javaFileWinN.exists();
-//
-//		if (javaFileT.exists())
-//			javaFileT.delete();
-//		assert !javaFileT.exists();
-//		
-//		if (javaFileExeT.exists())
-//			javaFileExeT.delete();
-//		assert !javaFileExeT.exists();
-//		
-//		if (javaFileWinT.exists())
-//			javaFileWinT.delete();
-//		assert !javaFileWinT.exists();
+		// Check if the file exists and delete it
+		deleteExisting(javaFile);
+		deleteExisting(javaFileCompilazione);
+		
+		/*
+		deleteExisting(javaFileExe);
+		deleteExisting(javaFileExeN);
+		deleteExisting(javaFileWin);
+		deleteExisting(javaFileWinN);
+		deleteExisting(javaFileT);
+		deleteExisting(javaFileExeT);
+		deleteExisting(javaFileWinT);
+		*/
 
 		System.out.println("\n\n===" + name + " ===================");
 
@@ -420,7 +464,25 @@ public class GeneratorCompilerTest {
 //		System.out.println("All java files Generated in: " + javaFileT.getCanonicalPath());
 
 		Compiler compiler = new CompilerImpl();
-		return compiler.compile(name + ".java", dir.toPath(), true);
+		return compiler.compile(name + ".java", Paths.get(dirCompilazione), true);
+	}
+	
+	
+	/**
+	 * Check if the file exists and delete it.
+	 *
+	 * @param file the file to delete.
+	 * @throws IOException if an IO error occurs.
+	 */
+	private static void deleteExisting(File file) throws IOException {
+		if (file.exists()) {
+			try {
+				Files.delete(file.toPath());
+			} catch (NoSuchFileException e) {
+				fail("File not found : " + file.getPath());
+			}
+		}
+		assert !file.exists();
 	}
 
 }

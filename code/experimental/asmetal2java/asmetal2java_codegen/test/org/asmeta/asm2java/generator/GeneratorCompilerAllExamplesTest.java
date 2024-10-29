@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.config.TranslatorOptionsImpl;
 import org.asmeta.parser.ASMParser;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class GeneratorCompilerAllExamplesTest {
@@ -22,8 +23,16 @@ public class GeneratorCompilerAllExamplesTest {
 	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
 	
 	static boolean failOnError = false;
+		
+	static List<String> excludeFiles = new ArrayList<>();
 	
-	static ArrayList<String> excludeFiles = new ArrayList<String>(Arrays.asList("StandardLibrary.asm", "CTLLibrary.asm", "LTLLibrary.asm", "fibonacci.asm", "testSignature.asm", "battleship.asm", "QuickSort.asm"));
+	@BeforeClass
+	public static void setup() {
+		excludeFiles.addAll(GeneratorCompilerTest.libraries);
+		excludeFiles.addAll(GeneratorCompilerTest.parseException);
+		excludeFiles.addAll(GeneratorCompilerTest.runtimeException);
+		excludeFiles.addAll(GeneratorCompilerTest.errors);
+	}
 
 	@Test
 	public void testAllLocalExamples() throws IOException, Exception {

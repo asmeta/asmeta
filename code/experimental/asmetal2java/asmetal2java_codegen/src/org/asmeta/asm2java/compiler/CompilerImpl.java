@@ -47,12 +47,13 @@ public class CompilerImpl implements Compiler {
 			assert compiler != null;
 			StandardJavaFileManager standardJavaFileManager = compiler.getStandardFileManager(null, null, null);
 			File parent = sourceFile.getAbsoluteFile().getParentFile();
-			logger.info("\nExecuting the java file present in the target -> " + parent);
-			logger.info("\nGenerating .class files ");
+			logger.info("Executing the java file present in the target -> " + parent);
+			logger.info("Generating .class files ");
 			try {
 				standardJavaFileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(parent));
 			} catch (IOException e) {
-
+				logger.error("An exception occurred while setting the location for standardJavaFileManager: "
+						+ e.getMessage());
 				e.printStackTrace();
 			}
 
@@ -60,11 +61,11 @@ public class CompilerImpl implements Compiler {
 					standardJavaFileManager.getJavaFileObjectsFromFiles(Arrays.asList(sourceFile))).call();
 
 			if (Boolean.TRUE.equals(result)) {
-				message = "\nSuccessfully compiled file " + name + "\n";
-				logger.debug(message);
+				message = "Successfully compiled file " + name;
+				logger.info(message);
 			} else {
-				message = "\nFailed to compile file " + name + "\n";
-				logger.debug(message);
+				message = "Failed to compile file " + name;
+				logger.error(message);
 			}			
 		}
 		return new CompileResultImpl(true, message);
