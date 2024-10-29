@@ -8,8 +8,6 @@ import atgt.coverage.AsmTestSuite;
 
 import java.io.File;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -19,7 +17,6 @@ import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.atgt.generator.SaveResults;
 
 import org.asmeta.simulator.RuleEvaluator;
-import org.asmeta.simulator.wrapper.RuleFactory;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.RuleEvalWCov;
 
@@ -36,22 +33,22 @@ public class TestExperiments {
 //		String targetDir = "./" + RESOURCES + "/mytest.avalla";
 //		AsmetaV.execValidation(targetDir, true);
 		
-//		String asm = "./" + RESOURCES + "/" + "pillbox_1.asm";
-		String asm = "./" + RESOURCES + "/" + "vascaidro.asm";
+		String asm = "./" + RESOURCES + "/" + "pillbox_1.asm";
+//		String asm = "./" + RESOURCES + "/" + "vascaidro.asm";
 //		String asm = "./" + RESOURCES + "/" + "myasm.asm";
-		AsmCollection asms = ASMParser.setUpReadAsm(new File(asm));		
+		AsmCollection asms = ASMParser.setUpReadAsm(new File(asm));
 		
 		System.out.println("RANDOM");
 		// Come decidere i parametri della random simulation?
-		AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asms, 1, 1);
+		AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asms, 10, 10);
 		AsmTestSuite randomSuite = randomTestGenerator.getTestSuite();
 		computeCoverage(asm, randomSuite, "randomtests");
 		
-		System.out.println("NuSMV");
-		NuSMVtestGenerator nusmvTestGenerator = new NuSMVtestGenerator(asm, true);
-		AsmTestSuite nusmvSuite = nusmvTestGenerator.generateAbstractTests(
-				Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria), Integer.MAX_VALUE, ".*");
-		computeCoverage(asm, nusmvSuite, "nusmvtests");
+//		System.out.println("NuSMV");
+//		NuSMVtestGenerator nusmvTestGenerator = new NuSMVtestGenerator(asm, true);
+//		AsmTestSuite nusmvSuite = nusmvTestGenerator.generateAbstractTests(
+//				Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria), Integer.MAX_VALUE, ".*");
+//		computeCoverage(asm, nusmvSuite, "nusmvtests");
 		
 	}
 	

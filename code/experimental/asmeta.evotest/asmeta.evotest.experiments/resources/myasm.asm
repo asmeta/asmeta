@@ -1,6 +1,7 @@
 asm myasm
 
 import StandardLibrary
+import importedAsm
 
 signature:
 	// DOMAINS
@@ -14,12 +15,26 @@ signature:
 definitions:
 	// DOMAIN DEFINITIONS
 	domain Livello = {0:100}
+	
+	rule r_RuleChiamata($i in Integer, $s in String) =
+		skip
+		
+	rule r_RuleChiamata($i in String, $s in String) =
+		skip
 
 	rule r_RuleChiamata($l in Livello) =
 		par
 			if ($l >= 50)
-			then statoLivello := 50
-			else statoLivello := $l
+			then
+				par
+					statoLivello := 50
+					r_RuleChiamata[true]
+				endpar
+			else
+				par
+					statoLivello := $l
+					r_RuleChiamata[false]
+				endpar
 			endif
 			skip
 		endpar

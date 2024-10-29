@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +23,8 @@ import org.asmeta.xt.validator.SimulatorWCov.BranchCovData;
 import org.asmeta.xt.validator.SimulatorWCov.UpdateCovData;
 
 import asmeta.definitions.RuleDeclaration;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 /**
  * main class of AsmetaV
@@ -49,7 +52,7 @@ public class AsmetaV {
 		File scenarioPathFile = new File(scenarioPath);
 		if (!scenarioPathFile.exists())
 			throw new RuntimeException("path " + scenarioPath + " does not exist");
-		// disable lazy evaluation (it is not interavtive)
+		// disable lazy evaluation (it is not interactive)
 		TermEvaluator.setAllowLazyEval(false);
 		List<String> result = asmetaV.execValidation(scenarioPathFile, coverage);
 		// ripristina il valore messo in precedenza
@@ -75,8 +78,8 @@ public class AsmetaV {
 		// contains also the name of the spec
 		// TRUE -> it is covered , FALSE -> it is not
 		Map<String, Boolean> allCoveredRules = new HashMap<>();
+		ValidationResult result = null; // result of the last file validation performed
 		// scenarios into directory
-		ValidationResult result = null;
 		if (scenarioPath.isDirectory()) {
 			File[] listFile = scenarioPath.listFiles();
 			for (int i = 0; i < listFile.length; i++) {
@@ -106,16 +109,25 @@ public class AsmetaV {
 			for (Entry<String, Boolean> rule : allCoveredRules.entrySet()) {
 				if (Boolean.TRUE.equals(rule.getValue())) {
 					logger.info(rule.getKey());
-					BranchCovData branchData = result.getBranchData()
-							.get(rule.getKey().substring(rule.getKey().lastIndexOf(':') + 1));
-					float branchCoverage = branchData.tot == 0 ? 0 
-							: ((float)branchData.coveredT.size()+branchData.coveredF.size())/(branchData.tot*2)*100;
-					logger.info("-> branch coverage: " + branchCoverage + "%");
-					UpdateCovData updateData = result.getUpdateData()
-							.get(rule.getKey().substring(rule.getKey().lastIndexOf(':') + 1));
-					float updateCoverage = updateData.tot == 0 ? 0
-							: ((float)updateData.covered.size()/updateData.tot) * 100;
-					logger.info("-> update rule coverage: " + updateCoverage + "%");
+					if (result == null) {
+						logger.info("-> no information about branch coverage and update rule coverage can be displayed");
+					}else {
+						BranchCovData branchData = result.getBranchData().get(rule.getKey().substring(rule.getKey().lastIndexOf(':') + 1));
+						if (branchData.tot != 0) {
+							float branchCoverage = ((float)branchData.coveredT.size()+branchData.coveredF.size())/(branchData.tot*2)*100;
+							logger.info("-> branch coverage: " + branchCoverage + "%");
+						}else {
+							logger.info("-> branch coverage: 0% (no conditional rules to be covered)");
+						}
+						UpdateCovData updateData = result.getUpdateData().get(rule.getKey().substring(rule.getKey().lastIndexOf(':') + 1));
+						if (updateData.tot != 0) {
+							float updateCoverage = ((float)updateData.covered.size()/updateData.tot)*100;;
+							logger.info("-> update rule coverage: " + updateCoverage + "%");
+						}else {
+							logger.info("-> update rule coverage: 0% (no update rules to be covered)");
+						}
+					}
+
 				}
 			}
 			logger.info("** NOT covered rules: **");
@@ -186,55 +198,46 @@ public class AsmetaV {
 		result.setCheckSucceded(check_succeded);
 		if (coverage) { // for each scenario insert rules covered
 						// into list if they aren't covered
-			List<AbstractMap.SimpleEntry<String, String>> coveredThisTime = new ArrayList<>(
-					((SimulatorWCov) sim).getCoveredMacro());
-			String asmName = builder.asm.getName();
 			List<RuleDeclaration> ruleDeclaration = sim.getAsmModel().getBodySection().getRuleDeclaration();
 			// for each rule which is declared in the current ASM
 			ruleDeclaration.forEach(rd -> {
 				String ruleName = rd.getName();
-				String ruleCompleteName = asmName + "::" + ruleName;
-				// skip the artificial name of the
+				String completeRuleName = getCompleteRuleName(rd);
+//				// skip the artificial name of the
 				if (!ruleName.equals(AsmetaPrinterForAvalla.R_MAIN)) {
 					boolean rdIsCovered = false;
 					// check if it is covered as it is present in the covered rules
-					for (Iterator<SimpleEntry<String, String>> iterator = coveredThisTime.iterator(); iterator
-							.hasNext();) {
-						AbstractMap.SimpleEntry<String, String> rule = iterator.next();
-						// check if this rule ruleName is covered
-						// if the rule is the same and the ASM is the main ASM
-						if (rule.getValue().equals(ruleName)
-								&& rule.getKey().contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) {
-							coveredRules.put(ruleCompleteName, Boolean.TRUE);
-							iterator.remove();
+					for(MacroDeclaration md : RuleEvalWCov.coveredMacros) {
+						String asmName = md.getAsmBody().getAsm().getName();
+						String completeMacroName = getCompleteRuleName(md);
+						if (completeMacroName.equals(completeRuleName)
+								&& asmName.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) {
+							coveredRules.put(completeRuleName, Boolean.TRUE);
 							rdIsCovered = true;
 							break;
 						}
 					}
 					// if it is not covered put it in the false part
 					if (!rdIsCovered) {
-						if (!coveredRules.containsKey(ruleCompleteName))
-							coveredRules.put(ruleCompleteName, Boolean.FALSE);
+						if (!coveredRules.containsKey(completeRuleName))
+							coveredRules.put(completeRuleName, Boolean.FALSE);
 					}
 				}
 			});
-			// not put also all the extra rules (not belonging to this ASM)
-			for (SimpleEntry<String, String> r : coveredThisTime) {
-				String key = r.getKey();
-//				String asmname = key.substring(1,key.lastIndexOf('_'));
-				String asmname = key.substring(0, key.lastIndexOf('_') - 1);
-				if (asmname.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V))
-					continue;
-				String ruleCompleteName = asmname + "::" + r.getValue();
-				coveredRules.put(ruleCompleteName, Boolean.TRUE);
+			// now put also all the extra rules (not belonging to this ASM)
+			for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
+				String asmName = md.getAsmBody().getAsm().getName();
+				if (!asmName.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V))
+					coveredRules.put(getCompleteRuleName(md), Boolean.TRUE);
 			}
+			// update the result with the data about branch coverage
 			Map<String, BranchCovData> branchData = ((SimulatorWCov)sim).getCoveredBranches();
 			logger.debug("Covered conditional rules (branch coverage):");
 			for (Entry<String, BranchCovData> entry : branchData.entrySet()) {
 				logger.debug(entry.getKey() + " " + entry.getValue());
 			}
 			result.setBranchData(branchData);
-			// update rule coverage
+			// update the result with the data about update rule coverage
 			Map<String, UpdateCovData> updateData = ((SimulatorWCov)sim).getCoveredUpdateRules();
 			logger.debug("Covered update rules:");
 			for (Entry<String, UpdateCovData> entry : updateData.entrySet()) {
@@ -244,4 +247,28 @@ public class AsmetaV {
 		}
 		return result;
 	}
+	
+	/**
+	 * Compute the complete name of a rule declaration.
+	 *
+	 * @param rd the rule declaration
+	 * @return the complete name as asm_name::rule_signature
+	 */
+	private String getCompleteRuleName(RuleDeclaration rd) {
+		String asmName = rd.getAsmBody().getAsm().getName();
+		if (asmName.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) { // For asm built from avalla
+			asmName = asmName.substring(0, asmName.indexOf(AsmetaFromAvallaBuilder.TEMP_ASMETA_V));
+		}else if (asmName.startsWith("_")){ // For imported asm
+			asmName = asmName.substring(1, asmName.lastIndexOf('_'));
+		}
+		String signature = rd.getName() + "(";
+		for(VariableTerm variable : rd.getVariable()) {
+			signature += variable.getDomain().getName() + ",";
+		}
+		if(signature.endsWith(",")) 
+			signature = signature.substring(0, signature.length() - 1);
+		signature += ")";
+		return asmName + "::" + signature;
+	}
+	
 }

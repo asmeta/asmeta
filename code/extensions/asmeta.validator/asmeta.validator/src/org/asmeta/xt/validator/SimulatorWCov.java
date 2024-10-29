@@ -23,6 +23,8 @@ import org.asmeta.simulator.wrapper.RuleFactory;
 import org.asmeta.parser.util.AsmPrinter;
 
 import asmeta.AsmCollection;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
@@ -123,8 +125,9 @@ public class SimulatorWCov extends Simulator {
 	public Map<String, BranchCovData> getCoveredBranches() {
 		Map<String, BranchCovData> covData = new HashMap<>();
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-			if (!covData.containsKey(md.getName())) {
-				covData.put(md.getName(), new BranchCovData());
+			String ruleCompleteName = getSignature(md);
+			if (!covData.containsKey(ruleCompleteName)) {
+				covData.put(ruleCompleteName, new BranchCovData());
 			}
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
 			int tot = 0;
@@ -133,21 +136,20 @@ public class SimulatorWCov extends Simulator {
 				r = rules.get(i);
 				if (r instanceof ConditionalRule) {
 					tot++;
-
 					if (RuleEvalWCov.coveredConRuleF.contains(r)
-							// If a rule obtained after a substitution is covered, the original rule from
+							// If a rule obtained as a result of a substitution is covered, the original rule from
 							// which it was derived is considered covered
 							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredConRuleF.stream()
 									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
-						covData.get(md.getName()).coveredF.add(i);
+						covData.get(ruleCompleteName).coveredF.add(i);
 
 					if (RuleEvalWCov.coveredConRuleT.contains(r)
 							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredConRuleT.stream()
 									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
-						covData.get(md.getName()).coveredT.add(i);
+						covData.get(ruleCompleteName).coveredT.add(i);
 				}
 			}
-			covData.get(md.getName()).tot = tot;
+			covData.get(ruleCompleteName).tot = tot;
 		}
 		return covData;
 	}
@@ -156,8 +158,9 @@ public class SimulatorWCov extends Simulator {
 	public Map<String, UpdateCovData> getCoveredUpdateRules() {
 		Map<String, UpdateCovData> covData = new HashMap<>();
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-			if (!covData.containsKey(md.getName())) {
-				covData.put(md.getName(), new UpdateCovData());
+			String ruleCompleteName = getSignature(md);
+			if (!covData.containsKey(ruleCompleteName)) {
+				covData.put(ruleCompleteName, new UpdateCovData());
 			}
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
 			int tot = 0;
@@ -169,12 +172,29 @@ public class SimulatorWCov extends Simulator {
 					if (RuleEvalWCov.coveredUpdateRules.contains(r)
 							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredUpdateRules
 									.stream().anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
-						covData.get(md.getName()).covered.add(i);
+						covData.get(ruleCompleteName).covered.add(i);
 				}
 			}
-			covData.get(md.getName()).tot = tot;
+			covData.get(ruleCompleteName).tot = tot;
 		}
 		return covData;
+	}
+	
+	/**
+	 * Compute the signature a macro rule declaration.
+	 *
+	 * @param md the macro declaration
+	 * @return the signature
+	 */
+	private String getSignature(RuleDeclaration md) {
+		String signature = md.getName() + "(";
+		for(VariableTerm variable : md.getVariable()) {
+			signature += variable.getDomain().getName() + ",";
+		}
+		if(signature.endsWith(",")) 
+			signature = signature.substring(0, signature.length() - 1);
+		signature += ")";
+		return signature;
 	}
 
 }
