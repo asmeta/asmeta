@@ -89,7 +89,6 @@ public class Asmeta2JavaCLI {
 	 * @param line the parsed CommandLine object.
 	 * @throws IOException 
 	 * @throws AsmParsingException 
-	 * @throws Exception 
 	 */
 	private void execute(CommandLine line) throws AsmParsingException, IOException {
 

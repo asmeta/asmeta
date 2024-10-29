@@ -23,7 +23,6 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 
 	new(Asm resource) {
 		this.res = resource
-
 	}
 	
 	/**
@@ -31,6 +30,14 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 	 */
 	protected def ToString createToString(Asm resource) {
 		new ToString(resource)
+	}
+	
+	/**
+	 * if this is an instance of {@code DomainToJavaSigDef} it returns an empty string 
+	 * because the field should not be private
+	 */
+	protected def String isPrivate(){
+		return ""
 	}
 
 	// Translate product dmains
@@ -170,28 +177,28 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 
 		sb.append('''
 			static class «object.name» {
-				static List<«object.name»> elems = new ArrayList<>();
-				«isStatic + " "»List<String> val = new ArrayList<>();
+				«isPrivate»static List<«object.name»> elems = new ArrayList<>();
+				«isPrivate»«isStatic + " "»List<String> val = new ArrayList<>();
 			
-			«object.name» (String a) {
-			      elems.add(this);
-			      val.add(a);
+				«object.name» (String a) {
+			    	elems.add(this);
+			    	val.add(a);
+			    	}
+			      
+			      static String toString(«object.name» a) {
+			      	if(elems.contains(a)) {
+			      		return val.get(elems.lastIndexOf(a));
+			      	}
+			      	else return null;
 			      }
 			      
-			      String toString(«object.name» a) {
-			      if(elems.contains(a)) {
-			      return val.get(elems.lastIndexOf(a));
-			      }
-			      else return null;
-			      }
-			      
-			«object.name» get(String a) {
-			      if(val.contains(a)) {
-			      return elems.get(val.lastIndexOf(a));
-			      }
-			      else return null;
-			      }
-			      }
+				  «object.name» get(String a) {
+			      	if(val.contains(a)) {
+			      		return elems.get(val.lastIndexOf(a));
+			      	}
+			      		else return null;
+			      	}
+				  }
 			      
 			      List<String> «object.name»_elemsList = new ArrayList<>();
 			      List<«object.name»> «object.name»_Class = new ArrayList<>();
@@ -221,7 +228,7 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 		} // Static classes -> The list of elements is set after this definition 
 		else {
 			sb.append('''static class  «object.name» {
-				static List<«createToString(res).visit(object.typeDomain)»> elems = new ArrayList<>();
+				«isPrivate»static List<«createToString(res).visit(object.typeDomain)»> elems = new ArrayList<>();
                 «createToString(res).visit(object.typeDomain)» value;
                 
                 static «object.name» valueOf(«createToString(res).visit(object.typeDomain)» val) {

@@ -33,6 +33,14 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     return new ToString(resource);
   }
 
+  /**
+   * if this is an instance of {@code DomainToJavaSigDef} it returns an empty string
+   * because the field should not be private
+   */
+  protected String isPrivate() {
+    return "";
+  }
+
   public String visit(final ProductDomain object) {
     StringBuffer sb = new StringBuffer();
     int _size = object.getDomains().size();
@@ -269,47 +277,52 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     _builder.append(" {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
+    String _isPrivate = this.isPrivate();
+    _builder.append(_isPrivate, "\t");
     _builder.append("static List<");
     String _name_1 = object.getName();
     _builder.append(_name_1, "\t");
     _builder.append("> elems = new ArrayList<>();");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
+    String _isPrivate_1 = this.isPrivate();
+    _builder.append(_isPrivate_1, "\t");
     _builder.append((isStatic + " "), "\t");
     _builder.append("List<String> val = new ArrayList<>();");
     _builder.newLineIfNotEmpty();
     _builder.newLine();
+    _builder.append("\t");
     String _name_2 = object.getName();
-    _builder.append(_name_2);
+    _builder.append(_name_2, "\t");
     _builder.append(" (String a) {");
     _builder.newLineIfNotEmpty();
-    _builder.append("      ");
+    _builder.append("    \t");
     _builder.append("elems.add(this);");
     _builder.newLine();
-    _builder.append("      ");
+    _builder.append("    \t");
     _builder.append("val.add(a);");
     _builder.newLine();
-    _builder.append("      ");
+    _builder.append("    \t");
     _builder.append("}");
     _builder.newLine();
     _builder.append("      ");
     _builder.newLine();
     _builder.append("      ");
-    _builder.append("String toString(");
+    _builder.append("static String toString(");
     String _name_3 = object.getName();
     _builder.append(_name_3, "      ");
     _builder.append(" a) {");
     _builder.newLineIfNotEmpty();
-    _builder.append("      ");
+    _builder.append("      \t");
     _builder.append("if(elems.contains(a)) {");
     _builder.newLine();
-    _builder.append("      ");
+    _builder.append("      \t\t");
     _builder.append("return val.get(elems.lastIndexOf(a));");
     _builder.newLine();
-    _builder.append("      ");
+    _builder.append("      \t");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("      ");
+    _builder.append("      \t");
     _builder.append("else return null;");
     _builder.newLine();
     _builder.append("      ");
@@ -317,26 +330,27 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     _builder.newLine();
     _builder.append("      ");
     _builder.newLine();
+    _builder.append("\t  ");
     String _name_4 = object.getName();
-    _builder.append(_name_4);
+    _builder.append(_name_4, "\t  ");
     _builder.append(" get(String a) {");
     _builder.newLineIfNotEmpty();
-    _builder.append("      ");
+    _builder.append("      \t");
     _builder.append("if(val.contains(a)) {");
     _builder.newLine();
-    _builder.append("      ");
+    _builder.append("      \t\t");
     _builder.append("return elems.get(val.lastIndexOf(a));");
     _builder.newLine();
-    _builder.append("      ");
+    _builder.append("      \t");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("      ");
+    _builder.append("      \t\t");
     _builder.append("else return null;");
     _builder.newLine();
-    _builder.append("      ");
+    _builder.append("      \t");
     _builder.append("}");
     _builder.newLine();
-    _builder.append("      ");
+    _builder.append("\t  ");
     _builder.append("}");
     _builder.newLine();
     _builder.append("      ");
@@ -416,6 +430,8 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       _builder_1.append(" {");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t\t\t\t");
+      String _isPrivate = this.isPrivate();
+      _builder_1.append(_isPrivate, "\t\t\t\t");
       _builder_1.append("static List<");
       String _visit_4 = this.createToString(this.res).visit(object.getTypeDomain());
       _builder_1.append(_visit_4, "\t\t\t\t");
