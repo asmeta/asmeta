@@ -39,3 +39,35 @@ jobs:
           path: ./code/experimental/asmetal2java/asmetal2java_codegen/dist/asmetal2java.jar
           retention-days: 1
 
+  push:
+    name: Push Docker Image
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: asmetal2java.jar
+          path: ./code/experimental/asmetal2java/asmetal2java_codegen/dist/asmetal2java.jar
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.ISAAC_DOCKER_USERNAME }}
+          password: ${{ secrets.ISAAC_DOCKER_PASSWORD }}
+
+      - name: Build and push codegen
+        uses: docker/build-push-action@v6
+        with:
+          context: ./code/experimental/asmetal2java/asmetal2java_codegen
+          dockerfile: ./code/experimental/asmetal2java/asmetal2java_codegen/Dockerfile
+          push: true
+          tags: isaacmaffeis/asmetal2java:latest
+
+      - name: Delete Artifact
+        uses: GeekyEggo/delete-artifact@v5.1.0
+        with:
+          name: asmetal2java.jar
