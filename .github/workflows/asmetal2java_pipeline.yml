@@ -54,7 +54,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: asmetal2java.jar
-          path: ./code/experimental/asmetal2java/asmetal2java_codegen/dist/asmetal2java.jar
+          path: ./code/experimental/asmetal2java/asmetal2java_codegen/dist
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -69,7 +69,7 @@ jobs:
           push: true
           tags: isaacmaffeis/asmetal2java:latest
       
-#      - name: Delete Artifact
-#        uses: GeekyEggo/delete-artifact@v5.1.0
-#        with:
-#          name: asmetal2java.jar
+      - name: Delete Artifact
+        uses: GeekyEggo/delete-artifact@v5.1.0
+        with:
+          name: asmetal2java.jar
