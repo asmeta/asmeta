@@ -1,4 +1,4 @@
-name: Build and Push CI Pipeline
+name: Asm2java - Build and Push CI Pipeline
 
 on:
   push:
@@ -46,9 +46,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
-      - name: Create dist directory
-        run: mkdir -p ./code/experimental/asmetal2java/asmetal2java_codegen/dist
 
       - name: Download artifact
         uses: actions/download-artifact@v4
