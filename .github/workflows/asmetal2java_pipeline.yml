@@ -46,6 +46,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        
+      - name: Create dist directory
+        run: mkdir -p ./code/experimental/asmetal2java/asmetal2java_codegen/dist
 
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -63,10 +66,9 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./code/experimental/asmetal2java/asmetal2java_codegen
-          dockerfile: ./code/experimental/asmetal2java/asmetal2java_codegen/Dockerfile
           push: true
           tags: isaacmaffeis/asmetal2java:latest
-
+      
       - name: Delete Artifact
         uses: GeekyEggo/delete-artifact@v5.1.0
         with:
