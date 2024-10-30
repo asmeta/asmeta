@@ -16,10 +16,9 @@ public interface ScenarioReader {
    * and parses its content to retrieve a list of {@link Scenario} objects.
    *
    * @param path the {@link Path} to the file containing the scenario
-   * @param javaArgumentTermList the Argument list of the stepFunction
    * @return a list of {@link Scenario} objects parsed from the file,
    * or an empty list if an error occurs
    */
-  public List<Scenario> readJavaScenario(Path path, List<JavaArgumentTerm> javaArgumentTermList);
+  public List<Scenario> readJavaScenario(Path path);
 
 }

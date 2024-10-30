@@ -3,7 +3,6 @@ package asmeta.junit2avalla.javascenario;
 import asmeta.junit2avalla.antlr.JavaScenarioLexer;
 import asmeta.junit2avalla.antlr.JavaScenarioParser;
 import asmeta.junit2avalla.model.Scenario;
-import asmeta.junit2avalla.model.terms.JavaArgumentTerm;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -29,12 +28,11 @@ public class ScenarioReaderImpl implements ScenarioReader {
    * retrieve a list of {@link Scenario} objects.
    *
    * @param path                 the {@link Path} to the file containing the scenario
-   * @param javaArgumentTermList the Argument list of the stepFunction
    * @return a list of {@link Scenario} objects parsed from the file, or an empty list if an error
    *         occurs
    */
   @Override
-  public List<Scenario> readJavaScenario(Path path, List<JavaArgumentTerm> javaArgumentTermList) {
+  public List<Scenario> readJavaScenario(Path path) {
     log.info("Reading the Scenario File at the path {}", path);
     String javaFile = null;
     try {
@@ -49,7 +47,7 @@ public class ScenarioReaderImpl implements ScenarioReader {
     CommonTokenStream tokens = new CommonTokenStream(javaScenarioLexer);
     JavaScenarioParser javaScenarioParser = new JavaScenarioParser(tokens);
     ParseTreeWalker walker = new ParseTreeWalker();
-    JavaScenarioListener javaScenarioWalker = new JavaScenarioListener(javaArgumentTermList);
+    JavaScenarioListener javaScenarioWalker = new JavaScenarioListener();
     walker.walk(javaScenarioWalker, javaScenarioParser.start());
 
     return javaScenarioWalker.getScenarioList();

@@ -19,9 +19,6 @@ import asmeta.junit2avalla.javascenario.ScenarioReader;
 import asmeta.junit2avalla.javascenario.ScenarioReaderImpl;
 import asmeta.junit2avalla.model.Scenario;
 import asmeta.junit2avalla.model.ScenarioFile;
-import asmeta.junit2avalla.model.terms.JavaArgumentTerm;
-import asmeta.junit2avalla.stepfunction.StepFunctionReader;
-import asmeta.junit2avalla.stepfunction.StepFunctionReaderImpl;
 
 /**
  * The {@code FileManager} class provides methods for working with files.
@@ -76,19 +73,12 @@ public class FileManager {
 	 * Run the application.
 	 *
 	 * @param inputPath            path to the input file.
-	 * @param stepFunctionArgsPath path to the stepFunctionArgs file (can be null).
 	 */
-	void runTheApplication(Path inputPath, Path stepFunctionArgsPath) {
-
-		logger.info("Processing StepFunctionArgs...");
-		StepFunctionReader stepFunctionReader = new StepFunctionReaderImpl();
-		List<JavaArgumentTerm> javaArgumentTermList = stepFunctionArgsPath == null
-				? stepFunctionReader.readStepFunction()
-				: stepFunctionReader.readStepFunction(stepFunctionArgsPath);
+	void runTheApplication(Path inputPath) {
 
 		logger.info("Processing JavaScenario...");
 		ScenarioReader scenarioReader = new ScenarioReaderImpl();
-		List<Scenario> scenarioList = scenarioReader.readJavaScenario(inputPath, javaArgumentTermList);
+		List<Scenario> scenarioList = scenarioReader.readJavaScenario(inputPath);
 
 		logger.info("Mapping Scenario Files...");
 		ScenarioListMapper scenarioListMapper = new ScenarioListMapperImpl();

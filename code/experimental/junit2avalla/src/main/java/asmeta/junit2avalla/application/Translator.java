@@ -26,14 +26,6 @@ public interface Translator {
     void setOutput(String outputDir) throws IOException;
     
     /**
-     * Sets the mode of translation to be used.
-     *
-     * @param mode the mode of translation.
-     * @throws FileNotFoundException if a file not found error occurs.
-     */
-    void setStepFunctionArgs(String stepFunctionArgs) throws FileNotFoundException;
-    
-    /**
      * Executes the translation process.
      *
      * @throws IOException if an I/O error occurs.

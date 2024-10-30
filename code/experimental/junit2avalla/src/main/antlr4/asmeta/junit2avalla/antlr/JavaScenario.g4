@@ -13,7 +13,7 @@ test
     ;
 
 scenario
-    :  (asmDeclaration | variableDeclaration | stepFunction| assertEquals | ~RCURLY)* RCURLY
+    :  (asmDeclaration | variableDeclaration | setFunction | stepFunction| assertEquals | trycatchblock | ~RCURLY)* RCURLY
     ;
 
 asmDeclaration
@@ -47,6 +47,10 @@ actual
 expected
     : Getter
     ;
+    
+setFunction
+    : SetFunc variableName LPAREN argument RPAREN SEMI
+    ;
 
 stepFunction
     : StepFunc LPAREN argument? (COMMA argument)* RPAREN SEMI
@@ -54,6 +58,10 @@ stepFunction
 
 argument
     : (ID | STRING | INT+)
+    ;
+
+trycatchblock
+    : TRY LCURLY (.)*? RCURLY CATCH LPAREN (.)*? LCURLY (.)*? RCURLY
     ;
 
 /*
@@ -72,6 +80,10 @@ COMMENT
     : '/*' .*? '*/' -> skip
     ;
 
+LINE_COMMENT
+    : '//' ~[\r\n]* -> skip
+    ;
+
 ClassDeclaration
     : 'package' (.)*? LCURLY
     ;
@@ -84,12 +96,20 @@ TestDeclaration
     : 'public' (.)*? LCURLY
     ;
 
+SetFunc
+    : ID DOT SET
+    ;
+
 StepFunc
     : ID DOT STEP
     ;
 
 Getter
     : ID DOT GET ID LPAREN RPAREN
+    ;
+
+TryCatch
+    : 'try' RCURLY (.)*? LCURLY 'catch' (.)? RCURLY (.)? LCURLY
     ;
 
 Identifier
@@ -101,7 +121,7 @@ STRING
     ;
 
 ASMID
-    : [a-zA-Z_][a-zA-Z_0-9]*'_ASM'
+    : [a-zA-Z_][a-zA-Z_0-9]*'_ATG'
     ;
 
 ASSERT_EQUALS
@@ -124,8 +144,11 @@ START : '*' ;
 AT : '@' ;
 DOUBLE_QUOTES : '"' ;
 NEW : 'new' ;
+SET : 'set_' ;
 STEP : 'step' ;
 GET : 'get_' ;
+TRY : 'try' ;
+CATCH : 'catch' ;
 
 INT : [0-9]+ ;
 ID: [a-zA-Z_][a-zA-Z_0-9]* ;

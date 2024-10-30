@@ -14,9 +14,6 @@ public class TranslatorImpl implements Translator {
 	/** Path to the input file. */
 	private Path inputPath;
 	
-	/** Path to the stepFunctionArgsPath specification file. */
-	private Path stepFunctionArgsPath;
-	
 	/** File manager instance for handling file operations. */
 	private static FileManager fileManager = new FileManager();
 
@@ -38,16 +35,11 @@ public class TranslatorImpl implements Translator {
 	}
 
 	@Override
-	public void setStepFunctionArgs(String stepFunctionArgs) throws FileNotFoundException {
-		this.stepFunctionArgsPath = Paths.get(stepFunctionArgs);
-	}
-
-	@Override
 	public void generate() throws IOException {
 		
 		File inputFile = fileManager.retrieveInput(inputPath);
 		
-		fileManager.runTheApplication(inputFile.toPath(), stepFunctionArgsPath);
+		fileManager.runTheApplication(inputFile.toPath());
 		
 	}
 
