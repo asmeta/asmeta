@@ -69,7 +69,7 @@ jobs:
           push: true
           tags: isaacmaffeis/asmetal2java:latest
       
-      - name: Delete Artifact
-        uses: GeekyEggo/delete-artifact@v5.1.0
-        with:
-          name: asmetal2java.jar
+#      - name: Delete Artifact
+#        uses: GeekyEggo/delete-artifact@v5.1.0
+#        with:
+#          name: asmetal2java.jar
