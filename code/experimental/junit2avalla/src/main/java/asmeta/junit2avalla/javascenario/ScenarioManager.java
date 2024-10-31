@@ -35,13 +35,12 @@ public interface ScenarioManager {
   void setLoadTerm(Scenario avallaScenario, String asmName);
 
   /**
-   * Adds one or more {@link AvallaSetTerm} objects to the specified scenario.
+   * Adds a {@link AvallaSetTerm} object to the specified scenario.
    *
    * @param avallaScenario the scenario to which the set terms are added.
-   * @param variablesList  a list of {@link JavaVariableTerm} representing the variables to set in
-   *                       the scenario.
+   * @param variablesList  the variables to set in the scenario.
    */
-  void setSetTerm(Scenario avallaScenario, List<JavaVariableTerm> variablesList);
+  void setSetTerm(Scenario avallaScenario, JavaVariableTerm javaVariableTerm);
 
   /**
    * Adds an {@link AvallaStepTerm} to the specified scenario. This term represents a step in the

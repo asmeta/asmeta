@@ -80,7 +80,8 @@ public class ScenarioWriterImpl implements ScenarioWriter {
     }
 
     scenarioFile.setText(stringBuilder.toString());
-    log.info("Scenario file written successfully: {}", scenarioFile.getText());
+    log.info("Scenario file written successfully.");
+    log.debug("Avalla scenario: {}", scenarioFile.getText());
     return scenarioFile;
   }
 

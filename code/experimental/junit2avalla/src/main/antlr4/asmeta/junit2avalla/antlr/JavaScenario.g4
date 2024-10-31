@@ -49,11 +49,7 @@ expected
     ;
     
 setFunction
-<<<<<<< Updated upstream
-    : SetFunc variableName LPAREN argument RPAREN SEMI
-=======
     : SetFunc LPAREN setVariableValue RPAREN SEMI
->>>>>>> Stashed changes
     ;
 
 stepFunction
@@ -101,7 +97,7 @@ TestDeclaration
     ;
 
 SetFunc
-    : ID DOT SET
+    : ID DOT SET ID
     ;
 
 StepFunc

@@ -13,13 +13,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import asmeta.junit2avalla.antlr.JavaScenarioBaseListener;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.ActualContext;
-import asmeta.junit2avalla.antlr.JavaScenarioParser.ArgumentContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.AsmDeclarationContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.AssertEqualsContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.ExpectedContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.ScenarioContext;
+import asmeta.junit2avalla.antlr.JavaScenarioParser.SetFunctionContext;
+import asmeta.junit2avalla.antlr.JavaScenarioParser.SetVariableValueContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.StartContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.StepFunctionContext;
+import asmeta.junit2avalla.antlr.JavaScenarioParser.TrycatchblockContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.VariableDeclarationContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.VariableNameContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.VariableTypeContext;
@@ -41,11 +43,6 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	private Map<String, JavaVariableTerm> variablesList;
 
 	/**
-	 * List of currently processed variables during a step function.
-	 */
-	private List<JavaVariableTerm> currentVariablesList;
-
-	/**
 	 * The Scenario Manager interface to manage and transform scenario terms.
 	 */
 	private final ScenarioManager scenarioManager;
@@ -54,11 +51,6 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 * The current scenario index.
 	 */
 	private int scenarioIndex;
-
-	/**
-	 * The current argument index within the step function.
-	 */
-	private int argumentIndex;
 
 	/**
 	 * The current Java variable being processed.
@@ -74,6 +66,11 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 * The current Java assertion being processed.
 	 */
 	private JavaAssertionTerm currentJavaAssertionTerm;
+	
+	/**
+	 * {@code True} ignore the checks, {@code False} write the checks.
+	 */
+	private boolean ignoreChecks;
 
 	/**
 	 * Constructor for the {@code JavaScenarioListener}.
@@ -115,6 +112,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		log.info("Found a scenario, creating a new Scenario Object.");
 		this.variablesList = new HashMap<>();
 		this.currenteScenario = new Scenario();
+		this.ignoreChecks = false;
 	}
 
 	/**
@@ -205,6 +203,37 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		log.debug("Exiting start_test_scenario_variableDeclaration: {} .", ctx.getText());
 		this.variablesList.put(this.currentJavaVariable.getName(), this.currentJavaVariable);
 	}
+	
+	@Override
+	public void enterSetFunction(SetFunctionContext ctx) {
+		log.debug("Entering start_test_scenario_setFunction: {} .", ctx.getText());
+		this.currentJavaVariable = new JavaVariableTerm();
+		currentJavaVariable.setName(ctx.SetFunc().getText());
+	}
+
+
+	@Override
+	public void enterSetVariableValue(SetVariableValueContext ctx) {
+		log.debug("Entering start_test_scenario_setFunction_setVariableValue: {} .", ctx.getText());
+		if(!ctx.INT().isEmpty() || ctx.STRING() != null) {
+			log.debug("Setting the primitive type value : {} .", ctx.getText());
+			this.currentJavaVariable.setValue(ctx.getText());
+			this.currentJavaVariable.setPrimitive(true);
+		} else {
+			log.debug("Setting the variable value : {} .", ctx.getText());
+			log.debug("Searching the value in the vaiables dictonay : {} .", this.variablesList.get(ctx.getText()));
+			this.currentJavaVariable.setValue(this.variablesList.get(ctx.getText()).getValue());
+			this.currentJavaVariable.setPrimitive(false);
+		}
+	}
+	
+	@Override
+	public void exitSetFunction(SetFunctionContext ctx) {
+		log.debug("Exiting start_test_scenario_setFunction: {} .", ctx.getText());
+		this.scenarioManager.setSetTerm(this.currenteScenario, this.currentJavaVariable);
+		this.ignoreChecks = true;
+	}
+
 
 	/**
 	 * {@inheritDoc}
@@ -217,41 +246,6 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	@Override
 	public void enterStepFunction(StepFunctionContext ctx) {
 		log.debug("Entering start_test_scenario_stepFunction: {} .", ctx.getText());
-		this.currentVariablesList = new ArrayList<>();
-		this.argumentIndex = 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * Processes an argument within a step function and assigns it to the current
-	 * variable.
-	 * </p>
-	 *
-	 * @param ctx the parse tree context.
-	 */
-	@Override
-	public void enterArgument(ArgumentContext ctx) {
-		log.debug("Entering start_test_scenario_stepFunction_argument: {} .", ctx.getText());
-
-		JavaArgumentTerm currentJavaArgumentTerm = stepFunctionArgsList.get(argumentIndex);
-		this.currentJavaVariable = new JavaVariableTerm();
-
-		if (currentJavaArgumentTerm.isPrimitive()) {
-			this.currentJavaVariable.setPrimitive(currentJavaArgumentTerm.isPrimitive());
-			this.currentJavaVariable.setValue(ctx.getText());
-		} else {
-			String key = ctx.getText();
-			this.currentJavaVariable = this.variablesList.get(key);
-		}
-		this.currentJavaVariable.setName(currentJavaArgumentTerm.getName());
-		this.currentJavaVariable.setType(currentJavaArgumentTerm.getType());
-		log.debug("Created new currentJavaVariable");
-
-		this.currentVariablesList.add(currentJavaVariable);
-		log.debug("Added currentJavaVariable to the currentJavaVariable list");
-
-		this.argumentIndex += 1;
 	}
 
 	/**
@@ -265,8 +259,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	@Override
 	public void exitStepFunction(StepFunctionContext ctx) {
 		log.debug("Exiting start_test_scenario_stepFunction: {} .", ctx.getText());
-		this.scenarioManager.setSetTerm(this.currenteScenario, this.currentVariablesList);
 		this.scenarioManager.setStepTerm(this.currenteScenario);
+		this.ignoreChecks = false;
 	}
 
 	/**
@@ -279,6 +273,10 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterAssertEquals(AssertEqualsContext ctx) {
+		if(this.ignoreChecks) {
+			log.debug("Ignoring the start_test_scenario_assertEquals: {} .", ctx.getText());
+			return;
+		}
 		log.debug("Entering start_test_scenario_assertEquals: {} .", ctx.getText());
 		this.currentJavaAssertionTerm = new JavaAssertionTerm();
 		this.currentJavaAssertionTerm.setType("AssertEquals");
@@ -294,6 +292,10 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterActual(ActualContext ctx) {
+		if(this.ignoreChecks) {
+			log.debug("Ignoring the start_test_scenario_assertEquals_actual: {} .", ctx.getText());
+			return;
+		}
 		log.debug("Entering start_test_scenario_assertEquals_actual: {} .", ctx.getText());
 		this.currentJavaAssertionTerm.setActual(ctx.getText());
 	}
@@ -308,6 +310,10 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterExpected(ExpectedContext ctx) {
+		if(this.ignoreChecks) {
+			log.debug("Ignoring the start_test_scenario_assertEquals_expected: {} .", ctx.getText());
+			return;
+		}
 		log.debug("Entering start_test_scenario_assertEquals_expected: {} .", ctx.getText());
 		this.currentJavaAssertionTerm.setExpected(ctx.getText());
 	}
@@ -323,8 +329,20 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void exitAssertEquals(AssertEqualsContext ctx) {
+		if(this.ignoreChecks) {
+			log.debug("Ignoring the start_test_scenario_assertEquals: {} .", ctx.getText());
+			return;
+		}
 		log.debug("Exiting start_test_scenario_assertEquals: {} . Setting AvallaCheckTerm:", ctx.getText());
 		this.scenarioManager.setCheckTerm(this.currenteScenario, this.currentJavaAssertionTerm);
+	}
+	
+	
+
+	@Override
+	public void enterTrycatchblock(TrycatchblockContext ctx) {
+		log.debug("Entering start_test_scenario_trycatchblock: {} .", ctx.getText());
+		// TODO: stop the parsing of the current scenario
 	}
 
 	/**

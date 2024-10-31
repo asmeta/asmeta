@@ -15,6 +15,7 @@ import asmeta.junit2avalla.model.terms.AvallaSetTerm;
 import asmeta.junit2avalla.model.terms.AvallaStepTerm;
 import asmeta.junit2avalla.model.terms.JavaVariableTerm;
 import asmeta.junit2avalla.util.AssertionUtil;
+import asmeta.junit2avalla.util.JavaScenarioUtil;
 import asmeta.junit2avalla.util.VariableUtil;
 import org.junit.Test;
 
@@ -24,62 +25,65 @@ public class ScenarioManagerImplTest {
   public void whenSetHeaderTerm_HeaderTermIsCreatedAndAddedToQueue(){
     ScenarioManagerImpl scenarioManagerImpl = new ScenarioManagerImpl();
     Scenario scenario = new Scenario();
-    scenarioManagerImpl.setHeaderTerm(scenario,"registroDiCassav3_ASM0",0);
+    scenarioManagerImpl.setHeaderTerm(scenario,"registroDiCassav3_ATG0",0);
 
     AvallaTerm avallaTerm = scenario.remove();
     assertTrue(avallaTerm instanceof AvallaHeaderTerm);
-    assertEquals(((AvallaHeaderTerm) avallaTerm).getScenarioName(),"registroDiCassav3_scenario0");
+    assertEquals("registroDiCassav3_scenario0",((AvallaHeaderTerm) avallaTerm).getScenarioName());
   }
 
   @Test
   public void whenSetLoadTerm_HeaderTermIsCreatedAndAddedToQueue(){
     ScenarioManagerImpl scenarioManagerImpl = new ScenarioManagerImpl();
     Scenario scenario = new Scenario();
-    scenarioManagerImpl.setLoadTerm(scenario,"registroDiCassav3_ASM0");
+    scenarioManagerImpl.setLoadTerm(scenario,"registroDiCassav3_ATG0");
 
     AvallaTerm avallaTerm = scenario.remove();
     assertTrue(avallaTerm instanceof AvallaLoadTerm);
-    assertEquals(((AvallaLoadTerm) avallaTerm).getLoad(),"registroDiCassav3");
+    assertEquals("registroDiCassav3",((AvallaLoadTerm) avallaTerm).getLoad());
   }
 
   @Test
   public void whenSetSetTerm_SetTermIsCreatedAndAddedToQueue(){
-    List<JavaVariableTerm> javaVariableList = VariableUtil.getVariableList();
     ScenarioManagerImpl scenarioManagerImpl = new ScenarioManagerImpl();
     Scenario avallaScenario = new Scenario();
-    scenarioManagerImpl.setSetTerm(avallaScenario, javaVariableList);
-
+    scenarioManagerImpl.setSetTerm(avallaScenario, VariableUtil.getVariable0());
+    scenarioManagerImpl.setSetTerm(avallaScenario, VariableUtil.getVariable1());
+    scenarioManagerImpl.setSetTerm(avallaScenario, VariableUtil.getVariable2());
+    scenarioManagerImpl.setSetTerm(avallaScenario, VariableUtil.getVariable3());
+    scenarioManagerImpl.setSetTerm(avallaScenario, VariableUtil.getVariable4());
+    scenarioManagerImpl.setSetTerm(avallaScenario, VariableUtil.getVariable5());
     assertFalse(avallaScenario.getScenario().isEmpty());
 
     AvallaTerm avallaTerm = avallaScenario.remove();
     assertTrue(avallaTerm instanceof AvallaSetTerm);
-    assertEquals(((AvallaSetTerm) avallaTerm).getName(),"servizioSelezionato");
-    assertEquals(((AvallaSetTerm) avallaTerm).getValue(),"NEWORDINE");
+    assertEquals(JavaScenarioUtil.SERVIZIO_SELEZIONATO,((AvallaSetTerm) avallaTerm).getName());
+    assertEquals("NEWORDINE",((AvallaSetTerm) avallaTerm).getValue());
 
     avallaTerm = avallaScenario.remove();
     assertTrue(avallaTerm instanceof AvallaSetTerm);
-    assertEquals(((AvallaSetTerm) avallaTerm).getName(),"pizzaInserita");
-    assertEquals(((AvallaSetTerm) avallaTerm).getValue(),"margherita");
+    assertEquals(JavaScenarioUtil.PIZZA_INSERITA,((AvallaSetTerm) avallaTerm).getName());
+    assertEquals("margherita",((AvallaSetTerm) avallaTerm).getValue());
 
     avallaTerm = avallaScenario.remove();
     assertTrue(avallaTerm instanceof AvallaSetTerm);
-    assertEquals(((AvallaSetTerm) avallaTerm).getName(),"sceltaDiAggiuntaPizza");
-    assertEquals(((AvallaSetTerm) avallaTerm).getValue(),"SI");
+    assertEquals(JavaScenarioUtil.SCELTA_DI_AGGIUNTA_PIZZA,((AvallaSetTerm) avallaTerm).getName());
+    assertEquals("SI",((AvallaSetTerm) avallaTerm).getValue());
 
     avallaTerm = avallaScenario.remove();
     assertTrue(avallaTerm instanceof AvallaSetTerm);
-    assertEquals(((AvallaSetTerm) avallaTerm).getName(),"sceltaDelTipoPizza");
-    assertEquals(((AvallaSetTerm) avallaTerm).getValue(),"STANDARD");
+    assertEquals(JavaScenarioUtil.SCELTA_DEL_TIPO_PIZZA,((AvallaSetTerm) avallaTerm).getName());
+    assertEquals("STANDARD",((AvallaSetTerm) avallaTerm).getValue());
 
     avallaTerm = avallaScenario.remove();
     assertTrue(avallaTerm instanceof AvallaSetTerm);
-    assertEquals(((AvallaSetTerm) avallaTerm).getName(),"insertQuantita");
-    assertEquals(((AvallaSetTerm) avallaTerm).getValue(),"2");
+    assertEquals(JavaScenarioUtil.INSERT_QUANTITA,((AvallaSetTerm) avallaTerm).getName());
+    assertEquals("2",((AvallaSetTerm) avallaTerm).getValue());
 
     avallaTerm = avallaScenario.remove();
     assertTrue(avallaTerm instanceof AvallaSetTerm);
-    assertEquals(((AvallaSetTerm) avallaTerm).getName(),"insertPrezzo");
-    assertEquals(((AvallaSetTerm) avallaTerm).getValue(),"2");
+    assertEquals(JavaScenarioUtil.INSERT_PREZZO,((AvallaSetTerm) avallaTerm).getName());
+    assertEquals("2",((AvallaSetTerm) avallaTerm).getValue());
   }
 
   @Test
@@ -102,18 +106,18 @@ public class ScenarioManagerImplTest {
 
     AvallaTerm avallaTerm = avallaScenario.remove();
     assertTrue(avallaTerm instanceof AvallaCheckTerm);
-    assertEquals(((AvallaCheckTerm) avallaTerm).getRightTerm(),"\"Scegli il tipo di pizza desiderata:\"");
-    assertEquals(((AvallaCheckTerm) avallaTerm).getLeftTerm(),"outMess");
+    assertEquals("\"Scegli il tipo di pizza desiderata:\"",((AvallaCheckTerm) avallaTerm).getRightTerm());
+    assertEquals(JavaScenarioUtil.OUT_MESS,((AvallaCheckTerm) avallaTerm).getLeftTerm());
 
     avallaTerm = avallaScenario.remove();
     assertTrue(avallaTerm instanceof AvallaCheckTerm);
-    assertEquals(((AvallaCheckTerm) avallaTerm).getRightTerm(),"0");
-    assertEquals(((AvallaCheckTerm) avallaTerm).getLeftTerm(),"totale");
+    assertEquals("0",((AvallaCheckTerm) avallaTerm).getRightTerm());
+    assertEquals(JavaScenarioUtil.TOTALE,((AvallaCheckTerm) avallaTerm).getLeftTerm());
 
     avallaTerm = avallaScenario.remove();
     assertTrue(avallaTerm instanceof AvallaCheckTerm);
-    assertEquals(((AvallaCheckTerm) avallaTerm).getRightTerm(),"SCEGLI_TIPO_DI_PIZZA");
-    assertEquals(((AvallaCheckTerm) avallaTerm).getLeftTerm(),"statoCassa");
+    assertEquals("SCEGLI_TIPO_DI_PIZZA",((AvallaCheckTerm) avallaTerm).getRightTerm());
+    assertEquals(JavaScenarioUtil.STATO_CASSA,((AvallaCheckTerm) avallaTerm).getLeftTerm());
   }
 
 }

@@ -53,15 +53,13 @@ public class ScenarioManagerImpl implements ScenarioManager {
    * {@inheritDoc}
    */
   @Override
-  public void setSetTerm(Scenario avallaScenario, List<JavaVariableTerm> variablesList) {
-    for (JavaVariableTerm javaVariable : variablesList) {
+  public void setSetTerm(Scenario avallaScenario, JavaVariableTerm javaVariableTerm) {
       AvallaSetTerm avallaSetTerm = new AvallaSetTerm();
-      avallaSetTerm.setName(javaVariable.getName());
+      avallaSetTerm.setName(retrieveSetter(javaVariableTerm.getName()));
       log.debug("Set AvallaSetTerm_name: {} .", avallaSetTerm.getName());
-      avallaSetTerm.setValue(retrieveValue(javaVariable));
+      avallaSetTerm.setValue(retrieveValue(javaVariableTerm));
       log.debug("Set AvallaSetTerm_value: {} .", avallaSetTerm.getValue());
       avallaScenario.add(avallaSetTerm);
-    }
   }
 
   /**
@@ -108,7 +106,7 @@ public class ScenarioManagerImpl implements ScenarioManager {
    * @return the processed ASM name.
    */
   private String retrieveAsmName(String asmName) {
-    return asmName.substring(0, asmName.lastIndexOf("_ASM"));
+    return asmName.substring(0, asmName.lastIndexOf("_ATG"));
   }
 
   /**
@@ -130,6 +128,17 @@ public class ScenarioManagerImpl implements ScenarioManager {
   private String retrieveExpected(String expected) {
     return expected.substring(
         expected.lastIndexOf(".get_") + 5).replaceAll("\\(\\)", "");
+  }
+  
+  /**
+   * Retrieves the setter variable name value from a given string, adjusting its format if necessary.
+   *
+   * @param setter the setter value string.
+   * @return the processed expected value.
+   */
+  private String retrieveSetter(String setter) {
+	  return setter.substring(
+			  setter.lastIndexOf(".set_") + 5).replaceAll("\\(\\)", "");
   }
 
 }
