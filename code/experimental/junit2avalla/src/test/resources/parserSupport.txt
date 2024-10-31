@@ -1,6 +1,0 @@
-RegistroDiCassa.Servizio servizioSelezionato,
-String pizzaInserita,
-RegistroDiCassa.AggiungiPizza sceltaDiAggiuntaPizza,
-RegistroDiCassa.SelezioneTipoDiPizza sceltaDelTipoPizza,
-int insertQuantita,
-int insertPrezzo
