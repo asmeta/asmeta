@@ -30,26 +30,25 @@ public class TestExperiments {
 		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
 
 		
-//		String targetDir = "./" + RESOURCES + "/mytest.avalla";
-//		AsmetaV.execValidation(targetDir, true);
+		String targetDir = "./" + RESOURCES + "/mytest.avalla";
+		AsmetaV.execValidation(targetDir, true);
 		
-		String asm = "./" + RESOURCES + "/" + "pillbox_1.asm";
+//		String asm = "./" + RESOURCES + "/" + "pillbox_1.asm";
 //		String asm = "./" + RESOURCES + "/" + "vascaidro.asm";
 //		String asm = "./" + RESOURCES + "/" + "myasm.asm";
-		AsmCollection asms = ASMParser.setUpReadAsm(new File(asm));
+//		AsmCollection asms = ASMParser.setUpReadAsm(new File(asm));
 		
-		System.out.println("RANDOM");
-		// Come decidere i parametri della random simulation?
-		AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asms, 10, 10);
-		AsmTestSuite randomSuite = randomTestGenerator.getTestSuite();
-		computeCoverage(asm, randomSuite, "randomtests");
+//		System.out.println("RANDOM");
+//		// Come decidere i parametri della random simulation?
+//		AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asms, 1, 1);
+//		AsmTestSuite randomSuite = randomTestGenerator.getTestSuite();
+//		computeCoverage(asm, randomSuite, "randomtests");
 		
 //		System.out.println("NuSMV");
 //		NuSMVtestGenerator nusmvTestGenerator = new NuSMVtestGenerator(asm, true);
 //		AsmTestSuite nusmvSuite = nusmvTestGenerator.generateAbstractTests(
 //				Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria), Integer.MAX_VALUE, ".*");
 //		computeCoverage(asm, nusmvSuite, "nusmvtests");
-		
 	}
 	
 	private static void computeCoverage(String asm, AsmTestSuite suite, String dir) {

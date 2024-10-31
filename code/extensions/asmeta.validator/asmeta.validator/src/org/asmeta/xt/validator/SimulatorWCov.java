@@ -125,7 +125,7 @@ public class SimulatorWCov extends Simulator {
 	public Map<String, BranchCovData> getCoveredBranches() {
 		Map<String, BranchCovData> covData = new HashMap<>();
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-			String ruleCompleteName = getSignature(md);
+			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
 			if (!covData.containsKey(ruleCompleteName)) {
 				covData.put(ruleCompleteName, new BranchCovData());
 			}
@@ -158,7 +158,7 @@ public class SimulatorWCov extends Simulator {
 	public Map<String, UpdateCovData> getCoveredUpdateRules() {
 		Map<String, UpdateCovData> covData = new HashMap<>();
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-			String ruleCompleteName = getSignature(md);
+			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
 			if (!covData.containsKey(ruleCompleteName)) {
 				covData.put(ruleCompleteName, new UpdateCovData());
 			}
@@ -178,23 +178,6 @@ public class SimulatorWCov extends Simulator {
 			covData.get(ruleCompleteName).tot = tot;
 		}
 		return covData;
-	}
-	
-	/**
-	 * Compute the signature a macro rule declaration.
-	 *
-	 * @param md the macro declaration
-	 * @return the signature
-	 */
-	private String getSignature(RuleDeclaration md) {
-		String signature = md.getName() + "(";
-		for(VariableTerm variable : md.getVariable()) {
-			signature += variable.getDomain().getName() + ",";
-		}
-		if(signature.endsWith(",")) 
-			signature = signature.substring(0, signature.length() - 1);
-		signature += ")";
-		return signature;
 	}
 
 }

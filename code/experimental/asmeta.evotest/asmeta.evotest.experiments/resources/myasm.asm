@@ -17,7 +17,7 @@ definitions:
 	domain Livello = {0:100}
 	
 	rule r_RuleChiamata($i in Integer, $s in String) =
-		skip
+		choose $b in Boolean with true do if ($b) then skip else skip endif
 		
 	rule r_RuleChiamata($i in String, $s in String) =
 		skip
@@ -36,7 +36,7 @@ definitions:
 					r_RuleChiamata[false]
 				endpar
 			endif
-			skip
+			r_RuleChiamata[0, "string"]
 		endpar
 
 	// MAIN RULE

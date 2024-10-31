@@ -112,14 +112,14 @@ public class AsmetaV {
 					if (result == null) {
 						logger.info("-> no information about branch coverage and update rule coverage can be displayed");
 					}else {
-						BranchCovData branchData = result.getBranchData().get(rule.getKey().substring(rule.getKey().lastIndexOf(':') + 1));
+						BranchCovData branchData = result.getBranchData().get(rule.getKey());
 						if (branchData.tot != 0) {
 							float branchCoverage = ((float)branchData.coveredT.size()+branchData.coveredF.size())/(branchData.tot*2)*100;
 							logger.info("-> branch coverage: " + branchCoverage + "%");
 						}else {
 							logger.info("-> branch coverage: 0% (no conditional rules to be covered)");
 						}
-						UpdateCovData updateData = result.getUpdateData().get(rule.getKey().substring(rule.getKey().lastIndexOf(':') + 1));
+						UpdateCovData updateData = result.getUpdateData().get(rule.getKey());
 						if (updateData.tot != 0) {
 							float updateCoverage = ((float)updateData.covered.size()/updateData.tot)*100;;
 							logger.info("-> update rule coverage: " + updateCoverage + "%");
@@ -202,14 +202,14 @@ public class AsmetaV {
 			// for each rule which is declared in the current ASM
 			ruleDeclaration.forEach(rd -> {
 				String ruleName = rd.getName();
-				String completeRuleName = getCompleteRuleName(rd);
+				String completeRuleName = RuleDeclarationUtils.getCompleteName(rd);
 //				// skip the artificial name of the
 				if (!ruleName.equals(AsmetaPrinterForAvalla.R_MAIN)) {
 					boolean rdIsCovered = false;
 					// check if it is covered as it is present in the covered rules
 					for(MacroDeclaration md : RuleEvalWCov.coveredMacros) {
 						String asmName = md.getAsmBody().getAsm().getName();
-						String completeMacroName = getCompleteRuleName(md);
+						String completeMacroName = RuleDeclarationUtils.getCompleteName(md);
 						if (completeMacroName.equals(completeRuleName)
 								&& asmName.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) {
 							coveredRules.put(completeRuleName, Boolean.TRUE);
@@ -228,7 +228,7 @@ public class AsmetaV {
 			for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
 				String asmName = md.getAsmBody().getAsm().getName();
 				if (!asmName.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V))
-					coveredRules.put(getCompleteRuleName(md), Boolean.TRUE);
+					coveredRules.put(RuleDeclarationUtils.getCompleteName(md), Boolean.TRUE);
 			}
 			// update the result with the data about branch coverage
 			Map<String, BranchCovData> branchData = ((SimulatorWCov)sim).getCoveredBranches();
@@ -246,29 +246,6 @@ public class AsmetaV {
 			result.setUpdateData(updateData);
 		}
 		return result;
-	}
-	
-	/**
-	 * Compute the complete name of a rule declaration.
-	 *
-	 * @param rd the rule declaration
-	 * @return the complete name as asm_name::rule_signature
-	 */
-	private String getCompleteRuleName(RuleDeclaration rd) {
-		String asmName = rd.getAsmBody().getAsm().getName();
-		if (asmName.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) { // For asm built from avalla
-			asmName = asmName.substring(0, asmName.indexOf(AsmetaFromAvallaBuilder.TEMP_ASMETA_V));
-		}else if (asmName.startsWith("_")){ // For imported asm
-			asmName = asmName.substring(1, asmName.lastIndexOf('_'));
-		}
-		String signature = rd.getName() + "(";
-		for(VariableTerm variable : rd.getVariable()) {
-			signature += variable.getDomain().getName() + ",";
-		}
-		if(signature.endsWith(",")) 
-			signature = signature.substring(0, signature.length() - 1);
-		signature += ")";
-		return asmName + "::" + signature;
 	}
 	
 }
