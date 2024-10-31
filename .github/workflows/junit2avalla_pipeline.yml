@@ -29,6 +29,7 @@ jobs:
         run: mvn --batch-mode clean verify
 
       - name: Upload Artifact
+        #if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
         uses: actions/upload-artifact@v4
         with:
           name: junit2avalla.jar
@@ -39,6 +40,7 @@ jobs:
     name: Push Docker Image
     needs: build
     runs-on: ubuntu-latest
+    #if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

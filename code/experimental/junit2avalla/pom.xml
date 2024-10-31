@@ -104,7 +104,7 @@
 			  <archive>
 			    <manifest>
 				  <mainClass>
-					org.asmeta.junit2avalla.main.Junit2AvallaCLI
+					asmeta.junit2avalla.main.Junit2AvallaCLI
 				  </mainClass>
 				</manifest>
 			  </archive>
