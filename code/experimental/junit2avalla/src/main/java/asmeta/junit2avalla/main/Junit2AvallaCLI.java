@@ -24,7 +24,6 @@ public class Junit2AvallaCLI {
 	private static final String OUTPUT = "output";
 	private static final String CLEAN = "clean";
 	private static final String HELP = "help";
-	private static final String STEP_FUNCTION_ARGS = "stepFunctionArgs";
 
 	private static final Logger log = LogManager.getLogger(Junit2AvallaCLI.class);
 
@@ -91,12 +90,6 @@ public class Junit2AvallaCLI {
 		Option input = Option.builder(INPUT).argName(INPUT).type(String.class).hasArg(true)
 				.desc("The Java input file (required)").build();
 
-		// stepFunctionArgs file
-		Option stepFunctionArgs = Option.builder(STEP_FUNCTION_ARGS).argName(STEP_FUNCTION_ARGS).type(String.class)
-				.hasArg(true)
-				.desc("The stepFunctionArgs.txt file " + "(optional, defaults to `./input/stepFunctionArgs.txt`)")
-				.build();
-
 		// output directory
 		Option output = Option.builder(OUTPUT).argName(OUTPUT).type(String.class).hasArg(true)
 				.desc("The output folder (optional, defaults to `./output/`)").build();
@@ -107,7 +100,6 @@ public class Junit2AvallaCLI {
 
 		options.addOption(help);
 		options.addOption(input);
-		options.addOption(stepFunctionArgs);
 		options.addOption(output);
 		options.addOption(clean);
 
@@ -144,10 +136,6 @@ public class Junit2AvallaCLI {
 		// INPUT OPTION: by precondition -input option is always available and not null
 		// (required)
 		translator.setInput(line.getOptionValue(INPUT));
-
-		if (line.hasOption(STEP_FUNCTION_ARGS)) {
-			translator.setStepFunctionArgs(line.getOptionValue(STEP_FUNCTION_ARGS));
-		}
 		
 		if (line.hasOption(OUTPUT)) {
 			translator.setOutput(line.getOptionValue(OUTPUT));

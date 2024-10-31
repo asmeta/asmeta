@@ -49,14 +49,18 @@ expected
     ;
     
 setFunction
+<<<<<<< Updated upstream
     : SetFunc variableName LPAREN argument RPAREN SEMI
+=======
+    : SetFunc LPAREN setVariableValue RPAREN SEMI
+>>>>>>> Stashed changes
     ;
 
 stepFunction
-    : StepFunc LPAREN argument? (COMMA argument)* RPAREN SEMI
+    : StepFunc LPAREN RPAREN SEMI
     ;
-
-argument
+    
+setVariableValue
     : (ID | STRING | INT+)
     ;
 
