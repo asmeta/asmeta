@@ -508,10 +508,24 @@ public class OCL_Checker {
 
 	// ----------------- FUNCTION DEFINITION --------------//
 	public static boolean checkFunctionDefinition(FunctionDefinition f_def) {
-		return B3(f_def) && B6(f_def) && B7_B8_B9(f_def) && B10(f_def);
+		return staticContainsStatic(f_def) && B3(f_def) && B6(f_def) && B7_B8_B9(f_def) && B10(f_def);
 				//&& E21(f_def);
 	}
 
+	
+	// new constraints 31/10/2024
+	// the definition of a static function can contain only static functions
+	public static boolean staticContainsStatic(FunctionDefinition f_def) {
+		Function fun = f_def.getDefinedFunction();
+		if (!(fun instanceof StaticFunction)) return true;
+		// get the function body
+		Term defBody = f_def.getBody();
+		// collect all the terms in the def Body
+		System.out.println(defBody.eAllContents());
+		return false;
+	}
+
+	
 	public static boolean B3(FunctionDefinition f_def) {
 		// check constraint B3: definedFunction.oclIsTypeOf(StaticFunction) or
 		// definedFunction.oclIsTypeOf(DerivedFunction)
@@ -522,7 +536,9 @@ public class OCL_Checker {
 		}
 		return true;
 	}
-
+	
+	
+	
 	public static boolean B6(FunctionDefinition f_def) {
 		// check constraint B6: variable->size() =
 		// definedFunction.arity.oclAsType(Integer)

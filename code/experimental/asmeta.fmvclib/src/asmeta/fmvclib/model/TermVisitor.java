@@ -35,7 +35,7 @@ import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.StringTerm;
 /**
  * 
- * returns the 
+ * returns the translation - DUPLICATO???? see the TermVisitor of asmetaSMV
  *
  */
 public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String> {
