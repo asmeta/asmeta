@@ -11,6 +11,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.compiler.CompileResult;
@@ -168,12 +169,32 @@ public class FileManager {
 	boolean compileFile(String asmName) throws IOException {
 		logger.info("JavaCompiler: compiling the .java class...");
 		checkPath(COMPILER_DIR_PATH);
-		CompileResult result = compilerJava.compile(asmName + JAVA_EXTENSION, COMPILER_DIR_PATH, true);
+		CompileResult result = compilerJava.compileFile(asmName + JAVA_EXTENSION, COMPILER_DIR_PATH, true);
 		if(result.getSuccess()) {
 			return true;
 		}
 		logger.error("Compilation errors: " + result.toString());
 		return false;
+	}
+	
+	/**
+	 * Compile the given files in the output directory and returns the result of the compilation process.
+	 * 
+	 * @param files list of files to compile.
+	 * @return {@code true} if the the result of the compilation is successful, {@code false} otherwise.
+	 */
+	boolean compileExportedFiles(List<File> files) {
+		if(files.isEmpty()) {
+			logger.error("No files to compile.");
+		}
+		
+		CompileResult compilerResult = compilerJava.compileFiles(files, outputFolder);
+		if(!compilerResult.getSuccess()) {
+			logger.error("Compilation errors: " + compilerResult.toString());
+			return false;
+		}
+		
+		return true;
 	}
 
     /**
@@ -181,8 +202,9 @@ public class FileManager {
      *
      * @param javaFile the Java file to be exported.
      * @throws IOException if an I/O error occurs during the export.
+     * @return javaOutFile the exported file.
      */
-	void exportFile(File javaInputFile) {
+	File exportFile(File javaInputFile) {
 		File javaOutFile = new File(outputFolder + File.separator + javaInputFile.getName());
 		logger.info("Exporting " + javaInputFile + " to: " + outputFolder.toString());
 		try (InputStream in = new BufferedInputStream(Files.newInputStream(javaInputFile.toPath()));
@@ -199,6 +221,7 @@ public class FileManager {
             e.printStackTrace(); 
         }
 		logger.info("Export completed.");
+		return javaOutFile;
 	}
 	
 	

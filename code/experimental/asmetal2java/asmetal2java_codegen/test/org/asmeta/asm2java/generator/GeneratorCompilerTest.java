@@ -464,7 +464,7 @@ public class GeneratorCompilerTest {
 //		System.out.println("All java files Generated in: " + javaFileT.getCanonicalPath());
 
 		Compiler compiler = new CompilerImpl();
-		return compiler.compile(name + ".java", Paths.get(dirCompilazione), true);
+		return compiler.compileFile(name + ".java", Paths.get(dirCompilazione), true);
 	}
 	
 	

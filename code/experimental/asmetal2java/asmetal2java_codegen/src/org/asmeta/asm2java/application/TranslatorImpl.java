@@ -3,6 +3,7 @@ package org.asmeta.asm2java.application;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.config.Mode;
@@ -114,7 +115,6 @@ public class TranslatorImpl implements Translator {
 			break;
 		case TEST_GEN_MODE:
 			translatorOptions.setValue(Mode.TRANSLATOR_MODE.getValue(), false);
-			translatorOptions.setValue(Mode.COMPILER_MODE.getValue(), false);
 			translatorOptions.setValue(Mode.GENERATE_EXE_MODE.getValue(), false);
 			translatorOptions.setValue(Mode.GENERATE_WIN_MODE.getValue(), false);
 			translatorOptions.setValue(Mode.TEST_GEN_MODE.getValue(), true);
@@ -146,7 +146,7 @@ public class TranslatorImpl implements Translator {
 			throw new AsmParsingException("Error while parsing ASM file: " + asmFile.getName(), e);
 		}
 	
-		if (translatorOptions.getCompiler()) {
+		if (translatorOptions.getCompiler() && !translatorOptions.getTestGen()) {
 			result &= this.compileAndTranslate(asmName, model);
 		}
 	
@@ -237,10 +237,22 @@ public class TranslatorImpl implements Translator {
      */
 	private boolean testGen(String asmName, AsmCollection model) {
 		try {				
+			// translate
 			File testGenJavaFile = generateTranslation(asmName, model, Mode.TRANSLATOR_TEST_MODE);			
 			File atgJavaFile = generateTranslation(asmName, model, Mode.TEST_GEN_MODE);
-			exportJavaFile(testGenJavaFile);
-			exportJavaFile(atgJavaFile);
+			// export
+			File testGenJavaFileExported = exportJavaFile(testGenJavaFile);
+			File atgJavaFileExported = exportJavaFile(atgJavaFile);
+			if(translatorOptions.getExport()) {
+				// compile
+				List<File> files = List.of(testGenJavaFileExported,atgJavaFileExported);
+				boolean result = fileManager.compileExportedFiles(files);
+				if(!result) {
+					logger.error("Failed to compile the files: " + files.stream().map(File::getName).collect(Collectors.joining(", ")));
+					return false;
+				}
+				logger.info("Compiled with success the files: " + files.stream().map(File::getName).collect(Collectors.joining(", ")));
+			}
 		} catch (IOException e) {
 			logger.error("TestGen operation completed with errors: " + e.getMessage());
 			return false;
@@ -253,10 +265,11 @@ public class TranslatorImpl implements Translator {
      * 
      * @param javaFile the Java file to export.
      */
-	private void exportJavaFile(File javaFile) {
+	private File exportJavaFile(File javaFile) {
 		if(translatorOptions.getExport()) {
-			fileManager.exportFile(javaFile);
+			return fileManager.exportFile(javaFile);
 		}
+		return null;
 	}
 
 	@Override
