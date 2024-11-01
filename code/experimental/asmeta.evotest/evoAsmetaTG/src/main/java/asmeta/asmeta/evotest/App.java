@@ -11,6 +11,7 @@ import org.asmeta.asm2java.main.Asmeta2JavaCLI;
  */
 public class App {
     public static void main(String[] args) throws IOException {
+    	/*
     	// translate to java
     	Asmeta2JavaCLI.main(new String[]{"ex.asm"});
 		// executing evouite
@@ -19,5 +20,6 @@ public class App {
     	pb.start();
     	// traduci da Junit ad avalla
     	// TODO
+    	 */
     }
 }
