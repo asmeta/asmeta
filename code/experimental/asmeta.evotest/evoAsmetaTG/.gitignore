@@ -1,3 +1,5 @@
 !evosuite-1.0.6.jar
 /evosuite-report/
 /evosuite-tests/
+/output/
+/input/
