@@ -30,8 +30,9 @@ public interface Translator {
      * Sets the output directory for the translation process.
      *
      * @param outputDir the output directory.
+     * @throws IOException 
      */
-    void setOutput(String outputDir);
+    void setOutput(String outputDir) throws IOException;
     
     /**
      * Sets the mode of translation to be used.

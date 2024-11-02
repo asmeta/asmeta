@@ -66,9 +66,10 @@ public class TranslatorImpl implements Translator {
 	
 	/**
 	 * {@inheritDoc}
+	 * @throws IOException 
 	 */
 	@Override
-	public void setOutput(String value) {
+	public void setOutput(String value) throws IOException {
 		fileManager.setOutputDir(value);
 		if (!translatorOptions.getExport()) {
 			logger.info("Warning: you selected an output folder but the export option is disabled!");

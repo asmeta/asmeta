@@ -242,9 +242,11 @@ public class FileManager {
      * Sets the output directory where the generated files will be stored.
      * 
      * @param outputDir the path of the output directory.
+     * @throws IOException 
      */
-	void setOutputDir(String outputDir) {
+	void setOutputDir(String outputDir) throws IOException {
 		this.outputFolder = Paths.get(outputDir);
+		checkPath(outputFolder);
 	}
 
     /**
