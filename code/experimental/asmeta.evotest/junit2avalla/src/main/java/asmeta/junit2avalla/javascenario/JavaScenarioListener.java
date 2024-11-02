@@ -68,7 +68,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	private JavaAssertionTerm currentJavaAssertionTerm;
 	
 	/**
-	 * {@code True} ignore the checks, {@code False} write the checks.
+	 * {@code True} ignore the next assertions, {@code False} write the checks.
 	 */
 	private boolean ignoreChecks;
 
@@ -187,6 +187,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	@Override
 	public void enterVariableValue(VariableValueContext ctx) {
 		log.debug("Entering start_test_scenario_variableDeclaration_variableValue: {} .", ctx.getText());
+		String value = ctx.getText();
 		this.currentJavaVariable.setValue(ctx.getText());
 	}
 
@@ -204,6 +205,13 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		this.variablesList.put(this.currentJavaVariable.getName(), this.currentJavaVariable);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Create a new Java variable term and set its name. 
+	 * </p>
+	 * @param ctx the parse tree context.
+	 */
 	@Override
 	public void enterSetFunction(SetFunctionContext ctx) {
 		log.debug("Entering start_test_scenario_setFunction: {} .", ctx.getText());
@@ -212,6 +220,14 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	}
 
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Check if the variable is primitive, in this case set its value directly, 
+	 * otherwise look for it in the variablesList structure and assign it to it
+	 * </p>
+	 * @param ctx the parse tree context.
+	 */
 	@Override
 	public void enterSetVariableValue(SetVariableValueContext ctx) {
 		log.debug("Entering start_test_scenario_setFunction_setVariableValue: {} .", ctx.getText());
@@ -227,6 +243,13 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Add the set term to the scenario and ignore the following assertions up to the step function.
+	 * </p>
+	 * @param ctx the parse tree context.
+	 */
 	@Override
 	public void exitSetFunction(SetFunctionContext ctx) {
 		log.debug("Exiting start_test_scenario_setFunction: {} .", ctx.getText());
@@ -238,7 +261,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Initializes the current variables list and resets the argument index.
+	 * Enter the step function.
 	 * </p>
 	 *
 	 * @param ctx the parse tree context.
@@ -251,7 +274,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Processes a step function, setting the necessary terms in the scenario.
+	 * Add the step term to the scenario and consider the following assertions.
 	 * </p>
 	 *
 	 * @param ctx the parse tree context.
@@ -315,7 +338,15 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 			return;
 		}
 		log.debug("Entering start_test_scenario_assertEquals_expected: {} .", ctx.getText());
-		this.currentJavaAssertionTerm.setExpected(ctx.getText());
+		if(ctx.ID() != null) {
+			log.debug("parsing ID: {} .", ctx.getText());
+			String expectedValue = this.variablesList.get(ctx.getText()).getValue();
+			this.currentJavaAssertionTerm.setExpected(expectedValue);
+		} else {
+			log.debug("parsing Getter: {} .", ctx.getText());
+			this.currentJavaAssertionTerm.setExpected(ctx.getText());
+		}
+		
 	}
 
 	/**
@@ -339,6 +370,14 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	
 	
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Enter a try-catch block and ignore it.
+	 * </p>
+	 *
+	 * @param ctx the parse tree context.
+	 */
 	@Override
 	public void enterTrycatchblock(TrycatchblockContext ctx) {
 		log.debug("Entering start_test_scenario_trycatchblock: {} .", ctx.getText());

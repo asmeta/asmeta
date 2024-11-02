@@ -25,7 +25,7 @@ variableDeclaration
     ;
 
 variableType
-    : Identifier
+    : (Identifier| ID)
     ;
 
 variableName
@@ -33,7 +33,7 @@ variableName
     ;
 
 variableValue
-    : Identifier
+    : (Identifier| Getter)
     ;
 
 assertEquals
@@ -45,7 +45,7 @@ actual
     ;
 
 expected
-    : Getter
+    : (Getter | ID)
     ;
     
 setFunction
@@ -85,7 +85,7 @@ LINE_COMMENT
     ;
 
 ClassDeclaration
-    : 'package' (.)*? LCURLY
+    : ('package'|'import') (.)*? LCURLY
     ;
 
 TestAnnotation
