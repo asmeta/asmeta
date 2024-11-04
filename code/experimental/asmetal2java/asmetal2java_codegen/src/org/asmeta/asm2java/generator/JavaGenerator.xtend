@@ -8,19 +8,18 @@ import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.EnumTd
 import asmeta.structure.Asm
 import asmeta.transitionrules.basictransitionrules.Rule
+import java.util.ArrayList
+import java.util.List
+import org.asmeta.asm2java.config.TranslatorOptions
 import org.asmeta.asm2java.translator.DomainToJavaSigDef
 import org.asmeta.asm2java.translator.FindMonitoredInControlledFunct
 import org.asmeta.asm2java.translator.FunctionToJavaDef
 import org.asmeta.asm2java.translator.FunctionToJavaSig
 import org.asmeta.asm2java.translator.RuleToJava
 import org.asmeta.asm2java.translator.SeqRuleCollector
-import org.asmeta.asm2java.translator.Util
 import org.asmeta.asm2java.translator.ToString
-import org.asmeta.asm2java.config.TranslatorOptions
+import org.asmeta.asm2java.translator.Util
 import org.junit.Assert
-import java.util.ArrayList
-import java.util.List
-
 
 /**Generates .java ASM file */
 class JavaGenerator extends AsmToJavaGenerator {
@@ -37,6 +36,41 @@ class JavaGenerator extends AsmToJavaGenerator {
 	protected List<Rule> seqCalledRules;
 
 	protected String supp
+	
+	/**
+	 * Create an instance of the {@code DomainToJavaSigDef} object.
+	 */
+	protected def DomainToJavaSigDef createDomainToJavaSigDef(Asm resource) {
+		new DomainToJavaSigDef(resource)
+	}
+	
+	/**
+	 * Create an instance of the {@code ToString} object.
+	 */
+	protected def ToString createToString(Asm resource) {
+		new ToString(resource)
+	}
+	
+	/**
+	 * Create an instance of the {@code FunctionToJavaSig} object.
+	 */
+	protected def FunctionToJavaSig createFunctionToJavaSig(Asm resource) {
+		new FunctionToJavaSig(resource)
+	}
+	
+	/**
+	 * Create an instance of the {@code FunctionToJavaDef} object.
+	 */
+	protected def FunctionToJavaDef createFunctionToJavaDef(Asm asm) {
+		new FunctionToJavaDef(asm)
+	}
+
+	/**
+	 * Create an instance of the {@code RuleToJava} object.
+	 */
+	protected def RuleToJava createRuleToJava(Asm resource, boolean seqBlock, TranslatorOptions translatorOptions) {
+		new RuleToJava(resource, seqBlock, translatorOptions)
+	}
 
 	override compileAsm(Asm asm) {
 		// collect alla the seq rules if required
@@ -240,7 +274,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 		var sb = new StringBuffer;
 		for (dd : asm.headerSection.signature.domain) {
 			if (dd instanceof AbstractTd)
-				sb.append("//Variabile di tipo astratto" + "\n\n" + new DomainToJavaSigDef(asm).visit(dd) + "\n")
+				sb.append("//Variabile di tipo astratto" + "\n\n" + createDomainToJavaSigDef(asm).visit(dd) + "\n")
 
 		}
 		return sb.toString
@@ -253,7 +287,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 			if (dd instanceof AbstractTd == false)
 				sb.append(
-					"//Variabile di tipo Concreto o Enumerativo" + "\n\n" + new DomainToJavaSigDef(asm).visit(dd) +
+					"//Variabile di tipo Concreto o Enumerativo" + "\n\n" + createDomainToJavaSigDef(asm).visit(dd) +
 						"\n")
 
 		}
@@ -267,10 +301,10 @@ class JavaGenerator extends AsmToJavaGenerator {
 			if (fd instanceof DerivedFunction)
 				for (fDef : asm.bodySection.functionDefinition) {
 					if (fDef.definedFunction.name.equals(fd.name))
-						sb.append(new FunctionToJavaSig(asm).visit(fd) + "\n")
+						sb.append(createFunctionToJavaSig(asm).visit(fd) + "\n")
 				}
 			else
-				sb.append(new FunctionToJavaSig(asm).visit(fd) + "\n")
+				sb.append(createFunctionToJavaSig(asm).visit(fd) + "\n")
 		}
 		return sb.toString
 	}
@@ -289,15 +323,15 @@ class JavaGenerator extends AsmToJavaGenerator {
 		var bb = #{true, false}
 		var StringBuffer result = new StringBuffer
 		if (seqCalledRules === null || seqCalledRules.contains(r.ruleBody)) {
-			result.append(foo(r, r.name + "_seq", asm))
+			result.append(ruleTranslationSig(r, r.name + "_seq", asm))
 		}
-		result.append(foo(r, r.name, asm))
+		result.append(ruleTranslationSig(r, r.name, asm))
 		return result.toString
 
 	}
 
 	// Metodo per riconoscere se la funzione ha o meno delle variabili in ingresso, traducendole
-	protected def String foo(RuleDeclaration r, String methodName, Asm asm) {
+	protected def String ruleTranslationSig(RuleDeclaration r, String methodName, Asm asm) {
 		if (r.arity == 0)
 			return (''' 
 				abstract void «methodName»();
@@ -323,10 +357,10 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 				initial.append(
 					dd.definedDomain.name + ".elems = Collections.unmodifiableList(Arrays.asList" +
-						new DomainToJavaSigDef(asm).visit(dd) + ");\n")
+						createDomainToJavaSigDef(asm).visit(dd) + ");\n")
 				initial.append(
 					dd.definedDomain.name + "_elems = Collections.unmodifiableList(Arrays.asList" +
-						new DomainToJavaSigDef(asm).visit(dd) + ");\n")
+						createDomainToJavaSigDef(asm).visit(dd) + ");\n")
 			}
 		}
 
@@ -350,9 +384,9 @@ class JavaGenerator extends AsmToJavaGenerator {
 					for (var int i = 0; i < dd.element.size; i++) {
 						
 						if (i != dd.element.size - 1)
-							initial.append('''«dd.name».«new ToString(asm).visit(dd.element.get(i))», ''')
+							initial.append('''«dd.name».«createToString(asm).visit(dd.element.get(i))», ''')
 						else
-							initial.append('''«dd.name».«new ToString(asm).visit(dd.element.get(i))»)''')
+							initial.append('''«dd.name».«createToString(asm).visit(dd.element.get(i))»)''')
 					}
 
 					initial.append(");\n")
@@ -377,7 +411,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 			for (dd : asm.defaultInitialState.domainInitialization) {
 
-				val domaintojava = new DomainToJavaSigDef(asm).visit(dd)
+				val domaintojava = createDomainToJavaSigDef(asm).visit(dd)
 				initial.append(Util.getElemsSetName(dd.initializedDomain.name) + "=" + domaintojava + ";\n")
 			}
 		}
@@ -440,7 +474,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 			for (fd : asm.bodySection.functionDefinition)
 				sb.append(
-		  					'''«new FunctionToJavaDef(asm).visit(fd.definedFunction)»
+		  					'''«(createFunctionToJavaDef(asm)).visit(fd.definedFunction)»
 				''')
 			return sb.toString.replaceAll("\\$", "_")
 		}
@@ -463,23 +497,23 @@ class JavaGenerator extends AsmToJavaGenerator {
 		var StringBuffer result = new StringBuffer
 
 		if (seqCalledRules === null || seqCalledRules.contains(r.ruleBody)) {
-			result.append(ruleTranslation(r, r.name + "_seq", asm))
+			result.append(ruleTranslationDef(r, r.name + "_seq", asm))
 		}
 
-		result.append(ruleTranslation(r, r.name, asm))
+		result.append(ruleTranslationDef(r, r.name, asm))
 		return result.toString
 	}
 
 	/**
-	 * Method to build rule body in Java. (former foo2)
+	 * Method to translate rule body definition in Java.
 	 * 
 	 */
-	def String ruleTranslation(RuleDeclaration r, String methodName, Asm asm) {
+	def String ruleTranslationDef(RuleDeclaration r, String methodName, Asm asm) {
 		if (r.arity == 0)
 			return ('''
 				@Override
 				void «methodName»(){
-					«new RuleToJava(asm,false,options).visit(r.ruleBody as Rule)»
+					«createRuleToJava(asm,false,options).visit(r.ruleBody as Rule)»
 				}
 				
 			''')
@@ -487,7 +521,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 			return ( '''
 				@Override
 				void «methodName» («new Util().adaptRuleParam(r.variable, asm)»){
-					«new RuleToJava(asm,false,options).visit(r.ruleBody)»
+					«createRuleToJava(asm,false,options).visit(r.ruleBody)»
 				}
 				
 			''')

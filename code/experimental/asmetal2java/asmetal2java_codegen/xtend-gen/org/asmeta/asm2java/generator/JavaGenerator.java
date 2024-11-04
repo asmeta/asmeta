@@ -48,6 +48,41 @@ public class JavaGenerator extends AsmToJavaGenerator {
 
   protected String supp;
 
+  /**
+   * Create an instance of the {@code DomainToJavaSigDef} object.
+   */
+  protected DomainToJavaSigDef createDomainToJavaSigDef(final Asm resource) {
+    return new DomainToJavaSigDef(resource);
+  }
+
+  /**
+   * Create an instance of the {@code ToString} object.
+   */
+  protected ToString createToString(final Asm resource) {
+    return new ToString(resource);
+  }
+
+  /**
+   * Create an instance of the {@code FunctionToJavaSig} object.
+   */
+  protected FunctionToJavaSig createFunctionToJavaSig(final Asm resource) {
+    return new FunctionToJavaSig(resource);
+  }
+
+  /**
+   * Create an instance of the {@code FunctionToJavaDef} object.
+   */
+  protected FunctionToJavaDef createFunctionToJavaDef(final Asm asm) {
+    return new FunctionToJavaDef(asm);
+  }
+
+  /**
+   * Create an instance of the {@code RuleToJava} object.
+   */
+  protected RuleToJava createRuleToJava(final Asm resource, final boolean seqBlock, final TranslatorOptions translatorOptions) {
+    return new RuleToJava(resource, seqBlock, translatorOptions);
+  }
+
   @Override
   public String compileAsm(final Asm asm) {
     boolean _optimizeSeqMacroRule = this.options.getOptimizeSeqMacroRule();
@@ -546,7 +581,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
     for (final Domain dd : _domain) {
       if ((dd instanceof AbstractTd)) {
-        String _visit = new DomainToJavaSigDef(asm).visit(((AbstractTd)dd));
+        String _visit = this.createDomainToJavaSigDef(asm).visit(((AbstractTd)dd));
         String _plus = (("//Variabile di tipo astratto" + "\n\n") + _visit);
         String _plus_1 = (_plus + "\n");
         sb.append(_plus_1);
@@ -560,7 +595,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
     for (final Domain dd : _domain) {
       if (((dd instanceof AbstractTd) == false)) {
-        String _visit = new DomainToJavaSigDef(asm).visit(dd);
+        String _visit = this.createDomainToJavaSigDef(asm).visit(dd);
         String _plus = (("//Variabile di tipo Concreto o Enumerativo" + "\n\n") + _visit);
         String _plus_1 = (_plus + 
           "\n");
@@ -579,13 +614,13 @@ public class JavaGenerator extends AsmToJavaGenerator {
         for (final FunctionDefinition fDef : _functionDefinition) {
           boolean _equals = fDef.getDefinedFunction().getName().equals(((DerivedFunction)fd).getName());
           if (_equals) {
-            String _visit = new FunctionToJavaSig(asm).visit(((DerivedFunction)fd));
+            String _visit = this.createFunctionToJavaSig(asm).visit(((DerivedFunction)fd));
             String _plus = (_visit + "\n");
             sb.append(_plus);
           }
         }
       } else {
-        String _visit_1 = new FunctionToJavaSig(asm).visit(fd);
+        String _visit_1 = this.createFunctionToJavaSig(asm).visit(fd);
         String _plus_1 = (_visit_1 + "\n");
         sb.append(_plus_1);
       }
@@ -607,13 +642,13 @@ public class JavaGenerator extends AsmToJavaGenerator {
     if (((this.seqCalledRules == null) || this.seqCalledRules.contains(r.getRuleBody()))) {
       String _name = r.getName();
       String _plus = (_name + "_seq");
-      result.append(this.foo(r, _plus, asm));
+      result.append(this.ruleTranslationSig(r, _plus, asm));
     }
-    result.append(this.foo(r, r.getName(), asm));
+    result.append(this.ruleTranslationSig(r, r.getName(), asm));
     return result.toString();
   }
 
-  protected String foo(final RuleDeclaration r, final String methodName, final Asm asm) {
+  protected String ruleTranslationSig(final RuleDeclaration r, final String methodName, final Asm asm) {
     Integer _arity = r.getArity();
     boolean _equals = ((_arity).intValue() == 0);
     if (_equals) {
@@ -646,13 +681,13 @@ public class JavaGenerator extends AsmToJavaGenerator {
         {
           String _name = dd.getDefinedDomain().getName();
           String _plus = (_name + ".elems = Collections.unmodifiableList(Arrays.asList");
-          String _visit = new DomainToJavaSigDef(asm).visit(dd);
+          String _visit = this.createDomainToJavaSigDef(asm).visit(dd);
           String _plus_1 = (_plus + _visit);
           String _plus_2 = (_plus_1 + ");\n");
           initial.append(_plus_2);
           String _name_1 = dd.getDefinedDomain().getName();
           String _plus_3 = (_name_1 + "_elems = Collections.unmodifiableList(Arrays.asList");
-          String _visit_1 = new DomainToJavaSigDef(asm).visit(dd);
+          String _visit_1 = this.createDomainToJavaSigDef(asm).visit(dd);
           String _plus_4 = (_plus_3 + _visit_1);
           String _plus_5 = (_plus_4 + ");\n");
           initial.append(_plus_5);
@@ -687,7 +722,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
               String _name_1 = ((EnumTd)dd).getName();
               _builder.append(_name_1);
               _builder.append(".");
-              String _visit = new ToString(asm).visit(((EnumTd)dd).getElement().get(i));
+              String _visit = this.createToString(asm).visit(((EnumTd)dd).getElement().get(i));
               _builder.append(_visit);
               _builder.append(", ");
               initial.append(_builder);
@@ -696,7 +731,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
               String _name_2 = ((EnumTd)dd).getName();
               _builder_1.append(_name_2);
               _builder_1.append(".");
-              String _visit_1 = new ToString(asm).visit(((EnumTd)dd).getElement().get(i));
+              String _visit_1 = this.createToString(asm).visit(((EnumTd)dd).getElement().get(i));
               _builder_1.append(_visit_1);
               _builder_1.append(")");
               initial.append(_builder_1);
@@ -722,7 +757,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       EList<DomainInitialization> _domainInitialization = asm.getDefaultInitialState().getDomainInitialization();
       for (final DomainInitialization dd : _domainInitialization) {
         {
-          final String domaintojava = new DomainToJavaSigDef(asm).visit(dd);
+          final String domaintojava = this.createDomainToJavaSigDef(asm).visit(dd);
           String _elemsSetName = Util.getElemsSetName(dd.getInitializedDomain().getName());
           String _plus = (_elemsSetName + "=");
           String _plus_1 = (_plus + domaintojava);
@@ -814,7 +849,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       EList<FunctionDefinition> _functionDefinition = asm.getBodySection().getFunctionDefinition();
       for (final FunctionDefinition fd : _functionDefinition) {
         StringConcatenation _builder = new StringConcatenation();
-        String _visit = new FunctionToJavaDef(asm).visit(fd.getDefinedFunction());
+        String _visit = this.createFunctionToJavaDef(asm).visit(fd.getDefinedFunction());
         _builder.append(_visit);
         _builder.newLineIfNotEmpty();
         sb.append(_builder);
@@ -838,16 +873,16 @@ public class JavaGenerator extends AsmToJavaGenerator {
     if (((this.seqCalledRules == null) || this.seqCalledRules.contains(r.getRuleBody()))) {
       String _name = r.getName();
       String _plus = (_name + "_seq");
-      result.append(this.ruleTranslation(r, _plus, asm));
+      result.append(this.ruleTranslationDef(r, _plus, asm));
     }
-    result.append(this.ruleTranslation(r, r.getName(), asm));
+    result.append(this.ruleTranslationDef(r, r.getName(), asm));
     return result.toString();
   }
 
   /**
-   * Method to build rule body in Java. (former foo2)
+   * Method to translate rule body definition in Java.
    */
-  public String ruleTranslation(final RuleDeclaration r, final String methodName, final Asm asm) {
+  public String ruleTranslationDef(final RuleDeclaration r, final String methodName, final Asm asm) {
     Integer _arity = r.getArity();
     boolean _equals = ((_arity).intValue() == 0);
     if (_equals) {
@@ -860,7 +895,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
       Rule _ruleBody = r.getRuleBody();
-      String _visit = new RuleToJava(asm, false, this.options).visit(((Rule) _ruleBody));
+      String _visit = this.createRuleToJava(asm, false, this.options).visit(((Rule) _ruleBody));
       _builder.append(_visit, "\t");
       _builder.newLineIfNotEmpty();
       _builder.append("}");
@@ -879,7 +914,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       _builder_1.append("){");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t");
-      String _visit_1 = new RuleToJava(asm, false, this.options).visit(r.getRuleBody());
+      String _visit_1 = this.createRuleToJava(asm, false, this.options).visit(r.getRuleBody());
       _builder_1.append(_visit_1, "\t");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("}");

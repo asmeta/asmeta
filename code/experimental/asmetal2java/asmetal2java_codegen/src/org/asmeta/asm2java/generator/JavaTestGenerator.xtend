@@ -9,10 +9,9 @@ import org.asmeta.asm2java.evosuite.RuleToJavaEvosuite
 import org.asmeta.asm2java.evosuite.JavaRule
 import java.util.ArrayList
 import org.asmeta.asm2java.translator.SeqRuleCollector
-import asmeta.definitions.DerivedFunction
 import org.asmeta.asm2java.evosuite.FunctionToJavaEvosuiteSig
-import asmeta.definitions.domains.AbstractTd
 import org.asmeta.asm2java.evosuite.DomainToJavaEvosuiteSigDef
+import org.asmeta.asm2java.evosuite.ToStringEvosuite
 
 /**
  * This generator creates a translated version of the Java class for testing purposes only,
@@ -25,6 +24,27 @@ class JavaTestGenerator extends JavaGenerator {
 	new(RulesAdder rules){
 		super()
 		this.rules = rules
+	}
+	
+		/**
+	 * Create an instance of the {@code DomainToJavaEvosuiteSigDef} object.
+	 */
+	override DomainToJavaEvosuiteSigDef createDomainToJavaSigDef(Asm resource) {
+		new DomainToJavaEvosuiteSigDef(resource)
+	}
+	
+	/**
+	 * Create an instance of the {@code ToString} object.
+	 */
+	override ToStringEvosuite createToString(Asm resource) {
+		new ToStringEvosuite(resource)
+	}
+	
+	/**
+	 * Create an instance of the {@code FunctionToJavaSig} object.
+	 */
+	override FunctionToJavaEvosuiteSig createFunctionToJavaSig(Asm resource) {
+		new FunctionToJavaEvosuiteSig(resource)
 	}
 	
 	override compileAsm(Asm asm) {
@@ -204,98 +224,13 @@ class JavaTestGenerator extends JavaGenerator {
 		'''
 
 	}
-	
-	// Definisce un dominio di tipo astratto
-	override abstractClassDef(Asm asm) {
-		var sb = new StringBuffer;
-		for (dd : asm.headerSection.signature.domain) {
-			if (dd instanceof AbstractTd)
-				sb.append("//Variabile di tipo astratto" + "\n\n" + new DomainToJavaEvosuiteSigDef(asm).visit(dd) + "\n")
-
-		}
-		return sb.toString
-	}
-	
-	// Definisce una variabile concreta o enumerativa
-	override domainSignature(Asm asm) {
-		var sb = new StringBuffer;
-		for (dd : asm.headerSection.signature.domain) {
-
-			if (dd instanceof AbstractTd == false)
-				sb.append(
-					"//Variabile di tipo Concreto o Enumerativo" + "\n\n" + new DomainToJavaEvosuiteSigDef(asm).visit(dd) +
-						"\n")
-
-		}
-		return sb.toString
-	}
-	
-	// Metodo per settare i valori dei domini definiti Dynamic nel signature
-	// Da controllarne l'uso: Dynamic domains must be initialized, not defined!
-	override initialDynamicDomainDefinition(Asm asm) {
-
-		var StringBuffer initial = new StringBuffer
-
-		if (asm.defaultInitialState !== null && asm.defaultInitialState.domainInitialization !== null) {
-
-			for (dd : asm.defaultInitialState.domainInitialization) {
-
-				val domaintojava = new DomainToJavaEvosuiteSigDef(asm).visit(dd)
-				initial.append(Util.getElemsSetName(dd.initializedDomain.name) + "=" + domaintojava + ";\n")
-			}
-		}
-		if (initial.length != 0)
-			return initial.toString + "\n"
-		else
-			return ""
-	}
-	
-	// Seconda parte dedicata allo studio dei metodi per la creazione della classe che rappresenta la parte
-	// definitions del programma ASM, nel progetto precedente era la classe destinata alla creazione del file cpp
-	// Metodo per settare i valori dei domini definiti static nel signature
-	override initialStaticDomainDefinition(Asm asm) {
-
-		var StringBuffer initial = new StringBuffer
-
-		if (asm.bodySection !== null && asm.bodySection.domainDefinition !== null) {
-			for (dd : asm.bodySection.domainDefinition) {
-
-				initial.append(
-					dd.definedDomain.name + ".elems = Collections.unmodifiableList(Arrays.asList" +
-						new DomainToJavaEvosuiteSigDef(asm).visit(dd) + ");\n")
-				initial.append(
-					dd.definedDomain.name + "_elems = Collections.unmodifiableList(Arrays.asList" +
-						new DomainToJavaEvosuiteSigDef(asm).visit(dd) + ");\n")
-			}
-		}
-
-		if (initial.toString.length != 0)
-			return initial.toString + "\n"
-		else
-			return ""
-	}
-	
-	// Metodo per studiare le function del programma ASM
-	override functionSignature(Asm asm) {
-		var sb = new StringBuffer;
-		for (fd : asm.headerSection.signature.function) {
-			if (fd instanceof DerivedFunction)
-				for (fDef : asm.bodySection.functionDefinition) {
-					if (fDef.definedFunction.name.equals(fd.name))
-						sb.append(new FunctionToJavaEvosuiteSig(asm).visit(fd) + "\n")
-				}
-			else
-				sb.append(new FunctionToJavaEvosuiteSig(asm).visit(fd) + "\n")
-		}
-		return sb.toString
-	}
 
 	// Metodo per riconoscere se la funzione ha o meno delle variabili in ingresso, traducendole
-	override String foo(RuleDeclaration r, String methodName, Asm asm) {
+	override String ruleTranslationSig(RuleDeclaration r, String methodName, Asm asm) {
 		return ""
 	}
 
-	override String ruleTranslation(RuleDeclaration r, String methodName, Asm asm) {
+	override String ruleTranslationDef(RuleDeclaration r, String methodName, Asm asm) { 
 		var rule = new JavaRule(methodName)
 		var sb = new StringBuffer();
 		if (r.arity == 0){
@@ -330,7 +265,7 @@ class JavaTestGenerator extends JavaGenerator {
 	}
 	
 	// initialize the cover branch flags (example: boolean cover_r_main = false;)
-	def coverBranchesFlagInit(JavaRule rule){
+	private def coverBranchesFlagInit(JavaRule rule){
 		val sb = new StringBuffer();
 		for(String branch : rule.branches ){
 			sb.append('''boolean «branch» = false;''');

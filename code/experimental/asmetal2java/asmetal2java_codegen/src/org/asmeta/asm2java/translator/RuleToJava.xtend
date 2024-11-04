@@ -46,22 +46,22 @@ class RuleToJava extends RuleVisitor<String> {
 	/**
 	 * Create an instance of the {@code RuleToJava} object.
 	 */
-	protected def RuleToJava createRule(Asm resource, boolean seqBlock, TranslatorOptions translatorOptions) {
+	protected def RuleToJava createRuleToJava(Asm resource, boolean seqBlock, TranslatorOptions translatorOptions) {
 		new RuleToJava(resource, seqBlock, translatorOptions)
 	}
 	
 	/**
 	 * Create an instance of the {@code DomainToJavaSigDef} object.
 	 */
-	protected def DomainToJavaSigDef createDomainSigDef(Asm resource) {
+	protected def DomainToJavaSigDef createDomainToJavaSigDef(Asm resource) {
 		new DomainToJavaSigDef(resource)
-	}
+	} 
 
 	// Method translating the par block
 	override String visit(BlockRule object) {
 		return '''
 		//{ //par
-			«createRule(res,false,options).printRules(object.getRules(), false)»
+			«createRuleToJava(res,false,options).printRules(object.getRules(), false)»
 		//} //endpar'''
 	}
 	
@@ -69,7 +69,7 @@ class RuleToJava extends RuleVisitor<String> {
 	protected def String printRules(EList<Rule> rules, boolean addFire) {
 		var StringBuffer sb = new StringBuffer
 		for (var int i = 0; i < rules.size(); i++) {
-			sb.append(createRule(res, seqBlock, options).visit(rules.get(i)))
+			sb.append(createRuleToJava(res, seqBlock, options).visit(rules.get(i)))
 			if (addFire) {
 				sb.append("\nfireUpdateSet();\n")
 			}
@@ -87,7 +87,7 @@ class RuleToJava extends RuleVisitor<String> {
 	override String visit(SeqRule object) {
 		return '''
 			//{ //seq
-				«createRule(res,true,options).printRules(object.rules,true)»
+				«createRuleToJava(res,true,options).printRules(object.rules,true)»
 			//} //endseq
 		'''
 	}
@@ -97,15 +97,15 @@ class RuleToJava extends RuleVisitor<String> {
 		if (object.getElseRule() === null)
 			return '''
 				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.guard)»)){ 
-					«createRule(res,seqBlock,options).visit(object.thenRule)»
+					«createRuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				}
 			'''
 		else
 			return '''
 				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.getGuard)»)){ 
-					«createRule(res,seqBlock,options).visit(object.thenRule)»
+					«createRuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				} else {
-						«createRule(res,seqBlock,options).visit(object.elseRule)»
+						«createRuleToJava(res,seqBlock,options).visit(object.elseRule)»
 				}
 			'''
 	}
@@ -117,18 +117,18 @@ class RuleToJava extends RuleVisitor<String> {
 			if (i == 0)
 				sb.append('''
 				if(«compareTerms(object.getTerm,object.getCaseTerm.get(i))»){
-					«createRule(res,seqBlock,options).visit(object.getCaseBranches.get(i))»
+					«createRuleToJava(res,seqBlock,options).visit(object.getCaseBranches.get(i))»
 				}''')
 			else
 				sb.append('''
 				else if(«compareTerms(object.getTerm,object.getCaseTerm.get(i))»){
-					«createRule(res,seqBlock,options).visit(object.getCaseBranches().get(i))»
+					«createRuleToJava(res,seqBlock,options).visit(object.getCaseBranches().get(i))»
 				}''')
 		}
 		if (object.getOtherwiseBranch() !== null)
 			sb.append('''
 				else{ 
-				 	«createRule(res,seqBlock,options).visit(object.getOtherwiseBranch())»
+				 	«createRuleToJava(res,seqBlock,options).visit(object.getOtherwiseBranch())»
 				}
 			''')
 		return sb.toString
@@ -389,7 +389,7 @@ class RuleToJava extends RuleVisitor<String> {
 				append('''«object.getVariable.get(i).domain.name + " " + new TermToJava(res).visit(object.getVariable.get(i))» = «new TermToJava(res).visit(object.getInitExpression.get(i))»;
 				''')
 		}
-		let.append('''«createRule(res,seqBlock,options).visit(object.getInRule)»
+		let.append('''«createRuleToJava(res,seqBlock,options).visit(object.getInRule)»
 }''')
 		return let.toString
 	}
@@ -397,7 +397,7 @@ class RuleToJava extends RuleVisitor<String> {
 	protected def String visit(IterativeWhileRule object) {
 		return '''
 		while («new TermToJava(res,false).visit(object.guard)»){
-			«createRule(res,true,options).visit(object.rule)»
+			«createRuleToJava(res,true,options).visit(object.rule)»
 		}'''
 	}
 
@@ -419,10 +419,10 @@ class RuleToJava extends RuleVisitor<String> {
 		var string = new StringBuffer
 		for (var i = 0; i < rule.boundVar.size; i++)
 			string.append(
-				createDomainSigDef(res).visit(rule.extendedDomain) + " " +
+				createDomainToJavaSigDef(res).visit(rule.extendedDomain) + " " +
 					new TermToJava(res).visit(rule.boundVar.get(i)) + " = new " +
-					createDomainSigDef(res).visit(rule.extendedDomain) + "();\n");
-		return string.toString + createRule(res, seqBlock, options).visit(rule.doRule)
+					createDomainToJavaSigDef(res).visit(rule.extendedDomain) + "();\n");
+		return string.toString + createRuleToJava(res, seqBlock, options).visit(rule.doRule)
 
 	}
 

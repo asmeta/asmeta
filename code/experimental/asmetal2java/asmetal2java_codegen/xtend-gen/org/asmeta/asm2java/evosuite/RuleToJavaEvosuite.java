@@ -22,7 +22,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
    * Create an instance of the {@code RuleToJava} object with the current JavaRule.
    */
   @Override
-  public RuleToJava createRule(final Asm resource, final boolean seqBlock, final TranslatorOptions translatorOptions) {
+  public RuleToJava createRuleToJava(final Asm resource, final boolean seqBlock, final TranslatorOptions translatorOptions) {
     return new RuleToJavaEvosuite(resource, seqBlock, translatorOptions, this.currRule);
   }
 
@@ -30,7 +30,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
    * Create an instance of the {@code DomainToJavaSigDef} object.
    */
   @Override
-  public DomainToJavaEvosuiteSigDef createDomainSigDef(final Asm resource) {
+  public DomainToJavaEvosuiteSigDef createDomainToJavaSigDef(final Asm resource) {
     return new DomainToJavaEvosuiteSigDef(resource);
   }
 
@@ -51,7 +51,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
       _builder.append(" = true;");
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
-      String _visit_1 = this.createRule(this.res, this.seqBlock, this.options).visit(object.getThenRule());
+      String _visit_1 = this.createRuleToJava(this.res, this.seqBlock, this.options).visit(object.getThenRule());
       _builder.append(_visit_1, "\t");
       _builder.newLineIfNotEmpty();
       _builder.append("}");
@@ -70,7 +70,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
       _builder_1.append(" = true;");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t");
-      String _visit_3 = this.createRule(this.res, this.seqBlock, this.options).visit(object.getThenRule());
+      String _visit_3 = this.createRuleToJava(this.res, this.seqBlock, this.options).visit(object.getThenRule());
       _builder_1.append(_visit_3, "\t");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("} else {");
@@ -81,7 +81,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
       _builder_1.append(" = true;");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t");
-      String _visit_4 = this.createRule(this.res, this.seqBlock, this.options).visit(object.getElseRule());
+      String _visit_4 = this.createRuleToJava(this.res, this.seqBlock, this.options).visit(object.getElseRule());
       _builder_1.append(_visit_4, "\t");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("}");
@@ -107,7 +107,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
         _builder.append(" = true;");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
-        String _visit = this.createRule(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
+        String _visit = this.createRuleToJava(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
         _builder.append(_visit, "\t");
         _builder.newLineIfNotEmpty();
         _builder.append("}");
@@ -125,7 +125,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
         _builder_1.append(" = true;");
         _builder_1.newLineIfNotEmpty();
         _builder_1.append("\t");
-        String _visit_1 = this.createRule(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
+        String _visit_1 = this.createRuleToJava(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
         _builder_1.append(_visit_1, "\t");
         _builder_1.newLineIfNotEmpty();
         _builder_1.append("}");
@@ -144,7 +144,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
       _builder.append(" = true;");
       _builder.newLineIfNotEmpty();
       _builder.append(" \t");
-      String _visit = this.createRule(this.res, this.seqBlock, this.options).visit(object.getOtherwiseBranch());
+      String _visit = this.createRuleToJava(this.res, this.seqBlock, this.options).visit(object.getOtherwiseBranch());
       _builder.append(_visit, " \t");
       _builder.newLineIfNotEmpty();
       _builder.append("}");

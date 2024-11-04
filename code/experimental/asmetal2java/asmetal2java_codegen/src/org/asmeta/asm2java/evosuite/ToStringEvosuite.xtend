@@ -12,7 +12,7 @@ class ToStringEvosuite extends ToString{
 	/**
 	 * Create an instance of the {@code DomainToJavaSigDef} object.
 	 */
-	override DomainToJavaEvosuiteSigDef createDomainSigDef(Asm resource) {
+	override DomainToJavaEvosuiteSigDef createDomainToJavaSigDef(Asm resource) {
 		new DomainToJavaEvosuiteSigDef(resource)
 	}
 

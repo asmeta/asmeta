@@ -1,14 +1,7 @@
 package org.asmeta.asm2java.generator;
 
-import asmeta.definitions.DerivedFunction;
-import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
-import asmeta.definitions.domains.AbstractTd;
-import asmeta.definitions.domains.Domain;
 import asmeta.structure.Asm;
-import asmeta.structure.DomainDefinition;
-import asmeta.structure.DomainInitialization;
-import asmeta.structure.FunctionDefinition;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +10,7 @@ import org.asmeta.asm2java.evosuite.FunctionToJavaEvosuiteSig;
 import org.asmeta.asm2java.evosuite.JavaRule;
 import org.asmeta.asm2java.evosuite.RuleToJavaEvosuite;
 import org.asmeta.asm2java.evosuite.RulesAdder;
+import org.asmeta.asm2java.evosuite.ToStringEvosuite;
 import org.asmeta.asm2java.translator.SeqRuleCollector;
 import org.asmeta.asm2java.translator.Util;
 import org.eclipse.emf.common.util.EList;
@@ -33,6 +27,30 @@ public class JavaTestGenerator extends JavaGenerator {
   public JavaTestGenerator(final RulesAdder rules) {
     super();
     this.rules = rules;
+  }
+
+  /**
+   * Create an instance of the {@code DomainToJavaEvosuiteSigDef} object.
+   */
+  @Override
+  public DomainToJavaEvosuiteSigDef createDomainToJavaSigDef(final Asm resource) {
+    return new DomainToJavaEvosuiteSigDef(resource);
+  }
+
+  /**
+   * Create an instance of the {@code ToString} object.
+   */
+  @Override
+  public ToStringEvosuite createToString(final Asm resource) {
+    return new ToStringEvosuite(resource);
+  }
+
+  /**
+   * Create an instance of the {@code FunctionToJavaSig} object.
+   */
+  @Override
+  public FunctionToJavaEvosuiteSig createFunctionToJavaSig(final Asm resource) {
+    return new FunctionToJavaEvosuiteSig(resource);
   }
 
   @Override
@@ -485,125 +503,12 @@ public class JavaTestGenerator extends JavaGenerator {
   }
 
   @Override
-  public String abstractClassDef(final Asm asm) {
-    StringBuffer sb = new StringBuffer();
-    EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
-    for (final Domain dd : _domain) {
-      if ((dd instanceof AbstractTd)) {
-        String _visit = new DomainToJavaEvosuiteSigDef(asm).visit(((AbstractTd)dd));
-        String _plus = (("//Variabile di tipo astratto" + "\n\n") + _visit);
-        String _plus_1 = (_plus + "\n");
-        sb.append(_plus_1);
-      }
-    }
-    return sb.toString();
-  }
-
-  @Override
-  public String domainSignature(final Asm asm) {
-    StringBuffer sb = new StringBuffer();
-    EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
-    for (final Domain dd : _domain) {
-      if (((dd instanceof AbstractTd) == false)) {
-        String _visit = new DomainToJavaEvosuiteSigDef(asm).visit(dd);
-        String _plus = (("//Variabile di tipo Concreto o Enumerativo" + "\n\n") + _visit);
-        String _plus_1 = (_plus + 
-          "\n");
-        sb.append(_plus_1);
-      }
-    }
-    return sb.toString();
-  }
-
-  @Override
-  public String initialDynamicDomainDefinition(final Asm asm) {
-    StringBuffer initial = new StringBuffer();
-    if (((asm.getDefaultInitialState() != null) && (asm.getDefaultInitialState().getDomainInitialization() != null))) {
-      EList<DomainInitialization> _domainInitialization = asm.getDefaultInitialState().getDomainInitialization();
-      for (final DomainInitialization dd : _domainInitialization) {
-        {
-          final String domaintojava = new DomainToJavaEvosuiteSigDef(asm).visit(dd);
-          String _elemsSetName = Util.getElemsSetName(dd.getInitializedDomain().getName());
-          String _plus = (_elemsSetName + "=");
-          String _plus_1 = (_plus + domaintojava);
-          String _plus_2 = (_plus_1 + ";\n");
-          initial.append(_plus_2);
-        }
-      }
-    }
-    int _length = initial.length();
-    boolean _notEquals = (_length != 0);
-    if (_notEquals) {
-      String _string = initial.toString();
-      return (_string + "\n");
-    } else {
-      return "";
-    }
-  }
-
-  @Override
-  public String initialStaticDomainDefinition(final Asm asm) {
-    StringBuffer initial = new StringBuffer();
-    if (((asm.getBodySection() != null) && (asm.getBodySection().getDomainDefinition() != null))) {
-      EList<DomainDefinition> _domainDefinition = asm.getBodySection().getDomainDefinition();
-      for (final DomainDefinition dd : _domainDefinition) {
-        {
-          String _name = dd.getDefinedDomain().getName();
-          String _plus = (_name + ".elems = Collections.unmodifiableList(Arrays.asList");
-          String _visit = new DomainToJavaEvosuiteSigDef(asm).visit(dd);
-          String _plus_1 = (_plus + _visit);
-          String _plus_2 = (_plus_1 + ");\n");
-          initial.append(_plus_2);
-          String _name_1 = dd.getDefinedDomain().getName();
-          String _plus_3 = (_name_1 + "_elems = Collections.unmodifiableList(Arrays.asList");
-          String _visit_1 = new DomainToJavaEvosuiteSigDef(asm).visit(dd);
-          String _plus_4 = (_plus_3 + _visit_1);
-          String _plus_5 = (_plus_4 + ");\n");
-          initial.append(_plus_5);
-        }
-      }
-    }
-    int _length = initial.toString().length();
-    boolean _notEquals = (_length != 0);
-    if (_notEquals) {
-      String _string = initial.toString();
-      return (_string + "\n");
-    } else {
-      return "";
-    }
-  }
-
-  @Override
-  public String functionSignature(final Asm asm) {
-    StringBuffer sb = new StringBuffer();
-    EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
-    for (final Function fd : _function) {
-      if ((fd instanceof DerivedFunction)) {
-        EList<FunctionDefinition> _functionDefinition = asm.getBodySection().getFunctionDefinition();
-        for (final FunctionDefinition fDef : _functionDefinition) {
-          boolean _equals = fDef.getDefinedFunction().getName().equals(((DerivedFunction)fd).getName());
-          if (_equals) {
-            String _visit = new FunctionToJavaEvosuiteSig(asm).visit(((DerivedFunction)fd));
-            String _plus = (_visit + "\n");
-            sb.append(_plus);
-          }
-        }
-      } else {
-        String _visit_1 = new FunctionToJavaEvosuiteSig(asm).visit(fd);
-        String _plus_1 = (_visit_1 + "\n");
-        sb.append(_plus_1);
-      }
-    }
-    return sb.toString();
-  }
-
-  @Override
-  public String foo(final RuleDeclaration r, final String methodName, final Asm asm) {
+  public String ruleTranslationSig(final RuleDeclaration r, final String methodName, final Asm asm) {
     return "";
   }
 
   @Override
-  public String ruleTranslation(final RuleDeclaration r, final String methodName, final Asm asm) {
+  public String ruleTranslationDef(final RuleDeclaration r, final String methodName, final Asm asm) {
     JavaRule rule = new JavaRule(methodName);
     StringBuffer sb = new StringBuffer();
     Integer _arity = r.getArity();
@@ -657,7 +562,7 @@ public class JavaTestGenerator extends JavaGenerator {
     return sb.toString();
   }
 
-  public String coverBranchesFlagInit(final JavaRule rule) {
+  private String coverBranchesFlagInit(final JavaRule rule) {
     final StringBuffer sb = new StringBuffer();
     List<String> _branches = rule.getBranches();
     for (final String branch : _branches) {

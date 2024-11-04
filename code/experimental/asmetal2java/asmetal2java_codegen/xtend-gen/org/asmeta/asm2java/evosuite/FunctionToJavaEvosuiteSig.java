@@ -23,7 +23,7 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
    * Create an instance of the {@code DomainToJavaEvosuiteSigDef} object.
    */
   @Override
-  public DomainToJavaEvosuiteSigDef createDomainSigDef(final Asm resource) {
+  public DomainToJavaEvosuiteSigDef createDomainToJavaSigDef(final Asm resource) {
     return new DomainToJavaEvosuiteSigDef(resource);
   }
 
@@ -66,7 +66,7 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
         if ((_codomain_1 instanceof ProductDomain)) {
           StringConcatenation _builder_2 = new StringConcatenation();
           _builder_2.append("private static ");
-          String _visit = this.createDomainSigDef(this.res).visit(object.getCodomain());
+          String _visit = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
           _builder_2.append(_visit);
           _builder_2.append(" ");
           String _name_1 = object.getName();
@@ -79,13 +79,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
           if ((_codomain_2 instanceof SequenceDomain)) {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.append("private static List");
-            String _visit_1 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+            String _visit_1 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
             _builder_3.append(_visit_1);
             _builder_3.append(" ");
             String _name_2 = object.getName();
             _builder_3.append(_name_2);
             _builder_3.append(" = new ArrayList");
-            String _visit_2 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+            String _visit_2 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
             _builder_3.append(_visit_2);
             _builder_3.append("();");
             _builder_3.newLineIfNotEmpty();
@@ -95,13 +95,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
             if ((_codomain_3 instanceof PowersetDomain)) {
               StringConcatenation _builder_4 = new StringConcatenation();
               _builder_4.append("private static Set");
-              String _visit_3 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+              String _visit_3 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
               _builder_4.append(_visit_3);
               _builder_4.append(" ");
               String _name_3 = object.getName();
               _builder_4.append(_name_3);
               _builder_4.append(" = new HashSet");
-              String _visit_4 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+              String _visit_4 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
               _builder_4.append(_visit_4);
               _builder_4.append("();");
               _builder_4.newLineIfNotEmpty();
@@ -111,13 +111,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
               if ((_codomain_4 instanceof BagDomain)) {
                 StringConcatenation _builder_5 = new StringConcatenation();
                 _builder_5.append("private static Bag");
-                String _visit_5 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+                String _visit_5 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
                 _builder_5.append(_visit_5);
                 _builder_5.append(" ");
                 String _name_4 = object.getName();
                 _builder_5.append(_name_4);
                 _builder_5.append(" = new HashBag");
-                String _visit_6 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+                String _visit_6 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
                 _builder_5.append(_visit_6);
                 _builder_5.append("();");
                 _builder_5.newLineIfNotEmpty();
@@ -127,13 +127,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
                 if ((_codomain_5 instanceof MapDomain)) {
                   StringConcatenation _builder_6 = new StringConcatenation();
                   _builder_6.append("private static Map");
-                  String _visit_7 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+                  String _visit_7 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
                   _builder_6.append(_visit_7);
                   _builder_6.append(" ");
                   String _name_5 = object.getName();
                   _builder_6.append(_name_5);
                   _builder_6.append(" = new HashMap");
-                  String _visit_8 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+                  String _visit_8 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
                   _builder_6.append(_visit_8);
                   _builder_6.append("();");
                   _builder_6.newLineIfNotEmpty();
@@ -174,7 +174,7 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
         Domain _codomain_1 = object.getCodomain();
         if ((_codomain_1 instanceof ProductDomain)) {
           StringConcatenation _builder_2 = new StringConcatenation();
-          String _visit = this.createDomainSigDef(this.res).visit(object.getCodomain());
+          String _visit = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
           _builder_2.append(_visit);
           _builder_2.append(" ");
           String _name_1 = object.getName();
@@ -187,13 +187,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
           if ((_codomain_2 instanceof SequenceDomain)) {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.append("List");
-            String _visit_1 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+            String _visit_1 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
             _builder_3.append(_visit_1);
             _builder_3.append(" ");
             String _name_2 = object.getName();
             _builder_3.append(_name_2);
             _builder_3.append(" = new ArrayList");
-            String _visit_2 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+            String _visit_2 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
             _builder_3.append(_visit_2);
             _builder_3.append("();");
             _builder_3.newLineIfNotEmpty();
@@ -203,13 +203,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
             if ((_codomain_3 instanceof PowersetDomain)) {
               StringConcatenation _builder_4 = new StringConcatenation();
               _builder_4.append("Set");
-              String _visit_3 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+              String _visit_3 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
               _builder_4.append(_visit_3);
               _builder_4.append(" ");
               String _name_3 = object.getName();
               _builder_4.append(_name_3);
               _builder_4.append(" = new HashSet");
-              String _visit_4 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+              String _visit_4 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
               _builder_4.append(_visit_4);
               _builder_4.append("();");
               _builder_4.newLineIfNotEmpty();
@@ -219,13 +219,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
               if ((_codomain_4 instanceof BagDomain)) {
                 StringConcatenation _builder_5 = new StringConcatenation();
                 _builder_5.append("Bag");
-                String _visit_5 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+                String _visit_5 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
                 _builder_5.append(_visit_5);
                 _builder_5.append(" ");
                 String _name_4 = object.getName();
                 _builder_5.append(_name_4);
                 _builder_5.append(" = new HashBag");
-                String _visit_6 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+                String _visit_6 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
                 _builder_5.append(_visit_6);
                 _builder_5.append("();");
                 _builder_5.newLineIfNotEmpty();
@@ -235,13 +235,13 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
                 if ((_codomain_5 instanceof MapDomain)) {
                   StringConcatenation _builder_6 = new StringConcatenation();
                   _builder_6.append("Map");
-                  String _visit_7 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+                  String _visit_7 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
                   _builder_6.append(_visit_7);
                   _builder_6.append(" ");
                   String _name_5 = object.getName();
                   _builder_6.append(_name_5);
                   _builder_6.append(" = new HashMap");
-                  String _visit_8 = this.createDomainSigDef(this.res).visit(object.getCodomain());
+                  String _visit_8 = this.createDomainToJavaSigDef(this.res).visit(object.getCodomain());
                   _builder_6.append(_visit_8);
                   _builder_6.append("();");
                   _builder_6.newLineIfNotEmpty();

@@ -19,14 +19,14 @@ class RuleToJavaEvosuite extends RuleToJava {
 	/**
 	 * Create an instance of the {@code RuleToJava} object with the current JavaRule.
 	 */
-	override RuleToJava createRule(Asm resource, boolean seqBlock, TranslatorOptions translatorOptions) {
+	override RuleToJava createRuleToJava(Asm resource, boolean seqBlock, TranslatorOptions translatorOptions) {
 		new RuleToJavaEvosuite(resource, seqBlock, translatorOptions, this.currRule)
 	}
 	
 	/**
 	 * Create an instance of the {@code DomainToJavaSigDef} object.
 	 */
-	override DomainToJavaEvosuiteSigDef createDomainSigDef(Asm resource) {
+	override DomainToJavaEvosuiteSigDef createDomainToJavaSigDef(Asm resource) {
 		new DomainToJavaEvosuiteSigDef(resource)
 	}
 
@@ -36,17 +36,17 @@ class RuleToJavaEvosuite extends RuleToJava {
 			return '''
 				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.guard)»)){ 
 					«currRule.addNewBranch()» = true;
-					«createRule(res,seqBlock,options).visit(object.thenRule)»
+					«createRuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				}
 			'''
 		} else
 			return '''
 				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.getGuard)»)){ 
 					«currRule.addNewBranch()» = true;
-					«createRule(res,seqBlock,options).visit(object.thenRule)»
+					«createRuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				} else {
 					«currRule.addNewBranch()» = true;
-					«createRule(res,seqBlock,options).visit(object.elseRule)»
+					«createRuleToJava(res,seqBlock,options).visit(object.elseRule)»
 				}
 			'''
 	}
@@ -59,20 +59,20 @@ class RuleToJavaEvosuite extends RuleToJava {
 				sb.append('''
 				if(«compareTerms(object.getTerm,object.getCaseTerm.get(i))»){
 					«currRule.addNewBranch()» = true;
-					«createRule(res,seqBlock,options).visit(object.getCaseBranches.get(i))»
+					«createRuleToJava(res,seqBlock,options).visit(object.getCaseBranches.get(i))»
 				}''')
 			else
 				sb.append('''
 				else if(«compareTerms(object.getTerm,object.getCaseTerm.get(i))»){
 					«currRule.addNewBranch()» = true;
-					«createRule(res,seqBlock,options).visit(object.getCaseBranches().get(i))»
+					«createRuleToJava(res,seqBlock,options).visit(object.getCaseBranches().get(i))»
 				}''')
 		}
 		if (object.getOtherwiseBranch() !== null)
 			sb.append('''
 				else{ 
 					«currRule.addNewBranch()» = true;
-				 	«createRule(res,seqBlock,options).visit(object.getOtherwiseBranch())»
+				 	«createRuleToJava(res,seqBlock,options).visit(object.getOtherwiseBranch())»
 				}
 			''')
 		return sb.toString
