@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +19,6 @@ import org.apache.log4j.WriterAppender;
 import org.asmeta.avallaxt.validator.TestValidator;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TestCoverage extends TestValidator {
@@ -42,26 +42,71 @@ public class TestCoverage extends TestValidator {
 		Logger.getLogger(AsmetaV.class).removeAppender(writerAppender);
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutAdvancedClock() throws Exception {
-		testWithCoverageAndWithout("scenariosforexamples/advancedClock/advancedClock1.avalla", "r_Main");
-	}
+//	@Test
+//	public void testWithCoverageAndWithoutAdvancedClock() throws Exception {
+//		testWithCoverageAndWithout("scenariosforexamples/advancedClock/advancedClock1.avalla",
+//				new CoverageOracle("r_Main()", 1, 0, 1, 1, 1));
+//	}
 
 	@Test
 	public void testATM() throws Exception {
-		testWithCoverageAndWithout("scenariosforexamples/atm/atm4.avalla", "r_Main", "r_insertcard"
-//				r_chooseAmount
-//				r_grantMoney
-//				r_subtractFrom
-//				r_processMoneyRequest
-//				r_prelievo
-//				r_chooseService
-//				r_enterPin
-		);
+		String scenario = "scenariosforexamples/atm/atm4.avalla";
+		List<CoverageOracle> oracles = new ArrayList<>();
+		// r_Main()
+		int nBranch = 2;
+		int coveredT = 1;
+		int coveredF = 2;
+		int nUpdate = 1;
+		int coveredUpdate = 1;
+		oracles.add(new CoverageOracle("r_Main()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		// r_insertcard()
+		nBranch = 2;
+		coveredT = 2;
+		coveredF = 1;
+		nUpdate = 3;
+		coveredUpdate = 3;
+		oracles.add(new CoverageOracle("r_insertcard()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		// r_enterPin()
+		nBranch = 4;
+		coveredT = 2;
+		coveredF = 1;
+		nUpdate = 6;
+		coveredUpdate = 3;
+		oracles.add(new CoverageOracle("r_enterPin()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		// r_chooseService()
+		nBranch = 5;
+		coveredT = 2;
+		coveredF = 3;
+		nUpdate = 8;
+		coveredUpdate = 2;
+		oracles.add(new CoverageOracle("r_chooseService()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		// r_chooseAmount()
+		nBranch = 3;
+		coveredT = 2;
+		coveredF = 2;
+		nUpdate = 4;
+		coveredUpdate = 2;
+		oracles.add(new CoverageOracle("r_chooseAmount()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		// r_prelievo()
+		nBranch = 6;
+		coveredT = 3;
+		coveredF = 2;
+		nUpdate = 3;
+		coveredUpdate = 0;
+		oracles.add(new CoverageOracle("r_prelievo()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		// r_grantMoney(Integer)
+		nBranch = 0;
+		coveredT = 0;
+		coveredF = 0;
+		nUpdate = 4;
+		coveredUpdate = 4;
+		oracles.add(new CoverageOracle("r_grantMoney(Integer)", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		testWithCoverageAndWithout(scenario, oracles.toArray(new CoverageOracle[0]));
 	}
 
 	// two test with coverage and without coverage enabled
-	private void testWithCoverageAndWithout(String scenario, String... coveredRules) throws IOException, Exception {
+	private void testWithCoverageAndWithout(String scenario, CoverageOracle... coveredRules)
+			throws IOException, Exception {
 		testWithoutCoverage(scenario);
 		// reset the
 		stringWriter.getBuffer().setLength(0);
@@ -74,11 +119,20 @@ public class TestCoverage extends TestValidator {
 		assertNotEquals(-1, cov);
 		int nCov = outputs.indexOf("** NOT covered rules: **");
 		assertNotEquals(-1, nCov);
-		System.err.println(outputs);
-		List<String> coveredRulesOutput = outputs.subList(cov + 1, nCov);
-		//
-		Arrays.asList(coveredRules).stream()
-				.forEach(x -> assertTrue("missing " + x, coveredRulesOutput.stream().anyMatch(y -> y.contains(x))));
+		for (CoverageOracle oracle : coveredRules) {
+			boolean found = false;
+			for (int i = cov + 1; i < nCov; i++) {
+				if (outputs.get(i).contains("::" + oracle.getSignature())) {
+					assertTrue("wrong branch coverage for " + oracle.getSignature(),
+							outputs.get(i + 1).contains("-> branch coverage: " + oracle.getBranchCoverage() + "%"));
+					assertTrue("wrong update rule coverage for " + oracle.getSignature(), 
+							outputs.get(i + 2).contains("-> update rule coverage: " + oracle.getUpdateRuleCoverage() + "%"));
+					found = true;
+					break;
+				}
+			}
+			assertTrue("missing " + oracle.getSignature(), found);
+		}
 	}
 
 	private void testWithoutCoverage(String scenario) throws IOException, Exception {
@@ -87,6 +141,31 @@ public class TestCoverage extends TestValidator {
 		// it does not contain coverage info
 		String string = stringWriter.toString();
 		assertFalse(string.contains("** Coverage Info: **"));
+	}
+
+	private static class CoverageOracle {
+		private final String signature;
+		private final float branchCoverage;
+		private final float updateRuleCoverage;
+
+		public CoverageOracle(String signature, int nBranch, int coveredT, int coveredF, int nUpdated,
+				int coveredUpdate) {
+			this.signature = signature;
+			this.branchCoverage = nBranch == 0 ? 0 : (((float) coveredT + coveredF) / (nBranch * 2)) * 100;
+			this.updateRuleCoverage = nUpdated == 0 ? 0 : ((float) coveredUpdate / nUpdated) * 100;
+		}
+
+		public String getSignature() {
+			return signature;
+		}
+
+		public float getBranchCoverage() {
+			return branchCoverage;
+		}
+
+		public float getUpdateRuleCoverage() {
+			return updateRuleCoverage;
+		}
 	}
 
 }
