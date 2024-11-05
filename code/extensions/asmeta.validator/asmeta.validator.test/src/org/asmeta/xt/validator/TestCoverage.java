@@ -42,11 +42,11 @@ public class TestCoverage extends TestValidator {
 		Logger.getLogger(AsmetaV.class).removeAppender(writerAppender);
 	}
 
-//	@Test
-//	public void testWithCoverageAndWithoutAdvancedClock() throws Exception {
-//		testWithCoverageAndWithout("scenariosforexamples/advancedClock/advancedClock1.avalla",
-//				new CoverageOracle("r_Main()", 1, 0, 1, 1, 1));
-//	}
+	@Test
+	public void testWithCoverageAndWithoutAdvancedClock() throws Exception {
+		testWithCoverageAndWithout("scenariosforexamples/advancedClock/advancedClock1.avalla",
+				new CoverageOracle("r_Main()", 1, 0, 1, 1, 1));
+	}
 
 	@Test
 	public void testATM() throws Exception {
