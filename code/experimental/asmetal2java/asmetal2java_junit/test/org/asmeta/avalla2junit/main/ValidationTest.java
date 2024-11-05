@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import org.asmeta.asm2java.formatter.Formatter;
-import org.asmeta.asm2java.main.GeneratorCompilerTest;
-import org.asmeta.asm2java.main.TranslatorOptions;
+import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.formatter.FormatterImpl;
+import org.asmeta.asm2java.generator.GeneratorCompilerTest;
 import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
@@ -196,7 +196,7 @@ public class ValidationTest {
 		String fileTestForm = converter.parseCommands(sc, numFil);
 		String pathJUnit_res = pathTF + model.getMain().getName() + "_Test" + "_" + numFil + JUnit_EXT;
 		FileWriter fileTest = new FileWriter(pathJUnit_res);
-		fileTest.write(Formatter.formatCode(fileTestForm));
+		fileTest.write(FormatterImpl.formatCode(fileTestForm));
 		fileTest.close();
 		String junitTest = pathJUnit_res;
 		String temp = junitTest.replace("src-gen", "").substring(1).replace(".java", "");

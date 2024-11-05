@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import org.asmeta.asm2java.main.GeneratorCompilerTest;
-import org.asmeta.asm2java.main.TranslatorOptions;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.eclipse.emf.common.util.URI;
@@ -20,7 +18,11 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;
 import asmetal2java_junit.AvallaToString;
-import org.asmeta.asm2java.formatter.Formatter;
+
+import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.formatter.FormatterImpl;
+import org.asmeta.asm2java.generator.GeneratorCompilerTest;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -156,7 +158,7 @@ public class Asmetal2JUnit_Generator {
 		
 		
 		FileWriter fileTest = new FileWriter(pathTF + spec + "_Test" + "_" + 1 + JUnit_EXT);
-		fileTest.write(Formatter.formatCode(fileTestForm));
+		fileTest.write(FormatterImpl.formatCode(fileTestForm));
 		fileTest.close();
 		
 	}

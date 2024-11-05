@@ -18,7 +18,6 @@ import org.eclipse.xtext.formatting2.regionaccess.ISemanticRegion;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
-import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 @SuppressWarnings("all")
 public class AvallaFormatter extends AbstractFormatter2 {
@@ -68,7 +67,6 @@ public class AvallaFormatter extends AbstractFormatter2 {
     document.<Command>prepend(command, _function);
   }
 
-  @XbaseGenerated
   public void format(final Object block, final IFormattableDocument document) {
     if (block instanceof XtextResource) {
       _format((XtextResource)block, document);
