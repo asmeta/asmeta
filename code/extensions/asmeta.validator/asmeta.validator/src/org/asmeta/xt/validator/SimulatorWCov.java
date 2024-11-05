@@ -69,18 +69,6 @@ public class SimulatorWCov extends Simulator {
 		return;
 	}
 
-	/**
-	 * get the macros that were covered return the ASMETA name - which is modified
-	 * because the validator rebuilds the ASM
-	 */
-	public List<AbstractMap.SimpleEntry<String, String>> getCoveredMacro() {
-		ArrayList<AbstractMap.SimpleEntry<String, String>> s = new ArrayList<>();
-		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-			s.add(new AbstractMap.SimpleEntry<>(md.getAsmBody().getAsm().getName(), md.getName()));
-		}
-		return s;
-	}
-
 	// the coverage information about the branches inside a rule
 	public class BranchCovData {
 		Set<Integer> coveredT;

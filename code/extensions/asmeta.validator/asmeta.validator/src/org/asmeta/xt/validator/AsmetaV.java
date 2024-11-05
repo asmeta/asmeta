@@ -117,14 +117,14 @@ public class AsmetaV {
 							float branchCoverage = ((float)branchData.coveredT.size()+branchData.coveredF.size())/(branchData.tot*2)*100;
 							logger.info("-> branch coverage: " + branchCoverage + "%");
 						}else {
-							logger.info("-> branch coverage: 0% (no conditional rules to be covered)");
+							logger.info("-> branch coverage: 0.0% (no conditional rules to be covered)");
 						}
 						UpdateCovData updateData = result.getUpdateData().get(rule.getKey());
 						if (updateData.tot != 0) {
 							float updateCoverage = ((float)updateData.covered.size()/updateData.tot)*100;;
 							logger.info("-> update rule coverage: " + updateCoverage + "%");
 						}else {
-							logger.info("-> update rule coverage: 0% (no update rules to be covered)");
+							logger.info("-> update rule coverage: 0.0% (no update rules to be covered)");
 						}
 					}
 
