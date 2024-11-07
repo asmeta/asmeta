@@ -8,7 +8,6 @@ import asmeta.junit2avalla.model.terms.AvallaSetTerm;
 import asmeta.junit2avalla.model.terms.AvallaStepTerm;
 import asmeta.junit2avalla.model.terms.JavaAssertionTerm;
 import asmeta.junit2avalla.model.terms.JavaVariableTerm;
-import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,6 +24,7 @@ public class ScenarioManagerImpl implements ScenarioManager {
    * Default constructor for the {@code ScenarioManagerImpl} class.
    */
   public ScenarioManagerImpl() {
+	// Empty constructor
   }
 
   /**
@@ -86,8 +86,7 @@ public class ScenarioManagerImpl implements ScenarioManager {
   }
 
   /**
-   * Retrieves the value of a {@link JavaVariableTerm}, adjusting its value if it's a non-primitive
-   * type.
+   * Retrieves the value of a {@link JavaVariableTerm}.
    *
    * @param javaVariable the variable whose value needs to be retrieved.
    * @return the processed value as a string.
@@ -95,7 +94,7 @@ public class ScenarioManagerImpl implements ScenarioManager {
   private String retrieveValue(JavaVariableTerm javaVariable) {
     String value = javaVariable.getValue();
     return javaVariable.isPrimitive()
-        ? value.replaceAll("\"", "")
+        ? value.replace("\"", "")
         : value.substring(value.lastIndexOf('.') + 1);
   }
 
@@ -110,7 +109,7 @@ public class ScenarioManagerImpl implements ScenarioManager {
   }
 
   /**
-   * Retrieves the actual value from a given string, adjusting its format if necessary.
+   * Retrieves the actual value from a given string.
    *
    * @param actual the actual value string.
    * @return the processed actual value.
@@ -120,25 +119,25 @@ public class ScenarioManagerImpl implements ScenarioManager {
   }
 
   /**
-   * Retrieves the expected value from a given string, adjusting its format if necessary.
+   * Retrieves the expected value from a given string.
    *
    * @param expected the expected value string.
    * @return the processed expected value.
    */
   private String retrieveExpected(String expected) {
     return expected.substring(
-        expected.lastIndexOf(".get_") + 5).replaceAll("\\(\\)", "");
+        expected.lastIndexOf(".get_") + 5).replace("()", "");
   }
   
   /**
-   * Retrieves the setter variable name value from a given string, adjusting its format if necessary.
+   * Retrieves the setter variable name value from a given string.
    *
    * @param setter the setter value string.
    * @return the processed expected value.
    */
   private String retrieveSetter(String setter) {
 	  return setter.substring(
-			  setter.lastIndexOf(".set_") + 5).replaceAll("\\(\\)", "");
+			  setter.lastIndexOf(".set_") + 5);
   }
 
 }

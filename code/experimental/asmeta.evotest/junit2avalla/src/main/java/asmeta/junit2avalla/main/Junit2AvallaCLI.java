@@ -37,12 +37,13 @@ public class Junit2AvallaCLI {
 	 */
 	public static void main(String[] args) {
 
-		String asciiart = "\n"
-				+ "     _             _ _   ____     _             _ _       \n"
-				+ "    | |_   _ _ __ (_) |_|___ \\   / \\__   ____ _| | | __ _ \n"
-				+ " _  | | | | | '_ \\| | __| __) | / _ \\ \\ / / _` | | |/ _` |\n"
-				+ "| |_| | |_| | | | | | |_ / __/ / ___ \\ V / (_| | | | (_| |\n"
-				+ " \\___/ \\__,_|_| |_|_|\\__|_____/_/   \\_\\_/ \\__,_|_|_|\\__,_|";
+		String asciiart =  """
+				
+				     _             _ _   ____     _             _ _       
+				    | |_   _ _ __ (_) |_|___ \\   / \\__   ____ _| | | __ _ 
+				 _  | | | | | '_ \\| | __| __) | / _ \\ \\ / / _` | | |/ _` |
+				| |_| | |_| | | | | | |_ / __/ / ___ \\ V / (_| | | | (_| |
+				 \\___/ \\__,_|_| |_|_|\\__|_____/_/   \\_\\_/ \\__,_|_|_|\\__,_|""";
 
 		Junit2AvallaCLI main = new Junit2AvallaCLI();
 		Options options = getCommandLineOptions();
@@ -62,7 +63,7 @@ public class Junit2AvallaCLI {
 				log.error("Please specify the Java input file path");
 				throw new Exception("Input option can't be null");
 			} else {
-				main.execute(line, options);
+				main.execute(line);
 			}
 		} catch (Exception e) {
 			log.error("An error occurred, {}", e.getMessage(), e);
@@ -128,10 +129,9 @@ public class Junit2AvallaCLI {
 	 * Executes the main process based on the command-line arguments.
 	 *
 	 * @param line    the parsed CommandLine object.
-	 * @param options the available command-line options.
 	 * @throws IOException 
 	 */
-	private void execute(CommandLine line, Options options) throws IOException {
+	private void execute(CommandLine line) throws IOException {
 
 		// INPUT OPTION: by precondition -input option is always available and not null
 		// (required)

@@ -17,6 +17,7 @@ public class JavaVariableTerm extends JavaArgumentTerm {
    * Initializes an empty variable without a value.
    */
   public JavaVariableTerm() {
+	// Empty constructor
   }
 
   /**

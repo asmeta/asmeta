@@ -9,7 +9,7 @@ public class ScenarioFile {
   /**
    * The default file extension for all scenario files.
    */
-  private final String extension = ".avalla";
+  private static final String EXTENSION = ".avalla";
 
   /**
    * The name of the scenario file.
@@ -22,10 +22,11 @@ public class ScenarioFile {
   private String text;
 
   /**
-   * Default constructor for {@code ScenarioFile}.
+   * No args constructor for {@code ScenarioFile}.
    * Initializes an empty scenario file without a name or text.
    */
   public ScenarioFile() {
+	  // Empty constructor
   }
 
   /**
@@ -70,6 +71,6 @@ public class ScenarioFile {
    * @return the file extension as a {@code String}.
    */
   public String getExtension() {
-    return extension;
+    return EXTENSION;
   }
 }

@@ -44,9 +44,10 @@ public class ScenarioWriterImpl implements ScenarioWriter {
   private StringBuilder stringBuilder;
 
   /**
-   * Default constructor.
+   * No args constructor.
    */
   public ScenarioWriterImpl() {
+	  // Empty constructor
   }
 
   /**
@@ -65,17 +66,17 @@ public class ScenarioWriterImpl implements ScenarioWriter {
 
     for (AvallaTerm avallaTerm : scenario.getScenario()) {
       log.debug("Writing the term: {}", avallaTerm.getClass());
-      if (avallaTerm instanceof AvallaHeaderTerm) {
-        writeHeader((AvallaHeaderTerm) avallaTerm);
-        scenarioFile.setName(((AvallaHeaderTerm) avallaTerm).getScenarioName());
-      } else if (avallaTerm instanceof AvallaLoadTerm) {
-        writeLoad((AvallaLoadTerm) avallaTerm);
-      } else if (avallaTerm instanceof AvallaSetTerm) {
-        writeSet((AvallaSetTerm) avallaTerm);
+      if (avallaTerm instanceof AvallaHeaderTerm avallaHeaderTerm) {
+        writeHeader(avallaHeaderTerm);
+        scenarioFile.setName(avallaHeaderTerm.getScenarioName());
+      } else if (avallaTerm instanceof AvallaLoadTerm avallaLoadTerm) {
+        writeLoad(avallaLoadTerm);
+      } else if (avallaTerm instanceof AvallaSetTerm avallaSetTerm) {
+        writeSet(avallaSetTerm);
       } else if (avallaTerm instanceof AvallaStepTerm) {
         writeStep();
-      } else if (avallaTerm instanceof AvallaCheckTerm) {
-        writeCheck((AvallaCheckTerm) avallaTerm);
+      } else if (avallaTerm instanceof AvallaCheckTerm avallaCheckTerm) {
+        writeCheck(avallaCheckTerm);
       }
     }
 

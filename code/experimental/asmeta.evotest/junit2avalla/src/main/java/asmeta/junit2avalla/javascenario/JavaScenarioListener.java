@@ -4,7 +4,6 @@ import asmeta.junit2avalla.model.Scenario;
 import asmeta.junit2avalla.model.terms.JavaArgumentTerm;
 import asmeta.junit2avalla.model.terms.JavaAssertionTerm;
 import asmeta.junit2avalla.model.terms.JavaVariableTerm;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -187,7 +186,6 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	@Override
 	public void enterVariableValue(VariableValueContext ctx) {
 		log.debug("Entering start_test_scenario_variableDeclaration_variableValue: {} .", ctx.getText());
-		String value = ctx.getText();
 		this.currentJavaVariable.setValue(ctx.getText());
 	}
 

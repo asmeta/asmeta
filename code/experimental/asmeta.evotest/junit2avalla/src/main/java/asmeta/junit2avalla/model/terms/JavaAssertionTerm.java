@@ -26,6 +26,7 @@ public class JavaAssertionTerm extends JavaTerm {
    * term without specifying the actual or expected values.
    */
   public JavaAssertionTerm() {
+	// Empty constructor
   }
 
   /**

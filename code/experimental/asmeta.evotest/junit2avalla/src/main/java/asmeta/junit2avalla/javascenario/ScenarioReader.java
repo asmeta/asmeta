@@ -3,7 +3,6 @@ package asmeta.junit2avalla.javascenario;
 import java.nio.file.Path;
 import java.util.List;
 import asmeta.junit2avalla.model.Scenario;
-import asmeta.junit2avalla.model.terms.JavaArgumentTerm;
 
 /**
  * The {@code ScenarioReader} interface defines the contract for reading and parsing

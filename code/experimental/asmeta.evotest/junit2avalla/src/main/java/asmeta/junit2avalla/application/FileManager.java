@@ -73,8 +73,9 @@ public class FileManager {
 	 * Run the application.
 	 *
 	 * @param inputPath            path to the input file.
+	 * @throws IOException 
 	 */
-	void runTheApplication(Path inputPath) {
+	void runTheApplication(Path inputPath) throws IOException {
 
 		logger.info("Processing JavaScenario...");
 		ScenarioReader scenarioReader = new ScenarioReaderImpl();
@@ -168,7 +169,7 @@ public class FileManager {
      * @param javaFile the Java file to be exported.
      * @throws IOException if an I/O error occurs during the export.
      */
-	private void exportFile(List<ScenarioFile> scenarioFiles) {
+	private void exportFile(List<ScenarioFile> scenarioFiles) throws IOException {
 		for (ScenarioFile scenarioFile : scenarioFiles) {
 			FileWriter fileWriter = new FileWriterImpl();
 			boolean result = outputFolder == null ? fileWriter.writeToFile(scenarioFile)

@@ -24,6 +24,7 @@ public class JavaArgumentTerm extends JavaTerm {
    * Default constructor for the {@code Argument} class. Initializes an empty argument.
    */
   public JavaArgumentTerm() {
+	// Empty constructor
   }
 
   /**

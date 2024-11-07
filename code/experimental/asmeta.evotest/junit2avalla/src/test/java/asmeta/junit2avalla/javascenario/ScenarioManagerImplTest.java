@@ -4,16 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
 import asmeta.junit2avalla.model.terms.AvallaCheckTerm;
 import asmeta.junit2avalla.model.terms.AvallaTerm;
 import asmeta.junit2avalla.model.terms.AvallaHeaderTerm;
 import asmeta.junit2avalla.model.terms.AvallaLoadTerm;
-import asmeta.junit2avalla.javascenario.ScenarioManagerImpl;
 import asmeta.junit2avalla.model.Scenario;
 import asmeta.junit2avalla.model.terms.AvallaSetTerm;
 import asmeta.junit2avalla.model.terms.AvallaStepTerm;
-import asmeta.junit2avalla.model.terms.JavaVariableTerm;
 import asmeta.junit2avalla.util.AssertionUtil;
 import asmeta.junit2avalla.util.JavaScenarioUtil;
 import asmeta.junit2avalla.util.VariableUtil;

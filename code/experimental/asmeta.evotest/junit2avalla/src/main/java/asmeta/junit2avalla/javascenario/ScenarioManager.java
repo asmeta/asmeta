@@ -8,7 +8,6 @@ import asmeta.junit2avalla.model.terms.AvallaSetTerm;
 import asmeta.junit2avalla.model.terms.AvallaStepTerm;
 import asmeta.junit2avalla.model.terms.JavaAssertionTerm;
 import asmeta.junit2avalla.model.terms.JavaVariableTerm;
-import java.util.List;
 
 /**
  * The {@code ScenarioManager} interface defines the methods required to manage and modify scenarios

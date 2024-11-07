@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.LinkedList;
 import java.util.List;
 
-import asmeta.junit2avalla.avallascenario.ScenarioListMapperImpl;
 import asmeta.junit2avalla.model.Scenario;
 import asmeta.junit2avalla.model.ScenarioFile;
 import asmeta.junit2avalla.util.ScenarioAvallaUtil;
@@ -32,7 +31,7 @@ public class ScenarioListMapperImplTest {
         scenarioListMapperImpl.mapScenarioListToFileList(scenarioList);
 
     assertFalse(scenarioFileList.isEmpty());
-    assertEquals(scenarioFileList.size(),2);
+    assertEquals(2,scenarioFileList.size());
 
     ScenarioFile scenarioFile = scenarioFileList.remove(0);
 
