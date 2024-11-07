@@ -1,16 +1,11 @@
 package org.asmeta.xt.validator;
 
 import java.io.File;
-import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.util.AsmetaTermPrinter;
@@ -19,11 +14,8 @@ import org.asmeta.simulator.Location;
 import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
-import org.asmeta.xt.validator.SimulatorWCov.BranchCovData;
-import org.asmeta.xt.validator.SimulatorWCov.UpdateCovData;
 
 import asmeta.definitions.RuleDeclaration;
-import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 /**
@@ -117,14 +109,14 @@ public class AsmetaV {
 							float branchCoverage = ((float)branchData.coveredT.size()+branchData.coveredF.size())/(branchData.tot*2)*100;
 							logger.info("-> branch coverage: " + branchCoverage + "%");
 						}else {
-							logger.info("-> branch coverage: 0.0% (no conditional rules to be covered)");
+							logger.info("-> branch coverage: - (no conditional rules to be covered)");
 						}
 						UpdateCovData updateData = result.getUpdateData().get(rule.getKey());
 						if (updateData.tot != 0) {
-							float updateCoverage = ((float)updateData.covered.size()/updateData.tot)*100;;
+							float updateCoverage = ((float)updateData.covered.size()/updateData.tot)*100;
 							logger.info("-> update rule coverage: " + updateCoverage + "%");
 						}else {
-							logger.info("-> update rule coverage: 0.0% (no update rules to be covered)");
+							logger.info("-> update rule coverage: - (no update rules to be covered)");
 						}
 					}
 

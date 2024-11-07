@@ -2,9 +2,6 @@ package org.asmeta.xt.validator;
 
 import java.util.Map;
 
-import org.asmeta.xt.validator.SimulatorWCov.BranchCovData;
-import org.asmeta.xt.validator.SimulatorWCov.UpdateCovData;
-
 /** This class represents the result of the validation process.
  * It contains information about whether the validation check succeeded,
  * as well as data related to branch and update coverage.

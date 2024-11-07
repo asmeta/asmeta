@@ -117,18 +117,6 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * 
 	 */
 	static HashMap<String, Rule> macros = new HashMap<String, Rule>();
-	
-	/**
-	 * The rule before the last performed substitution. For coverage purposes.
-	 * 
-	 */
-	protected Rule originalRule = null;
-	
-	/**
-	 * The rule after the last performed substitution. For coverage purposes.
-	 * 
-	 */
-	protected Rule substituteRule = null;
 
 	public final TermEvaluator termEval;
 
@@ -799,23 +787,25 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			updateSet = visit(body);
 		} else {
 			String signature = Defs.getAsmName(dcl) + "::" + dcl.getName() + printer.visit(arguments, "[", "]");
-			Rule newRule = macros.get(signature);
-			if (newRule == null) {
-				logger.debug("<Substitution>");
-				TermAssignment macroAssignment = new TermAssignment();
-				macroAssignment.put(variables, arguments);
-				RuleSubstitution substitution = new RuleSubstitution(macroAssignment,TermSubstitution.ruleFactory);
-				newRule = substitution.visit(body);
-				logger.debug("</Substitution>");
-				macros.put(signature, newRule);
-			}
+			Rule newRule = buildNewRule(arguments, variables, body, signature);
 			updateSet = visit(newRule);
-			// For coverage purposes, save the two objects representing the rule before and after the substitution
-			originalRule = body;
-			substituteRule = newRule;
 		}
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
 		return updateSet;
+	}
+
+	protected Rule buildNewRule(List<Term> arguments, List<VariableTerm> variables, Rule body, String signature) {
+		Rule newRule = macros.get(signature);
+		if (newRule == null) {
+			logger.debug("<Substitution>");
+			TermAssignment macroAssignment = new TermAssignment();
+			macroAssignment.put(variables, arguments);
+			RuleSubstitution substitution = new RuleSubstitution(macroAssignment,TermSubstitution.ruleFactory);
+			newRule = substitution.visit(body);
+			logger.debug("</Substitution>");
+			macros.put(signature, newRule);
+		}
+		return newRule;
 	}
 
 	/**

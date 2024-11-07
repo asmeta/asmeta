@@ -47,9 +47,44 @@ public class TestCoverage extends TestValidator {
 		testWithCoverageAndWithout("scenariosforexamples/advancedClock/advancedClock1.avalla",
 				new CoverageOracle("r_Main()", 1, 0, 1, 1, 1));
 	}
+	
+	@Test
+	public void testWithCoverageAndWithoutSluiceGate() throws Exception {
+		String scenario = "scenariosforexamples/sluiceGate";
+		List<CoverageOracle> oracles = new ArrayList<>();
+		// r_Main()
+		int nBranch = 8;
+		int coveredT = 8;
+		int coveredF = 8;
+		int nUpdate = 4;
+		int coveredUpdate = 4;
+		oracles.add(new CoverageOracle("r_Main()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		// r_start_to_raise()
+		nBranch = 0;
+		coveredT = 0;
+		coveredF = 0;
+		nUpdate = 2;
+		coveredUpdate = 2;
+		oracles.add(new CoverageOracle("r_start_to_raise()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		// r_start_to_lower()
+		nBranch = 0;
+		coveredT = 0;
+		coveredF = 0;
+		nUpdate = 2;
+		coveredUpdate = 2;
+		oracles.add(new CoverageOracle("r_start_to_lower()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		// r_stop_motor()
+		nBranch = 0;
+		coveredT = 0;
+		coveredF = 0;
+		nUpdate = 1;
+		coveredUpdate = 1;
+		oracles.add(new CoverageOracle("r_stop_motor()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		testWithCoverageAndWithout(scenario, oracles.toArray(new CoverageOracle[0]));
+	}
 
 	@Test
-	public void testATM() throws Exception {
+	public void testWithCoverageAndWithoutATM() throws Exception {
 		String scenario = "scenariosforexamples/atm/atm4.avalla";
 		List<CoverageOracle> oracles = new ArrayList<>();
 		// r_Main()
@@ -123,10 +158,20 @@ public class TestCoverage extends TestValidator {
 			boolean found = false;
 			for (int i = cov + 1; i < nCov; i++) {
 				if (outputs.get(i).contains("::" + oracle.getSignature())) {
-					assertTrue("wrong branch coverage for " + oracle.getSignature(),
+					if (oracle.getBranchNumber() == 0) {
+						assertTrue("wrong branch coverage for " + oracle.getSignature(),
+								outputs.get(i + 1).contains("-> branch coverage: - (no conditional rules to be covered)"));
+					}else {
+						assertTrue("wrong branch coverage for " + oracle.getSignature(),
 							outputs.get(i + 1).contains("-> branch coverage: " + oracle.getBranchCoverage() + "%"));
-					assertTrue("wrong update rule coverage for " + oracle.getSignature(), 
+					}
+					if (oracle.getUpdateRuleNumber() == 0) {
+						assertTrue("wrong update rule coverage for " + oracle.getSignature(), 
+								outputs.get(i + 2).contains("-> update rule coverage: - (no update rules to be covered)"));
+					}else {
+						assertTrue("wrong update rule coverage for " + oracle.getSignature(), 
 							outputs.get(i + 2).contains("-> update rule coverage: " + oracle.getUpdateRuleCoverage() + "%"));
+					}
 					found = true;
 					break;
 				}
@@ -145,14 +190,26 @@ public class TestCoverage extends TestValidator {
 
 	private static class CoverageOracle {
 		private final String signature;
+		private final int nBranch;
+		private final int nUpdate;
 		private final float branchCoverage;
 		private final float updateRuleCoverage;
 
-		public CoverageOracle(String signature, int nBranch, int coveredT, int coveredF, int nUpdated,
+		public CoverageOracle(String signature, int nBranch, int coveredT, int coveredF, int nUpdate,
 				int coveredUpdate) {
 			this.signature = signature;
+			this.nBranch = nBranch;
+			this.nUpdate = nUpdate;
 			this.branchCoverage = nBranch == 0 ? 0 : (((float) coveredT + coveredF) / (nBranch * 2)) * 100;
-			this.updateRuleCoverage = nUpdated == 0 ? 0 : ((float) coveredUpdate / nUpdated) * 100;
+			this.updateRuleCoverage = nUpdate == 0 ? 0 : ((float) coveredUpdate / nUpdate) * 100;
+		}
+		
+		public int getBranchNumber() {
+			return nBranch;
+		}
+
+		public int getUpdateRuleNumber() {
+			return nUpdate;
 		}
 
 		public String getSignature() {
@@ -166,6 +223,7 @@ public class TestCoverage extends TestValidator {
 		public float getUpdateRuleCoverage() {
 			return updateRuleCoverage;
 		}
+		
 	}
 
 }

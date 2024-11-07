@@ -20,7 +20,7 @@ public class RuleDeclarationUtils {
 		String asmName = rd.getAsmBody().getAsm().getName();
 		if (asmName.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) { // For asm built from avalla
 			asmName = asmName.substring(0, asmName.indexOf(AsmetaFromAvallaBuilder.TEMP_ASMETA_V));
-		} else if (asmName.startsWith("_")) { // For imported asm
+		} else if (asmName.startsWith("_")) { // For imported asm (start with _ and ends with _ and a series of numbers)
 			asmName = asmName.substring(1, asmName.lastIndexOf('_'));
 		}
 		String signature = rd.getName() + "(";

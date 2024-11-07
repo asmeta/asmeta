@@ -16,7 +16,10 @@ import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.NotCompatibleDomainsException;
 import org.asmeta.simulator.RuleEvaluator;
+import org.asmeta.simulator.RuleSubstitution;
 import org.asmeta.simulator.State;
+import org.asmeta.simulator.TermAssignment;
+import org.asmeta.simulator.TermSubstitution;
 import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.ValueAssignment;
 import org.asmeta.simulator.value.BooleanValue;
@@ -25,6 +28,7 @@ import org.asmeta.xt.validator.RuleExtractorFromMacroDecl.RuleExtractor;
 
 import asmeta.definitions.RuleDeclaration;
 import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
@@ -127,23 +131,22 @@ public class RuleEvalWCov extends RuleEvaluator {
 	}
 	
 	@Override
-	public UpdateSet visit(RuleDeclaration dcl, List<Term> arguments) {		
-		UpdateSet updateSet = super.visit(dcl, arguments);
-		
+	protected Rule buildNewRule(List<Term> arguments, List<VariableTerm> variables, Rule body, String signature) {
+		Rule newRule = super.buildNewRule(arguments, variables, body, signature);
 		//  Add, if not already present, the new rule substitution performed during the visit to the dictionary of rule substitutions
-		if (originalRule != null && substituteRule != null) {
-			List<Rule> oldRules = new RuleExtractor().visit(originalRule);
-			List<Rule> newRules = new RuleExtractor().visit(substituteRule);
+		if (body != null && newRule != null) {
+			List<Rule> oldRules = new RuleExtractor().visit(body);
+			List<Rule> newRules = new RuleExtractor().visit(newRule);
 			for (int i = 0; i < oldRules.size(); i++) {
 				if (ruleSubstitutions.containsKey(oldRules.get(i)))
 					ruleSubstitutions.get(oldRules.get(i)).add(newRules.get(i));
 				else {
-					Set<Rule> n = new HashSet<>();
-					n.add(newRules.get(i));
-					ruleSubstitutions.put(oldRules.get(i), n);
+					Set<Rule> ruleSet = new HashSet<>();
+					ruleSet.add(newRules.get(i));
+					ruleSubstitutions.put(oldRules.get(i), ruleSet);
 				}
 			}
 		}
-		return updateSet;
+		return newRule;
 	}
 }

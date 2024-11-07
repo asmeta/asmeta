@@ -6,10 +6,8 @@ import java.io.PrintWriter;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
@@ -67,45 +65,6 @@ public class SimulatorWCov extends Simulator {
 		RuleFactory factory = new RuleFactory();
 		ruleEvaluator = new RuleEvalWCov(state, environment, factory);
 		return;
-	}
-
-	// the coverage information about the branches inside a rule
-	public class BranchCovData {
-		Set<Integer> coveredT;
-		Set<Integer> coveredF;
-		int tot;
-
-		public BranchCovData() {
-			coveredT = new HashSet<>();
-			coveredF = new HashSet<>();
-			tot = 0;
-		}
-
-		@Override
-		public String toString() {
-			String result = "(" + tot + " cond rules): ";
-			result += "Covered true: " + coveredT.toString() + " - ";
-			result += "Covered false: " + coveredF.toString();
-			return result;
-		}
-	}
-
-	// the coverage information about the branches inside a rule
-	public class UpdateCovData {
-		Set<Integer> covered;
-		int tot;
-
-		public UpdateCovData() {
-			covered = new HashSet<>();
-			tot = 0;
-		}
-
-		@Override
-		public String toString() {
-			String result = "(" + tot + " update rules): ";
-			result += "Covered: " + covered.toString();
-			return result;
-		}
 	}
 
 	// return the coverage of the branches (conditional rules)
