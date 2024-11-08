@@ -9,3 +9,4 @@
 /input/**/*.java
 /input/**/*.asm
 !/input/STDL/*.asm
+/logs/
