@@ -52,32 +52,26 @@ public class GeneratorCompilerTest {
 			"fibonacci.asm",
 			"QuickSort.asm", 
 			"testSignature.asm",
-			"SIS.asm");
+			"SIS.asm",
+			"testDefinition3.asm");
 	
 	/**
 	 * The following files have compilation errors already in the .asm file 
 	 * and asmetal2java correctly throws exceptions
 	 */
 	static List<String> parseException = List.of(
-			"Bare.asm", 
-			"certifier_nochoose_noundef.asm",
-			"Hemodialysis_ref4_forMC.asm",
-			"LIFT.asm",
-			"population.asm",
-			"ProdDomain.asm",
-			"stufa.asm",
-			"SwapSort.asm",
-			"testDefinition.asm",
-			"testDefinition2.asm",
-			"testDefinition3.asm",
-			"testDefinition4.asm");
+			"stufa.asm");
 	
 	/**
 	 * The following classes have runtime errors
 	 */
 	static List<String> runtimeException = List.of(
 			"gameOfLife.asm", 
-			"groundModel_v2.asm");
+			"groundModel_v2.asm",
+			"Bare.asm",
+			"ProdDomain.asm",
+			"population.asm",
+			"LIFT.asm");
 	
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 	// -----

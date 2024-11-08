@@ -77,9 +77,9 @@ signature:
 
 definitions:
 
-	domain Second = {0..59}
-	domain Minute= {0..59}
-	domain Hour = {0..23}
+	domain Second = {0 : 59}
+	domain Minute= {0 : 59}
+	domain Hour = {0 : 23}
 
 
     main rule r_main =

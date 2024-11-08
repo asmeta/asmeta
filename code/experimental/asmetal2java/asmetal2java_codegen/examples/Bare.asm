@@ -32,7 +32,7 @@ derived derivedFunction: Integer
 
 definitions:
 domain D1={1,2,3}
-domain D2={("ciao",[1..20],1),("prova",[2],3)}
+domain D2={("ciao",[1 : 20],1),("prova",[2],3)}
 domain D5={"ciao","prova","casa"}
 domain D4={("ciao",2),("prova",6)}
 domain D6={("ciao","ciao"),("prova","prova")}
