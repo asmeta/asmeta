@@ -26,6 +26,9 @@ public final class RulesMap implements RulesGetter, RulesAdder {
      */
     @Override
     public void addRule(String name, JavaRule rule) throws IllegalArgumentException {
+        if (!name.equals(rule.getName())) {
+            throw new IllegalArgumentException("The provided name does not match the rule's name.");
+        }
         if (rules.containsKey(name)) {
             throw new IllegalArgumentException("Rule with the same name already exists: " + name);
         }
