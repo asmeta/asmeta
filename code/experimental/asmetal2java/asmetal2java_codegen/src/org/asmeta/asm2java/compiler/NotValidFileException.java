@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.exceptions;
+package org.asmeta.asm2java.compiler;
 
 public class NotValidFileException extends RuntimeException {
 	/**

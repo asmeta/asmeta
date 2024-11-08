@@ -2,8 +2,6 @@ package org.asmeta.asm2java.translator;
 
 import java.util.List;
 
-import org.asmeta.asm2java.exceptions.InvalidFunctionException;
-
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.SetTerm;

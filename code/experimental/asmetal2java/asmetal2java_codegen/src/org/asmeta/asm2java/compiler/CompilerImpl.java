@@ -13,7 +13,6 @@ import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
 import org.apache.log4j.Logger;
-import org.asmeta.asm2java.exceptions.NotValidFileException;
 
 /**
  * Implementation of the {@link Compiler} interface.
@@ -22,6 +21,10 @@ public class CompilerImpl implements Compiler {
 	
 	/** Logger */
 	private static Logger logger = Logger.getLogger(CompilerImpl.class);
+	
+	private static final String JAVA_VERSION = "8";
+	
+	private static final String RELEASE_OPTION = "--release";
 	
 	/**
 	 * Default constructor.
@@ -55,7 +58,7 @@ public class CompilerImpl implements Compiler {
 	@Override
 	public CompileResult compileFiles(List<File> files, Path directory) {
 		// cross-compile with java 8
-		return compile(files, directory, Arrays.asList("--release", "8"));
+		return compile(files, directory, Arrays.asList(RELEASE_OPTION, JAVA_VERSION));
 	}
 
 	private CompileResult compile(List<File> files, Path directory, List<String> options) {

@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.exceptions;
+package org.asmeta.asm2java.application;
 
 /**
  * Exception thrown when an error occurs while parsing an ASM file.

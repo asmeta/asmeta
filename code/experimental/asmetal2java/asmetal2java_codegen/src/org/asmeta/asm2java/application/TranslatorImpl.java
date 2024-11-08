@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.asmeta.asm2java.config.Mode;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.config.TranslatorOptionsImpl;
-import org.asmeta.asm2java.exceptions.AsmParsingException;
 import org.asmeta.parser.ASMParser;
 
 import asmeta.AsmCollection;

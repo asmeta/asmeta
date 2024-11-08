@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.exceptions;
+package org.asmeta.asm2java.translator;
 
 public class InvalidFunctionException extends RuntimeException {
 	/**
