@@ -52,7 +52,7 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	/** Indicates to add methods to cover the rules in the testgen class. */
 	private boolean coverRules;
 	
-	/** Indicates to export the generated Java files into the output folder */
+	/** Indicates to export the generated Java files into the output folder. */
 	private boolean export;
 	
 	/**
@@ -116,7 +116,7 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 		this.propertyMapper.put(ModeConstantsConfig.TEST_GEN, value -> this.testGen = value);
 		this.propertyMapper.put(COVER_OUTPUTS_OPTION, value -> this.coverOutputs = value);
 		this.propertyMapper.put(COVER_RULES_OPTION, value -> this.coverRules = value);
-		this.propertyMapper.put(EXPORT_OPTION, value -> this.export = value);	
+		this.propertyMapper.put(EXPORT_OPTION, value -> this.export = value);
 	}
 	
 	/**

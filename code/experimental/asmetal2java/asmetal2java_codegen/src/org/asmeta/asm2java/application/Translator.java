@@ -49,6 +49,13 @@ public interface Translator {
     boolean generate() throws AsmParsingException, IOException;
     
     /**
+     * Sets the version of the java compiler.
+     * 
+     * @param javaVersion the java version.
+     */
+    void setCompilerVersion(String javaVersion);
+    
+    /**
      * Cleans up resources.
      */
     void clean();

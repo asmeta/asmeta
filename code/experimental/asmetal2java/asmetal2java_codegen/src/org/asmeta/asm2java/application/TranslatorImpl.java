@@ -287,5 +287,10 @@ public class TranslatorImpl implements Translator {
 		return Mode.getDescription();
 	}
 
+	@Override
+	public void setCompilerVersion(String javaVersion) {
+		fileManager.setCompilerVersion(javaVersion);
+	}
+
 
 }

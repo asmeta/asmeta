@@ -18,14 +18,12 @@ import org.apache.log4j.Logger;
  * Implementation of the {@link Compiler} interface.
  */
 public class CompilerImpl implements Compiler {
-	
+
 	/** Logger */
 	private static Logger logger = Logger.getLogger(CompilerImpl.class);
-	
-	private static final String JAVA_VERSION = "8";
-	
+
 	private static final String RELEASE_OPTION = "--release";
-	
+
 	/**
 	 * Default constructor.
 	 */
@@ -37,34 +35,34 @@ public class CompilerImpl implements Compiler {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CompileResult compileFile(String name, Path directory, boolean compileOnly) {
+	public CompileResult compileFile(String name, Path directory, boolean compileOnly, String javaVersion) {
 		if (!directory.toFile().isDirectory())
 			throw new NotValidFileException("The given path does not represent a proper directory");
 		if (compileOnly && !name.endsWith(".java"))
 			throw new NotValidFileException(name + " does not end with .java");
 
 		File sourceFile = new File(directory + File.separator + name);
-		
-		if(compileOnly) {
-			return compile(Arrays.asList(sourceFile), directory, null);
+
+		if (compileOnly) {
+			return compile(Arrays.asList(sourceFile), directory, Arrays.asList(RELEASE_OPTION, javaVersion));
 		}
-		
+
 		return new CompileResultImpl(true, "not compiled.");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CompileResult compileFiles(List<File> files, Path directory) {
+	public CompileResult compileFiles(List<File> files, Path directory, String javaVersion) {
 		// cross-compile with java 8
-		return compile(files, directory, Arrays.asList(RELEASE_OPTION, JAVA_VERSION));
+		return compile(files, directory, Arrays.asList(RELEASE_OPTION, javaVersion));
 	}
 
 	private CompileResult compile(List<File> files, Path directory, List<String> options) {
-		
+
 		String message;
-		
+
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		assert compiler != null;
 		StandardJavaFileManager standardJavaFileManager = compiler.getStandardFileManager(null, null, null);
@@ -74,8 +72,8 @@ public class CompilerImpl implements Compiler {
 		try {
 			standardJavaFileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(parent));
 		} catch (IOException e) {
-			logger.error("An exception occurred while setting the location for standardJavaFileManager: "
-					+ e.getMessage());
+			logger.error(
+					"An exception occurred while setting the location for standardJavaFileManager: " + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -83,19 +81,15 @@ public class CompilerImpl implements Compiler {
 				standardJavaFileManager.getJavaFileObjectsFromFiles(files)).call();
 
 		if (Boolean.TRUE.equals(result)) {
-			message = "Successfully compiled file " + files.stream().map(File::getName).collect(Collectors.joining(", "));
+			message = "Successfully compiled file "
+					+ files.stream().map(File::getName).collect(Collectors.joining(", "));
 			logger.info(message);
 		} else {
 			message = "Failed to compile file " + files.stream().map(File::getName).collect(Collectors.joining(", "));
 			logger.error(message);
-		}	
-		
+		}
+
 		return new CompileResultImpl(true, message);
 	}
-	
-	
-	
-	
-	
-}
 
+}

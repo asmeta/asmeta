@@ -30,14 +30,18 @@ import asmeta.AsmCollection;
  */
 public class FileManager {
 
+	
+	
 	/* constants */
 	private static final String ATG_EXTENSION = "_ATG.java";
 	private static final String WIN_EXTENSION = "_Win.java";
 	private static final String EXE_EXTENSION = "_Exe.java";
 	private static final String JAVA_EXTENSION = ".java";
+	private static final String JAVA = "JAVA";
 	private static final String USER_DIR = "user.dir";
 	private static final String INPUT = "input";
 	private static final String OUTPUT = "output";
+	private static final String STDL = "STDL";
 
 	/** Logger */
 	private static final Logger logger = Logger.getLogger(FileManager.class);
@@ -66,6 +70,12 @@ public class FileManager {
 
 	/** Compiler instance for compiling the java translation */
 	private static final Compiler compilerJava = new CompilerImpl();
+
+	/**
+	 * Indicates the version of the Java compiler used to compile the generated
+	 * classes.
+	 */
+	private String compilerVersion = "17";
 
 	/** Path to the output folder. */
 	private Path outputFolder;
@@ -176,7 +186,7 @@ public class FileManager {
 	private void generate(AsmCollection model, TranslatorOptions userOptions, File javaFile,
 			AsmToJavaGenerator asmToJavaGenerator) throws IOException {
 		assert javaFile.toPath().endsWith(JAVA_EXTENSION);
-		asmToJavaGenerator.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), "JAVA", userOptions);
+		asmToJavaGenerator.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), JAVA, userOptions);
 	}
 
 	/**
@@ -191,7 +201,8 @@ public class FileManager {
 	boolean compileFile(String asmName) throws IOException {
 		logger.info("JavaCompiler: compiling the .java class...");
 		checkPath(COMPILER_DIR_PATH);
-		CompileResult result = compilerJava.compileFile(asmName + JAVA_EXTENSION, COMPILER_DIR_PATH, true);
+		CompileResult result = compilerJava.compileFile(asmName + JAVA_EXTENSION, COMPILER_DIR_PATH, true,
+				compilerVersion);
 		if (result.getSuccess()) {
 			return true;
 		}
@@ -212,7 +223,7 @@ public class FileManager {
 			logger.error("No files to compile.");
 		}
 
-		CompileResult compilerResult = compilerJava.compileFiles(files, outputFolder);
+		CompileResult compilerResult = compilerJava.compileFiles(files, outputFolder, compilerVersion);
 		if (!compilerResult.getSuccess()) {
 			logger.error("Compilation errors: " + compilerResult.toString());
 			return false;
@@ -254,7 +265,7 @@ public class FileManager {
 	void cleanInputDir() {
 		if (INPUT_DIR_PATH.toFile().exists() && INPUT_DIR_PATH.toFile().isDirectory()) {
 			for (File file : INPUT_DIR_PATH.toFile().listFiles()) {
-				if (!file.getName().equals("STDL") && !file.getName().equals(".gitignore")) {
+				if (!file.getName().equals(STDL) && !file.getName().equals(".gitignore")) {
 					this.cleanRecursively(file);
 				}
 			}
@@ -270,6 +281,27 @@ public class FileManager {
 	void setOutputDir(String outputDir) throws IOException {
 		this.outputFolder = Paths.get(outputDir);
 		checkPath(outputFolder);
+	}
+
+	/**
+	 * Sets the version of the java compiler.
+	 * 
+	 * @param compilerVersion the java version.
+	 */
+	void setCompilerVersion(String javaVersion) {
+		try {
+			int javaVersionInt = Integer.parseInt(javaVersion);
+			if (javaVersionInt < 1 || javaVersionInt > 21) {
+				throw new NumberFormatException();
+			}
+			this.compilerVersion = javaVersion;
+			logger.info("Setting the version of Java compiler to " + javaVersion + ".");
+		} catch (NumberFormatException e) {
+			logger.error("Failed to set the version of Java compiler: " + javaVersion + " , uses the default one: "
+					+ javaVersion);
+			logger.error("Please enter a valid java version " + e.getMessage());
+		}
+
 	}
 
 	/**

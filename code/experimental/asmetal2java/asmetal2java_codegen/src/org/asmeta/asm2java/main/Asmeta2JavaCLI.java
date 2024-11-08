@@ -31,6 +31,7 @@ public class Asmeta2JavaCLI {
 	private static final String HELP = "help";
 	private static final String OUTPUT = "output";
 	private static final String INPUT = "input";
+	private static final String COMPILER_VERSION = "compilerVersion";
 
 	/** Logger */
 	private static final Logger logger = Logger.getLogger(Asmeta2JavaCLI.class);
@@ -82,29 +83,34 @@ public class Asmeta2JavaCLI {
 			logger.info("Requested operation completed.");
 		}
 	}
-	
+
 	/**
 	 * Executes the main process based on the command-line arguments.
 	 *
 	 * @param line the parsed CommandLine object.
-	 * @throws IOException 
-	 * @throws AsmParsingException 
+	 * @throws IOException
+	 * @throws AsmParsingException
 	 */
 	private void execute(CommandLine line) throws AsmParsingException, IOException {
 
 		setGlobalProperties(line);
 
-		// INPUT OPTION: by precondition -input option is always available and not null (required)
+		// INPUT OPTION: by precondition -input option is always available and not null
+		// (required)
 		translator.setInput(line.getOptionValue(INPUT));
 
 		if (line.hasOption(OUTPUT)) {
 			translator.setOutput(line.getOptionValue(OUTPUT));
 		}
-			
+
 		if (line.hasOption(MODE)) {
 			translator.setMode(line.getOptionValue(MODE));
 		}
-		
+
+		if (line.hasOption(COMPILER_VERSION)) {
+			translator.setCompilerVersion(line.getOptionValue(COMPILER_VERSION));
+		}
+
 		if (translator.generate()) {
 			logger.info("Generation succeed");
 		} else {
@@ -112,7 +118,7 @@ public class Asmeta2JavaCLI {
 		}
 
 	}
-	
+
 	/**
 	 * Creates and returns the available command-line options for the tool.
 	 *
@@ -140,10 +146,13 @@ public class Asmeta2JavaCLI {
 
 		// set the desired behavior
 		Option mode = Option.builder(MODE).argName(MODE).type(String.class).hasArg(true)
-				.desc("Set the mode of the application:\n"
-						+ translator.getModeDescription()
-						+ "Note: Please use the properties: -Dtranslator, -Dexecutable, -Dwindow and -DtestGen only if you have selected the -mode custom option."
-)
+				.desc("Set the mode of the application:\n" + translator.getModeDescription()
+						+ "Note: Please use the properties: -Dtranslator, -Dexecutable, -Dwindow and -DtestGen only if you have selected the -mode custom option.")
+				.build();
+
+		// compiler version
+		Option compilerVersion = Option.builder(COMPILER_VERSION).argName(COMPILER_VERSION).type(String.class)
+				.hasArg(true).desc("Set the version of the Java compiler used to compile the generated classes.")
 				.build();
 
 		// translator property
@@ -155,6 +164,7 @@ public class Asmeta2JavaCLI {
 		options.addOption(output);
 		options.addOption(clean);
 		options.addOption(mode);
+		options.addOption(compilerVersion);
 		options.addOption(property);
 
 		return options;
@@ -198,7 +208,7 @@ public class Asmeta2JavaCLI {
 			String propertyValue = properties.getProperty(propertyName);
 
 			try {
-				translator.setOptions(propertyName,propertyValue);
+				translator.setOptions(propertyName, propertyValue);
 
 			} catch (Exception e) {
 				logger.error("Invalid value for property " + propertyName + ": " + propertyValue);

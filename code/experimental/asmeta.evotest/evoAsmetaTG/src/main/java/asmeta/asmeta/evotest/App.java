@@ -21,7 +21,7 @@ public class App {
     	String name = "\"input/RegistroDiCassav4.asm\"";
     	
     	// translate to java
-    	Asmeta2JavaCLI.main(new String[]{"-input",name,"-output","evosuite-target","-mode","testGen","-Dcompiler=true"});
+    	Asmeta2JavaCLI.main(new String[]{"-input",name,"-output","evosuite-target","-mode","testGen","-Dcompiler=true", "-compilerVersion","8"});
     	
 		// executing evouite
         List<String> commands = Arrays.asList(JAVA8, "-jar", "evosuite-1.0.6.jar", "-target", "evosuite-target", "-class", "RegistroDiCassav4_ATG",
