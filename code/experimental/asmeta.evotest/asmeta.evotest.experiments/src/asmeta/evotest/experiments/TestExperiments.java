@@ -23,42 +23,53 @@ import org.asmeta.xt.validator.RuleEvalWCov;
 public class TestExperiments {
 	
 	private static final String RESOURCES = "resources";
+	private static final String MYASM_DIR = "myasm";
+	private static final String RANDOM_DIR = "randomtests";
+	private static final String ATGT_DIR = "atgttests";
 
 	public static void main(String[] args) throws Exception {
 		Logger.getLogger(RuleEvaluator.class).setLevel(Level.INFO);
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.INFO);
 		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
 
-		
-		String targetDir = "./" + RESOURCES + "/mytest.avalla";
-		AsmetaV.execValidation(targetDir, true);
-		
+		String targetDir = "./" + RESOURCES + "/" + MYASM_DIR + "/mytest.avalla";
+		computeCoverageFromAvalla(targetDir, RESOURCES + "/manualtests/report.csv");
+
+//		String asm = "./" + RESOURCES + "/" + MYASM_DIR + "/myasm.asm";		
 //		String asm = "./" + RESOURCES + "/" + "pillbox_1.asm";
 //		String asm = "./" + RESOURCES + "/" + "vascaidro.asm";
-//		String asm = "./" + RESOURCES + "/" + "myasm.asm";
 //		AsmCollection asms = ASMParser.setUpReadAsm(new File(asm));
-		
-//		System.out.println("RANDOM");
+//		
+//		System.out.println("Random");
 //		// Come decidere i parametri della random simulation?
 //		AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asms, 1, 1);
 //		AsmTestSuite randomSuite = randomTestGenerator.getTestSuite();
-//		computeCoverage(asm, randomSuite, "randomtests");
-		
-//		System.out.println("NuSMV");
+//		computeCoverageFromAsmTestSuite(asm, randomSuite, RANDOM_DIR, RANDOM_DIR + "/report.csv");
+//		
+//		System.out.println("ATGT - NuSMV");
 //		NuSMVtestGenerator nusmvTestGenerator = new NuSMVtestGenerator(asm, true);
 //		AsmTestSuite nusmvSuite = nusmvTestGenerator.generateAbstractTests(
 //				Collections.singleton(CriteriaEnum.COMBINATORIAL_ALL.criteria), Integer.MAX_VALUE, ".*");
-//		computeCoverage(asm, nusmvSuite, "nusmvtests");
+//		computeCoverageFromAsmTestSuite(asm, nusmvSuite, ATGT_DIR, ATGT_DIR + "/report.csv");
+		
+//		System.out.println("EvoAsmetaAtgt");
+//		// Chiamata al generatore che usa EvoSuite
+//		computeCoverageFromAvalla(targetDir);
 	}
 	
-	private static void computeCoverage(String asm, AsmTestSuite suite, String dir) {
-		String targetDir = "./" + RESOURCES + "/" + dir;
+	private static void computeCoverageFromAsmTestSuite(String asm, AsmTestSuite suite, String dir, String csvPath) {
+		String targetDir = RESOURCES + "/" + dir;
+		String csvDir = RESOURCES + "/" + csvPath;
 		new File(targetDir).mkdir();
 		// Genera gli avalla
 		SaveResults.saveResults(suite, asm, Collections.singleton(FormatsEnum.AVALLA), "", new File(targetDir).getAbsolutePath());
+		computeCoverageFromAvalla(targetDir, csvDir);
+	}
+	
+	private static void computeCoverageFromAvalla(String targetDir, String csvPath) {
 		try {
-			// Esegui gli avalla generati (stampa info sulla coverage)
-			AsmetaV.execValidation(targetDir, true);
+			// Esegui gli avalla generati (stampa info sulla coverage in csv)
+			AsmetaV.execValidation(targetDir, true, csvPath);
 			// Per evitare che i risultati ottenuti da una metodologia siano la base di partenza per la successiva
 			RuleEvalWCov.reset();
 		} catch (Exception e) {

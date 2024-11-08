@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,17 +39,17 @@ public class TestCoverage extends TestValidator {
 	}
 
 	@After
-	public void cleanAppender() {
+	public void cleanAppender() throws IOException {
 		// remove the appender
 		Logger.getLogger(AsmetaV.class).removeAppender(writerAppender);
 	}
 
 	@Test
-	public void testWithCoverageAndWithoutAdvancedClock() throws Exception {
-		testWithCoverageAndWithout("scenariosforexamples/advancedClock/advancedClock1.avalla",
+	public void testWithCoverageOnCsvAndWithoutAdvancedClock() throws Exception {
+		testWithCoverageOnCsvAndWithout("scenariosforexamples/advancedClock/advancedClock1.avalla",
 				new CoverageOracle("r_Main()", 1, 0, 1, 1, 1));
 	}
-	
+
 	@Test
 	public void testWithCoverageAndWithoutSluiceGate() throws Exception {
 		String scenario = "scenariosforexamples/sluiceGate";
@@ -138,6 +140,11 @@ public class TestCoverage extends TestValidator {
 		oracles.add(new CoverageOracle("r_grantMoney(Integer)", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
 		testWithCoverageAndWithout(scenario, oracles.toArray(new CoverageOracle[0]));
 	}
+	
+	private void testWithCoverageOnCsvAndWithout(String string, CoverageOracle coverageOracle) throws IOException, Exception {
+		testWithCoverageAndWithout(string, coverageOracle);
+		
+	}
 
 	// two test with coverage and without coverage enabled
 	private void testWithCoverageAndWithout(String scenario, CoverageOracle... coveredRules)
@@ -160,14 +167,14 @@ public class TestCoverage extends TestValidator {
 				if (outputs.get(i).contains("::" + oracle.getSignature())) {
 					if (oracle.getBranchNumber() == 0) {
 						assertTrue("wrong branch coverage for " + oracle.getSignature(),
-								outputs.get(i + 1).contains("-> branch coverage: - (no conditional rules to be covered)"));
+							outputs.get(i + 1).contains("-> branch coverage: - (no conditional rules to be covered)"));
 					}else {
 						assertTrue("wrong branch coverage for " + oracle.getSignature(),
 							outputs.get(i + 1).contains("-> branch coverage: " + oracle.getBranchCoverage() + "%"));
 					}
 					if (oracle.getUpdateRuleNumber() == 0) {
 						assertTrue("wrong update rule coverage for " + oracle.getSignature(), 
-								outputs.get(i + 2).contains("-> update rule coverage: - (no update rules to be covered)"));
+							outputs.get(i + 2).contains("-> update rule coverage: - (no update rules to be covered)"));
 					}else {
 						assertTrue("wrong update rule coverage for " + oracle.getSignature(), 
 							outputs.get(i + 2).contains("-> update rule coverage: " + oracle.getUpdateRuleCoverage() + "%"));
@@ -188,6 +195,9 @@ public class TestCoverage extends TestValidator {
 		assertFalse(string.contains("** Coverage Info: **"));
 	}
 
+	/**
+	 * This class works as oracle for the result of the validation
+	 */
 	private static class CoverageOracle {
 		private final String signature;
 		private final int nBranch;

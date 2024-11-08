@@ -1,11 +1,17 @@
 package org.asmeta.xt.validator;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.util.AsmetaTermPrinter;
@@ -35,19 +41,34 @@ public class AsmetaV {
 	 *
 	 * @param scenarioPath path of the file containing the scenario or directory
 	 *                     containing all the scenarios
-	 * @param coverage     compute also the coverage ?
+	 * @param coverage     compute also the coverage?
 	 * @return the list of scenarios that fail
 	 * @throws Exception the exception
 	 */
 	public static List<String> execValidation(String scenarioPath, boolean coverage) throws Exception {
+		return execValidation(scenarioPath, coverage, null);
+	}
+	
+	/**
+	 * Exec validation and eventually print coverage data to csv.
+	 *
+	 * @param scenarioPath path of the file containing the scenario or directory
+	 *                     containing all the scenarios
+	 * @param coverage     compute also the coverage?
+	 * @param csvPath	   path of the file where to write the coverage data in csv format
+	 * 
+	 * @return the list of scenarios that fail
+	 * @throws Exception the exception
+	 */
+	public static List<String> execValidation(String scenarioPath, boolean coverage, String csvPath) throws Exception {
 		AsmetaV asmetaV = new AsmetaV();
 		File scenarioPathFile = new File(scenarioPath);
 		if (!scenarioPathFile.exists())
 			throw new RuntimeException("path " + scenarioPath + " does not exist");
 		// disable lazy evaluation (it is not interactive)
 		TermEvaluator.setAllowLazyEval(false);
-		List<String> result = asmetaV.execValidation(scenarioPathFile, coverage);
-		// ripristina il valore messo in precedenza
+		List<String> result = asmetaV.execValidation(scenarioPathFile, coverage, csvPath != null, csvPath);
+		// restores the value put in previously
 		TermEvaluator.recoverAllowLazyEval();
 		return result;
 	}
@@ -60,11 +81,14 @@ public class AsmetaV {
 	 *
 	 * @param scenarioPath file containing the scenario or directory containing all
 	 *                     the scenarios
-	 * @param coverage     the coverage
+	 * @param coverage     compute also the coverage?
+	 * @param printToCsv   if the covarage is computed, print it to csv?
+	 * @param csvPath	   path of the file where to write the coverage data in csv format
+	 * 
 	 * @return true, if successful
 	 * @throws Exception the exception
 	 */
-	private List<String> execValidation(File scenarioPath, boolean coverage) throws Exception {
+	private List<String> execValidation(File scenarioPath, boolean coverage, boolean printToCsv, String csvPath) throws Exception {
 		List<String> failedScenarios = new ArrayList<>();
 		// get all rules covered by a set of string
 		// contains also the name of the spec
@@ -95,39 +119,9 @@ public class AsmetaV {
 			if (!result.isCheckSucceded())
 				failedScenarios.add(scenarioPath.getCanonicalPath());
 		}
-		if (coverage) { // print all covered rules and branch and update rule coverage info
-			logger.info("\n** Coverage Info: **");
-			logger.info("** covered rules: **");
-			for (Entry<String, Boolean> rule : allCoveredRules.entrySet()) {
-				if (Boolean.TRUE.equals(rule.getValue())) {
-					logger.info(rule.getKey());
-					if (result == null) {
-						logger.info("-> no information about branch coverage and update rule coverage can be displayed");
-					}else {
-						BranchCovData branchData = result.getBranchData().get(rule.getKey());
-						if (branchData.tot != 0) {
-							float branchCoverage = ((float)branchData.coveredT.size()+branchData.coveredF.size())/(branchData.tot*2)*100;
-							logger.info("-> branch coverage: " + branchCoverage + "%");
-						}else {
-							logger.info("-> branch coverage: - (no conditional rules to be covered)");
-						}
-						UpdateCovData updateData = result.getUpdateData().get(rule.getKey());
-						if (updateData.tot != 0) {
-							float updateCoverage = ((float)updateData.covered.size()/updateData.tot)*100;
-							logger.info("-> update rule coverage: " + updateCoverage + "%");
-						}else {
-							logger.info("-> update rule coverage: - (no update rules to be covered)");
-						}
-					}
-
-				}
-			}
-			logger.info("** NOT covered rules: **");
-			for (Entry<String, Boolean> rule : allCoveredRules.entrySet())
-				if (Boolean.FALSE.equals(rule.getValue()))
-					logger.info(rule.getKey());
-			logger.info("");
-
+		if (coverage) {
+			String execId = "exec_" + scenarioPath.getName() + "_" + UUID.randomUUID().toString();
+			printCoverage(execId, allCoveredRules, result, printToCsv, csvPath);
 		}
 		// print a recap of the result
 		if (failedScenarios.isEmpty())
@@ -135,6 +129,94 @@ public class AsmetaV {
 		else
 			logger.info("WARNING: some check failed");
 		return failedScenarios;
+	}
+
+	/**
+	 * print coverage on log and eventually on file in csv format.
+	 *
+	 * @param execId   			the id of the execution, it will be put as the first column of the csv file
+	 * @param coveredRules   	the list of covered rules for which the coverage should be print
+	 * @param validationResult	the result of the validation process containing the data about the rules coverage
+	 * @param printToCsv   		print it to csv?
+	 * @param csvPath	   		path of the file where to write the coverage data in csv format
+	 * 
+	 */
+	private void printCoverage(String execId, Map<String, Boolean> coveredRules,
+			ValidationResult validationResult, boolean printToCsv, String csvPath) {
+        String[] headers = { "execution_id", "asm_name", "rule_signature",
+        		"tot_conditional_rules", "covered_true_conditional_rules", "covered_false_conditional_rules",
+        		"tot_update_rules", "covered_update_rules" };
+        List<String[]> rows = new ArrayList<>();
+		logger.info("\n** Coverage Info: **");
+		logger.info("** covered rules: **");
+		// Collect and print coverage information for all covered rules
+		for (Entry<String, Boolean> rule : coveredRules.entrySet()) {
+			if (Boolean.TRUE.equals(rule.getValue())) {
+		        String[] row = new String[headers.length];
+				String completeRuleName = rule.getKey();
+				String asmName = completeRuleName.substring(0, completeRuleName.indexOf(':'));
+				String signature = completeRuleName.substring(completeRuleName.lastIndexOf(':')+1);
+				logger.info(completeRuleName);
+				row[0] = execId;
+				row[1] = asmName;
+				if (signature.contains(","))
+					row[2] = "\"" + signature + "\"";
+				else
+					row[2] = signature;
+				if (validationResult == null) {
+					logger.info("-> no information about branch coverage and update rule coverage can be displayed");
+					for (int i = 3; i < row.length; i++)
+						row[i] = "ERR";
+				}else {
+					BranchCovData branchData = validationResult.getBranchData().get(rule.getKey());
+					UpdateCovData updateData = validationResult.getUpdateData().get(rule.getKey());
+					if (branchData.tot != 0) {
+						float branchCoverage = ((float)branchData.coveredT.size()+branchData.coveredF.size())/(branchData.tot*2)*100;
+						logger.info("-> branch coverage: " + branchCoverage + "%");
+					}else {
+						logger.info("-> branch coverage: - (no conditional rules to be covered)");
+					}
+					
+					if (updateData.tot != 0) {
+						float updateCoverage = ((float)updateData.covered.size()/updateData.tot)*100;
+						logger.info("-> update rule coverage: " + updateCoverage + "%");
+					}else {
+						logger.info("-> update rule coverage: - (no update rules to be covered)");
+					}
+					row[3] = Integer.toString(branchData.tot);
+					row[4] = Integer.toString(branchData.coveredT.size());
+					row[5] = Integer.toString(branchData.coveredF.size());
+					row[6] = Integer.toString(updateData.tot);
+					row[7] = Integer.toString(updateData.covered.size());
+				}
+				rows.add(row);
+			}
+		}
+		
+		logger.info("** NOT covered rules: **");
+		for (Entry<String, Boolean> rule : coveredRules.entrySet())
+			if (Boolean.FALSE.equals(rule.getValue()))
+				logger.info(rule.getKey());
+		logger.info("");
+		
+		if (printToCsv) {
+			try {
+	            if (Files.notExists(Paths.get(csvPath).getParent())) {
+	                Files.createDirectories(Paths.get(csvPath).getParent());
+	            }
+	        	boolean fileExists = Files.exists(Paths.get(csvPath));
+	        	FileOutputStream fos = new FileOutputStream(csvPath, true);
+	            PrintStream ps = new PrintStream(fos);
+	            // If the file did not exist or is empty, start printing the headers
+	        	if (!fileExists || Files.size(Paths.get(csvPath)) == 0)
+	        		ps.println(String.join(",", headers));
+	        	for (String[] row: rows)
+		        	ps.println(String.join(",", row));
+	            ps.close();           
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		}
 	}
 
 	/**

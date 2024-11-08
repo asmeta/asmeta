@@ -1,6 +1,6 @@
 module importedAsm
 
-import StandardLibrary
+import ../STDL/StandardLibrary
 
 export *
 

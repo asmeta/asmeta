@@ -1,6 +1,6 @@
 asm vascaidro
 
-import StandardLibrary
+import ./STDL/StandardLibrary
 
 signature:
 	// DOMAINS

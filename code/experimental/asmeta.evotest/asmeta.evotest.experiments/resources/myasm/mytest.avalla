@@ -1,6 +1,6 @@
 scenario mytest
 
-load ./resources\myasm.asm
+load ./myasm.asm
 
 
 set impostaDefault := false;

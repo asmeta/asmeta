@@ -1,6 +1,6 @@
 asm myasm
 
-import StandardLibrary
+import ../STDL/StandardLibrary
 import importedAsm
 
 signature:
