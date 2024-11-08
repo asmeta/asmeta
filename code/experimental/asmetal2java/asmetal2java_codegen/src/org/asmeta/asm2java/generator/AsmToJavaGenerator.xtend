@@ -28,7 +28,7 @@ abstract class AsmToJavaGenerator implements IGenerator {
 	}
 
 
-	protected  def compileAndWrite(Asm asm, String writerPath, String msg, TranslatorOptions userOptions) {
+	def compileAndWrite(Asm asm, String writerPath, String msg, TranslatorOptions userOptions) {
 		println(msg + " file generation in " + writerPath)
 		val file = new FileWriter(writerPath) 
 		val writer = new BufferedWriter(file)

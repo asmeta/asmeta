@@ -32,7 +32,7 @@ public abstract class AsmToJavaGenerator implements IGenerator {
     throw new UnsupportedOperationException("TODO: auto-generated method stub");
   }
 
-  protected void compileAndWrite(final Asm asm, final String writerPath, final String msg, final TranslatorOptions userOptions) {
+  public void compileAndWrite(final Asm asm, final String writerPath, final String msg, final TranslatorOptions userOptions) {
     try {
       InputOutput.<String>println(((msg + " file generation in ") + writerPath));
       final FileWriter file = new FileWriter(writerPath);
