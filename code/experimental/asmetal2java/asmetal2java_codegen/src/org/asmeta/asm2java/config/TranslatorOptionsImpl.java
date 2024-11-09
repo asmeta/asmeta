@@ -15,8 +15,8 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	private static final String FORMATTER_OPTION = "formatter";
 	private static final String SHUFFLE_RANDOM_OPTION = "shuffleRandom";
 	private static final String OPTIMIZE_SEQ_MACRO_RULE_OPTION = "optimizeSeqMacroRule";
-	private static final String COVER_OUTPUTS_OPTION = "coverOutputs";
-	private static final String COVER_RULES_OPTION = "coverRules";
+	public static final String COVER_OUTPUTS_OPTION = "coverOutputs";
+	public static final String COVER_RULES_OPTION = "coverRules";
 	private static final String EXPORT_OPTION = "export";
 
 	/** Logger */

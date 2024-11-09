@@ -5,12 +5,10 @@ import java.util.List;
 public interface TranslatorOptions {
 
 	/**
-	 * Constructs a {@code TranslatorOptions} instance with the specified option values
-	 * (Considering only the specific properties related to the translation process).
-	 *
-	 * @param formatter           whether the generated code should be formatted.
-	 * @param shuffleRandom       whether a random shuffle should be applied.
-	 * @param optimizeSeqRule     whether to optimize the sequence macro rule.
+	 * Sets the value of the specified property.
+	 * 
+	 * @param propertyName name of the considered property.
+	 * @param propertyValue value of the considered property.
 	 */
 	void setValue(String propertyName, boolean propertyValue);
 	
@@ -22,9 +20,9 @@ public interface TranslatorOptions {
 	List<String> getPropertyNames();
 	
 	/**
-	 * Get a description of the options.
+	 * Get a description of the properties.
 	 * 
-	 * @return a String containing the description of all the options.
+	 * @return a String containing the description of all the properties.
 	 */
 	String getDescription();	
 	

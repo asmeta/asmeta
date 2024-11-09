@@ -1,4 +1,4 @@
-package org.asmeta.asm2java.main;
+package asmeta.evoasmetatg.main;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -12,29 +12,29 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.log4j.Logger;
-import org.asmeta.asm2java.application.AsmParsingException;
-import org.asmeta.asm2java.application.Translator;
-import org.asmeta.asm2java.application.TranslatorImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import asmeta.evoasmetatg.application.TranslationException;
+import asmeta.evoasmetatg.application.Translator;
+import asmeta.evoasmetatg.application.TranslatorImpl;
+import asmeta.junit2avalla.main.Junit2AvallaCLI;
 
 /**
- * The Asmeta2JavaCLI is the entry point for the Asmetal2Java tool, which
- * translates ASM (Abstract State Machines) specifications into Java code. This
- * class provides methods to handle command-line arguments, parse ASM
- * specifications, generate Java code, and manage output directories.
+ * 
  */
-public class Asmeta2JavaCLI {
+public class EvoAsmetaTgCLI {
 
 	/* Constants */
-	public static final String MODE = "mode";
-	public static final String CLEAN = "clean";
-	public static final String HELP = "help";
-	public static final String OUTPUT = "output";
-	public static final String INPUT = "input";
-	public static final String COMPILER_VERSION = "compilerVersion";
+	private static final String INPUT = "input";
+	private static final String OUTPUT = Junit2AvallaCLI.OUTPUT;
+	private static final String CLEAN = "clean";
+	private static final String HELP = "help";
+	private static final String JAVA_PATH = "javaPath";
+	private static final String EVOSUITE_VERSION = "evosuiteVersion";
 
 	/** Logger */
-	private static final Logger logger = Logger.getLogger(Asmeta2JavaCLI.class);
+	private static final Logger logger = LogManager.getLogger(EvoAsmetaTgCLI.class);
 
 	/** Translator instance for translating the asm specification. */
 	private static final Translator translator = new TranslatorImpl();
@@ -47,13 +47,15 @@ public class Asmeta2JavaCLI {
 	 * @param args the command-line arguments.
 	 */
 	public static void main(String[] args) {
-		String asciiart = "\n    _                       _        _ ____   _                  \n"
-				+ "   / \\   ___ _ __ ___   ___| |_ __ _| |___ \\ (_) __ ___   ____ _ \n"
-				+ "  / _ \\ / __| '_ ` _ \\ / _ \\ __/ _` | | __) || |/ _` \\ \\ / / _` |\n"
-				+ " / ___ \\\\__ \\ | | | | |  __/ || (_| | |/ __/ | | (_| |\\ V / (_| |\n"
-				+ "/_/   \\_\\___/_| |_| |_|\\___|\\__\\__,_|_|_____|/ |\\__,_| \\_/ \\__,_|\n"
-				+ "                                           |__/                  \n";
-		Asmeta2JavaCLI main = new Asmeta2JavaCLI();
+		String asciiart = """
+				
+				 _____              _                       _       _____ ____ 
+				| ____|_   _____   / \\   ___ _ __ ___   ___| |_ __ |_   _/ ___|
+				|  _| \\ \\ / / _ \\ / _ \\ / __| '_ ` _ \\ / _ \\ __/ _` || || |  _ 
+				| |___ \\ V / (_) / ___ \\\\__ \\ | | | | |  __/ || (_| || || |_| |
+				|_____| \\_/ \\___/_/   \\_\\___/_| |_| |_|\\___|\\__\\__,_||_| \\____|
+				""" ;
+		EvoAsmetaTgCLI main = new EvoAsmetaTgCLI();
 		Options options = getCommandLineOptions();
 		CommandLine line = main.parseCommandLine(args, options);
 		logger.info(asciiart);
@@ -63,11 +65,11 @@ public class Asmeta2JavaCLI {
 				// Do not sort
 				formatter.setOptionComparator(null);
 				// Header and footer strings
-				String header = "Asmetal2java\n\n";
+				String header = "EvoAsmetaTG\n\n";
 				String footer = "\nthis project is part of Asmeta, see https://github.com/asmeta/asmeta "
 						+ "for further information or to report an issue.";
 
-				formatter.printHelp("Asmetal2java", header, options, footer, false);
+				formatter.printHelp("EvoAsnetaTG", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
 				logger.error("Please specify the asm input file path");
 			} else {
@@ -75,7 +77,7 @@ public class Asmeta2JavaCLI {
 			}
 		} catch (Exception e) {
 			logger.error("Generation failed");
-			logger.error("An error occurred:\n" + e.getMessage());
+			logger.error("An error occurred: {}", e.getMessage());
 		} finally {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();
@@ -89,9 +91,10 @@ public class Asmeta2JavaCLI {
 	 *
 	 * @param line the parsed CommandLine object.
 	 * @throws IOException
+	 * @throws TranslationException 
 	 * @throws AsmParsingException
 	 */
-	private void execute(CommandLine line) throws AsmParsingException, IOException {
+	private void execute(CommandLine line) throws IOException, TranslationException {
 
 		setGlobalProperties(line);
 
@@ -102,20 +105,17 @@ public class Asmeta2JavaCLI {
 		if (line.hasOption(OUTPUT)) {
 			translator.setOutput(line.getOptionValue(OUTPUT));
 		}
-
-		if (line.hasOption(MODE)) {
-			translator.setMode(line.getOptionValue(MODE));
+		
+		if (line.hasOption(JAVA_PATH)) {
+			translator.setJavaPath(line.getOptionValue(JAVA_PATH));
 		}
 
-		if (line.hasOption(COMPILER_VERSION)) {
-			translator.setCompilerVersion(line.getOptionValue(COMPILER_VERSION));
+		if (line.hasOption(EVOSUITE_VERSION)) {
+			translator.setEvosuiteVersion(line.getOptionValue(EVOSUITE_VERSION));
 		}
 
-		if (translator.generate()) {
-			logger.info("Generation succeed");
-		} else {
-			logger.error("Generation failed");
-		}
+		translator.generate();
+		logger.info("Generation succeed");
 
 	}
 
@@ -138,21 +138,19 @@ public class Asmeta2JavaCLI {
 		Option output = Option.builder(OUTPUT).argName(OUTPUT).type(String.class).hasArg(true)
 				.desc("The output folder (optional, defaults to `./output/`)").build();
 
+		// java path
+		Option javaPath = Option.builder(JAVA_PATH).argName(JAVA_PATH).type(String.class)
+				.hasArg(true).desc("Set the path of java executable used to run Evosuite.\n"
+						+ " Example: \"C:\\Program Files\\Java\\jdk-1.8\\bin\\java.exe\"").build();
+		
+		// compiler version
+		Option evosuiteVersion = Option.builder(EVOSUITE_VERSION).argName(EVOSUITE_VERSION).type(String.class)
+				.hasArg(true).desc("Set the version of Evosuite.").build();
+
 		// clean the directories after use
 		Option clean = Option.builder(CLEAN).hasArg(false)
 				.desc("Delete the files used by the translator in the input folder, "
 						+ "please make sure you have enabled the export property -Dexport=true")
-				.build();
-
-		// set the desired behavior
-		Option mode = Option.builder(MODE).argName(MODE).type(String.class).hasArg(true)
-				.desc("Set the mode of the application:\n" + translator.getModeDescription()
-						+ "Note: Please use the properties: -Dtranslator, -Dexecutable, -Dwindow and -DtestGen only if you have selected the -mode custom option.")
-				.build();
-
-		// compiler version
-		Option compilerVersion = Option.builder(COMPILER_VERSION).argName(COMPILER_VERSION).type(String.class)
-				.hasArg(true).desc("Set the version of the Java compiler used to compile the generated classes.")
 				.build();
 
 		// translator property
@@ -162,9 +160,9 @@ public class Asmeta2JavaCLI {
 		options.addOption(help);
 		options.addOption(input);
 		options.addOption(output);
+		options.addOption(javaPath);
+		options.addOption(evosuiteVersion);
 		options.addOption(clean);
-		options.addOption(mode);
-		options.addOption(compilerVersion);
 		options.addOption(property);
 
 		return options;

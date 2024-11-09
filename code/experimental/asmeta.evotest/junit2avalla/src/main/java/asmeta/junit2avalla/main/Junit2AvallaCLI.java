@@ -20,10 +20,10 @@ import org.apache.logging.log4j.Logger;
 public class Junit2AvallaCLI {
 
 	/* Constants */
-	private static final String INPUT = "input";
-	private static final String OUTPUT = "output";
-	private static final String CLEAN = "clean";
-	private static final String HELP = "help";
+	public static final String INPUT = "input";
+	public static final String OUTPUT = "output";
+	public static final String CLEAN = "clean";
+	public static final String HELP = "help";
 
 	private static final Logger log = LogManager.getLogger(Junit2AvallaCLI.class);
 
@@ -43,7 +43,8 @@ public class Junit2AvallaCLI {
 				    | |_   _ _ __ (_) |_|___ \\   / \\__   ____ _| | | __ _ 
 				 _  | | | | | '_ \\| | __| __) | / _ \\ \\ / / _` | | |/ _` |
 				| |_| | |_| | | | | | |_ / __/ / ___ \\ V / (_| | | | (_| |
-				 \\___/ \\__,_|_| |_|_|\\__|_____/_/   \\_\\_/ \\__,_|_|_|\\__,_|""";
+				 \\___/ \\__,_|_| |_|_|\\__|_____/_/   \\_\\_/ \\__,_|_|_|\\__,_|
+				 """;
 
 		Junit2AvallaCLI main = new Junit2AvallaCLI();
 		Options options = getCommandLineOptions();
