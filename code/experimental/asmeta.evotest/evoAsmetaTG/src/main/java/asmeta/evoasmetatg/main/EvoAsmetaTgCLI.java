@@ -113,6 +113,10 @@ public class EvoAsmetaTgCLI {
 		if (line.hasOption(EVOSUITE_VERSION)) {
 			translator.setEvosuiteVersion(line.getOptionValue(EVOSUITE_VERSION));
 		}
+		
+		if (line.hasOption(CLEAN)) {
+			translator.setClean(true);
+		}
 
 		translator.generate();
 		logger.info("Generation succeed");

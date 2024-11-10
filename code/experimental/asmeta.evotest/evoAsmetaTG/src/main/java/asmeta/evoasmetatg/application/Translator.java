@@ -55,6 +55,13 @@ public interface Translator {
     void generate() throws TranslationException, IOException;
     
     /**
+     * Set the clean option status.
+     * 
+     * @param clean {@true} activate the clean option, {@false} deactivate the clean option.
+     */
+    void setClean(boolean clean);
+    
+    /**
      * Cleans up resources.
      */
     void clean();

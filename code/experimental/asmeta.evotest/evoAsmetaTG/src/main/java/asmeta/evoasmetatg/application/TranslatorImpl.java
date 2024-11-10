@@ -251,8 +251,13 @@ public class TranslatorImpl implements Translator {
 	}
 
 	@Override
+	public void setClean(boolean clean) {
+		this.clean = clean;
+	}
+	
+	@Override
 	public void clean() {
-		this.clean = true;
+		// TODO: clean up resources
 	}
 	
 
