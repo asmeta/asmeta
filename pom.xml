@@ -78,5 +78,10 @@
 			<artifactId>flatlaf</artifactId>
 			<version>3.4.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.xtext</groupId>
+			<artifactId>org.eclipse.xtext.xbase.lib</artifactId>
+			<version>[${xtext.version},)</version>
+		</dependency>
 	</dependencies>
 </project>
