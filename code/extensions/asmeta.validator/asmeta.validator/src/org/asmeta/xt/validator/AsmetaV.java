@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
+import org.asmeta.parser.ParseException;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
@@ -103,9 +104,8 @@ public class AsmetaV {
 				if (element.isFile() && element.getName().endsWith(SCENARIO_EXTENSION)) {
 					String path = element.getPath();
 					result = validateSingleFile(coverage, allCoveredRules, path);
-					if (!result.isCheckSucceded()) {
+					if (!result.isCheckSucceded())
 						failedScenarios.add(path);
-					}
 				} else {
 					logger.info(element.getName() + " is not a valid file!!");
 				}
@@ -176,7 +176,6 @@ public class AsmetaV {
 					}else {
 						logger.info("-> branch coverage: - (no conditional rules to be covered)");
 					}
-					
 					if (updateData.tot != 0) {
 						float updateCoverage = ((float)updateData.covered.size()/updateData.tot)*100;
 						logger.info("-> update rule coverage: " + updateCoverage + "%");
@@ -277,7 +276,7 @@ public class AsmetaV {
 			ruleDeclaration.forEach(rd -> {
 				String ruleName = rd.getName();
 				String completeRuleName = RuleDeclarationUtils.getCompleteName(rd);
-//				// skip the artificial name of the
+				// skip the artificial name of the
 				if (!ruleName.equals(AsmetaPrinterForAvalla.R_MAIN)) {
 					boolean rdIsCovered = false;
 					// check if it is covered as it is present in the covered rules

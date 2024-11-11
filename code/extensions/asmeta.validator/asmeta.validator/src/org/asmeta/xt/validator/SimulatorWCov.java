@@ -2,9 +2,6 @@ package org.asmeta.xt.validator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,11 +15,8 @@ import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.readers.InteractiveMFReader;
 import org.asmeta.simulator.wrapper.RuleFactory;
-import org.asmeta.parser.util.AsmPrinter;
 
 import asmeta.AsmCollection;
-import asmeta.definitions.RuleDeclaration;
-import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;

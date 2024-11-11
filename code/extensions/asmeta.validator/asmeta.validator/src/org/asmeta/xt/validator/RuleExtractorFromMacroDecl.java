@@ -27,7 +27,7 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 //
 public class RuleExtractorFromMacroDecl {
 
-	static List<Rule> getAllContainedRules(MacroDeclaration md) {
+	public static List<Rule> getAllContainedRules(MacroDeclaration md) {
 		return new RuleExtractor().visit(md.getRuleBody());
 	}
 
