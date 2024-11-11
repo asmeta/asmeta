@@ -145,10 +145,16 @@ public class AsmetaFromAvallaBuilder {
 		StringBuilder buff = new StringBuilder();
 		// make switch statement
 		buff.append("switch step__\n");
-		for (int i = 0; i < statements.size(); i++) {
-			String stm = statements.get(i);
-			buff.append("\t\t\tcase " + i + ":\n");
-			buff.append("\t\t\t\t" + stm);
+		// if there are no statements build a correct asm in any case
+		if (statements.size() == 0) {
+			buff.append("\t\t\tcase 0:\n");
+			buff.append("\t\t\t\tstep__ := step__ + 1\n");
+		}else {
+			for (int i = 0; i < statements.size(); i++) {
+				String stm = statements.get(i);
+				buff.append("\t\t\tcase " + i + ":\n");
+				buff.append("\t\t\t\t" + stm);
+			}
 		}
 		// TODO 
 		// buff.append("\t\t\t\t STEP := " + Integer.MAX_VALUE);

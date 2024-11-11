@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,10 +41,20 @@ public class TestCoverage extends TestValidator {
 		// remove the appender
 		Logger.getLogger(AsmetaV.class).removeAppender(writerAppender);
 	}
+	
+	@Test
+	public void testWithCoverageAndWithoutEmptyAvalla() throws Exception {
+		testWithCoverageAndWithout("scenariosforexamples/ferryman/emptyScenario.avalla");
+	}
+	
+	@Test
+	public void testWithCoverageAndWithoutAvallaWithNoStepAndNoCheck() throws Exception {
+		testWithCoverageAndWithout("scenariosforexamples/ferryman/noStepNoCheckScenario.avalla");
+	}
 
 	@Test
-	public void testWithCoverageOnCsvAndWithoutAdvancedClock() throws Exception {
-		testWithCoverageOnCsvAndWithout("scenariosforexamples/advancedClock/advancedClock1.avalla",
+	public void testWithCoverageAndWithoutAdvancedClock() throws Exception {
+		testWithCoverageAndWithout("scenariosforexamples/advancedClock/advancedClock1.avalla",
 				new CoverageOracle("r_Main()", 1, 0, 1, 1, 1));
 	}
 
@@ -139,11 +147,6 @@ public class TestCoverage extends TestValidator {
 		coveredUpdate = 4;
 		oracles.add(new CoverageOracle("r_grantMoney(Integer)", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
 		testWithCoverageAndWithout(scenario, oracles.toArray(new CoverageOracle[0]));
-	}
-	
-	private void testWithCoverageOnCsvAndWithout(String string, CoverageOracle coverageOracle) throws IOException, Exception {
-		testWithCoverageAndWithout(string, coverageOracle);
-		
 	}
 
 	// two test with coverage and without coverage enabled

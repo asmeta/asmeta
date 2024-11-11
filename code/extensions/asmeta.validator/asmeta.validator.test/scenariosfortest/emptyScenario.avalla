@@ -1,0 +1,3 @@
+scenario emptyScenario
+
+load /vascaidro.asm
