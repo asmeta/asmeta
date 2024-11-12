@@ -40,7 +40,7 @@
 		non è aggiornatissimo ma almeno compila il tutto-->
 		<repository>
 			<id>eclipse-2024-09</id>
-			<url>https://p2repository.com/mvn4/eclipse-2024-06/</url>
+			<url>https://p2repository.com/mvn4/eclipse-2024-09/</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -77,12 +77,12 @@
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.xtext.xbase</artifactId>
-			<version>[2.35.0,)</version>
+			<version>[2.36.0,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.xtext.xbase.lib</artifactId>
-			<version>[2.35.0,)</version>
+			<version>[2.36.0,)</version>
 		</dependency>
 	</dependencies>
 	<parent>
