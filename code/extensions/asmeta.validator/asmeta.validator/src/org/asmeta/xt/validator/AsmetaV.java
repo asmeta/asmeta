@@ -121,7 +121,7 @@ public class AsmetaV {
 		}
 		if (coverage) {
 			String execId = "exec_" + scenarioPath.getName() + "_" + UUID.randomUUID().toString();
-			printCoverage(execId, allCoveredRules, result, printToCsv, csvPath);
+			printCoverage(execId, allCoveredRules, result, printToCsv, csvPath, failedScenarios);
 		}
 		// print a recap of the result
 		if (failedScenarios.isEmpty())
@@ -139,13 +139,14 @@ public class AsmetaV {
 	 * @param validationResult	the result of the validation process containing the data about the rules coverage
 	 * @param printToCsv   		print it to csv?
 	 * @param csvPath	   		path of the file where to write the coverage data in csv format
+	 * @param failedScenarios   list of the scenarios that fails
 	 * 
 	 */
 	private void printCoverage(String execId, Map<String, Boolean> coveredRules,
-			ValidationResult validationResult, boolean printToCsv, String csvPath) {
+			ValidationResult validationResult, boolean printToCsv, String csvPath, List<String> failedScenarios) {
         String[] headers = { "execution_id", "asm_name", "rule_signature",
         		"tot_conditional_rules", "covered_true_conditional_rules", "covered_false_conditional_rules",
-        		"tot_update_rules", "covered_update_rules" };
+        		"tot_update_rules", "covered_update_rules", "failing_scenarios" };
         List<String[]> rows = new ArrayList<>();
 		logger.info("\n** Coverage Info: **");
 		logger.info("** covered rules: **");
@@ -188,6 +189,7 @@ public class AsmetaV {
 					row[6] = Integer.toString(updateData.tot);
 					row[7] = Integer.toString(updateData.covered.size());
 				}
+				row[8] = failedScenarios.isEmpty()? "-" : String.join(",", failedScenarios);
 				rows.add(row);
 			}
 		}
