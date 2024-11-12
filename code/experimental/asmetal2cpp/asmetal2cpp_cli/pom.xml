@@ -9,10 +9,6 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -83,16 +79,21 @@
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.xtext.xbase</artifactId>
-			<version>[2.35.0,)</version>
-		</dependency>		
+			<version>[2.36.0,)</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.ide</groupId>
+			<artifactId>org.eclipse.xtext.xbase.lib</artifactId>
+			<version>[2.36.0,)</version>
+		</dependency>
 	</dependencies>
-		<repositories>
-		<!-- aggiungo questo repo che contiene i jar di eclipse:
-		https://www.p2repository.com/ 
-		non è aggiornatissimo ma almeno compila il tutto-->
+	<!-- https://stackoverflow.com/questions/51971823/how-to-resolve-eclipse-plugins-from-p2-repository-and-use-them-as-maven-dependen -->
+	<!-- aggiungo questo repo che contiene i jar di eclipse:
+		https://www.p2repository.com/-->
+	<repositories>
 		<repository>
 			<id>eclipse-2024-09</id>
-			<url>https://p2repository.com/mvn4/eclipse-2024-06/</url>
+			<url>https://p2repository.com/mvn4/eclipse-2024-09/</url>
 		</repository>
 	</repositories>
 	<parent>
