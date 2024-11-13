@@ -5,15 +5,9 @@ Bundle-Name: asmeta.asm2java
 Bundle-SymbolicName: asmeta.asm2java
 Bundle-Version: 22.04
 Export-Package: .,
- org.asmeta.asm2java.application,
- org.asmeta.asm2java.config,
+ org.asmeta.asm2java,
  org.asmeta.asm2java.compiler,
- org.asmeta.asm2java.generator,
- org.asmeta.asm2java.translator,
- org.asmeta.asm2java.main,
- org.asmeta.asm2java.evosuite,
- org.asmeta.asm2java.exceptions,
- org.asmeta.asm2java.formatter
+ org.asmeta.asm2java.main
 Require-Bundle: org.junit,
  org.eclipse.emf.ecore,
  com.google.inject,

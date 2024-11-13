@@ -1,6 +1,13 @@
 package org.asmeta.asm2java.main;
 
-import java.io.IOException;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -13,148 +20,206 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
-import org.asmeta.asm2java.application.Translator;
-import org.asmeta.asm2java.application.TranslatorImpl;
-import org.asmeta.asm2java.exceptions.AsmParsingException;
+import org.asmeta.asm2java.compiler.CompilatoreJava;
+import org.asmeta.asm2java.compiler.CompileResult;
+import org.asmeta.parser.ASMParser;
+
+import asmeta.AsmCollection;
 
 /**
- * The Asmeta2JavaCLI is the entry point for the Asmetal2Java tool, which
- * translates ASM (Abstract State Machines) specifications into Java code. This
- * class provides methods to handle command-line arguments, parse ASM
- * specifications, generate Java code, and manage output directories.
+ * The Asmeta2JavaCLI is the entry point for the Asmetal2Java tool,
+ * which translates ASM (Abstract State Machines) specifications into Java code.
+ * This class provides methods to handle command-line arguments, parse ASM specifications,
+ * generate Java code, and manage output directories.
  */
 public class Asmeta2JavaCLI {
-
-	/* Constants */
-	private static final String MODE = "mode";
-	private static final String CLEAN = "clean";
-	private static final String HELP = "help";
-	private static final String OUTPUT = "output";
-	private static final String INPUT = "input";
-
-	/** Logger */
+	
 	private static final Logger logger = Logger.getLogger(Asmeta2JavaCLI.class);
 
-	/** Translator instance for translating the asm specification. */
-	private static final Translator translator = new TranslatorImpl();
+	// default output folder
+	private static final String SRC_GEN = "../asmetal2java_examples/src/";
+
+	// the generator for the code
+	static private JavaGenerator jGenerator = new JavaGenerator();
+	static private JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
+
+	// default translator options
+	private static TranslatorOptions translatorOptions =
+			new TranslatorOptions(false, false, false);
 
 	/**
-	 * The main method, which is the entry point of the application. It parses the
-	 * command-line arguments, handles the help option, and triggers the execution
-	 * of the main process.
+	 * Generates Java code from an ASM specification.
 	 *
-	 * @param args the command-line arguments.
+	 * @param asmspec      the path to the ASM specification file.
+	 * @param userOptions  the translation options set by the user.
+	 * @param outputFolder the folder where the generated Java files will be saved.
+	 * @return             the result of the compilation process.
+	 * @throws Exception   if an error occurs during the generation or compilation process.
 	 */
-	public static void main(String[] args) {
-		String asciiart = "\n    _                       _        _ ____   _                  \n"
-				+ "   / \\   ___ _ __ ___   ___| |_ __ _| |___ \\ (_) __ ___   ____ _ \n"
-				+ "  / _ \\ / __| '_ ` _ \\ / _ \\ __/ _` | | __) || |/ _` \\ \\ / / _` |\n"
-				+ " / ___ \\\\__ \\ | | | | |  __/ || (_| | |/ __/ | | (_| |\\ V / (_| |\n"
-				+ "/_/   \\_\\___/_| |_| |_|\\___|\\__\\__,_|_|_____|/ |\\__,_| \\_/ \\__,_|\n"
-				+ "                                           |__/                  \n";
-		Asmeta2JavaCLI main = new Asmeta2JavaCLI();
-		Options options = getCommandLineOptions();
-		CommandLine line = main.parseCommandLine(args, options);
-		logger.info(asciiart);
+	public static CompileResult generate(
+      String asmspec,
+			TranslatorOptions userOptions,
+			String outputFolder)
+			throws Exception {
+		//
+		// PARSE THE SPECIFICATION
+		// parse using the asmeta parser
+
+		File asmFile = new File(asmspec);
+		assert asmFile.exists();
+		String asmname = asmFile.getName();
+		String name = asmname.substring(0, asmname.lastIndexOf("."));
+
+		final AsmCollection model = ASMParser.setUpReadAsm(asmFile);
+		File dir = asmFile.getParentFile();
+		assert dir.exists() && dir.isDirectory();
+
+		String dirCompilazione = asmFile.getParentFile().getPath() + "/compilazione";
+		String dirEsecuzione = asmFile.getParentFile().getPath() + "/esecuzione";
+		String dirTraduzione = asmFile.getParentFile().getPath() + "/traduzione";
+
+		// AC
+		//File javaFile = new File(SRC_GEN + File.separator + name + ".java");
+		File javaFile = new File(dir.getPath() + File.separator + name + ".java");
+		File javaFileCompilazione = new File(dirCompilazione + File.separator + name + ".java");
+		File javaFileExe = new File(dirEsecuzione + File.separator + name + "_Exe.java");
+		File javaFileExeN = new File(dirEsecuzione + File.separator + name + ".java");
+
+		File javaFileT = new File(dirTraduzione + File.separator + name + ".java");
+		File javaFileExeT = new File(dirTraduzione + File.separator + name + "_Exe.java");
+
+		deleteExisting(javaFile);
+		deleteExisting(javaFileCompilazione);
+		deleteExisting(javaFileExe);
+		deleteExisting(javaFileExeN);
+		deleteExisting(javaFileT);
+		deleteExisting(javaFileExeT);
+
+		System.out.println("\n\n===" + name + " ===================");
+
+		// write java
 		try {
-			if (line == null || line.hasOption(HELP) || line.getOptions().length == 0) {
-				HelpFormatter formatter = new HelpFormatter();
-				// Do not sort
-				formatter.setOptionComparator(null);
-				// Header and footer strings
-				String header = "Asmetal2java\n\n";
-				String footer = "\nthis project is part of Asmeta, see https://github.com/asmeta/asmeta "
-						+ "for further information or to report an issue.";
+			// Java Class
+			jGenerator.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
+			jGenerator.compileAndWrite(model.getMain(),
+					javaFileCompilazione.getCanonicalPath(),
+					userOptions);
 
-				formatter.printHelp("Asmetal2java", header, options, footer, false);
-			} else if (!line.hasOption(INPUT)) {
-				logger.error("Please specify the asm input file path");
-			} else {
-				main.execute(line);
-			}
+			// EXE Class
+			jGeneratorExe.compileAndWrite(model.getMain(), javaFileExe.getCanonicalPath(), userOptions);
+			jGenerator.compileAndWrite(model.getMain(), javaFileExeN.getCanonicalPath(), userOptions);
+			jGeneratorExe.compileAndWrite(model.getMain(), javaFileExeT.getCanonicalPath(), userOptions);
+
 		} catch (Exception e) {
-			logger.error("Generation failed");
-			logger.error("An error occurred:\n" + e.getMessage());
-		} finally {
-			if (line != null && line.hasOption(CLEAN)) {
-				translator.clean();
-			}
-			logger.info("Requested operation completed.");
+			e.printStackTrace();
+			return new CompileResult(false, e.getMessage());
 		}
+
+		System.out.println("Generated java file: " + javaFile.getCanonicalPath());
+		System.out.println("Generated java file: " + javaFileCompilazione.getCanonicalPath());
+		System.out.println("Generated java file: " + javaFileExeN.getCanonicalPath());
+
+		System.out.println("Generated java file for the execution: " + javaFileExe.getCanonicalPath());
+
+		System.out.println("All java files Generated in: " + javaFileT.getCanonicalPath());
+
+		exportFile(javaFile, outputFolder);
+		exportFile(javaFileExe, outputFolder);
+
+		CompileResult result = CompilatoreJava.compile(name + ".java", dir, true);
+
+		return result;
 	}
-	
+
 	/**
-	 * Executes the main process based on the command-line arguments.
+	 * Export (Copy) the file into the desired folder.
 	 *
-	 * @param line the parsed CommandLine object.
-	 * @throws IOException 
-	 * @throws AsmParsingException 
+	 * @param javaInputFile the input java file to be copied.
+	 * @param outputFolder the output folder name (must exist).
 	 */
-	private void execute(CommandLine line) throws AsmParsingException, IOException {
+  private static void exportFile(File javaInputFile, String outputFolder){
+		File javaOutFile =
+				new File(outputFolder + File.separator + javaInputFile.getName());
+		File dir = javaOutFile.getParentFile();
+		assert dir.exists() && dir.isDirectory();
+		try (
+				InputStream in = new BufferedInputStream(
+						Files.newInputStream(javaInputFile.toPath()));
+				OutputStream out = new BufferedOutputStream(
+						Files.newOutputStream(javaOutFile.toPath()))) {
 
-		setGlobalProperties(line);
-
-		// INPUT OPTION: by precondition -input option is always available and not null (required)
-		translator.setInput(line.getOptionValue(INPUT));
-
-		if (line.hasOption(OUTPUT)) {
-			translator.setOutput(line.getOptionValue(OUTPUT));
+			byte[] buffer = new byte[1024];
+			int lengthRead;
+			while ((lengthRead = in.read(buffer)) > 0) {
+				out.write(buffer, 0, lengthRead);
+				out.flush();
+			}
+		} catch (NoSuchFileException e){
+			logger.error("Export Failed. Please specify an existing output folder...");
+			e.printStackTrace();
 		}
-			
-		if (line.hasOption(MODE)) {
-			translator.setMode(line.getOptionValue(MODE));
+		catch (Exception e){
+			e.printStackTrace();
 		}
-		
-		if (translator.generate()) {
-			logger.info("Generation succeed");
-		} else {
-			logger.error("Generation failed");
-		}
-
 	}
-	
+
+	/**
+	 * Check if the file exists and delete it.
+	 *
+	 * @param file the file to delete.
+	 */
+	private static void deleteExisting(File file){
+		if (file.exists())
+			file.delete();
+		assert !file.exists();
+	}
+
 	/**
 	 * Creates and returns the available command-line options for the tool.
 	 *
 	 * @return the command-line options.
 	 */
-	private static Options getCommandLineOptions() {
+	public static Options getCommandLineOptions() {
 		Options options = new Options();
 
 		// print help
-		Option help = new Option(HELP, "print this message");
+		Option help = new Option("help", "print this message");
+		
 
 		// input file
-		Option input = Option.builder(INPUT).argName(INPUT).type(String.class).hasArg(true)
-				.desc("The ASM input file (required)").build();
-
+		  Option input = Option.builder("input")
+				  .argName("input")
+				  .type(String.class)
+				  .hasArg(true)
+				  .desc("The ASM input file (required)")
+				  .build();
+		
 		// output directory
-		Option output = Option.builder(OUTPUT).argName(OUTPUT).type(String.class).hasArg(true)
-				.desc("The output folder (optional, defaults to `./output/`)").build();
-
-		// clean the directories after use
-		Option clean = Option.builder(CLEAN).hasArg(false)
-				.desc("Delete the files used by the translator in the input folder, "
-						+ "please make sure you have enabled the export property -Dexport=true")
+		Option output = Option.builder("output")
+				.argName("output")
+				.type(String.class)
+				.hasArg(true)
+				.desc("The output folder (optional, defaults to `./output/`)")
 				.build();
-
-		// set the desired behavior
-		Option mode = Option.builder(MODE).argName(MODE).type(String.class).hasArg(true)
-				.desc("Set the mode of the application:\n"
-						+ translator.getModeDescription()
-						+ "Note: Please use the properties: -Dtranslator, -Dexecutable, -Dwindow and -DtestGen only if you have selected the -mode custom option."
-)
+		
+		// property
+		Option property = Option.builder("D")
+				.numberOfArgs(2)
+				.argName("property=value")
+				.valueSeparator('=')
+				.required(false)
+				.optionalArg(false)
+				.type(String.class)
+				.desc("use value for given translator property (optional):\n"
+						+ "formatter=true/false (if you want the code to be formatted),\n"
+						+ " shuffleRandom=true/false (use random shuffle),\n"
+						+ " optimizeSeqMacroRule=true/false"
+						+ " (if true -> only those used (to improve code coverage))")
 				.build();
-
-		// translator property
-		Option property = Option.builder("D").numberOfArgs(2).argName("property=value").valueSeparator('=')
-				.required(false).optionalArg(false).type(String.class).desc(translator.getOptionsDescription()).build();
-
+		
 		options.addOption(help);
 		options.addOption(input);
 		options.addOption(output);
-		options.addOption(clean);
-		options.addOption(mode);
 		options.addOption(property);
 
 		return options;
@@ -165,9 +230,9 @@ public class Asmeta2JavaCLI {
 	 *
 	 * @param args    the command-line arguments.
 	 * @param options the available command-line options.
-	 * @return the parsed CommandLine object.
+	 * @return        the parsed CommandLine object.
 	 */
-	private CommandLine parseCommandLine(String[] args, Options options) {
+	public CommandLine parseCommandLine(String[] args, Options options) {
 		CommandLineParser parser = new DefaultParser();
 		CommandLine line = null;
 		try {
@@ -184,26 +249,111 @@ public class Asmeta2JavaCLI {
 	 * @param line the parsed CommandLine object.
 	 */
 	private void setGlobalProperties(CommandLine line) {
-		logger.info("Parsing the global properties:");
 		Properties properties = line.getOptionProperties("D");
-		Set<String> propertyNames = new HashSet<>(translator.getOptionNames());
+		Set<String> propertyNames =
+				new HashSet<>(Arrays.asList("formatter", "shuffleRandom", "optimizeSeqMacroRule"));
 
-		for (String propertyName : properties.stringPropertyNames()) {
+        for (String propertyName : properties.stringPropertyNames()) {
 
-			if (!propertyNames.contains(propertyName)) {
+            if (!propertyNames.contains(propertyName)) {
 				logger.error("* Unknown property: " + propertyName);
-				continue;
 			}
 
-			String propertyValue = properties.getProperty(propertyName);
+            String propertyValue = properties.getProperty(propertyName);
 
-			try {
-				translator.setOptions(propertyName,propertyValue);
-
+            try {
+            	translatorOptions.setValue(propertyName, propertyValue);
+				
 			} catch (Exception e) {
 				logger.error("Invalid value for property " + propertyName + ": " + propertyValue);
 			}
 		}
+		
+	}
+
+	/**
+	 * Executes the main process based on the command-line arguments.
+	 *
+	 * @param line    the parsed CommandLine object.
+	 * @param options the available command-line options.
+	 */
+	private void execute (CommandLine line, Options options) {
+
+		setGlobalProperties (line);
+		
+		String asmspec = "";
+
+		if (line.hasOption("input")) {
+			asmspec = line.getOptionValue("input");
+		}else {
+			logger.error("input option needs a path to the asm file");
+		}
+		
+		String outputFolder = "";
+		if(!line.hasOption("output")){
+			outputFolder = "output/";
+		} else {
+			outputFolder = line.getOptionValue("output");
+		}
+	
+		try {
+			CompileResult compileResult = generate(
+					asmspec,
+					translatorOptions,
+					outputFolder);
+			if(compileResult.getSuccess()){
+				logger.info("Generation succeed : " + compileResult.toString());
+			}
+			else{
+				logger.error("Generation failed : " + compileResult.toString());
+			}
+
+		} catch (Exception e) {
+			logger.error("An error occurred");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+	}
+
+	/**
+	 * The main method, which is the entry point of the application.
+	 * It parses the command-line arguments, handles the help option,
+	 * and triggers the execution of the main process.
+	 *
+	 * @param args the command-line arguments.
+	 */
+	public static void main(String[] args) {
+		
+		try {
+			Asmeta2JavaCLI main = new Asmeta2JavaCLI ();
+			Options options = getCommandLineOptions();
+			CommandLine line = main.parseCommandLine(args, options);
+			logger.info("Performing requested operation ...");
+			if (line == null || line.hasOption("help") || line.getOptions().length == 0) {
+				HelpFormatter formatter = new HelpFormatter();
+				// Do not sort				
+				formatter.setOptionComparator(null);
+				// Header and footer strings
+				String header = "Asmetal2java\n\n";
+				String footer = "\nthis project is part of Asmeta, see https://github.com/asmeta/asmeta "
+						+ "for information or to report problems";
+				 
+				formatter.printHelp("Asmetal2java",header, options, footer , false);
+			}else if(!line.hasOption("input")){
+				logger.error("Please specify the asm input file path");
+			}
+			else{
+			main.execute(line, options);
+			}
+			logger.info("Requested operation completed.");
+		}
+		catch (Exception e) {
+			logger.error("An error occurred");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		System.exit(0);
 
 	}
 
