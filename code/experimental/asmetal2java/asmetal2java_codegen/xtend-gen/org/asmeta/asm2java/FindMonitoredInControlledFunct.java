@@ -1,9 +1,12 @@
 package org.asmeta.asm2java;
 
+import asmeta.definitions.Function;
+import asmeta.definitions.MonitoredFunction;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.SetTerm;
+import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.basicterms.VariableTerm;
@@ -15,6 +18,7 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.StringTerm;
 import org.asmeta.parser.util.ReflectiveVisitor;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * Check if the init function term contains monitored functions
@@ -54,14 +58,42 @@ public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
   }
 
   public boolean visit(final FunctionTerm term) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field terms is undefined for the type TupleTerm");
+    boolean found = false;
+    TupleTerm _arguments = term.getArguments();
+    boolean _tripleEquals = (_arguments == null);
+    if (_tripleEquals) {
+      Function _function = term.getFunction();
+      if ((_function instanceof MonitoredFunction)) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      EList<Term> _terms = term.getArguments().getTerms();
+      for (final Term sterm : _terms) {
+        found = (found || (this.visit(sterm)).booleanValue());
+      }
+    }
+    return found;
   }
 
   public boolean visit(final CaseTerm term) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field comparingTerm is undefined for the type CaseTerm"
-      + "\nThe method or field resultTerms is undefined for the type CaseTerm");
+    boolean found = false;
+    EList<Term> _comparingTerm = term.getComparingTerm();
+    for (final Term comparing : _comparingTerm) {
+      found = (found || (this.visit(comparing)).booleanValue());
+    }
+    EList<Term> _resultTerms = term.getResultTerms();
+    for (final Term result : _resultTerms) {
+      found = (found || (this.visit(result)).booleanValue());
+    }
+    found = (found || (this.visit(term.getComparedTerm())).booleanValue());
+    Term _otherwiseTerm = term.getOtherwiseTerm();
+    boolean _tripleNotEquals = (_otherwiseTerm != null);
+    if (_tripleNotEquals) {
+      found = (found || (this.visit(term.getOtherwiseTerm())).booleanValue());
+    }
+    return found;
   }
 
   public boolean visit(final ConditionalTerm term) {
@@ -72,17 +104,29 @@ public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
   }
 
   public boolean visit(final SetTerm term) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field term is undefined for the type SetTerm");
+    boolean found = false;
+    EList<Term> _term = term.getTerm();
+    for (final Term comparing : _term) {
+      found = (found || (this.visit(comparing)).booleanValue());
+    }
+    return found;
   }
 
   public boolean visit(final SequenceTerm term) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field terms is undefined for the type SequenceTerm");
+    boolean found = false;
+    EList<Term> _terms = term.getTerms();
+    for (final Term comparing : _terms) {
+      found = (found || (this.visit(comparing)).booleanValue());
+    }
+    return found;
   }
 
   public boolean visit(final TupleTerm term) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field terms is undefined for the type TupleTerm");
+    boolean found = false;
+    EList<Term> _terms = term.getTerms();
+    for (final Term comparing : _terms) {
+      found = (found || (this.visit(comparing)).booleanValue());
+    }
+    return found;
   }
 }

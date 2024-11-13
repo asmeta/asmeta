@@ -33,8 +33,7 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 
   @Override
   public List<Rule> visit(final BlockRule object) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field rules is undefined for the type BlockRule");
+    return this.listRules(object.getRules());
   }
 
   private List<Rule> listRules(final EList<Rule> rules) {
@@ -60,8 +59,7 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 
   @Override
   public List<Rule> visit(final SeqRule object) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field rules is undefined for the type SeqRule");
+    return new SeqRuleCollector(true).listRules(object.getRules());
   }
 
   @Override
@@ -76,8 +74,14 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 
   @Override
   public List<Rule> visit(final CaseRule object) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field caseBranches is undefined for the type CaseRule");
+    List<Rule> _listRules = this.listRules(object.getCaseBranches());
+    List<Rule> list = new ArrayList<Rule>(_listRules);
+    Rule _otherwiseBranch = object.getOtherwiseBranch();
+    boolean _tripleNotEquals = (_otherwiseBranch != null);
+    if (_tripleNotEquals) {
+      list.addAll(this.visit(object.getOtherwiseBranch()));
+    }
+    return list;
   }
 
   @Override
