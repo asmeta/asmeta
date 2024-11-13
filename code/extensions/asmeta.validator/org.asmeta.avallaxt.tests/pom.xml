@@ -2,18 +2,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>asmeta</groupId>
 	<artifactId>org.asmeta.avallaxt.tests</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<parent>
+		<artifactId>asmeta.validator.parent</artifactId>
+		<groupId>asmeta</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 	<build>
 		<testSourceDirectory>src</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version>
-				<configuration>
-					<release>17</release>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -41,12 +41,12 @@
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext</artifactId>
-			<version>2.33.0</version>
+			<version>${xtext.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext.testing</artifactId>
-			<version>2.33.0</version>
+			<version>${xtext.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
