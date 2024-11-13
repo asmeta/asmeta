@@ -48,10 +48,10 @@ public class TestExperiments {
 		computeCoverageFromAvalla(targetDir, RESOURCES + "/" + MYASM_DIR + "/report.csv");
 
 		Path dir = Paths.get(RESOURCES);
-		Files.walk(dir).forEach(path -> generateTestAndComputeCoverage(path.toString()));
+		Files.walk(dir).forEach(path -> generateTestsAndComputeCoverage(path.toString()));
 	}
 
-	private static void generateTestAndComputeCoverage(String filePath) {
+	private static void generateTestsAndComputeCoverage(String filePath) {
 		File file = new File(filePath);
 		// Skip directories and file contained in the STDL directory
 		if (file.isDirectory() || file.getParentFile().getName().equals("STDL"))
@@ -72,11 +72,11 @@ public class TestExperiments {
 			System.out.println("Generating test for " + file.getName());
 			// Dovrei tenermi una lista di tutte le asm così che so se effettivamente sono
 			// presenti nel csv, ossia non ci sono stati problemi
-			generateTestAndComputeCoverage(filePath, asms);
+			generateTestsAndComputeCoverage(filePath, asms);
 		}
 	}
 
-	private static void generateTestAndComputeCoverage(String asmPath, AsmCollection asmCollection) {
+	private static void generateTestsAndComputeCoverage(String asmPath, AsmCollection asmCollection) {
 		System.out.println("Starting generation for" + asmPath);
 		// ottieni tutte le regole contenute nella asm e nelle asm che importa con il
 		// totale di cond e update rules (è utile? per ora non ci faccio niente)
