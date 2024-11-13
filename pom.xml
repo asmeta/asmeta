@@ -9,7 +9,7 @@
 	<properties>
 		<jacoco.destFile>${project.basedir}/reports/coverage/jacoco/jacoco.exec</jacoco.destFile>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-		<xtext.version>2.36.0</xtext.version>
+		<xtext.version>2.35.0</xtext.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
@@ -66,11 +66,6 @@
 			<groupId>com.formdev</groupId>
 			<artifactId>flatlaf</artifactId>
 			<version>3.4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.xtext</groupId>
-			<artifactId>org.eclipse.xtext.xbase.lib</artifactId>
-			<version>[${xtext.version},)</version>
 		</dependency>
 	</dependencies>
 </project>

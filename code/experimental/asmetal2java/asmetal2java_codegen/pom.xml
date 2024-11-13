@@ -232,11 +232,4 @@
 		</dependency>
 
 	</dependencies>
-	<parent>
-		<groupId>asmeta</groupId>
-		<artifactId>asmeta.all</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../../../..</relativePath>
-	</parent>
-	
 </project>
