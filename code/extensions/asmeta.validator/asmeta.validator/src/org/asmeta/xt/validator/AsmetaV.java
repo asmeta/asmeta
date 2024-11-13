@@ -78,7 +78,7 @@ public class AsmetaV {
 	}
 
 	/**
-	 * Exec validation.
+	 * Exec validation and eventually print coverage data to csv.
 	 *
 	 * @param scenarioPath file containing the scenario or directory containing all
 	 *                     the scenarios
@@ -160,10 +160,7 @@ public class AsmetaV {
 				logger.info(completeRuleName);
 				row[0] = execId;
 				row[1] = asmName;
-				if (signature.contains(","))
-					row[2] = "\"" + signature + "\"";
-				else
-					row[2] = signature;
+				row[2] = formatForCsv(signature);
 				if (validationResult == null) {
 					logger.info("-> no information about branch coverage and update rule coverage can be displayed");
 					for (int i = 3; i < row.length; i++)
@@ -189,7 +186,7 @@ public class AsmetaV {
 					row[6] = Integer.toString(updateData.tot);
 					row[7] = Integer.toString(updateData.covered.size());
 				}
-				row[8] = failedScenarios.isEmpty()? "-" : String.join(",", failedScenarios);
+				row[8] = failedScenarios.isEmpty()? "none" : formatForCsv(String.join(",", failedScenarios));
 				rows.add(row);
 			}
 		}
@@ -201,6 +198,8 @@ public class AsmetaV {
 		logger.info("");
 		
 		if (printToCsv) {
+			logger.info("Writing to csv: " + csvPath);
+			logger.info("");
 			try {
 	            if (Files.notExists(Paths.get(csvPath).getParent())) {
 	                Files.createDirectories(Paths.get(csvPath).getParent());
@@ -218,6 +217,10 @@ public class AsmetaV {
 	            e.printStackTrace();
 	        }
 		}
+	}
+	
+	private String formatForCsv(String s) {
+		return s.contains(",")? "\"" + s + "\"": s;
 	}
 
 	/**

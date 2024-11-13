@@ -40,11 +40,11 @@ public class TestExperiments {
 	private static final String ATGT_DIR = "atgttests";
 
 	public static void main(String[] args) throws Exception {
-//		Logger.getLogger(RuleEvaluator.class).setLevel(Level.INFO);
-//		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.INFO);
-//		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
+		Logger.getLogger(RuleEvaluator.class).setLevel(Level.INFO);
+		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.INFO);
+		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
 
-		String targetDir = "./" + RESOURCES + "/" + MYASM_DIR + "/mytest.avalla";
+		String targetDir = "./" + RESOURCES + "/" + MYASM_DIR + "/tests";
 		computeCoverageFromAvalla(targetDir, RESOURCES + "/" + MYASM_DIR + "/report.csv");
 
 		Path dir = Paths.get(RESOURCES);
@@ -100,7 +100,7 @@ public class TestExperiments {
 
 		String asmFileName = new File(asmPath).getName().substring(0, new File(asmPath).getName().indexOf("."));
 		try {
-			// Come decidere i parametri della random simulation?
+			// Come decidere i parametri della random simulation? Vedere quanti avalla generano gli altri metodi e con quanti step
 			AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asmCollection, 5, 5);
 			AsmTestSuite randomSuite = randomTestGenerator.getTestSuite();
 			computeCoverageFromAsmTestSuite(asmPath, randomSuite, RESOURCES + "/" + RANDOM_DIR + "/" + asmFileName,
