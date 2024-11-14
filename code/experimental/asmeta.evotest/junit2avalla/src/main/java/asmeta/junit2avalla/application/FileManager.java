@@ -29,6 +29,11 @@ public class FileManager {
 	private static final String USER_DIR = "user.dir";
 	private static final String INPUT = "input";
 	private static final String OUTPUT = "output";
+	private static final String GITIGNORE = ".gitignore";
+	private static final String STDL = "STDL";
+	
+	/** Files/Directory to exclude from cleaning. */
+	private static final List<String> excludeList = List.of(GITIGNORE,STDL);
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(FileManager.class);
@@ -108,9 +113,10 @@ public class FileManager {
 	void cleanInputDir() {
 		if (INPUT_DIR_PATH.toFile().exists() && INPUT_DIR_PATH.toFile().isDirectory()) {
 			for (File file : INPUT_DIR_PATH.toFile().listFiles()) {
-				if (!file.getName().equals(".gitignore")) {
-					this.cleanRecursively(file);
+				if(excludeList.contains(file.getName())) {
+					continue;
 				}
+				this.cleanRecursively(file);
 			}
 		}
 	}

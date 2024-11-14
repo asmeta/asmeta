@@ -71,13 +71,13 @@ public class EvoAsmetaTgCLI {
 
 				formatter.printHelp("EvoAsnetaTG", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
-				logger.error("Please specify the asm input file path");
+				logger.error("Please specify the asm input file path.");
 			} else {
 				main.execute(line);
 			}
 		} catch (Exception e) {
-			logger.error("Generation failed");
-			logger.error("An error occurred: {}", e.getMessage());
+			logger.error("Generation failed.");
+			logger.error("An error occurred: {}.", e.getMessage());
 		} finally {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();
@@ -203,7 +203,7 @@ public class EvoAsmetaTgCLI {
 		for (String propertyName : properties.stringPropertyNames()) {
 
 			if (!propertyNames.contains(propertyName)) {
-				logger.error("* Unknown property: " + propertyName);
+				logger.error("* Unknown property: {}. " , propertyName);
 				continue;
 			}
 
@@ -213,7 +213,7 @@ public class EvoAsmetaTgCLI {
 				translator.setOptions(propertyName, propertyValue);
 
 			} catch (Exception e) {
-				logger.error("Invalid value for property " + propertyName + ": " + propertyValue);
+				logger.error("Invalid value for property {} : {}.", propertyName , propertyValue);
 			}
 		}
 
