@@ -35,7 +35,7 @@ public class FileManager {
 	public static final String ATG = "_ATG";
 	private static final String ATG_EXTENSION = ATG + JAVA_EXTENSION;
 	private static final String WIN_EXTENSION = "_Win" + JAVA_EXTENSION;
-	private static final String EXE_EXTENSION = "_Exe" + JAVA_EXTENSION;;
+	private static final String EXE_EXTENSION = "_Exe" + JAVA_EXTENSION;
 	private static final String JAVA = "JAVA";
 	private static final String USER_DIR = "user.dir";
 	private static final String INPUT = "input";
