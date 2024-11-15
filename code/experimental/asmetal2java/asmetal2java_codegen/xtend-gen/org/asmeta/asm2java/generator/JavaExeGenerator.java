@@ -20,6 +20,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.junit.Assert;
 
+/**
+ * Generates a class to interact with the java class translated
+ * by the {@link JavaGenerator} via command line application.
+ */
 @SuppressWarnings("all")
 public class JavaExeGenerator extends AsmToJavaGenerator {
   public void compileAndWrite(final Asm asm, final String writerPath, final TranslatorOptions userOptions) {

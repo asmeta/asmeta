@@ -14,8 +14,17 @@ import asmeta.structure.Asm;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
+/**
+ * Contains all the methods to control the translated java class as
+ * an abstract state machine (ASM)
+ */
 @SuppressWarnings("all")
 public class AsmMethods {
+  /**
+   * Controlled functions getters
+   * 
+   * @param asm the Asm specification
+   */
   public static String controlledGetter(final Asm asm) {
     final StringBuffer sb = new StringBuffer();
     String asmName = asm.getName();
@@ -447,6 +456,11 @@ public class AsmMethods {
     return sb.toString();
   }
 
+  /**
+   * Monitored functions getters
+   * 
+   * @param asm the Asm specification
+   */
   public static String monitoredGetter(final Asm asm) {
     final StringBuffer sb = new StringBuffer();
     String asmName = asm.getName();
@@ -878,6 +892,11 @@ public class AsmMethods {
     return sb.toString();
   }
 
+  /**
+   * Print all the controlled functions
+   * 
+   * @param asm the Asm specification
+   */
   public static String printControlled(final Asm asm) {
     final StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -1063,6 +1082,11 @@ public class AsmMethods {
     return sb.toString();
   }
 
+  /**
+   * Monitored functions setters
+   * 
+   * @param asm the Asm specification
+   */
   public static String monitoredSetters(final Asm asm) {
     final StringBuffer sb = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();

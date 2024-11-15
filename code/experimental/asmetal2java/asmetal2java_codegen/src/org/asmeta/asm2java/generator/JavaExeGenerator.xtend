@@ -15,6 +15,10 @@ import asmeta.definitions.MonitoredFunction
 import org.asmeta.asm2java.config.TranslatorOptions
 import org.asmeta.asm2java.translator.SeqRuleCollector
 
+/**
+ * Generates a class to interact with the java class translated
+ * by the {@link JavaGenerator} via command line application.
+ */
 class JavaExeGenerator extends AsmToJavaGenerator {
 
 	def compileAndWrite(Asm asm, String writerPath, TranslatorOptions userOptions) {

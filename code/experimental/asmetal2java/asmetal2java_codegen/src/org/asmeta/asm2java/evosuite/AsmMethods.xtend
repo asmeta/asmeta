@@ -10,9 +10,17 @@ import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.MapDomain
 import asmeta.definitions.domains.SequenceDomain
 
+/**
+ * Contains all the methods to control the translated java class as 
+ * an abstract state machine (ASM)
+ */
 class AsmMethods {
 	
-	// Controlled functions getters
+	/** 
+	 * Controlled functions getters 
+	 * 
+	 * @param asm the Asm specification
+	 */
 	static def controlledGetter(Asm asm) {
 		
 		val sb = new StringBuffer;
@@ -163,7 +171,11 @@ class AsmMethods {
 		
 	}
 	
-	// Monitored functions getters
+	/** 
+	 * Monitored functions getters 
+	 * 
+	 * @param asm the Asm specification
+	 */
 	static def monitoredGetter(Asm asm) {
 		
 		val sb = new StringBuffer;
@@ -320,7 +332,11 @@ class AsmMethods {
 		
 	}
 	
-	// Print all the controlled functions
+	/** 
+	 * Print all the controlled functions
+	 * 
+	 * @param asm the Asm specification
+	 */
 	static def printControlled(Asm asm) {
 
 		val sb = new StringBuffer;
@@ -399,7 +415,11 @@ class AsmMethods {
 		return sb.toString
 	}
 		
-	// Monitored functions setters
+	/** 
+	 * Monitored functions setters
+	 * 
+	 * @param asm the Asm specification
+	 */
 	static def monitoredSetters(Asm asm){
 		val sb = new StringBuffer;
 		for (fd : asm.headerSection.signature.function) {

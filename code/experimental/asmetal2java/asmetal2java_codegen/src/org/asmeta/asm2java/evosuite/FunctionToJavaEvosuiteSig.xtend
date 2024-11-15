@@ -11,6 +11,10 @@ import asmeta.definitions.domains.BagDomain
 import asmeta.definitions.domains.MapDomain
 import org.asmeta.asm2java.translator.FunctionToJavaSig
 
+/**
+ * Redefinition of the {@link FunctionToJavaSig} class by adding 
+ * specific methods for the Evosuite tool
+ */
 class FunctionToJavaEvosuiteSig extends FunctionToJavaSig  {
 
 
@@ -32,10 +36,9 @@ class FunctionToJavaEvosuiteSig extends FunctionToJavaSig  {
 		new ToStringEvosuite(resource)
 	}
 
-    
     /**
      * Method to build static function.
-     * Calls DomainToJavaEvosuiteSigDef instead of DomainToJavaSigDef.
+     * Set the static fields to private and comment out the abstract types.
      */
 	override String visit(StaticFunction object) {
 		
@@ -100,6 +103,10 @@ class FunctionToJavaEvosuiteSig extends FunctionToJavaSig  {
 		return function.toString
 	}
 
+    /**
+     * Method to build derived function.
+     * Set the static fields to private and comment out the abstract types.
+     */
 	override String visit(DerivedFunction object) {
 		
 		var StringBuffer function = new StringBuffer

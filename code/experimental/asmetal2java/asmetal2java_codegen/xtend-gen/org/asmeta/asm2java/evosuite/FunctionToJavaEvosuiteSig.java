@@ -13,6 +13,10 @@ import asmeta.structure.Asm;
 import org.asmeta.asm2java.translator.FunctionToJavaSig;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
+/**
+ * Redefinition of the {@link FunctionToJavaSig} class by adding
+ * specific methods for the Evosuite tool
+ */
 @SuppressWarnings("all")
 public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
   public FunctionToJavaEvosuiteSig(final Asm resource) {
@@ -37,7 +41,7 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
 
   /**
    * Method to build static function.
-   * Calls DomainToJavaEvosuiteSigDef instead of DomainToJavaSigDef.
+   * Set the static fields to private and comment out the abstract types.
    */
   @Override
   public String visit(final StaticFunction object) {
@@ -149,6 +153,10 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
     return function.toString();
   }
 
+  /**
+   * Method to build derived function.
+   * Set the static fields to private and comment out the abstract types.
+   */
   @Override
   public String visit(final DerivedFunction object) {
     StringBuffer function = new StringBuffer();

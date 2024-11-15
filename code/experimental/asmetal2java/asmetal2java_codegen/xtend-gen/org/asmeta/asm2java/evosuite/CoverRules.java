@@ -4,8 +4,17 @@ import java.util.List;
 import java.util.Set;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
+/**
+ * Contains the methods to cover the rules of the abstract state machine (ASM).
+ */
 @SuppressWarnings("all")
 public class CoverRules {
+  /**
+   * Create a method that calls all the cover rules functions
+   * 
+   * @param RulesGetter interface with which request the
+   * 		rule to examine the branches.
+   */
   public static String coverRulesFunction(final RulesGetter rules) {
     final StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -43,6 +52,12 @@ public class CoverRules {
     return sb.toString();
   }
 
+  /**
+   * Create a method for the rule to cover all its branches
+   * 
+   * @param RulesGetter interface with which request the
+   * 		rule to examine the branches.
+   */
   public static String coverAllRules(final RulesGetter rules) {
     final StringBuffer sb = new StringBuffer();
     Set<String> _rulesName = rules.getRulesName();

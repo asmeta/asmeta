@@ -21,7 +21,9 @@ import org.asmeta.asm2java.translator.ToString
 import org.asmeta.asm2java.translator.Util
 import org.junit.Assert
 
-/**Generates .java ASM file */
+/** 
+ * Generates the translation of an Asm specification to a java class.
+ */
 class JavaGenerator extends AsmToJavaGenerator {
 
 	protected String initConrolledMonitored

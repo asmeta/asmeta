@@ -21,7 +21,7 @@ public interface Compiler {
 	CompileResult compileFile(String name, Path directory, boolean compileOnly, String javaVersion);
 	
 	/**
-	 * Compile the generated java files with java8 in order to be used by Evosuite.
+	 * Compile a list of generated java files.
 	 * 
 	 * @param files list of java files to compile.
 	 * @param directory the Path to the directory where the java files are stored.

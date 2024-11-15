@@ -5,9 +5,17 @@ import asmeta.definitions.ControlledFunction
 import asmeta.definitions.MonitoredFunction
 import asmeta.structure.Asm
 
+/**
+ * Contains the methods to cover the outputs of the abstract state machine (ASM),
+ * by output we mean the states of the enumerative domains.
+ */
 class CoverOutputs {
 	
-	// Create a method for the function to cover all its outputs
+	/**
+	 *  Create a method for the function to cover all its outputs
+	 * 
+	 * @param asm the Asm specification
+	 */
 	static 	def coverOutputBranches(Asm asm) {
 		
 		val sb = new StringBuffer();
@@ -46,7 +54,11 @@ class CoverOutputs {
 		
 	}
 	
-	// create a method that calls all the cover output functions
+	/** 
+	 * Create a method that calls all the cover output functions
+	 * 
+	 * @param asm the Asm specification
+	 */
 	static 	def coverOutputs(Asm asm) {
 
 		val sb = new StringBuffer();
@@ -76,7 +88,11 @@ class CoverOutputs {
 
 	}	
 	
-	// in order to cover outputs we only need to cover the Enum functions 
+	/**
+	 * In order to cover outputs we only need to cover the Enum functions 
+	 * 
+	 * @param asm the Asm specification
+	 */
 	static def monitoredGetter(Asm asm) {
 		
 		val sb = new StringBuffer();

@@ -9,8 +9,15 @@ import org.asmeta.asm2java.translator.RuleToJava;
 import org.asmeta.asm2java.translator.TermToJava;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
+/**
+ * Redefinition of the {@link JavaRule} class by adding
+ * specific methods for the Evosuite tool
+ */
 @SuppressWarnings("all")
 public class RuleToJavaEvosuite extends RuleToJava {
+  /**
+   * Current java rule in exam.
+   */
   private JavaRule currRule;
 
   public RuleToJavaEvosuite(final Asm resource, final boolean seqBlock, final TranslatorOptions options, final JavaRule currRule) {
@@ -34,6 +41,13 @@ public class RuleToJavaEvosuite extends RuleToJava {
     return new DomainToJavaEvosuiteSigDef(resource);
   }
 
+  /**
+   * Method translating the conditional rules. <br \>
+   * When entering in a conditional block, add a new branch to the rule
+   * and set the flag variable to {@code true}
+   * 
+   * @param object the ConditionalRule.
+   */
   @Override
   public String visit(final ConditionalRule object) {
     Rule _elseRule = object.getElseRule();
@@ -90,6 +104,13 @@ public class RuleToJavaEvosuite extends RuleToJava {
     }
   }
 
+  /**
+   * Method translating the CaseRules. <br \>
+   * When entering in a conditional block, add a new branch to the rule
+   * and set the flag variable to {@code true}
+   * 
+   * @param object the CaseRule.
+   */
   @Override
   public String visit(final CaseRule object) {
     StringBuffer sb = new StringBuffer();

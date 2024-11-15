@@ -14,7 +14,7 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.InputOutput;
 
 /**
- * the real generator
+ * Generators superclass.
  */
 @SuppressWarnings("all")
 public abstract class AsmToJavaGenerator implements IGenerator {

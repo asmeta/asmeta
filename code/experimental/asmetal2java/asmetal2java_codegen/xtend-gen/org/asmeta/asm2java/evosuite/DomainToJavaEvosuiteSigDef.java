@@ -3,6 +3,10 @@ package org.asmeta.asm2java.evosuite;
 import asmeta.structure.Asm;
 import org.asmeta.asm2java.translator.DomainToJavaSigDef;
 
+/**
+ * Redefinition of the {@link DomainToJavaSigDef} class by adding
+ * specific methods for the Evosuite tool
+ */
 @SuppressWarnings("all")
 public class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
   public DomainToJavaEvosuiteSigDef(final Asm resource) {

@@ -19,21 +19,19 @@ import org.apache.log4j.Logger;
  */
 public class CompilerImpl implements Compiler {
 
+	/** Constants */
+	private static final String RELEASE_OPTION = "--release";
+	
 	/** Logger */
 	private static Logger logger = Logger.getLogger(CompilerImpl.class);
 
-	private static final String RELEASE_OPTION = "--release";
-
 	/**
-	 * Default constructor.
+	 * Default No args constructor.
 	 */
 	public CompilerImpl() {
 		// Empty constructor
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public CompileResult compileFile(String name, Path directory, boolean compileOnly, String javaVersion) {
 		if (!directory.toFile().isDirectory())
@@ -50,15 +48,19 @@ public class CompilerImpl implements Compiler {
 		return new CompileResultImpl(true, "not compiled.");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public CompileResult compileFiles(List<File> files, Path directory, String javaVersion) {
-		// cross-compile with java 8
 		return compile(files, directory, Arrays.asList(RELEASE_OPTION, javaVersion));
 	}
 
+	/**
+	 * Compile a list of java files.
+	 * 
+	 * @param files list of java files to compile.
+	 * @param directory the Path to the directory where the java file is stored.
+	 * @param options list of options.
+	 * @return A {@link CompileResultImpl} object containing the result of the operation.
+	 */
 	private CompileResult compile(List<File> files, Path directory, List<String> options) {
 
 		String message;

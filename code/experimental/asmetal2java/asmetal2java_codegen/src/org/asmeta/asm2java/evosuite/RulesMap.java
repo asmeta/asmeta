@@ -21,9 +21,6 @@ public final class RulesMap implements RulesGetter, RulesAdder {
         this.rules = new HashMap<>();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void addRule(String name, JavaRule rule) throws IllegalArgumentException {
         if (!name.equals(rule.getName())) {
@@ -35,25 +32,16 @@ public final class RulesMap implements RulesGetter, RulesAdder {
         rules.put(name, rule);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isEmpty() {
         return rules.isEmpty();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Set<String> getRulesName() {
         return rules.keySet();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<String> getRuleBranches(String name) {
         if (rules.containsKey(name)) {

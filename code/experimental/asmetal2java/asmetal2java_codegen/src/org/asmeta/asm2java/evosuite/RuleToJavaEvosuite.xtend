@@ -7,8 +7,13 @@ import asmeta.transitionrules.basictransitionrules.ConditionalRule
 import org.asmeta.asm2java.translator.TermToJava
 import asmeta.transitionrules.derivedtransitionrules.CaseRule
 
+/**
+ * Redefinition of the {@link JavaRule} class by adding 
+ * specific methods for the Evosuite tool
+ */
 class RuleToJavaEvosuite extends RuleToJava {
 	
+	/** Current java rule in exam. */
 	JavaRule currRule;
 	
 	new(Asm resource, boolean seqBlock, TranslatorOptions options, JavaRule currRule) {
@@ -30,7 +35,13 @@ class RuleToJavaEvosuite extends RuleToJava {
 		new DomainToJavaEvosuiteSigDef(resource)
 	}
 
-	// Method translating the conditional rules
+	/** 
+	 * Method translating the conditional rules. <br \>
+	 * When entering in a conditional block, add a new branch to the rule
+	 * and set the flag variable to {@code true}
+	 * 
+	 * @param object the ConditionalRule.
+	 */
 	override String visit(ConditionalRule object) {
 		if (object.getElseRule() === null){
 			return '''
@@ -51,7 +62,13 @@ class RuleToJavaEvosuite extends RuleToJava {
 			'''
 	}
 
-	// Method translating the CaseRules
+	/**
+	 * Method translating the CaseRules. <br \>
+	 * When entering in a conditional block, add a new branch to the rule
+	 * and set the flag variable to {@code true}
+	 * 
+	 * @param object the CaseRule.
+	 */
 	override String visit(CaseRule object) {
 		var StringBuffer sb = new StringBuffer
 		for (var i = 0; i < object.getCaseBranches().size; i++) {

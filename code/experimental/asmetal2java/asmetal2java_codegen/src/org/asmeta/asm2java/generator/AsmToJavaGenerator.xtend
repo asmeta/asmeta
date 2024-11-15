@@ -11,7 +11,8 @@ import org.asmeta.asm2java.config.TranslatorOptions
 import org.asmeta.asm2java.formatter.Formatter
 import org.asmeta.asm2java.formatter.FormatterImpl
 
-/** the real generator
+/** 
+ * Generators superclass.
  */
 abstract class AsmToJavaGenerator implements IGenerator {
 

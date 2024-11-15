@@ -2,6 +2,9 @@ package org.asmeta.asm2java.config;
 
 import java.util.List;
 
+/**
+ * Includes all the available operations regarding the translation options.
+ */
 public interface TranslatorOptions {
 
 	/**

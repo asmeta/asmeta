@@ -18,7 +18,7 @@ import org.asmeta.asm2java.application.Translator;
 import org.asmeta.asm2java.application.TranslatorImpl;
 
 /**
- * The Asmeta2JavaCLI is the entry point for the Asmetal2Java tool, which
+ * The Asmeta2JavaCLI is the entry point for the Asmetal2Java application, which
  * translates ASM (Abstract State Machines) specifications into Java code. This
  * class provides methods to handle command-line arguments, parse ASM
  * specifications, generate Java code, and manage output directories.

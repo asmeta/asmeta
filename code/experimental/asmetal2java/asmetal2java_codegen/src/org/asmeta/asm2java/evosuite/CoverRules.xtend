@@ -1,8 +1,16 @@
 package org.asmeta.asm2java.evosuite
 
+/**
+ * Contains the methods to cover the rules of the abstract state machine (ASM).
+ */
 class CoverRules {
 	
-	// create a method that calls all the cover rules functions
+	/** 
+	 * Create a method that calls all the cover rules functions
+	 * 
+	 * @param RulesGetter interface with which request the 
+	 * 		rule to examine the branches.
+	 */
 	static def coverRulesFunction(RulesGetter rules){
 		val sb = new StringBuffer();
 		
@@ -26,7 +34,12 @@ class CoverRules {
 		return sb.toString;
 	}
 	
-	// Create a method for the rule to cover all its branches
+	/** 
+	 * Create a method for the rule to cover all its branches
+	 * 
+	 * @param RulesGetter interface with which request the 
+	 * 		rule to examine the branches.
+	 */
 	static def coverAllRules(RulesGetter rules){
 				val sb = new StringBuffer();
 		

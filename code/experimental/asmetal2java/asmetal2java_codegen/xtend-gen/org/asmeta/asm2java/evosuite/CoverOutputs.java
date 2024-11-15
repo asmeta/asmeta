@@ -9,8 +9,17 @@ import asmeta.structure.Asm;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
+/**
+ * Contains the methods to cover the outputs of the abstract state machine (ASM),
+ * by output we mean the states of the enumerative domains.
+ */
 @SuppressWarnings("all")
 public class CoverOutputs {
+  /**
+   * Create a method for the function to cover all its outputs
+   * 
+   * @param asm the Asm specification
+   */
   public static String coverOutputBranches(final Asm asm) {
     final StringBuffer sb = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
@@ -85,6 +94,11 @@ public class CoverOutputs {
     return sb.toString();
   }
 
+  /**
+   * Create a method that calls all the cover output functions
+   * 
+   * @param asm the Asm specification
+   */
   public static String coverOutputs(final Asm asm) {
     final StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -136,6 +150,11 @@ public class CoverOutputs {
     return sb.toString();
   }
 
+  /**
+   * In order to cover outputs we only need to cover the Enum functions
+   * 
+   * @param asm the Asm specification
+   */
   public static String monitoredGetter(final Asm asm) {
     final StringBuffer sb = new StringBuffer();
     String asmName = asm.getName();
