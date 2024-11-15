@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.asmeta.junit2avalla.javascenario.ScenarioManagerImpl;
 import org.asmeta.junit2avalla.model.Scenario;
 import org.asmeta.junit2avalla.model.terms.AvallaCheckTerm;
 import org.asmeta.junit2avalla.model.terms.AvallaHeaderTerm;
@@ -17,11 +16,11 @@ import org.asmeta.junit2avalla.util.JavaScenarioUtil;
 import org.asmeta.junit2avalla.util.VariableUtil;
 import org.junit.Test;
 
-public class ScenarioManagerImplTest {
+public class ScenarioManagerTest {
 
   @Test
   public void whenSetHeaderTerm_HeaderTermIsCreatedAndAddedToQueue(){
-    ScenarioManagerImpl scenarioManagerImpl = new ScenarioManagerImpl();
+    ScenarioManager scenarioManagerImpl = new ScenarioManager();
     Scenario scenario = new Scenario();
     scenarioManagerImpl.setHeaderTerm(scenario,"registroDiCassav3_ATG0",0);
 
@@ -32,7 +31,7 @@ public class ScenarioManagerImplTest {
 
   @Test
   public void whenSetLoadTerm_HeaderTermIsCreatedAndAddedToQueue(){
-    ScenarioManagerImpl scenarioManagerImpl = new ScenarioManagerImpl();
+    ScenarioManager scenarioManagerImpl = new ScenarioManager();
     Scenario scenario = new Scenario();
     scenarioManagerImpl.setLoadTerm(scenario,"registroDiCassav3_ATG0");
 
@@ -43,7 +42,7 @@ public class ScenarioManagerImplTest {
 
   @Test
   public void whenSetSetTerm_SetTermIsCreatedAndAddedToQueue(){
-    ScenarioManagerImpl scenarioManagerImpl = new ScenarioManagerImpl();
+    ScenarioManager scenarioManagerImpl = new ScenarioManager();
     Scenario avallaScenario = new Scenario();
     scenarioManagerImpl.setSetTerm(avallaScenario, VariableUtil.getVariable0());
     scenarioManagerImpl.setSetTerm(avallaScenario, VariableUtil.getVariable1());
@@ -86,7 +85,7 @@ public class ScenarioManagerImplTest {
 
   @Test
   public void whenSetStepTerm_SetTermIsCreatedAndAddedToQueue(){
-    ScenarioManagerImpl scenarioManagerImpl = new ScenarioManagerImpl();
+    ScenarioManager scenarioManagerImpl = new ScenarioManager();
     Scenario avallaScenario = new Scenario();
     scenarioManagerImpl.setStepTerm(avallaScenario);
 
@@ -96,7 +95,7 @@ public class ScenarioManagerImplTest {
 
   @Test
   public void whenSetCheckTerm_CheckTermIsCreatedAndAddedToQueue(){
-    ScenarioManagerImpl scenarioManagerImpl = new ScenarioManagerImpl();
+    ScenarioManager scenarioManagerImpl = new ScenarioManager();
     Scenario avallaScenario = new Scenario();
     scenarioManagerImpl.setCheckTerm(avallaScenario, AssertionUtil.getAssertion0());
     scenarioManagerImpl.setCheckTerm(avallaScenario, AssertionUtil.getAssertion1());

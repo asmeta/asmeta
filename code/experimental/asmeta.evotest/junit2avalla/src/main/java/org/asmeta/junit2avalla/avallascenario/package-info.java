@@ -1,17 +1,16 @@
 /**
- * This package provides interfaces and classes related to scenarios,
- * including the mapping of scenario objects to scenario files and
- * writing functionality.
- *
- * <p>The {@code ScenarioListMapper} interface defines a contract for
- * mapping a list of {@link org.asmeta.junit2avalla.model.Scenario} objects to
- * a list of {@link org.asmeta.junit2avalla.model.ScenarioFile} objects.</p>
- *
- * <p>The {@code ScenarioWriter} interface defines the contract for
- * writing a {@link org.asmeta.junit2avalla.model.Scenario} object into a
- * {@link org.asmeta.junit2avalla.model.ScenarioFile}.</p>
- *
- * <p>Implementations of these interfaces can be found in the
- * {@code impl} sub-package.</p>
+ * This package provides a set of interfaces and classes designed to manage
+ * Avalla scenarios, focusing on mapping scenario objects to scenario files and
+ * enabling writing operations.
+ * 
+ * Central to the package is the {@link ScenarioListMapper} interface, which
+ * establishes a contract for converting a list of {@code Scenario} objects into
+ * a corresponding list of {@code ScenarioFile} objects. This functionality
+ * allows multiple scenarios to be systematically transformed into their
+ * file-based representations.
+ * 
+ * Additionally, the {@link ScenarioWriter} class provides concrete methods to
+ * the implementation {@link ScenarioListMapperImpl} for writing individual
+ * {@code Scenario} objects into {@code ScenarioFile} instances.
  */
 package org.asmeta.junit2avalla.avallascenario;

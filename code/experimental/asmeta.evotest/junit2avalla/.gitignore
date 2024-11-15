@@ -40,3 +40,6 @@ build/
 
 ### Logs ###
 /logs/
+
+### javadoc ###
+/docs/

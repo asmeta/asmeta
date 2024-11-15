@@ -57,7 +57,7 @@ public class FileManager {
      * Given a path to the input file, copies the file into the
      * input directory and returns the newly generated file.
      * 
-     * @param file the path to the input file (relative or absolute).
+     * @param junitScenario the path to the input file (relative or absolute).
      * @return the copied file.
      * @throws IOException if an I/O error occurs during the file copying process.
      */
@@ -76,7 +76,7 @@ public class FileManager {
 	/**
 	 * Run the application.
 	 *
-	 * @param inputPath            path to the input file.
+	 * @param inputPath path to the input file.
 	 * @throws IOException 
 	 */
 	void runTheApplication(Path inputPath) throws IOException {
@@ -171,7 +171,7 @@ public class FileManager {
     /**
      * Exports (copies) the specified Java file to a desired output folder.
      *
-     * @param javaFile the Java file to be exported.
+     * @param scenarioFiles list of Java file to be exported.
      * @throws IOException if an I/O error occurs during the export.
      */
 	private void exportFile(List<ScenarioFile> scenarioFiles) throws IOException {

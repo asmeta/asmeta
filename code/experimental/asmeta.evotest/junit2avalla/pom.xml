@@ -115,6 +115,17 @@
 		  </execution>
 	    </executions>
 	  </plugin>
+	  <!-- Javadoc plugin -->
+	  <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-javadoc-plugin</artifactId>
+		<version>3.11.1</version>
+		<configuration>
+		  <outputDirectory>docs</outputDirectory>
+		  <show>private</show>
+		  <nohelp>true</nohelp>
+	    </configuration>
+	  </plugin>
     </plugins>
   </build>
 

@@ -27,6 +27,9 @@ import org.asmeta.junit2avalla.antlr.JavaScenarioParser.VariableNameContext;
 import org.asmeta.junit2avalla.antlr.JavaScenarioParser.VariableTypeContext;
 import org.asmeta.junit2avalla.antlr.JavaScenarioParser.VariableValueContext;
 
+/**
+ * Parse the Junit class into a list of Scenario object (Queue of AvallaTerms).
+ */
 public class JavaScenarioListener extends JavaScenarioBaseListener {
 
 	/** Logger */
@@ -75,11 +78,9 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	/**
 	 * Constructor for the {@code JavaScenarioListener}.
 	 *
-	 * @param stepFunctionArgsList List of {@link JavaArgumentTerm} representing
-	 *                             arguments for the step function.
 	 */
 	public JavaScenarioListener() {
-		this.scenarioManager = new ScenarioManagerImpl();
+		this.scenarioManager = new ScenarioManager();
 		this.scenarioList = new LinkedList<>();
 	}
 

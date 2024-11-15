@@ -24,8 +24,10 @@ public class Junit2AvallaCLI {
 	public static final String CLEAN = "clean";
 	public static final String HELP = "help";
 
+	/** Logger */
 	private static final Logger log = LogManager.getLogger(Junit2AvallaCLI.class);
 
+	/** Translator */
 	private static final Translator translator = new TranslatorImpl();
 
 	/**
