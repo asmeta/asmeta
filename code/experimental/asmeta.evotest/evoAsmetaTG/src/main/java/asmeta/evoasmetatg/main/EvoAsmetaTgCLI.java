@@ -14,11 +14,11 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asmeta.junit2avalla.main.Junit2AvallaCLI;
 
 import asmeta.evoasmetatg.application.TranslationException;
 import asmeta.evoasmetatg.application.Translator;
 import asmeta.evoasmetatg.application.TranslatorImpl;
-import asmeta.junit2avalla.main.Junit2AvallaCLI;
 
 /**
  * 

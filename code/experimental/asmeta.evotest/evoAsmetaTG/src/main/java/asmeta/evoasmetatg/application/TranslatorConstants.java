@@ -3,8 +3,7 @@ package asmeta.evoasmetatg.application;
 import org.asmeta.asm2java.application.FileManager;
 import org.asmeta.asm2java.config.ModeConstantsConfig;
 import org.asmeta.asm2java.main.Asmeta2JavaCLI;
-
-import asmeta.junit2avalla.main.Junit2AvallaCLI;
+import org.asmeta.junit2avalla.main.Junit2AvallaCLI;
 
 /**
  * This class contains the constants used by the Translator in the application package.
