@@ -177,3 +177,10 @@ This is the default folder where files are exported if you have selected the CLI
 In this folder we can find many **examples** of asm used to make tests or provided to the user to get familiar with the application.
 ### xtend-gen
 The **xtend-gen** folder is automatically created at build time and contains all the java classes generated from the xtend classes.
+
+## Javadoc
+javadoc for the project is available, to generate it make sure you have maven installed on your machine, then open a terminal, go to the root of the asmetal2java_codegen project and type:
+```shell
+mvn javadoc:javadoc
+```
+Once generated, the javadoc will be placed in the docs/apidocs folder and will be accessible through the `index.html` file.
