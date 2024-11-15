@@ -90,7 +90,7 @@ public class FileManager {
 	 * Given a string containing the path to the input file, copies the file into
 	 * the input directory and returns the newly generated file.
 	 * 
-	 * @param file the path to the input file (relative or absolute).
+	 * @param asmspec the path to the input file (relative or absolute).
 	 * @return the copied file.
 	 * @throws IOException if an I/O error occurs during the file copying process.
 	 */
@@ -234,8 +234,7 @@ public class FileManager {
 	/**
 	 * Exports (copies) the specified Java file to a desired output folder.
 	 *
-	 * @param javaFile the Java file to be exported.
-	 * @throws IOException if an I/O error occurs during the export.
+	 * @param javaInputFile the Java file to be exported.
 	 * @return javaOutFile the exported file.
 	 */
 	File exportFile(File javaInputFile) {
@@ -285,7 +284,7 @@ public class FileManager {
 	/**
 	 * Sets the version of the java compiler.
 	 * 
-	 * @param compilerVersion the java version.
+	 * @param javaVersion the java version.
 	 */
 	void setCompilerVersion(String javaVersion) {
 		try {

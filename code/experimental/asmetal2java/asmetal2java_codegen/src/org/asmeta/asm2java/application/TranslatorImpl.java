@@ -33,7 +33,7 @@ public class TranslatorImpl implements Translator {
     /**
      * Constructs a {@code TranslatorImpl} with the specified translator options.
      *
-     * @param translatorOptions the options used to configure the translation process.
+     * @param translatorOptionsImpl the options used to configure the translation process.
      */
 	public TranslatorImpl(TranslatorOptionsImpl translatorOptionsImpl) {
 		this.translatorOptions = translatorOptionsImpl;
@@ -47,26 +47,16 @@ public class TranslatorImpl implements Translator {
 		this(new TranslatorOptionsImpl());
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setOptions(String propertyName, String propertyValue) {
 		this.translatorOptions.setValue(propertyName, Boolean.parseBoolean(propertyValue));
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setInput(String value) {
 		this.asmspec = value;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 * @throws IOException 
-	 */
 	@Override
 	public void setOutput(String value) throws IOException {
 		fileManager.setOutputDir(value);
@@ -76,17 +66,11 @@ public class TranslatorImpl implements Translator {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void clean() {
 		fileManager.cleanInputDir();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMode(String value) {
 		Mode mode = Mode.CUSTOM_MODE;
@@ -125,9 +109,6 @@ public class TranslatorImpl implements Translator {
 		}
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean generate() throws AsmParsingException, IOException {
 		
@@ -167,6 +148,26 @@ public class TranslatorImpl implements Translator {
 		}
 
 		return result;
+	}
+	
+	@Override
+	public List<String> getOptionNames() {
+		return translatorOptions.getPropertyNames();
+	}
+
+	@Override
+	public String getOptionsDescription() {
+		return translatorOptions.getDescription();
+	}
+
+	@Override
+	public String getModeDescription() {
+		return Mode.getDescription();
+	}
+
+	@Override
+	public void setCompilerVersion(String javaVersion) {
+		fileManager.setCompilerVersion(javaVersion);
 	}
 	
     /**
@@ -270,26 +271,6 @@ public class TranslatorImpl implements Translator {
 			return fileManager.exportFile(javaFile);
 		}
 		return null;
-	}
-
-	@Override
-	public List<String> getOptionNames() {
-		return translatorOptions.getPropertyNames();
-	}
-
-	@Override
-	public String getOptionsDescription() {
-		return translatorOptions.getDescription();
-	}
-
-	@Override
-	public String getModeDescription() {
-		return Mode.getDescription();
-	}
-
-	@Override
-	public void setCompilerVersion(String javaVersion) {
-		fileManager.setCompilerVersion(javaVersion);
 	}
 
 

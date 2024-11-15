@@ -12,7 +12,7 @@ public class CoverRules {
   /**
    * Create a method that calls all the cover rules functions
    * 
-   * @param RulesGetter interface with which request the
+   * @param rules RulesGetter interface with which request the
    * 		rule to examine the branches.
    */
   public static String coverRulesFunction(final RulesGetter rules) {
@@ -55,7 +55,7 @@ public class CoverRules {
   /**
    * Create a method for the rule to cover all its branches
    * 
-   * @param RulesGetter interface with which request the
+   * @param rules RulesGetter interface with which request the
    * 		rule to examine the branches.
    */
   public static String coverAllRules(final RulesGetter rules) {

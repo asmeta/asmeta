@@ -1,7 +1,7 @@
 package org.asmeta.asm2java.formatter;
 
 /**
- * The {@Code Formatter} interface define the contract for using the formatter.
+ * The {@code Formatter} interface define the contract for using the formatter.
  */
 public interface Formatter {
 	

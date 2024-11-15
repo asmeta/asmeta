@@ -36,7 +36,7 @@ class RuleToJavaEvosuite extends RuleToJava {
 	}
 
 	/** 
-	 * Method translating the conditional rules. <br \>
+	 * Method translating the conditional rules. <br>
 	 * When entering in a conditional block, add a new branch to the rule
 	 * and set the flag variable to {@code true}
 	 * 
@@ -63,7 +63,7 @@ class RuleToJavaEvosuite extends RuleToJava {
 	}
 
 	/**
-	 * Method translating the CaseRules. <br \>
+	 * Method translating the CaseRules. <br>
 	 * When entering in a conditional block, add a new branch to the rule
 	 * and set the flag variable to {@code true}
 	 * 

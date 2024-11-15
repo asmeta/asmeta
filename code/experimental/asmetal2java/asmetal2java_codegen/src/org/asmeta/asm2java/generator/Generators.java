@@ -99,9 +99,7 @@ public final class Generators {
 	}
 
 	/**
-	 * Returns the singleton instance of the RulesMap.
-	 * 
-	 * @return the singleton instance of {@link RulesMap}
+	 * Create the singleton instance of the RulesMap.
 	 */
 	private static void createRuleMap() {
 		if (rulesMap == null) {

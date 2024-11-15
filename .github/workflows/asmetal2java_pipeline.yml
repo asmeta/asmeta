@@ -39,9 +39,6 @@ jobs:
           name: asmetal2java.jar
           path: ./code/experimental/asmetal2java/asmetal2java_codegen/dist/asmetal2java.jar
           retention-days: 1
-         
-      - name: Generate javadoc
-        run: mvn javadoc:javadoc  
 
   push:
     name: Push Docker Image

@@ -39,7 +39,7 @@ public class ExpressionToJava {
 	 * 
 	 * @return the string
 	 * 
-	 * @throws Exception the exception
+	 * @throws InvalidFunctionException the exception
 	 */
 	String evaluateFunction(String function, List<Term> argsTerm) throws InvalidFunctionException {
 		switch (function) {
@@ -374,7 +374,6 @@ public class ExpressionToJava {
 	 * @param argsTerm the args term
 	 * 
 	 * @return the string
-	 * @throws AsmNotSupportedException
 	 */
 	String minusUnary(List<Term> argsTerm) {
 		String str = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));

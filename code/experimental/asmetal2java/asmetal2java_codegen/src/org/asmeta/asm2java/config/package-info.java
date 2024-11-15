@@ -1,8 +1,8 @@
 /**
- * This configuration package includes the {@link TranslatorOption} interface
+ * This configuration package includes the {@link TranslatorOptions} interface
  * that includes all the available operations regarding the translation options.
  * The implementation of this interface is contained in the
- * {@link TranslatorOptionImpl} class, which works through a
+ * {@link TranslatorOptionsImpl} class, which works through a
  * {@code HashMap<String,Consumer<Boolean>>} that is a map with the property
  * name as key and a lambda function as content to assign the value to the
  * property, this was designed to reduce the cyclomatic complexity of the class.
