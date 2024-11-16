@@ -1,4 +1,4 @@
-package asmeta.evoasmetatg.main;
+package org.asmeta.evoasmetatg.main;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -14,11 +14,10 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asmeta.evoasmetatg.application.TranslationException;
+import org.asmeta.evoasmetatg.application.Translator;
+import org.asmeta.evoasmetatg.application.TranslatorImpl;
 import org.asmeta.junit2avalla.main.Junit2AvallaCLI;
-
-import asmeta.evoasmetatg.application.TranslationException;
-import asmeta.evoasmetatg.application.Translator;
-import asmeta.evoasmetatg.application.TranslatorImpl;
 
 /**
  * 

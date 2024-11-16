@@ -1,4 +1,4 @@
-package asmeta.evoasmetatg.application;
+package org.asmeta.evoasmetatg.application;
 
 import org.asmeta.asm2java.application.FileManager;
 import org.asmeta.asm2java.config.ModeConstantsConfig;

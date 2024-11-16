@@ -1,4 +1,4 @@
-package asmeta.evoasmetatg.application;
+package org.asmeta.evoasmetatg.application;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,10 +11,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asmeta.asm2java.main.Asmeta2JavaCLI;
+import org.asmeta.evoasmetatg.config.Options;
+import org.asmeta.evoasmetatg.config.OptionsImpl;
 import org.asmeta.junit2avalla.main.Junit2AvallaCLI;
-
-import asmeta.evoasmetatg.config.Options;
-import asmeta.evoasmetatg.config.OptionsImpl;
 
 public class TranslatorImpl implements Translator {
 
@@ -210,7 +209,7 @@ public class TranslatorImpl implements Translator {
 	 */
 	private List<String> buildEvosuiteOptions() {
 
-		return Arrays.asList(javaExe, TranslatorConstants.JAR, evosuiteVersion, TranslatorConstants.TARGET,
+		return Arrays.asList(javaExe, TranslatorConstants.JAR,evosuiteVersion, TranslatorConstants.TARGET,
 				TranslatorConstants.EVOSUITE_TARGET, TranslatorConstants.CLASS, asmName + TranslatorConstants.ATG,
 				TranslatorConstants.CRITERION, TranslatorConstants.LINE_BRANCH, TranslatorConstants.DMINIMIZE_TRUE,
 				TranslatorConstants.DASSERTION_STRATEGY_ALL);

@@ -1,4 +1,4 @@
-package asmeta.evoasmetatg.application;
+package org.asmeta.evoasmetatg.application;
 
 public class TranslationException extends Exception {
 

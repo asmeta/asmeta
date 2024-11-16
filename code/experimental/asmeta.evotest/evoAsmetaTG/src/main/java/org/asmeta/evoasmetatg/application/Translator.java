@@ -1,4 +1,4 @@
-package asmeta.evoasmetatg.application;
+package org.asmeta.evoasmetatg.application;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package asmeta.evoasmetatg.config;
+package org.asmeta.evoasmetatg.config;
 
 import java.util.HashMap;
 import java.util.List;
