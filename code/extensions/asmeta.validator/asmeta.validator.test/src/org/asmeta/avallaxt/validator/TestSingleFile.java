@@ -237,6 +237,13 @@ public class TestSingleFile extends TestValidator {
 		// check the only 1 file for the common root is translated
 	}
 
+
+	// flaky tests
+	@Test
+	public void testFlaky() throws Exception {
+		test("scenariosfortest/flaky/scenario_noF1.avalla", true, false, true);
+	}
+
 	
 	@Test
 	public void testPillbox() throws Exception {

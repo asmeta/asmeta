@@ -75,7 +75,15 @@ public class TestSingleScenario extends TestParserAndValidation {
 	public void checkForall() {
 		assertTrue(checkPossibleFaults("example/lift_forall.avalla") == PossibleFaults_NONE);
 	}
+
 	
-	
+	@Test
+	public void checkForFlaky() {
+		// correct scenario
+		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noF1.avalla"),PossibleFaults_NONE);
+		// with a missing $
+		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_F_ERR.avalla"), PossibleFaults_Parser);
+	}
+
 	
 }

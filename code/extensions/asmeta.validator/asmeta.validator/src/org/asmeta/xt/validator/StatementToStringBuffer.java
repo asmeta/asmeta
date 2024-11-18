@@ -13,6 +13,7 @@ import java.util.List;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Block;
 import org.asmeta.avallaxt.avalla.Check;
+import org.asmeta.avallaxt.avalla.Choose;
 import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.Exec;
@@ -305,6 +306,12 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	public Void caseExecBlock(ExecBlock eb) {
 		throw new RuntimeException("should never happen since this is expanded in its block");
 	}
+	
+	@Override
+	public Void caseChoose(Choose object) {
+		throw new RuntimeException("DON'T KNOW WHAT TO DO");
+	}
+	
 
 	private Block getBlockByName(Scenario s, String block) {
 		for (Element b : s.getElements()) {

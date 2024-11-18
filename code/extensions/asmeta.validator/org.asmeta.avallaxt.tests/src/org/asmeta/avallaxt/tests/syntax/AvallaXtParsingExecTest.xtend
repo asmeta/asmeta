@@ -51,5 +51,18 @@ class AvallaXtParsingExecTest {
 		val errors = result.eResource.errors
 		Assert.assertTrue('''Unexpected errors: �errors.join(", ")�''', errors.isEmpty)
 	}
+
+	@Test
+	def void checkExecChoose() {
+		val result = parseHelper.parse('''
+			scenario alpha
+			load lll
+			exec  choose $x in Domain with true do sc1:=1; 
+			
+		''')
+		Assert.assertNotNull(result)
+		val errors = result.eResource.errors
+		Assert.assertTrue('''Unexpected errors: �errors.join(", ")�''', errors.isEmpty)
+	}
 	
 }

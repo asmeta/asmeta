@@ -309,6 +309,43 @@ public interface AvallaPackage extends EPackage
   int EXEC_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 1;
 
   /**
+   * The meta object id for the '{@link org.asmeta.avallaxt.avalla.impl.ChooseImpl <em>Choose</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.asmeta.avallaxt.avalla.impl.ChooseImpl
+   * @see org.asmeta.avallaxt.avalla.impl.AvallaPackageImpl#getChoose()
+   * @generated
+   */
+  int CHOOSE = 8;
+
+  /**
+   * The feature id for the '<em><b>Var</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CHOOSE__VAR = COMMAND_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Value</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CHOOSE__VALUE = COMMAND_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Choose</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CHOOSE_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 2;
+
+  /**
    * The meta object id for the '{@link org.asmeta.avallaxt.avalla.impl.BlockImpl <em>Block</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -316,7 +353,7 @@ public interface AvallaPackage extends EPackage
    * @see org.asmeta.avallaxt.avalla.impl.AvallaPackageImpl#getBlock()
    * @generated
    */
-  int BLOCK = 8;
+  int BLOCK = 9;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -353,7 +390,7 @@ public interface AvallaPackage extends EPackage
    * @see org.asmeta.avallaxt.avalla.impl.AvallaPackageImpl#getExecBlock()
    * @generated
    */
-  int EXEC_BLOCK = 9;
+  int EXEC_BLOCK = 10;
 
   /**
    * The feature id for the '<em><b>Scenario</b></em>' attribute.
@@ -390,7 +427,7 @@ public interface AvallaPackage extends EPackage
    * @see org.asmeta.avallaxt.avalla.impl.AvallaPackageImpl#getStep()
    * @generated
    */
-  int STEP = 10;
+  int STEP = 11;
 
   /**
    * The number of structural features of the '<em>Step</em>' class.
@@ -602,6 +639,38 @@ public interface AvallaPackage extends EPackage
    * @generated
    */
   EAttribute getExec_Rule();
+
+  /**
+   * Returns the meta object for class '{@link org.asmeta.avallaxt.avalla.Choose <em>Choose</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Choose</em>'.
+   * @see org.asmeta.avallaxt.avalla.Choose
+   * @generated
+   */
+  EClass getChoose();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.asmeta.avallaxt.avalla.Choose#getVar <em>Var</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Var</em>'.
+   * @see org.asmeta.avallaxt.avalla.Choose#getVar()
+   * @see #getChoose()
+   * @generated
+   */
+  EAttribute getChoose_Var();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.asmeta.avallaxt.avalla.Choose#getValue <em>Value</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Value</em>'.
+   * @see org.asmeta.avallaxt.avalla.Choose#getValue()
+   * @see #getChoose()
+   * @generated
+   */
+  EAttribute getChoose_Value();
 
   /**
    * Returns the meta object for class '{@link org.asmeta.avallaxt.avalla.Block <em>Block</em>}'.
@@ -867,6 +936,32 @@ public interface AvallaPackage extends EPackage
      * @generated
      */
     EAttribute EXEC__RULE = eINSTANCE.getExec_Rule();
+
+    /**
+     * The meta object literal for the '{@link org.asmeta.avallaxt.avalla.impl.ChooseImpl <em>Choose</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.asmeta.avallaxt.avalla.impl.ChooseImpl
+     * @see org.asmeta.avallaxt.avalla.impl.AvallaPackageImpl#getChoose()
+     * @generated
+     */
+    EClass CHOOSE = eINSTANCE.getChoose();
+
+    /**
+     * The meta object literal for the '<em><b>Var</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CHOOSE__VAR = eINSTANCE.getChoose_Var();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CHOOSE__VALUE = eINSTANCE.getChoose_Value();
 
     /**
      * The meta object literal for the '{@link org.asmeta.avallaxt.avalla.impl.BlockImpl <em>Block</em>}' class.

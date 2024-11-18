@@ -138,6 +138,15 @@ public class AvallaSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case AvallaPackage.CHOOSE:
+      {
+        Choose choose = (Choose)theEObject;
+        T result = caseChoose(choose);
+        if (result == null) result = caseCommand(choose);
+        if (result == null) result = caseElement(choose);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case AvallaPackage.BLOCK:
       {
         Block block = (Block)theEObject;
@@ -292,6 +301,22 @@ public class AvallaSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseExec(Exec object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Choose</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Choose</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseChoose(Choose object)
   {
     return null;
   }

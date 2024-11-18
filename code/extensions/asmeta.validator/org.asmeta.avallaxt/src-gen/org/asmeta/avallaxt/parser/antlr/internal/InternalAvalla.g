@@ -343,6 +343,15 @@ ruleCommand returns [EObject current=null]
 			$current = $this_ExecBlock_6.current;
 			afterParserOrEnumRuleCall();
 		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getCommandAccess().getChooseParserRuleCall_6());
+		}
+		this_Choose_7=ruleChoose
+		{
+			$current = $this_Choose_7.current;
+			afterParserOrEnumRuleCall();
+		}
 	)
 ;
 
@@ -579,6 +588,74 @@ ruleExec returns [EObject current=null]
 	)
 ;
 
+// Entry rule entryRuleChoose
+entryRuleChoose returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getChooseRule()); }
+	iv_ruleChoose=ruleChoose
+	{ $current=$iv_ruleChoose.current; }
+	EOF;
+
+// Rule Choose
+ruleChoose returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		otherlv_0='setchoose'
+		{
+			newLeafNode(otherlv_0, grammarAccess.getChooseAccess().getSetchooseKeyword_0());
+		}
+		(
+			(
+				lv_var_1_0=RULE_LOCAL_VARIABLE
+				{
+					newLeafNode(lv_var_1_0, grammarAccess.getChooseAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getChooseRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"var",
+						lv_var_1_0,
+						"org.asmeta.avallaxt.Avalla.LOCAL_VARIABLE");
+				}
+			)
+		)
+		otherlv_2=':='
+		{
+			newLeafNode(otherlv_2, grammarAccess.getChooseAccess().getColonEqualsSignKeyword_2());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getChooseAccess().getValueSentenceParserRuleCall_3_0());
+				}
+				lv_value_3_0=rulesentence
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getChooseRule());
+					}
+					set(
+						$current,
+						"value",
+						lv_value_3_0,
+						"org.asmeta.avallaxt.Avalla.sentence");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_4=';'
+		{
+			newLeafNode(otherlv_4, grammarAccess.getChooseAccess().getSemicolonKeyword_4());
+		}
+	)
+;
+
 // Entry rule entryRuleBlock
 entryRuleBlock returns [EObject current=null]:
 	{ newCompositeNode(grammarAccess.getBlockRule()); }
@@ -770,26 +847,34 @@ rulesentence returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken(
 	leaveRule();
 }:
 	(
-		this_GOOD_CHARS_NO_COLON_0=RULE_GOOD_CHARS_NO_COLON
+		this_LOCAL_VARIABLE_0=RULE_LOCAL_VARIABLE
 		{
-			$current.merge(this_GOOD_CHARS_NO_COLON_0);
+			$current.merge(this_LOCAL_VARIABLE_0);
 		}
 		{
-			newLeafNode(this_GOOD_CHARS_NO_COLON_0, grammarAccess.getSentenceAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_0());
+			newLeafNode(this_LOCAL_VARIABLE_0, grammarAccess.getSentenceAccess().getLOCAL_VARIABLETerminalRuleCall_0());
+		}
+		    |
+		this_GOOD_CHARS_NO_COLON_1=RULE_GOOD_CHARS_NO_COLON
+		{
+			$current.merge(this_GOOD_CHARS_NO_COLON_1);
+		}
+		{
+			newLeafNode(this_GOOD_CHARS_NO_COLON_1, grammarAccess.getSentenceAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_1());
 		}
 		    |
 		kw=':'
 		{
 			$current.merge(kw);
-			newLeafNode(kw, grammarAccess.getSentenceAccess().getColonKeyword_1());
+			newLeafNode(kw, grammarAccess.getSentenceAccess().getColonKeyword_2());
 		}
 		    |
-		this_STRING_2=RULE_STRING
+		this_STRING_3=RULE_STRING
 		{
-			$current.merge(this_STRING_2);
+			$current.merge(this_STRING_3);
 		}
 		{
-			newLeafNode(this_STRING_2, grammarAccess.getSentenceAccess().getSTRINGTerminalRuleCall_2());
+			newLeafNode(this_STRING_3, grammarAccess.getSentenceAccess().getSTRINGTerminalRuleCall_3());
 		}
 	)+
 ;
@@ -810,32 +895,40 @@ rulesentencePlusAssignAndColon returns [AntlrDatatypeRuleToken current=new Antlr
 	leaveRule();
 }:
 	(
-		this_GOOD_CHARS_NO_COLON_0=RULE_GOOD_CHARS_NO_COLON
+		this_LOCAL_VARIABLE_0=RULE_LOCAL_VARIABLE
 		{
-			$current.merge(this_GOOD_CHARS_NO_COLON_0);
+			$current.merge(this_LOCAL_VARIABLE_0);
 		}
 		{
-			newLeafNode(this_GOOD_CHARS_NO_COLON_0, grammarAccess.getSentencePlusAssignAndColonAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_0());
+			newLeafNode(this_LOCAL_VARIABLE_0, grammarAccess.getSentencePlusAssignAndColonAccess().getLOCAL_VARIABLETerminalRuleCall_0());
+		}
+		    |
+		this_GOOD_CHARS_NO_COLON_1=RULE_GOOD_CHARS_NO_COLON
+		{
+			$current.merge(this_GOOD_CHARS_NO_COLON_1);
+		}
+		{
+			newLeafNode(this_GOOD_CHARS_NO_COLON_1, grammarAccess.getSentencePlusAssignAndColonAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_1());
 		}
 		    |
 		kw=':='
 		{
 			$current.merge(kw);
-			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonEqualsSignKeyword_1());
+			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonEqualsSignKeyword_2());
 		}
 		    |
 		kw=':'
 		{
 			$current.merge(kw);
-			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonKeyword_2());
+			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonKeyword_3());
 		}
 		    |
-		this_STRING_3=RULE_STRING
+		this_STRING_4=RULE_STRING
 		{
-			$current.merge(this_STRING_3);
+			$current.merge(this_STRING_4);
 		}
 		{
-			newLeafNode(this_STRING_3, grammarAccess.getSentencePlusAssignAndColonAccess().getSTRINGTerminalRuleCall_3());
+			newLeafNode(this_STRING_4, grammarAccess.getSentencePlusAssignAndColonAccess().getSTRINGTerminalRuleCall_4());
 		}
 	)+
 ;
@@ -847,6 +940,8 @@ RULE_ML_COMMENT : '/*' ( options {greedy=false;} : . )*'*/';
 RULE_SL_COMMENT : '//' ~(('\n'|'\r'))* ('\r'? '\n')?;
 
 RULE_WS : (' '|'\t'|'\r'|'\n')+;
+
+RULE_LOCAL_VARIABLE : '$' RULE_GOOD_CHARS_NO_COLON;
 
 fragment RULE_GOOD_CHAR_NO_COLON : ('!'..'9'|'<'..'~');
 

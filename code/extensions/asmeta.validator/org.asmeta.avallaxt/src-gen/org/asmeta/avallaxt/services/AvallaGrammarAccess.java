@@ -149,12 +149,13 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		private final RuleCall cStepUntilParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		private final RuleCall cExecParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
 		private final RuleCall cExecBlockParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
+		private final RuleCall cChooseParserRuleCall_6 = (RuleCall)cAlternatives.eContents().get(6);
 		
 		//Command:
-		//    Check | Set | {Step} Step | StepUntil | Exec | ExecBlock;
+		//    Check | Set | {Step} Step | StepUntil | Exec | ExecBlock | Choose;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//Check | Set | {Step} Step | StepUntil | Exec | ExecBlock
+		//Check | Set | {Step} Step | StepUntil | Exec | ExecBlock | Choose
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//Check
@@ -180,6 +181,9 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		
 		//ExecBlock
 		public RuleCall getExecBlockParserRuleCall_5() { return cExecBlockParserRuleCall_5; }
+		
+		//Choose
+		public RuleCall getChooseParserRuleCall_6() { return cChooseParserRuleCall_6; }
 	}
 	public class CheckElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.Check");
@@ -317,6 +321,46 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		//";"
 		public Keyword getSemicolonKeyword_2() { return cSemicolonKeyword_2; }
 	}
+	public class ChooseElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.Choose");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cSetchooseKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cVarAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cVarLOCAL_VARIABLETerminalRuleCall_1_0 = (RuleCall)cVarAssignment_1.eContents().get(0);
+		private final Keyword cColonEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cValueAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cValueSentenceParserRuleCall_3_0 = (RuleCall)cValueAssignment_3.eContents().get(0);
+		private final Keyword cSemicolonKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		
+		//// added choose for flaky scenarios NOV 2024
+		//Choose:
+		//    'setchoose' var = LOCAL_VARIABLE  ':='    value=sentence ";";
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'setchoose' var = LOCAL_VARIABLE  ':='	value=sentence ";"
+		public Group getGroup() { return cGroup; }
+		
+		//'setchoose'
+		public Keyword getSetchooseKeyword_0() { return cSetchooseKeyword_0; }
+		
+		//var = LOCAL_VARIABLE
+		public Assignment getVarAssignment_1() { return cVarAssignment_1; }
+		
+		//LOCAL_VARIABLE
+		public RuleCall getVarLOCAL_VARIABLETerminalRuleCall_1_0() { return cVarLOCAL_VARIABLETerminalRuleCall_1_0; }
+		
+		//':='
+		public Keyword getColonEqualsSignKeyword_2() { return cColonEqualsSignKeyword_2; }
+		
+		//value=sentence
+		public Assignment getValueAssignment_3() { return cValueAssignment_3; }
+		
+		//sentence
+		public RuleCall getValueSentenceParserRuleCall_3_0() { return cValueSentenceParserRuleCall_3_0; }
+		
+		//";"
+		public Keyword getSemicolonKeyword_4() { return cSemicolonKeyword_4; }
+	}
 	public class BlockElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.Block");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -375,7 +419,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		////    end
 		//// end
 		//// we refer to bl2 only with bl2 (NOT bl1:bl2)
-		//// example scanrio:block -> search block in the scenario
+		//// example scenario:block -> search block in the scenario
 		//// if a block is inside the same scenario, scenario can be skipped
 		//ExecBlock:
 		//    'execblock' (scenario=GOOD_CHARS_NO_COLON ':')? block=GOOD_CHARS_NO_COLON ';';
@@ -438,9 +482,10 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	public class SentenceElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.sentence");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cGOOD_CHARS_NO_COLONTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final Keyword cColonKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
-		private final RuleCall cSTRINGTerminalRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cLOCAL_VARIABLETerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cGOOD_CHARS_NO_COLONTerminalRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final Keyword cColonKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
+		private final RuleCall cSTRINGTerminalRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//// a sequence of char string terminated by ; or by : semicolon
 		//// it can be also a string like "even"
@@ -448,47 +493,54 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		//// it can be f( "pippo" ) = "jjj"
 		//// it can be aslo with some colon check (forall $k in {0 : 4} with
 		//sentence:
-		//    (GOOD_CHARS_NO_COLON | ':' | STRING)+;
+		//    (LOCAL_VARIABLE | GOOD_CHARS_NO_COLON | ':' | STRING)+;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//(GOOD_CHARS_NO_COLON | ':' | STRING)+
+		//(LOCAL_VARIABLE | GOOD_CHARS_NO_COLON | ':' | STRING)+
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
+		//LOCAL_VARIABLE
+		public RuleCall getLOCAL_VARIABLETerminalRuleCall_0() { return cLOCAL_VARIABLETerminalRuleCall_0; }
+		
 		//GOOD_CHARS_NO_COLON
-		public RuleCall getGOOD_CHARS_NO_COLONTerminalRuleCall_0() { return cGOOD_CHARS_NO_COLONTerminalRuleCall_0; }
+		public RuleCall getGOOD_CHARS_NO_COLONTerminalRuleCall_1() { return cGOOD_CHARS_NO_COLONTerminalRuleCall_1; }
 		
 		//':'
-		public Keyword getColonKeyword_1() { return cColonKeyword_1; }
-		
-		//STRING
-		public RuleCall getSTRINGTerminalRuleCall_2() { return cSTRINGTerminalRuleCall_2; }
-	}
-	public class SentencePlusAssignAndColonElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.sentencePlusAssignAndColon");
-		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cGOOD_CHARS_NO_COLONTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final Keyword cColonEqualsSignKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
-		private final Keyword cColonKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
-		private final RuleCall cSTRINGTerminalRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
-		
-		//sentencePlusAssignAndColon:
-		//    (GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//(GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+
-		public Alternatives getAlternatives() { return cAlternatives; }
-		
-		//GOOD_CHARS_NO_COLON
-		public RuleCall getGOOD_CHARS_NO_COLONTerminalRuleCall_0() { return cGOOD_CHARS_NO_COLONTerminalRuleCall_0; }
-		
-		//':='
-		public Keyword getColonEqualsSignKeyword_1() { return cColonEqualsSignKeyword_1; }
-		
-		//":"
 		public Keyword getColonKeyword_2() { return cColonKeyword_2; }
 		
 		//STRING
 		public RuleCall getSTRINGTerminalRuleCall_3() { return cSTRINGTerminalRuleCall_3; }
+	}
+	public class SentencePlusAssignAndColonElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.sentencePlusAssignAndColon");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cLOCAL_VARIABLETerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cGOOD_CHARS_NO_COLONTerminalRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final Keyword cColonEqualsSignKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
+		private final Keyword cColonKeyword_3 = (Keyword)cAlternatives.eContents().get(3);
+		private final RuleCall cSTRINGTerminalRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
+		
+		//sentencePlusAssignAndColon:
+		//    (LOCAL_VARIABLE | GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//(LOCAL_VARIABLE | GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//LOCAL_VARIABLE
+		public RuleCall getLOCAL_VARIABLETerminalRuleCall_0() { return cLOCAL_VARIABLETerminalRuleCall_0; }
+		
+		//GOOD_CHARS_NO_COLON
+		public RuleCall getGOOD_CHARS_NO_COLONTerminalRuleCall_1() { return cGOOD_CHARS_NO_COLONTerminalRuleCall_1; }
+		
+		//':='
+		public Keyword getColonEqualsSignKeyword_2() { return cColonEqualsSignKeyword_2; }
+		
+		//":"
+		public Keyword getColonKeyword_3() { return cColonKeyword_3; }
+		
+		//STRING
+		public RuleCall getSTRINGTerminalRuleCall_4() { return cSTRINGTerminalRuleCall_4; }
 	}
 	
 	
@@ -501,6 +553,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	private final StepElements pStep;
 	private final StepUntilElements pStepUntil;
 	private final ExecElements pExec;
+	private final ChooseElements pChoose;
 	private final BlockElements pBlock;
 	private final ExecBlockElements pExecBlock;
 	private final PathElements pPath;
@@ -510,6 +563,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	private final TerminalRule tWS;
 	private final SentenceElements pSentence;
 	private final SentencePlusAssignAndColonElements pSentencePlusAssignAndColon;
+	private final TerminalRule tLOCAL_VARIABLE;
 	private final TerminalRule tGOOD_CHAR_NO_COLON;
 	private final TerminalRule tGOOD_CHARS_NO_COLON;
 	
@@ -527,6 +581,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		this.pStep = new StepElements();
 		this.pStepUntil = new StepUntilElements();
 		this.pExec = new ExecElements();
+		this.pChoose = new ChooseElements();
 		this.pBlock = new BlockElements();
 		this.pExecBlock = new ExecBlockElements();
 		this.pPath = new PathElements();
@@ -536,6 +591,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		this.tWS = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.WS");
 		this.pSentence = new SentenceElements();
 		this.pSentencePlusAssignAndColon = new SentencePlusAssignAndColonElements();
+		this.tLOCAL_VARIABLE = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.LOCAL_VARIABLE");
 		this.tGOOD_CHAR_NO_COLON = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.GOOD_CHAR_NO_COLON");
 		this.tGOOD_CHARS_NO_COLON = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.GOOD_CHARS_NO_COLON");
 	}
@@ -598,7 +654,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	}
 	
 	//Command:
-	//    Check | Set | {Step} Step | StepUntil | Exec | ExecBlock;
+	//    Check | Set | {Step} Step | StepUntil | Exec | ExecBlock | Choose;
 	public CommandElements getCommandAccess() {
 		return pCommand;
 	}
@@ -658,6 +714,17 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		return getExecAccess().getRule();
 	}
 	
+	//// added choose for flaky scenarios NOV 2024
+	//Choose:
+	//    'setchoose' var = LOCAL_VARIABLE  ':='    value=sentence ";";
+	public ChooseElements getChooseAccess() {
+		return pChoose;
+	}
+	
+	public ParserRule getChooseRule() {
+		return getChooseAccess().getRule();
+	}
+	
 	//Block:
 	//    'begin' name= GOOD_CHARS_NO_COLON
 	//    elements+=Element*
@@ -677,7 +744,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	////    end
 	//// end
 	//// we refer to bl2 only with bl2 (NOT bl1:bl2)
-	//// example scanrio:block -> search block in the scenario
+	//// example scenario:block -> search block in the scenario
 	//// if a block is inside the same scenario, scenario can be skipped
 	//ExecBlock:
 	//    'execblock' (scenario=GOOD_CHARS_NO_COLON ':')? block=GOOD_CHARS_NO_COLON ';';
@@ -731,7 +798,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	//// it can be f( "pippo" ) = "jjj"
 	//// it can be aslo with some colon check (forall $k in {0 : 4} with
 	//sentence:
-	//    (GOOD_CHARS_NO_COLON | ':' | STRING)+;
+	//    (LOCAL_VARIABLE | GOOD_CHARS_NO_COLON | ':' | STRING)+;
 	public SentenceElements getSentenceAccess() {
 		return pSentence;
 	}
@@ -741,13 +808,18 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	}
 	
 	//sentencePlusAssignAndColon:
-	//    (GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+;
+	//    (LOCAL_VARIABLE | GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+;
 	public SentencePlusAssignAndColonElements getSentencePlusAssignAndColonAccess() {
 		return pSentencePlusAssignAndColon;
 	}
 	
 	public ParserRule getSentencePlusAssignAndColonRule() {
 		return getSentencePlusAssignAndColonAccess().getRule();
+	}
+	
+	//terminal LOCAL_VARIABLE: '$'GOOD_CHARS_NO_COLON;
+	public TerminalRule getLOCAL_VARIABLERule() {
+		return tLOCAL_VARIABLE;
 	}
 	
 	//terminal GOOD_CHAR_NO_COLON:

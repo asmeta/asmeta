@@ -96,6 +96,15 @@ public interface AvallaFactory extends EFactory
   Exec createExec();
 
   /**
+   * Returns a new object of class '<em>Choose</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Choose</em>'.
+   * @generated
+   */
+  Choose createChoose();
+
+  /**
    * Returns a new object of class '<em>Block</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

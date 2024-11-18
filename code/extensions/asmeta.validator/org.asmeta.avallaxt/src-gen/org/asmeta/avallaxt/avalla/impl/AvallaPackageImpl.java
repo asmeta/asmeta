@@ -7,6 +7,7 @@ import org.asmeta.avallaxt.avalla.AvallaFactory;
 import org.asmeta.avallaxt.avalla.AvallaPackage;
 import org.asmeta.avallaxt.avalla.Block;
 import org.asmeta.avallaxt.avalla.Check;
+import org.asmeta.avallaxt.avalla.Choose;
 import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.Exec;
@@ -87,6 +88,13 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
    * @generated
    */
   private EClass execEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass chooseEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -386,6 +394,39 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
    * @generated
    */
   @Override
+  public EClass getChoose()
+  {
+    return chooseEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getChoose_Var()
+  {
+    return (EAttribute)chooseEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getChoose_Value()
+  {
+    return (EAttribute)chooseEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EClass getBlock()
   {
     return blockEClass;
@@ -515,6 +556,10 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
     execEClass = createEClass(EXEC);
     createEAttribute(execEClass, EXEC__RULE);
 
+    chooseEClass = createEClass(CHOOSE);
+    createEAttribute(chooseEClass, CHOOSE__VAR);
+    createEAttribute(chooseEClass, CHOOSE__VALUE);
+
     blockEClass = createEClass(BLOCK);
     createEAttribute(blockEClass, BLOCK__NAME);
     createEReference(blockEClass, BLOCK__ELEMENTS);
@@ -560,6 +605,7 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
     setEClass.getESuperTypes().add(this.getCommand());
     stepUntilEClass.getESuperTypes().add(this.getCommand());
     execEClass.getESuperTypes().add(this.getCommand());
+    chooseEClass.getESuperTypes().add(this.getCommand());
     blockEClass.getESuperTypes().add(this.getElement());
     execBlockEClass.getESuperTypes().add(this.getCommand());
     stepEClass.getESuperTypes().add(this.getCommand());
@@ -591,6 +637,10 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
 
     initEClass(execEClass, Exec.class, "Exec", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getExec_Rule(), ecorePackage.getEString(), "rule", null, 0, 1, Exec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(chooseEClass, Choose.class, "Choose", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getChoose_Var(), ecorePackage.getEString(), "var", null, 0, 1, Choose.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getChoose_Value(), ecorePackage.getEString(), "value", null, 0, 1, Choose.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(blockEClass, Block.class, "Block", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getBlock_Name(), ecorePackage.getEString(), "name", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

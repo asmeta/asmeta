@@ -116,6 +116,11 @@ public class AvallaAdapterFactory extends AdapterFactoryImpl
         return createExecAdapter();
       }
       @Override
+      public Adapter caseChoose(Choose object)
+      {
+        return createChooseAdapter();
+      }
+      @Override
       public Adapter caseBlock(Block object)
       {
         return createBlockAdapter();
@@ -268,6 +273,21 @@ public class AvallaAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createExecAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.asmeta.avallaxt.avalla.Choose <em>Choose</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.asmeta.avallaxt.avalla.Choose
+   * @generated
+   */
+  public Adapter createChooseAdapter()
   {
     return null;
   }
