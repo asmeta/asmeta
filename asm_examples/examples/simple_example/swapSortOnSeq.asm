@@ -4,7 +4,7 @@ import ../../STDL/StandardLibrary
 
 signature:
 	dynamic controlled list: Seq(Integer)
-	derived subseq: Prod(Seq(Integer), Natural, Natural) -> Seq(Integer)
+	static subseq: Prod(Seq(Integer), Natural, Natural) -> Seq(Integer)
 
 definitions:
 

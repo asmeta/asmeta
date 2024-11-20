@@ -34,6 +34,7 @@ package org.asmeta.parser.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 import org.apache.log4j.Logger;
 
@@ -62,6 +63,7 @@ public abstract class ReflectiveVisitor<T> {
 	protected T invokeMethod(Object object) {
 		return invokeMethod(object, "visit");
 	}
+	
 
 	/**
 	 * Invokes the method (belonging to this class or to a subclass) with the 
@@ -80,7 +82,11 @@ public abstract class ReflectiveVisitor<T> {
 			Class<?>[] interfaces = argument.getClass().getInterfaces();
 			Class<?> anInterface = null;
 			try {
+				// the first interface must exist
 				assert interfaces != null;
+				assert interfaces.length > 0: "not suitable interfaces found for " + 
+						this.getClass() + " for method " +methodName +
+						" with argument " + argument.getClass();
 				// take the first interface
 				anInterface = interfaces[0];
 				//System.out.println(methodName + " - " + anInterface + " - " + argument.toString());

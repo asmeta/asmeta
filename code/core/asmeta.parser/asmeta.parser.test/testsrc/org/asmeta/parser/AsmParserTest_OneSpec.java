@@ -2,6 +2,7 @@ package org.asmeta.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -30,8 +31,9 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 
 	@BeforeClass
 	public static void setUpLogger() {
-		//AsmParserTest.setUpLogger();
-		//Logger.getLogger("org.asmeta.parser").setLevel(Level.ALL);
+		AsmParserTest.setUpLogger();
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.ALL);
+		log.addAppender(new ConsoleAppender(new SimpleLayout()));
 	}
 
 	@Test
@@ -187,7 +189,7 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 	}
 
 	@Test
-	public void test2() {
+	public void testNeedhamSchroeder() {
 		testOneSpec("examples/NeedhamSchroeder/oldVersion/NeedhamSchroederWithSpy.asm");
 	}
 
@@ -212,6 +214,13 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 		assertTrue(body instanceof SetTerm);
 		assertEquals(1,((SetTerm) body).getTerm().size());
 	}
+	
+	@Test
+	public void testOrderSystem() {
+		AsmCollection asm = testOneSpec("examples\\models\\ordersystem_april2010.asm");
+		assertNotNull(asm);
+	}
+
 
 	@Test
 	public void testPhilo1() {

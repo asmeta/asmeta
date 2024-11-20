@@ -155,8 +155,8 @@ public class AsmParserTest {
 			}
 			return x;
 		} catch (Exception e) {
-			//e.printStackTrace();
-			log.error("in file " + spec.getPath() + "exception " + e.getMessage());
+			e.printStackTrace();
+			log.error("in file " + spec.getPath() + " exception " + e.getMessage());
 			return null;
 		} catch (Error e) {
 			//e.printStackTrace();

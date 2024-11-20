@@ -23,6 +23,7 @@ signature:
 	dynamic controlled genNonces: Agent -> Powerset(Nonce) // Nonce
 	dynamic controlled recipient: Nonce -> Agent // recipient
 	static inv: PubKey -> PriKey // inv
+	// Agent is dynamic,
 	static pubkey: Agent -> PubKey // pubkey
 	static prikey: Agent -> PriKey // prikey
 	dynamic controlled val: Traffic -> Prod(Agent, Agent, Message) //val
