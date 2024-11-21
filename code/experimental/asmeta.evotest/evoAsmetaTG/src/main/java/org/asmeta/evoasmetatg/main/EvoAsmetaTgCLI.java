@@ -17,16 +17,15 @@ import org.apache.logging.log4j.Logger;
 import org.asmeta.evoasmetatg.application.TranslationException;
 import org.asmeta.evoasmetatg.application.Translator;
 import org.asmeta.evoasmetatg.application.TranslatorImpl;
-import org.asmeta.junit2avalla.main.Junit2AvallaCLI;
 
 /**
- * 
+ * This is the main class of the application which serves as the entry point.
  */
 public class EvoAsmetaTgCLI {
 
 	/* Constants */
 	private static final String INPUT = "input";
-	private static final String OUTPUT = Junit2AvallaCLI.OUTPUT;
+	private static final String OUTPUT = "output";
 	private static final String CLEAN = "clean";
 	private static final String HELP = "help";
 	private static final String JAVA_PATH = "javaPath";

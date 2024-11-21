@@ -10,10 +10,12 @@ import org.apache.logging.log4j.Logger;
 import org.asmeta.asm2java.config.TranslatorOptionsImpl;
 import org.asmeta.asm2java.config.ModeConstantsConfig;
 
-
+/**
+ * The {@code OptionsImpl} class provides an implementation of the {@link Options} interface.
+ */
 public class OptionsImpl implements Options {
 
-	/** Constants */
+	/* Constants */
 	private static final String OPTIONS_ID = "-D";
 
 	/** Logger */
@@ -59,9 +61,9 @@ public class OptionsImpl implements Options {
 
 		if (action != null) {
 			action.accept(optionValue);
-			logger.info("Setting the translator option " + optionName + " to " + optionValue + ".");
+			logger.info("Setting the translator option {} to {}.", optionName, optionValue );
 		} else {
-			logger.error("Failed to set the value: " + optionName);
+			logger.error("Failed to set the value: {} ", optionName);
 			throw new IllegalArgumentException("Unexpected value: " + optionName);
 		}
 	}
@@ -105,7 +107,5 @@ public class OptionsImpl implements Options {
 	public boolean isCompiler() {
 		return compiler;
 	}
-
-
 
 }

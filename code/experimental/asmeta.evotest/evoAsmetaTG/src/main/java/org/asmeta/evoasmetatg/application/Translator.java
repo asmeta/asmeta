@@ -4,6 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The {@code Translator} interface defines a contract for generating
+ * Avalla scenarios from an Asmeta specification using the Evosuite tool.
+ */
 public interface Translator {
 	
     /**
@@ -46,11 +50,16 @@ public interface Translator {
     void setEvosuiteVersion(String evosuiteVersion);
 	
     /**
-     * Executes the translation process.
+     * Executes the translation process: <p>
+     * - Runs the asmetal2java service to get the translation of the asm specification java
+     *  test class and the java test wrapper class, then compiles them with the selected java version;<br>
+     * - Runs Evosuite jar to generate junit scenarios on the compiled classes;<br>
+     * - Runs the junit2avalla service to translate the junit scenarios into Avalla scenarios;<br>
+     * Finally cleans the compiled class files.
      *
      * @return {@code true} if the translation was successful, otherwise {@code false}.
-     * @throws TranslationException 
-     * @throws IOException 
+     * @throws TranslationException if there is an error during the translation process.
+     * @throws IOException if an I/O error occurs.
      */
     void generate() throws TranslationException, IOException;
     

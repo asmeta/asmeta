@@ -2,6 +2,9 @@ package org.asmeta.evoasmetatg.config;
 
 import java.util.List;
 
+/**
+ * Includes all the available operations regarding the options of the Translator.
+ */
 public interface Options {
 
 	/**
