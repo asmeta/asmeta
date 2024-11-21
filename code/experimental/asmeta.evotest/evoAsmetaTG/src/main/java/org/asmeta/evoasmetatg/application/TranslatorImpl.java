@@ -15,6 +15,9 @@ import org.asmeta.evoasmetatg.config.Options;
 import org.asmeta.evoasmetatg.config.OptionsImpl;
 import org.asmeta.junit2avalla.main.Junit2AvallaCLI;
 
+/**
+ * The {@code TranslatorImpl} class provides an implementation of the {@link Translator} interface.
+ */
 public class TranslatorImpl implements Translator {
 
 	/** Logger */
@@ -135,15 +138,20 @@ public class TranslatorImpl implements Translator {
 		pb.inheritIO(); // show the output on the console
 		try {
 			Process process = pb.start();
-			process.waitFor();
+		    int exitCode = process.waitFor();
+		    logger.info("Process exited with code: {}", exitCode);
+
+		    if (exitCode != 0) {
+		        throw new TranslationException("Evosuite error: Process exited with code " + exitCode);
+		    }
 		} catch (InterruptedException e) {
 			/* Clean up whatever needs to be handled before interrupting */
 			Thread.currentThread().interrupt();
 			throw new TranslationException("Evosuite error." + e.getMessage());
+		} finally {
+			logger.info("Cleaning the compiled files in: {}.", TranslatorConstants.EVOSUITE_TARGET);
+			cleanFolder(TranslatorConstants.EVOSUITE_TARGET);
 		}
-
-		logger.info("Cleaning the compiled files in: {}.", TranslatorConstants.EVOSUITE_TARGET);
-		cleanFolder(TranslatorConstants.EVOSUITE_TARGET);
 
 		// translate to avalla
 		logger.info("Running Junit2Avalla:\n");
