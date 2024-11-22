@@ -14,8 +14,11 @@ VERIFICA_SCARICO_FUMI | ACCESA | VERIFICA_PELLET_POSTACCENSIONE}
        dynamic controlled pellet: Pellet
        dynamic controlled potenza: Potenza
        dynamic controlled timer: Timer
-dynamic monitored tasto_potenza: String
-dynamic monitored tasto_on_off: String
+       dynamic controlled fuliggine: Fuliggine
+       
+		dynamic monitored tasto_potenza: String
+		dynamic monitored tasto_on_off: String
+		
 definitions:
 domain Pellet = {0 : 50}
 domain Potenza = {1 : 3}
@@ -41,9 +44,9 @@ macro rule r_avvio_ventola_fumi =
                         endif
 macro rule r_pulire_tubi =
               par
-                      stato_stufa := STANBY
-              outMess := " pulire tubi"
-                      fuliggine := 0
+                    stato_stufa := STANBY
+              		outMess := " pulire tubi"
+                    fuliggine := 0
               endpar
 macro rule r_accensione_fiamma =
                       if(stato_stufa=VERIFICA_PELLET_PREACCENSIONE ) then
@@ -53,32 +56,35 @@ macro rule r_accensione_fiamma =
                                           stato_stufa := ACCESA
                                  endif
                        endif
+macro rule r_aumenta_potenza =
+        if potenza<3 then
+                potenza := potenza +1
+        endif
+macro rule r_diminuisci_potenza =
+        if(potenza>1) then
+                potenza := potenza -1
+        endif
+
 macro rule r_diminuisci_timer_pellet=
+		par
                         timer := timer -1
-                        if(tasto_potenza="aumenta")
-                                          r_aumenta_potenza
+                        if(tasto_potenza="aumenta") then
+                                          r_aumenta_potenza[]
                         endif
-                        if(tasto_potenza="diminuisci")
-                                          r_diminuisci_potenza
+                        if(tasto_potenza="diminuisci") then 
+                                          r_diminuisci_potenza[]
                         endif
                         if ((stato_stufa=ACCESA) and (timer=0) and (pellet<10)) then
                                  par
                     outMess := " inserire pellet"
                                   pellet := 50
                                   timer := 10
-                                  fuliggine=fuliggine +1
+                                  fuliggine := fuliggine +1
                                  endpar
                                           else
                                            pellet := pellet - potenza
                                  endif
-macro rule r_aumenta_potenza =
-        if(potenza<3)
-                potenza := potenza +1
-        endif
-macro rule r_diminuisci_potenza =
-        if(potenza>1)
-                potenza := potenza -1
-        endif
+		endpar
 macro rule r_spegni =
   if((stato_stufa=ACCESA) and (tasto_on_off="off")) then
                 stato_stufa := STANBY
