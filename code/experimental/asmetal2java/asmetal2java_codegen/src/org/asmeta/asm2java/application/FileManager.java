@@ -120,55 +120,52 @@ public class FileManager {
 	File generateFile(String name, AsmCollection model, TranslatorOptions userOptions, Mode mode) throws IOException {
 
 		File javaFile = null;
-
+		AsmToJavaGenerator javaGenerator = null;
+		
 		switch (mode) {
 		case TRANSLATOR_MODE:
 			checkPath(TRANSLATION_DIR_PATH);
 			javaFile = new File(TRANSLATION_DIR_PATH + File.separator + name + JAVA_EXTENSION);
-			deleteExisting(javaFile);
 			// Generate the Java translation.
-			generate(model, userOptions, javaFile, Generators.getJavaGenerator());
+			javaGenerator = Generators.getJavaGenerator();
 			break;
 		case COMPILER_MODE:
 			checkPath(COMPILER_DIR_PATH);
 			javaFile = new File(COMPILER_DIR_PATH + File.separator + name + JAVA_EXTENSION);
-			deleteExisting(javaFile);
 			// Generate the Java translation.
-			generate(model, userOptions, javaFile, Generators.getJavaGenerator());
+			javaGenerator = Generators.getJavaGenerator();
 			break;
 		case GENERATE_EXE_MODE:
 			checkPath(EXE_DIR_PATH);
 			javaFile = new File(EXE_DIR_PATH + File.separator + name + EXE_EXTENSION);
-			deleteExisting(javaFile);
 			// Generate an executable of the generated Java class.
-			generate(model, userOptions, javaFile, Generators.getJavaExeGenerator());
+			javaGenerator = Generators.getJavaExeGenerator();
 			break;
 		case GENERATE_WIN_MODE:
 			checkPath(WIN_DIR_PATH);
 			javaFile = new File(WIN_DIR_PATH + File.separator + name + WIN_EXTENSION);
-			deleteExisting(javaFile);
 			// Generate an executable of the generated Java class with a Graphical User
 			// Interface (GUI).
-			generate(model, userOptions, javaFile, Generators.getJavaWindowGenerator());
+			javaGenerator =  Generators.getJavaWindowGenerator();
 			break;
 		case TRANSLATOR_TEST_MODE:
 			checkPath(TESTGEN_DIR_PATH);
 			javaFile = new File(TESTGEN_DIR_PATH + File.separator + name + JAVA_EXTENSION);
-			deleteExisting(javaFile);
 			// Generate a specific translation for test generation.
-			generate(model, userOptions, javaFile, Generators.getJavaTestGenerator());
+			javaGenerator = Generators.getJavaTestGenerator();
 			break;
 		case TEST_GEN_MODE:
 			checkPath(TESTGEN_DIR_PATH);
 			javaFile = new File(TESTGEN_DIR_PATH + File.separator + name + ATG_EXTENSION);
-			deleteExisting(javaFile);
 			// Generate a class designed for generating tests for the translated Java class.
-			generate(model, userOptions, javaFile, Generators.getJavaAtgGenerator());
+			javaGenerator =  Generators.getJavaAtgGenerator();
 			break;
 		default:
-			break;
-
+			throw new IllegalArgumentException("Unrecognized mode: " + mode);
 		}
+		deleteExisting(javaFile);
+		// Generate the translation.
+		generate(model, userOptions, javaFile, javaGenerator);
 
 		return javaFile;
 	}
