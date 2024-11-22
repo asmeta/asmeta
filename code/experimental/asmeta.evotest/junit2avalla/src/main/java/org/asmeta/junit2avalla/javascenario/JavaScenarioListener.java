@@ -231,11 +231,13 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	@Override
 	public void enterSetVariableValue(SetVariableValueContext ctx) {
 		log.debug("Entering start_test_scenario_setFunction_setVariableValue: {} .", ctx.getText());
-		if(!ctx.INT().isEmpty() || ctx.STRING() != null) {
+		if(!ctx.INT().isEmpty() || ctx.STRING() != null || ctx.Boolean() != null) {
+			// if its a primitive type (int, string or boolean)
 			log.debug("Setting the primitive type value : {} .", ctx.getText());
 			this.currentJavaVariable.setValue(ctx.getText());
 			this.currentJavaVariable.setPrimitive(true);
 		} else {
+			// if its a variable (identifier)
 			log.debug("Setting the variable value : {} .", ctx.getText());
 			log.debug("Searching the value in the vaiables dictonay : {} .", this.variablesList.get(ctx.getText()));
 			this.currentJavaVariable.setValue(this.variablesList.get(ctx.getText()).getValue());

@@ -57,7 +57,7 @@ stepFunction
     ;
     
 setVariableValue
-    : (ID | STRING | INT+)
+    : (Boolean | ID | STRING | INT+)
     ;
 
 trycatchblock
@@ -111,6 +111,10 @@ Getter
 TryCatch
     : 'try' RCURLY (.)*? LCURLY 'catch' (.)? RCURLY (.)? LCURLY
     ;
+    
+Boolean
+    :  (TRUE | FALSE)
+    ;
 
 Identifier
     : ID (DOT ID)+
@@ -149,6 +153,8 @@ STEP : 'step' ;
 GET : 'get_' ;
 TRY : 'try' ;
 CATCH : 'catch' ;
+TRUE : 'true' ;
+FALSE : 'false' ;
 
 INT : [0-9]+ ;
 ID: [a-zA-Z_][a-zA-Z_0-9]* ;
