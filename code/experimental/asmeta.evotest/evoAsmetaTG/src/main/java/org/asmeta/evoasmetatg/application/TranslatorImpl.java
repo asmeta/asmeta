@@ -168,7 +168,7 @@ public class TranslatorImpl implements Translator {
 	public void clean() {
 		logger.debug("Cleaning the resources...");
 		cleanFolderManagingException(TranslatorConstants.EVOSUITE_TESTS);
-		cleanFolderManagingException(TranslatorConstants.EVOSUITE_REPORT);
+		// Don't clean the statistics.csv TranslatorConstants.EVOSUITE_REPORT
 	}
 
 	@Override
