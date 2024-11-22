@@ -59,8 +59,7 @@ public class GeneratorCompilerTest {
 	 * The following files have compilation errors already in the .asm file 
 	 * and asmetal2java correctly throws exceptions
 	 */
-	static List<String> parseException = List.of(
-			"stufa.asm");
+	static List<String> parseException = List.of(/* Empty */);
 	
 	/**
 	 * The following classes have runtime errors
