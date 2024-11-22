@@ -43,6 +43,10 @@ final class TranslatorConstants {
 	static final String EVOSUITE_TESTS = "evosuite-tests";
 	
 	static final String EVOSUITE_REPORT = "evosuite-report";
+	
+	static final String JAVA_EXE = "java.exe";
+
+	static final String BIN = "bin";
 
 	static final String DASH = "-";
 

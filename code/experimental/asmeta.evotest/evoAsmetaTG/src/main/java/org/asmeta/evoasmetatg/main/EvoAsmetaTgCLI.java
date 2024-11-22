@@ -142,8 +142,8 @@ public class EvoAsmetaTgCLI {
 
 		// java path
 		Option javaPath = Option.builder(JAVA_PATH).argName(JAVA_PATH).type(String.class)
-				.hasArg(true).desc("Set the path of java executable used to run Evosuite.\n"
-						+ " Example: \"C:\\Program Files\\Java\\jdk-1.8\\bin\\java.exe\"").build();
+				.hasArg(true).desc("Set the path of java jdk folder used to run Evosuite.\n"
+						+ " Example: \"C:\\Program Files\\Java\\jdk-1.8\"").build();
 		
 		// compiler version
 		Option evosuiteVersion = Option.builder(EVOSUITE_VERSION).argName(EVOSUITE_VERSION).type(String.class)

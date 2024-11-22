@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +17,8 @@ import org.asmeta.evoasmetatg.config.OptionsImpl;
 import org.asmeta.junit2avalla.main.Junit2AvallaCLI;
 
 /**
- * The {@code TranslatorImpl} class provides an implementation of the {@link Translator} interface.
+ * The {@code TranslatorImpl} class provides an implementation of the
+ * {@link Translator} interface.
  */
 public class TranslatorImpl implements Translator {
 
@@ -43,6 +45,9 @@ public class TranslatorImpl implements Translator {
 
 	/** Version of the Java compiler that compiles test files for Evosuite. */
 	private String compilerVersion;
+
+	/** Version of the java jdk specified by the user */
+	private String javaVersion;
 
 	/** indicates whether to clean the folders {@code true} or not {@code false} */
 	private boolean clean;
@@ -88,12 +93,22 @@ public class TranslatorImpl implements Translator {
 
 	@Override
 	public void setJavaPath(String javaPath) throws FileNotFoundException {
-		File javaFile = new File(javaPath);
+		File javaJdkFolder = new File(javaPath);
+		if (!javaJdkFolder.exists() || !javaJdkFolder.isDirectory()) {
+			logger.error("Java jdk directory location not valid: {}.", javaJdkFolder.getAbsolutePath());
+			throw new FileNotFoundException(javaPath);
+		}
+		logger.info("Java jdk directory found at: {}.", javaJdkFolder.getAbsolutePath());
+		File javaFile = new File(Paths.get(javaPath, TranslatorConstants.BIN, TranslatorConstants.JAVA_EXE).toString());
 		if (!javaFile.exists() || !javaFile.isFile()) {
+			logger.error("Java exe file location not valid: {}.", javaFile.getAbsolutePath());
 			throw new FileNotFoundException(javaPath);
 		}
 		this.javaExe = javaFile.getAbsolutePath();
 		logger.info("Setting the path to the java exe: {}.", this.javaExe);
+
+		this.javaVersion = extractJdkVersion(javaJdkFolder);
+		logger.info("Setting the java jdk version to: {}.", this.javaVersion);
 	}
 
 	@Override
@@ -125,11 +140,18 @@ public class TranslatorImpl implements Translator {
 	@Override
 	public void generate() throws TranslationException, IOException {
 
-		// translate to java
+		// check consistency between java and evosuite version
+		if (!checkJavaConsistency()) {
+			logger.error("Found Inconsistency between java and evosuite versions.");
+			throw new TranslationException("There is no consistency between the java version " + javaVersion
+					+ " and the Evosuite version " + evosuiteVersion + " that uses the version " + compilerVersion);
+		}
+
+		// translate to Java
 		logger.info("Running Asmetal2Java:");
 		Asmeta2JavaCLI.main(buildAsmeta2JavaOptions().toArray(new String[0]));
 
-		// executing evouite
+		// executing Evouite
 		logger.info("Running Evosuite:\n" + TranslatorConstants.EVOSUITE_ASCII_ART);
 		List<String> commands = buildEvosuiteOptions();
 		logger.info("List of Evosuite options: {}", commands);
@@ -138,12 +160,12 @@ public class TranslatorImpl implements Translator {
 		pb.inheritIO(); // show the output on the console
 		try {
 			Process process = pb.start();
-		    int exitCode = process.waitFor();
-		    logger.info("Process exited with code: {}", exitCode);
+			int exitCode = process.waitFor();
+			logger.info("Process exited with code: {}", exitCode);
 
-		    if (exitCode != 0) {
-		        throw new TranslationException("Evosuite error: Process exited with code " + exitCode);
-		    }
+			if (exitCode != 0) {
+				throw new TranslationException("Evosuite error: Process exited with code " + exitCode);
+			}
 		} catch (InterruptedException e) {
 			/* Clean up whatever needs to be handled before interrupting */
 			Thread.currentThread().interrupt();
@@ -153,7 +175,7 @@ public class TranslatorImpl implements Translator {
 			cleanFolder(TranslatorConstants.EVOSUITE_TARGET);
 		}
 
-		// translate to avalla
+		// translate to Avalla
 		logger.info("Running Junit2Avalla:\n");
 		Junit2AvallaCLI.main(buildJunit2AvallaOptions().toArray(new String[0]));
 
@@ -217,7 +239,7 @@ public class TranslatorImpl implements Translator {
 	 */
 	private List<String> buildEvosuiteOptions() {
 
-		return Arrays.asList(javaExe, TranslatorConstants.JAR,evosuiteVersion, TranslatorConstants.TARGET,
+		return Arrays.asList(javaExe, TranslatorConstants.JAR, evosuiteVersion, TranslatorConstants.TARGET,
 				TranslatorConstants.EVOSUITE_TARGET, TranslatorConstants.CLASS, asmName + TranslatorConstants.ATG,
 				TranslatorConstants.CRITERION, TranslatorConstants.LINE_BRANCH, TranslatorConstants.DMINIMIZE_TRUE,
 				TranslatorConstants.DASSERTION_STRATEGY_ALL);
@@ -263,7 +285,7 @@ public class TranslatorImpl implements Translator {
 			}
 		}
 	}
-	
+
 	/**
 	 * Clean the folder managing the exception with a try catch block.
 	 * 
@@ -275,6 +297,35 @@ public class TranslatorImpl implements Translator {
 		} catch (IOException e) {
 			logger.error("Failed to clean the folder: {}, because of: {} ", folder, e.getMessage());
 		}
+	}
+
+	/**
+	 * Extract the java jdk version from the jdk folder.
+	 * 
+	 * @param javaJdkFolderPath path to the jdk folder.
+	 * @return String containing the java version.
+	 */
+	private String extractJdkVersion(File javaJdkFolderPath) {
+		String jdk = javaJdkFolderPath.getName();
+		if (jdk.contains("jdk-1.8")) {
+			return TranslatorConstants.JAVA_8;
+		} else if (jdk.contains("jdk-9")) {
+			return TranslatorConstants.JAVA_9;
+		} else {
+			logger.error("Problem while setting the java jdk version: {}.", jdk);
+			throw new IllegalArgumentException("jdk version not recognized: " + jdk);
+		}
+	}
+
+	/**
+	 * Check if the java version passed by the user is the same as the compiler
+	 * version set by Evosuite.
+	 * 
+	 * @return {@code true} if there is consistency between the java versions,
+	 *         {@code false} otherwise.
+	 */
+	private boolean checkJavaConsistency() {
+		return javaVersion.equals(compilerVersion);
 	}
 
 }

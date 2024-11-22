@@ -27,7 +27,7 @@ public interface Translator {
     void setOutput(String outputDir) throws IOException;
     
     /**
-     * Sets the path to the Java executable used to run Evosuite.
+     * Sets the path to the Java jdk folder used to run Evosuite.
      * 
      * @param javaPath path to the java.exe
      * @throws FileNotFoundException 
