@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,6 +47,9 @@ public class TranslatorImpl implements Translator {
 
 	/** Version of the java jdk specified by the user */
 	private String javaVersion;
+
+	/** Time that Evosuite spends on test generation. */
+	private String searchBudget;
 
 	/** indicates whether to clean the folders {@code true} or not {@code false} */
 	private boolean clean;
@@ -135,6 +137,16 @@ public class TranslatorImpl implements Translator {
 		}
 		logger.info("Setting the evosuite version: {} using: {}.", evosuiteVersion, this.evosuiteVersion);
 		logger.info("Setting the java compiler version: {}.", this.compilerVersion);
+	}
+
+	@Override
+	public void setTimeBudget(String timeBudget) {
+		if (Integer.parseInt(timeBudget) < 0) {
+			logger.error("Error while setting the timeBudget for Evosuite.");
+			throw new IllegalArgumentException("Time must be greater than 0.");
+		}
+		logger.info("Setting the timeBudget for Evosuite: {}.", timeBudget);
+		this.searchBudget = timeBudget;
 	}
 
 	@Override
@@ -239,10 +251,18 @@ public class TranslatorImpl implements Translator {
 	 */
 	private List<String> buildEvosuiteOptions() {
 
-		return Arrays.asList(javaExe, TranslatorConstants.JAR, evosuiteVersion, TranslatorConstants.TARGET,
+		List<String> listOfOptions = new LinkedList<>();
+
+		listOfOptions.addAll(List.of(javaExe, TranslatorConstants.JAR, evosuiteVersion, TranslatorConstants.TARGET,
 				TranslatorConstants.EVOSUITE_TARGET, TranslatorConstants.CLASS, asmName + TranslatorConstants.ATG,
 				TranslatorConstants.CRITERION, TranslatorConstants.LINE_BRANCH, TranslatorConstants.DMINIMIZE_TRUE,
-				TranslatorConstants.DASSERTION_STRATEGY_ALL);
+				TranslatorConstants.DASSERTION_STRATEGY_ALL));
+
+		if (this.searchBudget != null) {
+			listOfOptions.add(TranslatorConstants.SEARCH_BUDGET.concat(this.searchBudget));
+		}
+
+		return listOfOptions;
 	}
 
 	/**

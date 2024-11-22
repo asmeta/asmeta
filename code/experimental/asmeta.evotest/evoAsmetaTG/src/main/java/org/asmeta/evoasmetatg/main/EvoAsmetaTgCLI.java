@@ -30,6 +30,7 @@ public class EvoAsmetaTgCLI {
 	private static final String HELP = "help";
 	private static final String JAVA_PATH = "javaPath";
 	private static final String EVOSUITE_VERSION = "evosuiteVersion";
+	private static final String TIME_BUDGET = "timeBudget";
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(EvoAsmetaTgCLI.class);
@@ -90,7 +91,6 @@ public class EvoAsmetaTgCLI {
 	 * @param line the parsed CommandLine object.
 	 * @throws IOException
 	 * @throws TranslationException 
-	 * @throws AsmParsingException
 	 */
 	private void execute(CommandLine line) throws IOException, TranslationException {
 
@@ -114,6 +114,10 @@ public class EvoAsmetaTgCLI {
 		
 		if (line.hasOption(CLEAN)) {
 			translator.setClean(true);
+		}
+		
+		if (line.hasOption(TIME_BUDGET)) {
+			translator.setTimeBudget(line.getOptionValue(TIME_BUDGET));
 		}
 
 		translator.generate();
@@ -154,6 +158,9 @@ public class EvoAsmetaTgCLI {
 				.desc("Delete the files used by the translator in the input folder, "
 						+ "please make sure you have enabled the export property -Dexport=true")
 				.build();
+		
+		Option timeBudget = Option.builder(TIME_BUDGET).argName(TIME_BUDGET).type(Integer.class)
+				.hasArg(true).desc("Set the time budget in seconds for the Evosuite process").build();
 
 		// translator property
 		Option property = Option.builder("D").numberOfArgs(2).argName("property=value").valueSeparator('=')
@@ -165,6 +172,7 @@ public class EvoAsmetaTgCLI {
 		options.addOption(javaPath);
 		options.addOption(evosuiteVersion);
 		options.addOption(clean);
+		options.addOption(timeBudget);
 		options.addOption(property);
 
 		return options;

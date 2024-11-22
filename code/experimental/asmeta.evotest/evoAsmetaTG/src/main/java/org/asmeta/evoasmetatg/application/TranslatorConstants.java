@@ -15,6 +15,8 @@ final class TranslatorConstants {
 	static final String DASSERTION_STRATEGY_ALL = "-Dassertion_strategy=all";
 
 	static final String DMINIMIZE_TRUE = "-Dminimize=true";
+	
+	static final String SEARCH_BUDGET = "-Dsearch_budget=";
 
 	static final String CRITERION = "-criterion";
 

@@ -48,6 +48,13 @@ public interface Translator {
      * @param evosuite the version of evosuite.
      */
     void setEvosuiteVersion(String evosuiteVersion);
+    
+    /**
+     * Set the time budget in seconds for the Evosuite process.
+     * 
+     * @param timeBudget time budget in seconds.
+     */
+    void setTimeBudget(String timeBudget);
 	
     /**
      * Executes the translation process: <p>
