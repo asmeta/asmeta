@@ -47,13 +47,13 @@ public class EvoAsmetaTgCLI {
 	 */
 	public static void main(String[] args) {
 		String asciiart = """
-				
-				 _____              _                       _       _____ ____ 
+
+				 _____              _                       _       _____ ____
 				| ____|_   _____   / \\   ___ _ __ ___   ___| |_ __ |_   _/ ___|
-				|  _| \\ \\ / / _ \\ / _ \\ / __| '_ ` _ \\ / _ \\ __/ _` || || |  _ 
+				|  _| \\ \\ / / _ \\ / _ \\ / __| '_ ` _ \\ / _ \\ __/ _` || || |  _
 				| |___ \\ V / (_) / ___ \\\\__ \\ | | | | |  __/ || (_| || || |_| |
 				|_____| \\_/ \\___/_/   \\_\\___/_| |_| |_|\\___|\\__\\__,_||_| \\____|
-				""" ;
+				""";
 		EvoAsmetaTgCLI main = new EvoAsmetaTgCLI();
 		Options options = getCommandLineOptions();
 		CommandLine line = main.parseCommandLine(args, options);
@@ -65,10 +65,11 @@ public class EvoAsmetaTgCLI {
 				formatter.setOptionComparator(null);
 				// Header and footer strings
 				String header = "EvoAsmetaTG\n\n";
-				String footer = "\nthis project is part of Asmeta, see https://github.com/asmeta/asmeta "
+				String footer = "Note: If your argument is a string and contains a space, put it in double quotes like \"Program Files\"\n"
+						+ "This project is part of Asmeta, see https://github.com/asmeta/asmeta "
 						+ "for further information or to report an issue.";
 
-				formatter.printHelp("EvoAsnetaTG", header, options, footer, false);
+				formatter.printHelp("EvoAsmetaTG", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
 				logger.error("Please specify the asm input file path.");
 			} else {
@@ -90,7 +91,7 @@ public class EvoAsmetaTgCLI {
 	 *
 	 * @param line the parsed CommandLine object.
 	 * @throws IOException
-	 * @throws TranslationException 
+	 * @throws TranslationException
 	 */
 	private void execute(CommandLine line) throws IOException, TranslationException {
 
@@ -103,7 +104,7 @@ public class EvoAsmetaTgCLI {
 		if (line.hasOption(OUTPUT)) {
 			translator.setOutput(line.getOptionValue(OUTPUT));
 		}
-		
+
 		if (line.hasOption(JAVA_PATH)) {
 			translator.setJavaPath(line.getOptionValue(JAVA_PATH));
 		}
@@ -111,11 +112,11 @@ public class EvoAsmetaTgCLI {
 		if (line.hasOption(EVOSUITE_VERSION)) {
 			translator.setEvosuiteVersion(line.getOptionValue(EVOSUITE_VERSION));
 		}
-		
+
 		if (line.hasOption(CLEAN)) {
 			translator.setClean(true);
 		}
-		
+
 		if (line.hasOption(TIME_BUDGET)) {
 			translator.setTimeBudget(line.getOptionValue(TIME_BUDGET));
 		}
@@ -142,13 +143,14 @@ public class EvoAsmetaTgCLI {
 
 		// output directory
 		Option output = Option.builder(OUTPUT).argName(OUTPUT).type(String.class).hasArg(true)
-				.desc("The output folder (optional, defaults to `./output/`)").build();
+				.desc("The output folder (optional, default to `./output/`)").build();
 
 		// java path
-		Option javaPath = Option.builder(JAVA_PATH).argName(JAVA_PATH).type(String.class)
-				.hasArg(true).desc("Set the path of java jdk folder used to run Evosuite.\n"
-						+ " Example: \"C:\\Program Files\\Java\\jdk-1.8\"").build();
-		
+		Option javaPath = Option.builder(JAVA_PATH).argName(JAVA_PATH).type(String.class).hasArg(true)
+				.desc("Set the path of java jdk folder used to run Evosuite.\n"
+						+ " Example: \"C:\\Program Files\\Java\\jdk-1.8\"")
+				.build();
+
 		// compiler version
 		Option evosuiteVersion = Option.builder(EVOSUITE_VERSION).argName(EVOSUITE_VERSION).type(String.class)
 				.hasArg(true).desc("Set the version of Evosuite.").build();
@@ -158,9 +160,9 @@ public class EvoAsmetaTgCLI {
 				.desc("Delete the files used by the translator in the input folder, "
 						+ "please make sure you have enabled the export property -Dexport=true")
 				.build();
-		
-		Option timeBudget = Option.builder(TIME_BUDGET).argName(TIME_BUDGET).type(Integer.class)
-				.hasArg(true).desc("Set the time budget in seconds for the Evosuite process").build();
+
+		Option timeBudget = Option.builder(TIME_BUDGET).argName(TIME_BUDGET).type(Integer.class).hasArg(true)
+				.desc("Set the time budget in seconds for the Evosuite process").build();
 
 		// translator property
 		Option property = Option.builder("D").numberOfArgs(2).argName("property=value").valueSeparator('=')
@@ -209,7 +211,7 @@ public class EvoAsmetaTgCLI {
 		for (String propertyName : properties.stringPropertyNames()) {
 
 			if (!propertyNames.contains(propertyName)) {
-				logger.error("* Unknown property: {}. " , propertyName);
+				logger.error("* Unknown property: {}. ", propertyName);
 				continue;
 			}
 
@@ -219,7 +221,7 @@ public class EvoAsmetaTgCLI {
 				translator.setOptions(propertyName, propertyValue);
 
 			} catch (Exception e) {
-				logger.error("Invalid value for property {} : {}.", propertyName , propertyValue);
+				logger.error("Invalid value for property {} : {}.", propertyName, propertyValue);
 			}
 		}
 

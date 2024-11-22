@@ -98,13 +98,14 @@ public class TranslatorImpl implements Translator {
 		File javaJdkFolder = new File(javaPath);
 		if (!javaJdkFolder.exists() || !javaJdkFolder.isDirectory()) {
 			logger.error("Java jdk directory location not valid: {}.", javaJdkFolder.getAbsolutePath());
-			throw new FileNotFoundException(javaPath);
+			logger.error("Please note: If your argument is a string and contains a space, put it in double quotes like \"Program Files\"");
+			throw new FileNotFoundException("File not found: " + javaPath);
 		}
 		logger.info("Java jdk directory found at: {}.", javaJdkFolder.getAbsolutePath());
 		File javaFile = new File(Paths.get(javaPath, TranslatorConstants.BIN, TranslatorConstants.JAVA_EXE).toString());
 		if (!javaFile.exists() || !javaFile.isFile()) {
 			logger.error("Java exe file location not valid: {}.", javaFile.getAbsolutePath());
-			throw new FileNotFoundException(javaPath);
+			throw new FileNotFoundException("File not found: " + javaPath);
 		}
 		this.javaExe = javaFile.getAbsolutePath();
 		logger.info("Setting the path to the java exe: {}.", this.javaExe);
