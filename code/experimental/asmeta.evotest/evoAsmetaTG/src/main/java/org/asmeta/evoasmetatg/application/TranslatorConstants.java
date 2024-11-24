@@ -35,6 +35,8 @@ final class TranslatorConstants {
 	static final String JAVA_9 = "9";
 
 	static final String JAVA_8 = "8";
+	
+	static final String JAVA_HOME = "JAVA_HOME";
 
 	static final String EVOSUITE_1_2_0_JAR = "evosuite-1.2.0.jar";
 

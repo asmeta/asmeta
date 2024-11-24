@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -98,7 +99,8 @@ public class TranslatorImpl implements Translator {
 		File javaJdkFolder = new File(javaPath);
 		if (!javaJdkFolder.exists() || !javaJdkFolder.isDirectory()) {
 			logger.error("Java jdk directory location not valid: {}.", javaJdkFolder.getAbsolutePath());
-			logger.error("Please note: If your argument is a string and contains a space, put it in double quotes like \"Program Files\"");
+			logger.error(
+					"Please note: If your argument is a string and contains a space, put it in double quotes like \"Program Files\"");
 			throw new FileNotFoundException("File not found: " + javaPath);
 		}
 		logger.info("Java jdk directory found at: {}.", javaJdkFolder.getAbsolutePath());
@@ -170,7 +172,15 @@ public class TranslatorImpl implements Translator {
 		logger.info("List of Evosuite options: {}", commands);
 
 		ProcessBuilder pb = new ProcessBuilder(commands);
-		pb.inheritIO(); // show the output on the console
+		// show the output on the console
+		pb.inheritIO();
+		/*
+		 * remove JAVA_HOME environment variable from local process because Evosuite by
+		 * default will run the Java version specified in JAVA_HOME environment
+		 * variable, so we need to remove it to run the desired Java version.
+		 * This change is local and will not affect the system environment variable
+		 */
+		pb.environment().remove(TranslatorConstants.JAVA_HOME);
 		try {
 			Process process = pb.start();
 			int exitCode = process.waitFor();
@@ -187,6 +197,8 @@ public class TranslatorImpl implements Translator {
 			logger.info("Cleaning the compiled files in: {}.", TranslatorConstants.EVOSUITE_TARGET);
 			cleanFolder(TranslatorConstants.EVOSUITE_TARGET);
 		}
+
+		// restore JAVA_HOME
 
 		// translate to Avalla
 		logger.info("Running Junit2Avalla:\n");
