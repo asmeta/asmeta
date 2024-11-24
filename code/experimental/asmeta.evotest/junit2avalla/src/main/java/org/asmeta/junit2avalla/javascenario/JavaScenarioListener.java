@@ -14,7 +14,10 @@ import org.asmeta.junit2avalla.model.terms.JavaVariableTerm;
 import org.asmeta.junit2avalla.antlr.JavaScenarioBaseListener;
 import org.asmeta.junit2avalla.antlr.JavaScenarioParser.ActualContext;
 import org.asmeta.junit2avalla.antlr.JavaScenarioParser.AsmDeclarationContext;
+import org.asmeta.junit2avalla.antlr.JavaScenarioParser.AssertBooleanContext;
 import org.asmeta.junit2avalla.antlr.JavaScenarioParser.AssertEqualsContext;
+import org.asmeta.junit2avalla.antlr.JavaScenarioParser.BooleanAssertionContext;
+import org.asmeta.junit2avalla.antlr.JavaScenarioParser.BooleanExpectedContext;
 import org.asmeta.junit2avalla.antlr.JavaScenarioParser.ExpectedContext;
 import org.asmeta.junit2avalla.antlr.JavaScenarioParser.ScenarioContext;
 import org.asmeta.junit2avalla.antlr.JavaScenarioParser.SetFunctionContext;
@@ -370,7 +373,63 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		this.scenarioManager.setCheckTerm(this.currenteScenario, this.currentJavaAssertionTerm);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void enterAssertBoolean(AssertBooleanContext ctx) {
+		if(this.ignoreChecks) {
+			log.debug("Ignoring the start_test_scenario_assertBoolean: {} .", ctx.getText());
+			return;
+		}
+		log.debug("Entering start_test_scenario_assertBoolean: {} .", ctx.getText());
+		this.currentJavaAssertionTerm = new JavaAssertionTerm();
+	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void enterBooleanAssertion(BooleanAssertionContext ctx) {
+		if(this.ignoreChecks) {
+			log.debug("Ignoring the start_test_scenario_booleanAssertion: {} .", ctx.getText());
+			return;
+		}
+		if(ctx.ASSERT_TRUE()!= null) {
+			log.debug("parsing ASSERT_TRUE: {} .", ctx.getText());
+			this.currentJavaAssertionTerm.setType("AssertTrue");
+			this.currentJavaAssertionTerm.setActual("true");
+		} else {
+			log.debug("parsing ASSERT_FALSE: {} .", ctx.getText());
+			this.currentJavaAssertionTerm.setType("AssertFalse");
+			this.currentJavaAssertionTerm.setActual("false");
+		}
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void enterBooleanExpected(BooleanExpectedContext ctx) {
+		if(this.ignoreChecks) {
+			log.debug("Ignoring the start_test_scenario_booleanExpected: {} .", ctx.getText());
+			return;
+		}
+		log.debug("parsing Getter: {} .", ctx.getText());
+		this.currentJavaAssertionTerm.setExpected(ctx.getText());
+	}
+	
+	
+
+	@Override
+	public void exitAssertBoolean(AssertBooleanContext ctx) {
+		if(this.ignoreChecks) {
+			log.debug("Ignoring the start_test_scenario_assertBoolean: {} .", ctx.getText());
+			return;
+		}
+		log.debug("Exiting start_test_scenario_assertBoolean: {} . Setting AvallaCheckTerm:", ctx.getText());
+		this.scenarioManager.setCheckTerm(this.currenteScenario, this.currentJavaAssertionTerm);
+	}
 
 	/**
 	 * {@inheritDoc}

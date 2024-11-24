@@ -1,6 +1,7 @@
 grammar JavaScenario;
 
 /*
+ /*
  * Parser Rules
  */
 
@@ -13,7 +14,7 @@ test
     ;
 
 scenario
-    :  (asmDeclaration | variableDeclaration | setFunction | stepFunction| assertEquals | trycatchblock | ~RCURLY)* RCURLY
+    :  (asmDeclaration | variableDeclaration | setFunction | stepFunction| assertEquals | assertBoolean | trycatchblock | ~RCURLY)* RCURLY
     ;
 
 asmDeclaration
@@ -40,6 +41,10 @@ assertEquals
     : ASSERT_EQUALS LPAREN actual COMMA expected RPAREN SEMI
     ;
 
+assertBoolean
+    : booleanAssertion LPAREN booleanExpected RPAREN SEMI
+    ;
+
 actual
     : (Identifier | INT+ | STRING)
     ;
@@ -47,7 +52,15 @@ actual
 expected
     : (Getter | ID)
     ;
+
+booleanAssertion
+    : (ASSERT_TRUE | ASSERT_FALSE)
+    ;
     
+booleanExpected
+    : Getter
+    ;   
+
 setFunction
     : SetFunc LPAREN setVariableValue RPAREN SEMI
     ;
@@ -130,6 +143,14 @@ ASMID
 
 ASSERT_EQUALS
     : 'assertEquals'
+    ;
+    
+ASSERT_TRUE
+    : 'assertTrue'
+    ;    
+    
+ASSERT_FALSE
+    : 'assertFalse'
     ;
 
 AND : '&&' ;
