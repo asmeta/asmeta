@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -155,55 +154,28 @@ public class TranslatorImpl implements Translator {
 	@Override
 	public void generate() throws TranslationException, IOException {
 
-		// check consistency between java and evosuite version
-		if (!checkJavaConsistency()) {
-			logger.error("Found Inconsistency between java and evosuite versions.");
-			throw new TranslationException("There is no consistency between the java version " + javaVersion
-					+ " and the Evosuite version " + evosuiteVersion + " that uses the version " + compilerVersion);
-		}
+		// check consistency between java and Evosuite version
+		checkJavaConsistency();
 
 		// translate to Java
 		logger.info("Running Asmetal2Java:");
-		Asmeta2JavaCLI.main(buildAsmeta2JavaOptions().toArray(new String[0]));
+		int returnCode = Asmeta2JavaCLI.main(buildAsmeta2JavaOptions().toArray(new String[0]));
+		if (returnCode != 0) {
+			logger.error("Stopping the generation.");
+			throw new TranslationException("Asmetal2Java exited with code: " + returnCode);
+		}
 
 		// executing Evouite
 		logger.info("Running Evosuite:\n" + TranslatorConstants.EVOSUITE_ASCII_ART);
-		List<String> commands = buildEvosuiteOptions();
-		logger.info("List of Evosuite options: {}", commands);
-
-		ProcessBuilder pb = new ProcessBuilder(commands);
-		// show the output on the console
-		pb.inheritIO();
-		/*
-		 * remove JAVA_HOME environment variable from local process because Evosuite by
-		 * default will run the Java version specified in JAVA_HOME environment
-		 * variable, so we need to remove it to run the desired Java version.
-		 * This change is local and will not affect the system environment variable
-		 */
-		pb.environment().remove(TranslatorConstants.JAVA_HOME);
-		try {
-			Process process = pb.start();
-			int exitCode = process.waitFor();
-			logger.info("Process exited with code: {}", exitCode);
-
-			if (exitCode != 0) {
-				throw new TranslationException("Evosuite error: Process exited with code " + exitCode);
-			}
-		} catch (InterruptedException e) {
-			/* Clean up whatever needs to be handled before interrupting */
-			Thread.currentThread().interrupt();
-			throw new TranslationException("Evosuite error." + e.getMessage());
-		} finally {
-			logger.info("Cleaning the compiled files in: {}.", TranslatorConstants.EVOSUITE_TARGET);
-			cleanFolder(TranslatorConstants.EVOSUITE_TARGET);
-		}
-
-		// restore JAVA_HOME
+		executeEvosuite();
 
 		// translate to Avalla
 		logger.info("Running Junit2Avalla:\n");
-		Junit2AvallaCLI.main(buildJunit2AvallaOptions().toArray(new String[0]));
-
+		returnCode = Junit2AvallaCLI.main(buildJunit2AvallaOptions().toArray(new String[0]));
+		if (returnCode != 0) {
+			logger.error("Stopping the generation.");
+			throw new TranslationException("Junit2AvallaCLI exited with code: " + returnCode);
+		}
 	}
 
 	@Override
@@ -301,12 +273,50 @@ public class TranslatorImpl implements Translator {
 
 		return listOfOptions;
 	}
+	
+	/**
+	 * Run Evosuite with a process builder.
+	 * 
+	 * @throws IOException if there is an I/O error.
+	 * @throws TranslationException if there is an error during the process.
+	 */
+	private void executeEvosuite() throws IOException, TranslationException {
+		List<String> commands = buildEvosuiteOptions();
+		logger.info("List of Evosuite options: {}", commands);
+
+		ProcessBuilder pb = new ProcessBuilder(commands);
+		// show the output on the console
+		pb.inheritIO();
+		/*
+		 * remove JAVA_HOME environment variable from local process because Evosuite by
+		 * default will run the Java version specified in JAVA_HOME environment
+		 * variable, so we need to remove it to run the desired Java version.
+		 * This change is local and will not affect the system environment variable
+		 */
+		pb.environment().remove(TranslatorConstants.JAVA_HOME);
+		try {
+			Process process = pb.start();
+			int exitCode = process.waitFor();
+			logger.info("Process exited with code: {}", exitCode);
+
+			if (exitCode != 0) {
+				throw new TranslationException("Evosuite error: Process exited with code " + exitCode);
+			}
+		} catch (InterruptedException e) {
+			/* Clean up whatever needs to be handled before interrupting */
+			Thread.currentThread().interrupt();
+			throw new TranslationException("Evosuite error. " + e.getMessage());
+		} finally {
+			logger.info("Cleaning the compiled files in: {}.", TranslatorConstants.EVOSUITE_TARGET);
+			cleanFolder(TranslatorConstants.EVOSUITE_TARGET);
+		}
+	}
 
 	/**
 	 * Clean the compiled .class files required by Evosutie.
 	 * 
 	 * @param folder String containing the folder name.
-	 * @throws IOException
+	 * @throws IOException if there is an I/O error.
 	 */
 	private void cleanFolder(String folder) throws IOException {
 		File evosuiteTarget = new File(folder);
@@ -354,11 +364,14 @@ public class TranslatorImpl implements Translator {
 	 * Check if the java version passed by the user is the same as the compiler
 	 * version set by Evosuite.
 	 * 
-	 * @return {@code true} if there is consistency between the java versions,
-	 *         {@code false} otherwise.
+	 * @throws TranslationException if there is no consistency between the java versions.
 	 */
-	private boolean checkJavaConsistency() {
-		return javaVersion.equals(compilerVersion);
+	private void checkJavaConsistency() throws TranslationException {
+		if (!javaVersion.equals(compilerVersion)) {
+			logger.error("Found Inconsistency between java and evosuite versions.");
+			throw new TranslationException("There is no consistency between the java version " + javaVersion
+					+ " and the Evosuite version " + evosuiteVersion + " that uses the version " + compilerVersion);
+		}
 	}
 
 }

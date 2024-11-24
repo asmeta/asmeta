@@ -45,8 +45,10 @@ public class Asmeta2JavaCLI {
 	 * of the main process.
 	 *
 	 * @param args the command-line arguments.
+	 * @return return code {@code 0} if there is no error, {@code 1} if an error occurred.
 	 */
-	public static void main(String[] args) {
+	public static int main(String[] args) {
+		int returnCode = 0;
 		String asciiart = "\n    _                       _        _ ____   _                  \n"
 				+ "   / \\   ___ _ __ ___   ___| |_ __ _| |___ \\ (_) __ ___   ____ _ \n"
 				+ "  / _ \\ / __| '_ ` _ \\ / _ \\ __/ _` | | __) || |/ _` \\ \\ / / _` |\n"
@@ -75,13 +77,15 @@ public class Asmeta2JavaCLI {
 			}
 		} catch (Exception e) {
 			logger.error("Generation failed");
-			logger.error("An error occurred:\n" + e.getMessage());
+			logger.error("An error occurred:\n" + e.getMessage() + e);
+			returnCode = 1;
 		} finally {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();
 			}
 			logger.info("Requested operation completed.");
 		}
+		return returnCode;
 	}
 
 	/**

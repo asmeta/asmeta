@@ -35,9 +35,11 @@ public class Junit2AvallaCLI {
 	 *
 	 * @param args An array of {@code String} arguments passed from the command
 	 *             line.
+	 * @return return code {@code 0} if there is no error, {@code 1} if an error occurred.
 	 */
-	public static void main(String[] args) {
+	public static int main(String[] args) {
 
+		int returnCode = 0;
 		String asciiart =  """
 				
 				     _             _ _   ____     _             _ _       
@@ -68,13 +70,16 @@ public class Junit2AvallaCLI {
 				main.execute(line);
 			}
 		} catch (Exception e) {
+			log.error("Generation failed");
 			log.error("An error occurred, {}", e.getMessage(), e);
+			returnCode = 1;
 		}  finally {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();
 			}
 			log.info("Requested operation completed.");
 		}
+		return returnCode;
 
 	}
 
