@@ -94,8 +94,8 @@ terminal LOCAL_VARIABLE: '$'GOOD_CHARS_NO_COLON;
 
 terminal GOOD_CHAR_NO_COLON:
 //
-	('\u0021'..'\u0023' // da ! (0021) - spazio escluso a 9 (0023) // skip '$'
-	| '\u0025'..'\u0039' // da ! (0025) - spazio escluso a 9 (0039) // skip ':' ';'
+	('\u0021'..'\u0023' // da ! (0021) - spazio escluso a # (0023) // skip '$'
+	| '\u0025'..'\u0039' // da % (0025) a 9 (0039) // skip ':' ';'
 	| '\u003C'..'\u007E' // da < a ~
 );
 
