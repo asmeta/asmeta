@@ -4,7 +4,7 @@
 scenario SCENARIO_NAME
 load vendingMachine.asm
 // ...
-setchoose p := TEA;
+pick p := TEA;
 step
 check dispensed = TEA;
 step

@@ -120,20 +120,11 @@ public abstract class AbstractAvallaSemanticSequencer extends AbstractDelegating
 	 *     Choose returns Choose
 	 *
 	 * Constraint:
-	 *     (var=LOCAL_VARIABLE value=sentence)
+	 *     (var=LOCAL_VARIABLE rule=RULE_NAME? value=sentence)
 	 * </pre>
 	 */
 	protected void sequence_Choose(ISerializationContext context, Choose semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, AvallaPackage.Literals.CHOOSE__VAR) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaPackage.Literals.CHOOSE__VAR));
-			if (transientValues.isValueTransient(semanticObject, AvallaPackage.Literals.CHOOSE__VALUE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AvallaPackage.Literals.CHOOSE__VALUE));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getChooseAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0(), semanticObject.getVar());
-		feeder.accept(grammarAccess.getChooseAccess().getValueSentenceParserRuleCall_3_0(), semanticObject.getValue());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	

@@ -45,6 +45,7 @@ public class AvallaParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getStepUntilAccess().getGroup(), "rule__StepUntil__Group__0");
 			builder.put(grammarAccess.getExecAccess().getGroup(), "rule__Exec__Group__0");
 			builder.put(grammarAccess.getChooseAccess().getGroup(), "rule__Choose__Group__0");
+			builder.put(grammarAccess.getChooseAccess().getGroup_2(), "rule__Choose__Group_2__0");
 			builder.put(grammarAccess.getBlockAccess().getGroup(), "rule__Block__Group__0");
 			builder.put(grammarAccess.getExecBlockAccess().getGroup(), "rule__ExecBlock__Group__0");
 			builder.put(grammarAccess.getExecBlockAccess().getGroup_1(), "rule__ExecBlock__Group_1__0");
@@ -60,7 +61,8 @@ public class AvallaParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getStepUntilAccess().getExpressionAssignment_2(), "rule__StepUntil__ExpressionAssignment_2");
 			builder.put(grammarAccess.getExecAccess().getRuleAssignment_1(), "rule__Exec__RuleAssignment_1");
 			builder.put(grammarAccess.getChooseAccess().getVarAssignment_1(), "rule__Choose__VarAssignment_1");
-			builder.put(grammarAccess.getChooseAccess().getValueAssignment_3(), "rule__Choose__ValueAssignment_3");
+			builder.put(grammarAccess.getChooseAccess().getRuleAssignment_2_1(), "rule__Choose__RuleAssignment_2_1");
+			builder.put(grammarAccess.getChooseAccess().getValueAssignment_4(), "rule__Choose__ValueAssignment_4");
 			builder.put(grammarAccess.getBlockAccess().getNameAssignment_1(), "rule__Block__NameAssignment_1");
 			builder.put(grammarAccess.getBlockAccess().getElementsAssignment_2(), "rule__Block__ElementsAssignment_2");
 			builder.put(grammarAccess.getExecBlockAccess().getScenarioAssignment_1_0(), "rule__ExecBlock__ScenarioAssignment_1_0");

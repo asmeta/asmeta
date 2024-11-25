@@ -328,13 +328,22 @@ public interface AvallaPackage extends EPackage
   int CHOOSE__VAR = COMMAND_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Rule</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CHOOSE__RULE = COMMAND_FEATURE_COUNT + 1;
+
+  /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int CHOOSE__VALUE = COMMAND_FEATURE_COUNT + 1;
+  int CHOOSE__VALUE = COMMAND_FEATURE_COUNT + 2;
 
   /**
    * The number of structural features of the '<em>Choose</em>' class.
@@ -343,7 +352,7 @@ public interface AvallaPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHOOSE_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 2;
+  int CHOOSE_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link org.asmeta.avallaxt.avalla.impl.BlockImpl <em>Block</em>}' class.
@@ -662,6 +671,17 @@ public interface AvallaPackage extends EPackage
   EAttribute getChoose_Var();
 
   /**
+   * Returns the meta object for the attribute '{@link org.asmeta.avallaxt.avalla.Choose#getRule <em>Rule</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Rule</em>'.
+   * @see org.asmeta.avallaxt.avalla.Choose#getRule()
+   * @see #getChoose()
+   * @generated
+   */
+  EAttribute getChoose_Rule();
+
+  /**
    * Returns the meta object for the attribute '{@link org.asmeta.avallaxt.avalla.Choose#getValue <em>Value</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -954,6 +974,14 @@ public interface AvallaPackage extends EPackage
      * @generated
      */
     EAttribute CHOOSE__VAR = eINSTANCE.getChoose_Var();
+
+    /**
+     * The meta object literal for the '<em><b>Rule</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CHOOSE__RULE = eINSTANCE.getChoose_Rule();
 
     /**
      * The meta object literal for the '<em><b>Value</b></em>' attribute feature.

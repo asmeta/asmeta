@@ -37,7 +37,7 @@ Exec:
 
 // added choose for flaky scenarios NOV 2024	
 Choose:
-	'setchoose' var = LOCAL_VARIABLE  ':='	value=sentence ";";
+	'pick' var = LOCAL_VARIABLE (IN rule=RULE_NAME)? ':='	value=sentence ";";
 
 
 Block:
@@ -59,7 +59,7 @@ ExecBlock:
 	'execblock' (scenario=GOOD_CHARS_NO_COLON ':')? block=GOOD_CHARS_NO_COLON ';';
 
 	// or a word or a string (with spaces in it)
-Path: (GOOD_CHARS_NO_COLON | ':')+ | STRING;
+Path: (LOCAL_VARIABLE | GOOD_CHARS_NO_COLON | ':')+ | STRING;
 
 	// a string between double quotes
 terminal STRING:
@@ -81,16 +81,21 @@ terminal WS:
 // it can be f( "pippo" ) = "jjj"
 // it can be aslo with some colon check (forall $k in {0 : 4} with
 sentence:
-	(LOCAL_VARIABLE | GOOD_CHARS_NO_COLON | ':' | STRING)+;
+	(IN | LOCAL_VARIABLE | RULE_NAME | GOOD_CHARS_NO_COLON | ':' | STRING)+;
 
 sentencePlusAssignAndColon:
-	(LOCAL_VARIABLE | GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+;
+	(IN | LOCAL_VARIABLE | RULE_NAME | GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+;
+
+terminal IN: 'in';
+
+terminal RULE_NAME: 'r_'GOOD_CHARS_NO_COLON;
 
 terminal LOCAL_VARIABLE: '$'GOOD_CHARS_NO_COLON;
 
 terminal GOOD_CHAR_NO_COLON:
 //
-	('\u0021'..'\u0039' // da ! (0021) - spazio escluso a 9 (0039) // skip ':' ';'
+	('\u0021'..'\u0023' // da ! (0021) - spazio escluso a 9 (0023) // skip '$'
+	| '\u0025'..'\u0039' // da ! (0025) - spazio escluso a 9 (0039) // skip ':' ';'
 	| '\u003C'..'\u007E' // da < a ~
 );
 

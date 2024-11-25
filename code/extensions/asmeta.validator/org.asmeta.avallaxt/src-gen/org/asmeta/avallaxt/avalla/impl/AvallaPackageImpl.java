@@ -416,9 +416,20 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
    * @generated
    */
   @Override
-  public EAttribute getChoose_Value()
+  public EAttribute getChoose_Rule()
   {
     return (EAttribute)chooseEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getChoose_Value()
+  {
+    return (EAttribute)chooseEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -558,6 +569,7 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
 
     chooseEClass = createEClass(CHOOSE);
     createEAttribute(chooseEClass, CHOOSE__VAR);
+    createEAttribute(chooseEClass, CHOOSE__RULE);
     createEAttribute(chooseEClass, CHOOSE__VALUE);
 
     blockEClass = createEClass(BLOCK);
@@ -640,6 +652,7 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
 
     initEClass(chooseEClass, Choose.class, "Choose", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getChoose_Var(), ecorePackage.getEString(), "var", null, 0, 1, Choose.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getChoose_Rule(), ecorePackage.getEString(), "rule", null, 0, 1, Choose.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getChoose_Value(), ecorePackage.getEString(), "value", null, 0, 1, Choose.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(blockEClass, Block.class, "Block", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

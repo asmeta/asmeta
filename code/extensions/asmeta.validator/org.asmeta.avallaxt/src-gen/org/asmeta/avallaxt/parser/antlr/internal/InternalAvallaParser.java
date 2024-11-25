@@ -21,31 +21,33 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalAvallaParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_GOOD_CHARS_NO_COLON", "RULE_LOCAL_VARIABLE", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_GOOD_CHAR_NO_COLON", "'scenario'", "'load'", "'invariant'", "':'", "';'", "'check'", "'set'", "':='", "'step'", "'until'", "'exec'", "'setchoose'", "'begin'", "'end'", "'execblock'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_GOOD_CHARS_NO_COLON", "RULE_LOCAL_VARIABLE", "RULE_IN", "RULE_RULE_NAME", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_GOOD_CHAR_NO_COLON", "'scenario'", "'load'", "'invariant'", "':'", "';'", "'check'", "'set'", "':='", "'step'", "'until'", "'exec'", "'pick'", "'begin'", "'end'", "'execblock'"
     };
-    public static final int RULE_STRING=6;
-    public static final int RULE_SL_COMMENT=8;
+    public static final int RULE_STRING=8;
+    public static final int RULE_SL_COMMENT=10;
     public static final int T__19=19;
+    public static final int RULE_IN=6;
     public static final int T__15=15;
     public static final int T__16=16;
     public static final int T__17=17;
     public static final int T__18=18;
-    public static final int T__11=11;
-    public static final int T__12=12;
     public static final int T__13=13;
     public static final int T__14=14;
     public static final int EOF=-1;
     public static final int RULE_GOOD_CHARS_NO_COLON=4;
-    public static final int RULE_WS=9;
+    public static final int RULE_WS=11;
     public static final int RULE_LOCAL_VARIABLE=5;
-    public static final int RULE_GOOD_CHAR_NO_COLON=10;
+    public static final int T__26=26;
+    public static final int T__27=27;
+    public static final int RULE_GOOD_CHAR_NO_COLON=12;
     public static final int T__22=22;
-    public static final int RULE_ML_COMMENT=7;
+    public static final int RULE_ML_COMMENT=9;
     public static final int T__23=23;
     public static final int T__24=24;
     public static final int T__25=25;
     public static final int T__20=20;
     public static final int T__21=21;
+    public static final int RULE_RULE_NAME=7;
 
     // delegates
     // delegators
@@ -147,7 +149,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             // InternalAvalla.g:78:2: (otherlv_0= 'scenario' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= 'load' ( (lv_spec_3_0= rulePath ) ) ( (lv_invariants_4_0= ruleInvariant ) )* ( (lv_elements_5_0= ruleElement ) )* )
             // InternalAvalla.g:79:3: otherlv_0= 'scenario' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= 'load' ( (lv_spec_3_0= rulePath ) ) ( (lv_invariants_4_0= ruleInvariant ) )* ( (lv_elements_5_0= ruleElement ) )*
             {
-            otherlv_0=(Token)match(input,11,FOLLOW_3); 
+            otherlv_0=(Token)match(input,13,FOLLOW_3); 
 
             			newLeafNode(otherlv_0, grammarAccess.getScenarioAccess().getScenarioKeyword_0());
             		
@@ -177,7 +179,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,12,FOLLOW_5); 
+            otherlv_2=(Token)match(input,14,FOLLOW_5); 
 
             			newLeafNode(otherlv_2, grammarAccess.getScenarioAccess().getLoadKeyword_2());
             		
@@ -218,7 +220,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
                 int alt1=2;
                 int LA1_0 = input.LA(1);
 
-                if ( (LA1_0==13) ) {
+                if ( (LA1_0==15) ) {
                     alt1=1;
                 }
 
@@ -267,7 +269,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
                 int alt2=2;
                 int LA2_0 = input.LA(1);
 
-                if ( ((LA2_0>=16 && LA2_0<=17)||LA2_0==19||(LA2_0>=21 && LA2_0<=23)||LA2_0==25) ) {
+                if ( ((LA2_0>=18 && LA2_0<=19)||LA2_0==21||(LA2_0>=23 && LA2_0<=25)||LA2_0==27) ) {
                     alt2=1;
                 }
 
@@ -390,7 +392,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             // InternalAvalla.g:180:2: (otherlv_0= 'invariant' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' ( (lv_expression_3_0= rulesentence ) ) otherlv_4= ';' )
             // InternalAvalla.g:181:3: otherlv_0= 'invariant' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' ( (lv_expression_3_0= rulesentence ) ) otherlv_4= ';'
             {
-            otherlv_0=(Token)match(input,13,FOLLOW_3); 
+            otherlv_0=(Token)match(input,15,FOLLOW_3); 
 
             			newLeafNode(otherlv_0, grammarAccess.getInvariantAccess().getInvariantKeyword_0());
             		
@@ -420,7 +422,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,14,FOLLOW_9); 
+            otherlv_2=(Token)match(input,16,FOLLOW_9); 
 
             			newLeafNode(otherlv_2, grammarAccess.getInvariantAccess().getColonKeyword_2());
             		
@@ -455,7 +457,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,15,FOLLOW_2); 
+            otherlv_4=(Token)match(input,17,FOLLOW_2); 
 
             			newLeafNode(otherlv_4, grammarAccess.getInvariantAccess().getSemicolonKeyword_4());
             		
@@ -538,10 +540,10 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             int alt3=2;
             int LA3_0 = input.LA(1);
 
-            if ( ((LA3_0>=16 && LA3_0<=17)||LA3_0==19||(LA3_0>=21 && LA3_0<=22)||LA3_0==25) ) {
+            if ( ((LA3_0>=18 && LA3_0<=19)||LA3_0==21||(LA3_0>=23 && LA3_0<=24)||LA3_0==27) ) {
                 alt3=1;
             }
-            else if ( (LA3_0==23) ) {
+            else if ( (LA3_0==25) ) {
                 alt3=2;
             }
             else {
@@ -673,24 +675,24 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             // InternalAvalla.g:284:2: (this_Check_0= ruleCheck | this_Set_1= ruleSet | ( () ruleStep ) | this_StepUntil_4= ruleStepUntil | this_Exec_5= ruleExec | this_ExecBlock_6= ruleExecBlock | this_Choose_7= ruleChoose )
             int alt4=7;
             switch ( input.LA(1) ) {
-            case 16:
+            case 18:
                 {
                 alt4=1;
                 }
                 break;
-            case 17:
+            case 19:
                 {
                 alt4=2;
                 }
                 break;
-            case 19:
+            case 21:
                 {
                 int LA4_3 = input.LA(2);
 
-                if ( (LA4_3==20) ) {
+                if ( (LA4_3==22) ) {
                     alt4=4;
                 }
-                else if ( (LA4_3==EOF||(LA4_3>=16 && LA4_3<=17)||LA4_3==19||(LA4_3>=21 && LA4_3<=25)) ) {
+                else if ( (LA4_3==EOF||(LA4_3>=18 && LA4_3<=19)||LA4_3==21||(LA4_3>=23 && LA4_3<=27)) ) {
                     alt4=3;
                 }
                 else {
@@ -701,17 +703,17 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
                 }
                 }
                 break;
-            case 21:
+            case 23:
                 {
                 alt4=5;
                 }
                 break;
-            case 25:
+            case 27:
                 {
                 alt4=6;
                 }
                 break;
-            case 22:
+            case 24:
                 {
                 alt4=7;
                 }
@@ -944,7 +946,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             // InternalAvalla.g:373:2: (otherlv_0= 'check' ( (lv_expression_1_0= rulesentence ) ) otherlv_2= ';' )
             // InternalAvalla.g:374:3: otherlv_0= 'check' ( (lv_expression_1_0= rulesentence ) ) otherlv_2= ';'
             {
-            otherlv_0=(Token)match(input,16,FOLLOW_9); 
+            otherlv_0=(Token)match(input,18,FOLLOW_9); 
 
             			newLeafNode(otherlv_0, grammarAccess.getCheckAccess().getCheckKeyword_0());
             		
@@ -979,7 +981,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,15,FOLLOW_2); 
+            otherlv_2=(Token)match(input,17,FOLLOW_2); 
 
             			newLeafNode(otherlv_2, grammarAccess.getCheckAccess().getSemicolonKeyword_2());
             		
@@ -1064,7 +1066,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             // InternalAvalla.g:419:2: (otherlv_0= 'set' ( (lv_location_1_0= rulesentence ) ) otherlv_2= ':=' ( (lv_value_3_0= rulesentence ) ) otherlv_4= ';' )
             // InternalAvalla.g:420:3: otherlv_0= 'set' ( (lv_location_1_0= rulesentence ) ) otherlv_2= ':=' ( (lv_value_3_0= rulesentence ) ) otherlv_4= ';'
             {
-            otherlv_0=(Token)match(input,17,FOLLOW_9); 
+            otherlv_0=(Token)match(input,19,FOLLOW_9); 
 
             			newLeafNode(otherlv_0, grammarAccess.getSetAccess().getSetKeyword_0());
             		
@@ -1099,7 +1101,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,18,FOLLOW_9); 
+            otherlv_2=(Token)match(input,20,FOLLOW_9); 
 
             			newLeafNode(otherlv_2, grammarAccess.getSetAccess().getColonEqualsSignKeyword_2());
             		
@@ -1134,7 +1136,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,15,FOLLOW_2); 
+            otherlv_4=(Token)match(input,17,FOLLOW_2); 
 
             			newLeafNode(otherlv_4, grammarAccess.getSetAccess().getSemicolonKeyword_4());
             		
@@ -1210,7 +1212,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             // InternalAvalla.g:487:2: (kw= 'step' )
             // InternalAvalla.g:488:2: kw= 'step'
             {
-            kw=(Token)match(input,19,FOLLOW_2); 
+            kw=(Token)match(input,21,FOLLOW_2); 
 
             		current.merge(kw);
             		newLeafNode(kw, grammarAccess.getStepAccess().getStepKeyword());
@@ -1291,11 +1293,11 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             // InternalAvalla.g:510:2: (otherlv_0= 'step' otherlv_1= 'until' ( (lv_expression_2_0= rulesentence ) ) otherlv_3= ';' )
             // InternalAvalla.g:511:3: otherlv_0= 'step' otherlv_1= 'until' ( (lv_expression_2_0= rulesentence ) ) otherlv_3= ';'
             {
-            otherlv_0=(Token)match(input,19,FOLLOW_12); 
+            otherlv_0=(Token)match(input,21,FOLLOW_12); 
 
             			newLeafNode(otherlv_0, grammarAccess.getStepUntilAccess().getStepKeyword_0());
             		
-            otherlv_1=(Token)match(input,20,FOLLOW_9); 
+            otherlv_1=(Token)match(input,22,FOLLOW_9); 
 
             			newLeafNode(otherlv_1, grammarAccess.getStepUntilAccess().getUntilKeyword_1());
             		
@@ -1330,7 +1332,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_3=(Token)match(input,15,FOLLOW_2); 
+            otherlv_3=(Token)match(input,17,FOLLOW_2); 
 
             			newLeafNode(otherlv_3, grammarAccess.getStepUntilAccess().getSemicolonKeyword_3());
             		
@@ -1412,7 +1414,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             // InternalAvalla.g:560:2: (otherlv_0= 'exec' ( (lv_rule_1_0= rulesentencePlusAssignAndColon ) ) otherlv_2= ';' )
             // InternalAvalla.g:561:3: otherlv_0= 'exec' ( (lv_rule_1_0= rulesentencePlusAssignAndColon ) ) otherlv_2= ';'
             {
-            otherlv_0=(Token)match(input,21,FOLLOW_13); 
+            otherlv_0=(Token)match(input,23,FOLLOW_13); 
 
             			newLeafNode(otherlv_0, grammarAccess.getExecAccess().getExecKeyword_0());
             		
@@ -1447,7 +1449,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,15,FOLLOW_2); 
+            otherlv_2=(Token)match(input,17,FOLLOW_2); 
 
             			newLeafNode(otherlv_2, grammarAccess.getExecAccess().getSemicolonKeyword_2());
             		
@@ -1510,30 +1512,32 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleChoose"
-    // InternalAvalla.g:599:1: ruleChoose returns [EObject current=null] : (otherlv_0= 'setchoose' ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) ) otherlv_2= ':=' ( (lv_value_3_0= rulesentence ) ) otherlv_4= ';' ) ;
+    // InternalAvalla.g:599:1: ruleChoose returns [EObject current=null] : (otherlv_0= 'pick' ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) ) (this_IN_2= RULE_IN ( (lv_rule_3_0= RULE_RULE_NAME ) ) )? otherlv_4= ':=' ( (lv_value_5_0= rulesentence ) ) otherlv_6= ';' ) ;
     public final EObject ruleChoose() throws RecognitionException {
         EObject current = null;
 
         Token otherlv_0=null;
         Token lv_var_1_0=null;
-        Token otherlv_2=null;
+        Token this_IN_2=null;
+        Token lv_rule_3_0=null;
         Token otherlv_4=null;
-        AntlrDatatypeRuleToken lv_value_3_0 = null;
+        Token otherlv_6=null;
+        AntlrDatatypeRuleToken lv_value_5_0 = null;
 
 
 
         	enterRule();
 
         try {
-            // InternalAvalla.g:605:2: ( (otherlv_0= 'setchoose' ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) ) otherlv_2= ':=' ( (lv_value_3_0= rulesentence ) ) otherlv_4= ';' ) )
-            // InternalAvalla.g:606:2: (otherlv_0= 'setchoose' ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) ) otherlv_2= ':=' ( (lv_value_3_0= rulesentence ) ) otherlv_4= ';' )
+            // InternalAvalla.g:605:2: ( (otherlv_0= 'pick' ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) ) (this_IN_2= RULE_IN ( (lv_rule_3_0= RULE_RULE_NAME ) ) )? otherlv_4= ':=' ( (lv_value_5_0= rulesentence ) ) otherlv_6= ';' ) )
+            // InternalAvalla.g:606:2: (otherlv_0= 'pick' ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) ) (this_IN_2= RULE_IN ( (lv_rule_3_0= RULE_RULE_NAME ) ) )? otherlv_4= ':=' ( (lv_value_5_0= rulesentence ) ) otherlv_6= ';' )
             {
-            // InternalAvalla.g:606:2: (otherlv_0= 'setchoose' ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) ) otherlv_2= ':=' ( (lv_value_3_0= rulesentence ) ) otherlv_4= ';' )
-            // InternalAvalla.g:607:3: otherlv_0= 'setchoose' ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) ) otherlv_2= ':=' ( (lv_value_3_0= rulesentence ) ) otherlv_4= ';'
+            // InternalAvalla.g:606:2: (otherlv_0= 'pick' ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) ) (this_IN_2= RULE_IN ( (lv_rule_3_0= RULE_RULE_NAME ) ) )? otherlv_4= ':=' ( (lv_value_5_0= rulesentence ) ) otherlv_6= ';' )
+            // InternalAvalla.g:607:3: otherlv_0= 'pick' ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) ) (this_IN_2= RULE_IN ( (lv_rule_3_0= RULE_RULE_NAME ) ) )? otherlv_4= ':=' ( (lv_value_5_0= rulesentence ) ) otherlv_6= ';'
             {
-            otherlv_0=(Token)match(input,22,FOLLOW_14); 
+            otherlv_0=(Token)match(input,24,FOLLOW_14); 
 
-            			newLeafNode(otherlv_0, grammarAccess.getChooseAccess().getSetchooseKeyword_0());
+            			newLeafNode(otherlv_0, grammarAccess.getChooseAccess().getPickKeyword_0());
             		
             // InternalAvalla.g:611:3: ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) )
             // InternalAvalla.g:612:4: (lv_var_1_0= RULE_LOCAL_VARIABLE )
@@ -1541,7 +1545,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             // InternalAvalla.g:612:4: (lv_var_1_0= RULE_LOCAL_VARIABLE )
             // InternalAvalla.g:613:5: lv_var_1_0= RULE_LOCAL_VARIABLE
             {
-            lv_var_1_0=(Token)match(input,RULE_LOCAL_VARIABLE,FOLLOW_11); 
+            lv_var_1_0=(Token)match(input,RULE_LOCAL_VARIABLE,FOLLOW_15); 
 
             					newLeafNode(lv_var_1_0, grammarAccess.getChooseAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0());
             				
@@ -1561,21 +1565,68 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,18,FOLLOW_9); 
+            // InternalAvalla.g:629:3: (this_IN_2= RULE_IN ( (lv_rule_3_0= RULE_RULE_NAME ) ) )?
+            int alt5=2;
+            int LA5_0 = input.LA(1);
 
-            			newLeafNode(otherlv_2, grammarAccess.getChooseAccess().getColonEqualsSignKeyword_2());
+            if ( (LA5_0==RULE_IN) ) {
+                alt5=1;
+            }
+            switch (alt5) {
+                case 1 :
+                    // InternalAvalla.g:630:4: this_IN_2= RULE_IN ( (lv_rule_3_0= RULE_RULE_NAME ) )
+                    {
+                    this_IN_2=(Token)match(input,RULE_IN,FOLLOW_16); 
+
+                    				newLeafNode(this_IN_2, grammarAccess.getChooseAccess().getINTerminalRuleCall_2_0());
+                    			
+                    // InternalAvalla.g:634:4: ( (lv_rule_3_0= RULE_RULE_NAME ) )
+                    // InternalAvalla.g:635:5: (lv_rule_3_0= RULE_RULE_NAME )
+                    {
+                    // InternalAvalla.g:635:5: (lv_rule_3_0= RULE_RULE_NAME )
+                    // InternalAvalla.g:636:6: lv_rule_3_0= RULE_RULE_NAME
+                    {
+                    lv_rule_3_0=(Token)match(input,RULE_RULE_NAME,FOLLOW_11); 
+
+                    						newLeafNode(lv_rule_3_0, grammarAccess.getChooseAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0());
+                    					
+
+                    						if (current==null) {
+                    							current = createModelElement(grammarAccess.getChooseRule());
+                    						}
+                    						setWithLastConsumed(
+                    							current,
+                    							"rule",
+                    							lv_rule_3_0,
+                    							"org.asmeta.avallaxt.Avalla.RULE_NAME");
+                    					
+
+                    }
+
+
+                    }
+
+
+                    }
+                    break;
+
+            }
+
+            otherlv_4=(Token)match(input,20,FOLLOW_9); 
+
+            			newLeafNode(otherlv_4, grammarAccess.getChooseAccess().getColonEqualsSignKeyword_3());
             		
-            // InternalAvalla.g:633:3: ( (lv_value_3_0= rulesentence ) )
-            // InternalAvalla.g:634:4: (lv_value_3_0= rulesentence )
+            // InternalAvalla.g:657:3: ( (lv_value_5_0= rulesentence ) )
+            // InternalAvalla.g:658:4: (lv_value_5_0= rulesentence )
             {
-            // InternalAvalla.g:634:4: (lv_value_3_0= rulesentence )
-            // InternalAvalla.g:635:5: lv_value_3_0= rulesentence
+            // InternalAvalla.g:658:4: (lv_value_5_0= rulesentence )
+            // InternalAvalla.g:659:5: lv_value_5_0= rulesentence
             {
 
-            					newCompositeNode(grammarAccess.getChooseAccess().getValueSentenceParserRuleCall_3_0());
+            					newCompositeNode(grammarAccess.getChooseAccess().getValueSentenceParserRuleCall_4_0());
             				
             pushFollow(FOLLOW_10);
-            lv_value_3_0=rulesentence();
+            lv_value_5_0=rulesentence();
 
             state._fsp--;
 
@@ -1586,7 +1637,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             					set(
             						current,
             						"value",
-            						lv_value_3_0,
+            						lv_value_5_0,
             						"org.asmeta.avallaxt.Avalla.sentence");
             					afterParserOrEnumRuleCall();
             				
@@ -1596,9 +1647,9 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,15,FOLLOW_2); 
+            otherlv_6=(Token)match(input,17,FOLLOW_2); 
 
-            			newLeafNode(otherlv_4, grammarAccess.getChooseAccess().getSemicolonKeyword_4());
+            			newLeafNode(otherlv_6, grammarAccess.getChooseAccess().getSemicolonKeyword_5());
             		
 
             }
@@ -1623,7 +1674,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleBlock"
-    // InternalAvalla.g:660:1: entryRuleBlock returns [EObject current=null] : iv_ruleBlock= ruleBlock EOF ;
+    // InternalAvalla.g:684:1: entryRuleBlock returns [EObject current=null] : iv_ruleBlock= ruleBlock EOF ;
     public final EObject entryRuleBlock() throws RecognitionException {
         EObject current = null;
 
@@ -1631,8 +1682,8 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAvalla.g:660:46: (iv_ruleBlock= ruleBlock EOF )
-            // InternalAvalla.g:661:2: iv_ruleBlock= ruleBlock EOF
+            // InternalAvalla.g:684:46: (iv_ruleBlock= ruleBlock EOF )
+            // InternalAvalla.g:685:2: iv_ruleBlock= ruleBlock EOF
             {
              newCompositeNode(grammarAccess.getBlockRule()); 
             pushFollow(FOLLOW_1);
@@ -1659,7 +1710,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleBlock"
-    // InternalAvalla.g:667:1: ruleBlock returns [EObject current=null] : (otherlv_0= 'begin' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) ( (lv_elements_2_0= ruleElement ) )* otherlv_3= 'end' ) ;
+    // InternalAvalla.g:691:1: ruleBlock returns [EObject current=null] : (otherlv_0= 'begin' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) ( (lv_elements_2_0= ruleElement ) )* otherlv_3= 'end' ) ;
     public final EObject ruleBlock() throws RecognitionException {
         EObject current = null;
 
@@ -1673,23 +1724,23 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAvalla.g:673:2: ( (otherlv_0= 'begin' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) ( (lv_elements_2_0= ruleElement ) )* otherlv_3= 'end' ) )
-            // InternalAvalla.g:674:2: (otherlv_0= 'begin' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) ( (lv_elements_2_0= ruleElement ) )* otherlv_3= 'end' )
+            // InternalAvalla.g:697:2: ( (otherlv_0= 'begin' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) ( (lv_elements_2_0= ruleElement ) )* otherlv_3= 'end' ) )
+            // InternalAvalla.g:698:2: (otherlv_0= 'begin' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) ( (lv_elements_2_0= ruleElement ) )* otherlv_3= 'end' )
             {
-            // InternalAvalla.g:674:2: (otherlv_0= 'begin' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) ( (lv_elements_2_0= ruleElement ) )* otherlv_3= 'end' )
-            // InternalAvalla.g:675:3: otherlv_0= 'begin' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) ( (lv_elements_2_0= ruleElement ) )* otherlv_3= 'end'
+            // InternalAvalla.g:698:2: (otherlv_0= 'begin' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) ( (lv_elements_2_0= ruleElement ) )* otherlv_3= 'end' )
+            // InternalAvalla.g:699:3: otherlv_0= 'begin' ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) ) ( (lv_elements_2_0= ruleElement ) )* otherlv_3= 'end'
             {
-            otherlv_0=(Token)match(input,23,FOLLOW_3); 
+            otherlv_0=(Token)match(input,25,FOLLOW_3); 
 
             			newLeafNode(otherlv_0, grammarAccess.getBlockAccess().getBeginKeyword_0());
             		
-            // InternalAvalla.g:679:3: ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) )
-            // InternalAvalla.g:680:4: (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON )
+            // InternalAvalla.g:703:3: ( (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON ) )
+            // InternalAvalla.g:704:4: (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON )
             {
-            // InternalAvalla.g:680:4: (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON )
-            // InternalAvalla.g:681:5: lv_name_1_0= RULE_GOOD_CHARS_NO_COLON
+            // InternalAvalla.g:704:4: (lv_name_1_0= RULE_GOOD_CHARS_NO_COLON )
+            // InternalAvalla.g:705:5: lv_name_1_0= RULE_GOOD_CHARS_NO_COLON
             {
-            lv_name_1_0=(Token)match(input,RULE_GOOD_CHARS_NO_COLON,FOLLOW_15); 
+            lv_name_1_0=(Token)match(input,RULE_GOOD_CHARS_NO_COLON,FOLLOW_17); 
 
             					newLeafNode(lv_name_1_0, grammarAccess.getBlockAccess().getNameGOOD_CHARS_NO_COLONTerminalRuleCall_1_0());
             				
@@ -1709,28 +1760,28 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAvalla.g:697:3: ( (lv_elements_2_0= ruleElement ) )*
-            loop5:
+            // InternalAvalla.g:721:3: ( (lv_elements_2_0= ruleElement ) )*
+            loop6:
             do {
-                int alt5=2;
-                int LA5_0 = input.LA(1);
+                int alt6=2;
+                int LA6_0 = input.LA(1);
 
-                if ( ((LA5_0>=16 && LA5_0<=17)||LA5_0==19||(LA5_0>=21 && LA5_0<=23)||LA5_0==25) ) {
-                    alt5=1;
+                if ( ((LA6_0>=18 && LA6_0<=19)||LA6_0==21||(LA6_0>=23 && LA6_0<=25)||LA6_0==27) ) {
+                    alt6=1;
                 }
 
 
-                switch (alt5) {
+                switch (alt6) {
             	case 1 :
-            	    // InternalAvalla.g:698:4: (lv_elements_2_0= ruleElement )
+            	    // InternalAvalla.g:722:4: (lv_elements_2_0= ruleElement )
             	    {
-            	    // InternalAvalla.g:698:4: (lv_elements_2_0= ruleElement )
-            	    // InternalAvalla.g:699:5: lv_elements_2_0= ruleElement
+            	    // InternalAvalla.g:722:4: (lv_elements_2_0= ruleElement )
+            	    // InternalAvalla.g:723:5: lv_elements_2_0= ruleElement
             	    {
 
             	    					newCompositeNode(grammarAccess.getBlockAccess().getElementsElementParserRuleCall_2_0());
             	    				
-            	    pushFollow(FOLLOW_15);
+            	    pushFollow(FOLLOW_17);
             	    lv_elements_2_0=ruleElement();
 
             	    state._fsp--;
@@ -1754,11 +1805,11 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop5;
+            	    break loop6;
                 }
             } while (true);
 
-            otherlv_3=(Token)match(input,24,FOLLOW_2); 
+            otherlv_3=(Token)match(input,26,FOLLOW_2); 
 
             			newLeafNode(otherlv_3, grammarAccess.getBlockAccess().getEndKeyword_3());
             		
@@ -1785,7 +1836,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleExecBlock"
-    // InternalAvalla.g:724:1: entryRuleExecBlock returns [EObject current=null] : iv_ruleExecBlock= ruleExecBlock EOF ;
+    // InternalAvalla.g:748:1: entryRuleExecBlock returns [EObject current=null] : iv_ruleExecBlock= ruleExecBlock EOF ;
     public final EObject entryRuleExecBlock() throws RecognitionException {
         EObject current = null;
 
@@ -1793,8 +1844,8 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAvalla.g:724:50: (iv_ruleExecBlock= ruleExecBlock EOF )
-            // InternalAvalla.g:725:2: iv_ruleExecBlock= ruleExecBlock EOF
+            // InternalAvalla.g:748:50: (iv_ruleExecBlock= ruleExecBlock EOF )
+            // InternalAvalla.g:749:2: iv_ruleExecBlock= ruleExecBlock EOF
             {
              newCompositeNode(grammarAccess.getExecBlockRule()); 
             pushFollow(FOLLOW_1);
@@ -1821,7 +1872,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleExecBlock"
-    // InternalAvalla.g:731:1: ruleExecBlock returns [EObject current=null] : (otherlv_0= 'execblock' ( ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' )? ( (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_4= ';' ) ;
+    // InternalAvalla.g:755:1: ruleExecBlock returns [EObject current=null] : (otherlv_0= 'execblock' ( ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' )? ( (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_4= ';' ) ;
     public final EObject ruleExecBlock() throws RecognitionException {
         EObject current = null;
 
@@ -1835,36 +1886,36 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAvalla.g:737:2: ( (otherlv_0= 'execblock' ( ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' )? ( (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_4= ';' ) )
-            // InternalAvalla.g:738:2: (otherlv_0= 'execblock' ( ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' )? ( (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_4= ';' )
+            // InternalAvalla.g:761:2: ( (otherlv_0= 'execblock' ( ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' )? ( (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_4= ';' ) )
+            // InternalAvalla.g:762:2: (otherlv_0= 'execblock' ( ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' )? ( (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_4= ';' )
             {
-            // InternalAvalla.g:738:2: (otherlv_0= 'execblock' ( ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' )? ( (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_4= ';' )
-            // InternalAvalla.g:739:3: otherlv_0= 'execblock' ( ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' )? ( (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_4= ';'
+            // InternalAvalla.g:762:2: (otherlv_0= 'execblock' ( ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' )? ( (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_4= ';' )
+            // InternalAvalla.g:763:3: otherlv_0= 'execblock' ( ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' )? ( (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_4= ';'
             {
-            otherlv_0=(Token)match(input,25,FOLLOW_3); 
+            otherlv_0=(Token)match(input,27,FOLLOW_3); 
 
             			newLeafNode(otherlv_0, grammarAccess.getExecBlockAccess().getExecblockKeyword_0());
             		
-            // InternalAvalla.g:743:3: ( ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' )?
-            int alt6=2;
-            int LA6_0 = input.LA(1);
+            // InternalAvalla.g:767:3: ( ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':' )?
+            int alt7=2;
+            int LA7_0 = input.LA(1);
 
-            if ( (LA6_0==RULE_GOOD_CHARS_NO_COLON) ) {
-                int LA6_1 = input.LA(2);
+            if ( (LA7_0==RULE_GOOD_CHARS_NO_COLON) ) {
+                int LA7_1 = input.LA(2);
 
-                if ( (LA6_1==14) ) {
-                    alt6=1;
+                if ( (LA7_1==16) ) {
+                    alt7=1;
                 }
             }
-            switch (alt6) {
+            switch (alt7) {
                 case 1 :
-                    // InternalAvalla.g:744:4: ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':'
+                    // InternalAvalla.g:768:4: ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) ) otherlv_2= ':'
                     {
-                    // InternalAvalla.g:744:4: ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) )
-                    // InternalAvalla.g:745:5: (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON )
+                    // InternalAvalla.g:768:4: ( (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON ) )
+                    // InternalAvalla.g:769:5: (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON )
                     {
-                    // InternalAvalla.g:745:5: (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON )
-                    // InternalAvalla.g:746:6: lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON
+                    // InternalAvalla.g:769:5: (lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON )
+                    // InternalAvalla.g:770:6: lv_scenario_1_0= RULE_GOOD_CHARS_NO_COLON
                     {
                     lv_scenario_1_0=(Token)match(input,RULE_GOOD_CHARS_NO_COLON,FOLLOW_8); 
 
@@ -1886,7 +1937,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_2=(Token)match(input,14,FOLLOW_3); 
+                    otherlv_2=(Token)match(input,16,FOLLOW_3); 
 
                     				newLeafNode(otherlv_2, grammarAccess.getExecBlockAccess().getColonKeyword_1_1());
                     			
@@ -1896,11 +1947,11 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalAvalla.g:767:3: ( (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON ) )
-            // InternalAvalla.g:768:4: (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON )
+            // InternalAvalla.g:791:3: ( (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON ) )
+            // InternalAvalla.g:792:4: (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON )
             {
-            // InternalAvalla.g:768:4: (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON )
-            // InternalAvalla.g:769:5: lv_block_3_0= RULE_GOOD_CHARS_NO_COLON
+            // InternalAvalla.g:792:4: (lv_block_3_0= RULE_GOOD_CHARS_NO_COLON )
+            // InternalAvalla.g:793:5: lv_block_3_0= RULE_GOOD_CHARS_NO_COLON
             {
             lv_block_3_0=(Token)match(input,RULE_GOOD_CHARS_NO_COLON,FOLLOW_10); 
 
@@ -1922,7 +1973,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,15,FOLLOW_2); 
+            otherlv_4=(Token)match(input,17,FOLLOW_2); 
 
             			newLeafNode(otherlv_4, grammarAccess.getExecBlockAccess().getSemicolonKeyword_3());
             		
@@ -1949,7 +2000,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRulePath"
-    // InternalAvalla.g:793:1: entryRulePath returns [String current=null] : iv_rulePath= rulePath EOF ;
+    // InternalAvalla.g:817:1: entryRulePath returns [String current=null] : iv_rulePath= rulePath EOF ;
     public final String entryRulePath() throws RecognitionException {
         String current = null;
 
@@ -1957,8 +2008,8 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAvalla.g:793:44: (iv_rulePath= rulePath EOF )
-            // InternalAvalla.g:794:2: iv_rulePath= rulePath EOF
+            // InternalAvalla.g:817:44: (iv_rulePath= rulePath EOF )
+            // InternalAvalla.g:818:2: iv_rulePath= rulePath EOF
             {
              newCompositeNode(grammarAccess.getPathRule()); 
             pushFollow(FOLLOW_1);
@@ -1985,103 +2036,126 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "rulePath"
-    // InternalAvalla.g:800:1: rulePath returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( (this_GOOD_CHARS_NO_COLON_0= RULE_GOOD_CHARS_NO_COLON | kw= ':' )+ | this_STRING_2= RULE_STRING ) ;
+    // InternalAvalla.g:824:1: rulePath returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':' )+ | this_STRING_3= RULE_STRING ) ;
     public final AntlrDatatypeRuleToken rulePath() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
-        Token this_GOOD_CHARS_NO_COLON_0=null;
+        Token this_LOCAL_VARIABLE_0=null;
+        Token this_GOOD_CHARS_NO_COLON_1=null;
         Token kw=null;
-        Token this_STRING_2=null;
+        Token this_STRING_3=null;
 
 
         	enterRule();
 
         try {
-            // InternalAvalla.g:806:2: ( ( (this_GOOD_CHARS_NO_COLON_0= RULE_GOOD_CHARS_NO_COLON | kw= ':' )+ | this_STRING_2= RULE_STRING ) )
-            // InternalAvalla.g:807:2: ( (this_GOOD_CHARS_NO_COLON_0= RULE_GOOD_CHARS_NO_COLON | kw= ':' )+ | this_STRING_2= RULE_STRING )
+            // InternalAvalla.g:830:2: ( ( (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':' )+ | this_STRING_3= RULE_STRING ) )
+            // InternalAvalla.g:831:2: ( (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':' )+ | this_STRING_3= RULE_STRING )
             {
-            // InternalAvalla.g:807:2: ( (this_GOOD_CHARS_NO_COLON_0= RULE_GOOD_CHARS_NO_COLON | kw= ':' )+ | this_STRING_2= RULE_STRING )
-            int alt8=2;
-            int LA8_0 = input.LA(1);
+            // InternalAvalla.g:831:2: ( (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':' )+ | this_STRING_3= RULE_STRING )
+            int alt9=2;
+            int LA9_0 = input.LA(1);
 
-            if ( (LA8_0==RULE_GOOD_CHARS_NO_COLON||LA8_0==14) ) {
-                alt8=1;
+            if ( ((LA9_0>=RULE_GOOD_CHARS_NO_COLON && LA9_0<=RULE_LOCAL_VARIABLE)||LA9_0==16) ) {
+                alt9=1;
             }
-            else if ( (LA8_0==RULE_STRING) ) {
-                alt8=2;
+            else if ( (LA9_0==RULE_STRING) ) {
+                alt9=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 8, 0, input);
+                    new NoViableAltException("", 9, 0, input);
 
                 throw nvae;
             }
-            switch (alt8) {
+            switch (alt9) {
                 case 1 :
-                    // InternalAvalla.g:808:3: (this_GOOD_CHARS_NO_COLON_0= RULE_GOOD_CHARS_NO_COLON | kw= ':' )+
+                    // InternalAvalla.g:832:3: (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':' )+
                     {
-                    // InternalAvalla.g:808:3: (this_GOOD_CHARS_NO_COLON_0= RULE_GOOD_CHARS_NO_COLON | kw= ':' )+
-                    int cnt7=0;
-                    loop7:
+                    // InternalAvalla.g:832:3: (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':' )+
+                    int cnt8=0;
+                    loop8:
                     do {
-                        int alt7=3;
-                        int LA7_0 = input.LA(1);
+                        int alt8=4;
+                        switch ( input.LA(1) ) {
+                        case RULE_LOCAL_VARIABLE:
+                            {
+                            alt8=1;
+                            }
+                            break;
+                        case RULE_GOOD_CHARS_NO_COLON:
+                            {
+                            alt8=2;
+                            }
+                            break;
+                        case 16:
+                            {
+                            alt8=3;
+                            }
+                            break;
 
-                        if ( (LA7_0==RULE_GOOD_CHARS_NO_COLON) ) {
-                            alt7=1;
                         }
-                        else if ( (LA7_0==14) ) {
-                            alt7=2;
-                        }
 
-
-                        switch (alt7) {
+                        switch (alt8) {
                     	case 1 :
-                    	    // InternalAvalla.g:809:4: this_GOOD_CHARS_NO_COLON_0= RULE_GOOD_CHARS_NO_COLON
+                    	    // InternalAvalla.g:833:4: this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE
                     	    {
-                    	    this_GOOD_CHARS_NO_COLON_0=(Token)match(input,RULE_GOOD_CHARS_NO_COLON,FOLLOW_16); 
+                    	    this_LOCAL_VARIABLE_0=(Token)match(input,RULE_LOCAL_VARIABLE,FOLLOW_18); 
 
-                    	    				current.merge(this_GOOD_CHARS_NO_COLON_0);
+                    	    				current.merge(this_LOCAL_VARIABLE_0);
                     	    			
 
-                    	    				newLeafNode(this_GOOD_CHARS_NO_COLON_0, grammarAccess.getPathAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_0_0());
+                    	    				newLeafNode(this_LOCAL_VARIABLE_0, grammarAccess.getPathAccess().getLOCAL_VARIABLETerminalRuleCall_0_0());
                     	    			
 
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalAvalla.g:817:4: kw= ':'
+                    	    // InternalAvalla.g:841:4: this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON
                     	    {
-                    	    kw=(Token)match(input,14,FOLLOW_16); 
+                    	    this_GOOD_CHARS_NO_COLON_1=(Token)match(input,RULE_GOOD_CHARS_NO_COLON,FOLLOW_18); 
+
+                    	    				current.merge(this_GOOD_CHARS_NO_COLON_1);
+                    	    			
+
+                    	    				newLeafNode(this_GOOD_CHARS_NO_COLON_1, grammarAccess.getPathAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_0_1());
+                    	    			
+
+                    	    }
+                    	    break;
+                    	case 3 :
+                    	    // InternalAvalla.g:849:4: kw= ':'
+                    	    {
+                    	    kw=(Token)match(input,16,FOLLOW_18); 
 
                     	    				current.merge(kw);
-                    	    				newLeafNode(kw, grammarAccess.getPathAccess().getColonKeyword_0_1());
+                    	    				newLeafNode(kw, grammarAccess.getPathAccess().getColonKeyword_0_2());
                     	    			
 
                     	    }
                     	    break;
 
                     	default :
-                    	    if ( cnt7 >= 1 ) break loop7;
+                    	    if ( cnt8 >= 1 ) break loop8;
                                 EarlyExitException eee =
-                                    new EarlyExitException(7, input);
+                                    new EarlyExitException(8, input);
                                 throw eee;
                         }
-                        cnt7++;
+                        cnt8++;
                     } while (true);
 
 
                     }
                     break;
                 case 2 :
-                    // InternalAvalla.g:824:3: this_STRING_2= RULE_STRING
+                    // InternalAvalla.g:856:3: this_STRING_3= RULE_STRING
                     {
-                    this_STRING_2=(Token)match(input,RULE_STRING,FOLLOW_2); 
+                    this_STRING_3=(Token)match(input,RULE_STRING,FOLLOW_2); 
 
-                    			current.merge(this_STRING_2);
+                    			current.merge(this_STRING_3);
                     		
 
-                    			newLeafNode(this_STRING_2, grammarAccess.getPathAccess().getSTRINGTerminalRuleCall_1());
+                    			newLeafNode(this_STRING_3, grammarAccess.getPathAccess().getSTRINGTerminalRuleCall_1());
                     		
 
                     }
@@ -2109,7 +2183,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRulesentence"
-    // InternalAvalla.g:835:1: entryRulesentence returns [String current=null] : iv_rulesentence= rulesentence EOF ;
+    // InternalAvalla.g:867:1: entryRulesentence returns [String current=null] : iv_rulesentence= rulesentence EOF ;
     public final String entryRulesentence() throws RecognitionException {
         String current = null;
 
@@ -2117,8 +2191,8 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalAvalla.g:835:48: (iv_rulesentence= rulesentence EOF )
-            // InternalAvalla.g:836:2: iv_rulesentence= rulesentence EOF
+            // InternalAvalla.g:867:48: (iv_rulesentence= rulesentence EOF )
+            // InternalAvalla.g:868:2: iv_rulesentence= rulesentence EOF
             {
              newCompositeNode(grammarAccess.getSentenceRule()); 
             pushFollow(FOLLOW_1);
@@ -2145,213 +2219,58 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "rulesentence"
-    // InternalAvalla.g:842:1: rulesentence returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':' | this_STRING_3= RULE_STRING )+ ;
+    // InternalAvalla.g:874:1: rulesentence returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_IN_0= RULE_IN | this_LOCAL_VARIABLE_1= RULE_LOCAL_VARIABLE | this_RULE_NAME_2= RULE_RULE_NAME | this_GOOD_CHARS_NO_COLON_3= RULE_GOOD_CHARS_NO_COLON | kw= ':' | this_STRING_5= RULE_STRING )+ ;
     public final AntlrDatatypeRuleToken rulesentence() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
-        Token this_LOCAL_VARIABLE_0=null;
-        Token this_GOOD_CHARS_NO_COLON_1=null;
+        Token this_IN_0=null;
+        Token this_LOCAL_VARIABLE_1=null;
+        Token this_RULE_NAME_2=null;
+        Token this_GOOD_CHARS_NO_COLON_3=null;
         Token kw=null;
-        Token this_STRING_3=null;
+        Token this_STRING_5=null;
 
 
         	enterRule();
 
         try {
-            // InternalAvalla.g:848:2: ( (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':' | this_STRING_3= RULE_STRING )+ )
-            // InternalAvalla.g:849:2: (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':' | this_STRING_3= RULE_STRING )+
+            // InternalAvalla.g:880:2: ( (this_IN_0= RULE_IN | this_LOCAL_VARIABLE_1= RULE_LOCAL_VARIABLE | this_RULE_NAME_2= RULE_RULE_NAME | this_GOOD_CHARS_NO_COLON_3= RULE_GOOD_CHARS_NO_COLON | kw= ':' | this_STRING_5= RULE_STRING )+ )
+            // InternalAvalla.g:881:2: (this_IN_0= RULE_IN | this_LOCAL_VARIABLE_1= RULE_LOCAL_VARIABLE | this_RULE_NAME_2= RULE_RULE_NAME | this_GOOD_CHARS_NO_COLON_3= RULE_GOOD_CHARS_NO_COLON | kw= ':' | this_STRING_5= RULE_STRING )+
             {
-            // InternalAvalla.g:849:2: (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':' | this_STRING_3= RULE_STRING )+
-            int cnt9=0;
-            loop9:
-            do {
-                int alt9=5;
-                switch ( input.LA(1) ) {
-                case RULE_LOCAL_VARIABLE:
-                    {
-                    alt9=1;
-                    }
-                    break;
-                case RULE_GOOD_CHARS_NO_COLON:
-                    {
-                    alt9=2;
-                    }
-                    break;
-                case 14:
-                    {
-                    alt9=3;
-                    }
-                    break;
-                case RULE_STRING:
-                    {
-                    alt9=4;
-                    }
-                    break;
-
-                }
-
-                switch (alt9) {
-            	case 1 :
-            	    // InternalAvalla.g:850:3: this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE
-            	    {
-            	    this_LOCAL_VARIABLE_0=(Token)match(input,RULE_LOCAL_VARIABLE,FOLLOW_17); 
-
-            	    			current.merge(this_LOCAL_VARIABLE_0);
-            	    		
-
-            	    			newLeafNode(this_LOCAL_VARIABLE_0, grammarAccess.getSentenceAccess().getLOCAL_VARIABLETerminalRuleCall_0());
-            	    		
-
-            	    }
-            	    break;
-            	case 2 :
-            	    // InternalAvalla.g:858:3: this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON
-            	    {
-            	    this_GOOD_CHARS_NO_COLON_1=(Token)match(input,RULE_GOOD_CHARS_NO_COLON,FOLLOW_17); 
-
-            	    			current.merge(this_GOOD_CHARS_NO_COLON_1);
-            	    		
-
-            	    			newLeafNode(this_GOOD_CHARS_NO_COLON_1, grammarAccess.getSentenceAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_1());
-            	    		
-
-            	    }
-            	    break;
-            	case 3 :
-            	    // InternalAvalla.g:866:3: kw= ':'
-            	    {
-            	    kw=(Token)match(input,14,FOLLOW_17); 
-
-            	    			current.merge(kw);
-            	    			newLeafNode(kw, grammarAccess.getSentenceAccess().getColonKeyword_2());
-            	    		
-
-            	    }
-            	    break;
-            	case 4 :
-            	    // InternalAvalla.g:872:3: this_STRING_3= RULE_STRING
-            	    {
-            	    this_STRING_3=(Token)match(input,RULE_STRING,FOLLOW_17); 
-
-            	    			current.merge(this_STRING_3);
-            	    		
-
-            	    			newLeafNode(this_STRING_3, grammarAccess.getSentenceAccess().getSTRINGTerminalRuleCall_3());
-            	    		
-
-            	    }
-            	    break;
-
-            	default :
-            	    if ( cnt9 >= 1 ) break loop9;
-                        EarlyExitException eee =
-                            new EarlyExitException(9, input);
-                        throw eee;
-                }
-                cnt9++;
-            } while (true);
-
-
-            }
-
-
-            	leaveRule();
-
-        }
-
-            catch (RecognitionException re) {
-                recover(input,re);
-                appendSkippedTokens();
-            }
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "rulesentence"
-
-
-    // $ANTLR start "entryRulesentencePlusAssignAndColon"
-    // InternalAvalla.g:883:1: entryRulesentencePlusAssignAndColon returns [String current=null] : iv_rulesentencePlusAssignAndColon= rulesentencePlusAssignAndColon EOF ;
-    public final String entryRulesentencePlusAssignAndColon() throws RecognitionException {
-        String current = null;
-
-        AntlrDatatypeRuleToken iv_rulesentencePlusAssignAndColon = null;
-
-
-        try {
-            // InternalAvalla.g:883:66: (iv_rulesentencePlusAssignAndColon= rulesentencePlusAssignAndColon EOF )
-            // InternalAvalla.g:884:2: iv_rulesentencePlusAssignAndColon= rulesentencePlusAssignAndColon EOF
-            {
-             newCompositeNode(grammarAccess.getSentencePlusAssignAndColonRule()); 
-            pushFollow(FOLLOW_1);
-            iv_rulesentencePlusAssignAndColon=rulesentencePlusAssignAndColon();
-
-            state._fsp--;
-
-             current =iv_rulesentencePlusAssignAndColon.getText(); 
-            match(input,EOF,FOLLOW_2); 
-
-            }
-
-        }
-
-            catch (RecognitionException re) {
-                recover(input,re);
-                appendSkippedTokens();
-            }
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "entryRulesentencePlusAssignAndColon"
-
-
-    // $ANTLR start "rulesentencePlusAssignAndColon"
-    // InternalAvalla.g:890:1: rulesentencePlusAssignAndColon returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':=' | kw= ':' | this_STRING_4= RULE_STRING )+ ;
-    public final AntlrDatatypeRuleToken rulesentencePlusAssignAndColon() throws RecognitionException {
-        AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
-
-        Token this_LOCAL_VARIABLE_0=null;
-        Token this_GOOD_CHARS_NO_COLON_1=null;
-        Token kw=null;
-        Token this_STRING_4=null;
-
-
-        	enterRule();
-
-        try {
-            // InternalAvalla.g:896:2: ( (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':=' | kw= ':' | this_STRING_4= RULE_STRING )+ )
-            // InternalAvalla.g:897:2: (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':=' | kw= ':' | this_STRING_4= RULE_STRING )+
-            {
-            // InternalAvalla.g:897:2: (this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE | this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON | kw= ':=' | kw= ':' | this_STRING_4= RULE_STRING )+
+            // InternalAvalla.g:881:2: (this_IN_0= RULE_IN | this_LOCAL_VARIABLE_1= RULE_LOCAL_VARIABLE | this_RULE_NAME_2= RULE_RULE_NAME | this_GOOD_CHARS_NO_COLON_3= RULE_GOOD_CHARS_NO_COLON | kw= ':' | this_STRING_5= RULE_STRING )+
             int cnt10=0;
             loop10:
             do {
-                int alt10=6;
+                int alt10=7;
                 switch ( input.LA(1) ) {
-                case RULE_LOCAL_VARIABLE:
+                case RULE_IN:
                     {
                     alt10=1;
                     }
                     break;
-                case RULE_GOOD_CHARS_NO_COLON:
+                case RULE_LOCAL_VARIABLE:
                     {
                     alt10=2;
                     }
                     break;
-                case 18:
+                case RULE_RULE_NAME:
                     {
                     alt10=3;
                     }
                     break;
-                case 14:
+                case RULE_GOOD_CHARS_NO_COLON:
                     {
                     alt10=4;
                     }
                     break;
-                case RULE_STRING:
+                case 16:
                     {
                     alt10=5;
+                    }
+                    break;
+                case RULE_STRING:
+                    {
+                    alt10=6;
                     }
                     break;
 
@@ -2359,62 +2278,77 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
                 switch (alt10) {
             	case 1 :
-            	    // InternalAvalla.g:898:3: this_LOCAL_VARIABLE_0= RULE_LOCAL_VARIABLE
+            	    // InternalAvalla.g:882:3: this_IN_0= RULE_IN
             	    {
-            	    this_LOCAL_VARIABLE_0=(Token)match(input,RULE_LOCAL_VARIABLE,FOLLOW_18); 
+            	    this_IN_0=(Token)match(input,RULE_IN,FOLLOW_19); 
 
-            	    			current.merge(this_LOCAL_VARIABLE_0);
+            	    			current.merge(this_IN_0);
             	    		
 
-            	    			newLeafNode(this_LOCAL_VARIABLE_0, grammarAccess.getSentencePlusAssignAndColonAccess().getLOCAL_VARIABLETerminalRuleCall_0());
+            	    			newLeafNode(this_IN_0, grammarAccess.getSentenceAccess().getINTerminalRuleCall_0());
             	    		
 
             	    }
             	    break;
             	case 2 :
-            	    // InternalAvalla.g:906:3: this_GOOD_CHARS_NO_COLON_1= RULE_GOOD_CHARS_NO_COLON
+            	    // InternalAvalla.g:890:3: this_LOCAL_VARIABLE_1= RULE_LOCAL_VARIABLE
             	    {
-            	    this_GOOD_CHARS_NO_COLON_1=(Token)match(input,RULE_GOOD_CHARS_NO_COLON,FOLLOW_18); 
+            	    this_LOCAL_VARIABLE_1=(Token)match(input,RULE_LOCAL_VARIABLE,FOLLOW_19); 
 
-            	    			current.merge(this_GOOD_CHARS_NO_COLON_1);
+            	    			current.merge(this_LOCAL_VARIABLE_1);
             	    		
 
-            	    			newLeafNode(this_GOOD_CHARS_NO_COLON_1, grammarAccess.getSentencePlusAssignAndColonAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_1());
+            	    			newLeafNode(this_LOCAL_VARIABLE_1, grammarAccess.getSentenceAccess().getLOCAL_VARIABLETerminalRuleCall_1());
             	    		
 
             	    }
             	    break;
             	case 3 :
-            	    // InternalAvalla.g:914:3: kw= ':='
+            	    // InternalAvalla.g:898:3: this_RULE_NAME_2= RULE_RULE_NAME
             	    {
-            	    kw=(Token)match(input,18,FOLLOW_18); 
+            	    this_RULE_NAME_2=(Token)match(input,RULE_RULE_NAME,FOLLOW_19); 
 
-            	    			current.merge(kw);
-            	    			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonEqualsSignKeyword_2());
+            	    			current.merge(this_RULE_NAME_2);
+            	    		
+
+            	    			newLeafNode(this_RULE_NAME_2, grammarAccess.getSentenceAccess().getRULE_NAMETerminalRuleCall_2());
             	    		
 
             	    }
             	    break;
             	case 4 :
-            	    // InternalAvalla.g:920:3: kw= ':'
+            	    // InternalAvalla.g:906:3: this_GOOD_CHARS_NO_COLON_3= RULE_GOOD_CHARS_NO_COLON
             	    {
-            	    kw=(Token)match(input,14,FOLLOW_18); 
+            	    this_GOOD_CHARS_NO_COLON_3=(Token)match(input,RULE_GOOD_CHARS_NO_COLON,FOLLOW_19); 
 
-            	    			current.merge(kw);
-            	    			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonKeyword_3());
+            	    			current.merge(this_GOOD_CHARS_NO_COLON_3);
+            	    		
+
+            	    			newLeafNode(this_GOOD_CHARS_NO_COLON_3, grammarAccess.getSentenceAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_3());
             	    		
 
             	    }
             	    break;
             	case 5 :
-            	    // InternalAvalla.g:926:3: this_STRING_4= RULE_STRING
+            	    // InternalAvalla.g:914:3: kw= ':'
             	    {
-            	    this_STRING_4=(Token)match(input,RULE_STRING,FOLLOW_18); 
+            	    kw=(Token)match(input,16,FOLLOW_19); 
 
-            	    			current.merge(this_STRING_4);
+            	    			current.merge(kw);
+            	    			newLeafNode(kw, grammarAccess.getSentenceAccess().getColonKeyword_4());
             	    		
 
-            	    			newLeafNode(this_STRING_4, grammarAccess.getSentencePlusAssignAndColonAccess().getSTRINGTerminalRuleCall_4());
+            	    }
+            	    break;
+            	case 6 :
+            	    // InternalAvalla.g:920:3: this_STRING_5= RULE_STRING
+            	    {
+            	    this_STRING_5=(Token)match(input,RULE_STRING,FOLLOW_19); 
+
+            	    			current.merge(this_STRING_5);
+            	    		
+
+            	    			newLeafNode(this_STRING_5, grammarAccess.getSentenceAccess().getSTRINGTerminalRuleCall_5());
             	    		
 
             	    }
@@ -2445,6 +2379,222 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
+    // $ANTLR end "rulesentence"
+
+
+    // $ANTLR start "entryRulesentencePlusAssignAndColon"
+    // InternalAvalla.g:931:1: entryRulesentencePlusAssignAndColon returns [String current=null] : iv_rulesentencePlusAssignAndColon= rulesentencePlusAssignAndColon EOF ;
+    public final String entryRulesentencePlusAssignAndColon() throws RecognitionException {
+        String current = null;
+
+        AntlrDatatypeRuleToken iv_rulesentencePlusAssignAndColon = null;
+
+
+        try {
+            // InternalAvalla.g:931:66: (iv_rulesentencePlusAssignAndColon= rulesentencePlusAssignAndColon EOF )
+            // InternalAvalla.g:932:2: iv_rulesentencePlusAssignAndColon= rulesentencePlusAssignAndColon EOF
+            {
+             newCompositeNode(grammarAccess.getSentencePlusAssignAndColonRule()); 
+            pushFollow(FOLLOW_1);
+            iv_rulesentencePlusAssignAndColon=rulesentencePlusAssignAndColon();
+
+            state._fsp--;
+
+             current =iv_rulesentencePlusAssignAndColon.getText(); 
+            match(input,EOF,FOLLOW_2); 
+
+            }
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRulesentencePlusAssignAndColon"
+
+
+    // $ANTLR start "rulesentencePlusAssignAndColon"
+    // InternalAvalla.g:938:1: rulesentencePlusAssignAndColon returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_IN_0= RULE_IN | this_LOCAL_VARIABLE_1= RULE_LOCAL_VARIABLE | this_RULE_NAME_2= RULE_RULE_NAME | this_GOOD_CHARS_NO_COLON_3= RULE_GOOD_CHARS_NO_COLON | kw= ':=' | kw= ':' | this_STRING_6= RULE_STRING )+ ;
+    public final AntlrDatatypeRuleToken rulesentencePlusAssignAndColon() throws RecognitionException {
+        AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
+
+        Token this_IN_0=null;
+        Token this_LOCAL_VARIABLE_1=null;
+        Token this_RULE_NAME_2=null;
+        Token this_GOOD_CHARS_NO_COLON_3=null;
+        Token kw=null;
+        Token this_STRING_6=null;
+
+
+        	enterRule();
+
+        try {
+            // InternalAvalla.g:944:2: ( (this_IN_0= RULE_IN | this_LOCAL_VARIABLE_1= RULE_LOCAL_VARIABLE | this_RULE_NAME_2= RULE_RULE_NAME | this_GOOD_CHARS_NO_COLON_3= RULE_GOOD_CHARS_NO_COLON | kw= ':=' | kw= ':' | this_STRING_6= RULE_STRING )+ )
+            // InternalAvalla.g:945:2: (this_IN_0= RULE_IN | this_LOCAL_VARIABLE_1= RULE_LOCAL_VARIABLE | this_RULE_NAME_2= RULE_RULE_NAME | this_GOOD_CHARS_NO_COLON_3= RULE_GOOD_CHARS_NO_COLON | kw= ':=' | kw= ':' | this_STRING_6= RULE_STRING )+
+            {
+            // InternalAvalla.g:945:2: (this_IN_0= RULE_IN | this_LOCAL_VARIABLE_1= RULE_LOCAL_VARIABLE | this_RULE_NAME_2= RULE_RULE_NAME | this_GOOD_CHARS_NO_COLON_3= RULE_GOOD_CHARS_NO_COLON | kw= ':=' | kw= ':' | this_STRING_6= RULE_STRING )+
+            int cnt11=0;
+            loop11:
+            do {
+                int alt11=8;
+                switch ( input.LA(1) ) {
+                case RULE_IN:
+                    {
+                    alt11=1;
+                    }
+                    break;
+                case RULE_LOCAL_VARIABLE:
+                    {
+                    alt11=2;
+                    }
+                    break;
+                case RULE_RULE_NAME:
+                    {
+                    alt11=3;
+                    }
+                    break;
+                case RULE_GOOD_CHARS_NO_COLON:
+                    {
+                    alt11=4;
+                    }
+                    break;
+                case 20:
+                    {
+                    alt11=5;
+                    }
+                    break;
+                case 16:
+                    {
+                    alt11=6;
+                    }
+                    break;
+                case RULE_STRING:
+                    {
+                    alt11=7;
+                    }
+                    break;
+
+                }
+
+                switch (alt11) {
+            	case 1 :
+            	    // InternalAvalla.g:946:3: this_IN_0= RULE_IN
+            	    {
+            	    this_IN_0=(Token)match(input,RULE_IN,FOLLOW_20); 
+
+            	    			current.merge(this_IN_0);
+            	    		
+
+            	    			newLeafNode(this_IN_0, grammarAccess.getSentencePlusAssignAndColonAccess().getINTerminalRuleCall_0());
+            	    		
+
+            	    }
+            	    break;
+            	case 2 :
+            	    // InternalAvalla.g:954:3: this_LOCAL_VARIABLE_1= RULE_LOCAL_VARIABLE
+            	    {
+            	    this_LOCAL_VARIABLE_1=(Token)match(input,RULE_LOCAL_VARIABLE,FOLLOW_20); 
+
+            	    			current.merge(this_LOCAL_VARIABLE_1);
+            	    		
+
+            	    			newLeafNode(this_LOCAL_VARIABLE_1, grammarAccess.getSentencePlusAssignAndColonAccess().getLOCAL_VARIABLETerminalRuleCall_1());
+            	    		
+
+            	    }
+            	    break;
+            	case 3 :
+            	    // InternalAvalla.g:962:3: this_RULE_NAME_2= RULE_RULE_NAME
+            	    {
+            	    this_RULE_NAME_2=(Token)match(input,RULE_RULE_NAME,FOLLOW_20); 
+
+            	    			current.merge(this_RULE_NAME_2);
+            	    		
+
+            	    			newLeafNode(this_RULE_NAME_2, grammarAccess.getSentencePlusAssignAndColonAccess().getRULE_NAMETerminalRuleCall_2());
+            	    		
+
+            	    }
+            	    break;
+            	case 4 :
+            	    // InternalAvalla.g:970:3: this_GOOD_CHARS_NO_COLON_3= RULE_GOOD_CHARS_NO_COLON
+            	    {
+            	    this_GOOD_CHARS_NO_COLON_3=(Token)match(input,RULE_GOOD_CHARS_NO_COLON,FOLLOW_20); 
+
+            	    			current.merge(this_GOOD_CHARS_NO_COLON_3);
+            	    		
+
+            	    			newLeafNode(this_GOOD_CHARS_NO_COLON_3, grammarAccess.getSentencePlusAssignAndColonAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_3());
+            	    		
+
+            	    }
+            	    break;
+            	case 5 :
+            	    // InternalAvalla.g:978:3: kw= ':='
+            	    {
+            	    kw=(Token)match(input,20,FOLLOW_20); 
+
+            	    			current.merge(kw);
+            	    			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonEqualsSignKeyword_4());
+            	    		
+
+            	    }
+            	    break;
+            	case 6 :
+            	    // InternalAvalla.g:984:3: kw= ':'
+            	    {
+            	    kw=(Token)match(input,16,FOLLOW_20); 
+
+            	    			current.merge(kw);
+            	    			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonKeyword_5());
+            	    		
+
+            	    }
+            	    break;
+            	case 7 :
+            	    // InternalAvalla.g:990:3: this_STRING_6= RULE_STRING
+            	    {
+            	    this_STRING_6=(Token)match(input,RULE_STRING,FOLLOW_20); 
+
+            	    			current.merge(this_STRING_6);
+            	    		
+
+            	    			newLeafNode(this_STRING_6, grammarAccess.getSentencePlusAssignAndColonAccess().getSTRINGTerminalRuleCall_6());
+            	    		
+
+            	    }
+            	    break;
+
+            	default :
+            	    if ( cnt11 >= 1 ) break loop11;
+                        EarlyExitException eee =
+                            new EarlyExitException(11, input);
+                        throw eee;
+                }
+                cnt11++;
+            } while (true);
+
+
+            }
+
+
+            	leaveRule();
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
     // $ANTLR end "rulesentencePlusAssignAndColon"
 
     // Delegated rules
@@ -2455,20 +2605,22 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_1 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_2 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000000004050L});
-    public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x0000000002EB2002L});
-    public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0000000002EB0002L});
-    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000000000004070L});
-    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000000000008000L});
-    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000000000040000L});
-    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000000000100000L});
-    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x0000000000044070L});
+    public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000000010130L});
+    public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x000000000BAC8002L});
+    public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x000000000BAC0002L});
+    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x00000000000101F0L});
+    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000000000100000L});
+    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000000000400000L});
+    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x00000000001101F0L});
     public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0000000003EB0000L});
-    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000000004012L});
-    public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x0000000000004072L});
-    public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0000000000044072L});
+    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0000000000100040L});
+    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x000000000FAC0000L});
+    public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0000000000010032L});
+    public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x00000000000101F2L});
+    public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x00000000001101F2L});
 
 }

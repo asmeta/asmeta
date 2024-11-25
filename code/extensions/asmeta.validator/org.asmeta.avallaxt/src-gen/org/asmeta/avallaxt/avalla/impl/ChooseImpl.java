@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * </p>
  * <ul>
  *   <li>{@link org.asmeta.avallaxt.avalla.impl.ChooseImpl#getVar <em>Var</em>}</li>
+ *   <li>{@link org.asmeta.avallaxt.avalla.impl.ChooseImpl#getRule <em>Rule</em>}</li>
  *   <li>{@link org.asmeta.avallaxt.avalla.impl.ChooseImpl#getValue <em>Value</em>}</li>
  * </ul>
  *
@@ -47,6 +48,26 @@ public class ChooseImpl extends CommandImpl implements Choose
    * @ordered
    */
   protected String var = VAR_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getRule() <em>Rule</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRule()
+   * @generated
+   * @ordered
+   */
+  protected static final String RULE_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getRule() <em>Rule</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRule()
+   * @generated
+   * @ordered
+   */
+  protected String rule = RULE_EDEFAULT;
 
   /**
    * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -120,6 +141,31 @@ public class ChooseImpl extends CommandImpl implements Choose
    * @generated
    */
   @Override
+  public String getRule()
+  {
+    return rule;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setRule(String newRule)
+  {
+    String oldRule = rule;
+    rule = newRule;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, AvallaPackage.CHOOSE__RULE, oldRule, rule));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public String getValue()
   {
     return value;
@@ -151,6 +197,8 @@ public class ChooseImpl extends CommandImpl implements Choose
     {
       case AvallaPackage.CHOOSE__VAR:
         return getVar();
+      case AvallaPackage.CHOOSE__RULE:
+        return getRule();
       case AvallaPackage.CHOOSE__VALUE:
         return getValue();
     }
@@ -169,6 +217,9 @@ public class ChooseImpl extends CommandImpl implements Choose
     {
       case AvallaPackage.CHOOSE__VAR:
         setVar((String)newValue);
+        return;
+      case AvallaPackage.CHOOSE__RULE:
+        setRule((String)newValue);
         return;
       case AvallaPackage.CHOOSE__VALUE:
         setValue((String)newValue);
@@ -190,6 +241,9 @@ public class ChooseImpl extends CommandImpl implements Choose
       case AvallaPackage.CHOOSE__VAR:
         setVar(VAR_EDEFAULT);
         return;
+      case AvallaPackage.CHOOSE__RULE:
+        setRule(RULE_EDEFAULT);
+        return;
       case AvallaPackage.CHOOSE__VALUE:
         setValue(VALUE_EDEFAULT);
         return;
@@ -209,6 +263,8 @@ public class ChooseImpl extends CommandImpl implements Choose
     {
       case AvallaPackage.CHOOSE__VAR:
         return VAR_EDEFAULT == null ? var != null : !VAR_EDEFAULT.equals(var);
+      case AvallaPackage.CHOOSE__RULE:
+        return RULE_EDEFAULT == null ? rule != null : !RULE_EDEFAULT.equals(rule);
       case AvallaPackage.CHOOSE__VALUE:
         return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
     }
@@ -228,6 +284,8 @@ public class ChooseImpl extends CommandImpl implements Choose
     StringBuilder result = new StringBuilder(super.toString());
     result.append(" (var: ");
     result.append(var);
+    result.append(", rule: ");
+    result.append(rule);
     result.append(", value: ");
     result.append(value);
     result.append(')');

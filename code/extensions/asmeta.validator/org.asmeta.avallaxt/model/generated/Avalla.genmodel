@@ -33,6 +33,7 @@
     </genClasses>
     <genClasses ecoreClass="Avalla.ecore#//Choose">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Avalla.ecore#//Choose/var"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Avalla.ecore#//Choose/rule"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Avalla.ecore#//Choose/value"/>
     </genClasses>
     <genClasses ecoreClass="Avalla.ecore#//Block">

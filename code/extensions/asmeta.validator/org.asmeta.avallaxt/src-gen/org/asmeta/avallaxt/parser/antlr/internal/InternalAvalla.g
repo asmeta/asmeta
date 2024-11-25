@@ -604,9 +604,9 @@ ruleChoose returns [EObject current=null]
 	leaveRule();
 }:
 	(
-		otherlv_0='setchoose'
+		otherlv_0='pick'
 		{
-			newLeafNode(otherlv_0, grammarAccess.getChooseAccess().getSetchooseKeyword_0());
+			newLeafNode(otherlv_0, grammarAccess.getChooseAccess().getPickKeyword_0());
 		}
 		(
 			(
@@ -626,16 +626,40 @@ ruleChoose returns [EObject current=null]
 				}
 			)
 		)
-		otherlv_2=':='
+		(
+			this_IN_2=RULE_IN
+			{
+				newLeafNode(this_IN_2, grammarAccess.getChooseAccess().getINTerminalRuleCall_2_0());
+			}
+			(
+				(
+					lv_rule_3_0=RULE_RULE_NAME
+					{
+						newLeafNode(lv_rule_3_0, grammarAccess.getChooseAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getChooseRule());
+						}
+						setWithLastConsumed(
+							$current,
+							"rule",
+							lv_rule_3_0,
+							"org.asmeta.avallaxt.Avalla.RULE_NAME");
+					}
+				)
+			)
+		)?
+		otherlv_4=':='
 		{
-			newLeafNode(otherlv_2, grammarAccess.getChooseAccess().getColonEqualsSignKeyword_2());
+			newLeafNode(otherlv_4, grammarAccess.getChooseAccess().getColonEqualsSignKeyword_3());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getChooseAccess().getValueSentenceParserRuleCall_3_0());
+					newCompositeNode(grammarAccess.getChooseAccess().getValueSentenceParserRuleCall_4_0());
 				}
-				lv_value_3_0=rulesentence
+				lv_value_5_0=rulesentence
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getChooseRule());
@@ -643,15 +667,15 @@ ruleChoose returns [EObject current=null]
 					set(
 						$current,
 						"value",
-						lv_value_3_0,
+						lv_value_5_0,
 						"org.asmeta.avallaxt.Avalla.sentence");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)
-		otherlv_4=';'
+		otherlv_6=';'
 		{
-			newLeafNode(otherlv_4, grammarAccess.getChooseAccess().getSemicolonKeyword_4());
+			newLeafNode(otherlv_6, grammarAccess.getChooseAccess().getSemicolonKeyword_5());
 		}
 	)
 ;
@@ -806,27 +830,35 @@ rulePath returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
 }:
 	(
 		(
-			this_GOOD_CHARS_NO_COLON_0=RULE_GOOD_CHARS_NO_COLON
+			this_LOCAL_VARIABLE_0=RULE_LOCAL_VARIABLE
 			{
-				$current.merge(this_GOOD_CHARS_NO_COLON_0);
+				$current.merge(this_LOCAL_VARIABLE_0);
 			}
 			{
-				newLeafNode(this_GOOD_CHARS_NO_COLON_0, grammarAccess.getPathAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_0_0());
+				newLeafNode(this_LOCAL_VARIABLE_0, grammarAccess.getPathAccess().getLOCAL_VARIABLETerminalRuleCall_0_0());
+			}
+			    |
+			this_GOOD_CHARS_NO_COLON_1=RULE_GOOD_CHARS_NO_COLON
+			{
+				$current.merge(this_GOOD_CHARS_NO_COLON_1);
+			}
+			{
+				newLeafNode(this_GOOD_CHARS_NO_COLON_1, grammarAccess.getPathAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_0_1());
 			}
 			    |
 			kw=':'
 			{
 				$current.merge(kw);
-				newLeafNode(kw, grammarAccess.getPathAccess().getColonKeyword_0_1());
+				newLeafNode(kw, grammarAccess.getPathAccess().getColonKeyword_0_2());
 			}
 		)+
 		    |
-		this_STRING_2=RULE_STRING
+		this_STRING_3=RULE_STRING
 		{
-			$current.merge(this_STRING_2);
+			$current.merge(this_STRING_3);
 		}
 		{
-			newLeafNode(this_STRING_2, grammarAccess.getPathAccess().getSTRINGTerminalRuleCall_1());
+			newLeafNode(this_STRING_3, grammarAccess.getPathAccess().getSTRINGTerminalRuleCall_1());
 		}
 	)
 ;
@@ -847,34 +879,50 @@ rulesentence returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken(
 	leaveRule();
 }:
 	(
-		this_LOCAL_VARIABLE_0=RULE_LOCAL_VARIABLE
+		this_IN_0=RULE_IN
 		{
-			$current.merge(this_LOCAL_VARIABLE_0);
+			$current.merge(this_IN_0);
 		}
 		{
-			newLeafNode(this_LOCAL_VARIABLE_0, grammarAccess.getSentenceAccess().getLOCAL_VARIABLETerminalRuleCall_0());
+			newLeafNode(this_IN_0, grammarAccess.getSentenceAccess().getINTerminalRuleCall_0());
 		}
 		    |
-		this_GOOD_CHARS_NO_COLON_1=RULE_GOOD_CHARS_NO_COLON
+		this_LOCAL_VARIABLE_1=RULE_LOCAL_VARIABLE
 		{
-			$current.merge(this_GOOD_CHARS_NO_COLON_1);
+			$current.merge(this_LOCAL_VARIABLE_1);
 		}
 		{
-			newLeafNode(this_GOOD_CHARS_NO_COLON_1, grammarAccess.getSentenceAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_1());
+			newLeafNode(this_LOCAL_VARIABLE_1, grammarAccess.getSentenceAccess().getLOCAL_VARIABLETerminalRuleCall_1());
+		}
+		    |
+		this_RULE_NAME_2=RULE_RULE_NAME
+		{
+			$current.merge(this_RULE_NAME_2);
+		}
+		{
+			newLeafNode(this_RULE_NAME_2, grammarAccess.getSentenceAccess().getRULE_NAMETerminalRuleCall_2());
+		}
+		    |
+		this_GOOD_CHARS_NO_COLON_3=RULE_GOOD_CHARS_NO_COLON
+		{
+			$current.merge(this_GOOD_CHARS_NO_COLON_3);
+		}
+		{
+			newLeafNode(this_GOOD_CHARS_NO_COLON_3, grammarAccess.getSentenceAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_3());
 		}
 		    |
 		kw=':'
 		{
 			$current.merge(kw);
-			newLeafNode(kw, grammarAccess.getSentenceAccess().getColonKeyword_2());
+			newLeafNode(kw, grammarAccess.getSentenceAccess().getColonKeyword_4());
 		}
 		    |
-		this_STRING_3=RULE_STRING
+		this_STRING_5=RULE_STRING
 		{
-			$current.merge(this_STRING_3);
+			$current.merge(this_STRING_5);
 		}
 		{
-			newLeafNode(this_STRING_3, grammarAccess.getSentenceAccess().getSTRINGTerminalRuleCall_3());
+			newLeafNode(this_STRING_5, grammarAccess.getSentenceAccess().getSTRINGTerminalRuleCall_5());
 		}
 	)+
 ;
@@ -895,40 +943,56 @@ rulesentencePlusAssignAndColon returns [AntlrDatatypeRuleToken current=new Antlr
 	leaveRule();
 }:
 	(
-		this_LOCAL_VARIABLE_0=RULE_LOCAL_VARIABLE
+		this_IN_0=RULE_IN
 		{
-			$current.merge(this_LOCAL_VARIABLE_0);
+			$current.merge(this_IN_0);
 		}
 		{
-			newLeafNode(this_LOCAL_VARIABLE_0, grammarAccess.getSentencePlusAssignAndColonAccess().getLOCAL_VARIABLETerminalRuleCall_0());
+			newLeafNode(this_IN_0, grammarAccess.getSentencePlusAssignAndColonAccess().getINTerminalRuleCall_0());
 		}
 		    |
-		this_GOOD_CHARS_NO_COLON_1=RULE_GOOD_CHARS_NO_COLON
+		this_LOCAL_VARIABLE_1=RULE_LOCAL_VARIABLE
 		{
-			$current.merge(this_GOOD_CHARS_NO_COLON_1);
+			$current.merge(this_LOCAL_VARIABLE_1);
 		}
 		{
-			newLeafNode(this_GOOD_CHARS_NO_COLON_1, grammarAccess.getSentencePlusAssignAndColonAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_1());
+			newLeafNode(this_LOCAL_VARIABLE_1, grammarAccess.getSentencePlusAssignAndColonAccess().getLOCAL_VARIABLETerminalRuleCall_1());
+		}
+		    |
+		this_RULE_NAME_2=RULE_RULE_NAME
+		{
+			$current.merge(this_RULE_NAME_2);
+		}
+		{
+			newLeafNode(this_RULE_NAME_2, grammarAccess.getSentencePlusAssignAndColonAccess().getRULE_NAMETerminalRuleCall_2());
+		}
+		    |
+		this_GOOD_CHARS_NO_COLON_3=RULE_GOOD_CHARS_NO_COLON
+		{
+			$current.merge(this_GOOD_CHARS_NO_COLON_3);
+		}
+		{
+			newLeafNode(this_GOOD_CHARS_NO_COLON_3, grammarAccess.getSentencePlusAssignAndColonAccess().getGOOD_CHARS_NO_COLONTerminalRuleCall_3());
 		}
 		    |
 		kw=':='
 		{
 			$current.merge(kw);
-			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonEqualsSignKeyword_2());
+			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonEqualsSignKeyword_4());
 		}
 		    |
 		kw=':'
 		{
 			$current.merge(kw);
-			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonKeyword_3());
+			newLeafNode(kw, grammarAccess.getSentencePlusAssignAndColonAccess().getColonKeyword_5());
 		}
 		    |
-		this_STRING_4=RULE_STRING
+		this_STRING_6=RULE_STRING
 		{
-			$current.merge(this_STRING_4);
+			$current.merge(this_STRING_6);
 		}
 		{
-			newLeafNode(this_STRING_4, grammarAccess.getSentencePlusAssignAndColonAccess().getSTRINGTerminalRuleCall_4());
+			newLeafNode(this_STRING_6, grammarAccess.getSentencePlusAssignAndColonAccess().getSTRINGTerminalRuleCall_6());
 		}
 	)+
 ;
@@ -941,8 +1005,12 @@ RULE_SL_COMMENT : '//' ~(('\n'|'\r'))* ('\r'? '\n')?;
 
 RULE_WS : (' '|'\t'|'\r'|'\n')+;
 
+RULE_IN : 'in';
+
+RULE_RULE_NAME : 'r_' RULE_GOOD_CHARS_NO_COLON;
+
 RULE_LOCAL_VARIABLE : '$' RULE_GOOD_CHARS_NO_COLON;
 
-fragment RULE_GOOD_CHAR_NO_COLON : ('!'..'9'|'<'..'~');
+fragment RULE_GOOD_CHAR_NO_COLON : ('!'..'#'|'%'..'9'|'<'..'~');
 
 RULE_GOOD_CHARS_NO_COLON : RULE_GOOD_CHAR_NO_COLON+;
