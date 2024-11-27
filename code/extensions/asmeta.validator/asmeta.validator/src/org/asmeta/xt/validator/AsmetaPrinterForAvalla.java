@@ -34,11 +34,15 @@ import asmeta.definitions.SharedFunction;
 import asmeta.definitions.TemporalProperty;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.ProductDomain;
+import asmeta.definitions.domains.util.DomainsAdapterFactory;
 import asmeta.structure.Asm;
 import asmeta.structure.FunctionInitialization;
 import asmeta.structure.ImportClause;
 import asmeta.structure.Initialization;
+import asmeta.structure.Signature;
 import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 public class AsmetaPrinterForAvalla extends AsmPrinter {
@@ -46,6 +50,9 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	private static final String STEP = "step__";
 
 	public static final String R_MAIN = "r_main__";
+	
+	public static final String IS_PICKED = "is_picked_";
+	public static final String VAL_PICKED = "val_picked_";
 
 	// ASMs already translated (to avoid over translation
 	// asm path (absolute) of the original asm -> where (path) it has been
@@ -332,6 +339,20 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			println("controlled " + STEP + ": Integer");
 		}
 		visitDeclaredFunctions(funcs);
+		// add the controlled functions relative to choose variables
+		if (!this.builder.allChooseRules.isEmpty()) {
+			indent();
+			println("// added by validator two variables for each choose rule");
+			for (ChooseRule cr: this.builder.allChooseRules){
+				for (VariableTerm variable : cr.getVariable()) {
+					// TODO check if it is picked
+					String varName = variable.getName().substring(1);
+					println("controlled " + IS_PICKED + varName + ": Boolean");
+					println("controlled " + VAL_PICKED + varName + ": " + variable.getDomain().getName());
+				}
+			}
+			unIndent();
+		}
 	}
 	protected void visitDeclaredFunctions(Collection<Function> funcs) {
 		super.visitFunctions(funcs);

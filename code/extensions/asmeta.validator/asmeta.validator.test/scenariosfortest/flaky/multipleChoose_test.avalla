@@ -1,0 +1,8 @@
+scenario SCENARIO_NAME
+load multipleChoose.asm
+
+pick $i := 10;
+pick $b := true;
+pick $d := 20;
+
+step

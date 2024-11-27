@@ -7,9 +7,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
+import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.avallaxt.validation.ScenarioUtility;
@@ -22,8 +24,11 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 import com.google.inject.Injector;
 
 import asmeta.AsmCollection;
+import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.Rule;
 
 /**
  * AsmPrinter that takes avalla script and produces an Asmeta Spec representing the semantics of the script
@@ -55,10 +60,15 @@ public class AsmetaFromAvallaBuilder {
 	 */
 	Collection<asmeta.definitions.Invariant> modelInvariants;
 
-
 	ArrayList<Set> monitoredInitState;// PA: 2017/12/29
 
 	List<ArrayList<Set>> allMonitored;// PA: 2017/12/29
+	
+	/** The list of all ChooseRule rules in the asm being validated */
+	List<ChooseRule> allChooseRules;
+	/** The list of the Pick rules in the avalla scenario*/
+	List<Pick> pickedChoose;
+	
 
 	private AsmetaPrinterForAvalla asmetaPrinterforAvalla;
 
@@ -112,6 +122,13 @@ public class AsmetaFromAvallaBuilder {
 		// TODO, or just add an empty main rule?
 		if (mainrule == null)
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
+		// Populate allChoseRules
+		for (RuleDeclaration rd : asm.getBodySection().getRuleDeclaration()) {
+			if (rd instanceof MacroDeclaration)
+				for (Rule r: RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration)rd))
+					if (r instanceof ChooseRule)
+						allChooseRules.add((ChooseRule) r);
+		}
 		oldMainName = mainrule.getName();
 		// create a temp file in the directory
 		//File tempAsmPath = File.createTempFile(TEMP_ASMETA_V, ASMParser.ASM_EXTENSION, tempAsmPathDir);
@@ -130,6 +147,7 @@ public class AsmetaFromAvallaBuilder {
 		stb.parseCommands();
 		monitoredInitState = stb.monitoredInitState;// PA: 2017/12/29
 		allMonitored = stb.allMonitored;// PA: 2017/12/29
+		pickedChoose = stb.pickedChoose;
 		List<String> statements = stb.statements;
 		newMain = buildNewMain(statements).toString();
 		asmetaPrinterforAvalla.visit(asm);
