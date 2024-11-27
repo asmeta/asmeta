@@ -31,10 +31,10 @@
     <genClasses ecoreClass="Avalla.ecore#//Exec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Avalla.ecore#//Exec/rule"/>
     </genClasses>
-    <genClasses ecoreClass="Avalla.ecore#//Choose">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Avalla.ecore#//Choose/var"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Avalla.ecore#//Choose/rule"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Avalla.ecore#//Choose/value"/>
+    <genClasses ecoreClass="Avalla.ecore#//Pick">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Avalla.ecore#//Pick/var"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Avalla.ecore#//Pick/rule"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Avalla.ecore#//Pick/value"/>
     </genClasses>
     <genClasses ecoreClass="Avalla.ecore#//Block">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Avalla.ecore#//Block/name"/>

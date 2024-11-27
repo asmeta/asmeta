@@ -309,14 +309,14 @@ public interface AvallaPackage extends EPackage
   int EXEC_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link org.asmeta.avallaxt.avalla.impl.ChooseImpl <em>Choose</em>}' class.
+   * The meta object id for the '{@link org.asmeta.avallaxt.avalla.impl.PickImpl <em>Pick</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.asmeta.avallaxt.avalla.impl.ChooseImpl
-   * @see org.asmeta.avallaxt.avalla.impl.AvallaPackageImpl#getChoose()
+   * @see org.asmeta.avallaxt.avalla.impl.PickImpl
+   * @see org.asmeta.avallaxt.avalla.impl.AvallaPackageImpl#getPick()
    * @generated
    */
-  int CHOOSE = 8;
+  int PICK = 8;
 
   /**
    * The feature id for the '<em><b>Var</b></em>' attribute.
@@ -325,7 +325,7 @@ public interface AvallaPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHOOSE__VAR = COMMAND_FEATURE_COUNT + 0;
+  int PICK__VAR = COMMAND_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Rule</b></em>' attribute.
@@ -334,7 +334,7 @@ public interface AvallaPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHOOSE__RULE = COMMAND_FEATURE_COUNT + 1;
+  int PICK__RULE = COMMAND_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -343,16 +343,16 @@ public interface AvallaPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHOOSE__VALUE = COMMAND_FEATURE_COUNT + 2;
+  int PICK__VALUE = COMMAND_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the '<em>Choose</em>' class.
+   * The number of structural features of the '<em>Pick</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int CHOOSE_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 3;
+  int PICK_FEATURE_COUNT = COMMAND_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link org.asmeta.avallaxt.avalla.impl.BlockImpl <em>Block</em>}' class.
@@ -650,47 +650,47 @@ public interface AvallaPackage extends EPackage
   EAttribute getExec_Rule();
 
   /**
-   * Returns the meta object for class '{@link org.asmeta.avallaxt.avalla.Choose <em>Choose</em>}'.
+   * Returns the meta object for class '{@link org.asmeta.avallaxt.avalla.Pick <em>Pick</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Choose</em>'.
-   * @see org.asmeta.avallaxt.avalla.Choose
+   * @return the meta object for class '<em>Pick</em>'.
+   * @see org.asmeta.avallaxt.avalla.Pick
    * @generated
    */
-  EClass getChoose();
+  EClass getPick();
 
   /**
-   * Returns the meta object for the attribute '{@link org.asmeta.avallaxt.avalla.Choose#getVar <em>Var</em>}'.
+   * Returns the meta object for the attribute '{@link org.asmeta.avallaxt.avalla.Pick#getVar <em>Var</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Var</em>'.
-   * @see org.asmeta.avallaxt.avalla.Choose#getVar()
-   * @see #getChoose()
+   * @see org.asmeta.avallaxt.avalla.Pick#getVar()
+   * @see #getPick()
    * @generated
    */
-  EAttribute getChoose_Var();
+  EAttribute getPick_Var();
 
   /**
-   * Returns the meta object for the attribute '{@link org.asmeta.avallaxt.avalla.Choose#getRule <em>Rule</em>}'.
+   * Returns the meta object for the attribute '{@link org.asmeta.avallaxt.avalla.Pick#getRule <em>Rule</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Rule</em>'.
-   * @see org.asmeta.avallaxt.avalla.Choose#getRule()
-   * @see #getChoose()
+   * @see org.asmeta.avallaxt.avalla.Pick#getRule()
+   * @see #getPick()
    * @generated
    */
-  EAttribute getChoose_Rule();
+  EAttribute getPick_Rule();
 
   /**
-   * Returns the meta object for the attribute '{@link org.asmeta.avallaxt.avalla.Choose#getValue <em>Value</em>}'.
+   * Returns the meta object for the attribute '{@link org.asmeta.avallaxt.avalla.Pick#getValue <em>Value</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Value</em>'.
-   * @see org.asmeta.avallaxt.avalla.Choose#getValue()
-   * @see #getChoose()
+   * @see org.asmeta.avallaxt.avalla.Pick#getValue()
+   * @see #getPick()
    * @generated
    */
-  EAttribute getChoose_Value();
+  EAttribute getPick_Value();
 
   /**
    * Returns the meta object for class '{@link org.asmeta.avallaxt.avalla.Block <em>Block</em>}'.
@@ -958,14 +958,14 @@ public interface AvallaPackage extends EPackage
     EAttribute EXEC__RULE = eINSTANCE.getExec_Rule();
 
     /**
-     * The meta object literal for the '{@link org.asmeta.avallaxt.avalla.impl.ChooseImpl <em>Choose</em>}' class.
+     * The meta object literal for the '{@link org.asmeta.avallaxt.avalla.impl.PickImpl <em>Pick</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.asmeta.avallaxt.avalla.impl.ChooseImpl
-     * @see org.asmeta.avallaxt.avalla.impl.AvallaPackageImpl#getChoose()
+     * @see org.asmeta.avallaxt.avalla.impl.PickImpl
+     * @see org.asmeta.avallaxt.avalla.impl.AvallaPackageImpl#getPick()
      * @generated
      */
-    EClass CHOOSE = eINSTANCE.getChoose();
+    EClass PICK = eINSTANCE.getPick();
 
     /**
      * The meta object literal for the '<em><b>Var</b></em>' attribute feature.
@@ -973,7 +973,7 @@ public interface AvallaPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute CHOOSE__VAR = eINSTANCE.getChoose_Var();
+    EAttribute PICK__VAR = eINSTANCE.getPick_Var();
 
     /**
      * The meta object literal for the '<em><b>Rule</b></em>' attribute feature.
@@ -981,7 +981,7 @@ public interface AvallaPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute CHOOSE__RULE = eINSTANCE.getChoose_Rule();
+    EAttribute PICK__RULE = eINSTANCE.getPick_Rule();
 
     /**
      * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
@@ -989,7 +989,7 @@ public interface AvallaPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute CHOOSE__VALUE = eINSTANCE.getChoose_Value();
+    EAttribute PICK__VALUE = eINSTANCE.getPick_Value();
 
     /**
      * The meta object literal for the '{@link org.asmeta.avallaxt.avalla.impl.BlockImpl <em>Block</em>}' class.

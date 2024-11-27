@@ -13,7 +13,7 @@ import java.util.List;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Block;
 import org.asmeta.avallaxt.avalla.Check;
-import org.asmeta.avallaxt.avalla.Choose;
+import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.Exec;
@@ -83,7 +83,9 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	ArrayList<Set> monitoredInitState;
 	List<ArrayList<Set>> allMonitored;
 	int state;
-
+	
+	List<Pick> pickedChoose;
+	
 	/**
 	 * Parses the commands and builds the list of statements containing only
 	 * simple commands (remove blocks and exec blocks)
@@ -100,9 +102,12 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		ArrayList<Set> monitored = new ArrayList<>();
 		// list of monitored set
 		allMonitored = new ArrayList<>();
+		pickedChoose = new ArrayList<>();
 		for (Command command : commandsNewOrder) {
 			if (command instanceof Set) {
 				monitored.add((Set) command);
+			} else if (command instanceof Pick) {
+				pickedChoose.add((Pick) command);
 			} else if (command instanceof Step || command instanceof StepUntil) {
 				allMonitored.add(monitored);
 				monitored = new ArrayList<>();
@@ -308,7 +313,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	}
 	
 	@Override
-	public Void caseChoose(Choose object) {
+	public Void casePick(Pick p) {
 		throw new RuntimeException("DON'T KNOW WHAT TO DO");
 	}
 	

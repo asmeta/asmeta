@@ -149,13 +149,13 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		private final RuleCall cStepUntilParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		private final RuleCall cExecParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
 		private final RuleCall cExecBlockParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
-		private final RuleCall cChooseParserRuleCall_6 = (RuleCall)cAlternatives.eContents().get(6);
+		private final RuleCall cPickParserRuleCall_6 = (RuleCall)cAlternatives.eContents().get(6);
 		
 		//Command:
-		//    Check | Set | {Step} Step | StepUntil | Exec | ExecBlock | Choose;
+		//    Check | Set | {Step} Step | StepUntil | Exec | ExecBlock | Pick;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//Check | Set | {Step} Step | StepUntil | Exec | ExecBlock | Choose
+		//Check | Set | {Step} Step | StepUntil | Exec | ExecBlock | Pick
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//Check
@@ -182,8 +182,8 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		//ExecBlock
 		public RuleCall getExecBlockParserRuleCall_5() { return cExecBlockParserRuleCall_5; }
 		
-		//Choose
-		public RuleCall getChooseParserRuleCall_6() { return cChooseParserRuleCall_6; }
+		//Pick
+		public RuleCall getPickParserRuleCall_6() { return cPickParserRuleCall_6; }
 	}
 	public class CheckElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.Check");
@@ -321,8 +321,8 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		//";"
 		public Keyword getSemicolonKeyword_2() { return cSemicolonKeyword_2; }
 	}
-	public class ChooseElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.Choose");
+	public class PickElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.avallaxt.Avalla.Pick");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cPickKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cVarAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -337,7 +337,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		private final Keyword cSemicolonKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//// added choose for flaky scenarios NOV 2024
-		//Choose:
+		//Pick:
 		//    'pick' var = LOCAL_VARIABLE (IN rule=RULE_NAME)? ':='    value=sentence ";";
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -589,7 +589,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	private final StepElements pStep;
 	private final StepUntilElements pStepUntil;
 	private final ExecElements pExec;
-	private final ChooseElements pChoose;
+	private final PickElements pPick;
 	private final BlockElements pBlock;
 	private final ExecBlockElements pExecBlock;
 	private final PathElements pPath;
@@ -619,7 +619,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 		this.pStep = new StepElements();
 		this.pStepUntil = new StepUntilElements();
 		this.pExec = new ExecElements();
-		this.pChoose = new ChooseElements();
+		this.pPick = new PickElements();
 		this.pBlock = new BlockElements();
 		this.pExecBlock = new ExecBlockElements();
 		this.pPath = new PathElements();
@@ -694,7 +694,7 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	}
 	
 	//Command:
-	//    Check | Set | {Step} Step | StepUntil | Exec | ExecBlock | Choose;
+	//    Check | Set | {Step} Step | StepUntil | Exec | ExecBlock | Pick;
 	public CommandElements getCommandAccess() {
 		return pCommand;
 	}
@@ -755,14 +755,14 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	}
 	
 	//// added choose for flaky scenarios NOV 2024
-	//Choose:
+	//Pick:
 	//    'pick' var = LOCAL_VARIABLE (IN rule=RULE_NAME)? ':='    value=sentence ";";
-	public ChooseElements getChooseAccess() {
-		return pChoose;
+	public PickElements getPickAccess() {
+		return pPick;
 	}
 	
-	public ParserRule getChooseRule() {
-		return getChooseAccess().getRule();
+	public ParserRule getPickRule() {
+		return getPickAccess().getRule();
 	}
 	
 	//Block:
@@ -874,8 +874,8 @@ public class AvallaGrammarAccess extends AbstractElementFinder.AbstractGrammarEl
 	
 	//terminal GOOD_CHAR_NO_COLON:
 	////
-	//    ('\u0021'..'\u0023' // da ! (0021) - spazio escluso a 9 (0023) // skip '$'
-	//    | '\u0025'..'\u0039' // da ! (0025) - spazio escluso a 9 (0039) // skip ':' ';'
+	//    ('\u0021'..'\u0023' // da ! (0021) - spazio escluso a # (0023) // skip '$'
+	//    | '\u0025'..'\u0039' // da % (0025) a 9 (0039) // skip ':' ';'
 	//    | '\u003C'..'\u007E' // da < a ~
 	//);
 	public TerminalRule getGOOD_CHAR_NO_COLONRule() {

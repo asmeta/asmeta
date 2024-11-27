@@ -8,10 +8,10 @@ import java.util.Set;
 import org.asmeta.avallaxt.avalla.AvallaPackage;
 import org.asmeta.avallaxt.avalla.Block;
 import org.asmeta.avallaxt.avalla.Check;
-import org.asmeta.avallaxt.avalla.Choose;
 import org.asmeta.avallaxt.avalla.Exec;
 import org.asmeta.avallaxt.avalla.ExecBlock;
 import org.asmeta.avallaxt.avalla.Invariant;
+import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.avalla.Step;
 import org.asmeta.avallaxt.avalla.StepUntil;
@@ -46,9 +46,6 @@ public abstract class AbstractAvallaSemanticSequencer extends AbstractDelegating
 			case AvallaPackage.CHECK:
 				sequence_Check(context, (Check) semanticObject); 
 				return; 
-			case AvallaPackage.CHOOSE:
-				sequence_Choose(context, (Choose) semanticObject); 
-				return; 
 			case AvallaPackage.EXEC:
 				sequence_Exec(context, (Exec) semanticObject); 
 				return; 
@@ -57,6 +54,9 @@ public abstract class AbstractAvallaSemanticSequencer extends AbstractDelegating
 				return; 
 			case AvallaPackage.INVARIANT:
 				sequence_Invariant(context, (Invariant) semanticObject); 
+				return; 
+			case AvallaPackage.PICK:
+				sequence_Pick(context, (Pick) semanticObject); 
 				return; 
 			case AvallaPackage.SCENARIO:
 				sequence_Scenario(context, (Scenario) semanticObject); 
@@ -109,22 +109,6 @@ public abstract class AbstractAvallaSemanticSequencer extends AbstractDelegating
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getCheckAccess().getExpressionSentenceParserRuleCall_1_0(), semanticObject.getExpression());
 		feeder.finish();
-	}
-	
-	
-	/**
-	 * <pre>
-	 * Contexts:
-	 *     Element returns Choose
-	 *     Command returns Choose
-	 *     Choose returns Choose
-	 *
-	 * Constraint:
-	 *     (var=LOCAL_VARIABLE rule=RULE_NAME? value=sentence)
-	 * </pre>
-	 */
-	protected void sequence_Choose(ISerializationContext context, Choose semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -201,6 +185,22 @@ public abstract class AbstractAvallaSemanticSequencer extends AbstractDelegating
 		feeder.accept(grammarAccess.getInvariantAccess().getNameGOOD_CHARS_NO_COLONTerminalRuleCall_1_0(), semanticObject.getName());
 		feeder.accept(grammarAccess.getInvariantAccess().getExpressionSentenceParserRuleCall_3_0(), semanticObject.getExpression());
 		feeder.finish();
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     Element returns Pick
+	 *     Command returns Pick
+	 *     Pick returns Pick
+	 *
+	 * Constraint:
+	 *     (var=LOCAL_VARIABLE rule=RULE_NAME? value=sentence)
+	 * </pre>
+	 */
+	protected void sequence_Pick(ISerializationContext context, Pick semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	

@@ -6,23 +6,23 @@ package org.asmeta.avallaxt.avalla;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Choose</b></em>'.
+ * A representation of the model object '<em><b>Pick</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.asmeta.avallaxt.avalla.Choose#getVar <em>Var</em>}</li>
- *   <li>{@link org.asmeta.avallaxt.avalla.Choose#getRule <em>Rule</em>}</li>
- *   <li>{@link org.asmeta.avallaxt.avalla.Choose#getValue <em>Value</em>}</li>
+ *   <li>{@link org.asmeta.avallaxt.avalla.Pick#getVar <em>Var</em>}</li>
+ *   <li>{@link org.asmeta.avallaxt.avalla.Pick#getRule <em>Rule</em>}</li>
+ *   <li>{@link org.asmeta.avallaxt.avalla.Pick#getValue <em>Value</em>}</li>
  * </ul>
  *
- * @see org.asmeta.avallaxt.avalla.AvallaPackage#getChoose()
+ * @see org.asmeta.avallaxt.avalla.AvallaPackage#getPick()
  * @model
  * @generated
  */
-public interface Choose extends Command
+public interface Pick extends Command
 {
   /**
    * Returns the value of the '<em><b>Var</b></em>' attribute.
@@ -30,14 +30,14 @@ public interface Choose extends Command
    * <!-- end-user-doc -->
    * @return the value of the '<em>Var</em>' attribute.
    * @see #setVar(String)
-   * @see org.asmeta.avallaxt.avalla.AvallaPackage#getChoose_Var()
+   * @see org.asmeta.avallaxt.avalla.AvallaPackage#getPick_Var()
    * @model
    * @generated
    */
   String getVar();
 
   /**
-   * Sets the value of the '{@link org.asmeta.avallaxt.avalla.Choose#getVar <em>Var</em>}' attribute.
+   * Sets the value of the '{@link org.asmeta.avallaxt.avalla.Pick#getVar <em>Var</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Var</em>' attribute.
@@ -52,14 +52,14 @@ public interface Choose extends Command
    * <!-- end-user-doc -->
    * @return the value of the '<em>Rule</em>' attribute.
    * @see #setRule(String)
-   * @see org.asmeta.avallaxt.avalla.AvallaPackage#getChoose_Rule()
+   * @see org.asmeta.avallaxt.avalla.AvallaPackage#getPick_Rule()
    * @model
    * @generated
    */
   String getRule();
 
   /**
-   * Sets the value of the '{@link org.asmeta.avallaxt.avalla.Choose#getRule <em>Rule</em>}' attribute.
+   * Sets the value of the '{@link org.asmeta.avallaxt.avalla.Pick#getRule <em>Rule</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Rule</em>' attribute.
@@ -74,14 +74,14 @@ public interface Choose extends Command
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' attribute.
    * @see #setValue(String)
-   * @see org.asmeta.avallaxt.avalla.AvallaPackage#getChoose_Value()
+   * @see org.asmeta.avallaxt.avalla.AvallaPackage#getPick_Value()
    * @model
    * @generated
    */
   String getValue();
 
   /**
-   * Sets the value of the '{@link org.asmeta.avallaxt.avalla.Choose#getValue <em>Value</em>}' attribute.
+   * Sets the value of the '{@link org.asmeta.avallaxt.avalla.Pick#getValue <em>Value</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Value</em>' attribute.
@@ -90,4 +90,4 @@ public interface Choose extends Command
    */
   void setValue(String value);
 
-} // Choose
+} // Pick

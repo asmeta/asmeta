@@ -17,7 +17,7 @@ Element:
 	Command | Block;
 
 Command:
-	Check | Set | {Step} Step | StepUntil | Exec | ExecBlock | Choose;
+	Check | Set | {Step} Step | StepUntil | Exec | ExecBlock | Pick;
 
 Check:
 	'check' expression=sentence ";";
@@ -36,7 +36,7 @@ Exec:
 	'exec' rule=sentencePlusAssignAndColon ";";
 
 // added choose for flaky scenarios NOV 2024	
-Choose:
+Pick:
 	'pick' var = LOCAL_VARIABLE (IN rule=RULE_NAME)? ':='	value=sentence ";";
 
 

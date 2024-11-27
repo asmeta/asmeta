@@ -345,11 +345,11 @@ ruleCommand returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getCommandAccess().getChooseParserRuleCall_6());
+			newCompositeNode(grammarAccess.getCommandAccess().getPickParserRuleCall_6());
 		}
-		this_Choose_7=ruleChoose
+		this_Pick_7=rulePick
 		{
-			$current = $this_Choose_7.current;
+			$current = $this_Pick_7.current;
 			afterParserOrEnumRuleCall();
 		}
 	)
@@ -588,15 +588,15 @@ ruleExec returns [EObject current=null]
 	)
 ;
 
-// Entry rule entryRuleChoose
-entryRuleChoose returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getChooseRule()); }
-	iv_ruleChoose=ruleChoose
-	{ $current=$iv_ruleChoose.current; }
+// Entry rule entryRulePick
+entryRulePick returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getPickRule()); }
+	iv_rulePick=rulePick
+	{ $current=$iv_rulePick.current; }
 	EOF;
 
-// Rule Choose
-ruleChoose returns [EObject current=null]
+// Rule Pick
+rulePick returns [EObject current=null]
 @init {
 	enterRule();
 }
@@ -606,17 +606,17 @@ ruleChoose returns [EObject current=null]
 	(
 		otherlv_0='pick'
 		{
-			newLeafNode(otherlv_0, grammarAccess.getChooseAccess().getPickKeyword_0());
+			newLeafNode(otherlv_0, grammarAccess.getPickAccess().getPickKeyword_0());
 		}
 		(
 			(
 				lv_var_1_0=RULE_LOCAL_VARIABLE
 				{
-					newLeafNode(lv_var_1_0, grammarAccess.getChooseAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0());
+					newLeafNode(lv_var_1_0, grammarAccess.getPickAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0());
 				}
 				{
 					if ($current==null) {
-						$current = createModelElement(grammarAccess.getChooseRule());
+						$current = createModelElement(grammarAccess.getPickRule());
 					}
 					setWithLastConsumed(
 						$current,
@@ -629,17 +629,17 @@ ruleChoose returns [EObject current=null]
 		(
 			this_IN_2=RULE_IN
 			{
-				newLeafNode(this_IN_2, grammarAccess.getChooseAccess().getINTerminalRuleCall_2_0());
+				newLeafNode(this_IN_2, grammarAccess.getPickAccess().getINTerminalRuleCall_2_0());
 			}
 			(
 				(
 					lv_rule_3_0=RULE_RULE_NAME
 					{
-						newLeafNode(lv_rule_3_0, grammarAccess.getChooseAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0());
+						newLeafNode(lv_rule_3_0, grammarAccess.getPickAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0());
 					}
 					{
 						if ($current==null) {
-							$current = createModelElement(grammarAccess.getChooseRule());
+							$current = createModelElement(grammarAccess.getPickRule());
 						}
 						setWithLastConsumed(
 							$current,
@@ -652,17 +652,17 @@ ruleChoose returns [EObject current=null]
 		)?
 		otherlv_4=':='
 		{
-			newLeafNode(otherlv_4, grammarAccess.getChooseAccess().getColonEqualsSignKeyword_3());
+			newLeafNode(otherlv_4, grammarAccess.getPickAccess().getColonEqualsSignKeyword_3());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getChooseAccess().getValueSentenceParserRuleCall_4_0());
+					newCompositeNode(grammarAccess.getPickAccess().getValueSentenceParserRuleCall_4_0());
 				}
 				lv_value_5_0=rulesentence
 				{
 					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getChooseRule());
+						$current = createModelElementForParent(grammarAccess.getPickRule());
 					}
 					set(
 						$current,
@@ -675,7 +675,7 @@ ruleChoose returns [EObject current=null]
 		)
 		otherlv_6=';'
 		{
-			newLeafNode(otherlv_6, grammarAccess.getChooseAccess().getSemicolonKeyword_5());
+			newLeafNode(otherlv_6, grammarAccess.getPickAccess().getSemicolonKeyword_5());
 		}
 	)
 ;

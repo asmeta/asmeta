@@ -768,20 +768,20 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "ruleExec"
 
 
-    // $ANTLR start "entryRuleChoose"
-    // InternalAvalla.g:278:1: entryRuleChoose : ruleChoose EOF ;
-    public final void entryRuleChoose() throws RecognitionException {
+    // $ANTLR start "entryRulePick"
+    // InternalAvalla.g:278:1: entryRulePick : rulePick EOF ;
+    public final void entryRulePick() throws RecognitionException {
         try {
-            // InternalAvalla.g:279:1: ( ruleChoose EOF )
-            // InternalAvalla.g:280:1: ruleChoose EOF
+            // InternalAvalla.g:279:1: ( rulePick EOF )
+            // InternalAvalla.g:280:1: rulePick EOF
             {
-             before(grammarAccess.getChooseRule()); 
+             before(grammarAccess.getPickRule()); 
             pushFollow(FOLLOW_1);
-            ruleChoose();
+            rulePick();
 
             state._fsp--;
 
-             after(grammarAccess.getChooseRule()); 
+             after(grammarAccess.getPickRule()); 
             match(input,EOF,FOLLOW_2); 
 
             }
@@ -795,35 +795,35 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "entryRuleChoose"
+    // $ANTLR end "entryRulePick"
 
 
-    // $ANTLR start "ruleChoose"
-    // InternalAvalla.g:287:1: ruleChoose : ( ( rule__Choose__Group__0 ) ) ;
-    public final void ruleChoose() throws RecognitionException {
+    // $ANTLR start "rulePick"
+    // InternalAvalla.g:287:1: rulePick : ( ( rule__Pick__Group__0 ) ) ;
+    public final void rulePick() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:291:2: ( ( ( rule__Choose__Group__0 ) ) )
-            // InternalAvalla.g:292:2: ( ( rule__Choose__Group__0 ) )
+            // InternalAvalla.g:291:2: ( ( ( rule__Pick__Group__0 ) ) )
+            // InternalAvalla.g:292:2: ( ( rule__Pick__Group__0 ) )
             {
-            // InternalAvalla.g:292:2: ( ( rule__Choose__Group__0 ) )
-            // InternalAvalla.g:293:3: ( rule__Choose__Group__0 )
+            // InternalAvalla.g:292:2: ( ( rule__Pick__Group__0 ) )
+            // InternalAvalla.g:293:3: ( rule__Pick__Group__0 )
             {
-             before(grammarAccess.getChooseAccess().getGroup()); 
-            // InternalAvalla.g:294:3: ( rule__Choose__Group__0 )
-            // InternalAvalla.g:294:4: rule__Choose__Group__0
+             before(grammarAccess.getPickAccess().getGroup()); 
+            // InternalAvalla.g:294:3: ( rule__Pick__Group__0 )
+            // InternalAvalla.g:294:4: rule__Pick__Group__0
             {
             pushFollow(FOLLOW_2);
-            rule__Choose__Group__0();
+            rule__Pick__Group__0();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getChooseAccess().getGroup()); 
+             after(grammarAccess.getPickAccess().getGroup()); 
 
             }
 
@@ -842,7 +842,7 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "ruleChoose"
+    // $ANTLR end "rulePick"
 
 
     // $ANTLR start "entryRuleBlock"
@@ -1396,13 +1396,13 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Command__Alternatives"
-    // InternalAvalla.g:462:1: rule__Command__Alternatives : ( ( ruleCheck ) | ( ruleSet ) | ( ( rule__Command__Group_2__0 ) ) | ( ruleStepUntil ) | ( ruleExec ) | ( ruleExecBlock ) | ( ruleChoose ) );
+    // InternalAvalla.g:462:1: rule__Command__Alternatives : ( ( ruleCheck ) | ( ruleSet ) | ( ( rule__Command__Group_2__0 ) ) | ( ruleStepUntil ) | ( ruleExec ) | ( ruleExecBlock ) | ( rulePick ) );
     public final void rule__Command__Alternatives() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:466:1: ( ( ruleCheck ) | ( ruleSet ) | ( ( rule__Command__Group_2__0 ) ) | ( ruleStepUntil ) | ( ruleExec ) | ( ruleExecBlock ) | ( ruleChoose ) )
+            // InternalAvalla.g:466:1: ( ( ruleCheck ) | ( ruleSet ) | ( ( rule__Command__Group_2__0 ) ) | ( ruleStepUntil ) | ( ruleExec ) | ( ruleExecBlock ) | ( rulePick ) )
             int alt4=7;
             switch ( input.LA(1) ) {
             case 20:
@@ -1577,18 +1577,18 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 7 :
-                    // InternalAvalla.g:503:2: ( ruleChoose )
+                    // InternalAvalla.g:503:2: ( rulePick )
                     {
-                    // InternalAvalla.g:503:2: ( ruleChoose )
-                    // InternalAvalla.g:504:3: ruleChoose
+                    // InternalAvalla.g:503:2: ( rulePick )
+                    // InternalAvalla.g:504:3: rulePick
                     {
-                     before(grammarAccess.getCommandAccess().getChooseParserRuleCall_6()); 
+                     before(grammarAccess.getCommandAccess().getPickParserRuleCall_6()); 
                     pushFollow(FOLLOW_2);
-                    ruleChoose();
+                    rulePick();
 
                     state._fsp--;
 
-                     after(grammarAccess.getCommandAccess().getChooseParserRuleCall_6()); 
+                     after(grammarAccess.getCommandAccess().getPickParserRuleCall_6()); 
 
                     }
 
@@ -4376,23 +4376,23 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__Exec__Group__2__Impl"
 
 
-    // $ANTLR start "rule__Choose__Group__0"
-    // InternalAvalla.g:1420:1: rule__Choose__Group__0 : rule__Choose__Group__0__Impl rule__Choose__Group__1 ;
-    public final void rule__Choose__Group__0() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group__0"
+    // InternalAvalla.g:1420:1: rule__Pick__Group__0 : rule__Pick__Group__0__Impl rule__Pick__Group__1 ;
+    public final void rule__Pick__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:1424:1: ( rule__Choose__Group__0__Impl rule__Choose__Group__1 )
-            // InternalAvalla.g:1425:2: rule__Choose__Group__0__Impl rule__Choose__Group__1
+            // InternalAvalla.g:1424:1: ( rule__Pick__Group__0__Impl rule__Pick__Group__1 )
+            // InternalAvalla.g:1425:2: rule__Pick__Group__0__Impl rule__Pick__Group__1
             {
             pushFollow(FOLLOW_19);
-            rule__Choose__Group__0__Impl();
+            rule__Pick__Group__0__Impl();
 
             state._fsp--;
 
             pushFollow(FOLLOW_2);
-            rule__Choose__Group__1();
+            rule__Pick__Group__1();
 
             state._fsp--;
 
@@ -4411,12 +4411,12 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group__0"
+    // $ANTLR end "rule__Pick__Group__0"
 
 
-    // $ANTLR start "rule__Choose__Group__0__Impl"
-    // InternalAvalla.g:1432:1: rule__Choose__Group__0__Impl : ( 'pick' ) ;
-    public final void rule__Choose__Group__0__Impl() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group__0__Impl"
+    // InternalAvalla.g:1432:1: rule__Pick__Group__0__Impl : ( 'pick' ) ;
+    public final void rule__Pick__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -4427,9 +4427,9 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
             // InternalAvalla.g:1437:1: ( 'pick' )
             // InternalAvalla.g:1438:2: 'pick'
             {
-             before(grammarAccess.getChooseAccess().getPickKeyword_0()); 
+             before(grammarAccess.getPickAccess().getPickKeyword_0()); 
             match(input,24,FOLLOW_2); 
-             after(grammarAccess.getChooseAccess().getPickKeyword_0()); 
+             after(grammarAccess.getPickAccess().getPickKeyword_0()); 
 
             }
 
@@ -4448,26 +4448,26 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group__0__Impl"
+    // $ANTLR end "rule__Pick__Group__0__Impl"
 
 
-    // $ANTLR start "rule__Choose__Group__1"
-    // InternalAvalla.g:1447:1: rule__Choose__Group__1 : rule__Choose__Group__1__Impl rule__Choose__Group__2 ;
-    public final void rule__Choose__Group__1() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group__1"
+    // InternalAvalla.g:1447:1: rule__Pick__Group__1 : rule__Pick__Group__1__Impl rule__Pick__Group__2 ;
+    public final void rule__Pick__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:1451:1: ( rule__Choose__Group__1__Impl rule__Choose__Group__2 )
-            // InternalAvalla.g:1452:2: rule__Choose__Group__1__Impl rule__Choose__Group__2
+            // InternalAvalla.g:1451:1: ( rule__Pick__Group__1__Impl rule__Pick__Group__2 )
+            // InternalAvalla.g:1452:2: rule__Pick__Group__1__Impl rule__Pick__Group__2
             {
             pushFollow(FOLLOW_20);
-            rule__Choose__Group__1__Impl();
+            rule__Pick__Group__1__Impl();
 
             state._fsp--;
 
             pushFollow(FOLLOW_2);
-            rule__Choose__Group__2();
+            rule__Pick__Group__2();
 
             state._fsp--;
 
@@ -4486,35 +4486,35 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group__1"
+    // $ANTLR end "rule__Pick__Group__1"
 
 
-    // $ANTLR start "rule__Choose__Group__1__Impl"
-    // InternalAvalla.g:1459:1: rule__Choose__Group__1__Impl : ( ( rule__Choose__VarAssignment_1 ) ) ;
-    public final void rule__Choose__Group__1__Impl() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group__1__Impl"
+    // InternalAvalla.g:1459:1: rule__Pick__Group__1__Impl : ( ( rule__Pick__VarAssignment_1 ) ) ;
+    public final void rule__Pick__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:1463:1: ( ( ( rule__Choose__VarAssignment_1 ) ) )
-            // InternalAvalla.g:1464:1: ( ( rule__Choose__VarAssignment_1 ) )
+            // InternalAvalla.g:1463:1: ( ( ( rule__Pick__VarAssignment_1 ) ) )
+            // InternalAvalla.g:1464:1: ( ( rule__Pick__VarAssignment_1 ) )
             {
-            // InternalAvalla.g:1464:1: ( ( rule__Choose__VarAssignment_1 ) )
-            // InternalAvalla.g:1465:2: ( rule__Choose__VarAssignment_1 )
+            // InternalAvalla.g:1464:1: ( ( rule__Pick__VarAssignment_1 ) )
+            // InternalAvalla.g:1465:2: ( rule__Pick__VarAssignment_1 )
             {
-             before(grammarAccess.getChooseAccess().getVarAssignment_1()); 
-            // InternalAvalla.g:1466:2: ( rule__Choose__VarAssignment_1 )
-            // InternalAvalla.g:1466:3: rule__Choose__VarAssignment_1
+             before(grammarAccess.getPickAccess().getVarAssignment_1()); 
+            // InternalAvalla.g:1466:2: ( rule__Pick__VarAssignment_1 )
+            // InternalAvalla.g:1466:3: rule__Pick__VarAssignment_1
             {
             pushFollow(FOLLOW_2);
-            rule__Choose__VarAssignment_1();
+            rule__Pick__VarAssignment_1();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getChooseAccess().getVarAssignment_1()); 
+             after(grammarAccess.getPickAccess().getVarAssignment_1()); 
 
             }
 
@@ -4533,26 +4533,26 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group__1__Impl"
+    // $ANTLR end "rule__Pick__Group__1__Impl"
 
 
-    // $ANTLR start "rule__Choose__Group__2"
-    // InternalAvalla.g:1474:1: rule__Choose__Group__2 : rule__Choose__Group__2__Impl rule__Choose__Group__3 ;
-    public final void rule__Choose__Group__2() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group__2"
+    // InternalAvalla.g:1474:1: rule__Pick__Group__2 : rule__Pick__Group__2__Impl rule__Pick__Group__3 ;
+    public final void rule__Pick__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:1478:1: ( rule__Choose__Group__2__Impl rule__Choose__Group__3 )
-            // InternalAvalla.g:1479:2: rule__Choose__Group__2__Impl rule__Choose__Group__3
+            // InternalAvalla.g:1478:1: ( rule__Pick__Group__2__Impl rule__Pick__Group__3 )
+            // InternalAvalla.g:1479:2: rule__Pick__Group__2__Impl rule__Pick__Group__3
             {
             pushFollow(FOLLOW_20);
-            rule__Choose__Group__2__Impl();
+            rule__Pick__Group__2__Impl();
 
             state._fsp--;
 
             pushFollow(FOLLOW_2);
-            rule__Choose__Group__3();
+            rule__Pick__Group__3();
 
             state._fsp--;
 
@@ -4571,24 +4571,24 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group__2"
+    // $ANTLR end "rule__Pick__Group__2"
 
 
-    // $ANTLR start "rule__Choose__Group__2__Impl"
-    // InternalAvalla.g:1486:1: rule__Choose__Group__2__Impl : ( ( rule__Choose__Group_2__0 )? ) ;
-    public final void rule__Choose__Group__2__Impl() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group__2__Impl"
+    // InternalAvalla.g:1486:1: rule__Pick__Group__2__Impl : ( ( rule__Pick__Group_2__0 )? ) ;
+    public final void rule__Pick__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:1490:1: ( ( ( rule__Choose__Group_2__0 )? ) )
-            // InternalAvalla.g:1491:1: ( ( rule__Choose__Group_2__0 )? )
+            // InternalAvalla.g:1490:1: ( ( ( rule__Pick__Group_2__0 )? ) )
+            // InternalAvalla.g:1491:1: ( ( rule__Pick__Group_2__0 )? )
             {
-            // InternalAvalla.g:1491:1: ( ( rule__Choose__Group_2__0 )? )
-            // InternalAvalla.g:1492:2: ( rule__Choose__Group_2__0 )?
+            // InternalAvalla.g:1491:1: ( ( rule__Pick__Group_2__0 )? )
+            // InternalAvalla.g:1492:2: ( rule__Pick__Group_2__0 )?
             {
-             before(grammarAccess.getChooseAccess().getGroup_2()); 
-            // InternalAvalla.g:1493:2: ( rule__Choose__Group_2__0 )?
+             before(grammarAccess.getPickAccess().getGroup_2()); 
+            // InternalAvalla.g:1493:2: ( rule__Pick__Group_2__0 )?
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -4597,10 +4597,10 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
             }
             switch (alt12) {
                 case 1 :
-                    // InternalAvalla.g:1493:3: rule__Choose__Group_2__0
+                    // InternalAvalla.g:1493:3: rule__Pick__Group_2__0
                     {
                     pushFollow(FOLLOW_2);
-                    rule__Choose__Group_2__0();
+                    rule__Pick__Group_2__0();
 
                     state._fsp--;
 
@@ -4610,7 +4610,7 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
 
             }
 
-             after(grammarAccess.getChooseAccess().getGroup_2()); 
+             after(grammarAccess.getPickAccess().getGroup_2()); 
 
             }
 
@@ -4629,26 +4629,26 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group__2__Impl"
+    // $ANTLR end "rule__Pick__Group__2__Impl"
 
 
-    // $ANTLR start "rule__Choose__Group__3"
-    // InternalAvalla.g:1501:1: rule__Choose__Group__3 : rule__Choose__Group__3__Impl rule__Choose__Group__4 ;
-    public final void rule__Choose__Group__3() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group__3"
+    // InternalAvalla.g:1501:1: rule__Pick__Group__3 : rule__Pick__Group__3__Impl rule__Pick__Group__4 ;
+    public final void rule__Pick__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:1505:1: ( rule__Choose__Group__3__Impl rule__Choose__Group__4 )
-            // InternalAvalla.g:1506:2: rule__Choose__Group__3__Impl rule__Choose__Group__4
+            // InternalAvalla.g:1505:1: ( rule__Pick__Group__3__Impl rule__Pick__Group__4 )
+            // InternalAvalla.g:1506:2: rule__Pick__Group__3__Impl rule__Pick__Group__4
             {
             pushFollow(FOLLOW_13);
-            rule__Choose__Group__3__Impl();
+            rule__Pick__Group__3__Impl();
 
             state._fsp--;
 
             pushFollow(FOLLOW_2);
-            rule__Choose__Group__4();
+            rule__Pick__Group__4();
 
             state._fsp--;
 
@@ -4667,12 +4667,12 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group__3"
+    // $ANTLR end "rule__Pick__Group__3"
 
 
-    // $ANTLR start "rule__Choose__Group__3__Impl"
-    // InternalAvalla.g:1513:1: rule__Choose__Group__3__Impl : ( ':=' ) ;
-    public final void rule__Choose__Group__3__Impl() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group__3__Impl"
+    // InternalAvalla.g:1513:1: rule__Pick__Group__3__Impl : ( ':=' ) ;
+    public final void rule__Pick__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -4683,9 +4683,9 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
             // InternalAvalla.g:1518:1: ( ':=' )
             // InternalAvalla.g:1519:2: ':='
             {
-             before(grammarAccess.getChooseAccess().getColonEqualsSignKeyword_3()); 
+             before(grammarAccess.getPickAccess().getColonEqualsSignKeyword_3()); 
             match(input,15,FOLLOW_2); 
-             after(grammarAccess.getChooseAccess().getColonEqualsSignKeyword_3()); 
+             after(grammarAccess.getPickAccess().getColonEqualsSignKeyword_3()); 
 
             }
 
@@ -4704,26 +4704,26 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group__3__Impl"
+    // $ANTLR end "rule__Pick__Group__3__Impl"
 
 
-    // $ANTLR start "rule__Choose__Group__4"
-    // InternalAvalla.g:1528:1: rule__Choose__Group__4 : rule__Choose__Group__4__Impl rule__Choose__Group__5 ;
-    public final void rule__Choose__Group__4() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group__4"
+    // InternalAvalla.g:1528:1: rule__Pick__Group__4 : rule__Pick__Group__4__Impl rule__Pick__Group__5 ;
+    public final void rule__Pick__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:1532:1: ( rule__Choose__Group__4__Impl rule__Choose__Group__5 )
-            // InternalAvalla.g:1533:2: rule__Choose__Group__4__Impl rule__Choose__Group__5
+            // InternalAvalla.g:1532:1: ( rule__Pick__Group__4__Impl rule__Pick__Group__5 )
+            // InternalAvalla.g:1533:2: rule__Pick__Group__4__Impl rule__Pick__Group__5
             {
             pushFollow(FOLLOW_14);
-            rule__Choose__Group__4__Impl();
+            rule__Pick__Group__4__Impl();
 
             state._fsp--;
 
             pushFollow(FOLLOW_2);
-            rule__Choose__Group__5();
+            rule__Pick__Group__5();
 
             state._fsp--;
 
@@ -4742,35 +4742,35 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group__4"
+    // $ANTLR end "rule__Pick__Group__4"
 
 
-    // $ANTLR start "rule__Choose__Group__4__Impl"
-    // InternalAvalla.g:1540:1: rule__Choose__Group__4__Impl : ( ( rule__Choose__ValueAssignment_4 ) ) ;
-    public final void rule__Choose__Group__4__Impl() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group__4__Impl"
+    // InternalAvalla.g:1540:1: rule__Pick__Group__4__Impl : ( ( rule__Pick__ValueAssignment_4 ) ) ;
+    public final void rule__Pick__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:1544:1: ( ( ( rule__Choose__ValueAssignment_4 ) ) )
-            // InternalAvalla.g:1545:1: ( ( rule__Choose__ValueAssignment_4 ) )
+            // InternalAvalla.g:1544:1: ( ( ( rule__Pick__ValueAssignment_4 ) ) )
+            // InternalAvalla.g:1545:1: ( ( rule__Pick__ValueAssignment_4 ) )
             {
-            // InternalAvalla.g:1545:1: ( ( rule__Choose__ValueAssignment_4 ) )
-            // InternalAvalla.g:1546:2: ( rule__Choose__ValueAssignment_4 )
+            // InternalAvalla.g:1545:1: ( ( rule__Pick__ValueAssignment_4 ) )
+            // InternalAvalla.g:1546:2: ( rule__Pick__ValueAssignment_4 )
             {
-             before(grammarAccess.getChooseAccess().getValueAssignment_4()); 
-            // InternalAvalla.g:1547:2: ( rule__Choose__ValueAssignment_4 )
-            // InternalAvalla.g:1547:3: rule__Choose__ValueAssignment_4
+             before(grammarAccess.getPickAccess().getValueAssignment_4()); 
+            // InternalAvalla.g:1547:2: ( rule__Pick__ValueAssignment_4 )
+            // InternalAvalla.g:1547:3: rule__Pick__ValueAssignment_4
             {
             pushFollow(FOLLOW_2);
-            rule__Choose__ValueAssignment_4();
+            rule__Pick__ValueAssignment_4();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getChooseAccess().getValueAssignment_4()); 
+             after(grammarAccess.getPickAccess().getValueAssignment_4()); 
 
             }
 
@@ -4789,21 +4789,21 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group__4__Impl"
+    // $ANTLR end "rule__Pick__Group__4__Impl"
 
 
-    // $ANTLR start "rule__Choose__Group__5"
-    // InternalAvalla.g:1555:1: rule__Choose__Group__5 : rule__Choose__Group__5__Impl ;
-    public final void rule__Choose__Group__5() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group__5"
+    // InternalAvalla.g:1555:1: rule__Pick__Group__5 : rule__Pick__Group__5__Impl ;
+    public final void rule__Pick__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:1559:1: ( rule__Choose__Group__5__Impl )
-            // InternalAvalla.g:1560:2: rule__Choose__Group__5__Impl
+            // InternalAvalla.g:1559:1: ( rule__Pick__Group__5__Impl )
+            // InternalAvalla.g:1560:2: rule__Pick__Group__5__Impl
             {
             pushFollow(FOLLOW_2);
-            rule__Choose__Group__5__Impl();
+            rule__Pick__Group__5__Impl();
 
             state._fsp--;
 
@@ -4822,12 +4822,12 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group__5"
+    // $ANTLR end "rule__Pick__Group__5"
 
 
-    // $ANTLR start "rule__Choose__Group__5__Impl"
-    // InternalAvalla.g:1566:1: rule__Choose__Group__5__Impl : ( ';' ) ;
-    public final void rule__Choose__Group__5__Impl() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group__5__Impl"
+    // InternalAvalla.g:1566:1: rule__Pick__Group__5__Impl : ( ';' ) ;
+    public final void rule__Pick__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -4838,9 +4838,9 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
             // InternalAvalla.g:1571:1: ( ';' )
             // InternalAvalla.g:1572:2: ';'
             {
-             before(grammarAccess.getChooseAccess().getSemicolonKeyword_5()); 
+             before(grammarAccess.getPickAccess().getSemicolonKeyword_5()); 
             match(input,19,FOLLOW_2); 
-             after(grammarAccess.getChooseAccess().getSemicolonKeyword_5()); 
+             after(grammarAccess.getPickAccess().getSemicolonKeyword_5()); 
 
             }
 
@@ -4859,26 +4859,26 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group__5__Impl"
+    // $ANTLR end "rule__Pick__Group__5__Impl"
 
 
-    // $ANTLR start "rule__Choose__Group_2__0"
-    // InternalAvalla.g:1582:1: rule__Choose__Group_2__0 : rule__Choose__Group_2__0__Impl rule__Choose__Group_2__1 ;
-    public final void rule__Choose__Group_2__0() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group_2__0"
+    // InternalAvalla.g:1582:1: rule__Pick__Group_2__0 : rule__Pick__Group_2__0__Impl rule__Pick__Group_2__1 ;
+    public final void rule__Pick__Group_2__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:1586:1: ( rule__Choose__Group_2__0__Impl rule__Choose__Group_2__1 )
-            // InternalAvalla.g:1587:2: rule__Choose__Group_2__0__Impl rule__Choose__Group_2__1
+            // InternalAvalla.g:1586:1: ( rule__Pick__Group_2__0__Impl rule__Pick__Group_2__1 )
+            // InternalAvalla.g:1587:2: rule__Pick__Group_2__0__Impl rule__Pick__Group_2__1
             {
             pushFollow(FOLLOW_21);
-            rule__Choose__Group_2__0__Impl();
+            rule__Pick__Group_2__0__Impl();
 
             state._fsp--;
 
             pushFollow(FOLLOW_2);
-            rule__Choose__Group_2__1();
+            rule__Pick__Group_2__1();
 
             state._fsp--;
 
@@ -4897,12 +4897,12 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group_2__0"
+    // $ANTLR end "rule__Pick__Group_2__0"
 
 
-    // $ANTLR start "rule__Choose__Group_2__0__Impl"
-    // InternalAvalla.g:1594:1: rule__Choose__Group_2__0__Impl : ( RULE_IN ) ;
-    public final void rule__Choose__Group_2__0__Impl() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group_2__0__Impl"
+    // InternalAvalla.g:1594:1: rule__Pick__Group_2__0__Impl : ( RULE_IN ) ;
+    public final void rule__Pick__Group_2__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -4913,9 +4913,9 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
             // InternalAvalla.g:1599:1: ( RULE_IN )
             // InternalAvalla.g:1600:2: RULE_IN
             {
-             before(grammarAccess.getChooseAccess().getINTerminalRuleCall_2_0()); 
+             before(grammarAccess.getPickAccess().getINTerminalRuleCall_2_0()); 
             match(input,RULE_IN,FOLLOW_2); 
-             after(grammarAccess.getChooseAccess().getINTerminalRuleCall_2_0()); 
+             after(grammarAccess.getPickAccess().getINTerminalRuleCall_2_0()); 
 
             }
 
@@ -4934,21 +4934,21 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group_2__0__Impl"
+    // $ANTLR end "rule__Pick__Group_2__0__Impl"
 
 
-    // $ANTLR start "rule__Choose__Group_2__1"
-    // InternalAvalla.g:1609:1: rule__Choose__Group_2__1 : rule__Choose__Group_2__1__Impl ;
-    public final void rule__Choose__Group_2__1() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group_2__1"
+    // InternalAvalla.g:1609:1: rule__Pick__Group_2__1 : rule__Pick__Group_2__1__Impl ;
+    public final void rule__Pick__Group_2__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:1613:1: ( rule__Choose__Group_2__1__Impl )
-            // InternalAvalla.g:1614:2: rule__Choose__Group_2__1__Impl
+            // InternalAvalla.g:1613:1: ( rule__Pick__Group_2__1__Impl )
+            // InternalAvalla.g:1614:2: rule__Pick__Group_2__1__Impl
             {
             pushFollow(FOLLOW_2);
-            rule__Choose__Group_2__1__Impl();
+            rule__Pick__Group_2__1__Impl();
 
             state._fsp--;
 
@@ -4967,35 +4967,35 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group_2__1"
+    // $ANTLR end "rule__Pick__Group_2__1"
 
 
-    // $ANTLR start "rule__Choose__Group_2__1__Impl"
-    // InternalAvalla.g:1620:1: rule__Choose__Group_2__1__Impl : ( ( rule__Choose__RuleAssignment_2_1 ) ) ;
-    public final void rule__Choose__Group_2__1__Impl() throws RecognitionException {
+    // $ANTLR start "rule__Pick__Group_2__1__Impl"
+    // InternalAvalla.g:1620:1: rule__Pick__Group_2__1__Impl : ( ( rule__Pick__RuleAssignment_2_1 ) ) ;
+    public final void rule__Pick__Group_2__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAvalla.g:1624:1: ( ( ( rule__Choose__RuleAssignment_2_1 ) ) )
-            // InternalAvalla.g:1625:1: ( ( rule__Choose__RuleAssignment_2_1 ) )
+            // InternalAvalla.g:1624:1: ( ( ( rule__Pick__RuleAssignment_2_1 ) ) )
+            // InternalAvalla.g:1625:1: ( ( rule__Pick__RuleAssignment_2_1 ) )
             {
-            // InternalAvalla.g:1625:1: ( ( rule__Choose__RuleAssignment_2_1 ) )
-            // InternalAvalla.g:1626:2: ( rule__Choose__RuleAssignment_2_1 )
+            // InternalAvalla.g:1625:1: ( ( rule__Pick__RuleAssignment_2_1 ) )
+            // InternalAvalla.g:1626:2: ( rule__Pick__RuleAssignment_2_1 )
             {
-             before(grammarAccess.getChooseAccess().getRuleAssignment_2_1()); 
-            // InternalAvalla.g:1627:2: ( rule__Choose__RuleAssignment_2_1 )
-            // InternalAvalla.g:1627:3: rule__Choose__RuleAssignment_2_1
+             before(grammarAccess.getPickAccess().getRuleAssignment_2_1()); 
+            // InternalAvalla.g:1627:2: ( rule__Pick__RuleAssignment_2_1 )
+            // InternalAvalla.g:1627:3: rule__Pick__RuleAssignment_2_1
             {
             pushFollow(FOLLOW_2);
-            rule__Choose__RuleAssignment_2_1();
+            rule__Pick__RuleAssignment_2_1();
 
             state._fsp--;
 
 
             }
 
-             after(grammarAccess.getChooseAccess().getRuleAssignment_2_1()); 
+             after(grammarAccess.getPickAccess().getRuleAssignment_2_1()); 
 
             }
 
@@ -5014,7 +5014,7 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__Group_2__1__Impl"
+    // $ANTLR end "rule__Pick__Group_2__1__Impl"
 
 
     // $ANTLR start "rule__Block__Group__0"
@@ -6278,9 +6278,9 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__Exec__RuleAssignment_1"
 
 
-    // $ANTLR start "rule__Choose__VarAssignment_1"
-    // InternalAvalla.g:2071:1: rule__Choose__VarAssignment_1 : ( RULE_LOCAL_VARIABLE ) ;
-    public final void rule__Choose__VarAssignment_1() throws RecognitionException {
+    // $ANTLR start "rule__Pick__VarAssignment_1"
+    // InternalAvalla.g:2071:1: rule__Pick__VarAssignment_1 : ( RULE_LOCAL_VARIABLE ) ;
+    public final void rule__Pick__VarAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -6291,9 +6291,9 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
             // InternalAvalla.g:2076:2: ( RULE_LOCAL_VARIABLE )
             // InternalAvalla.g:2077:3: RULE_LOCAL_VARIABLE
             {
-             before(grammarAccess.getChooseAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0()); 
+             before(grammarAccess.getPickAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0()); 
             match(input,RULE_LOCAL_VARIABLE,FOLLOW_2); 
-             after(grammarAccess.getChooseAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0()); 
+             after(grammarAccess.getPickAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0()); 
 
             }
 
@@ -6312,12 +6312,12 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__VarAssignment_1"
+    // $ANTLR end "rule__Pick__VarAssignment_1"
 
 
-    // $ANTLR start "rule__Choose__RuleAssignment_2_1"
-    // InternalAvalla.g:2086:1: rule__Choose__RuleAssignment_2_1 : ( RULE_RULE_NAME ) ;
-    public final void rule__Choose__RuleAssignment_2_1() throws RecognitionException {
+    // $ANTLR start "rule__Pick__RuleAssignment_2_1"
+    // InternalAvalla.g:2086:1: rule__Pick__RuleAssignment_2_1 : ( RULE_RULE_NAME ) ;
+    public final void rule__Pick__RuleAssignment_2_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -6328,9 +6328,9 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
             // InternalAvalla.g:2091:2: ( RULE_RULE_NAME )
             // InternalAvalla.g:2092:3: RULE_RULE_NAME
             {
-             before(grammarAccess.getChooseAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0()); 
+             before(grammarAccess.getPickAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0()); 
             match(input,RULE_RULE_NAME,FOLLOW_2); 
-             after(grammarAccess.getChooseAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0()); 
+             after(grammarAccess.getPickAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0()); 
 
             }
 
@@ -6349,12 +6349,12 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__RuleAssignment_2_1"
+    // $ANTLR end "rule__Pick__RuleAssignment_2_1"
 
 
-    // $ANTLR start "rule__Choose__ValueAssignment_4"
-    // InternalAvalla.g:2101:1: rule__Choose__ValueAssignment_4 : ( rulesentence ) ;
-    public final void rule__Choose__ValueAssignment_4() throws RecognitionException {
+    // $ANTLR start "rule__Pick__ValueAssignment_4"
+    // InternalAvalla.g:2101:1: rule__Pick__ValueAssignment_4 : ( rulesentence ) ;
+    public final void rule__Pick__ValueAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -6365,13 +6365,13 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
             // InternalAvalla.g:2106:2: ( rulesentence )
             // InternalAvalla.g:2107:3: rulesentence
             {
-             before(grammarAccess.getChooseAccess().getValueSentenceParserRuleCall_4_0()); 
+             before(grammarAccess.getPickAccess().getValueSentenceParserRuleCall_4_0()); 
             pushFollow(FOLLOW_2);
             rulesentence();
 
             state._fsp--;
 
-             after(grammarAccess.getChooseAccess().getValueSentenceParserRuleCall_4_0()); 
+             after(grammarAccess.getPickAccess().getValueSentenceParserRuleCall_4_0()); 
 
             }
 
@@ -6390,7 +6390,7 @@ public class InternalAvallaParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Choose__ValueAssignment_4"
+    // $ANTLR end "rule__Pick__ValueAssignment_4"
 
 
     // $ANTLR start "rule__Block__NameAssignment_1"

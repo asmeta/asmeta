@@ -274,25 +274,25 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-// Entry rule entryRuleChoose
-entryRuleChoose
+// Entry rule entryRulePick
+entryRulePick
 :
-{ before(grammarAccess.getChooseRule()); }
-	 ruleChoose
-{ after(grammarAccess.getChooseRule()); } 
+{ before(grammarAccess.getPickRule()); }
+	 rulePick
+{ after(grammarAccess.getPickRule()); } 
 	 EOF 
 ;
 
-// Rule Choose
-ruleChoose 
+// Rule Pick
+rulePick 
 	@init {
 		int stackSize = keepStackSize();
 	}
 	:
 	(
-		{ before(grammarAccess.getChooseAccess().getGroup()); }
-		(rule__Choose__Group__0)
-		{ after(grammarAccess.getChooseAccess().getGroup()); }
+		{ before(grammarAccess.getPickAccess().getGroup()); }
+		(rule__Pick__Group__0)
+		{ after(grammarAccess.getPickAccess().getGroup()); }
 	)
 ;
 finally {
@@ -501,9 +501,9 @@ rule__Command__Alternatives
 	)
 	|
 	(
-		{ before(grammarAccess.getCommandAccess().getChooseParserRuleCall_6()); }
-		ruleChoose
-		{ after(grammarAccess.getCommandAccess().getChooseParserRuleCall_6()); }
+		{ before(grammarAccess.getCommandAccess().getPickParserRuleCall_6()); }
+		rulePick
+		{ after(grammarAccess.getCommandAccess().getPickParserRuleCall_6()); }
 	)
 ;
 finally {
@@ -1417,161 +1417,161 @@ finally {
 }
 
 
-rule__Choose__Group__0
+rule__Pick__Group__0
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
-	rule__Choose__Group__0__Impl
-	rule__Choose__Group__1
+	rule__Pick__Group__0__Impl
+	rule__Pick__Group__1
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group__0__Impl
+rule__Pick__Group__0__Impl
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 (
-	{ before(grammarAccess.getChooseAccess().getPickKeyword_0()); }
+	{ before(grammarAccess.getPickAccess().getPickKeyword_0()); }
 	'pick'
-	{ after(grammarAccess.getChooseAccess().getPickKeyword_0()); }
+	{ after(grammarAccess.getPickAccess().getPickKeyword_0()); }
 )
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group__1
+rule__Pick__Group__1
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
-	rule__Choose__Group__1__Impl
-	rule__Choose__Group__2
+	rule__Pick__Group__1__Impl
+	rule__Pick__Group__2
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group__1__Impl
+rule__Pick__Group__1__Impl
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 (
-	{ before(grammarAccess.getChooseAccess().getVarAssignment_1()); }
-	(rule__Choose__VarAssignment_1)
-	{ after(grammarAccess.getChooseAccess().getVarAssignment_1()); }
+	{ before(grammarAccess.getPickAccess().getVarAssignment_1()); }
+	(rule__Pick__VarAssignment_1)
+	{ after(grammarAccess.getPickAccess().getVarAssignment_1()); }
 )
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group__2
+rule__Pick__Group__2
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
-	rule__Choose__Group__2__Impl
-	rule__Choose__Group__3
+	rule__Pick__Group__2__Impl
+	rule__Pick__Group__3
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group__2__Impl
+rule__Pick__Group__2__Impl
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 (
-	{ before(grammarAccess.getChooseAccess().getGroup_2()); }
-	(rule__Choose__Group_2__0)?
-	{ after(grammarAccess.getChooseAccess().getGroup_2()); }
+	{ before(grammarAccess.getPickAccess().getGroup_2()); }
+	(rule__Pick__Group_2__0)?
+	{ after(grammarAccess.getPickAccess().getGroup_2()); }
 )
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group__3
+rule__Pick__Group__3
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
-	rule__Choose__Group__3__Impl
-	rule__Choose__Group__4
+	rule__Pick__Group__3__Impl
+	rule__Pick__Group__4
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group__3__Impl
+rule__Pick__Group__3__Impl
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 (
-	{ before(grammarAccess.getChooseAccess().getColonEqualsSignKeyword_3()); }
+	{ before(grammarAccess.getPickAccess().getColonEqualsSignKeyword_3()); }
 	':='
-	{ after(grammarAccess.getChooseAccess().getColonEqualsSignKeyword_3()); }
+	{ after(grammarAccess.getPickAccess().getColonEqualsSignKeyword_3()); }
 )
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group__4
+rule__Pick__Group__4
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
-	rule__Choose__Group__4__Impl
-	rule__Choose__Group__5
+	rule__Pick__Group__4__Impl
+	rule__Pick__Group__5
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group__4__Impl
+rule__Pick__Group__4__Impl
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 (
-	{ before(grammarAccess.getChooseAccess().getValueAssignment_4()); }
-	(rule__Choose__ValueAssignment_4)
-	{ after(grammarAccess.getChooseAccess().getValueAssignment_4()); }
+	{ before(grammarAccess.getPickAccess().getValueAssignment_4()); }
+	(rule__Pick__ValueAssignment_4)
+	{ after(grammarAccess.getPickAccess().getValueAssignment_4()); }
 )
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group__5
+rule__Pick__Group__5
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
-	rule__Choose__Group__5__Impl
+	rule__Pick__Group__5__Impl
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group__5__Impl
+rule__Pick__Group__5__Impl
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 (
-	{ before(grammarAccess.getChooseAccess().getSemicolonKeyword_5()); }
+	{ before(grammarAccess.getPickAccess().getSemicolonKeyword_5()); }
 	';'
-	{ after(grammarAccess.getChooseAccess().getSemicolonKeyword_5()); }
+	{ after(grammarAccess.getPickAccess().getSemicolonKeyword_5()); }
 )
 ;
 finally {
@@ -1579,53 +1579,53 @@ finally {
 }
 
 
-rule__Choose__Group_2__0
+rule__Pick__Group_2__0
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
-	rule__Choose__Group_2__0__Impl
-	rule__Choose__Group_2__1
+	rule__Pick__Group_2__0__Impl
+	rule__Pick__Group_2__1
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group_2__0__Impl
+rule__Pick__Group_2__0__Impl
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 (
-	{ before(grammarAccess.getChooseAccess().getINTerminalRuleCall_2_0()); }
+	{ before(grammarAccess.getPickAccess().getINTerminalRuleCall_2_0()); }
 	RULE_IN
-	{ after(grammarAccess.getChooseAccess().getINTerminalRuleCall_2_0()); }
+	{ after(grammarAccess.getPickAccess().getINTerminalRuleCall_2_0()); }
 )
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group_2__1
+rule__Pick__Group_2__1
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
-	rule__Choose__Group_2__1__Impl
+	rule__Pick__Group_2__1__Impl
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__Group_2__1__Impl
+rule__Pick__Group_2__1__Impl
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 (
-	{ before(grammarAccess.getChooseAccess().getRuleAssignment_2_1()); }
-	(rule__Choose__RuleAssignment_2_1)
-	{ after(grammarAccess.getChooseAccess().getRuleAssignment_2_1()); }
+	{ before(grammarAccess.getPickAccess().getRuleAssignment_2_1()); }
+	(rule__Pick__RuleAssignment_2_1)
+	{ after(grammarAccess.getPickAccess().getRuleAssignment_2_1()); }
 )
 ;
 finally {
@@ -2068,45 +2068,45 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__VarAssignment_1
+rule__Pick__VarAssignment_1
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getChooseAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0()); }
+		{ before(grammarAccess.getPickAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0()); }
 		RULE_LOCAL_VARIABLE
-		{ after(grammarAccess.getChooseAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0()); }
+		{ after(grammarAccess.getPickAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0()); }
 	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__RuleAssignment_2_1
+rule__Pick__RuleAssignment_2_1
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getChooseAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0()); }
+		{ before(grammarAccess.getPickAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0()); }
 		RULE_RULE_NAME
-		{ after(grammarAccess.getChooseAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0()); }
+		{ after(grammarAccess.getPickAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0()); }
 	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Choose__ValueAssignment_4
+rule__Pick__ValueAssignment_4
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getChooseAccess().getValueSentenceParserRuleCall_4_0()); }
+		{ before(grammarAccess.getPickAccess().getValueSentenceParserRuleCall_4_0()); }
 		rulesentence
-		{ after(grammarAccess.getChooseAccess().getValueSentenceParserRuleCall_4_0()); }
+		{ after(grammarAccess.getPickAccess().getValueSentenceParserRuleCall_4_0()); }
 	)
 ;
 finally {

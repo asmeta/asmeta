@@ -4,7 +4,7 @@
 package org.asmeta.avallaxt.avalla.impl;
 
 import org.asmeta.avallaxt.avalla.AvallaPackage;
-import org.asmeta.avallaxt.avalla.Choose;
+import org.asmeta.avallaxt.avalla.Pick;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -14,20 +14,20 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Choose</b></em>'.
+ * An implementation of the model object '<em><b>Pick</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.asmeta.avallaxt.avalla.impl.ChooseImpl#getVar <em>Var</em>}</li>
- *   <li>{@link org.asmeta.avallaxt.avalla.impl.ChooseImpl#getRule <em>Rule</em>}</li>
- *   <li>{@link org.asmeta.avallaxt.avalla.impl.ChooseImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link org.asmeta.avallaxt.avalla.impl.PickImpl#getVar <em>Var</em>}</li>
+ *   <li>{@link org.asmeta.avallaxt.avalla.impl.PickImpl#getRule <em>Rule</em>}</li>
+ *   <li>{@link org.asmeta.avallaxt.avalla.impl.PickImpl#getValue <em>Value</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ChooseImpl extends CommandImpl implements Choose
+public class PickImpl extends CommandImpl implements Pick
 {
   /**
    * The default value of the '{@link #getVar() <em>Var</em>}' attribute.
@@ -94,7 +94,7 @@ public class ChooseImpl extends CommandImpl implements Choose
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ChooseImpl()
+  protected PickImpl()
   {
     super();
   }
@@ -107,7 +107,7 @@ public class ChooseImpl extends CommandImpl implements Choose
   @Override
   protected EClass eStaticClass()
   {
-    return AvallaPackage.Literals.CHOOSE;
+    return AvallaPackage.Literals.PICK;
   }
 
   /**
@@ -132,7 +132,7 @@ public class ChooseImpl extends CommandImpl implements Choose
     String oldVar = var;
     var = newVar;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, AvallaPackage.CHOOSE__VAR, oldVar, var));
+      eNotify(new ENotificationImpl(this, Notification.SET, AvallaPackage.PICK__VAR, oldVar, var));
   }
 
   /**
@@ -157,7 +157,7 @@ public class ChooseImpl extends CommandImpl implements Choose
     String oldRule = rule;
     rule = newRule;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, AvallaPackage.CHOOSE__RULE, oldRule, rule));
+      eNotify(new ENotificationImpl(this, Notification.SET, AvallaPackage.PICK__RULE, oldRule, rule));
   }
 
   /**
@@ -182,7 +182,7 @@ public class ChooseImpl extends CommandImpl implements Choose
     String oldValue = value;
     value = newValue;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, AvallaPackage.CHOOSE__VALUE, oldValue, value));
+      eNotify(new ENotificationImpl(this, Notification.SET, AvallaPackage.PICK__VALUE, oldValue, value));
   }
 
   /**
@@ -195,11 +195,11 @@ public class ChooseImpl extends CommandImpl implements Choose
   {
     switch (featureID)
     {
-      case AvallaPackage.CHOOSE__VAR:
+      case AvallaPackage.PICK__VAR:
         return getVar();
-      case AvallaPackage.CHOOSE__RULE:
+      case AvallaPackage.PICK__RULE:
         return getRule();
-      case AvallaPackage.CHOOSE__VALUE:
+      case AvallaPackage.PICK__VALUE:
         return getValue();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -215,13 +215,13 @@ public class ChooseImpl extends CommandImpl implements Choose
   {
     switch (featureID)
     {
-      case AvallaPackage.CHOOSE__VAR:
+      case AvallaPackage.PICK__VAR:
         setVar((String)newValue);
         return;
-      case AvallaPackage.CHOOSE__RULE:
+      case AvallaPackage.PICK__RULE:
         setRule((String)newValue);
         return;
-      case AvallaPackage.CHOOSE__VALUE:
+      case AvallaPackage.PICK__VALUE:
         setValue((String)newValue);
         return;
     }
@@ -238,13 +238,13 @@ public class ChooseImpl extends CommandImpl implements Choose
   {
     switch (featureID)
     {
-      case AvallaPackage.CHOOSE__VAR:
+      case AvallaPackage.PICK__VAR:
         setVar(VAR_EDEFAULT);
         return;
-      case AvallaPackage.CHOOSE__RULE:
+      case AvallaPackage.PICK__RULE:
         setRule(RULE_EDEFAULT);
         return;
-      case AvallaPackage.CHOOSE__VALUE:
+      case AvallaPackage.PICK__VALUE:
         setValue(VALUE_EDEFAULT);
         return;
     }
@@ -261,11 +261,11 @@ public class ChooseImpl extends CommandImpl implements Choose
   {
     switch (featureID)
     {
-      case AvallaPackage.CHOOSE__VAR:
+      case AvallaPackage.PICK__VAR:
         return VAR_EDEFAULT == null ? var != null : !VAR_EDEFAULT.equals(var);
-      case AvallaPackage.CHOOSE__RULE:
+      case AvallaPackage.PICK__RULE:
         return RULE_EDEFAULT == null ? rule != null : !RULE_EDEFAULT.equals(rule);
-      case AvallaPackage.CHOOSE__VALUE:
+      case AvallaPackage.PICK__VALUE:
         return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
     }
     return super.eIsSet(featureID);
@@ -292,4 +292,4 @@ public class ChooseImpl extends CommandImpl implements Choose
     return result.toString();
   }
 
-} //ChooseImpl
+} //PickImpl

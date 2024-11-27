@@ -73,7 +73,7 @@ public class AvallaFactoryImpl extends EFactoryImpl implements AvallaFactory
       case AvallaPackage.SET: return createSet();
       case AvallaPackage.STEP_UNTIL: return createStepUntil();
       case AvallaPackage.EXEC: return createExec();
-      case AvallaPackage.CHOOSE: return createChoose();
+      case AvallaPackage.PICK: return createPick();
       case AvallaPackage.BLOCK: return createBlock();
       case AvallaPackage.EXEC_BLOCK: return createExecBlock();
       case AvallaPackage.STEP: return createStep();
@@ -184,10 +184,10 @@ public class AvallaFactoryImpl extends EFactoryImpl implements AvallaFactory
    * @generated
    */
   @Override
-  public Choose createChoose()
+  public Pick createPick()
   {
-    ChooseImpl choose = new ChooseImpl();
-    return choose;
+    PickImpl pick = new PickImpl();
+    return pick;
   }
 
   /**

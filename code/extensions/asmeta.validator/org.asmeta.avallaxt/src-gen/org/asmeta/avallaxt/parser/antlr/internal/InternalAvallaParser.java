@@ -648,7 +648,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCommand"
-    // InternalAvalla.g:277:1: ruleCommand returns [EObject current=null] : (this_Check_0= ruleCheck | this_Set_1= ruleSet | ( () ruleStep ) | this_StepUntil_4= ruleStepUntil | this_Exec_5= ruleExec | this_ExecBlock_6= ruleExecBlock | this_Choose_7= ruleChoose ) ;
+    // InternalAvalla.g:277:1: ruleCommand returns [EObject current=null] : (this_Check_0= ruleCheck | this_Set_1= ruleSet | ( () ruleStep ) | this_StepUntil_4= ruleStepUntil | this_Exec_5= ruleExec | this_ExecBlock_6= ruleExecBlock | this_Pick_7= rulePick ) ;
     public final EObject ruleCommand() throws RecognitionException {
         EObject current = null;
 
@@ -662,17 +662,17 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
         EObject this_ExecBlock_6 = null;
 
-        EObject this_Choose_7 = null;
+        EObject this_Pick_7 = null;
 
 
 
         	enterRule();
 
         try {
-            // InternalAvalla.g:283:2: ( (this_Check_0= ruleCheck | this_Set_1= ruleSet | ( () ruleStep ) | this_StepUntil_4= ruleStepUntil | this_Exec_5= ruleExec | this_ExecBlock_6= ruleExecBlock | this_Choose_7= ruleChoose ) )
-            // InternalAvalla.g:284:2: (this_Check_0= ruleCheck | this_Set_1= ruleSet | ( () ruleStep ) | this_StepUntil_4= ruleStepUntil | this_Exec_5= ruleExec | this_ExecBlock_6= ruleExecBlock | this_Choose_7= ruleChoose )
+            // InternalAvalla.g:283:2: ( (this_Check_0= ruleCheck | this_Set_1= ruleSet | ( () ruleStep ) | this_StepUntil_4= ruleStepUntil | this_Exec_5= ruleExec | this_ExecBlock_6= ruleExecBlock | this_Pick_7= rulePick ) )
+            // InternalAvalla.g:284:2: (this_Check_0= ruleCheck | this_Set_1= ruleSet | ( () ruleStep ) | this_StepUntil_4= ruleStepUntil | this_Exec_5= ruleExec | this_ExecBlock_6= ruleExecBlock | this_Pick_7= rulePick )
             {
-            // InternalAvalla.g:284:2: (this_Check_0= ruleCheck | this_Set_1= ruleSet | ( () ruleStep ) | this_StepUntil_4= ruleStepUntil | this_Exec_5= ruleExec | this_ExecBlock_6= ruleExecBlock | this_Choose_7= ruleChoose )
+            // InternalAvalla.g:284:2: (this_Check_0= ruleCheck | this_Set_1= ruleSet | ( () ruleStep ) | this_StepUntil_4= ruleStepUntil | this_Exec_5= ruleExec | this_ExecBlock_6= ruleExecBlock | this_Pick_7= rulePick )
             int alt4=7;
             switch ( input.LA(1) ) {
             case 18:
@@ -851,18 +851,18 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // InternalAvalla.g:347:3: this_Choose_7= ruleChoose
+                    // InternalAvalla.g:347:3: this_Pick_7= rulePick
                     {
 
-                    			newCompositeNode(grammarAccess.getCommandAccess().getChooseParserRuleCall_6());
+                    			newCompositeNode(grammarAccess.getCommandAccess().getPickParserRuleCall_6());
                     		
                     pushFollow(FOLLOW_2);
-                    this_Choose_7=ruleChoose();
+                    this_Pick_7=rulePick();
 
                     state._fsp--;
 
 
-                    			current = this_Choose_7;
+                    			current = this_Pick_7;
                     			afterParserOrEnumRuleCall();
                     		
 
@@ -1475,25 +1475,25 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleExec"
 
 
-    // $ANTLR start "entryRuleChoose"
-    // InternalAvalla.g:592:1: entryRuleChoose returns [EObject current=null] : iv_ruleChoose= ruleChoose EOF ;
-    public final EObject entryRuleChoose() throws RecognitionException {
+    // $ANTLR start "entryRulePick"
+    // InternalAvalla.g:592:1: entryRulePick returns [EObject current=null] : iv_rulePick= rulePick EOF ;
+    public final EObject entryRulePick() throws RecognitionException {
         EObject current = null;
 
-        EObject iv_ruleChoose = null;
+        EObject iv_rulePick = null;
 
 
         try {
-            // InternalAvalla.g:592:47: (iv_ruleChoose= ruleChoose EOF )
-            // InternalAvalla.g:593:2: iv_ruleChoose= ruleChoose EOF
+            // InternalAvalla.g:592:45: (iv_rulePick= rulePick EOF )
+            // InternalAvalla.g:593:2: iv_rulePick= rulePick EOF
             {
-             newCompositeNode(grammarAccess.getChooseRule()); 
+             newCompositeNode(grammarAccess.getPickRule()); 
             pushFollow(FOLLOW_1);
-            iv_ruleChoose=ruleChoose();
+            iv_rulePick=rulePick();
 
             state._fsp--;
 
-             current =iv_ruleChoose; 
+             current =iv_rulePick; 
             match(input,EOF,FOLLOW_2); 
 
             }
@@ -1508,12 +1508,12 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "entryRuleChoose"
+    // $ANTLR end "entryRulePick"
 
 
-    // $ANTLR start "ruleChoose"
-    // InternalAvalla.g:599:1: ruleChoose returns [EObject current=null] : (otherlv_0= 'pick' ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) ) (this_IN_2= RULE_IN ( (lv_rule_3_0= RULE_RULE_NAME ) ) )? otherlv_4= ':=' ( (lv_value_5_0= rulesentence ) ) otherlv_6= ';' ) ;
-    public final EObject ruleChoose() throws RecognitionException {
+    // $ANTLR start "rulePick"
+    // InternalAvalla.g:599:1: rulePick returns [EObject current=null] : (otherlv_0= 'pick' ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) ) (this_IN_2= RULE_IN ( (lv_rule_3_0= RULE_RULE_NAME ) ) )? otherlv_4= ':=' ( (lv_value_5_0= rulesentence ) ) otherlv_6= ';' ) ;
+    public final EObject rulePick() throws RecognitionException {
         EObject current = null;
 
         Token otherlv_0=null;
@@ -1537,7 +1537,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             {
             otherlv_0=(Token)match(input,24,FOLLOW_14); 
 
-            			newLeafNode(otherlv_0, grammarAccess.getChooseAccess().getPickKeyword_0());
+            			newLeafNode(otherlv_0, grammarAccess.getPickAccess().getPickKeyword_0());
             		
             // InternalAvalla.g:611:3: ( (lv_var_1_0= RULE_LOCAL_VARIABLE ) )
             // InternalAvalla.g:612:4: (lv_var_1_0= RULE_LOCAL_VARIABLE )
@@ -1547,11 +1547,11 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             {
             lv_var_1_0=(Token)match(input,RULE_LOCAL_VARIABLE,FOLLOW_15); 
 
-            					newLeafNode(lv_var_1_0, grammarAccess.getChooseAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0());
+            					newLeafNode(lv_var_1_0, grammarAccess.getPickAccess().getVarLOCAL_VARIABLETerminalRuleCall_1_0());
             				
 
             					if (current==null) {
-            						current = createModelElement(grammarAccess.getChooseRule());
+            						current = createModelElement(grammarAccess.getPickRule());
             					}
             					setWithLastConsumed(
             						current,
@@ -1578,7 +1578,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
                     {
                     this_IN_2=(Token)match(input,RULE_IN,FOLLOW_16); 
 
-                    				newLeafNode(this_IN_2, grammarAccess.getChooseAccess().getINTerminalRuleCall_2_0());
+                    				newLeafNode(this_IN_2, grammarAccess.getPickAccess().getINTerminalRuleCall_2_0());
                     			
                     // InternalAvalla.g:634:4: ( (lv_rule_3_0= RULE_RULE_NAME ) )
                     // InternalAvalla.g:635:5: (lv_rule_3_0= RULE_RULE_NAME )
@@ -1588,11 +1588,11 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
                     {
                     lv_rule_3_0=(Token)match(input,RULE_RULE_NAME,FOLLOW_11); 
 
-                    						newLeafNode(lv_rule_3_0, grammarAccess.getChooseAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0());
+                    						newLeafNode(lv_rule_3_0, grammarAccess.getPickAccess().getRuleRULE_NAMETerminalRuleCall_2_1_0());
                     					
 
                     						if (current==null) {
-                    							current = createModelElement(grammarAccess.getChooseRule());
+                    							current = createModelElement(grammarAccess.getPickRule());
                     						}
                     						setWithLastConsumed(
                     							current,
@@ -1614,7 +1614,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             otherlv_4=(Token)match(input,20,FOLLOW_9); 
 
-            			newLeafNode(otherlv_4, grammarAccess.getChooseAccess().getColonEqualsSignKeyword_3());
+            			newLeafNode(otherlv_4, grammarAccess.getPickAccess().getColonEqualsSignKeyword_3());
             		
             // InternalAvalla.g:657:3: ( (lv_value_5_0= rulesentence ) )
             // InternalAvalla.g:658:4: (lv_value_5_0= rulesentence )
@@ -1623,7 +1623,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
             // InternalAvalla.g:659:5: lv_value_5_0= rulesentence
             {
 
-            					newCompositeNode(grammarAccess.getChooseAccess().getValueSentenceParserRuleCall_4_0());
+            					newCompositeNode(grammarAccess.getPickAccess().getValueSentenceParserRuleCall_4_0());
             				
             pushFollow(FOLLOW_10);
             lv_value_5_0=rulesentence();
@@ -1632,7 +1632,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
 
             					if (current==null) {
-            						current = createModelElementForParent(grammarAccess.getChooseRule());
+            						current = createModelElementForParent(grammarAccess.getPickRule());
             					}
             					set(
             						current,
@@ -1649,7 +1649,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
 
             otherlv_6=(Token)match(input,17,FOLLOW_2); 
 
-            			newLeafNode(otherlv_6, grammarAccess.getChooseAccess().getSemicolonKeyword_5());
+            			newLeafNode(otherlv_6, grammarAccess.getPickAccess().getSemicolonKeyword_5());
             		
 
             }
@@ -1670,7 +1670,7 @@ public class InternalAvallaParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "ruleChoose"
+    // $ANTLR end "rulePick"
 
 
     // $ANTLR start "entryRuleBlock"

@@ -7,12 +7,12 @@ import org.asmeta.avallaxt.avalla.AvallaFactory;
 import org.asmeta.avallaxt.avalla.AvallaPackage;
 import org.asmeta.avallaxt.avalla.Block;
 import org.asmeta.avallaxt.avalla.Check;
-import org.asmeta.avallaxt.avalla.Choose;
 import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.Exec;
 import org.asmeta.avallaxt.avalla.ExecBlock;
 import org.asmeta.avallaxt.avalla.Invariant;
+import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.avallaxt.avalla.Step;
@@ -94,7 +94,7 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass chooseEClass = null;
+  private EClass pickEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -394,9 +394,9 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
    * @generated
    */
   @Override
-  public EClass getChoose()
+  public EClass getPick()
   {
-    return chooseEClass;
+    return pickEClass;
   }
 
   /**
@@ -405,9 +405,9 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
    * @generated
    */
   @Override
-  public EAttribute getChoose_Var()
+  public EAttribute getPick_Var()
   {
-    return (EAttribute)chooseEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)pickEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -416,9 +416,9 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
    * @generated
    */
   @Override
-  public EAttribute getChoose_Rule()
+  public EAttribute getPick_Rule()
   {
-    return (EAttribute)chooseEClass.getEStructuralFeatures().get(1);
+    return (EAttribute)pickEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -427,9 +427,9 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
    * @generated
    */
   @Override
-  public EAttribute getChoose_Value()
+  public EAttribute getPick_Value()
   {
-    return (EAttribute)chooseEClass.getEStructuralFeatures().get(2);
+    return (EAttribute)pickEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -567,10 +567,10 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
     execEClass = createEClass(EXEC);
     createEAttribute(execEClass, EXEC__RULE);
 
-    chooseEClass = createEClass(CHOOSE);
-    createEAttribute(chooseEClass, CHOOSE__VAR);
-    createEAttribute(chooseEClass, CHOOSE__RULE);
-    createEAttribute(chooseEClass, CHOOSE__VALUE);
+    pickEClass = createEClass(PICK);
+    createEAttribute(pickEClass, PICK__VAR);
+    createEAttribute(pickEClass, PICK__RULE);
+    createEAttribute(pickEClass, PICK__VALUE);
 
     blockEClass = createEClass(BLOCK);
     createEAttribute(blockEClass, BLOCK__NAME);
@@ -617,7 +617,7 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
     setEClass.getESuperTypes().add(this.getCommand());
     stepUntilEClass.getESuperTypes().add(this.getCommand());
     execEClass.getESuperTypes().add(this.getCommand());
-    chooseEClass.getESuperTypes().add(this.getCommand());
+    pickEClass.getESuperTypes().add(this.getCommand());
     blockEClass.getESuperTypes().add(this.getElement());
     execBlockEClass.getESuperTypes().add(this.getCommand());
     stepEClass.getESuperTypes().add(this.getCommand());
@@ -650,10 +650,10 @@ public class AvallaPackageImpl extends EPackageImpl implements AvallaPackage
     initEClass(execEClass, Exec.class, "Exec", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getExec_Rule(), ecorePackage.getEString(), "rule", null, 0, 1, Exec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(chooseEClass, Choose.class, "Choose", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getChoose_Var(), ecorePackage.getEString(), "var", null, 0, 1, Choose.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getChoose_Rule(), ecorePackage.getEString(), "rule", null, 0, 1, Choose.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getChoose_Value(), ecorePackage.getEString(), "value", null, 0, 1, Choose.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(pickEClass, Pick.class, "Pick", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getPick_Var(), ecorePackage.getEString(), "var", null, 0, 1, Pick.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getPick_Rule(), ecorePackage.getEString(), "rule", null, 0, 1, Pick.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getPick_Value(), ecorePackage.getEString(), "value", null, 0, 1, Pick.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(blockEClass, Block.class, "Block", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getBlock_Name(), ecorePackage.getEString(), "name", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
