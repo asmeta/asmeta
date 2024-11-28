@@ -123,6 +123,7 @@ public class AsmetaFromAvallaBuilder {
 		if (mainrule == null)
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
 		// Populate allChoseRules
+		allChooseRules = new ArrayList<>();
 		for (RuleDeclaration rd : asm.getBodySection().getRuleDeclaration()) {
 			if (rd instanceof MacroDeclaration)
 				for (Rule r: RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration)rd))
@@ -170,7 +171,7 @@ public class AsmetaFromAvallaBuilder {
 		}
 		// TODO 
 		// buff.append("\t\t\t\t STEP := " + Integer.MAX_VALUE);
-		buff.append("\t\tendswitch");
+		buff.append("\t\tendswitch\n");
 		return buff;
 	}
 

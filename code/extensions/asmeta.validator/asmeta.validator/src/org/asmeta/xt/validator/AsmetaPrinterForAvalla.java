@@ -23,8 +23,11 @@ import org.asmeta.parser.Utility;
 import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
+import org.asmeta.simulator.RuleSubstitution;
+import org.asmeta.simulator.TermAssignment;
 import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.util.StandardLibrary;
+import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -34,16 +37,16 @@ import asmeta.definitions.SharedFunction;
 import asmeta.definitions.TemporalProperty;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.ProductDomain;
-import asmeta.definitions.domains.util.DomainsAdapterFactory;
 import asmeta.structure.Asm;
 import asmeta.structure.FunctionInitialization;
 import asmeta.structure.ImportClause;
 import asmeta.structure.Initialization;
-import asmeta.structure.Signature;
+import asmeta.terms.basicterms.BasictermsFactory;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.Rule;
 
 public class AsmetaPrinterForAvalla extends AsmPrinter {
 
@@ -101,7 +104,56 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		println("// translation of the asm (for avalla) " + filename);
 		super.visit(asm);
 	}
-
+	
+	
+	@Override
+	public void visit(ChooseRule chooseRule) {
+		List<VariableTerm> vars = chooseRule.getVariable();
+		Term guardTerm = chooseRule.getGuard();
+		Rule doRule = chooseRule.getDoRule();
+		// create a boolean expression to check if all variables have been picked or not
+		String condStr = vars.stream()
+				.map(var -> IS_PICKED + var.getName().substring(1))
+				.collect(Collectors.joining(" and "));
+		// substitute, where necessary, the variables starting with $ with the correspondent val_picked_X controlled function
+		TermAssignment assignment = new TermAssignment();
+		List<Term> newTerms = new ArrayList<>();	
+		for (VariableTerm var : vars) {
+			String valVariable = VAL_PICKED + var.getName().substring(1);
+			VariableTerm t = BasictermsFactory.eINSTANCE.createVariableTerm();
+			t.setName(valVariable);
+			newTerms.add(t);
+		}
+		assignment.put(vars, newTerms);
+		RuleSubstitution substitution = new RuleSubstitution(assignment, new RuleFactory());
+		Rule newDoRule = substitution.visit(doRule);
+		Term newGuardTerm = substitution.visit(guardTerm);
+		String guardString = super.tp.visit(newGuardTerm);	
+		// print
+		println("if not " + condStr + " then");
+		indent();
+		super.visit(chooseRule);
+		unIndent();
+		println("else ");
+		indent();
+		println("if " + guardString + " then");
+		indent();
+		visit(newDoRule);
+		unIndent();
+		println("else ");
+		indent();
+		println("seq");
+		indent();
+		println("result := print(\"CHECK FAILED: the value cannot be chosen\")"); // AGGIUNGERE CHE VALUE (E SE SONO DI PIU' O SOLO UNA TRA TANTE?)
+		println("step__ := -2"); // -2 so plus 1 is still < 0
+		unIndent();
+		println("endseq");
+		unIndent();
+		println("endif");
+		unIndent();
+		println("endif");
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 *
@@ -341,17 +393,14 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		visitDeclaredFunctions(funcs);
 		// add the controlled functions relative to choose variables
 		if (!this.builder.allChooseRules.isEmpty()) {
-			indent();
-			println("// added by validator two variables for each choose rule");
+			println("// added by validator to implement determinism in choose rule");
 			for (ChooseRule cr: this.builder.allChooseRules){
 				for (VariableTerm variable : cr.getVariable()) {
-					// TODO check if it is picked
 					String varName = variable.getName().substring(1);
 					println("controlled " + IS_PICKED + varName + ": Boolean");
 					println("controlled " + VAL_PICKED + varName + ": " + variable.getDomain().getName());
 				}
 			}
-			unIndent();
 		}
 	}
 	protected void visitDeclaredFunctions(Collection<Function> funcs) {
@@ -508,6 +557,13 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		}
 		// add the init for the ASM
 		super.visitFuncInits(funcs);
+		println("// initialize all is_picked_X functions to false");
+		for (ChooseRule cr: this.builder.allChooseRules){
+			for (VariableTerm variable : cr.getVariable()) {
+				String varName = variable.getName().substring(1);
+				println("function " + IS_PICKED + varName + "= false");
+			}
+		}
 	}
 
 	@Override

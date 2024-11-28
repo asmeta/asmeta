@@ -313,8 +313,14 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	}
 	
 	@Override
-	public Void casePick(Pick p) {
-		throw new RuntimeException("DON'T KNOW WHAT TO DO");
+	public Void casePick(Pick pickCmd) {
+		String variable = pickCmd.getVar().trim().substring(1);
+		String value = pickCmd.getValue().trim();
+		String is_variable = AsmetaPrinterForAvalla.IS_PICKED + variable;
+		String val_variable = AsmetaPrinterForAvalla.VAL_PICKED + variable;
+		append(is_variable + " := true");
+		append(val_variable + " := " + value);
+		return null;
 	}
 	
 
@@ -351,6 +357,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 			append(STEP_VAR + " := " + STEP_VAR + " + 1");
 			unIndent();
 			append("endseq");
+			indent();
 			next();
 		}
 	}

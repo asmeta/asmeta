@@ -76,7 +76,7 @@ import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
 import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
 
 public class AsmPrinter extends ReflectiveVisitor<Void> {
-	AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
+	protected AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 	static final private String tabWidth = "    ";
 	private int indentation = 0;
 	private PrintWriter out;
@@ -493,7 +493,6 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		visit(rule2);
 		unIndent();
 		if (rule3 != null) {
-			unIndent();
 			println("ifnone");
 			indent();
 			visit(rule3);
