@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
@@ -238,7 +239,9 @@ public class TranslatorImpl implements Translator {
 
 		List<String> listOfOptions = new LinkedList<>();
 
-		listOfOptions.addAll(List.of(javaExe, TranslatorConstants.JAR, evosuiteVersion, TranslatorConstants.TARGET,
+		String evosuiteJar = TranslatorConstants.EVOSUITE_JAR_DIR + File.separator + evosuiteVersion;
+		
+		listOfOptions.addAll(List.of(javaExe, TranslatorConstants.JAR, evosuiteJar , TranslatorConstants.TARGET,
 				TranslatorConstants.EVOSUITE_TARGET, TranslatorConstants.CLASS, asmName + TranslatorConstants.ATG,
 				TranslatorConstants.CRITERION, TranslatorConstants.LINE_BRANCH, TranslatorConstants.DMINIMIZE_TRUE,
 				TranslatorConstants.DASSERTION_STRATEGY_ALL));
