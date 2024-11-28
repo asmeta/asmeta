@@ -96,28 +96,28 @@ generated java file to verify that there are no errors via `-Dcompiler=true`.
 
 This section covers all available command-line options for the application and how to use them effectively.
 
- | Option  | Argument Type | Description |
- |---------|---------------|-------------|
- | `-input` | String (required) | Path to the ASM input file. |
- | `-output` | String (optional) | Specifies the output folder. Defaults to `./output/`. |  
- | `-clean` | |  Delete the files used by the translator in the input folder, please make sure you have enabled the export property -Dexport=true |
- | `-mode` | String (optional) | Set the mode of the application (select only 1 option) |
- | | `translator` | translate the asm file to a java file (default) |
- | | `generateExe` | translate the asm file to a java file and generate an executable java class |
- | | `generateWin` |  translate the asm file to a java file and generate an executable java class with a Grapical User Interace (GUI) |
- | | `testGen` |  generate a test class suited for test generation with Evosuite |
- | | `custom` |  set a custom behavior by adding properties with -D. |
- | `-Dformatter` | boolean (optional) | whether the generated code should be formatted. |
- | `-DshuffleRandom` | boolean (optional) |  whether a random shuffle should be applied. |
- | `-DoptimizeSeqMacroRule` | boolean (optional) | whether to optimize the sequence macro rule. |
- | `-Dtranslator` | boolean (optional) | whether to  translate the asm file to a java class. |
- | `-Dcompiler` | boolean (optional) | whether to translate and compile the generated java class. |
- | `-DgenerateExe` | boolean (optional) | whether to generate a java class for execution. |
- | `-DgenerateWin` | boolean (optional) | generate an executable java class with a GUI. |
- | `-DtestGen` | boolean (optional) | whether to  generate a specific java class designed for test generation with Evosuite. |
- | `-DcoverOutputs` | boolean (optional) | whether to  cover the outputs in the testGen class. |
- | `-DcoverRules` | boolean (optional) | whether to cover the rules in the testGen class. |
- | `-Dexport` | boolean (optional) | export the generated file into the output folder. |
+ | Option  					| Argument Type 	| Description 																														|
+ |--------------------------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+ | `-input` 				| String (required) | Path to the ASM input file. 																										|
+ | `-output` 				| String			| Specifies the output folder. Defaults to `./output/`. 																			|  
+ | `-clean` 				| None				|  Delete the files used by the translator in the input folder, please make sure you have enabled the export property -Dexport=true	|
+ | `-mode` 					| String  			| Set the mode of the application (select only 1 option) 																			|
+ | 							| `translator` 		| translate the asm file to a java file (default) 																					|
+ | 							| `generateExe` 	| translate the asm file to a java file and generate an executable java class 														|
+ |							| `generateWin` 	|  translate the asm file to a java file and generate an executable java class with a Grapical User Interace (GUI)					|
+ | 							| `testGen`			|  generate a test class suited for test generation with Evosuite 																	|
+ | 							| `custom` 			|  set a custom behavior by adding properties with -D. 																				|
+ | `-Dformatter` 			| boolean  			| whether the generated code should be formatted. 																					|
+ | `-DshuffleRandom` 		| boolean  			|  whether a random shuffle should be applied. 																						|
+ | `-DoptimizeSeqMacroRule` | boolean  			| whether to optimize the sequence macro rule. 																						|
+ | `-Dtranslator` 			| boolean  			| whether to  translate the asm file to a java class. 																				|
+ | `-Dcompiler` 			| boolean 			| whether to translate and compile the generated java class. 																		|
+ | `-DgenerateExe` 			| boolean  			| whether to generate a java class for execution. 																					|
+ | `-DgenerateWin` 			| boolean  			| generate an executable java class with a GUI. 																					|
+ | `-DtestGen` 				| boolean  			| whether to  generate a specific java class designed for test generation with Evosuite. 											|
+ | `-DcoverOutputs` 		| boolean  			| whether to  cover the outputs in the testGen class. 																				|
+ | `-DcoverRules` 			| boolean			| whether to cover the rules in the testGen class. 																					|
+ | `-Dexport` 				| boolean 			| export the generated file into the output folder. 																				|
 
  > **Note:** Please use translator, compiler, generateExe, generateWin and testGen options only if you have selected the -mode custom option.
 

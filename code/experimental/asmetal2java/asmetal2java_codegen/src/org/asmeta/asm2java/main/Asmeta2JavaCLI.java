@@ -71,7 +71,8 @@ public class Asmeta2JavaCLI {
 
 				formatter.printHelp("Asmetal2java", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
-				logger.error("Please specify the asm input file path");
+				logger.error("Please specify the asm input file path with -" + INPUT + " <path/to/file.asm>.");
+				return 1; // error code
 			} else {
 				main.execute(line);
 			}

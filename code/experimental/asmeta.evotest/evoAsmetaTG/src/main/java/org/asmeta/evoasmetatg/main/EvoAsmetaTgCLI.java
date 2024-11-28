@@ -71,7 +71,11 @@ public class EvoAsmetaTgCLI {
 
 				formatter.printHelp("EvoAsmetaTG", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
-				logger.error("Please specify the asm input file path.");
+				logger.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
+			} else if (!line.hasOption(JAVA_PATH)) {
+				logger.error("Please specify the path to the jdk folder with -{} <path/to/jdk/>.", JAVA_PATH);
+			} else if (!line.hasOption(EVOSUITE_VERSION)) {
+				logger.error("Please specify the version of Evosuite with: -{} <version>.", EVOSUITE_VERSION);
 			} else {
 				main.execute(line);
 			}
@@ -90,27 +94,24 @@ public class EvoAsmetaTgCLI {
 	 * Executes the main process based on the command-line arguments.
 	 *
 	 * @param line the parsed CommandLine object.
-	 * @throws IOException
-	 * @throws TranslationException
+	 * @throws IOException if an I/O error occurs.
+	 * @throws TranslationException if there was an error during the generation process.
 	 */
 	private void execute(CommandLine line) throws IOException, TranslationException {
 
 		setGlobalProperties(line);
 
 		// INPUT OPTION: by precondition -input option is always available and not null
-		// (required)
 		translator.setInput(line.getOptionValue(INPUT));
-
+		
+		// JAVA_PATH OPTION: by precondition -javaPath option is always available and not null
+		translator.setJavaPath(line.getOptionValue(JAVA_PATH));
+		
+		// EVOSUITE_VERSION OPTION: by precondition -evosuiteVersion option is always available and not null
+		translator.setEvosuiteVersion(line.getOptionValue(EVOSUITE_VERSION));
+		
 		if (line.hasOption(OUTPUT)) {
 			translator.setOutput(line.getOptionValue(OUTPUT));
-		}
-
-		if (line.hasOption(JAVA_PATH)) {
-			translator.setJavaPath(line.getOptionValue(JAVA_PATH));
-		}
-
-		if (line.hasOption(EVOSUITE_VERSION)) {
-			translator.setEvosuiteVersion(line.getOptionValue(EVOSUITE_VERSION));
 		}
 
 		if (line.hasOption(CLEAN)) {
@@ -139,7 +140,7 @@ public class EvoAsmetaTgCLI {
 
 		// input file
 		Option input = Option.builder(INPUT).argName(INPUT).type(String.class).hasArg(true)
-				.desc("The ASM input file (required)").build();
+				.desc("Set the path to the ASM input file (required).").build();
 
 		// output directory
 		Option output = Option.builder(OUTPUT).argName(OUTPUT).type(String.class).hasArg(true)
@@ -147,22 +148,21 @@ public class EvoAsmetaTgCLI {
 
 		// java path
 		Option javaPath = Option.builder(JAVA_PATH).argName(JAVA_PATH).type(String.class).hasArg(true)
-				.desc("Set the path of java jdk folder used to run Evosuite.\n"
+				.desc("Set the path of java jdk folder used to run Evosuite (required).\n"
 						+ " Example: \"C:\\Program Files\\Java\\jdk-1.8\"")
 				.build();
 
 		// compiler version
 		Option evosuiteVersion = Option.builder(EVOSUITE_VERSION).argName(EVOSUITE_VERSION).type(String.class)
-				.hasArg(true).desc("Set the version of Evosuite.").build();
+				.hasArg(true).desc("Set the version of Evosuite to use for test scenarios generation (required).").build();
 
 		// clean the directories after use
 		Option clean = Option.builder(CLEAN).hasArg(false)
-				.desc("Delete the files used by the translator in the input folder, "
-						+ "please make sure you have enabled the export property -Dexport=true")
+				.desc("Delete all intermediate files created and processed by the application.")
 				.build();
 
 		Option timeBudget = Option.builder(TIME_BUDGET).argName(TIME_BUDGET).type(Integer.class).hasArg(true)
-				.desc("Set the time budget in seconds for the Evosuite process").build();
+				.desc("Set the time budget allocated for the Evosuite process.").build();
 
 		// translator property
 		Option property = Option.builder("D").numberOfArgs(2).argName("property=value").valueSeparator('=')

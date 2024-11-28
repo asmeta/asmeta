@@ -88,10 +88,10 @@ After building the project, you can use it with the following command-line optio
 
 | Option             | Argument Type     | Description                                                                 |
 |--------------------|-------------------|-----------------------------------------------------------------------------|
-| `-help`            | None              | Prints the help message with a description of available options.            |
+| `-help`            | None 			 | Prints the help message with a description of available options.            |
 | `-input`           | String (required) | Path to the Java input file.                                                |
-| `-output`          | String (optional) | Specifies the output folder. Defaults to `./output/`.                       |
-| `-clean`           | | Cleans the input and stepFunctionArgs files after the process.              |
+| `-output`          | String  			 | Specifies the output folder. Defaults to `./output/`.                       |
+| `-clean`           | None				 | Cleans the input and stepFunctionArgs files after the process.              |
 
 ## Repository Structure
 The project repository is organized into the following folders:

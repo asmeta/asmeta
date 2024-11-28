@@ -7,22 +7,24 @@
 ## How to Start:
 
 ### Using Maven
-1. Open PowerShell or your preferred terminal and clone the repository using a password-protected SSH key:
-    ```shell
-    git clone git@github.com:asmeta/asmeta.git
-    ```
 
-2. Inatall the dependencies
-   ```shell
-    mvn install -DskipTests
-    ```
+<!-- TODO -->
 
-3. Navigate into the project directory:
-    ```shell
-    cd ./code/experimental/asmeta.evotest/evoAsmetaTG
-    ```
+## Command-Line Options
 
-<!-- TODO: choose if run by jar file or mvn:exec plugin -->
+This section covers all available command-line options for the application and how to use them effectively.
+
+ | Option  				| Argument Type 	| Description 																					 |
+ |----------------------|-------------------|------------------------------------------------------------------------------------------------|
+ | `-input` 			| String (required)	| Path to the ASM input file. 																	 |
+ | `-javaPath` 			| String (required)	| Set the path of java jdk folder used to run Evosuite. Example: "C:\Program Files\Java\jdk-1.8".|
+ | `-evosuiteVersion` 	| String (required) | Set the version of Evosuite to use for test scenarios generation. 							 |
+ | `-output`			| String 			| Specifies the output folder. Defaults to `./output/`. 										 |  
+ | `-clean` 			| None				| Delete all intermediate files created and processed by the application. 						 |
+ | `-timeBudget` 		| String 			| Set the time budget allocated for the Evosuite process. 										 |
+ | `-Dcompiler` 		| boolean 			| whether to translate and compile the generated java class. 									 |
+ | `-DcoverOutputs` 	| boolean 			| whether to  cover the outputs in the testGen class. 											 |
+ | `-DcoverRules` 		| boolean 			| whether to cover the rules in the testGen class. 												 |
 
 ## Developer guide
 

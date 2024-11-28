@@ -64,8 +64,8 @@ public class Junit2AvallaCLI {
 
 				formatter.printHelp("AvallaToJava", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
-				log.error("Please specify the Java input file path");
-				throw new Exception("Input option can't be null");
+				log.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
+				return 1; // error code
 			} else {
 				main.execute(line);
 			}
