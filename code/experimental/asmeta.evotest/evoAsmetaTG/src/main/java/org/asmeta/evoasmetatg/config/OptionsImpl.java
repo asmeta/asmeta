@@ -17,6 +17,7 @@ public class OptionsImpl implements Options {
 
 	/* Constants */
 	private static final String OPTIONS_ID = "-D";
+	private static final String EQ = "=";
 
 	/** Logger */
 	private final Logger logger = LogManager.getLogger(OptionsImpl.class);
@@ -87,9 +88,9 @@ public class OptionsImpl implements Options {
 	@Override
 	public List<String> getCLIStringOptions() {
 		return List.of( 
-				OPTIONS_ID + ModeConstantsConfig.COMPILER, String.valueOf(compiler),
-				OPTIONS_ID + TranslatorOptionsImpl.COVER_RULES_OPTION, String.valueOf(coverRules),
-				OPTIONS_ID + TranslatorOptionsImpl.COVER_OUTPUTS_OPTION, String.valueOf(coverOutput)
+				OPTIONS_ID + ModeConstantsConfig.COMPILER + EQ + String.valueOf(compiler),
+				OPTIONS_ID + TranslatorOptionsImpl.COVER_RULES_OPTION + EQ + String.valueOf(coverRules),
+				OPTIONS_ID + TranslatorOptionsImpl.COVER_OUTPUTS_OPTION + EQ + String.valueOf(coverOutput)
 				);
 	}
 	

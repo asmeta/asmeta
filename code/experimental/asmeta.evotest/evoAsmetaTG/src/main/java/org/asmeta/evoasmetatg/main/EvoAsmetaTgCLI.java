@@ -39,6 +39,25 @@ public class EvoAsmetaTgCLI {
 	private static final Translator translator = new TranslatorImpl();
 
 	/**
+	 * Return code: <br>
+	 * -1: The application didn't started yet.<br>
+	 * 0: The application terminated without errors.<br>
+	 * 1: The application terminated with errors.
+	 */
+	private static int returnCode = -1;
+
+	/**
+	 * Get the code returned by the application.
+	 * 
+	 * @return -1: The application didn't started yet.<br>
+	 *         0: The application terminated without errors.<br>
+	 *         1: The application terminated with errors.
+	 */
+	public static int getReturnedCode() {
+		return returnCode;
+	}
+	
+	/**
 	 * The main method, which is the entry point of the application. It parses the
 	 * command-line arguments, handles the help option, and triggers the execution
 	 * of the main process.
@@ -72,16 +91,21 @@ public class EvoAsmetaTgCLI {
 				formatter.printHelp("EvoAsmetaTG", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
 				logger.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
+				returnCode = 1; // error code
 			} else if (!line.hasOption(JAVA_PATH)) {
 				logger.error("Please specify the path to the jdk folder with -{} <path/to/jdk/>.", JAVA_PATH);
+				returnCode = 1; // error code
 			} else if (!line.hasOption(EVOSUITE_VERSION)) {
 				logger.error("Please specify the version of Evosuite with: -{} <version>.", EVOSUITE_VERSION);
+				returnCode = 1; // error code
 			} else {
+				returnCode = 0; // ok code
 				main.execute(line);
 			}
 		} catch (Exception e) {
 			logger.error("Generation failed.");
-			logger.error("An error occurred: {}.", e.getMessage());
+			logger.error("An error occurred: {}.", e.getMessage(), e);
+			returnCode = 1; // error code
 		} finally {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();

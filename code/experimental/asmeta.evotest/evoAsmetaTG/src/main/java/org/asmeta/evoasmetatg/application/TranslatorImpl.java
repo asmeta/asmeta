@@ -160,7 +160,8 @@ public class TranslatorImpl implements Translator {
 
 		// translate to Java
 		logger.info("Running Asmetal2Java:");
-		int returnCode = Asmeta2JavaCLI.main(buildAsmeta2JavaOptions().toArray(new String[0]));
+		Asmeta2JavaCLI.main(buildAsmeta2JavaOptions().toArray(new String[0]));
+		int returnCode = Asmeta2JavaCLI.getReturnedCode();
 		if (returnCode != 0) {
 			logger.error("Stopping the generation.");
 			throw new TranslationException("Asmetal2Java exited with code: " + returnCode);
@@ -172,7 +173,8 @@ public class TranslatorImpl implements Translator {
 
 		// translate to Avalla
 		logger.info("Running Junit2Avalla:\n");
-		returnCode = Junit2AvallaCLI.main(buildJunit2AvallaOptions().toArray(new String[0]));
+		Junit2AvallaCLI.main(buildJunit2AvallaOptions().toArray(new String[0]));
+		returnCode = Junit2AvallaCLI.getReturnedCode();
 		if (returnCode != 0) {
 			logger.error("Stopping the generation.");
 			throw new TranslationException("Junit2AvallaCLI exited with code: " + returnCode);

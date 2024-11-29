@@ -28,18 +28,34 @@ public class Junit2AvallaCLI {
 	private static final Logger log = LogManager.getLogger(Junit2AvallaCLI.class);
 
 	/** Translator */
-	private static final Translator translator = new TranslatorImpl();
+	private static final Translator translator = new TranslatorImpl();	
+	
+	/**
+	 * Return code: <br>
+	 * -1: The application didn't started yet.<br>
+	 * 0: The application terminated without errors.<br>
+	 * 1: The application terminated with errors.
+	 */
+	private static int returnCode = -1;
+
+	/**
+	 * Get the code returned by the application.
+	 * 
+	 * @return -1: The application didn't started yet.<br>
+	 *         0: The application terminated without errors.<br>
+	 *         1: The application terminated with errors.
+	 */
+	public static int getReturnedCode() {
+		return returnCode;
+	}
 
 	/**
 	 * The main method is the entry point of the application.
 	 *
 	 * @param args An array of {@code String} arguments passed from the command
 	 *             line.
-	 * @return return code {@code 0} if there is no error, {@code 1} if an error occurred.
 	 */
-	public static int main(String[] args) {
-
-		int returnCode = 0;
+	public static void main(String[] args) {
 		String asciiart =  """
 				
 				     _             _ _   ____     _             _ _       
@@ -65,21 +81,21 @@ public class Junit2AvallaCLI {
 				formatter.printHelp("AvallaToJava", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
 				log.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
-				return 1; // error code
+				returnCode = 1; // error code
 			} else {
+				returnCode = 0; // ok code
 				main.execute(line);
 			}
 		} catch (Exception e) {
 			log.error("Generation failed");
 			log.error("An error occurred, {}", e.getMessage(), e);
-			returnCode = 1;
+			returnCode = 1; // error code
 		}  finally {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();
 			}
 			log.info("Requested operation completed.");
 		}
-		return returnCode;
 
 	}
 

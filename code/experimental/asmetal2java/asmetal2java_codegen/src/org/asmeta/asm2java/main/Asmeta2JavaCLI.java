@@ -40,15 +40,32 @@ public class Asmeta2JavaCLI {
 	private static final Translator translator = new TranslatorImpl();
 
 	/**
+	 * Return code: <br>
+	 * -1: The application didn't started yet.<br>
+	 * 0: The application terminated without errors.<br>
+	 * 1: The application terminated with errors.
+	 */
+	private static int returnCode = -1;
+
+	/**
+	 * Get the code returned by the application.
+	 * 
+	 * @return -1: The application didn't started yet.<br>
+	 *         0: The application terminated without errors.<br>
+	 *         1: The application terminated with errors.
+	 */
+	public static int getReturnedCode() {
+		return returnCode;
+	}
+
+	/**
 	 * The main method, which is the entry point of the application. It parses the
 	 * command-line arguments, handles the help option, and triggers the execution
 	 * of the main process.
 	 *
 	 * @param args the command-line arguments.
-	 * @return return code {@code 0} if there is no error, {@code 1} if an error occurred.
 	 */
-	public static int main(String[] args) {
-		int returnCode = 0;
+	public static void main(String[] args) {
 		String asciiart = "\n    _                       _        _ ____   _                  \n"
 				+ "   / \\   ___ _ __ ___   ___| |_ __ _| |___ \\ (_) __ ___   ____ _ \n"
 				+ "  / _ \\ / __| '_ ` _ \\ / _ \\ __/ _` | | __) || |/ _` \\ \\ / / _` |\n"
@@ -72,21 +89,21 @@ public class Asmeta2JavaCLI {
 				formatter.printHelp("Asmetal2java", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
 				logger.error("Please specify the asm input file path with -" + INPUT + " <path/to/file.asm>.");
-				return 1; // error code
+				returnCode = 1; // error code
 			} else {
+				returnCode = 0; // ok code
 				main.execute(line);
 			}
 		} catch (Exception e) {
 			logger.error("Generation failed");
 			logger.error("An error occurred:\n" + e.getMessage() + e);
-			returnCode = 1;
+			returnCode = 1; // error code
 		} finally {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();
 			}
 			logger.info("Requested operation completed.");
 		}
-		return returnCode;
 	}
 
 	/**

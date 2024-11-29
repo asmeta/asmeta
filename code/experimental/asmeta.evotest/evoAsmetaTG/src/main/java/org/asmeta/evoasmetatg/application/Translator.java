@@ -64,7 +64,6 @@ public interface Translator {
      * - Runs the junit2avalla service to translate the junit scenarios into Avalla scenarios;<br>
      * Finally cleans the compiled class files.
      *
-     * @return {@code true} if the translation was successful, otherwise {@code false}.
      * @throws TranslationException if there is an error during the translation process.
      * @throws IOException if an I/O error occurs.
      */
