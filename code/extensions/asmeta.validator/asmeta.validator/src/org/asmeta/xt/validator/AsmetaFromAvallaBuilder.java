@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
+import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.avalla.Set;
@@ -60,16 +61,13 @@ public class AsmetaFromAvallaBuilder {
 	 */
 	Collection<asmeta.definitions.Invariant> modelInvariants;
 
-	ArrayList<Set> monitoredInitState;// PA: 2017/12/29
+	ArrayList<Command> monitoredInitState;// PA: 2017/12/29
 
-	List<ArrayList<Set>> allMonitored;// PA: 2017/12/29
+	List<ArrayList<Command>> allMonitored;// PA: 2017/12/29
 	
 	/** The list of all ChooseRule rules in the asm being validated */
 	List<ChooseRule> allChooseRules;
-	/** The list of the Pick rules in the avalla scenario*/
-	List<Pick> pickedChoose;
 	
-
 	private AsmetaPrinterForAvalla asmetaPrinterforAvalla;
 
 	// for the scenario itself (the AsmPrinter has another model)
@@ -148,7 +146,6 @@ public class AsmetaFromAvallaBuilder {
 		stb.parseCommands();
 		monitoredInitState = stb.monitoredInitState;// PA: 2017/12/29
 		allMonitored = stb.allMonitored;// PA: 2017/12/29
-		pickedChoose = stb.pickedChoose;
 		List<String> statements = stb.statements;
 		newMain = buildNewMain(statements).toString();
 		asmetaPrinterforAvalla.visit(asm);

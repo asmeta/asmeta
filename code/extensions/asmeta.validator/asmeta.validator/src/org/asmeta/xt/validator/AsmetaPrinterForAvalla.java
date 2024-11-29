@@ -15,7 +15,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
+import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Invariant;
+import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
@@ -480,42 +482,47 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		// function insideCall($x in D) = at({1 -> "eee"}, $x)
 		// function insideCall($x in D, $y in D2) = at({(1,2) -> "eee"}, ($x,$y))
 		Map<Function, Map<String, String>> monitoredInit = new HashMap<>();
-		for (Set set : this.builder.monitoredInitState) {
-			// take the function name
-			String funcName;
-			String location = set.getLocation();
-			int ido = location.indexOf('(');
-			if (ido >= 0) {
-				// a n-ray function
-				funcName = location.substring(0, ido);
-			} else {
-				funcName = location;
-			}
-			// there exists a function with that name - it can false because
-			LOG.debug("function " + funcName
-					+ (functions.stream().anyMatch(t -> t.getName().equals(funcName)) ? " found" : " not found"));
-			// get the signature if there is one
-			Optional<Function> func = functions.stream().filter(x -> x.getName().equals(funcName)).findFirst();
-			if (!func.isPresent())
-				continue;
-			// only if the the function is declared in this asm
-			/*
-			 * //AG 5/2021: questo adesso lo ignoro, non guardo le ASM, potrei settare
-			 * qualcosa che importo // if (Defs.getAsm(func.get())!= model) { if (!
-			 * Defs.getAsm(func.get()).getName().equals(model.getName())) { continue; }
-			 */
-			// PUT in the map???
-			if (ido >= 0) {
-				// a n-ray function
-				String args = location.substring(ido); // including the (
-				Map<String, String> map = monitoredInit.get(func.get());
-				if (map == null) {
-					map = new HashMap<>();
-					monitoredInit.put(func.get(), map);
+		for (Command c : this.builder.monitoredInitState) {
+			// Only for Set, Pick results in unary functions
+			if (c instanceof Set) {
+				Set set = (Set) c;
+				// For monitored from Set
+				// take the function name
+				String funcName;
+				String location = set.getLocation();
+				int ido = location.indexOf('(');
+				if (ido >= 0) {
+					// a n-ray function
+					funcName = location.substring(0, ido);
+				} else {
+					funcName = location;
 				}
-				map.put(args, set.getValue());
-			} else {
-				println("function " + funcName + " = " + set.getValue());
+				// there exists a function with that name - it can false because
+				LOG.debug("function " + funcName
+						+ (functions.stream().anyMatch(t -> t.getName().equals(funcName)) ? " found" : " not found"));
+				// get the signature if there is one
+				Optional<Function> func = functions.stream().filter(x -> x.getName().equals(funcName)).findFirst();
+				if (!func.isPresent())
+					continue;
+				// only if the the function is declared in this asm
+				/*
+				 * //AG 5/2021: questo adesso lo ignoro, non guardo le ASM, potrei settare
+				 * qualcosa che importo // if (Defs.getAsm(func.get())!= model) { if (!
+				 * Defs.getAsm(func.get()).getName().equals(model.getName())) { continue; }
+				 */
+				// PUT in the map???
+				if (ido >= 0) {
+					// a n-ray function
+					String args = location.substring(ido); // including the (
+					Map<String, String> map = monitoredInit.get(func.get());
+					if (map == null) {
+						map = new HashMap<>();
+						monitoredInit.put(func.get(), map);
+					}
+					map.put(args, set.getValue());
+				} else {
+					println("function " + funcName + " = " + set.getValue());
+				}
 			}
 		}
 		// print the map for functions A -> B
@@ -555,15 +562,31 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			// (5,5) -> 4}, ($r,$c))
 			println("},(" + varNames + "))");
 		}
-		// add the init for the ASM
-		super.visitFuncInits(funcs);
-		println("// initialize all is_picked_X functions to false");
-		for (ChooseRule cr: this.builder.allChooseRules){
-			for (VariableTerm variable : cr.getVariable()) {
-				String varName = variable.getName().substring(1);
-				println("function " + IS_PICKED + varName + "= false");
+		List<Pick> initPick = this.builder.monitoredInitState.stream()
+				.filter(x -> x instanceof Pick)
+				.map(x -> ((Pick)x))
+				.collect(Collectors.toList());
+		if (this.builder.allChooseRules.size() > 0) {
+			println("// initialize is_picked_X and val_picked_X functions");
+			for (ChooseRule cr: this.builder.allChooseRules){
+				for (VariableTerm variable : cr.getVariable()) {
+					String varName = variable.getName().substring(1);
+					boolean isNotInit = true;
+					for (Pick pick: initPick){
+						if (variable.getName().equals(pick.getVar())) {
+							println("function " + IS_PICKED + varName + " = true");
+							println("function " + VAL_PICKED + varName + " = " + pick.getValue());
+							isNotInit = false;
+							break;
+						}
+					}
+					if (isNotInit)
+						println("function " + IS_PICKED + varName + " = false");
+				}
 			}
 		}
+		// add the init for the ASM
+		super.visitFuncInits(funcs);
 	}
 
 	@Override
@@ -587,7 +610,9 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	@Override
 	public void visitInit(FunctionInitialization init) {
 		// collect all the location set by the init state
-		java.util.Set<String> allLocations = this.builder.monitoredInitState.stream().map(x -> x.getLocation())
+		java.util.Set<String> allLocations = this.builder.monitoredInitState.stream()
+				.filter(x -> x instanceof Set)
+				.map(x -> ((Set)x).getLocation())
 				.collect(Collectors.toSet());
 		// check if this function is already defined in the initial state of the
 		// scenario

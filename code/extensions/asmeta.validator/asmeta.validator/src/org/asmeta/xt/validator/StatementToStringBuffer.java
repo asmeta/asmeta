@@ -79,12 +79,10 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		this.scenarioDir = scenarioDir;
 	}
 
-	// the set that must be set in the init state (initial set of the scencario)
-	ArrayList<Set> monitoredInitState;
-	List<ArrayList<Set>> allMonitored;
+	// the set that must be set in the init state (initial set and pick of the scencario)
+	ArrayList<Command> monitoredInitState;
+	List<ArrayList<Command>> allMonitored;
 	int state;
-	
-	List<Pick> pickedChoose;
 	
 	/**
 	 * Parses the commands and builds the list of statements containing only
@@ -99,15 +97,12 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		assert ! commandsNewOrder.stream().anyMatch(t -> t instanceof ExecBlock);
 		assert ! commandsNewOrder.stream().anyMatch(t -> t instanceof Block);
 		// split monitored from the others
-		ArrayList<Set> monitored = new ArrayList<>();
+		ArrayList<Command> monitored = new ArrayList<>();
 		// list of monitored set
 		allMonitored = new ArrayList<>();
-		pickedChoose = new ArrayList<>();
 		for (Command command : commandsNewOrder) {
-			if (command instanceof Set) {
-				monitored.add((Set) command);
-			} else if (command instanceof Pick) {
-				pickedChoose.add((Pick) command);
+			if (command instanceof Set || command instanceof Pick) {
+				monitored.add(command);
 			} else if (command instanceof Step || command instanceof StepUntil) {
 				allMonitored.add(monitored);
 				monitored = new ArrayList<>();
@@ -119,7 +114,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		monitoredInitState = allMonitored.get(state++);
 		// add all command in the new order
 		for (Command command : commandsNewOrder) {
-			if (command instanceof Set)
+			if (command instanceof Set || command instanceof Pick)
 				continue;
 			doSwitch(command);
 		}
@@ -264,8 +259,8 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	private void printMonitored() {
 		if (state < allMonitored.size()) {
-			ArrayList<Set> monsState = allMonitored.get(state);
-			for (Set set : monsState) {
+			ArrayList<Command> monsState = allMonitored.get(state);
+			for (Command set : monsState) {
 				doSwitch(set);
 			}
 		}

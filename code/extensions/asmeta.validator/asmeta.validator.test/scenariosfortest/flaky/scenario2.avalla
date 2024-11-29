@@ -1,0 +1,20 @@
+scenario scenario2
+load CoffeeVendingMachineRefined.asm
+
+/* First step. Only 1 Euro is
+ inserted: only MILK can be 
+ dispensed */
+set insertedCoin := 1;
+step
+check dispensed = MILK;
+check available(MILK) = 9;
+check available(TEA) = 10;
+check available(COFFEE) = 10;
+
+set insertedCoin := 2;
+pick $p := COFFEE;
+step
+check dispensed = COFFEE;
+check available(COFFEE) = 9;
+check available(MILK) = 9;
+check available(TEA) = 10;

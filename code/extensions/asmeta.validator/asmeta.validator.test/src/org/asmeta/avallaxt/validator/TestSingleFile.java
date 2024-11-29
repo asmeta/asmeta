@@ -246,7 +246,7 @@ public class TestSingleFile extends TestValidator {
 	
 	@Test
 	public void testCoffeVendingMachineFlaky() throws Exception {
-		test("scenariosfortest/flaky/scenario1.avalla", true, false, true);
+		test("scenariosfortest/flaky/scenario2.avalla", true, false, true);
 	}
 	
 	@Test
