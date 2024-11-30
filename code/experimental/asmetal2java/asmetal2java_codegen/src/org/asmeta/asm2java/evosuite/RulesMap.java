@@ -49,6 +49,13 @@ public final class RulesMap implements RulesGetter, RulesAdder {
         }
         return Collections.emptyList();
     }
+    
+    /** 
+     * Reset the map, the map will be empty after this call returns.
+     */
+    public void resetMap() {
+    	this.rules.clear();
+    }
 
 }
 

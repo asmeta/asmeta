@@ -86,12 +86,13 @@ public final class Generators {
 	}
 
 	/**
-	 * Returns the singleton instance of the _ATG class generator.
+	 * Returns the singleton instance of the _ATG class generator.<p>
+	 * 
+	 * > Note: use the JavaTestGenerator before the JavaAtgGenerator.
 	 * 
 	 * @return the singleton instance of {@link JavaAtgGenerator}
 	 */
 	public static AsmToJavaGenerator getJavaAtgGenerator() {
-		createRuleMap();
 		if (jGeneratorAtg == null) {
 			jGeneratorAtg = new JavaAtgGenerator(rulesMap);
 		}
@@ -105,6 +106,7 @@ public final class Generators {
 		if (rulesMap == null) {
 			rulesMap = new RulesMap();
 		}
+		rulesMap.resetMap();
 	}
 
 }

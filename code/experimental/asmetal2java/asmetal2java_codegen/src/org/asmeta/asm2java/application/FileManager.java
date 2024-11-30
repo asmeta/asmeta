@@ -102,8 +102,9 @@ public class FileManager {
 		}
 		// Copy the asm file to the input folder
 		Path inputAsmPath = Paths.get(INPUT_DIR_PATH.toString(), asmFile.getName());
+		logger.info("Copying the " + asmFile + " to: " + inputAsmPath);
 		Files.copy(Paths.get(asmFile.getAbsolutePath()), inputAsmPath, StandardCopyOption.REPLACE_EXISTING);
-		return asmFile;
+		return inputAsmPath.toFile();
 	}
 
 	/**
@@ -121,7 +122,7 @@ public class FileManager {
 
 		File javaFile = null;
 		AsmToJavaGenerator javaGenerator = null;
-		
+
 		switch (mode) {
 		case TRANSLATOR_MODE:
 			checkPath(TRANSLATION_DIR_PATH);
@@ -146,7 +147,7 @@ public class FileManager {
 			javaFile = new File(WIN_DIR_PATH + File.separator + name + WIN_EXTENSION);
 			// Generate an executable of the generated Java class with a Graphical User
 			// Interface (GUI).
-			javaGenerator =  Generators.getJavaWindowGenerator();
+			javaGenerator = Generators.getJavaWindowGenerator();
 			break;
 		case TRANSLATOR_TEST_MODE:
 			checkPath(TESTGEN_DIR_PATH);
@@ -158,7 +159,7 @@ public class FileManager {
 			checkPath(TESTGEN_DIR_PATH);
 			javaFile = new File(TESTGEN_DIR_PATH + File.separator + name + ATG_EXTENSION);
 			// Generate a class designed for generating tests for the translated Java class.
-			javaGenerator =  Generators.getJavaAtgGenerator();
+			javaGenerator = Generators.getJavaAtgGenerator();
 			break;
 		default:
 			throw new IllegalArgumentException("Unrecognized mode: " + mode);
@@ -177,11 +178,11 @@ public class FileManager {
 	 * @param userOptions        the TranslationOptions selected by the user.
 	 * @param javaFile           the java file to generate.
 	 * @param asmToJavaGenerator instance of the generator to use.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs.
 	 */
 	private void generate(AsmCollection model, TranslatorOptions userOptions, File javaFile,
 			AsmToJavaGenerator asmToJavaGenerator) throws IOException {
-		assert javaFile.toPath().endsWith(JAVA_EXTENSION);
+		logger.info("Generating " + javaFile);
 		asmToJavaGenerator.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), JAVA, userOptions);
 	}
 
