@@ -6,7 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
@@ -14,7 +17,6 @@ import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
-import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.avallaxt.validation.ScenarioUtility;
 import org.asmeta.parser.ASMParser;
 import org.eclipse.emf.common.util.URI;
@@ -32,7 +34,8 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 
 /**
- * AsmPrinter that takes avalla script and produces an Asmeta Spec representing the semantics of the script
+ * AsmPrinter that takes avalla script and produces an Asmeta Spec representing
+ * the semantics of the script
  *
  * @author garganti
  */
@@ -64,18 +67,20 @@ public class AsmetaFromAvallaBuilder {
 	ArrayList<Command> monitoredInitState;// PA: 2017/12/29
 
 	List<ArrayList<Command>> allMonitored;// PA: 2017/12/29
-	
-	/** The list of all ChooseRule rules in the asm being validated */
-	List<ChooseRule> allChooseRules;
-	
+
+	/**
+	 * The map of all ChooseRules in the asm being validated with the name of the
+	 * macro rule in which are contained
+	 */
+	Map<ChooseRule, String> allChooseRules;
+
 	private AsmetaPrinterForAvalla asmetaPrinterforAvalla;
 
 	// for the scenario itself (the AsmPrinter has another model)
 	Asm asm;
 
-
 	/**
-	 * Instantiates a new asmeta from avalla  in a temporary file
+	 * Instantiates a new asmeta from avalla in a temporary file
 	 *
 	 * @param scenarioPath the scenario path
 	 * @throws Exception the exception
@@ -83,7 +88,6 @@ public class AsmetaFromAvallaBuilder {
 	public AsmetaFromAvallaBuilder(String scenarioPath) throws Exception {
 		this(scenarioPath, Files.createTempDirectory("asms_foravalla").toFile());
 	}
-
 
 	/**
 	 * Instantiates a new builder.
@@ -97,7 +101,7 @@ public class AsmetaFromAvallaBuilder {
 	public AsmetaFromAvallaBuilder(String scenarioPath, File tempAsmPathDir) throws Exception {
 		//
 		File fileScenario = Paths.get(scenarioPath).toFile();
-		assert fileScenario.exists(): fileScenario.getCanonicalPath()+ " does not exits";
+		assert fileScenario.exists() : fileScenario.getCanonicalPath() + " does not exits";
 		assert tempAsmPathDir.exists() && tempAsmPathDir.isDirectory();
 		//
 		scenarioDirectoryPath = new File(scenarioPath).getAbsoluteFile().getParent();
@@ -110,7 +114,8 @@ public class AsmetaFromAvallaBuilder {
 		scenario = (Scenario) resource.getContents().get(0);
 		// get the specification loaded by the script
 		modelPath = ScenarioUtility.getAsmPath(scenario);
-		if (!Files.exists(modelPath)) throw new RuntimeException("the loaded asmeta file " + modelPath + " does not exists");
+		if (!Files.exists(modelPath))
+			throw new RuntimeException("the loaded asmeta file " + modelPath + " does not exists");
 		assert Files.exists(modelPath);
 		logger.debug("build the asm from scenario " + modelPath);
 		File modelFile = modelPath.toFile();
@@ -121,35 +126,81 @@ public class AsmetaFromAvallaBuilder {
 		if (mainrule == null)
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
 		// Populate allChoseRules
-		allChooseRules = new ArrayList<>();
+		allChooseRules = new HashMap<>();
 		for (RuleDeclaration rd : asm.getBodySection().getRuleDeclaration()) {
 			if (rd instanceof MacroDeclaration)
-				for (Rule r: RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration)rd))
+				for (Rule r : RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration) rd))
 					if (r instanceof ChooseRule)
-						allChooseRules.add((ChooseRule) r);
+						allChooseRules.put((ChooseRule) r, rd.getName());
 		}
 		oldMainName = mainrule.getName();
 		// create a temp file in the directory
-		//File tempAsmPath = File.createTempFile(TEMP_ASMETA_V, ASMParser.ASM_EXTENSION, tempAsmPathDir);
+		// File tempAsmPath = File.createTempFile(TEMP_ASMETA_V,
+		// ASMParser.ASM_EXTENSION, tempAsmPathDir);
 		// use also the name of the original ASM instead
 		File tempAsmPath = File.createTempFile(asm.getName() + TEMP_ASMETA_V, ASMParser.ASM_EXTENSION, tempAsmPathDir);
 		logger.debug("to file " + tempAsmPath.getAbsolutePath());
 		//
-		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath,modelPath, this);
+		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath, modelPath, this);
 	}
 
 	/**
 	 * Save.
 	 */
 	public void save() {
-		StatementToStringBuffer stb = new StatementToStringBuffer(scenario, oldMainName, scenarioDirectoryPath);
+		StatementToStringBuffer stb = new StatementToStringBuffer(scenario, oldMainName, scenarioDirectoryPath, this);
 		stb.parseCommands();
 		monitoredInitState = stb.monitoredInitState;// PA: 2017/12/29
 		allMonitored = stb.allMonitored;// PA: 2017/12/29
+		checkAllPicks();
 		List<String> statements = stb.statements;
 		newMain = buildNewMain(statements).toString();
 		asmetaPrinterforAvalla.visit(asm);
 		asmetaPrinterforAvalla.close();
+	}
+
+	/** Check that all the variables used in Pick rules are correctly defined */
+	private void checkAllPicks() {
+		List<Pick> allPick = new ArrayList<>();
+		for (ArrayList<Command> list : allMonitored) {
+			allPick.addAll(
+					list.stream()
+					.filter(x -> x instanceof Pick)
+					.map(x -> ((Pick) x))
+					.collect(Collectors.toList()));
+		}
+		for (Pick pick : allPick) {
+			if (pick.getRule() == null) {
+				// The pick does not define the rule declaration
+				// => there must exists one and only one Choose rule with a variable that
+				// matches with the pick variable
+				int nMatch = 0;
+				for (Entry<ChooseRule, String> chooseRule : allChooseRules.entrySet()) {
+					if (chooseRule.getKey().getVariable().stream().anyMatch(var -> var.getName().equals(pick.getVar())))
+						nMatch++;
+				}
+				if (nMatch != 1) {
+					//TODO GESTIONE ERRORE
+					System.err.println("Errore, nMatch: " + nMatch);
+				}
+			} else {
+				// The pick defines the rule declaration
+				// => there must exists, in the defined rule declaration, one Choose rule with a
+				// variable that matches with the pick variable
+				boolean match = false;
+				for (Entry<ChooseRule, String> chooseRule : allChooseRules.entrySet()) {
+					if (chooseRule.getKey().getVariable().stream().anyMatch(var -> var.getName().equals(pick.getVar()))
+							&& chooseRule.getValue().equals(pick.getRule())) {
+						match = true;
+						break;
+					}
+				}
+				if (!match) {
+					//TODO GESTIONE ERRORE
+					System.err.println("Errore, match: false");
+				}
+			}
+		}
 	}
 
 	/**
@@ -166,7 +217,7 @@ public class AsmetaFromAvallaBuilder {
 			buff.append("\t\t\tcase " + i + ":\n");
 			buff.append("\t\t\t\t" + stm);
 		}
-		// TODO 
+		// TODO
 		// buff.append("\t\t\t\t STEP := " + Integer.MAX_VALUE);
 		buff.append("\t\tendswitch\n");
 		return buff;

@@ -81,6 +81,7 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	private int indentation = 0;
 	private PrintWriter out;
 	protected Asm model;
+	protected RuleDeclaration currentRuleDeclaration = null;
 	boolean expand = true;
 
 	public void close() {
@@ -373,6 +374,7 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	}
 	// common part between main and other rules
 	private void visitRuleDeclaration(RuleDeclaration dcl) {
+		currentRuleDeclaration = dcl;
 		String name = dcl.getName();		
 		List<VariableTerm> vars = dcl.getVariable();
 		Rule rule = dcl.getRuleBody();

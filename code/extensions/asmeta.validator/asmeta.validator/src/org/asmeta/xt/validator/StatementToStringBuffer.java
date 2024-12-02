@@ -9,6 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Block;
@@ -22,6 +24,7 @@ import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.avallaxt.avalla.Step;
 import org.asmeta.avallaxt.avalla.StepUntil;
+import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.eclipse.emf.common.util.EList;
@@ -30,6 +33,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import com.google.inject.Injector;
+
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 
 /**
  * The Class StatementToStringBuffer transform a scenario to a list of ASM
@@ -62,6 +67,9 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	private int indentation = 5;
 
 	private String scenarioDir;
+	
+	/** The builder */
+	private AsmetaFromAvallaBuilder builder;
 
 	/**
 	 * The Constructor.
@@ -71,12 +79,14 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	 * @param oMN
 	 *            the oold main rule name
 	 * @param scenarioDir
+	 * @param builder     the builder
 	 *            TODO
 	 */
-	public StatementToStringBuffer(Scenario scenario, String oMN, String scenarioDir) {
+	public StatementToStringBuffer(Scenario scenario, String oMN, String scenarioDir, AsmetaFromAvallaBuilder builder) {
 		this.scenario = scenario;
 		this.oldMainName = oMN;
 		this.scenarioDir = scenarioDir;
+		this.builder = builder;
 	}
 
 	// the set that must be set in the init state (initial set and pick of the scencario)
@@ -309,15 +319,30 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	
 	@Override
 	public Void casePick(Pick pickCmd) {
-		String variable = pickCmd.getVar().trim().substring(1);
+		String variable = pickCmd.getVar().trim();
 		String value = pickCmd.getValue().trim();
-		String is_variable = AsmetaPrinterForAvalla.IS_PICKED + variable;
-		String val_variable = AsmetaPrinterForAvalla.VAL_PICKED + variable;
+		String rule = pickCmd.getRule();
+		if (rule == null)
+			rule = getRuleName(variable);
+		assert rule != null;
+		rule = rule.trim();
+		String variableWithRule = variable.substring(1) + "_" + rule;
+		String is_variable = AsmetaPrinterForAvalla.IS_PICKED + variableWithRule;
+		String val_variable = AsmetaPrinterForAvalla.VAL_PICKED + variableWithRule;
 		append(is_variable + " := true");
 		append(val_variable + " := " + value);
 		return null;
 	}
 	
+	// Given the name of a variable of a Pick rule, return the correspondent in rule
+	private String getRuleName(String variable) {
+		for (Entry<ChooseRule, String> chooseRule : this.builder.allChooseRules.entrySet()) {
+			if (chooseRule.getKey().getVariable().stream().anyMatch(var -> var.getName().equals(variable)))
+				return chooseRule.getValue();
+		}
+		// should never happen
+		return null;
+	}
 
 	private Block getBlockByName(Scenario s, String block) {
 		for (Element b : s.getElements()) {

@@ -55,7 +55,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	private static final String STEP = "step__";
 
 	public static final String R_MAIN = "r_main__";
-	
+
 	public static final String IS_PICKED = "is_picked_";
 	public static final String VAL_PICKED = "val_picked_";
 
@@ -75,7 +75,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	private AsmetaFromAvallaBuilder builder;
 
 	private static Logger LOG = Logger.getLogger(AsmetaPrinterForAvalla.class);
-	
+
 	/**
 	 * Instantiates a new asmeta printer for avalla.
 	 *
@@ -96,7 +96,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		this.asmPath = asmPath;
 		this.builder = builder;
 	}
-	
+
 	@Override
 	public void visit(Asm asm) {
 		// add a comment - careful, since the "u" cannot be escaped even in the
@@ -106,8 +106,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		println("// translation of the asm (for avalla) " + filename);
 		super.visit(asm);
 	}
-	
-	
+
 	@Override
 	public void visit(ChooseRule chooseRule) {
 		List<VariableTerm> vars = chooseRule.getVariable();
@@ -115,22 +114,22 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		Rule doRule = chooseRule.getDoRule();
 		// create a boolean expression to check if all variables have been picked or not
 		String condStr = vars.stream()
-				.map(var -> IS_PICKED + var.getName().substring(1))
+				.map(var -> IS_PICKED + var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName())
 				.collect(Collectors.joining(" and "));
-		// substitute, where necessary, the variables starting with $ with the correspondent val_picked_X controlled function
+		// substitute, where necessary, the variables starting with $ with the
+		// correspondent val_picked_X controlled function
 		TermAssignment assignment = new TermAssignment();
-		List<Term> newTerms = new ArrayList<>();	
+		List<Term> newTerms = new ArrayList<>();
 		for (VariableTerm var : vars) {
-			String valVariable = VAL_PICKED + var.getName().substring(1);
 			VariableTerm t = BasictermsFactory.eINSTANCE.createVariableTerm();
-			t.setName(valVariable);
+			t.setName(VAL_PICKED + var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName());
 			newTerms.add(t);
 		}
 		assignment.put(vars, newTerms);
 		RuleSubstitution substitution = new RuleSubstitution(assignment, new RuleFactory());
 		Rule newDoRule = substitution.visit(doRule);
 		Term newGuardTerm = substitution.visit(guardTerm);
-		String guardString = super.tp.visit(newGuardTerm);	
+		String guardString = super.tp.visit(newGuardTerm);
 		// print
 		println("if not " + condStr + " then");
 		indent();
@@ -146,7 +145,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		indent();
 		println("seq");
 		indent();
-		println("result := print(\"CHECK FAILED: the value cannot be chosen\")"); // AGGIUNGERE CHE VALUE (E SE SONO DI PIU' O SOLO UNA TRA TANTE?)
+		println("result := print(\"CHECK FAILED: the value cannot be chosen\")"); // AGGIUNGERE CHE VALUE (E SE SONO DI
+																					// PIU' O SOLO UNA TRA TANTE?)
 		println("step__ := -2"); // -2 so plus 1 is still < 0
 		unIndent();
 		println("endseq");
@@ -155,7 +155,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		unIndent();
 		println("endif");
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -252,7 +252,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 									tempAsmPath.getParentFile()).toPath();
 							LOG.debug(importedAsmPath + " to be translated into " + importedFile);
 							translatedFiles.put(importedAsmPath, importedFile);
-							AsmetaPrinterForAvalla newprinter =  new AsmetaImportedPrinterForAvalla(importedFile.toFile(), importedAsmPath, builder);
+							AsmetaPrinterForAvalla newprinter = new AsmetaImportedPrinterForAvalla(
+									importedFile.toFile(), importedAsmPath, builder);
 							newprinter.translatedFiles = this.translatedFiles;
 							// call recursively
 							// import the ASM
@@ -321,7 +322,6 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		return importedName;
 	}
 
-
 	// PA 2017/12/29
 	@Override
 	protected void visitInvariantBody(asmeta.definitions.Invariant invariant) {
@@ -355,7 +355,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			}
 		}
 		println("// new main added by validator");
-		println("main rule "+R_MAIN+" =");
+		println("main rule " + R_MAIN + " =");
 		indent();
 		println(this.builder.newMain);
 	}
@@ -366,13 +366,12 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		if (model == null || model.getMainrule() != dcl) {
 			super.visitDef(dcl);
 		} else {
-			//it is a main rule : remove as main and set it again
+			// it is a main rule : remove as main and set it again
 			model.setMainrule(null);
 			super.visitDef(dcl);
 			model.setMainrule((MacroDeclaration) dcl);
 		}
 	}
-
 
 	@Override
 	protected void visitInvariants(Collection<asmeta.definitions.Invariant> invariants) {
@@ -394,17 +393,29 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		}
 		visitDeclaredFunctions(funcs);
 		// add the controlled functions relative to choose variables
+		List<Pick> allPick = new ArrayList<>();
+		for (ArrayList<Command> list : this.builder.allMonitored) {
+			allPick.addAll(
+					list.stream().filter(x -> x instanceof Pick).map(x -> ((Pick) x)).collect(Collectors.toList()));
+		}
 		if (!this.builder.allChooseRules.isEmpty()) {
 			println("// added by validator to implement determinism in choose rule");
-			for (ChooseRule cr: this.builder.allChooseRules){
-				for (VariableTerm variable : cr.getVariable()) {
-					String varName = variable.getName().substring(1);
+			for (Entry<ChooseRule, String> cr : this.builder.allChooseRules.entrySet()) {
+				for (VariableTerm variable : cr.getKey().getVariable()) {
+					String varName = variable.getName().substring(1) + "_" + cr.getValue();
+					for (Pick pick : allPick) {
+						if (pick.getVar().equals(variable.getName()) && 
+								(pick.getRule() == null) || pick.getRule().equals(cr.getValue())) {
+							println("controlled " + VAL_PICKED + varName + ": " + variable.getDomain().getName());
+							break;
+						}
+					}
 					println("controlled " + IS_PICKED + varName + ": Boolean");
-					println("controlled " + VAL_PICKED + varName + ": " + variable.getDomain().getName());
 				}
 			}
 		}
 	}
+
 	protected void visitDeclaredFunctions(Collection<Function> funcs) {
 		super.visitFunctions(funcs);
 	}
@@ -562,18 +573,17 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			// (5,5) -> 4}, ($r,$c))
 			println("},(" + varNames + "))");
 		}
-		List<Pick> initPick = this.builder.monitoredInitState.stream()
-				.filter(x -> x instanceof Pick)
-				.map(x -> ((Pick)x))
-				.collect(Collectors.toList());
-		if (this.builder.allChooseRules.size() > 0) {
+		List<Pick> initPick = this.builder.monitoredInitState.stream().filter(x -> x instanceof Pick)
+				.map(x -> ((Pick) x)).collect(Collectors.toList());
+		if (!this.builder.allChooseRules.isEmpty()) {
 			println("// initialize is_picked_X and val_picked_X functions");
-			for (ChooseRule cr: this.builder.allChooseRules){
-				for (VariableTerm variable : cr.getVariable()) {
-					String varName = variable.getName().substring(1);
+			for (Entry<ChooseRule, String> cr : this.builder.allChooseRules.entrySet()) {
+				for (VariableTerm variable : cr.getKey().getVariable()) {
+					String varName = variable.getName().substring(1) + "_" + cr.getValue();
 					boolean isNotInit = true;
-					for (Pick pick: initPick){
-						if (variable.getName().equals(pick.getVar())) {
+					for (Pick pick : initPick) {
+						if (pick.getVar().equals(variable.getName()) && 
+								(pick.getRule() == null) || pick.getRule().equals(cr.getValue())) {
 							println("function " + IS_PICKED + varName + " = true");
 							println("function " + VAL_PICKED + varName + " = " + pick.getValue());
 							isNotInit = false;
@@ -610,10 +620,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	@Override
 	public void visitInit(FunctionInitialization init) {
 		// collect all the location set by the init state
-		java.util.Set<String> allLocations = this.builder.monitoredInitState.stream()
-				.filter(x -> x instanceof Set)
-				.map(x -> ((Set)x).getLocation())
-				.collect(Collectors.toSet());
+		java.util.Set<String> allLocations = this.builder.monitoredInitState.stream().filter(x -> x instanceof Set)
+				.map(x -> ((Set) x).getLocation()).collect(Collectors.toSet());
 		// check if this function is already defined in the initial state of the
 		// scenario
 		if (allLocations.contains(init.getInitializedFunction().getName())) {
