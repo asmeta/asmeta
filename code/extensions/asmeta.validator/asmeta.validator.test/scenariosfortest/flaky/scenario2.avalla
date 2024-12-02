@@ -5,6 +5,8 @@ load CoffeeVendingMachineRefined.asm
  inserted: only MILK can be 
  dispensed */
 set insertedCoin := 1;
+pick $p := MILK;
+// pick $p in r_serveProduct := MILK;
 step
 check dispensed = MILK;
 check available(MILK) = 9;
@@ -12,7 +14,7 @@ check available(TEA) = 10;
 check available(COFFEE) = 10;
 
 set insertedCoin := 2;
-pick $p := COFFEE;
+pick $p in r_Main := COFFEE;
 step
 check dispensed = COFFEE;
 check available(COFFEE) = 9;
