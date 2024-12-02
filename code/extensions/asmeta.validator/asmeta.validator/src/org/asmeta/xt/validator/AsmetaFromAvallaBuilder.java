@@ -17,6 +17,8 @@ import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
+import org.asmeta.avallaxt.validation.AsmCollectionUtility;
+import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
 import org.asmeta.avallaxt.validation.ScenarioUtility;
 import org.asmeta.parser.ASMParser;
 import org.eclipse.emf.common.util.URI;
@@ -126,13 +128,7 @@ public class AsmetaFromAvallaBuilder {
 		if (mainrule == null)
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
 		// Populate allChoseRules
-		allChooseRules = new HashMap<>();
-		for (RuleDeclaration rd : asm.getBodySection().getRuleDeclaration()) {
-			if (rd instanceof MacroDeclaration)
-				for (Rule r : RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration) rd))
-					if (r instanceof ChooseRule)
-						allChooseRules.put((ChooseRule) r, rd.getName());
-		}
+		allChooseRules = AsmCollectionUtility.getChoseRules(asm);
 		oldMainName = mainrule.getName();
 		// create a temp file in the directory
 		// File tempAsmPath = File.createTempFile(TEMP_ASMETA_V,
@@ -152,56 +148,14 @@ public class AsmetaFromAvallaBuilder {
 		stb.parseCommands();
 		monitoredInitState = stb.monitoredInitState;// PA: 2017/12/29
 		allMonitored = stb.allMonitored;// PA: 2017/12/29
-		checkAllPicks();
+		//checkAllPicks();
+		ScenarioUtility.checkAllPicks(scenario)
 		List<String> statements = stb.statements;
 		newMain = buildNewMain(statements).toString();
 		asmetaPrinterforAvalla.visit(asm);
 		asmetaPrinterforAvalla.close();
 	}
 
-	/** Check that all the variables used in Pick rules are correctly defined */
-	private void checkAllPicks() {
-		List<Pick> allPick = new ArrayList<>();
-		for (ArrayList<Command> list : allMonitored) {
-			allPick.addAll(
-					list.stream()
-					.filter(x -> x instanceof Pick)
-					.map(x -> ((Pick) x))
-					.collect(Collectors.toList()));
-		}
-		for (Pick pick : allPick) {
-			if (pick.getRule() == null) {
-				// The pick does not define the rule declaration
-				// => there must exists one and only one Choose rule with a variable that
-				// matches with the pick variable
-				int nMatch = 0;
-				for (Entry<ChooseRule, String> chooseRule : allChooseRules.entrySet()) {
-					if (chooseRule.getKey().getVariable().stream().anyMatch(var -> var.getName().equals(pick.getVar())))
-						nMatch++;
-				}
-				if (nMatch != 1) {
-					//TODO GESTIONE ERRORE
-					System.err.println("Errore, nMatch: " + nMatch);
-				}
-			} else {
-				// The pick defines the rule declaration
-				// => there must exists, in the defined rule declaration, one Choose rule with a
-				// variable that matches with the pick variable
-				boolean match = false;
-				for (Entry<ChooseRule, String> chooseRule : allChooseRules.entrySet()) {
-					if (chooseRule.getKey().getVariable().stream().anyMatch(var -> var.getName().equals(pick.getVar()))
-							&& chooseRule.getValue().equals(pick.getRule())) {
-						match = true;
-						break;
-					}
-				}
-				if (!match) {
-					//TODO GESTIONE ERRORE
-					System.err.println("Errore, match: false");
-				}
-			}
-		}
-	}
 
 	/**
 	 * Builds the new main.

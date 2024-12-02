@@ -7,7 +7,7 @@ import asmeta.AsmCollection
 import org.asmeta.avallaxt.AvallaStandaloneSetup
 import org.asmeta.avallaxt.avalla.AvallaPackage
 import org.asmeta.avallaxt.avalla.Block
-import org.asmeta.avallaxt.avalla.Check
+import org.asmeta.avallaxt.avalla.Pick
 import org.asmeta.avallaxt.avalla.Element
 import org.asmeta.avallaxt.avalla.ExecBlock
 import org.asmeta.avallaxt.avalla.Scenario
@@ -29,6 +29,11 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.ResourceSet
 
 import static java.util.stream.Collectors.toList
+import java.util.Map
+import asmeta.transitionrules.basictransitionrules.ChooseRule
+import java.util.Map.Entry
+import org.asmeta.avallaxt.avalla.Command
+import java.util.stream.Collectors
 
 /**
  * This class contains custom validation rules. 
@@ -52,6 +57,7 @@ class AvallaValidator extends AbstractAvallaValidator {
 	List<String> monFunNames
 	List<String> controlledFunNames
 	List<String> sharedFunNames
+	Map<ChooseRule, String> choseRules
 
 	@org.eclipse.xtext.validation.Check
 	def checkLoadASMexists(Scenario scenario) {
@@ -87,6 +93,25 @@ class AvallaValidator extends AbstractAvallaValidator {
 		}
 	}
 
+	/** Check that all the variables used in Pick rules are correctly defined */
+//	@org.eclipse.xtext.validation.Check
+//	def checkAllPicks(Scenario scenario) {
+//		List<Pick> allPick = new ArrayList<>();
+//		for (ArrayList<Command> list : allMonitored) {
+//			allPick.addAll(
+//					list.stream()
+//					.filter(x -> x instanceof Pick)
+//					.map(x -> ((Pick) x))
+//					.collect(Collectors.toList()));
+//		}
+//		for (Pick pick : allPick) {
+//			checkPick(pick);
+//		}
+//	}
+
+
+
+
 	// read the asm and imports all the functions for validation
 	def setAsmCollection(AsmCollection collection) {
 		asmCollection = collection
@@ -100,6 +125,9 @@ class AvallaValidator extends AbstractAvallaValidator {
 		controlledFunNames = functions.stream().filter(x|x instanceof ControlledFunction).map(y|y.name).collect(toList())
 		// get shared
 		sharedFunNames = functions.stream().filter(x|x instanceof SharedFunction).map(y|y.name).collect(toList())
+		// get chose rules
+		//TODO for now it takes the chose rules only in the main ASM, in the future it can be also in an imported
+		choseRules = AsmCollectionUtility.getChoseRules(asmCollection.main)
 	}
 
 	@org.eclipse.xtext.validation.Check
@@ -130,6 +158,14 @@ class AvallaValidator extends AbstractAvallaValidator {
 		if (duplicated.contains(b.name))
 			error('block ' + b.name + " declared multiple times", AvallaPackage.Literals.BLOCK__NAME)
 	}
+	
+	@org.eclipse.xtext.validation.Check
+	def checkPick(Pick pick) {
+		ScenarioUtility.checkPick(pick, choseRules)
+	}
+	
+	
+	
 
 	// get the scenario of the block or command in general
 	def Scenario getScenario(Element b) {

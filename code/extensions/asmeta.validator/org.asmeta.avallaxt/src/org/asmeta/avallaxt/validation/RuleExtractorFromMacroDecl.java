@@ -1,4 +1,4 @@
-package org.asmeta.xt.validator;
+package org.asmeta.avallaxt.validation;
 
 import java.util.ArrayList;
 import java.util.Collections;
