@@ -403,14 +403,18 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			for (Entry<ChooseRule, String> cr : this.builder.allChooseRules.entrySet()) {
 				for (VariableTerm variable : cr.getKey().getVariable()) {
 					String varName = variable.getName().substring(1) + "_" + cr.getValue();
+					println("controlled " + IS_PICKED + varName + ": Boolean");
+					boolean isNotUsed = true;
 					for (Pick pick : allPick) {
 						if (pick.getVar().equals(variable.getName()) && 
 								(pick.getRule() == null) || pick.getRule().equals(cr.getValue())) {
 							println("controlled " + VAL_PICKED + varName + ": " + variable.getDomain().getName());
+							isNotUsed = false;
 							break;
 						}
 					}
-					println("controlled " + IS_PICKED + varName + ": Boolean");
+					if (isNotUsed)
+						println("controlled " + VAL_PICKED + varName + " : Any");
 				}
 			}
 		}
