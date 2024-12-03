@@ -29,6 +29,8 @@ public class ScenarioExecutor {
 			asmetaBuilder.setAsmeta(m);
 			// save the scenario
 			asmetaBuilder.save();
+			// execute now the scenario
+			
 		}
 		
 
@@ -50,10 +52,5 @@ public class ScenarioExecutor {
 			asmCollection = m;
 			asm = asmCollection.getMain();
 		}
-
-		
-		
-		
-	}
-	
+	}	
 }
