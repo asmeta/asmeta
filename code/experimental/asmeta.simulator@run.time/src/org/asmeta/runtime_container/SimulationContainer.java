@@ -451,7 +451,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 					if (stateClon.previousLocationValues==null)
 						stateClon.previousLocationValues = new HashMap<Location, Value>();
 					int id;
-					if (stateClon.locationMap.isEmpty())
+					if (stateClon.getLocationMap().isEmpty())
 						id = clone.startExecution(modelPath);
 					else
 						id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
@@ -770,7 +770,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				if (stateClon.previousLocationValues==null)
 					stateClon.previousLocationValues = new HashMap<Location, Value>();
 				int id;
-				if (stateClon.locationMap.isEmpty())
+				if (stateClon.getLocationMap().isEmpty())
 					id = clone.startExecution(modelPath);
 				else
 					id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
@@ -1609,6 +1609,35 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		return null;
 	}*/
 	
+	@Override
+	public RunOutput getCurrentState(int id) {
+		try {
+			InfoAsmetaService modelPath = asmS.getSimulatorTable().get(id);
+
+			RunOutput output = new RunOutput(Esit.SAFE, asmS.getCurrentState(id));
+			
+			return output;
+		} catch (NullPointerException e) {
+			throw new IdNotFoundException("Id not valid");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public List<String> getMonitored(String modelPath) {
+		List<String> monitored = new ArrayList<>();
+		try {
+			monitored = findAllMonitored(monitored, modelPath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return monitored;
+	}
 }
 
 

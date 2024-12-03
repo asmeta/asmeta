@@ -20,11 +20,13 @@ import org.asmeta.parser.util.ReflectiveVisitor;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * test all the examples in a directory parse and translate DO NOT PROVE
  * 
  */
+@Category(org.asmeta.annotations.TestToMavenSkip.class)
 public class AsmetaSMVtestTranslate {
 
 	static final String FILE_BASE = "../../../../asm_examples/";
@@ -109,45 +111,46 @@ public class AsmetaSMVtestTranslate {
 		
 	@Test
 	public void testFSM_hooking() {
-		testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking.asm"));
 	}
 
 	@Test
 	public void testFSM_hooking2() {
-		testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking2.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking2.asm"));
 	}
 
 	@Test
 	public void testASM_even() {
-		testOneSpec(FILE_BASE + "examples/fsmsemantics/Sle/ASM_even.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/Sle/ASM_even.asm"));
 	}
 
-	@Test
-	public void testExamples() {
-		testDir("examples/");
-	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testfsmsemanticsmeta_hooking() {
 		testDir("examples/fsmsemantics/meta_hooking/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testfsmsemantics() {
 		testDir("examples/fsmsemantics/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testSimpleEx() {
-		testDir("examples/simple_ex/");
+		testDir("examples/examples/simple_example/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testsluicegate() {
 		testDir("examples/sluicegate/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testtraffic_light() {
 		testDir("examples/traffic_light/");
 	}
@@ -155,28 +158,28 @@ public class AsmetaSMVtestTranslate {
 
 	@Test
 	public void testSomeSingle() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock.asm");
-		testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock2.asm");
-		testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm");
-		testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm");
-		testOneSpec(FILE_BASE + "examples/simple_ex/fattoriale.asm");
-		testOneSpec(FILE_BASE + "examples/simple_ex/FLIP_FLOP_0.asm");
-		testOneSpec(FILE_BASE + "examples/simple_ex/IncosistentUpdate.asm");
-		testOneSpec(FILE_BASE + "examples/models/lift2.asm");
-		testOneSpec(FILE_BASE + "examples/models/SIS.asm");
-		testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking2.asm");
-		testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_map0_2.asm");
-		testOneSpec(FILE_BASE + "examples/sluicegate/sluiceGateGround.asm");
-		testOneSpec(FILE_BASE + "examples/sluicegate/sluiceGateMotorCtl.asm");
-		testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight.asm");
-		testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight2.asm");
-		testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight_refined.asm");
-		testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight_refined_with_agents.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock2.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/fattoriale.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/FLIP_FLOP_0.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/IncosistentUpdate.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/models/lift2.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/models/SIS.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking2.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_map0_2.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/sluicegate/sluiceGateGround.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/sluicegate/sluiceGateMotorCtl.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight2.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight_refined.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight_refined_with_agents.asm"));
 	}
 
 	@Test
 	public void testAtm() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm"));
 	}
 
 	@Test
@@ -186,127 +189,139 @@ public class AsmetaSMVtestTranslate {
 	
 	@Test
 	public void testAxioms() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm"));
 	}
 
 	@Test
 	public void testFattoriale() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/fattoriale.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/fattoriale.asm"));
 	}
 
 	@Test
 	public void testAdvancedClock() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock.asm"));
 	}
 
 	@Test
 	public void testAdvancedClock2() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock2.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock2.asm"));
 	}
 
 	@Test
 	public void testFLIP_FLOP_0() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/FLIP_FLOP_0.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/FLIP_FLOP_0.asm"));
 	}
 
 	@Test
 	public void testIncosistentUpdate() {
-		testOneSpec(FILE_BASE + "examples/simple_ex/IncosistentUpdate.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/IncosistentUpdate.asm"));
 	}
 
 	@Test
 	public void testOrdersystem() {
-		testOneSpec(FILE_BASE + "examples/models/ordersystem.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/models/ordersystem.asm"));
 	}
 
 	@Test
 	public void testPhilo1() {
-		testOneSpec(FILE_BASE + "examples/philosophers/philosophers1.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/philosophers/philosophers1.asm"));
 	}
 
 	@Test
 	public void testPhilo2() {
-		testOneSpec(FILE_BASE + "examples/philosophers/philosophers2.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/philosophers/philosophers2.asm"));
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testFSM() {
 		testDir("examples/fsmsemantics/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testTrafficLight() {
 		testDir("examples/traffic_light/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testExamplesModels() {
 		testDir("examples/models/");
 	}
 
 	@Test
 	public void testFlipFlop() {
-		testOneSpec(FILE_BASE + "examples/models/FlipFlop.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/models/FlipFlop.asm"));
 	}
 
 	@Test
 	public void testLift2() {
-		testOneSpec(FILE_BASE + "examples/models/lift2.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/models/lift2.asm"));
 	}
 
 	@Test
 	public void testSIS() {
-		testOneSpec(FILE_BASE + "examples/models/SIS.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/models/SIS.asm"));
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testExamplesPhilo() {
 		testDir("examples/philosophers/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testProductionCell() {
 		testDir("examples/production_cell/");
 	}
 
 	@Test
 	public void testProduction_Cell_with_agents() {
-		testOneSpec(FILE_BASE + "examples/production_cell/Production_Cell_with_agents.asm");
+		assertTrue(testOneSpec(FILE_BASE + "examples/production_cell/Production_Cell_with_agents.asm"));
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testExamplesCluster() {
 		testDir("examples/cluster/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testExamplesAgents() {
 		testDir("examples/agents/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testExamplesSG() {
 		testDir("examples/sluicegate/");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testLibrary() {
 		testDir("examples/library");
 	}
 
-	@Ignore@Test
+	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testSystemC() {
 		//some of these files are not translable
 		testDir("systemc");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void FSMSLE() {
 		testDir("examples/fsmSle/ASM_even.asm");
 	}
 
 	// examples in the current project
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAllExamples() {
 		Collection<File> testSpecInSubFolder = testSpecInSubFolder("examples");
 		assertTrue(testSpecInSubFolder.toString(), testSpecInSubFolder.isEmpty());
@@ -346,30 +361,36 @@ public class AsmetaSMVtestTranslate {
 	
 	
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testTelecamereV2() {
 		RemoveNestingFlattener.PROPAGATE_EQ = true;
 		assertTrue(testOneSpec("examples/telecamere/telecamere_v2.asm"));
 	}
-	
+		
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testPillBOX() {
 		Logger.getLogger(ReflectiveVisitor.class).setLevel(Level.ALL);
 		testOneSpec("F:\\Dati-Andrea\\GitHub\\quasmed\\PillboxASM\\pillbox_for_PropertyVerification.asm");
 	}
 	
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testPillBOX2() {
 		Logger.getLogger(ReflectiveVisitor.class).setLevel(Level.ALL);
 		testOneSpec("F:\\Dati-Andrea\\GitHub\\quasmed\\PillboxASM\\pillbox_for_PropertyVerification_1.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testpillBoxTestAG() {
 		testOneSpec("C:\\Users\\garganti\\Dropbox\\Documenti\\progetti\\quasmed_git\\PillboxASM\\pillbox_for_PropertyVerification.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAmanUndef() throws IOException {
+		// it is worng when tralsating undef .. why itis using undef and not UNDEF????
 		testOneSpec("examples/aman.asm");
 		Path fileName = Path.of("examples/aman.smv");
 		String str = Files.readString(fileName);
@@ -407,28 +428,43 @@ public class AsmetaSMVtestTranslate {
 	}
 	
 	
+	@Test
+	public void testStudente24() {
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		//AsmetaSMVOptions.FLATTEN = false;
+		testOneSpec("examples/student2/fraioli.asm", options);
+	}
+	
+	@Test
+	public void testStudente_sett24() {
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		//AsmetaSMVOptions.FLATTEN = false;
+		testOneSpec("examples/student2/LightArray2.asm", options);
+	}
 
 	
 	/*
-	 * @Test public void testUnibgProva() { testOneSpec(FILE_BASE_UNIBG +
+	 * @Test public void testUnibgProva() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
 	 * "Prova.asm"); }
 	 * 
-	 * @Test public void testUnibgRegistroDiCassa() { testOneSpec(FILE_BASE_UNIBG +
+	 * @Test public void testUnibgRegistroDiCassa() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
 	 * "RegistroDiCassa.asm"); }
 	 * 
-	 * @Test public void testUnibgRubrica() { testOneSpec(FILE_BASE_UNIBG +
+	 * @Test public void testUnibgRubrica() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
 	 * "Rubrica.asm"); }
 	 * 
-	 * @Test public void teststufa() { testOneSpec(FILE_BASE_UNIBG + "stufa.asm"); }
+	 * @Test public void teststufa() { assertTrue(testOneSpec(FILE_BASE_UNIBG + "stufa.asm"); }
 	 * 
 	 * 
-	 * @Test public void testUnibgVideotecaASM() { testOneSpec(FILE_BASE_UNIBG +
+	 * @Test public void testUnibgVideotecaASM() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
 	 * "VideotecaASM.asm"); }
 	 * 
-	 * @Test public void testUnibg() { testOneSpec(FILE_BASE_UNIBG +
-	 * "Contatore_U_DA_H.asm"); testOneSpec(FILE_BASE_UNIBG + "Prova.asm");
-	 * testOneSpec(FILE_BASE_UNIBG + "RegistroDiCassa.asm");
-	 * testOneSpec(FILE_BASE_UNIBG + "Rubrica.asm"); testOneSpec(FILE_BASE_UNIBG +
-	 * "stufa.asm"); testOneSpec(FILE_BASE_UNIBG + "VideotecaASM.asm"); }
+	 * @Test public void testUnibg() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
+	 * "Contatore_U_DA_H.asm"); assertTrue(testOneSpec(FILE_BASE_UNIBG + "Prova.asm");
+	 * assertTrue(testOneSpec(FILE_BASE_UNIBG + "RegistroDiCassa.asm");
+	 * assertTrue(testOneSpec(FILE_BASE_UNIBG + "Rubrica.asm"); assertTrue(testOneSpec(FILE_BASE_UNIBG +
+	 * "stufa.asm"); assertTrue(testOneSpec(FILE_BASE_UNIBG + "VideotecaASM.asm"); }
 	 */
 }

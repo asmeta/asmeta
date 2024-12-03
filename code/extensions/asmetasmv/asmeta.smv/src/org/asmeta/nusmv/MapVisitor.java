@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -76,6 +77,7 @@ import asmeta.structure.FunctionInitialization;
 import asmeta.structure.Initialization;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
@@ -88,8 +90,11 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule;
  * The Class MapVisitor.
  */
 public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
-	
-	final static Logger log = Logger.getLogger(MapVisitor.class); 
+
+	// name of current time variable (seconds)
+	private static final String M_CURR_TIME_SECS = "mCurrTimeSecs";
+
+	final static Logger log = Logger.getLogger(MapVisitor.class);
 
 	// list of flatteners
 	public static Class<? extends AsmetaFlattener>[] ALL_SMV_FLATTENERS = new Class[] { MacroCallRuleFlattener.class,
@@ -162,6 +167,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	private ArrayList<String> justiceConstraintsList;
 	private ArrayList<String[]> compassionConstraintsList;
 	private ArrayList<String> invarConstraintsList;
+	// dominio --> il suo valore quando è undef
 	private Map<String, String> undefValue;
 	DerivedVisitor dv;
 	private HashMap<Integer, String> propertiesCounterExample;
@@ -176,6 +182,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	public Map<String, Set<String>> usedStatDerInDer, usedContrMonInDer;
 	public Map<ChooseRule, List<String[]>> chooseRuleSetIsEmpty;
 	public Map<ForallRule, List<String>> forallRuleSetIsEmpty;
+
+	private final static String UNDEF_VAL_FOR_NUMBERS = "-2147483647";
 
 	protected MapVisitor() {
 		env = new Environment();
@@ -243,6 +251,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			smv = new PrintWriter(smvFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return;
 		}
 		printSmv(smvFileName, smv);
 		if (!AsmetaSMVOptions.keepNuSMVfile) {
@@ -266,17 +275,24 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	void printMainModule(String smvFileName, PrintWriter smv) {
 		smv.println("--file " + smvFileName);
 		smv.println("-- options: flatten? " + AsmetaSMVOptions.FLATTEN);
-		if (AsmetaSMVOptions.isUseNuXmvTime() )
+		if (AsmetaSMVOptions.isUseNuXmvTime())
 			smv.println("@TIME_DOMAIN continuous");
 		smv.println("MODULE main");
 		smv.println("\tVAR");
 		for (String var : varsDecl.keySet()) {
 			// only variables that are actually used are defined in the NuSMV model
-			if (env.usedLoc.contains(var)) { 
-				//Silvia 10/05/2021 -> automatically set clock type
-				if (AsmetaSMVOptions.isUseNuXmvTime()  && var.equalsIgnoreCase("TimeLibrarySimple_mCurrTimeSecs"))
+			if (env.usedLoc.contains(var)) {
+				// Silvia 10/05/2021 -> automatically set clock type
+				if (AsmetaSMVOptions.isUseNuXmvTime()
+						&& (var.contains(M_CURR_TIME_SECS))) {
+					assert var.startsWith("TimeLibrary");
 					smv.print("\t\t" + var + ": " + "clock" + "; --");
-				else
+				} else if (AsmetaSMVOptions.isUseNuXmvTime()
+						&& (var.startsWith("TimeLibrary")
+								&& var.contains("_start_"))) {
+					assert var.startsWith("TimeLibrary");
+					smv.print("\t\t" + var + ": " + "real" + "; --");
+				} else
 					smv.print("\t\t" + var + ": " + varsDecl.get(var) + "; --");
 				if (contrLocations.contains(var)) {
 					smv.println("controlled");
@@ -354,8 +370,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 					if (domName.equals("Boolean")) {
 						smv.println("\t\t\t\t" + trueString + ": " + falseString + ";");
 					} else {
-						String undefValue = this.getUndefValue().get(domName);
-						//assert undefValue != null : domName + " does not provide a representation for the undef value.";
+						String undefValue = this.getUndefValue(domName);
+						// assert undefValue != null : domName + " does not provide a representation for
+						// the undef value.";
 						smv.println("\t\t\t\t" + trueString + ": " + undefValue + ";");
 					}
 					smv.println("\t\t\tesac;");
@@ -375,8 +392,15 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		// add the ASSIGN section
 		if ((initMap != null && initMap.size() > 0) || updateMap.getSize() > 0) {
 			smv.println("\tASSIGN");
-			if (AsmetaSMVOptions.isUseNuXmvTime()) //Silvia 10/05/2021: init clock to 0 if usenuxmv with time
-				smv.println("\t\tinit(" + "TimeLibrarySimple_mCurrTimeSecs" + ") := " + "0" + ";");
+			if (AsmetaSMVOptions.isUseNuXmvTime()) { // Silvia 10/05/2021: init clock to 0 if usenuxmv with time
+				// search for current time
+				for (String var : varsDecl.keySet()) {
+					if (var.contains(M_CURR_TIME_SECS)) {
+						assert var.startsWith("TimeLibrary"); // can be TimeLibrarySimple
+						smv.println("\t\tinit(" + var + ") := " + "0" + ";");
+					}
+				}
+			}
 			if (initMap != null) {
 				for (String var : initMap.keySet()) {
 					if (env.usedLoc.contains(var)) {
@@ -394,7 +418,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				// we include the undef in the domain definition
 				// The only domain that does not provide a representation for the undef
 				// value is the Boolean domain
-				if (getUndefValue().containsKey(domName)) {
+				if (getDomainswithUndef().contains(domName)) {
 					variableDomain = domainSmvWithUndef.get(domName);
 				} else {
 					variableDomain = domainSmv.get(domName);
@@ -587,10 +611,11 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			// System.out.println(AsmetaMultipleFlattener.printASM(asm));
 
 			/*
-			 * File tempFile = File.createTempFile("tmp", ASMParser.asmExtension); String printASM =
-			 * AsmetaMultipleFlattener.printASM(asm); printASM = printASM.replaceFirst(name,
-			 * tempFile.toPath().getFileName().toString().replace(ASMParser.asmExtension, ""));
-			 * System.out.println(printASM);
+			 * File tempFile = File.createTempFile("tmp", ASMParser.asmExtension); String
+			 * printASM = AsmetaMultipleFlattener.printASM(asm); printASM =
+			 * printASM.replaceFirst(name,
+			 * tempFile.toPath().getFileName().toString().replace(ASMParser.asmExtension,
+			 * "")); System.out.println(printASM);
 			 * Files.write(Paths.get(tempFile.getAbsolutePath()),
 			 * printASM.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
 			 * StandardOpenOption.TRUNCATE_EXISTING); asm =
@@ -692,7 +717,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 					// TODO bisogna rimuovere il try
 					// ora alcune funzioni possono contenere altre funzioni
 					try {
-						dv = new DerivedVisitor(env, getRv(), this.getUndefValue());
+						dv = new DerivedVisitor(env, getRv(), undefValue);
 						map = dv.visit(location);
 						if (map.size() == 1) {
 							Entry<String, String> entrySet = map.entrySet().iterator().next();
@@ -734,7 +759,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 					}
 				}
 			}
-			dv = new DerivedVisitor(env, getRv(), this.getUndefValue());
+			dv = new DerivedVisitor(env, getRv(), undefValue);
 			if (derived.contains(locName)) {
 				map = dv.visit(location);
 				if (map.size() > 0) {
@@ -757,12 +782,12 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		SortedSet<String> set = new TreeSet<String>();
 		SortedSet<String> setWithUndef;
 		Iterator<String> iterator;
-		String domName, str, funcName, undefValueStr;
+		String domName, str, funcName;
 		int first, last, number;
 		Value[] value = new BooleanValue[1];
 		domainSmv = new HashMap<String, String>();
 		domainSmvWithUndef = new HashMap<String, String>();
-		setUndefValue(new HashMap<String, String>());
+		undefValue = new  HashMap<String, String>();
 		domainSet = new HashMap<String, SortedSet<String>>();
 		domainValues = new HashMap<String, List<Value[]>>();
 		setAgentsDomains(new ArrayList<String>());
@@ -782,7 +807,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		domainValues.put("Boolean", values);
 
 		// Silvia: 03/05/2021: allow integer and real domains translation if nuXmv
-		if (AsmetaSMVOptions.isUseNuXmvTime() || AsmetaSMVOptions.isUseNuXmv() ) {
+		if (AsmetaSMVOptions.isUseNuXmvTime() || AsmetaSMVOptions.isUseNuXmv()) {
 			domainSmv.put("Real", "real");
 			domainSmv.put("Integer", "integer");
 		}
@@ -821,9 +846,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		for (DomainInitialization domInit : getDomainInitialization()) {
 			concrDoms.put(domInit.getInitializedDomain(), domInit.getBody());
 		}
-		ConcreteDomain concreteDomain;
+		// domain contrate 
 		for (Entry<ConcreteDomain, Term> concrDomsEntrySet : concrDoms.entrySet()) {
-			concreteDomain = concrDomsEntrySet.getKey();
+			ConcreteDomain concreteDomain = concrDomsEntrySet.getKey();
 			if (!concreteDomain.getTypeDomain().getName().equals("Agent")) {
 				checkTypeDomain(concreteDomain);
 				domName = getDomainName(concreteDomain);
@@ -864,10 +889,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				domainValues.put(domName, values);
 
 				// undef representation
-				undefValueStr = "-2147483647";
-				getUndefValue().put(domName, undefValueStr);
+				putUndefValue(domName, UNDEF_VAL_FOR_NUMBERS);
 				setWithUndef = new TreeSet<String>(set);
-				setWithUndef.add(undefValueStr);
+				setWithUndef.add(UNDEF_VAL_FOR_NUMBERS);
 				domainSmvWithUndef.put(domName, Util.asSet(setWithUndef));
 			}
 		}
@@ -881,8 +905,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				domainSet.put(domName, set);
 				domainSmv.put(domName, Util.asSet(set));
 				// undef representation
-				undefValueStr = domName.toUpperCase() + "_UNDEF";
-				getUndefValue().put(domName, undefValueStr);
+				String undefValueStr = domName.toUpperCase() + "_UNDEF";
+				undefValue.put(domName, undefValueStr);
 				setWithUndef = new TreeSet<String>(set);
 				setWithUndef.add(undefValueStr);
 				domainSmvWithUndef.put(domName, Util.asSet(setWithUndef));
@@ -930,8 +954,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				domainValues.put(domName, values);
 				domainSmv.put(domName, Util.asSet(set));
 				// undef representation
-				undefValueStr = domName.toUpperCase() + "_UNDEF";
-				getUndefValue().put(domName, undefValueStr);
+				String undefValueStr = domName.toUpperCase() + "_UNDEF";
+				undefValue.put(domName, undefValueStr);
 				setWithUndef = new TreeSet<String>(set);
 				setWithUndef.add(undefValueStr);
 				domainSmvWithUndef.put(domName, Util.asSet(setWithUndef));
@@ -967,8 +991,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				domainValues.put(domName, values);
 
 				// undef representation
-				undefValueStr = domName.toUpperCase() + "_UNDEF";
-				getUndefValue().put(domName, undefValueStr);
+				String undefValueStr = domName.toUpperCase() + "_UNDEF";
+				undefValue.put(domName, undefValueStr);
 				setWithUndef = new TreeSet<String>(set);
 				setWithUndef.add(undefValueStr);
 				domainSmvWithUndef.put(domName, Util.asSet(setWithUndef));
@@ -1098,8 +1122,6 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		derived = new TreeSet<String>();
 		locationNameToNusmvVariableName = new HashMap<Location, String>();
 
-		
-		
 		SortedSet<String> locationSet = null;
 		for (Function func : functions) {
 			codomain = func.getCodomain();
@@ -1190,7 +1212,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		// e che hanno l'undef per NuSMV sono inizializzate ad undef.
 		for (String location : contrLocations) {
 			if (!initMap.containsKey(location)) {
-				undef = getUndefValue().get(locationDomain.get(location));
+				undef = getUndefValue(locationDomain.get(location));
 				if (undef != null) {
 					initMap.put(location, undef);
 				}
@@ -1233,22 +1255,29 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		List<Location> locations = getLocations(func, domainValues);
 		Term term = init.getBody();
 		String locStr, termStr;
-		
 		for (Location loc : locations) {
 			env.setVarsValues(vars, loc.getElements());
 			locStr = this.visit(loc);
-			termStr = tp.visit(term);
 			// per l'inizializzazione esplicita ad undef
-			if (termStr == null || termStr.equals("undef")) {
-				String undef = getUndefValue().get(locationDomain.get(locStr));
+			if (term instanceof UndefTerm) {
+				Domain domain = init.getInitializedFunction().getCodomain();
+				String undef = getUndefValue(domain.getName());
 				if (undef != null) {
 					termStr = undef;
+				} //else ???
+				else {
+					throw new RuntimeException("undef of " + locStr + " not found (domain:" + domain + ")");
+				}
+			} else {
+				termStr = tp.visit(term);
+				// sometimes it can happen : like a conditional or something
+				if (termStr == TermVisitor.UNDEF_VALUE) {
+					termStr = getUndefValue(locationDomain.get(locStr));
 				}
 			}
 			if (termStr != null) {
 				// env.usedLocation.add(locStr);
 				initMap.put(locStr, termStr);
-		
 				// AsmetaMA: segnala che la locazione locStr viene inizializzata
 				if (AsmetaSMVOptions.doAsmetaMA) {
 					controlledLocationInitialized.add(locStr);
@@ -1271,7 +1300,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			locations.add(new Location(func, new Value[0]));
 		} else {
 			AsValueListVisitor avlv = new AsValueListVisitor(domainValues);
-			for (Value[] v : (List<Value[]>) avlv.visit(domain)) {
+			List<Value[]> visit = (List<Value[]>) avlv.visit(domain);
+			assert visit != null : " unable to visit domain " + domain.getName() + " of class " + domain.getClass();
+			for (Value[] v : visit) {
 				locations.add(new Location(func, v));
 			}
 		}
@@ -1359,6 +1390,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			}
 		}
 	}
+
 	/**
 	 * Cerca nell'output dell'esecuzione del modello NuSMV i risultati della
 	 * verifica delle singole proprieta'. I risultati vengono memorizzati in
@@ -1475,14 +1507,25 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		}
 		order.close();
 	}
-
-	public Map<String, String> getUndefValue() {
-		return undefValue;
+	
+	public void putUndefValue(String dom, String undefVa) {
+		String prev = undefValue.put(dom, undefVa);
+		// cannot change
+		assert prev == null || prev.equals(undefVa);
 	}
 
-	public void setUndefValue(Map<String, String> undefValue) {
-		this.undefValue = undefValue;
+	public String getUndefValue(String dom) {
+		return  undefValue.get(dom);
 	}
+
+	// returns all the domains that have defined an undef for its value
+	public Set<String> getDomainswithUndef() {
+		return undefValue.keySet();
+	}
+	
+//	public void setUndefValue(Map<String, String> undefValue) {
+//		this.undefValue = undefValue;
+//	}
 
 	public Map<String, Boolean> getMapPropResult() {
 		return mapPropResult;

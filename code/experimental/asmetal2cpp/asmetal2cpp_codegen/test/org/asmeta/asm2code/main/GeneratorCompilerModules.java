@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 
-public class GeneratorCompilerModules extends GeneratorCompilerTest2{
+public class GeneratorCompilerModules extends GeneratorCompilerTest{
 
 	@Test
 	public void testIncluding() throws IOException, Exception {

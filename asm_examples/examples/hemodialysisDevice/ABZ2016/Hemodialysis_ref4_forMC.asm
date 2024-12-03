@@ -1,8 +1,8 @@
 asm Hemodialysis_ref4_forMC
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
-import ../../../STDL/LTLlibrary
+import ../../../STDL/CTLLibrary
+import ../../../STDL/LTLLibrary
 
 signature:
 	// DOMAINS
@@ -1641,7 +1641,7 @@ definitions:
 	CTLSPEC ctlSpec_R13: ag ((phaseTherapy = INITIATION and modeEnding = REINFUSION and error_rein_press = false and error_bp = false and bp_status_der = START  and error(REIN_AP_LOW) = false and current_ap = 0 and passed1Sec = true) implies ax (error(REIN_AP_LOW) = true and alarm(REIN_AP_LOW) = true))
 	
 	//R-14
-	//uguale a R-2 perchè patient connection avviene durante phase therapy initiation
+	//uguale a R-2 perchï¿½ patient connection avviene durante phase therapy initiation
 	
 	//R-15
 	CTLSPEC ctlSpec_R15: ag ((phaseTherapy = INITIATION and modeInitiation = CONNECT_PATIENT and bp_status_der = START and err_patient_conn = false and error_bp = false and error(FILL_BLOOD_VOL) = false and fill_blood_vol_passed_up_limit = true) implies ax(error(FILL_BLOOD_VOL) = true and alarm(FILL_BLOOD_VOL) = true))
@@ -1650,7 +1650,7 @@ definitions:
 	//non considerata nel modello
 	
 	//R-17
-	//uguale a R-4 perchè patient connection avviene durante phase therapy initiation
+	//uguale a R-4 perchï¿½ patient connection avviene durante phase therapy initiation
 	
 	//R-18 / R-19
 	CTLSPEC ctlSpec_R18_R19: ag ((phaseTherapy = INITIATION and modeInitiation = THERAPY_RUNNING and therapyPhase = THERAPY_EXEC and error_therapy = false and bicarbonate_status_der = true and error(DF_PREP) = false and detect_bicarbonate = false) implies ax(error(DF_PREP) = true and alarm(DF_PREP) = true))

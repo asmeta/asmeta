@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import org.apache.log4j.Appender;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
+import org.asmeta.eclipse.AsmeeConsole;
 import org.asmeta.eclipse.AsmeeConsoleParticipant;
 import org.asmeta.eclipse.editor.actions.ParseJob;
 import org.asmeta.simulator.Environment;
@@ -46,20 +47,12 @@ public abstract class RunJob extends Job {
 	@Override
 	public final IStatus run(IProgressMonitor monitor) {
 		// GET THE CONSOLE
-		IOConsole mc = org.asmeta.eclipse.AsmetaUtility.findDefaultConsole();
-		mc.activate();
-		
-		//PA: 2016/05/12
-		if(AsmeeConsoleParticipant.runJob != null) {
-			/*Thread thread = AsmeeConsoleParticipant.runJob.getThread();
-			if(thread != null) {
-				thread.stop();
-			}*/
-			AsmeeConsoleParticipant.runJob.cancel();
-		}
+		AsmeeConsole mc = org.asmeta.eclipse.AsmetaUtility.findDefaultConsole();
+		mc.activate();		
 
 		// set the progress runJob
-		AsmeeConsoleParticipant.runJob = this;
+		AsmeeConsoleParticipant.setJobRunning(this);
+		// get the output
 		OutputStream out = mc.newOutputStream();
 		PrintStream printOut = new PrintStream(out);
 

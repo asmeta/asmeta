@@ -1,7 +1,7 @@
 asm MySmartHomeAQ_HC_refined_forMC
 
 import StandardLibrary
-import LTLlibrary
+import LTLLibrary
 
 signature:
 	//Hierarchical_AQ_HC_MAPE

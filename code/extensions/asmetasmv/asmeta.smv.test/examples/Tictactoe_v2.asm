@@ -1,7 +1,7 @@
 asm Tictactoe_v2
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 //versione con il dominio Coord.
 //La board e' un Prod(Coord, Coord)

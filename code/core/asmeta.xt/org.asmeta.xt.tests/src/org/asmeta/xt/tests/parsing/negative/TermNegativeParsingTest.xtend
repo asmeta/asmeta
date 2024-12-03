@@ -11,12 +11,13 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.asmeta.xt.validation.ErrorCode
+import org.asmeta.xt.tests.AsmParseHelper
 
 @RunWith(XtextRunner)
 @InjectWith(AsmetaLInjectorProvider)
 class TermNegativeParsingTest {
 	
-	@Inject	ParseHelper<Asm> parseHelper
+	@Inject	AsmParseHelper parseHelper
 	@Inject extension ValidationTestHelper
 
 	@Test

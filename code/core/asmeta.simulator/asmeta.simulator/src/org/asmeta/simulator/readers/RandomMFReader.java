@@ -46,7 +46,9 @@ import asmeta.definitions.domains.StringDomain;
  * simulates a random user
  */
 public class RandomMFReader extends MonFuncReader {
-	static private Random random = new Random();
+	
+	
+	protected static final Random random = new Random();
 
 	public RandomMFReader() {
 		this(System.out);

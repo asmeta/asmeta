@@ -30,13 +30,14 @@ import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.SetCt;
 import asmeta.terms.furtherterms.StringTerm;
-import com.google.common.base.Objects;
 import java.util.Arrays;
+import java.util.Objects;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 @SuppressWarnings("all")
 public class TermToCpp extends ReflectiveVisitor<String> {
@@ -508,19 +509,19 @@ public class TermToCpp extends ReflectiveVisitor<String> {
         return new ExpressionToCpp(this.res).evaluateFunction(name, term.getArguments().getTerms());
       } else {
         String _name = term.getFunction().getName();
-        boolean _equals = Objects.equal(_name, "iton");
+        boolean _equals = Objects.equals(_name, "iton");
         if (_equals) {
           functionTerm.append("(unsigned int)");
           functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
         } else {
           String _name_1 = term.getFunction().getName();
-          boolean _equals_1 = Objects.equal(_name_1, "length");
+          boolean _equals_1 = Objects.equals(_name_1, "length");
           if (_equals_1) {
             functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
             functionTerm.append(".size()");
           } else {
             String _name_2 = term.getFunction().getName();
-            boolean _equals_2 = Objects.equal(_name_2, "at");
+            boolean _equals_2 = Objects.equals(_name_2, "at");
             if (_equals_2) {
               functionTerm.append(this.visit(term.getArguments().getTerms().get(0)));
               String _visit = this.visit(term.getArguments().getTerms().get(1));
@@ -529,13 +530,13 @@ public class TermToCpp extends ReflectiveVisitor<String> {
               functionTerm.append(_plus_1);
             } else {
               String _name_3 = term.getFunction().getName();
-              boolean _equals_3 = Objects.equal(_name_3, "rtoi");
+              boolean _equals_3 = Objects.equals(_name_3, "rtoi");
               if (_equals_3) {
                 functionTerm.append("(int)");
                 functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
               } else {
                 String _name_4 = term.getFunction().getName();
-                boolean _equals_4 = Objects.equal(_name_4, "itor");
+                boolean _equals_4 = Objects.equals(_name_4, "itor");
                 if (_equals_4) {
                   functionTerm.append("(double)");
                   functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
@@ -745,6 +746,7 @@ public class TermToCpp extends ReflectiveVisitor<String> {
     return rt.getSymbol();
   }
 
+  @XbaseGenerated
   public String caseFunctionTermSupp(final Function fd, final FunctionTerm ft) {
     if (fd instanceof ControlledFunction) {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);

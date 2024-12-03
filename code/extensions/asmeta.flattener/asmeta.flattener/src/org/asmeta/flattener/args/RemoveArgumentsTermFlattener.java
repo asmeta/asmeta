@@ -371,7 +371,7 @@ public class RemoveArgumentsTermFlattener extends ReflectiveVisitor<Term> {
 		} else if (s.equals("eg") || s.equals("ex") || s.equals("ef") || s.equals("ag") || s.equals("ax")
 				|| s.equals("af")) {
 			return s.toUpperCase();
-		} else if (s.equals("e") || s.equals("a")) {
+		} else if (s.equals("eu") || s.equals("au")) {
 			return "U";
 		} else if (s.equals("x") || s.equals("g") || s.equals("f") || s.equals("u") || s.equals("v") || s.equals("y")
 				|| s.equals("z") || s.equals("h") || s.equals("o") || s.equals("s") || s.equals("t")) {

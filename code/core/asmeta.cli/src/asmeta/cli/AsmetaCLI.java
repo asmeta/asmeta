@@ -32,7 +32,7 @@ public abstract class AsmetaCLI {
 	protected boolean exit = false;
 
 	@Argument
-	private List<String> arguments = new ArrayList<String>();
+	private List<String> arguments = new ArrayList<>();
 
 	/**
 	 * executes the application with the arguments args MUST be the last action of
@@ -52,25 +52,7 @@ public abstract class AsmetaCLI {
 			if (asmPath.startsWith("/") || asmPath.startsWith("\\")) {
 				// TODO
 			}
-			if (logConfFile != null) {
-				LogManager.resetConfiguration();
-				PropertyConfigurator.configure(logConfFile);
-			} else if (System.getProperty("log4j.configuration") == null) {
-				BasicConfigurator.configure();
-				Logger log = Logger.getRootLogger();
-				if (debug) {
-					log.setLevel(Level.DEBUG);
-				} else {
-					log.setLevel(Level.INFO);
-				}
-				// get the default console appender
-				Appender app = (Appender) log.getAllAppenders().nextElement();
-				// set the layout if necessary
-				Layout log4jlayout = app.getLayout();
-				if (log4jlayout instanceof PatternLayout) {
-					((PatternLayout) log4jlayout).setConversionPattern("%m%n");
-				}
-			}
+			setUpLogger();
 			File f = new File(asmPath);
 			if (f.exists() && (f.isFile() || (f.isDirectory()))) {
 				runresult = runWith(f);
@@ -104,6 +86,28 @@ public abstract class AsmetaCLI {
 				System.exit(2);
 			}
 
+		}
+	}
+	// setup the logger for this CLI
+	protected void setUpLogger() {
+		if (logConfFile != null) {
+			LogManager.resetConfiguration();
+			PropertyConfigurator.configure(logConfFile);
+		} else if (System.getProperty("log4j.configuration") == null) {			
+			BasicConfigurator.configure();
+			Logger log = Logger.getRootLogger();
+			if (debug) {
+				log.setLevel(Level.DEBUG);
+			} else {
+				log.setLevel(Level.INFO);
+			}
+			// get the default console appender
+			Appender app = (Appender) log.getAllAppenders().nextElement();
+			// set the layout if necessary
+			Layout log4jlayout = app.getLayout();
+			if (log4jlayout instanceof PatternLayout) {
+				((PatternLayout) log4jlayout).setConversionPattern("%m%n");
+			}
 		}
 	}
 

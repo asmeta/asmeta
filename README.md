@@ -1,6 +1,8 @@
 # asmeta
 asmeta main repository with code and examples
 
+For more info about asmeta see: https://asmeta.github.io/
+
 ## Gitlab CI
 <p align="center">
 	<a href="https://gitlab.com/garganti/asmeta/-/pipelines/gitlab_ci/latest" alt="Pipeline Status">
@@ -33,7 +35,6 @@ asmeta main repository with code and examples
 <a href="https://gitlab.com/garganti/asmeta/-/jobs/artifacts/gitlab_ci/file/reports/coverage/report.aggregate/index.html?job=test-jdk8" alt="Latest Coverage"> Latest Coverage Result </a>
 
 ## Requirements
-
 To use the asmeta framework in Eclipse IDE you need to install:
 
 * XText SDK >= 2.20
@@ -41,15 +42,24 @@ To use the asmeta framework in Eclipse IDE you need to install:
 * Eclipse Plug-in Development Environment
 * JavaCC Eclipse Plug-in (optional)
 
-https://asmeta.github.io/
+### eclispe with asmeta ready to use:
 
-### eclispe with asmeta:
+new version 24.06! new TL operators names and minor fixes - multiple architecture (win, lin, macos):
 
-new version! - some improvements regarding the parsing and some minor bugs are fixed:
+#### for windows 64 bit:
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_win64.zip
+#### for macOs aarch 64 bit:
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_macOs_aarch64.zip
+#### for linux 64 bit:
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_linux_x86_64.zip
+
+### old versions (only for windows)
+
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_04.zip
+
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2023_12.zip
 
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2023_06.zip
-
-#### old versions
 
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2023_05.zip
 

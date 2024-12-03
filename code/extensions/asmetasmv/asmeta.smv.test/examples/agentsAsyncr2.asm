@@ -2,7 +2,7 @@
 asm agentsAsyncr2
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	domain SubAgent1 subsetof Agent

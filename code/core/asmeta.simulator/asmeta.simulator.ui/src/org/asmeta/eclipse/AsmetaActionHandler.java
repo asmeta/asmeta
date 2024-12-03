@@ -30,7 +30,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 /**
  * abstract class for action handlers for asmeta actions
  */
-abstract public class AsmetaActionHandler extends AbstractHandler {	
+public abstract class AsmetaActionHandler extends AbstractHandler {	
 	
 	protected AsmetaConsole console;
 	private Class<? extends AsmetaConsole> consoleClass;
@@ -51,7 +51,7 @@ abstract public class AsmetaActionHandler extends AbstractHandler {
 	
 
 	@Override
-	final public Object execute(ExecutionEvent event) throws ExecutionException {
+	public final Object execute(ExecutionEvent event) throws ExecutionException {
 		// get and open the console
 		console = AsmetaUtility.findConsole(consoleClass);
 		setOutput(console);

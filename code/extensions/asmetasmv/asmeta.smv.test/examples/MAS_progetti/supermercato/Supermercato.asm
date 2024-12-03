@@ -125,7 +125,7 @@ function variabile_pezzo($pezzo in ProdottoScelto) = NONE
 			endif
 			
 		if ((n_Numero = UNO) and (s_Scelta = PASTAA_SCELTA) and (pezzo = PASTAA)) then
-				outMess:= "Il prodotto scelto non � selezionabile, cambiare prodotto effettuando un nuovo acquisto" 
+				outMess:= "Il prodotto scelto non è selezionabile, cambiare prodotto effettuando un nuovo acquisto" 
 			else if ((n_Numero = UNO) and (s_Scelta != PASTAA_SCELTA) and (pezzo = PASTAA)) then
 				par
 					outMess:= "Prodotto aggiunto //con prodotto diverso da scontato scelta con contr=UNO" 

@@ -19,7 +19,7 @@ Stop, and the other shows Go. Then the cycle is repeated.
 //ground model
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
     enum domain LightUnit = {LIGHTUNIT1 | LIGHTUNIT2}

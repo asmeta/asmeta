@@ -27,7 +27,7 @@ asm petriNet_forNuSMV
 //  by the maximum capacity of the places
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	abstract domain Place

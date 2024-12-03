@@ -1,7 +1,7 @@
 asm taxiInconsistentUpate
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	enum domain Client = {CL1|CL2|CL3|GR2|GR3}

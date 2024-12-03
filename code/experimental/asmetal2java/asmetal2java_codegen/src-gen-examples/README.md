@@ -1,0 +1,1 @@
+in this dir, the tests put all the java code generated from the examples

@@ -1,6 +1,6 @@
 asm taxi_sing
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	domain Coord subsetof Integer

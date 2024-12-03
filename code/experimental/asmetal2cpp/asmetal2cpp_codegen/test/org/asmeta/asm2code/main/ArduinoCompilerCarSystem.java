@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-public class ArduinoCompilerCarSystem extends GeneratorCompilerTest2 {
+public class ArduinoCompilerCarSystem extends GeneratorCompilerTest {
 	
 	TranslatorOptions arduinoOptions = new TranslatorOptions(true,true,true,true);
 

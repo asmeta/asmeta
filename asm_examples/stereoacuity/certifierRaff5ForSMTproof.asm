@@ -8,7 +8,7 @@
 asm certifierRaff5ForSMTproof
 
 import ../STDL/StandardLibrary
-import ../STDL/CTLlibrary
+import ../STDL/CTLLibrary
 
 
 signature:

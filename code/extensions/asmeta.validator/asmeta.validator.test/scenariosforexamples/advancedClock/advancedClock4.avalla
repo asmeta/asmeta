@@ -3,21 +3,23 @@ scenario advancedClock4
 
 load ../../../../../../asm_examples/examples/simple_example/AdvancedClock.asm
 
-//controllo che siano le 02:02:00
+//controllo che siano le 00:00:00
 check hours = 0;
 check minutes = 0;
 check seconds = 0; 
 
-step until seconds = 1;
+step until seconds = 10;
+
+//controllo che siano le 00:00:10
 
 check hours = 0;
 check minutes = 0;
-check seconds = 3; 
+check seconds = 10; 
 
 step
 
 check hours = 0;
 check minutes = 0;
-check seconds = 4; 
+check seconds = 11; 
 
 step

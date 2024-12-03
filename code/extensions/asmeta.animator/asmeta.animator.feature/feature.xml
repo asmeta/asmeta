@@ -2,8 +2,8 @@
 <feature
       id="org.asmeta.animator.feature"
       label="Asmeta Animator"
-      version="23.07"
-      provider-name="fmse.di.unimi.it">
+      version="24.06"
+      provider-name="https://foselab.unibg.it/">
 
    <description url="https://asmeta.github.io/download/asmetaA.html">
       AsmetaA (Asmeta Animator) can be used to simulate in graphical way AsmetaL models.
@@ -40,16 +40,10 @@ See https://asmeta.github.io
 
    <plugin
          id="asmeta.animator"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="asmeta.animator.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>

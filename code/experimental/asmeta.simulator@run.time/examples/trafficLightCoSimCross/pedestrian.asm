@@ -9,10 +9,10 @@ signature:
 	
 	//FUNCTIONS
 	monitored crossManagerController: CorssManagerStatus
-	monitored pedestrianComing: Boolean
+	monitored newPedestrianComing: Boolean
 	
 	
-	out pedestrianCall: Boolean
+	out pedestrianComing: Boolean
 	out pedestrianLight: Lights	
 	
 	//TIMER
@@ -26,13 +26,13 @@ main rule r_Main =
 	else
 		par
 			pedestrianLight := RED
-			pedestrianCall := pedestrianComing
+			pedestrianComing := newPedestrianComing
 		endpar
 	endif 
 
 // INITIAL STATE
 default init s0:	
  function pedestrianLight = RED	
- function pedestrianCall = false
+ function pedestrianComing = false
  function crossManagerController = NORMAL
 

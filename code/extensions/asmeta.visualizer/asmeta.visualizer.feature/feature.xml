@@ -2,8 +2,8 @@
 <feature
       id="org.asmeta.visualizer.feature"
       label="Asmeta visualizer"
-      version="23.07"
-      provider-name="fmse.di.unimi.it">
+      version="24.06"
+      provider-name="https://foselab.unibg.it/">
 
    <description url="fmse.di.unimi.it/asmetavisualizer/description">
       See https://asmeta.github.io
@@ -35,16 +35,10 @@ See https://asmeta.github.io
 
    <plugin
          id="asmeta.visualizer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="asmeta.visualizer.plugin"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>

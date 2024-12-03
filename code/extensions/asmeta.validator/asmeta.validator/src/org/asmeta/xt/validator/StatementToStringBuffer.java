@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package org.asmeta.xt.validator;
 
@@ -38,7 +38,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	private static final String SCENARIO_EXT = ".avalla";
 
-	private static final String STEP_VAR = "step__";
+	static final String STEP_VAR = "step__";
 
 	/** The count. */
 	int count = 1;
@@ -46,7 +46,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	/**
 	 * The statements. every statement is the sequence of rules for every step
 	 */
-	List<String> statements = new ArrayList<String>();
+	List<String> statements = new ArrayList<>();
 
 	/** The buffer contains all the rules in the. */
 	StringBuffer buff = new StringBuffer();
@@ -64,7 +64,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	/**
 	 * The Constructor.
-	 * 
+	 *
 	 * @param scenario
 	 *            the scenario
 	 * @param oMN
@@ -89,22 +89,22 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	 */
 	void parseCommands() {
 		// init PA: 2017/12/29
-		ArrayList<Command> commandsNewOrder = new ArrayList<Command>();
+		ArrayList<Command> commandsNewOrder = new ArrayList<>();
 		// build the list of command by expanding blocks
 		addCommands(commandsNewOrder, scenario.getElements());
-		// no command is now a block or exec block or 
+		// no command is now a block or exec block or
 		assert ! commandsNewOrder.stream().anyMatch(t -> t instanceof ExecBlock);
 		assert ! commandsNewOrder.stream().anyMatch(t -> t instanceof Block);
 		// split monitored from the others
-		ArrayList<Set> monitored = new ArrayList<Set>();
+		ArrayList<Set> monitored = new ArrayList<>();
 		// list of monitored set
-		allMonitored = new ArrayList<ArrayList<Set>>();
+		allMonitored = new ArrayList<>();
 		for (Command command : commandsNewOrder) {
 			if (command instanceof Set) {
 				monitored.add((Set) command);
 			} else if (command instanceof Step || command instanceof StepUntil) {
 				allMonitored.add(monitored);
-				monitored = new ArrayList<Set>();
+				monitored = new ArrayList<>();
 			}
 		}
 		// potresti avere le monitorate dopo lo step
@@ -157,13 +157,13 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 			} else {
 				assert ele instanceof Command;
 				commandsNewOrder.add((Command) ele);
-			} 
+			}
 		}
 	}
 
 	/**
 	 * Append.
-	 * 
+	 *
 	 * @param untilCmd
 	 *            the until cmd
 	 */
@@ -189,7 +189,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	/**
 	 * Append.
-	 * 
+	 *
 	 * @param checkCmd
 	 *            the check cmd
 	 */
@@ -207,6 +207,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		append("seq");
 		indent();
 		append("result := print(\"CHECK FAILED: " + cond.replace("\"", "\\\"") + " at step " + (count - 1) + "\")");
+		// -2 so plus 1 is still < 0
 		append("step__ := -2");
 		unIndent();
 		append("endseq");
@@ -217,10 +218,10 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	/**
 	 * Zip whites.
-	 * 
+	 *
 	 * @param s
 	 *            the s
-	 * 
+	 *
 	 * @return the string
 	 */
 	String zipWhites(String s) {
@@ -243,7 +244,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	/**
 	 * Append.
-	 * 
+	 *
 	 * @param stepCmd
 	 *            the step cmd
 	 */
@@ -267,7 +268,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	/**
 	 * Append.
-	 * 
+	 *
 	 * @param setCmd
 	 *            the set cmd
 	 */
@@ -284,7 +285,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	/**
 	 * Append.
-	 * 
+	 *
 	 * @param execCmd
 	 *            the exec cmd
 	 */
@@ -315,7 +316,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	/**
 	 * Append.
-	 * 
+	 *
 	 * @param s
 	 *            the s
 	 */

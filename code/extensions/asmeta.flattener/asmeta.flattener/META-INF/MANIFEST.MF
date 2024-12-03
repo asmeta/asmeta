@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Flattener
 Bundle-SymbolicName: asmeta.flattener
-Bundle-Version: 23.07
+Bundle-Version: 24.06
 Bundle-ClassPath: args4j.jar,
  .
 Require-Bundle: asmeta.emf,
@@ -21,4 +21,4 @@ Import-Package: org.asmeta.parser,
  org.eclipse.osgi.service.datalocation
 Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.flattener
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17

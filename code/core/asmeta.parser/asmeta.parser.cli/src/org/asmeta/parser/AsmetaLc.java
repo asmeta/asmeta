@@ -2,6 +2,7 @@ package org.asmeta.parser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 
 import org.asmeta.parser.util.AsmXMIVisitor;
 import org.eclipse.emf.common.util.URI;
@@ -21,7 +22,8 @@ public class AsmetaLc extends AsmetaCLI {
 	@Option(name = "-xmi", usage = "save as xmi")
 	public boolean saveXMI;
 
-	@Option(name = "-asmetaL", usage = "save as asmetaL")
+	//@Option(name = "-asmetaL", usage = "save as asmetaL")
+	// NOT CLEAR IF IT IS USEFUL OR NOT
 	public boolean saveAsmetaL;
 
 	/**
@@ -104,7 +106,7 @@ public class AsmetaLc extends AsmetaCLI {
 				// Demand load the resource for this file.
 				Resource resource = resourceSet.getResource(fileURI, true);
 				// Print the contents of the resource to System.out.
-				// resource.save(System.out, Collections.EMPTY_MAP);
+				resource.save(System.out, Collections.EMPTY_MAP);
 				return RunCLIResult.SUCCESS;
 			}	catch (IOException e) {
 				// TODO Auto-generated catch block

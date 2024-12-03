@@ -15,7 +15,9 @@ Asm :
 
 Header : importClause+=( ImportClause )* exportClause=( ExportClause )? signature=Signature;
 
-ImportClause : 'import' moduleName=(MOD_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
+// import "pippo.asm" -> STRING with double guotes
+// import filepth -> MOD_ID 
+ImportClause : 'import' moduleName = (MODULE_ID | STRING) ( "("  importedList+=importData ( ',' importedList+=importData )* ")" )?;
 importData : name=extendedName;
 
 ExportClause : 'export' ( ( exportedList+=extendedName ( "," exportedList+=extendedName )* ) | exportAll?="*" );
@@ -78,9 +80,9 @@ Invariant :	'invariant' name=(ID)? 'over' invar_list+=InvariantElement ( "," inv
 InvariantElement :  constrainedName=ID ( "(" ( domainList+=getDomainByID )? ")" )?;
 
 
-CtlSpec : ('CTL' | 'CTLSPEC') (name=ID ':')? body=Term;
+CtlSpec : ('CTLSPEC' | 'ctlspec') (name=ID ':')? body=Term;
 
-LtlSpec : ('LTL' | 'LTLSPEC' ) (name=ID ':')? body=Term;
+LtlSpec : ('LTLSPEC' | 'ltlspec') (name=ID ':')? body=Term;
 
 FairnessConstraint : JusticeConstraint | CompassionConstraint;
 JusticeConstraint 		: 'JUSTICE' 		body=Term;
@@ -161,7 +163,7 @@ Term  				: Expression | DomainTerm | ExtendedTerm  ;
 DomainTerm returns DomainTerm: getDomainByID;
 
 /*
- * Ordine delle espressioni (dalla meno prioritaria alla più prioritaria
+ * Ordine delle espressioni (dalla meno prioritaria alla piï¿½ prioritaria
  * /////////////// BINARI
  * ~ = (assegnazione)		OK
  * ~ or, xor				OK
@@ -300,7 +302,7 @@ LetTerm 			: 'let' "(" variable+=VariableTerm "=" assignmentTerm+=Term ( "," var
 
 ComprehensionTerm :  SetCT | MapCT | SequenceCT | BagCT;	
 
-// TODO vedere se MapCT va bene anche così
+// TODO vedere se MapCT va bene anche cosï¿½
 SetCT			:	"{" variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( "|" guard=Term )? ":" term=Term "}";
 MapCT			:	"{" variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( "|" guard=Term )? ":" term=Term "}";
 SequenceCT		:	"[" variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( "|" guard=Term )? ":" term=Term "]";
@@ -383,9 +385,12 @@ terminal REAL_NUMBER	: NUMBER_TOKEN "." NUMBER_TOKEN;
 // STRINGHE
 terminal MAIUSC_ID		: ('A'..'Z');
 terminal MIN_ID			: ('a'..'z');
-terminal ACCENT_CHR		: ('à'|'è'|'é'|'ò'|'ì'|'ù'|'Ã');
+// do we really want to allow accented chars???
+terminal ACCENT_CHR		: ('Ã '|'Ã¨'|'Ã©'|'Ã²'|'Ã¬'|'Ã¹'|'Ãƒ');
 terminal ENUM_ID		: '^'?( MAIUSC_ID ) (MAIUSC_ID) ( MAIUSC_ID | DIGIT | '_' )*;
-terminal SPECIAL_CHAR	: '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '¨' | '@' | '>' | '<' | '|' | '\\' | '/';
+//terminal PATH_SEP		:  '\\' | '/' | '\\\\'; Single or double \\?
+//terminal PATH_SEP		: '\\' | '/';
+terminal SPECIAL_CHAR	: '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | 'Â¨' | '@' | '>' | '<' | '|' | '\\' | '/';
 terminal RULE_ID		: 'r_' ( MAIUSC_ID | MIN_ID | DIGIT | '_' )*;
 terminal ID				: '^'?( MAIUSC_ID | MIN_ID | '_' ) ( MAIUSC_ID | MIN_ID | DIGIT | '_' )*;
 terminal CHAR_LITERAL	: "'" (MAIUSC_ID | MIN_ID | DIGIT | SPECIAL_CHAR | ACCENT_CHR)? "'"; 
@@ -393,7 +398,35 @@ terminal STRING_LITERAL	: '"' ( MAIUSC_ID | MIN_ID | DIGIT | WS | "'" | SPECIAL_
 terminal STRING			: '"' (!('"'))* '"';
 
 // IDENTIFICATIVI
-MOD_ID 		returns ecore::EString	: (((ENUM_ID | ID) | ('../')* | ('./')*))? ((ENUM_ID | ID) '/')* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
+// module identifier when importing it
+// see javacc file
+MODULE_ID 		returns ecore::EString:   
+// modelliamo esplicitamente
+//  (( MIN_ID | MAIUSC_ID ) ':')? (MAIUSC_ID|MIN_ID|DIGIT|'./'|'../'|'.\\' | '..\\')+;
+//  	(MAIUSC_ID|MIN_ID|DIGIT|'./'|'../'|'.\\' | '..\\' | ':')+;
+ 	(((ENUM_ID | ID) | ('../')* | ('./')*))? ((ENUM_ID | ID) '/')* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
+	
+// version originale pre marzo 24	
+//(((ENUM_ID | ID) | ('..' PATH_SEP)* | ('.'PATH_SEP)* ))? ((ENUM_ID | ID) PATH_SEP)* (ENUM_ID | ID) ('.' (ENUM_ID | ID | 'asm'))?;
+
+
+// questa non va bene, dovrebbe essere piÃ¹ larga ma non va	
+//(( MIN_ID | MAIUSC_ID ) ':')? ( PATH_SEP | MIN_ID| MAIUSC_ID | DIGIT | '.'| '_'| '-' )+;
+
+	
+/* this is stricter but sometimes it is too much strict  	
+  (
+	(MAIUSC_ID ':' PATH_SEP ) |  // beginning of the drive letter  -> D:/ 
+	('..' PATH_SEP)* | // relative path -> ../ 
+	('.' PATH_SEP)* | // relative path -> ./
+	PATH_SEP  // abs path with linux
+	)?   
+	((ENUM_ID | ID) PATH_SEP)* // -> sequence of strings and path sep 
+	(ENUM_ID | ID) // -> name of the spec
+	('.' (ENUM_ID | ID | 'asm'))?; // -> extension
+	
+	*/
+	
 ID_VARIABLE returns ecore::EString	: '$' (ID | 'rule' | 'agent' | 'seq' );
 
 // COMPLEX NUMBER

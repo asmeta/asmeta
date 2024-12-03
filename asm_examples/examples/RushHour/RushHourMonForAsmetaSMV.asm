@@ -7,8 +7,8 @@ asm RushHourMonForAsmetaSMV
 //is done (in the main rule) with two monitored functions
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
-import ../../STDL/LTLlibrary
+import ../../STDL/CTLLibrary
+import ../../STDL/LTLLibrary
 
 signature:
 	enum domain Dir = {NORTH | SOUTH | EAST | WEST}

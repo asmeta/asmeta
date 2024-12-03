@@ -26,11 +26,13 @@ import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 /**
- * AsmPrinter that takes avalla script and produces an Asmeta Spec
- * 
+ * AsmPrinter that takes avalla script and produces an Asmeta Spec representing the semantics of the script
+ *
  * @author garganti
  */
 public class AsmetaFromAvallaBuilder {
+
+	public static final String TEMP_ASMETA_V = "__tempAsmetaV";
 
 	private static final Logger logger = Logger.getLogger(AsmetaFromAvallaBuilder.class);
 
@@ -59,11 +61,11 @@ public class AsmetaFromAvallaBuilder {
 	List<ArrayList<Set>> allMonitored;// PA: 2017/12/29
 
 	private AsmetaPrinterForAvalla asmetaPrinterforAvalla;
-	
+
 	// for the scenario itself (the AsmPrinter has another model)
 	Asm asm;
 
-	
+
 	/**
 	 * Instantiates a new asmeta from avalla  in a temporary file
 	 *
@@ -74,19 +76,20 @@ public class AsmetaFromAvallaBuilder {
 		this(scenarioPath, Files.createTempDirectory("asms_foravalla").toFile());
 	}
 
-	
+
 	/**
 	 * Instantiates a new builder.
-	 * 
+	 *
 	 * @param scenarioPath the scenario path
 	 * @param tempAsmPath  the complete name (including the path and the asm file)
 	 *                     where to save the temporary asm
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
 	public AsmetaFromAvallaBuilder(String scenarioPath, File tempAsmPathDir) throws Exception {
 		//
-		assert Paths.get(scenarioPath).toFile().exists();
+		File fileScenario = Paths.get(scenarioPath).toFile();
+		assert fileScenario.exists(): fileScenario.getCanonicalPath()+ " does not exits";
 		assert tempAsmPathDir.exists() && tempAsmPathDir.isDirectory();
 		//
 		scenarioDirectoryPath = new File(scenarioPath).getAbsoluteFile().getParent();
@@ -99,6 +102,7 @@ public class AsmetaFromAvallaBuilder {
 		scenario = (Scenario) resource.getContents().get(0);
 		// get the specification loaded by the script
 		modelPath = ScenarioUtility.getAsmPath(scenario);
+		if (!Files.exists(modelPath)) throw new RuntimeException("the loaded asmeta file " + modelPath + " does not exists");
 		assert Files.exists(modelPath);
 		logger.debug("build the asm from scenario " + modelPath);
 		File modelFile = modelPath.toFile();
@@ -110,7 +114,9 @@ public class AsmetaFromAvallaBuilder {
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
 		oldMainName = mainrule.getName();
 		// create a temp file in the directory
-		File tempAsmPath = File.createTempFile("__tempAsmetaV", ASMParser.ASM_EXTENSION, tempAsmPathDir);
+		//File tempAsmPath = File.createTempFile(TEMP_ASMETA_V, ASMParser.ASM_EXTENSION, tempAsmPathDir);
+		// use also the name of the original ASM instead
+		File tempAsmPath = File.createTempFile(asm.getName() + TEMP_ASMETA_V, ASMParser.ASM_EXTENSION, tempAsmPathDir);
 		logger.debug("to file " + tempAsmPath.getAbsolutePath());
 		//
 		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath,modelPath, this);
@@ -132,7 +138,7 @@ public class AsmetaFromAvallaBuilder {
 
 	/**
 	 * Builds the new main.
-	 * 
+	 *
 	 * @param statements
 	 */
 	StringBuilder buildNewMain(List<String> statements) {
@@ -144,6 +150,8 @@ public class AsmetaFromAvallaBuilder {
 			buff.append("\t\t\tcase " + i + ":\n");
 			buff.append("\t\t\t\t" + stm);
 		}
+		// TODO 
+		// buff.append("\t\t\t\t STEP := " + Integer.MAX_VALUE);
 		buff.append("\t\tendswitch");
 		return buff;
 	}

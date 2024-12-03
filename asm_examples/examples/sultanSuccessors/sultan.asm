@@ -1,7 +1,7 @@
 asm sultan
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
+import ../../STDL/CTLLibrary
 
 signature:
 	domain Righe subsetof Integer

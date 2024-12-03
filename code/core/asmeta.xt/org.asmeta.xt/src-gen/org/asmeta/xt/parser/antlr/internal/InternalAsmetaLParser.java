@@ -1071,7 +1071,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleImportClause"
-    // InternalAsmetaL.g:375:1: ruleImportClause returns [EObject current=null] : (otherlv_0= 'import' ( ( (lv_moduleName_1_1= ruleMOD_ID | lv_moduleName_1_2= RULE_STRING ) ) ) (otherlv_2= '(' ( (lv_importedList_3_0= ruleimportData ) ) (otherlv_4= ',' ( (lv_importedList_5_0= ruleimportData ) ) )* otherlv_6= ')' )? ) ;
+    // InternalAsmetaL.g:375:1: ruleImportClause returns [EObject current=null] : (otherlv_0= 'import' ( ( (lv_moduleName_1_1= ruleMODULE_ID | lv_moduleName_1_2= RULE_STRING ) ) ) (otherlv_2= '(' ( (lv_importedList_3_0= ruleimportData ) ) (otherlv_4= ',' ( (lv_importedList_5_0= ruleimportData ) ) )* otherlv_6= ')' )? ) ;
     public final EObject ruleImportClause() throws RecognitionException {
         EObject current = null;
 
@@ -1091,11 +1091,11 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsmetaL.g:381:2: ( (otherlv_0= 'import' ( ( (lv_moduleName_1_1= ruleMOD_ID | lv_moduleName_1_2= RULE_STRING ) ) ) (otherlv_2= '(' ( (lv_importedList_3_0= ruleimportData ) ) (otherlv_4= ',' ( (lv_importedList_5_0= ruleimportData ) ) )* otherlv_6= ')' )? ) )
-            // InternalAsmetaL.g:382:2: (otherlv_0= 'import' ( ( (lv_moduleName_1_1= ruleMOD_ID | lv_moduleName_1_2= RULE_STRING ) ) ) (otherlv_2= '(' ( (lv_importedList_3_0= ruleimportData ) ) (otherlv_4= ',' ( (lv_importedList_5_0= ruleimportData ) ) )* otherlv_6= ')' )? )
+            // InternalAsmetaL.g:381:2: ( (otherlv_0= 'import' ( ( (lv_moduleName_1_1= ruleMODULE_ID | lv_moduleName_1_2= RULE_STRING ) ) ) (otherlv_2= '(' ( (lv_importedList_3_0= ruleimportData ) ) (otherlv_4= ',' ( (lv_importedList_5_0= ruleimportData ) ) )* otherlv_6= ')' )? ) )
+            // InternalAsmetaL.g:382:2: (otherlv_0= 'import' ( ( (lv_moduleName_1_1= ruleMODULE_ID | lv_moduleName_1_2= RULE_STRING ) ) ) (otherlv_2= '(' ( (lv_importedList_3_0= ruleimportData ) ) (otherlv_4= ',' ( (lv_importedList_5_0= ruleimportData ) ) )* otherlv_6= ')' )? )
             {
-            // InternalAsmetaL.g:382:2: (otherlv_0= 'import' ( ( (lv_moduleName_1_1= ruleMOD_ID | lv_moduleName_1_2= RULE_STRING ) ) ) (otherlv_2= '(' ( (lv_importedList_3_0= ruleimportData ) ) (otherlv_4= ',' ( (lv_importedList_5_0= ruleimportData ) ) )* otherlv_6= ')' )? )
-            // InternalAsmetaL.g:383:3: otherlv_0= 'import' ( ( (lv_moduleName_1_1= ruleMOD_ID | lv_moduleName_1_2= RULE_STRING ) ) ) (otherlv_2= '(' ( (lv_importedList_3_0= ruleimportData ) ) (otherlv_4= ',' ( (lv_importedList_5_0= ruleimportData ) ) )* otherlv_6= ')' )?
+            // InternalAsmetaL.g:382:2: (otherlv_0= 'import' ( ( (lv_moduleName_1_1= ruleMODULE_ID | lv_moduleName_1_2= RULE_STRING ) ) ) (otherlv_2= '(' ( (lv_importedList_3_0= ruleimportData ) ) (otherlv_4= ',' ( (lv_importedList_5_0= ruleimportData ) ) )* otherlv_6= ')' )? )
+            // InternalAsmetaL.g:383:3: otherlv_0= 'import' ( ( (lv_moduleName_1_1= ruleMODULE_ID | lv_moduleName_1_2= RULE_STRING ) ) ) (otherlv_2= '(' ( (lv_importedList_3_0= ruleimportData ) ) (otherlv_4= ',' ( (lv_importedList_5_0= ruleimportData ) ) )* otherlv_6= ')' )?
             {
             otherlv_0=(Token)match(input,28,FOLLOW_13); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -1103,13 +1103,13 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_0, grammarAccess.getImportClauseAccess().getImportKeyword_0());
               		
             }
-            // InternalAsmetaL.g:387:3: ( ( (lv_moduleName_1_1= ruleMOD_ID | lv_moduleName_1_2= RULE_STRING ) ) )
-            // InternalAsmetaL.g:388:4: ( (lv_moduleName_1_1= ruleMOD_ID | lv_moduleName_1_2= RULE_STRING ) )
+            // InternalAsmetaL.g:387:3: ( ( (lv_moduleName_1_1= ruleMODULE_ID | lv_moduleName_1_2= RULE_STRING ) ) )
+            // InternalAsmetaL.g:388:4: ( (lv_moduleName_1_1= ruleMODULE_ID | lv_moduleName_1_2= RULE_STRING ) )
             {
-            // InternalAsmetaL.g:388:4: ( (lv_moduleName_1_1= ruleMOD_ID | lv_moduleName_1_2= RULE_STRING ) )
-            // InternalAsmetaL.g:389:5: (lv_moduleName_1_1= ruleMOD_ID | lv_moduleName_1_2= RULE_STRING )
+            // InternalAsmetaL.g:388:4: ( (lv_moduleName_1_1= ruleMODULE_ID | lv_moduleName_1_2= RULE_STRING ) )
+            // InternalAsmetaL.g:389:5: (lv_moduleName_1_1= ruleMODULE_ID | lv_moduleName_1_2= RULE_STRING )
             {
-            // InternalAsmetaL.g:389:5: (lv_moduleName_1_1= ruleMOD_ID | lv_moduleName_1_2= RULE_STRING )
+            // InternalAsmetaL.g:389:5: (lv_moduleName_1_1= ruleMODULE_ID | lv_moduleName_1_2= RULE_STRING )
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -1128,15 +1128,15 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             }
             switch (alt11) {
                 case 1 :
-                    // InternalAsmetaL.g:390:6: lv_moduleName_1_1= ruleMOD_ID
+                    // InternalAsmetaL.g:390:6: lv_moduleName_1_1= ruleMODULE_ID
                     {
                     if ( state.backtracking==0 ) {
 
-                      						newCompositeNode(grammarAccess.getImportClauseAccess().getModuleNameMOD_IDParserRuleCall_1_0_0());
+                      						newCompositeNode(grammarAccess.getImportClauseAccess().getModuleNameMODULE_IDParserRuleCall_1_0_0());
                       					
                     }
                     pushFollow(FOLLOW_14);
-                    lv_moduleName_1_1=ruleMOD_ID();
+                    lv_moduleName_1_1=ruleMODULE_ID();
 
                     state._fsp--;
                     if (state.failed) return current;
@@ -1149,7 +1149,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                       							current,
                       							"moduleName",
                       							lv_moduleName_1_1,
-                      							"org.asmeta.xt.AsmetaL.MOD_ID");
+                      							"org.asmeta.xt.AsmetaL.MODULE_ID");
                       						afterParserOrEnumRuleCall();
                       					
                     }
@@ -33038,28 +33038,28 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     // $ANTLR end "rulenameofDomain"
 
 
-    // $ANTLR start "entryRuleMOD_ID"
-    // InternalAsmetaL.g:11842:1: entryRuleMOD_ID returns [String current=null] : iv_ruleMOD_ID= ruleMOD_ID EOF ;
-    public final String entryRuleMOD_ID() throws RecognitionException {
+    // $ANTLR start "entryRuleMODULE_ID"
+    // InternalAsmetaL.g:11842:1: entryRuleMODULE_ID returns [String current=null] : iv_ruleMODULE_ID= ruleMODULE_ID EOF ;
+    public final String entryRuleMODULE_ID() throws RecognitionException {
         String current = null;
 
-        AntlrDatatypeRuleToken iv_ruleMOD_ID = null;
+        AntlrDatatypeRuleToken iv_ruleMODULE_ID = null;
 
 
         try {
-            // InternalAsmetaL.g:11842:46: (iv_ruleMOD_ID= ruleMOD_ID EOF )
-            // InternalAsmetaL.g:11843:2: iv_ruleMOD_ID= ruleMOD_ID EOF
+            // InternalAsmetaL.g:11842:49: (iv_ruleMODULE_ID= ruleMODULE_ID EOF )
+            // InternalAsmetaL.g:11843:2: iv_ruleMODULE_ID= ruleMODULE_ID EOF
             {
             if ( state.backtracking==0 ) {
-               newCompositeNode(grammarAccess.getMOD_IDRule()); 
+               newCompositeNode(grammarAccess.getMODULE_IDRule()); 
             }
             pushFollow(FOLLOW_1);
-            iv_ruleMOD_ID=ruleMOD_ID();
+            iv_ruleMODULE_ID=ruleMODULE_ID();
 
             state._fsp--;
             if (state.failed) return current;
             if ( state.backtracking==0 ) {
-               current =iv_ruleMOD_ID.getText(); 
+               current =iv_ruleMODULE_ID.getText(); 
             }
             match(input,EOF,FOLLOW_2); if (state.failed) return current;
 
@@ -33075,12 +33075,12 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "entryRuleMOD_ID"
+    // $ANTLR end "entryRuleMODULE_ID"
 
 
-    // $ANTLR start "ruleMOD_ID"
-    // InternalAsmetaL.g:11849:1: ruleMOD_ID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( ( (this_ENUM_ID_0= RULE_ENUM_ID | this_ID_1= RULE_ID ) | (kw= '../' )* | (kw= './' )* )? ( (this_ENUM_ID_4= RULE_ENUM_ID | this_ID_5= RULE_ID ) kw= '/' )* (this_ENUM_ID_7= RULE_ENUM_ID | this_ID_8= RULE_ID ) (kw= '.' (this_ENUM_ID_10= RULE_ENUM_ID | this_ID_11= RULE_ID | kw= 'asm' ) )? ) ;
-    public final AntlrDatatypeRuleToken ruleMOD_ID() throws RecognitionException {
+    // $ANTLR start "ruleMODULE_ID"
+    // InternalAsmetaL.g:11849:1: ruleMODULE_ID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : ( ( (this_ENUM_ID_0= RULE_ENUM_ID | this_ID_1= RULE_ID ) | (kw= '../' )* | (kw= './' )* )? ( (this_ENUM_ID_4= RULE_ENUM_ID | this_ID_5= RULE_ID ) kw= '/' )* (this_ENUM_ID_7= RULE_ENUM_ID | this_ID_8= RULE_ID ) (kw= '.' (this_ENUM_ID_10= RULE_ENUM_ID | this_ID_11= RULE_ID | kw= 'asm' ) )? ) ;
+    public final AntlrDatatypeRuleToken ruleMODULE_ID() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
         Token this_ENUM_ID_0=null;
@@ -33181,7 +33181,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                             }
                             if ( state.backtracking==0 ) {
 
-                              					newLeafNode(this_ENUM_ID_0, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_0_0_0());
+                              					newLeafNode(this_ENUM_ID_0, grammarAccess.getMODULE_IDAccess().getENUM_IDTerminalRuleCall_0_0_0());
                               				
                             }
 
@@ -33198,7 +33198,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                             }
                             if ( state.backtracking==0 ) {
 
-                              					newLeafNode(this_ID_1, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_0_0_1());
+                              					newLeafNode(this_ID_1, grammarAccess.getMODULE_IDAccess().getIDTerminalRuleCall_0_0_1());
                               				
                             }
 
@@ -33232,7 +33232,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     	    if ( state.backtracking==0 ) {
 
                     	      					current.merge(kw);
-                    	      					newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopFullStopSolidusKeyword_0_1());
+                    	      					newLeafNode(kw, grammarAccess.getMODULE_IDAccess().getFullStopFullStopSolidusKeyword_0_1());
                     	      				
                     	    }
 
@@ -33269,7 +33269,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     	    if ( state.backtracking==0 ) {
 
                     	      					current.merge(kw);
-                    	      					newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopSolidusKeyword_0_2());
+                    	      					newLeafNode(kw, grammarAccess.getMODULE_IDAccess().getFullStopSolidusKeyword_0_2());
                     	      				
                     	    }
 
@@ -33346,7 +33346,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	            }
             	            if ( state.backtracking==0 ) {
 
-            	              					newLeafNode(this_ENUM_ID_4, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_1_0_0());
+            	              					newLeafNode(this_ENUM_ID_4, grammarAccess.getMODULE_IDAccess().getENUM_IDTerminalRuleCall_1_0_0());
             	              				
             	            }
 
@@ -33363,7 +33363,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	            }
             	            if ( state.backtracking==0 ) {
 
-            	              					newLeafNode(this_ID_5, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_1_0_1());
+            	              					newLeafNode(this_ID_5, grammarAccess.getMODULE_IDAccess().getIDTerminalRuleCall_1_0_1());
             	              				
             	            }
 
@@ -33376,7 +33376,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    if ( state.backtracking==0 ) {
 
             	      				current.merge(kw);
-            	      				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getSolidusKeyword_1_1());
+            	      				newLeafNode(kw, grammarAccess.getMODULE_IDAccess().getSolidusKeyword_1_1());
             	      			
             	    }
 
@@ -33417,7 +33417,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     }
                     if ( state.backtracking==0 ) {
 
-                      				newLeafNode(this_ENUM_ID_7, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_2_0());
+                      				newLeafNode(this_ENUM_ID_7, grammarAccess.getMODULE_IDAccess().getENUM_IDTerminalRuleCall_2_0());
                       			
                     }
 
@@ -33434,7 +33434,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     }
                     if ( state.backtracking==0 ) {
 
-                      				newLeafNode(this_ID_8, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_2_1());
+                      				newLeafNode(this_ID_8, grammarAccess.getMODULE_IDAccess().getIDTerminalRuleCall_2_1());
                       			
                     }
 
@@ -33458,7 +33458,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     if ( state.backtracking==0 ) {
 
                       				current.merge(kw);
-                      				newLeafNode(kw, grammarAccess.getMOD_IDAccess().getFullStopKeyword_3_0());
+                      				newLeafNode(kw, grammarAccess.getMODULE_IDAccess().getFullStopKeyword_3_0());
                       			
                     }
                     // InternalAsmetaL.g:11939:4: (this_ENUM_ID_10= RULE_ENUM_ID | this_ID_11= RULE_ID | kw= 'asm' )
@@ -33499,7 +33499,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                             }
                             if ( state.backtracking==0 ) {
 
-                              					newLeafNode(this_ENUM_ID_10, grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_3_1_0());
+                              					newLeafNode(this_ENUM_ID_10, grammarAccess.getMODULE_IDAccess().getENUM_IDTerminalRuleCall_3_1_0());
                               				
                             }
 
@@ -33516,7 +33516,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                             }
                             if ( state.backtracking==0 ) {
 
-                              					newLeafNode(this_ID_11, grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_3_1_1());
+                              					newLeafNode(this_ID_11, grammarAccess.getMODULE_IDAccess().getIDTerminalRuleCall_3_1_1());
                               				
                             }
 
@@ -33529,7 +33529,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                             if ( state.backtracking==0 ) {
 
                               					current.merge(kw);
-                              					newLeafNode(kw, grammarAccess.getMOD_IDAccess().getAsmKeyword_3_1_2());
+                              					newLeafNode(kw, grammarAccess.getMODULE_IDAccess().getAsmKeyword_3_1_2());
                               				
                             }
 
@@ -33565,7 +33565,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "ruleMOD_ID"
+    // $ANTLR end "ruleMODULE_ID"
 
 
     // $ANTLR start "entryRuleID_VARIABLE"

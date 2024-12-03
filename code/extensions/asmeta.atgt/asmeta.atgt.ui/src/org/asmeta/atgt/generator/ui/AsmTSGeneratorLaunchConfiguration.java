@@ -22,6 +22,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import static org.asmeta.atgt.generator.ui.AsmTSGeneratorTab.*;
 
 /**
  * http://www.vogella.com/tutorials/EclipseLauncherFramework/article.html
@@ -71,15 +72,15 @@ public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelega
 
 	public AsmTSGeneratorLaunchConfiguration setConfiguration(ILaunchConfiguration configuration) throws CoreException {
 		System.out.println("Setting launch configuration: " + configuration);
-		boolean computeCoverageConfig = configuration.getAttribute(AsmTSGeneratorTab.CONFIG_COMPUTE_COVERAGE,
+		boolean computeCoverageConfig = configuration.getAttribute(CONFIG_COMPUTE_COVERAGE,
 				AsmTestGenerator.DEFAULT_COMPUTE_COVERAGE);
-		System.out.println(computeCoverageConfig + " " + configuration.getAttribute(AsmTSGeneratorTab.CONFIG_CRITERIA,
+		System.out.println(computeCoverageConfig + " " + configuration.getAttribute(CONFIG_CRITERIA,
 				CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
 		coverageCriteria = CriteriaEnum.toListOfCriteriaEnum(configuration.getAttribute(
 				AsmTSGeneratorTab.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
 		computeCoverage = computeCoverageConfig;
 		formats = FormatsEnum.toListOfFormatsEnum(
-				configuration.getAttribute(AsmTSGeneratorTab.CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS));
+				configuration.getAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS));
 		return this;
 	}
 

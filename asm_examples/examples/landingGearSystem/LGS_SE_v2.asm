@@ -6,8 +6,8 @@
 asm LGS_SE_v2
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
-import ../../STDL/LTLlibrary
+import ../../STDL/CTLLibrary
+import ../../STDL/LTLLibrary
 
 signature:
 	enum domain HandleStatus = {UP | DOWN}

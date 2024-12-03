@@ -3,15 +3,13 @@ Automatic-Module-Name: org.asmeta.avallaxt.tests
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.avallaxt.tests
 Bundle-Vendor: foselab.unibg.it
-Bundle-Version: 23.07
+Bundle-Version: 24.06
 Bundle-SymbolicName: org.asmeta.avallaxt.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.avallaxt,
- org.junit,
+ org.junit;bundle-version="4.13.2",
  org.eclipse.xtext.testing,
  org.eclipse.xtext.xbase.testing,
  org.eclipse.xtext.xbase.lib;bundle-version="2.14.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
-Export-Package: org.asmeta.avallaxt.tests;x-internal=true,
- org.asmeta.avallaxt.tests.syntax,
- org.asmeta.avallaxt.tests.validation
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: org.asmeta.avallaxt.tests;x-internal=true

@@ -20,12 +20,14 @@ import java.util.ArrayList
 import java.util.List
 import java.util.Collections
 
-// it collects alla the macro rules that are called inside a seq rule
+
+// It collects all the macro rules that are called inside a seq rule
+// there ia an indetical class in asmeta2C .. to refactor
 class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 
 	boolean seqBlock
 
-	/**  seqBlock iff it is called in a seq rule*/
+	/**  SeqBlock iff it is called in a seq rule*/
 	new(boolean seqBlock) {
 		this.seqBlock = seqBlock
 	}
@@ -43,7 +45,7 @@ class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 	}
 
 	override List<Rule> visit(MacroCallRule object) {
-		// if it is inside a seq, use the seq variant
+		// If it is inside a seq, use the seq variant
 		if(seqBlock) return Collections.singletonList(object.calledMacro.ruleBody) else return Collections.emptyList();
 	}
 
@@ -52,7 +54,7 @@ class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 	}
 
 	override List<Rule> visit(SeqRule object) {
-		// force seq to true
+		// Force seq to true
 		return new SeqRuleCollector(true).listRules(object.rules)
 	}
 
@@ -70,9 +72,8 @@ class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 		return list
 	}
 
-	
 	override visit(TermAsRule rule) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		throw new UnsupportedOperationException("TermAsRule not implemented")
 	}
 
 	override visit(ExtendRule rule) {
@@ -95,7 +96,8 @@ class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 		list.addAll(this.visit(rule.doRule))
 		if(rule.ifnone !== null) list.addAll(this.visit(rule.ifnone))
 		return list
-}
+	}
+
 	override visit(ForallRule rule) {
 		return this.visit(rule.doRule)
 	}

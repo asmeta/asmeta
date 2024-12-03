@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 
-public class GeneratorCompilerSmartPillBoxTest extends GeneratorCompilerTest2{
+public class GeneratorCompilerSmartPillBoxTest extends GeneratorCompilerTest{
 
 	@Test
 	public void SmartPillBoxLevel0Test() throws Exception, IOException

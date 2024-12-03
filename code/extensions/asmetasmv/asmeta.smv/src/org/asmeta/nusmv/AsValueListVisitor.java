@@ -40,7 +40,9 @@ public class AsValueListVisitor extends org.asmeta.parser.util.ReflectiveVisitor
 	}
 
 	public List<Value[]> visit(AgentDomain domain) throws AsmNotSupportedException {
-		return domainValues.get("Agent");
+		List<Value[]> agents = domainValues.get("Agent");
+		assert agents != null : "no agent found in " + domainValues;
+		return agents;
 	}
 
 	public List<Value[]> visit(EnumTd domain) throws AsmNotSupportedException {
@@ -67,7 +69,7 @@ public class AsValueListVisitor extends org.asmeta.parser.util.ReflectiveVisitor
 	 * @param result  the result
 	 * @param tupla   the tupla
 	 */
-	public void combineValues(List<Domain> domains, int index, ArrayList<Value[]> result, Stack<Value> tupla) {
+	public void combineValues(List<Domain> domains, int index, List<Value[]> result, Stack<Value> tupla) {
 		Domain domain = domains.get(index);
 		AsValueListVisitor avls = new AsValueListVisitor(domainValues);
 		List<Value[]> values = avls.visit(domain);

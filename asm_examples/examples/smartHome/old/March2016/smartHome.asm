@@ -5,7 +5,7 @@ asm smartHome
 //different MAPE use different channels to communicate with rules doing the E
 
 import ../../../../STDL/StandardLibrary
-import ../../../../STDL/LTLlibrary
+import ../../../../STDL/LTLLibrary
 
 signature:
 	//managing agents that start the MAPE loops

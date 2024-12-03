@@ -10,7 +10,7 @@
 asm MySmartHomeFD_forTranslatorValidator
 
 import StandardLibrary
-import LTLlibrary
+import LTLLibrary
 
 signature:
 	//FD_MAPE

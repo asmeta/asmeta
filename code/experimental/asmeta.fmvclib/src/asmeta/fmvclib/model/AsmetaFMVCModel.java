@@ -20,12 +20,14 @@ import javax.swing.JToggleButton;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
+import org.asmeta.simulator.main.AsmetaSimulatorWR;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.CharValue;
@@ -34,10 +36,15 @@ import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.RealValue;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.StringValue;
+import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
+import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.IntegerDomain;
 import asmeta.fmvclib.annotations.AsmetaMonitoredLocation;
 import asmeta.fmvclib.annotations.AsmetaMonitoredLocations;
 import asmeta.fmvclib.annotations.LocationType;
@@ -51,7 +58,8 @@ public class AsmetaFMVCModel extends Observable {
 	/**
 	 * The ASMETA simulator
 	 */
-	private Simulator sim;
+	//private Simulator sim;
+	private AsmetaSimulatorWR sim;
 
 	/**
 	 * The reader
@@ -83,7 +91,8 @@ public class AsmetaFMVCModel extends Observable {
 		ASM_PATH = new File(asmPath).getParent();
 		reader = new ViewReader();
 		environment = new Environment(reader);
-		sim = Simulator.createSimulator(asmPath, environment);
+		//sim = Simulator.createSimulator(asmPath, environment);
+		sim = AsmetaSimulatorWR.createSimulator(asmPath, environment);
 		Environment.timeMngt = TimeMngt.use_java_time;
 		controlledAssignments = new HashMap<String, List<Entry<String, String>>>();
 	}
@@ -214,7 +223,13 @@ public class AsmetaFMVCModel extends Observable {
 			setChanged();
 			notifyObservers();
 		} catch (InvalidInvariantException e) {
-			System.err.println("Invariant violation");
+			System.err.println("Invariant violation - rolling back :" + e.getMessage());
+			assert nStep == 1;
+			sim.rollBack();
+		} catch (org.asmeta.simulator.UpdateClashException e) { 
+			System.err.println("Incosistent update - rolling back :" + e.getMessage());
+			assert nStep == 1;
+			sim.rollBack();		
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -256,7 +271,7 @@ public class AsmetaFMVCModel extends Observable {
 				if (f.get(obj) instanceof JTable) {
 					JTable guiTable = (JTable) f.get(obj);
 					int selectedRow = guiTable.getSelectedRow();
-					int selectedColumn = guiTable.getSelectedColumn();
+					int selectedColumn = guiTable.getSelectedColumn();					
 					if (selectedRow != -1 && selectedColumn != -1) {
 						Object selectedValue = guiTable.getModel().getValueAt(selectedRow, selectedColumn);
 						value = (selectedValue == null || selectedValue.toString().equals("")) ? "undef"
@@ -264,7 +279,15 @@ public class AsmetaFMVCModel extends Observable {
 					} else
 						value = "undef";
 				} else {
-					value = getValueFromSingleField(f, obj);
+					if (f.get(obj) instanceof ButtonColumn) {
+						if (f.get(obj).equals(source) || source == null) {
+							value = getValueFromSingleField(f, obj);
+						} else {
+							value = "undef";
+						}							
+					} else {
+						value = getValueFromSingleField(f, obj);
+					}
 				}
 				if (value == null && !(f.get(obj) instanceof ButtonColumn))
 					throw new RuntimeException("This type of component is not yet managed by the fMVC framework: "
@@ -277,25 +300,16 @@ public class AsmetaFMVCModel extends Observable {
 				ArrayList<Function> functions = new ArrayList<Function>();
 				AsmCollection asms;
 				try {
-					asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ASMParser.asmExtension));
+					asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ASMParser.ASM_EXTENSION));
 					asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
 							.filter(fn -> fn.getName().equals(f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName()))
 							.forEach(y -> functions.add(y)));
 					assert functions.size() == 1
 							: "The function " + f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName() + " has not been found in the ASM";
 
-					switch (functions.get(0).getCodomain().getClass().getSimpleName()) {
-						case "EnumTdImpl":
-							locationType = LocationType.ENUM;
-							break;
-						case "AbstractTdImpl":
-							locationType = LocationType.RESERVE;
-							break;
-						case "ConcreteDomainImpl":
-							// TODO: Other types may be instead of integer
-							locationType = LocationType.INTEGER;
-							break;
-						default:
+					LocationTypeForDomain visitor = new LocationTypeForDomain();
+					locationType = visitor.visit(functions.get(0).getCodomain());
+					if (locationType == null) {
 							throw new RuntimeException(
 									"The type of Codomain " + functions.get(0).getCodomain().getClass().getSimpleName()
 											+ " is not yet managed by the AsmetaFMVCLib");
@@ -303,16 +317,18 @@ public class AsmetaFMVCModel extends Observable {
 					// Now add the value to the location map
 					Value val = getValueFromString(value, locationType);
 					String loc = f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName();
-					if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
+					if (!reader.locationMemory.containsKey(loc) && !value.equals("")) {
 						reader.addValue(loc, val);
+						System.out.println("--- Taking " + val + " for " + loc);
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
-	}
-
+	}	
+	
 	/**
 	 * Analyzes fields with multiple annotations
 	 * 
@@ -355,7 +371,7 @@ public class AsmetaFMVCModel extends Observable {
 					ArrayList<Function> functions = new ArrayList<Function>();
 					AsmCollection asms;
 					try {
-						asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ASMParser.asmExtension));
+						asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ASMParser.ASM_EXTENSION));
 						asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
 								.filter(fn -> fn.getName().equals(f1.asmLocationName()))
 								.forEach(y -> functions.add(y)));
@@ -431,7 +447,12 @@ public class AsmetaFMVCModel extends Observable {
 		Value val;
 		switch (locationType) {
 		case INTEGER:
-			val = new IntegerValue(value);
+			if (value.equals(""))
+				value = "0";
+			if (value.equals("undef"))
+				val = UndefValue.UNDEF;
+			else
+				val = new IntegerValue(value);
 			break;
 		case STRING:
 			val = new StringValue(value);
@@ -524,4 +545,32 @@ public class AsmetaFMVCModel extends Observable {
 	public List<Entry<String, String>> getValue(String locationName) {
 		return controlledAssignments.get(locationName);
 	}
+	
+	
+	public class LocationTypeForDomain extends ReflectiveVisitor<LocationType>{
+
+		public LocationType visit(EnumTd e){
+			return LocationType.ENUM; 
+		}
+
+		public LocationType visit(AbstractTd object) {
+			return LocationType.RESERVE;
+		}
+
+		public LocationType visit(ConcreteDomain object) {
+			// assuming that it is an integer
+			return LocationType.INTEGER;
+		}
+		
+		public LocationType visit(IntegerDomain object) {
+			return LocationType.INTEGER;
+		}
+		
+
+	}
+
+	
 }
+
+
+

@@ -3,6 +3,7 @@
  */
 package org.asmeta.simulator.readers;
 
+import org.apache.log4j.Logger;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -28,6 +29,10 @@ import asmeta.structure.DomainDefinition;
  * 
  */
 public abstract class MonFuncReader extends ReflectiveVisitor<Value> {
+	
+	private static Logger logger = Logger.getLogger(MonFuncReader.class);
+	
+	
 	protected State state;
 
 	/**
@@ -40,9 +45,10 @@ public abstract class MonFuncReader extends ReflectiveVisitor<Value> {
 	 */
 	public final Value read(Location location, State state) {
 		this.state = state;
-		// System.out.println("location = " + location + " state = " +
-		// state.getMonLocsState());
-		return readValue(location, state);
+		logger.debug("location = " + location + " state = " + state.getMonLocsState());
+		Value readedVal = readValue(location, state);
+		assert readedVal != null : "readValue reatuned null in " + this.getClass();
+		return readedVal;
 	}
 
 	/**
@@ -75,8 +81,7 @@ public abstract class MonFuncReader extends ReflectiveVisitor<Value> {
 	 * @return True se <i>value</i> appartiene a <i>domain</i>
 	 */
 	protected boolean checkEnum(EnumTd domain, EnumValue value) {
-		for (Object o : domain.getElement()) {
-			EnumElement element = (EnumElement) o;
+		for (EnumElement element : domain.getElement()) {
 			if (element.getSymbol().equals(value.getValue())) {
 				return true;
 			}
@@ -103,5 +108,10 @@ public abstract class MonFuncReader extends ReflectiveVisitor<Value> {
 		}
 		return true;
 	}
+	
+	/** does it support lzy evaluation??? */
+	public boolean supportsLazyTermEval() {
+		return false;
+	} 
 
 }

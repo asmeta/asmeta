@@ -1,0 +1,26 @@
+//
+// scenario in which a led is set to OFF after 10 minutes 
+//
+scenario scenario_final
+
+load pillbox_final.asm
+
+check drawerLed(drawer1) = OFF;
+check drawerLed(drawer2) = OFF;
+check drawerLed(drawer3) = OFF;
+
+step until drawerLed(drawer1) = ON;
+
+check drawerLed(drawer1) = ON;
+check drawerLed(drawer2) = OFF;
+check drawerLed(drawer3) = OFF;
+check start(tenMinutes) = 61;
+set isPillTaken(drawer1) := false;
+
+step until expired(tenMinutes);
+
+step
+
+check drawerLed(drawer1) = OFF;
+check drawerLed(drawer2) = OFF;
+check drawerLed(drawer3) = OFF;

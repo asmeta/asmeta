@@ -53,8 +53,10 @@ import asmeta.structure.Asm;
 
 public class VisualizationSimulation implements VisualizationSimulationI {
 
+	private static final int MAX_NUMBER_RND_STEPS = 10000;
+
 	// get the logger form the simulator
-	static private final Logger simulatorLogger = Logger.getLogger(Simulator.class);
+	private static final Logger simulatorLogger = Logger.getLogger(Simulator.class);
 
 	static final int rowHeight = 30;
 	static final String CONTROLLED = "C";
@@ -65,7 +67,9 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	final Shell shlAsmetaa = new Shell(display);
 
 	protected Table table_functions_left_up, table_states_right_up, table_functions_left_down, table_states_right_down;
-	private Text textStepNumber, textInvError;
+	// step Number when random simulation
+	private Text textStepNumber;
+	private Text textInvError;
 	private AsmCollection asm;
 	private Label lblInvariant, lblInsertStepNumber;
 	private Button btnRndStep, btnInterStep, btnMoveControlledUp, btnMoveControlledDown,
@@ -99,12 +103,12 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		this.asm = asm;
 		// Display display = PlatformUI.getWorkbench().getDisplay();
 		// String filePath = System.getProperty("user.dir");
-		// rea dthe images: in thsi way they msut be inside the code
+		// read the images: in this way they must be inside the code
 		// TODO put them in images directory
 		arrowUp = new Image(display, getClass().getResourceAsStream("arrowUp.png"));
 		arrowDown = new Image(display, getClass().getResourceAsStream("arrowDown.png"));
 
-		shlAsmetaa.setBackground(SWTResourceManager.getColor(255, 255, 255));
+		shlAsmetaa.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		shlAsmetaa.setSize(770, 668);
 		shlAsmetaa.setText("AsmetaA");
 		shlAsmetaa.setVisible(true);
@@ -182,14 +186,14 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		red = new Color(display, 255, 0, 0);
 		// shlAsmetaa = new Shell(display);
 		/*
-		 * shlAsmetaa.setBackground(SWTResourceManager.getColor(255, 255, 255));
+		 * shlAsmetaa.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		 * shlAsmetaa.setSize(770, 668); shlAsmetaa.setText("AsmetaA");
 		 * shlAsmetaa.setVisible(true); shlAsmetaa.setLayout(new GridLayout(1, false));
 		 */
 
 		// Split window in two sub-windows
 		SashForm sashForm = new SashForm(shlAsmetaa, SWT.NONE);
-		sashForm.setBackground(SWTResourceManager.getColor(255, 255, 255));
+		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		// Add composite to the left panel with buttons
@@ -205,7 +209,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	private void addElementsToLeftPanel(SashForm sashForm) {
 		// Add panel to the left side
 		Composite panel_monitored = new Composite(sashForm, SWT.BORDER);
-		panel_monitored.setBackground(SWTResourceManager.getColor(255, 255, 255));
+		panel_monitored.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		panel_monitored.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		// Add scrolled panel to the left side
@@ -216,12 +220,12 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 		// Add panel to the right side
 		Composite composite = new Composite(scrolledPane_Right, SWT.NONE | SWT.V_SCROLL);
-		composite.setBackground(SWTResourceManager.getColor(255, 255, 255));
+		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite.setLayout(new GridLayout(1, false));
 		new Label(composite, SWT.NONE);
 		// add the button for interactive
 		btnInterStep = new Button(composite, SWT.NONE);
-		btnInterStep.setForeground(SWTResourceManager.getColor(255, 255, 255));
+		btnInterStep.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnInterStep.setBackground(SWTResourceManager.getColor(0, 0, 255));
 		btnInterStep.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
 		// only text
@@ -229,39 +233,45 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		new Label(composite, SWT.NONE);
 		// Show button to perform simulation steps
 		btnRndStep = new Button(composite, SWT.NONE);
-		btnRndStep.setForeground(SWTResourceManager.getColor(255, 255, 255));
+		btnRndStep.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnRndStep.setBackground(SWTResourceManager.getColor(0, 0, 255));
 		btnRndStep.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
 		btnRndStep.setText("Do random step/s");
 		lblInsertStepNumber = new Label(composite, SWT.NONE);
 		lblInsertStepNumber.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
-		lblInsertStepNumber.setBackground(SWTResourceManager.getColor(255, 255, 255));
+		lblInsertStepNumber.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblInsertStepNumber.setText("Insert random step number");
 		// text to be executed when push do random step/s
 		textStepNumber = new Text(composite, SWT.BORDER);
 		textStepNumber.setBackground(SWTResourceManager.getColor(245, 245, 245));
 		textStepNumber.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
-		textStepNumber.setText("1");
 		textStepNumber.setTouchEnabled(true);
+		textStepNumber.setText("1");
 		GridData gd_textStepNumber = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
-		gd_textStepNumber.widthHint = 175;
+		gd_textStepNumber.widthHint = 150;
 		textStepNumber.setLayoutData(gd_textStepNumber);
 		// allow only numbers
 		textStepNumber.addVerifyListener(new VerifyListener() {
 			@Override
 			public void verifyText(VerifyEvent e) {
 				try {
-					Integer.valueOf(((Text) e.widget).getText());
+					// build the text as it would be after the event 
+					String text = textStepNumber.getText();
+					String newText = text.substring(0, e.start) + e.text + text.substring(e.end);
+					Integer x = Integer.valueOf(newText);
+					// max number of steps ??
+					if (x > MAX_NUMBER_RND_STEPS) e.doit = false;
 				} catch (NumberFormatException ex) {
 					e.doit = false;
 				}
 			}
+			
 		});
 		new Label(composite, SWT.NONE);
 		// invariant checker
 		lblInvariant = new Label(composite, SWT.WRAP);
 		lblInvariant.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
-		lblInvariant.setBackground(SWTResourceManager.getColor(255, 255, 255));
+		lblInvariant.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblInvariant.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false, 1, 1));
 		lblInvariant.setText("Inviariant violation / exceptions");
 		textInvError = new Text(composite, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
@@ -277,7 +287,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 		// Show button to hide/show functions
 		Composite compositeMove = new Composite(composite, SWT.BORDER);
-		compositeMove.setBackground(SWTResourceManager.getColor(255, 255, 255));
+		compositeMove.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		compositeMove.setLayout(new GridLayout(1, false));
 		btnMoveControlledUp = new Button(compositeMove, SWT.NONE);
 		GridData gd_btnMoveControlledUp = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -453,7 +463,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		// Two tables: - up: selected functions
 		// - down: other functions
 		SashForm sash_tables = new SashForm(sashForm, SWT.VERTICAL);
-		sash_tables.setBackground(SWTResourceManager.getColor(255, 255, 255));
+		sash_tables.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		sash_tables.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		SashForm sash_tables_up = new SashForm(sash_tables, SWT.BORDER | SWT.SMOOTH);
@@ -462,7 +472,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		table_states_right_up = new Table(sash_tables_up, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
 
 		SashForm sash_tables_down = new SashForm(sash_tables, SWT.BORDER);
-		sash_tables_down.setBackground(SWTResourceManager.getColor(255, 255, 255));
+		sash_tables_down.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		sash_tables_down.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		table_functions_left_down = new Table(sash_tables_down, SWT.CHECK | SWT.MULTI | SWT.FULL_SELECTION);
 		table_states_right_down = new Table(sash_tables_down,
@@ -521,7 +531,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	}
 
 	private void listenerMoveUpDown(Table table_functions_left_origin, Table table_states_right_origin,
-			Table table_functions_left_dest, Table table_states_right_dest, Image arrow, boolean check) {
+			Table table_functions_left_dest, Table table_states_right_dest, final Image arrow, final boolean check) {
 		table_functions_left_origin.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event arg0) {
@@ -715,7 +725,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	// Add listener: when resize table_moved resize table_follower
 	void addResizeListener(Table table_moved, Table table_follower, int i) {
-		TableColumn column_up = table_moved.getColumn(i);
+		final TableColumn column_up = table_moved.getColumn(i);
 		column_up.addControlListener(new ControlListener() { // Listener dimensione colonna
 			@Override
 			public void controlResized(ControlEvent arg0) {

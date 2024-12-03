@@ -87,12 +87,10 @@ public class InteractiveMFReader extends MonFuncReader {
 	 * @param out output stream
 	 */
 	public InteractiveMFReader(InputStream in, PrintStream out) {
-		this.out = out;
-		this.in = new BufferedReader(new InputStreamReader(in));
-		domainPrinter = new DomainPrinter();
+		this(new BufferedReader(new InputStreamReader(in)), out);
 	}
 
-	public InteractiveMFReader(BufferedReader in, PrintStream out) {
+	protected InteractiveMFReader(BufferedReader in, PrintStream out) {
 		this.out = out;
 		this.in = in;
 		domainPrinter = new DomainPrinter();
@@ -341,4 +339,10 @@ public class InteractiveMFReader extends MonFuncReader {
 		return value;
 	}
 
+	/** does it support lzy evaluation??? */
+	public boolean supportsLazyTermEval() {
+		return true;
+	} 
+
+	
 }

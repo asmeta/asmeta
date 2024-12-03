@@ -148,13 +148,18 @@ class Utility {
 
 	/**
 	 * return null, if not found
+	 * 
+	 * relative_path --> path of the imported file (normally relative)
+	 * resource_abs_path --> path of asmeta containing the import command 
 	 */
 	def static Asm getImportedAsm(String relative_path, String resource_abs_path) {
+		
+		//println("**** " + relative_path + " **** " + resource_abs_path)
 
 		// check if asm was already imported
 		var address_str = getAbsoluteAddressAsm(relative_path, resource_abs_path)
 
-		if(address_str === null) return null;
+		if (address_str === null) return null;
 
 		// parsing
 		var Injector injector = new AsmetaLStandaloneSetup().createInjectorAndDoEMFRegistration();

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta visualizer
 Bundle-SymbolicName: asmeta.visualizer;singleton:=true
-Bundle-Version: 23.07
+Bundle-Version: 24.06
 Require-Bundle: org.eclipse.zest.core,
  org.eclipse.zest.layouts,
  org.eclipse.ui,
@@ -13,4 +13,4 @@ Require-Bundle: org.eclipse.zest.core,
 Export-Package: org.asmeta.visualizer.graphViewer
 Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.visualizer
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17

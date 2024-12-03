@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.asmeta.asm2code.formatter.Formatter;
-import org.asmeta.parser.ASMParser;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 
@@ -15,8 +14,6 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 @SuppressWarnings("all")
 public abstract class AsmToCGenerator implements IGenerator {
   protected TranslatorOptions options;
-
-  public static String Ext = ASMParser.ASM_EXTENSION;
 
   public AsmToCGenerator() {
     TranslatorOptions _translatorOptions = new TranslatorOptions(true, false, false, false);

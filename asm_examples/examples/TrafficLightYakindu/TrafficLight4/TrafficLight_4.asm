@@ -1,7 +1,7 @@
 asm TrafficLight_4
  
 import ../StandardLibrary
-import ../CTLlibrary
+import ../CTLLibrary
 
 signature:
 	// DOMAINS

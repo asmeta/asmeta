@@ -45,40 +45,4 @@ public abstract class RuleVisitor<T> extends ReflectiveVisitor<T> implements IRu
 	public final T visit(Rule rule) {
 		return visit((Object) rule);
 	}
-
-	@Override
-	public abstract T visit(SkipRule rule);
-
-	@Override
-	public abstract T visit(UpdateRule rule);
-
-	@Override
-	public abstract T visit(TermAsRule rule);
-
-	@Override
-	abstract public T visit(BlockRule block);
-
-	@Override
-	abstract public T visit(SeqRule seq);
-
-	@Override
-	abstract public T visit(ConditionalRule rule);
-
-	@Override
-	abstract public T visit(ExtendRule rule);
-
-	@Override
-	abstract public T visit(LetRule rule);
-
-	@Override
-	abstract public T visit(ChooseRule rule);
-
-	@Override
-	abstract public T visit(ForallRule rule);
-
-	@Override
-	abstract public T visit(MacroCallRule rule) throws Exception;
-
-	@Override
-	abstract public T visit(CaseRule rule);
 }

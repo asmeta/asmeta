@@ -17,7 +17,7 @@ import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 import asmeta.AsmCollection;
 
-public class GeneratorCompilerCarSystem extends GeneratorCompilerTest2{
+public class GeneratorCompilerCarSystem extends GeneratorCompilerTest{
 
 	@Test
 	public void testCarSystem001Blink() throws IOException, Exception{

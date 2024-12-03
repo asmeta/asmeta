@@ -9,7 +9,7 @@ import asmeta.definitions.domains.RealDomain;
 import asmeta.definitions.domains.StringDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.VariableTerm;
-import com.google.common.base.Objects;
+import java.util.Objects;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Exceptions;
@@ -38,7 +38,7 @@ public class Util {
     paramDef.append("");
     for (int i = 0; (i < variables.size()); i++) {
       StringConcatenation _builder = new StringConcatenation();
-      String _visit = new ToString(res, true).visit(variables.get(i).getDomain());
+      String _visit = new ToString(res).visit(variables.get(i).getDomain());
       _builder.append(_visit);
       _builder.append(" ");
       String _name = variables.get(i).getName();
@@ -161,11 +161,11 @@ public class Util {
       for (this.i = 1; (this.i < (str.length() - 1)); this.i++) {
         {
           this.c = Character.valueOf(str.charAt(this.i));
-          boolean _equals = Objects.equal(this.c, "(");
+          boolean _equals = Objects.equals(this.c, "(");
           if (_equals) {
             this.counter++;
           } else {
-            boolean _equals_1 = Objects.equal(this.c, ")");
+            boolean _equals_1 = Objects.equals(this.c, ")");
             if (_equals_1) {
               this.counter--;
             }

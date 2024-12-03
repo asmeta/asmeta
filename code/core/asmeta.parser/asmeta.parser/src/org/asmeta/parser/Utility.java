@@ -80,9 +80,10 @@ import asmeta.terms.furtherterms.StringTerm;
 public class Utility {
 	
 	// names of the libraries 
-	public static final String LTL_LIBRARY_NAME = "LTLlibrary";
-	public static final String CTL_LIBRARY_NAME = "CTLlibrary";
+	public static final String LTL_LIBRARY_NAME = "LTLLibrary";
+	public static final String CTL_LIBRARY_NAME = "CTLLibrary";
 	public static final String STANDARD_LIBRARY_NAME = "StandardLibrary";
+	public static final String TIME_LIBRARY_NAME = "TimeLibrary";
 
 	
 	

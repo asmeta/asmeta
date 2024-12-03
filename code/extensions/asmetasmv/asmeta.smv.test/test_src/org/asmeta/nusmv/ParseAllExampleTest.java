@@ -12,6 +12,9 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 
+//
+// check that all the examples parse correctly
+//
 public class ParseAllExampleTest {
 
 	@Test

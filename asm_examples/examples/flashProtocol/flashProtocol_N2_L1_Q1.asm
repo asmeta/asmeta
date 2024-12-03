@@ -11,8 +11,8 @@
 //nella main rule gli agenti vanno in parallelo
 asm flashProtocol_N2_L1_Q1
 import ../../STDL/StandardLibrary
-import ../../STDL/LTLlibrary
-import ../../STDL/CTLlibrary
+import ../../STDL/LTLLibrary
+import ../../STDL/CTLLibrary
 
 signature:
 	enum domain MsgType = {NO_MESS | GET_MSG | GETX_MSG | INV_MSG | WB_MSG |

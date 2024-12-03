@@ -15,403 +15,15 @@ import asmeta.structure.DomainInitialization;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
+/**
+ * Translates the signature and the definition of the domains
+ */
 @SuppressWarnings("all")
 public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
   private Asm res;
 
-  private boolean pointer;
-
   public DomainToJavaSigDef(final Asm resource) {
     this.res = resource;
-    this.pointer = false;
-  }
-
-  public DomainToJavaSigDef(final Asm resource, final boolean pointer) {
-    this.res = resource;
-    this.pointer = pointer;
-  }
-
-  /**
-   * Domain Signature
-   */
-  public String visit(final AbstractTd object) {
-    StringBuffer sb = new StringBuffer();
-    Boolean _isDynamic = object.getIsDynamic();
-    if ((_isDynamic).booleanValue()) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("static class ");
-      String _name = object.getName();
-      _builder.append(_name);
-      _builder.append(" {");
-      _builder.newLineIfNotEmpty();
-      _builder.append("\t");
-      _builder.newLine();
-      _builder.append("static List<");
-      String _name_1 = object.getName();
-      _builder.append(_name_1);
-      _builder.append("> elems = new ArrayList<");
-      String _name_2 = object.getName();
-      _builder.append(_name_2);
-      _builder.append(">();");
-      _builder.newLineIfNotEmpty();
-      _builder.append("List<String> val = new ArrayList<String>();");
-      _builder.newLine();
-      _builder.newLine();
-      String _name_3 = object.getName();
-      _builder.append(_name_3);
-      _builder.append(" (String a)");
-      _builder.newLineIfNotEmpty();
-      _builder.append("{");
-      _builder.newLine();
-      _builder.append("    ");
-      _builder.append("elems.add(this);");
-      _builder.newLine();
-      _builder.append("    ");
-      _builder.append("val.add(a);");
-      _builder.newLine();
-      _builder.append("}");
-      _builder.newLine();
-      _builder.newLine();
-      _builder.append("String ToString(");
-      String _name_4 = object.getName();
-      _builder.append(_name_4);
-      _builder.append(" a)");
-      _builder.newLineIfNotEmpty();
-      _builder.append("{");
-      _builder.newLine();
-      _builder.append(" ");
-      _builder.append("if(elems.contains(a))");
-      _builder.newLine();
-      _builder.append(" ");
-      _builder.append("{");
-      _builder.newLine();
-      _builder.append("   ");
-      _builder.append("return val.get(elems.lastIndexOf(a));");
-      _builder.newLine();
-      _builder.append(" ");
-      _builder.append("}");
-      _builder.newLine();
-      _builder.newLine();
-      _builder.append("else return null;");
-      _builder.newLine();
-      _builder.append("}");
-      _builder.newLine();
-      _builder.newLine();
-      String _name_5 = object.getName();
-      _builder.append(_name_5);
-      _builder.append(" get(String a)");
-      _builder.newLineIfNotEmpty();
-      _builder.append("{");
-      _builder.newLine();
-      _builder.append("  ");
-      _builder.append("if(val.contains(a))");
-      _builder.newLine();
-      _builder.append("  ");
-      _builder.append("{");
-      _builder.newLine();
-      _builder.append(" ");
-      _builder.newLine();
-      _builder.append("  \t");
-      _builder.append("return elems.get(val.lastIndexOf(a));");
-      _builder.newLine();
-      _builder.append("  ");
-      _builder.append("} ");
-      _builder.newLine();
-      _builder.append(" ");
-      _builder.newLine();
-      _builder.append("  ");
-      _builder.append("else return null;");
-      _builder.newLine();
-      _builder.append(" ");
-      _builder.append("}");
-      _builder.newLine();
-      _builder.newLine();
-      _builder.append("}");
-      _builder.newLine();
-      _builder.newLine();
-      _builder.append("List<String> ");
-      String _name_6 = object.getName();
-      _builder.append(_name_6);
-      _builder.append("_lista = new ArrayList<String>();");
-      _builder.newLineIfNotEmpty();
-      _builder.append("List<");
-      String _name_7 = object.getName();
-      _builder.append(_name_7);
-      _builder.append("> ");
-      String _name_8 = object.getName();
-      _builder.append(_name_8);
-      _builder.append("_Class = new ArrayList<");
-      String _name_9 = object.getName();
-      _builder.append(_name_9);
-      _builder.append(">();");
-      _builder.newLineIfNotEmpty();
-      sb.append(_builder);
-    } else {
-      StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("static class ");
-      String _name_10 = object.getName();
-      _builder_1.append(_name_10);
-      _builder_1.append(" {");
-      _builder_1.newLineIfNotEmpty();
-      _builder_1.append("\t");
-      _builder_1.newLine();
-      _builder_1.append("static List<");
-      String _name_11 = object.getName();
-      _builder_1.append(_name_11);
-      _builder_1.append("> elems = new ArrayList<");
-      String _name_12 = object.getName();
-      _builder_1.append(_name_12);
-      _builder_1.append(">();");
-      _builder_1.newLineIfNotEmpty();
-      _builder_1.append("static List<String> val = new ArrayList<String>();");
-      _builder_1.newLine();
-      _builder_1.newLine();
-      String _name_13 = object.getName();
-      _builder_1.append(_name_13);
-      _builder_1.append(" (String a)");
-      _builder_1.newLineIfNotEmpty();
-      _builder_1.append("{");
-      _builder_1.newLine();
-      _builder_1.append("    ");
-      _builder_1.append("elems.add(this);");
-      _builder_1.newLine();
-      _builder_1.append("    ");
-      _builder_1.append("val.add(a);");
-      _builder_1.newLine();
-      _builder_1.append("}");
-      _builder_1.newLine();
-      _builder_1.newLine();
-      _builder_1.append("String ToString(");
-      String _name_14 = object.getName();
-      _builder_1.append(_name_14);
-      _builder_1.append(" a)");
-      _builder_1.newLineIfNotEmpty();
-      _builder_1.append("{");
-      _builder_1.newLine();
-      _builder_1.append(" ");
-      _builder_1.append("if(elems.contains(a))");
-      _builder_1.newLine();
-      _builder_1.append(" ");
-      _builder_1.append("{");
-      _builder_1.newLine();
-      _builder_1.append("   ");
-      _builder_1.append("return val.get(elems.lastIndexOf(a));");
-      _builder_1.newLine();
-      _builder_1.append(" ");
-      _builder_1.append("}");
-      _builder_1.newLine();
-      _builder_1.newLine();
-      _builder_1.append("else return null;");
-      _builder_1.newLine();
-      _builder_1.append("}");
-      _builder_1.newLine();
-      _builder_1.newLine();
-      _builder_1.append("static ");
-      String _name_15 = object.getName();
-      _builder_1.append(_name_15);
-      _builder_1.append(" get(String a)");
-      _builder_1.newLineIfNotEmpty();
-      _builder_1.append("{");
-      _builder_1.newLine();
-      _builder_1.append("  ");
-      _builder_1.append("if(val.contains(a))");
-      _builder_1.newLine();
-      _builder_1.append("  ");
-      _builder_1.append("{");
-      _builder_1.newLine();
-      _builder_1.append(" ");
-      _builder_1.newLine();
-      _builder_1.append("  \t");
-      _builder_1.append("return elems.get(val.lastIndexOf(a));");
-      _builder_1.newLine();
-      _builder_1.append("  ");
-      _builder_1.append("} ");
-      _builder_1.newLine();
-      _builder_1.append(" ");
-      _builder_1.newLine();
-      _builder_1.append("  ");
-      _builder_1.append("else return null;");
-      _builder_1.newLine();
-      _builder_1.append(" ");
-      _builder_1.append("}");
-      _builder_1.newLine();
-      _builder_1.newLine();
-      _builder_1.append("}");
-      _builder_1.newLine();
-      _builder_1.newLine();
-      _builder_1.append("List<String> ");
-      String _name_16 = object.getName();
-      _builder_1.append(_name_16);
-      _builder_1.append("_lista = new ArrayList<String>();");
-      _builder_1.newLineIfNotEmpty();
-      _builder_1.append("List<");
-      String _name_17 = object.getName();
-      _builder_1.append(_name_17);
-      _builder_1.append("> ");
-      String _name_18 = object.getName();
-      _builder_1.append(_name_18);
-      _builder_1.append("_Class = new ArrayList<");
-      String _name_19 = object.getName();
-      _builder_1.append(_name_19);
-      _builder_1.append(">();");
-      _builder_1.newLineIfNotEmpty();
-      sb.append(_builder_1);
-    }
-    return sb.toString();
-  }
-
-  public String visit(final ConcreteDomain object) {
-    StringBuffer sb = new StringBuffer();
-    Boolean _isDynamic = object.getIsDynamic();
-    if ((_isDynamic).booleanValue()) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("class  ");
-      String _name = object.getName();
-      _builder.append(_name);
-      _builder.append("{");
-      _builder.newLineIfNotEmpty();
-      _builder.newLine();
-      _builder.append("List<");
-      String _visit = new ToString(this.res).visit(object.getTypeDomain());
-      _builder.append(_visit);
-      _builder.append("> elems = new ArrayList<");
-      String _visit_1 = new ToString(this.res).visit(object.getTypeDomain());
-      _builder.append(_visit_1);
-      _builder.append(">();");
-      _builder.newLineIfNotEmpty();
-      _builder.newLine();
-      String _visit_2 = new ToString(this.res).visit(object.getTypeDomain());
-      _builder.append(_visit_2);
-      _builder.append(" value;");
-      _builder.newLineIfNotEmpty();
-      _builder.newLine();
-      _builder.append("\t\t\t\t  ");
-      String _name_1 = object.getName();
-      _builder.append(_name_1, "\t\t\t\t  ");
-      _builder.append("(");
-      String _visit_3 = new ToString(this.res).visit(object.getTypeDomain());
-      _builder.append(_visit_3, "\t\t\t\t  ");
-      _builder.append(" i) { value = i; }");
-      _builder.newLineIfNotEmpty();
-      _builder.newLine();
-      _builder.newLine();
-      _builder.append("}");
-      _builder.newLine();
-      _builder.newLine();
-      _builder.append("List<");
-      String _visit_4 = new ToString(this.res).visit(object.getTypeDomain());
-      _builder.append(_visit_4);
-      _builder.append("> ");
-      String _name_2 = object.getName();
-      _builder.append(_name_2);
-      _builder.append("_elems = new ArrayList<");
-      String _visit_5 = new ToString(this.res).visit(object.getTypeDomain());
-      _builder.append(_visit_5);
-      _builder.append(">();");
-      _builder.newLineIfNotEmpty();
-      sb.append(_builder);
-    } else {
-      StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("static class  ");
-      String _name_3 = object.getName();
-      _builder_1.append(_name_3);
-      _builder_1.append("{");
-      _builder_1.newLineIfNotEmpty();
-      _builder_1.append("\t\t\t\t");
-      _builder_1.newLine();
-      _builder_1.append("\t\t\t      ");
-      _builder_1.append("static List<");
-      String _visit_6 = new ToString(this.res).visit(object.getTypeDomain());
-      _builder_1.append(_visit_6, "\t\t\t      ");
-      _builder_1.append("> elems = new ArrayList<");
-      String _visit_7 = new ToString(this.res).visit(object.getTypeDomain());
-      _builder_1.append(_visit_7, "\t\t\t      ");
-      _builder_1.append(">();");
-      _builder_1.newLineIfNotEmpty();
-      _builder_1.newLine();
-      _builder_1.append("                  ");
-      String _visit_8 = new ToString(this.res).visit(object.getTypeDomain());
-      _builder_1.append(_visit_8, "                  ");
-      _builder_1.append(" value;");
-      _builder_1.newLineIfNotEmpty();
-      _builder_1.append("\t\t\t\t");
-      _builder_1.append("}");
-      _builder_1.newLine();
-      _builder_1.append("\t\t\t\t");
-      _builder_1.newLine();
-      _builder_1.append("\t\t\t\t");
-      String _name_4 = object.getName();
-      _builder_1.append(_name_4, "\t\t\t\t");
-      _builder_1.append(" ");
-      String _name_5 = object.getName();
-      _builder_1.append(_name_5, "\t\t\t\t");
-      _builder_1.append("_elem = new ");
-      String _name_6 = object.getName();
-      _builder_1.append(_name_6, "\t\t\t\t");
-      _builder_1.append("();");
-      _builder_1.newLineIfNotEmpty();
-      _builder_1.append("\t\t\t\t");
-      _builder_1.newLine();
-      _builder_1.append("\t\t\t\t");
-      _builder_1.append("List<");
-      String _visit_9 = new ToString(this.res).visit(object.getTypeDomain());
-      _builder_1.append(_visit_9, "\t\t\t\t");
-      _builder_1.append("> ");
-      String _name_7 = object.getName();
-      _builder_1.append(_name_7, "\t\t\t\t");
-      _builder_1.append("_elems = new ArrayList<");
-      String _visit_10 = new ToString(this.res).visit(object.getTypeDomain());
-      _builder_1.append(_visit_10, "\t\t\t\t");
-      _builder_1.append(">();");
-      _builder_1.newLineIfNotEmpty();
-      sb.append(_builder_1);
-    }
-    return sb.toString();
-  }
-
-  public String visit(final EnumTd object) {
-    StringBuffer sb = new StringBuffer();
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("static enum ");
-    String _name = object.getName();
-    _builder.append(_name);
-    _builder.append(" {");
-    sb.append(_builder);
-    for (int i = 0; (i < object.getElement().size()); i++) {
-      int _size = object.getElement().size();
-      int _minus = (_size - 1);
-      boolean _notEquals = (i != _minus);
-      if (_notEquals) {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        String _visit = new ToString(this.res).visit(object.getElement().get(i));
-        _builder_1.append(_visit);
-        _builder_1.append(", ");
-        sb.append(_builder_1);
-      } else {
-        StringConcatenation _builder_2 = new StringConcatenation();
-        String _visit_1 = new ToString(this.res).visit(object.getElement().get(i));
-        _builder_2.append(_visit_1);
-        _builder_2.append("}");
-        _builder_2.newLineIfNotEmpty();
-        _builder_2.append("\t\t\t");
-        _builder_2.newLine();
-        sb.append(_builder_2);
-      }
-    }
-    StringConcatenation _builder_1 = new StringConcatenation();
-    _builder_1.append("List<");
-    String _name_1 = object.getName();
-    _builder_1.append(_name_1);
-    _builder_1.append("> ");
-    String _name_2 = object.getName();
-    _builder_1.append(_name_2);
-    _builder_1.append("_lista = new ArrayList<");
-    String _name_3 = object.getName();
-    _builder_1.append(_name_3);
-    _builder_1.append(">();");
-    _builder_1.newLineIfNotEmpty();
-    sb.append(_builder_1);
-    return sb.toString();
   }
 
   public String visit(final ProductDomain object) {
@@ -533,6 +145,18 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     return _string.substring(0, _minus).concat(">");
   }
 
+  public String visit(final DomainDefinition object) {
+    return new TermToJava(this.res).visit(object.getBody());
+  }
+
+  public String visit(final DomainInitialization object) {
+    return new TermToJava(this.res).visit(object.getBody());
+  }
+
+  public String visit(final RuleDomain object) {
+    throw new RuntimeException("RuleDomain not supported");
+  }
+
   public String visit(final SequenceDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
@@ -583,17 +207,331 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     return sb.toString().substring(0, sb.length()).concat(">");
   }
 
-  public String visit(final DomainDefinition object) {
-    return new TermToJava(this.res).visit(object.getBody());
-  }
-
-  public String visit(final DomainInitialization object) {
-    return new TermToJava(this.res).visit(object.getBody());
-  }
-
-  public String visit(final RuleDomain object) {
+  public String visit(final EnumTd object) {
     StringBuffer sb = new StringBuffer();
-    sb.append("Caso relativo ai RuleDomain");
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("enum ");
+    String _name = object.getName();
+    _builder.append(_name);
+    _builder.append(" {");
+    sb.append(_builder);
+    for (int i = 0; (i < object.getElement().size()); i++) {
+      int _size = object.getElement().size();
+      int _minus = (_size - 1);
+      boolean _notEquals = (i != _minus);
+      if (_notEquals) {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        String _visit = new ToString(this.res).visit(object.getElement().get(i));
+        _builder_1.append(_visit);
+        _builder_1.append(", ");
+        sb.append(_builder_1);
+      } else {
+        StringConcatenation _builder_2 = new StringConcatenation();
+        String _visit_1 = new ToString(this.res).visit(object.getElement().get(i));
+        _builder_2.append(_visit_1);
+        _builder_2.append("}");
+        _builder_2.newLineIfNotEmpty();
+        sb.append(_builder_2);
+      }
+    }
+    sb.append(System.lineSeparator());
+    StringConcatenation _builder_1 = new StringConcatenation();
+    _builder_1.append("List<");
+    String _name_1 = object.getName();
+    _builder_1.append(_name_1);
+    _builder_1.append("> ");
+    String _name_2 = object.getName();
+    _builder_1.append(_name_2);
+    _builder_1.append("_elemsList = new ArrayList<>();");
+    sb.append(_builder_1);
+    return sb.toString();
+  }
+
+  public String visit(final AbstractTd object) {
+    StringBuffer sb = new StringBuffer();
+    String isStatic = "";
+    Boolean _isDynamic = object.getIsDynamic();
+    boolean _not = (!(_isDynamic).booleanValue());
+    if (_not) {
+      isStatic = "static";
+    }
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("static class ");
+    String _name = object.getName();
+    _builder.append(_name);
+    _builder.append(" {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("static List<");
+    String _name_1 = object.getName();
+    _builder.append(_name_1, "\t");
+    _builder.append("> elems = new ArrayList<>();");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append((isStatic + " "), "\t");
+    _builder.append("List<String> val = new ArrayList<>();");
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    String _name_2 = object.getName();
+    _builder.append(_name_2);
+    _builder.append(" (String a) {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("      ");
+    _builder.append("elems.add(this);");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("val.add(a);");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("String toString(");
+    String _name_3 = object.getName();
+    _builder.append(_name_3, "      ");
+    _builder.append(" a) {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("      ");
+    _builder.append("if(elems.contains(a)) {");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("return val.get(elems.lastIndexOf(a));");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("else return null;");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.newLine();
+    String _name_4 = object.getName();
+    _builder.append(_name_4);
+    _builder.append(" get(String a) {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("      ");
+    _builder.append("if(val.contains(a)) {");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("return elems.get(val.lastIndexOf(a));");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("else return null;");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.newLine();
+    _builder.append("      ");
+    _builder.append("List<String> ");
+    String _name_5 = object.getName();
+    _builder.append(_name_5, "      ");
+    _builder.append("_elemsList = new ArrayList<>();");
+    _builder.newLineIfNotEmpty();
+    _builder.append("      ");
+    _builder.append("List<");
+    String _name_6 = object.getName();
+    _builder.append(_name_6, "      ");
+    _builder.append("> ");
+    String _name_7 = object.getName();
+    _builder.append(_name_7, "      ");
+    _builder.append("_Class = new ArrayList<>();");
+    _builder.newLineIfNotEmpty();
+    sb.append(_builder);
+    return sb.toString();
+  }
+
+  public String visit(final ConcreteDomain object) {
+    StringBuffer sb = new StringBuffer();
+    Boolean _isDynamic = object.getIsDynamic();
+    if ((_isDynamic).booleanValue()) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("class  ");
+      String _name = object.getName();
+      _builder.append(_name);
+      _builder.append("{");
+      _builder.newLineIfNotEmpty();
+      _builder.newLine();
+      _builder.append("List<");
+      String _visit = new ToString(this.res).visit(object.getTypeDomain());
+      _builder.append(_visit);
+      _builder.append("> elems = new ArrayList<>();\t\t\t      ");
+      _builder.newLineIfNotEmpty();
+      String _visit_1 = new ToString(this.res).visit(object.getTypeDomain());
+      _builder.append(_visit_1);
+      _builder.append(" value;\t\t\t      ");
+      _builder.newLineIfNotEmpty();
+      String _name_1 = object.getName();
+      _builder.append(_name_1);
+      _builder.append("(");
+      String _visit_2 = new ToString(this.res).visit(object.getTypeDomain());
+      _builder.append(_visit_2);
+      _builder.append(" i) { ");
+      _builder.newLineIfNotEmpty();
+      _builder.append("   ");
+      _builder.append("value = i;");
+      _builder.newLine();
+      _builder.append("   ");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("   ");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("   ");
+      _builder.newLine();
+      _builder.append("   ");
+      _builder.append("List<");
+      String _visit_3 = new ToString(this.res).visit(object.getTypeDomain());
+      _builder.append(_visit_3, "   ");
+      _builder.append("> ");
+      String _name_2 = object.getName();
+      _builder.append(_name_2, "   ");
+      _builder.append("_elems = new ArrayList<>();");
+      _builder.newLineIfNotEmpty();
+      sb.append(_builder);
+    } else {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("static class  ");
+      String _name_3 = object.getName();
+      _builder_1.append(_name_3);
+      _builder_1.append(" {");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("\t\t\t\t");
+      _builder_1.append("static List<");
+      String _visit_4 = new ToString(this.res).visit(object.getTypeDomain());
+      _builder_1.append(_visit_4, "\t\t\t\t");
+      _builder_1.append("> elems = new ArrayList<>();");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("                ");
+      String _visit_5 = new ToString(this.res).visit(object.getTypeDomain());
+      _builder_1.append(_visit_5, "                ");
+      _builder_1.append(" value;");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("                ");
+      _builder_1.newLine();
+      _builder_1.append("                ");
+      _builder_1.append("static ");
+      String _name_4 = object.getName();
+      _builder_1.append(_name_4, "                ");
+      _builder_1.append(" valueOf(");
+      String _visit_6 = new ToString(this.res).visit(object.getTypeDomain());
+      _builder_1.append(_visit_6, "                ");
+      _builder_1.append(" val) {");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("                \t");
+      String _name_5 = object.getName();
+      _builder_1.append(_name_5, "                \t");
+      _builder_1.append(" n = new ");
+      String _name_6 = object.getName();
+      _builder_1.append(_name_6, "                \t");
+      _builder_1.append("();");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("                \t");
+      _builder_1.append("n.value = val;");
+      _builder_1.newLine();
+      _builder_1.append("                \t");
+      _builder_1.append("return n;");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t");
+      _builder_1.append("}");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t");
+      _builder_1.append("static ");
+      String _name_7 = object.getName();
+      _builder_1.append(_name_7, "\t\t\t\t");
+      _builder_1.append(" valueOf(");
+      String _name_8 = object.getName();
+      _builder_1.append(_name_8, "\t\t\t\t");
+      _builder_1.append(" val) {");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("\t\t\t\t                \t");
+      _builder_1.append("return val;");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t\t\t\t\t");
+      _builder_1.append("}");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t");
+      _builder_1.append("@Override");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t\t");
+      _builder_1.append("public boolean equals(Object obj) {");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t\t\t");
+      _builder_1.append("if (!(obj instanceof ");
+      String _name_9 = object.getName();
+      _builder_1.append(_name_9, "\t\t\t\t\t\t");
+      _builder_1.append(")) return false;");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("\t\t\t\t\t\t");
+      _builder_1.append("return value.equals(((");
+      String _name_10 = object.getName();
+      _builder_1.append(_name_10, "\t\t\t\t\t\t");
+      _builder_1.append(")obj).value);");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("\t\t\t\t\t");
+      _builder_1.append("}");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t");
+      _builder_1.append("@Override");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t\t\t");
+      _builder_1.append("public int hashCode() {");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t\t\t\t");
+      _builder_1.append("return value.hashCode();");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t\t\t");
+      _builder_1.append("}");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t\t\t");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t");
+      _builder_1.append("}");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t");
+      String _name_11 = object.getName();
+      _builder_1.append(_name_11, "\t\t\t\t");
+      _builder_1.append(" ");
+      String _name_12 = object.getName();
+      _builder_1.append(_name_12, "\t\t\t\t");
+      _builder_1.append("_elem = new ");
+      String _name_13 = object.getName();
+      _builder_1.append(_name_13, "\t\t\t\t");
+      _builder_1.append("();");
+      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("\t\t\t\t");
+      _builder_1.append("List<");
+      String _visit_7 = new ToString(this.res).visit(object.getTypeDomain());
+      _builder_1.append(_visit_7, "\t\t\t\t");
+      _builder_1.append("> ");
+      String _name_14 = object.getName();
+      _builder_1.append(_name_14, "\t\t\t\t");
+      _builder_1.append("_elems = new ArrayList<>();");
+      _builder_1.newLineIfNotEmpty();
+      sb.append(_builder_1);
+    }
     return sb.toString();
   }
 }

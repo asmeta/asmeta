@@ -12,7 +12,7 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 
 public class TopologicalSort extends RuleVoidVisitor {
-	
+
 	static boolean[] marked;
 	static RuleDeclaration[] rules;
 	static TopologicalSort visitor;
@@ -21,7 +21,7 @@ public class TopologicalSort extends RuleVoidVisitor {
 	public static RuleDeclaration[] sort(Collection<RuleDeclaration> dcls) {
 		rules = dcls.toArray(new RuleDeclaration[0]);
 		marked = new boolean[rules.length];
-		sorted = new ArrayList<RuleDeclaration>();
+		sorted = new ArrayList<>();
 		visitor = new TopologicalSort();
 		for (RuleDeclaration dcl : rules) {
 			visitor.visit(dcl);
@@ -29,7 +29,7 @@ public class TopologicalSort extends RuleVoidVisitor {
 		RuleDeclaration[] tmp = sorted.toArray(new RuleDeclaration[0]);
 		return tmp;
 	}
-	
+
 	void visit(RuleDeclaration dcl) {
 		int i = search(dcl);
 		if (i != -1 && !marked[i]) {
@@ -37,9 +37,9 @@ public class TopologicalSort extends RuleVoidVisitor {
 			Rule rule = dcl.getRuleBody();
 			visit(rule);
 			sorted.add(dcl);
-		}		
+		}
 	}
-		
+
 	@Override
 	public Void visit(MacroCallRule macro) {
 		MacroDeclaration dcl = macro.getCalledMacro();
@@ -55,5 +55,5 @@ public class TopologicalSort extends RuleVoidVisitor {
 			}
 		}
 		return -1;
-	}	
+	}
 }

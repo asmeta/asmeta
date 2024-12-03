@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.asmeta.animator.VisualizationSimulation;
+//import org.eclipse.swt.widgets.*;
 import org.junit.Test;
 
 /*
@@ -125,20 +126,20 @@ public class AsmetaAnimatorTest {
 	
 	public static void testAnimator(String specpath)
 			throws Exception, FileNotFoundException, IOException, InterruptedException {
-
-		//AsmCollection asm = ExampleTaker.getExample(specpath);
-	//	String asmPath = ExampleTaker.getAsmFile(specpath).getAbsolutePath();
-
+		// AsmCollection asm = ExampleTaker.getExample(specpath);
+		// String asmPath = ExampleTaker.getAsmFile(specpath).getAbsolutePath();
 		VisualizationSimulation.showView(new File(specpath));
 		// geneate the unit test
-		//AsmToGraphicalR trans = new AsmToGraphicalR();
+		// AsmToGraphicalR trans = new AsmToGraphicalR();
 		// test name
 		// String testPath = "temp/test.cpp";
-	//	trans.generate(asm);
+		// trans.generate(asm);
 		// generate also the spec
 		// header
-	}
+//		Display display = Display.getDefault();
+//		display.close();
 
+	}
 	
 	/*public static void testAnimator(String specpath, SimulationType simType)
 			throws Exception, FileNotFoundException, IOException, InterruptedException {

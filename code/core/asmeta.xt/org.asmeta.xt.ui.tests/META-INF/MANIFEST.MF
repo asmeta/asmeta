@@ -3,17 +3,16 @@ Automatic-Module-Name: org.asmeta.xt.ui.tests
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.xt.ui.tests
 Bundle-Vendor: foselab.unibg.it
-Bundle-Version: 23.07
+Bundle-Version: 24.06
 Bundle-SymbolicName: org.asmeta.xt.ui.tests; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.xt.ui,
  org.eclipse.xtext.testing,
  org.eclipse.xtext.xbase.testing,
- org.eclipse.xtext.xbase.junit,
  org.eclipse.core.runtime,
  org.eclipse.xtext.ui.testing,
  org.eclipse.ui.workbench;resolution:=optional,
  org.junit,
  org.eclipse.xtext.xbase.ui.testing
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.asmeta.xt.ui.tests;x-internal=true

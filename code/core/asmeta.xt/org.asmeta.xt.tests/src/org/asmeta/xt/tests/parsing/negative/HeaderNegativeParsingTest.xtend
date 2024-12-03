@@ -11,6 +11,7 @@ import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.asmeta.xt.tests.AsmParseHelper
 
 /**
  * A class for validation test (negative test)
@@ -20,7 +21,7 @@ import org.junit.runner.RunWith
 @InjectWith(AsmetaLInjectorProvider)
 class HeaderNegativeParsingTest {
 	
-	@Inject	ParseHelper<Asm> parseHelper
+	@Inject	AsmParseHelper parseHelper
 	@Inject extension ValidationTestHelper
 
 	@Test

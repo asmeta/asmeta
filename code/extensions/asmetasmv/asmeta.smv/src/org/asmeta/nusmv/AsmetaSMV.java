@@ -122,6 +122,7 @@ public class AsmetaSMV {
 
 	void createNuSMVfile(String smvFileName) throws Exception {
 		assert mv != null : "An instance of MapVisitor must have been created previously";
+		assert ! smvFileName.endsWith(".smv");
 		this.smvFileName = smvFileName + ".smv";
 		mv.printSmv(this.smvFileName);
 	}
@@ -149,8 +150,19 @@ public class AsmetaSMV {
 		else if (AsmetaSMVOptions.isUseNuXmv())
 			runNuXMV();
 		else {
-			List<String> commands = buildCommandLine(smvFileName);
-			runNuSMV(commands);
+			List<String> commands;
+			// try to get the dir 
+			// for example it can be absolute or relative like /tmp/kkkk or example/...
+			File smvFile = new File(smvFileName);
+			if (smvFile.exists() && smvFile.getParentFile()!=null) {
+				smvFileName = smvFile.getName();
+				commands = buildCommandLine(smvFileName);
+				//System.out.println("*** executic " + commands + "  " + smvFile.getParentFile() );
+				runNuSMV(commands,smvFile.getParentFile());
+			} else { 
+				commands = buildCommandLine(smvFileName);
+				runNuSMV(commands);
+			}
 			/*
 			 * if (Util.isPrintNuSMVoutput()) { c.run = false;// it stops the counter try {
 			 * t.join(); } catch (InterruptedException e) { e.printStackTrace(); } }
@@ -212,7 +224,7 @@ public class AsmetaSMV {
 		String solverName = "nuXmv";
 		ProcessBuilder bp = new ProcessBuilder(solverName, "-int", "-time");
 		bp.redirectErrorStream(true);
-		Process proc = bp.start();
+		proc = bp.start();
 		//
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(proc.getOutputStream()));
 		//
@@ -267,8 +279,8 @@ public class AsmetaSMV {
 		// Values representing the undef value for the different domains are
 		// substituted
 		// with the string "undef".
-		for (String domain : mv.getUndefValue().keySet()) {
-			output = output.replaceAll(mv.getUndefValue().get(domain), "undef");
+		for (String domain : mv.getDomainswithUndef()) {
+			output = output.replaceAll(mv.getUndefValue(domain), "undef");
 		}
 		output = output.replaceAll(" FALSE", " false");
 		output = output.replaceAll(" TRUE", " true");
@@ -285,25 +297,8 @@ public class AsmetaSMV {
 	}
 
 	private List<String> buildCommandLine(String smvFileName) {
-		String solverName;
-		// nuXmv also accepts standard NuSMV files
-		if (AsmetaSMVOptions.getSolverPath() == null) {
-			// if (AsmetaSMVOptions.isUseNuXmv()) {
-			// solverName = "nuXmv";
-			// } else {
-			solverName = "NuSMV";
-			// }
-		} else {
-			solverName = AsmetaSMVOptions.getSolverPath();
-		}
 		List<String> commands = new ArrayList<>();
-		// to run NuSMV also on MacOS X
-		boolean isMac = System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0;
-		if (isMac) {
-			// commands.add("/bin/sh");
-			// commands.add("-c");
-			solverName = "/Applications/NuSMV/bin/NuSMV";
-		}
+		String solverName = getSolverName();
 		commands.add(solverName);
 		if (!AsmetaSMVOptions.isPrintCounterExample()) {
 			commands.add("-dcx");
@@ -336,6 +331,40 @@ public class AsmetaSMV {
 		}
 		return commands;
 	}
+	/** 
+	 * @return the solver name (with the path if necessary)
+	 */
+	public static String getSolverName() {
+		String solverName;
+		// nuXmv also accepts standard NuSMV files
+		if (AsmetaSMVOptions.getSolverPath() == null) {
+			// if (AsmetaSMVOptions.isUseNuXmv()) {
+			// solverName = "nuXmv";
+			// } else {
+			// to run NuSMV also on MacOS X
+			String osName = System.getProperty("os.name");
+			String os_version = System.getProperty("os.version");
+			boolean isMac = osName.toLowerCase().contains("mac");
+			boolean isWSL = osName.contains("Linux") && os_version.contains("WSL");
+			if (isMac) {
+				// commands.add("/bin/sh");
+				// commands.add("-c");
+				solverName = "/Applications/NuSMV/bin/NuSMV";
+			} else if (isWSL){
+				// assume windows with WSL - exe is needed
+				// solverName = "NuSMV.exe";
+				// OR NOT??? now works without exe
+				solverName = "NuSMV";
+			} else {
+				// assume windows or Linux
+				solverName = "NuSMV";
+			}
+			// }
+		} else {
+			solverName = AsmetaSMVOptions.getSolverPath();
+		}
+		return solverName;
+	}
 
 	/**
 	 * It executes the NuSMV model with the provided set of options.
@@ -347,9 +376,16 @@ public class AsmetaSMV {
 	 * @throws Exception
 	 */
 	void runNuSMV(List<String> cmdarray) throws Exception {
+		// use the current dir as working dir 
+		runNuSMV(cmdarray, null);
+	}
+	// working dir since sometimes running in a different dir may cause some problems
+	// like in WSL
+	void runNuSMV(List<String> cmdarray, File workingDir) throws Exception {
 		// System.out.println(Arrays.toString(cmdarray));
 		try {
-			ProcessBuilder pb = new ProcessBuilder(cmdarray);			
+			ProcessBuilder pb = new ProcessBuilder(cmdarray);
+			pb.directory(workingDir);
 			proc = pb.start();
 			// outputRunNuSMV = getOutput(smvFileName);
 		} catch (Exception e) {

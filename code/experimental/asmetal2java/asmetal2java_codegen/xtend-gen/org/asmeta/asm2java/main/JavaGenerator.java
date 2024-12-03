@@ -1,6 +1,7 @@
 package org.asmeta.asm2java.main;
 
 import asmeta.definitions.ControlledFunction;
+import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.definitions.StaticFunction;
@@ -23,6 +24,7 @@ import org.asmeta.asm2java.FunctionToJavaDef;
 import org.asmeta.asm2java.FunctionToJavaSig;
 import org.asmeta.asm2java.RuleToJava;
 import org.asmeta.asm2java.SeqRuleCollector;
+import org.asmeta.asm2java.ToString;
 import org.asmeta.asm2java.Util;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -47,7 +49,8 @@ public class JavaGenerator extends AsmToJavaGenerator {
 
   @Override
   public String compileAsm(final Asm asm) {
-    if (this.options.optimizeSeqMacroRule) {
+    boolean _optimizeSeqMacroRule = this.options.getOptimizeSeqMacroRule();
+    if (_optimizeSeqMacroRule) {
       ArrayList<Rule> _arrayList = new ArrayList<Rule>();
       this.seqCalledRules = _arrayList;
       EList<RuleDeclaration> _ruleDeclaration = asm.getBodySection().getRuleDeclaration();
@@ -56,8 +59,10 @@ public class JavaGenerator extends AsmToJavaGenerator {
       }
     }
     final String asmName = asm.getName();
+    String updateASMText = this.updateSet(asm);
     this.functionSignature(asm);
     StringConcatenation _builder = new StringConcatenation();
+    _builder.newLine();
     _builder.append("// ");
     _builder.append(asmName);
     _builder.append(".java automatically generated from ASM2CODE");
@@ -87,6 +92,10 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("import java.util.concurrent.ThreadLocalRandom;");
     _builder.newLine();
+    _builder.append("import java.util.function.Function;");
+    _builder.newLine();
+    _builder.append("import java.util.stream.Collectors;");
+    _builder.newLine();
     _builder.append("import org.javatuples.Decade;");
     _builder.newLine();
     _builder.append("import org.javatuples.Ennead;");
@@ -109,7 +118,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("abstract class ");
     _builder.append(asmName);
-    _builder.append("_sig {");
+    _builder.append("Sig {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
@@ -141,20 +150,20 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("class zeroC<Domain> {");
+    _builder.append("class Fun0Ctrl<D> {");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.newLine();
-    _builder.append("    ");
-    _builder.append("Domain oldValue;");
+    _builder.append("\t   ");
+    _builder.append("D oldValue;");
     _builder.newLine();
-    _builder.append("    ");
-    _builder.append("Domain newValue;");
+    _builder.append("\t   ");
+    _builder.append("D newValue;");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("void set(Domain d) {");
+    _builder.append("void set(D d) {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
@@ -167,7 +176,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("Domain get() {");
+    _builder.append("D get() {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
@@ -183,20 +192,20 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("static class nC<Domain, Codomain> {");
+    _builder.append("static class FunNCtrl<D, C> {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("Map<Domain, Codomain> oldValues = new HashMap<>();");
+    _builder.append("Map<D, C> oldValues = new HashMap<>();");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("Map<Domain, Codomain> newValues = new HashMap<>();");
+    _builder.append("Map<D, C> newValues = new HashMap<>();");
     _builder.newLine();
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("void set(Domain d, Codomain c) {");
+    _builder.append("void set(D d, C c) {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
@@ -209,7 +218,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("Codomain get(Domain d) {");
+    _builder.append("C get(D d) {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
@@ -234,22 +243,22 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("class zero<Domain> {");
+    _builder.append("class Fun0<D> {");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.newLine();
-    _builder.append("    ");
-    _builder.append("Domain Value;");
+    _builder.append("\t   ");
+    _builder.append("D value;");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("void set(Domain d) {");
+    _builder.append("void set(D d) {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("Value = d;");
+    _builder.append("value = d;");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
@@ -257,12 +266,12 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("Domain get() {");
+    _builder.append("D get() {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("return Value;");
+    _builder.append("return value;");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
@@ -275,22 +284,22 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("class n<Domain, Codomain> {");
+    _builder.append("class FunN<D, C> {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("Map<Domain, Codomain> Values = new HashMap<>();");
+    _builder.append("Map<D, C> values = new HashMap<>();");
     _builder.newLine();
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("void set(Domain d, Codomain c) {");
+    _builder.append("void set(D d, C c) {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("Values.put(d, c);");
+    _builder.append("values.put(d, c);");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
@@ -298,12 +307,12 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("Codomain get(Domain d) {");
+    _builder.append("C get(D d) {");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("return Values.get(d);");
+    _builder.append("return values.get(d);");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
@@ -355,7 +364,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append(asmName);
     _builder.append(" extends ");
     _builder.append(asmName);
-    _builder.append("_sig {");
+    _builder.append("Sig {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
@@ -370,14 +379,18 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
-    _builder.append("     ");
+    _builder.append("\t");
     _builder.append("//Definizione iniziale dei domini statici");
     _builder.newLine();
-    _builder.append("     ");
+    _builder.append("\t    ");
     _builder.newLine();
     _builder.append("\t ");
     String _initialStaticDomainDefinition = this.initialStaticDomainDefinition(asm);
     _builder.append(_initialStaticDomainDefinition, "\t ");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t ");
+    String _initialStaticEnumDomainDefinition = this.initialStaticEnumDomainDefinition(asm);
+    _builder.append(_initialStaticEnumDomainDefinition, "\t ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
@@ -419,7 +432,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("\t");
     _builder.newLine();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.append("// Definizione delle funzioni statiche");
     _builder.newLine();
     _builder.append("\t");
@@ -446,9 +459,17 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("void initControlledWithMonitored(){");
     _builder.newLine();
     _builder.append("\t  ");
-    _builder.append(this.initConrolledMonitored, "\t  ");
+    String _xifexpression = null;
+    int _length = this.initConrolledMonitored.length();
+    boolean _equals = (_length == 0);
+    if (_equals) {
+      _xifexpression = "// No controlled functions initialized with monitored ones have been found";
+    } else {
+      _xifexpression = this.initConrolledMonitored;
+    }
+    _builder.append(_xifexpression, "\t  ");
     _builder.newLineIfNotEmpty();
-    _builder.append("    ");
+    _builder.append("\t   ");
     _builder.append("}");
     _builder.newLine();
     _builder.append("\t");
@@ -461,9 +482,16 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
-    _builder.append("\t  ");
-    String _updateSet = this.updateSet(asm);
-    _builder.append(_updateSet, "\t  ");
+    _builder.append("\t\t ");
+    String _xifexpression_1 = null;
+    int _length_1 = updateASMText.length();
+    boolean _equals_1 = (_length_1 == 0);
+    if (_equals_1) {
+      _xifexpression_1 = "// No update set has been found";
+    } else {
+      _xifexpression_1 = updateASMText;
+    }
+    _builder.append(_xifexpression_1, "\t\t ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("}");
@@ -474,14 +502,16 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("//Metodo per l\'aggiornamento dell\'asm");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("void UpdateASM()");
+    _builder.append("void updateASM()");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("{");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("r_Main();");
-    _builder.newLine();
+    String _name = asm.getMainrule().getName();
+    _builder.append(_name, "\t\t");
+    _builder.append("();");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
     _builder.append("fireUpdateSet();");
     _builder.newLine();
@@ -497,6 +527,9 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("public static void main(String[] args) {");
     _builder.newLine();
     _builder.append("\t\t");
+    _builder.append("// TODO: auto-generated main method by Asmeta2Java ");
+    _builder.newLine();
+    _builder.append("\t");
     _builder.append("}");
     _builder.newLine();
     _builder.append("\t");
@@ -528,7 +561,8 @@ public class JavaGenerator extends AsmToJavaGenerator {
       if (((dd instanceof AbstractTd) == false)) {
         String _visit = new DomainToJavaSigDef(asm).visit(dd);
         String _plus = (("//Variabile di tipo Concreto o Enumerativo" + "\n\n") + _visit);
-        String _plus_1 = (_plus + "\n");
+        String _plus_1 = (_plus + 
+          "\n");
         sb.append(_plus_1);
       }
     }
@@ -539,9 +573,21 @@ public class JavaGenerator extends AsmToJavaGenerator {
     StringBuffer sb = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
-      String _visit = new FunctionToJavaSig(asm).visit(fd);
-      String _plus = (_visit + "\n");
-      sb.append(_plus);
+      if ((fd instanceof DerivedFunction)) {
+        EList<FunctionDefinition> _functionDefinition = asm.getBodySection().getFunctionDefinition();
+        for (final FunctionDefinition fDef : _functionDefinition) {
+          boolean _equals = fDef.getDefinedFunction().getName().equals(((DerivedFunction)fd).getName());
+          if (_equals) {
+            String _visit = new FunctionToJavaSig(asm).visit(((DerivedFunction)fd));
+            String _plus = (_visit + "\n");
+            sb.append(_plus);
+          }
+        }
+      } else {
+        String _visit_1 = new FunctionToJavaSig(asm).visit(fd);
+        String _plus_1 = (_visit_1 + "\n");
+        sb.append(_plus_1);
+      }
     }
     return sb.toString();
   }
@@ -601,36 +647,61 @@ public class JavaGenerator extends AsmToJavaGenerator {
           String _plus = (_name + ".elems = Collections.unmodifiableList(Arrays.asList");
           String _visit = new DomainToJavaSigDef(asm).visit(dd);
           String _plus_1 = (_plus + _visit);
-          String _plus_2 = (_plus_1 + 
-            ");\n");
+          String _plus_2 = (_plus_1 + ");\n");
           initial.append(_plus_2);
           String _name_1 = dd.getDefinedDomain().getName();
           String _plus_3 = (_name_1 + "_elems = Collections.unmodifiableList(Arrays.asList");
           String _visit_1 = new DomainToJavaSigDef(asm).visit(dd);
           String _plus_4 = (_plus_3 + _visit_1);
-          String _plus_5 = (_plus_4 + 
-            ");\n");
+          String _plus_5 = (_plus_4 + ");\n");
           initial.append(_plus_5);
         }
       }
     }
-    if ((((asm.getHeaderSection() != null) && (asm.getHeaderSection().getSignature() != null)) && 
-      (asm.getHeaderSection().getSignature().getDomain() != null))) {
+    int _length = initial.toString().length();
+    boolean _notEquals = (_length != 0);
+    if (_notEquals) {
+      String _string = initial.toString();
+      return (_string + "\n");
+    } else {
+      return "";
+    }
+  }
+
+  public String initialStaticEnumDomainDefinition(final Asm asm) {
+    StringBuffer initial = new StringBuffer();
+    if (((asm.getBodySection() != null) && (asm.getBodySection().getDomainDefinition() != null))) {
       EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
-      for (final Domain ed : _domain) {
-        if ((ed instanceof EnumTd)) {
-          initial.append(("//setto la lista di elementi di supporto della classe enumerativa" + "\n"));
-          String _name = ((EnumTd)ed).getName();
-          String _plus = ("for(" + _name);
-          String _plus_1 = (_plus + " i : ");
-          String _name_1 = ((EnumTd)ed).getName();
-          String _plus_2 = (_plus_1 + _name_1);
-          String _plus_3 = (_plus_2 + ".values())");
-          String _plus_4 = (_plus_3 + "\n");
-          initial.append(_plus_4);
-          String _name_2 = ((EnumTd)ed).getName();
-          String _plus_5 = (_name_2 + "_lista.add(i);\n");
-          initial.append(_plus_5);
+      for (final Domain dd : _domain) {
+        if ((dd instanceof EnumTd)) {
+          String _name = ((EnumTd)dd).getName();
+          String _plus = (_name + "_elemsList = Collections.unmodifiableList(Arrays.asList(");
+          initial.append(_plus);
+          for (int i = 0; (i < ((EnumTd)dd).getElement().size()); i++) {
+            int _size = ((EnumTd)dd).getElement().size();
+            int _minus = (_size - 1);
+            boolean _notEquals = (i != _minus);
+            if (_notEquals) {
+              StringConcatenation _builder = new StringConcatenation();
+              String _name_1 = ((EnumTd)dd).getName();
+              _builder.append(_name_1);
+              _builder.append(".");
+              String _visit = new ToString(asm).visit(((EnumTd)dd).getElement().get(i));
+              _builder.append(_visit);
+              _builder.append(", ");
+              initial.append(_builder);
+            } else {
+              StringConcatenation _builder_1 = new StringConcatenation();
+              String _name_2 = ((EnumTd)dd).getName();
+              _builder_1.append(_name_2);
+              _builder_1.append(".");
+              String _visit_1 = new ToString(asm).visit(((EnumTd)dd).getElement().get(i));
+              _builder_1.append(_visit_1);
+              _builder_1.append(")");
+              initial.append(_builder_1);
+            }
+          }
+          initial.append(");\n");
         }
       }
     }
@@ -689,7 +760,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
         String _plus_7 = (_plus_6 + ";\n");
         sb.append(_plus_7);
         String _name_3 = fd.getCodomain().getName();
-        String _plus_8 = (_name_3 + "_lista.add(");
+        String _plus_8 = (_name_3 + "_elemsList.add(");
         String _plus_9 = (_plus_8 + this.supp);
         String _name_4 = fd.getName();
         String _plus_10 = (_plus_9 + _name_4);
@@ -715,7 +786,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       EList<FunctionInitialization> _functionInitialization = asm.getDefaultInitialState().getFunctionInitialization();
       for (final FunctionInitialization fd : _functionInitialization) {
         {
-          containsMonitored = (new FindMonitoredInControlledFunct(asm).visit(fd.getBody())).booleanValue();
+          containsMonitored = (new FindMonitoredInControlledFunct().visit(fd.getBody())).booleanValue();
           if ((containsMonitored == false)) {
             StringConcatenation _builder = new StringConcatenation();
             String _visit = new FunctionToJavaDef(asm).visit(fd.getInitializedFunction());

@@ -12436,23 +12436,23 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rulenameofDomain"
 
 
-    // $ANTLR start "entryRuleMOD_ID"
-    // InternalAsmetaL.g:3654:1: entryRuleMOD_ID : ruleMOD_ID EOF ;
-    public final void entryRuleMOD_ID() throws RecognitionException {
+    // $ANTLR start "entryRuleMODULE_ID"
+    // InternalAsmetaL.g:3654:1: entryRuleMODULE_ID : ruleMODULE_ID EOF ;
+    public final void entryRuleMODULE_ID() throws RecognitionException {
         try {
-            // InternalAsmetaL.g:3655:1: ( ruleMOD_ID EOF )
-            // InternalAsmetaL.g:3656:1: ruleMOD_ID EOF
+            // InternalAsmetaL.g:3655:1: ( ruleMODULE_ID EOF )
+            // InternalAsmetaL.g:3656:1: ruleMODULE_ID EOF
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getMOD_IDRule()); 
+               before(grammarAccess.getMODULE_IDRule()); 
             }
             pushFollow(FOLLOW_1);
-            ruleMOD_ID();
+            ruleMODULE_ID();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getMOD_IDRule()); 
+               after(grammarAccess.getMODULE_IDRule()); 
             }
             match(input,EOF,FOLLOW_2); if (state.failed) return ;
 
@@ -12467,30 +12467,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "entryRuleMOD_ID"
+    // $ANTLR end "entryRuleMODULE_ID"
 
 
-    // $ANTLR start "ruleMOD_ID"
-    // InternalAsmetaL.g:3663:1: ruleMOD_ID : ( ( rule__MOD_ID__Group__0 ) ) ;
-    public final void ruleMOD_ID() throws RecognitionException {
+    // $ANTLR start "ruleMODULE_ID"
+    // InternalAsmetaL.g:3663:1: ruleMODULE_ID : ( ( rule__MODULE_ID__Group__0 ) ) ;
+    public final void ruleMODULE_ID() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:3667:2: ( ( ( rule__MOD_ID__Group__0 ) ) )
-            // InternalAsmetaL.g:3668:2: ( ( rule__MOD_ID__Group__0 ) )
+            // InternalAsmetaL.g:3667:2: ( ( ( rule__MODULE_ID__Group__0 ) ) )
+            // InternalAsmetaL.g:3668:2: ( ( rule__MODULE_ID__Group__0 ) )
             {
-            // InternalAsmetaL.g:3668:2: ( ( rule__MOD_ID__Group__0 ) )
-            // InternalAsmetaL.g:3669:3: ( rule__MOD_ID__Group__0 )
+            // InternalAsmetaL.g:3668:2: ( ( rule__MODULE_ID__Group__0 ) )
+            // InternalAsmetaL.g:3669:3: ( rule__MODULE_ID__Group__0 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getMOD_IDAccess().getGroup()); 
+               before(grammarAccess.getMODULE_IDAccess().getGroup()); 
             }
-            // InternalAsmetaL.g:3670:3: ( rule__MOD_ID__Group__0 )
-            // InternalAsmetaL.g:3670:4: rule__MOD_ID__Group__0
+            // InternalAsmetaL.g:3670:3: ( rule__MODULE_ID__Group__0 )
+            // InternalAsmetaL.g:3670:4: rule__MODULE_ID__Group__0
             {
             pushFollow(FOLLOW_2);
-            rule__MOD_ID__Group__0();
+            rule__MODULE_ID__Group__0();
 
             state._fsp--;
             if (state.failed) return ;
@@ -12498,7 +12498,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getMOD_IDAccess().getGroup()); 
+               after(grammarAccess.getMODULE_IDAccess().getGroup()); 
             }
 
             }
@@ -12518,7 +12518,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "ruleMOD_ID"
+    // $ANTLR end "ruleMODULE_ID"
 
 
     // $ANTLR start "entryRuleID_VARIABLE"
@@ -12771,13 +12771,13 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__ImportClause__ModuleNameAlternatives_1_0"
-    // InternalAsmetaL.g:3745:1: rule__ImportClause__ModuleNameAlternatives_1_0 : ( ( ruleMOD_ID ) | ( RULE_STRING ) );
+    // InternalAsmetaL.g:3745:1: rule__ImportClause__ModuleNameAlternatives_1_0 : ( ( ruleMODULE_ID ) | ( RULE_STRING ) );
     public final void rule__ImportClause__ModuleNameAlternatives_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:3749:1: ( ( ruleMOD_ID ) | ( RULE_STRING ) )
+            // InternalAsmetaL.g:3749:1: ( ( ruleMODULE_ID ) | ( RULE_STRING ) )
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -12796,21 +12796,21 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
             switch (alt4) {
                 case 1 :
-                    // InternalAsmetaL.g:3750:2: ( ruleMOD_ID )
+                    // InternalAsmetaL.g:3750:2: ( ruleMODULE_ID )
                     {
-                    // InternalAsmetaL.g:3750:2: ( ruleMOD_ID )
-                    // InternalAsmetaL.g:3751:3: ruleMOD_ID
+                    // InternalAsmetaL.g:3750:2: ( ruleMODULE_ID )
+                    // InternalAsmetaL.g:3751:3: ruleMODULE_ID
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getImportClauseAccess().getModuleNameMOD_IDParserRuleCall_1_0_0()); 
+                       before(grammarAccess.getImportClauseAccess().getModuleNameMODULE_IDParserRuleCall_1_0_0()); 
                     }
                     pushFollow(FOLLOW_2);
-                    ruleMOD_ID();
+                    ruleMODULE_ID();
 
                     state._fsp--;
                     if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getImportClauseAccess().getModuleNameMOD_IDParserRuleCall_1_0_0()); 
+                       after(grammarAccess.getImportClauseAccess().getModuleNameMODULE_IDParserRuleCall_1_0_0()); 
                     }
 
                     }
@@ -19881,14 +19881,14 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__TurboDerivedRule__Alternatives"
 
 
-    // $ANTLR start "rule__MOD_ID__Alternatives_0"
-    // InternalAsmetaL.g:5365:1: rule__MOD_ID__Alternatives_0 : ( ( ( rule__MOD_ID__Alternatives_0_0 ) ) | ( ( '../' )* ) | ( ( './' )* ) );
-    public final void rule__MOD_ID__Alternatives_0() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Alternatives_0"
+    // InternalAsmetaL.g:5365:1: rule__MODULE_ID__Alternatives_0 : ( ( ( rule__MODULE_ID__Alternatives_0_0 ) ) | ( ( '../' )* ) | ( ( './' )* ) );
+    public final void rule__MODULE_ID__Alternatives_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:5369:1: ( ( ( rule__MOD_ID__Alternatives_0_0 ) ) | ( ( '../' )* ) | ( ( './' )* ) )
+            // InternalAsmetaL.g:5369:1: ( ( ( rule__MODULE_ID__Alternatives_0_0 ) ) | ( ( '../' )* ) | ( ( './' )* ) )
             int alt66=3;
             switch ( input.LA(1) ) {
             case RULE_ENUM_ID:
@@ -19974,19 +19974,19 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
 
             switch (alt66) {
                 case 1 :
-                    // InternalAsmetaL.g:5370:2: ( ( rule__MOD_ID__Alternatives_0_0 ) )
+                    // InternalAsmetaL.g:5370:2: ( ( rule__MODULE_ID__Alternatives_0_0 ) )
                     {
-                    // InternalAsmetaL.g:5370:2: ( ( rule__MOD_ID__Alternatives_0_0 ) )
-                    // InternalAsmetaL.g:5371:3: ( rule__MOD_ID__Alternatives_0_0 )
+                    // InternalAsmetaL.g:5370:2: ( ( rule__MODULE_ID__Alternatives_0_0 ) )
+                    // InternalAsmetaL.g:5371:3: ( rule__MODULE_ID__Alternatives_0_0 )
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getMOD_IDAccess().getAlternatives_0_0()); 
+                       before(grammarAccess.getMODULE_IDAccess().getAlternatives_0_0()); 
                     }
-                    // InternalAsmetaL.g:5372:3: ( rule__MOD_ID__Alternatives_0_0 )
-                    // InternalAsmetaL.g:5372:4: rule__MOD_ID__Alternatives_0_0
+                    // InternalAsmetaL.g:5372:3: ( rule__MODULE_ID__Alternatives_0_0 )
+                    // InternalAsmetaL.g:5372:4: rule__MODULE_ID__Alternatives_0_0
                     {
                     pushFollow(FOLLOW_2);
-                    rule__MOD_ID__Alternatives_0_0();
+                    rule__MODULE_ID__Alternatives_0_0();
 
                     state._fsp--;
                     if (state.failed) return ;
@@ -19994,7 +19994,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     }
 
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getMOD_IDAccess().getAlternatives_0_0()); 
+                       after(grammarAccess.getMODULE_IDAccess().getAlternatives_0_0()); 
                     }
 
                     }
@@ -20009,7 +20009,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     // InternalAsmetaL.g:5377:3: ( '../' )*
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getMOD_IDAccess().getFullStopFullStopSolidusKeyword_0_1()); 
+                       before(grammarAccess.getMODULE_IDAccess().getFullStopFullStopSolidusKeyword_0_1()); 
                     }
                     // InternalAsmetaL.g:5378:3: ( '../' )*
                     loop64:
@@ -20037,7 +20037,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     } while (true);
 
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getMOD_IDAccess().getFullStopFullStopSolidusKeyword_0_1()); 
+                       after(grammarAccess.getMODULE_IDAccess().getFullStopFullStopSolidusKeyword_0_1()); 
                     }
 
                     }
@@ -20052,7 +20052,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     // InternalAsmetaL.g:5383:3: ( './' )*
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getMOD_IDAccess().getFullStopSolidusKeyword_0_2()); 
+                       before(grammarAccess.getMODULE_IDAccess().getFullStopSolidusKeyword_0_2()); 
                     }
                     // InternalAsmetaL.g:5384:3: ( './' )*
                     loop65:
@@ -20080,7 +20080,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     } while (true);
 
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getMOD_IDAccess().getFullStopSolidusKeyword_0_2()); 
+                       after(grammarAccess.getMODULE_IDAccess().getFullStopSolidusKeyword_0_2()); 
                     }
 
                     }
@@ -20102,12 +20102,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Alternatives_0"
+    // $ANTLR end "rule__MODULE_ID__Alternatives_0"
 
 
-    // $ANTLR start "rule__MOD_ID__Alternatives_0_0"
-    // InternalAsmetaL.g:5392:1: rule__MOD_ID__Alternatives_0_0 : ( ( RULE_ENUM_ID ) | ( RULE_ID ) );
-    public final void rule__MOD_ID__Alternatives_0_0() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Alternatives_0_0"
+    // InternalAsmetaL.g:5392:1: rule__MODULE_ID__Alternatives_0_0 : ( ( RULE_ENUM_ID ) | ( RULE_ID ) );
+    public final void rule__MODULE_ID__Alternatives_0_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -20137,11 +20137,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     // InternalAsmetaL.g:5398:3: RULE_ENUM_ID
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_0_0_0()); 
+                       before(grammarAccess.getMODULE_IDAccess().getENUM_IDTerminalRuleCall_0_0_0()); 
                     }
                     match(input,RULE_ENUM_ID,FOLLOW_2); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_0_0_0()); 
+                       after(grammarAccess.getMODULE_IDAccess().getENUM_IDTerminalRuleCall_0_0_0()); 
                     }
 
                     }
@@ -20156,11 +20156,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     // InternalAsmetaL.g:5404:3: RULE_ID
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_0_0_1()); 
+                       before(grammarAccess.getMODULE_IDAccess().getIDTerminalRuleCall_0_0_1()); 
                     }
                     match(input,RULE_ID,FOLLOW_2); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_0_0_1()); 
+                       after(grammarAccess.getMODULE_IDAccess().getIDTerminalRuleCall_0_0_1()); 
                     }
 
                     }
@@ -20182,12 +20182,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Alternatives_0_0"
+    // $ANTLR end "rule__MODULE_ID__Alternatives_0_0"
 
 
-    // $ANTLR start "rule__MOD_ID__Alternatives_1_0"
-    // InternalAsmetaL.g:5413:1: rule__MOD_ID__Alternatives_1_0 : ( ( RULE_ENUM_ID ) | ( RULE_ID ) );
-    public final void rule__MOD_ID__Alternatives_1_0() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Alternatives_1_0"
+    // InternalAsmetaL.g:5413:1: rule__MODULE_ID__Alternatives_1_0 : ( ( RULE_ENUM_ID ) | ( RULE_ID ) );
+    public final void rule__MODULE_ID__Alternatives_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -20217,11 +20217,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     // InternalAsmetaL.g:5419:3: RULE_ENUM_ID
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_1_0_0()); 
+                       before(grammarAccess.getMODULE_IDAccess().getENUM_IDTerminalRuleCall_1_0_0()); 
                     }
                     match(input,RULE_ENUM_ID,FOLLOW_2); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_1_0_0()); 
+                       after(grammarAccess.getMODULE_IDAccess().getENUM_IDTerminalRuleCall_1_0_0()); 
                     }
 
                     }
@@ -20236,11 +20236,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     // InternalAsmetaL.g:5425:3: RULE_ID
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_1_0_1()); 
+                       before(grammarAccess.getMODULE_IDAccess().getIDTerminalRuleCall_1_0_1()); 
                     }
                     match(input,RULE_ID,FOLLOW_2); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_1_0_1()); 
+                       after(grammarAccess.getMODULE_IDAccess().getIDTerminalRuleCall_1_0_1()); 
                     }
 
                     }
@@ -20262,12 +20262,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Alternatives_1_0"
+    // $ANTLR end "rule__MODULE_ID__Alternatives_1_0"
 
 
-    // $ANTLR start "rule__MOD_ID__Alternatives_2"
-    // InternalAsmetaL.g:5434:1: rule__MOD_ID__Alternatives_2 : ( ( RULE_ENUM_ID ) | ( RULE_ID ) );
-    public final void rule__MOD_ID__Alternatives_2() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Alternatives_2"
+    // InternalAsmetaL.g:5434:1: rule__MODULE_ID__Alternatives_2 : ( ( RULE_ENUM_ID ) | ( RULE_ID ) );
+    public final void rule__MODULE_ID__Alternatives_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -20297,11 +20297,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     // InternalAsmetaL.g:5440:3: RULE_ENUM_ID
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_2_0()); 
+                       before(grammarAccess.getMODULE_IDAccess().getENUM_IDTerminalRuleCall_2_0()); 
                     }
                     match(input,RULE_ENUM_ID,FOLLOW_2); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_2_0()); 
+                       after(grammarAccess.getMODULE_IDAccess().getENUM_IDTerminalRuleCall_2_0()); 
                     }
 
                     }
@@ -20316,11 +20316,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     // InternalAsmetaL.g:5446:3: RULE_ID
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_2_1()); 
+                       before(grammarAccess.getMODULE_IDAccess().getIDTerminalRuleCall_2_1()); 
                     }
                     match(input,RULE_ID,FOLLOW_2); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_2_1()); 
+                       after(grammarAccess.getMODULE_IDAccess().getIDTerminalRuleCall_2_1()); 
                     }
 
                     }
@@ -20342,12 +20342,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Alternatives_2"
+    // $ANTLR end "rule__MODULE_ID__Alternatives_2"
 
 
-    // $ANTLR start "rule__MOD_ID__Alternatives_3_1"
-    // InternalAsmetaL.g:5455:1: rule__MOD_ID__Alternatives_3_1 : ( ( RULE_ENUM_ID ) | ( RULE_ID ) | ( 'asm' ) );
-    public final void rule__MOD_ID__Alternatives_3_1() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Alternatives_3_1"
+    // InternalAsmetaL.g:5455:1: rule__MODULE_ID__Alternatives_3_1 : ( ( RULE_ENUM_ID ) | ( RULE_ID ) | ( 'asm' ) );
+    public final void rule__MODULE_ID__Alternatives_3_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -20386,11 +20386,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     // InternalAsmetaL.g:5461:3: RULE_ENUM_ID
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_3_1_0()); 
+                       before(grammarAccess.getMODULE_IDAccess().getENUM_IDTerminalRuleCall_3_1_0()); 
                     }
                     match(input,RULE_ENUM_ID,FOLLOW_2); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getMOD_IDAccess().getENUM_IDTerminalRuleCall_3_1_0()); 
+                       after(grammarAccess.getMODULE_IDAccess().getENUM_IDTerminalRuleCall_3_1_0()); 
                     }
 
                     }
@@ -20405,11 +20405,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     // InternalAsmetaL.g:5467:3: RULE_ID
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_3_1_1()); 
+                       before(grammarAccess.getMODULE_IDAccess().getIDTerminalRuleCall_3_1_1()); 
                     }
                     match(input,RULE_ID,FOLLOW_2); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getMOD_IDAccess().getIDTerminalRuleCall_3_1_1()); 
+                       after(grammarAccess.getMODULE_IDAccess().getIDTerminalRuleCall_3_1_1()); 
                     }
 
                     }
@@ -20424,11 +20424,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     // InternalAsmetaL.g:5473:3: 'asm'
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getMOD_IDAccess().getAsmKeyword_3_1_2()); 
+                       before(grammarAccess.getMODULE_IDAccess().getAsmKeyword_3_1_2()); 
                     }
                     match(input,23,FOLLOW_2); if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getMOD_IDAccess().getAsmKeyword_3_1_2()); 
+                       after(grammarAccess.getMODULE_IDAccess().getAsmKeyword_3_1_2()); 
                     }
 
                     }
@@ -20450,7 +20450,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Alternatives_3_1"
+    // $ANTLR end "rule__MODULE_ID__Alternatives_3_1"
 
 
     // $ANTLR start "rule__ID_VARIABLE__Alternatives_1"
@@ -80396,23 +80396,23 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__IterativeWhileRule__Group__3__Impl"
 
 
-    // $ANTLR start "rule__MOD_ID__Group__0"
-    // InternalAsmetaL.g:24342:1: rule__MOD_ID__Group__0 : rule__MOD_ID__Group__0__Impl rule__MOD_ID__Group__1 ;
-    public final void rule__MOD_ID__Group__0() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group__0"
+    // InternalAsmetaL.g:24342:1: rule__MODULE_ID__Group__0 : rule__MODULE_ID__Group__0__Impl rule__MODULE_ID__Group__1 ;
+    public final void rule__MODULE_ID__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24346:1: ( rule__MOD_ID__Group__0__Impl rule__MOD_ID__Group__1 )
-            // InternalAsmetaL.g:24347:2: rule__MOD_ID__Group__0__Impl rule__MOD_ID__Group__1
+            // InternalAsmetaL.g:24346:1: ( rule__MODULE_ID__Group__0__Impl rule__MODULE_ID__Group__1 )
+            // InternalAsmetaL.g:24347:2: rule__MODULE_ID__Group__0__Impl rule__MODULE_ID__Group__1
             {
             pushFollow(FOLLOW_129);
-            rule__MOD_ID__Group__0__Impl();
+            rule__MODULE_ID__Group__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__MOD_ID__Group__1();
+            rule__MODULE_ID__Group__1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -80431,26 +80431,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group__0"
+    // $ANTLR end "rule__MODULE_ID__Group__0"
 
 
-    // $ANTLR start "rule__MOD_ID__Group__0__Impl"
-    // InternalAsmetaL.g:24354:1: rule__MOD_ID__Group__0__Impl : ( ( rule__MOD_ID__Alternatives_0 )? ) ;
-    public final void rule__MOD_ID__Group__0__Impl() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group__0__Impl"
+    // InternalAsmetaL.g:24354:1: rule__MODULE_ID__Group__0__Impl : ( ( rule__MODULE_ID__Alternatives_0 )? ) ;
+    public final void rule__MODULE_ID__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24358:1: ( ( ( rule__MOD_ID__Alternatives_0 )? ) )
-            // InternalAsmetaL.g:24359:1: ( ( rule__MOD_ID__Alternatives_0 )? )
+            // InternalAsmetaL.g:24358:1: ( ( ( rule__MODULE_ID__Alternatives_0 )? ) )
+            // InternalAsmetaL.g:24359:1: ( ( rule__MODULE_ID__Alternatives_0 )? )
             {
-            // InternalAsmetaL.g:24359:1: ( ( rule__MOD_ID__Alternatives_0 )? )
-            // InternalAsmetaL.g:24360:2: ( rule__MOD_ID__Alternatives_0 )?
+            // InternalAsmetaL.g:24359:1: ( ( rule__MODULE_ID__Alternatives_0 )? )
+            // InternalAsmetaL.g:24360:2: ( rule__MODULE_ID__Alternatives_0 )?
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getMOD_IDAccess().getAlternatives_0()); 
+               before(grammarAccess.getMODULE_IDAccess().getAlternatives_0()); 
             }
-            // InternalAsmetaL.g:24361:2: ( rule__MOD_ID__Alternatives_0 )?
+            // InternalAsmetaL.g:24361:2: ( rule__MODULE_ID__Alternatives_0 )?
             int alt193=2;
             switch ( input.LA(1) ) {
                 case RULE_ENUM_ID:
@@ -80481,10 +80481,10 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
 
             switch (alt193) {
                 case 1 :
-                    // InternalAsmetaL.g:24361:3: rule__MOD_ID__Alternatives_0
+                    // InternalAsmetaL.g:24361:3: rule__MODULE_ID__Alternatives_0
                     {
                     pushFollow(FOLLOW_2);
-                    rule__MOD_ID__Alternatives_0();
+                    rule__MODULE_ID__Alternatives_0();
 
                     state._fsp--;
                     if (state.failed) return ;
@@ -80495,7 +80495,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getMOD_IDAccess().getAlternatives_0()); 
+               after(grammarAccess.getMODULE_IDAccess().getAlternatives_0()); 
             }
 
             }
@@ -80515,26 +80515,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group__0__Impl"
+    // $ANTLR end "rule__MODULE_ID__Group__0__Impl"
 
 
-    // $ANTLR start "rule__MOD_ID__Group__1"
-    // InternalAsmetaL.g:24369:1: rule__MOD_ID__Group__1 : rule__MOD_ID__Group__1__Impl rule__MOD_ID__Group__2 ;
-    public final void rule__MOD_ID__Group__1() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group__1"
+    // InternalAsmetaL.g:24369:1: rule__MODULE_ID__Group__1 : rule__MODULE_ID__Group__1__Impl rule__MODULE_ID__Group__2 ;
+    public final void rule__MODULE_ID__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24373:1: ( rule__MOD_ID__Group__1__Impl rule__MOD_ID__Group__2 )
-            // InternalAsmetaL.g:24374:2: rule__MOD_ID__Group__1__Impl rule__MOD_ID__Group__2
+            // InternalAsmetaL.g:24373:1: ( rule__MODULE_ID__Group__1__Impl rule__MODULE_ID__Group__2 )
+            // InternalAsmetaL.g:24374:2: rule__MODULE_ID__Group__1__Impl rule__MODULE_ID__Group__2
             {
             pushFollow(FOLLOW_129);
-            rule__MOD_ID__Group__1__Impl();
+            rule__MODULE_ID__Group__1__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__MOD_ID__Group__2();
+            rule__MODULE_ID__Group__2();
 
             state._fsp--;
             if (state.failed) return ;
@@ -80553,26 +80553,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group__1"
+    // $ANTLR end "rule__MODULE_ID__Group__1"
 
 
-    // $ANTLR start "rule__MOD_ID__Group__1__Impl"
-    // InternalAsmetaL.g:24381:1: rule__MOD_ID__Group__1__Impl : ( ( rule__MOD_ID__Group_1__0 )* ) ;
-    public final void rule__MOD_ID__Group__1__Impl() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group__1__Impl"
+    // InternalAsmetaL.g:24381:1: rule__MODULE_ID__Group__1__Impl : ( ( rule__MODULE_ID__Group_1__0 )* ) ;
+    public final void rule__MODULE_ID__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24385:1: ( ( ( rule__MOD_ID__Group_1__0 )* ) )
-            // InternalAsmetaL.g:24386:1: ( ( rule__MOD_ID__Group_1__0 )* )
+            // InternalAsmetaL.g:24385:1: ( ( ( rule__MODULE_ID__Group_1__0 )* ) )
+            // InternalAsmetaL.g:24386:1: ( ( rule__MODULE_ID__Group_1__0 )* )
             {
-            // InternalAsmetaL.g:24386:1: ( ( rule__MOD_ID__Group_1__0 )* )
-            // InternalAsmetaL.g:24387:2: ( rule__MOD_ID__Group_1__0 )*
+            // InternalAsmetaL.g:24386:1: ( ( rule__MODULE_ID__Group_1__0 )* )
+            // InternalAsmetaL.g:24387:2: ( rule__MODULE_ID__Group_1__0 )*
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getMOD_IDAccess().getGroup_1()); 
+               before(grammarAccess.getMODULE_IDAccess().getGroup_1()); 
             }
-            // InternalAsmetaL.g:24388:2: ( rule__MOD_ID__Group_1__0 )*
+            // InternalAsmetaL.g:24388:2: ( rule__MODULE_ID__Group_1__0 )*
             loop194:
             do {
                 int alt194=2;
@@ -80600,10 +80600,10 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
 
                 switch (alt194) {
             	case 1 :
-            	    // InternalAsmetaL.g:24388:3: rule__MOD_ID__Group_1__0
+            	    // InternalAsmetaL.g:24388:3: rule__MODULE_ID__Group_1__0
             	    {
             	    pushFollow(FOLLOW_130);
-            	    rule__MOD_ID__Group_1__0();
+            	    rule__MODULE_ID__Group_1__0();
 
             	    state._fsp--;
             	    if (state.failed) return ;
@@ -80617,7 +80617,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             } while (true);
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getMOD_IDAccess().getGroup_1()); 
+               after(grammarAccess.getMODULE_IDAccess().getGroup_1()); 
             }
 
             }
@@ -80637,26 +80637,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group__1__Impl"
+    // $ANTLR end "rule__MODULE_ID__Group__1__Impl"
 
 
-    // $ANTLR start "rule__MOD_ID__Group__2"
-    // InternalAsmetaL.g:24396:1: rule__MOD_ID__Group__2 : rule__MOD_ID__Group__2__Impl rule__MOD_ID__Group__3 ;
-    public final void rule__MOD_ID__Group__2() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group__2"
+    // InternalAsmetaL.g:24396:1: rule__MODULE_ID__Group__2 : rule__MODULE_ID__Group__2__Impl rule__MODULE_ID__Group__3 ;
+    public final void rule__MODULE_ID__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24400:1: ( rule__MOD_ID__Group__2__Impl rule__MOD_ID__Group__3 )
-            // InternalAsmetaL.g:24401:2: rule__MOD_ID__Group__2__Impl rule__MOD_ID__Group__3
+            // InternalAsmetaL.g:24400:1: ( rule__MODULE_ID__Group__2__Impl rule__MODULE_ID__Group__3 )
+            // InternalAsmetaL.g:24401:2: rule__MODULE_ID__Group__2__Impl rule__MODULE_ID__Group__3
             {
             pushFollow(FOLLOW_87);
-            rule__MOD_ID__Group__2__Impl();
+            rule__MODULE_ID__Group__2__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__MOD_ID__Group__3();
+            rule__MODULE_ID__Group__3();
 
             state._fsp--;
             if (state.failed) return ;
@@ -80675,30 +80675,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group__2"
+    // $ANTLR end "rule__MODULE_ID__Group__2"
 
 
-    // $ANTLR start "rule__MOD_ID__Group__2__Impl"
-    // InternalAsmetaL.g:24408:1: rule__MOD_ID__Group__2__Impl : ( ( rule__MOD_ID__Alternatives_2 ) ) ;
-    public final void rule__MOD_ID__Group__2__Impl() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group__2__Impl"
+    // InternalAsmetaL.g:24408:1: rule__MODULE_ID__Group__2__Impl : ( ( rule__MODULE_ID__Alternatives_2 ) ) ;
+    public final void rule__MODULE_ID__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24412:1: ( ( ( rule__MOD_ID__Alternatives_2 ) ) )
-            // InternalAsmetaL.g:24413:1: ( ( rule__MOD_ID__Alternatives_2 ) )
+            // InternalAsmetaL.g:24412:1: ( ( ( rule__MODULE_ID__Alternatives_2 ) ) )
+            // InternalAsmetaL.g:24413:1: ( ( rule__MODULE_ID__Alternatives_2 ) )
             {
-            // InternalAsmetaL.g:24413:1: ( ( rule__MOD_ID__Alternatives_2 ) )
-            // InternalAsmetaL.g:24414:2: ( rule__MOD_ID__Alternatives_2 )
+            // InternalAsmetaL.g:24413:1: ( ( rule__MODULE_ID__Alternatives_2 ) )
+            // InternalAsmetaL.g:24414:2: ( rule__MODULE_ID__Alternatives_2 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getMOD_IDAccess().getAlternatives_2()); 
+               before(grammarAccess.getMODULE_IDAccess().getAlternatives_2()); 
             }
-            // InternalAsmetaL.g:24415:2: ( rule__MOD_ID__Alternatives_2 )
-            // InternalAsmetaL.g:24415:3: rule__MOD_ID__Alternatives_2
+            // InternalAsmetaL.g:24415:2: ( rule__MODULE_ID__Alternatives_2 )
+            // InternalAsmetaL.g:24415:3: rule__MODULE_ID__Alternatives_2
             {
             pushFollow(FOLLOW_2);
-            rule__MOD_ID__Alternatives_2();
+            rule__MODULE_ID__Alternatives_2();
 
             state._fsp--;
             if (state.failed) return ;
@@ -80706,7 +80706,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getMOD_IDAccess().getAlternatives_2()); 
+               after(grammarAccess.getMODULE_IDAccess().getAlternatives_2()); 
             }
 
             }
@@ -80726,21 +80726,21 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group__2__Impl"
+    // $ANTLR end "rule__MODULE_ID__Group__2__Impl"
 
 
-    // $ANTLR start "rule__MOD_ID__Group__3"
-    // InternalAsmetaL.g:24423:1: rule__MOD_ID__Group__3 : rule__MOD_ID__Group__3__Impl ;
-    public final void rule__MOD_ID__Group__3() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group__3"
+    // InternalAsmetaL.g:24423:1: rule__MODULE_ID__Group__3 : rule__MODULE_ID__Group__3__Impl ;
+    public final void rule__MODULE_ID__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24427:1: ( rule__MOD_ID__Group__3__Impl )
-            // InternalAsmetaL.g:24428:2: rule__MOD_ID__Group__3__Impl
+            // InternalAsmetaL.g:24427:1: ( rule__MODULE_ID__Group__3__Impl )
+            // InternalAsmetaL.g:24428:2: rule__MODULE_ID__Group__3__Impl
             {
             pushFollow(FOLLOW_2);
-            rule__MOD_ID__Group__3__Impl();
+            rule__MODULE_ID__Group__3__Impl();
 
             state._fsp--;
             if (state.failed) return ;
@@ -80759,26 +80759,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group__3"
+    // $ANTLR end "rule__MODULE_ID__Group__3"
 
 
-    // $ANTLR start "rule__MOD_ID__Group__3__Impl"
-    // InternalAsmetaL.g:24434:1: rule__MOD_ID__Group__3__Impl : ( ( rule__MOD_ID__Group_3__0 )? ) ;
-    public final void rule__MOD_ID__Group__3__Impl() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group__3__Impl"
+    // InternalAsmetaL.g:24434:1: rule__MODULE_ID__Group__3__Impl : ( ( rule__MODULE_ID__Group_3__0 )? ) ;
+    public final void rule__MODULE_ID__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24438:1: ( ( ( rule__MOD_ID__Group_3__0 )? ) )
-            // InternalAsmetaL.g:24439:1: ( ( rule__MOD_ID__Group_3__0 )? )
+            // InternalAsmetaL.g:24438:1: ( ( ( rule__MODULE_ID__Group_3__0 )? ) )
+            // InternalAsmetaL.g:24439:1: ( ( rule__MODULE_ID__Group_3__0 )? )
             {
-            // InternalAsmetaL.g:24439:1: ( ( rule__MOD_ID__Group_3__0 )? )
-            // InternalAsmetaL.g:24440:2: ( rule__MOD_ID__Group_3__0 )?
+            // InternalAsmetaL.g:24439:1: ( ( rule__MODULE_ID__Group_3__0 )? )
+            // InternalAsmetaL.g:24440:2: ( rule__MODULE_ID__Group_3__0 )?
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getMOD_IDAccess().getGroup_3()); 
+               before(grammarAccess.getMODULE_IDAccess().getGroup_3()); 
             }
-            // InternalAsmetaL.g:24441:2: ( rule__MOD_ID__Group_3__0 )?
+            // InternalAsmetaL.g:24441:2: ( rule__MODULE_ID__Group_3__0 )?
             int alt195=2;
             int LA195_0 = input.LA(1);
 
@@ -80787,10 +80787,10 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
             switch (alt195) {
                 case 1 :
-                    // InternalAsmetaL.g:24441:3: rule__MOD_ID__Group_3__0
+                    // InternalAsmetaL.g:24441:3: rule__MODULE_ID__Group_3__0
                     {
                     pushFollow(FOLLOW_2);
-                    rule__MOD_ID__Group_3__0();
+                    rule__MODULE_ID__Group_3__0();
 
                     state._fsp--;
                     if (state.failed) return ;
@@ -80801,7 +80801,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getMOD_IDAccess().getGroup_3()); 
+               after(grammarAccess.getMODULE_IDAccess().getGroup_3()); 
             }
 
             }
@@ -80821,26 +80821,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group__3__Impl"
+    // $ANTLR end "rule__MODULE_ID__Group__3__Impl"
 
 
-    // $ANTLR start "rule__MOD_ID__Group_1__0"
-    // InternalAsmetaL.g:24450:1: rule__MOD_ID__Group_1__0 : rule__MOD_ID__Group_1__0__Impl rule__MOD_ID__Group_1__1 ;
-    public final void rule__MOD_ID__Group_1__0() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group_1__0"
+    // InternalAsmetaL.g:24450:1: rule__MODULE_ID__Group_1__0 : rule__MODULE_ID__Group_1__0__Impl rule__MODULE_ID__Group_1__1 ;
+    public final void rule__MODULE_ID__Group_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24454:1: ( rule__MOD_ID__Group_1__0__Impl rule__MOD_ID__Group_1__1 )
-            // InternalAsmetaL.g:24455:2: rule__MOD_ID__Group_1__0__Impl rule__MOD_ID__Group_1__1
+            // InternalAsmetaL.g:24454:1: ( rule__MODULE_ID__Group_1__0__Impl rule__MODULE_ID__Group_1__1 )
+            // InternalAsmetaL.g:24455:2: rule__MODULE_ID__Group_1__0__Impl rule__MODULE_ID__Group_1__1
             {
             pushFollow(FOLLOW_131);
-            rule__MOD_ID__Group_1__0__Impl();
+            rule__MODULE_ID__Group_1__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__MOD_ID__Group_1__1();
+            rule__MODULE_ID__Group_1__1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -80859,30 +80859,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group_1__0"
+    // $ANTLR end "rule__MODULE_ID__Group_1__0"
 
 
-    // $ANTLR start "rule__MOD_ID__Group_1__0__Impl"
-    // InternalAsmetaL.g:24462:1: rule__MOD_ID__Group_1__0__Impl : ( ( rule__MOD_ID__Alternatives_1_0 ) ) ;
-    public final void rule__MOD_ID__Group_1__0__Impl() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group_1__0__Impl"
+    // InternalAsmetaL.g:24462:1: rule__MODULE_ID__Group_1__0__Impl : ( ( rule__MODULE_ID__Alternatives_1_0 ) ) ;
+    public final void rule__MODULE_ID__Group_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24466:1: ( ( ( rule__MOD_ID__Alternatives_1_0 ) ) )
-            // InternalAsmetaL.g:24467:1: ( ( rule__MOD_ID__Alternatives_1_0 ) )
+            // InternalAsmetaL.g:24466:1: ( ( ( rule__MODULE_ID__Alternatives_1_0 ) ) )
+            // InternalAsmetaL.g:24467:1: ( ( rule__MODULE_ID__Alternatives_1_0 ) )
             {
-            // InternalAsmetaL.g:24467:1: ( ( rule__MOD_ID__Alternatives_1_0 ) )
-            // InternalAsmetaL.g:24468:2: ( rule__MOD_ID__Alternatives_1_0 )
+            // InternalAsmetaL.g:24467:1: ( ( rule__MODULE_ID__Alternatives_1_0 ) )
+            // InternalAsmetaL.g:24468:2: ( rule__MODULE_ID__Alternatives_1_0 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getMOD_IDAccess().getAlternatives_1_0()); 
+               before(grammarAccess.getMODULE_IDAccess().getAlternatives_1_0()); 
             }
-            // InternalAsmetaL.g:24469:2: ( rule__MOD_ID__Alternatives_1_0 )
-            // InternalAsmetaL.g:24469:3: rule__MOD_ID__Alternatives_1_0
+            // InternalAsmetaL.g:24469:2: ( rule__MODULE_ID__Alternatives_1_0 )
+            // InternalAsmetaL.g:24469:3: rule__MODULE_ID__Alternatives_1_0
             {
             pushFollow(FOLLOW_2);
-            rule__MOD_ID__Alternatives_1_0();
+            rule__MODULE_ID__Alternatives_1_0();
 
             state._fsp--;
             if (state.failed) return ;
@@ -80890,7 +80890,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getMOD_IDAccess().getAlternatives_1_0()); 
+               after(grammarAccess.getMODULE_IDAccess().getAlternatives_1_0()); 
             }
 
             }
@@ -80910,21 +80910,21 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group_1__0__Impl"
+    // $ANTLR end "rule__MODULE_ID__Group_1__0__Impl"
 
 
-    // $ANTLR start "rule__MOD_ID__Group_1__1"
-    // InternalAsmetaL.g:24477:1: rule__MOD_ID__Group_1__1 : rule__MOD_ID__Group_1__1__Impl ;
-    public final void rule__MOD_ID__Group_1__1() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group_1__1"
+    // InternalAsmetaL.g:24477:1: rule__MODULE_ID__Group_1__1 : rule__MODULE_ID__Group_1__1__Impl ;
+    public final void rule__MODULE_ID__Group_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24481:1: ( rule__MOD_ID__Group_1__1__Impl )
-            // InternalAsmetaL.g:24482:2: rule__MOD_ID__Group_1__1__Impl
+            // InternalAsmetaL.g:24481:1: ( rule__MODULE_ID__Group_1__1__Impl )
+            // InternalAsmetaL.g:24482:2: rule__MODULE_ID__Group_1__1__Impl
             {
             pushFollow(FOLLOW_2);
-            rule__MOD_ID__Group_1__1__Impl();
+            rule__MODULE_ID__Group_1__1__Impl();
 
             state._fsp--;
             if (state.failed) return ;
@@ -80943,12 +80943,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group_1__1"
+    // $ANTLR end "rule__MODULE_ID__Group_1__1"
 
 
-    // $ANTLR start "rule__MOD_ID__Group_1__1__Impl"
-    // InternalAsmetaL.g:24488:1: rule__MOD_ID__Group_1__1__Impl : ( '/' ) ;
-    public final void rule__MOD_ID__Group_1__1__Impl() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group_1__1__Impl"
+    // InternalAsmetaL.g:24488:1: rule__MODULE_ID__Group_1__1__Impl : ( '/' ) ;
+    public final void rule__MODULE_ID__Group_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -80960,11 +80960,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:24494:2: '/'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getMOD_IDAccess().getSolidusKeyword_1_1()); 
+               before(grammarAccess.getMODULE_IDAccess().getSolidusKeyword_1_1()); 
             }
             match(input,51,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getMOD_IDAccess().getSolidusKeyword_1_1()); 
+               after(grammarAccess.getMODULE_IDAccess().getSolidusKeyword_1_1()); 
             }
 
             }
@@ -80984,26 +80984,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group_1__1__Impl"
+    // $ANTLR end "rule__MODULE_ID__Group_1__1__Impl"
 
 
-    // $ANTLR start "rule__MOD_ID__Group_3__0"
-    // InternalAsmetaL.g:24504:1: rule__MOD_ID__Group_3__0 : rule__MOD_ID__Group_3__0__Impl rule__MOD_ID__Group_3__1 ;
-    public final void rule__MOD_ID__Group_3__0() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group_3__0"
+    // InternalAsmetaL.g:24504:1: rule__MODULE_ID__Group_3__0 : rule__MODULE_ID__Group_3__0__Impl rule__MODULE_ID__Group_3__1 ;
+    public final void rule__MODULE_ID__Group_3__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24508:1: ( rule__MOD_ID__Group_3__0__Impl rule__MOD_ID__Group_3__1 )
-            // InternalAsmetaL.g:24509:2: rule__MOD_ID__Group_3__0__Impl rule__MOD_ID__Group_3__1
+            // InternalAsmetaL.g:24508:1: ( rule__MODULE_ID__Group_3__0__Impl rule__MODULE_ID__Group_3__1 )
+            // InternalAsmetaL.g:24509:2: rule__MODULE_ID__Group_3__0__Impl rule__MODULE_ID__Group_3__1
             {
             pushFollow(FOLLOW_132);
-            rule__MOD_ID__Group_3__0__Impl();
+            rule__MODULE_ID__Group_3__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__MOD_ID__Group_3__1();
+            rule__MODULE_ID__Group_3__1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -81022,12 +81022,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group_3__0"
+    // $ANTLR end "rule__MODULE_ID__Group_3__0"
 
 
-    // $ANTLR start "rule__MOD_ID__Group_3__0__Impl"
-    // InternalAsmetaL.g:24516:1: rule__MOD_ID__Group_3__0__Impl : ( '.' ) ;
-    public final void rule__MOD_ID__Group_3__0__Impl() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group_3__0__Impl"
+    // InternalAsmetaL.g:24516:1: rule__MODULE_ID__Group_3__0__Impl : ( '.' ) ;
+    public final void rule__MODULE_ID__Group_3__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -81039,11 +81039,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:24522:2: '.'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getMOD_IDAccess().getFullStopKeyword_3_0()); 
+               before(grammarAccess.getMODULE_IDAccess().getFullStopKeyword_3_0()); 
             }
             match(input,93,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getMOD_IDAccess().getFullStopKeyword_3_0()); 
+               after(grammarAccess.getMODULE_IDAccess().getFullStopKeyword_3_0()); 
             }
 
             }
@@ -81063,21 +81063,21 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group_3__0__Impl"
+    // $ANTLR end "rule__MODULE_ID__Group_3__0__Impl"
 
 
-    // $ANTLR start "rule__MOD_ID__Group_3__1"
-    // InternalAsmetaL.g:24531:1: rule__MOD_ID__Group_3__1 : rule__MOD_ID__Group_3__1__Impl ;
-    public final void rule__MOD_ID__Group_3__1() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group_3__1"
+    // InternalAsmetaL.g:24531:1: rule__MODULE_ID__Group_3__1 : rule__MODULE_ID__Group_3__1__Impl ;
+    public final void rule__MODULE_ID__Group_3__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24535:1: ( rule__MOD_ID__Group_3__1__Impl )
-            // InternalAsmetaL.g:24536:2: rule__MOD_ID__Group_3__1__Impl
+            // InternalAsmetaL.g:24535:1: ( rule__MODULE_ID__Group_3__1__Impl )
+            // InternalAsmetaL.g:24536:2: rule__MODULE_ID__Group_3__1__Impl
             {
             pushFollow(FOLLOW_2);
-            rule__MOD_ID__Group_3__1__Impl();
+            rule__MODULE_ID__Group_3__1__Impl();
 
             state._fsp--;
             if (state.failed) return ;
@@ -81096,30 +81096,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group_3__1"
+    // $ANTLR end "rule__MODULE_ID__Group_3__1"
 
 
-    // $ANTLR start "rule__MOD_ID__Group_3__1__Impl"
-    // InternalAsmetaL.g:24542:1: rule__MOD_ID__Group_3__1__Impl : ( ( rule__MOD_ID__Alternatives_3_1 ) ) ;
-    public final void rule__MOD_ID__Group_3__1__Impl() throws RecognitionException {
+    // $ANTLR start "rule__MODULE_ID__Group_3__1__Impl"
+    // InternalAsmetaL.g:24542:1: rule__MODULE_ID__Group_3__1__Impl : ( ( rule__MODULE_ID__Alternatives_3_1 ) ) ;
+    public final void rule__MODULE_ID__Group_3__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:24546:1: ( ( ( rule__MOD_ID__Alternatives_3_1 ) ) )
-            // InternalAsmetaL.g:24547:1: ( ( rule__MOD_ID__Alternatives_3_1 ) )
+            // InternalAsmetaL.g:24546:1: ( ( ( rule__MODULE_ID__Alternatives_3_1 ) ) )
+            // InternalAsmetaL.g:24547:1: ( ( rule__MODULE_ID__Alternatives_3_1 ) )
             {
-            // InternalAsmetaL.g:24547:1: ( ( rule__MOD_ID__Alternatives_3_1 ) )
-            // InternalAsmetaL.g:24548:2: ( rule__MOD_ID__Alternatives_3_1 )
+            // InternalAsmetaL.g:24547:1: ( ( rule__MODULE_ID__Alternatives_3_1 ) )
+            // InternalAsmetaL.g:24548:2: ( rule__MODULE_ID__Alternatives_3_1 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getMOD_IDAccess().getAlternatives_3_1()); 
+               before(grammarAccess.getMODULE_IDAccess().getAlternatives_3_1()); 
             }
-            // InternalAsmetaL.g:24549:2: ( rule__MOD_ID__Alternatives_3_1 )
-            // InternalAsmetaL.g:24549:3: rule__MOD_ID__Alternatives_3_1
+            // InternalAsmetaL.g:24549:2: ( rule__MODULE_ID__Alternatives_3_1 )
+            // InternalAsmetaL.g:24549:3: rule__MODULE_ID__Alternatives_3_1
             {
             pushFollow(FOLLOW_2);
-            rule__MOD_ID__Alternatives_3_1();
+            rule__MODULE_ID__Alternatives_3_1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -81127,7 +81127,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getMOD_IDAccess().getAlternatives_3_1()); 
+               after(grammarAccess.getMODULE_IDAccess().getAlternatives_3_1()); 
             }
 
             }
@@ -81147,7 +81147,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__MOD_ID__Group_3__1__Impl"
+    // $ANTLR end "rule__MODULE_ID__Group_3__1__Impl"
 
 
     // $ANTLR start "rule__ID_VARIABLE__Group__0"
@@ -95785,7 +95785,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         // InternalAsmetaL.g:5377:3: ( '../' )*
         {
         if ( state.backtracking==0 ) {
-           before(grammarAccess.getMOD_IDAccess().getFullStopFullStopSolidusKeyword_0_1()); 
+           before(grammarAccess.getMODULE_IDAccess().getFullStopFullStopSolidusKeyword_0_1()); 
         }
         // InternalAsmetaL.g:5378:3: ( '../' )*
         loop199:
@@ -96032,11 +96032,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
 
     // $ANTLR start synpred264_InternalAsmetaL
     public final void synpred264_InternalAsmetaL_fragment() throws RecognitionException {   
-        // InternalAsmetaL.g:24361:3: ( rule__MOD_ID__Alternatives_0 )
-        // InternalAsmetaL.g:24361:3: rule__MOD_ID__Alternatives_0
+        // InternalAsmetaL.g:24361:3: ( rule__MODULE_ID__Alternatives_0 )
+        // InternalAsmetaL.g:24361:3: rule__MODULE_ID__Alternatives_0
         {
         pushFollow(FOLLOW_2);
-        rule__MOD_ID__Alternatives_0();
+        rule__MODULE_ID__Alternatives_0();
 
         state._fsp--;
         if (state.failed) return ;

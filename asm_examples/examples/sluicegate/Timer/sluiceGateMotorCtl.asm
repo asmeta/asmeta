@@ -12,7 +12,7 @@
 //anticlockwise, on and off pulses.
 asm sluiceGateMotorCtl
 
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 import ../../../STDL/TimeLibrary
 
 signature:

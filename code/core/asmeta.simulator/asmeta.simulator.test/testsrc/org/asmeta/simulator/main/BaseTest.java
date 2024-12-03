@@ -28,12 +28,13 @@ import asmeta.definitions.domains.Domain;
  *
  */
 public class BaseTest {
-	final static String BASE = "../../../../asm_examples/";
+	
+	protected final static String ASM_EXAMPLES = "../../../../asm_examples/";
 
 	
 	@BeforeClass
 	public static void checkDirectory() {
-		  assertTrue(Files.isDirectory(Paths.get(BASE)));
+		  assertTrue(Files.isDirectory(Paths.get(ASM_EXAMPLES)));
 	}
 	
 	protected Simulator sim;

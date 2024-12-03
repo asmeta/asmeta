@@ -21,6 +21,7 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
 import asmeta.transitionrules.turbotransitionrules.IterateRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
+import java.util.ArrayList;
 import org.asmeta.asm2code.main.TranslatorOptions;
 import org.asmeta.simulator.RuleVisitor;
 import org.eclipse.emf.common.util.EList;
@@ -253,7 +254,7 @@ public class RuleToCpp extends RuleVisitor<String> {
       Domain _domain = object.getRanges().get(i).getDomain();
       if ((_domain instanceof PowersetDomain)) {
         StringConcatenation _builder = new StringConcatenation();
-        _builder.append("set<const ");
+        _builder.append("vector<const ");
         Domain _domain_1 = object.getRanges().get(i).getDomain();
         String _visit = new ToString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
         _builder.append(_visit);
@@ -354,6 +355,7 @@ public class RuleToCpp extends RuleVisitor<String> {
       _builder_1.newLine();
       sb.append(_builder_1);
     }
+    ArrayList<String> pointerTerms = new ArrayList<String>();
     for (int i = 0; (i < object.getVariable().size()); i++) {
       Domain _domain = object.getRanges().get(i).getDomain();
       Domain _baseDomain = ((PowersetDomain) _domain).getBaseDomain();
@@ -367,6 +369,7 @@ public class RuleToCpp extends RuleVisitor<String> {
         _builder_2.append("));");
         _builder_2.newLineIfNotEmpty();
         sb.append(_builder_2);
+        pointerTerms.add(termName);
       } else {
         StringConcatenation _builder_3 = new StringConcatenation();
         _builder_3.append("point");
@@ -419,6 +422,12 @@ public class RuleToCpp extends RuleVisitor<String> {
     boolean _tripleNotEquals_1 = (_ifnone != null);
     if (_tripleNotEquals_1) {
       String doRule = this.visit(object.getDoRule());
+      for (int j = 0; (j < pointerTerms.size()); j++) {
+        {
+          String pointerName = pointerTerms.get(j);
+          doRule = doRule.replace(pointerName, ("&" + pointerName));
+        }
+      }
       StringConcatenation _builder_6 = new StringConcatenation();
       _builder_6.append("  ");
       _builder_6.append("if(point0.size()>0){");
@@ -440,6 +449,12 @@ public class RuleToCpp extends RuleVisitor<String> {
       sb.append(_builder_6);
     } else {
       String doRule_1 = this.visit(object.getDoRule());
+      for (int j = 0; (j < pointerTerms.size()); j++) {
+        {
+          String pointerName = pointerTerms.get(j);
+          doRule_1 = doRule_1.replace(pointerName, ("&" + pointerName));
+        }
+      }
       StringConcatenation _builder_7 = new StringConcatenation();
       _builder_7.append("  ");
       _builder_7.append("if(point0.size()>0){");

@@ -5,8 +5,8 @@
 asm LandingGearSystem_3L
 
 import ./STDL/StandardLibrary
-import ./STDL/CTLlibrary
-import ./STDL/LTLlibrary
+import ./STDL/CTLLibrary
+import ./STDL/LTLLibrary
 
 signature:
 	enum domain LandingSet = {FRONT | LEFT | RIGHT}

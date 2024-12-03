@@ -3,11 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: asmeta.emf;singleton:=true
 Automatic-Module-Name: asmeta.emf
-Bundle-Version: 23.07
+Bundle-Version: 24.06
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: asmeta,
  asmeta.definitions;
   uses:="asmeta.structure,

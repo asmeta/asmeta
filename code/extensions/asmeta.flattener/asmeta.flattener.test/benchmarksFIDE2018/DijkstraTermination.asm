@@ -1,8 +1,8 @@
 asm DijkstraTermination
 
 import ./STDL/StandardLibrary
-import ./STDL/CTLlibrary
-import ./STDL/LTLlibrary
+import ./STDL/CTLLibrary
+import ./STDL/LTLLibrary
 
 signature:
 	domain Machine subsetof Integer 

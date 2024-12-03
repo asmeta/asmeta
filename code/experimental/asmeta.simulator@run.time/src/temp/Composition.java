@@ -122,26 +122,27 @@ class LeafAsm extends Composition {
 	// copy from updateSet to s2
 	protected void copyMonitored(UpdateSet up) {
 		// System.out.println("copying " + up + " in " + name);
-		LeafAsm lc = this;
-		String out = "";
-		out += "UpdateSet " + name + "= {";
+		//LeafAsm lc = this;
+		//String out = "";
+		//out += "UpdateSet " + name + "= {";
 		for (Entry<Location, Value> l : up) {
-			Location loc = l.getKey();
-			String locName = loc.getSignature().getName();
+			//Location loc = l.getKey();
+			//String locName = loc.getSignature().getName();
 			// set the mon funtion to the mon func reader
 			mon.add(l);
-			out += l + "; ";
+			//out += l + "; ";
 		}
-		if (!up.isEmpty())
+		/*if (!up.isEmpty())
 			System.out.println(out.substring(0, out.length() - 2) + "}");
 		else
-			System.out.println(out.substring(0, out.length() - 2)+ "{}");
+			System.out.println(out.substring(0, out.length() - 2)+ "{}");*/
 	}
 
 	@Override
-	public String toString() { //TODO: sistemare qui per stampa update set: controlled e out e monitored
-		return "ASM: " + name + " "+ s1.getCurrentState().getOutLocs();
-	}
+	public String toString() { //stampa update set: controlled e out e monitored
+		//return "ASM " + name + ": "+ s1.getCurrentState().getOutLocs() + " "+ s1.getCurrentState().+ " "+ s1.getCurrentState().getContrLocs();
+		return "ASM " + name + ": "+ s1.getCurrentState().getOutLocs();
+		}
 
 }
 

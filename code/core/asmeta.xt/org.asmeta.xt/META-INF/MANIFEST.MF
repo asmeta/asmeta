@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Xtext Model
 Bundle-Vendor: foselab.unibg.it
-Bundle-Version: 23.07
+Bundle-Version: 24.06
 Bundle-SymbolicName: org.asmeta.xt;singleton:=true
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,
@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtend.lib;bundle-version="2.14.0",
  org.eclipse.emf.common,
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.asmeta.xt,
  org.asmeta.xt.asmetal,
  org.asmeta.xt.asmetal.impl,
