@@ -1,0 +1,12 @@
+//// starting scenario
+scenario SCENARIO_NAME
+load choosetolet.asm
+step
+check foo1 = 5;
+step
+check foo1 = 5;
+step
+check foo1 = 5;
+step
+check foo1 = 5;
+step

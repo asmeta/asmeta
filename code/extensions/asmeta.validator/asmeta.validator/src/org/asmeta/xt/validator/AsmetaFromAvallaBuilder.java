@@ -63,7 +63,9 @@ public class AsmetaFromAvallaBuilder {
 	private AsmetaPrinterForAvalla asmetaPrinterforAvalla;
 
 	// for the scenario itself (the AsmPrinter has another model)
-	Asm asm;
+	protected Asm asm;
+	// the original asmCollection loaded in the scenario
+	protected AsmCollection asmCollection;
 
 
 	/**
@@ -106,8 +108,8 @@ public class AsmetaFromAvallaBuilder {
 		assert Files.exists(modelPath);
 		logger.debug("build the asm from scenario " + modelPath);
 		File modelFile = modelPath.toFile();
-		AsmCollection pack = ASMParser.setUpReadAsm(modelFile);
-		asm = pack.getMain();
+		asmCollection = ASMParser.setUpReadAsm(modelFile);
+		asm = asmCollection.getMain();
 		MacroDeclaration mainrule = asm.getMainrule();
 		// TODO, or just add an empty main rule?
 		if (mainrule == null)

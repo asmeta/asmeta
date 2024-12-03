@@ -1,6 +1,7 @@
-package asmeta.mutation;
+package asmeta.mutation.operators;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -28,16 +29,16 @@ public class RuleRemoverTest {
 		amPrint.visit(asmeta.getMain().getMainrule());
 //		amPrint.close();
 		System.out.println(stringWriter.toString()); stringWriter.getBuffer().setLength(0);
-		
-		List<AsmCollection> mutrul = new RuleRemover().mutatate(asmeta);
-		assertEquals(mutrul.size(), 2);
-		
+
+		List<AsmCollection> mutrul = new RuleRemover().mutate(asmeta);
+		assertEquals(2, mutrul.size());
+
 		amPrint.visit(mutrul.get(0).getMain().getMainrule());
 		System.out.println(stringWriter.toString());
 		amPrint.visit(mutrul.get(1).getMain().getMainrule());
 		System.out.println(stringWriter.toString());
 		amPrint.close();
-		
+
 	}
 
 }
