@@ -119,9 +119,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		Term guardTerm = chooseRule.getGuard();
 		Rule doRule = chooseRule.getDoRule();
 		// if the variable is never picked in the avalla, print the choose rule
-		if (!this.builder.allPickRules.stream()
-				.anyMatch(pick -> pick.getVar().equals(var.getName()) && (pick.getRule() == null)
-						|| pick.getRule().equals(super.currentRuleDeclaration.getName()))) {
+		if (getPickFromVariable(var, super.currentRuleDeclaration.getName(), this.builder.allPickRules) == null) {
 			super.visit(chooseRule);
 		} else {
 			// substitute, where necessary, the variables starting with $ with the
@@ -569,10 +567,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			// (5,5) -> 4}, ($r,$c))
 			println("},(" + varNames + "))");
 		}
-		List<Pick> allInitPick = this.builder.monitoredInitState.stream()
-				.filter(x -> x instanceof Pick)
-				.map(x -> ((Pick) x))
-				.collect(Collectors.toList());
+		List<Pick> allInitPick = this.builder.monitoredInitState.stream().filter(x -> x instanceof Pick)
+				.map(x -> ((Pick) x)).collect(Collectors.toList());
 		if (!this.builder.allPickRules.isEmpty()) {
 			println("// initialize is_picked_X and val_picked_X functions");
 			for (Entry<ChooseRule, String> cr : this.builder.allChooseRules.entrySet()) {
@@ -595,7 +591,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	/**
 	 * Given a VariableTerm, the name of the RuleDeclaration in which it is used,
-	 * and a list of Pick rules, search and return value of the first appearance of
+	 * and a list of Pick rules, search and return the value of the last appearance of
 	 * a Pick rule in the list that picks a value for that variable term.
 	 * 
 	 * @param variable            the variable term to search in the list of pick
@@ -604,7 +600,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	 *                            variable term is used
 	 * @param pickList            the list of picks where to search the variable
 	 *                            name
-	 * @return the value of the first Pick that picks a value for the variable term,
+	 * @return the value of the last Pick that picks a value for the variable term,
 	 *         null if not present
 	 */
 	private String getPickFromVariable(VariableTerm variable, String RuleDeclarationName, List<Pick> pickList) {
