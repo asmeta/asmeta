@@ -241,12 +241,15 @@ public class TestSingleFile extends TestValidator {
 	// flaky tests
 	@Test
 	public void testFlaky() throws Exception {
-		test("scenariosfortest/flaky/scenario_noF1.avalla", true, false, true);
+		test("scenariosfortest/flaky/scenario_noflaky.avalla", true, false, true);
 	}
 	
 	@Test
 	public void testCoffeVendingMachineFlaky() throws Exception {
+		test("scenariosfortest/flaky/scenario1.avalla", true, false, true);
 		test("scenariosfortest/flaky/scenario2.avalla", true, false, true);
+		test("scenariosfortest/flaky/scenario3.avalla", true, false, true);
+		test("scenariosfortest/flaky/scenario4.avalla", true, false, true);
 	}
 	
 	@Test

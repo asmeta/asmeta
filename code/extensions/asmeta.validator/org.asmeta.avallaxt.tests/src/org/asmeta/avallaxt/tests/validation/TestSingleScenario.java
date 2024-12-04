@@ -1,6 +1,7 @@
 package org.asmeta.avallaxt.tests.validation;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -80,9 +81,24 @@ public class TestSingleScenario extends TestParserAndValidation {
 	@Test
 	public void checkForFlaky() {
 		// correct scenario
-		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noF1.avalla"),PossibleFaults_NONE);
+		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky.avalla"),PossibleFaults_NONE);
 		// with a missing $
-		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_F_ERR.avalla"), PossibleFaults_Parser);
+		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_PARS_ERR.avalla"), PossibleFaults_Parser);
+		// with pick variable not matching any choose variable in the asm
+		String error_msg = checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_VAL_ERR.avalla");
+		assertNotEquals(error_msg, PossibleFaults_NONE);
+		assertNotEquals(error_msg, PossibleFaults_Parser);
+		assertTrue(error_msg.length() > 0);
+		// with pick variable not matching any choose variable in the asm
+		error_msg = checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_VAL_ERR2.avalla");
+		assertNotEquals(error_msg, PossibleFaults_NONE);
+		assertNotEquals(error_msg, PossibleFaults_Parser);
+		assertTrue(error_msg.length() > 0);
+		// with pick variable not matching any choose variable in the asm
+		error_msg = checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_VAL_ERR3.avalla");
+		assertNotEquals(error_msg, PossibleFaults_NONE);
+		assertNotEquals(error_msg, PossibleFaults_Parser);
+		assertTrue(error_msg.length() > 0);
 	}
 
 	

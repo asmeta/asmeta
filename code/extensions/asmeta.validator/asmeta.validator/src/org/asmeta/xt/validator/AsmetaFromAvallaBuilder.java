@@ -6,10 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
@@ -18,7 +16,6 @@ import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.validation.AsmCollectionUtility;
-import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
 import org.asmeta.avallaxt.validation.ScenarioUtility;
 import org.asmeta.parser.ASMParser;
 import org.eclipse.emf.common.util.URI;
@@ -29,11 +26,9 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 import com.google.inject.Injector;
 
 import asmeta.AsmCollection;
-import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
-import asmeta.transitionrules.basictransitionrules.Rule;
 
 /**
  * AsmPrinter that takes avalla script and produces an Asmeta Spec representing
@@ -69,6 +64,8 @@ public class AsmetaFromAvallaBuilder {
 	ArrayList<Command> monitoredInitState;// PA: 2017/12/29
 
 	List<ArrayList<Command>> allMonitored;// PA: 2017/12/29
+
+	ArrayList<Pick> allPickRules;
 
 	/**
 	 * The map of all ChooseRules in the asm being validated with the name of the
@@ -128,7 +125,7 @@ public class AsmetaFromAvallaBuilder {
 		if (mainrule == null)
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
 		// Populate allChoseRules
-		allChooseRules = AsmCollectionUtility.getChoseRules(asm);
+		allChooseRules = AsmCollectionUtility.getChooseRules(pack);
 		oldMainName = mainrule.getName();
 		// create a temp file in the directory
 		// File tempAsmPath = File.createTempFile(TEMP_ASMETA_V,
@@ -148,14 +145,21 @@ public class AsmetaFromAvallaBuilder {
 		stb.parseCommands();
 		monitoredInitState = stb.monitoredInitState;// PA: 2017/12/29
 		allMonitored = stb.allMonitored;// PA: 2017/12/29
-		//checkAllPicks();
-		ScenarioUtility.checkAllPicks(scenario)
+		allPickRules = new ArrayList<>();
+		for (ArrayList<Command> list : allMonitored) {
+			allPickRules.addAll(list.stream()
+					.filter(x -> x instanceof Pick)
+					.map(x -> ((Pick) x))
+					.collect(Collectors.toList()));
+		}
+		if (!ScenarioUtility.checkAllPicks(allPickRules, allChooseRules, asm))
+			throw new RuntimeException("some pick variables in the avalla can not be correctly matched"
+					+ " with one and only one choose variable in the asm");
 		List<String> statements = stb.statements;
 		newMain = buildNewMain(statements).toString();
 		asmetaPrinterforAvalla.visit(asm);
 		asmetaPrinterforAvalla.close();
 	}
-
 
 	/**
 	 * Builds the new main.

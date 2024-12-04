@@ -30,14 +30,6 @@ definitions:
 			coins := coins + price($p)
 		endpar
 
-	/*rule r_Double =
-		if(coins < 25) then
-			choose $p in Product with price($p) = insertedCoin and available($p) > 0 do
-				r_serveProduct[$p]
-			ifnone
-				dispensed := undef
-		endif */
-
 	main rule r_Main =
 		if(coins < 25) then
 			choose $p in Product with price($p) = insertedCoin and available($p) > 0 do

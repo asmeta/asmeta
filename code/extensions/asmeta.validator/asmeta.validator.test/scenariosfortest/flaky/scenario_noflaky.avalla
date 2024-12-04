@@ -1,7 +1,6 @@
 // starting scenario
-// macchina 1 senza guardia come lo sistemeremmo con il choose
 scenario SCENARIO_NAME
-load vendingMachine.asm
+load CoffeeVendingMachineGround.asm
 // ...
 pick $p := TEA;
 step

@@ -1,4 +1,6 @@
-asm CoffeeVendingMachineGround
+// same as CoffeeVendingMachineGround but with two variables
+// inthe choose rule
+asm CoffeeVendingMachineGround2
 import StandardLibrary
 
 signature:
@@ -8,7 +10,7 @@ signature:
 definitions:
 
 	main rule r_Main =
-			choose $p in Product with true do
+			choose $p in Product, $p1 in Product with true do
 					dispensed := $p
 
 default init s0:

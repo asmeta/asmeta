@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import org.asmeta.avallaxt.avalla.Block;
-import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
@@ -19,6 +17,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 
+import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 
 /** a collection of utility methods */
@@ -94,52 +93,88 @@ public class ScenarioUtility {
 		}
 	}
 
-	static String checkPick(Pick pick, Map<ChooseRule, String> choseRules) {
+	/**
+	 * check whether rule declaration defined in the pick rule exists in the asm
+	 * 
+	 * @param pick the pick rule
+	 * @param asm  the asm
+	 * @return the error message, null if there is no error
+	 */
+	static String checkPickRule(Pick pick, Asm asm) {
+		if (pick.getRule() != null && !asm.getBodySection().getRuleDeclaration().stream()
+				.anyMatch(rd -> rd.getName().equals(pick.getRule())))
+			return pick.getRule() + " is not defined in the main asm";
+		else
+			return null;
+	}
+
+	/**
+	 * check whether the pick variable can be matched with one and only one choose
+	 * variable in the asm) and whether that choose rule defines only one variable
+	 * 
+	 * @param pick        the pick rule
+	 * @param chooseRules the map with all the choose rule in the asm being
+	 *                    validated as key and the name of the macro rule
+	 *                    declaration in which are defined as value
+	 * @return the error message, null if there is no error
+	 */
+	static String checkPickVariable(Pick pick, Map<ChooseRule, String> chooseRules) {
 		if (pick.getRule() == null) {
 			// The pick does not define the rule declaration
 			// => there must exists one and only one Choose rule with a variable that
 			// matches with the pick variable
 			int nMatch = 0;
-			for (Entry<ChooseRule, String> chooseRule : choseRules.entrySet()) {
-				if (chooseRule.getKey().getVariable().stream().anyMatch(v -> v.getName().equals(pick.getVar())))
+			ChooseRule lastChoose = null;
+			for (Entry<ChooseRule, String> chooseRule : chooseRules.entrySet()) {
+				if (chooseRule.getKey().getVariable().stream().anyMatch(v -> v.getName().equals(pick.getVar()))) {
 					nMatch++;
+					lastChoose = chooseRule.getKey();
+				}
 			}
-			if (nMatch != 1) {
-				// TODO GESTIONE ERRORE
-				return "Errore, nMatch: " + nMatch;
-			}
+			if (nMatch == 1 && lastChoose.getVariable().size() > 1)
+				return "the variable " + pick.getVar() + " matched with a choose rule"
+						+ " that defines more than one variable. This feature is not supported yet";
+			if (nMatch == 0)
+				return "no choose rule defines the variable " + pick.getVar();
+			if (nMatch > 1)
+				return "more than one choose rule defines the variable " + pick.getVar()
+						+ ", specify the rule name explicitly by adding in r_ruleName";
+			return null;
 		} else {
 			// The pick defines the rule declaration
 			// => there must exists, in the defined rule declaration, one Choose rule with a
 			// variable that matches with the pick variable
-			boolean match = false;
-			for (Entry<ChooseRule, String> chooseRule : choseRules.entrySet()) {
+			for (Entry<ChooseRule, String> chooseRule : chooseRules.entrySet()) {
 				if (chooseRule.getKey().getVariable().stream().anyMatch(var -> var.getName().equals(pick.getVar()))
 						&& chooseRule.getValue().equals(pick.getRule())) {
-					match = true;
-					break;
+					if (chooseRule.getKey().getVariable().size() > 1)
+						return "the variable " + pick.getVar() + " matched with a choose rule"
+								+ " that defines more than one variable. This feature is not supported yet";
+					else
+						return null;
 				}
 			}
-			if (!match) {
-				// TODO GESTIONE ERRORE
-				System.err.println("Errore, match: false");
-			}
-
+			return "no choose rule in " + pick.getRule() + " defines the variable " + pick.getVar();
 		}
-		return null;
 	}
 
-	public static void checkAllPicks(Scenario scenario) {
-		List<Pick> allPick = new ArrayList<>();
-		for (ArrayList<Command> list : allMonitored) {
-			allPick.addAll(
-					list.stream()
-					.filter(x -> x instanceof Pick)
-					.map(x -> ((Pick) x))
-					.collect(Collectors.toList()));
+	/**
+	 * check whether all picks variables are correctly defined (i.e. the variables
+	 * can be matched with one and only one choose variable in the asm and the
+	 * choose variable defines only one variable)
+	 * 
+	 * @param allPickRules the list of all pick rules in the avalla
+	 * @param chooseRules  the map with all the choose rule in the asm being
+	 *                     validated as key and the name of the macro rule
+	 *                     declaration in which are defined as value
+	 * @param asm          the asm
+	 * @return false if at least a check on a single pick fails, true otherwise
+	 */
+	public static Boolean checkAllPicks(List<Pick> allPickRules, Map<ChooseRule, String> allChooseRules, Asm asm) {
+		for (Pick pick : allPickRules) {
+			if (checkPickRule(pick, asm) != null || checkPickVariable(pick, allChooseRules) != null)
+				return false;
 		}
-		for (Pick pick : allPick) {
-			checkPick(pick);
-		}
+		return true;
 	}
 }

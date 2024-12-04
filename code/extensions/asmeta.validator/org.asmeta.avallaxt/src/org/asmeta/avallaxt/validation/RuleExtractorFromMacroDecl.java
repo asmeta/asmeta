@@ -34,7 +34,7 @@ public class RuleExtractorFromMacroDecl {
 	// the real visitor
 	// using an inner static class, so it can be exposed only the public method
 	// so if one wants to fill in a given array it easier
-	// must be public beacuse it is visitor
+	// must be public because it is visitor
 	public static class RuleExtractor extends RuleVisitor<List<Rule>> {
 
 		@Override
@@ -49,7 +49,7 @@ public class RuleExtractorFromMacroDecl {
 
 		@Override
 		public List<Rule> visit(TermAsRule rule) {
-			throw new RuntimeException("not implemented yet");
+			return Collections.singletonList(rule);
 		}
 
 		@Override

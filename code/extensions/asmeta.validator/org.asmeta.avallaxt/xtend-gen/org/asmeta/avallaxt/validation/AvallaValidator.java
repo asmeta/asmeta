@@ -56,7 +56,7 @@ public class AvallaValidator extends AbstractAvallaValidator {
 
   private List<String> sharedFunNames;
 
-  private Map<ChooseRule, String> choseRules;
+  private Map<ChooseRule, String> chooseRules;
 
   @Check
   public void checkLoadASMexists(final Scenario scenario) {
@@ -111,9 +111,6 @@ public class AvallaValidator extends AbstractAvallaValidator {
     }
   }
 
-  /**
-   * Check that all the variables used in Pick rules are correctly defined
-   */
   public Map<ChooseRule, String> setAsmCollection(final AsmCollection collection) {
     Map<ChooseRule, String> _xblockexpression = null;
     {
@@ -144,7 +141,7 @@ public class AvallaValidator extends AbstractAvallaValidator {
         return y.getName();
       };
       this.sharedFunNames = functions.stream().filter(_function_5).<String>map(_function_6).collect(Collectors.<String>toList());
-      _xblockexpression = this.choseRules = AsmCollectionUtility.getChoseRules(this.asmCollection.getMain());
+      _xblockexpression = this.chooseRules = AsmCollectionUtility.getChooseRules(this.asmCollection);
     }
     return _xblockexpression;
   }
@@ -189,8 +186,16 @@ public class AvallaValidator extends AbstractAvallaValidator {
   }
 
   @Check
-  public String checkPick(final Pick pick) {
-    return ScenarioUtility.checkPick(pick, this.choseRules);
+  public void checkPick(final Pick pick) {
+    String errorMessage = ScenarioUtility.checkPickRule(pick, this.asmCollection.getMain());
+    if ((errorMessage != null)) {
+      this.error(errorMessage, AvallaPackage.Literals.PICK__RULE);
+    } else {
+      errorMessage = ScenarioUtility.checkPickVariable(pick, this.chooseRules);
+    }
+    if ((errorMessage != null)) {
+      this.error(errorMessage, AvallaPackage.Literals.PICK__VAR);
+    }
   }
 
   public Scenario getScenario(final Element b) {

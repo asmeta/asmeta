@@ -110,50 +110,55 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	@Override
 	public void visit(ChooseRule chooseRule) {
 		List<VariableTerm> vars = chooseRule.getVariable();
+		// Pick for choose rules with multiple variables not yet supported
+		if (vars.size() != 1) {
+			super.visit(chooseRule);
+			return;
+		}
+		VariableTerm var = vars.get(0);
 		Term guardTerm = chooseRule.getGuard();
 		Rule doRule = chooseRule.getDoRule();
-		// create a boolean expression to check if all variables have been picked or not
-		String condStr = vars.stream()
-				.map(var -> IS_PICKED + var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName())
-				.collect(Collectors.joining(" and "));
-		// substitute, where necessary, the variables starting with $ with the
-		// correspondent val_picked_X controlled function
-		TermAssignment assignment = new TermAssignment();
-		List<Term> newTerms = new ArrayList<>();
-		for (VariableTerm var : vars) {
-			VariableTerm t = BasictermsFactory.eINSTANCE.createVariableTerm();
-			t.setName(VAL_PICKED + var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName());
-			newTerms.add(t);
+		// if the variable is never picked in the avalla, print the choose rule
+		if (!this.builder.allPickRules.stream()
+				.anyMatch(pick -> pick.getVar().equals(var.getName()) && (pick.getRule() == null)
+						|| pick.getRule().equals(super.currentRuleDeclaration.getName()))) {
+			super.visit(chooseRule);
+		} else {
+			// substitute, where necessary, the variables starting with $ with the
+			// correspondent val_picked_X controlled function
+			TermAssignment assignment = new TermAssignment();
+			VariableTerm newTerm = BasictermsFactory.eINSTANCE.createVariableTerm();
+			newTerm.setName(VAL_PICKED + var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName());
+			assignment.put(vars, Collections.singleton(newTerm));
+			RuleSubstitution substitution = new RuleSubstitution(assignment, new RuleFactory());
+			Rule newDoRule = substitution.visit(doRule);
+			Term newGuardTerm = substitution.visit(guardTerm);
+			String guardString = super.tp.visit(newGuardTerm);
+			// print
+			println("if not " + IS_PICKED + var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName()
+					+ " then");
+			indent();
+			super.visit(chooseRule);
+			unIndent();
+			println("else ");
+			indent();
+			println("if " + guardString + " then");
+			indent();
+			visit(newDoRule);
+			unIndent();
+			println("else ");
+			indent();
+			println("seq");
+			indent();
+			println("result := print(\"CHECK FAILED: the value cannot be chosen\")");
+			println("step__ := -2"); // -2 so plus 1 is still < 0
+			unIndent();
+			println("endseq");
+			unIndent();
+			println("endif");
+			unIndent();
+			println("endif");
 		}
-		assignment.put(vars, newTerms);
-		RuleSubstitution substitution = new RuleSubstitution(assignment, new RuleFactory());
-		Rule newDoRule = substitution.visit(doRule);
-		Term newGuardTerm = substitution.visit(guardTerm);
-		String guardString = super.tp.visit(newGuardTerm);
-		// print
-		println("if not " + condStr + " then");
-		indent();
-		super.visit(chooseRule);
-		unIndent();
-		println("else ");
-		indent();
-		println("if " + guardString + " then");
-		indent();
-		visit(newDoRule);
-		unIndent();
-		println("else ");
-		indent();
-		println("seq");
-		indent();
-		println("result := print(\"CHECK FAILED: the value cannot be chosen\")"); // AGGIUNGERE CHE VALUE (E SE SONO DI
-																					// PIU' O SOLO UNA TRA TANTE?)
-		println("step__ := -2"); // -2 so plus 1 is still < 0
-		unIndent();
-		println("endseq");
-		unIndent();
-		println("endif");
-		unIndent();
-		println("endif");
 	}
 
 	/*
@@ -393,28 +398,15 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		}
 		visitDeclaredFunctions(funcs);
 		// add the controlled functions relative to choose variables
-		List<Pick> allPick = new ArrayList<>();
-		for (ArrayList<Command> list : this.builder.allMonitored) {
-			allPick.addAll(
-					list.stream().filter(x -> x instanceof Pick).map(x -> ((Pick) x)).collect(Collectors.toList()));
-		}
-		if (!this.builder.allChooseRules.isEmpty()) {
+		if (!this.builder.allPickRules.isEmpty()) {
 			println("// added by validator to implement determinism in choose rule");
 			for (Entry<ChooseRule, String> cr : this.builder.allChooseRules.entrySet()) {
-				for (VariableTerm variable : cr.getKey().getVariable()) {
-					String varName = variable.getName().substring(1) + "_" + cr.getValue();
+				// only choose rules with ONE variable are supported in pick
+				VariableTerm variable = cr.getKey().getVariable().get(0);
+				String varName = variable.getName().substring(1) + "_" + cr.getValue();
+				if (getPickFromVariable(variable, cr.getValue(), this.builder.allPickRules) != null) {
 					println("controlled " + IS_PICKED + varName + ": Boolean");
-					boolean isNotUsed = true;
-					for (Pick pick : allPick) {
-						if (pick.getVar().equals(variable.getName()) && 
-								(pick.getRule() == null) || pick.getRule().equals(cr.getValue())) {
-							println("controlled " + VAL_PICKED + varName + ": " + variable.getDomain().getName());
-							isNotUsed = false;
-							break;
-						}
-					}
-					if (isNotUsed)
-						println("controlled " + VAL_PICKED + varName + " : Any");
+					println("controlled " + VAL_PICKED + varName + ": " + variable.getDomain().getName());
 				}
 			}
 		}
@@ -577,30 +569,53 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			// (5,5) -> 4}, ($r,$c))
 			println("},(" + varNames + "))");
 		}
-		List<Pick> initPick = this.builder.monitoredInitState.stream().filter(x -> x instanceof Pick)
-				.map(x -> ((Pick) x)).collect(Collectors.toList());
-		if (!this.builder.allChooseRules.isEmpty()) {
+		List<Pick> allInitPick = this.builder.monitoredInitState.stream()
+				.filter(x -> x instanceof Pick)
+				.map(x -> ((Pick) x))
+				.collect(Collectors.toList());
+		if (!this.builder.allPickRules.isEmpty()) {
 			println("// initialize is_picked_X and val_picked_X functions");
 			for (Entry<ChooseRule, String> cr : this.builder.allChooseRules.entrySet()) {
-				for (VariableTerm variable : cr.getKey().getVariable()) {
-					String varName = variable.getName().substring(1) + "_" + cr.getValue();
-					boolean isNotInit = true;
-					for (Pick pick : initPick) {
-						if (pick.getVar().equals(variable.getName()) && 
-								(pick.getRule() == null) || pick.getRule().equals(cr.getValue())) {
-							println("function " + IS_PICKED + varName + " = true");
-							println("function " + VAL_PICKED + varName + " = " + pick.getValue());
-							isNotInit = false;
-							break;
-						}
-					}
-					if (isNotInit)
-						println("function " + IS_PICKED + varName + " = false");
+				// only choose rules with ONE variable are supported in pick
+				VariableTerm variable = cr.getKey().getVariable().get(0);
+				String varName = variable.getName().substring(1) + "_" + cr.getValue();
+				String lastPickedValue = getPickFromVariable(variable, cr.getValue(), this.builder.allPickRules);
+				String lastInitPickedValue = getPickFromVariable(variable, cr.getValue(), allInitPick);
+				if (lastInitPickedValue != null) {
+					println("function " + IS_PICKED + varName + " = true");
+					println("function " + VAL_PICKED + varName + " = " + lastInitPickedValue);
+				} else if (lastPickedValue != null) {
+					println("function " + IS_PICKED + varName + " = false");
 				}
 			}
 		}
 		// add the init for the ASM
 		super.visitFuncInits(funcs);
+	}
+
+	/**
+	 * Given a VariableTerm, the name of the RuleDeclaration in which it is used,
+	 * and a list of Pick rules, search and return value of the first appearance of
+	 * a Pick rule in the list that picks a value for that variable term.
+	 * 
+	 * @param variable            the variable term to search in the list of pick
+	 *                            rules
+	 * @param RuleDeclarationName the name of the rule declaration in which the
+	 *                            variable term is used
+	 * @param pickList            the list of picks where to search the variable
+	 *                            name
+	 * @return the value of the first Pick that picks a value for the variable term,
+	 *         null if not present
+	 */
+	private String getPickFromVariable(VariableTerm variable, String RuleDeclarationName, List<Pick> pickList) {
+		// reversed to get the last, so if pickList is a list of init
+		// where the same variable is inserted picked multiple times,
+		// only the last pick is considered
+		for (Pick pick : pickList.reversed())
+			if (pick.getVar().equals(variable.getName()) && (pick.getRule() == null)
+					|| pick.getRule().equals(RuleDeclarationName))
+				return pick.getValue();
+		return null;
 	}
 
 	@Override
