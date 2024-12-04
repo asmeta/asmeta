@@ -608,8 +608,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		// where the same variable is inserted picked multiple times,
 		// only the last pick is considered
 		for (Pick pick : pickList.reversed())
-			if (pick.getVar().equals(variable.getName()) && (pick.getRule() == null)
-					|| pick.getRule().equals(RuleDeclarationName))
+			if (pick.getVar().equals(variable.getName()) && (pick.getRule() == null
+					|| pick.getRule().equals(RuleDeclarationName)))
 				return pick.getValue();
 		return null;
 	}
