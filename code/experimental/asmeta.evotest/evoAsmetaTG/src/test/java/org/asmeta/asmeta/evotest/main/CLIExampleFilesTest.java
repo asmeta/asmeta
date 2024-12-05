@@ -9,18 +9,20 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asmeta.annotations.TestToMavenSkip;
 import org.asmeta.evoasmetatg.main.EvoAsmetaTgCLI;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * This test class tests the entire application directly via the CLI with all
  * the asm specifications inside the src/test/resources folder and check the
  * return codes. It must be ignored by maven because we need to specify the jdk
  * folder on our pc and otherwise it would fail the automatic test in the
- * pipelines. ( ignored using the maven-surefire-plugin)
- *
+ * pipelines. ( ignored using the maven-surefire-plugin and excluding the group
+ * TestToMavenSkip from the Asmeta Parser).
  */
 public class CLIExampleFilesTest {
 
@@ -44,11 +46,12 @@ public class CLIExampleFilesTest {
 	/** temp output folder */
 	private File tempOutputDir;
 
-	/** list of all the asm specification to test.*/
+	/** list of all the asm specification to test. */
 	private List<File> asmFiles;
 
 	/**
-	 * Setup the test environment. <p>
+	 * Setup the test environment.
+	 * <p>
 	 * 
 	 * Create the temp output folder and populate the asmFiles list.
 	 * 
@@ -76,6 +79,7 @@ public class CLIExampleFilesTest {
 	 * Test all the files by running the application and check the returned code.
 	 */
 	@Test
+	@Category(TestToMavenSkip.class)
 	public void test() {
 
 		for (File file : asmFiles) {
