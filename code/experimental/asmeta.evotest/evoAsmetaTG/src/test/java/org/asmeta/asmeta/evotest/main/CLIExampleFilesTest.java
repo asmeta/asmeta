@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asmeta.annotations.TestToMavenSkip;
 import org.asmeta.evoasmetatg.main.EvoAsmetaTgCLI;
+import org.asmeta.parser.ASMParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +42,7 @@ public class CLIExampleFilesTest {
 	private static final String TIME_BUDGET = "-timeBudget";
 	private static final String TIME_BUDGET_VALUE = "5";
 	private static final String CLEAN = "-clean";
-	private static final String ASM_EXTENSION = ".asm";
+	private static final String ASM_EXTENSION = ASMParser.ASM_EXTENSION;
 
 	/** temp output folder */
 	private File tempOutputDir;
