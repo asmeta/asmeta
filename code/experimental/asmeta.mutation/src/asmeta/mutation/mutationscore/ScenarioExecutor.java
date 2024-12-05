@@ -6,7 +6,7 @@ import java.util.List;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 
 import asmeta.AsmCollection;
-import asmeta.mutation.operators.ChooseRuleMutateToLet;
+import asmeta.mutation.operators.ChooseRuleMutate;
 import asmeta.structure.Asm;
 
 /** it executes a scenario over a mutate set of specifications and return the mutation score*/
@@ -21,7 +21,8 @@ public class ScenarioExecutor {
 		// parse the scenario to get the ref to the asmeta
 		AsmetaMutatedFromAvalla asmetaBuilder = new AsmetaMutatedFromAvalla(scenarioPath, temp);
 		// mutate the asmeta
-		ChooseRuleMutateToLet mut = new ChooseRuleMutateToLet();
+		//ChooseRuleMutate mut = new ChooseRuleMutate(asmetaBuilder.getAsm().getMain());
+		ChooseRuleMutate mut = new ChooseRuleMutate();
 		List<AsmCollection> mutants = mut.mutate(asmetaBuilder.getAsm());
 		// modify the scenario to ref to the mutated spec
 		for (AsmCollection m: mutants) {
