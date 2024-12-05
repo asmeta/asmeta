@@ -270,12 +270,14 @@ public class FileManager {
 
 	/**
 	 * Sets the output directory where the generated files will be stored.
+	 * Create a new directory if it doesn't exists.
 	 * 
 	 * @param outputDir the path of the output directory.
 	 * @throws IOException
 	 */
 	void setOutputDir(String outputDir) throws IOException {
 		this.outputFolder = Paths.get(outputDir);
+		// check if exists and if not create a new directory
 		checkPath(outputFolder);
 	}
 
@@ -296,6 +298,7 @@ public class FileManager {
 			logger.error("Failed to set the version of Java compiler: " + javaVersion + " , uses the default one: "
 					+ javaVersion);
 			logger.error("Please enter a valid java version " + e.getMessage());
+			// TODO: throws a custom exception to stop the flow.
 		}
 
 	}

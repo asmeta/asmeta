@@ -20,6 +20,9 @@ public class TranslatorImpl implements Translator {
 	
 	/** Logger */
 	private static final Logger logger = Logger.getLogger(TranslatorImpl.class);
+	
+	/* Constants */
+	private static final String ASM_EXTENSION = ASMParser.ASM_EXTENSION;
 
 	/** Path to the ASM specification file. */
     private String asmspec;
@@ -53,7 +56,11 @@ public class TranslatorImpl implements Translator {
 	}
 	
 	@Override
-	public void setInput(String value) {
+	public void setInput(String value) throws AsmParsingException{
+		logger.info("Setting the input file path: " + value);
+		if(!value.endsWith(ASM_EXTENSION)) {
+			throw new AsmParsingException("The Asmeta specification must have the " + ASM_EXTENSION + " extension.");
+		}
 		this.asmspec = value;
 	}
 	

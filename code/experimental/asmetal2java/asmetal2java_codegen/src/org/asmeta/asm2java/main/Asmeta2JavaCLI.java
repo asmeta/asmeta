@@ -95,8 +95,8 @@ public class Asmeta2JavaCLI {
 				main.execute(line);
 			}
 		} catch (Exception e) {
-			logger.error("Generation failed");
-			logger.error("An error occurred:\n" + e.getMessage() + e);
+			logger.error("Generation failed!");
+			logger.error("An error occurred: " + e.getMessage());
 			e.printStackTrace();
 			returnCode = 1; // error code
 		} finally {
