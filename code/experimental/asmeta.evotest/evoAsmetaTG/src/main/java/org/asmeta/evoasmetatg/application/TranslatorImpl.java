@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asmeta.asm2java.application.AsmParsingException;
 import org.asmeta.asm2java.main.Asmeta2JavaCLI;
 import org.asmeta.evoasmetatg.config.Options;
 import org.asmeta.evoasmetatg.config.OptionsImpl;
@@ -67,16 +67,24 @@ public class TranslatorImpl implements Translator {
 	@Override
 	public void setInput(String inputPath) throws FileNotFoundException {
 		File inputFile = new File(inputPath);
+		// check if the file exists.
 		if (!inputFile.exists() || !inputFile.isFile()) {
 			logger.error("Can't find the specified input File: {} ", inputPath);
 			logger.error("Please digit the absolute path of the file in question.");
 			throw new FileNotFoundException(inputPath);
 		}
 		this.inputFilePath = inputFile.getAbsolutePath();
-		this.asmName = inputFile.getName().replace(TranslatorConstants.ASM, "");
+		// check the extension.
+		if(!this.inputFilePath.endsWith(TranslatorConstants.ASM_EXTENSION)) {
+			logger.error("The file provided isn't an Asmeta specification: {}", inputPath);
+			throw new AsmParsingException("The Asmeta specification must have the " + TranslatorConstants.ASM_EXTENSION + " extension.");
+		}
+		// extract the ASM name from the file.
+		this.asmName = inputFile.getName().replace(TranslatorConstants.ASM_EXTENSION, "");
 		logger.info("Setting the input file: {}.", inputFilePath);
 		logger.debug("inputFile: {}", inputFile);
 		logger.debug("asmName: {}", asmName);
+		// set the default output folder as the parent folder of the input file.
 		File inputFolder = inputFile.getParentFile();
 		if (inputFolder.isDirectory()) {
 			this.outputFolder = inputFolder.getAbsolutePath();

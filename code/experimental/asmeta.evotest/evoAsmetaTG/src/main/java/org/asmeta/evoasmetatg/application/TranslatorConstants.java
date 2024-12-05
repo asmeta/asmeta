@@ -4,6 +4,7 @@ import org.asmeta.asm2java.application.FileManager;
 import org.asmeta.asm2java.config.ModeConstantsConfig;
 import org.asmeta.asm2java.main.Asmeta2JavaCLI;
 import org.asmeta.junit2avalla.main.Junit2AvallaCLI;
+import org.asmeta.parser.ASMParser;
 
 /**
  * This class contains the constants used by the Translator in the application package.
@@ -20,7 +21,7 @@ final class TranslatorConstants {
 
 	static final String CRITERION = "-criterion";
 
-	static final String ASM = ".asm";
+	static final String ASM_EXTENSION = ASMParser.ASM_EXTENSION;
 	
 	static final String ATG = FileManager.ATG;
 	

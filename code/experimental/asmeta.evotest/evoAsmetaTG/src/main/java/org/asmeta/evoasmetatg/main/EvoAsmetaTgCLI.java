@@ -103,8 +103,8 @@ public class EvoAsmetaTgCLI {
 				main.execute(line);
 			}
 		} catch (Exception e) {
-			logger.error("Generation failed.");
-			logger.error("An error occurred: {}.", e.getMessage(), e);
+			logger.error("Generation failed!");
+			logger.error("An error occurred: {}", e.getMessage(), e);
 			returnCode = 1; // error code
 		} finally {
 			if (line != null && line.hasOption(CLEAN)) {
