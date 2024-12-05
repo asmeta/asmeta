@@ -7,11 +7,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
+import org.asmeta.avallaxt.avalla.Command;
+import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
-import org.asmeta.avallaxt.avalla.Set;
+import org.asmeta.avallaxt.validation.AsmCollectionUtility;
 import org.asmeta.avallaxt.validation.ScenarioUtility;
 import org.asmeta.parser.ASMParser;
 import org.eclipse.emf.common.util.URI;
@@ -23,10 +27,12 @@ import com.google.inject.Injector;
 
 import asmeta.AsmCollection;
 import asmeta.structure.Asm;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 /**
- * AsmPrinter that takes avalla script and produces an Asmeta Spec representing the semantics of the script
+ * AsmPrinter that takes avalla script and produces an Asmeta Spec representing
+ * the semantics of the script
  *
  * @author garganti
  */
@@ -55,10 +61,17 @@ public class AsmetaFromAvallaBuilder {
 	 */
 	Collection<asmeta.definitions.Invariant> modelInvariants;
 
+	ArrayList<Command> monitoredInitState;// PA: 2017/12/29
 
-	ArrayList<Set> monitoredInitState;// PA: 2017/12/29
+	List<ArrayList<Command>> allMonitored;// PA: 2017/12/29
 
-	List<ArrayList<Set>> allMonitored;// PA: 2017/12/29
+	ArrayList<Pick> allPickRules;
+
+	/**
+	 * The map of all ChooseRules in the asm being validated with the name of the
+	 * macro rule in which are contained
+	 */
+	Map<ChooseRule, String> allChooseRules;
 
 	private AsmetaPrinterForAvalla asmetaPrinterforAvalla;
 
@@ -67,9 +80,8 @@ public class AsmetaFromAvallaBuilder {
 	// the original asmCollection loaded in the scenario
 	protected AsmCollection asmCollection;
 
-
 	/**
-	 * Instantiates a new asmeta from avalla  in a temporary file
+	 * Instantiates a new asmeta from avalla in a temporary file
 	 *
 	 * @param scenarioPath the scenario path
 	 * @throws Exception the exception
@@ -77,7 +89,6 @@ public class AsmetaFromAvallaBuilder {
 	public AsmetaFromAvallaBuilder(String scenarioPath) throws Exception {
 		this(scenarioPath, Files.createTempDirectory("asms_foravalla").toFile());
 	}
-
 
 	/**
 	 * Instantiates a new builder.
@@ -91,7 +102,7 @@ public class AsmetaFromAvallaBuilder {
 	public AsmetaFromAvallaBuilder(String scenarioPath, File tempAsmPathDir) throws Exception {
 		//
 		File fileScenario = Paths.get(scenarioPath).toFile();
-		assert fileScenario.exists(): fileScenario.getCanonicalPath()+ " does not exits";
+		assert fileScenario.exists() : fileScenario.getCanonicalPath() + " does not exits";
 		assert tempAsmPathDir.exists() && tempAsmPathDir.isDirectory();
 		//
 		scenarioDirectoryPath = new File(scenarioPath).getAbsoluteFile().getParent();
@@ -104,7 +115,8 @@ public class AsmetaFromAvallaBuilder {
 		scenario = (Scenario) resource.getContents().get(0);
 		// get the specification loaded by the script
 		modelPath = ScenarioUtility.getAsmPath(scenario);
-		if (!Files.exists(modelPath)) throw new RuntimeException("the loaded asmeta file " + modelPath + " does not exists");
+		if (!Files.exists(modelPath))
+			throw new RuntimeException("the loaded asmeta file " + modelPath + " does not exists");
 		assert Files.exists(modelPath);
 		logger.debug("build the asm from scenario " + modelPath);
 		File modelFile = modelPath.toFile();
@@ -114,24 +126,37 @@ public class AsmetaFromAvallaBuilder {
 		// TODO, or just add an empty main rule?
 		if (mainrule == null)
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
+		// Populate allChoseRules
+		allChooseRules = AsmCollectionUtility.getChooseRules(pack);
 		oldMainName = mainrule.getName();
 		// create a temp file in the directory
-		//File tempAsmPath = File.createTempFile(TEMP_ASMETA_V, ASMParser.ASM_EXTENSION, tempAsmPathDir);
+		// File tempAsmPath = File.createTempFile(TEMP_ASMETA_V,
+		// ASMParser.ASM_EXTENSION, tempAsmPathDir);
 		// use also the name of the original ASM instead
 		File tempAsmPath = File.createTempFile(asm.getName() + TEMP_ASMETA_V, ASMParser.ASM_EXTENSION, tempAsmPathDir);
 		logger.debug("to file " + tempAsmPath.getAbsolutePath());
 		//
-		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath,modelPath, this);
+		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath, modelPath, this);
 	}
 
 	/**
 	 * Save.
 	 */
 	public void save() {
-		StatementToStringBuffer stb = new StatementToStringBuffer(scenario, oldMainName, scenarioDirectoryPath);
+		StatementToStringBuffer stb = new StatementToStringBuffer(scenario, oldMainName, scenarioDirectoryPath, this);
 		stb.parseCommands();
 		monitoredInitState = stb.monitoredInitState;// PA: 2017/12/29
 		allMonitored = stb.allMonitored;// PA: 2017/12/29
+		allPickRules = new ArrayList<>();
+		for (ArrayList<Command> list : allMonitored) {
+			allPickRules.addAll(list.stream()
+					.filter(x -> x instanceof Pick)
+					.map(x -> ((Pick) x))
+					.collect(Collectors.toList()));
+		}
+		if (!ScenarioUtility.checkAllPicks(allPickRules, allChooseRules, asm))
+			throw new RuntimeException("some pick variables in the avalla can not be correctly matched"
+					+ " with one and only one choose variable in the asm");
 		List<String> statements = stb.statements;
 		newMain = buildNewMain(statements).toString();
 		asmetaPrinterforAvalla.visit(asm);
@@ -152,9 +177,9 @@ public class AsmetaFromAvallaBuilder {
 			buff.append("\t\t\tcase " + i + ":\n");
 			buff.append("\t\t\t\t" + stm);
 		}
-		// TODO 
+		// TODO
 		// buff.append("\t\t\t\t STEP := " + Integer.MAX_VALUE);
-		buff.append("\t\tendswitch");
+		buff.append("\t\tendswitch\n");
 		return buff;
 	}
 
