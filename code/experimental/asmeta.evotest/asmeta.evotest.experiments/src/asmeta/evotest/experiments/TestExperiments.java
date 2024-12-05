@@ -57,7 +57,7 @@ public class TestExperiments {
 		if (file.isDirectory() || file.getParentFile().getName().equals("STDL"))
 			return;
 		// Look only at .asm files
-		if (file.getName().endsWith(".asm")) {
+		if (file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
 			AsmCollection asms = null;
 			try {
 				asms = ASMParser.setUpReadAsm(file);
