@@ -36,7 +36,7 @@ public class ScenarioExecutor {
 			asmetaBuilder.save();
 			File tempAsmPath = asmetaBuilder.getTempAsmPath();
 			// execute now the scenario
-			boolean result = AsmetaV.executeAsmetaFromAvalla(true, allCoveredRules, tempAsmPath, asmetaBuilder.getAsm().getMain().getName());
+			boolean result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, asmetaBuilder.getAsm().getMain().getName());
 			if (!result)
 				System.err.println("KILLED !!!");
 		}

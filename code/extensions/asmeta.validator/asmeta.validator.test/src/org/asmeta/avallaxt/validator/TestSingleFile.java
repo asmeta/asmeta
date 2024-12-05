@@ -251,7 +251,13 @@ public class TestSingleFile extends TestValidator {
 		test("scenariosfortest/flaky/scenario3.avalla", true, false, true);
 		test("scenariosfortest/flaky/scenario4.avalla", true, false, true);
 	}
+
 	
+	@Test
+	public void testChooseInteger() throws Exception {
+		test("scenariosfortest/flaky/scenario_ci_fail.avalla", true, false, false);
+	}
+
 	@Test
 	public void testPillbox() throws Exception {
 		test(ASM_EXAMPLES + "PillBox/Level0/pillbox_0_scenario1.avalla", false, false, true);		

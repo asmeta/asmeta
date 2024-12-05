@@ -1,6 +1,6 @@
 //// starting scenario
 scenario SCENARIO_NAME
-load choosetolet.asm
+load chooseinteger.asm
 step
 check foo1 = 5;
 step

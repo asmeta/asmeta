@@ -1,4 +1,4 @@
-asm choosetolet
+asm chooseinteger
 import ../../../../asm_examples/STDL/StandardLibrary
 
 signature:
