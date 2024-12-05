@@ -44,6 +44,7 @@ import asmeta.structure.FunctionInitialization;
 import asmeta.structure.ImportClause;
 import asmeta.structure.Initialization;
 import asmeta.terms.basicterms.BasictermsFactory;
+import asmeta.terms.basicterms.DomainTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
@@ -141,8 +142,11 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			super.visit(chooseRule);
 			unIndent();
 			println("else ");
-			indent();
-			println("if " + "contains(" + super.tp.visit(range) + ", " + valPicked + ")" + " then");
+			// to check if the picked value is in the term used as domain (e.g. {10:20})
+			if (!(range instanceof DomainTerm)) {
+				indent();
+				println("if " + "contains(" + super.tp.visit(range) + ", " + valPicked + ")" + " then");
+			}
 			indent();
 			println("if " + guardString + " then");
 			indent();
@@ -159,17 +163,20 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			unIndent();
 			println("endif");
 			unIndent();
-			println("else");
-			indent();
-			println("seq");
-			indent();
-			println("result := print(\"CHECK FAILED: the value is not in the domain\")");
-			println("step__ := -2"); // -2 so plus 1 is still < 0
-			unIndent();
-			println("endseq");
-			unIndent();
-			println("endif");
-			unIndent();
+			// to when the picked value is not in the term used as domain
+			if (!(range instanceof DomainTerm)) {
+				println("else");
+				indent();
+				println("seq");
+				indent();
+				println("result := print(\"CHECK FAILED: the value is not in the domain\")");
+				println("step__ := -2"); // -2 so plus 1 is still < 0
+				unIndent();
+				println("endseq");
+				unIndent();
+				println("endif");
+				unIndent();
+			}
 			println("endif");
 		}
 	}
