@@ -116,8 +116,11 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			return;
 		}
 		VariableTerm var = vars.get(0);
+		Term range = chooseRule.getRanges().get(0); //
 		Term guardTerm = chooseRule.getGuard();
 		Rule doRule = chooseRule.getDoRule();
+		String isPicked = IS_PICKED + var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName();
+		String valPicked = VAL_PICKED + var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName();
 		// if the variable is never picked in the avalla, print the choose rule
 		if (getPickFromVariable(var, super.currentRuleDeclaration.getName(), this.builder.allPickRules) == null) {
 			super.visit(chooseRule);
@@ -126,29 +129,41 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			// correspondent val_picked_X controlled function
 			TermAssignment assignment = new TermAssignment();
 			VariableTerm newTerm = BasictermsFactory.eINSTANCE.createVariableTerm();
-			newTerm.setName(VAL_PICKED + var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName());
+			newTerm.setName(valPicked);
 			assignment.put(vars, Collections.singleton(newTerm));
 			RuleSubstitution substitution = new RuleSubstitution(assignment, new RuleFactory());
 			Rule newDoRule = substitution.visit(doRule);
 			Term newGuardTerm = substitution.visit(guardTerm);
 			String guardString = super.tp.visit(newGuardTerm);
 			// print
-			println("if not " + IS_PICKED + var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName()
-					+ " then");
+			println("if not " + isPicked + " then");
 			indent();
 			super.visit(chooseRule);
 			unIndent();
 			println("else ");
 			indent();
+			println("if " + "contains(" + super.tp.visit(range) + ", " + valPicked + ")" + " then");
+			indent();
 			println("if " + guardString + " then");
 			indent();
 			visit(newDoRule);
 			unIndent();
-			println("else ");
+			println("else");
 			indent();
 			println("seq");
 			indent();
-			println("result := print(\"CHECK FAILED: the value cannot be chosen\")");
+			println("result := print(\"CHECK FAILED: the value cannot be chosen as the guard evaluates to false\")");
+			println("step__ := -2"); // -2 so plus 1 is still < 0
+			unIndent();
+			println("endseq");
+			unIndent();
+			println("endif");
+			unIndent();
+			println("else");
+			indent();
+			println("seq");
+			indent();
+			println("result := print(\"CHECK FAILED: the value is not in the domain\")");
 			println("step__ := -2"); // -2 so plus 1 is still < 0
 			unIndent();
 			println("endseq");
