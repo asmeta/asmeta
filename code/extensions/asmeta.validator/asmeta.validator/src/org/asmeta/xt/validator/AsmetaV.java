@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
+import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
@@ -124,6 +125,22 @@ public class AsmetaV {
 		builder.save();
 		File tempAsmPath = builder.getTempAsmPath();
 		logger.info("** temp ASMETA saved in " + tempAsmPath.getAbsolutePath() + " **\n");
+		return executeAsmetaFromAvalla(coverage, coveredRules, tempAsmPath, builder.asm.getName());
+	}
+
+	/**
+	 * execute the asmeta representing the scenario
+	 *
+	 * @param coverage if required
+	 * @param coveredRules the covered rules (till now, once it is covered it is covered forever)
+	 * @param tempAsmPath asmeta path
+	 * @param asmName original asm name
+	 * @return true if the check have succeeded
+	 * @throws Exception the exception
+	 */
+	static public boolean executeAsmetaFromAvalla(boolean coverage, Map<String, Boolean> coveredRules, File tempAsmPath, String asmName)
+			throws Exception {
+		assert tempAsmPath.toString().endsWith(ASMParser.ASM_EXTENSION) : " can execute only asmeta files";
 		// create the simulator with the coverage
 		Simulator sim;
 		if (coverage) {
@@ -157,7 +174,6 @@ public class AsmetaV {
 		if (coverage) { // for each scenario insert rules covered
 						// into list if they aren't covered
 			List<AbstractMap.SimpleEntry<String, String>> coveredThisTime = new ArrayList<>(((SimulatorWCov)sim).getCoveredMacro());
-			String asmName = builder.asm.getName();
 			List<RuleDeclaration> ruleDeclaration = sim.getAsmModel().getBodySection().getRuleDeclaration();
 			// for each rule which is declared in the current ASM
 			ruleDeclaration.forEach(rd->

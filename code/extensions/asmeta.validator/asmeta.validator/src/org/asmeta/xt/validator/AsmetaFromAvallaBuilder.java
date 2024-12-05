@@ -127,7 +127,7 @@ public class AsmetaFromAvallaBuilder {
 		if (mainrule == null)
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
 		// Populate allChoseRules
-		allChooseRules = AsmCollectionUtility.getChooseRules(pack);
+		allChooseRules = AsmCollectionUtility.getChooseRules(asmCollection);
 		oldMainName = mainrule.getName();
 		// create a temp file in the directory
 		// File tempAsmPath = File.createTempFile(TEMP_ASMETA_V,

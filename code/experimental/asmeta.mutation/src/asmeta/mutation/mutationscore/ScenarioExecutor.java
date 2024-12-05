@@ -1,9 +1,12 @@
 package asmeta.mutation.mutationscore;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
+import org.asmeta.xt.validator.AsmetaV;
 
 import asmeta.AsmCollection;
 import asmeta.mutation.operators.ChooseRuleMutate;
@@ -24,14 +27,18 @@ public class ScenarioExecutor {
 		//ChooseRuleMutate mut = new ChooseRuleMutate(asmetaBuilder.getAsm().getMain());
 		ChooseRuleMutate mut = new ChooseRuleMutate();
 		List<AsmCollection> mutants = mut.mutate(asmetaBuilder.getAsm());
+		Map<String,Boolean> allCoveredRules = new HashMap<>();
 		// modify the scenario to ref to the mutated spec
 		for (AsmCollection m: mutants) {
 			// change the asmeta with the mutation 
 			asmetaBuilder.setAsmeta(m);
 			// save the scenario
 			asmetaBuilder.save();
+			File tempAsmPath = asmetaBuilder.getTempAsmPath();
 			// execute now the scenario
-			
+			boolean result = AsmetaV.executeAsmetaFromAvalla(true, allCoveredRules, tempAsmPath, asmetaBuilder.getAsm().getMain().getName());
+			if (!result)
+				System.err.println("KILLED !!!");
 		}
 		
 
