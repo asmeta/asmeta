@@ -46,8 +46,8 @@ public class BooleanValue extends Value<Boolean> {
         boolValue = bool;
     }
 
-    BooleanValue() {
-    	// without the value to allow lazy evaluation
+	// without the value to allow lazy evaluation
+    protected BooleanValue() {
     }
     
 	/**
