@@ -31,7 +31,7 @@ public class TestSingleFile extends TestValidator {
 
 	@BeforeClass
 	static public void setuplogger() throws Exception {
-		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
 		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);		
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ALL);		
