@@ -23,6 +23,7 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>create-jar</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
@@ -43,6 +44,21 @@
 							</descriptorRefs>
 						</configuration>
 					</execution>
+ 					<execution>
+	                    <id>create-zip</id>
+	                    <phase>package</phase>
+	                    <goals>
+	                        <goal>single</goal>
+	                    </goals>
+	                    <configuration>
+							<finalName>evoasmetatg</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+							<outputDirectory>dist</outputDirectory>
+	                        <descriptors>
+	                            <descriptor>src/main/resources/evoasmetatg-zip.xml</descriptor>
+	                        </descriptors>
+	                    </configuration>
+	                </execution>
 				</executions>
 			</plugin>
 			<!-- Maven surefire plugin -->
