@@ -56,6 +56,12 @@ public class TranslatorImpl implements Translator {
 	}
 	
 	@Override
+	public void setInputWorkingDir(String inputWorkingDirPath) {
+		logger.info("Setting a custom input working directory: " + inputWorkingDirPath);
+		fileManager.setInputFolder(inputWorkingDirPath);
+	}
+	
+	@Override
 	public void setInput(String value) throws AsmParsingException{
 		logger.info("Setting the input file path: " + value);
 		if(!value.endsWith(ASM_EXTENSION)) {
@@ -117,7 +123,7 @@ public class TranslatorImpl implements Translator {
 	}
 	
 	@Override
-	public boolean generate() throws AsmParsingException, IOException {
+	public boolean generate() throws AsmParsingException, IOException, SetupException {
 		
 		boolean result = true;
 		File asmFile = fileManager.retrieveInput(this.asmspec);

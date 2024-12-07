@@ -14,6 +14,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 import org.asmeta.asm2java.application.AsmParsingException;
+import org.asmeta.asm2java.application.SetupException;
 import org.asmeta.asm2java.application.Translator;
 import org.asmeta.asm2java.application.TranslatorImpl;
 
@@ -29,6 +30,7 @@ public class Asmeta2JavaCLI {
 	public static final String MODE = "mode";
 	public static final String CLEAN = "clean";
 	public static final String HELP = "help";
+	public static final String WORKING_DIR = "workingDir";
 	public static final String OUTPUT = "output";
 	public static final String INPUT = "input";
 	public static final String COMPILER_VERSION = "compilerVersion";
@@ -111,12 +113,17 @@ public class Asmeta2JavaCLI {
 	 * Executes the main process based on the command-line arguments.
 	 *
 	 * @param line the parsed CommandLine object.
-	 * @throws IOException
-	 * @throws AsmParsingException
+	 * @throws IOException         if an I/O error occurs.
+	 * @throws AsmParsingException if an error occurs during the parsing operation.
+	 * @throws SetupException      if an error occurs during the setup operation.
 	 */
-	private void execute(CommandLine line) throws AsmParsingException, IOException {
+	private void execute(CommandLine line) throws AsmParsingException, IOException, SetupException {
 
 		setGlobalProperties(line);
+
+		if (line.hasOption(WORKING_DIR)) {
+			translator.setInputWorkingDir(line.getOptionValue(WORKING_DIR));
+		}
 
 		// INPUT OPTION: by precondition -input option is always available and not null
 		// (required)
@@ -153,13 +160,17 @@ public class Asmeta2JavaCLI {
 		// print help
 		Option help = new Option(HELP, "print this message");
 
+		// custom working directory
+		Option workingDir = Option.builder(WORKING_DIR).argName(WORKING_DIR).type(String.class).hasArg(true)
+				.desc("Custom working directory path (optional, defaults to `./input`)").build();
+
 		// input file
 		Option input = Option.builder(INPUT).argName(INPUT).type(String.class).hasArg(true)
-				.desc("The ASM input file (required)").build();
+				.desc("The ASMETA specification input file (required)").build();
 
 		// output directory
 		Option output = Option.builder(OUTPUT).argName(OUTPUT).type(String.class).hasArg(true)
-				.desc("The output folder (optional, defaults to `./output/`)").build();
+				.desc("Custom output folder path (optional, defaults to `./output/`)").build();
 
 		// clean the directories after use
 		Option clean = Option.builder(CLEAN).hasArg(false)
@@ -183,6 +194,7 @@ public class Asmeta2JavaCLI {
 				.required(false).optionalArg(false).type(String.class).desc(translator.getOptionsDescription()).build();
 
 		options.addOption(help);
+		options.addOption(workingDir);
 		options.addOption(input);
 		options.addOption(output);
 		options.addOption(clean);

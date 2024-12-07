@@ -17,6 +17,13 @@ public interface Translator {
 	 *                      boolean.
 	 */
 	void setOptions(String propertyName, String propertyValue);
+	
+	/**
+	 * Set a custom path for the input working directory.
+	 * 
+	 * @param inputWorkingDirPath the path to the input working directory.
+	 */
+	void setInputWorkingDir(String inputWorkingDirPath);
 
 	/**
 	 * Sets the input path to the file for the translation process.
@@ -49,8 +56,9 @@ public interface Translator {
 	 *         {@code false}.
 	 * @throws AsmParsingException when an error occurs while parsing an ASM file.
 	 * @throws IOException         if an I/O error occurs.
+	 * @throws SetupException      if an error occurs during the setup process.
 	 */
-	boolean generate() throws AsmParsingException, IOException;
+	boolean generate() throws AsmParsingException, IOException, SetupException;
 
 	/**
 	 * Sets the version of the java compiler.

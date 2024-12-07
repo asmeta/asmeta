@@ -52,45 +52,72 @@ public class FileManager {
 	/** Logger */
 	private static final Logger logger = Logger.getLogger(FileManager.class);
 
-	/** Path to the input directory. */
-	private static final Path INPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), INPUT);
+	/** Path to the default input working directory. */
+	private static final Path DEFAULT_INPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), INPUT);
 
 	/** Path to the default output directory. */
 	private static final Path DEFAULT_OUTPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), OUTPUT);
 
-	/** Path to the translation folder. */
-	private static final Path TRANSLATION_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(),
-			ModeConstantsConfig.TRANSLATOR);
-
-	/** Path to the compiler folder. */
-	private static final Path COMPILER_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), ModeConstantsConfig.COMPILER);
-
-	/** Path to the exe folder. */
-	private static final Path EXE_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), ModeConstantsConfig.GENERATE_EXE);
-
-	/** Path to the win folder. */
-	private static final Path WIN_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), ModeConstantsConfig.GENERATE_WIN);
-
-	/** Path to the test generation folder. */
-	private static final Path TESTGEN_DIR_PATH = Paths.get(INPUT_DIR_PATH.toString(), ModeConstantsConfig.TEST_GEN);
-
 	/** Compiler instance for compiling the java translation */
 	private static final Compiler compilerJava = new CompilerImpl();
 
-	/**
-	 * Indicates the version of the Java compiler used to compile the generated
-	 * classes.
-	 */
+	/** The version of the Java compiler used to compile the generated classes. */
 	private String compilerVersion = "17";
 
-	/** Path to the output folder. */
-	private Path outputFolder;
+	/** Path to the actual input working directory. */
+	private Path inputFolder = DEFAULT_INPUT_DIR_PATH;
+
+	/** Path to the actual output folder. */
+	private Path outputFolder = DEFAULT_OUTPUT_DIR_PATH;
+
+	/** Path to the translation folder. */
+	private Path translationDirPath;
+
+	/** Path to the compiler folder. */
+	private Path compilerDirPath;
+
+	/** Path to the exe folder. */
+	private Path exeDirPath;
+
+	/** Path to the win folder. */
+	private Path winDirPath;
+
+	/** Path to the test generation folder. */
+	private Path testGenDirPath;
 
 	/**
-	 * Constructs a {@code FileManager} instance with the default output directory.
+	 * Constructs a {@code FileManager} instance.
 	 */
 	FileManager() {
-		this.outputFolder = DEFAULT_OUTPUT_DIR_PATH;
+		updateInputSubFolders();
+	}
+
+	/**
+	 * Set the input folder path.
+	 * 
+	 * @param inputWorkingDir String containing the path of the custom input working
+	 *                        directory.
+	 */
+	void setInputFolder(String inputWorkingDir) {
+		Path inputWorkingDirPath = Paths.get(inputWorkingDir);
+		if (inputWorkingDirPath.equals(DEFAULT_INPUT_DIR_PATH)) {
+			logger.info("The path of the custom input working directory is the same as the default one.");
+			return;
+		}
+		this.inputFolder = inputWorkingDirPath;
+		updateInputSubFolders();
+	}
+
+	/**
+	 * Update the path of subfolders within the input folder (call this method
+	 * every time the input folder path is changed).
+	 */
+	private void updateInputSubFolders() {
+		translationDirPath = Paths.get(inputFolder.toString(), ModeConstantsConfig.TRANSLATOR);
+		compilerDirPath = Paths.get(inputFolder.toString(), ModeConstantsConfig.COMPILER);
+		exeDirPath = Paths.get(inputFolder.toString(), ModeConstantsConfig.GENERATE_EXE);
+		winDirPath = Paths.get(inputFolder.toString(), ModeConstantsConfig.GENERATE_WIN);
+		testGenDirPath = Paths.get(inputFolder.toString(), ModeConstantsConfig.TEST_GEN);
 	}
 
 	/**
@@ -99,6 +126,7 @@ public class FileManager {
 	 * 
 	 * @param asmspec the path to the input file (relative or absolute).
 	 * @return the copied file.
+	 * @throws IOException    if an I/O error occurs.
 	 * @throws SetupException if an error occurs during the setup process.
 	 */
 	File retrieveInput(String asmspec) throws IOException, SetupException {
@@ -108,15 +136,16 @@ public class FileManager {
 			throw new SetupException("File doesn't exist: " + asmFile.toString());
 		}
 
-		// Check if the input directory exists and if it contains the required libraries.
+		// Check if the input directory exists and if it contains the required
+		// libraries.
 		// If not, creates a new input directory and adds the missing libraries.
-		if(!checkInputDir()) {
-			logger.error("Failed to check the input directory:" + INPUT_DIR_PATH);
+		if (!checkInputDir()) {
+			logger.error("Failed to check the input directory: " + inputFolder);
 			throw new SetupException("Unable to set input working directory correctly");
 		}
 
 		// Copy the asm file to the input folder
-		Path inputAsmPath = Paths.get(INPUT_DIR_PATH.toString(), asmFile.getName());
+		Path inputAsmPath = Paths.get(inputFolder.toString(), asmFile.getName());
 		logger.info("Copying the " + asmFile + " to: " + inputAsmPath);
 		Files.copy(Paths.get(asmFile.getAbsolutePath()), inputAsmPath, StandardCopyOption.REPLACE_EXISTING);
 		return inputAsmPath.toFile();
@@ -140,39 +169,39 @@ public class FileManager {
 
 		switch (mode) {
 		case TRANSLATOR_MODE:
-			checkPath(TRANSLATION_DIR_PATH);
-			javaFile = new File(TRANSLATION_DIR_PATH + File.separator + name + JAVA_EXTENSION);
+			checkPath(translationDirPath);
+			javaFile = new File(translationDirPath + File.separator + name + JAVA_EXTENSION);
 			// Generate the Java translation.
 			javaGenerator = Generators.getJavaGenerator();
 			break;
 		case COMPILER_MODE:
-			checkPath(COMPILER_DIR_PATH);
-			javaFile = new File(COMPILER_DIR_PATH + File.separator + name + JAVA_EXTENSION);
+			checkPath(compilerDirPath);
+			javaFile = new File(compilerDirPath + File.separator + name + JAVA_EXTENSION);
 			// Generate the Java translation.
 			javaGenerator = Generators.getJavaGenerator();
 			break;
 		case GENERATE_EXE_MODE:
-			checkPath(EXE_DIR_PATH);
-			javaFile = new File(EXE_DIR_PATH + File.separator + name + EXE_EXTENSION);
+			checkPath(exeDirPath);
+			javaFile = new File(exeDirPath + File.separator + name + EXE_EXTENSION);
 			// Generate an executable of the generated Java class.
 			javaGenerator = Generators.getJavaExeGenerator();
 			break;
 		case GENERATE_WIN_MODE:
-			checkPath(WIN_DIR_PATH);
-			javaFile = new File(WIN_DIR_PATH + File.separator + name + WIN_EXTENSION);
+			checkPath(winDirPath);
+			javaFile = new File(winDirPath + File.separator + name + WIN_EXTENSION);
 			// Generate an executable of the generated Java class with a Graphical User
 			// Interface (GUI).
 			javaGenerator = Generators.getJavaWindowGenerator();
 			break;
 		case TRANSLATOR_TEST_MODE:
-			checkPath(TESTGEN_DIR_PATH);
-			javaFile = new File(TESTGEN_DIR_PATH + File.separator + name + JAVA_EXTENSION);
+			checkPath(testGenDirPath);
+			javaFile = new File(testGenDirPath + File.separator + name + JAVA_EXTENSION);
 			// Generate a specific translation for test generation.
 			javaGenerator = Generators.getJavaTestGenerator();
 			break;
 		case TEST_GEN_MODE:
-			checkPath(TESTGEN_DIR_PATH);
-			javaFile = new File(TESTGEN_DIR_PATH + File.separator + name + ATG_EXTENSION);
+			checkPath(testGenDirPath);
+			javaFile = new File(testGenDirPath + File.separator + name + ATG_EXTENSION);
 			// Generate a class designed for generating tests for the translated Java class.
 			javaGenerator = Generators.getJavaAtgGenerator();
 			break;
@@ -212,8 +241,8 @@ public class FileManager {
 	 */
 	boolean compileFile(String asmName) throws IOException {
 		logger.info("JavaCompiler: compiling the .java class...");
-		checkPath(COMPILER_DIR_PATH);
-		CompileResult result = compilerJava.compileFile(asmName + JAVA_EXTENSION, COMPILER_DIR_PATH, true,
+		checkPath(compilerDirPath);
+		CompileResult result = compilerJava.compileFile(asmName + JAVA_EXTENSION, compilerDirPath, true,
 				compilerVersion);
 		if (result.getSuccess()) {
 			return true;
@@ -274,8 +303,8 @@ public class FileManager {
 	 * Cleans the input directory by removing execution-related files.
 	 */
 	void cleanInputDir() {
-		if (INPUT_DIR_PATH.toFile().exists() && INPUT_DIR_PATH.toFile().isDirectory()) {
-			for (File file : INPUT_DIR_PATH.toFile().listFiles()) {
+		if (inputFolder.toFile().exists() && inputFolder.toFile().isDirectory()) {
+			for (File file : inputFolder.toFile().listFiles()) {
 				if (!file.getName().equals(STDL) && !file.getName().equals(".gitignore")) {
 					this.cleanRecursively(file);
 				}
@@ -317,21 +346,22 @@ public class FileManager {
 		}
 
 	}
-	
+
 	/**
-	 * Check if the input directory exists and if it contains the required libraries.
-	 * If not, creates a new input directory and adds the missing libraries.
+	 * Check if the input directory exists and if it contains the required
+	 * libraries. If not, creates a new input directory and adds the missing
+	 * libraries.
 	 * 
 	 * @return {@code True} if the operation completes with success, {@code False}
 	 *         otherwise.
 	 */
 	private boolean checkInputDir() {
-		File inputDir = new File(INPUT_DIR_PATH.toString());
+		File inputDir = new File(inputFolder.toString());
 
 		// if the input directory doesn't exist, creates a new one.
 		if (!inputDir.exists()) {
 			logger.info("input directory not found, creating: " + inputDir);
-			if (!inputDir.mkdir()) {
+			if (!inputDir.mkdirs()) {
 				logger.error("failed to create a new input directory: " + inputDir);
 				// return false if the mkdir fails.
 				return false;
@@ -351,7 +381,7 @@ public class FileManager {
 
 		// the STDL folder not exists.
 		// creates the STDL folder.
-		Path stdlPath = Paths.get(INPUT_DIR_PATH.toString(), STDL);
+		Path stdlPath = Paths.get(inputFolder.toString(), STDL);
 		File stdl = new File(stdlPath.toString());
 		logger.info("STDL directory not found, creating: " + stdl);
 		if (!stdl.mkdir()) {
@@ -373,7 +403,6 @@ public class FileManager {
 		return true;
 	}
 
-	
 	/**
 	 * Check if the STDL folder contains all the requires libraries, and if not add
 	 * the ones missing.
