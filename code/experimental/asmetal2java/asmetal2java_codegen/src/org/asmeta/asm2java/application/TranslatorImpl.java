@@ -56,9 +56,9 @@ public class TranslatorImpl implements Translator {
 	}
 	
 	@Override
-	public void setInputWorkingDir(String inputWorkingDirPath) {
-		logger.info("Setting a custom input working directory: " + inputWorkingDirPath);
-		fileManager.setInputFolder(inputWorkingDirPath);
+	public void setWorkingDir(String workingDirPath) {
+		logger.info("Setting a custom working directory: " + workingDirPath);
+		fileManager.setInputFolder(workingDirPath);
 	}
 	
 	@Override
@@ -179,7 +179,7 @@ public class TranslatorImpl implements Translator {
 	}
 
 	@Override
-	public void setCompilerVersion(String javaVersion) {
+	public void setCompilerVersion(String javaVersion) throws SetupException {
 		fileManager.setCompilerVersion(javaVersion);
 	}
 	

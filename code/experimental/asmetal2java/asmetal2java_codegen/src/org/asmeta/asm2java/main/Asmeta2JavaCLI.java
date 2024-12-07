@@ -122,7 +122,7 @@ public class Asmeta2JavaCLI {
 		setGlobalProperties(line);
 
 		if (line.hasOption(WORKING_DIR)) {
-			translator.setInputWorkingDir(line.getOptionValue(WORKING_DIR));
+			translator.setWorkingDir(line.getOptionValue(WORKING_DIR));
 		}
 
 		// INPUT OPTION: by precondition -input option is always available and not null

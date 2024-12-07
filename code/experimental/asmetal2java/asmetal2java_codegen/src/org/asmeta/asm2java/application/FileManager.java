@@ -29,7 +29,7 @@ import org.asmeta.asm2java.generator.Generators;
 import asmeta.AsmCollection;
 
 /**
- * The {@code FileManagerImpl} class provides methods for working with files.
+ * The {@code FileManager} class provides methods for working with files.
  */
 public class FileManager {
 
@@ -329,8 +329,9 @@ public class FileManager {
 	 * Sets the version of the java compiler.
 	 * 
 	 * @param javaVersion the java version.
+	 * @throws SetupException if an error occurs during the setup process.
 	 */
-	void setCompilerVersion(String javaVersion) {
+	void setCompilerVersion(String javaVersion) throws SetupException {
 		try {
 			int javaVersionInt = Integer.parseInt(javaVersion);
 			if (javaVersionInt < 1 || javaVersionInt > 21) {
@@ -342,7 +343,7 @@ public class FileManager {
 			logger.error("Failed to set the version of Java compiler: " + javaVersion + " , uses the default one: "
 					+ javaVersion);
 			logger.error("Please enter a valid java version " + e.getMessage());
-			// TODO: throws a custom exception to stop the flow.
+			throw new SetupException("Unable to set the version of Java compiler to: " + javaVersion);
 		}
 
 	}

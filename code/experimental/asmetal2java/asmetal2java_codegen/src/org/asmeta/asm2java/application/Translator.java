@@ -19,11 +19,11 @@ public interface Translator {
 	void setOptions(String propertyName, String propertyValue);
 	
 	/**
-	 * Set a custom path for the input working directory.
+	 * Set a custom path for the working directory.
 	 * 
-	 * @param inputWorkingDirPath the path to the input working directory.
+	 * @param workingDirPath the path to the working directory.
 	 */
-	void setInputWorkingDir(String inputWorkingDirPath);
+	void setWorkingDir(String workingDirPath);
 
 	/**
 	 * Sets the input path to the file for the translation process.
@@ -64,8 +64,9 @@ public interface Translator {
 	 * Sets the version of the java compiler.
 	 * 
 	 * @param javaVersion the java version.
+	 * @throws SetupException if an error occurs during the setup process.
 	 */
-	void setCompilerVersion(String javaVersion);
+	void setCompilerVersion(String javaVersion) throws SetupException;
 
 	/**
 	 * Cleans up resources.

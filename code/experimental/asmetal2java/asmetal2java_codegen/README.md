@@ -47,8 +47,10 @@ generated java file to verify that there are no errors via `-Dcompiler=true`.
 
 6. Customize execution with additional options:
     ```shell
-   java -jar .\dist\asmetal2java.jar -input <input> -output <output> -D<property=value> -clean
+   java -jar .\dist\asmetal2java.jar -workingDir <workingDir> -input <input> -output <output> -mode <modeName> -D<property=value> -clean
     ```
+    
+    - `-workingDir` : The custom working directory path (optional, defaults to `./input/`).
     
     - `-input` : The ASM input file (required).
 
@@ -98,17 +100,18 @@ This section covers all available command-line options for the application and h
 
  | Option  					| Argument Type 	| Description 																														|
  |--------------------------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+ | `-workingDir`			| String			| Specifies the custom working directory path. Defaults to `./input`.																|
  | `-input` 				| String (required) | Path to the ASM input file. 																										|
  | `-output` 				| String			| Specifies the output folder. Defaults to `./output/`. 																			|  
- | `-clean` 				| None				|  Delete the files used by the translator in the input folder, please make sure you have enabled the export property -Dexport=true	|
+ | `-clean` 				| None				| Delete the files used by the translator in the input folder, please make sure you have enabled the export property -Dexport=true	|
  | `-mode` 					| String  			| Set the mode of the application (select only 1 option) 																			|
  | 							| `translator` 		| translate the asm file to a java file (default) 																					|
  | 							| `generateExe` 	| translate the asm file to a java file and generate an executable java class 														|
- |							| `generateWin` 	|  translate the asm file to a java file and generate an executable java class with a Grapical User Interace (GUI)					|
- | 							| `testGen`			|  generate a test class suited for test generation with Evosuite 																	|
- | 							| `custom` 			|  set a custom behavior by adding properties with -D. 																				|
+ |							| `generateWin` 	| translate the asm file to a java file and generate an executable java class with a Grapical User Interace (GUI)					|
+ | 							| `testGen`			| generate a test class suited for test generation with Evosuite 																	|
+ | 							| `custom` 			| set a custom behavior by adding properties with -D. 																				|
  | `-Dformatter` 			| boolean  			| whether the generated code should be formatted. 																					|
- | `-DshuffleRandom` 		| boolean  			|  whether a random shuffle should be applied. 																						|
+ | `-DshuffleRandom` 		| boolean  			| whether a random shuffle should be applied. 																						|
  | `-DoptimizeSeqMacroRule` | boolean  			| whether to optimize the sequence macro rule. 																						|
  | `-Dtranslator` 			| boolean  			| whether to  translate the asm file to a java class. 																				|
  | `-Dcompiler` 			| boolean 			| whether to translate and compile the generated java class. 																		|
@@ -135,7 +138,7 @@ The project is structured in the following packages:
 - [config](#config)
 
 and in the following folders (in addition to the classic src and test):
-- [input](#input)
+- [input (workingDir)](#input-workingdir)
 - [output](#output)
 - [examples](#examples)
 - [xtend-gen](#xtend-gen)
@@ -168,8 +171,9 @@ The translator package contains all the translation support classes used by gene
 ### config
 This configuration package includes the **TranslatorOption** interface that includes all the available operations regarding the translation options. The implementation of this interface is contained in the **TranslatorOptionImpl** class, which works through a `HashMap<String,Consumer<Boolean>>` that is a map with the property name as key and a lambda function as content to assign the value to the property, this was designed to reduce the cyclomatic complexity of the class. In addition to this, there is the **ModeConstantsConfig** class that contains the configuration constants that are exposed externally in order to have consistency with other projects and the **Mode** enumerative class that represents the various modes of use of the application.
 
-### input
-The **input** folder is essential for the application to work, in fact the selected asm specification is copied into this folder to be processed. Based on the mode chosen during execution, specific subfolders are created with the same name as the mode, for example with the translator mode the translator subfolder is created, generateExe with the generateExe mode, etc... The required files are generated within these folders. There is also the SDL folder that contains the asm specification libraries, be careful to not remove this folder.
+### input (workingDir)
+The **input** (`./input/` by default or the custom directory specified with the `workingDir` CLI option) folder is essential for the application to work, in fact the selected asm specification is copied into this folder to be processed. Based on the mode chosen during execution, specific subfolders are created with the same name as the mode, for example with the translator mode the translator subfolder is created, generateExe with the generateExe mode, etc... The required files are generated within these folders. There is also the SDL folder that contains the asm specification libraries.
+If the input folder does not exist when the application starts, the app creates a new one, the same thing goes for the STDL subfolder: the application checks if it is present, otherwise it creates a new STDL and adds the missing libraries.
 If we add the `-clean` option to the CLI, all the contents of the input folder are deleted except the STDL folder.
 ### output
 This is the default folder where files are exported if you have selected the CLI option `-Dexport=true` and have not specified a custom **output** folder via `-output <path_to_output_dir>`.
@@ -177,6 +181,8 @@ This is the default folder where files are exported if you have selected the CLI
 In this folder we can find many **examples** of asm used to make tests or provided to the user to get familiar with the application.
 ### xtend-gen
 The **xtend-gen** folder is automatically created at build time and contains all the java classes generated from the xtend classes.
+### resources
+**resource** folder included in the classpath, contains the STDL folder with the libraries needed to parse the asmeta specification.
 
 ## Javadoc
 javadoc for the project is available, to generate it make sure you have maven installed on your machine, then open a terminal, go to the root of the asmetal2java_codegen project and type:
