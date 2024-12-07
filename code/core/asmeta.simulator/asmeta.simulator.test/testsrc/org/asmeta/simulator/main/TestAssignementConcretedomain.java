@@ -1,7 +1,6 @@
-package org.asmeta.simulator;
+package org.asmeta.simulator.main;
 
 import org.asmeta.simulator.main.Simulator;
-import org.asmeta.simulator.main.Util;
 import org.junit.Test;
 
 // 

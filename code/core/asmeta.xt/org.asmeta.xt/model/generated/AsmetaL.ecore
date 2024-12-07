@@ -120,6 +120,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InvariantElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="constrainedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constrainedDomain" eType="#//StandardDomain"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="domainList" upperBound="-1"
         eType="#//Domain" containment="true"/>
   </eClassifiers>

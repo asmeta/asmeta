@@ -27,7 +27,9 @@ import org.asmeta.avallaxt.AvallaStandaloneSetup;
 
 public class TestParserAndValidation {
 
-	String PossibleFaults_NONE = "NO ERROR";
+	static String PossibleFaults_NONE = "NO ERROR";
+
+	static String PossibleFaults_Parser = "Parser error";
 
 	public TestParserAndValidation() {
 		super();
@@ -54,7 +56,7 @@ public class TestParserAndValidation {
 				for (INode issue : pResult.getSyntaxErrors()) {
 					System.out.println(issue.getSyntaxErrorMessage());
 				}	
-				fail();
+				return PossibleFaults_Parser;
 			}
 			// now apply the validation rules
 			IResourceValidator validator = injector.getInstance(IResourceValidator.class);

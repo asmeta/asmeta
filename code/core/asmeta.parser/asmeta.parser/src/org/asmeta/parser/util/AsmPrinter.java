@@ -76,11 +76,12 @@ import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
 import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
 
 public class AsmPrinter extends ReflectiveVisitor<Void> {
-	AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
+	protected AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 	static final private String tabWidth = "    ";
 	private int indentation = 0;
 	private PrintWriter out;
 	protected Asm model;
+	protected RuleDeclaration currentRuleDeclaration = null;
 	boolean expand = true;
 
 	public void close() {
@@ -373,6 +374,7 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	}
 	// common part between main and other rules
 	private void visitRuleDeclaration(RuleDeclaration dcl) {
+		currentRuleDeclaration = dcl;
 		String name = dcl.getName();		
 		List<VariableTerm> vars = dcl.getVariable();
 		Rule rule = dcl.getRuleBody();
@@ -493,7 +495,6 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		visit(rule2);
 		unIndent();
 		if (rule3 != null) {
-			unIndent();
 			println("ifnone");
 			indent();
 			visit(rule3);

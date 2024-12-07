@@ -25,15 +25,13 @@
 'Bag'=141
 'Boolean'=134
 'COMPASSION'=77
-'CTL'=26
-'CTLSPEC'=27
+'CTLSPEC'=26
 'Char'=132
 'Complex'=133
 'INVAR'=78
 'Integer'=128
 'JUSTICE'=76
-'LTL'=28
-'LTLSPEC'=29
+'LTLSPEC'=28
 'Map'=142
 'Natural'=131
 'Powerset'=140
@@ -57,6 +55,7 @@
 'case'=100
 'choose'=116
 'controlled'=89
+'ctlspec'=27
 'default'=60
 'definitions'=71
 'derived'=86
@@ -89,6 +88,7 @@
 'iterate'=121
 'let'=108
 'local'=88
+'ltlspec'=29
 'macro'=72
 'main'=41
 'mod'=36

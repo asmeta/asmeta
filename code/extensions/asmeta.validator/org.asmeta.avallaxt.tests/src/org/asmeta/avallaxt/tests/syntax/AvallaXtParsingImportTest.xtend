@@ -53,6 +53,21 @@ class AvallaXtParsingImportTest {
 	def void import2() {
 		test("../../temp/aaa");
 	}
+	
+	@Test
+	def void importDollar1() {
+		test("$temp/aaa");
+	}
+	
+	@Test
+	def void importDollar2() {
+		test("../aa/$temp/aaa");
+	}
+	
+	@Test
+	def void importDollar3() {
+		test("$temp.asm");
+	}
 
 
 	// test only the parser	

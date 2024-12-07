@@ -77,7 +77,7 @@ TemporalProperty : CtlSpec | LtlSpec;
 Invariant :	'invariant' name=(ID)? 'over' invar_list+=InvariantElement ( "," invar_list+=InvariantElement )*
 			":" body=Term;
 
-InvariantElement :  constrainedName=ID ( "(" ( domainList+=getDomainByID )? ")" )?;
+InvariantElement :  (constrainedName=ID | constrainedDomain=StandardDomain) ( "(" ( domainList+=getDomainByID )? ")" )?;
 
 
 CtlSpec : ('CTLSPEC' | 'ctlspec') (name=ID ':')? body=Term;

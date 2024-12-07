@@ -1,4 +1,4 @@
-package org.asmeta.flattener.util;
+package org.asmeta.simulator.util;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -14,6 +14,7 @@ import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 
+/** build the standard functions as ASMETA objects */ 
 public class StdlFunction {
 	private Asm asm;
 

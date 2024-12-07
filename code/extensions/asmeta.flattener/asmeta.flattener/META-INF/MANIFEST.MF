@@ -15,8 +15,7 @@ Export-Package: org.asmeta.flattener,
  org.asmeta.flattener.rule,
  org.asmeta.flattener.statistics,
  org.asmeta.flattener.term,
- org.asmeta.flattener.undef,
- org.asmeta.flattener.util
+ org.asmeta.flattener.undef
 Import-Package: org.asmeta.parser,
  org.eclipse.osgi.service.datalocation
 Bundle-Vendor: foselab.unibg.it

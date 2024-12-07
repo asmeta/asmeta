@@ -7,7 +7,7 @@ import asmeta.AsmCollection
 import org.asmeta.avallaxt.AvallaStandaloneSetup
 import org.asmeta.avallaxt.avalla.AvallaPackage
 import org.asmeta.avallaxt.avalla.Block
-import org.asmeta.avallaxt.avalla.Check
+import org.asmeta.avallaxt.avalla.Pick
 import org.asmeta.avallaxt.avalla.Element
 import org.asmeta.avallaxt.avalla.ExecBlock
 import org.asmeta.avallaxt.avalla.Scenario
@@ -24,11 +24,12 @@ import java.util.HashSet
 import java.util.List
 import org.asmeta.parser.ASMParser
 import org.asmeta.parser.ParseException
-import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.ResourceSet
 
 import static java.util.stream.Collectors.toList
+import java.util.Map
+import asmeta.transitionrules.basictransitionrules.ChooseRule
 
 /**
  * This class contains custom validation rules. 
@@ -52,6 +53,7 @@ class AvallaValidator extends AbstractAvallaValidator {
 	List<String> monFunNames
 	List<String> controlledFunNames
 	List<String> sharedFunNames
+	Map<ChooseRule, String> chooseRules
 
 	@org.eclipse.xtext.validation.Check
 	def checkLoadASMexists(Scenario scenario) {
@@ -100,6 +102,9 @@ class AvallaValidator extends AbstractAvallaValidator {
 		controlledFunNames = functions.stream().filter(x|x instanceof ControlledFunction).map(y|y.name).collect(toList())
 		// get shared
 		sharedFunNames = functions.stream().filter(x|x instanceof SharedFunction).map(y|y.name).collect(toList())
+		// get choose rules
+		//TODO for now it takes the choose rules only in the main ASM, in the future it can be also in an imported
+		chooseRules = AsmCollectionUtility.getChooseRules(asmCollection)
 	}
 
 	@org.eclipse.xtext.validation.Check
@@ -130,6 +135,18 @@ class AvallaValidator extends AbstractAvallaValidator {
 		if (duplicated.contains(b.name))
 			error('block ' + b.name + " declared multiple times", AvallaPackage.Literals.BLOCK__NAME)
 	}
+	
+	@org.eclipse.xtext.validation.Check
+	def checkPick(Pick pick) {
+		var String errorMessage = ScenarioUtility.checkPickRule(pick, asmCollection.main)
+		if (errorMessage !== null)
+			error(errorMessage, AvallaPackage.Literals.PICK__RULE)
+		else
+			errorMessage = ScenarioUtility.checkPickVariable(pick, chooseRules)
+			if (errorMessage !== null)
+				error(errorMessage, AvallaPackage.Literals.PICK__VAR)
+	}
+	
 
 	// get the scenario of the block or command in general
 	def Scenario getScenario(Element b) {

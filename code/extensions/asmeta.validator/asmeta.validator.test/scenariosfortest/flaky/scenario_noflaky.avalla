@@ -1,0 +1,8 @@
+// starting scenario
+scenario SCENARIO_NAME
+load CoffeeVendingMachineGround.asm
+// ...
+pick $p := TEA;
+step
+check dispensed = TEA;
+step

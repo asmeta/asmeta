@@ -1,4 +1,4 @@
-package org.asmeta.xt.validator;
+package org.asmeta.avallaxt.validation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,14 +27,14 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 //
 public class RuleExtractorFromMacroDecl {
 
-	static List<Rule> getAllContainedRules(MacroDeclaration md) {
+	public static List<Rule> getAllContainedRules(MacroDeclaration md) {
 		return new RuleExtractor().visit(md.getRuleBody());
 	}
 
 	// the real visitor
 	// using an inner static class, so it can be exposed only the public method
 	// so if one wants to fill in a given array it easier
-	// must be public beacuse it is visitor
+	// must be public because it is visitor
 	public static class RuleExtractor extends RuleVisitor<List<Rule>> {
 
 		@Override
@@ -49,24 +49,24 @@ public class RuleExtractorFromMacroDecl {
 
 		@Override
 		public List<Rule> visit(TermAsRule rule) {
-			throw new RuntimeException("not implemented yet");
+			return Collections.singletonList(rule);
 		}
 
 		@Override
-		public List<Rule> visit(BlockRule block) {
+		public List<Rule> visit(BlockRule rule) {
 			ArrayList<Rule> result = new ArrayList<>();
-			result.add(block);
-			for (Rule r : block.getRules()) {
+			result.add(rule);
+			for (Rule r : rule.getRules()) {
 				result.addAll(visit(r));
 			}
 			return result;
 		}
 
 		@Override
-		public List<Rule> visit(SeqRule seq) {
+		public List<Rule> visit(SeqRule rule) {
 			ArrayList<Rule> result = new ArrayList<>();
-			result.add(seq);
-			for (Rule r : seq.getRules()) {
+			result.add(rule);
+			for (Rule r : rule.getRules()) {
 				result.addAll(visit(r));
 			}
 			return result;
@@ -86,22 +86,38 @@ public class RuleExtractorFromMacroDecl {
 
 		@Override
 		public List<Rule> visit(ExtendRule rule) {
-			throw new RuntimeException("not implemented yet");
+			ArrayList<Rule> result = new ArrayList<>();
+			result.add(rule);
+			result.addAll(visit(rule.getDoRule()));
+			return result;
 		}
 
 		@Override
 		public List<Rule> visit(LetRule rule) {
-			throw new RuntimeException("not implemented yet");
+			ArrayList<Rule> result = new ArrayList<>();
+			result.add(rule);
+			result.addAll(visit(rule.getInRule()));
+			return result;
 		}
 
 		@Override
 		public List<Rule> visit(ChooseRule rule) {
-			throw new RuntimeException("not implemented yet");
+			ArrayList<Rule> result = new ArrayList<>();
+			result.add(rule);
+			result.addAll(visit(rule.getDoRule()));
+			Rule ifNoneR = rule.getIfnone();
+			if (ifNoneR != null) {
+				result.addAll(visit(ifNoneR));
+			}
+			return result;
 		}
 
 		@Override
 		public List<Rule> visit(ForallRule rule) {
-			throw new RuntimeException("not implemented yet");
+			ArrayList<Rule> result = new ArrayList<>();
+			result.add(rule);
+			result.addAll(visit(rule.getDoRule()));
+			return result;
 		}
 
 		@Override
@@ -111,7 +127,13 @@ public class RuleExtractorFromMacroDecl {
 
 		@Override
 		public List<Rule> visit(CaseRule rule) {
-			throw new RuntimeException("not implemented yet");
+			ArrayList<Rule> result = new ArrayList<>();
+			result.add(rule);
+			for (Rule r : rule.getCaseBranches()) {
+				result.addAll(visit(r));
+			}
+			result.add(rule.getOtherwiseBranch());
+			return result;
 		}
 
 	}

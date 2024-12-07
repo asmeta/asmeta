@@ -9,8 +9,8 @@ import java.util.Stack;
 import org.apache.log4j.Logger;
 import org.asmeta.flattener.rule.AsmetaFlattener;
 import org.asmeta.flattener.term.Utils;
-import org.asmeta.flattener.util.StdlFunction;
 import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.simulator.util.StdlFunction;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.definitions.RuleDeclaration;

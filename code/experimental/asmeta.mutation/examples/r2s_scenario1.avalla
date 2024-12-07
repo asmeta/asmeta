@@ -1,0 +1,16 @@
+//// starting scenario
+scenario SCENARIO_NAME
+load ruletoskip.asm
+step
+check foo2 = 5;
+check foo1 = 5;
+step
+check foo2 = 5;
+check foo1 = 5;
+step
+check foo2 = 5;
+check foo1 = 5;
+step
+check foo2 = 5;
+check foo1 = 5;
+step

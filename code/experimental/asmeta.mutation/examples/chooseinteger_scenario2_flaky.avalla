@@ -1,0 +1,6 @@
+//// starting scenario
+scenario SCENARIO_NAME
+load chooseinteger.asm
+step
+check foo1 >= 0;
+step
