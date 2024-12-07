@@ -4,13 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asmeta.asm2java.application.AsmParsingException;
 import org.asmeta.asm2java.main.Asmeta2JavaCLI;
 import org.asmeta.evoasmetatg.config.Options;
 import org.asmeta.evoasmetatg.config.OptionsImpl;
@@ -25,17 +23,8 @@ public class TranslatorImpl implements Translator {
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(TranslatorImpl.class);
 
-	/** Absolute path of the Asm input file. */
-	private String inputFilePath;
-
 	/** Name of the Asm input file. */
 	private String asmName;
-
-	/** Absolute path of the output folder */
-	private String outputFolder;
-
-	/** Absolute path of the Java executable used to run Evosuite. */
-	private String javaExe;
 
 	/** CLI Options. */
 	private Options options;
@@ -52,74 +41,48 @@ public class TranslatorImpl implements Translator {
 	/** Time that Evosuite spends on test generation. */
 	private String searchBudget;
 
-	/** indicates whether to clean the folders {@code true} or not {@code false} */
+	/** Indicates whether to clean the folders {@code true} or not {@code false} */
 	private boolean clean;
-
+	
+	/** File manager instance for handling file operations. */
+	private FileManager fileManager;
+	
 	/**
-	 * No args constructor. Create a new instance of Options and initialize the
+	 * No args constructor. Create a new instance of Options, FileManager and initialize the
 	 * clean parameter to false.
 	 */
 	public TranslatorImpl() {
 		this.options = new OptionsImpl();
+		this.fileManager = new FileManager();
 		this.clean = false;
+	}
+	
+
+	@Override
+	public void setWorkingDir(String workingDir) throws IOException {
+		fileManager.setWorkingDirPath(workingDir);
 	}
 
 	@Override
 	public void setInput(String inputPath) throws FileNotFoundException {
-		File inputFile = new File(inputPath);
-		// check if the file exists.
-		if (!inputFile.exists() || !inputFile.isFile()) {
-			logger.error("Can't find the specified input File: {} ", inputPath);
-			logger.error("Please digit the absolute path of the file in question.");
-			throw new FileNotFoundException(inputPath);
-		}
-		this.inputFilePath = inputFile.getAbsolutePath();
-		// check the extension.
-		if(!this.inputFilePath.endsWith(TranslatorConstants.ASM_EXTENSION)) {
-			logger.error("The file provided isn't an Asmeta specification: {}", inputPath);
-			throw new AsmParsingException("The Asmeta specification must have the " + TranslatorConstants.ASM_EXTENSION + " extension.");
-		}
+		File inputFile = fileManager.setInputFilePath(inputPath);
 		// extract the ASM name from the file.
 		this.asmName = inputFile.getName().replace(TranslatorConstants.ASM_EXTENSION, "");
-		logger.info("Setting the input file: {}.", inputFilePath);
 		logger.debug("inputFile: {}", inputFile);
 		logger.debug("asmName: {}", asmName);
-		// set the default output folder as the parent folder of the input file.
-		File inputFolder = inputFile.getParentFile();
-		if (inputFolder.isDirectory()) {
-			this.outputFolder = inputFolder.getAbsolutePath();
-			logger.info("Setting the default output folder: {}.", outputFolder);
-		}
 	}
 
 	@Override
 	public void setOutput(String outputDir) throws IOException {
-		File outputDirFile = new File(outputDir);
-		if (!outputDirFile.exists() || !outputDirFile.isDirectory()) {
-			Files.createDirectories(outputDirFile.toPath());
-		}
-		outputFolder = outputDirFile.getAbsolutePath();
-		logger.info("Setting the output folder: {}.", this.outputFolder);
+		fileManager.setOutputFolder(outputDir);
 	}
 
 	@Override
 	public void setJavaPath(String javaPath) throws FileNotFoundException {
-		File javaJdkFolder = new File(javaPath);
-		if (!javaJdkFolder.exists() || !javaJdkFolder.isDirectory()) {
-			logger.error("Java jdk directory location not valid: {}.", javaJdkFolder.getAbsolutePath());
-			logger.error(
-					"Please note: If your argument is a string and contains a space, put it in double quotes like \"Program Files\"");
-			throw new FileNotFoundException("File not found: " + javaPath);
-		}
-		logger.info("Java jdk directory found at: {}.", javaJdkFolder.getAbsolutePath());
-		File javaFile = new File(Paths.get(javaPath, TranslatorConstants.BIN, TranslatorConstants.JAVA_EXE).toString());
-		if (!javaFile.exists() || !javaFile.isFile()) {
-			logger.error("Java exe file location not valid: {}.", javaFile.getAbsolutePath());
-			throw new FileNotFoundException("File not found: " + javaPath);
-		}
-		this.javaExe = javaFile.getAbsolutePath();
-		logger.info("Setting the path to the java exe: {}.", this.javaExe);
+		// set the java jdk folder path  
+		File javaJdkFolder = fileManager.setJavaPath(javaPath);
 
+		// set the javaVersion
 		this.javaVersion = extractJdkVersion(javaJdkFolder);
 		logger.info("Setting the java jdk version to: {}.", this.javaVersion);
 	}
@@ -221,7 +184,7 @@ public class TranslatorImpl implements Translator {
 		List<String> listOfOptions = new LinkedList<>();
 
 		listOfOptions.addAll(
-				List.of(TranslatorConstants.ASMETA2JAVA_INPUT, inputFilePath, TranslatorConstants.ASMETA2JAVA_OUTPUT,
+				List.of(TranslatorConstants.ASMETA2JAVA_INPUT, fileManager.getInputFilePathToString(), TranslatorConstants.ASMETA2JAVA_OUTPUT,
 						TranslatorConstants.EVOSUITE_TARGET, TranslatorConstants.MODE, TranslatorConstants.TEST_GEN));
 
 		listOfOptions.addAll(options.getCLIStringOptions());
@@ -251,7 +214,7 @@ public class TranslatorImpl implements Translator {
 
 		String evosuiteJar = TranslatorConstants.EVOSUITE_JAR_DIR + File.separator + evosuiteVersion;
 		
-		listOfOptions.addAll(List.of(javaExe, TranslatorConstants.JAR, evosuiteJar , TranslatorConstants.TARGET,
+		listOfOptions.addAll(List.of(fileManager.getJavaJdkPathToString(), TranslatorConstants.JAR, evosuiteJar , TranslatorConstants.TARGET,
 				TranslatorConstants.EVOSUITE_TARGET, TranslatorConstants.CLASS, asmName + TranslatorConstants.ATG,
 				TranslatorConstants.CRITERION, TranslatorConstants.LINE_BRANCH, TranslatorConstants.DMINIMIZE_TRUE,
 				TranslatorConstants.DASSERTION_STRATEGY_ALL));
@@ -272,11 +235,11 @@ public class TranslatorImpl implements Translator {
 
 		List<String> listOfOptions = new LinkedList<>();
 
-		String inputFile = TranslatorConstants.EVOSUITE_TESTS + File.separator + asmName
+		String junitInputFile = TranslatorConstants.EVOSUITE_TESTS + File.separator + asmName
 				+ TranslatorConstants.JUNIT_TEST_EXTENSION;
 
-		listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_INPUT, inputFile,
-				TranslatorConstants.JUNIT2AVALLA_OUTPUT, outputFolder));
+		listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_INPUT, junitInputFile,
+				TranslatorConstants.JUNIT2AVALLA_OUTPUT, fileManager.getOutputFolderToString()));
 
 		if (clean) {
 			listOfOptions.add(TranslatorConstants.CLEAN);

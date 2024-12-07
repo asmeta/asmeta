@@ -26,6 +26,8 @@ final class TranslatorConstants {
 	static final String ATG = FileManager.ATG;
 	
 	static final String JUNIT_TEST_EXTENSION = ATG + "_ESTest.java";
+	
+	static final String USER_DIR = "user.dir";
 
 	static final String CLASS = "-class";
 
@@ -72,6 +74,8 @@ final class TranslatorConstants {
 	static final String CLEAN = "-clean";
 
 	static final String COMPILER_VERSION = DASH + Asmeta2JavaCLI.COMPILER_VERSION;
+	
+	static final String OUTPUT = "output";
 	
 	static final String EVOSUITE_ASCII_ART = """
 			 _____                      _ _       
