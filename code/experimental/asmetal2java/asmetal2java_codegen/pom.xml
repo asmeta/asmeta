@@ -6,24 +6,32 @@
 	<artifactId>asmetal2java_codegen</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
+		<!-- source directory -->
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
-			<resource>
-				<directory>src</directory>
-			</resource>
+			<!-- xtend generated java files -->
 			<resource>
 				<directory>xtend-gen</directory>
 				<includes>
 					<include>**/*.java</include>
 				</includes>
 			</resource>
+			<!-- additional resource files -->
+			<resource>
+                <directory>resources</directory>
+            </resource>
 		</resources>
+		<!-- test directory -->
 		<testSourceDirectory>test</testSourceDirectory>
+		
+		<!-- Maven compiler plugin -->
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version>
 			</plugin>
+			
+			<!-- Maven Build helper -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
@@ -44,6 +52,7 @@
 				</executions>
 			</plugin>
 			
+			<!-- Maven Assembly plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>

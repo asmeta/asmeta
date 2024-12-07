@@ -30,6 +30,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src-gen-examples"/>
+	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.xtend.XTEND_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>

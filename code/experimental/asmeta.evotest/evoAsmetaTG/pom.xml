@@ -22,6 +22,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
+					<!-- create the jar with the dependencies -->
 					<execution>
 						<id>create-jar</id>
 						<phase>package</phase>
@@ -44,6 +45,7 @@
 							</descriptorRefs>
 						</configuration>
 					</execution>
+					<!-- create the zip with the jar and support files -->
  					<execution>
 	                    <id>create-zip</id>
 	                    <phase>package</phase>

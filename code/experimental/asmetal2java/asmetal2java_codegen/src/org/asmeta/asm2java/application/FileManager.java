@@ -3,6 +3,8 @@ package org.asmeta.asm2java.application;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,6 +13,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -41,6 +44,10 @@ public class FileManager {
 	private static final String INPUT = "input";
 	private static final String OUTPUT = "output";
 	private static final String STDL = "STDL";
+
+	/** List of required required Stdl Libraries. */
+	private static final List<String> requiredStdlLibraries = List.of("StandardLibrary.asm", "LTLLibrary.asm",
+			"CTLLibrary.asm");
 
 	/** Logger */
 	private static final Logger logger = Logger.getLogger(FileManager.class);
@@ -100,11 +107,63 @@ public class FileManager {
 			logger.error("Failed to locate the input file:" + asmFile.toString());
 			throw new IOException("File doesn't exist: " + asmFile.toString());
 		}
+
+		// check
+		checkInputDir();
+
 		// Copy the asm file to the input folder
 		Path inputAsmPath = Paths.get(INPUT_DIR_PATH.toString(), asmFile.getName());
 		logger.info("Copying the " + asmFile + " to: " + inputAsmPath);
 		Files.copy(Paths.get(asmFile.getAbsolutePath()), inputAsmPath, StandardCopyOption.REPLACE_EXISTING);
 		return inputAsmPath.toFile();
+	}
+
+	private boolean checkInputDir() {
+		File inputDir = new File(INPUT_DIR_PATH.toString());
+
+		// if the input directory doesn't exist, creates a new one.
+		if (!inputDir.exists()) {
+			logger.info("input directory not found, creating: " + inputDir);
+			if (!inputDir.mkdir()) {
+				logger.error("failed to create a new input directory: " + inputDir);
+				// return false if the mkdir fails.
+				return false;
+			}
+		}
+
+		// check if the input directory contains the STDL folder.
+		for (File file : inputDir.listFiles()) {
+			if (file.isDirectory() && file.getName().equals(STDL)) {
+				logger.info("Found the " + STDL + " folder: " + file);
+				// OK, input folder exists and contains the STDL folder
+				// check if contains all the required libraries, add the missing ones
+				// and stop the execution.
+				return checkLibraries(file);
+			}
+		}
+
+		// the STDL folder not exists.
+		// creates the STDL folder.
+		Path stdlPath = Paths.get(INPUT_DIR_PATH.toString(), STDL);
+		File stdl = new File(stdlPath.toString());
+		logger.info("STDL directory not found, creating: " + stdl);
+		if (!stdl.mkdir()) {
+			logger.error("failed to create a new STDL directory: " + stdl);
+			// return false if the mkdir fails.
+			return false;
+		}
+
+		// populates the STDL folder
+		for (String library : requiredStdlLibraries) {
+			// don't use File.separator because execution in jar will fail.
+			String resourceStdlFilePath = STDL + "/" + library;
+			Path inputStdlFilePath = Paths.get(stdl.toString(), library);
+			if (!copyResourceFile(resourceStdlFilePath, inputStdlFilePath)) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -269,8 +328,8 @@ public class FileManager {
 	}
 
 	/**
-	 * Sets the output directory where the generated files will be stored.
-	 * Create a new directory if it doesn't exists.
+	 * Sets the output directory where the generated files will be stored. Create a
+	 * new directory if it doesn't exists.
 	 * 
 	 * @param outputDir the path of the output directory.
 	 * @throws IOException
@@ -301,6 +360,65 @@ public class FileManager {
 			// TODO: throws a custom exception to stop the flow.
 		}
 
+	}
+	
+	/**
+	 * Check if the STDL folder contains all the requires libraries, and if not add
+	 * the ones missing.
+	 * 
+	 * @param stdlFolder File of the STDL folder.
+	 * @return {@code True} if the operation completes with success, {@code False}
+	 *         otherwise.
+	 */
+	private boolean checkLibraries(File stdlFolder) {
+
+		// list of requiredStdlLibraries already in the STDL input folder.
+		List<String> stdlLibraries = Arrays.stream(stdlFolder.list()).toList();
+
+		for (String library : requiredStdlLibraries) {
+			// if the current STDL input folder doesn't contain the required library.
+			if (!stdlLibraries.contains(library)) {
+				logger.info("The " + library + " is missing...");
+				// don't use File.separator because execution in jar will fail.
+				String resourceStdlFilePath = STDL + "/" + library;
+				Path inputStdlFilePath = Paths.get(stdlFolder.toString(), library);
+				logger.info("Adding the " + library + " to the " + STDL + "folder: " + inputStdlFilePath);
+				if (!copyResourceFile(resourceStdlFilePath, inputStdlFilePath)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Copy the specified resource file to the desired folder.
+	 * 
+	 * @param inputFilePath  String path to the resource file to copy (please don't
+	 *                       use the "\" character or the File.separator in the
+	 *                       path).
+	 * @param outputFilePath Path to the output file.
+	 * @return {@code True} if the operation completes with success, {@code False}
+	 *         otherwise.
+	 */
+	private boolean copyResourceFile(String inputFilePath, Path outputFilePath) {
+		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(inputFilePath);
+				OutputStream outputStream = new FileOutputStream(outputFilePath.toString());) {
+			logger.info("Copying the resource file: " + inputFilePath + " to " + outputFilePath);
+			if (inputStream == null) {
+				throw new FileNotFoundException("Resource not found in classpath: " + inputFilePath);
+			}
+			byte[] buffer = new byte[1024];
+			int bytesRead;
+			while ((bytesRead = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, bytesRead);
+			}
+		} catch (IOException e) {
+			logger.error("Copying resource file operation failed.");
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	/**
