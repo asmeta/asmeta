@@ -45,7 +45,7 @@ public class FileManager {
 	private static final String OUTPUT = "output";
 	private static final String STDL = "STDL";
 
-	/** List of required required Stdl Libraries. */
+	/** List of required Stdl Libraries. */
 	private static final List<String> requiredStdlLibraries = List.of("StandardLibrary.asm", "LTLLibrary.asm",
 			"CTLLibrary.asm");
 
@@ -99,71 +99,27 @@ public class FileManager {
 	 * 
 	 * @param asmspec the path to the input file (relative or absolute).
 	 * @return the copied file.
-	 * @throws IOException if an I/O error occurs during the file copying process.
+	 * @throws SetupException if an error occurs during the setup process.
 	 */
-	File retrieveInput(String asmspec) throws IOException {
+	File retrieveInput(String asmspec) throws IOException, SetupException {
 		File asmFile = new File(asmspec);
 		if (!asmFile.exists()) {
 			logger.error("Failed to locate the input file:" + asmFile.toString());
-			throw new IOException("File doesn't exist: " + asmFile.toString());
+			throw new SetupException("File doesn't exist: " + asmFile.toString());
 		}
 
-		// check
-		checkInputDir();
+		// Check if the input directory exists and if it contains the required libraries.
+		// If not, creates a new input directory and adds the missing libraries.
+		if(!checkInputDir()) {
+			logger.error("Failed to check the input directory:" + INPUT_DIR_PATH);
+			throw new SetupException("Unable to set input working directory correctly");
+		}
 
 		// Copy the asm file to the input folder
 		Path inputAsmPath = Paths.get(INPUT_DIR_PATH.toString(), asmFile.getName());
 		logger.info("Copying the " + asmFile + " to: " + inputAsmPath);
 		Files.copy(Paths.get(asmFile.getAbsolutePath()), inputAsmPath, StandardCopyOption.REPLACE_EXISTING);
 		return inputAsmPath.toFile();
-	}
-
-	private boolean checkInputDir() {
-		File inputDir = new File(INPUT_DIR_PATH.toString());
-
-		// if the input directory doesn't exist, creates a new one.
-		if (!inputDir.exists()) {
-			logger.info("input directory not found, creating: " + inputDir);
-			if (!inputDir.mkdir()) {
-				logger.error("failed to create a new input directory: " + inputDir);
-				// return false if the mkdir fails.
-				return false;
-			}
-		}
-
-		// check if the input directory contains the STDL folder.
-		for (File file : inputDir.listFiles()) {
-			if (file.isDirectory() && file.getName().equals(STDL)) {
-				logger.info("Found the " + STDL + " folder: " + file);
-				// OK, input folder exists and contains the STDL folder
-				// check if contains all the required libraries, add the missing ones
-				// and stop the execution.
-				return checkLibraries(file);
-			}
-		}
-
-		// the STDL folder not exists.
-		// creates the STDL folder.
-		Path stdlPath = Paths.get(INPUT_DIR_PATH.toString(), STDL);
-		File stdl = new File(stdlPath.toString());
-		logger.info("STDL directory not found, creating: " + stdl);
-		if (!stdl.mkdir()) {
-			logger.error("failed to create a new STDL directory: " + stdl);
-			// return false if the mkdir fails.
-			return false;
-		}
-
-		// populates the STDL folder
-		for (String library : requiredStdlLibraries) {
-			// don't use File.separator because execution in jar will fail.
-			String resourceStdlFilePath = STDL + "/" + library;
-			Path inputStdlFilePath = Paths.get(stdl.toString(), library);
-			if (!copyResourceFile(resourceStdlFilePath, inputStdlFilePath)) {
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	/**
@@ -361,6 +317,62 @@ public class FileManager {
 		}
 
 	}
+	
+	/**
+	 * Check if the input directory exists and if it contains the required libraries.
+	 * If not, creates a new input directory and adds the missing libraries.
+	 * 
+	 * @return {@code True} if the operation completes with success, {@code False}
+	 *         otherwise.
+	 */
+	private boolean checkInputDir() {
+		File inputDir = new File(INPUT_DIR_PATH.toString());
+
+		// if the input directory doesn't exist, creates a new one.
+		if (!inputDir.exists()) {
+			logger.info("input directory not found, creating: " + inputDir);
+			if (!inputDir.mkdir()) {
+				logger.error("failed to create a new input directory: " + inputDir);
+				// return false if the mkdir fails.
+				return false;
+			}
+		}
+
+		// check if the input directory contains the STDL folder.
+		for (File file : inputDir.listFiles()) {
+			if (file.isDirectory() && file.getName().equals(STDL)) {
+				logger.info("Found the " + STDL + " folder: " + file);
+				// OK, the input folder exists and contains the STDL folder
+				// check if it contains all the required libraries, add the missing ones
+				// and stop the execution.
+				return checkLibraries(file);
+			}
+		}
+
+		// the STDL folder not exists.
+		// creates the STDL folder.
+		Path stdlPath = Paths.get(INPUT_DIR_PATH.toString(), STDL);
+		File stdl = new File(stdlPath.toString());
+		logger.info("STDL directory not found, creating: " + stdl);
+		if (!stdl.mkdir()) {
+			logger.error("failed to create a new STDL directory: " + stdl);
+			// return false if the mkdir fails.
+			return false;
+		}
+
+		// populates the STDL folder
+		for (String library : requiredStdlLibraries) {
+			// don't use File.separator because execution in jar will fail.
+			String resourceStdlFilePath = STDL + "/" + library;
+			Path inputStdlFilePath = Paths.get(stdl.toString(), library);
+			if (!copyResourceFile(resourceStdlFilePath, inputStdlFilePath)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	
 	/**
 	 * Check if the STDL folder contains all the requires libraries, and if not add
