@@ -26,6 +26,7 @@ public class EvoAsmetaTgCLI {
 	/* Constants */
 	private static final String INPUT = "input";
 	private static final String OUTPUT = "output";
+	private static final String WORKING_DIR = "workingDir";
 	private static final String CLEAN = "clean";
 	private static final String HELP = "help";
 	private static final String JAVA_PATH = "javaPath";
@@ -124,6 +125,10 @@ public class EvoAsmetaTgCLI {
 	private void execute(CommandLine line) throws IOException, TranslationException {
 
 		setGlobalProperties(line);
+		
+		if (line.hasOption(WORKING_DIR)) {
+			translator.setWorkingDir(line.getOptionValue(WORKING_DIR));
+		}
 
 		// INPUT OPTION: by precondition -input option is always available and not null
 		translator.setInput(line.getOptionValue(INPUT));
@@ -161,6 +166,10 @@ public class EvoAsmetaTgCLI {
 
 		// print help
 		Option help = new Option(HELP, "print this message");
+		
+		// custom working directory
+		Option workingDir = Option.builder(WORKING_DIR).argName(WORKING_DIR).type(String.class).hasArg(true)
+				.desc("Custom working directory path (optional, defaults to `./input`)").build();
 
 		// input file
 		Option input = Option.builder(INPUT).argName(INPUT).type(String.class).hasArg(true)
@@ -193,6 +202,7 @@ public class EvoAsmetaTgCLI {
 				.required(false).optionalArg(false).type(String.class).desc(translator.getOptionsDescription()).build();
 
 		options.addOption(help);
+		options.addOption(workingDir);
 		options.addOption(input);
 		options.addOption(output);
 		options.addOption(javaPath);
