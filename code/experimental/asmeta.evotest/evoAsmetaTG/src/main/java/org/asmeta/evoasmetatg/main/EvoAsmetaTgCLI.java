@@ -30,6 +30,7 @@ public class EvoAsmetaTgCLI {
 	private static final String CLEAN = "clean";
 	private static final String HELP = "help";
 	private static final String JAVA_PATH = "javaPath";
+	private static final String EVOSUITE_PATH = "evosuitePath";
 	private static final String EVOSUITE_VERSION = "evosuiteVersion";
 	private static final String TIME_BUDGET = "timeBudget";
 
@@ -139,6 +140,10 @@ public class EvoAsmetaTgCLI {
 		// EVOSUITE_VERSION OPTION: by precondition -evosuiteVersion option is always available and not null
 		translator.setEvosuiteVersion(line.getOptionValue(EVOSUITE_VERSION));
 		
+		if (line.hasOption(EVOSUITE_PATH)) {
+			translator.setEvosuitePath(line.getOptionValue(EVOSUITE_PATH));
+		}
+		
 		if (line.hasOption(OUTPUT)) {
 			translator.setOutput(line.getOptionValue(OUTPUT));
 		}
@@ -146,7 +151,7 @@ public class EvoAsmetaTgCLI {
 		if (line.hasOption(CLEAN)) {
 			translator.setClean(true);
 		}
-
+		
 		if (line.hasOption(TIME_BUDGET)) {
 			translator.setTimeBudget(line.getOptionValue(TIME_BUDGET));
 		}
@@ -184,6 +189,11 @@ public class EvoAsmetaTgCLI {
 				.desc("Set the path of java jdk folder used to run Evosuite (required).\n"
 						+ " Example: \"C:\\Program Files\\Java\\jdk-1.8\"")
 				.build();
+		
+		// Evosuite path
+		Option evosuitePath = Option.builder(EVOSUITE_PATH).argName(EVOSUITE_PATH).type(String.class).hasArg(true)
+				.desc("Set the path of Evosuite jar folder (optional, defaults to `./evosuite/evosuite-jar`).")
+				.build();
 
 		// compiler version
 		Option evosuiteVersion = Option.builder(EVOSUITE_VERSION).argName(EVOSUITE_VERSION).type(String.class)
@@ -206,6 +216,7 @@ public class EvoAsmetaTgCLI {
 		options.addOption(input);
 		options.addOption(output);
 		options.addOption(javaPath);
+		options.addOption(evosuitePath);
 		options.addOption(evosuiteVersion);
 		options.addOption(clean);
 		options.addOption(timeBudget);

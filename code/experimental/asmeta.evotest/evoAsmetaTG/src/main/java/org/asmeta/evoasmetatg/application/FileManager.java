@@ -54,30 +54,65 @@ public class FileManager {
 		// Empty constructor
 	}
 	
+	/**
+	 * Get the path to workingDir in String type.
+	 * 
+	 * @return String containing the path to the workingDir.
+	 */
 	String getWorkingDirPathToString() {
 		return workingDirPath.toString();
 	}
 
+	/**
+	 * Get the path to inputFile in String type.
+	 * 
+	 * @return String containing the path to the inputFile.
+	 */
 	String getInputFilePathToString() {
 		return inputFilePath.toString();
 	}
 
+	/**
+	 * Get the path to outputFolder in String type.
+	 * 
+	 * @return String containing the path to the outputFolder.
+	 */
 	String getOutputFolderToString() {
 		return outputFolder.toString();
 	}
 
+	/**
+	 * Get the path to javaJdk folder in String type.
+	 * 
+	 * @return String containing the path to the javaJdk folder.
+	 */
 	String getJavaJdkPathToString() {
 		return javaJdkPath.toString();
 	}
 	
+	/**
+	 * Get the path to evosuiteTarget in String type.
+	 * 
+	 * @return String containing the path to the evosuiteTarget.
+	 */
 	String getEvosuiteTargetPathToString() {
 		return evosuiteTargetPath.toString();
 	}
 	
+	/**
+	 * Get the path to evosuiteTest in String type.
+	 * 
+	 * @return String containing the path to the evosuiteTest.
+	 */
 	String getEvosuiteTestsPathToString() {
 		return evosuiteTestsPath.toString();
 	}
 	
+	/**
+	 * Get the path to evosuiteJarDir in String type.
+	 * 
+	 * @return String containing the path to the evosuiteJarDir.
+	 */
 	String getEvosuiteJarDirPathToString() {
 		return evosuiteJarDirPath.toString();
 	}
@@ -175,6 +210,28 @@ public class FileManager {
 		logger.info("Setting the path to the java exe: {}.", this.javaJdkPath);
 
 		return javaJdkFolder;
+	}
+	
+	/**
+	 * Sets the path to the Evosuite jar folder.
+	 * 
+	 * @param evosuitePath path to the evosuite jar folder.
+	 * @throws FileNotFoundException if the file is not found.
+	 * @return File of the evosuite jar folder.
+	 */
+	File setEvosuitePath(String evosuitePath) throws FileNotFoundException {
+		File evosuiteFolder = new File(evosuitePath);
+		if (!evosuiteFolder.exists() || !evosuiteFolder.isDirectory()) {
+			logger.error("Evosuite jar directory location not valid: {}.", evosuiteFolder.getAbsolutePath());
+			logger.error(
+					"Please note: If your argument is a string and contains a space, put it in double quotes like \"Program Files\"");
+			throw new FileNotFoundException("File not found: " + evosuitePath);
+		}
+		logger.info("Evosuite jar directory found at: {}.", evosuiteFolder.getAbsolutePath());
+		this.evosuiteJarDirPath = evosuiteFolder.toPath();
+		logger.info("Setting the path to the Evosuite jar folder: {}.", this.evosuiteJarDirPath);
+		
+		return evosuiteFolder;
 	}
 
 	/**

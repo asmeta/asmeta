@@ -86,6 +86,24 @@ public class TranslatorImpl implements Translator {
 		this.javaVersion = extractJdkVersion(javaJdkFolder);
 		logger.info("Setting the java jdk version to: {}.", this.javaVersion);
 	}
+	
+	@Override
+	public void setEvosuitePath(String evosuitePath) throws FileNotFoundException {
+		// set the evosuite jar folder path
+		File evosuiteJarFolder = fileManager.setEvosuitePath(evosuitePath);
+		
+		// check if the given folder contains the current evosuite.jar
+		for(File file : evosuiteJarFolder.listFiles()) {
+			if(file.getName().equals(this.evosuiteVersion)) {
+				logger.info("Evosuite jarfile: {} found inside the custom folder: {}.", this.evosuiteVersion, evosuiteJarFolder);
+				// OK, the custom folder contains the evosuite.jar of interest.
+				return;
+			}
+		}
+		logger.error("Failed to locate the {} inside the custom folder,{}.", this.evosuiteVersion, evosuiteJarFolder);
+		throw new FileNotFoundException("Unable to access jarfile " + this.evosuiteVersion + " inside: " + evosuiteJarFolder);
+
+	}
 
 	@Override
 	public void setOptions(String propertyName, String propertyValue) {

@@ -42,6 +42,14 @@ public interface Translator {
 	 * @throws FileNotFoundException if the file is not found.
 	 */
 	void setJavaPath(String javaPath) throws FileNotFoundException;
+	
+	/**
+	 * Sets the path to the Evosuite jar folder.
+	 * 
+	 * @param evosuitePath path to the Evosuite jar folder.
+	 * @throws FileNotFoundException if the file is not found.
+	 */
+	void setEvosuitePath(String evosuitePath) throws FileNotFoundException;
 
 	/**
 	 * Sets the value of the specified property.
