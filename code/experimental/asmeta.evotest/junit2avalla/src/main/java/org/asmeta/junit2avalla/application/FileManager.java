@@ -66,6 +66,7 @@ public class FileManager {
      * @throws IOException if an I/O error occurs during the file copying process.
      */
 	File retrieveInput(Path junitScenario) throws IOException {
+		logger.info("Retrieving the input junit file: {}", junitScenario);
 		File junitFile = junitScenario.toFile();
 		if (!junitFile.exists()) {
 			logger.error("Failed to locate the input file: {} .", junitFile);
@@ -77,6 +78,7 @@ public class FileManager {
 		
 		// Copy the asm file to the input folder
 		Path inputAsmPath = Paths.get(inputFolder.toString(), junitFile.getName());
+		logger.info("Copying the junit input file from {} to {}.",junitFile, inputAsmPath);
 		Files.copy(Paths.get(junitFile.getAbsolutePath()), inputAsmPath, StandardCopyOption.REPLACE_EXISTING);
 		return junitFile;
 	}
@@ -111,7 +113,8 @@ public class FileManager {
      */
 	void setInputDir(String inputDir) throws IOException {
 		this.inputFolder = Paths.get(inputDir);
-		checkPath(inputFolder);
+		logger.info("Setting the input working directory: {}", this.inputFolder);
+		checkPath(this.inputFolder);
 	}
 		
     /**
@@ -123,6 +126,7 @@ public class FileManager {
      */
 	void setOutputDir(String outputDir) throws IOException {
 		this.outputFolder = Paths.get(outputDir);
+		logger.info("Setting the output directory: {}", this.outputFolder);
 		checkPath(outputFolder);
 	}
 	
@@ -130,6 +134,7 @@ public class FileManager {
      * Cleans the input directory by removing execution-related files.
      */
 	void cleanInputDir() {
+		logger.info("Cleaning the working directory: {}", inputFolder);
 		if (inputFolder.toFile().exists() && inputFolder.toFile().isDirectory()) {
 			for (File file : inputFolder.toFile().listFiles()) {
 				if(excludeList.contains(file.getName())) {
