@@ -40,6 +40,8 @@ final class TranslatorConstants {
 	static final String JAVA_8 = "8";
 	
 	static final String JAVA_HOME = "JAVA_HOME";
+	
+	static final String EVOSUITE = "evosuite";
 
 	static final String EVOSUITE_1_2_0_JAR = "evosuite-1.2.0.jar";
 
@@ -47,8 +49,12 @@ final class TranslatorConstants {
 	
 	static final String EVOSUITE_TARGET = "evosuite-target";
 	
+	static final String EVOSUITE_TEST_DIR_OPTION = "-Dtest_dir"; 
+	
 	static final String EVOSUITE_TESTS = "evosuite-tests";
 	
+	static final String EVOSUITE_REPORT_DIR = "-Dreport_dir";
+		
 	static final String EVOSUITE_REPORT = "evosuite-report";
 	
 	static final String EVOSUITE_JAR_DIR = "evosuite-jar";
@@ -56,6 +62,10 @@ final class TranslatorConstants {
 	static final String JAVA_EXE = "java.exe";
 
 	static final String BIN = "bin";
+	
+	static final String EQ = "=";
+	
+	static final String DOUBLE_QUOTES = "\"";
 
 	static final String DASH = "-";
 
@@ -66,6 +76,14 @@ final class TranslatorConstants {
 	static final String ASMETA2JAVA_OUTPUT = DASH + Asmeta2JavaCLI.OUTPUT;
 
 	static final String ASMETA2JAVA_INPUT = DASH + Asmeta2JavaCLI.INPUT;
+	
+	static final String ASMETA2JAVA = "asmeta2java";
+	
+	static final String ASMETA2JAVA_WORKING_DIR = DASH + Asmeta2JavaCLI.WORKING_DIR;
+	
+	static final String JUNIT2AVALLA = "junit2Avalla";
+	
+	static final String JUNIT2AVALLA_WORKING_DIR = DASH + Junit2AvallaCLI.WORKING_DIR;
 
 	static final String JUNIT2AVALLA_OUTPUT = DASH + Junit2AvallaCLI.OUTPUT;
 

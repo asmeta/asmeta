@@ -21,6 +21,7 @@ public class Junit2AvallaCLI {
 	/* Constants */
 	public static final String INPUT = "input";
 	public static final String OUTPUT = "output";
+	public static final String WORKING_DIR = "workingDir";
 	public static final String CLEAN = "clean";
 	public static final String HELP = "help";
 
@@ -109,6 +110,10 @@ public class Junit2AvallaCLI {
 
 		// print help
 		Option help = new Option(HELP, "print this message");
+		
+		// input file
+		Option workingDir = Option.builder(WORKING_DIR).argName(WORKING_DIR).type(String.class).hasArg(true)
+				.desc("The working directory for intermediate files (optional, Defaults to `./input/`)").build();
 
 		// input file
 		Option input = Option.builder(INPUT).argName(INPUT).type(String.class).hasArg(true)
@@ -123,6 +128,7 @@ public class Junit2AvallaCLI {
 				.desc("Clean the input and the stepFunctionArgs files.").build();
 
 		options.addOption(help);
+		options.addOption(workingDir);
 		options.addOption(input);
 		options.addOption(output);
 		options.addOption(clean);
@@ -155,6 +161,10 @@ public class Junit2AvallaCLI {
 	 * @throws IOException 
 	 */
 	private void execute(CommandLine line) throws IOException {
+		
+		if (line.hasOption(WORKING_DIR)) {
+			translator.setWorkingDir(line.getOptionValue(WORKING_DIR));
+		}
 
 		// INPUT OPTION: by precondition -input option is always available and not null
 		// (required)

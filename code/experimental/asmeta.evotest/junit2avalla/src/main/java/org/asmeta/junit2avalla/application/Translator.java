@@ -10,6 +10,14 @@ import java.io.IOException;
 public interface Translator {
 	
     /**
+     * Sets the workingDir path for the intermediate files.
+     *
+     * @param workingDirPath the path to the working directory.
+     * @throws IOException if an I/O error occurs.
+     */
+    void setWorkingDir(String workingDirPath) throws IOException;
+	
+    /**
      * Sets the input path to the file for the translation process.
      *
      * @param inputPath the path to the asm file to be translated.

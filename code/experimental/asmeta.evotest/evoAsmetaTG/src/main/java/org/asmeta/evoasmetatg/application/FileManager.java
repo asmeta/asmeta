@@ -28,15 +28,58 @@ public class FileManager {
 
 	/** Absolute path of the output folder */
 	private Path outputFolder;
+	
+	/** Absolute path of the evosuite-target folder (the output of asmeta2java and the input for evosuite). */
+	private Path evosuiteTargetPath = Paths.get(workingDirPath.toString(),
+			TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_TARGET);
+	
+	/** Absolute path of the evosuite-tests folder (the output of evosuite and the input of junit2avalla). */
+	private Path evosuiteTestsPath = Paths.get(workingDirPath.toString(),
+			TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_TESTS);
 
 	/** Absolute path of the Java executable used to run Evosuite. */
 	private Path javaJdkPath;
+
+	/*
+	 * Absolute path of the directory containing the Evosuite jars (Defaults to
+	 * ./evosuite/evosuite-jar).
+	 */
+	private Path evosuiteJarDirPath = Paths.get(System.getProperty(TranslatorConstants.USER_DIR),
+			TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_JAR_DIR);
 
 	/**
 	 * Constructs a {@code FileManager} instance.
 	 */
 	public FileManager() {
 		// Empty constructor
+	}
+	
+	String getWorkingDirPathToString() {
+		return workingDirPath.toString();
+	}
+
+	String getInputFilePathToString() {
+		return inputFilePath.toString();
+	}
+
+	String getOutputFolderToString() {
+		return outputFolder.toString();
+	}
+
+	String getJavaJdkPathToString() {
+		return javaJdkPath.toString();
+	}
+	
+	String getEvosuiteTargetPathToString() {
+		return evosuiteTargetPath.toString();
+	}
+	
+	String getEvosuiteTestsPathToString() {
+		return evosuiteTestsPath.toString();
+	}
+	
+	String getEvosuiteJarDirPathToString() {
+		return evosuiteJarDirPath.toString();
 	}
 
 	/**
@@ -55,6 +98,8 @@ public class FileManager {
 			logger.warn("The specified directory doesn't exist, creating: {}.", workingDirPath);
 			Files.createDirectories(workingDirPath);
 		}
+		// update paths based on the workingDir path.
+		updatePaths();
 	}
 
 	/**
@@ -150,20 +195,14 @@ public class FileManager {
 		}
 	}
 	
-	public String getWorkingDirPathToString() {
-		return workingDirPath.toString();
-	}
-
-	public String getInputFilePathToString() {
-		return inputFilePath.toString();
-	}
-
-	public String getOutputFolderToString() {
-		return outputFolder.toString();
-	}
-
-	public String getJavaJdkPathToString() {
-		return javaJdkPath.toString();
+	/**
+	 * Update all the paths related on the workingDir path.
+	 */
+	private void updatePaths() {
+		this.evosuiteTargetPath = Paths.get(this.getWorkingDirPathToString(),
+				TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_TARGET);
+		this.evosuiteTestsPath = Paths.get(this.getWorkingDirPathToString(),
+				TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_TESTS);
 	}
 
 }

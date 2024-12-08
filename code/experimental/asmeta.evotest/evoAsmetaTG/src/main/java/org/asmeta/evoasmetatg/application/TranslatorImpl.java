@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,20 +44,19 @@ public class TranslatorImpl implements Translator {
 
 	/** Indicates whether to clean the folders {@code true} or not {@code false} */
 	private boolean clean;
-	
+
 	/** File manager instance for handling file operations. */
 	private FileManager fileManager;
-	
+
 	/**
-	 * No args constructor. Create a new instance of Options, FileManager and initialize the
-	 * clean parameter to false.
+	 * No args constructor. Create a new instance of Options, FileManager and
+	 * initialize the clean parameter to false.
 	 */
 	public TranslatorImpl() {
 		this.options = new OptionsImpl();
 		this.fileManager = new FileManager();
 		this.clean = false;
 	}
-	
 
 	@Override
 	public void setWorkingDir(String workingDir) throws IOException {
@@ -79,7 +79,7 @@ public class TranslatorImpl implements Translator {
 
 	@Override
 	public void setJavaPath(String javaPath) throws FileNotFoundException {
-		// set the java jdk folder path  
+		// set the java jdk folder path
 		File javaJdkFolder = fileManager.setJavaPath(javaPath);
 
 		// set the javaVersion
@@ -160,7 +160,7 @@ public class TranslatorImpl implements Translator {
 	@Override
 	public void clean() {
 		logger.debug("Cleaning the resources...");
-		cleanFolderManagingException(TranslatorConstants.EVOSUITE_TESTS);
+		cleanFolderManagingException(fileManager.getEvosuiteTestsPathToString());
 		// Don't clean the statistics.csv TranslatorConstants.EVOSUITE_REPORT
 	}
 
@@ -181,18 +181,38 @@ public class TranslatorImpl implements Translator {
 	 */
 	private List<String> buildAsmeta2JavaOptions() {
 
+		// Asmeta specification input file
+		String asmSpecInputFile = fileManager.getInputFilePathToString();
+
+		// Working directory for the asmeta2java service
+		// <workingDir>/asmeta2java
+		String asmeta2javaWorkingDir = Paths
+				.get(fileManager.getWorkingDirPathToString(), TranslatorConstants.ASMETA2JAVA).toString();
+
+		// Output directory for the asmeta2java service
+		// <workingDir>/evosuite/evosuite-target>
+		String asmeta2javaOutput = fileManager.getEvosuiteTargetPathToString();
+
 		List<String> listOfOptions = new LinkedList<>();
 
-		listOfOptions.addAll(
-				List.of(TranslatorConstants.ASMETA2JAVA_INPUT, fileManager.getInputFilePathToString(), TranslatorConstants.ASMETA2JAVA_OUTPUT,
-						TranslatorConstants.EVOSUITE_TARGET, TranslatorConstants.MODE, TranslatorConstants.TEST_GEN));
+		/*
+		 * -workingDir <asmeta2javaWorkingDir> -input <asmSpecInputFile> -output
+		 * <asmeta2javaOutput> -mode testGen
+		 */
+		listOfOptions.addAll(List.of(TranslatorConstants.ASMETA2JAVA_WORKING_DIR, asmeta2javaWorkingDir,
+				TranslatorConstants.ASMETA2JAVA_INPUT, asmSpecInputFile, TranslatorConstants.ASMETA2JAVA_OUTPUT,
+				asmeta2javaOutput, TranslatorConstants.MODE, TranslatorConstants.TEST_GEN));
 
+		// -D<property>=<value>
 		listOfOptions.addAll(options.getCLIStringOptions());
 
 		if (clean) {
+			// -clean
 			listOfOptions.add(TranslatorConstants.CLEAN);
 		}
+
 		if (options.isCompiler()) {
+			// -compilerVersion <compilerVersion>
 			listOfOptions.add(TranslatorConstants.COMPILER_VERSION);
 			listOfOptions.add(compilerVersion);
 		}
@@ -212,13 +232,44 @@ public class TranslatorImpl implements Translator {
 
 		List<String> listOfOptions = new LinkedList<>();
 
-		String evosuiteJar = TranslatorConstants.EVOSUITE_JAR_DIR + File.separator + evosuiteVersion;
-		
-		listOfOptions.addAll(List.of(fileManager.getJavaJdkPathToString(), TranslatorConstants.JAR, evosuiteJar , TranslatorConstants.TARGET,
-				TranslatorConstants.EVOSUITE_TARGET, TranslatorConstants.CLASS, asmName + TranslatorConstants.ATG,
-				TranslatorConstants.CRITERION, TranslatorConstants.LINE_BRANCH, TranslatorConstants.DMINIMIZE_TRUE,
-				TranslatorConstants.DASSERTION_STRATEGY_ALL));
+		// Set the location of the evosuite-tests directory where the junit files will
+		// be generated
+		// -Dtest_dir="<<workingDir>/evosuite/evosuite-tests>"
+		String evosuiteTestsOption = TranslatorConstants.EVOSUITE_TEST_DIR_OPTION + TranslatorConstants.EQ
+				+ TranslatorConstants.DOUBLE_QUOTES + fileManager.getEvosuiteTestsPathToString()
+				+ TranslatorConstants.DOUBLE_QUOTES;
 
+		// Set the location of the report.csv file
+		// -Dreport_dir="<<workingDir>/evosuite/evosuite-report>"
+		String evosuiteReportOption = TranslatorConstants.EVOSUITE_REPORT_DIR + TranslatorConstants.EQ
+				+ TranslatorConstants.DOUBLE_QUOTES + Paths.get(fileManager.getWorkingDirPathToString(),
+						TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_REPORT).toString()
+				+ TranslatorConstants.DOUBLE_QUOTES;
+
+		// Set the java input class (add _ATG to the asmeta specification file name)
+		String evosuiteJavaInputFile = asmName + TranslatorConstants.ATG;
+		
+		// Set the target directory of evosuite
+		// <workingDir>/evosuite/evosuite-target
+		String evosuiteTargetDir = fileManager.getEvosuiteTargetPathToString();
+
+		// Set the location of the current evosuite jar
+		String evosuiteJar = fileManager.getEvosuiteJarDirPathToString() + File.separator + evosuiteVersion;
+
+		/*
+		 * java.exe -jar <evosuiteJar> -target <workingDir>/evosuite/evosuite-target -class
+		 * <evosuiteJavaInputFile> -Dtest_dir="<<workingDir>/evosuite/evosuite-tests>"
+		 * -criterion LINE:BRANCH -Dminimize=true -Dassertion_strategy=all
+		 * -Dreport_dir="<<workingDir>/evosuite/evosuite-report>"
+		 */
+		listOfOptions.addAll(List.of(fileManager.getJavaJdkPathToString(), TranslatorConstants.JAR, evosuiteJar,
+				TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS,
+				evosuiteJavaInputFile, evosuiteTestsOption, TranslatorConstants.CRITERION,
+				TranslatorConstants.LINE_BRANCH, TranslatorConstants.DMINIMIZE_TRUE,
+				TranslatorConstants.DASSERTION_STRATEGY_ALL, evosuiteReportOption));
+
+		// Set the search budget option
+		// -Dsearch_budget=<searchBudget>
 		if (this.searchBudget != null) {
 			listOfOptions.add(TranslatorConstants.SEARCH_BUDGET.concat(this.searchBudget));
 		}
@@ -235,10 +286,13 @@ public class TranslatorImpl implements Translator {
 
 		List<String> listOfOptions = new LinkedList<>();
 
-		String junitInputFile = TranslatorConstants.EVOSUITE_TESTS + File.separator + asmName
+		// Set the location of the junit input file
+		String junitInputFile = fileManager.getEvosuiteTestsPathToString() + File.separator + asmName
 				+ TranslatorConstants.JUNIT_TEST_EXTENSION;
+		
+		String junit2AvallaWorkingDir = Paths.get(fileManager.getWorkingDirPathToString(), TranslatorConstants.JUNIT2AVALLA).toString();
 
-		listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_INPUT, junitInputFile,
+		listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_WORKING_DIR, junit2AvallaWorkingDir, TranslatorConstants.JUNIT2AVALLA_INPUT, junitInputFile,
 				TranslatorConstants.JUNIT2AVALLA_OUTPUT, fileManager.getOutputFolderToString()));
 
 		if (clean) {
@@ -249,11 +303,11 @@ public class TranslatorImpl implements Translator {
 
 		return listOfOptions;
 	}
-	
+
 	/**
 	 * Run Evosuite with a process builder.
 	 * 
-	 * @throws IOException if there is an I/O error.
+	 * @throws IOException          if there is an I/O error.
 	 * @throws TranslationException if there is an error during the process.
 	 */
 	private void executeEvosuite() throws IOException, TranslationException {
@@ -266,8 +320,8 @@ public class TranslatorImpl implements Translator {
 		/*
 		 * remove JAVA_HOME environment variable from local process because Evosuite by
 		 * default will run the Java version specified in JAVA_HOME environment
-		 * variable, so we need to remove it to run the desired Java version.
-		 * This change is local and will not affect the system environment variable
+		 * variable, so we need to remove it to run the desired Java version. This
+		 * change is local and will not affect the system environment variable
 		 */
 		pb.environment().remove(TranslatorConstants.JAVA_HOME);
 		try {
@@ -283,8 +337,8 @@ public class TranslatorImpl implements Translator {
 			Thread.currentThread().interrupt();
 			throw new TranslationException("Evosuite error. " + e.getMessage());
 		} finally {
-			logger.info("Cleaning the compiled files in: {}.", TranslatorConstants.EVOSUITE_TARGET);
-			cleanFolder(TranslatorConstants.EVOSUITE_TARGET);
+			logger.info("Cleaning the compiled files in: {}.", fileManager.getEvosuiteTargetPathToString());
+			cleanFolder(fileManager.getEvosuiteTargetPathToString());
 		}
 	}
 
@@ -340,7 +394,8 @@ public class TranslatorImpl implements Translator {
 	 * Check if the java version passed by the user is the same as the compiler
 	 * version set by Evosuite.
 	 * 
-	 * @throws TranslationException if there is no consistency between the java versions.
+	 * @throws TranslationException if there is no consistency between the java
+	 *                              versions.
 	 */
 	private void checkJavaConsistency() throws TranslationException {
 		if (!javaVersion.equals(compilerVersion)) {

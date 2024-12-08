@@ -38,18 +38,22 @@ public class FileManager {
 	private static final Logger logger = LogManager.getLogger(FileManager.class);
 	
 	/** Path to the input directory. */
-	private static final Path INPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), INPUT);
+	private static final Path DEFAULT_INPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), INPUT);
 	
 	/** Path to the default output directory. */
 	private static final Path DEFAULT_OUTPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), OUTPUT);
+	
+	/** Path to the input folder. */
+	private Path inputFolder;
 	
     /** Path to the output folder. */
     private Path outputFolder;
 
     /**
-     * Constructs a {@code FileManager} instance with the default output directory.
+     * Constructs a {@code FileManager} instance with the default input and output directories.
      */
 	public FileManager() {
+		this.inputFolder = DEFAULT_INPUT_DIR_PATH;
 		this.outputFolder = DEFAULT_OUTPUT_DIR_PATH;
 	}
 	
@@ -67,8 +71,12 @@ public class FileManager {
 			logger.error("Failed to locate the input file: {} .", junitFile);
 			throw new IOException("File doesn't exist: " + junitFile.toString());
 		}
+		
+		// check the input folder
+		this.checkPath(inputFolder);
+		
 		// Copy the asm file to the input folder
-		Path inputAsmPath = Paths.get(INPUT_DIR_PATH.toString(), junitFile.getName());
+		Path inputAsmPath = Paths.get(inputFolder.toString(), junitFile.getName());
 		Files.copy(Paths.get(junitFile.getAbsolutePath()), inputAsmPath, StandardCopyOption.REPLACE_EXISTING);
 		return junitFile;
 	}
@@ -77,7 +85,7 @@ public class FileManager {
 	 * Run the application.
 	 *
 	 * @param inputPath path to the input file.
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 */
 	void runTheApplication(Path inputPath) throws IOException {
 
@@ -93,13 +101,25 @@ public class FileManager {
 		this.exportFile(scenarioFiles);
 		
 	}
+	
+    /**
+     * Sets the input directory where the junit files will be stored.
+     * Check if it exists and in case it doesn't creates a new output directory.
+     * 
+     * @param inputDir the path of the output directory.
+     * @throws IOException if an I/O error occurs.
+     */
+	void setInputDir(String inputDir) throws IOException {
+		this.inputFolder = Paths.get(inputDir);
+		checkPath(inputFolder);
+	}
 		
     /**
      * Sets the output directory where the generated files will be stored.
      * Check if it exists and in case it doesn't creates a new output directory.
      * 
      * @param outputDir the path of the output directory.
-     * @throws IOException 
+     * @throws IOException if an I/O error occurs.
      */
 	void setOutputDir(String outputDir) throws IOException {
 		this.outputFolder = Paths.get(outputDir);
@@ -110,8 +130,8 @@ public class FileManager {
      * Cleans the input directory by removing execution-related files.
      */
 	void cleanInputDir() {
-		if (INPUT_DIR_PATH.toFile().exists() && INPUT_DIR_PATH.toFile().isDirectory()) {
-			for (File file : INPUT_DIR_PATH.toFile().listFiles()) {
+		if (inputFolder.toFile().exists() && inputFolder.toFile().isDirectory()) {
+			for (File file : inputFolder.toFile().listFiles()) {
 				if(excludeList.contains(file.getName())) {
 					continue;
 				}

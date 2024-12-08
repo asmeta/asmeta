@@ -169,7 +169,7 @@ public class EvoAsmetaTgCLI {
 		
 		// custom working directory
 		Option workingDir = Option.builder(WORKING_DIR).argName(WORKING_DIR).type(String.class).hasArg(true)
-				.desc("Custom working directory path (optional, defaults to `./input`)").build();
+				.desc("Custom working directory path (optional, defaults to `.`)").build();
 
 		// input file
 		Option input = Option.builder(INPUT).argName(INPUT).type(String.class).hasArg(true)

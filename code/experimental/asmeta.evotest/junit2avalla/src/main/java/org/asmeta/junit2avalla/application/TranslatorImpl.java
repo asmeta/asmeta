@@ -23,6 +23,11 @@ public class TranslatorImpl implements Translator {
 	public TranslatorImpl() {
 		// Empty constructor
 	}
+	
+	@Override
+	public void setWorkingDir(String workingDir) throws IOException {
+		fileManager.setInputDir(workingDir);
+	}
 
 	@Override
 	public void setInput(String input) throws FileNotFoundException {
