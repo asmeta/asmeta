@@ -27,7 +27,8 @@ public class ScenarioExecutor {
 		ChooseRuleMutate mut = new ChooseRuleMutate();
 		List<AsmCollection> mutants = mut.mutate(asmetaBuilder.getAsm());
 		Map<String,Boolean> allCoveredRules = new HashMap<>();
-		// modify the scenario to ref to the mutated spec
+		int nKilled = 0; 
+		// modify the scenario to ref to the mutated spec		
 		for (AsmCollection m: mutants) {
 			// change the asmeta with the mutation 
 			asmetaBuilder.setAsmeta(m);
@@ -36,12 +37,12 @@ public class ScenarioExecutor {
 			File tempAsmPath = asmetaBuilder.getTempAsmPath();
 			// execute now the scenario
 			boolean result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, asmetaBuilder.getAsm().getMain().getName());
-			if (!result)
+			if (!result) {
 				System.err.println("KILLED !!!");
-		}
-		
-
-		return 0;
+				nKilled++;
+			}
+		}		
+		return ((double)nKilled)/mutants.size();
 	}
 
 	
