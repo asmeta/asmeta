@@ -47,8 +47,8 @@ public class ScenarioExecutorTest {
 	}
 
 	@Test
-	public void testComputeMutationExperimentsNFM_refPick() throws Exception {
-		//computeMC("experiments_nfm25/scenario_ref_pick.avalla");
+	public void testComputeMutationExperimentsNFM_Pick() throws Exception {
+		computeMC("experiments_nfm25/scenario_ref_pick.avalla");
 		computeMC("experiments_nfm25/scenario_ground_pick.avalla");
 	}
 
