@@ -142,28 +142,36 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			super.visit(chooseRule);
 			unIndent();
 			println("else ");
-			// to check if the picked value is in the term used as domain (e.g. {10:20})
+			// when the range is not a DomainTern, check with a conditional rule whether the picked 
+			// value is in the term (e.g. {10:20}) used as range or not
 			if (!(range instanceof DomainTerm)) {
 				indent();
 				println("if " + "contains(" + super.tp.visit(range) + ", " + valPicked + ")" + " then");
 			}
 			indent();
-			println("if " + guardString + " then");
-			indent();
+			// when the guard is not "true", check with a conditional rule whether the
+			// guard evaluates to true or not
+			if (!(guardString.equals("true"))) {
+				println("if " + guardString + " then");
+				indent();
+			}
 			visit(newDoRule);
 			unIndent();
-			println("else");
-			indent();
-			println("seq");
-			indent();
-			println("result := print(\"CHECK FAILED: the value cannot be chosen as the guard evaluates to false\")");
-			println("step__ := -2"); // -2 so plus 1 is still < 0
-			unIndent();
-			println("endseq");
-			unIndent();
-			println("endif");
-			unIndent();
-			// to when the picked value is not in the term used as domain
+			// complete the conditional rule concerning the guard with the else statement
+			if (!(guardString.equals("true"))) {
+				println("else");
+				indent();
+				println("seq");
+				indent();
+				println("result := print(\"CHECK FAILED: the value cannot be chosen as the guard evaluates to false\")");
+				println("step__ := -2"); // -2 so plus 1 is still < 0
+				unIndent();
+				println("endseq");
+				unIndent();
+				println("endif");
+				unIndent();
+			}
+			// complete the conditional rule concerning the domain with the else statement
 			if (!(range instanceof DomainTerm)) {
 				println("else");
 				indent();
