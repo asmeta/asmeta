@@ -10,7 +10,6 @@ import org.asmeta.xt.validator.AsmetaV;
 
 import asmeta.AsmCollection;
 import asmeta.mutation.operators.ChooseRuleMutate;
-import asmeta.structure.Asm;
 
 /** it executes a scenario over a mutate set of specifications and return the mutation score*/
 

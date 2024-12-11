@@ -373,7 +373,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			super.visitInvariants(this.builder.modelInvariants);
 		}
 		List<Invariant> invs = this.builder.scenario.getInvariants();
-		if (invs != null && invs.size() > 0) {
+		if (invs != null && !invs.isEmpty()) {
 			println("//scenario invariants");
 			for (Invariant inv : invs) {
 				println("invariant inv_" + inv.getName() + " over Boolean: " + inv.getExpression());
@@ -618,20 +618,26 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	 * 
 	 * @param variable            the variable term to search in the list of pick
 	 *                            rules
-	 * @param RuleDeclarationName the name of the rule declaration in which the
+	 * @param ruleDeclarationName the name of the rule declaration in which the
 	 *                            variable term is used
 	 * @param pickList            the list of picks where to search the variable
 	 *                            name
 	 * @return the value of the last Pick that picks a value for the variable term,
 	 *         null if not present
 	 */
-	private String getPickFromVariable(VariableTerm variable, String RuleDeclarationName, List<Pick> pickList) {
+	private String getPickFromVariable(VariableTerm variable, String ruleDeclarationName, List<Pick> pickList) {
 		// reversed to get the last, so if pickList is a list of init
 		// where the same variable is inserted picked multiple times,
 		// only the last pick is considered
-		for (Pick pick : pickList.reversed())
+// java 21
+//		for (Pick pick : pickList.reversed())
+// java 17
+		pickList = pickList.subList(0, pickList.size());
+		Collections.reverse(pickList);
+		// scan the list
+		for (Pick pick : pickList)
 			if (pick.getVar().equals(variable.getName()) && (pick.getRule() == null
-					|| pick.getRule().equals(RuleDeclarationName)))
+					|| pick.getRule().equals(ruleDeclarationName)))
 				return pick.getValue();
 		return null;
 	}

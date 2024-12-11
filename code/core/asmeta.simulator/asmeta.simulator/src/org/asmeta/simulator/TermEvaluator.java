@@ -249,7 +249,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 			for (Object o : termList) {
 				Term term = (Term) o;
 				// angelo aprile 2024
-				Value newValue = allowLazyEval ? TermEvaluator.lazy(term,this) : visit(term);
+				Value newValue = allowLazyEval ? this.lazyEval(term) : visit(term);
 				result.add(newValue);
 			}
 			assert tuple.getArity() == result.size();
@@ -1037,7 +1037,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 	}
 	// in case one wants to build a value with a lazy evaluation
 	// build the value with
-	public static Value lazy(Term term, final TermEvaluator termEvaluator) {
+	private Value lazyEval(Term term) {
 		// only for Boolean for now
 		if (term.getDomain() instanceof BooleanDomain) {
 			if (term instanceof FunctionTerm) {
@@ -1061,7 +1061,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 						@Override
 						public Boolean getValue() {
 							if (boolValue == null) {
-								Value v = termEvaluator.visit(term);
+								Value v = visit(term);
 								if (!(v instanceof BooleanValue)) {
 									AsmetaTermPrinter ap = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 									throw new RuntimeException("this term " + ap.visit(term)
@@ -1083,7 +1083,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 			}
 		}
 		// no lazy eval is possible
-		return termEvaluator.visit(term);
+		return visit(term);
 	}
 
 }
