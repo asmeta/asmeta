@@ -13,7 +13,7 @@ import asmeta.mutation.operators.ChooseRuleMutate;
 
 /** it executes a scenario over a mutate set of specifications and return the mutation score*/
 
-public class ScenarioExecutor {
+public class MutatedScenarioExecutor {
 
 
 	public double computeMutationScore(String scenarioPath) throws Exception {
@@ -25,7 +25,9 @@ public class ScenarioExecutor {
 		// mutate the asmeta
 		//ChooseRuleMutate mut = new ChooseRuleMutate(asmetaBuilder.getAsm().getMain());
 		ChooseRuleMutate mut = new ChooseRuleMutate();
-		List<AsmCollection> mutants = mut.mutate(asmetaBuilder.getAsm());
+		AsmCollection orginalAsm = asmetaBuilder.getAsm();
+		String originalName = orginalAsm.getMain().getName();
+		List<AsmCollection> mutants = mut.mutate(orginalAsm);
 		Map<String,Boolean> allCoveredRules = new HashMap<>();
 		int nKilled = 0; 
 		// modify the scenario to ref to the mutated spec		
@@ -36,7 +38,7 @@ public class ScenarioExecutor {
 			asmetaBuilder.save();
 			File tempAsmPath = asmetaBuilder.getTempAsmPath();
 			// execute now the scenario
-			boolean result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, asmetaBuilder.getAsm().getMain().getName());
+			boolean result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, originalName);
 			if (!result) {
 				System.err.println("KILLED !!!");
 				nKilled++;

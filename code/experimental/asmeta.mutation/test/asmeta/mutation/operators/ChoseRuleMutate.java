@@ -14,16 +14,14 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 
-public class RuleRemoverTest {
-
-
+public class ChoseRuleMutate {
 	@Test
 	public void testMutatate() throws Exception {
 		StringWriter stringWriter = new StringWriter();
 		PrintWriter pw = new PrintWriter(stringWriter, true);
 		pw.println("TEST STRING");
 		AsmPrinter amPrint = new AsmPrinter(pw);
-		String string = "examples/ruletoskip.asm";
+		String string = "experiments_nfm25/CoffeeVendingMachineRefined.asm";
 		File f = new File(string);
 		assertTrue(f.exists());
 		AsmCollection asmeta = ASMParser.setUpReadAsm(f);
@@ -31,7 +29,7 @@ public class RuleRemoverTest {
 //		amPrint.close();
 		System.out.println(stringWriter.toString()); stringWriter.getBuffer().setLength(0);
 
-		List<AsmCollection> mutrul = new RuleRemover().mutate(asmeta);
+		List<AsmCollection> mutrul = new ChooseRuleMutate().mutate(asmeta);
 		assertEquals(2, mutrul.size());
 
 		amPrint.visit(mutrul.get(0).getMain().getMainrule());

@@ -21,7 +21,8 @@ public class ScenarioExecutorTest {
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		Logger.getLogger("org.asmeta.xt.validator.AsmetaV").setLevel(Level.OFF);
 	}
-	@AfterClass
+
+	// delet teh file in temp
 	public static void cleanTemp() throws Exception {
 		File dir = new File("temp/");
 		for(File file: dir.listFiles()) 
@@ -38,14 +39,29 @@ public class ScenarioExecutorTest {
 	}
 
 	@Test
-	public void testComputeMutationExperimentsNFM() throws Exception {
+	public void testComputeMutationExperimentsNFM_ground() throws Exception {
 		computeMC("experiments_nfm25/scenario_ground_pick.avalla", 100);
 		computeMC("experiments_nfm25/scenario_ground_flaky.avalla", 100);
 		computeMC("experiments_nfm25/scenario_ground_nofail.avalla", 100);
+		cleanTemp();
 	}
+
+	@Test
+	public void testComputeMutationExperimentsNFM_refPick() throws Exception {
+		//computeMC("experiments_nfm25/scenario_ref_pick.avalla");
+		computeMC("experiments_nfm25/scenario_ground_pick.avalla");
+	}
+
 	
+	@Test
+	public void testComputeMutationExperimentsNFM_ref() throws Exception {
+		computeMC("experiments_nfm25/scenario_ref_pick.avalla", 100);
+		computeMC("experiments_nfm25/scenario_ref_flaky.avalla", 100);
+		cleanTemp();
+	}
+
 	private void computeMC(String scenarioPath, int nTimes) throws Exception {
-		ScenarioExecutor sc = new ScenarioExecutor();
+		MutatedScenarioExecutor sc = new MutatedScenarioExecutor();
 		if (nTimes == 1) {
 			double res = sc.computeMutationScore(scenarioPath);
 			System.out.println(scenarioPath + "mutation score " + res);
