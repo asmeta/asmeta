@@ -252,6 +252,14 @@ public class TestSingleFile extends TestValidator {
 		test("scenariosfortest/flaky/scenario4.avalla", true, false, true);
 	}
 
+	@Test
+	public void testCoffeVendingMachineChooseOne() throws Exception {
+		test("scenariosfortest/flaky/scenario_pickchooseone.avalla", true, false, true);
+		// to unpick the value.
+		test("scenariosfortest/flaky/scenario_pickchooseone2.avalla", true, false, true);
+	}
+	
+	
 	
 	@Test
 	public void testChooseInteger() throws Exception {
