@@ -31,7 +31,7 @@ public class TestSingleFile extends TestValidator {
 
 	@BeforeClass
 	static public void setuplogger() throws Exception {
-		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
 		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);		
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ALL);		
@@ -71,6 +71,16 @@ public class TestSingleFile extends TestValidator {
 	@Test
 	public void testLiftMonitored() throws Exception {		
 		test("scenariosfortest/lift_extramon.avalla", false, false, true);
+	}
+	
+	@Test
+	public void testEmptyScenario() throws Exception {	
+		test("scenariosfortest/emptyScenario.avalla", false, false, false);
+	}
+	
+	@Test
+	public void testNoStepNoCheckScenario() throws Exception {	
+		test("scenariosfortest/noStepNoCheckScenario.avalla", false, false, false);
 	}
 	
 	@Test
@@ -237,7 +247,35 @@ public class TestSingleFile extends TestValidator {
 		// check the only 1 file for the common root is translated
 	}
 
+
+	// flaky tests
+	@Test
+	public void testFlaky() throws Exception {
+		test("scenariosfortest/flaky/scenario_noflaky.avalla", true, false, true);
+	}
 	
+	@Test
+	public void testCoffeVendingMachineFlaky() throws Exception {
+		test("scenariosfortest/flaky/scenario1.avalla", true, false, true);
+		test("scenariosfortest/flaky/scenario2.avalla", true, false, true);
+		test("scenariosfortest/flaky/scenario3.avalla", true, false, true);
+		test("scenariosfortest/flaky/scenario4.avalla", true, false, true);
+	}
+
+	@Test
+	public void testCoffeVendingMachineChooseOne() throws Exception {
+		test("scenariosfortest/flaky/scenario_pickchooseone.avalla", true, false, true);
+		// to unpick the value.
+		test("scenariosfortest/flaky/scenario_pickchooseone2.avalla", true, false, true);
+	}
+	
+	
+	
+	@Test
+	public void testChooseInteger() throws Exception {
+		test("scenariosfortest/flaky/scenario_ci_fail.avalla", true, false, false);
+	}
+
 	@Test
 	public void testPillbox() throws Exception {
 		test(ASM_EXAMPLES + "PillBox/Level0/pillbox_0_scenario1.avalla", false, false, true);		

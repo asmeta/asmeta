@@ -1,0 +1,5 @@
+scenario noStepNoCheckScenario
+
+load ../../../../../../asm_examples/examples/ferryman/ferrymanSimulator.asm
+
+set carry := GOAT;

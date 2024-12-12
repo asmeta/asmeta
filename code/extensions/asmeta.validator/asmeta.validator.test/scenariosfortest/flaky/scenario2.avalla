@@ -1,0 +1,28 @@
+scenario scenario2
+load CoffeeVendingMachineRefined.asm
+
+set insertedCoin := 1;
+pick $p := COFFEE; //not considered because overwritten by the following pick 
+pick $p := MILK;
+step
+check dispensed = MILK;
+check available(MILK) = 9;
+check available(TEA) = 10;
+check available(COFFEE) = 10;
+
+set insertedCoin := 2;
+pick $p in r_Main := COFFEE;
+step
+check dispensed = COFFEE;
+check available(COFFEE) = 9;
+check available(MILK) = 9;
+check available(TEA) = 10;
+
+set insertedCoin := 2;
+pick $p in r_Main := COFFEE; //not considered because overwritten by the following pick 
+pick $p in r_Main := TEA;
+step
+check dispensed = TEA;
+check available(COFFEE) = 9;
+check available(MILK) = 9;
+check available(TEA) = 9;
