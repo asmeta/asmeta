@@ -48,7 +48,7 @@ public class MutatedScenarioExecutor {
 	}
 
 	
-	class AsmetaMutatedFromAvalla extends AsmetaFromAvallaBuilder{
+	static class AsmetaMutatedFromAvalla extends AsmetaFromAvallaBuilder{
 
 		AsmetaMutatedFromAvalla(String scenarioPath, File tempAsmPathDir) throws Exception {
 			super(scenarioPath, tempAsmPathDir);

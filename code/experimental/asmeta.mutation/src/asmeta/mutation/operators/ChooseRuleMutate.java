@@ -150,15 +150,11 @@ public class ChooseRuleMutate extends RuleBasedMutator {
 			// set the domain as one element with a random value 
 			// get a random value
 			Value value = rndReader.visit(cr.getVariable().get(0).getDomain());
-			System.err.println(value);
+			//System.err.println(value);
 			// as a set term
 			SetTerm in = asmeta.terms.basicterms.BasictermsFactory.eINSTANCE.createSetTerm();
 			ConstantTerm domainTerm = valtoterm.visit(value);
-			System.err.println(domainTerm);
 			in.getTerm().add(domainTerm);
-			System.err.println(cr.getVariable().get(0).getDomain());
-			System.err.println(in);
-			System.err.println(in.getTerm().get(0));
 			cr.getRanges().clear();
 			cr.getRanges().add(in);
 			// mutate also what's inside the choose rule

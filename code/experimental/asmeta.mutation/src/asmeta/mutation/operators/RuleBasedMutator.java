@@ -32,11 +32,17 @@ public abstract class RuleBasedMutator extends AsmetaMutationOperator {
 			List<Rule> mutRules = ruleVisitor.visit(rd);
 			// build the new asmetas
 			for (Rule mr : mutRules) {
-				// clone the original ASM
-				AsmCollection asmc = cloneAsmeta(asmeta);
-				// set as i-th rule that mutated
-				asmc.getMain().getBodySection().getRuleDeclaration().get(i).setRuleBody(mr);
-				result.add(asmc);
+				if (mr != rd) {
+					// only if it differs
+					// clone the original ASM
+					AsmCollection asmc = cloneAsmeta(asmeta);
+					// set as i-th rule that mutated
+					asmc.getMain().getBodySection().getRuleDeclaration().get(i).setRuleBody(mr);
+					result.add(asmc);
+				} else {
+					//TODO metter eil log
+					System.err.println("rule is not mutated - skip");
+				}
 			}
 		}
 		return result;

@@ -57,6 +57,7 @@ public class ScenarioExecutorTest {
 	public void testComputeMutationExperimentsNFM_ref() throws Exception {
 		computeMC("experiments_nfm25/scenario_ref_pick.avalla", 100);
 		computeMC("experiments_nfm25/scenario_ref_flaky.avalla", 100);
+		computeMC("experiments_nfm25/scenario_ref_nofail.avalla", 100);
 		cleanTemp();
 	}
 
