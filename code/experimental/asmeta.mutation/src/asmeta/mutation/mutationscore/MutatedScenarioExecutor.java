@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
+import org.asmeta.xt.validator.ValidationResult;
 
 import asmeta.AsmCollection;
 import asmeta.mutation.operators.ChooseRuleMutate;
@@ -38,8 +39,9 @@ public class MutatedScenarioExecutor {
 			asmetaBuilder.save();
 			File tempAsmPath = asmetaBuilder.getTempAsmPath();
 			// execute now the scenario
-			boolean result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, originalName);
-			if (!result) {
+			//ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, originalName);
+			ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath);
+			if (! result.isCheckSucceded()) {
 				System.err.println("KILLED !!!");
 				nKilled++;
 			}

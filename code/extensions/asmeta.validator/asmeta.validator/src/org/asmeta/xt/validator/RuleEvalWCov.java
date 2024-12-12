@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl.RuleExtractor;
 import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.NotCompatibleDomainsException;
@@ -24,7 +25,6 @@ import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.ValueAssignment;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.wrapper.RuleFactory;
-import org.asmeta.xt.validator.RuleExtractorFromMacroDecl.RuleExtractor;
 
 import asmeta.definitions.RuleDeclaration;
 import asmeta.terms.basicterms.Term;

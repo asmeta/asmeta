@@ -4,3 +4,11 @@ load CoffeeVendingMachineGround.asm
 pick $p := TEA;
 step
 check dispensed = TEA;
+
+pick $p := MILK;
+step
+check dispensed = MILK;
+
+pick $p := COFFEE;
+step
+check dispensed = COFFEE;
