@@ -3,16 +3,11 @@ package org.asmeta.junit2avalla.application;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * The {@code TranslatorImpl} class implements the {@link Translator} interface.
  */
 public class TranslatorImpl implements Translator {
-	
-	/** Path to the input file. */
-	private Path inputPath;
 	
 	/** File manager instance for handling file operations. */
 	private static FileManager fileManager = new FileManager();
@@ -31,7 +26,7 @@ public class TranslatorImpl implements Translator {
 
 	@Override
 	public void setInput(String input) throws FileNotFoundException {
-		this.inputPath = Paths.get(input);
+		fileManager.setInputFilePath(input);
 	}
 
 	@Override
@@ -42,7 +37,7 @@ public class TranslatorImpl implements Translator {
 	@Override
 	public void generate() throws IOException {
 		
-		File inputFile = fileManager.retrieveInput(inputPath);
+		File inputFile = fileManager.retrieveInput(fileManager.getInputFilePathToString());
 		
 		fileManager.runTheApplication(inputFile.toPath());
 		

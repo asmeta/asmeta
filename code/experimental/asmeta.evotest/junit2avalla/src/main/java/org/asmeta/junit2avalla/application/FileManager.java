@@ -1,6 +1,7 @@
 package org.asmeta.junit2avalla.application;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -43,18 +44,46 @@ public class FileManager {
 	/** Path to the default output directory. */
 	private static final Path DEFAULT_OUTPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), OUTPUT);
 	
+	/** Path to the input file. */
+	private Path inputFilePath;
+	
 	/** Path to the input folder. */
-	private Path inputFolder;
+	private Path inputFolderPath;
 	
     /** Path to the output folder. */
-    private Path outputFolder;
+    private Path outputFolderPath;
 
     /**
      * Constructs a {@code FileManager} instance with the default input and output directories.
      */
 	public FileManager() {
-		this.inputFolder = DEFAULT_INPUT_DIR_PATH;
-		this.outputFolder = DEFAULT_OUTPUT_DIR_PATH;
+		this.inputFolderPath = DEFAULT_INPUT_DIR_PATH;
+		this.outputFolderPath = DEFAULT_OUTPUT_DIR_PATH;
+	}
+	
+	/**
+	 * Get the path to inputFile in String type.
+	 * 
+	 * @return String containing the path to the inputFile.
+	 */
+	String getInputFilePathToString() {
+		return inputFilePath.toString();
+	}
+
+	
+	/**
+	 * Set the Path to the input file.
+	 * 
+	 * @param inputFile String containing the input file path.
+	 * @throws FileNotFoundException if the file is not found.
+	 */
+	void setInputFilePath(String inputFile) throws FileNotFoundException {
+		this.inputFilePath = Paths.get(inputFile);
+		if(Files.notExists(inputFilePath)){
+			logger.error("The indicated file doesn't exist: {}.", inputFilePath);
+			throw new FileNotFoundException("Unable to find the file: " + inputFilePath);
+		}
+		logger.info("Found the input file: {}", inputFilePath);
 	}
 	
 	/**
@@ -65,19 +94,19 @@ public class FileManager {
      * @return the copied file.
      * @throws IOException if an I/O error occurs during the file copying process.
      */
-	File retrieveInput(Path junitScenario) throws IOException {
+	File retrieveInput(String junitScenario) throws IOException {
 		logger.info("Retrieving the input junit file: {}", junitScenario);
-		File junitFile = junitScenario.toFile();
+		File junitFile = new File(junitScenario);
 		if (!junitFile.exists()) {
 			logger.error("Failed to locate the input file: {} .", junitFile);
 			throw new IOException("File doesn't exist: " + junitFile.toString());
 		}
 		
 		// check the input folder
-		this.checkPath(inputFolder);
+		this.checkPath(inputFolderPath);
 		
 		// Copy the asm file to the input folder
-		Path inputAsmPath = Paths.get(inputFolder.toString(), junitFile.getName());
+		Path inputAsmPath = Paths.get(inputFolderPath.toString(), junitFile.getName());
 		logger.info("Copying the junit input file from {} to {}.",junitFile, inputAsmPath);
 		Files.copy(Paths.get(junitFile.getAbsolutePath()), inputAsmPath, StandardCopyOption.REPLACE_EXISTING);
 		return junitFile;
@@ -112,9 +141,9 @@ public class FileManager {
      * @throws IOException if an I/O error occurs.
      */
 	void setInputDir(String inputDir) throws IOException {
-		this.inputFolder = Paths.get(inputDir);
-		logger.info("Setting the input working directory: {}", this.inputFolder);
-		checkPath(this.inputFolder);
+		this.inputFolderPath = Paths.get(inputDir);
+		logger.info("Setting the input working directory: {}", this.inputFolderPath);
+		checkPath(this.inputFolderPath);
 	}
 		
     /**
@@ -125,18 +154,18 @@ public class FileManager {
      * @throws IOException if an I/O error occurs.
      */
 	void setOutputDir(String outputDir) throws IOException {
-		this.outputFolder = Paths.get(outputDir);
-		logger.info("Setting the output directory: {}", this.outputFolder);
-		checkPath(outputFolder);
+		this.outputFolderPath = Paths.get(outputDir);
+		logger.info("Setting the output directory: {}", this.outputFolderPath);
+		checkPath(outputFolderPath);
 	}
 	
     /**
      * Cleans the input directory by removing execution-related files.
      */
 	void cleanInputDir() {
-		logger.info("Cleaning the working directory: {}", inputFolder);
-		if (inputFolder.toFile().exists() && inputFolder.toFile().isDirectory()) {
-			for (File file : inputFolder.toFile().listFiles()) {
+		logger.info("Cleaning the working directory: {}", inputFolderPath);
+		if (inputFolderPath.toFile().exists() && inputFolderPath.toFile().isDirectory()) {
+			for (File file : inputFolderPath.toFile().listFiles()) {
 				if(excludeList.contains(file.getName())) {
 					continue;
 				}
@@ -202,8 +231,8 @@ public class FileManager {
 	private void exportFile(List<ScenarioFile> scenarioFiles) throws IOException {
 		for (ScenarioFile scenarioFile : scenarioFiles) {
 			FileWriter fileWriter = new FileWriterImpl();
-			boolean result = outputFolder == null ? fileWriter.writeToFile(scenarioFile)
-					: fileWriter.writeToFile(scenarioFile, outputFolder);
+			boolean result = outputFolderPath == null ? fileWriter.writeToFile(scenarioFile)
+					: fileWriter.writeToFile(scenarioFile, outputFolderPath);
 			if (result) {
 				logger.info("Generated: {} .", scenarioFile.getName());
 			} else {
