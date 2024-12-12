@@ -2,9 +2,9 @@ package org.asmeta.xt.validator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.AbstractMap;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
@@ -62,83 +62,64 @@ public class SimulatorWCov extends Simulator {
 		return;
 	}
 
-	/**
-	 * get the macros that were covered return the ASMETA name - which is modified
-	 * because the validator rebuilds the ASM
-	 */
-	public List<AbstractMap.SimpleEntry<String, String>> getCoveredMacro() {
-		ArrayList<AbstractMap.SimpleEntry<String, String>> s = new ArrayList<>();
-		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-			s.add(new AbstractMap.SimpleEntry<>(md.getAsmBody().getAsm().getName(), md.getName()));
-		}
-		return s;
-	}
-
-	// the coverage information about the branches inside a rule
-	public class BrancCovData{
-		int coveredT = 0, coveredF = 0, tot = 0;
-		String macroName;
-		public BrancCovData(String name) {
-			macroName = name;
-		}
-		@Override
-		public String toString() {
-			return macroName  +"::" + coveredT + "-" + coveredF + "/" + tot; 
-		}
-	}
-
-	public class UpdateCovData{
-		int covered = 0, tot = 0;
-		String macroName;
-		public UpdateCovData(String name) {
-			macroName = name;
-		}
-		@Override
-		public String toString() {
-			return macroName  +"::" + covered + "/" + tot; 
-		}
-	}
-
-	
 	// return the coverage of the branches (conditional rules)
 	// PROBLEM is the branches of the modified ASM not the original one.
-	public List<AbstractMap.SimpleEntry<String, BrancCovData>> getCoveredBranches() {
-		ArrayList<AbstractMap.SimpleEntry<String, BrancCovData>> s = new ArrayList<>();
-		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {			
-			// get all the 
-			final BrancCovData cov = new BrancCovData(md.getName());
+	public Map<String, BranchCovData> getCoveredBranches() {
+		Map<String, BranchCovData> covData = new HashMap<>();
+		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
+			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
+			if (!covData.containsKey(ruleCompleteName)) {
+				covData.put(ruleCompleteName, new BranchCovData());
+			}
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
-			// get all the			
-			rules.forEach( r ->{
+			int tot = 0;
+			Rule r;
+			for (int i = 0; i < rules.size(); i++) {
+				r = rules.get(i);
 				if (r instanceof ConditionalRule) {
-					System.out.println(" cond rule");
-					cov.tot ++;
-					if (RuleEvalWCov.coveredConRuleF.contains(r)) cov.coveredF++;
-					if (RuleEvalWCov.coveredConRuleT.contains(r)) cov.coveredT++;
+					tot++;
+					if (RuleEvalWCov.coveredConRuleF.contains(r)
+							// If a rule obtained as a result of a substitution is covered, the original rule from
+							// which it was derived is considered covered
+							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredConRuleF.stream()
+									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
+						covData.get(ruleCompleteName).coveredF.add(i);
+
+					if (RuleEvalWCov.coveredConRuleT.contains(r)
+							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredConRuleT.stream()
+									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
+						covData.get(ruleCompleteName).coveredT.add(i);
 				}
-					
-			}); 
-			if (cov.tot == 0) System.err.println(md.getName() + " NOT FOUND");
-			s.add(new AbstractMap.SimpleEntry<>(md.getAsmBody().getAsm().getName(),cov));
+			}
+			covData.get(ruleCompleteName).tot = tot;
 		}
-		return s;
+		return covData;
 	}
-	// return the coverage of the branches (conditional rules)
-	public List<AbstractMap.SimpleEntry<String, UpdateCovData>> getCoveredUpdateRules() {
-		ArrayList<AbstractMap.SimpleEntry<String, UpdateCovData>> s = new ArrayList<>();
-		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {	
-			final UpdateCovData cov = new UpdateCovData(md.getName());
+
+	// return the coverage of the update rules
+	public Map<String, UpdateCovData> getCoveredUpdateRules() {
+		Map<String, UpdateCovData> covData = new HashMap<>();
+		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
+			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
+			if (!covData.containsKey(ruleCompleteName)) {
+				covData.put(ruleCompleteName, new UpdateCovData());
+			}
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
-			// get all the			
-			rules.forEach( r ->{
+			int tot = 0;
+			Rule r;
+			for (int i = 0; i < rules.size(); i++) {
+				r = rules.get(i);
 				if (r instanceof UpdateRule) {
-					cov.tot ++;
-					if (RuleEvalWCov.coveredUpdateRules.contains(r)) cov.covered++;
-				}					
-			});			
-			s.add(new AbstractMap.SimpleEntry<>(md.getAsmBody().getAsm().getName(),cov));
+					tot++;
+					if (RuleEvalWCov.coveredUpdateRules.contains(r)
+							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredUpdateRules
+									.stream().anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
+						covData.get(ruleCompleteName).covered.add(i);
+				}
+			}
+			covData.get(ruleCompleteName).tot = tot;
 		}
-		return s;
+		return covData;
 	}
 
 }

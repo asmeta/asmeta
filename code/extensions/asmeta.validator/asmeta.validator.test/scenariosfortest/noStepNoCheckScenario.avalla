@@ -1,0 +1,8 @@
+scenario noStepNoCheckScenario
+
+load vascaidro.asm
+
+set riempi_completamente := true;
+set svuota_completamente := false;
+set riempi_25_percento := false;
+set svuota_25_percento := false;

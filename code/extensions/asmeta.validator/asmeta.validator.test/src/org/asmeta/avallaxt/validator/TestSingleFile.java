@@ -74,6 +74,16 @@ public class TestSingleFile extends TestValidator {
 	}
 	
 	@Test
+	public void testEmptyScenario() throws Exception {	
+		test("scenariosfortest/emptyScenario.avalla", false, false, false);
+	}
+	
+	@Test
+	public void testNoStepNoCheckScenario() throws Exception {	
+		test("scenariosfortest/noStepNoCheckScenario.avalla", false, false, false);
+	}
+	
+	@Test
 	public void testError() throws Exception {	
 		// these two should be fixed - as the are are not 
 		//test("../../../../asm_examples/examples/ABZ2020/CarSystemModule/CarSystem002/scenari/LowBeamOFFonAmbientLight.avalla", true, false);
