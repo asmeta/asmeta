@@ -14,7 +14,7 @@ public interface Translator {
 	 * Sets the current working directory where the application stores intermediate
 	 * files
 	 * 
-	 * @param workingDirPath path to the custom working directory.
+	 * @param workingDir path to the custom working directory.
 	 * @throws IOException if an I/O error occurs.
 	 */
 	void setWorkingDir(String workingDir) throws IOException;
@@ -63,7 +63,7 @@ public interface Translator {
 	/**
 	 * Sets the version of Evosuite.
 	 * 
-	 * @param evosuite the version of evosuite.
+	 * @param evosuiteVersion the version of evosuite.
 	 */
 	void setEvosuiteVersion(String evosuiteVersion);
 
@@ -94,7 +94,7 @@ public interface Translator {
 	/**
 	 * Set the clean option status.
 	 * 
-	 * @param clean {@true} activate the clean option, {@false} deactivate the clean
+	 * @param clean {@code true} activate the clean option, {@code false} deactivate the clean
 	 *              option.
 	 */
 	void setClean(boolean clean);

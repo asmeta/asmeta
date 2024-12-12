@@ -121,7 +121,7 @@ public class FileManager {
 	 * Sets the current working directory where the application stores intermediate
 	 * files
 	 * 
-	 * @param workingDirPath path to the custom working directory.
+	 * @param workingDir path to the custom working directory.
 	 * @throws IOException if an I/O error occurs.
 	 */
 	void setWorkingDirPath(String workingDir) throws IOException {
