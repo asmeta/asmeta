@@ -73,3 +73,10 @@ This folder is automatically created by Evosuite and contains the junit tests pr
 
 ### logs
 This folder contains the logging file with the level of debug, created by log4j `debug.log`. The configuration file for this logging system is present in `src/main/resources/log4j2.yaml`, it needs the maven dependencies of `log4j-api` , `log4j-core` and `jackson-dataformat-yaml` specified in the `pom.xml`.
+
+## Javadoc
+javadoc for the project is available, to generate it make sure you have maven installed on your machine, then open a terminal, go to the root of the evoasmetatg project and type:
+```shell
+mvn javadoc:javadoc
+```
+Once generated, the javadoc will be placed in the docs/apidocs folder and will be accessible through the `index.html` file.
