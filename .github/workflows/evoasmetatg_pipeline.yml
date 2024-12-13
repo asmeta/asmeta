@@ -38,7 +38,7 @@ jobs:
         run: mvn --batch-mode install -DskipTests
           
       - name: Build with Maven
-        run: mvn -X package -Djansi.force=false -Djansi.strip=true
+        run: mvn -B package -Djansi.force=false -Djansi.strip=true
       
       - name: Create Release
         id: create_release
