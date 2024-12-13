@@ -19,7 +19,7 @@
     ```
     install the **asmetal2java** service:
     ```shell
-    cd documents\GitHub\asmeta-workspace\asmeta\code\experimental\asmetal2java\asmetal2java_codegen
+    cd asmeta\code\experimental\asmetal2java\asmetal2java_codegen
     mvn install -DskipTests
     ```
     install the **junit2avalla** service:
