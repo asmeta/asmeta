@@ -25,7 +25,7 @@ generated java file to verify that there are no errors via `-Dcompiler=true`.
     git clone git@github.com:asmeta/asmeta.git
     ```
 
-2. Inatall the dependencies
+2. Install the dependencies
    ```shell
     mvn install -DskipTests
     ```
