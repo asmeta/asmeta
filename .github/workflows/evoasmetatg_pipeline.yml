@@ -24,6 +24,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+
+      - name: Set Jansi to disabled
+        env:
+          JANSI_COLORS_DISABLED: true
       
       - name: Install dependencies
         working-directory: .
@@ -38,7 +42,7 @@ jobs:
         run: mvn --batch-mode install -DskipTests
           
       - name: Build with Maven
-        run: mvn --batch-mode package -Djansi.strip=true
+        run: mvn --batch-mode package
       
       - name: Create Release
         id: create_release
