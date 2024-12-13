@@ -25,20 +25,20 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           
-      - name: Install dependencies
+      - name: Install dependencies -U
         working-directory: .
         run: mvn --batch-mode install -DskipTests
      
-      - name: Install asmetal2java
+      - name: Install asmetal2java -U
         working-directory: ./code/experimental/asmetal2java/asmetal2java_codegen
         run: mvn --batch-mode install -DskipTests
      
-      - name: Install junit2avalla
+      - name: Install junit2avalla -U
         working-directory: ./code/experimental/asmeta.evotest/junit2avalla
         run: mvn --batch-mode install -DskipTests
           
       - name: Build with Maven
-        run: mvn -B package -Djansi.force=false -Djansi.strip=true
+        run: mvn -B package -Djansi.force=false -Djansi.strip=true -U
       
       - name: Create Release
         id: create_release
