@@ -4,21 +4,21 @@ Configuration:
       name: "CONSOLE"
       PatternLayout:
         pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n"
-    File:
-      - name: "DEBUG_LOG"
-        fileName: "logs/debug.log"
-        append: false
-        PatternLayout:
-          pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n"
+#    File:
+#      - name: "DEBUG_LOG"
+#        fileName: "logs/evoasmetatg_debug.log"
+#        append: false
+#        PatternLayout:
+#          pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n"
   Loggers:
     Root:
       level: "INFO"
       AppenderRef:
         - ref: "CONSOLE"
           level: "INFO"
-    Logger:
-      name: "org.asmeta"
-      level: "DEBUG"
-      AppenderRef:
-        - ref: "DEBUG_LOG"
-          level: "DEBUG"
+#    Logger:
+#      name: "org.asmeta"
+#      level: "DEBUG"
+#      AppenderRef:
+#        - ref: "DEBUG_LOG"
+#          level: "DEBUG"
