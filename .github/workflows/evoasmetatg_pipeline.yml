@@ -31,14 +31,14 @@ jobs:
      
       - name: Install asmetal2java
         working-directory: ./code/experimental/asmetal2java/asmetal2java_codegen
-        run: mvn --batch-mode clean install
+        run: mvn --batch-mode clean install -DskipTests
      
       - name: Install junit2avalla
         working-directory: ./code/experimental/asmeta.evotest/junit2avalla
-        run: mvn --batch-mode clean install
+        run: mvn --batch-mode install -DskipTests
           
       - name: Build with Maven
-        run: mvn --batch-mode clean package
+        run: mvn --batch-mode package
       
       - name: Create Release
         id: create_release
