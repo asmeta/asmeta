@@ -6,7 +6,7 @@ on:
     branches:
       - main
 
-name: Upload EvoAsmetaTG Release Asset
+name: EvoAsmetaTG - Upload Release Asset
 
 jobs:
   build:
@@ -37,8 +37,8 @@ jobs:
         working-directory: ./code/experimental/asmeta.evotest/junit2avalla
         run: mvn --batch-mode install -DskipTests
           
-      - name: Build with Maven
-        run: mvn package
+      - name: Test and Build with Maven
+        run: mvn --batch-mode verify
       
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
