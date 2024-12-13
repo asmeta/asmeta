@@ -11,7 +11,7 @@ name: Upload EvoAsmetaTG Release Asset
 jobs:
   build:
     name: Upload EvoAsmetaTG Release Asset
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     defaults:
       run:
         working-directory: ./code/experimental/asmeta.evotest/evoAsmetaTG
@@ -25,20 +25,20 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           
-      - name: Install dependencies -U
+      - name: Install dependencies
         working-directory: .
         run: mvn --batch-mode install -DskipTests
      
-      - name: Install asmetal2java -U
+      - name: Install asmetal2java
         working-directory: ./code/experimental/asmetal2java/asmetal2java_codegen
         run: mvn --batch-mode install -DskipTests
      
-      - name: Install junit2avalla -U
+      - name: Install junit2avalla
         working-directory: ./code/experimental/asmeta.evotest/junit2avalla
         run: mvn --batch-mode install -DskipTests
           
       - name: Build with Maven
-        run: mvn -B package -Djansi.force=false -Djansi.strip=true -U
+        run: mvn --batch-mode package
       
       - name: Create Release
         id: create_release
