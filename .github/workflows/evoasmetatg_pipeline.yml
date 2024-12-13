@@ -11,7 +11,7 @@ name: Upload EvoAsmetaTG Release Asset
 jobs:
   build:
     name: Upload EvoAsmetaTG Release Asset
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./code/experimental/asmeta.evotest/evoAsmetaTG
