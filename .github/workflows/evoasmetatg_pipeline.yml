@@ -58,6 +58,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./codeexperimental/asmeta.evotest/evoAsmetaTG/dist/evoasmetatg.zip
+          asset_path: ./code/experimental/asmeta.evotest/evoAsmetaTG/dist/evoasmetatg.zip
           asset_name: evoasmetatg.zip
           asset_content_type: application/zip

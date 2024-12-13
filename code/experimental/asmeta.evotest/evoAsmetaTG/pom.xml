@@ -13,6 +13,8 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+    <maven.assembly.version>3.7.1</maven.assembly.version>
   </properties>
   
 	<build>
@@ -21,7 +23,7 @@
   			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>${maven.assembly.version}</version>
 				<executions>
 					<!-- create the jar with the dependencies -->
 					<execution>

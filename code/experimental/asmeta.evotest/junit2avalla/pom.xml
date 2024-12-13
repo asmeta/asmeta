@@ -11,6 +11,7 @@
 
     <antlr.version>4.7.1</antlr.version>
     <mojo.version>3.0.0</mojo.version>
+    <maven.assembly.version>3.7.1</maven.assembly.version>
   </properties>
 
   <dependencies>
@@ -91,6 +92,7 @@
 	  <plugin>
         <groupId>org.apache.maven.plugins</groupId>
 		<artifactId>maven-assembly-plugin</artifactId>
+		<version>${maven.assembly.version}</version>
 		<executions>
 		  <execution>
 		    <phase>package</phase>
