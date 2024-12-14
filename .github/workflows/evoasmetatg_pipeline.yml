@@ -1,16 +1,16 @@
+name: EvoAsmetaTG - Build and Deploy CD Pipeline
+
 on:
   push:
     branches:
       - '**'
   pull_request:
     branches:
-      - main
-
-name: EvoAsmetaTG - Upload Release Asset
+      - master
 
 jobs:
   build:
-    name: Upload EvoAsmetaTG Release Asset
+    name: Build and Test with Maven
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -39,6 +39,28 @@ jobs:
           
       - name: Test and Build with Maven
         run: mvn --batch-mode verify
+	
+	  - name: Upload Artifact
+	    #if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
+	    uses: actions/upload-artifact@v4
+	    with:
+	      name: evoasmetatg.zip
+	      path: ./code/experimental/asmeta.evotest/evoAsmetaTG/dist/evoasmetatg.zip
+	      retention-days: 1
+	  
+  deploy:
+    name: Upload EvoAsmetaTG Release Asset
+    runs-on: ubuntu-latest
+	#if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
+    steps:
+	  - name: Checkout repository
+	    uses: actions/checkout@v4
+
+	  - name: Download artifact
+	    uses: actions/download-artifact@v4
+	    with:
+	      name: evoasmetatg.zip
+	      path: ./code/experimental/asmeta.evotest/evoAsmetaTG/dist
       
       - name: Update the release and upload the assert
         uses: "marvinpinto/action-automatic-releases@latest"
