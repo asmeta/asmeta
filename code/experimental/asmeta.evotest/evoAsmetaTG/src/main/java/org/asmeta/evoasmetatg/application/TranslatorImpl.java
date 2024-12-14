@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -83,25 +85,27 @@ public class TranslatorImpl implements Translator {
 		File javaJdkFolder = fileManager.setJavaPath(javaPath);
 
 		// set the javaVersion
-		this.javaVersion = extractJdkVersion(javaJdkFolder);
+		this.javaVersion = getJdkVersion(javaJdkFolder);
 		logger.info("Setting the java jdk version to: {}.", this.javaVersion);
 	}
-	
+
 	@Override
 	public void setEvosuitePath(String evosuitePath) throws FileNotFoundException {
 		// set the evosuite jar folder path
 		File evosuiteJarFolder = fileManager.setEvosuitePath(evosuitePath);
-		
+
 		// check if the given folder contains the current evosuite.jar
-		for(File file : evosuiteJarFolder.listFiles()) {
-			if(file.getName().equals(this.evosuiteVersion)) {
-				logger.info("Evosuite jarfile: {} found inside the custom folder: {}.", this.evosuiteVersion, evosuiteJarFolder);
+		for (File file : evosuiteJarFolder.listFiles()) {
+			if (file.getName().equals(this.evosuiteVersion)) {
+				logger.info("Evosuite jarfile: {} found inside the custom folder: {}.", this.evosuiteVersion,
+						evosuiteJarFolder);
 				// OK, the custom folder contains the evosuite.jar of interest.
 				return;
 			}
 		}
 		logger.error("Failed to locate the {} inside the custom folder,{}.", this.evosuiteVersion, evosuiteJarFolder);
-		throw new FileNotFoundException("Unable to access jarfile " + this.evosuiteVersion + " inside: " + evosuiteJarFolder);
+		throw new FileNotFoundException(
+				"Unable to access jarfile " + this.evosuiteVersion + " inside: " + evosuiteJarFolder);
 
 	}
 
@@ -266,7 +270,7 @@ public class TranslatorImpl implements Translator {
 
 		// Set the java input class (add _ATG to the asmeta specification file name)
 		String evosuiteJavaInputFile = asmName + TranslatorConstants.ATG;
-		
+
 		// Set the target directory of evosuite
 		// <workingDir>/evosuite/evosuite-target
 		String evosuiteTargetDir = fileManager.getEvosuiteTargetPathToString();
@@ -275,16 +279,16 @@ public class TranslatorImpl implements Translator {
 		String evosuiteJar = fileManager.getEvosuiteJarDirPathToString() + File.separator + evosuiteVersion;
 
 		/*
-		 * java.exe -jar <evosuiteJar> -target <workingDir>/evosuite/evosuite-target -class
-		 * <evosuiteJavaInputFile> -Dtest_dir="<<workingDir>/evosuite/evosuite-tests>"
-		 * -criterion LINE:BRANCH -Dminimize=true -Dassertion_strategy=all
+		 * java.exe -jar <evosuiteJar> -target <workingDir>/evosuite/evosuite-target
+		 * -class <evosuiteJavaInputFile>
+		 * -Dtest_dir="<<workingDir>/evosuite/evosuite-tests>" -criterion LINE:BRANCH
+		 * -Dminimize=true -Dassertion_strategy=all
 		 * -Dreport_dir="<<workingDir>/evosuite/evosuite-report>"
 		 */
-		listOfOptions.addAll(List.of(fileManager.getJavaJdkPathToString(), TranslatorConstants.JAR, evosuiteJar,
-				TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS,
-				evosuiteJavaInputFile, evosuiteTestsOption, TranslatorConstants.CRITERION,
-				TranslatorConstants.LINE_BRANCH, TranslatorConstants.DMINIMIZE_TRUE,
-				TranslatorConstants.DASSERTION_STRATEGY_ALL, evosuiteReportOption));
+		listOfOptions.addAll(List.of(fileManager.getJavaExePathToString(), TranslatorConstants.JAR, evosuiteJar,
+				TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
+				evosuiteTestsOption, TranslatorConstants.CRITERION, TranslatorConstants.LINE_BRANCH,
+				TranslatorConstants.DMINIMIZE_TRUE, TranslatorConstants.DASSERTION_STRATEGY_ALL, evosuiteReportOption));
 
 		// Set the search budget option
 		// -Dsearch_budget=<searchBudget>
@@ -307,11 +311,13 @@ public class TranslatorImpl implements Translator {
 		// Set the location of the junit input file
 		String junitInputFile = fileManager.getEvosuiteTestsPathToString() + File.separator + asmName
 				+ TranslatorConstants.JUNIT_TEST_EXTENSION;
-		
-		String junit2AvallaWorkingDir = Paths.get(fileManager.getWorkingDirPathToString(), TranslatorConstants.JUNIT2AVALLA).toString();
 
-		listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_WORKING_DIR, junit2AvallaWorkingDir, TranslatorConstants.JUNIT2AVALLA_INPUT, junitInputFile,
-				TranslatorConstants.JUNIT2AVALLA_OUTPUT, fileManager.getOutputFolderToString()));
+		String junit2AvallaWorkingDir = Paths
+				.get(fileManager.getWorkingDirPathToString(), TranslatorConstants.JUNIT2AVALLA).toString();
+
+		listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_WORKING_DIR, junit2AvallaWorkingDir,
+				TranslatorConstants.JUNIT2AVALLA_INPUT, junitInputFile, TranslatorConstants.JUNIT2AVALLA_OUTPUT,
+				fileManager.getOutputFolderToString()));
 
 		if (clean) {
 			listOfOptions.add(TranslatorConstants.CLEAN);
@@ -391,19 +397,130 @@ public class TranslatorImpl implements Translator {
 	}
 
 	/**
-	 * Extract the java jdk version from the jdk folder.
-	 * 
+	 * Get java version of selected jave exe. Try to run java -version command first
+	 * and then extract the version from process builder output, but if that fails
+	 * extract java version directly from jdk folder
+	 *
 	 * @param javaJdkFolderPath path to the jdk folder.
 	 * @return String containing the java version.
 	 */
-	private String extractJdkVersion(File javaJdkFolderPath) {
+	private String getJdkVersion(File javaJdkFolderPath) {
+
+		List<String> command = List.of(fileManager.getJavaExePathToString(), TranslatorConstants.VERSION);
+		ProcessBuilder processBuilder = new ProcessBuilder(command);
+
+		try {
+			// java -version uses the stderr stram
+			Process process = processBuilder.start();
+			String standardOutput = new String(process.getInputStream().readAllBytes());
+			String errorOutput = new String(process.getErrorStream().readAllBytes());
+			String output = standardOutput.isEmpty() ? errorOutput.stripTrailing() : standardOutput.stripTrailing();
+
+			int exitCode = process.waitFor();
+			if (exitCode != 0) {
+				throw new TranslationException("Process builder error: Process exited with code " + exitCode);
+			}
+
+			logger.info("Executing the proces builder command:\n{} {}\n{}", fileManager.getJavaExePathToString(),
+					TranslatorConstants.VERSION, output);
+			javaVersion = getVersionFromOutput(output);
+			if (javaVersion == null) {
+				throw new TranslationException(
+						"Unable to extract Java version from the output of the process builder " + exitCode);
+			}
+			return extractVersionFromOutput(javaVersion);
+		} catch (InterruptedException e) {
+			/* Clean up whatever needs to be handled before interrupting */
+			Thread.currentThread().interrupt();
+			logger.warn("Thread interrupted while retrieving JDK version", e);
+		} catch (IOException | TranslationException e) {
+			logger.error("Failed to retrieve JDK version, fallback to folder extraction", e);
+		}
+
+		// fallback to folder extraction
+		return extractJdkVersionFromFolder(javaJdkFolderPath);
+	}
+
+	/**
+	 * Get the java version string (example: 1.8.3) from the java -version command
+	 * output.
+	 * 
+	 * @param processBuilderOutput output string of the java -version process
+	 *                             builder command.
+	 * @return String containing only the java version, {@code null} if no version
+	 *         found.
+	 */
+	private String getVersionFromOutput(String processBuilderOutput) {
+
+		logger.info("Extracting the java version...");
+		logger.debug("from:\n{}", processBuilderOutput);
+
+		/*
+		 * Pattern Explanation:
+		 * 
+		 * java version\\s+ : Matches the literal text "java version" followed by one or
+		 * more spaces. 
+		 * \" : Matches the opening double quote character (escaped with
+		 * \). 
+		 * ( : Starts capturing group 1, which will contain the entire version
+		 * string. 
+		 * \\d+ : Matches one or more digits (the major version number).
+		 * (\\.\\d+)* : Matches zero or more sequences of a dot (.) followed by one or
+		 * more digits (used for minor and patch version numbers). 
+		 * (_\\d+)? : Matches an optional underscore (_) followed by one or more digits (used
+		 *  for build numbers like in "1.8.0_411"). 
+		 * ) : Ends capturing group 1. 
+		 * \" : Matches the closing double quote character.
+		 */
+		Pattern versionPattern = Pattern.compile("java version\\s+\"(\\d+(\\.\\d+)*(_\\d+)?)\"");
+		Matcher matcher = versionPattern.matcher(processBuilderOutput);
+
+		if (matcher.find()) {
+			// return the version found example: 1.8.3
+			String version = matcher.group(1);
+			logger.info("Found a match: {}", version);
+			return version;
+		} else {
+			logger.error("Failed to extract Java version from the output of process builder: {}", processBuilderOutput);
+			return null;
+		}
+	}
+
+	/**
+	 * Extract the java jdk version from the java version string.
+	 * 
+	 * @param version String containing the java version (ex: 1.8.3)
+	 * @return String containing the recognized java version.
+	 * @throws IllegalArgumentException if the version is not recognized from the
+	 *                                  application.
+	 */
+	private String extractVersionFromOutput(String version) {
+		if (version.startsWith("1.8")) {
+			return TranslatorConstants.JAVA_8;
+		} else if (version.startsWith("9.")) {
+			return TranslatorConstants.JAVA_9;
+		} else {
+			logger.error("Problem while setting the java jdk version from version output: {}.", version);
+			throw new IllegalArgumentException("jdk version not recognized: " + version);
+		}
+	}
+
+	/**
+	 * Extract the java jdk version from the jdk folder.
+	 * 
+	 * @param javaJdkFolderPath path to the jdk folder.
+	 * @return String containing recognized the java version.
+	 * @throws IllegalArgumentException if the version is not recognized from the
+	 *                                  application.
+	 */
+	private String extractJdkVersionFromFolder(File javaJdkFolderPath) {
 		String jdk = javaJdkFolderPath.getName();
 		if (jdk.contains("jdk-1.8")) {
 			return TranslatorConstants.JAVA_8;
 		} else if (jdk.contains("jdk-9")) {
 			return TranslatorConstants.JAVA_9;
 		} else {
-			logger.error("Problem while setting the java jdk version: {}.", jdk);
+			logger.error("Problem while setting the java jdk version from jdk folder: {}.", jdk);
 			throw new IllegalArgumentException("jdk version not recognized: " + jdk);
 		}
 	}

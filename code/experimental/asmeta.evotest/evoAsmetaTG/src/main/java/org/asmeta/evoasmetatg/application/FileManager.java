@@ -38,7 +38,7 @@ public class FileManager {
 			TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_TESTS);
 
 	/** Absolute path of the Java executable used to run Evosuite. */
-	private Path javaJdkPath;
+	private Path javaExePath;
 
 	/*
 	 * Absolute path of the directory containing the Evosuite jars (Defaults to
@@ -82,12 +82,12 @@ public class FileManager {
 	}
 
 	/**
-	 * Get the path to javaJdk folder in String type.
+	 * Get the path to java exe in String type.
 	 * 
-	 * @return String containing the path to the javaJdk folder.
+	 * @return String containing the path to the java exe file.
 	 */
-	String getJavaJdkPathToString() {
-		return javaJdkPath.toString();
+	String getJavaExePathToString() {
+		return javaExePath.toString();
 	}
 	
 	/**
@@ -186,7 +186,7 @@ public class FileManager {
 	}
 
 	/**
-	 * Sets the path to the Java jdk folder used to run Evosuite.
+	 * Sets the path to the Java exe used to run Evosuite.
 	 * 
 	 * @param javaPath path to the java jdk folder.
 	 * @throws FileNotFoundException if the file is not found.
@@ -206,8 +206,8 @@ public class FileManager {
 			logger.error("Java exe file location not valid: {}.", javaFile.getAbsolutePath());
 			throw new FileNotFoundException("Java exe not found: " + javaFile);
 		}
-		this.javaJdkPath = javaFile.toPath();
-		logger.info("Setting the path to the java exe: {}.", this.javaJdkPath);
+		this.javaExePath = javaFile.toPath();
+		logger.info("Setting the path to the java exe: {}.", this.javaExePath);
 
 		return javaJdkFolder;
 	}
