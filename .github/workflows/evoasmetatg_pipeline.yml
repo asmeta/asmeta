@@ -39,15 +39,15 @@ jobs:
           
       - name: Test and Build with Maven
         run: mvn --batch-mode verify
+
+      - name: Upload Artifact
+        #if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
+				uses: actions/upload-artifact@v4
+				with:
+					name: evoasmetatg.zip
+		 			path: ./code/experimental/asmeta.evotest/evoAsmetaTG/dist/evoasmetatg.zip
+	  			retention-days: 1
 	
-	  - name: Upload Artifact
-	    #if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
-	    uses: actions/upload-artifact@v4
-	    with:
-	      name: evoasmetatg.zip
-	      path: ./code/experimental/asmeta.evotest/evoAsmetaTG/dist/evoasmetatg.zip
-	      retention-days: 1
-	  
   deploy:
     name: Upload EvoAsmetaTG Release Asset
     runs-on: ubuntu-latest
