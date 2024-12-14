@@ -1,4 +1,4 @@
-name: EvoAsmetaTG - Build and Deploy CD Pipeline
+name: EvoAsmetaTG - Build and Deploy CI/CD Pipeline
 
 on:
   push:
@@ -41,7 +41,7 @@ jobs:
         run: mvn --batch-mode verify
 
       - name: Upload Artifact
-        #if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
+        if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
         uses: actions/upload-artifact@v4
         with:
           name: evoasmetatg.zip
@@ -52,7 +52,7 @@ jobs:
     name: Upload EvoAsmetaTG Release Asset
     needs: build
     runs-on: ubuntu-latest
-    #if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
+    if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

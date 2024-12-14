@@ -1,4 +1,4 @@
-name: Junit2Avalla - Build and Push CI Pipeline
+name: Junit2Avalla - Build and Push CI/CD Pipeline
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - '**'
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build:
