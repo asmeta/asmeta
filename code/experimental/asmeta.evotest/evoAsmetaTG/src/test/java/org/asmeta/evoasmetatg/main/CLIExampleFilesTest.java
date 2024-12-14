@@ -1,4 +1,4 @@
-package org.asmeta.asmeta.evotest.main;
+package org.asmeta.evoasmetatg.main;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

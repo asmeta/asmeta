@@ -198,13 +198,13 @@ public class FileManager {
 			logger.error("Java jdk directory location not valid: {}.", javaJdkFolder.getAbsolutePath());
 			logger.error(
 					"Please note: If your argument is a string and contains a space, put it in double quotes like \"Program Files\"");
-			throw new FileNotFoundException("File not found: " + javaPath);
+			throw new FileNotFoundException("Java jdk folder not found: " + javaPath);
 		}
 		logger.info("Java jdk directory found at: {}.", javaJdkFolder.getAbsolutePath());
 		File javaFile = new File(Paths.get(javaPath, TranslatorConstants.BIN, TranslatorConstants.JAVA_EXE).toString());
 		if (!javaFile.exists() || !javaFile.isFile()) {
 			logger.error("Java exe file location not valid: {}.", javaFile.getAbsolutePath());
-			throw new FileNotFoundException("File not found: " + javaPath);
+			throw new FileNotFoundException("Java exe not found: " + javaFile);
 		}
 		this.javaJdkPath = javaFile.toPath();
 		logger.info("Setting the path to the java exe: {}.", this.javaJdkPath);
@@ -225,7 +225,7 @@ public class FileManager {
 			logger.error("Evosuite jar directory location not valid: {}.", evosuiteFolder.getAbsolutePath());
 			logger.error(
 					"Please note: If your argument is a string and contains a space, put it in double quotes like \"Program Files\"");
-			throw new FileNotFoundException("File not found: " + evosuitePath);
+			throw new FileNotFoundException("Evosuite directory not found: " + evosuitePath);
 		}
 		logger.info("Evosuite jar directory found at: {}.", evosuiteFolder.getAbsolutePath());
 		this.evosuiteJarDirPath = evosuiteFolder.toPath();
