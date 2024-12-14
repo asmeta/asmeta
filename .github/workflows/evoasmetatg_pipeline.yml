@@ -36,7 +36,7 @@ jobs:
       - name: Install junit2avalla
         working-directory: ./code/experimental/asmeta.evotest/junit2avalla
         run: mvn --batch-mode install -DskipTests
-          
+        
       - name: Test and Build with Maven
         run: mvn --batch-mode verify
 
@@ -50,8 +50,9 @@ jobs:
 	
   deploy:
     name: Upload EvoAsmetaTG Release Asset
+    needs: build
     runs-on: ubuntu-latest
-	#if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
+    #if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
