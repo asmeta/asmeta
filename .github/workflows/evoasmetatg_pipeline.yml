@@ -3,7 +3,8 @@ name: EvoAsmetaTG - Build and Deploy CI/CD Pipeline
 on:
   push:
     branches:
-      - '**'
+      - isaac
+	  - master
   pull_request:
     branches:
       - master

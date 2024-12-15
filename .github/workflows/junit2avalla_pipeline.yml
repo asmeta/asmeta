@@ -3,7 +3,8 @@ name: Junit2Avalla - Build and Push CI/CD Pipeline
 on:
   push:
     branches:
-      - '**'
+      - isaac
+      - master
   pull_request:
     branches:
       - master
