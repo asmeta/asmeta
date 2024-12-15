@@ -178,16 +178,12 @@ public class TranslatorImpl implements Translator {
 	public void generate() throws TranslationException {
 
 		// check consistency between java and Evosuite version
+		logger.info("Checking consistency between java and evosuite versions.");
 		checkJavaConsistency();
 
 		// translate to Java
 		logger.info("Running Asmetal2Java:");
-		Asmeta2JavaCLI.main(buildAsmeta2JavaOptions().toArray(new String[0]));
-		int returnCode = Asmeta2JavaCLI.getReturnedCode();
-		if (returnCode != 0) {
-			logger.error("Stopping the generation.");
-			throw new TranslationException("Asmetal2Java exited with code: " + returnCode);
-		}
+		executeAsmetal2Java();
 
 		// executing Evouite
 		logger.info("Running Evosuite:\n" + TranslatorConstants.EVOSUITE_ASCII_ART);
@@ -195,12 +191,7 @@ public class TranslatorImpl implements Translator {
 
 		// translate to Avalla
 		logger.info("Running Junit2Avalla:\n");
-		Junit2AvallaCLI.main(buildJunit2AvallaOptions().toArray(new String[0]));
-		returnCode = Junit2AvallaCLI.getReturnedCode();
-		if (returnCode != 0) {
-			logger.error("Stopping the generation.");
-			throw new TranslationException("Junit2AvallaCLI exited with code: " + returnCode);
-		}
+		executeJunit2Avalla();
 	}
 
 	@Override
@@ -355,6 +346,26 @@ public class TranslatorImpl implements Translator {
 
 		return listOfOptions;
 	}
+	
+	/**
+	 * Execute the Asmetal2Java service
+	 * 
+	 * @throws TranslationException if an error occurs during the translation process.
+	 */
+	private void executeAsmetal2Java() throws TranslationException {
+		try {
+			Asmeta2JavaCLI.main(buildAsmeta2JavaOptions().toArray(new String[0]));
+		} catch (RuntimeException e) {
+			// catch the un-checked exceptions and throw the custom TranslationException
+			logger.error("Runtime exception in Asmetal2Java: stopping the generation.");
+			throw new TranslationException("Runtime exception in the Asmetal2Java service: ", e);
+		}
+		int returnCode = Asmeta2JavaCLI.getReturnedCode();
+		if (returnCode != 0) {
+			logger.error("Asmetal2Java terminated with errors: stopping the generation.");
+			throw new TranslationException("Asmetal2Java exited with code: " + returnCode);
+		}
+	}
 
 	/**
 	 * Run Evosuite with a process builder.
@@ -395,6 +406,26 @@ public class TranslatorImpl implements Translator {
 			// in any case clean the .class files
 			logger.info("Cleaning the compiled files in: {}.", fileManager.getEvosuiteTargetPathToString());
 			cleanFolder(fileManager.getEvosuiteTargetPathToString());
+		}
+	}
+	
+	/**
+	 * Execute the Junit2Avalla service
+	 * 
+	 * @throws TranslationException if an error occurs during the translation process.
+	 */
+	private void executeJunit2Avalla() throws TranslationException {
+		try {
+			Junit2AvallaCLI.main(buildJunit2AvallaOptions().toArray(new String[0]));
+		} catch (RuntimeException e) {
+			// catch the un-checked exceptions and throw the custom TranslationException
+			logger.error("Runtime exception in Junit2Avalla: stopping the generation.");
+			throw new TranslationException("Runtime exception in the Junit2Avalla service: ", e);
+		}
+		int returnCode = Junit2AvallaCLI.getReturnedCode();
+		if (returnCode != 0) {
+			logger.error("Junit2Avalla terminated with errors: stopping the generation.");
+			throw new TranslationException("Junit2AvallaCLI exited with code: " + returnCode);
 		}
 	}
 
