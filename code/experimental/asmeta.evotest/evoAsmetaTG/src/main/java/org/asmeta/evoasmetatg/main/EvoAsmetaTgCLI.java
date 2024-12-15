@@ -1,6 +1,5 @@
 package org.asmeta.evoasmetatg.main;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -14,6 +13,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asmeta.evoasmetatg.application.SetupException;
 import org.asmeta.evoasmetatg.application.TranslationException;
 import org.asmeta.evoasmetatg.application.Translator;
 import org.asmeta.evoasmetatg.application.TranslatorImpl;
@@ -33,6 +33,7 @@ public class EvoAsmetaTgCLI {
 	private static final String EVOSUITE_PATH = "evosuitePath";
 	private static final String EVOSUITE_VERSION = "evosuiteVersion";
 	private static final String TIME_BUDGET = "timeBudget";
+	private static final String GENERATION_FAILED = "Generation failed!";
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(EvoAsmetaTgCLI.class);
@@ -45,6 +46,8 @@ public class EvoAsmetaTgCLI {
 	 * -1: The application didn't started yet.<br>
 	 * 0: The application terminated without errors.<br>
 	 * 1: The application terminated with errors.
+	 * 2: The application terminated with errors related to the setup process.
+	 * 3: The application terminated with errors related to the translation process.
 	 */
 	private static int returnCode = -1;
 
@@ -54,6 +57,8 @@ public class EvoAsmetaTgCLI {
 	 * @return -1: The application didn't started yet.<br>
 	 *         0: The application terminated without errors.<br>
 	 *         1: The application terminated with errors.
+	 *         2: The application terminated with errors related to the setup process.
+	 *         3: The application terminated with errors related to the translation process.
 	 */
 	public static int getReturnedCode() {
 		return returnCode;
@@ -75,37 +80,47 @@ public class EvoAsmetaTgCLI {
 				| |___ \\ V / (_) / ___ \\\\__ \\ | | | | |  __/ || (_| || || |_| |
 				|_____| \\_/ \\___/_/   \\_\\___/_| |_| |_|\\___|\\__\\__,_||_| \\____|
 				""";
+		logger.info(asciiart);
 		EvoAsmetaTgCLI main = new EvoAsmetaTgCLI();
 		Options options = getCommandLineOptions();
 		CommandLine line = main.parseCommandLine(args, options);
-		logger.info(asciiart);
+		HelpFormatter formatter = new HelpFormatter();
+		// Do not sort
+		formatter.setOptionComparator(null);
+		// Header and footer strings
+		String header = "EvoAsmetaTG\n\n";
+		String footer = "Note: If your argument is a string and contains a space, put it in double quotes like \"Program Files\"\n"
+				+ "This project is part of Asmeta, see https://github.com/asmeta/asmeta "
+				+ "for further information or to report an issue.";
 		try {
 			if (line == null || line.hasOption(HELP) || line.getOptions().length == 0) {
-				HelpFormatter formatter = new HelpFormatter();
-				// Do not sort
-				formatter.setOptionComparator(null);
-				// Header and footer strings
-				String header = "EvoAsmetaTG\n\n";
-				String footer = "Note: If your argument is a string and contains a space, put it in double quotes like \"Program Files\"\n"
-						+ "This project is part of Asmeta, see https://github.com/asmeta/asmeta "
-						+ "for further information or to report an issue.";
-
 				formatter.printHelp("EvoAsmetaTG", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
 				logger.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
-				returnCode = 1; // error code
+				returnCode = 2; // setup error code
 			} else if (!line.hasOption(JAVA_PATH)) {
 				logger.error("Please specify the path to the jdk folder with -{} <path/to/jdk/>.", JAVA_PATH);
-				returnCode = 1; // error code
+				returnCode = 2; // setup error code
 			} else if (!line.hasOption(EVOSUITE_VERSION)) {
 				logger.error("Please specify the version of Evosuite with: -{} <version>.", EVOSUITE_VERSION);
-				returnCode = 1; // error code
+				returnCode = 2; // setup error code
 			} else {
 				returnCode = 0; // ok code
 				main.execute(line);
 			}
+		} catch (SetupException e) {
+			logger.error(GENERATION_FAILED);
+			logger.error("A setup error occurred: {}", e.getMessage(), e);
+			logger.warn("Please check the parameters provided and consult the help message with -help:");
+			formatter.printHelp("EvoAsmetaTG", header, options, footer, false);
+			returnCode = 2; // setup error code
+		} catch (TranslationException e) {
+			logger.error(GENERATION_FAILED);
+			logger.error("A translation error occurred: {}", e.getMessage(), e);
+			logger.info("Please report an isssue to the Asmeta team: https://github.com/asmeta/asmeta");
+			returnCode = 3; // translation error code
 		} catch (Exception e) {
-			logger.error("Generation failed!");
+			logger.error(GENERATION_FAILED);
 			logger.error("An error occurred: {}", e.getMessage(), e);
 			returnCode = 1; // error code
 		} finally {
@@ -120,11 +135,12 @@ public class EvoAsmetaTgCLI {
 	 * Executes the main process based on the command-line arguments.
 	 *
 	 * @param line the parsed CommandLine object.
-	 * @throws IOException if an I/O error occurs.
+	 * @throws SetupException if there are errors during the setup process.
 	 * @throws TranslationException if there was an error during the generation process.
 	 */
-	private void execute(CommandLine line) throws IOException, TranslationException {
+	private void execute(CommandLine line) throws SetupException, TranslationException {
 
+		// set the properties with the -D format
 		setGlobalProperties(line);
 		
 		if (line.hasOption(WORKING_DIR)) {
@@ -204,6 +220,7 @@ public class EvoAsmetaTgCLI {
 				.desc("Delete all intermediate files created and processed by the application.")
 				.build();
 
+		// timeBudget property
 		Option timeBudget = Option.builder(TIME_BUDGET).argName(TIME_BUDGET).type(Integer.class).hasArg(true)
 				.desc("Set the time budget allocated for the Evosuite process.").build();
 

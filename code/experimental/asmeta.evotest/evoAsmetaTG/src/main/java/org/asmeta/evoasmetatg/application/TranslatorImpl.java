@@ -61,13 +61,24 @@ public class TranslatorImpl implements Translator {
 	}
 
 	@Override
-	public void setWorkingDir(String workingDir) throws IOException {
-		fileManager.setWorkingDirPath(workingDir);
+	public void setWorkingDir(String workingDir) throws SetupException {
+		try {
+			fileManager.setWorkingDirPath(workingDir);
+		} catch (IOException e) {
+			logger.error("Failed to set the working directory path");
+			throw new SetupException("Unable to set the working directory path", e);
+		}
 	}
 
 	@Override
-	public void setInput(String inputPath) throws FileNotFoundException {
-		File inputFile = fileManager.setInputFilePath(inputPath);
+	public void setInput(String inputPath) throws SetupException {
+		File inputFile = null;
+		try {
+			inputFile = fileManager.setInputFilePath(inputPath);
+		} catch (FileNotFoundException e) {
+			logger.error("Failed to set the input directory path");
+			throw new SetupException("Unable to set the input directory path", e);
+		}
 		// extract the ASM name from the file.
 		this.asmName = inputFile.getName().replace(TranslatorConstants.ASM_EXTENSION, "");
 		logger.debug("inputFile: {}", inputFile);
@@ -75,14 +86,25 @@ public class TranslatorImpl implements Translator {
 	}
 
 	@Override
-	public void setOutput(String outputDir) throws IOException {
-		fileManager.setOutputFolder(outputDir);
+	public void setOutput(String outputDir) throws SetupException {
+		try {
+			fileManager.setOutputFolder(outputDir);
+		} catch (IOException e) {
+			logger.error("Failed to set the output directory path");
+			throw new SetupException("Unable to set the output directory path", e);
+		}
 	}
 
 	@Override
-	public void setJavaPath(String javaPath) throws FileNotFoundException {
+	public void setJavaPath(String javaPath) throws SetupException {
 		// set the java jdk folder path
-		File javaJdkFolder = fileManager.setJavaPath(javaPath);
+		File javaJdkFolder = null;
+		try {
+			javaJdkFolder = fileManager.setJavaPath(javaPath);
+		} catch (FileNotFoundException e) {
+			logger.error("Failed to set the version of Java");
+			throw new SetupException("Unable to set the version of Java", e);
+		}
 
 		// set the javaVersion
 		this.javaVersion = getJdkVersion(javaJdkFolder);
@@ -90,9 +112,15 @@ public class TranslatorImpl implements Translator {
 	}
 
 	@Override
-	public void setEvosuitePath(String evosuitePath) throws FileNotFoundException {
+	public void setEvosuitePath(String evosuitePath) throws SetupException {
 		// set the evosuite jar folder path
-		File evosuiteJarFolder = fileManager.setEvosuitePath(evosuitePath);
+		File evosuiteJarFolder = null;
+		try {
+			evosuiteJarFolder = fileManager.setEvosuitePath(evosuitePath);
+		} catch (FileNotFoundException e) {
+			logger.error("Failed to set the path to the evosuite folder");
+			throw new SetupException("Unable to set the path to the folder of Evosuite jars", e);
+		}
 
 		// check if the given folder contains the current evosuite.jar
 		for (File file : evosuiteJarFolder.listFiles()) {
@@ -104,7 +132,7 @@ public class TranslatorImpl implements Translator {
 			}
 		}
 		logger.error("Failed to locate the {} inside the custom folder,{}.", this.evosuiteVersion, evosuiteJarFolder);
-		throw new FileNotFoundException(
+		throw new SetupException(
 				"Unable to access jarfile " + this.evosuiteVersion + " inside: " + evosuiteJarFolder);
 
 	}
@@ -116,7 +144,7 @@ public class TranslatorImpl implements Translator {
 	}
 
 	@Override
-	public void setEvosuiteVersion(String evosuiteVersion) {
+	public void setEvosuiteVersion(String evosuiteVersion) throws SetupException {
 		int version = Integer.parseInt((evosuiteVersion).replace(".", ""));
 		switch (version) {
 		case 106:
@@ -129,24 +157,25 @@ public class TranslatorImpl implements Translator {
 			break;
 		default:
 			logger.error("Evosuite version not valid: {}.", evosuiteVersion);
-			throw new IllegalArgumentException("Unexpected value: " + version);
+			logger.error("Valid evosuite versions are: 1.0.6, 1.2.0");
+			throw new SetupException("Unexpected value: " + version);
 		}
 		logger.info("Setting the evosuite version: {} using: {}.", evosuiteVersion, this.evosuiteVersion);
 		logger.info("Setting the java compiler version: {}.", this.compilerVersion);
 	}
 
 	@Override
-	public void setTimeBudget(String timeBudget) {
-		if (Integer.parseInt(timeBudget) < 0) {
+	public void setTimeBudget(String timeBudget) throws SetupException {
+		if (Integer.parseInt(timeBudget) < 1) {
 			logger.error("Error while setting the timeBudget for Evosuite.");
-			throw new IllegalArgumentException("Time must be greater than 0.");
+			throw new SetupException("Time must be greater than 0.");
 		}
 		logger.info("Setting the timeBudget for Evosuite: {}.", timeBudget);
 		this.searchBudget = timeBudget;
 	}
 
 	@Override
-	public void generate() throws TranslationException, IOException {
+	public void generate() throws TranslationException {
 
 		// check consistency between java and Evosuite version
 		checkJavaConsistency();
@@ -182,7 +211,7 @@ public class TranslatorImpl implements Translator {
 	@Override
 	public void clean() {
 		logger.debug("Cleaning the resources...");
-		cleanFolderManagingException(fileManager.getEvosuiteTestsPathToString());
+		cleanFolder(fileManager.getEvosuiteTestsPathToString());
 		// Don't clean the statistics.csv TranslatorConstants.EVOSUITE_REPORT
 	}
 
@@ -246,7 +275,6 @@ public class TranslatorImpl implements Translator {
 
 	/**
 	 * Build the option for the {@code Evosuite} jar command.
-	 * 
 	 * 
 	 * @return list of String containing the desired options.
 	 */
@@ -331,10 +359,9 @@ public class TranslatorImpl implements Translator {
 	/**
 	 * Run Evosuite with a process builder.
 	 * 
-	 * @throws IOException          if there is an I/O error.
 	 * @throws TranslationException if there is an error during the process.
 	 */
-	private void executeEvosuite() throws IOException, TranslationException {
+	private void executeEvosuite() throws TranslationException {
 		List<String> commands = buildEvosuiteOptions();
 		logger.info("List of Evosuite options: {}", commands);
 
@@ -357,10 +384,15 @@ public class TranslatorImpl implements Translator {
 				throw new TranslationException("Evosuite error: Process exited with code " + exitCode);
 			}
 		} catch (InterruptedException e) {
-			/* Clean up whatever needs to be handled before interrupting */
+			logger.error("Process was interrupted", e);
+			// Clean up whatever needs to be handled before interrupting
 			Thread.currentThread().interrupt();
-			throw new TranslationException("Evosuite error. " + e.getMessage());
+			throw new TranslationException("Evosuite error. Process was interrupted.", e);
+		} catch (IOException e) {
+		    logger.error("I/O error during process execution", e);
+		    throw new TranslationException("Evosuite I/O error.", e);
 		} finally {
+			// in any case clean the .class files
 			logger.info("Cleaning the compiled files in: {}.", fileManager.getEvosuiteTargetPathToString());
 			cleanFolder(fileManager.getEvosuiteTargetPathToString());
 		}
@@ -368,32 +400,25 @@ public class TranslatorImpl implements Translator {
 
 	/**
 	 * Clean the compiled .class files required by Evosutie.
+	 * Don't stop the execution in case of errors.
 	 * 
 	 * @param folder String containing the folder name.
-	 * @throws IOException if there is an I/O error.
 	 */
-	private void cleanFolder(String folder) throws IOException {
-		File evosuiteTarget = new File(folder);
-		logger.info("Cleaning the folder: {}.", evosuiteTarget.getAbsolutePath());
-		if (evosuiteTarget.exists() && evosuiteTarget.isDirectory()) {
-			for (File file : evosuiteTarget.listFiles()) {
-				logger.debug("Cleaning the file: {}. ", file);
-				Files.delete(file.toPath());
-			}
-		}
-	}
-
-	/**
-	 * Clean the folder managing the exception with a try catch block.
-	 * 
-	 * @param folder to clean.
-	 */
-	private void cleanFolderManagingException(String folder) {
+	private void cleanFolder(String folder) {
 		try {
-			cleanFolder(folder);
+			File evosuiteTarget = new File(folder);
+			logger.info("Cleaning the folder: {}.", evosuiteTarget.getAbsolutePath());
+			if (evosuiteTarget.exists() && evosuiteTarget.isDirectory()) {
+				for (File file : evosuiteTarget.listFiles()) {
+					logger.debug("Cleaning the file: {}. ", file);
+					Files.delete(file.toPath());
+				}
+			}
 		} catch (IOException e) {
+			// Don't stop the execution in case of errors.
 			logger.error("Failed to clean the folder: {}, because of: {} ", folder, e.getMessage());
 		}
+
 	}
 
 	/**
@@ -403,8 +428,9 @@ public class TranslatorImpl implements Translator {
 	 *
 	 * @param javaJdkFolderPath path to the jdk folder.
 	 * @return String containing the java version.
+	 * @throws SetupException if occur an error getting the java version. 
 	 */
-	private String getJdkVersion(File javaJdkFolderPath) {
+	private String getJdkVersion(File javaJdkFolderPath) throws SetupException {
 
 		List<String> command = List.of(fileManager.getJavaExePathToString(), TranslatorConstants.VERSION);
 		ProcessBuilder processBuilder = new ProcessBuilder(command);
@@ -418,23 +444,23 @@ public class TranslatorImpl implements Translator {
 
 			int exitCode = process.waitFor();
 			if (exitCode != 0) {
-				throw new TranslationException("Process builder error: Process exited with code " + exitCode);
+				throw new SetupException("Process builder error: Process exited with code " + exitCode);
 			}
 
 			logger.info("Executing the proces builder command:\n{} {}\n{}", fileManager.getJavaExePathToString(),
 					TranslatorConstants.VERSION, output);
 			javaVersion = getVersionFromOutput(output);
 			if (javaVersion == null) {
-				throw new TranslationException(
+				throw new SetupException(
 						"Unable to extract Java version from the output of the process builder " + exitCode);
 			}
 			return extractVersionFromOutput(javaVersion);
 		} catch (InterruptedException e) {
+			logger.warn("Process was interrupted while retrieving JDK version", e);
 			/* Clean up whatever needs to be handled before interrupting */
 			Thread.currentThread().interrupt();
-			logger.warn("Thread interrupted while retrieving JDK version", e);
-		} catch (IOException | TranslationException e) {
-			logger.error("Failed to retrieve JDK version, fallback to folder extraction", e);
+		} catch (IOException | SetupException e) {
+			logger.warn("Failed to retrieve JDK version, fallback to folder extraction", e);
 		}
 
 		// fallback to folder extraction
@@ -491,17 +517,17 @@ public class TranslatorImpl implements Translator {
 	 * 
 	 * @param version String containing the java version (ex: 1.8.3)
 	 * @return String containing the recognized java version.
-	 * @throws IllegalArgumentException if the version is not recognized from the
+	 * @throws SetupException if the version is not recognized from the
 	 *                                  application.
 	 */
-	private String extractVersionFromOutput(String version) {
+	private String extractVersionFromOutput(String version) throws SetupException {
 		if (version.startsWith("1.8")) {
 			return TranslatorConstants.JAVA_8;
 		} else if (version.startsWith("9.")) {
 			return TranslatorConstants.JAVA_9;
 		} else {
 			logger.error("Problem while setting the java jdk version from version output: {}.", version);
-			throw new IllegalArgumentException("jdk version not recognized: " + version);
+			throw new SetupException("jdk version not recognized: " + version);
 		}
 	}
 
@@ -510,10 +536,10 @@ public class TranslatorImpl implements Translator {
 	 * 
 	 * @param javaJdkFolderPath path to the jdk folder.
 	 * @return String containing recognized the java version.
-	 * @throws IllegalArgumentException if the version is not recognized from the
+	 * @throws SetupException if the version is not recognized from the
 	 *                                  application.
 	 */
-	private String extractJdkVersionFromFolder(File javaJdkFolderPath) {
+	private String extractJdkVersionFromFolder(File javaJdkFolderPath) throws SetupException {
 		String jdk = javaJdkFolderPath.getName();
 		if (jdk.contains("jdk-1.8")) {
 			return TranslatorConstants.JAVA_8;
@@ -521,7 +547,7 @@ public class TranslatorImpl implements Translator {
 			return TranslatorConstants.JAVA_9;
 		} else {
 			logger.error("Problem while setting the java jdk version from jdk folder: {}.", jdk);
-			throw new IllegalArgumentException("jdk version not recognized: " + jdk);
+			throw new SetupException("jdk version not recognized: " + jdk);
 		}
 	}
 

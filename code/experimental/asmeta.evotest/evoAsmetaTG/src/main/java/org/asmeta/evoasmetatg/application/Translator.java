@@ -1,7 +1,5 @@
 package org.asmeta.evoasmetatg.application;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -15,41 +13,41 @@ public interface Translator {
 	 * files
 	 * 
 	 * @param workingDir path to the custom working directory.
-	 * @throws IOException if an I/O error occurs.
+	 * @throws SetupException if there are errors during the setup.
 	 */
-	void setWorkingDir(String workingDir) throws IOException;
+	void setWorkingDir(String workingDir) throws SetupException;
 
 	/**
 	 * Sets the input path to the file for the translation process.
 	 *
 	 * @param inputPath the path to the asm file to be translated.
-	 * @throws FileNotFoundException if the file is not found.
+	 * @throws SetupException if there are errors during the setup.
 	 */
-	void setInput(String inputPath) throws FileNotFoundException;
+	void setInput(String inputPath) throws SetupException;
 
 	/**
 	 * Sets the output directory for the translation process.
 	 *
 	 * @param outputDir the output directory.
-	 * @throws IOException if an I/O error occurs.
+	 * @throws SetupException if there are errors during the setup.
 	 */
-	void setOutput(String outputDir) throws IOException;
+	void setOutput(String outputDir) throws SetupException;
 
 	/**
 	 * Sets the path to the Java jdk folder used to run Evosuite.
 	 * 
 	 * @param javaPath path to the java jdk folder.
-	 * @throws FileNotFoundException if the file is not found.
+	 * @throws SetupException if there are errors during the setup.
 	 */
-	void setJavaPath(String javaPath) throws FileNotFoundException;
+	void setJavaPath(String javaPath) throws SetupException;
 	
 	/**
 	 * Sets the path to the Evosuite jar folder.
 	 * 
 	 * @param evosuitePath path to the Evosuite jar folder.
-	 * @throws FileNotFoundException if the file is not found.
+	 * @throws SetupException if there are errors during the setup.
 	 */
-	void setEvosuitePath(String evosuitePath) throws FileNotFoundException;
+	void setEvosuitePath(String evosuitePath) throws SetupException;
 
 	/**
 	 * Sets the value of the specified property.
@@ -64,15 +62,17 @@ public interface Translator {
 	 * Sets the version of Evosuite.
 	 * 
 	 * @param evosuiteVersion the version of evosuite.
+	 * @throws SetupException if there are errors during the setup.
 	 */
-	void setEvosuiteVersion(String evosuiteVersion);
+	void setEvosuiteVersion(String evosuiteVersion) throws SetupException;
 
 	/**
 	 * Set the time budget in seconds for the Evosuite process.
 	 * 
 	 * @param timeBudget time budget in seconds.
+	 * @throws SetupException if there are errors during the setup.
 	 */
-	void setTimeBudget(String timeBudget);
+	void setTimeBudget(String timeBudget) throws SetupException;
 
 	/**
 	 * Executes the translation process:
@@ -87,9 +87,8 @@ public interface Translator {
 	 *
 	 * @throws TranslationException if there is an error during the translation
 	 *                              process.
-	 * @throws IOException          if an I/O error occurs.
 	 */
-	void generate() throws TranslationException, IOException;
+	void generate() throws TranslationException;
 
 	/**
 	 * Set the clean option status.

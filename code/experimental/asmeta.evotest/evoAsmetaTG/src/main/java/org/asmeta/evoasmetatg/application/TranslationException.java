@@ -6,14 +6,16 @@ package org.asmeta.evoasmetatg.application;
  */
 public class TranslationException extends Exception {
 
-    /** Serialization identifier for this exception class. */
+	/** Constant "Translation error: " */
+    private static final String TRANSLATION_ERROR = "Translation error: ";
+	/** Serialization identifier for this exception class. */
     private static final long serialVersionUID = 1L;
 
     /**
      * Constructs a {@code TranslationException} with a default error message.
      */
     public TranslationException() {
-        super("Error while generating the translation...");
+        super(TRANSLATION_ERROR + "error while generating the translation.");
     }
 
     /**
@@ -22,6 +24,25 @@ public class TranslationException extends Exception {
      * @param message the detail message describing the error.
      */
     public TranslationException(String message) {
-        super("Translation error: " + message);
+        super(TRANSLATION_ERROR + message);
     }
+    
+    /**
+     * Constructs a {@code TranslationException} with the cause.
+     *
+     * @param cause the original cause of the error.
+     */
+    public TranslationException(Throwable cause) {
+        super(TRANSLATION_ERROR + cause);
+    }
+
+    /** 
+     * Constructs a {@code TranslationException} with a custom error message and the cause.
+     * 
+     * @param message the detail message describing the error.
+     * @param cause the original cause of the error.
+     */
+	public TranslationException(String message, Throwable cause) {
+		super(TRANSLATION_ERROR + message, cause);
+	}
 }
